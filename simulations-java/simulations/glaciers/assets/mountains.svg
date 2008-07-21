@@ -9,13 +9,13 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="8189.7842"
-   height="496.1875"
+   width="8198.5654"
+   height="894.15869"
    id="svg2"
    sodipodi:version="0.32"
    inkscape:version="0.46"
    sodipodi:docbase="/home/archie/Glacier_Sim/graphics"
-   sodipodi:docname="mountains_v5.svg"
+   sodipodi:docname="mountains_v6.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    version="1.0"
    inkscape:export-filename="/home/archie/Glacier_Sim/graphics/mountains_v4.png"
@@ -23,6 +23,17 @@
    inkscape:export-ydpi="90">
   <defs
      id="defs4">
+    <linearGradient
+       id="linearGradient4237">
+      <stop
+         style="stop-color:#1d2426;stop-opacity:1;"
+         offset="0"
+         id="stop4239" />
+      <stop
+         style="stop-color:#4d5e63;stop-opacity:1;"
+         offset="1"
+         id="stop4241" />
+    </linearGradient>
     <inkscape:perspective
        sodipodi:type="inkscape:persp3d"
        inkscape:vp_x="0 : 358.15027 : 1"
@@ -48,7 +59,7 @@
     <linearGradient
        id="linearGradient7395">
       <stop
-         style="stop-color:#4c5d61;stop-opacity:1;"
+         style="stop-color:#343f42;stop-opacity:1;"
          offset="0"
          id="stop7397" />
       <stop
@@ -4896,7 +4907,7 @@
        x2="-463.19449"
        y2="322.24924"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(1.0000274,0,0,0.5280924,2.6082429,175.66894)" />
+       gradientTransform="matrix(0.7995772,0,0,0.537184,-86.952152,46.581832)" />
     <linearGradient
        y2="20.437498"
        x2="82.606499"
@@ -6970,16 +6981,6 @@
        sodipodi:type="inkscape:persp3d" />
     <defs
        id="defs7288" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient7395"
-       id="linearGradient7561"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(1.0000083,0,0,0.6493513,3.0207211,130.54894)"
-       x1="1090.9647"
-       y1="413.94577"
-       x2="4799.0483"
-       y2="405.86456" />
     <defs
        id="defs2527" />
     <inkscape:perspective
@@ -7023,6 +7024,108 @@
        sodipodi:type="inkscape:persp3d" />
     <defs
        id="defs3344" />
+    <inkscape:perspective
+       id="perspective4255"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective4268"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4237"
+       id="linearGradient4251"
+       gradientUnits="userSpaceOnUse"
+       x1="-198.60796"
+       y1="239.61282"
+       x2="-198.60796"
+       y2="139.58914" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4237"
+       id="linearGradient4296"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.9000075,0,0,1.0389621,224.38853,-54.122434)"
+       x1="492.60718"
+       y1="424.33795"
+       x2="492.60718"
+       y2="234.40089" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient7395"
+       id="linearGradient4317"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.9000075,0,0,1.0389621,-262.33636,-57.653167)"
+       x1="3594.7092"
+       y1="514.60626"
+       x2="4811.043"
+       y2="547.53418" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient7395"
+       id="linearGradient4326"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.9000075,0,0,1.0389621,-491.70513,-83.540374)"
+       x1="4631.7251"
+       y1="547.10254"
+       x2="5490.3901"
+       y2="601.99237" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient7395"
+       id="linearGradient4335"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.9000075,0,0,1.0389621,-405.93052,-85.51794)"
+       x1="3714.6394"
+       y1="685.86243"
+       x2="7706.3633"
+       y2="685.86243" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient7395"
+       id="linearGradient4279"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(-0.8892317,-0.1388539,-0.1602919,1.0265226,11251.877,782.96685)"
+       x1="6380.6177"
+       y1="595.15912"
+       x2="4825.3618"
+       y2="558.66455" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient7395"
+       id="linearGradient4283"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.9000075,0,0,1.0389621,3481.7462,139.91154)"
+       x1="3594.7092"
+       y1="514.60626"
+       x2="4811.043"
+       y2="547.53418" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4237"
+       id="linearGradient3317"
+       gradientUnits="userSpaceOnUse"
+       x1="-198.60796"
+       y1="239.61282"
+       x2="-198.60796"
+       y2="139.58914" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4237"
+       id="linearGradient3323"
+       gradientUnits="userSpaceOnUse"
+       x1="-198.60796"
+       y1="239.61282"
+       x2="-198.60796"
+       y2="139.58914"
+       gradientTransform="translate(20.456907,42.221472)" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -7034,16 +7137,24 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.94316066"
-     inkscape:cx="618.55754"
-     inkscape:cy="287.58574"
+     inkscape:zoom="0.8117387"
+     inkscape:cx="4307.1657"
+     inkscape:cy="476.01408"
      inkscape:document-units="px"
-     inkscape:current-layer="layer5"
-     inkscape:window-width="1440"
-     inkscape:window-height="826"
+     inkscape:current-layer="layer4"
+     inkscape:window-width="993"
+     inkscape:window-height="825"
      inkscape:window-x="0"
      inkscape:window-y="0"
-     showgrid="false" />
+     showgrid="false"
+     showguides="true"
+     inkscape:guide-bbox="true">
+    <inkscape:grid
+       type="xygrid"
+       id="grid4278"
+       visible="true"
+       enabled="true" />
+  </sodipodi:namedview>
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -7058,13 +7169,13 @@
   <g
      inkscape:groupmode="layer"
      id="layer4"
-     inkscape:label="background"
+     inkscape:label="mountains"
      style="display:inline"
-     transform="translate(792.38059,-239.77981)">
+     transform="translate(792.38059,-101.80863)">
     <g
        style="display:inline"
        id="g6743"
-       transform="matrix(0.6346361,0,0,0.6407271,-1054.7783,155.42125)"
+       transform="matrix(0.5711725,0,0,1.0251634,-1028.6269,-39.281626)"
        inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90">
@@ -7074,7 +7185,7 @@
          inkscape:export-filename="/home/archie/Glacier_Sim/figs/tools-drill.png"
          sodipodi:nodetypes="ccccccccccccccccccccccc"
          id="path6745"
-         d="M 413.46168,164.92175 L 453.26328,179.11739 L 490.83629,158.65641 C 518.69134,159.37303 542.32524,170.02362 542.32524,170.02362 L 571.54869,147.28919 L 585.46462,156.38296 L 650.26108,167.00787 L 670.32303,159.23837 L 703.6372,168.87115 L 721.01994,192.13386 L 738.40269,176.39657 L 786.28543,188.15927 L 831.16818,186.42198 L 845.1715,195.69149 L 875.67482,172.46099 L 934.17813,169.7305 L 965.18145,209.5 L 1005.8452,202.91017 L 1035.6527,208.68361 L 1047.9315,201.37903 L 1048.4315,360.25483 L 417.53124,331.76824 L 413.46168,164.92175 z"
+         d="M 413.61639,165.09452 L 453.26328,179.11739 L 490.83629,158.65641 C 518.69134,159.37303 542.32524,170.02362 542.32524,170.02362 L 571.54869,147.28919 L 585.46462,156.38296 L 650.26108,167.00787 L 670.32303,159.23837 L 703.6372,168.87115 L 722.76579,165.87081 L 757.60705,175.91022 L 786.28543,188.15927 L 831.16818,186.42198 L 845.1715,195.69149 L 875.67482,172.46099 L 934.17813,169.7305 L 965.18145,209.5 L 1005.8452,202.91017 L 1035.6527,208.68361 L 1047.9315,201.37903 L 1048.4315,360.25483 L 413.61639,329.94628 L 413.61639,165.09452 z"
          style="fill:#61696e;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
       <path
          inkscape:export-ydpi="90"
@@ -7096,7 +7207,7 @@
          inkscape:export-filename="/home/archie/Glacier_Sim/figs/tools-drill.png"
          sodipodi:nodetypes="cccccc"
          id="path6751"
-         d="M 847.47487,194.23223 L 828.58704,209.05402 L 799.25,211.36808 L 802.14876,212.75 L 831.74933,210.503 L 847.47487,194.23223 z"
+         d="M 847.47487,194.23223 L 828.58704,209.05402 L 799.25,211.36808 L 763.74004,215.66812 L 831.74933,210.503 L 847.47487,194.23223 z"
          style="fill:#50565a;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
       <path
          inkscape:export-ydpi="90"
@@ -7107,235 +7218,78 @@
          style="fill:#50565a;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
     </g>
     <path
-       style="fill:url(#linearGradient7561);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.28335825px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M -561.67608,242.563 C -568.06277,242.99153 -576.3606,254.84441 -584.26983,254.71925 C -601.53022,258.33151 -594.68531,260.82526 -601.33233,263.063 C -603.98289,265.75116 -624.17608,274.21925 -624.17608,274.21925 C -624.17608,274.21925 -628.41825,270.02731 -632.67608,270.313 C -636.93387,270.5987 -643.14856,279.51678 -649.23858,283.7505 C -672.0125,299.5827 -691.5629,309.4761 -705.95733,306.40675 L -764.26983,316.1255 L -784.89483,331.96925 C -784.89483,331.96925 -764.33233,396.813 -764.33233,396.813 C -764.33233,396.813 7394.6088,660.69571 7400.1677,660.8755 L 7400.1677,575.84425 C 7392.8769,573.93413 7375.1644,571.64572 7367.0739,569.90675 C 7356.9002,567.71997 7350.3865,565.42492 7333.9489,571.2505 C 7316.5536,577.41554 7307.3594,569.27628 7281.9802,566.938 C 7256.6004,564.59973 7254.5439,575.21623 7223.4177,572.84425 C 7215.6363,572.25123 7147.3384,561.7191 7131.2302,562.28175 C 7115.1222,562.84442 7110.708,572.86538 7091.6365,573.813 C 7072.5649,574.76064 7062.3394,563.37608 7045.6677,563.938 C 7028.9958,564.49994 7025.8579,555.9074 7016.9489,555.313 C 6981.3131,552.93526 6982.7323,566.48092 6943.8239,564.1255 C 6904.9157,561.77007 6850.205,550.33686 6809.2615,548.03175 C 6768.3182,545.72667 6770.6588,558.38353 6728.9177,556.15675 C 6687.1765,553.92999 6614.5427,544.78175 6614.5427,544.78175 C 6614.5428,544.78174 6494.3552,531.78175 6494.3552,531.78175 C 6494.3553,531.78175 6392.6766,541.92593 6395.0427,528.96925 C 6376.531,519.08276 6316.2308,535.72652 6304.8239,534.188 C 6259.711,528.10319 6220.5891,535.22792 6193.4177,533.813 C 6166.2464,532.39808 6130.0568,520.38776 6109.5115,519.21925 C 6088.966,518.05072 6097.5693,502.08209 6073.3865,501.188 C 6060.6501,500.71709 6047.2499,485.24841 6043.6677,484.65675 C 5987.1667,480.97536 5891.6677,501.96925 5891.6677,501.96925 L 5789.6677,536.813 C 5789.6677,536.81299 5745.8559,487.85496 5710.6677,498.28175 C 5671.174,509.98419 5648.6677,495.46925 5648.6677,495.46925 L 5506.6677,460.188 C 5506.6679,460.18799 5479.1687,475.67662 5450.6677,472.96925 C 5422.1669,470.26187 5392.6677,449.3755 5392.6677,449.3755 L 5312.6365,464.71925 L 5222.6365,461.90675 L 5120.6365,490.2505 L 5004.6365,479.65675 C 5004.6366,479.65675 4949.1626,441.4283 4902.6365,440.46925 C 4856.1105,439.51019 4865.0437,465.53335 4818.5427,475.813 C 4772.042,486.09265 4716.6365,481.59425 4716.6365,481.59425 L 4627.2927,436.6255 C 4627.2927,436.62551 4588.6822,448.92096 4556.1365,444.813 C 4523.5908,440.70503 4525.0814,409.68635 4497.1052,420.21925 C 4468.9034,430.83723 4461.5578,414.96485 4432.0427,421.188 C 4402.5274,427.41115 4398.5115,436.84425 4398.5115,436.84425 C 4398.5116,436.84425 4360.2427,451.47854 4353.3552,436.8755 C 4327.3758,439.49095 4275.1365,455.563 4275.1365,455.563 L 4197.9177,419.15675 L 4136.8865,454.8755 L 4039.4489,459.3755 L 3912.7615,435.813 L 3841.1052,447.21925 C 3841.1052,447.21926 3769.166,429.5589 3735.1052,436.438 C 3701.0444,443.31709 3672.0115,468.2505 3672.0115,468.2505 L 3600.8552,435.09425 L 3515.5739,426.8755 L 3449.4802,431.46925 L 3352.0427,413.71925 L 3229.3865,436.34425 L 3183.4802,406.813 L 3109.2927,404.15675 L 3059.3552,378.2505 L 3028.6052,385.78175 L 2961.5115,420.188 L 2900.9489,406.063 L 2833.3552,374.563 L 2756.1365,379.15675 L 2683.9802,399.46925 L 2639.0739,376.15675 L 2554.2927,390.2505 L 2534.1677,371.8755 L 2474.1052,392.5005 L 2430.7302,377.40675 L 2343.9177,407.563 L 2241.4489,382.938 L 2154.1365,390.46925 L 2065.8239,383.563 L 2000.2302,371.40675 L 1921.8552,376.7505 L 1898.1989,365.188 L 1878.1365,344.813 L 1828.1989,364.15675 L 1755.5115,357.563 C 1755.5115,357.563 1681.8278,380.5287 1634.8552,373.96925 L 1539.4802,352.938 L 1475.3865,359.5005 L 1377.9802,354.21925 L 1316.9177,361.7505 L 1300.8239,378.46925 L 1230.6989,387.96925 L 1178.7302,369.2505 L 1134.8552,358.09425 L 1099.5427,364.28175 L 1074.8552,349.53175 L 1028.9802,340.313 L 1006.2927,355.063 L 886.98017,344.313 L 821.19887,323.40675 L 720.57387,306.7505 L 666.91767,325.8755 L 587.01147,329.21925 L 541.94887,327.34425 L 507.98017,315.938 L 494.23017,322.2505 C 494.23017,322.2505 495.01917,331.59727 456.91767,337.0005 C 455.68707,331.41666 431.73017,330.09425 431.73017,330.09425 L 413.10517,336.313 C 413.10527,336.313 389.41767,330.71925 389.41767,330.71925 C 389.41777,330.71925 388.82957,324.79369 365.23017,321.188 C 348.05737,318.56423 336.00447,323.78084 246.60517,321.813 C 246.60527,321.813 228.64267,318.24095 224.13647,314.59425 C 213.87487,317.18064 192.10517,319.3755 192.10517,319.3755 C 184.68608,319.33108 161.26142,311.96925 161.26142,311.96925 L 148.01142,313.40675 C 137.19876,308.55747 128.63435,307.72449 126.35517,307.1255 C 119.53746,305.33385 119.41723,308.55733 112.82392,307.688 C 106.2307,306.81868 106.32735,302.88323 97.605171,302.15675 C 88.883041,301.4303 79.050841,307.34739 73.980171,307.03175 C 68.909501,306.71613 72.095121,304.18962 65.605171,303.96925 C 59.115201,303.74887 48.612351,305.45335 42.573921,303.563 C 36.535411,301.67268 36.090911,298.73117 32.542671,298.96925 C 28.994521,299.20733 30.450211,294.84728 18.386421,295.65675 C 6.3225911,296.46624 6.7245611,299.05826 -0.11357885,301.15675 C -6.9517489,303.25526 -21.426079,306.8755 -21.426079,306.8755 C -21.426049,306.87551 -48.269829,284.1255 -48.269829,284.1255 C -48.269809,284.1255 -61.913479,291.44616 -81.363579,290.8755 C -86.292629,286.94314 -108.39962,283.19261 -112.05108,282.78175 C -115.70249,282.37091 -150.24251,290.58852 -160.33233,290.28175 C -170.4221,289.97499 -181.38407,289.67791 -188.73858,288.53175 C -196.0931,287.38558 -199.54808,283.68816 -207.45733,283.563 C -215.36655,283.43787 -220.42608,283.1255 -220.42608,283.1255 C -220.4261,283.1255 -232.63208,279.46223 -238.73858,280.7505 C -243.51815,281.75883 -244.64483,284.09425 -244.64483,284.09425 C -244.64484,284.09426 -251.36877,282.56003 -254.20733,282.7505 C -257.04583,282.94098 -262.58233,288.563 -262.58233,288.563 L -273.33233,288.6255 C -273.33234,288.6255 -279.59677,280.85805 -290.55108,279.6255 C -301.5054,278.39294 -295.34021,276.66887 -303.30108,276.21925 C -311.26197,275.76964 -315.56987,275.73758 -318.76983,273.65675 C -321.96981,271.57596 -324.19043,271.04368 -327.73858,271.28175 C -331.28677,271.51984 -328.22966,272.64562 -342.33233,269.65675 C -356.43499,266.66784 -357.10691,267.04742 -368.55108,271.7505 C -379.99525,276.45355 -385.80108,276.09425 -385.80108,276.09425 C -385.80107,276.09425 -391.24397,272.02544 -401.01983,266.03175 C -406.3585,268.7849 -409.70733,269.90675 -409.70733,269.90675 C -409.70734,269.90675 -418.86717,266.59031 -424.95733,264.3755 C -431.04748,262.16073 -437.80108,260.313 -437.80108,260.313 L -442.98858,263.6255 C -442.98857,263.6255 -445.77559,264.14232 -450.39483,262.15675 C -455.01408,260.17116 -454.50917,258.10201 -463.23858,253.78175 C -478.81564,258.59671 -484.07704,257.8588 -490.86358,260.28175 C -497.6501,262.70472 -503.0386,254.76879 -506.23858,252.688 C -509.43855,250.6072 -526.80108,246.28175 -526.80108,246.28175 C -526.80107,246.28175 -535.36358,253.1255 -535.36358,253.1255 C -546.86368,252.96317 -554.35022,248.03601 -561.67608,242.563 z"
-       id="path2228" />
-    <path
-       style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M -627.03351,272.77251 L -617.05206,278.18951 L -603.65214,279.39917 L -582.63355,286.32816 L -602.63764,279.18732 L -616.25255,277.94414 L -627.03351,272.77251 z"
-       id="path16832"
-       sodipodi:nodetypes="ccccccc"
-       inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M -535.06529,253.10305 L -540.96519,258.33915 L -548.99793,263.1916 L -579.19708,269.05214 L -590.97086,276.74365 L -598.6116,278.79002 L -600.11546,278.89093 L -601.10547,278.5979 L -598.60126,278.52573 L -591.24523,276.66622 L -578.85015,268.59749 L -550.97603,263.27641 L -542.17201,258.65977 L -535.06529,253.10305 z"
-       id="path16834"
-       inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90"
-       sodipodi:nodetypes="cccccccccccccc" />
-    <path
-       style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M -497.08682,260.11529 L -493.43034,261.35567 L -481.38393,268.55122 L -473.14139,269.62766 L -463.47148,269.7936 L -480.43734,267.91258 L -490.06044,263.43007 L -493.5209,260.78663 L -497.08682,260.11529 z"
-       id="path16836"
-       sodipodi:nodetypes="ccccccccc"
-       inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M -542.37636,270.72888 L -537.36822,265.84793 L -525.81296,262.69763 L -536.85384,266.14394 L -542.37636,270.72888 z"
-       id="path16838"
-       inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M -453.26428,260.61448 L -436.70994,266.73179 L -428.14282,272.77901 L -421.45495,274.946 L -408.08384,278.01914 L -395.38338,276.94349 L -410.0591,277.20264 L -431.5359,271.56257 L -440.96105,265.96542 L -453.26428,260.61448 z"
-       id="path16840"
-       sodipodi:nodetypes="cccccccccc"
-       inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M -582.30793,256.34697 L -570.5924,251.20143 L -562.96756,246.29532 L -568.68176,252.1772 L -582.30793,256.34697 z"
-       id="path16842"
-       sodipodi:nodetypes="ccccc"
-       inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
-       d="M -657.00183,303.00641 L -654.59053,292.46874 L -644.42221,286.53203 L -634.22505,270.40621 L -643.30547,286.49348 L -653.62081,292.54454 L -657.00183,303.00641 z"
-       id="path17517"
-       sodipodi:nodetypes="ccccccc"
-       inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M -408.91698,269.75294 L -419.66909,272.00809 L -414.26478,270.39934 L -408.91698,269.75294 z"
-       id="path7779"
-       sodipodi:nodetypes="cccc"
-       inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
-       d="M -497.23915,266.81277 L -508.75496,263.93796 L -512.32107,262.50518 L -513.82538,258.5476 L -510.09109,264.15154 L -497.79272,267.53171 L -490.27057,272.41043 L -497.23915,266.81277 z"
-       id="path22293"
-       sodipodi:nodetypes="cccccccc"
-       inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:#edffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M -577.00274,280.61094 L -568.70506,283.65784 L -558.72592,285.66372 C -558.72592,285.66372 -537.73226,282.54084 -535.21756,280.60634 C -533.55223,279.32523 -549.06885,279.03573 -553.89505,279.03573 C -558.72125,279.03573 -577.00274,280.61094 -577.00274,280.61094 z"
-       id="path5707"
-       sodipodi:nodetypes="cccssc"
-       inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
+       style="fill:url(#linearGradient4296);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.28335825px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
+       d="M -35.448773,379.87258 C -35.448773,379.87258 915.21169,438.34368 1370.9262,466.37258 L 1370.9262,347.74757 L 1329.3012,357.74757 L 1282.5199,327.81007 L 1243.0512,309.93507 L 1211.2699,319.84127 L 1189.0512,296.24757 L 1147.7387,281.49757 L 1127.3324,305.09127 L 1019.9575,287.90377 L 960.73873,254.43507 L 870.17619,227.81007 L 821.89489,258.40377 L 749.98869,263.74757 L 709.42619,260.74757 L 678.86369,242.49757 L 666.48869,252.59127 C 666.48869,252.59127 667.18629,267.53987 632.89489,276.18507 C 631.78739,267.25097 610.23869,265.15377 610.23869,265.15377 L 593.45744,275.09127 C 593.45754,275.09127 572.14494,266.15377 572.14494,266.15377 C 572.14504,266.15387 571.60309,256.67287 550.36369,250.90377 C 534.90819,246.70577 524.07309,255.05237 443.61369,251.90377 C 443.6138,251.90387 427.45044,246.17607 423.39494,240.34127 C 414.15945,244.47957 394.55119,247.99757 394.55119,247.99757 C 387.87398,247.92647 366.80119,236.15377 366.80119,236.15377 L 354.89494,238.43507 C 345.16355,230.67627 337.44624,229.36217 335.39494,228.40377 C 329.25895,225.53717 329.14134,230.70097 323.20744,229.31007 C 317.27353,227.91917 317.36994,221.59747 309.51994,220.43507 C 301.67003,219.27277 292.80229,228.75257 288.23869,228.24757 C 283.67509,227.74257 286.54834,223.69387 280.70744,223.34127 C 274.86645,222.98867 265.42329,225.70957 259.98869,222.68507 C 254.55399,219.66057 254.15094,214.96037 250.95744,215.34127 C 247.76414,215.72227 249.06484,208.76487 238.20744,210.06007 C 227.35004,211.35527 227.73674,215.48367 221.58244,218.84127 C 215.42813,222.19897 202.39494,227.99757 202.39494,227.99757 C 202.39494,227.99757 178.23869,191.59127 178.23869,191.59127 C 178.23869,191.59127 165.96253,203.31687 148.45743,202.40377 C 144.02132,196.11207 124.11873,190.09237 120.83243,189.43507 C 117.54613,188.77767 86.444621,201.92597 77.363721,201.43507 C 77.363721,201.43507 -35.448773,379.87258 -35.448773,379.87258 z"
+       id="path3209"
+       sodipodi:nodetypes="ccccccccccccccccccccccssccccssssssssscccscc" />
+    <g
+       id="g3325">
+      <path
+         sodipodi:nodetypes="ccccsssscscsccssssssccc"
+         id="path3213"
+         d="M 23.279713,326.48981 C -24.125418,251.37754 -13.697188,219.40355 -13.697188,219.40355 C -21.674614,237.35284 -39.850932,202.94719 -39.850932,202.94719 C -39.850912,202.94719 -50.135848,194.71661 -67.640935,193.80355 C -72.077085,187.51178 -91.973373,181.51093 -95.259683,180.85355 C -98.545953,180.19621 -129.63197,193.34438 -138.71281,192.85355 C -147.79361,192.36274 -157.65938,191.88741 -164.27844,190.05355 C -170.89751,188.21968 -174.00699,182.30381 -181.12532,182.10355 C -188.24361,181.90334 -192.79719,181.40355 -192.79719,181.40355 C -192.79721,181.40355 -203.78259,175.54232 -209.27844,177.60355 C -213.58005,179.21688 -214.59407,182.95355 -214.59407,182.95355 C -214.59408,182.95357 -220.64561,180.4988 -223.20032,180.80355 C -225.75497,181.10832 -230.73782,190.10355 -230.73782,190.10355 L -240.41282,190.20355 C -240.41283,190.20355 -246.05082,177.77563 -255.90969,175.80355 C -265.76858,173.83146 -260.21991,171.07294 -267.38469,170.35355 C -274.5495,169.63418 -278.42661,169.58288 -281.30657,166.25355 C -284.18655,162.92429 -286.18511,162.07264 -289.37844,162.45355 C -292.57182,162.8345 -289.82042,164.63574 -302.51282,159.85355 C -315.20521,155.0713 -332.09278,145.25427 -332.09278,145.25427 C -418.17837,152.77915 -388.50224,180.12537 -388.50224,180.12537 C -388.50224,180.12537 -384.94451,239.64441 -393.74278,230.0545 C -393.74278,230.0545 -423.78301,316.12788 23.279713,326.48981 z"
+         style="fill:url(#linearGradient3323);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.28335825px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+         sodipodi:nodetypes="cccccccc"
+         id="path7379"
+         d="M -241.05072,189.91094 L -271.28783,202.73639 L -287.34722,212.79502 L -293.23397,214.8441 L -302.32711,207.87369 L -290.92133,213.0375 L -265.8136,198.87078 L -241.05072,189.91094 z"
+         style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+         sodipodi:nodetypes="cccccccc"
+         id="path3685"
+         d="M -233.27507,190.0067 L -201.37688,195.19816 L -189.92478,197.71774 L -181.62512,200.69738 L -171.91889,207.60278 L -197.58537,197.8795 L -207.78375,195.6187 L -233.27507,190.0067 z"
+         style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+         sodipodi:nodetypes="cccccccc"
+         id="path3697"
+         d="M -68.989565,194.00424 L -100.52177,201.61242 L -112.0352,203.7271 L -120.71832,204.17439 L -131.87826,201.47958 L -104.87642,200.57492 L -94.618443,198.70781 L -68.989565,194.00424 z"
+         style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+         sodipodi:nodetypes="cccccccccccccccccc"
+         id="path3693"
+         d="M -291.47728,162.98603 L -310.3785,163.95833 L -316.03457,164.70589 L -322.71058,167.47468 L -327.51538,169.80191 L -318.64275,164.87914 L -306.12834,164.34791 L -304.78031,164.6039 L -298.37702,163.87017 L -299.08239,173.08709 L -297.74631,163.78854 L -296.07816,163.74122 C -296.07816,163.74122 -297.76574,168.44642 -295.87963,176.96819 C -297.20456,166.83755 -295.26379,163.65328 -295.26379,163.65328 L -294.02896,163.52669 C -294.02896,163.52669 -295.17382,167.99336 -293.4903,177.67432 C -294.68159,167.7601 -293.33372,163.57457 -293.33372,163.57457 L -291.47728,162.98603 z"
+         style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
+    </g>
+    <g
+       id="g4255"
+       transform="translate(56.40913,422.14574)">
+      <path
+         sodipodi:nodetypes="ccccccsccccscc"
+         id="path4253"
+         d="M -279.95623,-75.735906 C -279.95623,-75.735906 170.15311,-63.174455 170.15311,-63.174455 C 170.15311,-63.174455 163.85846,-87.222695 159.80288,-93.057415 C 150.56744,-88.919195 116.87243,-127.00915 116.87243,-127.00915 C 110.19525,-127.08022 62.31872,-147.32052 62.31872,-147.32052 L 27.124957,-158.41768 C 17.393557,-166.17653 1.2242263,-195.00875 -0.82704367,-195.96713 C -6.9629837,-198.83377 -27.519494,-205.66314 -33.453474,-207.05407 C -33.453474,-207.05407 -65.434095,-232.32795 -65.434095,-232.32795 C -85.887889,-211.90298 -95.38988,-191.84681 -120.72758,-187.24026 C -128.46169,-181.57703 -131.71222,-178.16908 -162.95027,-167.21312 C -172.03106,-167.70393 -251.70313,-151.96163 -258.32219,-153.79549 C -264.94126,-155.62936 -297.66554,-139.6867 -304.78387,-139.88696 C -304.78387,-139.88696 -279.95623,-75.735906 -279.95623,-75.735906 z"
+         style="fill:#4c5d61;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.28335825px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+         sodipodi:nodetypes="ccccccccccccccc"
+         id="path7383"
+         d="M -64.742668,-231.05587 L -88.510381,-203.37364 L -106.62787,-188.0633 L -125.63101,-184.55609 L -137.26657,-175.62233 L -153.72836,-169.55991 L -206.56703,-153.6519 L -245.03988,-150.82824 L -267.48364,-153.04476 L -238.97585,-155.01612 L -169.49017,-165.14366 L -143.80118,-171.78902 L -123.10935,-188.65483 L -106.83369,-189.77702 L -64.742668,-231.05587 z"
+         style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+         sodipodi:nodetypes="cccccccc"
+         id="path3689"
+         d="M -64.199305,-230.95601 L -34.389253,-208.01004 L -2.2012731,-195.3656 L 4.4633366,-181.67732 L 26.036726,-157.95905 L -0.40602305,-192.41164 L -39.403753,-209.83821 L -64.199305,-230.95601 z"
+         style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
+    </g>
     <path
        style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
-       d="M -550.2418,287.00794 L -568.84761,283.69364 L -577.35047,280.41414 L -595.83589,278.40564 L -578.36396,280.89888 L -566.42078,285.40161 L -550.2418,287.00794 z"
-       id="path4660"
-       sodipodi:nodetypes="ccccccc"
-       inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
-       d="M -519.68444,280.84039 L -528.0021,285.02167 L -534.57337,284.78273 L -545.4162,288.34914 L -534.73391,285.10032 L -526.1432,285.46302 L -519.68444,280.84039 z"
-       id="path4662"
-       sodipodi:nodetypes="ccccccc"
-       inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       inkscape:export-ydpi="90"
-       inkscape:export-xdpi="90"
-       inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
-       sodipodi:nodetypes="ccccc"
-       id="path5505"
-       d="M -606.93952,328.09402 L -593.85663,325.46398 L -592.10979,319.38684 L -595.86776,325.01058 L -606.93952,328.09402 z"
-       style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
-    <path
-       inkscape:export-ydpi="90"
-       inkscape:export-xdpi="90"
-       inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
-       sodipodi:nodetypes="cccccccc"
-       id="path5501"
-       d="M -697.60934,308.51913 L -715.48836,309.96112 L -730.77131,313.45826 L -764.68574,316.27245 L -729.29806,315.6236 L -719.6936,311.65269 L -700.7056,309.21829 L -697.60934,308.51913 z"
-       style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
-    <path
-       inkscape:export-ydpi="90"
-       inkscape:export-xdpi="90"
-       inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
-       sodipodi:nodetypes="cccccccc"
-       id="path5503"
-       d="M -686.54247,310.97381 L -663.65557,305.54611 L -657.83184,302.84567 L -651.8017,301.17801 L -644.08201,301.22156 L -652.05095,302.37362 L -666.63776,307.58814 L -686.54247,310.97381 z"
-       style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
-    <path
-       style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
-       d="M -487.63723,352.40065 L -506.85713,341.79571 L -521.01463,336.8738 L -532.2374,334.29773 L -553.71188,328.60838 L -516.72861,337.14033 L -504.00474,341.04266 L -487.63723,352.40065 z"
-       id="path5701"
-       sodipodi:nodetypes="cccccccc"
-       inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:#edffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
-       d="M -552.38899,314.2984 C -558.60613,314.56705 -550.9899,316.64761 -545.00627,315.89186 C -539.30536,315.17182 -530.19309,320.63146 -521.65565,319.26398 C -520.25881,319.04021 -531.35336,315.2736 -534.64664,314.84326 L -552.38899,314.2984 z"
-       id="path6741"
-       sodipodi:nodetypes="csssc"
-       inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
-       d="M -505.8466,324.42674 L -486.67547,343.19782 L -504.40812,323.19757 L -515.62026,319.44762 L -532.10831,318.84652 L -518.67734,320.56783 L -505.8466,324.42674 z"
-       id="path5703"
-       sodipodi:nodetypes="ccccccc"
-       inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
-       d="M -545.61299,303.84862 L -584.2165,295.30134 L -607.0255,292.44215 L -614.223,290.54634 L -618.142,282.37216 L -610.68402,290.77272 L -576.13121,296.04985 L -545.61299,303.84862 z"
-       id="path6733"
-       sodipodi:nodetypes="cccccccc"
-       inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
-       d="M -476.71865,343.30584 L -501.08455,315.00353 L -512.89477,313.10973 L -530.33163,311.01 L -544.51942,304.3804 L -524.97226,310.92716 L -497.30365,314.6662 L -476.71865,343.30584 z"
-       id="path5699"
-       sodipodi:nodetypes="cccccccc"
-       inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
-       d="M -463.20345,333.1516 L -478.76823,316.19638 L -490.80442,311.61883 L -494.60249,308.58362 L -495.92425,303.58299 L -492.17531,310.04873 L -474.50166,317.39477 L -463.20345,333.1516 z"
-       id="path5705"
-       sodipodi:nodetypes="cccccccc"
-       inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
-       d="M -451.94509,330.23347 L -431.73511,314.96385 L -418.31122,310.10964 L -414.51314,307.07443 L -413.19139,302.07382 L -416.94034,308.53955 L -437.89403,316.91644 L -451.94509,330.23347 z"
-       id="path6737"
-       sodipodi:nodetypes="cccccccc"
-       inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:#7d675c;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.35163668px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
-       d="M -788.081,330.02896 L -789.06037,419.87514 L -445.17266,419.55523 C -445.17266,419.55523 -356.9979,402.05731 -356.9979,402.05731 C -459.14994,399.07609 -479.91585,364.4988 -479.91585,364.4988 C -500.77569,349.80568 -528.68861,337.83206 -545.3821,338.77831 C -545.3821,338.77831 -566.12944,329.19181 -566.12944,329.19181 C -566.12944,329.19181 -606.52876,328.04566 -606.52876,328.04566 C -606.52876,328.04566 -631.77539,301.65018 -646.2712,301.65018 C -662.88835,314.73626 -683.83561,318.72271 -683.83561,318.72271 C -683.83561,318.72271 -697.75425,309.01926 -697.75425,309.01926 C -707.75433,308.85692 -719.97932,315.24708 -719.97932,315.24708 C -719.97932,315.24708 -755.78319,319.96945 -757.47071,319.15776 C -764.44031,320.1318 -788.081,330.02896 -788.081,330.02896 z"
-       id="path2221"
-       sodipodi:nodetypes="cccssscsccsscc"
-       inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
-       d="M -272.29222,288.30023 L -305.88901,296.31614 L -323.73277,302.60278 L -330.27361,303.88346 L -340.3771,299.52695 L -327.70401,302.75433 L -299.80653,293.90013 L -272.29222,288.30023 z"
-       id="path7379"
-       sodipodi:nodetypes="cccccccc"
-       inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
-       d="M -191.42467,370.2825 L -210.19377,367.80575 L -258.66158,341.45266 L -269.82918,328.98915 L -320.24153,315.37774 L -352.70024,305.84165 L -369.36819,298.97659 L -386.08167,275.92815 L -363.65488,303.65577 L -315.35348,315.95826 L -271.72197,327.8767 L -258.84987,339.10639 L -248.45262,346.43321 L -215.4278,363.51722 L -198.2343,370.8996 L -143.21025,381.38132 L -191.42467,370.2825 z"
-       id="path7381"
-       sodipodi:nodetypes="ccccccccccccccccc"
-       inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
-       d="M -21.029125,303.50021 L -59.903759,311.51262 L -80.868827,318.00944 L -84.857724,318.34189 L -97.809608,315.12603 L -107.114,328.09645 L -116.41839,341.06688 L -183.64117,353.92163 L -230.35769,357.70799 L -178.47908,351.85022 L -117.76152,342.43397 L -95.893428,316.71045 L -82.157129,316.47038 L -52.71449,308.99645 L -21.029125,303.50021 z"
-       id="path7383"
-       sodipodi:nodetypes="ccccccccccccccc"
-       inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
-       d="M -263.65261,288.36008 L -228.21018,291.60474 L -215.48562,293.17948 L -206.26378,295.04176 L -195.47908,299.35763 L -223.99739,293.28058 L -235.32892,291.86758 L -263.65261,288.36008 z"
-       id="path3685"
-       sodipodi:nodetypes="cccccccc"
-       inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
-       d="M 35.037162,298.64024 L 52.490248,308.57451 L 88.254671,316.47728 L 95.65979,325.03246 L 110.2287,331.04245 L 90.24939,318.32351 L 46.918582,307.4319 L 35.037162,298.64024 z"
-       id="path3689"
-       sodipodi:nodetypes="cccccccc"
-       inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
-       d="M 637.66953,348.61945 L 614.00581,340.90955 L 567.15742,335.57453 L 556.54473,328.65676 L 537.09261,324.13876 L 564.35911,334.09613 L 621.29254,341.66628 L 637.66953,348.61945 z"
+       d="M 97.758279,300.35633 L 79.387314,283.97775 L 39.812608,267.11147 L 32.690411,254.34379 L 17.001707,243.7319 L 37.823093,264.28661 L 85.566298,286.48659 L 97.758279,300.35633 z"
        id="path3691"
        sodipodi:nodetypes="cccccccc"
        inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
@@ -7343,15 +7297,7 @@
        inkscape:export-ydpi="90" />
     <path
        style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
-       d="M 491.18069,319.46681 L 510.78843,323.74184 L 516.49711,325.29215 L 522.57911,328.24179 L 526.84004,330.56323 L 519.18918,325.90526 L 506.16786,323.14158 L 504.65628,323.0298 L 498.15428,321.34151 L 495.69292,326.95058 L 497.51709,321.16966 L 495.7732,320.81521 C 495.7732,320.81521 495.91755,323.93833 490.96325,328.62777 C 495.88494,322.87354 494.94442,320.60369 494.94442,320.60369 L 493.68536,320.28696 C 493.68536,320.28696 493.33995,323.16231 488.19626,328.57947 C 492.90165,322.92755 492.93504,320.17936 492.93504,320.17936 L 491.18069,319.46681 z"
-       id="path3693"
-       sodipodi:nodetypes="cccccccccccccccccc"
-       inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
-       d="M 453.69231,334.07561 L 456.01329,337.88802 L 470.14743,341.1418 L 473.40122,345.57852 L 478.82061,348.27574 L 470.98232,342.08148 L 455.49772,337.9517 L 453.69231,334.07561 z"
+       d="M 202.09647,227.30458 L 204.18535,233.40443 L 216.90608,238.61047 L 219.83449,245.70923 L 224.71194,250.02478 L 217.65748,240.11396 L 203.29961,233.13145 L 202.09647,227.30458 z"
        id="path3695"
        sodipodi:nodetypes="cccccccc"
        inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
@@ -7359,38 +7305,342 @@
        inkscape:export-ydpi="90" />
     <path
        style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
-       d="M -82.706316,288.04709 L -117.74211,292.8022 L -130.5348,294.12387 L -140.18272,294.40343 L -152.58265,292.71917 L -122.58061,292.15376 L -111.18285,290.98682 L -82.706316,288.04709 z"
-       id="path3697"
-       sodipodi:nodetypes="cccccccc"
-       inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
-       d="M 248.71343,333.12353 L 234.09786,330.50035 L 214.34016,328.53198 L 203.42109,320.83309 L 187.49479,316.51264 L 202.99055,321.60233 L 211.09751,327.32384 L 248.71343,333.12353 z"
+       d="M 493.55234,279.3092 L 480.39833,275.11212 L 462.6164,271.96272 L 452.78923,259.6445 L 438.45556,252.73177 L 452.40175,260.87528 L 459.69801,270.02969 L 493.55234,279.3092 z"
        id="path5426"
        sodipodi:nodetypes="cccccccc"
        inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
+    <path
+       style="opacity:1;fill:#394649;fill-opacity:1;stroke:none;stroke-width:0.60000002;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 1616.7248,277.17966 L 1571.7874,308.14846 L 1506.3498,297.58596 C 1506.3499,297.58596 1440.0628,334.33106 1397.7874,323.83596 L 1311.9436,290.17966 L 1254.2561,300.67966 L 1117.6312,345.11253 L 1239.2874,464.92967 C 1760.0903,496.96186 1991.3066,511.17052 2723.0998,556.17969 L 2591.7561,397.80467 L 2537.2561,375.17967 L 2476.4124,324.80466 L 2406.9124,332.14846 L 2341.9748,364.64847 L 2301.5686,327.33596 L 2225.2561,349.89846 L 2207.1624,320.49216 L 2153.0998,353.49216 L 2114.0686,329.33596 L 2035.9436,377.58597 L 1943.6936,338.17966 L 1865.1311,350.24216 L 1785.6311,339.17966 L 1726.5998,319.74216 L 1656.0686,328.30466 L 1634.7874,309.80466 L 1616.7248,277.17966 z"
+       id="rect4302"
+       sodipodi:nodetypes="ccccccccccccccccccccccccccc" />
+    <g
+       style="display:inline"
+       id="g4266"
+       transform="translate(3120.0684,617.56107)">
+      <path
+         sodipodi:nodetypes="ccccccsccccscc"
+         id="path4268"
+         d="M -279.95623,-75.735906 C -279.95623,-75.735906 170.15311,-63.174455 170.15311,-63.174455 C 170.15311,-63.174455 163.85846,-87.222695 159.80288,-93.057415 C 150.56744,-88.919195 116.87243,-127.00915 116.87243,-127.00915 C 110.19525,-127.08022 62.31872,-147.32052 62.31872,-147.32052 L 27.124957,-158.41768 C 17.393557,-166.17653 1.2242263,-195.00875 -0.82704367,-195.96713 C -6.9629837,-198.83377 -27.519494,-205.66314 -33.453474,-207.05407 C -33.453474,-207.05407 -51.473547,-213.38149 -64.436913,-216.37304 C -89.07236,-222.05814 -95.38988,-191.84681 -120.72758,-187.24026 C -128.46169,-181.57703 -131.71222,-178.16908 -162.95027,-167.21312 C -172.03106,-167.70393 -251.63683,-155.37062 -258.32219,-153.79549 C -292.86235,-145.65754 -329.57536,-123.73179 -336.69369,-123.93205 C -336.69369,-123.93205 -279.95623,-75.735906 -279.95623,-75.735906 z"
+         style="fill:#4c5d61;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.28335825px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+         sodipodi:nodetypes="ccccccccccccccc"
+         id="path4270"
+         d="M -75.71167,-205.1235 L -88.510381,-206.35955 L -103.63632,-195.03794 L -125.63101,-182.55609 L -137.26657,-173.62233 L -153.72836,-167.55991 L -206.56703,-151.6519 L -245.03988,-148.82824 L -267.48364,-151.04476 L -238.97585,-153.01612 L -169.49017,-163.14366 L -143.80118,-169.78902 L -123.10935,-186.65483 L -99.853416,-189.77138 L -75.71167,-205.1235 z"
+         style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+         sodipodi:nodetypes="cccccccc"
+         id="path4272"
+         d="M -69.185215,-215.99828 L -35.63573,-206.26497 L -2.6998641,-197.11067 L 4.4633366,-181.67732 L 26.036726,-157.95905 L 0.092567933,-194.15671 L -39.403753,-209.83821 L -69.185215,-215.99828 z"
+         style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
+    </g>
+    <path
+       style="fill:url(#linearGradient4326);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.28335825px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
+       d="M 3291.4619,615.3226 L 3578.6503,616.79754 C 4041.748,645.28052 4216.6976,656.04238 4567.869,677.64129 L 5058.6284,750.3108 C 5058.6284,750.3108 5020.0381,534.14595 4636.456,500.30047 C 4608.3609,497.82149 4436.8324,468.6606 4411.1815,464.3288 C 4385.5308,459.99703 4358.9627,426.57884 4358.9627,426.57884 L 4286.9627,451.14134 L 4205.9627,446.64134 L 4114.1503,491.98505 L 4009.744,475.04755 C 4009.7442,475.04757 3959.8362,413.86324 3917.9627,412.32884 C 3876.0893,410.79434 3884.1261,452.44384 3842.2753,468.8913 C 3800.4246,485.33868 3750.5565,478.1413 3750.5565,478.1413 L 3670.1503,406.17254 C 3670.1503,406.17254 3635.9982,416.74131 3606.0877,419.29754 C 3445.261,433.04218 3297.7622,626.2509 3291.4619,615.3226 z"
+       id="path4319"
+       sodipodi:nodetypes="cccccscccccssccsc" />
+    <path
+       style="fill:url(#linearGradient4317);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.28335825px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
+       d="M 2415.8224,470.43676 L 2499.731,562.21964 C 3167.0476,603.26316 3225.8796,606.87706 3855.8873,645.62589 L 4019.4251,587.69448 C 3930.8802,492.65331 3842.1664,446.65734 3835.481,445.15714 C 3806.1899,438.58434 3807.5034,388.96074 3782.3248,405.81344 C 3756.9431,422.80214 3750.3571,397.41884 3723.7936,407.37594 C 3697.2298,417.33284 3693.606,432.40714 3693.606,432.40714 C 3693.6061,432.40714 3659.1486,455.83444 3652.9498,432.46964 C 3629.5683,436.65434 3582.5748,462.37594 3582.5748,462.37594 L 3513.0748,404.12594 L 3458.1373,461.28214 L 3370.4498,468.46964 L 3256.4186,430.78214 L 3191.9498,449.03214 C 3191.9498,449.03214 3127.1983,420.77554 3096.5436,431.78214 C 3065.8888,442.78864 3039.7623,482.65714 3039.7623,482.65714 L 2975.6998,429.62594 L 2898.9498,416.46964 L 2839.481,423.81344 L 2751.7936,395.40714 C 2751.7936,395.40714 2693.6843,430.6111 2673.8225,428.80548 C 2642.7975,425.98503 2600.0748,384.37594 2600.0748,384.37594 C 2600.0748,384.37594 2580.6296,374.49491 2540.3447,377.30548 C 2479.7049,381.53617 2415.8224,470.43676 2415.8224,470.43676 z"
+       id="path4310"
+       sodipodi:nodetypes="ccccsssccccccccsccccccccc" />
+    <path
+       style="fill:url(#linearGradient4283);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.28335825px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
+       d="M 6523.0245,871.46872 C 7190.3411,912.51224 6767.6117,822.2184 7397.6194,860.96723 C 7397.6194,860.96723 7397.6194,630.96723 7397.6194,630.96723 C 7374.2379,635.15193 7326.6574,659.94064 7326.6574,659.94064 L 7257.1574,601.69064 L 7202.2199,658.84684 L 7114.5324,666.03434 L 7000.5012,628.34684 L 6936.0324,646.59684 C 6936.0324,646.59684 6871.2809,618.34024 6840.6262,629.34684 C 6809.9714,640.35334 6783.8449,680.22184 6783.8449,680.22184 L 6719.7824,627.19064 L 6643.0324,614.03434 L 6523.0245,871.46872 z"
+       id="path4281"
+       sodipodi:nodetypes="cccccccccscccc" />
+    <path
+       style="fill:url(#linearGradient4279);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.28335825px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
+       d="M 7406.1844,889.79211 L 7122.207,846.94172 C 6660.2595,803.63657 6485.7442,787.27821 6135.4451,754.4395 L 5639.35,750.52417 C 5639.35,750.52417 5710.8284,542.9012 6095.0396,568.64031 C 6123.1808,570.52555 6297.1545,568.17736 6323.1666,567.85487 C 6349.1785,567.53238 6380.5843,538.61325 6380.5843,538.61325 L 6447.9327,573.98988 L 6528.6572,582.04051 L 6612.3747,641.00622 L 6718.144,640.3794 C 6718.1438,640.37939 6776.8939,587.62746 6818.5027,592.57171 C 6860.1115,597.51585 6845.7452,637.42676 6884.5574,660.13407 C 6923.3695,682.84129 6973.751,683.42377 6973.751,683.42377 L 7064.2979,624.72183 C 7064.2979,624.72183 7096.4105,640.43307 7125.5685,647.57331 C 7282.3491,685.96587 7398.2735,899.61755 7406.1844,889.79211 z"
+       id="path4277"
+       sodipodi:nodetypes="cccccscccccssccsc" />
+    <path
+       style="fill:url(#linearGradient4335);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.28335825px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
+       d="M 5015.5396,480.37233 C 4964.456,481.16083 4893.852,508.74732 4893.852,508.74732 L 4802.0396,564.49732 C 4802.0395,564.49724 4718.0601,494.55409 4685.5499,501.77858 C 4613.7528,517.73349 4071.2858,616.74017 4071.2858,616.74017 C 4590.147,648.6529 6249.1958,773.77857 6249.1958,773.77857 L 6463.7853,771.2254 C 6457.2238,768.1692 6306.7886,706.57296 6299.5072,647.38153 C 6298.3104,637.65282 6206.7083,610.27007 6191.9146,619.59107 C 6176.2588,629.45508 6167.9746,616.45727 6145.1333,612.71607 C 6122.2916,608.97478 6120.4282,625.94867 6092.4146,622.15357 C 6085.4112,621.20467 6023.9432,604.34702 6009.4458,605.24732 C 5994.9485,606.14751 5990.9851,622.19987 5973.8208,623.71607 C 5956.6563,625.23228 5947.4503,607.00447 5932.4458,607.90357 C 5917.4411,608.80267 5914.6202,595.04207 5906.602,594.09107 C 5874.5296,590.28668 5875.807,611.98467 5840.7896,608.21607 C 5805.772,604.44738 5756.5449,586.15417 5719.6958,582.46607 C 5682.8469,578.77788 5684.9503,599.02887 5647.3833,595.46607 C 5609.8164,591.90318 5544.4458,577.24732 5544.4458,577.24732 C 5544.4461,577.24724 5436.2583,556.46607 5436.2583,556.46607 C 5436.2583,556.46608 5344.7538,572.69677 5346.8833,551.96607 C 5330.2227,536.14768 5275.962,562.77142 5265.6958,560.30982 C 5225.094,550.57409 5189.8688,561.97987 5165.4146,559.71607 C 5140.9603,557.45218 5108.4053,538.21067 5089.9146,536.34107 C 5071.4235,534.47135 5079.1478,508.92782 5057.3833,507.49732 C 5045.9207,506.74384 5033.8885,482.00643 5030.6646,481.05983 C 5025.8973,480.50761 5020.8241,480.29076 5015.5396,480.37233 z"
+       id="path4328"
+       sodipodi:nodetypes="cccccccssssssssssscccsssscc" />
+    <g
+       style="display:inline"
+       id="g4251"
+       transform="translate(1057.8961,481.58961)">
+      <path
+         sodipodi:nodetypes="ccccccsccccscc"
+         id="path4254"
+         d="M -279.95623,-75.735906 C -279.95623,-75.735906 170.15311,-63.174455 170.15311,-63.174455 C 170.15311,-63.174455 163.85846,-87.222695 159.80288,-93.057415 C 150.56744,-88.919195 116.87243,-127.00915 116.87243,-127.00915 C 110.19525,-127.08022 62.31872,-147.32052 62.31872,-147.32052 L 27.124957,-158.41768 C 17.393557,-166.17653 1.2242263,-195.00875 -0.82704367,-195.96713 C -6.9629837,-198.83377 -27.519494,-205.66314 -33.453474,-207.05407 C -33.453474,-207.05407 -51.473547,-213.38149 -64.436913,-216.37304 C -89.07236,-222.05814 -95.38988,-191.84681 -120.72758,-187.24026 C -128.46169,-181.57703 -131.71222,-178.16908 -162.95027,-167.21312 C -172.03106,-167.70393 -251.63683,-155.37062 -258.32219,-153.79549 C -292.86235,-145.65754 -329.57536,-123.73179 -336.69369,-123.93205 C -336.69369,-123.93205 -279.95623,-75.735906 -279.95623,-75.735906 z"
+         style="fill:#4c5d61;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.28335825px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+         sodipodi:nodetypes="ccccccccccccccc"
+         id="path4256"
+         d="M -75.71167,-207.1235 L -88.510381,-208.35955 L -103.63632,-197.03794 L -125.63101,-184.55609 L -137.26657,-175.62233 L -153.72836,-169.55991 L -206.56703,-153.6519 L -245.03988,-150.82824 L -267.48364,-153.04476 L -238.97585,-155.01612 L -169.49017,-165.14366 L -143.80118,-171.78902 L -123.10935,-188.65483 L -99.853416,-191.77138 L -75.71167,-207.1235 z"
+         style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+         sodipodi:nodetypes="cccccccc"
+         id="path4258"
+         d="M -69.185215,-215.99828 L -34.389253,-208.01004 L -2.2012731,-195.3656 L 4.4633366,-181.67732 L 26.036726,-157.95905 L -0.40602305,-192.41164 L -39.403753,-209.83821 L -69.185215,-215.99828 z"
+         style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
+    </g>
+    <path
+       style="fill:#2a2d2f;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
+       d="M 381.83229,289.52581 L 360.53494,277.18997 L 318.37139,268.65393 L 308.81997,257.5855 L 291.31306,250.3567 L 315.85291,266.28849 L 367.093,278.40073 L 381.83229,289.52581 z"
+       id="path4260"
+       sodipodi:nodetypes="cccccccc"
+       inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#2a2d2f;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
+       d="M 77.610566,201.1512 L 95.257526,207.99124 L 100.39533,210.47174 L 105.86913,215.19116 L 109.70397,218.90547 L 102.8182,211.45272 L 91.099016,207.03083 L 89.738596,206.85198 L 83.886796,204.15072 L 81.671566,213.12523 L 83.313326,203.87576 L 81.743826,203.30864 C 81.743826,203.30864 81.873736,208.30563 77.414866,215.80873 C 81.844386,206.60196 80.997916,202.9702 80.997916,202.9702 L 79.864766,202.46344 C 79.864766,202.46344 79.553896,207.064 74.924576,215.73145 C 79.159426,206.68838 79.189476,202.29128 79.189476,202.29128 L 77.610566,201.1512 z"
+       id="path4262"
+       sodipodi:nodetypes="cccccccccccccccccc"
+       inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#2a2d2f;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
+       d="M 227.93272,244.56319 L 230.0216,250.66305 L 242.74233,255.86909 L 245.67074,262.96785 L 250.54819,267.2834 L 243.49373,257.37258 L 229.13586,250.39007 L 227.93272,244.56319 z"
+       id="path4264"
+       sodipodi:nodetypes="cccccccc"
+       inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#2a2d2f;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
+       d="M 262.44423,271.03162 L 264.53311,277.13148 L 277.25384,282.33752 L 280.18225,289.43628 L 285.0597,293.75183 L 278.00524,283.84101 L 263.64737,276.8585 L 262.44423,271.03162 z"
+       id="path4285"
+       sodipodi:nodetypes="cccccccc"
+       inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <g
+       id="g3284">
+      <path
+         sodipodi:nodetypes="ccccssccccsccsccscccsccscssccc"
+         id="path2228"
+         d="M -562.3606,101.80863 C -568.78124,102.49428 -577.12319,121.45889 -585.07447,121.25863 C -602.42662,127.03825 -595.54532,131.02825 -602.22768,134.60863 C -604.89232,138.90969 -625.19287,152.45863 -625.19287,152.45863 C -625.19287,152.45863 -629.45759,145.75153 -633.73806,146.20863 C -638.01848,146.66575 -644.26621,160.93468 -650.38861,167.70863 C -673.28361,193.04015 -692.93794,208.86959 -707.4089,203.95863 L -768.16321,218.66042 L -792.38059,242.96723 C -792.38059,242.96723 -792.38059,347.96723 -792.38059,347.96723 C -792.38059,347.96723 -163.42321,385.91438 -163.42321,385.91438 C -163.42321,385.91438 -108.93936,332.96552 -108.93936,332.96552 C -108.93936,332.96552 -200.04243,304.39452 -200.04243,304.39452 C -207.43605,302.56065 -237.68865,267.7351 -245.63996,267.53484 C -253.59122,267.33463 -268.12915,240.0405 -268.12915,240.0405 C -268.12915,240.0405 -283.56646,231.88767 -283.56646,231.88767 C -297.74409,227.10542 -345.6771,203.3863 -360.33262,197.51406 C -373.33782,192.30307 -385.55058,155.45863 -385.55058,155.45863 C -385.55058,155.45863 -391.02241,148.94854 -400.85024,139.35863 C -406.21729,143.76367 -409.58393,145.55863 -409.58393,145.55863 C -409.58394,145.55863 -418.79247,140.25233 -424.915,136.70863 C -431.03752,133.165 -437.82703,130.20863 -437.82703,130.20863 L -443.04211,135.50863 C -443.04211,135.50863 -445.84393,136.33554 -450.48774,133.15863 C -455.13154,129.98169 -454.62395,126.67105 -463.39976,119.75863 C -479.05964,127.46257 -484.34902,126.28191 -491.17163,130.15863 C -497.99423,134.03538 -503.41138,121.3379 -506.62837,118.00863 C -509.84535,114.67935 -527.30019,107.75863 -527.30019,107.75863 C -527.30018,107.75863 -535.90821,118.70863 -535.90821,118.70863 C -547.46945,118.4489 -554.99579,110.56544 -562.3606,101.80863 z"
+         style="fill:#4c5d61;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.28335825px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+         sodipodi:nodetypes="ccccccc"
+         id="path16832"
+         d="M -628.06549,150.14385 L -618.03097,158.81105 L -604.55982,160.7465 L -583.42948,171.83289 L -603.53993,160.40754 L -617.22721,158.41846 L -628.06549,150.14385 z"
+         style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <path
+         sodipodi:nodetypes="cccccccccccccc"
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+         id="path16834"
+         d="M -535.60833,118.67271 L -541.5396,127.05047 L -549.61505,134.81439 L -579.97474,144.19126 L -591.81112,156.49767 L -599.49248,159.77186 L -601.00433,159.93332 L -601.9996,159.46447 L -599.48208,159.349 L -592.08695,156.37378 L -579.62597,143.46382 L -551.60367,134.95009 L -542.75284,127.56346 L -535.60833,118.67271 z"
+         style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+         sodipodi:nodetypes="ccccccccc"
+         id="path16836"
+         d="M -497.42796,129.8923 L -493.75204,131.8769 L -481.64159,143.38978 L -473.35522,145.11209 L -463.6339,145.37759 L -480.68997,142.36796 L -490.36423,135.19594 L -493.84308,130.96644 L -497.42796,129.8923 z"
+         style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+         id="path16838"
+         d="M -542.95827,146.87404 L -537.92351,139.06452 L -526.30681,134.02404 L -537.4064,139.53814 L -542.95827,146.87404 z"
+         style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+         sodipodi:nodetypes="cccccccccc"
+         id="path16840"
+         d="M -450.90859,133.77081 L -436.73009,140.4787 L -428.11743,150.15425 L -421.394,153.62143 L -407.95181,158.53846 L -395.18382,156.81742 L -409.93756,157.23206 L -431.52854,148.20794 L -441.00381,139.2525 L -450.90859,133.77081 z"
+         style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+         sodipodi:nodetypes="ccccc"
+         id="path16842"
+         d="M -583.10214,123.86298 L -571.32432,115.63012 L -563.65894,107.78034 L -569.40352,117.19135 L -583.10214,123.86298 z"
+         style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+         sodipodi:nodetypes="ccccccc"
+         id="path17517"
+         d="M -658.19314,198.51808 L -655.76902,181.65782 L -645.54664,172.15908 L -635.29526,146.35777 L -644.42396,172.0974 L -654.79414,181.7791 L -658.19314,198.51808 z"
+         style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+         sodipodi:nodetypes="cccc"
+         id="path7779"
+         d="M -408.78937,145.31254 L -419.59864,148.92078 L -414.1656,146.34678 L -408.78937,145.31254 z"
+         style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+         sodipodi:nodetypes="cccccccc"
+         id="path22293"
+         d="M -497.58109,140.60826 L -509.15812,136.00857 L -512.74319,133.71612 L -514.2555,127.38399 L -510.50136,136.3503 L -498.13761,141.75857 L -490.57547,149.56452 L -497.58109,140.60826 z"
+         style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+         sodipodi:nodetypes="cccssc"
+         id="path5707"
+         d="M -577.76874,162.68534 L -569.42694,167.56038 L -559.39476,170.76978 C -559.39476,170.76978 -538.28948,165.77318 -535.76141,162.67798 C -534.08723,160.6282 -549.68634,160.165 -554.5382,160.165 C -559.39005,160.165 -577.76874,162.68534 -577.76874,162.68534 z"
+         style="fill:#edffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+         sodipodi:nodetypes="ccccccc"
+         id="path4660"
+         d="M -550.86553,172.92054 L -569.57026,167.61766 L -578.11832,162.37046 L -596.70201,159.15686 L -579.13719,163.14604 L -567.13052,170.35041 L -550.86553,172.92054 z"
+         style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+         sodipodi:nodetypes="ccccccc"
+         id="path4662"
+         d="M -520.14572,163.05246 L -528.50759,169.7425 L -535.1138,169.3602 L -546.01427,175.06646 L -535.27519,169.86834 L -526.63881,170.44866 L -520.14572,163.05246 z"
+         style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
+      <path
+         style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
+         d="M -607.86468,238.65826 L -594.71223,234.4502 L -592.9561,224.72677 L -596.73405,233.72476 L -607.86468,238.65826 z"
+         id="path5505"
+         sodipodi:nodetypes="ccccc"
+         inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <path
+         style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
+         d="M -699.01653,207.33844 L -716.9906,209.64562 L -732.3548,215.24104 L -766.98248,218.89554 L -730.87371,218.70559 L -721.2182,212.35213 L -702.12925,208.45709 L -699.01653,207.33844 z"
+         id="path5501"
+         sodipodi:nodetypes="cccccccc"
+         inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <path
+         style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
+         d="M -687.89082,211.26592 L -664.88224,202.5816 L -659.02756,198.2609 L -652.96536,195.59264 L -645.20463,195.66232 L -653.21593,197.50562 L -667.88029,205.84885 L -687.89082,211.26592 z"
+         id="path5503"
+         sodipodi:nodetypes="cccccccc"
+         inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+         sodipodi:nodetypes="cccccccc"
+         id="path5701"
+         d="M -487.92813,277.54887 L -507.25021,260.58096 L -521.48298,252.70591 L -532.76541,248.5842 L -554.35405,239.48124 L -517.17417,253.13236 L -504.38266,259.37608 L -487.92813,277.54887 z"
+         style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+         sodipodi:nodetypes="csssc"
+         id="path6741"
+         d="M -553.02413,216.58527 C -559.27433,217.01511 -551.61761,220.344 -545.60216,219.1348 C -539.87094,217.98275 -530.71023,226.71816 -522.1274,224.5302 C -520.72314,224.17216 -531.87667,218.14559 -535.18746,217.45704 L -553.02413,216.58527 z"
+         style="fill:#edffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+         sodipodi:nodetypes="ccccccc"
+         id="path5703"
+         d="M -506.23431,232.79061 L -487.38059,252.96723 L -504.78818,230.82394 L -516.05992,224.82402 L -532.63564,223.86226 L -519.13326,226.61636 L -506.23431,232.79061 z"
+         style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+         sodipodi:nodetypes="cccccccc"
+         id="path6733"
+         d="M -546.21211,199.86562 L -585.02085,186.18997 L -607.95111,181.61527 L -615.18688,178.58198 L -619.12671,165.50329 L -611.62908,178.94418 L -576.89258,187.38759 L -546.21211,199.86562 z"
+         style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+         sodipodi:nodetypes="cccccccc"
+         id="path5699"
+         d="M -486.19093,231.58312 L -501.44693,217.71348 L -513.31994,214.6834 L -530.84951,211.32383 L -545.11273,200.71647 L -525.46164,211.19128 L -497.64593,217.17375 L -486.19093,231.58312 z"
+         style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+         sodipodi:nodetypes="cccccccc"
+         id="path6737"
+         d="M -446.38407,233.80592 L -431.72881,217.64999 L -429.99343,202.04334 L -416.15749,195.4448 L -401.76219,186.13717 L -428.61526,204.75781 L -433.12942,222.51633 L -446.38407,233.80592 z"
+         style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+         sodipodi:nodetypes="ccccccccccccccccc"
+         id="path7381"
+         d="M -190.14079,306.15984 L -209.00967,302.19703 L -257.73515,260.03208 L -268.96213,240.09047 L -319.64249,218.31221 L -352.27377,203.05447 L -369.03032,192.07037 L -385.83267,155.19287 L -363.28664,199.55706 L -314.72845,219.24104 L -270.86499,238.31056 L -257.92446,256.27805 L -247.47192,268.00096 L -214.27153,295.33538 L -196.98662,307.14719 L -141.67004,323.91794 L -190.14079,306.15984 z"
+         style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
+      <path
+         style="fill:#3a3e41;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
+         d="M -480.7021,205.67674 L -486.53374,190.34959 L -493.86557,183.92852 L -505.09129,175.2386 L -511.39242,162.5827 L -501.22176,177.08304 L -483.64334,191.33427 L -480.7021,205.67674 z"
+         id="path3249"
+         sodipodi:nodetypes="cccccccc"
+         inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <path
+         style="fill:#edffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
+         d="M -466.76728,142.04955 C -467.96338,143.97675 -463.94375,145.25317 -462.20464,145.35702 C -460.46554,145.46087 -446.02161,142.41564 -445.42358,140.30565 C -445.05773,139.01483 -448.16716,140.69084 -451.52105,140.49056 C -455.67412,140.46099 -464.9524,139.83064 -466.76728,142.04955 z"
+         id="path3251"
+         sodipodi:nodetypes="czscc"
+         inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+    </g>
   </g>
   <g
      inkscape:groupmode="layer"
      id="layer5"
      inkscape:label="valley floor"
      style="display:inline"
-     transform="translate(792.38059,-239.77981)">
+     transform="translate(792.38059,-101.80863)">
     <path
-       style="fill:#837158;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
-       d="M 312.5748,104.74226 C 312.5748,104.74226 312.31018,135.00675 312.31018,135.00675 L 284.40625,229.25 L 5551.375,496.34375 L 8189.5,496.34375 L 8189.5,406.3125 C 8043.1092,401.42987 681.30676,155.90085 588.65625,152.25 C 495.05991,148.56188 355.38275,141.29793 312.5748,104.74226 z"
-       transform="translate(-792.38059,239.62356)"
+       style="fill:#837258;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
+       d="M -479.80579,199.46648 C -479.80579,199.46648 -480.07041,259.99546 -480.07041,259.99546 L -507.97434,448.48196 L 4758.9944,982.66946 L 7397.6194,985.96731 L 7397.6194,800.96731 C 7251.2286,791.20205 -111.07383,301.78366 -203.72434,294.48196 C -297.32068,287.10572 -436.99784,272.57782 -479.80579,199.46648 z"
        id="path4784"
        sodipodi:nodetypes="ccccccsc" />
     <path
        style="fill:url(#linearGradient3681);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
-       d="M -488.97395,326.21207 L -477.5234,340.99492 C -477.5234,340.99492 -470.09187,355.576 -468.32673,353.55301 C -465.77737,355.03439 -448.0895,363.77197 -444.20031,363.39855 C -450.70803,359.91696 -456.45461,352.92151 -455.52223,351.90589 C -460.22932,347.99218 -450.24762,343.99575 -461.25972,338.47107 C -461.25972,338.47107 -445.72634,323.91266 -445.72634,323.91266 C -445.72634,323.91266 -458.674,332.53837 -458.674,332.53837 C -458.674,332.53837 -469.09989,325.05613 -469.09989,325.05613 C -469.09989,325.05613 -462.19473,334.17028 -462.19473,334.17028 C -462.19473,334.17028 -472.52952,337.91094 -474.51832,336.41728 C -476.56729,334.87841 -488.97395,326.21207 -488.97395,326.21207 z"
+       d="M -479.99931,199.71669 L -480.06789,205.90405 C -480.06789,205.90405 -464.90204,229.58614 -463.49072,227.52832 C -461.45236,229.03521 -447.30993,237.92321 -444.20031,237.54336 C -449.40359,234.00184 -453.9983,226.88596 -453.25281,225.85285 C -457.01639,221.87176 -449.03547,217.80653 -457.84025,212.18673 C -449.7474,201.63879 -455.77283,206.1519 -455.77283,206.1519 C -455.77283,206.1519 -458.58784,207.8119 -458.58784,207.8119 C -458.58784,207.8119 -466.85108,211.61697 -468.44124,210.09759 C -470.0795,208.53223 -479.99931,199.71669 -479.99931,199.71669 z"
        id="path6735"
-       sodipodi:nodetypes="cccccssssczc"
+       sodipodi:nodetypes="cccccccczc"
        inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
@@ -7398,7 +7648,7 @@
        style="display:inline"
        inkscape:label="mountain 1"
        id="layer2"
-       transform="matrix(1.0000274,0,0,0.5280924,-627.39315,276.32791)">
+       transform="matrix(1.0000274,0,0,1.0561848,-627.39315,63.390665)">
       <text
          id="text5389"
          y="145"
@@ -7410,10 +7660,10 @@
            id="tspan5391"
            sodipodi:role="line"> </tspan></text>
       <path
-         sodipodi:nodetypes="cssssssssssssscccccccssssssssssssssssssssssssssssssccsssssssssssssssssc"
+         style="fill:#69cee3;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="M 699.5329,243.70589 C 688.03172,245.90007 676.46582,248.12275 664.70707,248.48646 C 653.13211,250.55832 642.53113,251.51428 631.43815,248.11743 C 620.97754,247.10665 611.73933,252.66056 601.66182,253.24827 C 592.61357,253.246 583.33393,255.74168 574.57757,252.58853 C 565.69059,250.90875 557.06174,247.05479 547.89636,247.71983 C 559.197,250.07856 570.49278,252.50053 581.79645,254.8199 C 591.61471,253.71344 601.94619,254.97617 611.40147,252.09178 C 621.62572,248.47698 633.56102,247.61914 644.10129,252.05218 C 658.17567,250.61435 672.34885,248.32331 686.49547,246.77655 C 696.00441,244.51102 705.98814,242.58463 715.63005,245.03755 C 733.13847,246.41104 740.19196,252.54944 764.39808,252.97086 C 764.39808,252.97086 746.91877,250.12066 740.22088,249.17301 C 728.96272,246.90696 717.91807,243.242 706.35388,243.34068 C 704.08017,243.46101 701.80286,243.52183 699.5329,243.70589 z"
          id="path16778"
-         d="M 699.53287,243.70588 C 697.24247,243.89168 695.03723,244.20016 693.25319,244.78825 C 691.03095,245.5208 684.68881,246.64384 682.09988,246.78245 C 678.47655,246.97646 676.39294,247.81828 673.3312,247.98221 C 669.69052,248.17713 666.78911,248.06602 663.48451,248.68705 C 661.41873,249.07529 657.32899,249.45462 654.06465,249.6294 C 649.59967,249.86846 647.62845,251.98841 644.13718,251.30612 C 641.7738,250.84425 638.74359,248.38354 636.0528,248.18422 C 633.30938,247.98098 629.75827,248.1561 626.24945,248.34397 C 622.64125,248.53717 620.55451,248.94978 617.3595,249.55022 C 615.02951,249.98809 612.40243,250.63917 610.63217,251.76783 C 609.75836,252.32494 608.96241,252.60342 607.80321,252.79245 C 606.64402,252.98148 605.11216,253.06353 602.94746,253.17943 C 599.51764,253.36307 596.10028,253.54604 592.67047,253.72968 C 589.07878,253.92198 583.38343,254.22692 581.78717,254.31239 L 581.69623,254.31726 L 554.478,247.70746 L 547.89635,247.71984 L 581.70552,254.82477 L 581.73583,254.82315 L 581.79647,254.8199 C 583.33566,254.73749 589.14901,254.42623 592.77072,254.23233 C 596.20053,254.04869 599.61789,253.86571 603.04771,253.68208 C 605.21286,253.56616 606.77435,253.48293 608.08221,253.26965 C 609.39009,253.05637 610.43554,252.70762 611.40147,252.09178 C 612.98942,251.07936 615.44506,250.44778 617.69913,250.02417 C 620.89975,249.42268 622.84169,249.03446 626.34969,248.84662 C 629.85088,248.65916 633.36101,248.4955 635.90739,248.68414 C 638.71646,248.89224 642.06043,251.65333 644.10129,252.05218 C 647.5611,252.72833 649.4508,251.08927 654.07117,250.84188 C 657.36042,250.66577 658.43567,250.4798 660.73164,250.04831 C 663.89738,249.45336 669.76523,248.68114 673.43144,248.48485 C 676.77041,248.30608 678.83056,247.46552 682.20013,247.28509 C 685.1385,247.12777 691.27421,246.03489 693.79565,245.20372 C 696.99836,244.14796 702.07752,244.07765 706.45413,243.84332 C 707.77316,243.7727 709.46149,243.97169 711.18426,244.2092 C 712.90704,244.44671 712.48835,244.96419 714.09873,244.9967 C 715.75469,245.03011 719.29396,245.12962 720.63606,245.51294 C 721.97818,245.89625 723.30212,246.31012 724.8936,246.42802 C 726.34782,246.53575 727.63873,246.89088 729.01106,247.25534 C 730.38339,247.6198 731.82194,247.99747 733.53516,248.12439 C 736.21108,248.32263 739.33494,249.49503 741.39055,250.18037 C 743.71954,250.95688 748.50574,251.59354 751.56558,252.19153 C 757.06795,253.26686 764.17312,253.16754 769.71695,252.87072 C 773.83274,252.65036 779.32886,252.48308 783.44465,252.26272 C 787.56044,252.04236 791.41226,251.77262 795.52805,251.55226 C 799.99844,251.31291 805.63055,251.67814 810.99932,251.39068 C 814.05282,251.22719 820.12492,251.53336 823.06362,251.96714 C 825.98025,252.39767 829.69343,252.53294 833.18883,252.3458 C 834.35555,252.28333 836.6738,252.41697 838.19707,252.56979 C 839.72033,252.72261 848.40802,253.5707 849.4869,253.58073 C 852.44256,253.60818 852.70052,253.31459 852.87771,252.96834 L 850.76209,252.2968 C 848.08471,252.44014 843.9189,252.11929 841.31654,251.9265 C 840.34481,251.85453 838.86652,251.66203 837.31084,251.50596 C 835.75516,251.34989 834.09929,251.21753 832.73328,251.29066 C 829.29049,251.47498 826.62141,251.47394 823.86455,251.06699 C 820.6592,250.59384 813.06341,250.20063 809.69494,250.38099 C 804.49407,250.65945 799.1183,250.217 794.45367,250.46675 C 790.33788,250.68712 786.231,250.907 782.11522,251.12737 C 777.99941,251.34774 773.86224,251.56925 769.74645,251.78961 C 764.22855,252.08505 757.45284,251.84117 756.2551,251.72142 C 753.08263,251.40423 743.98783,250.44513 741.91854,249.75521 C 739.91795,249.08822 736.76333,247.85284 733.68058,247.62447 C 732.16541,247.51222 730.84272,247.16601 729.47216,246.80201 C 728.10159,246.43802 726.69858,246.05103 725.039,245.92809 C 723.70601,245.82935 722.46448,245.45013 721.09717,245.05961 C 719.72986,244.6691 717.86794,243.77129 715.97235,243.73303 C 714.55232,243.70437 713.16272,243.95985 711.42376,243.72012 C 709.68481,243.48038 707.9316,243.2562 706.35388,243.34068 C 704.19631,243.45619 701.82326,243.52008 699.53287,243.70588 z"
-         style="fill:#69cee3;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+         sodipodi:nodetypes="ccccccccccccccc" />
       <path
          inkscape:export-ydpi="90"
          inkscape:export-xdpi="90"
@@ -7460,66 +7710,137 @@
        inkscape:export-filename="/home/archie/Glacier_Sim/figs/tools-drill.png"
        sodipodi:nodetypes="cszsssszc"
        id="path5410"
-       d="M -449.16807,369.29093 C -447.41105,369.64522 -433.45565,372.04562 -431.84598,373.27953 C -419.00022,383.12654 -410.33261,380.65278 -400.28659,381.66547 C -390.25739,382.67648 -377.6118,383.01369 -375.25201,383.07093 C -359.10048,383.4627 -362.96498,385.49352 -354.70179,386.40293 C -352.9701,386.59352 -344.93412,387.88447 -342.75814,387.98043 C -340.58212,388.07637 -326.85491,388.06182 -323.91958,388.18753 C -320.98425,388.31324 -316.1811,397.73231 -307.22285,398.15277 C -297.55614,398.60648 -283.32146,401.9456 -263.45766,402.12682"
-       style="fill:none;fill-rule:evenodd;stroke:#43c5db;stroke-width:0.60389566;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;display:inline" />
+       d="M -449.16807,249.3167 C -447.41105,250.02528 -433.45565,254.82608 -431.84598,257.2939 C -419.00022,276.98792 -410.33261,272.0404 -400.28659,274.06579 C -390.25739,276.08781 -377.6118,276.76222 -375.25201,276.8767 C -359.10048,277.66024 -362.96498,281.72188 -354.70179,283.54071 C -352.9701,283.92188 -344.93412,286.50378 -342.75814,286.6957 C -340.58212,286.88758 -326.85491,286.85848 -323.91958,287.1099 C -320.98425,287.36132 -316.1811,306.19946 -307.22285,307.04038 C -297.55614,307.9478 -283.32146,314.62604 -263.45766,314.98848"
+       style="fill:none;fill-rule:evenodd;stroke:#43c5db;stroke-width:0.85403746;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;display:inline" />
     <path
        style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
-       d="M -493.53608,347.30661 L -487.06387,353.71947 C -487.06387,353.71947 -483.91633,358.02298 -485.17481,359.69658 C -485.26853,360.54002 -471.46237,372.24039 -458.82304,374.53613 C -456.99675,374.86785 -464.11266,369.17013 -461.09361,368.27489 C -458.07461,367.37963 -449.82736,373.37902 -447.93458,371.64059 C -442.42947,366.58436 -467.19143,359.34789 -464.40549,359.58718 C -460.86887,359.89096 -437.72071,365.02935 -438.21759,364.93106 C -448.06298,362.98315 -457.09545,354.00184 -468.14283,351.59014 C -472.92228,353.44998 -472.81371,342.20673 -474.99749,342.11883 C -477.18128,342.03095 -476.49825,345.27742 -488.04145,341.03624 C -484.61998,345.48449 -480.80639,349.5409 -480.80639,349.5409 L -493.53608,347.30661 z"
+       d="M -492.5389,212.64356 L -486.18334,223.75198 C -486.18334,223.75198 -483.09253,231.20657 -484.32833,234.1056 C -484.42036,235.56663 -470.86304,255.83412 -458.45151,259.81083 C -456.65814,260.38544 -463.64579,250.51578 -460.68116,248.96505 C -457.71657,247.41426 -449.61797,257.80648 -447.7593,254.79515 C -442.35341,246.03669 -466.66907,233.50159 -463.93335,233.91609 C -460.46047,234.44231 -437.72952,243.34308 -438.21745,243.17282 C -447.88539,239.79863 -452.76633,221.24956 -463.6146,217.07199 C -468.3079,220.29363 -472.19002,203.80949 -474.33444,203.65723 C -476.47887,203.505 -475.80815,209.12857 -487.1433,201.78196 C -483.7835,209.48727 -480.03864,216.51382 -480.03864,216.51382 L -492.5389,212.64356 z"
        id="path6731"
        sodipodi:nodetypes="cccssssscsccc"
        inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
-       sodipodi:nodetypes="ccccczssssssssssssssszsssssssssssssssssssssssssssssssss"
+       sodipodi:nodetypes="cssszzsssssssss"
        inkscape:export-ydpi="90"
        inkscape:export-xdpi="90"
        inkscape:export-filename="/home/archie/Glacier_Sim/figs/tools-drill.png"
        id="path5414"
-       d="M 223.47246,409.92244 C 230.01531,410.17052 235.9037,409.80888 242.25053,410.83398 C 245.90689,411.18761 249.6476,411.28381 253.32293,411.59404 C 257.49817,412.08261 261.75011,412.44841 266.00086,412.71111 C 270.55487,412.71826 275.12716,412.67878 279.68287,412.59255 C 281.53534,412.54018 305.4777,410.94129 334.32503,410.94596 C 363.29832,410.95067 377.65263,417.85654 410.26267,418.7982 C 442.87274,419.73988 464.88525,414.71733 525.65355,416.47097 C 586.42184,418.2246 668.77283,425.55413 753.36755,427.99475 C 837.96228,430.43534 981.4025,451.51667 1025.8913,445.98397 C 1127.36,433.36513 1358.4844,458.73967 1474.4647,456.71641 C 1526.0814,455.81597 1611.3094,463.92888 1741.5707,464.99667 C 1999.9468,467.1478 1995.7068,477.72735 2132.0465,483.55541 C 2223.1708,487.49385 2284.0095,476.57219 2331.8431,477.9053 C 2401.2249,479.83897 2403.8164,480.40814 2520.1452,482.8171 C 2636.4738,485.22608 2732.7068,500.96578 2800.9994,502.93445 C 2937.5849,506.87178 3231.2532,528.5143 3305.9385,519.49859 C 3349.0624,514.29285 3521.9947,518.71146 3641.256,522.1477 C 3760.5171,525.58393 3958.0559,545.98947 4062.1572,548.98765 C 4166.2587,551.98583 4178.6725,544.00695 4263.2821,546.44207 C 4347.8919,548.87719 4507.9816,563.25459 4568.7679,565.00166 C 4629.5542,566.7487 4684.4336,560.80155 4701.7689,561.29774 C 4719.1042,561.79392 4723.1486,566.89856 4735.1117,567.21337 C 4747.0748,567.52817 4764.3583,555.58397 4781.7024,561.42607 C 4787.9986,563.54689 4784.7591,573.97445 4812.5493,574.69806 C 4840.3396,575.4217 4957.4756,576.52452 4973.5933,578.40788 C 4979.6878,579.12003 5019.8527,570.68365 5058.1097,571.67739 C 5096.3667,572.67112 5170.0699,579.52456 5211.5503,580.60133 C 5253.0307,581.67811 5224.5379,590.49226 5267.9015,591.61737 C 5311.265,592.74251 5389.6444,585.37808 5433.551,586.51689 C 5477.4576,587.65569 5552.1179,587.95592 5576.5047,588.19302 C 5580.8465,588.2348 5592.9932,593.05903 5600.1245,596.23323 C 5606.6712,599.14716 5628.0228,594.68493 5639.6213,596.30515 C 5651.2199,597.92536 5684.8097,589.81337 5696.807,591.12288 C 5708.8045,592.43238 5730.7103,603.61619 5740.9535,603.88172 C 5781.9262,604.94384 5798.0085,594.66264 5835.504,595.63439 C 5872.9997,596.60615 5899.1786,599.0797 5931.8571,599.92642 C 5964.5355,600.77312 5972.7143,613.68574 5999.2355,614.37272 C 6025.7566,615.05971 6078.885,596.38863 6095.1327,606.2962 C 6117.3139,619.82197 6141.3244,608.77599 6151.4921,609.11828 C 6161.66,609.46056 6192.6086,614.23671 6210.5534,614.84884 C 6228.4982,615.46097 6246.108,610.35772 6270.6281,611.19805 C 6295.1482,612.03836 6297.7613,621.61713 6327.6548,622.644 C 6357.5483,623.67087 6387.6088,613.37405 6421.6741,614.54581 C 6455.7392,615.71756 6413.772,627.58798 6450.8072,628.86298 C 6487.8423,630.13796 6519.9021,617.27583 6558.7054,618.6124 C 6597.5088,619.94898 6678.6162,625.45392 6714.0965,630.17119 C 6752.356,635.25793 6765.13,636.95674 6803.8642,638.29151 C 6842.5984,639.6263 6922.4735,633.47145 6959.3704,634.74287 C 6996.2676,636.01428 7059.5108,646.38079 7093.3688,647.54718 C 7127.227,648.71356 7142.3754,640.69884 7171.8135,638.70065 C 7203.5522,636.5463 7235.4175,652.45359 7260.2995,650.48433 C 7284.2579,648.58816 7293.0825,645.64249 7310.6132,646.24388 C 7328.1436,646.84527 7346.2837,658.96625 7355.2844,657.04994 C 7386.1827,650.47146 7375.2597,648.1807 7397.1016,648.19719"
-       style="fill:none;fill-rule:evenodd;stroke:#72c5da;stroke-width:0.60361791px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
+       d="M 124.45665,329.33111 C 135.02874,332.201 151.97065,329.1431 153.57629,328.82475 C 160.20279,327.51092 150.48992,353.59187 156.77824,351.6524 C 179.92138,344.51448 167.2361,326.1171 173.83415,325.30324 C 182.61321,324.22035 186.9033,326.2891 194.12674,329.23096 C 201.35018,332.17283 181.45956,334.65859 196.4988,343.3415 C 211.30685,351.89094 237.97528,330.92804 245.95186,330.92804 C 256.45278,330.92804 251.79917,327.5176 266.64604,328.2349 C 275.00113,328.63856 264.06819,331.46289 282.35586,341.14424 C 296.02965,348.38304 269.78005,346.15626 270.11602,357.38012 C 270.45896,368.8369 330.87745,352.47544 359.19441,351.43446 C 371.79679,350.97117 352.71346,335.75108 384.52191,335.75108 C 407.74436,335.75108 373.34847,346.49029 406.63624,349.48887 C 428.88453,351.51523 407.03906,355.90197 415.93083,363.50458 C 428.63992,374.37107 423.63174,339.40821 452.03378,340.64763"
+       style="fill:none;fill-rule:evenodd;stroke:#72c5da;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;display:inline" />
+    <path
+       sodipodi:nodetypes="csssssssssssssssssssssssssssssss"
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="/home/archie/Glacier_Sim/figs/tools-drill.png"
+       id="path4290"
+       d="M 1358.9357,421.83706 C 1356.7799,421.80405 1350.7307,417.04133 1347.1779,413.90592 C 1343.9164,411.02761 1333.3334,415.49628 1327.5687,413.91132 C 1321.8041,412.32639 1305.1593,420.43994 1299.1979,419.16403 C 1293.2364,417.88814 1282.3175,406.83475 1277.231,406.59121 C 1256.8852,405.61707 1248.9408,415.84877 1230.3217,414.95752 C 1211.7024,414.06627 1198.6957,411.66302 1182.4685,410.88647 C 1166.2415,410.10993 1162.1309,397.31463 1148.9612,396.68459 C 1135.7916,396.05455 1109.4875,414.68221 1101.3825,404.88404 C 1090.3178,391.50764 1078.4402,402.51351 1073.3909,402.19366 C 1068.3415,401.87384 1052.958,397.19536 1044.0466,396.62291 C 1035.1351,396.05046 1026.4122,401.14786 1014.2355,400.36178 C 1002.0587,399.57572 1000.7242,390.07728 985.87896,389.11657 C 971.03376,388.15586 956.14966,398.43023 939.23266,397.33387 C 922.31586,396.23753 921.16716,379.39288 902.77536,378.19988 C 898.17744,377.90163 856.52806,392.88348 848.72722,387.19129 C 835.12837,377.26834 867.71436,369.12247 856.3969,367.95506 C 845.07945,366.78766 844.70355,375.59027 834.98366,374.63475 C 825.26376,373.67923 819.16324,367.95148 809.35988,371.62755 C 804.83961,373.32256 794.23555,387.57632 779.7138,386.64416 C 765.19206,385.71201 780.35961,362.60034 762.67131,361.32167 C 744.98301,360.04299 759.25569,376.60857 744.93855,375.25634 C 730.6214,373.90411 715.63553,381.55799 711.22726,380.40519 C 701.72002,377.91895 739.50458,362.17552 714.43907,361.85522 C 689.37356,361.53491 684.22406,378.63213 674.60631,378.00763 C 655.37071,376.7586 666.59539,354.10206 648.27229,352.91234 C 629.94899,351.72263 622.44286,366.9886 605.62886,365.89717 C 588.81476,364.80575 581.32516,372.78696 566.71786,374.82667 C 550.96896,377.02578 535.08696,361.30538 522.74146,363.30752 C 510.85426,365.23536 506.48456,368.17505 497.77876,367.61246 C 489.07306,367.04985 480.02006,355.05935 475.55896,356.9781 C 460.24446,363.56495 462.31077,340.63765 451.46677,340.66373"
+       style="fill:none;fill-rule:evenodd;stroke:#72c5da;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;display:inline" />
+    <path
+       sodipodi:nodetypes="cssszssssssssssssssssssssssss"
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="/home/archie/Glacier_Sim/figs/tools-drill.png"
+       id="path4293"
+       d="M 1358.9755,421.85302 C 1363.5142,422.91877 1446.4097,410.96053 1454.7097,411.50696 C 1463.0095,412.05339 1457.0733,425.20766 1465.75,425.77814 C 1474.4269,426.34867 1489.6053,414.31592 1498.3907,414.89303 C 1507.176,415.47008 1521.1321,410.7719 1525.8885,412.9506 C 1531.2405,415.40214 1511.9752,429.30867 1513.5626,433.55764 C 1515.0199,437.45817 1536.7534,423.77804 1539.8624,423.77804 C 1549.7451,423.77804 1533.0365,440.6427 1535.4906,442.18812 C 1537.9449,443.73353 1558.3543,431.85388 1560.4039,431.98833 C 1568.6022,432.52604 1571.2457,417.8661 1578.7482,418.35785 C 1586.2508,418.84957 1591.5854,421.68817 1598.124,422.11645 C 1604.6627,422.54477 1606.9811,440.30668 1612.2877,440.654 C 1617.5943,441.00134 1627.1484,413.83019 1630.9088,427.23009 C 1636.0423,445.52351 1640.2202,429.61885 1642.259,429.86168 C 1644.2977,430.10454 1650.7035,436.03461 1654.3021,436.47435 C 1657.9005,436.91414 1661.1256,429.41687 1666.0429,430.0232 C 1670.9601,430.62952 1671.9937,443.88469 1677.9885,444.62724 C 1683.9835,445.36973 1689.4038,430.36785 1696.2355,431.21621 C 1703.0671,432.06455 1695.3654,449.52663 1702.7927,450.45044 C 1710.22,451.37426 1715.8998,432.76062 1723.6818,433.72951 C 1731.4639,434.69844 1747.8754,440.49237 1755.1785,446.23678 C 1763.0538,452.4311 1765.6832,454.49988 1773.4514,455.46787 C 1781.2194,456.43587 1796.7603,446.05026 1804.1599,446.97229 C 1811.5596,447.89425 1824.6824,460.85538 1831.4729,461.70101 C 1838.263,462.54664 1840.8427,451.05864 1846.5848,447.60657 C 1852.7756,443.88476 1859.9612,465.26674 1864.7995,461.95931 C 1869.4583,458.7746 1871.0535,454.47778 1874.5692,454.91211 C 1878.0848,455.34645 1882.3399,471.7797 1884.0256,468.90969 C 1889.8119,459.05733 1887.5184,456.1233 1891.8594,455.64582"
+       style="fill:none;fill-rule:evenodd;stroke:#72c5da;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;display:inline" />
+    <path
+       sodipodi:nodetypes="csssssssssssssssssssssssssssssss"
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="/home/archie/Glacier_Sim/figs/tools-drill.png"
+       id="path4295"
+       d="M 1892.0249,455.54383 C 1894.834,454.4885 1921.1714,447.4064 1924.7234,450.54271 C 1927.9842,453.42182 1938.5683,448.9558 1944.3326,450.5422 C 1950.0968,452.12857 1966.7436,444.01918 1972.7047,445.29658 C 1978.6659,446.57395 1989.5821,457.63007 1994.6685,457.87488 C 2015.0141,458.8541 2022.961,448.62439 2041.5799,449.52028 C 2060.1989,450.41618 2073.205,452.82269 2089.432,453.60328 C 2105.6589,454.38388 2109.7662,467.1802 2122.9358,467.81354 C 2136.1052,468.44686 2162.414,449.82577 2170.5166,459.62596 C 2181.5779,473.00513 2193.4582,462.00222 2198.5075,462.32333 C 2203.5568,462.64442 2218.9391,467.32674 2227.8504,467.90141 C 2236.7617,468.47609 2245.4859,463.38087 2257.6624,464.16999 C 2269.839,464.95909 2271.1712,474.45786 2286.0161,475.42228 C 2300.8611,476.3867 2315.7477,466.11604 2332.6644,467.21663 C 2349.581,468.31719 2350.7255,485.16214 2369.117,486.35972 C 2373.7148,486.65912 2415.3679,471.68768 2423.1674,477.38181 C 2436.7637,487.30816 2404.1757,495.44589 2415.4929,496.61613 C 2426.81,497.78636 2427.1881,488.98383 2436.9078,489.94179 C 2446.6275,490.89973 2452.7265,496.629 2462.5309,492.95538 C 2467.0514,491.2615 2477.6591,477.01039 2492.1806,477.94618 C 2506.7021,478.88195 2491.5288,501.98984 2509.2168,503.27292 C 2526.9048,504.55602 2512.6362,487.98688 2526.953,489.34268 C 2541.2699,490.69849 2556.2576,483.04835 2560.6656,484.20225 C 2570.1722,486.69087 2532.3838,502.42486 2557.4492,502.75142 C 2582.5146,503.07799 2587.6684,485.98206 2597.2859,486.60895 C 2616.5212,487.86279 2605.2909,510.51652 2623.6138,511.71082 C 2641.9368,512.90511 2649.4467,497.64101 2666.2604,498.73664 C 2683.0742,499.83226 2690.5658,491.85292 2705.1736,489.81686 C 2720.923,487.62168 2736.8011,503.34604 2749.1471,501.34699 C 2761.0348,499.42212 2765.4052,496.48352 2774.1109,497.04828 C 2782.8164,497.61306 2791.8664,509.60583 2796.3281,507.68819 C 2811.6442,501.10517 2809.5722,524.03195 2820.4161,524.00858"
+       style="fill:none;fill-rule:evenodd;stroke:#72c5da;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;display:inline" />
+    <path
+       sodipodi:nodetypes="cssszssssssssssssssssssssssss"
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="/home/archie/Glacier_Sim/figs/tools-drill.png"
+       id="path4297"
+       d="M 3390.4364,545.37357 C 3385.9032,544.28484 3302.9482,555.8231 3294.651,555.23464 C 3286.3541,554.64619 3292.3569,541.52215 3283.6832,540.90773 C 3275.0093,540.29326 3259.7701,552.24899 3250.9878,551.62739 C 3242.2055,551.00585 3228.2258,555.63329 3223.4805,553.43053 C 3218.141,550.95192 3237.4764,537.14314 3235.9106,532.88618 C 3234.4731,528.97832 3212.6705,542.5482 3209.5616,542.53246 C 3199.679,542.48241 3216.4728,525.70259 3214.0266,524.14476 C 3211.5801,522.58694 3191.1108,534.36307 3189.0619,534.21824 C 3180.8665,533.63902 3178.1487,548.28538 3170.6488,547.75564 C 3163.1488,547.22593 3157.8287,544.36035 3151.2923,543.89896 C 3144.7559,543.43753 3142.5275,525.6641 3137.2227,525.28991 C 3131.9179,524.9157 3122.2263,552.03812 3118.5338,538.61934 C 3113.493,520.30016 3109.2347,536.18346 3107.1971,535.9303 C 3105.1597,535.67712 3098.784,529.71468 3095.1877,529.25672 C 3091.5915,528.79872 3088.3285,536.27956 3083.4143,535.64833 C 3078.5003,535.01711 3077.5338,521.75688 3071.5428,520.98398 C 3065.5517,520.21114 3060.0555,535.18537 3053.2282,534.30242 C 3046.4009,533.41949 3054.191,515.99664 3046.7685,515.03523 C 3039.3459,514.07381 3033.5719,532.65844 3025.7949,531.65015 C 3018.0178,530.64182 3001.6359,524.76485 2994.362,518.98353 C 2986.5182,512.7494 2983.8993,510.66733 2976.1361,509.66001 C 2968.3731,508.65268 2952.7798,518.95945 2945.3849,517.99996 C 2937.99,517.04053 2924.933,504.01311 2918.1469,503.1331 C 2911.3612,502.25309 2908.7233,513.72788 2902.9638,517.15082 C 2896.7542,520.84123 2889.677,499.42313 2884.822,502.70601 C 2880.1472,505.86709 2878.5302,510.15577 2875.0168,509.70364 C 2871.5034,509.25151 2856.0073,502.37904 2847.3383,502.62716 C 2835.917,502.95406 2824.8343,523.56228 2820.4909,524.01777"
+       style="fill:none;fill-rule:evenodd;stroke:#72c5da;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;display:inline" />
+    <path
+       sodipodi:nodetypes="csssssssssssssssssssssssssssssss"
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="/home/archie/Glacier_Sim/figs/tools-drill.png"
+       id="path4299"
+       d="M 4316.5201,618.4252 C 4314.3643,618.39219 4308.3151,613.62947 4304.7623,610.49406 C 4301.5008,607.61575 4290.9178,612.08442 4285.1531,610.49946 C 4279.3885,608.91453 4262.7437,617.02808 4256.7823,615.75217 C 4250.8208,614.47628 4239.9019,603.42289 4234.8154,603.17935 C 4214.4696,602.20521 4206.5252,612.43691 4187.9061,611.54566 C 4169.2868,610.65441 4156.2801,608.25116 4140.0529,607.47461 C 4123.8259,606.69807 4119.7153,593.90277 4106.5456,593.27273 C 4093.376,592.64269 4067.0719,611.27035 4058.9669,601.47218 C 4047.9022,588.09578 4036.0246,599.10165 4030.9753,598.7818 C 4025.9259,598.46198 4010.5424,593.7835 4001.631,593.21105 C 3992.7195,592.6386 3983.9966,597.736 3971.8199,596.94992 C 3959.6431,596.16386 3958.3086,586.66542 3943.4634,585.70471 C 3928.6182,584.744 3913.7341,595.01837 3896.8171,593.92201 C 3879.9003,592.82567 3878.7516,575.98102 3860.3598,574.78802 C 3855.7619,574.48977 3814.1125,589.47162 3806.3117,583.77943 C 3792.7128,573.85648 3825.2988,565.71061 3813.9813,564.5432 C 3802.6639,563.3758 3802.288,572.17841 3792.5681,571.22289 C 3782.8482,570.26737 3776.7477,564.53962 3766.9443,568.21569 C 3762.4241,569.9107 3751.82,584.16446 3737.2982,583.2323 C 3722.7765,582.30015 3737.9441,559.18848 3720.2558,557.90981 C 3702.5675,556.63113 3716.8401,573.19671 3702.523,571.84448 C 3688.2058,570.49225 3673.22,578.14613 3668.8117,576.99333 C 3659.3045,574.50709 3697.089,558.76366 3672.0235,558.44336 C 3646.958,558.12305 3641.8085,575.22027 3632.1908,574.59577 C 3612.9552,573.34674 3624.1798,550.6902 3605.8567,549.50048 C 3587.5334,548.31077 3580.0273,563.57674 3563.2133,562.48531 C 3546.3992,561.39389 3538.9096,569.3751 3524.3023,571.41481 C 3508.5534,573.61392 3492.6714,557.89352 3480.3259,559.89566 C 3468.4387,561.8235 3464.069,564.76319 3455.3632,564.2006 C 3446.6575,563.63799 3437.6045,551.64749 3433.1434,553.56624 C 3417.8289,560.15309 3401.1665,545.28348 3390.3225,545.30956"
+       style="fill:none;fill-rule:evenodd;stroke:#72c5da;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;display:inline" />
+    <path
+       sodipodi:nodetypes="csssssssssssssssssssssssssssssss"
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="/home/archie/Glacier_Sim/figs/tools-drill.png"
+       id="path4301"
+       d="M 5234.1642,669.78882 C 5232.0247,669.52265 5225.3736,673.40077 5221.4205,676.01337 C 5217.7914,678.41174 5207.9301,672.51909 5202.0014,673.28957 C 5196.0727,674.06004 5180.7134,663.71735 5174.6327,664.1545 C 5168.5519,664.59162 5156.2061,674.02457 5151.1349,673.56061 C 5130.8505,671.70478 5124.4013,660.47053 5105.8384,658.77198 C 5087.2754,657.0734 5074.0611,657.65031 5057.8829,656.16976 C 5041.7049,654.68923 5035.8602,666.79112 5022.7303,665.58934 C 5009.6006,664.38758 4986.1328,642.29321 4976.7477,650.87316 C 4963.9355,662.58648 4953.6983,650.04028 4948.6535,649.65705 C 4943.6085,649.27377 4927.7249,651.77444 4918.8202,651.10596 C 4909.9154,650.43747 4901.9834,644.18002 4889.8153,643.27044 C 4877.6471,642.36082 4875.0087,651.58254 4860.1736,650.47595 C 4845.3385,649.36937 4832.0225,637.1308 4815.1169,635.87135 C 4798.2114,634.6119 4794.7386,651.13465 4776.359,649.76645 C 4771.7642,649.42441 4732.5939,628.8133 4724.0793,633.36909 C 4709.2362,641.31101 4740.3782,653.89565 4729.0082,653.48284 C 4717.6381,653.07001 4718.4862,644.30028 4708.7277,643.89909 C 4698.9692,643.4979 4692.1335,648.32462 4682.9345,643.325 C 4678.6928,641.01971 4670.1672,625.43352 4655.6564,624.34351 C 4641.1456,623.25348 4652.9628,648.24469 4635.268,647.05886 C 4617.5732,645.87304 4634.0046,631.44606 4619.6382,630.80042 C 4605.2719,630.15479 4591.4918,620.4973 4586.9662,621.02784 C 4577.2062,622.17208 4612.4434,643.00162 4587.5755,639.84396 C 4562.7075,636.6863 4559.978,619.04029 4550.3666,618.32544 C 4531.1436,616.89575 4539.119,640.88962 4520.8079,639.52769 C 4502.4965,638.16573 4497.1792,622.00657 4480.3762,620.75651 C 4463.5732,619.50643 4457.2623,610.56399 4443.0789,606.51894 C 4427.7869,602.15778 4409.8789,615.52463 4397.9302,611.83035 C 4386.425,608.27319 4382.505,604.75611 4373.8053,604.10637 C 4365.1057,603.45666 4354.4778,614.07635 4350.3258,611.55768 C 4336.0723,602.91136 4327.2637,619.91492 4316.5281,618.38577"
+       style="fill:none;fill-rule:evenodd;stroke:#72c5da;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;display:inline" />
+    <path
+       sodipodi:nodetypes="csssssssssssssssssssssssssssssss"
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="/home/archie/Glacier_Sim/figs/tools-drill.png"
+       id="path4303"
+       d="M 6187.654,732.31734 C 6184.8449,733.37267 6158.5075,740.45477 6154.9555,737.31846 C 6151.6947,734.43935 6141.1106,738.90537 6135.3463,737.31897 C 6129.5821,735.7326 6112.9353,743.84199 6106.9742,742.56459 C 6101.013,741.28722 6090.0968,730.2311 6085.0104,729.98629 C 6064.6648,729.00707 6056.7179,739.23678 6038.099,738.34089 C 6019.48,737.44499 6006.4739,735.03848 5990.2469,734.25789 C 5974.02,733.47729 5969.9127,720.68097 5956.7431,720.04763 C 5943.5737,719.41431 5917.2649,738.0354 5909.1623,728.23521 C 5898.101,714.85604 5886.2207,725.85895 5881.1714,725.53784 C 5876.1221,725.21675 5860.7398,720.53443 5851.8285,719.95976 C 5842.9172,719.38508 5834.193,724.4803 5822.0165,723.69118 C 5809.8399,722.90208 5808.5077,713.40331 5793.6628,712.43889 C 5778.8178,711.47447 5763.9312,721.74513 5747.0145,720.64454 C 5730.0979,719.54398 5728.9534,702.69903 5710.5619,701.50145 C 5705.9641,701.20205 5664.311,716.17349 5656.5115,710.47936 C 5642.9152,700.55301 5675.5032,692.41528 5664.186,691.24504 C 5652.8689,690.07481 5652.4908,698.87734 5642.7711,697.91938 C 5633.0514,696.96144 5626.9524,691.23217 5617.148,694.90579 C 5612.6275,696.59967 5602.0198,710.85078 5587.4983,709.91499 C 5572.9768,708.97922 5588.1501,685.87133 5570.4621,684.58825 C 5552.7741,683.30515 5567.0427,699.87429 5552.7259,698.51849 C 5538.409,697.16268 5523.4213,704.81282 5519.0133,703.65892 C 5509.5067,701.1703 5547.2951,685.43631 5522.2297,685.10975 C 5497.1643,684.78318 5492.0105,701.87911 5482.393,701.25222 C 5463.1577,699.99838 5474.388,677.34465 5456.0651,676.15035 C 5437.7421,674.95606 5430.2322,690.22016 5413.4185,689.12453 C 5396.6047,688.02891 5389.1131,696.00825 5374.5053,698.04431 C 5358.7559,700.23949 5342.8778,684.51513 5330.5318,686.51418 C 5318.6441,688.43905 5314.2737,691.37765 5305.568,690.81289 C 5296.8625,690.24811 5287.7581,678.03756 5283.2964,679.9552 C 5267.9803,686.53822 5245.0081,669.70915 5234.1642,669.73252"
+       style="fill:none;fill-rule:evenodd;stroke:#72c5da;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;display:inline" />
+    <path
+       sodipodi:nodetypes="cssssssssssssssssssssss"
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="/home/archie/Glacier_Sim/figs/tools-drill.png"
+       id="path4288"
+       d="M 6187.1475,732.48535 C 6195.3523,729.51297 6189.8107,749.49583 6203.3655,749.87982 C 6216.9203,750.26381 6198.4853,756.72684 6212.0862,756.97388 C 6225.687,757.22092 6276.8675,737.08504 6287.9824,737.24368 C 6299.0972,737.40233 6317.5754,756.00763 6323.6721,756.12586 C 6328.0139,756.21006 6380.8141,746.14709 6387.9454,752.4955 C 6394.4921,758.32335 6415.8437,749.39889 6427.4422,752.63934 C 6439.0408,755.87975 6472.6306,739.65577 6484.6279,742.27479 C 6496.6254,744.89379 6518.5312,767.26141 6528.7744,767.79247 C 6569.7471,769.91671 6585.8294,749.35431 6623.3249,751.29782 C 6660.8206,753.24133 6686.9995,758.18843 6719.678,759.88187 C 6752.3564,761.57527 6760.5352,787.40051 6787.0564,788.77447 C 6813.5775,790.14845 6866.7059,752.8063 6882.9536,772.62143 C 6905.1348,799.67297 6929.1453,777.58101 6939.313,778.2656 C 6949.4809,778.95015 6980.4295,788.50245 6998.3743,789.72671 C 7016.3191,790.95097 7033.9289,780.74447 7058.449,782.42513 C 7082.9691,784.10575 7085.5822,803.26329 7115.4757,805.31703 C 7145.3692,807.37078 7175.4297,786.77713 7209.495,789.12065 C 7243.5601,791.46416 7201.5929,815.205 7238.6281,817.75499 C 7247.8869,818.39249 7256.5267,817.57082 7264.8847,816.0215 C 7273.2427,814.47217 7314.488,803.24036 7322.6194,800.96723 C 7330.7508,798.6941 7344.0404,822.50115 7352.6194,820.96723 C 7361.1984,819.4333 7387.9186,806.29895 7397.6194,806.96723"
+       style="fill:none;fill-rule:evenodd;stroke:#72c5da;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;display:inline" />
   </g>
   <g
      inkscape:groupmode="layer"
      id="layer3"
      inkscape:label="foreground"
      style="display:inline"
-     transform="translate(792.38059,-239.77981)"
-     sodipodi:insensitive="true">
+     transform="translate(792.38059,-101.80863)">
     <path
-       style="fill:#7d675c;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 312.5,124.90625 C 312.50001,124.90625 2.34375,172 2.34375,172 L 3.59375,496.34375 L 8189.5,496.34375 L 8189.5,424.25 C 8176.7385,423.82435 639.40242,172.43417 545.90625,168.75 C 452.30992,165.06188 369.05545,161.89947 312.5,124.90625 z"
-       transform="translate(-792.38059,239.62356)"
-       id="path2238" />
-    <path
-       sodipodi:type="arc"
-       style="opacity:1;fill:none;fill-opacity:1;stroke:#ff0a0a;stroke-width:0.1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:91.90799789;stroke-opacity:1"
-       id="path3930"
-       sodipodi:cx="-479.96875"
-       sodipodi:cy="364.54187"
-       sodipodi:rx="0.21875"
-       sodipodi:ry="0.2421875"
-       d="M -479.75,364.54187 A 0.21875,0.2421875 0 1 1 -480.1875,364.54187 A 0.21875,0.2421875 0 1 1 -479.75,364.54187 z"
-       transform="matrix(11.566415,0,0,11.347683,5071.6429,-3772.1324)" />
+       style="fill:#b49e86;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M -479.88059,239.79446 C -479.88058,239.79446 -792.38059,335.96731 -792.38059,335.96731 L -792.38059,995.96731 L 7397.6194,995.96731 L 7397.6495,838.48196 C 7384.888,837.63066 -152.97817,334.8503 -246.47434,327.48196 C -340.07067,320.10572 -423.32514,313.7809 -479.88059,239.79446 z"
+       id="path2238"
+       sodipodi:nodetypes="cccccsc" />
     <path
        sodipodi:type="arc"
        style="opacity:1;fill:none;fill-opacity:1;stroke:#ff0a0a;stroke-width:0.1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:91.90799789;stroke-opacity:1;display:inline"
-       id="path7166"
+       id="path4276"
        sodipodi:cx="-479.96875"
        sodipodi:cy="364.54187"
        sodipodi:rx="0.21875"
        sodipodi:ry="0.2421875"
        d="M -479.75,364.54187 A 0.21875,0.2421875 0 1 1 -480.1875,364.54187 A 0.21875,0.2421875 0 1 1 -479.75,364.54187 z"
-       transform="matrix(11.566415,0,0,11.347683,5777.9532,-3712.0339)" />
+       transform="matrix(11.566415,0,0,11.347683,5777.9854,-3776.4696)" />
+    <path
+       style="fill:#b49e86;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.35163668px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
+       d="M -792.38059,265.8545 L -792.38059,355.96723 L -417.10003,357.69747 C -417.10003,357.69747 -337.74274,329.70079 -337.74274,329.70079 C -429.67958,324.93084 -474.85525,246.50861 -474.85525,246.50861 C -474.85525,246.50861 -484.49793,233.38208 -484.49793,233.38208 C -484.49793,233.38208 -525.96113,218.11599 -525.96113,218.11599 C -525.96113,218.11599 -553.31746,214.78329 -562.38059,210.96723 C -571.85382,206.9785 -602.35241,194.92778 -612.35241,189.92778 C -615.34166,200.89368 -641.8685,220.2978 -641.8685,220.2978 C -641.8685,220.2978 -678.32763,233.69056 -678.32763,233.69056 C -678.32763,233.69056 -698.8288,227.94945 -698.8288,227.94945 C -706.03671,237.55999 -727.56214,233.26158 -729.08091,231.96287 C -756.1496,231.74493 -764.08018,251.23818 -764.08018,251.23818 C -783.35904,256.52474 -792.38059,265.8545 -792.38059,265.8545 z"
+       id="path2221"
+       sodipodi:nodetypes="cccssscsccsscsc"
+       inkscape:export-filename="/home/archie/Desktop/v3/pics/show_drill.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        sodipodi:type="arc"
        style="opacity:1;fill:none;fill-opacity:1;stroke:#ff0a0a;stroke-width:0.1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:91.90799789;stroke-opacity:1;display:inline"
-       id="path7525"
+       id="path4274"
        sodipodi:cx="-479.96875"
        sodipodi:cy="364.54187"
        sodipodi:rx="0.21875"
        sodipodi:ry="0.2421875"
        d="M -479.75,364.54187 A 0.21875,0.2421875 0 1 1 -480.1875,364.54187 A 0.21875,0.2421875 0 1 1 -479.75,364.54187 z"
-       transform="matrix(11.566415,0,0,11.347683,10011.431,-3570.6715)" />
+       transform="matrix(11.566415,0,0,11.347683,5071.6835,-3896.6773)" />
+    <path
+       sodipodi:type="arc"
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#ff0a0a;stroke-width:0.1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:91.90799789;stroke-opacity:1;display:inline"
+       id="path4275"
+       sodipodi:cx="-479.96875"
+       sodipodi:cy="364.54187"
+       sodipodi:rx="0.21875"
+       sodipodi:ry="0.2421875"
+       d="M -479.75,364.54187 A 0.21875,0.2421875 0 1 1 -480.1875,364.54187 A 0.21875,0.2421875 0 1 1 -479.75,364.54187 z"
+       transform="matrix(11.566415,0,0,11.347683,10011.358,-3493.7408)" />
   </g>
 </svg>

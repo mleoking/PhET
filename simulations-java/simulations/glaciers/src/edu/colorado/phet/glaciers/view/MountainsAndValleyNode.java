@@ -4,6 +4,7 @@ package edu.colorado.phet.glaciers.view;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.model.Valley;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -31,8 +32,8 @@ import edu.umd.cs.piccolo.util.PAffineTransform;
 public class MountainsAndValleyNode extends PImage {
 
     // These are absolute x,y coordinates of the markers in the image file
-    private static final Point2D F_0 = new Point2D.Double( 312, 122 );   // marker at x=0, y=F(0)
-    private static final Point2D F_70000 = new Point2D.Double( 5252, 323 ); // marker at x=70000, y=F(70000)
+    private static final Point2D F_0 = new Point2D.Double( 312, 138 );   // marker at x=0, y=F(0)
+    private static final Point2D F_70000 = new Point2D.Double( 5252, 339 ); // marker at x=70000, y=F(70000)
     
     public MountainsAndValleyNode( Valley valley, ModelViewTransform mvt ) {
         super( GlaciersImages.MOUNTAINS );
@@ -47,7 +48,7 @@ public class MountainsAndValleyNode extends PImage {
         // y scale
         final double viewDistanceY = mvt.modelToView( 0, valley.getElevation( 70000 ) - valley.getElevation( 0 ) ).getY();
         final double imageDistanceY = ( F_70000.getY() - F_0.getY() );
-        final double scaleY = viewDistanceY / imageDistanceY;
+        final double scaleY = ( viewDistanceY / imageDistanceY ) / GlaciersConstants.Y_AXIS_SCALE_IN_IMAGE;
         
         // x & y offset
         final double offsetX = -F_0.getX();
