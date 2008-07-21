@@ -32,7 +32,7 @@ public class PanControlNode extends PImage {
     private final Viewport _birdsEyeViewport;
     private final Viewport _zoomedViewport;
     private final ModelViewTransform _mvt;
-    private final double _zoomedViewportMaxCenterX;
+    private final double _zoomedViewportMaxX;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -53,9 +53,9 @@ public class PanControlNode extends PImage {
      * @param birdsEyeViewport
      * @param zoomedViewport
      * @param mvt
-     * @param zoomedViewportMaxCenterX
+     * @param zoomedViewportMaxX
      */
-    public PanControlNode( Viewport birdsEyeViewport, Viewport zoomedViewport, ModelViewTransform mvt, double zoomedViewportMaxCenterX ) {
+    public PanControlNode( Viewport birdsEyeViewport, Viewport zoomedViewport, ModelViewTransform mvt, double zoomedViewportMaxX ) {
         super( GlaciersImages.PAN_CHARACTER );
         
         _birdsEyeViewport = birdsEyeViewport;
@@ -74,7 +74,7 @@ public class PanControlNode extends PImage {
         });
         
         _mvt = mvt;
-        _zoomedViewportMaxCenterX = zoomedViewportMaxCenterX;
+        _zoomedViewportMaxX = zoomedViewportMaxX;
         
         addInputEventListener( new CursorHandler() );
         
@@ -111,13 +111,14 @@ public class PanControlNode extends PImage {
                     /* 
                      * Prevent dragging past the right edge.
                      * the right edge may be either the right edge of the birds-eye viewport,
-                     * or some arbitary maximum position for the center of the zoomed viewport.
+                     * or some arbitrary maximum position for the center of the zoomed viewport.
                      */
                     double rightX = bb.getMaxX();
-                    if ( _zoomedViewportMaxCenterX != X_UNDEFINED ) {
+                    if ( _zoomedViewportMaxX != X_UNDEFINED ) {
                         // we have an additional constraint on the right edge
-                        rightX = Math.min( _zoomedViewportMaxCenterX + ( rModel.getWidth() / 2 ), rightX );
+                        rightX = Math.min( _zoomedViewportMaxX, rightX );
                     }
+                    
                     if ( rightX < rModel.getWidth() ) {
                         rModel.setRect( bb.getX(), rModel.getY(), rModel.getWidth(), rModel.getHeight() );
                     }

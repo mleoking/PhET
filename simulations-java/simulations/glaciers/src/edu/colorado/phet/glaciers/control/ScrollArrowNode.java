@@ -129,12 +129,12 @@ public abstract class ScrollArrowNode extends PhetPNode {
     }
 
     public static class RightScrollArrowNode extends ScrollArrowNode {
-        public RightScrollArrowNode( final Viewport birdsEyeViewport, final Viewport zoomedViewport ) {
+        public RightScrollArrowNode( final Viewport birdsEyeViewport, final Viewport zoomedViewport, final double maxX ) {
             super( 0 );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     double x = zoomedViewport.getX() + zoomedViewport.getWidth() / 2;
-                    double newX = Math.min( x, birdsEyeViewport.getBoundsReference().getMaxX() - zoomedViewport.getWidth() ); // constrain to birds-eye viewport
+                    double newX = Math.min( x, maxX - zoomedViewport.getWidth() ); // constrain to birds-eye viewport
                     zoomedViewport.setPosition( newX, zoomedViewport.getY() );
                 }
             } );

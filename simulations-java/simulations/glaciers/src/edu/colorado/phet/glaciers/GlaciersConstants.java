@@ -76,7 +76,7 @@ public class GlaciersConstants {
     public static final boolean MVT_FLIP_SIGN_Y = true;
     
     // maximum x coordinate for panning the zoomed view
-    public static final double ZOOMED_VIEW_MAX_X = 80000; // meters
+    public static final double ZOOMED_VIEW_MAX_X = 84000; // meters
     
     // constant height of the birds-eye view, in pixels
     public static final double BIRDS_EYE_VIEW_HEIGHT = 75;
