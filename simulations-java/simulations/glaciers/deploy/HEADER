@@ -12,13 +12,12 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>fix timescale model: change max timescale to 200, use the same timescale model for receding and advancing glaciers
-<li>add randomness to ice surface ripples.  They are created at random time intervals (20-100 years), and with random lengths (50-180m)
-<li>distribute features between Introduction and Advanced tabs
-<li>hide some features (Experiments tab, English/metric, Save/Load, time-based graphs, Help)
-<li>close dialogs when switching tabs, restore their state when switching back
-<li>keep track of dialog positions, always reopen dialog where it was previously
-<li>many internal framework changes related to controller
+<li>new background image: y axis stretched 2x, more of valley visible to left of headwall, improve colors, add 3D cues, reduce height of mountains to show more peaks
+<li>make y-axis twice as tall (increase model-view-transform y-axis scale by 2x)
+<li>zoom out on the birds-eye view by 2x so that the valley floor is visible for x=0 to x=80km 
+<li>show more of the valley that is to the left of the headwall in the birds-eye view
+<li>remove tools from the birds-eye view, they are now too small to be usable
+<li>only draw the x-axis coordinate view for x >= 0 (our model of the valley floor doesn't match the background image for x < 0)
 </ul>
 <p>
 <b>Known problems:</b>
@@ -30,10 +29,9 @@ Click to launch English version:
 <p>
 <b>Not implemented:</b>
 <ul>
-<li>y axis needs to be scaled by 2x
 <li>snowfall is not visible
 <li>Experiments tab
-<li>Englis/metric units control
+<li>English/metric units control
 <li>time-based graphs
 <li>Save/Load
 <li>Help

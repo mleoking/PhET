@@ -8,11 +8,12 @@ HIGHEST PRIORITY:
 HIGH PRIORITY:
 - make sure everything works properly when clock is paused
 - hide any features that aren't implemented for July 25 deadline
+- change color of ice flow vectors so that they are different than debris color?
+- start sim in steady state, with debris & ripples across entire glacier length, and moraine at terminus
 
 MEDIUM PRIORITY:
 - main control panel should be the same height in all modules
 - eliminate code duplication in modules
-- start sim in steady state, with debris & ripples across entire glacier length, and moraine at terminus
 - tweak alignment of mountains image, perspective (or image?) is a little off at headwall
 - switch user-interface between English and metric units
 - add yaw to fake 3D perspective (terminus, ELA, etc) 
@@ -21,7 +22,6 @@ MEDIUM PRIORITY:
 - Experiments module
 - more "cartoonish" view for Basic panel?
 - move steady state button to play area?
-- change color of ice flow vectors so that they are different than debris color?
 - "steady state" button needs to advance clock to the time at which the glacier would reach its steady state
 - "steady state" button needs to fill in missing data in time-dependent graphs
 - "steady state" button needs to fill glacier with debris and surface ripples
@@ -79,6 +79,7 @@ CLEANUP:
 
 
 DONE:
+******* 0.00.33 (?)
 7/21/08 - make default clock speed 2 years per sec (2 fps)
 7/21/08 - don't draw x coordinate axis for x < 0
 7/21/08 - temporarily remove snowfall node
