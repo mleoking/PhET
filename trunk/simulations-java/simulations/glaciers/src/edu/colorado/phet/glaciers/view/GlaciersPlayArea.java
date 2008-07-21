@@ -280,14 +280,13 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         _toolboxLayer.addChild( _elaValueNode );
         
         // Pan control, for moving the zoomed viewport
-        final double maxX = headwallPosition.getX() + GlaciersConstants.ZOOMED_VIEW_MAX_X;
-        _panControlNode = new PanControlNode( _birdsEyeViewport, _zoomedViewport, _mvt, maxX );
+        _panControlNode = new PanControlNode( _birdsEyeViewport, _zoomedViewport, _mvt, GlaciersConstants.ZOOMED_VIEW_MAX_X );
         _viewportLayer.addChild( _panControlNode );
         
         // Arrows for moving zoomed viewport
         _leftScrollArrowNode = new LeftScrollArrowNode( _birdsEyeViewport, _zoomedViewport );
         _toolboxLayer.addChild( _leftScrollArrowNode );
-        _rightScrollArrowNode = new RightScrollArrowNode( _birdsEyeViewport, _zoomedViewport );
+        _rightScrollArrowNode = new RightScrollArrowNode( _birdsEyeViewport, _zoomedViewport, GlaciersConstants.ZOOMED_VIEW_MAX_X );
         _toolboxLayer.addChild( _rightScrollArrowNode );
     }
     
@@ -485,7 +484,7 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         
         // visibility of arrows
         _leftScrollArrowNode.setVisible( _zoomedViewport.getBoundsReference().getX() > _birdsEyeViewport.getBoundsReference().getX() );
-        _rightScrollArrowNode.setVisible( _zoomedViewport.getBoundsReference().getMaxX() < _birdsEyeViewport.getBoundsReference().getMaxX() );
+        _rightScrollArrowNode.setVisible( _zoomedViewport.getBoundsReference().getMaxX() < GlaciersConstants.ZOOMED_VIEW_MAX_X );
     }
     
     /*

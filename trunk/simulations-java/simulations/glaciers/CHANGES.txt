@@ -3,7 +3,6 @@ Change history for glaciers
 ================================================================================
 
 HIGHEST PRIORITY:
-- right arrow that move zoomed viewport lets you go past x=80km
 - visual representation of snowfall (gradient paint, clipped to sky)
 
 HIGH PRIORITY:
@@ -81,6 +80,7 @@ CLEANUP:
 
 
 DONE:
+7/21/08 - fix: right arrow should have same maxX constraint as pan control
 ******* 0.00.33 (23363)
 7/21/08 - size of mountains.png exceeds JVM heap space, chop down the image as much as possible
 7/21/08 - make default clock speed 2 years per sec (2 fps)
