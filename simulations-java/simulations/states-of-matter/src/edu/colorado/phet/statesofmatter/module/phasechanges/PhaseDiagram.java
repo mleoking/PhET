@@ -58,6 +58,7 @@ public class PhaseDiagram extends PhetPCanvas {
     // Colors for the various sections of the diagram.
     public static final Color BACKGROUND_COLOR_FOR_SOLID = new Color(0x9999FF);
     public static final Color BACKGROUND_COLOR_FOR_LIQUID = new Color(0xFFFFCC);
+    public static final Color BACKGROUND_COLOR_FOR_GAS = new Color(0xCCFFCC);
     
     // Constants that control the appearance of the phase diagram for the
     // various substances.  Note that all points are controlled as proportions
@@ -86,6 +87,7 @@ public class PhaseDiagram extends PhetPCanvas {
     private PText m_solidLabel;
     private PText m_liquidLabel;
     private PText m_gasLabel;
+    private PPath m_gasAreaBackground;
     private PText m_triplePointLabel1;
     private PText m_triplePointLabel2;
     private PText m_criticalPointLabel1;
@@ -100,6 +102,10 @@ public class PhaseDiagram extends PhetPCanvas {
 
         // Initialize the variables for the lines, points, and shapes in the
         // phase diagram.  The order in which these are added is important.
+        m_gasAreaBackground = new PPath();
+        m_gasAreaBackground.setPaint( BACKGROUND_COLOR_FOR_GAS );
+        m_gasAreaBackground.setStrokePaint( BACKGROUND_COLOR_FOR_GAS );
+        addWorldChild( m_gasAreaBackground );
         m_liquidAreaBackground = new PPath();
         m_liquidAreaBackground.setPaint( BACKGROUND_COLOR_FOR_LIQUID );
         m_liquidAreaBackground.setStrokePaint( BACKGROUND_COLOR_FOR_LIQUID );
@@ -227,6 +233,17 @@ public class PhaseDiagram extends PhetPCanvas {
         liquidBackground.append( liquidGasCurve, true );
         liquidBackground.closePath();
         m_liquidAreaBackground.setPathTo( liquidBackground );
+
+        // Update the shape of the background for the area that represents the
+        // liquid phase.  It is expected that the liquid shape overlays this one.
+        GeneralPath gasBackground = new GeneralPath();
+        gasBackground.moveTo( (float)xOriginOffset, (float)yOriginOffset );
+        gasBackground.lineTo( (float)(DEFAULT_TRIPLE_POINT.getX()), (float)(DEFAULT_TRIPLE_POINT.getY()));
+        gasBackground.lineTo( (float)(DEFAULT_CRITICAL_POINT.getX()), (float)(DEFAULT_CRITICAL_POINT.getY()));
+        gasBackground.lineTo( (float)(xOriginOffset + xUsableRange), (float)(yOriginOffset));
+        gasBackground.lineTo( (float)xOriginOffset, (float)yOriginOffset );
+        gasBackground.closePath();
+        m_gasAreaBackground.setPathTo( gasBackground );
 
         // Locate the labels.  They are centered on their locations, which
         // hopefully will work better for translated strings.
