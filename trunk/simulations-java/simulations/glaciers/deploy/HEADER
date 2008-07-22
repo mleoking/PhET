@@ -19,6 +19,7 @@ Click to launch English version:
 <b>Known problems:</b>
 <ul>
 <li>background image is so large that it exceeds JVM heap space and causes OutOfMemoryException
+<li>model of valley floor doesn't match background image for x<0
 <li>"Steady State" button doesn't advance clock time
 <li>glacier starts up in steady state, but with no debris or ripple in the ice, and no moraine
 <li>registration points (small red circles and blue dots) are shown in the background image
