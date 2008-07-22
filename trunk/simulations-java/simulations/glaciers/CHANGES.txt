@@ -10,7 +10,6 @@ HIGHEST PRIORITY:
 HIGH PRIORITY:
 - make sure everything works properly when clock is paused
 - hide any features that aren't implemented for July 25 deadline
-- change color of ice flow vectors so that they are different than debris color?
 - start sim in steady state, with debris & ripples across entire glacier length, and moraine at terminus
 
 MEDIUM PRIORITY:
@@ -33,7 +32,7 @@ MEDIUM PRIORITY:
 - add zoom in/out button for time-based graphs; show scrolling "latest" data or complete "historical"
 - implement Save/Load feature
 - PlayArea class is too big, refactor
-- AbstractModel class is too big, refactor
+- GlaciersModel class is too big, refactor
 - improve performance on slower machines
 
 LOW PRIORITY:
@@ -667,6 +666,7 @@ DONE:
 9/27/07 - set up simulation skeleton, check in to SVN
 
 REJECTED:
+7/22/08 - change color of ice flow vectors so that they are different than debris color? (no, Wendy says OK as is)
 6/4/08 - move trash can out of toolbox (hide trash can instead)
 5/22/08 - support very long experiment times (use the "steady state" button to jump to end of long experiments)
 5/22/08 - make fastest speed faster, vary dt instead of framerate (both approaches have problems, use steady state button for long experiements)
