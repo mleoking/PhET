@@ -82,6 +82,7 @@ CLEANUP:
 
 
 DONE:
+7/22/08 - lower the elevation where white-out occurs at max snowfall
 7/22/08 - simulate snowfall using a rectangle that covers the valley, filled with a gradient paint, vary alpha based on snowfall (not clipped to region above ice surface)
 7/22/08 - fix: Reset All feature was broken in version 0.00.32, button didn't do anything
 ******* 0.00.35 (23376)
