@@ -48,7 +48,7 @@ public class MultipleParticleModel {
     public static final double DIATOMIC_FORCE_CONSTANT = 100; // For calculating force between diatomic pairs.
     public static final double TIME_STEP = Math.pow( 0.5, 6.0 );
     public static final double INITIAL_TEMPERATURE = 0.2;
-    public static final double MAX_TEMPERATURE = 4.0;
+    public static final double MAX_TEMPERATURE = 2.0;
     public static final double MIN_TEMPERATURE = 0.001;
     public static final double TEMPERATURE_STEP = -0.1;
     private static final double WALL_DISTANCE_THRESHOLD = 1.122462048309373017;
@@ -60,7 +60,7 @@ public class MultipleParticleModel {
                                                                  // way to do this (i.e. that it is based on the
                                                                  // number of ticks).  Should it instead be based on
                                                                  // the time step defined above?
-    private static final int MAX_NUM_ATOMS = 300;
+    private static final int MAX_NUM_ATOMS = 500;
     private static final double INJECTED_MOLECULE_VELOCITY = 1.0;
     private static final double INJECTION_POINT_HORIZ_PROPORTION = 0.95;
     private static final double INJECTION_POINT_VERT_PROPORTION = 0.5;
@@ -1373,7 +1373,7 @@ public class MultipleParticleModel {
             // Modified Andersen Thermostat to maintain fixed temperature
             // modification to reduce abruptness of heat bath interactions.
             // For bare Andersen, set gamma=0.0d0.
-            double gamma = 0.99;
+            double gamma = 0.9999;
             for (int i = 0; i < m_numberOfAtoms; i++){
                 double xVel = m_atomVelocities[i].getX() * gamma + m_rand.nextGaussian() * Math.sqrt(  m_temperature * (1 - Math.pow(gamma, 2)) );
                 double yVel = m_atomVelocities[i].getY() * gamma + m_rand.nextGaussian() * Math.sqrt(  m_temperature * (1 - Math.pow(gamma, 2)) );
@@ -1536,7 +1536,7 @@ public class MultipleParticleModel {
             // Modified Andersen Thermostat to maintain fixed temperature
             // modification to reduce abruptness of heat bath interactions.
             // For bare Andersen, set gamma=0.0d0.
-            double gamma = 0.99;
+            double gamma = 0.9999;
             double velocityScalingFactor = Math.sqrt( m_temperature * massInverse * (1 - Math.pow( gamma, 2)));
             double rotationScalingFactor = Math.sqrt( m_temperature * inertiaInverse * (1 - Math.pow( gamma, 2)));
             
@@ -1716,7 +1716,7 @@ public class MultipleParticleModel {
             // Modified Andersen Thermostat to maintain fixed temperature
             // modification to reduce abruptness of heat bath interactions.
             // For bare Andersen, set gamma=0.0d0.
-            double gamma = 0.99;
+            double gamma = 0.9999;
             double velocityScalingFactor = Math.sqrt( m_temperature * massInverse * (1 - Math.pow( gamma, 2)));
             double rotationScalingFactor = Math.sqrt( m_temperature * inertiaInverse * (1 - Math.pow( gamma, 2)));
             
