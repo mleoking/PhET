@@ -6,29 +6,19 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GradientPaint;
-import java.awt.Paint;
 import java.awt.Stroke;
-import java.awt.geom.Dimension2D;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.QuadCurve2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Ellipse2D.Double;
 
-import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
+import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolo.util.PDimension;
-
-// TODO: JPB TBD - Make the labels into translatable strings.
 
 /**
  * This class displays a phase diagram suitable for inclusion on the control
@@ -74,7 +64,7 @@ public class InteractionPotentialDiagram extends PhetPCanvas {
     private static final double GRAPH_HEIGHT = HEIGHT * VERT_AXIS_SIZE_PROPORTION;
     
     // Font for the labels used on the axes and within the graph.
-    private static final int AXIS_LABEL_FONT_SIZE = 14;
+    private static final int AXIS_LABEL_FONT_SIZE = 13;
     private static final Font AXIS_LABEL_FONT = new PhetFont(AXIS_LABEL_FONT_SIZE);
     private static final int GREEK_LETTER_FONT_SIZE = 16;
     private static final Font GREEK_LETTER_FONT = new PhetFont(GREEK_LETTER_FONT_SIZE);
@@ -200,14 +190,15 @@ public class InteractionPotentialDiagram extends PhetPCanvas {
         ljPotentialGraph.addChild( potentialEnergyLine );
 
         // Create and add the labels for the axes.
-        // TODO: JPB TBD - Make these into translatable strings if kept.
-        PText horizontalAxisLabel = new PText("Distance Between Molecules");
+        PText horizontalAxisLabel = new PText(StatesOfMatterStrings.INTERACTION_POTENTIAL_GRAPH_X_AXIS_LABEL);
+        horizontalAxisLabel.setFont( AXIS_LABEL_FONT );
         horizontalAxisLabel.setOffset( GRAPH_OFFSET_X + (GRAPH_WIDTH / 2) - 
                 (horizontalAxisLabel.getFullBoundsReference().width / 2), 
                 GRAPH_OFFSET_Y + GRAPH_HEIGHT + (horizontalAxisLabel.getFullBoundsReference().height * 0.3));
         addWorldChild( horizontalAxisLabel );
         
-        PText verticalAxisLabel = new PText("Potential Energy");
+        PText verticalAxisLabel = new PText(StatesOfMatterStrings.INTERACTION_POTENTIAL_GRAPH_Y_AXIS_LABEL);
+        verticalAxisLabel.setFont( AXIS_LABEL_FONT );
         verticalAxisLabel.setOffset( 0, 
                 (GRAPH_OFFSET_Y + GRAPH_HEIGHT) / 2 + (verticalAxisLabel.getFullBoundsReference().width / 2) );
         verticalAxisLabel.rotate( 3 * Math.PI / 2 );

@@ -31,4 +31,18 @@ public class StatesOfMatterStrings {
     public static final String PHASE_STATE_SOLID = StatesOfMatterResources.getString("SolidLiquidGasControl.Solid");
     public static final String PHASE_STATE_LIQUID = StatesOfMatterResources.getString("SolidLiquidGasControl.Liquid");
     public static final String PHASE_STATE_GAS = StatesOfMatterResources.getString("SolidLiquidGasControl.Gas");
+    
+    public static final String PHASE_DIAGRAM_X_AXIS_LABEL = StatesOfMatterResources.getString("PhaseChanges.PhaseDiagram.xAxisLabel");
+    public static final String PHASE_DIAGRAM_X_ORIGIN_LABEL = StatesOfMatterResources.getString("PhaseChanges.PhaseDiagram.xOriginLabel");
+    public static final String PHASE_DIAGRAM_Y_AXIS_LABEL = StatesOfMatterResources.getString("PhaseChanges.PhaseDiagram.yAxisLabel");
+    public static final String PHASE_DIAGRAM_Y_ORIGIN_LABEL = StatesOfMatterResources.getString("PhaseChanges.PhaseDiagram.yOriginLabel");
+    public static final String PHASE_DIAGRAM_SOLID = StatesOfMatterResources.getString("PhaseChanges.PhaseDiagram.Solid");
+    public static final String PHASE_DIAGRAM_LIQUID = StatesOfMatterResources.getString("PhaseChanges.PhaseDiagram.Liquid");
+    public static final String PHASE_DIAGRAM_GAS = StatesOfMatterResources.getString("PhaseChanges.PhaseDiagram.Gas");
+    public static final String PHASE_DIAGRAM_TRIPLE = StatesOfMatterResources.getString("PhaseChanges.PhaseDiagram.Triple");
+    public static final String PHASE_DIAGRAM_CRITICAL = StatesOfMatterResources.getString("PhaseChanges.PhaseDiagram.Critical");
+    public static final String PHASE_DIAGRAM_POINT = StatesOfMatterResources.getString("PhaseChanges.PhaseDiagram.Point");
+    
+    public static final String INTERACTION_POTENTIAL_GRAPH_X_AXIS_LABEL = StatesOfMatterResources.getString("PhaseChanges.InteractionPotentialGraph.xAxisLabel");
+    public static final String INTERACTION_POTENTIAL_GRAPH_Y_AXIS_LABEL = StatesOfMatterResources.getString("PhaseChanges.InteractionPotentialGraph.yAxisLabel");
 }

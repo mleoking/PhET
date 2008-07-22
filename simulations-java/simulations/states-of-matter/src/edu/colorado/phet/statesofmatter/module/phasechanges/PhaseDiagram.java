@@ -7,7 +7,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Paint;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
@@ -18,11 +17,9 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
+import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolo.util.PDimension;
-
-// TODO: JPB TBD - Make the labels into translatable strings.
 
 /**
  * This class displays a phase diagram suitable for inclusion on the control
@@ -137,25 +134,25 @@ public class PhaseDiagram extends PhetPCanvas {
         addWorldChild( m_criticalPoint );
         
         // Create the labels that will exist inside the phase diagram.
-        m_solidLabel = new PText("solid");
+        m_solidLabel = new PText(StatesOfMatterStrings.PHASE_DIAGRAM_SOLID);
         m_solidLabel.setFont( LARGER_INNER_FONT );
         addWorldChild( m_solidLabel );
-        m_liquidLabel = new PText("liquid");
+        m_liquidLabel = new PText(StatesOfMatterStrings.PHASE_DIAGRAM_LIQUID);
         m_liquidLabel.setFont( LARGER_INNER_FONT );
         addWorldChild( m_liquidLabel );
-        m_gasLabel = new PText("gas");
+        m_gasLabel = new PText(StatesOfMatterStrings.PHASE_DIAGRAM_GAS);
         m_gasLabel.setFont( LARGER_INNER_FONT );
         addWorldChild( m_gasLabel );
-        m_triplePointLabel1 = new PText("triple");
+        m_triplePointLabel1 = new PText(StatesOfMatterStrings.PHASE_DIAGRAM_TRIPLE);
         m_triplePointLabel1.setFont( SMALLER_INNER_FONT );
         addWorldChild( m_triplePointLabel1 );
-        m_triplePointLabel2 = new PText("point");
+        m_triplePointLabel2 = new PText(StatesOfMatterStrings.PHASE_DIAGRAM_POINT);
         m_triplePointLabel2.setFont( SMALLER_INNER_FONT );
         addWorldChild( m_triplePointLabel2 );
-        m_criticalPointLabel1 = new PText("critical");
+        m_criticalPointLabel1 = new PText(StatesOfMatterStrings.PHASE_DIAGRAM_CRITICAL);
         m_criticalPointLabel1.setFont( SMALLER_INNER_FONT );
         addWorldChild( m_criticalPointLabel1 );
-        m_criticalPointLabel2 = new PText("point");
+        m_criticalPointLabel2 = new PText(StatesOfMatterStrings.PHASE_DIAGRAM_POINT);
         m_criticalPointLabel2.setFont( SMALLER_INNER_FONT );
         addWorldChild( m_criticalPointLabel2 );
         
@@ -174,24 +171,25 @@ public class PhaseDiagram extends PhetPCanvas {
         addWorldChild( verticalAxis );
         
         // Create and add the labels for the axes.
-        // TODO: JPB TBD - Make these into translatable strings if kept.
-        PText horizontalAxisLabel = new PText("Temperature");
+        PText horizontalAxisLabel = new PText(StatesOfMatterStrings.PHASE_DIAGRAM_X_AXIS_LABEL);
+        horizontalAxisLabel.setFont( AXIS_LABEL_FONT );
         horizontalAxisLabel.setOffset( WIDTH - (horizontalAxisLabel.getFullBoundsReference().width * 1.1), 
                 yOriginOffset + horizontalAxisLabel.getFullBoundsReference().height * 0.3);
         addWorldChild( horizontalAxisLabel );
         
-        PText horizontalOriginLabel = new PText("0 K");
+        PText horizontalOriginLabel = new PText(StatesOfMatterStrings.PHASE_DIAGRAM_X_ORIGIN_LABEL);
         horizontalOriginLabel.setOffset( xOriginOffset - horizontalOriginLabel.getFullBoundsReference().width * 0.3, 
                 yOriginOffset + horizontalOriginLabel.getFullBoundsReference().height * 0.3);
         addWorldChild( horizontalOriginLabel );
         
-        PText verticalAxisLabel = new PText("Pressure");
+        PText verticalAxisLabel = new PText(StatesOfMatterStrings.PHASE_DIAGRAM_Y_AXIS_LABEL);
+        verticalAxisLabel.setFont( AXIS_LABEL_FONT );
         verticalAxisLabel.setOffset( xOriginOffset - (verticalAxisLabel.getFullBoundsReference().height * 1.1),
                 verticalAxisLabel.getFullBoundsReference().width * 1.6);
         verticalAxisLabel.rotate( 3 * Math.PI / 2 );
         addWorldChild( verticalAxisLabel );
         
-        PText verticalAxisOriginLabel = new PText("0");
+        PText verticalAxisOriginLabel = new PText(StatesOfMatterStrings.PHASE_DIAGRAM_Y_ORIGIN_LABEL);
         verticalAxisOriginLabel.setOffset( 
                 xOriginOffset - (verticalAxisOriginLabel.getFullBoundsReference().height * 1.1), yOriginOffset);
         verticalAxisOriginLabel.rotate( 3 * Math.PI / 2 );
@@ -288,13 +286,6 @@ public class PhaseDiagram extends PhetPCanvas {
      * region and the color in the liquid region.
      */
     private Paint getSuperCriticalRegionPaint(){
-        
-        
-//        int red, green, blue;
-//        red = (color1.getRed() + color2.getRed()) / 2;
-//        green = (color1.getGreen() + color2.getGreen()) / 2;
-//        blue = (color1.getBlue() + color2.getBlue()) / 2;
-//        return(new Color(red, green, blue));
         
         if (PhetUtilities.getOperatingSystem() == PhetUtilities.OS_MACINTOSH){
             // We have been having problems with gradients causing Java apps
