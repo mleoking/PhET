@@ -39,7 +39,7 @@ public class MiscControlPanel extends JPanel {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public MiscControlPanel( Glacier glacier, Frame dialogOwner, Module module ) {
+    public MiscControlPanel( Glacier glacier, Frame dialogOwner, final Module module ) {
         super();
         
         _dialogOwner = dialogOwner;
