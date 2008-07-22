@@ -81,6 +81,7 @@ CLEANUP:
 
 
 DONE:
+******* 0.00.35 (?)
 7/22/08 - make drill, thickness tool, thermometer, and flag snap to x=0 when dropped at x<0
 7/22/08 - make glacial budget meter show "?" for x<0
 ******* 0.00.34 (23372)

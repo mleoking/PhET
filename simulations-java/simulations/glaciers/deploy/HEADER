@@ -12,8 +12,8 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>workaround: for all x<0, valley elevation at x=0 (until we have a model for x<0 that matches background images and works with tools)
-<li>fix: constrain right pan arrow the same as dragging the bear
+<li>make drill, thickness tool, thermometer, and flag snap to x=0 when dropped at x<0
+<li>make glacial budget meter show "?" when x<0
 </ul>
 <p>
 <b>Known problems:</b>
