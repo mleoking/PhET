@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-glaciers 0.00.33
+glaciers 0.00.34
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,12 +12,8 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>new background image: y axis stretched 2x, more of valley visible to left of headwall, improve colors, add 3D cues, reduce height of mountains to show more peaks
-<li>make y-axis twice as tall (increase model-view-transform y-axis scale by 2x)
-<li>zoom out on the birds-eye view by 2x so that the valley floor is visible for x=0 to x=80km 
-<li>show more of the valley that is to the left of the headwall in the birds-eye view
-<li>remove tools from the birds-eye view, they are now too small to be usable
-<li>only draw the x-axis coordinate view for x >= 0 (our model of the valley floor doesn't match the background image for x < 0)
+<li>workaround: for all x<0, valley elevation at x=0 (until we have a model for x<0 that matches background images and works with tools)
+<li>fix: constrain right pan arrow the same as dragging the bear
 </ul>
 <p>
 <b>Known problems:</b>
