@@ -21,7 +21,7 @@
 	<!-- Load user-specified properties from this file. -->
 	<!-- Do this first to allow overrides -->
 	<!-- See build.xml for documentation of specific properties. -->
-	<property file="local.properties"/>
+	<property file="build-local.properties"/>
 
 	<!-- =================================================================== -->
 	<!-- Private properties, do NOT change or override these                 -->
@@ -215,10 +215,10 @@
 		<foreach list="${sim.flavors}" target="_build-jnlp" param="sim.flavor" inheritall="true" inheritrefs="true" />
 	</target>
 
-	<!-- TODO: make local files (local.properties, open_cmd.bat, etc) start with '.' for filtering in this task.-->
+	<!-- TODO: make local files (build-local.properties, open_cmd.bat, etc) start with '.' for filtering in this task.-->
 	<!-- TODO: PLEASE DOCUMENT ME -->
 	<target name="build-source-distribution" depends="_init,_fail-if-working-copy-is-not-synchronized,_clean-all">
-		<zip destfile="${phet.src.distribution}" basedir="${basedir}" excludes="local.properties, open_cmd.bat, build-old.xml, **/deploy/*.jar, **/deploy/*.jnlp, ant_output/, deploy/,
+		<zip destfile="${phet.src.distribution}" basedir="${basedir}" excludes="build-local.properties, open_cmd.bat, build-old.xml, **/deploy/*.jar, **/deploy/*.jnlp, ant_output/, deploy/,
 	                **/ant-contrib/docs/, **/antform/doc/, **/apache-ant/docs/, **/junit/doc/, **/junit/javadoc/,
 	                **/proguard/docs, **/retroweaver-2.0/, **/retroweaver-test/, **/JSci/documentation/, **/JSci/examples/,
 	                **/liquidlnf-2.9.1-src/, **/oyoaha/">

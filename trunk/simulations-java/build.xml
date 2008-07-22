@@ -27,7 +27,7 @@
           builds and deploys to the development and production server, 
           updating minor, dev, and SVN revision numbers
           
-  You may configure the build process by specifying properties in file local.properties.
+  You may configure the build process by specifying properties in file build-local.properties.
   The properties that may be safely specified are listed below.
 
     * sim.name - name of the SVN folder that contains a collection of related sims
@@ -40,7 +40,7 @@
     * svn.password - password for the SVN repository server
     * browser - pathname of a web browser
     
-  NOTE: Putting username and password information in local.properties is not
+  NOTE: Putting username and password information in build-local.properties is not
   recommended; it is a potential security issue!
 
 ================================================================================  
