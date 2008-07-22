@@ -37,7 +37,7 @@ public class SnowfallNode extends PhetPNode {
     private static final Color BASE_COLOR = new Color( 255, 255, 255 );
     private static final Color NO_SNOW_COLOR = ColorUtils.createColor( BASE_COLOR, 0 );
     private static final int MAX_ALPHA = 255; // opaque to simulate "white out" conditions at highest elevation
-    private static final double ELEVATION_WHERE_FADE_BEGINS = 5000; // elevation where gradient paint starts fading out (meters)
+    private static final double ELEVATION_WHERE_FADE_BEGINS = 4500; // elevation where gradient paint starts fading out (meters), "white-out" above this 
     private static final double ELEVATION_WHERE_FADE_ENDS = 1500; // elevation where gradient paint has fully faded out (meters)
     
     //----------------------------------------------------------------------------
