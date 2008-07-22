@@ -23,7 +23,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValu
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
-import edu.colorado.phet.statesofmatter.control.GravityControlSlider;
+import edu.colorado.phet.statesofmatter.control.GravityControlPanel;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
 
@@ -58,7 +58,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
         addControlFullWidth( new MoleculeSelectionPanel() );
         
         // Add the panel that allows the user to control the amount of gravity.
-        addControlFullWidth( new GravityControlSlider( m_model ) );
+        addControlFullWidth( new GravityControlPanel( m_model ) );
         
         // Add the phase diagram.
         JPanel phaseDiagramPanel = new JPanel();
