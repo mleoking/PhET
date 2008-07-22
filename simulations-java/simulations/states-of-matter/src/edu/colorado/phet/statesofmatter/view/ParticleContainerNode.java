@@ -12,6 +12,7 @@ import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.model.container.ParticleContainer;
+import edu.colorado.phet.statesofmatter.view.instruments.CompositeThermometerNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -43,7 +44,7 @@ public class ParticleContainerNode extends PhetPNode {
     private final ParticleContainer m_container;
     private final MultipleParticleModel m_model;
     private PImage m_cupImageNode;
-    private LiquidExpansionThermometerNode m_thermometerNode;
+    private CompositeThermometerNode m_thermometerNode;
 
     private double m_containmentAreaWidth;
     private double m_containmentAreaHeight;
@@ -96,6 +97,7 @@ public class ParticleContainerNode extends PhetPNode {
         
         // Add a thermometer for displaying temperature.
         
+        /*
         m_thermometerNode = new LiquidExpansionThermometerNode( 
                 new PDimension( m_cupImageNode.getFullBoundsReference().width * 0.075, 
                         m_cupImageNode.getFullBoundsReference().height * 0.25 ) );
@@ -109,6 +111,12 @@ public class ParticleContainerNode extends PhetPNode {
                         m_cupImageNode.getFullBoundsReference().y - m_cupImageNode.getFullBoundsReference().height * 0.1 );
           
         updateThermometerTemperature();
+        */
+        m_thermometerNode = new CompositeThermometerNode(0, 400, m_cupImageNode.getFullBoundsReference().width * 0.2, m_cupImageNode.getFullBoundsReference().height * 0.3);
+        m_thermometerNode.setOffset( 
+                m_cupImageNode.getFullBoundsReference().x + m_cupImageNode.getFullBoundsReference().width * 0.4, 
+                m_cupImageNode.getFullBoundsReference().y - m_cupImageNode.getFullBoundsReference().height * 0.1 );
+        addChild(m_thermometerNode);
         
         // Set ourself to be non-pickable so that we don't get mouse events.
         setPickable( false );
@@ -133,7 +141,9 @@ public class ParticleContainerNode extends PhetPNode {
      * Update the value displayed in the thermometer.
      */
     private void updateThermometerTemperature(){
-        m_thermometerNode.setLiquidHeight( m_model.getNormalizedTemperature() );
+        // TODO: JPB TBD - The multiplier below is bogus, and I'm waiting on better
+        // information from the physicists.
+        m_thermometerNode.setTemperatureInKelvin( m_model.getNormalizedTemperature() * 160 );
     }
 
     // TODO: JPB TBD - Is this needed?
