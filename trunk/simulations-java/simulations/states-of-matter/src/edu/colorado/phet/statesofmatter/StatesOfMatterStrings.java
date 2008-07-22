@@ -42,9 +42,11 @@ public class StatesOfMatterStrings {
     public static final String PHASE_DIAGRAM_TRIPLE = StatesOfMatterResources.getString("PhaseChanges.PhaseDiagram.Triple");
     public static final String PHASE_DIAGRAM_CRITICAL = StatesOfMatterResources.getString("PhaseChanges.PhaseDiagram.Critical");
     public static final String PHASE_DIAGRAM_POINT = StatesOfMatterResources.getString("PhaseChanges.PhaseDiagram.Point");
+    public static final String PHASE_DIAGRAM_BUTTON_LABEL = StatesOfMatterResources.getString("PhaseChanges.PhaseDiagram.ButtonLabel");
     
     public static final String INTERACTION_POTENTIAL_GRAPH_X_AXIS_LABEL = StatesOfMatterResources.getString("PhaseChanges.InteractionPotentialGraph.xAxisLabel");
     public static final String INTERACTION_POTENTIAL_GRAPH_Y_AXIS_LABEL = StatesOfMatterResources.getString("PhaseChanges.InteractionPotentialGraph.yAxisLabel");
+    public static final String INTERACTION_POTENTIAL_BUTTON_LABEL = StatesOfMatterResources.getString("PhaseChanges.InteractionPotentialGraph.ButtonLabel");
 
     public static final String GRAVITY_CONTROL_TITLE = StatesOfMatterResources.getString("GravityControl.Title");
     public static final String GRAVITY_CONTROL_NONE = StatesOfMatterResources.getString("GravityControl.None");
