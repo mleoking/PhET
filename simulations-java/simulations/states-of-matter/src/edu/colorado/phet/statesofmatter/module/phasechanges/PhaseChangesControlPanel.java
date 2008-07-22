@@ -11,6 +11,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.BevelBorder;
@@ -18,9 +20,11 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.bernoulli.BernoulliResources;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.phetgraphicsdemo.PhetgraphicsDemoApplication;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.control.GravityControlPanel;
@@ -30,10 +34,21 @@ import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 public class PhaseChangesControlPanel extends ControlPanel {
     
     //----------------------------------------------------------------------------
-    // Instance data
+    // Class Data
+    //----------------------------------------------------------------------------
+    private static final Font BUTTON_LABEL_FONT = new PhetFont(14);
+    
+    //----------------------------------------------------------------------------
+    // Instance Data
     //----------------------------------------------------------------------------
     
     MultipleParticleModel m_model;
+    JPanel m_phaseDiagramPanel;
+    boolean m_phaseDiagramVisible;
+    JButton m_phaseDiagramCtrlButton;
+    JPanel m_interactionDiagramPanel;
+    boolean m_interactionDiagramVisible;
+    JButton m_interactionDiagramCtrlButton;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -49,6 +64,8 @@ public class PhaseChangesControlPanel extends ControlPanel {
         
         super();
         m_model = phaseChangesModule.getMultiParticleModel();
+        m_phaseDiagramVisible = false;
+        m_interactionDiagramVisible = false;
         
         // Set the control panel's minimum width.
         int minimumWidth = StatesOfMatterResources.getInt( "int.minControlPanelWidth", 215 );
@@ -60,18 +77,49 @@ public class PhaseChangesControlPanel extends ControlPanel {
         // Add the panel that allows the user to control the amount of gravity.
         addControlFullWidth( new GravityControlPanel( m_model ) );
         
+        addVerticalSpace( 10 );
+        
+        // Add the button that allows the user to turn the phase diagram on/off.
+        m_phaseDiagramCtrlButton = new JButton();
+        m_phaseDiagramCtrlButton.setFont( BUTTON_LABEL_FONT );
+        addControlFullWidth( m_phaseDiagramCtrlButton );
+        m_phaseDiagramCtrlButton.addActionListener( new ActionListener(){
+            public void actionPerformed( ActionEvent e ) {
+                m_phaseDiagramVisible = !m_phaseDiagramVisible;
+                m_phaseDiagramPanel.setVisible( m_phaseDiagramVisible );
+                updatePhaseDiagramButtonLabel();
+            }
+        });
+        updatePhaseDiagramButtonLabel();
+        
         // Add the phase diagram.
-        JPanel phaseDiagramPanel = new JPanel();
-        phaseDiagramPanel.add( new PhaseDiagram() );
-        addControlFullWidth( phaseDiagramPanel );
+        m_phaseDiagramPanel = new JPanel();
+        m_phaseDiagramPanel.add( new PhaseDiagram() );
+        addControlFullWidth( m_phaseDiagramPanel );
+        m_phaseDiagramPanel.setVisible( m_phaseDiagramVisible );
+        
+        // Add the button that allows the user to turn the interaction diagram on/off.
+        m_interactionDiagramCtrlButton = new JButton();
+        m_interactionDiagramCtrlButton.setFont( BUTTON_LABEL_FONT );
+        addControlFullWidth( m_interactionDiagramCtrlButton );
+        m_interactionDiagramCtrlButton.addActionListener( new ActionListener(){
+            public void actionPerformed( ActionEvent e ) {
+                m_interactionDiagramVisible = !m_interactionDiagramVisible;
+                m_interactionDiagramPanel.setVisible( m_interactionDiagramVisible );
+                updateInteractionDiagramButtonLabel();
+            }
+        });
+        updateInteractionDiagramButtonLabel();
         
         // Add the interaction potential diagram.
-        JPanel interactionDiagramPanel = new JPanel();
-        interactionDiagramPanel.add( new InteractionPotentialDiagram() );
-        addControlFullWidth( interactionDiagramPanel );
+        m_interactionDiagramPanel = new JPanel();
+        m_interactionDiagramPanel.add( new InteractionPotentialDiagram() );
+        addControlFullWidth( m_interactionDiagramPanel );
+        m_interactionDiagramPanel.setVisible( m_interactionDiagramVisible );
         
         // Add the Reset All button.
-        addVerticalSpace( 10 );
+        addSeparator();
+        addVerticalSpace( 5 );
         addResetAllButton( phaseChangesModule );
 
     }
@@ -140,6 +188,24 @@ public class PhaseChangesControlPanel extends ControlPanel {
             add( m_argonRadioButton );
             add( m_oxygenRadioButton );
             add( m_waterRadioButton );
+        }
+    }
+    
+    private void updatePhaseDiagramButtonLabel(){
+        if (m_phaseDiagramVisible){
+            m_phaseDiagramCtrlButton.setText( StatesOfMatterStrings.PHASE_DIAGRAM_BUTTON_LABEL + " <<" );
+        }
+        else{
+            m_phaseDiagramCtrlButton.setText( StatesOfMatterStrings.PHASE_DIAGRAM_BUTTON_LABEL + " >>" );
+        }
+    }
+    
+    private void updateInteractionDiagramButtonLabel(){
+        if (m_interactionDiagramVisible){
+            m_interactionDiagramCtrlButton.setText( StatesOfMatterStrings.INTERACTION_POTENTIAL_BUTTON_LABEL + " <<" );
+        }
+        else{
+            m_interactionDiagramCtrlButton.setText( StatesOfMatterStrings.INTERACTION_POTENTIAL_BUTTON_LABEL + " >>" );
         }
     }
 }
