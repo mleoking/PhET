@@ -45,4 +45,8 @@ public class StatesOfMatterStrings {
     
     public static final String INTERACTION_POTENTIAL_GRAPH_X_AXIS_LABEL = StatesOfMatterResources.getString("PhaseChanges.InteractionPotentialGraph.xAxisLabel");
     public static final String INTERACTION_POTENTIAL_GRAPH_Y_AXIS_LABEL = StatesOfMatterResources.getString("PhaseChanges.InteractionPotentialGraph.yAxisLabel");
+
+    public static final String GRAVITY_CONTROL_TITLE = StatesOfMatterResources.getString("GravityControl.Title");
+    public static final String GRAVITY_CONTROL_NONE = StatesOfMatterResources.getString("GravityControl.None");
+    public static final String GRAVITY_CONTROL_LOTS = StatesOfMatterResources.getString("GravityControl.Lots");
 }

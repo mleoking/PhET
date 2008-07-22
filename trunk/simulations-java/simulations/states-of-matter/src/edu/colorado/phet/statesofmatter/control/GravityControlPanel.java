@@ -22,6 +22,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ILayoutStr
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
 /**
@@ -47,7 +48,7 @@ public class GravityControlPanel extends JPanel {
         // Create the border.
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
         TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
-                "Gravity Control", // JPB TBD - Make this into a string if we keep it.
+                StatesOfMatterStrings.GRAVITY_CONTROL_TITLE,
                 TitledBorder.LEFT,
                 TitledBorder.TOP,
                 new PhetFont( Font.BOLD, 14 ),
@@ -66,10 +67,10 @@ public class GravityControlPanel extends JPanel {
             }
         });
         Hashtable gravityControlLabelTable = new Hashtable();
-        JLabel leftLabel = new JLabel("None");
+        JLabel leftLabel = new JLabel(StatesOfMatterStrings.GRAVITY_CONTROL_NONE);
         leftLabel.setFont( LABEL_FONT );
         gravityControlLabelTable.put( new Double( m_gravityControl.getMinimum() ), leftLabel );
-        JLabel rightLabel = new JLabel("Lots");
+        JLabel rightLabel = new JLabel(StatesOfMatterStrings.GRAVITY_CONTROL_LOTS);
         rightLabel.setFont( LABEL_FONT );
         gravityControlLabelTable.put( new Double( m_gravityControl.getMaximum() ), rightLabel );
         m_gravityControl.setTickLabels( gravityControlLabelTable );
