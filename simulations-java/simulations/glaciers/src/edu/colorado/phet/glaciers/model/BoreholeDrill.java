@@ -35,7 +35,7 @@ public class BoreholeDrill extends AbstractTool {
             public void iceThicknessChanged() {
                 // keep drill on glacier surface as the glacier evolves
                 if ( !isDragging() ) {
-                    snapToGlacierSurface();
+                    constrainDrop();
                 }
             }
         };
@@ -58,16 +58,12 @@ public class BoreholeDrill extends AbstractTool {
     // AbstractTool overrides
     //----------------------------------------------------------------------------
     
-    /*
-     * Always snap to the ice surface.
-     */
     protected void constrainDrop() {
-        snapToGlacierSurface();
-    }
-    
-    private void snapToGlacierSurface() {
-        double surfaceElevation = _glacier.getSurfaceElevation( getX() );
-        setPosition( getX(), surfaceElevation );
+        // constrain x to >= headwall
+        double x = Math.max( getX(), _glacier.getHeadwallX() );
+        // snap y to glacier surface
+        double surfaceElevation = _glacier.getSurfaceElevation( x );
+        setPosition( x, surfaceElevation );
     }
     
     //----------------------------------------------------------------------------

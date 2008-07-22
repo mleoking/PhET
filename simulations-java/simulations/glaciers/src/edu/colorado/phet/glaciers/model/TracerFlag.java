@@ -66,28 +66,29 @@ public class TracerFlag extends AbstractTool {
      */
     protected void constrainDrop() {
         
-        final double surfaceElevation = _glacier.getSurfaceElevation( getX() );
-        final double valleyElevation = _glacier.getValley().getElevation( getX() );
+        // constrain x to >= headwall
+        final double x = Math.max( getX(), _glacier.getHeadwallX() );
+        
+        final double surfaceElevation = _glacier.getSurfaceElevation( x );
+        final double valleyElevation = _glacier.getValley().getElevation( x );
         
         // dropped where there is no ice?
         _onValleyFloor = ( surfaceElevation == valleyElevation );
         
         if ( getY() > surfaceElevation ) {
             // snap to ice surface
-            setPosition( getX(), surfaceElevation );
+            setPosition( x, surfaceElevation );
         }
         else if ( getY() <= valleyElevation ) {
             if ( _onValleyFloor ) {
                 // snap to the valley floor
-                setPosition( getX(), valleyElevation );
+                setPosition( x, valleyElevation );
             }
             else {
                 // snap to slightly above the valley floor
-                setPosition( getX(), valleyElevation + 1 );    
+                setPosition( x, valleyElevation + 1 );    
             }
         }
-        
-
     }
     
     public void clockTicked( ClockEvent clockEvent ) {
