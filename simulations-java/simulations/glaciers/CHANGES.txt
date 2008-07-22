@@ -81,7 +81,7 @@ CLEANUP:
 
 
 DONE:
-******* 0.00.34 (?)
+******* 0.00.34 (23372)
 7/22/08 - workaround: for all x<0, use Valley.getElevation(0) (until we have a model for x<0 that matches background images and works with tools)
 7/21/08 - fix: right arrow should have same maxX constraint as pan control
 ******* 0.00.33 (23363)
