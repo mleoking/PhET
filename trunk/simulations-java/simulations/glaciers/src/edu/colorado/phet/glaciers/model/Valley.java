@@ -100,9 +100,9 @@ public class Valley {
             }
         }
         else {
-            // To the left of the headwall, use a simple constant slope.
-            // This is needed mainly so that tools behave correctly.
-            elevation = getElevation( HEADWALL_X ) + ( 0.5 * ( HEADWALL_X - x ) ); 
+            //WORKAROUND: To the left of the headwall, the valley is flat.
+            //XXX we need a model here that matches the background image
+            elevation = getElevation( HEADWALL_X ); 
         }
         return elevation;
     }
