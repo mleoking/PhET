@@ -76,13 +76,13 @@ public class Thermometer extends AbstractTool {
     // AbstractTool overrides
     //----------------------------------------------------------------------------
     
-    /*
-     * If the tool is below the surface of the ice, snap it just above the ice.
-     */
     protected void constrainDrop() {
-        double surfaceElevation = _glacier.getSurfaceElevation( getX() );
-        if ( getY() <= surfaceElevation ) {
-            setPosition( getX(), surfaceElevation + 100 );
+        // constrain x to >= headwall
+        double x = Math.max( getX(), _glacier.getHeadwallX() );
+        // constrain y to just above the ice surface
+        double surfaceElevation = _glacier.getSurfaceElevation( x );
+        if ( getX() < x || getY() <= surfaceElevation ) {
+            setPosition( x, surfaceElevation + 100 );
         }
     }
     

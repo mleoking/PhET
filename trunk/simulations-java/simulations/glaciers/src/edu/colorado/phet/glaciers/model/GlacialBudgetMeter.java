@@ -63,7 +63,8 @@ public class GlacialBudgetMeter extends AbstractTool {
             public void iceThicknessChanged() {
                 // keep meter on glacier surface as the glacier evolves
                 if ( !isDragging() && _onSurface ) {
-                    snapToGlacierSurface();
+                    double surfaceElevation = _glacier.getSurfaceElevation( getX() );
+                    setPosition( getX(), surfaceElevation );
                 }
             }
         };
@@ -131,7 +132,7 @@ public class GlacialBudgetMeter extends AbstractTool {
      */
     public void setPosition( double x, double y ) {
         double surfaceElevation = _glacier.getSurfaceElevation( x );
-        if ( Math.abs( y - surfaceElevation ) < SNAP_TO_SURFACE_THRESHOLD ) {
+        if ( x >= _glacier.getHeadwallX() && Math.abs( y - surfaceElevation ) < SNAP_TO_SURFACE_THRESHOLD ) {
             _onSurface = true;
             super.setPosition( x, surfaceElevation );
         }
@@ -139,11 +140,6 @@ public class GlacialBudgetMeter extends AbstractTool {
             _onSurface = false;
             super.setPosition( x, y );
         }
-    }
-    
-    private void snapToGlacierSurface() {
-        double surfaceElevation = _glacier.getSurfaceElevation( getX() );
-        setPosition( getX(), surfaceElevation );
     }
     
     protected void handlePositionChanged() {
