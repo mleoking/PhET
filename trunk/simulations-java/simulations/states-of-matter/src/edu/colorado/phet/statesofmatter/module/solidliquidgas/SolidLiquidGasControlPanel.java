@@ -5,21 +5,32 @@ package edu.colorado.phet.statesofmatter.module.solidliquidgas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Hashtable;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractValueControl;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ILayoutStrategy;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
+import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
-import edu.colorado.phet.statesofmatter.control.GravityControlSlider;
+import edu.colorado.phet.statesofmatter.control.GravityControlPanel;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
 
@@ -35,6 +46,7 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
     
     MultipleParticleModel m_model;
     StateSelectionPanel m_stateSelectionPanel;
+    LinearValueControl m_gravityControl;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -63,7 +75,7 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
         addControlFullWidth( new MoleculeSelectionPanel() );
         
         // Add the panel that allows the user to control the system temperature.
-        addControlFullWidth( new GravityControlSlider(m_model) );
+        addControlFullWidth( new GravityControlPanel(m_model) );
         
         // Add the Reset All button.
         addVerticalSpace( 10 );
@@ -73,7 +85,11 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
     // Inner Classes
     //----------------------------------------------------------------------------
-    
+
+    /**
+     * This class defines the panel that allows the user to select the phase
+     * state for the molecules.
+     */
     private class StateSelectionPanel extends JPanel {
         
         private JRadioButton m_solidRadioButton;
