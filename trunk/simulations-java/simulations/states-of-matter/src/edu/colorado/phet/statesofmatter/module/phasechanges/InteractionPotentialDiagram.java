@@ -49,13 +49,18 @@ public class InteractionPotentialDiagram extends PhetPCanvas {
     private static final double ARROW_LINE_WIDTH = 0.50;
     private static final double ARROW_HEAD_WIDTH = 8 * ARROW_LINE_WIDTH;
     private static final double ARROW_HEAD_HEIGHT = 10 * ARROW_LINE_WIDTH;
-    private static final double POTENTIAL_ENERGY_LINE_WIDTH = 2;
-    private static final Stroke POTENTIAL_ENERGY_LINE_STROKE = new BasicStroke(AXIS_LINE_WIDTH);
+    private static final float POTENTIAL_ENERGY_LINE_WIDTH = 1.5f;
+    private static final Stroke POTENTIAL_ENERGY_LINE_STROKE = new BasicStroke(POTENTIAL_ENERGY_LINE_WIDTH);
     private static final Color POTENTIAL_ENERGY_LINE_COLOR = Color.red;
+    private static final int NUM_HORIZ_TICK_MARKS = 4;
+    private static final int NUM_VERT_TICK_MARKS = 3;
+    private static final double TICK_MARK_LENGTH = 2;
+    private static final float TICK_MARK_WIDTH = 1;
+    private static final Stroke TICK_MARK_STROKE = new BasicStroke(TICK_MARK_WIDTH);
     
     // Constants used for the Lennard-Jones potential calculation.
     private static final double SIGMA = 3.3; 
-    private static final double EPSILON = 100;
+    private static final double EPSILON = 120;
     private static final double MAX_POTENTIAL = 1E4;
     private static final double HORIZONTAL_INDEX_MULTIPLIER = 0.05;  // Empirically determined so curve will look reasonable.
     private static final double VERTICAL_SCALING_FACTOR = 0.5;       // Empirically determined so curve will fit graph.
@@ -96,6 +101,47 @@ public class InteractionPotentialDiagram extends PhetPCanvas {
         horizontalAxis.setStrokePaint( AXIS_LINE_COLOR );
         ljPotentialGraph.addChild( horizontalAxis );
         horizontalAxis.setOffset( 0, GRAPH_HEIGHT / 2 );
+        
+        // Create and add the tick marks for the graph.
+        double horizTickMarkSpacing = GRAPH_WIDTH / (NUM_HORIZ_TICK_MARKS + 1);
+        Line2D tickMarkShape = new Line2D.Double();
+        Point2D endpoint1 = new Point2D.Double();
+        Point2D endpoint2 = new Point2D.Double();
+        for (int i = 0; i < NUM_HORIZ_TICK_MARKS; i++){
+            // Top tick mark
+            endpoint1.setLocation( horizTickMarkSpacing * (i + 1), 0 );
+            endpoint2.setLocation( horizTickMarkSpacing * (i + 1), TICK_MARK_LENGTH );
+            tickMarkShape.setLine( endpoint1, endpoint2 );
+            PPath topTickMark = new PPath(tickMarkShape);
+            topTickMark.setStroke( TICK_MARK_STROKE );
+            ljPotentialGraph.addChild( topTickMark );
+
+            // Bottom tick mark
+            endpoint1.setLocation( horizTickMarkSpacing * (i + 1), GRAPH_HEIGHT );
+            endpoint2.setLocation( horizTickMarkSpacing * (i + 1), GRAPH_HEIGHT - TICK_MARK_LENGTH );
+            tickMarkShape.setLine( endpoint1, endpoint2 );
+            PPath bottomTickMark = new PPath(tickMarkShape);
+            bottomTickMark.setStroke( TICK_MARK_STROKE );
+            ljPotentialGraph.addChild( bottomTickMark );
+        }
+        double vertTickMarkSpacing = GRAPH_HEIGHT / (NUM_VERT_TICK_MARKS + 1);
+        for (int i = 0; i < NUM_VERT_TICK_MARKS; i++){
+            // Left tick mark
+            endpoint1.setLocation( 0, vertTickMarkSpacing * (i + 1) );
+            endpoint2.setLocation( TICK_MARK_LENGTH, vertTickMarkSpacing * (i + 1) );
+            tickMarkShape.setLine( endpoint1, endpoint2 );
+            PPath leftTickMark = new PPath(tickMarkShape);
+            leftTickMark.setStroke( TICK_MARK_STROKE );
+            ljPotentialGraph.addChild( leftTickMark );
+
+            // Right tick mark
+            endpoint1.setLocation( GRAPH_WIDTH, vertTickMarkSpacing * (i + 1) );
+            endpoint2.setLocation( GRAPH_WIDTH - TICK_MARK_LENGTH, vertTickMarkSpacing * (i + 1) );
+            tickMarkShape.setLine( endpoint1, endpoint2 );
+            PPath rightTickMark = new PPath(tickMarkShape);
+            rightTickMark.setStroke( TICK_MARK_STROKE );
+            ljPotentialGraph.addChild( rightTickMark );
+        }
         
         // Create and add the potential energy line to the graph.
         PPath potentialEnergyLine = new PPath();
