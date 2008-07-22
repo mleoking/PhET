@@ -86,7 +86,7 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
     // View
     private final PhetPCanvas _birdsEyeCanvas, _zoomedCanvas;
     private final PLayer _backgroundLayer, _iceLayer, _ripplesLayer, _debrisLayer, _velocityLayer, _boreholeLayer;
-    private final PLayer _coordinatesLayer, _toolboxLayer, _toolsLayer, _viewportLayer, _debugLayer;
+    private final PLayer _snowfallLayer, _coordinatesLayer, _toolboxLayer, _toolsLayer, _viewportLayer, _debugLayer;
     private final IceFlowNode _iceFlowNode;
     private final SnowfallNode _snowfallNode;
     private final ToolboxNode _toolboxNode;
@@ -198,6 +198,7 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         _ripplesLayer = new PLayer();
         _debrisLayer = new PLayer();
         _boreholeLayer = new PLayer();
+        _snowfallLayer = new PLayer();
         _coordinatesLayer = new PLayer();
         _velocityLayer = new PLayer();
         _toolboxLayer = new PLayer();
@@ -209,6 +210,7 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         addToZoomedView( _ripplesLayer );
         addToZoomedView( _debrisLayer );
         addToZoomedView( _boreholeLayer );
+        addToBothViews( _snowfallLayer );
         addToZoomedView( _velocityLayer );
         addToZoomedView( _coordinatesLayer );
         addToZoomedView( _toolboxLayer );
@@ -255,8 +257,8 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         _velocityLayer.addChild( _iceFlowNode );
         
         // Snowfall
-        _snowfallNode = new SnowfallNode( _model.getClimate(), _mvt );
-//        _backgroundLayer.addChild( _snowfallNode );//XXX snowfall should have its own layer
+        _snowfallNode = new SnowfallNode( _model.getGlacier(), _mvt );
+        _snowfallLayer.addChild( _snowfallNode );
         
         // Axes
         _leftElevationAxisNode = new ElevationAxisNode( _mvt, GlaciersConstants.ELEVATION_AXIS_RANGE, GlaciersConstants.ELEVATION_AXIS_TICK_SPACING, false );
@@ -377,12 +379,16 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
      * The position of the birds-eye viewport never changes.
      */
     private void updateBirdsEyeViewportBounds() {
+        
         Rectangle2D bb = _birdsEyeCanvas.getBounds();
         assert ( !bb.isEmpty() );
         double scale = _birdsEyeCanvas.getCamera().getViewScale();
         Rectangle2D rView = new Rectangle2D.Double( 0, 0, bb.getWidth() / scale, bb.getHeight() / scale );
         Rectangle2D rModel = _mvt.viewToModel( rView );
         _birdsEyeViewport.setBounds( _birdsEyeViewport.getX(), _birdsEyeViewport.getY(), rModel.getWidth(), rModel.getHeight() );
+        
+        // snowfall node has same bounds as the birds-eye view
+        _snowfallNode.setWorldBounds( _birdsEyeViewport.getBoundsReference() );
     }
     
     /*
