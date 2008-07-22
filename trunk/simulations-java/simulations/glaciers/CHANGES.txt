@@ -83,6 +83,7 @@ CLEANUP:
 
 
 DONE:
+7/22/08 - fix: Reset All feature was broken in version 0.00.32, button didn't do anything
 ******* 0.00.35 (23376)
 7/22/08 - make drill, thickness tool, thermometer, and flag snap to x=0 when dropped at x<0
 7/22/08 - make glacial budget meter show "?" for x<0

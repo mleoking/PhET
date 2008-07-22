@@ -64,7 +64,7 @@ public class IntroModule extends GlaciersModule {
         }
         
         // Set initial state
-        resetAll();
+        reset();
     }
 
     //----------------------------------------------------------------------------
@@ -104,8 +104,7 @@ public class IntroModule extends GlaciersModule {
     /**
      * Resets everything in the module.
      */
-    public void resetAll() {
-        
+    public void reset() {
         super.reset();
         
         // Model ---------------------------------------------
