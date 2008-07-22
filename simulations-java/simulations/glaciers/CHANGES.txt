@@ -5,6 +5,7 @@ Change history for glaciers
 HIGHEST PRIORITY:
 - visual representation of snowfall (gradient paint, clipped to sky)
 - valley model for x<0 that matches background image
+- remove snap-to-x=0 behavior for drill, thickness tool, thermometer, flag?
 
 HIGH PRIORITY:
 - make sure everything works properly when clock is paused
@@ -13,6 +14,7 @@ HIGH PRIORITY:
 - start sim in steady state, with debris & ripples across entire glacier length, and moraine at terminus
 
 MEDIUM PRIORITY:
+- behavior of budget meter (snap-to-ice) is hard to discover and potentially misleading
 - ask Archie to reduce the height of mountains.svg, the image size exceeds JVM heap space
 - main control panel should be the same height in all modules
 - eliminate code duplication in modules
