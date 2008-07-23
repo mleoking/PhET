@@ -3,21 +3,20 @@ Change history for glaciers
 ================================================================================
 
 HIGHEST PRIORITY:
+- loading full-size background image causes OutOfMemoryException, exceeds JVM heap space
 - valley model for x<0 that matches background image
 - remove snap-to-x=0 behavior for drill, thickness tool, thermometer, flag?
 
 HIGH PRIORITY:
-- hide any features that aren't implemented for July 25 deadline
+- add yaw to fake 3D perspective (headwall, terminus, ELA, ripples) 
 - start sim in steady state, with debris & ripples across entire glacier length, and moraine at terminus
 
 MEDIUM PRIORITY:
 - behavior of budget meter (snap-to-ice) is hard to discover and potentially misleading
-- ask Archie to reduce the height of mountains.svg, the image size exceeds JVM heap space
 - main control panel should be the same height in all modules
 - eliminate code duplication in modules
 - tweak alignment of mountains image, perspective (or image?) is a little off at headwall
 - switch user-interface between English and metric units
-- add yaw to fake 3D perspective (terminus, ELA, etc) 
 ? add headwallX to new ice thickness model in model.txt, which assumes headwallX=0
 - provide time estimate for climate experiments interface
 - Experiments module
@@ -31,7 +30,7 @@ MEDIUM PRIORITY:
 - implement Save/Load feature
 - PlayArea class is too big, refactor
 - GlaciersModel class is too big, refactor
-- improve performance on slower machines
+- improve performance on slower machines?
 - make sure everything works properly when clock is paused
 
 LOW PRIORITY:
@@ -40,7 +39,7 @@ LOW PRIORITY:
 - right edge of ice thickness tool icon is clipped (see Unfuddle #558)
 - remove registration points from mountains image
 - creating a tool and dragging it straight to the trash doesn't work because we're in the middle of an event sequence
-- make mountains image big enough so that all we see is sky when the birds-eye view is made very wide
+- make sure we don't see sky where it's not supposed to be when main frame is resized to extremes
 - generalize all charts, there's too much duplicated code (ditto in controller that wires control panel to charts)
 - cleanup duplicate boilerplate code in ToolboxNode constructor
 - confirm that titles and axes on graphs are as desired
@@ -50,7 +49,6 @@ LOW PRIORITY:
 - improve smoothness of DistanceAxisNode (x-axis for coordinates feature)
 - make zoomed viewport follow terminus (defer until we decide whether this is really needed)
 - ticks & labels on sliders should be white, code to set their color is not working (Mac only?)
-- display distance and/or elevation as km ?
 - add rounded borders to control sub-panels
 - PlayArea.verticallyAlignZoomedViewport makes a change to viewport and results in itself being called again (it works, but not very elegant)
 - should "Glacial Budget vs Elevation" chart show negative ablation?
