@@ -75,7 +75,7 @@ CLEANUP:
 
 
 DONE:
-******* 0.00.37 (?)
+******* 0.00.37 (23428)
 7/23/08 - turn off "snap tools to headwall", so that tools behave the same on both sides of the headwall
 7/23/08 - add a flag to turn "snap tools to headwall" on and off
 7/23/08 - brute force workaround for valley elevation at x<0, linear interpolation between manually-created sample points
