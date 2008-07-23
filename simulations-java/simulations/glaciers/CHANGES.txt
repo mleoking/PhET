@@ -3,7 +3,6 @@ Change history for glaciers
 ================================================================================
 
 HIGHEST PRIORITY:
-- ripples slightly darker above 
 - bug: loading full-size background image causes OutOfMemoryException, exceeds JVM heap space
 - bug: valley model for x<0 does not match background image
 - bug: valley is narrower near headwall in background image
@@ -80,6 +79,7 @@ CLEANUP:
 
 
 DONE:
+7/23/08 - make ripples slightly darker above ELA so that they're easier to see when snowfall is visible
 7/23/08 - increase default clock speed to 4fps
 ******* 0.00.38 (23437)
 7/23/08 - add yaw to fake 3D perspective for ice, debris, ELA, ripples (see YAW_ROTATION, YAW_X_OFFSET)

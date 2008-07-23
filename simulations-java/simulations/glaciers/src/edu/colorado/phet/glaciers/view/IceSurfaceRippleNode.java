@@ -24,7 +24,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class IceSurfaceRippleNode extends PComposite {
     
     private static final Stroke STROKE = new BasicStroke( 1f );
-    private static final Color COLOR_ABOVE_ELA = new Color( 230, 230, 230 );
+    private static final Color COLOR_ABOVE_ELA = new Color( 222, 222, 222 );
     private static final Color COLOR_BELOW_ELA = new Color( 200, 200, 200 );
     
     private final Glacier _glacier;
