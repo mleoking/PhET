@@ -46,13 +46,10 @@ public class CompositeThermometerNode extends PNode {
         m_liquidThermometer.setTicks( m_liquidThermometer.getFullBoundsReference().height / 12, Color.BLACK, 4 );
         addChild(m_liquidThermometer);
         
-        m_kelvinReadout = new DigitalReadoutNode( width * (1 - THERMOMETER_WIDTH_PROPORTION) );
-        m_kelvinReadout.setOffset( m_liquidThermometer.getFullBoundsReference().width, 0 );
+        m_kelvinReadout = new DigitalReadoutNode( width * (1 - THERMOMETER_WIDTH_PROPORTION), "\u212A" );
+        m_kelvinReadout.setOffset( m_liquidThermometer.getFullBoundsReference().width, 
+                m_liquidThermometer.getFullBoundsReference().height * 0.2 );
         addChild(m_kelvinReadout);
-
-        m_fahrenheitReadout = new DigitalReadoutNode( width * (1 - THERMOMETER_WIDTH_PROPORTION) );
-        m_fahrenheitReadout.setOffset( m_liquidThermometer.getFullBoundsReference().width, m_kelvinReadout.getFullBoundsReference().height * 1.1 );
-        addChild(m_fahrenheitReadout);
     }
     
     public void setTemperatureInKelvin(double degreesKelvin){
@@ -67,6 +64,7 @@ public class CompositeThermometerNode extends PNode {
             newTemp = degreesKelvin;
         }
         m_liquidThermometer.setLiquidHeight( (newTemp - m_minTemp) / (m_maxTemp - m_minTemp) );
+        m_kelvinReadout.setValue( newTemp );
     }
     
     //----------------------------------------------------------------------------
@@ -74,8 +72,8 @@ public class CompositeThermometerNode extends PNode {
     //----------------------------------------------------------------------------
 
     /**
-     * This class represents a node upon that will numerically display a value
-     * and units.
+     * This class represents a node that will numerically display a value and
+     * units.
      */
     public class DigitalReadoutNode extends PNode {
         
@@ -83,14 +81,18 @@ public class CompositeThermometerNode extends PNode {
         private final Color FOREGROUND_COLOR = Color.WHITE;
         private static final double WIDTH_TO_HEIGHT_RATIO = 2;
         private static final double INSET_WIDTH_RATIO = 0.95;
-        private final DecimalFormat NUMBER_FORMATTER = new DecimalFormat( "##0.0" );
+        private final DecimalFormat NUMBER_FORMATTER = new DecimalFormat( "##0" );
         
         private PText m_text;
         private String m_units;
         PPath m_foregroundNode;
         
-        public DigitalReadoutNode(double width) {
+        public DigitalReadoutNode(double width, String units) {
 
+            if (units != null){
+                m_units = new String(units);
+            }
+            
             double height = width / WIDTH_TO_HEIGHT_RATIO;
             PPath backgroundNode = new PPath(new RoundRectangle2D.Double(0, 0, width, height, height/5, height/5));
             backgroundNode.setPaint( BACKGROUND_COLOR );
@@ -104,16 +106,15 @@ public class CompositeThermometerNode extends PNode {
             m_foregroundNode.setOffset( borderWidth, borderWidth );
             
             m_text = new PText("0");
-            m_text.setFont( new PhetFont(12) );
-            m_text.scale( m_foregroundNode.getFullBoundsReference().height * 0.8 / m_text.getFullBoundsReference().height );
-            m_text.setText( "Testing!" );
-            m_foregroundNode.addChild( m_text );
+            m_text.setFont( new PhetFont(12, true) );
+            m_text.scale( m_foregroundNode.getFullBoundsReference().height * 0.7 / m_text.getFullBoundsReference().height );
+            addChild( m_text );
             
             setValue( 0 );
         }
         
         public void setUnitsString(String units){
-            m_units = units;
+            m_units = new String(units);
         }
         
         public void setValue(double value){
@@ -124,8 +125,8 @@ public class CompositeThermometerNode extends PNode {
             }
             m_text.setText( valueString );
             m_text.setOffset( 
-                    m_foregroundNode.getFullBoundsReference().width / 2 - m_text.getFullBoundsReference().width / 2, 
-                    m_foregroundNode.getFullBoundsReference().height * 0.2 );
+                    getFullBoundsReference().width / 2 - m_text.getFullBoundsReference().width / 2, 
+                    getFullBoundsReference().height * 0.2 );
         }
     }
 }
