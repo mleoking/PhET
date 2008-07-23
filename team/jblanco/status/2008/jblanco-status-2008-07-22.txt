@@ -1,0 +1,39 @@
+PhET Progress Report
+John Blanco
+July 22, 2008
+
+
+States of Matter Sim - 18 hrs
+
+* Added ability to pump oxygen and water into the container.
+* Fixed issues with molecules occasionally getting huge kinetic energy values when pumped into container.
+* Added Phase Diagram and Interaction Diagram to 2nd tab.
+* Made all strings in the various diagrams fully translatable.
+* Created special version that allowed for more particles in order to test phase transitions (requested by Paul Beale).
+* Tested on Mac - semi-transparent container doesn't work well, and may not be usable.
+* Refactored gravity control slider for greater consistency and maintainability.
+* Started adding digital reading of temperature to thermometer.
+
+Web Site - 7 hrs
+
+* Finished implementing long-term fix for getting translated Flash sims into the installers.
+* Re-enabled the automatic nightly build of the installer.
+* Performed several manual rebuilds of the installers to make sure we had good versions for the AAPT conference.
+* Minor updates to site: Fixed incorrect email address, removed incorrect statement about registering for update notifications.
+
+Meetings & Email - 3 hrs
+
+* Regular weekly status meeting.
+* Various discussions with Noah P, Sam R, Chris, Dano, and Kathy in person and via email.
+
+Infrastructure and Tools - 12 hrs
+
+* Dealt with problems due to SourceForge relocation & upgrade
+* Updated all SVN clients in order to work with updates made by SourceForge
+* Worked with Marj to resolve problems with her Eclipse setup (for translation support)
+
+Notes
+
+* Vacation scheduled for July 28 through August 9 (next two weeks).
+
+
