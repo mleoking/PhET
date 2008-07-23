@@ -544,14 +544,15 @@
 		<if>
 			<isset property="browser"/>
 			<then>
-				<echo message="Opening browser: ${browser} ${deployurl}"/>
+				<echo message="Opening browser: ${browser} ${browser.args} ${deployurl}"/>
 				<exec executable="${browser}" spawn="true">
+					<arg line="${browser.args}"/>
 					<arg value="${deployurl}"/>
 				</exec>
 			</then>
 		</if>
 	</target>
-
+	
 	<!-- This task builds and deploys; assumes all required properties have been previously defined -->
 	<target name="_build-and-deploy" depends="_build-jar, build-jnlp, _build-all-flavor-jars-for-sim, _deploy" />
 
