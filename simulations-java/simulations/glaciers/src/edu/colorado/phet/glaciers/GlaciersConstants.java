@@ -32,7 +32,7 @@ public class GlaciersConstants {
     public static final boolean DEBUG_CANVAS_UPDATE_LAYOUT = false;
     
     // displays alignment points for background image
-    public static final boolean DEBUG_BACKGROUND_IMAGE_ALIGNMENT = true;
+    public static final boolean DEBUG_BACKGROUND_IMAGE_ALIGNMENT = false;
     
     // alignment points for background image. 
     // The artist should put a marker on the valley floor at these x locations.
