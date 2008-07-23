@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-glaciers 0.00.34
+glaciers 0.00.36
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,14 +12,16 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>make drill, thickness tool, thermometer, and flag snap to x=0 when dropped at x<0
-<li>make glacial budget meter show "?" when x<0
+<li>snowfall view: Drawn as a gradient that fills the atmosphere in the birds-eye view. Snowfall tapers off linearly down to 1500m. Above 4800m, "white out" occurs when snowfall is at max.
+<li>fixed "Reset All" feature, disabled since 0.00.32
+<li>hide icons for "coordinates" and "ice flow" check boxes in Intro tab
+<li>verified that all feature for July 25 milestone work properly when clock is paused
 </ul>
 <p>
 <b>Known problems:</b>
 <ul>
-<li>background image is so large that it exceeds JVM heap space and causes OutOfMemoryException
-<li>model of valley floor doesn't match background image for x<0
+<li>full-size background image is so large that it exceeds JVM heap space and causes OutOfMemoryException
+<li>model of valley floor doesn't match background image for x<0, as can be seen when "snowfall" is checked
 <li>"Steady State" button doesn't advance clock time
 <li>glacier starts up in steady state, but with no debris or ripple in the ice, and no moraine
 <li>registration points (small red circles and blue dots) are shown in the background image
