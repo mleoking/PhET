@@ -6,11 +6,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.geom.CubicCurve2D;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.QuadCurve2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.RoundRectangle2D.Double;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;

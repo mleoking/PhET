@@ -4,26 +4,21 @@ package edu.colorado.phet.statesofmatter.view.instruments;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Stroke;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
-import java.awt.geom.Line2D.Double;
 import java.text.DecimalFormat;
 
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
-import edu.colorado.phet.statesofmatter.view.StoveNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolox.nodes.PLine;
 
 
 public class DialGaugeNode extends PNode {

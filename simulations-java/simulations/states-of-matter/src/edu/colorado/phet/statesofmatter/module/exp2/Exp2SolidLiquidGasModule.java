@@ -8,7 +8,6 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
-import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.defaults.SolidLiquidGasDefaults;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
