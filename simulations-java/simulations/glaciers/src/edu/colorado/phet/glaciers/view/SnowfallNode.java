@@ -24,7 +24,8 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * SnowfallNode is the visual representation of snowfall.
  * A white gradient is drawn in a rectangle that covers the entire world.
  * This rectangle is clipped so that only the portion above the surface of
- * the ice or valley floor (whichever is higher) is drawn.
+ * the ice or valley floor (whichever is higher) is drawn. This makes it
+ * look like it's snowing in the atmosphere.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
