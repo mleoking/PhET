@@ -5,7 +5,6 @@ Change history for glaciers
 HIGHEST PRIORITY:
 - loading full-size background image causes OutOfMemoryException, exceeds JVM heap space
 - valley model for x<0 that matches background image
-- remove snap-to-x=0 behavior for drill, thickness tool, thermometer, flag?
 
 HIGH PRIORITY:
 - add yaw to fake 3D perspective (headwall, terminus, ELA, ripples) 
