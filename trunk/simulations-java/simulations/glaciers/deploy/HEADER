@@ -18,6 +18,7 @@ Modifications required to ice, ripples, debris and equilibrium line.
 <p>
 <b>Known problems:</b>
 <ul>
+<li>background image has valley narrower near the headwall, so ice shape doesn't line up with far side of valley
 <li>as ELA moves above terminus for an advancing glacier, shape of surface below ELA is briefly incorrect
 <li>ripples don't seem to be uniformly distributed, more of them are closer to the viewer
 <li>full-size background image is so large that it exceeds JVM heap space and causes OutOfMemoryException

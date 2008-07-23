@@ -77,7 +77,7 @@ CLEANUP:
 
 
 DONE:
-******* 0.00.38 (?)
+******* 0.00.38 (23437)
 7/23/08 - add yaw to fake 3D perspective for ice, debris, ELA, ripples (see YAW_ROTATION, YAW_X_OFFSET)
 7/23/08 - rename PERSPECTIVE_HEIGHT to PITCH_Y_OFFSET
 7/23/08 - move PERSPECTIVE_HEIGHT constant from Valley to GlaciersConstants
