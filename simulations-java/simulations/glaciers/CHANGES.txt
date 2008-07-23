@@ -9,6 +9,7 @@ HIGHEST PRIORITY:
 - as ELA moves above terminus for an advancing glacier, shape of surface below ELA is briefly wrong (broken by yaw, or always wrong?)
 
 HIGH PRIORITY:
+- ripples don't seem to be uniformly distributed, more of them are closer to the camera
 - YAW_X_OFFSET should be computed as a function of YAW_ROTATION and PITCH_Y_OFFSET
 
 MEDIUM PRIORITY:
@@ -76,6 +77,7 @@ CLEANUP:
 
 
 DONE:
+******* 0.00.38 (?)
 7/23/08 - add yaw to fake 3D perspective for ice, debris, ELA, ripples (see YAW_ROTATION, YAW_X_OFFSET)
 7/23/08 - rename PERSPECTIVE_HEIGHT to PITCH_Y_OFFSET
 7/23/08 - move PERSPECTIVE_HEIGHT constant from Valley to GlaciersConstants

@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-glaciers 0.00.37
+glaciers 0.00.38
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,13 +12,14 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>brute force attempt to make the elevation model match the background image for x<0.  
-Linear interpolation between a set of manually-created sample points.
-<li>make tools behave the same on both sides of the headwall (do not snap to x=0)
+<li>add yaw (rotation about the vertical axis) to our fake 3D perspective.  
+Modifications required to ice, ripples, debris and equilibrium line.
 </ul>
 <p>
 <b>Known problems:</b>
 <ul>
+<li>as ELA moves above terminus for an advancing glacier, shape of surface below ELA is briefly incorrect
+<li>ripples don't seem to be uniformly distributed, more of them are closer to the viewer
 <li>full-size background image is so large that it exceeds JVM heap space and causes OutOfMemoryException
 <li>model of valley floor is a rough approximation of background image for x<0
 <li>"Steady State" button doesn't advance clock time
