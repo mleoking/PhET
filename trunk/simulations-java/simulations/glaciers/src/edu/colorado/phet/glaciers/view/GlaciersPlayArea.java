@@ -221,26 +221,17 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         _backgroundLayer.addChild( mountainsAndValleyNode );
         
         /*
-         * The background image contains a alignment markers at a few (x,F(x)) locations.
+         * The background image contains alignment markers at a few (x,F(x)) locations.
          * The alignment markers created here should line up with the ones in the image file.
-         * If they don't line up, then adjust scaling and translation in MountainsAndValleyNode.
+         * If they don't line up, then adjust scaling and translation in GlaciersConstants.
          */
         if ( GlaciersConstants.DEBUG_BACKGROUND_IMAGE_ALIGNMENT ) {
-            
-            double x = 0; // meters
-            PNode markerNode1 = new MarkerNode();
-            markerNode1.setOffset( _mvt.modelToView( x, _model.getValley().getElevation( x ) ) );
-            _debugLayer.addChild( markerNode1 );
-            
-            x = 10000; // meters
-            PNode markerNode2 = new MarkerNode();
-            markerNode2.setOffset( _mvt.modelToView( x, _model.getValley().getElevation( x ) ) );
-            _debugLayer.addChild( markerNode2 );
-            
-            x = 70000; // meters
-            PNode markerNode3 = new MarkerNode();
-            markerNode3.setOffset( _mvt.modelToView( x, _model.getValley().getElevation( x ) ) );
-            _debugLayer.addChild( markerNode3 );
+            for ( int i = 0; i < GlaciersConstants.DEBUG_BACKGROUND_IMAGE_ALIGNMENT_X_VALUES.length; i++ ) {
+                final double x = GlaciersConstants.DEBUG_BACKGROUND_IMAGE_ALIGNMENT_X_VALUES[i];
+                PNode markerNode = new MarkerNode();
+                markerNode.setOffset( _mvt.modelToView( x, _model.getValley().getElevation( x ) ) );
+                _debugLayer.addChild( markerNode );
+            }
         }
         
         // Glacier
