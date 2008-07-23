@@ -79,6 +79,7 @@ CLEANUP:
 
 
 DONE:
+7/23/08 - delete penguin image files, remove license file entry
 7/23/08 - move background image alignment points to GlaciersConstants, generalize marker node creation
 7/23/08 - move debug flags from GlaciersPlayArea to GlaciersConstants
 7/23/08 - make ripples slightly darker above ELA so that they're easier to see when snowfall is visible
