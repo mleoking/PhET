@@ -94,10 +94,10 @@ public class GlaciersConstants {
     // where the glacier intersects the right edge of the zoomed viewport, percentage of zoomed viewport height
     public static final double ALIGNMENT_FACTOR_FOR_GLACIER_IN_ZOOMED_VIEWPORT = 0.25; // percent
     
-    // y offset used to fake "pitch" (rotation about the horizontal axis) 
+    // y offset used to fake pitch (rotation about the horizontal axis) 
     public static final double PITCH_Y_OFFSET = 250; // meters
     
-    // clockwise rotation angle used to fake "yaw" (rotation about the vertical axis)
+    // rotation angle used to fake yaw (rotation about the vertical axis)
     public static final double YAW_ROTATION = Math.toRadians( 30 ); // radians
     // x offset that corresponds to YAW_ROTATION, set via visual inspection
     public static final double YAW_X_OFFSET = 500; // meters
