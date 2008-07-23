@@ -8,7 +8,6 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.model.Glacier;
-import edu.colorado.phet.glaciers.model.Valley;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierAdapter;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierListener;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -166,17 +165,19 @@ public class IceNode extends PComposite {
                 _crossSectionPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
 
                 // surface perspective
-                elevation = _glacier.getSurfaceElevation( x ) + GlaciersConstants.PERSPECTIVE_HEIGHT;
-                _pModel.setLocation( x, elevation );
+                final double surfaceX = x + GlaciersConstants.YAW_X_OFFSET;
+                elevation = _glacier.getSurfaceElevation( x ) + GlaciersConstants.PITCH_Y_OFFSET;
+                _pModel.setLocation( surfaceX, elevation );
                 _mvt.modelToView( _pModel, _pView );
                 _surfacePath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
                 if ( surfaceAtELA != null && !finishedSurfaceBelowELA ) {
-                    if ( x > surfaceAtELA.getX() ) {
+                    final double elx = surfaceAtELA.getX() + GlaciersConstants.YAW_X_OFFSET;
+                    if ( surfaceX > elx ) {
                         _surfaceBelowELAPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
                     }
                     else {
-                        // finish exactly at the point where the ELA intersects the surface of the ice
-                        _pModel.setLocation( surfaceAtELA.getX(), surfaceAtELA.getY() + GlaciersConstants.PERSPECTIVE_HEIGHT );
+                        // finish exactly at the point where the equilibrium line intersects the surface of the ice
+                        _pModel.setLocation( elx, surfaceAtELA.getY() + GlaciersConstants.PITCH_Y_OFFSET );
                         _mvt.modelToView( _pModel, _pView );
                         _surfaceBelowELAPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
                         finishedSurfaceBelowELA = true;

@@ -73,8 +73,8 @@ public class DebrisGenerator {
                 double z = 0; // in the cross-section
                 if ( _count % DEBRIS_CROSS_SECTION_RATIO != 0 ) {
                     // not in the cross-section
-                    z = _randomDebrisZ.nextDouble() * GlaciersConstants.PERSPECTIVE_HEIGHT;
-                    assert( z >= 0 && z <= GlaciersConstants.PERSPECTIVE_HEIGHT );
+                    z = _randomDebrisZ.nextDouble() * GlaciersConstants.PITCH_Y_OFFSET;
+                    assert( z >= 0 && z <= GlaciersConstants.PITCH_Y_OFFSET );
                 }
                 
                 p = pOutput;

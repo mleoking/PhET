@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.model.Glacier;
 import edu.colorado.phet.glaciers.model.IceSurfaceRipple;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierAdapter;
@@ -84,6 +85,8 @@ public class IceSurfaceRippleNode extends PComposite {
         _topArcNode.setOffset( -arcWidth/2, -( _topArcNode.getFullBoundsReference().getHeight() + _bottomArcNode.getFullBoundsReference().getHeight() + rippleZOffset ) );
         addChild( _topArcNode );
         addChild( _bottomArcNode );
+        
+        rotate( GlaciersConstants.YAW_ROTATION );
         
         update();
     }
