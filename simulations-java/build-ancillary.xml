@@ -552,8 +552,16 @@
 			</then>
 		</if>
 	</target>
-	
-	<!-- This task builds and deploys; assumes all required properties have been previously defined -->
+
+    <!--This task facilitates testing of browser code outside of the full deploy process.-->
+     <target name="test-browser">
+         <exec executable="${browser}" spawn="true">
+             <arg line="${browser.args}">
+             <arg line="http://www.chrismalley.com"/>
+         </exec>
+     </target>
+
+    <!-- This task builds and deploys; assumes all required properties have been previously defined -->
 	<target name="_build-and-deploy" depends="_build-jar, build-jnlp, _build-all-flavor-jars-for-sim, _deploy" />
 
     <!-- generates the SVN revision number in the project properties file -->
