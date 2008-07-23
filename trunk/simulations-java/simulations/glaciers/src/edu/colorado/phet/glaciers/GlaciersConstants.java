@@ -31,6 +31,12 @@ public class GlaciersConstants {
     // enable debug output for canvas layout updates
     public static final boolean DEBUG_CANVAS_UPDATE_LAYOUT = false;
     
+    // displays alignment points for background image
+    public static final boolean DEBUG_BACKGROUND_IMAGE_ALIGNMENT = true;
+    
+    // display ELA value at the lower right corner of the toolbox
+    public static final boolean DEBUG_ELA_VALUE_VISIBLE = false;
+    
     //----------------------------------------------------------------------------
     // Flags
     //----------------------------------------------------------------------------
