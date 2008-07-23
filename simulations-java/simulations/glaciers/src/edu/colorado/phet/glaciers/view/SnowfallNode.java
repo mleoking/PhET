@@ -4,6 +4,9 @@ package edu.colorado.phet.glaciers.view;
 
 import java.awt.Color;
 import java.awt.GradientPaint;
+import java.awt.geom.Area;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.Icon;
@@ -38,7 +41,7 @@ public class SnowfallNode extends PhetPNode {
     private static final Color BASE_COLOR = new Color( 255, 255, 255 );
     private static final Color NO_SNOW_COLOR = ColorUtils.createColor( BASE_COLOR, 0 );
     private static final int MAX_ALPHA = 255; // opaque to simulate "white out" conditions at highest elevation
-    private static final double ELEVATION_WHERE_FADE_BEGINS = 4500; // elevation where gradient paint starts fading out (meters), "white-out" above this 
+    private static final double ELEVATION_WHERE_FADE_BEGINS = 4800; // elevation where gradient paint starts fading out (meters), "white-out" above this 
     private static final double ELEVATION_WHERE_FADE_ENDS = 1500; // elevation where gradient paint has fully faded out (meters)
     
     //----------------------------------------------------------------------------
@@ -51,6 +54,8 @@ public class SnowfallNode extends PhetPNode {
     private final ModelViewTransform _mvt;
     private final Rectangle2D _worldBounds; // world bounds in model coordinates (meters x meters)
     private final PPath _pathNode;
+    private final GeneralPath _clipPath;
+    private final Point2D _pModel, _pView; // reusable points
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -64,6 +69,9 @@ public class SnowfallNode extends PhetPNode {
         _glacier = glacier;
         _mvt = mvt;
         _worldBounds = new Rectangle2D.Double( 0, 0, 1, 1 );
+        _clipPath = new GeneralPath();
+        _pModel = new Point2D.Double();
+        _pView = new Point2D.Double();
         
         _pathNode = new PPath();
         _pathNode.setStroke( null );
@@ -99,6 +107,19 @@ public class SnowfallNode extends PhetPNode {
     //----------------------------------------------------------------------------
     
     /**
+     * When this node becomes visible, update it.
+     */
+    public void setVisible( boolean visible ) {
+        if ( visible != getVisible() ) {
+            super.setVisible( visible );
+            if ( visible ) {
+                updateShape();
+                updatePaint();
+            }
+        }
+    }
+    
+    /**
      * Sets the world bounds.
      * <p>
      * The semantics of this rectangle are a bit odd, and match those of Viewport.
@@ -127,8 +148,51 @@ public class SnowfallNode extends PhetPNode {
      * Updates the shape to match the world bounds, clipped to the region above the ice and valley floor.
      */
     private void updateShape() {
-        Rectangle2D viewBounds = _mvt.modelToView( _worldBounds ); 
-        _pathNode.setPathTo( viewBounds );
+        
+        if ( getVisible() ) {
+
+            // this shape includes atmosphere and non-atmosphere
+            Rectangle2D viewBounds = _mvt.modelToView( _worldBounds );
+
+            // path that is non-atmosphere
+            final double dx = IceNode.getDx();
+            final double minX = _worldBounds.getMinX();
+            final double maxX = _worldBounds.getMaxX() + dx; // go one sample further than we really need to
+            double x = minX;
+            double y = 0;
+            _clipPath.reset();
+            // draw the ice and valley surface
+            while ( x <= maxX ) {
+                y = _glacier.getSurfaceElevation( x );
+                _pModel.setLocation( x, y );
+                _mvt.modelToView( _pModel, _pView );
+                if ( x == minX ) {
+                    _clipPath.moveTo( (float) _pView.getX(), (float) _pView.getY() );
+                }
+                else {
+                    _clipPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
+                }
+                x += dx;
+            }
+            if ( ELEVATION_WHERE_FADE_ENDS < _pModel.getY() ) {
+                // draw vertical line from glacier surface to bottom of the rectangle
+                _pModel.setLocation( _pModel.getX(), _worldBounds.getY() - _worldBounds.getHeight() );
+                _mvt.modelToView( _pModel, _pView );
+                _clipPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
+            }
+            // draw horizontal line back to far left
+            _pModel.setLocation( minX, _pModel.getY() );
+            _mvt.modelToView( _pModel, _pView );
+            _clipPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
+            // done
+            _clipPath.closePath();
+
+            // subtract the non-atmosphere path from the rectangle to get the part of the world that is atmosphere
+            Area area = new Area( viewBounds );
+            area.subtract( new Area( _clipPath ) );
+
+            _pathNode.setPathTo( area );
+        }
     }
     
     /*
@@ -136,28 +200,33 @@ public class SnowfallNode extends PhetPNode {
      */
     private void updatePaint() {
         
-        assert( ELEVATION_WHERE_FADE_BEGINS > ELEVATION_WHERE_FADE_ENDS );
+        assert ( ELEVATION_WHERE_FADE_BEGINS > ELEVATION_WHERE_FADE_ENDS );
         
-        // get the snowfall value
-        final double snowfall = _glacier.getClimate().getSnowfall();
-        assert( GlaciersConstants.SNOWFALL_RANGE.contains( snowfall ) );
-        
-        // convert snowfall to alpha channel value.
-        // alpha channel is varies linearly.
-        final double min = GlaciersConstants.SNOWFALL_RANGE.getMin();
-        final double max = GlaciersConstants.SNOWFALL_RANGE.getMax();
-        final double scale = ( snowfall - min ) / ( max - min );
-        final int alpha = (int) ( scale * MAX_ALPHA );
-        
-        // create gradient paint.
-        // The gradient starts to fade at ELEVATION_WHERE_FADE_BEGINS, and is fully transparent at ELEVATION_WHERE_FADE_ENDS.
-        Rectangle2D modelBounds = new Rectangle2D.Double( _worldBounds.getX(), ELEVATION_WHERE_FADE_BEGINS, 
-                                                          _worldBounds.getWidth(), ELEVATION_WHERE_FADE_BEGINS - ELEVATION_WHERE_FADE_ENDS );
-        Rectangle2D viewBounds = _mvt.modelToView( modelBounds );
-        Color maxSnowColor = ColorUtils.createColor( BASE_COLOR, alpha );
-        GradientPaint paint = new GradientPaint( (float)viewBounds.getX(), (float)viewBounds.getMinY(), maxSnowColor, 
-                                                 (float)viewBounds.getX(), (float)viewBounds.getMaxY(), NO_SNOW_COLOR );
-        _pathNode.setPaint( paint );
+        if ( getVisible() ) {
+
+            // get the snowfall value
+            final double snowfall = _glacier.getClimate().getSnowfall();
+            assert ( GlaciersConstants.SNOWFALL_RANGE.contains( snowfall ) );
+
+            // convert snowfall to alpha channel value.
+            // alpha channel is varies linearly.
+            final double min = GlaciersConstants.SNOWFALL_RANGE.getMin();
+            final double max = GlaciersConstants.SNOWFALL_RANGE.getMax();
+            final double scale = ( snowfall - min ) / ( max - min );
+            final int alpha = (int) ( scale * MAX_ALPHA );
+
+            // create gradient paint.
+            // The gradient starts to fade at ELEVATION_WHERE_FADE_BEGINS, and is fully transparent at ELEVATION_WHERE_FADE_ENDS.
+            Rectangle2D modelBounds = new Rectangle2D.Double( 
+                    _worldBounds.getX(), ELEVATION_WHERE_FADE_BEGINS, 
+                    _worldBounds.getWidth(), ELEVATION_WHERE_FADE_BEGINS - ELEVATION_WHERE_FADE_ENDS );
+            Rectangle2D viewBounds = _mvt.modelToView( modelBounds );
+            Color maxSnowColor = ColorUtils.createColor( BASE_COLOR, alpha );
+            GradientPaint paint = new GradientPaint( 
+                    (float) viewBounds.getX(), (float) viewBounds.getMinY(), maxSnowColor, 
+                    (float) viewBounds.getX(), (float) viewBounds.getMaxY(), NO_SNOW_COLOR );
+            _pathNode.setPaint( paint );
+        }
     }
     
     //----------------------------------------------------------------------------
