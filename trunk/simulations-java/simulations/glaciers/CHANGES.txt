@@ -79,7 +79,7 @@ CLEANUP:
 
 
 DONE:
-******* 0.00.36 (?)
+******* 0.00.36 (23398)
 7/22/08 - hide icons for "coordinates" and "ice flow" check boxes in Intro tab
 7/22/08 - verify that all feature for July 25 milestone work properly when clock is paused
 7/22/08 - update SnowfallNode only when its visible
