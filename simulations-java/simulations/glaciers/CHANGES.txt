@@ -9,55 +9,51 @@ HIGHEST PRIORITY:
 
 HIGH PRIORITY:
 - add yaw to fake 3D perspective (headwall, terminus, ELA, ripples) 
-- start sim in steady state, with debris & ripples across entire glacier length, and moraine at terminus
 
 MEDIUM PRIORITY:
-- behavior of budget meter (snap-to-ice) is hard to discover and potentially misleading
-- main control panel should be the same height in all modules
-- eliminate code duplication in modules
 - tweak alignment of mountains image, perspective (or image?) is a little off at headwall
 - switch user-interface between English and metric units
-? add headwallX to new ice thickness model in model.txt, which assumes headwallX=0
 - provide time estimate for climate experiments interface
 - Experiments module
-- more "cartoonish" view for Basic panel?
-- move steady state button to play area?
-- "steady state" button needs to advance clock to the time at which the glacier would reach its steady state
-- "steady state" button needs to fill in missing data in time-dependent graphs
-- "steady state" button needs to fill glacier with debris and surface ripples
+- behavior of budget meter (snap-to-ice) is hard to discover and potentially misleading
+- main control panel should be the same height in all modules
+? add headwallX to new ice thickness model in model.txt, which assumes headwallX=0
+- "steady state" feature needs to advance clock to the time at which the glacier would reach its steady state
+- "steady state" feature needs to fill in missing data in time-dependent graphs
+- "steady state" feature needs to fill glacier with debris and surface ripples (and create moraine?)
 - always collect data for time-based graphs, keep "latest" & "historical" data points, compress historical, limit historical size
 - add zoom in/out button for time-based graphs; show scrolling "latest" data or complete "historical"
 - implement Save/Load feature
-- PlayArea class is too big, refactor
-- GlaciersModel class is too big, refactor
 - improve performance on slower machines?
 - make sure everything works properly when clock is paused
 
 LOW PRIORITY:
-- delete trash can code if we're sure we'll never need it
-- refactor model listener class hierarchy
+- move steady state button to play area?
+- more "cartoonish" view for Basic panel?
 - right edge of ice thickness tool icon is clipped (see Unfuddle #558)
 - remove registration points from mountains image
 - creating a tool and dragging it straight to the trash doesn't work because we're in the middle of an event sequence
 - make sure we don't see sky where it's not supposed to be when main frame is resized to extremes
-- generalize all charts, there's too much duplicated code (ditto in controller that wires control panel to charts)
-- cleanup duplicate boilerplate code in ToolboxNode constructor
 - confirm that titles and axes on graphs are as desired
-- constrain tools to dragging in birds-eye bounds (necessary? tools are inexpensive)
-- refactor common module functionality into a base class
 - fix layout problems with main control panel
 - improve smoothness of DistanceAxisNode (x-axis for coordinates feature)
 - make zoomed viewport follow terminus (defer until we decide whether this is really needed)
 - ticks & labels on sliders should be white, code to set their color is not working (Mac only?)
 - add rounded borders to control sub-panels
-- PlayArea.verticallyAlignZoomedViewport makes a change to viewport and results in itself being called again (it works, but not very elegant)
 - should "Glacial Budget vs Elevation" chart show negative ablation?
 - add rocks falling off mountains onto glacier surface?
 - do we want to show values or relative ranges (temperature=cold-to-hot,snowfall=none-to-lots) for climate controls?
 - add assets/LICENSE.txt
 - Spanish translation
-- put "published data" that Archie has approximated in a document, check in to SVN for future reference
-- Help for modules
+- Help
+
+REFACTOR:
+- eliminate code duplication in modules
+- PlayArea is too big
+- GlaciersModel is too big
+- delete trash can code if we're sure we'll never need it
+- PlayArea.verticallyAlignZoomedViewport makes a change to viewport and results in itself being called again (it works, but not very elegant)
+- generalize all charts, there's too much duplicated code
 
 PERFORMANCE OPTIMIZATIONS:
 - Valley.getX uses divide-and-conquer
@@ -670,6 +666,9 @@ DONE:
 9/27/07 - set up simulation skeleton, check in to SVN
 
 REJECTED:
+7/22/08 - constrain tools to dragging in birds-eye bounds (no, too much work, tools are cheap)
+7/22/08 - cleanup duplicate boilerplate code in ToolboxNode constructor (OK as is, very readable)
+7/22/08 - refactor model listener class hierarchy (too destabilizing, not clear that it would result in a better design)
 7/22/08 - change color of ice flow vectors so that they are different than debris color? (no, Wendy says OK as is)
 6/4/08 - move trash can out of toolbox (hide trash can instead)
 5/22/08 - support very long experiment times (use the "steady state" button to jump to end of long experiments)
