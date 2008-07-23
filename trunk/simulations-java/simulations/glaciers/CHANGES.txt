@@ -7,7 +7,6 @@ HIGHEST PRIORITY:
 - remove snap-to-x=0 behavior for drill, thickness tool, thermometer, flag?
 
 HIGH PRIORITY:
-- make sure everything works properly when clock is paused
 - hide any features that aren't implemented for July 25 deadline
 - start sim in steady state, with debris & ripples across entire glacier length, and moraine at terminus
 
@@ -33,6 +32,7 @@ MEDIUM PRIORITY:
 - PlayArea class is too big, refactor
 - GlaciersModel class is too big, refactor
 - improve performance on slower machines
+- make sure everything works properly when clock is paused
 
 LOW PRIORITY:
 - delete trash can code if we're sure we'll never need it
@@ -81,6 +81,7 @@ CLEANUP:
 
 
 DONE:
+7/22/08 - verify that all feature for July 25 milestone work properly when clock is paused
 7/22/08 - update SnowfallNode only when its visible
 7/22/08 - clip SnowfallNode to the atmosphere
 7/22/08 - lower the elevation where white-out occurs at max snowfall
