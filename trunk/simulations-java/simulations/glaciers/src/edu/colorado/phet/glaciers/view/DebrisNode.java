@@ -8,6 +8,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.model.Debris;
 import edu.colorado.phet.glaciers.model.Glacier;
 import edu.colorado.phet.glaciers.model.Debris.DebrisAdapter;
@@ -102,7 +103,8 @@ public class DebrisNode extends PComposite {
         final double surfaceElevation = _glacier.getSurfaceElevation( _debris.getX() );
         if ( _debris.getY() >= surfaceElevation ) {
             // when debris comes to the surface, add perspective to its position and make it visible
-            _pModel.setLocation( _debris.getX(), _debris.getY() + _debris.getZ() );
+            double x = _debris.getX() + GlaciersConstants.YAW_X_OFFSET * _debris.getZ() / GlaciersConstants.PITCH_Y_OFFSET;
+            _pModel.setLocation( x, _debris.getY() + _debris.getZ() );
             setVisible( true );
         }
         else {
