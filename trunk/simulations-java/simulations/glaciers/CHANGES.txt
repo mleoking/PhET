@@ -8,7 +8,6 @@ HIGHEST PRIORITY:
 - bug: valley is narrower near headwall in background image
 - bug: as ELA moves above terminus for an advancing glacier, shape of surface below ELA is briefly wrong (broken by yaw, or always wrong?)
 - need sim abstract
-- remove background image registration points from "Science Discovery" version
 
 HIGH PRIORITY:
 - bug: ripples don't seem to be uniformly distributed, more of them are closer to the camera
@@ -75,10 +74,11 @@ CLEANUP:
 - rescale image files to minimize file size
 - disable all debug output
 - optimize memory management by reusing mutable objects
-- remove unused images (eg, penguin)
+- remove unused images
 
 
 DONE:
+7/23/08 - remove alignment points from background image, turn off alignment nodes in sim
 7/23/08 - delete penguin image files, remove license file entry
 7/23/08 - move background image alignment points to GlaciersConstants, generalize marker node creation
 7/23/08 - move debug flags from GlaciersPlayArea to GlaciersConstants
