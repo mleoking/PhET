@@ -3,17 +3,17 @@ Change history for glaciers
 ================================================================================
 
 HIGHEST PRIORITY:
+- add sim abstract
+
+HIGH PRIORITY:
 - bug: loading full-size background image causes OutOfMemoryException, exceeds JVM heap space
 - bug: valley model for x<0 does not match background image
 - bug: valley is narrower near headwall in background image
 - bug: as ELA moves above terminus for an advancing glacier, shape of surface below ELA is briefly wrong (broken by yaw, or always wrong?)
-- need sim abstract
-
-HIGH PRIORITY:
 - bug: ripples don't seem to be uniformly distributed, more of them are closer to the camera
-- YAW_X_OFFSET should be computed as a function of YAW_ROTATION and PITCH_Y_OFFSET
 
 MEDIUM PRIORITY:
+- YAW_X_OFFSET should be computed as a function of YAW_ROTATION and PITCH_Y_OFFSET
 - bug: ice is not perfectly aligned with background image, you can see slivers of the valley floor in places
 - switch user-interface between English and metric units
 - provide time estimate for climate experiments interface
@@ -29,12 +29,12 @@ MEDIUM PRIORITY:
 - implement Save/Load feature
 - improve performance on slower machines?
 - make sure everything works properly when clock is paused
+- remove registration points from background image in any versions published to PhET website
 
 LOW PRIORITY:
 - move steady state button to play area?
 - more "cartoonish" view for Basic panel?
 - bug: right edge of ice thickness tool icon is clipped (see Unfuddle #558)
-- remove registration points from mountains image
 - bug: creating a tool and dragging it straight to the trash doesn't work because we're in the middle of an event sequence
 - make sure we don't see sky where it's not supposed to be when main frame is resized to extremes
 - confirm that titles and axes on graphs are as desired
