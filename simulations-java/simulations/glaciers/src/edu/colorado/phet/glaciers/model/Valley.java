@@ -49,6 +49,34 @@ public class Valley {
     // 2D elevation change between foreground and background boundaries of the valley, used to draw pseudo-3D perspective
     private static final double PERSPECTIVE_HEIGHT = 250; // meters
     
+    /*
+     * WORKAROUND:
+     * We don't have a model that matches the background image for x<0.
+     * This set of points was chosen manually to roughly match the background image.
+     * For x<0, we'll calculate elevation as a linear interpolation between these points.
+     * These points are ordered by decreasing x value.
+     */
+    private static final Point2D[] NEGATIVE_X_SAMPLE_POINTS = {
+        new Point2D.Double( -41, 4561 ),
+        new Point2D.Double( -642, 4676 ),
+        new Point2D.Double( -948, 4701 ),
+        new Point2D.Double( -1094, 4716 ),
+        new Point2D.Double( -1868, 4876 ),
+        new Point2D.Double( -2077, 4746 ),
+        new Point2D.Double( -2271, 4666 ),
+        new Point2D.Double( -2787, 4566 ),
+        new Point2D.Double( -3110, 4606 ),
+        new Point2D.Double( -3255, 4566 ),
+        new Point2D.Double( -3461, 4561 ),
+        new Point2D.Double( -3513, 4561 ),
+        new Point2D.Double( -3690, 4571 ),
+        new Point2D.Double( -3803, 4546 ),
+        new Point2D.Double( -3932, 4501 ),
+        new Point2D.Double( -4029, 4441 ),
+        new Point2D.Double( -4255, 4396 ),
+        new Point2D.Double( -4416, 4346 )
+    };
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -100,9 +128,7 @@ public class Valley {
             }
         }
         else {
-            //WORKAROUND: To the left of the headwall, the valley is flat.
-            //XXX we need a model here that matches the background image
-            elevation = getElevation( HEADWALL_X ); 
+            elevation = getElevationToLeftOfHeadwall( x ); //WORKAROUND
         }
         return elevation;
     }
@@ -226,5 +252,46 @@ public class Valley {
             x += dx;
         }
         return path;
+    }
+    
+    /*
+     * WORKAROUND: see documentation of NEGATIVE_X_SAMPLE_POINTS above
+     */
+    private double getElevationToLeftOfHeadwall( double x ) {
+        assert ( x < HEADWALL_X );
+        double elevation = -1;
+        Point2D leftMostSample = NEGATIVE_X_SAMPLE_POINTS[NEGATIVE_X_SAMPLE_POINTS.length - 1];
+        if ( x < leftMostSample.getX() ) {
+            elevation = leftMostSample.getY();
+        }
+        else {
+            Point2D pLeft = null;
+            Point2D pRight = null;
+            for ( int i = 1; i < NEGATIVE_X_SAMPLE_POINTS.length; i++ ) {
+                
+                pLeft = NEGATIVE_X_SAMPLE_POINTS[i];
+                if ( i == 0 ) {
+                    pRight = new Point2D.Double( HEADWALL_X, getElevation( HEADWALL_X ) );
+                }
+                else {
+                    pRight = NEGATIVE_X_SAMPLE_POINTS[i - 1]; 
+                }
+                
+                if (  x >= pLeft.getX() && x <= pRight.getX() ) {
+                    elevation = linearInterpolateElevation( x, pLeft, pRight );
+                    break;
+                }
+            }
+            assert ( elevation != -1 );
+        }
+        return elevation;
+    }
+    
+    private static double linearInterpolateElevation( double x, Point2D pLeft, Point2D pRight ) {
+        // how far is x along the line from pLeft.x to pRight.x?
+        final double scale = Math.abs( ( x - pLeft.getX() ) / ( pLeft.getX() - pRight.getX() ) );
+        // linear interpolation to find the elevation
+        final double elevation = pLeft.getY() + scale * ( pRight.getY() - pLeft.getY() );
+        return elevation;
     }
 }
