@@ -75,6 +75,8 @@ CLEANUP:
 
 
 DONE:
+7/23/08 - turn off "snap tools to headwall", so that tools behave the same on both sides of the headwall
+7/23/08 - add a flag to turn "snap tools to headwall" on and off
 7/23/08 - brute force workaround for valley elevation at x<0, linear interpolation between manually-created sample points
 ******* 0.00.36 (23398)
 7/22/08 - hide icons for "coordinates" and "ice flow" check boxes in Intro tab
