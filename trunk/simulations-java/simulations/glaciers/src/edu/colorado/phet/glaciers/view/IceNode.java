@@ -92,6 +92,10 @@ public class IceNode extends PComposite {
         _glacier.removeGlacierListener( _glacierListener );
     }
     
+    public static double getDx() {
+        return DX;
+    }
+    
     private void update() {
 
         // reset the paths

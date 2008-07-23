@@ -3,7 +3,6 @@ Change history for glaciers
 ================================================================================
 
 HIGHEST PRIORITY:
-- clip SnowfallNode to the atmosphere
 - valley model for x<0 that matches background image
 - remove snap-to-x=0 behavior for drill, thickness tool, thermometer, flag?
 
@@ -82,6 +81,8 @@ CLEANUP:
 
 
 DONE:
+7/22/08 - update SnowfallNode only when its visible
+7/22/08 - clip SnowfallNode to the atmosphere
 7/22/08 - lower the elevation where white-out occurs at max snowfall
 7/22/08 - simulate snowfall using a rectangle that covers the valley, filled with a gradient paint, vary alpha based on snowfall (not clipped to atmosphere)
 7/22/08 - fix: Reset All feature was broken in version 0.00.32, button didn't do anything
