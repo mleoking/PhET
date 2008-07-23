@@ -44,7 +44,7 @@ public class GlaciersModel implements IToolProducer, IBoreholeProducer, IDebrisP
     
     private static final DoubleRange YEARS_PER_RIPPLE_GENERATED_RANGE = new DoubleRange( 20, 100 ); // ripples are generated this many years apart
     private static final double RIPPLE_WIDTH = 25; // meters
-    private static final DoubleRange RIPPLE_LENGTH_RANGE = new DoubleRange( 0.2 * Valley.getPerspectiveHeight(), 0.75 * Valley.getPerspectiveHeight() ); // meters
+    private static final DoubleRange RIPPLE_LENGTH_RANGE = new DoubleRange( 0.2 * GlaciersConstants.PERSPECTIVE_HEIGHT, 0.75 * GlaciersConstants.PERSPECTIVE_HEIGHT ); // meters
     private static final DoubleRange RIPPLE_ZOFFSET_FACTOR_RANGE = new DoubleRange( 0.3, 0.8 ); // percent of Valley.getPerspectiveHeight() - rippleLength
 
     //----------------------------------------------------------------------------
@@ -506,7 +506,7 @@ public class GlaciersModel implements IToolProducer, IBoreholeProducer, IDebrisP
                 final double height = RIPPLE_LENGTH_RANGE.getMin() + _randomRippleHeight.nextDouble() * RIPPLE_LENGTH_RANGE.getLength();
                 final Dimension size = new Dimension( (int)width, (int)height );
                 final double zOffsetFactor = RIPPLE_ZOFFSET_FACTOR_RANGE.getMin() + _randomRippleZOffset.nextDouble() * RIPPLE_ZOFFSET_FACTOR_RANGE.getLength();
-                final double zOffset = 0.75 * zOffsetFactor * ( Valley.getPerspectiveHeight() - height );
+                final double zOffset = 0.75 * zOffsetFactor * ( GlaciersConstants.PERSPECTIVE_HEIGHT - height );
                 addIceSurfaceRipple( x, size, zOffset );
                 _timeSinceLastRippleGenerated = 0;
             }

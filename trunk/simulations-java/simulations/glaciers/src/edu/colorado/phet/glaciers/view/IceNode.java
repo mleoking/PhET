@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.model.Glacier;
 import edu.colorado.phet.glaciers.model.Valley;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierAdapter;
@@ -110,7 +111,6 @@ public class IceNode extends PComposite {
             final double xHeadwall = _glacier.getHeadwallX();
             final double xTerminus = _glacier.getTerminusX();
             final Point2D surfaceAtELA = _glacier.getSurfaceAtELAReference();
-            final double perspectiveHeight = Valley.getPerspectiveHeight();
             
             // variables
             double elevation = 0;
@@ -166,7 +166,7 @@ public class IceNode extends PComposite {
                 _crossSectionPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
 
                 // surface perspective
-                elevation = _glacier.getSurfaceElevation( x ) + perspectiveHeight;
+                elevation = _glacier.getSurfaceElevation( x ) + GlaciersConstants.PERSPECTIVE_HEIGHT;
                 _pModel.setLocation( x, elevation );
                 _mvt.modelToView( _pModel, _pView );
                 _surfacePath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
@@ -176,7 +176,7 @@ public class IceNode extends PComposite {
                     }
                     else {
                         // finish exactly at the point where the ELA intersects the surface of the ice
-                        _pModel.setLocation( surfaceAtELA.getX(), surfaceAtELA.getY() + perspectiveHeight );
+                        _pModel.setLocation( surfaceAtELA.getX(), surfaceAtELA.getY() + GlaciersConstants.PERSPECTIVE_HEIGHT );
                         _mvt.modelToView( _pModel, _pView );
                         _surfaceBelowELAPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
                         finishedSurfaceBelowELA = true;

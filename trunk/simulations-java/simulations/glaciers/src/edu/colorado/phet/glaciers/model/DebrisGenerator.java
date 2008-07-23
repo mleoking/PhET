@@ -5,6 +5,7 @@ package edu.colorado.phet.glaciers.model;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Point3D;
+import edu.colorado.phet.glaciers.GlaciersConstants;
 
 /**
  * DebrisGenerator generates a 3D position for debris, 
@@ -72,9 +73,8 @@ public class DebrisGenerator {
                 double z = 0; // in the cross-section
                 if ( _count % DEBRIS_CROSS_SECTION_RATIO != 0 ) {
                     // not in the cross-section
-                    final double perspectiveHeight = Valley.getPerspectiveHeight();
-                    z = _randomDebrisZ.nextDouble() * perspectiveHeight;
-                    assert( z >= 0 && z <= perspectiveHeight );
+                    z = _randomDebrisZ.nextDouble() * GlaciersConstants.PERSPECTIVE_HEIGHT;
+                    assert( z >= 0 && z <= GlaciersConstants.PERSPECTIVE_HEIGHT );
                 }
                 
                 p = pOutput;
