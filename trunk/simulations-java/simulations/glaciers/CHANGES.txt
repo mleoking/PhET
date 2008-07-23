@@ -6,8 +6,10 @@ HIGHEST PRIORITY:
 - loading full-size background image causes OutOfMemoryException, exceeds JVM heap space
 - valley model for x<0 that matches background image
 - valley is narrower near headwall in background image
+- as ELA moves above terminus for an advancing glacier, shape of surface below ELA is briefly wrong (broken by yaw, or always wrong?)
 
 HIGH PRIORITY:
+- YAW_X_OFFSET should be computed as a function of YAW_ROTATION and PITCH_Y_OFFSET
 
 MEDIUM PRIORITY:
 - tweak alignment of mountains image, perspective (or image?) is a little off at headwall
