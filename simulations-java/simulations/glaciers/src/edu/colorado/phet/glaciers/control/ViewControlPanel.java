@@ -48,6 +48,7 @@ public class ViewControlPanel extends AbstractSubPanel {
     private final JCheckBox _coordinatesCheckBox;
     private final JCheckBox _snowfallCheckBox;
     private final JCheckBox _glacierPictureCheckBox;
+    private final JPanel _iceFlowPanel, _coordinatesPanel;
     private JDialog _glacierPictureDialog;
     
     private boolean _glacierPictureDialogWasOpen;
@@ -116,7 +117,7 @@ public class ViewControlPanel extends AbstractSubPanel {
             equilibriumLinePanel.add( equilibriumLineIcon );
         }
         
-        JPanel iceFlowPanel = new JPanel();
+        _iceFlowPanel = new JPanel();
         {
             _iceFlowCheckBox = new JCheckBox( GlaciersStrings.CHECK_BOX_ICE_FLOW );
             _iceFlowCheckBox.setFont( CONTROL_FONT );
@@ -129,11 +130,11 @@ public class ViewControlPanel extends AbstractSubPanel {
             
             JLabel iceFlowIcon = new JLabel( IceFlowNode.createIcon() );
             
-            iceFlowPanel.add( _iceFlowCheckBox );
-            iceFlowPanel.add( iceFlowIcon );
+            _iceFlowPanel.add( _iceFlowCheckBox );
+            _iceFlowPanel.add( iceFlowIcon );
         }
         
-        JPanel coordinatesPanel = new JPanel();
+        _coordinatesPanel = new JPanel();
         {
             _coordinatesCheckBox = new JCheckBox( GlaciersStrings.CHECK_BOX_COORDINATES );
             _coordinatesCheckBox.setFont( CONTROL_FONT );
@@ -146,8 +147,8 @@ public class ViewControlPanel extends AbstractSubPanel {
             
             JLabel coordinatesIcon = new JLabel( ElevationAxisNode.createIcon() );
             
-            coordinatesPanel.add( _coordinatesCheckBox );
-            coordinatesPanel.add( coordinatesIcon );
+            _coordinatesPanel.add( _coordinatesCheckBox );
+            _coordinatesPanel.add( coordinatesIcon );
         }
         
         JPanel snowfallPanel = new JPanel();
@@ -189,8 +190,8 @@ public class ViewControlPanel extends AbstractSubPanel {
         layout.addComponent( equilibriumLinePanel, 1, 0 );
         layout.addComponent( snowfallPanel, 2, 0 );
         layout.addComponent( glacierPicturePanel, 3, 0 );
-        layout.addComponent( iceFlowPanel, 2, 1 );
-        layout.addComponent( coordinatesPanel, 3, 1 );
+        layout.addComponent( _iceFlowPanel, 2, 1 );
+        layout.addComponent( _coordinatesPanel, 3, 1 );
         
         SwingUtils.setBackgroundDeep( this, BACKGROUND_COLOR, null /* excludedClasses */, false /* processContentsOfExcludedContainers */ );
     }
@@ -274,11 +275,11 @@ public class ViewControlPanel extends AbstractSubPanel {
     }
     
     public void setCoordinatesCheckBoxVisible( boolean visible ) {
-        _coordinatesCheckBox.setVisible( visible );
+        _coordinatesPanel.setVisible( visible );
     }
     
     public void setIceFlowCheckBoxVisible( boolean visible ) {
-        _iceFlowCheckBox.setVisible( visible );
+        _iceFlowPanel.setVisible( visible );
     }
     
     public void activate() {
