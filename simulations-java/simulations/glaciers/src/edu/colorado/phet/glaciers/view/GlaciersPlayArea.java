@@ -55,13 +55,6 @@ import edu.umd.cs.piccolo.PNode;
 public class GlaciersPlayArea extends JPanel implements IToolProducerListener, IBoreholeProducerListener, IDebrisProducerListener, IIceSurfaceRippleProducerListener {
     
     //----------------------------------------------------------------------------
-    // Debug
-    //----------------------------------------------------------------------------
-    
-    private static final boolean DEBUG_BACKGROUND_IMAGE_ALIGNMENT = true;
-    private static final boolean DEBUG_ELA_VALUE_VISIBLE = false;
-    
-    //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
@@ -232,19 +225,19 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
          * The alignment markers created here should line up with the ones in the image file.
          * If they don't line up, then adjust scaling and translation in MountainsAndValleyNode.
          */
-        if ( DEBUG_BACKGROUND_IMAGE_ALIGNMENT ) {
+        if ( GlaciersConstants.DEBUG_BACKGROUND_IMAGE_ALIGNMENT ) {
             
-            double x = 0;
+            double x = 0; // meters
             PNode markerNode1 = new MarkerNode();
             markerNode1.setOffset( _mvt.modelToView( x, _model.getValley().getElevation( x ) ) );
             _debugLayer.addChild( markerNode1 );
             
-            x = 10000;
+            x = 10000; // meters
             PNode markerNode2 = new MarkerNode();
             markerNode2.setOffset( _mvt.modelToView( x, _model.getValley().getElevation( x ) ) );
             _debugLayer.addChild( markerNode2 );
             
-            x = 70000;
+            x = 70000; // meters
             PNode markerNode3 = new MarkerNode();
             markerNode3.setOffset( _mvt.modelToView( x, _model.getValley().getElevation( x ) ) );
             _debugLayer.addChild( markerNode3 );
@@ -278,7 +271,7 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         
         // ELA value display
         _elaValueNode = new ELAValueNode( _model.getClimate() );
-        _elaValueNode.setVisible( DEBUG_ELA_VALUE_VISIBLE );
+        _elaValueNode.setVisible( GlaciersConstants.DEBUG_ELA_VALUE_VISIBLE );
         _toolboxLayer.addChild( _elaValueNode );
         
         // Pan control, for moving the zoomed viewport
