@@ -94,6 +94,9 @@ public class GlaciersConstants {
     // where the glacier intersects the right edge of the zoomed viewport, percentage of zoomed viewport height
     public static final double ALIGNMENT_FACTOR_FOR_GLACIER_IN_ZOOMED_VIEWPORT = 0.25; // percent
     
+    // 2D elevation change between foreground and background boundaries of the valley, used to fake depth in pseudo-3D perspective
+    public static final double PERSPECTIVE_HEIGHT = 250; // meters
+    
     //----------------------------------------------------------------------------
     // Colors
     //----------------------------------------------------------------------------
