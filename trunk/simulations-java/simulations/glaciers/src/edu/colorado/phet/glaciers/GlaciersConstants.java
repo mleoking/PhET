@@ -2,10 +2,8 @@
 
 package edu.colorado.phet.glaciers;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Stroke;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
@@ -85,35 +83,18 @@ public class GlaciersConstants {
     public static final double BIRDS_EYE_CAMERA_VIEW_SCALE = 0.2 / Y_AXIS_SCALE_IN_IMAGE;
     public static final double ZOOMED_CAMERA_VIEW_SCALE = 1;
     
-    // offset of upper-left corner of birds-eye viewport from highest point on the glacier
+    // offset of upper-left corner of birds-eye viewport from top of headwall
     public static final Point2D BIRDS_EYE_VIEWPORT_OFFSET = new Point2D.Double( -4400, +1000 ); // meters
     
     // where the glacier intersects the right edge of the zoomed viewport, percentage of zoomed viewport height
     public static final double ALIGNMENT_FACTOR_FOR_GLACIER_IN_ZOOMED_VIEWPORT = 0.25; // percent
     
     //----------------------------------------------------------------------------
-    // Fonts
-    //----------------------------------------------------------------------------
-
-    //----------------------------------------------------------------------------
-    // Strokes
-    //----------------------------------------------------------------------------
-
-    public static final Stroke DASHED_STROKE = 
-        new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3,3}, 0 );
-
-    //----------------------------------------------------------------------------
     // Colors
     //----------------------------------------------------------------------------
     
-    // Generic transparent color
-    public static final Color TRANSPARENT_COLOR = new Color( 0f, 0f, 0f, 0f );
-    
     // Default color for module tabs
     public static final Color SELECTED_TAB_COLOR = Color.ORANGE;
-    
-    // color below ground level
-    public static final Color UNDERGROUND_COLOR = new Color( 180, 158, 134 ); // tan
     
     // color of the Piccolo canvases
     public static final Color BIRDS_EYE_CANVAS_COLOR = new Color( 99, 173, 255 ); // sky blue
@@ -138,7 +119,7 @@ public class GlaciersConstants {
     // Subpanels of the main control panel
     public static final Font SUBPANEL_TITLE_FONT = new PhetFont( Font.BOLD, 12 );
     public static final Font SUBPANEL_CONTROL_FONT = new PhetFont( Font.PLAIN, 12 );
-    public static final Color SUBPANEL_BACKGROUND_COLOR = new Color( 82, 126, 90 ); // dark pastel green
+    public static final Color SUBPANEL_BACKGROUND_COLOR = new Color( 82, 126, 90 ); // dark green
     public static final Color SUBPANEL_TITLE_COLOR = Color.WHITE;
     public static final Color SUBPANEL_CONTROL_COLOR = Color.WHITE;
     
