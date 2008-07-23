@@ -1,0 +1,69 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: July 16-22, 2008 (Wed-Tue)
+
+ACCOMPLISHMENTS:
+
+  pH Scale:
+  - change colors for H2O, H3O, OH throughout
+  - added "volume readout" feature
+  - constrain volume to 2 decimal places in model
+  - fix "precision decimal" class to work for all languages
+  - changed facuets to have variable flow rate
+  - change beaker ticks to 0.1L increments instead of 1/8L
+  - adjust clock rate and faucet flow rates to support titration and smooth animation
+  - publish 1.00 to PhET website
+  
+  Glaciers:
+  - defined feature set for July 25 "Science Discovery" milestone
+  - fixes to timescale model
+  - distribute features between Intro and Advanced modules
+  - refactor and simplify internal MVC framework, move controller into control panels
+  - consolidate all important constants in GlaciersConstants
+  - use RestAllButton from phetcommon
+  - implement HelpButton
+  - close & reopen dialogs when switching tabs
+  - keep track of dialog positions, always reopen dialog where it was previously
+  - new background image, trimmed to workaround OutOfMemoryException
+  - scale y-axis by 2x in model-view transform
+  - reduce birds-eye view camera scale by 2x so that valley floor for x=0 to x=80km is visible
+  - shift headwall to the right in startup view
+  - show more of mountains in zoomed view
+  - remove tools from bird-eye view, they are too small to be usable
+  - don't draw x coordinate axis for x < 0
+  - make default clock speed 2 years per sec (2 fps)
+  - make ripples look random
+  - fix right arrow to have same bounds constraints as "bear" pan control
+  - workaround: no valley model for x<0, so for all x<0 use elevation at x=0
+  - make glacial budget meter show "?" for x<0
+  - make drill, thickness tool, thermometer, and flag snap to x=0 when dropped at x<0
+  - add view of snowfall
+  - hide all features that are not part of July 25 milestone
+  - publish 0.00.33,34,35,36
+  - VERSION 0.00.36 contains all features for July 25 milestone
+  
+  Misc:
+  - discuss issues with discharge-lamps and other sims that sim-to-sim dependencies
+  - deal with problems and delays caused by migration of SourceForge SVN server]
+  - report website issue with adding a sim whose name begins with lowercase (pH Scale)
+  - discuss Japanese problem with Sam
+  - rename local.properties to build-local.properties in build process
+  - update to Eclipse 3.3.2 and Subversive 20080612
+ 
+WHAT'S NEXT:
+    
+  - continue work on glaciers, see:
+    http://phet.svn.sourceforge.net/viewvc/phet/trunk/simulations-java/simulations/glaciers/CHANGES.txt?view=markup
+ 
+  - resume working on deploy process for Flash sims
+       
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+  July 26 - August 10
+  
+--
