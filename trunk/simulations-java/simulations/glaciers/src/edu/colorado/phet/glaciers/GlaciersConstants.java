@@ -35,7 +35,12 @@ public class GlaciersConstants {
     // Flags
     //----------------------------------------------------------------------------
     
+    // if true, model is updated while dragging slider.
+    // if false, model is not updated until slider is released.
     public static final boolean UPDATE_WHILE_DRAGGING_SLIDERS = true;
+    
+    // if true, tools dropped to the left of the headwall will snap to the headwall.
+    public static final boolean SNAP_TOOLS_TO_HEADWALL = false;
     
     //----------------------------------------------------------------------------
     // Application

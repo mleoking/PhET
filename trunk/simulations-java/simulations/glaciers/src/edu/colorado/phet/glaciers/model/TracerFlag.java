@@ -7,6 +7,7 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierAdapter;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierListener;
 
@@ -66,8 +67,11 @@ public class TracerFlag extends AbstractTool {
      */
     protected void constrainDrop() {
         
-        // constrain x to >= headwall
-        final double x = Math.max( getX(), _glacier.getHeadwallX() );
+        double x = getX();
+        if ( GlaciersConstants.SNAP_TOOLS_TO_HEADWALL ) {
+            // constrain x to >= headwall
+            x = Math.max( getX(), _glacier.getHeadwallX() );
+        }
         
         final double surfaceElevation = _glacier.getSurfaceElevation( x );
         final double valleyElevation = _glacier.getValley().getElevation( x );

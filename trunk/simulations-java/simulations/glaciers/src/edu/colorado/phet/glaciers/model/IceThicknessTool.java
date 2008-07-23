@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierAdapter;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierListener;
 
@@ -69,10 +70,16 @@ public class IceThicknessTool extends AbstractTool {
     //----------------------------------------------------------------------------
     
     protected void constrainDrop() {
-        // constrain x to >= headwall
-        double x = Math.max( getX(), _glacier.getHeadwallX() );
+        
+        double x = getX();
+        if ( GlaciersConstants.SNAP_TOOLS_TO_HEADWALL ) {
+            // constrain x to >= headwall
+            x = Math.max( getX(), _glacier.getHeadwallX() );
+        }
+        
         // snap y to valley floor
         double valleyElevation = _glacier.getValley().getElevation( x );
+        
         setPosition( x, valleyElevation );
     }
     
