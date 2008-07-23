@@ -546,8 +546,7 @@
 			<then>
 				<echo message="Opening browser: ${browser} ${browser.args} ${deployurl}"/>
 				<exec executable="${browser}" spawn="true">
-					<arg line="${browser.args}"/>
-					<arg value="${deployurl}"/>
+					<arg line="${browser.args} ${deployurl}"/>
 				</exec>
 			</then>
 		</if>
@@ -556,8 +555,7 @@
     <!--This task facilitates testing of browser code outside of the full deploy process.-->
      <target name="test-browser">
          <exec executable="${browser}" spawn="true">
-             <arg line="${browser.args}"/>
-             <arg line="http://www.chrismalley.com"/>
+             <arg line="${browser.args} http://www.chrismalley.com/"/>
          </exec>
      </target>
 
