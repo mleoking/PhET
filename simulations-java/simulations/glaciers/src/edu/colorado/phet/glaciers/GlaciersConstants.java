@@ -34,6 +34,10 @@ public class GlaciersConstants {
     // displays alignment points for background image
     public static final boolean DEBUG_BACKGROUND_IMAGE_ALIGNMENT = true;
     
+    // alignment points for background image. 
+    // The artist should put a marker on the valley floor at these x locations.
+    public static final double[] DEBUG_BACKGROUND_IMAGE_ALIGNMENT_X_VALUES = { 0, 10000, 70000 }; // meters
+    
     // display ELA value at the lower right corner of the toolbox
     public static final boolean DEBUG_ELA_VALUE_VISIBLE = false;
     
