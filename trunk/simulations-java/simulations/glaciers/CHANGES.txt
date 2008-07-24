@@ -10,7 +10,6 @@ HIGH PRIORITY:
 - bug: valley model for x<0 does not match background image
 - bug: valley is narrower near headwall in background image
 - bug: as ELA moves above terminus for an advancing glacier, shape of surface below ELA is briefly wrong (broken by yaw, or always wrong?)
-- bug: ripples don't seem to be uniformly distributed, more of them are closer to the camera
 
 MEDIUM PRIORITY:
 - YAW_X_OFFSET should be computed as a function of YAW_ROTATION and PITCH_Y_OFFSET
@@ -78,6 +77,7 @@ CLEANUP:
 
 
 DONE:
+7/23/08 - adjust z offset of ripples so that they are more evenly distributed across ice surface
 7/23/08 - load Tonisa_Glacier.jpg statically in GlaciersImages
 7/23/08 - rename glacierPicture.jpg to Tonisa_Glacier.jpg, to match asset filename
 7/23/08 - convert real glacier picture from PNG to JPG (653KB versus 57KB, original asset was JPG)
