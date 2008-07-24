@@ -53,7 +53,7 @@ public class GlaciersClockControlPanel extends ClockControlPanel {
         // Clock
         _clock = clock;
         _clockListener = new ConstantDtClockAdapter() {
-            public void dtChanged( ConstantDtClockEvent event ) {
+            public void delayChanged( ConstantDtClockEvent event ) {
                 // clock frame rate changed, update the speed slider
                 _frameRateControl.setValue( _clock.getFrameRate() );
             }
