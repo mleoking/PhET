@@ -271,7 +271,7 @@ public class GlaciersModel implements IToolProducer, IBoreholeProducer, IDebrisP
         if ( !_tools.contains( tool ) ) {
             throw new IllegalStateException( "attempted to remove a tool that doesn't exist: " + tool.getClass().getName() );
         }
-        if ( tool instanceof BoreholeDrill ) { //XXX
+        if ( tool instanceof BoreholeDrill ) {
             ( (BoreholeDrill) tool ).removeBoreholeDrillListener( _boreholeDrillListener );
         }
         tool.removeToolListener( _toolSelfDeletionListener );
