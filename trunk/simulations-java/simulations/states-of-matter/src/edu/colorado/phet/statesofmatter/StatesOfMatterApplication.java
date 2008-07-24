@@ -43,9 +43,6 @@ public class StatesOfMatterApplication extends PiccoloPhetApplication implements
     private Exp2SolidLiquidGasModule   _experimentalModule2;
     private static TabbedModulePanePiccolo _tabbedModulePane;
     
-    // TODO: JPB TBD - Temp var for putting up dummy tab. 
-    private SolidLiquidGasModule _solidLiquidGasModule3;
-
     //----------------------------------------------------------------------------
     // Sole Constructor
     //----------------------------------------------------------------------------
@@ -89,9 +86,6 @@ public class StatesOfMatterApplication extends PiccoloPhetApplication implements
 
         _phaseChangesModule = new PhaseChangesModule( parentFrame );
         addModule( _phaseChangesModule );
-
-        _solidLiquidGasModule3 = new SolidLiquidGasModule( parentFrame );
-        addModule( _solidLiquidGasModule3 );
 
         _experimentalModule = new ExpSolidLiquidGasModule( parentFrame );
         addModule( _experimentalModule );
