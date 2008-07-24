@@ -77,12 +77,6 @@ public class BicyclePumpNode extends PNode {
         m_pumpingRequiredToInject = height * PUMPING_REQUIRED_TO_INJECT_PROPORTION;
         m_currentPumpingAmount = 0;
         
-        // JPB TBD - Create a box to show where the overall pump will go.
-        PPath outline = new PPath( new Rectangle2D.Double( 0, 0, width, height ) );
-        outline.setStrokePaint( Color.WHITE );
-        outline.setStroke( new BasicStroke( 25 ) );
-        addChild( outline );
-
         // Add the base of the pump.
         double pumpBaseWidth = width * PUMP_BASE_WIDTH_PROPORTION;
         double pumpBaseHeight = height * PUMP_BASE_HEIGHT_PROPORTION;
