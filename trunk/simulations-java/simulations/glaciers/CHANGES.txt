@@ -19,18 +19,19 @@ MEDIUM PRIORITY:
 - Experiments module
 - behavior of budget meter (snap-to-ice) is hard to discover and potentially misleading
 - main control panel should be the same height in all modules
-? add headwallX to new ice thickness model in model.txt, which assumes headwallX=0
 - "steady state" feature needs to advance clock to the time at which the glacier would reach its steady state
 - "steady state" feature needs to fill in missing data in time-dependent graphs
 - "steady state" feature needs to fill glacier with debris and surface ripples (and create moraine?)
 - always collect data for time-based graphs, keep "latest" & "historical" data points, compress historical, limit historical size
 - add zoom in/out button for time-based graphs; show scrolling "latest" data or complete "historical"
 - implement Save/Load feature
-- improve performance on slower machines?
 - make sure everything works properly when clock is paused
 - remove registration points from background image in any versions published to PhET website
+- should "Glacial Budget vs Elevation" chart show negative ablation?
+- do we want to show values or relative ranges (temperature=cold-to-hot,snowfall=none-to-lots) for climate controls?
 
 LOW PRIORITY:
+- add headwallX to new ice thickness model in model.txt, which assumes headwallX=0
 - move steady state button to play area?
 - more "cartoonish" view for Basic panel?
 - bug: right edge of ice thickness tool icon is clipped (see Unfuddle #558)
@@ -40,28 +41,28 @@ LOW PRIORITY:
 - fix layout problems with main control panel
 - improve smoothness of DistanceAxisNode (x-axis for coordinates feature)
 - make zoomed viewport follow terminus (defer until we decide whether this is really needed)
-- bug: ticks & labels on sliders should be white, code to set their color is not working (Mac only?)
+- bug: ticks & labels on sliders should be white, code to set their color is not working (Mac OS 10.4 only?)
 - add rounded borders to control sub-panels
-- should "Glacial Budget vs Elevation" chart show negative ablation?
 - add rocks falling off mountains onto glacier surface?
-- do we want to show values or relative ranges (temperature=cold-to-hot,snowfall=none-to-lots) for climate controls?
 - add assets/LICENSE.txt
 - Spanish translation
 - Help
+- improve performance on slower machines?
 
 REFACTOR:
 - eliminate code duplication in modules
-- PlayArea is too big
 - GlaciersModel is too big
-- delete trash can code if we're sure we'll never need it
-- PlayArea.verticallyAlignZoomedViewport makes a change to viewport and results in itself being called again (it works, but not very elegant)
+- PlayArea is too big
 - generalize all charts, there's too much duplicated code
+- PlayArea.verticallyAlignZoomedViewport makes a change to viewport and results in itself being called again (it works, but not very elegant)
+- delete trash can code if we're sure we'll never need it
 
 PERFORMANCE OPTIMIZATIONS:
 - Valley.getX uses divide-and-conquer
 - Climate.updateELA uses divide-and-conquer
+- Glacier.findSurfaceAtELA does divide-and-conquer
 - Glacier.getIceSpeed(x,z) doesn't reuse speed at x values
-- Glacier.getIceSpeed(x,z) calls getIceThickness which does interpolation
+- Valley.getElevationLeftOfHeadwall does lookup and interpolation
 
 MIGRATE TO PHETCOMMON:
 - DoubleSpinner
