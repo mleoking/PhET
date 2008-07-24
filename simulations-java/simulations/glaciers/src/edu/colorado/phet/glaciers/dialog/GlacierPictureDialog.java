@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.glaciers.GlaciersResources;
+import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 
 
@@ -36,7 +36,7 @@ public class GlacierPictureDialog extends JDialog {
         setResizable( false );
 
         // picture
-        BufferedImage image = GlaciersResources.getImage( "glacierPicture.jpg" );
+        BufferedImage image = GlaciersImages.GLACIER_PICTURE;
         JLabel picture = new JLabel( new ImageIcon( image ) );
         picture.setSize( (int)image.getWidth(), (int)image.getHeight() );
         
