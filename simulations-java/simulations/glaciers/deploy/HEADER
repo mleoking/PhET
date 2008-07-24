@@ -17,6 +17,7 @@ Click to launch English version:
 <li>more uniform distribution of ripples across the ice surface
 <li>convert picture of real glacier from PNG to JPEG, reduced size from 650KB to 55KB
 <li>fix: shape for ice surface below ELA was missing the terminus point when the terminus is very close to the ELA
+<li>fix: resetting the clock speed doesn't reset the clock speed slider
 </ul>
 <p>
 <b>Known problems:</b>
