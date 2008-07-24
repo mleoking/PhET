@@ -76,7 +76,8 @@ CLEANUP:
 
 
 DONE:
-******* 1.00.00 (?)
+******* 1.00.00 (23463)
+7/23/08 - update screenshot
 7/23/08 - add sim description (aka, abstract)
 ******* 0.00.39 (23459)
 7/23/08 - fix: resetting the clock speed doesn't reset the clock speed slider
