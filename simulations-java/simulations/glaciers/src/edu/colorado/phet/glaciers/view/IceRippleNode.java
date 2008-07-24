@@ -8,34 +8,34 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.model.Glacier;
-import edu.colorado.phet.glaciers.model.IceSurfaceRipple;
+import edu.colorado.phet.glaciers.model.IceRipple;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierAdapter;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierListener;
-import edu.colorado.phet.glaciers.model.IceSurfaceRipple.IceSurfaceRippleAdapter;
-import edu.colorado.phet.glaciers.model.IceSurfaceRipple.IceSurfaceRippleListener;
+import edu.colorado.phet.glaciers.model.IceRipple.IceRippleAdapter;
+import edu.colorado.phet.glaciers.model.IceRipple.IceRippleListener;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * IceSurfaceRippleNode is the visual representation of a "ripple" on the surface of the ice.
+ * IceRippleNode is the visual representation of a "ripple" on the surface of the ice.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class IceSurfaceRippleNode extends PComposite {
+public class IceRippleNode extends PComposite {
     
     private static final Stroke STROKE = new BasicStroke( 1f );
     private static final Color COLOR_ABOVE_ELA = new Color( 222, 222, 222 );
     private static final Color COLOR_BELOW_ELA = new Color( 200, 200, 200 );
     
     private final Glacier _glacier;
-    private final IceSurfaceRipple _ripple;
+    private final IceRipple _ripple;
     private final GlacierListener _glacierListener;
-    private final IceSurfaceRippleListener _rippleListener;
+    private final IceRippleListener _rippleListener;
     private final ModelViewTransform _mvt;
     private final Point2D _pView;
     private final PPath _topArcNode, _bottomArcNode;
     
-    public IceSurfaceRippleNode( IceSurfaceRipple ripple, Glacier glacier, ModelViewTransform mvt ) {
+    public IceRippleNode( IceRipple ripple, Glacier glacier, ModelViewTransform mvt ) {
         super();
         setPickable( false );
         setChildrenPickable( false );
@@ -51,12 +51,12 @@ public class IceSurfaceRippleNode extends PComposite {
         };
         _glacier.addGlacierListener( _glacierListener );
         
-        _rippleListener = new IceSurfaceRippleAdapter() {
+        _rippleListener = new IceRippleAdapter() {
             public void positionChanged() {
                 update();
             }
         };
-        _ripple.addIceSurfaceRippleListener( _rippleListener );
+        _ripple.addIceRippleListener( _rippleListener );
         
         Point2D pModel = new Point2D.Double();
         _pView = new Point2D.Double();
@@ -93,7 +93,7 @@ public class IceSurfaceRippleNode extends PComposite {
     
     public void cleanup() {
         _glacier.removeGlacierListener( _glacierListener );
-        _ripple.removeIceSurfaceRippleListener( _rippleListener );
+        _ripple.removeIceRippleListener( _rippleListener );
     }
     
     private void update() {

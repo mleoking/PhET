@@ -14,12 +14,12 @@ import edu.colorado.phet.glaciers.model.Glacier.GlacierAdapter;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierListener;
 
 /**
- * IceSurfaceRipple is the model of a "ripple" on the surface of the ice.
+ * IceRipple is the model of a "ripple" on the surface of the ice.
  * Ripples are used to show that the ice is moving.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class IceSurfaceRipple extends ClockAdapter {
+public class IceRipple extends ClockAdapter {
     
     //----------------------------------------------------------------------------
     //  Instance data
@@ -38,7 +38,7 @@ public class IceSurfaceRipple extends ClockAdapter {
     //  Constructors
     //----------------------------------------------------------------------------
     
-    public IceSurfaceRipple( double x, Dimension size, double zOffset, Glacier glacier ) {
+    public IceRipple( double x, Dimension size, double zOffset, Glacier glacier ) {
         super();
         
         _position = new Point2D.Double( x, glacier.getSurfaceElevation( x ) );
@@ -147,28 +147,28 @@ public class IceSurfaceRipple extends ClockAdapter {
     // Listener
     //----------------------------------------------------------------------------
     
-    public interface IceSurfaceRippleListener {
+    public interface IceRippleListener {
         public void positionChanged();
-        public void deleteMe( IceSurfaceRipple ripple );
+        public void deleteMe( IceRipple ripple );
     }
     
-    public static class IceSurfaceRippleAdapter implements IceSurfaceRippleListener {
+    public static class IceRippleAdapter implements IceRippleListener {
         public void positionChanged() {}
-        public void deleteMe( IceSurfaceRipple ripple ) {}
+        public void deleteMe( IceRipple ripple ) {}
     }
     
-    public void addIceSurfaceRippleListener( IceSurfaceRippleListener listener ) {
+    public void addIceRippleListener( IceRippleListener listener ) {
         _listeners.add( listener );
     }
     
-    public void removeIceSurfaceRippleListener( IceSurfaceRippleListener listener ) {
+    public void removeIceRippleListener( IceRippleListener listener ) {
         _listeners.remove( listener );
     }
     
     private void notifyPositionChanged() {
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            ( (IceSurfaceRippleListener) i.next() ).positionChanged();
+            ( (IceRippleListener) i.next() ).positionChanged();
         }
     }
     
@@ -176,7 +176,7 @@ public class IceSurfaceRipple extends ClockAdapter {
         ArrayList listenersCopy = new ArrayList( _listeners );
         Iterator i = listenersCopy.iterator(); // iterate on a copy to avoid ConcurrentModificationException
         while ( i.hasNext() ) {
-            ( (IceSurfaceRippleListener) i.next() ).deleteMe( this );
+            ( (IceRippleListener) i.next() ).deleteMe( this );
         }
     }
 }

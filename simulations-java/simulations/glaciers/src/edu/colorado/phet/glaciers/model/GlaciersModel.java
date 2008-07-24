@@ -20,8 +20,8 @@ import edu.colorado.phet.glaciers.model.Borehole.BoreholeListener;
 import edu.colorado.phet.glaciers.model.BoreholeDrill.BoreholeDrillListener;
 import edu.colorado.phet.glaciers.model.Debris.DebrisAdapter;
 import edu.colorado.phet.glaciers.model.Debris.DebrisListener;
-import edu.colorado.phet.glaciers.model.IceSurfaceRipple.IceSurfaceRippleAdapter;
-import edu.colorado.phet.glaciers.model.IceSurfaceRipple.IceSurfaceRippleListener;
+import edu.colorado.phet.glaciers.model.IceRipple.IceRippleAdapter;
+import edu.colorado.phet.glaciers.model.IceRipple.IceRippleListener;
 
 
 /**
@@ -29,7 +29,7 @@ import edu.colorado.phet.glaciers.model.IceSurfaceRipple.IceSurfaceRippleListene
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class GlaciersModel implements IToolProducer, IBoreholeProducer, IDebrisProducer, IIceSurfaceRippleProducer {
+public class GlaciersModel implements IToolProducer, IBoreholeProducer, IDebrisProducer, IIceRippleProducer {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -72,9 +72,9 @@ public class GlaciersModel implements IToolProducer, IBoreholeProducer, IDebrisP
     private final Point3D _pDebris;
     private double _timeSinceLastDebrisGenerated;
     
-    private final ArrayList _ripples; // list of IceSurfaceRipple
-    private final ArrayList _rippleProducerListeners; // list of IceSurfaceRippleProducerListeners
-    private final IceSurfaceRippleListener _rippleSelfDeletionListener;
+    private final ArrayList _ripples; // list of IceRipple
+    private final ArrayList _rippleProducerListeners; // list of IceRippleProducerListeners
+    private final IceRippleListener _rippleSelfDeletionListener;
     private double _timeSinceLastRippleGenerated;
     private final Random _randomRippleTime, _randomRippleHeight, _randomRippleZOffset;
     
@@ -149,16 +149,16 @@ public class GlaciersModel implements IToolProducer, IBoreholeProducer, IDebrisP
         };
         
         // ripples delete themselves
-        _rippleSelfDeletionListener = new IceSurfaceRippleAdapter() {
-            public void deleteMe( IceSurfaceRipple ripple ) {
-                removeIceSurfaceRipple( ripple );
+        _rippleSelfDeletionListener = new IceRippleAdapter() {
+            public void deleteMe( IceRipple ripple ) {
+                removeIceRipple( ripple );
             }
         };
         
         _clock.addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent clockEvent ) {
                 generateDebris( clockEvent );
-                generateRipple( clockEvent );
+                generateIceRipple( clockEvent );
             }
         });
     }
@@ -438,66 +438,66 @@ public class GlaciersModel implements IToolProducer, IBoreholeProducer, IDebrisP
     }
     
     //----------------------------------------------------------------------------
-    // IIceSurfaceRippleProducer
+    // IIceRippleProducer
     //----------------------------------------------------------------------------
     
-    public IceSurfaceRipple addIceSurfaceRipple( double x, Dimension size, double yOffset ) {
+    public IceRipple addIceRipple( double x, Dimension size, double yOffset ) {
         if ( ENABLE_RIPPLE_DEBUG_OUTPUT ) {
-            System.out.println( "AbstractModel.addIceSurfaceRipple " + x );
+            System.out.println( "AbstractModel.addIceRipple " + x );
         }
-        IceSurfaceRipple ripple = new IceSurfaceRipple( x, size, yOffset, _glacier );
-        ripple.addIceSurfaceRippleListener( _rippleSelfDeletionListener );
+        IceRipple ripple = new IceRipple( x, size, yOffset, _glacier );
+        ripple.addIceRippleListener( _rippleSelfDeletionListener );
         _ripples.add( ripple );
         _clock.addClockListener( ripple );
-        notifyIceSurfaceRippleAdded( ripple );
+        notifyIceRippleAdded( ripple );
         return ripple;
     }
     
-    public void removeIceSurfaceRipple( IceSurfaceRipple ripple ) {
+    public void removeIceRipple( IceRipple ripple ) {
         if ( ENABLE_RIPPLE_DEBUG_OUTPUT ) {
-            System.out.println( "AbstractModel.removeIceSurfaceRipple " );
+            System.out.println( "AbstractModel.removeIceRipple " );
         }
         if ( !_ripples.contains( ripple ) ) {
             throw new IllegalStateException( "attempted to remove ripple that doesn't exist" );
         }
-        ripple.removeIceSurfaceRippleListener( _rippleSelfDeletionListener );
+        ripple.removeIceRippleListener( _rippleSelfDeletionListener );
         _ripples.remove( ripple );
         _clock.removeClockListener( ripple );
-        notifyIceSurfaceRippleRemoved( ripple );
+        notifyIceRippleRemoved( ripple );
         ripple.cleanup();
     }
     
-    public void removeAllIceSurfaceRipples() {
+    public void removeAllIceRipples() {
         ArrayList ripplesCopy = new ArrayList( _ripples ); // iterate on a copy of the array
         Iterator i = ripplesCopy.iterator();
         while ( i.hasNext() ) {
-            removeIceSurfaceRipple( (IceSurfaceRipple) i.next() );
+            removeIceRipple( (IceRipple) i.next() );
         }
     }
     
-    public void addIceSurfaceRippleProducerListener( IIceSurfaceRippleProducerListener listener ) {
+    public void addIceRippleProducerListener( IIceRippleProducerListener listener ) {
         _rippleProducerListeners.add( listener );
     }
     
-    public void removeIceSurfaceRippleProducerListener( IIceSurfaceRippleProducerListener listener ) {
+    public void removeIceRippleProducerListener( IIceRippleProducerListener listener ) {
         _rippleProducerListeners.remove( listener );
     }
     
-    private void notifyIceSurfaceRippleAdded( IceSurfaceRipple ripple ) {
+    private void notifyIceRippleAdded( IceRipple ripple ) {
         Iterator i = _rippleProducerListeners.iterator();
         while ( i.hasNext() ) {
-            ((IIceSurfaceRippleProducerListener)i.next()).rippleAdded( ripple );
+            ((IIceRippleProducerListener)i.next()).rippleAdded( ripple );
         }
     }
     
-    private void notifyIceSurfaceRippleRemoved( IceSurfaceRipple ripple ) {
+    private void notifyIceRippleRemoved( IceRipple ripple ) {
         Iterator i = _rippleProducerListeners.iterator();
         while ( i.hasNext() ) {
-            ((IIceSurfaceRippleProducerListener)i.next()).rippleRemoved( ripple );
+            ((IIceRippleProducerListener)i.next()).rippleRemoved( ripple );
         }
     }
     
-    private void generateRipple( ClockEvent clockEvent ) {
+    private void generateIceRipple( ClockEvent clockEvent ) {
         if ( _glacier.getLength() > 0 ) {
             _timeSinceLastRippleGenerated += clockEvent.getSimulationTimeChange();
             final double yearsPerRipple = YEARS_PER_RIPPLE_GENERATED_RANGE.getMin() + _randomRippleTime.nextDouble() * YEARS_PER_RIPPLE_GENERATED_RANGE.getLength();
@@ -508,7 +508,7 @@ public class GlaciersModel implements IToolProducer, IBoreholeProducer, IDebrisP
                 final Dimension size = new Dimension( (int)width, (int)height );
                 final double zOffsetFactor = RIPPLE_ZOFFSET_FACTOR_RANGE.getMin() + _randomRippleZOffset.nextDouble() * RIPPLE_ZOFFSET_FACTOR_RANGE.getLength();
                 final double zOffset = zOffsetFactor * ( GlaciersConstants.PITCH_Y_OFFSET - height - RIPPLE_MIN_Z_MARGIN );
-                addIceSurfaceRipple( x, size, zOffset );
+                addIceRipple( x, size, zOffset );
                 _timeSinceLastRippleGenerated = 0;
             }
         }

@@ -25,7 +25,7 @@ import edu.colorado.phet.glaciers.control.ScrollArrowNode.RightScrollArrowNode;
 import edu.colorado.phet.glaciers.model.*;
 import edu.colorado.phet.glaciers.model.IBoreholeProducer.IBoreholeProducerListener;
 import edu.colorado.phet.glaciers.model.IDebrisProducer.IDebrisProducerListener;
-import edu.colorado.phet.glaciers.model.IIceSurfaceRippleProducer.IIceSurfaceRippleProducerListener;
+import edu.colorado.phet.glaciers.model.IIceRippleProducer.IIceRippleProducerListener;
 import edu.colorado.phet.glaciers.model.IToolProducer.IToolProducerListener;
 import edu.colorado.phet.glaciers.model.Viewport.ViewportListener;
 import edu.colorado.phet.glaciers.view.tools.AbstractToolNode;
@@ -52,7 +52,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class GlaciersPlayArea extends JPanel implements IToolProducerListener, IBoreholeProducerListener, IDebrisProducerListener, IIceSurfaceRippleProducerListener {
+public class GlaciersPlayArea extends JPanel implements IToolProducerListener, IBoreholeProducerListener, IDebrisProducerListener, IIceRippleProducerListener {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -93,7 +93,7 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
     private final ScrollArrowNode _leftScrollArrowNode, _rightScrollArrowNode;
     private final HashMap _boreholesMap; // key=Borehole, value=BoreholeNode, used for removing borehole nodes when their model elements are deleted
     private final HashMap _debrisMap; // key=Debris, value=DebrisNode, used for removing debris nodes when their model elements are deleted
-    private final HashMap _ripplesMap; // key=IceSurfaceRipple, value=IceSurfaceRippleNode, used for removing ripple nodes when their model elements are deleted
+    private final HashMap _ripplesMap; // key=IceRipple, value=IceRippleNode, used for removing ripple nodes when their model elements are deleted
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -110,7 +110,7 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         _model.addToolProducerListener( this ); // manage nodes when tools are added/removed
         _model.addBoreholeProducerListener( this ); // manage nodes when boreholes are added/removed
         _model.addDebrisProducerListener( this ); // manage nodes when debris is added/removed
-        _model.addIceSurfaceRippleProducerListener( this ); // manage nodes when ripples are added/removed
+        _model.addIceRippleProducerListener( this ); // manage nodes when ripples are added/removed
 
         _mvt = new GlaciersModelViewTransform();
         
@@ -602,17 +602,17 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
     
     
     //----------------------------------------------------------------------------
-    // IIceSurfaceRippleProducerListener implementation
+    // IIceRippleProducerListener implementation
     //----------------------------------------------------------------------------
     
-    public void rippleAdded( IceSurfaceRipple ripple ) {
-        IceSurfaceRippleNode rippleNode = new IceSurfaceRippleNode( ripple, _model.getGlacier(), _mvt );
+    public void rippleAdded( IceRipple ripple ) {
+        IceRippleNode rippleNode = new IceRippleNode( ripple, _model.getGlacier(), _mvt );
         _ripplesLayer.addChild( rippleNode );
         _ripplesMap.put( ripple, rippleNode );
     }
     
-    public void rippleRemoved( IceSurfaceRipple ripple ) {
-        IceSurfaceRippleNode rippleNode = (IceSurfaceRippleNode) _ripplesMap.get( ripple );
+    public void rippleRemoved( IceRipple ripple ) {
+        IceRippleNode rippleNode = (IceRippleNode) _ripplesMap.get( ripple );
         assert ( rippleNode != null );
         _ripplesLayer.removeChild( rippleNode );
         _ripplesMap.remove( ripple );
