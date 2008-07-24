@@ -46,6 +46,7 @@ public class GlaciersModel implements IToolProducer, IBoreholeProducer, IDebrisP
     private static final double RIPPLE_WIDTH = 25; // meters
     private static final DoubleRange RIPPLE_LENGTH_RANGE = new DoubleRange( 0.2 * GlaciersConstants.PITCH_Y_OFFSET, 0.75 * GlaciersConstants.PITCH_Y_OFFSET ); // meters
     private static final DoubleRange RIPPLE_ZOFFSET_FACTOR_RANGE = new DoubleRange( 0.3, 0.8 ); // percent of Valley.getPerspectiveHeight() - rippleLength
+    private static final double RIPPLE_MIN_Z_MARGIN = 10; // min margin between ripple and edge of ice (meters)
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -506,7 +507,7 @@ public class GlaciersModel implements IToolProducer, IBoreholeProducer, IDebrisP
                 final double height = RIPPLE_LENGTH_RANGE.getMin() + _randomRippleHeight.nextDouble() * RIPPLE_LENGTH_RANGE.getLength();
                 final Dimension size = new Dimension( (int)width, (int)height );
                 final double zOffsetFactor = RIPPLE_ZOFFSET_FACTOR_RANGE.getMin() + _randomRippleZOffset.nextDouble() * RIPPLE_ZOFFSET_FACTOR_RANGE.getLength();
-                final double zOffset = 0.75 * zOffsetFactor * ( GlaciersConstants.PITCH_Y_OFFSET - height );
+                final double zOffset = zOffsetFactor * ( GlaciersConstants.PITCH_Y_OFFSET - height - RIPPLE_MIN_Z_MARGIN );
                 addIceSurfaceRipple( x, size, zOffset );
                 _timeSinceLastRippleGenerated = 0;
             }
