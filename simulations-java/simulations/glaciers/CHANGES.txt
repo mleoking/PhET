@@ -3,7 +3,6 @@ Change history for glaciers
 ================================================================================
 
 HIGHEST PRIORITY:
-- add sim abstract
 
 HIGH PRIORITY:
 - bug: loading full-size background image causes OutOfMemoryException, exceeds JVM heap space
@@ -77,6 +76,7 @@ CLEANUP:
 
 
 DONE:
+7/23/08 - add sim description (aka, abstract)
 ******* 0.00.39 (23459)
 7/23/08 - fix: resetting the clock speed doesn't reset the clock speed slider
 7/23/08 - fix: path for ice surface below ELA is missing the point at the terminus when the terminus is close to the ELA
