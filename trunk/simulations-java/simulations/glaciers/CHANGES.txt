@@ -78,7 +78,9 @@ CLEANUP:
 
 
 DONE:
-7/23/08 - convert real glacier picture from PNG to JPG (653KB versus 57KB)
+7/23/08 - load Tonisa_Glacier.jpg statically in GlaciersImages
+7/23/08 - rename glacierPicture.jpg to Tonisa_Glacier.jpg, to match asset filename
+7/23/08 - convert real glacier picture from PNG to JPG (653KB versus 57KB, original asset was JPG)
 7/23/08 - remove alignment points from background image, turn off alignment nodes in sim
 7/23/08 - delete penguin image files, remove license file entry
 7/23/08 - move background image alignment points to GlaciersConstants, generalize marker node creation
