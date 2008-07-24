@@ -47,8 +47,6 @@ public class Exp2SolidLiquidGasCanvas extends PhetPCanvas {
     
     private MultipleParticleModel m_model;
     private ParticleContainerNode3 m_particleContainer;
-    private PNode m_lowerParticleLayer;
-    private PNode m_upperParticleLayer;
     private ModelViewTransform m_mvt;
 
     //----------------------------------------------------------------------------
@@ -73,60 +71,18 @@ public class Exp2SolidLiquidGasCanvas extends PhetPCanvas {
             }
         });
         
-        // Set ourself up as a listener to the model.
-        m_model.addListener( new MultipleParticleModel.Adapter(){
-            public void particleAdded(StatesOfMatterAtom particle){
-                if (particle instanceof HydrogenAtom){
-                    m_lowerParticleLayer.addChild( new ParticleNode(particle, m_mvt));
-                }
-                else{
-                    m_upperParticleLayer.addChild( new ParticleNode(particle, m_mvt));
-                }
-            }
-        });
-        
         // Set the background color.
         setBackground( StatesOfMatterConstants.CANVAS_BACKGROUND );
         
-        // Create and add the lower particle layer node.  We create two so
-        // that we can control which particles go on top of each other.
-        m_lowerParticleLayer = new PNode();
-        m_lowerParticleLayer.setPickable( false );
-        m_lowerParticleLayer.setChildrenPickable( false );
-        addWorldChild( m_lowerParticleLayer );
-        
-        // Create and add the upper particle layer node.
-        m_upperParticleLayer = new PNode();
-        m_upperParticleLayer.setPickable( false );
-        m_upperParticleLayer.setChildrenPickable( false );
-        addWorldChild( m_upperParticleLayer );
-        
         // Create and add the particle container.
         try {
-            m_particleContainer = new ParticleContainerNode3(this, m_model);
+            m_particleContainer = new ParticleContainerNode3(m_model, m_mvt);
         }
         catch (IOException e) {
             throw new RuntimeException();
         }
         
         addWorldChild(m_particleContainer);
-        
-        /*
-        // TODO: JPB TBD - Add a rectangle that represents the containment box
-        // so that I can calibrate the size of the cup.
-        ParticleContainer container = m_model.getParticleContainer();
-        Shape containerShape = container.getShape();
-        if (containerShape instanceof Rectangle2D){
-            containerShape = m_mvt.modelToView( (Rectangle2D)containerShape );
-        }
-        else{
-            System.err.println("Unexpected type for container shape.");
-        }
-        PPath tempContainerNode = new PPath(containerShape);
-        tempContainerNode.setStrokePaint( Color.MAGENTA );
-        tempContainerNode.setStroke( new BasicStroke(100) );
-        addWorldChild( tempContainerNode );
-        */
         
         // Add a burner that the user can use to add or remove heat from the
         // particle container.
