@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-glaciers 0.00.39
+glaciers 1.00.00
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,17 +12,12 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>remove alignment points from background image
-<li>make ice ripples slightly darker so that they can be seen more easily when snowfall is visible
-<li>more uniform distribution of ripples across the ice surface
-<li>convert picture of real glacier from PNG to JPEG, reduced size from 650KB to 55KB
-<li>fix: shape for ice surface below ELA was missing the terminus point when the terminus is very close to the ELA
-<li>fix: resetting the clock speed doesn't reset the clock speed slider
+<li>add description (aka abstract) to About dialog
+<li>publish to the PhET website for use by Science Discovery
 </ul>
 <p>
 <b>Known problems:</b>
 <ul>
-<li>description (aka abstract) is missing from About dialog
 <li>background image has valley narrower near the headwall, so ice shape doesn't line up with far side of valley
 <li>full-size background image is so large that it exceeds JVM heap space and causes OutOfMemoryException
 <li>model of valley floor is a rough approximation of background image for x<0
