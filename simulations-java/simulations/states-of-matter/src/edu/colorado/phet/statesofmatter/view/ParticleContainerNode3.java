@@ -16,7 +16,6 @@ import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.model.particle.HydrogenAtom;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
-import edu.colorado.phet.statesofmatter.view.instruments.CompositeThermometerNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -57,7 +56,6 @@ public class ParticleContainerNode3 extends PhetPNode {
     private PNode m_topContainerLayer;
     private PNode m_bottomContainerLayer;
     private PNode m_containerTop;
-    private CompositeThermometerNode m_thermometerNode;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -82,9 +80,6 @@ public class ParticleContainerNode3 extends PhetPNode {
                     m_upperParticleLayer.addChild( new ParticleNode(particle, m_mvt));
                 }
             }
-            public void temperatureChanged(){
-                updateThermometerTemperature();
-            }
         });
         
         // Create the visual representation of the container.
@@ -94,18 +89,6 @@ public class ParticleContainerNode3 extends PhetPNode {
         else{
             drawContainer();
         }
-        
-        // Add a thermometer for displaying temperature.
-        
-        m_thermometerNode = new CompositeThermometerNode(0, 400, 
-                m_topContainerLayer.getFullBoundsReference().width * 0.25, 
-                m_topContainerLayer.getFullBoundsReference().height * 0.30);
-        m_thermometerNode.setOffset( 
-                m_topContainerLayer.getFullBoundsReference().x + m_topContainerLayer.getFullBoundsReference().width * 0.85, 
-                m_topContainerLayer.getFullBoundsReference().y - m_topContainerLayer.getFullBoundsReference().height * 0.05 );
-        addChild(m_thermometerNode);
-        
-        updateThermometerTemperature();
         
         // Position this node so that the origin of the canvas, i.e. position
         // x=0, y=0, is at the lower left corner of the container.
@@ -132,15 +115,6 @@ public class ParticleContainerNode3 extends PhetPNode {
     // Private Methods
     //----------------------------------------------------------------------------
     
-    /**
-     * Update the value displayed in the thermometer.
-     */
-    private void updateThermometerTemperature(){
-        // TODO: JPB TBD - The multiplier below is bogus, and I'm waiting on better
-        // information from the physicists.
-        m_thermometerNode.setTemperatureInKelvin( m_model.getNormalizedTemperature() * 160 );
-    }
-
     // TODO: JPB TBD - Is this needed?
     private void update() {
     }

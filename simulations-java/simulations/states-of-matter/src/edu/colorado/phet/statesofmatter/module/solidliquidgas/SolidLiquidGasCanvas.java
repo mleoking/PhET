@@ -19,6 +19,7 @@ import edu.colorado.phet.statesofmatter.view.ParticleContainerNode;
 import edu.colorado.phet.statesofmatter.view.ParticleContainerNode3;
 import edu.colorado.phet.statesofmatter.view.ParticleNode;
 import edu.colorado.phet.statesofmatter.view.StoveNode;
+import edu.colorado.phet.statesofmatter.view.instruments.CompositeThermometerNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -54,6 +55,7 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
     private MultipleParticleModel m_model;
     private ParticleContainerNode3 m_particleContainer;
     private ModelViewTransform m_mvt;
+    private CompositeThermometerNode m_thermometerNode;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -77,11 +79,28 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
             }
         });
         
+        // Set ourself up as a listener to the model.
+        m_model.addListener( new MultipleParticleModel.Adapter(){
+            public void temperatureChanged(){
+                updateThermometerTemperature();
+            }
+        });
+        
         // Set the background color.
         setBackground( StatesOfMatterConstants.CANVAS_BACKGROUND );
         
         // Create and add the particle container.
         m_particleContainer = new ParticleContainerNode3(m_model, m_mvt, true);
+        addWorldChild(m_particleContainer);
+        
+        // Add a thermometer for displaying temperature.
+        m_thermometerNode = new CompositeThermometerNode(0, 400, 
+                m_particleContainer.getFullBoundsReference().width * 0.25, 
+                m_particleContainer.getFullBoundsReference().height * 0.30);
+        m_thermometerNode.setOffset( 
+                m_particleContainer.getFullBoundsReference().x + m_particleContainer.getFullBoundsReference().width * 0.80, 
+                m_particleContainer.getFullBoundsReference().y - m_particleContainer.getFullBoundsReference().height * 0.05 );
+        addWorldChild(m_thermometerNode);
         
         // Add a burner that the user can use to add or remove heat from the
         // particle container.
@@ -91,10 +110,6 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
                 m_particleContainer.getFullBoundsReference().width * 0.3,
                 m_particleContainer.getFullBoundsReference().getMaxY());
         addWorldChild( stoveNode );
-        
-        // Add the particle container now so that it will be in front of the
-        // burner.
-        addWorldChild(m_particleContainer);
         
         // Add a listener for when the canvas is resized.
         addComponentListener( new ComponentAdapter() {
@@ -110,10 +125,19 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
         } );
     }
     
-    //----------------------------------------------------------------------------
-    // Public Methods
-    //----------------------------------------------------------------------------
     public void reset(){
         m_particleContainer.reset();
+    }
+    
+    //----------------------------------------------------------------------------
+    // Private Methods
+    //----------------------------------------------------------------------------
+    /**
+     * Update the value displayed in the thermometer.
+     */
+    private void updateThermometerTemperature(){
+        // TODO: JPB TBD - The multiplier below is bogus, and I'm waiting on better
+        // information from the physicists.
+        m_thermometerNode.setTemperatureInKelvin( m_model.getNormalizedTemperature() * 160 );
     }
 }

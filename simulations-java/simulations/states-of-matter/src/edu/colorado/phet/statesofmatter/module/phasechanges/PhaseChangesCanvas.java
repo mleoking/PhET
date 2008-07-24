@@ -23,9 +23,11 @@ import edu.colorado.phet.statesofmatter.view.ParticleContainerNode2;
 import edu.colorado.phet.statesofmatter.view.ParticleContainerNode3;
 import edu.colorado.phet.statesofmatter.view.ParticleNode;
 import edu.colorado.phet.statesofmatter.view.StoveNode;
+import edu.colorado.phet.statesofmatter.view.instruments.CompositeThermometerNode;
 import edu.colorado.phet.statesofmatter.view.instruments.DialGaugeNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
 
@@ -62,6 +64,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
     private ParticleContainerNode3 m_particleContainer;
     private ModelViewTransform m_mvt;
     private DialGaugeNode m_pressureMeter;
+    private CompositeThermometerNode m_thermometerNode;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -90,6 +93,9 @@ public class PhaseChangesCanvas extends PhetPCanvas {
             public void pressureChanged(){
                 m_pressureMeter.setValue(m_model.getPressure());
             }
+            public void temperatureChanged(){
+                updateThermometerTemperature();
+            }
         });
         
         // Set the background color.
@@ -99,27 +105,37 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         m_particleContainer = new ParticleContainerNode3(m_model, m_mvt, true);
         
         // Add the pressure meter.
+        PBounds particleContainerBounds = m_particleContainer.getFullBoundsReference();
         m_pressureMeter = new DialGaugeNode(PRESSURE_GAUGE_WIDTH, "Pressure", 0, MAX_PRESSURE, "");
-        m_pressureMeter.setOffset( m_particleContainer.getFullBoundsReference().x + (0.97 * m_particleContainer.getFullBoundsReference().width), 
-                -m_particleContainer.getFullBoundsReference().height * 0.75 );
+        m_pressureMeter.setOffset( particleContainerBounds.getMaxX(), 
+                particleContainerBounds.y + particleContainerBounds.width * 0.1);
         addWorldChild( m_pressureMeter );
         
         // Add the pump.
         BicyclePumpNode pump = new BicyclePumpNode(PUMP_WIDTH, PUMP_HEIGHT, m_model);
-        pump.setOffset( m_particleContainer.getFullBoundsReference().x + (0.97 * m_particleContainer.getFullBoundsReference().width),
-                -PUMP_HEIGHT);
+        pump.setOffset( particleContainerBounds.getMaxX(), 
+                particleContainerBounds.y + particleContainerBounds.width * 0.12);
         addWorldChild( pump );
         
         // Add the particle container after the pressure meter so it can be
         // on top of it.
         addWorldChild(m_particleContainer);
         
+        // Add a thermometer for displaying temperature.
+        m_thermometerNode = new CompositeThermometerNode(0, 400, 
+                m_particleContainer.getFullBoundsReference().width * 0.25, 
+                m_particleContainer.getFullBoundsReference().height * 0.30);
+        m_thermometerNode.setOffset( 
+                m_particleContainer.getFullBoundsReference().x + m_particleContainer.getFullBoundsReference().width * 0.80, 
+                m_particleContainer.getFullBoundsReference().y - m_particleContainer.getFullBoundsReference().height * 0.05 );
+        addWorldChild(m_thermometerNode);
+        
         // Add a burner that the user can use to add or remove heat from the
         // particle container.
         StoveNode stoveNode = new StoveNode( m_model );
         stoveNode.setScale( BURNER_NODE_WIDTH / stoveNode.getFullBoundsReference().width );
         stoveNode.setOffset(m_particleContainer.getFullBoundsReference().getMinX() + 
-                m_particleContainer.getFullBoundsReference().width/2,
+                m_particleContainer.getFullBoundsReference().width * 0.3,
                 m_particleContainer.getFullBoundsReference().getMaxY());
         addWorldChild( stoveNode );
         
@@ -135,6 +151,8 @@ public class PhaseChangesCanvas extends PhetPCanvas {
                 // TODO: JPB TBD - Do I need this?
             }
         } );
+        
+        updateThermometerTemperature();
     }
     
     //----------------------------------------------------------------------------
@@ -142,5 +160,17 @@ public class PhaseChangesCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     public void reset(){
         m_particleContainer.reset();
+    }
+    
+    //----------------------------------------------------------------------------
+    // Private Methods
+    //----------------------------------------------------------------------------
+    /**
+     * Update the value displayed in the thermometer.
+     */
+    private void updateThermometerTemperature(){
+        // TODO: JPB TBD - The multiplier below is bogus, and I'm waiting on better
+        // information from the physicists.
+        m_thermometerNode.setTemperatureInKelvin( m_model.getNormalizedTemperature() * 160 );
     }
 }
