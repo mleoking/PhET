@@ -115,7 +115,7 @@ public class IceNode extends PComposite {
             double elevation = 0;
             
             // move downvalley, the ice-air boundary is shared by all paths
-            boolean initialzedSurfaceBelowELA = false;
+            boolean initializedSurfaceBelowELA = false;
             for ( double x = xHeadwall; x <= xTerminus; x += DX ) {
 
                 elevation = _glacier.getSurfaceElevation( x );
@@ -132,12 +132,18 @@ public class IceNode extends PComposite {
                 }
 
                 if ( surfaceAtELA != null && x >= surfaceAtELA.getX() ) {
-                    if ( !initialzedSurfaceBelowELA ) {
+                    if ( !initializedSurfaceBelowELA ) {
                         // start exactly at the point where the ELA intersects the surface of the ice
                         _pModel.setLocation( surfaceAtELA );
                         _mvt.modelToView( _pModel, _pView );
                         _surfaceBelowELAPath.moveTo( (float) _pView.getX(), (float) _pView.getY() );
-                        initialzedSurfaceBelowELA = true;
+                        initializedSurfaceBelowELA = true;
+                        // add a point if actual x is past where the ELA intersects the surface of the ice
+                        if ( x > surfaceAtELA.getX() ) {
+                            _pModel.setLocation( x, elevation );
+                            _mvt.modelToView( _pModel, _pView );
+                            _surfaceBelowELAPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
+                        }
                     }
                     else {
                         _surfaceBelowELAPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
