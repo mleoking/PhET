@@ -23,7 +23,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author John Blanco
  */
-public class Exp2SolidLiquidGasCanvas extends PhetPCanvas {
+public class Exp2SolidLiquidGasCanvas extends PhetPCanvas{
     
     //----------------------------------------------------------------------------
     // Class Data
@@ -75,12 +75,7 @@ public class Exp2SolidLiquidGasCanvas extends PhetPCanvas {
         setBackground( StatesOfMatterConstants.CANVAS_BACKGROUND );
         
         // Create and add the particle container.
-        try {
-            m_particleContainer = new ParticleContainerNode3(m_model, m_mvt);
-        }
-        catch (IOException e) {
-            throw new RuntimeException();
-        }
+        m_particleContainer = new ParticleContainerNode3(m_model, m_mvt, true);
         
         addWorldChild(m_particleContainer);
         

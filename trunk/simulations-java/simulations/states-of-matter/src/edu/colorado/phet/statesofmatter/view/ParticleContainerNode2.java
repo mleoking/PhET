@@ -12,6 +12,8 @@ import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.model.container.ParticleContainer;
+import edu.colorado.phet.statesofmatter.model.particle.HydrogenAtom;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -40,8 +42,8 @@ public class ParticleContainerNode2 extends PhetPNode {
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
-    private final ParticleContainer m_container;
     private final MultipleParticleModel m_model;
+    private final ModelViewTransform m_mvt;
     private PImage m_containerImageNode;
     private LiquidExpansionThermometerNode m_thermometerNode;
 
@@ -54,20 +56,22 @@ public class ParticleContainerNode2 extends PhetPNode {
     // Constructor
     //----------------------------------------------------------------------------
     
-    public ParticleContainerNode2(PhetPCanvas canvas, MultipleParticleModel model) throws IOException {
+    public ParticleContainerNode2(MultipleParticleModel model, ModelViewTransform mvt) {
         
         super();
 
-        m_model               = model;
-        m_container           = model.getParticleContainer();
+        m_model = model;
+        m_mvt = mvt;
+        m_containmentAreaWidth  = StatesOfMatterConstants.CONTAINER_BOUNDS.getWidth();
+        m_containmentAreaHeight = StatesOfMatterConstants.CONTAINER_BOUNDS.getHeight();
         
-        // Register as a listener for temperature changes.
+        // Set ourself up as a listener to the model.
         m_model.addListener( new MultipleParticleModel.Adapter(){
             public void temperatureChanged(){
                 updateThermometerTemperature();
             }
         });
-        
+
         // Internal initialization.
         m_containmentAreaWidth  = StatesOfMatterConstants.CONTAINER_BOUNDS.getWidth();
         m_containmentAreaHeight = StatesOfMatterConstants.CONTAINER_BOUNDS.getHeight();
@@ -75,12 +79,12 @@ public class ParticleContainerNode2 extends PhetPNode {
         // Load the image that will be used.
         m_containerImageNode = StatesOfMatterResources.getImageNode(StatesOfMatterConstants.CYLINDRICAL_CONTAINER_IMAGE);
         
-        // Scale the cup image based on the size of the container.
+        // Scale the container image based on the size of the container.
         double neededImageWidth = 
             m_containmentAreaWidth / (1 - NON_CONTAINER_IMAGE_FRACTION_FROM_LEFT - NON_CONTAINER_IMAGE_FRACTION_FROM_RIGHT);
         m_containerImageNode.setScale( neededImageWidth / m_containerImageNode.getWidth() );
         
-        // Add the cup image to this node.
+        // Add the image to this node.
         addChild(m_containerImageNode);
         
         // Calculate the offset for the area within the overall image where
