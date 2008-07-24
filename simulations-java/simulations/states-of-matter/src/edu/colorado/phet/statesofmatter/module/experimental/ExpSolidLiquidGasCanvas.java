@@ -3,7 +3,6 @@ package edu.colorado.phet.statesofmatter.module.experimental;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
-import java.io.IOException;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
@@ -102,12 +101,7 @@ public class ExpSolidLiquidGasCanvas extends PhetPCanvas {
         addWorldChild( m_upperParticleLayer );
         
         // Create and add the particle container.
-        try {
-            m_particleContainer = new ParticleContainerNode2(this, m_model);
-        }
-        catch (IOException e) {
-            throw new RuntimeException();
-        }
+        m_particleContainer = new ParticleContainerNode2(m_model, m_mvt);
         
         addWorldChild(m_particleContainer);
         

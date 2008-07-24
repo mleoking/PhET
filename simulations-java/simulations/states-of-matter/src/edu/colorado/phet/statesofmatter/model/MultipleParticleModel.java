@@ -1122,21 +1122,10 @@ public class MultipleParticleModel {
         double xPos, yPos;
         for (int i = 0; particlesPlaced < m_numberOfAtoms; i++){ // One iteration per layer.
             for (int j = 0; (j < particlesPerLayer) && (particlesPlaced < m_numberOfAtoms); j++){
-                if ((m_atomsPerMolecule == 2) && (j % 2 != 0)){
-                    // We are adding a partner to an atom to create a diatomic pair.
-                    Point2D prevParticlePos = m_atomPositions[(i * particlesPerLayer) + (j - 1)];
-                    xPos = prevParticlePos.getX() + DISTANCE_BETWEEN_DIATOMIC_PAIRS;
-                    StatesOfMatterAtom particleA = (StatesOfMatterAtom)(m_particles.get( (i * particlesPerLayer) + (j - 1) ));
-                    StatesOfMatterAtom particleB = (StatesOfMatterAtom)(m_particles.get( (i * particlesPerLayer) + (j) ));
-                    particleA.setDiatomicPartner( particleB );
-                    particleB.setDiatomicPartner( particleA );
-                }
-                else{
-                    xPos = startingPosX + j + (j * DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL);
-                    if (i % 2 != 0){
-                        // Every other row is shifted a bit to create hexagonal pattern.
-                        xPos += (1 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL) / 2;
-                    }
+                xPos = startingPosX + j + (j * DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL);
+                if (i % 2 != 0){
+                    // Every other row is shifted a bit to create hexagonal pattern.
+                    xPos += (1 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL) / 2;
                 }
                 yPos = startingPosY + (double)i * (1 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL)* 0.7071;
                 m_atomPositions[(i * particlesPerLayer) + j].setLocation( xPos, yPos );

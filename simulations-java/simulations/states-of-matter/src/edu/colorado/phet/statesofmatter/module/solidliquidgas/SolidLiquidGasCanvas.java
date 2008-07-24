@@ -16,6 +16,7 @@ import edu.colorado.phet.statesofmatter.model.particle.HydrogenAtom;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.colorado.phet.statesofmatter.view.ModelViewTransform;
 import edu.colorado.phet.statesofmatter.view.ParticleContainerNode;
+import edu.colorado.phet.statesofmatter.view.ParticleContainerNode3;
 import edu.colorado.phet.statesofmatter.view.ParticleNode;
 import edu.colorado.phet.statesofmatter.view.StoveNode;
 import edu.umd.cs.piccolo.PNode;
@@ -36,12 +37,12 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
 
     // Canvas size in pico meters, since this is a reasonable scale at which
     // to display molecules.  Assumes a 4:3 aspect ratio.
-    private final double CANVAS_WIDTH = 27000;
+    private final double CANVAS_WIDTH = 23000;
     private final double CANVAS_HEIGHT = CANVAS_WIDTH * (3.0d/4.0d);
     
     // Translation factors, used to set origin of canvas area.
-    private final double WIDTH_TRANSLATION_FACTOR = 2.5;
-    private final double HEIGHT_TRANSLATION_FACTOR = 1.667;
+    private final double WIDTH_TRANSLATION_FACTOR = 3.0;
+    private final double HEIGHT_TRANSLATION_FACTOR = 1.35;
     
     // Sizes, in terms of overall canvas size, of the nodes on the canvas.
     private final double BURNER_NODE_WIDTH = CANVAS_WIDTH / 2.5;
@@ -51,9 +52,7 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     
     private MultipleParticleModel m_model;
-    private ParticleContainerNode m_particleContainer;
-    private PNode m_lowerParticleLayer;
-    private PNode m_upperParticleLayer;
+    private ParticleContainerNode3 m_particleContainer;
     private ModelViewTransform m_mvt;
 
     //----------------------------------------------------------------------------
@@ -78,66 +77,24 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
             }
         });
         
-        // Set ourself up as a listener to the model.
-        m_model.addListener( new MultipleParticleModel.Adapter(){
-            public void particleAdded(StatesOfMatterAtom particle){
-                if (particle instanceof HydrogenAtom){
-                    m_lowerParticleLayer.addChild( new ParticleNode(particle, m_mvt));
-                }
-                else{
-                    m_upperParticleLayer.addChild( new ParticleNode(particle, m_mvt));
-                }
-            }
-        });
-        
         // Set the background color.
         setBackground( StatesOfMatterConstants.CANVAS_BACKGROUND );
         
         // Create and add the particle container.
-        try {
-            m_particleContainer = new ParticleContainerNode(this, m_model);
-        }
-        catch (IOException e) {
-            throw new RuntimeException();
-        }
-        
-        addWorldChild(m_particleContainer);
-        
-        // TODO: JPB TBD - Add a rectangle that represents the containment box
-        // so that I can calibrate the size of the cup.
-        ParticleContainer container = m_model.getParticleContainer();
-        Shape containerShape = container.getShape();
-        if (containerShape instanceof Rectangle2D){
-            containerShape = m_mvt.modelToView( (Rectangle2D)containerShape );
-        }
-        else{
-            System.err.println("Unexpected type for container shape.");
-        }
-        PPath tempContainerNode = new PPath(containerShape);
-        tempContainerNode.setStrokePaint( Color.red );
-        addWorldChild( tempContainerNode );
-        
-        // Create and add the lower particle layer node.  We create two so
-        // that we can control which particles go on top of each other.
-        m_lowerParticleLayer = new PNode();
-        m_lowerParticleLayer.setPickable( false );
-        m_lowerParticleLayer.setChildrenPickable( false );
-        addWorldChild( m_lowerParticleLayer );
-        
-        // Create and add the upper particle layer node.
-        m_upperParticleLayer = new PNode();
-        m_upperParticleLayer.setPickable( false );
-        m_upperParticleLayer.setChildrenPickable( false );
-        addWorldChild( m_upperParticleLayer );
+        m_particleContainer = new ParticleContainerNode3(m_model, m_mvt, true);
         
         // Add a burner that the user can use to add or remove heat from the
         // particle container.
         StoveNode stoveNode = new StoveNode( m_model );
         stoveNode.setScale( BURNER_NODE_WIDTH / stoveNode.getFullBoundsReference().width );
         stoveNode.setOffset(m_particleContainer.getFullBoundsReference().getMinX() + 
-                m_particleContainer.getFullBoundsReference().width/2,
+                m_particleContainer.getFullBoundsReference().width * 0.3,
                 m_particleContainer.getFullBoundsReference().getMaxY());
         addWorldChild( stoveNode );
+        
+        // Add the particle container now so that it will be in front of the
+        // burner.
+        addWorldChild(m_particleContainer);
         
         // Add a listener for when the canvas is resized.
         addComponentListener( new ComponentAdapter() {

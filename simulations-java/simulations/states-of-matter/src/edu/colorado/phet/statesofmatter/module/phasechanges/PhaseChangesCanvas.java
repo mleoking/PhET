@@ -19,6 +19,8 @@ import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.colorado.phet.statesofmatter.view.BicyclePumpNode;
 import edu.colorado.phet.statesofmatter.view.ModelViewTransform;
 import edu.colorado.phet.statesofmatter.view.ParticleContainerNode;
+import edu.colorado.phet.statesofmatter.view.ParticleContainerNode2;
+import edu.colorado.phet.statesofmatter.view.ParticleContainerNode3;
 import edu.colorado.phet.statesofmatter.view.ParticleNode;
 import edu.colorado.phet.statesofmatter.view.StoveNode;
 import edu.colorado.phet.statesofmatter.view.instruments.DialGaugeNode;
@@ -35,12 +37,12 @@ public class PhaseChangesCanvas extends PhetPCanvas {
 
     // Canvas size in pico meters, since this is a reasonable scale at which
     // to display molecules.  Assumes a 4:3 aspect ratio.
-    private final double CANVAS_WIDTH = 30000;
+    private final double CANVAS_WIDTH = 23000;
     private final double CANVAS_HEIGHT = CANVAS_WIDTH * (3.0d/4.0d);
     
     // Translation factors, used to set origin of canvas area.
-    private final double WIDTH_TRANSLATION_FACTOR = 4;
-    private final double HEIGHT_TRANSLATION_FACTOR = 1.667;
+    private final double WIDTH_TRANSLATION_FACTOR = 5.5;
+    private final double HEIGHT_TRANSLATION_FACTOR = 1.3;
     
     // Sizes, in terms of overall canvas size, of the nodes on the canvas.
     private final double BURNER_NODE_WIDTH = CANVAS_WIDTH / 2.5;
@@ -49,7 +51,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
     private final double PUMP_WIDTH = CANVAS_WIDTH / 3;
     
     // Maximum value expected for pressure.  JPB TBD - Should probably get
-    // this from the model or somewhere, though I'm not sure where.
+    // this from the model or somewhere, though I'm not sure where yet.
     private final double MAX_PRESSURE = 1;
 
     //----------------------------------------------------------------------------
@@ -57,9 +59,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     
     private MultipleParticleModel m_model;
-    private ParticleContainerNode m_particleContainer;
-    private PNode m_upperParticleLayer;
-    private PNode m_lowerParticleLayer;
+    private ParticleContainerNode3 m_particleContainer;
     private ModelViewTransform m_mvt;
     private DialGaugeNode m_pressureMeter;
 
@@ -87,14 +87,6 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         
         // Set ourself up as a listener to the model.
         m_model.addListener( new MultipleParticleModel.Adapter(){
-            public void particleAdded(StatesOfMatterAtom particle){
-                if (particle instanceof HydrogenAtom){
-                    m_lowerParticleLayer.addChild( new ParticleNode(particle, m_mvt));
-                }
-                else{
-                    m_upperParticleLayer.addChild( new ParticleNode(particle, m_mvt));
-                }
-            }
             public void pressureChanged(){
                 m_pressureMeter.setValue(m_model.getPressure());
             }
@@ -104,12 +96,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         setBackground( StatesOfMatterConstants.CANVAS_BACKGROUND );
         
         // Create the particle container.
-        try {
-            m_particleContainer = new ParticleContainerNode(this, m_model);
-        }
-        catch (IOException e) {
-            throw new RuntimeException();
-        }
+        m_particleContainer = new ParticleContainerNode3(m_model, m_mvt, true);
         
         // Add the pressure meter.
         m_pressureMeter = new DialGaugeNode(PRESSURE_GAUGE_WIDTH, "Pressure", 0, MAX_PRESSURE, "");
@@ -126,33 +113,6 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         // Add the particle container after the pressure meter so it can be
         // on top of it.
         addWorldChild(m_particleContainer);
-        
-        // TODO: JPB TBD - Add a rectangle that represents the containment box
-        // so that I can calibrate the size of the cup.
-        ParticleContainer container = m_model.getParticleContainer();
-        Shape containerShape = container.getShape();
-        if (containerShape instanceof Rectangle2D){
-            containerShape = m_mvt.modelToView( (Rectangle2D)containerShape );
-        }
-        else{
-            System.err.println("Unexpected type for container shape.");
-        }
-        PPath tempContainerNode = new PPath(containerShape);
-        tempContainerNode.setStrokePaint( Color.red );
-        addWorldChild( tempContainerNode );
-        
-        // Create and add the lower particle layer node.  We create two so
-        // that we can control which particles go on top of each other.
-        m_lowerParticleLayer = new PNode();
-        m_lowerParticleLayer.setPickable( false );
-        m_lowerParticleLayer.setChildrenPickable( false );
-        addWorldChild( m_lowerParticleLayer );
-        
-        // Create and add the upper particle layer node.
-        m_upperParticleLayer = new PNode();
-        m_upperParticleLayer.setPickable( false );
-        m_upperParticleLayer.setChildrenPickable( false );
-        addWorldChild( m_upperParticleLayer );
         
         // Add a burner that the user can use to add or remove heat from the
         // particle container.
