@@ -77,7 +77,7 @@ CLEANUP:
 
 
 DONE:
-******* 0.00.39 (?)
+******* 0.00.39 (23459)
 7/23/08 - fix: resetting the clock speed doesn't reset the clock speed slider
 7/23/08 - fix: path for ice surface below ELA is missing the point at the terminus when the terminus is close to the ELA
 7/23/08 - rename "ice surface ripple" to "ice ripple" throughout (I kept searching for the wrong class names)
