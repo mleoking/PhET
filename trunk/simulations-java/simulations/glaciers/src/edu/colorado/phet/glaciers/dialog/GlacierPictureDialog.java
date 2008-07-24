@@ -36,7 +36,7 @@ public class GlacierPictureDialog extends JDialog {
         setResizable( false );
 
         // picture
-        BufferedImage image = GlaciersResources.getImage( "glacierPicture.png" );
+        BufferedImage image = GlaciersResources.getImage( "glacierPicture.jpg" );
         JLabel picture = new JLabel( new ImageIcon( image ) );
         picture.setSize( (int)image.getWidth(), (int)image.getHeight() );
         
