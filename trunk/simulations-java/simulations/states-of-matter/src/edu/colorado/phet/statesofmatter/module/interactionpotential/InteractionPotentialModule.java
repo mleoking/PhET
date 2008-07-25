@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.defaults.SolidLiquidGasDefaults;
-import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
+import edu.colorado.phet.statesofmatter.model.DualParticleModel;
 
 /**
  * This class is where the model and view classes for the "Interaction
@@ -24,7 +24,7 @@ public class InteractionPotentialModule extends Module {
     // Instance Data
     //----------------------------------------------------------------------------
 
-    private MultipleParticleModel m_model;
+    private DualParticleModel m_model;
     private InteractionPotentialCanvas  m_canvas;
 
     //----------------------------------------------------------------------------
@@ -37,7 +37,7 @@ public class InteractionPotentialModule extends Module {
                 new ConstantDtClock(10, StatesOfMatterConstants.DELTA_T));
 
         // Model
-        m_model = new MultipleParticleModel( getClock() );
+        m_model = new DualParticleModel( getClock() );
 
         // Canvas
         m_canvas = new InteractionPotentialCanvas( m_model );
@@ -61,7 +61,7 @@ public class InteractionPotentialModule extends Module {
     //----------------------------------------------------------------------------
     // Accessor Methods
     //----------------------------------------------------------------------------
-    public MultipleParticleModel getMultiParticleModel(){
+    public DualParticleModel getDualParticleModel(){
         return m_model;
     }
     //----------------------------------------------------------------------------
