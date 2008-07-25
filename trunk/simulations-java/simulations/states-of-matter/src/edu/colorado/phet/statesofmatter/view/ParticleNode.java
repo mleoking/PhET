@@ -6,6 +6,9 @@ import java.awt.Color;
 import java.awt.Paint;
 import java.awt.geom.Point2D;
 
+import bsh.This;
+
+import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.statesofmatter.model.particle.ArgonAtom;
 import edu.colorado.phet.statesofmatter.model.particle.HydrogenAtom;
@@ -35,15 +38,17 @@ public class ParticleNode extends PNode {
     private final StatesOfMatterAtom.Listener m_particleListener;
     private ModelViewTransform m_mvt;
     Point2D.Double m_position;
+    boolean m_useGradient;
 
     //----------------------------------------------------------------------------
-    // Constructor
+    // Constructors
     //----------------------------------------------------------------------------
 
-    public ParticleNode( StatesOfMatterAtom particle, ModelViewTransform mvt ) {
+    public ParticleNode( StatesOfMatterAtom particle, ModelViewTransform mvt, boolean useGradient ) {
 
         m_particle = particle;
         m_mvt = mvt;
+        m_useGradient = useGradient;
 
         // Local initialization.
         m_position = new Point2D.Double();
@@ -71,6 +76,13 @@ public class ParticleNode extends PNode {
 
         updatePosition();
     }
+    
+    public ParticleNode( StatesOfMatterAtom particle, ModelViewTransform mvt ){
+        // If not explicitly specified, don't use the gradient, since it is
+        // more computationally expensive.
+        this(particle, mvt, false);
+    }
+
 
     //----------------------------------------------------------------------------
     // Public Methods
@@ -136,10 +148,14 @@ public class ParticleNode extends PNode {
             baseColor = Color.WHITE;
         }
 
-//        double atomRadius = atom.getRadius();
-//        Paint paint = new RoundGradientPaint( atomRadius / 3, atomRadius / 3, Color.WHITE, 
-//                new Point2D.Double( atomRadius, atomRadius ), baseColor );
-
-        return baseColor;
+        if (m_useGradient){
+            double atomRadius = atom.getRadius();
+            return ( new RoundGradientPaint( atomRadius / 3, atomRadius / 3, Color.WHITE, 
+                    new Point2D.Double( atomRadius, atomRadius ), baseColor ) );
+            
+        }
+        else{
+            return baseColor;
+        }
     }
 }
