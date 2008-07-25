@@ -13,6 +13,7 @@ import java.util.Hashtable;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -47,6 +48,8 @@ public class InteractionPotentialControlPanel extends ControlPanel {
     // Class Data
     //----------------------------------------------------------------------------
     
+    private static final Font LABEL_FONT = new PhetFont( Font.PLAIN, 14 );
+    
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -74,6 +77,16 @@ public class InteractionPotentialControlPanel extends ControlPanel {
         
         // Add the panel for controlling the atom diameter.
         addControlFullWidth( new AtomDiameterControlPanel(m_model) );
+        
+        // Add the panel for controlling the interaction strength.
+        addControlFullWidth( new InteractionStrengthControlPanel(m_model) );
+        
+        // Add the check box for showing/hiding the force arrows.
+        addVerticalSpace( 10 );
+        JCheckBox showForcesCheckbox = new JCheckBox();
+        showForcesCheckbox.setFont( LABEL_FONT );
+        showForcesCheckbox.setText( StatesOfMatterStrings.SHOW_FORCES );
+        addControl( showForcesCheckbox );
         
         // Add the Reset All button.
         addVerticalSpace( 10 );
@@ -109,7 +122,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             setBorder( titledBorder );
 
             m_monatomicOxygenRadioButton = new JRadioButton( StatesOfMatterStrings.MONATOMIC_OXYGEN_SELECTION_LABEL );
-            m_monatomicOxygenRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
+            m_monatomicOxygenRadioButton.setFont( LABEL_FONT );
             m_monatomicOxygenRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if (m_model.getMoleculeType() != DualParticleModel.MONATOMIC_OXYGEN){
@@ -118,7 +131,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
                 }
             } );
             m_argonRadioButton = new JRadioButton( StatesOfMatterStrings.ARGON_SELECTION_LABEL );
-            m_argonRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
+            m_argonRadioButton.setFont( LABEL_FONT );
             m_argonRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if (m_model.getMoleculeType() != DualParticleModel.ARGON){
@@ -128,7 +141,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             } );
             m_adjustableAttractionRadioButton = 
                 new JRadioButton( StatesOfMatterStrings.ADJUSTABLE_ATTRACTION_SELECTION_LABEL );
-            m_adjustableAttractionRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
+            m_adjustableAttractionRadioButton.setFont( LABEL_FONT );
             m_adjustableAttractionRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     // TODO: JPB TBD - Adjustable attraction not yet implemented in the model, update this when it is.
@@ -153,7 +166,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
     private class AtomDiameterControlPanel extends JPanel {
         
         private final Font LABEL_FONT = new PhetFont( Font.BOLD, 14 );
-        private final double MAX_ATOM_DIAMTER = 500; // JPB TBD - Total guess, tweak as needed.
+        private final double MAX_ATOM_DIAMETER = 500; // JPB TBD - Total guess, tweak as needed.
 
         private LinearValueControl m_atomDiameterControl;
         
@@ -178,7 +191,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             setBorder( titledBorder );
             
             // Add the control slider.
-            m_atomDiameterControl = new LinearValueControl( 0, MAX_ATOM_DIAMTER, "", "0", "", new SliderLayoutStrategy() );
+            m_atomDiameterControl = new LinearValueControl( 0, MAX_ATOM_DIAMETER, "", "0", "", new SliderLayoutStrategy() );
             m_atomDiameterControl.setValue( m_model.getCurrentMoleculeDiameter() );
             m_atomDiameterControl.setUpDownArrowDelta( 0.01 );
             m_atomDiameterControl.addChangeListener( new ChangeListener() {
@@ -205,23 +218,80 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             
             add(m_atomDiameterControl);
         }
+    }
+    
+    private class InteractionStrengthControlPanel extends JPanel {
         
-        /**
-         * Layout strategy for sliders.
-         */
-        public class SliderLayoutStrategy implements ILayoutStrategy {
+        private final Font LABEL_FONT = new PhetFont( Font.BOLD, 14 );
+        private final double MAX_FIELD_STRENGTH = 50; // JPB TBD - Total guess, tweak as needed.
 
-            public SliderLayoutStrategy() {}
+        private LinearValueControl m_interactionStrengthControl;
+        
+        private DualParticleModel m_model;
+        
+        public InteractionStrengthControlPanel(DualParticleModel model){
+
+
+            m_model = model;
             
-            public void doLayout( AbstractValueControl valueControl ) {
+            setLayout( new GridLayout(0, 1) );
 
-                // Get the components that will be part of the layout
-                JComponent slider = valueControl.getSlider();
+            // Create the border.
+            BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
+            TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
+                    StatesOfMatterStrings.INTERACTION_STRENGTH_CONTROL_TITLE,
+                    TitledBorder.LEFT,
+                    TitledBorder.TOP,
+                    new PhetFont( Font.BOLD, 14 ),
+                    Color.GRAY );
+            
+            setBorder( titledBorder );
+            
+            // Add the control slider.
+            m_interactionStrengthControl = new LinearValueControl( 0, MAX_FIELD_STRENGTH, "", "0", "", new SliderLayoutStrategy() );
+            m_interactionStrengthControl.setValue( m_model.getCurrentMoleculeDiameter() );
+            m_interactionStrengthControl.setUpDownArrowDelta( 0.01 );
+            m_interactionStrengthControl.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    // TODO: JPB TBD - ability to change this is not implemented yet.
+                }
+            });
+            Hashtable diameterControlLabelTable = new Hashtable();
+            JLabel leftLabel = new JLabel("Weak"); // TODO: JPB TBD - Turn into resource if kept.
+            leftLabel.setFont( LABEL_FONT );
+            diameterControlLabelTable.put( new Double( m_interactionStrengthControl.getMinimum() ), leftLabel );
+            JLabel rightLabel = new JLabel("Strong"); // TODO: JPB TBD - Turn into resource if kept.
+            rightLabel.setFont( LABEL_FONT );
+            diameterControlLabelTable.put( new Double( m_interactionStrengthControl.getMaximum() ), rightLabel );
+            m_interactionStrengthControl.setTickLabels( diameterControlLabelTable );
 
-                EasyGridBagLayout layout = new EasyGridBagLayout( valueControl );
-                valueControl.setLayout( layout );
-                layout.addFilledComponent( slider, 1, 0, GridBagConstraints.HORIZONTAL );
-            }
+            // Register as a listener with the model so that we know when it gets
+            // reset.
+            m_model.addListener( new DualParticleModel.Adapter(){
+                public void resetOccurred(){
+                    // TODO: JPB TBD - Need to put this in place once the model supports it.
+                }
+            });
+            
+            add(m_interactionStrengthControl);
+        }
+    }
+
+    /**
+     * Layout strategy for sliders.
+     */
+    public class SliderLayoutStrategy implements ILayoutStrategy {
+
+        public SliderLayoutStrategy() {}
+        
+        public void doLayout( AbstractValueControl valueControl ) {
+
+            // Get the components that will be part of the layout
+            JComponent slider = valueControl.getSlider();
+
+            EasyGridBagLayout layout = new EasyGridBagLayout( valueControl );
+            valueControl.setLayout( layout );
+            layout.addFilledComponent( slider, 1, 0, GridBagConstraints.HORIZONTAL );
         }
     }
 }
