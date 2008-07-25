@@ -5,23 +5,33 @@ package edu.colorado.phet.statesofmatter.module.interactionpotential;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Hashtable;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractValueControl;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ILayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
+import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
-import edu.colorado.phet.statesofmatter.control.GravityControlPanel;
+import edu.colorado.phet.statesofmatter.control.GravityControlPanel.GravitySliderLayoutStrategy;
+import edu.colorado.phet.statesofmatter.model.DualParticleModel;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
 
@@ -41,7 +51,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
     // Instance Data
     //----------------------------------------------------------------------------
     
-    MultipleParticleModel m_model;
+    private DualParticleModel m_model;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -53,7 +63,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
     public InteractionPotentialControlPanel( InteractionPotentialModule solidLiquidGasModule, Frame parentFrame ) {
         
         super();
-        m_model = solidLiquidGasModule.getMultiParticleModel();
+        m_model = solidLiquidGasModule.getDualParticleModel();
         
         // Set the control panel's minimum width.
         int minimumWidth = StatesOfMatterResources.getInt( "int.minControlPanelWidth", 215 );
@@ -62,8 +72,8 @@ public class InteractionPotentialControlPanel extends ControlPanel {
         // Add the panel that allows the user to select molecule type.
         addControlFullWidth( new MoleculeSelectionPanel() );
         
-        // Add the panel that allows the user to control the system temperature.
-        addControlFullWidth( new GravityControlPanel(m_model) );
+        // Add the panel for controlling the atom diameter.
+        addControlFullWidth( new AtomDiameterControlPanel(m_model) );
         
         // Add the Reset All button.
         addVerticalSpace( 10 );
@@ -75,75 +85,14 @@ public class InteractionPotentialControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
 
     /**
-     * This class defines the panel that allows the user to select the phase
-     * state for the molecules.
-     */
-    private class StateSelectionPanel extends JPanel {
-        
-        private JRadioButton m_solidRadioButton;
-        private JRadioButton m_liquidRadioButton;
-        private JRadioButton m_gasRadioButton;
-        
-        StateSelectionPanel(){
-            
-            setLayout( new GridLayout(0, 1) );
-            
-            BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
-            TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
-                    StatesOfMatterStrings.STATE_TYPE_SELECT_LABEL,
-                    TitledBorder.LEFT,
-                    TitledBorder.TOP,
-                    new PhetFont( Font.BOLD, 14 ),
-                    Color.GRAY );
-            
-            setBorder( titledBorder );
-
-            m_solidRadioButton = new JRadioButton( StatesOfMatterStrings.PHASE_STATE_SOLID );
-            m_solidRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
-            m_solidRadioButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    m_model.setPhase( MultipleParticleModel.PHASE_SOLID );
-                }
-            } );
-            m_liquidRadioButton = new JRadioButton( StatesOfMatterStrings.PHASE_STATE_LIQUID );
-            m_liquidRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
-            m_liquidRadioButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    m_model.setPhase( MultipleParticleModel.PHASE_LIQUID );
-                }
-            } );
-            m_gasRadioButton = new JRadioButton( StatesOfMatterStrings.PHASE_STATE_GAS );
-            m_gasRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
-            m_gasRadioButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    m_model.setPhase( MultipleParticleModel.PHASE_GAS );
-                }
-            } );
-            
-            ButtonGroup buttonGroup = new ButtonGroup();
-            buttonGroup.add( m_solidRadioButton );
-            buttonGroup.add( m_liquidRadioButton );
-            buttonGroup.add( m_gasRadioButton );
-            m_solidRadioButton.setSelected( true );
-            
-            add( m_solidRadioButton );
-            add( m_liquidRadioButton );
-            add( m_gasRadioButton );
-        }
-        
-        public void reset(){
-            m_solidRadioButton.setSelected( true );
-        }
-    }
-
-    /**
      * This class defines the selection panel that allows the user to choose
      * the type of molecule.
      */
     private class MoleculeSelectionPanel extends JPanel {
         
-        private JRadioButton m_neonRadioButton;
+        private JRadioButton m_monatomicOxygenRadioButton;
         private JRadioButton m_argonRadioButton;
+        private JRadioButton m_adjustableAttractionRadioButton;
         
         MoleculeSelectionPanel(){
             
@@ -159,12 +108,12 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             
             setBorder( titledBorder );
 
-            m_neonRadioButton = new JRadioButton( StatesOfMatterStrings.NEON_SELECTION_LABEL );
-            m_neonRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
-            m_neonRadioButton.addActionListener( new ActionListener() {
+            m_monatomicOxygenRadioButton = new JRadioButton( StatesOfMatterStrings.MONATOMIC_OXYGEN_SELECTION_LABEL );
+            m_monatomicOxygenRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
+            m_monatomicOxygenRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    if (m_model.getMolecule() != MultipleParticleModel.NEON){
-                        m_model.setMolecule( MultipleParticleModel.NEON );
+                    if (m_model.getMoleculeType() != DualParticleModel.MONATOMIC_OXYGEN){
+                        m_model.setMoleculeType( DualParticleModel.MONATOMIC_OXYGEN );
                     }
                 }
             } );
@@ -172,19 +121,107 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             m_argonRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
             m_argonRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    if (m_model.getMolecule() != MultipleParticleModel.ARGON){
-                        m_model.setMolecule( MultipleParticleModel.ARGON );
+                    if (m_model.getMoleculeType() != DualParticleModel.ARGON){
+                        m_model.setMoleculeType( DualParticleModel.ARGON );
+                    }
+                }
+            } );
+            m_adjustableAttractionRadioButton = 
+                new JRadioButton( StatesOfMatterStrings.ADJUSTABLE_ATTRACTION_SELECTION_LABEL );
+            m_adjustableAttractionRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
+            m_adjustableAttractionRadioButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    // TODO: JPB TBD - Adjustable attraction not yet implemented in the model, update this when it is.
+                    if (m_model.getMoleculeType() != DualParticleModel.NEON){
+                        m_model.setMoleculeType( DualParticleModel.NEON );
                     }
                 }
             } );
 
             ButtonGroup buttonGroup = new ButtonGroup();
-            buttonGroup.add( m_neonRadioButton );
+            buttonGroup.add( m_monatomicOxygenRadioButton );
             buttonGroup.add( m_argonRadioButton );
-            m_neonRadioButton.setSelected( true );
+            buttonGroup.add( m_adjustableAttractionRadioButton );
+            m_monatomicOxygenRadioButton.setSelected( true );
             
-            add( m_neonRadioButton );
+            add( m_monatomicOxygenRadioButton );
             add( m_argonRadioButton );
+            add( m_adjustableAttractionRadioButton );
+        }
+    }
+    
+    private class AtomDiameterControlPanel extends JPanel {
+        
+        private final Font LABEL_FONT = new PhetFont( Font.BOLD, 14 );
+        private final double MAX_ATOM_DIAMTER = 500; // JPB TBD - Total guess, tweak as needed.
+
+        private LinearValueControl m_atomDiameterControl;
+        
+        private DualParticleModel m_model;
+        
+        public AtomDiameterControlPanel(DualParticleModel model){
+
+
+            m_model = model;
+            
+            setLayout( new GridLayout(0, 1) );
+
+            // Create the border.
+            BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
+            TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
+                    StatesOfMatterStrings.ATOM_DIAMETER_CONTROL_TITLE,
+                    TitledBorder.LEFT,
+                    TitledBorder.TOP,
+                    new PhetFont( Font.BOLD, 14 ),
+                    Color.GRAY );
+            
+            setBorder( titledBorder );
+            
+            // Add the control slider.
+            m_atomDiameterControl = new LinearValueControl( 0, MAX_ATOM_DIAMTER, "", "0", "", new SliderLayoutStrategy() );
+            m_atomDiameterControl.setValue( m_model.getCurrentMoleculeDiameter() );
+            m_atomDiameterControl.setUpDownArrowDelta( 0.01 );
+            m_atomDiameterControl.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    // TODO: JPB TBD - ability the change this is not implemented yet.
+                }
+            });
+            Hashtable diameterControlLabelTable = new Hashtable();
+            JLabel leftLabel = new JLabel("Small"); // TODO: JPB TBD - Turn into resource if kept.
+            leftLabel.setFont( LABEL_FONT );
+            diameterControlLabelTable.put( new Double( m_atomDiameterControl.getMinimum() ), leftLabel );
+            JLabel rightLabel = new JLabel("Large"); // TODO: JPB TBD - Turn into resource if kept.
+            rightLabel.setFont( LABEL_FONT );
+            diameterControlLabelTable.put( new Double( m_atomDiameterControl.getMaximum() ), rightLabel );
+            m_atomDiameterControl.setTickLabels( diameterControlLabelTable );
+
+            // Register as a listener with the model so that we know when it gets
+            // reset.
+            m_model.addListener( new DualParticleModel.Adapter(){
+                public void resetOccurred(){
+                    m_atomDiameterControl.setValue(m_model.getCurrentMoleculeDiameter());
+                }
+            });
+            
+            add(m_atomDiameterControl);
+        }
+        
+        /**
+         * Layout strategy for sliders.
+         */
+        public class SliderLayoutStrategy implements ILayoutStrategy {
+
+            public SliderLayoutStrategy() {}
+            
+            public void doLayout( AbstractValueControl valueControl ) {
+
+                // Get the components that will be part of the layout
+                JComponent slider = valueControl.getSlider();
+
+                EasyGridBagLayout layout = new EasyGridBagLayout( valueControl );
+                valueControl.setLayout( layout );
+                layout.addFilledComponent( slider, 1, 0, GridBagConstraints.HORIZONTAL );
+            }
         }
     }
 }
