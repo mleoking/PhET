@@ -10,6 +10,7 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Ellipse2D.Double;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
@@ -30,7 +31,8 @@ public class InteractionPotentialDiagramNode extends PNode {
     // Class Data
     //----------------------------------------------------------------------------
     
-    // Constants that control the look of the axes, lines, and arrows.
+    // Constants that control the appearance of the diagram.
+    private static final double WIDTH = 200;
     private static final float AXIS_LINE_WIDTH = 1;
     private static final Stroke AXIS_LINE_STROKE = new BasicStroke(AXIS_LINE_WIDTH);
     private static final Color AXIS_LINE_COLOR = Color.LIGHT_GRAY;
@@ -45,17 +47,17 @@ public class InteractionPotentialDiagramNode extends PNode {
     private static final double TICK_MARK_LENGTH = 2;
     private static final float TICK_MARK_WIDTH = 1;
     private static final Stroke TICK_MARK_STROKE = new BasicStroke(TICK_MARK_WIDTH);
+    private static final Color BACKGROUND_COLOR = Color.WHITE;
     
     // Constants used for the Lennard-Jones potential calculation.
-    private static final double SIGMA = 3.3; 
+    private static final double SIGMA = 3.3;
     private static final double EPSILON = 120;
-    private static final double MAX_POTENTIAL = 1E4;
     private static final double HORIZONTAL_INDEX_MULTIPLIER = 0.05;  // Empirically determined so curve will look reasonable.
     private static final double VERTICAL_SCALING_FACTOR = 0.5;       // Empirically determined so curve will fit graph.
     
     // Constants that control the location and size of the graph.
     private static final double HORIZ_AXIS_SIZE_PROPORTION = 0.80;
-    private static final double VERT_AXIS_SIZE_PROPORTION = 0.80;
+    private static final double VERT_AXIS_SIZE_PROPORTION = 0.85;
     
     // Font for the labels used on the axes and within the graph.
     private static final int AXIS_LABEL_FONT_SIZE = 13;
@@ -67,17 +69,39 @@ public class InteractionPotentialDiagramNode extends PNode {
     // Instance Data
     //----------------------------------------------------------------------------
     
-    private int m_width = 200;
-    private int m_height = (int)((double)m_width * 0.8);
-    private double m_graphOffsetX = 0.10 * (double)m_width;
-    private double m_graphOffsetY = 0;
-    private double m_graphWidth = m_width * HORIZ_AXIS_SIZE_PROPORTION;
-    private double m_graphHeight = m_height * VERT_AXIS_SIZE_PROPORTION;
+    private double m_width;
+    private double m_height;
+    private double m_graphOffsetX;
+    private double m_graphOffsetY;
+    private double m_graphWidth;
+    private double m_graphHeight;
     
     /**
      * Constructor.
+     * 
+     * @param wide - True if the widescreen version of the graph is needed,
+     * false if not.
      */
-    public InteractionPotentialDiagramNode(double width, double height){
+    public InteractionPotentialDiagramNode(boolean wide){
+
+        // Set up for the normal or wide version of the graph.
+        if (wide){
+            m_width = 1.5 * WIDTH;
+            m_height = m_width * 0.6;
+        }
+        else{
+            m_width = WIDTH;
+            m_height = m_width * 0.8;
+        }
+        m_graphOffsetX = 0.10 * (double)m_width;
+        m_graphOffsetY = 0;
+        m_graphWidth = m_width * HORIZ_AXIS_SIZE_PROPORTION;
+        m_graphHeight = m_height * VERT_AXIS_SIZE_PROPORTION;
+        
+        // Create a background that will sit behind everything.
+        PPath graphBackground = new PPath(new Rectangle2D.Double( 0, 0, m_width, m_height ));
+        graphBackground.setPaint( BACKGROUND_COLOR );
+        addChild( graphBackground );
 
         // Create and add the node that will contain the graph.
         PPath ljPotentialGraph = new PPath(new Rectangle2D.Double(0, 0, m_graphWidth, m_graphHeight));
@@ -139,19 +163,19 @@ public class InteractionPotentialDiagramNode extends PNode {
         potentialEnergyLine.setStroke( POTENTIAL_ENERGY_LINE_STROKE );
         potentialEnergyLine.setStrokePaint( POTENTIAL_ENERGY_LINE_COLOR );
         GeneralPath potentialEnergyLineShape = new GeneralPath();
-        potentialEnergyLineShape.moveTo( 0, (float)(m_graphOffsetY - (2 * m_graphHeight) ));
+        potentialEnergyLineShape.moveTo( 0, 0);
         Point2D graphMin = new Point2D.Double(0, 0);
         Point2D zeroCrossingPoint = new Point2D.Double(0, 0);
         for (int i = 1; i < (int)m_graphWidth; i++){
             double potential = calculateLennardJonesPotential( i * HORIZONTAL_INDEX_MULTIPLIER);
-            if ((potential < MAX_POTENTIAL) && (potential > -MAX_POTENTIAL)){
-                double yPos = (m_graphHeight / 2) - (potential * VERTICAL_SCALING_FACTOR);
-                potentialEnergyLineShape.lineTo( (float)i, (float)yPos);
+            double yPos = ((m_graphHeight / 2) - (potential * VERTICAL_SCALING_FACTOR)) * (1/getScale());
+            if ((yPos > 0) && (yPos < m_graphHeight)){
+                potentialEnergyLineShape.lineTo( (float)i, (float)(yPos * (1/getScale())));
                 if (yPos > graphMin.getY()){
                     // A new minimum has been found.  If you're wondering why
                     // the test is for greater than rather than less than, it
-                    // is because the Y direction is down rather than up
-                    // within a PNode.
+                    // is because positive Y is down rather than up within a
+                    // PNode.
                     graphMin.setLocation( i, yPos );
                 }
                 if (potential > 0){
@@ -159,6 +183,10 @@ public class InteractionPotentialDiagramNode extends PNode {
                     // zero crossing point.
                     zeroCrossingPoint.setLocation( i, m_graphHeight / 2 );
                 }
+            }
+            else{
+                // Move to a good location from which to start graphing.
+                potentialEnergyLineShape.moveTo( i, 0);
             }
         }
         potentialEnergyLine.setPathTo( potentialEnergyLineShape );
@@ -204,6 +232,9 @@ public class InteractionPotentialDiagramNode extends PNode {
                 (m_graphOffsetY + m_graphHeight) / 2 + (verticalAxisLabel.getFullBoundsReference().width / 2) );
         verticalAxisLabel.rotate( 3 * Math.PI / 2 );
         addChild( verticalAxisLabel );
+        
+        // Set the overall background color.
+        setPaint( Color.LIGHT_GRAY );
     }
     
     /**

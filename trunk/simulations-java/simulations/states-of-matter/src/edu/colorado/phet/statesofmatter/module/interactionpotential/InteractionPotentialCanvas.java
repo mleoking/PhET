@@ -7,6 +7,7 @@ import java.awt.geom.AffineTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
+import edu.colorado.phet.statesofmatter.module.phasechanges.InteractionPotentialDiagramNode;
 import edu.colorado.phet.statesofmatter.view.ModelViewTransform;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -24,15 +25,15 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
 
     // Canvas size in pico meters, since this is a reasonable scale at which
     // to display molecules.  Assumes a 4:3 aspect ratio.
-    private final double CANVAS_WIDTH = 23000;
+    private final double CANVAS_WIDTH = 25000;
     private final double CANVAS_HEIGHT = CANVAS_WIDTH * (3.0d/4.0d);
     
     // Translation factors, used to set origin of canvas area.
-    private final double WIDTH_TRANSLATION_FACTOR = 3.0;
-    private final double HEIGHT_TRANSLATION_FACTOR = 1.35;
+    private final double WIDTH_TRANSLATION_FACTOR = 2.0;
+    private final double HEIGHT_TRANSLATION_FACTOR = 1.5;
     
     // Sizes, in terms of overall canvas size, of the nodes on the canvas.
-    private final double GRAPH_NODE_WIDTH = CANVAS_WIDTH / 2.5;
+    private final double DIAGRAM_NODE_WIDTH = CANVAS_WIDTH / 1.75;
     
     //----------------------------------------------------------------------------
     // Instance Data
@@ -49,12 +50,8 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         
         m_model = multipleParticleModel;
         
-        // Create the Model-View transform that we will be using.
-        m_mvt = new ModelViewTransform(1.0, 1.0, 0.0, 0.0, false, true);
-        
-        // Set the transform strategy so that the particle container is in a
-        // reasonable place given that point (0,0) on the canvas represents
-        // the lower left corner of the particle container.
+        // Set the transform strategy so that the the origin (i.e. point x=0,
+        // y = 0) is in a reasonable place.
         setWorldTransformStrategy( new RenderingSizeStrategy(this, 
                 new PDimension(CANVAS_WIDTH, CANVAS_HEIGHT) ){
             protected AffineTransform getPreprocessedTransform(){
@@ -65,6 +62,12 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         
         // Set the background color.
         setBackground( StatesOfMatterConstants.CANVAS_BACKGROUND );
+        
+        // Add the interaction potential diagram.
+        InteractionPotentialDiagramNode diagram = new InteractionPotentialDiagramNode(true);
+        diagram.scale( DIAGRAM_NODE_WIDTH / diagram.getFullBoundsReference().width );
+        diagram.setOffset( -(DIAGRAM_NODE_WIDTH / 2), - diagram.getFullBoundsReference().height * 1.3 );
+        addWorldChild( diagram );
     }
     
     //----------------------------------------------------------------------------
