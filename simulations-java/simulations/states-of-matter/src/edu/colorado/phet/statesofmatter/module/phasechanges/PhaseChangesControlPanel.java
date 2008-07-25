@@ -118,8 +118,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
                 INTERACTION_POTENTIAL_DIAGRAM_HEIGHT) );
         interactionDiagramCanvas.setBackground( StatesOfMatterConstants.CONTROL_PANEL_COLOR );
         interactionDiagramCanvas.setBorder( null );
-        interactionDiagramCanvas.addWorldChild( new InteractionPotentialDiagramNode(INTERACTION_POTENTIAL_DIAGRAM_WIDTH,
-                INTERACTION_POTENTIAL_DIAGRAM_HEIGHT ) );
+        interactionDiagramCanvas.addWorldChild( new InteractionPotentialDiagramNode(false) );
         m_interactionDiagramPanel.add( interactionDiagramCanvas );
         addControlFullWidth( m_interactionDiagramPanel );
         m_interactionDiagramPanel.setVisible( m_interactionDiagramVisible );
