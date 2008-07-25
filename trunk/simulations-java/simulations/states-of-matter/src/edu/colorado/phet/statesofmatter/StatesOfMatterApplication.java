@@ -19,6 +19,7 @@ import edu.colorado.phet.statesofmatter.developer.DeveloperMenu;
 import edu.colorado.phet.statesofmatter.menu.OptionsMenu;
 import edu.colorado.phet.statesofmatter.module.exp2.Exp2SolidLiquidGasModule;
 import edu.colorado.phet.statesofmatter.module.experimental.ExpSolidLiquidGasModule;
+import edu.colorado.phet.statesofmatter.module.interactionpotential.InteractionPotentialModule;
 import edu.colorado.phet.statesofmatter.module.phasechanges.PhaseChangesModule;
 import edu.colorado.phet.statesofmatter.module.solidliquidgas.SolidLiquidGasModule;
 
@@ -37,11 +38,14 @@ public class StatesOfMatterApplication extends PiccoloPhetApplication implements
     // Instance Data
     //----------------------------------------------------------------------------
 
-    private SolidLiquidGasModule _solidLiquidGasModule;
-    private PhaseChangesModule   _phaseChangesModule;
-    private ExpSolidLiquidGasModule   _experimentalModule;
-    private Exp2SolidLiquidGasModule   _experimentalModule2;
-    private static TabbedModulePanePiccolo _tabbedModulePane;
+    private SolidLiquidGasModule m_solidLiquidGasModule;
+    private PhaseChangesModule   m_phaseChangesModule;
+    private InteractionPotentialModule   m_interactionPotentialModule;
+    // TODO: JPB TBD - These prototype modules are commented out for now, and
+    // should be completely removed when they are no longer needed.
+//    private ExpSolidLiquidGasModule   _experimentalModule;
+//    private Exp2SolidLiquidGasModule   _experimentalModule2;
+    private static TabbedModulePanePiccolo m_tabbedModulePane;
     
     //----------------------------------------------------------------------------
     // Sole Constructor
@@ -66,9 +70,9 @@ public class StatesOfMatterApplication extends PiccoloPhetApplication implements
         // Create our own tabbed pane type so we can set the tab color
         TabbedPaneType tabbedPaneType = new TabbedPaneType(){
             public ITabbedModulePane createTabbedPane() {
-                _tabbedModulePane = new TabbedModulePanePiccolo();
-                _tabbedModulePane.setSelectedTabColor( StatesOfMatterConstants.SELECTED_TAB_COLOR );
-                return _tabbedModulePane;
+                m_tabbedModulePane = new TabbedModulePanePiccolo();
+                m_tabbedModulePane.setSelectedTabColor( StatesOfMatterConstants.SELECTED_TAB_COLOR );
+                return m_tabbedModulePane;
             }
         };
         setTabbedPaneType( tabbedPaneType );
@@ -81,17 +85,22 @@ public class StatesOfMatterApplication extends PiccoloPhetApplication implements
         
         Frame parentFrame = getPhetFrame();
 
-        _solidLiquidGasModule = new SolidLiquidGasModule( parentFrame );
-        addModule( _solidLiquidGasModule );
+        m_solidLiquidGasModule = new SolidLiquidGasModule( parentFrame );
+        addModule( m_solidLiquidGasModule );
 
-        _phaseChangesModule = new PhaseChangesModule( parentFrame );
-        addModule( _phaseChangesModule );
+        m_phaseChangesModule = new PhaseChangesModule( parentFrame );
+        addModule( m_phaseChangesModule );
 
+        m_interactionPotentialModule = new InteractionPotentialModule( parentFrame );
+        addModule( m_interactionPotentialModule );
+
+        /*
         _experimentalModule = new ExpSolidLiquidGasModule( parentFrame );
         addModule( _experimentalModule );
 
         _experimentalModule2 = new Exp2SolidLiquidGasModule( parentFrame );
         addModule( _experimentalModule2 );
+        */
     }
 
     /**
@@ -119,15 +128,15 @@ public class StatesOfMatterApplication extends PiccoloPhetApplication implements
     //----------------------------------------------------------------------------
 
     public void setSelectedTabColor( Color color ) {
-        if ( _tabbedModulePane != null ) {
-            _tabbedModulePane.setSelectedTabColor( color );
+        if ( m_tabbedModulePane != null ) {
+            m_tabbedModulePane.setSelectedTabColor( color );
         }
     }
 
     public Color getSelectedTabColor() {
         Color color = Color.WHITE; 
-        if ( _tabbedModulePane != null ) {
-            color = _tabbedModulePane.getSelectedTabColor();
+        if ( m_tabbedModulePane != null ) {
+            color = m_tabbedModulePane.getSelectedTabColor();
         }
         return color;
     }

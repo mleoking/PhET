@@ -20,6 +20,7 @@ public class StatesOfMatterStrings {
 
     public static final String TITLE_SOLID_LIQUID_GAS_MODULE = StatesOfMatterResources.getString( "ModuleTitle.SolidLiquidGasModule" );
     public static final String TITLE_PHASE_CHANGES_MODULE = StatesOfMatterResources.getString( "ModuleTitle.PhaseChangesModule" );
+    public static final String TITLE_INTERACTION_POTENTIAL_MODULE = StatesOfMatterResources.getString( "ModuleTitle.InteractionPotentialModule" );
 
     public static final String MOLECULE_TYPE_SELECT_LABEL = StatesOfMatterResources.getString("SolidLiquidGasControl.MoleculeSelection");
     public static final String OXYGEN_SELECTION_LABEL = StatesOfMatterResources.getString("SolidLiquidGasControl.Oxygen");
