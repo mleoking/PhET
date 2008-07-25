@@ -3,6 +3,7 @@
 package edu.colorado.phet.statesofmatter.module.phasechanges;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
@@ -15,10 +16,13 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.BevelBorder;
+import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.control.GravityControlPanel;
@@ -31,6 +35,8 @@ public class PhaseChangesControlPanel extends ControlPanel {
     // Class Data
     //----------------------------------------------------------------------------
     private static final Font BUTTON_LABEL_FONT = new PhetFont(14);
+    private static final int INTERACTION_POTENTIAL_DIAGRAM_WIDTH = 200;
+    private static final int INTERACTION_POTENTIAL_DIAGRAM_HEIGHT = (int)(INTERACTION_POTENTIAL_DIAGRAM_WIDTH * 0.8);
     
     //----------------------------------------------------------------------------
     // Instance Data
@@ -107,7 +113,14 @@ public class PhaseChangesControlPanel extends ControlPanel {
         
         // Add the interaction potential diagram.
         m_interactionDiagramPanel = new JPanel();
-        m_interactionDiagramPanel.add( new InteractionPotentialDiagram() );
+        PhetPCanvas interactionDiagramCanvas = new PhetPCanvas();
+        interactionDiagramCanvas.setPreferredSize( new Dimension(INTERACTION_POTENTIAL_DIAGRAM_WIDTH, 
+                INTERACTION_POTENTIAL_DIAGRAM_HEIGHT) );
+        interactionDiagramCanvas.setBackground( StatesOfMatterConstants.CONTROL_PANEL_COLOR );
+        interactionDiagramCanvas.setBorder( null );
+        interactionDiagramCanvas.addWorldChild( new InteractionPotentialDiagramNode(INTERACTION_POTENTIAL_DIAGRAM_WIDTH,
+                INTERACTION_POTENTIAL_DIAGRAM_HEIGHT ) );
+        m_interactionDiagramPanel.add( interactionDiagramCanvas );
         addControlFullWidth( m_interactionDiagramPanel );
         m_interactionDiagramPanel.setVisible( m_interactionDiagramVisible );
         

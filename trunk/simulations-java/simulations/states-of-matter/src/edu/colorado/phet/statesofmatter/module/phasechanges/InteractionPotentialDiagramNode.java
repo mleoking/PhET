@@ -4,7 +4,6 @@ package edu.colorado.phet.statesofmatter.module.phasechanges;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
@@ -13,10 +12,9 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
-import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -26,11 +24,11 @@ import edu.umd.cs.piccolo.nodes.PText;
  *
  * @author John Blanco
  */
-public class InteractionPotentialDiagram extends PhetPCanvas {
+public class InteractionPotentialDiagramNode extends PNode {
 
-    // Constants that control the size of the canvas.
-    private static final int WIDTH = 200;
-    private static final int HEIGHT = (int)((double)WIDTH * 0.8);
+    //----------------------------------------------------------------------------
+    // Class Data
+    //----------------------------------------------------------------------------
     
     // Constants that control the look of the axes, lines, and arrows.
     private static final float AXIS_LINE_WIDTH = 1;
@@ -58,10 +56,6 @@ public class InteractionPotentialDiagram extends PhetPCanvas {
     // Constants that control the location and size of the graph.
     private static final double HORIZ_AXIS_SIZE_PROPORTION = 0.80;
     private static final double VERT_AXIS_SIZE_PROPORTION = 0.80;
-    private static final double GRAPH_OFFSET_X = 0.10 * (double)WIDTH;
-    private static final double GRAPH_OFFSET_Y = 0;
-    private static final double GRAPH_WIDTH = WIDTH * HORIZ_AXIS_SIZE_PROPORTION;
-    private static final double GRAPH_HEIGHT = HEIGHT * VERT_AXIS_SIZE_PROPORTION;
     
     // Font for the labels used on the axes and within the graph.
     private static final int AXIS_LABEL_FONT_SIZE = 13;
@@ -69,31 +63,38 @@ public class InteractionPotentialDiagram extends PhetPCanvas {
     private static final int GREEK_LETTER_FONT_SIZE = 16;
     private static final Font GREEK_LETTER_FONT = new PhetFont(GREEK_LETTER_FONT_SIZE);
     
+    //----------------------------------------------------------------------------
+    // Instance Data
+    //----------------------------------------------------------------------------
+    
+    private int m_width = 200;
+    private int m_height = (int)((double)m_width * 0.8);
+    private double m_graphOffsetX = 0.10 * (double)m_width;
+    private double m_graphOffsetY = 0;
+    private double m_graphWidth = m_width * HORIZ_AXIS_SIZE_PROPORTION;
+    private double m_graphHeight = m_height * VERT_AXIS_SIZE_PROPORTION;
+    
     /**
      * Constructor.
      */
-    public InteractionPotentialDiagram(){
-
-        setPreferredSize( new Dimension(WIDTH, HEIGHT) );
-        setBackground( StatesOfMatterConstants.CONTROL_PANEL_COLOR );
-        setBorder( null );
+    public InteractionPotentialDiagramNode(double width, double height){
 
         // Create and add the node that will contain the graph.
-        PPath ljPotentialGraph = new PPath(new Rectangle2D.Double(0, 0, GRAPH_WIDTH, GRAPH_HEIGHT));
-        ljPotentialGraph.setOffset( GRAPH_OFFSET_X, 0 );
+        PPath ljPotentialGraph = new PPath(new Rectangle2D.Double(0, 0, m_graphWidth, m_graphHeight));
+        ljPotentialGraph.setOffset( m_graphOffsetX, 0 );
         ljPotentialGraph.setPaint( Color.WHITE );
-        addWorldChild( ljPotentialGraph );
+        addChild( ljPotentialGraph );
         
         // Create and add the axis line for the graph.
         PPath horizontalAxis = new PPath(new Line2D.Double(new Point2D.Double(0, 0), 
-                new Point2D.Double(GRAPH_WIDTH, 0)));
+                new Point2D.Double(m_graphWidth, 0)));
         horizontalAxis.setStroke( AXIS_LINE_STROKE );
         horizontalAxis.setStrokePaint( AXIS_LINE_COLOR );
         ljPotentialGraph.addChild( horizontalAxis );
-        horizontalAxis.setOffset( 0, GRAPH_HEIGHT / 2 );
+        horizontalAxis.setOffset( 0, m_graphHeight / 2 );
         
         // Create and add the tick marks for the graph.
-        double horizTickMarkSpacing = GRAPH_WIDTH / (NUM_HORIZ_TICK_MARKS + 1);
+        double horizTickMarkSpacing = m_graphWidth / (NUM_HORIZ_TICK_MARKS + 1);
         Line2D tickMarkShape = new Line2D.Double();
         Point2D endpoint1 = new Point2D.Double();
         Point2D endpoint2 = new Point2D.Double();
@@ -107,14 +108,14 @@ public class InteractionPotentialDiagram extends PhetPCanvas {
             ljPotentialGraph.addChild( topTickMark );
 
             // Bottom tick mark
-            endpoint1.setLocation( horizTickMarkSpacing * (i + 1), GRAPH_HEIGHT );
-            endpoint2.setLocation( horizTickMarkSpacing * (i + 1), GRAPH_HEIGHT - TICK_MARK_LENGTH );
+            endpoint1.setLocation( horizTickMarkSpacing * (i + 1), m_graphHeight );
+            endpoint2.setLocation( horizTickMarkSpacing * (i + 1), m_graphHeight - TICK_MARK_LENGTH );
             tickMarkShape.setLine( endpoint1, endpoint2 );
             PPath bottomTickMark = new PPath(tickMarkShape);
             bottomTickMark.setStroke( TICK_MARK_STROKE );
             ljPotentialGraph.addChild( bottomTickMark );
         }
-        double vertTickMarkSpacing = GRAPH_HEIGHT / (NUM_VERT_TICK_MARKS + 1);
+        double vertTickMarkSpacing = m_graphHeight / (NUM_VERT_TICK_MARKS + 1);
         for (int i = 0; i < NUM_VERT_TICK_MARKS; i++){
             // Left tick mark
             endpoint1.setLocation( 0, vertTickMarkSpacing * (i + 1) );
@@ -125,8 +126,8 @@ public class InteractionPotentialDiagram extends PhetPCanvas {
             ljPotentialGraph.addChild( leftTickMark );
 
             // Right tick mark
-            endpoint1.setLocation( GRAPH_WIDTH, vertTickMarkSpacing * (i + 1) );
-            endpoint2.setLocation( GRAPH_WIDTH - TICK_MARK_LENGTH, vertTickMarkSpacing * (i + 1) );
+            endpoint1.setLocation( m_graphWidth, vertTickMarkSpacing * (i + 1) );
+            endpoint2.setLocation( m_graphWidth - TICK_MARK_LENGTH, vertTickMarkSpacing * (i + 1) );
             tickMarkShape.setLine( endpoint1, endpoint2 );
             PPath rightTickMark = new PPath(tickMarkShape);
             rightTickMark.setStroke( TICK_MARK_STROKE );
@@ -138,13 +139,13 @@ public class InteractionPotentialDiagram extends PhetPCanvas {
         potentialEnergyLine.setStroke( POTENTIAL_ENERGY_LINE_STROKE );
         potentialEnergyLine.setStrokePaint( POTENTIAL_ENERGY_LINE_COLOR );
         GeneralPath potentialEnergyLineShape = new GeneralPath();
-        potentialEnergyLineShape.moveTo( 0, (float)(GRAPH_OFFSET_Y - (2 * GRAPH_HEIGHT) ));
+        potentialEnergyLineShape.moveTo( 0, (float)(m_graphOffsetY - (2 * m_graphHeight) ));
         Point2D graphMin = new Point2D.Double(0, 0);
         Point2D zeroCrossingPoint = new Point2D.Double(0, 0);
-        for (int i = 1; i < (int)GRAPH_WIDTH; i++){
+        for (int i = 1; i < (int)m_graphWidth; i++){
             double potential = calculateLennardJonesPotential( i * HORIZONTAL_INDEX_MULTIPLIER);
             if ((potential < MAX_POTENTIAL) && (potential > -MAX_POTENTIAL)){
-                double yPos = (GRAPH_HEIGHT / 2) - (potential * VERTICAL_SCALING_FACTOR);
+                double yPos = (m_graphHeight / 2) - (potential * VERTICAL_SCALING_FACTOR);
                 potentialEnergyLineShape.lineTo( (float)i, (float)yPos);
                 if (yPos > graphMin.getY()){
                     // A new minimum has been found.  If you're wondering why
@@ -156,7 +157,7 @@ public class InteractionPotentialDiagram extends PhetPCanvas {
                 if (potential > 0){
                     // The potential hasn't become negative yet, so update the
                     // zero crossing point.
-                    zeroCrossingPoint.setLocation( i, GRAPH_HEIGHT / 2 );
+                    zeroCrossingPoint.setLocation( i, m_graphHeight / 2 );
                 }
             }
         }
@@ -164,23 +165,23 @@ public class InteractionPotentialDiagram extends PhetPCanvas {
         
         // Put in the arrows that depict sigma and epsilon.
         DoubleArrowNode epsilonArrow = new DoubleArrowNode(graphMin, 
-                new Point2D.Double( graphMin.getX(), GRAPH_HEIGHT / 2 ), ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_LINE_WIDTH);
+                new Point2D.Double( graphMin.getX(), m_graphHeight / 2 ), ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_LINE_WIDTH);
         epsilonArrow.setPaint( Color.BLACK );
         ljPotentialGraph.addChild( epsilonArrow );
         
         PText epsilon = new PText("\u03B5");
         epsilon.setFont( GREEK_LETTER_FONT );
         epsilon.setOffset( graphMin.getX() + epsilon.getFullBoundsReference().width * 0.5, 
-                GRAPH_HEIGHT / 2 + epsilon.getFullBoundsReference().height * 0.5 );
+                m_graphHeight / 2 + epsilon.getFullBoundsReference().height * 0.5 );
         ljPotentialGraph.addChild( epsilon );
 
         PText sigma = new PText("\u03C3");
         sigma.setFont( GREEK_LETTER_FONT );
         sigma.setOffset( zeroCrossingPoint.getX() / 2 - sigma.getFullBoundsReference().width / 2, 
-                GRAPH_HEIGHT / 2 );
+                m_graphHeight / 2 );
         ljPotentialGraph.addChild( sigma );
 
-        DoubleArrowNode sigmaArrow = new DoubleArrowNode(new Point2D.Double(0, GRAPH_HEIGHT / 2), zeroCrossingPoint, 
+        DoubleArrowNode sigmaArrow = new DoubleArrowNode(new Point2D.Double(0, m_graphHeight / 2), zeroCrossingPoint, 
                 ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_LINE_WIDTH);
         sigmaArrow.setPaint( Color.BLACK );
         ljPotentialGraph.addChild( sigmaArrow );
@@ -192,17 +193,17 @@ public class InteractionPotentialDiagram extends PhetPCanvas {
         // Create and add the labels for the axes.
         PText horizontalAxisLabel = new PText(StatesOfMatterStrings.INTERACTION_POTENTIAL_GRAPH_X_AXIS_LABEL);
         horizontalAxisLabel.setFont( AXIS_LABEL_FONT );
-        horizontalAxisLabel.setOffset( GRAPH_OFFSET_X + (GRAPH_WIDTH / 2) - 
+        horizontalAxisLabel.setOffset( m_graphOffsetX + (m_graphWidth / 2) - 
                 (horizontalAxisLabel.getFullBoundsReference().width / 2), 
-                GRAPH_OFFSET_Y + GRAPH_HEIGHT + (horizontalAxisLabel.getFullBoundsReference().height * 0.3));
-        addWorldChild( horizontalAxisLabel );
+                m_graphOffsetY + m_graphHeight + (horizontalAxisLabel.getFullBoundsReference().height * 0.3));
+        addChild( horizontalAxisLabel );
         
         PText verticalAxisLabel = new PText(StatesOfMatterStrings.INTERACTION_POTENTIAL_GRAPH_Y_AXIS_LABEL);
         verticalAxisLabel.setFont( AXIS_LABEL_FONT );
         verticalAxisLabel.setOffset( 0, 
-                (GRAPH_OFFSET_Y + GRAPH_HEIGHT) / 2 + (verticalAxisLabel.getFullBoundsReference().width / 2) );
+                (m_graphOffsetY + m_graphHeight) / 2 + (verticalAxisLabel.getFullBoundsReference().width / 2) );
         verticalAxisLabel.rotate( 3 * Math.PI / 2 );
-        addWorldChild( verticalAxisLabel );
+        addChild( verticalAxisLabel );
     }
     
     /**
