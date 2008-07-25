@@ -45,7 +45,7 @@ public class DualParticleModel {
     public static final int NEON = 1;
     public static final int ARGON = 2;
     public static final int MONATOMIC_OXYGEN = 3;
-    public static final int DEFAULT_MOLECULE = NEON;
+    public static final int DEFAULT_MOLECULE = MONATOMIC_OXYGEN;
     
     //----------------------------------------------------------------------------
     // Instance Data
@@ -57,7 +57,8 @@ public class DualParticleModel {
     private StatesOfMatterAtom m_rightParticle;
     private double m_leftParticleHorizForce;
     private double m_rightParticleHorizForce;
-    private double m_epsilon;  // Epsilon represents interaction strength. 
+    private double m_epsilon;  // Epsilon represents interaction strength.
+    private int m_currentMoleculeID;
     
     //----------------------------------------------------------------------------
     // Constructor
@@ -79,8 +80,8 @@ public class DualParticleModel {
             }
         });
         
-        // Set the default particle type.
-        setMolecule( NEON );
+        // Don't bother adding molecules since the model will be reset as part
+        // of the initialization process.
     }
 
     //----------------------------------------------------------------------------
@@ -103,7 +104,11 @@ public class DualParticleModel {
         return m_rightParticleHorizForce;
     }
     
-    public void setMolecule(int atomID){
+    public int getMoleculeType(){
+        return m_currentMoleculeID;
+    }
+    
+    public void setMoleculeType(int atomID){
         
         // Verify that this is a supported value.
         if ((atomID != NEON) &&
@@ -141,13 +146,29 @@ public class DualParticleModel {
             break;
         }
         
+        m_currentMoleculeID = atomID;
+        
         // Let listeners know about the new molecules.
         notifyParticleAdded( m_leftParticle );
         notifyParticleAdded( m_rightParticle );
+        
+        // Move them to be initially separated.
+        double diameter = m_leftParticle.getRadius() * 2;
+        m_leftParticle.setPosition( -3 * diameter, 0 );
+        m_rightParticle.setPosition( 3 * diameter, 0 );
     }
     
     public void setInteractionStrength( double epsilon ){
         m_epsilon = epsilon;
+    }
+    
+    public double getCurrentMoleculeDiameter(){
+        if (m_leftParticle != null){
+            return m_leftParticle.getRadius() * 2;
+        }
+        else{
+            return 0;
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -160,7 +181,7 @@ public class DualParticleModel {
     public void reset() {
         
         // Initialize the system parameters.
-        setMolecule( DEFAULT_MOLECULE );
+        setMoleculeType( DEFAULT_MOLECULE );
         
         // Let any listeners know that the model has been reset.
         notifyResetOccurred();
