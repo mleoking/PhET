@@ -2,31 +2,19 @@
 
 package edu.colorado.phet.statesofmatter.module.phasechanges;
 
-import java.awt.Color;
-import java.awt.Shape;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
-import java.io.IOException;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
-import edu.colorado.phet.statesofmatter.model.container.ParticleContainer;
-import edu.colorado.phet.statesofmatter.model.particle.HydrogenAtom;
-import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.colorado.phet.statesofmatter.view.BicyclePumpNode;
 import edu.colorado.phet.statesofmatter.view.ModelViewTransform;
-import edu.colorado.phet.statesofmatter.view.ParticleContainerNode;
-import edu.colorado.phet.statesofmatter.view.ParticleContainerNode2;
 import edu.colorado.phet.statesofmatter.view.ParticleContainerNode3;
-import edu.colorado.phet.statesofmatter.view.ParticleNode;
 import edu.colorado.phet.statesofmatter.view.StoveNode;
 import edu.colorado.phet.statesofmatter.view.instruments.CompositeThermometerNode;
 import edu.colorado.phet.statesofmatter.view.instruments.DialGaugeNode;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -44,7 +32,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
     
     // Translation factors, used to set origin of canvas area.
     private final double WIDTH_TRANSLATION_FACTOR = 5.5;
-    private final double HEIGHT_TRANSLATION_FACTOR = 1.3;
+    private final double HEIGHT_TRANSLATION_FACTOR = 1.4;
     
     // Sizes, in terms of overall canvas size, of the nodes on the canvas.
     private final double BURNER_NODE_WIDTH = CANVAS_WIDTH / 2.5;
