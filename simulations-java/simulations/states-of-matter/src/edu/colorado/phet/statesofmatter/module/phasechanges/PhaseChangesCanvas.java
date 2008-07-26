@@ -90,7 +90,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         setBackground( StatesOfMatterConstants.CANVAS_BACKGROUND );
         
         // Create the particle container.
-        m_particleContainer = new ParticleContainerNode3(m_model, m_mvt, true);
+        m_particleContainer = new ParticleContainerNode3(m_model, m_mvt, false);
         
         // Add the pressure meter.
         PBounds particleContainerBounds = m_particleContainer.getFullBoundsReference();
