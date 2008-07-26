@@ -67,6 +67,7 @@ public class DualParticleModel {
     public DualParticleModel(IClock clock) {
         
         m_clock = clock;
+        m_epsilon = -100; // JPB TBD - Arbitrary initial value, should come up with something real.
         
         // Register as a clock listener.
         clock.addClockListener(new ClockAdapter(){
@@ -154,8 +155,8 @@ public class DualParticleModel {
         
         // Move them to be initially separated.
         double diameter = m_leftParticle.getRadius() * 2;
-        m_leftParticle.setPosition( -3 * diameter, 0 );
-        m_rightParticle.setPosition( 3 * diameter, 0 );
+        m_leftParticle.setPosition( -2 * diameter, 0 );
+        m_rightParticle.setPosition( 2 * diameter, 0 );
     }
     
     public void setInteractionStrength( double epsilon ){
@@ -208,8 +209,30 @@ public class DualParticleModel {
     
     private void handleClockTicked(ClockEvent clockEvent) {
         
-        // Execute the Verlet algorithm.
-        // TODO: JPB TBD.
+        // Execute the force calculation.
+        updateForce();
+        
+        // Update the particle positions.
+        updatePosition();
+    }
+    
+    private void updateForce(){
+        
+        // JPB TBD - Use radius times a fixed amount for sigma, not sure if this is correct.
+        double sigma = m_rightParticle.getRadius() * 3.3;
+        double distance = m_rightParticle.getPositionReference().distance( m_leftParticle.getPositionReference() );
+        m_rightParticleHorizForce = -((48 * m_epsilon * Math.pow( sigma, 12 ) / Math.pow( distance, 13 )) -
+                (24 * m_epsilon * Math.pow(  sigma, 6 ) / Math.pow( distance, 7 )));
+        
+    }
+    
+    private void updatePosition(){
+        
+        // JPB TBD - This is all very preliminary.  Not sure what to use for mass.
+        double mass = 1;
+        m_rightParticle.setVx( m_rightParticle.getVx() + m_rightParticleHorizForce / mass );
+        double xPos = m_rightParticle.getPositionReference().getX() + m_rightParticle.getVx();
+        m_rightParticle.setPosition( xPos, 0 );
     }
     
     private void notifyResetOccurred(){
