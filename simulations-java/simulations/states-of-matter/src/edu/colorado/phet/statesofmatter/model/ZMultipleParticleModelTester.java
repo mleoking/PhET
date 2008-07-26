@@ -58,7 +58,7 @@ public class ZMultipleParticleModelTester extends TestCase {
         for (int i = 0; i < 100; i++) {
             waitForParticleToMove();
 
-            for (int j = 0; j < model.getNumParticles(); j++) {
+            for (int j = 0; j < model.getNumMolecules(); j++) {
                 StatesOfMatterAtom p = model.getParticle(j);
 
                 Rectangle2D particleContainer = model.getParticleContainer().getShape().getBounds2D();
@@ -74,7 +74,7 @@ public class ZMultipleParticleModelTester extends TestCase {
         for (int i = 0; i < 100; i++) {
             waitForParticleToMove();
 
-            for (int j = 0; j < model.getNumParticles(); j++) {
+            for (int j = 0; j < model.getNumMolecules(); j++) {
                 StatesOfMatterAtom p = model.getParticle(j);
 
                 assertTrue("Particle " + p + " has kinetic energy " + p.getKineticEnergy(), p.getKineticEnergy() <= StatesOfMatterConstants.PARTICLE_MAX_KE + 0.00001);
@@ -83,7 +83,7 @@ public class ZMultipleParticleModelTester extends TestCase {
     }
 
     public void testInitialTotalEnergyIsDefault() {
-        assertEquals(StatesOfMatterConstants.INITIAL_TOTAL_ENERGY_PER_PARTICLE * model.getNumParticles(), model.getTotalEnergy(), 0.00001);
+        assertEquals(StatesOfMatterConstants.INITIAL_TOTAL_ENERGY_PER_PARTICLE * model.getNumMolecules(), model.getTotalEnergy(), 0.00001);
     }
 
     public void testKineticEnergyCorrectlyReported() {
