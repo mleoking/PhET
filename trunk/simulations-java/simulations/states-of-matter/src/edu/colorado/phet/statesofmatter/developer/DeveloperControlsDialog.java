@@ -9,14 +9,18 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -33,6 +37,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.statesofmatter.StatesOfMatterApplication;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.colorado.phet.statesofmatter.module.exp2.Exp2SolidLiquidGasModule;
 import edu.colorado.phet.statesofmatter.module.experimental.ExpSolidLiquidGasModule;
 import edu.colorado.phet.statesofmatter.module.phasechanges.PhaseChangesModule;
@@ -47,13 +52,20 @@ import edu.colorado.phet.statesofmatter.module.solidliquidgas.SolidLiquidGasModu
 public class DeveloperControlsDialog extends JDialog {
 
     //----------------------------------------------------------------------------
-    // Instance data
+    // Class Data
+    //----------------------------------------------------------------------------
+    private static DecimalFormat NUMBER_FORMATTER = new DecimalFormat( "##0.000" );
+
+    //----------------------------------------------------------------------------
+    // Instance Data
     //----------------------------------------------------------------------------
 
     private StatesOfMatterApplication m_app;
     private MultipleParticleModel m_model;
     private LinearValueControl m_temperatureControl;
-
+    private JLabel m_containterWidthInfo;
+    private JLabel m_containterHeightInfo;
+    private JLabel m_numParticles;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -66,6 +78,7 @@ public class DeveloperControlsDialog extends JDialog {
 
         m_app = app;
         
+        // Get a reference to the model.
         Module activeModule = m_app.getActiveModule();
         if (activeModule instanceof SolidLiquidGasModule){
             m_model = ((SolidLiquidGasModule)activeModule).getMultiParticleModel();
@@ -96,13 +109,21 @@ public class DeveloperControlsDialog extends JDialog {
 
         });
         
-        // Register with the model for temperature change events.
+        // Register with the model for various events.
         m_model.addListener( new MultipleParticleModel.Adapter(){
             public void temperatureChanged(){
                 m_temperatureControl.setValue( m_model.getTemperature() );
             }
+            public void resetOccurred(){
+                updateAdditionalInfo();
+            }
+            public void particleAdded(StatesOfMatterAtom particle){
+                updateAdditionalInfo();
+            }
         });
 
+        // Create and add the input panel.
+        
         JPanel inputPanel = createInputPanel();
 
         VerticalLayoutPanel panel = new VerticalLayoutPanel();
@@ -137,6 +158,7 @@ public class DeveloperControlsDialog extends JDialog {
         // Thermostat selection.
         ThermostatSelectionPanel thermostatSelectionPanel = new ThermostatSelectionPanel();
         
+        // Temperature control.
         m_temperatureControl = new LinearValueControl( MultipleParticleModel.MIN_TEMPERATURE, 
                 MultipleParticleModel.MAX_TEMPERATURE, "Temperature", "#.###", "Control" );
         m_temperatureControl.setUpDownArrowDelta( 0.05 );
@@ -159,6 +181,25 @@ public class DeveloperControlsDialog extends JDialog {
             }
         });
         
+        // Create the "Additional Information" panel.
+        JPanel infoPanel = new JPanel();
+        m_containterWidthInfo = new JLabel();
+        infoPanel.add( m_containterWidthInfo );
+        m_containterHeightInfo = new JLabel();
+        infoPanel.add( m_containterHeightInfo );
+        m_numParticles = new JLabel();
+        infoPanel.add( m_numParticles );
+        BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
+        TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
+                "Additional Info",
+                TitledBorder.LEFT,
+                TitledBorder.TOP,
+                new PhetFont( Font.BOLD, 14 ),
+                Color.GRAY );
+        
+        infoPanel.setBorder( titledBorder );
+        updateAdditionalInfo();
+        
         // Layout
         JPanel panel = new JPanel();
         panel.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
@@ -171,6 +212,7 @@ public class DeveloperControlsDialog extends JDialog {
         layout.addComponent( selectedTabColorControl, row++, column );
         layout.addComponent( thermostatSelectionPanel, row++, column );
         layout.addComponent( m_temperatureControl, row++, column );
+        layout.addComponent( infoPanel, row++, column );
 
         return panel;
     }
@@ -245,5 +287,11 @@ public class DeveloperControlsDialog extends JDialog {
             add( m_isokineticThermostatRadioButton );
             add( m_andersenThermostatRadioButton );
         }
+    }
+    
+    private void updateAdditionalInfo(){
+        m_containterWidthInfo.setText( "Lx = " + NUMBER_FORMATTER.format( m_model.getNormalizedContainerWidth() ) );
+        m_containterHeightInfo.setText( "Ly = " + NUMBER_FORMATTER.format(  m_model.getNormalizedContainerHeight() ) );
+        m_numParticles.setText( "N = " + m_model.getNumMolecules() );
     }
 }

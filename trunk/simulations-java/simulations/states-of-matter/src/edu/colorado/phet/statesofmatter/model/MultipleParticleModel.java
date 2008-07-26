@@ -174,8 +174,8 @@ public class MultipleParticleModel {
         return Collections.unmodifiableList(m_particles);
     }
 
-    public int getNumParticles() {
-        return m_particles.size();
+    public int getNumMolecules() {
+        return m_particles.size() / m_atomsPerMolecule;
     }
 
     public StatesOfMatterAtom getParticle(int i) {
@@ -286,7 +286,7 @@ public class MultipleParticleModel {
             m_atomsPerMolecule = 3;
             break;
         }
-        
+
         // This causes a reset - otherwise it would be too hard to do.
         reset();
     }
@@ -306,6 +306,14 @@ public class MultipleParticleModel {
         else{
             throw new IllegalArgumentException( "Thermostat type setting out of range: " + type );
         }
+    }
+    
+    public double getNormalizedContainerWidth() {
+        return m_normalizedContainerWidth;
+    }
+    
+    public double getNormalizedContainerHeight() {
+        return m_normalizedContainerHeight;
     }
 
     //----------------------------------------------------------------------------
