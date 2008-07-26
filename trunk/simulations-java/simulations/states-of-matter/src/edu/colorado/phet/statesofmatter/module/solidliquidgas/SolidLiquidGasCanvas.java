@@ -1,27 +1,16 @@
 package edu.colorado.phet.statesofmatter.module.solidliquidgas;
 
-import java.awt.Color;
-import java.awt.Shape;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
-import java.io.IOException;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
-import edu.colorado.phet.statesofmatter.model.container.ParticleContainer;
-import edu.colorado.phet.statesofmatter.model.particle.HydrogenAtom;
-import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.colorado.phet.statesofmatter.view.ModelViewTransform;
-import edu.colorado.phet.statesofmatter.view.ParticleContainerNode;
 import edu.colorado.phet.statesofmatter.view.ParticleContainerNode3;
-import edu.colorado.phet.statesofmatter.view.ParticleNode;
 import edu.colorado.phet.statesofmatter.view.StoveNode;
 import edu.colorado.phet.statesofmatter.view.instruments.CompositeThermometerNode;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
