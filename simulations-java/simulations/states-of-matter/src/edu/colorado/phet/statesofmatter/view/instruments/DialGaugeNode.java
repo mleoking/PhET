@@ -47,7 +47,7 @@ public class DialGaugeNode extends PNode {
     private static double       NEEDLE_SHIFT_PROPORTION = 0.75;      // Proportion of needle used as pointer.
     private static double       CONNECTOR_HEIGHT_PROPORATION = 0.15; // Height of connector wrt overall diameter.
     private static double       CONNECTOR_WIDTH_PROPORATION = 0.20;  // Width of connector wrt overall diameter.
-    private static DecimalFormat NUMBER_FORMATTER = new DecimalFormat( "##0.00" );
+    private static DecimalFormat NUMBER_FORMATTER = new DecimalFormat( "##0.0000" );
     
     //------------------------------------------------------------------------
     // Instance Data
