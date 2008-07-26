@@ -2,26 +2,12 @@
 
 package edu.colorado.phet.statesofmatter.model;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
-import edu.colorado.phet.statesofmatter.model.MultipleParticleModel.Listener;
-import edu.colorado.phet.statesofmatter.model.container.ParticleContainer;
-import edu.colorado.phet.statesofmatter.model.container.RectangularParticleContainer;
-import edu.colorado.phet.statesofmatter.model.engine.EngineFacade;
-import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyAdjuster;
-import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyCapper;
 import edu.colorado.phet.statesofmatter.model.particle.ArgonAtom;
-import edu.colorado.phet.statesofmatter.model.particle.HydrogenAtom;
 import edu.colorado.phet.statesofmatter.model.particle.NeonAtom;
 import edu.colorado.phet.statesofmatter.model.particle.OxygenAtom;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;

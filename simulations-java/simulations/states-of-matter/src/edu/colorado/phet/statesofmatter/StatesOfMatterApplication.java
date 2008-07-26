@@ -17,8 +17,6 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.statesofmatter.developer.DeveloperMenu;
 import edu.colorado.phet.statesofmatter.menu.OptionsMenu;
-import edu.colorado.phet.statesofmatter.module.exp2.Exp2SolidLiquidGasModule;
-import edu.colorado.phet.statesofmatter.module.experimental.ExpSolidLiquidGasModule;
 import edu.colorado.phet.statesofmatter.module.interactionpotential.InteractionPotentialModule;
 import edu.colorado.phet.statesofmatter.module.phasechanges.PhaseChangesModule;
 import edu.colorado.phet.statesofmatter.module.solidliquidgas.SolidLiquidGasModule;

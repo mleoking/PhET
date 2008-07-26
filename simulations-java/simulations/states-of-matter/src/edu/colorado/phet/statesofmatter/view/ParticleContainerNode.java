@@ -2,19 +2,16 @@
 
 package edu.colorado.phet.statesofmatter.view;
 
-import java.awt.Color;
 import java.io.IOException;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.nodes.LiquidExpansionThermometerNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.model.container.ParticleContainer;
 import edu.colorado.phet.statesofmatter.view.instruments.CompositeThermometerNode;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * This class is the "view" for the particle container.  This is where the

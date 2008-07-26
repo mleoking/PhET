@@ -7,11 +7,8 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
-import edu.colorado.phet.nuclearphysics.view.AtomicNucleusImageNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.DualParticleModel;
-import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.colorado.phet.statesofmatter.module.phasechanges.InteractionPotentialDiagramNode;
 import edu.colorado.phet.statesofmatter.view.ModelViewTransform;

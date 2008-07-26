@@ -6,8 +6,6 @@ import java.awt.Color;
 import java.awt.Paint;
 import java.awt.geom.Point2D;
 
-import bsh.This;
-
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.statesofmatter.model.particle.ArgonAtom;

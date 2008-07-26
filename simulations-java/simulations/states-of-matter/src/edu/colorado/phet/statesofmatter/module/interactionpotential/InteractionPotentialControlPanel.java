@@ -31,9 +31,7 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
-import edu.colorado.phet.statesofmatter.control.GravityControlPanel.GravitySliderLayoutStrategy;
 import edu.colorado.phet.statesofmatter.model.DualParticleModel;
-import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
 
 /**
