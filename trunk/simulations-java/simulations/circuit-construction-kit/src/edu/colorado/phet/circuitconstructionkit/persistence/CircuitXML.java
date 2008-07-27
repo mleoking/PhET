@@ -6,13 +6,13 @@ import net.n3.nanoxml.XMLWriter;
 
 import java.io.IOException;
 
-import edu.colorado.phet.circuitconstructionkit.model.grabbag.GrabBagResistor;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.model.components.*;
-import edu.colorado.phet.circuitconstructionkit.CCKModule;
+import edu.colorado.phet.circuitconstructionkit.model.grabbag.GrabBagResistor;
 
 /**
  * User: Sam Reid
@@ -49,6 +49,7 @@ public class CircuitXML {
 
     public static Branch toBranch( CCKModule module, CircuitChangeListener kl, Junction startJunction, Junction endJunction, IXMLElement xml ) {
         String type = xml.getAttribute( "type", "null" );
+        type = updateToLatestVersion( type );
         if ( type.equals( Wire.class.getName() ) ) {
             return new Wire( kl, startJunction, endJunction );
         }
@@ -123,7 +124,23 @@ public class CircuitXML {
             inductor.setInductance( Double.parseDouble( xml.getAttribute( "inductance", Double.NaN + "" ) ) );
             return inductor;
         }
+        else if ( type.equals( Wire.class.getName() ) ) {
+            Wire res = new Wire( kl, startJunction, endJunction );
+            String resVal = xml.getAttribute( "resistance", Double.NaN + "" );
+            double val = Double.parseDouble( resVal );
+            res.setResistance( val );
+            return res;
+        }
         return null;
+    }
+
+    private static String updateToLatestVersion( String type ) {
+        if ( type.equals( "edu.colorado.phet.cck3.circuit.Branch" ) ) {
+            return "edu.colorado.phet.circuitconstructionkit.model.components.Wire";
+        }
+        type=type.replaceAll( "edu.colorado.phet.cck.model.components.","edu.colorado.phet.circuitconstructionkit.model.components." );
+        type=type.replaceAll( "edu.colorado.phet.cck3.circuit.components","edu.colorado.phet.circuitconstructionkit.model.components." );
+        return type;
     }
 
     public static XMLElement toXML( Circuit circuit ) {
