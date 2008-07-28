@@ -6,7 +6,6 @@ import java.awt.event.KeyListener;
 
 import javax.swing.*;
 
-import edu.colorado.phet.circuitconstructionkit.model.analysis.ModifiedNodalAnalysis_Orig;
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 
 /**
@@ -76,10 +75,10 @@ public class CCKKeyListener implements KeyListener {
                 System.out.println( "Relayout = " + i );
             }
         }
-        else if ( e.getKeyCode() == KeyEvent.VK_K ) {
-            ModifiedNodalAnalysis_Orig na = new ModifiedNodalAnalysis_Orig();
-            na.apply( cck.getCircuit() );
-        }
+//        else if ( e.getKeyCode() == KeyEvent.VK_K ) {
+//            ModifiedNodalAnalysis_Orig na = new ModifiedNodalAnalysis_Orig();
+//            na.apply( cck.getCircuit() );
+//        }
     }
 
     public void keyTyped( KeyEvent e ) {
