@@ -17,10 +17,10 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
  */
 public class CircuitAnalysisCCKAdapter extends CircuitSolver {
     public static boolean debugging = false;
-    private CircuitSolver rootSolver;
+    private CircuitSolver circuitSolver;
 
-    public CircuitAnalysisCCKAdapter( CircuitSolver rootSolver ) {
-        this.rootSolver = rootSolver;
+    public CircuitAnalysisCCKAdapter( CircuitSolver circuitSolver ) {
+        this.circuitSolver = circuitSolver;
     }
 
     public synchronized void apply( final Circuit circuit ) {
@@ -214,7 +214,7 @@ public class CircuitAnalysisCCKAdapter extends CircuitSolver {
 //        if( ( getCapacitorCount( circuit ) > 0 || getBatteries( circuit ).length > 0 ) && circuit.numJunctions() > 2 ) {
         if ( ( circuit.getCapacitorCount() > 0 || getBatteries( circuit ).length > 0 ) || circuit.getInductorCount() > 0 ) {
 //            System.out.println( "Applying root solver" );
-            rootSolver.apply( circuit );
+            circuitSolver.apply( circuit );
         }
         else {
 //            System.out.println( "Clearing circuit" );
