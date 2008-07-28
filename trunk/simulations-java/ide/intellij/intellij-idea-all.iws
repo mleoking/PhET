@@ -35,7 +35,10 @@
     <option name="USER" value="" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" name="Default" comment="if no language is specified, default locale used by phet common should be english, not system default" />
+    <list default="true" name="Default" comment="if no language is specified, default locale used by phet common should be english, not system default">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/circuit-construction-kit/src/edu/colorado/phet/circuitconstructionkit/model/analysis/CircuitAnalysisCCKAdapter.java" afterPath="$PROJECT_DIR$/../../simulations/circuit-construction-kit/src/edu/colorado/phet/circuitconstructionkit/model/analysis/CircuitAnalysisCCKAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/intellij-idea-all.iws" afterPath="$PROJECT_DIR$/intellij-idea-all.iws" />
+    </list>
     <list name="rotation-render" comment="rotation-render" />
     <list name="build-12-7-2007" comment="build-12-7-2007" />
     <list name="bsp" comment="bsp" />
@@ -366,15 +369,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="CircuitXML.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../simulations/circuit-construction-kit/src/edu/colorado/phet/circuitconstructionkit/persistence/CircuitXML.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="39" selection-start="357" selection-end="357" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="TestLoops1.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../simulations/circuit-construction-kit/src/edu/colorado/phet/circuitconstructionkit/model/TestLoops1.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -402,7 +396,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MNASolver.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="MNASolver.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../simulations/circuit-construction-kit/src/edu/colorado/phet/circuitconstructionkit/model/analysis/MNASolver.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="38" column="34" selection-start="1834" selection-end="1834" vertical-scroll-proportion="0.27478448">
@@ -411,10 +405,19 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="CircuitAnalysisCCKAdapter.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../../simulations/circuit-construction-kit/src/edu/colorado/phet/circuitconstructionkit/model/analysis/CircuitAnalysisCCKAdapter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="16" column="44" selection-start="571" selection-end="571" vertical-scroll-proportion="0.14655173">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="CCKModel.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../simulations/circuit-construction-kit/src/edu/colorado/phet/circuitconstructionkit/model/CCKModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="56" column="82" selection-start="2607" selection-end="2607" vertical-scroll-proportion="0.0">
+            <state line="80" column="28" selection-start="3840" selection-end="3840" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -742,44 +745,6 @@
         </PATH_ELEMENT>
         <PATH_ELEMENT>
           <option name="myItemId" value="model" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="intellij-idea-all" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="intellij-idea-all" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="simulations-java" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="simulations" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="circuit-construction-kit" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="src" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="circuitconstructionkit" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="model" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="analysis" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -2038,50 +2003,50 @@
       </method>
     </configuration>
     <list size="44">
-      <item index="0" class="java.lang.String" itemvalue="Application.TestLoops3" />
-      <item index="1" class="java.lang.String" itemvalue="Application.HumanNode" />
-      <item index="2" class="java.lang.String" itemvalue="Application.PhetFont" />
-      <item index="3" class="java.lang.String" itemvalue="Application.EatingAndExerciseApplication" />
-      <item index="4" class="java.lang.String" itemvalue="Application.GreenhouseApplication" />
-      <item index="5" class="java.lang.String" itemvalue="Application.ImportAndAddBatch" />
-      <item index="6" class="java.lang.String" itemvalue="Application.NuclearPhysics2Application" />
-      <item index="7" class="java.lang.String" itemvalue="Application.GlaciersApplication" />
-      <item index="8" class="java.lang.String" itemvalue="Application.HydrogenAtomApplication" />
-      <item index="9" class="java.lang.String" itemvalue="Application.SolubleSaltsApplication" />
-      <item index="10" class="java.lang.String" itemvalue="Application.EnergySkateParkApplication" />
-      <item index="11" class="java.lang.String" itemvalue="Application.PhotoelectricApplication" />
-      <item index="12" class="java.lang.String" itemvalue="Application.TimesheetApp" />
-      <item index="13" class="java.lang.String" itemvalue="Application.StackedBarChartNode" />
-      <item index="14" class="java.lang.String" itemvalue="Application.EatingAndExerciseModule" />
-      <item index="15" class="java.lang.String" itemvalue="Application.StackedBarNode" />
-      <item index="16" class="java.lang.String" itemvalue="Application.DailyHours" />
-      <item index="17" class="java.lang.String" itemvalue="Application.MovingManApplication" />
-      <item index="18" class="java.lang.String" itemvalue="Application.CalorieSelectionPanel" />
-      <item index="19" class="java.lang.String" itemvalue="Application.PieChartNode" />
-      <item index="20" class="java.lang.String" itemvalue="Application.BoundStatesApplication" />
-      <item index="21" class="java.lang.String" itemvalue="Application.EatingAndExerciseFileParser" />
-      <item index="22" class="java.lang.String" itemvalue="Application.TorqueApplication" />
-      <item index="23" class="java.lang.String" itemvalue="Application.NeutronSourceNode" />
-      <item index="24" class="java.lang.String" itemvalue="Application.BalloonsApplication" />
-      <item index="25" class="java.lang.String" itemvalue="Application.BatchSimTest" />
-      <item index="26" class="java.lang.String" itemvalue="Application.CaptureScreenshot" />
-      <item index="27" class="java.lang.String" itemvalue="Application.TestPhetApplicationUsage" />
-      <item index="28" class="java.lang.String" itemvalue="Application.DistanceLadderApplication" />
-      <item index="29" class="java.lang.String" itemvalue="Application.RadioWavesApplication" />
-      <item index="30" class="java.lang.String" itemvalue="Application.FaradayApplication" />
-      <item index="31" class="java.lang.String" itemvalue="Application.SemiconductorApplication" />
-      <item index="32" class="java.lang.String" itemvalue="Application.LasersApplication" />
-      <item index="33" class="java.lang.String" itemvalue="Application.DischargeLampsApplication" />
-      <item index="34" class="java.lang.String" itemvalue="Application.CircuitConstructionKitACApplication" />
-      <item index="35" class="java.lang.String" itemvalue="Application.RotationApplication" />
-      <item index="36" class="java.lang.String" itemvalue="Application.TranslationUtility" />
-      <item index="37" class="java.lang.String" itemvalue="Application.LinearValueControlNode" />
-      <item index="38" class="java.lang.String" itemvalue="Application.BalancedDietDialog" />
-      <item index="39" class="java.lang.String" itemvalue="Application.WaveInterferenceApplication" />
-      <item index="40" class="java.lang.String" itemvalue="Application.HealthIndicator" />
-      <item index="41" class="java.lang.String" itemvalue="Application.TestYears" />
-      <item index="42" class="java.lang.String" itemvalue="Application.StatesOfMatterApplication" />
-      <item index="43" class="java.lang.String" itemvalue="JUnit.ZBasalMetabolicRateTester.testBMR" />
+      <item index="0" class="java.lang.String" itemvalue="Application.HumanNode" />
+      <item index="1" class="java.lang.String" itemvalue="Application.PhetFont" />
+      <item index="2" class="java.lang.String" itemvalue="Application.EatingAndExerciseApplication" />
+      <item index="3" class="java.lang.String" itemvalue="Application.GreenhouseApplication" />
+      <item index="4" class="java.lang.String" itemvalue="Application.ImportAndAddBatch" />
+      <item index="5" class="java.lang.String" itemvalue="Application.NuclearPhysics2Application" />
+      <item index="6" class="java.lang.String" itemvalue="Application.GlaciersApplication" />
+      <item index="7" class="java.lang.String" itemvalue="Application.HydrogenAtomApplication" />
+      <item index="8" class="java.lang.String" itemvalue="Application.SolubleSaltsApplication" />
+      <item index="9" class="java.lang.String" itemvalue="Application.EnergySkateParkApplication" />
+      <item index="10" class="java.lang.String" itemvalue="Application.PhotoelectricApplication" />
+      <item index="11" class="java.lang.String" itemvalue="Application.TimesheetApp" />
+      <item index="12" class="java.lang.String" itemvalue="Application.StackedBarChartNode" />
+      <item index="13" class="java.lang.String" itemvalue="Application.EatingAndExerciseModule" />
+      <item index="14" class="java.lang.String" itemvalue="Application.StackedBarNode" />
+      <item index="15" class="java.lang.String" itemvalue="Application.DailyHours" />
+      <item index="16" class="java.lang.String" itemvalue="Application.MovingManApplication" />
+      <item index="17" class="java.lang.String" itemvalue="Application.CalorieSelectionPanel" />
+      <item index="18" class="java.lang.String" itemvalue="Application.PieChartNode" />
+      <item index="19" class="java.lang.String" itemvalue="Application.BoundStatesApplication" />
+      <item index="20" class="java.lang.String" itemvalue="Application.EatingAndExerciseFileParser" />
+      <item index="21" class="java.lang.String" itemvalue="Application.TorqueApplication" />
+      <item index="22" class="java.lang.String" itemvalue="Application.NeutronSourceNode" />
+      <item index="23" class="java.lang.String" itemvalue="Application.BalloonsApplication" />
+      <item index="24" class="java.lang.String" itemvalue="Application.BatchSimTest" />
+      <item index="25" class="java.lang.String" itemvalue="Application.CaptureScreenshot" />
+      <item index="26" class="java.lang.String" itemvalue="Application.TestPhetApplicationUsage" />
+      <item index="27" class="java.lang.String" itemvalue="Application.DistanceLadderApplication" />
+      <item index="28" class="java.lang.String" itemvalue="Application.RadioWavesApplication" />
+      <item index="29" class="java.lang.String" itemvalue="Application.FaradayApplication" />
+      <item index="30" class="java.lang.String" itemvalue="Application.SemiconductorApplication" />
+      <item index="31" class="java.lang.String" itemvalue="Application.LasersApplication" />
+      <item index="32" class="java.lang.String" itemvalue="Application.DischargeLampsApplication" />
+      <item index="33" class="java.lang.String" itemvalue="Application.CircuitConstructionKitACApplication" />
+      <item index="34" class="java.lang.String" itemvalue="Application.RotationApplication" />
+      <item index="35" class="java.lang.String" itemvalue="Application.TranslationUtility" />
+      <item index="36" class="java.lang.String" itemvalue="Application.LinearValueControlNode" />
+      <item index="37" class="java.lang.String" itemvalue="Application.BalancedDietDialog" />
+      <item index="38" class="java.lang.String" itemvalue="Application.WaveInterferenceApplication" />
+      <item index="39" class="java.lang.String" itemvalue="Application.HealthIndicator" />
+      <item index="40" class="java.lang.String" itemvalue="Application.TestYears" />
+      <item index="41" class="java.lang.String" itemvalue="Application.StatesOfMatterApplication" />
+      <item index="42" class="java.lang.String" itemvalue="JUnit.ZBasalMetabolicRateTester.testBMR" />
+      <item index="43" class="java.lang.String" itemvalue="Application.TestLoops3" />
     </list>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
@@ -2196,7 +2161,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39987123" order="0" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="-1" />
       <window_info id="Module Dependencies" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="7" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24807198" order="0" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27249357" order="0" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6018054" order="11" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39919758" order="6" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3174501" order="2" />
@@ -2231,7 +2196,7 @@
     <option name="PERFORM_CHECKOUT_IN_BACKGROUND" value="true" />
     <option name="PERFORM_ADD_REMOVE_IN_BACKGROUND" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="update paths" />
+    <option name="LAST_COMMIT_MESSAGE" value="if no language is specified, default locale used by phet common should be english, not system default" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="REFORMAT_BEFORE_FILE_COMMIT" value="false" />
@@ -2264,9 +2229,9 @@
     <MESSAGE value="update serialization to latest version" />
     <MESSAGE value="update timesheet" />
     <MESSAGE value="minor cleanup" />
-    <MESSAGE value="if no language is specified, default locale used by phet common should be english, not system default" />
     <MESSAGE value="clean up comments" />
     <MESSAGE value="update paths" />
+    <MESSAGE value="if no language is specified, default locale used by phet common should be english, not system default" />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />
@@ -2403,13 +2368,6 @@
     <option name="myLastEditedConfigurable" value="find-deprecated" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../../simulations/circuit-construction-kit/src/edu/colorado/phet/circuitconstructionkit/controls/CCKResetButton.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="91" selection-start="1349" selection-end="1349" vertical-scroll-proportion="0.3380531">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../simulations/circuit-construction-kit/src/edu/colorado/phet/circuitconstructionkit/controls/ResistivitySlider.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="28" column="64" selection-start="1106" selection-end="1106" vertical-scroll-proportion="0.3380531">
@@ -2473,13 +2431,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/circuit-construction-kit/src/edu/colorado/phet/circuitconstructionkit/model/CCKModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="82" selection-start="2607" selection-end="2607" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../simulations/circuit-construction-kit/src/edu/colorado/phet/circuitconstructionkit/model/grabbag/GrabBag.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="23" column="101" selection-start="1268" selection-end="1268" vertical-scroll-proportion="0.0">
@@ -2511,6 +2462,20 @@
     <entry file="file://$PROJECT_DIR$/../../simulations/circuit-construction-kit/src/edu/colorado/phet/circuitconstructionkit/model/analysis/MNASolver.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="38" column="34" selection-start="1834" selection-end="1834" vertical-scroll-proportion="0.27478448">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../simulations/circuit-construction-kit/src/edu/colorado/phet/circuitconstructionkit/model/CCKModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="80" column="28" selection-start="3840" selection-end="3840" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../simulations/circuit-construction-kit/src/edu/colorado/phet/circuitconstructionkit/model/analysis/CircuitAnalysisCCKAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="44" selection-start="571" selection-end="571" vertical-scroll-proportion="0.14655173">
           <folding />
         </state>
       </provider>
