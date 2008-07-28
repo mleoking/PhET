@@ -22,11 +22,7 @@ public class MNASolver extends CircuitSolver {
     private KirkhoffSolver.MatrixTable matrixTable;
 
     public void apply( Circuit circuit ) {
-//        if( circuit.numBranches() < 2 ) {
-//            //can't clear the circuit because of dynamic components.
-////            clearCircuit();
-//            return;
-//        }
+        //can't clear the circuit because dynamic components require history
         MNACircuit mnaCircuit = new MNACircuit();
         for ( int i = 0; i < circuit.numBranches(); i++ ) {
             Branch branch = circuit.branchAt( i );
