@@ -107,13 +107,13 @@ public class MNASolver extends CircuitSolver {
         //Discharge all inductors not in a loop.
         for ( int i = 0; i < circuit.getInductorCount(); i++ ) {
             Inductor inductor = circuit.getInductor( i );
-            if ( !isInLoop( circuit, inductor ) ) {
+            if ( !isInLoop( inductor ) ) {
                 inductor.discharge();
             }
         }
     }
 
-    private boolean isInLoop( Circuit circuit, Inductor inductor ) {
+    private boolean isInLoop( Inductor inductor ) {
         return matrixTable.isLoopElementIncludingSwitches( inductor );
     }
 
@@ -130,7 +130,7 @@ public class MNASolver extends CircuitSolver {
                 all.add( branch );
             }
         }
-        return (Battery[]) all.toArray( new Battery[0] );
+        return (Battery[]) all.toArray( new Battery[all.size()] );
     }
 
     private MNACircuit.MNAComponent toMNAComponent( Branch branch, int index, int start, int end ) {
@@ -148,9 +148,11 @@ public class MNASolver extends CircuitSolver {
             Inductor L = (Inductor) branch;
             return new MNACircuit.MNAInductor( "L_" + index, start, end, L.getInductance(), L.getVoltageDrop(), L.getCurrent() );
         }
-        else if ( branch instanceof Branch ) {
+        else if ( branch != null ) {
             return new MNACircuit.MNAResistor( "r_" + index, start, end, branch.getResistance() );
         }
-        throw new RuntimeException( "Component not recognized: " + branch.getClass() );
+        else {
+            throw new RuntimeException( "Component not recognized: " + branch );
+        }
     }
 }
