@@ -4,6 +4,7 @@ package edu.colorado.phet.circuitconstructionkit.model.mna.tests;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.ModifiedNodalAnalysis_Orig;
+import edu.colorado.phet.circuitconstructionkit.model.analysis.MNASolver;
 import edu.colorado.phet.circuitconstructionkit.model.components.Battery;
 import edu.colorado.phet.circuitconstructionkit.model.components.Resistor;
 
@@ -33,6 +34,9 @@ public class TestNodeAnalysis2 extends NodeAnalysisTest {
         circuit.addJunction( j2 );
 
         new ModifiedNodalAnalysis_Orig().apply( circuit );
+        System.out.println( "r1.getCurrent() = " + res.getCurrent() );
+
+        new MNASolver().apply( circuit );
         System.out.println( "r1.getCurrent() = " + res.getCurrent() );
     }
 }

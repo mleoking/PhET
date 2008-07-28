@@ -209,7 +209,7 @@ public class CircuitAnalysisCCKAdapter extends CircuitSolver {
         return equivalentCircuit;
     }
 
-    public void applyRootSolver( final Circuit circuit ) {
+    private void applyRootSolver( final Circuit circuit ) {
         //when requiring numJunctions>2, a lone capacitor gets cleared.
 //        if( ( getCapacitorCount( circuit ) > 0 || getBatteries( circuit ).length > 0 ) && circuit.numJunctions() > 2 ) {
         if ( ( circuit.getCapacitorCount() > 0 || getBatteries( circuit ).length > 0 ) || circuit.getInductorCount() > 0 ) {
