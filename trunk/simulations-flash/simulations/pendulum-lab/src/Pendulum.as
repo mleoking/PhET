@@ -11,10 +11,10 @@ class Pendulum{
 	private var speed:Number;		//speed of mass in m/s
 	private var tanVel:Number;		//tangential component of velocity in m/s
 	private var h:Number;			//height of mass above minimum in m
-	var KE:Number;			//kinetic energy in joules
-	var PE:Number;			//potential energy in joules
-	var thermalE:Number;	//thermal energy in joules
-	var E:Number;			//total energy E = KE + PE
+	var KE:Number;					//kinetic energy in joules
+	var PE:Number;					//potential energy in joules
+	var thermalE:Number;			//thermal energy in joules
+	var E:Number;					//total energy E = KE + PE
 	private var t:Number;			//time in seconds
 	private var dt:Number;			//time step in seconds
 	private var dtMax:Number;		//diagnostic use only: max value of real timestep (msec)
@@ -202,6 +202,11 @@ class Pendulum{
 		this.gettingPeriod = true;
 		this.tripCount = 0;
 		//this.view.startPeriodArc();
+	}
+	
+	function stopPhotogate():Void{
+		this.gettingPeriod = false;
+		this.tripCount = 0;
 	}
 	
 	function reportPeriod():Void{

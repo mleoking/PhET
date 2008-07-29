@@ -1,0 +1,57 @@
+<?xml version="1.0" ?>
+<SimStrings>
+  <string key="length" value="片仮名" />
+  <string key="length_unit" value="カナ" />
+  <string key="mass" value="カタカナ" />
+  <string key="mass_unit" value="カタ" />
+  <string key="length2" value="カタカナ:" />
+  <string key="mass2" value="片仮名" />
+  <string key="showSecondPendulum" value="片仮名" />
+  <string key="friction" value="カタカナ" />
+  <string key="noneFriction" value="片仮名" />
+  <string key="lots" value="カタカナ" />
+  <string key="realTime" value="片仮名" />
+  <string key="quarterTime" value="片仮名" />
+  <string key="sixteenthTime" value="カタカナ" />
+  <string key="pausePlay" value="カタカ/タカ" />
+  <string key="paused" value="カタカナ" />
+  <string key="moon" value="片仮名" />
+  <string key="earth" value="カタカナ" />
+  <string key="jupiter" value="片仮名" />
+  <string key="planetX" value="片仮名" />
+  <string key="gEqZero" value="カタカナ" />
+  <string key="show" value="カタカナ" />
+  <string key="velocity" value="カタカナ" />
+  <string key="acceleration" value="カタカナ" />
+  <string key="showEnergyOf" value="片仮名" />
+  <string key="noneEnergy" value="片仮名" />
+  <string key="showPhotoGateTimer" value="片仮名" />
+  <string key="otherTools" value="片仮名" />
+  <string key="reset" value="カタカナ" />
+  <string key="photoGateTimer" value="カタカナ" />
+  <string key="pendulum" value="カタカナ" />
+  <string key="period" value="カタカナ" />
+  <string key="start" value="片仮名" />
+  <string key="resetStopwatch" value="片仮名" />
+  <string key="startPauseStopwatch" value="片仮名" />
+  <string key="angleUnit" value=" カタカナ" />
+  <string key="energyOf" value="カタカナ タ " />
+  <string key="KE" value="カタカナ" />
+  <string key="PE" value="片仮名" />
+  <string key="thermal" value="片仮名" />
+  <string key="total" value="片仮名" />
+  <string key="" value="" />
+  <string key="" value="" />
+  <string key="" value="" />
+  <string key="" value="" />
+  <string key="" value="" />
+  <string key="" value="" />
+  <string key="" value="" />
+  <string key="" value="" />
+  <string key="" value="" />
+  <string key="" value="" />
+  <string key="" value="" />
+  <string key="" value="" />
+  <string key="" value="" />
+  <string key="" value="" />
+</SimStrings>

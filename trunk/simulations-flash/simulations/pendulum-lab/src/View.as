@@ -172,6 +172,14 @@
 		//trace("pend direction: "+this.pendulumDirection);
 	}
 	
+	function clearArcClip():Void{
+		this.arcClip.clear();   //call to clear() resets lineStyle to undefined!
+		var lineWidth:Number = 3;
+		this.arcClip.lineStyle(lineWidth, this.pendulumColor, 100);
+		this.arcClip._alpha = 100;
+		this.arcClip.onEnterFrame = undefined;
+	}
+	
 	function fadeOutPeriodArc():Void{
 		//draw very last segment of arc
 		var pendulumScrnX:Number = 0;

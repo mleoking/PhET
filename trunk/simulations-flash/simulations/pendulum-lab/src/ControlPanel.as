@@ -33,7 +33,7 @@
 		this.panelClip = _root.attachMovie("controlPanel", "panel_mc", _root.getNextHighestDepth());
 		Util.setXYPosition(this.panelClip, stageW - (this.panelClip._width/2), 0.05*stageH);
 		this.pausedSign = _root.attachMovie("paused", "paused_mc",9);  //hard-coded level to get below everything else
-		Util.setXYPosition(this.pausedSign, Util.ORIGINX, 0.3*stageH);
+		Util.setXYPosition(this.pausedSign, Util.ORIGINX, 0.4*stageH);
 		this.pausedSign._visible = false;
 		this.stopWatch = _root.attachMovie("stopWatch","stopWatch_mc",_root.getNextHighestDepth());
 		Util.setXYPosition(this.stopWatch, 0.1*stageW, 0.6*stageH);
@@ -187,17 +187,25 @@
 			//trace("labelNbr: "+this.view_arr[i].pendulum.getLabelNbr());
 			controller.view_arr[i].pendulum.setAngleInDeg(0);
 			controller.view_arr[i].pendulum.stopMotion();
+			controller.view_arr[i].clearArcClip();
 			var velArrow:MovieClip = controller.view_arr[i].clip.pendulum_mc.vectorHolder_mc.velArrow_mc;
 			var accArrow:MovieClip = controller.view_arr[i].clip.pendulum_mc.vectorHolder_mc.accArrow_mc;
 			velArrow._xscale = velArrow._yscale = 0;
 			accArrow._xscale = accArrow._yscale = 0;
 		}
+		controller.stopPhotogate();
 	}
 	
 	function startPhotogate(controller:Object):Void{
 		controller.view_arr[controller.periodPendulum].pendulum.startPhotogate();
 		controller.photogate.statusLight_mc.gotoAndStop("green");
 		controller.photogate.time_txt.text = "0.000";
+	}
+	
+	function stopPhotogate():Void{
+		this.view_arr[this.periodPendulum].pendulum.stopPhotogate();
+		this.photogate.statusLight_mc.gotoAndStop("red");
+		this.photogate.time_txt.text = "0.000";
 	}
 	
 	function registerThisWithModels():Void{
