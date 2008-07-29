@@ -4,11 +4,13 @@ class Internationalizer{
 	private var simStrings:SimStrings;
 	private var view1:Object;
 	private var view2:Object;
+	private var countryCode:String;
 	
-	function Internationalizer(simStrings:SimStrings, view1:Object, view2:Object){
+	function Internationalizer(simStrings:SimStrings, view1:Object, view2:Object, countryCode:String){
 		this.simStrings = simStrings;
 		this.view1 = view1;
 		this.view2 = view2;
+		this.countryCode = countryCode;
 		//this.mainView = mainView;
 		//trace("simStrings.getBaseName(): "+this.simStrings.getLocale());
 		this.initialize();
@@ -35,6 +37,7 @@ class Internationalizer{
 		this.setString(_root.panel_mc.length2Slider.unit_txt, "length_unit", "left");
 		this.setString(_root.panel_mc.mass2Slider.label_txt, "mass2", "right");
 		this.setString(_root.panel_mc.mass2Slider.unit_txt, "mass_unit", "left");
+		this.setString(_root.panel_mc.pendulum2_ch.label_txt, "showSecondPendulum", "left");
 		
 		this.setString(_root.panel_mc.frictionSlider_mc.label_txt, "friction", "center");
 		this.setString(_root.panel_mc.frictionSlider_mc.leftLabel_txt, "noneFriction", "left");
@@ -44,6 +47,8 @@ class Internationalizer{
 		this.setString(_root.panel_mc.timeGroup_mc.label2_txt, "quarterTime", "left");
 		this.setString(_root.panel_mc.timeGroup_mc.label3_txt, "sixteenthTime", "left");
 		this.setString(_root.panel_mc.timeGroup_mc.label4_txt, "paused", "left");
+		this.setString(_root.pausePlay_mc.label_txt, "pausePlay", "center");
+		this.setString(_root.paused_mc.label_txt, "paused", "left");
 		
 		this.setString(_root.panel_mc.gravityGroup_mc.label1_txt, "moon", "left");
 		this.setString(_root.panel_mc.gravityGroup_mc.label2_txt, "earth", "left");
@@ -73,6 +78,61 @@ class Internationalizer{
 		this.view1.angleUnit_str = this.simStrings.get("angleUnit");
 		this.view2.angleUnit_str = this.simStrings.get("angleUnit");
 		
+		if(countryCode == "en"){
+			//embed fonts so they can be greyed out
+			var myFormat = new TextFormat();
+			myFormat.font = "Arial";
+			_root.panel_mc.length2Slider.label_txt.embedFonts = true;
+			_root.panel_mc.length2Slider.label_txt.setTextFormat(myFormat);
+			_root.panel_mc.length2Slider.unit_txt.embedFonts = true;
+			_root.panel_mc.length2Slider.unit_txt.setTextFormat(myFormat);
+			_root.panel_mc.mass2Slider.label_txt.embedFonts = true;
+			_root.panel_mc.mass2Slider.label_txt.setTextFormat(myFormat);
+			_root.panel_mc.mass2Slider.unit_txt.embedFonts = true;
+			_root.panel_mc.mass2Slider.unit_txt.setTextFormat(myFormat);
+			//set rotated, embedded text 
+			_root.energyGraph1_mc.yAxis_txt.text = this.simStrings.get("energyOf")+this.view1.pendulum.labelNbr;
+			_root.energyGraph1_mc.kE_txt.text = this.simStrings.get("KE");
+			_root.energyGraph1_mc.pE_txt.text = this.simStrings.get("PE");
+			_root.energyGraph1_mc.thermal_txt.text = this.simStrings.get("thermal");
+			_root.energyGraph1_mc.total_txt.text = this.simStrings.get("total");
+			_root.energyGraph2_mc.yAxis_txt.text = this.simStrings.get("energyOf")+this.view2.pendulum.labelNbr;
+			_root.energyGraph2_mc.kE_txt.text = this.simStrings.get("KE");
+			_root.energyGraph2_mc.pE_txt.text = this.simStrings.get("PE");
+			_root.energyGraph2_mc.thermal_txt.text = this.simStrings.get("thermal");
+			_root.energyGraph2_mc.total_txt.text = this.simStrings.get("total");
+		}else{
+			//erase english
+			_root.energyGraph1_mc.yAxis_txt.text = "";
+			_root.energyGraph1_mc.kE_txt.text = "";
+			_root.energyGraph1_mc.pE_txt.text = "";
+			_root.energyGraph1_mc.thermal_txt.text = "";
+			_root.energyGraph1_mc.total_txt.text = "";
+			_root.energyGraph2_mc.yAxis_txt.text = "";
+			_root.energyGraph2_mc.kE_txt.text = "";
+			_root.energyGraph2_mc.pE_txt.text = "";
+			_root.energyGraph2_mc.thermal_txt.text = "";
+			_root.energyGraph2_mc.total_txt.text = "";
+			//fill in non-english
+			this.stackString(_root.energyGraph1_mc.stackedText1_txt, "energyOf" );
+			_root.energyGraph1_mc.stackedText1_txt.text += this.view1.pendulum.labelNbr;
+			this.stackString(_root.energyGraph1_mc.stackedText2_txt, "KE" );
+			this.stackString(_root.energyGraph1_mc.stackedText3_txt, "PE" );
+			this.stackString(_root.energyGraph1_mc.stackedText4_txt, "thermal" );
+			this.stackString(_root.energyGraph1_mc.stackedText5_txt, "total" );
+			//_root.energyGraph1_mc.stackedText1_txt.text = this.simStrings.get("energyOf") + this.view1.pendulum.labelNbr;
+			//_root.energyGraph1_mc.stackedText2_txt.text = this.simStrings.get("KE");
+			//_root.energyGraph1_mc.stackedText3_txt.text = this.simStrings.get("PE");
+			//_root.energyGraph1_mc.stackedText4_txt.text = this.simStrings.get("thermal");
+			//_root.energyGraph1_mc.stackedText5_txt.text = this.simStrings.get("total");
+			
+			this.stackString(_root.energyGraph2_mc.stackedText1_txt, "energyOf" );
+			_root.energyGraph2_mc.stackedText1_txt.text += this.view2.pendulum.labelNbr;
+			this.stackString(_root.energyGraph2_mc.stackedText2_txt, "KE" );
+			this.stackString(_root.energyGraph2_mc.stackedText3_txt, "PE" );
+			this.stackString(_root.energyGraph2_mc.stackedText4_txt, "thermal" );
+			this.stackString(_root.energyGraph2_mc.stackedText5_txt, "total" );
+		}
 		//_level0.GUIPanel_mc.startButton_mc.theLabel = this.simStrings.get("start");
 		//_level0.GUIPanel_mc.startButton_mc.gotoAndPlay(1);
 		
@@ -189,5 +249,32 @@ class Internationalizer{
 			//trace(mTextField.text+" has field._width " + mTextField._width);
 		}
 	}
+	
+	function stackString(field:TextField, key:String){
+		//trace("key: "+key);
+		var stringValue:String = this.simStrings.get( key );
+		var currentTextFormat:TextFormat = field.getTextFormat();
+		if(stringValue == "keyNotFound"  || stringValue == ""){
+		   //Do nothing.  String will default to English
+		}else{
+			if(field.html){
+				field.htmlText = stringValue;
+			}else{
+				//search for "newline" 
+				var chars_arr:Array = stringValue.split("");
+				if(chars_arr.length > 1){
+					var newStringValue:String = "";
+					for (var i:Number = 0; i < chars_arr.length; i++){
+						newStringValue += chars_arr[i]+newline;
+					}
+					stringValue = newStringValue;
+				}
+				field.text = stringValue;
+			}
+			//field.setTextFormat(currentTextFormat);
+			//this.resizeText(field, alignment);
+			//trace("key: "+key+"   stringValue:"+stringValue);
+		}
+	}//end of stackString()
 						
 }//end of class

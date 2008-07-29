@@ -4,16 +4,18 @@
 	private var pendulum:Object;
 	private var visibility:Boolean;		//true if graph is visible
 	
+	
 	function EnergyGraph(pendulum:Object){
 		this.pendulum = pendulum;
+		var pendulumNbr:Number = this.pendulum.getLabelNbr();
 		this.setVisibility(false);
 		this.pendulum.registerGraphView(this);
 		this.pixelsPerJoule = 100;
-		this.clip = _root.attachMovie("energyGraph", "energyGraph_mc", _root.getNextHighestDepth());
+		this.clip = _root.attachMovie("energyGraph", "energyGraph"+pendulumNbr+"_mc", _root.getNextHighestDepth());
 		Util.setXYPosition(this.clip, 0.7*Util.STAGEW, 0.85*Util.STAGEH);
-		var pendulumNbr:Number = this.pendulum.getLabelNbr();
 		this.clip.yAxis_txt.text = "energy of " + pendulumNbr;
 	}//end of constructor
+	
 	
 	function update():Void{
 		if(this.visibility){

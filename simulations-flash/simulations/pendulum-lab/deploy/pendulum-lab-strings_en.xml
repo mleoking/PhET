@@ -13,6 +13,7 @@
   <string key="realTime" value="real time" />
   <string key="quarterTime" value="1/4 time" />
   <string key="sixteenthTime" value="1/16 time" />
+  <string key="pausePlay" value="pause/play2" />
   <string key="paused" value="paused" />
   <string key="moon" value="Moon" />
   <string key="earth" value="Earth" />
@@ -34,11 +35,11 @@
   <string key="resetStopwatch" value="reset" />
   <string key="startPauseStopwatch" value="start/pause" />
   <string key="angleUnit" value=" deg" />
-  <string key="" value="" />
-  <string key="" value="" />
-  <string key="" value="" />
-  <string key="" value="" />
-  <string key="" value="" />
+  <string key="energyOf" value="energy of " />
+  <string key="KE" value="KE" />
+  <string key="PE" value="PE" />
+  <string key="thermal" value="thermal" />
+  <string key="total" value="total" />
   <string key="" value="" />
   <string key="" value="" />
   <string key="" value="" />
