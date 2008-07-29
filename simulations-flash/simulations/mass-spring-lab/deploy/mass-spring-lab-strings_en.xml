@@ -9,9 +9,8 @@
   <string key="showEnergyOf" value="Show Energy of"/>
   <string key="noShow" value="No show"/>
   <string key="realTime" value="real time"/>
-  <string key="halfTime" value="1/2 time"/>
   <string key="quarterTime" value="1/4 time"/>
-  <string key="eighthTime" value="1/8 time"/>
+  <string key="16thTime" value="1/16 time"/>
   <string key="pause" value="pause"/>
   <string key="jupiter" value="Jupiter"/>
   <string key="moon" value="Moon"/>
