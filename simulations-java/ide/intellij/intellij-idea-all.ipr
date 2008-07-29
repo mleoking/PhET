@@ -7,7 +7,7 @@
       <antReference projectDefault="true" />
       <customJdkName value="1.6" />
       <maximumHeapSize value="512" />
-      <maximumStackSize value="32" />
+      <maximumStackSize value="32" /> 
       <properties>
         <property name="sun.java2d.noddraw" value="true" />
       </properties>
