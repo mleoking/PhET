@@ -1,3 +1,8 @@
+New in 0.00.62
+Set the heart strength to start closer to the green instead of in the red by populating the simulation 100 days of 2000 calorie/day exercise.
+Added log based model for exercise/heart strength
+In the range 6-25% men, 16%-31% women, the amount of heart strain is 0, and outside of this range, the amount of heart strain is proportional to the distance to the closest point in this range.
+
 New in 0.00.57
 Moved health indicators behind drag and drop panel (tooltips were obscured)
 Converted muscle gained from exercise algorithm to use exercise only (instead of exercise + activity)
