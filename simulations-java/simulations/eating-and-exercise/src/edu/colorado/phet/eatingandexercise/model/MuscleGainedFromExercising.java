@@ -5,6 +5,8 @@ package edu.colorado.phet.eatingandexercise.model;
  * Jul 17, 2008 at 11:44:06 AM
  */
 public class MuscleGainedFromExercising implements HumanUpdate {
+    private static boolean debug = false;
+
     /**
      * >>>Model for muscle building from exercise:
      * <p/>
@@ -30,17 +32,17 @@ public class MuscleGainedFromExercising implements HumanUpdate {
     public void update( Human human, double dt ) {
 //        double calExercise = human.getCaloriesExerciseAndActivityPerDay() * EatingAndExerciseUnits.secondsToDays( dt );
         double calExercise = human.getCaloriesExercisePerDay() * EatingAndExerciseUnits.secondsToDays( dt );
-        System.out.println( "Calories exercise: " + calExercise );
+        println( "Calories exercise: " + calExercise );
 //        double percentFat = human.getGender().getStdPercentFat();
         double stdBMI = human.getGender().getStdBMI();
-        System.out.println( "stdBMI = " + stdBMI );
+        println( "stdBMI = " + stdBMI );
         double stdLeanMassFraction = human.getGender().getStdLeanMassFraction();
-        System.out.println( "stdLeanMassFraction = " + stdLeanMassFraction );
+        println( "stdLeanMassFraction = " + stdLeanMassFraction );
         double LBM_0 = stdBMI * human.getHeight() * human.getHeight() * stdLeanMassFraction;//todo: should use standard height instead of actual human instance height?
-        System.out.println( "LBM_0 = human.getGender().getStdBMI() * human.getHeight() * human.getHeight() * human.getGender().getStdLeanMassFraction() =" + LBM_0 + " kg" );
+        println( "LBM_0 = human.getGender().getStdBMI() * human.getHeight() * human.getHeight() * human.getGender().getStdLeanMassFraction() =" + LBM_0 + " kg" );
         double muscleMassGained = 0.02 * calExercise * ( LBM_0 - human.getLeanBodyMass() ) / 4000.0;
-        System.out.println( "Human lean body mass=" + human.getLeanBodyMass() );
-        System.out.println( "muscleMassGained= 0.1 * calExercise * ( LBM_0 - human.getLeanBodyMass() )/4000.0 = " + muscleMassGained + " kg" );
+        println( "Human lean body mass=" + human.getLeanBodyMass() );
+        println( "muscleMassGained= 0.1 * calExercise * ( LBM_0 - human.getLeanBodyMass() )/4000.0 = " + muscleMassGained + " kg" );
         double origMass = human.getMass();
         double newLeanMass = muscleMassGained + human.getLeanBodyMass();
         double fracLean = newLeanMass / origMass;
@@ -56,5 +58,11 @@ public class MuscleGainedFromExercising implements HumanUpdate {
         System.out.println( "After:" );
         System.out.println( "human.getFatMassPercent() = " + human.getFatMassPercent() );
         System.out.println( "human.getMass() = " + human.getMass() );
+    }
+
+    private static void println( String s ) {
+        if ( debug ) {
+            System.out.println( s );
+        }
     }
 }
