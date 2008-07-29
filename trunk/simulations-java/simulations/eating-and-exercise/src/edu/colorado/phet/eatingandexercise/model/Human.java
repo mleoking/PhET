@@ -66,7 +66,7 @@ public class Human {
     private HumanUpdate humanUpdate = new DefaultHumanUpdate();
 
     public Human() {
-        addListener( new Adapter(){
+        addListener( new Adapter() {
             public void heartHealthChanged() {
                 notifyHeartAttackProbabilityChanged();
             }
@@ -458,11 +458,24 @@ public class Human {
 
         double averageExercise = exercise.estimateAverage( getAge() - EatingAndExerciseUnits.daysToSeconds( 30 ), getAge() );
 //        System.out.println( "averageExercise = " + averageExercise );
-        setHeartStrength( MathUtil.clamp( 0, averageExercise / 1000.0, 1.0 ) );
+
+
+        double exercise_cal_max = 6000.0;
+        double heartStrength = log10( 1 + 10 * averageExercise / exercise_cal_max ) / log10( 11 );
+//        System.out.println( "unclamped heartStrength = " + heartStrength );
+        setHeartStrength( MathUtil.clamp( 0, heartStrength, 1.0 ) );
 
         double averagePercentFat = fatMassFraction.estimateAverage( getAge() - EatingAndExerciseUnits.daysToSeconds( 30 ), getAge() ) * 100;
 //        System.out.println( "averagePercentFat = " + averagePercentFat );
         setHeartStrain( MathUtil.clamp( 0, averagePercentFat / 100.0, 1.0 ) );
+    }
+
+    private double log10( double v ) {
+        return log( 10, v );
+    }
+
+    public static double log( double base, double x ) {
+        return Math.log( x ) / Math.log( base );
     }
 
     public void setHeartStrength( double heartStrength ) {
