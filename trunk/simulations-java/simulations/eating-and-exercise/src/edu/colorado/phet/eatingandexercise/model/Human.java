@@ -187,8 +187,14 @@ public class Human {
         starvingTime = 0;
 
         //need some data in the exercise and fat % for updating the health indicators
-        exercise.addValue( exercise.getValue(), getAge() );
-        fatMassFraction.addValue( fatMassFraction.getValue(), getAge() );
+        //so add some additional data to the exercise series so that the initial reading
+        //for heart strength will be higher, as if we used to exercise daily before the sim started
+        for ( int i = 1; i < 100; i++ ) {
+            exercise.addValue( 2000, getAge() - EatingAndExerciseUnits.daysToSeconds( i ) );
+            fatMassFraction.addValue( fatMassFraction.getValue(), getAge() - EatingAndExerciseUnits.daysToSeconds( i ) );
+        }
+        exercise.addValue( 0, getAge() );
+
         updateHealthIndicators();
     }
 
