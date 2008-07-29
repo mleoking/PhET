@@ -2,10 +2,12 @@
 //All strings must default to english
 class Internationalizer{
 	private var simStrings:SimStrings;
+	private var countryCode:String;
 	//private var mainView:Object;
 	
-	function Internationalizer(simStrings:SimStrings){
+	function Internationalizer(simStrings:SimStrings, countryCode:String){
 		this.simStrings = simStrings;
+		this.countryCode = countryCode;
 		//this.mainView = mainView;
 		//trace("simStrings.getBaseName(): "+this.simStrings.getLocale());
 		this.initialize();
@@ -42,9 +44,8 @@ class Internationalizer{
 		//_root.noShow_rb.label = this.simStrings.get("noShow");
 		
 		this.setComponentLabel(_root.realTime_rb, "realTime");
-		this.setComponentLabel(_root.halfTime_rb, "halfTime");
 		this.setComponentLabel(_root.quarterTime_rb, "quarterTime");
-		this.setComponentLabel(_root.eighthTime_rb, "eighthTime");
+		this.setComponentLabel(_root.sixteenthTime_rb, "16thTime");
 		this.setComponentLabel(_root.pause_rb, "pause");
 		
 		this.setComponentLabel(_root.jupiter_rb, "jupiter");
@@ -67,18 +68,29 @@ class Internationalizer{
 		
 		this.setString(_level0.eChart_mc.eLine_mc.label_txt, "totalE", "center");
 		
-		_root.yAxisLabel = this.simStrings.get("energyOf");
-		
-		_level0.eChart_mc.xAxis_mc.label1_txt.text = this.simStrings.get("KE");
-		_level0.eChart_mc.xAxis_mc.label2_txt.text = this.simStrings.get("PEgrav");
-		_level0.eChart_mc.xAxis_mc.label3_txt.text = this.simStrings.get("PEelas");
-		_level0.eChart_mc.xAxis_mc.label4_txt.text = this.simStrings.get("thermal");
-		_level0.eChart_mc.xAxis_mc.label5_txt.text = this.simStrings.get("total");
-		//this.setString(_level0.eChart_mc.xAxis_mc.label1_txt, "KE", "left");
-		//this.setString(_level0.eChart_mc.xAxis_mc.label2_txt, "PEgrav", "left");
-		//this.setString(_level0.eChart_mc.xAxis_mc.label3_txt, "PEelas", "left");
-		//this.setString(_level0.eChart_mc.xAxis_mc.label4_txt, "thermal", "left");
-		//this.setString(_level0.eChart_mc.xAxis_mc.label5_txt, "total", "left");
+		if(countryCode == "en" || countryCode == undefined){
+			_level0.yAxisLabel = this.simStrings.get("energyOf");
+			_level0.eChart_mc.xAxis_mc.label1_txt.text = this.simStrings.get("KE");
+			_level0.eChart_mc.xAxis_mc.label2_txt.text = this.simStrings.get("PEgrav");
+			_level0.eChart_mc.xAxis_mc.label3_txt.text = this.simStrings.get("PEelas");
+			_level0.eChart_mc.xAxis_mc.label4_txt.text = this.simStrings.get("thermal");
+			_level0.eChart_mc.xAxis_mc.label5_txt.text = this.simStrings.get("total");
+		}else{
+			//erase English
+			_level0.yAxisLabel = "";
+			//_level0.eChart_mc.yAxis_mc.energyOf_txt.text = "";
+			_level0.eChart_mc.xAxis_mc.label1_txt.text = "";
+			_level0.eChart_mc.xAxis_mc.label2_txt.text = "";
+			_level0.eChart_mc.xAxis_mc.label3_txt.text = "";
+			_level0.eChart_mc.xAxis_mc.label4_txt.text = "";
+			_level0.eChart_mc.xAxis_mc.label5_txt.text = "";
+			this.stackString(_level0.eChart_mc.stackedText1_txt, "energyOf");
+			this.stackString(_level0.eChart_mc.stackedText2_txt, "KE");
+			this.stackString(_level0.eChart_mc.stackedText3_txt, "PEgrav");
+			this.stackString(_level0.eChart_mc.stackedText4_txt, "PEelas");
+			this.stackString(_level0.eChart_mc.stackedText5_txt, "thermal");
+			this.stackString(_level0.eChart_mc.stackedText6_txt, "total");
+		}
 		
 		this.setString(_root.body1_mc.grams_txt, "mass1Label", "center");
 		this.setString(_root.body2_mc.grams_txt, "mass2Label", "center");
@@ -109,7 +121,7 @@ class Internationalizer{
 				field.htmlText = stringValue;
 			}else{
 				//search for "newline" 
-				var subString_arr:Array = stringValue.split('newline');
+				var subString_arr:Array = stringValue.split("\\n");
 				if(subString_arr.length > 1){
 					var newStringValue:String = "";
 					for (var i:Number = 0; i < subString_arr.length; i++){
@@ -186,5 +198,32 @@ class Internationalizer{
 			//trace(mTextField.text+" has field._width " + mTextField._width);
 		}
 	}
+	
+	function stackString(field:TextField, key:String){
+		//trace("key: "+key);
+		var stringValue:String = this.simStrings.get( key );
+		var currentTextFormat:TextFormat = field.getTextFormat();
+		if(stringValue == "keyNotFound"  || stringValue == ""){
+		   //Do nothing.  String will default to English
+		}else{
+			if(field.html){
+				field.htmlText = stringValue;
+			}else{
+				//search for "newline" 
+				var chars_arr:Array = stringValue.split("");
+				if(chars_arr.length > 1){
+					var newStringValue:String = "";
+					for (var i:Number = 0; i < chars_arr.length; i++){
+						newStringValue += chars_arr[i]+newline;
+					}
+					stringValue = newStringValue;
+				}
+				field.text = stringValue;
+			}
+			//field.setTextFormat(currentTextFormat);
+			//this.resizeText(field, alignment);
+			//trace("key: "+key+"   stringValue:"+stringValue);
+		}
+	}//end of stackString()
 						
 }//end of class
