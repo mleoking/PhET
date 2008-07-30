@@ -13,7 +13,7 @@
   <string key="realTime" value="real time" />
   <string key="quarterTime" value="1/4 time" />
   <string key="sixteenthTime" value="1/16 time" />
-  <string key="pausePlay" value="pause/play2" />
+  <string key="pausePlay" value="pause/play" />
   <string key="paused" value="paused" />
   <string key="moon" value="Moon" />
   <string key="earth" value="Earth" />
