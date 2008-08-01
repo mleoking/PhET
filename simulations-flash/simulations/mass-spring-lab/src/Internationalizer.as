@@ -142,6 +142,17 @@ class Internationalizer{
 		   //Do nothing.  String will default to English
 		}else{
 			myComponent.label = stringValue;
+			var fontSize:Number = myComponent.getStyle("fontSize");
+			var labelWidth:Number = myComponent.width;
+			if(stringValue.length*fontSize > labelWidth*1.72){
+				trace("label too big: "+myComponent.label);
+				trace("font: "+myComponent.getStyle("fontSize"));
+				var newFontSize = Math.floor(labelWidth*1.72/stringValue.length);
+				trace("newFontSize: "+newFontSize);
+				myComponent.setStyle("fontSize", newFontSize);
+			}
+			
+			//trace("string length: "+stringValue.length);
 		}
 	}
 	
