@@ -467,7 +467,7 @@ public class Human {
 
 
         double exercise_cal_max = 6000.0;
-        double heartStrength = log10( 1 + 10 * averageExercise / exercise_cal_max ) / log10( 11 );
+        double heartStrength = log10( 1 + 100 * averageExercise / exercise_cal_max ) / log10( 101 );
 //        System.out.println( "unclamped heartStrength = " + heartStrength );
         setHeartStrength( MathUtil.clamp( 0, heartStrength, 1.0 ) );
 
