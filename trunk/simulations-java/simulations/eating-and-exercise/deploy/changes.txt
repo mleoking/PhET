@@ -1,6 +1,7 @@
 New in 0.00.63
 Added descriptions for the activity levels (from Noah)
 Increased slope for low values of exercise in nonlinear effect on heart strength
+Improvements for food & exercise lists
 
 New in 0.00.62
 Set the heart strength to start closer to the green instead of in the red by populating the simulation 100 days of 2000 calorie/day exercise.
