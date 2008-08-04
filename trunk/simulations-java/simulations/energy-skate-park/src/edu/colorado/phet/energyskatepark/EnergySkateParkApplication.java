@@ -30,19 +30,24 @@
  */
 package edu.colorado.phet.energyskatepark;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Date;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.util.logging.JFrameLogger;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.energyskatepark.serialization.EnergySkateParkIO;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkFrameSetup;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel;
 import edu.colorado.phet.energyskatepark.view.swing.EnergySkateParkTestMenu;
 import edu.colorado.phet.energyskatepark.view.swing.EnergySkateParkTrackMenu;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class EnergySkateParkApplication extends PhetApplication {
     private EnergySkateParkModule module;
@@ -102,8 +107,28 @@ new EnergySkateParkFrameSetup() );
         module.getPhetPCanvas().requestFocus();
     }
 
-    public static void main( final String[] args ) {
-        main( args, parseOptions( args ) );
+    public static void main( final String[] args ) throws InvocationTargetException, InterruptedException {
+        SwingUtilities.invokeAndWait( new Runnable() {
+            public void run() {
+                JFrameLogger logger = new JFrameLogger( "Localization Log" );
+                logger.log( "log started at "+new Date() );
+                PhetResources.setLogger( logger );
+
+                EnergySkateParkOptions skateParkOptions = parseOptions( args );
+
+                main( args,skateParkOptions );
+
+                logger.setVisible( true );
+
+            }
+        } );
+
+
+    }
+
+    public static void main(String[] args, EnergySkateParkOptions skateParkOptions ) {
+        new EnergySkateParkLookAndFeel().initLookAndFeel();
+        new EnergySkateParkApplication( args, skateParkOptions ).start();
     }
 
     private static EnergySkateParkOptions parseOptions( String[] args ) {
@@ -111,12 +136,4 @@ new EnergySkateParkFrameSetup() );
         return new EnergySkateParkOptions();
     }
 
-    public static void main( final String[] args, final EnergySkateParkOptions options ) {
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                new EnergySkateParkLookAndFeel().initLookAndFeel();
-                new EnergySkateParkApplication( args, options ).start();
-            }
-        } );
-    }
 }
