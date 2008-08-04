@@ -1,49 +1,51 @@
 package edu.colorado.phet.media;
 
-import edu.colorado.phet.media.util.FileUtils;
-
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import edu.colorado.phet.media.util.FileUtils;
+
 /**
  * Author: Sam Reid
  * Jun 14, 2007, 8:35:26 PM
  */
 public class MediaFinder {
+    private static final String SVN_WORKING_COPY_ROOT = "C:\\reid-not-backed-up\\phet\\svn\\trunk2";
 
     public static File[] getDataDirectories() {
         ArrayList dataDirectories = new ArrayList();
+
         File[] roots = new File[]{
-                new File( "C:\\phet\\subversion\\trunk\\simulations-java\\simulations" ),
-                new File( "C:\\phet\\subversion\\trunk\\simulations-java\\common" ),
+                new File( SVN_WORKING_COPY_ROOT + "\\simulations-java\\simulations" ),
+                new File( SVN_WORKING_COPY_ROOT + "\\simulations-java\\common" ),
         };
-        for( int i = 0; i < roots.length; i++ ) {
+        for ( int i = 0; i < roots.length; i++ ) {
             File root = roots[i];
             File[] f = root.listFiles();
-            for( int j = 0; j < f.length
-                            && j < Integer.MAX_VALUE//debugging only
+            for ( int j = 0; j < f.length
+                             && j < Integer.MAX_VALUE//debugging only
                     ; j++ ) {
                 File file = f[j];
                 File dataDir = new File( file, "data" );
-                if( dataDir.exists() ) {
+                if ( dataDir.exists() ) {
                     dataDirectories.add( dataDir );
                 }
             }
         }
         File buildFolder = new File( "C:\\phet\\subversion\\trunk\\simulations-java\\build-tools\\phet-build\\data" );
-        if( buildFolder.exists() ) {
+        if ( buildFolder.exists() ) {
             dataDirectories.add( buildFolder );
         }
         System.out.println( "dataDirectories = " + dataDirectories );
-        return (File[])dataDirectories.toArray( new File[0] );
+        return (File[]) dataDirectories.toArray( new File[0] );
     }
 
     public static File[] getImageFiles() {
         File[] dataDirectories = getDataDirectories();
-        return (File[])getImageFiles( dataDirectories ).toArray( new File[0] );
+        return (File[]) getImageFiles( dataDirectories ).toArray( new File[0] );
     }
 
     private static ArrayList getImageFiles( File[] dataDirectories ) {
@@ -72,7 +74,7 @@ public class MediaFinder {
                 );
             }
         } );
-        return (File[])result.toArray( new File[0] );
+        return (File[]) result.toArray( new File[0] );
     }
 
     public static File[] getNonImageFiles() {
@@ -89,28 +91,28 @@ public class MediaFinder {
                         ;
             }
         } );
-        return (File[])result.toArray( new File[0] );
+        return (File[]) result.toArray( new File[0] );
     }
 
     private static void searchFiles( ArrayList dataDirectories, ArrayList imageFiles, FileFilter fileFilter ) {
-        for( int i = 0; i < dataDirectories.size(); i++ ) {
-            File file = (File)dataDirectories.get( i );
-            if( fileFilter.accept( file ) ) {
+        for ( int i = 0; i < dataDirectories.size(); i++ ) {
+            File file = (File) dataDirectories.get( i );
+            if ( fileFilter.accept( file ) ) {
                 imageFiles.add( file );
             }
-            else if( file.isDirectory() && !file.getAbsolutePath().endsWith( ".svn" ) ) {
+            else if ( file.isDirectory() && !file.getAbsolutePath().endsWith( ".svn" ) ) {
                 dataDirectories.addAll( Arrays.asList( file.listFiles() ) );
             }
         }
     }
 
     private static boolean isImage( File file ) {
-        if( !file.isDirectory() ) {
+        if ( !file.isDirectory() ) {
             String path = file.getAbsolutePath().toLowerCase();
             String[] suffixes = new String[]{"png", "gif", "jpg", "tif", "tiff", "jpeg"};
-            for( int i = 0; i < suffixes.length; i++ ) {
+            for ( int i = 0; i < suffixes.length; i++ ) {
                 String suffix = suffixes[i];
-                if( path.endsWith( "." + suffix ) ) {
+                if ( path.endsWith( "." + suffix ) ) {
                     return true;
                 }
             }
@@ -122,7 +124,7 @@ public class MediaFinder {
         File[] nonImage = getNonImageFiles();
         System.out.println( "nonImage.length = " + nonImage.length );
 //        System.out.println( "Arrays.asList( nonImage ) = " + Arrays.asList( nonImage ) );
-        for( int i = 0; i < nonImage.length; i++ ) {
+        for ( int i = 0; i < nonImage.length; i++ ) {
             File file = nonImage[i];
             System.out.println( "file = " + file );
         }
@@ -132,20 +134,20 @@ public class MediaFinder {
         File[] soundFiles = getAllSoundFiles();
 
         ArrayList singleCopies = new ArrayList();
-        for( int i = 0; i < soundFiles.length; i++ ) {
+        for ( int i = 0; i < soundFiles.length; i++ ) {
             File soundFile = soundFiles[i];
-            if( !contains( singleCopies, soundFile ) ) {
+            if ( !contains( singleCopies, soundFile ) ) {
                 singleCopies.add( soundFile );
             }
         }
-        return (File[])singleCopies.toArray( new File[0] );
+        return (File[]) singleCopies.toArray( new File[0] );
     }
 
     private static boolean contains( ArrayList fileList, File b ) {
-        for( int i = 0; i < fileList.size(); i++ ) {
-            File a = (File)fileList.get( i );
+        for ( int i = 0; i < fileList.size(); i++ ) {
+            File a = (File) fileList.get( i );
             try {
-                if( FileUtils.contentEquals( a, b ) ) {
+                if ( FileUtils.contentEquals( a, b ) ) {
                     return true;
                 }
             }
