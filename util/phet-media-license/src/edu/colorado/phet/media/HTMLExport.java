@@ -10,8 +10,8 @@ import java.io.IOException;
  * Jun 15, 2007, 9:57:47 AM
  */
 public class HTMLExport {
-    boolean showPhetImages = true;
-    private boolean useSimList = true;
+    private boolean showPhetImages = false;
+    private boolean useSimList = false;
 
     public HTMLExport( boolean showPhetImages ) {
         this.showPhetImages = showPhetImages;
@@ -87,7 +87,8 @@ public class HTMLExport {
     }
 
     private boolean shouldInclude( ImageEntry imageEntry ) {
-        return showPhetImages || imageEntry.isNonPhet();
+        return !imageEntry.isDone();
+//        return showPhetImages || imageEntry.isNonPhet();
     }
 
     private String getSourceText( ImageEntry imageEntry ) {
