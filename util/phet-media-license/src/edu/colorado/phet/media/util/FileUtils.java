@@ -18,7 +18,7 @@ public class FileUtils {
         // Transfer bytes from in to out
         byte[] buf = new byte[1024];
         int len;
-        while( ( len = in.read( buf ) ) > 0 ) {
+        while ( ( len = in.read( buf ) ) > 0 ) {
             out.write( buf, 0, len );
         }
         in.close();
@@ -26,10 +26,10 @@ public class FileUtils {
     }
 
     public static boolean contentEquals( File fileA, File fileB ) throws IOException {
-        if( fileA.isDirectory() || fileB.isDirectory() ) {
-            throw new IllegalArgumentException( "Directories cannot be compared with this method, fileA="+fileA.getAbsolutePath()+", fileB="+fileB.getAbsolutePath() );
+        if ( fileA.isDirectory() || fileB.isDirectory() ) {
+            throw new IllegalArgumentException( "Directories cannot be compared with this method, fileA=" + fileA.getAbsolutePath() + ", fileB=" + fileB.getAbsolutePath() );
         }
-        if( fileA.length() != fileB.length() ) {
+        if ( fileA.length() != fileB.length() ) {
             return false;
         }
         InputStream inA = new FileInputStream( fileA );
@@ -41,13 +41,13 @@ public class FileUtils {
         int lenA = Integer.MAX_VALUE;//code for requiring initialization in loop
         int lenB = Integer.MAX_VALUE;
 
-        while( lenA > 0 || lenB > 0 ) {
+        while ( lenA > 0 || lenB > 0 ) {
             lenA = inA.read( bufferA );
             lenB = inB.read( bufferB );
-            if( lenA != lenB ) {
+            if ( lenA != lenB ) {
                 return false;
             }
-            if( !Arrays.equals( bufferA, bufferB ) ) {
+            if ( !Arrays.equals( bufferA, bufferB ) ) {
                 return false;
             }
 

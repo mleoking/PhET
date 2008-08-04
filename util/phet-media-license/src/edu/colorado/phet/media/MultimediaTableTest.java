@@ -1,13 +1,14 @@
 package edu.colorado.phet.media;
 
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import java.awt.*;
+import java.io.IOException;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
-import java.awt.*;
-import java.io.IOException;
+
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 
 /**
  * User: Sam Reid
@@ -61,7 +62,7 @@ public class MultimediaTableTest extends JTable {
             catch( IOException e ) {
                 e.printStackTrace();
             }
-            setText( (String)value );
+            setText( (String) value );
             setIcon( icon );
             return this;
         }

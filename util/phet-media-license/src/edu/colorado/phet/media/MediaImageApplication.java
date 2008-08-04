@@ -1,8 +1,5 @@
 package edu.colorado.phet.media;
 
-import edu.colorado.phet.media.util.FileUtils;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -13,6 +10,10 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.Properties;
+
+import javax.swing.*;
+
+import edu.colorado.phet.media.util.FileUtils;
 
 /**
  * User: Sam Reid
@@ -75,7 +76,7 @@ public class MediaImageApplication {
 
     private void exportToHTML() {
         try {
-            new HTMLExport(true).export( new File( "phet-media.html" ), imageEntries );
+            new HTMLExport( true ).export( new File( "phet-media.html" ), imageEntries );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -84,10 +85,10 @@ public class MediaImageApplication {
 
     private void saveAnnotations() {
         int count = 0;
-        for( int i = 0; i < imageEntries.length; i++ ) {
+        for ( int i = 0; i < imageEntries.length; i++ ) {
             ImageEntry imageEntry = imageEntries[i];
 //            System.out.println( "imageEntry.getFile() = " + imageEntry.getFile() );
-            if( changed( imageEntry ) ) {
+            if ( changed( imageEntry ) ) {
                 boolean didchange = changed( imageEntry );//debugging
                 System.out.println( "Saving annotation for: " + imageEntry.getImageName() );
 
@@ -113,11 +114,11 @@ public class MediaImageApplication {
     //Searches through phet simulations for images not in the annotation repository
     private void scanImages() {
         File[] imageFiles = MediaFinder.getImageFiles();
-        for( int i = 0; i < imageFiles.length; i++ ) {
+        for ( int i = 0; i < imageFiles.length; i++ ) {
             System.out.println( "scanning i=" + i + "/" + imageFiles.length );
             File imageFile = imageFiles[i];
             File repositoryCopy = getRepositoryCopy( imageFile );
-            if( repositoryCopy == null ) {
+            if ( repositoryCopy == null ) {
                 System.out.println( "Found an unannotated file: " + imageFile.getAbsolutePath() );
                 addToRepository( imageFile );
             }
@@ -144,10 +145,10 @@ public class MediaImageApplication {
                        !pathname.getAbsolutePath().toLowerCase().endsWith( ".svn" );
             }
         } );
-        for( int i = 0; i < repositoryFiles.length; i++ ) {
+        for ( int i = 0; i < repositoryFiles.length; i++ ) {
             File repositoryFile = repositoryFiles[i];
             try {
-                if( FileUtils.contentEquals( imageFile, repositoryFile ) ) {
+                if ( FileUtils.contentEquals( imageFile, repositoryFile ) ) {
                     return repositoryFile;
                 }
             }
@@ -168,19 +169,19 @@ public class MediaImageApplication {
         int total = 0;
         int numNonPhet = 0;
         Hashtable sourceTable = new Hashtable();
-        for( int i = 0; i < imageEntries.length; i++ ) {
+        for ( int i = 0; i < imageEntries.length; i++ ) {
             ImageEntry imageEntry = imageEntries[i];
             total++;
-            if( imageEntry.isDone() ) {
+            if ( imageEntry.isDone() ) {
                 numDone++;
             }
-            if( imageEntry.isNonPhet() ) {
+            if ( imageEntry.isNonPhet() ) {
                 numNonPhet++;
             }
-            if( imageEntry.getSource() != null && imageEntry.getSource().trim().length() != 0 ) {
+            if ( imageEntry.getSource() != null && imageEntry.getSource().trim().length() != 0 ) {
                 String source = imageEntry.getSource();
-                if( sourceTable.containsKey( source ) ) {
-                    Integer value = (Integer)sourceTable.get( source );
+                if ( sourceTable.containsKey( source ) ) {
+                    Integer value = (Integer) sourceTable.get( source );
                     sourceTable.put( source, new Integer( value.intValue() + 1 ) );
                 }
                 else {
@@ -207,7 +208,7 @@ public class MediaImageApplication {
         JPanel panel = new JPanel();
         panel.setLayout( new BoxLayout( panel, BoxLayout.Y_AXIS ) );
         MultimediaTable table = new MultimediaTable();
-        for( int i = 0; i < imageEntries.length; i++ ) {
+        for ( int i = 0; i < imageEntries.length; i++ ) {
             table.addEntry( imageEntries[i] );
         }
         JScrollPane comp = new JScrollPane( table );

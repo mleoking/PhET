@@ -25,13 +25,13 @@ public class ConvertAnnotatedRepository {
 
     public static File createNewRepositoryFile( File file ) {
         File dst = new File( "annotated-data", file.getName() );
-        if( !dst.exists() ) {
+        if ( !dst.exists() ) {
             return dst;
         }
         else {
-            for( int i = 0; i < Integer.MAX_VALUE; i++ ) {
+            for ( int i = 0; i < Integer.MAX_VALUE; i++ ) {
                 File try2 = new File( "annotated-data", "" + i + "_" + file.getName() );
-                if( !try2.exists() ) {
+                if ( !try2.exists() ) {
                     return try2;
                 }
             }
@@ -47,7 +47,7 @@ public class ConvertAnnotatedRepository {
             }
         } );
         ArrayList imageEntries = new ArrayList();
-        for( int i = 0; i < f.length; i++ ) {
+        for ( int i = 0; i < f.length; i++ ) {
             File file = f[i];
 //            System.out.println( "file.getAbsolutePath() = " + file.getAbsolutePath() );
             Properties prop = new Properties();
@@ -55,19 +55,19 @@ public class ConvertAnnotatedRepository {
             ImageEntry entry = new ImageEntry( prop, file.getName().substring( 0, file.getName().length() - ".properties".length() ) );
             imageEntries.add( entry );
         }
-        return (ImageEntry[])imageEntries.toArray( new ImageEntry[0] );
+        return (ImageEntry[]) imageEntries.toArray( new ImageEntry[0] );
     }
 
     public static ImageEntry[] getNonPhetEntries() throws IOException {
-        ImageEntry[]entries=loadAnnotatedEntries();
-        ArrayList nonPhet=new ArrayList( );
-        for( int i = 0; i < entries.length; i++ ) {
+        ImageEntry[] entries = loadAnnotatedEntries();
+        ArrayList nonPhet = new ArrayList();
+        for ( int i = 0; i < entries.length; i++ ) {
             ImageEntry entry = entries[i];
-            if (entry.isNonPhet() ){
+            if ( entry.isNonPhet() ) {
                 nonPhet.add( entry );
             }
         }
-        return (ImageEntry[])nonPhet.toArray( new ImageEntry[0]);
+        return (ImageEntry[]) nonPhet.toArray( new ImageEntry[0] );
 
     }
 }

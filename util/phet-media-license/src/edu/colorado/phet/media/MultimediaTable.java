@@ -1,18 +1,19 @@
 package edu.colorado.phet.media;
 
 
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.EventObject;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.EventObject;
+
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 
 /**
  * User: Sam Reid
@@ -38,7 +39,7 @@ public class MultimediaTable extends JTable {
 
         TableSorter sorter = new TableSorter( tableModel ) {
             protected Comparator getComparator( int column ) {
-                if( column == 3 || column == 4 ) {
+                if ( column == 3 || column == 4 ) {
                     return TableSorter.COMPARABLE_COMAPRATOR;
                 }
                 return super.getComparator( column );
@@ -46,8 +47,8 @@ public class MultimediaTable extends JTable {
         };
         sorter.setColumnComparator( Integer.class, new Comparator() {
             public int compare( Object o1, Object o2 ) {
-                Integer a = (Integer)o1;
-                Integer b = (Integer)o2;
+                Integer a = (Integer) o1;
+                Integer b = (Integer) o2;
                 return a.compareTo( b );
             }
         } );
@@ -85,13 +86,13 @@ public class MultimediaTable extends JTable {
             switch( e.getType() ) {
                 case TableModelEvent.INSERT:
                     // The inserted rows are in the range [firstRow, lastRow]
-                    for( int r = firstRow; r <= lastRow; r++ ) {
+                    for ( int r = firstRow; r <= lastRow; r++ ) {
                         // Row r was inserted
                     }
                     break;
                 case TableModelEvent.UPDATE:
-                    if( firstRow == TableModelEvent.HEADER_ROW ) {
-                        if( mColIndex == TableModelEvent.ALL_COLUMNS ) {
+                    if ( firstRow == TableModelEvent.HEADER_ROW ) {
+                        if ( mColIndex == TableModelEvent.ALL_COLUMNS ) {
                             // A column was added
                         }
                         else {
@@ -102,15 +103,15 @@ public class MultimediaTable extends JTable {
                         // The rows in the range [firstRow, lastRow] changed
 //                        System.out.println( "MultimediaTable$MyTableModelListener.tableChanged" );
 
-                        for( int r = firstRow; r <= lastRow; r++ ) {
+                        for ( int r = firstRow; r <= lastRow; r++ ) {
                             // Row r was changed
-                            ImageEntry entry = (ImageEntry)list.get( r );
+                            ImageEntry entry = (ImageEntry) list.get( r );
 
-                            entry.setNonPhet( ( (Boolean)tableModel.getValueAt( r, 5 ) ).booleanValue() );
-                            entry.setSource( (String)tableModel.getValueAt( r, 6 ) );
-                            entry.setDone( ( (Boolean)tableModel.getValueAt( r, 7 ) ).booleanValue() );
-                            entry.setNotes( (String)tableModel.getValueAt( r, 8 ) );
-                            if( mColIndex == TableModelEvent.ALL_COLUMNS ) {
+                            entry.setNonPhet( ( (Boolean) tableModel.getValueAt( r, 5 ) ).booleanValue() );
+                            entry.setSource( (String) tableModel.getValueAt( r, 6 ) );
+                            entry.setDone( ( (Boolean) tableModel.getValueAt( r, 7 ) ).booleanValue() );
+                            entry.setNotes( (String) tableModel.getValueAt( r, 8 ) );
+                            if ( mColIndex == TableModelEvent.ALL_COLUMNS ) {
                                 // All columns in the range of rows have changed
                             }
                             else {
@@ -121,7 +122,7 @@ public class MultimediaTable extends JTable {
                     break;
                 case TableModelEvent.DELETE:
                     // The rows in the range [firstRow, lastRow] changed
-                    for( int r = firstRow; r <= lastRow; r++ ) {
+                    for ( int r = firstRow; r <= lastRow; r++ ) {
                         // Row r was deleted
                     }
                     break;
@@ -180,9 +181,9 @@ public class MultimediaTable extends JTable {
                                                         boolean isSelected, boolean hasFocus,
                                                         int row, int column ) {
             ImageIcon icon = null;
-            BufferedImage image = (BufferedImage)value;
-            if( image.getWidth() > 100 || image.getHeight() > 100 ) {
-                if( image.getWidth() > image.getHeight() ) {
+            BufferedImage image = (BufferedImage) value;
+            if ( image.getWidth() > 100 || image.getHeight() > 100 ) {
+                if ( image.getWidth() > image.getHeight() ) {
                     image = BufferedImageUtils.rescaleXMaintainAspectRatio( image, 100 );
                 }
                 else {
@@ -199,7 +200,7 @@ public class MultimediaTable extends JTable {
         public Component getTableCellRendererComponent( JTable table, Object value,
                                                         boolean isSelected, boolean hasFocus,
                                                         int row, int column ) {
-            return new JCheckBox( "", ( (Boolean)value ).booleanValue() );
+            return new JCheckBox( "", ( (Boolean) value ).booleanValue() );
         }
     }
 }

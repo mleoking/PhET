@@ -1,13 +1,13 @@
 package edu.colorado.phet.media;
 
-import edu.colorado.phet.common_force1d.util.QuickTimer;
-import edu.colorado.phet.media.util.FileUtils;
-
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import edu.colorado.phet.common_force1d.util.QuickTimer;
+import edu.colorado.phet.media.util.FileUtils;
 
 /**
  * Author: Sam Reid
@@ -18,9 +18,9 @@ public class SimAssociations {
 
     public SimAssociations( ImageEntry[] imageEntries ) {
         this.simAssociations = new ArrayList[imageEntries.length];
-        for( int i = 0; i < imageEntries.length; i++ ) {
+        for ( int i = 0; i < imageEntries.length; i++ ) {
             ImageEntry imageEntry = imageEntries[i];
-            if( imageEntry.isNonPhet() ) {
+            if ( imageEntry.isNonPhet() ) {
                 File[] sims = getAssociations( imageEntry );
                 simAssociations[i] = new ArrayList( Arrays.asList( sims ) );
                 System.out.println( "(" + i + "/" + imageEntries.length + "): simAssociations[" + imageEntry.getImageName() + "] = " + simAssociations[i] );
@@ -39,13 +39,13 @@ public class SimAssociations {
 
     private File[] getAssociations( File[] f, File annotatedDataFile ) {
         ArrayList associations = new ArrayList();
-        for( int i = 0; i < f.length; i++ ) {
+        for ( int i = 0; i < f.length; i++ ) {
 //            System.out.println( "f[i].getAbsolutePath() = " + f[i].getAbsolutePath() );
             try {
-                if( f[i].isFile() && FileUtils.contentEquals( f[i], annotatedDataFile ) ) {
+                if ( f[i].isFile() && FileUtils.contentEquals( f[i], annotatedDataFile ) ) {
                     associations.add( f[i] );
                 }
-                else if( f[i].isDirectory() ) {
+                else if ( f[i].isDirectory() ) {
                     associations.addAll( Arrays.asList( getAssociations( f[i].listFiles( new FileFilter() {
                         public boolean accept( File pathname ) {
                             return !pathname.getAbsolutePath().endsWith( ".svn" );
@@ -57,7 +57,7 @@ public class SimAssociations {
                 e.printStackTrace();
             }
         }
-        return (File[])associations.toArray( new File[0] );
+        return (File[]) associations.toArray( new File[0] );
     }
 
     public static void main( String[] args ) throws IOException {
@@ -71,7 +71,7 @@ new ImageEntry[0]
         );
         System.out.println( "simAssociations = " + simAssociations );
         System.out.println( "quickTimer.getTime() = " + quickTimer.getTime() );
-        for( int i = 0; i < nonPhetEntries.length; i++ ) {
+        for ( int i = 0; i < nonPhetEntries.length; i++ ) {
             ImageEntry nonPhetEntry = nonPhetEntries[i];
 
             File[] assoc = simAssociations.getAssociations( nonPhetEntry );

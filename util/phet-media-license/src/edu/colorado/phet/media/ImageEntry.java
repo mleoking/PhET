@@ -1,13 +1,13 @@
 package edu.colorado.phet.media;
 
 
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Properties;
+
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 
 /**
  * User: Sam Reid
@@ -58,7 +58,7 @@ public class ImageEntry {
     }
 
     public void setNonPhet( boolean nonPhet ) {
-        if( nonPhet != this.nonPhet ) {
+        if ( nonPhet != this.nonPhet ) {
             this.nonPhet = nonPhet;
             System.out.println( "nonPhet = " + nonPhet );
             notifyListeners();
@@ -124,31 +124,31 @@ public class ImageEntry {
     }
 
     public void notifyListeners() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.nonPhetChanged();
         }
     }
 
     public void setSource( String source ) {
-        if( source.equals( "" ) ) {
+        if ( source.equals( "" ) ) {
             System.out.println( "ImageEntry.setSource" );
         }
-        if( !this.source.equals( source ) ) {
+        if ( !this.source.equals( source ) ) {
             this.source = "" + source;
             System.out.println( "set source to: this.source = " + this.source );
-            for( int i = 0; i < listeners.size(); i++ ) {
-                Listener listener = (Listener)listeners.get( i );
+            for ( int i = 0; i < listeners.size(); i++ ) {
+                Listener listener = (Listener) listeners.get( i );
                 listener.sourceChanged();
             }
         }
     }
 
     public void setNotes( String notes ) {
-        if( !this.notes.equals( notes ) ) {
+        if ( !this.notes.equals( notes ) ) {
             this.notes = "" + notes;
-            for( int i = 0; i < listeners.size(); i++ ) {
-                Listener listener = (Listener)listeners.get( i );
+            for ( int i = 0; i < listeners.size(); i++ ) {
+                Listener listener = (Listener) listeners.get( i );
                 listener.notesChanged();
             }
         }
@@ -159,10 +159,10 @@ public class ImageEntry {
     }
 
     public void setDone( boolean done ) {
-        if( this.done != done ) {
+        if ( this.done != done ) {
             this.done = done;
-            for( int i = 0; i < listeners.size(); i++ ) {
-                Listener listener = (Listener)listeners.get( i );
+            for ( int i = 0; i < listeners.size(); i++ ) {
+                Listener listener = (Listener) listeners.get( i );
                 listener.doneChanged();
             }
         }
