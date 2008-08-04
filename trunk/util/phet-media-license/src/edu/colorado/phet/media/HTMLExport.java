@@ -26,18 +26,18 @@ public class HTMLExport {
         BufferedWriter bufferedWriter = new BufferedWriter( new FileWriter( file ) );
         String title = "PhET Images";
         String content = "";
-        for( int i = 0; i < imageEntries.length; i++ ) {
+        for ( int i = 0; i < imageEntries.length; i++ ) {
             ImageEntry imageEntry = imageEntries[i];
-            if( shouldInclude( imageEntry ) ) {
+            if ( shouldInclude( imageEntry ) ) {
                 String imageLink = "<img src=\"annotated-data/" + imageEntry.getImageName() + "\" width=\"50\" height=\"50\">";
                 content += "<a href=\"#" + imageEntry.getImageName() + "\">" + imageLink + "</a>";
             }
         }
         content += "<hr>";
-        for( int i = 0; i < imageEntries.length; i++ ) {
+        for ( int i = 0; i < imageEntries.length; i++ ) {
             ImageEntry imageEntry = imageEntries[i];
 
-            if( shouldInclude( imageEntry ) ) {
+            if ( shouldInclude( imageEntry ) ) {
                 String simList = useSimList ? getSimList( imageEntry ) : "";
 //                String simList = i<50? getSimList( imageEntry ) : "";
                 System.out.println( "simList = " + simList );
@@ -72,7 +72,7 @@ public class HTMLExport {
         File[] f = simAssociations.getAssociations( imageEntry );
 
         String html = "usages:</br><ul>";
-        for( int i = 0; i < f.length; i++ ) {
+        for ( int i = 0; i < f.length; i++ ) {
             File file = f[i];
             html += "<li>" + toName( file ) + "</li>";
         }
@@ -83,7 +83,7 @@ public class HTMLExport {
     private String toName( File file ) {
         String abs = file.getAbsolutePath();
         int prefix = abs.lastIndexOf( "simulations-java" );
-        return abs.substring( prefix + "simulations-java".length() +1);
+        return abs.substring( prefix + "simulations-java".length() + 1 );
     }
 
     private boolean shouldInclude( ImageEntry imageEntry ) {
@@ -91,7 +91,7 @@ public class HTMLExport {
     }
 
     private String getSourceText( ImageEntry imageEntry ) {
-        if( !imageEntry.isNonPhet() ) {
+        if ( !imageEntry.isNonPhet() ) {
             return "phet";
         }
         else {

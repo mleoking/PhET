@@ -1,9 +1,5 @@
 package edu.colorado.phet.media;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetAudioClip;
-
-import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
 import java.applet.Applet;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,6 +8,11 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.util.Arrays;
 import java.util.Vector;
+
+import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetAudioClip;
 
 /**
  * Author: Sam Reid
@@ -32,7 +33,7 @@ public class MediaSoundApplication {
         list.addMouseListener( new MouseInputAdapter() {
             // implements java.awt.event.MouseListener
             public void mousePressed( MouseEvent e ) {
-                if( e.getClickCount() >= 2 ) {
+                if ( e.getClickCount() >= 2 ) {
                     playSelected();
                 }
             }
@@ -49,8 +50,8 @@ public class MediaSoundApplication {
     }
 
     private static void playSelected() {
-        File file = (File)list.getSelectedValue();
-        if( file.getAbsolutePath().toLowerCase().endsWith( ".au" ) ) {
+        File file = (File) list.getSelectedValue();
+        if ( file.getAbsolutePath().toLowerCase().endsWith( ".au" ) ) {
             try {
                 Applet.newAudioClip( file.toURL() ).play();
             }

@@ -8,10 +8,10 @@ import java.io.File;
  */
 public class FindOtherMedia {
     public static void main( String[] args ) {
-        File[]dataDir= MediaFinder.getDataDirectories();
-        for( int i = 0; i < dataDir.length; i++ ) {
+        File[] dataDir = MediaFinder.getDataDirectories();
+        for ( int i = 0; i < dataDir.length; i++ ) {
             File file = dataDir[i];
-            
+
         }
     }
 }

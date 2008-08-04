@@ -1,9 +1,9 @@
 package edu.colorado.phet.media;
 
-import edu.colorado.phet.media.util.FileUtils;
-
 import java.io.File;
 import java.io.IOException;
+
+import edu.colorado.phet.media.util.FileUtils;
 
 /**
  * Author: Sam Reid
@@ -14,7 +14,7 @@ public class ExportSound {
         File[] soundFiles = MediaFinder.getSoundFilesNoDuplicates();
         File soundDir = new File( "sound" );
         soundDir.mkdirs();
-        for( int i = 0; i < soundFiles.length; i++ ) {
+        for ( int i = 0; i < soundFiles.length; i++ ) {
             File soundFile = soundFiles[i];
             FileUtils.copy( soundFile, new File( soundDir, soundFile.getName() ) );
         }

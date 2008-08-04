@@ -14,7 +14,7 @@ public class RemoveFileProperties {
                 return name.toLowerCase().endsWith( "properties" );
             }
         } );
-        for( int i = 0; i < file.length; i++ ) {
+        for ( int i = 0; i < file.length; i++ ) {
             File file1 = file[i];
             Properties properties = new Properties();
             properties.load( new FileInputStream( file1 ) );
