@@ -8,6 +8,8 @@ import java.io.InputStream;
 import java.util.Locale;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetAudioClip;
+import edu.colorado.phet.common.phetcommon.util.logging.ILogger;
+import edu.colorado.phet.common.phetcommon.util.logging.NullLogger;
 
 /**
  * PhetResources provides the facilities for accessing JAR resources.
@@ -61,6 +63,13 @@ public class PhetResources {
     private final IResourceLoader resourceLoader;
     private final String rootDirectoryName;
 
+    private static ILogger _logger=new NullLogger();//logger to help debug localization issues
+
+    public static void setLogger(ILogger logger){
+        _logger=logger;
+    }
+    
+
     //----------------------------------------------------------------------------
     // Constructors & initializers
     //----------------------------------------------------------------------------
@@ -112,12 +121,16 @@ public class PhetResources {
     */
     public static Locale readLocale() {
         Locale locale = Locale.getDefault();
+        _logger.log( "Default locale was: "+locale );
         //if no language is specified, default locale used by phet common should be english, not system default
 //        Locale locale = new Locale( "en" );
         String javawsLocale = System.getProperty( PROPERTY_JAVAWS_PHET_LOCALE );
+
+        _logger.log( "Specified locale via "+PROPERTY_JAVAWS_PHET_LOCALE+": "+javawsLocale );
         if ( javawsLocale != null ) {
             locale = new Locale( javawsLocale );
         }
+        _logger.log( "Returning locale: "+javawsLocale );
         return locale;
     }
 
