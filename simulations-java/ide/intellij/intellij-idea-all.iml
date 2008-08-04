@@ -89,6 +89,9 @@
       <sourceFolder url="file://$MODULE_DIR$/../../../team/reids/admin/parser" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../../team/reids/admin/src" isTestSource="false" />
     </content>
+    <content url="file://$MODULE_DIR$/../../../util/phet-media-license">
+      <sourceFolder url="file://$MODULE_DIR$/../../../util/phet-media-license/src" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$/../../../util/translation-utility">
       <sourceFolder url="file://$MODULE_DIR$/../../../util/translation-utility/src" isTestSource="false" />
     </content>
