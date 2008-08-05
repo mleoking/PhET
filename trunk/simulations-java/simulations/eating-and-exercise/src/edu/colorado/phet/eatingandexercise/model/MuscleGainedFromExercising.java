@@ -6,6 +6,7 @@ package edu.colorado.phet.eatingandexercise.model;
  */
 public class MuscleGainedFromExercising implements HumanUpdate {
     private static boolean debug = false;
+    public static boolean enabled = false;
 
     /**
      * >>>Model for muscle building from exercise:
@@ -30,6 +31,9 @@ public class MuscleGainedFromExercising implements HumanUpdate {
      * @param dt
      */
     public void update( Human human, double dt ) {
+        if ( !enabled ) {
+            return;
+        }
 //        double calExercise = human.getCaloriesExerciseAndActivityPerDay() * EatingAndExerciseUnits.secondsToDays( dt );
         double calExercise = human.getCaloriesExercisePerDay() * EatingAndExerciseUnits.secondsToDays( dt );
         println( "Calories exercise: " + calExercise );
