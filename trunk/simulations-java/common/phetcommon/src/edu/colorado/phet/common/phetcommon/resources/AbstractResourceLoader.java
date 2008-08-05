@@ -94,7 +94,9 @@ abstract class AbstractResourceLoader implements IResourceLoader {
             throw new IllegalArgumentException( "resourceName is null" );
         }
 
-        String baseName = new String( resourceName ); // operate on a copy, not the original resourceName !
+        // operate on a copy, not the original resourceName !
+        // SRR 8-5-2008 Strings are immutable, this workaround is unnecessary
+        String baseName = new String( resourceName );
 
         if ( baseName.startsWith( "/" ) ) {
             // strip off leading '/'
