@@ -1,5 +1,7 @@
 package edu.colorado.phet.eatingandexercise.model;
 
+import javax.swing.*;
+
 import edu.colorado.phet.eatingandexercise.module.eatingandexercise.CaloricFoodItem;
 
 /**
@@ -7,12 +9,15 @@ import edu.colorado.phet.eatingandexercise.module.eatingandexercise.CaloricFoodI
  * Jul 14, 2008 at 8:12:19 PM
  */
 public class MuscleAndFatMassLoss2 implements HumanUpdate {
+
+    public static double FRACTION_FAT_LOST = 0.88;
+
     public void update( Human human, double dt ) {
 
         double caloriesGainedPerDay = human.getDeltaCaloriesGainedPerDay();
         double caloriesGained = caloriesGainedPerDay * EatingAndExerciseUnits.secondsToDays( dt );
 
-        double fractionFatLost = 0.88;
+        double fractionFatLost = 0.88;//set this number
         if ( human.isAlmostStarving() ) {
             fractionFatLost = 0.5;
         }
@@ -22,10 +27,12 @@ public class MuscleAndFatMassLoss2 implements HumanUpdate {
 
         // Make sure that the 88% rule is only used for losing weight.
         // If you gain weight just from taking in excess calories, it should all go to fat.
-        // You should only be able to turn food and fat into muscle by exercising. 
-        if ( caloriesGained > 0 ) {
-            fractionFatLost = 1.0;
-        }
+        // You should only be able to turn food and fat into muscle by exercising.
+
+        //SRR disabled this 8-5-2008
+//        if ( caloriesGained > 0 ) {
+//            fractionFatLost = 1.0;
+//        }
 
         double caloriesLost = -caloriesGained;
         double totalKGLost = EatingAndExerciseUnits.caloriesToKG( caloriesLost );
