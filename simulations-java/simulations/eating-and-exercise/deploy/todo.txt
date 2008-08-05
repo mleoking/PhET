@@ -2,17 +2,19 @@
 
 ###########
 
-  I played with the sim a bit and here are my experiences and thoughts:
-  I started the sim with little experience; I have just played with it for short periods during the PhET meetings. The first thing I did was put in my info. Age 47, height 5'3", weight 125 (I didn't change the % fat) and then hit play. Of course I died, but I  really didn't realize why so I hit reset. Then I had to put in my info again, played again and died. Then I figured out that the empty plate meant I wasn't eating and I also found the Reset on the graph so I didn't have to reenter my info. I dragged the pyramid on and played again.
-    I didn't realize that I didn't have any exercise. The first thing I tired was dragging the exercise icons onto the bar chart and it took a couple of runs to realize that I hadn't really changed anything. Maybe the little book should say "Daily Exercise" as opposed to "Today". Especially since the exercise continues until you take it off.
-     I didn't notice the pull down menu for activity because it is the same color as the background so I thought it was a heading for the section. I only discovered it as I was trying to make sure that I had tested all the features.
-  When you move your curser over the arrows that go left and right on the food and exercise, it seems there should be a message like "more Options" . Since nothing happened I don't think I would have tried except that I had seen the sim in the meetings.
-   I think you should add a quick paragraph in the Help that says something like "Change your diet by putting food on/off the plate. Change your Activity level by using the pull down menu or moving exercise on/off the book."
-   I was confused about the time increments for a while because I kept using the next month button to move forward. Too bad there isn't a better way to tell time.
-   The back ground color selection kept popping up. I am sure this is only a developer feature, but I thought I would tell you that I tried to figure out what it had to do with my exercise for a while.
+I played with the sim a bit and here are my experiences and thoughts:
+I started the sim with little experience; I have just played with it for short periods during the PhET meetings. The first thing I did was put in my info. Age 47, height 5'3", weight 125 (I didn't change the % fat) and then hit play. Of course I died, but I  really didn't realize why so I hit reset. Then I had to put in my info again, played again and died. Then I figured out that the empty plate meant I wasn't eating and I also found the Reset on the graph so I didn't have to reenter my info. I dragged the pyramid on and played again.
+I didn't realize that I didn't have any exercise. The first thing I tired was dragging the exercise icons onto the bar chart and it took a couple of runs to realize that I hadn't really changed anything. Maybe the little book should say "Daily Exercise" as opposed to "Today". Especially since the exercise continues until you take it off.
+ I didn't notice the pull down menu for activity because it is the same color as the background so I thought it was a heading for the section. I only discovered it as I was trying to make sure that I had tested all the features.
+When you move your curser over the arrows that go left and right on the food and exercise, it seems there should be a message like "more Options" . Since nothing happened I don't think I would have tried except that I had seen the sim in the meetings.
+I think you should add a quick paragraph in the Help that says something like "Change your diet by putting food on/off the plate. Change your Activity level by using the pull down menu or moving exercise on/off the book."
+I was confused about the time increments for a while because I kept using the next month button to move forward. Too bad there isn't a better way to tell time.
+The back ground color selection kept popping up. I am sure this is only a developer feature, but I thought I would tell you that I tried to figure out what it had to do with my exercise for a while.
+
+
+#######
 
 I will check.  Yesterday I played with the sim and started creating a list of comments. I’m not completely finished however.  I was going to try and figure out how to address some of Trish’s interface issues.  I can send what I have now if you like or in a few hours I can finish up and send it in complete form.
-
 
 ########
 Hi  all,
