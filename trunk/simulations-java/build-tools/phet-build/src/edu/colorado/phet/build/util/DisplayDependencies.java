@@ -2,6 +2,7 @@ package edu.colorado.phet.build.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 import edu.colorado.phet.build.PhetProject;
 
@@ -18,6 +19,10 @@ public class DisplayDependencies {
 
     private void start() throws IOException {
         trunk = new File( "C:\\reid-not-backed-up\\phet\\svn\\trunk2" );
+
+        System.out.println( "PhET Java Software Dependencies\n" +
+                            ""+new Date()+"\n" );
+
         File baseDir = new File( trunk, "simulations-java" );
         String[] simNames = PhetProject.getSimNames( baseDir );
         for ( int i = 0; i < simNames.length; i++ ) {
@@ -51,7 +56,9 @@ public class DisplayDependencies {
         }
 
         LicenseInfo[] licenseInfo = phetProject.getAllLicensingInfo();
-        System.out.println( "\tLicensing info:" );
+        if ( licenseInfo.length > 0 ) {
+            System.out.println( "\tLicensing info:" );
+        }
         for ( int i = 0; i < licenseInfo.length; i++ ) {
             LicenseInfo info = licenseInfo[i];
             System.out.println( "\t\t" + i + ". " + info );
