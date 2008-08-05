@@ -8,6 +8,8 @@ import java.util.*;
 
 import org.apache.tools.ant.BuildException;
 
+import edu.colorado.phet.build.util.LicenseInfo;
+
 /**
  * Author: Sam Reid
  * Apr 14, 2007, 2:40:56 PM
@@ -549,5 +551,14 @@ public class PhetProject {
     public String getPackageName() {
         String name = getName();//remove hyphens
         return name.replaceAll( "-", "" );
+    }
+
+    public LicenseInfo[] getAllLicensingInfo() {
+        ArrayList licenseInfo = new ArrayList();
+        File licenseFile = new File( getProjectDir(), "license-info.properties" );
+        if ( licenseFile.exists() ) {
+            licenseInfo.add( new LicenseInfo( licenseFile ) );
+        }
+        return (LicenseInfo[]) licenseInfo.toArray( new LicenseInfo[licenseInfo.size()] );
     }
 }

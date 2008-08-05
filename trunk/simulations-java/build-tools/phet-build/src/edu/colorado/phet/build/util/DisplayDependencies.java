@@ -30,6 +30,7 @@ public class DisplayDependencies {
     private void visitSim( String simName ) throws IOException {
         System.out.println( simName + ":" );
         PhetProject phetProject = new PhetProject( new File( trunk, "simulations-java/simulations/" + simName ) );
+
         PhetProject[] dep = phetProject.getDependencies();
         System.out.println( "\tProject Dependencies:" );
         for ( int i = 0; i < dep.length; i++ ) {
@@ -46,7 +47,14 @@ public class DisplayDependencies {
         File[] s = phetProject.getSourceRoots();
         for ( int i = 0; i < s.length; i++ ) {
             File file = s[i];
-            System.out.println( "\t\t" + i + ". " + file.getParentFile().getName()+"/"+file.getName() );
+            System.out.println( "\t\t" + i + ". " + file.getParentFile().getName() + "/" + file.getName() );
+        }
+
+        LicenseInfo[] licenseInfo = phetProject.getAllLicensingInfo();
+        System.out.println( "\tLicensing info:" );
+        for ( int i = 0; i < licenseInfo.length; i++ ) {
+            LicenseInfo info = licenseInfo[i];
+            System.out.println( "\t\t" + i + ". " + info );
         }
 
         System.out.println( "" );
