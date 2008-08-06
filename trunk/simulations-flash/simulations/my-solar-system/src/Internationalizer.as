@@ -93,6 +93,7 @@ class Internationalizer{
 		setString(_root.trajectoryHolder_mc.specWindow_mc.vXEquals_txt, "vXEquals", "right");
 		setString(_root.trajectoryHolder_mc.specWindow_mc.vYEquals_txt, "vYEquals", "right");
 		
+		setString(_root.infoPage_mc.help0_txt, "help0", "left");
 		setString(_root.infoPage_mc.help1_txt, "help1", "left");
 		setString(_root.infoPage_mc.help2_txt, "help2", "left");
 		setString(_root.infoPage_mc.help3_txt, "help3", "left");

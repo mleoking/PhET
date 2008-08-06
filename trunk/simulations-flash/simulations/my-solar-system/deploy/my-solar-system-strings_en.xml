@@ -42,10 +42,11 @@
   <string key="vXEquals" value="v x =" />
   <string key="vYEquals" value="v y =" />
   <string key="back" value="back" />
-  <string key="help1" value="My Solar System orbit simulator" />
+  <string key="help0" value="My Solar System orbit simulator" />
+  <string key="help1" value="Make your own solar system by dragging bodies and the V symbol (V for velocity) \nor by typing into the Initial Settings table." />
   <string key="help2" value="Distances, masses, and times are in arbitrary units.  Invent your own! " />
   <string key="help3" value="Keep masses less than a few thousand or risk strange results." />
-  <string key="help4" value="Mouse over stopped bodies for current position and velocity." />
+  <string key="help4" value="For current position and velocity, press Stop and mouse over the body." />
   <string key="help5" value="When System Centered is checked,  the system's center-of-mass motion is removed." />
   <string key="help6" value="This simulation uses a fixed-timestep velocity-Verlet algorithm to integrate trajectories:" />
   <string key="help7" value="" />
