@@ -29,8 +29,18 @@ public class DeveloperFrame extends JFrame {
             }
         } );
         verticalLayoutPanel.add( jCheckBox );
-        setContentPane( verticalLayoutPanel );
 
+
+        final JCheckBox asymmetry = new JCheckBox( "all fat when gaining weight (asymmetric)", MuscleAndFatMassLoss2.allFatWhenGainingWeight );
+        asymmetry.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                MuscleAndFatMassLoss2.allFatWhenGainingWeight = asymmetry.isSelected();
+            }
+        } );
+        verticalLayoutPanel.add( asymmetry );
+
+
+        setContentPane( verticalLayoutPanel );
         pack();
     }
 }

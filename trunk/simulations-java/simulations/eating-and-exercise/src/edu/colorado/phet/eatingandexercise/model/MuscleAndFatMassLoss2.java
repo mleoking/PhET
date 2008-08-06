@@ -1,7 +1,5 @@
 package edu.colorado.phet.eatingandexercise.model;
 
-import javax.swing.*;
-
 import edu.colorado.phet.eatingandexercise.module.eatingandexercise.CaloricFoodItem;
 
 /**
@@ -11,6 +9,7 @@ import edu.colorado.phet.eatingandexercise.module.eatingandexercise.CaloricFoodI
 public class MuscleAndFatMassLoss2 implements HumanUpdate {
 
     public static double FRACTION_FAT_LOST = 0.88;
+    public static boolean allFatWhenGainingWeight = true;
 
     public void update( Human human, double dt ) {
 
@@ -29,10 +28,11 @@ public class MuscleAndFatMassLoss2 implements HumanUpdate {
         // If you gain weight just from taking in excess calories, it should all go to fat.
         // You should only be able to turn food and fat into muscle by exercising.
 
-        //SRR disabled this 8-5-2008
-//        if ( caloriesGained > 0 ) {
-//            fractionFatLost = 1.0;
-//        }
+
+        //control for asymmetric fat percent handling when gaining weight
+        if ( caloriesGained > 0 && allFatWhenGainingWeight ) {
+            fractionFatLost = 1.0;
+        }
 
         double caloriesLost = -caloriesGained;
         double totalKGLost = EatingAndExerciseUnits.caloriesToKG( caloriesLost );
