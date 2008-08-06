@@ -300,7 +300,7 @@ var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "htt
 document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
 </script>
 
-<script type="text/javascript" src="autoTracking_phet.js"></script>
+<script type="text/javascript" src="http://phet.colorado.edu/page_templates/autoTracking_phet.js"></script>
 
 <script type="text/javascript">
 var benchmarkTracker = _gat._getTracker("UA-5033201-1");
