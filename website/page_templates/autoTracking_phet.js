@@ -1,5 +1,7 @@
+var docIdentifier  = '/download';
+
 function listenToClicks() { 
-	var domains    = ["phet.colorado.edu"]; 
+  var domains    = ["phet.colorado.edu"]; 
   var fileTypes  = [".doc",".xls",".exe",".zip",".pdf",".mp3"];
     
 	if (document.getElementsByTagName) {
@@ -31,8 +33,6 @@ function listenToClicks() {
 	}
 }
 
-
-
 function startListening (obj,evnt,func) { 
   if (obj.addEventListener) { 
     obj.addEventListener(evnt,func,false);
@@ -40,7 +40,6 @@ function startListening (obj,evnt,func) {
     obj.attachEvent("on" + evnt,func);
   }
 }
-
 
 function useLinker (evnt) {  
   var lnk;
@@ -68,6 +67,9 @@ function trackDocuments (evnt) {
   url = docIdentifier + url;
   if (typeof(benchmarkTracker) == "object") {
 	  benchmarkTracker._trackPageview(url);
+  }
+  if (typeof(overallTracker) == "object") {
+    overallTracker._trackPageview(url);
   }
 }
 
