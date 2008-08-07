@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import edu.colorado.phet.media.util.FileUtils;
+import edu.colorado.phet.media.FileUtils;
 
 /**
  * Author: Sam Reid

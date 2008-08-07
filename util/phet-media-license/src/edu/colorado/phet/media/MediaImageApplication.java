@@ -13,7 +13,7 @@ import java.util.Properties;
 
 import javax.swing.*;
 
-import edu.colorado.phet.media.util.FileUtils;
+import edu.colorado.phet.media.FileUtils;
 
 /**
  * User: Sam Reid

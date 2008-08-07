@@ -3,7 +3,7 @@ package edu.colorado.phet.media;
 import java.io.File;
 import java.io.IOException;
 
-import edu.colorado.phet.media.util.FileUtils;
+import edu.colorado.phet.media.FileUtils;
 
 /**
  * Author: Sam Reid
