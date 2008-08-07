@@ -1,9 +1,9 @@
-package edu.colorado.phet.media;
+package edu.colorado.phet.licensing.media;
 
 import java.io.File;
 import java.io.IOException;
 
-import edu.colorado.phet.media.FileUtils;
+import edu.colorado.phet.licensing.media.FileUtils;
 
 /**
  * Author: Sam Reid

@@ -1,4 +1,4 @@
-package edu.colorado.phet.media;
+package edu.colorado.phet.licensing.media;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import edu.colorado.phet.media.FileUtils;
+import edu.colorado.phet.licensing.media.FileUtils;
 
 /**
  * Author: Sam Reid
