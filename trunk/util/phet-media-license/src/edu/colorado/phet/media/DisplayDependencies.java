@@ -1,10 +1,12 @@
-package edu.colorado.phet.build.util;
+package edu.colorado.phet.media;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
 import edu.colorado.phet.build.PhetProject;
+import edu.colorado.phet.build.util.LicenseInfo;
+import edu.colorado.phet.build.util.MediaInfo;
 
 /**
  * Created by: Sam
