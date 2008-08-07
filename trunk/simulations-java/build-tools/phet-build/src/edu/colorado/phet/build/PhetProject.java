@@ -554,6 +554,11 @@ public class PhetProject {
         return name.replaceAll( "-", "" );
     }
 
+    /*
+     * ***********
+     * Licensing Information
+     * ***********
+     */
     //todo: this should trace through dependencies to get license info too (not relevant with data as of 8-7-2008)
     public LicenseInfo[] getAllLicensingInfo() {
         ArrayList licenseInfo = new ArrayList();
@@ -564,11 +569,6 @@ public class PhetProject {
         return (LicenseInfo[]) licenseInfo.toArray( new LicenseInfo[licenseInfo.size()] );
     }
 
-    /**
-     * ***********
-     * Licensing Information
-     * ***********
-     */
     //Returns media info for this project and all dependencies
     public MediaInfo[] getAllMediaInfo() {
         ArrayList mediaInfo = new ArrayList();

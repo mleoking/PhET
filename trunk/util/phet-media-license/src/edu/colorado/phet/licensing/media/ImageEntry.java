@@ -3,6 +3,7 @@ package edu.colorado.phet.licensing.media;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -21,6 +22,24 @@ public class ImageEntry {
     private String source = "";
     private String notes = "";
     private boolean done = false;
+
+    public ImageEntry( File annotatedFile ) {
+        Properties prop = new Properties();
+        try {
+            File file = new File( annotatedFile + ".properties" );
+            if ( file.exists() ) {
+                prop.load( new FileInputStream( file ) );
+            }
+            else {
+                System.err.println( "File was not annotated: " + annotatedFile );
+            }
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        String str = annotatedFile.getName();
+        parseProperties( prop, str );
+    }
 
     public ImageEntry( String imageName ) {
         this.imageName = imageName;
@@ -82,18 +101,18 @@ public class ImageEntry {
     public Properties toProperties() {
         Properties prop = new Properties();
         prop.setProperty( "nonphet", isNonPhet() + "" );
-        prop.setProperty( "source", getSource() );
-        prop.setProperty( "notes", getNotes() );
+        prop.setProperty( "source", source );
+        prop.setProperty( "notes", notes );
         prop.setProperty( "done", done + "" );
         return prop;
     }
 
     public void parseProperties( Properties prop, String imageName ) {
         this.imageName = imageName;
-        this.nonPhet = Boolean.valueOf( prop.getProperty( "nonphet" ) ).booleanValue();
-        this.source = prop.getProperty( "source" );
-        this.notes = prop.getProperty( "notes" );
-        this.done = Boolean.valueOf( prop.getProperty( "done" ) ).booleanValue();
+        this.nonPhet = Boolean.valueOf( prop.getProperty( "nonphet", "true" ) ).booleanValue();
+        this.source = prop.getProperty( "source", "" );
+        this.notes = prop.getProperty( "notes", "" );
+        this.done = Boolean.valueOf( prop.getProperty( "done", "false" ) ).booleanValue();
     }
 
     public static ImageEntry createNewEntry( String imageName ) {

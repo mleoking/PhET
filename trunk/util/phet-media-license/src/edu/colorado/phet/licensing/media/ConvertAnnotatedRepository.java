@@ -1,8 +1,10 @@
 package edu.colorado.phet.licensing.media;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Properties;
 
 /**
  * Author: Sam Reid
@@ -48,12 +50,7 @@ public class ConvertAnnotatedRepository {
         } );
         ArrayList imageEntries = new ArrayList();
         for ( int i = 0; i < f.length; i++ ) {
-            File file = f[i];
-//            System.out.println( "file.getAbsolutePath() = " + file.getAbsolutePath() );
-            Properties prop = new Properties();
-            prop.load( new FileInputStream( file ) );
-            ImageEntry entry = new ImageEntry( prop, file.getName().substring( 0, file.getName().length() - ".properties".length() ) );
-            imageEntries.add( entry );
+            imageEntries.add( new ImageEntry( f[i] ) );
         }
         return (ImageEntry[]) imageEntries.toArray( new ImageEntry[imageEntries.size()] );
     }
