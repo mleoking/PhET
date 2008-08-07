@@ -1,4 +1,4 @@
-package edu.colorado.phet.media;
+package edu.colorado.phet.licensing.media;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,7 +13,7 @@ import java.util.Properties;
 
 import javax.swing.*;
 
-import edu.colorado.phet.media.FileUtils;
+import edu.colorado.phet.licensing.media.FileUtils;
 
 /**
  * User: Sam Reid
