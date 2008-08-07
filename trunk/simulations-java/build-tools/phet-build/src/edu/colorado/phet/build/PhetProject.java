@@ -582,13 +582,18 @@ public class PhetProject {
     //Returns media info for this project only (not dependencies)
     private MediaInfo[] getMediaInfo() {
         File data = getDataDirectory();
-        File[] f = listFilesRecursive( data );
-        //for each data file, track down annotation data, if it exists
-        MediaInfo[] m = new MediaInfo[f.length];
-        for ( int i = 0; i < m.length; i++ ) {
-            m[i] = new MediaInfo( f[i] );
+        if ( data.isDirectory() && data.exists() ) {
+            File[] f = listFilesRecursive( data );
+            //for each data file, track down annotation data, if it exists
+            MediaInfo[] m = new MediaInfo[f.length];
+            for ( int i = 0; i < m.length; i++ ) {
+                m[i] = new MediaInfo( f[i] );
+            }
+            return m;
         }
-        return m;
+        else {
+            return new MediaInfo[0];
+        }
     }
 
     private File[] listFilesRecursive( File data ) {
