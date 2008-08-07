@@ -55,7 +55,7 @@ public class ConvertAnnotatedRepository {
             ImageEntry entry = new ImageEntry( prop, file.getName().substring( 0, file.getName().length() - ".properties".length() ) );
             imageEntries.add( entry );
         }
-        return (ImageEntry[]) imageEntries.toArray( new ImageEntry[0] );
+        return (ImageEntry[]) imageEntries.toArray( new ImageEntry[imageEntries.size()] );
     }
 
     public static ImageEntry[] getNonPhetEntries() throws IOException {
@@ -67,7 +67,6 @@ public class ConvertAnnotatedRepository {
                 nonPhet.add( entry );
             }
         }
-        return (ImageEntry[]) nonPhet.toArray( new ImageEntry[0] );
-
+        return (ImageEntry[]) nonPhet.toArray( new ImageEntry[nonPhet.size()] );
     }
 }
