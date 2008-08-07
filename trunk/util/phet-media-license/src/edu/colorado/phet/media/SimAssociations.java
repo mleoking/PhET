@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import edu.colorado.phet.common_force1d.util.QuickTimer;
-import edu.colorado.phet.media.util.FileUtils;
+import edu.colorado.phet.media.FileUtils;
 
 /**
  * Author: Sam Reid

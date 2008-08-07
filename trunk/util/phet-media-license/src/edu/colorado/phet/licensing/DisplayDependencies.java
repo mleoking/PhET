@@ -1,4 +1,4 @@
-package edu.colorado.phet.media;
+package edu.colorado.phet.licensing;
 
 import java.io.File;
 import java.io.IOException;
