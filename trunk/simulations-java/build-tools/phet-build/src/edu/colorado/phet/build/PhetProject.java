@@ -9,6 +9,7 @@ import java.util.*;
 import org.apache.tools.ant.BuildException;
 
 import edu.colorado.phet.build.util.LicenseInfo;
+import edu.colorado.phet.build.util.MediaInfo;
 
 /**
  * Author: Sam Reid
@@ -553,6 +554,7 @@ public class PhetProject {
         return name.replaceAll( "-", "" );
     }
 
+    //todo: this should trace through dependencies to get license info too (not relevant with data as of 8-7-2008)
     public LicenseInfo[] getAllLicensingInfo() {
         ArrayList licenseInfo = new ArrayList();
         File licenseFile = new File( getProjectDir(), "license-info.properties" );
@@ -560,5 +562,53 @@ public class PhetProject {
             licenseInfo.add( new LicenseInfo( licenseFile ) );
         }
         return (LicenseInfo[]) licenseInfo.toArray( new LicenseInfo[licenseInfo.size()] );
+    }
+
+    /**
+     * ***********
+     * Licensing Information
+     * ***********
+     */
+    //Returns media info for this project and all dependencies
+    public MediaInfo[] getAllMediaInfo() {
+        ArrayList mediaInfo = new ArrayList();
+        PhetProject[] dependencies = getAllDependencies();
+        for ( int i = 0; i < dependencies.length; i++ ) {
+            mediaInfo.addAll( Arrays.asList( dependencies[i].getMediaInfo() ) );
+        }
+        return (MediaInfo[]) mediaInfo.toArray( new MediaInfo[mediaInfo.size()] );
+    }
+
+    //Returns media info for this project only (not dependencies)
+    private MediaInfo[] getMediaInfo() {
+        File data = getDataDirectory();
+        File[] f = listFilesRecursive( data );
+        //for each data file, track down annotation data, if it exists
+        MediaInfo[] m = new MediaInfo[f.length];
+        for ( int i = 0; i < m.length; i++ ) {
+            m[i] = new MediaInfo( f[i] );
+        }
+        return m;
+    }
+
+    private File[] listFilesRecursive( File data ) {
+        ArrayList files = new ArrayList();
+        File[] ch = data.listFiles();
+        for ( int i = 0; i < ch.length; i++ ) {
+            File file = ch[i];
+            if ( file.isDirectory() ) {
+                if ( !isIgnoreDirectory( file ) ) {
+                    files.addAll( Arrays.asList( listFilesRecursive( file ) ) );
+                }
+            }
+            else {
+                files.add( file );
+            }
+        }
+        return (File[]) files.toArray( new File[files.size()] );
+    }
+
+    private boolean isIgnoreDirectory( File file ) {
+        return file.getName().startsWith( ".svn" ) || file.getName().startsWith( "localization" );
     }
 }

@@ -21,7 +21,7 @@ public class DisplayDependencies {
         trunk = new File( "C:\\reid-not-backed-up\\phet\\svn\\trunk2" );
 
         System.out.println( "PhET Java Software Dependencies\n" +
-                            ""+new Date()+"\n" );
+                            "" + new Date() + "\n" );
 
         File baseDir = new File( trunk, "simulations-java" );
         String[] simNames = PhetProject.getSimNames( baseDir );
@@ -61,6 +61,13 @@ public class DisplayDependencies {
         }
         for ( int i = 0; i < licenseInfo.length; i++ ) {
             LicenseInfo info = licenseInfo[i];
+            System.out.println( "\t\t" + i + ". " + info );
+        }
+
+        MediaInfo[] mediaInfo = phetProject.getAllMediaInfo();
+        System.out.println( "\tMedia Info:" );
+        for ( int i = 0; i < mediaInfo.length; i++ ) {
+            MediaInfo info = mediaInfo[i];
             System.out.println( "\t\t" + i + ". " + info );
         }
 
