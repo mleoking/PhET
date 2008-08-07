@@ -1,7 +1,6 @@
 package edu.colorado.phet.build.util;
 
 import java.io.File;
-import java.util.Properties;
 
 /**
  * Created by: Sam
@@ -12,9 +11,10 @@ public class MediaInfo {
 
     public MediaInfo( File file ) {
         this.file = file;
-        File annotationDir=new File( "../util/phet-media-license/annotated-data");
-        File annotatedVersion=new File( annotationDir, file.getName());
-        Properties properties = new Properties( );
+    }
+
+    public File getFile() {
+        return file;
     }
 
     public String toString() {

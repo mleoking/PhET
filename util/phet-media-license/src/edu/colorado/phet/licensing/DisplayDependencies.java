@@ -7,6 +7,7 @@ import java.util.Date;
 import edu.colorado.phet.build.PhetProject;
 import edu.colorado.phet.build.util.LicenseInfo;
 import edu.colorado.phet.build.util.MediaInfo;
+import edu.colorado.phet.licensing.media.ImageEntry;
 
 /**
  * Created by: Sam
@@ -66,11 +67,12 @@ public class DisplayDependencies {
             System.out.println( "\t\t" + i + ". " + info );
         }
 
-        MediaInfo[] mediaInfo = phetProject.getAllMediaInfo();
+        MediaInfo[] mediaFile = phetProject.getAllMediaInfo();
         System.out.println( "\tMedia Info:" );
-        for ( int i = 0; i < mediaInfo.length; i++ ) {
-            MediaInfo info = mediaInfo[i];
-            System.out.println( "\t\t" + i + ". " + info );
+        for ( int i = 0; i < mediaFile.length; i++ ) {
+            System.out.println( "\t\t" + i + ". " + mediaFile[i] );
+            ImageEntry imageEntry = new ImageEntry( new File( "C:\\reid-not-backed-up\\phet\\svn\\trunk2\\util\\phet-media-license\\annotated-data\\" + mediaFile[i].getFile().getName() ) );
+            System.out.println( imageEntry );
         }
 
         System.out.println( "" );

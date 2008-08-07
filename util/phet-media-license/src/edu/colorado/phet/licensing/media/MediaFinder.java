@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import edu.colorado.phet.licensing.media.FileUtils;
-
 /**
  * Author: Sam Reid
  * Jun 14, 2007, 8:35:26 PM
@@ -120,16 +118,6 @@ public class MediaFinder {
         return false;
     }
 
-    public static void main( String[] args ) {
-        File[] nonImage = getNonImageFiles();
-        System.out.println( "nonImage.length = " + nonImage.length );
-//        System.out.println( "Arrays.asList( nonImage ) = " + Arrays.asList( nonImage ) );
-        for ( int i = 0; i < nonImage.length; i++ ) {
-            File file = nonImage[i];
-            System.out.println( "file = " + file );
-        }
-    }
-
     public static File[] getSoundFilesNoDuplicates() {
         File[] soundFiles = getAllSoundFiles();
 
@@ -156,5 +144,15 @@ public class MediaFinder {
             }
         }
         return false;
+    }
+
+    public static void main( String[] args ) {
+        File[] nonImage = getNonImageFiles();
+        System.out.println( "nonImage.length = " + nonImage.length );
+//        System.out.println( "Arrays.asList( nonImage ) = " + Arrays.asList( nonImage ) );
+        for ( int i = 0; i < nonImage.length; i++ ) {
+            File file = nonImage[i];
+            System.out.println( "file = " + file );
+        }
     }
 }
