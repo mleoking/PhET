@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Date;
 
 import edu.colorado.phet.build.PhetProject;
+import edu.colorado.phet.licensing.media.ImageEntry;
 
 /**
  * Created by: Sam
@@ -60,14 +61,27 @@ public class ConvertAnnotationsToLocal {
                 }
             }
         }
-        if (resourceAnnotationList.getAnnotationCount()>0){
+        if ( resourceAnnotationList.getAnnotationCount() > 0 ) {
             System.out.println( resourceAnnotationList.toText() );
         }
     }
 
     private ResourceAnnotation createResourceAnnotation( PhetProject phetProject, File file ) {
         ResourceAnnotation resourceAnnotation = new ResourceAnnotation( file.getName() );
-        resourceAnnotation.setNotes( "auto-generated for test" );
+//        resourceAnnotation.setNotes( "auto-generated" );
+        File annotatedFile = new File( "C:\\reid-not-backed-up\\phet\\svn\\trunk2\\util\\phet-media-license\\annotated-data", file.getName() );
+        if ( annotatedFile.exists() ) {
+            ImageEntry imageEntry = new ImageEntry( annotatedFile );
+            if ( imageEntry.getSource() != null && imageEntry.getSource().trim().length() > 0 && !imageEntry.getSource().trim().equals( "?" ) ) {
+                resourceAnnotation.setSource( imageEntry.getSource() );
+            }
+            if ( !imageEntry.isNonPhet() ) {
+                resourceAnnotation.setAuthor( "PhET" );
+            }
+            if ( imageEntry.getNotes() != null && imageEntry.getNotes().trim().length() > 0 && !imageEntry.getNotes().trim().equals( "?" ) ) {
+                resourceAnnotation.setNotes( imageEntry.getNotes() );
+            }
+        }
         return resourceAnnotation;
     }
 
