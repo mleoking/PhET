@@ -9,7 +9,7 @@ import java.util.*;
 import org.apache.tools.ant.BuildException;
 
 import edu.colorado.phet.build.util.LicenseInfo;
-import edu.colorado.phet.build.util.MediaInfo;
+import edu.colorado.phet.build.util.DataResource;
 
 /**
  * Author: Sam Reid
@@ -570,29 +570,29 @@ public class PhetProject {
     }
 
     //Returns media info for this project and all dependencies
-    public MediaInfo[] getAllMediaInfo() {
+    public DataResource[] getAllMediaInfo() {
         ArrayList mediaInfo = new ArrayList();
         PhetProject[] dependencies = getAllDependencies();
         for ( int i = 0; i < dependencies.length; i++ ) {
             mediaInfo.addAll( Arrays.asList( dependencies[i].getMediaInfo() ) );
         }
-        return (MediaInfo[]) mediaInfo.toArray( new MediaInfo[mediaInfo.size()] );
+        return (DataResource[]) mediaInfo.toArray( new DataResource[mediaInfo.size()] );
     }
 
     //Returns media info for this project only (not dependencies)
-    private MediaInfo[] getMediaInfo() {
+    private DataResource[] getMediaInfo() {
         File data = getDataDirectory();
         if ( data.isDirectory() && data.exists() ) {
             File[] f = listFilesRecursive( data );
             //for each data file, track down annotation data, if it exists
-            MediaInfo[] m = new MediaInfo[f.length];
+            DataResource[] m = new DataResource[f.length];
             for ( int i = 0; i < m.length; i++ ) {
-                m[i] = new MediaInfo( f[i] );
+                m[i] = new DataResource( f[i] );
             }
             return m;
         }
         else {
-            return new MediaInfo[0];
+            return new DataResource[0];
         }
     }
 
