@@ -1,7 +1,6 @@
 package edu.colorado.phet.licensing;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -12,7 +11,7 @@ import edu.colorado.phet.build.PhetProject;
  * Created by: Sam
  * Aug 4, 2008 at 7:10:23 PM
  */
-public abstract class ProcessData {
+public class DataProcessor {
     private File trunk;
 
     public AnnotatedFile[] visitDirectory( PhetProject phetProject, File dir ) {
@@ -57,7 +56,9 @@ public abstract class ProcessData {
         return (AnnotatedFile[]) list.toArray( new AnnotatedFile[list.size()] );
     }
 
-    protected abstract ResourceAnnotation visitFile( PhetProject phetProject, ResourceAnnotationList resourceAnnotationList, File file );
+    protected ResourceAnnotation visitFile( PhetProject phetProject, ResourceAnnotationList resourceAnnotationList, File file ) {
+        return resourceAnnotationList.getEntry( file.getName() );
+    }
 
     private boolean ignoreFile( PhetProject project, File file ) {
         return file.getName().equals( project.getName() + ".properties" ) || file.getName().equalsIgnoreCase( "license.txt" ) || file.getName().equalsIgnoreCase( "license-orig.txt" ) || file.getName().equalsIgnoreCase( "sun-license.txt" );
