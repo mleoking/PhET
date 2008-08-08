@@ -22,15 +22,12 @@ public class DisplayIssues {
     private void start() throws IOException {
         trunk = new File( "C:\\reid-not-backed-up\\phet\\svn\\trunk2" );
 
-        System.out.println( "PhET Java Software Dependencies\n" +
-                            "" + new Date() + "\n" );
+        System.out.println( "PhET Java Software Dependencies\n" + new Date() + "\n" );
 
         File baseDir = new File( trunk, "simulations-java" );
         String[] simNames = PhetProject.getSimNames( baseDir );
         for ( int i = 0; i < simNames.length; i++ ) {
-            String simName = simNames[i];
-//            System.out.println( "name=" + simName );
-            visitSim( simName );
+            visitSim( simNames[i] );
         }
         System.out.println( "Total issues: " + totalIssues );
     }
@@ -45,13 +42,18 @@ public class DisplayIssues {
             System.out.println( "\tLicensing info:" );
         }
         for ( int i = 0; i < licenseInfo.length; i++ ) {
-            LicenseInfo info = licenseInfo[i];
-            System.out.println( "\t\t" + i + ". " + info );
+            System.out.println( "\t\t" + i + ". " + licenseInfo[i] );
         }
 
         File data = phetProject.getDataDirectory();
         OutputLicenseInfo outputLicenseInfo = new OutputLicenseInfo();
-        outputLicenseInfo.visitDirectory( phetProject, data );
+        AnnotatedFile[] files = outputLicenseInfo.visitDirectory( phetProject, data );
+        for ( int i = 0; i < files.length; i++ ) {
+            AnnotatedFile file = files[i];
+            if ( !OutputLicenseInfo.hideEntry( file.getResourceAnnotation() ) ) {
+                System.out.println( "File[" + i + "]: " + file );
+            }
+        }
         issueCount += outputLicenseInfo.getCount();
 
         if ( issueCount == 0 ) {
