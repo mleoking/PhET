@@ -12,7 +12,7 @@ boreholdDrillOffButton.png source=PhET author=Chris Malley
 
 glacialBudgetMeter.png source=PhET author=Archie Paulson
 
-glacierPicture.png source=http://www.earthscienceworld.org/images/search/index.html author=Bruce Molnia license=author's permission
+glacierPicture.png source=http://www.earthscienceworld.org/images/search/index.html author=Bruce Molnia license=author's permission 
 
 gpsReceiver.png source=PhET author=Archie Paulson
 
@@ -20,7 +20,7 @@ mountains.png source=PhET author=Archie Paulson
 
 penguin.png source=http://openclipart.org author=jesusfreak210 license=http://creativecommons.org
 
-snowflake.png source=http://commons.wikimedia.org/wiki/Image:Snowflake.svg author=US DOT  license=public domain
+snowflake.png source=http://commons.wikimedia.org/wiki/Image:Snowflake.svg author=US DOT license=public domain
 
 thermometer.png source=PhET author=Archie Paulson
 
