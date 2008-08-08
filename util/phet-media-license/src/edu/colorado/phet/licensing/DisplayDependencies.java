@@ -5,9 +5,7 @@ import java.io.IOException;
 import java.util.Date;
 
 import edu.colorado.phet.build.PhetProject;
-import edu.colorado.phet.build.util.DataResource;
 import edu.colorado.phet.build.util.LicenseInfo;
-import edu.colorado.phet.licensing.media.ImageEntry;
 
 /**
  * Created by: Sam
@@ -68,8 +66,7 @@ public class DisplayDependencies {
         }
 
         File data = phetProject.getDataDirectory();
-        new ConvertAnnotationsToLocal().visitDirectory( phetProject, data );
-        
+        new OutputLicenseInfo().visitDirectory( phetProject, data );
 
 //        DataResource[] mediaFile = phetProject.getAllMediaInfo();
 //        System.out.println( "\tMedia Info:" );
