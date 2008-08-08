@@ -80,7 +80,7 @@ jogger.png
 judo.png
 kayaker.png
 large_milkshake copy.png
-large_milkshake.png 
+large_milkshake.png
 latte.png
 leisure_bikers.png
 lemonade.png
