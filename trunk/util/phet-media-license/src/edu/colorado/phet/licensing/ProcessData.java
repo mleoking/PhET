@@ -77,7 +77,7 @@ public abstract class ProcessData {
     protected abstract void visitFile( PhetProject phetProject, ResourceAnnotationList resourceAnnotationList, File file );
 
     private boolean ignoreFile( PhetProject project, File file ) {
-        return file.getName().equals( project.getName() + ".properties" ) || file.getName().equalsIgnoreCase( "license.txt" ) || file.getName().equalsIgnoreCase( "license-orig.txt" );
+        return file.getName().equals( project.getName() + ".properties" ) || file.getName().equalsIgnoreCase( "license.txt" ) || file.getName().equalsIgnoreCase( "license-orig.txt" )||file.getName().equalsIgnoreCase( "sun-license.txt" );
     }
 
     private boolean ignoreDirectory( PhetProject project, File dir ) {
