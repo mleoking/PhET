@@ -2,6 +2,8 @@ package edu.colorado.phet.licensing;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 import edu.colorado.phet.build.PhetProject;
@@ -35,7 +37,8 @@ public abstract class ProcessData {
         visitDirectory( phetProject, phetProject.getDataDirectory() );
     }
 
-    public void visitDirectory( PhetProject phetProject, File dir ) {
+    public AnnotatedFile[] visitDirectory( PhetProject phetProject, File dir ) {
+        ArrayList list = new ArrayList();
         File licenseFile = new File( dir, "license.txt" );
         ResourceAnnotationList resourceAnnotationList;
         if ( licenseFile.exists() ) {
@@ -55,29 +58,31 @@ public abstract class ProcessData {
             File file = f[i];
             if ( file.isDirectory() ) {
                 if ( !ignoreDirectory( phetProject, file ) ) {
-                    visitDirectory( phetProject, file );
+                    AnnotatedFile[] fx = visitDirectory( phetProject, file );
+                    list.addAll( Arrays.asList( fx ) );
                 }
             }
             else {
                 if ( !ignoreFile( phetProject, file ) ) {
-                    visitFile( phetProject, resourceAnnotationList, file );
+                    ResourceAnnotation fx = visitFile( phetProject, resourceAnnotationList, file );
+                    list.add( new AnnotatedFile( file, fx ) );
                 }
             }
         }
         if ( resourceAnnotationList.getAnnotationCount() > 0 ) {
-
             if ( !licenseFile.exists() ) {
                 resourceAnnotationList.save( new File( dir, "license.txt" ) );
                 System.out.println( "Wrote " + licenseFile.getAbsolutePath() );
                 System.out.println( resourceAnnotationList.toText() );
             }
         }
+        return (AnnotatedFile[]) list.toArray( new AnnotatedFile[list.size()] );
     }
 
-    protected abstract void visitFile( PhetProject phetProject, ResourceAnnotationList resourceAnnotationList, File file );
+    protected abstract ResourceAnnotation visitFile( PhetProject phetProject, ResourceAnnotationList resourceAnnotationList, File file );
 
     private boolean ignoreFile( PhetProject project, File file ) {
-        return file.getName().equals( project.getName() + ".properties" ) || file.getName().equalsIgnoreCase( "license.txt" ) || file.getName().equalsIgnoreCase( "license-orig.txt" )||file.getName().equalsIgnoreCase( "sun-license.txt" );
+        return file.getName().equals( project.getName() + ".properties" ) || file.getName().equalsIgnoreCase( "license.txt" ) || file.getName().equalsIgnoreCase( "license-orig.txt" ) || file.getName().equalsIgnoreCase( "sun-license.txt" );
     }
 
     private boolean ignoreDirectory( PhetProject project, File dir ) {

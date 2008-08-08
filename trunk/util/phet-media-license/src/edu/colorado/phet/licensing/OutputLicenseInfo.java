@@ -12,20 +12,23 @@ import edu.colorado.phet.build.PhetProject;
 public class OutputLicenseInfo extends ProcessData {
     private int count = 0;
 
-    protected void visitFile( PhetProject phetProject, ResourceAnnotationList resourceAnnotationList, File file ) {
+    protected ResourceAnnotation visitFile( PhetProject phetProject, ResourceAnnotationList resourceAnnotationList, File file ) {
         ResourceAnnotation entry = resourceAnnotationList.getEntry( file.getName() );
         if ( !hideEntry( entry ) ) {
             System.out.println( entry.toText() );
             count++;
         }
+        return entry;
     }
 
-    private boolean hideEntry( ResourceAnnotation entry ) {
+    public static boolean hideEntry( ResourceAnnotation entry ) {
         return entry.getAuthor() != null && entry.getAuthor().equalsIgnoreCase( "phet" )
                ||
                entry.getSource() != null && entry.getSource().toLowerCase().startsWith( "microsoft" )
                ||
-               entry.getLicense() != null && entry.getLicense().equalsIgnoreCase( "PUBLIC DOMAIN" );
+               entry.getLicense() != null && entry.getLicense().equalsIgnoreCase( "PUBLIC DOMAIN" )
+               ||
+               entry.getSource() != null && entry.getSource().equalsIgnoreCase( "java" );
     }
 
     public static void main( String[] args ) throws IOException {

@@ -12,8 +12,10 @@ import edu.colorado.phet.licensing.media.ImageEntry;
  */
 public class ConvertAnnotationsToLocal extends ProcessData {
 
-    protected void visitFile( PhetProject phetProject, ResourceAnnotationList resourceAnnotationList, File file ) {
-        resourceAnnotationList.addResourceAnnotation( createResourceAnnotation( phetProject, file ) );
+    protected ResourceAnnotation visitFile( PhetProject phetProject, ResourceAnnotationList resourceAnnotationList, File file ) {
+        ResourceAnnotation annotation = createResourceAnnotation( phetProject, file );
+        resourceAnnotationList.addResourceAnnotation( annotation );
+        return annotation;
     }
 
     private ResourceAnnotation createResourceAnnotation( PhetProject phetProject, File file ) {
