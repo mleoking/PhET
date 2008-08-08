@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * Author: Sam Reid
  * Jun 15, 2007, 12:15:36 AM
  */
-public class ConvertAnnotatedRepository {
+public class AnnotatedRepository {
 
     public static void storeProperties( ImageEntry entry, String imageName ) {
         try {

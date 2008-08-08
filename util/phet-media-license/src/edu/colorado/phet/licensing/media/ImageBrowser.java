@@ -20,13 +20,13 @@ import javax.swing.*;
  * Copyright (c) Aug 11, 2006 by Sam Reid
  */
 
-public class MediaImageApplication {
+public class ImageBrowser {
     private JFrame frame;
     private JPanel controlPanel;
     private final JTextArea textArea = new JTextArea();
     private ImageEntry[] imageEntries;
 
-    public MediaImageApplication() {
+    public ImageBrowser() {
         frame = new JFrame( "PhET Multimedia Browser" );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
@@ -39,7 +39,7 @@ public class MediaImageApplication {
         controlPanel.add( new JButton( new AbstractAction( "Load Annotations" ) {
             public void actionPerformed( ActionEvent e ) {
                 try {
-                    setImageEntries( ConvertAnnotatedRepository.loadAnnotatedEntries() );
+                    setImageEntries( AnnotatedRepository.loadAnnotatedEntries() );
                 }
                 catch( IOException e1 ) {
                     e1.printStackTrace();
@@ -90,7 +90,7 @@ public class MediaImageApplication {
                 boolean didchange = changed( imageEntry );//debugging
                 System.out.println( "Saving annotation for: " + imageEntry.getImageName() );
 
-                ConvertAnnotatedRepository.storeProperties( imageEntry, imageEntry.getImageName() );
+                AnnotatedRepository.storeProperties( imageEntry, imageEntry.getImageName() );
                 count++;
             }
         }
@@ -101,7 +101,7 @@ public class MediaImageApplication {
         Properties memory = imageEntry.toProperties();
         Properties onDisk = new Properties();
         try {
-            onDisk.load( new FileInputStream( ConvertAnnotatedRepository.getPropertiesFile( imageEntry.getImageName() ) ) );
+            onDisk.load( new FileInputStream( AnnotatedRepository.getPropertiesFile( imageEntry.getImageName() ) ) );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -124,11 +124,11 @@ public class MediaImageApplication {
     }
 
     private void addToRepository( File imageFile ) {
-        File file = ConvertAnnotatedRepository.createNewRepositoryFile( imageFile );
+        File file = AnnotatedRepository.createNewRepositoryFile( imageFile );
         try {
             FileUtils.copy( imageFile, file );
             ImageEntry imageEntry = ImageEntry.createNewEntry( file.getName() );
-            ConvertAnnotatedRepository.storeProperties( imageEntry, file.getName() );
+            AnnotatedRepository.storeProperties( imageEntry, file.getName() );
             System.out.println( "added to repository: imageEntry = " + imageEntry.toString() );
         }
         catch( IOException e ) {
@@ -226,7 +226,7 @@ public class MediaImageApplication {
     }
 
     public static void main( String[] args ) {
-        MediaImageApplication mediaImageApplication = new MediaImageApplication();
+        ImageBrowser mediaImageApplication = new ImageBrowser();
         mediaImageApplication.start();
     }
 

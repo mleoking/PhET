@@ -62,7 +62,7 @@ public class SimAssociations {
 
     public static void main( String[] args ) throws IOException {
         QuickTimer quickTimer = new QuickTimer();
-        ImageEntry[] nonPhetEntries = ConvertAnnotatedRepository.getNonPhetEntries();
+        ImageEntry[] nonPhetEntries = AnnotatedRepository.getNonPhetEntries();
         SimAssociations simAssociations = new SimAssociations(
 //                new ImageEntry[]{new ImageEntry( "dog.gif" ),new ImageEntry( "dollarbill.gif" )}
 //nonPhetEntries
