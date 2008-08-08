@@ -65,10 +65,11 @@ public abstract class ProcessData {
             }
         }
         if ( resourceAnnotationList.getAnnotationCount() > 0 ) {
-            System.out.println( resourceAnnotationList.toText() );
+
             if ( !licenseFile.exists() ) {
                 resourceAnnotationList.save( new File( dir, "license.txt" ) );
                 System.out.println( "Wrote " + licenseFile.getAbsolutePath() );
+                System.out.println( resourceAnnotationList.toText() );
             }
         }
     }
