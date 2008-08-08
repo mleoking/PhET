@@ -25,18 +25,23 @@ public class ResourceAnnotationList {
     public void save( File file ) {
         try {
             BufferedWriter bufferedWriter = new BufferedWriter( new FileWriter( file ) );
-            for ( int i = 0; i < lines.size(); i++ ) {
-                ResourceAnnotationElement resourceAnnotationTextLine = (ResourceAnnotationElement) lines.get( i );
-                bufferedWriter.write( resourceAnnotationTextLine.toText() );
-                if ( resourceAnnotationTextLine instanceof ResourceAnnotation ) {
-                    bufferedWriter.write( "\n" );
-                }
-            }
+            bufferedWriter.write( toText() );
             bufferedWriter.close();
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
+    }
+
+    public String toText() {
+        String text = "";
+        for ( int i = 0; i < lines.size(); i++ ) {
+            ResourceAnnotationElement resourceAnnotationTextLine = (ResourceAnnotationElement) lines.get( i );
+            text += ( resourceAnnotationTextLine.toText() );
+            text += ( "\n" );
+        }
+
+        return text;
     }
 
     public static ResourceAnnotationList read( File file ) {
@@ -45,7 +50,6 @@ public class ResourceAnnotationList {
             BufferedReader bufferedReader = new BufferedReader( new FileReader( file ) );
             String line = bufferedReader.readLine();
             while ( line != null ) {
-
                 ResourceAnnotationElement element = parseElement( line );
                 list.lines.add( element );
 
@@ -71,7 +75,8 @@ public class ResourceAnnotationList {
     }
 
     public static void main( String[] args ) {
-        File file=new File( "C:\\reid-not-backed-up\\phet\\svn\\trunk2\\simulations-java\\simulations\\energy-skate-park\\data\\energy-skate-park\\images\\license.txt");
-        ResourceAnnotationList list=file.
+        File file = new File( "C:\\reid-not-backed-up\\phet\\svn\\trunk2\\util\\phet-media-license\\data\\license.txt" );
+        ResourceAnnotationList list = read( file );
+        System.out.println( list.toText() );
     }
 }
