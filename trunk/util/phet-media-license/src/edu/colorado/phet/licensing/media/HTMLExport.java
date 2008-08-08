@@ -101,7 +101,7 @@ public class HTMLExport {
     }
 
     public static void main( String[] args ) throws IOException {
-        ImageEntry[] entries = ConvertAnnotatedRepository.loadAnnotatedEntries();
+        ImageEntry[] entries = AnnotatedRepository.loadAnnotatedEntries();
 
         new HTMLExport( false ).export( new File( "phet-media.html" ), entries );
     }
