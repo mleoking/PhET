@@ -28,6 +28,10 @@ public class SimInfo {
         this.resources = resources;
     }
 
+    public AnnotatedFile[] getResources() {
+        return resources;
+    }
+
     public boolean isEmpty() {
         return dependencies.length == 0 && jarFiles.length == 0 && sourceRoots.length == 0 && licenseInfo.length == 0 && resources.length == 0;
     }
@@ -85,13 +89,15 @@ public class SimInfo {
 
 
     public static boolean hideEntry( ResourceAnnotation entry ) {
-        return entry.getAuthor() != null && entry.getAuthor().equalsIgnoreCase( "phet" )
+        return ( entry.getAuthor() != null && entry.getAuthor().equalsIgnoreCase( "phet" ) )
                ||
-               entry.getSource() != null && entry.getSource().toLowerCase().startsWith( "microsoft" )
+               ( entry.getSource() != null && entry.getSource().toLowerCase().startsWith( "microsoft" ) )
                ||
-               entry.getLicense() != null && entry.getLicense().equalsIgnoreCase( "PUBLIC DOMAIN" )
+               ( entry.getLicense() != null && entry.getLicense().equalsIgnoreCase( "PUBLIC DOMAIN" ) )
                ||
-               entry.getSource() != null && entry.getSource().equalsIgnoreCase( "java" );
+               ( entry.getSource() != null && entry.getSource().equalsIgnoreCase( "java" ) )
+               ||
+               ( entry.getSource() != null && entry.getSource().equalsIgnoreCase( "phet" ) );
     }
 
     public static AnnotatedFile[] getIssues( AnnotatedFile[] resources ) {
@@ -141,6 +147,11 @@ public class SimInfo {
             }
             for ( int i = 0; i < resources.length; i++ ) {
                 s += "\t" + i + ". " + resources[i].getResourceAnnotation().toText() + "<br>";
+
+                s += "<br>" +
+                     "<img src=\"annotated-data/" + resources[i].getFile().getName() + "\">" +
+                     "<br><br><hr>";
+
             }
             if ( licenseInfo.length == 0 && resources.length == 0 ) {
                 s += ( "No issues found for " + project.getName() );
