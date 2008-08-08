@@ -1,7 +1,6 @@
 package edu.colorado.phet.licensing;
 
 import java.io.File;
-import java.io.IOException;
 
 import edu.colorado.phet.build.PhetProject;
 
@@ -10,15 +9,9 @@ import edu.colorado.phet.build.PhetProject;
  * Aug 4, 2008 at 7:10:23 PM
  */
 public class OutputLicenseInfo extends ProcessData {
-    private int count = 0;
 
     protected ResourceAnnotation visitFile( PhetProject phetProject, ResourceAnnotationList resourceAnnotationList, File file ) {
-        ResourceAnnotation entry = resourceAnnotationList.getEntry( file.getName() );
-        if ( !hideEntry( entry ) ) {
-            System.out.println( entry.toText() );
-            count++;
-        }
-        return entry;
+        return resourceAnnotationList.getEntry( file.getName() );
     }
 
     public static boolean hideEntry( ResourceAnnotation entry ) {
@@ -31,11 +24,4 @@ public class OutputLicenseInfo extends ProcessData {
                entry.getSource() != null && entry.getSource().equalsIgnoreCase( "java" );
     }
 
-    public static void main( String[] args ) throws IOException {
-        new OutputLicenseInfo().start();
-    }
-
-    public int getCount() {
-        return count;
-    }
 }

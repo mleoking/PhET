@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.Date;
 
 import edu.colorado.phet.build.PhetProject;
-import edu.colorado.phet.build.util.LicenseInfo;
 
 /**
  * Created by: Sam
@@ -21,62 +20,17 @@ public class DisplayDependencies {
     private void start() throws IOException {
         trunk = new File( "C:\\reid-not-backed-up\\phet\\svn\\trunk2" );
 
-        System.out.println( "PhET Java Software Dependencies\n" +
-                            "" + new Date() + "\n" );
+        System.out.println( "PhET Java Software Dependencies\n" + new Date() + "\n" );
 
         File baseDir = new File( trunk, "simulations-java" );
         String[] simNames = PhetProject.getSimNames( baseDir );
         for ( int i = 0; i < simNames.length; i++ ) {
-            String simName = simNames[i];
-//            System.out.println( "name=" + simName );
-            visitSim( simName );
+            visitSim( simNames[i] );
         }
     }
 
     private void visitSim( String simName ) throws IOException {
-        System.out.println( simName + ":" );
-        PhetProject phetProject = new PhetProject( new File( trunk, "simulations-java/simulations/" + simName ) );
-
-        PhetProject[] dep = phetProject.getDependencies();
-        System.out.println( "\tProject Dependencies:" );
-        for ( int i = 0; i < dep.length; i++ ) {
-            PhetProject project = dep[i];
-            System.out.println( "\t\t" + i + ". " + project.getName() );
-        }
-        System.out.println( "\tJAR Dependencies:" );
-        File[] j = phetProject.getAllJarFiles();
-        for ( int i = 0; i < j.length; i++ ) {
-            File file = j[i];
-            System.out.println( "\t\t" + i + ". " + file.getName() );
-        }
-        System.out.println( "\tSource Dependencies:" );
-        File[] s = phetProject.getSourceRoots();
-        for ( int i = 0; i < s.length; i++ ) {
-            File file = s[i];
-            System.out.println( "\t\t" + i + ". " + file.getParentFile().getName() + "/" + file.getName() );
-        }
-
-        LicenseInfo[] licenseInfo = phetProject.getAllLicensingInfo();
-        if ( licenseInfo.length > 0 ) {
-            System.out.println( "\tLicensing info:" );
-        }
-        for ( int i = 0; i < licenseInfo.length; i++ ) {
-            LicenseInfo info = licenseInfo[i];
-            System.out.println( "\t\t" + i + ". " + info );
-        }
-
-        File data = phetProject.getDataDirectory();
-        new OutputLicenseInfo().visitDirectory( phetProject, data );
-
-//        DataResource[] mediaFile = phetProject.getAllMediaInfo();
-//        System.out.println( "\tMedia Info:" );
-//        for ( int i = 0; i < mediaFile.length; i++ ) {
-//            System.out.println( "\t\t" + i + ". " + mediaFile[i] );
-//            ResourceAnnotation resourceAnnotation = ResourceAnnotation.
-//            ImageEntry imageEntry = new ImageEntry( new File( "C:\\reid-not-backed-up\\phet\\svn\\trunk2\\util\\phet-media-license\\annotated-data\\" + mediaFile[i].getFile().getName() ) );
-//            System.out.println( imageEntry );
-//        }
-
-        System.out.println( "" );
+        SimInfo sim = SimInfo.getSimInfo( trunk, simName );
+        System.out.println( sim );
     }
 }

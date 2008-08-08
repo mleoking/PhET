@@ -15,28 +15,6 @@ import edu.colorado.phet.build.PhetProject;
 public abstract class ProcessData {
     private File trunk;
 
-    public void start() throws IOException {
-        trunk = new File( "C:\\reid-not-backed-up\\phet\\svn\\trunk2" );
-
-        System.out.println( "PhET Java Software Dependencies\n" +
-                            "" + new Date() + "\n" );
-
-        File baseDir = new File( trunk, "simulations-java" );
-        String[] simNames = PhetProject.getSimNames( baseDir );
-        for ( int i = 0; i < simNames.length; i++ ) {
-            String simName = simNames[i];
-//            System.out.println( "name=" + simName );
-            visitSim( simName );
-        }
-    }
-
-    private void visitSim( String simName ) throws IOException {
-        System.out.println( simName + ":" );
-        PhetProject phetProject = new PhetProject( new File( trunk, "simulations-java/simulations/" + simName ) );
-
-        visitDirectory( phetProject, phetProject.getDataDirectory() );
-    }
-
     public AnnotatedFile[] visitDirectory( PhetProject phetProject, File dir ) {
         ArrayList list = new ArrayList();
         File licenseFile = new File( dir, "license.txt" );
