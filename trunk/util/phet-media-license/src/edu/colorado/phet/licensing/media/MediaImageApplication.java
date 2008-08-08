@@ -13,8 +13,6 @@ import java.util.Properties;
 
 import javax.swing.*;
 
-import edu.colorado.phet.licensing.media.FileUtils;
-
 /**
  * User: Sam Reid
  * Date: Aug 11, 2006

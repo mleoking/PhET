@@ -72,22 +72,30 @@ public class ResourceAnnotation implements ResourceAnnotationElement {
     }
 
     private static String parse( String param, String attributes ) {
-        int index = attributes.indexOf( param + "=" );
+        String key = param + "=";
+        int index = attributes.indexOf( key );
         if ( index < 0 ) {
             return null;
         }
         else {
-            String value = attributes.substring( index );
+            String value = attributes.substring( index + key.length() );
             StringTokenizer st = new StringTokenizer( value, "=" );
-            return st.nextToken();
+            String s = st.nextToken().trim();
+            int last = s.lastIndexOf( " " );
+            if ( last >= 0 ) {
+                return s.substring( 0, last ).trim();
+            }
+            else {
+                return s.trim();
+            }
         }
     }
 
     public String toText() {
-        return name + " " + getString( source, "source" ) + getString( author, "author" ) + getString( license, "license" ) + getString( notes, "notes" ) + getString( same, "same" );
+        return name + " " + getString( "source", source ) + getString( "author", author ) + getString( "license", license ) + getString( "notes", notes ) + getString( "same", same );
     }
 
-    private String getString( String value, String key ) {
+    private String getString( String key, String value ) {
         if ( value == null ) {
             return "";
         }
