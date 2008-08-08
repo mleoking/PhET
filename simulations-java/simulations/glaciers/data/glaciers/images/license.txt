@@ -2,9 +2,9 @@ bear.png source=http://openclipart.org/people/lemmling/lemmling_Cartoon_bear.svg
 
 boreholeDrill.png source=http://openclipart.org author=Machovka license=http://creativecommons.org
 
-boreholdDrillOnButton.png source=PhET author=Chris Malley
+boreholeDrillOnButton.png source=PhET author=Chris Malley
 
-boreholdDrillOffButton.png source=PhET author=Chris Malley
+boreholeDrillOffButton.png source=PhET author=Chris Malley
 
 glacialBudgetMeter.png source=PhET author=Archie Paulson
 
