@@ -37,9 +37,4 @@ public class ConvertAnnotationsToLocal extends ProcessData {
         return resourceAnnotation;
     }
 
-
-    public static void main( String[] args ) throws IOException {
-        new ConvertAnnotationsToLocal().start();
-    }
-
 }
