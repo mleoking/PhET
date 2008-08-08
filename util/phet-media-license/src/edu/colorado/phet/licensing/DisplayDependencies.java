@@ -6,7 +6,7 @@ import java.util.Date;
 
 import edu.colorado.phet.build.PhetProject;
 import edu.colorado.phet.build.util.LicenseInfo;
-import edu.colorado.phet.build.util.MediaInfo;
+import edu.colorado.phet.build.util.DataResource;
 import edu.colorado.phet.licensing.media.ImageEntry;
 
 /**
@@ -67,7 +67,7 @@ public class DisplayDependencies {
             System.out.println( "\t\t" + i + ". " + info );
         }
 
-        MediaInfo[] mediaFile = phetProject.getAllMediaInfo();
+        DataResource[] mediaFile = phetProject.getAllMediaInfo();
         System.out.println( "\tMedia Info:" );
         for ( int i = 0; i < mediaFile.length; i++ ) {
             System.out.println( "\t\t" + i + ". " + mediaFile[i] );
