@@ -94,4 +94,21 @@ public class ResourceAnnotationList {
         }
         return count;
     }
+
+    public ResourceAnnotation getEntry( String name ) {
+        ArrayList elements = new ArrayList();
+        for ( int i = 0; i < lines.size(); i++ ) {
+            ResourceAnnotationElement element = (ResourceAnnotationElement) lines.get( i );
+            if ( element instanceof ResourceAnnotation && ( (ResourceAnnotation) element ).getName().equals( name ) ) {
+                elements.add( element );
+            }
+        }
+        if ( elements.size() == 0 ) {
+            throw new RuntimeException( "Element not found for name=" + name + ", resourceList=" + toText() );
+        }
+        else if ( elements.size() > 1 ) {
+            System.out.println( "Multiple elements found: " + elements );
+        }
+        return (ResourceAnnotation) elements.get( 0 );
+    }
 }

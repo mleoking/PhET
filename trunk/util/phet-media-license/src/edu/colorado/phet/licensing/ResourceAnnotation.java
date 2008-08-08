@@ -1,7 +1,5 @@
 package edu.colorado.phet.licensing;
 
-import java.util.StringTokenizer;
-
 /**
  * Created by: Sam
  * Aug 7, 2008 at 9:40:29 PM
@@ -13,6 +11,8 @@ public class ResourceAnnotation implements ResourceAnnotationElement {
     private String license;
     private String notes;
     private String same;//if this resource is a copy of another, you can reference the original here
+
+    private static final String[] keys = new String[]{"source", "author", "license", "notes", "same"};
 
     public ResourceAnnotation( String name ) {
         this.name = name;
@@ -59,32 +59,43 @@ public class ResourceAnnotation implements ResourceAnnotationElement {
     }
 
     public static ResourceAnnotationElement parseElement( String line ) {
-        StringTokenizer st = new StringTokenizer( line, " " );
-        ResourceAnnotation annotation = new ResourceAnnotation( st.nextToken() );
-        String attributes = line.substring( annotation.name.length() + 1 ).trim();
+        ResourceAnnotation annotation = new ResourceAnnotation( parseNext( line ).trim() );
+        String attributes = line.substring( annotation.name.length() ).trim();
 
-        annotation.source = parse( "source", attributes );
-        annotation.author = parse( "author", attributes );
-        annotation.license = parse( "license", attributes );
-        annotation.notes = parse( "notes", attributes );
-        annotation.same = parse( "same", attributes );
+        annotation.source = getAttribute( "source", attributes );
+        annotation.author = getAttribute( "author", attributes );
+        annotation.license = getAttribute( "license", attributes );
+        annotation.notes = getAttribute( "notes", attributes );
+        annotation.same = getAttribute( "same", attributes );
         return annotation;
     }
 
-    private static String parse( String param, String attributes ) {
+    private static String getAttribute( String param, String attributes ) {
+//        attributes += " suffix=dummyvalue";//dummy key value pair to simplify parsing
         String key = param + "=";
         int index = attributes.indexOf( key );
         if ( index < 0 ) {
             return null;
         }
         else {
-            String remainder = attributes.substring( index + key.length() ).trim() + " suffix=";//dummy key value pair to simplify parsing
-            StringTokenizer st = new StringTokenizer( remainder, "=" );
-
-            String s = st.nextToken().trim();
-            int lastIndex = s.lastIndexOf( " " );
-            return s.substring( 0, lastIndex ).trim();
+            String remainder = attributes.substring( index + key.length() ).trim();
+            String substring = parseNext( remainder );
+            return substring.trim();
         }
+    }
+
+    private static String parseNext( String remainder ) {
+        int next = Integer.MAX_VALUE;
+        for ( int i = 0; i < keys.length; i++ ) {
+            int nextIndex = remainder.indexOf( keys[i] + "=" );
+            if ( nextIndex >= 0 && nextIndex < next ) {
+                next = nextIndex;
+            }
+        }
+        if ( next == Integer.MAX_VALUE ) {//was the last key-value pair
+            next = remainder.length();
+        }
+        return remainder.substring( 0, next );
     }
 
     public String toText() {
@@ -98,5 +109,9 @@ public class ResourceAnnotation implements ResourceAnnotationElement {
         else {
             return key + "=" + value + " ";
         }
+    }
+
+    public String getName() {
+        return name;
     }
 }
