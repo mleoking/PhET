@@ -28,6 +28,10 @@ public class SimInfo {
         this.resources = resources;
     }
 
+    public boolean isEmpty() {
+        return dependencies.length == 0 && jarFiles.length == 0 && sourceRoots.length == 0 && licenseInfo.length == 0 && resources.length == 0;
+    }
+
     public SimInfo getIssues() {
         //todo: generalize
         return new SimInfo( project, new PhetProject[0], new File[0], new File[0], licenseInfo, getIssues( resources ) );
@@ -99,5 +103,50 @@ public class SimInfo {
             }
         }
         return (AnnotatedFile[]) list.toArray( new AnnotatedFile[list.size()] );
+    }
+
+    public String toHTML() {
+        if ( isEmpty() ) {
+            return project.getName() + " has no known issues.<br><br>";
+        }
+        else {
+
+            String s = "Project Dependencies for " + project.getName() + ":<br>";
+            for ( int i = 0; i < dependencies.length; i++ ) {
+                s += "\t" + i + ". " + dependencies[i].getName() + "<br>";
+            }
+            if ( jarFiles.length > 0 ) {
+                s += "JAR Dependencies:" + "<br>";
+            }
+            for ( int i = 0; i < jarFiles.length; i++ ) {
+                s += "\t" + i + ". " + jarFiles[i].getName() + "<br>";
+            }
+
+            if ( sourceRoots.length > 0 ) {
+                s += "Source Dependencies:" + "<br>";
+            }
+            for ( int i = 0; i < sourceRoots.length; i++ ) {
+                s += "\t" + i + ". " + sourceRoots[i].getParentFile().getName() + "/" + sourceRoots[i].getName() + "<br>";
+            }
+
+            if ( licenseInfo.length > 0 ) {
+                s += "Licensing info:" + "<br>";
+            }
+            for ( int i = 0; i < licenseInfo.length; i++ ) {
+                s += "\t" + i + ". " + licenseInfo[i] + "<br>";
+            }
+
+            if ( resources.length > 0 ) {
+                s += "Resources:<br>";
+            }
+            for ( int i = 0; i < resources.length; i++ ) {
+                s += "\t" + i + ". " + resources[i].getResourceAnnotation().toText() + "<br>";
+            }
+            if ( licenseInfo.length == 0 && resources.length == 0 ) {
+                s += ( "No issues found for " + project.getName() );
+            }
+            return s;
+
+        }
     }
 }

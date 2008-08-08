@@ -11,15 +11,13 @@ import edu.colorado.phet.build.PhetProject;
  * Aug 4, 2008 at 7:10:23 PM
  */
 public class DisplayDependencies {
-    private File trunk;
+    private static File trunk = new File( "C:\\reid-not-backed-up\\phet\\svn\\trunk2" );
 
     public static void main( String[] args ) throws IOException {
         new DisplayDependencies().start();
     }
 
     private void start() throws IOException {
-        trunk = new File( "C:\\reid-not-backed-up\\phet\\svn\\trunk2" );
-
         System.out.println( "PhET Java Software Dependencies\n" + new Date() + "\n" );
 
         File baseDir = new File( trunk, "simulations-java" );
