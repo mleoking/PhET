@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Date;
 
 import edu.colorado.phet.build.PhetProject;
+import edu.colorado.phet.licensing.media.FileUtils;
 
 /**
  * Created by: Sam
@@ -50,6 +51,16 @@ public class DisplayDependenciesHTML {
         SimInfo issues = SimInfo.getSimInfo( trunk, simName ).getIssues();
         String html = issues.toHTML() + "<br><HR WIDTH=100% ALIGN=CENTER><br>";
         //todo: copy images
+        for ( int i = 0; i < issues.getResources().length; i++ ) {
+            AnnotatedFile x = issues.getResources()[i];
+            File target = new File( "C:\\reid-not-backed-up\\phet\\svn\\trunk2\\util\\phet-media-license\\annotated-data\\", x.getFile().getName() );
+            if ( target.exists() && !FileUtils.contentEquals( target, x.getFile() ) ) {
+                System.out.println( "Target exists, and has different content: " + target.getAbsolutePath() );
+                FileUtils.copy( target, new File( "C:\\reid-not-backed-up\\phet\\svn\\trunk2\\util\\phet-media-license\\annotated-data\\", "Copy of " + target.getName() ) );
+            }
+            FileUtils.copy( x.getFile(), target );
+        }
+
         return html;
     }
 }
