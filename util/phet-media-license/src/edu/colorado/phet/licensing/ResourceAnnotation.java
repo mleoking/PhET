@@ -14,7 +14,8 @@ public class ResourceAnnotation implements ResourceAnnotationElement {
     private String notes;
     private String same;//if this resource is a copy of another, you can reference the original here
 
-    public ResourceAnnotation() {
+    public ResourceAnnotation( String name ) {
+        this.name = name;
     }
 
     public String getSource() {
@@ -59,8 +60,7 @@ public class ResourceAnnotation implements ResourceAnnotationElement {
 
     public static ResourceAnnotationElement parseElement( String line ) {
         StringTokenizer st = new StringTokenizer( line, " " );
-        ResourceAnnotation annotation = new ResourceAnnotation();
-        annotation.name = st.nextToken();
+        ResourceAnnotation annotation = new ResourceAnnotation( st.nextToken() );
         String attributes = line.substring( annotation.name.length() + 1 ).trim();
 
         annotation.source = parse( "source", attributes );

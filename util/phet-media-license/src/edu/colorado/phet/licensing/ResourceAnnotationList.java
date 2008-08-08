@@ -22,6 +22,10 @@ public class ResourceAnnotationList {
         lines.add( resourceAnnotationTextLine );
     }
 
+    public void addTextLine( String text ) {
+        addTextLine( new ResourceAnnotationTextLine( text ) );
+    }
+
     public void save( File file ) {
         try {
             BufferedWriter bufferedWriter = new BufferedWriter( new FileWriter( file ) );
@@ -78,5 +82,16 @@ public class ResourceAnnotationList {
         File file = new File( "C:\\reid-not-backed-up\\phet\\svn\\trunk2\\util\\phet-media-license\\data\\license.txt" );
         ResourceAnnotationList list = read( file );
         System.out.println( list.toText() );
+    }
+
+    public int getAnnotationCount() {
+        int count = 0;
+        for ( int i = 0; i < lines.size(); i++ ) {
+            ResourceAnnotationElement resourceAnnotationElement = (ResourceAnnotationElement) lines.get( i );
+            if ( resourceAnnotationElement instanceof ResourceAnnotation ) {
+                count++;
+            }
+        }
+        return count;
     }
 }
