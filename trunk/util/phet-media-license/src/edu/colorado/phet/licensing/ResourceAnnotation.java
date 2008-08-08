@@ -78,16 +78,12 @@ public class ResourceAnnotation implements ResourceAnnotationElement {
             return null;
         }
         else {
-            String value = attributes.substring( index + key.length() );
-            StringTokenizer st = new StringTokenizer( value, "=" );
+            String remainder = attributes.substring( index + key.length() ).trim() + " suffix=";//dummy key value pair to simplify parsing
+            StringTokenizer st = new StringTokenizer( remainder, "=" );
+
             String s = st.nextToken().trim();
-            int last = s.lastIndexOf( " " );
-            if ( last >= 0 ) {
-                return s.substring( 0, last ).trim();
-            }
-            else {
-                return s.trim();
-            }
+            int lastIndex = s.lastIndexOf( " " );
+            return s.substring( 0, lastIndex ).trim();
         }
     }
 
