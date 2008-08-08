@@ -1,0 +1,7 @@
+###################################
+# License info for eating-and-exercise
+# Automatically generated on Fri Aug 08 00:08:00 MDT 2008
+###################################
+
+exercise.properties 
+foods.properties 

@@ -1,0 +1,7 @@
+###################################
+# License info for energy-skate-park
+# Automatically generated on Fri Aug 08 00:08:01 MDT 2008
+###################################
+
+glass-20-minus.gif 
+glass-20-plus.gif 

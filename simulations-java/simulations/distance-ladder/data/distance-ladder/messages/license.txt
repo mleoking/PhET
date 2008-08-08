@@ -1,0 +1,16 @@
+###################################
+# License info for distance-ladder
+# Automatically generated on Fri Aug 08 00:08:00 MDT 2008
+###################################
+
+correct-msg-1.html 
+hyperjump-help.html 
+incorrect-msg-1.html 
+intro-1.html 
+intro-2.html 
+intro-3.html 
+level1-intro.html 
+level2-intro.html 
+level2A-intro.html 
+level3-intro.html 
+parallax-help.html 

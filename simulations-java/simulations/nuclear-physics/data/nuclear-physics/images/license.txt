@@ -1,0 +1,17 @@
+###################################
+# License info for nuclear-physics
+# Automatically generated on Fri Aug 08 00:08:02 MDT 2008
+###################################
+
+Daughter Nuclei Small.png author=PhET 
+fire-button-down.png author=PhET 
+fire-button.png author=PhET 
+Larger Daughter Nucleus.png author=PhET 
+Lead Nucleus Small.png author=PhET 
+Mesh Gradient Button Pushed.png author=PhET 
+Mesh Gradient Button Unpushed.png author=PhET 
+mushroom_cloud.jpg 
+neutron-gun.png 
+Polonium Nucleus Small.png author=PhET 
+Smaller Daughter Nucleus.png author=PhET 
+Uranium Nucleus Small.png author=PhET 

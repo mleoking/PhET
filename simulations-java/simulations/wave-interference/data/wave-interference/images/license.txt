@@ -1,0 +1,28 @@
+###################################
+# License info for wave-interference
+# Automatically generated on Fri Aug 08 00:08:03 MDT 2008
+###################################
+
+detector-thumb.gif author=PhET 
+faucet1.gif source=microsoft notes=j0356883.wmf 
+faucet2.gif source=microsoft notes=j0356883.wmf 
+laser.gif 
+particle-blue.gif 
+particle-pink.gif 
+raindrop1.png author=PhET 
+ruler-thumb.png source=microsoft notes=j0290924.wmf 
+silverwire.png author=PhET 
+soundMax.png source=mac control panel author=PhET 
+soundMin.png source=mac control panel author=PhET 
+speaker-back.png notes=http://willem.engen.nl/art/blender/ 
+speaker-cone.gif author=PhET 
+speaker-cone.png notes=http://willem.engen.nl/art/blender/ 
+speaker-frame.gif author=PhET 
+speaker-front.png notes=http://willem.engen.nl/art/blender/ 
+speaker.gif notes=http://willem.engen.nl/art/blender/ 
+spotlight.png author=PhET notes=ron 
+spotlight_3d.png author=PhET 
+stopwatch-thumb.png 
+wire.png author=PhET 
+wood.jpg 
+x-20.png author=PhET 

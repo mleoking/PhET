@@ -1,0 +1,16 @@
+###################################
+# License info for moving-man
+# Automatically generated on Fri Aug 08 00:08:02 MDT 2008
+###################################
+
+glass-20-minus.gif 
+glass-20-plus.gif 
+mag-minus-10.gif 
+mag-minus-15.gif 
+mag-plus-10.gif 
+mag-plus-15.gif 
+minus-tiny.gif author=PhET 
+plus-tiny.gif author=PhET 
+selected.gif author=PhET 
+TipOfTheDay24.gif source=java 
+unselected.gif author=PhET 

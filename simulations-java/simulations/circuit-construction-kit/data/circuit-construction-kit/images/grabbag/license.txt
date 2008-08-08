@@ -1,0 +1,12 @@
+###################################
+# License info for circuit-construction-kit
+# Automatically generated on Fri Aug 08 00:08:00 MDT 2008
+###################################
+
+dog.gif source=microsoft notes=j0314127.jpg 
+dollarbill.gif notes=non-microsoft 
+eraser.gif notes=can't find 
+hand.gif 
+paperclip.gif notes=can't find 
+pencil.gif 
+penny.gif notes=can't find 

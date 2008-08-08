@@ -1,0 +1,13 @@
+###################################
+# License info for photoelectric
+# Automatically generated on Fri Aug 08 00:08:02 MDT 2008
+###################################
+
+camera.png author=PhET 
+circuit-A.png author=PhET 
+circuit-B.png author=PhET 
+photoelectric-beam-control.png author=PhET 
+sliderKnob.png author=PhET 
+sliderKnobHighlight.png author=PhET 
+zoomIn.gif author=PhET notes=chris 
+zoomOut.gif author=PhET notes=chris 

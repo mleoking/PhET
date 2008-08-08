@@ -1,0 +1,26 @@
+###################################
+# License info for hydrogen-atom
+# Automatically generated on Fri Aug 08 00:08:01 MDT 2008
+###################################
+
+atomicModelPanel.png author=PhET 
+billiardBallButton.png author=PhET 
+bohrButton.png author=PhET 
+camera.png 
+closeButton.png 
+deBroglieButton.png author=PhET 
+gun.png 
+gunControlCable.png author=PhET 
+gunOffButton.png author=PhET 
+gunOnButton.png author=PhET 
+gunPanel.png author=PhET 
+kaboom.png author=PhET notes=chris 
+modePanel.png author=PhET 
+modeSwitchDown.png author=PhET 
+modeSwitchUp.png author=PhET 
+plumPudding.png author=PhET 
+plumPuddingButton.png author=PhET 
+schrodingerButton.png author=PhET 
+solarSystemButton.png author=PhET 
+spectrometerPanel.png author=PhET 
+spectrometerSnapshotPanel.png author=PhET 

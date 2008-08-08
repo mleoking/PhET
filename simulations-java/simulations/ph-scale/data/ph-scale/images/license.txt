@@ -1,0 +1,10 @@
+###################################
+# License info for ph-scale
+# Automatically generated on Fri Aug 08 00:08:02 MDT 2008
+###################################
+
+faucet.png source=PhET author=Archie Paulson 
+H2O-molecule.png source=PhET author=Archie Paulson
+H3O-molecule.png source=PhET author=Archie Paulson
+license-orig.txt 
+OH-molecule.png source=PhET author=Archie Paulson

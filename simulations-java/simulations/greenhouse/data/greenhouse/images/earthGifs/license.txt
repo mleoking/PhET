@@ -1,0 +1,35 @@
+###################################
+# License info for greenhouse
+# Automatically generated on Fri Aug 08 00:08:01 MDT 2008
+###################################
+
+earth_0001.gif notes=email permission 
+earth_0002.gif notes=email permission
+earth_0003.gif notes=email permission 
+earth_0004.gif notes=email permission 
+earth_0005.gif notes=email permission 
+earth_0006.gif notes=email permission 
+earth_0007.gif notes=email permission 
+earth_0008.gif notes=email permission 
+earth_0009.gif notes=email permission 
+earth_0010.gif notes=email permission 
+earth_0011.gif notes=email permission 
+earth_0012.gif notes=email permission 
+earth_0013.gif notes=email permission 
+earth_0014.gif notes=email permission 
+earth_0015.gif notes=email permission 
+earth_0016.gif notes=email permission 
+earth_0017.gif notes=email permission 
+earth_0018.gif notes=email permission 
+earth_0019.gif notes=email permission 
+earth_0020.gif notes=email permission 
+earth_0021.gif notes=email permission 
+earth_0022.gif notes=email permission 
+earth_0023.gif notes=email permission 
+earth_0024.gif notes=email permission 
+earth_0025.gif notes=email permission 
+earth_0026.gif notes=email permission 
+earth_0027.gif notes=email permission 
+earth_0028.gif notes=email permission 
+earth_0029.gif notes=email permission 
+earth_0030.gif notes=email permission 

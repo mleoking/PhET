@@ -1,0 +1,9 @@
+###################################
+# License info for balloons
+# Automatically generated on Fri Aug 08 00:08:00 MDT 2008
+###################################
+
+balloon-blue.gif
+balloon-meg.gif source=phet author=PhET 
+balloon-yellow.gif 
+sweaterWidth300.gif source=can't find notes=emailed http://www.gemfarmsbuffalo.com/giftsclothes.htm 

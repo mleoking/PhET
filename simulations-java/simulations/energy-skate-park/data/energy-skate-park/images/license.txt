@@ -1,0 +1,23 @@
+###################################
+# License info for energy-skate-park
+# Automatically generated on Fri Aug 08 00:08:01 MDT 2008
+###################################
+
+ball.png 
+blackhole_large_2.jpg 
+bugboard.gif
+bulldog.png
+earth-background.jpg author=PhET 
+earth3.jpg author=PhET 
+house.png author=PhET 
+jupiter4.jpg 
+locations.txt 
+moon2.jpg 
+mountains.gif author=PhET 
+peicon.png author=PhET 
+red-ball.png author=PhET 
+rocket5.png source=microsoft notes=  j0359473.wmf  
+ruler-thumb.png source=microsoft notes=j0290924.wmf 
+skater3.png author=PhET 
+starskater2.gif author=PhET 
+tape.gif author=PhET 

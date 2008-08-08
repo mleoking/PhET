@@ -1,0 +1,54 @@
+###################################
+# License info for lasers
+# Automatically generated on Fri Aug 08 00:08:01 MDT 2008
+###################################
+
+0.png author=PhET 
+1.png author=PhET 
+10.png author=PhET 
+2.png author=PhET 
+3.png author=PhET 
+4.png author=PhET 
+5.png author=PhET 
+6.png author=PhET 
+7.png author=PhET 
+8.png author=PhET 
+9.png author=PhET 
+annotated-laser-2.jpg author=PhET 
+beam-control-lower.png author=PhET 
+beam-control-upper.png author=PhET 
+beam-control.png author=PhET 
+flames_0001.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images 
+flames_0002.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images 
+flames_0003.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images 
+flames_0004.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images 
+flames_0005.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images 
+flames_0006.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images 
+flames_0007.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images 
+flames_0008.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images 
+flames_0009.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images 
+flames_0010.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images 
+flames_0011.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images 
+flames_0012.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images 
+flames_0013.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images 
+flames_0014.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images 
+flames_0015.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images 
+flashlight.png author=PhET 
+G.png author=PhET 
+mirror.gif author=PhET
+particle-blue-lrg.gif author=PhET 
+particle-blue-med.gif author=PhET 
+particle-blue-sml.gif author=PhET 
+particle-gray-med.gif author=PhET 
+particle-green-lrg.gif author=PhET 
+particle-green-med.gif author=PhET 
+particle-green-sml.gif author=PhET  
+particle-green-xsml.gif author=PhET 
+particle-red-lrg.gif author=PhET 
+particle-red-med.gif author=PhET 
+particle-red-sml.gif author=PhET 
+power-meter-2.png author=PhET 
+power-meter-org.png author=PhET 
+power-meter.png author=PhET 
+ray-gun-1A.png notes=Google Images 
+wire.png author=PhET 
