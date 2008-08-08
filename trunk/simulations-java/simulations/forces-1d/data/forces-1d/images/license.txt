@@ -1,0 +1,19 @@
+###################################
+# License info for forces-1d
+# Automatically generated on Fri Aug 08 00:08:01 MDT 2008
+###################################
+
+arrow-down.png author=PhET 
+arrow-right-png-50.png author=PhET 
+barrier.jpg 
+cabinet.gif source=microsoft notes=j0215727.wmf
+cottage.gif 
+crate.gif source=microsoft notes=j0310276.wmf 
+fridge.gif source=microsoft notes=HH01559_.wmf 
+ollie.gif author=PhET 
+phetbook.gif source=microsoft notes=j0310496.wmf 
+standing-man.png author=PhET 
+tear-20.png 
+tree.gif 
+x-20.png author=PhET 
+x-30.png author=PhET 

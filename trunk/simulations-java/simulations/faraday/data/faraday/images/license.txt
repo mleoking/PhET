@@ -1,0 +1,33 @@
+###################################
+# License info for faraday
+# Automatically generated on Fri Aug 08 00:08:01 MDT 2008
+###################################
+
+acPowerSupply.png author=PhET 
+acPowerSupply_icon.png author=PhET 
+acPowerSupply_icon_selected.png author=PhET 
+barMagnet.png author=PhET 
+battery.png author=PhET 
+battery_icon.png author=PhET 
+battery_icon_selected.png author=PhET 
+earth.png source=http://www.clker.com/clipart-2123-large.html license=Creative Commons 
+electron_background.png author=PhET 
+electron_foreground.png author=PhET 
+faucet.png author=PhET 
+fieldMeter.png author=PhET 
+license-orig.txt 
+lightbulb-base.png author=PhET 
+lightbulb-cap.png author=PhET 
+lightbulb-glass.png author=PhET 
+lightbulb_icon.png author=PhET 
+lightbulb_icon_selected.png author=PhET 
+resistor.png 
+sliderKnob.png author=PhET 
+sliderKnobHighlight.png author=PhET 
+turbinePivot.png author=PhET
+voltmeter.png author=PhET 
+voltmeterProbeBlack.png author=PhET 
+voltmeterProbeWhite.png author=PhET 
+voltmeter_icon.png author=PhET 
+voltmeter_icon_selected.png author=PhET 
+waterWheel.png author=PhET 

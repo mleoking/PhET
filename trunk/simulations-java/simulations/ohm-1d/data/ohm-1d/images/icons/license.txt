@@ -1,0 +1,10 @@
+###################################
+# License info for ohm-1d
+# Automatically generated on Fri Aug 08 00:08:02 MDT 2008
+###################################
+
+Pause16.gif source=java 
+Pause24.gif source=java 
+Play16.gif source=java 
+Play24.GIF source=java 
+Play24x.gif 

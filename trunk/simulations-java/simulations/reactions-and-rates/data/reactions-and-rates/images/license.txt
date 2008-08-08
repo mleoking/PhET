@@ -1,0 +1,34 @@
+###################################
+# License info for reactions-and-rates
+# Automatically generated on Fri Aug 08 00:08:03 MDT 2008
+###################################
+
+2D-frame.png author=PhET 
+2D-plunger-frame.png author=PhET 
+2D-struts.png author=PhET 
+flames.gif author=PhET 
+frame.png author=PhET 
+glass-box-B.png author=PhET 
+glass-box.png author=PhET 
+glass-molecule-A.png author=PhET 
+glass-molecule-B.png author=PhET 
+glass-molecule-C.png author=PhET 
+ice.gif author=PhET 
+launcher-plunger.png author=PhET 
+logo-small.gif author=PhET 
+molecule-a-paint.gif author=PhET 
+molecule-ab-paint.gif author=PhET 
+molecule-b-paint.gif author=PhET 
+molecule-bc-paint.gif author=PhET 
+molecule-c-paint.gif author=PhET 
+molecule-label-A.png author=PhET 
+molecule-label-B.png author=PhET 
+molecule-label-C.png author=PhET 
+plunger-frame.png author=PhET 
+plunger.png author=PhET 
+pump-body.gif author=PhET 
+pump-body.png author=PhET 
+pump-handle.gif author=PhET 
+pump-handle.png author=PhET 
+stove.png author=PhET 
+struts.png author=PhET 

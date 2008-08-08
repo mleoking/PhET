@@ -1,0 +1,16 @@
+###################################
+# License info for optical-tweezers
+# Automatically generated on Fri Aug 08 00:08:02 MDT 2008
+###################################
+
+beamIcon.png author=PhET 
+cameraIcon.png 
+histogramIcon.png author=PhET 
+laserButtonOff.png author=PhET 
+laserButtonOn.png author=PhET 
+laserDangerSign.png author=PhET 
+potentialEnergyChartIcon.png author=PhET 
+pushpin.png author=PhET 
+rulerIcon.png author=PhET 
+zoomIn.png author=PhET 
+zoomOut.png author=PhET 

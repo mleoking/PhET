@@ -1,0 +1,10 @@
+###################################
+# License info for the-ramp
+# Automatically generated on Fri Aug 08 00:08:03 MDT 2008
+###################################
+
+slapooh.wav 
+smash0.wav 
+smash1.wav 
+smash2.wav 
+sources.txt 

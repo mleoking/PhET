@@ -1,0 +1,45 @@
+###################################
+# License info for the-ramp
+# Automatically generated on Fri Aug 08 00:08:03 MDT 2008
+###################################
+
+arrow-2.gif author=PhET 
+arrow-2.png author=PhET 
+arrow-down.gif author=PhET 
+arrow-down.png author=PhET 
+arrow-right-png-50.png author=PhET 
+arrow-right.gif author=PhET 
+ball-earth.png 
+barrier.jpg 
+barrier2.jpg 
+bookstack3.gif 
+cabinet.gif source=microsoft notes= 	   	j0215727.wmf 
+cottage.gif 
+crate.gif source=microsoft notes=   	j0310276.wmf 
+crushedman.png author=PhET 
+curly-label-200x50.gif author=PhET 
+curly-label.gif author=PhET 
+drop.gif 
+drop15.gif 
+Drop2.gif 
+drop3.gif 
+drop32-orig.gif 
+drop32.gif 
+firedog.gif 
+fridge.gif source=microsoft notes=HH01559_.wmf 
+light3.png 
+min1.jpg author=PhET 
+min15.jpg author=PhET 
+ollie.gif author=PhET 
+Phet-Flatirons-logo-3-small.jpg author=PhET 
+phetbook.gif source=microsoft notes=j0310496.wmf 
+piano.png source=microsoft notes=j0155591.wmf 
+skateboard.png source=microsoft notes=  j0277226.wmf  
+standing-man.png author=PhET 
+stop-20.png 
+stop.png 
+tape.gif author=PhET 
+tape.jpg author=PhET 
+tree.gif 
+wood5.png author=PhET 
+x-25.gif author=PhET 

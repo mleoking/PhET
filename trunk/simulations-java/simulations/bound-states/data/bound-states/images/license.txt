@@ -1,0 +1,7 @@
+###################################
+# License info for bound-states
+# Automatically generated on Fri Aug 08 00:08:00 MDT 2008
+###################################
+
+zoomIn.gif author=PhET notes=chris 
+zoomOut.gif author=PhET notes=chris 

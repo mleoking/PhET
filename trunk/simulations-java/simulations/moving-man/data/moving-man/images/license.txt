@@ -1,0 +1,61 @@
+###################################
+# License info for moving-man
+# Automatically generated on Fri Aug 08 00:08:02 MDT 2008
+###################################
+
+arrow-2.gif author=PhET 
+arrow-2.png author=PhET 
+arrow-down.gif author=PhET 
+arrow-down.png author=PhET 
+arrow-right-png-50.png author=PhET 
+arrow-right.gif author=PhET 
+ball-earth.png 
+barrier.jpg 
+barrier2.jpg 
+blue-arrow.png author=PhET 
+bookstack3.gif 
+cabinet.gif source=microsoft notes= 	   	j0215727.wmf 
+cottage.gif 
+cottage.png 
+crate.gif source=microsoft notes=   	j0310276.wmf 
+crushedman.png author=PhET 
+curly-label-200x50.gif author=PhET 
+curly-label.gif author=PhET 
+drop.gif 
+drop15.gif 
+Drop2.gif 
+drop3.gif 
+drop32-orig.gif 
+drop32.gif 
+firedog.gif 
+fridge.gif source=microsoft notes=HH01559_.wmf 
+green-arrow.png author=PhET 
+green.png 
+horizontal-slider-thumb30x2.png author=PhET 
+left-ii.gif author=PhET 
+light2.png 
+light3.png 
+megahelp.gif author=PhET 
+min1.jpg author=PhET 
+min15.jpg author=PhET 
+minus-tiny.gif author=PhET 
+ollie.gif author=PhET 
+Phet-Flatirons-logo-3-small.jpg author=PhET 
+phetbook.gif source=microsoft notes=j0310496.wmf 
+piano.png source=microsoft notes=j0155591.wmf 
+plus-tiny.gif author=PhET 
+red-arrow.png author=PhET 
+skateboard.png source=microsoft notes=  j0277226.wmf  
+stand-ii.gif author=PhET 
+standing-man.png author=PhET 
+stop-20.png 
+stop.png 
+tape.gif author=PhET 
+tape.jpg author=PhET 
+tear-20.png 
+thumb2.png author=PhET 
+tree.gif 
+wood5.png author=PhET 
+x-20.png author=PhET 
+x-25.gif author=PhET 
+x-30.png author=PhET 

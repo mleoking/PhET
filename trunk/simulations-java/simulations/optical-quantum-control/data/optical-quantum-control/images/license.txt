@@ -1,0 +1,33 @@
+###################################
+# License info for optical-quantum-control
+# Automatically generated on Fri Aug 08 00:08:02 MDT 2008
+###################################
+
+closeButton.png author=PhET 
+explanation.jpg notes=from mckagan 
+kaboom.png author=PhET notes=chris 
+magnifyingGlass.png author=PhET notes=chris 
+molecule0_part1.png author=PhET 
+molecule0_part2.png author=PhET 
+molecule0_part3.png author=PhET 
+molecule1_part1.png author=PhET 
+molecule1_part2.png author=PhET 
+molecule1_part3.png author=PhET 
+molecule2_part1.png author=PhET 
+molecule2_part2.png author=PhET 
+molecule2_part3.png author=PhET 
+molecule3_part1.png author=PhET 
+molecule3_part2.png author=PhET 
+molecule3_part3.png author=PhET 
+molecule4_part1.png author=PhET 
+molecule4_part2.png author=PhET 
+molecule4_part3.png author=PhET 
+molecule5_part1.png author=PhET 
+molecule5_part2.png author=PhET 
+molecule5_part3.png author=PhET 
+molecule6_part1.png author=PhET 
+molecule6_part2.png author=PhET 
+molecule6_part3.png author=PhET 
+molecule7_part1.png author=PhET 
+molecule7_part2.png author=PhET 
+molecule7_part3.png author=PhET 

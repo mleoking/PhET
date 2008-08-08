@@ -1,0 +1,16 @@
+###################################
+# License info for sound
+# Automatically generated on Fri Aug 08 00:08:03 MDT 2008
+###################################
+
+1-meter-stick.gif author=PhET 
+5-meter-stick.gif author=PhET 
+five-meter-stick.gif 
+head-1-small.gif author=PhET 
+head-1.gif author=PhET 
+head-2-small.gif author=PhET 
+head.gif author=PhET 
+help-item-icon.gif author=PhET 
+listener-w-ears.gif author=PhET 
+speaker-cone.gif author=PhET 
+speaker-frame.gif author=PhET 

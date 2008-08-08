@@ -1,0 +1,146 @@
+###################################
+# License info for eating-and-exercise
+# Automatically generated on Fri Aug 08 00:08:00 MDT 2008
+###################################
+
+apple.png source=microsoft clip art notes=microsoft clip art
+apple_juice.png source=microsoft clip art
+backpacker.png source=microsoft clip art
+bacon.png source=microsoft clip art
+bagel.png source=microsoft clip art
+balanced.png source=microsoft clip art
+banana.png source=microsoft clip art
+bananasplit.png source=microsoft clip art
+basketball.png source=microsoft clip art
+basketball_nongame.png source=microsoft clip art
+beach_volleyball.png source=microsoft clip art
+beer.png source=microsoft clip art
+beets.png source=microsoft clip art
+bike.png source=microsoft clip art
+bowling.png source=microsoft clip art
+bread_slice.png source=microsoft clip art
+broccoli.png source=microsoft clip art
+brussel_sprouts.png source=microsoft clip art
+burger.png source=microsoft clip art
+burrito.png source=microsoft clip art
+candy_bar.png
+canoe.png source=microsoft clip art
+carbs.png source=microsoft clip art
+carrot.png source=microsoft clip art
+cashews.png source=microsoft clip art
+catch.png source=microsoft clip art
+cauliflower.png source=microsoft clip art
+chicken.png
+class.png source=microsoft clip art
+climber.png source=microsoft clip art
+clipart sources dude.txt 
+clipart sources.txt 
+coffee.png source=microsoft clip art
+cola.png source=microsoft clip art
+corn.png source=microsoft clip art
+corn_flakes.png source=microsoft clip art
+cracked_egg.png source=microsoft clip art
+cream_filled_cookie.png source=microsoft clip art
+crew.png source=microsoft clip art
+dancing.png source=microsoft clip art
+dancing_ballet.png source=microsoft clip art
+dancing_disco.png source=microsoft clip art
+diet_cola.png source=microsoft clip art
+dog_walker.png source=microsoft clip art
+dude_on_horse.png source=microsoft clip art
+eye.png source=microsoft clip art
+fast-food.png source=microsoft clip art
+fishing_rod.png
+food-pyramid.png
+fries.png source=microsoft clip art
+gardening.png source=microsoft clip art
+golf_cart.png source=microsoft clip art
+golf_walking.png source=microsoft clip art
+grapefruit.png source=microsoft clip art
+ham.png source=microsoft clip art
+heart.png source=microsoft clip art
+heart2.png source=microsoft clip art
+heavy_truck.png source=microsoft clip art
+hockey_player.png source=microsoft clip art
+hot_chocolate.png source=microsoft clip art
+hot_dog.png source=microsoft clip art
+iced_tea.png source=microsoft clip art
+j0232547.gif
+j0232879.gif
+j0283852.gif
+j0396718.gif
+j0398303.gif
+j0410455.gif
+j0412534.gif
+j0413686.gif
+j0417518.png
+j0424122.gif
+j0429961.gif
+jogger.png
+judo.png
+kayaker.png
+large_milkshake copy.png
+large_milkshake.png 
+latte.png
+leisure_bikers.png
+lemonade.png
+media.txt 
+milk.png
+milkshake.png
+milk_1.png
+milk_2.png 
+milk_skim.png
+mountain_biking.png
+mowing_lawn.png
+oatmeal.png
+orange_juice.png
+pasta.png
+pbj.gif
+pizza.png
+pizza_pie.png
+planner.png
+plate-2.png
+plate.png
+platter.png
+pomegranate.png
+pork_chop.png
+potato.png
+potato_chips.png
+potato_chips_handful.png
+quarter_burger.png
+rafting.png
+road_biker.png
+road_biker_1.png
+road_biker_2.png
+road_biker_3.png
+road_racer.png
+running_1.png
+running_2.png
+running_stairs.png
+sailing.png
+salami.png
+sitting_sports.png
+skateboarder.png
+soccer.png
+spaghetti.png
+squash_player.png
+steak.png
+strawberry.png
+stroller.png
+sub.png
+surfer_dude.png
+swim.png
+table_tennis.png
+taco.png
+tennis.png
+tofu.png
+ultimate.png
+unicycle.png
+vacuum.png
+volleyball_noncompetitive.png
+walking_pleasure.png
+weightlifter_nonserious.png
+weightlifter_serious.png
+white_rice.png
+wine.png
+yogurt.png 

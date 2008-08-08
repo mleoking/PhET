@@ -1,0 +1,9 @@
+###################################
+# License info for bernoulli
+# Automatically generated on Fri Aug 08 00:08:00 MDT 2008
+###################################
+
+About24.gif source=java
+selected.gif author=PhET 
+TipOfTheDay24.gif source=java 
+unselected.gif author=PhET 

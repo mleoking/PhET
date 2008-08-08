@@ -1,0 +1,11 @@
+###################################
+# License info for bernoulli
+# Automatically generated on Fri Aug 08 00:08:00 MDT 2008
+###################################
+
+drop.jpg author=PhET 
+drop15.gif 
+drop15blue.gif author=PhET 
+Drop2.gif 
+drop32.gif 
+pipe.gif 

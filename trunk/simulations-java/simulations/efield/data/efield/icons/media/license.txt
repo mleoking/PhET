@@ -1,0 +1,8 @@
+###################################
+# License info for efield
+# Automatically generated on Fri Aug 08 00:08:01 MDT 2008
+###################################
+
+Pause24.gif source=java 
+Play24.gif source=java 
+Stop24.gif source=java 

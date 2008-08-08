@@ -1,0 +1,12 @@
+###################################
+# License info for signal-circuit
+# Automatically generated on Fri Aug 08 00:08:03 MDT 2008
+###################################
+
+A.jpg 
+B.jpg 
+ChandelierOff2.jpg 
+ChandelierOn2.jpg 
+Electron3VX.GIF author=PhET 
+electron9.gif author=PhET 
+PhetBattery1.gif 

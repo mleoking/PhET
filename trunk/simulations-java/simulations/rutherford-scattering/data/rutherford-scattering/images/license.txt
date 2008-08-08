@@ -1,0 +1,9 @@
+###################################
+# License info for rutherford-scattering
+# Automatically generated on Fri Aug 08 00:08:03 MDT 2008
+###################################
+
+gun.png 
+gunOffButton.png author=PhET 
+gunOnButton.png author=PhET 
+plumPudding.png author=PhET 

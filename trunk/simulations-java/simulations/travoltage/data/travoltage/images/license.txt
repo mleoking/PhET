@@ -1,0 +1,12 @@
+###################################
+# License info for travoltage
+# Automatically generated on Fri Aug 08 00:08:03 MDT 2008
+###################################
+
+arm2.gif notes=http://www.americancinematheque.com/ball/1997MPBTravolta.htm 
+door.gif 
+Electron3.GIF 
+knob.jpg notes=can't find 
+leg2.gif notes=http://www.americancinematheque.com/ball/1997MPBTravolta.htm 
+livingroom.gif source=microsoft notes=HH01796_.wmf 
+travolta-hinges.gif notes=http://www.americancinematheque.com/ball/1997MPBTravolta.htm 

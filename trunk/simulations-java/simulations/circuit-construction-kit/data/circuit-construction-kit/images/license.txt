@@ -1,0 +1,28 @@
+###################################
+# License info for circuit-construction-kit
+# Automatically generated on Fri Aug 08 00:08:00 MDT 2008
+###################################
+
+AA-battery-100.gif author=PhET 
+ac.gif author=PhET 
+ammeter60.gif author=PhET 
+bag.gif source=microsoft notes=IN00022_.wmf 
+cap5.gif author=PhET 
+detector-thumb.gif author=PhET 
+dvm-thumb.gif author=PhET 
+electron10.png author=PhET 
+flame.gif notes=from a photoshop tutorial? 
+hand40.gif 
+handle8.gif 
+inductor1.jpg 
+inductor2.gif 
+knifeBoard.gif 
+phet-cck-small.gif author=PhET 
+probeBlack.gif author=PhET 
+probeRed.gif author=PhET 
+resistor3.gif 
+stopwatch-thumb.png 
+va-thumb.gif author=PhET 
+vm3.gif author=PhET 
+wood.jpg 
+x-20.png author=PhET 

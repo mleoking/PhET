@@ -1,0 +1,29 @@
+###################################
+# License info for greenhouse
+# Automatically generated on Fri Aug 08 00:08:01 MDT 2008
+###################################
+
+1750-2.gif author=PhET 
+1750-background.gif author=PhET 
+earth-a.gif notes=email permission 
+earth.gif notes=email permission 
+glass-pane-background.gif author=PhET 
+ice-age-2.gif author=PhET 
+iceage-2.gif author=PhET 
+iceage-3.gif author=PhET 
+iceage-4.gif author=PhET 
+Phet-Flatirons-logo-3-small.gif author=PhET 
+photon-575.png author=PhET 
+photon-660.png author=PhET 
+photon-comet.png author=PhET 
+pollution.gif author=PhET 
+thermometer-2.gif author=PhET 
+thermometer-2.png author=PhET 
+thermometer-background-2.png author=PhET 
+thermometer-background.png author=PhET 
+thermometer.gif author=PhET 
+thermometer.png author=PhET 
+thin2.png author=PhET 
+thin3.png author=PhET 
+today-2.gif author=PhET 
+today.gif author=PhET 

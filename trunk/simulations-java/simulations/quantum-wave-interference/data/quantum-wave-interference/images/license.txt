@@ -1,0 +1,30 @@
+###################################
+# License info for quantum-wave-interference
+# Automatically generated on Fri Aug 08 00:08:02 MDT 2008
+###################################
+
+10-nanometer-stick.png author=PhET 
+atom-thumb.jpg 
+atom3.gif 
+button-in-40.gif notes=we bought this from a clip art service we subscribed to a long time ago 
+button-out-40-gray.gif notes=we bought this from a clip art service we subscribed to a long time ago 
+button-out-40.gif notes=we bought this from a clip art service we subscribed to a long time ago 
+clock3.png 
+electron-thumb-orig.jpg author=PhET 
+electron-thumb.jpg author=PhET 
+electron-thumb.png 
+glassMinus.gif 
+glassPlus.gif 
+gun2-ii.gif 
+mandel-gun.gif 
+neutron-thumb.gif 
+phet-logo-small.jpg author=PhET 
+photon-thumb.jpg author=PhET 
+raygun3-centerbarrel-2.gif source=microsoft notes=  j0230574.wmf  
+rot.jpg 
+ruler-thumb.jpg author=PhET 
+ruler3.png 
+sources.txt 
+stopwatch.png 
+wire.png author=PhET 
+x-14.jpg author=PhET 
