@@ -31,6 +31,6 @@ public class DisplayDependencies {
 
     private void visitSim( String simName ) throws IOException {
         SimInfo sim = SimInfo.getSimInfo( trunk, simName );
-        System.out.println( sim );
+        System.out.println( sim.getIssues() );
     }
 }

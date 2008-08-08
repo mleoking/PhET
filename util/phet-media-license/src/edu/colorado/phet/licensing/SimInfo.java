@@ -2,6 +2,7 @@ package edu.colorado.phet.licensing;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import edu.colorado.phet.build.PhetProject;
 import edu.colorado.phet.build.util.LicenseInfo;
@@ -27,36 +28,45 @@ public class SimInfo {
         this.resources = resources;
     }
 
+    public SimInfo getIssues() {
+        //todo: generalize
+        return new SimInfo( project, new PhetProject[0], new File[0], new File[0], licenseInfo, getIssues( resources ) );
+    }
+
     public String toString() {
-        String s = ( "Project Dependencies for " + project.getName() + ":\n" );
+        String s = "Project Dependencies for " + project.getName() + ":\n";
         for ( int i = 0; i < dependencies.length; i++ ) {
-            s+=( "\t" + i + ". " + dependencies[i].getName() + "\n" );
+            s += "\t" + i + ". " + dependencies[i].getName() + "\n";
         }
-        s += ( "JAR Dependencies:" + "\n" );
+        if ( jarFiles.length > 0 ) {
+            s += "JAR Dependencies:" + "\n";
+        }
         for ( int i = 0; i < jarFiles.length; i++ ) {
-            File file = jarFiles[i];
-            s += ( "\t" + i + ". " + file.getName() + "\n" );
+            s += "\t" + i + ". " + jarFiles[i].getName() + "\n";
         }
-        s += ( "Source Dependencies:" + "\n" );
+
+        if ( sourceRoots.length > 0 ) {
+            s += "Source Dependencies:" + "\n";
+        }
         for ( int i = 0; i < sourceRoots.length; i++ ) {
-            File file = sourceRoots[i];
-            s += ( "\t" + i + ". " + file.getParentFile().getName() + "/" + file.getName() + "\n" );
+            s += "\t" + i + ". " + sourceRoots[i].getParentFile().getName() + "/" + sourceRoots[i].getName() + "\n";
         }
 
         if ( licenseInfo.length > 0 ) {
-            s += ( "Licensing info:" + "\n" );
+            s += "Licensing info:" + "\n";
         }
         for ( int i = 0; i < licenseInfo.length; i++ ) {
-            LicenseInfo info = licenseInfo[i];
-            s += ( "\t" + i + ". " + info + "\n" );
+            s += "\t" + i + ". " + licenseInfo[i] + "\n";
         }
 
         if ( resources.length > 0 ) {
             s += "Resources:\n";
         }
         for ( int i = 0; i < resources.length; i++ ) {
-            AnnotatedFile resource = resources[i];
-            s += "\t" + i + ". " + resource.getResourceAnnotation().toText() + "\n";
+            s += "\t" + i + ". " + resources[i].getResourceAnnotation().toText() + "\n";
+        }
+        if ( licenseInfo.length == 0 && resources.length == 0 ) {
+            s += ( "No issues found for " + project.getName() );
         }
         return s;
     }
@@ -66,6 +76,28 @@ public class SimInfo {
 
         return new SimInfo( phetProject, phetProject.getDependencies(), phetProject.getAllJarFiles(), phetProject.getSourceRoots(),
                             phetProject.getAllLicensingInfo(),
-                            new OutputLicenseInfo().visitDirectory( phetProject, phetProject.getDataDirectory() ) );
+                            new DataProcessor().visitDirectory( phetProject, phetProject.getDataDirectory() ) );
+    }
+
+
+    public static boolean hideEntry( ResourceAnnotation entry ) {
+        return entry.getAuthor() != null && entry.getAuthor().equalsIgnoreCase( "phet" )
+               ||
+               entry.getSource() != null && entry.getSource().toLowerCase().startsWith( "microsoft" )
+               ||
+               entry.getLicense() != null && entry.getLicense().equalsIgnoreCase( "PUBLIC DOMAIN" )
+               ||
+               entry.getSource() != null && entry.getSource().equalsIgnoreCase( "java" );
+    }
+
+    public static AnnotatedFile[] getIssues( AnnotatedFile[] resources ) {
+        ArrayList list = new ArrayList();
+        for ( int i = 0; i < resources.length; i++ ) {
+            AnnotatedFile resource = resources[i];
+            if ( !hideEntry( resource.getResourceAnnotation() ) ) {
+                list.add( resource );
+            }
+        }
+        return (AnnotatedFile[]) list.toArray( new AnnotatedFile[list.size()] );
     }
 }
