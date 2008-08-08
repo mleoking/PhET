@@ -13,6 +13,7 @@ import edu.colorado.phet.licensing.media.ImageEntry;
  */
 public class ConvertAnnotationsToLocal {
     private File trunk;
+    private boolean outputToFile = true;
 
     public static void main( String[] args ) throws IOException {
         new ConvertAnnotationsToLocal().start();
@@ -63,6 +64,9 @@ public class ConvertAnnotationsToLocal {
         }
         if ( resourceAnnotationList.getAnnotationCount() > 0 ) {
             System.out.println( resourceAnnotationList.toText() );
+            if ( outputToFile ) {
+                resourceAnnotationList.save( new File( dir, "license.txt" ) );
+            }
         }
     }
 
