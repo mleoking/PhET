@@ -18,6 +18,8 @@ snowflake.png source=http://commons.wikimedia.org/wiki/Image:Snowflake.svg autho
 
 thermometer.png source=PhET author=Archie Paulson
 
+Tonsina_Glacier.jpg
+
 tracerFlag.png source=PHET author=Archie Paulson
 
 trashCan.png source=http://openclipart.org author=? license=http://creativecommons.org
