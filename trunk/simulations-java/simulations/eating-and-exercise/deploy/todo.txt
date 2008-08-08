@@ -1,193 +1,77 @@
-(Unfuddle #682) I think the midsection bulge (the belly) should be smaller when the % fat is low. When the person is near the bottom of the healthy range (for men or women), the midsection bulge should be almost imperceptible. Right now, you can have 0 body fat and you still see a little bulge around the midsection.
+############################
+###	Todo Sam	####
+############################
 
-###########
+--Check for extra extra carriage returns in the eating-and-exercise-strings. NP may have messed these up by opening in Notepad with wordwrap on.
 
-I played with the sim a bit and here are my experiences and thoughts:
-I started the sim with little experience; I have just played with it for short periods during the PhET meetings. The first thing I did was put in my info. Age 47, height 5'3", weight 125 (I didn't change the % fat) and then hit play. Of course I died, but I  really didn't realize why so I hit reset. Then I had to put in my info again, played again and died. Then I figured out that the empty plate meant I wasn't eating and I also found the Reset on the graph so I didn't have to reenter my info. I dragged the pyramid on and played again.
-I didn't realize that I didn't have any exercise. The first thing I tired was dragging the exercise icons onto the bar chart and it took a couple of runs to realize that I hadn't really changed anything. Maybe the little book should say "Daily Exercise" as opposed to "Today". Especially since the exercise continues until you take it off.
- I didn't notice the pull down menu for activity because it is the same color as the background so I thought it was a heading for the section. I only discovered it as I was trying to make sure that I had tested all the features.
-When you move your curser over the arrows that go left and right on the food and exercise, it seems there should be a message like "more Options" . Since nothing happened I don't think I would have tried except that I had seen the sim in the meetings.
-I think you should add a quick paragraph in the Help that says something like "Change your diet by putting food on/off the plate. Change your Activity level by using the pull down menu or moving exercise on/off the book."
-I was confused about the time increments for a while because I kept using the next month button to move forward. Too bad there isn't a better way to tell time.
-The back ground color selection kept popping up. I am sure this is only a developer feature, but I thought I would tell you that I tried to figure out what it had to do with my exercise for a while.
+--Make the "Starving" and "heart attack" warnings larger and move more to the left to be in the open play area.
 
+--Make arrows (currently "<" and ">") on each side of the food/exercise boxes say "< More" and "More >" on the left and right, respectively.
 
-#######
+--Add these descriptions to the help menu for activity levels:
 
-I will check.  Yesterday I played with the sim and started creating a list of comments. I’m not completely finished however.  I was going to try and figure out how to address some of Trish’s interface issues.  I can send what I have now if you like or in a few hours I can finish up and send it in complete form.
+	Very Sedentary:  You are sitting or lounging most of the day. You are on your feet moving around only a few times a day
 
-########
-Hi  all,
+        Sedentary:  You move around to do normal daily activities.  Your job is mainly sitting at a desk.
 
-                I played with the sim. Here are some questions and ideas. Some of these are for Sam and Some for Noah. I still need to play some more and am going to think about Trish’s experience. I’ll send more later today.
+        Moderately Activity: You walk around a fair amount. Your job or school includes being on your feet or moving around.  You often take the stairs instead of the elevator.
+
+        Very Active:  You are constantly on the go, active for a large part of the day. Your work involves continuous activity and medium exertion is part of your daily activities.
 
 
+--Should have a warning box when choosing reset all.
 
-Questions:
+--Sometimes reset all clears the body, leaving the head...instead of resetting. Not sure how to reproduce this, but it has happened several times.
 
-1.        Why does changing my age change my body fat?
+--For a little while my weight slider had a red arrow head instead of the tan rounded rectangle?
 
-2.       We were going to have the sim figure out a reasonable body fat based on height, weight, sex and activity level.  I’m not seeing any adjustment for activity level.  Is this still on the todo list (which is missing from the directory so I can’t look) or was it not included in the model?
+--When I switch from female to male, the body fat slider now has two brown rounded rectangles. As soon as I clicked on it, it corrected itself. I couldn’t’ get it to do it again.
 
-3.       I’m using male and letting the sim determine my body fat.  I’m down to a BMI of 14 (most likely dead) and the body fat is showing 5.7%.  What is the model for determining body fat?  Looks like it needs a bit of adjustment.
+--Add a quick paragraph in the Help that says something like "Change your diet by putting food on/off the plate. Change your Activity level by using the pull down menu or moving exercise on/off the book."
 
-
-
-Suggestions/Bugs:
-
-1.       Instead of the question mark next to the pull down for activity, is it possible to have a mouse over on each option that gives the description?
-
-2.       Should have a warning box when choosing reset all.  Shouldn’t’ the reset all button be part of common code and just come with the warning box?
-
-3.       For a little while my weight slider had a red arrow head instead of the tan rounded rectangle?
-
-4.       When I switch from female to male, the body fat slider now has two brown rounded rectangles.  As soon as I clicked on it, it corrected itself. I couldn’t’ get it to do it again.
+--Make sure dev control for color is removed in final version. (And other dev controls we've added.)
 
 
 
-Suggestions for lifestyle descriptions:
+############################
+###	Todo Noah P	####
+############################
+
+--When Lifestyle calories burned is calculated, is that based on LBM (i.e., fat free mass) or weight? Wendy and I think it should be based on total weight, so just wanted to check.
+
+--Label should change on exercise log. "Daily Exercise", "Exercise Log" or maybe just "Exercise" in the book where it now says Today.
 
 
 
-                Very Sedentary:  Sitting or lounging most of the day. On your feet moving around only a few times a day.
+############################
+###	To Discuss	####
+############################
 
-                Sedentary:  Move around to do normal daily activities.  Your job is mainly sitting at a desk.
+--Shouldn’t’ the reset all button be part of common code and just come with the warning box?
 
-                Moderately Activity: You walk around a fair amount. Your job or school includes being on your feet or moving around.  You take the stairs instead of the elevator.
+--Instead of the question mark next to the pull down for activity, is it possible to have a mouse over on each option that gives the description?
 
-                Very Active:  You are constantly on the go, active for a large part  of  the day. Your work involves continuous activity and medium exertion is part of your daily activities.
+	>Sam, what do you think of this? I think mouse-overs on pull down menus are fairly non-standard, but I could be wrong.
 
+--(Unfuddle #682) I think the midsection bulge (the belly) should be smaller when the % fat is low. When the person is near the bottom of the healthy range (for men or women), the midsection bulge should be almost imperceptible. Right now, you can have 0 body fat and you still see a little bulge around the midsection.
 
+--Sam, is there a way to make this into some sort of Year/Month format? Maybe YY/MM, and the axis label can say "Time (Years/Months)".
 
-                I would not say that the typical American is moderately active. I believe data says they are closer to couch potato.  So I don’t’ want to put a label like that. Depending on someone’s point of view, they may think they are typical.  Any label like busy body or couch potato can also have negative connotations. I think the physiologists descriptions of very active (which is where sam got the resting BMR) was much more active than you describe.  It’d be like a framer (builds houses), maybe painter (might not be enough), electrician, athlete etc…
+--Questions from  WA:
 
-
-                ###########################
-                Trish,
-
-Thanks for the feedback. My responses are in line below.
-
-Sam - please let me know if you would like these in unfuddle, or if this email will serve your purposes.
-
-
-
-Loeblein Patricia J. wrote:
-> Sam,
->   I played with the sim a bit and here are my experiences and thoughts:
->   I started the sim with little experience; I have just played with it for short periods during the PhET meetings. The first thing I did was put in my info. Age 47, height 5'3", weight 125 (I didn't change the % fat) and then hit play. Of course I died, but I  really didn't realize why so I hit reset. Then I had to put in my info again, played again and died. Then I figured out that the empty plate meant I wasn't eating and I also found the Reset on the graph so I didn't have to reenter my info. I dragged the pyramid on and played again.
-It should have said "Starving" when you weren't eating, and the figure should have been getting really skinny. Did you notice these? If not, maybe the "Starving" message needs to be highlighted better. There is a lot going on, and I can see how it would get buried.
-
-Otherwise, this seems to me the right level - in my opinion, it is OK if it is not obvious what to do at first, as long as you can figure it out in a few tries. This might actually be a good thing, as it will encourage play.
-
->     I didn't realize that I didn't have any exercise. The first thing I tired was dragging the exercise icons onto the bar chart and it took a couple of runs to realize that I hadn't really changed anything. Maybe the little book should say "Daily Exercise" as opposed to "Today". Especially since the exercise continues until you take it off.
-I agree that this label should change. "Daily Exercise", "Exercise Log" or maybe just "Exercise" in the book where it now says Today.
-
->      I didn't notice the pull down menu for activity because it is the same color as the background so I thought it was a heading for the section. I only discovered it as I was trying to make sure that I had tested all the features.
-Good point. I think this pull down menu should have a gray background. (Or some color other than matching green.)
-
->   When you move your curser over the arrows that go left and right on the food and exercise, it seems there should be a message like "more Options" . Since nothing happened I don't think I would have tried except that I had seen the sim in the meetings.
-Maybe if in the button it says "< More" and "More >" on the left and right, respectively. This way no pop-up is necessary. Seems like there is space for this.
-
->    I think you should add a quick paragraph in the Help that says something like "Change your diet by putting food on/off the plate. Change your Activity level by using the pull down menu or moving exercise on/off the book."
-OK. I'll work on rewriting the help.
-
->    I was confused about the time increments for a while because I kept using the next month button to move forward. Too bad there isn't a better way to tell time.
-Right. People don't usually use increments of 0.1 years.
-
-Sam, is there a way to make this into some sort of Year/Month format? Maybe YY/MM, and the axis label can say "Time (Years/Months)".
-
->    The back ground color selection kept popping up. I am sure this is only a developer feature, but I thought I would tell you that I tried to figure out what it had to do with my exercise for a while.
->
-This is a dev feature. It should be removed in the final version.
-
--Noah P.
-
-##################
-
-
-Wendy,
-
-Thanks, this helps. My responses to some of these below.
-
-Wendy K Adams wrote:
->
-> Hi all,
->
-> I played with the sim. Here are some questions and ideas. Some of these are for Sam and Some for Noah. I still need to play some more and am going to think about Trish’s experience. I’ll send more later today.
->
-> Questions:
->
 > 1. Why does changing my age change my body fat?
 >
-> 2. We were going to have the sim figure out a reasonable body fat based on height, weight, sex and activity level. I’m not seeing any adjustment for activity level. Is this still on the todo list (which is missing from the directory so I can’t look) or was it not included in the model?
->
+> 2. We were going to have the sim figure out a reasonable body fat based on height, weight, sex and activity level. I’m not seeing any 
+>adjustment for activity level. Is this still on the todo list (which is missing from the directory so I can’t look) or was it not included in >the model?
+
 I believe Sam is using the following model for body fat: http://www.halls.md/bmi/fat.htm
 
 It uses BMI, age, and gender...but not activity level. We could augment it to include activity level - we'll have to guess at this, but a good starting place might to assume this is the average "Sedentary". Add maybe 3% for Very Sedentary, and subtract 3% for Moderate Activity, subtract 6% for Very Active. How does that sound?
 
-> 3. I’m using male and letting the sim determine my body fat. I’m down to a BMI of 14 (most likely dead) and the body fat is showing 5.7%. What is the model for determining body fat? Looks like it needs a bit of adjustment.
->
-We are still tweaking the parameters for this. It turns out to be a fairly complex system that is pretty sensitive to the model parameters.
->
 > Suggestions/Bugs:
 >
-> 1. Instead of the question mark next to the pull down for activity, is it possible to have a mouse over on each option that gives the description?
->
+> 1. Instead of the question mark next to the pull down for activity, is it possible to have a mouse over on each option that gives the >description?
+
 Sam, what do you think of this? I think mouse-overs on pull down menus are fairly non-standard, but I could be wrong.
 
-> 2. Should have a warning box when choosing reset all. Shouldn’t’ the reset all button be part of common code and just come with the warning box?
->
-> 3. For a little while my weight slider had a red arrow head instead of the tan rounded rectangle?
->
-> 4. When I switch from female to male, the body fat slider now has two brown rounded rectangles. As soon as I clicked on it, it corrected itself. I couldn’t’ get it to do it again.
->
-I give these questions over to Sam's expertise.
->
-> Suggestions for lifestyle descriptions:
->
-> Very Sedentary: Sitting or lounging most of the day. On your feet moving around only a few times a day.
->
-> Sedentary: Move around to do normal daily activities. Your job is mainly sitting at a desk.
->
-> Moderately Activity: You walk around a fair amount. Your job or school includes being on your feet or moving around. You take the stairs instead of the elevator.
->
-> Very Active: You are constantly on the go, active for a large part of the day. Your work involves continuous activity and medium exertion is part of your daily activities.
->
-> I would not say that the typical American is moderately active. I believe data says they are closer to couch potato. So I don’t’ want to put a label like that. Depending on someone’s point of view, they may think they are typical. Any label like busy body or couch potato can also have negative connotations. I think the physiologists descriptions of very active (which is where sam got the resting BMR) was much more active than you describe. It’d be like a framer (builds houses), maybe painter (might not be enough), electrician, athlete etc…
->
-These sound good to me. I agree the labels (like couch potato) aren't a good idea. Some minor changes below:
-
-Very Sedentary: You are sitting or lounging most of the day. You are on your feet moving around only a few times a day.
-
-Sedentary, change "Move around..." to "You move around..."
-
-Moderate Activity, change "You take the stairs..." to "You often take the stairs..."
-
--np
-
-
-##################
-
-Noah,
-There was really only one question for me and that was: did I notice the figure changing shape or the Starving sign. No, I didn't because I was watching the graph. I noticed it only when I was checking that I had seen all the sim features.
-Also, I think you're right that it would be better if the more arrows always said so.
-
-################
-
-Thanks. There were some things messed up in the labels, I think due to extra carriage returns in the eating-and-exercise-strings file. I'm not sure if I found them all (for some reason they are hidden in notepad).
-
-Can you check this file for any more, and then rebuild once more?
-
-Noah
-
-##############
-
-Sam,
-
-When Lifestyle calories burned is calculated, is that based on LBM (i.e., fat free mass) or weight? Wendy and I think it should be based on total weight, so just wanted to check.
-
-If not based on total weight, please make is so.
-
--Noah P.
-
-##############
+############################
