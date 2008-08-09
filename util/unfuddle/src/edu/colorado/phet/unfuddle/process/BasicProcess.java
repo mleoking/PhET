@@ -15,6 +15,7 @@ public class BasicProcess implements MyProcess {
         int c;
         while ( ( c = in.read() ) != -1 ) {//blocks until data is available
             s.append( (char) c );
+            System.out.print( c );
         }
         in.close();
         return s.toString();

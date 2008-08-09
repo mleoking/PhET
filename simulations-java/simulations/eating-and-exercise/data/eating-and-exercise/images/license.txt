@@ -23,18 +23,16 @@ broccoli.png source=microsoft clip art
 brussel_sprouts.png source=microsoft clip art
 burger.png source=microsoft clip art
 burrito.png source=microsoft clip art
-candy_bar.png
+candy_bar.png source=microsoft clip art
 canoe.png source=microsoft clip art
 carbs.png source=microsoft clip art
 carrot.png source=microsoft clip art
 cashews.png source=microsoft clip art
 catch.png source=microsoft clip art
 cauliflower.png source=microsoft clip art
-chicken.png
+chicken.png source=microsoft clip art
 class.png source=microsoft clip art
 climber.png source=microsoft clip art
-clipart sources dude.txt 
-clipart sources.txt 
 coffee.png source=microsoft clip art
 cola.png source=microsoft clip art
 corn.png source=microsoft clip art
@@ -50,8 +48,8 @@ dog_walker.png source=microsoft clip art
 dude_on_horse.png source=microsoft clip art
 eye.png source=microsoft clip art
 fast-food.png source=microsoft clip art
-fishing_rod.png
-food-pyramid.png
+fishing_rod.png source=microsoft clip art
+food-pyramid.png source=http://www.sciencepages.co.uk/keystage3/year8/module13/m13revision.php
 fries.png source=microsoft clip art
 gardening.png source=microsoft clip art
 golf_cart.png source=microsoft clip art
@@ -65,82 +63,81 @@ hockey_player.png source=microsoft clip art
 hot_chocolate.png source=microsoft clip art
 hot_dog.png source=microsoft clip art
 iced_tea.png source=microsoft clip art
-j0232547.gif
-j0232879.gif
-j0283852.gif
-j0396718.gif
-j0398303.gif
-j0410455.gif
-j0412534.gif
-j0413686.gif
-j0417518.png
-j0424122.gif
-j0429961.gif
-jogger.png
-judo.png
-kayaker.png
-large_milkshake copy.png
-large_milkshake.png
-latte.png
-leisure_bikers.png
-lemonade.png
-media.txt 
-milk.png
-milkshake.png
-milk_1.png
-milk_2.png 
-milk_skim.png
-mountain_biking.png
-mowing_lawn.png
-oatmeal.png
-orange_juice.png
-pasta.png
-pbj.gif
-pizza.png
-pizza_pie.png
-planner.png
-plate-2.png
-plate.png
-platter.png
-pomegranate.png
-pork_chop.png
-potato.png
-potato_chips.png
-potato_chips_handful.png
-quarter_burger.png
-rafting.png
-road_biker.png
-road_biker_1.png
-road_biker_2.png
-road_biker_3.png
-road_racer.png
-running_1.png
-running_2.png
-running_stairs.png
-sailing.png
-salami.png
-sitting_sports.png
-skateboarder.png
-soccer.png
-spaghetti.png
-squash_player.png
-steak.png
-strawberry.png
-stroller.png
-sub.png
-surfer_dude.png
-swim.png
-table_tennis.png
-taco.png
-tennis.png
-tofu.png
-ultimate.png
-unicycle.png
-vacuum.png
-volleyball_noncompetitive.png
-walking_pleasure.png
-weightlifter_nonserious.png
-weightlifter_serious.png
-white_rice.png
-wine.png
-yogurt.png 
+j0232547.gif source=microsoft clip art
+j0232879.gif source=microsoft clip art
+j0283852.gif source=microsoft clip art
+j0396718.gif source=microsoft clip art
+j0398303.gif source=microsoft clip art
+j0410455.gif source=microsoft clip art
+j0412534.gif source=microsoft clip art
+j0413686.gif source=microsoft clip art
+j0417518.png source=microsoft clip art
+j0424122.gif source=microsoft clip art
+j0429961.gif source=microsoft clip art
+jogger.png source=microsoft clip art
+judo.png source=microsoft clip art
+kayaker.png source=microsoft clip art
+large_milkshake copy.png source=microsoft clip art
+large_milkshake.png source=microsoft clip art
+latte.png source=microsoft clip art
+leisure_bikers.png source=microsoft clip art
+lemonade.png source=microsoft clip art
+milk.png source=microsoft clip art
+milkshake.png source=microsoft clip art
+milk_1.png source=microsoft clip art
+milk_2.png source=microsoft clip art
+milk_skim.png source=microsoft clip art
+mountain_biking.png source=microsoft clip art
+mowing_lawn.png source=microsoft clip art
+oatmeal.png source=microsoft clip art
+orange_juice.png source=microsoft clip art
+pasta.png source=microsoft clip art
+pbj.gif source=microsoft clip art
+pizza.png source=microsoft clip art
+pizza_pie.png source=microsoft clip art
+planner.png source=microsoft clip art
+plate-2.png source=microsoft clip art
+plate.png source=microsoft clip art
+platter.png source=microsoft clip art
+pomegranate.png source=microsoft clip art
+pork_chop.png source=microsoft clip art
+potato.png source=microsoft clip art
+potato_chips.png source=microsoft clip art
+potato_chips_handful.png source=microsoft clip art
+quarter_burger.png source=microsoft clip art
+rafting.png source=microsoft clip art
+road_biker.png source=microsoft clip art
+road_biker_1.png source=microsoft clip art
+road_biker_2.png source=microsoft clip art
+road_biker_3.png source=microsoft clip art
+road_racer.png source=microsoft clip art
+running_1.png source=microsoft clip art
+running_2.png source=microsoft clip art
+running_stairs.png source=microsoft clip art
+sailing.png source=microsoft clip art
+salami.png source=microsoft clip art
+sitting_sports.png source=microsoft clip art
+skateboarder.png source=microsoft clip art
+soccer.png source=microsoft clip art
+spaghetti.png source=microsoft clip art
+squash_player.png source=microsoft clip art
+steak.png source=microsoft clip art
+strawberry.png source=microsoft clip art
+stroller.png source=microsoft clip art
+sub.png source=microsoft clip art
+surfer_dude.png source=microsoft clip art
+swim.png source=microsoft clip art
+table_tennis.png source=microsoft clip art
+taco.png source=microsoft clip art
+tennis.png source=microsoft clip art
+tofu.png source=microsoft clip art
+ultimate.png source=microsoft clip art
+unicycle.png source=microsoft clip art
+vacuum.png source=microsoft clip art
+volleyball_noncompetitive.png source=microsoft clip art
+walking_pleasure.png source=microsoft clip art
+weightlifter_nonserious.png source=microsoft clip art
+weightlifter_serious.png source=microsoft clip art
+white_rice.png source=microsoft clip art
+wine.png source=microsoft clip art
+yogurt.png source=microsoft clip art

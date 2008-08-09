@@ -20,7 +20,7 @@ public class UnfuddleDump {
         if ( args.length != 3 ) {
             System.out.println( "usage: UnfuddleDump unfuddleUsername unfuddlePassword svnTrunk" );
         }
-        UnfuddleCurl curl = new UnfuddleCurl( new BasicProcess(), args[0], args[1], UnfuddleNotifierConstants.PHET_ACCOUNT_ID, args[3] );
+        UnfuddleCurl curl = new UnfuddleCurl( new BasicProcess(), args[0], args[1], UnfuddleNotifierConstants.PHET_ACCOUNT_ID, args[2] );
 //        String dump = curl.readString( "tickets" );
         String dump = curl.readString( "dump" );
         System.out.println( "dump.length = " + dump.length() );

@@ -97,7 +97,18 @@ public class SimInfo {
                ||
                ( entry.getSource() != null && entry.getSource().equalsIgnoreCase( "java" ) )
                ||
-               ( entry.getSource() != null && entry.getSource().equalsIgnoreCase( "phet" ) );
+               ( entry.getSource() != null && entry.getSource().equalsIgnoreCase( "phet" ) )
+               ||
+               entry.getName().endsWith( ".xml" )
+               ||
+               entry.getName().endsWith( ".esp" )
+               ||
+               entry.getName().endsWith( ".html" )
+               ||
+               entry.getName().endsWith( ".properties" )
+               ||
+               ( entry.getLicense() != null && entry.getLicense().equalsIgnoreCase( "http://creativecommons.org " ) )
+                ;
     }
 
     public static AnnotatedFile[] getIssues( AnnotatedFile[] resources ) {

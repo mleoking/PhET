@@ -3,7 +3,7 @@
 # Automatically generated on Fri Aug 08 00:08:01 MDT 2008
 ###################################
 
-ball.png 
+ball.png author=PhET 
 blackhole_large_2.jpg 
 bugboard.gif
 bulldog.png

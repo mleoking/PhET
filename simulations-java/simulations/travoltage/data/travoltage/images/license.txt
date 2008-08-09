@@ -5,7 +5,7 @@
 
 arm2.gif notes=http://www.americancinematheque.com/ball/1997MPBTravolta.htm 
 door.gif 
-Electron3.GIF 
+Electron3.GIF author=PhET 
 knob.jpg notes=can't find 
 leg2.gif notes=http://www.americancinematheque.com/ball/1997MPBTravolta.htm 
 livingroom.gif source=microsoft notes=HH01796_.wmf 

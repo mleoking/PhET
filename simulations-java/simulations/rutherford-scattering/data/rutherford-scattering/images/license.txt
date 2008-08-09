@@ -3,7 +3,7 @@
 # Automatically generated on Fri Aug 08 00:08:03 MDT 2008
 ###################################
 
-gun.png 
+gun.png source=microsoft notes=http://office.microsoft.com/en-us/clipart/results.aspx?lc=en-us&Scope=MC%2CMM%2CMP%2CMS&Query=ray+gun 
 gunOffButton.png author=PhET 
 gunOnButton.png author=PhET 
 plumPudding.png author=PhET 
