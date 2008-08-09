@@ -10,7 +10,7 @@ barMagnet.png author=PhET
 battery.png author=PhET 
 battery_icon.png author=PhET 
 battery_icon_selected.png author=PhET 
-earth.png source=http://www.clker.com/clipart-2123-large.html license=Creative Commons 
+earth.png source=http://www.clker.com/clipart-2123-large.html license=Creative Commons, royalty free, public domain 
 electron_background.png author=PhET 
 electron_foreground.png author=PhET 
 faucet.png author=PhET 

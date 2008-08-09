@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 
 import edu.colorado.phet.build.PhetProject;
@@ -27,9 +28,27 @@ public class DisplayDependenciesHTML {
         File baseDir = new File( trunk, "simulations-java" );
         String[] simNames = PhetProject.getSimNames( baseDir );
 
-        String content = "";
+        ArrayList simHTMLs = new ArrayList();
         for ( int i = 0; i < simNames.length; i++ ) {
-            content += visitSim( simNames[i] );
+            simHTMLs.add( visitSim( simNames[i] ) );
+        }
+
+        String content = "Sims with no known issues:<br>";
+
+        for ( int i = 0; i < simHTMLs.size(); i++ ) {
+            SimHTML html = (SimHTML) simHTMLs.get( i );
+            if ( html.getIssues().isEmpty() ) {
+                content += html.getIssues().getProjectName() + "<br>";
+            }
+        }
+        content += "<br><br>";
+        content += "All simulations:<br>";
+        for ( int i = 0; i < simHTMLs.size(); i++ ) {
+            content += ( (SimHTML) simHTMLs.get( i ) ).getHeader() + "<br>";
+        }
+        content += "<br><br>";
+        for ( int i = 0; i < simHTMLs.size(); i++ ) {
+            content += ( (SimHTML) simHTMLs.get( i ) ).getBody();
         }
         bufferedWriter.write( "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"\n" +
                               "    \"http://www.w3.org/TR/html4/loose.dtd\">\n" +
@@ -47,9 +66,35 @@ public class DisplayDependenciesHTML {
         bufferedWriter.close();
     }
 
-    private String visitSim( String simName ) throws IOException {
+    private class SimHTML {
+        private SimInfo issues;
+        private String header;
+        private String body;
+
+        private SimHTML( SimInfo issues, String header, String body ) {
+            this.issues = issues;
+            this.header = header;
+            this.body = body;
+        }
+
+        public String getBody() {
+            return body;
+        }
+
+        public String getHeader() {
+            return header;
+        }
+
+        public SimInfo getIssues() {
+            return issues;
+        }
+    }
+
+    private SimHTML visitSim( String simName ) throws IOException {
         SimInfo issues = SimInfo.getSimInfo( trunk, simName ).getIssues();
-        String html = issues.toHTML() + "<br><HR WIDTH=100% ALIGN=CENTER><br>";
+
+        String header = issues.getHTMLHeader();
+        String body = issues.getHTMLBody() + "<br><HR WIDTH=100% ALIGN=CENTER><br>";
         //todo: copy images
         for ( int i = 0; i < issues.getResources().length; i++ ) {
             AnnotatedFile x = issues.getResources()[i];
@@ -62,6 +107,6 @@ public class DisplayDependenciesHTML {
             FileUtils.copy( x.getFile(), target );
         }
 
-        return html;
+        return new SimHTML( issues, header, body );
     }
 }

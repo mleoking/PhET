@@ -3,5 +3,4 @@
 # Automatically generated on Fri Aug 08 00:08:00 MDT 2008
 ###################################
 
-killed.wav 
-resources.txt 
+killed.wav source=http://pac-man.classicgaming.gamespy.com/Sounds/ 

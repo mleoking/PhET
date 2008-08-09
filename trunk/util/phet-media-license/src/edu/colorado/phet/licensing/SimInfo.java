@@ -28,12 +28,20 @@ public class SimInfo {
         this.resources = resources;
     }
 
+    public String getProjectName(){
+        return project.getName();
+    }
+
     public AnnotatedFile[] getResources() {
         return resources;
     }
 
+    public int getIssueCount() {
+        return dependencies.length + jarFiles.length + sourceRoots.length + licenseInfo.length + resources.length;
+    }
+
     public boolean isEmpty() {
-        return dependencies.length == 0 && jarFiles.length == 0 && sourceRoots.length == 0 && licenseInfo.length == 0 && resources.length == 0;
+        return getIssueCount() == 0;
     }
 
     public SimInfo getIssues() {
@@ -111,7 +119,9 @@ public class SimInfo {
                entry.getName().endsWith( ".properties" )
                ||
                ( entry.getLicense() != null && entry.getLicense().equalsIgnoreCase( "http://creativecommons.org" ) )
-                ;
+               ||
+               ( entry.getLicense() != null && entry.getLicense().equalsIgnoreCase( "Creative Commons, royalty free, public domain" ) );
+        
     }
 
     public static AnnotatedFile[] getIssues( AnnotatedFile[] resources ) {
@@ -125,13 +135,13 @@ public class SimInfo {
         return (AnnotatedFile[]) list.toArray( new AnnotatedFile[list.size()] );
     }
 
-    public String toHTML() {
+    public String getHTMLBody() {
         if ( isEmpty() ) {
-            return project.getName() + " has no known issues.<br><br>";
+            return "<a name=\"" + project.getName() + "\">" + project.getName() + " has no known issues.</a>";
         }
         else {
-
-            String s = "Project Dependencies for " + project.getName() + ":<br>";
+            String s = "<a name=\"" + project.getName() + "\">" + project.getName() + " issues:</a>";
+            s += "<br>";
             for ( int i = 0; i < dependencies.length; i++ ) {
                 s += "\t" + i + ". " + dependencies[i].getName() + "<br>";
             }
@@ -172,5 +182,9 @@ public class SimInfo {
             return s;
 
         }
+    }
+
+    public String getHTMLHeader() {
+        return "<a href=\"#" + project.getName() + "\">" + project.getName() + " (" + getIssueCount() + " issues)</a>";
     }
 }
