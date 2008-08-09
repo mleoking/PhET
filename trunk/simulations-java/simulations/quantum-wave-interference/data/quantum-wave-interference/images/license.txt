@@ -5,19 +5,19 @@
 
 10-nanometer-stick.png author=PhET 
 atom-thumb.jpg 
-atom3.gif 
+atom3.gif source=http://www.hasslefreeclipart.com/clipart_school/page1.html
 button-in-40.gif notes=we bought this from a clip art service we subscribed to a long time ago 
 button-out-40-gray.gif notes=we bought this from a clip art service we subscribed to a long time ago 
 button-out-40.gif notes=we bought this from a clip art service we subscribed to a long time ago 
 clock3.png 
 electron-thumb-orig.jpg author=PhET 
 electron-thumb.jpg author=PhET 
-electron-thumb.png 
+electron-thumb.png author=PhET 
 glassMinus.gif 
 glassPlus.gif 
 gun2-ii.gif 
-mandel-gun.gif 
-neutron-thumb.gif 
+mandel-gun.gif source=microsoft notes=http://office.microsoft.com/en-us/clipart/results.aspx?lc=en-us&Scope=MC%2CMM%2CMP%2CMS&Query=ray+gun
+neutron-thumb.gif author=PhET
 phet-logo-small.jpg author=PhET 
 photon-thumb.jpg author=PhET 
 raygun3-centerbarrel-2.gif source=microsoft notes=  j0230574.wmf  
