@@ -89,6 +89,9 @@ public class SimInfo {
 
 
     public static boolean hideEntry( ResourceAnnotation entry ) {
+        if ( entry.getName().startsWith( "bear" ) ) {
+            System.out.println( "bear" );
+        }
         return ( entry.getAuthor() != null && entry.getAuthor().equalsIgnoreCase( "phet" ) )
                ||
                ( entry.getSource() != null && entry.getSource().toLowerCase().startsWith( "microsoft" ) )
@@ -107,7 +110,7 @@ public class SimInfo {
                ||
                entry.getName().endsWith( ".properties" )
                ||
-               ( entry.getLicense() != null && entry.getLicense().equalsIgnoreCase( "http://creativecommons.org " ) )
+               ( entry.getLicense() != null && entry.getLicense().equalsIgnoreCase( "http://creativecommons.org" ) )
                 ;
     }
 
@@ -157,8 +160,7 @@ public class SimInfo {
                 s += "Resources:<br>";
             }
             for ( int i = 0; i < resources.length; i++ ) {
-                s += "\t" + i + ". " + resources[i].getResourceAnnotation().toText() + "<br>";
-
+                s += "\t" + i + ". " + "<a href=\"annotated-data/" + resources[i].getFile().getName() + "\">" + resources[i].getResourceAnnotation().getName() + "</a>: " + resources[i].getResourceAnnotation().toText() + "<br>";
                 s += "<br>" +
                      "<img src=\"annotated-data/" + resources[i].getFile().getName() + "\">" +
                      "<br><br><hr>";

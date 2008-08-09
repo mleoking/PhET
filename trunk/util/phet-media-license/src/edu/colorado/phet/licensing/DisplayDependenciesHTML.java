@@ -56,7 +56,8 @@ public class DisplayDependenciesHTML {
             File target = new File( "C:\\reid-not-backed-up\\phet\\svn\\trunk2\\util\\phet-media-license\\annotated-data\\", x.getFile().getName() );
             if ( target.exists() && !FileUtils.contentEquals( target, x.getFile() ) ) {
                 System.out.println( "Target exists, and has different content: " + target.getAbsolutePath() );
-                FileUtils.copy( target, new File( "C:\\reid-not-backed-up\\phet\\svn\\trunk2\\util\\phet-media-license\\annotated-data\\", "Copy of " + target.getName() ) );
+                System.out.println( "Skipping copy:" );
+//                FileUtils.copy( target, new File( "C:\\reid-not-backed-up\\phet\\svn\\trunk2\\util\\phet-media-license\\annotated-data\\", "Copy of " + target.getName() ) );
             }
             FileUtils.copy( x.getFile(), target );
         }
