@@ -4,6 +4,7 @@ Made the "Starving" and "heart attack" warnings larger and move more to the left
 Made arrows (currently "<" and ">") on each side of the food/exercise boxes say "< More" and "More >" on the left and right, respectively.
 Fixed textual descriptions for activity levels
 Added a warning box when choosing reset all.
+Fixed: When I switch from female to male, the body fat slider now has two brown rounded rectangles. As soon as I clicked on it, it corrected itself.
 
 New in 0.00.69
 Activity calories burned is now proportional to weight rather than BMR

@@ -125,6 +125,7 @@ public class SliderNode extends PNode {
 
     private void updateThumbLocation() {
         thumbNode.setOffset( modelToView( getClampedValue() ), 0 );
+        repaint();//SRR 8-11-2008: adding this repaint() call resolves this problem, --When I switch from female to male, the body fat slider now has two brown rounded rectangles. As soon as I clicked on it, it corrected itself. I couldn’t’ get it to do it again.
     }
 
     private double getClampedValue() {

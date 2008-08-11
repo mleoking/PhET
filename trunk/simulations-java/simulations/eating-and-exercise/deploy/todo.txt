@@ -2,17 +2,17 @@
 ###	Todo Sam	####
 ############################
 
---Sometimes reset all clears the body, leaving the head...instead of resetting. Not sure how to reproduce this, but it has happened several times.
-
---For a little while my weight slider had a red arrow head instead of the tan rounded rectangle?
-
---When I switch from female to male, the body fat slider now has two brown rounded rectangles. As soon as I clicked on it, it corrected itself. I couldn’t’ get it to do it again.
-
 --Add a quick paragraph in the Help that says something like "Change your diet by putting food on/off the plate. Change your Activity level by using the pull down menu or moving exercise on/off the book."
 
 --Make sure dev control for color is removed in final version. (And other dev controls we've added.)
 
 --BMR at simulation start is different than BMR after reset all
+
+--Sometimes reset all clears the body, leaving the head...instead of resetting. Not sure how to reproduce this, but it has happened several times.
+    >>SRR 8-11-2008: I haven't been able to reproduce this yet.
+
+--For a little while my weight slider had a red arrow head instead of the tan rounded rectangle?
+    >>When the slider is showing a value outside of its range, it shows a read arrow head.
 
 ############################
 ###	Todo Noah P	####
