@@ -42,9 +42,13 @@ public class DisplayDependenciesHTML {
             }
         }
         content += "<br><br>";
-        content += "All simulations:<br>";
+
+        content += "Sims with known issues:<br>";
         for ( int i = 0; i < simHTMLs.size(); i++ ) {
-            content += ( (SimHTML) simHTMLs.get( i ) ).getHeader() + "<br>";
+            SimHTML html = (SimHTML) simHTMLs.get( i );
+            if ( !html.getIssues().isEmpty() ) {
+                content += html.getHeader() + "<br>";
+            }
         }
         content += "<br><br>";
         for ( int i = 0; i < simHTMLs.size(); i++ ) {
@@ -98,7 +102,8 @@ public class DisplayDependenciesHTML {
         //todo: copy images
         for ( int i = 0; i < issues.getResources().length; i++ ) {
             AnnotatedFile x = issues.getResources()[i];
-            File target = new File( "C:\\reid-not-backed-up\\phet\\svn\\trunk2\\util\\phet-media-license\\annotated-data\\", x.getFile().getName() );
+            File target = new File( "C:\\reid-not-backed-up\\phet\\svn\\trunk2\\util\\phet-media-license\\", issues.getHTMLFileLocation( x ) );
+            target.getParentFile().mkdirs();
             if ( target.exists() && !FileUtils.contentEquals( target, x.getFile() ) ) {
                 System.out.println( "Target exists, and has different content: " + target.getAbsolutePath() );
                 System.out.println( "Skipping copy:" );
