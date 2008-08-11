@@ -80,6 +80,9 @@ public class ParticleContainerNode3 extends PhetPNode {
                     m_upperParticleLayer.addChild( new ParticleNode(particle, m_mvt));
                 }
             }
+            public void containerSizeChanged(){
+                handleContainerSizeChanged();
+            }
         });
         
         // Create the visual representation of the container.
@@ -117,6 +120,20 @@ public class ParticleContainerNode3 extends PhetPNode {
     
     // TODO: JPB TBD - Is this needed?
     private void update() {
+    }
+    
+    /**
+     * Handle a notification that the container size has changed.
+     */
+    private void handleContainerSizeChanged(){
+        // IMPORTANT NOTE: This routine assumes that only the height of the
+        // container can change, since this was true when this routine was
+        // created and it isn't worth the effort to make it more general.  If
+        // this assumption is ever invalidated, this routine will need to be
+        // changed.
+        double containerHeight = m_model.getParticleContainerHeight();
+        m_containerTop.setOffset( 0, 
+                m_containmentAreaHeight - containerHeight - (m_containerTop.getFullBoundsReference().height / 2) );
     }
     
     private void drawContainer() {

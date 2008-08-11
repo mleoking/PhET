@@ -38,7 +38,6 @@ public class ParticleContainerNode extends PhetPNode {
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
-    private final ParticleContainer m_container;
     private final MultipleParticleModel m_model;
     private PImage m_cupImageNode;
     private CompositeThermometerNode m_thermometerNode;
@@ -57,7 +56,6 @@ public class ParticleContainerNode extends PhetPNode {
         super();
 
         m_model               = model;
-        m_container           = model.getParticleContainer();
         
         // Register as a listener for temperature changes.
         m_model.addListener( new MultipleParticleModel.Adapter(){

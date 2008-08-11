@@ -48,26 +48,6 @@ public class ZMultipleParticleModelTester extends TestCase {
         waitForParticleToMove();
     }
 
-    public void testThatParticleContainerIsInitiallySetToDefaultBounds() {
-        assertEquals(StatesOfMatterConstants.CONTAINER_BOUNDS.getBounds2D(), model.getParticleContainer().getShape().getBounds2D());
-    }
-
-    public void testThatParticlesDoNotLeaveContainerWhenClockRunning() {
-        clock.start();
-
-        for (int i = 0; i < 100; i++) {
-            waitForParticleToMove();
-
-            for (int j = 0; j < model.getNumMolecules(); j++) {
-                StatesOfMatterAtom p = model.getParticle(j);
-
-                Rectangle2D particleContainer = model.getParticleContainer().getShape().getBounds2D();
-
-                assertTrue("Particle " + p + " has left container " + particleContainer, particleContainer.contains(p.getPositionReference()));
-            }
-        }
-    }
-
     public void testThatNoParticleHasMoreKineticEnergyThanCap() {
         clock.start();
 
