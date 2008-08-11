@@ -1,3 +1,6 @@
+New in 0.00.69
+Activity calories burned is now proportional to weight rather than BMR
+
 New in 0.00.68
 Added developer control
 Changed model parameters in muscle gained from exercise and muscle and fat mass loss
