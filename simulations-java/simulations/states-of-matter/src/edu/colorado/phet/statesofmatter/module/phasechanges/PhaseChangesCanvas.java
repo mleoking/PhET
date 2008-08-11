@@ -10,6 +10,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.view.BicyclePumpNode;
+import edu.colorado.phet.statesofmatter.view.FingerNode;
 import edu.colorado.phet.statesofmatter.view.ModelViewTransform;
 import edu.colorado.phet.statesofmatter.view.ParticleContainerNode3;
 import edu.colorado.phet.statesofmatter.view.StoveNode;
@@ -32,7 +33,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
     
     // Translation factors, used to set origin of canvas area.
     private final double WIDTH_TRANSLATION_FACTOR = 5.5;
-    private final double HEIGHT_TRANSLATION_FACTOR = 1.4;
+    private final double HEIGHT_TRANSLATION_FACTOR = 1.3;
     
     // Sizes, in terms of overall canvas size, of the nodes on the canvas.
     private final double BURNER_NODE_WIDTH = CANVAS_WIDTH / 2.5;
@@ -90,7 +91,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         setBackground( StatesOfMatterConstants.CANVAS_BACKGROUND );
         
         // Create the particle container.
-        m_particleContainer = new ParticleContainerNode3(m_model, m_mvt, false);
+        m_particleContainer = new ParticleContainerNode3(m_model, m_mvt, true);
         
         // Add the pressure meter.
         PBounds particleContainerBounds = m_particleContainer.getFullBoundsReference();
@@ -126,6 +127,13 @@ public class PhaseChangesCanvas extends PhetPCanvas {
                 m_particleContainer.getFullBoundsReference().width * 0.3,
                 m_particleContainer.getFullBoundsReference().getMaxY());
         addWorldChild( stoveNode );
+        
+        // Add the finger for pressing down on the top of the container.
+        FingerNode fingerNode = new FingerNode( m_model.getParticleContainerRect().getWidth() * 0.25);
+        fingerNode.setOffset( m_particleContainer.getFullBoundsReference().getMinX() + 
+                m_particleContainer.getFullBoundsReference().width * 0.45,
+                m_particleContainer.getFullBoundsReference().getMinY() - fingerNode.getFullBoundsReference().height);
+        addWorldChild( fingerNode );
         
         // Add a listener for when the canvas is resized.
         addComponentListener( new ComponentAdapter() {

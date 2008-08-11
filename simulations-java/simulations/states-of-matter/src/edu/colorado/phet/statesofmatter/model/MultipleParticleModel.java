@@ -3,6 +3,7 @@
 package edu.colorado.phet.statesofmatter.model;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -36,6 +37,9 @@ public class MultipleParticleModel {
     //----------------------------------------------------------------------------
     // Class Data
     //----------------------------------------------------------------------------
+    
+    // Minimum container height fraction.
+    public static final double MIN_CONTAINER_HEIGHT_FRACTION = 0.1;
 
     // TODO: JPB TBD - These constants are here as a result of the first attempt
     // to integrate Paul Beale's IDL implementation of the Verlet algorithm.
@@ -92,6 +96,7 @@ public class MultipleParticleModel {
     // Instance Data
     //----------------------------------------------------------------------------
     
+    private double m_particleContainerHeight;
     private final List m_particles = new ArrayList();
     private double m_totalEnergy;
     private EngineFacade m_engineFacade;
@@ -148,6 +153,7 @@ public class MultipleParticleModel {
         
         m_clock = clock;
         m_pressureCalculator = new PressureCalculator();
+        m_particleContainerHeight = StatesOfMatterConstants.PARTICLE_CONTAINER_HEIGHT;
         setThermostatType( ISOKINETIC_THERMOSTAT );
         
         // Register as a clock listener.
@@ -182,8 +188,12 @@ public class MultipleParticleModel {
         return (StatesOfMatterAtom)m_particles.get(i);
     }
 
-    public ParticleContainer getParticleContainer() {
-        return new RectangularParticleContainer(StatesOfMatterConstants.CONTAINER_BOUNDS);
+    /**
+     * Get a rectangle that represents the current size and position of the
+     * the particle container.
+     */
+    public Rectangle2D getParticleContainerRect() {
+        return new Rectangle2D.Double(0, 0, StatesOfMatterConstants.PARTICLE_CONTAINER_WIDTH, m_particleContainerHeight);
     }
 
     public synchronized double getKineticEnergy() {
@@ -314,6 +324,24 @@ public class MultipleParticleModel {
     
     public double getNormalizedContainerHeight() {
         return m_normalizedContainerHeight;
+    }
+    
+    public double getParticleContainerHeight() {
+        return m_particleContainerHeight;
+    }
+
+    public void setParticleContainerHeight( double containerHeight ) {
+        
+        if ((containerHeight < StatesOfMatterConstants.PARTICLE_CONTAINER_HEIGHT) &&
+            (containerHeight > StatesOfMatterConstants.PARTICLE_CONTAINER_HEIGHT * MIN_CONTAINER_HEIGHT_FRACTION)){
+            m_particleContainerHeight = containerHeight;
+            notifyContainerSizeChanged();
+        }
+        else{
+            // Invalid value.
+            System.err.println("Error: Contain height value out of range.");
+            assert false;
+        }
     }
 
     //----------------------------------------------------------------------------
@@ -947,6 +975,12 @@ public class MultipleParticleModel {
     private void notifyPressureChanged(){
         for (int i = 0; i < _listeners.size(); i++){
             ((Listener)_listeners.get( i )).pressureChanged();
+        }        
+    }
+
+    private void notifyContainerSizeChanged(){
+        for (int i = 0; i < _listeners.size(); i++){
+            ((Listener)_listeners.get( i )).containerSizeChanged();
         }        
     }
 
@@ -1965,6 +1999,11 @@ public class MultipleParticleModel {
          */
         public void pressureChanged();
 
+        /**
+         * Inform listeners that the size of the container has changed.
+         */
+        public void containerSizeChanged();
+
     }
     
     public static class Adapter implements Listener {
@@ -1972,6 +2011,7 @@ public class MultipleParticleModel {
         public void particleAdded(StatesOfMatterAtom particle){}
         public void temperatureChanged(){}
         public void pressureChanged(){}
+        public void containerSizeChanged(){}
     }
     
     /**

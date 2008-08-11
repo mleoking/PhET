@@ -82,8 +82,8 @@ public class StatesOfMatterConstants {
     //----------------------------------------------------------------------------
     
     // Dimensions of the container in which the particles will reside, in picometers.
-    private static double PARTICLE_CONTAINER_WIDTH = 10000;
-    private static double PARTICLE_CONTAINER_HEIGHT = PARTICLE_CONTAINER_WIDTH * 1.05;
+    public static double PARTICLE_CONTAINER_WIDTH = 10000;
+    public static double PARTICLE_CONTAINER_HEIGHT = PARTICLE_CONTAINER_WIDTH * 1.05;
     public static final Rectangle2D.Double CONTAINER_BOUNDS = new Rectangle2D.Double(0, 0, PARTICLE_CONTAINER_WIDTH,
             PARTICLE_CONTAINER_HEIGHT);
     
@@ -116,7 +116,10 @@ public class StatesOfMatterConstants {
     public static final String COFFEE_CUP_IMAGE = "coffee-cup-image.png";
 //    public static final String CYLINDRICAL_CONTAINER_IMAGE = "cup_3D_cap_thick_75_1.png";
 //    public static final String CYLINDRICAL_CONTAINER_IMAGE = "cup_3D_front_thick_60_1.png";
-    public static final String CYLINDRICAL_CONTAINER_IMAGE = "cylindrical-container-image.png";
+//    public static final String CYLINDRICAL_CONTAINER_IMAGE = "cylindrical-container-image.png";
+    public static final String CYLINDRICAL_CONTAINER_IMAGE = "cup_3D_front_60.gif";
+//    public static final String CYLINDRICAL_CONTAINER_IMAGE = "cup_3D_jagged_front.png";
+    public static final String FINGER_IMAGE = "finger-1.png";
     
     //----------------------------------------------------------------------------
     // Cursors
