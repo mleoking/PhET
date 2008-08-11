@@ -2,17 +2,6 @@
 ###	Todo Sam	####
 ############################
 
---Add these descriptions to the help menu for activity levels:
-
-	Very Sedentary:  You are sitting or lounging most of the day. You are on your feet moving around only a few times a day
-
-        Sedentary:  You move around to do normal daily activities.  Your job is mainly sitting at a desk.
-
-        Moderately Activity: You walk around a fair amount. Your job or school includes being on your feet or moving around.  You often take the stairs instead of the elevator.
-
-        Very Active:  You are constantly on the go, active for a large part of the day. Your work involves continuous activity and medium exertion is part of your daily activities.
-
-
 --Should have a warning box when choosing reset all.
 
 --Sometimes reset all clears the body, leaving the head...instead of resetting. Not sure how to reproduce this, but it has happened several times.
