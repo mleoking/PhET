@@ -6,7 +6,7 @@ package edu.colorado.phet.eatingandexercise.model;
  */
 public class MuscleGainedFromExercising implements HumanUpdate {
     private static boolean debug = false;
-    public static boolean enabled = false;
+    public static boolean enabled = true;
 
     /**
      * >>>Model for muscle building from exercise:
@@ -44,9 +44,9 @@ public class MuscleGainedFromExercising implements HumanUpdate {
         println( "stdLeanMassFraction = " + stdLeanMassFraction );
         double LBM_0 = stdBMI * human.getHeight() * human.getHeight() * stdLeanMassFraction;//todo: should use standard height instead of actual human instance height?
         println( "LBM_0 = human.getGender().getStdBMI() * human.getHeight() * human.getHeight() * human.getGender().getStdLeanMassFraction() =" + LBM_0 + " kg" );
-        double muscleMassGained = 0.1 * calExercise * ( LBM_0 - human.getLeanBodyMass() ) / LBM_0 / 4000.0;
+        double muscleMassGained = 0.08 * calExercise * ( LBM_0 - human.getLeanBodyMass() ) / LBM_0 / 4000.0;
         println( "Human lean body mass=" + human.getLeanBodyMass() );
-        println( "muscleMassGained= 0.1 * calExercise * ( LBM_0 - human.getLeanBodyMass() )/4000.0 = " + muscleMassGained + " kg" );
+        println( "muscleMassGained= 0.08 * calExercise * ( LBM_0 - human.getLeanBodyMass() ) / LBM_0 / 4000.0 = " + muscleMassGained + " kg" );
         double origMass = human.getMass();
         double newLeanMass = muscleMassGained + human.getLeanBodyMass();
         double fracLean = newLeanMass / origMass;
