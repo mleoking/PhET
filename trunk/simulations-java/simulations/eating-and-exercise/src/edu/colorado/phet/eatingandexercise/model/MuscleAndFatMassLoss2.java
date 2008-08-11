@@ -35,7 +35,8 @@ public class MuscleAndFatMassLoss2 implements HumanUpdate {
         }
 
         double caloriesLost = -caloriesGained;
-        double totalKGLost = EatingAndExerciseUnits.caloriesToKG( caloriesLost );
+     //   double totalKGLost = EatingAndExerciseUnits.caloriesToKG( caloriesLost );
+        double totalKGLost = (fractionFatLost / 9000 + (1 - fractionFatLost) / 4000) * caloriesLost;
         double kgFatLost = totalKGLost * fractionFatLost;
         double newMass = human.getMass() - totalKGLost;
         if ( newMass <= 0 ) {
