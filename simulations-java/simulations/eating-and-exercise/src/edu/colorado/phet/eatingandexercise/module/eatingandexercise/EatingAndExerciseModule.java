@@ -8,10 +8,12 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.help.DefaultWiggleMe;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
@@ -96,12 +98,12 @@ public class EatingAndExerciseModule extends PiccoloModule {
         _clockControlPanel.setRestartButtonVisible( false );
         _clockControlPanel.setStepButtonText( EatingAndExerciseResources.getString( "time.next-month" ) );
         _clockControlPanel.setTimeFormat( "0.0" );
-        JButton button = new JButton( EatingAndExerciseResources.getString( "time.reset-all" ) );
-        button.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
+
+        ResetAllButton resetButton = new ResetAllButton( new Resettable() {
+            public void reset() {
                 resetAll();
             }
-        } );
+        }, parentFrame );
 
         JButton disclaimerButton = new JButton( EatingAndExerciseResources.getString( "disclaimer" ) );
         disclaimerButton.addActionListener( new ActionListener() {
@@ -111,7 +113,7 @@ public class EatingAndExerciseModule extends PiccoloModule {
         } );
         _clockControlPanel.add( disclaimerButton, 0 );
         _clockControlPanel.add( Box.createHorizontalStrut( 100 ), 1 );
-        _clockControlPanel.add( button, 2 );
+        _clockControlPanel.add( resetButton, 2 );
 
         setClockControlPanel( _clockControlPanel );
 

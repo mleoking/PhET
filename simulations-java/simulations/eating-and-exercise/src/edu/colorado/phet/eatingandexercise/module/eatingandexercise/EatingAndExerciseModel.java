@@ -126,6 +126,7 @@ public class EatingAndExerciseModel {
                 }
             }
         } );
+        resetAll();
     }
 
     private void notifySimulationTimeChanged() {
