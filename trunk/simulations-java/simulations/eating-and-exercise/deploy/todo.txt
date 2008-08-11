@@ -2,10 +2,6 @@
 ###	Todo Sam	####
 ############################
 
---Check for extra extra carriage returns in the eating-and-exercise-strings. NP may have messed these up by opening in Notepad with wordwrap on.
-
---Make the "Starving" and "heart attack" warnings larger and move more to the left to be in the open play area.
-
 --Make arrows (currently "<" and ">") on each side of the food/exercise boxes say "< More" and "More >" on the left and right, respectively.
 
 --Add these descriptions to the help menu for activity levels:
@@ -75,3 +71,7 @@ It uses BMI, age, and gender...but not activity level. We could augment it to in
 Sam, what do you think of this? I think mouse-overs on pull down menus are fairly non-standard, but I could be wrong.
 
 ############################
+
+Done:
+--Make the "Starving" and "heart attack" warnings larger and move more to the left to be in the open play area.
+>>Fixed in 0.00.70

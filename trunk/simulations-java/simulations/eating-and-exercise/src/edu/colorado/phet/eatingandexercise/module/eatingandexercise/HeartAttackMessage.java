@@ -1,13 +1,12 @@
 package edu.colorado.phet.eatingandexercise.module.eatingandexercise;
 
 import edu.colorado.phet.eatingandexercise.model.Human;
-import edu.colorado.phet.eatingandexercise.view.LabelNode;
 
 /**
  * Created by: Sam
  * Jun 26, 2008 at 7:02:15 PM
  */
-public class HeartAttackMessage extends LabelNode {
+public class HeartAttackMessage extends WarningMessage {
     private Human human;
 
     public HeartAttackMessage( Human human ) {
