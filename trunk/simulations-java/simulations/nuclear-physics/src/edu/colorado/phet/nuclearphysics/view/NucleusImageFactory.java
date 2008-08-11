@@ -1,23 +1,12 @@
 
 package edu.colorado.phet.nuclearphysics.view;
 
-import java.awt.Color;
 import java.awt.Image;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
 
-import javax.swing.JFrame;
-
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PPanEventHandler;
-import edu.umd.cs.piccolo.event.PZoomEventHandler;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * This singleton class generates a nucleus image from the constituent proton

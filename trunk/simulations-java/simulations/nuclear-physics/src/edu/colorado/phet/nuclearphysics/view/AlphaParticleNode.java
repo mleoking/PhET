@@ -3,17 +3,11 @@
 package edu.colorado.phet.nuclearphysics.view;
 
 
-import java.awt.Color;
-import java.awt.Image;
-import java.awt.Paint;
-import java.awt.geom.Point2D;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * Basic representation of an alpha particle in the view.

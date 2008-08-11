@@ -30,7 +30,6 @@ import edu.colorado.phet.nuclearphysics.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.view.NeutronModelNode;
 import edu.colorado.phet.nuclearphysics.view.ProtonModelNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PZoomEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 

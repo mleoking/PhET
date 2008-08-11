@@ -14,7 +14,6 @@ import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.ContainmentVessel;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**

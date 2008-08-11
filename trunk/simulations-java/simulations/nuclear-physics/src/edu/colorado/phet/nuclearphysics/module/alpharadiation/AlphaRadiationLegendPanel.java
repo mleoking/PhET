@@ -16,14 +16,10 @@ import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
-import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
-import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
 import edu.colorado.phet.nuclearphysics.view.AlphaParticleNode;
 import edu.colorado.phet.nuclearphysics.view.LabeledNucleusNode;
-import edu.colorado.phet.nuclearphysics.view.NeutronModelNode;
 import edu.colorado.phet.nuclearphysics.view.NeutronNode;
-import edu.colorado.phet.nuclearphysics.view.ProtonModelNode;
 import edu.colorado.phet.nuclearphysics.view.ProtonNode;
 import edu.umd.cs.piccolo.PNode;
 
