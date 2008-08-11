@@ -3,7 +3,6 @@
 package edu.colorado.phet.nuclearphysics.persistence;
 
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
-import edu.colorado.phet.nuclearphysics.persistence.ExampleConfig;
 
 /**
  * TemplateConfig describes a configuration of this simulation.
