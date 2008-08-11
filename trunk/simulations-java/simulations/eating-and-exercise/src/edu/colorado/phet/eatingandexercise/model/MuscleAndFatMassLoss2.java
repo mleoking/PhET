@@ -8,7 +8,7 @@ import edu.colorado.phet.eatingandexercise.module.eatingandexercise.CaloricFoodI
  */
 public class MuscleAndFatMassLoss2 implements HumanUpdate {
 
-    public static double FRACTION_FAT_LOST = 0.88;
+    public static double FRACTION_FAT_LOST = 0.5;
     public static boolean allFatWhenGainingWeight = true;
 
     public void update( Human human, double dt ) {
