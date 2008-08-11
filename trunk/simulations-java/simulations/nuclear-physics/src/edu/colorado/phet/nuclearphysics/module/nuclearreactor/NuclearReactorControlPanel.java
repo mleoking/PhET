@@ -51,7 +51,8 @@ public class NuclearReactorControlPanel extends ControlPanel {
         addControlFullWidth( _legendPanel );
 
         // Add the sub panel with the interactive controls.
-        _controlSubPanel = new NuclearReactorControlsSubPanel(nuclearReactorModule.getNuclearReactorModel());
+        _controlSubPanel = new NuclearReactorControlsSubPanel(parentFrame, 
+                nuclearReactorModule.getNuclearReactorModel());
         addControlFullWidth( _controlSubPanel );
         
         // Register as a listener with the control panel for param changes.
