@@ -32,6 +32,11 @@ public class LabelNode extends PNode {
         setChildrenPickable( false );
     }
 
+    public void setFont( Font font ) {
+        htmlNode.setFont( font );
+        updateBackgroundShape();
+    }
+
     private void updateBackgroundShape() {
         Rectangle2D rectangle2D = RectangleUtils.expandRectangle2D( htmlNode.getFullBounds(), 5, 5 );
         background.setPathTo( new RoundRectangle2D.Double( rectangle2D.getX(), rectangle2D.getY(), rectangle2D.getWidth(), rectangle2D.getHeight(), 10, 10 ) );

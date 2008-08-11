@@ -1,17 +1,17 @@
 package edu.colorado.phet.eatingandexercise.module.eatingandexercise;
 
 import edu.colorado.phet.eatingandexercise.model.Human;
-import edu.colorado.phet.eatingandexercise.view.LabelNode;
 
 /**
  * Created by: Sam
  * Jun 24, 2008 at 11:48:26 AM
  */
-public class StarvingMessage extends LabelNode {
+public class StarvingMessage extends WarningMessage {
     private Human human;
 
     public StarvingMessage( final Human human ) {
         super( "<html>Starving!<html>" );
+
         this.human = human;
 
         human.addListener( new Human.Adapter() {
@@ -22,9 +22,7 @@ public class StarvingMessage extends LabelNode {
         updateVisibility();
     }
 
-    protected void updateVisibility() {//todo: remove awkwardness
+    protected void updateVisibility() {
         setVisible( human.isStarving() );
     }
-
-
 }
