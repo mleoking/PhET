@@ -398,7 +398,8 @@ public class Human {
     }
 
     public double getActivityCaloriesPerDay() {
-        return activityLevel * bmr.getValue();
+        //this helps stabilize the model, and makes more sense to have activity depend on mass, rather than proportional to BMR as in previous model
+        return activityLevel * getMass() * 20;
     }
 
     private void notifyActivityChanged() {
