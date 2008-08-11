@@ -1,3 +1,9 @@
+New in 0.00.68
+Added developer control
+Changed model parameters in muscle gained from exercise and muscle and fat mass loss
+Changed from 7716 cal/kg to 9000 cal/kg for fat and 4000 cal/kg for muscle
+Fixed problem with new line in strings
+
 New in 0.00.63
 Added descriptions for the activity levels (from Noah)
 Increased slope for low values of exercise in nonlinear effect on heart strength
