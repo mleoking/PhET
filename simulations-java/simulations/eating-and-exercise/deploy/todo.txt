@@ -2,8 +2,6 @@
 ###	Todo Sam	####
 ############################
 
---Make arrows (currently "<" and ">") on each side of the food/exercise boxes say "< More" and "More >" on the left and right, respectively.
-
 --Add these descriptions to the help menu for activity levels:
 
 	Very Sedentary:  You are sitting or lounging most of the day. You are on your feet moving around only a few times a day

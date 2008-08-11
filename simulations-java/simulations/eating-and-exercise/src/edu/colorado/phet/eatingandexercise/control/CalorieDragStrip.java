@@ -49,7 +49,7 @@ public class CalorieDragStrip extends PNode {
         stripPanelClip.addChild( stripPanel );
         stripPanelClip.setPaint( new Color( 200, 220, 220 ) );
 
-        GradientButtonNode leftButton = new GradientButtonNode( "<html>&gt;</html>", 13, buttonColor );
+        GradientButtonNode leftButton = new GradientButtonNode( EatingAndExerciseResources.getString( "control.more.right" ), 13, buttonColor );
         leftButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 nextPanel( +1 );
@@ -58,7 +58,7 @@ public class CalorieDragStrip extends PNode {
         addChild( leftButton );
         leftButton.setOffset( getMaxPanelWidth(), getMaxPanelHeight() / 2 - leftButton.getFullBounds().getHeight() / 2 );
 
-        GradientButtonNode rightButton = new GradientButtonNode( "<html>&lt;</html>", 13, buttonColor );
+        GradientButtonNode rightButton = new GradientButtonNode( EatingAndExerciseResources.getString( "control.more.left" ), 13, buttonColor );
         rightButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 nextPanel( -1 );
