@@ -88,4 +88,6 @@ public class NuclearPhysicsStrings {
     public static final String POTENTIAL_PROFILE_POTENTIAL_ENERGY = NuclearPhysicsResources.getString( "PotentialProfilePanel.legend.PotentialEnergy" );
     public static final String POTENTIAL_PROFILE_TOTAL_ENERGY = NuclearPhysicsResources.getString( "PotentialProfilePanel.legend.TotalEnergy" );
     
+    public static final String REACTOR_PICTURE_CAPTION = NuclearPhysicsResources.getString( "NuclearReactorCorePhoto.Caption" );
+    public static final String SHOW_REACTOR_IMAGE = NuclearPhysicsResources.getString( "ControlledFissionControlPanel.ShowReactorImage" );
 }
