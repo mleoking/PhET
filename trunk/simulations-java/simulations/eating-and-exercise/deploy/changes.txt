@@ -1,6 +1,7 @@
 New in 0.00.70
 Changed the activity level values
 Made the "Starving" and "heart attack" warnings larger and move more to the left to be in the open play area.
+Made arrows (currently "<" and ">") on each side of the food/exercise boxes say "< More" and "More >" on the left and right, respectively.
 
 New in 0.00.69
 Activity calories burned is now proportional to weight rather than BMR
