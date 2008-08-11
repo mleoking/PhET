@@ -2,8 +2,6 @@
 ###	Todo Sam	####
 ############################
 
---Should have a warning box when choosing reset all.
-
 --Sometimes reset all clears the body, leaving the head...instead of resetting. Not sure how to reproduce this, but it has happened several times.
 
 --For a little while my weight slider had a red arrow head instead of the tan rounded rectangle?
@@ -14,7 +12,7 @@
 
 --Make sure dev control for color is removed in final version. (And other dev controls we've added.)
 
-
+--BMR at simulation start is different than BMR after reset all
 
 ############################
 ###	Todo Noah P	####
