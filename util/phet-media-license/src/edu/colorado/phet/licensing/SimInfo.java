@@ -28,7 +28,7 @@ public class SimInfo {
         this.resources = resources;
     }
 
-    public String getProjectName(){
+    public String getProjectName() {
         return project.getName();
     }
 
@@ -121,7 +121,7 @@ public class SimInfo {
                ( entry.getLicense() != null && entry.getLicense().equalsIgnoreCase( "http://creativecommons.org" ) )
                ||
                ( entry.getLicense() != null && entry.getLicense().equalsIgnoreCase( "Creative Commons, royalty free, public domain" ) );
-        
+
     }
 
     public static AnnotatedFile[] getIssues( AnnotatedFile[] resources ) {
@@ -140,7 +140,7 @@ public class SimInfo {
             return "<a name=\"" + project.getName() + "\">" + project.getName() + " has no known issues.</a>";
         }
         else {
-            String s = "<a name=\"" + project.getName() + "\">" + project.getName() + " issues:</a>";
+            String s = "<a name=\"" + project.getName() + "\">" + project.getName() + " issue" + ( getIssueCount() == 1 ? "" : "s" ) + ":</a>";
             s += "<br>";
             for ( int i = 0; i < dependencies.length; i++ ) {
                 s += "\t" + i + ". " + dependencies[i].getName() + "<br>";
@@ -170,9 +170,9 @@ public class SimInfo {
                 s += "Resources:<br>";
             }
             for ( int i = 0; i < resources.length; i++ ) {
-                s += "\t" + i + ". " + "<a href=\"annotated-data/" + resources[i].getFile().getName() + "\">" + resources[i].getResourceAnnotation().getName() + "</a>: " + resources[i].getResourceAnnotation().toText() + "<br>";
+                s += "\t" + i + ". " + "<a href=\"" + getHTMLFileLocation( resources[i] ) + "\">" + resources[i].getResourceAnnotation().getName() + "</a>: " + resources[i].getResourceAnnotation().toText() + "<br>";
                 s += "<br>" +
-                     "<img src=\"annotated-data/" + resources[i].getFile().getName() + "\">" +
+                     "<img src=\"" + getHTMLFileLocation( resources[i] ) + "\">" +
                      "<br><br><hr>";
 
             }
@@ -180,11 +180,24 @@ public class SimInfo {
                 s += ( "No issues found for " + project.getName() );
             }
             return s;
-
         }
     }
 
+    public String getHTMLFileLocation( AnnotatedFile file ) {
+
+        File dataDir = project.getDataDirectory().getAbsoluteFile();
+        File f = file.getFile().getAbsoluteFile();
+        String relativePath = "";
+        while ( !f.equals( dataDir ) ) {
+            f = f.getParentFile();
+            if ( !f.equals( dataDir ) ) {
+                relativePath = f.getName() + "/" + relativePath;
+            }
+        }
+        return "annotated-data/" + project.getName() + "/" + relativePath + file.getFile().getName();
+    }
+
     public String getHTMLHeader() {
-        return "<a href=\"#" + project.getName() + "\">" + project.getName() + " (" + getIssueCount() + " issues)</a>";
+        return "<a href=\"#" + project.getName() + "\">" + project.getName() + " (" + getIssueCount() + " issue" + ( getIssueCount() == 1 ? "" : "s" ) + ")</a>";
     }
 }
