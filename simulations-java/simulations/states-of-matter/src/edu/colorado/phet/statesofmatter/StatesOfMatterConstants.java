@@ -117,8 +117,8 @@ public class StatesOfMatterConstants {
 //    public static final String CYLINDRICAL_CONTAINER_IMAGE = "cup_3D_cap_thick_75_1.png";
 //    public static final String CYLINDRICAL_CONTAINER_IMAGE = "cup_3D_front_thick_60_1.png";
 //    public static final String CYLINDRICAL_CONTAINER_IMAGE = "cylindrical-container-image.png";
-    public static final String CYLINDRICAL_CONTAINER_IMAGE = "cup_3D_front_60.gif";
-//    public static final String CYLINDRICAL_CONTAINER_IMAGE = "cup_3D_jagged_front.png";
+//    public static final String CYLINDRICAL_CONTAINER_IMAGE = "cup_3D_front_60.png";
+    public static final String CYLINDRICAL_CONTAINER_IMAGE = "cup_3D_front_70_back_line.png";
     public static final String FINGER_IMAGE = "finger-1.png";
     
     //----------------------------------------------------------------------------
