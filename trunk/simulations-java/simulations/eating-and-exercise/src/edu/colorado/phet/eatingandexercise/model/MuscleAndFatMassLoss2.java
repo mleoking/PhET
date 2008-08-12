@@ -19,6 +19,8 @@ public class MuscleAndFatMassLoss2 implements HumanUpdate {
         // double fractionFatLost = FRACTION_FAT_LOST;
         // Make fractionFatLost linear function of FatMassPercent, up to FatMassPercent = 50%
         // Added by NP 8-11-08
+        // Todo: change multipler (now 3.0) to 3.5 for male, 2.8 for female
+        // Todo: change limiter for FatMassPercent (now 0.33) to 0.28 for male, .35 for female 
         double FatMassPercent = human.getFatMass() / human.getMass();
         double fractionFatLost = FatMassPercent * 3.0;
         if ( FatMassPercent > 0.33 ) {
