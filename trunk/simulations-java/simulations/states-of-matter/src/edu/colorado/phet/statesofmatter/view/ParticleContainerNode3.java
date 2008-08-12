@@ -147,7 +147,7 @@ public class ParticleContainerNode3 extends PhetPNode {
         
         // TODO: JPB TBD temp code.
         m_tempContainerRect.setPathTo( m_model.getParticleContainerRect() );
-        m_tempContainerRect.setOffset( 0, StatesOfMatterConstants.PARTICLE_CONTAINER_HEIGHT - m_model.getParticleContainerHeight() );
+        m_tempContainerRect.setOffset( 0, StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT - m_model.getParticleContainerHeight() );
     }
     
     private void drawContainer() {
