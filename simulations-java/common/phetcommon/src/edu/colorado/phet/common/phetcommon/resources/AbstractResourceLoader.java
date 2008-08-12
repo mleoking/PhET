@@ -22,7 +22,7 @@ abstract class AbstractResourceLoader implements IResourceLoader {
     /**
      * Determines if a named resource exists.
      *
-     * @param resourceName
+     * @param resource
      * @return true or false
      */
     public boolean exists( String resource ) {
@@ -113,7 +113,7 @@ abstract class AbstractResourceLoader implements IResourceLoader {
     /**
      * Gets an input stream for the specified resource.
      *
-     * @param resourceName
+     * @param resource
      * @return InputStream
      */
     public InputStream getResourceAsStream( String resource ) throws IOException {
@@ -127,7 +127,7 @@ abstract class AbstractResourceLoader implements IResourceLoader {
     /**
      * Gets a byte array for the specified resource.
      *
-     * @param resourceName
+     * @param resource
      * @return byte[]
      */
     public byte[] getResource( String resource ) throws IOException {
