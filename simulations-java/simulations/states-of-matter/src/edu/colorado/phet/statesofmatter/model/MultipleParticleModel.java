@@ -97,6 +97,7 @@ public class MultipleParticleModel {
     //----------------------------------------------------------------------------
     
     private double m_particleContainerHeight;
+    private double m_minAllowableContainerHeight;
     private final List m_particles = new ArrayList();
     private double m_totalEnergy;
     private EngineFacade m_engineFacade;
@@ -153,7 +154,7 @@ public class MultipleParticleModel {
         
         m_clock = clock;
         m_pressureCalculator = new PressureCalculator();
-        m_particleContainerHeight = StatesOfMatterConstants.PARTICLE_CONTAINER_HEIGHT;
+        m_particleContainerHeight = StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT;
         setThermostatType( ISOKINETIC_THERMOSTAT );
         
         // Register as a clock listener.
@@ -332,9 +333,10 @@ public class MultipleParticleModel {
 
     public void setParticleContainerHeight( double containerHeight ) {
         
-        if ((containerHeight < StatesOfMatterConstants.PARTICLE_CONTAINER_HEIGHT) &&
-            (containerHeight > StatesOfMatterConstants.PARTICLE_CONTAINER_HEIGHT * MIN_CONTAINER_HEIGHT_FRACTION)){
+        if ((containerHeight < StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT) &&
+            (containerHeight > m_minAllowableContainerHeight)){
             m_particleContainerHeight = containerHeight;
+            m_normalizedContainerHeight = m_particleContainerHeight / m_particleDiameter;
             notifyContainerSizeChanged();
         }
         else{
@@ -374,7 +376,7 @@ public class MultipleParticleModel {
         // Clear out the pressure calculation.
         m_pressureCalculator.clear();
         
-        // Set the size of the container.
+        // Set the initial size of the container.
         m_normalizedContainerWidth = StatesOfMatterConstants.CONTAINER_BOUNDS.width / m_particleDiameter;
         m_normalizedContainerHeight = StatesOfMatterConstants.CONTAINER_BOUNDS.height / m_particleDiameter;
         
@@ -396,6 +398,11 @@ public class MultipleParticleModel {
             System.err.println("Error: Unrecognized particle type, using default number of layers.");
             break;
         }
+        
+        // Set the minimum allowable size of the container, which is a
+        // function of the number of particles.
+        m_minAllowableContainerHeight = m_particleDiameter * m_particleDiameter * m_numberOfAtoms / 
+                StatesOfMatterConstants.PARTICLE_CONTAINER_WIDTH * 2;
         
         /*
         // Calculate the number of particles to create and simulate.
@@ -1926,7 +1933,7 @@ public class MultipleParticleModel {
         double xPos = position.getX();
         double yPos = position.getY();
         
-        double minDistance = WALL_DISTANCE_THRESHOLD / 2;
+        double minDistance = WALL_DISTANCE_THRESHOLD * 0.8;
         double distance;
         
         // Calculate the force in the X direction.
