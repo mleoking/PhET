@@ -146,7 +146,6 @@ public class ParticleContainerNode3 extends PhetPNode {
                 m_containmentAreaHeight - containerHeight - (m_containerTop.getFullBoundsReference().height / 2) );
         
         // TODO: JPB TBD temp code.
-        PBounds oldBounds = m_tempContainerRect.getFullBoundsReference();
         m_tempContainerRect.setPathTo( m_model.getParticleContainerRect() );
         m_tempContainerRect.setOffset( 0, StatesOfMatterConstants.PARTICLE_CONTAINER_HEIGHT - m_model.getParticleContainerHeight() );
     }
