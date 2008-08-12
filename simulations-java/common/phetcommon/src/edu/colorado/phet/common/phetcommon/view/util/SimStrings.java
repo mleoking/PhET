@@ -24,7 +24,6 @@ public class SimStrings {
     private Locale locale;
 
     private static SimStrings INSTANCE = new SimStrings();
-    private static boolean debugLocalization = false;
 
     /**
      * @deprecated
@@ -96,67 +95,29 @@ public class SimStrings {
      * @return String
      */
     public String getString( String key ) {
-        if ( debugLocalization ) {
-            return getStringDebugLocalization( key );
-        }
-        else {
-            if ( this.localizedStrings == null ) {
-                throw new RuntimeException( "Strings not initialized" );
-            }
-
-            String value = null;
-
-            for ( Iterator i = this.localizedStrings.iterator(); value == null && i.hasNext(); ) {
-                try {
-                    ResourceBundle rb = (ResourceBundle) i.next();
-                    value = rb.getString( key );
-                }
-                catch( Exception x ) {
-                    value = null;
-                }
-            }
-
-            if ( value == null ) {
-                System.err.println( "SimStrings.get: key not found, key = \"" + key + "\"" );
-                value = key;
-            }
-
-//            return value;
-            return DummyConstantStringTester.getString( value );
-        }
-    }
-
-    /*
-     * Gets a localized string, padding it with information about:
-     * 1. Which resource bundle contained the string used.
-     * 2. Whether the key was resolved.
-     * TODO: integrate the changes with getString()
-     */
-    private String getStringDebugLocalization( String key ) {
         if ( this.localizedStrings == null ) {
             throw new RuntimeException( "Strings not initialized" );
         }
 
         String value = null;
 
-        int bundleIndex = 0;
         for ( Iterator i = this.localizedStrings.iterator(); value == null && i.hasNext(); ) {
             try {
                 ResourceBundle rb = (ResourceBundle) i.next();
-                value = "[" + bundleIndex + "]" + rb.getString( key ) + "[/" + bundleIndex + "]";
+                value = rb.getString( key );
             }
             catch( Exception x ) {
                 value = null;
             }
-            bundleIndex++;
         }
 
         if ( value == null ) {
             System.err.println( "SimStrings.get: key not found, key = \"" + key + "\"" );
-            value = "[key]" + key + "[/key]";
+            value = key;
         }
 
-        return value;
+//            return value;
+        return DummyConstantStringTester.getString( value );
     }
 
     /**
