@@ -3,6 +3,8 @@ Change history for translation-utility
 ================================================================================
 
 DONE:
+8/12/08 - look for English strings in project-strings_en.properties, then fallback to project-strings.properties if not found
+8/12/08 - move constants to TUConstants
 6/25/08 - change URL for translation utility homepage to reflect new website organization
 6/25/08 - catch FileNotFoundException when looking for translation-utility.properties on server
 6/16/08 - discover project name from jar files named curve-fit.jar or curve-fit_fr.jar

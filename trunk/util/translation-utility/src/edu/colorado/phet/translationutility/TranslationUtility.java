@@ -1,4 +1,4 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2007-2008, University of Colorado */
 
 package edu.colorado.phet.translationutility;
 
@@ -22,9 +22,6 @@ import edu.colorado.phet.translationutility.util.ExceptionHandler;
  */
 public class TranslationUtility extends JFrame {
     
-    //NOTE: not tested with any source language code except "en"
-    private static final String SOURCE_LANGUAGE_CODE = "en";
-
     private TranslationUtility() {}
     
     public static void start() {
@@ -57,8 +54,11 @@ public class TranslationUtility extends JFrame {
             saveDirName = ".";
         }
         
+        // NOTE: untested with anything other than English
+        String sourceLanguageCode = TUConstants.ENGLISH_LANGUAGE_CODE;
+        
         // open the primary user interface
-        JFrame mainFrame = new MainFrame( simulation, SOURCE_LANGUAGE_CODE, targetLanguageCode, saveDirName );
+        JFrame mainFrame = new MainFrame( simulation, sourceLanguageCode, targetLanguageCode, saveDirName );
         mainFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         mainFrame.setVisible( true );
     }

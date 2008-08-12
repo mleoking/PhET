@@ -3,13 +3,13 @@
 package edu.colorado.phet.translationutility.simulations;
 
 import java.io.*;
-import java.text.MessageFormat;
 import java.util.Properties;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
 
+import edu.colorado.phet.translationutility.TUConstants;
 import edu.colorado.phet.translationutility.TUResources;
 import edu.colorado.phet.translationutility.util.Command;
 import edu.colorado.phet.translationutility.util.PropertiesIO;
@@ -31,6 +31,9 @@ public class JavaSimulation implements ISimulation {
     
     // temporary JAR file used to test translations
     private static final String TEST_JAR = System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.separator" ) + "phet-test-translation.jar";
+    
+    // regular expression that matches localization string files
+    private static final String REGEX_LOCALIZATION_FILES = ".*-strings.*\\.properties";
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -72,7 +75,14 @@ public class JavaSimulation implements ISimulation {
     }
 
     public Properties getStrings( String languageCode ) throws SimulationException {
-        return readPropertiesFromJar( _jarFileName, _projectName, languageCode );
+        String propertiesFileName = getPropertiesResourceName( _projectName, languageCode );
+        Properties properties = readPropertiesFromJar( _jarFileName, propertiesFileName );
+        if ( properties == null && languageCode.equals( TUConstants.ENGLISH_LANGUAGE_CODE ) ) {
+            // English strings may be in a fallback resource file whose name doesn't contain a language code.
+            propertiesFileName = getFallbackPropertiesResourceName( _projectName );
+            properties = readPropertiesFromJar( _jarFileName, propertiesFileName );
+        }
+        return properties;
     }
 
     public Properties loadStrings( File file ) throws SimulationException {
@@ -104,36 +114,48 @@ public class JavaSimulation implements ISimulation {
     //----------------------------------------------------------------------------
     
     /*
-     * Gets the base name of the JAR resource that contains localized strings for 
-     * a specified project and language.  If the language code is null, the default 
-     * name (English) is returned.
+     * Gets the full name of the fallback JAR resource that contains 
+     * English strings for a specified project.
+     */
+    private static String getFallbackPropertiesResourceName( String projectName ) {
+        return getPropertiesResourceName( projectName, null /* languageCode */ );
+    }
+    
+    /*
+     * Gets the full name of the JAR resource that contains localized strings for 
+     * a specified project and language. If language code is null, the fallback resource
+     * name is returned. 
+     */
+    private static String getPropertiesResourceName( String projectName, String languageCode ) {
+        String basename = getPropertiesResourceBasename( projectName, languageCode );
+        return projectName + "/localization/" + basename;
+    }
+    
+    /*
+     * Gets the basename of the JAR resource that contains localized strings for 
+     * a specified project and language. For example, faraday-strings_es.properties
+     * <p>
+     * If language code is null, the basename of the fallback resource is returned.
+     * The fallback name does not contain a language code, and contains English strings.
+     * For example: faraday-strings.properties
+     * <p>
+     * NOTE: Support for the fallback name is provided for backward compatibility.
+     * All Java simulations should migrate to the convention of including "en" in the 
+     * resource name of English localization files.
      * 
      * @param projectName
      * @param languageCode
      * @return
      */
     private static String getPropertiesResourceBasename( String projectName, String languageCode ) {
-        String baseName = null;
-        if ( languageCode == null || languageCode == "en" ) {
-            String format = "{0}-strings.properties";  // eg, faraday-strings.properties
-            Object[] args = { projectName, languageCode };
-            baseName = MessageFormat.format( format, args );
+        String basename = null;
+        if ( languageCode == null ) {
+            basename = projectName + "-strings" + ".properties"; // fallback basename contains no language code
         }
         else {
-            String format = "{0}-strings_{1}.properties"; // eg, faraday-strings_ar.properties
-            Object[] args = { projectName, languageCode };
-            baseName = MessageFormat.format( format, args );
+            basename = projectName + "-strings_" + languageCode + ".properties";
         }
-        return baseName;
-    }
-    
-    /*
-     * Gets the full name of the JAR resource that contains localized strings for 
-     * a specified project and language.  If the language code is null, the default 
-     * name (English) is returned.
-     */
-    private static String getPropertiesResourceName( String projectName, String languageCode ) {
-        return projectName + "/localization/" + getPropertiesResourceBasename( projectName, languageCode );
+        return basename;
     }
     
     /*
@@ -161,7 +183,6 @@ public class JavaSimulation implements ISimulation {
         }
         
         JarInputStream jarInputStream = null;
-        String localizationWildcard = getPropertiesResourceName( ".*" /* match for any project name */, "en" );
         try {
             jarInputStream = new JarInputStream( inputStream );
             
@@ -169,11 +190,10 @@ public class JavaSimulation implements ISimulation {
             JarEntry jarEntry = jarInputStream.getNextJarEntry();
             while ( jarEntry != null ) {
                 String jarEntryName = jarEntry.getName();
-                if ( jarEntryName.matches( localizationWildcard ) ) {
+                if ( jarEntryName.matches( REGEX_LOCALIZATION_FILES ) ) {
                     boolean commonMatch = false;
                     for ( int i = 0; i < commonProjectNames.length; i++ ) {
-                        // for example, phetcommon/localization/phetcommon-strings.properties
-                        String commonProjectFileName = getPropertiesResourceName( commonProjectNames[i], "en" );
+                        String commonProjectFileName = ".*" + commonProjectNames[i] + "-strings.*\\.properties";
                         if ( jarEntryName.matches( commonProjectFileName ) ) {
                             commonMatch = true;
                             break;
@@ -203,14 +223,12 @@ public class JavaSimulation implements ISimulation {
     
     /*
      * Reads a properties file from the specified JAR file.
-     * The properties file contains localized strings.
      * 
      * @param jarFileName
-     * @param projectName
-     * @param languageCode
+     * @param propertiesFileName
      * @return Properties
      */
-    private static Properties readPropertiesFromJar( String jarFileName, String projectName, String languageCode ) throws SimulationException {
+    private static Properties readPropertiesFromJar( String jarFileName, String propertiesFileName ) throws SimulationException {
         
         InputStream inputStream = null;
         try {
@@ -221,7 +239,6 @@ public class JavaSimulation implements ISimulation {
             throw new SimulationException( "jar file not found: " + jarFileName, e );
         }
         
-        String propertiesFileName = getPropertiesResourceName( projectName, languageCode );
         JarInputStream jarInputStream = null;
         boolean found = false;
         try {
