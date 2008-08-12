@@ -6,5 +6,4 @@
 faucet.png source=PhET author=Archie Paulson 
 H2O-molecule.png source=PhET author=Archie Paulson
 H3O-molecule.png source=PhET author=Archie Paulson
-license-orig.txt 
 OH-molecule.png source=PhET author=Archie Paulson
