@@ -4,10 +4,11 @@ package edu.colorado.phet.common.phetcommon.view.util;
 
 import java.util.Iterator;
 import java.util.Locale;
-import java.util.ResourceBundle;
 import java.util.Vector;
 
+import edu.colorado.phet.common.phetcommon.resources.DefaultResourceLoader;
 import edu.colorado.phet.common.phetcommon.resources.DummyConstantStringTester;
+import edu.colorado.phet.common.phetcommon.resources.PhetProperties;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
 /**
@@ -76,9 +77,9 @@ public class SimStrings {
             if ( this.locale == null ) {
                 this.locale = Locale.getDefault();
             }
-            ResourceBundle rb = ResourceBundle.getBundle( bundleName, this.locale );
-            if ( rb != null ) {
-                this.localizedStrings.add( rb );
+            PhetProperties properties = new DefaultResourceLoader().getProperties( bundleName, this.locale );
+            if ( properties != null ) {
+                this.localizedStrings.add( properties );
                 this.bundleNames.add( bundleName );
             }
         }
@@ -103,7 +104,7 @@ public class SimStrings {
 
         for ( Iterator i = this.localizedStrings.iterator(); value == null && i.hasNext(); ) {
             try {
-                ResourceBundle rb = (ResourceBundle) i.next();
+                PhetProperties rb = (PhetProperties) i.next();
                 value = rb.getString( key );
             }
             catch( Exception x ) {
