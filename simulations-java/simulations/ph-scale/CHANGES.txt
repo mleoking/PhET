@@ -13,6 +13,7 @@ LOW PRIORITY:
 
 
 DONE:
+8/11/08 - change screenshot, use hand soap as the liquid
 ******* version 1.00.00 (23294)
 7/17/08 - confirm that all dev controls disappear when -dev commandline arg is not supplied
 7/17/08 - organize imports
