@@ -11,4 +11,5 @@ cup_3D_front_thick_60_1.png author=PhET
 cylindrical-container-image.png author=PhET 
 flames.gif author=PhET 
 ice.gif author=PhET 
-stove.png author=PhET 
+stove.png author=PhET
+finger-1.png source=PhET author=John Blanco 
