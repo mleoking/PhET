@@ -75,13 +75,17 @@ public class JavaSimulation implements ISimulation {
     }
 
     public Properties getStrings( String languageCode ) throws SimulationException {
+        
+        // Load strings from a resource file.
         String propertiesFileName = getPropertiesResourceName( _projectName, languageCode );
         Properties properties = readPropertiesFromJar( _jarFileName, propertiesFileName );
+        
+        // English strings may be in a fallback resource file.
         if ( properties == null && languageCode.equals( TUConstants.ENGLISH_LANGUAGE_CODE ) ) {
-            // English strings may be in a fallback resource file whose name doesn't contain a language code.
             propertiesFileName = getFallbackPropertiesResourceName( _projectName );
             properties = readPropertiesFromJar( _jarFileName, propertiesFileName );
         }
+        
         return properties;
     }
 
