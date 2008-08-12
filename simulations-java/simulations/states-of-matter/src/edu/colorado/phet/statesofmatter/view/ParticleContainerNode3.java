@@ -19,6 +19,7 @@ import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * This class is the "view" for the particle container.  This is where the
@@ -143,7 +144,11 @@ public class ParticleContainerNode3 extends PhetPNode {
         double containerHeight = m_model.getParticleContainerHeight();
         m_containerTop.setOffset( 0, 
                 m_containmentAreaHeight - containerHeight - (m_containerTop.getFullBoundsReference().height / 2) );
+        
+        // TODO: JPB TBD temp code.
+        PBounds oldBounds = m_tempContainerRect.getFullBoundsReference();
         m_tempContainerRect.setPathTo( m_model.getParticleContainerRect() );
+        m_tempContainerRect.setOffset( 0, StatesOfMatterConstants.PARTICLE_CONTAINER_HEIGHT - m_model.getParticleContainerHeight() );
     }
     
     private void drawContainer() {
