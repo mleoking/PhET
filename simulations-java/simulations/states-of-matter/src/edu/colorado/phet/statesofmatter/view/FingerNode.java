@@ -109,7 +109,7 @@ public class FingerNode extends PNode {
             return;
         }
         
-        if (currentLowerEdgePosY + movementAmount < -m_model.getParticleContainerHeight()){
+        if (currentLowerEdgePosY + movementAmount < -StatesOfMatterConstants.PARTICLE_CONTAINER_HEIGHT){
             // The node is currently moving in the range where it doesn't
             // affect the size of the container, so go ahead and move it.
             m_fingerImageNode.translate( 0, movementAmount );
