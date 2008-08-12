@@ -16,7 +16,16 @@ public class MuscleAndFatMassLoss2 implements HumanUpdate {
         double caloriesGainedPerDay = human.getDeltaCaloriesGainedPerDay();
         double caloriesGained = caloriesGainedPerDay * EatingAndExerciseUnits.secondsToDays( dt );
 
-        double fractionFatLost = FRACTION_FAT_LOST;
+        // double fractionFatLost = FRACTION_FAT_LOST;
+        // Make fractionFatLost linear function of FatMassPercent, up to FatMassPercent = 50%
+        // Added by NP 8-11-08
+        double FatMassPercent = human.getFatMass() / human.getMass();
+        double fractionFatLost = FatMassPercent * 3.0;
+        if ( FatMassPercent > 0.33 ) {
+            fractionFatLost = 1.0;
+        }
+        // end of changes to fractionFatLost by NP
+
         if ( human.isAlmostStarving() ) {
             fractionFatLost = 0.5;
         }
