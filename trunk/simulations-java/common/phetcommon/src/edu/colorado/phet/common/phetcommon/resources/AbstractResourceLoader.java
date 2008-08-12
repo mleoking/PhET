@@ -5,10 +5,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Properties;
-import java.util.ResourceBundle;
 
 /**
  * AbstractResourceLoader provides a default implementation for
@@ -59,55 +57,34 @@ abstract class AbstractResourceLoader implements IResourceLoader {
      * @return resource converted to java.util.Properties
      */
     public PhetProperties getProperties( String resourceName, final Locale locale ) {
-
-        String baseName = getResourceBundleBaseName( resourceName );
-
-        // Get the resource bundle.
-        ResourceBundle rb = null;
-        try {
-            rb = ResourceBundle.getBundle( baseName, locale );
-        }
-        catch ( Exception e ) {
-            e.printStackTrace();
-            rb = null;
-        }
-
         // Load the resource bundle into Properties
         Properties properties = new Properties();
-        if ( rb != null ) {
-            for ( Enumeration keys = rb.getKeys(); keys.hasMoreElements(); ) {
-                final String key = (String) keys.nextElement();
-                final String value = rb.getString( key );
-                properties.put( key, value );
+        try {
+            InputStream inStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( getPropertiesResourceName( resourceName, locale ) );
+            if ( inStream == null ) { //need to fall back for sim property files such as the version properties file
+                inStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( getPropertiesResourceName( resourceName, new Locale( "en" ) ) );
             }
+            properties.load( inStream );
         }
-
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
         return new PhetProperties( properties );
     }
-    
-    /*
-     * Gets the base name for a resource bundle.
-     */
-    private static String getResourceBundleBaseName( String resourceName ) {
 
-        if ( resourceName == null ) {
-            throw new IllegalArgumentException( "resourceName is null" );
+    private String getPropertiesResourceName( String resourceName, Locale locale ) {
+        // strip off suffix, if it exists
+        if ( resourceName.endsWith( PROPERTIES_SUFFIX ) ) {
+            resourceName = resourceName.substring( 0, resourceName.length() - PROPERTIES_SUFFIX.length() );
         }
 
-        // operate on a copy, not the original resourceName !
-        // SRR 8-5-2008 Strings are immutable, this workaround is unnecessary
-        String baseName = new String( resourceName );
+        //append locale if necessary
+        //later we may change all files to have suffix, instead of suppressing it in English case
+        if ( !locale.getLanguage().equals( "en" ) ) {
+            resourceName += "_" + locale.getLanguage();
+        }
 
-        if ( baseName.startsWith( "/" ) ) {
-            // strip off leading '/'
-            baseName = baseName.substring( 1 );
-        }
-        if ( baseName.endsWith( PROPERTIES_SUFFIX ) ) {
-            // strip off suffix
-            baseName = baseName.substring( 0, baseName.length() - PROPERTIES_SUFFIX.length() );
-        }
-        baseName = baseName.replace( '/', '.' );
-        return baseName;
+        return resourceName + ".properties";
     }
 
     /**
