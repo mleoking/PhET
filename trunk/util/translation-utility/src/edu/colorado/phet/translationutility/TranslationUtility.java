@@ -22,6 +22,9 @@ import edu.colorado.phet.translationutility.util.ExceptionHandler;
  */
 public class TranslationUtility extends JFrame {
     
+    // NOTE: untested for languages other than English
+    private static final String SOURCE_LANGUAGE_CODE = TUConstants.ENGLISH_LANGUAGE_CODE;
+    
     private TranslationUtility() {}
     
     public static void start() {
@@ -30,7 +33,7 @@ public class TranslationUtility extends JFrame {
         UpdateManager.checkForUpdate();
         
         // prompt the user for initialization info
-        InitializationDialog initDialog = new InitializationDialog();
+        InitializationDialog initDialog = new InitializationDialog( SOURCE_LANGUAGE_CODE );
         SwingUtils.centerWindowOnScreen( initDialog );
         initDialog.setVisible( true );
         if ( !initDialog.isContinue() ) {
@@ -54,11 +57,8 @@ public class TranslationUtility extends JFrame {
             saveDirName = ".";
         }
         
-        // NOTE: untested with anything other than English
-        String sourceLanguageCode = TUConstants.ENGLISH_LANGUAGE_CODE;
-        
         // open the primary user interface
-        JFrame mainFrame = new MainFrame( simulation, sourceLanguageCode, targetLanguageCode, saveDirName );
+        JFrame mainFrame = new MainFrame( simulation, SOURCE_LANGUAGE_CODE, targetLanguageCode, saveDirName );
         mainFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         mainFrame.setVisible( true );
     }

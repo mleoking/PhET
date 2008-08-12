@@ -59,16 +59,17 @@ public class InitializationDialog extends JDialog {
     /**
      * Constructs a dialog with no owner.
      */
-    public InitializationDialog() {
-        this( null );
+    public InitializationDialog( String sourceLanguageCode ) {
+        this( null, sourceLanguageCode );
     }
     
     /**
      * Constructs a dialog with a specified owner.
      * 
      * @param owner
+     * @param sourceLanguageCode
      */
-    public InitializationDialog( Frame owner ) {
+    public InitializationDialog( Frame owner, String sourceLanguageCode ) {
         super( owner, TUResources.getTitle() );
         
         setModal( true );
@@ -131,7 +132,7 @@ public class InitializationDialog extends JDialog {
         {
             JLabel languageLabel = new JLabel( LANGUAGE_LABEL );
             
-            _languageComboBox = new LanguageComboBox();
+            _languageComboBox = new LanguageComboBox( sourceLanguageCode );
             _languageComboBox.setMaximumRowCount( 10 );
             _languageComboBox.addItemListener( new ItemListener() {
                 public void itemStateChanged( ItemEvent e ) {

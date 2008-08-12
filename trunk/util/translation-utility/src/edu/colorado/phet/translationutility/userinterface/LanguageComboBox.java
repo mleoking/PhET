@@ -64,7 +64,7 @@ public class LanguageComboBox extends JComboBox {
         }
     }
     
-    public LanguageComboBox() {
+    public LanguageComboBox( String sourceLanguageCode ) {
         super();
         
         setRenderer( new LanguageRenderer() );
@@ -76,7 +76,10 @@ public class LanguageComboBox extends JComboBox {
         for ( int i = 0; i < names.length; i++ ) {
             String name = names[i];
             String code = lc.getCode( name );
-            addItem( new LanguageChoice( name, code ) );
+            // exclude source language from the choices
+            if ( !sourceLanguageCode.equals( code ) ) {
+                addItem( new LanguageChoice( name, code ) );
+            }
         }
         
         addItem( new LanguageChoice( CUSTOM_NAME, null ) );
