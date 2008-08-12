@@ -42,6 +42,7 @@ public class FingerNode extends PNode {
     private PImage m_fingerImageNode;
     private MultipleParticleModel m_model;
     private double m_minLowerEdgeYPos;     // Minimum Y position for the lower edge of this node.
+    private double m_scale;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -62,9 +63,10 @@ public class FingerNode extends PNode {
             }
         });
         
-        // Load the image that looks like a finger.
+        // Load and scale the image that looks like a finger (hopefully).
         m_fingerImageNode = StatesOfMatterResources.getImageNode( StatesOfMatterConstants.FINGER_IMAGE );
-        m_fingerImageNode.scale( nodeWidth / m_fingerImageNode.getFullBoundsReference().width );
+        m_scale = nodeWidth / m_fingerImageNode.getFullBoundsReference().width;
+        m_fingerImageNode.scale( m_scale );
         
         // Set up a cursor handler so that the user will get an indication
         // that the node can be moved.
@@ -98,8 +100,6 @@ public class FingerNode extends PNode {
         double currentLowerEdgePosY = getFullBoundsReference().getMaxY();
         double movementAmount = event.getCanvasDelta().getHeight();
         
-        System.out.println("currentLowerEdgePosY = " + currentLowerEdgePosY);
-        
         if (currentLowerEdgePosY + movementAmount < m_minLowerEdgeYPos){
             // We are at the top of the allowable range, so only pay attention
             // to this event if we are moving in a downward direction.
@@ -120,7 +120,7 @@ public class FingerNode extends PNode {
         // the range where its motion should affect the size of the container.
         // Hence, we only set the container size here and rely on the
         // notifications of changes to the container size to move the node.
-        m_model.setParticleContainerHeight( m_model.getParticleContainerHeight() - movementAmount );
+        m_model.setParticleContainerHeight( m_model.getParticleContainerHeight() - ( movementAmount * m_scale ) );
     }
     
     private void handleContainerSizeChanged(){
