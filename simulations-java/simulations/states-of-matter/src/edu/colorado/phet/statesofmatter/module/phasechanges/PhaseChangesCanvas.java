@@ -91,7 +91,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         setBackground( StatesOfMatterConstants.CANVAS_BACKGROUND );
         
         // Create the particle container.
-        m_particleContainer = new ParticleContainerNode3(m_model, m_mvt, true);
+        m_particleContainer = new ParticleContainerNode3(m_model, m_mvt, false);
         
         // Add the pressure meter.
         PBounds particleContainerBounds = m_particleContainer.getFullBoundsReference();
@@ -129,10 +129,9 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         addWorldChild( stoveNode );
         
         // Add the finger for pressing down on the top of the container.
-        FingerNode fingerNode = new FingerNode( m_model.getParticleContainerRect().getWidth() * 0.25);
-        fingerNode.setOffset( m_particleContainer.getFullBoundsReference().getMinX() + 
-                m_particleContainer.getFullBoundsReference().width * 0.45,
-                m_particleContainer.getFullBoundsReference().getMinY() - fingerNode.getFullBoundsReference().height);
+        FingerNode fingerNode = new FingerNode( m_model );
+        // Note that this node will set its own offset, since it has to be
+        // responsible for positioning itself later based on user interaction.
         addWorldChild( fingerNode );
         
         // Add a listener for when the canvas is resized.

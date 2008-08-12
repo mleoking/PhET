@@ -56,6 +56,7 @@ public class ParticleContainerNode3 extends PhetPNode {
     private PNode m_topContainerLayer;
     private PNode m_bottomContainerLayer;
     private PNode m_containerTop;
+    private PPath m_tempContainerRect;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -92,6 +93,14 @@ public class ParticleContainerNode3 extends PhetPNode {
         else{
             drawContainer();
         }
+        
+        // TODO: JPB TBD - This is temporary for debugging and should
+        // be removed at some point.
+        // Draw a rectangle to show exactly where the container boundaries are.
+        m_tempContainerRect = new PPath(m_model.getParticleContainerRect());
+        m_tempContainerRect.setStrokePaint( Color.red );
+        m_tempContainerRect.setStroke( new BasicStroke(50) );
+        addChild( m_tempContainerRect );
         
         // Position this node so that the origin of the canvas, i.e. position
         // x=0, y=0, is at the lower left corner of the container.
@@ -134,6 +143,7 @@ public class ParticleContainerNode3 extends PhetPNode {
         double containerHeight = m_model.getParticleContainerHeight();
         m_containerTop.setOffset( 0, 
                 m_containmentAreaHeight - containerHeight - (m_containerTop.getFullBoundsReference().height / 2) );
+        m_tempContainerRect.setPathTo( m_model.getParticleContainerRect() );
     }
     
     private void drawContainer() {
