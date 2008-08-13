@@ -1,0 +1,45 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: August 11-13, 2008 (Mon-Wed)
+
+ACCOMPLISHMENTS:
+
+  ph-scale:
+  - update screenshot to make it stand out more on PhET website
+  
+  acids-and-bases:
+  - review design draft
+  
+  translation-utility:
+  - look for English strings in project-strings_en.properties, then in project-strings.properties
+  - exclude English from choice of translation languages
+  - publish 0.02.01 to dev
+  - discuss Unfuddle tickets with Sam Reid
+  
+  common:
+  - consolidate all common code strings in one place (collaborated with Sam Reid)
+  
+  misc:
+  - catch up on email and status (I was gone for 2 weeks)
+ 
+WHAT'S NEXT:
+
+  - complete work on translation-utility 1.00 (all Unfuddle tickets with priority High or Highest)
+    
+  - continue work on glaciers, see:
+    http://phet.svn.sourceforge.net/viewvc/phet/trunk/simulations-java/simulations/glaciers/CHANGES.txt?view=markup
+ 
+  - start on acids-and-bases sim
+  
+  - resume working on deploy process for Flash sims
+       
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+  September 19-22
+  
+--
