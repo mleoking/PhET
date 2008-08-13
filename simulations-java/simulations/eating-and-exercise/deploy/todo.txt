@@ -28,8 +28,6 @@
 
 --When Lifestyle calories burned is calculated, is that based on LBM (i.e., fat free mass) or weight? Wendy and I think it should be based on total weight, so just wanted to check.
 
---Label should change on exercise log. "Daily Exercise", "Exercise Log" or maybe just "Exercise" in the book where it now says Today.
-
 
 
 ############################
