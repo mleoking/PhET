@@ -1,0 +1,54 @@
+<?xml version="1.0" ?>
+<SimStrings>
+  <string key="estimation" value="Estimation" /> 
+  <string key="selectTrainingOrGame" value="Select Training or Game:" /> 
+  <string key="train" value="Train" /> 
+  <string key="play" value="Play" />
+  <string key="levelColon" value="Level:" /> 
+  <string key="level" value="Level " /> 
+  <string key="enter" value="Enter" /> 
+  <string key="sound" value="Sound" /> 
+  <string key="EnterNumber" value="Enter Number" />
+  <string key="PleasePickANumber" value="Please pick a number between 1 and 100000." />
+  <string key="gameRules" value="Game Rules" /> 
+  <string key="strategyHelp" value="Strategy Help" /> 
+  <string key="howMany" value="How many little ones \nfit in the big one?" /> 
+  <string key="tooFarOff" value="Too far off ! \nExact answer is:" /> 
+  <string key="closeEnough" value="Close enough ! \nExact answer is:" /> 
+  <string key="score" value="Score" />
+  <string key="time" value="Time(sec)" /> 
+  <string key="scorePerTime" value="Score/Time" /> 
+  <string key="next" value="Next" />
+  <string key="endGame" value="End Game" /> 
+  <string key="gameOver" value="Game over." />
+  <string key="scorePerTimeColon" value="score/time:" /> 
+  <string key="numberEstimates" value="number of estimates:" /> 
+  <string key="percentUnderOver" value="percent under/over:" /> 
+  <string key="averageAccuracy" value="average accuracy:" />
+  <string key="home" value="Home" /> 
+  <string key="whatIsRatioOfAreas" value="What is the ratio of the areas?" /> 
+  <string key="ratioOfAreasIs" value="Ratio of areas is" /> 
+  <string key="whatIsRatioOfVolumes" value="What is the ratio of the volumes?" />
+  <string key="ratioOfVolumesIs" value="Ratio of volumes is" />
+  <string key="nextLowerCase" value="next" />
+  <string key="back" value="back" />
+  <string key="ratioOfLengths" value="ratio of lengths for lines \nratio of areas for square and circles \nratio of volues for cubes and spheres" /> 
+  <string key="levelOneColon" value="Level 1: Lines only \nLevel 2: Lines and 2D objects \nLevel 3: All objects" />
+  <string key="fullCreditIf" value="Full credit if" /> 
+  <string key="yourAnswerIs" value="your answer is within \nfactor of 1.3 for lines, \nfactor of 1.6 for 2D objects, \nfactor of 2.0 for 3D objects." /> 
+  <string key="noCreditIf" value="No credit if" /> 
+  <string key="answerIsOutside" value="answer is outside these bounds." />
+  <string key="accuracyIsSmaller" value="Accuracy is smaller of:" /> 
+  <string key="yourAnswer" value="your answer" /> 
+  <string key="exactAnswer" value="exact answer" /> 
+  <string key="or" value="or2" />
+  <string key="" value="" />
+  <string key="" value="" />
+  <string key="" value="" />
+  <string key="" value="" />
+  <string key="" value="" />
+  <string key="" value="" />
+  <string key="" value="" />
+
+  
+</SimStrings>
