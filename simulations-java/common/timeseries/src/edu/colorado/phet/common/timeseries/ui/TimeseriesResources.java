@@ -10,13 +10,14 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
  * May 15, 2007, 8:12:31 PM
  */
 public class TimeseriesResources {
-    private static PhetResources resources = PhetCommonResources.getInstance();
+    private static PhetResources commonresources = PhetCommonResources.getInstance();
+    private static PhetResources timeseriesresources = new PhetResources( "timeseries" );
 
     public static String getString( String s ) {
-        return resources.getLocalizedString( s );
+        return commonresources.getLocalizedString( "Common." + s );
     }
 
     public static BufferedImage loadBufferedImage( String s ) {
-        return resources.getImage( s );
+        return timeseriesresources.getImage( s );
     }
 }
