@@ -15,8 +15,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
-import edu.colorado.phet.statesofmatter.model.container.ParticleContainer;
-import edu.colorado.phet.statesofmatter.model.container.RectangularParticleContainer;
 import edu.colorado.phet.statesofmatter.model.engine.EngineFacade;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyAdjuster;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyCapper;
@@ -488,7 +486,7 @@ public class MultipleParticleModel {
      * number of particles.
      */
     private void calculateMinAllowableContainerHeight() {
-        m_minAllowableContainerHeight = m_particleDiameter * m_particleDiameter * m_numberOfAtoms / 
+        m_minAllowableContainerHeight = m_particleDiameter * m_particleDiameter * m_numberOfAtoms / m_atomsPerMolecule / 
                 StatesOfMatterConstants.PARTICLE_CONTAINER_WIDTH * 2;
     }
     
