@@ -39,13 +39,11 @@ abstract class AbstractResourceLoader implements IResourceLoader {
      * <p/>
      * Looks up a resource named 'resourceName' in the classpath.
      * The resource must map to a file with .properties extention.
-     * The name may be an absolute or relative path and can use either
-     * "/" or "." for package segment separation with an optional
+     * The name is a relative path in the data/ directory, with
+     * "/" for package segment separation with an optional
      * leading "/" and optional ".properties" suffix. Thus, the
      * following names refer to the same resource:
      * <pre>
-     * some.pkg.Resource
-     * some.pkg.Resource.properties
      * some/pkg/Resource
      * some/pkg/Resource.properties
      * /some/pkg/Resource
