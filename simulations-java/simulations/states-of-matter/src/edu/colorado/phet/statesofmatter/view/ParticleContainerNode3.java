@@ -50,12 +50,15 @@ public class ParticleContainerNode3 extends PhetPNode {
 //  public static final String CYLINDRICAL_CONTAINER_IMAGE = "cup_3D_front_thick_60_1.png";
 //  public static final String CYLINDRICAL_CONTAINER_IMAGE = "cylindrical-container-image.png";
 //  public static final String CYLINDRICAL_CONTAINER_IMAGE = "cup_3D_front_60.png";
-    public static final String IMAGE_NAME = "cup_3D_front_70_back_line.png";
-    private static final double CONTAINER_VERTICAL_OFFSET_FRACTION   = 0.05;
+    private static final String CONTAINER_IMAGE_NAME = "cup_3D_front_70_split.png";
+    private static final String LID_IMAGE_NAME = "cup_3D_cap_70.png";
     
+    // Constant(s) that affect the appearance of both depictions of the container.
+    private static final double ELLIPSE_HEIGHT_PROPORTION = 0.15;  // Height of ellipses as a function of overall height.
+
     // TODO: JPB TBD - Constant that turns on/off a rectangle that shows the outline of the node.
     // This should be removed when no longer needed.
-    private static final boolean SHOW_RECTANGLE = false;
+    private static final boolean SHOW_RECTANGLE = true;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -170,7 +173,7 @@ public class ParticleContainerNode3 extends PhetPNode {
         // Create the bottom of the container, which will appear below (or
         // behind) the particles in the Z-order.
         
-        double ellipseHeight = m_containmentAreaHeight * 0.15; // TODO: JPB TBD - Make this a constant?
+        double ellipseHeight = m_containmentAreaHeight * ELLIPSE_HEIGHT_PROPORTION;
         
         // Add the node that will be at the bottom of the Z-order, and will
         // contain the portion of the container that should appear behind the
@@ -216,7 +219,7 @@ public class ParticleContainerNode3 extends PhetPNode {
         containerTop.setStroke( CONTAINER_EDGE_STROKE );
         containerTop.setStrokePaint( CONTAINER_EDGE_COLOR );
         m_containerTop = new PNode();
-        m_containerTop.setPickable( true );
+        m_containerTop.setPickable( false );
         m_containerTop.setChildrenPickable( false );
         m_containerTop.addChild( containerTop );
         m_topContainerLayer.addChild( m_containerTop );
@@ -239,7 +242,7 @@ public class ParticleContainerNode3 extends PhetPNode {
     private void loadContainerImage(){
         
         // Load the image that will be used.
-        PImage containerImageNode = StatesOfMatterResources.getImageNode(IMAGE_NAME);
+        PImage containerImageNode = StatesOfMatterResources.getImageNode(CONTAINER_IMAGE_NAME);
         
         // Scale the container image based on the size of the container.
         containerImageNode.setScale( m_containmentAreaWidth / containerImageNode.getWidth() );
@@ -255,12 +258,18 @@ public class ParticleContainerNode3 extends PhetPNode {
         m_topContainerLayer.setChildrenPickable( false );
         m_topContainerLayer.addChild(containerImageNode);
         
-        // Shift the image so that the particles only move around where we
-        // want them to.
-        containerImageNode.setOffset( 0, -m_containmentAreaHeight * CONTAINER_VERTICAL_OFFSET_FRACTION );
+        containerImageNode.setOffset( 0, 0 );
         
         // Add the top layer node to this node.
         addChild( m_topContainerLayer );
+        
+        // Add the top of the container.
+        m_containerTop = StatesOfMatterResources.getImageNode(LID_IMAGE_NAME);
+        m_containerTop.setScale( m_containmentAreaWidth / containerImageNode.getWidth() );
+        m_containerTop.setPickable( false );
+        m_topContainerLayer.addChild( m_containerTop );
+//        m_containerTop.setOffset( 0, 0 );
+        m_containerTop.setOffset( 0, -m_containerTop.getFullBoundsReference().height / 2 );
     }
 
     private void addParticleLayers() {
