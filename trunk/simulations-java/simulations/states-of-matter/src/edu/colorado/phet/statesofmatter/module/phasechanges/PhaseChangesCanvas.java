@@ -5,12 +5,12 @@ package edu.colorado.phet.statesofmatter.module.phasechanges;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.view.BicyclePumpNode;
-import edu.colorado.phet.statesofmatter.view.FingerNode;
 import edu.colorado.phet.statesofmatter.view.ModelViewTransform;
 import edu.colorado.phet.statesofmatter.view.ParticleContainerNode3;
 import edu.colorado.phet.statesofmatter.view.StoveNode;
@@ -91,47 +91,46 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         setBackground( StatesOfMatterConstants.CANVAS_BACKGROUND );
         
         // Create the particle container.
-        m_particleContainer = new ParticleContainerNode3(m_model, m_mvt);
-        
+        m_particleContainer = new ParticleContainerNode3(m_model, m_mvt, false);
+
+        // Get the rectangle that describes the position of the particle
+        // container within the model, since the various nodes below will
+        // all be positioned relative to it.
+        Rectangle2D containerRect = m_model.getParticleContainerRect();
+
         // Add the pressure meter.
-        PBounds particleContainerBounds = m_particleContainer.getFullBoundsReference();
         m_pressureMeter = new DialGaugeNode(PRESSURE_GAUGE_WIDTH, "Pressure", 0, MAX_PRESSURE, "");
-        m_pressureMeter.setOffset( particleContainerBounds.getMaxX(), 
-                particleContainerBounds.y + particleContainerBounds.width * 0.1);
+        m_pressureMeter.setOffset( containerRect.getX() + containerRect.getWidth(), 
+                containerRect.getY() - m_pressureMeter.getFullBoundsReference().height - 
+                containerRect.getHeight() * 0.5);
         addWorldChild( m_pressureMeter );
         
         // Add the pump.
         BicyclePumpNode pump = new BicyclePumpNode(PUMP_WIDTH, PUMP_HEIGHT, m_model);
-        pump.setOffset( particleContainerBounds.getMaxX(), 
-                particleContainerBounds.y + particleContainerBounds.width * 0.12);
+        pump.setOffset( containerRect.getX() + containerRect.getWidth(), 
+                containerRect.getY() - pump.getFullBoundsReference().height - 
+                containerRect.getHeight() * 0.2);
         addWorldChild( pump );
         
         // Add the particle container after the pressure meter so it can be
         // on top of it.
         addWorldChild(m_particleContainer);
         
-        // Add the finger for pressing down on the top of the container.
-        FingerNode fingerNode = new FingerNode( m_model );
-        // Note that this node will set its own offset, since it has to be
-        // responsible for positioning itself later based on user interaction.
-        addWorldChild( fingerNode );
-        
         // Add a thermometer for displaying temperature.
         m_thermometerNode = new CompositeThermometerNode(0, 400, 
-                m_particleContainer.getFullBoundsReference().width * 0.25, 
-                m_particleContainer.getFullBoundsReference().height * 0.30);
+                containerRect.getX() + containerRect.getWidth() * 0.25,
+                containerRect.getY() + containerRect.getHeight() * 0.35);
         m_thermometerNode.setOffset( 
-                m_particleContainer.getFullBoundsReference().x + m_particleContainer.getFullBoundsReference().width * 0.80, 
-                m_particleContainer.getFullBoundsReference().y - m_particleContainer.getFullBoundsReference().height * 0.05 );
+                containerRect.getX() + containerRect.getWidth() * 0.80, 
+                containerRect.getY() - containerRect.getHeight() * 1.1 );
         addWorldChild(m_thermometerNode);
         
         // Add a burner that the user can use to add or remove heat from the
         // particle container.
         StoveNode stoveNode = new StoveNode( m_model );
         stoveNode.setScale( BURNER_NODE_WIDTH / stoveNode.getFullBoundsReference().width );
-        stoveNode.setOffset(m_particleContainer.getFullBoundsReference().getMinX() + 
-                m_particleContainer.getFullBoundsReference().width * 0.3,
-                m_particleContainer.getFullBoundsReference().getMaxY());
+        stoveNode.setOffset(containerRect.getX() + containerRect.getWidth() * 0.3,
+                containerRect.getY() + containerRect.getHeight() * 0.1);
         addWorldChild( stoveNode );
         
         // Add a listener for when the canvas is resized.

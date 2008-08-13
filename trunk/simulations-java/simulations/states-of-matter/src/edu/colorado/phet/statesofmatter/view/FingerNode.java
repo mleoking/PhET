@@ -55,7 +55,7 @@ public class FingerNode extends PNode {
 
         m_model = model;
         Rectangle2D containerRect = m_model.getParticleContainerRect();
-        double nodeWidth = containerRect.getWidth() * NODE_WIDTH_PROPORTION;
+        double desiredWidth = containerRect.getWidth() * NODE_WIDTH_PROPORTION;
         
         m_minLowerEdgeYPos = -(containerRect.getMaxY() + (containerRect.getHeight() * NODE_MIN_Y_POS_PROPORTION));
         
@@ -68,7 +68,7 @@ public class FingerNode extends PNode {
         
         // Load and scale the image that looks like a finger (hopefully).
         m_fingerImageNode = StatesOfMatterResources.getImageNode( PRIMARY_IMAGE );
-        m_scale = nodeWidth / m_fingerImageNode.getFullBoundsReference().width;
+        m_scale = desiredWidth / m_fingerImageNode.getFullBoundsReference().width;
         m_fingerImageNode.scale( m_scale );
         
         // Set up a cursor handler so that the user will get an indication
@@ -89,9 +89,8 @@ public class FingerNode extends PNode {
 
         // Set our initial offset.
 //        setOffset( containerRect.getX() + containerRect.getWidth() * NODE_X_POS_PROPORTION,
-//                m_minLowerEdgeYPos - m_fingerImageNode.getFullBoundsReference().height);
-        setOffset( containerRect.getX() + containerRect.getWidth() * NODE_X_POS_PROPORTION,
-                -containerRect.getMaxY() - m_fingerImageNode.getFullBoundsReference().height);
+//                -containerRect.getMaxY() - m_fingerImageNode.getFullBoundsReference().height);
+        setOffset( 0, 0 );
     }
 
     //----------------------------------------------------------------------------
