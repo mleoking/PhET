@@ -3,6 +3,7 @@ package edu.colorado.phet.statesofmatter.module.solidliquidgas;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
@@ -79,25 +80,25 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
         setBackground( StatesOfMatterConstants.CANVAS_BACKGROUND );
         
         // Create and add the particle container.
-        m_particleContainer = new ParticleContainerNode3(m_model, m_mvt);
+        m_particleContainer = new ParticleContainerNode3(m_model, m_mvt, false);
         addWorldChild(m_particleContainer);
         
         // Add a thermometer for displaying temperature.
+        Rectangle2D containerRect = m_model.getParticleContainerRect();
         m_thermometerNode = new CompositeThermometerNode(0, 400, 
-                m_particleContainer.getFullBoundsReference().width * 0.25, 
-                m_particleContainer.getFullBoundsReference().height * 0.30);
+                containerRect.getX() + containerRect.getWidth() * 0.25,
+                containerRect.getY() + containerRect.getHeight() * 0.35);
         m_thermometerNode.setOffset( 
-                m_particleContainer.getFullBoundsReference().x + m_particleContainer.getFullBoundsReference().width * 0.80, 
-                m_particleContainer.getFullBoundsReference().y - m_particleContainer.getFullBoundsReference().height * 0.05 );
+                containerRect.getX() + containerRect.getWidth() * 0.80, 
+                containerRect.getY() - containerRect.getHeight() * 1.1 );
         addWorldChild(m_thermometerNode);
         
         // Add a burner that the user can use to add or remove heat from the
         // particle container.
         StoveNode stoveNode = new StoveNode( m_model );
         stoveNode.setScale( BURNER_NODE_WIDTH / stoveNode.getFullBoundsReference().width );
-        stoveNode.setOffset(m_particleContainer.getFullBoundsReference().getMinX() + 
-                m_particleContainer.getFullBoundsReference().width * 0.3,
-                m_particleContainer.getFullBoundsReference().getMaxY());
+        stoveNode.setOffset(containerRect.getX() + containerRect.getWidth() * 0.3,
+                containerRect.getY() + containerRect.getHeight() * 0.1);
         addWorldChild( stoveNode );
         
         // Add a listener for when the canvas is resized.

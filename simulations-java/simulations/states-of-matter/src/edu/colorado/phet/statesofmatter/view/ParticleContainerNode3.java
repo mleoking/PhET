@@ -78,7 +78,7 @@ public class ParticleContainerNode3 extends PhetPNode {
     // Constructor
     //----------------------------------------------------------------------------
     
-    public ParticleContainerNode3(MultipleParticleModel model, ModelViewTransform mvt) {
+    public ParticleContainerNode3(MultipleParticleModel model, ModelViewTransform mvt, boolean volumeControlEnabled) {
         
         super();
 
@@ -101,6 +101,14 @@ public class ParticleContainerNode3 extends PhetPNode {
                 handleContainerSizeChanged();
             }
         });
+        
+        if (volumeControlEnabled){
+            // Add the finger for pressing down on the top of the container.
+            FingerNode fingerNode = new FingerNode( m_model );
+            // Note that this node will set its own offset, since it has to be
+            // responsible for positioning itself later based on user interaction.
+            addChild( fingerNode );
+        }
         
         // Create the visual representation of the container.
         if (USE_IMAGE_FOR_CONTAINER){
