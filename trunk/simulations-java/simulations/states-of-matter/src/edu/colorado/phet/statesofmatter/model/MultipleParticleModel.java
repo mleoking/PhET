@@ -399,10 +399,7 @@ public class MultipleParticleModel {
             break;
         }
         
-        // Set the minimum allowable size of the container, which is a
-        // function of the number of particles.
-        m_minAllowableContainerHeight = m_particleDiameter * m_particleDiameter * m_numberOfAtoms / 
-                StatesOfMatterConstants.PARTICLE_CONTAINER_WIDTH * 2;
+        calculateMinAllowableContainerHeight();
         
         /*
         // Calculate the number of particles to create and simulate.
@@ -484,6 +481,15 @@ public class MultipleParticleModel {
         
         // Let any listeners know that the model has been reset.
         notifyResetOccurred();
+    }
+
+    /**
+     * Calculate the minimum allowable container height based on the current
+     * number of particles.
+     */
+    private void calculateMinAllowableContainerHeight() {
+        m_minAllowableContainerHeight = m_particleDiameter * m_particleDiameter * m_numberOfAtoms / 
+                StatesOfMatterConstants.PARTICLE_CONTAINER_WIDTH * 2;
     }
     
     
@@ -641,6 +647,8 @@ public class MultipleParticleModel {
                 syncParticlePositions();
             }
         }
+        
+        calculateMinAllowableContainerHeight();
     }
     
     public void addListener(Listener listener){
@@ -1599,7 +1607,7 @@ public class MultipleParticleModel {
         int numberOfMolecules = m_numberOfAtoms / 3;
         
         // JPB TBD - Go over this with Paul and understand it.
-        double q0 = 3;
+        double q0 = 1.5;
         double [] q = new double [] {-2*q0, q0, q0};
         
         // JPB TBD - I skipped initializing m_x0 and m_y0 here, as they were
