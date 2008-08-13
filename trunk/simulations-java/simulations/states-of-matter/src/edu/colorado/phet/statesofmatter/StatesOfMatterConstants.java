@@ -20,8 +20,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
  */
 public class StatesOfMatterConstants {
     
-    public static final double PARTICLE_CONTAINER_INITIAL_HEIGHT = 1;
-    
     /* Not intended for instantiation. */
     private StatesOfMatterConstants() {}
     
@@ -85,9 +83,9 @@ public class StatesOfMatterConstants {
     
     // Dimensions of the container in which the particles will reside, in picometers.
     public static double PARTICLE_CONTAINER_WIDTH = 10000;
-    public static double PARTICLE_CONTAINER_HEIGHT = PARTICLE_CONTAINER_WIDTH * 1.05;
+    public static double PARTICLE_CONTAINER_INITIAL_HEIGHT = PARTICLE_CONTAINER_WIDTH * 1.05;
     public static final Rectangle2D.Double CONTAINER_BOUNDS = new Rectangle2D.Double(0, 0, PARTICLE_CONTAINER_WIDTH,
-            PARTICLE_CONTAINER_HEIGHT);
+            PARTICLE_CONTAINER_INITIAL_HEIGHT);
     
     // TODO: JPB TBD - Many of these constants will no longer be used once the
     // sim has been cleaned up, so remember to remove them.
@@ -121,7 +119,6 @@ public class StatesOfMatterConstants {
 //    public static final String CYLINDRICAL_CONTAINER_IMAGE = "cylindrical-container-image.png";
 //    public static final String CYLINDRICAL_CONTAINER_IMAGE = "cup_3D_front_60.png";
     public static final String CYLINDRICAL_CONTAINER_IMAGE = "cup_3D_front_70_back_line.png";
-    public static final String FINGER_IMAGE = "finger-1.png";
     
     //----------------------------------------------------------------------------
     // Cursors
