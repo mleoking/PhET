@@ -22,9 +22,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
-import edu.colorado.phet.nuclearphysics.dialog.ReactorPictureDialog;
 
 /**
  * This class defines a subpanel that goes on the main control panel for the
@@ -45,7 +43,6 @@ public class NuclearReactorControlsSubPanel extends VerticalLayoutPanel {
     private ArrayList _listeners;
     private NuclearReactorModel _model;
     private final JCheckBox _energyGraphsCheckBox;
-    private Frame _parentFrame;
 
     //------------------------------------------------------------------------
     // Constructor
@@ -54,7 +51,6 @@ public class NuclearReactorControlsSubPanel extends VerticalLayoutPanel {
     public NuclearReactorControlsSubPanel(Frame parentFrame, NuclearReactorModel model) {
         
         _model = model;
-        _parentFrame = parentFrame;
         
         // Perform local initialization.
         _listeners = new ArrayList();
@@ -98,24 +94,6 @@ public class NuclearReactorControlsSubPanel extends VerticalLayoutPanel {
             }
         });
         add(fireNeutronsButton);
-        
-        // Add a bit more spacing.
-        addSpace( 10 );
-        
-        // Add the button that shows the picture of the real reactor core.
-        JButton showImageButton = new JButton(NuclearPhysicsStrings.SHOW_REACTOR_IMAGE);
-        showImageButton.addActionListener( new ActionListener(){
-            public void actionPerformed(ActionEvent event){
-                // Show the image dialog.
-                ReactorPictureDialog reactorCorePictureDlg = new ReactorPictureDialog( _parentFrame );
-                if ( reactorCorePictureDlg != null ) {
-                    SwingUtils.centerDialogInParent( reactorCorePictureDlg );
-                }
-                reactorCorePictureDlg.setVisible( true );
-            }
-        });
-
-        add(showImageButton);
         
         // Add a bit more spacing.
         addSpace( 10 );

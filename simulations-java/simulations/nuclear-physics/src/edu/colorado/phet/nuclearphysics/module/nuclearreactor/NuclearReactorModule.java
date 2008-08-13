@@ -42,7 +42,7 @@ public class NuclearReactorModule extends PiccoloModule {
         _model = new NuclearReactorModel(clock);
 
         // Canvas
-        _canvas = new NuclearReactorCanvas( _model );
+        _canvas = new NuclearReactorCanvas( _model, parentFrame );
         setSimulationPanel( _canvas );
 
         // Control Panel
