@@ -62,10 +62,12 @@ abstract class AbstractResourceLoader implements IResourceLoader {
             if ( inStream == null ) { //need to fall back for sim property files such as the version properties file
                 inStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( getPropertiesResourceName( resourceName, new Locale( "en" ) ) );
             }
-            properties.load( inStream );
+            if ( inStream != null ) {
+                properties.load( inStream );
+            }
         }
         catch( IOException e ) {
-            e.printStackTrace();
+            e.printStackTrace(  );
         }
         return new PhetProperties( properties );
     }
