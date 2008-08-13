@@ -146,7 +146,7 @@ public class TimeSeriesControlPanel extends JPanel {
             }
         } );
 
-        rewindButton = new JButton( TimeseriesResources.getString( "rewind" ), new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_REWIND ) ) );
+        rewindButton = new JButton( TimeseriesResources.getString( "Common.rewind" ), new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_REWIND ) ) );
         rewindButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.rewind();
@@ -162,7 +162,7 @@ public class TimeSeriesControlPanel extends JPanel {
                 updateRewindButtonEnabled();
             }
         } );
-        JButton clearButton = new JButton( TimeseriesResources.getString( "clear" ), new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_STOP ) ) );
+        JButton clearButton = new JButton( TimeseriesResources.getString( "Common.clear" ), new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_STOP ) ) );
         clearButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( confirmClear() ) {
@@ -175,7 +175,7 @@ public class TimeSeriesControlPanel extends JPanel {
     }
 
     private boolean confirmClear() {
-        return JOptionPane.showConfirmDialog( this, TimeseriesResources.getString("confirm.clear.graphs" ) )== JOptionPane.YES_OPTION;
+        return JOptionPane.showConfirmDialog( this, TimeseriesResources.getString("Common.confirm.clear.graphs" ) )== JOptionPane.YES_OPTION;
     }
 
     public static interface Listener {

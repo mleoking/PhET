@@ -14,7 +14,7 @@ public class TimeseriesResources {
     private static PhetResources timeseriesresources = new PhetResources( "timeseries" );
 
     public static String getString( String s ) {
-        return commonresources.getLocalizedString( "Common." + s );
+        return commonresources.getLocalizedString( s );
     }
 
     public static BufferedImage loadBufferedImage( String s ) {

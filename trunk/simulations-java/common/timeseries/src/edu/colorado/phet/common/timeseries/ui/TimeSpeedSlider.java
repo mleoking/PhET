@@ -24,9 +24,9 @@ public class TimeSpeedSlider extends VerticalLayoutPanel {
         this.energySkateParkClock = defaultClock;
         linearSlider.setTextFieldVisible( false );
         Hashtable table = new Hashtable();
-        table.put( new Double( min ), new JLabel( TimeseriesResources.getString( "time.slow" ) ) );
-        table.put( new Double( max ), new JLabel( TimeseriesResources.getString( "time.fast" ) ) );
-        final JLabel value = new JLabel( TimeseriesResources.getString( "sim.speed" ) );
+        table.put( new Double( min ), new JLabel( TimeseriesResources.getString( "Common.time.slow" ) ) );
+        table.put( new Double( max ), new JLabel( TimeseriesResources.getString( "Common.time.fast" ) ) );
+        final JLabel value = new JLabel( TimeseriesResources.getString( "Common.sim.speed" ) );
         value.setFont( new PhetFont( Font.ITALIC, PhetFont.getDefaultFontSize()) );
         table.put( new Double( ( max + min ) / 2 ), value );
         linearSlider.setTickLabels( table );
