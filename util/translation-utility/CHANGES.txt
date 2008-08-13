@@ -3,6 +3,7 @@ Change history for translation-utility
 ================================================================================
 
 DONE:
+********* version 0.02.01 (?)
 8/12/08 - exclude the source language (English) from the choices for destination language
 8/12/08 - look for English strings in project-strings_en.properties, then fallback to project-strings.properties if not found
 8/12/08 - move constants to TUConstants
