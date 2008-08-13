@@ -20,6 +20,8 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
  */
 public class StatesOfMatterConstants {
     
+    public static final double PARTICLE_CONTAINER_INITIAL_HEIGHT = 1;
+    
     /* Not intended for instantiation. */
     private StatesOfMatterConstants() {}
     
