@@ -16,10 +16,13 @@ import edu.colorado.phet.statesofmatter.view.ParticleContainerNode3;
 import edu.colorado.phet.statesofmatter.view.StoveNode;
 import edu.colorado.phet.statesofmatter.view.instruments.CompositeThermometerNode;
 import edu.colorado.phet.statesofmatter.view.instruments.DialGaugeNode;
-import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
-
+/**
+ * Canvas where the visual objects for the phase changes tab are placed.
+ *
+ * @author John Blanco
+ */
 public class PhaseChangesCanvas extends PhetPCanvas {
     
     //----------------------------------------------------------------------------
@@ -33,7 +36,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
     
     // Translation factors, used to set origin of canvas area.
     private final double WIDTH_TRANSLATION_FACTOR = 5.5;
-    private final double HEIGHT_TRANSLATION_FACTOR = 1.3;
+    private final double HEIGHT_TRANSLATION_FACTOR = 1.4;
     
     // Sizes, in terms of overall canvas size, of the nodes on the canvas.
     private final double BURNER_NODE_WIDTH = CANVAS_WIDTH / 2.5;
