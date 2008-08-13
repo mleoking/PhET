@@ -44,6 +44,10 @@ public class ParticleContainerNode3 extends PhetPNode {
     // Constants that control the appearance of the image.
     private static final String IMAGE_NAME = StatesOfMatterConstants.CYLINDRICAL_CONTAINER_IMAGE;
     private static final double CONTAINER_VERTICAL_OFFSET_FRACTION   = 0.05;
+    
+    // TODO: JPB TBD - Constant that turns on/off a rectangle that shows the outline of the node.
+    // This should be removed when no longer needed.
+    private static final boolean SHOW_RECTANGLE = false;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -97,11 +101,13 @@ public class ParticleContainerNode3 extends PhetPNode {
         
         // TODO: JPB TBD - This is temporary for debugging and should
         // be removed at some point.
-        // Draw a rectangle to show exactly where the container boundaries are.
-        m_tempContainerRect = new PPath(m_model.getParticleContainerRect());
-        m_tempContainerRect.setStrokePaint( Color.red );
-        m_tempContainerRect.setStroke( new BasicStroke(50) );
-        addChild( m_tempContainerRect );
+        if (SHOW_RECTANGLE){
+            // Draw a rectangle to show exactly where the container boundaries are.
+            m_tempContainerRect = new PPath(m_model.getParticleContainerRect());
+            m_tempContainerRect.setStrokePaint( Color.red );
+            m_tempContainerRect.setStroke( new BasicStroke(50) );
+            addChild( m_tempContainerRect );
+        }
         
         // Position this node so that the origin of the canvas, i.e. position
         // x=0, y=0, is at the lower left corner of the container.
@@ -146,8 +152,10 @@ public class ParticleContainerNode3 extends PhetPNode {
                 m_containmentAreaHeight - containerHeight - (m_containerTop.getFullBoundsReference().height / 2) );
         
         // TODO: JPB TBD temp code.
-        m_tempContainerRect.setPathTo( m_model.getParticleContainerRect() );
-        m_tempContainerRect.setOffset( 0, StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT - m_model.getParticleContainerHeight() );
+        if (SHOW_RECTANGLE){
+            m_tempContainerRect.setPathTo( m_model.getParticleContainerRect() );
+            m_tempContainerRect.setOffset( 0, StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT - m_model.getParticleContainerHeight() );
+        }
     }
     
     private void drawContainer() {
