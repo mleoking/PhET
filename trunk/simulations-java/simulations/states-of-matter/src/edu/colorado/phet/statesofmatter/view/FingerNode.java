@@ -90,7 +90,8 @@ public class FingerNode extends PNode {
         // Set our initial offset.
 //        setOffset( containerRect.getX() + containerRect.getWidth() * NODE_X_POS_PROPORTION,
 //                -containerRect.getMaxY() - m_fingerImageNode.getFullBoundsReference().height);
-        setOffset( 0, 0 );
+        setOffset( containerRect.getX() + containerRect.getWidth() * NODE_X_POS_PROPORTION, 
+                containerRect.getY() - containerRect.getHeight() );
     }
 
     //----------------------------------------------------------------------------
@@ -127,7 +128,7 @@ public class FingerNode extends PNode {
     
     private void handleContainerSizeChanged(){
         Rectangle2D containerRect = m_model.getParticleContainerRect();
-        setOffset( getFullBoundsReference().x,
-                containerRect.getY() - containerRect.getHeight() - m_fingerImageNode.getFullBoundsReference().height);
+        setOffset( getFullBoundsReference().x, 
+                containerRect.getY() - containerRect.getHeight() );
     }
 }

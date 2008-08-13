@@ -136,7 +136,6 @@ public class ParticleContainerNode3 extends PhetPNode {
 
         // Set ourself to be non-pickable so that we don't get mouse events.
         setPickable( false );
-        setChildrenPickable( false );
 
         update();
     }

@@ -91,7 +91,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         setBackground( StatesOfMatterConstants.CANVAS_BACKGROUND );
         
         // Create the particle container.
-        m_particleContainer = new ParticleContainerNode3(m_model, m_mvt, false);
+        m_particleContainer = new ParticleContainerNode3(m_model, m_mvt, true);
 
         // Get the rectangle that describes the position of the particle
         // container within the model, since the various nodes below will
