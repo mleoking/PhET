@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<SimStrings>
+  <string key="physics" value="Physics" />
+  <string key="chemistry" value="Chemistry" />
+  <string key="reset" value="Reset" />
+  <string key="rubYellowAtoms" value="Rub yellow atoms \nagainst green." />
+  <string key="" value="" />
+  <string key="" value="" />
+  <string key="" value="" />
+
+  
+</SimStrings>
