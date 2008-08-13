@@ -52,6 +52,7 @@ public class ParticleContainerNode3 extends PhetPNode {
     private static final String CONTAINER_FRONT_IMAGE_NAME = "cup_3D_front_70_split.png";
     private static final String LID_IMAGE_NAME = "cup_3D_cap_70.png";
     private static final String CONTAINER_BACK_IMAGE_NAME = "cup_3D_back_solid_light.png";
+    private static final double LID_POSITION_TWEAK_FACTOR = 65; // Empirically determined value for aligning lid and container body.
     
     // Constant(s) that affect the appearance of both depictions of the container.
     private static final double ELLIPSE_HEIGHT_PROPORTION = 0.15;  // Height of ellipses as a function of overall height.
@@ -193,7 +194,7 @@ public class ParticleContainerNode3 extends PhetPNode {
         // changed.
         double containerHeight = m_model.getParticleContainerHeight();
         m_containerLid.setOffset( 0, 
-                m_containmentAreaHeight - containerHeight - (m_containerLid.getFullBoundsReference().height / 2) );
+                m_containmentAreaHeight - containerHeight - (m_containerLid.getFullBoundsReference().height / 2) + LID_POSITION_TWEAK_FACTOR);
         
         // TODO: JPB TBD temp code.
         if (SHOW_RECTANGLE){
@@ -273,7 +274,7 @@ public class ParticleContainerNode3 extends PhetPNode {
         m_containerLid.setScale( m_containmentAreaWidth / containerImageNode.getWidth() );
         m_containerLid.setPickable( false );
         m_middleContainerLayer.addChild( m_containerLid );
-        m_containerLid.setOffset( 0, -m_containerLid.getFullBoundsReference().height / 2 );
+        m_containerLid.setOffset( 0, (-m_containerLid.getFullBoundsReference().height / 2) + LID_POSITION_TWEAK_FACTOR );
 
         // Load the image that will be used for the back of the container.
         PImage containerBackImageNode = StatesOfMatterResources.getImageNode(CONTAINER_BACK_IMAGE_NAME);
