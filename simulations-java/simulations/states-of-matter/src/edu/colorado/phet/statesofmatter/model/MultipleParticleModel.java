@@ -331,7 +331,7 @@ public class MultipleParticleModel {
 
     public void setParticleContainerHeight( double containerHeight ) {
         
-        if ((containerHeight < StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT) &&
+        if ((containerHeight <= StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT) &&
             (containerHeight > m_minAllowableContainerHeight)){
             m_particleContainerHeight = containerHeight;
             m_normalizedContainerHeight = m_particleContainerHeight / m_particleDiameter;
@@ -375,6 +375,7 @@ public class MultipleParticleModel {
         m_pressureCalculator.clear();
         
         // Set the initial size of the container.
+        setParticleContainerHeight( StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT );
         m_normalizedContainerWidth = StatesOfMatterConstants.CONTAINER_BOUNDS.width / m_particleDiameter;
         m_normalizedContainerHeight = StatesOfMatterConstants.CONTAINER_BOUNDS.height / m_particleDiameter;
         
