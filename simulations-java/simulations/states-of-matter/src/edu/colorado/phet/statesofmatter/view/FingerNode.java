@@ -26,14 +26,17 @@ public class FingerNode extends PNode {
     
     // Width of the finger node as a proportion of the width of the particle
     // container.
-    private static final double NODE_WIDTH_PROPORTION = 0.25;
+    private static final double NODE_WIDTH_PROPORTION = 0.65;
     
     // Initial and max distance of the node above the particle container as a
     // function of the container height.
     private static final double NODE_MIN_Y_POS_PROPORTION = 0.1;
     
     // Horizontal position of the node as function of the container width.
-    private static final double NODE_X_POS_PROPORTION = 0.45;
+    private static final double NODE_X_POS_PROPORTION = 0.30;
+    
+    // File name of the primary image.
+    public static final String PRIMARY_IMAGE = "finger-2.png";
     
     //----------------------------------------------------------------------------
     // Instance Data
@@ -64,7 +67,7 @@ public class FingerNode extends PNode {
         });
         
         // Load and scale the image that looks like a finger (hopefully).
-        m_fingerImageNode = StatesOfMatterResources.getImageNode( StatesOfMatterConstants.FINGER_IMAGE );
+        m_fingerImageNode = StatesOfMatterResources.getImageNode( PRIMARY_IMAGE );
         m_scale = nodeWidth / m_fingerImageNode.getFullBoundsReference().width;
         m_fingerImageNode.scale( m_scale );
         

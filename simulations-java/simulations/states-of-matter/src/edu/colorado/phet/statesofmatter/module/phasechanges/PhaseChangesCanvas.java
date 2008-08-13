@@ -110,6 +110,12 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         // on top of it.
         addWorldChild(m_particleContainer);
         
+        // Add the finger for pressing down on the top of the container.
+        FingerNode fingerNode = new FingerNode( m_model );
+        // Note that this node will set its own offset, since it has to be
+        // responsible for positioning itself later based on user interaction.
+        addWorldChild( fingerNode );
+        
         // Add a thermometer for displaying temperature.
         m_thermometerNode = new CompositeThermometerNode(0, 400, 
                 m_particleContainer.getFullBoundsReference().width * 0.25, 
@@ -127,12 +133,6 @@ public class PhaseChangesCanvas extends PhetPCanvas {
                 m_particleContainer.getFullBoundsReference().width * 0.3,
                 m_particleContainer.getFullBoundsReference().getMaxY());
         addWorldChild( stoveNode );
-        
-        // Add the finger for pressing down on the top of the container.
-        FingerNode fingerNode = new FingerNode( m_model );
-        // Note that this node will set its own offset, since it has to be
-        // responsible for positioning itself later based on user interaction.
-        addWorldChild( fingerNode );
         
         // Add a listener for when the canvas is resized.
         addComponentListener( new ComponentAdapter() {
