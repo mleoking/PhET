@@ -19,7 +19,6 @@ import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * This class is the "view" for the particle container.  This is where the
@@ -59,7 +58,7 @@ public class ParticleContainerNode3 extends PhetPNode {
 
     // TODO: JPB TBD - Constant that turns on/off a rectangle that shows the outline of the node.
     // This should be removed when no longer needed.
-    private static final boolean SHOW_RECTANGLE = true;
+    private static final boolean SHOW_RECTANGLE = false;
 
     //----------------------------------------------------------------------------
     // Instance Data
