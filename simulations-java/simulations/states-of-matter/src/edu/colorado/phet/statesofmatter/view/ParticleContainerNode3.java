@@ -50,8 +50,9 @@ public class ParticleContainerNode3 extends PhetPNode {
 //  public static final String CYLINDRICAL_CONTAINER_IMAGE = "cup_3D_front_thick_60_1.png";
 //  public static final String CYLINDRICAL_CONTAINER_IMAGE = "cylindrical-container-image.png";
 //  public static final String CYLINDRICAL_CONTAINER_IMAGE = "cup_3D_front_60.png";
-    private static final String CONTAINER_IMAGE_NAME = "cup_3D_front_70_split.png";
+    private static final String CONTAINER_FRONT_IMAGE_NAME = "cup_3D_front_70_split.png";
     private static final String LID_IMAGE_NAME = "cup_3D_cap_70.png";
+    private static final String CONTAINER_BACK_IMAGE_NAME = "cup_3D_back_solid_light.png";
     
     // Constant(s) that affect the appearance of both depictions of the container.
     private static final double ELLIPSE_HEIGHT_PROPORTION = 0.15;  // Height of ellipses as a function of overall height.
@@ -70,8 +71,9 @@ public class ParticleContainerNode3 extends PhetPNode {
     private PNode m_lowerParticleLayer;
     private PNode m_upperParticleLayer;
     private PNode m_topContainerLayer;
+    private PNode m_middleContainerLayer;
     private PNode m_bottomContainerLayer;
-    private PNode m_containerTop;
+    private PNode m_containerLid;
     private PPath m_tempContainerRect;
 
     //----------------------------------------------------------------------------
@@ -102,13 +104,30 @@ public class ParticleContainerNode3 extends PhetPNode {
             }
         });
         
-        if (volumeControlEnabled){
-            // Add the finger for pressing down on the top of the container.
-            FingerNode fingerNode = new FingerNode( m_model );
-            // Note that this node will set its own offset, since it has to be
-            // responsible for positioning itself later based on user interaction.
-            addChild( fingerNode );
-        }
+        // Create the "layer" nodes in the appropriate order so that the
+        // various components of this node can be added appropriately.
+        m_bottomContainerLayer = new PNode();
+        m_bottomContainerLayer.setPickable( false );
+        m_bottomContainerLayer.setChildrenPickable( false );
+        addChild( m_bottomContainerLayer );
+        m_lowerParticleLayer = new PNode();
+        m_lowerParticleLayer.setPickable( false );
+        m_lowerParticleLayer.setChildrenPickable( false );
+        m_lowerParticleLayer.setOffset( 0, m_containmentAreaHeight );  // Compensate for inverted Y axis.
+        addChild( m_lowerParticleLayer );
+        m_upperParticleLayer = new PNode();
+        m_upperParticleLayer.setPickable( false );
+        m_upperParticleLayer.setChildrenPickable( false );
+        m_upperParticleLayer.setOffset( 0, m_containmentAreaHeight );  // Compensate for inverted Y axis.
+        addChild( m_upperParticleLayer );
+        m_middleContainerLayer = new PNode();
+        m_middleContainerLayer.setPickable( false );
+        m_middleContainerLayer.setChildrenPickable( true );
+        addChild( m_middleContainerLayer );
+        m_topContainerLayer = new PNode();
+        m_topContainerLayer.setPickable( false );
+        m_topContainerLayer.setChildrenPickable( false );
+        addChild( m_topContainerLayer );
         
         // Create the visual representation of the container.
         if (USE_IMAGE_FOR_CONTAINER){
@@ -116,6 +135,14 @@ public class ParticleContainerNode3 extends PhetPNode {
         }
         else{
             drawContainer();
+        }
+        
+        if (volumeControlEnabled){
+            // Add the finger for pressing down on the top of the container.
+            FingerNode fingerNode = new FingerNode( m_model );
+            // Note that this node will set its own offset, since it has to be
+            // responsible for positioning itself later based on user interaction.
+            m_middleContainerLayer.addChild( fingerNode );
         }
         
         // TODO: JPB TBD - This is temporary for debugging and should
@@ -166,8 +193,8 @@ public class ParticleContainerNode3 extends PhetPNode {
         // this assumption is ever invalidated, this routine will need to be
         // changed.
         double containerHeight = m_model.getParticleContainerHeight();
-        m_containerTop.setOffset( 0, 
-                m_containmentAreaHeight - containerHeight - (m_containerTop.getFullBoundsReference().height / 2) );
+        m_containerLid.setOffset( 0, 
+                m_containmentAreaHeight - containerHeight - (m_containerLid.getFullBoundsReference().height / 2) );
         
         // TODO: JPB TBD temp code.
         if (SHOW_RECTANGLE){
@@ -182,14 +209,6 @@ public class ParticleContainerNode3 extends PhetPNode {
         
         double ellipseHeight = m_containmentAreaHeight * ELLIPSE_HEIGHT_PROPORTION;
         
-        // Add the node that will be at the bottom of the Z-order, and will
-        // contain the portion of the container that should appear behind the
-        // particles.
-        m_bottomContainerLayer = new PNode();
-        m_bottomContainerLayer.setPickable( false );
-        m_bottomContainerLayer.setChildrenPickable( false );
-        addChild( m_bottomContainerLayer );
-
         // Create the bottom of the container.
         PPath hiddenContainerEdge = new PPath(new Ellipse2D.Double(0, 0, m_containmentAreaWidth, ellipseHeight));
         hiddenContainerEdge.setStroke( HIDDEN_CONTAINER_EDGE_STROKE );
@@ -211,26 +230,18 @@ public class ParticleContainerNode3 extends PhetPNode {
 
         m_bottomContainerLayer.setOffset( 0, m_containmentAreaHeight - (ellipseHeight / 2) );
 
-        // Add the layers where the particles will appear.
-        addParticleLayers();
-        
-        // Create the top portion of the container, which will appear above
-        // the particles in the Z-order.
+        // Create the lid of the container, which will appear above the
+        // particles in the Z-order.
 
-        m_topContainerLayer = new PNode();
-        m_topContainerLayer.setPickable( false );
-        m_topContainerLayer.setChildrenPickable( false );
-        addChild( m_topContainerLayer );
-        
         PPath containerTop = new PPath( new Ellipse2D.Double(0, 0, m_containmentAreaWidth, ellipseHeight));
         containerTop.setStroke( CONTAINER_EDGE_STROKE );
         containerTop.setStrokePaint( CONTAINER_EDGE_COLOR );
-        m_containerTop = new PNode();
-        m_containerTop.setPickable( false );
-        m_containerTop.setChildrenPickable( false );
-        m_containerTop.addChild( containerTop );
-        m_topContainerLayer.addChild( m_containerTop );
-        m_containerTop.setOffset( 0, -ellipseHeight / 2 );
+        m_containerLid = new PNode();
+        m_containerLid.setPickable( false );
+        m_containerLid.setChildrenPickable( false );
+        m_containerLid.addChild( containerTop );
+        m_middleContainerLayer.addChild( m_containerLid );
+        m_containerLid.setOffset( 0, -ellipseHeight / 2 );
         
         // Create the left and right edges of the container.
         
@@ -248,52 +259,31 @@ public class ParticleContainerNode3 extends PhetPNode {
 
     private void loadContainerImage(){
         
-        // Load the image that will be used.
-        PImage containerImageNode = StatesOfMatterResources.getImageNode(CONTAINER_IMAGE_NAME);
+        // Load the image that will be used for the front of the container.
+        PImage containerImageNode = StatesOfMatterResources.getImageNode(CONTAINER_FRONT_IMAGE_NAME);
         
         // Scale the container image based on the size of the container.
         containerImageNode.setScale( m_containmentAreaWidth / containerImageNode.getWidth() );
         
-        // Add the layers where the particles will appear.  Note that by
-        // virtue of being added at this point, the will be behind the image,
-        // which requires that the image be at least partially transparent.
-        addParticleLayers();
-        
         // Add the image to the top layer node.
-        m_topContainerLayer = new PNode();
-        m_topContainerLayer.setPickable( false );
-        m_topContainerLayer.setChildrenPickable( false );
         m_topContainerLayer.addChild(containerImageNode);
-        
         containerImageNode.setOffset( 0, 0 );
         
-        // Add the top layer node to this node.
-        addChild( m_topContainerLayer );
-        
-        // Add the top of the container.
-        m_containerTop = StatesOfMatterResources.getImageNode(LID_IMAGE_NAME);
-        m_containerTop.setScale( m_containmentAreaWidth / containerImageNode.getWidth() );
-        m_containerTop.setPickable( false );
-        m_topContainerLayer.addChild( m_containerTop );
-//        m_containerTop.setOffset( 0, 0 );
-        m_containerTop.setOffset( 0, -m_containerTop.getFullBoundsReference().height / 2 );
-    }
+        // Add the lid of the container.
+        m_containerLid = StatesOfMatterResources.getImageNode(LID_IMAGE_NAME);
+        m_containerLid.setScale( m_containmentAreaWidth / containerImageNode.getWidth() );
+        m_containerLid.setPickable( false );
+        m_middleContainerLayer.addChild( m_containerLid );
+        m_containerLid.setOffset( 0, -m_containerLid.getFullBoundsReference().height / 2 );
 
-    private void addParticleLayers() {
-        // Create and add the lower particle layer node.  We create two so
-        // that we can control which particles go on top of each other.
+        // Load the image that will be used for the back of the container.
+        PImage containerBackImageNode = StatesOfMatterResources.getImageNode(CONTAINER_BACK_IMAGE_NAME);
         
-        m_lowerParticleLayer = new PNode();
-        m_lowerParticleLayer.setPickable( false );
-        m_lowerParticleLayer.setChildrenPickable( false );
-        addChild( m_lowerParticleLayer );
-        m_lowerParticleLayer.setOffset( 0, m_containmentAreaHeight );  // Compensate for inverted Y axis.
+        // Scale the container image based on the size of the container.
+        containerBackImageNode.setScale( m_containmentAreaWidth / containerImageNode.getWidth() );
         
-        // Create and add the upper particle layer node.
-        m_upperParticleLayer = new PNode();
-        m_upperParticleLayer.setPickable( false );
-        m_upperParticleLayer.setChildrenPickable( false );
-        addChild( m_upperParticleLayer );
-        m_upperParticleLayer.setOffset( 0, m_containmentAreaHeight );  // Compensate for inverted Y axis.
+        // Add the image to the bottom layer node.
+        m_bottomContainerLayer.addChild(containerBackImageNode);
+        containerBackImageNode.setOffset( 0, -(m_model.getParticleContainerHeight() * ELLIPSE_HEIGHT_PROPORTION / 2) );
     }
 }
