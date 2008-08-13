@@ -34,6 +34,10 @@ public class ParticleContainerNode3 extends PhetPNode {
     // Class Data
     //----------------------------------------------------------------------------
     
+    // Constant that controls whether an image is used for the container or
+    // or whether it is drawn.
+    public static final boolean USE_IMAGE_FOR_CONTAINER = true;
+
     // Constants that control the appearance of the drawn container.
     private static final Color CONTAINER_EDGE_COLOR = Color.YELLOW;
     private static final float CONTAINER_LINE_WIDTH = 100;
@@ -42,7 +46,11 @@ public class ParticleContainerNode3 extends PhetPNode {
             BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL,0, new float[] {CONTAINER_LINE_WIDTH, CONTAINER_LINE_WIDTH}, 0);
     
     // Constants that control the appearance of the image.
-    private static final String IMAGE_NAME = StatesOfMatterConstants.CYLINDRICAL_CONTAINER_IMAGE;
+//  public static final String CYLINDRICAL_CONTAINER_IMAGE = "cup_3D_cap_thick_75_1.png";
+//  public static final String CYLINDRICAL_CONTAINER_IMAGE = "cup_3D_front_thick_60_1.png";
+//  public static final String CYLINDRICAL_CONTAINER_IMAGE = "cylindrical-container-image.png";
+//  public static final String CYLINDRICAL_CONTAINER_IMAGE = "cup_3D_front_60.png";
+    public static final String IMAGE_NAME = "cup_3D_front_70_back_line.png";
     private static final double CONTAINER_VERTICAL_OFFSET_FRACTION   = 0.05;
     
     // TODO: JPB TBD - Constant that turns on/off a rectangle that shows the outline of the node.
@@ -67,7 +75,7 @@ public class ParticleContainerNode3 extends PhetPNode {
     // Constructor
     //----------------------------------------------------------------------------
     
-    public ParticleContainerNode3(MultipleParticleModel model, ModelViewTransform mvt, boolean useImage) {
+    public ParticleContainerNode3(MultipleParticleModel model, ModelViewTransform mvt) {
         
         super();
 
@@ -92,7 +100,7 @@ public class ParticleContainerNode3 extends PhetPNode {
         });
         
         // Create the visual representation of the container.
-        if (useImage){
+        if (USE_IMAGE_FOR_CONTAINER){
             loadContainerImage();
         }
         else{

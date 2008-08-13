@@ -33,6 +33,7 @@ public class ParticleContainerNode2 extends PhetPNode {
     private static final double NON_CONTAINER_IMAGE_FRACTION_FROM_RIGHT  = 0.0;
     private static final double NON_CONTAINER_IMAGE_FRACTION_FROM_BOTTOM = 0.05;
     private static final double NON_CONTAINER_IMAGE_FRACTION_FROM_TOP    = 0.00;
+    public static final String IMAGE_NAME = "cup_3D_front_70_back_line.png";
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -72,7 +73,7 @@ public class ParticleContainerNode2 extends PhetPNode {
         m_containmentAreaHeight = StatesOfMatterConstants.CONTAINER_BOUNDS.getHeight();
 
         // Load the image that will be used.
-        m_containerImageNode = StatesOfMatterResources.getImageNode(StatesOfMatterConstants.CYLINDRICAL_CONTAINER_IMAGE);
+        m_containerImageNode = StatesOfMatterResources.getImageNode(IMAGE_NAME);
         
         // Scale the container image based on the size of the container.
         double neededImageWidth = 

@@ -70,7 +70,7 @@ public class Exp2SolidLiquidGasCanvas extends PhetPCanvas{
         setBackground( StatesOfMatterConstants.CANVAS_BACKGROUND );
         
         // Create and add the particle container.
-        m_particleContainer = new ParticleContainerNode3(m_model, m_mvt, true);
+        m_particleContainer = new ParticleContainerNode3(m_model, m_mvt);
         
         addWorldChild(m_particleContainer);
         
