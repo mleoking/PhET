@@ -33,13 +33,8 @@ public class CompositeThermometerNode extends PNode {
     
     /**
      * Constructor.
-     * 
-     * @param minTemp - Minimum temperature supported in degrees Kelvin.
-     * @param maxTemp - Max temperature supported in degrees Kelvin.
      */
-    public CompositeThermometerNode(double minTemp, double maxTemp, double width, double height){
-        m_minTemp = minTemp;
-        m_maxTemp = maxTemp;
+    public CompositeThermometerNode(double width, double height){
 
         m_liquidThermometer = 
             new LiquidExpansionThermometerNode(new PDimension(width * THERMOMETER_WIDTH_PROPORTION, height));
@@ -52,19 +47,12 @@ public class CompositeThermometerNode extends PNode {
         addChild(m_kelvinReadout);
     }
     
-    public void setTemperatureInKelvin(double degreesKelvin){
-        double newTemp;
-        if (degreesKelvin > m_maxTemp){
-            newTemp = m_maxTemp;
-        }
-        else if (degreesKelvin < m_minTemp){
-            newTemp = m_minTemp;
-        }
-        else{
-            newTemp = degreesKelvin;
-        }
-        m_liquidThermometer.setLiquidHeight( (newTemp - m_minTemp) / (m_maxTemp - m_minTemp) );
-        m_kelvinReadout.setValue( newTemp );
+    public void setDigitalTemperatureReading(double degrees){
+        m_kelvinReadout.setValue( degrees );
+    }
+    
+    public void setThermometerLiquidHeight(double normalizedTemperature){
+        m_liquidThermometer.setLiquidHeight( normalizedTemperature );
     }
     
     //----------------------------------------------------------------------------
