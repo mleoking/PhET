@@ -1,25 +1,25 @@
 <?xml version="1.0" ?>
 <SimStrings>
-  <string key="start" value="Start2" />
-  <string key="stop" value="Stop2" /> 
-  <string key="oneBall" value="1 ball2" /> 
-  <string key="continuous" value="continuous2" /> 
-  <string key="show" value="Show:2" /> 
-  <string key="ball" value="ball2" /> 
-  <string key="path" value="path2" /> 
-  <string key="none" value="none2" /> 
-  <string key="reset" value="Reset2" /> 
-  <string key="rows" value="rows2" /> 
-  <string key="p" value="p2" /> 
-  <string key="histogramDisplay" value="Histogram \ndisplay2:" /> 
-  <string key="fraction" value="fraction2" /> 
-  <string key="number" value="number2" /> 
-  <string key="autoScale" value="auto-scale2" /> 
-  <string key="sound" value="Sound2" /> 
+  <string key="start" value="Start" />
+  <string key="stop" value="Stop" /> 
+  <string key="oneBall" value="1 ball" /> 
+  <string key="continuous" value="continuous" /> 
+  <string key="show" value="Show:" /> 
+  <string key="ball" value="ball" /> 
+  <string key="path" value="path" /> 
+  <string key="none" value="none" /> 
+  <string key="reset" value="Reset" /> 
+  <string key="rows" value="rows" /> 
+  <string key="p" value="p" /> 
+  <string key="histogramDisplay" value="Histogram \ndisplay:" /> 
+  <string key="fraction" value="fraction" /> 
+  <string key="number" value="number" /> 
+  <string key="autoScale" value="auto-scale" /> 
+  <string key="sound" value="Sound" /> 
   <string key="help" value="Help" /> 
-  <string key="NEquals" value="N2 =" /> 
+  <string key="NEquals" value="N =" /> 
   <string key="xAvgEquals" value="" /> 
-  <string key="sEquals" value="s2 =" /> 
+  <string key="sEquals" value="s =" /> 
   <string key="sMeanEquals" value="" /> 
 
   

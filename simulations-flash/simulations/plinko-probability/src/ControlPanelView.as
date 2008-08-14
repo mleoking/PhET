@@ -6,6 +6,7 @@
 	public var dropState:Number;	//1 = one ball, 2 = continuous, 3 = 500 (deprecated)
 	public var showState:Number;	//1 = show ball, 2 = show path, 3 = show none
 	public var histState:Number;	//1 = fraction, 2 = number, 3 = autoscale
+	
 	function ControlPanelView(model:Object){
 		this.model = model;
 		this.model.registerControlPanel(this);
@@ -25,26 +26,16 @@
 		this.controlPanel_mc.showHistRadioGroup.controlPanelView = this;
 		this.histState = 1;
 		var controlPanelViewRef = this;
-		this.controlPanel_mc.dropButton_mc.onPress = function(){
-			var dropState = controlPanelViewRef.dropState;
-			if(dropState == 1){
-				modelRef.dropOneBall();
-			}else if(dropState == 3){ //this state no longer used
-				modelRef.dropNBalls(500);
-			}else if(dropState == 2){
-				modelRef.startBallDrops();
-				this._visible = false;
-			}
-		}
-		this.controlPanel_mc.stopButton_mc.onPress = function(){
-			modelRef.stopBallDrops();
-			this._parent.dropButton_mc._visible = true;
-		}
+		
+		this.makeButton(this.controlPanel_mc.startButton_mc, this.startButtonAction);
+		
+		this.makeButton(this.controlPanel_mc.stopButton_mc, this.stopButtonAction);
+		
+		this.makeButton(this.controlPanel_mc.resetButton_mc, this.resetButtonAction);
+		
 		//this.controlPanel_mc.stopButton_mc._visible = false;
 		
-		this.controlPanel_mc.resetButton_mc.onPress = function(){
-			modelRef.zeroHistogram();
-		}
+		
 		this.controlPanel_mc.helpButton_mc.onPress = function(){
 			trace("help pushed");
 		}
@@ -157,6 +148,51 @@
 		this.model.bigView.histDisplayState = histState;
 		this.model.bigView.scaleHistogramHeight();
 		this.model.axesView.labelYAxis();
+	}
+	
+	function startButtonAction(controllerRef:Object):Void{
+		if(controllerRef.dropState == 1){
+			controllerRef.model.dropOneBall();
+		}else if(controllerRef.dropState == 3){ //this state no longer used
+			controllerRef.model.dropNBalls(500);
+		}else if(controllerRef.dropState == 2){
+			controllerRef.model.startBallDrops();
+			controllerRef.controlPanel_mc.startButton_mc._visible = false;
+		}
+	}//end of startButtonAction
+	
+	function stopButtonAction(controllerRef:Object):Void{
+		controllerRef.model.stopBallDrops();
+		controllerRef.controlPanel_mc.startButton_mc._visible = true;
+	}
+	
+	function resetButtonAction(controllerRef:Object):Void{
+		controllerRef.model.zeroHistogram();
+	}
+	
+	function makeButton(target_mc:MovieClip, buttonAction:Function):Void{
+		var instanceRef:Object = this;
+		var clip_mc:MovieClip = target_mc;
+		clip_mc.onRollOver = function(){
+			var format = new TextFormat();
+			format.bold = true;
+			this.label_txt.setTextFormat(format);
+		}
+		clip_mc.onRollOut = function(){
+			var format = new TextFormat();
+			format.bold = false;
+			this.label_txt.setTextFormat(format);
+		}
+		clip_mc.onPress = function(){
+			this._x += 2;
+			this._y += 2;
+			buttonAction(instanceRef);
+		}
+		clip_mc.onRelease = function(){
+			this._x -= 2;
+			this._y -= 2;
+		}
+		clip_mc.onReleaseOutside = clip_mc.onRelease;
 	}
 	
 	function getControlPanelClip():MovieClip{

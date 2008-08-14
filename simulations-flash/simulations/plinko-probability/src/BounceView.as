@@ -61,7 +61,7 @@
 		this.tStarts[nbrBalls-1] = getTimer();
 		this.lastRowHit[nbrBalls - 1] = 0;  //-1 < 0, 0-row = 1st row hit
 		clearInterval(this.intervalIDs[this.nbrBalls-1]);
-		this.intervalIDs[this.nbrBalls-1] = setInterval(this, "evolve", 30, this.nbrBalls, histIndex);
+		this.intervalIDs[this.nbrBalls-1] = setInterval(this, "evolve", 10, this.nbrBalls, histIndex);
 	}
 	
 	function endBounce(ballNbr:Number):Void{
