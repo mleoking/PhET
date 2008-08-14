@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<SimStrings>
+
+  <string key="sternGerlachExperiment" value="Stern-Gerlach Experiment" />
+  <string key="numberOfMagnets" value="number of \nmagnets" />
+  <string key="reset" value="Reset" />
+  <string key="angle" value="angle" />
+  <string key="angle2" value="angle 2" />
+  <string key="angle3" value="angle 3" />
+  <string key="up" value="up" />
+  <string key="down" value="down" />
+  <string key="fireAtom" value="Fire Atom" />
+  <string key="autoFire" value="AutoFire" />
+  <string key="on" value="ON" />
+  <string key="off" value="OFF" />
+  <string key="slow" value="slow" />
+  <string key="fast" value="fast" />
+  <string key="resetCount" value="Reset Count" />
+  <string key="spinOrientation" value="spin \norientation" />
+  <string key="+z" value="+z" />
+  <string key="+x" value="+x" />
+  <string key="-z" value="-z" />
+  <string key="randomXZ" value="random xz" />
+  <string key="sound" value="Sound" />
+  <string key="" value="" />
+  <string key="" value="" />
+  <string key="" value="" />
+  <string key="" value="" />
+
+
+
+  
+</SimStrings>
