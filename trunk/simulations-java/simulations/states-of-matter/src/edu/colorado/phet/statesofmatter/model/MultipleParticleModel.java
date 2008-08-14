@@ -221,12 +221,28 @@ public class MultipleParticleModel {
         notifyTemperatureChanged();
     }
 
+    /**
+     * Returns the value of the internal model temperature, which is only
+     * meaningful to the model.
+     */
     public double getTemperature(){
         return m_temperature;
     }
     
+    /**
+     * Returns a normalized version of the temperature, meaning that it will
+     * be in the range between 0 for min temp and 1 for max temp.
+     */
     public double getNormalizedTemperature(){
         return (getTemperature() / MAX_TEMPERATURE);
+    }
+
+    /**
+     * Get the current temperature in degrees Kelvin.
+     * @return
+     */
+    public double getTemperatureInKelvin(){
+        return convertInternalTemperatureToKelvin();
     }
     
     public double getGravitationalAcceleration() {
@@ -1985,6 +2001,51 @@ public class MultipleParticleModel {
             m_potentialEnergy += 4/(Math.pow(distance, 12)) - 
                     4/(Math.pow( distance, 6)) + 1;
         }
+    }
+    
+    /**
+     * Take the internal temperature value and convert it to Kelvin.  This
+     * is dependent on the type of molecule selected.  The values and ranges
+     * used in this method were derived from information provided by Paul
+     * Beale.
+     * 
+     */
+    private double convertInternalTemperatureToKelvin(){
+        
+        double temperatureInKelvin = 0;
+        
+        switch (m_currentMolecule){
+        
+        case NEON:
+            if (m_temperature <= 0.4){
+                temperatureInKelvin = m_temperature * 61.375;
+            }
+            else if (m_temperature <= 0.5){
+                temperatureInKelvin = m_temperature * 198 - 54.65;
+            }
+            else {
+                temperatureInKelvin = m_temperature * 88.7;
+            }
+            break;
+            
+        case ARGON:
+            if (m_temperature <= 0.4){
+                temperatureInKelvin = m_temperature * 289.38;
+            }
+            else if (m_temperature <= 0.5){
+                temperatureInKelvin = m_temperature * 936 - 258.65;
+            }
+            else {
+                temperatureInKelvin = m_temperature * 418.7;
+            }
+            break;
+            
+        default:
+            temperatureInKelvin = 0;
+            break;
+        }
+        
+        return temperatureInKelvin;
     }
     
     //------------------------------------------------------------------------
