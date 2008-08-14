@@ -1,24 +1,33 @@
 ﻿class AxesView{
 	var model:Object;
 	var canvas:MovieClip;
+	var yAxisLabel:MovieClip;		//needed for internationalization
 	var maxNbrRows:Number;
 	var nbrRows:Number;
 	var delX:Number;
 	var delY:Number;
 	var textFormat:TextFormat;
 	var labelFormat:TextFormat;
+	var countryCode:String;			//needed for internationalization
+	var fraction_str:String;
+	var number_str:String;
 	var stageW:Number;
 	var stageH:Number;
 	
-	function AxesView(model:Object){
+	function AxesView(model:Object, countryCode:String){
 		this.model = model;
 		this.model.registerAxesView(this);
+		this.countryCode = countryCode;
+		this.fraction_str = "fraction";  //in case XML fails to load
+		this.number_str = "number";  //in case XML fails to load
 		this.stageW = Util.STAGEW;
 		this.stageH = Util.STAGEH;
 		this.maxNbrRows = this.model.maxNbrRows;
 		this.delX = this.model.bigView.horizSpace;	
 		this.canvas = _root.createEmptyMovieClip("axesCanvas_mc", Util.getNextDepth());
 		Util.setXYPosition(this.canvas, Util.ORIGINX, Util.BOTTOMY);
+		this.yAxisLabel = this.canvas.attachMovie("yAxisLabel", "yAxisLabel_mc", this.canvas.getNextHighestDepth());
+		trace("yAxisLabel"+this.yAxisLabel);
 		this.canvas.attachMovie("trueMeanIndicator", "trueMeanIndicator_mc", this.canvas.getNextHighestDepth());
 		Util.setXYPosition(this.canvas.trueMeanIndicator_mc, 0, 0);
 		this.canvas.attachMovie("meanIndicator", "meanIndicator_mc", this.canvas.getNextHighestDepth());
@@ -51,7 +60,7 @@
 		this.labelFormat = new TextFormat();
 		this.labelFormat.font = "ArialBold16pt";
 		with(this.canvas){
-			yAxisLabel_txt.text = "fraction";
+			yAxisLabel_txt.text = fraction_str;
 			//yAxisLabel_txt._x = xPos;
 			//yAxisLabel_txt._y = yPos;
 			yAxisLabel_txt.setTextFormat(this.labelFormat);
@@ -114,21 +123,36 @@
 	
 	function labelYAxis():Void{
 		//trace("labelYAxis called:" + this.model.bigView.histDisplayState);
+		var currentLabel:String
 		if(this.model.bigView.histDisplayState == 1){
-			this.writeYLabel("fraction");
+			this.writeYLabel(fraction_str);
+			currentLabel = fraction_str;
 		}else{
-			this.writeYLabel("number");
+			this.writeYLabel(number_str);
+			currentLabel = number_str;
 		}
+
 		this.writeYAxisNumbers();
-		with(this.canvas){
-			//yAxisLabel_txt.text = "fraction";
-			yAxisLabel_txt.autoSize = true;
-			yAxisLabel_txt._x = -this.nbrRows*this.delX - 30;
-			yAxisLabel_txt._y = -0.5*this.model.bigView.maxHistHeight;// + 2*this.canvas.yAxisLabel_txt._width;
-			yAxisLabel_txt.setTextFormat(this.labelFormat);
-			yAxisLabel_txt._rotation = -90;
-		}
-	}
+		
+		if(this.countryCode == "en" || this.countryCode == undefined){
+			with(this.canvas){
+				//yAxisLabel_txt.text = "fraction";
+				yAxisLabel_txt.autoSize = true;
+				yAxisLabel_txt._x = -this.nbrRows*this.delX - 30;
+				yAxisLabel_txt._y = -0.5*this.model.bigView.maxHistHeight;// + 2*this.canvas.yAxisLabel_txt._width;
+				yAxisLabel_txt.setTextFormat(this.labelFormat);
+				yAxisLabel_txt._rotation = -90;
+			}//end with()
+		}else{
+			this.canvas.yAxisLabel_txt.text = "";
+			this.yAxisLabel._x = -this.nbrRows*this.delX - 30;
+			this.yAxisLabel._y = -0.5*this.model.bigView.maxHistHeight;
+			this.yAxisLabel.label_txt.text = currentLabel;
+			this.stackString(this.yAxisLabel.label_txt);
+
+		}//end else
+	}//end labelYAxis
+	
 	function writeYLabel(yLabel:String):Void{
 		this.canvas.yAxisLabel_txt.text = yLabel;
 	}
@@ -176,4 +200,32 @@
 			this.canvas.meanIndicator_mc._x = 10000;  //put off stage
 		}
 	}//end of updateIndicators
+	
+	function stackString(field:TextField){
+		//trace("key: "+key);
+		var stringValue:String = field.text;
+		var currentTextFormat:TextFormat = field.getTextFormat();
+		if(stringValue == "keyNotFound"  || stringValue == ""){
+		   //Do nothing.  String will default to English
+		}else{
+			if(field.html){
+				field.htmlText = stringValue;
+			}else{
+				//search for "newline" 
+				var chars_arr:Array = stringValue.split("");
+				if(chars_arr.length > 1){
+					var newStringValue:String = "";
+					for (var i:Number = 0; i < chars_arr.length; i++){
+						newStringValue += chars_arr[i]+newline;
+					}
+					stringValue = newStringValue;
+				}
+				field.text = stringValue;
+			}
+			//field.setTextFormat(currentTextFormat);
+			//this.resizeText(field, alignment);
+			//trace("key: "+key+"   stringValue:"+stringValue);
+		}
+	}//end of stackString()
+	
 }//end of class
