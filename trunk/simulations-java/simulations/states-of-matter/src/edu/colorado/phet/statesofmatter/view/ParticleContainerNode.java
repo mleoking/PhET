@@ -107,7 +107,7 @@ public class ParticleContainerNode extends PhetPNode {
           
         updateThermometerTemperature();
         */
-        m_thermometerNode = new CompositeThermometerNode(0, 400, m_cupImageNode.getFullBoundsReference().width * 0.2, m_cupImageNode.getFullBoundsReference().height * 0.3);
+        m_thermometerNode = new CompositeThermometerNode(m_cupImageNode.getFullBoundsReference().width * 0.2, m_cupImageNode.getFullBoundsReference().height * 0.3);
         m_thermometerNode.setOffset( 
                 m_cupImageNode.getFullBoundsReference().x + m_cupImageNode.getFullBoundsReference().width * 0.4, 
                 m_cupImageNode.getFullBoundsReference().y - m_cupImageNode.getFullBoundsReference().height * 0.1 );
@@ -136,9 +136,8 @@ public class ParticleContainerNode extends PhetPNode {
      * Update the value displayed in the thermometer.
      */
     private void updateThermometerTemperature(){
-        // TODO: JPB TBD - The multiplier below is bogus, and I'm waiting on better
-        // information from the physicists.
-        m_thermometerNode.setTemperatureInKelvin( m_model.getNormalizedTemperature() * 160 );
+        m_thermometerNode.setDigitalTemperatureReading( m_model.getTemperatureInKelvin() );
+        m_thermometerNode.setThermometerLiquidHeight( m_model.getNormalizedTemperature() );
     }
 
     // TODO: JPB TBD - Is this needed?
