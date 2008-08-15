@@ -40,6 +40,7 @@ public class CalorieDragStrip extends PNode {
     private Color buttonColor = new Color( 128, 128, 255 );
     private TogglePClip stripPanelClip;
     private ArrayList balancedDietDialogs = new ArrayList();
+    private Timer scrollTimer = null;
 
     public CalorieDragStrip( final CalorieSet available ) {
         for ( int i = 0; i < available.getItemCount(); i += count ) {
@@ -111,10 +112,8 @@ public class CalorieDragStrip extends PNode {
         return max;
     }
 
-    Timer timer = null;
-
     private void nextPanel( final int increment ) {
-        if ( timer != null && timer.isRunning() ) {
+        if ( scrollTimer != null && scrollTimer.isRunning() ) {
             return;
         }
         stripPanelClip.setClipEnabled( true );
@@ -123,8 +122,8 @@ public class CalorieDragStrip extends PNode {
         stripPanelClip.addChild( stripPanel );
         stripPanel.setOffset( 100 * increment, 0 );
 
-        timer = new Timer( 30, null );
-        timer.addActionListener( new ActionListener() {
+        scrollTimer = new Timer( 30, null );
+        scrollTimer.addActionListener( new ActionListener() {
             int count = 0;
 
             public void actionPerformed( ActionEvent e ) {
@@ -135,11 +134,11 @@ public class CalorieDragStrip extends PNode {
                 if ( count >= 10 ) {
                     stripPanelClip.removeChild( oldStripPanel );
                     stripPanelClip.setClipEnabled( false );
-                    timer.stop();
+                    scrollTimer.stop();
                 }
             }
         } );
-        timer.start();
+        scrollTimer.start();
     }
 
     private int nextIndex( int increment ) {

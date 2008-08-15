@@ -65,29 +65,33 @@ public class CalorieNode extends PNode {
         calorieDragStrip = new CalorieDragStrip( available );
         calorieDragStrip.addListener( new CalorieDragStrip.Adapter() {
             public void nodeDragged( CalorieDragStrip.DragNode node ) {
-                setContainsItem( node.getItem(), nodeOverlaps( node ) );
+                setContainsItem( node.getItem(), nodeOverlapsDropTarget( node ) );
             }
 
             public void nodeDropped( final CalorieDragStrip.DragNode node ) {
-                if ( node.getPNodeIcon().getGlobalFullBounds().intersects( calorieDragStrip.getGlobalFullSourceBounds() ) ) {
-                    final Timer timer = new Timer( 30, null );
-                    timer.addActionListener( new ActionListener() {
-                        int count = 0;
+                if ( shouldDispose( node ) ) {
+                    dispose( node );
+                }
+            }
 
-                        public void actionPerformed( ActionEvent e ) {
-                            node.getPNode().scaleAboutPoint( 0.82, node.getPNodeIcon().getFullBounds().getWidth() / 2, node.getPNodeIcon().getFullBounds().getHeight() / 2 );
-                            count++;
-                            if ( count >= 20 ) {
-                                timer.stop();
-                                setContainsItem( node.getItem(), false );
-                                if ( node.getPNode().getParent() != null ) {//todo: remove the need for this workaround
-                                    node.getPNode().getParent().removeChild( node.getPNode() );//todo: clean up this line, looks awkward
-                                }
+            private void dispose( final CalorieDragStrip.DragNode node ) {
+                final Timer timer = new Timer( 30, null );
+                timer.addActionListener( new ActionListener() {
+                    int count = 0;
+
+                    public void actionPerformed( ActionEvent e ) {
+                        node.getPNode().scaleAboutPoint( 0.82, node.getPNodeIcon().getFullBounds().getWidth() / 2, node.getPNodeIcon().getFullBounds().getHeight() / 2 );
+                        count++;
+                        if ( count >= 20 ) {
+                            timer.stop();
+                            setContainsItem( node.getItem(), false );
+                            if ( node.getPNode().getParent() != null ) {//todo: remove the need for this workaround
+                                node.getPNode().getParent().removeChild( node.getPNode() );//todo: clean up this line, looks awkward
                             }
                         }
-                    } );
-                    timer.start();
-                }
+                    }
+                } );
+                timer.start();
             }
         } );
 
@@ -112,7 +116,15 @@ public class CalorieNode extends PNode {
         relayout();
     }
 
-    private boolean nodeOverlaps( CalorieDragStrip.DragNode node ) {
+    private boolean shouldDispose( CalorieDragStrip.DragNode node ) {
+        //only delete the item if dropped back in the toolbox
+        //        return node.getPNodeIcon().getGlobalFullBounds().intersects( calorieDragStrip.getGlobalFullSourceBounds() );
+
+        //delete the item if it is not on the drop target
+        return !nodeOverlapsDropTarget( node );
+    }
+
+    private boolean nodeOverlapsDropTarget( CalorieDragStrip.DragNode node ) {
         return dropTarget.getGlobalFullBounds().contains( node.getPNodeIcon().getGlobalFullBounds().getCenter2D() );
     }
 

@@ -2,9 +2,6 @@
 ###	Todo Sam	####
 ############################
 
---Can we make items disappear if you drop them in the play area, but not on the plate/exercise log?
-Currently they just sit in the play area. This would also allow people to just drag items to the play area to get rid of them.
-
 --Sam, is there a way to make this into some sort of Year/Month format? Maybe YY/MM, and the axis label can say "Time (Years/Months)".
 
 --If possible, make a wiggle me that only appears the first time someone clicks on a food or exercise item.
