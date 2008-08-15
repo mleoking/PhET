@@ -23,7 +23,6 @@ import edu.colorado.phet.eatingandexercise.EatingAndExerciseConstants;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
 import edu.colorado.phet.eatingandexercise.control.CaloricItem;
-import edu.colorado.phet.eatingandexercise.defaults.ExampleDefaults;
 import edu.colorado.phet.eatingandexercise.model.CalorieSet;
 import edu.colorado.phet.eatingandexercise.model.EatingAndExerciseUnits;
 import edu.colorado.phet.eatingandexercise.model.Human;
@@ -94,7 +93,7 @@ public class EatingAndExerciseModule extends PiccoloModule {
         _clockControlPanel.setRestartButtonVisible( true );
         _clockControlPanel.setTimeDisplayVisible( true );
         _clockControlPanel.setUnits( EatingAndExerciseStrings.UNITS_TIME );
-        _clockControlPanel.setTimeColumns( ExampleDefaults.CLOCK_TIME_COLUMNS );
+        _clockControlPanel.setTimeColumns( 10 );
         _clockControlPanel.setRestartButtonVisible( false );
         _clockControlPanel.setStepButtonText( EatingAndExerciseResources.getString( "time.next-month" ) );
         _clockControlPanel.setTimeFormat( "0.0" );

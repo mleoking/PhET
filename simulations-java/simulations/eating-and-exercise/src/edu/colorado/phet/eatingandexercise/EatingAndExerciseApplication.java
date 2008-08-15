@@ -21,7 +21,7 @@ import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.eatingandexercise.developer.DeveloperMenu;
 import edu.colorado.phet.eatingandexercise.module.eatingandexercise.EatingAndExerciseModule;
 import edu.colorado.phet.eatingandexercise.view.EatingAndExerciseColorScheme;
-import edu.colorado.phet.eatingandexercise.model.DeveloperFrame;
+import edu.colorado.phet.eatingandexercise.developer.DeveloperFrame;
 
 public class EatingAndExerciseApplication extends PiccoloPhetApplication {
 
