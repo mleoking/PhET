@@ -1,5 +1,6 @@
 New in 0.00.72
 Edited help dialog text
+Fixed: "Reset All" needs to reset the activity level selector.
 
 New in 0.00.71
 Changed the layout to have the green control panel background extend to the top. This required moving some of the play area objects to the right. This was based on the "eating and exercise layout.pdf" in the doc directory as a guide - we used the "Modified 1" layout.

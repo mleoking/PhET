@@ -20,15 +20,16 @@ import edu.colorado.phet.eatingandexercise.module.eatingandexercise.EatingAndExe
  */
 public class ActivityLevelComboBox extends JComboBox {
     private EatingAndExerciseCanvas canvas;
+    private Human human;
 
     public ActivityLevelComboBox( EatingAndExerciseCanvas canvas, final Human human ) {
+        this.human = human;
         this.canvas = canvas;
         for ( int i = 0; i < Activity.DEFAULT_ACTIVITY_LEVELS.length; i++ ) {
             addItem( Activity.DEFAULT_ACTIVITY_LEVELS[i] );
-            if ( Activity.DEFAULT_ACTIVITY_LEVELS[i].getValue() == human.getActivityLevel() ) {
-                setSelectedItem( Activity.DEFAULT_ACTIVITY_LEVELS[i] );
-            }
         }
+        updateSelectedItem();
+
         setFont( new PhetFont( 13, true ) );
         addItemListener( new ItemListener() {
             public void itemStateChanged( ItemEvent e ) {
@@ -38,6 +39,19 @@ public class ActivityLevelComboBox extends JComboBox {
         //todo: remove this workaround, which is necessary since piccolo pswing doesn't support jcombobox or pcombobox embedded in container within pswing
         setUI( new MyComboBoxUI() );
 //        setSelectedItem(  );
+        human.addListener( new Human.Adapter() {
+            public void activityLevelChanged() {
+                updateSelectedItem();
+            }
+        } );
+    }
+
+    private void updateSelectedItem() {
+        for ( int i = 0; i < Activity.DEFAULT_ACTIVITY_LEVELS.length; i++ ) {
+            if ( Activity.DEFAULT_ACTIVITY_LEVELS[i].getValue() == human.getActivityLevel() ) {
+                setSelectedItem( Activity.DEFAULT_ACTIVITY_LEVELS[i] );
+            }
+        }
     }
 
     protected class MyComboBoxUI extends BasicComboBoxUI {
@@ -52,7 +66,6 @@ public class ActivityLevelComboBox extends JComboBox {
         }
 
         protected Rectangle computePopupBounds( int px, int py, int pw, int ph ) {
-
             Rectangle sup = super.computePopupBounds( px, py, pw, ph );
             double y = canvas.getControlPanelY();
             Rectangle2D r = new Rectangle2D.Double( 0, y + sup.y, 0, 0 );
