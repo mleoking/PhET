@@ -66,7 +66,10 @@ public class YearMonthFormat extends NumberFormat {
         }
 //        toAppendTo.append( "" + format.format( remainder ) + "/ " + monthText + "\"" );
 //        toAppendTo.append( "" + format.format( remainder ) + "/" + monthText  );
-        toAppendTo.append( "" + format.format( remainder ) + " yr " + monthText + " mo" );
+        toAppendTo.append( "" + format.format( remainder ) + " yr" );
+        if ( !monthText.trim().equals( "0" ) ) {
+            toAppendTo.append( " " + monthText + " m" );
+        }
 //        toAppendTo.append( "" + format.format( remainder ) + " y " + monthText +" m" );
         return toAppendTo;
     }

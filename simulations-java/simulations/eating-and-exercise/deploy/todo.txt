@@ -2,8 +2,6 @@
 ###	Todo Sam	####
 ############################
 
---Sam, is there a way to make this into some sort of Year/Month format? Maybe YY/MM, and the axis label can say "Time (Years/Months)".
-
 --If possible, make a wiggle me that only appears the first time someone clicks on a food or exercise item.
 It should say "Drag food to the plate." or "Drag exercise to the log."
 This will avoid an automatic wiggle me, which could be distracting, but will let people know to drag the items once they click on them.
