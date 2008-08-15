@@ -1,7 +1,5 @@
 package edu.colorado.phet.eatingandexercise.control;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.text.DecimalFormat;
@@ -236,10 +234,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
     }
 
     private void updatePercentFat() {
-//        double percentFat = human.getNormativePercentFat();
-//        human.setFatMassPercent( percentFat );
-//        System.out.println( "HumanControlPanel.updatePercentFat based on user specified change" );
-        human.setFatMassPercent( model.getUserSpecifiedBodyParameters().getPreferredFatMassPercent( human ) );
+        model.autoUpdatePercentFat();
     }
 
     private void updateLayout() {
