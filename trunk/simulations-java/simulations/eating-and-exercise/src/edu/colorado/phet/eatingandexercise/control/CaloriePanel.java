@@ -135,8 +135,8 @@ public class CaloriePanel extends PNode {
         double width = phetPCanvas.getWidth() - getOffset().getX();
         stackedBarChart.setOffset( width / 2 - stackedBarChart.getFullBounds().getWidth() / 2, foodNode.getPlateBottomY() );
 
-        foodNode.setOffset( stackedBarChart.getFullBounds().getX() - foodNode.getFullBounds().getWidth() - 5, 0 );
-        exerciseNode.setOffset( stackedBarChart.getFullBounds().getMaxX() + 20, 0 );
+        foodNode.setOffset( stackedBarChart.getFullBounds().getX() - foodNode.getDropTarget().getWidth(), 0 );
+        exerciseNode.setOffset( stackedBarChart.getFullBounds().getMaxX() + 25, 0 );
 
         double w = phetPCanvas.getWidth() - phetPCanvas.getControlPanelWidth();
         chartNode.relayout( w, phetPCanvas.getHeight() - foodNode.getPlateBottomY() );
