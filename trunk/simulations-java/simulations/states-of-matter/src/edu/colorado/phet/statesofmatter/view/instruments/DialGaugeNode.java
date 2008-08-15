@@ -20,7 +20,13 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
-
+/**
+ * This class represents a node that displays a dial gauge, which is a
+ * circular instrument that can be used to portray measurements of temperature,
+ * pressure, etc.
+ *
+ * @author John Blanco
+ */
 public class DialGaugeNode extends PNode {
     
     //------------------------------------------------------------------------
@@ -46,7 +52,7 @@ public class DialGaugeNode extends PNode {
     private static double       GAUGE_ANGLE_RANGE = GAUGE_END_ANGLE - GAUGE_START_ANGLE;
     private static double       NEEDLE_SHIFT_PROPORTION = 0.75;      // Proportion of needle used as pointer.
     private static double       CONNECTOR_HEIGHT_PROPORATION = 0.15; // Height of connector wrt overall diameter.
-    private static double       CONNECTOR_WIDTH_PROPORATION = 0.20;  // Width of connector wrt overall diameter.
+    private static double       CONNECTOR_WIDTH_PROPORATION = 0.30;  // Width of connector wrt overall diameter.
     private static DecimalFormat NUMBER_FORMATTER = new DecimalFormat( "##0.0000" );
     
     //------------------------------------------------------------------------
@@ -78,21 +84,10 @@ public class DialGaugeNode extends PNode {
         double borderWidth = diameter * BORDER_SCALE_FACTOR;
         double connectorWidth = diameter * CONNECTOR_WIDTH_PROPORATION;
         
-        // Create the connector.  It is placed first because then it can be
-        // behind everything else.
-        PPath connector = new PPath(new Rectangle2D.Double(0, 0, diameter / 2, CONNECTOR_HEIGHT_PROPORATION * diameter));
-        GradientPaint gradientPaint = new GradientPaint((float)(diameter / 2), 
-                0, Color.LIGHT_GRAY, (float)(diameter / 2), (float)(CONNECTOR_HEIGHT_PROPORATION * diameter), Color.BLUE);
-
-        connector.setPaint( gradientPaint );
-        connector.setOffset( 0, diameter / 2 - connector.getHeight() / 2 );
-        addChild(connector);
-        
         // Create a node that will contain the bulk of the dial nodes so that
         // they can be easily offset as a group.
         PNode dialComponentsNode = new PNode();
-        dialComponentsNode.setOffset( connectorWidth, 0 );
-        addChild(dialComponentsNode);
+        dialComponentsNode.setOffset( 0, 0 );
         
         // Create the node that will represent the face of the dial.
         PPath dialFace = new PPath(new Ellipse2D.Double(0, 0, diameter, diameter));
@@ -165,6 +160,21 @@ public class DialGaugeNode extends PNode {
         pin.setPaint( Color.BLACK );
         pin.setOffset( diameter/2 -  pinDiameter/2, diameter/2 - pinDiameter/2);
         dialComponentsNode.addChild( pin );
+
+        // Create the connector.  It is placed first because then it can be
+        // behind everything else.
+        PPath connector = new PPath(new Rectangle2D.Double(0, 0, connectorWidth, 
+                CONNECTOR_HEIGHT_PROPORATION * diameter));
+        GradientPaint gradientPaint = new GradientPaint((float)(diameter / 2), 
+                0, Color.LIGHT_GRAY, (float)(diameter / 2), (float)(CONNECTOR_HEIGHT_PROPORATION * diameter), Color.BLUE);
+
+        connector.setPaint( gradientPaint );
+        connector.setOffset( dialComponentsNode.getFullBoundsReference().width * 0.9, 
+                diameter / 2 - connector.getHeight() / 2 );
+        addChild(connector);
+        
+        // Now add the dial as a child of the main node.
+        addChild(dialComponentsNode);
         
         // Set the initial value.
         setValue( m_minValue );

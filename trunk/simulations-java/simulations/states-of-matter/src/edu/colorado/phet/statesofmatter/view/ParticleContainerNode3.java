@@ -52,6 +52,7 @@ public class ParticleContainerNode3 extends PhetPNode {
     private static final String CONTAINER_FRONT_IMAGE_NAME = "cup_3D_front_70_split.png";
     private static final String LID_IMAGE_NAME = "cup_3D_cap_70.png";
     private static final String CONTAINER_BACK_IMAGE_NAME = "cup_3D_back_solid_light.png";
+//    private static final String CONTAINER_BACK_IMAGE_NAME = "cup_3D_back_light.jpg";
     private static final double LID_POSITION_TWEAK_FACTOR = 65; // Empirically determined value for aligning lid and container body.
     
     // Constant(s) that affect the appearance of both depictions of the container.
