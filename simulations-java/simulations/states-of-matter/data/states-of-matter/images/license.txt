@@ -3,13 +3,11 @@
 # Automatically generated on Fri Aug 08 00:08:03 MDT 2008
 ###################################
 
-coffee-cup-image.png
-coffee-cup-image.svg license=PUBLIC DOMAIN source=http://commons.wikimedia.org/wiki/Image:Irish_Coffee_Glass_(Mug).svg notes=Irish_Coffee_Glass_(Mug).svg
-coffee_cup.png source=http://www.fundraw.com license=PUBLIC DOMAIN notes=another_coffee_cup_micha_01.png 
-cup_3D_cap_thick_75_1.png author=PhET 
-cup_3D_front_thick_60_1.png author=PhET 
-cylindrical-container-image.png author=PhET 
+cup_3D_back_solid_light.png source=PhET author=Noah Podelefsky 
+cup_3D_cap_70.png source = PhET author=Noah Podelefsky 
+cup_3D_front_70_split.png source = PhET author=Noah Podelefsky 
+cylindrical-container-image.png source=PhET author=Noah Podelefsky 
+finger-2.png source=PhET author=John Blanco 
 flames.gif author=PhET 
 ice.gif author=PhET 
 stove.png author=PhET
-finger-1.png source=PhET author=John Blanco 
