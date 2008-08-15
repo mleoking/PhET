@@ -13,7 +13,7 @@ public class UserSpecifiedBodyParameters {
        /*We will have a button near the % fat slider that says "Auto" or something like that.
        When you click it, it automatically calculates a % fat based on activity, height, and weight.
     */
-    public double getPreferredFatMassPercent( Human human ) {
+    public double getAutoFatMassPercent( Human human ) {
         //see http://www.halls.md/bmi/fat.htm
         //Adult Body Fat % = (1.20 x BMI) + (0.23 x Age) - (10.8 x gender) - 5.4
 //where male gender= 1, female=0.
@@ -22,7 +22,7 @@ public class UserSpecifiedBodyParameters {
 
     public static void main( String[] args ) {
         Human human = new Human();
-        double pref = new UserSpecifiedBodyParameters().getPreferredFatMassPercent( human );
+        double pref = new UserSpecifiedBodyParameters().getAutoFatMassPercent( human );
         System.out.println( "pref = " + pref );
     }
 }

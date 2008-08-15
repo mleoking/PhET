@@ -2,8 +2,6 @@
 ###	Todo Sam	####
 ############################
 
-BMR doesn't reset properly (during reset all) if activity level was changed
-
 ############################
 ###	Todo Noah P	####
 ############################

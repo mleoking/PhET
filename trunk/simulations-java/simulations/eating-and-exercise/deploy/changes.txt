@@ -7,6 +7,7 @@ Added year month format to control panel
 Changed label on graphs from "Time" to "Age"
 Changed year month format on graph horizontal axes
 Added an animated help message that appears when you start to drag a food or exercise item that suggests you put it on the drop target
+Fixed: BMR doesn't reset properly (during reset all) if activity level was changed
 
 New in 0.00.71
 Changed the layout to have the green control panel background extend to the top. This required moving some of the play area objects to the right. This was based on the "eating and exercise layout.pdf" in the doc directory as a guide - we used the "Modified 1" layout.

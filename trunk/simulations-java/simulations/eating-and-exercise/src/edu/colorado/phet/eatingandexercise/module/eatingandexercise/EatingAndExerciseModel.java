@@ -16,10 +16,14 @@ import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.colorado.phet.eatingandexercise.util.EatingAndExerciseFileParser;
 
 public class EatingAndExerciseModel {
-    private UserSpecifiedBodyParameters userSpecifiedBodyParameters=new UserSpecifiedBodyParameters();
+    private UserSpecifiedBodyParameters userSpecifiedBodyParameters = new UserSpecifiedBodyParameters();
 
     public UserSpecifiedBodyParameters getUserSpecifiedBodyParameters() {
         return userSpecifiedBodyParameters;
+    }
+
+    public void autoUpdatePercentFat() {
+        human.setFatMassPercent( getUserSpecifiedBodyParameters().getAutoFatMassPercent( human ) );
     }
 
     public static class Units {
@@ -179,6 +183,7 @@ public class EatingAndExerciseModel {
         human.resetAll();
         setUnits( Units.ENGLISH );
         getClock().pause();
+        autoUpdatePercentFat();
     }
 
     public Units getUnits() {
