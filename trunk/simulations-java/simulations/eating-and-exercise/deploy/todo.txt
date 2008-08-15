@@ -2,17 +2,33 @@
 ###	Todo Sam	####
 ############################
 
+--Help dialog:
+  -Remove this line "Change your Activity level by using the pull down menu or moving exercise on/off the book."
+  -Add 2 new lines: "Change your daily exercise by moving exercises on/off the book."
+		    "Change your Activity level by using the pull down menu (above)."
+
+--"Reset All" needs to reset the activity level selector. Right now it appears to reset the activity level in the model, but does not change the selector to default (Moderate Activity).
+
+--If the healthy diet window is open, Reset All does not remove this window. If you then open a new healthy diet, the old one remains open but is non-functional. The old window should either:
+  1) close, or...
+  2) continue to control the healthy diet, so if you hit reset and then hit "edit" again, the window that is already open controls the healthy diet
+
+--Can we make items disappear if you drop them in the play area, but not on the plate/exercise log? Currently they just sit in the play area. This would also allow people to just drag items to the play area to get rid of them.
+
+
 ############################
 ###	Todo Noah P	####
 ############################
 
---When Lifestyle calories burned is calculated, is that based on LBM (i.e., fat free mass) or weight? Wendy and I think it should be based on total weight, so just wanted to check.
+--Fix up exercise items/images
 
 ############################
 ###	To Discuss	####
 ############################
 
---Shouldn’t’ the reset all button be part of common code and just come with the warning box?
+--Sam, is there a way to make this into some sort of Year/Month format? Maybe YY/MM, and the axis label can say "Time (Years/Months)".
+
+--If possible, make a wiggle me that only appears the first time someone clicks on a food or exercise item. It should say "Drag food to the plate." or "Drag exercise to the log." This will avoid an automatic wiggle me, which could be distracting, but will let people know to drag the items once they click on them. Molly said she thought she should click on items, but it was not obvious she should drag them somewhere.
 
 --Instead of the question mark next to the pull down for activity, is it possible to have a mouse over on each option that gives the description?
 
@@ -20,9 +36,18 @@
 
 --(Unfuddle #682) I think the midsection bulge (the belly) should be smaller when the % fat is low. When the person is near the bottom of the healthy range (for men or women), the midsection bulge should be almost imperceptible. Right now, you can have 0 body fat and you still see a little bulge around the midsection.
 
---Sam, is there a way to make this into some sort of Year/Month format? Maybe YY/MM, and the axis label can say "Time (Years/Months)".
+
+############################################
+###	Old Issues  To Keep an Eye on	####
+############################################
+
+--When Lifestyle calories burned is calculated, is that based on LBM (i.e., fat free mass) or weight? Wendy and I think it should be based on total weight, so just wanted to check.
+>>This should be done in 0.71.
 
 --Questions from  WA:
+
+--Shouldn’t’ the reset all button be part of common code and just come with the warning box?
+>>Appears to be fixed in v0.71.
 
 > 1. Why does changing my age change my body fat?
 >
@@ -32,6 +57,7 @@
 I believe Sam is using the following model for body fat: http://www.halls.md/bmi/fat.htm
 
 It uses BMI, age, and gender...but not activity level. We could augment it to include activity level - we'll have to guess at this, but a good starting place might to assume this is the average "Sedentary". Add maybe 3% for Very Sedentary, and subtract 3% for Moderate Activity, subtract 6% for Very Active. How does that sound?
+>>Fixed in v0.71.
 
 > Suggestions/Bugs:
 >
@@ -39,8 +65,6 @@ It uses BMI, age, and gender...but not activity level. We could augment it to in
 
 Sam, what do you think of this? I think mouse-overs on pull down menus are fairly non-standard, but I could be wrong.
 
---Add a quick paragraph in the Help that says something like "Change your diet by putting food on/off the plate.
-Change your Activity level by using the pull down menu or moving exercise on/off the book."
 
 >>Should the help be integrated into the play area?  It will take longer than a pop-up text dialog window.
 
