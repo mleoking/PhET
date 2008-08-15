@@ -108,6 +108,22 @@ public class CaloriePanel extends PNode {
         chartNode.clearAndResetDomains();
     }
 
+    public void addFoodDraggedListener( ActionListener actionListener ) {
+        foodNode.addItemDraggedListener( actionListener );
+    }
+
+    public PNode getPlateNode() {
+        return foodNode.getDropTarget();
+    }
+
+    public void addExerciseDraggedListener( ActionListener actionListener ) {
+        exerciseNode.addItemDraggedListener( actionListener );
+    }
+
+    public PNode getDiaryNode() {
+        return exerciseNode.getDropTarget();
+    }
+
     public static class BarChartElementAdapter extends StackedBarNode.BarChartElement {
         public BarChartElementAdapter( String name, Paint paint, final DefaultTemporalVariable variable, String image, Color textColor ) {
             super( name, paint, variable.getValue(), EatingAndExerciseResources.getImage( image ), textColor );

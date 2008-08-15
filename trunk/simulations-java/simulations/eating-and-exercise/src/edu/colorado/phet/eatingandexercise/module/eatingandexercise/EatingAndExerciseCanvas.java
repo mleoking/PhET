@@ -61,7 +61,7 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
     private HeartAttackMessage heartAttackMessage;
     private HealthIndicator healthIndicator;
     private PhetPPath playAreaBackgroundNode;
-    private boolean showColorChooser=false;
+    private boolean showColorChooser = false;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -270,5 +270,21 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
 
     public double getControlPanelY() {
         return humanControlPanelPSwing.getFullBounds().getY();
+    }
+
+    public void addFoodDraggedListener( ActionListener actionListener ) {
+        caloriePanel.addFoodDraggedListener( actionListener );
+    }
+
+    public PNode getPlateNode() {
+        return caloriePanel.getPlateNode();
+    }
+
+    public void addExerciseDraggedListener( ActionListener actionListener ) {
+        caloriePanel.addExerciseDraggedListener(actionListener);
+    }
+
+    public PNode getDiaryNode() {
+        return caloriePanel.getDiaryNode();
     }
 }

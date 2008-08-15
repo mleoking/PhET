@@ -39,6 +39,7 @@ public class EatingAndExerciseModule extends PiccoloModule {
     private EatingAndExerciseClock eatingAndExerciseClock;
 
     private int numAddedItems = 0;
+    private boolean showedInitialDragWiggleMe = false;
 
     public EatingAndExerciseModule( final PhetFrame parentFrame ) {
         super( EatingAndExerciseStrings.TITLE_EATING_AND_EXERCISE_MODULE, new EatingAndExerciseClock(), EatingAndExerciseDefaults.STARTS_PAUSED );
@@ -78,6 +79,26 @@ public class EatingAndExerciseModule extends PiccoloModule {
             }
 
         } );
+
+        _canvas.addFoodDraggedListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                if ( !showedInitialDragWiggleMe ) {
+                    showedInitialDragWiggleMe = true;
+                    new DragToTargetHelpItem( EatingAndExerciseModule.this, _canvas, _canvas.getPlateNode(), EatingAndExerciseResources.getString( "put.food.on.plate" ),
+                                              EatingAndExerciseModule.this.getHuman().getSelectedFoods() ).start();
+                }
+            }
+        } );
+        _canvas.addExerciseDraggedListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                if ( !showedInitialDragWiggleMe ) {
+                    showedInitialDragWiggleMe = true;
+                    new DragToTargetHelpItem( EatingAndExerciseModule.this, _canvas, _canvas.getDiaryNode(), EatingAndExerciseResources.getString( "put.exercise.on.diary" ),
+                                              EatingAndExerciseModule.this.getHuman().getSelectedExercise() ).start();
+                }
+            }
+        } );
+
         setSimulationPanel( _canvas );
 
         // Control Panel
@@ -119,6 +140,7 @@ public class EatingAndExerciseModule extends PiccoloModule {
         setClockControlPanel( _clockControlPanel );
 
         setHelpEnabled( true );
+        setHelpPane( new HelpPane( parentFrame ) );
         reset();
     }
 
@@ -147,7 +169,6 @@ public class EatingAndExerciseModule extends PiccoloModule {
             motionHelpBalloon.setArrowTailPosition( MotionHelpBalloon.BOTTOM_CENTER );
             motionHelpBalloon.setOffset( 800, 0 );
             motionHelpBalloon.animateTo( _clockControlPanel.getPlayPauseButton(), 15 );
-            setHelpPane( new HelpPane( parentFrame ) );
             getDefaultHelpPane().add( motionHelpBalloon );
             inited = true;
         }

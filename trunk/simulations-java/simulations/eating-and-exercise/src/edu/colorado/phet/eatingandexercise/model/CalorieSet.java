@@ -92,6 +92,10 @@ public class CalorieSet {
         }
     }
 
+    public void removeListener( Listener listener ) {
+        listeners.remove( listener );
+    }
+
     public static interface Listener {
         void itemAdded( CaloricItem item );
 
