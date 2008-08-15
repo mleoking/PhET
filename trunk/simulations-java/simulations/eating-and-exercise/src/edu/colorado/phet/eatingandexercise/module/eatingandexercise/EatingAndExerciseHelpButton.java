@@ -14,11 +14,15 @@ import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
  */
 public class EatingAndExerciseHelpButton extends JButton {
     public EatingAndExerciseHelpButton() {
-        super( EatingAndExerciseResources.getCommonString( PhetCommonResources.STRING_HELP_MENU_HELP ) );
+        super( getHelpString() );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                JOptionPane.showMessageDialog( EatingAndExerciseHelpButton.this, EatingAndExerciseResources.getString( "help.message" ) );
+                JOptionPane.showMessageDialog( EatingAndExerciseHelpButton.this, EatingAndExerciseResources.getString( "help.message" ), getHelpString(), JOptionPane.INFORMATION_MESSAGE );
             }
         } );
+    }
+
+    private static String getHelpString() {
+        return EatingAndExerciseResources.getCommonString( PhetCommonResources.STRING_HELP_MENU_HELP );
     }
 }
