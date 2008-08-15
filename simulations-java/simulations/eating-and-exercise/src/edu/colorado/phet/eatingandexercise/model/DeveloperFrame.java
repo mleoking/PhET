@@ -13,7 +13,6 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValu
  */
 public class DeveloperFrame extends JFrame {
     public DeveloperFrame() {
-
         VerticalLayoutPanel verticalLayoutPanel = new VerticalLayoutPanel();
         final LinearValueControl slider = new LinearValueControl( 0, 1, MuscleAndFatMassLoss2.FRACTION_FAT_LOST, "fraction fat", "0.0000", "" );
         slider.addChangeListener( new ChangeListener() {

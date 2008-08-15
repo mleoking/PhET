@@ -2,8 +2,6 @@
 ###	Todo Sam	####
 ############################
 
---Make sure dev control for color is removed in final version. (And other dev controls we've added.)
-
 --BMR at simulation start is different than BMR after reset all
 
 --Sometimes reset all clears the body, leaving the head...instead of resetting. Not sure how to reproduce this,
