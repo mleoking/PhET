@@ -2,8 +2,6 @@
 ###	Todo Sam	####
 ############################
 
---Change the layout to have the green control panel background extend to the top. This will require moving some of the play area objects to the right. See the file "eating and exercise layout.pdf" in the doc directory as a guide - we want the "Modified 1" layout.
-
 --Make the Heart Strength indicator dependent on activity level as well as exercise. Take the exercise calories that are used to calculate Heart Strength each day and add the following:
 	-Very Sedentary: add zero
 	-All other activity levels: 0.75 * Lifestyle_calories

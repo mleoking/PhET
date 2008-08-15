@@ -84,6 +84,10 @@ public class CalorieDragStrip extends PNode {
         }
     }
 
+    public double getStripPanelWidth(){
+        return stripPanelClip.getFullBounds().getWidth();
+    }
+
     private double getMaxPanelHeight() {
         double max = Double.NaN;
         for ( int i = 0; i < panels.size(); i++ ) {
