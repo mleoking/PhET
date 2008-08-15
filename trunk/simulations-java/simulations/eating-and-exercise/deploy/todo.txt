@@ -7,13 +7,25 @@
   -Add 2 new lines: "Change your daily exercise by moving exercises on/off the book."
 		    "Change your Activity level by using the pull down menu (above)."
 
---"Reset All" needs to reset the activity level selector. Right now it appears to reset the activity level in the model, but does not change the selector to default (Moderate Activity).
+--"Reset All" needs to reset the activity level selector.
+Right now it appears to reset the activity level in the model,
+but does not change the selector to default (Moderate Activity).
 
---If the healthy diet window is open, Reset All does not remove this window. If you then open a new healthy diet, the old one remains open but is non-functional. The old window should either:
+--If the healthy diet window is open, Reset All does not remove this window.
+If you then open a new healthy diet, the old one remains open but is non-functional. The old window should either:
   1) close, or...
-  2) continue to control the healthy diet, so if you hit reset and then hit "edit" again, the window that is already open controls the healthy diet
+  2) continue to control the healthy diet, so if you hit reset and then hit "edit" again,
+  the window that is already open controls the healthy diet
 
---Can we make items disappear if you drop them in the play area, but not on the plate/exercise log? Currently they just sit in the play area. This would also allow people to just drag items to the play area to get rid of them.
+--Can we make items disappear if you drop them in the play area, but not on the plate/exercise log?
+Currently they just sit in the play area. This would also allow people to just drag items to the play area to get rid of them.
+
+--Sam, is there a way to make this into some sort of Year/Month format? Maybe YY/MM, and the axis label can say "Time (Years/Months)".
+
+--If possible, make a wiggle me that only appears the first time someone clicks on a food or exercise item.
+It should say "Drag food to the plate." or "Drag exercise to the log."
+This will avoid an automatic wiggle me, which could be distracting, but will let people know to drag the items once they click on them.
+Molly said she thought she should click on items, but it was not obvious she should drag them somewhere.
 
 
 ############################
