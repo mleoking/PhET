@@ -2,9 +2,6 @@
 ###	Todo Sam	####
 ############################
 
---Make the multiplier for fractionFatLost in MuscleAndFatMassLoss depend on gender.
-See todo statements in MuscleAndFatMassLoss, lines 22-23.
-
 --Add a quick paragraph in the Help that says something like "Change your diet by putting food on/off the plate.
 Change your Activity level by using the pull down menu or moving exercise on/off the book."
 

@@ -701,8 +701,8 @@ public class Human {
     }
 
     public static class Gender {
-        public static Gender MALE = new Gender( EatingAndExerciseResources.getString( "gender.male" ).toLowerCase(), 0, 100, 2, 25, 1.15, 4, 30, 4, 6, 25 );
-        public static Gender FEMALE = new Gender( EatingAndExerciseResources.getString( "gender.female" ).toLowerCase(), 0, 100, 4, 32, 1.22, 6, 26, 9, 16, 31 );
+        public static Gender MALE = new Gender( EatingAndExerciseResources.getString( "gender.male" ).toLowerCase(), 0, 100, 2, 25, 1.15, 4, 30, 4, 6, 25, 3.5, 0.28 );
+        public static Gender FEMALE = new Gender( EatingAndExerciseResources.getString( "gender.female" ).toLowerCase(), 0, 100, 4, 32, 1.22, 6, 26, 9, 16, 31, 2.8, 0.35 );
         private String name;
         private double minFatMassPercent;
         private double maxFatMassPercent;
@@ -715,9 +715,11 @@ public class Human {
         private double stdPercentFat;
         private double minPercentFatRange;
         private double maxPercentFatRange;
+        private double fatMassMultiplier;
+        private double fatMassLimiter;
 
 
-        private Gender( String name, double minFatMassPercent, double maxFatMassPercent, double starvingFatMassPercentThreshold, double heartAttackFatMassPercentThreshold, double lmbScaleFactor, double almostStarvingUpperThreshold, double stdBMI, double stdPercentFat, double minPercentFatRange, double maxPercentFatRange ) {
+        private Gender( String name, double minFatMassPercent, double maxFatMassPercent, double starvingFatMassPercentThreshold, double heartAttackFatMassPercentThreshold, double lmbScaleFactor, double almostStarvingUpperThreshold, double stdBMI, double stdPercentFat, double minPercentFatRange, double maxPercentFatRange, double fatMassMultiplier, double fatMassLimiter ) {
             this.name = name;
             this.minFatMassPercent = minFatMassPercent;
             this.maxFatMassPercent = maxFatMassPercent;
@@ -729,6 +731,8 @@ public class Human {
             this.stdPercentFat = stdPercentFat;
             this.minPercentFatRange = minPercentFatRange;
             this.maxPercentFatRange = maxPercentFatRange;
+            this.fatMassMultiplier = fatMassMultiplier;
+            this.fatMassLimiter = fatMassLimiter;
         }
 
         public double getStdBMI() {
@@ -800,6 +804,14 @@ public class Human {
             else {
                 return 0;
             }
+        }
+
+        public double getFatMassMultiplier() {
+            return fatMassMultiplier;
+        }
+
+        public double getFatMassLimiter() {
+            return fatMassLimiter;
         }
     }
 
