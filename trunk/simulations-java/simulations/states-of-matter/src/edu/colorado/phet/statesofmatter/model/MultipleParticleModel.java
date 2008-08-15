@@ -2053,6 +2053,8 @@ public class MultipleParticleModel {
             break;
             
         case ARGON:
+            // JPB TBD - I think Paul actually gave me info for Krypton, so
+            // this is wrong, and it will need to be fixed at some point.
             if (m_temperature <= 0.4){
                 temperatureInKelvin = m_temperature * 289.38;
             }
@@ -2062,6 +2064,16 @@ public class MultipleParticleModel {
             else {
                 temperatureInKelvin = m_temperature * 418.7;
             }
+            break;
+
+        case WATER:
+            // TODO: JPB TBD - this is made up.
+            temperatureInKelvin = m_temperature * 250;
+            break;
+            
+        case DIATOMIC_OXYGEN:
+            // TODO: JPB TBD - this is made up.
+            temperatureInKelvin = m_temperature * 90;
             break;
             
         default:
