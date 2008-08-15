@@ -26,16 +26,17 @@ public class CompositeThermometerNode extends PNode {
     private static final double THERMOMETER_WIDTH_PROPORTION = 0.3;
     
     private LiquidExpansionThermometerNode m_liquidThermometer;
-    private double m_minTemp;
     private double m_maxTemp;
     private DigitalReadoutNode m_kelvinReadout;
-    private DigitalReadoutNode m_fahrenheitReadout;
     
     /**
      * Constructor.
+     * @param maxTemp TODO
      */
-    public CompositeThermometerNode(double width, double height){
+    public CompositeThermometerNode(double width, double height, double maxTemp){
 
+        m_maxTemp = maxTemp;
+        
         m_liquidThermometer = 
             new LiquidExpansionThermometerNode(new PDimension(width * THERMOMETER_WIDTH_PROPORTION, height));
         m_liquidThermometer.setTicks( m_liquidThermometer.getFullBoundsReference().height / 12, Color.BLACK, 4 );
@@ -47,12 +48,9 @@ public class CompositeThermometerNode extends PNode {
         addChild(m_kelvinReadout);
     }
     
-    public void setDigitalTemperatureReading(double degrees){
+    public void setTemperatureInDegreesKelvin(double degrees){
         m_kelvinReadout.setValue( degrees );
-    }
-    
-    public void setThermometerLiquidHeight(double normalizedTemperature){
-        m_liquidThermometer.setLiquidHeight( normalizedTemperature );
+        m_liquidThermometer.setLiquidHeight( degrees / m_maxTemp );
     }
     
     //----------------------------------------------------------------------------

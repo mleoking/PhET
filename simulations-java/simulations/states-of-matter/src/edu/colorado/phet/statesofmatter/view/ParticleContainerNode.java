@@ -92,22 +92,9 @@ public class ParticleContainerNode extends PhetPNode {
         
         // Add a thermometer for displaying temperature.
         
-        /*
-        m_thermometerNode = new LiquidExpansionThermometerNode( 
-                new PDimension( m_cupImageNode.getFullBoundsReference().width * 0.075, 
-                        m_cupImageNode.getFullBoundsReference().height * 0.25 ) );
-        
-        m_thermometerNode.setTicks( m_thermometerNode.getFullBoundsReference().height / 12, Color.BLACK, 4 );
-        
-        addChild(m_thermometerNode);
-        
-        m_thermometerNode.setOffset( 
-                m_cupImageNode.getFullBoundsReference().x + m_cupImageNode.getFullBoundsReference().width * 0.4, 
-                        m_cupImageNode.getFullBoundsReference().y - m_cupImageNode.getFullBoundsReference().height * 0.1 );
-          
-        updateThermometerTemperature();
-        */
-        m_thermometerNode = new CompositeThermometerNode(m_cupImageNode.getFullBoundsReference().width * 0.2, m_cupImageNode.getFullBoundsReference().height * 0.3);
+        m_thermometerNode = new CompositeThermometerNode(m_cupImageNode.getFullBoundsReference().width * 0.2, 
+                m_cupImageNode.getFullBoundsReference().height * 0.3, 
+                StatesOfMatterConstants.MAX_DISPLAYED_TEMPERATURE);
         m_thermometerNode.setOffset( 
                 m_cupImageNode.getFullBoundsReference().x + m_cupImageNode.getFullBoundsReference().width * 0.4, 
                 m_cupImageNode.getFullBoundsReference().y - m_cupImageNode.getFullBoundsReference().height * 0.1 );
@@ -136,8 +123,7 @@ public class ParticleContainerNode extends PhetPNode {
      * Update the value displayed in the thermometer.
      */
     private void updateThermometerTemperature(){
-        m_thermometerNode.setDigitalTemperatureReading( m_model.getTemperatureInKelvin() );
-        m_thermometerNode.setThermometerLiquidHeight( m_model.getNormalizedTemperature() );
+        m_thermometerNode.setTemperatureInDegreesKelvin( m_model.getTemperatureInKelvin() );
     }
 
     // TODO: JPB TBD - Is this needed?

@@ -87,6 +87,9 @@ public class StatesOfMatterConstants {
     public static final Rectangle2D.Double CONTAINER_BOUNDS = new Rectangle2D.Double(0, 0, PARTICLE_CONTAINER_WIDTH,
             PARTICLE_CONTAINER_INITIAL_HEIGHT);
     
+    // Maximum temperature, in degrees Kelvin, that the Thermometer will display.
+    public static final double MAX_DISPLAYED_TEMPERATURE = 500;
+    
     // TODO: JPB TBD - Many of these constants will no longer be used once the
     // sim has been cleaned up, so remember to remove them.
     private static final String PROJECT_NAME = "states-of-matter";

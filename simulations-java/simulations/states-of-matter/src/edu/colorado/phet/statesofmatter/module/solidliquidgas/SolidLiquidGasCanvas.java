@@ -85,7 +85,9 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
         
         // Add a thermometer for displaying temperature.
         Rectangle2D containerRect = m_model.getParticleContainerRect();
-        m_thermometerNode = new CompositeThermometerNode(containerRect.getX() + containerRect.getWidth() * 0.25, containerRect.getY() + containerRect.getHeight() * 0.35);
+        m_thermometerNode = new CompositeThermometerNode(containerRect.getX() + containerRect.getWidth() * 0.25, 
+                containerRect.getY() + containerRect.getHeight() * 0.35, 
+                StatesOfMatterConstants.MAX_DISPLAYED_TEMPERATURE);
         m_thermometerNode.setOffset( 
                 containerRect.getX() + containerRect.getWidth() * 0.80, 
                 containerRect.getY() - containerRect.getHeight() * 1.1 );
@@ -124,7 +126,6 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
      * Update the value displayed in the thermometer.
      */
     private void updateThermometerTemperature(){
-        m_thermometerNode.setDigitalTemperatureReading( m_model.getTemperatureInKelvin() );
-        m_thermometerNode.setThermometerLiquidHeight( m_model.getNormalizedTemperature() );
+        m_thermometerNode.setTemperatureInDegreesKelvin( m_model.getTemperatureInKelvin() );
     }
 }
