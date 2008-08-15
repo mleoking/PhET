@@ -3,6 +3,8 @@
 package edu.colorado.phet.eatingandexercise;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 import javax.swing.*;
 
@@ -17,9 +19,9 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.eatingandexercise.developer.DeveloperMenu;
-import edu.colorado.phet.eatingandexercise.model.DeveloperFrame;
 import edu.colorado.phet.eatingandexercise.module.eatingandexercise.EatingAndExerciseModule;
 import edu.colorado.phet.eatingandexercise.view.EatingAndExerciseColorScheme;
+import edu.colorado.phet.eatingandexercise.model.DeveloperFrame;
 
 public class EatingAndExerciseApplication extends PiccoloPhetApplication {
 
@@ -91,6 +93,14 @@ public class EatingAndExerciseApplication extends PiccoloPhetApplication {
 
         // Developer menu
         DeveloperMenu developerMenu = new DeveloperMenu( this );
+        JMenuItem menuItem = new JMenuItem( "Show Model Controls..." );
+        menuItem.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                new DeveloperFrame().setVisible( true );
+            }
+        } );
+        developerMenu.add( menuItem );
+
         if ( developerMenu.getMenuComponentCount() > 0 && isDeveloperControlsEnabled() ) {
             frame.addMenu( developerMenu );
         }
@@ -124,7 +134,7 @@ public class EatingAndExerciseApplication extends PiccoloPhetApplication {
     }
 
     public Color getControlPanelBackground() {
-        return getModule( 0 ).getControlPanel().getBackground();
+        return getModule( 0 ).getSimulationPanel().getBackground();
     }
 
     public static void main( final String[] args ) {
@@ -152,8 +162,6 @@ public class EatingAndExerciseApplication extends PiccoloPhetApplication {
 
                 // Start the application.
                 app.startApplication();
-
-                new DeveloperFrame().setVisible( true );
             }
         } );
     }

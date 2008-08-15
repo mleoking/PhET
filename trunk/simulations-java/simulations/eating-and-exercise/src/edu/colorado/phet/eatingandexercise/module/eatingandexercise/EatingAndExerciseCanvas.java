@@ -19,10 +19,10 @@ import edu.colorado.phet.eatingandexercise.EatingAndExerciseConstants;
 import edu.colorado.phet.eatingandexercise.control.CaloriePanel;
 import edu.colorado.phet.eatingandexercise.control.HumanControlPanel;
 import edu.colorado.phet.eatingandexercise.model.Human;
+import edu.colorado.phet.eatingandexercise.view.EatingAndExerciseColorScheme;
 import edu.colorado.phet.eatingandexercise.view.HealthIndicator;
 import edu.colorado.phet.eatingandexercise.view.HumanNode;
 import edu.colorado.phet.eatingandexercise.view.ScaleNode;
-import edu.colorado.phet.eatingandexercise.view.EatingAndExerciseColorScheme;
 import edu.umd.cs.piccolo.PCamera;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -61,6 +61,7 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
     private HeartAttackMessage heartAttackMessage;
     private HealthIndicator healthIndicator;
     private PhetPPath playAreaBackgroundNode;
+    private boolean showColorChooser=false;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -72,25 +73,9 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
         _model = model;
 
         setBackground( EatingAndExerciseConstants.CHART_AREA_BACKGROUND );
-        getCamera().addInputEventListener( new PBasicInputEventHandler() {
-            public void mousePressed( PInputEvent aEvent ) {
-                if ( aEvent.isLeftMouseButton() && aEvent.getPickedNode() instanceof PCamera ) {
-                    ColorChooserFactory.showDialog( "background color", parentFrame, getBackground(), new ColorChooserFactory.Listener() {
-                        public void colorChanged( Color color ) {
-                            setBackground( color );
-                        }
-
-                        public void ok( Color color ) {
-                            setBackground( color );
-                        }
-
-                        public void cancelled( Color originalColor ) {
-                            setBackground( originalColor );
-                        }
-                    }, true );
-                }
-            }
-        } );
+        if ( showColorChooser ) {
+            showColorChooser( parentFrame );
+        }
         // Root of our scene graph
         _rootNode = new PNode();
 
@@ -103,7 +88,7 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
             }
         } );
 
-        playAreaBackgroundNode = new PhetPPath( EatingAndExerciseColorScheme.getBackgroundColor(),new BasicStroke( 2),Color.gray );
+        playAreaBackgroundNode = new PhetPPath( EatingAndExerciseColorScheme.getBackgroundColor(), new BasicStroke( 2 ), Color.gray );
         addScreenChild( playAreaBackgroundNode );
 
         addWorldChild( _rootNode );
@@ -172,6 +157,28 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
         updateLayout();
     }
 
+    private void showColorChooser( final Frame parentFrame ) {
+        getCamera().addInputEventListener( new PBasicInputEventHandler() {
+            public void mousePressed( PInputEvent aEvent ) {
+                if ( aEvent.isLeftMouseButton() && aEvent.getPickedNode() instanceof PCamera ) {
+                    ColorChooserFactory.showDialog( "background color", parentFrame, getBackground(), new ColorChooserFactory.Listener() {
+                        public void colorChanged( Color color ) {
+                            setBackground( color );
+                        }
+
+                        public void ok( Color color ) {
+                            setBackground( color );
+                        }
+
+                        public void cancelled( Color originalColor ) {
+                            setBackground( originalColor );
+                        }
+                    }, true );
+                }
+            }
+        } );
+    }
+
     private void updateHeartHealthButtonNodeLayout() {
         Point2D pt = humanAreaNode.getHeartNode().getGlobalFullBounds().getOrigin();
         pt.setLocation( pt.getX() + humanAreaNode.getHeartNode().getGlobalFullBounds().getWidth(), pt.getY() + 5 );
@@ -226,7 +233,7 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
         healthIndicator.setOffset( 5, humanControlPanelPSwing.getFullBounds().getMinY() - healthIndicator.getFullBounds().getHeight() );
 
         caloriePanel.setOffset( humanControlPanelPSwing.getFullBounds().getWidth(), 0 );
-        playAreaBackgroundNode.setPathToRectangle( 0,0, (float) humanControlPanelPSwing.getFullBounds().getWidth(),getHeight() );
+        playAreaBackgroundNode.setPathToRectangle( 0, 0, (float) humanControlPanelPSwing.getFullBounds().getWidth(), getHeight() );
 //        backgroundNode.setPathToRectangle( 0,0, 100,100);
 //        caloriePanel.setLayoutSize(getWidth()-humanControlPanelPSwing.getFullBounds().getWidth(),getHeight());
     }

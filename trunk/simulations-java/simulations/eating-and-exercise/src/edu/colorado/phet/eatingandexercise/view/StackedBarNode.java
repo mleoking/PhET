@@ -41,6 +41,7 @@ public class StackedBarNode extends PNode {
     private int barWidth;
     private PNode barChartElementNodeLayer = new PNode();
     private ReadoutNode readoutNode;
+    private boolean showColorChooser = false;
 
     public StackedBarNode( int barWidth ) {
         this( new Function.IdentityFunction(), barWidth );
@@ -150,22 +151,9 @@ public class StackedBarNode extends PNode {
             barNode = new PhetPPath( createShape(), barChartElement.getPaint() );
             addChild( barNode );
 
-            //todo: factor out color chooser
-            barNode.addInputEventListener( new PBasicInputEventHandler() {
-                public void mousePressed( PInputEvent event ) {
-                    ColorChooserFactory.showDialog( "Color Picker", null, (Color) barChartElement.getPaint(), new ColorChooserFactory.Listener() {
-                        public void colorChanged( Color color ) {
-                            barChartElement.setPaint( color );
-                        }
-
-                        public void ok( Color color ) {
-                        }
-
-                        public void cancelled( Color originalColor ) {
-                        }
-                    }, true );
-                }
-            } );
+            if ( showColorChooser ) {
+                showColorChooser();
+            }
 
             barChartElement.addListener( new BarChartElement.Listener() {
                 public void valueChanged() {
@@ -207,6 +195,24 @@ public class StackedBarNode extends PNode {
                 }
             } );
             updateShape();
+        }
+
+        private void showColorChooser() {
+            barNode.addInputEventListener( new PBasicInputEventHandler() {
+                public void mousePressed( PInputEvent event ) {
+                    ColorChooserFactory.showDialog( "Color Picker", null, (Color) barChartElement.getPaint(), new ColorChooserFactory.Listener() {
+                        public void colorChanged( Color color ) {
+                            barChartElement.setPaint( color );
+                        }
+
+                        public void ok( Color color ) {
+                        }
+
+                        public void cancelled( Color originalColor ) {
+                        }
+                    }, true );
+                }
+            } );
         }
 
         private void updateShape() {
