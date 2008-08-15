@@ -82,4 +82,12 @@ public class EatingAndExerciseUnits {
     public static double inchesToFeet( double inches ) {
         return inches / 12;
     }
+
+    public static double monthsToYears( double months ) {
+        return months / 12;
+    }
+
+    public static double yearsToMonths( double years ) {
+        return years * 12;
+    }
 }

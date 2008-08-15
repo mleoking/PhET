@@ -21,6 +21,7 @@ import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.colorado.phet.eatingandexercise.module.eatingandexercise.EatingAndExerciseCanvas;
 import edu.colorado.phet.eatingandexercise.module.eatingandexercise.EatingAndExerciseModel;
 import edu.colorado.phet.eatingandexercise.util.FeetInchesFormat;
+import edu.colorado.phet.eatingandexercise.util.YearMonthFormat;
 
 /**
  * Created by: Sam
@@ -53,6 +54,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         add( new ActivityLevelControl( canvas, human ) );
 
         ageSlider = new HumanSlider( 0, 100, EatingAndExerciseUnits.secondsToYears( human.getAge() ), EatingAndExerciseResources.getString( "age" ), EatingAndExerciseStrings.AGE_FORMAT.toPattern(), EatingAndExerciseResources.getString( "units.years" ) );
+        ageSlider.setTextFieldFormat( new YearMonthFormat() );
         sliders.add( ageSlider );
         add( ageSlider );
 
@@ -114,7 +116,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
                 human.setHeight( origHeight );//restore original value since clamping the range at a different time as the value can lead to incorrect values
             }
         } );
-        heightSlider.setTextFieldFormat( new FeetInchesFormat() );
+        heightSlider.setTextFieldFormat( new FeetInchesFormat() );//todo: does this need to be called twice?
         model.addListener( new EatingAndExerciseModel.Adapter() {
             public void unitsChanged() {
                 heightSlider.setTextFieldFormat( model.getUnits() == EatingAndExerciseModel.Units.METRIC ? (NumberFormat) EatingAndExerciseStrings.AGE_FORMAT : new FeetInchesFormat() );

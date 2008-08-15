@@ -14,7 +14,6 @@ import edu.colorado.phet.eatingandexercise.control.CaloricItem;
 import edu.colorado.phet.eatingandexercise.module.eatingandexercise.CaloricFoodItem;
 import edu.colorado.phet.eatingandexercise.module.eatingandexercise.EatingAndExerciseModel;
 import edu.colorado.phet.eatingandexercise.module.eatingandexercise.FoodCalorieSet;
-import edu.colorado.phet.eatingandexercise.util.FeetInchesFormat;
 
 /**
  * Created by: Sam
@@ -119,10 +118,6 @@ public class Human {
 
         } );
         resetAll();
-    }
-
-    public static String metersToFeetStr( double m ) {
-        return new FeetInchesFormat().format( EatingAndExerciseUnits.metersToFeet( m ) );
     }
 
     public void resetAll() {
