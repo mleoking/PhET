@@ -8,16 +8,11 @@
 but it has happened several times.
     >>SRR 8-11-2008: I haven't been able to reproduce this yet.
 
---For a little while my weight slider had a red arrow head instead of the tan rounded rectangle?
-    >>When the slider is showing a value outside of its range, it shows a read arrow head.
-
 ############################
 ###	Todo Noah P	####
 ############################
 
 --When Lifestyle calories burned is calculated, is that based on LBM (i.e., fat free mass) or weight? Wendy and I think it should be based on total weight, so just wanted to check.
-
-
 
 ############################
 ###	To Discuss	####
