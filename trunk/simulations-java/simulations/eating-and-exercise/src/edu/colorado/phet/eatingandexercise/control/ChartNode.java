@@ -5,6 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.NumberTickUnit;
+import org.jfree.chart.axis.TickUnit;
+import org.jfree.chart.axis.TickUnitSource;
 import org.jfree.data.Range;
 
 import edu.colorado.phet.common.motion.graphs.ControlGraph;
@@ -28,6 +32,7 @@ import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
 import edu.colorado.phet.eatingandexercise.model.EatingAndExerciseUnits;
 import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.colorado.phet.eatingandexercise.module.eatingandexercise.EatingAndExerciseModel;
+import edu.colorado.phet.eatingandexercise.util.YearMonthFormat;
 import edu.colorado.phet.eatingandexercise.view.EatingAndExercisePText;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -91,7 +96,6 @@ public class ChartNode extends PNode {
             }
         } );
         weightGraph = new EatingAndExerciseControlGraph( phetPCanvas, weightSeries, EatingAndExerciseResources.getString( "weight" ), 0, 250, tsm );
-
         weightGraph.setEditable( false );
 //        weightGraph.getJFreeChartNode().getChart().getXYPlot().getDomainAxis().setLabel( "Label" );//takes up too much vertical space
         updateWeightMassLabel();
@@ -272,6 +276,26 @@ public class ChartNode extends PNode {
             axisLabel.addChild( new PhetPPath( new Arrow( new Point2D.Double( text.getFullBounds().getMaxX(), text.getFullBounds().getCenterY() ),
                                                           new Vector2D.Double( 20, 0 ), 6, 6, 2, 0.5, true ).getShape(), Color.black ) );
             addChild( axisLabel );
+
+            NumberAxis numberAxis = (NumberAxis) getJFreeChartNode().getChart().getXYPlot().getDomainAxis();
+
+            numberAxis.setTickUnit( new NumberTickUnit( 2.0/12.0) );
+//            TickUnitSource source = new TickUnitSource() {
+//                public TickUnit getLargerTickUnit( TickUnit unit ) {
+//                    return new NumberTickUnit( unit.getSize() + 1.0 / 12.0 );
+//                }
+//
+//                public TickUnit getCeilingTickUnit( TickUnit unit ) {
+//                    return getLargerTickUnit( unit );
+//                }
+//
+//                public TickUnit getCeilingTickUnit( double size ) {
+//                    return new NumberTickUnit( 100 );
+//                }
+//            };
+//            numberAxis.setStandardTickUnits( source );
+            numberAxis.setNumberFormatOverride( new YearMonthFormat() );
+
             relayout();
         }
 
