@@ -35,6 +35,7 @@ public class CalorieNode extends PNode {
     private PlateTopSummaryNode plateTopSummaryNode;
     private CalorieDragStrip calorieDragStrip;
     private static final double SPACING_BETWEEN_PLATE_AND_TOOLBOX = 20;
+    private ArrayList itemDraggedListeners = new ArrayList();
 
     public CalorieNode( Frame parentFrame, String editButtonText, Color editButtonColor, final CalorieSet available, final CalorieSet calorieSet, String availableTitle, String selectedTitle, String dropTargetIcon ) {
         this.parentFrame = parentFrame;
@@ -66,6 +67,7 @@ public class CalorieNode extends PNode {
         calorieDragStrip.addListener( new CalorieDragStrip.Adapter() {
             public void nodeDragged( CalorieDragStrip.DragNode node ) {
                 setContainsItem( node.getItem(), nodeOverlapsDropTarget( node ) );
+                notifyNodeDragged();
             }
 
             public void nodeDropped( final CalorieDragStrip.DragNode node ) {
@@ -114,6 +116,12 @@ public class CalorieNode extends PNode {
         } );
         updatePlusNodeVisible();
         relayout();
+    }
+
+    private void notifyNodeDragged() {
+        for ( int i = 0; i < itemDraggedListeners.size(); i++ ) {
+            ( (ActionListener) itemDraggedListeners.get( i ) ).actionPerformed( new ActionEvent( this, 0, "command" ) );
+        }
     }
 
     private boolean shouldDispose( CalorieDragStrip.DragNode node ) {
@@ -241,5 +249,9 @@ public class CalorieNode extends PNode {
 
     public double getPlateBottomY() {
         return dropTarget.getFullBounds().getMaxY();
+    }
+
+    public void addItemDraggedListener( ActionListener actionListener ) {
+        itemDraggedListeners.add( actionListener );
     }
 }
