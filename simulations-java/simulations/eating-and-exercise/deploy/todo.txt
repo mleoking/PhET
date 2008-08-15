@@ -4,10 +4,6 @@
 
 --BMR at simulation start is different than BMR after reset all
 
---Sometimes reset all clears the body, leaving the head...instead of resetting. Not sure how to reproduce this,
-but it has happened several times.
-    >>SRR 8-11-2008: I haven't been able to reproduce this yet.
-
 ############################
 ###	Todo Noah P	####
 ############################
@@ -49,5 +45,9 @@ Sam, what do you think of this? I think mouse-overs on pull down menus are fairl
 Change your Activity level by using the pull down menu or moving exercise on/off the book."
 
 >>Should the help be integrated into the play area?  It will take longer than a pop-up text dialog window.
+
+--Sometimes reset all clears the body, leaving the head...instead of resetting. Not sure how to reproduce this,
+but it has happened several times.
+    >>SRR 8-11-2008: I haven't been able to reproduce this yet.
 
 ############################
