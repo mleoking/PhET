@@ -7,10 +7,16 @@ include_once(SITE_ROOT."page_templates/SitePage.php");
 class EditSimPage extends SitePage {
 
     function print_category_checkbox($cat_id, $cat_name, $cat_is_visible) {
+        // Get the database connection, start it if if this is the first call
+        global $connection;
+        if (!isset($connection)) {
+            connect_to_db();
+        }
+
         $sim_id = $_REQUEST['sim_id'];
 
         $sql_cat        = "SELECT * FROM `simulation_listing` WHERE `sim_id`= '$sim_id' AND `cat_id`='$cat_id' ";
-        $sql_result_cat = mysql_query($sql_cat);
+        $sql_result_cat = mysql_query($sql_cat, $connection);
         $row_cat        = mysql_num_rows($sql_result_cat);
 
         $is_checked = ($row_cat >= 1 ? "checked=\"checked\"" : "");
@@ -25,7 +31,11 @@ class EditSimPage extends SitePage {
     }
 
     function print_category_checkboxes() {
+        // Get the database connection, start it if if this is the first call
         global $connection;
+        if (!isset($connection)) {
+            connect_to_db();
+        }
 
         $select_categories_st = "SELECT * FROM `category` ORDER BY `cat_order` ASC ";
         $category_rows        = mysql_query($select_categories_st, $connection);

@@ -56,6 +56,12 @@ class UpdateSimulationPage extends SitePage {
             return $result;
         }
 
+        // Get the database connection, start it if if this is the first call
+        global $connection;
+        if (!isset($connection)) {
+            connect_to_db();
+        }
+
         $simulation = array();
 
         // Update every field that was passed in as a _REQUEST parameter and
@@ -80,7 +86,7 @@ class UpdateSimulationPage extends SitePage {
         sim_auto_calc_sim_size($simulation['sim_id']);
 
         // Now we have to update the categories manually:
-        $category_rows = mysql_query("SELECT * FROM `category` ");
+        $category_rows = mysql_query("SELECT * FROM `category` ", $connection);
 
         while ($category_row = mysql_fetch_assoc($category_rows)) {
             $cat_id   = $category_row['cat_id'];

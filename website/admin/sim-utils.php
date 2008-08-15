@@ -1113,7 +1113,11 @@
     }
 
     function sim_get_image_previews($type, $is_static_screenshot = true) {
+        // Get the database connection, start it if if this is the first call
         global $connection;
+        if (!isset($connection)) {
+            connect_to_db();
+        }
 
         $select_categories_st = "SELECT * FROM `category` WHERE `cat_is_visible`='0' ";
         $category_rows        = mysql_query($select_categories_st, $connection);

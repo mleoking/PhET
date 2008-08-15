@@ -31,6 +31,12 @@
     }
 
     function research_add_from_script_params() {
+        // Get the database connection, start it if if this is the first call
+        global $connection;
+        if (!isset($connection)) {
+            connect_to_db();
+        }
+
         $research = array();
 
         foreach($_REQUEST as $key => $value) {
@@ -38,7 +44,7 @@
                 continue;
             }
             else if (preg_match('/research_.+/i', "$key") == 1) {
-                $research["$key"] = mysql_real_escape_string("$value");
+                $research["$key"] = mysql_real_escape_string("$value", $connection);
             }
         }
 

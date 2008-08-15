@@ -33,25 +33,34 @@
         }
     }
 
+    /*
+     * Don't connect unless we need to
     if (!isset($GLOBALS['connection'])) {
         connect_to_db();
     }
+    */
 
     function showerror($errortext) {
+        // Get the database connection, start it if if this is the first call
+        global $connection;
+        if (!isset($connection)) {
+            connect_to_db();
+        }
+
         $phet_help_email = PHET_HELP_EMAIL;
-    	echo "<br>==========================";
-    	echo "<p>We're very sorry, but there appears to have been an error. We would appreciate it if you would report this to us, so that we can fix the problem and serve you better. Please direct all correspondence to <a href='mailto:{$phet_help_email}'>{$phet_help_email}</a>.</p>";
-    	echo $errortext;
-    	echo "<p>Error#: ". mysql_errno().", Error Description: ".mysql_error().".</p>";
-    	echo "==========================<br>";
-    	exit;
+        echo "<br>==========================";
+        echo "<p>We're very sorry, but there appears to have been an error. We would appreciate it if you would report this to us, so that we can fix the problem and serve you better. Please direct all correspondence to <a href='mailto:{$phet_help_email}'>{$phet_help_email}</a>.</p>";
+        echo $errortext;
+        echo "<p>Error#: ". mysql_errno($connection).", Error Description: ".mysql_error($connection).".</p>";
+        echo "==========================<br>";
+        exit;
     }
 
     function missingfield($showtext) {
-    	echo "<p>".$showtext."</p>";
-    	echo "<p><a href='javascript:history.back(1)'>Click here</a> or use your browser's back button to return to the form.</p>";
+        echo "<p>".$showtext."</p>";
+        echo "<p><a href='javascript:history.back(1)'>Click here</a> or use your browser's back button to return to the form.</p>";
 
-    	exit;
+        exit;
     }
 
 ?>

@@ -12,7 +12,11 @@ class SimulationsPage extends SitePage {
             return $result;
         }
 
+        // Get the database connection, start it if if this is the first call
         global $connection;
+        if (!isset($connection)) {
+            connect_to_db();
+        }
 
         if (isset($_REQUEST['cat'])) {
             $cat_encoding = $_REQUEST['cat'];

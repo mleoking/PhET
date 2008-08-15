@@ -22,11 +22,17 @@
     }
 
     function contribution_get_comments($contribution_id) {
+        // Get the database connection, start it if if this is the first call
+        global $connection;
+        if (!isset($connection)) {
+            connect_to_db();
+        }
+
         $comments = array();
 
         $result = db_exec_query("SELECT * FROM `contribution_comment`, `contributor` WHERE `contribution_comment`.`contributor_id` = `contributor`.`contributor_id` AND `contribution_comment`.`contribution_id`='$contribution_id'  ");
 
-        while ($comment = mysql_fetch_assoc($result)) {
+        while ($comment = mysql_fetch_assoc($result, $connection)) {
             $comments[] = $comment;
         }
 
@@ -36,6 +42,12 @@
     }
 
     function contribution_add_comment($contribution_id, $contributor_id, $contribution_comment_text) {
+        // Get the database connection, start it if if this is the first call
+        global $connection;
+        if (!isset($connection)) {
+            connect_to_db();
+        }
+
         // Have to do a homegrown because it doesn't support passing a MYSQL function
         $sql = "INSERT INTO `contribution_comment` ".
             "(`contribution_comment_text`, ".
@@ -44,14 +56,14 @@
             "`contribution_id`, ".
             "`contributor_id`) ".
             "VALUES (".
-            "'".mysql_real_escape_string($contribution_comment_text)."',".
+            "'".mysql_real_escape_string($contribution_comment_text, $connection)."',".
             "NOW(),".
             "NOW(),".
             "{$contribution_id},".
             "{$contributor_id}".
             ")";
         $result = db_exec_query($sql);
-        return mysql_insert_id();
+        return mysql_insert_id($connection);
     }
 
     function contribution_update_comment($comment_id, $contribution_comment_text) {

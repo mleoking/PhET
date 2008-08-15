@@ -29,8 +29,14 @@
      * @param unknown_type $statement - mySQL query that was executed
      */
     function db_verify_mysql_result($result, $statement) {
+        // Get the database connection, start it if if this is the first call
+        global $connection;
+        if (!isset($connection)) {
+            connect_to_db();
+        }
+
         if (!$result && $statement !== "") {
-            $message  = 'Invalid query: ' . mysql_error() . "<br/>";
+            $message  = 'Invalid query: ' . mysql_error($connection) . "<br/>";
             $message .= 'Whole query: ' . $statement;
 
             die($message);
@@ -38,6 +44,12 @@
     }
 
     function db_convert_condition_array_to_sql($condition, $fuzzy = false) {
+        // Get the database connection, start it if if this is the first call
+        global $connection;
+        if (!isset($connection)) {
+            connect_to_db();
+        }
+
         $query = '';
 
         $is_first = true;
@@ -50,7 +62,7 @@
                 $query .= " AND ";
             }
 
-            $value = mysql_real_escape_string($value);
+            $value = mysql_real_escape_string($value, $connection);
 
             if ($fuzzy) {
                 $query .= "`$key` LIKE '%$value%'";
@@ -70,8 +82,14 @@
      * @return unknown_type result of mysql_query
      */
     function db_exec_query($statement) {
+        // Get the database connection, start it if if this is the first call
+        global $connection;
+        if (!isset($connection)) {
+            connect_to_db();
+        }
+
         //print "<!-- MYSQLQUERY: $statement -->\n";
-        $result = mysql_query($statement);
+        $result = mysql_query($statement, $connection);
 
         db_verify_mysql_result($result, $statement);
 
@@ -104,6 +122,12 @@
     }
 
     function db_get_rows_by_condition($table_name, $condition = array(), $fuzzy = false, $reformat = true, $extra = '') {
+        // Get the database connection, start it if if this is the first call
+        global $connection;
+        if (!isset($connection)) {
+            connect_to_db();
+        }
+
         if (!is_array($condition)) return array();
 
         $query = "SELECT * FROM `$table_name` ";
@@ -120,7 +144,7 @@
                 $query .= " AND ";
             }
 
-            $value = mysql_real_escape_string($value);
+            $value = mysql_real_escape_string($value, $connection);
 
             if ($fuzzy) {
                 $query .= "`$key` LIKE '%$value%'";
@@ -153,13 +177,19 @@
     }
 
     function db_search_for($table_name, $search_for, $fields_to_search) {
+        // Get the database connection, start it if if this is the first call
+        global $connection;
+        if (!isset($connection)) {
+            connect_to_db();
+        }
+
         $rows = array();
 
         $st = "SELECT * FROM `$table_name` WHERE ";
 
         $is_first = true;
 
-        $safe_search_for = mysql_real_escape_string($search_for);
+        $safe_search_for = mysql_real_escape_string($search_for, $connection);
         foreach(preg_split('/( +)|( *, *)/i', $safe_search_for) as $word) {
             if ($is_first) {
                 $is_first = false;
@@ -207,6 +237,12 @@
      * @return string - the completed SQL query
      */
     function db_form_alternation_where_clause($table_name, $field_name, $field_values) {
+        // Get the database connection, start it if if this is the first call
+        global $connection;
+        if (!isset($connection)) {
+            connect_to_db();
+        }
+
         if (count($field_values) == 0) return '';
 
         $where = ' (';
@@ -221,7 +257,7 @@
                 $where .= " OR";
             }
 
-            $field_value = mysql_real_escape_string($field_value);
+            $field_value = mysql_real_escape_string($field_value, $connection);
 
             $where .= " `$table_name`.`$field_name`='$field_value'";
         }
@@ -232,6 +268,12 @@
     }
 
     function db_get_row_by_id($table_name, $id_name, $id_value, $clean = true) {
+        // Get the database connection, start it if if this is the first call
+        global $connection;
+        if (!isset($connection)) {
+            connect_to_db();
+        }
+
         $id_value = mysql_escape_string($id_value);
 
         $query = "SELECT * FROM `$table_name` WHERE `$id_name`='$id_value' ";
@@ -259,6 +301,12 @@
     }
 
     function db_delete_row($table_name, $array) {
+        // Get the database connection, start it if if this is the first call
+        global $connection;
+        if (!isset($connection)) {
+            connect_to_db();
+        }
+
         // FIXME: unescaped $table_name which can come from a form
         $delete_st = "DELETE FROM $table_name WHERE ";
 
@@ -272,7 +320,7 @@
                 $delete_st .= ' AND ';
             }
 
-            $value = mysql_real_escape_string($value);
+            $value = mysql_real_escape_string($value, $connection);
 
             $delete_st .= "`$key`='$value'";
         }
@@ -288,6 +336,12 @@
      * @return int result from mysql_insert_id()
      */
     function db_insert_row($table_name, $array) {
+        // Get the database connection, start it if if this is the first call
+        global $connection;
+        if (!isset($connection)) {
+            connect_to_db();
+        }
+
         // FIXME: no escaping $table_name, which can come from form elements
         $insert_st = "INSERT INTO $table_name ";
 
@@ -324,7 +378,7 @@
                     $insert_st .= ', ';
                 }
 
-                $value = mysql_real_escape_string($value);
+                $value = mysql_real_escape_string($value, $connection);
 
                 $insert_st .= "'";
                 $insert_st .= "$value";
@@ -336,13 +390,19 @@
 
         db_exec_query($insert_st);
 
-        return mysql_insert_id();
+        return mysql_insert_id($connection);
     }
 
     function db_get_blank_row($table_name) {
+        // Get the database connection, start it if if this is the first call
+        global $connection;
+        if (!isset($connection)) {
+            connect_to_db();
+        }
+
         $row = array();
 
-        $result = mysql_query("SHOW COLUMNS FROM `$table_name` ");
+        $result = mysql_query("SHOW COLUMNS FROM `$table_name` ", $connection);
 
         if ($result) {
             while ($column = mysql_fetch_assoc($result)) {
@@ -368,6 +428,12 @@
             return true;
         }
 
+        // Get the database connection, start it if if this is the first call
+        global $connection;
+        if (!isset($connection)) {
+            connect_to_db();
+        }
+
         $heading_st = "UPDATE `$table_name` SET ";
 
         $content_st = '';
@@ -380,7 +446,7 @@
                     $content_st .= ", ";
                 }
 
-                $value = mysql_real_escape_string($value);
+                $value = mysql_real_escape_string($value, $connection);
 
                 $content_st .= " `$key`='$value' ";
 
@@ -401,6 +467,12 @@
     }
 
     function db_backup_table($table_name) {
+        // Get the database connection, start it if if this is the first call
+        global $connection;
+        if (!isset($connection)) {
+            connect_to_db();
+        }
+
         // Every statement should be terminated in ";\n\n"; this is used
         // to split statements up on restore, since mysql_query() doesn't
         // support more than one statement at a time.
@@ -463,7 +535,7 @@
                             case 'string':
                             case 'blob' :
                             default:
-                                $sql .= "'".mysql_real_escape_string($row[$i])."'";
+                                $sql .= "'".mysql_real_escape_string($row[$i], $connection)."'";
                         }
                     }
 

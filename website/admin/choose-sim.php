@@ -12,6 +12,12 @@ class ChooseSimPage extends SitePage {
             return $result;
         }
 
+        // Get the database connection, start it if if this is the first call
+        global $connection;
+        if (!isset($connection)) {
+            connect_to_db();
+        }
+
         print <<<EOT
             <p>
                 Please choose the simulation to edit from the list below.
@@ -24,7 +30,7 @@ class ChooseSimPage extends SitePage {
 EOT;
 
         $select_simulations_st = "SELECT * FROM `simulation` ORDER BY `sim_name` ASC ";
-        $simulation_table      = mysql_query($select_simulations_st);
+        $simulation_table      = mysql_query($select_simulations_st, $connection);
 
         while ($sim = mysql_fetch_row($simulation_table)) {
             $sim_id   = $sim[0];
