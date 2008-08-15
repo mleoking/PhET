@@ -18,7 +18,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * This class represents a node that looks like a large finger, which can be
  * used to push down on things.
  */
-public class FingerNode extends PNode {
+public class PointingHandNode extends PNode {
 
     //----------------------------------------------------------------------------
     // Class Data
@@ -51,7 +51,7 @@ public class FingerNode extends PNode {
     // Constructor
     //----------------------------------------------------------------------------
 
-    public FingerNode(MultipleParticleModel model){
+    public PointingHandNode(MultipleParticleModel model){
 
         m_model = model;
         Rectangle2D containerRect = m_model.getParticleContainerRect();
