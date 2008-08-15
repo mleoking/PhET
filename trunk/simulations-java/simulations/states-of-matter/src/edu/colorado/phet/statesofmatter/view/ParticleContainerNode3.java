@@ -135,7 +135,7 @@ public class ParticleContainerNode3 extends PhetPNode {
         
         if (volumeControlEnabled){
             // Add the finger for pressing down on the top of the container.
-            FingerNode fingerNode = new FingerNode( m_model );
+            PointingHandNode fingerNode = new PointingHandNode( m_model );
             // Note that this node will set its own offset, since it has to be
             // responsible for positioning itself later based on user interaction.
             m_middleContainerLayer.addChild( fingerNode );
