@@ -45,10 +45,6 @@ public class ParticleContainerNode3 extends PhetPNode {
             BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL,0, new float[] {CONTAINER_LINE_WIDTH, CONTAINER_LINE_WIDTH}, 0);
     
     // Constants that control the appearance of the image.
-//  public static final String CYLINDRICAL_CONTAINER_IMAGE = "cup_3D_cap_thick_75_1.png";
-//  public static final String CYLINDRICAL_CONTAINER_IMAGE = "cup_3D_front_thick_60_1.png";
-//  public static final String CYLINDRICAL_CONTAINER_IMAGE = "cylindrical-container-image.png";
-//  public static final String CYLINDRICAL_CONTAINER_IMAGE = "cup_3D_front_60.png";
     private static final String CONTAINER_FRONT_IMAGE_NAME = "cup_3D_front_70_split.png";
     private static final String LID_IMAGE_NAME = "cup_3D_cap_70.png";
     private static final String CONTAINER_BACK_IMAGE_NAME = "cup_3D_back_solid_light.png";
