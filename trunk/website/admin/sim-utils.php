@@ -265,6 +265,7 @@
     define("SIM_TRANSLATIONS_CACHE", "translations");
     define("SIM_OFFLINE_FLASH_CACHE", "offline-flash");
     define("SIM_OFFILNE_FLASH_CACHE_HOURS", 876600);  // 100 years
+    define("SIM_CREATE_JAR_EXECUTABLE", "/usr/local/java/bin/jar");
 
     define("SIMS_PER_PAGE", 9);
 
@@ -931,27 +932,25 @@
             exit;
         }
 
-        // Get all the languages, formatted for including on the fastjar command line
+        // Get all the languages, formatted for including on the jar command line
         $jar_include_languages = array();
         $jar_laungage_xmls = '';
         foreach (glob("{$full_dirname}{$flavorname}-strings_*.xml") as $lanugage_xml) {
             $jar_laungage_xmls .= "-C ".dirname($lanugage_xml)." ".basename($lanugage_xml)." ";
         }
 
-        // fastjar args
+        // jar args
         //     -m specifies the manifest file
         //     -C dir file  changes to the dir and puts file in the archive
-        $args = array("-m {$jar_template_dir}META-INF/MANIFEST.MF",
-                      "-C {$temp_dir_name} flash-launcher-args.txt",
+        $args = array("-C {$temp_dir_name} flash-launcher-args.txt",
                       "-C {$jar_template_dir} flash-launcher-template.html",
                       "-C {$full_dirname} {$flavorname}.properties",
                       "-C {$full_dirname} {$flavorname}.swf",
                       $jar_laungage_xmls,
                       "-C {$jar_template_dir} edu");
 
-
         // Construct the command
-        $command = "fastjar cf {$temp_jar_name} ".join(" ", $args);
+        $command = SIM_CREATE_JAR_EXECUTABLE." cmf {$jar_template_dir}META-INF/MANIFEST.MF {$temp_jar_name} ".join(" ", $args);
 
         // Run the command to create the jar file
         $sys_ret = 0;
