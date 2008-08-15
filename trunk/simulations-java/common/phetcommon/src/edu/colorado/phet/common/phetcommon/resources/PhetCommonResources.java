@@ -18,7 +18,8 @@ public class PhetCommonResources {
     public static final String STRING_RESET_ALL = "ControlPanel.button.resetAll";
     public static final String STRING_YES = "Common.choice.yes";
     public static final String STRING_NO = "Common.choice.no";
-    
+    public static final String STRING_HELP_MENU_HELP = "Common.HelpMenu.Help";
+
     // Symbolic names for image resources
     public static final String IMAGE_CLOSE_BUTTON = "buttons/closeButton.png";
     public static final String IMAGE_MINIMIZE_BUTTON = "buttons/minimizeButton.png";
@@ -30,7 +31,7 @@ public class PhetCommonResources {
     public static final String IMAGE_RESTART = IMAGE_REWIND;
     public static final String IMAGE_STEP_FORWARD = "clock/StepForward24.gif";
     public static final String IMAGE_STOP = "clock/Stop24.gif";
-    
+
     // preferred physical font names for various ISO language codes
     private static final String PREFERRED_FONTS_RESOURCE = "localization/phetcommon-fonts.properties";
 
@@ -43,7 +44,7 @@ public class PhetCommonResources {
     public static PhetResources getInstance() {
         return INSTANCE;
     }
-    
+
     /**
      * Reads a list of preferred physical font names from the phetcommon-fonts.properties resource.
      * Returns the names as an array.
