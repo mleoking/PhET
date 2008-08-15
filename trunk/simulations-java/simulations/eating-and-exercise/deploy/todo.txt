@@ -19,16 +19,11 @@ BMR doesn't reset properly (during reset all) if activity level was changed
 ###	To Discuss	####
 ############################
 
---Sam, is there a way to make this into some sort of Year/Month format? Maybe YY/MM, and the axis label can say "Time (Years/Months)".
-
---If possible, make a wiggle me that only appears the first time someone clicks on a food or exercise item. It should say "Drag food to the plate." or "Drag exercise to the log." This will avoid an automatic wiggle me, which could be distracting, but will let people know to drag the items once they click on them. Molly said she thought she should click on items, but it was not obvious she should drag them somewhere.
-
 --Instead of the question mark next to the pull down for activity, is it possible to have a mouse over on each option that gives the description?
 
 	>Sam, what do you think of this? I think mouse-overs on pull down menus are fairly non-standard, but I could be wrong.
 
 --(Unfuddle #682) I think the midsection bulge (the belly) should be smaller when the % fat is low. When the person is near the bottom of the healthy range (for men or women), the midsection bulge should be almost imperceptible. Right now, you can have 0 body fat and you still see a little bulge around the midsection.
-
 
 ############################################
 ###	Old Issues  To Keep an Eye on	####
