@@ -218,7 +218,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
                 updatePercentFat();
             }
         } );
-        updatePercentFat();
+//        updatePercentFat();
 
         updateBodyFatSlider();
         addComponentListener( new ComponentAdapter() {
