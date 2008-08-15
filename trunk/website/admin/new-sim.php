@@ -12,9 +12,15 @@ class NewSimulationPage extends SitePage {
             return $result;
         }
 
+        // Get the database connection, start it if if this is the first call
+        global $connection;
+        if (!isset($connection)) {
+            connect_to_db();
+        }
+
         db_exec_query("INSERT INTO `simulation` (`sim_name`, `sim_keywords`) VALUES ('New Simulation', 'keyword1, keyword2, keyword3') ");
 
-        $sim_id = mysql_insert_id();
+        $sim_id = mysql_insert_id($connection);
 
         $this->meta_refresh("edit-sim.php?sim_id=$sim_id", 0);
     }

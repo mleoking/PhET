@@ -7,14 +7,20 @@ include_once(SITE_ROOT."page_templates/SitePage.php");
 class DeleteSimPage extends SitePage {
 
     function deletesim() {
+        // Get the database connection, start it if if this is the first call
+        global $connection;
+        if (!isset($connection)) {
+            connect_to_db();
+        }
+
         $sim_id      = $_REQUEST['sim_id'];
         // delete from SIMULATIONS TABLE
         $sql        = "DELETE FROM `simulation` WHERE `sim_id`='$sim_id' ";
-        $sql_result = mysql_query($sql);
+        $sql_result = mysql_query($sql, $connection);
 
         // delete from CATEGORIES TABLE
         $sql        = "DELETE FROM `simulation_listing` WHERE `sim_id`='$sim_id' ";
-        $sql_result = mysql_query($sql);
+        $sql_result = mysql_query($sql, $connection);
 
         cache_clear_simulations();
 
@@ -32,6 +38,12 @@ class DeleteSimPage extends SitePage {
             return;
         }
 
+        // Get the database connection, start it if if this is the first call
+        global $connection;
+        if (!isset($connection)) {
+            connect_to_db();
+        }
+
         $sim_id = $_REQUEST['sim_id'];
         $delete = isset($_REQUEST['delete']) ? $_REQUEST['delete'] : 0;
 
@@ -41,7 +53,7 @@ class DeleteSimPage extends SitePage {
         else {
             // first select what SIMULATION to delete
             $sql        = "SELECT * FROM `simulation` WHERE `sim_id`='$sim_id' ";
-            $sql_result = mysql_query($sql);
+            $sql_result = mysql_query($sql, $connection);
 
             while ($row = mysql_fetch_assoc($sql_result)) {
                 $sim_name = $row['sim_name'];

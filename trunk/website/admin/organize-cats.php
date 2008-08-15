@@ -7,7 +7,11 @@ include_once(SITE_ROOT."page_templates/SitePage.php");
 class OrganizeCategoriesPage extends SitePage {
 
     function update() {
+        // Get the database connection, start it if if this is the first call
         global $connection;
+        if (!isset($connection)) {
+            connect_to_db();
+        }
 
         $result = parent::update();
         if (!$result) {
@@ -96,9 +100,15 @@ class OrganizeCategoriesPage extends SitePage {
     }
 
     function do_add($cat_name) {
+        // Get the database connection, start it if if this is the first call
+        global $connection;
+        if (!isset($connection)) {
+            connect_to_db();
+        }
+
         $cat_order = $this->get_next_order_number(end($this->cat_orders));
 
-        $safe_cat_name = mysql_real_escape_string($cat_name);
+        $safe_cat_name = mysql_real_escape_string($cat_name, $connection);
 
         db_exec_query("INSERT INTO `category` (`cat_name`, `cat_order`) VALUES ('$safe_cat_name', '$cat_order') ");
     }
@@ -126,8 +136,14 @@ class OrganizeCategoriesPage extends SitePage {
     }
 
     function do_rename($cat_id, $cat_name) {
-        $safe_cat_name = mysql_real_escape_string($cat_name);
-        $safe_cat_id = mysql_real_escape_string($cat_id);
+        // Get the database connection, start it if if this is the first call
+        global $connection;
+        if (!isset($connection)) {
+            connect_to_db();
+        }
+
+        $safe_cat_name = mysql_real_escape_string($cat_name, $connection);
+        $safe_cat_id = mysql_real_escape_string($cat_id, $connection);
         db_exec_query("UPDATE `category` SET `cat_name`='$safe_cat_name' WHERE `cat_id`='$safe_cat_id' ");
     }
 
@@ -137,13 +153,19 @@ class OrganizeCategoriesPage extends SitePage {
             return $result;
         }
 
+        // Get the database connection, start it if if this is the first call
+        global $connection;
+        if (!isset($connection)) {
+            connect_to_db();
+        }
+
         print <<<EOT
             <p>
                 You may use this form to create, edit, and change the order of the categories under which simulations appear.
             </p>
 
 EOT;
-        $category_rows = mysql_query(SQL_SELECT_ALL_VISIBLE_CATEGORIES);
+        $category_rows = mysql_query(SQL_SELECT_ALL_VISIBLE_CATEGORIES, $connection);
 
         while ($category = mysql_fetch_assoc($category_rows)) {
             $cat_id    = $category['cat_id'];
