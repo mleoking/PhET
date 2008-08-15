@@ -39,6 +39,7 @@ public class CalorieDragStrip extends PNode {
     private ArrayList panels = new ArrayList();
     private Color buttonColor = new Color( 128, 128, 255 );
     private TogglePClip stripPanelClip;
+    private ArrayList balancedDietDialogs = new ArrayList();
 
     public CalorieDragStrip( final CalorieSet available ) {
         for ( int i = 0; i < available.getItemCount(); i += count ) {
@@ -84,7 +85,7 @@ public class CalorieDragStrip extends PNode {
         }
     }
 
-    public double getStripPanelWidth(){
+    public double getStripPanelWidth() {
         return stripPanelClip.getFullBounds().getWidth();
     }
 
@@ -262,6 +263,10 @@ public class CalorieDragStrip extends PNode {
                 }
             }
         }
+        for ( int i = 0; i < balancedDietDialogs.size(); i++ ) {
+            ( (BalancedDietDialog) balancedDietDialogs.get( i ) ).resetAll();
+        }
+        balancedDietDialogs.clear();
     }
 
     private class DefaultDragNode extends PNode implements DragNode {
@@ -362,6 +367,7 @@ public class CalorieDragStrip extends PNode {
 
     private void decorateFoodPyramid( final CaloricFoodItem item, DefaultDragNode dragNode ) {
         final BalancedDietDialog dialog = new BalancedDietDialog( item );
+        balancedDietDialogs.add( dialog );
 
         GradientButtonNode gradientButtonNode = new GradientButtonNode( EatingAndExerciseResources.getString( "edit.edit" ), 12, Color.red );
         gradientButtonNode.addActionListener( new ActionListener() {
