@@ -6,6 +6,7 @@ Made the multiplier for fractionFatLost in MuscleAndFatMassLoss depend on gender
     -changed limiter for FatMassPercent (was 0.33) to 0.28 for male, .35 for female
 Added a help button, with popup text that says: Change your diet by putting food on/off the plate. Change your Activity level by using the pull down menu or moving exercise on/off the book
 Removed developer controls, including model controls and color choosers
+Fixed: BMR at simulation start is different than BMR after reset all
 
 New in 0.00.70
 Changed the activity level values

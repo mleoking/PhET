@@ -139,7 +139,7 @@ public class Human {
         setAge( DEFAULT_VALUE.getAgeSeconds() );
         setFatMassPercent( ( 100 - DEFAULT_VALUE.getFatFreeMassPercent() ) );
 
-        updateBMR();
+
         setActivityLevel( Activity.DEFAULT_ACTIVITY_LEVELS[2] );
         Diet initialDiet = EatingAndExerciseModel.BALANCED_DIET;
         foodItems.clear();
@@ -196,6 +196,7 @@ public class Human {
         exercise.addValue( 0, getAge() );
 
         updateHealthIndicators();
+        updateBMR();
     }
 
     public double getActivityLevel() {
@@ -292,13 +293,9 @@ public class Human {
      This equation is said to apply to males and females over a wide range of body weights, and is the equation recommended to us by the CU Integrated Physiologists
      */
     private void updateBMR() {
-//        bmr.setValue( BasalMetabolicRate.getBasalMetabolicRateHarrisBenedict( getMass(), getHeight(), getAge(), gender ) );
-//        System.out.println( "value = " + value +", FFMP="+getFatFreeMassPercent());
-        //
         bmr.setValue( 392 + 21.8 * getLeanBodyMass() );
         updateActivity();
     }
-
 
     public double getFatMass() {
         return getFatMassPercent() / 100.0 * getMass();

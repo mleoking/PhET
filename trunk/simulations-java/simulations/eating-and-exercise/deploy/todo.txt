@@ -2,8 +2,6 @@
 ###	Todo Sam	####
 ############################
 
---BMR at simulation start is different than BMR after reset all
-
 ############################
 ###	Todo Noah P	####
 ############################
