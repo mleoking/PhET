@@ -316,7 +316,11 @@ public class MultipleParticleModel {
             m_atomsPerMolecule = 1;
             break;
         case WATER:
-            m_particleDiameter = OxygenAtom.RADIUS * 2.2; //TODO: JPB TBD - This is temporary, need to clean up with other diameter stuff.
+            // Use a radius value that is artificially large, because the
+            // educators have requested that water look "spaced out" so that
+            // users can see the crystal structure better, and so that the
+            // solid form will look larger (since water expands when frozen).
+            m_particleDiameter = OxygenAtom.RADIUS * 2.9;
             m_atomsPerMolecule = 3;
             break;
         }
