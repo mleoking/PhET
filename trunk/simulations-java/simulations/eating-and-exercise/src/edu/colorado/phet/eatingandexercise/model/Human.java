@@ -458,6 +458,7 @@ public class Human {
 
     private void updateHealthIndicators() {
         exercise.addValue( exercise.getValue(), getAge() );
+        activity.addValue( activity.getValue(), getAge() );
         fatMassFraction.addValue( fatMassFraction.getValue(), getAge() );
         //- Heart strength: this is a bar chart based a running average of exercise amount over the last X days (let's try X=30 days to start).
 //NP will determine the range for heart strength based on exercise. For now, lets make it 250-1000 cal/day as the healthy range.
@@ -465,17 +466,20 @@ public class Human {
 
         double averageExercise = exercise.estimateAverage( getAge() - EatingAndExerciseUnits.daysToSeconds( 30 ), getAge() );
 //        System.out.println( "averageExercise = " + averageExercise );
+        double averageActivity = activity.estimateAverage( getAge() - EatingAndExerciseUnits.daysToSeconds( 30 ), getAge() );
+        double activityToCount = Math.max( ( averageActivity - 100 ) * 0.75, 0 );
+//        System.out.println( "avgExercise=" + averageExercise + ", averageActivity=" + averageActivity + ", counting activity: " + activityToCount );
 
-
+        double caloriesToConsiderForHeartStrength = averageExercise + activityToCount;
         double exercise_cal_max = 6000.0;
-        double heartStrength = log10( 1 + 100 * averageExercise / exercise_cal_max ) / log10( 101 );
+        double heartStrength = log10( 1 + 100 * caloriesToConsiderForHeartStrength / exercise_cal_max ) / log10( 101 );
 //        System.out.println( "unclamped heartStrength = " + heartStrength );
         setHeartStrength( MathUtil.clamp( 0, heartStrength, 1.0 ) );
 
         double averagePercentFat = fatMassFraction.estimateAverage( getAge() - EatingAndExerciseUnits.daysToSeconds( 30 ), getAge() ) * 100;
 //        System.out.println( "averagePercentFat = " + averagePercentFat );
         double distance = gender.getDistanceFromNormalRangeInPercent( averagePercentFat );
-        System.out.println( "averagePercentFat = " + averagePercentFat + ", distance=" + distance );
+//        System.out.println( "averagePercentFat = " + averagePercentFat + ", distance=" + distance );
         //multiply by two so that 100% fat maps to 1.0 in strain
         setHeartStrain( MathUtil.clamp( 0, distance * 2 / 100.0, 1.0 ) );
     }
