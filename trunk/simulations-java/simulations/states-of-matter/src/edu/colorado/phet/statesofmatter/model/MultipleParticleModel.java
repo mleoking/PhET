@@ -2146,7 +2146,17 @@ public class MultipleParticleModel {
         }
         
         public void accumulatePressureValue(Vector2D forceVector){
-            m_pressueSamples[m_accumulationPosition] += Math.abs(  forceVector.getX() ) / (m_normalizedContainerHeight * 2);
+            if (forceVector.getY() > 0){
+                // Add this value, since it corresponds to the force on the
+                // bottom of the container, which is what we use for
+                // calculating the pressure.
+                m_pressueSamples[m_accumulationPosition] += forceVector.getY() / m_normalizedContainerWidth;
+            }
+            
+            // JPB TBD - This is the old pressure calculation, which uses
+            // the force from the two walls.  Keep for a while until we
+            // determine that using the bottom is acceptable.  Aug 15, 2008.
+//            m_pressueSamples[m_accumulationPosition] += Math.abs(  forceVector.getX() ) / (m_normalizedContainerHeight * 2);
         }
         
         public double getPressure(){
