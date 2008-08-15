@@ -33,16 +33,16 @@ public class BicyclePumpNode extends PNode {
     // components of the pump as proportions of the overall width and height
     // of the node.
     private static final double PUMP_HORIZ_POSITION_PROPORTION = 0.85;
-    private static final double PUMP_BASE_WIDTH_PROPORTION = 0.3;
+    private static final double PUMP_BASE_WIDTH_PROPORTION = 0.4;
     private static final double PUMP_BASE_HEIGHT_PROPORTION = 0.02;
     private static final Color PUMP_BASE_COLOR = new Color( 0xbb8855 );
     private static final Color PUMP_BODY_COLOR = Color.RED;
     private static final double PUMP_BODY_HEIGHT_PROPORTION = 0.75;
-    private static final double PUMP_BODY_WIDTH_PROPORTION = 0.075;
+    private static final double PUMP_BODY_WIDTH_PROPORTION = 0.1;
     private static final double PUMP_SHAFT_WIDTH_PROPORTION = PUMP_BODY_WIDTH_PROPORTION * 0.25;
     private static final double PUMP_SHAFT_HEIGHT_PROPORTION = PUMP_BODY_HEIGHT_PROPORTION;
     private static final Color PUMP_SHAFT_COLOR = Color.LIGHT_GRAY;
-    private static final double PUMP_HANDLE_WIDTH_PROPORTION = 0.25;
+    private static final double PUMP_HANDLE_WIDTH_PROPORTION = 0.35;
     private static final double PUMP_HANDLE_HEIGHT_PROPORTION = 0.02;
     private static final double PUMP_HANDLE_INIT_VERT_POS_PROPORTION = PUMP_BODY_HEIGHT_PROPORTION * 1.1;
     private static final Color PUMP_HANDLE_COLOR = new Color( 0xddaa77 );
@@ -52,7 +52,7 @@ public class BicyclePumpNode extends PNode {
     private static final Color HOSE_CONNECTOR_COLOR = new Color( 0xffff99 );
     private static final double HOSE_ATTACH_VERT_POS_PROPORTION = 0.075;
     private static final Color HOSE_COLOR = Color.WHITE;
-    private static final double HOSE_WIDTH_PROPORTION = 0.015;
+    private static final double HOSE_WIDTH_PROPORTION = 0.02;
     private static final double PUMPING_REQUIRED_TO_INJECT_PROPORTION = PUMP_SHAFT_HEIGHT_PROPORTION / 10;
 
     //------------------------------------------------------------------------

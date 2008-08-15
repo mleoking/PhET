@@ -35,14 +35,14 @@ public class PhaseChangesCanvas extends PhetPCanvas {
     private final double CANVAS_HEIGHT = CANVAS_WIDTH * (3.0d/4.0d);
     
     // Translation factors, used to set origin of canvas area.
-    private final double WIDTH_TRANSLATION_FACTOR = 5.5;
+    private final double WIDTH_TRANSLATION_FACTOR = 4.0;
     private final double HEIGHT_TRANSLATION_FACTOR = 1.4;
     
     // Sizes, in terms of overall canvas size, of the nodes on the canvas.
     private final double BURNER_NODE_WIDTH = CANVAS_WIDTH / 2.5;
-    private final double PRESSURE_GAUGE_WIDTH = CANVAS_WIDTH / 6;
+    private final double PRESSURE_GAUGE_WIDTH = CANVAS_WIDTH / 5.5;
     private final double PUMP_HEIGHT = CANVAS_HEIGHT / 2;
-    private final double PUMP_WIDTH = CANVAS_WIDTH / 3;
+    private final double PUMP_WIDTH = CANVAS_WIDTH / 4;
     
     // Maximum value expected for pressure.  JPB TBD - Should probably get
     // this from the model or somewhere, though I'm not sure where yet.
@@ -103,9 +103,8 @@ public class PhaseChangesCanvas extends PhetPCanvas {
 
         // Add the pressure meter.
         m_pressureMeter = new DialGaugeNode(PRESSURE_GAUGE_WIDTH, "Pressure", 0, MAX_PRESSURE, "");
-        m_pressureMeter.setOffset( containerRect.getX() + containerRect.getWidth(), 
-                containerRect.getY() - m_pressureMeter.getFullBoundsReference().height - 
-                containerRect.getHeight() * 0.5);
+        m_pressureMeter.setOffset( containerRect.getX() - m_pressureMeter.getFullBoundsReference().width, 
+                containerRect.getY() - m_pressureMeter.getFullBoundsReference().height * 0.75 );
         addWorldChild( m_pressureMeter );
         
         // Add the pump.
