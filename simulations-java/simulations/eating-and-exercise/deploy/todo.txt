@@ -2,13 +2,6 @@
 ###	Todo Sam	####
 ############################
 
---Make the Heart Strength indicator dependent on activity level as well as exercise.
-Take the exercise calories that are used to calculate Heart Strength each day and add the following:
-	-Very Sedentary: add zero
-	-All other activity levels: 0.75 * Lifestyle_calories
-  So if you do 450 calories of exercise per day and have Lifestyle calories of 1000,
-  calculate Heart Strength based on 450+750 = 1200 calories for that day.
-
 --Make the multiplier for fractionFatLost in MuscleAndFatMassLoss depend on gender.
 See todo statements in MuscleAndFatMassLoss, lines 22-23.
 
