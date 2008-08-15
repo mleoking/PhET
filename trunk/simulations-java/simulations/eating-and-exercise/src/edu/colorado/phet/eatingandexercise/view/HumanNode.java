@@ -121,17 +121,19 @@ public class HumanNode extends PNode {
         areaNode.setStroke( new BasicStroke( (float) ( Math.min( 0.02f * m, 0.025f ) ), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ) );
 
         heartNode.setOffset( -heartNode.getFullBounds().getWidth() * 0.15, neckY + heartNode.getFullBounds().getHeight() * 1.25 );
-
         infoButton.setOffset( heartNode.getFullBounds().getMaxX(), heartNode.getFullBounds().getMinY() );
     }
 
-    private Shape createMuscle( Line2D.Double rightArm, BasicStroke limbStroke ) {
+    private Shape createMuscle( Line2D.Double arm, BasicStroke limbStroke ) {
         double leanMusclePercent = human.getFatFreeMassPercent();
+        if ( human.getGender() == Human.Gender.FEMALE ) {
+            leanMusclePercent *= 0.75;
+        }
         double width = limbStroke.getLineWidth() * ( 1 + ( leanMusclePercent / 100.0 ) );
-        Vector2D.Double vector = new Vector2D.Double( rightArm.getP1(), rightArm.getP2() );
+        Vector2D.Double vector = new Vector2D.Double( arm.getP1(), arm.getP2() );
         double distAlongArmToCenter = 0.35;//assumes arm is one segment
         Ellipse2D.Double aDouble = new Ellipse2D.Double();
-        Point2D center = vector.getScaledInstance( distAlongArmToCenter ).getDestination( rightArm.getP1() );
+        Point2D center = vector.getScaledInstance( distAlongArmToCenter ).getDestination( arm.getP1() );
         aDouble.setFrameFromCenter( center, new Point2D.Double( center.getX() + width / 2, center.getY() + width / 2 ) );
         return aDouble;
     }
