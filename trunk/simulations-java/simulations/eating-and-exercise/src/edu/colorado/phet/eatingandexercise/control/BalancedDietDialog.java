@@ -53,4 +53,8 @@ public class BalancedDietDialog extends JDialog {
         dialog.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         dialog.setVisible( true );
     }
+
+    public void resetAll() {
+        dispose();
+    }
 }
