@@ -2,11 +2,6 @@
 ###	Todo Sam	####
 ############################
 
---Help dialog:
-  -Remove this line "Change your Activity level by using the pull down menu or moving exercise on/off the book."
-  -Add 2 new lines: "Change your daily exercise by moving exercises on/off the book."
-		    "Change your Activity level by using the pull down menu (above)."
-
 --"Reset All" needs to reset the activity level selector.
 Right now it appears to reset the activity level in the model,
 but does not change the selector to default (Moderate Activity).
