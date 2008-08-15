@@ -1,3 +1,7 @@
+New in 0.00.73
+Muscle diameter for females is 75% of the muscle diameter for males
+Added new images and changed order for exercise
+
 New in 0.00.72
 Edited help dialog text
 Fixed: "Reset All" needs to reset the activity level selector
