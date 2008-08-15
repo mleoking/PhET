@@ -2,6 +2,8 @@
 ###	Todo Sam	####
 ############################
 
+--Change label on graphs from "Time" to "Age". The reading is time, but the absolute read out is your age, not the time from starting the sim.
+
 --Sam, is there a way to make this into some sort of Year/Month format? Maybe YY/MM, and the axis label can say "Time (Years/Months)".
 
 --If possible, make a wiggle me that only appears the first time someone clicks on a food or exercise item.
