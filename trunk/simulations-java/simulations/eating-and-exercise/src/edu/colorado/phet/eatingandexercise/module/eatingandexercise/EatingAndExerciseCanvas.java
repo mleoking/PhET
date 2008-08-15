@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseConstants;
 import edu.colorado.phet.eatingandexercise.control.CaloriePanel;
@@ -21,6 +22,7 @@ import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.colorado.phet.eatingandexercise.view.HealthIndicator;
 import edu.colorado.phet.eatingandexercise.view.HumanNode;
 import edu.colorado.phet.eatingandexercise.view.ScaleNode;
+import edu.colorado.phet.eatingandexercise.view.EatingAndExerciseColorScheme;
 import edu.umd.cs.piccolo.PCamera;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -58,6 +60,7 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
     private StarvingMessage starvingMessage;
     private HeartAttackMessage heartAttackMessage;
     private HealthIndicator healthIndicator;
+    private PhetPPath playAreaBackgroundNode;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -68,7 +71,7 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
 
         _model = model;
 
-        setBackground( EatingAndExerciseConstants.CANVAS_BACKGROUND );
+        setBackground( EatingAndExerciseConstants.CHART_AREA_BACKGROUND );
         getCamera().addInputEventListener( new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent aEvent ) {
                 if ( aEvent.isLeftMouseButton() && aEvent.getPickedNode() instanceof PCamera ) {
@@ -90,7 +93,7 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
         } );
         // Root of our scene graph
         _rootNode = new PNode();
-        addWorldChild( _rootNode );
+
 
         _rootNode.addChild( new ScaleNode( model, model.getHuman() ) );
         humanAreaNode = new HumanNode( model.getHuman() );
@@ -99,6 +102,11 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
                 JOptionPane.showMessageDialog( EatingAndExerciseCanvas.this, "Information about health goes here" );
             }
         } );
+
+        playAreaBackgroundNode = new PhetPPath( EatingAndExerciseColorScheme.getBackgroundColor(),new BasicStroke( 2),Color.gray );
+        addScreenChild( playAreaBackgroundNode );
+
+        addWorldChild( _rootNode );
 
         _rootNode.addChild( humanAreaNode );
 
@@ -218,6 +226,8 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
         healthIndicator.setOffset( 5, humanControlPanelPSwing.getFullBounds().getMinY() - healthIndicator.getFullBounds().getHeight() );
 
         caloriePanel.setOffset( humanControlPanelPSwing.getFullBounds().getWidth(), 0 );
+        playAreaBackgroundNode.setPathToRectangle( 0,0, (float) humanControlPanelPSwing.getFullBounds().getWidth(),getHeight() );
+//        backgroundNode.setPathToRectangle( 0,0, 100,100);
 //        caloriePanel.setLayoutSize(getWidth()-humanControlPanelPSwing.getFullBounds().getWidth(),getHeight());
     }
 
