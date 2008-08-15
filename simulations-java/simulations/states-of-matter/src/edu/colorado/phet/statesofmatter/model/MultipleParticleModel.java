@@ -89,6 +89,9 @@ public class MultipleParticleModel {
     public static final int NO_THERMOSTAT = 0;
     public static final int ISOKINETIC_THERMOSTAT = 1;
     public static final int ANDERSEN_THERMOSTAT = 2;
+    
+    // TODO: JPB TBD - Temp for debug, remove eventually.
+    private static final boolean USE_NEW_PRESSURE_CALC_METHOD = false;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -141,6 +144,7 @@ public class MultipleParticleModel {
     private int    m_currentMolecule;
     private double m_particleDiameter;
     private double m_pressure;
+    private double m_pressure2;
     private PressureCalculator m_pressureCalculator;
     private int    m_thermostatType;
     
@@ -270,7 +274,12 @@ public class MultipleParticleModel {
     }
     
     public double getPressure(){
-        return m_pressure;
+        if (USE_NEW_PRESSURE_CALC_METHOD){
+            return m_pressure2;
+        }
+        else{
+            return m_pressure;
+        }
     }
     
     public int getMolecule(){
@@ -691,6 +700,10 @@ public class MultipleParticleModel {
         for (int i = 0; i < 8; i++ ){
             if (m_atomsPerMolecule == 1){
                 verletMonotomic();
+                if (USE_NEW_PRESSURE_CALC_METHOD){
+                    notifyPressureChanged(); // TODO: JPB TBD - This is temporary until the approach for
+                                             // actually detecting pressure changes is worked out.
+                }
             }
             else if (m_atomsPerMolecule == 2){
                 verletDiatomic();
@@ -700,11 +713,14 @@ public class MultipleParticleModel {
             }
         }
         syncParticlePositions();
-        if (m_pressure != m_pressureCalculator.getPressure()){
-            // The pressure has changed.  Send out notifications and update
-            // the current value.
-            m_pressure = m_pressureCalculator.getPressure();
-            notifyPressureChanged();
+        
+        if (!USE_NEW_PRESSURE_CALC_METHOD){
+            if (m_pressure != m_pressureCalculator.getPressure()){
+                // The pressure has changed.  Send out notifications and update
+                // the current value.
+                m_pressure = m_pressureCalculator.getPressure();
+                notifyPressureChanged();
+            }
         }
         
         // Adjust the temperature.
@@ -1341,22 +1357,32 @@ public class MultipleParticleModel {
         
         // Calculate the forces exerted on the particles by the container
         // walls and by gravity.
+        double totalBottomForce = 0;
         for (int i = 0; i < m_numberOfAtoms; i++){
             
             // Clear the previous calculation's particle forces.
             m_nextAtomForces[i].setComponents( 0, 0 );
             
             // Get the force values caused by the container walls.
-            calculateWallForce(m_atomPositions[i], m_nextAtomForces[i], m_normalizedContainerWidth, 
-                    m_normalizedContainerHeight);
+            calculateWallForce(m_atomPositions[i], m_normalizedContainerWidth, m_normalizedContainerHeight, 
+                    m_nextAtomForces[i]);
             
             // Accumulate this force value as part of the pressure being
             // exerted on the walls of the container.
             m_pressureCalculator.accumulatePressureValue( m_nextAtomForces[i] );
+            if (m_nextAtomForces[i].getY() > 0){
+                totalBottomForce += m_nextAtomForces[i].getY();
+            }
             
             // Add in the effect of gravity.
             m_nextAtomForces[i].setY( m_nextAtomForces[i].getY() - m_gravitationalAcceleration );
         }
+        
+        // Update the pressure calculation.
+        // TODO: JPB TBD - Clean this up if we end up using it.
+        double pressureCalcGamma = 0.9999;
+//        m_pressure2 = totalBottomForce + ((pressureCalcGamma / (1 - pressureCalcGamma)) * m_pressure2);
+        m_pressure2 = (1 - pressureCalcGamma) * totalBottomForce + pressureCalcGamma * m_pressure2;
         
         // Advance the moving average window of the pressure calculator.
         m_pressureCalculator.advanceWindow();
@@ -1488,14 +1514,14 @@ public class MultipleParticleModel {
         // Calculate the forces exerted on the particles by the container
         // walls and by gravity.
         for (int i = 0; i < numberOfMolecules; i++){
-            
+
             // Clear the previous calculation's particle forces and torques.
             m_nextMoleculeForces[i].setComponents( 0, 0 );
             m_nextMoleculeTorques[i] = 0;
             
             // Get the force values caused by the container walls.
-            calculateWallForce(m_moleculeCenterOfMassPositions[i], m_nextMoleculeForces[i], m_normalizedContainerWidth, 
-                    m_normalizedContainerHeight);
+            calculateWallForce(m_moleculeCenterOfMassPositions[i], m_normalizedContainerWidth, m_normalizedContainerHeight, 
+                    m_nextMoleculeForces[i]);
             
             // Accumulate this force value as part of the pressure being
             // exerted on the walls of the container.
@@ -1661,8 +1687,8 @@ public class MultipleParticleModel {
             m_nextMoleculeTorques[i] = 0;
             
             // Get the force values caused by the container walls.
-            calculateWallForce(m_moleculeCenterOfMassPositions[i], m_nextMoleculeForces[i], m_normalizedContainerWidth, 
-                    m_normalizedContainerHeight);
+            calculateWallForce(m_moleculeCenterOfMassPositions[i], m_normalizedContainerWidth, m_normalizedContainerHeight, 
+                    m_nextMoleculeForces[i]);
             
             // Accumulate this force value as part of the pressure being
             // exerted on the walls of the container.
@@ -1941,8 +1967,8 @@ public class MultipleParticleModel {
      * @param position - Current position of the particle.
      * @param resultantForce - Vector in which the resulting force is returned.
      */
-    private void calculateWallForce(Point2D position, Vector2D resultantForce, double containerWidth,
-            double containerHeight){
+    private void calculateWallForce(Point2D position, double containerWidth, double containerHeight,
+            Vector2D resultantForce){
         
         // Debug stuff - make sure this is being used correctly.
         assert resultantForce != null;
@@ -1996,10 +2022,8 @@ public class MultipleParticleModel {
             if (distance < minDistance){
                 distance = minDistance;
             }
-            resultantForce.setY( -48/(Math.pow(distance, 13)) +
-                    (24/(Math.pow( distance, 7))) );
-            m_potentialEnergy += 4/(Math.pow(distance, 12)) - 
-                    4/(Math.pow( distance, 6)) + 1;
+            resultantForce.setY( -48/(Math.pow(distance, 13)) + (24/(Math.pow( distance, 7))) );
+            m_potentialEnergy += 4/(Math.pow(distance, 12)) - 4/(Math.pow( distance, 6)) + 1;
         }
     }
     
