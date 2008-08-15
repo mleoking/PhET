@@ -576,16 +576,21 @@ public class MultipleParticleModel {
      */
     public void injectMolecule(){
         
-        double angle = (m_rand.nextDouble() + 1) * (2 * Math.PI / 3);
-        double xVel = Math.cos( angle ) * INJECTED_MOLECULE_VELOCITY;
-        double yVel = Math.sin( angle ) * INJECTED_MOLECULE_VELOCITY;
-        
-        if ( m_numberOfAtoms + m_atomsPerMolecule <= MAX_NUM_ATOMS ){
+        double injectionPointX = StatesOfMatterConstants.CONTAINER_BOUNDS.width / m_particleDiameter * 
+                INJECTION_POINT_HORIZ_PROPORTION;
+        double injectionPointY = StatesOfMatterConstants.CONTAINER_BOUNDS.height / m_particleDiameter *
+                INJECTION_POINT_VERT_PROPORTION;
+
+        if (( m_numberOfAtoms + m_atomsPerMolecule <= MAX_NUM_ATOMS ) &&
+            ( m_normalizedContainerHeight > injectionPointY * 1.05)){
+
+            double angle = (m_rand.nextDouble() + 1) * (2 * Math.PI / 3);
+            double xVel = Math.cos( angle ) * INJECTED_MOLECULE_VELOCITY;
+            double yVel = Math.sin( angle ) * INJECTED_MOLECULE_VELOCITY;
             if (m_atomsPerMolecule == 1){
                 // Add particle and its velocity and forces to normalized set.
                 m_atomPositions[m_numberOfAtoms] = 
-                    new Point2D.Double(m_normalizedContainerWidth * INJECTION_POINT_HORIZ_PROPORTION,
-                        m_normalizedContainerHeight * INJECTION_POINT_VERT_PROPORTION);
+                    new Point2D.Double( injectionPointX, injectionPointY );
                 m_atomVelocities[m_numberOfAtoms] = new Vector2D.Double( xVel, yVel );
                 m_atomForces[m_numberOfAtoms] = new Vector2D.Double();
                 m_nextAtomForces[m_numberOfAtoms] = new Vector2D.Double();
@@ -628,8 +633,7 @@ public class MultipleParticleModel {
                 int numberOfMolecules = m_numberOfAtoms / 2;
                 
                 m_moleculeCenterOfMassPositions[numberOfMolecules - 1] = 
-                    new Point2D.Double(m_normalizedContainerWidth * INJECTION_POINT_HORIZ_PROPORTION,
-                        m_normalizedContainerHeight * INJECTION_POINT_VERT_PROPORTION);
+                    new Point2D.Double( injectionPointX, injectionPointY );
                 m_moleculeVelocities[numberOfMolecules - 1] = new Vector2D.Double( xVel, yVel );
                 m_moleculeForces[numberOfMolecules - 1] = new Vector2D.Double();
                 m_nextMoleculeForces[numberOfMolecules - 1] = new Vector2D.Double();
@@ -661,8 +665,7 @@ public class MultipleParticleModel {
                 int numberOfMolecules = m_numberOfAtoms / 3;
                 
                 m_moleculeCenterOfMassPositions[numberOfMolecules - 1] = 
-                    new Point2D.Double(m_normalizedContainerWidth * INJECTION_POINT_HORIZ_PROPORTION,
-                        m_normalizedContainerHeight * INJECTION_POINT_VERT_PROPORTION);
+                    new Point2D.Double( injectionPointX, injectionPointY );
                 m_moleculeVelocities[numberOfMolecules - 1] = new Vector2D.Double( xVel, yVel );
                 m_moleculeForces[numberOfMolecules - 1] = new Vector2D.Double();
                 m_nextMoleculeForces[numberOfMolecules - 1] = new Vector2D.Double();
