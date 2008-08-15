@@ -19,6 +19,7 @@ public class HumanSlider extends JPanel {
 
     public HumanSlider( double min, double max, double value, String label, String textFieldPattern, String units ) {
         linearValueControlNode = new LinearValueControlNode( label, units, min, max, value, new DefaultDecimalFormat( textFieldPattern ) );
+        linearValueControlNode.setTextFieldColumns( 7 );//current limiting factor is age
         pNodeComponent = new PNodeComponent( linearValueControlNode );
         add( pNodeComponent );
     }
@@ -74,12 +75,10 @@ public class HumanSlider extends JPanel {
             nodes[i] = s[i].linearValueControlNode;
         }
         for ( int i = 0; i < nodes.length; i++ ) {
-            LinearValueControlNode valueControlNode = nodes[i];
-            valueControlNode.setLayoutStrategy(valueControlNode.getGridLayout(nodes));
+            nodes[i].setLayoutStrategy( nodes[i].getGridLayout( nodes ) );
         }
         for ( int i = 0; i < s.length; i++ ) {
-            HumanSlider humanSlider = s[i];
-            humanSlider.pNodeComponent.updatePreferredSize();
+            s[i].pNodeComponent.updatePreferredSize();
         }
     }
 
