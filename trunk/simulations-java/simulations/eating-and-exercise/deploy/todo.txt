@@ -2,10 +2,6 @@
 ###	Todo Sam	####
 ############################
 
---"Reset All" needs to reset the activity level selector.
-Right now it appears to reset the activity level in the model,
-but does not change the selector to default (Moderate Activity).
-
 --If the healthy diet window is open, Reset All does not remove this window.
 If you then open a new healthy diet, the old one remains open but is non-functional. The old window should either:
   1) close, or...
@@ -22,6 +18,7 @@ It should say "Drag food to the plate." or "Drag exercise to the log."
 This will avoid an automatic wiggle me, which could be distracting, but will let people know to drag the items once they click on them.
 Molly said she thought she should click on items, but it was not obvious she should drag them somewhere.
 
+BMR doesn't reset properly (during reset all) if activity level was changed
 
 ############################
 ###	Todo Noah P	####
