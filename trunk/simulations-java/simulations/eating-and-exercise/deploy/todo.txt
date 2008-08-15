@@ -2,9 +2,6 @@
 ###	Todo Sam	####
 ############################
 
---Add a quick paragraph in the Help that says something like "Change your diet by putting food on/off the plate.
-Change your Activity level by using the pull down menu or moving exercise on/off the book."
-
 --Make sure dev control for color is removed in final version. (And other dev controls we've added.)
 
 --BMR at simulation start is different than BMR after reset all
@@ -54,5 +51,10 @@ It uses BMI, age, and gender...but not activity level. We could augment it to in
 > 1. Instead of the question mark next to the pull down for activity, is it possible to have a mouse over on each option that gives the >description?
 
 Sam, what do you think of this? I think mouse-overs on pull down menus are fairly non-standard, but I could be wrong.
+
+--Add a quick paragraph in the Help that says something like "Change your diet by putting food on/off the plate.
+Change your Activity level by using the pull down menu or moving exercise on/off the book."
+
+>>Should the help be integrated into the play area?  It will take longer than a pop-up text dialog window.
 
 ############################

@@ -111,9 +111,11 @@ public class EatingAndExerciseModule extends PiccoloModule {
                 JOptionPane.showMessageDialog( parentFrame, EatingAndExerciseStrings.DISCLAIMER );
             }
         } );
-        _clockControlPanel.add( disclaimerButton, 0 );
-        _clockControlPanel.add( Box.createHorizontalStrut( 100 ), 1 );
-        _clockControlPanel.add( resetButton, 2 );
+        _clockControlPanel.add( new EatingAndExerciseHelpButton(), 0 );
+        _clockControlPanel.add( disclaimerButton, 1 );
+
+        _clockControlPanel.add( Box.createHorizontalStrut( 100 ), 2 );
+        _clockControlPanel.add( resetButton, 3 );
 
         setClockControlPanel( _clockControlPanel );
 
