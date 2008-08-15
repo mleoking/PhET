@@ -88,6 +88,9 @@ public class PhaseChangesCanvas extends PhetPCanvas {
             public void temperatureChanged(){
                 updateThermometerTemperature();
             }
+            public void containerSizeChanged(){
+                updateThermometerPosition();
+            }
         });
         
         // Set the background color.
@@ -122,10 +125,9 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         m_thermometerNode = new CompositeThermometerNode(containerRect.getX() + containerRect.getWidth() * 0.25, 
                 containerRect.getY() + containerRect.getHeight() * 0.35,
                 StatesOfMatterConstants.MAX_DISPLAYED_TEMPERATURE);
-        m_thermometerNode.setOffset( 
-                containerRect.getX() + containerRect.getWidth() * 0.80, 
-                containerRect.getY() - containerRect.getHeight() * 1.1 );
         addWorldChild(m_thermometerNode);
+        updateThermometerTemperature();
+        updateThermometerPosition();
         
         // Add a burner that the user can use to add or remove heat from the
         // particle container.
@@ -147,8 +149,6 @@ public class PhaseChangesCanvas extends PhetPCanvas {
                 // TODO: JPB TBD - Do I need this?
             }
         } );
-        
-        updateThermometerTemperature();
     }
     
     //----------------------------------------------------------------------------
@@ -166,5 +166,17 @@ public class PhaseChangesCanvas extends PhetPCanvas {
      */
     private void updateThermometerTemperature(){
         m_thermometerNode.setTemperatureInDegreesKelvin( m_model.getTemperatureInKelvin() );
+    }
+
+    /**
+     * Update the position of the thermometer so that it stays on the lid.
+     */
+    private void updateThermometerPosition(){
+        Rectangle2D containerRect = m_model.getParticleContainerRect();
+        
+        m_thermometerNode.setOffset( 
+                containerRect.getX() + containerRect.getWidth() * 0.77, 
+                containerRect.getY() - containerRect.getHeight() - 
+                (m_thermometerNode.getFullBoundsReference().height * 0.5) );
     }
 }
