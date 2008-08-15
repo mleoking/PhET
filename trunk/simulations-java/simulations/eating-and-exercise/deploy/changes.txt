@@ -1,6 +1,9 @@
 New in 0.00.71
 Changed the layout to have the green control panel background extend to the top. This required moving some of the play area objects to the right. This was based on the "eating and exercise layout.pdf" in the doc directory as a guide - we used the "Modified 1" layout.
-Made the Heart Strength indicator dependent on activity level as well as exercise.  Since the values for exercise and activity are month-long averages, it is inconvenient to set the days for which the person was very-sedentary to zero, so instead the following algorithm is used: activityToCount = max( ( averageActivity - 100 ) * 0.75, 0 ) 
+Made the Heart Strength indicator dependent on activity level as well as exercise.  Since the values for exercise and activity are month-long averages, it is inconvenient to set the days for which the person was very-sedentary to zero, so instead the following algorithm is used: activityToCount = max( ( averageActivity - 100 ) * 0.75, 0 )
+Made the multiplier for fractionFatLost in MuscleAndFatMassLoss depend on gender:
+    -changed multipler (was 3.0) to 3.5 for male, 2.8 for female
+    -changed limiter for FatMassPercent (was 0.33) to 0.28 for male, .35 for female
 
 New in 0.00.70
 Changed the activity level values
