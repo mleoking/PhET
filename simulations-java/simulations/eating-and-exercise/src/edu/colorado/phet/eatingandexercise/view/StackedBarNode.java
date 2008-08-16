@@ -142,8 +142,8 @@ public class StackedBarNode extends PNode {
 
         private PNode labelNode = new PNode();//contains image + label + readout
         private PNode imageNode;
-        private HTMLNode labelTextNode;
-        private HTMLNode readoutValueNode;
+        private HTMLNode textNode;
+        private HTMLNode valueNode;
 
         private BarChartElementNode( final BarChartElement barChartElement, Thumb thumbLocation ) {
             this.thumbLocation = thumbLocation;
@@ -174,13 +174,13 @@ public class StackedBarNode extends PNode {
                 imageNode = new PNode();
             }
 
-            labelTextNode = new HTMLNode( barChartElement.getName(), new PhetFont( 18, true ), barChartElement.getTextColor() );
-            readoutValueNode = new HTMLNode( "", new PhetFont( 12, true ), barChartElement.getTextColor() );
+            textNode = new HTMLNode( barChartElement.getName(), new PhetFont( 18, true ), barChartElement.getTextColor() );
+            valueNode = new HTMLNode( "", new PhetFont( 18, true ), barChartElement.getTextColor() );
             clip.addChild( labelNode );
             labelNode.addChild( imageNode );
-            labelNode.addChild( labelTextNode );
+            labelNode.addChild( textNode );
 //            clip.addChild( readoutNode );
-            labelNode.addChild( readoutValueNode );
+            labelNode.addChild( valueNode );
 
             addChild( clip );
 
@@ -217,29 +217,35 @@ public class StackedBarNode extends PNode {
 
         private void updateShape() {
             double value = barChartElement.getValue();
-            readoutValueNode.setHTML( EatingAndExerciseStrings.KCAL_PER_DAY_FORMAT.format( value ) );
+            valueNode.setHTML( EatingAndExerciseStrings.KCAL_PER_DAY_FORMAT.format( value ) );
             barNode.setPathTo( createShape() );
             clip.setPathTo( createShape() );
             double availHeight = clip.getFullBounds().getHeight();
             labelNode.setScale( 1 );
             labelNode.setOffset( 0, 0 );
-            labelTextNode.setOffset( 0, 0 );
+            textNode.setOffset( 0, 0 );
             imageNode.setOffset( clip.getFullBounds().getWidth() / 2 - imageNode.getFullBounds().getWidth() / 2, 0 );
 
-            labelTextNode.setOffset( clip.getFullBounds().getWidth() / 2 - labelTextNode.getFullBounds().getWidth() / 2, imageNode.getFullBounds().getHeight() - 3 );
-            readoutValueNode.setOffset( clip.getFullBounds().getWidth() / 2 - readoutValueNode.getFullBounds().getWidth() / 2 + 2, labelTextNode.getFullBounds().getMaxY() - 2 );
+            textNode.setOffset( clip.getFullBounds().getWidth() / 2 - textNode.getFullBounds().getWidth() / 2, imageNode.getFullBounds().getHeight() - 3 );
+            valueNode.setOffset( clip.getFullBounds().getWidth() / 2 - valueNode.getFullBounds().getWidth() / 2 + 2, textNode.getFullBounds().getMaxY() - 2 );
 
-            if ( availHeight < labelNode.getFullBounds().getHeight() ) {
+            valueNode.setScale( 1.0 );
+            imageNode.setVisible( true );
+            if ( availHeight < labelNode.getFullBounds().getHeight() ) {//didn't fit with preferred layout, try secondary layout
                 double sy = availHeight / labelNode.getFullBounds().getHeight();
                 if ( sy > 0 && sy < 1 ) {
-                    double MIN_SCALE = 0.6;
+                    double MIN_SCALE = 0.8;
                     sy = Math.max( MIN_SCALE, sy );
                     labelNode.setScale( sy );
 
-                    //if the font is pretty small, then move the text to the top right so it's not obscured
-                    if ( sy == MIN_SCALE ) {
-                        labelTextNode.setOffset( imageNode.getFullBounds().getMaxX(), imageNode.getFullBounds().getY() );
-                        readoutValueNode.setOffset( clip.getFullBounds().getWidth() / 2 - readoutValueNode.getFullBounds().getWidth() / 2 + 2, labelTextNode.getFullBounds().getMaxY() - 2 );
+                    if ( sy == MIN_SCALE ) { //didn't fit with secondary layout, try tertiary
+                        labelNode.setScale( 1.0 );
+                        labelNode.setOffset( 0.0, 0.0 );
+                        imageNode.setVisible( false );
+                        textNode.setScale( 0.75 );
+                        valueNode.setScale( 0.75 );
+                        textNode.setOffset( clip.getFullBounds().getX() + 2, imageNode.getFullBounds().getY() );
+                        valueNode.setOffset( clip.getFullBounds().getMaxX() - valueNode.getFullBounds().getWidth() - 2, imageNode.getFullBounds().getY() );
                     }
                 }
             }
