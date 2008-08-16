@@ -83,10 +83,6 @@ function useLinker (evnt) {
 
 // trackDocuments:  calls _trackPageview before downloading a file
 function trackDocuments (evnt) {
-    if (phet_user_auth_level == 2) {
-        alert("Track Documents: " + evnt);
-    }
-
     var url = (evnt.srcElement) ? "/" + evnt.srcElement.pathname : this.pathname;
     url = docIdentifier + url;
     if (typeof(benchmarkTracker) == "object") {
