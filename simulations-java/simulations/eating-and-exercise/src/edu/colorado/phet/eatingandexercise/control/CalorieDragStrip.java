@@ -173,6 +173,11 @@ public class CalorieDragStrip extends PNode {
                     addChild( createdNode.getPNode() );
                 }
 
+                public void mousePressed( PInputEvent e ) {
+                    super.mousePressed( e );
+                    notifyPressed();
+                }
+
                 protected void drag( PInputEvent event ) {
                     super.drag( event );
                     createdNode.getPNode().translate( event.getDelta().getWidth(), event.getDelta().getHeight() );
@@ -202,6 +207,12 @@ public class CalorieDragStrip extends PNode {
             sourceLayer.addChild( (PNode) nodes.get( i ) );
         }
         return sourceLayer;
+    }
+
+    private void notifyPressed() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).nodePressed();
+        }
     }
 
     //To be used in an external layer in order to simplify the layout code 
@@ -395,6 +406,8 @@ public class CalorieDragStrip extends PNode {
         void nodeDropped( DragNode node );
 
         void nodeDragged( DragNode createdNode );
+
+        void nodePressed();
     }
 
     public static class Adapter implements Listener {
@@ -402,6 +415,9 @@ public class CalorieDragStrip extends PNode {
         }
 
         public void nodeDragged( DragNode createdNode ) {
+        }
+
+        public void nodePressed() {
         }
     }
 

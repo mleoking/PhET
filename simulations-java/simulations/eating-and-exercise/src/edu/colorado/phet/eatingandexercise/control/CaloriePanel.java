@@ -108,8 +108,8 @@ public class CaloriePanel extends PNode {
         chartNode.clearAndResetDomains();
     }
 
-    public void addFoodDraggedListener( ActionListener actionListener ) {
-        foodNode.addItemDraggedListener( actionListener );
+    public void addFoodPressedListener( ActionListener actionListener ) {
+        foodNode.addItemPressedListener( actionListener );
     }
 
     public PNode getPlateNode() {
@@ -117,7 +117,7 @@ public class CaloriePanel extends PNode {
     }
 
     public void addExerciseDraggedListener( ActionListener actionListener ) {
-        exerciseNode.addItemDraggedListener( actionListener );
+        exerciseNode.addItemPressedListener( actionListener );
     }
 
     public PNode getDiaryNode() {
