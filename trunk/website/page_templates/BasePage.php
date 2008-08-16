@@ -284,36 +284,6 @@ EOT;
      */
     function close_xhtml() {
         print <<<EOT
-
-<!--
-
-The following is code meant to track under Google Analytics Tracking, requested by Wendy and code contributed by John Henson
-(modified from the original code to customize for the PhET site and also to track downloads.)
-
-I have low familiarity with javascript, php and the organization of this website, someone with more expertise should clean this up when possible.
-
- Sam Reid, 8-5-2008
-
--->
-<script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-
-<script type="text/javascript" src="http://phet.colorado.edu/page_templates/autoTracking_phet.js"></script>
-
-<script type="text/javascript">
-var benchmarkTracker = _gat._getTracker("UA-5033201-1");
-benchmarkTracker._setDomainName('phet.colorado.edu');
-benchmarkTracker._initData();
-benchmarkTracker._trackPageview();
-
-var overallTracker = _gat._getTracker("UA-5033010-1");
-overallTracker._setDomainName('phet.colorado.edu');
-overallTracker._initData();
-overallTracker._trackPageview();
-</script>        
-
 </html>
 
 EOT;
