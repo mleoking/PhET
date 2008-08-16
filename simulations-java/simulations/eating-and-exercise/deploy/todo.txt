@@ -2,12 +2,6 @@
 ###	Todo Sam	####
 ############################
 
-1. Make the label (e.g., Protein) and calorie #'s on a single line. This way the calorie # will not get pushed out of the visible region. Just make the max font size a little smaller so that they are always on a single line across.
-OR
-2. Put the cal # to the right of the picture and the label below these. When the visible area gets too small, let the label disappear and just show the picture and the cal #. People will be able to figure out what these #'s mean this way, but we preserve the important information, which is the calorie #.
-
-Either way, do the same for the charts on the right. I'm leaning towards #2.
-
 ############################
 ###	Todo Noah P	####
 ############################
@@ -21,10 +15,15 @@ I'll try to find a "stick of butter" graphic for fats.
 ############################
 
 --Instead of the question mark next to the pull down for activity, is it possible to have a mouse over on each option that gives the description?
-
 	>Sam, what do you think of this? I think mouse-overs on pull down menus are fairly non-standard, but I could be wrong.
+	SRR: I think this would be nonstandard, and we'd have to write our own support for it, but it could be a nice way to clarify meaning of values.  Let me know if we should go for it.  Also, this could be difficult due to technical reasons (due to implementation of combo box in piccolo).
 
 --(Unfuddle #682) I think the midsection bulge (the belly) should be smaller when the % fat is low. When the person is near the bottom of the healthy range (for men or women), the midsection bulge should be almost imperceptible. Right now, you can have 0 body fat and you still see a little bulge around the midsection.
+
+1. Make the label (e.g., Protein) and calorie #'s on a single line. This way the calorie # will not get pushed out of the visible region. Just make the max font size a little smaller so that they are always on a single line across.
+2. Put the cal # to the right of the picture and the label below these. When the visible area gets too small, let the label disappear and just show the picture and the cal #. People will be able to figure out what these #'s mean this way, but we preserve the important information, which is the calorie #.
+    --Either way, do the same for the charts on the right. I'm leaning towards #2.
+    SRR: it was significantly easier to implement #1.  Let me know what you think of it, or if we should try something else.
 
 ############################################
 ###	Old Issues  To Keep an Eye on	####
@@ -60,5 +59,6 @@ Sam, what do you think of this? I think mouse-overs on pull down menus are fairl
 --Sometimes reset all clears the body, leaving the head...instead of resetting. Not sure how to reproduce this,
 but it has happened several times.
     >>SRR 8-11-2008: I haven't been able to reproduce this yet.
+
 
 ############################
