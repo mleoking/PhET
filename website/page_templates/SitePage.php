@@ -102,8 +102,7 @@ class SitePage extends BasePage {
                 // small pages from about 0.200s to 0.0s (time too small to measure)
                 "                    setup_input_validation_patterns();",
                 "                    validate_and_setup_validation_triggers();",
-                "                    setup_submit_form_validation();",
-                "                    phet_user_auth_level={$this->authentication_level};"
+                "                    setup_submit_form_validation();"
                 )
             );
 
