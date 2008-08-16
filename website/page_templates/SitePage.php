@@ -102,10 +102,39 @@ class SitePage extends BasePage {
                 // small pages from about 0.200s to 0.0s (time too small to measure)
                 "                    setup_input_validation_patterns();",
                 "                    validate_and_setup_validation_triggers();",
-                "                    setup_submit_form_validation();"
+                "                    setup_submit_form_validation();",
+                "                    phet_user_auth_level={$this->authentication_level};"
                 )
             );
 
+    }
+
+    function close_xhtml_head() {
+        $site_root = SITE_ROOT;
+
+        print <<<EOT
+    <script type="text/javascript">
+        var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+        document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+
+    <script type="text/javascript" src="{$site_root}js/autoTracking_phet.js"></script>
+
+    <script type="text/javascript">
+        var benchmarkTracker = _gat._getTracker("UA-5033201-1");
+        benchmarkTracker._setDomainName('phet.colorado.edu');
+        benchmarkTracker._initData();
+        benchmarkTracker._trackPageview();
+        
+        var overallTracker = _gat._getTracker("UA-5033010-1");
+        overallTracker._setDomainName('phet.colorado.edu');
+        overallTracker._initData();
+        overallTracker._trackPageview();
+    </script>        
+
+EOT;
+
+        parent::close_xhtml_head();
     }
 
     function authenticate_user() {
