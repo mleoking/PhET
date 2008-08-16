@@ -2,10 +2,6 @@
 ###	Todo Sam	####
 ############################
 
-Maybe we can try making the icons a tad smaller in some cases, like the
-plate of spaghetti and work to make the calorie number bigger. We can see
-what that buys us.
-
 One of the reasons I wanted the female's  muscles to start smaller is she
 has less lean body mass than the male of the same weight so it was
 reasonable that she should show less muscle.
