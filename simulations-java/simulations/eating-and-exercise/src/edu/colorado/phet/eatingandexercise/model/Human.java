@@ -40,7 +40,7 @@ public class Human {
     //    private Exercise exerciseObject = null;
     //New defaults: 5'8" 150 lbs 22 years
     private static final ReferenceHuman REFERENCE_MALE = new ReferenceHuman( true, 22, 5 + 8 / 12.0, EatingAndExerciseUnits.poundsToKg( 150 ), 86 );
-    private static final ReferenceHuman REFERENCE_FEMALE = new ReferenceHuman( false, 22, 5 + 6 / 12.0, EatingAndExerciseUnits.poundsToKg( 150 ), 74 );
+    private static final ReferenceHuman REFERENCE_FEMALE = new ReferenceHuman( false, 22, 5 + 5 / 12.0, EatingAndExerciseUnits.poundsToKg( 135 ), 74 );
     public static final ReferenceHuman DEFAULT_VALUE = REFERENCE_FEMALE;
 
     private CalorieSet exerciseItems = new CalorieSet();
@@ -879,7 +879,18 @@ public class Human {
         if ( this.gender != gender ) {
             this.gender = gender;
             setFatMassPercent( gender.getMinFatMassPercent() );
+            setHeight( getReferenceHuman( gender ).getHeightMeters() );
+            setMass( getReferenceHuman( gender ).getMassKG() );
             notifyGenderChanged();
+        }
+    }
+
+    private ReferenceHuman getReferenceHuman( Gender gender ) {
+        if ( gender == Gender.MALE ) {
+            return REFERENCE_MALE;
+        }
+        else {
+            return REFERENCE_FEMALE;
         }
     }
 
