@@ -272,8 +272,8 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
         return humanControlPanelPSwing.getFullBounds().getY();
     }
 
-    public void addFoodDraggedListener( ActionListener actionListener ) {
-        caloriePanel.addFoodDraggedListener( actionListener );
+    public void addFoodPressedListener( ActionListener actionListener ) {
+        caloriePanel.addFoodPressedListener( actionListener );
     }
 
     public PNode getPlateNode() {

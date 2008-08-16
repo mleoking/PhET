@@ -2,8 +2,6 @@
 ###	Todo Sam	####
 ############################
 
-One thing I noticed is that the wiggle me does not on a simple click, only after you move a food a small amount. Can it be made to happen on a click?
-
 1. Make the label (e.g., Protein) and calorie #'s on a single line. This way the calorie # will not get pushed out of the visible region. Just make the max font size a little smaller so that they are always on a single line across.
 OR
 2. Put the cal # to the right of the picture and the label below these. When the visible area gets too small, let the label disappear and just show the picture and the cal #. People will be able to figure out what these #'s mean this way, but we preserve the important information, which is the calorie #.

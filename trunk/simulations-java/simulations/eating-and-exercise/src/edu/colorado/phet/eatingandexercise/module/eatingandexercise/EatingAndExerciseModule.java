@@ -80,7 +80,7 @@ public class EatingAndExerciseModule extends PiccoloModule {
 
         } );
 
-        _canvas.addFoodDraggedListener( new ActionListener() {
+        _canvas.addFoodPressedListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( !showedInitialDragWiggleMe ) {
                     showedInitialDragWiggleMe = true;

@@ -4,6 +4,7 @@ Changed the male/female defaults to:
     Male default height: 5'8", weight 150 lb
     Female default height: 5'5", weight 135 lb
 Previously, height and weight were preserved under gender change.  Now the values change to the new defaults when changing gender.
+Fixed the animated drag help items to appear on mouse press instead of mouse drag
 
 New in 0.00.73
 Muscle diameter for females is 75% of the muscle diameter for males
