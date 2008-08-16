@@ -2,16 +2,7 @@
 ###	Todo Sam	####
 ############################
 
-One of the reasons I wanted the female's  muscles to start smaller is she
-has less lean body mass than the male of the same weight so it was
-reasonable that she should show less muscle.
-
 One thing I noticed is that the wiggle me does not on a simple click, only after you move a food a small amount. Can it be made to happen on a click?
-
-NP: I think the right solution to this is to make the default height and weight different for male/female. Here are number that I think are reasonable:
-Male default height: 5'8", weight 150 lb
-Female default height: 5'5", weight 135 lb
-
 
 1. Make the label (e.g., Protein) and calorie #'s on a single line. This way the calorie # will not get pushed out of the visible region. Just make the max font size a little smaller so that they are always on a single line across.
 OR
