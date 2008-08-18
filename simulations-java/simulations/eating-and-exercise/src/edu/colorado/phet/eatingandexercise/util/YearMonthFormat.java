@@ -4,6 +4,7 @@ import java.text.*;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.model.EatingAndExerciseUnits;
 
 /**
@@ -66,9 +67,11 @@ public class YearMonthFormat extends NumberFormat {
         }
 //        toAppendTo.append( "" + format.format( remainder ) + "/ " + monthText + "\"" );
 //        toAppendTo.append( "" + format.format( remainder ) + "/" + monthText  );
-        toAppendTo.append( "" + format.format( remainder ) + " yr" );
+        String yrString = EatingAndExerciseResources.getString( "time.year.abbr" );
+        String mString = EatingAndExerciseResources.getString( "time.month.abbr" );
+        toAppendTo.append( "" + format.format( remainder ) + " " + yrString );
         if ( !monthText.trim().equals( "0" ) ) {
-            toAppendTo.append( " " + monthText + " m" );
+            toAppendTo.append( " " + monthText + " " + mString );
         }
 //        toAppendTo.append( "" + format.format( remainder ) + " y " + monthText +" m" );
         return toAppendTo;
