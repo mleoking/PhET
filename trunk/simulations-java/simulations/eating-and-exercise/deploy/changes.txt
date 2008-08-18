@@ -1,3 +1,6 @@
+New in 0.00.75
+Changed bar chart elements to have icon on the left, then title and label with same font on the right
+
 New in 0.00.74
 Increased readability of categories and values for the stacked bar chart at small sizes
 Changed the male/female defaults to:
