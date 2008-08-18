@@ -79,8 +79,18 @@ public class PointingHandNode extends PNode {
         // Set ourself up to listen for and handle mouse dragging events.
         m_fingerImageNode.addInputEventListener( new PDragEventHandler(){
             
+            public void startDrag( PInputEvent event) {
+                super.startDrag(event);     
+                handleMouseStartDragEvent( event );
+            }
+            
             public void drag(PInputEvent event){
                 handleMouseDragEvent( event );
+            }
+            
+            public void endDrag( PInputEvent event ){
+                super.endDrag(event);     
+                handleMouseEndDragEvent( event );
             }
         });
 
@@ -123,9 +133,17 @@ public class PointingHandNode extends PNode {
         // the range where its motion should affect the size of the container.
         // Hence, we only set the container size here and rely on the
         // notifications of changes to the container size to move the node.
-        m_model.setParticleContainerHeight( m_model.getParticleContainerHeight() - ( movementAmount * m_scale ) );
+        m_model.setTargetParticleContainerHeight( m_model.getParticleContainerHeight() - ( movementAmount * m_scale ) );
     }
     
+    private void handleMouseStartDragEvent(PInputEvent event){
+        
+    }
+
+    private void handleMouseEndDragEvent(PInputEvent event){
+        
+    }
+
     private void handleContainerSizeChanged(){
         Rectangle2D containerRect = m_model.getParticleContainerRect();
         setOffset( getFullBoundsReference().x, 
