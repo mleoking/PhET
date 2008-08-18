@@ -12,10 +12,10 @@ import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
 import edu.colorado.phet.eatingandexercise.module.eatingandexercise.EatingAndExerciseCanvas;
 import edu.colorado.phet.eatingandexercise.module.eatingandexercise.EatingAndExerciseModel;
+import edu.colorado.phet.eatingandexercise.view.BarChartElement;
 import edu.colorado.phet.eatingandexercise.view.EatingAndExerciseColorScheme;
 import edu.colorado.phet.eatingandexercise.view.StackedBarChartNode;
 import edu.colorado.phet.eatingandexercise.view.StackedBarNode;
-import edu.colorado.phet.eatingandexercise.view.BarChartElement;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -37,6 +37,7 @@ public class CaloriePanel extends PNode {
         Function.LinearFunction transform = new Function.LinearFunction( 0, 3000, 0, 250 );
         stackedBarChart = new StackedBarChartNode( transform, EatingAndExerciseResources.getString( "units.cal-per-day" ), 10, 250, 1000, 8000 );
 
+
         StackedBarNode intakeBars = new StackedBarNode( transform, 100 );
         Color labelColor = Color.black;
         intakeBars.addElement( new BarChartElementAdapter( EatingAndExerciseStrings.FATS, EatingAndExerciseColorScheme.FATS, model.getHuman().getLipids(), "stick_butter.png", labelColor ), StackedBarNode.NONE );
@@ -51,6 +52,9 @@ public class CaloriePanel extends PNode {
         stackedBarChart.addStackedBarNode( intakeBars );
         stackedBarChart.addStackedBarNode( exerciseBars );
         addChild( stackedBarChart );
+
+        BarChartNodeAxisTitleLabelNode barChartNodeAxisTitleLabelNode = new BarChartNodeAxisTitleLabelNode( phetPCanvas, stackedBarChart, this );
+        addChild( barChartNodeAxisTitleLabelNode );
 
         foodNode = new CalorieNode( parentFrame, EatingAndExerciseResources.getString( "edit.diet" ),
                                     new Color( 100, 100, 255 ), model.getAvailableFoods(),
