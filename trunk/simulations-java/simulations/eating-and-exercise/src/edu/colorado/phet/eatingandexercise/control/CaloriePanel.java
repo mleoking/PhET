@@ -38,7 +38,7 @@ public class CaloriePanel extends PNode {
 
         StackedBarNode intakeBars = new StackedBarNode( transform, 100 );
         Color labelColor = Color.black;
-        intakeBars.addElement( new BarChartElementAdapter( EatingAndExerciseStrings.FATS, EatingAndExerciseColorScheme.FATS, model.getHuman().getLipids(), "j0232547.gif", labelColor ), StackedBarNode.NONE );
+        intakeBars.addElement( new BarChartElementAdapter( EatingAndExerciseStrings.FATS, EatingAndExerciseColorScheme.FATS, model.getHuman().getLipids(), "stick_butter.png", labelColor ), StackedBarNode.NONE );
         intakeBars.addElement( new BarChartElementAdapter( EatingAndExerciseResources.getString( "food.carbs" ), EatingAndExerciseColorScheme.CARBS, model.getHuman().getCarbs(), "carbs.png", labelColor ), StackedBarNode.NONE );
         intakeBars.addElement( new BarChartElementAdapter( EatingAndExerciseResources.getString( "food.protien" ), EatingAndExerciseColorScheme.PROTEIN, model.getHuman().getProteins(), "j0413686.gif", labelColor ), StackedBarNode.NONE );
 
