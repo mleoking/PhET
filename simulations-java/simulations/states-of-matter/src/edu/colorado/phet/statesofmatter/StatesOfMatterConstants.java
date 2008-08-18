@@ -88,7 +88,7 @@ public class StatesOfMatterConstants {
             PARTICLE_CONTAINER_INITIAL_HEIGHT);
     
     // Maximum temperature, in degrees Kelvin, that the Thermometer will display.
-    public static final double MAX_DISPLAYED_TEMPERATURE = 500;
+    public static final double MAX_DISPLAYED_TEMPERATURE = 1000;
     
     // TODO: JPB TBD - Many of these constants will no longer be used once the
     // sim has been cleaned up, so remember to remove them.
