@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<SimStrings>
+  <string key="moveMe" value="Move me!" />
+  <string key="n" value="N" />
+  <string key="s" value="S" />
+  <string key="voltage" value="voltage" />
+  <string key="oneCoil" value="1 Coil" />
+  <string key="twoCoils" value="2 Coils" />
+  <string key="noSound" value="No sound" />
+  <string key="showFieldLines" value="Show field lines" />
+  <string key="flipMagnet" value="Flip magnet" />
+  <string key="" value="" />
+
+</SimStrings>
