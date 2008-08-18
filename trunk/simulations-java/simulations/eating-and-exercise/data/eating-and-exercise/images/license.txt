@@ -118,6 +118,8 @@ sailing.png source=microsoft clip art
 salami.png source=microsoft clip art
 sitting_sports.png source=microsoft clip art
 skateboarder.png source=microsoft clip art
+skier_cross_country.png source-microsoft clip art
+skier_downhill.png source-microsoft clip art
 soccer.png source=microsoft clip art
 spaghetti.png source=microsoft clip art
 squash_player.png source=microsoft clip art
