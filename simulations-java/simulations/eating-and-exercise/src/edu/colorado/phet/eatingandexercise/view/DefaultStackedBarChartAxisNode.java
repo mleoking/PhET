@@ -18,7 +18,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  * Created by: Sam
  * Apr 17, 2008 at 9:33:00 PM
  */
-public class StackedBarChartAxisNode extends PNode {
+public class DefaultStackedBarChartAxisNode extends PNode {
     private Function function;
     private double minorTickSpacing;
     private double majorTickSpacing;
@@ -27,7 +27,7 @@ public class StackedBarChartAxisNode extends PNode {
     private static final double MINOR_TICK_WIDTH = 8;
     private static final double MAJOR_TICK_WIDTH = 10;
 
-    public StackedBarChartAxisNode( String title, Function function, double minorTickSpacing, double majorTickSpacing, double max ) {
+    public DefaultStackedBarChartAxisNode( String title, Function function, double minorTickSpacing, double majorTickSpacing, double max ) {
         this.function = function;
         this.minorTickSpacing = minorTickSpacing;
         this.majorTickSpacing = majorTickSpacing;

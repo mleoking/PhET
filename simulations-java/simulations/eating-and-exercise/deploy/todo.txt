@@ -2,9 +2,6 @@
 ###	Todo Sam	####
 ############################
 
-> I also tried something different for the Calories/Day scale. I'm trying to keep the number of lines and other busy looking graphics to a minimum.
-SRR: It would probably take 45 minutes to change the axis depiction as you described.  I'll add this to the to-do list, but please confirm that it's worth the effort.
-
 ############################
 ###	Todo Noah P	####
 ############################

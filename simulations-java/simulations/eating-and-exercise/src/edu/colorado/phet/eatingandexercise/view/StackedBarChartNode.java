@@ -28,7 +28,7 @@ public class StackedBarChartNode extends PNode {
     private double minorTickSpacing;
     private double majorTickSpacing;
     private double maxYValue;
-    private StackedBarChartAxisNode axisNode;
+    private SparseStackedBarChartAxisNode axisNode;
     private GradientButtonNode zoomOut;
     private GradientButtonNode zoomIn;
 
@@ -41,7 +41,7 @@ public class StackedBarChartNode extends PNode {
         this.maxYValue = maxYValue;
         addChild( barLayer );
 
-        axisNode = new StackedBarChartAxisNode( title, function, minorTickSpacing, majorTickSpacing, maxYValue );
+        axisNode = new SparseStackedBarChartAxisNode( title, function, minorTickSpacing, majorTickSpacing, maxYValue );
         addChild( axisNode );
 
         zoomOut = new GradientButtonNode( "-", 14, Color.green );
@@ -73,12 +73,16 @@ public class StackedBarChartNode extends PNode {
         updateLayout();
     }
 
+    public PNode getAxisNode(){
+        return axisNode;
+    }
+
     public void setFunction( Function function ) {
         this.function = function;
         removeChild( axisNode );
 
         //todo: convert the following two lines to use axisNode.setFunction instead
-        axisNode = new StackedBarChartAxisNode( title, function, minorTickSpacing, majorTickSpacing, maxYValue );
+        axisNode = new SparseStackedBarChartAxisNode( title, function, minorTickSpacing, majorTickSpacing, maxYValue );
         addChild( indexOfChild( barLayer ) + 1, axisNode );
 
         for ( int i = 0; i < barLayer.getChildrenCount(); i++ ) {
@@ -157,7 +161,7 @@ public class StackedBarChartNode extends PNode {
         barNode.addElement( new BarChartElement( "Exercise", EatingAndExerciseColorScheme.EXERCISE, 50 ) );
 
         StackedBarNode barNode2 = new StackedBarNode( 100 );
-        barNode2.addElement( new BarChartElement( EatingAndExerciseStrings.FATS, EatingAndExerciseColorScheme.FATS, 150 ,new BufferedImage( 50, 50, BufferedImage.TYPE_INT_RGB )), StackedBarNode.LEFT );
+        barNode2.addElement( new BarChartElement( EatingAndExerciseStrings.FATS, EatingAndExerciseColorScheme.FATS, 150, new BufferedImage( 50, 50, BufferedImage.TYPE_INT_RGB ) ), StackedBarNode.LEFT );
         barNode2.addElement( new BarChartElement( "Carbs", EatingAndExerciseColorScheme.CARBS, 75 ), StackedBarNode.RIGHT );
         barNode2.addElement( new BarChartElement( "Proteins", EatingAndExerciseColorScheme.PROTEIN, 150 ), StackedBarNode.LEFT );
 
@@ -171,4 +175,7 @@ public class StackedBarChartNode extends PNode {
 //        System.out.println( "stackedBarChart.getFullBounds() = " + stackedBarChart.getFullBounds() );
     }
 
+    public String getTitle() {
+        return title;
+    }
 }
