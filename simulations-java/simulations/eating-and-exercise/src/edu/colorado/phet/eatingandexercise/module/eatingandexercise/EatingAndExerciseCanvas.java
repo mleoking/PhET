@@ -230,14 +230,17 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
         ageRangeMessage.setOffset( humanControlPanelPSwing.getFullBounds().getMaxX(), humanControlPanelPSwing.getFullBounds().getY() + humanControlPanel.getAgeSliderY() );
         starvingMessage.setOffset( humanAreaNode.getGlobalFullBounds().getCenterX() - starvingMessage.getFullBounds().getWidth() / 2, humanAreaNode.getGlobalFullBounds().getCenterY() );
         heartAttackMessage.setOffset( starvingMessage.getFullBounds().getX(), starvingMessage.getFullBounds().getMaxY() );
-        healthIndicator.setOffset( 5, humanControlPanelPSwing.getFullBounds().getMinY() - healthIndicator.getFullBounds().getHeight() );
+        updateHealthIndicatorLocation();
 
         caloriePanel.setOffset( humanControlPanelPSwing.getFullBounds().getWidth(), 0 );
         playAreaBackgroundNode.setPathToRectangle( 0, 0, (float) humanControlPanelPSwing.getFullBounds().getWidth(), getHeight() );
-//        backgroundNode.setPathToRectangle( 0,0, 100,100);
-//        caloriePanel.setLayoutSize(getWidth()-humanControlPanelPSwing.getFullBounds().getWidth(),getHeight());
     }
 
+    private void updateHealthIndicatorLocation() {
+        healthIndicator.setOffset( 5, humanControlPanelPSwing.getFullBounds().getMinY() - healthIndicator.getFullBounds().getHeight() );
+        Point2D center = humanAreaNode.getGlobalFullBounds().getCenter2D();
+        healthIndicator.setOffset( 5, center.getY() );
+    }
 
     public double getControlPanelWidth() {
         return humanControlPanelPSwing.getFullBounds().getWidth();
@@ -281,7 +284,7 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
     }
 
     public void addExerciseDraggedListener( ActionListener actionListener ) {
-        caloriePanel.addExerciseDraggedListener(actionListener);
+        caloriePanel.addExerciseDraggedListener( actionListener );
     }
 
     public PNode getDiaryNode() {
