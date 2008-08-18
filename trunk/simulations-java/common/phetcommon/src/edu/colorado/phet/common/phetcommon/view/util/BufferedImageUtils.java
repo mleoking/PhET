@@ -270,6 +270,10 @@ public class BufferedImageUtils {
         return multiScale( img, (double) height / img.getHeight() );
     }
 
+    public static BufferedImage multiScaleToWidth( BufferedImage img, int width ) {
+        return multiScale( img, (double) width / img.getWidth() );
+    }
+
     /**
      * This method uses multi-step scaling techniques for downscaling for better image quality.
      * see http://today.java.net/pub/a/today/2007/04/03/perils-of-image-getscaledinstance.html
