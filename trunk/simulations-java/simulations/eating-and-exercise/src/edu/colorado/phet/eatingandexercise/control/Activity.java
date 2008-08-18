@@ -12,7 +12,7 @@ public class Activity {
     private String name;
     private double activityLevel;
     private double BMI_0;
-    public static final Activity DEFAULT_ACTIVITY_LEVEL = new Activity( EatingAndExerciseResources.getString( "activity.moderate" ), 1.45, 22.5 );
+    public static final Activity DEFAULT_ACTIVITY_LEVEL = new Activity( EatingAndExerciseResources.getString( "activity.moderate" ), 0.45, 22.5 );
 
     /*
     BMI_0
@@ -23,11 +23,10 @@ public class Activity {
      */
 
     public static final Activity[] DEFAULT_ACTIVITY_LEVELS = {
-            new Activity( EatingAndExerciseResources.getString( "activity.very-sedentary" ), 1.1, 18.5 ),
-            new Activity( EatingAndExerciseResources.getString( "activity.sedentary" ), 1.25, 20 ),
+            new Activity( EatingAndExerciseResources.getString( "activity.very-sedentary" ), 0.1, 18.5 ),
+            new Activity( EatingAndExerciseResources.getString( "activity.sedentary" ), 0.25, 20 ),
             DEFAULT_ACTIVITY_LEVEL,
-            new Activity( EatingAndExerciseResources.getString( "activity.active" ), 1.75, 25 ),
-//            new Activity( EatingAndExerciseResources.getString( "activity.athletic" ), 1.7 )
+            new Activity( EatingAndExerciseResources.getString( "activity.active" ), 0.75, 25 ),
     };
 
 
@@ -46,6 +45,6 @@ public class Activity {
     }
 
     public double getValue() {
-        return activityLevel - 1;
+        return activityLevel;
     }
 }
