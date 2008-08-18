@@ -58,8 +58,8 @@ public class PhaseDiagram extends PhetPCanvas {
     
     // Colors for the various sections of the diagram.
     private static final Color BACKGROUND_COLOR_FOR_SOLID = new Color(0xC6BDD6);
-    private static final Color BACKGROUND_COLOR_FOR_LIQUID = new Color(0xFFFFCC);
-    private static final Color BACKGROUND_COLOR_FOR_GAS = new Color(0xCEF0CE);
+    private static final Color BACKGROUND_COLOR_FOR_LIQUID = new Color(0x88FFBB);
+    private static final Color BACKGROUND_COLOR_FOR_GAS = new Color(0xFFBB00);
     
     // Constants that control the appearance of the phase diagram for the
     // various substances.  Note that all points are controlled as proportions
@@ -73,10 +73,10 @@ public class PhaseDiagram extends PhetPCanvas {
             yOriginOffset - (yUsableRange * 0.45));
     private static final Point2D DEFAULT_SOLID_LABEL_LOCATION = new Point2D.Double(xOriginOffset + (xUsableRange * 0.2), 
             yOriginOffset - (yUsableRange * 0.6));
-    private static final Point2D DEFAULT_LIQUID_LABEL_LOCATION = new Point2D.Double(xOriginOffset + (xUsableRange * 0.7), 
-            yOriginOffset - (yUsableRange * 0.7));
-    private static final Point2D DEFAULT_GAS_LABEL_LOCATION = new Point2D.Double(xOriginOffset + (xUsableRange * 0.7), 
-            yOriginOffset - (yUsableRange * 0.1));
+    private static final Point2D DEFAULT_LIQUID_LABEL_LOCATION = new Point2D.Double(xOriginOffset + (xUsableRange * 0.6), 
+            yOriginOffset - (yUsableRange * 0.45));
+    private static final Point2D DEFAULT_GAS_LABEL_LOCATION = new Point2D.Double(xOriginOffset + (xUsableRange * 0.6), 
+            yOriginOffset - (yUsableRange * 0.15));
     
     // Variables that define the appearance of the phase diagram.
     private PPath m_triplePoint;
