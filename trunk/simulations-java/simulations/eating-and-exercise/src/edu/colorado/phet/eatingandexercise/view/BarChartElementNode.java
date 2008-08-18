@@ -27,7 +27,6 @@ public class BarChartElementNode extends PNode {
     private PhetPPath barThumb;
     private StackedBarNode.Thumb thumbLocation;
 
-    private PNode labelNode = new PNode();//contains image + label + readout
     private PNode imageNode;
     private HTMLNode textNode;
     private HTMLNode valueNode;
@@ -57,19 +56,18 @@ public class BarChartElementNode extends PNode {
         clip = new PClip();
 
         if ( barChartElement.getImage() != null ) {
-            imageNode = new PImage( BufferedImageUtils.multiScaleToHeight( barChartElement.getImage(), 25 ) );
+            imageNode = new PImage( BufferedImageUtils.multiScaleToWidth( barChartElement.getImage(), 35 ) );
         }
         else {
             imageNode = new PNode();
         }
 
-        textNode = new HTMLNode( barChartElement.getName(), new PhetFont( 18, true ), barChartElement.getTextColor() );
-        valueNode = new HTMLNode( "", new PhetFont( 18, true ), barChartElement.getTextColor() );
-        clip.addChild( labelNode );
-        labelNode.addChild( imageNode );
-        labelNode.addChild( textNode );
-//            clip.addChild( readoutNode );
-        labelNode.addChild( valueNode );
+        PhetFont font = new PhetFont( 14, true );
+        textNode = new HTMLNode( barChartElement.getName(), font, barChartElement.getTextColor() );
+        valueNode = new HTMLNode( "", font, barChartElement.getTextColor() );
+        clip.addChild( imageNode );
+        clip.addChild( textNode );
+        clip.addChild( valueNode );
 
         addChild( clip );
 
@@ -110,8 +108,6 @@ public class BarChartElementNode extends PNode {
         barNode.setPathTo( createShape() );
         clip.setPathTo( createShape() );
         double availHeight = clip.getFullBounds().getHeight();
-        labelNode.setScale( 1 );
-        labelNode.setOffset( 0, 0 );
         textNode.setOffset( 0, 0 );
         imageNode.setOffset( clip.getFullBounds().getWidth() / 2 - imageNode.getFullBounds().getWidth() / 2, 0 );
 
@@ -120,23 +116,17 @@ public class BarChartElementNode extends PNode {
 
         valueNode.setScale( 1.0 );
         imageNode.setVisible( true );
-        if ( availHeight < labelNode.getFullBounds().getHeight() ) {//didn't fit with preferred layout, try secondary layout
-            double sy = availHeight / labelNode.getFullBounds().getHeight();
-            if ( sy > 0 && sy < 1 ) {
-                double MIN_SCALE = 0.8;
-                sy = Math.max( MIN_SCALE, sy );
-                labelNode.setScale( sy );
+        imageNode.setOffset( 0, 0 );
 
-                if ( sy == MIN_SCALE ) { //didn't fit with secondary layout, try tertiary
-                    labelNode.setScale( 1.0 );
-                    labelNode.setOffset( 0.0, 0.0 );
-                    imageNode.setVisible( false );
-                    textNode.setScale( 0.75 );
-                    valueNode.setScale( 0.75 );
-                    textNode.setOffset( clip.getFullBounds().getX() + 2, imageNode.getFullBounds().getY() );
-                    valueNode.setOffset( clip.getFullBounds().getMaxX() - valueNode.getFullBounds().getWidth() - 2, imageNode.getFullBounds().getY() );
-                }
-            }
+        double centerX = ( clip.getFullBounds().getMaxX() + imageNode.getFullBounds().getMaxX() ) / 2 - textNode.getFullBounds().getWidth() / 2;
+
+        textNode.setOffset( centerX, 0 );
+        valueNode.setOffset( textNode.getFullBounds().getCenterX() - valueNode.getFullBounds().getWidth() / 2, textNode.getFullBounds().getMaxY() );
+
+        if ( valueNode.getFullBounds().getMaxY() > availHeight ) {
+            imageNode.setVisible( false );
+            textNode.setOffset( 2, 0 );
+            valueNode.setOffset( clip.getFullBounds().getMaxX() - valueNode.getFullBounds().getWidth() - 2, imageNode.getFullBounds().getY() );
         }
 
         barThumb.setPathTo( thumbLocation.getThumbShape( stackedBarNode.getBarWidth() ) );
