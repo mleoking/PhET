@@ -2,13 +2,17 @@
 ###	Todo Sam	####
 ############################
 
+> I also tried something different for the Calories/Day scale. I'm trying to keep the number of lines and other busy looking graphics to a minimum.
+SRR: It would probably take 45 minutes to change the axis depiction as you described.  I'll add this to the to-do list, but please confirm that it's worth the effort.
+
+Change bar chart elements to have icon on the left, then title and label with same font on the right (see graphics)
+SRR: Probably 45 minutes for this feature.
+
 ############################
 ###	Todo Noah P	####
 ############################
 
 --Fix up exercise items/images
-
-I'll try to find a "stick of butter" graphic for fats.
 
 ############################
 ###	To Discuss	####
