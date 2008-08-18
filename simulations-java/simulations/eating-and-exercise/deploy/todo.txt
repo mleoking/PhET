@@ -10,6 +10,16 @@
 ###	To Discuss	####
 ############################
 
+LBM clamping issue, 8/18/08:
+
+We went with the statistical model to set % fat automatically. This is still OK, and you should be able to adjust % fat independently of the other parameters.
+
+What I was thinking was a clamp on LBM, limiting it to <= LBM_0. You should not be able to set fat % so low, for a given weight, that you exceed LBM_0. This keeps people from making themselves any bigger and leaner than a pro body builder.
+
+This would mean code that does the following: if you decrease % fat to the point that LBM > LBM_0, remove lean mass to maintain LBM = LBM_0.
+
+
+
 --Instead of the question mark next to the pull down for activity, is it possible to have a mouse over on each option that gives the description?
 	>Sam, what do you think of this? I think mouse-overs on pull down menus are fairly non-standard, but I could be wrong.
 	SRR: I think this would be nonstandard, and we'd have to write our own support for it, but it could be a nice way to clarify meaning of values.  Let me know if we should go for it.  Also, this could be difficult due to technical reasons (due to implementation of combo box in piccolo).
