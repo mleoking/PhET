@@ -90,6 +90,9 @@ public class MultipleParticleModel {
     public static final int ISOKINETIC_THERMOSTAT = 1;
     public static final int ANDERSEN_THERMOSTAT = 2;
     
+    // Parameters to control rates of change in the sim.
+    public static final double MAX_PER_TICK_CONTAINER_SIZE_CHANGE = 10;
+    
     // TODO: JPB TBD - Temp for debug, remove eventually.
     private static final boolean USE_NEW_PRESSURE_CALC_METHOD = true;
 
@@ -98,6 +101,7 @@ public class MultipleParticleModel {
     //----------------------------------------------------------------------------
     
     private double m_particleContainerHeight;
+    private double m_targetContainerHeight;
     private double m_minAllowableContainerHeight;
     private final List m_particles = new ArrayList();
     private double m_totalEnergy;
@@ -157,6 +161,7 @@ public class MultipleParticleModel {
         m_clock = clock;
         m_pressureCalculator = new PressureCalculator();
         m_particleContainerHeight = StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT;
+        m_targetContainerHeight = StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT;
         setThermostatType( ISOKINETIC_THERMOSTAT );
         
         // Register as a clock listener.
@@ -358,13 +363,21 @@ public class MultipleParticleModel {
         return m_particleContainerHeight;
     }
 
-    public void setParticleContainerHeight( double containerHeight ) {
+    /**
+     * Sets the target height of the container.  The target height is set
+     * rather than the actual height because the model limits the rate at
+     * which the height can changed.  The model will gradually move towards
+     * the target height.
+     * 
+     * @param desiredContainerHeight
+     */
+    public void setTargetParticleContainerHeight( double desiredContainerHeight ) {
         
-        if ((containerHeight <= StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT) &&
-            (containerHeight > m_minAllowableContainerHeight)){
-            m_particleContainerHeight = containerHeight;
-            m_normalizedContainerHeight = m_particleContainerHeight / m_particleDiameter;
-            notifyContainerSizeChanged();
+        System.out.println("current height = " + m_particleContainerHeight + ", desired height = " + m_targetContainerHeight);
+        if ((desiredContainerHeight <= StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT) &&
+            (desiredContainerHeight > m_minAllowableContainerHeight)){
+            // This is a valid value.
+            m_targetContainerHeight = desiredContainerHeight;
         }
         else{
             // Invalid value.
@@ -405,7 +418,7 @@ public class MultipleParticleModel {
         m_pressure2 = 0;
         
         // Set the initial size of the container.
-        setParticleContainerHeight( StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT );
+        setTargetParticleContainerHeight( StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT );
         m_normalizedContainerWidth = StatesOfMatterConstants.CONTAINER_BOUNDS.width / m_particleDiameter;
         m_normalizedContainerHeight = StatesOfMatterConstants.CONTAINER_BOUNDS.height / m_particleDiameter;
         
@@ -704,6 +717,30 @@ public class MultipleParticleModel {
     
     private void handleClockTicked(ClockEvent clockEvent) {
         
+        // Adjust the particle container height if needed.
+        if (m_targetContainerHeight != m_particleContainerHeight){
+            double heightChange = m_targetContainerHeight - m_particleContainerHeight;
+            if (heightChange > 0){
+                // The container is growing.
+                if (m_particleContainerHeight + heightChange <= StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT){
+                    m_particleContainerHeight += Math.min( heightChange, MAX_PER_TICK_CONTAINER_SIZE_CHANGE );
+                }
+                else{
+                    m_particleContainerHeight = StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT;
+                }
+            }
+            else{
+                // The container is shrinking.
+                if (m_particleContainerHeight - heightChange >= m_minAllowableContainerHeight){
+                    m_particleContainerHeight += Math.max( heightChange, -MAX_PER_TICK_CONTAINER_SIZE_CHANGE );
+                }
+                else{
+                    m_particleContainerHeight = m_minAllowableContainerHeight;
+                }
+            }
+            m_normalizedContainerHeight = m_particleContainerHeight / m_particleDiameter;
+            notifyContainerSizeChanged();
+        }
         // Execute the Verlet algorithm.
         for (int i = 0; i < 8; i++ ){
             if (m_atomsPerMolecule == 1){
