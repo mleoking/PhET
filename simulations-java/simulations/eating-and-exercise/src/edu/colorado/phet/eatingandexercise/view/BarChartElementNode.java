@@ -116,17 +116,20 @@ public class BarChartElementNode extends PNode {
 
         valueNode.setScale( 1.0 );
         imageNode.setVisible( true );
-        imageNode.setOffset( 0, 0 );
+        imageNode.setOffset( 1, 0 );
 
         double centerX = ( clip.getFullBounds().getMaxX() + imageNode.getFullBounds().getMaxX() ) / 2 - textNode.getFullBounds().getWidth() / 2;
 
         textNode.setOffset( centerX, 0 );
         valueNode.setOffset( textNode.getFullBounds().getCenterX() - valueNode.getFullBounds().getWidth() / 2, textNode.getFullBounds().getMaxY() );
 
+        double imageY = ( textNode.getFullBounds().getY() + valueNode.getFullBounds().getMaxY() ) / 2 - imageNode.getFullBounds().getHeight() / 2;
+        imageNode.setOffset( 1, imageY );
+
         if ( valueNode.getFullBounds().getMaxY() > availHeight ) {
             imageNode.setVisible( false );
             textNode.setOffset( 2, 0 );
-            valueNode.setOffset( clip.getFullBounds().getMaxX() - valueNode.getFullBounds().getWidth() - 2, imageNode.getFullBounds().getY() );
+            valueNode.setOffset( clip.getFullBounds().getMaxX() - valueNode.getFullBounds().getWidth() - 2, 0 );
         }
 
         barThumb.setPathTo( thumbLocation.getThumbShape( stackedBarNode.getBarWidth() ) );
