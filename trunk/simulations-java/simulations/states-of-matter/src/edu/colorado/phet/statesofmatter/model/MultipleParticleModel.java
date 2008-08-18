@@ -91,7 +91,7 @@ public class MultipleParticleModel {
     public static final int ANDERSEN_THERMOSTAT = 2;
     
     // TODO: JPB TBD - Temp for debug, remove eventually.
-    private static final boolean USE_NEW_PRESSURE_CALC_METHOD = false;
+    private static final boolean USE_NEW_PRESSURE_CALC_METHOD = true;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -402,6 +402,7 @@ public class MultipleParticleModel {
         
         // Clear out the pressure calculation.
         m_pressureCalculator.clear();
+        m_pressure2 = 0;
         
         // Set the initial size of the container.
         setParticleContainerHeight( StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT );
@@ -714,9 +715,17 @@ public class MultipleParticleModel {
             }
             else if (m_atomsPerMolecule == 2){
                 verletDiatomic();
+                if (USE_NEW_PRESSURE_CALC_METHOD){
+                    notifyPressureChanged(); // TODO: JPB TBD - This is temporary until the approach for
+                                             // actually detecting pressure changes is worked out.
+                }
             }
             else if (m_atomsPerMolecule == 3){
                 verletTriatomic();
+                if (USE_NEW_PRESSURE_CALC_METHOD){
+                    notifyPressureChanged(); // TODO: JPB TBD - This is temporary until the approach for
+                                             // actually detecting pressure changes is worked out.
+                }
             }
         }
         syncParticlePositions();
@@ -1388,8 +1397,8 @@ public class MultipleParticleModel {
         // Update the pressure calculation.
         // TODO: JPB TBD - Clean this up if we end up using it.
         double pressureCalcGamma = 0.9999;
-//        m_pressure2 = totalBottomForce + ((pressureCalcGamma / (1 - pressureCalcGamma)) * m_pressure2);
-        m_pressure2 = (1 - pressureCalcGamma) * totalBottomForce + pressureCalcGamma * m_pressure2;
+        m_pressure2 = (1 - pressureCalcGamma) * (totalBottomForce / m_normalizedContainerWidth) + 
+                pressureCalcGamma * m_pressure2;
         
         // Advance the moving average window of the pressure calculator.
         m_pressureCalculator.advanceWindow();
@@ -1520,6 +1529,7 @@ public class MultipleParticleModel {
         // on the center of mass, so there is no torque.
         // Calculate the forces exerted on the particles by the container
         // walls and by gravity.
+        double totalBottomForce = 0;
         for (int i = 0; i < numberOfMolecules; i++){
 
             // Clear the previous calculation's particle forces and torques.
@@ -1533,10 +1543,19 @@ public class MultipleParticleModel {
             // Accumulate this force value as part of the pressure being
             // exerted on the walls of the container.
             m_pressureCalculator.accumulatePressureValue( m_nextMoleculeForces[i] );
+            if (m_nextMoleculeForces[i].getY() > 0){
+                totalBottomForce += m_nextMoleculeForces[i].getY();
+            }
             
             // Add in the effect of gravity.
             m_nextMoleculeForces[i].setY( m_nextMoleculeForces[i].getY() - m_gravitationalAcceleration );
         }
+        
+        // Update the pressure calculation.
+        // TODO: JPB TBD - Clean this up if we end up using it.
+        double pressureCalcGamma = 0.9999;
+        m_pressure2 = (1 - pressureCalcGamma) * (totalBottomForce / m_normalizedContainerWidth) + 
+                pressureCalcGamma * m_pressure2;
         
         // Advance the moving average window of the pressure calculator.
         m_pressureCalculator.advanceWindow();
@@ -1687,6 +1706,7 @@ public class MultipleParticleModel {
         // on the center of mass, so there is no torque.
         // Calculate the forces exerted on the particles by the container
         // walls and by gravity.
+        double totalBottomForce = 0;
         for (int i = 0; i < numberOfMolecules; i++){
             
             // Clear the previous calculation's particle forces and torques.
@@ -1700,10 +1720,19 @@ public class MultipleParticleModel {
             // Accumulate this force value as part of the pressure being
             // exerted on the walls of the container.
             m_pressureCalculator.accumulatePressureValue( m_nextMoleculeForces[i] );
+            if (m_nextMoleculeForces[i].getY() > 0){
+                totalBottomForce += m_nextMoleculeForces[i].getY();
+            }
             
             // Add in the effect of gravity.
             m_nextMoleculeForces[i].setY( m_nextMoleculeForces[i].getY() - m_gravitationalAcceleration );
         }
+        
+        // Update the pressure calculation.
+        // TODO: JPB TBD - Clean this up if we end up using it.
+        double pressureCalcGamma = 0.9999;
+        m_pressure2 = (1 - pressureCalcGamma) * (totalBottomForce / m_normalizedContainerWidth) + 
+                pressureCalcGamma * m_pressure2;
         
         // Advance the moving average window of the pressure calculator.
         m_pressureCalculator.advanceWindow();
@@ -2075,12 +2104,12 @@ public class MultipleParticleModel {
 
         case WATER:
             // TODO: JPB TBD - this is made up.
-            temperatureInKelvin = m_temperature * 250;
+            temperatureInKelvin = m_temperature * 100;
             break;
             
         case DIATOMIC_OXYGEN:
             // TODO: JPB TBD - this is made up.
-            temperatureInKelvin = m_temperature * 90;
+            temperatureInKelvin = m_temperature * 100;
             break;
             
         default:
