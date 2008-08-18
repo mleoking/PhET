@@ -15,6 +15,7 @@ import edu.colorado.phet.eatingandexercise.module.eatingandexercise.EatingAndExe
 import edu.colorado.phet.eatingandexercise.view.EatingAndExerciseColorScheme;
 import edu.colorado.phet.eatingandexercise.view.StackedBarChartNode;
 import edu.colorado.phet.eatingandexercise.view.StackedBarNode;
+import edu.colorado.phet.eatingandexercise.view.BarChartElement;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -124,7 +125,7 @@ public class CaloriePanel extends PNode {
         return exerciseNode.getDropTarget();
     }
 
-    public static class BarChartElementAdapter extends StackedBarNode.BarChartElement {
+    public static class BarChartElementAdapter extends BarChartElement {
         public BarChartElementAdapter( String name, Paint paint, final DefaultTemporalVariable variable, String image, Color textColor ) {
             super( name, paint, variable.getValue(), EatingAndExerciseResources.getImage( image ), textColor );
             variable.addListener( new IVariable.Listener() {

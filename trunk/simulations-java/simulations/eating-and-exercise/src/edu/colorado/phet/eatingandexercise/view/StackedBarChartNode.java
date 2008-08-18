@@ -3,6 +3,7 @@ package edu.colorado.phet.eatingandexercise.view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -151,14 +152,14 @@ public class StackedBarChartNode extends PNode {
 
         StackedBarChartNode stackedBarChart = new StackedBarChartNode( new Function.IdentityFunction(), "Calories/Day", 10, 10, 100, 300 );
         StackedBarNode barNode = new StackedBarNode( 100 );
-        barNode.addElement( new StackedBarNode.BarChartElement( "BMR", EatingAndExerciseColorScheme.BMR, 100 ) );
-        barNode.addElement( new StackedBarNode.BarChartElement( "Activity", EatingAndExerciseColorScheme.ACTIVITY, 200 ) );
-        barNode.addElement( new StackedBarNode.BarChartElement( "Exercise", EatingAndExerciseColorScheme.EXERCISE, 50 ) );
+        barNode.addElement( new BarChartElement( "BMR", EatingAndExerciseColorScheme.BMR, 100, new BufferedImage( 50, 50, BufferedImage.TYPE_INT_RGB ) ) );
+        barNode.addElement( new BarChartElement( "Activity", EatingAndExerciseColorScheme.ACTIVITY, 200 ) );
+        barNode.addElement( new BarChartElement( "Exercise", EatingAndExerciseColorScheme.EXERCISE, 50 ) );
 
         StackedBarNode barNode2 = new StackedBarNode( 100 );
-        barNode2.addElement( new StackedBarNode.BarChartElement( EatingAndExerciseStrings.FATS, EatingAndExerciseColorScheme.FATS, 150 ) , StackedBarNode.LEFT );
-        barNode2.addElement( new StackedBarNode.BarChartElement( "Carbs", EatingAndExerciseColorScheme.CARBS, 75 ) ,StackedBarNode.RIGHT );
-        barNode2.addElement( new StackedBarNode.BarChartElement( "Proteins", EatingAndExerciseColorScheme.PROTEIN, 150 ) ,StackedBarNode.LEFT );
+        barNode2.addElement( new BarChartElement( EatingAndExerciseStrings.FATS, EatingAndExerciseColorScheme.FATS, 150 ,new BufferedImage( 50, 50, BufferedImage.TYPE_INT_RGB )), StackedBarNode.LEFT );
+        barNode2.addElement( new BarChartElement( "Carbs", EatingAndExerciseColorScheme.CARBS, 75 ), StackedBarNode.RIGHT );
+        barNode2.addElement( new BarChartElement( "Proteins", EatingAndExerciseColorScheme.PROTEIN, 150 ), StackedBarNode.LEFT );
 
         stackedBarChart.addStackedBarNode( barNode2 );
         stackedBarChart.addStackedBarNode( barNode );
