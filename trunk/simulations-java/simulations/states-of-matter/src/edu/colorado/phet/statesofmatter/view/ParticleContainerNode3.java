@@ -35,7 +35,7 @@ public class ParticleContainerNode3 extends PhetPNode {
     
     // Constant that controls whether an image is used for the container or
     // or whether it is drawn.
-    public static final boolean USE_IMAGE_FOR_CONTAINER = true;
+    public static final boolean USE_IMAGE_FOR_CONTAINER = false;
 
     // Constants that control the appearance of the drawn container.
     private static final Color CONTAINER_EDGE_COLOR = Color.YELLOW;
