@@ -2,11 +2,11 @@
 ###	Todo Sam	####
 ############################
 
+--Heart strength/strain indicators should move up with human when window is maximized.
+
 ############################
 ###	Todo Noah P	####
 ############################
-
---Fix up exercise items/images
 
 ############################
 ###	To Discuss	####
@@ -16,12 +16,18 @@
 	>Sam, what do you think of this? I think mouse-overs on pull down menus are fairly non-standard, but I could be wrong.
 	SRR: I think this would be nonstandard, and we'd have to write our own support for it, but it could be a nice way to clarify meaning of values.  Let me know if we should go for it.  Also, this could be difficult due to technical reasons (due to implementation of combo box in piccolo).
 
+>>NP 8/18/08: decided this would be non-standard and not worth the time right now.
+
 --(Unfuddle #682) I think the midsection bulge (the belly) should be smaller when the % fat is low. When the person is near the bottom of the healthy range (for men or women), the midsection bulge should be almost imperceptible. Right now, you can have 0 body fat and you still see a little bulge around the midsection.
+
+>>NP 8/18/08: This looks OK to me in v0.75.
 
 1. Make the label (e.g., Protein) and calorie #'s on a single line. This way the calorie # will not get pushed out of the visible region. Just make the max font size a little smaller so that they are always on a single line across.
 2. Put the cal # to the right of the picture and the label below these. When the visible area gets too small, let the label disappear and just show the picture and the cal #. People will be able to figure out what these #'s mean this way, but we preserve the important information, which is the calorie #.
     --Either way, do the same for the charts on the right. I'm leaning towards #2.
     SRR: it was significantly easier to implement #1.  Let me know what you think of it, or if we should try something else.
+
+>>NP 8/18/08: New scheme added in v0.75 with constant font sizes.
 
 ############################################
 ###	Old Issues  To Keep an Eye on	####
@@ -45,18 +51,13 @@ I believe Sam is using the following model for body fat: http://www.halls.md/bmi
 It uses BMI, age, and gender...but not activity level. We could augment it to include activity level - we'll have to guess at this, but a good starting place might to assume this is the average "Sedentary". Add maybe 3% for Very Sedentary, and subtract 3% for Moderate Activity, subtract 6% for Very Active. How does that sound?
 >>Fixed in v0.71.
 
-> Suggestions/Bugs:
->
-> 1. Instead of the question mark next to the pull down for activity, is it possible to have a mouse over on each option that gives the >description?
-
-Sam, what do you think of this? I think mouse-overs on pull down menus are fairly non-standard, but I could be wrong.
-
 
 >>Should the help be integrated into the play area?  It will take longer than a pop-up text dialog window.
 
 --Sometimes reset all clears the body, leaving the head...instead of resetting. Not sure how to reproduce this,
 but it has happened several times.
     >>SRR 8-11-2008: I haven't been able to reproduce this yet.
+>>NP 8/18/08: I have not seen this again.
 
 
 ############################
