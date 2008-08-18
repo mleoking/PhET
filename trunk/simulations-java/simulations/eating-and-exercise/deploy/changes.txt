@@ -1,3 +1,6 @@
+New in 0.00.77
+Heart strength/strain indicators move up with human when window is maximized.
+
 New in 0.00.75
 Changed bar chart elements to have icon on the left, then title and label with same font on the right
 Changed bar chart axis graphics to be more sparse

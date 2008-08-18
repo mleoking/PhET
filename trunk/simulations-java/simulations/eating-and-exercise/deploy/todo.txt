@@ -2,8 +2,6 @@
 ###	Todo Sam	####
 ############################
 
---Heart strength/strain indicators should move up with human when window is maximized.
-
 ############################
 ###	Todo Noah P	####
 ############################
