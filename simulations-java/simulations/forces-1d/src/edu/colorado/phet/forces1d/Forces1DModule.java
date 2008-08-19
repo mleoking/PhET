@@ -8,7 +8,6 @@ import java.util.Arrays;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common_force1d.application.Module;
 import edu.colorado.phet.common_force1d.application.PhetApplication;
