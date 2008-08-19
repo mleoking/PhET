@@ -13,6 +13,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * This class represents a node that looks like a large finger, which can be
@@ -46,6 +47,8 @@ public class PointingHandNode extends PNode {
     private MultipleParticleModel m_model;
     private double m_minLowerEdgeYPos;     // Minimum Y position for the lower edge of this node.
     private double m_scale;
+    private double m_mouseMovementAmount;
+    private double m_containerSizeAtDragStart;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -80,7 +83,7 @@ public class PointingHandNode extends PNode {
         m_fingerImageNode.addInputEventListener( new PDragEventHandler(){
             
             public void startDrag( PInputEvent event) {
-                super.startDrag(event);     
+                super.startDrag(event);
                 handleMouseStartDragEvent( event );
             }
             
@@ -111,21 +114,27 @@ public class PointingHandNode extends PNode {
     private void handleMouseDragEvent(PInputEvent event){
         
         double currentLowerEdgePosY = getFullBoundsReference().getMaxY();
-        double movementAmount = event.getCanvasDelta().getHeight();
+        double mouseMovementDelta = event.getCanvasDelta().getHeight();
+        PNode draggedNode = event.getPickedNode();
+        PDimension d = event.getDeltaRelativeTo(draggedNode);
+        draggedNode.localToParent(d);
+        System.out.println("d.getHeight() = " + d.getHeight());
+        m_mouseMovementAmount += d.getHeight();
+        System.out.println("m_mouseMovementAmount = " + m_mouseMovementAmount);
         
-        if (currentLowerEdgePosY + movementAmount < m_minLowerEdgeYPos){
+        if (currentLowerEdgePosY + mouseMovementDelta < m_minLowerEdgeYPos){
             // We are at the top of the allowable range, so only pay attention
             // to this event if we are moving in a downward direction.
-            if (movementAmount > 0){
-                m_fingerImageNode.translate( 0, movementAmount );
+            if (mouseMovementDelta > 0){
+                m_fingerImageNode.translate( 0, mouseMovementDelta );
             }
             return;
         }
         
-        if (currentLowerEdgePosY + movementAmount < -StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT){
+        if (currentLowerEdgePosY + mouseMovementDelta < -StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT){
             // The node is currently moving in the range where it doesn't
             // affect the size of the container, so go ahead and move it.
-            m_fingerImageNode.translate( 0, movementAmount );
+            m_fingerImageNode.translate( 0, mouseMovementDelta );
             return;
         }
         
@@ -133,15 +142,19 @@ public class PointingHandNode extends PNode {
         // the range where its motion should affect the size of the container.
         // Hence, we only set the container size here and rely on the
         // notifications of changes to the container size to move the node.
-        m_model.setTargetParticleContainerHeight( m_model.getParticleContainerHeight() - ( movementAmount * m_scale ) );
+        System.out.println("Setting container height to " + ( m_containerSizeAtDragStart - m_mouseMovementAmount ) );
+        m_model.setTargetParticleContainerHeight( m_containerSizeAtDragStart - m_mouseMovementAmount );
     }
     
     private void handleMouseStartDragEvent(PInputEvent event){
-        
+        m_mouseMovementAmount = 0;
+        m_containerSizeAtDragStart = m_model.getParticleContainerHeight();
     }
 
     private void handleMouseEndDragEvent(PInputEvent event){
-        
+        // Set the target size to the current size, which will stop any change
+        // in size that is currently underway.
+        m_model.setTargetParticleContainerHeight( m_model.getParticleContainerHeight() );
     }
 
     private void handleContainerSizeChanged(){
