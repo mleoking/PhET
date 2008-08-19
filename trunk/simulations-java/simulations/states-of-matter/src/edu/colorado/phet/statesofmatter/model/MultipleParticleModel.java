@@ -1435,7 +1435,7 @@ public class MultipleParticleModel {
         
         // Update the pressure calculation.
         // TODO: JPB TBD - Clean this up if we end up using it.
-        double pressureCalcGamma = 0.9999;
+        double pressureCalcGamma = 0.9992;
         m_pressure2 = (1 - pressureCalcGamma) * (totalBottomForce / m_normalizedContainerWidth) + 
                 pressureCalcGamma * m_pressure2;
         
