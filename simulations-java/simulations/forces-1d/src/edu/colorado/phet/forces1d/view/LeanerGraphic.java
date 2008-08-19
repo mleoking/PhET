@@ -10,7 +10,7 @@ import edu.colorado.phet.common_force1d.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common_force1d.view.util.BufferedImageUtils;
 import edu.colorado.phet.common_force1d.view.util.FrameSequence;
 import edu.colorado.phet.common_force1d.view.util.ImageLoader;
-import edu.colorado.phet.forces1d.Forces1DApplication;
+import edu.colorado.phet.forces1d.Forces1DModule;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 
 /**
@@ -23,7 +23,7 @@ public class LeanerGraphic extends PhetImageGraphic {
     private FrameSequence animation;
     private PhetGraphic target;
     private Force1DPanel forcePanel;
-    private Forces1DApplication module;
+    private Forces1DModule module;
     private double max = 500.0;
     private FrameSequence flippedAnimation;
     private BufferedImage standingStill;

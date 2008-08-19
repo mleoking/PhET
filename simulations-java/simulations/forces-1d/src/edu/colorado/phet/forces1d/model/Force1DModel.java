@@ -6,7 +6,7 @@ import java.util.List;
 
 import edu.colorado.phet.common_force1d.model.ModelElement;
 import edu.colorado.phet.common_force1d.util.EventChannel;
-import edu.colorado.phet.forces1d.Forces1DApplication;
+import edu.colorado.phet.forces1d.Forces1DModule;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
 
 /**
@@ -45,10 +45,10 @@ public class Force1DModel implements ModelElement {
     private ArrayList boundaryConditionListeners = new ArrayList();
 
     private ArrayList imageSeries = new ArrayList();
-    private Forces1DApplication module;
+    private Forces1DModule module;
     private boolean friction = true;
 
-    public Force1DModel( Forces1DApplication module ) {
+    public Force1DModel( Forces1DModule module ) {
         this.module = module;
         block = new Block( this );
         open = new BoundaryCondition.Open( this );

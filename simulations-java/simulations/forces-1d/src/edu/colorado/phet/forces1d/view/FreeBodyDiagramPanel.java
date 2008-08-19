@@ -13,7 +13,7 @@ import edu.colorado.phet.common_force1d.view.ApparatusPanel2;
 import edu.colorado.phet.common_force1d.view.BasicGraphicsSetup;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.forces1d.Force1DResources;
-import edu.colorado.phet.forces1d.Forces1DApplication;
+import edu.colorado.phet.forces1d.Forces1DModule;
 import edu.colorado.phet.forces1d.common.WiggleMe;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDevice;
 import edu.colorado.phet.forces1d.model.Force1DModel;
@@ -30,9 +30,9 @@ public class FreeBodyDiagramPanel {
     private ApparatusPanel2 fbdPanel;
     private WiggleMe fbdWiggleMe;
     private PlotDevice forcePlotDevice;
-    private Forces1DApplication module;
+    private Forces1DModule module;
 
-    public FreeBodyDiagramPanel( final Forces1DApplication module ) {
+    public FreeBodyDiagramPanel( final Forces1DModule module ) {
         this.module = module;
         fbdPanel = new ApparatusPanel2( module.getClock() ) {
             protected void paintComponent( Graphics graphics ) {
