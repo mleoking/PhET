@@ -91,7 +91,7 @@ public class MultipleParticleModel {
     public static final int ANDERSEN_THERMOSTAT = 2;
     
     // Parameters to control rates of change in the sim.
-    public static final double MAX_PER_TICK_CONTAINER_SIZE_CHANGE = 10;
+    public static final double MAX_PER_TICK_CONTAINER_SIZE_CHANGE = 50;
     
     // TODO: JPB TBD - Temp for debug, remove eventually.
     private static final boolean USE_NEW_PRESSURE_CALC_METHOD = true;
@@ -160,8 +160,6 @@ public class MultipleParticleModel {
         
         m_clock = clock;
         m_pressureCalculator = new PressureCalculator();
-        m_particleContainerHeight = StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT;
-        m_targetContainerHeight = StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT;
         setThermostatType( ISOKINETIC_THERMOSTAT );
         
         // Register as a clock listener.
@@ -373,7 +371,7 @@ public class MultipleParticleModel {
      */
     public void setTargetParticleContainerHeight( double desiredContainerHeight ) {
         
-        System.out.println("current height = " + m_particleContainerHeight + ", desired height = " + m_targetContainerHeight);
+//        System.out.println("current height = " + m_particleContainerHeight + ", desired height = " + m_targetContainerHeight);
         if ((desiredContainerHeight <= StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT) &&
             (desiredContainerHeight > m_minAllowableContainerHeight)){
             // This is a valid value.
@@ -418,9 +416,13 @@ public class MultipleParticleModel {
         m_pressure2 = 0;
         
         // Set the initial size of the container.
-        setTargetParticleContainerHeight( StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT );
-        m_normalizedContainerWidth = StatesOfMatterConstants.CONTAINER_BOUNDS.width / m_particleDiameter;
-        m_normalizedContainerHeight = StatesOfMatterConstants.CONTAINER_BOUNDS.height / m_particleDiameter;
+        if ( m_particleContainerHeight != StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT){
+            m_particleContainerHeight = StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT;
+            m_targetContainerHeight = StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT;
+            m_normalizedContainerHeight = StatesOfMatterConstants.CONTAINER_BOUNDS.height / m_particleDiameter;
+            m_normalizedContainerWidth = StatesOfMatterConstants.CONTAINER_BOUNDS.width / m_particleDiameter;
+            notifyContainerSizeChanged();
+        }
         
         // Initialize the particles.
         switch (m_currentMolecule){
