@@ -21,7 +21,7 @@ import edu.colorado.phet.common_force1d.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common_force1d.view.phetgraphics.*;
 import edu.colorado.phet.forces1d.Force1DResources;
 import edu.colorado.phet.forces1d.Force1DUtil;
-import edu.colorado.phet.forces1d.Forces1DApplication;
+import edu.colorado.phet.forces1d.Forces1DModule;
 import edu.colorado.phet.forces1d.common.*;
 import edu.colorado.phet.forces1d.common.phetcomponents.PhetButton;
 import edu.colorado.phet.forces1d.common.plotdevice.FloatingControl;
@@ -36,7 +36,7 @@ import edu.colorado.phet.forces1d.model.Force1DModel;
  * Time: 10:16:32 PM
  */
 public class Force1DPanel extends ApparatusPanel2 {
-    private Forces1DApplication module;
+    private Forces1DModule module;
     private BlockGraphic blockGraphic;
     private ArrowSetGraphic arrowSetGraphic;
     private ModelViewTransform2D transform2D;
@@ -64,7 +64,7 @@ public class Force1DPanel extends ApparatusPanel2 {
     private PhetGraphic floatingControlGraphic;
     private PhetGraphic checkBoxPanelGraphic;
 
-    public Force1DPanel( final Forces1DApplication module ) throws IOException {
+    public Force1DPanel( final Forces1DModule module ) throws IOException {
         super( module.getClock() );
 //        setAutoPaint( false );
         this.backgroundGraphic = new BufferedPhetGraphic( this, 800, 800, Color.white );
@@ -532,7 +532,7 @@ new WiggleMe.Target() {
         }
     }
 
-    public Forces1DApplication getModule() {
+    public Forces1DModule getModule() {
         return module;
     }
 

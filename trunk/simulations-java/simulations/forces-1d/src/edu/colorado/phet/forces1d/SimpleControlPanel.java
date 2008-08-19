@@ -23,9 +23,9 @@ public class SimpleControlPanel extends IForceControl {
     private FreeBodyDiagramSuite fbdSuite;
     private JCheckBox frictionCheckBox;
     private BarrierCheckBox barriers;
-    private Forces1DApplication simpleForceModule;
+    private Forces1DModule simpleForceModule;
 
-    public SimpleControlPanel( final Forces1DApplication simpleForceModule ) {
+    public SimpleControlPanel( final Forces1DModule simpleForceModule ) {
         super( simpleForceModule );
         this.simpleForceModule = simpleForceModule;
 

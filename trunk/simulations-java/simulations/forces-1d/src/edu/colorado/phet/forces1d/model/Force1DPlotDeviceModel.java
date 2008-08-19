@@ -1,6 +1,6 @@
 package edu.colorado.phet.forces1d.model;
 
-import edu.colorado.phet.forces1d.Forces1DApplication;
+import edu.colorado.phet.forces1d.Forces1DModule;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
 
 
@@ -10,10 +10,10 @@ import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
  * Time: 8:01:44 PM
  */
 public class Force1DPlotDeviceModel extends PlotDeviceModel {
-    private Forces1DApplication module;
+    private Forces1DModule module;
     private Force1DModel model;
 
-    public Force1DPlotDeviceModel( Forces1DApplication module, final Force1DModel model, double maxTime, double timeScale ) {
+    public Force1DPlotDeviceModel( Forces1DModule module, final Force1DModel model, double maxTime, double timeScale ) {
         super( maxTime, timeScale );
         this.module = module;
         this.model = model;

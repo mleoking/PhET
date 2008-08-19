@@ -18,9 +18,9 @@ public class CrashAudioPlayer implements Force1DModel.CollisionListener {
     private URL url2;
 
     public CrashAudioPlayer() {
-        url0 = Forces1DApplication.class.getClassLoader().getResource( "forces-1d/audio/smash0.wav" );
-        url1 = Forces1DApplication.class.getClassLoader().getResource( "forces-1d/audio/smash1.wav" );
-        url2 = Forces1DApplication.class.getClassLoader().getResource( "forces-1d/audio/smash2.wav" );
+        url0 = Forces1DModule.class.getClassLoader().getResource( "forces-1d/audio/smash0.wav" );
+        url1 = Forces1DModule.class.getClassLoader().getResource( "forces-1d/audio/smash1.wav" );
+        url2 = Forces1DModule.class.getClassLoader().getResource( "forces-1d/audio/smash2.wav" );
     }
 
     public void collisionOccurred( Force1DModel.CollisionEvent ce ) {

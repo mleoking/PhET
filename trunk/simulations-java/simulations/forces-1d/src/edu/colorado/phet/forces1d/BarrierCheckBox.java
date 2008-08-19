@@ -14,7 +14,7 @@ import edu.colorado.phet.forces1d.model.BoundaryCondition;
  */
 
 public class BarrierCheckBox extends JCheckBox {
-    public BarrierCheckBox( final Forces1DApplication module ) {
+    public BarrierCheckBox( final Forces1DModule module ) {
         super( Force1DResources.get( "BarrierCheckBox.barriers" ), true );
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

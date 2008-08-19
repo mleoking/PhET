@@ -24,7 +24,7 @@ public class ObjectComboBox extends JComboBox {
     private Force1dControlPanel controlPanel;
     private static Font font = new Font( PhetFont.getDefaultFontName(), Font.BOLD, 10 );
 
-    public ObjectComboBox( final Forces1DApplication module, final Force1dObject[] imageElements, final Force1dControlPanel controlPanel ) {
+    public ObjectComboBox( final Forces1DModule module, final Force1dObject[] imageElements, final Force1dControlPanel controlPanel ) {
         super( toLabelArray( imageElements, controlPanel ) );
         setRenderer( new ComboBoxRenderer() );
         this.controlPanel = controlPanel;
