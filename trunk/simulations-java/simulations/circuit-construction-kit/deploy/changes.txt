@@ -1,4 +1,4 @@
-CCK 3.13.24
+New in 3.13.24
 Fixed: AC Source: internal resistance display for AC voltage is incorrect (always zero)
 Reduced pencil lead resistance from 3000 to 300 Ohms
 Renamed Clear to Reset, moved out of File Save/Load panel
