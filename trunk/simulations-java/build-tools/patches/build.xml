@@ -20,7 +20,11 @@
         <mkdir dir="${dist}"/>
 
         <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
-        <jar jarfile="${dist}/patch-languages.jar" basedir="${classes}"/>
+        <jar jarfile="${dist}/patch-languages.jar" basedir="${classes}">
+            <manifest>
+                <attribute name="Main-Class" value="edu.colorado.phet.build.patches.PatchLanguages"/>
+            </manifest>
+        </jar>
     </target>
 
     <target name="clean"
