@@ -1226,9 +1226,77 @@ public class MultipleParticleModel {
     }
 
     /**
-     * Set the particles to be in a liquid state.
+     * Set the particles to be in a liquid state.  This changes the
+     * temperature and also instantly places the various molecules into
+     * blobs, i.e. collections of close particles.
      */
+    private static final int NUMBER_OF_LIQUID_BLOBS = 4;
+    private static final double MIN_DISTANCE_FROM_BLOB_CTR_TO_WALL = 5.0;
     private void liquifyParticles(){
+        
+        setTemperature( LIQUID_TEMPERATURE );
+        double temperatureSqrt = Math.sqrt( m_temperature );
+
+        // Choose center locations of each of the blobs of liquid.
+        
+        ArrayList blobLocations = new ArrayList(NUMBER_OF_LIQUID_BLOBS);
+        double minDistanceBetweenBlobCenters = m_normalizedContainerHeight / 4;
+        for (int i = 0; i < NUMBER_OF_LIQUID_BLOBS; i++){
+            Point2D blobLocation = new Point2D.Double(); 
+            for (int j = 0; j < MAX_PLACEMENT_ATTEMPTS; j++){
+                double xPos = (m_rand.nextDouble() * 
+                        (m_normalizedContainerWidth - (2 * MIN_DISTANCE_FROM_BLOB_CTR_TO_WALL))) + 
+                        MIN_DISTANCE_FROM_BLOB_CTR_TO_WALL;
+                double yPos = (m_rand.nextDouble() * 
+                        (m_normalizedContainerHeight - (2 * MIN_DISTANCE_FROM_BLOB_CTR_TO_WALL))) + 
+                        MIN_DISTANCE_FROM_BLOB_CTR_TO_WALL;
+                blobLocation.setLocation( xPos, yPos );
+                boolean positionTaken = false;
+                for (int k = 0; k < i; k++){
+                    if ( blobLocation.distance( (Point2D)blobLocations.get( k ) ) < minDistanceBetweenBlobCenters ){
+                        positionTaken = true;
+                    }
+                }
+                if ( !positionTaken ){
+                    // This position is available, so accept it.
+                    blobLocations.set( i, blobLocation );
+                    break;
+                }
+                else if ( j == MAX_PLACEMENT_ATTEMPTS - 1 ){
+                    // This is the last attempt, so accept it.
+                    System.err.println("Error: Unable to find location for liquid blob.");
+                    assert false;
+                    blobLocations.set( i, blobLocation );
+                }
+            }
+        }
+        
+        // Set the initial velocity for each of the atoms.
+        for (int i = 0; i < m_numberOfAtoms; i++){
+            // Assign each particle an initial velocity.
+            m_atomVelocities[i].setComponents( temperatureSqrt * m_rand.nextGaussian(), 
+                    temperatureSqrt * m_rand.nextGaussian() );
+        }
+        
+        int atomsPerBlob = (m_numberOfAtoms / NUMBER_OF_LIQUID_BLOBS) + 1;
+        int atomsPlaced = 0;
+        
+        for (int i = 0; i < NUMBER_OF_LIQUID_BLOBS; i++){
+            Point2D centerPoint = (Point2D)blobLocations.get( i );
+            for (int j = 0; j < atomsPerBlob && atomsPlaced < m_numberOfAtoms; j++){
+                int layer = j == 0 ? 0 : ((j - 1) % 6) + 1;
+                double distanceFromCenter = layer * m_particleDiameter * 2;
+                double angle = (j * 2 * Math.PI / 6) + ((layer % 2) * 2 * Math.PI / 12);
+                
+                double xPos = centerPoint.getX() + (distanceFromCenter * Math.cos( angle ));
+                double yPos = centerPoint.getY() + (distanceFromCenter * Math.sin( angle ));
+                
+                m_atomPositions[atomsPlaced++].setLocation( xPos, yPos );
+                
+                // TODO: JPB TBD - May need to add code here to handle the
+                // case where the position is too close to the wall.
+            }
+        }
         
         // TODO: JPB TBD - This is faked for now and needs to be complete.
         if (m_atomsPerMolecule == 1){
@@ -1237,7 +1305,6 @@ public class MultipleParticleModel {
         else{
             gasifyMultiAtomicMolecules();
         }
-        setTemperature( LIQUID_TEMPERATURE );
         syncParticlePositions();
     }
     
