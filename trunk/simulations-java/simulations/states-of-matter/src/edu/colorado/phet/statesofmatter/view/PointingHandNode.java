@@ -6,6 +6,7 @@ import java.awt.Cursor;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.umd.cs.piccolo.PNode;
@@ -94,7 +95,7 @@ public class PointingHandNode extends PNode {
 
         // Set our initial offset.
         setOffset( containerRect.getX() + containerRect.getWidth() * NODE_X_POS_PROPORTION, 
-                containerRect.getY() - containerRect.getHeight() );
+                -getFullBoundsReference().height );
     }
 
     //----------------------------------------------------------------------------
@@ -126,6 +127,7 @@ public class PointingHandNode extends PNode {
     private void handleContainerSizeChanged(){
         Rectangle2D containerRect = m_model.getParticleContainerRect();
         setOffset( getFullBoundsReference().x, 
-                containerRect.getY() - containerRect.getHeight() );
+                StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT - containerRect.getHeight() - 
+                getFullBoundsReference().height);
     }
 }
