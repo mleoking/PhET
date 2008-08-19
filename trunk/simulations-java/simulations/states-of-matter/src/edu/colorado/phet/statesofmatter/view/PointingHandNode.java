@@ -6,7 +6,6 @@ import java.awt.Cursor;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.umd.cs.piccolo.PNode;
@@ -29,10 +28,6 @@ public class PointingHandNode extends PNode {
     // container.
     private static final double NODE_WIDTH_PROPORTION = 0.65;
     
-    // Initial and max distance of the node above the particle container as a
-    // function of the container height.
-    private static final double NODE_MIN_Y_POS_PROPORTION = 0.1;
-    
     // Horizontal position of the node as function of the container width.
     private static final double NODE_X_POS_PROPORTION = 0.10;
     
@@ -45,7 +40,6 @@ public class PointingHandNode extends PNode {
     
     private PImage m_fingerImageNode;
     private MultipleParticleModel m_model;
-    private double m_minLowerEdgeYPos;     // Minimum Y position for the lower edge of this node.
     private double m_scale;
     private double m_mouseMovementAmount;
     private double m_containerSizeAtDragStart;
@@ -60,8 +54,6 @@ public class PointingHandNode extends PNode {
         Rectangle2D containerRect = m_model.getParticleContainerRect();
         double desiredWidth = containerRect.getWidth() * NODE_WIDTH_PROPORTION;
         
-        m_minLowerEdgeYPos = -(containerRect.getMaxY() + (containerRect.getHeight() * NODE_MIN_Y_POS_PROPORTION));
-        
         // Listen to the model for notifications of changes to the container size.
         m_model.addListener( new MultipleParticleModel.Adapter(){
             public void containerSizeChanged(){
@@ -69,7 +61,7 @@ public class PointingHandNode extends PNode {
             }
         });
         
-        // Load and scale the image that looks like a finger (hopefully).
+        // Load and scale the image.
         m_fingerImageNode = StatesOfMatterResources.getImageNode( PRIMARY_IMAGE );
         m_scale = desiredWidth / m_fingerImageNode.getFullBoundsReference().width;
         m_fingerImageNode.scale( m_scale );
@@ -101,8 +93,6 @@ public class PointingHandNode extends PNode {
         addChild(m_fingerImageNode);
 
         // Set our initial offset.
-//        setOffset( containerRect.getX() + containerRect.getWidth() * NODE_X_POS_PROPORTION,
-//                -containerRect.getMaxY() - m_fingerImageNode.getFullBoundsReference().height);
         setOffset( containerRect.getX() + containerRect.getWidth() * NODE_X_POS_PROPORTION, 
                 containerRect.getY() - containerRect.getHeight() );
     }
@@ -113,36 +103,12 @@ public class PointingHandNode extends PNode {
     
     private void handleMouseDragEvent(PInputEvent event){
         
-        double currentLowerEdgePosY = getFullBoundsReference().getMaxY();
-        double mouseMovementDelta = event.getCanvasDelta().getHeight();
         PNode draggedNode = event.getPickedNode();
         PDimension d = event.getDeltaRelativeTo(draggedNode);
         draggedNode.localToParent(d);
-        System.out.println("d.getHeight() = " + d.getHeight());
         m_mouseMovementAmount += d.getHeight();
-        System.out.println("m_mouseMovementAmount = " + m_mouseMovementAmount);
-        
-        if (currentLowerEdgePosY + mouseMovementDelta < m_minLowerEdgeYPos){
-            // We are at the top of the allowable range, so only pay attention
-            // to this event if we are moving in a downward direction.
-            if (mouseMovementDelta > 0){
-                m_fingerImageNode.translate( 0, mouseMovementDelta );
-            }
-            return;
-        }
-        
-        if (currentLowerEdgePosY + mouseMovementDelta < -StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT){
-            // The node is currently moving in the range where it doesn't
-            // affect the size of the container, so go ahead and move it.
-            m_fingerImageNode.translate( 0, mouseMovementDelta );
-            return;
-        }
-        
-        // If the preceding conditions are not met, it means the node is in
-        // the range where its motion should affect the size of the container.
-        // Hence, we only set the container size here and rely on the
-        // notifications of changes to the container size to move the node.
-        System.out.println("Setting container height to " + ( m_containerSizeAtDragStart - m_mouseMovementAmount ) );
+
+        // Resize the container based on the amount that the node has moved.
         m_model.setTargetParticleContainerHeight( m_containerSizeAtDragStart - m_mouseMovementAmount );
     }
     
