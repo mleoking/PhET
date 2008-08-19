@@ -9,11 +9,17 @@ import java.io.*;
 public class PatchLanguages {
     private String[] args;
     private File tempDir;
+    private int count = 0;
+    private int maxCount = Integer.MAX_VALUE;
 
     public PatchLanguages( String[] args ) {
         this.args = args;
         tempDir = new File( "temp-patches" );
         tempDir.mkdirs();
+        if ( args.length > 0 ) {
+            maxCount = Integer.parseInt( args[0] );
+            System.out.println( "stopping after " + maxCount + " jar files" );
+        }
     }
 
     public static void main( String[] args ) throws IOException, InterruptedException {
@@ -56,6 +62,10 @@ public class PatchLanguages {
         Process compressProcess = Runtime.getRuntime().exec( "jar cfM " + file.getAbsolutePath() + " .", new String[0], dir );
 
         compressProcess.waitFor();
+        count++;
+        if ( count >= maxCount ) {
+            System.exit( 0 );
+        }
 //        System.exit( 0 );
     }
 
