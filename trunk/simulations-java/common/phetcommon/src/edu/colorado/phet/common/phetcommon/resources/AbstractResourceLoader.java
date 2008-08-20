@@ -56,30 +56,27 @@ abstract class AbstractResourceLoader implements IResourceLoader {
      * @return resource converted to java.util.Properties
      */
     public PhetProperties getProperties( String resourceName, final Locale locale ) {
-
-        Properties properties = new Properties();
         try {
-            // First load the fallback resource
-            String fallbackResourceName = getFallbackPropertiesResourceName( resourceName );
-            InputStream inStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( fallbackResourceName );
-            if ( inStream != null ) {
-                properties.load( inStream );
-            }
-            
-            // Then load the localized resource
-            Properties localizedProperties = new Properties();
-            String localizedResourceName = getLocalizedPropertiesResourceName( resourceName, locale );
-            inStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( localizedResourceName );
-            if ( inStream != null ) {
-                localizedProperties.load( inStream );
-            }
-            
-            properties.putAll( localizedProperties );
+            Properties properties = loadProperties( getFallbackPropertiesResourceName( resourceName ) );
+            Properties requestedLanguageProperties=loadProperties( getLocalizedPropertiesResourceName( resourceName, locale ) );
+            properties.putAll( requestedLanguageProperties );//overwrite fallback with requested language
+            return new PhetProperties( properties );
         }
         catch( IOException e ) {
             e.printStackTrace(  );
+            return new PhetProperties( new Properties( ) );
         }
-        return new PhetProperties( properties );
+    }
+
+    private Properties loadProperties( String fallbackResourceName ) throws IOException {
+        Properties properties = new Properties();
+        // First load the fallback resource
+
+        InputStream inStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( fallbackResourceName );
+        if ( inStream != null ) {
+            properties.load( inStream );
+        }
+        return properties;
     }
 
     private String getLocalizedPropertiesResourceName( String resourceName, Locale locale ) {
