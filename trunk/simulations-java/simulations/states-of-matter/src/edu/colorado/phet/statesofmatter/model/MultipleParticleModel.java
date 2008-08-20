@@ -331,7 +331,8 @@ public class MultipleParticleModel {
             break;
         }
 
-        // This causes a reset - otherwise it would be too hard to do.
+        // This causes a reset and puts the particles into predetermined
+        // locations and energy levels.
         reset();
     }
     
@@ -419,13 +420,11 @@ public class MultipleParticleModel {
         m_pressure2 = 0;
         
         // Set the initial size of the container.
-        if ( m_particleContainerHeight != StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT){
-            m_particleContainerHeight = StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT;
-            m_targetContainerHeight = StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT;
-            m_normalizedContainerHeight = StatesOfMatterConstants.CONTAINER_BOUNDS.height / m_particleDiameter;
-            m_normalizedContainerWidth = StatesOfMatterConstants.CONTAINER_BOUNDS.width / m_particleDiameter;
-            notifyContainerSizeChanged();
-        }
+        m_particleContainerHeight = StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT;
+        m_targetContainerHeight = StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT;
+        m_normalizedContainerHeight = StatesOfMatterConstants.CONTAINER_BOUNDS.height / m_particleDiameter;
+        m_normalizedContainerWidth = StatesOfMatterConstants.CONTAINER_BOUNDS.width / m_particleDiameter;
+        notifyContainerSizeChanged();
         
         // Initialize the particles.
         switch (m_currentMolecule){
@@ -561,7 +560,12 @@ public class MultipleParticleModel {
             break;
             
         case PHASE_LIQUID:
-            liquifyMonatomicMolecules();
+            if (m_atomsPerMolecule == 1){
+                liquifyMonatomicMolecules();
+            }
+            else{
+                liquifyMultiAtomicMolecules();
+            }
             break;
             
         case PHASE_GAS:
@@ -1228,7 +1232,7 @@ public class MultipleParticleModel {
     }
 
     /**
-     * Set the particles to be in a liquid state.  This changes the
+     * Set the atoms to be in a liquid state.  This changes the
      * temperature and also instantly places the various molecules into
      * blobs, i.e. collections of close particles.
      */
@@ -1239,37 +1243,7 @@ public class MultipleParticleModel {
 
         // Randomly choose center locations of each of the blobs of liquid.
         
-        Point2D[] blobLocations = new Point2D.Double[INITIAL_NUMBER_OF_LIQUID_BLOBS];
-        double minDistanceBetweenBlobCenters = m_normalizedContainerHeight / 3;
-        for (int i = 0; i < INITIAL_NUMBER_OF_LIQUID_BLOBS; i++){
-            Point2D blobLocation = new Point2D.Double();
-            for (int j = 0; j < MAX_PLACEMENT_ATTEMPTS; j++){
-                double xPos = (m_rand.nextDouble() * 
-                        (m_normalizedContainerWidth - (2 * MIN_DISTANCE_FROM_BLOB_CTR_TO_WALL))) + 
-                        MIN_DISTANCE_FROM_BLOB_CTR_TO_WALL;
-                double yPos = (m_rand.nextDouble() * 
-                        (m_normalizedContainerHeight - (2 * MIN_DISTANCE_FROM_BLOB_CTR_TO_WALL))) + 
-                        MIN_DISTANCE_FROM_BLOB_CTR_TO_WALL;
-                blobLocation.setLocation( xPos, yPos );
-                boolean positionTaken = false;
-                for (int k = 0; k < i; k++){
-                    if ( blobLocation.distance( blobLocations[k] ) < minDistanceBetweenBlobCenters ){
-                        positionTaken = true;
-                    }
-                }
-                if ( !positionTaken ){
-                    // This position is available, so accept it.
-                    blobLocations[i] = blobLocation;
-                    break;
-                }
-                else if ( j == MAX_PLACEMENT_ATTEMPTS - 1 ){
-                    // This is the last attempt, so accept it.
-                    System.err.println("Error: Unable to find viable location for liquid blob.");
-                    assert false;
-                    blobLocations[i] = blobLocation;
-                }
-            }
-        }
+        Point2D[] blobLocations = createLiquidBlobLocations();
         
         // Set the initial velocity for each of the atoms based on the new
         // temperature.
@@ -1337,6 +1311,155 @@ public class MultipleParticleModel {
         // Synchronize the normalized particles with the particles monitored
         // by the model.
         syncParticlePositions();
+    }
+
+    /**
+     * Set the molecules to be in a liquid state.  This changes the
+     * temperature and also instantly places the various molecules into
+     * blobs, i.e. collections of close particles.  This method works for
+     * di- and tri-atomic molecules.
+     */
+    private void liquifyMultiAtomicMolecules(){
+        
+        setTemperature( LIQUID_TEMPERATURE );
+        double temperatureSqrt = Math.sqrt( m_temperature );
+        int numberOfMolecules = m_numberOfAtoms / m_atomsPerMolecule;
+
+        // Initialize the velocities and angles of the molecules.
+        
+        for (int i = 0; i < numberOfMolecules; i++){
+
+            // Assign each molecule an initial velocity.
+            m_moleculeVelocities[i].setComponents( temperatureSqrt * m_rand.nextGaussian(), 
+                    temperatureSqrt * m_rand.nextGaussian() );
+            
+            // Assign each molecule an initial rotational position.
+            m_moleculeRotationAngles[i] = m_rand.nextDouble() * Math.PI * 2;
+
+            // Assign each molecule an initial rotation rate.
+            // TODO: JPB TBD - Check with Paul if this is a reasonable way to do this.
+            m_moleculeRotationRates[i] = m_rand.nextDouble() * temperatureSqrt * Math.PI * 2;
+        }
+        
+        // Randomly choose center locations of each of the blobs of liquid.
+        
+        Point2D[] blobLocations = createLiquidBlobLocations();
+        
+        // Assign each atom to a position centered on its blob.
+        
+        int moleculesPerBlob = (numberOfMolecules / INITIAL_NUMBER_OF_LIQUID_BLOBS) + 1;
+        int moleculesPlaced = 0;
+        
+        for (int i = 0; i < INITIAL_NUMBER_OF_LIQUID_BLOBS; i++){
+            
+            Point2D centerPoint = blobLocations[i];
+            int currentLayer = 0;
+            int particlesOnCurrentLayer = 0;
+            int particlesThatWillFitOnCurrentLayer = 1;
+            
+            for (int j = 0; j < moleculesPerBlob && moleculesPlaced < m_numberOfAtoms; j++){
+                
+                for (int k = 0; k < MAX_PLACEMENT_ATTEMPTS; k++){
+                    
+                    double distanceFromCenter = currentLayer * MIN_INITIAL_INTER_PARTICLE_DISTANCE;
+                    double angle = ((double)particlesOnCurrentLayer / (double)particlesThatWillFitOnCurrentLayer * 2 * Math.PI) +
+                            ((double)particlesThatWillFitOnCurrentLayer / (4 * Math.PI));
+                    double xPos = centerPoint.getX() + (distanceFromCenter * Math.cos( angle ));
+                    double yPos = centerPoint.getY() + (distanceFromCenter * Math.sin( angle ));
+                    particlesOnCurrentLayer++;  // Consider this spot used even if we don't actually put the
+                                                // particle there.
+                    if (particlesOnCurrentLayer >= particlesThatWillFitOnCurrentLayer){
+                        
+                        // This layer is full - move to the next one.
+                        currentLayer++;
+                        particlesThatWillFitOnCurrentLayer = 
+                            (int)( currentLayer * 2 * Math.PI / MIN_INITIAL_INTER_PARTICLE_DISTANCE );
+                        particlesOnCurrentLayer = 0;
+                    }
+
+                    // Check if the position is too close to the wall.  Note
+                    // that we don't check inter-particle distances with other
+                    // blobs here - we rely on the initial spacing of the
+                    // centers to be big enough that this is not needed.
+                    if ((xPos > MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE) &&
+                        (xPos < m_normalizedContainerWidth - MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE) &&
+                        (yPos > MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE) &&
+                        (xPos < m_normalizedContainerHeight - MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE)){
+                        
+                        // This is an acceptable position.
+                        m_moleculeCenterOfMassPositions[moleculesPlaced++].setLocation( xPos, yPos );
+                        break;
+                    }
+                    else{
+                        // TODO: JPB TBD - This is just here to see how much it happens,
+                        // and should eventually be deleted.
+                        System.err.println("Warning: Position rejected: " + xPos + ", " + yPos);
+                    }
+                }
+            }
+        }
+        
+        // Move the atoms to correspond to the molecule positions.
+        if (m_atomsPerMolecule == 2){
+            updateDiatomicAtomPositions();
+        }
+        else{
+            // Must be triatomic.
+            updateTriatomicAtomPositions();
+        }
+
+        // Synchronize the normalized particles with the particles monitored
+        // by the model.
+        syncParticlePositions();
+    }
+
+    /**
+     * Generate a set of center locations for "blobs" of liquid.  This is
+     * generally used when transitioning directly into the liquid state from
+     * the solid or gaseous state.
+     * 
+     * @return
+     */
+    private Point2D[] createLiquidBlobLocations() {
+        
+        Point2D[] blobLocations = new Point2D.Double[INITIAL_NUMBER_OF_LIQUID_BLOBS];
+        double minDistanceBetweenBlobCenters = m_normalizedContainerHeight / 3;
+        
+        for (int i = 0; i < INITIAL_NUMBER_OF_LIQUID_BLOBS; i++){
+            
+            Point2D blobLocation = new Point2D.Double();
+            
+            for (int j = 0; j < MAX_PLACEMENT_ATTEMPTS; j++){
+                
+                double xPos = (m_rand.nextDouble() * 
+                        (m_normalizedContainerWidth - (2 * MIN_DISTANCE_FROM_BLOB_CTR_TO_WALL))) + 
+                        MIN_DISTANCE_FROM_BLOB_CTR_TO_WALL;
+                double yPos = (m_rand.nextDouble() * 
+                        (m_normalizedContainerHeight - (2 * MIN_DISTANCE_FROM_BLOB_CTR_TO_WALL))) + 
+                        MIN_DISTANCE_FROM_BLOB_CTR_TO_WALL;
+                blobLocation.setLocation( xPos, yPos );
+                
+                // Make sure the location is not too close to the others.
+                boolean positionTaken = false;
+                for (int k = 0; k < i; k++){
+                    if ( blobLocation.distance( blobLocations[k] ) < minDistanceBetweenBlobCenters ){
+                        positionTaken = true;
+                    }
+                }
+                if ( !positionTaken ){
+                    // This position is available, so accept it.
+                    blobLocations[i] = blobLocation;
+                    break;
+                }
+                else if ( j == MAX_PLACEMENT_ATTEMPTS - 1 ){
+                    // This is the last attempt, so accept it.
+                    System.err.println("Error: Unable to find viable location for liquid blob.");
+                    assert false;
+                    blobLocations[i] = blobLocation;
+                }
+            }
+        }
+        return blobLocations;
     }
     
     /**
