@@ -56,19 +56,25 @@ abstract class AbstractResourceLoader implements IResourceLoader {
      * @return resource converted to java.util.Properties
      */
     public PhetProperties getProperties( String resourceName, final Locale locale ) {
+
         Properties properties = new Properties();
         try {
-            // Attempt to load the localized resource
-            String localizedResourceName = getLocalizedPropertiesResourceName( resourceName, locale );
-            InputStream inStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( localizedResourceName );
-            if ( inStream == null ) {
-                // If the localized resource wasn't found, load the fallback resource
-                String fallbackResourceName = getFallbackPropertiesResourceName( resourceName );
-                inStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( fallbackResourceName );
-            }
+            // First load the fallback resource
+            String fallbackResourceName = getFallbackPropertiesResourceName( resourceName );
+            InputStream inStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( fallbackResourceName );
             if ( inStream != null ) {
                 properties.load( inStream );
             }
+            
+            // Then load the localized resource
+            Properties localizedProperties = new Properties();
+            String localizedResourceName = getLocalizedPropertiesResourceName( resourceName, locale );
+            inStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( localizedResourceName );
+            if ( inStream != null ) {
+                localizedProperties.load( inStream );
+            }
+            
+            properties.putAll( localizedProperties );
         }
         catch( IOException e ) {
             e.printStackTrace(  );
