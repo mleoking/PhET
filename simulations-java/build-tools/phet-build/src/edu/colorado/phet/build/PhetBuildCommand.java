@@ -93,7 +93,7 @@ public class PhetBuildCommand implements Command {
         //todo: support a main-class chooser & launcher
         attribute.setValue( FLAVOR_LAUNCHER );
 
-        File flavorsProp = createPhetJarPropertiesFile();
+        File flavorsProp = createProjectPropertiesFile();
 
         FileSet flavorFileSet = new FileSet();
         flavorFileSet.setFile( flavorsProp );
@@ -106,9 +106,9 @@ public class PhetBuildCommand implements Command {
     }
 
     /*
-     * Creates a properties file that describes PhET-specific metadata for the JAR file
+     * Creates a properties file that describes things about the project.
      */
-    private File createPhetJarPropertiesFile() {
+    private File createProjectPropertiesFile() {
         
         // create the various properties
         Properties properties = new Properties();
@@ -126,7 +126,7 @@ public class PhetBuildCommand implements Command {
         }
         
         // write the properties to a file
-        File file = new File( project.getAntOutputDir(), "phet-jar.properties" );
+        File file = new File( project.getAntOutputDir(), "project.properties" );
         file.getParentFile().mkdirs();
         try {
             properties.store( new FileOutputStream( file ), null );
