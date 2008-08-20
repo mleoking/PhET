@@ -10,6 +10,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import javax.sound.midi.SysexMessage;
+
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -78,7 +80,7 @@ public class MultipleParticleModel {
     private static final double GAS_TEMPERATURE = 1.0;
     private static final double MIN_INITIAL_INTER_PARTICLE_DISTANCE = 1.2;
     private static final double MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE = 2.5;
-    private static final int INITIAL_NUMBER_OF_LIQUID_BLOBS = 3;
+    private static final int MAX_INITIAL_NUMBER_OF_LIQUID_BLOBS = 3;
     private static final double MIN_DISTANCE_FROM_BLOB_CTR_TO_WALL = 5.0;
     
     // Supported molecules.
@@ -988,6 +990,10 @@ public class MultipleParticleModel {
        
         m_numberOfAtoms = (int)Math.pow( StatesOfMatterConstants.CONTAINER_BOUNDS.width / 
                 (( particleDiameter + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL ) * 3), 2) * 3;
+        
+        // TODO: JPB TBD - The following value is used for the cool hexagon demo thing.
+        // m_numberOfAtoms = 360;
+        
         m_numberOfSafeAtoms = m_numberOfAtoms;
         
         // Initialize the arrays that define the normalized attributes for
@@ -1152,6 +1158,7 @@ public class MultipleParticleModel {
                 }
                 else if (j == MAX_PLACEMENT_ATTEMPTS - 1){
                     // This is the last attempt, so use this position anyway.
+                    System.err.println("Warning: Unable to locate usable atom position randomly, proceeding anyway.");
                     m_atomPositions[i].setLocation( newPosX, newPosY );
                 }
             }
@@ -1190,18 +1197,17 @@ public class MultipleParticleModel {
         // sure that they are not too close together or they end up with a
         // disproportionate amount of kinetic energy.
         double newPosX, newPosY;
-        double minWallDistance = 1.5; // TODO: JPB TBD - This is arbitrary, should eventually be a const.
-        double rangeX = m_normalizedContainerWidth - (2 * minWallDistance);
-        double rangeY = m_normalizedContainerHeight - (2 * minWallDistance);
+        double rangeX = m_normalizedContainerWidth - (2 * MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE);
+        double rangeY = m_normalizedContainerHeight - (2 * MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE);
         for (int i = 0; i < numberOfMolecules; i++){
             for (int j = 0; j < MAX_PLACEMENT_ATTEMPTS; j++){
                 // Pick a random position.
-                newPosX = minWallDistance + (rand.nextDouble() * rangeX);
-                newPosY = minWallDistance + (rand.nextDouble() * rangeY);
+                newPosX = MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE + (rand.nextDouble() * rangeX);
+                newPosY = MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE + (rand.nextDouble() * rangeY);
                 boolean positionAvailable = true;
                 // See if this position is available.
                 for (int k = 0; k < i; k++){
-                    if (m_moleculeCenterOfMassPositions[k].distance( newPosX, newPosY ) < MIN_INITIAL_INTER_PARTICLE_DISTANCE){
+                    if (m_moleculeCenterOfMassPositions[k].distance( newPosX, newPosY ) < MIN_INITIAL_INTER_PARTICLE_DISTANCE * 1.5){
                         positionAvailable = false;
                         break;
                     }
@@ -1213,7 +1219,15 @@ public class MultipleParticleModel {
                 }
                 else if (j == MAX_PLACEMENT_ATTEMPTS - 1){
                     // This is the last attempt, so use this position anyway.
-                    m_moleculeCenterOfMassPositions[i].setLocation( newPosX, newPosY );
+                    System.err.println("Warning: Unable to locate usable molecule position randomly.");
+                    Point2D openPoint = findOpenMoleculeLocation();
+                    if (openPoint != null){
+                        System.err.println("Warning: Linear search returned point " + openPoint);
+                        m_moleculeCenterOfMassPositions[i].setLocation( openPoint );
+                    }
+                    else{
+                        System.err.println("Warning: Linear also unable to find usable position.");
+                    }
                 }
             }
         }
@@ -1240,10 +1254,13 @@ public class MultipleParticleModel {
         
         setTemperature( LIQUID_TEMPERATURE );
         double temperatureSqrt = Math.sqrt( m_temperature );
+        
+        // Randomly decide on the number of blobs to create.
+        int numberOfBlobs = m_rand.nextInt( MAX_INITIAL_NUMBER_OF_LIQUID_BLOBS ) + 1;
 
         // Randomly choose center locations of each of the blobs of liquid.
         
-        Point2D[] blobLocations = createLiquidBlobLocations();
+        Point2D[] blobLocations = createLiquidBlobLocations(numberOfBlobs);
         
         // Set the initial velocity for each of the atoms based on the new
         // temperature.
@@ -1256,10 +1273,10 @@ public class MultipleParticleModel {
         
         // Assign each atom to a position centered on its blob.
         
-        int atomsPerBlob = (m_numberOfAtoms / INITIAL_NUMBER_OF_LIQUID_BLOBS) + 1;
+        int atomsPerBlob = (m_numberOfAtoms / numberOfBlobs) + 1;
         int atomsPlaced = 0;
         
-        for (int i = 0; i < INITIAL_NUMBER_OF_LIQUID_BLOBS; i++){
+        for (int i = 0; i < numberOfBlobs; i++){
             
             Point2D centerPoint = blobLocations[i];
             int currentLayer = 0;
@@ -1333,35 +1350,47 @@ public class MultipleParticleModel {
             m_moleculeVelocities[i].setComponents( temperatureSqrt * m_rand.nextGaussian(), 
                     temperatureSqrt * m_rand.nextGaussian() );
             
-            // Assign each molecule an initial rotational position.
-            m_moleculeRotationAngles[i] = m_rand.nextDouble() * Math.PI * 2;
-
             // Assign each molecule an initial rotation rate.
             // TODO: JPB TBD - Check with Paul if this is a reasonable way to do this.
             m_moleculeRotationRates[i] = m_rand.nextDouble() * temperatureSqrt * Math.PI * 2;
         }
         
+        // Randomly decide on the number of blobs to create.
+        int numberOfBlobs = m_rand.nextInt( MAX_INITIAL_NUMBER_OF_LIQUID_BLOBS ) + 1;
+
         // Randomly choose center locations of each of the blobs of liquid.
         
-        Point2D[] blobLocations = createLiquidBlobLocations();
+        Point2D[] blobLocations = createLiquidBlobLocations( numberOfBlobs );
         
         // Assign each atom to a position centered on its blob.
         
-        int moleculesPerBlob = (numberOfMolecules / INITIAL_NUMBER_OF_LIQUID_BLOBS) + 1;
+        int moleculesPerBlob = (numberOfMolecules / numberOfBlobs) + 1;
         int moleculesPlaced = 0;
         
-        for (int i = 0; i < INITIAL_NUMBER_OF_LIQUID_BLOBS; i++){
+        // Note: Due to the shape of the molecules, it is difficult if not
+        // impossible to come up with an algorithm that works for all 
+        // multi-atomic cases, so the following "tweak factor" was introduced.
+        // the values were arrived at empirically.
+        double tweakFactor = 1;
+        if (m_atomsPerMolecule == 2){
+            tweakFactor = 1.2;
+        }
+        else if (m_currentMolecule == WATER){
+            tweakFactor = 0.9;
+        }
+        
+        for (int i = 0; i < numberOfBlobs; i++){
             
             Point2D centerPoint = blobLocations[i];
             int currentLayer = 0;
             int particlesOnCurrentLayer = 0;
             int particlesThatWillFitOnCurrentLayer = 1;
             
-            for (int j = 0; j < moleculesPerBlob && moleculesPlaced < m_numberOfAtoms; j++){
+            for (int j = 0; j < moleculesPerBlob && moleculesPlaced < numberOfMolecules; j++){
                 
                 for (int k = 0; k < MAX_PLACEMENT_ATTEMPTS; k++){
                     
-                    double distanceFromCenter = currentLayer * MIN_INITIAL_INTER_PARTICLE_DISTANCE;
+                    double distanceFromCenter = currentLayer * MIN_INITIAL_INTER_PARTICLE_DISTANCE * tweakFactor;
                     double angle = ((double)particlesOnCurrentLayer / (double)particlesThatWillFitOnCurrentLayer * 2 * Math.PI) +
                             ((double)particlesThatWillFitOnCurrentLayer / (4 * Math.PI));
                     double xPos = centerPoint.getX() + (distanceFromCenter * Math.cos( angle ));
@@ -1373,7 +1402,7 @@ public class MultipleParticleModel {
                         // This layer is full - move to the next one.
                         currentLayer++;
                         particlesThatWillFitOnCurrentLayer = 
-                            (int)( currentLayer * 2 * Math.PI / MIN_INITIAL_INTER_PARTICLE_DISTANCE );
+                            (int)( currentLayer * 2 * Math.PI / (MIN_INITIAL_INTER_PARTICLE_DISTANCE * tweakFactor) );
                         particlesOnCurrentLayer = 0;
                     }
 
@@ -1387,7 +1416,9 @@ public class MultipleParticleModel {
                         (xPos < m_normalizedContainerHeight - MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE)){
                         
                         // This is an acceptable position.
-                        m_moleculeCenterOfMassPositions[moleculesPlaced++].setLocation( xPos, yPos );
+                        m_moleculeCenterOfMassPositions[moleculesPlaced].setLocation( xPos, yPos );
+                        m_moleculeRotationAngles[moleculesPlaced] = angle + Math.PI / 2;
+                        moleculesPlaced++;
                         break;
                     }
                     else{
@@ -1420,12 +1451,12 @@ public class MultipleParticleModel {
      * 
      * @return
      */
-    private Point2D[] createLiquidBlobLocations() {
+    private Point2D[] createLiquidBlobLocations(int numberOfBlobs) {
         
-        Point2D[] blobLocations = new Point2D.Double[INITIAL_NUMBER_OF_LIQUID_BLOBS];
-        double minDistanceBetweenBlobCenters = m_normalizedContainerHeight / 3;
+        Point2D[] blobLocations = new Point2D.Double[numberOfBlobs];
+        double minDistanceBetweenBlobCenters = m_normalizedContainerHeight * 0.4;
         
-        for (int i = 0; i < INITIAL_NUMBER_OF_LIQUID_BLOBS; i++){
+        for (int i = 0; i < numberOfBlobs; i++){
             
             Point2D blobLocation = new Point2D.Double();
             
@@ -1844,6 +1875,11 @@ public class MultipleParticleModel {
                             double r2inv = 1 / distanceSquared;
                             double r6inv = r2inv * r2inv * r2inv;
                             double forceScaler = 48 * r2inv * r6inv * (r6inv - 0.5);
+                            if (forceScaler > 1000){
+                                // TODO: JPB TBD - This is here to help track down when things
+                                // get crazy, and should be removed eventually.
+                                System.err.println("Big force, forceScaler = " + forceScaler);
+                            }
                             double fx = dx * forceScaler;
                             double fy = dy * forceScaler;
                             force.setComponents( fx, fy );
@@ -2019,6 +2055,11 @@ public class MultipleParticleModel {
                     double r2inv = 1 / distanceSquared;
                     double r6inv = r2inv * r2inv * r2inv;
                     double forceScaler = 48 * r2inv * r6inv * (r6inv - 0.5);
+                    if (forceScaler > 1000){
+                        // TODO: JPB TBD - This is here to help track down when things
+                        // get crazy, and should be removed eventually.
+                        System.err.println("Big force, forceScaler = " + forceScaler);
+                    }
                     force.setX( dx * forceScaler );
                     force.setY( dy * forceScaler );
                     m_nextMoleculeForces[i].add( force );
@@ -2321,6 +2362,11 @@ public class MultipleParticleModel {
             resultantForce.setY( -48/(Math.pow(distance, 13)) + (24/(Math.pow( distance, 7))) );
             m_potentialEnergy += 4/(Math.pow(distance, 12)) - 4/(Math.pow( distance, 6)) + 1;
         }
+        if ((resultantForce.getX() > 1000) || (resultantForce.getY() > 1000)){
+            // TODO: JPB TBD - Here to help track down when things get crazy,
+            // remove eventually.
+            System.err.println("Big wall force, = " + resultantForce);
+        }
     }
     
     /**
@@ -2419,6 +2465,42 @@ public class MultipleParticleModel {
         public void temperatureChanged(){}
         public void pressureChanged(){}
         public void containerSizeChanged(){}
+    }
+    
+    /**
+     * Does a linear search for a location that is suitably far away enough
+     * from all other molecules.  This is generally used when the attempt to
+     * place a molecule at a random location fails.  This is expensive in
+     * terms of computational power, and should thus be used sparingly.
+     * 
+     * @return
+     */
+    private Point2D findOpenMoleculeLocation(){
+        
+        double posX, posY;
+        double rangeX = m_normalizedContainerWidth - (2 * MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE);
+        double rangeY = m_normalizedContainerHeight - (2 * MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE);
+        for (int i = 0; i < rangeX / MIN_INITIAL_INTER_PARTICLE_DISTANCE; i++){
+            for (int j = 0; j < rangeY / MIN_INITIAL_INTER_PARTICLE_DISTANCE; j++){
+                posX = MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE + (i * MIN_INITIAL_INTER_PARTICLE_DISTANCE);
+                posY = MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE + (j * MIN_INITIAL_INTER_PARTICLE_DISTANCE);
+                
+                // See if this position is available.
+                boolean positionAvailable = true;
+                for (int k = 0; k < m_numberOfAtoms / m_atomsPerMolecule; k++){
+                    if (m_moleculeCenterOfMassPositions[k].distance( posX, posY ) < MIN_INITIAL_INTER_PARTICLE_DISTANCE){
+                        positionAvailable = false;
+                        break;
+                    }
+                }
+                if (positionAvailable){
+                    // We found an open position.
+                    return new Point2D.Double( posX, posY );
+                }
+            }
+        }
+        
+        return null;
     }
     
     /**
