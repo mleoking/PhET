@@ -42,7 +42,7 @@ public class ParticleContainerNode3 extends PhetPNode {
     public static final int DRAWN_CONTAINER = 0;
     public static final int SINGLE_IMAGE_CONTAINER = 1;
     public static final int MULTI_IMAGE_CONTAINER = 2;   // Container is made of multiple pieces.
-    public static final int CONTAINER_TYPE = DRAWN_CONTAINER;
+    public static final int CONTAINER_TYPE = MULTI_IMAGE_CONTAINER;
     public static boolean LOAD_CONTAINER_BACKGROUND_IMAGE = false;
 
     // TODO: JPB TBD - Constant that turns on/off a rectangle that shows the outline of the node.
@@ -59,12 +59,16 @@ public class ParticleContainerNode3 extends PhetPNode {
     // Constants that control the appearance of the image.
     private static final String CONTAINER_FRONT_IMAGE_NAME = "cup_3D_front_70_split.png";
     private static final String CONTAINER_FRONT_LEFT_IMAGE_NAME = "cup_3D_front_70_split_left.png";
-    private static final String CONTAINER_FRONT_BOTTOM_IMAGE_NAME = "cup_3D_front_70_split_bottom.png";
     private static final String CONTAINER_FRONT_RIGHT_IMAGE_NAME = "cup_3D_front_70_split_right.png";
+    private static final String CONTAINER_FRONT_TOP_IMAGE_NAME = "cup_3D_front_70_split_top.png";
+    private static final String CONTAINER_FRONT_BOTTOM_IMAGE_NAME = "cup_3D_front_70_split_bottom.png";
+    private static final String CONTAINER_BACK_TOP_IMAGE_NAME = "cup_3D_top_70_fragment.png";
     private static final String LID_IMAGE_NAME = "cup_3D_cap_70.png";
 //    private static final String CONTAINER_BACK_IMAGE_NAME = "cup_3D_back_solid_light.png";
     private static final String CONTAINER_BACK_IMAGE_NAME = "cup_3D_back_light.jpg";
     private static final double LID_POSITION_TWEAK_FACTOR = 65; // Empirically determined value for aligning lid and container body.
+    private static final double FRONT_TOP_IMAGE_OFFSET_TWEAK = 19; // Empirically determined value for position corresponding fragment.
+    private static final double FRONT_BOTTOM_IMAGE_OFFSET_TWEAK = 17; // Empirically determined value for position corresponding fragment.
     
     // Constant(s) that affect the appearance of both depictions of the container.
     private static final double ELLIPSE_HEIGHT_PROPORTION = 0.15;  // Height of ellipses as a function of overall height.
@@ -306,25 +310,23 @@ public class ParticleContainerNode3 extends PhetPNode {
         PImage containerLeftSideImageNode = StatesOfMatterResources.getImageNode(CONTAINER_FRONT_LEFT_IMAGE_NAME);
         PImage containerRightSideImageNode = StatesOfMatterResources.getImageNode(CONTAINER_FRONT_RIGHT_IMAGE_NAME);
         PImage containerBottomImageNode = StatesOfMatterResources.getImageNode(CONTAINER_FRONT_BOTTOM_IMAGE_NAME);
+        PImage containerTopImageNode = StatesOfMatterResources.getImageNode(CONTAINER_FRONT_TOP_IMAGE_NAME);
         
         // Create a single PNode to contain these images, and add the images to it.
         PNode containerNode = new PNode();
         containerNode.addChild( containerLeftSideImageNode );
+        containerNode.addChild( containerTopImageNode );
+        containerTopImageNode.setOffset( containerLeftSideImageNode.getFullBoundsReference().width, 
+                FRONT_TOP_IMAGE_OFFSET_TWEAK );
         containerNode.addChild( containerBottomImageNode );
         containerBottomImageNode.setOffset( containerLeftSideImageNode.getFullBoundsReference().width,
                 containerLeftSideImageNode.getFullBoundsReference().height - 
-                containerBottomImageNode.getFullBoundsReference().height);
+                containerBottomImageNode.getFullBoundsReference().height + FRONT_BOTTOM_IMAGE_OFFSET_TWEAK);
         containerNode.addChild( containerRightSideImageNode );
         containerRightSideImageNode.setOffset( containerBottomImageNode.getFullBoundsReference().getMaxX(), 0 );
         
         // Scale the container node based on the size of the container.
         containerNode.setScale( m_containmentAreaWidth / containerNode.getFullBoundsReference().width );
-        /*
-        PNode containerNode = new PNode();
-        PImage containerLeftSideImageNode = StatesOfMatterResources.getImageNode(CONTAINER_FRONT_LEFT_IMAGE_NAME);
-        containerNode.addChild( containerLeftSideImageNode );
-        containerNode.setScale( m_containmentAreaWidth / containerNode.getFullBoundsReference().width / 10);
-        */
         
         // Add the image to the top layer node.
         m_topContainerLayer.addChild(containerNode);
@@ -347,6 +349,18 @@ public class ParticleContainerNode3 extends PhetPNode {
             // Add the image to the bottom layer node.
             m_bottomContainerLayer.addChild(containerBackImageNode);
             containerBackImageNode.setOffset( 0, -(m_model.getParticleContainerHeight() * ELLIPSE_HEIGHT_PROPORTION / 2) );
+        }
+        else {
+            // Just load an image for the back of the top.
+            PImage containerTopBackImageNode = StatesOfMatterResources.getImageNode(CONTAINER_BACK_TOP_IMAGE_NAME);
+            
+            // Scale the container image based on the size of the container.
+            containerTopBackImageNode.setScale( m_containmentAreaWidth / containerTopBackImageNode.getFullBoundsReference().width );
+            
+            // Add the image to the bottom layer node.
+            m_bottomContainerLayer.addChild(containerTopBackImageNode);
+            containerTopBackImageNode.setOffset( 0, -(m_model.getParticleContainerHeight() * ELLIPSE_HEIGHT_PROPORTION / 2) );
+            
         }
     }
 }
