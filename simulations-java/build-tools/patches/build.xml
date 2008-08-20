@@ -3,7 +3,7 @@
     <property name="classes" location="classes"/>
     <property name="dist" location="dist"/>
 
-    <target name="init">
+    <target name="init" depends="clean">
         <tstamp/>
     </target>
 
@@ -11,7 +11,7 @@
             description="compile the source ">
         <!-- Compile the java code from ${src} into ${build} -->
         <mkdir dir="${classes}"/>
-        <javac srcdir="${src}" destdir="${classes}"/>
+        <javac srcdir="${src}" destdir="${classes}" source="1.4" target="1.4"/>
     </target>
 
     <target name="dist" depends="compile"
@@ -31,6 +31,6 @@
             description="clean up">
         <!-- Delete the ${build} and ${dist} directory trees -->
         <delete dir="${classes}"/>
-        <delete dir="${dist}"/>
+        <!--<delete dir="${dist}"/>-->
     </target>
 </project>
