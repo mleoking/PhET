@@ -628,7 +628,7 @@
               tofile="simulations/${sim.name}/deploy/${sim.flavor}.jar"/>
 		<mkdir dir="${ant-output}/projects/${sim.name}/launchable-jars/"/>
 		<echo message="main.flavor=${sim.flavor}" append="true"
-              file="${ant-output}/projects/${sim.name}/launchable-jars/phet-jars.properties"/>
+              file="${ant-output}/projects/${sim.name}/launchable-jars/phet-jar.properties"/>
 		<jar destfile="simulations/${sim.name}/deploy/${sim.flavor}.jar"
              basedir="${ant-output}/projects/${sim.name}/launchable-jars/" update="true"/>
 	</target>
