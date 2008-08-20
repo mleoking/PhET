@@ -68,11 +68,9 @@ abstract class AbstractResourceLoader implements IResourceLoader {
         }
     }
 
-    private Properties loadProperties( String fallbackResourceName ) throws IOException {
+    private Properties loadProperties( String resourceName ) throws IOException {
         Properties properties = new Properties();
-        // First load the fallback resource
-
-        InputStream inStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( fallbackResourceName );
+        InputStream inStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( resourceName );
         if ( inStream != null ) {
             properties.load( inStream );
         }
