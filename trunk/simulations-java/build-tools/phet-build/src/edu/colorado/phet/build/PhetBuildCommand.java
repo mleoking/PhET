@@ -93,7 +93,7 @@ public class PhetBuildCommand implements Command {
         //todo: support a main-class chooser & launcher
         attribute.setValue( FLAVOR_LAUNCHER );
 
-        File flavorsProp = createFlavorFile();
+        File flavorsProp = createPhetJarPropertiesFile();
 
         FileSet flavorFileSet = new FileSet();
         flavorFileSet.setFile( flavorsProp );
@@ -105,9 +105,14 @@ public class PhetBuildCommand implements Command {
         antTaskRunner.runTask( jar );
     }
 
-    private File createFlavorFile() {
-        File flavorsProp = new File( project.getAntOutputDir(), "flavors.properties" );
+    /*
+     * Creates a properties file that describes PhET-specific metadata for the JAR file
+     */
+    private File createPhetJarPropertiesFile() {
+        
+        // create the various properties
         Properties properties = new Properties();
+        properties.setProperty( "project.name", project.getName() );
         for ( int i = 0; i < project.getFlavors().length; i++ ) {
             PhetProjectFlavor flavor = project.getFlavors()[i];
             properties.setProperty( "project.flavor." + flavor.getFlavorName() + ".mainclass", flavor.getMainclass() );
@@ -119,14 +124,19 @@ public class PhetBuildCommand implements Command {
             }
             properties.setProperty( "project.flavor." + flavor.getFlavorName() + ".args", args.trim() );
         }
-        flavorsProp.getParentFile().mkdirs();
+        
+        // write the properties to a file
+        File file = new File( project.getAntOutputDir(), "phet-jar.properties" );
+        file.getParentFile().mkdirs();
         try {
-            properties.store( new FileOutputStream( flavorsProp ), null );
+            properties.store( new FileOutputStream( file ), null );
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
-        return flavorsProp;
+        
+        // return the file
+        return file;
     }
 
     private void proguard() throws Exception {
