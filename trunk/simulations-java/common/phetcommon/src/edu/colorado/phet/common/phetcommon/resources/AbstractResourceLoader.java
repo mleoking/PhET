@@ -1,4 +1,5 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2007-2008, University of Colorado */
+
 package edu.colorado.phet.common.phetcommon.resources;
 
 import java.io.ByteArrayOutputStream;
@@ -38,7 +39,7 @@ abstract class AbstractResourceLoader implements IResourceLoader {
      * Gets properties by resource name.
      * <p/>
      * Looks up a resource named 'resourceName' in the classpath.
-     * The resource must map to a file with .properties extention.
+     * The resource must map to a file with .properties extension.
      * The name is a relative path in the data/ directory, with
      * "/" for package segment separation with an optional
      * leading "/" and optional ".properties" suffix. Thus, the
@@ -55,12 +56,15 @@ abstract class AbstractResourceLoader implements IResourceLoader {
      * @return resource converted to java.util.Properties
      */
     public PhetProperties getProperties( String resourceName, final Locale locale ) {
-        // Load the resource bundle into Properties
         Properties properties = new Properties();
         try {
-            InputStream inStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( getPropertiesResourceName( resourceName, locale ) );
-            if ( inStream == null ) { //need to fall back for sim property files such as the version properties file
-                inStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( getPropertiesResourceName( resourceName, new Locale( "en" ) ) );
+            // Attempt to load the localized resource
+            String localizedResourceName = getLocalizedPropertiesResourceName( resourceName, locale );
+            InputStream inStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( localizedResourceName );
+            if ( inStream == null ) {
+                // If the localized resource wasn't found, load the fallback resource
+                String fallbackResourceName = getFallbackPropertiesResourceName( resourceName );
+                inStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( fallbackResourceName );
             }
             if ( inStream != null ) {
                 properties.load( inStream );
@@ -72,19 +76,21 @@ abstract class AbstractResourceLoader implements IResourceLoader {
         return new PhetProperties( properties );
     }
 
-    private String getPropertiesResourceName( String resourceName, Locale locale ) {
-        // strip off suffix, if it exists
-        if ( resourceName.endsWith( PROPERTIES_SUFFIX ) ) {
-            resourceName = resourceName.substring( 0, resourceName.length() - PROPERTIES_SUFFIX.length() );
+    private String getLocalizedPropertiesResourceName( String resourceName, Locale locale ) {
+        String basename = stripPropertiesSuffix( resourceName );
+        return basename + "_" + locale.getLanguage() + PROPERTIES_SUFFIX;
+    }
+    
+    private String getFallbackPropertiesResourceName( String resourceName ) {
+        String basename = stripPropertiesSuffix( resourceName );
+        return basename + PROPERTIES_SUFFIX;
+    }
+    
+    private String stripPropertiesSuffix( String s ) {
+        if ( s.endsWith( PROPERTIES_SUFFIX ) ) {
+            s = s.substring( 0, s.length() - PROPERTIES_SUFFIX.length() );
         }
-
-        //append locale if necessary
-        //later we may change all files to have suffix, instead of suppressing it in English case
-        if ( !locale.getLanguage().equals( "en" ) ) {
-            resourceName += "_" + locale.getLanguage();
-        }
-
-        return resourceName + ".properties";
+        return s;
     }
 
     /**
