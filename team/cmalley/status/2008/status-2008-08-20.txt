@@ -1,0 +1,38 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: August 14-20, 2008 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  glaciers:
+  - review "to do" list, prioritize remaining work
+  
+  common:
+  - review changes to resource loader, bug fixes related to loading of string translations (with Sam Reid)
+  - add project.properties file to JARs, for use by translation utility
+ 
+  translation-utility:
+  - design to support translation of common strings
+  - answer misc questions
+  
+WHAT'S NEXT:
+    
+  - complete work on translation-utility 1.00 (all Unfuddle tickets with priority High or Highest)
+    
+  - continue work on glaciers, see:
+    http://phet.svn.sourceforge.net/viewvc/phet/trunk/simulations-java/simulations/glaciers/CHANGES.txt?view=markup
+ 
+  - start on acids-and-bases sim
+  
+  - resume working on deploy process for Flash sims
+       
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+  September 19-22 (Fri-Mon)
+  
+--
