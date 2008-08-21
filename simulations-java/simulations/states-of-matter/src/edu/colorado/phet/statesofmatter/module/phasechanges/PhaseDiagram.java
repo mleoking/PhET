@@ -18,6 +18,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
+import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -28,6 +29,10 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author John Blanco
  */
 public class PhaseDiagram extends PhetPCanvas {
+
+    //----------------------------------------------------------------------------
+    // Class Data
+    //----------------------------------------------------------------------------
 
     // Constants that control the size of the canvas.
     private static final int WIDTH = 200;
@@ -60,11 +65,13 @@ public class PhaseDiagram extends PhetPCanvas {
     private static final Color BACKGROUND_COLOR_FOR_SOLID = new Color(0xC6BDD6);
     private static final Color BACKGROUND_COLOR_FOR_LIQUID = new Color(0x88FFBB);
     private static final Color BACKGROUND_COLOR_FOR_GAS = new Color(0xFFBB00);
+    private static final Color CURRENT_STATE_MARKER_COLOR = Color.RED;
     
     // Constants that control the appearance of the phase diagram for the
     // various substances.  Note that all points are controlled as proportions
     // of the overall graph size and not as absolute values.
     private static final double POINT_MARKER_DIAMETER = 4;
+    private static final double CURRENT_STATE_MARKER_DIAMETER = 7;
     private static final Point2D DEFAULT_TOP_OF_SOLID_LIQUID_CURVE = new Point2D.Double(xUsableRange/2 + xOriginOffset, 
             yOriginOffset - yUsableRange);
     private static final Point2D DEFAULT_TRIPLE_POINT = new Point2D.Double(xOriginOffset + (xUsableRange * 0.32), 
@@ -78,6 +85,10 @@ public class PhaseDiagram extends PhetPCanvas {
     private static final Point2D DEFAULT_GAS_LABEL_LOCATION = new Point2D.Double(xOriginOffset + (xUsableRange * 0.6), 
             yOriginOffset - (yUsableRange * 0.15));
     
+    //----------------------------------------------------------------------------
+    // Instance Data
+    //----------------------------------------------------------------------------
+
     // Variables that define the appearance of the phase diagram.
     private PPath m_triplePoint;
     private PPath m_criticalPoint;
@@ -94,15 +105,39 @@ public class PhaseDiagram extends PhetPCanvas {
     private PText m_triplePointLabel2;
     private PText m_criticalPointLabel1;
     private PText m_criticalPointLabel2;
+    private PPath m_currentStateMarker;
     
+    // Variable that defines the normalized position of the current phase
+    // state marker.
+    Point2D m_currentStateMarkerPos;
+    
+    // Reference to the simulation model that this diagram is monitoring.
+    MultipleParticleModel m_model;
+    
+    //----------------------------------------------------------------------------
+    // Constructor(s)
+    //----------------------------------------------------------------------------
+
     /**
      * Constructor.
      */
-    public PhaseDiagram(){
+    public PhaseDiagram( MultipleParticleModel model ){
 
+        m_model = model;
+        m_currentStateMarkerPos = new Point2D.Double();
         setPreferredSize( new Dimension(WIDTH, HEIGHT) );
         setBackground( StatesOfMatterConstants.CONTROL_PANEL_COLOR );
         setBorder( null );
+        
+        // Register with model so that we can monitor the current phase.
+        m_model.addListener( new MultipleParticleModel.Adapter(){
+            public void temperatureChanged(){
+                updateStateMarkerPosition();
+            }
+            public void pressureChanged(){
+                updateStateMarkerPosition();
+            }
+        });
 
         // Initialize the variables for the lines, points, and shapes in the
         // phase diagram.  The order in which these are added is important.
@@ -195,8 +230,28 @@ public class PhaseDiagram extends PhetPCanvas {
         verticalAxisOriginLabel.rotate( 3 * Math.PI / 2 );
         addWorldChild( verticalAxisOriginLabel );
         
+        // Create and add the marker that shows the current phase state.
+        m_currentStateMarker = new PPath(new Ellipse2D.Double(0, 0, CURRENT_STATE_MARKER_DIAMETER,
+                CURRENT_STATE_MARKER_DIAMETER));
+        m_currentStateMarker.setPaint( CURRENT_STATE_MARKER_COLOR );
+        m_currentStateMarker.setStrokePaint( CURRENT_STATE_MARKER_COLOR );
+        addWorldChild( m_currentStateMarker );
+
         // Draw the initial phase diagram.
         drawPhaseDiagram( 0 );
+        
+        // Set the initial position of the current phase state marker.
+        setCurrentStateMarkerPos( 0, 0 );
+    }
+
+    private void updateStateMarkerPosition(){
+        // JPB TBD - This is very preliminary, and I need to work with Paul to make it "real".
+        double xPos = m_model.getNormalizedTemperature();
+        double yPos = m_model.getPressure();
+        if (yPos > 1){
+            yPos = 1;
+        }
+        setCurrentStateMarkerPos( xPos, yPos );
     }
     
     private void drawPhaseDiagram(int substance){
@@ -279,6 +334,19 @@ public class PhaseDiagram extends PhetPCanvas {
         m_criticalPointLabel2.setOffset( DEFAULT_CRITICAL_POINT.getX() + 4, DEFAULT_CRITICAL_POINT.getY() );
         m_criticalPointLabel1.setOffset( m_criticalPointLabel2.getFullBoundsReference().x,
                 m_criticalPointLabel2.getFullBoundsReference().y - m_criticalPointLabel2.getFullBoundsReference().height * 0.8);
+    }
+    
+    /**
+     * Set the normalized position for this marker.
+     * 
+     * @param xPos - X position value between 0 and 1 (inclusive).
+     * @param yPos - Y position value between 0 and 1 (inclusive).
+     */
+    public void setCurrentStateMarkerPos(double xPos, double yPos){
+        // TODO: JPB TBD - Add code to throw exception if out of range.
+        m_currentStateMarkerPos.setLocation( xPos, yPos );
+        m_currentStateMarker.setOffset( xPos * xUsableRange + xOriginOffset - (CURRENT_STATE_MARKER_DIAMETER / 2), 
+                -yPos * yUsableRange + yOriginOffset - (CURRENT_STATE_MARKER_DIAMETER / 2));
     }
     
     /**
