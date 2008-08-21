@@ -1,0 +1,39 @@
+PhET Progress Report
+John Blanco
+August 13, 2008
+
+Note: This status report covers the dates of July 23-25 and August 11-13, since I was on vacation during the intervening period.
+
+States of Matter Sim - 34 hrs
+
+* Finished adding digital thermometer readout.
+* Created a drawn version of the container for testing on Mac and possible long-term use.
+* Removed prototype tabs.
+* Incorporated latest container graphics provided by Noah P.
+* Added graphics and code for changing the volume of the container.
+* Created infrastructure and partial functionality for 3rd and final tab.
+* Implemented changes to water molecule behavior specified by Paul Beale.
+* Started implementation of normalized-to-Kelvin temperature conversion for Neon and Argon.
+
+Nuclear Physics - 2.5 hrs
+
+* Incorporated photo of real reactor into the Nuclear Reactor tab.
+
+Web Site - 0 hrs
+
+
+Meetings & Email - 4.0 hrs
+
+* Regular weekly status meeting.
+* Various discussions with Noah P, Sam R, Chris and Kathy in person and via email.
+
+Infrastructure and Tools - 6.0 hrs
+
+* Worked on issue of not being able to deploy to production server, tracked it down to Maverick-SSH.
+
+Misc - 1.5
+
+* Fire alarm - evacuated from building.
+
+
+
