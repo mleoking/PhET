@@ -90,7 +90,7 @@ public class Exp2SolidLiquidGasControlPanel extends ControlPanel {
             
             BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
             TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
-                    StatesOfMatterStrings.STATE_TYPE_SELECT_LABEL,
+                    StatesOfMatterStrings.FORCE_STATE_CHANGE,
                     TitledBorder.LEFT,
                     TitledBorder.TOP,
                     new PhetFont( Font.BOLD, 14 ),

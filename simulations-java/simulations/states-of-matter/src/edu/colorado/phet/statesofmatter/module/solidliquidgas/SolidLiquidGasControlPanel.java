@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.BevelBorder;
@@ -36,7 +37,7 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
     
     MultipleParticleModel m_model;
-    StateSelectionPanel m_stateSelectionPanel;
+    ForceStateChangePanel m_stateSelectionPanel;
     LinearValueControl m_gravityControl;
     
     //----------------------------------------------------------------------------
@@ -58,12 +59,12 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
         int minimumWidth = StatesOfMatterResources.getInt( "int.minControlPanelWidth", 215 );
         setMinimumWidth( minimumWidth );
         
-        // Add the panel that allows the user to select the phase state.
-        m_stateSelectionPanel = new StateSelectionPanel();
-        addControlFullWidth( m_stateSelectionPanel );
-        
         // Add the panel that allows the user to select molecule type.
         addControlFullWidth( new MoleculeSelectionPanel() );
+        
+        // Add the panel that allows the user to select the phase state.
+        m_stateSelectionPanel = new ForceStateChangePanel();
+        addControlFullWidth( m_stateSelectionPanel );
         
         // Add the panel that allows the user to control the system temperature.
         addControlFullWidth( new GravityControlPanel(m_model) );
@@ -78,22 +79,22 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
 
     /**
-     * This class defines the panel that allows the user to select the phase
-     * state for the molecules.
+     * This class defines the panel that allows the user to immediately change
+     * the state of the current molecules.
      */
-    private class StateSelectionPanel extends JPanel {
+    private class ForceStateChangePanel extends JPanel {
         
-        private JRadioButton m_solidRadioButton;
-        private JRadioButton m_liquidRadioButton;
-        private JRadioButton m_gasRadioButton;
+        private JButton m_solidRadioButton;
+        private JButton m_liquidRadioButton;
+        private JButton m_gasRadioButton;
         
-        StateSelectionPanel(){
+        ForceStateChangePanel(){
             
-            setLayout( new GridLayout(0, 1) );
+            setLayout( new GridLayout(3, 3) );
             
             BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
             TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
-                    StatesOfMatterStrings.STATE_TYPE_SELECT_LABEL,
+                    StatesOfMatterStrings.FORCE_STATE_CHANGE,
                     TitledBorder.LEFT,
                     TitledBorder.TOP,
                     new PhetFont( Font.BOLD, 14 ),
@@ -101,21 +102,21 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
             
             setBorder( titledBorder );
 
-            m_solidRadioButton = new JRadioButton( StatesOfMatterStrings.PHASE_STATE_SOLID );
+            m_solidRadioButton = new JButton( StatesOfMatterStrings.PHASE_STATE_SOLID );
             m_solidRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
             m_solidRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     m_model.setPhase( MultipleParticleModel.PHASE_SOLID );
                 }
             } );
-            m_liquidRadioButton = new JRadioButton( StatesOfMatterStrings.PHASE_STATE_LIQUID );
+            m_liquidRadioButton = new JButton( StatesOfMatterStrings.PHASE_STATE_LIQUID );
             m_liquidRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
             m_liquidRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     m_model.setPhase( MultipleParticleModel.PHASE_LIQUID );
                 }
             } );
-            m_gasRadioButton = new JRadioButton( StatesOfMatterStrings.PHASE_STATE_GAS );
+            m_gasRadioButton = new JButton( StatesOfMatterStrings.PHASE_STATE_GAS );
             m_gasRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
             m_gasRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -123,19 +124,9 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
                 }
             } );
             
-            ButtonGroup buttonGroup = new ButtonGroup();
-            buttonGroup.add( m_solidRadioButton );
-            buttonGroup.add( m_liquidRadioButton );
-            buttonGroup.add( m_gasRadioButton );
-            m_solidRadioButton.setSelected( true );
-            
             add( m_solidRadioButton );
             add( m_liquidRadioButton );
             add( m_gasRadioButton );
-        }
-        
-        public void reset(){
-            m_solidRadioButton.setSelected( true );
         }
     }
 
@@ -169,7 +160,6 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
             m_oxygenRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if (m_model.getMolecule() != MultipleParticleModel.DIATOMIC_OXYGEN){
-                        SolidLiquidGasControlPanel.this.m_stateSelectionPanel.reset();
                         m_model.setMolecule( MultipleParticleModel.DIATOMIC_OXYGEN );
                     }
                 }
@@ -179,7 +169,6 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
             m_neonRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if (m_model.getMolecule() != MultipleParticleModel.NEON){
-                        SolidLiquidGasControlPanel.this.m_stateSelectionPanel.reset();
                         m_model.setMolecule( MultipleParticleModel.NEON );
                     }
                 }
@@ -189,7 +178,6 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
             m_argonRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if (m_model.getMolecule() != MultipleParticleModel.ARGON){
-                        SolidLiquidGasControlPanel.this.m_stateSelectionPanel.reset();
                         m_model.setMolecule( MultipleParticleModel.ARGON );
                     }
                 }
@@ -199,7 +187,6 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
             m_waterRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if (m_model.getMolecule() != MultipleParticleModel.WATER){
-                        SolidLiquidGasControlPanel.this.m_stateSelectionPanel.reset();
                         m_model.setMolecule( MultipleParticleModel.WATER );
                     }
                 }
