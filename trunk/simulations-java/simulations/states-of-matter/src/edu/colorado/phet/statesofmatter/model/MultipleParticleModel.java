@@ -80,8 +80,8 @@ public class MultipleParticleModel {
     private static final double GAS_TEMPERATURE = 1.0;
     private static final double MIN_INITIAL_INTER_PARTICLE_DISTANCE = 1.2;
     private static final double MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE = 2.5;
-    private static final int MAX_INITIAL_NUMBER_OF_LIQUID_BLOBS = 3;
-    private static final double MIN_DISTANCE_FROM_BLOB_CTR_TO_WALL = 5.0;
+    private static final int MAX_INITIAL_NUMBER_OF_LIQUID_BLOBS = 1;
+    private static final double MIN_DISTANCE_FROM_BLOB_CTR_TO_WALL = 8.0;
     
     // Supported molecules.
     public static final int NEON = 1;
