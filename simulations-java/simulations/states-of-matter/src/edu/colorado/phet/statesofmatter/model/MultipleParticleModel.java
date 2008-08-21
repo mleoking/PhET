@@ -50,9 +50,9 @@ public class MultipleParticleModel {
     public static final double DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL = 0.3;  // In particle diameters.
     public static final double DISTANCE_BETWEEN_DIATOMIC_PAIRS = 0.8;  // In particle diameters.
     public static final double DIATOMIC_FORCE_CONSTANT = 100; // For calculating force between diatomic pairs.
-    public static final double TIME_STEP = Math.pow( 0.5, 6.0 );
+    public static final double TIME_STEP = Math.pow( 0.5, 7.0 );
     public static final double INITIAL_TEMPERATURE = 0.2;
-    public static final double MAX_TEMPERATURE = 2.0;
+    public static final double MAX_TEMPERATURE = 4.0;
     public static final double MIN_TEMPERATURE = 0.001;
     public static final double TEMPERATURE_STEP = -0.1;
     private static final double WALL_DISTANCE_THRESHOLD = 1.122462048309373017;
@@ -96,7 +96,7 @@ public class MultipleParticleModel {
     public static final int ANDERSEN_THERMOSTAT = 2;
     
     // Parameters to control rates of change in the sim.
-    public static final double MAX_PER_TICK_CONTAINER_SIZE_CHANGE = 50;
+    public static final double MAX_PER_TICK_CONTAINER_SIZE_CHANGE = 35;
     
     // TODO: JPB TBD - Temp for debug, remove eventually.
     private static final boolean USE_NEW_PRESSURE_CALC_METHOD = true;
@@ -729,7 +729,7 @@ public class MultipleParticleModel {
     private void handleClockTicked(ClockEvent clockEvent) {
         
         // Adjust the particle container height if needed.
-        if (m_targetContainerHeight != m_particleContainerHeight){
+        if ( m_targetContainerHeight != m_particleContainerHeight ){
             double heightChange = m_targetContainerHeight - m_particleContainerHeight;
             if (heightChange > 0){
                 // The container is growing.
@@ -1665,6 +1665,7 @@ public class MultipleParticleModel {
         // Calculate the forces exerted on the particles by the container
         // walls and by gravity.
         double totalBottomForce = 0;
+        boolean interactionOccurredWithTop = false;
         for (int i = 0; i < m_numberOfAtoms; i++){
             
             // Clear the previous calculation's particle forces.
@@ -1679,6 +1680,12 @@ public class MultipleParticleModel {
             m_pressureCalculator.accumulatePressureValue( m_nextAtomForces[i] );
             if (m_nextAtomForces[i].getY() > 0){
                 totalBottomForce += m_nextAtomForces[i].getY();
+            }
+            else if (m_nextAtomForces[i].getY() < 0){
+                // Set a flag indicating that interaction occurred with the
+                // top of the container.  This is necessary later for dealing
+                // with changes to the size of the container.
+                interactionOccurredWithTop = true;
             }
             
             // Add in the effect of gravity.
@@ -1735,7 +1742,8 @@ public class MultipleParticleModel {
             }
         }
         
-        // Calculate the new velocities.
+        // Calculate the new velocities based on the old ones and the forces
+        // that are acting on the particle.
         Vector2D.Double velocityIncrement = new Vector2D.Double();
         for (int i = 0; i < m_numberOfAtoms; i++){
             velocityIncrement.setX( timeStepHalf * (m_atomForces[i].getX() + m_nextAtomForces[i].getX()));
@@ -1745,34 +1753,50 @@ public class MultipleParticleModel {
                     (m_atomVelocities[i].getY() * m_atomVelocities[i].getY())) / 2;
         }
         
-        if (m_thermostatType == ISOKINETIC_THERMOSTAT){
-            // Isokinetic thermostat
-            
-            double temperatureScaleFactor;
-            if (m_temperature == 0){
-                temperatureScaleFactor = 0;
+        // Run the thermostat, which keeps the atoms from getting way to much
+        // energy over time due to simulation inaccuracies and limitations.
+        // Note that the thermostat is NOT run if the container size is
+        // changing and interaction occurred with the moving surfaces of the
+        // container, so that the increase/decrease in temperature caused by
+        // the size change can actually happen.
+        if ((m_targetContainerHeight == m_particleContainerHeight) || (!interactionOccurredWithTop)){
+            if (m_thermostatType == ISOKINETIC_THERMOSTAT){
+                // Isokinetic thermostat
+                
+                double temperatureScaleFactor;
+                if (m_temperature == 0){
+                    temperatureScaleFactor = 0;
+                }
+                else{
+                    temperatureScaleFactor = Math.sqrt( m_temperature * m_numberOfAtoms / kineticEnergy );
+                }
+                kineticEnergy = 0;
+                for (int i = 0; i < m_numberOfAtoms; i++){
+                    m_atomVelocities[i].setComponents( m_atomVelocities[i].getX() * temperatureScaleFactor, 
+                            m_atomVelocities[i].getY() * temperatureScaleFactor );
+                    kineticEnergy += ((m_atomVelocities[i].getX() * m_atomVelocities[i].getX()) + 
+                            (m_atomVelocities[i].getY() * m_atomVelocities[i].getY())) / 2;
+                }
             }
-            else{
-                temperatureScaleFactor = Math.sqrt( m_temperature * m_numberOfAtoms / kineticEnergy );
-            }
-            kineticEnergy = 0;
-            for (int i = 0; i < m_numberOfAtoms; i++){
-                m_atomVelocities[i].setComponents( m_atomVelocities[i].getX() * temperatureScaleFactor, 
-                        m_atomVelocities[i].getY() * temperatureScaleFactor );
-                kineticEnergy += ((m_atomVelocities[i].getX() * m_atomVelocities[i].getX()) + 
-                        (m_atomVelocities[i].getY() * m_atomVelocities[i].getY())) / 2;
+            else if (m_thermostatType == ANDERSEN_THERMOSTAT){
+                // Modified Andersen Thermostat to maintain fixed temperature
+                // modification to reduce abruptness of heat bath interactions.
+                // For bare Andersen, set gamma=0.0d0.
+                double gamma = 0.9999;
+                for (int i = 0; i < m_numberOfAtoms; i++){
+                    double xVel = m_atomVelocities[i].getX() * gamma + m_rand.nextGaussian() * Math.sqrt(  m_temperature * (1 - Math.pow(gamma, 2)) );
+                    double yVel = m_atomVelocities[i].getY() * gamma + m_rand.nextGaussian() * Math.sqrt(  m_temperature * (1 - Math.pow(gamma, 2)) );
+                    m_atomVelocities[i].setComponents( xVel, yVel );
+                }
             }
         }
-        else if (m_thermostatType == ANDERSEN_THERMOSTAT){
-            // Modified Andersen Thermostat to maintain fixed temperature
-            // modification to reduce abruptness of heat bath interactions.
-            // For bare Andersen, set gamma=0.0d0.
-            double gamma = 0.9999;
-            for (int i = 0; i < m_numberOfAtoms; i++){
-                double xVel = m_atomVelocities[i].getX() * gamma + m_rand.nextGaussian() * Math.sqrt(  m_temperature * (1 - Math.pow(gamma, 2)) );
-                double yVel = m_atomVelocities[i].getY() * gamma + m_rand.nextGaussian() * Math.sqrt(  m_temperature * (1 - Math.pow(gamma, 2)) );
-                m_atomVelocities[i].setComponents( xVel, yVel );
-            }
+        else{
+            System.out.println("Calculated temperature = " + calculateTemperatureFromKineticEnergy());
+            // Since the container size is changing, we should update the
+            // temperature set point based on the current amount of kinetic
+            // energy, since it may have changed as a result of the container
+            // size change.
+            setTemperature( calculateTemperatureFromKineticEnergy() );
         }
         
         // Replace the new forces with the old ones.
@@ -2424,6 +2448,34 @@ public class MultipleParticleModel {
         }
         
         return temperatureInKelvin;
+    }
+    
+    /**
+     * This function calculates the temperature of the system by looking at
+     * the kinetic energy of the particles.
+     * 
+     * @return
+     */
+    private double calculateTemperatureFromKineticEnergy(){
+        
+        double translationalKineticEnergy = 0;
+        double rotationalKineticEnergy = 0;
+        
+        if (m_atomsPerMolecule == 1){
+            for (int i = 0; i < m_numberOfAtoms; i++){
+                translationalKineticEnergy += ((m_atomVelocities[i].getX() * m_atomVelocities[i].getX()) + 
+                        (m_atomVelocities[i].getY() * m_atomVelocities[i].getY())) / 2;
+            }
+        }
+        else{
+            for (int i = 0; i < m_numberOfAtoms / m_atomsPerMolecule; i++){
+                translationalKineticEnergy += 0.5 * m_moleculeMass * (Math.pow( m_moleculeVelocities[i].getX(), 2 ) + 
+                        Math.pow( m_moleculeVelocities[i].getY(), 2 ));
+                rotationalKineticEnergy += 0.5 * m_moleculeRotationalInertia * Math.pow(m_moleculeRotationRates[i], 2);
+            }            
+        }
+            
+        return (translationalKineticEnergy + rotationalKineticEnergy) / m_numberOfAtoms;
     }
     
     //------------------------------------------------------------------------
