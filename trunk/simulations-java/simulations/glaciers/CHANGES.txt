@@ -6,11 +6,11 @@ HIGHEST PRIORITY:
 
 HIGH PRIORITY:
 - bug: loading full-size background image causes OutOfMemoryException, exceeds JVM heap space
-- bug: valley model for x<0 does not match background image
+- bug: valley model for x<0 does not match background image (I'll doctor this up with a Java2D Shape)
 - bug: valley is narrower near headwall in background image
-- bug: ice is not perfectly aligned with background image, you can see slivers of the valley floor in places
 
 MEDIUM PRIORITY:
+- glacier growth from zero length still takes a long time, and then speeds up
 - replace "glacier picture" check box with a button
 - switch user-interface between English and metric units
 - climate experiments interface (start with a time estimate)
@@ -77,6 +77,7 @@ CLEANUP:
 
 
 DONE:
+8/21/08 - fix "glacier budget vs elevation" chart so that SHOW_NEGATIVE_ABLATION flag works properly
 ******* 1.00.00 (23465)
 7/23/08 - update screenshot
 7/23/08 - add sim description (aka, abstract)
@@ -153,7 +154,7 @@ DONE:
 7/18/08 - rename PlayArea to GlaciersPlayArea
 7/17/08 - rename module.basic package to module.intro
 7/17/08 - fix: very short advancing glacier starts off advancing very slowly, then speeds up (fixed by previous 2 changes)
-7/17/08 - change timescale so that there is no difference between retreating and advancing (use receding model for both)
+7/17/08 - change timescale so that there is no difference between retreating and advancing (use retreating model for both)
 7/17/08 - change timescale max to 200 
 7/17/08 - fix incorrect assert in setSteadyState
 ******* 0.00.31 (23129)

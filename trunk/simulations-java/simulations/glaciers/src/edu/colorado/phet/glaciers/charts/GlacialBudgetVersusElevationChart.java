@@ -153,7 +153,12 @@ public class GlacialBudgetVersusElevationChart extends JDialog {
             
             _glacialBudgetSeries.add( glacialBudget, elevation );
             _accumulationSeries.add( accumulation, elevation );
-            _ablationSeries.add( -ablation, elevation );//XXX add negative ablation
+            if ( SHOW_NEGATIVE_ABLATION ) {
+                _ablationSeries.add( -ablation, elevation );
+            }
+            else {
+                _ablationSeries.add( ablation, elevation );  
+            }
 
             elevation += DELTA_ELEVATION;
         }
