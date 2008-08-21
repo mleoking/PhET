@@ -35,6 +35,10 @@ public class JavaSimulation implements ISimulation {
     // regular expression that matches localization string files
     private static final String REGEX_LOCALIZATION_FILES = ".*-strings.*\\.properties";
     
+    // project properties file and properties
+    private static final String PROJECT_PROPERTIES_FILENAME = "project.properties";
+    private static final String PROJECT_NAME_PROPERTY = "project.name";
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -49,9 +53,7 @@ public class JavaSimulation implements ISimulation {
     public JavaSimulation( String jarFileName ) throws SimulationException {
         super();
         _jarFileName = jarFileName;
-        
-        String[] commonProjectNames = TUResources.getCommonProjectNames();
-        _projectName = getSimulationProjectName( jarFileName, commonProjectNames );
+        _projectName = getProjectName( jarFileName );
     }
     
     //----------------------------------------------------------------------------
@@ -163,17 +165,45 @@ public class JavaSimulation implements ISimulation {
     }
     
     /*
-     * Gets the name of the simulation project used to create the JAR file.
+     * Gets the project name for the simulation
+     * 
+     * @param jarFileName
+     */
+    private static String getProjectName( String jarFileName ) throws SimulationException {
+        
+        String projectName = null;
+        
+        // For newer sims, the project name is identified in project.properties
+        Properties projectProperties = readPropertiesFromJar( jarFileName, PROJECT_PROPERTIES_FILENAME );
+        if ( projectProperties != null ) {
+            projectName = projectProperties.getProperty( PROJECT_NAME_PROPERTY );
+        }
+        
+        // For older sims (or if PROJECT_NAME_PROPERTY is missing), discover the project name
+        if ( projectName == null ) {
+            projectName = discoverProjectName( jarFileName );
+        }
+        
+        if ( projectName == null ) {
+            throw new SimulationException( "could not determine this simulation's project name: " + jarFileName );
+        }
+        
+        return projectName;
+    }
+    
+    /*
+     * Discovers the name of the project that was used to build the JAR file.
      * We search for localization files in the JAR file.
      * The first localization file that does not belong to a common project is assumed
      * to belong to the simulation, and we extract the project name from the localization file name.
      * 
      * @param jarFileName
-     * @param commonProjectNames
      * @return String
-     * @throws JarIOException
+     * @throws SimulationException
      */
-    private static String getSimulationProjectName( String jarFileName, String[] commonProjectNames ) throws SimulationException {
+    private static String discoverProjectName( String jarFileName ) throws SimulationException {
+        
+        String[] commonProjectNames = TUResources.getCommonProjectNames();
         
         String projectName = null;
         
@@ -216,10 +246,6 @@ public class JavaSimulation implements ISimulation {
         }
         catch ( IOException e ) {
             throw new SimulationException( "error reading jar file: " + jarFileName, e );
-        }
-        
-        if ( projectName == null ) {
-            throw new SimulationException( "could not determine this simulation's project name: " + jarFileName );
         }
         
         return projectName;
