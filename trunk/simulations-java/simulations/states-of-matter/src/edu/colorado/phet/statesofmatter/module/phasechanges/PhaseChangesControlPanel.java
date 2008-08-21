@@ -93,7 +93,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
         
         // Add the phase diagram.
         m_phaseDiagramPanel = new JPanel();
-        m_phaseDiagramPanel.add( new PhaseDiagram() );
+        m_phaseDiagramPanel.add( new PhaseDiagram( m_model ) );
         addControlFullWidth( m_phaseDiagramPanel );
         m_phaseDiagramPanel.setVisible( m_phaseDiagramVisible );
         
