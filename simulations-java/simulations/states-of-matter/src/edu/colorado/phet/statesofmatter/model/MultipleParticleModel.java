@@ -95,8 +95,9 @@ public class MultipleParticleModel {
     public static final int ISOKINETIC_THERMOSTAT = 1;
     public static final int ANDERSEN_THERMOSTAT = 2;
     
-    // Parameters to control rates of change in the sim.
-    public static final double MAX_PER_TICK_CONTAINER_SIZE_CHANGE = 25;
+    // Parameters to control rates of change of the container size.
+    private static final double MAX_PER_TICK_CONTAINER_SHRINKAGE = 25;
+    private static final double MAX_PER_TICK_CONTAINER_EXPANSION = 200;
     
     // TODO: JPB TBD - Temp for debug, remove eventually.
     private static final boolean USE_NEW_PRESSURE_CALC_METHOD = true;
@@ -733,7 +734,7 @@ public class MultipleParticleModel {
             if (heightChange > 0){
                 // The container is growing.
                 if (m_particleContainerHeight + heightChange <= StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT){
-                    m_particleContainerHeight += Math.min( heightChange, MAX_PER_TICK_CONTAINER_SIZE_CHANGE );
+                    m_particleContainerHeight += Math.min( heightChange, MAX_PER_TICK_CONTAINER_EXPANSION );
                 }
                 else{
                     m_particleContainerHeight = StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT;
@@ -742,7 +743,7 @@ public class MultipleParticleModel {
             else{
                 // The container is shrinking.
                 if (m_particleContainerHeight - heightChange >= m_minAllowableContainerHeight){
-                    m_particleContainerHeight += Math.max( heightChange, -MAX_PER_TICK_CONTAINER_SIZE_CHANGE );
+                    m_particleContainerHeight += Math.max( heightChange, -MAX_PER_TICK_CONTAINER_SHRINKAGE );
                 }
                 else{
                     m_particleContainerHeight = m_minAllowableContainerHeight;
@@ -1973,7 +1974,7 @@ public class MultipleParticleModel {
                     temperatureScaleFactor = 0;
                 }
                 else{
-                    temperatureScaleFactor = Math.sqrt( 1.5 * m_temperature * numberOfMolecules / (centersOfMassKineticEnergy + rotationalKineticEnergy) );
+                    temperatureScaleFactor = Math.sqrt( m_temperature * numberOfMolecules / (centersOfMassKineticEnergy + rotationalKineticEnergy) );
                 }
                 for (int i = 0; i < numberOfMolecules; i++){
                     m_moleculeVelocities[i].setComponents( m_moleculeVelocities[i].getX() * temperatureScaleFactor, 
