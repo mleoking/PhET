@@ -15,11 +15,6 @@ import edu.colorado.phet.common_force1d.model.clock.SwingTimerClock;
 import edu.colorado.phet.common_force1d.view.PhetLookAndFeel;
 import edu.colorado.phet.common_force1d.view.util.FrameSetup;
 
-/**
- * User: Sam Reid
- * Date: Nov 12, 2004
- * Time: 10:06:43 PM
- */
 public class Forces1DApplication {
     static final String VERSION = PhetApplicationConfig.getVersion( "forces-1d" ).formatForTitleBar();
 
