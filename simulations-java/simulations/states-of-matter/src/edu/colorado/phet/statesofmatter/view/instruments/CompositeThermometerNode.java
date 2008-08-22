@@ -50,7 +50,7 @@ public class CompositeThermometerNode extends PNode {
     
     public void setTemperatureInDegreesKelvin(double degrees){
         m_kelvinReadout.setValue( degrees );
-        m_liquidThermometer.setLiquidHeight( degrees / m_maxTemp );
+        m_liquidThermometer.setLiquidHeight( Math.min( degrees / m_maxTemp, 1.0 ) );
     }
     
     //----------------------------------------------------------------------------
