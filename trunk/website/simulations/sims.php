@@ -457,7 +457,10 @@ EOT;
 
                 <tr>
                     <td colspan="2">
-                        <input type="submit" name="submit" value="Submit"  />
+                    <span style="float: left">
+                        Check the <a href="{$this->prefix}teacher_ideas/contribution-guidelines.php">PhET design guidelines</a>
+                        (<a href="{$this->prefix}teacher_ideas/contribution-guidelines.pdf">PDF</a>)</span>
+                    <input type="submit" name="submit" value="Submit" />
                     </td>
                 </tr>
             </table>
