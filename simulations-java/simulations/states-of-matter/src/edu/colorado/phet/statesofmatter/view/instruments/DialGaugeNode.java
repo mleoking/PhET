@@ -5,6 +5,7 @@ package edu.colorado.phet.statesofmatter.view.instruments;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.GradientPaint;
+import java.awt.Paint;
 import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
@@ -14,6 +15,7 @@ import java.text.DecimalFormat;
 
 import javax.swing.SwingUtilities;
 
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
 import edu.umd.cs.piccolo.PNode;
@@ -165,10 +167,20 @@ public class DialGaugeNode extends PNode {
         // behind everything else.
         PPath connector = new PPath(new Rectangle2D.Double(0, 0, connectorWidth, 
                 CONNECTOR_HEIGHT_PROPORATION * diameter));
-        GradientPaint gradientPaint = new GradientPaint((float)(diameter / 2), 
-                0, Color.LIGHT_GRAY, (float)(diameter / 2), (float)(CONNECTOR_HEIGHT_PROPORATION * diameter), Color.BLUE);
+        
+        Paint paint;
+        
+        if (PhetUtilities.getOperatingSystem() == PhetUtilities.OS_MACINTOSH){
+            // We have been having issues with gradient paints causing crashes
+            // on Macs, so Mac users get solid colors.
+            paint = Color.BLUE;
+        }
+        else{
+            paint = new GradientPaint((float)(diameter / 2), 0, Color.LIGHT_GRAY, (float)(diameter / 2), 
+                    (float)(CONNECTOR_HEIGHT_PROPORATION * diameter), Color.BLUE);
+        }
 
-        connector.setPaint( gradientPaint );
+        connector.setPaint( paint );
         connector.setOffset( dialComponentsNode.getFullBoundsReference().width * 0.9, 
                 diameter / 2 - connector.getHeight() / 2 );
         addChild(connector);
