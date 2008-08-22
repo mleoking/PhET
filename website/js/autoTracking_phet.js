@@ -1,8 +1,9 @@
 var docIdentifier = '/download';
+var simIdentifier = ''; // No identifier for now
 
 function listenToClicks() {
-    var domains    = ["phet.colorado.edu", "localhost"];
-    var fileTypes  = [".doc",".xls",".exe",".zip",".pdf",".mp3", ".jnlp", ".html", "get-run-offline.php"];
+    var domains    = ["phet.colorado.edu"];
+    var fileTypes  = [".doc",".xls",".exe",".zip",".pdf",".mp3"];
 
     if (document.getElementsByTagName) {
         var aTags = document.getElementsByTagName('a');
@@ -25,6 +26,22 @@ function listenToClicks() {
                             startListening(aTags[i],"click",trackDocuments);
                             continue ANCHOR;
                         }
+                    }
+
+                    // look for a sim file extension for direct download
+                    if (((aTags[i].pathname.indexOf(".html") != -1) ||
+                        (aTags[i].pathname.indexOf(".jnlp") != -1)) &&
+                        (aTags[i].pathname.indexOf("sims") != -1)) {
+                        // file extension was found, go to next anchor
+                        startListening(aTags[i],"click",trackOnlineSims);
+                        continue ANCHOR;
+                    }
+
+                    // look for a sim that is run offline
+                    if (aTags[i].pathname.indexOf("get-run-offline") != -1) {
+                        // file extension was found, go to next anchor
+                        startListening(aTags[i],"click",trackOfflineSims);
+                        continue ANCHOR;
                     }
 
                     // file extension was not found, see if we should use Linker
@@ -85,6 +102,33 @@ function useLinker (evnt) {
 function trackDocuments (evnt) {
     var url = (evnt.srcElement) ? "/" + evnt.srcElement.pathname : this.pathname;
     url = docIdentifier + url;
+    if (typeof(benchmarkTracker) == "object") {
+        benchmarkTracker._trackPageview(url);
+    }
+
+    if (typeof(overallTracker) == "object") {
+        overallTracker._trackPageview(url);
+    }
+}
+
+function trackOnlineSims(evnt) {
+    var url = (evnt.srcElement) ? "/" + evnt.srcElement.pathname : this.pathname;
+    url = simIdentifier + url;
+    if (typeof(benchmarkTracker) == "object") {
+        benchmarkTracker._trackPageview(url);
+    }
+
+    if (typeof(overallTracker) == "object") {
+        overallTracker._trackPageview(url);
+    }
+}
+
+function trackOfflineSims(evnt) {
+    target = (evnt.srcElement) ? evnt.srcElement : this;
+    // Get the pathname including the query string
+    // TODO: make efficient
+    idx = target.href.indexOf(target.pathname);
+    url = simIdentifier + target.href.substr(idx);
     if (typeof(benchmarkTracker) == "object") {
         benchmarkTracker._trackPageview(url);
     }
