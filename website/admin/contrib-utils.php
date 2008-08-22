@@ -32,7 +32,7 @@
 
         $result = db_exec_query("SELECT * FROM `contribution_comment`, `contributor` WHERE `contribution_comment`.`contributor_id` = `contributor`.`contributor_id` AND `contribution_comment`.`contribution_id`='$contribution_id'  ");
 
-        while ($comment = mysql_fetch_assoc($result, $connection)) {
+        while ($comment = mysql_fetch_assoc($result)) {
             $comments[] = $comment;
         }
 
