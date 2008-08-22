@@ -74,6 +74,11 @@ public class InteractionPotentialDiagramNode extends PNode {
     private double m_graphOffsetY;
     private double m_graphWidth;
     private double m_graphHeight;
+    private PPath m_potentialEnergyLine;
+    private DoubleArrowNode m_epsilonArrow;
+    private PText m_epsilonLabel;
+    private PText m_sigmaLabel;
+    private DoubleArrowNode m_sigmaArrow;
     
     /**
      * Constructor.
@@ -157,10 +162,72 @@ public class InteractionPotentialDiagramNode extends PNode {
             ljPotentialGraph.addChild( rightTickMark );
         }
         
-        // Create and add the potential energy line to the graph.
-        PPath potentialEnergyLine = new PPath();
-        potentialEnergyLine.setStroke( POTENTIAL_ENERGY_LINE_STROKE );
-        potentialEnergyLine.setStrokePaint( POTENTIAL_ENERGY_LINE_COLOR );
+        // Add the arrows and labels that will depict sigma and epsilon.
+        m_epsilonArrow = new DoubleArrowNode( new Point2D.Double( 0, 0 ), 
+                new Point2D.Double( 0, m_graphHeight / 2 ), ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_LINE_WIDTH);
+        m_epsilonArrow.setPaint( Color.BLACK );
+        ljPotentialGraph.addChild( m_epsilonArrow );
+        
+        m_epsilonLabel = new PText("\u03B5");
+        m_epsilonLabel.setFont( GREEK_LETTER_FONT );
+        ljPotentialGraph.addChild( m_epsilonLabel );
+
+        m_sigmaLabel = new PText("\u03C3");
+        m_sigmaLabel.setFont( GREEK_LETTER_FONT );
+        ljPotentialGraph.addChild( m_sigmaLabel );
+
+        m_sigmaArrow = new DoubleArrowNode(new Point2D.Double( 0, 0 ), new Point2D.Double( 0, 0 ), 
+                ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_LINE_WIDTH);
+        m_sigmaArrow.setPaint( Color.BLACK );
+        ljPotentialGraph.addChild( m_sigmaArrow );
+
+        // Add the potential energy line.
+        m_potentialEnergyLine = new PPath();
+        m_potentialEnergyLine.setStroke( POTENTIAL_ENERGY_LINE_STROKE );
+        m_potentialEnergyLine.setStrokePaint( POTENTIAL_ENERGY_LINE_COLOR );
+        ljPotentialGraph.addChild( m_potentialEnergyLine );
+
+        // Create and add the labels for the axes.
+        PText horizontalAxisLabel = new PText(StatesOfMatterStrings.INTERACTION_POTENTIAL_GRAPH_X_AXIS_LABEL);
+        horizontalAxisLabel.setFont( AXIS_LABEL_FONT );
+        horizontalAxisLabel.setOffset( m_graphOffsetX + (m_graphWidth / 2) - 
+                (horizontalAxisLabel.getFullBoundsReference().width / 2), 
+                m_graphOffsetY + m_graphHeight + (horizontalAxisLabel.getFullBoundsReference().height * 0.3));
+        addChild( horizontalAxisLabel );
+        
+        PText verticalAxisLabel = new PText(StatesOfMatterStrings.INTERACTION_POTENTIAL_GRAPH_Y_AXIS_LABEL);
+        verticalAxisLabel.setFont( AXIS_LABEL_FONT );
+        verticalAxisLabel.setOffset( 0, 
+                (m_graphOffsetY + m_graphHeight) / 2 + (verticalAxisLabel.getFullBoundsReference().width / 2) );
+        verticalAxisLabel.rotate( 3 * Math.PI / 2 );
+        addChild( verticalAxisLabel );
+        
+        // Set the overall background color.
+        setPaint( Color.LIGHT_GRAY );
+        
+        // Draw the curve upon the graph.
+        drawPotentialCurve();
+    }
+    
+    /**
+     * Calculate the normalized Lennard-Jones potential, meaning that the 
+     * sigma and epsilon values are assumed to be equal to 1.
+     * 
+     * @param radius
+     * @return
+     */
+    private double calculateLennardJonesPotential(double radius){
+        
+        return (4 * EPSILON * (Math.pow( SIGMA / radius, 12 ) - Math.pow( SIGMA / radius, 6 )));
+        
+    }
+    
+    
+    /**
+     * Draw the curve that reflects the Lennard-Jones potential based upon the
+     * current values for sigma and epsilon.
+     */
+    private void drawPotentialCurve(){
         GeneralPath potentialEnergyLineShape = new GeneralPath();
         potentialEnergyLineShape.moveTo( 0, 0);
         Point2D graphMin = new Point2D.Double(0, 0);
@@ -188,64 +255,19 @@ public class InteractionPotentialDiagramNode extends PNode {
                 potentialEnergyLineShape.moveTo( i, 0);
             }
         }
-        potentialEnergyLine.setPathTo( potentialEnergyLineShape );
+        m_potentialEnergyLine.setPathTo( potentialEnergyLineShape );
         
-        // Put in the arrows that depict sigma and epsilon.
-        DoubleArrowNode epsilonArrow = new DoubleArrowNode(graphMin, 
-                new Point2D.Double( graphMin.getX(), m_graphHeight / 2 ), ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_LINE_WIDTH);
-        epsilonArrow.setPaint( Color.BLACK );
-        ljPotentialGraph.addChild( epsilonArrow );
+        // Position the arrow that depicts epsilon along with its label.
+      
+        m_epsilonArrow.setTipAndTailLocations( graphMin, new Point2D.Double( graphMin.getX(), m_graphHeight / 2 ) );
         
-        PText epsilon = new PText("\u03B5");
-        epsilon.setFont( GREEK_LETTER_FONT );
-        epsilon.setOffset( graphMin.getX() + epsilon.getFullBoundsReference().width * 0.5, 
-                m_graphHeight / 2 + epsilon.getFullBoundsReference().height * 0.5 );
-        ljPotentialGraph.addChild( epsilon );
+        m_epsilonLabel.setOffset( graphMin.getX() + m_epsilonLabel.getFullBoundsReference().width * 0.5, 
+                m_graphHeight / 2 + m_epsilonLabel.getFullBoundsReference().height * 0.5 );
 
-        PText sigma = new PText("\u03C3");
-        sigma.setFont( GREEK_LETTER_FONT );
-        sigma.setOffset( zeroCrossingPoint.getX() / 2 - sigma.getFullBoundsReference().width / 2, 
+        // Position the arrow that depicts sigma along with its label.
+        m_sigmaLabel.setOffset( zeroCrossingPoint.getX() / 2 - m_sigmaLabel.getFullBoundsReference().width / 2, 
                 m_graphHeight / 2 );
-        ljPotentialGraph.addChild( sigma );
-
-        DoubleArrowNode sigmaArrow = new DoubleArrowNode(new Point2D.Double(0, m_graphHeight / 2), zeroCrossingPoint, 
-                ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_LINE_WIDTH);
-        sigmaArrow.setPaint( Color.BLACK );
-        ljPotentialGraph.addChild( sigmaArrow );
-
-        // Add the potential energy line here so that it is above the arrows
-        // in the layering.
-        ljPotentialGraph.addChild( potentialEnergyLine );
-
-        // Create and add the labels for the axes.
-        PText horizontalAxisLabel = new PText(StatesOfMatterStrings.INTERACTION_POTENTIAL_GRAPH_X_AXIS_LABEL);
-        horizontalAxisLabel.setFont( AXIS_LABEL_FONT );
-        horizontalAxisLabel.setOffset( m_graphOffsetX + (m_graphWidth / 2) - 
-                (horizontalAxisLabel.getFullBoundsReference().width / 2), 
-                m_graphOffsetY + m_graphHeight + (horizontalAxisLabel.getFullBoundsReference().height * 0.3));
-        addChild( horizontalAxisLabel );
         
-        PText verticalAxisLabel = new PText(StatesOfMatterStrings.INTERACTION_POTENTIAL_GRAPH_Y_AXIS_LABEL);
-        verticalAxisLabel.setFont( AXIS_LABEL_FONT );
-        verticalAxisLabel.setOffset( 0, 
-                (m_graphOffsetY + m_graphHeight) / 2 + (verticalAxisLabel.getFullBoundsReference().width / 2) );
-        verticalAxisLabel.rotate( 3 * Math.PI / 2 );
-        addChild( verticalAxisLabel );
-        
-        // Set the overall background color.
-        setPaint( Color.LIGHT_GRAY );
-    }
-    
-    /**
-     * Calculate the normalized Lennard-Jones potential, meaning that the 
-     * sigma and epsilon values are assumed to be equal to 1.
-     * 
-     * @param radius
-     * @return
-     */
-    private double calculateLennardJonesPotential(double radius){
-        
-        return (4 * EPSILON * (Math.pow( SIGMA / radius, 12 ) - Math.pow( SIGMA / radius, 6 )));
-        
+        m_sigmaArrow.setTipAndTailLocations( new Point2D.Double(0, m_graphHeight / 2), zeroCrossingPoint );
     }
 }
