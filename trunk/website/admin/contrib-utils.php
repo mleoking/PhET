@@ -151,7 +151,7 @@
      */
     function contribution_get_gold_star_html($image_width = 37) {
         // TODO: add height element
-        return "<img src=\"".SITE_ROOT."images/gold-star.jpg\" width=\"$image_width\" alt=\"Image of Gold Star\" title=\"Gold Star Contribution: This contribution has received a Gold Star for its quality and usefulness to many teachers.\" />";
+        return "<a href=\"".SITE_ROOT."about/legend.php\"><img src=\"".SITE_ROOT."images/gold-star.jpg\" width=\"$image_width\" alt=\"Image of Gold Star\" title=\"Gold Star Contribution: This contribution has received a Gold Star for its quality and usefulness to many teachers.\" /></a>";
     }
 
     /**
