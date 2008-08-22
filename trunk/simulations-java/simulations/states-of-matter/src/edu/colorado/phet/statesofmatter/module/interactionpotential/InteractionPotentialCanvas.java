@@ -6,6 +6,7 @@ import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.DualParticleModel;
@@ -98,7 +99,14 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     
     private void handleParticleAdded(StatesOfMatterAtom particle){
         // Add an atom node for this guy.
-        ParticleNode particleNode = new ParticleNode(particle, m_mvt, true);
+        boolean useGradient = true;
+        if (PhetUtilities.getOperatingSystem() == PhetUtilities.OS_MACINTOSH){
+            // We have been having trouble with gradients causing Macs to
+            // crash and/or run very slowly, so we don't use them when running
+            // there.
+            useGradient = false;
+        }
+        ParticleNode particleNode = new ParticleNode(particle, m_mvt, useGradient);
         addWorldChild( particleNode );
         m_particleToNodeMap.put( particle, particleNode );
     }
