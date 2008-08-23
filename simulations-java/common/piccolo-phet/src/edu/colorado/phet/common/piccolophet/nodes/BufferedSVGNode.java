@@ -17,7 +17,7 @@ import java.net.URI;
 /**
  * Represents an SVG image that is rendered into a buffered image as necessary.
  */
-public class SVGNode extends PhetPNode {
+public class BufferedSVGNode extends PhetPNode {
     private static volatile int counter;
 
     private final String name;
@@ -44,7 +44,7 @@ public class SVGNode extends PhetPNode {
      *
      * @throws java.io.IOException If an error occurs while loading the image.
      */
-    public SVGNode(final PhetPCanvas canvas, final InputStream svgInputStream, double width, double height) throws IOException {
+    public BufferedSVGNode(final PhetPCanvas canvas, final InputStream svgInputStream, double width, double height) throws IOException {
         super();
 
         this.canvas = canvas;
@@ -64,7 +64,7 @@ public class SVGNode extends PhetPNode {
      *
      * @throws java.io.IOException If an error occurs while loading the image.
      */
-    public SVGNode(final PhetPCanvas canvas, final InputStream svgInputStream) throws IOException {
+    public BufferedSVGNode(final PhetPCanvas canvas, final InputStream svgInputStream) throws IOException {
         this(canvas, svgInputStream, 1.0, 1.0);
     }
 
