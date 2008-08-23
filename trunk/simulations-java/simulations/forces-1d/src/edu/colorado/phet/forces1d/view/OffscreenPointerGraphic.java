@@ -5,12 +5,12 @@ import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common_force1d.math.AbstractVector2D;
-import edu.colorado.phet.common_force1d.math.Vector2D;
-import edu.colorado.phet.common_force1d.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphicListener;
-import edu.colorado.phet.common_force1d.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.forces1d.common_force1d.math.AbstractVector2D;
+import edu.colorado.phet.forces1d.common_force1d.math.Vector2D;
+import edu.colorado.phet.forces1d.common_force1d.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.forces1d.common_force1d.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.forces1d.common_force1d.view.phetgraphics.PhetGraphicListener;
+import edu.colorado.phet.forces1d.common_force1d.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.forces1d.Force1DResources;
 import edu.colorado.phet.forces1d.model.Block;
 

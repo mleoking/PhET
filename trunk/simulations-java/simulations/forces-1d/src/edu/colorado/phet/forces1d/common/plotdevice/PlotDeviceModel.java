@@ -2,7 +2,7 @@ package edu.colorado.phet.forces1d.common.plotdevice;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common_force1d.model.ModelElement;
+import edu.colorado.phet.forces1d.common_force1d.model.ModelElement;
 import edu.colorado.phet.forces1d.model.DataSeries;
 import edu.colorado.phet.forces1d.model.PhetTimer;
 
