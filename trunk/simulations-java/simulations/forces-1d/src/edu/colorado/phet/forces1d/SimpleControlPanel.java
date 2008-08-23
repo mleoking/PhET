@@ -29,14 +29,13 @@ public class SimpleControlPanel extends IForceControl {
         super( simpleForceModule );
         this.simpleForceModule = simpleForceModule;
 
-//        AdvancedPanel advancedPanel = new AdvancedPanel( "More Controls", "Hide" );
         JButton moreControls = new JButton( Force1DResources.get( "SimpleControlPanel.moreControls" ) );
         moreControls.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 simpleForceModule.setAdvancedControlPanel();
             }
         } );
-        add( moreControls );
+        addControl( moreControls );
         frictionCheckBox = new JCheckBox( Force1DResources.get( "SimpleControlPanel.friction" ), true );
         frictionCheckBox.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -46,13 +45,14 @@ public class SimpleControlPanel extends IForceControl {
 
         fbdSuite = new FreeBodyDiagramSuite( simpleForceModule );
         fbdSuite.setControlPanel( this );
-        addControl( fbdSuite.getCheckBox() );
-        addControl( fbdSuite.getFBDPanel() );
+
+        FBDButton button = new FBDButton( fbdSuite );
+        addControl( button );
+        addControl( fbdSuite.getFreeBodyDiagramPanel());
 
         if ( Toolkit.getDefaultToolkit().getScreenSize().width < 1200 ) {
             super.removeTitle();
         }
-
 
         addControl( frictionCheckBox );
         barriers = new BarrierCheckBox( simpleForceModule );

@@ -2,22 +2,22 @@
 package edu.colorado.phet.forces1d.view;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.forces1d.phetcommon.view.ApparatusPanel2;
-import edu.colorado.phet.forces1d.phetcommon.view.ControlPanel;
-import edu.colorado.phet.forces1d.phetcommon.view.phetcomponents.PhetJComponent;
-import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.forces1d.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.forces1d.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.forces1d.Force1DResources;
 import edu.colorado.phet.forces1d.Forces1DModule;
+import edu.colorado.phet.forces1d.phetcommon.view.ControlPanel;
+import edu.colorado.phet.forces1d.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.forces1d.phetcommon.view.util.ImageLoader;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * User: Sam Reid
@@ -25,94 +25,105 @@ import edu.colorado.phet.forces1d.Forces1DModule;
  * Time: 8:11:43 PM
  */
 public class FreeBodyDiagramSuite {
-    private FreeBodyDiagramPanel fbdPanel;
-    private JCheckBox checkBox;
+    private FreeBodyDiagramPanel freeBodyDiagramPanel;
     private Forces1DModule module;
     private JDialog dialog;
     private JPanel dialogContentPane;
     private ControlPanel controlPanel;
     private int dialogInsetX;
     private int dialogInsetY;
-    public PhetGraphic buttonPanelGraphic;
-    public ApparatusPanel2 fbdApparatusPanel;
+    private JPanel buttonPanel;
+    private PSwing buttonPanelPSwing;
+    private boolean panelVisible;
 
     public FreeBodyDiagramSuite( final Forces1DModule module ) {
         this.module = module;
-        fbdPanel = new FreeBodyDiagramPanel( module );
-        checkBox = new JCheckBox( Force1DResources.get( "FreeBodyDiagramSuite.freeBodyDiagram" ), true );
-        checkBox.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                boolean showFBD = checkBox.isSelected();
-                fbdPanel.setVisible( showFBD );
-                if ( showFBD ) {
-                    checkBox.setVisible( false );
-                }
-            }
-        } );
+        freeBodyDiagramPanel = new FreeBodyDiagramPanel( module );
+        buttonPanel = new JPanel( new FlowLayout( FlowLayout.CENTER, 1, 1 ) );
 
+        BufferedImage tearImage = null;
         try {
-            final JPanel buttonPanel = new JPanel( new FlowLayout( FlowLayout.CENTER, 1, 1 ) );
-
-            fbdApparatusPanel = this.fbdPanel.getFBDPanel();
-            fbdApparatusPanel.setLayout( null );
-            BufferedImage tearImage = ImageLoader.loadBufferedImage( "forces-1d/images/tear-20.png" );
-            BufferedImage xImage = ImageLoader.loadBufferedImage( "forces-1d/images/x-20.png" );
-
-            JButton tearButton = new JButton( new ImageIcon( BufferedImageUtils.rescaleYMaintainAspectRatio( buttonPanel, tearImage, 14 ) ) );
-            JButton closeButton = new JButton( new ImageIcon( BufferedImageUtils.rescaleYMaintainAspectRatio( buttonPanel, xImage, 14 ) ) );
-
-            tearButton.setMargin( new Insets( 2, 2, 2, 2 ) );
-            closeButton.setMargin( new Insets( 2, 2, 2, 2 ) );//todo will look bad on mac
-
-            buttonPanel.add( tearButton );
-            buttonPanel.add( closeButton );
-
-            tearButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    if ( dialog == null || !dialog.isVisible() ) {
-                        setWindowed();
-                    }
-                    else {
-                        closeDialog();
-                    }
-                }
-            } );
-
-            closeButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    fbdApparatusPanel.setVisible( false );
-                    checkBox.setVisible( true );
-                    checkBox.setSelected( false );
-                }
-            } );
-            buttonPanelGraphic = PhetJComponent.newInstance( fbdApparatusPanel, buttonPanel );
-            fbdApparatusPanel.addGraphic( buttonPanelGraphic, Double.POSITIVE_INFINITY );
-            Dimension panelDim = buttonPanel.getPreferredSize();
-            buttonPanel.setBounds( 0, 0, panelDim.width, panelDim.height );
-            updateButtons();
-            fbdApparatusPanel.addComponentListener( new ComponentAdapter() {
-                public void componentResized( ComponentEvent e ) {
-                    updateButtons();
-                }
-
-                public void componentShown( ComponentEvent e ) {
-                    updateButtons();
-                }
-
-            } );
-
-//            PhetShapeGraphic phetShapeGraphic = new PhetShapeGraphic( getFBDPanel(), new Rectangle( 15, 15 ), Color.blue );
-//            fbdApparatusPanel.addGraphic( phetShapeGraphic, Double.POSITIVE_INFINITY );
+            tearImage = ImageLoader.loadBufferedImage( "forces-1d/images/tear-20.png" );
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
-        checkBox.setVisible( false );
+        BufferedImage xImage = null;
+        try {
+            xImage = ImageLoader.loadBufferedImage( "forces-1d/images/x-20.png" );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
 
+        JButton tearButton = new JButton( new ImageIcon( BufferedImageUtils.rescaleYMaintainAspectRatio( buttonPanel, tearImage, 14 ) ) );
+        JButton closeButton = new JButton( new ImageIcon( BufferedImageUtils.rescaleYMaintainAspectRatio( buttonPanel, xImage, 14 ) ) );
+
+        tearButton.setMargin( new Insets( 2, 2, 2, 2 ) );
+        closeButton.setMargin( new Insets( 2, 2, 2, 2 ) );//todo will look bad on mac
+
+        buttonPanel.add( tearButton );
+        buttonPanel.add( closeButton );
+
+        tearButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                if ( dialog == null || !dialog.isVisible() ) {
+                    setWindowed();
+                }
+                else {
+                    closeDialog();
+                }
+            }
+        } );
+
+        closeButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                setPanelVisible( false );
+            }
+        } );
+
+//        getFreeBodyDiagramPanel().add( buttonPanel );
+        buttonPanelPSwing = new PSwing( buttonPanel );
+        getFreeBodyDiagramPanel().addScreenChild( buttonPanelPSwing );
+        updateButtonLocations();
+
+        setPanelVisible( false );
     }
 
-    private void updateButtons() {
-        reshapeTopRight( fbdApparatusPanel, buttonPanelGraphic, 3, 3 );
+    public FreeBodyDiagramPanel getFreeBodyDiagramPanel() {
+        return freeBodyDiagramPanel;
+    }
+
+    public boolean isFBDVisible() {
+        return panelVisible;
+    }
+
+    public void setPanelVisible( boolean b ) {
+        getFreeBodyDiagramPanel().setVisible( b );
+        updateButtonLocations();
+        this.panelVisible = b;
+        notifyListener();
+    }
+
+    public static interface Listener {
+        void visibilityChanged();
+    }
+
+    private ArrayList listeners = new ArrayList();
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void notifyListener() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).visibilityChanged();
+        }
+    }
+
+    private void updateButtonLocations() {
+        int width = (int) getFreeBodyDiagramPanel().getPreferredSize().getWidth();
+        buttonPanelPSwing.setOffset( width - 3 - buttonPanelPSwing.getFullBounds().getWidth(), 3 );
     }
 
     private void setWindowed() {
@@ -125,13 +136,13 @@ public class FreeBodyDiagramSuite {
         Point togo = controlPanel.getLocationOnScreen();
         togo.x -= w;
         dialog.setLocation( togo );
-        dialogContentPane.add( fbdPanel.getFBDPanel() );
-        fbdPanel.getFBDPanel().setLocation( dialogInsetX, dialogInsetY );
+        dialogContentPane.add( getFreeBodyDiagramPanel() );
+        getFreeBodyDiagramPanel().setLocation( dialogInsetX, dialogInsetY );
         dialog.setVisible( true );
         controlPanel.invalidate();
         controlPanel.doLayout();
         controlPanel.validate();
-        updateButtons();
+        updateButtonLocations();
     }
 
     private void createDialog() {
@@ -142,7 +153,7 @@ public class FreeBodyDiagramSuite {
         dialogInsetX = 15;
         dialogInsetY = 15;
 
-        JPanel windowAP = fbdPanel.getFBDPanel();
+        FreeBodyDiagramPanel windowAP = getFreeBodyDiagramPanel();
         Dimension preferredSize = new Dimension( windowAP.getWidth() + dialogInsetX * 2, windowAP.getHeight() + dialogInsetY * 2 );
         dialogContentPane.setSize( preferredSize );
         dialogContentPane.setPreferredSize( preferredSize );
@@ -159,9 +170,9 @@ public class FreeBodyDiagramSuite {
 
     private void closeDialog() {
         controlPanel.getControlPane().setGridY( 1 );//todo Magic number.
-        controlPanel.addControl( fbdPanel.getFBDPanel() );
+        controlPanel.addControl( getFreeBodyDiagramPanel() );
         dialog.setVisible( false );
-        updateButtons();
+        updateButtonLocations();
         Window w = SwingUtilities.getWindowAncestor( controlPanel );
         if ( w instanceof JFrame ) {
             JFrame frame = (JFrame) w;
@@ -173,39 +184,23 @@ public class FreeBodyDiagramSuite {
 
     }
 
-    public Component getCheckBox() {
-        return checkBox;
-    }
-
     public void setControlPanel( ControlPanel controlPanel ) {
         this.controlPanel = controlPanel;
     }
 
-    public void reshapeTopRight( JComponent container, PhetGraphic movable, int dx, int dy ) {
-        int w = container.getWidth();
-        Dimension d = movable.getSize();
-        int x = w - d.width - dx;
-        int y = 0 + dy;
-        movable.setLocation( x, y );//, d.width, d.height );
-    }
-
     public void reset() {
-        fbdPanel.reset();
+        freeBodyDiagramPanel.reset();
     }
 
     public void handleUserInput() {
-        fbdPanel.getFBDPanel().handleUserInput();
+        getFreeBodyDiagramPanel().handleUserInput();
     }
 
     public void updateGraphics() {
-        fbdPanel.updateGraphics();
-    }
-
-    public Component getFBDPanel() {
-        return fbdPanel.getFBDPanel();
+        freeBodyDiagramPanel.updateGraphics();
     }
 
     public void controlsChanged() {
-        updateButtons();
+        updateButtonLocations();
     }
 }

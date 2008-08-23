@@ -1,5 +1,6 @@
-Default do not show FBD
->>add button to show Force Diagram
+cursor hand should be enabled everywhere on FBD
+
+wiggle me was removed from FBD in convert to piccolo in FreeBodyDiagramPanel
 
 - the graph label "Force (N)" overlaps the slider.
 

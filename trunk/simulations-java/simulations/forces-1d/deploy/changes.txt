@@ -1,3 +1,8 @@
+New in ??.??.??
+Converted FBD to piccolo
+Added button to enable FBD
+FBD is disabled by default
+
 9-27-2007: Added slider snap-to for static friction requested to be less than kinetic friction
 9-27-2007: Enabled type-in editing during recording
 9-27-2007: Updated About dialog
