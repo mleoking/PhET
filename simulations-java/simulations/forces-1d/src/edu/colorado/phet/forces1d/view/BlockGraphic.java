@@ -7,10 +7,10 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.event.MouseInputAdapter;
 
-import edu.colorado.phet.common_force1d.math.Function;
-import edu.colorado.phet.common_force1d.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common_force1d.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common_force1d.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.forces1d.common_force1d.math.Function;
+import edu.colorado.phet.forces1d.common_force1d.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.forces1d.common_force1d.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.forces1d.common_force1d.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.forces1d.model.Block;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 import edu.colorado.phet.forces1d.model.Force1dObject;

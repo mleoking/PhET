@@ -8,12 +8,12 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
-import edu.colorado.phet.common_force1d.application.Module;
-import edu.colorado.phet.common_force1d.application.PhetApplication;
-import edu.colorado.phet.common_force1d.model.clock.AbstractClock;
-import edu.colorado.phet.common_force1d.model.clock.SwingTimerClock;
-import edu.colorado.phet.common_force1d.view.PhetLookAndFeel;
-import edu.colorado.phet.common_force1d.view.util.FrameSetup;
+import edu.colorado.phet.forces1d.common_force1d.application.Module;
+import edu.colorado.phet.forces1d.common_force1d.application.PhetApplication;
+import edu.colorado.phet.forces1d.common_force1d.model.clock.AbstractClock;
+import edu.colorado.phet.forces1d.common_force1d.model.clock.SwingTimerClock;
+import edu.colorado.phet.forces1d.common_force1d.view.PhetLookAndFeel;
+import edu.colorado.phet.forces1d.common_force1d.view.util.FrameSetup;
 
 public class Forces1DApplication {
     static final String VERSION = PhetApplicationConfig.getVersion( "forces-1d" ).formatForTitleBar();
@@ -32,8 +32,6 @@ public class Forces1DApplication {
     }
 
     private static void runMain( String[] args ) throws IOException {
-//        Force1DResources.getInstance().init( args, LOCALIZATION_BUNDLE_BASENAME );
-//        Force1DResources.getInstance().addStrings( "forces-1d/localization/phetcommon-strings" );
         PhetLookAndFeel.setLookAndFeel();
         PhetLookAndFeel lookAndFeel = new PhetLookAndFeel();
         lookAndFeel.apply();

@@ -3,8 +3,8 @@ package edu.colorado.phet.forces1d.common;
 
 import java.awt.*;
 
-import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphicListener;
+import edu.colorado.phet.forces1d.common_force1d.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.forces1d.common_force1d.view.phetgraphics.PhetGraphicListener;
 
 /**
  * Use this to position a PhetGraphic with respect to another PhetGraphic.
