@@ -26,7 +26,7 @@ import edu.colorado.phet.forces1d.view.FreeBodyDiagramSuite;
  * Date: Nov 22, 2004
  * Time: 11:11:57 AM
  */
-public class Force1dControlPanel extends IForceControl {
+public class Forces1DControlPanel extends IForceControl {
     private Forces1DModule module;
     private Force1DModel model;
     public static final double MAX_KINETIC_FRICTION = 2.0;
@@ -39,7 +39,7 @@ public class Force1dControlPanel extends IForceControl {
     private BarrierCheckBox barriers;
     private static final double MAX_GRAV = 30;
 
-    public Force1dControlPanel( final Forces1DModule module ) {
+    public Forces1DControlPanel( final Forces1DModule module ) {
         super( module );
         this.module = module;
         model = module.getForceModel();

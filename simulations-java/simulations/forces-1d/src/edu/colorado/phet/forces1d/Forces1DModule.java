@@ -37,7 +37,7 @@ public class Forces1DModule extends Module {
     private PhetLookAndFeel phetLookAndFeel;
     private Force1DModel forceModel;
     protected Force1DPanel forcePanel;
-    private Force1dControlPanel fullControlPanel;
+    private Forces1DControlPanel fullControlPanel;
     private SimpleControlPanel simpleControlPanel;
     private Force1dObject[] imageElements;
     private DefaultPlaybackPanel playbackPanel;
@@ -72,7 +72,7 @@ public class Forces1DModule extends Module {
         forcePanel.addRepaintDebugGraphic( clock );
         setApparatusPanel( forcePanel );
 
-        fullControlPanel = new Force1dControlPanel( this );
+        fullControlPanel = new Forces1DControlPanel( this );
         simpleControlPanel = new SimpleControlPanel( this );
 
         setControlPanel( simpleControlPanel );
