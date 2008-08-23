@@ -1,7 +1,7 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.forces1d.model;
 
-import edu.colorado.phet.forces1d.common_force1d.math.Average;
+import edu.colorado.phet.forces1d.phetcommon.math.Average;
 
 /**
  * User: Sam Reid

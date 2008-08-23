@@ -4,7 +4,7 @@ package edu.colorado.phet.forces1d.model;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import edu.colorado.phet.forces1d.common_force1d.view.util.ImageLoader;
+import edu.colorado.phet.forces1d.phetcommon.view.util.ImageLoader;
 
 /**
  * User: Sam Reid

@@ -6,15 +6,15 @@ import java.awt.geom.Point2D;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.forces1d.common_force1d.math.AbstractVector2D;
-import edu.colorado.phet.forces1d.common_force1d.math.Vector2D;
-import edu.colorado.phet.forces1d.common_force1d.model.clock.AbstractClock;
-import edu.colorado.phet.forces1d.common_force1d.model.clock.ClockTickEvent;
-import edu.colorado.phet.forces1d.common_force1d.model.clock.ClockTickListener;
-import edu.colorado.phet.forces1d.common_force1d.view.graphics.shapes.Arrow;
-import edu.colorado.phet.forces1d.common_force1d.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.forces1d.common_force1d.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.forces1d.common_force1d.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.forces1d.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.forces1d.phetcommon.math.Vector2D;
+import edu.colorado.phet.forces1d.phetcommon.model.clock.AbstractClock;
+import edu.colorado.phet.forces1d.phetcommon.model.clock.ClockTickEvent;
+import edu.colorado.phet.forces1d.phetcommon.model.clock.ClockTickListener;
+import edu.colorado.phet.forces1d.phetcommon.view.graphics.shapes.Arrow;
+import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetShapeGraphic;
 
 /**
  * Created by IntelliJ IDEA.

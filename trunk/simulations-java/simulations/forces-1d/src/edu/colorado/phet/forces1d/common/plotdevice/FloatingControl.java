@@ -9,9 +9,9 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-import edu.colorado.phet.forces1d.common_force1d.view.ApparatusPanel;
-import edu.colorado.phet.forces1d.common_force1d.view.components.VerticalLayoutPanel;
-import edu.colorado.phet.forces1d.common_force1d.view.util.ImageLoader;
+import edu.colorado.phet.forces1d.phetcommon.view.ApparatusPanel;
+import edu.colorado.phet.forces1d.phetcommon.view.components.VerticalLayoutPanel;
+import edu.colorado.phet.forces1d.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.forces1d.Force1DResources;
 import edu.colorado.phet.forces1d.view.PlotDeviceFontManager;
 
