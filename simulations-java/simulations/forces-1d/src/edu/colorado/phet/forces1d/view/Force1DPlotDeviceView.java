@@ -2,7 +2,7 @@ package edu.colorado.phet.forces1d.view;
 
 import java.awt.*;
 
-import edu.colorado.phet.forces1d.common_force1d.view.ApparatusPanel;
+import edu.colorado.phet.forces1d.phetcommon.view.ApparatusPanel;
 import edu.colorado.phet.forces1d.Forces1DModule;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceView;
 

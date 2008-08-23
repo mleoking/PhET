@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.forces1d.common_force1d.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.forces1d.common_force1d.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.forces1d.common_force1d.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.forces1d.common_force1d.view.util.RectangleUtils;
+import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.forces1d.phetcommon.view.util.RectangleUtils;
 
 /**
  * Created by IntelliJ IDEA.
