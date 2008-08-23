@@ -1,22 +1,20 @@
-/*  */
 package edu.colorado.phet.forces1d.view;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
-import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
+import javax.swing.event.MouseInputListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.forces1d.phetcommon.math.Vector2D;
-import edu.colorado.phet.forces1d.phetcommon.view.ApparatusPanel2;
-import edu.colorado.phet.forces1d.phetcommon.view.BasicGraphicsSetup;
-import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.forces1d.Force1DResources;
 import edu.colorado.phet.forces1d.Forces1DModule;
 import edu.colorado.phet.forces1d.common.WiggleMe;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDevice;
 import edu.colorado.phet.forces1d.model.Force1DModel;
+import edu.colorado.phet.forces1d.phetcommon.math.Vector2D;
+import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetGraphic;
 
 /**
  * User: Sam Reid
@@ -24,45 +22,35 @@ import edu.colorado.phet.forces1d.model.Force1DModel;
  * Time: 8:11:43 PM
  */
 
-public class FreeBodyDiagramPanel {
+public class FreeBodyDiagramPanel extends BufferedPhetPCanvas {
 
-    private FreeBodyDiagram freeBodyDiagram;
-    private ApparatusPanel2 fbdPanel;
+    private FreeBodyDiagramNode freeBodyDiagram;
     private WiggleMe fbdWiggleMe;
     private PlotDevice forcePlotDevice;
-    private Forces1DModule module;
 
     public FreeBodyDiagramPanel( final Forces1DModule module ) {
-        this.module = module;
-        fbdPanel = new ApparatusPanel2( module.getClock() ) {
-            protected void paintComponent( Graphics graphics ) {
-                super.paintComponent( graphics );
-            }
-        };
-        fbdPanel.setLayout( new BoxLayout( fbdPanel, BoxLayout.Y_AXIS ) );
-        fbdPanel.addGraphicsSetup( new BasicGraphicsSetup() );
+        setLayout( null );
         int fbdWidth = 180;
         if ( Toolkit.getDefaultToolkit().getScreenSize().width < 1280 ) {
             fbdWidth = 157;
         }
-        fbdPanel.setPreferredSize( new Dimension( fbdWidth, fbdWidth ) );
-        freeBodyDiagram = new FreeBodyDiagram( fbdPanel, module );
-        freeBodyDiagram.setComponent( fbdPanel );//todo is this necessary?
-        fbdPanel.addGraphic( freeBodyDiagram );
+        setPreferredSize( new Dimension( fbdWidth, fbdWidth ) );
+        freeBodyDiagram = new FreeBodyDiagramNode( this, module );
+        addScreenChild( freeBodyDiagram );
 
         int fbdInset = 3;
         freeBodyDiagram.setBounds( fbdInset, fbdInset, fbdWidth - 2 * fbdInset, fbdWidth - 2 * fbdInset );
 
         WiggleMe.Target target = new WiggleMe.Target() {
             public Point getLocation() {
-                return new Point( fbdPanel.getWidth() - 10, fbdPanel.getHeight() / 2 - fbdWiggleMe.getHeight() );
+                return new Point( getWidth() - 10, getHeight() / 2 - fbdWiggleMe.getHeight() );
             }
 
             public int getHeight() {
                 return 0;
             }
         };
-        fbdWiggleMe = new WiggleMe( fbdPanel, module.getClock(), Force1DResources.get( "FreeBodyDiagramPanel.clickHelp" ), target );
+        fbdWiggleMe = new WiggleMe( this, module.getClock(), Force1DResources.get( "FreeBodyDiagramPanel.clickHelp" ), target );
         fbdWiggleMe.setArrowColor( new Color( 0, 30, 240, 128 ) );
         fbdWiggleMe.setFont( new Font( PhetFont.getDefaultFontName(), Font.BOLD, 14 ) );
         fbdWiggleMe.setArrow( 0, 40 );
@@ -74,7 +62,8 @@ public class FreeBodyDiagramPanel {
         module.getForceModel().addListener( new Force1DModel.Listener() {
             public void appliedForceChanged() {
                 fbdWiggleMe.setVisible( false );
-                fbdPanel.removeGraphic( fbdWiggleMe );
+                //todo:
+//                removeScreenChild( fbdWiggleMe );
             }
 
             public void gravityChanged() {
@@ -87,50 +76,59 @@ public class FreeBodyDiagramPanel {
                 forcePlotDevice.getPlotDeviceModel().setPaused( false );
             }
         };
-        freeBodyDiagram.addMouseInputListener( listener );
-//        RepaintDebugGraphic.enable( fbdPanel, module.getClock() );//TODO optimize.
+        addMouseListener( listener );
 
-        fbdPanel.setUseOffscreenBuffer( true );
-    }
+        MouseInputAdapter mia = new MouseInputAdapter() {
+            public void mousePressed( MouseEvent e ) {
+                freeBodyDiagram.setForce( e.getPoint() );
+                freeBodyDiagram.setUserClicked( true );
+            }
 
-    public FreeBodyDiagram getFreeBodyDiagram() {
-        return freeBodyDiagram;
-    }
+            public void mouseDragged( MouseEvent e ) {
+                freeBodyDiagram.setForce( e.getPoint() );
+            }
 
-    public ApparatusPanel2 getFBDPanel() {
-        return fbdPanel;
+            public void mouseReleased( MouseEvent e ) {
+                freeBodyDiagram.model.setAppliedForce( 0.0 );
+            }
+        };
+
+        final MouseInputListener listener2 = new ThresholdedDragAdapter( mia, 10, 0, 1000 );
+        addMouseListener( listener2 );
+        addMouseMotionListener( listener2 );
     }
 
     public void updateGraphics() {
         freeBodyDiagram.updateAll();
-        if ( fbdPanel.isShowing() ) {
-            fbdPanel.paint();
-        }
-    }
-
-    public void setVisible( boolean visible ) {
-        fbdPanel.setVisible( visible );
+//        if ( isShowing() ) {
+//            paint();
+//        }
+        //???
     }
 
     public void reset() {
         if ( !freeBodyDiagram.isUserClicked() ) {//TODO maybe this should be smarter.
             fbdWiggleMe.setVisible( true );
             if ( !containsGraphic( fbdWiggleMe ) ) {
-                fbdPanel.addGraphic( fbdWiggleMe );
+                //todo?
+//                addGraphic( fbdWiggleMe );
             }
         }
     }
 
     private boolean containsGraphic( PhetGraphic graphic ) {
-
-        PhetGraphic[] g = fbdPanel.getGraphic().getGraphics();
-        for ( int i = 0; i < g.length; i++ ) {
-            PhetGraphic phetGraphic = g[i];
-            if ( phetGraphic == graphic ) {
-                return true;
-            }
-        }
         return false;
+//        PhetGraphic[] g = getGraphic().getGraphics();
+//        for ( int i = 0; i < g.length; i++ ) {
+//            PhetGraphic phetGraphic = g[i];
+//            if ( phetGraphic == graphic ) {
+//                return true;
+//            }
+//        }
+//        return false;
 
+    }
+
+    public void handleUserInput() {
     }
 }
