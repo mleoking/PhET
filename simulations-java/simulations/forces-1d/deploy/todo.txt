@@ -1,0 +1,27 @@
+Default do not show FBD
+>>add button to show Force Diagram
+
+- the graph label "Force (N)" overlaps the slider.
+
+- the slider control is only the width of the slider. Makes it almost impossible to see or grab.
+
+- when the sim starts, all graphs are minimized and the play area is lower, to be
+centered in the window of the sim
+
+- make the outline of the "total force" arrow a dashed line
+
+- add check boxes for "Show component forces" and "Show total force"
+>>with friction and barriers underneath
+
+Less urgent general issues:
+
+- in interviews, students entered numbers in the "Applied Force" box, but did not know to hit enter.
+They would hit pause, enter a value, then hit go.
+The result of this is that the sim starts again without changing the force.
+Perhaps these is a way to make it automatically accept the value entered when you hit the "go" button?
+
+- when "more controls" are visible, students were confused as to which text
+box when with which slider. This seems to be because the labels are closer to
+the text box of the control above (with only a line separator between, which did not seem to help).
+Space these controls out more or put the the text box next to the label (say to the right of the label)
+instead of below the slider.
