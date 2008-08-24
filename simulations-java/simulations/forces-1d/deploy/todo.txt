@@ -1,3 +1,5 @@
+Net force should not appear in FBD
+
 - add check boxes for "Show component forces" and "Show total force"
 >>with friction and barriers underneath
 
