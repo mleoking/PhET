@@ -64,6 +64,7 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
                 return model.getNetForce();
             }
         } );
+        total.setStroke( new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f, new float[]{5, 5}, 0 ) );
         wall = new ForceArrowGraphic( force1DPanel, Force1DResources.get( "ArrowSetGraphic.wallForce" ), laf.getWallForceColor(), 60, new ForceComponent() {
             public double getForce() {
                 return model.getWallForce();
@@ -136,6 +137,9 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
             this.lastArrow = forceArrow;
         }
 
+        public void setStroke( Stroke stroke ) {
+            shapeGraphic.setStroke( stroke );
+        }
     }
 
     private void updateForceArrows() {
