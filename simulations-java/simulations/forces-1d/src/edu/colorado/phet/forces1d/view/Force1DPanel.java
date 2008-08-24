@@ -426,7 +426,7 @@ new WiggleMe.Target() {
     public void forceLayout( int width, int height ) {
         if ( getWidth() > 0 && getHeight() > 0 ) {
             backgroundGraphic.setSize( width, height );
-            Paint background = module.getPhetLookAndFeel().getBackgroundColor();
+            Paint background = module.getBackgroundColor();
             backgroundGraphic.setBackground( background );
             int walkwayHeight = width / 6;
 

@@ -302,7 +302,6 @@ public class PhetLookAndFeel {
 
         if ( os == OS_WINDOWS ) {
             try {
-//                UIManager.setLookAndFeel( new SmoothLookAndFeel() );//TODO fails on Carl & Kathy's machine.
                 UIManager.setLookAndFeel( new WindowsLookAndFeel() );
             }
             catch( UnsupportedLookAndFeelException e ) {

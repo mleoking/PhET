@@ -1,24 +1,18 @@
 package edu.colorado.phet.forces1d;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Arrays;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.forces1d.phetcommon.application.Module;
 import edu.colorado.phet.forces1d.phetcommon.application.PhetApplication;
 import edu.colorado.phet.forces1d.phetcommon.model.BaseModel;
 import edu.colorado.phet.forces1d.phetcommon.model.clock.AbstractClock;
 import edu.colorado.phet.forces1d.phetcommon.model.clock.ClockTickEvent;
-import edu.colorado.phet.forces1d.phetcommon.model.clock.SwingTimerClock;
 import edu.colorado.phet.forces1d.phetcommon.util.QuickTimer;
 import edu.colorado.phet.forces1d.phetcommon.view.PhetFrame;
-import edu.colorado.phet.forces1d.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.forces1d.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.forces1d.common.ColorDialog;
 import edu.colorado.phet.forces1d.common.plotdevice.DefaultPlaybackPanel;
 import edu.colorado.phet.forces1d.model.Force1DModel;
@@ -34,7 +28,7 @@ import edu.colorado.phet.forces1d.view.Force1DPanel;
 public class Forces1DModule extends Module {
     public static final String LOCALIZATION_BUNDLE_BASENAME = "forces-1d/localization/forces-1d-strings";
     //    public static final String LOCALIZATION_BUNDLE_BASENAME = "localization/Force1d-test";
-    private PhetLookAndFeel phetLookAndFeel;
+    private Color backgroundColor;
     private Force1DModel forceModel;
     protected Force1DPanel forcePanel;
     private Forces1DControlPanel fullControlPanel;
@@ -46,15 +40,14 @@ public class Forces1DModule extends Module {
     private int objectIndex;
     private IForceControl currentControlPanel;
 
-
-    public Forces1DModule( AbstractClock clock, PhetLookAndFeel phetLookAndFeel ) throws IOException {
-        this( clock, Force1DResources.get( "Force1DModule.moduleName" ), phetLookAndFeel );
+    public Forces1DModule( AbstractClock clock, Color backgroundColor ) throws IOException {
+        this( clock, Force1DResources.get( "Force1DModule.moduleName" ), backgroundColor );
     }
 
-    public Forces1DModule( AbstractClock clock, String name, PhetLookAndFeel phetLookAndFeel ) throws IOException {
+    public Forces1DModule( AbstractClock clock, String name, Color backgroundColor ) throws IOException {
         super( name, clock );
         System.out.println( "Force1DModule.Force1DModule-a" );
-        this.phetLookAndFeel = phetLookAndFeel;
+        this.backgroundColor = backgroundColor;
 //        this.clock = clock;
 
         forceModel = new Force1DModel( this );
@@ -121,10 +114,6 @@ public class Forces1DModule extends Module {
             forcePanel.invalidate();
             forcePanel.repaint();
         }
-    }
-
-    public PhetLookAndFeel getPhetLookAndFeel() {
-        return phetLookAndFeel;
     }
 
     void setPhetFrame( PhetFrame phetFrame ) {
@@ -301,55 +290,7 @@ public class Forces1DModule extends Module {
         setControlPanel( fullControlPanel );
     }
 
-
-    public static void main( final String[] args ) throws IOException {
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                try {
-                    runMain( args );
-                }
-                catch( IOException e ) {
-                    e.printStackTrace();
-                }
-            }
-        } );
-    }
-
-    private static void runMain( String[] args ) throws IOException {
-//        Force1DResources.getInstance().init( args, LOCALIZATION_BUNDLE_BASENAME );
-//        Force1DResources.getInstance().addStrings( "forces-1d/localization/phetcommon-strings" );
-        PhetLookAndFeel.setLookAndFeel();
-        PhetLookAndFeel lookAndFeel = new PhetLookAndFeel();
-        lookAndFeel.apply();
-
-        AbstractClock clock = new SwingTimerClock( 1, 30 );
-        FrameSetup frameSetup = ( new FrameSetup.CenteredWithInsets( 200, 200 ) );
-
-        String version = Forces1DApplication.VERSION;
-        final PhetApplication phetApplication = new PhetApplication( args, Force1DResources.get( "Force1DModule.title" ) + " (" + version + ")",
-                                                                     Force1DResources.get( "Force1DModule.description" ), version, clock, false, frameSetup );
-
-        final Forces1DModule module = new Forces1DModule( clock, lookAndFeel );
-        Module[] m = new Module[]{module};
-        phetApplication.setModules( m );
-
-        JMenu options = new JMenu( Force1DResources.get( "Force1DModule.options" ) );
-        JMenuItem item = new JMenuItem( Force1DResources.get( "Force1DModule.backgroundColor" ) );
-        item.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.showColorDialog();
-            }
-        } );
-        options.add( item );
-
-        phetApplication.getPhetFrame().addMenu( options );
-        phetApplication.startApplication();
-
-        new FrameSetup.MaxExtent().initialize( phetApplication.getPhetFrame() );
-        if ( PhetUtilities.isMacintosh() ) {//max extent fails on mac + java 1.4
-            new FrameSetup.CenteredWithInsets( 50, 50 ).initialize( phetApplication.getPhetFrame() );
-        }
-        module.setPhetFrame( phetApplication.getPhetFrame() );
-        setup( module );
+    public Paint getBackgroundColor() {
+        return backgroundColor;
     }
 }

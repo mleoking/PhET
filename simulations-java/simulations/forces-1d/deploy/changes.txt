@@ -4,6 +4,8 @@ Added button to enable FBD
 FBD is disabled by default
 Fixed: cursor hand should be enabled everywhere on FBD
 Fixed: mouse events pass through the "close fbd" buttons and create force
+Fixed: the graph label "Force (N)" overlaps the slider.
+Fixed: the slider control is only the width of the slider. Makes it almost impossible to see or grab.
 
 9-27-2007: Added slider snap-to for static friction requested to be less than kinetic friction
 9-27-2007: Enabled type-in editing during recording

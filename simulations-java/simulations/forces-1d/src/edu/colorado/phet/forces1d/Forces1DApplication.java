@@ -1,5 +1,6 @@
 package edu.colorado.phet.forces1d;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -12,7 +13,6 @@ import edu.colorado.phet.forces1d.phetcommon.application.Module;
 import edu.colorado.phet.forces1d.phetcommon.application.PhetApplication;
 import edu.colorado.phet.forces1d.phetcommon.model.clock.AbstractClock;
 import edu.colorado.phet.forces1d.phetcommon.model.clock.SwingTimerClock;
-import edu.colorado.phet.forces1d.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.forces1d.phetcommon.view.util.FrameSetup;
 
 public class Forces1DApplication {
@@ -32,9 +32,10 @@ public class Forces1DApplication {
     }
 
     private static void runMain( String[] args ) throws IOException {
-        PhetLookAndFeel.setLookAndFeel();
-        PhetLookAndFeel lookAndFeel = new PhetLookAndFeel();
-        lookAndFeel.apply();
+        edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel feel = new edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel();
+        Color backgroundColor = new Color( 200, 240, 200 );
+        feel.setBackgroundColor( backgroundColor );
+        feel.initLookAndFeel();
 
         AbstractClock clock = new SwingTimerClock( 1, 30 );
         FrameSetup frameSetup = ( new FrameSetup.CenteredWithInsets( 200, 200 ) );
@@ -43,7 +44,7 @@ public class Forces1DApplication {
         final PhetApplication phetApplication = new PhetApplication( args, Force1DResources.get( "Force1DModule.title" ) + " (" + version + ")",
                                                                      Force1DResources.get( "Force1DModule.description" ), version, clock, false, frameSetup );
 
-        final Forces1DModule module = new Forces1DModule( clock, lookAndFeel );
+        final Forces1DModule module = new Forces1DModule( clock, backgroundColor);
         Module[] m = new Module[]{module};
         phetApplication.setModules( m );
 
