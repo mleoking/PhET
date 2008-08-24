@@ -32,14 +32,13 @@ public class FreeBodyDiagramSuite {
     private ControlPanel controlPanel;
     private int dialogInsetX;
     private int dialogInsetY;
-    private JPanel buttonPanel;
     private PSwing buttonPanelPSwing;
     private boolean panelVisible;
 
     public FreeBodyDiagramSuite( final Forces1DModule module ) {
         this.module = module;
         freeBodyDiagramPanel = new FreeBodyDiagramPanel( module );
-        buttonPanel = new JPanel( new FlowLayout( FlowLayout.CENTER, 1, 1 ) );
+        JPanel buttonPanel = new JPanel( new FlowLayout( FlowLayout.CENTER, 1, 1 ) );
 
         BufferedImage tearImage = null;
         try {
@@ -82,12 +81,12 @@ public class FreeBodyDiagramSuite {
             }
         } );
 
-//        getFreeBodyDiagramPanel().add( buttonPanel );
         buttonPanelPSwing = new PSwing( buttonPanel );
         getFreeBodyDiagramPanel().addScreenChild( buttonPanelPSwing );
         updateButtonLocations();
 
         setPanelVisible( false );
+        freeBodyDiagramPanel.addIgnoreArea(buttonPanelPSwing);
     }
 
     public FreeBodyDiagramPanel getFreeBodyDiagramPanel() {

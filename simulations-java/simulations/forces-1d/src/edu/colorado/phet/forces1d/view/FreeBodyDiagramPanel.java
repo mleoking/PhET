@@ -3,10 +3,11 @@ package edu.colorado.phet.forces1d.view;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 
+import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.MouseInputListener;
-import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
@@ -16,9 +17,10 @@ import edu.colorado.phet.forces1d.common.WiggleMe;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDevice;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 import edu.colorado.phet.forces1d.phetcommon.math.Vector2D;
-import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.forces1d.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.forces1d.phetcommon.model.clock.SwingTimerClock;
+import edu.colorado.phet.forces1d.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetGraphic;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * User: Sam Reid
@@ -31,6 +33,7 @@ public class FreeBodyDiagramPanel extends BufferedPhetPCanvas {
     private FreeBodyDiagramNode freeBodyDiagram;
     private WiggleMe fbdWiggleMe;
     private PlotDevice forcePlotDevice;
+    private ArrayList ignoreAreas = new ArrayList();
 
     public FreeBodyDiagramPanel( final Forces1DModule module ) {
         setLayout( null );
@@ -42,7 +45,7 @@ public class FreeBodyDiagramPanel extends BufferedPhetPCanvas {
         freeBodyDiagram = new FreeBodyDiagramNode( module );
         addScreenChild( freeBodyDiagram );
 
-        freeBodyDiagram.setSize(fbdWidth, fbdWidth);
+        freeBodyDiagram.setSize( fbdWidth, fbdWidth );
 //        freeBodyDiagram.setBounds( fbdInset, fbdInset, fbdWidth - 2 * fbdInset, fbdWidth - 2 * fbdInset );
 
         WiggleMe.Target target = new WiggleMe.Target() {
@@ -76,16 +79,20 @@ public class FreeBodyDiagramPanel extends BufferedPhetPCanvas {
         forcePlotDevice = module.getForcePanel().getPlotDevice();
         MouseInputAdapter listener = new MouseInputAdapter() {
             public void mousePressed( MouseEvent e ) {
-                forcePlotDevice.getPlotDeviceModel().setRecordMode();
-                forcePlotDevice.getPlotDeviceModel().setPaused( false );
+                if ( !ignore( e ) ) {
+                    forcePlotDevice.getPlotDeviceModel().setRecordMode();
+                    forcePlotDevice.getPlotDeviceModel().setPaused( false );
+                }
             }
         };
         addMouseListener( listener );
 
         MouseInputAdapter mia = new MouseInputAdapter() {
             public void mousePressed( MouseEvent e ) {
-                freeBodyDiagram.setForce( e.getPoint() );
-                freeBodyDiagram.setUserClicked( true );
+                if ( !ignore( e ) ) {
+                    freeBodyDiagram.setForce( e.getPoint() );
+                    freeBodyDiagram.setUserClicked( true );
+                }
             }
 
             public void mouseDragged( MouseEvent e ) {
@@ -100,6 +107,18 @@ public class FreeBodyDiagramPanel extends BufferedPhetPCanvas {
         final MouseInputListener listener2 = new ThresholdedDragAdapter( mia, 10, 0, 1000 );
         addMouseListener( listener2 );
         addMouseMotionListener( listener2 );
+    }
+
+    //This workaround allows us to ignore mouse events over the PSwing; a better solution would be
+    //to move this mouse event code to the PNode instead
+    private boolean ignore( MouseEvent e ) {
+        for ( int i = 0; i < ignoreAreas.size(); i++ ) {
+            PNode pNode = (PNode) ignoreAreas.get( i );
+            if (pNode.getGlobalFullBounds().contains( e.getPoint() )){
+                return true;
+            }
+        }
+        return false;
     }
 
     public void updateGraphics() {
@@ -134,10 +153,14 @@ public class FreeBodyDiagramPanel extends BufferedPhetPCanvas {
 
     public static void main( String[] args ) throws IOException {
         FreeBodyDiagramPanel a = new FreeBodyDiagramPanel( new Forces1DModule( new SwingTimerClock( 1, 30 ), new PhetLookAndFeel() ) );
-        JFrame frame=new JFrame( );
+        JFrame frame = new JFrame();
         frame.setContentPane( a );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.setSize( 400,400 );
+        frame.setSize( 400, 400 );
         frame.setVisible( true );
+    }
+
+    public void addIgnoreArea( PNode ignoreArea ) {
+        ignoreAreas.add( ignoreArea );
     }
 }
