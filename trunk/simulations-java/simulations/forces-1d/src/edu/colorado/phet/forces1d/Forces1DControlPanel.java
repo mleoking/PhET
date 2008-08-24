@@ -52,9 +52,12 @@ public class Forces1DControlPanel extends IForceControl {
             }
         } );
 
-
         freeBodyDiagramSuite.setControlPanel( this );
+        addControl( new FBDButton( freeBodyDiagramSuite ) );
         addControl( freeBodyDiagramSuite.getFreeBodyDiagramPanel() );
+
+        addControl( new ShowComponentForcesCheckBox( module ) );
+        addControl( new ShowTotalForceCheckBox( module ) );
 
         comboBox = new ObjectComboBox( module, module.getImageElements(), this );
         addControl( comboBox );
