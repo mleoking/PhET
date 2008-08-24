@@ -7,8 +7,6 @@ For Discussion:
 -Fixed: the slider control is only the width of the slider. Makes it almost impossible to see or grab.
     >>SRR: Fixed on Vista, should be tested on XP and other platforms
 
--perhaps move total force arrow further north to make it appear less like the other forces?
-
 Less urgent general issues:
 
 - in interviews, students entered numbers in the "Applied Force" box, but did not know to hit enter.
