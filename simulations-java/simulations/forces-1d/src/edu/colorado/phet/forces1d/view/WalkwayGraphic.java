@@ -8,6 +8,9 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.forces1d.Force1DResources;
+import edu.colorado.phet.forces1d.Forces1DModule;
+import edu.colorado.phet.forces1d.model.BoundaryCondition;
 import edu.colorado.phet.forces1d.phetcommon.math.Function;
 import edu.colorado.phet.forces1d.phetcommon.view.ApparatusPanel;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.CompositePhetGraphic;
@@ -15,9 +18,6 @@ import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.forces1d.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.forces1d.Force1DResources;
-import edu.colorado.phet.forces1d.Forces1DModule;
-import edu.colorado.phet.forces1d.model.BoundaryCondition;
 
 /**
  * Created by IntelliJ IDEA.
@@ -30,6 +30,7 @@ public class WalkwayGraphic extends CompositePhetGraphic {
     private double treex;
     private double housex;
     private Function.LinearFunction transform;
+    private OffsetManager offsetManager;
     private PhetImageGraphic treeGraphic;
     private PhetImageGraphic cottageGraphic;
     private PhetShapeGraphic backgroundGraphic;
@@ -40,15 +41,21 @@ public class WalkwayGraphic extends CompositePhetGraphic {
     private PhetImageGraphic leftWallGraphic;
     private PhetImageGraphic rightWallGraphic;
 
-    public WalkwayGraphic( ApparatusPanel panel, Forces1DModule module, int numTickMarks, Function.LinearFunction transform ) throws IOException {
-        this( panel, module, numTickMarks, -10, 10, transform );
+    public WalkwayGraphic( ApparatusPanel panel, Forces1DModule module, int numTickMarks, Function.LinearFunction transform ,OffsetManager offsetManager) throws IOException {
+        this( panel, module, numTickMarks, -10, 10, transform ,offsetManager);
     }
 
-    public WalkwayGraphic( ApparatusPanel panel, final Forces1DModule module, int numTickMarks, double treex, double housex, Function.LinearFunction transform ) throws IOException {
+    public WalkwayGraphic( ApparatusPanel panel, final Forces1DModule module, int numTickMarks, double treex, double housex, Function.LinearFunction transform,OffsetManager offsetManager ) throws IOException {
         super( panel );
+        offsetManager.addListener( new OffsetManager.Listener() {
+            public void offsetChanged() {
+                update();
+            }
+        } );
         this.treex = treex;
         this.housex = housex;
         this.transform = transform;
+        this.offsetManager = offsetManager;
 
         treeGraphic = new PhetImageGraphic( panel, "forces-1d/images/tree.gif" );
         cottageGraphic = new PhetImageGraphic( panel, "forces-1d/images/cottage.gif" );
@@ -102,22 +109,11 @@ public class WalkwayGraphic extends CompositePhetGraphic {
             public void boundaryConditionWalls() {
                 leftWallGraphic.setVisible( true );
                 rightWallGraphic.setVisible( true );
-//                try {
-//                    treeGraphic.setImage( ImageLoader.loadBufferedImage( "forces-1d/images/barrier.jpg" ) );
-//                    treeGraphic.setTransform( new AffineTransform() );
-//                    treeGraphic.scale( 0.5 );
-//                    cottageGraphic.setImage( ImageLoader.loadBufferedImage( "forces-1d/images/barrier.jpg" ) );
-//                    cottageGraphic.setTransform( new AffineTransform() );
-//                    cottageGraphic.scale( 0.5 );
                 treeGraphic.setVisible( false );
                 cottageGraphic.setVisible( false );
                 module.getForcePanel().repaintBuffer();
                 setBoundsDirty();
                 autorepaint();
-//                }
-//                catch( IOException e ) {
-//                    e.printStackTrace();
-//                }
             }
         } );
     }
@@ -234,7 +230,7 @@ public class WalkwayGraphic extends CompositePhetGraphic {
         leftWallGraphic.setTransform( new AffineTransform() );
         leftWallGraphic.scale( ( transform.evaluate( treex ) - bounds.x ) / leftWallGraphic.getImage().getWidth(), bounds.getHeight() / leftWallGraphic.getImage().getHeight() );
 
-        rightWallGraphic.setLocation( (int) transform.evaluate( housex ), 0 );
+        rightWallGraphic.setLocation( (int) transform.evaluate( housex ), (int) (0+offsetManager.getOffset()) );
         rightWallGraphic.setTransform( new AffineTransform() );
         double newWidth = bounds.x + bounds.width - transform.evaluate( housex );
         rightWallGraphic.scale( newWidth / rightWallGraphic.getImage().getWidth(), bounds.getHeight() / rightWallGraphic.getImage().getHeight() );

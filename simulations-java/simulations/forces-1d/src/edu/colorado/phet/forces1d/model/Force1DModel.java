@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 
-import edu.colorado.phet.forces1d.phetcommon.model.ModelElement;
-import edu.colorado.phet.forces1d.phetcommon.util.EventChannel;
 import edu.colorado.phet.forces1d.Forces1DModule;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
+import edu.colorado.phet.forces1d.phetcommon.model.ModelElement;
+import edu.colorado.phet.forces1d.phetcommon.util.EventChannel;
 
 /**
  * User: Sam Reid
@@ -99,8 +99,7 @@ public class Force1DModel implements ModelElement {
     public void setBoundsWalled() {
         this.boundaryCondition = walls;
         for ( int i = 0; i < boundaryConditionListeners.size(); i++ ) {
-            BoundaryCondition.Listener boundaryConditionListener = (BoundaryCondition.Listener) boundaryConditionListeners.get( i );
-            boundaryConditionListener.boundaryConditionWalls();
+            ( (BoundaryCondition.Listener) boundaryConditionListeners.get( i ) ).boundaryConditionWalls();
         }
     }
 

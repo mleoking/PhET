@@ -2,9 +2,9 @@ package edu.colorado.phet.forces1d.view;
 
 import java.awt.*;
 
-import edu.colorado.phet.forces1d.phetcommon.view.ApparatusPanel;
 import edu.colorado.phet.forces1d.Forces1DModule;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceView;
+import edu.colorado.phet.forces1d.phetcommon.view.ApparatusPanel;
 
 /**
  * User: Sam Reid
@@ -40,7 +40,4 @@ public class Force1DPlotDeviceView implements PlotDeviceView {
         module.relayoutPlots();
     }
 
-//    public BufferedPhetGraphic getBackground() {
-//        return force1DPanel.getBufferedGraphic();
-//    }
 }
