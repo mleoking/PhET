@@ -72,7 +72,7 @@ public class FreeBodyDiagramNode extends PNode {
         addForceArrow( frictionForce );
 
         netForce = new ForceArrow( this, laf.getNetForceColor(), Force1DResources.get( "FreeBodyDiagram.total" ), new Vector2D.Double() );
-        addForceArrow( netForce );
+//        addForceArrow( netForce );//net force not shown in FBD
         netForce.setOrigin( 0, -30 );
 
         wallForce = new ForceArrow( this, laf.getWallForceColor(), Force1DResources.get( "FreeBodyDiagram.wall" ), new Vector2D.Double() );
