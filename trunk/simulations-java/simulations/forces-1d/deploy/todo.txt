@@ -1,16 +1,23 @@
+-wiggle me needs to be a stronger indicator of click+drag
+>>try renaming to "drag to apply a force"
+
+-move "more controls" to advanced panel near the bottom
+
 Net force should not appear in FBD
 
 - add check boxes for "Show component forces" and "Show total force"
 >>with friction and barriers underneath
 
 For Discussion:
-SRR: wiggle me was removed from FBD in convert to piccolo in FreeBodyDiagramPanel, should we add this back?
+-wiggle me was removed from FBD in convert to piccolo in FreeBodyDiagramPanel, should we add this back?
 
 -Fixed: the graph label "Force (N)" overlaps the slider.
     >>SRR: Fixed on Vista, should be tested on XP and other platforms
 
 -Fixed: the slider control is only the width of the slider. Makes it almost impossible to see or grab.
     >>SRR: Fixed on Vista, should be tested on XP and other platforms
+
+-perhaps move total force arrow further north to make it appear less like the other forces?
 
 Less urgent general issues:
 
