@@ -89,7 +89,7 @@ public class FreeBodyDiagramPanel extends BufferedPhetPCanvas {
             }
 
             public void mouseReleased( MouseEvent e ) {
-                freeBodyDiagram.model.setAppliedForce( 0.0 );
+                freeBodyDiagram.setAppliedForce( 0.0 );
             }
         };
 

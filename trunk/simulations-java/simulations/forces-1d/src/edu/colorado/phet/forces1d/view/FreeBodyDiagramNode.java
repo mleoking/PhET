@@ -135,6 +135,10 @@ public class FreeBodyDiagramNode extends PNode {
         this.userClicked = b;
     }
 
+    public void setAppliedForce( double v ) {
+        model.setAppliedForce( v );
+    }
+
     public static class ForceArrow extends PNode {
         private PhetPPath shapeGraphic;
         private HTMLNode textGraphic;
