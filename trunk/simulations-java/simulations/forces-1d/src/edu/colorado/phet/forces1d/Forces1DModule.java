@@ -288,4 +288,20 @@ public class Forces1DModule extends Module {
     public Paint getBackgroundColor() {
         return backgroundColor;
     }
+
+    public boolean isShowComponentForces() {
+        return forcePanel.isShowComponentForces();
+    }
+
+    public void setShowComponentForces( boolean selected ) {
+        forcePanel.setShowComponentForces( selected );
+    }
+
+    public boolean isShowTotalForce() {
+        return forcePanel.isShowTotalForce();
+    }
+
+    public void setShowTotalForce( boolean showTotalForce ) {
+        forcePanel.setShowTotalForce( showTotalForce );
+    }
 }

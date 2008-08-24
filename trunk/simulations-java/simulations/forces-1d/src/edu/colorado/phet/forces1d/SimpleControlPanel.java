@@ -48,11 +48,14 @@ public class SimpleControlPanel extends IForceControl {
 
         FBDButton button = new FBDButton( fbdSuite );
         addControl( button );
-        addControl( fbdSuite.getFreeBodyDiagramPanel());
+        addControl( fbdSuite.getFreeBodyDiagramPanel() );
 
         if ( Toolkit.getDefaultToolkit().getScreenSize().width < 1200 ) {
             super.removeTitle();
         }
+
+        addControl( new ShowComponentForcesCheckBox( simpleForceModule ) );
+        addControl( new ShowTotalForceCheckBox( simpleForceModule ) );
 
         addControl( frictionCheckBox );
         barriers = new BarrierCheckBox( simpleForceModule );

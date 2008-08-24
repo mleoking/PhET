@@ -34,6 +34,8 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
     private double arrowTailWidth = 30;
     private double arrowHeadHeight = 55;
     private Force1DLookAndFeel laf;
+    private boolean showComponentForces = true;
+    private boolean showTotalForce = true;
 
     public ArrowSetGraphic( Force1DPanel force1DPanel, BlockGraphic blockGraphic, final Force1DModel model, ModelViewTransform2D transform2D, OffsetManager offsetManager ) {
         super( force1DPanel );
@@ -53,21 +55,37 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
             public double getForce() {
                 return model.getAppliedForce();
             }
+
+            public boolean isVisible() {
+                return isShowComponentForces();
+            }
         } );
         friction = new ForceArrowGraphic( force1DPanel, Force1DResources.get( "ArrowSetGraphic.frictionForce" ), laf.getFrictionForceColor(), 0, new ForceComponent() {
             public double getForce() {
                 return model.getStoredFrictionForceValue();
+            }
+
+            public boolean isVisible() {
+                return isShowComponentForces();
             }
         } );
         total = new ForceArrowGraphic( force1DPanel, Force1DResources.get( "ArrowSetGraphic.totalForce" ), laf.getNetForceColor(), 60, new ForceComponent() {
             public double getForce() {
                 return model.getNetForce();
             }
+
+            public boolean isVisible() {
+                return isShowTotalForce();
+            }
         } );
         total.setStroke( new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f, new float[]{5, 5}, 0 ) );
         wall = new ForceArrowGraphic( force1DPanel, Force1DResources.get( "ArrowSetGraphic.wallForce" ), laf.getWallForceColor(), 60, new ForceComponent() {
             public double getForce() {
                 return model.getWallForce();
+            }
+
+            public boolean isVisible() {
+                return isShowComponentForces();
             }
         } );
         addGraphic( applied );
@@ -76,8 +94,28 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
         addGraphic( wall );
     }
 
+    public boolean isShowComponentForces() {
+        return showComponentForces;
+    }
+
+    public void setShowComponentForces( boolean selected ) {
+        this.showComponentForces = selected;
+        updateForceArrows();
+    }
+
+    public boolean isShowTotalForce() {
+        return showTotalForce;
+    }
+
+    public void setShowTotalForce( boolean showTotalForce ) {
+        this.showTotalForce = showTotalForce;
+        updateForceArrows();
+    }
+
     static interface ForceComponent {
         double getForce();
+
+        boolean isVisible();
     }
 
     class ForceArrowGraphic extends CompositePhetGraphic {
@@ -108,11 +146,11 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
             double force = forceComponent.getForce();
 //            System.out.println( "force: "+name+" = " + force );
             if ( force == 0 ) {
-                setVisible( false );
+                setVisible( false && forceComponent.isVisible() );
                 return;
             }
             else {
-                setVisible( true );
+                setVisible( true && forceComponent.isVisible() );
             }
             double viewLength = force * forceLengthScale;
             Point viewCtr = blockGraphic.getCenter();
@@ -146,6 +184,7 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
         friction.update();
         applied.update();
         wall.update();
+
         total.update();
 
         checkTextOverlap();

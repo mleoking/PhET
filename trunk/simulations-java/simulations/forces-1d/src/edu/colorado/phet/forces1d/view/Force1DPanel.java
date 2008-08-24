@@ -599,4 +599,20 @@ new WiggleMe.Target() {
     public void addListener( Listener listener ) {
         offsetListeners.add( listener );
     }
+
+    public boolean isShowComponentForces() {
+        return arrowSetGraphic.isShowComponentForces();
+    }
+
+    public void setShowComponentForces( boolean selected ) {
+        arrowSetGraphic.setShowComponentForces(selected);
+    }
+
+    public boolean isShowTotalForce() {
+        return arrowSetGraphic.isShowTotalForce();
+    }
+
+    public void setShowTotalForce( boolean showTotalForce ) {
+        arrowSetGraphic.setShowTotalForce(showTotalForce);
+    }
 }
