@@ -1,3 +1,6 @@
+New in 1.17.11
+Bugfix in strings
+
 New in 1.17.10
 Converted FBD to piccolo
 Added button to enable FBD
