@@ -5,8 +5,6 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
-import javax.swing.*;
-
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
@@ -29,11 +27,9 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 
 public class FreeBodyDiagramNode extends PNode {
-    //    private Forces1DModule module;
-    //    private PhetGraphic background;
     private AxesGraphic axes;
     private Rectangle rect;
-    public Force1DModel model;
+    private Force1DModel model;
 
     private ForceArrow mg;
     private ForceArrow normal;
@@ -45,44 +41,37 @@ public class FreeBodyDiagramNode extends PNode {
     private double yScale = 1.0 / 40.0;
     private double xScale = 0.1;
 
-    private Force1DLookAndFeel laf;
-    public boolean userClicked = false;
+    private boolean userClicked = false;
 
-
-    public FreeBodyDiagramNode( JComponent component, Forces1DModule module ) {
-//        super( component );
+    public FreeBodyDiagramNode( Forces1DModule module ) {
         this.model = module.getForceModel();
-//        this.module = module;
         rect = new Rectangle( 200, 150, 400, 400 );
-        laf = module.getForce1DLookAndFeel();
+        Force1DLookAndFeel laf = module.getForce1DLookAndFeel();
 
-//        background = new PhetShapeGraphic( component, rect, Color.white, new BasicStroke( 1.0f ), Color.black );
         PhetPPath background = new PhetPPath( rect, Color.white, new BasicStroke( 1 ), Color.black );
         background.addInputEventListener( new CursorHandler() );
         addChild( background );
-//        addGraphic( background );
         axes = new AxesGraphic();
         addChild( axes );
-//        addGraphic( axes );
         axes.setVisible( false );
 
-        mg = new ForceArrow( component, this, laf.getWeightColor(), Force1DResources.get( "FreeBodyDiagram.gravity" ), new Vector2D.Double( 0, 80 ) );
+        mg = new ForceArrow( this, laf.getWeightColor(), Force1DResources.get( "FreeBodyDiagram.gravity" ), new Vector2D.Double( 0, 80 ) );
         addForceArrow( mg );
 
-        normal = new ForceArrow( component, this, laf.getNormalColor(), Force1DResources.get( "FreeBodyDiagram.normal" ), new Vector2D.Double( 0, 80 ) );
+        normal = new ForceArrow( this, laf.getNormalColor(), Force1DResources.get( "FreeBodyDiagram.normal" ), new Vector2D.Double( 0, 80 ) );
         addForceArrow( normal );
 
-        appliedForce = new ForceArrow( component, this, laf.getAppliedForceColor(), Force1DResources.get( "FreeBodyDiagram.applied" ), new Vector2D.Double() );
+        appliedForce = new ForceArrow( this, laf.getAppliedForceColor(), Force1DResources.get( "FreeBodyDiagram.applied" ), new Vector2D.Double() );
         addForceArrow( appliedForce );
 
-        frictionForce = new ForceArrow( component, this, laf.getFrictionForceColor(), Force1DResources.get( "FreeBodyDiagram.friction" ), new Vector2D.Double() );
+        frictionForce = new ForceArrow( this, laf.getFrictionForceColor(), Force1DResources.get( "FreeBodyDiagram.friction" ), new Vector2D.Double() );
         addForceArrow( frictionForce );
 
-        netForce = new ForceArrow( component, this, laf.getNetForceColor(), Force1DResources.get( "FreeBodyDiagram.total" ), new Vector2D.Double() );
+        netForce = new ForceArrow( this, laf.getNetForceColor(), Force1DResources.get( "FreeBodyDiagram.total" ), new Vector2D.Double() );
         addForceArrow( netForce );
         netForce.setOrigin( 0, -30 );
 
-        wallForce = new ForceArrow( component, this, laf.getWallForceColor(), Force1DResources.get( "FreeBodyDiagram.wall" ), new Vector2D.Double() );
+        wallForce = new ForceArrow( this, laf.getWallForceColor(), Force1DResources.get( "FreeBodyDiagram.wall" ), new Vector2D.Double() );
         addForceArrow( wallForce );
         wallForce.setOrigin( 0, -30 );
 
@@ -146,26 +135,19 @@ public class FreeBodyDiagramNode extends PNode {
         this.userClicked = b;
     }
 
-//    public static Color transparify( Color c, int alpha ) {
-//        return new Color( c.getRed(), c.getGreen(), c.getBlue(), alpha );
-//    }
-
     public static class ForceArrow extends PNode {
         private PhetPPath shapeGraphic;
         private HTMLNode textGraphic;
         private FreeBodyDiagramNode fbd;
         private double dx;
         private double dy;
-        private String name;
         private Arrow lastArrow;
 
-        public ForceArrow( Component component, FreeBodyDiagramNode fbd, Color color, String name, Vector2D.Double v ) {
+        public ForceArrow( FreeBodyDiagramNode fbd, Color color, String name, Vector2D.Double v ) {
             this.fbd = fbd;
-            this.name = name;
             shapeGraphic = new PhetPPath( Force1DUtil.transparify( color, 150 ), new BasicStroke( 2.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ), Force1DUtil.transparify( Color.black, 128 ) );
             addChild( shapeGraphic );
             Font font = new Font( PhetFont.getDefaultFontName(), Font.BOLD, 18 );
-//            textGraphic = new PhetShadowTextGraphic( component, name, font, 0, 0, color, 1, 1, Color.black );
             textGraphic = new HTMLNode( name, font, color );
             addChild( textGraphic );
             setVector( v );
@@ -222,7 +204,6 @@ public class FreeBodyDiagramNode extends PNode {
     public class AxesGraphic extends PNode {
         private PPath xAxis;
         private PPath yAxis;
-        //        private PhetTextGraphic xLabel;
         private PNode xLabel;
         private PNode yLabel;
 
