@@ -18,7 +18,6 @@ import edu.colorado.phet.forces1d.common.plotdevice.PlotDevice;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 import edu.colorado.phet.forces1d.phetcommon.math.Vector2D;
 import edu.colorado.phet.forces1d.phetcommon.model.clock.SwingTimerClock;
-import edu.colorado.phet.forces1d.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetGraphic;
 import edu.umd.cs.piccolo.PNode;
 
@@ -114,7 +113,7 @@ public class FreeBodyDiagramPanel extends BufferedPhetPCanvas {
     private boolean ignore( MouseEvent e ) {
         for ( int i = 0; i < ignoreAreas.size(); i++ ) {
             PNode pNode = (PNode) ignoreAreas.get( i );
-            if (pNode.getGlobalFullBounds().contains( e.getPoint() )){
+            if ( pNode.getGlobalFullBounds().contains( e.getPoint() ) ) {
                 return true;
             }
         }
@@ -152,7 +151,7 @@ public class FreeBodyDiagramPanel extends BufferedPhetPCanvas {
     }
 
     public static void main( String[] args ) throws IOException {
-        FreeBodyDiagramPanel a = new FreeBodyDiagramPanel( new Forces1DModule( new SwingTimerClock( 1, 30 ), new PhetLookAndFeel() ) );
+        FreeBodyDiagramPanel a = new FreeBodyDiagramPanel( new Forces1DModule( new SwingTimerClock( 1, 30 ), Color.green ) );
         JFrame frame = new JFrame();
         frame.setContentPane( a );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );

@@ -37,6 +37,7 @@ public class VerticalChartSlider2 extends GraphicLayerSet {
         super( apparatusPanel );
         this.chart = chart;
         slider = new JSlider( JSlider.VERTICAL, 0, numTicks, numTicks / 2 );
+        slider.setPaintTicks( true );
 
         preferredWidth = slider.getPreferredSize().width;
         slider.addChangeListener( new ChangeListener() {
