@@ -35,7 +35,7 @@ public class SimpleControlPanel extends IForceControl {
                 simpleForceModule.setAdvancedControlPanel();
             }
         } );
-        addControl( moreControls );
+
         frictionCheckBox = new JCheckBox( Force1DResources.get( "SimpleControlPanel.friction" ), true );
         frictionCheckBox.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -77,6 +77,8 @@ public class SimpleControlPanel extends IForceControl {
         } );
         ObjectSelectionPanel osp = new ObjectSelectionPanel( simpleForceModule.getImageElements(), this );
         addControl( osp );
+
+        addControl( moreControls );
     }
 
     private void setChangesEnabled( boolean enabled ) {
