@@ -1,5 +1,3 @@
-wiggle me was removed from FBD in convert to piccolo in FreeBodyDiagramPanel
-
 - the graph label "Force (N)" overlaps the slider.
 
 - the slider control is only the width of the slider. Makes it almost impossible to see or grab.
@@ -11,6 +9,9 @@ centered in the window of the sim
 
 - add check boxes for "Show component forces" and "Show total force"
 >>with friction and barriers underneath
+
+For Discussion:
+-SRR: wiggle me was removed from FBD in convert to piccolo in FreeBodyDiagramPanel, should we add this back?
 
 Less urgent general issues:
 
