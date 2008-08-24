@@ -1,6 +1,3 @@
-- when the sim starts, all graphs are minimized and the play area is lower, to be
-centered in the window of the sim
-
 - make the outline of the "total force" arrow a dashed line
 
 - add check boxes for "Show component forces" and "Show total force"

@@ -6,6 +6,10 @@ import java.util.Arrays;
 
 import javax.swing.*;
 
+import edu.colorado.phet.forces1d.common.ColorDialog;
+import edu.colorado.phet.forces1d.common.plotdevice.DefaultPlaybackPanel;
+import edu.colorado.phet.forces1d.model.Force1DModel;
+import edu.colorado.phet.forces1d.model.Force1dObject;
 import edu.colorado.phet.forces1d.phetcommon.application.Module;
 import edu.colorado.phet.forces1d.phetcommon.application.PhetApplication;
 import edu.colorado.phet.forces1d.phetcommon.model.BaseModel;
@@ -13,10 +17,6 @@ import edu.colorado.phet.forces1d.phetcommon.model.clock.AbstractClock;
 import edu.colorado.phet.forces1d.phetcommon.model.clock.ClockTickEvent;
 import edu.colorado.phet.forces1d.phetcommon.util.QuickTimer;
 import edu.colorado.phet.forces1d.phetcommon.view.PhetFrame;
-import edu.colorado.phet.forces1d.common.ColorDialog;
-import edu.colorado.phet.forces1d.common.plotdevice.DefaultPlaybackPanel;
-import edu.colorado.phet.forces1d.model.Force1DModel;
-import edu.colorado.phet.forces1d.model.Force1dObject;
 import edu.colorado.phet.forces1d.view.Force1DLookAndFeel;
 import edu.colorado.phet.forces1d.view.Force1DPanel;
 
@@ -110,16 +110,12 @@ public class Forces1DModule extends Module {
 
     public void relayoutPlots() {
         if ( forcePanel != null ) {
-            forcePanel.layoutPlots();//TODO this looks wrong.
-            forcePanel.invalidate();
-            forcePanel.repaint();
+            forcePanel.layoutPlots();
         }
     }
 
     void setPhetFrame( PhetFrame phetFrame ) {
         this.phetFrame = phetFrame;
-        getForcePanel().setPhetFrame( phetFrame );
-
     }
 
     void showColorDialog() {
@@ -141,7 +137,6 @@ public class Forces1DModule extends Module {
 
     public void activate( PhetApplication app ) {
         super.activate( app );
-
         app.getPhetFrame().getBasicPhetPanel().setAppControlPanel( playbackPanel );
     }
 
@@ -149,10 +144,10 @@ public class Forces1DModule extends Module {
         forcePanel.setChartBackground( color );
     }
 
-    static void setup( Forces1DModule module ) {
+    public static void setup( Forces1DModule module ) {
         final Force1DPanel p = module.getForcePanel();
         p.setReferenceSize();
-        p.forceLayout( p.getWidth(), p.getHeight() );
+        p.updateLayout( p.getWidth(), p.getHeight() );
 
         module.getApparatusPanel().getGraphic().setVisible( true );
         p.paintImmediately( 0, 0, p.getWidth(), p.getHeight() );

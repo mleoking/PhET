@@ -4,15 +4,15 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.forces1d.Force1DResources;
+import edu.colorado.phet.forces1d.Force1DUtil;
+import edu.colorado.phet.forces1d.model.Force1DModel;
 import edu.colorado.phet.forces1d.phetcommon.math.Vector2D;
 import edu.colorado.phet.forces1d.phetcommon.view.graphics.shapes.Arrow;
 import edu.colorado.phet.forces1d.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetShadowTextGraphic;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.forces1d.Force1DResources;
-import edu.colorado.phet.forces1d.Force1DUtil;
-import edu.colorado.phet.forces1d.model.Force1DModel;
 
 /**
  * User: Sam Reid
@@ -24,6 +24,7 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
     private BlockGraphic blockGraphic;
     private Force1DModel model;
     private ModelViewTransform2D transform2D;
+    private OffsetManager offsetManager;
     private ForceArrowGraphic applied;
     private ForceArrowGraphic friction;
     private ForceArrowGraphic total;
@@ -34,12 +35,18 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
     private double arrowHeadHeight = 55;
     private Force1DLookAndFeel laf;
 
-    public ArrowSetGraphic( Force1DPanel force1DPanel, BlockGraphic blockGraphic, final Force1DModel model, ModelViewTransform2D transform2D ) {
+    public ArrowSetGraphic( Force1DPanel force1DPanel, BlockGraphic blockGraphic, final Force1DModel model, ModelViewTransform2D transform2D, OffsetManager offsetManager ) {
         super( force1DPanel );
+        offsetManager.addListener( new OffsetManager.Listener() {
+            public void offsetChanged() {
+                updateGraphics();
+            }
+        } );
         this.force1DPanel = force1DPanel;
         this.blockGraphic = blockGraphic;
         this.model = model;
         this.transform2D = transform2D;
+        this.offsetManager = offsetManager;
         this.laf = force1DPanel.getLookAndFeel();
 
         applied = new ForceArrowGraphic( force1DPanel, Force1DResources.get( "ArrowSetGraphic.appliedForce" ), laf.getAppliedForceColor(), 0, new ForceComponent() {
@@ -110,6 +117,7 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
             Point viewCtr = blockGraphic.getCenter();
             viewCtr.y += blockGraphic.computeDimension().height / 2;
             viewCtr.y -= dy;
+            viewCtr.y += offsetManager.getOffset();
             Point2D.Double tail = new Point2D.Double( viewCtr.x, viewCtr.y );
             Point2D tip = new Vector2D.Double( viewLength, 0 ).getDestination( tail );
             Arrow forceArrow = new Arrow( tail, tip, arrowHeadHeight, arrowHeadHeight, arrowTailWidth, 0.5, false );

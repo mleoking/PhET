@@ -14,6 +14,15 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.forces1d.Force1DResources;
+import edu.colorado.phet.forces1d.charts.BufferedLinePlot;
+import edu.colorado.phet.forces1d.charts.Chart;
+import edu.colorado.phet.forces1d.charts.DataSet;
+import edu.colorado.phet.forces1d.charts.Range2D;
+import edu.colorado.phet.forces1d.charts.controllers.HorizontalCursor2;
+import edu.colorado.phet.forces1d.charts.controllers.VerticalChartSlider2;
+import edu.colorado.phet.forces1d.model.DataSeries;
+import edu.colorado.phet.forces1d.model.PhetTimer;
 import edu.colorado.phet.forces1d.phetcommon.view.ApparatusPanel;
 import edu.colorado.phet.forces1d.phetcommon.view.ApparatusPanel2;
 import edu.colorado.phet.forces1d.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -21,15 +30,7 @@ import edu.colorado.phet.forces1d.phetcommon.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.*;
 import edu.colorado.phet.forces1d.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.forces1d.phetcommon.view.util.RectangleUtils;
-import edu.colorado.phet.forces1d.charts.BufferedLinePlot;
-import edu.colorado.phet.forces1d.charts.Chart;
-import edu.colorado.phet.forces1d.charts.DataSet;
-import edu.colorado.phet.forces1d.charts.Range2D;
-import edu.colorado.phet.forces1d.charts.controllers.HorizontalCursor2;
-import edu.colorado.phet.forces1d.charts.controllers.VerticalChartSlider2;
-import edu.colorado.phet.forces1d.Force1DResources;
-import edu.colorado.phet.forces1d.model.DataSeries;
-import edu.colorado.phet.forces1d.model.PhetTimer;
+import edu.colorado.phet.forces1d.view.OffsetManager;
 import edu.colorado.phet.forces1d.view.PlotDeviceFontManager;
 
 /**
@@ -38,7 +39,7 @@ import edu.colorado.phet.forces1d.view.PlotDeviceFontManager;
  * Time: 12:54:39 AM
  */
 public class PlotDevice extends GraphicLayerSet {
-    private boolean adorned = false;
+    private boolean displayTextField = false;
     private Color chartBackgroundColor = new Color( 255, 247, 204 );
     private String title;
     private PlotDeviceModel plotDeviceModel;
@@ -65,10 +66,12 @@ public class PlotDevice extends GraphicLayerSet {
     private Point buttonLoc = new Point();
     private PhetGraphic textFieldGraphic;
     private ApparatusPanel apparatusPanel;
+    private OffsetManager offsetManager;
 
-    public PlotDevice( final ParameterSet parameters, BufferedPhetGraphic bufferedPhetGraphic )
+    public PlotDevice( final ParameterSet parameters, BufferedPhetGraphic bufferedPhetGraphic, OffsetManager offsetManager )
             throws IOException {
         super( parameters.panel );
+        this.offsetManager = offsetManager;
 
         this.controllable = parameters.controllable;
         this.bufferedPhetGraphic = bufferedPhetGraphic;
@@ -148,7 +151,7 @@ public class PlotDevice extends GraphicLayerSet {
                         catch( InterruptedException e1 ) {
                             e1.printStackTrace();
                         }
-                        if ( adorned ) {
+                        if ( displayTextField ) {
                             if ( panel instanceof ApparatusPanel2 ) {
                                 ApparatusPanel2 p2 = (ApparatusPanel2) panel;
                                 p2.getGraphic().setKeyFocus( textFieldGraphic );
@@ -256,9 +259,9 @@ public class PlotDevice extends GraphicLayerSet {
         return chartComponent;
     }
 
-    public void setAdorned( boolean adorned ) {
-        this.adorned = adorned;
-        if ( adorned ) {
+    public void setDisplayTextField( boolean displayTextField ) {
+        this.displayTextField = displayTextField;
+        if ( displayTextField ) {
             apparatusPanel.addGraphic( textFieldGraphic );//TODO needs an "if use textField"
         }
         else {
@@ -321,13 +324,12 @@ public class PlotDevice extends GraphicLayerSet {
 
     public void setButtonLoc( int x, double y ) {
         this.buttonLoc.setLocation( x, y );
-//        showButton.reshape( buttonLoc.x, buttonLoc.y, showButton.getPreferredSize().width, showButton.getPreferredSize().height );
         showButtonGraphic.setLocation( buttonLoc.x, buttonLoc.y );
+        textFieldGraphic.setLocation( 20, (int) y );
     }
 
     public int getButtonHeight() {
         return showButtonGraphic.getHeight();
-//        return this.showButton.getHeight();
     }
 
     public void repaintBuffer() {
@@ -427,25 +429,18 @@ public class PlotDevice extends GraphicLayerSet {
         verticalChartSlider.setValue( 0 );
     }
 
-    public void setViewBounds( int x, int y, int width, int height ) {
-        setViewBounds( new Rectangle( x, y, width, height ) );
-    }
-
     public void setViewBounds( Rectangle rectangle ) {
         if ( rectangle.width > 0 && rectangle.height > 0 ) {
             chartComponent.setViewBounds( rectangle );
             verticalChartSlider.setOffsetX( chartComponent.chart.getVerticalTicks().getMajorTickTextBounds().width + getChart().getTitle().getBounds().width );
             verticalChartSlider.update();
             int floaterX = 5;
-//            titleLable.reshape( floaterX, getChart().getViewBounds().y, titleLable.getPreferredSize().width, titleLable.getPreferredSize().height );
-            textBox.reshape( floaterX,
-                             getChart().getViewBounds().y,
-                             textBox.getPreferredSize().width,
-                             textBox.getPreferredSize().height );
-            textFieldGraphic.setLocation( floaterX, getChart().getViewBounds().y );
-//            int dw = Math.abs( textBox.getWidth() - floatingControl.getPreferredSize().width );
-//            int floatX = floaterX + dw / 2;
-//            floatingControl.reshape( floatX, textBox.getY() + textBox.getHeight() + 5, floatingControl.getPreferredSize().width, floatingControl.getPreferredSize().height );
+            textBox.setBounds( floaterX,
+                               getChart().getViewBounds().y,
+                               textBox.getPreferredSize().width,
+                               textBox.getPreferredSize().height );
+            textFieldGraphic.setLocation( floaterX, (int) ( getChart().getViewBounds().y + offsetManager.getOffset() ) );
+            System.out.println( "offset="+offsetManager.getOffset() );
             chartComponent.setViewBounds( rectangle );
             Point ctr = RectangleUtils.getCenter( chartComponent.determineBounds() );
             timeLabel.setLocation( ctr );
@@ -476,7 +471,7 @@ public class PlotDevice extends GraphicLayerSet {
         plotDeviceView.relayout();
         showButtonGraphic.setVisible( !visible );
 //        showButton.setVisible( !visible );
-        textBox.setVisible( visible && adorned );
+        textBox.setVisible( visible && displayTextField );
 
 //        floatingControl.setVisible( visible );
 //        titleLable.setVisible( visible && adorned );
