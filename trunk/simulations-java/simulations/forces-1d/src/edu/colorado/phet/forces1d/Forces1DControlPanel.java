@@ -51,7 +51,7 @@ public class Forces1DControlPanel extends IForceControl {
                 module.setSimpleControlPanel();
             }
         } );
-        addControl( lessControls );
+
 
         freeBodyDiagramSuite.setControlPanel( this );
         addControl( freeBodyDiagramSuite.getFreeBodyDiagramPanel() );
@@ -194,6 +194,8 @@ public class Forces1DControlPanel extends IForceControl {
         labelTable.put( new Double( 22.9 ), toJLabel( Force1DResources.get( "Force1dControlPanel.jupiter" ) ) );
         gravity.setTickLabels( labelTable );
 //        gravity.setPaintTicks( false );
+
+        addControl( lessControls );
     }
 
     static final Stroke stroke = new BasicStroke( 1 );
