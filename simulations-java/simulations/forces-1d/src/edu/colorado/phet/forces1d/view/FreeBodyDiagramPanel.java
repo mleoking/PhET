@@ -35,7 +35,7 @@ public class FreeBodyDiagramPanel extends BufferedPhetPCanvas {
             fbdWidth = 157;
         }
         setPreferredSize( new Dimension( fbdWidth, fbdWidth ) );
-        freeBodyDiagram = new FreeBodyDiagramNode( this, module );
+        freeBodyDiagram = new FreeBodyDiagramNode( module );
         addScreenChild( freeBodyDiagram );
 
         int fbdInset = 3;
