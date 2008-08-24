@@ -1,5 +1,3 @@
-cursor hand should be enabled everywhere on FBD
-
 mouse events pass through the "close fbd" buttons and create force
 
 wiggle me was removed from FBD in convert to piccolo in FreeBodyDiagramPanel

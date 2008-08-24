@@ -2,9 +2,11 @@ package edu.colorado.phet.forces1d.view;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.MouseInputListener;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
@@ -15,6 +17,8 @@ import edu.colorado.phet.forces1d.common.plotdevice.PlotDevice;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 import edu.colorado.phet.forces1d.phetcommon.math.Vector2D;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.forces1d.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.forces1d.phetcommon.model.clock.SwingTimerClock;
 
 /**
  * User: Sam Reid
@@ -38,8 +42,8 @@ public class FreeBodyDiagramPanel extends BufferedPhetPCanvas {
         freeBodyDiagram = new FreeBodyDiagramNode( module );
         addScreenChild( freeBodyDiagram );
 
-        int fbdInset = 3;
-        freeBodyDiagram.setBounds( fbdInset, fbdInset, fbdWidth - 2 * fbdInset, fbdWidth - 2 * fbdInset );
+        freeBodyDiagram.setSize(fbdWidth, fbdWidth);
+//        freeBodyDiagram.setBounds( fbdInset, fbdInset, fbdWidth - 2 * fbdInset, fbdWidth - 2 * fbdInset );
 
         WiggleMe.Target target = new WiggleMe.Target() {
             public Point getLocation() {
@@ -100,10 +104,6 @@ public class FreeBodyDiagramPanel extends BufferedPhetPCanvas {
 
     public void updateGraphics() {
         freeBodyDiagram.updateAll();
-//        if ( isShowing() ) {
-//            paint();
-//        }
-        //???
     }
 
     public void reset() {
@@ -130,5 +130,14 @@ public class FreeBodyDiagramPanel extends BufferedPhetPCanvas {
     }
 
     public void handleUserInput() {
+    }
+
+    public static void main( String[] args ) throws IOException {
+        FreeBodyDiagramPanel a = new FreeBodyDiagramPanel( new Forces1DModule( new SwingTimerClock( 1, 30 ), new PhetLookAndFeel() ) );
+        JFrame frame=new JFrame( );
+        frame.setContentPane( a );
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        frame.setSize( 400,400 );
+        frame.setVisible( true );
     }
 }
