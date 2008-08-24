@@ -1,6 +1,3 @@
--wiggle me needs to be a stronger indicator of click+drag
->>try renaming to "drag to apply a force"
-
 -move "more controls" to advanced panel near the bottom
 
 Net force should not appear in FBD
