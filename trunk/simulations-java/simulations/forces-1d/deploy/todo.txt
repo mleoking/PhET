@@ -1,5 +1,3 @@
-mouse events pass through the "close fbd" buttons and create force
-
 wiggle me was removed from FBD in convert to piccolo in FreeBodyDiagramPanel
 
 - the graph label "Force (N)" overlaps the slider.
