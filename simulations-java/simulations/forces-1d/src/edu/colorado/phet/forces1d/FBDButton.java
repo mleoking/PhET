@@ -15,7 +15,7 @@ public class FBDButton extends JButton {
     private FreeBodyDiagramSuite fbdSuite;
 
     public FBDButton( final FreeBodyDiagramSuite fbdSuite ) {
-        super( "Free Body Diagram" );
+        super( Force1DResources.get( "FreeBodyDiagramSuite.freeBodyDiagram" ) + " " + Force1DResources.get( "FreeBodyDiagramSuite.expand" ) );
         this.fbdSuite = fbdSuite;
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

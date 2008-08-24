@@ -46,8 +46,7 @@ public class SimpleControlPanel extends IForceControl {
         fbdSuite = new FreeBodyDiagramSuite( simpleForceModule );
         fbdSuite.setControlPanel( this );
 
-        FBDButton button = new FBDButton( fbdSuite );
-        addControl( button );
+        addControl( new FBDButton( fbdSuite ) );
         addControl( fbdSuite.getFreeBodyDiagramPanel() );
 
         if ( Toolkit.getDefaultToolkit().getScreenSize().width < 1200 ) {
