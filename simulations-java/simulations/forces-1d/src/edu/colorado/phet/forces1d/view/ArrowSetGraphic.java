@@ -69,7 +69,7 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
                 return isShowComponentForces();
             }
         } );
-        total = new ForceArrowGraphic( force1DPanel, Force1DResources.get( "ArrowSetGraphic.totalForce" ), laf.getNetForceColor(), 60, new ForceComponent() {
+        total = new ForceArrowGraphic( force1DPanel, Force1DResources.get( "ArrowSetGraphic.totalForce" ), laf.getNetForceColor(), 120, new ForceComponent() {
             public double getForce() {
                 return model.getNetForce();
             }
