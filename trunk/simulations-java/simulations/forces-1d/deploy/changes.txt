@@ -10,6 +10,7 @@ When the sim starts, all graphs are minimized and the play area is lower, to be 
 The outline of the "total force" arrow a dashed line in the play area
 Wiggle renamed to "drag to apply a force"
 Move "more controls" to advanced panel near the bottom
+Fixed: Net force should not appear in FBD
 
 9-27-2007: Added slider snap-to for static friction requested to be less than kinetic friction
 9-27-2007: Enabled type-in editing during recording
