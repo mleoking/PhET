@@ -4,6 +4,7 @@ package edu.colorado.phet.forces1d.view;
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -28,7 +29,6 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 public class FreeBodyDiagramNode extends PNode {
     private AxesGraphic axes;
-    private Rectangle rect;
     private Force1DModel model;
 
     private ForceArrow mg;
@@ -43,12 +43,15 @@ public class FreeBodyDiagramNode extends PNode {
 
     private boolean userClicked = false;
 
+    private double width = 400;
+    private double height = 400;
+    private PhetPPath background;
+
     public FreeBodyDiagramNode( Forces1DModule module ) {
         this.model = module.getForceModel();
-        rect = new Rectangle( 200, 150, 400, 400 );
         Force1DLookAndFeel laf = module.getForce1DLookAndFeel();
 
-        PhetPPath background = new PhetPPath( rect, Color.white, new BasicStroke( 1 ), Color.black );
+        background = new PhetPPath( new Rectangle2D.Double( 0, 0, width, height ), Color.white, new BasicStroke( 1 ), Color.black );
         background.addInputEventListener( new CursorHandler() );
         addChild( background );
         axes = new AxesGraphic();
@@ -117,17 +120,19 @@ public class FreeBodyDiagramNode extends PNode {
     }
 
     private Point2D getCenter() {
-        return RectangleUtils.getCenter( rect );
+        return new Point2D.Double( width / 2, height / 2 );
     }
 
     public void updateAll() {
         updateXForces();
         updateMG();
         axes.update();
+        background.setPathTo( new Rectangle2D.Double( 0, 0, width, height ) );
     }
 
-    public void setBounds( int x, int y, int width, int height ) {
-        rect.setBounds( x, y, width, height );
+    public void setSize( int width, int height ) {
+        this.width = width;
+        this.height = height;
         updateAll();
     }
 
@@ -233,8 +238,8 @@ public class FreeBodyDiagramNode extends PNode {
 
         public void update() {
 
-            Line2D.Double xLine = new Line2D.Double( rect.x, rect.y + rect.height / 2, rect.x + rect.width, rect.y + rect.height / 2 );
-            Line2D.Double yLine = new Line2D.Double( rect.x + rect.width / 2, rect.y, rect.x + rect.width / 2, rect.y + rect.height );
+            Line2D.Double xLine = new Line2D.Double( 0, height / 2, width, height / 2 );
+            Line2D.Double yLine = new Line2D.Double( width / 2, 0, width / 2, height );
 
             xAxis.setPathTo( xLine );
             yAxis.setPathTo( yLine );
