@@ -6,7 +6,6 @@ Fixed: The Applied Force text box does not update until you mouse over it. This 
 using the slider, or dragging the object.
 Fixed: The Go, Pause, and Clear buttons also seem to stay grayed out until you mouse over them.
 
-
 New in 1.17.11
 Bugfix in strings
 
