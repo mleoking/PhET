@@ -108,7 +108,6 @@ public class WiggleMe extends CompositePhetGraphic {
     }
 
     private void tick() {
-//        System.out.println( "tick" );
         if ( isVisible() && getComponent().isShowing() ) {
             double time = ( System.currentTimeMillis() - t0 ) / 1000.0;
             Point targetLoc = target.getLocation();

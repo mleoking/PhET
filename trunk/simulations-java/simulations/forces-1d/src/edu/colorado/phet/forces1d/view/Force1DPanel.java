@@ -283,18 +283,17 @@ public class Force1DPanel extends ApparatusPanel2 implements OffsetManager {
         } );
 
         sliderWiggleMe = new WiggleMe( this, module.getClock(), Force1DResources.get( "Force1DPanel.wiggleMeText" ),
-//                                       new WiggleMe.SwingComponentTarget( this.forcePlotDevice.getVerticalChartSlider().getSlider() ) );
-new WiggleMe.Target() {
-    public Point getLocation() {
-        int x = forcePlotDevice.getVerticalChartSlider().getSlider().getX() + sliderWiggleMe.getWidth() + 10;
-        int y = forcePlotDevice.getY() + forcePlotDevice.getHeight() / 2;
-        return new Point( x, y );
-    }
+                                       new WiggleMe.Target() {
+                                           public Point getLocation() {
+                                               int x = forcePlotDevice.getVerticalChartSlider().getSlider().getX() + sliderWiggleMe.getWidth() + 10;
+                                               int y = forcePlotDevice.getY() + forcePlotDevice.getVerticalChartSlider().getSlider().getHeight() / 2;
+                                               return new Point( x, y );
+                                           }
 
-    public int getHeight() {
-        return forcePlotDevice.getVerticalChartSlider().getSlider().getHeight();
-    }
-} );
+                                           public int getHeight() {
+                                               return forcePlotDevice.getVerticalChartSlider().getSlider().getHeight();
+                                           }
+                                       } );
         sliderWiggleMe.setArrow( -30, 5 );
         forcePlotDevice.getVerticalChartSlider().getSlider().addChangeListener( new javax.swing.event.ChangeListener() {
             public void stateChanged( javax.swing.event.ChangeEvent e ) {
@@ -534,7 +533,9 @@ new WiggleMe.Target() {
     private void handleWiggleMes() {
         boolean moved = forcePlotDevice.getVerticalChartSlider().hasMoved();
         if ( !moved ) {
-            sliderWiggleMe.setVisible( true );
+            if ( forcePlotDevice.isVisible() ) {
+                sliderWiggleMe.setVisible( true );
+            }
         }
     }
 
@@ -605,7 +606,7 @@ new WiggleMe.Target() {
     }
 
     public void setShowComponentForces( boolean selected ) {
-        arrowSetGraphic.setShowComponentForces(selected);
+        arrowSetGraphic.setShowComponentForces( selected );
     }
 
     public boolean isShowTotalForce() {
@@ -613,6 +614,6 @@ new WiggleMe.Target() {
     }
 
     public void setShowTotalForce( boolean showTotalForce ) {
-        arrowSetGraphic.setShowTotalForce(showTotalForce);
+        arrowSetGraphic.setShowTotalForce( showTotalForce );
     }
 }

@@ -1,3 +1,8 @@
+New in 1.17.12
+Fixed: When you hit the Clear button, the "Apply a Force By dragging the slider" wiggle me pops up.  This shouldn't pop up if there is no slider.
+Fixed: the wiggle me is in the wrong position for the slider when it is present (too high).
+Fixed: make the checkboxes in the control panel (Show forces, etc.) aligned on the left
+
 New in 1.17.11
 Bugfix in strings
 
