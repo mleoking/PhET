@@ -1,10 +1,3 @@
-To Do:
-
-3. The Applied Force text box does not update until you mouse over it. This is when entering values,
-using the slider, or dragging the object.
-
-4. The Go, Pause, and Clear buttons also seem to stay grayed out until you mouse over them. 
-
 For Discussion:
 -wiggle me was removed from FBD in convert to piccolo in FreeBodyDiagramPanel, should we add this back?
 

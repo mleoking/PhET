@@ -207,6 +207,7 @@ public class PhetJComponent extends PhetGraphic {
 
                     public void invoke( MouseListener mouseListener, MouseEvent newEvent ) {
                         mouseListener.mouseExited( newEvent );
+                        scheduleRepaint();
                     }
 
                 } );
@@ -276,16 +277,42 @@ public class PhetJComponent extends PhetGraphic {
         component.addFocusListener( new FocusAdapter() {
             public void focusGained( FocusEvent e ) {
 //                System.out.println( "PhetJComponent.focusGained=" + component );
-                repaint();
+                scheduleRepaint();
             }
 
             public void focusLost( FocusEvent e ) {
 //                System.out.println( "PhetJComponent.focusLost, copmonent=" + component );
-                repaint();
+                scheduleRepaint();
             }
         } );
         repaintManagerPhet.put( this );
         manager.phetJComponentCreated( this );
+
+        component.addKeyListener( new KeyAdapter() {
+            public void keyPressed( KeyEvent e ) {
+                scheduleRepaint();
+            }
+
+            public void keyReleased( KeyEvent e ) {
+                scheduleRepaint();
+            }
+        } );
+
+        Timer timer = new Timer( 100, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                scheduleRepaint();
+            }
+        } );
+        timer.start();
+        scheduleRepaint();
+    }
+
+    private void scheduleRepaint() {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                repaint();
+            }
+        } );
     }
 
     public static PhetJComponentManager getManager() {
@@ -346,7 +373,7 @@ public class PhetJComponent extends PhetGraphic {
             throw new RuntimeException( "Illegal mouse handler class: " + mouseMethod );
         }
         if ( changed ) {
-            redraw();
+            scheduleRepaint();
         }
         return changed;
     }
