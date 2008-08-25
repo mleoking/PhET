@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.particle.ArgonAtom;
 import edu.colorado.phet.statesofmatter.model.particle.NeonAtom;
 import edu.colorado.phet.statesofmatter.model.particle.OxygenAtom;
@@ -53,7 +54,7 @@ public class DualParticleModel {
     public DualParticleModel(IClock clock) {
         
         m_clock = clock;
-        m_epsilon = -100; // JPB TBD - Arbitrary initial value, should come up with something real.
+        m_epsilon = 100; // TODO: JPB TBD - Arbitrary initial value, should come up with something real.
         
         // Register as a clock listener.
         clock.addClockListener(new ClockAdapter(){
@@ -147,6 +148,7 @@ public class DualParticleModel {
     
     public void setInteractionStrength( double epsilon ){
         m_epsilon = epsilon;
+        notifyInteractionPotentialChanged();
     }
     
     public double getCurrentMoleculeDiameter(){
@@ -156,6 +158,30 @@ public class DualParticleModel {
         else{
             return 0;
         }
+    }
+    
+    /**
+     * Get the sigma value, which is one of the two parameters that describes
+     * the Lennard-Jones potential.
+     * 
+     * @return
+     */
+    public double getSigma(){
+
+        // TODO: JPB TBD - Stubbed with a fixed value for now while the details
+        // surrounding this get worked out.
+        return 3.3;
+    }
+    
+    /**
+     * Get the epsilon value, which is one of the two parameters that describes
+     * the Lennard-Jones potential.
+     * 
+     * @return
+     */
+    public double getEpsilon(){
+        
+        return m_epsilon;
     }
     
     //----------------------------------------------------------------------------
@@ -207,7 +233,7 @@ public class DualParticleModel {
         // JPB TBD - Use radius times a fixed amount for sigma, not sure if this is correct.
         double sigma = m_rightParticle.getRadius() * 3.3;
         double distance = m_rightParticle.getPositionReference().distance( m_leftParticle.getPositionReference() );
-        m_rightParticleHorizForce = -((48 * m_epsilon * Math.pow( sigma, 12 ) / Math.pow( distance, 13 )) -
+        m_rightParticleHorizForce = ((48 * m_epsilon * Math.pow( sigma, 12 ) / Math.pow( distance, 13 )) +
                 (24 * m_epsilon * Math.pow(  sigma, 6 ) / Math.pow( distance, 7 )));
         
     }
@@ -239,6 +265,12 @@ public class DualParticleModel {
         }        
     }
     
+    private void notifyInteractionPotentialChanged(){
+        for (int i = 0; i < m_listeners.size(); i++){
+            ((Listener)m_listeners.get( i )).interactionPotentialChanged();
+        }        
+    }
+    
     /**
      * Runs one iteration of the Verlet implementation of the Lennard-Jones
      * force calculation on a set of particles.
@@ -259,11 +291,13 @@ public class DualParticleModel {
         public void resetOccurred();
         public void particleAdded(StatesOfMatterAtom particle);
         public void particleRemoved(StatesOfMatterAtom particle);
+        public void interactionPotentialChanged();
     }
     
     public static class Adapter implements Listener {
         public void resetOccurred(){}
         public void particleAdded(StatesOfMatterAtom particle){}
         public void particleRemoved(StatesOfMatterAtom particle){}
+        public void interactionPotentialChanged(){};
     }
 }

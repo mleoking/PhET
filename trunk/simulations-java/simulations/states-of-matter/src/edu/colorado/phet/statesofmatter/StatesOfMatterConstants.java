@@ -111,6 +111,19 @@ public class StatesOfMatterConstants {
     public static final double EPSILON = 10000000.0;
     public static final double RMIN    = 2.0 * PARTICLE_RADIUS;
     public static final double ICE_CUBE_DIST_FROM_FLOOR = RMIN;
+    
+    // Identifiers for the various supported molecules.
+    public static final int NEON = 1;
+    public static final int ARGON = 2;
+    public static final int MONATOMIC_OXYGEN = 3;
+    public static final int DIATOMIC_OXYGEN = 4;
+    public static final int WATER = 5;
+    
+    // Lennard-Jones potential interaction values for multiatomic atoms.
+    public static final double EPSILON_FOR_DIATOMIC_OXYGEN = 100;
+    public static final double SIGMA_FOR_DIATOMIC_OXYGEN = 3.3;
+    public static final double EPSILON_FOR_WATER = 100;
+    public static final double SIGMA_FOR_WATER = 3.3;
 
     //----------------------------------------------------------------------------
     // Images

@@ -83,13 +83,6 @@ public class MultipleParticleModel {
     private static final int MAX_INITIAL_NUMBER_OF_LIQUID_BLOBS = 1;
     private static final double MIN_DISTANCE_FROM_BLOB_CTR_TO_WALL = 8.0;
     
-    // Supported molecules.
-    public static final int NEON = 1;
-    public static final int ARGON = 2;
-    public static final int MONATOMIC_OXYGEN = 3;
-    public static final int DIATOMIC_OXYGEN = 4;
-    public static final int WATER = 5;
-    
     // Possible thermostat settings.
     public static final int NO_THERMOSTAT = 0;
     public static final int ISOKINETIC_THERMOSTAT = 1;
@@ -181,7 +174,7 @@ public class MultipleParticleModel {
         });
         
         // Set the default particle type.
-        setMolecule( NEON );
+        setMoleculeType( StatesOfMatterConstants.NEON );
     }
 
     //----------------------------------------------------------------------------
@@ -291,40 +284,45 @@ public class MultipleParticleModel {
         }
     }
     
-    public int getMolecule(){
+    public int getMoleculeType(){
         return m_currentMolecule;
     }
     
-    public void setMolecule(int moleculeID){
+    /**
+     * Set the molecule type to be simulated.
+     * 
+     * @param moleculeID
+     */
+    public void setMoleculeType(int moleculeID){
         
         // Verify that this is a supported value.
-        if ((moleculeID != DIATOMIC_OXYGEN) &&
-            (moleculeID != NEON) &&
-            (moleculeID != ARGON) &&
-            (moleculeID != WATER)){
+        if ((moleculeID != StatesOfMatterConstants.DIATOMIC_OXYGEN) &&
+            (moleculeID != StatesOfMatterConstants.NEON) &&
+            (moleculeID != StatesOfMatterConstants.ARGON) &&
+            (moleculeID != StatesOfMatterConstants.WATER)){
             
             System.err.println("ERROR: Unsupported molecule type.");
             assert false;
-            moleculeID = NEON;
+            moleculeID = StatesOfMatterConstants.NEON;
         }
         
         m_currentMolecule = moleculeID;
         
         // Set the diameter and atoms/molecule based on the molecule type.
         switch (m_currentMolecule){
-        case DIATOMIC_OXYGEN:
+        case StatesOfMatterConstants.DIATOMIC_OXYGEN:
             m_particleDiameter = OxygenAtom.RADIUS * 2;
             m_atomsPerMolecule = 2;
             break;
-        case NEON:
+        case StatesOfMatterConstants.NEON:
             m_particleDiameter = NeonAtom.RADIUS * 2;
             m_atomsPerMolecule = 1;
             break;
-        case ARGON:
+        case StatesOfMatterConstants.ARGON:
             m_particleDiameter = ArgonAtom.RADIUS * 2;
             m_atomsPerMolecule = 1;
             break;
-        case WATER:
+        case StatesOfMatterConstants.WATER:
             // Use a radius value that is artificially large, because the
             // educators have requested that water look "spaced out" so that
             // users can see the crystal structure better, and so that the
@@ -337,6 +335,9 @@ public class MultipleParticleModel {
         // This causes a reset and puts the particles into predetermined
         // locations and energy levels.
         reset();
+        
+        // Notify listeners that the molecule type has changed.
+        notifyMoleculeTypeChanged();
     }
     
     public int getThermostatType() {
@@ -390,6 +391,86 @@ public class MultipleParticleModel {
         }
     }
 
+    /**
+     * Get the sigma value, which is one of the two parameters that describes
+     * the Lennard-Jones potential.
+     * 
+     * @return
+     */
+    public double getSigma(){
+        
+        double sigma = 0;
+        
+        switch ( m_currentMolecule ){
+        
+        case StatesOfMatterConstants.NEON:
+            sigma = NeonAtom.getSigma();
+            break;
+        
+        case StatesOfMatterConstants.ARGON:
+            sigma = ArgonAtom.getSigma();
+            break;
+        
+        case StatesOfMatterConstants.DIATOMIC_OXYGEN:
+            sigma = StatesOfMatterConstants.SIGMA_FOR_DIATOMIC_OXYGEN;
+            break;
+        
+        case StatesOfMatterConstants.MONATOMIC_OXYGEN:
+            sigma = OxygenAtom.getSigma();
+            break;
+        
+        case StatesOfMatterConstants.WATER:
+            sigma = StatesOfMatterConstants.SIGMA_FOR_WATER;
+            break;
+            
+        default:
+            System.err.println("Error: Unrecognized molecule type when setting sigma value.");
+            sigma = 0;
+        }
+        
+        return sigma;
+    }
+    
+    /**
+     * Get the epsilon value, which is one of the two parameters that describes
+     * the Lennard-Jones potential.
+     * 
+     * @return
+     */
+    public double getEpsilon(){
+        
+        double epsilon = 0;
+        
+        switch ( m_currentMolecule ){
+        
+        case StatesOfMatterConstants.NEON:
+            epsilon = NeonAtom.getEpsilon();
+            break;
+        
+        case StatesOfMatterConstants.ARGON:
+            epsilon = ArgonAtom.getEpsilon();
+            break;
+        
+        case StatesOfMatterConstants.DIATOMIC_OXYGEN:
+            epsilon = StatesOfMatterConstants.EPSILON_FOR_DIATOMIC_OXYGEN;
+            break;
+        
+        case StatesOfMatterConstants.MONATOMIC_OXYGEN:
+            epsilon = OxygenAtom.getEpsilon();
+            break;
+        
+        case StatesOfMatterConstants.WATER:
+            epsilon = StatesOfMatterConstants.EPSILON_FOR_WATER;
+            break;
+            
+        default:
+            System.err.println("Error: Unrecognized molecule type when setting epsilon value.");
+            epsilon = 0;
+        }
+        
+        return epsilon;
+    }
+
     //----------------------------------------------------------------------------
     // Other Public Methods
     //----------------------------------------------------------------------------
@@ -430,16 +511,16 @@ public class MultipleParticleModel {
         
         // Initialize the particles.
         switch (m_currentMolecule){
-        case DIATOMIC_OXYGEN:
+        case StatesOfMatterConstants.DIATOMIC_OXYGEN:
             initializeDiatomic(m_currentMolecule);
             break;
-        case NEON:
+        case StatesOfMatterConstants.NEON:
             initializeMonotomic(m_currentMolecule);
             break;
-        case ARGON:
+        case StatesOfMatterConstants.ARGON:
             initializeMonotomic(m_currentMolecule);
             break;
-        case WATER:
+        case StatesOfMatterConstants.WATER:
             initializeTriatomic(m_currentMolecule);
             break;
         default:
@@ -628,13 +709,13 @@ public class MultipleParticleModel {
                 // Add particle to model set.
                 StatesOfMatterAtom particle;
                 switch (m_currentMolecule){
-                case MONATOMIC_OXYGEN:
+                case StatesOfMatterConstants.MONATOMIC_OXYGEN:
                     particle = new OxygenAtom(0, 0);
                     break;
-                case ARGON:
+                case StatesOfMatterConstants.ARGON:
                     particle = new ArgonAtom(0, 0);
                     break;
-                case NEON:
+                case StatesOfMatterConstants.NEON:
                     particle = new NeonAtom(0, 0);
                     break;
                 default:
@@ -647,7 +728,7 @@ public class MultipleParticleModel {
             }
             else if (m_atomsPerMolecule == 2){
 
-                assert m_currentMolecule == DIATOMIC_OXYGEN;
+                assert m_currentMolecule == StatesOfMatterConstants.DIATOMIC_OXYGEN;
                 
                 // Add particles to model set.
                 for (int i = 0; i < m_atomsPerMolecule; i++){
@@ -673,7 +754,7 @@ public class MultipleParticleModel {
             }
             else if (m_atomsPerMolecule == 3){
 
-                assert m_currentMolecule == WATER;
+                assert m_currentMolecule == StatesOfMatterConstants.WATER;
                 
                 // Add atoms to model set.
                 StatesOfMatterAtom atom;
@@ -829,24 +910,26 @@ public class MultipleParticleModel {
         
         // TODO: JPB TBD - Decide whether to remove support for monatomic oxygen at some point.
         // Verify that a valid molecule ID was provided.
-        assert (moleculeID == NEON) || (moleculeID == ARGON) || (moleculeID == MONATOMIC_OXYGEN);
+        assert (moleculeID == StatesOfMatterConstants.NEON) || 
+               (moleculeID == StatesOfMatterConstants.ARGON) || 
+               (moleculeID == StatesOfMatterConstants.MONATOMIC_OXYGEN);
         
         // Determine the number of molecules to create.  This will be a cube
         // (really a square, since it's 2D, but you get the idea) that takes
         // up a fixed amount of the bottom of the container.
         double particleDiameter;
-        if (moleculeID == NEON){
+        if (moleculeID == StatesOfMatterConstants.NEON){
             particleDiameter = NeonAtom.RADIUS * 2;
         }
-        else if (moleculeID == ARGON){
+        else if (moleculeID == StatesOfMatterConstants.ARGON){
             particleDiameter = ArgonAtom.RADIUS * 2;
         }
-        else if (moleculeID == MONATOMIC_OXYGEN){
+        else if (moleculeID == StatesOfMatterConstants.MONATOMIC_OXYGEN){
             particleDiameter = OxygenAtom.RADIUS * 2;
         }
         else{
             // Force it to neon.
-            moleculeID = NEON;
+            moleculeID = StatesOfMatterConstants.NEON;
             particleDiameter = NeonAtom.RADIUS * 2;
         }
         
@@ -871,10 +954,10 @@ public class MultipleParticleModel {
             
             // Add particle to model set.
             StatesOfMatterAtom atom;
-            if (moleculeID == NEON){
+            if (moleculeID == StatesOfMatterConstants.NEON){
                 atom = new NeonAtom(0, 0);
             }
-            else if (moleculeID == ARGON){
+            else if (moleculeID == StatesOfMatterConstants.ARGON){
                 atom = new ArgonAtom(0, 0);
             }
             else{
@@ -898,7 +981,7 @@ public class MultipleParticleModel {
     private void initializeDiatomic(int moleculeID){
         
         // Verify that a valid molecule ID was provided.
-        assert (moleculeID == DIATOMIC_OXYGEN);
+        assert (moleculeID == StatesOfMatterConstants.DIATOMIC_OXYGEN);
         
         // Determine the number of molecules to create.  This will be a cube
         // (really a square, since it's 2D, but you get the idea) that takes
@@ -979,7 +1062,7 @@ public class MultipleParticleModel {
     private void initializeTriatomic(int moleculeID){
         
         // Verify that a valid molecule ID was provided.
-        assert (moleculeID == WATER); // Only water is supported so far.
+        assert (moleculeID == StatesOfMatterConstants.WATER); // Only water is supported so far.
         
         // Determine the number of molecules to create.  This will be a cube
         // (really a square, since it's 2D, but you get the idea) that takes
@@ -1094,6 +1177,12 @@ public class MultipleParticleModel {
     private void notifyContainerSizeChanged(){
         for (int i = 0; i < _listeners.size(); i++){
             ((Listener)_listeners.get( i )).containerSizeChanged();
+        }        
+    }
+
+    private void notifyMoleculeTypeChanged(){
+        for (int i = 0; i < _listeners.size(); i++){
+            ((Listener)_listeners.get( i )).moleculeTypeChanged();
         }        
     }
 
@@ -1374,7 +1463,7 @@ public class MultipleParticleModel {
         if (m_atomsPerMolecule == 2){
             tweakFactor = 1.2;
         }
-        else if (m_currentMolecule == WATER){
+        else if (m_currentMolecule == StatesOfMatterConstants.WATER){
             tweakFactor = 0.9;
         }
         
@@ -2436,7 +2525,7 @@ public class MultipleParticleModel {
         
         switch (m_currentMolecule){
         
-        case NEON:
+        case StatesOfMatterConstants.NEON:
             if (m_temperature <= 0.4){
                 temperatureInKelvin = m_temperature * 61.375;
             }
@@ -2448,7 +2537,7 @@ public class MultipleParticleModel {
             }
             break;
             
-        case ARGON:
+        case StatesOfMatterConstants.ARGON:
             // JPB TBD - I think Paul actually gave me info for Krypton, so
             // this is wrong, and it will need to be fixed at some point.
             if (m_temperature <= 0.4){
@@ -2462,12 +2551,12 @@ public class MultipleParticleModel {
             }
             break;
 
-        case WATER:
+        case StatesOfMatterConstants.WATER:
             // TODO: JPB TBD - this is made up.
             temperatureInKelvin = m_temperature * 100;
             break;
             
-        case DIATOMIC_OXYGEN:
+        case StatesOfMatterConstants.DIATOMIC_OXYGEN:
             // TODO: JPB TBD - this is made up.
             temperatureInKelvin = m_temperature * 100;
             break;
@@ -2539,6 +2628,12 @@ public class MultipleParticleModel {
          * Inform listeners that the size of the container has changed.
          */
         public void containerSizeChanged();
+        
+        /**
+         * Inform listeners that the type of molecule being simulated has
+         * changed.
+         */
+        public void moleculeTypeChanged();
 
     }
     
@@ -2548,6 +2643,7 @@ public class MultipleParticleModel {
         public void temperatureChanged(){}
         public void pressureChanged(){}
         public void containerSizeChanged(){}
+        public void moleculeTypeChanged(){}
     }
     
     /**

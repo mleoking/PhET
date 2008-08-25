@@ -20,6 +20,7 @@ import javax.swing.border.TitledBorder;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.control.GravityControlPanel;
@@ -159,8 +160,8 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
             m_oxygenRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
             m_oxygenRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    if (m_model.getMolecule() != MultipleParticleModel.DIATOMIC_OXYGEN){
-                        m_model.setMolecule( MultipleParticleModel.DIATOMIC_OXYGEN );
+                    if (m_model.getMoleculeType() != StatesOfMatterConstants.DIATOMIC_OXYGEN){
+                        m_model.setMoleculeType( StatesOfMatterConstants.DIATOMIC_OXYGEN );
                     }
                 }
             } );
@@ -168,8 +169,8 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
             m_neonRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
             m_neonRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    if (m_model.getMolecule() != MultipleParticleModel.NEON){
-                        m_model.setMolecule( MultipleParticleModel.NEON );
+                    if (m_model.getMoleculeType() != StatesOfMatterConstants.NEON){
+                        m_model.setMoleculeType( StatesOfMatterConstants.NEON );
                     }
                 }
             } );
@@ -177,8 +178,8 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
             m_argonRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
             m_argonRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    if (m_model.getMolecule() != MultipleParticleModel.ARGON){
-                        m_model.setMolecule( MultipleParticleModel.ARGON );
+                    if (m_model.getMoleculeType() != StatesOfMatterConstants.ARGON){
+                        m_model.setMoleculeType( StatesOfMatterConstants.ARGON );
                     }
                 }
             } );
@@ -186,8 +187,8 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
             m_waterRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
             m_waterRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    if (m_model.getMolecule() != MultipleParticleModel.WATER){
-                        m_model.setMolecule( MultipleParticleModel.WATER );
+                    if (m_model.getMoleculeType() != StatesOfMatterConstants.WATER){
+                        m_model.setMoleculeType( StatesOfMatterConstants.WATER );
                     }
                 }
             } );
