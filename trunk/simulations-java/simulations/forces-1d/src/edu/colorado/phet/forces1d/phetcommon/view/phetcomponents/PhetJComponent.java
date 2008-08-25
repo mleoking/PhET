@@ -298,16 +298,10 @@ public class PhetJComponent extends PhetGraphic {
             }
         } );
 
-        Timer timer = new Timer( 100, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                scheduleRepaint();
-            }
-        } );
-        timer.start();
         scheduleRepaint();
     }
 
-    private void scheduleRepaint() {
+    public void scheduleRepaint() {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 repaint();
@@ -317,6 +311,18 @@ public class PhetJComponent extends PhetGraphic {
 
     public static PhetJComponentManager getManager() {
         return manager;
+    }
+
+    public static void doScheduleRepaint( PhetGraphic textFieldGraphic ) {
+        if ( textFieldGraphic instanceof PhetJComponent ) {
+            ( (PhetJComponent) textFieldGraphic ).scheduleRepaint();
+        }
+        else if ( textFieldGraphic instanceof GraphicLayerSet ) {
+            GraphicLayerSet set = (GraphicLayerSet) textFieldGraphic;
+            for ( int i = 0; i < set.getNumGraphics(); i++ ) {
+                doScheduleRepaint( set.getGraphics()[i] );
+            }
+        }
     }
 
     private static interface KeyMethod {
