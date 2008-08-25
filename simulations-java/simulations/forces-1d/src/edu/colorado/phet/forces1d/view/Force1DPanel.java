@@ -52,7 +52,6 @@ public class Force1DPanel extends ApparatusPanel2 implements OffsetManager {
     private PlotDevice velPlotDevice;
     private PlotDevice posPlotDevice;
     private WiggleMe wiggleMe;
-    private FloatingControl goPauseClearControl;
     private WiggleMe sliderWiggleMe;
     private HelpItem2 soloGoButtonHelp;
     private boolean goButtonPressed;
@@ -201,7 +200,7 @@ public class Force1DPanel extends ApparatusPanel2 implements OffsetManager {
         checkBoxPanel.add( showAppliedForce );
 
         checkBoxPanelGraphic = PhetJComponent.newInstance( this, checkBoxPanel );
-        goPauseClearControl = new FloatingControl( forcePlotDevice.getPlotDeviceModel(), this );
+        FloatingControl goPauseClearControl = new FloatingControl( forcePlotDevice.getPlotDeviceModel(), this );
 
         goPauseClearGraphic = PhetJComponent.newInstance( this, goPauseClearControl );
         goPauseClearGraphic.addPhetGraphicListener( new PhetGraphicListener() {
@@ -214,6 +213,40 @@ public class Force1DPanel extends ApparatusPanel2 implements OffsetManager {
         } );
 
         addGraphic( goPauseClearGraphic, Double.POSITIVE_INFINITY );
+        this.model.getPlotDeviceModel().addListener( new PlotDeviceModel.ListenerAdapter(){
+            public void recordingStarted() {
+                repaintGoPauseClear();
+            }
+
+            public void recordingPaused() {
+                repaintGoPauseClear();
+            }
+
+            public void recordingFinished() {
+                repaintGoPauseClear();
+            }
+
+            public void playbackStarted() {
+                repaintGoPauseClear();
+            }
+
+            public void playbackPaused() {
+                repaintGoPauseClear();
+            }
+
+            public void playbackFinished() {
+                repaintGoPauseClear();
+            }
+
+            public void reset() {
+                repaintGoPauseClear();
+            }
+
+            public void rewind() {
+                repaintGoPauseClear();
+            }
+        } );
+
         addGraphic( checkBoxPanelGraphic, Double.POSITIVE_INFINITY );
         addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
@@ -383,6 +416,10 @@ public class Force1DPanel extends ApparatusPanel2 implements OffsetManager {
         }
     }
 
+    private void repaintGoPauseClear() {
+        PhetJComponent.doScheduleRepaint( goPauseClearGraphic );
+    }
+
     private PhetGraphic getGoButtonGraphic() {
         return ( (GraphicLayerSet) goPauseClearGraphic ).getGraphics()[1];
     }
@@ -519,6 +556,7 @@ public class Force1DPanel extends ApparatusPanel2 implements OffsetManager {
     }
 
     public void updateGraphics() {
+        repaintGoPauseClear();
         arrowSetGraphic.updateGraphics();
         blockGraphic.update();
     }

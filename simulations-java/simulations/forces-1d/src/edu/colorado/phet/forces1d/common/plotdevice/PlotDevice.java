@@ -139,6 +139,14 @@ public class PlotDevice extends GraphicLayerSet {
         textBox.setHorizontalAlignment( JTextField.RIGHT );
 
         textFieldGraphic = PhetJComponent.newInstance( panel, textBox.textField );
+        addListener( new Listener() {
+            public void readoutChanged( double value ) {
+            }
+
+            public void valueChanged( double value ) {
+                PhetJComponent.doScheduleRepaint(textFieldGraphic);
+            }
+        } );
 
         this.apparatusPanel = parameters.panel;
         plotDeviceModel.addListener( new PlotDeviceModel.ListenerAdapter() {
