@@ -2,6 +2,12 @@
 ###	Todo Sam	####
 ############################
 
+--Under Developer > Developer Controls > Control Panel Background color - Once you access this screen, none of the buttons seem to work and therefore you can't exit the screen. 
+
+--Entering values into text boxes does not affect the value unless you hit the enter key. If you enter values without hitting enter (e.g., using tab to go to the next box or just hitting play) the values reset.
+
+
+
 ############################
 ###	Todo Noah P	####
 ############################
@@ -9,6 +15,9 @@
 ############################
 ###	To Discuss	####
 ############################
+
+--We might revisit the idea of having exercise only certain days of the week, or maybe every other day. Based on feedback from UCSD.
+
 
 LBM clamping issue, 8/18/08:
 
@@ -19,6 +28,9 @@ What I was thinking was a clamp on LBM, limiting it to <= LBM_0. You should not 
 This would mean code that does the following: if you decrease % fat to the point that LBM > LBM_0, remove lean mass to maintain LBM = LBM_0.
 
 
+##################################
+###	Archived Issues		####
+##################################
 
 --Instead of the question mark next to the pull down for activity, is it possible to have a mouse over on each option that gives the description?
 	>Sam, what do you think of this? I think mouse-overs on pull down menus are fairly non-standard, but I could be wrong.
@@ -36,10 +48,6 @@ This would mean code that does the following: if you decrease % fat to the point
     SRR: it was significantly easier to implement #1.  Let me know what you think of it, or if we should try something else.
 
 >>NP 8/18/08: New scheme added in v0.75 with constant font sizes.
-
-############################################
-###	Old Issues  To Keep an Eye on	####
-############################################
 
 --When Lifestyle calories burned is calculated, is that based on LBM (i.e., fat free mass) or weight? Wendy and I think it should be based on total weight, so just wanted to check.
 >>This should be done in 0.71.
