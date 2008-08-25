@@ -1,3 +1,12 @@
+To Do:
+1. When you hit the Clear button, the "Apply a Force By dragging the slider" wiggle me pops up. This shouldn't pop up if there is no slider. Also, the wiggle me is in the wrong position for the slider when it is present (too high).
+
+2. If it is quick, can you make the checkboxes in the control panel (Show forces, etc.) aligned on the left? I.e., so the check boxes line up.
+
+3. The Applied Force text box does not update until you mouse over it. This is when entering values, using the slider, or dragging the object.
+
+4. The Go, Pause, and Clear buttons also seem to stay grayed out until you mouse over them. 
+
 For Discussion:
 -wiggle me was removed from FBD in convert to piccolo in FreeBodyDiagramPanel, should we add this back?
 
