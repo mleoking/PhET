@@ -77,7 +77,8 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         m_mvt = new ModelViewTransform(1.0, 1.0, 0.0, 0.0, false, true);
         
         // Add the interaction potential diagram.
-        InteractionPotentialDiagramNode diagram = new InteractionPotentialDiagramNode(true);
+        InteractionPotentialDiagramNode diagram = new InteractionPotentialDiagramNode(m_model.getSigma(), 
+                m_model.getEpsilon(), true);
         diagram.scale( DIAGRAM_NODE_WIDTH / diagram.getFullBoundsReference().width );
         diagram.setOffset( -(DIAGRAM_NODE_WIDTH / 2), - diagram.getFullBoundsReference().height * 1.3 );
         addWorldChild( diagram );

@@ -14,6 +14,8 @@ import edu.colorado.phet.common.phetcommon.patterns.PubliclyCloneable;
  *
  * @author John De Goes, John Blanco
  */
+// TODO: JPB TBD - It may make sense to make this into an abstract class once
+// all of De Goes old code is removed.
 public class StatesOfMatterAtom implements PubliclyCloneable {
     
     //----------------------------------------------------------------------------
@@ -21,6 +23,8 @@ public class StatesOfMatterAtom implements PubliclyCloneable {
     //----------------------------------------------------------------------------
 
     public static final StatesOfMatterAtom TEST = new StatesOfMatterAtom(0.0, 0.0, 1.0, 1.0);
+    public static final double DEFAULT_EPSILON = 120;
+    public static final double DEFAULT_SIGMA = 3.3;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -100,6 +104,14 @@ public class StatesOfMatterAtom implements PubliclyCloneable {
 
     public double getRadius() {
         return m_radius;
+    }
+    
+    public static double getSigma() {
+        return DEFAULT_SIGMA;
+    }
+    
+    public static double getEpsilon() {
+        return DEFAULT_EPSILON;
     }
     
     public double getInverseMass() {

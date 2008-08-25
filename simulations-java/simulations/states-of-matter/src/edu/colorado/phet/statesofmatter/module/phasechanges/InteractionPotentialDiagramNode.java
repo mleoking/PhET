@@ -14,6 +14,10 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
+import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
+import edu.colorado.phet.statesofmatter.model.particle.ArgonAtom;
+import edu.colorado.phet.statesofmatter.model.particle.NeonAtom;
+import edu.colorado.phet.statesofmatter.model.particle.OxygenAtom;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -49,8 +53,8 @@ public class InteractionPotentialDiagramNode extends PNode {
     private static final Color BACKGROUND_COLOR = Color.WHITE;
     
     // Constants used for the Lennard-Jones potential calculation.
-    private static final double SIGMA = 3.3;
-    private static final double EPSILON = 120;
+    private static final double DEFAULT_SIGMA = 3.3;
+    private static final double DEFAULT_EPSILON = 120;
     private static final double HORIZONTAL_INDEX_MULTIPLIER = 0.05;  // Empirically determined so curve will look reasonable.
     private static final double VERTICAL_SCALING_FACTOR = 0.5;       // Empirically determined so curve will fit graph.
     
@@ -68,6 +72,8 @@ public class InteractionPotentialDiagramNode extends PNode {
     // Instance Data
     //----------------------------------------------------------------------------
     
+    private double m_sigma;
+    private double m_epsilon;
     private double m_width;
     private double m_height;
     private double m_graphOffsetX;
@@ -82,12 +88,16 @@ public class InteractionPotentialDiagramNode extends PNode {
     
     /**
      * Constructor.
-     * 
+     * @param sigma TODO
+     * @param epsilon TODO
      * @param wide - True if the widescreen version of the graph is needed,
      * false if not.
      */
-    public InteractionPotentialDiagramNode(boolean wide){
+    public InteractionPotentialDiagramNode(double sigma, double epsilon, boolean wide){
 
+        m_sigma = sigma;
+        m_epsilon = epsilon;
+        
         // Set up for the normal or wide version of the graph.
         if (wide){
             m_width = 1.5 * WIDTH;
@@ -210,6 +220,23 @@ public class InteractionPotentialDiagramNode extends PNode {
     }
     
     /**
+     * Set the parameters that define the shape of the Lennard-Jones
+     * potential curve.
+     * 
+     * @param sigma
+     * @param epsilon
+     */
+    public void setLjPotentialParameters( double sigma, double epsilon ){
+        
+        // Update the parameters.
+        m_sigma = sigma;
+        m_epsilon = epsilon;
+        
+        // Redraw the graph to reflect the new parameters.
+        drawPotentialCurve();
+    }
+    
+    /**
      * Calculate the normalized Lennard-Jones potential, meaning that the 
      * sigma and epsilon values are assumed to be equal to 1.
      * 
@@ -218,10 +245,9 @@ public class InteractionPotentialDiagramNode extends PNode {
      */
     private double calculateLennardJonesPotential(double radius){
         
-        return (4 * EPSILON * (Math.pow( SIGMA / radius, 12 ) - Math.pow( SIGMA / radius, 6 )));
+        return (4 * m_epsilon * (Math.pow( m_sigma / radius, 12 ) - Math.pow( m_sigma / radius, 6 )));
         
     }
-    
     
     /**
      * Draw the curve that reflects the Lennard-Jones potential based upon the
