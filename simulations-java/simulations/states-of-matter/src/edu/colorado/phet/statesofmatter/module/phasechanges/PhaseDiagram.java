@@ -111,9 +111,6 @@ public class PhaseDiagram extends PhetPCanvas {
     // state marker.
     Point2D m_currentStateMarkerPos;
     
-    // Reference to the simulation model that this diagram is monitoring.
-    MultipleParticleModel m_model;
-    
     //----------------------------------------------------------------------------
     // Constructor(s)
     //----------------------------------------------------------------------------
@@ -121,24 +118,13 @@ public class PhaseDiagram extends PhetPCanvas {
     /**
      * Constructor.
      */
-    public PhaseDiagram( MultipleParticleModel model ){
+    public PhaseDiagram( ){
 
-        m_model = model;
         m_currentStateMarkerPos = new Point2D.Double();
         setPreferredSize( new Dimension(WIDTH, HEIGHT) );
         setBackground( StatesOfMatterConstants.CONTROL_PANEL_COLOR );
         setBorder( null );
         
-        // Register with model so that we can monitor the current phase.
-        m_model.addListener( new MultipleParticleModel.Adapter(){
-            public void temperatureChanged(){
-                updateStateMarkerPosition();
-            }
-            public void pressureChanged(){
-                updateStateMarkerPosition();
-            }
-        });
-
         // Initialize the variables for the lines, points, and shapes in the
         // phase diagram.  The order in which these are added is important.
         m_gasAreaBackground = new PPath();
@@ -241,19 +227,9 @@ public class PhaseDiagram extends PhetPCanvas {
         drawPhaseDiagram( 0 );
         
         // Set the initial position of the current phase state marker.
-        setCurrentStateMarkerPos( 0, 0 );
+        setStateMarkerPos( 0, 0 );
     }
 
-    private void updateStateMarkerPosition(){
-        // JPB TBD - This is very preliminary, and I need to work with Paul to make it "real".
-        double xPos = m_model.getNormalizedTemperature();
-        double yPos = m_model.getPressure();
-        if (yPos > 1){
-            yPos = 1;
-        }
-        setCurrentStateMarkerPos( xPos, yPos );
-    }
-    
     private void drawPhaseDiagram(int substance){
         
         // Place the triple point marker.
@@ -339,14 +315,14 @@ public class PhaseDiagram extends PhetPCanvas {
     /**
      * Set the normalized position for this marker.
      * 
-     * @param xPos - X position value between 0 and 1 (inclusive).
-     * @param yPos - Y position value between 0 and 1 (inclusive).
+     * @param normalizedTemperature - Temperature (X position) value between 0 and 1 (inclusive).
+     * @param normalizedPressure - Pressure (Y position) value between 0 and 1 (inclusive).
      */
-    public void setCurrentStateMarkerPos(double xPos, double yPos){
+    public void setStateMarkerPos(double normalizedTemperature, double normalizedPressure){
         // TODO: JPB TBD - Add code to throw exception if out of range.
-        m_currentStateMarkerPos.setLocation( xPos, yPos );
-        m_currentStateMarker.setOffset( xPos * xUsableRange + xOriginOffset - (CURRENT_STATE_MARKER_DIAMETER / 2), 
-                -yPos * yUsableRange + yOriginOffset - (CURRENT_STATE_MARKER_DIAMETER / 2));
+        m_currentStateMarkerPos.setLocation( normalizedTemperature, normalizedPressure );
+        m_currentStateMarker.setOffset( normalizedTemperature * xUsableRange + xOriginOffset - (CURRENT_STATE_MARKER_DIAMETER / 2), 
+                -normalizedPressure * yUsableRange + yOriginOffset - (CURRENT_STATE_MARKER_DIAMETER / 2));
     }
     
     /**

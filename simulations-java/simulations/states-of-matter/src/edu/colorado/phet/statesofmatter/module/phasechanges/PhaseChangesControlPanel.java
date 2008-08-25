@@ -52,6 +52,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
     private boolean m_interactionDiagramVisible;
     private JButton m_interactionDiagramCtrlButton;
     private InteractionPotentialDiagramNode m_interactionPotentialDiagram;
+    private PhaseDiagram m_phaseDiagram;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -74,6 +75,12 @@ public class PhaseChangesControlPanel extends ControlPanel {
         m_model.addListener( new MultipleParticleModel.Adapter(){
             public void moleculeTypeChanged(){
                 m_interactionPotentialDiagram.setLjPotentialParameters( m_model.getSigma(), m_model.getEpsilon() );
+            }
+            public void temperatureChanged(){
+                updatePhaseDiagram();
+            }
+            public void pressureChanged(){
+                updatePhaseDiagram();
             }
         });
         
@@ -104,7 +111,8 @@ public class PhaseChangesControlPanel extends ControlPanel {
         
         // Add the phase diagram.
         m_phaseDiagramPanel = new JPanel();
-        m_phaseDiagramPanel.add( new PhaseDiagram( m_model ) );
+        m_phaseDiagram = new PhaseDiagram();
+        m_phaseDiagramPanel.add( m_phaseDiagram );
         addControlFullWidth( m_phaseDiagramPanel );
         m_phaseDiagramPanel.setVisible( m_phaseDiagramVisible );
         
@@ -224,5 +232,14 @@ public class PhaseChangesControlPanel extends ControlPanel {
         else{
             m_interactionDiagramCtrlButton.setText( StatesOfMatterStrings.INTERACTION_POTENTIAL_BUTTON_LABEL + " >>" );
         }
+    }
+    
+    private void updatePhaseDiagram(){
+        
+        // TODO: JPB TBD - This is very preliminary and I need to work with
+        // Paul Beale to finalize.
+        double pressure = Math.min( m_model.getPressure(), 1.0 );
+        m_phaseDiagram.setStateMarkerPos(m_model.getNormalizedTemperature(), m_model.getPressure());
+
     }
 }
