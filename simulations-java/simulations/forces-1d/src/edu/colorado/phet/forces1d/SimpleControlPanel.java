@@ -46,6 +46,7 @@ public class SimpleControlPanel extends IForceControl {
         fbdSuite = new FreeBodyDiagramSuite( simpleForceModule );
         fbdSuite.setControlPanel( this );
 
+
         addControl( new FBDButton( fbdSuite ) );
         addControl( fbdSuite.getFreeBodyDiagramPanel() );
 
@@ -53,12 +54,12 @@ public class SimpleControlPanel extends IForceControl {
             super.removeTitle();
         }
 
-        addControl( new ShowComponentForcesCheckBox( simpleForceModule ) );
-        addControl( new ShowTotalForceCheckBox( simpleForceModule ) );
+        addFullWidth( new ShowComponentForcesCheckBox( simpleForceModule ) );
+        addFullWidth( new ShowTotalForceCheckBox( simpleForceModule ) );
 
-        addControl( frictionCheckBox );
+        addFullWidth( frictionCheckBox );
         barriers = new BarrierCheckBox( simpleForceModule );
-        addControl( barriers );
+        addFullWidth( barriers );
         super.setHelpPanelEnabled( true );
         simpleForceModule.getForceModel().getPlotDeviceModel().addListener( new PlotDeviceModel.ListenerAdapter() {
             public void recordingStarted() {
