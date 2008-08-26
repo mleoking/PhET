@@ -117,7 +117,7 @@ public class InteractionPotentialDiagramNode extends PNode {
         graphBackground.setPaint( BACKGROUND_COLOR );
         addChild( graphBackground );
 
-        // Create and add the node that will contain the graph.
+        // Create and add the Piccolo node that will contain the graph.
         PPath ljPotentialGraph = new PPath(new Rectangle2D.Double(0, 0, m_graphWidth, m_graphHeight));
         ljPotentialGraph.setOffset( m_graphOffsetX, 0 );
         ljPotentialGraph.setPaint( Color.WHITE );
@@ -172,6 +172,12 @@ public class InteractionPotentialDiagramNode extends PNode {
             ljPotentialGraph.addChild( rightTickMark );
         }
         
+        // Add the potential energy line.
+        m_potentialEnergyLine = new PPath();
+        m_potentialEnergyLine.setStroke( POTENTIAL_ENERGY_LINE_STROKE );
+        m_potentialEnergyLine.setStrokePaint( POTENTIAL_ENERGY_LINE_COLOR );
+        ljPotentialGraph.addChild( m_potentialEnergyLine );
+
         // Add the arrows and labels that will depict sigma and epsilon.
         m_epsilonArrow = new DoubleArrowNode( new Point2D.Double( 0, 0 ), 
                 new Point2D.Double( 0, m_graphHeight / 2 ), ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_LINE_WIDTH);
@@ -190,12 +196,6 @@ public class InteractionPotentialDiagramNode extends PNode {
                 ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_LINE_WIDTH);
         m_sigmaArrow.setPaint( Color.BLACK );
         ljPotentialGraph.addChild( m_sigmaArrow );
-
-        // Add the potential energy line.
-        m_potentialEnergyLine = new PPath();
-        m_potentialEnergyLine.setStroke( POTENTIAL_ENERGY_LINE_STROKE );
-        m_potentialEnergyLine.setStrokePaint( POTENTIAL_ENERGY_LINE_COLOR );
-        ljPotentialGraph.addChild( m_potentialEnergyLine );
 
         // Create and add the labels for the axes.
         PText horizontalAxisLabel = new PText(StatesOfMatterStrings.INTERACTION_POTENTIAL_GRAPH_X_AXIS_LABEL);
@@ -287,8 +287,6 @@ public class InteractionPotentialDiagramNode extends PNode {
       
         m_epsilonArrow.setTipAndTailLocations( graphMin, new Point2D.Double( graphMin.getX(), m_graphHeight / 2 ) );
         
-//        m_epsilonLabel.setOffset( graphMin.getX() + m_epsilonLabel.getFullBoundsReference().width * 0.5, 
-//                m_graphHeight / 2 + m_epsilonLabel.getFullBoundsReference().height * 0.5 );
         m_epsilonLabel.setOffset( graphMin.getX() + m_epsilonLabel.getFullBoundsReference().width * 0.5, 
                 m_graphHeight / 2 );
 

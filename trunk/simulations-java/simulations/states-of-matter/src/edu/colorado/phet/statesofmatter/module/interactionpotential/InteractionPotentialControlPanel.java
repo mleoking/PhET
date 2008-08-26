@@ -53,6 +53,9 @@ public class InteractionPotentialControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
     
     private DualParticleModel m_model;
+    private MoleculeSelectionPanel m_moleculeSelectionPanel;
+    private AtomDiameterControlPanel m_atomDiameterControlPanel;
+    private InteractionStrengthControlPanel m_interactionStrengthControlPanel;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -70,14 +73,19 @@ public class InteractionPotentialControlPanel extends ControlPanel {
         int minimumWidth = StatesOfMatterResources.getInt( "int.minControlPanelWidth", 215 );
         setMinimumWidth( minimumWidth );
         
-        // Add the panel that allows the user to select molecule type.
-        addControlFullWidth( new MoleculeSelectionPanel() );
+        // Create the panel for controlling the atom diameter.
+        m_atomDiameterControlPanel = new AtomDiameterControlPanel( m_model );
         
-        // Add the panel for controlling the atom diameter.
-        addControlFullWidth( new AtomDiameterControlPanel(m_model) );
+        // Create the panel for controlling the interaction strength.
+        m_interactionStrengthControlPanel = new InteractionStrengthControlPanel( m_model );
         
-        // Add the panel for controlling the interaction strength.
-        addControlFullWidth( new InteractionStrengthControlPanel(m_model) );
+        // Create the panel that allows the user to select molecule type.
+        m_moleculeSelectionPanel = new MoleculeSelectionPanel();
+        
+        // Add the panels we just created.
+        addControlFullWidth( m_moleculeSelectionPanel );
+        addControlFullWidth( m_atomDiameterControlPanel );
+        addControlFullWidth( m_interactionStrengthControlPanel );
         
         // Add the check box for showing/hiding the force arrows.
         addVerticalSpace( 10 );
@@ -104,8 +112,11 @@ public class InteractionPotentialControlPanel extends ControlPanel {
         private JRadioButton m_monatomicOxygenRadioButton;
         private JRadioButton m_argonRadioButton;
         private JRadioButton m_adjustableAttractionRadioButton;
+        private boolean m_adjustableAtomSelected;
         
         MoleculeSelectionPanel(){
+            
+            m_adjustableAtomSelected = false;
             
             setLayout( new GridLayout(0, 1) );
             
@@ -125,6 +136,8 @@ public class InteractionPotentialControlPanel extends ControlPanel {
                 public void actionPerformed( ActionEvent e ) {
                     if (m_model.getMoleculeType() != DualParticleModel.MONATOMIC_OXYGEN){
                         m_model.setMoleculeType( DualParticleModel.MONATOMIC_OXYGEN );
+                        m_adjustableAtomSelected = false;
+                        updateLjControlSliderState();
                     }
                 }
             } );
@@ -134,6 +147,8 @@ public class InteractionPotentialControlPanel extends ControlPanel {
                 public void actionPerformed( ActionEvent e ) {
                     if (m_model.getMoleculeType() != DualParticleModel.ARGON){
                         m_model.setMoleculeType( DualParticleModel.ARGON );
+                        m_adjustableAtomSelected = false;
+                        updateLjControlSliderState();
                     }
                 }
             } );
@@ -145,6 +160,8 @@ public class InteractionPotentialControlPanel extends ControlPanel {
                     // TODO: JPB TBD - Adjustable attraction not yet implemented in the model, update this when it is.
                     if (m_model.getMoleculeType() != DualParticleModel.NEON){
                         m_model.setMoleculeType( DualParticleModel.NEON );
+                        m_adjustableAtomSelected = true;
+                        updateLjControlSliderState();
                     }
                 }
             } );
@@ -158,6 +175,22 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             add( m_monatomicOxygenRadioButton );
             add( m_argonRadioButton );
             add( m_adjustableAttractionRadioButton );
+            
+            updateLjControlSliderState();
+        }
+        
+        /**
+         * Update the state (i.e. enabled or disabled) of the sliders that
+         * control the Lennard-Jones parameters.
+         * 
+         */
+        private void updateLjControlSliderState(){
+            if (m_atomDiameterControlPanel != null){
+                m_atomDiameterControlPanel.setEnabled( m_adjustableAtomSelected );
+            }
+            if (m_interactionStrengthControlPanel != null){
+                m_interactionStrengthControlPanel.setEnabled( m_adjustableAtomSelected );
+            }
         }
     }
     
@@ -171,7 +204,6 @@ public class InteractionPotentialControlPanel extends ControlPanel {
         private DualParticleModel m_model;
         
         public AtomDiameterControlPanel(DualParticleModel model){
-
 
             m_model = model;
             
@@ -207,8 +239,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             m_atomDiameterControl.setTickLabels( diameterControlLabelTable );
             m_atomDiameterControl.setValue(m_model.getCurrentMoleculeDiameter());
 
-            // Register as a listener with the model so that we know when it gets
-            // reset.
+            // Register as a listener with the model for relevant events.
             m_model.addListener( new DualParticleModel.Adapter(){
                 public void particleDiameterChanged(){
                     m_atomDiameterControl.setValue(m_model.getCurrentMoleculeDiameter());
@@ -217,12 +248,17 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             
             add(m_atomDiameterControl);
         }
+
+        public void setEnabled( boolean enabled ){
+            super.setEnabled( enabled );
+            m_atomDiameterControl.setEnabled( enabled );
+        }
     }
     
     private class InteractionStrengthControlPanel extends JPanel {
         
         private final Font LABEL_FONT = new PhetFont( Font.BOLD, 14 );
-        private final double MAX_FIELD_STRENGTH = 50; // JPB TBD - Total guess, tweak as needed.
+        private final double MAX_FIELD_STRENGTH = 400; // JPB TBD - Total guess, tweak as needed.
 
         private LinearValueControl m_interactionStrengthControl;
         
@@ -267,12 +303,17 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             // Register as a listener with the model so that we know when it gets
             // reset.
             m_model.addListener( new DualParticleModel.Adapter(){
-                public void resetOccurred(){
-                    // TODO: JPB TBD - Need to put this in place once the model supports it.
+                public void interactionPotentialChanged(){
+                    m_interactionStrengthControl.setValue( m_model.getEpsilon() );
                 }
             });
             
             add(m_interactionStrengthControl);
+        }
+        
+        public void setEnabled( boolean enabled ){
+            super.setEnabled( enabled );
+            m_interactionStrengthControl.setEnabled( enabled );
         }
     }
 

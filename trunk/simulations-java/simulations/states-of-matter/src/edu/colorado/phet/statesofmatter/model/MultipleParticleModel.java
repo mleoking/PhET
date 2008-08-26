@@ -2060,9 +2060,6 @@ public class MultipleParticleModel {
             m_moleculeTorques[i] = m_nextMoleculeTorques[i];
         }
         
-        System.out.println("Temperature set point prior to thermostat: " + m_temperature);
-        System.out.println("Internally calculated temp prior to thermostat: " + ((centersOfMassKineticEnergy + rotationalKineticEnergy) / numberOfMolecules));
-
         // Run the thermostat, which keeps the atoms from getting way too much
         // energy over time due to simulation inaccuracies and limitations.
         // Note that the thermostat is NOT run if the container size is
@@ -2078,7 +2075,7 @@ public class MultipleParticleModel {
                     temperatureScaleFactor = 0;
                 }
                 else{
-                    temperatureScaleFactor = Math.sqrt( m_temperature * numberOfMolecules / (centersOfMassKineticEnergy + rotationalKineticEnergy) );
+                    temperatureScaleFactor = Math.sqrt( 1.5 * m_temperature * numberOfMolecules / (centersOfMassKineticEnergy + rotationalKineticEnergy) );
                 }
                 for (int i = 0; i < numberOfMolecules; i++){
                     m_moleculeVelocities[i].setComponents( m_moleculeVelocities[i].getX() * temperatureScaleFactor, 
@@ -2350,7 +2347,7 @@ public class MultipleParticleModel {
                     temperatureScaleFactor = 0;
                 }
                 else{
-                    temperatureScaleFactor = Math.sqrt( m_temperature * numberOfMolecules / (kecm + kerot) );
+                    temperatureScaleFactor = Math.sqrt( 1.5 * m_temperature * numberOfMolecules / (kecm + kerot) );
                 }
                 for (int i = 0; i < numberOfMolecules; i++){
                     m_moleculeVelocities[i].setComponents( m_moleculeVelocities[i].getX() * temperatureScaleFactor, 
@@ -2686,7 +2683,7 @@ public class MultipleParticleModel {
             }            
         }
             
-        return (translationalKineticEnergy + rotationalKineticEnergy) / numberOfMolecules;
+        return (translationalKineticEnergy + rotationalKineticEnergy) / numberOfMolecules / 1.5;
     }
     
     //------------------------------------------------------------------------
