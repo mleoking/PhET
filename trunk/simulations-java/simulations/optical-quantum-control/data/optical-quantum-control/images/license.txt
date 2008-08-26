@@ -3,31 +3,31 @@
 # Automatically generated on Fri Aug 08 00:08:02 MDT 2008
 ###################################
 
-closeButton.png author=PhET 
+closeButton.png author=cmalley 
 explanation.jpg notes=from mckagan 
-kaboom.png author=PhET notes=chris 
-magnifyingGlass.png author=PhET notes=chris 
-molecule0_part1.png author=PhET 
-molecule0_part2.png author=PhET 
-molecule0_part3.png author=PhET 
-molecule1_part1.png author=PhET 
-molecule1_part2.png author=PhET 
-molecule1_part3.png author=PhET 
-molecule2_part1.png author=PhET 
-molecule2_part2.png author=PhET 
-molecule2_part3.png author=PhET 
-molecule3_part1.png author=PhET 
-molecule3_part2.png author=PhET 
-molecule3_part3.png author=PhET 
-molecule4_part1.png author=PhET 
-molecule4_part2.png author=PhET 
-molecule4_part3.png author=PhET 
-molecule5_part1.png author=PhET 
-molecule5_part2.png author=PhET 
-molecule5_part3.png author=PhET 
-molecule6_part1.png author=PhET 
-molecule6_part2.png author=PhET 
-molecule6_part3.png author=PhET 
-molecule7_part1.png author=PhET 
-molecule7_part2.png author=PhET 
-molecule7_part3.png author=PhET 
+kaboom.png author=cmalley notes=created using AMR Graphics Explosion Action for Photoshop, http://www.amrgraphics.com/
+magnifyingGlass.png author=cmalley notes=created using Fireworks 
+molecule0_part1.png author=cmalley notes=created using Fireworks
+molecule0_part2.png author=cmalley 
+molecule0_part3.png author=cmalley 
+molecule1_part1.png author=cmalley 
+molecule1_part2.png author=cmalley 
+molecule1_part3.png author=cmalley 
+molecule2_part1.png author=cmalley 
+molecule2_part2.png author=cmalley 
+molecule2_part3.png author=cmalley 
+molecule3_part1.png author=cmalley 
+molecule3_part2.png author=cmalley 
+molecule3_part3.png author=cmalley 
+molecule4_part1.png author=cmalley 
+molecule4_part2.png author=cmalley 
+molecule4_part3.png author=cmalley 
+molecule5_part1.png author=cmalley 
+molecule5_part2.png author=cmalley 
+molecule5_part3.png author=cmalley 
+molecule6_part1.png author=cmalley 
+molecule6_part2.png author=cmalley 
+molecule6_part3.png author=cmalley 
+molecule7_part1.png author=cmalley 
+molecule7_part2.png author=cmalley 
+molecule7_part3.png author=cmalley 
