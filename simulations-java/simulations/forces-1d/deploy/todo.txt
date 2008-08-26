@@ -1,13 +1,22 @@
-For Discussion:
+############################
+####	Todo Sam R		####
+############################
+
+-Applied force text box does not update until mouseover. Reproducable by draggint the crate, then let go - applied force does not reset to zero until mouseover.
+
+
+
+############################
+####	For Discussion	####
+############################
+
+-"Show Ftotal, Show Ffriction,..." checkboxes with Force graph might be coupled to "Show component force, Show total force" boxes. So, for instance, if you turn off the Ftotal in the graph, the Total Force arrow also disappears.
+
 -wiggle me was removed from FBD in convert to piccolo in FreeBodyDiagramPanel, should we add this back?
 
--Fixed: the graph label "Force (N)" overlaps the slider.
-    >>SRR: Fixed on Vista, should be tested on XP and other platforms
-
--Fixed: the slider control is only the width of the slider. Makes it almost impossible to see or grab.
-    >>SRR: Fixed on Vista, should be tested on XP and other platforms
-
 Less urgent general issues:
+
+-make the zero line for graphs thicker to stand out from other non-zero values
 
 - in interviews, students entered numbers in the "Applied Force" box, but did not know to hit enter.
 They would hit pause, enter a value, then hit go.
@@ -19,3 +28,15 @@ box when with which slider. This seems to be because the labels are closer to
 the text box of the control above (with only a line separator between, which did not seem to help).
 Space these controls out more or put the the text box next to the label (say to the right of the label)
 instead of below the slider.
+
+############################
+####		Fixed		####
+############################
+
+-Fixed: the graph label "Force (N)" overlaps the slider.
+    >>SRR: Fixed on Vista, should be tested on XP and other platforms
+	>NP: Appears fixed on XP, tested on a PhET laptop.
+
+-Fixed: the slider control is only the width of the slider. Makes it almost impossible to see or grab.
+    >>SRR: Fixed on Vista, should be tested on XP and other platforms
+	>NP: Appears fixed on XP, tested on a PhET laptop.
