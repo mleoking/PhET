@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.statesofmatter.model.particle.ArgonAtom;
 import edu.colorado.phet.statesofmatter.model.particle.HydrogenAtom;
+import edu.colorado.phet.statesofmatter.model.particle.HydrogenAtom2;
 import edu.colorado.phet.statesofmatter.model.particle.NeonAtom;
 import edu.colorado.phet.statesofmatter.model.particle.OxygenAtom;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
@@ -130,17 +131,20 @@ public class ParticleNode extends PNode {
         Color baseColor;
 
         if ( atom instanceof ArgonAtom ) {
-            baseColor = new Color( 0x0099aa );
+            baseColor = new Color( 0x009933 );
         }
         else if ( atom instanceof NeonAtom ) {
             baseColor = new Color( 0xdd4400 );
         }
         else if ( atom instanceof OxygenAtom ) {
-            baseColor = new Color( 0x44cc00 );
+            baseColor = new Color( 0x4444ff );
         }
         else if ( atom instanceof HydrogenAtom ) {
-            baseColor = new Color( 0xdd00dd );
+            baseColor = new Color( 0xff0000 );
 //            baseColor = Color.RED;
+        }
+        else if ( atom instanceof HydrogenAtom2 ) {
+            baseColor = new Color( 0xff00ff );
         }
         else {
             baseColor = Color.WHITE;

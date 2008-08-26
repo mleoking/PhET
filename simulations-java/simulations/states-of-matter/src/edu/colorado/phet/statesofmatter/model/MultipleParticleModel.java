@@ -22,6 +22,7 @@ import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyAdjust
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyCapper;
 import edu.colorado.phet.statesofmatter.model.particle.ArgonAtom;
 import edu.colorado.phet.statesofmatter.model.particle.HydrogenAtom;
+import edu.colorado.phet.statesofmatter.model.particle.HydrogenAtom2;
 import edu.colorado.phet.statesofmatter.model.particle.NeonAtom;
 import edu.colorado.phet.statesofmatter.model.particle.OxygenAtom;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
@@ -53,7 +54,7 @@ public class MultipleParticleModel {
     public static final double TIME_STEP = Math.pow( 0.5, 7.0 );
     public static final double INITIAL_TEMPERATURE = 0.2;
     public static final double MAX_TEMPERATURE = 100.0;
-    public static final double MIN_TEMPERATURE = 0.001;
+    public static final double MIN_TEMPERATURE = 0.01;
     public static final double TEMPERATURE_STEP = -0.1;
     private static final double WALL_DISTANCE_THRESHOLD = 1.122462048309373017;
     private static final double PARTICLE_INTERACTION_DISTANCE_THRESH_SQRD = 6.25;
@@ -91,6 +92,12 @@ public class MultipleParticleModel {
     // Parameters to control rates of change of the container size.
     private static final double MAX_PER_TICK_CONTAINER_SHRINKAGE = 25;
     private static final double MAX_PER_TICK_CONTAINER_EXPANSION = 200;
+    
+    // Parameters used for "hollywooding" of the water crystal.
+    private static final double WATER_FULLY_MELTED_TEMPERATURE = 0.3;
+    private static final double WATER_FULLY_MELTED_ELECTROSTATIC_FORCE = 1.0;
+    private static final double WATER_FULLY_FROZEN_TEMPERATURE = 0.22;
+    private static final double WATER_FULLY_FROZEN_ELECTROSTATIC_FORCE = 4.0;
     
     // TODO: JPB TBD - Temp for debug, remove eventually.
     private static final boolean USE_NEW_PRESSURE_CALC_METHOD = true;
@@ -1098,8 +1105,16 @@ public class MultipleParticleModel {
             if (i % 3 == 0){
                 atom = new OxygenAtom(0, 0);
             }
-            else{
-                atom = new HydrogenAtom(0, 0);
+            else {
+                // Add a hydrogen atom.
+                if ((i+1) % 6 == 0){
+                    // TODO: JPB TBD - This is a temp test to distinguish
+                    // charged hydrogen from uncharged hydrogen.
+                    atom = new HydrogenAtom2(0, 0);
+                }
+                else{
+                    atom = new HydrogenAtom(0, 0);
+                }
             }
             m_particles.add( atom );
             notifyParticleAdded( atom );
@@ -2111,9 +2126,28 @@ public class MultipleParticleModel {
         assert m_atomsPerMolecule == 3;
         
         int numberOfMolecules = m_numberOfAtoms / 3;
-        
-        // JPB TBD - Go over this with Paul and understand it.
-        double q0 = 1.5;
+
+        // TODO: JPB TBD Work with Paul to come up with better names for these
+        // charge-defining variables.
+        double q0;
+        if ( m_temperature < WATER_FULLY_FROZEN_TEMPERATURE ){
+            // Use stronger electrostatic forces in order to create more of
+            // a crystal structure.
+            q0 = WATER_FULLY_FROZEN_ELECTROSTATIC_FORCE;
+        }
+        else if ( m_temperature > WATER_FULLY_MELTED_TEMPERATURE ){
+            // Use weaker electrostatic forces in order to create more of an
+            // appearance of liquid.
+            q0 = WATER_FULLY_MELTED_ELECTROSTATIC_FORCE;
+        }
+        else {
+            // We are somewhere in between the temperature for being fully
+            // melted or frozen, so scale accordingly.
+            double temperatureFactor = (m_temperature - WATER_FULLY_FROZEN_TEMPERATURE)/
+                    (WATER_FULLY_MELTED_TEMPERATURE - WATER_FULLY_FROZEN_TEMPERATURE);
+            q0 = WATER_FULLY_FROZEN_ELECTROSTATIC_FORCE - 
+                (temperatureFactor * (WATER_FULLY_FROZEN_ELECTROSTATIC_FORCE - WATER_FULLY_MELTED_ELECTROSTATIC_FORCE));
+        }
         double [] q = new double [] {-2*q0, q0, q0};
         
         // JPB TBD - I skipped initializing m_x0 and m_y0 here, as they were
@@ -2197,7 +2231,32 @@ public class MultipleParticleModel {
                     // Calculate the Lennard-Jones interaction forces.
                     double r2inv = 1 / distanceSquared;
                     double r6inv = r2inv * r2inv * r2inv;
-                    double forceScaler = 48 * r2inv * r6inv * (r6inv - 0.5);
+                    
+                    // A scaling factor is added here for the repulsive
+                    // portion of the Lennard-Jones force.  The idea is that
+                    // the force goes up at lower temperatures in order to
+                    // make the ice appear more spacious.  This is not real
+                    // physics, it is "hollywooding" in order to get the
+                    // crystalline behavior we need for ice.
+                    double scalingFactor;
+                    double maxScalingFactor = 2.5;  // TODO: JPB TBD - Make a constant if kept.
+                    if (m_temperature > WATER_FULLY_MELTED_TEMPERATURE){
+                        // No scaling of the repulsive force.
+                        scalingFactor = 1;
+                    }
+                    else if (m_temperature < WATER_FULLY_FROZEN_TEMPERATURE){
+                        // Scale by the max to force space in the crystal.
+                        scalingFactor = maxScalingFactor;
+                    }
+                    else{
+                        // We are somewhere between fully frozen and fully
+                        // liquified, so adjust the scaling factor accordingly.
+                        double temperatureFactor = (m_temperature - WATER_FULLY_FROZEN_TEMPERATURE)/
+                                (WATER_FULLY_MELTED_TEMPERATURE - WATER_FULLY_FROZEN_TEMPERATURE);
+                        scalingFactor = maxScalingFactor - (temperatureFactor * (maxScalingFactor - 1));
+                    }
+//                    System.err.println("scalingFactor = " + scalingFactor);
+                    double forceScaler = 48 * r2inv * r6inv * ((r6inv * scalingFactor) - 0.5);
                     if (forceScaler > 1000){
                         // TODO: JPB TBD - This is here to help track down when things
                         // get crazy, and should be removed eventually.
@@ -2215,6 +2274,14 @@ public class MultipleParticleModel {
                     // different water molecules.
                     for (int ii = 0; ii < 3; ii++){
                         for (int jj = 0; jj < 3; jj++){
+                            if (((3 * i + ii + 1) % 6 == 0) ||  ((3 * j + jj + 1) % 6 == 0)){
+                                // This is a hydrogen atom that is not going to be included
+                                // in the calculation in order to try to create a more
+                                // crystalline solid.  This is part of the "hollywooding"
+                                // that we do to create a better looking water crystal at
+                                // low temperatures.
+                                continue;
+                            }
                             dx = m_atomPositions[3 * i + ii].getX() - m_atomPositions[3 * j + jj].getX();
                             dy = m_atomPositions[3 * i + ii].getY() - m_atomPositions[3 * j + jj].getY();
                             double r2inv = 1/(dx*dx + dy*dy);
