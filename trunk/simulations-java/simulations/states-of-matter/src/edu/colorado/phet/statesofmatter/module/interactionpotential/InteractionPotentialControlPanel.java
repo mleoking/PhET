@@ -197,7 +197,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
     private class AtomDiameterControlPanel extends JPanel {
         
         private final Font LABEL_FONT = new PhetFont( Font.BOLD, 14 );
-        private final double MAX_ATOM_DIAMETER = 500; // JPB TBD - Total guess, tweak as needed.
+        private final double MAX_ATOM_DIAMETER = 5; // JPB TBD - Total guess, tweak as needed.
 
         private LinearValueControl m_atomDiameterControl;
         
@@ -222,11 +222,11 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             
             // Add the control slider.
             m_atomDiameterControl = new LinearValueControl( 0, MAX_ATOM_DIAMETER, "", "0", "", new SliderLayoutStrategy() );
-            m_atomDiameterControl.setValue( m_model.getCurrentMoleculeDiameter() );
+            m_atomDiameterControl.setValue( m_model.getSigma() );
             m_atomDiameterControl.setUpDownArrowDelta( 0.01 );
             m_atomDiameterControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    // TODO: JPB TBD - ability the change this is not implemented yet.
+                    m_model.setSigma( m_atomDiameterControl.getValue() );
                 }
             });
             Hashtable diameterControlLabelTable = new Hashtable();
@@ -237,12 +237,12 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             rightLabel.setFont( LABEL_FONT );
             diameterControlLabelTable.put( new Double( m_atomDiameterControl.getMaximum() ), rightLabel );
             m_atomDiameterControl.setTickLabels( diameterControlLabelTable );
-            m_atomDiameterControl.setValue(m_model.getCurrentMoleculeDiameter());
+            m_atomDiameterControl.setValue(m_model.getSigma());
 
             // Register as a listener with the model for relevant events.
             m_model.addListener( new DualParticleModel.Adapter(){
                 public void particleDiameterChanged(){
-                    m_atomDiameterControl.setValue(m_model.getCurrentMoleculeDiameter());
+                    m_atomDiameterControl.setValue(m_model.getSigma());
                 }
             });
             
@@ -284,11 +284,12 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             
             // Add the control slider.
             m_interactionStrengthControl = new LinearValueControl( 0, MAX_FIELD_STRENGTH, "", "0", "", new SliderLayoutStrategy() );
-            m_interactionStrengthControl.setValue( m_model.getCurrentMoleculeDiameter() );
+            m_interactionStrengthControl.setValue( m_model.getEpsilon() );
             m_interactionStrengthControl.setUpDownArrowDelta( 0.01 );
             m_interactionStrengthControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    // TODO: JPB TBD - ability to change this is not implemented yet.
+                    // Set the interaction strength in the model.
+                    m_model.setEpsilon( m_interactionStrengthControl.getValue() );
                 }
             });
             Hashtable diameterControlLabelTable = new Hashtable();
