@@ -114,15 +114,12 @@ public class PlotDeviceFontManager {
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
         if ( d.width > 1024 ) {
             fontSet = new Large();
-            System.out.println( "MM: Chose font for width> 1280" );
         }
         else if ( d.width <= 800 ) {
             fontSet = new Small();
-            System.out.println( "MM: Chose font for <=800" );
         }
         else {
             fontSet = new Medium();
-            System.out.println( "MM: Chose font for width between between 800 and 1280" );
         }
     }
 }

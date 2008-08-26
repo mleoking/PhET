@@ -141,10 +141,11 @@ public class PlotDevice extends GraphicLayerSet {
         textFieldGraphic = PhetJComponent.newInstance( panel, textBox.textField );
         addListener( new Listener() {
             public void readoutChanged( double value ) {
+                PhetJComponent.doScheduleRepaint( textFieldGraphic );
             }
 
             public void valueChanged( double value ) {
-                PhetJComponent.doScheduleRepaint(textFieldGraphic);
+                PhetJComponent.doScheduleRepaint( textFieldGraphic );
             }
         } );
 
@@ -448,7 +449,7 @@ public class PlotDevice extends GraphicLayerSet {
                                textBox.getPreferredSize().width,
                                textBox.getPreferredSize().height );
             textFieldGraphic.setLocation( floaterX, (int) ( getChart().getViewBounds().y + offsetManager.getOffset() ) );
-            System.out.println( "offset="+offsetManager.getOffset() );
+            System.out.println( "offset=" + offsetManager.getOffset() );
             chartComponent.setViewBounds( rectangle );
             Point ctr = RectangleUtils.getCenter( chartComponent.determineBounds() );
             timeLabel.setLocation( ctr );

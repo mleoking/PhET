@@ -46,9 +46,7 @@ public class Forces1DModule extends Module {
 
     public Forces1DModule( AbstractClock clock, String name, Color backgroundColor ) throws IOException {
         super( name, clock );
-        System.out.println( "Force1DModule.Force1DModule-a" );
         this.backgroundColor = backgroundColor;
-//        this.clock = clock;
 
         forceModel = new Force1DModel( this );
         setModel( new BaseModel() );
@@ -59,9 +57,7 @@ public class Forces1DModule extends Module {
                 new Force1dObject( "forces-1d/images/crate.gif", Force1DResources.get( "Force1DModule.crate" ), 0.8, 300, 0.2, 0.2 ),
                 new Force1dObject( "forces-1d/images/ollie.gif", Force1DResources.get( "Force1DModule.sleepyDog" ), 0.5, 25, 0.1, 0.1 ),
         };
-        System.out.println( "Force1DModule.Force1DModule" );
         forcePanel = new Force1DPanel( this );
-        System.out.println( "Force1DModule.Force1DModule2" );
         forcePanel.addRepaintDebugGraphic( clock );
         setApparatusPanel( forcePanel );
 
