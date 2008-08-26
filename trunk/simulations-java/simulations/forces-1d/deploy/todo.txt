@@ -2,9 +2,6 @@
 ####	Todo Sam R		####
 ############################
 
--Applied force text box does not update until mouseover. Reproducable by draggint the crate, then let go - applied force does not reset to zero until mouseover.
-
-
 
 ############################
 ####	For Discussion	####
@@ -28,15 +25,3 @@ box when with which slider. This seems to be because the labels are closer to
 the text box of the control above (with only a line separator between, which did not seem to help).
 Space these controls out more or put the the text box next to the label (say to the right of the label)
 instead of below the slider.
-
-############################
-####		Fixed		####
-############################
-
--Fixed: the graph label "Force (N)" overlaps the slider.
-    >>SRR: Fixed on Vista, should be tested on XP and other platforms
-	>NP: Appears fixed on XP, tested on a PhET laptop.
-
--Fixed: the slider control is only the width of the slider. Makes it almost impossible to see or grab.
-    >>SRR: Fixed on Vista, should be tested on XP and other platforms
-	>NP: Appears fixed on XP, tested on a PhET laptop.
