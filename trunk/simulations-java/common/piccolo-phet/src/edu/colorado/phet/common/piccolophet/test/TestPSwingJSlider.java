@@ -14,6 +14,8 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
+ * Unfuddle #689.
+ * 
  * This program demonstrates a bug with using a JSlider with PSwing.
  * This problem seems to occur only on newer Intel Macs running OS 10.5 
  * and Java 1.5.  (This program was written on Mac OS 10.5.3 with Java 1.5.0_13).
