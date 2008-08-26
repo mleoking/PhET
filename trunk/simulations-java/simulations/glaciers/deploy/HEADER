@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-glaciers 1.00.00
+glaciers 1.00.01
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,14 +12,11 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>add description (aka abstract) to About dialog
-<li>update screenshot
-<li>publish to the PhET website for use by Science Discovery
+<li>new background image, fixed valley width near headwall
 </ul>
 <p>
 <b>Known problems:</b>
 <ul>
-<li>background image has valley narrower near the headwall, so ice shape doesn't line up with far side of valley
 <li>full-size background image is so large that it exceeds JVM heap space and causes OutOfMemoryException
 <li>model of valley floor is a rough approximation of background image for x<0
 <li>"Steady State" button doesn't advance clock time
