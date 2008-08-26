@@ -8,7 +8,6 @@ HIGH PRIORITY:
 - bug: snowfall visualization doesn't draw properly on PowerPC Mac OS 10.4 (clipping path bug?)
 - bug: loading full-size background image causes OutOfMemoryException, exceeds JVM heap space
 - bug: valley model for x<0 does not match background image (I'll doctor this up with a Java2D Shape)
-- bug: valley is narrower near headwall in background image
 
 MEDIUM PRIORITY:
 - glacier growth from zero length still takes a long time, and then speeds up
@@ -78,6 +77,8 @@ CLEANUP:
 
 
 DONE:
+8/26/08 - tweak MountainsAndValleyNode alignment to match new background image
+8/26/08 - fix: valley is narrower near headwall in background image (new image file, still not exact, but close enough)
 8/21/08 - fix "glacier budget vs elevation" chart so that SHOW_NEGATIVE_ABLATION flag works properly
 ******* 1.00.00 (23465)
 7/23/08 - update screenshot
