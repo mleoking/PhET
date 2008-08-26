@@ -156,6 +156,9 @@ public class DualParticleModel {
         // Let listeners know about parameter changes.
         notifyInteractionPotentialChanged();
         
+        // Let listeners know about the diameter change.
+        notifyParticleDiameterChanged();
+        
         // Move them to be initially separated.
         double diameter = m_leftParticle.getRadius() * 2;
         m_leftParticle.setPosition( -2 * diameter, 0 );
