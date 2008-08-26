@@ -68,8 +68,8 @@ public class PhaseChangesControlPanel extends ControlPanel {
         
         super();
         m_model = phaseChangesModule.getMultiParticleModel();
-        m_phaseDiagramVisible = false;
-        m_interactionDiagramVisible = false;
+        m_phaseDiagramVisible = true;
+        m_interactionDiagramVisible = true;
         
         // Register with the model for events that affect the diagrams on this panel.
         m_model.addListener( new MultipleParticleModel.Adapter(){
