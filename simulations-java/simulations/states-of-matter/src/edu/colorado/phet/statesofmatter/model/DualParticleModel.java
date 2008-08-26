@@ -46,10 +46,9 @@ public class DualParticleModel {
     private StatesOfMatterAtom m_rightParticle;
     private double m_leftParticleHorizForce;
     private double m_rightParticleHorizForce;
-    private double m_epsilon;  // Epsilon represents the energy parameter.
-    private double m_sigma;    // Sigma represents distance parameter.
+    private double m_epsilon;  // Epsilon represents the interaction strength.
+    private double m_sigma;    // Sigma represents the diameter of the molecule, roughly speaking.
     private int m_currentMoleculeID;
-    private double m_moleculeDiameter;
     
     //----------------------------------------------------------------------------
     // Constructor
@@ -129,21 +128,18 @@ public class DualParticleModel {
             m_rightParticle = new NeonAtom(0, 0);
             m_sigma = NeonAtom.getSigma();
             m_epsilon = NeonAtom.getEpsilon();
-            m_moleculeDiameter = 2 * NeonAtom.RADIUS;
             break;
         case ARGON:
             m_leftParticle = new ArgonAtom(0, 0);
             m_rightParticle = new ArgonAtom(0, 0);
             m_sigma = ArgonAtom.getSigma();
             m_epsilon = ArgonAtom.getEpsilon();
-            m_moleculeDiameter = 2 * ArgonAtom.RADIUS;
             break;
         case MONATOMIC_OXYGEN:
             m_leftParticle = new OxygenAtom(0, 0);
             m_rightParticle = new OxygenAtom(0, 0);
             m_sigma = OxygenAtom.getSigma();
             m_epsilon = OxygenAtom.getEpsilon();
-            m_moleculeDiameter = 2 * OxygenAtom.RADIUS;
             break;
         }
         
@@ -165,31 +161,20 @@ public class DualParticleModel {
         m_rightParticle.setPosition( 2 * diameter, 0 );
     }
     
-    public void setMoleculeDiameter(double diameter){
-        m_moleculeDiameter = diameter;
-    }
-    
-    public double getCurrentMoleculeDiameter(){
-        return m_moleculeDiameter;
-    }
-    
     /**
-     * Set both of the parameter that control the Lennard-Jones potential.
-     * This is done all at once to avoid having to reset twice and to make
-     * sure the values are reasonable with respect to one another.
+     * Set the sigma value, a.k.a. the Molecular Diameter Parameter, which is
+     * one of the two parameters that describes the Lennard-Jones potential.
      * 
      * @param sigma - distance parameter
-     * @param epsilon - energy parameter
      */
-    public void setLennardJonesParameters( double sigma, double epsilon ){
+    public void setSigma( double sigma ){
         m_sigma = sigma;
-        m_epsilon = epsilon;
         notifyInteractionPotentialChanged();
     }
     
     /**
-     * Get the sigma value, a.k.a. the Distance Paramter, which is one of the
-     * two parameters that describes the Lennard-Jones potential.
+     * Get the sigma value, a.k.a. the Molecular Diameter Parameter, which is
+     * one of the two parameters that describes the Lennard-Jones potential.
      * 
      * @return
      */
@@ -199,8 +184,19 @@ public class DualParticleModel {
     }
     
     /**
-     * Get the epsilon value, a.k.a. the Energy Parameter, which is one of the
-     * two parameters that describes the Lennard-Jones potential.
+     * Set the epsilon value, a.k.a. the Interaction Strength Paramter, which 
+     * is one of the two parameters that describes the Lennard-Jones potential.
+     * 
+     * @param sigma - distance parameter
+     */
+    public void setEpsilon( double epsilon ){
+        m_epsilon = epsilon;
+        notifyInteractionPotentialChanged();
+    }
+    
+    /**
+     * Get the epsilon value, a.k.a. the Interaction Strength Paramter, which 
+     * is one of the two parameters that describes the Lennard-Jones potential.
      * 
      * @return
      */
@@ -251,13 +247,9 @@ public class DualParticleModel {
     
     private void updateForce(){
         
-        // TODO: JPB TBD - I think the radius is supposed to factor into this
-        // somehow, but I'm not sure how, so I'll need to work it out with
-        // one of the physicists eventually.
-        double sigma = m_moleculeDiameter / 2 * m_sigma;
         double distance = m_rightParticle.getPositionReference().distance( m_leftParticle.getPositionReference() );
-        m_rightParticleHorizForce = ((48 * m_epsilon * Math.pow( sigma, 12 ) / Math.pow( distance, 13 )) +
-                (24 * m_epsilon * Math.pow(  sigma, 6 ) / Math.pow( distance, 7 )));
+        m_rightParticleHorizForce = ((48 * m_epsilon * Math.pow( m_sigma, 12 ) / Math.pow( distance, 13 )) +
+                (24 * m_epsilon * Math.pow( m_sigma, 6 ) / Math.pow( distance, 7 )));
     }
     
     private void updatePosition(){
