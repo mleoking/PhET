@@ -56,7 +56,7 @@ public class InteractionPotentialDiagramNode extends PNode {
     private static final double DEFAULT_SIGMA = 3.3;
     private static final double DEFAULT_EPSILON = 120;
     private static final double HORIZONTAL_INDEX_MULTIPLIER = 0.05;  // Empirically determined so curve will look reasonable.
-    private static final double VERTICAL_SCALING_FACTOR = 0.5;       // Empirically determined so curve will fit graph.
+    private static final double VERTICAL_SCALING_FACTOR = 0.3;       // Empirically determined so curve will fit graph.
     
     // Constants that control the location and size of the graph.
     private static final double HORIZ_AXIS_SIZE_PROPORTION = 0.80;
@@ -287,8 +287,10 @@ public class InteractionPotentialDiagramNode extends PNode {
       
         m_epsilonArrow.setTipAndTailLocations( graphMin, new Point2D.Double( graphMin.getX(), m_graphHeight / 2 ) );
         
+//        m_epsilonLabel.setOffset( graphMin.getX() + m_epsilonLabel.getFullBoundsReference().width * 0.5, 
+//                m_graphHeight / 2 + m_epsilonLabel.getFullBoundsReference().height * 0.5 );
         m_epsilonLabel.setOffset( graphMin.getX() + m_epsilonLabel.getFullBoundsReference().width * 0.5, 
-                m_graphHeight / 2 + m_epsilonLabel.getFullBoundsReference().height * 0.5 );
+                m_graphHeight / 2 );
 
         // Position the arrow that depicts sigma along with its label.
         m_sigmaLabel.setOffset( zeroCrossingPoint.getX() / 2 - m_sigmaLabel.getFullBoundsReference().width / 2, 
