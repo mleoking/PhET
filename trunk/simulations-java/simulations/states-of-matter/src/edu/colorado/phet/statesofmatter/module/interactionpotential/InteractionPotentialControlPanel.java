@@ -205,11 +205,12 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             rightLabel.setFont( LABEL_FONT );
             diameterControlLabelTable.put( new Double( m_atomDiameterControl.getMaximum() ), rightLabel );
             m_atomDiameterControl.setTickLabels( diameterControlLabelTable );
+            m_atomDiameterControl.setValue(m_model.getCurrentMoleculeDiameter());
 
             // Register as a listener with the model so that we know when it gets
             // reset.
             m_model.addListener( new DualParticleModel.Adapter(){
-                public void resetOccurred(){
+                public void particleDiameterChanged(){
                     m_atomDiameterControl.setValue(m_model.getCurrentMoleculeDiameter());
                 }
             });

@@ -33,6 +33,8 @@ public class DualParticleModel {
     public static final int ARGON = 2;
     public static final int MONATOMIC_OXYGEN = 3;
     public static final int DEFAULT_MOLECULE = MONATOMIC_OXYGEN;
+    public static final double DEFAULT_SIGMA = OxygenAtom.getSigma();
+    public static final double DEFAULT_EPSILON = OxygenAtom.getEpsilon();
     
     //----------------------------------------------------------------------------
     // Instance Data
@@ -44,8 +46,10 @@ public class DualParticleModel {
     private StatesOfMatterAtom m_rightParticle;
     private double m_leftParticleHorizForce;
     private double m_rightParticleHorizForce;
-    private double m_epsilon;  // Epsilon represents interaction strength.
+    private double m_epsilon;  // Epsilon represents the energy parameter.
+    private double m_sigma;    // Sigma represents distance parameter.
     private int m_currentMoleculeID;
+    private double m_moleculeDiameter;
     
     //----------------------------------------------------------------------------
     // Constructor
@@ -123,14 +127,23 @@ public class DualParticleModel {
         case NEON:
             m_leftParticle = new NeonAtom(0, 0);
             m_rightParticle = new NeonAtom(0, 0);
+            m_sigma = NeonAtom.getSigma();
+            m_epsilon = NeonAtom.getEpsilon();
+            m_moleculeDiameter = 2 * NeonAtom.RADIUS;
             break;
         case ARGON:
             m_leftParticle = new ArgonAtom(0, 0);
             m_rightParticle = new ArgonAtom(0, 0);
+            m_sigma = ArgonAtom.getSigma();
+            m_epsilon = ArgonAtom.getEpsilon();
+            m_moleculeDiameter = 2 * ArgonAtom.RADIUS;
             break;
         case MONATOMIC_OXYGEN:
             m_leftParticle = new OxygenAtom(0, 0);
             m_rightParticle = new OxygenAtom(0, 0);
+            m_sigma = OxygenAtom.getSigma();
+            m_epsilon = OxygenAtom.getEpsilon();
+            m_moleculeDiameter = 2 * OxygenAtom.RADIUS;
             break;
         }
         
@@ -140,47 +153,55 @@ public class DualParticleModel {
         notifyParticleAdded( m_leftParticle );
         notifyParticleAdded( m_rightParticle );
         
+        // Let listeners know about parameter changes.
+        notifyInteractionPotentialChanged();
+        
         // Move them to be initially separated.
         double diameter = m_leftParticle.getRadius() * 2;
         m_leftParticle.setPosition( -2 * diameter, 0 );
         m_rightParticle.setPosition( 2 * diameter, 0 );
     }
     
-    public void setInteractionStrength( double epsilon ){
+    public void setMoleculeDiameter(double diameter){
+        m_moleculeDiameter = diameter;
+    }
+    
+    public double getCurrentMoleculeDiameter(){
+        return m_moleculeDiameter;
+    }
+    
+    /**
+     * Set both of the parameter that control the Lennard-Jones potential.
+     * This is done all at once to avoid having to reset twice and to make
+     * sure the values are reasonable with respect to one another.
+     * 
+     * @param sigma - distance parameter
+     * @param epsilon - energy parameter
+     */
+    public void setLennardJonesParameters( double sigma, double epsilon ){
+        m_sigma = sigma;
         m_epsilon = epsilon;
         notifyInteractionPotentialChanged();
     }
     
-    public double getCurrentMoleculeDiameter(){
-        if (m_leftParticle != null){
-            return m_leftParticle.getRadius() * 2;
-        }
-        else{
-            return 0;
-        }
-    }
-    
     /**
-     * Get the sigma value, which is one of the two parameters that describes
-     * the Lennard-Jones potential.
+     * Get the sigma value, a.k.a. the Distance Paramter, which is one of the
+     * two parameters that describes the Lennard-Jones potential.
      * 
      * @return
      */
     public double getSigma(){
 
-        // TODO: JPB TBD - Stubbed with a fixed value for now while the details
-        // surrounding this get worked out.
-        return 3.3;
+        return m_sigma;
     }
     
     /**
-     * Get the epsilon value, which is one of the two parameters that describes
-     * the Lennard-Jones potential.
+     * Get the epsilon value, a.k.a. the Energy Parameter, which is one of the
+     * two parameters that describes the Lennard-Jones potential.
      * 
      * @return
      */
     public double getEpsilon(){
-        
         return m_epsilon;
     }
     
@@ -195,9 +216,6 @@ public class DualParticleModel {
         
         // Initialize the system parameters.
         setMoleculeType( DEFAULT_MOLECULE );
-        
-        // Let any listeners know that the model has been reset.
-        notifyResetOccurred();
     }
     
     public void addListener(Listener listener){
@@ -230,12 +248,13 @@ public class DualParticleModel {
     
     private void updateForce(){
         
-        // JPB TBD - Use radius times a fixed amount for sigma, not sure if this is correct.
-        double sigma = m_rightParticle.getRadius() * 3.3;
+        // TODO: JPB TBD - I think the radius is supposed to factor into this
+        // somehow, but I'm not sure how, so I'll need to work it out with
+        // one of the physicists eventually.
+        double sigma = m_moleculeDiameter / 2 * m_sigma;
         double distance = m_rightParticle.getPositionReference().distance( m_leftParticle.getPositionReference() );
         m_rightParticleHorizForce = ((48 * m_epsilon * Math.pow( sigma, 12 ) / Math.pow( distance, 13 )) +
                 (24 * m_epsilon * Math.pow(  sigma, 6 ) / Math.pow( distance, 7 )));
-        
     }
     
     private void updatePosition(){
@@ -247,12 +266,6 @@ public class DualParticleModel {
         m_rightParticle.setPosition( xPos, 0 );
     }
     
-    private void notifyResetOccurred(){
-        for (int i = 0; i < m_listeners.size(); i++){
-            ((Listener)m_listeners.get( i )).resetOccurred();
-        }        
-    }
-
     private void notifyParticleAdded(StatesOfMatterAtom particle){
         for (int i = 0; i < m_listeners.size(); i++){
             ((Listener)m_listeners.get( i )).particleAdded( particle );
@@ -268,6 +281,12 @@ public class DualParticleModel {
     private void notifyInteractionPotentialChanged(){
         for (int i = 0; i < m_listeners.size(); i++){
             ((Listener)m_listeners.get( i )).interactionPotentialChanged();
+        }        
+    }
+    
+    private void notifyParticleDiameterChanged(){
+        for (int i = 0; i < m_listeners.size(); i++){
+            ((Listener)m_listeners.get( i )).particleDiameterChanged();
         }        
     }
     
@@ -288,16 +307,16 @@ public class DualParticleModel {
         /**
          * Inform listeners that the model has been reset.
          */
-        public void resetOccurred();
         public void particleAdded(StatesOfMatterAtom particle);
         public void particleRemoved(StatesOfMatterAtom particle);
         public void interactionPotentialChanged();
+        public void particleDiameterChanged();
     }
     
     public static class Adapter implements Listener {
-        public void resetOccurred(){}
         public void particleAdded(StatesOfMatterAtom particle){}
         public void particleRemoved(StatesOfMatterAtom particle){}
         public void interactionPotentialChanged(){};
+        public void particleDiameterChanged(){};
     }
 }

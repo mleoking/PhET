@@ -244,7 +244,6 @@ public class InteractionPotentialDiagramNode extends PNode {
      * @return
      */
     private double calculateLennardJonesPotential(double radius){
-        
         return (4 * m_epsilon * (Math.pow( m_sigma / radius, 12 ) - Math.pow( m_sigma / radius, 6 )));
         
     }
@@ -258,11 +257,12 @@ public class InteractionPotentialDiagramNode extends PNode {
         potentialEnergyLineShape.moveTo( 0, 0);
         Point2D graphMin = new Point2D.Double(0, 0);
         Point2D zeroCrossingPoint = new Point2D.Double(0, 0);
+        System.out.println("getScale() = " + getScale() );
         for (int i = 1; i < (int)m_graphWidth; i++){
-            double potential = calculateLennardJonesPotential( i * HORIZONTAL_INDEX_MULTIPLIER);
-            double yPos = ((m_graphHeight / 2) - (potential * VERTICAL_SCALING_FACTOR)) * (1/getScale());
+            double potential = calculateLennardJonesPotential( i * HORIZONTAL_INDEX_MULTIPLIER );
+            double yPos = ((m_graphHeight / 2) - (potential * VERTICAL_SCALING_FACTOR));
             if ((yPos > 0) && (yPos < m_graphHeight)){
-                potentialEnergyLineShape.lineTo( (float)i, (float)(yPos * (1/getScale())));
+                potentialEnergyLineShape.lineTo( (float)i, (float)(yPos) );
                 if (yPos > graphMin.getY()){
                     // A new minimum has been found.  If you're wondering why
                     // the test is for greater than rather than less than, it
