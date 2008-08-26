@@ -2180,6 +2180,7 @@ public class MultipleParticleModel {
         // Calculate the forces exerted on the particles by the container
         // walls and by gravity.
         double totalBottomForce = 0;
+        boolean interactionOccurredWithTop = false;
         for (int i = 0; i < numberOfMolecules; i++){
             
             // Clear the previous calculation's particle forces and torques.
@@ -2195,6 +2196,12 @@ public class MultipleParticleModel {
             m_pressureCalculator.accumulatePressureValue( m_nextMoleculeForces[i] );
             if (m_nextMoleculeForces[i].getY() > 0){
                 totalBottomForce += m_nextMoleculeForces[i].getY();
+            }
+            else if (m_nextMoleculeForces[i].getY() < 0){
+                // Set a flag indicating that interaction occurred with the
+                // top of the container.  This is necessary later for dealing
+                // with changes to the size of the container.
+                interactionOccurredWithTop = true;
             }
             
             // Add in the effect of gravity.
@@ -2328,40 +2335,57 @@ public class MultipleParticleModel {
         }
 //        System.out.println("kecm/n = " + kecm/numberOfMolecules + ", kerot/n = " + kerot/numberOfMolecules);
         
-        if (m_thermostatType == ISOKINETIC_THERMOSTAT){
-            // Isokinetic thermostat
-            
-            double temperatureScaleFactor;
-            if (m_temperature == 0){
-                temperatureScaleFactor = 0;
+        // Run the thermostat, which keeps the atoms from getting way too much
+        // energy over time due to simulation inaccuracies and limitations.
+        // Note that the thermostat is NOT run if the container size is
+        // changing and interaction occurred with the moving surfaces of the
+        // container, so that the increase/decrease in temperature caused by
+        // the size change can actually happen.
+        if ((m_targetContainerHeight == m_particleContainerHeight) || (!interactionOccurredWithTop)){
+            if (m_thermostatType == ISOKINETIC_THERMOSTAT){
+                // Isokinetic thermostat
+                
+                double temperatureScaleFactor;
+                if (m_temperature == 0){
+                    temperatureScaleFactor = 0;
+                }
+                else{
+                    temperatureScaleFactor = Math.sqrt( m_temperature * numberOfMolecules / (kecm + kerot) );
+                }
+                for (int i = 0; i < numberOfMolecules; i++){
+                    m_moleculeVelocities[i].setComponents( m_moleculeVelocities[i].getX() * temperatureScaleFactor, 
+                            m_moleculeVelocities[i].getY() * temperatureScaleFactor );
+                    m_moleculeRotationRates[i] *= temperatureScaleFactor;
+                }
+                kecm = kecm * temperatureScaleFactor * temperatureScaleFactor;
+                kerot = kerot * temperatureScaleFactor * temperatureScaleFactor;
             }
-            else{
-                temperatureScaleFactor = Math.sqrt( 1.5 * m_temperature * numberOfMolecules / (kecm + kerot) );
+            else if (m_thermostatType == ANDERSEN_THERMOSTAT){
+                // Modified Andersen Thermostat to maintain fixed temperature
+                // modification to reduce abruptness of heat bath interactions.
+                // For bare Andersen, set gamma=0.0d0.
+                double gamma = 0.9999;
+                double velocityScalingFactor = Math.sqrt( m_temperature * massInverse * (1 - Math.pow( gamma, 2)));
+                double rotationScalingFactor = Math.sqrt( m_temperature * inertiaInverse * (1 - Math.pow( gamma, 2)));
+                
+                for (int i = 0; i < numberOfMolecules; i++){
+                    double xVel = m_moleculeVelocities[i].getX() * gamma + m_rand.nextGaussian() * velocityScalingFactor;
+                    double yVel = m_moleculeVelocities[i].getY() * gamma + m_rand.nextGaussian() * velocityScalingFactor;
+                    m_moleculeVelocities[i].setComponents( xVel, yVel );
+                    m_moleculeRotationRates[i] = gamma * m_moleculeRotationRates[i] + 
+                            m_rand.nextGaussian() * rotationScalingFactor;
+                }
             }
-            for (int i = 0; i < numberOfMolecules; i++){
-                m_moleculeVelocities[i].setComponents( m_moleculeVelocities[i].getX() * temperatureScaleFactor, 
-                        m_moleculeVelocities[i].getY() * temperatureScaleFactor );
-                m_moleculeRotationRates[i] *= temperatureScaleFactor;
-            }
-            kecm = kecm * temperatureScaleFactor * temperatureScaleFactor;
-            kerot = kerot * temperatureScaleFactor * temperatureScaleFactor;
         }
-        else if (m_thermostatType == ANDERSEN_THERMOSTAT){
-            // Modified Andersen Thermostat to maintain fixed temperature
-            // modification to reduce abruptness of heat bath interactions.
-            // For bare Andersen, set gamma=0.0d0.
-            double gamma = 0.9999;
-            double velocityScalingFactor = Math.sqrt( m_temperature * massInverse * (1 - Math.pow( gamma, 2)));
-            double rotationScalingFactor = Math.sqrt( m_temperature * inertiaInverse * (1 - Math.pow( gamma, 2)));
-            
-            for (int i = 0; i < numberOfMolecules; i++){
-                double xVel = m_moleculeVelocities[i].getX() * gamma + m_rand.nextGaussian() * velocityScalingFactor;
-                double yVel = m_moleculeVelocities[i].getY() * gamma + m_rand.nextGaussian() * velocityScalingFactor;
-                m_moleculeVelocities[i].setComponents( xVel, yVel );
-                m_moleculeRotationRates[i] = gamma * m_moleculeRotationRates[i] + 
-                        m_rand.nextGaussian() * rotationScalingFactor;
-            }
-
+        else{
+            double newTemperature = calculateTemperatureFromKineticEnergy();
+            System.out.println("Calculated temperature when top moving = " + newTemperature);
+            // Since the container size is changing, we should update the
+            // temperature set point based on the current amount of kinetic
+            // energy, since it may have changed as a result of the container
+            // size change.
+            setTemperature( newTemperature );
+            System.out.println("Calculated temperature when top moving = " + newTemperature);
         }
     }
     
