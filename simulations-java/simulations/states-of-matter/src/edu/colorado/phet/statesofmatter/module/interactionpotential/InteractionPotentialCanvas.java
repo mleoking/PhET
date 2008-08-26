@@ -49,6 +49,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     private ModelViewTransform m_mvt;
     private ArrayList m_particleNodes;
     private Hashtable m_particleToNodeMap;
+    InteractionPotentialDiagramNode m_diagram;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -77,19 +78,22 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         m_mvt = new ModelViewTransform(1.0, 1.0, 0.0, 0.0, false, true);
         
         // Add the interaction potential diagram.
-        InteractionPotentialDiagramNode diagram = new InteractionPotentialDiagramNode(m_model.getSigma(), 
+        m_diagram = new InteractionPotentialDiagramNode(m_model.getSigma(), 
                 m_model.getEpsilon(), true);
-        diagram.scale( DIAGRAM_NODE_WIDTH / diagram.getFullBoundsReference().width );
-        diagram.setOffset( -(DIAGRAM_NODE_WIDTH / 2), - diagram.getFullBoundsReference().height * 1.3 );
-        addWorldChild( diagram );
+        m_diagram.scale( DIAGRAM_NODE_WIDTH / m_diagram.getFullBoundsReference().width );
+        m_diagram.setOffset( -(DIAGRAM_NODE_WIDTH / 2), - m_diagram.getFullBoundsReference().height * 1.3 );
+        addWorldChild( m_diagram );
         
-        // Register for notifications of particles.
+        // Register for notifications of important events from the model.
         m_model.addListener( new DualParticleModel.Adapter(){
             public void particleAdded(StatesOfMatterAtom particle){
                 handleParticleAdded( particle );
             }
             public void particleRemoved(StatesOfMatterAtom particle){
                 handleParticleRemoved( particle );
+            }
+            public void interactionPotentialChanged(){
+                handleInteractionPotentialChanged();
             }
         });
     }
@@ -124,5 +128,9 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         else{
             System.err.println("Error: Problem encountered removing node from canvas.");
         }
+    }
+    
+    private void handleInteractionPotentialChanged(){
+        m_diagram.setLjPotentialParameters( m_model.getSigma(), m_model.getEpsilon() );
     }
 }
