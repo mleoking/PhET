@@ -57,7 +57,8 @@ public class DualParticleModel {
     public DualParticleModel(IClock clock) {
         
         m_clock = clock;
-        m_epsilon = 100; // TODO: JPB TBD - Arbitrary initial value, should come up with something real.
+        m_epsilon = DEFAULT_EPSILON;
+        m_sigma = DEFAULT_SIGMA;
         
         // Register as a clock listener.
         clock.addClockListener(new ClockAdapter(){
