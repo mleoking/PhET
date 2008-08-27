@@ -3,6 +3,7 @@ Change history for translation-utility
 ================================================================================
 
 DONE:
+8/27/08 - manually update and publish website files for 1.00.00 release
 ********* version 1.00.00 (23942)
 8/27/08 - add missing jnlp.jar to proguard in buildfile, needed to open web browser by UpdateManager
 8/27/08 - add hack to read common string files when project.name=common-strings
