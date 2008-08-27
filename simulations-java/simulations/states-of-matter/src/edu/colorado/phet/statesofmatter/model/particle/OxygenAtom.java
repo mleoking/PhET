@@ -9,7 +9,7 @@ package edu.colorado.phet.statesofmatter.model.particle;
  */
 public class OxygenAtom extends StatesOfMatterAtom {
     
-    public static final double RADIUS = 152;
+    public static final double RADIUS = 162;
     private static final double MASS = 1.0; // TODO: JPB TBD - This is not currently used, clean up eventually.
 
     // TODO: JPB TBD - These values are guesses, need to get real ones.

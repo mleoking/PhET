@@ -9,9 +9,9 @@ package edu.colorado.phet.statesofmatter.model.particle;
  */
 public class ArgonAtom extends StatesOfMatterAtom {
 
-    public static final double RADIUS = 188;
+    public static final double RADIUS = 181;
     private static final double MASS = 1.0; // TODO: JPB TBD - This is not currently used, clean up eventually.
-    private static final double SIGMA = 300;    // In picometers.
+    private static final double SIGMA = 362;    // In picometers.
     private static final double EPSILON = 100;  // epsilon/k-boltzman is in Kelvin.
     
     public ArgonAtom(double xPos, double yPos){
