@@ -190,8 +190,14 @@ public class InteractionPotentialDiagramNode extends PNode {
         ljPotentialGraph.addChild( m_potentialEnergyLine );
         
         // Add the position marker.
-        m_positionMarker = new PPath( new Ellipse2D.Double(0, 0, POSITION_MARKER_DIAMETER_PROPORTION * m_graphWidth,
-                POSITION_MARKER_DIAMETER_PROPORTION * m_graphWidth ));
+        GeneralPath markerPath = new GeneralPath();
+        double markerDiameter = POSITION_MARKER_DIAMETER_PROPORTION * m_graphWidth;
+        markerPath.append( new Ellipse2D.Double(0, 0, markerDiameter, markerDiameter ), false );
+        markerPath.moveTo( 0f, (float)markerDiameter / 2 );
+        markerPath.lineTo( (float)markerDiameter, (float)markerDiameter / 2 );
+        markerPath.moveTo( (float)markerDiameter / 2, 0f );
+        markerPath.lineTo( (float)markerDiameter / 2, (float)markerDiameter );
+        m_positionMarker = new PPath( markerPath );
         m_positionMarker.setStroke( POSITION_MARKER_STROKE );
         m_positionMarker.setPaint( POSITION_MARKER_COLOR );
         m_positionMarker.setVisible( m_positionMarkerEnabled );
