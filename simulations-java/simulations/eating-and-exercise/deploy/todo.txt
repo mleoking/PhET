@@ -12,6 +12,10 @@
 ###	Todo Noah P	####
 ############################
 
+--Add swimming to exercises.
+
+--Adjust model parameters for more realistic behavior.
+
 ############################
 ###	To Discuss	####
 ############################
