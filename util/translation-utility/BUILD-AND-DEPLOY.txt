@@ -1,0 +1,19 @@
+--
+
+Until an automated build-and-deploy task is added to build.xml, this file documents the manual process.
+
+Follow these steps to build & deploy:
+
+1. make sure that all changes are tested and checked in
+
+2. set the version properties in data/translation-utility/translation-utility.properties,
+   document the version number in CHANGES.txt,
+   then check in both translation-utility.properties and CHANGES.txt
+
+3. ant build-jar
+
+4. scp deploy/translation-utility.jar tigercat:/web/htdocs/phet/phet-dist/translation-utility/
+
+5. scp data/translation-utility/translation-utility.properties tigercat:/web/htdocs/phet/phet-dist/translation-utility/
+
+--
