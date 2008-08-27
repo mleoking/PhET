@@ -2145,7 +2145,8 @@ public class MultipleParticleModel {
             q0 = WATER_FULLY_FROZEN_ELECTROSTATIC_FORCE - 
                 (temperatureFactor * (WATER_FULLY_FROZEN_ELECTROSTATIC_FORCE - WATER_FULLY_MELTED_ELECTROSTATIC_FORCE));
         }
-        double [] q = new double [] {-2*q0, q0, q0};
+        double [] normalCharges = new double [] {-2*q0, q0, q0};
+        double [] alteredCharges = new double [] {-2*q0, 1.5*q0, 0.5*q0};
         
         // JPB TBD - I skipped initializing m_x0 and m_y0 here, as they were
         // in the code that Paul supplied, because I thought it to be
@@ -2224,7 +2225,27 @@ public class MultipleParticleModel {
         // Calculate the force and torque due to inter-particle interactions.
         Vector2D force = new Vector2D.Double();
         for (int i = 0; i < numberOfSafeMolecules; i++){
+            
+            // Select which charges to use for this molecule.  This is part of
+            // the "hollywooding" to make the solid form appear more crystalline.
+            double [] chargesA;
+            if (i % 2 == 0){
+                chargesA = normalCharges;
+            }
+            else{
+                chargesA = alteredCharges;
+            }
+            
             for (int j = i + 1; j < numberOfSafeMolecules; j++){
+            
+                // Select charges for this molecule.
+                double [] chargesB;
+                if (j % 2 == 0){
+                    chargesB = normalCharges;
+                }
+                else{
+                    chargesB = alteredCharges;
+                }
                 
                 // Calculate Lennard-Jones potential between mass centers.
                 double dx = m_moleculeCenterOfMassPositions[i].getX() - m_moleculeCenterOfMassPositions[j].getX();
@@ -2289,7 +2310,7 @@ public class MultipleParticleModel {
                             dx = m_atomPositions[3 * i + ii].getX() - m_atomPositions[3 * j + jj].getX();
                             dy = m_atomPositions[3 * i + ii].getY() - m_atomPositions[3 * j + jj].getY();
                             double r2inv = 1/(dx*dx + dy*dy);
-                            double forceScaler=q[ii]*q[jj]*r2inv*r2inv;
+                            double forceScaler=chargesA[ii]*chargesB[jj]*r2inv*r2inv;
                             force.setX( dx * forceScaler );
                             force.setY( dy * forceScaler );
                             
