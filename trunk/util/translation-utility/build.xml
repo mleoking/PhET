@@ -101,6 +101,7 @@
 			      skipnonpubliclibraryclassmembers="false">
 			<!-- inputs, outputs, libraries -->
 			<injar file="${dir.output}/${output.jar.name}" />
+			<injar file="${jnlp.jar}" />
 			<outjar file="${dir.deploy}/${output.jar.name}" />
 			<libraryjar path="${proguard.java.classpath}" />
 		    <!-- preserve main class -->
