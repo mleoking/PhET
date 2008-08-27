@@ -1136,7 +1136,8 @@ public class MultipleParticleModel {
         // Paul Beale's code, and I need some clarification on exactly what
         // they do.
         double aOH = 1.0 / 3.12;
-        double thetaHOH = 109.47122*Math.PI/180;
+//        double thetaHOH = 109.47122*Math.PI/180;  ---> Original value that Paul used.
+        double thetaHOH = 120*Math.PI/180;  // Tweaked value for hollywooding.  JPB TBD - Explain if used.
         m_x0[0] = 0;
         m_y0[0] = 0;
         m_x0[1] = aOH;
@@ -2146,7 +2147,7 @@ public class MultipleParticleModel {
                 (temperatureFactor * (WATER_FULLY_FROZEN_ELECTROSTATIC_FORCE - WATER_FULLY_MELTED_ELECTROSTATIC_FORCE));
         }
         double [] normalCharges = new double [] {-2*q0, q0, q0};
-        double [] alteredCharges = new double [] {-2*q0, 1.5*q0, 0.5*q0};
+        double [] alteredCharges = new double [] {-2*q0, 1.67*q0, 0.33*q0};
         
         // JPB TBD - I skipped initializing m_x0 and m_y0 here, as they were
         // in the code that Paul supplied, because I thought it to be
@@ -2264,7 +2265,7 @@ public class MultipleParticleModel {
                     // physics, it is "hollywooding" in order to get the
                     // crystalline behavior we need for ice.
                     double scalingFactor;
-                    double maxScalingFactor = 2.5;  // TODO: JPB TBD - Make a constant if kept.
+                    double maxScalingFactor = 3;  // TODO: JPB TBD - Make a constant if kept.
                     if (m_temperature > WATER_FULLY_MELTED_TEMPERATURE){
                         // No scaling of the repulsive force.
                         scalingFactor = 1;
