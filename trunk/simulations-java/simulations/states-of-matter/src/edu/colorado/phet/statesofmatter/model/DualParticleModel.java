@@ -158,8 +158,8 @@ public class DualParticleModel {
         
         // Move them to be initially separated.
         double diameter = m_leftParticle.getRadius() * 2;
-        m_leftParticle.setPosition( -2 * diameter, 0 );
-        m_rightParticle.setPosition( 2 * diameter, 0 );
+        m_leftParticle.setPosition( -diameter, 0 );
+        m_rightParticle.setPosition( diameter, 0 );
     }
     
     /**
