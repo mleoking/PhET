@@ -47,9 +47,11 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     
     private DualParticleModel m_model;
     private ModelViewTransform m_mvt;
-    private ArrayList m_particleNodes;
+    private ArrayList m_particles;
     private Hashtable m_particleToNodeMap;
-    InteractionPotentialDiagramNode m_diagram;
+    private InteractionPotentialDiagramNode m_diagram;
+    private StatesOfMatterAtom.Listener m_atomListener;
+    
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -58,7 +60,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     public InteractionPotentialCanvas(DualParticleModel dualParticleModel) {
         
         m_model = dualParticleModel;
-        m_particleNodes = new ArrayList();
+        m_particles = new ArrayList();
         m_particleToNodeMap = new Hashtable();
         
         // Set the transform strategy so that the the origin (i.e. point x=0,
@@ -76,6 +78,13 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         
         // Create the Model-View transform that we will be using.
         m_mvt = new ModelViewTransform(1.0, 1.0, 0.0, 0.0, false, true);
+        
+        // Create the listener for monitoring particle motion.
+        m_atomListener = new StatesOfMatterAtom.Adapter(){
+            public void positionChanged(){
+                updatePositionMarkerOnDiagram();
+            };
+        };
         
         // Add the interaction potential diagram.
         m_diagram = new InteractionPotentialDiagramNode(m_model.getSigma(), 
@@ -113,7 +122,10 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         }
         ParticleNode particleNode = new ParticleNode(particle, m_mvt, useGradient);
         addWorldChild( particleNode );
+        m_particles.add( particle );
         m_particleToNodeMap.put( particle, particleNode );
+        particle.addListener( m_atomListener );
+        updatePositionMarkerOnDiagram();
     }
     
     private void handleParticleRemoved(StatesOfMatterAtom particle){
@@ -128,9 +140,41 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         else{
             System.err.println("Error: Problem encountered removing node from canvas.");
         }
+        particle.removeListener( m_atomListener );
+        m_particles.remove( particle );
+        updatePositionMarkerOnDiagram();
     }
     
     private void handleInteractionPotentialChanged(){
         m_diagram.setLjPotentialParameters( m_model.getSigma(), m_model.getEpsilon() );
+    }
+    
+    /**
+     * Update the position marker on the Lennard-Jones potential diagram.
+     * This will indicate the amount of potential being experienced between
+     * the two atoms in the model.
+     */
+    private void updatePositionMarkerOnDiagram(){
+        
+        assert m_particles.size() <= 2;
+        
+        if (m_particles.size() == 2){
+
+            StatesOfMatterAtom atom1 = (StatesOfMatterAtom)m_particles.get( 0 );
+            StatesOfMatterAtom atom2 = (StatesOfMatterAtom)m_particles.get( 1 );
+            
+            double distance = atom1.getPositionReference().distance( atom2.getPositionReference() );
+
+            if (distance > 0){
+                m_diagram.setMarkerEnabled( true );
+                m_diagram.setMarkerPosition( distance );
+            }
+            else{
+                m_diagram.setMarkerEnabled( false );
+            }
+        }
+        else{
+            m_diagram.setMarkerEnabled( false );
+        }
     }
 }

@@ -92,6 +92,7 @@ public class InteractionPotentialDiagramNode extends PNode {
     // Variables for controlling the appearance, visibility, and location of
     // the position marker.
     private PPath m_positionMarker;
+    private boolean m_positionMarkerEnabled;
     
     /**
      * Constructor.
@@ -104,6 +105,7 @@ public class InteractionPotentialDiagramNode extends PNode {
 
         m_sigma = sigma;
         m_epsilon = epsilon;
+        m_positionMarkerEnabled = false;
         
         // Set up for the normal or wide version of the graph.
         if (wide){
@@ -192,7 +194,7 @@ public class InteractionPotentialDiagramNode extends PNode {
                 POSITION_MARKER_DIAMETER_PROPORTION * m_graphWidth ));
         m_positionMarker.setStroke( POSITION_MARKER_STROKE );
         m_positionMarker.setPaint( POSITION_MARKER_COLOR );
-        m_positionMarker.setVisible( false );
+        m_positionMarker.setVisible( m_positionMarkerEnabled );
         ljPotentialGraph.addChild( m_positionMarker );
 
         // Add the arrows and labels that will depict sigma and epsilon.
@@ -254,7 +256,7 @@ public class InteractionPotentialDiagramNode extends PNode {
     }
     
     public void setMarkerEnabled( boolean enabled ){
-        m_positionMarker.setVisible( enabled );
+        m_positionMarkerEnabled = enabled;
     }
     
     /**
@@ -269,15 +271,17 @@ public class InteractionPotentialDiagramNode extends PNode {
         double xPos = distance * m_horizontalScalingFactor;
         double potential = calculateLennardJonesPotential( distance );
         double yPos = ((m_graphHeight / 2) - (potential * m_verticalScalingFactor));
-        
-        m_positionMarker.setOffset( xPos - m_positionMarker.getFullBoundsReference().width / 2,
-                yPos - m_positionMarker.getFullBoundsReference().getHeight() / 2 );
-        
-        /*
-        double xPos = distance * m_horizontalScalingFactor;
-        m_positionMarker.setOffset( xPos, 10 );
-        */
 
+        if ( m_positionMarkerEnabled && (xPos > 0) && (xPos < m_graphWidth) &&
+                (yPos > 0) && (yPos < m_graphHeight)){
+
+            m_positionMarker.setVisible( true );
+            m_positionMarker.setOffset( xPos - m_positionMarker.getFullBoundsReference().width / 2,
+                    yPos - m_positionMarker.getFullBoundsReference().getHeight() / 2 );
+        }
+        else{
+            m_positionMarker.setVisible( false );
+        }
     }
     
     /**
