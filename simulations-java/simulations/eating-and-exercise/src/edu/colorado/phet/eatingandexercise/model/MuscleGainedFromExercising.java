@@ -35,7 +35,8 @@ public class MuscleGainedFromExercising implements HumanUpdate {
             return;
         }
 //        double calExercise = human.getCaloriesExerciseAndActivityPerDay() * EatingAndExerciseUnits.secondsToDays( dt );
-        double calExercise = human.getCaloriesExercisePerDay() * EatingAndExerciseUnits.secondsToDays( dt );
+        //8/27/08 NP added ActivityCaloriesPerDay added to calExercise used for muscle gained
+        double calExercise = (human.getCaloriesExercisePerDay() + human.getActivityCaloriesPerDay()) * EatingAndExerciseUnits.secondsToDays( dt );
         println( "Calories exercise: " + calExercise );
 //        double percentFat = human.getGender().getStdPercentFat();
         double stdBMI = human.getGender().getStdBMI();
