@@ -33,12 +33,12 @@ public class ParticleNode extends PNode {
     // Instance Data
     //----------------------------------------------------------------------------
 
-    private StatesOfMatterAtom m_particle;
+    protected StatesOfMatterAtom m_particle;
     private final StatesOfMatterAtom.Listener m_particleListener;
     private ModelViewTransform m_mvt;
-    Point2D.Double m_position;
-    boolean m_useGradient;
-    SphericalNode m_sphere;
+    private Point2D.Double m_position;
+    private boolean m_useGradient;
+    private SphericalNode m_sphere;
 
     //----------------------------------------------------------------------------
     // Constructors

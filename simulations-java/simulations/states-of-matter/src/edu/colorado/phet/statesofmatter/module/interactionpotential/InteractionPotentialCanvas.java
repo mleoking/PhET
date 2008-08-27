@@ -12,6 +12,7 @@ import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.DualParticleModel;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.colorado.phet.statesofmatter.module.phasechanges.InteractionPotentialDiagramNode;
+import edu.colorado.phet.statesofmatter.view.GrabbableParticleNode;
 import edu.colorado.phet.statesofmatter.view.ModelViewTransform;
 import edu.colorado.phet.statesofmatter.view.ParticleNode;
 import edu.umd.cs.piccolo.PNode;
@@ -47,10 +48,13 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     
     private DualParticleModel m_model;
     private ModelViewTransform m_mvt;
-    private ArrayList m_particles;
-    private Hashtable m_particleToNodeMap;
+    private StatesOfMatterAtom m_fixedParticle;
+    private StatesOfMatterAtom m_movableParticle;
+    private ParticleNode m_fixedParticleNode;
+    private GrabbableParticleNode m_movableParticleNode;
     private InteractionPotentialDiagramNode m_diagram;
     private StatesOfMatterAtom.Listener m_atomListener;
+    private boolean m_useGradient;
     
 
     //----------------------------------------------------------------------------
@@ -60,9 +64,16 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     public InteractionPotentialCanvas(DualParticleModel dualParticleModel) {
         
         m_model = dualParticleModel;
-        m_particles = new ArrayList();
-        m_particleToNodeMap = new Hashtable();
         
+        // Decide whether to use gradients when drawing the particles.
+        m_useGradient = true;
+        if (PhetUtilities.getOperatingSystem() == PhetUtilities.OS_MACINTOSH){
+            // We have been having trouble with gradients causing Macs to
+            // crash and/or run very slowly, so we don't use them when running
+            // there.
+            m_useGradient = false;
+        }
+
         // Set the transform strategy so that the the origin (i.e. point x=0,
         // y = 0) is in a reasonable place.
         setWorldTransformStrategy( new RenderingSizeStrategy(this, 
@@ -95,11 +106,17 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         
         // Register for notifications of important events from the model.
         m_model.addListener( new DualParticleModel.Adapter(){
-            public void particleAdded(StatesOfMatterAtom particle){
-                handleParticleAdded( particle );
+            public void fixedParticleAdded(StatesOfMatterAtom particle){
+                handleFixedParticleAdded( particle );
             }
-            public void particleRemoved(StatesOfMatterAtom particle){
-                handleParticleRemoved( particle );
+            public void fixedParticleRemoved(StatesOfMatterAtom particle){
+                handleFixedParticleRemoved( particle );
+            }
+            public void movableParticleAdded(StatesOfMatterAtom particle){
+                handleMovableParticleAdded( particle );
+            }
+            public void movableParticleRemoved(StatesOfMatterAtom particle){
+                handleMovableParticleRemoved( particle );
             }
             public void interactionPotentialChanged(){
                 handleInteractionPotentialChanged();
@@ -111,38 +128,52 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     // Private Methods
     //----------------------------------------------------------------------------
     
-    private void handleParticleAdded(StatesOfMatterAtom particle){
+    private void handleFixedParticleAdded(StatesOfMatterAtom particle){
         // Add an atom node for this guy.
-        boolean useGradient = true;
-        if (PhetUtilities.getOperatingSystem() == PhetUtilities.OS_MACINTOSH){
-            // We have been having trouble with gradients causing Macs to
-            // crash and/or run very slowly, so we don't use them when running
-            // there.
-            useGradient = false;
-        }
-        ParticleNode particleNode = new ParticleNode(particle, m_mvt, useGradient);
-        addWorldChild( particleNode );
-        m_particles.add( particle );
-        m_particleToNodeMap.put( particle, particleNode );
+        m_fixedParticle = particle;
+        m_fixedParticleNode = new ParticleNode(particle, m_mvt, m_useGradient);
+        addWorldChild( m_fixedParticleNode );
         particle.addListener( m_atomListener );
         updatePositionMarkerOnDiagram();
     }
     
-    private void handleParticleRemoved(StatesOfMatterAtom particle){
+    private void handleFixedParticleRemoved(StatesOfMatterAtom particle){
         // Get rid of the node for this guy.
-        Object particleNode = m_particleToNodeMap.get( particle );
-        if (particleNode != null){
+        if (m_fixedParticleNode != null){
             
             // Remove the particle node.
-            removeWorldChild( (PNode )particleNode );
-            m_particleToNodeMap.remove( particle );
+            removeWorldChild( m_fixedParticleNode );
         }
         else{
             System.err.println("Error: Problem encountered removing node from canvas.");
         }
         particle.removeListener( m_atomListener );
-        m_particles.remove( particle );
         updatePositionMarkerOnDiagram();
+        m_fixedParticleNode = null;
+    }
+    
+    private void handleMovableParticleAdded(StatesOfMatterAtom particle){
+        // Add an atom node for this guy.
+        m_movableParticle = particle;
+        m_movableParticleNode = new GrabbableParticleNode(m_model, particle, m_mvt, m_useGradient);
+        addWorldChild( m_movableParticleNode );
+        particle.addListener( m_atomListener );
+        updatePositionMarkerOnDiagram();
+    }
+    
+    private void handleMovableParticleRemoved(StatesOfMatterAtom particle){
+        // Get rid of the node for this guy.
+        if (m_movableParticleNode != null){
+            
+            // Remove the particle node.
+            removeWorldChild( m_movableParticleNode );
+        }
+        else{
+            System.err.println("Error: Problem encountered removing node from canvas.");
+        }
+        particle.removeListener( m_atomListener );
+        updatePositionMarkerOnDiagram();
+        m_movableParticleNode = null;
     }
     
     private void handleInteractionPotentialChanged(){
@@ -156,14 +187,9 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
      */
     private void updatePositionMarkerOnDiagram(){
         
-        assert m_particles.size() <= 2;
-        
-        if (m_particles.size() == 2){
-
-            StatesOfMatterAtom atom1 = (StatesOfMatterAtom)m_particles.get( 0 );
-            StatesOfMatterAtom atom2 = (StatesOfMatterAtom)m_particles.get( 1 );
-            
-            double distance = atom1.getPositionReference().distance( atom2.getPositionReference() );
+        if ((m_fixedParticle != null) && (m_movableParticle != null))
+        {
+            double distance = m_fixedParticle.getPositionReference().distance( m_movableParticle.getPositionReference() );
 
             if (distance > 0){
                 m_diagram.setMarkerEnabled( true );

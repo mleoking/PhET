@@ -42,13 +42,14 @@ public class DualParticleModel {
     
     IClock m_clock;
     private ArrayList m_listeners = new ArrayList();
-    private StatesOfMatterAtom m_leftParticle;
-    private StatesOfMatterAtom m_rightParticle;
-    private double m_leftParticleHorizForce;
-    private double m_rightParticleHorizForce;
+    private StatesOfMatterAtom m_fixedParticle;
+    private StatesOfMatterAtom m_movableParticle;
+    private double m_fixedParticleHorizForce;
+    private double m_movableParticleHorizForce;
     private double m_epsilon;  // Epsilon represents the interaction strength.
     private double m_sigma;    // Sigma represents the diameter of the molecule, roughly speaking.
     private int m_currentMoleculeID;
+    private boolean m_particleMotionPaused;
     
     //----------------------------------------------------------------------------
     // Constructor
@@ -59,6 +60,7 @@ public class DualParticleModel {
         m_clock = clock;
         m_epsilon = DEFAULT_EPSILON;
         m_sigma = DEFAULT_SIGMA;
+        m_particleMotionPaused = false;
         
         // Register as a clock listener.
         clock.addClockListener(new ClockAdapter(){
@@ -81,19 +83,19 @@ public class DualParticleModel {
     //----------------------------------------------------------------------------
     
     public StatesOfMatterAtom getLeftParticleRef(){
-        return m_leftParticle;
+        return m_fixedParticle;
     }
     
     public StatesOfMatterAtom getRightParticleRef(){
-        return m_rightParticle;
+        return m_movableParticle;
     }
     
-    public double getLeftParticleHorizForce(){
-        return m_leftParticleHorizForce;
+    public double getFixedParticleHorizForce(){
+        return m_fixedParticleHorizForce;
     }
 
-    public double getRightParticleHorizForce(){
-        return m_rightParticleHorizForce;
+    public double getMovableParticleHorizForce(){
+        return m_movableParticleHorizForce;
     }
     
     public int getMoleculeType(){
@@ -113,32 +115,32 @@ public class DualParticleModel {
         }
         
         // Inform any listeners of the removal of existing particles.
-        if (m_leftParticle != null){
-            notifyParticleRemoved( m_leftParticle );
-            m_leftParticle = null;
+        if (m_fixedParticle != null){
+            notifyFixedParticleRemoved( m_fixedParticle );
+            m_fixedParticle = null;
         }
-        if (m_rightParticle != null){
-            notifyParticleRemoved( m_rightParticle );
-            m_rightParticle = null;
+        if (m_movableParticle != null){
+            notifyMovableParticleRemoved( m_movableParticle );
+            m_movableParticle = null;
         }
         
         // Set the new atoms based on the requested type..
         switch (atomID){
         case NEON:
-            m_leftParticle = new NeonAtom(0, 0);
-            m_rightParticle = new NeonAtom(0, 0);
+            m_fixedParticle = new NeonAtom(0, 0);
+            m_movableParticle = new NeonAtom(0, 0);
             m_sigma = NeonAtom.getSigma();
             m_epsilon = NeonAtom.getEpsilon();
             break;
         case ARGON:
-            m_leftParticle = new ArgonAtom(0, 0);
-            m_rightParticle = new ArgonAtom(0, 0);
+            m_fixedParticle = new ArgonAtom(0, 0);
+            m_movableParticle = new ArgonAtom(0, 0);
             m_sigma = ArgonAtom.getSigma();
             m_epsilon = ArgonAtom.getEpsilon();
             break;
         case MONATOMIC_OXYGEN:
-            m_leftParticle = new OxygenAtom(0, 0);
-            m_rightParticle = new OxygenAtom(0, 0);
+            m_fixedParticle = new OxygenAtom(0, 0);
+            m_movableParticle = new OxygenAtom(0, 0);
             m_sigma = OxygenAtom.getSigma();
             m_epsilon = OxygenAtom.getEpsilon();
             break;
@@ -147,8 +149,8 @@ public class DualParticleModel {
         m_currentMoleculeID = atomID;
         
         // Let listeners know about the new molecules.
-        notifyParticleAdded( m_leftParticle );
-        notifyParticleAdded( m_rightParticle );
+        notifyFixedParticleAdded( m_fixedParticle );
+        notifyMovableParticleAdded( m_movableParticle );
         
         // Let listeners know about parameter changes.
         notifyInteractionPotentialChanged();
@@ -157,9 +159,9 @@ public class DualParticleModel {
         notifyParticleDiameterChanged();
         
         // Move them to be initially separated.
-        double diameter = m_leftParticle.getRadius() * 2;
-        m_leftParticle.setPosition( -diameter, 0 );
-        m_rightParticle.setPosition( diameter, 0 );
+        double diameter = m_fixedParticle.getRadius() * 2;
+        m_fixedParticle.setPosition( -diameter, 0 );
+        m_movableParticle.setPosition( diameter, 0 );
     }
     
     /**
@@ -170,8 +172,8 @@ public class DualParticleModel {
      */
     public void setSigma( double sigma ){
         m_sigma = sigma;
-        m_leftParticle.setRadius( sigma / 2 );
-        m_rightParticle.setRadius( sigma / 2 );
+        m_fixedParticle.setRadius( sigma / 2 );
+        m_movableParticle.setRadius( sigma / 2 );
         notifyInteractionPotentialChanged();
     }
     
@@ -234,6 +236,10 @@ public class DualParticleModel {
     public boolean removeListener(Listener listener){
         return m_listeners.remove( listener );
     }
+    
+    public void setParticleMotionPaused(boolean paused){
+        m_particleMotionPaused = paused;
+    }
 
     //----------------------------------------------------------------------------
     // Private Methods
@@ -244,14 +250,22 @@ public class DualParticleModel {
         // Execute the force calculation.
         updateForce();
         
-        // Update the particle positions.
-        updatePosition();
+        if (!m_particleMotionPaused){
+            // Update the particle positions.
+            updatePosition();
+        }
     }
     
     private void updateForce(){
         
-        double distance = m_rightParticle.getPositionReference().distance( m_leftParticle.getPositionReference() );
-        m_rightParticleHorizForce = ((48 * m_epsilon * Math.pow( m_sigma, 12 ) / Math.pow( distance, 13 )) -
+        double distance = m_movableParticle.getPositionReference().distance( m_fixedParticle.getPositionReference() );
+        
+        if (distance < m_sigma){
+            // The particles are too close together, and calculating the force
+            // will cause unusable levels of speed later, so we limit it.
+            distance = m_sigma;
+        }
+        m_movableParticleHorizForce = ((48 * m_epsilon * Math.pow( m_sigma, 12 ) / Math.pow( distance, 13 )) -
                 (24 * m_epsilon * Math.pow( m_sigma, 6 ) / Math.pow( distance, 7 )));
     }
     
@@ -259,20 +273,32 @@ public class DualParticleModel {
         
         // JPB TBD - This is all very preliminary.  Not sure what to use for mass.
         double mass = 1;
-        m_rightParticle.setVx( m_rightParticle.getVx() + m_rightParticleHorizForce / mass );
-        double xPos = m_rightParticle.getPositionReference().getX() + m_rightParticle.getVx();
-        m_rightParticle.setPosition( xPos, 0 );
+        m_movableParticle.setVx( m_movableParticle.getVx() + m_movableParticleHorizForce / mass );
+        double xPos = m_movableParticle.getPositionReference().getX() + m_movableParticle.getVx();
+        m_movableParticle.setPosition( xPos, 0 );
     }
     
-    private void notifyParticleAdded(StatesOfMatterAtom particle){
+    private void notifyFixedParticleAdded(StatesOfMatterAtom particle){
         for (int i = 0; i < m_listeners.size(); i++){
-            ((Listener)m_listeners.get( i )).particleAdded( particle );
+            ((Listener)m_listeners.get( i )).fixedParticleAdded( particle );
         }        
     }
     
-    private void notifyParticleRemoved(StatesOfMatterAtom particle){
+    private void notifyMovableParticleAdded(StatesOfMatterAtom particle){
         for (int i = 0; i < m_listeners.size(); i++){
-            ((Listener)m_listeners.get( i )).particleRemoved( particle );
+            ((Listener)m_listeners.get( i )).movableParticleAdded( particle );
+        }        
+    }
+    
+    private void notifyFixedParticleRemoved(StatesOfMatterAtom particle){
+        for (int i = 0; i < m_listeners.size(); i++){
+            ((Listener)m_listeners.get( i )).fixedParticleRemoved( particle );
+        }        
+    }
+    
+    private void notifyMovableParticleRemoved(StatesOfMatterAtom particle){
+        for (int i = 0; i < m_listeners.size(); i++){
+            ((Listener)m_listeners.get( i )).movableParticleRemoved( particle );
         }        
     }
     
@@ -305,15 +331,19 @@ public class DualParticleModel {
         /**
          * Inform listeners that the model has been reset.
          */
-        public void particleAdded(StatesOfMatterAtom particle);
-        public void particleRemoved(StatesOfMatterAtom particle);
+        public void fixedParticleAdded(StatesOfMatterAtom particle);
+        public void movableParticleAdded(StatesOfMatterAtom particle);
+        public void fixedParticleRemoved(StatesOfMatterAtom particle);
+        public void movableParticleRemoved(StatesOfMatterAtom particle);
         public void interactionPotentialChanged();
         public void particleDiameterChanged();
     }
     
     public static class Adapter implements Listener {
-        public void particleAdded(StatesOfMatterAtom particle){}
-        public void particleRemoved(StatesOfMatterAtom particle){}
+        public void fixedParticleAdded(StatesOfMatterAtom particle){}
+        public void movableParticleAdded(StatesOfMatterAtom particle){}
+        public void fixedParticleRemoved(StatesOfMatterAtom particle){}
+        public void movableParticleRemoved(StatesOfMatterAtom particle){}
         public void interactionPotentialChanged(){};
         public void particleDiameterChanged(){};
     }
