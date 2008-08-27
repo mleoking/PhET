@@ -56,7 +56,7 @@ public class InteractionPotentialDiagramNode extends PNode {
     private static final Color BACKGROUND_COLOR = Color.WHITE;
     private static final Color POSITION_MARKER_COLOR = Color.CYAN;
     private static final double POSITION_MARKER_DIAMETER_PROPORTION = 0.03; // Size of pos marker wrt overal width.
-    private static final float POSITION_MARKER_STROKE_WIDTH = 0.5f;
+    private static final float POSITION_MARKER_STROKE_WIDTH = 0.75f;
     private static final Stroke POSITION_MARKER_STROKE = new BasicStroke(POSITION_MARKER_STROKE_WIDTH);
     
     // Constants that control the location and size of the graph.
