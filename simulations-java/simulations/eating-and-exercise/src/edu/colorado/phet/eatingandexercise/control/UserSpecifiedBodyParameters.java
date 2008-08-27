@@ -17,7 +17,9 @@ public class UserSpecifiedBodyParameters {
         //see http://www.halls.md/bmi/fat.htm
         //Adult Body Fat % = (1.20 x BMI) + (0.23 x Age) - (10.8 x gender) - 5.4
 //where male gender= 1, female=0.
-        return 1.2 * human.getBMI() + 0.23 * EatingAndExerciseUnits.secondsToYears( human.getAge() ) - 10.8 * ( human.getGender() == Human.Gender.MALE ? 1 : 0 ) - 5.4;
+        //return 1.2 * human.getBMI() + 0.23 * EatingAndExerciseUnits.secondsToYears( human.getAge() ) - 10.8 * ( human.getGender() == Human.Gender.MALE ? 1 : 0 ) - 5.4;
+        //Changed 8/27/08 based on feedback from Wendy
+        return 1.4 * human.getBMI() - 8.0 * ( human.getGender() == Human.Gender.MALE ? 1 : 0 ) - 9.0;
     }
 
     public static void main( String[] args ) {
