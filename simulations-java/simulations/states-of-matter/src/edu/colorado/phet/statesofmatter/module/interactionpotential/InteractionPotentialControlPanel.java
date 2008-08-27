@@ -54,6 +54,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
     
     private DualParticleModel m_model;
+    private InteractionPotentialCanvas m_canvas;
     private MoleculeSelectionPanel m_moleculeSelectionPanel;
     private AtomDiameterControlPanel m_atomDiameterControlPanel;
     private InteractionStrengthControlPanel m_interactionStrengthControlPanel;
@@ -69,6 +70,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
         
         super();
         m_model = solidLiquidGasModule.getDualParticleModel();
+        m_canvas = solidLiquidGasModule.getCanvas();
         
         // Set the control panel's minimum width.
         int minimumWidth = StatesOfMatterResources.getInt( "int.minControlPanelWidth", 215 );
