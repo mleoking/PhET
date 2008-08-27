@@ -3,6 +3,7 @@ Change history for translation-utility
 ================================================================================
 
 DONE:
+8/27/08 - add hack to read common string files when project.name=common-strings
 8/21/08 - inspect project.properties in JAR file to retrieve project.name; fallback to discovery algorithm
 ********* version 0.02.01 (23665)
 8/12/08 - exclude the source language (English) from the choices for destination language
