@@ -52,11 +52,8 @@ public class InteractionPotentialDiagramNode extends PNode {
     private static final Stroke TICK_MARK_STROKE = new BasicStroke(TICK_MARK_WIDTH);
     private static final Color BACKGROUND_COLOR = Color.WHITE;
     
-    // Constants used for the Lennard-Jones potential calculation.
-    private static final double DEFAULT_SIGMA = 3.3;
-    private static final double DEFAULT_EPSILON = 120;
-    private static final double HORIZONTAL_INDEX_MULTIPLIER = 0.05;  // Empirically determined so curve will look reasonable.
-    private static final double VERTICAL_SCALING_FACTOR = 0.3;       // Empirically determined so curve will fit graph.
+    private static final double HORIZONTAL_INDEX_MULTIPLIER = 5;  // Empirically determined so curve will look reasonable.
+    private static final double VERTICAL_SCALING_FACTOR = 0.3;    // Empirically determined so curve will fit graph.
     
     // Constants that control the location and size of the graph.
     private static final double HORIZ_AXIS_SIZE_PROPORTION = 0.80;
@@ -244,6 +241,7 @@ public class InteractionPotentialDiagramNode extends PNode {
      * @return
      */
     private double calculateLennardJonesPotential(double radius){
+        System.out.println((4 * m_epsilon * (Math.pow( m_sigma / radius, 12 ) - Math.pow( m_sigma / radius, 6 ))));
         return (4 * m_epsilon * (Math.pow( m_sigma / radius, 12 ) - Math.pow( m_sigma / radius, 6 )));
         
     }
@@ -257,10 +255,10 @@ public class InteractionPotentialDiagramNode extends PNode {
         potentialEnergyLineShape.moveTo( 0, 0);
         Point2D graphMin = new Point2D.Double(0, 0);
         Point2D zeroCrossingPoint = new Point2D.Double(0, 0);
-        System.out.println("getScale() = " + getScale() );
         for (int i = 1; i < (int)m_graphWidth; i++){
             double potential = calculateLennardJonesPotential( i * HORIZONTAL_INDEX_MULTIPLIER );
             double yPos = ((m_graphHeight / 2) - (potential * VERTICAL_SCALING_FACTOR));
+            System.out.println("yPos = " + yPos);
             if ((yPos > 0) && (yPos < m_graphHeight)){
                 potentialEnergyLineShape.lineTo( (float)i, (float)(yPos) );
                 if (yPos > graphMin.getY()){
@@ -285,7 +283,12 @@ public class InteractionPotentialDiagramNode extends PNode {
         
         // Position the arrow that depicts epsilon along with its label.
       
-        m_epsilonArrow.setTipAndTailLocations( graphMin, new Point2D.Double( graphMin.getX(), m_graphHeight / 2 ) );
+        try{
+            m_epsilonArrow.setTipAndTailLocations( graphMin, new Point2D.Double( graphMin.getX(), m_graphHeight / 2 ) );
+        }
+        catch(RuntimeException r){
+            System.err.println("Error: Caught exception while positioning epsilon arror - " + r);
+        }
         
         m_epsilonLabel.setOffset( graphMin.getX() + m_epsilonLabel.getFullBoundsReference().width * 0.5, 
                 m_graphHeight / 2 );
