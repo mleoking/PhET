@@ -1,3 +1,9 @@
+New in 0.00.78
+(changes by Noah P.)
+added Activity Level to muscle building formula
+added multipliers for muscle and fat mass loss (last two variables in each line)
+Modified formula for calculating % fat based on height, weight so that BMI and % fat better match expected values. Also removed age dependence for simplicity.
+
 New in 0.00.77
 Heart strength/strain indicators move up with human when window is maximized.
 
