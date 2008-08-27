@@ -38,6 +38,7 @@ public class ParticleNode extends PNode {
     private ModelViewTransform m_mvt;
     Point2D.Double m_position;
     boolean m_useGradient;
+    SphericalNode m_sphere;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -62,12 +63,16 @@ public class ParticleNode extends PNode {
             public void particleRemoved( StatesOfMatterAtom particle ) {
                 handleParticleRemoved( particle );
             }
+            
+            public void particleRadiusChanged(){
+                handleParticleRadiusChanged();
+            }
         };
         particle.addListener( m_particleListener );
 
         // Create the image that will represent this particle.
-        SphericalNode sphere = new SphericalNode( particle.getRadius() * 2, choosePaint( particle ), false );
-        addChild( sphere );
+        m_sphere = new SphericalNode( particle.getRadius() * 2, choosePaint( particle ), false );
+        addChild( m_sphere );
 
         // Set ourself to be non-pickable so that we don't get mouse events.
         setPickable( false );
@@ -119,6 +124,14 @@ public class ParticleNode extends PNode {
 
         // Explicitly clear our reference to the particle in the model.
         m_particle = null;
+    }
+    
+    /**
+     * If the radius of the particle changes, we need to redraw ourself to
+     * correspond.
+     */
+    private void handleParticleRadiusChanged(){
+        m_sphere.setDiameter( m_particle.getRadius() * 2 );
     }
 
     /**

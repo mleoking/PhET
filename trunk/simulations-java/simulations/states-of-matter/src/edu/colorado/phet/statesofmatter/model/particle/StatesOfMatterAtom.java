@@ -106,6 +106,11 @@ public class StatesOfMatterAtom implements PubliclyCloneable {
         return m_radius;
     }
     
+    public void setRadius(double radius) {
+        m_radius = radius;
+        notifyRadiusChanged();
+    }
+    
     public static double getSigma() {
         return DEFAULT_SIGMA;
     }
@@ -271,6 +276,12 @@ public class StatesOfMatterAtom implements PubliclyCloneable {
         }        
     }
 
+    private void notifyRadiusChanged(){
+        for (int i = 0; i < m_listeners.size(); i++){
+            ((Listener)m_listeners.get( i )).particleRadiusChanged();
+        }        
+    }
+
     //------------------------------------------------------------------------
     // Inner Interfaces and Adapters
     //------------------------------------------------------------------------
@@ -287,10 +298,16 @@ public class StatesOfMatterAtom implements PubliclyCloneable {
          * model.
          */
         public void particleRemoved(StatesOfMatterAtom particle);
+        
+        /**
+         * Inform listeners that the radius of this particle has been changed.
+         */
+        public void particleRadiusChanged();
     }
     
     public static class Adapter implements Listener {
         public void positionChanged(){};
         public void particleRemoved(StatesOfMatterAtom particle){};
+        public void particleRadiusChanged(){};
     }
 }

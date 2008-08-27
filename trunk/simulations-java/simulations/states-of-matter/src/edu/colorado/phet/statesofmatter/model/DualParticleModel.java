@@ -170,6 +170,8 @@ public class DualParticleModel {
      */
     public void setSigma( double sigma ){
         m_sigma = sigma;
+        m_leftParticle.setRadius( sigma / 2 );
+        m_rightParticle.setRadius( sigma / 2 );
         notifyInteractionPotentialChanged();
     }
     
@@ -249,7 +251,7 @@ public class DualParticleModel {
     private void updateForce(){
         
         double distance = m_rightParticle.getPositionReference().distance( m_leftParticle.getPositionReference() );
-        m_rightParticleHorizForce = ((48 * m_epsilon * Math.pow( m_sigma, 12 ) / Math.pow( distance, 13 )) +
+        m_rightParticleHorizForce = ((48 * m_epsilon * Math.pow( m_sigma, 12 ) / Math.pow( distance, 13 )) -
                 (24 * m_epsilon * Math.pow( m_sigma, 6 ) / Math.pow( distance, 7 )));
     }
     
