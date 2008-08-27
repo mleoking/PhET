@@ -188,6 +188,17 @@ public class JavaSimulation implements ISimulation {
             throw new SimulationException( "could not determine this simulation's project name: " + jarFileName );
         }
         
+        // HACK:
+        // PhET common strings are bundled into their own JAR file for use with translation utility.
+        // Because the PhET build process is so inflexible, the JAR file must be built & deployed
+        // via a dummy sim named "common-strings", found in trunk/simulations-java/simulations.
+        // If the project name is "common-strings", we really want to load the common strings
+        // which are in files with basename "phetcommon-strings".  So we use "phetcommon" 
+        // as the project name.
+        if ( projectName.equals( "common-strings" ) ) {
+            projectName = "phetcommon";
+        }
+        
         return projectName;
     }
     
