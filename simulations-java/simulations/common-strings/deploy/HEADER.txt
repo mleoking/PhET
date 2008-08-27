@@ -1,0 +1,4 @@
+<html>
+This is a dummy simulation, used to bundle PhET common strings into one JAR file.
+The JAR file can be used to translate common strings with Translation Utility.
+</html>

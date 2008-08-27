@@ -40,6 +40,8 @@
 	<classpathentry kind="src" path="simulations/circuit-construction-kit/data"/>
 	<classpathentry kind="src" path="simulations/color-vision/src"/>
 	<classpathentry kind="src" path="simulations/color-vision/data"/>
+	<classpathentry kind="src" path="simulations/common-strings/src"/>
+	<classpathentry kind="src" path="simulations/common-strings/data"/>
 	<classpathentry kind="src" path="simulations/conductivity/src"/>
 	<classpathentry kind="src" path="simulations/conductivity/data"/>
 	<classpathentry kind="src" path="simulations/conductivity/phetcommon/src"/>
