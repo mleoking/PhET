@@ -239,6 +239,7 @@ public class DualParticleModel {
     
     public void setParticleMotionPaused(boolean paused){
         m_particleMotionPaused = paused;
+        m_movableParticle.setVx( 0 );
     }
 
     //----------------------------------------------------------------------------
