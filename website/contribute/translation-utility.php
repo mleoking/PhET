@@ -43,7 +43,7 @@ class TranslationInstructionsPage extends SitePage {
                 </li>
 
                 <li>
-                    Select the language that you're translating from the option menu. If your language is not listed in the menu, contact <a href="mailto:{$phet_help_email}?subject=Translation%20Utility"><span class="red">{$phet_help_email}</span></a> to request a custom language code. When you receive your custom language code, select CUSTOM from the option menu (the last option in the menu) and enter your customer language code in the text box that appears.
+                    Select the language that you're translating from the option menu. If your language is not listed in the menu, contact <a href="mailto:{$phet_help_email}?subject=Translation%20Utility"><span class="red">{$phet_help_email}</span></a> to request a custom language code. When you receive your custom language code, select CUSTOM from the option menu (the last option in the menu) and enter your custom language code in the text box that appears.
                 </li>
 
                 <li>
@@ -121,7 +121,7 @@ class TranslationInstructionsPage extends SitePage {
                 </li>
 
                 <li>
-                    Email hydrogen-atom-strings_fr.properties to <a href="mailto:{$phet_help_email}?Subject=Simulation%20Translation"><span class="red">{$phet_help_email}</span></a>
+                    Email hydrogen-atom-strings_fr.properties to {$phet_help_email}.
                 </li>
             </ol>
             
