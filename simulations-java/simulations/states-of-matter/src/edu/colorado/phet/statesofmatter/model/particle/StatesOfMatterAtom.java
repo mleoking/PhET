@@ -23,7 +23,7 @@ public class StatesOfMatterAtom implements PubliclyCloneable {
     //----------------------------------------------------------------------------
 
     public static final StatesOfMatterAtom TEST = new StatesOfMatterAtom(0.0, 0.0, 1.0, 1.0);
-    private static final double DEFAULT_SIGMA = 330;    // In picometers.
+    private static final double DEFAULT_SIGMA = 330;    // Atom diameter, in picometers.
     private static final double DEFAULT_EPSILON = 120;  // epsilon/k-boltzman is in Kelvin.
 
     //----------------------------------------------------------------------------
