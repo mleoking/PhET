@@ -6,10 +6,12 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Stroke;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Rectangle2D.Double;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
@@ -52,6 +54,10 @@ public class InteractionPotentialDiagramNode extends PNode {
     private static final float TICK_MARK_WIDTH = 1;
     private static final Stroke TICK_MARK_STROKE = new BasicStroke(TICK_MARK_WIDTH);
     private static final Color BACKGROUND_COLOR = Color.WHITE;
+    private static final Color POSITION_MARKER_COLOR = Color.CYAN;
+    private static final double POSITION_MARKER_DIAMETER_PROPORTION = 0.03; // Size of pos marker wrt overal width.
+    private static final float POSITION_MARKER_STROKE_WIDTH = 0.5f;
+    private static final Stroke POSITION_MARKER_STROKE = new BasicStroke(POSITION_MARKER_STROKE_WIDTH);
     
     // Constants that control the location and size of the graph.
     private static final double HORIZ_AXIS_SIZE_PROPORTION = 0.80;
@@ -82,6 +88,10 @@ public class InteractionPotentialDiagramNode extends PNode {
     private DoubleArrowNode m_sigmaArrow;
     private double m_verticalScalingFactor;
     private double m_horizontalScalingFactor;
+    
+    // Variables for controlling the appearance, visibility, and location of
+    // the position marker.
+    private PPath m_positionMarker;
     
     /**
      * Constructor.
@@ -176,6 +186,14 @@ public class InteractionPotentialDiagramNode extends PNode {
         m_potentialEnergyLine.setStroke( POTENTIAL_ENERGY_LINE_STROKE );
         m_potentialEnergyLine.setStrokePaint( POTENTIAL_ENERGY_LINE_COLOR );
         ljPotentialGraph.addChild( m_potentialEnergyLine );
+        
+        // Add the position marker.
+        m_positionMarker = new PPath( new Ellipse2D.Double(0, 0, POSITION_MARKER_DIAMETER_PROPORTION * m_graphWidth,
+                POSITION_MARKER_DIAMETER_PROPORTION * m_graphWidth ));
+        m_positionMarker.setStroke( POSITION_MARKER_STROKE );
+        m_positionMarker.setPaint( POSITION_MARKER_COLOR );
+        m_positionMarker.setVisible( false );
+        ljPotentialGraph.addChild( m_positionMarker );
 
         // Add the arrows and labels that will depict sigma and epsilon.
         m_epsilonArrow = new DoubleArrowNode( new Point2D.Double( 0, 0 ), 
@@ -235,6 +253,33 @@ public class InteractionPotentialDiagramNode extends PNode {
         drawPotentialCurve();
     }
     
+    public void setMarkerEnabled( boolean enabled ){
+        m_positionMarker.setVisible( enabled );
+    }
+    
+    /**
+     * Set the position of the position marker.  Note that is is only possible
+     * to set the x axis position, which is distance.  The y axis position is
+     * always on the LJ potential curve.
+     * 
+     * @param distance - distance from the center of the interacting molecules.
+     */
+    public void setMarkerPosition(double distance){
+
+        double xPos = distance * m_horizontalScalingFactor;
+        double potential = calculateLennardJonesPotential( distance );
+        double yPos = ((m_graphHeight / 2) - (potential * m_verticalScalingFactor));
+        
+        m_positionMarker.setOffset( xPos - m_positionMarker.getFullBoundsReference().width / 2,
+                yPos - m_positionMarker.getFullBoundsReference().getHeight() / 2 );
+        
+        /*
+        double xPos = distance * m_horizontalScalingFactor;
+        m_positionMarker.setOffset( xPos, 10 );
+        */
+
+    }
+    
     /**
      * Calculate the normalized Lennard-Jones potential, meaning that the 
      * sigma and epsilon values are assumed to be equal to 1.
@@ -290,16 +335,22 @@ public class InteractionPotentialDiagramNode extends PNode {
             m_epsilonArrow.setTipAndTailLocations( graphMin, new Point2D.Double( graphMin.getX(), m_graphHeight / 2 ) );
         }
         catch(RuntimeException r){
-            System.err.println("Error: Caught exception while positioning epsilon arror - " + r);
+            System.err.println("Error: Caught exception while positioning epsilon arrow - " + r);
         }
         
         m_epsilonLabel.setOffset( graphMin.getX() + m_epsilonLabel.getFullBoundsReference().width * 0.5, 
+                ((graphMin.getY() - (m_graphHeight / 2)) / 2) - (m_epsilonLabel.getFullBoundsReference().height / 2) +
                 m_graphHeight / 2 );
 
         // Position the arrow that depicts sigma along with its label.
         m_sigmaLabel.setOffset( zeroCrossingPoint.getX() / 2 - m_sigmaLabel.getFullBoundsReference().width / 2, 
                 m_graphHeight / 2 );
-        
-        m_sigmaArrow.setTipAndTailLocations( new Point2D.Double(0, m_graphHeight / 2), zeroCrossingPoint );
+
+        try{
+            m_sigmaArrow.setTipAndTailLocations( new Point2D.Double(0, m_graphHeight / 2), zeroCrossingPoint );
+        }
+        catch(RuntimeException r){
+            System.err.println("Error: Caught exception while positioning sigma arrow - " + r);
+        }
     }
 }
