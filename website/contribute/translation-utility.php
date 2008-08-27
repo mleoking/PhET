@@ -15,11 +15,9 @@ class TranslationInstructionsPage extends SitePage {
 
         $phet_help_email = PHET_HELP_EMAIL;
 
-        $translation_utility_jar = PORTAL_ROOT."phet-dist/translation-utility/translation-utility.jar";
-
         print <<<EOT
             <p>
-                This is a beta version of the PhET Translation Utility. PLEASE READ THIS PAGE COMPLETELY.
+                PLEASE READ THIS PAGE COMPLETELY BEFORE USING TRANSLATION UTILITY.
             </p>
             <p>The Translation Utility can be used to create a translation for a new language, or to edit an existing translation. In both cases, the instructions are the same.</p>
 
@@ -37,7 +35,7 @@ class TranslationInstructionsPage extends SitePage {
                 </li>
 
                 <li>
-                    Double-click on <a href="{$translation_utility_jar}">translation-utility.jar</a> to start the Translation Utility.
+                    Double-click on translation-utility.jar to start the Translation Utility.
                 </li>
 
                 <li>
@@ -126,6 +124,17 @@ class TranslationInstructionsPage extends SitePage {
                     Email hydrogen-atom-strings_fr.properties to <a href="mailto:{$phet_help_email}?Subject=Simulation%20Translation"><span class="red">{$phet_help_email}</span></a>
                 </li>
             </ol>
+            
+            <h2>Common Strings</h2>
+            <p>
+            Some strings that appear in a simulation are part of a library of "common components" that are used in all PhET simulations.
+            We refer to these strings as "common strings".
+            Examples of common strings include: the "File" menu, the "Help" menu, the Play/Pause/Step buttons that control the clock.
+            When you're translating a simulation, Translation Utility does not allow you to translate common strings.
+            To translate common strings, download <a href="get-common-strings.php">common-strings.jar</a> to your computer.
+            Then load common-strings.jar into Translation Utility in the same way that you would for a simulation JAR file.
+            You only need to do this once, and we will incorporate your translation of common strings into all simulations.
+            </p>
 
             <h2>
                 Caveats
@@ -133,25 +142,9 @@ class TranslationInstructionsPage extends SitePage {
 
             <ul>
                 <li>
-                    The Translation Utility works only with Java-based simulations. PhET's Flash-based simulations do not currently support translation. PhET expects to support translation of our Flash-based simulations in a future release.
-                </li>
-
-                <li>
-                    Some strings that appear in a simulation are part of a library of "common components" that are used in all PhET simulations. These "common strings" are not yet translatable via the Translation Utility. Examples of common strings include: the "File" menu, the "Help" menu, the Play/Pause/Step buttons that controls the clock. PhET expects to makes common strings translatable in a future release.
-                </li>
-
-                <li>
                     Some of the strings that appear in the Translation Utility may not appear in the simulation that you are translating. This is because similar simulations (eg, the variants of Circuit Construction Kit) share one translation file. If a string does not appear in the simulation that you're translating, feel free to leave it blank.
                 </li>
             </ul>
-
-            <h2>
-                Mailing List
-            </h2>
-
-            <p>
-                Join the PhET Translation Utility mailing list by visiting <a href="https://lists.sourceforge.net/lists/listinfo/phet-translation">https://lists.sourceforge.net/lists/listinfo/phet-translation</a>.
-            </p>
 
             <h2>
                 Bug Reports
@@ -166,7 +159,7 @@ EOT;
 
 }
 
-$page = new TranslationInstructionsPage("PhET Translation Utility (beta)", NAV_CONTRIBUTE, null);
+$page = new TranslationInstructionsPage("PhET Translation Utility", NAV_CONTRIBUTE, null);
 $page->update();
 $page->render();
 
