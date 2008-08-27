@@ -197,7 +197,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
     private class AtomDiameterControlPanel extends JPanel {
         
         private final Font LABEL_FONT = new PhetFont( Font.BOLD, 14 );
-        private final double MAX_ATOM_DIAMETER = 5; // JPB TBD - Total guess, tweak as needed.
+        private final double MAX_ATOM_DIAMETER = 500; // In picometers.  Arbitrary values, tweak as needed.
 
         private LinearValueControl m_atomDiameterControl;
         

@@ -11,8 +11,9 @@ public class NeonAtom extends StatesOfMatterAtom {
     
     public static final double RADIUS = 154;
     private static final double MASS = 1.0; // TODO: JPB TBD - This is not currently used, clean up eventually.
-    private static final double SIGMA = 2.0;
-    private static final double EPSILON = 100;
+    private static final double SIGMA = 200;    // In picometers.
+    private static final double EPSILON = 100;  // epsilon/k-boltzman is in Kelvin.
+
     
     public NeonAtom(double xPos, double yPos){
         super(xPos, yPos, RADIUS, MASS);
