@@ -288,4 +288,9 @@ public class StatesOfMatterAtom implements PubliclyCloneable {
          */
         public void particleRemoved(StatesOfMatterAtom particle);
     }
+    
+    public static class Adapter implements Listener {
+        public void positionChanged(){};
+        public void particleRemoved(StatesOfMatterAtom particle){};
+    }
 }
