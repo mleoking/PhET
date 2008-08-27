@@ -61,9 +61,15 @@ public class InteractionPotentialModule extends Module {
     //----------------------------------------------------------------------------
     // Accessor Methods
     //----------------------------------------------------------------------------
+    
     public DualParticleModel getDualParticleModel(){
         return m_model;
     }
+    
+    public InteractionPotentialCanvas getCanvas(){
+        return m_canvas;
+    }
+    
     //----------------------------------------------------------------------------
     // Module overrides
     //----------------------------------------------------------------------------
