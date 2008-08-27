@@ -13,6 +13,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
+import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.model.particle.ArgonAtom;
@@ -52,9 +53,6 @@ public class InteractionPotentialDiagramNode extends PNode {
     private static final Stroke TICK_MARK_STROKE = new BasicStroke(TICK_MARK_WIDTH);
     private static final Color BACKGROUND_COLOR = Color.WHITE;
     
-    private static final double HORIZONTAL_INDEX_MULTIPLIER = 5;  // Empirically determined so curve will look reasonable.
-    private static final double VERTICAL_SCALING_FACTOR = 0.3;    // Empirically determined so curve will fit graph.
-    
     // Constants that control the location and size of the graph.
     private static final double HORIZ_AXIS_SIZE_PROPORTION = 0.80;
     private static final double VERT_AXIS_SIZE_PROPORTION = 0.85;
@@ -82,6 +80,8 @@ public class InteractionPotentialDiagramNode extends PNode {
     private PText m_epsilonLabel;
     private PText m_sigmaLabel;
     private DoubleArrowNode m_sigmaArrow;
+    private double m_verticalScalingFactor;
+    private double m_horizontalScalingFactor;
     
     /**
      * Constructor.
@@ -108,6 +108,8 @@ public class InteractionPotentialDiagramNode extends PNode {
         m_graphOffsetY = 0;
         m_graphWidth = m_width * HORIZ_AXIS_SIZE_PROPORTION;
         m_graphHeight = m_height * VERT_AXIS_SIZE_PROPORTION;
+        m_verticalScalingFactor = m_graphHeight / 2 / StatesOfMatterConstants.MAX_EPSILON;
+        m_horizontalScalingFactor = (m_graphWidth / StatesOfMatterConstants.MAX_SIGMA) * 0.9;
         
         // Create a background that will sit behind everything.
         PPath graphBackground = new PPath(new Rectangle2D.Double( 0, 0, m_width, m_height ));
@@ -255,9 +257,10 @@ public class InteractionPotentialDiagramNode extends PNode {
         potentialEnergyLineShape.moveTo( 0, 0);
         Point2D graphMin = new Point2D.Double(0, 0);
         Point2D zeroCrossingPoint = new Point2D.Double(0, 0);
+        double horizontalIndexMultiplier = 1 / m_horizontalScalingFactor;
         for (int i = 1; i < (int)m_graphWidth; i++){
-            double potential = calculateLennardJonesPotential( i * HORIZONTAL_INDEX_MULTIPLIER );
-            double yPos = ((m_graphHeight / 2) - (potential * VERTICAL_SCALING_FACTOR));
+            double potential = calculateLennardJonesPotential( i * horizontalIndexMultiplier );
+            double yPos = ((m_graphHeight / 2) - (potential * m_verticalScalingFactor));
             System.out.println("yPos = " + yPos);
             if ((yPos > 0) && (yPos < m_graphHeight)){
                 potentialEnergyLineShape.lineTo( (float)i, (float)(yPos) );

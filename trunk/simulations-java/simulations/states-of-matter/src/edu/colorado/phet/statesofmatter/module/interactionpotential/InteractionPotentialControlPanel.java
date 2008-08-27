@@ -29,6 +29,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ILayoutStr
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.model.DualParticleModel;
@@ -197,7 +198,6 @@ public class InteractionPotentialControlPanel extends ControlPanel {
     private class AtomDiameterControlPanel extends JPanel {
         
         private final Font LABEL_FONT = new PhetFont( Font.BOLD, 14 );
-        private final double MAX_ATOM_DIAMETER = 500; // In picometers.  Arbitrary values, tweak as needed.
 
         private LinearValueControl m_atomDiameterControl;
         
@@ -221,7 +221,8 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             setBorder( titledBorder );
             
             // Add the control slider.
-            m_atomDiameterControl = new LinearValueControl( 0, MAX_ATOM_DIAMETER, "", "0", "", new SliderLayoutStrategy() );
+            m_atomDiameterControl = new LinearValueControl( StatesOfMatterConstants.MIN_SIGMA,
+                    StatesOfMatterConstants.MAX_SIGMA, "", "0", "", new SliderLayoutStrategy() );
             m_atomDiameterControl.setValue( m_model.getSigma() );
             m_atomDiameterControl.setUpDownArrowDelta( 0.01 );
             m_atomDiameterControl.addChangeListener( new ChangeListener() {
@@ -258,7 +259,6 @@ public class InteractionPotentialControlPanel extends ControlPanel {
     private class InteractionStrengthControlPanel extends JPanel {
         
         private final Font LABEL_FONT = new PhetFont( Font.BOLD, 14 );
-        private final double MAX_FIELD_STRENGTH = 400; // JPB TBD - Total guess, tweak as needed.
 
         private LinearValueControl m_interactionStrengthControl;
         
@@ -283,7 +283,8 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             setBorder( titledBorder );
             
             // Add the control slider.
-            m_interactionStrengthControl = new LinearValueControl( 0, MAX_FIELD_STRENGTH, "", "0", "", new SliderLayoutStrategy() );
+            m_interactionStrengthControl = new LinearValueControl( StatesOfMatterConstants.MIN_EPSILON,
+                    StatesOfMatterConstants.MAX_EPSILON, "", "0", "", new SliderLayoutStrategy() );
             m_interactionStrengthControl.setValue( m_model.getEpsilon() );
             m_interactionStrengthControl.setUpDownArrowDelta( 0.01 );
             m_interactionStrengthControl.addChangeListener( new ChangeListener() {
