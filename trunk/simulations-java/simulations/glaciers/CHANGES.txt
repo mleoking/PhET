@@ -5,7 +5,7 @@ Change history for glaciers
 HIGHEST PRIORITY:
 
 HIGH PRIORITY:
-- bug: snowfall visualization doesn't draw properly on PowerPC Mac OS 10.4 (clipping path bug?)
+- bug: snowfall visualization doesn't draw properly on PowerPC Mac OS 10.4, rewrite to create atmosphere path directly
 - bug: loading full-size background image causes OutOfMemoryException, exceeds JVM heap space
 
 MEDIUM PRIORITY:
