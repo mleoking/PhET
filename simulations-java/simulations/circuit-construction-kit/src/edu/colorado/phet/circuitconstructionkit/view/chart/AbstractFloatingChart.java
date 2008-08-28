@@ -4,12 +4,17 @@ package edu.colorado.phet.circuitconstructionkit.view.chart;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.Ellipse2D.Double;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.*;
+
+import org.jfree.data.Range;
 
 import edu.colorado.phet.circuitconstructionkit.CCKStrings;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -21,6 +26,9 @@ import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.event.PInputEventListener;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -39,15 +47,29 @@ public abstract class AbstractFloatingChart extends PhetPNode {
     private PSwing closeButtonPSwing;
     private JButton closeButton;
     private ClockAdapter clockListener;
+    private PNode zoomControl;
 
     public AbstractFloatingChart( PSwingCanvas pSwingCanvas, String title, IClock clock ) {
         this.clock = clock;
         textReadout = new TextReadout();
         stripChartJFCNode = new StripChartJFCNode( 200, 150, CCKStrings.getString( "time.sec" ), title );
         stripChartJFCNode.setDomainRange( 0, 5 );
+        
+        zoomControl = new PPath(new Rectangle2D.Double(0, 0, 15, 15));
+        zoomControl.setPaint( Color.RED );
+        zoomControl.addInputEventListener( new PBasicInputEventHandler(){
+            
+            public void mousePressed(PInputEvent event) {
+                Range stripChartRange = stripChartJFCNode.getVerticalRange(); 
+                stripChartJFCNode.setVerticalRange( stripChartRange.getLowerBound() * 1.2, stripChartRange.getUpperBound() * 1.2 );
+                
+            }
+        });
+        
 
         addChild( textReadout );
         addChild( stripChartJFCNode );
+        stripChartJFCNode.addChild( zoomControl );
 
         CursorHandler cursorHandler = new CursorHandler( Cursor.HAND_CURSOR );
         addInputEventListener( cursorHandler );
