@@ -1,0 +1,44 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: August 21-27, 2008 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  translation-utility:
+  - look for project name in project.properties file, if not found use discovery algorithm
+  - added support for common strings
+  - created project for common-strings, reused sim build-and-deploy process
+  - updated web page
+  - published 1.00 and notified PhET team
+  
+  glaciers:
+  - meet with Archie to review selected issues on "to do" list, summarize for Wendy
+  - new background image from Archie, consistent valley width
+  - published 1.00.01 
+  
+  states-of-matter:
+  - Mac testing for John
+  - performance profiling on Mac, appears to spending majority of time in model
+  - isolated problem with Heat Control slider on Mac OS 10.5, identified workaround
+  - isolated problem with thermometer on Mac OS 10.4, no current workaround
+  - summarized results for John
+  
+WHAT'S NEXT:
+    
+  - continue work on glaciers, see:
+    http://phet.svn.sourceforge.net/viewvc/phet/trunk/simulations-java/simulations/glaciers/CHANGES.txt?view=markup
+ 
+  - start on acids-and-bases sim
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+  September 11,12,15 (Thu,Fri,Mon)
+  September 19-22 (Fri-Mon)
+  October 20-24 (tentative)
+  
+--
