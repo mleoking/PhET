@@ -4,9 +4,6 @@ package edu.colorado.phet.circuitconstructionkit.view.chart;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Ellipse2D.Double;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
@@ -26,9 +23,6 @@ import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.event.PInputEventListener;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -47,29 +41,18 @@ public abstract class AbstractFloatingChart extends PhetPNode {
     private PSwing closeButtonPSwing;
     private JButton closeButton;
     private ClockAdapter clockListener;
-    private PNode zoomControl;
+    private ChartZoomControl chartZoomControl;
 
     public AbstractFloatingChart( PSwingCanvas pSwingCanvas, String title, IClock clock ) {
         this.clock = clock;
         textReadout = new TextReadout();
         stripChartJFCNode = new StripChartJFCNode( 200, 150, CCKStrings.getString( "time.sec" ), title );
         stripChartJFCNode.setDomainRange( 0, 5 );
-        
-        zoomControl = new PPath(new Rectangle2D.Double(0, 0, 15, 15));
-        zoomControl.setPaint( Color.RED );
-        zoomControl.addInputEventListener( new PBasicInputEventHandler(){
-            
-            public void mousePressed(PInputEvent event) {
-                Range stripChartRange = stripChartJFCNode.getVerticalRange(); 
-                stripChartJFCNode.setVerticalRange( stripChartRange.getLowerBound() * 1.2, stripChartRange.getUpperBound() * 1.2 );
-                
-            }
-        });
-        
 
         addChild( textReadout );
         addChild( stripChartJFCNode );
-        stripChartJFCNode.addChild( zoomControl );
+        chartZoomControl = new ChartZoomControl( this );
+        addChild( chartZoomControl );
 
         CursorHandler cursorHandler = new CursorHandler( Cursor.HAND_CURSOR );
         addInputEventListener( cursorHandler );
@@ -94,10 +77,10 @@ public abstract class AbstractFloatingChart extends PhetPNode {
             closeButtonPSwing = new PSwing( closeButton );
             PropertyChangeListener listener = new PropertyChangeListener() {
                 public void propertyChange( PropertyChangeEvent evt ) {
-                    updateCloseButtonLocation();
+                    updateButtonLocations();
                 }
             };
-            updateCloseButtonLocation();
+            updateButtonLocations();
             stripChartJFCNode.addPropertyChangeListener( PNode.PROPERTY_BOUNDS, listener );
             stripChartJFCNode.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, listener );
             addChild( closeButtonPSwing );
@@ -109,6 +92,19 @@ public abstract class AbstractFloatingChart extends PhetPNode {
 
     public IClock getClock() {
         return clock;
+    }
+
+    public void zoomOut() {
+        zoom( 1.2 );
+    }
+
+    private void zoom( double v ) {
+        Range range = stripChartJFCNode.getVerticalRange();
+        stripChartJFCNode.setVerticalRange( range.getLowerBound() * v, range.getUpperBound() * v );
+    }
+
+    public void zoomIn() {
+        zoom( 0.8 );
     }
 
     public static interface ValueReader {
@@ -137,8 +133,11 @@ public abstract class AbstractFloatingChart extends PhetPNode {
         }
     }
 
-    private void updateCloseButtonLocation() {
-        closeButtonPSwing.setOffset( stripChartJFCNode.getFullBounds().getOrigin().getX(), stripChartJFCNode.getFullBounds().getOrigin().getY() - closeButtonPSwing.getFullBounds().getHeight() );
+    private void updateButtonLocations() {
+//        closeButtonPSwing.setOffset( stripChartJFCNode.getFullBounds().getOrigin().getX(), stripChartJFCNode.getFullBounds().getOrigin().getY() - closeButtonPSwing.getFullBounds().getHeight() );
+        closeButtonPSwing.setOffset( stripChartJFCNode.getFullBounds().getMaxX()-closeButtonPSwing.getFullBounds().getWidth(), 
+                                     stripChartJFCNode.getFullBounds().getOrigin().getY() - closeButtonPSwing.getFullBounds().getHeight() );
+        chartZoomControl.setOffset( stripChartJFCNode.getFullBounds().getOrigin().getX() , stripChartJFCNode.getFullBounds().getOrigin().getY() - chartZoomControl.getFullBounds().getHeight() );
     }
 
     public StripChartJFCNode getStripChartJFCNode() {

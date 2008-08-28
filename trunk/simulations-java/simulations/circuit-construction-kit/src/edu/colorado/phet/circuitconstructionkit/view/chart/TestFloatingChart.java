@@ -32,7 +32,7 @@ public class TestFloatingChart {
                 return v;
             }
         }, clock, null );//todo can't test without CCKSImulationpanel now
-        floatingChart.setOffset( 100, 100 );
+        floatingChart.setOffset( 300, 200 );
         contentPane.getLayer().addChild( floatingChart );
         contentPane.setPanEventHandler( null );
         frame.setContentPane( contentPane );
