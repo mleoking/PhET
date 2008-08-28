@@ -7,7 +7,6 @@ HIGHEST PRIORITY:
 HIGH PRIORITY:
 - bug: snowfall visualization doesn't draw properly on PowerPC Mac OS 10.4 (clipping path bug?)
 - bug: loading full-size background image causes OutOfMemoryException, exceeds JVM heap space
-- bug: valley model for x<0 does not match background image (I'll doctor this up with a Java2D Shape)
 
 MEDIUM PRIORITY:
 - glacier growth from zero length still takes a long time, and then speeds up
