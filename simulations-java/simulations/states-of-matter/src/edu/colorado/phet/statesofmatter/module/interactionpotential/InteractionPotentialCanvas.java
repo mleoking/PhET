@@ -14,6 +14,7 @@ import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.colorado.phet.statesofmatter.module.phasechanges.InteractionPotentialDiagramNode;
 import edu.colorado.phet.statesofmatter.view.GrabbableParticleNode;
 import edu.colorado.phet.statesofmatter.view.ModelViewTransform;
+import edu.colorado.phet.statesofmatter.view.ParticleForceNode;
 import edu.colorado.phet.statesofmatter.view.ParticleNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -50,7 +51,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     private ModelViewTransform m_mvt;
     private StatesOfMatterAtom m_fixedParticle;
     private StatesOfMatterAtom m_movableParticle;
-    private ParticleNode m_fixedParticleNode;
+    private ParticleForceNode m_fixedParticleNode;
     private GrabbableParticleNode m_movableParticleNode;
     private InteractionPotentialDiagramNode m_diagram;
     private StatesOfMatterAtom.Listener m_atomListener;
@@ -125,13 +126,24 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     }
     
     //----------------------------------------------------------------------------
+    // Public Methods
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Turn on/off the displaying of force arrows by the particles.
+     */
+    public void setShowForces( boolean showForces ){
+        m_movableParticleNode.setShowForces( showForces );
+        m_fixedParticleNode.setShowForces( showForces );
+    }
+    //----------------------------------------------------------------------------
     // Private Methods
     //----------------------------------------------------------------------------
     
     private void handleFixedParticleAdded(StatesOfMatterAtom particle){
         // Add an atom node for this guy.
         m_fixedParticle = particle;
-        m_fixedParticleNode = new ParticleNode(particle, m_mvt, m_useGradient);
+        m_fixedParticleNode = new ParticleForceNode(particle, m_mvt, m_useGradient);
         addWorldChild( m_fixedParticleNode );
         particle.addListener( m_atomListener );
         updatePositionMarkerOnDiagram();
