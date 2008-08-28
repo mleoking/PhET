@@ -76,6 +76,7 @@ CLEANUP:
 
 
 DONE:
+8/28/08 - make "glacier length vs time" graph a strip chart that keeps 1000 years worth of data
 8/28/08 - draw valley floor for x<0 using Java 2D, to clean up snow/valley interface
 ******* 1.00.01 (23914)
 8/26/08 - tweak MountainsAndValleyNode alignment to match new background image
