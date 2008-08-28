@@ -221,7 +221,7 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         _backgroundLayer.addChild( mountainsAndValleyNode );
         
         // workaround to clean up valley floor for x<0
-        PNode valleyFloorWorkaroundNode = new ValleyFloorWorkaroundNode( _mvt );
+        PNode valleyFloorWorkaroundNode = new ValleyFloorWorkaroundNode( _model.getValley(), _mvt );
         _backgroundLayer.addChild( valleyFloorWorkaroundNode );
         
         /*
