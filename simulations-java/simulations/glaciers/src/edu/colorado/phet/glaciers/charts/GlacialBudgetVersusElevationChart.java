@@ -129,7 +129,6 @@ public class GlacialBudgetVersusElevationChart extends JDialog {
     }
     
     private void cleanup() {
-        System.out.println( "GlacialBudgetVersusElevationChart.cleanup" );//XXX
         _climate.removeClimateListener( _climateListener );
     }
     
