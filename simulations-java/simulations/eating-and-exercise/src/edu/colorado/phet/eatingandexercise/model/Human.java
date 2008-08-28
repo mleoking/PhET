@@ -135,7 +135,7 @@ public class Human {
         setFatMassPercent( ( 100 - DEFAULT_VALUE.getFatFreeMassPercent() ) );
 
 
-        setActivityLevel( Activity.DEFAULT_ACTIVITY_LEVELS[2] );
+        setActivityLevel( Activity.DEFAULT_ACTIVITY_LEVELS[1] );
         Diet initialDiet = EatingAndExerciseModel.BALANCED_DIET;
         foodItems.clear();
         exerciseItems.clear();
@@ -459,7 +459,8 @@ public class Human {
         double averageExercise = exercise.estimateAverage( getAge() - EatingAndExerciseUnits.daysToSeconds( 30 ), getAge() );
 //        System.out.println( "averageExercise = " + averageExercise );
         double averageActivity = activity.estimateAverage( getAge() - EatingAndExerciseUnits.daysToSeconds( 30 ), getAge() );
-        double activityToCount = Math.max( ( averageActivity - 100 ) * 0.75, 0 );
+        //double activityToCount = Math.max( ( averageActivity - 100 ) * 0.75, 0 );
+        double activityToCount = Math.max(averageActivity, 0 );
 //        System.out.println( "avgExercise=" + averageExercise + ", averageActivity=" + averageActivity + ", counting activity: " + activityToCount );
 
         double caloriesToConsiderForHeartStrength = averageExercise + activityToCount;
@@ -693,8 +694,8 @@ public class Human {
     }
 
     public static class Gender {
-        public static Gender MALE = new Gender( EatingAndExerciseResources.getString( "gender.male" ).toLowerCase(), 0, 100, 2, 25, 1.15, 4, 30, 4, 6, 25, 4.0, 1/4.0 );
-        public static Gender FEMALE = new Gender( EatingAndExerciseResources.getString( "gender.female" ).toLowerCase(), 0, 100, 4, 32, 1.22, 6, 26, 9, 16, 31, 2.25, 1/2.25 );
+        public static Gender MALE = new Gender( EatingAndExerciseResources.getString( "gender.male" ).toLowerCase(), 0, 100, 4, 25, 1.15, 4, 30, 4, 6, 25, 4.0, 1/4.0 );
+        public static Gender FEMALE = new Gender( EatingAndExerciseResources.getString( "gender.female" ).toLowerCase(), 0, 100, 8, 32, 1.22, 6, 26, 9, 16, 31, 2.25, 1/2.25 );
         private String name;
         private double minFatMassPercent;
         private double maxFatMassPercent;
