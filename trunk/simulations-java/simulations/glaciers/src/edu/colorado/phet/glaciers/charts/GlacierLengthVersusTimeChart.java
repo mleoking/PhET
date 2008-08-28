@@ -13,6 +13,7 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.NumberTickUnit;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.Range;
@@ -35,12 +36,14 @@ import edu.colorado.phet.glaciers.model.GlaciersClock;
 public class GlacierLengthVersusTimeChart extends JDialog {
     
     private static final Range LENGTH_RANGE = new Range( 0, 80E3 ); // meters
-    private static final Range TIME_RANGE = new Range( 0, 10E3 ); //XXX years
+    private static final double Y_AXIS_TICK_SPACING = 10000; // meters
+    private static final int MAX_NUMBER_OF_YEARS = 1000;
     
     private final Glacier _glacier;
     private final GlaciersClock _clock;
     private final ClockListener _clockListener;
     private final XYSeries _series;
+    private final NumberAxis _domainAxis;
     
     public GlacierLengthVersusTimeChart( Frame owner, Dimension size, Glacier glacier, GlaciersClock clock ) {
         super( owner );
@@ -63,6 +66,7 @@ public class GlacierLengthVersusTimeChart extends JDialog {
         
         // series and dataset
         _series = new XYSeries( "glacierLengthVersusTime", false /* autoSort */ );
+        _series.setMaximumItemCount( MAX_NUMBER_OF_YEARS );
         XYSeriesCollection dataset = new XYSeriesCollection();
         dataset.addSeries( _series );
         
@@ -80,13 +84,12 @@ public class GlacierLengthVersusTimeChart extends JDialog {
         
         XYPlot plot = (XYPlot) chart.getPlot();
         
-        NumberAxis domainAxis = (NumberAxis) plot.getDomainAxis();
-        domainAxis.setStandardTickUnits( NumberAxis.createIntegerTickUnits() );
-        domainAxis.setRange( TIME_RANGE );//XXX time axis will 
+        _domainAxis = (NumberAxis) plot.getDomainAxis();
+        _domainAxis.setStandardTickUnits( NumberAxis.createIntegerTickUnits() );
         
         NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
-        rangeAxis.setStandardTickUnits( NumberAxis.createIntegerTickUnits() );
         rangeAxis.setRange( LENGTH_RANGE );
+        rangeAxis.setTickUnit( new NumberTickUnit( Y_AXIS_TICK_SPACING ) );
         
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setMouseZoomable( false );
@@ -107,7 +110,6 @@ public class GlacierLengthVersusTimeChart extends JDialog {
     }
     
     private void cleanup() {
-        System.out.println( "GlacierLengthVersusTimeChart.cleanup" );//XXX
         _clock.removeClockListener( _clockListener );
     }
     
@@ -116,7 +118,10 @@ public class GlacierLengthVersusTimeChart extends JDialog {
     }
     
     private void update() {
-        double t = _clock.getSimulationTime();
-        //XXX add a data point every time the glacier's length changes
+        final double t = _clock.getSimulationTime();
+        final double length = _glacier.getLength();
+        _series.add( t, length );
+        double tMin = _series.getDataItem( 0 ).getX().doubleValue();
+        _domainAxis.setRange( new Range( tMin, tMin + MAX_NUMBER_OF_YEARS ) );
     }
 }
