@@ -71,9 +71,9 @@ public class NuclearReactorControlsSubPanel extends VerticalLayoutPanel {
         // Add the check box for the energy graphs.
         _energyGraphsCheckBox = new JCheckBox( NuclearPhysicsStrings.ENERGY_GRAPHS_CHECK_BOX );
         _energyGraphsCheckBox.setSelected( true );
-        _energyGraphsCheckBox.addChangeListener( new ChangeListener() {
+        _energyGraphsCheckBox.addActionListener( new ActionListener() {
             
-            public void stateChanged( ChangeEvent e ) {
+            public void actionPerformed( ActionEvent e) {
                 notifyParameterChanged();
             }
         } );
