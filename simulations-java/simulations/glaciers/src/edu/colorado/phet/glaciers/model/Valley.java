@@ -205,10 +205,6 @@ public class Valley {
     // Utilities
     //----------------------------------------------------------------------------
     
-    public static Point2D[] getNegativeXSamplePoints() {
-        return NEGATIVE_X_SAMPLE_POINTS;
-    }
-    
     /**
      * Creates a path (in view coordinates) that approximates the valley floor, from left to right.
      * 

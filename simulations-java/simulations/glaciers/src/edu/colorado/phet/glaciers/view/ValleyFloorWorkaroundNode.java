@@ -20,15 +20,19 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class ValleyFloorWorkaroundNode extends PPath {
 
-    public ValleyFloorWorkaroundNode( ModelViewTransform mvt ) {
-        
-        Point2D[] samplePoints = Valley.getNegativeXSamplePoints();
+    public static final double MIN_X = -4500;
+    
+    public ValleyFloorWorkaroundNode( Valley valley, ModelViewTransform mvt ) {
         
         GeneralPath path = new GeneralPath();
+        Point2D pModel = new Point2D.Double();
         Point2D pView = new Point2D.Double();
-        for ( int i = 0; i < samplePoints.length; i++ ) {
-            mvt.modelToView( samplePoints[i], pView );
-            if ( i == 0 ) {
+        final double dx = IceNode.getDx();
+        for ( double x = 0; x >= MIN_X; x -= dx ) {
+            double elevation = valley.getElevation( x );
+            pModel.setLocation( x, elevation );
+            mvt.modelToView( pModel, pView );
+            if ( x == 0 ) {
                 path.moveTo( (float)pView.getX(), (float)pView.getY() );
             }
             else {
