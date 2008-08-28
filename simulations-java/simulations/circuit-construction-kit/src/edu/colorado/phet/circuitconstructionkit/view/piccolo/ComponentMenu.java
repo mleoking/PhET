@@ -411,8 +411,8 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
         }
 
         private ComponentEditor createFrequencyEditor( final ACVoltageSource acVoltageSource ) {
-            return new ComponentEditor( getModule(), "AC Frequency", acVoltageSource, getModule().getSimulationPanel(),
-                                        "Frequency", "Hz", 0, 10, acVoltageSource.getFrequency() * 100.0, getModule().getCircuit() ) {
+            return new ComponentEditor( getModule(), CCKResources.getString( "ComponentEditor.ACFrequency" ), acVoltageSource, getModule().getSimulationPanel(),
+                                        CCKResources.getString( "ComponentEditor.Frequency" ), CCKResources.getString( "ComponentEditor.Hz" ), 0, 5, acVoltageSource.getFrequency() * 100.0, getModule().getCircuit() ) {
                 protected void doChange( double value ) {
                     acVoltageSource.setFrequency( value / 100.0 );
                 }
