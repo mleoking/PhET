@@ -220,6 +220,10 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         PNode mountainsAndValleyNode = new MountainsAndValleyNode( _model.getValley(), _mvt );
         _backgroundLayer.addChild( mountainsAndValleyNode );
         
+        // workaround to clean up valley floor for x<0
+        PNode valleyFloorWorkaroundNode = new ValleyFloorWorkaroundNode( _mvt );
+        _backgroundLayer.addChild( valleyFloorWorkaroundNode );
+        
         /*
          * The background image contains alignment markers at a few (x,F(x)) locations.
          * The alignment markers created here should line up with the ones in the image file.

@@ -51,27 +51,19 @@ public class Valley {
      * We don't have a model that matches the background image for x<0.
      * This set of points was chosen manually to roughly match the background image.
      * For x<0, we'll calculate elevation as a linear interpolation between these points.
-     * These points are ordered by decreasing x value.
+     * These points are ordered by decreasing x value, and are in model coordinates (meters).
      */
     private static final Point2D[] NEGATIVE_X_SAMPLE_POINTS = {
-        new Point2D.Double( -41, 4561 ),
+        new Point2D.Double( -52, 4561 ),
         new Point2D.Double( -642, 4676 ),
-        new Point2D.Double( -948, 4701 ),
         new Point2D.Double( -1094, 4716 ),
-        new Point2D.Double( -1868, 4876 ),
-        new Point2D.Double( -2077, 4746 ),
-        new Point2D.Double( -2271, 4666 ),
-        new Point2D.Double( -2787, 4566 ),
+        new Point2D.Double( -1884, 4886 ),
+        new Point2D.Double( -2082, 4756 ),
+        new Point2D.Double( -2787, 4576 ),
         new Point2D.Double( -3110, 4606 ),
         new Point2D.Double( -3255, 4566 ),
-        new Point2D.Double( -3461, 4561 ),
-        new Point2D.Double( -3513, 4561 ),
-        new Point2D.Double( -3690, 4571 ),
-        new Point2D.Double( -3803, 4546 ),
-        new Point2D.Double( -3932, 4501 ),
-        new Point2D.Double( -4029, 4441 ),
-        new Point2D.Double( -4255, 4396 ),
-        new Point2D.Double( -4416, 4346 )
+        new Point2D.Double( -3690, 4621 ),
+        new Point2D.Double( -4476, 4346 )
     };
     
     //----------------------------------------------------------------------------
@@ -212,6 +204,10 @@ public class Valley {
     //----------------------------------------------------------------------------
     // Utilities
     //----------------------------------------------------------------------------
+    
+    public static Point2D[] getNegativeXSamplePoints() {
+        return NEGATIVE_X_SAMPLE_POINTS;
+    }
     
     /**
      * Creates a path (in view coordinates) that approximates the valley floor, from left to right.
