@@ -77,6 +77,7 @@ CLEANUP:
 
 
 DONE:
+8/28/08 - draw valley floor for x<0 using Java 2D, to clean up snow/valley interface
 ******* 1.00.01 (23914)
 8/26/08 - tweak MountainsAndValleyNode alignment to match new background image
 8/26/08 - fix: valley is narrower near headwall in background image (new image file, still not exact, but close enough)
