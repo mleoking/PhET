@@ -6,24 +6,26 @@ HIGHEST PRIORITY:
 
 HIGH PRIORITY:
 - bug: snowfall visualization doesn't draw properly on PowerPC Mac OS 10.4, rewrite to create atmosphere path directly
-- bug: loading full-size background image causes OutOfMemoryException, exceeds JVM heap space
+- bug: loading full-size background image causes OutOfMemoryException, exceeds JVM heap space [crop svg, talk with Archie]
+- birds-eye view should half the slope of zoomed view so that 80km is at far right
+- sky above snow in zoomed view on large monitors
 
 MEDIUM PRIORITY:
-- glacier growth from zero length still takes a long time, and then speeds up
-- replace "glacier picture" check box with a button
-- switch user-interface between English and metric units
-- climate experiments interface (start with a time estimate)
-- Experiments module
-- behavior of budget meter (snap-to-ice) is hard to discover and potentially misleading
-- "steady state" feature needs to advance clock to the time at which the glacier would reach its steady state
-- "steady state" feature needs to fill in missing data in time-dependent graphs
-- "steady state" feature needs to fill glacier with debris and surface ripples (and create moraine?)
-- always collect data for time-based graphs, keep "latest" & "historical" data points, compress historical, limit historical size
-- add zoom in/out button for time-based graphs; show scrolling "latest" data or complete "historical"
-- implement Save/Load feature
-- make sure everything works properly when clock is paused
-- should "Glacial Budget vs Elevation" chart show negative ablation?
-- do we want to show values or relative ranges (temperature=cold-to-hot,snowfall=none-to-lots) for climate controls?
+- glacier growth from zero length still takes a long time, and then speeds up [Archie will fix model]
+- replace "glacier picture" check box with a button [to left of clock controls, "Real glacier", does nothing if pushed again]
+- switch user-interface between English and metric units [yes]
+- climate experiments interface (start with a time estimate) [on hold]
+- Experiments module [on hold]
+- behavior of budget meter (snap-to-ice) is hard to discover and potentially misleading [defer for interviews]
+- "steady state" feature needs to advance clock to the time at which the glacier would reach its steady state [defer]
+- "steady state" feature needs to fill in missing data in time-dependent graphs [defer]
+- "steady state" feature needs to fill glacier with debris and surface ripples (and create moraine?) [try to do this]
+- always collect data for time-based graphs, keep "latest" & "historical" data points, compress historical, limit historical size [defer]
+- add zoom in/out button for time-based graphs; show scrolling "latest" data or complete "historical" [defer]
+- implement Save/Load feature [yes]
+- make sure everything works properly when clock is paused [yes]
+- should "Glacial Budget vs Elevation" chart show negative ablation? [change to +, add dashed green line for -]
+- do we want to show values or relative ranges (temperature=cold-to-hot,snowfall=none-to-lots) for climate controls? [defer for interviews]
 
 LOW PRIORITY:
 - remove registration points from background image in any versions published to PhET website
@@ -31,17 +33,14 @@ LOW PRIORITY:
 - YAW_X_OFFSET should be computed as a function of YAW_ROTATION and PITCH_Y_OFFSET
 - add headwallX to new ice thickness model in model.txt, which assumes headwallX=0
 - move steady state button to play area?
-- more "cartoonish" view for Basic panel?
 - bug: right edge of ice thickness tool icon is clipped (see Unfuddle #558)
 - bug: creating a tool and dragging it straight to the trash doesn't work because we're in the middle of an event sequence
 - make sure we don't see sky where it's not supposed to be when main frame is resized to extremes
 - confirm that titles and axes on graphs are as desired
 - fix layout problems with main control panel
 - improve smoothness of DistanceAxisNode (x-axis for coordinates feature)
-- make zoomed viewport follow terminus (defer until we decide whether this is really needed)
 - bug: ticks & labels on sliders should be white, code to set their color is not working (Mac OS 10.4 only?)
 - add rounded borders to control sub-panels
-- add rocks falling off mountains onto glacier surface?
 - add assets/LICENSE.txt
 - Spanish translation
 - Help
@@ -699,6 +698,9 @@ DONE:
 9/27/07 - set up simulation skeleton, check in to SVN
 
 REJECTED:
+8/28/08 - make zoomed viewport follow terminus (defer until we decide whether this is really needed)
+8/28/08 - add rocks falling off mountains onto glacier surface?
+8/28/08 - more "cartoonish" view for Basic panel?
 7/22/08 - constrain tools to dragging in birds-eye bounds (no, too much work, tools are cheap)
 7/22/08 - cleanup duplicate boilerplate code in ToolboxNode constructor (OK as is, very readable)
 7/22/08 - refactor model listener class hierarchy (too destabilizing, not clear that it would result in a better design)
