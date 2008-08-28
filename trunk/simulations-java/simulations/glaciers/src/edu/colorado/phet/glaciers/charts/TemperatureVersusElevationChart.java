@@ -100,7 +100,6 @@ public class TemperatureVersusElevationChart extends JDialog {
     }
     
     private void cleanup() {
-        System.out.println( "TemperatureVersusElevationChart.cleanup" );
         _climate.removeClimateListener( _climateListener );
     }
     
