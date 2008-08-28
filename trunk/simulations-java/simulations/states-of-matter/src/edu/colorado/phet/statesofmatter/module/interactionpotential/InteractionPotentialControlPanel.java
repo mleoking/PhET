@@ -58,6 +58,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
     private MoleculeSelectionPanel m_moleculeSelectionPanel;
     private AtomDiameterControlPanel m_atomDiameterControlPanel;
     private InteractionStrengthControlPanel m_interactionStrengthControlPanel;
+    private JCheckBox m_showForcesCheckbox;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -92,11 +93,19 @@ public class InteractionPotentialControlPanel extends ControlPanel {
         
         // Add the check box for showing/hiding the force arrows.
         addVerticalSpace( 10 );
-        JCheckBox showForcesCheckbox = new JCheckBox();
-        showForcesCheckbox.setFont( LABEL_FONT );
-        showForcesCheckbox.setText( StatesOfMatterStrings.SHOW_FORCES );
-        addControl( showForcesCheckbox );
+        m_showForcesCheckbox = new JCheckBox();
+        m_showForcesCheckbox.setFont( LABEL_FONT );
+        m_showForcesCheckbox.setText( StatesOfMatterStrings.SHOW_FORCES );
+        m_showForcesCheckbox.setSelected( false );
+        addControl( m_showForcesCheckbox );
         
+        // Add the handler for the force control check box.
+        m_showForcesCheckbox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                m_canvas.setShowForces( m_showForcesCheckbox.isSelected() );
+            }
+        } );
+
         // Add the Reset All button.
         addVerticalSpace( 10 );
         addResetAllButton( solidLiquidGasModule );

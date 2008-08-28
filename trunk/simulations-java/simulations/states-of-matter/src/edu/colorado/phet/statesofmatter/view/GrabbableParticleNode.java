@@ -18,7 +18,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author John Blanco
  */
-public class GrabbableParticleNode extends ParticleNode {
+public class GrabbableParticleNode extends ParticleForceNode {
 
     //----------------------------------------------------------------------------
     // Class Data
