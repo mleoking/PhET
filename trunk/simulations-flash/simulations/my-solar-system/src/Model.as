@@ -385,13 +385,13 @@
 	function stepForwardVelocityVerlet():Void{
 		this.steppingForward = true;
 		var dt:Number = this.timeStep;
-		
+		this.time += dt;
 		for(var i:Number = 0; i < this.N; i++){
 			var pos:Vector = this.bodies[i].pos;
 			var vel:Vector = this.bodies[i].vel;
 			var acc:Vector = this.bodies[i].acc;
 			var accCopy:Vector = acc.duplicateVector();
-			this.time += dt;
+			//this.time += dt;
 			pos.x = pos.x + vel.x*dt + (0.5)*acc.x*dt*dt;
 			pos.y = pos.y + vel.y*dt + (0.5)*acc.y*dt*dt;
 			this.bodies[i].preAcc = accCopy;
