@@ -9,10 +9,10 @@ package edu.colorado.phet.statesofmatter.model.particle;
  */
 public class NeonAtom extends StatesOfMatterAtom {
     
-    public static final double RADIUS = 154;
-    private static final double MASS = 1.0; // TODO: JPB TBD - This is not currently used, clean up eventually.
+    public static final double RADIUS = 154;    // In picometers.
+    private static final double MASS = 20.1797; // In atomic mass units.
     private static final double SIGMA = 308;    // In picometers.
-    private static final double EPSILON = 65;  // epsilon/k-boltzman is in Kelvin.
+    private static final double EPSILON = 65;   // epsilon/k-Boltzmann is in Kelvin.
 
     
     public NeonAtom(double xPos, double yPos){

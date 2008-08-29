@@ -47,7 +47,7 @@ public class ParticleForceNode extends ParticleNode {
         
         m_showForces = false;
         
-        m_forceVectorNode = new Vector2DNode(0, 0, 1000, 1000);
+        m_forceVectorNode = new Vector2DNode(0, 0, FORCE_ARROW_MAX_LENGTH, FORCE_ARROW_MAX_LENGTH);
         m_forceVectorNode.setMagnitudeAngle( 500, 0 );
         addChild(m_forceVectorNode);
         m_forceVectorNode.setArrowFillPaint( Color.YELLOW );
