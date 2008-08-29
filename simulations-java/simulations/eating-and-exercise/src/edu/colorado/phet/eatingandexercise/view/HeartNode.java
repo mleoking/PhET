@@ -51,7 +51,7 @@ public class HeartNode extends PImage {
         DoubleGeneralPath smile = new DoubleGeneralPath();
         double smileInsetScaleX = 0.3;
         double smileYFrac = 0.6;
-        double happiness = new Function.LinearFunction( 0, 1, -0.5, 1 ).evaluate( human.getHeartHealth() );
+        double happiness = new Function.LinearFunction( 0, 1, -3, 1 ).evaluate( human.getHeartHealth() );
         happiness = MathUtil.clamp( -0.5, happiness, 1 );
 //        System.out.println( "human.getHeartHealth(); = " + human.getHeartHealth() + ", happiness=" + happiness );
         double controlPointDY = 50 * happiness;

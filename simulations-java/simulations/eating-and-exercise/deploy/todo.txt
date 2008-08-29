@@ -2,8 +2,6 @@
 ###	Todo Sam	####
 ############################
 
--Heart should be more unhappy when heart strength is low (right now it still looks a little happy)
-
 -Muscles should be smaller for thin person. Almost negligible when BMI gets near 18.
 
 -Entering values into text boxes does not affect the value unless you hit the enter key.
