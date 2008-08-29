@@ -6,12 +6,15 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.BevelBorder;
@@ -20,6 +23,7 @@ import javax.swing.border.TitledBorder;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.solublesalts.model.salt.Salt.Component;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
@@ -91,7 +95,7 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
         
         ForceStateChangePanel(){
             
-            setLayout( new GridLayout(3, 3) );
+            setLayout( new BoxLayout(this, BoxLayout.PAGE_AXIS));
             
             BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
             TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
@@ -105,6 +109,7 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
 
             m_solidRadioButton = new JButton( StatesOfMatterStrings.PHASE_STATE_SOLID );
             m_solidRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
+            m_solidRadioButton.setAlignmentX( JComponent.CENTER_ALIGNMENT );
             m_solidRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     m_model.setPhase( MultipleParticleModel.PHASE_SOLID );
@@ -112,6 +117,7 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
             } );
             m_liquidRadioButton = new JButton( StatesOfMatterStrings.PHASE_STATE_LIQUID );
             m_liquidRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
+            m_liquidRadioButton.setAlignmentX( JComponent.CENTER_ALIGNMENT );
             m_liquidRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     m_model.setPhase( MultipleParticleModel.PHASE_LIQUID );
@@ -119,6 +125,7 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
             } );
             m_gasRadioButton = new JButton( StatesOfMatterStrings.PHASE_STATE_GAS );
             m_gasRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
+            m_gasRadioButton.setAlignmentX( JComponent.CENTER_ALIGNMENT );
             m_gasRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     m_model.setPhase( MultipleParticleModel.PHASE_GAS );
