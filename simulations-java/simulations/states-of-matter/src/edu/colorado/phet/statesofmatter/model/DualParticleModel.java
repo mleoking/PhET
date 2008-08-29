@@ -277,10 +277,19 @@ public class DualParticleModel {
         
         double mass = m_movableParticle.getMass() * 1.6605402E-27;  // Convert mass to kilograms.
         double acceleration = m_movableParticleHorizForce / mass;
+        
+        // Update the acceleration, velocity, and position of the movable particle.
         m_movableParticle.setAx( acceleration );
         m_movableParticle.setVx( m_movableParticle.getVx() + (acceleration * TIME_STEP) );
         double xPos = m_movableParticle.getPositionReference().getX() + (m_movableParticle.getVx() * TIME_STEP);
         m_movableParticle.setPosition( xPos, 0 );
+        
+        // Update the acceleration of the fixed particle so that the force
+        // acting on it can be displayed.
+        // TODO JPB TBD - This seems a little odd to me, but I believe that
+        // it is what was specified.  Isn't it likely to confuse people if
+        // they see that a force is acting on the particle but it doesn't move?
+        m_fixedParticle.setAx( -acceleration );
     }
     
     private void notifyFixedParticleAdded(StatesOfMatterAtom particle){
