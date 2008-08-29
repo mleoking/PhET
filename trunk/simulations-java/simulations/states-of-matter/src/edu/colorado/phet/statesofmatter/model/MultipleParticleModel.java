@@ -10,8 +10,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import javax.sound.midi.SysexMessage;
-
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -1424,8 +1422,7 @@ public class MultipleParticleModel {
     /**
      * Set the molecules to be in a liquid state.  This changes the
      * temperature and also instantly places the various molecules into
-     * blobs, i.e. collections of close particles.  This method works for
-     * di- and tri-atomic molecules.
+     * a blob.  This method works for di- and tri-atomic molecules.
      */
     private void liquifyMultiAtomicMolecules(){
         
@@ -1446,22 +1443,14 @@ public class MultipleParticleModel {
             m_moleculeRotationRates[i] = m_rand.nextDouble() * temperatureSqrt * Math.PI * 2;
         }
         
-        // Randomly decide on the number of blobs to create.
-        int numberOfBlobs = m_rand.nextInt( MAX_INITIAL_NUMBER_OF_LIQUID_BLOBS ) + 1;
-
-        // Randomly choose center locations of each of the blobs of liquid.
+        // Assign each atom to a position.
         
-        Point2D[] blobLocations = createLiquidBlobLocations( numberOfBlobs );
-        
-        // Assign each atom to a position centered on its blob.
-        
-        int moleculesPerBlob = (numberOfMolecules / numberOfBlobs) + 1;
         int moleculesPlaced = 0;
         
         // Note: Due to the shape of the molecules, it is difficult if not
         // impossible to come up with an algorithm that works for all 
         // multi-atomic cases, so the following "tweak factor" was introduced.
-        // the values were arrived at empirically.
+        // The values were arrived at empirically.
         double tweakFactor = 1;
         if (m_atomsPerMolecule == 2){
             tweakFactor = 1.2;
@@ -1470,57 +1459,54 @@ public class MultipleParticleModel {
             tweakFactor = 0.9;
         }
         
-        for (int i = 0; i < numberOfBlobs; i++){
+        Point2D centerPoint = new Point2D.Double(m_normalizedContainerWidth / 2, m_normalizedContainerHeight / 4);
+        int currentLayer = 0;
+        int particlesOnCurrentLayer = 0;
+        int particlesThatWillFitOnCurrentLayer = 1;
+        
+        for (int i = 0; i < m_numberOfAtoms / m_atomsPerMolecule; i++){
             
-            Point2D centerPoint = blobLocations[i];
-            int currentLayer = 0;
-            int particlesOnCurrentLayer = 0;
-            int particlesThatWillFitOnCurrentLayer = 1;
-            
-            for (int j = 0; j < moleculesPerBlob && moleculesPlaced < numberOfMolecules; j++){
+            for (int j = 0; j < MAX_PLACEMENT_ATTEMPTS; j++){
                 
-                for (int k = 0; k < MAX_PLACEMENT_ATTEMPTS; k++){
+                double distanceFromCenter = currentLayer * MIN_INITIAL_INTER_PARTICLE_DISTANCE * tweakFactor;
+                double angle = ((double)particlesOnCurrentLayer / (double)particlesThatWillFitOnCurrentLayer * 2 * Math.PI) +
+                        ((double)particlesThatWillFitOnCurrentLayer / (4 * Math.PI));
+                double xPos = centerPoint.getX() + (distanceFromCenter * Math.cos( angle ));
+                double yPos = centerPoint.getY() + (distanceFromCenter * Math.sin( angle ));
+                particlesOnCurrentLayer++;  // Consider this spot used even if we don't actually put the
+                                            // particle there.
+                if (particlesOnCurrentLayer >= particlesThatWillFitOnCurrentLayer){
                     
-                    double distanceFromCenter = currentLayer * MIN_INITIAL_INTER_PARTICLE_DISTANCE * tweakFactor;
-                    double angle = ((double)particlesOnCurrentLayer / (double)particlesThatWillFitOnCurrentLayer * 2 * Math.PI) +
-                            ((double)particlesThatWillFitOnCurrentLayer / (4 * Math.PI));
-                    double xPos = centerPoint.getX() + (distanceFromCenter * Math.cos( angle ));
-                    double yPos = centerPoint.getY() + (distanceFromCenter * Math.sin( angle ));
-                    particlesOnCurrentLayer++;  // Consider this spot used even if we don't actually put the
-                                                // particle there.
-                    if (particlesOnCurrentLayer >= particlesThatWillFitOnCurrentLayer){
-                        
-                        // This layer is full - move to the next one.
-                        currentLayer++;
-                        particlesThatWillFitOnCurrentLayer = 
-                            (int)( currentLayer * 2 * Math.PI / (MIN_INITIAL_INTER_PARTICLE_DISTANCE * tweakFactor) );
-                        particlesOnCurrentLayer = 0;
-                    }
+                    // This layer is full - move to the next one.
+                    currentLayer++;
+                    particlesThatWillFitOnCurrentLayer = 
+                        (int)( currentLayer * 2 * Math.PI / (MIN_INITIAL_INTER_PARTICLE_DISTANCE * tweakFactor) );
+                    particlesOnCurrentLayer = 0;
+                }
 
-                    // Check if the position is too close to the wall.  Note
-                    // that we don't check inter-particle distances with other
-                    // blobs here - we rely on the initial spacing of the
-                    // centers to be big enough that this is not needed.
-                    if ((xPos > MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE) &&
-                        (xPos < m_normalizedContainerWidth - MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE) &&
-                        (yPos > MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE) &&
-                        (xPos < m_normalizedContainerHeight - MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE)){
-                        
-                        // This is an acceptable position.
-                        m_moleculeCenterOfMassPositions[moleculesPlaced].setLocation( xPos, yPos );
-                        m_moleculeRotationAngles[moleculesPlaced] = angle + Math.PI / 2;
-                        moleculesPlaced++;
-                        break;
-                    }
-                    else{
-                        // TODO: JPB TBD - This is just here to see how much it happens,
-                        // and should eventually be deleted.
-                        System.err.println("Warning: Position rejected: " + xPos + ", " + yPos);
-                    }
+                // Check if the position is too close to the wall.  Note
+                // that we don't check inter-particle distances here - we rely
+                // on the placement algorithm to make sure that this is not a
+                // problem.
+                if ((xPos > MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE) &&
+                    (xPos < m_normalizedContainerWidth - MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE) &&
+                    (yPos > MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE) &&
+                    (xPos < m_normalizedContainerHeight - MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE)){
+                    
+                    // This is an acceptable position.
+                    m_moleculeCenterOfMassPositions[moleculesPlaced].setLocation( xPos, yPos );
+                    m_moleculeRotationAngles[moleculesPlaced] = angle + Math.PI / 2;
+                    moleculesPlaced++;
+                    break;
+                }
+                else{
+                    // TODO: JPB TBD - This is just here to see how much it happens,
+                    // and should eventually be deleted.
+                    System.err.println("Warning: Position rejected: " + xPos + ", " + yPos);
                 }
             }
         }
-        
+    
         // Move the atoms to correspond to the molecule positions.
         if (m_atomsPerMolecule == 2){
             updateDiatomicAtomPositions();
@@ -1535,55 +1521,6 @@ public class MultipleParticleModel {
         syncParticlePositions();
     }
 
-    /**
-     * Generate a set of center locations for "blobs" of liquid.  This is
-     * generally used when transitioning directly into the liquid state from
-     * the solid or gaseous state.
-     * 
-     * @return
-     */
-    private Point2D[] createLiquidBlobLocations(int numberOfBlobs) {
-        
-        Point2D[] blobLocations = new Point2D.Double[numberOfBlobs];
-        double minDistanceBetweenBlobCenters = m_normalizedContainerHeight * 0.4;
-        
-        for (int i = 0; i < numberOfBlobs; i++){
-            
-            Point2D blobLocation = new Point2D.Double();
-            
-            for (int j = 0; j < MAX_PLACEMENT_ATTEMPTS; j++){
-                
-                double xPos = (m_rand.nextDouble() * 
-                        (m_normalizedContainerWidth - (2 * MIN_DISTANCE_FROM_BLOB_CTR_TO_WALL))) + 
-                        MIN_DISTANCE_FROM_BLOB_CTR_TO_WALL;
-                double yPos = (m_rand.nextDouble() * 
-                        (m_normalizedContainerHeight - (2 * MIN_DISTANCE_FROM_BLOB_CTR_TO_WALL))) + 
-                        MIN_DISTANCE_FROM_BLOB_CTR_TO_WALL;
-                blobLocation.setLocation( xPos, yPos );
-                
-                // Make sure the location is not too close to the others.
-                boolean positionTaken = false;
-                for (int k = 0; k < i; k++){
-                    if ( blobLocation.distance( blobLocations[k] ) < minDistanceBetweenBlobCenters ){
-                        positionTaken = true;
-                    }
-                }
-                if ( !positionTaken ){
-                    // This position is available, so accept it.
-                    blobLocations[i] = blobLocation;
-                    break;
-                }
-                else if ( j == MAX_PLACEMENT_ATTEMPTS - 1 ){
-                    // This is the last attempt, so accept it.
-                    System.err.println("Error: Unable to find viable location for liquid blob.");
-                    assert false;
-                    blobLocations[i] = blobLocation;
-                }
-            }
-        }
-        return blobLocations;
-    }
-    
     /**
      * Create positions corresponding to a hexagonal 2d "crystal" structure
      * for a set of particles.  Note that this assumes a normalized value
