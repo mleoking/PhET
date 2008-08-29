@@ -120,9 +120,9 @@ public class StatesOfMatterConstants {
     public static final int WATER = 5;
     
     // Lennard-Jones potential interaction values for multiatomic atoms.
-    public static final double EPSILON_FOR_DIATOMIC_OXYGEN = 113; // Epsilon/k-Boltzman is in Kelvin.
+    public static final double EPSILON_FOR_DIATOMIC_OXYGEN = 113; // Epsilon/k-Boltzmann is in Kelvin.
     public static final double SIGMA_FOR_DIATOMIC_OXYGEN = 365;   // In picometers.
-    public static final double EPSILON_FOR_WATER = 200;           // Epsilon/k-Boltzman is in Kelvin.
+    public static final double EPSILON_FOR_WATER = 200;           // Epsilon/k-Boltzmann is in Kelvin.
     public static final double SIGMA_FOR_WATER = 444;             // In picometers.
     
     // Max and min values for parameters of Lennard-Jones potential 
@@ -130,8 +130,8 @@ public class StatesOfMatterConstants {
     // calculations are made, graphed, and otherwise controlled.
     public static final double MAX_SIGMA = 600;      // In picometers.
     public static final double MIN_SIGMA = 50;       // In picometers.
-    public static final double MAX_EPSILON = 220;    // Epsilon/k-Boltzman is in Kelvin.
-    public static final double MIN_EPSILON = 50;     // Epsilon/k-Boltzman is in Kelvin.
+    public static final double MAX_EPSILON = 220;    // Epsilon/k-Boltzmann is in Kelvin.
+    public static final double MIN_EPSILON = 50;     // Epsilon/k-Boltzmann is in Kelvin.
 
     //----------------------------------------------------------------------------
     // Images

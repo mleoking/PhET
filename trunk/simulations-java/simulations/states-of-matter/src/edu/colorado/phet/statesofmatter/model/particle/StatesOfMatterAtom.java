@@ -24,16 +24,17 @@ public class StatesOfMatterAtom implements PubliclyCloneable {
 
     public static final StatesOfMatterAtom TEST = new StatesOfMatterAtom(0.0, 0.0, 1.0, 1.0);
     private static final double DEFAULT_SIGMA = 330;    // Atom diameter, in picometers.
-    private static final double DEFAULT_EPSILON = 120;  // epsilon/k-boltzman is in Kelvin.
+    private static final double DEFAULT_EPSILON = 120;  // epsilon/k-Boltzmann is in Kelvin.
 
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
     
-    private Point2D.Double  m_position = new Point2D.Double();
-    private Vector2D.Double m_velocity = new Vector2D.Double();
-    private Vector2D.Double m_accel    = new Vector2D.Double();
-    private volatile double m_radius, m_mass;
+    private Point2D.Double  m_position = new Point2D.Double();  // In picometers.
+    private Vector2D.Double m_velocity = new Vector2D.Double(); // In meters/sec
+    private Vector2D.Double m_accel    = new Vector2D.Double(); // In meters/(sec * sec)
+    private double m_radius;       // In picometers.
+    private double m_mass;         // In atomic mass units.
     private double m_inverseMass;
     private ArrayList m_listeners = new ArrayList();
 

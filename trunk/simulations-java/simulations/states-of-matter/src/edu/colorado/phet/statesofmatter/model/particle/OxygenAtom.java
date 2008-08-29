@@ -9,12 +9,12 @@ package edu.colorado.phet.statesofmatter.model.particle;
  */
 public class OxygenAtom extends StatesOfMatterAtom {
     
-    public static final double RADIUS = 162;
-    private static final double MASS = 1.0; // TODO: JPB TBD - This is not currently used, clean up eventually.
+    public static final double RADIUS = 162;    // In picometers.
+    private static final double MASS = 15.9994; // In atomic mass units.
 
     // TODO: JPB TBD - These values are guesses, need to get real ones.
     private static final double SIGMA = 324;    // In picometers.
-    private static final double EPSILON = 200;  // epsilon/k-boltzman is in Kelvin.
+    private static final double EPSILON = 200;  // epsilon/k-Boltzmann is in Kelvin.
 
     
     public OxygenAtom(double xPos, double yPos){
