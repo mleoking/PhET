@@ -126,9 +126,6 @@ public class HumanNode extends PNode {
 
     private Shape createMuscle( Line2D.Double arm, BasicStroke limbStroke ) {
         double leanMusclePercent = human.getFatFreeMassPercent();
-        if ( human.getGender() == Human.Gender.FEMALE ) {
-            leanMusclePercent *= 1.0;//could scale this down if we want
-        }
         double width = limbStroke.getLineWidth() * ( 1 + ( leanMusclePercent / 100.0 ) );
         Vector2D.Double vector = new Vector2D.Double( arm.getP1(), arm.getP2() );
         double distAlongArmToCenter = 0.35;//assumes arm is one segment
