@@ -53,7 +53,7 @@ public class GrabbableParticleNode extends ParticleForceNode {
         setChildrenPickable( true );
         
         // Put a cursor handler into place.
-        addInputEventListener( new CursorHandler(Cursor.MOVE_CURSOR) );
+        addInputEventListener( new CursorHandler(Cursor.HAND_CURSOR) );
         
         addInputEventListener( new PDragEventHandler(){
             
