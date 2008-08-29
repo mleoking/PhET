@@ -3,12 +3,9 @@
 package edu.colorado.phet.statesofmatter.view;
 
 import java.awt.Color;
-import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.piccolophet.nodes.Vector2DNode;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
 
 
 /**
@@ -26,7 +23,8 @@ public class ParticleForceNode extends ParticleNode {
     // The following constants control some of the aspects of the appearance of
     // the force arrow.  The values are arbitrary and are chosen to look good
     // in this particular sim, so tweak them as needed for optimal appearance.
-    private static final double FORCE_ARROW_MAX_LENGTH = 10000;
+    private static final double FORCE_ARROW_REFERENCE_LENGTH = 1000;
+    private static final double FORCE_ARROW_REFERENCE_MAGNITUDE = 1E-22;
     private static final double FORCE_ARROW_TAIL_WIDTH = 100;
     private static final double FORCE_ARROW_HEAD_WIDTH = 200;
     private static final double FORCE_ARROW_HEAD_LENGTH = 200;
@@ -47,7 +45,7 @@ public class ParticleForceNode extends ParticleNode {
         
         m_showForces = false;
         
-        m_forceVectorNode = new Vector2DNode(0, 0, FORCE_ARROW_MAX_LENGTH, FORCE_ARROW_MAX_LENGTH);
+        m_forceVectorNode = new Vector2DNode(0, 0, FORCE_ARROW_REFERENCE_MAGNITUDE, FORCE_ARROW_REFERENCE_LENGTH);
         m_forceVectorNode.setMagnitudeAngle( 0, 0 );
         addChild(m_forceVectorNode);
         m_forceVectorNode.setArrowFillPaint( Color.YELLOW );
@@ -83,7 +81,12 @@ public class ParticleForceNode extends ParticleNode {
      * force arrows.
      */
     protected void updateAcceleration() {
-        m_forceVectorNode.setMagnitudeAngle( m_particle.getAx(), 0 );
+        // Calculate the magnitude of the force being experienced by this
+        // node.  The result should be in Newtons.
+        double mass = m_particle.getMass() * 1.6605402e-27;  // Convert mass to kilograms.
+        double force = m_particle.getAx() * mass;
+        m_forceVectorNode.setMagnitudeAngle( force, 0 );
+        System.out.println("Force = " + force);
 
     }
 }
