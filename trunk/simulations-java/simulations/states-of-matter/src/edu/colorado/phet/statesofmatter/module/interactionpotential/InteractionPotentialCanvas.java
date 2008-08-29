@@ -56,7 +56,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     private InteractionPotentialDiagramNode m_diagram;
     private StatesOfMatterAtom.Listener m_atomListener;
     private boolean m_useGradient;
-    
+    private boolean m_showForces;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -65,6 +65,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     public InteractionPotentialCanvas(DualParticleModel dualParticleModel) {
         
         m_model = dualParticleModel;
+        m_showForces = false;
         
         // Decide whether to use gradients when drawing the particles.
         m_useGradient = true;
@@ -135,6 +136,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     public void setShowForces( boolean showForces ){
         m_movableParticleNode.setShowForces( showForces );
         m_fixedParticleNode.setShowForces( showForces );
+        m_showForces = showForces;
     }
     //----------------------------------------------------------------------------
     // Private Methods
@@ -144,6 +146,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         // Add an atom node for this guy.
         m_fixedParticle = particle;
         m_fixedParticleNode = new ParticleForceNode(particle, m_mvt, m_useGradient);
+        m_fixedParticleNode.setShowForces( m_showForces );
         addWorldChild( m_fixedParticleNode );
         particle.addListener( m_atomListener );
         updatePositionMarkerOnDiagram();
@@ -168,6 +171,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         // Add an atom node for this guy.
         m_movableParticle = particle;
         m_movableParticleNode = new GrabbableParticleNode(m_model, particle, m_mvt, m_useGradient);
+        m_movableParticleNode.setShowForces( m_showForces );
         addWorldChild( m_movableParticleNode );
         particle.addListener( m_atomListener );
         updatePositionMarkerOnDiagram();
