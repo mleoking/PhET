@@ -73,6 +73,7 @@ public class StatesOfMatterAtom implements PubliclyCloneable {
 
     public void setVy(double vy) {
         m_velocity.setY(vy);
+        notifyVelocityChanged();
     }
 
     public double getVx() {
@@ -81,6 +82,7 @@ public class StatesOfMatterAtom implements PubliclyCloneable {
 
     public void setVx(double vx) {
         m_velocity.setX(vx);
+        notifyVelocityChanged();
     }
 
     public double getAx() {
@@ -93,10 +95,12 @@ public class StatesOfMatterAtom implements PubliclyCloneable {
 
     public void setAx(double ax) {
         m_accel.setX(ax);
+        notifyAccelerationChanged();
     }
 
     public void setAy(double ay) {
         m_accel.setY(ay);
+        notifyAccelerationChanged();
     }
 
     public double getMass() {
@@ -271,6 +275,18 @@ public class StatesOfMatterAtom implements PubliclyCloneable {
         }        
     }
 
+    private void notifyVelocityChanged(){
+        for (int i = 0; i < m_listeners.size(); i++){
+            ((Listener)m_listeners.get( i )).velocityChanged();
+        }        
+    }
+
+    private void notifyAccelerationChanged(){
+        for (int i = 0; i < m_listeners.size(); i++){
+            ((Listener)m_listeners.get( i )).accelerationChanged();
+        }        
+    }
+
     private void notifyParticleRemoved(){
         for (int i = 0; i < m_listeners.size(); i++){
             ((Listener)m_listeners.get( i )).particleRemoved( this );
@@ -295,6 +311,16 @@ public class StatesOfMatterAtom implements PubliclyCloneable {
         public void positionChanged();
         
         /**
+         * Inform listeners that the velocity of this particle has changed.
+         */
+        public void velocityChanged();
+        
+        /**
+         * Inform listeners that the acceleration of this particle has changed.
+         */
+        public void accelerationChanged();
+        
+        /**
          * Inform listeners that this particle has been removed from the
          * model.
          */
@@ -308,6 +334,8 @@ public class StatesOfMatterAtom implements PubliclyCloneable {
     
     public static class Adapter implements Listener {
         public void positionChanged(){};
+        public void velocityChanged(){};
+        public void accelerationChanged(){};
         public void particleRemoved(StatesOfMatterAtom particle){};
         public void particleRadiusChanged(){};
     }
