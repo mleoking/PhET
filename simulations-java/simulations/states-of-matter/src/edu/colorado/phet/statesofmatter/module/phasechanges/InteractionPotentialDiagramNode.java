@@ -298,7 +298,6 @@ public class InteractionPotentialDiagramNode extends PNode {
      * @return
      */
     private double calculateLennardJonesPotential(double radius){
-        System.out.println((4 * m_epsilon * (Math.pow( m_sigma / radius, 12 ) - Math.pow( m_sigma / radius, 6 ))));
         return (4 * m_epsilon * (Math.pow( m_sigma / radius, 12 ) - Math.pow( m_sigma / radius, 6 )));
         
     }

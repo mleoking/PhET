@@ -25,8 +25,8 @@ public class DualParticleModel {
     // Class Data
     //----------------------------------------------------------------------------
 
-    private static final double TIME_STEP = Math.pow( 0.5, 6.0 );
-    private static final double PARTICLE_INTERACTION_DISTANCE_THRESH_SQRD = 6.25;
+    private static final double TIME_STEP = Math.pow( 0.5, 5.0 );
+    private static final double K_BOLTZMANN = 1.38E-23; // Boltzmann's constant.
     
     // Supported molecules.
     public static final int NEON = 1;
@@ -266,16 +266,20 @@ public class DualParticleModel {
             // will cause unusable levels of speed later, so we limit it.
             distance = m_sigma;
         }
-        m_movableParticleHorizForce = ((48 * m_epsilon * Math.pow( m_sigma, 12 ) / Math.pow( distance, 13 )) -
-                (24 * m_epsilon * Math.pow( m_sigma, 6 ) / Math.pow( distance, 7 )));
+        
+        // Calculate the force.  The result should be in Newtons.
+        m_movableParticleHorizForce = 
+            ((48 * (m_epsilon * K_BOLTZMANN) * Math.pow( m_sigma, 12 ) / Math.pow( distance, 13 )) -
+             (24 * (m_epsilon * K_BOLTZMANN) * Math.pow( m_sigma, 6 ) / Math.pow( distance, 7 )));
     }
     
     private void updatePosition(){
         
-        // JPB TBD - This is all very preliminary.  Not sure what to use for mass.
-        double mass = 1;
-        m_movableParticle.setVx( m_movableParticle.getVx() + m_movableParticleHorizForce / mass );
-        double xPos = m_movableParticle.getPositionReference().getX() + m_movableParticle.getVx();
+        double mass = m_movableParticle.getMass() * 1.6605402E-27;  // Convert mass to kilograms.
+        double acceleration = m_movableParticleHorizForce / mass;
+        m_movableParticle.setAx( acceleration );
+        m_movableParticle.setVx( m_movableParticle.getVx() + (acceleration * TIME_STEP) );
+        double xPos = m_movableParticle.getPositionReference().getX() + (m_movableParticle.getVx() * TIME_STEP);
         m_movableParticle.setPosition( xPos, 0 );
     }
     
@@ -315,14 +319,6 @@ public class DualParticleModel {
         }        
     }
     
-    /**
-     * Runs one iteration of the Verlet implementation of the Lennard-Jones
-     * force calculation on a set of particles.
-     */
-    private void verletMonotomic(){
-        
-    }
-
     //------------------------------------------------------------------------
     // Inner Interfaces and Classes
     //------------------------------------------------------------------------

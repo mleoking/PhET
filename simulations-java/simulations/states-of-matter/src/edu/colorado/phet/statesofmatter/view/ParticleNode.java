@@ -60,6 +60,14 @@ public class ParticleNode extends PNode {
                 updatePosition();
             }
 
+            public void velocityChanged() {
+                updateVelocity();
+            }
+
+            public void accelerationChanged() {
+                updateAcceleration();
+            }
+
             public void particleRemoved( StatesOfMatterAtom particle ) {
                 handleParticleRemoved( particle );
             }
@@ -92,16 +100,24 @@ public class ParticleNode extends PNode {
     // Public Methods
     //----------------------------------------------------------------------------
 
-    public void updatePosition() {
+    //----------------------------------------------------------------------------
+    // Private Methods
+    //----------------------------------------------------------------------------
+
+    protected void updatePosition() {
         if ( m_particle != null ) {
             m_mvt.modelToView( m_particle.getPositionReference(), m_position );
             setOffset( m_position );
         }
     }
+    
+    protected void updateVelocity(){
+        // Stubbed in base class.
+    }
 
-    //----------------------------------------------------------------------------
-    // Private Methods
-    //----------------------------------------------------------------------------
+    protected void updateAcceleration(){
+        // Stubbed in base class.
+    }
 
     /**
      * Handle the removal of the particle within the model that is being

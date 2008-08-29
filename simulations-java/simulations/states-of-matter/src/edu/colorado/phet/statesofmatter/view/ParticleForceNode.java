@@ -26,7 +26,7 @@ public class ParticleForceNode extends ParticleNode {
     // The following constants control some of the aspects of the appearance of
     // the force arrow.  The values are arbitrary and are chosen to look good
     // in this particular sim, so tweak them as needed for optimal appearance.
-    private static final double FORCE_ARROW_MAX_LENGTH = 1000;
+    private static final double FORCE_ARROW_MAX_LENGTH = 10000;
     private static final double FORCE_ARROW_TAIL_WIDTH = 100;
     private static final double FORCE_ARROW_HEAD_WIDTH = 200;
     private static final double FORCE_ARROW_HEAD_LENGTH = 200;
@@ -48,7 +48,7 @@ public class ParticleForceNode extends ParticleNode {
         m_showForces = false;
         
         m_forceVectorNode = new Vector2DNode(0, 0, FORCE_ARROW_MAX_LENGTH, FORCE_ARROW_MAX_LENGTH);
-        m_forceVectorNode.setMagnitudeAngle( 500, 0 );
+        m_forceVectorNode.setMagnitudeAngle( 0, 0 );
         addChild(m_forceVectorNode);
         m_forceVectorNode.setArrowFillPaint( Color.YELLOW );
         m_forceVectorNode.setHeadSize( FORCE_ARROW_HEAD_WIDTH, FORCE_ARROW_HEAD_LENGTH );
@@ -77,9 +77,13 @@ public class ParticleForceNode extends ParticleNode {
     //-----------------------------------------------------------------------------
     // Private Methods
     //-----------------------------------------------------------------------------
-
-
-
-
     
+    /**
+     * Handle notification of acceleration change by updating the size of the
+     * force arrows.
+     */
+    protected void updateAcceleration() {
+        m_forceVectorNode.setMagnitudeAngle( m_particle.getAx(), 0 );
+
+    }
 }
