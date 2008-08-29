@@ -1350,25 +1350,16 @@ public class MultipleParticleModel {
     }
 
     /**
-     * Set the atoms to be in a liquid state.  This changes the
-     * temperature and also instantly places the various molecules into
-     * blobs, i.e. collections of close particles.
+     * Set the atoms to be in a liquid state.
      */
     private void liquifyMonatomicMolecules(){
         
         setTemperature( LIQUID_TEMPERATURE );
         double temperatureSqrt = Math.sqrt( m_temperature );
         
-        // Randomly decide on the number of blobs to create.
-        int numberOfBlobs = m_rand.nextInt( MAX_INITIAL_NUMBER_OF_LIQUID_BLOBS ) + 1;
-
-        // Randomly choose center locations of each of the blobs of liquid.
-        
-        Point2D[] blobLocations = createLiquidBlobLocations(numberOfBlobs);
-        
         // Set the initial velocity for each of the atoms based on the new
         // temperature.
-        
+
         for (int i = 0; i < m_numberOfAtoms; i++){
             // Assign each particle an initial velocity.
             m_atomVelocities[i].setComponents( temperatureSqrt * m_rand.nextGaussian(), 
@@ -1377,54 +1368,50 @@ public class MultipleParticleModel {
         
         // Assign each atom to a position centered on its blob.
         
-        int atomsPerBlob = (m_numberOfAtoms / numberOfBlobs) + 1;
         int atomsPlaced = 0;
         
-        for (int i = 0; i < numberOfBlobs; i++){
+        Point2D centerPoint = new Point2D.Double(m_normalizedContainerWidth / 2, m_normalizedContainerHeight / 4);
+        int currentLayer = 0;
+        int particlesOnCurrentLayer = 0;
+        int particlesThatWillFitOnCurrentLayer = 1;
+        
+        for (int j = 0; j < m_numberOfAtoms; j++){
             
-            Point2D centerPoint = blobLocations[i];
-            int currentLayer = 0;
-            int particlesOnCurrentLayer = 0;
-            int particlesThatWillFitOnCurrentLayer = 1;
-            
-            for (int j = 0; j < atomsPerBlob && atomsPlaced < m_numberOfAtoms; j++){
+            for (int k = 0; k < MAX_PLACEMENT_ATTEMPTS; k++){
                 
-                for (int k = 0; k < MAX_PLACEMENT_ATTEMPTS; k++){
+                double distanceFromCenter = currentLayer * MIN_INITIAL_INTER_PARTICLE_DISTANCE;
+                double angle = ((double)particlesOnCurrentLayer / (double)particlesThatWillFitOnCurrentLayer * 2 * Math.PI) +
+                        ((double)particlesThatWillFitOnCurrentLayer / (4 * Math.PI));
+                double xPos = centerPoint.getX() + (distanceFromCenter * Math.cos( angle ));
+                double yPos = centerPoint.getY() + (distanceFromCenter * Math.sin( angle ));
+                particlesOnCurrentLayer++;  // Consider this spot used even if we don't actually put the
+                                            // particle there.
+                if (particlesOnCurrentLayer >= particlesThatWillFitOnCurrentLayer){
                     
-                    double distanceFromCenter = currentLayer * MIN_INITIAL_INTER_PARTICLE_DISTANCE;
-                    double angle = ((double)particlesOnCurrentLayer / (double)particlesThatWillFitOnCurrentLayer * 2 * Math.PI) +
-                            ((double)particlesThatWillFitOnCurrentLayer / (4 * Math.PI));
-                    double xPos = centerPoint.getX() + (distanceFromCenter * Math.cos( angle ));
-                    double yPos = centerPoint.getY() + (distanceFromCenter * Math.sin( angle ));
-                    particlesOnCurrentLayer++;  // Consider this spot used even if we don't actually put the
-                                                // particle there.
-                    if (particlesOnCurrentLayer >= particlesThatWillFitOnCurrentLayer){
-                        
-                        // This layer is full - move to the next one.
-                        currentLayer++;
-                        particlesThatWillFitOnCurrentLayer = 
-                            (int)( currentLayer * 2 * Math.PI / MIN_INITIAL_INTER_PARTICLE_DISTANCE );
-                        particlesOnCurrentLayer = 0;
-                    }
+                    // This layer is full - move to the next one.
+                    currentLayer++;
+                    particlesThatWillFitOnCurrentLayer = 
+                        (int)( currentLayer * 2 * Math.PI / MIN_INITIAL_INTER_PARTICLE_DISTANCE );
+                    particlesOnCurrentLayer = 0;
+                }
 
-                    // Check if the position is too close to the wall.  Note
-                    // that we don't check inter-particle distances with other
-                    // blobs here - we rely on the initial spacing of the
-                    // centers to be big enough that this is not needed.
-                    if ((xPos > MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE) &&
-                        (xPos < m_normalizedContainerWidth - MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE) &&
-                        (yPos > MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE) &&
-                        (xPos < m_normalizedContainerHeight - MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE)){
-                        
-                        // This is an acceptable position.
-                        m_atomPositions[atomsPlaced++].setLocation( xPos, yPos );
-                        break;
-                    }
-                    else{
-                        // TODO: JPB TBD - This is just here to see how much it happens,
-                        // and should eventually be deleted.
-                        System.err.println("Warning: Position rejected: " + xPos + ", " + yPos);
-                    }
+                // Check if the position is too close to the wall.  Note
+                // that we don't check inter-particle distances here - we
+                // rely on the placement algorithm to make sure that we don't
+                // run into problems with this.
+                if ((xPos > MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE) &&
+                    (xPos < m_normalizedContainerWidth - MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE) &&
+                    (yPos > MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE) &&
+                    (xPos < m_normalizedContainerHeight - MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE)){
+                    
+                    // This is an acceptable position.
+                    m_atomPositions[atomsPlaced++].setLocation( xPos, yPos );
+                    break;
+                }
+                else{
+                    // TODO: JPB TBD - This is just here to see how much it happens,
+                    // and should eventually be deleted.
+                    System.err.println("Warning: Position rejected: " + xPos + ", " + yPos);
                 }
             }
         }
