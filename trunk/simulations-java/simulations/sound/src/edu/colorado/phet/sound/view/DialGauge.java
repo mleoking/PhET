@@ -10,9 +10,9 @@ package edu.colorado.phet.sound.view;
 import edu.colorado.phet.common_sound.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common_sound.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common_sound.view.util.GraphicsUtil;
-import edu.colorado.phet.coreadditions_sound.ScalarObservable;
-import edu.colorado.phet.coreadditions_sound.ScalarObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.sound.coreadditions.ScalarObservable;
+import edu.colorado.phet.sound.coreadditions.ScalarObserver;
 
 import java.awt.*;
 import java.awt.font.FontRenderContext;
