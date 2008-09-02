@@ -84,7 +84,7 @@ public class SimStrings {
             }
         }
         catch( Exception x ) {
-            System.out.println( "SimStrings.setStrings: " + x );
+            System.out.println( "SimStrings.addStrings: " + x );
         }
     }
 
