@@ -13,6 +13,7 @@ import java.util.Hashtable;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -112,9 +113,17 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             }
         } );
 
-        // Add the Reset All button.
+        // Add a reset button.
         addVerticalSpace( 10 );
-        addResetAllButton( solidLiquidGasModule );
+        JButton resetButton = new JButton("Reset");
+        resetButton.addActionListener( new ActionListener(){
+            public void actionPerformed( ActionEvent event ){
+                m_model.reset();
+                m_showForcesCheckbox.setSelected( false );
+                m_canvas.setShowForces( m_showForcesCheckbox.isSelected() );
+            }
+        });
+        addControl( resetButton );
     }
     
     //----------------------------------------------------------------------------
@@ -280,7 +289,9 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             diameterControlLabelTable.put( new Double( m_atomDiameterControl.getMaximum() ), rightLabel );
             m_atomDiameterControl.setTickLabels( diameterControlLabelTable );
             m_atomDiameterControl.setValue(m_model.getSigma());
+            add(m_atomDiameterControl);
 
+            
             // Register as a listener with the model for relevant events.
             m_model.addListener( new DualParticleModel.Adapter(){
                 public void particleDiameterChanged(){
@@ -288,7 +299,6 @@ public class InteractionPotentialControlPanel extends ControlPanel {
                 }
             });
             
-            add(m_atomDiameterControl);
         }
 
         public void setEnabled( boolean enabled ){
@@ -343,8 +353,8 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             diameterControlLabelTable.put( new Double( m_interactionStrengthControl.getMaximum() ), rightLabel );
             m_interactionStrengthControl.setTickLabels( diameterControlLabelTable );
 
-            // Register as a listener with the model so that we know when it gets
-            // reset.
+            // Register as a listener with the model so that we know when the
+            // settings for potential are changed.
             m_model.addListener( new DualParticleModel.Adapter(){
                 public void interactionPotentialChanged(){
                     m_interactionStrengthControl.setValue( m_model.getEpsilon() );
