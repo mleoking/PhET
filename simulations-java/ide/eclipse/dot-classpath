@@ -70,8 +70,6 @@
 	<classpathentry kind="src" path="simulations/glaciers/data"/>
 	<classpathentry kind="src" path="simulations/greenhouse/src"/>
 	<classpathentry kind="src" path="simulations/greenhouse/data"/>
-	<classpathentry kind="src" path="simulations/greenhouse/phetcommon/src"/>
-	<classpathentry kind="src" path="simulations/greenhouse/phetcommon/data"/>
 	<classpathentry kind="src" path="simulations/hydrogen-atom/src"/>
 	<classpathentry kind="src" path="simulations/hydrogen-atom/data"/>
 	<classpathentry kind="src" path="simulations/ideal-gas/src"/>
