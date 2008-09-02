@@ -73,6 +73,12 @@ public class InteractionPotentialControlPanel extends ControlPanel {
         m_model = solidLiquidGasModule.getDualParticleModel();
         m_canvas = solidLiquidGasModule.getCanvas();
         
+        m_model.addListener( new DualParticleModel.Adapter(){
+            public void moleculeTypeChanged(){
+                m_moleculeSelectionPanel.updateMoleculeType();
+            };
+        });
+        
         // Set the control panel's minimum width.
         int minimumWidth = StatesOfMatterResources.getInt( "int.minControlPanelWidth", 215 );
         setMinimumWidth( minimumWidth );
@@ -146,8 +152,8 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             m_monatomicOxygenRadioButton.setFont( LABEL_FONT );
             m_monatomicOxygenRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    if (m_model.getMoleculeType() != DualParticleModel.MONATOMIC_OXYGEN){
-                        m_model.setMoleculeType( DualParticleModel.MONATOMIC_OXYGEN );
+                    if (m_model.getMoleculeType() != StatesOfMatterConstants.MONATOMIC_OXYGEN){
+                        m_model.setMoleculeType( StatesOfMatterConstants.MONATOMIC_OXYGEN );
                         m_adjustableAtomSelected = false;
                         updateLjControlSliderState();
                     }
@@ -157,8 +163,8 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             m_argonRadioButton.setFont( LABEL_FONT );
             m_argonRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    if (m_model.getMoleculeType() != DualParticleModel.ARGON){
-                        m_model.setMoleculeType( DualParticleModel.ARGON );
+                    if (m_model.getMoleculeType() != StatesOfMatterConstants.ARGON){
+                        m_model.setMoleculeType( StatesOfMatterConstants.ARGON );
                         m_adjustableAtomSelected = false;
                         updateLjControlSliderState();
                     }
@@ -169,9 +175,8 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             m_adjustableAttractionRadioButton.setFont( LABEL_FONT );
             m_adjustableAttractionRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    // TODO: JPB TBD - Adjustable attraction not yet implemented in the model, update this when it is.
-                    if (m_model.getMoleculeType() != DualParticleModel.NEON){
-                        m_model.setMoleculeType( DualParticleModel.NEON );
+                    if (m_model.getMoleculeType() != StatesOfMatterConstants.USER_DEFINED_MOLECULE){
+                        m_model.setMoleculeType( StatesOfMatterConstants.USER_DEFINED_MOLECULE );
                         m_adjustableAtomSelected = true;
                         updateLjControlSliderState();
                     }
@@ -187,6 +192,31 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             add( m_monatomicOxygenRadioButton );
             add( m_argonRadioButton );
             add( m_adjustableAttractionRadioButton );
+            
+            updateLjControlSliderState();
+        }
+        
+        /**
+         * Update the selected molecule to match whatever the model believes
+         * it to be.
+         */
+        public void updateMoleculeType(){
+            int moleculeType = m_model.getMoleculeType();
+            
+            switch (moleculeType){
+            case StatesOfMatterConstants.MONATOMIC_OXYGEN:
+                m_monatomicOxygenRadioButton.setSelected( true );
+                m_adjustableAtomSelected = false;
+                break;
+            case StatesOfMatterConstants.ARGON:
+                m_argonRadioButton.setSelected( true );
+                m_adjustableAtomSelected = false;
+                break;
+            default:
+                m_adjustableAttractionRadioButton.setSelected( true );
+                m_adjustableAtomSelected = true;
+                break;
+            }
             
             updateLjControlSliderState();
         }

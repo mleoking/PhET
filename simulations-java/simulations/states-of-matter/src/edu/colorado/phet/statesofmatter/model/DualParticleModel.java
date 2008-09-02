@@ -12,6 +12,7 @@ import edu.colorado.phet.statesofmatter.model.particle.ArgonAtom;
 import edu.colorado.phet.statesofmatter.model.particle.NeonAtom;
 import edu.colorado.phet.statesofmatter.model.particle.OxygenAtom;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
+import edu.colorado.phet.statesofmatter.model.particle.UserDefinedAtom;
 
 /**
  * This is the model for two particles interacting with a Lennard-Jones
@@ -28,11 +29,7 @@ public class DualParticleModel {
     private static final double TIME_STEP = Math.pow( 0.5, 5.0 );
     private static final double K_BOLTZMANN = 1.38E-23; // Boltzmann's constant.
     
-    // Supported molecules.
-    public static final int NEON = 1;
-    public static final int ARGON = 2;
-    public static final int MONATOMIC_OXYGEN = 3;
-    public static final int DEFAULT_MOLECULE = MONATOMIC_OXYGEN;
+    public static final int DEFAULT_MOLECULE = StatesOfMatterConstants.MONATOMIC_OXYGEN;
     public static final double DEFAULT_SIGMA = OxygenAtom.getSigma();
     public static final double DEFAULT_EPSILON = OxygenAtom.getEpsilon();
     
@@ -105,13 +102,13 @@ public class DualParticleModel {
     public void setMoleculeType(int atomID){
         
         // Verify that this is a supported value.
-        if ((atomID != NEON) &&
-            (atomID != ARGON) &&
-            (atomID != MONATOMIC_OXYGEN)){
+        if ((atomID != StatesOfMatterConstants.USER_DEFINED_MOLECULE) &&
+            (atomID != StatesOfMatterConstants.ARGON) &&
+            (atomID != StatesOfMatterConstants.MONATOMIC_OXYGEN)){
             
             System.err.println("Error: Unsupported molecule type.");
             assert false;
-            atomID = NEON;
+            atomID = StatesOfMatterConstants.MONATOMIC_OXYGEN;
         }
         
         // Inform any listeners of the removal of existing particles.
@@ -126,19 +123,19 @@ public class DualParticleModel {
         
         // Set the new atoms based on the requested type..
         switch (atomID){
-        case NEON:
-            m_fixedParticle = new NeonAtom(0, 0);
-            m_movableParticle = new NeonAtom(0, 0);
-            m_sigma = NeonAtom.getSigma();
-            m_epsilon = NeonAtom.getEpsilon();
+        case StatesOfMatterConstants.USER_DEFINED_MOLECULE:
+            m_fixedParticle = new UserDefinedAtom(0, 0);
+            m_movableParticle = new UserDefinedAtom(0, 0);
+            m_sigma = UserDefinedAtom.getSigma();
+            m_epsilon = UserDefinedAtom.getEpsilon();
             break;
-        case ARGON:
+        case StatesOfMatterConstants.ARGON:
             m_fixedParticle = new ArgonAtom(0, 0);
             m_movableParticle = new ArgonAtom(0, 0);
             m_sigma = ArgonAtom.getSigma();
             m_epsilon = ArgonAtom.getEpsilon();
             break;
-        case MONATOMIC_OXYGEN:
+        case StatesOfMatterConstants.MONATOMIC_OXYGEN:
             m_fixedParticle = new OxygenAtom(0, 0);
             m_movableParticle = new OxygenAtom(0, 0);
             m_sigma = OxygenAtom.getSigma();
@@ -162,6 +159,9 @@ public class DualParticleModel {
         double diameter = m_fixedParticle.getRadius() * 2;
         m_fixedParticle.setPosition( 0, 0 );
         m_movableParticle.setPosition( 2 * diameter, 0 );
+        
+        // Let listeners know that the molecule type has changed.
+        notifyMoleculeTypeChanged();
     }
     
     /**
@@ -328,6 +328,12 @@ public class DualParticleModel {
         }        
     }
     
+    private void notifyMoleculeTypeChanged(){
+        for (int i = 0; i < m_listeners.size(); i++){
+            ((Listener)m_listeners.get( i )).moleculeTypeChanged();
+        }        
+    }
+    
     //------------------------------------------------------------------------
     // Inner Interfaces and Classes
     //------------------------------------------------------------------------
@@ -343,6 +349,7 @@ public class DualParticleModel {
         public void movableParticleRemoved(StatesOfMatterAtom particle);
         public void interactionPotentialChanged();
         public void particleDiameterChanged();
+        public void moleculeTypeChanged();
     }
     
     public static class Adapter implements Listener {
@@ -352,5 +359,6 @@ public class DualParticleModel {
         public void movableParticleRemoved(StatesOfMatterAtom particle){}
         public void interactionPotentialChanged(){};
         public void particleDiameterChanged(){};
+        public void moleculeTypeChanged(){};
     }
 }
