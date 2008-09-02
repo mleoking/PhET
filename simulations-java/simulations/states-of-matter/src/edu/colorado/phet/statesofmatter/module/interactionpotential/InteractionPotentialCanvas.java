@@ -37,8 +37,12 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     private final double CANVAS_HEIGHT = CANVAS_WIDTH * (3.0d/4.0d);
     
     // Translation factors, used to set origin of canvas area.
-    private final double WIDTH_TRANSLATION_FACTOR = 2.0;
-    private final double HEIGHT_TRANSLATION_FACTOR = 1.5;
+    private final double WIDTH_TRANSLATION_FACTOR = 0.3;   // Roughly speaking, a value of zero puts the horizontal
+                                                           // origin all the way to the left, and 1 puts it all the
+                                                           // way to the right, though it always seems to require
+                                                           // a little tweaking.
+    private final double HEIGHT_TRANSLATION_FACTOR = 0.67; // 0 puts the horizontal origin at the top of the window,
+                                                           // 1 puts it at the bottom.
     
     // Sizes, in terms of overall canvas size, of the nodes on the canvas.
     private final double DIAGRAM_NODE_WIDTH = CANVAS_WIDTH / 1.75;
@@ -78,11 +82,10 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
 
         // Set the transform strategy so that the the origin (i.e. point x=0,
         // y = 0) is in a reasonable place.
-        setWorldTransformStrategy( new RenderingSizeStrategy(this, 
-                new PDimension(CANVAS_WIDTH, CANVAS_HEIGHT) ){
+        setWorldTransformStrategy( new RenderingSizeStrategy(this, new PDimension(CANVAS_WIDTH, CANVAS_HEIGHT) ){
             protected AffineTransform getPreprocessedTransform(){
-                return AffineTransform.getTranslateInstance( getWidth()/WIDTH_TRANSLATION_FACTOR, 
-                        getHeight()/HEIGHT_TRANSLATION_FACTOR );
+                return AffineTransform.getTranslateInstance( getWidth() * WIDTH_TRANSLATION_FACTOR, 
+                        getHeight() * HEIGHT_TRANSLATION_FACTOR );
             }
         });
         
@@ -103,7 +106,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         m_diagram = new InteractionPotentialDiagramNode(m_model.getSigma(), 
                 m_model.getEpsilon(), true);
         m_diagram.scale( DIAGRAM_NODE_WIDTH / m_diagram.getFullBoundsReference().width );
-        m_diagram.setOffset( -(DIAGRAM_NODE_WIDTH / 2), - m_diagram.getFullBoundsReference().height * 1.3 );
+        m_diagram.setOffset( 0, - m_diagram.getFullBoundsReference().height * 1.3 );
         addWorldChild( m_diagram );
         
         // Register for notifications of important events from the model.
