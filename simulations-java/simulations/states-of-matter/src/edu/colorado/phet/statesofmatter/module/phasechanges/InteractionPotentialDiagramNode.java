@@ -91,7 +91,6 @@ public class InteractionPotentialDiagramNode extends PNode {
     private PText m_sigmaLabel;
     private DoubleArrowNode m_sigmaArrow;
     private double m_verticalScalingFactor;
-    private double m_horizontalScalingFactor;
     
     // Variables for controlling the appearance, visibility, and location of
     // the position marker.
@@ -122,10 +121,9 @@ public class InteractionPotentialDiagramNode extends PNode {
         }
         m_graphOffsetX = 0.10 * (double)m_width;
         m_graphOffsetY = 0;
-        m_graphWidth = m_width * HORIZ_AXIS_SIZE_PROPORTION;
+        m_graphWidth = m_width - m_graphOffsetX;
         m_graphHeight = m_height * VERT_AXIS_SIZE_PROPORTION;
         m_verticalScalingFactor = m_graphHeight / 2 / StatesOfMatterConstants.MAX_EPSILON;
-        m_horizontalScalingFactor = (m_graphWidth / StatesOfMatterConstants.MAX_SIGMA) * 0.9;
         
         // Create a background that will sit behind everything.
         PPath graphBackground = new PPath(new Rectangle2D.Double( 0, 0, m_width, m_height ));
@@ -292,6 +290,22 @@ public class InteractionPotentialDiagramNode extends PNode {
         else{
             m_positionMarker.setVisible( false );
         }
+    }
+    
+    /**
+     * Get the range of values over which the potential curve is graphed.  It
+     * is assumed to go from 0 to the value returned by this function.
+     */
+    public double getXAxisRange(){
+        return MAX_INTER_ATOM_DISTANCE;
+    }
+    
+    /**
+     * Returns a value between 0 and 1 representing the fraction of the
+     * overall node that is actually used for graphing in the x direction.
+     */
+    public double getXAxisGraphProportion(){
+        return m_graphWidth / m_width;
     }
     
     /**

@@ -3,8 +3,6 @@
 package edu.colorado.phet.statesofmatter.module.interactionpotential;
 
 import java.awt.geom.AffineTransform;
-import java.util.ArrayList;
-import java.util.Hashtable;
 
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -15,8 +13,6 @@ import edu.colorado.phet.statesofmatter.module.phasechanges.InteractionPotential
 import edu.colorado.phet.statesofmatter.view.GrabbableParticleNode;
 import edu.colorado.phet.statesofmatter.view.ModelViewTransform;
 import edu.colorado.phet.statesofmatter.view.ParticleForceNode;
-import edu.colorado.phet.statesofmatter.view.ParticleNode;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -33,7 +29,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
 
     // Canvas size in pico meters, since this is a reasonable scale at which
     // to display molecules.  Assumes a 4:3 aspect ratio.
-    private final double CANVAS_WIDTH = 5000;
+    private final double CANVAS_WIDTH = 2000;
     private final double CANVAS_HEIGHT = CANVAS_WIDTH * (3.0d/4.0d);
     
     // Translation factors, used to set origin of canvas area.
@@ -102,11 +98,22 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
             };
         };
         
-        // Add the interaction potential diagram.
+        // Add the interaction potential diagram.  IMPORTANT NOTE: The diagram
+        // needs to be sized so that one picometer on the canvas is the same as
+        // one picometer on the diagram.  Hence the somewhat tricky scaling
+        // calculation.
         m_diagram = new InteractionPotentialDiagramNode(m_model.getSigma(), 
                 m_model.getEpsilon(), true);
-        m_diagram.scale( DIAGRAM_NODE_WIDTH / m_diagram.getFullBoundsReference().width );
-        m_diagram.setOffset( 0, - m_diagram.getFullBoundsReference().height * 1.3 );
+        double desiredWidth = m_diagram.getXAxisRange() + 
+                ((1 - m_diagram.getXAxisGraphProportion()) * m_diagram.getXAxisRange());
+        double diagramScaleFactor = desiredWidth / m_diagram.getFullBoundsReference().width;
+        m_diagram.scale( diagramScaleFactor );
+        
+        // Position the diagram so that the x origin lines up with the fixed particle.
+//        m_diagram.setOffset( m_diagram.getFullBoundsReference().width * (1 - m_diagram.getXAxisGraphProportion()), 
+//                -m_diagram.getFullBoundsReference().height * 1.3 );
+        m_diagram.setOffset( -m_diagram.getFullBoundsReference().width * (1 - m_diagram.getXAxisGraphProportion()), 
+                  -m_diagram.getFullBoundsReference().height * 1.3 );
         addWorldChild( m_diagram );
         
         // Register for notifications of important events from the model.
