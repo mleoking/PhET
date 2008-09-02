@@ -37,8 +37,12 @@ public class InteractionPotentialDiagramNode extends PNode {
     // Class Data
     //----------------------------------------------------------------------------
     
+    // Constants that control the range of data that is graphed.
+    private static final double MAX_INTER_ATOM_DISTANCE = 1200;   // In picometers.
+    
     // Constants that control the appearance of the diagram.
-    private static final double WIDTH = 200;
+    private static final double NARROW_VERSION_WIDTH = 200;
+    private static final double WIDE_VERSION_WIDTH = 300;
     private static final float AXIS_LINE_WIDTH = 1;
     private static final Stroke AXIS_LINE_STROKE = new BasicStroke(AXIS_LINE_WIDTH);
     private static final Color AXIS_LINE_COLOR = Color.LIGHT_GRAY;
@@ -109,11 +113,11 @@ public class InteractionPotentialDiagramNode extends PNode {
         
         // Set up for the normal or wide version of the graph.
         if (wide){
-            m_width = 1.5 * WIDTH;
+            m_width = WIDE_VERSION_WIDTH;
             m_height = m_width * 0.6;
         }
         else{
-            m_width = WIDTH;
+            m_width = NARROW_VERSION_WIDTH;
             m_height = m_width * 0.8;
         }
         m_graphOffsetX = 0.10 * (double)m_width;
@@ -274,7 +278,7 @@ public class InteractionPotentialDiagramNode extends PNode {
      */
     public void setMarkerPosition(double distance){
 
-        double xPos = distance * m_horizontalScalingFactor;
+        double xPos = distance * ( m_graphWidth / MAX_INTER_ATOM_DISTANCE );
         double potential = calculateLennardJonesPotential( distance );
         double yPos = ((m_graphHeight / 2) - (potential * m_verticalScalingFactor));
 
@@ -310,7 +314,7 @@ public class InteractionPotentialDiagramNode extends PNode {
         potentialEnergyLineShape.moveTo( 0, 0);
         Point2D graphMin = new Point2D.Double(0, 0);
         Point2D zeroCrossingPoint = new Point2D.Double(0, 0);
-        double horizontalIndexMultiplier = 1 / m_horizontalScalingFactor;
+        double horizontalIndexMultiplier = MAX_INTER_ATOM_DISTANCE / m_graphWidth;
         for (int i = 1; i < (int)m_graphWidth; i++){
             double potential = calculateLennardJonesPotential( i * horizontalIndexMultiplier );
             double yPos = ((m_graphHeight / 2) - (potential * m_verticalScalingFactor));
