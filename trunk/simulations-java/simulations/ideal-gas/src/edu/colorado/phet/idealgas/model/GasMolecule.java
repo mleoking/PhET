@@ -7,9 +7,9 @@
  */
 package edu.colorado.phet.idealgas.model;
 
-import edu.colorado.phet.collision_idealgas.SolidSphere;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.idealgas.collision.SolidSphere;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;

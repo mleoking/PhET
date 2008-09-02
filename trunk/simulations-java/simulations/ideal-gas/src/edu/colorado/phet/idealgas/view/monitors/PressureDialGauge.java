@@ -10,10 +10,10 @@ package edu.colorado.phet.idealgas.view.monitors;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.coreadditions_idealgas.ScalarObservable;
 import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.coreadditions.ScalarObservable;
+import edu.colorado.phet.idealgas.instrumentation.DialGauge;
 import edu.colorado.phet.idealgas.model.PressureSensingBox;
-import edu.colorado.phet.instrumentation_idealgas.DialGauge;
 
 import java.awt.*;
 import java.awt.geom.Point2D;

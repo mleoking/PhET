@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
-import edu.colorado.phet.coreadditions_idealgas.ToggleButton;
 import edu.colorado.phet.idealgas.IdealGasResources;
+import edu.colorado.phet.idealgas.coreadditions.ToggleButton;
 import edu.colorado.phet.idealgas.model.Pump;
 
 import javax.swing.*;

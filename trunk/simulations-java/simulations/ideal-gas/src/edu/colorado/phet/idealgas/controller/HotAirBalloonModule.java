@@ -7,11 +7,11 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
-import edu.colorado.phet.collision_idealgas.SphereHotAirBalloonExpert;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.IdealGasResources;
+import edu.colorado.phet.idealgas.collision.SphereHotAirBalloonExpert;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.HotAirBalloonGraphic;
 

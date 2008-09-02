@@ -10,13 +10,13 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
-import edu.colorado.phet.collision_idealgas.SphereWallExpert;
-import edu.colorado.phet.collision_idealgas.VerticalBarrier;
-import edu.colorado.phet.collision_idealgas.VerticalWallFixupStrategy;
-import edu.colorado.phet.collision_idealgas.Wall;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.idealgas.IdealGasResources;
+import edu.colorado.phet.idealgas.collision.SphereWallExpert;
+import edu.colorado.phet.idealgas.collision.VerticalBarrier;
+import edu.colorado.phet.idealgas.collision.VerticalWallFixupStrategy;
+import edu.colorado.phet.idealgas.collision.Wall;
 import edu.colorado.phet.idealgas.controller.command.PumpMoleculeCmd;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.WallGraphic;
