@@ -14,6 +14,7 @@ If you enter values without hitting enter (e.g., using tab to go to the next box
 ###	Todo Noah P	####
 ############################
 
+-Reduce the amount that Lifestyle calories contribute to heart health (maybe 1/2??)
 
 ############################
 ###	To Discuss	####
