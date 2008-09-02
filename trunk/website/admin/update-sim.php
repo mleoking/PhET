@@ -68,7 +68,7 @@ class UpdateSimulationPage extends SitePage {
         // which starts with 'sim_':
         foreach($_REQUEST as $key => $value) {
             if (preg_match('/sim_.*/', $key) == 1) {
-                $simulation[$key] = $value;
+                $simulation[$key] = trim($value);
             }
         }
 
