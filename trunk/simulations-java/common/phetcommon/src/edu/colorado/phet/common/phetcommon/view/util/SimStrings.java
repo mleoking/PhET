@@ -102,10 +102,13 @@ public class SimStrings {
 
         String value = null;
 
-        for ( Iterator i = this.localizedStrings.iterator(); value == null && i.hasNext(); ) {
+        for ( Iterator i = this.localizedStrings.iterator(); i.hasNext(); ) {
             try {
                 PhetProperties rb = (PhetProperties) i.next();
                 value = rb.getString( key );
+                if ( value != null && !value.equals( key ) ) {
+                    break;
+                }
             }
             catch( Exception x ) {
                 value = null;
