@@ -52,7 +52,7 @@ public class Module implements ClockTickListener {
     protected Module( String name, AbstractClock clock ) {
         this.name = name;
         this.clock = clock;
-        SimStrings.getInstance().addStrings( "localization/CommonStrings" );
+        SimStrings.getInstance().addStrings( "sound/localization/phetcommon-strings" );
         helpManager = new HelpManager();
         helpEnabled = false;
 
