@@ -16,6 +16,8 @@ If you enter values without hitting enter (e.g., using tab to go to the next box
 
 -Reduce the amount that Lifestyle calories contribute to heart health (maybe 1/2??)
 
+-readjust calories for running - should be "racing 5 pmh" and "moderate 9 mph"
+
 ############################
 ###	To Discuss	####
 ############################
