@@ -14,6 +14,7 @@ import edu.colorado.phet.statesofmatter.model.particle.HydrogenAtom2;
 import edu.colorado.phet.statesofmatter.model.particle.NeonAtom;
 import edu.colorado.phet.statesofmatter.model.particle.OxygenAtom;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
+import edu.colorado.phet.statesofmatter.model.particle.UserDefinedAtom;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -174,6 +175,9 @@ public class ParticleNode extends PNode {
         }
         else if ( atom instanceof HydrogenAtom2 ) {
             baseColor = new Color( 0xff4444 );
+        }
+        else if ( atom instanceof UserDefinedAtom ) {
+            baseColor = new Color( 0xCC66CC );
         }
         else {
             baseColor = Color.WHITE;
