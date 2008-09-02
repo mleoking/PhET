@@ -1,7 +1,8 @@
-/* Copyright 2004-2007, University of Colorado */
+/* Copyright 2004-2008, University of Colorado */
 
 package edu.colorado.phet.common.phetcommon.view.util;
 
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Vector;
@@ -20,8 +21,8 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
  */
 public class SimStrings {
 
-    private Vector localizedStrings;
-    private Vector bundleNames;
+    private final PhetProperties localizedStrings;
+    private final Vector bundleNames;
     private Locale locale;
 
     private static SimStrings INSTANCE = new SimStrings();
@@ -35,7 +36,9 @@ public class SimStrings {
 
     /* intended to be a singleton, use getInstance */
     private SimStrings() {
-        locale= PhetResources.readLocale();
+        localizedStrings = new PhetProperties();
+        bundleNames = new Vector();
+        locale = PhetResources.readLocale();
     }
 
     /**
@@ -52,10 +55,10 @@ public class SimStrings {
     // TODO: make this private after all simulation use init
     public void setLocale( Locale locale ) {
         this.locale = locale;
-        // Reload all existing string resources with the new locale
-        Vector priorPaths = this.bundleNames;
-        this.bundleNames = null;
-        this.localizedStrings = null;
+        // Reload all string files with the new locale
+        Vector priorPaths = new Vector( bundleNames );
+        bundleNames.clear();
+        localizedStrings.clear();
         if ( priorPaths != null ) {
             for ( Iterator i = priorPaths.iterator(); i.hasNext(); ) {
                 String path = (String) i.next();
@@ -66,25 +69,30 @@ public class SimStrings {
 
     // TODO: make this private after all simulation use init
     public void addStrings( String bundleName ) {
-        if ( this.localizedStrings == null ) {
-            this.localizedStrings = new Vector();
-            this.bundleNames = new Vector();
-        }
-        if ( this.bundleNames.contains( bundleName ) ) {
+        
+        // if we loaded this bundle previously, do nothing
+        if ( bundleNames.contains( bundleName ) ) {
             return;
         }
+        
+        // load the strings, put them in localizedStrings
         try {
-            if ( this.locale == null ) {
-                this.locale = Locale.getDefault();
-            }
             PhetProperties properties = new DefaultResourceLoader().getProperties( bundleName, this.locale );
             if ( properties != null ) {
-                this.localizedStrings.add( properties );
-                this.bundleNames.add( bundleName );
+                Enumeration keys = properties.propertyNames();
+                while ( keys.hasMoreElements() ) {
+                    String key = (String) keys.nextElement();
+                    String value = properties.getProperty( key );
+                    localizedStrings.setProperty( key, value );
+                }
+                bundleNames.add( bundleName );
+            }
+            else {
+                System.err.println( "WARNING: SimStrings.addStrings failed to load " + bundleName );
             }
         }
-        catch( Exception x ) {
-            System.out.println( "SimStrings.addStrings: " + x );
+        catch( Exception e ) {
+            System.out.println( "SimStrings.addStrings: " + e );
         }
     }
 
@@ -96,31 +104,10 @@ public class SimStrings {
      * @return String
      */
     public String getString( String key ) {
-        if ( this.localizedStrings == null ) {
+        if ( localizedStrings == null ) {
             throw new RuntimeException( "Strings not initialized" );
         }
-
-        String value = null;
-
-        for ( Iterator i = this.localizedStrings.iterator(); i.hasNext(); ) {
-            try {
-                PhetProperties rb = (PhetProperties) i.next();
-                value = rb.getString( key );
-                if ( value != null && !value.equals( key ) ) {
-                    break;
-                }
-            }
-            catch( Exception x ) {
-                value = null;
-            }
-        }
-
-        if ( value == null ) {
-            System.err.println( "SimStrings.get: key not found, key = \"" + key + "\"" );
-            value = key;
-        }
-
-//            return value;
+        String value = localizedStrings.getString( key );
         return DummyConstantStringTester.getString( value );
     }
 
