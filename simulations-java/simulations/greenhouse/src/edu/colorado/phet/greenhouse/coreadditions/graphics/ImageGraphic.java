@@ -13,8 +13,8 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 
-import edu.colorado.phet.greenhouse.common_greenhouse.view.graphics.Graphic;
-import edu.colorado.phet.greenhouse.common_greenhouse.view.util.graphics.ImageLoader;
+import edu.colorado.phet.greenhouse.phetcommon.view.graphics.Graphic;
+import edu.colorado.phet.greenhouse.phetcommon.view.util.graphics.ImageLoader;
 
 public class ImageGraphic implements Graphic, ImageObserver, ImageGraphicType {
 

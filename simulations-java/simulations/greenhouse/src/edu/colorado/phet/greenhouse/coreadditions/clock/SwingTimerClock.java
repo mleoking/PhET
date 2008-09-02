@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.greenhouse.coreadditions.clock;
 
-import edu.colorado.phet.greenhouse.common_greenhouse.model.ThreadPriority;
+import edu.colorado.phet.greenhouse.phetcommon.model.ThreadPriority;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

@@ -12,10 +12,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.greenhouse.common_greenhouse.application.PhetApplication;
-import edu.colorado.phet.greenhouse.common_greenhouse.view.ApparatusPanel;
-import edu.colorado.phet.greenhouse.common_greenhouse.view.graphics.Graphic;
 import edu.colorado.phet.greenhouse.coreadditions.graphics.ImageGraphic;
+import edu.colorado.phet.greenhouse.phetcommon.application.PhetApplication;
+import edu.colorado.phet.greenhouse.phetcommon.view.ApparatusPanel;
+import edu.colorado.phet.greenhouse.phetcommon.view.graphics.Graphic;
 
 public class GlassPaneModule extends BaseGreenhouseModule {
     private GlassPane glassPane;

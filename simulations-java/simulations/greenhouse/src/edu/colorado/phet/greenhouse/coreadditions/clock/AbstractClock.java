@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.greenhouse.coreadditions.clock;
 
-import edu.colorado.phet.greenhouse.common_greenhouse.model.*;
+import edu.colorado.phet.greenhouse.phetcommon.model.*;
 
 import java.util.ArrayList;
 

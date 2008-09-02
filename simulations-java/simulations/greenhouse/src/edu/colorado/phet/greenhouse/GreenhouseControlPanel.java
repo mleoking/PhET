@@ -24,9 +24,9 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.greenhouse.common_greenhouse.view.util.GraphicsUtil;
-import edu.colorado.phet.greenhouse.common_greenhouse.view.util.graphics.ImageLoader;
 import edu.colorado.phet.greenhouse.coreadditions.ModelViewTx1D;
+import edu.colorado.phet.greenhouse.phetcommon.view.util.GraphicsUtil;
+import edu.colorado.phet.greenhouse.phetcommon.view.util.graphics.ImageLoader;
 
 
 public class GreenhouseControlPanel extends JPanel {

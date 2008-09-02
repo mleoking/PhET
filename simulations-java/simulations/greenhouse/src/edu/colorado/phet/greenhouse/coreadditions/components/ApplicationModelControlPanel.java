@@ -10,9 +10,9 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.greenhouse.common_greenhouse.model.ApplicationModel;
-import edu.colorado.phet.greenhouse.common_greenhouse.model.command.Command;
-import edu.colorado.phet.greenhouse.common_greenhouse.view.util.graphics.ImageLoader;
+import edu.colorado.phet.greenhouse.phetcommon.model.ApplicationModel;
+import edu.colorado.phet.greenhouse.phetcommon.model.command.Command;
+import edu.colorado.phet.greenhouse.phetcommon.view.util.graphics.ImageLoader;
 
 /**
  * User: Sam Reid

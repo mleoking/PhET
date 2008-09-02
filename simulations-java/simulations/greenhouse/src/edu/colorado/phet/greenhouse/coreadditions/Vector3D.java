@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.greenhouse.coreadditions;
 
-import edu.colorado.phet.greenhouse.common_greenhouse.math.PhysicalVector;
-import edu.colorado.phet.greenhouse.common_greenhouse.math.Vector2D;
+import edu.colorado.phet.greenhouse.phetcommon.math.PhysicalVector;
+import edu.colorado.phet.greenhouse.phetcommon.math.Vector2D;
 
 public class Vector3D extends PhysicalVector {
 
