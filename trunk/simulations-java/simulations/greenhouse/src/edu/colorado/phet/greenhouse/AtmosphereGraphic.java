@@ -18,10 +18,10 @@ import java.awt.image.ImagingOpException;
 import java.util.Observable;
 import java.util.Observer;
 
-import edu.colorado.phet.common_greenhouse.view.CompositeGraphic;
-import edu.colorado.phet.common_greenhouse.view.util.graphics.ImageLoader;
-import edu.colorado.phet.coreadditions_greenhouse.graphics.ImageGraphic;
-import edu.colorado.phet.coreadditions_greenhouse.graphics.ShapeGraphicType;
+import edu.colorado.phet.greenhouse.common_greenhouse.view.CompositeGraphic;
+import edu.colorado.phet.greenhouse.common_greenhouse.view.util.graphics.ImageLoader;
+import edu.colorado.phet.greenhouse.coreadditions.graphics.ImageGraphic;
+import edu.colorado.phet.greenhouse.coreadditions.graphics.ShapeGraphicType;
 
 /**
  * An overlay graphic that is supposed to look like polluted air. It fades in and out depending on the

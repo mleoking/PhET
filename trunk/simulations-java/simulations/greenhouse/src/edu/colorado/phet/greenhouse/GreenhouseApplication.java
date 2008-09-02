@@ -17,14 +17,14 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common_greenhouse.application.Module;
-import edu.colorado.phet.common_greenhouse.application.PhetApplication;
-import edu.colorado.phet.common_greenhouse.model.IClock;
-import edu.colorado.phet.common_greenhouse.view.ApplicationDescriptor;
-import edu.colorado.phet.common_greenhouse.view.apparatuspanelcontainment.ApparatusPanelContainerFactory;
-import edu.colorado.phet.coreadditions_greenhouse.MessageFormatter;
-import edu.colorado.phet.coreadditions_greenhouse.clock.StaticClockModel;
-import edu.colorado.phet.coreadditions_greenhouse.clock.SwingTimerClock;
+import edu.colorado.phet.greenhouse.common_greenhouse.application.Module;
+import edu.colorado.phet.greenhouse.common_greenhouse.application.PhetApplication;
+import edu.colorado.phet.greenhouse.common_greenhouse.model.IClock;
+import edu.colorado.phet.greenhouse.common_greenhouse.view.ApplicationDescriptor;
+import edu.colorado.phet.greenhouse.common_greenhouse.view.apparatuspanelcontainment.ApparatusPanelContainerFactory;
+import edu.colorado.phet.greenhouse.coreadditions.MessageFormatter;
+import edu.colorado.phet.greenhouse.coreadditions.clock.StaticClockModel;
+import edu.colorado.phet.greenhouse.coreadditions.clock.SwingTimerClock;
 
 /**
  * General comments, issues:

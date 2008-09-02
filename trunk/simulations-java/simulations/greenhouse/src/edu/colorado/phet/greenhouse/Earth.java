@@ -8,9 +8,9 @@ package edu.colorado.phet.greenhouse;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.coreadditions_greenhouse.Disk;
-import edu.colorado.phet.coreadditions_greenhouse.ModelViewTx1D;
-import edu.colorado.phet.instrumentation.TemperatureReporter;
+import edu.colorado.phet.greenhouse.coreadditions.Disk;
+import edu.colorado.phet.greenhouse.coreadditions.ModelViewTx1D;
+import edu.colorado.phet.greenhouse.instrumentation.TemperatureReporter;
 
 public class Earth extends Disk implements TemperatureReporter, PhotonEmitter, PhotonAbsorber, PhotonEmitter.Listener {
 

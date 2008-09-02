@@ -9,7 +9,7 @@ package edu.colorado.phet.greenhouse;
 import java.util.HashSet;
 import java.util.Iterator;
 
-import edu.colorado.phet.common_greenhouse.model.ModelElement;
+import edu.colorado.phet.greenhouse.common_greenhouse.model.ModelElement;
 
 public abstract class AbstractPhotonEmitter extends ModelElement implements PhotonEmitter {
     private double productionRate;

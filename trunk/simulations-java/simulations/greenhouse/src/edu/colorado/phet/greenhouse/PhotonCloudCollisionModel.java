@@ -10,12 +10,12 @@ package edu.colorado.phet.greenhouse;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common_greenhouse.math.Vector2D;
-import edu.colorado.phet.coreadditions_greenhouse.Body;
-import edu.colorado.phet.coreadditions_greenhouse.Vector3D;
-import edu.colorado.phet.filter.BandpassFilter;
-import edu.colorado.phet.filter.Filter1D;
-import edu.colorado.phet.filter.ProbablisticPassFilter;
+import edu.colorado.phet.greenhouse.common_greenhouse.math.Vector2D;
+import edu.colorado.phet.greenhouse.coreadditions.Body;
+import edu.colorado.phet.greenhouse.coreadditions.Vector3D;
+import edu.colorado.phet.greenhouse.filter.BandpassFilter;
+import edu.colorado.phet.greenhouse.filter.Filter1D;
+import edu.colorado.phet.greenhouse.filter.ProbablisticPassFilter;
 
 public class PhotonCloudCollisionModel {
 

@@ -18,10 +18,10 @@ import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common_greenhouse.view.CompositeGraphic;
-import edu.colorado.phet.coreadditions_greenhouse.graphics.BufferedImageUtils;
-import edu.colorado.phet.coreadditions_greenhouse.graphics.DuotoneImageOp;
-import edu.colorado.phet.coreadditions_greenhouse.graphics.ImageGraphic;
+import edu.colorado.phet.greenhouse.common_greenhouse.view.CompositeGraphic;
+import edu.colorado.phet.greenhouse.coreadditions.graphics.BufferedImageUtils;
+import edu.colorado.phet.greenhouse.coreadditions.graphics.DuotoneImageOp;
+import edu.colorado.phet.greenhouse.coreadditions.graphics.ImageGraphic;
 
 public class PhotonGraphic extends CompositeGraphic implements Observer {
 
