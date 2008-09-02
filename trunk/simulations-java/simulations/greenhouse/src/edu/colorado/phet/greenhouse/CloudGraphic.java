@@ -11,8 +11,8 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.util.Random;
 
-import edu.colorado.phet.greenhouse.common_greenhouse.view.graphics.Graphic;
 import edu.colorado.phet.greenhouse.coreadditions.graphics.ShapeGraphicType;
+import edu.colorado.phet.greenhouse.phetcommon.view.graphics.Graphic;
 
 public class CloudGraphic implements Graphic, ShapeGraphicType {
 

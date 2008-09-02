@@ -8,7 +8,7 @@ package edu.colorado.phet.greenhouse;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.greenhouse.common_greenhouse.model.ModelElement;
+import edu.colorado.phet.greenhouse.phetcommon.model.ModelElement;
 
 public class ScatterEvent extends ModelElement {
     Point2D.Double location;

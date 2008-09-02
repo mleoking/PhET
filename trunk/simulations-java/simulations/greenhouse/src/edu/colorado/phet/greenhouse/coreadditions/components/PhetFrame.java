@@ -12,9 +12,9 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.greenhouse.common_greenhouse.application.PhetApplication;
-import edu.colorado.phet.greenhouse.common_greenhouse.view.components.menu.HelpMenu;
-import edu.colorado.phet.greenhouse.common_greenhouse.view.components.menu.PhetFileMenu;
+import edu.colorado.phet.greenhouse.phetcommon.application.PhetApplication;
+import edu.colorado.phet.greenhouse.phetcommon.view.components.menu.HelpMenu;
+import edu.colorado.phet.greenhouse.phetcommon.view.components.menu.PhetFileMenu;
 
 public class PhetFrame extends JFrame {
     HelpMenu helpMenu;
@@ -56,7 +56,7 @@ public class PhetFrame extends JFrame {
      * @param menu
      */
     public void addMenu( JMenu menu ) {
-        edu.colorado.phet.greenhouse.common_greenhouse.view.util.GraphicsUtil.addMenuAt( menu, getJMenuBar(), getJMenuBar().getComponentCount() - 1 );
+        edu.colorado.phet.greenhouse.phetcommon.view.util.GraphicsUtil.addMenuAt( menu, getJMenuBar(), getJMenuBar().getComponentCount() - 1 );
     }
 
     public void addFileMenuSeparator() {

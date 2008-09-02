@@ -9,9 +9,9 @@ package edu.colorado.phet.greenhouse;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.greenhouse.common_greenhouse.model.BaseModel;
-import edu.colorado.phet.greenhouse.common_greenhouse.model.IClock;
-import edu.colorado.phet.greenhouse.common_greenhouse.model.ModelElement;
+import edu.colorado.phet.greenhouse.phetcommon.model.BaseModel;
+import edu.colorado.phet.greenhouse.phetcommon.model.IClock;
+import edu.colorado.phet.greenhouse.phetcommon.model.ModelElement;
 
 public class GreenhouseModel extends BaseModel implements PhotonEmitter.Listener, PhotonAbsorber.Listener {
     private Star sun;

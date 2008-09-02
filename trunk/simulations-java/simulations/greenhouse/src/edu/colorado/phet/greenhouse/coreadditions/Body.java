@@ -8,8 +8,8 @@ package edu.colorado.phet.greenhouse.coreadditions;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.greenhouse.common_greenhouse.math.Vector2D;
-import edu.colorado.phet.greenhouse.common_greenhouse.model.ModelElement;
+import edu.colorado.phet.greenhouse.phetcommon.math.Vector2D;
+import edu.colorado.phet.greenhouse.phetcommon.model.ModelElement;
 
 public abstract class Body extends ModelElement {
     private double omega;

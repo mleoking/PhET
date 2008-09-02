@@ -15,8 +15,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.greenhouse.common_greenhouse.view.util.graphics.ImageLoader;
 import edu.colorado.phet.greenhouse.coreadditions.MessageFormatter;
+import edu.colorado.phet.greenhouse.phetcommon.view.util.graphics.ImageLoader;
 
 
 public class GlassPaneControlPanel extends JPanel {

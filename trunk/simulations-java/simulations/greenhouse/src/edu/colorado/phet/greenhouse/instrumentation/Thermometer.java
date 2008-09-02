@@ -8,7 +8,7 @@ package edu.colorado.phet.greenhouse.instrumentation;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.greenhouse.common_greenhouse.model.ModelElement;
+import edu.colorado.phet.greenhouse.phetcommon.model.ModelElement;
 
 public class Thermometer extends ModelElement {
     private TemperatureReporter temperatureReporter;
