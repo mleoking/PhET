@@ -8,7 +8,7 @@ package edu.colorado.phet.greenhouse;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common_greenhouse.model.ModelElement;
+import edu.colorado.phet.greenhouse.common_greenhouse.model.ModelElement;
 
 public abstract class AbstractPhotonAbsorber extends ModelElement implements PhotonAbsorber {
 

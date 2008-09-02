@@ -14,9 +14,9 @@ import java.util.Iterator;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common_greenhouse.application.PhetApplication;
-import edu.colorado.phet.common_greenhouse.view.ApparatusPanel;
-import edu.colorado.phet.common_greenhouse.view.graphics.Graphic;
+import edu.colorado.phet.greenhouse.common_greenhouse.application.PhetApplication;
+import edu.colorado.phet.greenhouse.common_greenhouse.view.ApparatusPanel;
+import edu.colorado.phet.greenhouse.common_greenhouse.view.graphics.Graphic;
 
 public class GreenhouseModule extends BaseGreenhouseModule {
 

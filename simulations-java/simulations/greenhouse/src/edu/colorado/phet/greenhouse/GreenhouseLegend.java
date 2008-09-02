@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common_greenhouse.view.util.GraphicsUtil;
+import edu.colorado.phet.greenhouse.common_greenhouse.view.util.GraphicsUtil;
 
 public class GreenhouseLegend extends JPanel {
 

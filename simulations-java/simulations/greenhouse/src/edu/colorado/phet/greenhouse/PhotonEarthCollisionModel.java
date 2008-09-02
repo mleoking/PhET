@@ -8,7 +8,7 @@ package edu.colorado.phet.greenhouse;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common_greenhouse.math.Vector2D;
+import edu.colorado.phet.greenhouse.common_greenhouse.math.Vector2D;
 
 public class PhotonEarthCollisionModel {
 

@@ -15,17 +15,17 @@ import java.util.Iterator;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common_greenhouse.application.Module;
-import edu.colorado.phet.common_greenhouse.application.PhetApplication;
-import edu.colorado.phet.common_greenhouse.model.IClock;
-import edu.colorado.phet.common_greenhouse.model.ModelElement;
-import edu.colorado.phet.common_greenhouse.view.ApparatusPanel;
-import edu.colorado.phet.common_greenhouse.view.CompositeGraphic;
-import edu.colorado.phet.common_greenhouse.view.FlipperAffineTransformFactory;
-import edu.colorado.phet.filter.BandpassFilter;
-import edu.colorado.phet.filter.Filter1D;
-import edu.colorado.phet.instrumentation.Thermometer;
-import edu.colorado.phet.instrumentation.ThermometerGraphic;
+import edu.colorado.phet.greenhouse.common_greenhouse.application.Module;
+import edu.colorado.phet.greenhouse.common_greenhouse.application.PhetApplication;
+import edu.colorado.phet.greenhouse.common_greenhouse.model.IClock;
+import edu.colorado.phet.greenhouse.common_greenhouse.model.ModelElement;
+import edu.colorado.phet.greenhouse.common_greenhouse.view.ApparatusPanel;
+import edu.colorado.phet.greenhouse.common_greenhouse.view.CompositeGraphic;
+import edu.colorado.phet.greenhouse.common_greenhouse.view.FlipperAffineTransformFactory;
+import edu.colorado.phet.greenhouse.filter.BandpassFilter;
+import edu.colorado.phet.greenhouse.filter.Filter1D;
+import edu.colorado.phet.greenhouse.instrumentation.Thermometer;
+import edu.colorado.phet.greenhouse.instrumentation.ThermometerGraphic;
 
 
 public abstract class BaseGreenhouseModule extends Module {

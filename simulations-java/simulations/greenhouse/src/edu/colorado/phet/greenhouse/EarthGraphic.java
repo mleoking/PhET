@@ -20,12 +20,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import edu.colorado.phet.common_greenhouse.view.ApparatusPanel;
-import edu.colorado.phet.common_greenhouse.view.graphics.Animation;
-import edu.colorado.phet.common_greenhouse.view.graphics.Graphic;
-import edu.colorado.phet.common_greenhouse.view.util.graphics.ImageLoader;
-import edu.colorado.phet.coreadditions_greenhouse.graphics.ImageGraphic;
-import edu.colorado.phet.coreadditions_greenhouse.graphics.ShapeGraphicType;
+import edu.colorado.phet.greenhouse.common_greenhouse.view.ApparatusPanel;
+import edu.colorado.phet.greenhouse.common_greenhouse.view.graphics.Animation;
+import edu.colorado.phet.greenhouse.common_greenhouse.view.graphics.Graphic;
+import edu.colorado.phet.greenhouse.common_greenhouse.view.util.graphics.ImageLoader;
+import edu.colorado.phet.greenhouse.coreadditions.graphics.ImageGraphic;
+import edu.colorado.phet.greenhouse.coreadditions.graphics.ShapeGraphicType;
 
 /**
  * Quirks:

@@ -8,7 +8,7 @@ package edu.colorado.phet.greenhouse;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.coreadditions_greenhouse.Disk;
+import edu.colorado.phet.greenhouse.coreadditions.Disk;
 
 public class Photon extends Disk {
 

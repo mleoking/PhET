@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
-import edu.colorado.phet.coreadditions_greenhouse.Annulus;
-import edu.colorado.phet.filter.BandpassFilter;
+import edu.colorado.phet.greenhouse.coreadditions.Annulus;
+import edu.colorado.phet.greenhouse.filter.BandpassFilter;
 
 public class Atmosphere extends Annulus /*extends BasicPhotonAbsorber */ implements PhotonEmitter, PhotonAbsorber {
 

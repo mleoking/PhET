@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.filter.Filter1D;
+import edu.colorado.phet.greenhouse.filter.Filter1D;
 
 /**
  * IrPassFilter
