@@ -291,8 +291,7 @@ public class InteractionPotentialDiagramNode extends PNode {
     }
     
     /**
-     * Calculate the normalized Lennard-Jones potential, meaning that the 
-     * sigma and epsilon values are assumed to be equal to 1.
+     * Calculate the Lennard-Jones potential for the given distance.
      * 
      * @param radius
      * @return
