@@ -8,7 +8,7 @@ package edu.colorado.phet.sound;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_sound.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.coreadditions_sound.ScalarObservable;
+import edu.colorado.phet.sound.coreadditions.ScalarObservable;
 import edu.colorado.phet.sound.model.AttenuationFunction;
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.model.WaveMedium;
