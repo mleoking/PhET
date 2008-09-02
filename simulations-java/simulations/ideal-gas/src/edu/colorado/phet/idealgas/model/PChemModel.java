@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.idealgas.model;
 
-import edu.colorado.phet.collision_idealgas.Wall;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
+import edu.colorado.phet.idealgas.collision.Wall;
 
 import java.awt.geom.Rectangle2D;
 import java.util.EventListener;

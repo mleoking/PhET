@@ -8,8 +8,8 @@ package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.instrumentation.Thermometer;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
-import edu.colorado.phet.instrumentation_idealgas.Thermometer;
 
 import java.awt.*;
 import java.awt.geom.Point2D;

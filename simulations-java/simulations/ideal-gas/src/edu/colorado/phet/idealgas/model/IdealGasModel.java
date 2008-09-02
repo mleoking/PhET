@@ -10,10 +10,6 @@
  */
 package edu.colorado.phet.idealgas.model;
 
-import edu.colorado.phet.collision_idealgas.CollidableBody;
-import edu.colorado.phet.collision_idealgas.CollisionExpert;
-import edu.colorado.phet.collision_idealgas.CollisionGod;
-import edu.colorado.phet.collision_idealgas.SphereSphereExpert;
 import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.Command;
@@ -22,6 +18,10 @@ import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.collision.CollidableBody;
+import edu.colorado.phet.idealgas.collision.CollisionExpert;
+import edu.colorado.phet.idealgas.collision.CollisionGod;
+import edu.colorado.phet.idealgas.collision.SphereSphereExpert;
 
 import java.awt.*;
 import java.awt.geom.Area;

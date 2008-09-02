@@ -7,8 +7,8 @@
  */
 package edu.colorado.phet.idealgas.model;
 
-import edu.colorado.phet.collision_idealgas.SphericalBody;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.idealgas.collision.SphericalBody;
 
 /**
  * Singleton class of constrain for keeping a particle in a box.
