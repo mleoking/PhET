@@ -86,7 +86,5 @@ public class ParticleForceNode extends ParticleNode {
         double mass = m_particle.getMass() * 1.6605402e-27;  // Convert mass to kilograms.
         double force = m_particle.getAx() * mass;
         m_forceVectorNode.setMagnitudeAngle( force, 0 );
-        System.out.println("Force = " + force);
-
     }
 }

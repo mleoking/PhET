@@ -37,11 +37,8 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
                                                            // origin all the way to the left, and 1 puts it all the
                                                            // way to the right, though it always seems to require
                                                            // a little tweaking.
-    private final double HEIGHT_TRANSLATION_FACTOR = 0.67; // 0 puts the horizontal origin at the top of the window,
+    private final double HEIGHT_TRANSLATION_FACTOR = 0.73; // 0 puts the horizontal origin at the top of the window,
                                                            // 1 puts it at the bottom.
-    
-    // Sizes, in terms of overall canvas size, of the nodes on the canvas.
-    private final double DIAGRAM_NODE_WIDTH = CANVAS_WIDTH / 1.75;
     
     //----------------------------------------------------------------------------
     // Instance Data
@@ -110,8 +107,6 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         m_diagram.scale( diagramScaleFactor );
         
         // Position the diagram so that the x origin lines up with the fixed particle.
-//        m_diagram.setOffset( m_diagram.getFullBoundsReference().width * (1 - m_diagram.getXAxisGraphProportion()), 
-//                -m_diagram.getFullBoundsReference().height * 1.3 );
         m_diagram.setOffset( -m_diagram.getFullBoundsReference().width * (1 - m_diagram.getXAxisGraphProportion()), 
                   -m_diagram.getFullBoundsReference().height * 1.3 );
         addWorldChild( m_diagram );

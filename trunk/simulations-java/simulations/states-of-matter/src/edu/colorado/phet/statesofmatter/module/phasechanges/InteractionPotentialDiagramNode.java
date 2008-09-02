@@ -59,7 +59,7 @@ public class InteractionPotentialDiagramNode extends PNode {
     private static final Stroke TICK_MARK_STROKE = new BasicStroke(TICK_MARK_WIDTH);
     private static final Color BACKGROUND_COLOR = Color.WHITE;
     private static final Color POSITION_MARKER_COLOR = Color.CYAN;
-    private static final double POSITION_MARKER_DIAMETER_PROPORTION = 0.03; // Size of pos marker wrt overal width.
+    private static final double POSITION_MARKER_DIAMETER_PROPORTION = 0.03; // Size of pos marker wrt overall width.
     private static final float POSITION_MARKER_STROKE_WIDTH = 0.75f;
     private static final Stroke POSITION_MARKER_STROKE = new BasicStroke(POSITION_MARKER_STROKE_WIDTH);
     
@@ -68,7 +68,7 @@ public class InteractionPotentialDiagramNode extends PNode {
     private static final double VERT_AXIS_SIZE_PROPORTION = 0.85;
     
     // Font for the labels used on the axes and within the graph.
-    private static final int AXIS_LABEL_FONT_SIZE = 13;
+    private static final int AXIS_LABEL_FONT_SIZE = 14;
     private static final Font AXIS_LABEL_FONT = new PhetFont(AXIS_LABEL_FONT_SIZE);
     private static final int GREEK_LETTER_FONT_SIZE = 16;
     private static final Font GREEK_LETTER_FONT = new PhetFont(GREEK_LETTER_FONT_SIZE);
@@ -234,7 +234,7 @@ public class InteractionPotentialDiagramNode extends PNode {
         
         PText verticalAxisLabel = new PText(StatesOfMatterStrings.INTERACTION_POTENTIAL_GRAPH_Y_AXIS_LABEL);
         verticalAxisLabel.setFont( AXIS_LABEL_FONT );
-        verticalAxisLabel.setOffset( 0, 
+        verticalAxisLabel.setOffset( m_graphOffsetX / 2 - (verticalAxisLabel.getFullBoundsReference().height / 2), 
                 (m_graphOffsetY + m_graphHeight) / 2 + (verticalAxisLabel.getFullBoundsReference().width / 2) );
         verticalAxisLabel.rotate( 3 * Math.PI / 2 );
         addChild( verticalAxisLabel );
