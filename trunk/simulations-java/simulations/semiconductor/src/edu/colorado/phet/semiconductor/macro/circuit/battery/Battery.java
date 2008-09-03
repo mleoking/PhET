@@ -1,7 +1,7 @@
 package edu.colorado.phet.semiconductor.macro.circuit.battery;
 
-import edu.colorado.phet.common_semiconductor.math.PhetVector;
 import edu.colorado.phet.semiconductor.macro.circuit.LinearBranch;
+import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
 
 import java.util.ArrayList;
 

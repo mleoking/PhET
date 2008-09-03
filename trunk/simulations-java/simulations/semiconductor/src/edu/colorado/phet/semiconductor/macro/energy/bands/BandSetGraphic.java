@@ -1,14 +1,14 @@
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.macro.energy.bands;
 
-import edu.colorado.phet.common_semiconductor.math.PhetVector;
-import edu.colorado.phet.common_semiconductor.view.CompositeInteractiveGraphic;
-import edu.colorado.phet.common_semiconductor.view.graphics.ShapeGraphic;
-import edu.colorado.phet.common_semiconductor.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common_semiconductor.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.semiconductor.common.ClipGraphic;
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
 import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
+import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
+import edu.colorado.phet.semiconductor.phetcommon.view.CompositeInteractiveGraphic;
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.ShapeGraphic;
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.semiconductor.util.RectangleUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 

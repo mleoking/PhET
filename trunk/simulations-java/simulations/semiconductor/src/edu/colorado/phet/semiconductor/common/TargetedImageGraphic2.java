@@ -1,7 +1,7 @@
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.common;
 
-import edu.colorado.phet.common_semiconductor.view.graphics.Graphic;
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

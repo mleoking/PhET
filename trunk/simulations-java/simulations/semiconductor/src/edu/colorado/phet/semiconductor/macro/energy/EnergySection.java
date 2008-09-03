@@ -1,10 +1,5 @@
 package edu.colorado.phet.semiconductor.macro.energy;
 
-import edu.colorado.phet.common_semiconductor.math.PhetVector;
-import edu.colorado.phet.common_semiconductor.model.ModelElement;
-import edu.colorado.phet.common_semiconductor.model.simpleobservable.SimpleObserver;
-import edu.colorado.phet.common_semiconductor.view.graphics.Graphic;
-import edu.colorado.phet.common_semiconductor.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.semiconductor.SemiconductorApplication;
 import edu.colorado.phet.semiconductor.common.EnergySpaceRegion;
 import edu.colorado.phet.semiconductor.macro.BucketSection;
@@ -22,6 +17,11 @@ import edu.colorado.phet.semiconductor.macro.energy.statemodels.ExciteForConduct
 import edu.colorado.phet.semiconductor.macro.energy.statemodels.ModelCriteria;
 import edu.colorado.phet.semiconductor.macro.energy.states.MoveToCell;
 import edu.colorado.phet.semiconductor.macro.energy.states.Speed;
+import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
+import edu.colorado.phet.semiconductor.phetcommon.model.ModelElement;
+import edu.colorado.phet.semiconductor.phetcommon.model.simpleobservable.SimpleObserver;
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.semiconductor.util.RectangleUtils;
 
 import java.awt.*;

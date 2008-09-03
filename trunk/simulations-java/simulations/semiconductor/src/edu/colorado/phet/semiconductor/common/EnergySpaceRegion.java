@@ -1,6 +1,6 @@
 package edu.colorado.phet.semiconductor.common;
 
-import edu.colorado.phet.common_semiconductor.math.PhetVector;
+import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
 
 import java.awt.geom.Rectangle2D;
 

@@ -2,11 +2,11 @@ package edu.colorado.phet.semiconductor.macro.energy.bands;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common_semiconductor.view.graphics.Graphic;
-import edu.colorado.phet.common_semiconductor.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common_semiconductor.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.semiconductor.common.EnergySpaceRegion;
 import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.TransformListener;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

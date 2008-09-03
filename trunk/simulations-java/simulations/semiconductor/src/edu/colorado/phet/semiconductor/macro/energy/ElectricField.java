@@ -1,7 +1,7 @@
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.macro.energy;
 
-import edu.colorado.phet.common_semiconductor.math.PhetVector;
+import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
 
 /**
  * User: Sam Reid
