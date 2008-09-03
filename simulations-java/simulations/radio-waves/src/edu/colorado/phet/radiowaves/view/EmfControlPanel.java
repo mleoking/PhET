@@ -9,13 +9,13 @@ package edu.colorado.phet.radiowaves.view;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_1200.view.util.GraphicsUtil;
 import edu.colorado.phet.common_1200.view.util.ImageLoader;
-import edu.colorado.phet.coreadditions.emf.MessageFormatter;
 import edu.colorado.phet.radiowaves.EmfConfig;
 import edu.colorado.phet.radiowaves.EmfModule;
 import edu.colorado.phet.radiowaves.command.DynamicFieldIsEnabledCmd;
 import edu.colorado.phet.radiowaves.command.SetAmplitudeCmd;
 import edu.colorado.phet.radiowaves.command.SetFreqencyCmd;
 import edu.colorado.phet.radiowaves.command.StaticFieldIsEnabledCmd;
+import edu.colorado.phet.radiowaves.coreadditions.MessageFormatter;
 import edu.colorado.phet.radiowaves.model.EmfModel;
 
 import javax.swing.*;
