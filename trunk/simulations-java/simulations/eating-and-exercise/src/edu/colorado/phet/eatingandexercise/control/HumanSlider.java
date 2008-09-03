@@ -1,5 +1,7 @@
 package edu.colorado.phet.eatingandexercise.control;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.text.NumberFormat;
 import java.util.Hashtable;
 

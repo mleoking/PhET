@@ -2,10 +2,6 @@
 ###	Todo Sam	####
 ############################
 
--Entering values into text boxes does not affect the value unless you hit the enter key.
-If you enter values without hitting enter (e.g., using tab to go to the next box or just hitting play) the values reset.
-   >>Make textboxes update incrementally as values are entered.
-
 ############################
 ###	Todo Noah P	####
 ############################
@@ -19,8 +15,6 @@ If you enter values without hitting enter (e.g., using tab to go to the next box
 ############################
 
 --We might revisit the idea of having exercise only certain days of the week, or maybe every other day. Based on feedback from UCSD.
-
-
 
 ##################################
 ###	Archived Issues		####

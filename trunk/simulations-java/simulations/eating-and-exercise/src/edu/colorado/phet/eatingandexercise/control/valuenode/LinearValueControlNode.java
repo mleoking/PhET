@@ -1,7 +1,6 @@
 package edu.colorado.phet.eatingandexercise.control.valuenode;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -32,7 +31,7 @@ public class LinearValueControlNode extends PNode {
     private PText unitsNode;
     private int SPACING = 5;
     private double value;
-    private JFormattedTextField field;
+    private JFormattedTextField formattedTextField;
     private NumberFormat numberFormat;
     private double min;
     private double max;
@@ -47,21 +46,47 @@ public class LinearValueControlNode extends PNode {
         labelNode = new PText( label );
         addChild( labelNode );
 
-        field = new JFormattedTextField( numberFormat );
-        field.setColumns( 4 );
-        field.setValue( new Double( value ) );
-        field.setHorizontalAlignment( JTextField.RIGHT );
-        field.addActionListener( new ActionListener() {
+        formattedTextField = new JFormattedTextField( numberFormat );
+        formattedTextField.setColumns( 4 );
+        formattedTextField.setValue( new Double( value ) );
+        formattedTextField.setHorizontalAlignment( JTextField.RIGHT );
+        formattedTextField.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {
-                    setValueAndNotifyModel( parseText() );
+                    setValueAndNotifyModel( parseText(), true );
                 }
                 catch( ParseException e1 ) {
                     e1.printStackTrace();
                 }
             }
         } );
-        readoutNode = new PSwing( field );
+        formattedTextField.addKeyListener( new KeyAdapter() {
+            public void keyReleased( KeyEvent e ) {
+                try {
+                    double value = parseText();
+                    if ( value >= LinearValueControlNode.this.min && value <= LinearValueControlNode.this.max ) {
+                        setValueAndNotifyModel( value, false );
+                    }
+                    else {
+                        //todo: set the readout to expire if the user does something else or waits too long
+                    }
+                }
+                catch( ParseException e1 ) {
+                    e1.printStackTrace();
+                }
+            }
+        } );
+        formattedTextField.addMouseListener( new MouseAdapter() {
+            public void mousePressed( MouseEvent e ) {
+                SwingUtilities.invokeLater( new Runnable() {
+                    public void run() {
+                        formattedTextField.setSelectionEnd( 0 );
+                        formattedTextField.setSelectionEnd( formattedTextField.getText().length() );
+                    }
+                } );
+            }
+        } );
+        readoutNode = new PSwing( formattedTextField );
         addChild( readoutNode );
 
         unitsNode = new PText( units );
@@ -70,26 +95,49 @@ public class LinearValueControlNode extends PNode {
         sliderNode = new SliderNode( min, max, value );
         sliderNode.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                setValueAndNotifyModel( sliderNode.getValue() );
+                setValueAndNotifyModel( sliderNode.getValue(), true );
             }
         } );
         addChild( sliderNode );
-        setValueAndNotifyModel( value );//run the value through the numberformat
+        setValueAndNotifyModel( value, true );//run the value through the numberformat
         relayout();
     }
 
     public void setTextFieldColumns( int c ) {
-        field.setColumns( c );
+        formattedTextField.setColumns( c );
         readoutNode.computeBounds();
         relayout();
     }
 
     private double parseText() throws ParseException {
-        return LinearValueControlNode.this.numberFormat.parse( field.getText() ).doubleValue();
+        return LinearValueControlNode.this.numberFormat.parse( formattedTextField.getText() ).doubleValue();
     }
 
     public void setSliderRange( double min, double max ) {
         sliderNode.setRange( min, max );
+    }
+
+    public JFormattedTextField getFormattedTextField() {
+        return formattedTextField;
+    }
+
+    private void setValue( double v, boolean updateTextBox ) {
+        //run the value through the numberformat, so that the displayed value matches the internal model value
+        //todo: is this necessary?
+        try {
+            v = numberFormat.parse( String.valueOf( v ) ).doubleValue();
+            if ( this.value != v ) {
+                this.value = v;
+                if ( updateTextBox ) {
+                    formattedTextField.setValue( new Double( v ) );
+                }
+                sliderNode.setValue( v );
+            }
+        }
+        catch( ParseException e ) {
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -104,32 +152,22 @@ public class LinearValueControlNode extends PNode {
      * @param v the value to display
      */
     public void setValue( double v ) {
-        //run the value through the numberformat, so that the displayed value matches the internal model value
-        //todo: is this necessary?
-        try {
-            v = numberFormat.parse( String.valueOf( v ) ).doubleValue();
-            if ( this.value != v ) {
-                this.value = v;
-                field.setValue( new Double( v ) );
-                sliderNode.setValue( v );
-            }
-        }
-        catch( ParseException e ) {
-            e.printStackTrace();
-        }
+        setValue( v, true );
     }
 
-    private void setValueAndNotifyModel( double v ) {
+    private void setValueAndNotifyModel( double v, boolean updateTextBox ) {
         double oldValue = getValue();
         if ( v >= min && v <= max ) {
-            setValue( v );
+            setValue( v, updateTextBox );
             if ( getValue() != oldValue ) {
                 notifyListeners();
             }
         }
         else {
-            setValue( oldValue );
-            field.setValue( new Double( oldValue ) );
+            setValue( oldValue, updateTextBox );
+            if ( updateTextBox ) {
+                formattedTextField.setValue( new Double( oldValue ) );
+            }
             //todo: optionally show an out-of-range message
         }
     }
@@ -152,7 +190,7 @@ public class LinearValueControlNode extends PNode {
 
     public void setTextFieldFormat( NumberFormat numberFormat ) {
         this.numberFormat = numberFormat;
-        field.setFormatterFactory( new DefaultFormatterFactory( new NumberFormatter( numberFormat ) ) );
+        formattedTextField.setFormatterFactory( new DefaultFormatterFactory( new NumberFormatter( numberFormat ) ) );
     }
 
     public void setLayoutStrategy( LayoutStrategy layoutStrategy ) {
