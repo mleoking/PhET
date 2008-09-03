@@ -1,7 +1,7 @@
 package edu.colorado.phet.signalcircuit;
 
-import edu.colorado.phet.paint.particle.ParticlePainter;
-import edu.colorado.phet.phys2d.Particle;
+import edu.colorado.phet.signalcircuit.paint.particle.ParticlePainter;
+import edu.colorado.phet.signalcircuit.phys2d.Particle;
 
 import javax.swing.*;
 import java.awt.*;

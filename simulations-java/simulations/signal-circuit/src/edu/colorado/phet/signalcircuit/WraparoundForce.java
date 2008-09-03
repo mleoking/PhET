@@ -1,9 +1,9 @@
 package edu.colorado.phet.signalcircuit;
 
-import edu.colorado.phet.electron.wire1d.Force1d;
-import edu.colorado.phet.electron.wire1d.WireParticle;
-import edu.colorado.phet.electron.wire1d.WirePatch;
-import edu.colorado.phet.electron.wire1d.WireSystem;
+import edu.colorado.phet.signalcircuit.electron.wire1d.Force1d;
+import edu.colorado.phet.signalcircuit.electron.wire1d.WireParticle;
+import edu.colorado.phet.signalcircuit.electron.wire1d.WirePatch;
+import edu.colorado.phet.signalcircuit.electron.wire1d.WireSystem;
 
 public class WraparoundForce implements Force1d, SwitchListener {
     double k;

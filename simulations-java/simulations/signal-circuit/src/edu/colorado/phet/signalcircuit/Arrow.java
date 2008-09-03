@@ -1,11 +1,11 @@
 package edu.colorado.phet.signalcircuit;
 
-import edu.colorado.phet.electron.wire1d.WirePatch;
-import edu.colorado.phet.paint.Painter;
-import edu.colorado.phet.paint.vector.DefaultVectorPainter;
-import edu.colorado.phet.paint.vector.VectorPainter;
-import edu.colorado.phet.paint.vector.VectorPainterAdapter;
-import edu.colorado.phet.phys2d.DoublePoint;
+import edu.colorado.phet.signalcircuit.electron.wire1d.WirePatch;
+import edu.colorado.phet.signalcircuit.paint.Painter;
+import edu.colorado.phet.signalcircuit.paint.vector.DefaultVectorPainter;
+import edu.colorado.phet.signalcircuit.paint.vector.VectorPainter;
+import edu.colorado.phet.signalcircuit.paint.vector.VectorPainterAdapter;
+import edu.colorado.phet.signalcircuit.phys2d.DoublePoint;
 
 import java.awt.*;
 import java.util.Vector;

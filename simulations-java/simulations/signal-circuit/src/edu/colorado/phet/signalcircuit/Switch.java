@@ -1,7 +1,7 @@
 package edu.colorado.phet.signalcircuit;
 
-import edu.colorado.phet.paint.BufferedImagePainter;
-import edu.colorado.phet.paint.Painter;
+import edu.colorado.phet.signalcircuit.paint.BufferedImagePainter;
+import edu.colorado.phet.signalcircuit.paint.Painter;
 
 import javax.swing.*;
 import java.awt.*;
