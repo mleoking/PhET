@@ -263,6 +263,12 @@ public class PhetLookAndFeel {
 
     private PropertyList getTextValues() {
         PropertyList textValues = new PropertyList();
+        textValues.addAll( getOptionPaneStrings() );
+        return textValues;
+    }
+
+    private PropertyList getOptionPaneStrings() {
+        PropertyList textValues = new PropertyList();
         textValues.add( "OptionPane", "cancelButtonText", getCommonString( "Common.choice.cancel" ) );
         textValues.add( "OptionPane", "noButtonText", getCommonString( "Common.choice.no" ) );
         textValues.add( "OptionPane", "yesButtonText", getCommonString( "Common.choice.yes" ));
