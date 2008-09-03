@@ -36,19 +36,20 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
 
     // Canvas size in pico meters, since this is a reasonable scale at which
     // to display molecules.  Assumes a 4:3 aspect ratio.
-    private final double CANVAS_WIDTH = 2000;
-    private final double CANVAS_HEIGHT = CANVAS_WIDTH * (3.0d/4.0d);
+    private static final double CANVAS_WIDTH = 2000;
+    private static final double CANVAS_HEIGHT = CANVAS_WIDTH * (3.0d/4.0d);
     
     // Translation factors, used to set origin of canvas area.
-    private final double WIDTH_TRANSLATION_FACTOR = 0.3;   // Roughly speaking, a value of zero puts the horizontal
-                                                           // origin all the way to the left, and 1 puts it all the
-                                                           // way to the right, though it always seems to require
-                                                           // a little tweaking.
-    private final double HEIGHT_TRANSLATION_FACTOR = 0.73; // 0 puts the horizontal origin at the top of the window,
-                                                           // 1 puts it at the bottom.
+    private static final double WIDTH_TRANSLATION_FACTOR = 0.3;   // 0 puts the vertical origin all the way left, 1
+                                                                  // is all the way to the right.
+    private static final double HEIGHT_TRANSLATION_FACTOR = 0.73; // 0 puts the horizontal origin at the top of the 
+                                                                  // window, 1 puts it at the bottom.
     
     // Factor used to control size of button.
-    private final double BUTTON_WIDTH = CANVAS_WIDTH * 0.20;
+    private final double BUTTON_HEIGHT = CANVAS_WIDTH * 0.06;
+    
+    // Factor used to control size of wiggle me.
+    private final double WIGGLE_ME_HEIGHT = CANVAS_HEIGHT * 0.10;
     
     //----------------------------------------------------------------------------
     // Instance Data
@@ -144,7 +145,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         
         // Add button to the canvas for stopping the motion of the atom.
         m_stopAtomButtonNode = new GradientButtonNode(StatesOfMatterStrings.STOP_ATOM, 16, new Color(0xffcc66));
-        m_stopAtomButtonNode.scale( BUTTON_WIDTH / m_stopAtomButtonNode.getFullBoundsReference().width );
+        m_stopAtomButtonNode.scale( BUTTON_HEIGHT / m_stopAtomButtonNode.getFullBoundsReference().height );
         addWorldChild( m_stopAtomButtonNode );
         m_stopAtomButtonNode.setOffset( 
                 m_diagram.getFullBoundsReference().getMaxX() - m_stopAtomButtonNode.getFullBoundsReference().width,
@@ -163,14 +164,9 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         // started.
         m_wiggleMe = new DefaultWiggleMe( this, "Move atom and release." );  // TODO JBP TBD - Make this a string.
         m_wiggleMe.setArrowTailPosition( MotionHelpBalloon.BOTTOM_CENTER );
-        addScreenChild( m_wiggleMe );
-        m_wiggleMe.setOffset( 0, 0 );
-        m_wiggleMe.setVisible( true );
-        m_wiggleMe.setBackground( Color.WHITE );
-        
-//        PText tempText = new PText("Here is some text");
-//        tempText.setPaint( Color.RED );
-//        addScreenChild( tempText );
+        m_wiggleMe.scale(WIGGLE_ME_HEIGHT / m_wiggleMe.getFullBoundsReference().height);
+        addWorldChild( m_wiggleMe);
+        m_wiggleMe.setOffset( 200, 200 );
         
         // Animate from the upper left to the position of the movable atom.
 //        PNode gunButtonNode = _gunNode.getButtonNode();
