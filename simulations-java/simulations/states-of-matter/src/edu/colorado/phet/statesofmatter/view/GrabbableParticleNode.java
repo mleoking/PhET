@@ -94,7 +94,8 @@ public class GrabbableParticleNode extends ParticleForceNode {
     }
     
     private void handleMouseEndDragEvent(PInputEvent event){
-        // Let the model move the particles again.
+        // Let the model move the particles again.  Note that this happens
+        // even if the motion was paused by some other means.
         m_model.setParticleMotionPaused( false );
     }
 }
