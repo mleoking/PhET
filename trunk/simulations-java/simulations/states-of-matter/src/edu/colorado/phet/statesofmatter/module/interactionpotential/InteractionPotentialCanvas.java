@@ -7,9 +7,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.help.DefaultWiggleMe;
+import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
@@ -20,6 +23,8 @@ import edu.colorado.phet.statesofmatter.module.phasechanges.InteractionPotential
 import edu.colorado.phet.statesofmatter.view.GrabbableParticleNode;
 import edu.colorado.phet.statesofmatter.view.ModelViewTransform;
 import edu.colorado.phet.statesofmatter.view.ParticleForceNode;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -65,6 +70,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     private boolean m_useGradient;
     private boolean m_showForces;
     private GradientButtonNode m_stopAtomButtonNode;
+    private DefaultWiggleMe m_wiggleMe;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -83,6 +89,25 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
             // there.
             m_useGradient = false;
         }
+
+        // Register for notifications of important events from the model.
+        m_model.addListener( new DualParticleModel.Adapter(){
+            public void fixedParticleAdded(StatesOfMatterAtom particle){
+                handleFixedParticleAdded( particle );
+            }
+            public void fixedParticleRemoved(StatesOfMatterAtom particle){
+                handleFixedParticleRemoved( particle );
+            }
+            public void movableParticleAdded(StatesOfMatterAtom particle){
+                handleMovableParticleAdded( particle );
+            }
+            public void movableParticleRemoved(StatesOfMatterAtom particle){
+                handleMovableParticleRemoved( particle );
+            }
+            public void interactionPotentialChanged(){
+                handleInteractionPotentialChanged();
+            }
+        });
 
         // Set the transform strategy so that the the origin (i.e. point x=0,
         // y = 0) is in a reasonable place.
@@ -138,27 +163,28 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
                 m_model.setParticleMotionPaused( true );
             }
         });
-
-
         
-        // Register for notifications of important events from the model.
-        m_model.addListener( new DualParticleModel.Adapter(){
-            public void fixedParticleAdded(StatesOfMatterAtom particle){
-                handleFixedParticleAdded( particle );
-            }
-            public void fixedParticleRemoved(StatesOfMatterAtom particle){
-                handleFixedParticleRemoved( particle );
-            }
-            public void movableParticleAdded(StatesOfMatterAtom particle){
-                handleMovableParticleAdded( particle );
-            }
-            public void movableParticleRemoved(StatesOfMatterAtom particle){
-                handleMovableParticleRemoved( particle );
-            }
-            public void interactionPotentialChanged(){
-                handleInteractionPotentialChanged();
-            }
-        });
+        // Add the "wiggle me", which will prompt the user on how to get
+        // started.
+        m_wiggleMe = new DefaultWiggleMe( this, "Move atom and release." );  // TODO JBP TBD - Make this a string.
+        m_wiggleMe.setArrowTailPosition( MotionHelpBalloon.BOTTOM_CENTER );
+        addScreenChild( m_wiggleMe );
+        m_wiggleMe.setOffset( 0, 0 );
+        m_wiggleMe.setVisible( true );
+        m_wiggleMe.setBackground( Color.WHITE );
+        
+//        PText tempText = new PText("Here is some text");
+//        tempText.setPaint( Color.RED );
+//        addScreenChild( tempText );
+        
+        // Animate from the upper left to the position of the movable atom.
+//        PNode gunButtonNode = _gunNode.getButtonNode();
+//        Rectangle2D bounds = _rootNode.globalToLocal( gunButtonNode.getGlobalFullBounds() );
+//        final double x = bounds.getX() + ( bounds.getWidth() / 2 );
+//        final double y = bounds.getY();
+//        m_wiggleMe.setOffset( 0, 0 );
+//        m_wiggleMe.animateTo( 100, 100 );
+
     }
     
     //----------------------------------------------------------------------------
