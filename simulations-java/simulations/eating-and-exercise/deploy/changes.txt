@@ -3,6 +3,7 @@ Fixed: Heart should be more unhappy when heart strength is low (right now it sti
 Removed "?" box next to happy heart.
 Fixed: Muscles should be smaller for thin person. Almost negligible when BMI gets near 18.
     Changed muscleWidthBeyondArm from leanMuscleFraction to max( leanMuscleFraction * leanMuscleFraction - 0.2, 0 )
+Made textboxes update incrementally as values are entered.
 
 New in 0.00.78
 (changes by Noah P.)
