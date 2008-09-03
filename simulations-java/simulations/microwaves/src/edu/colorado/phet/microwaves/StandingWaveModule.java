@@ -9,7 +9,7 @@ package edu.colorado.phet.microwaves;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
-import edu.colorado.phet.coreadditions_microwaves.collision.Box2D;
+import edu.colorado.phet.microwaves.coreadditions.collision.Box2D;
 import edu.colorado.phet.microwaves.model.MicrowaveModel;
 
 

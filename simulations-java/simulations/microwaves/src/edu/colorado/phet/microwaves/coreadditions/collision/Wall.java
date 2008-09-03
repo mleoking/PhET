@@ -5,10 +5,10 @@
  * Created by: Ron LeMaster
  * Date: Dec 12, 2002
  */
-package edu.colorado.phet.coreadditions_microwaves.collision;
+package edu.colorado.phet.microwaves.coreadditions.collision;
 
 import edu.colorado.phet.common_microwaves.math.Vector2D;
-import edu.colorado.phet.coreadditions_microwaves.Body;
+import edu.colorado.phet.microwaves.coreadditions.Body;
 
 import java.awt.geom.Point2D;
 

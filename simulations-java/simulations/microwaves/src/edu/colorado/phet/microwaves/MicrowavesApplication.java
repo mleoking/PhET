@@ -15,10 +15,10 @@ import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common_microwaves.application.Module;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.common_microwaves.view.ApplicationDescriptor;
-import edu.colorado.phet.coreadditions_microwaves.MessageFormatter;
 import edu.colorado.phet.coreadditions_microwaves.clock.DynamicClockModel;
 import edu.colorado.phet.coreadditions_microwaves.clock.SwingTimerClock;
 import edu.colorado.phet.coreadditions_microwaves.components.PhetFrame;
+import edu.colorado.phet.microwaves.coreadditions.MessageFormatter;
 
 public class MicrowavesApplication {
 

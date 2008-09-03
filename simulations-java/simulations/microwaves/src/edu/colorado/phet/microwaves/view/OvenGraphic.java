@@ -7,8 +7,8 @@
 package edu.colorado.phet.microwaves.view;
 
 import edu.colorado.phet.common_microwaves.view.graphics.ModelViewTransform2D;
-import edu.colorado.phet.coreadditions_microwaves.TxObservingGraphic;
-import edu.colorado.phet.coreadditions_microwaves.collision.Box2D;
+import edu.colorado.phet.microwaves.coreadditions.TxObservingGraphic;
+import edu.colorado.phet.microwaves.coreadditions.collision.Box2D;
 
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;

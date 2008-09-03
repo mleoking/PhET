@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Aug 6, 2003
  */
-package edu.colorado.phet.coreadditions_microwaves.chart;
+package edu.colorado.phet.microwaves.coreadditions.chart;
 
 public class StripChartModel {
 

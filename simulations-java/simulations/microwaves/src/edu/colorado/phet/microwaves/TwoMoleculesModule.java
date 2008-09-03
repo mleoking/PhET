@@ -8,7 +8,7 @@ package edu.colorado.phet.microwaves;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
-import edu.colorado.phet.coreadditions_microwaves.MessageFormatter;
+import edu.colorado.phet.microwaves.coreadditions.MessageFormatter;
 import edu.colorado.phet.microwaves.model.Microwave;
 import edu.colorado.phet.microwaves.model.WaterMolecule;
 import edu.colorado.phet.microwaves.model.WaterMoleculeWaterMoleculeCollisionExpert;
