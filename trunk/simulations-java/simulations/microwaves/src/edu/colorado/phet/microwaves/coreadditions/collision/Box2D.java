@@ -3,14 +3,14 @@
  * Date: Oct 18, 2002
  * Time: 10:55:17 AM
  */
-package edu.colorado.phet.coreadditions_microwaves.collision;
+package edu.colorado.phet.microwaves.coreadditions.collision;
 
 //import edu.colorado.phet.physics.PhysicalSystem;
 //import edu.colorado.phet.physics.Vector2D;
 //import edu.colorado.phet.physics.body.Body;
 
 import edu.colorado.phet.common_microwaves.math.Vector2D;
-import edu.colorado.phet.coreadditions_microwaves.CompositeBody;
+import edu.colorado.phet.microwaves.coreadditions.CompositeBody;
 
 import java.awt.geom.Point2D;
 

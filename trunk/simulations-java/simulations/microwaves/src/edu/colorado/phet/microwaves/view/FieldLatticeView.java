@@ -11,8 +11,8 @@ import edu.colorado.phet.common_microwaves.math.Vector2D;
 import edu.colorado.phet.common_microwaves.view.ApparatusPanel;
 import edu.colorado.phet.common_microwaves.view.graphics.ModelViewTransform2D;
 import edu.colorado.phet.common_microwaves.view.util.GraphicsUtil;
-import edu.colorado.phet.coreadditions_microwaves.TxObservingGraphic;
 import edu.colorado.phet.microwaves.MicrowaveConfig;
+import edu.colorado.phet.microwaves.coreadditions.TxObservingGraphic;
 import edu.colorado.phet.microwaves.view.graphics.splines.CubicSpline;
 import edu.colorado.phet.waves.model.WaveMedium;
 

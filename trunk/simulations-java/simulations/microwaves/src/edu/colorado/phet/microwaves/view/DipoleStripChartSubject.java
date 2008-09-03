@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.microwaves.view;
 
-import edu.colorado.phet.coreadditions_microwaves.chart.StripChartSubject;
+import edu.colorado.phet.microwaves.coreadditions.chart.StripChartSubject;
 import edu.colorado.phet.microwaves.model.PolarBody;
 
 public class DipoleStripChartSubject extends StripChartSubject {

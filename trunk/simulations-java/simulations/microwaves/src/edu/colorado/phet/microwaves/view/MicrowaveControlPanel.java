@@ -9,10 +9,10 @@ package edu.colorado.phet.microwaves.view;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.common_microwaves.view.util.GraphicsUtil;
-import edu.colorado.phet.coreadditions_microwaves.MeasuringTape;
-import edu.colorado.phet.coreadditions_microwaves.ModelViewTx1D;
 import edu.colorado.phet.microwaves.MicrowaveConfig;
 import edu.colorado.phet.microwaves.MicrowaveModule;
+import edu.colorado.phet.microwaves.coreadditions.MeasuringTape;
+import edu.colorado.phet.microwaves.coreadditions.ModelViewTx1D;
 import edu.colorado.phet.microwaves.model.MicrowaveModel;
 
 import javax.swing.*;

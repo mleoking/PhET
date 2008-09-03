@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Aug 18, 2003
  */
-package edu.colorado.phet.coreadditions_microwaves.chart;
+package edu.colorado.phet.microwaves.coreadditions.chart;
 
 import java.util.Observable;
 import java.util.Observer;

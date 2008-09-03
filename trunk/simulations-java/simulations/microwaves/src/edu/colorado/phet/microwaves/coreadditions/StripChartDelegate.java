@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Aug 18, 2003
  */
-package edu.colorado.phet.coreadditions_microwaves.chart;
+package edu.colorado.phet.microwaves.coreadditions;
 
 import edu.colorado.phet.util_microwaves.StripChart;
 
@@ -30,13 +30,4 @@ public class StripChartDelegate implements Observer {
             chart.addDatum( subject.getDatum(), 1 );
         }
     }
-//    public static void main( String[] args ) {
-//        Observable o=new Observable();
-//        StripChart sc=new StripChart(0,0,0,0,0,0,0,0);
-//        o.addObserver(new Observer() {
-//            public void update( Observable o, Object arg ) {
-//                sc.addDatum();
-//            }
-//        } );
-//    }
 }

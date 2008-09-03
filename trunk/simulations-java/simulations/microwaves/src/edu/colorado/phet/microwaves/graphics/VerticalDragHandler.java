@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: May 28, 2003
  */
-package edu.colorado.phet.graphics;
+package edu.colorado.phet.microwaves.graphics;
 
 
 public class VerticalDragHandler {

@@ -5,7 +5,7 @@
  * Created by: Ron LeMaster
  * Date: Dec 12, 2002
  */
-package edu.colorado.phet.coreadditions_microwaves.collision;
+package edu.colorado.phet.microwaves.coreadditions.collision;
 
 import java.awt.geom.Point2D;
 
