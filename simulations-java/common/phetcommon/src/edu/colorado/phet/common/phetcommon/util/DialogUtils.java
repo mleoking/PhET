@@ -9,10 +9,13 @@ import javax.swing.JOptionPane;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 
 /**
- * DialogUtils is a collection of convenience methods for showing JOptionPanes.  Localization is handled by PhetLookAndFeel.
+ * DialogUtils is a collection of convenience methods for showing JOptionPanes.
+ * It previously handled localization, but localization is now handled via PhetLookAndFeel,
+ * and this class simply delegates to JOptionPane.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @author Sam Reid
+ * @deprecated use JOptionPane directly after instantiating and initializing a PhetLookAndFeel
  */
 public class DialogUtils {
 
@@ -21,7 +24,7 @@ public class DialogUtils {
     }
 
     /**
-     * Shows a localized confirmation dialog.  The dialog title is "Confirm".
+     * Shows a confirmation dialog.  The dialog title is "Confirm".
      * Returns the user's selection.  Clicking the dialog's closed
      * button is equivalent to selecting "Cancel".
      *
@@ -35,7 +38,7 @@ public class DialogUtils {
     }
 
     /**
-     * Shows a localized message dialog with "OK" option.
+     * Shows a message dialog with "OK" option.
      *
      * @param parentComponent
      * @param message
