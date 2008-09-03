@@ -3,6 +3,7 @@
 if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
+include_once(SITE_ROOT."admin/web-utils.php");
 
 class SimSubmitContributionPage extends SitePage {
 
@@ -121,7 +122,7 @@ class SimSubmitContributionPage extends SitePage {
         }
 
         $post_max_size = ini_get('post_max_size');
-        if (!$this->post_size_ok()) {
+        if (!post_size_ok()) {
             print "<p><strong>Error:</strong> size of file(s) exceeds limit of <strong>{$post_max_size}</strong></p>\n";
             return;
         }
