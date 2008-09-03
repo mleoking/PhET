@@ -2,8 +2,8 @@
 package edu.colorado.phet.semiconductor.macro.energy;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common_semiconductor.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 
 import java.awt.*;
 

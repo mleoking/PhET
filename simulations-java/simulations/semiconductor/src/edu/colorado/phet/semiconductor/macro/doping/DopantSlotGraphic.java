@@ -1,7 +1,7 @@
 package edu.colorado.phet.semiconductor.macro.doping;
 
-import edu.colorado.phet.common_semiconductor.view.graphics.Graphic;
 import edu.colorado.phet.semiconductor.SemiconductorApplication;
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 import java.awt.*;

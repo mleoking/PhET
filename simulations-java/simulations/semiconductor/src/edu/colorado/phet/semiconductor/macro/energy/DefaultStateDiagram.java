@@ -1,6 +1,5 @@
 package edu.colorado.phet.semiconductor.macro.energy;
 
-import edu.colorado.phet.common_semiconductor.model.CompositeModelElement;
 import edu.colorado.phet.semiconductor.macro.doping.DopantType;
 import edu.colorado.phet.semiconductor.macro.energy.bands.EnergyCell;
 import edu.colorado.phet.semiconductor.macro.energy.bands.EnergyLevel;
@@ -10,6 +9,7 @@ import edu.colorado.phet.semiconductor.macro.energy.states.Speed;
 import edu.colorado.phet.semiconductor.macro.energy.transitions.ExitLeftFrom;
 import edu.colorado.phet.semiconductor.macro.energy.transitions.ExitRightFrom;
 import edu.colorado.phet.semiconductor.macro.energy.transitions.Move;
+import edu.colorado.phet.semiconductor.phetcommon.model.CompositeModelElement;
 
 /**
  * User: Sam Reid

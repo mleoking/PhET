@@ -1,9 +1,9 @@
 package edu.colorado.phet.semiconductor.macro.circuit.particles;
 
-import edu.colorado.phet.common_semiconductor.math.PhetVector;
-import edu.colorado.phet.common_semiconductor.model.ModelElement;
-import edu.colorado.phet.common_semiconductor.model.simpleobservable.SimpleObservable;
 import edu.colorado.phet.semiconductor.macro.circuit.Circuit;
+import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
+import edu.colorado.phet.semiconductor.phetcommon.model.ModelElement;
+import edu.colorado.phet.semiconductor.phetcommon.model.simpleobservable.SimpleObservable;
 
 /**
  * User: Sam Reid

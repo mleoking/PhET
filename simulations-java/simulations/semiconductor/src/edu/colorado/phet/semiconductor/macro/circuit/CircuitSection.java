@@ -1,11 +1,6 @@
 package edu.colorado.phet.semiconductor.macro.circuit;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common_semiconductor.math.PhetVector;
-import edu.colorado.phet.common_semiconductor.model.ModelElement;
-import edu.colorado.phet.common_semiconductor.view.graphics.Graphic;
-import edu.colorado.phet.common_semiconductor.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common_semiconductor.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.semiconductor.SemiconductorApplication;
 import edu.colorado.phet.semiconductor.macro.circuit.battery.BatterySpinner;
 import edu.colorado.phet.semiconductor.macro.circuit.particles.WireParticle;
@@ -15,6 +10,11 @@ import edu.colorado.phet.semiconductor.macro.doping.DopantDropListener;
 import edu.colorado.phet.semiconductor.macro.doping.DopantGraphic;
 import edu.colorado.phet.semiconductor.macro.doping.DopantSlot;
 import edu.colorado.phet.semiconductor.macro.energy.states.Speed;
+import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
+import edu.colorado.phet.semiconductor.phetcommon.model.ModelElement;
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.semiconductor.util.RectangleUtils;
 
 import javax.swing.*;

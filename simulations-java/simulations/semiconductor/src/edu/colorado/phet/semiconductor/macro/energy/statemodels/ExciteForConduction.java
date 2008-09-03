@@ -1,12 +1,12 @@
 package edu.colorado.phet.semiconductor.macro.energy.statemodels;
 
-import edu.colorado.phet.common_semiconductor.model.ModelElement;
 import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
 import edu.colorado.phet.semiconductor.macro.energy.StateTransitionList;
 import edu.colorado.phet.semiconductor.macro.energy.bands.Band;
 import edu.colorado.phet.semiconductor.macro.energy.bands.BandSet;
 import edu.colorado.phet.semiconductor.macro.energy.bands.EnergyCell;
 import edu.colorado.phet.semiconductor.macro.energy.transitions.Move;
+import edu.colorado.phet.semiconductor.phetcommon.model.ModelElement;
 
 /**
  * User: Sam Reid

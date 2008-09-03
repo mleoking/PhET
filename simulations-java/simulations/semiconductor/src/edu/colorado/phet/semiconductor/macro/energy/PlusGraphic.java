@@ -1,8 +1,8 @@
 package edu.colorado.phet.semiconductor.macro.energy;
 
-import edu.colorado.phet.common_semiconductor.math.PhetVector;
-import edu.colorado.phet.common_semiconductor.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.semiconductor.common.ParticleGraphic;
+import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

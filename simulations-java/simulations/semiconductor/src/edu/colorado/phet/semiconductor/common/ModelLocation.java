@@ -1,10 +1,10 @@
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.common;
 
-import edu.colorado.phet.common_semiconductor.math.PhetVector;
-import edu.colorado.phet.common_semiconductor.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common_semiconductor.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.semiconductor.macro.doping.ViewChangeListener;
+import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.TransformListener;
 
 import java.awt.*;
 import java.util.ArrayList;

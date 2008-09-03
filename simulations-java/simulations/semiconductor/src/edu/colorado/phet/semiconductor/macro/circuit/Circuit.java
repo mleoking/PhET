@@ -1,7 +1,7 @@
 package edu.colorado.phet.semiconductor.macro.circuit;
 
-import edu.colorado.phet.common_semiconductor.math.PhetVector;
 import edu.colorado.phet.semiconductor.macro.circuit.battery.Battery;
+import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
 
 /**
  * User: Sam Reid

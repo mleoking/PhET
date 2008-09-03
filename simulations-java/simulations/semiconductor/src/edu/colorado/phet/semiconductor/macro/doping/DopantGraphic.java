@@ -1,11 +1,11 @@
 package edu.colorado.phet.semiconductor.macro.doping;
 
-import edu.colorado.phet.common_semiconductor.math.PhetVector;
-import edu.colorado.phet.common_semiconductor.model.simpleobservable.SimpleObserver;
-import edu.colorado.phet.common_semiconductor.view.graphics.bounds.Boundary;
-import edu.colorado.phet.common_semiconductor.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.semiconductor.common.SimpleBufferedImageGraphic;
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
+import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
+import edu.colorado.phet.semiconductor.phetcommon.model.simpleobservable.SimpleObserver;
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.bounds.Boundary;
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 
 import java.awt.*;
 import java.awt.geom.Point2D;

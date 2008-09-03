@@ -1,10 +1,10 @@
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.macro.energy.bands;
 
-import edu.colorado.phet.common_semiconductor.math.PhetVector;
-import edu.colorado.phet.common_semiconductor.model.ModelElement;
-import edu.colorado.phet.common_semiconductor.model.simpleobservable.SimpleObservable;
 import edu.colorado.phet.semiconductor.macro.energy.states.Waiting;
+import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
+import edu.colorado.phet.semiconductor.phetcommon.model.ModelElement;
+import edu.colorado.phet.semiconductor.phetcommon.model.simpleobservable.SimpleObservable;
 
 /**
  * User: Sam Reid
