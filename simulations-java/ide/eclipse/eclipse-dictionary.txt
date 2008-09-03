@@ -1,6 +1,7 @@
 accessor
 accessors
 Blanco
+boltzmann
 borehole
 Chris
 cmalley
@@ -55,6 +56,7 @@ PhET
 Piccolo
 piccolo
 pickable
+picometer
 pixelzoom
 polonium
 python
