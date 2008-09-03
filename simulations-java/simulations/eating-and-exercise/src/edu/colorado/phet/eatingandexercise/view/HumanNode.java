@@ -71,7 +71,7 @@ public class HumanNode extends PNode {
                 notifyInfoButtonPressed();
             }
         } );
-        addChild( infoButton );
+//        addChild( infoButton );
         update();
     }
 

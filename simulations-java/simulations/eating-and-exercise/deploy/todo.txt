@@ -8,8 +8,6 @@
 If you enter values without hitting enter (e.g., using tab to go to the next box or just hitting play) the values reset.
    >>Make textboxes update incrementally as values are entered.
 
--Remove "?" box next to happy heart.
-
 ############################
 ###	Todo Noah P	####
 ############################
