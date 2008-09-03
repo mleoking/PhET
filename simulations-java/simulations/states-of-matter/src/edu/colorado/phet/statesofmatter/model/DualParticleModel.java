@@ -78,11 +78,11 @@ public class DualParticleModel {
     // Accessor Methods
     //----------------------------------------------------------------------------
     
-    public StatesOfMatterAtom getLeftParticleRef(){
+    public StatesOfMatterAtom getFixedParticleRef(){
         return m_fixedParticle;
     }
     
-    public StatesOfMatterAtom getRightParticleRef(){
+    public StatesOfMatterAtom getMovableParticleRef(){
         return m_movableParticle;
     }
     
