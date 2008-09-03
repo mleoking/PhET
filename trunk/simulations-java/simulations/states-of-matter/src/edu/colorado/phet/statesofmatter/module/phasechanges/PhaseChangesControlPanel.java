@@ -26,9 +26,6 @@ import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.control.GravityControlPanel;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
-import edu.colorado.phet.statesofmatter.model.particle.ArgonAtom;
-import edu.colorado.phet.statesofmatter.model.particle.NeonAtom;
-import edu.colorado.phet.statesofmatter.model.particle.OxygenAtom;
 
 
 public class PhaseChangesControlPanel extends ControlPanel {
