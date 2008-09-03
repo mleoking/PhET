@@ -126,12 +126,16 @@ public class HumanNode extends PNode {
 
     private Shape createMuscle( Line2D.Double arm, BasicStroke limbStroke ) {
         double leanMusclePercent = human.getFatFreeMassPercent();
-        double width = limbStroke.getLineWidth() * ( 1 + ( leanMusclePercent / 100.0 ) );
+        double leanMuscleFraction = leanMusclePercent / 100.0;
+        double muscleWidthBeyondArm = Math.max( leanMuscleFraction * leanMuscleFraction - 0.2, 0 );
+
+        double muscleDiameter = limbStroke.getLineWidth() * ( 1 + muscleWidthBeyondArm );
+//        System.out.println( "LMF=" + leanMuscleFraction + ", modifier = " + muscleWidthBeyondArm + ", width=" + muscleDiameter );
         Vector2D.Double vector = new Vector2D.Double( arm.getP1(), arm.getP2() );
         double distAlongArmToCenter = 0.35;//assumes arm is one segment
         Ellipse2D.Double aDouble = new Ellipse2D.Double();
         Point2D center = vector.getScaledInstance( distAlongArmToCenter ).getDestination( arm.getP1() );
-        aDouble.setFrameFromCenter( center, new Point2D.Double( center.getX() + width / 2, center.getY() + width / 2 ) );
+        aDouble.setFrameFromCenter( center, new Point2D.Double( center.getX() + muscleDiameter / 2, center.getY() + muscleDiameter / 2 ) );
         return aDouble;
     }
 
