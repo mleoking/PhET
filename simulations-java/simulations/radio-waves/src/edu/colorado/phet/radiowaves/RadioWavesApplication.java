@@ -13,7 +13,7 @@ import edu.colorado.phet.common_1200.application.PhetApplication;
 import edu.colorado.phet.common_1200.model.clock.SwingTimerClock;
 import edu.colorado.phet.common_1200.view.PhetFrame;
 import edu.colorado.phet.common_1200.view.util.FrameSetup;
-import edu.colorado.phet.waves.view.WaveMediumGraphic;
+import edu.colorado.phet.radiowaves.view.WaveMediumGraphic;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
