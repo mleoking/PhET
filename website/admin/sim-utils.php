@@ -270,7 +270,7 @@
     define("SIMS_PER_PAGE", 9);
 
     define("SQL_SELECT_ALL_VISIBLE_CATEGORIES",
-           "SELECT * FROM `category` WHERE `cat_is_visible`='1' ORDER BY `cat_order` ASC ");
+           "SELECT * FROM `category` WHERE `cat_is_visible`='1' ORDER BY `cat_parent`,`cat_order` ASC ");
 
     function get_sorting_name($name) {
         $matches = array();
