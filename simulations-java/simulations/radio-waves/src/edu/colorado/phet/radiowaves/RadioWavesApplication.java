@@ -28,7 +28,7 @@ public class RadioWavesApplication {
 
         // Initialize simulation strings using resource bundle for the locale.
         SimStrings.setStrings( EmfConfig.localizedStringsPath );//todo: add String[] args to this
-        SimStrings.getInstance().addStrings( "emf-localization/phetcommon-strings" );//todo: add String[] args to this
+        SimStrings.getInstance().addStrings( "localization/phetcommon-strings" );//todo: add String[] args to this
 
 
         SwingTimerClock clock = new SwingTimerClock( 0.5, 40, true );

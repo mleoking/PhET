@@ -17,7 +17,6 @@ import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 public class HelpMenu extends JMenu {
     public HelpMenu( final JFrame frame ) {
         super( SimStrings.get( "Common.HelpMenu.Title" ) );
-        SimStrings.setStrings( "emf-localization/CommonStrings" );
         this.setMnemonic( SimStrings.get( "Common.HelpMenu.TitleMnemonic" ).charAt( 0 ) );
 
         final JMenuItem about = new JMenuItem( SimStrings.get( "Common.HelpMenu.About" ) );
