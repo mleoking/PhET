@@ -20,6 +20,10 @@ define("NAV_ABOUT_PHET",  8);
 define("NAV_ADMIN",  9);
 define("NAV_COUNT",  10);
 
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
+include_once(SITE_ROOT."admin/hierarchical-categories.php");
+
 class NavBar {
     // Page navbar will be on
     // TODO: this should be an abstract interface for authentication
@@ -29,11 +33,15 @@ class NavBar {
 
     private $prefix;
 
+    private $access_key;
+
     function __construct($page, $navigation_category, $prefix) {
         $this->page = $page;
 
         assert($this->selected_page_is_valid($navigation_category));
         $this->navigation_category = $navigation_category;
+
+        $this->access_key = 1;
 
         $this->prefix = $prefix;
     }
@@ -75,16 +83,23 @@ EOT;
     }
 
     function print_subnavigation_element($prefix, $link, $desc) {
+        if (is_array($desc)) {
+            $name = $desc[0];
+            $extra_style = "style=\"padding-left: {$desc[1]}\"";
+        }
+        else {
+            $name = $desc;
+            $extra_style = "";
+        }
+
         print <<<EOT
-                        <li class="subnav"><a href="{$prefix}{$link}" class="subnav">{$desc}</a></li>
+                        <li class="subnav" {$extra_style}><a href="{$prefix}{$link}" class="subnav">{$name}</a></li>
 
 EOT;
     }
 
     function print_navigation_element($prefix, $selected_page, $link, $desc, $submenus = array()) {
-        static $access_key = 1;
-
-        $this_element_is_selected = "$access_key" == "$selected_page";
+        $this_element_is_selected = "$this->access_key" == "$selected_page";
 
         if ($this_element_is_selected) {
             $selected_status = 'class="topnav-selected"';
@@ -95,7 +110,7 @@ EOT;
 
         print <<<EOT
                 <li $selected_status>
-                    <a href="{$prefix}{$link}" accesskey="{$access_key}" {$selected_status}>{$desc}</a>
+                    <a href="{$prefix}{$link}" accesskey="{$this->access_key}" {$selected_status}>{$desc}</a>
 
 EOT;
 
@@ -111,25 +126,32 @@ EOT;
             }
         }
 
-        $access_key = $access_key + 1;
+        $this->access_key = $this->access_key + 1;
 
         print "                </li>\n";
     }
 
     function get_sim_categories_for_navbar($prefix) {
-        $categories = array();
+        // Setting this variable here is explicitly and intentionally to
+        // get around good class encapsulation.  The "walk" function below
+        // needs the user function to be specified with a function in
+        // the global scope.
+        $this->sim_categories = array();
 
-        foreach (sim_get_visible_categories() as $category) {
-            $cat_id   = $category['cat_id'];
-            $cat_name = $category['cat_name'];
+        // Get the hierarchical categories
+        $hier_cats = new HierarchicalCategories();
 
-            $link = sim_get_category_url_by_cat_id($cat_id);
+        // Traverse through the hierarchical categories
+        $hier_cats->walk('get_sim_categories_for_navbar_callback', $this);
 
-            $categories["$link"] = $cat_name;
-        }
+        // Add the translated sims
+        $this->sim_categories["simulations/translations.php"] = "Translated Sims";
 
-        $categories["simulations/translations.php"] = "Translated Sims";
+        // Return the categories to the local scope and eliminate the class var
+        $categories = $this->sim_categories;
+        unset($this->sim_categories);
 
+        // Return the result
         return $categories;
     }
 
@@ -304,6 +326,20 @@ EOT;
 EOT;
     }
 
+}
+
+// This function needs to be outside the class so that it can be called
+// from HierarchicalCategories::walk(), which is a different function in
+// a different class in a different file.  Static class functions don't work.
+function get_sim_categories_for_navbar_callback($user_var, $category, $depth) {
+    $cat_id   = $category['cat_id'];
+    $cat_name = $category['cat_name'];
+
+    $link = sim_get_category_url_by_cat_id($cat_id);
+
+    $pad_left = 0 + (($depth - 1) * 20)."px";
+
+    $user_var->sim_categories["$link"] = array($cat_name, $pad_left);
 }
 
 ?>
