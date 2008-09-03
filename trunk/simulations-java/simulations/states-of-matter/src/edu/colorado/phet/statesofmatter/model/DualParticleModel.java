@@ -56,7 +56,7 @@ public class DualParticleModel {
         m_clock = clock;
         m_epsilon = DEFAULT_EPSILON;
         m_sigma = DEFAULT_SIGMA;
-        m_particleMotionPaused = false;
+        m_particleMotionPaused = true;
         
         // Register as a clock listener.
         clock.addClockListener(new ClockAdapter(){
@@ -218,7 +218,7 @@ public class DualParticleModel {
     public void reset() {
         
         // Initialize the system parameters.
-        m_particleMotionPaused = false;
+        m_particleMotionPaused = true;
         setMoleculeType( DEFAULT_MOLECULE );
     }
     

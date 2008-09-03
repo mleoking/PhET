@@ -20,6 +20,9 @@ import edu.colorado.phet.statesofmatter.module.phasechanges.InteractionPotential
 import edu.colorado.phet.statesofmatter.view.GrabbableParticleNode;
 import edu.colorado.phet.statesofmatter.view.ModelViewTransform;
 import edu.colorado.phet.statesofmatter.view.ParticleForceNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -46,10 +49,10 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
                                                                   // window, 1 puts it at the bottom.
     
     // Factor used to control size of button.
-    private final double BUTTON_HEIGHT = CANVAS_WIDTH * 0.06;
+    private static final double BUTTON_HEIGHT = CANVAS_WIDTH * 0.06;
     
     // Factor used to control size of wiggle me.
-    private final double WIGGLE_ME_HEIGHT = CANVAS_HEIGHT * 0.10;
+    private static final double WIGGLE_ME_HEIGHT = CANVAS_HEIGHT * 0.10;
     
     //----------------------------------------------------------------------------
     // Instance Data
@@ -67,6 +70,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     private boolean m_showForces;
     private GradientButtonNode m_stopAtomButtonNode;
     private DefaultWiggleMe m_wiggleMe;
+    private boolean m_wiggleMeShown;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -76,6 +80,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         
         m_model = dualParticleModel;
         m_showForces = false;
+        m_wiggleMeShown = false;
         
         // Decide whether to use gradients when drawing the particles.
         m_useGradient = true;
@@ -159,27 +164,10 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
                 m_model.setParticleMotionPaused( true );
             }
         });
-        
-        // Add the "wiggle me", which will prompt the user on how to get
-        // started.
-        m_wiggleMe = new DefaultWiggleMe( this, "Move atom and release." );  // TODO JBP TBD - Make this a string.
-        m_wiggleMe.setArrowTailPosition( MotionHelpBalloon.BOTTOM_CENTER );
-        m_wiggleMe.scale(WIGGLE_ME_HEIGHT / m_wiggleMe.getFullBoundsReference().height);
-        addWorldChild( m_wiggleMe);
-        m_wiggleMe.setOffset( 200, 200 );
-        
-        // Animate from the upper left to the position of the movable atom.
-//        PNode gunButtonNode = _gunNode.getButtonNode();
-//        Rectangle2D bounds = _rootNode.globalToLocal( gunButtonNode.getGlobalFullBounds() );
-//        final double x = bounds.getX() + ( bounds.getWidth() / 2 );
-//        final double y = bounds.getY();
-//        m_wiggleMe.setOffset( 0, 0 );
-//        m_wiggleMe.animateTo( 100, 100 );
-
     }
     
     //----------------------------------------------------------------------------
-    // Public Methods
+    // Public and Protected Methods
     //----------------------------------------------------------------------------
     
     /**
@@ -190,6 +178,40 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         m_fixedParticleNode.setShowForces( showForces );
         m_showForces = showForces;
     }
+    
+    protected void updateLayout() {
+        
+        if ( getWorldSize().getWidth() <= 0 || getWorldSize().getHeight() <= 0 ) {
+            // The canvas hasn't been sized yet, so don't try to lay it out.
+            return;
+        }
+        
+        if (!m_wiggleMeShown){
+            // The wiggle me has not yet been shown, so show it.
+            m_wiggleMe = new DefaultWiggleMe( this, "Move atom and release." );  // TODO JBP TBD - Make this a string.
+            m_wiggleMe.setArrowTailPosition( MotionHelpBalloon.BOTTOM_CENTER );
+            m_wiggleMe.scale(WIGGLE_ME_HEIGHT / m_wiggleMe.getFullBoundsReference().height);
+            addWorldChild( m_wiggleMe );
+            
+            // Animate from off to the left to the position of the movable atom.
+            PBounds diagramBounds = m_diagram.getFullBoundsReference();
+            m_wiggleMe.setOffset( diagramBounds.getMinX() - (diagramBounds.width * 0.5), 
+                    m_diagram.getFullBoundsReference().getMaxY() + m_wiggleMe.getFullBoundsReference().height );
+            m_wiggleMe.animateTo( m_model.getMovableParticleRef().getX(), 
+                    m_diagram.getFullBoundsReference().getMaxY() + m_wiggleMe.getFullBoundsReference().height);
+            
+            // Clicking anywhere on the canvas makes the wiggle me go away.
+            addInputEventListener( new PBasicInputEventHandler() {
+                public void mousePressed( PInputEvent event ) {
+                    m_wiggleMe.setEnabled( false );
+                    removeWorldChild( m_wiggleMe );
+                    removeInputEventListener( this );
+                    m_wiggleMe = null;
+                }
+            } );
+        }
+    }
+
     //----------------------------------------------------------------------------
     // Private Methods
     //----------------------------------------------------------------------------
