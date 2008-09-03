@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: May 23, 2003
  */
-package edu.colorado.phet.command;
+package edu.colorado.phet.radiowaves.command;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common_1200.model.Command;
