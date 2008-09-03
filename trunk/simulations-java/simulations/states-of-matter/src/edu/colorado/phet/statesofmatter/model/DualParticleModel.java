@@ -219,6 +219,7 @@ public class DualParticleModel {
     public void reset() {
         
         // Initialize the system parameters.
+        m_particleMotionPaused = false;
         setMoleculeType( DEFAULT_MOLECULE );
     }
     

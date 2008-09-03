@@ -2,11 +2,18 @@
 
 package edu.colorado.phet.statesofmatter.module.interactionpotential;
 
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
+import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.model.DualParticleModel;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.colorado.phet.statesofmatter.module.phasechanges.InteractionPotentialDiagramNode;
@@ -40,6 +47,9 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     private final double HEIGHT_TRANSLATION_FACTOR = 0.73; // 0 puts the horizontal origin at the top of the window,
                                                            // 1 puts it at the bottom.
     
+    // Factor used to control size of button.
+    private final double BUTTON_WIDTH = CANVAS_WIDTH * 0.20;
+    
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -54,6 +64,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     private StatesOfMatterAtom.Listener m_atomListener;
     private boolean m_useGradient;
     private boolean m_showForces;
+    private GradientButtonNode m_stopAtomButtonNode;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -110,6 +121,25 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         m_diagram.setOffset( -m_diagram.getFullBoundsReference().width * (1 - m_diagram.getXAxisGraphProportion()), 
                   -m_diagram.getFullBoundsReference().height * 1.3 );
         addWorldChild( m_diagram );
+        
+        // Add button to the canvas for stopping the motion of the atom.
+        m_stopAtomButtonNode = new GradientButtonNode(StatesOfMatterStrings.STOP_ATOM, 16, new Color(0xffcc66));
+        m_stopAtomButtonNode.scale( BUTTON_WIDTH / m_stopAtomButtonNode.getFullBoundsReference().width );
+        addWorldChild( m_stopAtomButtonNode );
+        m_stopAtomButtonNode.setOffset( 
+                m_diagram.getFullBoundsReference().getMaxX() - m_stopAtomButtonNode.getFullBoundsReference().width,
+                StatesOfMatterConstants.MAX_SIGMA / 2 * 1.1 );
+        
+        // Register to receive button pushes.
+        m_stopAtomButtonNode.addActionListener( new ActionListener(){
+            public void actionPerformed(ActionEvent event){
+                // Pause particle motion.  Moving the movable particle will
+                // restart it.
+                m_model.setParticleMotionPaused( true );
+            }
+        });
+
+
         
         // Register for notifications of important events from the model.
         m_model.addListener( new DualParticleModel.Adapter(){
