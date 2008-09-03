@@ -1,5 +1,6 @@
 New in 0.00.79
 Fixed: Heart should be more unhappy when heart strength is low (right now it still looks a little happy)
+Removed "?" box next to happy heart.
 
 New in 0.00.78
 (changes by Noah P.)
