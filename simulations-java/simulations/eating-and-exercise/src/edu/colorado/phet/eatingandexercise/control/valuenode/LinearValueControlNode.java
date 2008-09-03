@@ -37,6 +37,7 @@ public class LinearValueControlNode extends PNode {
     private double max;
     private LayoutStrategy layoutStrategy = new DefaultLayoutStrategy();
     private ArrayList listeners = new ArrayList();
+    private Timer expirationTimer;
 
     public LinearValueControlNode( String label, String units, double min, double max, double value, NumberFormat numberFormat ) {
         this.min = min;
@@ -60,6 +61,12 @@ public class LinearValueControlNode extends PNode {
                 }
             }
         } );
+        expirationTimer = new Timer( 3000, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                formattedTextField.setValue( new Double( getValue() ) );
+            }
+        } );
+        expirationTimer.setRepeats( false );
         formattedTextField.addKeyListener( new KeyAdapter() {
             public void keyReleased( KeyEvent e ) {
                 try {
@@ -69,6 +76,7 @@ public class LinearValueControlNode extends PNode {
                     }
                     else {
                         //todo: set the readout to expire if the user does something else or waits too long
+                        expirationTimer.start();
                     }
                 }
                 catch( ParseException e1 ) {
@@ -130,6 +138,7 @@ public class LinearValueControlNode extends PNode {
                 this.value = v;
                 if ( updateTextBox ) {
                     formattedTextField.setValue( new Double( v ) );
+                    expirationTimer.stop();//no need to expire the current-type in value, since something else happened to set the value
                 }
                 sliderNode.setValue( v );
             }
@@ -137,7 +146,6 @@ public class LinearValueControlNode extends PNode {
         catch( ParseException e ) {
             e.printStackTrace();
         }
-
     }
 
     /**
