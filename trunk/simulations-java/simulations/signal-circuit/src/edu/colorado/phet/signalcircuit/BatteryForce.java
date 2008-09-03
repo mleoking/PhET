@@ -1,10 +1,10 @@
 package edu.colorado.phet.signalcircuit;
 
-import edu.colorado.phet.electron.wire1d.Force1d;
-import edu.colorado.phet.electron.wire1d.WireParticle;
-import edu.colorado.phet.electron.wire1d.WireSystem;
-import edu.colorado.phet.phys2d.Law;
-import edu.colorado.phet.phys2d.System2D;
+import edu.colorado.phet.signalcircuit.electron.wire1d.Force1d;
+import edu.colorado.phet.signalcircuit.electron.wire1d.WireParticle;
+import edu.colorado.phet.signalcircuit.electron.wire1d.WireSystem;
+import edu.colorado.phet.signalcircuit.phys2d.Law;
+import edu.colorado.phet.signalcircuit.phys2d.System2D;
 
 public class BatteryForce implements Force1d, Law {
     double f;

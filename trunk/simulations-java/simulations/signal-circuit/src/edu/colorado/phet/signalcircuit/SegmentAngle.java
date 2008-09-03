@@ -1,7 +1,7 @@
 package edu.colorado.phet.signalcircuit;
 
-import edu.colorado.phet.electron.wire1d.WireSegment;
-import edu.colorado.phet.phys2d.DoublePoint;
+import edu.colorado.phet.signalcircuit.electron.wire1d.WireSegment;
+import edu.colorado.phet.signalcircuit.phys2d.DoublePoint;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

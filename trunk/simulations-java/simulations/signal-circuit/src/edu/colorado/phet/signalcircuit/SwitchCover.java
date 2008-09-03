@@ -1,7 +1,7 @@
 package edu.colorado.phet.signalcircuit;
 
-import edu.colorado.phet.paint.Painter;
-import edu.colorado.phet.paint.animate.PointSource;
+import edu.colorado.phet.signalcircuit.paint.Painter;
+import edu.colorado.phet.signalcircuit.paint.animate.PointSource;
 
 import javax.swing.*;
 import java.awt.*;

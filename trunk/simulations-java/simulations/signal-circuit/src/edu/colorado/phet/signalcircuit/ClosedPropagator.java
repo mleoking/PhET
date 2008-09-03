@@ -1,10 +1,10 @@
 package edu.colorado.phet.signalcircuit;
 
-import edu.colorado.phet.electron.wire1d.Propagator1d;
-import edu.colorado.phet.electron.wire1d.WireParticle;
-import edu.colorado.phet.electron.wire1d.WirePatch;
-import edu.colorado.phet.phys2d.Law;
-import edu.colorado.phet.phys2d.System2D;
+import edu.colorado.phet.signalcircuit.electron.wire1d.Propagator1d;
+import edu.colorado.phet.signalcircuit.electron.wire1d.WireParticle;
+import edu.colorado.phet.signalcircuit.electron.wire1d.WirePatch;
+import edu.colorado.phet.signalcircuit.phys2d.Law;
+import edu.colorado.phet.signalcircuit.phys2d.System2D;
 
 import java.util.Vector;
 
