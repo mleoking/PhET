@@ -184,8 +184,9 @@ public class Human {
         //need some data in the exercise and fat % for updating the health indicators
         //so add some additional data to the exercise series so that the initial reading
         //for heart strength will be higher, as if we used to exercise daily before the sim started
+        //NP - changed exercise initial value to make heart strength about 1/2 way up to start
         for ( int i = 1; i < 100; i++ ) {
-            exercise.addValue( 2000, getAge() - EatingAndExerciseUnits.daysToSeconds( i ) );
+            exercise.addValue(300 , getAge() - EatingAndExerciseUnits.daysToSeconds( i ) );
             fatMassFraction.addValue( fatMassFraction.getValue(), getAge() - EatingAndExerciseUnits.daysToSeconds( i ) );
         }
         exercise.addValue( 0, getAge() );
@@ -464,8 +465,8 @@ public class Human {
 //        System.out.println( "avgExercise=" + averageExercise + ", averageActivity=" + averageActivity + ", counting activity: " + activityToCount );
 
         double caloriesToConsiderForHeartStrength = averageExercise + activityToCount;
-        double exercise_cal_max = 6000.0;
-        double heartStrength = log10( 1 + 100 * caloriesToConsiderForHeartStrength / exercise_cal_max ) / log10( 101 );
+        double exercise_cal_max = 4000.0;
+        double heartStrength = log10( 1 + 150 * caloriesToConsiderForHeartStrength / exercise_cal_max ) / log10( 151 );
 //        System.out.println( "unclamped heartStrength = " + heartStrength );
         setHeartStrength( MathUtil.clamp( 0, heartStrength, 1.0 ) );
 
