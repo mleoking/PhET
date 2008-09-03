@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.waves.view;
+package edu.colorado.phet.radiowaves.view;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common_1200.view.phetgraphics.PhetImageGraphic;

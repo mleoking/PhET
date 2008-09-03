@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Aug 8, 2003
  */
-package edu.colorado.phet.util;
+package edu.colorado.phet.radiowaves.util;
 
 import edu.colorado.phet.common_1200.model.clock.AbstractClock;
 import edu.colorado.phet.common_1200.model.clock.ClockTickListener;

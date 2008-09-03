@@ -8,8 +8,8 @@ package edu.colorado.phet.radiowaves.model.movement;
 
 import edu.colorado.phet.common_1200.math.Vector2D;
 import edu.colorado.phet.radiowaves.RadioWavesApplication;
+import edu.colorado.phet.radiowaves.model.EMFSineFunction;
 import edu.colorado.phet.radiowaves.model.Electron;
-import edu.colorado.phet.waves.model.EMFSineFunction;
 
 import java.awt.geom.Point2D;
 import java.util.Observable;

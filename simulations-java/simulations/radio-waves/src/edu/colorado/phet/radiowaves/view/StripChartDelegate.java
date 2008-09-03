@@ -8,7 +8,7 @@ package edu.colorado.phet.radiowaves.view;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.radiowaves.model.Electron;
-import edu.colorado.phet.util.StripChart;
+import edu.colorado.phet.radiowaves.util.StripChart;
 
 /**
  * This class acts as a receiver of messages from the model to add data to
