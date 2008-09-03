@@ -22,6 +22,7 @@ import javax.swing.plaf.InsetsUIResource;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
@@ -251,10 +252,6 @@ public class PhetLookAndFeel {
             list.add( "TextField", "background", textFieldBackgroundResource );
         }
 
-        // TODO: ALWAYS FALSE
-//        if ( buttonBackgroundResource != null ) {
-//            list.add( "Button", "background", buttonBackgroundResource );
-//        }
         if ( tabFont != null ) {
             list.add( "TabbedPane", "font", new FontUIResource( tabFont ) );
         }
@@ -266,24 +263,15 @@ public class PhetLookAndFeel {
 
     private PropertyList getTextValues() {
         PropertyList textValues = new PropertyList();
-//        textValues.add( "OptionPane", "cancelButtonText", "cancel please" );
-//        textValues.add( "OptionPane", "noButtonText", "no thanks" );
-//        textValues.add( "OptionPane", "yesButtonText", "yes please!" );
-//        textValues.add( "OptionPane", "okButtonText", "ok, whatever" );
+        textValues.add( "OptionPane", "cancelButtonText", getCommonString( "Common.choice.cancel" ) );
+        textValues.add( "OptionPane", "noButtonText", getCommonString( "Common.choice.no" ) );
+        textValues.add( "OptionPane", "yesButtonText", getCommonString( "Common.choice.yes" ));
+        textValues.add( "OptionPane", "okButtonText", getCommonString( "Common.choice.ok" ) );
         return textValues;
     }
 
-    /*
-     * Adds a UIDefaults key/value pair to an array.
-     * 
-     * @param array
-     * @param type
-     * @param property
-     * @param value
-     */
-    private void add( ArrayList array, String type, String property, Object value ) {
-        array.add( type + "." + property ); // key
-        array.add( value );
+    private Object getCommonString( String s ) {
+        return PhetCommonResources.getInstance().getLocalizedString( s );
     }
 
     public void initLookAndFeel() {
