@@ -9,7 +9,6 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
-import edu.colorado.phet.statesofmatter.model.container.ParticleContainer;
 import edu.colorado.phet.statesofmatter.view.instruments.CompositeThermometerNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
