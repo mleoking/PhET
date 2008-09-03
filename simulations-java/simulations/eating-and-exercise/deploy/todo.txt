@@ -6,15 +6,12 @@
 ###	Todo Noah P	####
 ############################
 
--Reduce the amount that Lifestyle calories contribute to heart health (maybe 1/2??)
-
--readjust calories for running - should be "racing 5 pmh" and "moderate 9 mph"
-
 ############################
 ###	To Discuss	####
 ############################
 
 --We might revisit the idea of having exercise only certain days of the week, or maybe every other day. Based on feedback from UCSD.
+>>>This can be approximated by reducing the amount of exercise per day. The sim will treat this the same way.
 
 ##################################
 ###	Archived Issues		####
