@@ -10,9 +10,6 @@
  */
 package edu.colorado.phet.common.phetcommon.view;
 
-import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,6 +19,10 @@ import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.plaf.InsetsUIResource;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
 /**
@@ -219,45 +220,57 @@ public class PhetLookAndFeel {
         }
 
         // Uniformly modify the resources for each of the types in the "types" list.
-        ArrayList keyValuePairs = new ArrayList();
+        PropertyList list = new PropertyList();
         for ( int i = 0; i < types.length; i++ ) {
             String type = types[i];
 
-            add( keyValuePairs, type, "font", new FontUIResource( font ) );
+            list.add( type, "font", new FontUIResource( font ) );
+            list.add( type, "font", new FontUIResource( font ) );
 
             if ( foregroundResource != null ) {
-                add( keyValuePairs, type, "foreground", foregroundResource );
+                list.add( type, "foreground", foregroundResource );
             }
             if ( backgroundResource != null ) {
-                add( keyValuePairs, type, "background", backgroundResource );
+                list.add( type, "background", backgroundResource );
             }
             if ( insetsResource != null ) {
-                add( keyValuePairs, type, "margin", insetsResource );
+                list.add( type, "margin", insetsResource );
             }
         }
 
         // These types require some special modifications.
-        add( keyValuePairs, "TitledBorder", "font", new FontUIResource( titledBorderFont ) );
-        add( keyValuePairs, "OptionPane", "messageFont", new FontUIResource( font ) );
-        add( keyValuePairs, "OptionPane", "buttonFont", new FontUIResource( font ) );
+        list.add( "TitledBorder", "font", new FontUIResource( titledBorderFont ) );
+        list.add( "OptionPane", "messageFont", new FontUIResource( font ) );
+        list.add( "OptionPane", "buttonFont", new FontUIResource( font ) );
 
-        if (buttonBackgroundColor!=null){
-            add(keyValuePairs,"Button","background",new ColorUIResource( buttonBackgroundColor ));
+        if ( buttonBackgroundColor != null ) {
+            list.add( "Button", "background", new ColorUIResource( buttonBackgroundColor ) );
         }
 
         if ( textFieldBackgroundResource != null ) {
-            add( keyValuePairs, "TextField", "background", textFieldBackgroundResource );
+            list.add( "TextField", "background", textFieldBackgroundResource );
         }
 
         // TODO: ALWAYS FALSE
 //        if ( buttonBackgroundResource != null ) {
-//            add( keyValuePairs, "Button", "background", buttonBackgroundResource );
+//            list.add( "Button", "background", buttonBackgroundResource );
 //        }
         if ( tabFont != null ) {
-            add( keyValuePairs, "TabbedPane", "font", new FontUIResource( tabFont ) );
+            list.add( "TabbedPane", "font", new FontUIResource( tabFont ) );
         }
 
-        return keyValuePairs.toArray();
+        list.addAll( getTextValues() );
+
+        return list.toArray();
+    }
+
+    private PropertyList getTextValues() {
+        PropertyList textValues = new PropertyList();
+//        textValues.add( "OptionPane", "cancelButtonText", "cancel please" );
+//        textValues.add( "OptionPane", "noButtonText", "no thanks" );
+//        textValues.add( "OptionPane", "yesButtonText", "yes please!" );
+//        textValues.add( "OptionPane", "okButtonText", "ok, whatever" );
+        return textValues;
     }
 
     /*
@@ -398,6 +411,23 @@ public class PhetLookAndFeel {
     }
 
     public void setButtonBackgroundColor( Color buttonBackgroundColor ) {
-        this.buttonBackgroundColor=buttonBackgroundColor;
+        this.buttonBackgroundColor = buttonBackgroundColor;
+    }
+
+    private static class PropertyList {
+        private ArrayList list = new ArrayList();
+
+        public void add( String object, String key, Object value ) {
+            list.add( object + "." + key );
+            list.add( value );
+        }
+
+        public Object[] toArray() {
+            return list.toArray();
+        }
+
+        public void addAll( PropertyList collection ) {
+            list.addAll( collection.list );
+        }
     }
 }
