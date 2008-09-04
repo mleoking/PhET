@@ -204,11 +204,11 @@ EOT;
                             <input type="hidden" name="cat_id" value="{$cat_id}" />
                             <input type="hidden" name="action" value="rename"  />
 
-                            <input type="text" name="cat_name" value="{$cat_name}" size="30" />
-                            <a href="organize-cats.php?action=move_up&amp;cat_id={$cat_id}&amp;cat_order={$cat_order}">u</a>
-                            <a href="organize-cats.php?action=move_down&amp;cat_id={$cat_id}&amp;cat_order={$cat_order}">d</a>
+                            <input type="text" name="cat_name" value="{$cat_name}" size="20" />
+                            <a href="organize-cats.php?action=move_up&amp;cat_id={$cat_id}&amp;cat_order={$cat_order}">Up</a>
+                            <a href="organize-cats.php?action=move_down&amp;cat_id={$cat_id}&amp;cat_order={$cat_order}">Down</a>
 
-                            <a href="organize-cats.php?action=delete&amp;cat_id={$cat_id}">D</a>
+                            <a href="organize-cats.php?action=delete&amp;cat_id={$cat_id}">Del</a>
                             {$html_parent_list}
                             <input type="submit" value="rename" />
                         </p>
