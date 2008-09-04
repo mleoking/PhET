@@ -33,7 +33,7 @@ import edu.colorado.phet.glaciers.model.GlaciersClock;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TimeVersusGlacierLengthChart extends JDialog {
+public class GlacierLengthVersusTimeChart extends JDialog {
     
     private static final Range LENGTH_RANGE = new Range( 0, 80E3 ); // meters
     private static final double Y_AXIS_TICK_SPACING = 10000; // meters
@@ -45,7 +45,7 @@ public class TimeVersusGlacierLengthChart extends JDialog {
     private final XYSeries _series;
     private final NumberAxis _domainAxis;
     
-    public TimeVersusGlacierLengthChart( Frame owner, Dimension size, Glacier glacier, GlaciersClock clock ) {
+    public GlacierLengthVersusTimeChart( Frame owner, Dimension size, Glacier glacier, GlaciersClock clock ) {
         super( owner );
         
         setSize( size );
@@ -72,7 +72,7 @@ public class TimeVersusGlacierLengthChart extends JDialog {
         
         // create the chart
         JFreeChart chart = ChartFactory.createXYLineChart(
-            GlaciersStrings.TITLE_TIME_VERSUS_GLACIER_LENGTH, // title
+            GlaciersStrings.TITLE_GLACIER_LENGTH_VERSUS_TIME, // title
             GlaciersStrings.AXIS_TIME, // x axis label
             GlaciersStrings.AXIS_GLACIER_LENGTH,  // y axis label
             dataset,

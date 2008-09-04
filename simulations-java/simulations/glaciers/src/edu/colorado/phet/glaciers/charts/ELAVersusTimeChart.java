@@ -27,12 +27,12 @@ import edu.colorado.phet.glaciers.model.Climate;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
 
 /**
- * EquilibriumLineAltitudeVersusTimeChart displays a "Equilibrium Line Altitude versus Time" chart.
+ * ELAVersusTimeChart displays a "Equilibrium Line Altitude versus Time" chart.
  * The chart updates when the climate changes.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TimeVersusEquilibriumLineAltitudeChart extends JDialog {
+public class ELAVersusTimeChart extends JDialog {
     
     private static final Range ELEVATION_RANGE = new Range( 2000, 5000 ); // meters
     private static final Range TIME_RANGE = new Range( 0, 10E3 ); //XXX years
@@ -42,7 +42,7 @@ public class TimeVersusEquilibriumLineAltitudeChart extends JDialog {
     private final ClockListener _clockListener;
     private final XYSeries _series;
     
-    public TimeVersusEquilibriumLineAltitudeChart( Frame owner, Dimension size, Climate climate, GlaciersClock clock ) {
+    public ELAVersusTimeChart( Frame owner, Dimension size, Climate climate, GlaciersClock clock ) {
         super( owner );
         
         setSize( size );
@@ -68,7 +68,7 @@ public class TimeVersusEquilibriumLineAltitudeChart extends JDialog {
         
         // create the chart
         JFreeChart chart = ChartFactory.createXYLineChart(
-            GlaciersStrings.TITLE_TIME_VERSUS_EQUILIBRIUM_LINE_ALTITUDE, // title
+            GlaciersStrings.TITLE_ELA_VERSUS_TIME, // title
             GlaciersStrings.AXIS_TIME, // x axis label
             GlaciersStrings.AXIS_EQUILIBRIUM_LINE_ALTITUDE,  // y axis label
             dataset,
