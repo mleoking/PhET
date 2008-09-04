@@ -52,6 +52,21 @@ public class Capacitor extends CircuitComponent implements DynamicBranch {
         notifyChargeChanged();
     }
 
+    /**
+     * Set the capacitance and keep the charge constant.  That means that
+     * the voltage will need to be changed accordingly.
+     * 
+     * @param capacitance
+     */
+    public void setCapacitanceConstantCharge( double capacitance ) {
+        double q = getCharge();
+        setCapacitance( capacitance );
+        setVoltageDrop( q / capacitance );
+        notifyObservers();
+        fireKirkhoffChange();
+        notifyChargeChanged();
+    }
+
     public void setVoltageDrop( double voltageDrop ) {
         super.setVoltageDrop( voltageDrop );
         notifyChargeChanged();
