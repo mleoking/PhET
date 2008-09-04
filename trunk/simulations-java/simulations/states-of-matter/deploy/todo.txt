@@ -41,6 +41,23 @@ Forces in potential tab
 
 - ???
 
+###########################
+###     To Discuss      ###
+###########################
+
+From Trish 9/4/08
+
+     First tab: One thing I thought would be interesting was to change the state to liquid and toggle between the substances. I realized that when I change substance the phase goes back to solid, but there is no indicator. When you select a phase, the button is outlined but not if you change substance.
+
+    Second Tab: I miss having a particle counter and also get tired of pumping. It seems like a control like there is in the other chemistry sims would be helpful (Gas Properties, Salt, and Reactions all have particle number controls and counters). Also, I would like to repeat my thought that the Gravity control should be demoted to below the other diagrams.
+
+>>>NP: Particle counter seems like a good idea.
+	 Need to have a look at gravity slider.
+
+   Third tab: I like the new sizes. I am not sure how the STOP ATOM button is supposed to work, why wouldn't a user just press PAUSE? Right now, it seems that once I hit it I cannot get the ball to move again unless I drag it.
+
+>>> NP: We decided to remove the Stop Atom button.
+
 
 ###########################
 ###     Done	      ###
