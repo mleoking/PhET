@@ -8,42 +8,40 @@ HIGH PRIORITY:
 - bug: snowfall visualization doesn't draw properly on PowerPC Mac OS 10.4, rewrite to create atmosphere path directly
 - bug: loading full-size background image causes OutOfMemoryException, exceeds JVM heap space [crop svg, talk with Archie]
 - birds-eye view should half the slope of zoomed view so that 80km is at far right
-- sky above snow in zoomed view on large monitors
+- sky appears above snow in zoomed view on large monitors
 
 MEDIUM PRIORITY:
 - glacier growth from zero length still takes a long time, and then speeds up [Archie will fix model]
 - replace "glacier picture" check box with a button [to left of clock controls, "Real glacier", does nothing if pushed again]
-- switch user-interface between English and metric units [yes]
-- climate experiments interface (start with a time estimate) [on hold]
-- Experiments module [on hold]
-- behavior of budget meter (snap-to-ice) is hard to discover and potentially misleading [defer for interviews]
-- "steady state" feature needs to advance clock to the time at which the glacier would reach its steady state [defer]
-- "steady state" feature needs to fill in missing data in time-dependent graphs [defer]
-- "steady state" feature needs to fill glacier with debris and surface ripples (and create moraine?) [try to do this]
-- always collect data for time-based graphs, keep "latest" & "historical" data points, compress historical, limit historical size [defer]
-- add zoom in/out button for time-based graphs; show scrolling "latest" data or complete "historical" [defer]
-- implement Save/Load feature [yes]
-- make sure everything works properly when clock is paused [yes]
-- do we want to show values or relative ranges (temperature=cold-to-hot,snowfall=none-to-lots) for climate controls? [defer for interviews]
+- switch user-interface between English and metric units
+- implement Save/Load feature
+- make sure everything works properly when clock is paused
+- "steady state" feature needs to fill glacier with debris and surface ripples (and create moraine?)
 
 LOW PRIORITY:
 - remove registration points from background image in any versions published to PhET website
 - main control panel should be the same height in all modules
 - YAW_X_OFFSET should be computed as a function of YAW_ROTATION and PITCH_Y_OFFSET
 - add headwallX to new ice thickness model in model.txt, which assumes headwallX=0
-- move steady state button to play area?
-- bug: right edge of ice thickness tool icon is clipped (see Unfuddle #558)
+- bug: edges of thermometer & ice thickness tool icons are clipped (see Unfuddle #558)
 - bug: creating a tool and dragging it straight to the trash doesn't work because we're in the middle of an event sequence
-- make sure we don't see sky where it's not supposed to be when main frame is resized to extremes
-- confirm that titles and axes on graphs are as desired
 - fix layout problems with main control panel
 - improve smoothness of DistanceAxisNode (x-axis for coordinates feature)
 - bug: ticks & labels on sliders should be white, code to set their color is not working (Mac OS 10.4 only?)
-- add rounded borders to control sub-panels
-- add assets/LICENSE.txt
 - Spanish translation
 - Help
-- improve performance on slower machines?
+
+DEFERRED FOR INTERVIEWS:
+- behavior of glacial budget meter (snap-to-ice) is hard to discover and potentially misleading
+- do we want to show values or relative ranges (temperature=cold-to-hot,snowfall=none-to-lots) for Intro climate controls?
+
+DEFERRED FOR FUTURE VERSION:
+- "steady state" feature needs to advance clock to the time at which the glacier would reach its steady state
+- "steady state" feature needs to fill in missing data in time-dependent graphs
+- climate experiments interface (start with a time estimate)
+- Experiments module
+- always collect data for time-based graphs, keep "latest" & "historical" data points, compress historical, limit historical size
+- add zoom in/out button for time-based graphs; show scrolling "latest" data or complete "historical"
 
 REFACTOR:
 - eliminate code duplication in modules
@@ -74,6 +72,7 @@ CLEANUP:
 
 
 DONE:
+9/4/08 - strip chart implementation for "ELA versus time" chart
 9/4/08 - show both ablation (solid green) & negative ablation (dashed green) on "glacial budget vs elevation" chart
 9/4/08 - revert change to names of time-based graphs made on 8/28/08
 8/28/08 - rename time-based graph classes and labels, should be "time vs ...", not "... vs time"

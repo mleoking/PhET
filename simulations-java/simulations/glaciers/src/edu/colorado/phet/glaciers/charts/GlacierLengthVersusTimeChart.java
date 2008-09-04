@@ -86,6 +86,7 @@ public class GlacierLengthVersusTimeChart extends JDialog {
         
         _domainAxis = (NumberAxis) plot.getDomainAxis();
         _domainAxis.setStandardTickUnits( NumberAxis.createIntegerTickUnits() );
+        // x-axis (time) range will be set dynamically
         
         NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
         rangeAxis.setRange( LENGTH_RANGE );
@@ -111,10 +112,6 @@ public class GlacierLengthVersusTimeChart extends JDialog {
     
     private void cleanup() {
         _clock.removeClockListener( _clockListener );
-    }
-    
-    public void clear() {
-        _series.clear();
     }
     
     private void update() {
