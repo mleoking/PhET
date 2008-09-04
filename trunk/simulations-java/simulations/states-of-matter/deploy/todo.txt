@@ -1,0 +1,47 @@
+###########################
+###    Todo John B      ###
+###########################
+
+Forces in potential tab
+
+- add vanderwalls and coulomb (attractive and repulsive) forces as option
+
+- 3 options as radio buttons:
+	>Show separate forces
+	>Show total force
+	>Show none
+
+- make adjustments grabbable on graph, with some indicator that you can grab them. Look at other sims for this.
+
+- make adjustment sliders appear only  when "Adjustable Attraction" is selected
+
+- add thumbtack to pin down left atom
+
+- remove "Stop Atom" button
+
+- add "Return Atom" box for when atom disappears off of the screen
+
+- change reset to "Reset All"
+
+- add little icons for molecules (just little blue, green, or violet spheres)
+
+- ???
+
+
+
+###########################
+###     Todo Noah P     ###
+###########################
+
+- icons for solid, liquid, gas
+
+- think of a better phrase for "separate forces"
+
+- redraw graph background
+
+- ???
+
+
+###########################
+###     Done	      ###
+###########################
