@@ -137,6 +137,7 @@ public class GlaciersConstants {
     public static final Color GLACIAL_BUDGET_COLOR = Color.RED;
     public static final Color ACCUMULATION_COLOR = Color.BLUE;
     public static final Color ABLATION_COLOR = Color.GREEN.darker();
+    public static final Color NEGATIVE_ABLATION_COLOR = Color.GREEN.darker();
     
     //----------------------------------------------------------------------------
     // Various components

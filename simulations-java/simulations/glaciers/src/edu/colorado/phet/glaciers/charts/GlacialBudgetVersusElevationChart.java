@@ -35,18 +35,17 @@ import edu.colorado.phet.glaciers.model.Climate.ClimateListener;
  */
 public class GlacialBudgetVersusElevationChart extends JDialog {
     
-    private static final boolean SHOW_NEGATIVE_ABLATION = true;
-    
-    private static final Range METERS_PER_YEAR_RANGE = new Range( -20, ( SHOW_NEGATIVE_ABLATION ? 5 : 20 ) ); // meters
     private static final Range ELEVATION_RANGE = new Range( 2000, 5000 ); // meters
     private static final double DELTA_ELEVATION = 100; // meters
     private static final Stroke GLACIAL_BUDGET_STROKE = new BasicStroke( 2f );
     private static final Stroke ACCUMULATION_STROKE = new BasicStroke( 1f );
     private static final Stroke ABLATION_STROKE = new BasicStroke( 1f );
+    private static final Stroke NEGATIVE_ABLATION_STROKE = 
+        new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3,3}, 0 ); // dashed
     
     private final Climate _climate;
     private final ClimateListener _climateListener;
-    private final XYSeries _glacialBudgetSeries, _accumulationSeries, _ablationSeries;
+    private final XYSeries _glacialBudgetSeries, _accumulationSeries, _ablationSeries, _negativeAblationSeries;
     
     public GlacialBudgetVersusElevationChart( Frame owner, Dimension size, Climate climate ) {
         super( owner );
@@ -68,15 +67,13 @@ public class GlacialBudgetVersusElevationChart extends JDialog {
         
         // series and dataset
         _accumulationSeries = new XYSeries( GlaciersStrings.LABEL_ACCUMULATION, false /* autoSort */ );
-        String ablationLabel = GlaciersStrings.LABEL_ABLATION;
-        if ( SHOW_NEGATIVE_ABLATION ) {
-            ablationLabel = "-" + ablationLabel;
-        }
-        _ablationSeries = new XYSeries( ablationLabel, false /* autoSort */ );
+        _ablationSeries = new XYSeries( GlaciersStrings.LABEL_ABLATION, false /* autoSort */ );
+        _negativeAblationSeries = new XYSeries( GlaciersStrings.LABEL_NEGATIVE_ABLATION, false /* autoSort */ );
         _glacialBudgetSeries = new XYSeries( GlaciersStrings.LABEL_GLACIAL_BUDGET, false /* autoSort */ );
         XYSeriesCollection dataset = new XYSeriesCollection();
         dataset.addSeries( _accumulationSeries );
         dataset.addSeries( _ablationSeries );
+        dataset.addSeries( _negativeAblationSeries );
         dataset.addSeries( _glacialBudgetSeries );
 
         // create the chart
@@ -99,12 +96,14 @@ public class GlacialBudgetVersusElevationChart extends JDialog {
         renderer.setSeriesStroke( 0, ACCUMULATION_STROKE );
         renderer.setSeriesPaint( 1, GlaciersConstants.ABLATION_COLOR );
         renderer.setSeriesStroke( 1, ABLATION_STROKE );
-        renderer.setSeriesPaint( 2, GlaciersConstants.GLACIAL_BUDGET_COLOR );
-        renderer.setSeriesStroke( 2, GLACIAL_BUDGET_STROKE );
+        renderer.setSeriesPaint( 2, GlaciersConstants.NEGATIVE_ABLATION_COLOR );
+        renderer.setSeriesStroke( 2, NEGATIVE_ABLATION_STROKE );
+        renderer.setSeriesPaint( 3, GlaciersConstants.GLACIAL_BUDGET_COLOR );
+        renderer.setSeriesStroke( 3, GLACIAL_BUDGET_STROKE );
         
         NumberAxis domainAxis = (NumberAxis) plot.getDomainAxis();
         domainAxis.setStandardTickUnits( NumberAxis.createIntegerTickUnits() );
-        domainAxis.setRange( METERS_PER_YEAR_RANGE );
+        // don't set a range for the x-axis, it will be set automatically to fit the data
         
         NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
         rangeAxis.setStandardTickUnits( NumberAxis.createIntegerTickUnits() );
@@ -137,6 +136,7 @@ public class GlacialBudgetVersusElevationChart extends JDialog {
         _glacialBudgetSeries.clear();
         _accumulationSeries.clear();
         _ablationSeries.clear();
+        _negativeAblationSeries.clear();
         
         double elevation = ELEVATION_RANGE.getLowerBound();
         double glacialBudget = 0;
@@ -152,12 +152,8 @@ public class GlacialBudgetVersusElevationChart extends JDialog {
             
             _glacialBudgetSeries.add( glacialBudget, elevation );
             _accumulationSeries.add( accumulation, elevation );
-            if ( SHOW_NEGATIVE_ABLATION ) {
-                _ablationSeries.add( -ablation, elevation );
-            }
-            else {
-                _ablationSeries.add( ablation, elevation );  
-            }
+            _ablationSeries.add( ablation, elevation );
+            _negativeAblationSeries.add( -ablation, elevation );
 
             elevation += DELTA_ELEVATION;
         }
