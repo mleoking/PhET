@@ -72,12 +72,12 @@ public class GlaciersStrings {
     public static final String TITLE_ADVANCED = GlaciersResources.getString( "title.advanced" );
     public static final String TITLE_INTRO = GlaciersResources.getString( "title.introduction" );
     public static final String TITLE_CLIMATE_CONTROLS = GlaciersResources.getString( "title.climateControls" );
-    public static final String TITLE_TIME_VERSUS_EQUILIBRIUM_LINE_ALTITUDE = GlaciersResources.getString( "title.timeVersusEquilibriumLineAltitude" );
+    public static final String TITLE_ELA_VERSUS_TIME = GlaciersResources.getString( "title.elaVersusTime" );
     public static final String TITLE_ERROR = GlaciersResources.getString( "title.error" );
     public static final String TITLE_EXPERIMENTS = GlaciersResources.getString( "title.experiments" );
     public static final String TITLE_GRAPH_CONTROLS = GlaciersResources.getString( "title.graphControls" );
     public static final String TITLE_GLACIAL_BUDGET_VERSUS_ELEVATION = GlaciersResources.getString( "title.glacialBudgetVersusElevation" );
-    public static final String TITLE_TIME_VERSUS_GLACIER_LENGTH = GlaciersResources.getString( "title.timeVersusGlacierLength" );
+    public static final String TITLE_GLACIER_LENGTH_VERSUS_TIME = GlaciersResources.getString( "title.glacierLengthVersusTime" );
     public static final String TITLE_TEMPERATURE_VERSUS_ELEVATION = GlaciersResources.getString( "title.temperatureVersusElevation" );
     public static final String TITLE_TOOLBOX = GlaciersResources.getString( "title.toolbox" );
     public static final String TITLE_VIEW_CONTROLS = GlaciersResources.getString( "title.viewControls" );
