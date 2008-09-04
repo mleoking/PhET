@@ -137,6 +137,7 @@ public class EatingAndExerciseApplication extends PiccoloPhetApplication {
         return getModule( 0 ).getSimulationPanel().getBackground();
     }
 
+    //test comment
     public static void main( final String[] args ) {
         /*
          * Wrap the body of main in invokeLater, so that all initialization occurs
