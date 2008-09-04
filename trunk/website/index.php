@@ -4,7 +4,7 @@ define("SITE_ROOT", "./");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
 class MainPage extends SitePage {
-    function __contstruct($title, $nav, $referrer) {
+    function __construct($title, $nav, $referrer) {
         parent::__construct($title, $nav, $referrer);
     }
 
