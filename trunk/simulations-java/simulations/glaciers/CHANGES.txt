@@ -5,7 +5,6 @@ Change history for glaciers
 HIGHEST PRIORITY:
 
 HIGH PRIORITY:
-- fix x-axis label in "glacial budget vs elevation" chart
 - bug: snowfall visualization doesn't draw properly on PowerPC Mac OS 10.4, rewrite to create atmosphere path directly
 - bug: loading full-size background image causes OutOfMemoryException, exceeds JVM heap space [crop svg, talk with Archie]
 - birds-eye view should half the slope of zoomed view so that 80km is at far right
@@ -25,7 +24,6 @@ MEDIUM PRIORITY:
 - add zoom in/out button for time-based graphs; show scrolling "latest" data or complete "historical" [defer]
 - implement Save/Load feature [yes]
 - make sure everything works properly when clock is paused [yes]
-- should "Glacial Budget vs Elevation" chart show negative ablation? [change to +, add dashed green line for -]
 - do we want to show values or relative ranges (temperature=cold-to-hot,snowfall=none-to-lots) for climate controls? [defer for interviews]
 
 LOW PRIORITY:
@@ -76,6 +74,7 @@ CLEANUP:
 
 
 DONE:
+9/4/08 - show both ablation (solid green) & negative ablation (dashed green) on "glacial budget vs elevation" chart
 9/4/08 - revert change to names of time-based graphs made on 8/28/08
 8/28/08 - rename time-based graph classes and labels, should be "time vs ...", not "... vs time"
 8/28/08 - make "glacier length vs time" graph a strip chart that keeps 1000 years worth of data
