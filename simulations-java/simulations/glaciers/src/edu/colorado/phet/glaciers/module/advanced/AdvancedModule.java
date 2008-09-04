@@ -132,7 +132,7 @@ public class AdvancedModule extends GlaciersModule {
         
         GraphsControlPanel graphsControlPanel = _controlPanel.getGraphsControlPanel();
         graphsControlPanel.setGlacierLengthVerusTimeSelected( false );
-        graphsControlPanel.setEquilibriumLineAltitudeVersusTimeSelected( false );
+        graphsControlPanel.setELAVersusTimeSelected( false );
         graphsControlPanel.setGlacialBudgetVersusElevationSelected( false );
         graphsControlPanel.setTemperatureVersusElevationSelected( false );
         
@@ -161,13 +161,26 @@ public class AdvancedModule extends GlaciersModule {
         {
             // Clock
             GlaciersClock clock = _model.getClock();
-            config.setClockDt( clock.getDt() );
+            config.setClockFrameRate( clock.getFrameRate() );
             config.setClockRunning( getClockRunningWhenActive() );
+            
+            config.setSnowfall( _model.getClimate().getSnowfall() );
+            config.setTemperature( _model.getClimate().getTemperature() );
         }
 
         // Control panel settings that are view-related
         {
-            //XXX
+            ViewControlPanel viewControlPanel = _controlPanel.getViewControlPanel();
+            config.setSnowfallSelected( viewControlPanel.isSnowfallSelected() );
+            config.setEquilibriumLineSelected( viewControlPanel.isEquilibriumLineSelected() );
+            config.setIceFlowVectorsSelected( viewControlPanel.isIceFlowSelected() );
+            config.setIceFlowVectorsSelected( viewControlPanel.isCoordinatesSelected() );
+            
+            GraphsControlPanel graphsControlPanel = _controlPanel.getGraphsControlPanel();
+            config.setGlacierLengthVersusTimeChartSelected( graphsControlPanel.isGlacierLengthVerusTimeSelected() );
+            config.setELAVersusTimeChartSelected( graphsControlPanel.isELAVersusTimeSelected() );
+            config.setGlacialBudgetVersusElevationChartSelected( graphsControlPanel.isGlacialBudgetVersusElevationSelected() );
+            config.setTemperatureVerusElevationChartSelected( graphsControlPanel.isTemperatureVersusElevationSelected() );
         }
         
         return config;
@@ -184,13 +197,27 @@ public class AdvancedModule extends GlaciersModule {
         {
             // Clock
             GlaciersClock clock = _model.getClock();
-            clock.setDt( config.getClockDt() );
+            clock.setFrameRate( config.getClockFrameRate() );
             setClockRunningWhenActive( config.isClockRunning() );
+            
+            _model.getClimate().setSnowfall( config.getSnowfall() );
+            _model.getClimate().setTemperature( config.getTemperature() );
+            _model.getGlacier().setSteadyState();
         }
 
         // Control panel settings that are view-related
         {
-            //XXX
+            ViewControlPanel viewControlPanel = _controlPanel.getViewControlPanel();
+            viewControlPanel.setSnowfallSelected( config.isSnowfallSelected() );
+            viewControlPanel.setEquilibriumLineSelected( config.isEquilibriumLineSelected() );
+            viewControlPanel.setIceFlowSelected( config.isIceFlowVectorsSelected() );
+            viewControlPanel.setCoordinatesSelected( config.isCoordinatesSelected() );
+            
+            GraphsControlPanel graphsControlPanel = _controlPanel.getGraphsControlPanel();
+            graphsControlPanel.setGlacierLengthVerusTimeSelected( config.isGlacierLengthVersusTimeChartSelected() );
+            graphsControlPanel.setELAVersusTimeSelected( config.isELAVersusTimeChartSelected() );
+            graphsControlPanel.setGlacialBudgetVersusElevationSelected( config.isGlacialBudgetVersusElevationChartSelected() );
+            graphsControlPanel.setTemperatureVersusElevationSelected( config.isTemperatureVerusElevationChartSelected() );
         }
     }
 

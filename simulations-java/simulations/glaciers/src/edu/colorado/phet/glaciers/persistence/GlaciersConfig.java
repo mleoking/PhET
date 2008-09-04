@@ -26,7 +26,6 @@ public class GlaciersConfig implements IProguardKeepClass {
     // Modules
     private IntroConfig _basicConfig;
     private AdvancedConfig _advancedConfig;
-    private ExperimentsConfig _experimentsConfig;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -38,7 +37,6 @@ public class GlaciersConfig implements IProguardKeepClass {
     public GlaciersConfig() {
         _basicConfig = new IntroConfig();
         _advancedConfig = new AdvancedConfig();
-        _experimentsConfig = new ExperimentsConfig();
     }
 
     //----------------------------------------------------------------------------
@@ -104,14 +102,4 @@ public class GlaciersConfig implements IProguardKeepClass {
     public AdvancedConfig getAdvancedConfig() {
         return _advancedConfig;
     }
-    
-    public void setExperimentsConfig( ExperimentsConfig config ) {
-        _experimentsConfig = config;
-    }
-    
-    public ExperimentsConfig getExperimentsConfig() {
-        return _experimentsConfig;
-    }
-
-
 }
