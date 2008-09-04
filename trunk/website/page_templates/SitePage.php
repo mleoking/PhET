@@ -111,7 +111,8 @@ class SitePage extends BasePage {
     function close_xhtml_head() {
         $site_root = SITE_ROOT;
 
-        print <<<EOT
+        if ($_SERVER['SERVER_NAME'] != 'localhost') {
+            print <<<EOT
     <script type="text/javascript">
         var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
         document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
@@ -132,6 +133,7 @@ class SitePage extends BasePage {
     </script>        
 
 EOT;
+        }
 
         parent::close_xhtml_head();
     }
