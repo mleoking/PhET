@@ -153,13 +153,17 @@ public class IntroModule extends GlaciersModule {
         {
             // Clock
             GlaciersClock clock = _model.getClock();
-            config.setClockDt( clock.getDt() );
+            config.setClockFrameRate( clock.getFrameRate() );
             config.setClockRunning( getClockRunningWhenActive() );
+            
+            config.setSnowfall( _model.getClimate().getSnowfall() );
+            config.setTemperature( _model.getClimate().getTemperature() );
         }
 
         // Control panel settings that are view-related
         {
-            //XXX
+            config.setSnowfallSelected( _controlPanel.getViewControlPanel().isSnowfallSelected() );
+            config.setEquilibriumLineSelected( _controlPanel.getViewControlPanel().isEquilibriumLineSelected() );
         }
         
         return config;
@@ -176,13 +180,18 @@ public class IntroModule extends GlaciersModule {
         {
             // Clock
             GlaciersClock clock = _model.getClock();
-            clock.setDt( config.getClockDt() );
+            clock.setFrameRate( config.getClockFrameRate() );
             setClockRunningWhenActive( config.isClockRunning() );
+            
+            _model.getClimate().setSnowfall( config.getSnowfall() );
+            _model.getClimate().setTemperature( config.getTemperature() );
+            _model.getGlacier().setSteadyState();
         }
 
         // Control panel settings that are view-related
         {
-            //XXX
+            _controlPanel.getViewControlPanel().setSnowfallSelected( config.isSnowfallSelected() );
+            _controlPanel.getViewControlPanel().setEquilibriumLineSelected( config.isEquilibriumLineSelected() );
         }
     }
 }

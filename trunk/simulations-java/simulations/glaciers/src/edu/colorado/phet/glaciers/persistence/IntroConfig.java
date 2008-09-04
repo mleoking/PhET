@@ -21,7 +21,12 @@ public class IntroConfig implements IProguardKeepClass {
     
     // Clock
     private boolean _clockRunning;
-    private double _clockDt;
+    private int _clockFrameRate;
+    private boolean _englishUnitsSelected;
+    private boolean _equilibriumLineSelected;
+    private boolean _snowfallSelected;
+    private double _temperature;
+    private double _snowfall;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -33,34 +38,70 @@ public class IntroConfig implements IProguardKeepClass {
     public IntroConfig() {}
     
     //----------------------------------------------------------------------------
-    // Accessors
+    // Setters and getters
     //----------------------------------------------------------------------------
     
     public boolean isActive() {
         return _active;
     }
 
-    
     public void setActive( boolean active ) {
         _active = active;
     }
     
-    
     public boolean isClockRunning() {
         return _clockRunning;
     }
-
     
     public void setClockRunning( boolean clockRunning ) {
         _clockRunning = clockRunning;
     }
     
-    public double getClockDt() {
-        return _clockDt;
+    public int getClockFrameRate() {
+        return _clockFrameRate;
     }
 
+    public void setClockFrameRate( int clockFrameRate ) {
+        _clockFrameRate = clockFrameRate;
+    }
     
-    public void setClockDt( double clockDt ) {
-        _clockDt = clockDt;
+    public boolean isEnglishUnitsSelected() {
+        return _englishUnitsSelected;
+    }
+    
+    public void setEnglishUnitsSelected( boolean selected ) {
+        _englishUnitsSelected = selected;
+    }
+    
+    public boolean isEquilibriumLineSelected() {
+        return _equilibriumLineSelected;
+    }
+
+    public void setEquilibriumLineSelected( boolean selected ) {
+        _equilibriumLineSelected = selected;
+    }
+
+    public boolean isSnowfallSelected() {
+        return _snowfallSelected;
+    }
+    
+    public void setSnowfallSelected( boolean selected ) {
+        _snowfallSelected = selected;
+    }
+
+    public double getTemperature() {
+        return _temperature;
+    }
+
+    public void setTemperature( double temperature ) {
+        _temperature = temperature;
+    }
+
+    public double getSnowfall() {
+        return _snowfall;
+    }
+
+    public void setSnowfall( double snowfall ) {
+        _snowfall = snowfall;
     }
 }

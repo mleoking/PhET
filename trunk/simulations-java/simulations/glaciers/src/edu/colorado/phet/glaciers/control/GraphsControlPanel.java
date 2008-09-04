@@ -141,14 +141,14 @@ public class GraphsControlPanel extends AbstractSubPanel {
         return _glacierLengthVersusTimeCheckBox.isSelected();
     }
 
-    public void setEquilibriumLineAltitudeVersusTimeSelected( boolean selected ) {
-        if ( selected != isEquilibriumLineAltitudeVersusTimeSelected() ) {
+    public void setELAVersusTimeSelected( boolean selected ) {
+        if ( selected != isELAVersusTimeSelected() ) {
             _elaVersusTimeCheckBox.setSelected( selected );
             handleEquilibriumLineAltitudeVersusTimeCheckBox();
         }
     }
 
-    public boolean isEquilibriumLineAltitudeVersusTimeSelected() {
+    public boolean isELAVersusTimeSelected() {
         return _elaVersusTimeCheckBox.isSelected();
     }
 
@@ -176,18 +176,18 @@ public class GraphsControlPanel extends AbstractSubPanel {
     
     public void activate() {
         setGlacierLengthVerusTimeSelected( _glacierLengthVersusTimeChartWasOpen );
-        setEquilibriumLineAltitudeVersusTimeSelected( _elaVersusTimeChartWasOpen );
+        setELAVersusTimeSelected( _elaVersusTimeChartWasOpen );
         setGlacialBudgetVersusElevationSelected( _glacialBudgetVersusElevationChartWasOpen );
         setTemperatureVersusElevationSelected( _temperatureVersusElevationChartWasOpen );
     }
     
     public void deactivate() {
         _glacierLengthVersusTimeChartWasOpen = isGlacierLengthVerusTimeSelected();
-        _elaVersusTimeChartWasOpen = isEquilibriumLineAltitudeVersusTimeSelected();
+        _elaVersusTimeChartWasOpen = isELAVersusTimeSelected();
         _glacialBudgetVersusElevationChartWasOpen = isGlacialBudgetVersusElevationSelected();
         _temperatureVersusElevationChartWasOpen = isTemperatureVersusElevationSelected();
         setGlacierLengthVerusTimeSelected( false );
-        setEquilibriumLineAltitudeVersusTimeSelected( false );
+        setELAVersusTimeSelected( false );
         setGlacialBudgetVersusElevationSelected( false );
         setTemperatureVersusElevationSelected( false );
     }
@@ -222,7 +222,7 @@ public class GraphsControlPanel extends AbstractSubPanel {
             _elaVersusTimeChart.addWindowListener( new WindowAdapter() {
                 // called when the close button in the dialog's window dressing is clicked
                 public void windowClosing( WindowEvent e ) {
-                    setEquilibriumLineAltitudeVersusTimeSelected( false );
+                    setELAVersusTimeSelected( false );
                 }
             } );
             _elaVersusTimeChart.setVisible( true );

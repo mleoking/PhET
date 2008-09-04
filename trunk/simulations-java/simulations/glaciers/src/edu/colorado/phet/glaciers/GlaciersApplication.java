@@ -8,10 +8,10 @@ import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
@@ -125,10 +125,9 @@ public class GlaciersApplication extends PiccoloPhetApplication {
                 }
             } );
 
-            //XXX hide for 7/25/08 deadline
-//            frame.addFileMenuItem( saveItem );
-//            frame.addFileMenuItem( loadItem );
-//            frame.addFileMenuSeparator();
+            frame.addFileMenuItem( saveItem );
+            frame.addFileMenuItem( loadItem );
+            frame.addFileMenuSeparator();
         }
 
         // Options menu
@@ -188,7 +187,7 @@ public class GlaciersApplication extends PiccoloPhetApplication {
                 _advancedModule.load( advancedConfig );
             }
             else {
-                DialogUtils.showErrorDialog( getPhetFrame(), GlaciersStrings.MESSAGE_NOT_A_CONFIG_FILE, GlaciersStrings.TITLE_ERROR );
+                JOptionPane.showMessageDialog( getPhetFrame(), GlaciersStrings.MESSAGE_NOT_A_CONFIG_FILE, GlaciersStrings.TITLE_ERROR, JOptionPane.ERROR_MESSAGE );
             }
         }
     }
