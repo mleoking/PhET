@@ -34,13 +34,14 @@ import edu.colorado.phet.glaciers.model.GlaciersClock;
  */
 public class ELAVersusTimeChart extends JDialog {
     
-    private static final Range ELEVATION_RANGE = new Range( 2000, 5000 ); // meters
-    private static final Range TIME_RANGE = new Range( 0, 10E3 ); //XXX years
+    private static final Range ELEVATION_RANGE = new Range( 2000, 6000 ); // meters
+    private static final int MAX_NUMBER_OF_YEARS = 1000;
     
     private final Climate _climate;
     private final GlaciersClock _clock;
     private final ClockListener _clockListener;
     private final XYSeries _series;
+    private final NumberAxis _domainAxis;
     
     public ELAVersusTimeChart( Frame owner, Dimension size, Climate climate, GlaciersClock clock ) {
         super( owner );
@@ -80,9 +81,9 @@ public class ELAVersusTimeChart extends JDialog {
         
         XYPlot plot = (XYPlot) chart.getPlot();
         
-        NumberAxis domainAxis = (NumberAxis) plot.getDomainAxis();
-        domainAxis.setStandardTickUnits( NumberAxis.createIntegerTickUnits() );
-        domainAxis.setRange( TIME_RANGE );//XXX time axis will change dynamically
+        _domainAxis = (NumberAxis) plot.getDomainAxis();
+        _domainAxis.setStandardTickUnits( NumberAxis.createIntegerTickUnits() );
+        // x-axis (time) range will be set dynamically
         
         NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
         rangeAxis.setStandardTickUnits( NumberAxis.createIntegerTickUnits() );
@@ -107,13 +108,14 @@ public class ELAVersusTimeChart extends JDialog {
     }
     
     private void cleanup() {
-        System.out.println( "EquilibriumLineAltitudeVersusTimeChart.cleanup" );//XXX
         _clock.removeClockListener( _clockListener );
     }
     
     private void update() {
-//        double t = _clock.getSimulationTime();
-//        double ela = _climate.getEquilibriumLineAltitude();
-//        _series.add( t, ela );
+        final double t = _clock.getSimulationTime();
+        final double ela = _climate.getELA();
+        _series.add( t, ela );
+        double tMin = _series.getDataItem( 0 ).getX().doubleValue();
+        _domainAxis.setRange( new Range( tMin, tMin + MAX_NUMBER_OF_YEARS ) );
     }
 }
