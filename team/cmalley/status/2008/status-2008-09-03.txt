@@ -1,0 +1,40 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: August 28 - September 3, 2008 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  glaciers:
+  - clean up ground/air interface for x < 0
+  - quick-&-dirty strip chart implementation for "glacier length vs time" chart
+  - meeting with Wendy & Archie to review "to do" list
+  
+  misc sims:
+  - identified 3rd-party licensing issues with sound sim
+  - refactor package names for many sims to conform to PhET conventions
+  
+  misc:
+  - discuss Piccolo transforms with John Blanco
+  - discuss i18n of JOptionPane dialogs with Sam Reid
+  - discuss "wiggle me" with John Blanco
+  - wasted lots of time struggling with Sourceforge SVN
+  
+WHAT'S NEXT:
+    
+  - continue work on glaciers, see:
+    http://phet.svn.sourceforge.net/viewvc/phet/trunk/simulations-java/simulations/glaciers/CHANGES.txt?view=markup
+ 
+  - start on a new sim (density? acids-and-bases?)
+  
+ISSUES:
+
+  - the poor performance and flakey behavior of Sourceforge SVN is negatively impacting my productivity
+  
+DATES UNAVAILABLE:
+
+  September 11,12,15 (Thu,Fri,Mon)
+  September 19-22 (Fri-Mon)
+  October 20-24 (tentative)
+  
+--
