@@ -190,15 +190,16 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
             // The wiggle me has not yet been shown, so show it.
             m_wiggleMe = new DefaultWiggleMe( this, "Move atom and release." );  // TODO JBP TBD - Make this a string.
             m_wiggleMe.setArrowTailPosition( MotionHelpBalloon.BOTTOM_CENTER );
-            m_wiggleMe.scale(WIGGLE_ME_HEIGHT / m_wiggleMe.getFullBoundsReference().height);
+            double wiggleMeScale = WIGGLE_ME_HEIGHT / m_wiggleMe.getFullBoundsReference().height;
+            m_wiggleMe.scale( wiggleMeScale );
             addWorldChild( m_wiggleMe );
             
             // Animate from off to the left to the position of the movable atom.
             PBounds diagramBounds = m_diagram.getFullBoundsReference();
             m_wiggleMe.setOffset( diagramBounds.getMinX() - (diagramBounds.width * 0.5), 
                     m_diagram.getFullBoundsReference().getMaxY() + m_wiggleMe.getFullBoundsReference().height );
-            m_wiggleMe.animateTo( m_model.getMovableParticleRef().getX(), 
-                    m_diagram.getFullBoundsReference().getMaxY() + m_wiggleMe.getFullBoundsReference().height);
+            m_wiggleMe.animateToPositionScaleRotation( m_model.getMovableParticleRef().getX(),
+                    m_diagram.getFullBoundsReference().getMaxY() + m_wiggleMe.getFullBoundsReference().height, wiggleMeScale, 0, 5000 );
             
             // Clicking anywhere on the canvas makes the wiggle me go away.
             addInputEventListener( new PBasicInputEventHandler() {
