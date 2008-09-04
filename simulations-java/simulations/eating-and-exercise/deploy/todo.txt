@@ -6,6 +6,8 @@
 ###	Todo Noah P	####
 ############################
 
+- add heart health text to disclaimer box, change name of disclaimer box
+
 ############################
 ###	To Discuss	####
 ############################
