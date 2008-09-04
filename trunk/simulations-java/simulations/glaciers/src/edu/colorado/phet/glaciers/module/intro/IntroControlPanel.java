@@ -108,10 +108,10 @@ public class IntroControlPanel extends JPanel {
     }
     
     public void activate() {
-        _viewControlPanel.activate();
+        _miscControlPanel.activate();
     }
     
     public void deactivate() {
-        _viewControlPanel.deactivate();
+        _miscControlPanel.deactivate();
     }
 }

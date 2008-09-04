@@ -5,8 +5,6 @@ package edu.colorado.phet.glaciers.control;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 import javax.swing.*;
 
@@ -14,7 +12,6 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.GlaciersStrings;
-import edu.colorado.phet.glaciers.dialog.GlacierPictureDialog;
 import edu.colorado.phet.glaciers.view.*;
 
 /**
@@ -47,12 +44,7 @@ public class ViewControlPanel extends AbstractSubPanel {
     private final JCheckBox _iceFlowCheckBox;
     private final JCheckBox _coordinatesCheckBox;
     private final JCheckBox _snowfallCheckBox;
-    private final JCheckBox _glacierPictureCheckBox;
     private final JPanel _iceFlowPanel, _coordinatesPanel;
-    private JDialog _glacierPictureDialog;
-    
-    private boolean _glacierPictureDialogWasOpen;
-    private Point _glacierPictureDialogLocation;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -63,8 +55,6 @@ public class ViewControlPanel extends AbstractSubPanel {
         
         _playArea = playArea;
         _dialogOwner = dialogOwner;
-        
-        _glacierPictureDialogWasOpen = false;
         
         JPanel unitsPanel = new JPanel();
         {
@@ -168,20 +158,6 @@ public class ViewControlPanel extends AbstractSubPanel {
             snowfallPanel.add( snowfallIcon );
         }
         
-        JPanel glacierPicturePanel = new JPanel();
-        {
-            _glacierPictureCheckBox = new JCheckBox( GlaciersStrings.CHECK_BOX_GLACIER_PICTURE );
-            _glacierPictureCheckBox.setFont( CONTROL_FONT );
-            _glacierPictureCheckBox.setForeground( CONTROL_COLOR );
-            _glacierPictureCheckBox.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    handleGlacierPictureCheckBox();
-                }
-            } );
-            
-            glacierPicturePanel.add( _glacierPictureCheckBox );
-        }
-        
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
         layout.setInsets( new Insets( 0, 0, 0, 0 ) );
@@ -189,9 +165,8 @@ public class ViewControlPanel extends AbstractSubPanel {
 //        layout.addComponent( unitsPanel, 0, 0, 2, 1 ); //XXX hide for 7/25/08 deadline
         layout.addComponent( equilibriumLinePanel, 1, 0 );
         layout.addComponent( snowfallPanel, 2, 0 );
-        layout.addComponent( glacierPicturePanel, 3, 0 );
-        layout.addComponent( _iceFlowPanel, 2, 1 );
-        layout.addComponent( _coordinatesPanel, 3, 1 );
+        layout.addComponent( _iceFlowPanel, 1, 1 );
+        layout.addComponent( _coordinatesPanel, 2, 1 );
         
         SwingUtils.setBackgroundDeep( this, BACKGROUND_COLOR, null /* excludedClasses */, false /* processContentsOfExcludedContainers */ );
     }
@@ -263,32 +238,12 @@ public class ViewControlPanel extends AbstractSubPanel {
         return _snowfallCheckBox.isSelected();
     }
     
-    public void setGlacierPictureSelected( boolean selected ) {
-        if ( selected != isGlacierPictureSelected() ) {
-            _glacierPictureCheckBox.setSelected( selected );
-            handleGlacierPictureCheckBox();
-        }
-    }
-    
-    public boolean isGlacierPictureSelected() {
-        return _glacierPictureCheckBox.isSelected();
-    }
-    
     public void setCoordinatesCheckBoxVisible( boolean visible ) {
         _coordinatesPanel.setVisible( visible );
     }
     
     public void setIceFlowCheckBoxVisible( boolean visible ) {
         _iceFlowPanel.setVisible( visible );
-    }
-    
-    public void activate() {
-        setGlacierPictureSelected( _glacierPictureDialogWasOpen );
-    }
-    
-    public void deactivate() {
-        _glacierPictureDialogWasOpen = isGlacierPictureSelected();
-        setGlacierPictureSelected( false );
     }
     
     //----------------------------------------------------------------------------
@@ -313,29 +268,5 @@ public class ViewControlPanel extends AbstractSubPanel {
     
     private void handleSnowfallCheckBox() {
         _playArea.setSnowfallVisible( _snowfallCheckBox.isSelected() );
-    }
-    
-    private void handleGlacierPictureCheckBox() {
-        if ( _glacierPictureCheckBox.isSelected() ) {
-            _glacierPictureDialog = new GlacierPictureDialog( _dialogOwner );
-            if ( _glacierPictureDialogLocation != null ) {
-                _glacierPictureDialog.setLocation( _glacierPictureDialogLocation );
-            }
-            else {
-                SwingUtils.centerDialogInParent( _glacierPictureDialog );
-            }
-            _glacierPictureDialog.addWindowListener( new WindowAdapter() {
-                // called when the close button in the dialog's window dressing is clicked
-                public void windowClosing( WindowEvent e ) {
-                    setGlacierPictureSelected( false );
-                }
-            } );
-            _glacierPictureDialog.setVisible( true );
-        }
-        else {
-            _glacierPictureDialogLocation = _glacierPictureDialog.getLocation();
-            _glacierPictureDialog.dispose();
-            _glacierPictureDialog = null;
-        }
     }
 }

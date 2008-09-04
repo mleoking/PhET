@@ -12,7 +12,6 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - glacier growth from zero length still takes a long time, and then speeds up [Archie will fix model]
-- replace "glacier picture" check box with a button [to left of clock controls, "Real glacier", does nothing if pushed again]
 - switch user-interface between English and metric units
 - implement Save/Load feature
 - make sure everything works properly when clock is paused
@@ -72,6 +71,7 @@ CLEANUP:
 
 
 DONE:
+9/4/08 - replace "glacier picture" check box with a button (icon on button, to left of steady state button)
 9/4/08 - strip chart implementation for "ELA versus time" chart
 9/4/08 - show both ablation (solid green) & negative ablation (dashed green) on "glacial budget vs elevation" chart
 9/4/08 - revert change to names of time-based graphs made on 8/28/08

@@ -112,12 +112,12 @@ public class AdvancedControlPanel extends JPanel {
     }
     
     public void activate() {
-        _viewControlPanel.activate();
+        _miscControlPanel.activate();
         _graphsControlPanel.activate();
     }
     
     public void deactivate() {
-        _viewControlPanel.deactivate();
+        _miscControlPanel.deactivate();
         _graphsControlPanel.deactivate();
     }
 }
