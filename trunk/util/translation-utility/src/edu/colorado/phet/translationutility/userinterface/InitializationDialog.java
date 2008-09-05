@@ -13,7 +13,6 @@ import javax.swing.event.HyperlinkListener;
 import javax.swing.text.html.HTMLEditorKit;
 
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
-import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.translationutility.TUResources;
