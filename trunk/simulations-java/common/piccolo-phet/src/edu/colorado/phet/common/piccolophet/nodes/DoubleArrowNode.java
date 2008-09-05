@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.common.piccolophet.nodes;
 
+import java.awt.geom.Area;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
@@ -30,7 +31,7 @@ public class DoubleArrowNode extends PPath {
     
     // Overall shape of the two combined arrows that comprise this double-ended
     // arrow.
-    GeneralPath m_overallShape;
+    Area m_overallShape;
     
     //------------------------------------------------------------------------
     // Constructor
@@ -47,8 +48,7 @@ public class DoubleArrowNode extends PPath {
      */
     public DoubleArrowNode( Point2D tailLocation, Point2D tipLocation,
                       double headHeight, double headWidth, double tailWidth ) {
-        super();
-        
+
         // Find the midpoint between the two given points.
         Point2D midpoint = midPoint(tailLocation, tipLocation);
         
@@ -56,43 +56,15 @@ public class DoubleArrowNode extends PPath {
         // and one from the midpoint to the tip.
         m_midToTip  = new Arrow( midpoint, tipLocation, headHeight, headWidth, tailWidth );
         m_midToTail = new Arrow( midpoint, tailLocation, headHeight, headWidth, tailWidth );
-        m_overallShape = m_midToTip.getShape();
-        m_overallShape.append( m_midToTail.getShape(), false );       
-        setPathTo( m_overallShape );
         
         // Save the tip and tail points for later use.
         m_tailLocation = tailLocation;
         m_tipLocation = tipLocation;
+
+        // Update the overall shape.
+        updateShape();
     }
     
-    /**
-     * Constructor.
-     *
-     * @param tailLocation
-     * @param tipLocation
-     * @param headHeight
-     * @param headWidth
-     * @param tailWidth
-     * @param fractionalHeadHeight
-     * @param scaleTailToo
-     */
-    public DoubleArrowNode( Point2D tailLocation, Point2D tipLocation,
-                      double headHeight, double headWidth, double tailWidth,
-                      double fractionalHeadHeight, boolean scaleTailToo ) {
-        super();
-        
-        // Find the midpoint between the two supplied endpoints.
-        Point2D midpoint = midPoint(tailLocation, tipLocation);
-        
-        // Create two single-ended arrows, one from the midpoint to the tail
-        // and one from the midpoint to the tip.
-        m_midToTip  = new Arrow( midpoint, tipLocation, headHeight, headWidth, tailWidth, fractionalHeadHeight, scaleTailToo );
-        m_midToTail = new Arrow( midpoint, tailLocation, headHeight, headWidth, tailWidth, fractionalHeadHeight, scaleTailToo );
-        m_overallShape = m_midToTip.getShape();
-        m_overallShape.append( m_midToTail.getShape(), false );       
-        setPathTo( m_overallShape );        
-    }
-
     //------------------------------------------------------------------------
     // Public Methods
     //------------------------------------------------------------------------
@@ -118,14 +90,7 @@ public class DoubleArrowNode extends PPath {
     public void setTipLocation(Point2D newTipLocation){
         m_tipLocation = newTipLocation;
         
-        Point2D midpoint = midPoint(m_tailLocation, m_tipLocation);
-        
-        m_midToTip.setTipAndTailLocations( m_tipLocation, midpoint );
-        m_midToTail.setTipAndTailLocations( m_tailLocation, midpoint );
-     
-        m_overallShape = m_midToTip.getShape();
-        m_overallShape.append( m_midToTail.getShape(), false );       
-        setPathTo( m_overallShape );
+        updateShape();
     }
 
     /**
@@ -134,14 +99,7 @@ public class DoubleArrowNode extends PPath {
     public void setTailLocation(Point2D newTailLocation){
         m_tailLocation = newTailLocation;
         
-        Point2D midpoint = midPoint(m_tailLocation, m_tipLocation);
-        
-        m_midToTip.setTipAndTailLocations( m_tipLocation, midpoint );
-        m_midToTail.setTipAndTailLocations( m_tailLocation, midpoint );
-     
-        m_overallShape = m_midToTip.getShape();
-        m_overallShape.append( m_midToTail.getShape(), false );       
-        setPathTo( m_overallShape );
+        updateShape();
     }
 
     /**
@@ -152,14 +110,7 @@ public class DoubleArrowNode extends PPath {
         m_tailLocation = newTailLocation;
         m_tipLocation = newTipLocation;
         
-        Point2D midpoint = midPoint(m_tailLocation, m_tipLocation);
-        
-        m_midToTip.setTipAndTailLocations( m_tipLocation, midpoint );
-        m_midToTail.setTipAndTailLocations( m_tailLocation, midpoint );
-     
-        m_overallShape = m_midToTip.getShape();
-        m_overallShape.append( m_midToTail.getShape(), false );       
-        setPathTo( m_overallShape );
+        updateShape();
     }
     
     //------------------------------------------------------------------------
@@ -169,5 +120,17 @@ public class DoubleArrowNode extends PPath {
     private Point2D midPoint(Point2D point1, Point2D point2){ 
         
         return (new Point2D.Double( point1.getX() +( (point2.getX()-point1.getX())/2 ), point1.getY() +( (point2.getY()-point1.getY())/2 ) ));
+    }
+    
+    private void updateShape(){
+        Point2D midpoint = midPoint(m_tailLocation, m_tipLocation);
+        
+        m_midToTip.setTipAndTailLocations( m_tipLocation, midpoint );
+        m_midToTail.setTipAndTailLocations( m_tailLocation, midpoint );
+     
+        m_overallShape = new Area();
+        m_overallShape.add( new Area(m_midToTip.getShape()) );
+        m_overallShape.add( new Area(m_midToTail.getShape()) );
+        setPathTo( m_overallShape );
     }
 }
