@@ -5,6 +5,7 @@ package edu.colorado.phet.statesofmatter.view;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -16,7 +17,8 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class ResizeArrowNode extends PNode{
     
-    private static final Color NON_HIGHLIGHTED_FILL_COLOR = Color.CYAN; 
+    private static final Color NON_HIGHLIGHTED_FILL_COLOR = Color.ORANGE; 
+    private static final Color HIGHLIGHTED_FILL_COLOR = Color.YELLOW; 
 
     DoubleArrowNode m_adjusterArrow;
     
@@ -33,7 +35,12 @@ public class ResizeArrowNode extends PNode{
         
         m_adjusterArrow = new DoubleArrowNode(new Point2D.Double(-size/2, 0), new Point2D.Double(size/2, 0), size/4,
                 size/2, size/4);
+        m_adjusterArrow.rotate( angle );
         m_adjusterArrow.setPaint( NON_HIGHLIGHTED_FILL_COLOR );
         addChild( m_adjusterArrow );
+        
+        m_adjusterArrow.setPickable( true );
+        
+        m_adjusterArrow.addInputEventListener( new CursorHandler() );
     }
 }

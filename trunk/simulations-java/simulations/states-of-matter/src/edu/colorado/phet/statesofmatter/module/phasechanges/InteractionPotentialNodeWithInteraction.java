@@ -14,7 +14,14 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 
 public class InteractionPotentialNodeWithInteraction extends InteractionPotentialDiagramNode {
+
+    private static final double RESIZE_HANDLE_SIZE_PROPORTION = 0.05;    // Size of handles as function of node width.
+    private static final double EPSILON_HANDLE_OFFSET_PROPORTION = 0.08; // Position of handle as function of node width.
+    private static final double SIGMA_HANDLE_OFFSET_PROPORTION = 0.08;   // Position of handle as function of node width.
+    
     private DualParticleModel m_model;
+    private ResizeArrowNode m_sigmaResizeHandle;
+    private ResizeArrowNode m_epsilonResizeHandle;
 
     /**
      * Constructor.
@@ -35,10 +42,12 @@ public class InteractionPotentialNodeWithInteraction extends InteractionPotentia
             }
         });
         
-        // TODO JPB TBD - Testing out the adjustment thingie.
-        ResizeArrowNode resizeArrow = new ResizeArrowNode(20, 0);
-        resizeArrow.setOffset( getGraphWidth()/2, getGraphHeight()/2 );
-        addChild( resizeArrow );
+        // Add the arrow nodes that will allow the user to control the
+        // parameters of the LJ potential.
+        m_epsilonResizeHandle = new ResizeArrowNode(RESIZE_HANDLE_SIZE_PROPORTION * m_width, Math.PI/2);
+        addChild( m_epsilonResizeHandle );
+        m_sigmaResizeHandle = new ResizeArrowNode(RESIZE_HANDLE_SIZE_PROPORTION * m_width, 0);
+        addChild( m_sigmaResizeHandle );
 
         getEpsilonArrow().addInputEventListener(new CursorHandler());
         getEpsilonArrow().addInputEventListener(new PBasicInputEventHandler(){
@@ -78,5 +87,23 @@ public class InteractionPotentialNodeWithInteraction extends InteractionPotentia
 
             }
         });
+    }
+
+    protected void drawPotentialCurve() {
+        
+        // The bulk of the drawing is done by the base class.
+        super.drawPotentialCurve();
+        
+        // Now position the control handles.
+        if (m_epsilonResizeHandle != null){
+            Point2D graphMin = getGraphMin();
+            m_epsilonResizeHandle.setOffset( 
+                    graphMin.getX() + getGraphOffsetX() + (m_width * EPSILON_HANDLE_OFFSET_PROPORTION), graphMin.getY() );
+        }
+        if (m_sigmaResizeHandle != null){
+            Point2D zeroCrossingPoint = getZeroCrossingPoint();
+            m_sigmaResizeHandle.setOffset( zeroCrossingPoint.getX() + getGraphOffsetX(), 
+                    (getGraphHeight() / 2) - SIGMA_HANDLE_OFFSET_PROPORTION * m_height );
+        }
     }
 }
