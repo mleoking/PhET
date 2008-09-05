@@ -1,13 +1,4 @@
-/* Copyright 2006, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2006-2008, University of Colorado */
 
 package edu.colorado.phet.boundstates.dialog;
 
@@ -34,7 +25,7 @@ import edu.colorado.phet.boundstates.control.DoubleSpinner;
 import edu.colorado.phet.boundstates.model.BSEigenstate;
 import edu.colorado.phet.boundstates.model.BSModel;
 import edu.colorado.phet.boundstates.model.BSSuperpositionCoefficients;
-import edu.colorado.phet.common.phetcommon.util.DialogUtils;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 
@@ -460,7 +451,8 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
             Object[] objs = { equation };
             MessageFormat format = new MessageFormat( pattern );
             String message = format.format( objs );
-            int reply = DialogUtils.showConfirmDialog( this, message, JOptionPane.YES_NO_OPTION );
+            String title = PhetCommonResources.getInstance().getLocalizedString( "Common.title.confirm" );
+            int reply = JOptionPane.showConfirmDialog( this, message, title, JOptionPane.YES_NO_CANCEL_OPTION );
             if ( reply == JOptionPane.YES_OPTION) {
                 // Yes -> normalize, apply
                 normalize();
@@ -484,7 +476,8 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
             if ( !_localCoefficients.isNormalized( NORMALIZATION_ERROR ) ) {
                 message = BSResources.getString( "message.confirmNormalizeApplyClose" );
             }
-            int reply = DialogUtils.showConfirmDialog( this, message, JOptionPane.YES_NO_CANCEL_OPTION );
+            String title = PhetCommonResources.getInstance().getLocalizedString( "Common.title.confirm" );
+            int reply = JOptionPane.showConfirmDialog( this, message, title, JOptionPane.YES_NO_CANCEL_OPTION );
             if ( reply == JOptionPane.YES_OPTION ) {
                 // Yes -> normalize, apply, close
                 normalize();

@@ -3,6 +3,7 @@ Change history for bound-states project
 ===============================================================================
 
 DONE:
+9/5/08 - remove uses of DialogUtils, use JOptionPane directly
 5/20/08 - replace Font with PhetFont throughout
 ********* version 1.04.00 (21058)
 ********* version 1.03.03 (21046)
