@@ -1,13 +1,4 @@
-/* Copyright 2006, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2006-2008, University of Colorado */
 
 package edu.colorado.phet.common.phetcommon.servicemanager;
 
@@ -21,8 +12,7 @@ import javax.jnlp.FileContents;
 import javax.jnlp.FileSaveService;
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.util.DialogUtils;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 
 /**
  * Performs local file save feature that conforms to JNLP file save service interface.
@@ -57,8 +47,9 @@ public class LocalFileSaveService implements FileSaveService {
                 f.createNewFile();
             }
             else {
-                String message = SimStrings.getInstance().getString( "Save.confirm.message" );
-                int reply = DialogUtils.showConfirmDialog( owner, message, JOptionPane.YES_NO_CANCEL_OPTION );
+                String message = PhetCommonResources.getInstance().getLocalizedString( "Save.confirm.message" );
+                String title = PhetCommonResources.getInstance().getLocalizedString( "Common.title.confirm" );
+                int reply = JOptionPane.showConfirmDialog( owner, message, title, JOptionPane.YES_NO_CANCEL_OPTION );
                 if ( reply != JOptionPane.YES_OPTION ) {
                     return null;
                 }

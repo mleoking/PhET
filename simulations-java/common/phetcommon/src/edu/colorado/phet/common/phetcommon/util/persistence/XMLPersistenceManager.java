@@ -17,7 +17,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 
 /**
  * XMLPersistenceManager handles save and loading objects.
@@ -160,7 +159,7 @@ public class XMLPersistenceManager {
         protected void showError( String format, String errorMessage ) {
             Object[] args = { errorMessage };
             String message = MessageFormat.format( format, args );
-            DialogUtils.showErrorDialog( _parentFrame, message, ERROR_TITLE );
+            JOptionPane.showMessageDialog( _parentFrame, message, ERROR_TITLE, JOptionPane.ERROR_MESSAGE );
         }
     }
     
@@ -190,7 +189,8 @@ public class XMLPersistenceManager {
 
                 // If the file exists, confirm overwrite.
                 if ( selectedFile.exists() ) {
-                    int reply = DialogUtils.showConfirmDialog( getParentFrame(), SAVE_CONFIRM_MESSAGE, JOptionPane.YES_NO_CANCEL_OPTION );
+                    String title = PhetCommonResources.getInstance().getLocalizedString( "Common.title.confirm" );
+                    int reply = JOptionPane.showConfirmDialog( getParentFrame(), SAVE_CONFIRM_MESSAGE, title, JOptionPane.YES_NO_CANCEL_OPTION );
                     if ( reply != JOptionPane.YES_OPTION ) {
                         return;
                     }

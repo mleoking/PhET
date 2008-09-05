@@ -12,7 +12,6 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 
 /**
  * "Reset All" button.  When it's pressed, requests confirmation.
@@ -41,7 +40,8 @@ public class ResetAllButton extends JButton {
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 String message = PhetCommonResources.getInstance().getLocalizedString( "ControlPanel.message.confirmResetAll" );
-                int option = DialogUtils.showConfirmDialog( parent, message, JOptionPane.YES_NO_OPTION );
+                String title = PhetCommonResources.getInstance().getLocalizedString( "Common.title.confirm" );
+                int option = JOptionPane.showConfirmDialog( parent, message, title, JOptionPane.YES_NO_CANCEL_OPTION );
                 if ( option == JOptionPane.YES_OPTION ) {
                     for ( int i = 0; i < m_resettables.size(); i++ ) {
                         ((Resettable)m_resettables.get(i)).reset();
