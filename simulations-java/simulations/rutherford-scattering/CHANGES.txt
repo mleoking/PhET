@@ -3,6 +3,7 @@ Change history for rutherford-scattering
 ===============================================================================
 
 DONE:
+9/5/08 - remove bogus imports of DialogUtils
 6/24/08 - move SphericalNode to piccolo-phet
 5/20/08 - call new PhetFont explicitly to create fonts
 11/9/07 - move about.credits property to localization file
