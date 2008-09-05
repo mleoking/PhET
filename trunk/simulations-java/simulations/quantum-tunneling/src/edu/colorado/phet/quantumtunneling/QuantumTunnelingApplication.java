@@ -16,12 +16,11 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
-import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
@@ -206,7 +205,7 @@ public class QuantumTunnelingApplication extends PhetApplication {
             else {
                 String message = QTResources.getString( "message.notAConfigFile" );
                 String title = QTResources.getString( "title.error" );
-                DialogUtils.showErrorDialog( getPhetFrame(), message, title );
+                JOptionPane.showMessageDialog( getPhetFrame(), message, title, JOptionPane.ERROR_MESSAGE );
             }
         }
     }
