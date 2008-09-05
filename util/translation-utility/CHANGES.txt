@@ -3,6 +3,9 @@ Change history for translation-utility
 ================================================================================
 
 DONE:
+9/5/08 - remove uses of DialogUtils, replace with JOptionPane
+9/5/08 - improve validation code for InitializationDialog
+9/5/08 - move error messages out of strings file and into InitializationDialog
 8/27/08 - manually update and publish website files for 1.00.00 release
 ********* version 1.00.00 (23942)
 8/27/08 - add missing jnlp.jar to proguard in buildfile, needed to open web browser by UpdateManager

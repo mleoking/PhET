@@ -37,9 +37,9 @@ public class InitializationDialog extends JDialog {
     
     private static final String ERROR_TITLE = TUResources.getString( "title.errorDialog" );
     
-    private static final String ERROR_NO_SUCH_JAR = TUResources.getString( "error.noSuchJar" );
-    private static final String ERROR_LANGUAGE_CODE_FORMAT = TUResources.getString( "error.languageCodeFormat" );
-    private static final String ERROR_NOT_CUSTOM_LANGUAGE_CODE = TUResources.getString( "error.notCustomLanguageCode" );
+    private static final String ERROR_NO_SUCH_JAR = "JAR file does not exist";
+    private static final String ERROR_LANGUAGE_CODE_FORMAT = "Language code must in ISO 639-1 format (2 lowercase letters)";
+    private static final String ERROR_NOT_CUSTOM_LANGUAGE_CODE = "<html>{0} is not a custom language code.<br>It is the code for {1}.</html>";
     
     private static final String HELP_TITLE = TUResources.getString( "title.help" );
     private static final String HELP_JAR_FILE = TUResources.getString( "help.jarFile" );
@@ -305,31 +305,44 @@ public class InitializationDialog extends JDialog {
      * Clients should register as a WindowListener, and interrogate the dialog for values.
      */
     private void handleContinueButton() {
+        
         boolean error = false;
+        
         File jarFile = new File( _jarFileTextField.getText() );
         if ( !jarFile.exists() ) {
             error = true;
-            DialogUtils.showErrorDialog( InitializationDialog.this, ERROR_NO_SUCH_JAR, ERROR_TITLE );
+            showErrorDialog( ERROR_NO_SUCH_JAR );
         }
-        String languageCode = getTargetLanguageCode();
-        if ( !isWellFormedLanguageCode( languageCode ) ) {
-            error = true;
-            DialogUtils.showErrorDialog( InitializationDialog.this, ERROR_LANGUAGE_CODE_FORMAT, ERROR_TITLE );
-        }
-        if ( _languageComboBox.isCustomSelected() ) {
-            LanguageCodes lc = LanguageCodes.getInstance();
-            String name = lc.getName( languageCode );
-            if (name != null ) {
+        else {
+            String languageCode = getTargetLanguageCode();
+            if ( !isWellFormedLanguageCode( languageCode ) ) {
                 error = true;
-                Object[] args = { languageCode, name };
-                String message = MessageFormat.format( ERROR_NOT_CUSTOM_LANGUAGE_CODE, args );
-                DialogUtils.showErrorDialog( InitializationDialog.this, message, ERROR_TITLE );
+                showErrorDialog( ERROR_LANGUAGE_CODE_FORMAT );
+            }
+            else if ( _languageComboBox.isCustomSelected() ) {
+                // if "custom" is selected, then the language code shouldn't be one of the standard codes
+                LanguageCodes lc = LanguageCodes.getInstance();
+                String name = lc.getName( languageCode );
+                if ( name != null ) {
+                    error = true;
+                    Object[] args = { languageCode, name };
+                    String message = MessageFormat.format( ERROR_NOT_CUSTOM_LANGUAGE_CODE, args );
+                    showErrorDialog( message );
+                }
             }
         }
+        
         if ( !error ) {
             _continue = true;
             dispose();
         }
+    }
+    
+    /*
+     * Displays a modal error dialog.
+     */
+    private void showErrorDialog( String message ) {
+        JOptionPane.showMessageDialog( InitializationDialog.this, message, ERROR_TITLE, JOptionPane.ERROR_MESSAGE );
     }
     
     /*
