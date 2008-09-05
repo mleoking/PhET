@@ -393,7 +393,7 @@ public class InteractionPotentialDiagramNode extends PNode {
                     // PNode.
                     m_graphMin.setLocation( i, yPos );
                 }
-                if (potential > 0){
+                if ((potential > 0) || (m_zeroCrossingPoint.getX() == 0)){
                     // The potential hasn't become negative yet, so update the
                     // zero crossing point.
                     m_zeroCrossingPoint.setLocation( i, m_graphHeight / 2 );
