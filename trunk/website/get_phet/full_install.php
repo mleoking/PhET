@@ -16,22 +16,22 @@ class FullInstallPage extends SitePage {
         // Get the distribution files and their size
 
         // Windows
-        $win_file = PORTAL_ROOT.'phet-dist/installers/PhET-1.0-windows-installer.exe';
+        $win_file = PORTAL_ROOT.'phet-dist/installers/PhET-windows-installer.exe';
         $win_url = urlencode($win_file);
         $win_size = (file_exists($win_file)) ? (int) (filesize($win_file) / (1024 * 1024)) : "&lt;unknown&gt;";
 
         // Mac
-        $mac_file = PORTAL_ROOT.'phet-dist/installers/PhET-1.0-osx-installer.zip';
+        $mac_file = PORTAL_ROOT.'phet-dist/installers/PhET-osx-installer.zip';
         $mac_url = urlencode($mac_file);
         $mac_size = (file_exists(($mac_file))) ? (int) (filesize($mac_file) / (1024 * 1024)) : "&lt;unknown&gt;";
 
         // Linux
-        $lin_file = PORTAL_ROOT.'phet-dist/installers/PhET-1.0-linux-installer.bin';
+        $lin_file = PORTAL_ROOT.'phet-dist/installers/PhET-linux-installer.bin';
         $lin_url = urlencode($lin_file);
         $lin_size = (file_exists($lin_file)) ? (int) (filesize($lin_file) / (1024 * 1024)) : "&lt;unknown&gt;";
 
         // CD-ROM
-        $cd_file = PORTAL_ROOT.'phet-dist/installers/PhET-1.0-CD-ROM.zip';
+        $cd_file = PORTAL_ROOT.'phet-dist/installers/PhET-CD-ROM.zip';
         $cd_url = urlencode($cd_file);
         $cd_size = (file_exists($cd_file)) ? (int) (filesize($cd_file) / (1024 * 1024)) : "&lt;unknown&gt;";
 
