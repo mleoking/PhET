@@ -3,6 +3,7 @@ Change history for quantum-tunneling
 ===============================================================================
 
 DONE:
+9/5/08 - remove uses of DialogUtils, use JOptionPane directly
 5/20/08 - reduce vertical spacing in control panel to remove Mac scrollbars
 5/20/08 - call new PhetFont explicitly to create fonts
 4/28/08 - add PhetLookAndFeel to main
