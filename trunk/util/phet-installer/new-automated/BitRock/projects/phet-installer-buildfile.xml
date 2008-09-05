@@ -2,7 +2,7 @@
     <shortName>PhET</shortName>
     <fullName>PhET</fullName>
     <version>$VERSION$</version>
-    <installerFilename>${product_shortname}-${product_version}-${platform_name}-installer.${platform_exec_suffix}</installerFilename>
+    <installerFilename>${product_shortname}-${platform_name}-installer.${platform_exec_suffix}</installerFilename>
     <readmeFile>../../Installer-Resources/Install-Path/${platform_name}/readme.txt</readmeFile>
     <licenseFile>../../Installer-Resources/Install-Path/license.txt</licenseFile>
     <installationLogFile>${installdir}/install_log.txt</installationLogFile>
@@ -209,8 +209,8 @@
             <title></title>
             <description>Installer.Parameter.installdir.description</description>
             <explanation>Installer.Parameter.installdir.explanation</explanation>
-            <value>${platform_install_prefix}/${product_shortname}-${product_version}</value>
-            <default>${platform_install_prefix}/${product_shortname}-${product_version}</default>
+            <value>${platform_install_prefix}/${product_shortname}</value>
+            <default>${platform_install_prefix}/${product_shortname}</default>
             <allowEmptyValue>0</allowEmptyValue>
             <ask>yes</ask>
             <cliOptionName>prefix</cliOptionName>
