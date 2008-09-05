@@ -465,8 +465,8 @@ public class Human {
 //        System.out.println( "avgExercise=" + averageExercise + ", averageActivity=" + averageActivity + ", counting activity: " + activityToCount );
 
         double caloriesToConsiderForHeartStrength = averageExercise + activityToCount;
-        double exercise_cal_max = 4000.0;
-        double heartStrength = log10( 1 + 150 * caloriesToConsiderForHeartStrength / exercise_cal_max ) / log10( 151 );
+        double exercise_cal_max = 3000.0;
+        double heartStrength = log10( 1 + 100 * caloriesToConsiderForHeartStrength / exercise_cal_max ) / log10( 101 );
 //        System.out.println( "unclamped heartStrength = " + heartStrength );
         setHeartStrength( MathUtil.clamp( 0, heartStrength, 1.0 ) );
 
