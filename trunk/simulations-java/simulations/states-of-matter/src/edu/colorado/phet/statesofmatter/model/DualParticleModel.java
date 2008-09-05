@@ -194,8 +194,10 @@ public class DualParticleModel {
      * @param sigma - distance parameter
      */
     public void setEpsilon( double epsilon ){
-        m_epsilon = epsilon;
-        notifyInteractionPotentialChanged();
+        if (epsilon <= StatesOfMatterConstants.EPSILON){
+            m_epsilon = epsilon;
+            notifyInteractionPotentialChanged();
+        }
     }
     
     /**

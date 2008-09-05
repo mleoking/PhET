@@ -13,6 +13,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.math.Function;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
@@ -91,7 +93,8 @@ public class InteractionPotentialDiagramNode extends PNode {
     // the position marker.
     private PPath m_positionMarker;
     private boolean m_positionMarkerEnabled;
-    
+    private Function.LinearFunction linearFunction;
+
     /**
      * Constructor.
      * @param sigma TODO
@@ -205,6 +208,7 @@ public class InteractionPotentialDiagramNode extends PNode {
                 new Point2D.Double( 0, m_graphHeight / 2 ), ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_LINE_WIDTH);
         m_epsilonArrow.setPaint( Color.BLACK );
         ljPotentialGraph.addChild( m_epsilonArrow );
+        m_epsilonArrow.addInputEventListener( new CursorHandler() );
         
         m_epsilonLabel = new PText("\u03B5");
         m_epsilonLabel.setFont( GREEK_LETTER_FONT );
@@ -256,8 +260,42 @@ public class InteractionPotentialDiagramNode extends PNode {
         
         // Redraw the graph to reflect the new parameters.
         drawPotentialCurve();
+
+        double de=0.001;
+        linearFunction = new Function.LinearFunction(0,-de,0,getEpsilonView(m_epsilon)-getEpsilonView(m_epsilon+de));
+
+    }
+
+    public Function.LinearFunction getLinearFunction() {
+        return linearFunction;
+    }
+
+    private double getEpsilonView(double tempEpsilon) {
+        double saveValue=this.m_epsilon;
+        this.m_epsilon=tempEpsilon;
+        drawPotentialCurve();
+        double v = m_epsilonArrow.getGlobalFullBounds().getMaxY();
+        this.m_epsilon=saveValue;
+        drawPotentialCurve();
+        return v;
+    }
+
+    protected DoubleArrowNode getEpsilonArrow() {
+        return m_epsilonArrow;
+    }
+
+    protected DoubleArrowNode getSigmaArrow() {
+        return m_sigmaArrow;
     }
     
+    protected double getGraphHeight(){
+        return m_graphHeight;
+    }
+
+    protected double getGraphWidth(){
+        return m_graphWidth;
+    }
+
     public void setMarkerEnabled( boolean enabled ){
         m_positionMarkerEnabled = enabled;
     }
@@ -313,7 +351,7 @@ public class InteractionPotentialDiagramNode extends PNode {
         return (4 * m_epsilon * (Math.pow( m_sigma / radius, 12 ) - Math.pow( m_sigma / radius, 6 )));
         
     }
-    
+
     /**
      * Draw the curve that reflects the Lennard-Jones potential based upon the
      * current values for sigma and epsilon.
@@ -327,7 +365,6 @@ public class InteractionPotentialDiagramNode extends PNode {
         for (int i = 1; i < (int)m_graphWidth; i++){
             double potential = calculateLennardJonesPotential( i * horizontalIndexMultiplier );
             double yPos = ((m_graphHeight / 2) - (potential * m_verticalScalingFactor));
-            System.out.println("yPos = " + yPos);
             if ((yPos > 0) && (yPos < m_graphHeight)){
                 potentialEnergyLineShape.lineTo( (float)i, (float)(yPos) );
                 if (yPos > graphMin.getY()){
