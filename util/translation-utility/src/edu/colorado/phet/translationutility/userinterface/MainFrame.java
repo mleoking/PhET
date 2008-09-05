@@ -15,7 +15,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.html.HTMLEditorKit;
 
-import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.translationutility.TUResources;
@@ -278,7 +277,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
      * Opens a dialog that contains help information.
      */
     public void handleHelp() {
-        DialogUtils.showInformationDialog( this, HELP_MESSAGE, HELP_TITLE );
+        JOptionPane.showMessageDialog( this, HELP_MESSAGE, HELP_TITLE, JOptionPane.INFORMATION_MESSAGE );
     }
     
     //----------------------------------------------------------------------------
