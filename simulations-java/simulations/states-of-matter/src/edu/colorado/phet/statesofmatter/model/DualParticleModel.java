@@ -170,9 +170,19 @@ public class DualParticleModel {
      * @param sigma - distance parameter
      */
     public void setSigma( double sigma ){
-        m_sigma = sigma;
-        m_fixedParticle.setRadius( sigma / 2 );
-        m_movableParticle.setRadius( sigma / 2 );
+        if (sigma > StatesOfMatterConstants.MAX_SIGMA){
+            m_sigma = StatesOfMatterConstants.MAX_SIGMA;
+        }
+        else if ( sigma < StatesOfMatterConstants.MIN_SIGMA ){
+            m_sigma = StatesOfMatterConstants.MIN_SIGMA;
+        }
+        else{
+            m_sigma = sigma;
+        }
+        
+        notifyInteractionPotentialChanged();
+        m_fixedParticle.setRadius( m_sigma / 2 );
+        m_movableParticle.setRadius( m_sigma / 2 );
         notifyInteractionPotentialChanged();
     }
     
@@ -194,10 +204,18 @@ public class DualParticleModel {
      * @param sigma - distance parameter
      */
     public void setEpsilon( double epsilon ){
-        if (epsilon <= StatesOfMatterConstants.EPSILON){
-            m_epsilon = epsilon;
-            notifyInteractionPotentialChanged();
+        
+        if (epsilon > StatesOfMatterConstants.MAX_EPSILON){
+            m_epsilon = StatesOfMatterConstants.MAX_EPSILON;
         }
+        else if ( epsilon < StatesOfMatterConstants.MIN_EPSILON ){
+            m_epsilon = StatesOfMatterConstants.MIN_EPSILON;
+        }
+        else{
+            m_epsilon = epsilon;
+        }
+        
+        notifyInteractionPotentialChanged();
     }
     
     /**

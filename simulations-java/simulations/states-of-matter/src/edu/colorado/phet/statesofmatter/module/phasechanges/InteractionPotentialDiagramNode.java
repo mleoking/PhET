@@ -35,7 +35,7 @@ public class InteractionPotentialDiagramNode extends PNode {
     //----------------------------------------------------------------------------
     
     // Constants that control the range of data that is graphed.
-    private static final double MAX_INTER_ATOM_DISTANCE = 1200;   // In picometers.
+    protected static final double MAX_INTER_ATOM_DISTANCE = 1200;   // In picometers.
     
     // Constants that control the appearance of the diagram.
     private static final double NARROW_VERSION_WIDTH = 200;
@@ -212,7 +212,6 @@ public class InteractionPotentialDiagramNode extends PNode {
                 new Point2D.Double( 0, m_graphHeight / 2 ), ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_LINE_WIDTH);
         m_epsilonArrow.setPaint( Color.BLACK );
         ljPotentialGraph.addChild( m_epsilonArrow );
-        m_epsilonArrow.addInputEventListener( new CursorHandler() );
         
         m_epsilonLabel = new PText("\u03B5");
         m_epsilonLabel.setFont( GREEK_LETTER_FONT );
