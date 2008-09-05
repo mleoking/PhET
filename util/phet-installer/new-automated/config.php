@@ -43,7 +43,7 @@
     define("AUTORUN_ICON_DEST",                 file_cleanup_local_filename(OUTPUT_DIR.AUTORUN_ICON_NAME));
     define("AUTORUN_FILE_DEST",                 file_cleanup_local_filename(OUTPUT_DIR.AUTORUN_FILENAME));
 
-    define("CDROM_FILE_NAME",                   "PhET-".PHET_VERSION."-CD-ROM.zip");
+    define("CDROM_FILE_NAME",                   "PhET-CD-ROM.zip");
     define("CDROM_FILE_DEST",                   OUTPUT_DIR.CDROM_FILE_NAME);
 
     // *****************************************************************************
@@ -93,7 +93,7 @@
 
     define("BITROCK_DIST_DIR",          file_cleanup_local_filename(BITROCK_DIR."output/"));
 
-    define("BITROCK_DIST_PREFIX",       BITROCK_PRODUCT_SHORTNAME.'-'.BITROCK_PRODUCT_VERSION.'-');
+    define("BITROCK_DIST_PREFIX",       BITROCK_PRODUCT_SHORTNAME."-");
     define("BITROCK_DIST_POSTFIX",      "-installer");
 
     define("BITROCK_DISTNAME_WINNT",      BITROCK_DIST_PREFIX.BITROCK_PLATFORM_WINDOWS.BITROCK_DIST_POSTFIX.BITROCK_PLATFORM_EXEC_SUFFIX_WINDOWS);
