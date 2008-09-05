@@ -19,11 +19,15 @@ class WhoWeArePage extends SitePage {
 
         <div>
             <div class="caption">
-                <span style="font-weight: bold; text-decoration: underline; font-style: italic;">Back Row:</span> Mindy Gratny, Chris Malley, Chris Keller, John De Goes, Sam Reid, Carl Wieman
+                <span style="font-weight: bold; text-decoration: underline; font-style: italic;">Back Row:</span> Noah Finkelstein, John Blanco, Sam Reid, Chris Malley, Wendy Adams
             </div>
 
             <div class="caption">
-                <span style="font-weight: bold; text-decoration: underline; font-style: italic;">Front Row:</span> Kathy Perkins, Alex Adams, Wendy Adams, Angie Jardine, Mike Dubson, Noah Finkelstein
+                <span style="font-weight: bold; text-decoration: underline; font-style: italic;">Middle Row:</span> Carl Wieman, Mike Dubson, Kathy Perkins, Alex Adams
+            </div>
+
+            <div class="caption">
+                <span style="font-weight: bold; text-decoration: underline; font-style: italic;">Front Row:</span> Sarah Borenstein, Archie Paulson, Trish Loblein, Noah Podolefsky, Marj Frankel
             </div>
 
             <p>&nbsp;</p>
