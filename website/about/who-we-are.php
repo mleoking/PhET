@@ -27,7 +27,7 @@ class WhoWeArePage extends SitePage {
             </div>
 
             <div class="caption">
-                <span style="font-weight: bold; text-decoration: underline; font-style: italic;">Front Row:</span> Sarah Borenstein, Archie Paulson, Trish Loblein, Noah Podolefsky, Marj Frankel
+                <span style="font-weight: bold; text-decoration: underline; font-style: italic;">Front Row:</span> Sarah Borenstein, Archie Paulson, Trish Loeblein, Noah Podolefsky, Marj Frankel
             </div>
 
             <p>&nbsp;</p>
