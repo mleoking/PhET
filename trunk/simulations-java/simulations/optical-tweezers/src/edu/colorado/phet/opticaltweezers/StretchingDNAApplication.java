@@ -4,10 +4,10 @@ package edu.colorado.phet.opticaltweezers;
 
 import java.lang.reflect.InvocationTargetException;
 
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
@@ -107,7 +107,7 @@ public class StretchingDNAApplication extends OTAbstractApplication {
             else {
                 String message = OTResources.getString( "message.notAConfigFile" );
                 String title = OTResources.getString( "title.error" );
-                DialogUtils.showErrorDialog( getPhetFrame(), message, title );
+                JOptionPane.showMessageDialog( getPhetFrame(), message, title, JOptionPane.ERROR_MESSAGE );
             }
         }
     }
