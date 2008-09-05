@@ -74,10 +74,10 @@ public class InteractionPotentialDiagramNode extends PNode {
     // Instance Data
     //----------------------------------------------------------------------------
     
+    protected final double m_width;
+    protected final double m_height;
     private double m_sigma;
     private double m_epsilon;
-    private double m_width;
-    private double m_height;
     private double m_graphOffsetX;
     private double m_graphOffsetY;
     private double m_graphWidth;
@@ -88,6 +88,8 @@ public class InteractionPotentialDiagramNode extends PNode {
     private PText m_sigmaLabel;
     private DoubleArrowNode m_sigmaArrow;
     private double m_verticalScalingFactor;
+    private Point2D m_graphMin;
+    private Point2D m_zeroCrossingPoint;
     
     // Variables for controlling the appearance, visibility, and location of
     // the position marker.
@@ -107,6 +109,8 @@ public class InteractionPotentialDiagramNode extends PNode {
         m_sigma = sigma;
         m_epsilon = epsilon;
         m_positionMarkerEnabled = false;
+        m_graphMin = new Point2D.Double(0, 0);
+        m_zeroCrossingPoint = new Point2D.Double(0, 0);
         
         // Set up for the normal or wide version of the graph.
         if (wide){
@@ -295,6 +299,22 @@ public class InteractionPotentialDiagramNode extends PNode {
     protected double getGraphWidth(){
         return m_graphWidth;
     }
+    
+    protected Point2D getZeroCrossingPoint(){
+        return m_zeroCrossingPoint;
+    }
+
+    protected Point2D getGraphMin(){
+        return m_graphMin;
+    }
+    
+    protected double getGraphOffsetX(){
+        return m_graphOffsetX;
+    }
+
+    protected double getGraphOffsetY(){
+        return m_graphOffsetY;
+    }
 
     public void setMarkerEnabled( boolean enabled ){
         m_positionMarkerEnabled = enabled;
@@ -356,28 +376,28 @@ public class InteractionPotentialDiagramNode extends PNode {
      * Draw the curve that reflects the Lennard-Jones potential based upon the
      * current values for sigma and epsilon.
      */
-    private void drawPotentialCurve(){
+    protected void drawPotentialCurve(){
         GeneralPath potentialEnergyLineShape = new GeneralPath();
         potentialEnergyLineShape.moveTo( 0, 0);
-        Point2D graphMin = new Point2D.Double(0, 0);
-        Point2D zeroCrossingPoint = new Point2D.Double(0, 0);
+        m_graphMin.setLocation( 0, 0 );
+        m_zeroCrossingPoint.setLocation( 0, 0 );
         double horizontalIndexMultiplier = MAX_INTER_ATOM_DISTANCE / m_graphWidth;
         for (int i = 1; i < (int)m_graphWidth; i++){
             double potential = calculateLennardJonesPotential( i * horizontalIndexMultiplier );
             double yPos = ((m_graphHeight / 2) - (potential * m_verticalScalingFactor));
             if ((yPos > 0) && (yPos < m_graphHeight)){
                 potentialEnergyLineShape.lineTo( (float)i, (float)(yPos) );
-                if (yPos > graphMin.getY()){
+                if (yPos > m_graphMin.getY()){
                     // A new minimum has been found.  If you're wondering why
                     // the test is for greater than rather than less than, it
                     // is because positive Y is down rather than up within a
                     // PNode.
-                    graphMin.setLocation( i, yPos );
+                    m_graphMin.setLocation( i, yPos );
                 }
                 if (potential > 0){
                     // The potential hasn't become negative yet, so update the
                     // zero crossing point.
-                    zeroCrossingPoint.setLocation( i, m_graphHeight / 2 );
+                    m_zeroCrossingPoint.setLocation( i, m_graphHeight / 2 );
                 }
             }
             else{
@@ -390,22 +410,22 @@ public class InteractionPotentialDiagramNode extends PNode {
         // Position the arrow that depicts epsilon along with its label.
       
         try{
-            m_epsilonArrow.setTipAndTailLocations( graphMin, new Point2D.Double( graphMin.getX(), m_graphHeight / 2 ) );
+            m_epsilonArrow.setTipAndTailLocations( m_graphMin, new Point2D.Double( m_graphMin.getX(), m_graphHeight / 2 ) );
         }
         catch(RuntimeException r){
             System.err.println("Error: Caught exception while positioning epsilon arrow - " + r);
         }
         
-        m_epsilonLabel.setOffset( graphMin.getX() + m_epsilonLabel.getFullBoundsReference().width * 0.5, 
-                ((graphMin.getY() - (m_graphHeight / 2)) / 2) - (m_epsilonLabel.getFullBoundsReference().height / 2) +
+        m_epsilonLabel.setOffset( m_graphMin.getX() + m_epsilonLabel.getFullBoundsReference().width * 0.5, 
+                ((m_graphMin.getY() - (m_graphHeight / 2)) / 2) - (m_epsilonLabel.getFullBoundsReference().height / 2) +
                 m_graphHeight / 2 );
 
         // Position the arrow that depicts sigma along with its label.
-        m_sigmaLabel.setOffset( zeroCrossingPoint.getX() / 2 - m_sigmaLabel.getFullBoundsReference().width / 2, 
+        m_sigmaLabel.setOffset( m_zeroCrossingPoint.getX() / 2 - m_sigmaLabel.getFullBoundsReference().width / 2, 
                 m_graphHeight / 2 );
 
         try{
-            m_sigmaArrow.setTipAndTailLocations( new Point2D.Double(0, m_graphHeight / 2), zeroCrossingPoint );
+            m_sigmaArrow.setTipAndTailLocations( new Point2D.Double(0, m_graphHeight / 2), m_zeroCrossingPoint );
         }
         catch(RuntimeException r){
             System.err.println("Error: Caught exception while positioning sigma arrow - " + r);
