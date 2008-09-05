@@ -5,8 +5,6 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.DualParticleModel;
 import edu.colorado.phet.statesofmatter.view.ResizeArrowNode;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -26,12 +24,12 @@ public class InteractionPotentialNodeWithInteraction extends InteractionPotentia
     /**
      * Constructor.
      *
-     * @param sigma   TODO
-     * @param epsilon TODO
-     * @param wide    - True if the widescreen version of the graph is needed,
-     *                false if not.
+     * @param sigma
+     * @param epsilon
+     * @param wide    - True if the widescreen version of the graph is needed, false if not.
      */
-    public InteractionPotentialNodeWithInteraction(double sigma, double epsilon, boolean wide, final DualParticleModel model) {
+    public InteractionPotentialNodeWithInteraction(double sigma, double epsilon, boolean wide, 
+            final DualParticleModel model) {
         
         super(sigma, epsilon, wide);
         
@@ -46,45 +44,25 @@ public class InteractionPotentialNodeWithInteraction extends InteractionPotentia
         // parameters of the LJ potential.
         m_epsilonResizeHandle = new ResizeArrowNode(RESIZE_HANDLE_SIZE_PROPORTION * m_width, Math.PI/2);
         addChild( m_epsilonResizeHandle );
-        m_sigmaResizeHandle = new ResizeArrowNode(RESIZE_HANDLE_SIZE_PROPORTION * m_width, 0);
-        addChild( m_sigmaResizeHandle );
-
-        getEpsilonArrow().addInputEventListener(new CursorHandler());
-        getEpsilonArrow().addInputEventListener(new PBasicInputEventHandler(){
-            public PDimension pressPoint;
-
-            public void mousePressed(PInputEvent event) {
-                pressPoint=event.getDeltaRelativeTo(getEpsilonArrow().getParent());
-            }
-
+        m_epsilonResizeHandle.addInputEventListener(new PBasicInputEventHandler(){
             public void mouseDragged(PInputEvent event) {
-//                PDimension dx=event.getDeltaRelativeTo(getEpsilonArrow().getParent());
-//                System.out.println("dx = " + dx);
-
-//                m_model.setEpsilon(m_model.getEpsilon()+dx.getHeight()*2);
-
-                /*
-                 * Sam's stuff.
-                Function.LinearFunction f=getLinearFunction();
-                Function inverse =f.createInverse();
-                double canvasDY=event.getCanvasDelta().getHeight();
-
-                double modelDY=inverse.evaluate(canvasDY);
-                System.out.println("canvasDY = " + canvasDY+", modelDY="+modelDY+", linearF="+f);
-                m_model.setEpsilon(m_model.getEpsilon()+modelDY);
-                 */
-                
                 PNode draggedNode = event.getPickedNode();
                 PDimension d = event.getDeltaRelativeTo(draggedNode);
                 draggedNode.localToParent(d);
-                double mouseMovementAmount = d.getHeight();
                 double scaleFactor = StatesOfMatterConstants.MAX_EPSILON / (getGraphHeight() / 2);
-                double newEpsilon = m_model.getEpsilon() + mouseMovementAmount * scaleFactor;
-                m_model.setEpsilon( newEpsilon );
-                
-//                double scaleFactor=m_model
-
-
+                m_model.setEpsilon( m_model.getEpsilon() + d.getHeight() * scaleFactor );
+            }
+        });
+        
+        m_sigmaResizeHandle = new ResizeArrowNode(RESIZE_HANDLE_SIZE_PROPORTION * m_width, 0);
+        addChild( m_sigmaResizeHandle );
+        m_sigmaResizeHandle.addInputEventListener(new PBasicInputEventHandler(){
+            public void mouseDragged(PInputEvent event) {
+                PNode draggedNode = event.getPickedNode();
+                PDimension d = event.getDeltaRelativeTo(draggedNode);
+                draggedNode.localToParent(d);
+                double scaleFactor = MAX_INTER_ATOM_DISTANCE / getGraphWidth();
+                m_model.setSigma( m_model.getSigma() + d.getWidth() * scaleFactor );
             }
         });
     }
