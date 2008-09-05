@@ -44,16 +44,6 @@ public class TrashCanDelegate {
     }
     
     /**
-     * Is the specified tool in the trash can?
-     * A tool node is in the trash if its bounds intersect the bounds of the trash can.
-     * @return true or false
-     * @deprecated use isInTrash(Point2D)
-     */
-    public boolean isInTrash( AbstractToolNode toolNode ) {
-        return toolNode.getGlobalFullBounds().intersects( _trashCanNode.getGlobalFullBounds() );
-    }
-    
-    /**
      * Deletes a specified tool.
      * <p>
      * Shows an animation of a tool shrinking towards a point.
