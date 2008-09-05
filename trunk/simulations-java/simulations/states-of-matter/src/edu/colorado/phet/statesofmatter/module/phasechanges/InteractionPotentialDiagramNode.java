@@ -90,6 +90,7 @@ public class InteractionPotentialDiagramNode extends PNode {
     private double m_verticalScalingFactor;
     private Point2D m_graphMin;
     private Point2D m_zeroCrossingPoint;
+    private double m_markerDistance;
     
     // Variables for controlling the appearance, visibility, and location of
     // the position marker.
@@ -111,6 +112,7 @@ public class InteractionPotentialDiagramNode extends PNode {
         m_positionMarkerEnabled = false;
         m_graphMin = new Point2D.Double(0, 0);
         m_zeroCrossingPoint = new Point2D.Double(0, 0);
+        m_markerDistance = 0;
         
         // Set up for the normal or wide version of the graph.
         if (wide){
@@ -328,8 +330,9 @@ public class InteractionPotentialDiagramNode extends PNode {
      */
     public void setMarkerPosition(double distance){
 
-        double xPos = distance * ( m_graphWidth / MAX_INTER_ATOM_DISTANCE );
-        double potential = calculateLennardJonesPotential( distance );
+        m_markerDistance = distance;
+        double xPos = m_markerDistance * ( m_graphWidth / MAX_INTER_ATOM_DISTANCE );
+        double potential = calculateLennardJonesPotential( m_markerDistance );
         double yPos = ((m_graphHeight / 2) - (potential * m_verticalScalingFactor));
 
         if ( m_positionMarkerEnabled && (xPos > 0) && (xPos < m_graphWidth) &&
@@ -429,5 +432,8 @@ public class InteractionPotentialDiagramNode extends PNode {
         catch(RuntimeException r){
             System.err.println("Error: Caught exception while positioning sigma arrow - " + r);
         }
+        
+        // Update the position of the marker in case the curve has moved.
+        setMarkerPosition( m_markerDistance );
     }
 }
