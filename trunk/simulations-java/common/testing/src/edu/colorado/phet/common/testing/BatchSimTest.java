@@ -16,14 +16,14 @@ public class BatchSimTest {
     }
 
     public static void main( String[] args ) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, IOException, InterruptedException {
-        new BatchSimTest().testAllSims( CaptureScreenshot.class );
-//        new BatchSimTest().testAllSims( TestPhetApplicationUsage.class );
+//        new BatchSimTest().testAllSims( CaptureScreenshot.class );
+        new BatchSimTest().testAllSims( TestPhetApplicationUsage.class );
     }
 
     int count = 0;
 
     private void testAllSims( Class mainClass ) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, IOException, InterruptedException {
-        PhetProject[] x = PhetProject.getAllProjects( new File( "C:\\reid\\phet\\svn\\trunk\\simulations-java" ) );
+        PhetProject[] x = PhetProject.getAllProjects( new File( "C:\\reid-not-backed-up\\phet\\svn\\trunk2\\simulations-java" ) );
         for ( int i = 0; i < x.length; i++ ) {
             checkSim( x[i], mainClass );
 
