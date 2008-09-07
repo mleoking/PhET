@@ -130,14 +130,16 @@ public class HumanNode extends PNode {
         double h = human.getHeight();
         double m = human.getMass();
         double percentFat = human.getFatMassPercent();
-        double leanMuscleFraction = (m / (h * h) / 15 - 1) * (40 / percentFat - 1);
-        double muscleWidthBeyondArm = Math.max( leanMuscleFraction * 0.5 , 0 );
-        if (muscleWidthBeyondArm > 1.0){
-            muscleWidthBeyondArm = 1.0 + (muscleWidthBeyondArm - 1.0) * 0.25;
-        };
-        if (muscleWidthBeyondArm > 1.5){
+        double leanMuscleFraction = ( m / ( h * h ) / 15 - 1 ) * ( 40 / percentFat - 1 );
+        double muscleWidthBeyondArm = Math.max( leanMuscleFraction * 0.5, 0 );
+        if ( muscleWidthBeyondArm > 1.0 ) {
+            muscleWidthBeyondArm = 1.0 + ( muscleWidthBeyondArm - 1.0 ) * 0.25;
+        }
+        ;
+        if ( muscleWidthBeyondArm > 1.5 ) {
             muscleWidthBeyondArm = 1.5;
-        };
+        }
+        ;
 
         double muscleDiameter = limbStroke.getLineWidth() * ( 1 + muscleWidthBeyondArm );
 //        System.out.println( "LMF=" + leanMuscleFraction + ", modifier = " + muscleWidthBeyondArm + ", width=" + muscleDiameter );
@@ -161,10 +163,14 @@ public class HumanNode extends PNode {
 
     private Shape createStomachShape( Shape bodyShape ) {
         Rectangle2D bounds = bodyShape.getBounds2D();
+
         //double w = Math.max( 0.05 * getScaledMass() - 0.05, 0 );
         double percentFat = human.getFatMassPercent();
+
         //should be percentFat/12 for male, percentFat/18 for female
-        double w = Math.max( (percentFat/12 - 1) * 0.05 , 0);
+        double scaleFactor = human.getGender().equals( Human.Gender.MALE ) ? 12 : 18;
+        double w = Math.max( ( percentFat / scaleFactor - 1 ) * 0.05, 0 );
+        
         return new Ellipse2D.Double( bounds.getX() - w / 2, bounds.getCenterY(), bounds.getWidth() + w, bounds.getHeight() / 2 );
     }
 
