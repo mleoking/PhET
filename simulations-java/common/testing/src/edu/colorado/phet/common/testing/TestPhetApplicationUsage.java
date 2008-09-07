@@ -20,7 +20,7 @@ public class TestPhetApplicationUsage {
         final String project = args[0];
         final String sim = args[1];
 
-        final PhetProject phetProject = new PhetProject( new File( "C:\\reid\\phet\\svn\\trunk\\simulations-java\\simulations" ), project );
+        final PhetProject phetProject = new PhetProject( new File( "C:\\reid-not-backed-up\\phet\\svn\\trunk2\\simulations-java\\simulations" ), project );
         final PhetProjectFlavor flavor = phetProject.getFlavor( sim );
 
         Class c = Class.forName( flavor.getMainclass() );
