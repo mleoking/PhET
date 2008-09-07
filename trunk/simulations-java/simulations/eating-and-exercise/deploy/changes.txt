@@ -1,3 +1,6 @@
+New in 0.00.81
+Adjustments for stomach sizes, including gender dependence
+
 New in 0.00.80
 Fixed: Out-of-range value entered in the slider text box doesn't properly revert to accepted value
     Value reverts after 3 seconds
