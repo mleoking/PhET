@@ -1,4 +1,4 @@
-//package edu.colorado.phet.common.phetcommon.view;
+//package edu.colorado.phet.common.phetcommon.view.clock.clockcontroltest1;
 //
 //import java.awt.*;
 //import java.awt.event.ActionEvent;
