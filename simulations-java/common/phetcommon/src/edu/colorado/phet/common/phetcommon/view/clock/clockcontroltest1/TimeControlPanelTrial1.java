@@ -1,6 +1,6 @@
 ///* Copyright 2004-2008, University of Colorado */
 //
-//package edu.colorado.phet.common.phetcommon.view;
+//package edu.colorado.phet.common.phetcommon.view.clock.clockcontroltest1;
 //
 //import java.awt.*;
 //import java.awt.event.ActionEvent;
@@ -18,7 +18,8 @@
 //import edu.colorado.phet.common.phetcommon.application.Module;
 //import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 //import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-//import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+//import edu.colorado.phet.common.phetcommon.view.AnimatedClockJComponent;
+//import edu.colorado.phet.common.phetcommon.view.TimeControlPanel;
 //import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 //import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 //import edu.colorado.phet.common.piccolophet.PiccoloModule;
@@ -28,7 +29,7 @@
 // *
 // * @author Chris Malley, Sam Reid
 // */
-//public class TimeControlPanel extends PhetPCanvas {
+//public class TimeControlPanelTrial1 extends PhetPCanvas {
 //
 //    public static final NumberFormat DEFAULT_TIME_FORMAT = new DecimalFormat( "0" );
 //    public static final int DEFAULT_TIME_COLUMNS = 8;
