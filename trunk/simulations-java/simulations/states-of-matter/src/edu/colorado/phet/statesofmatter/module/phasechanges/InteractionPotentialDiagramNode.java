@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
+import edu.colorado.phet.statesofmatter.model.LjPotentialCalculator;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -90,12 +91,12 @@ public class InteractionPotentialDiagramNode extends PNode {
     private Point2D m_graphMin;
     private Point2D m_zeroCrossingPoint;
     private double m_markerDistance;
+    private LjPotentialCalculator m_LjPotentialCalculator;
     
     // Variables for controlling the appearance, visibility, and location of
     // the position marker.
     private PPath m_positionMarker;
     private boolean m_positionMarkerEnabled;
-    private Function.LinearFunction linearFunction;
 
     /**
      * Constructor.
@@ -112,6 +113,7 @@ public class InteractionPotentialDiagramNode extends PNode {
         m_graphMin = new Point2D.Double(0, 0);
         m_zeroCrossingPoint = new Point2D.Double(0, 0);
         m_markerDistance = 0;
+        m_LjPotentialCalculator = new LjPotentialCalculator(m_sigma, m_epsilon);
         
         // Set up for the normal or wide version of the graph.
         if (wide){
@@ -126,7 +128,7 @@ public class InteractionPotentialDiagramNode extends PNode {
         m_graphOffsetY = 0;
         m_graphWidth = m_width - m_graphOffsetX;
         m_graphHeight = m_height * VERT_AXIS_SIZE_PROPORTION;
-        m_verticalScalingFactor = m_graphHeight / 2 / StatesOfMatterConstants.MAX_EPSILON;
+        m_verticalScalingFactor = m_graphHeight / 2 / (StatesOfMatterConstants.MAX_EPSILON * StatesOfMatterConstants.K_BOLTZMANN);
         
         // Create a background that will sit behind everything.
         PPath graphBackground = new PPath(new Rectangle2D.Double( 0, 0, m_width, m_height ));
@@ -262,6 +264,10 @@ public class InteractionPotentialDiagramNode extends PNode {
         m_sigma = sigma;
         m_epsilon = epsilon;
         
+        // Update the Lennard-Jones force calculator.
+        m_LjPotentialCalculator.setEpsilon( m_epsilon );
+        m_LjPotentialCalculator.setSigma( m_sigma );
+        
         // Redraw the graph to reflect the new parameters.
         drawPotentialCurve();
     }
@@ -351,8 +357,7 @@ public class InteractionPotentialDiagramNode extends PNode {
      * @return
      */
     private double calculateLennardJonesPotential(double radius){
-        return (4 * m_epsilon * (Math.pow( m_sigma / radius, 12 ) - Math.pow( m_sigma / radius, 6 )));
-        
+        return ( m_LjPotentialCalculator.calculateLjPotential( radius ) );
     }
 
     /**
