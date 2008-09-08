@@ -460,7 +460,7 @@ public class EnergyHistogramDialog extends JDialog {
             at.setToRotation( -Math.PI / 2.0, x, y );
             g2.transform( at );
             g2.setFont( font );
-            g2.drawString( "Number of Particles", x, y );
+            g2.drawString( IdealGasResources.getLocalizedString( "chart.label.number.of.particles" ), x, y );
             gs.restoreGraphics();
         }
     }

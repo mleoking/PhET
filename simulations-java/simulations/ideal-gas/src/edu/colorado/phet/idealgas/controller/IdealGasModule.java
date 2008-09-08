@@ -317,18 +317,18 @@ public class IdealGasModule extends PhetGraphicsModule {
 
     private void addHelp() {
         HelpItem helpItem1 = new HelpItem( getApparatusPanel(),
-                                           "Wall can be moved\nleft and right",
+                                           IdealGasResources.getString( "help.wall" ), 
                                            box.getPosition().getX(), box.getPosition().getY(),
                                            HelpItem.BELOW, HelpItem.LEFT );
         helpItem1.setForegroundColor( IdealGasConfig.HELP_COLOR );
         addHelpItem( helpItem1 );
         HelpItem helpItem2 = new HelpItem( getApparatusPanel(),
-                                           "Door can be slid\nleft and right",
+                                           IdealGasResources.getString( "help.door" ),
                                            box.getPosition().getX() + 100, box.getPosition().getY() - 50 );
         helpItem2.setForegroundColor( IdealGasConfig.HELP_COLOR );
         addHelpItem( helpItem2 );
         HelpItem helpItem3 = new HelpItem( getApparatusPanel(),
-                                           "Heat can be removed or added\nby adjusting stove",
+                                           IdealGasResources.getString( "help.stove" ),
                                            box.getPosition().getX() + 50, box.getMaxY() + 50 );
         helpItem3.setForegroundColor( IdealGasConfig.HELP_COLOR );
         addHelpItem( helpItem3 );
@@ -654,7 +654,7 @@ public class IdealGasModule extends PhetGraphicsModule {
 
     public void setStopwatchEnabled( boolean stopwatchEnabled ) {
         if( stopwatchEnabled ) {
-            stopwatchPanel = new StopwatchPanel( getModel(), "psec", IdealGasConfig.TIME_SCALE_FACTOR );
+            stopwatchPanel = new StopwatchPanel( getModel(), IdealGasResources.getString( "stopwatch.units" ), IdealGasConfig.TIME_SCALE_FACTOR );
             getClockControlPanel().add( stopwatchPanel, BorderLayout.WEST );
             getClockControlPanel().revalidate();
             visibleInstruments.add( stopwatchPanel );
