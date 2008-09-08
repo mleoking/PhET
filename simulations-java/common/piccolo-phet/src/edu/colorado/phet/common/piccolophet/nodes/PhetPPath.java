@@ -146,6 +146,9 @@ public class PhetPPath extends PPath {
                     paintContext.getGraphics().setRenderingHint( RenderingHints.KEY_RENDERING, saveValueRender );
                 }
             }
+            else {
+                super.paint( paintContext );
+            }
         }
         else {
             super.paint( paintContext );
