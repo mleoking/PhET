@@ -3,6 +3,7 @@ package edu.colorado.phet.quantumwaveinterference.controls;
 
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
 import edu.colorado.phet.quantumwaveinterference.view.piccolo.detectorscreen.DetectorSheetPNode;
 import edu.colorado.phet.quantumwaveinterference.view.piccolo.detectorscreen.IntensityManager;
@@ -63,7 +64,11 @@ public class IntensityScreenPanel extends VerticalLayoutPanel {
 
         JPanel p4 = new HorizontalLayoutPanel();
         p4.add( new JLabel( QWIStrings.getString( "opacity" ) ) );
-        final JSpinner transparency = new JSpinner( new SpinnerNumberModel( getDetectorSheetPNode().getOpacity(), 0, 255, 1 ) );
+        int opacity = getDetectorSheetPNode().getOpacity();
+
+        opacity=Math.max( opacity, 0);
+        opacity=Math.min( opacity, 255);
+        final JSpinner transparency = new JSpinner( new SpinnerNumberModel( opacity, 0, 255, 1 ) );
         transparency.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 int val = ( (Number)transparency.getValue() ).intValue();
