@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 
 import edu.colorado.phet.movingman.motion.movingman.MovingManMotionModule;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 /**
  * Created by: Sam
@@ -13,7 +14,7 @@ import edu.colorado.phet.movingman.motion.movingman.MovingManMotionModule;
 */
 public class SoundCheckBox extends JCheckBox {
     public SoundCheckBox( final ISoundObject soundObject ) {
-        super( "Sound" );
+        super( SimStrings.get( "options.sound" ) );
         setSelected( soundObject.isAudioEnabled() );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
