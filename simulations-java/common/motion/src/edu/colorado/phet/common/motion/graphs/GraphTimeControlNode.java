@@ -7,6 +7,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.common.timeseries.ui.TimeseriesResources;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -85,7 +86,7 @@ public class GraphTimeControlNode extends PNode {
         private TimeSeriesModel graphTimeSeries;
 
         public ClearButton( final TimeSeriesModel graphTimeSeries ) {
-            super( "Clear" );
+            super(PhetCommonResources.getString( "Common.clear" ));
             this.graphTimeSeries = graphTimeSeries;
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -111,7 +112,7 @@ public class GraphTimeControlNode extends PNode {
         private TimeSeriesModel timeSeriesModel;
 
         public GoStopButton( final TimeSeriesModel timeSeriesModel ) {
-            super( "Go" );
+            super( PhetCommonResources.getString( "chart-time-control.go" ));
             this.timeSeriesModel = timeSeriesModel;
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -142,7 +143,7 @@ public class GraphTimeControlNode extends PNode {
 
         private void setGoButton( boolean go ) {
             this.goButton = go;
-            setText( goButton ? "Go!" : "Stop" );
+            setText( goButton ? PhetCommonResources.getString( "chart-time-control.go" ) : PhetCommonResources.getString( "Common.StopwatchPanel.stop" ) );
             setIcon( new ImageIcon( TimeseriesResources.loadBufferedImage( goButton ? "icons/go.png" : "icons/stop.png" ) ) );
         }
 

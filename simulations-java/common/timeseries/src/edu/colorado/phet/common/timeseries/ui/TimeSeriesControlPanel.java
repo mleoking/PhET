@@ -50,7 +50,7 @@ public class TimeSeriesControlPanel extends JPanel {
 
         add( timeSpeedSlider );
 
-        recordButton = new MultiStateButton( new Object[]{KEY_REC, KEY_PAUSE_REC}, new String[]{"Go!", "Stop"},
+        recordButton = new MultiStateButton( new Object[]{KEY_REC, KEY_PAUSE_REC}, new String[]{PhetCommonResources.getString( "chart-time-control.go" ), PhetCommonResources.getString( "Common.StopwatchPanel.stop" )},
                                              new Icon[]{
                                                      new ImageIcon( TimeseriesResources.loadBufferedImage( "icons/go.png" ) ),
                                                      new ImageIcon( TimeseriesResources.loadBufferedImage( "icons/stop.png" ) )
@@ -83,7 +83,7 @@ public class TimeSeriesControlPanel extends JPanel {
             }
         } );
 
-        playbackButton = new MultiStateButton( new Object[]{KEY_PLAYBACK, KEY_PAUSE}, new String[]{"Playback", "Pause"}, new Icon[]{loadCommonIcon( PhetCommonResources.IMAGE_PLAY ), loadCommonIcon( PhetCommonResources.IMAGE_PAUSE )} );
+        playbackButton = new MultiStateButton( new Object[]{KEY_PLAYBACK, KEY_PAUSE}, new String[]{PhetCommonResources.getString( "timeseries.control.panel.playback" ), PhetCommonResources.getString( "Common.ClockControlPanel.Pause" )}, new Icon[]{loadCommonIcon( PhetCommonResources.IMAGE_PLAY ), loadCommonIcon( PhetCommonResources.IMAGE_PAUSE )} );
         playbackButton.addActionListener( KEY_PLAYBACK, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( timeSeriesModel.isRecording() ) {
@@ -122,8 +122,7 @@ public class TimeSeriesControlPanel extends JPanel {
             }
         } );
 
-
-        stepButton = new JButton( "Step", loadCommonIcon( PhetCommonResources.IMAGE_STEP_FORWARD ) );
+        stepButton = new JButton( PhetCommonResources.getString( "Common.ClockControlPanel.Step" ), loadCommonIcon( PhetCommonResources.IMAGE_STEP_FORWARD ) );
         stepButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 clock.stepClockWhilePaused();
@@ -162,7 +161,7 @@ public class TimeSeriesControlPanel extends JPanel {
                 updateRewindButtonEnabled();
             }
         } );
-        JButton clearButton = new JButton( TimeseriesResources.getString( "Common.clear" ), new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_STOP ) ) );
+        JButton clearButton = new JButton( PhetCommonResources.getString( "Common.clear" ), new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_STOP ) ) );
         clearButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( confirmClear() ) {
