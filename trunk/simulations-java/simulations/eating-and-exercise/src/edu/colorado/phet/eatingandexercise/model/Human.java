@@ -461,7 +461,10 @@ public class Human {
 //        System.out.println( "averageExercise = " + averageExercise );
         double averageActivity = activity.estimateAverage( getAge() - EatingAndExerciseUnits.daysToSeconds( 30 ), getAge() );
         //NP 9-2-08 Changed activityToCount back to use a reduced fraction of averageActivity
-        double activityToCount = Math.max( ( averageActivity - 100 ) * 0.5, 0 );
+        double activityToCount = Math.max( ( averageActivity - 200 ) * 0.1, 0 );
+        if (activityToCount > 100){
+            activityToCount = 100;  //maximum activity calories that contribute to heart strength
+        }
 //        System.out.println( "avgExercise=" + averageExercise + ", averageActivity=" + averageActivity + ", counting activity: " + activityToCount );
 
         double caloriesToConsiderForHeartStrength = averageExercise + activityToCount;
