@@ -121,9 +121,10 @@ public class ApparatusPanel extends JPanel implements Observer {
         super.paintComponent( g2 );
 
         AffineTransform orgATx = g2.getTransform();
-        if ( affineTx != null ) {
-            g2.setTransform( affineTx );
+        if (affineTx==null){
+            updateTransform();
         }
+        g2.setTransform( affineTx );
         compositeGraphic.paint( g2 );
         g2.setTransform( orgATx );
 
