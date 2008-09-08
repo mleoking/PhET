@@ -2,6 +2,10 @@
 
 package edu.colorado.phet.statesofmatter.module.phasechanges;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Stroke;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
@@ -10,6 +14,7 @@ import edu.colorado.phet.statesofmatter.view.ResizeArrowNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -20,14 +25,32 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class InteractionPotentialNodeWithInteraction extends InteractionPotentialDiagramNode {
 
+    //-----------------------------------------------------------------------------
+    // Class Data
+    //-----------------------------------------------------------------------------
+
     private static final double RESIZE_HANDLE_SIZE_PROPORTION = 0.05;    // Size of handles as function of node width.
     private static final double EPSILON_HANDLE_OFFSET_PROPORTION = 0.08; // Position of handle as function of node width.
+    private static final float EPSILON_LINE_WIDTH = 1f;
+    private static final float[] EPSILON_LINE_DASH_PATTERN = { 5, 5 }; 
+    private static Stroke EPSILON_LINE_STROKE = new BasicStroke( EPSILON_LINE_WIDTH, BasicStroke.CAP_BUTT, 
+            BasicStroke.JOIN_MITER, 10, EPSILON_LINE_DASH_PATTERN, 0 );
+    private static final Color EPSILON_LINE_COLOR = Color.RED; 
     private static final double SIGMA_HANDLE_OFFSET_PROPORTION = 0.08;   // Position of handle as function of node width.
     
+    //-----------------------------------------------------------------------------
+    // Instance Data
+    //-----------------------------------------------------------------------------
+
     private DualParticleModel m_model;
     private ResizeArrowNode m_sigmaResizeHandle;
     private ResizeArrowNode m_epsilonResizeHandle;
+    private PPath m_epsilonLine;
     private boolean m_interactionEnabled;
+
+    //-----------------------------------------------------------------------------
+    // Constructor(s)
+    //-----------------------------------------------------------------------------
 
     /**
      * Constructor.
@@ -51,6 +74,13 @@ public class InteractionPotentialNodeWithInteraction extends InteractionPotentia
                 drawPotentialCurve();
             }
         });
+        
+        // Add the line that will indicate the value of epsilon.
+        double epsilonLineLength = EPSILON_HANDLE_OFFSET_PROPORTION * m_width * 2.2;
+        m_epsilonLine = new PPath( new Line2D.Double( -epsilonLineLength / 2, 0, epsilonLineLength / 2, 0 ) );
+        m_epsilonLine.setStroke( EPSILON_LINE_STROKE );
+        m_epsilonLine.setStrokePaint( EPSILON_LINE_COLOR );
+        addChild( m_epsilonLine );
         
         // Add the arrow nodes that will allow the user to control the
         // parameters of the LJ potential.
@@ -82,17 +112,13 @@ public class InteractionPotentialNodeWithInteraction extends InteractionPotentia
         updateInteractifyState();
     }
 
-    /**
-     * 
-     */
-    private void updateInteractifyState() {
-        if (m_model.getMoleculeType() != StatesOfMatterConstants.USER_DEFINED_MOLECULE){
-            m_interactionEnabled = false;
-        }
-        else{
-            m_interactionEnabled = true;
-        }
-    }
+    //-----------------------------------------------------------------------------
+    // Accessor Methods
+    //-----------------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------------
+    // Other Public/Protected Methods
+    //-----------------------------------------------------------------------------
 
     /**
      * This is an override of the method in the base class that draws the
@@ -112,6 +138,9 @@ public class InteractionPotentialNodeWithInteraction extends InteractionPotentia
             m_epsilonResizeHandle.setVisible( m_interactionEnabled );
             m_epsilonResizeHandle.setPickable( m_interactionEnabled );
             m_epsilonResizeHandle.setChildrenPickable( m_interactionEnabled );
+            
+            m_epsilonLine.setOffset( graphMin.getX() + getGraphOffsetX(), graphMin.getY() );
+            m_epsilonLine.setVisible( m_interactionEnabled );
         }
         if (m_sigmaResizeHandle != null){
             Point2D zeroCrossingPoint = getZeroCrossingPoint();
@@ -120,6 +149,19 @@ public class InteractionPotentialNodeWithInteraction extends InteractionPotentia
             m_sigmaResizeHandle.setVisible( m_interactionEnabled );
             m_sigmaResizeHandle.setPickable( m_interactionEnabled );
             m_sigmaResizeHandle.setChildrenPickable( m_interactionEnabled );
+        }
+    }
+
+    //-----------------------------------------------------------------------------
+    // Private Methods
+    //-----------------------------------------------------------------------------
+
+    private void updateInteractifyState() {
+        if (m_model.getMoleculeType() != StatesOfMatterConstants.USER_DEFINED_MOLECULE){
+            m_interactionEnabled = false;
+        }
+        else{
+            m_interactionEnabled = true;
         }
     }
 }
