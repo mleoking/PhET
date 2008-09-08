@@ -45,7 +45,7 @@ REFACTOR:
 - PlayArea is too big
 - generalize all charts, there's too much duplicated code
 - PlayArea.verticallyAlignZoomedViewport makes a change to viewport and results in itself being called again (it works, but not very elegant)
-- delete trash can code if we're sure we'll never need it
+- delete trash can code & image file if we're sure we'll never need it
 
 PERFORMANCE OPTIMIZATIONS:
 - Valley.getX uses divide-and-conquer
