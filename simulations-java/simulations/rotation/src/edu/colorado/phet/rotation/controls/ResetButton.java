@@ -15,8 +15,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 public class ResetButton extends JPanel {
 
     public ResetButton( final Resettable module ) {
-        PhetCommonResources.getInstance().getLocalizedString( "ControlPanel.button.resetAll" );
-        JButton resetButton = new JButton( "Reset All" );
+        JButton resetButton = new JButton( PhetCommonResources.getInstance().getLocalizedString( "ControlPanel.button.resetAll" ) );
         resetButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.reset();
