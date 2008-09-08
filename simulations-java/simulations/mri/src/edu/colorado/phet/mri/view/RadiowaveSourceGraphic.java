@@ -86,7 +86,7 @@ public class RadiowaveSourceGraphic extends PNode {
         // Frequency control
         Insets controlInsets = new Insets( 5, 5, 5, 5 );
         frequencySlider = new ModelSlider( SimStrings.getInstance().getString( "Misc.Frequency" ),
-                                           "MHz",
+                                           SimStrings.getInstance().getString( "Misc.Frequency.Units" ),
                                            MriConfig.MIN_FEQUENCY,
                                            MriConfig.MAX_FEQUENCY,
                                            MriConfig.MIN_FEQUENCY + ( MriConfig.MAX_FEQUENCY - MriConfig.MIN_FEQUENCY ) / 2,
@@ -133,7 +133,7 @@ public class RadiowaveSourceGraphic extends PNode {
 
         // Power control
         final ModelSlider powerCtrl = new ModelSlider( SimStrings.getInstance().getString( "Misc.Power" ),
-                                                       "%",
+                                                       SimStrings.getInstance().getString( "percent" ),
                                                        0,
                                                        MriConfig.MAX_POWER,
                                                        0,

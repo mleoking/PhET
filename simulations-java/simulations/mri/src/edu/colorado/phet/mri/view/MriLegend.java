@@ -75,18 +75,18 @@ public class MriLegend extends JPanel {
         // Lay out the panel
         gbc.gridx = 0;
         gbc.anchor = GridBagConstraints.CENTER;
-        add( new JLabel( "NMR" ), gbc );
+        add( new JLabel( SimStrings.getInstance().getString( "NMR.abbreviation" ) ), gbc );
         gbc.gridx = 1;
         gbc.anchor = GridBagConstraints.WEST;
-        add( new JLabel( "Nuclear magnetic resonance" ), gbc );
+        add( new JLabel(  SimStrings.getInstance().getString( "NMR.definition" )  ), gbc );
 
         gbc.gridy++;
         gbc.gridx = 0;
         gbc.anchor = GridBagConstraints.CENTER;
-        add( new JLabel( "MRI" ), gbc );
+        add( new JLabel( SimStrings.getInstance().getString( "MRI.abbreviation" ) ), gbc );
         gbc.gridx = 1;
         gbc.anchor = GridBagConstraints.WEST;
-        add( new JLabel( "Magnetic resonance imaging" ), gbc );
+        add( new JLabel( SimStrings.getInstance().getString( "MRI.definition" ) ), gbc );
 
         gbc.gridy++;
         gbc.gridx = 0;
@@ -124,7 +124,7 @@ public class MriLegend extends JPanel {
             PImage child1 = new PImage( top );
             canvas.getLayer().addChild( child1 );
 
-            PText text = new PText( "or" );
+            PText text = new PText( SimStrings.getInstance().getString( "ControlPanel.Legend.or" ) );
             canvas.getLayer().addChild( text );
 
             text.setOffset( child1.getFullBounds().getCenterX() - text.getFullBounds().getWidth() / 2, child1.getFullBounds().getMaxY() );
