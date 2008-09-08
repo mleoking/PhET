@@ -47,7 +47,7 @@ public class Motion2DControlFrame extends JFrame implements ChangeListener {
         scrollPane.setLayout( new GridLayout( 3, 2, 10, 5 ) );
 
         scrollPane.add( timeStepBar );
-        scrollPane.add( new JLabel( "Time Scale" ) );
+        scrollPane.add( new JLabel( SimStrings.getInstance().getString( "controls.time-scale" ) ) );
 
         scrollPane.add( velFactorBar );
         scrollPane.add( field5 );
