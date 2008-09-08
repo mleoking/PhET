@@ -141,4 +141,19 @@ public class PhetUtilities {
         return getOperatingSystem() == OS_WINDOWS;
     }
 
+    /**
+     * Are we running on Mac OS 10.4.x ?
+     * 
+     * @return true or false
+     */
+    public static boolean isMacOS_10_4() {
+        boolean rval = false;
+        if ( isMacintosh() ) {
+            String osVersion = System.getProperty( "os.version" );
+            if ( osVersion != null ) {
+                rval = osVersion.startsWith( "10.4" );
+            }
+        }
+        return rval;
+    }
 }
