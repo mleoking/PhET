@@ -1,6 +1,5 @@
 package edu.colorado.phet.rotation.controls;
 
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -9,8 +8,8 @@ import java.awt.event.WindowEvent;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.MultiStateButton;
+import edu.colorado.phet.forces1d.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.rotation.RotationStrings;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Author: Sam Reid
@@ -30,11 +29,11 @@ public class SymbolKeyButton extends JPanel {
 
         button.addActionListener( SHOW_MODE, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                Point onScreen = PSwing.getLocationOnScreen( button );
-//                Point onScreen=button.getLocationOnScreen();
-                System.out.println( "onScreen = " + onScreen );
-//                SwingUtils.centerDialogInParent( dialog );
-                dialog.setLocation( onScreen );
+                //todo: set correct location on screen
+//                Point onScreen = PSwing.getLocationOnScreen( button );
+                //                dialog.setLocation( onScreen );
+
+                SwingUtils.centerDialogInParent( dialog );
                 dialog.show();
                 if ( dialog.getContentPane() instanceof JComponent ) {
                     JComponent jComponent = (JComponent) dialog.getContentPane();

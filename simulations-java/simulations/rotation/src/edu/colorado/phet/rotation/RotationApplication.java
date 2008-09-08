@@ -61,7 +61,7 @@ public class RotationApplication extends PiccoloPhetApplication {
         SwingUtilities.invokeLater( new Runnable() {
             /** @noinspection HardCodedStringLiteral*/
             public void run() {
-                PSwingRepaintManager synchronizedPSwingRepaintManager = new PSwingRepaintManager();
+                MyRepaintManager synchronizedPSwingRepaintManager = new MyRepaintManager();
                 synchronizedPSwingRepaintManager.setDoMyCoalesce( true );
                 RepaintManager.setCurrentManager( synchronizedPSwingRepaintManager );
 
