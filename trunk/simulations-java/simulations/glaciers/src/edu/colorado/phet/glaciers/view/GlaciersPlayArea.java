@@ -352,6 +352,9 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         
         // set the bounds of the zoomed viewport, based on the zoomed canvas size
         updateZoomedViewportBounds();
+        
+        // set the bounds for snowfall, must be done after adjusting birds-eye and zoomed viewports
+        updateSnowfallBounds();
 
         // keep the zoomed viewport inside the birds-eye viewport
         constrainZoomedViewport();
@@ -367,16 +370,12 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
      * The position of the birds-eye viewport never changes.
      */
     private void updateBirdsEyeViewportBounds() {
-        
         Rectangle2D bb = _birdsEyeCanvas.getBounds();
         assert ( !bb.isEmpty() );
         double scale = _birdsEyeCanvas.getCamera().getViewScale();
         Rectangle2D rView = new Rectangle2D.Double( 0, 0, bb.getWidth() / scale, bb.getHeight() / scale );
         Rectangle2D rModel = _mvt.viewToModel( rView );
         _birdsEyeViewport.setBounds( _birdsEyeViewport.getX(), _birdsEyeViewport.getY(), rModel.getWidth(), rModel.getHeight() );
-        
-        // snowfall node has same bounds as the birds-eye view
-        _snowfallNode.setWorldBounds( _birdsEyeViewport.getBoundsReference() );
     }
     
     /*
@@ -390,6 +389,15 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         rView.setRect( rView.getX(), rView.getY(), zb.getWidth() / scale, zb.getHeight() / scale );
         Rectangle2D rModel = _mvt.viewToModel( rView );
         _zoomedViewport.setBounds( rModel );
+    }
+    
+    private void updateSnowfallBounds() {
+        Rectangle2D bb = _birdsEyeViewport.getBoundsReference();
+        Rectangle2D zb = _zoomedViewport.getBoundsReference();
+        final double maxY = Math.max( bb.getY(), zb.getY() );
+        final double height = bb.getHeight() + ( maxY - bb.getY() );
+        Rectangle2D snowfallBounds = new Rectangle2D.Double( bb.getX(), maxY, bb.getWidth(), height );
+        _snowfallNode.setWorldBounds( snowfallBounds );
     }
     
     /*

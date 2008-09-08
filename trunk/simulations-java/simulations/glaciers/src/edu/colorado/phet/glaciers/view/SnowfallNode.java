@@ -4,7 +4,6 @@ package edu.colorado.phet.glaciers.view;
 
 import java.awt.Color;
 import java.awt.GradientPaint;
-import java.awt.geom.Area;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -25,10 +24,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * SnowfallNode is the visual representation of snowfall.
- * A white gradient is drawn in a rectangle that covers the entire world.
- * This rectangle is clipped so that only the portion above the surface of
- * the ice or valley floor (whichever is higher) is drawn. This makes it
- * look like it's snowing in the atmosphere.
+ * A white gradient is drawn in a shape that represents the atmosphere.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -39,7 +35,7 @@ public class SnowfallNode extends PhetPNode {
     //----------------------------------------------------------------------------
     
     private static final Color BASE_COLOR = new Color( 255, 255, 255 );
-    private static final Color NO_SNOW_COLOR = ColorUtils.createColor( BASE_COLOR, 0 );
+    private static final Color NO_SNOW_COLOR = ColorUtils.createColor( BASE_COLOR, 0 /* alpha */ );
     private static final int MAX_ALPHA = 255; // opaque to simulate "white out" conditions at highest elevation
     private static final double ELEVATION_WHERE_FADE_BEGINS = 4800; // elevation where gradient paint starts fading out (meters), "white-out" above this 
     private static final double ELEVATION_WHERE_FADE_ENDS = 1500; // elevation where gradient paint has fully faded out (meters)
@@ -127,6 +123,7 @@ public class SnowfallNode extends PhetPNode {
      * are distances to the right and down respectively.
      * 
      * @param worldBounds
+     * @param maxSnowfallElevation
      */
     public void setWorldBounds( Rectangle2D worldBounds ) {
         if ( !worldBounds.equals( _worldBounds ) ) {
@@ -145,53 +142,47 @@ public class SnowfallNode extends PhetPNode {
     //----------------------------------------------------------------------------
     
     /*
-     * Updates the shape to match the world bounds, clipped to the region above the ice and valley floor.
+     * Updates the shape to match the world bounds, and the profile of the glacier's surface.
+     * Snowfall appears above the surface of the glaciers and the valley floor;
+     * ie, at all points that are in the atmosphere.
      */
     private void updateShape() {
         
         if ( getVisible() ) {
 
-            // this shape includes atmosphere and non-atmosphere
-            Rectangle2D viewBounds = _mvt.modelToView( _worldBounds );
-
-            // path that is non-atmosphere
+            // constants
             final double dx = IceNode.getDx();
-            final double minX = _worldBounds.getMinX();
+            final double minX = _worldBounds.getMinX() - dx; // go one sample further than we really need to
             final double maxX = _worldBounds.getMaxX() + dx; // go one sample further than we really need to
+            final double maxY = _worldBounds.getY();
+
+            _clipPath.reset();
+            
+            // top right
+            _pModel.setLocation( maxX, maxY );
+            _mvt.modelToView( _pModel, _pView );
+            _clipPath.moveTo( (float) _pView.getX(), (float) _pView.getY() );
+            
+            // top left
+            _pModel.setLocation( minX, maxY );
+            _mvt.modelToView( _pModel, _pView );
+            _clipPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
+            
+            // draw the ice and valley surface
             double x = minX;
             double y = 0;
-            _clipPath.reset();
-            // draw the ice and valley surface
             while ( x <= maxX ) {
                 y = _glacier.getSurfaceElevation( x );
                 _pModel.setLocation( x, y );
                 _mvt.modelToView( _pModel, _pView );
-                if ( x == minX ) {
-                    _clipPath.moveTo( (float) _pView.getX(), (float) _pView.getY() );
-                }
-                else {
-                    _clipPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
-                }
+                _clipPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
                 x += dx;
             }
-            if ( ELEVATION_WHERE_FADE_ENDS < _pModel.getY() ) {
-                // draw vertical line from glacier surface to bottom of the rectangle
-                _pModel.setLocation( _pModel.getX(), _worldBounds.getY() - _worldBounds.getHeight() );
-                _mvt.modelToView( _pModel, _pView );
-                _clipPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
-            }
-            // draw horizontal line back to far left
-            _pModel.setLocation( minX, _pModel.getY() );
-            _mvt.modelToView( _pModel, _pView );
-            _clipPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
-            // done
+            
+            // connect to top-right
             _clipPath.closePath();
 
-            // subtract the non-atmosphere path from the rectangle to get the part of the world that is atmosphere
-            Area area = new Area( viewBounds );
-            area.subtract( new Area( _clipPath ) );
-
-            _pathNode.setPathTo( area );
+            _pathNode.setPathTo( _clipPath );
         }
     }
     
