@@ -23,6 +23,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
+import edu.colorado.phet.solublesalts.SolubleSaltResources;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.IonFlowManager;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
@@ -31,10 +32,10 @@ import edu.colorado.phet.solublesalts.view.IonGraphic;
 public class OptionsMenu extends JMenu {
 
     public OptionsMenu( final JFrame frame ) {
-        super( "Options" );
+        super( SolubleSaltResources.getString( "options.menu.title" ) );
         JMenu optionsMenu = this;
         optionsMenu.setMnemonic( 'O' );
-        final JCheckBoxMenuItem showBondIndicatorMI = new JCheckBoxMenuItem( "Show bond indicators" );
+        final JCheckBoxMenuItem showBondIndicatorMI = new JCheckBoxMenuItem( SolubleSaltResources.getString( "options.menu.show-bond-indicators" ) );
         optionsMenu.add( showBondIndicatorMI );
         showBondIndicatorMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -42,7 +43,7 @@ public class OptionsMenu extends JMenu {
             }
         } );
 
-        final JCheckBoxMenuItem randomWalkMI = new JCheckBoxMenuItem( "Random walk", SolubleSaltsConfig.RANDOM_WALK );
+        final JCheckBoxMenuItem randomWalkMI = new JCheckBoxMenuItem( SolubleSaltResources.getString( "options.menu.random-walk" ), SolubleSaltsConfig.RANDOM_WALK );
         optionsMenu.add( randomWalkMI );
         randomWalkMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -50,7 +51,7 @@ public class OptionsMenu extends JMenu {
             }
         } );
 
-        final JCheckBoxMenuItem oneCrystalMI = new JCheckBoxMenuItem( "One crystal only" );
+        final JCheckBoxMenuItem oneCrystalMI = new JCheckBoxMenuItem( SolubleSaltResources.getString( "options.menu.one-crystal-only" ) );
         optionsMenu.add( oneCrystalMI );
         oneCrystalMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -59,10 +60,10 @@ public class OptionsMenu extends JMenu {
         } );
 
         // Random walk adjustment
-        final JMenuItem randomWaltkThetaMI = new JMenuItem( "Adjust random walk..." );
+        final JMenuItem randomWaltkThetaMI = new JMenuItem( SolubleSaltResources.getString( "options.menu.adjust-random-walk" ) );
         randomWaltkThetaMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                final JDialog dlg = new JDialog( frame, "Random Walk Adjusment", false );
+                final JDialog dlg = new JDialog( frame, SolubleSaltResources.getString( "options.menu.random-walk-adjustment" ), false );
                 dlg.getContentPane().setLayout( new BorderLayout() );
                 final SolubleSaltsModel model = (SolubleSaltsModel) PhetApplication.instance().getActiveModule().getModel();
                 final JSlider sldr = new JSlider( 0, 360, (int) model.getRandomWalkAgent().getTheta() );
@@ -76,7 +77,7 @@ public class OptionsMenu extends JMenu {
                     }
                 } );
                 dlg.getContentPane().add( sldr );
-                JButton btn = new JButton( "Close" );
+                JButton btn = new JButton( SolubleSaltResources.getString( "options.menu.close" ) );
                 btn.addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
                         dlg.setVisible( false );
@@ -92,12 +93,12 @@ public class OptionsMenu extends JMenu {
         optionsMenu.add( randomWaltkThetaMI );
 
         // Binding distance adjustment
-        final JMenuItem bindingDistanceMI = new JMenuItem( "Adjust binding distance..." );
+        final JMenuItem bindingDistanceMI = new JMenuItem( SolubleSaltResources.getString( "options.menu.adjust-binding-distance" ) );
         bindingDistanceMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                final JDialog dlg = new JDialog( frame, "Set Binding Distance", false );
+                final JDialog dlg = new JDialog( frame, SolubleSaltResources.getString( "options.menu.set-binding-distance" ), false );
                 dlg.getContentPane().setLayout( new BorderLayout() );
-                final ModelSlider sldr = new ModelSlider( "Binding distance",
+                final ModelSlider sldr = new ModelSlider( SolubleSaltResources.getString( "options.menu.binding-distance" ),
                                                           "",
                                                           0,
                                                           4,
@@ -112,7 +113,7 @@ public class OptionsMenu extends JMenu {
                     }
                 } );
                 dlg.getContentPane().add( sldr );
-                JButton btn = new JButton( "Close" );
+                JButton btn = new JButton( SolubleSaltResources.getString( "options.menu.close" ) );
                 btn.addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
                         dlg.setVisible( false );
@@ -128,12 +129,12 @@ public class OptionsMenu extends JMenu {
         optionsMenu.add( bindingDistanceMI );
 
         // Drain flow effect on ions
-        final JMenuItem drainFlowMI = new JMenuItem( "Drain flow..." );
+        final JMenuItem drainFlowMI = new JMenuItem( SolubleSaltResources.getString( "options.menu.drain-flow" ) );
         drainFlowMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                final JDialog dlg = new JDialog( frame, "Set drain flow effect on ions", false );
+                final JDialog dlg = new JDialog( frame, SolubleSaltResources.getString( "options.menu.set-drain-flow" ), false );
                 dlg.getContentPane().setLayout( new BorderLayout() );
-                final ModelSlider sldr = new ModelSlider( "Drain flow effect",
+                final ModelSlider sldr = new ModelSlider( SolubleSaltResources.getString( "options.menu.drain-flow-effect" ),
                                                           "",
                                                           0,
                                                           1E2,
@@ -148,7 +149,7 @@ public class OptionsMenu extends JMenu {
                     }
                 } );
                 dlg.getContentPane().add( sldr );
-                JButton btn = new JButton( "Close" );
+                JButton btn = new JButton( SolubleSaltResources.getString( "options.menu.close" ) );
                 btn.addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
                         dlg.setVisible( false );
@@ -164,7 +165,7 @@ public class OptionsMenu extends JMenu {
         optionsMenu.add( drainFlowMI );
 
         // Debug option
-        final JCheckBoxMenuItem debugMI = new JCheckBoxMenuItem( "Show debug controls" );
+        final JCheckBoxMenuItem debugMI = new JCheckBoxMenuItem( SolubleSaltResources.getString( "options.menu.show-debug-controls" ) );
         debugMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 SolubleSaltsControlPanel controlPanel = (SolubleSaltsControlPanel) PhetUtilities.getActiveModule().getControlPanel();
@@ -174,10 +175,10 @@ public class OptionsMenu extends JMenu {
         optionsMenu.add( debugMI );
 
         // Color picker
-        final JMenuItem colorPicker = new JMenuItem( "Select background color" );
+        final JMenuItem colorPicker = new JMenuItem( SolubleSaltResources.getString( "options.menu.select-background-color" ) );
         colorPicker.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                Color newColor = JColorChooser.showDialog( PhetUtilities.getPhetFrame(), "Select background color", Color.gray );
+                Color newColor = JColorChooser.showDialog( PhetUtilities.getPhetFrame(), SolubleSaltResources.getString( "options.menu.select-background-color" ), Color.gray );
                 UIManager.put( "Panel.background", newColor );
                 UIManager.put( "MenuBar.background", newColor );
                 UIManager.put( "TabbedPane.background", newColor );

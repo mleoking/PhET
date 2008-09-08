@@ -288,7 +288,7 @@ abstract public class SolubleSaltsControlPanel extends ControlPanel {
             gbc.gridx++;
             add( readout, gbc );
 
-            JLabel units = new JLabel( SolubleSaltResources.getString( "ControlLabels.liters" ) + " (L)" );
+            JLabel units = new JLabel( SolubleSaltResources.getString( "ControlLabels.liters" ) + " ("+SolubleSaltResources.getString( "ControlLabels.liters.abbreviation" )+")" );
             gbc.gridx++;
             add( units, gbc );
         }
