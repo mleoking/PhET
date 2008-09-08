@@ -29,6 +29,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 
 
 /**
@@ -228,7 +229,7 @@ public class BalloonsApplication extends JApplet implements IHelp {
         HelpPanel helpPanel = new HelpPanel( this );
         controlPanel.add( helpPanel );
 
-        JButton about = new JButton( BalloonsResources.getString( "BalloonApplet.About" ) );
+        JButton about = new JButton( PhetCommonResources.getString( "Common.HelpMenu.About" ));
         about.addActionListener( new ActionListener() {
 
 
