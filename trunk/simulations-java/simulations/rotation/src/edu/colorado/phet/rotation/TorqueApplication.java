@@ -46,7 +46,7 @@ public class TorqueApplication extends PiccoloPhetApplication {
     public static void main( final String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                PSwingRepaintManager synchronizedPSwingRepaintManager = new PSwingRepaintManager();
+                MyRepaintManager synchronizedPSwingRepaintManager = new MyRepaintManager();
                 synchronizedPSwingRepaintManager.setDoMyCoalesce( true );
                 RepaintManager.setCurrentManager( synchronizedPSwingRepaintManager );
                 new RotationLookAndFeel().initLookAndFeel();

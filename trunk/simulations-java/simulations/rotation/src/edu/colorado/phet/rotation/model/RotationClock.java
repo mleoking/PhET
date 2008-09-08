@@ -3,7 +3,7 @@ package edu.colorado.phet.rotation.model;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.umd.cs.piccolox.pswing.MyRepaintManager;
+import edu.colorado.phet.rotation.MyRepaintManager;
 import edu.umd.cs.piccolox.pswing.PSwingRepaintManager;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class RotationClock extends ConstantDtClock {
     }
 
     private void updateRepaintManager() {
-        PSwingRepaintManager.getInstance().setDoMyCoalesce( getRunningClocks() > 0 );
+        MyRepaintManager.getInstance().setDoMyCoalesce( getRunningClocks() > 0 );
     }
 
     protected void doTick() {
