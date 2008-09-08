@@ -7,11 +7,6 @@
  */
 package edu.colorado.phet.common_microwaves.view;
 
-import edu.colorado.phet.common_microwaves.view.graphics.Graphic;
-import edu.colorado.phet.coreadditions_microwaves.graphics.AffineTransformFactory;
-
-import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -21,6 +16,12 @@ import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
+
+import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
+
+import edu.colorado.phet.common_microwaves.view.graphics.Graphic;
+import edu.colorado.phet.coreadditions_microwaves.graphics.AffineTransformFactory;
 
 /**
  * This is a base class for panels that contain graphic representations
@@ -116,11 +117,13 @@ public class ApparatusPanel extends JPanel implements Observer {
      */
     protected void paintComponent( Graphics graphics ) {
 
-        Graphics2D g2 = (Graphics2D)graphics;
+        Graphics2D g2 = (Graphics2D) graphics;
         super.paintComponent( g2 );
 
         AffineTransform orgATx = g2.getTransform();
-        g2.setTransform( affineTx );
+        if ( affineTx != null ) {
+            g2.setTransform( affineTx );
+        }
         compositeGraphic.paint( g2 );
         g2.setTransform( orgATx );
 
@@ -129,8 +132,8 @@ public class ApparatusPanel extends JPanel implements Observer {
         graphics.setColor( Color.black );
         g2.setStroke( borderStroke );
         g2.drawRect( 0, 0,
-                     (int)boundingRect.getWidth() - 2,
-                     (int)boundingRect.getHeight() - 2 );
+                     (int) boundingRect.getWidth() - 2,
+                     (int) boundingRect.getHeight() - 2 );
     }
 
     /**
