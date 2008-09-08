@@ -99,8 +99,8 @@ public class LjPotentialCalculator {
      * @return - Force in newtons.
      */
     public double calculateLjForce(double distance){
-        return ((48 * (m_epsilonForCalcs * StatesOfMatterConstants.K_BOLTZMANN) * Math.pow( m_sigma, 12 ) / Math.pow( distance, 13 )) -
-                (24 * (m_epsilonForCalcs * StatesOfMatterConstants.K_BOLTZMANN) * Math.pow( m_sigma, 6 ) / Math.pow( distance, 7 )));
+        return ((48 * m_epsilonForCalcs * Math.pow( m_sigma, 12 ) / Math.pow( distance, 13 )) -
+                (24 * m_epsilonForCalcs * Math.pow( m_sigma, 6 ) / Math.pow( distance, 7 )));
     }
     
     /**
@@ -110,7 +110,7 @@ public class LjPotentialCalculator {
      * 
      * @return - Distance where force is 0 (or very close) in picometers.
      */
-    public double findMinimumForceDistance() {
+    public double calculateMinimumForceDistance() {
         // The following equation was arrived at by solving the force equation
         // for 0.
         return m_sigma * 1.1236;
