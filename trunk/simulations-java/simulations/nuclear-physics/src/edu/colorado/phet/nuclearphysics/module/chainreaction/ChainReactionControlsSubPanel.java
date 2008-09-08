@@ -107,7 +107,7 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
         add( spacePanel );
         
         // Add the slider that controls the number of U-235 nuclei that appear.
-        _u235AmountControl = new LinearValueControl( 0, 100, "U-235", "###", "Nuclei" );
+        _u235AmountControl = new LinearValueControl( 0, 100, NuclearPhysicsStrings.U235_LABEL, "###", NuclearPhysicsStrings.NUCLEI_LABEL );
         _u235AmountControl.setUpDownArrowDelta( 1 );
         _u235AmountControl.setTextFieldEditable( true );
         _u235AmountControl.setFont( new PhetFont( Font.PLAIN, 14 ) );
@@ -150,7 +150,7 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
         add(_u235AmountControl);
         
         // Add the slider that controls the number of U-238 nuclei that appear.
-        _u238AmountControl = new LinearValueControl( 0, 100, "U-238", "###", "Nuclei" );
+        _u238AmountControl = new LinearValueControl( 0, 100, NuclearPhysicsStrings.U238_LABEL, "###", NuclearPhysicsStrings.NUCLEI_LABEL );
         _u238AmountControl.setUpDownArrowDelta( 1 );
         _u238AmountControl.setTextFieldEditable( true );
         _u238AmountControl.setFont( new PhetFont( Font.PLAIN, 14 ) );
