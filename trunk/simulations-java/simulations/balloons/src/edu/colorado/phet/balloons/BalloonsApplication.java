@@ -228,7 +228,7 @@ public class BalloonsApplication extends JApplet implements IHelp {
         HelpPanel helpPanel = new HelpPanel( this );
         controlPanel.add( helpPanel );
 
-        JButton about = new JButton( "About" );
+        JButton about = new JButton( BalloonsResources.getString( "BalloonApplet.About" ) );
         about.addActionListener( new ActionListener() {
 
 
