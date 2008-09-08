@@ -80,7 +80,7 @@ public class ParticleForceNode extends ParticleNode {
      * Handle notification of acceleration change by updating the size of the
      * force arrows.
      */
-    protected void updateAcceleration() {
+    protected void updateForces() {
         // Calculate the magnitude of the force being experienced by this
         // node.  The result should be in Newtons.
         double mass = m_particle.getMass() * 1.6605402e-27;  // Convert mass to kilograms.

@@ -66,7 +66,7 @@ public class ParticleNode extends PNode {
             }
 
             public void accelerationChanged() {
-                updateAcceleration();
+                updateForces();
             }
 
             public void particleRemoved( StatesOfMatterAtom particle ) {
@@ -116,7 +116,7 @@ public class ParticleNode extends PNode {
         // Stubbed in base class.
     }
 
-    protected void updateAcceleration(){
+    protected void updateForces(){
         // Stubbed in base class.
     }
 
