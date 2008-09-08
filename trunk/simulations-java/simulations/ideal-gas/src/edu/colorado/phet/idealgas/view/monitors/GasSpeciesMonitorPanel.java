@@ -77,7 +77,7 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
         aveSpeedTF = new JTextField( 6 );
         aveSpeedTF.setEditable( false );
         this.add( aveSpeedTF );
-        this.add( new JLabel( "m/sec" ) );
+        this.add( new JLabel( IdealGasResources.getString( "chart.label.msec" )) );
 
         // Hook up to the model
         model.addObserver( this );

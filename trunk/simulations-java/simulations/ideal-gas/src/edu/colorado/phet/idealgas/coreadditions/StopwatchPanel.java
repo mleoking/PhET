@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.idealgas.IdealGasResources;
 
 import javax.swing.*;
 import java.awt.*;
@@ -79,14 +80,14 @@ public class StopwatchPanel extends JPanel implements ClockListener, ModelElemen
 
         // Start/stop button
         startStopStr = new String[2];
-        startStopStr[0] = "Start";
-        startStopStr[1] = "Stop";
+        startStopStr[0] = IdealGasResources.getString( "stopwatch.start" );
+        startStopStr[1] = IdealGasResources.getString( "stopwatch.stop" );
         startStopBtn = new JButton( startStopStr[0] );
         startStopActionListener = new StartStopActionListener();
         startStopBtn.addActionListener( startStopActionListener );
 
         // Reset button
-        resetBtn = new JButton( "Reset" );
+        resetBtn = new JButton( IdealGasResources.getString( "stopwatch.reset" ) );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 resetClock();
