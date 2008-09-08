@@ -8,6 +8,7 @@
 package edu.colorado.phet.sound.view;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common_sound.model.BaseModel;
 import edu.colorado.phet.common_sound.model.ModelElement;
 import edu.colorado.phet.common_sound.model.clock.AbstractClock;
@@ -62,13 +63,14 @@ public class ClockPanelLarge extends JPanel {
 
         // Start/stop button
         startStopStr = new String[2];
-        startStopStr[0] = "Start";
-        startStopStr[1] = "Stop";
+
+        startStopStr[0] = PhetCommonResources.getString( "Common.StopwatchPanel.start" );
+        startStopStr[1] = PhetCommonResources.getString( "Common.StopwatchPanel.stop" );
         startStopBtn = new JButton( startStopStr[0] );
         startStopBtn.addActionListener( new StartStopActionListener() );
 
         // Reset button
-        resetBtn = new JButton( "Reset" );
+        resetBtn = new JButton( PhetCommonResources.getString( "Common.StopwatchPanel.reset" ) );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 resetClock();
