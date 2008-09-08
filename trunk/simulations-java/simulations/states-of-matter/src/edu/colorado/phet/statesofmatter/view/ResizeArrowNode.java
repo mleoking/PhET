@@ -19,8 +19,8 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  */
 public class ResizeArrowNode extends PNode{
     
-    private static final Color NORMAL_FILL_COLOR = Color.LIGHT_GRAY; 
-    private static final Color HIGHLIGHTED_FILL_COLOR = Color.ORANGE; 
+    private static final Color NORMAL_FILL_COLOR = new Color(0x00cc66); 
+    private static final Color HIGHLIGHTED_FILL_COLOR = new Color(0x00ff66); 
 
     DoubleArrowNode m_adjusterArrow;
     
