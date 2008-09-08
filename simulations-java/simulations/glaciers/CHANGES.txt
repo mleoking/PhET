@@ -5,7 +5,6 @@ Change history for glaciers
 HIGHEST PRIORITY:
 
 HIGH PRIORITY:
-- bug: snowfall gradient doesn't draw properly and crashes on PowerPC Mac OS 10.4 (see Unfuddle #553?) 
 - bug: loading full-size background image causes OutOfMemoryException, exceeds JVM heap space [crop svg, talk with Archie]
 - birds-eye view should half the slope of zoomed view so that 80km is at far right
 
@@ -69,6 +68,7 @@ CLEANUP:
 
 
 DONE:
+9/8/08 - bugfix: snowfall gradient doesn't draw properly and crashes on Mac OS 10.4 (see Unfuddle #553)
 9/8/08 - update snowfall shape based on bounds of both birds-eye and zoomed viewports, so that sky doesn't above snow in zoomed view on large monitors
 9/8/08 - simplify shape of snowfall, don't use constructive area geometry
 9/4/08 - implement Save/Load feature

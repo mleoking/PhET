@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.model.Glacier;
@@ -50,7 +51,7 @@ public class SnowfallNode extends PhetPNode {
     private final ModelViewTransform _mvt;
     private final Rectangle2D _worldBounds; // world bounds in model coordinates (meters x meters)
     private final PPath _pathNode;
-    private final GeneralPath _clipPath;
+    private final GeneralPath _path;
     private final Point2D _pModel, _pView; // reusable points
     
     //----------------------------------------------------------------------------
@@ -65,11 +66,11 @@ public class SnowfallNode extends PhetPNode {
         _glacier = glacier;
         _mvt = mvt;
         _worldBounds = new Rectangle2D.Double( 0, 0, 1, 1 );
-        _clipPath = new GeneralPath();
+        _path = new GeneralPath();
         _pModel = new Point2D.Double();
         _pView = new Point2D.Double();
         
-        _pathNode = new PPath();
+        _pathNode = new PhetPPath(); // use PhetPPath for Gradient Paint workaround on Mac OS 10.4
         _pathNode.setStroke( null );
         addChild( _pathNode );
         
@@ -156,17 +157,17 @@ public class SnowfallNode extends PhetPNode {
             final double maxX = _worldBounds.getMaxX() + dx; // go one sample further than we really need to
             final double maxY = _worldBounds.getY();
 
-            _clipPath.reset();
+            _path.reset();
             
             // top right
             _pModel.setLocation( maxX, maxY );
             _mvt.modelToView( _pModel, _pView );
-            _clipPath.moveTo( (float) _pView.getX(), (float) _pView.getY() );
+            _path.moveTo( (float) _pView.getX(), (float) _pView.getY() );
             
             // top left
             _pModel.setLocation( minX, maxY );
             _mvt.modelToView( _pModel, _pView );
-            _clipPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
+            _path.lineTo( (float) _pView.getX(), (float) _pView.getY() );
             
             // draw the ice and valley surface
             double x = minX;
@@ -175,14 +176,14 @@ public class SnowfallNode extends PhetPNode {
                 y = _glacier.getSurfaceElevation( x );
                 _pModel.setLocation( x, y );
                 _mvt.modelToView( _pModel, _pView );
-                _clipPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
+                _path.lineTo( (float) _pView.getX(), (float) _pView.getY() );
                 x += dx;
             }
             
             // connect to top-right
-            _clipPath.closePath();
+            _path.closePath();
 
-            _pathNode.setPathTo( _clipPath );
+            _pathNode.setPathTo( _path );
         }
     }
     
