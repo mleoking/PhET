@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
 import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.IdealGasResources;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
@@ -147,7 +148,7 @@ public class Thermometer extends PhetGraphic {
         g.draw( innerRect );
 
         double v = Double.isNaN( value ) ? 0 : value / 1000;
-        String temperatureStr = formatter.format( v ) + "K";
+        String temperatureStr = formatter.format( v ) + IdealGasResources.getString( "temperature.units.abbreviation" );
         g.setColor( Color.black );
         int strLocY = (int)innerRect.getMinY() + fontMetrics.getHeight();
         g.drawString( temperatureStr, (int)innerRect.getMaxX() - 5 - fontMetrics.stringWidth( temperatureStr ), strLocY );
