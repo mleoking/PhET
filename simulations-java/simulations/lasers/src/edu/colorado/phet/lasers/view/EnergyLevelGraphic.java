@@ -36,6 +36,7 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic2;
 import edu.colorado.phet.common.quantum.QuantumConfig;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.quantum.model.Beam;
+import edu.colorado.phet.lasers.LasersResources;
 
 /**
  * An interactive graphic that represents an energy level for a type of atom. It can be moved up and down with the
@@ -327,7 +328,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
             this.levelIcon = levelIcon;
             addGraphic( levelIcon );
             if ( isAdjustable && showLifetimeLabelText ) {
-                textGraphic = new PhetTextGraphic2( getComponent(), new PhetFont( PhetFont.getDefaultFontSize(), true ), "Lifetime", Color.black );
+                textGraphic = new PhetTextGraphic2( getComponent(), new PhetFont( PhetFont.getDefaultFontSize(), true ), LasersResources.getString( "EnergyLevelMonitorPanel.sliderLabel" ), Color.black );
                 addGraphic( textGraphic );
             }
         }
