@@ -147,5 +147,8 @@ public class PhetPPath extends PPath {
                 }
             }
         }
+        else {
+            super.paint( paintContext );
+        }
     }
 }
