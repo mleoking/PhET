@@ -12,7 +12,6 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
@@ -61,7 +60,6 @@ public class InteractionPotentialDiagramNode extends PNode {
     private static final Stroke POSITION_MARKER_STROKE = new BasicStroke(POSITION_MARKER_STROKE_WIDTH);
     
     // Constants that control the location and size of the graph.
-    private static final double HORIZ_AXIS_SIZE_PROPORTION = 0.80;
     private static final double VERT_AXIS_SIZE_PROPORTION = 0.85;
     
     // Font for the labels used on the axes and within the graph.
@@ -95,7 +93,7 @@ public class InteractionPotentialDiagramNode extends PNode {
     
     // Variables for controlling the appearance, visibility, and location of
     // the position marker.
-    private PPath m_positionMarker;
+    protected final PPath m_positionMarker;
     private boolean m_positionMarkerEnabled;
 
     /**
@@ -196,20 +194,6 @@ public class InteractionPotentialDiagramNode extends PNode {
         m_potentialEnergyLine.setStrokePaint( POTENTIAL_ENERGY_LINE_COLOR );
         ljPotentialGraph.addChild( m_potentialEnergyLine );
         
-        // Add the position marker.
-        GeneralPath markerPath = new GeneralPath();
-        double markerDiameter = POSITION_MARKER_DIAMETER_PROPORTION * m_graphWidth;
-        markerPath.append( new Ellipse2D.Double(0, 0, markerDiameter, markerDiameter ), false );
-        markerPath.moveTo( 0f, (float)markerDiameter / 2 );
-        markerPath.lineTo( (float)markerDiameter, (float)markerDiameter / 2 );
-        markerPath.moveTo( (float)markerDiameter / 2, 0f );
-        markerPath.lineTo( (float)markerDiameter / 2, (float)markerDiameter );
-        m_positionMarker = new PPath( markerPath );
-        m_positionMarker.setStroke( POSITION_MARKER_STROKE );
-        m_positionMarker.setPaint( POSITION_MARKER_COLOR );
-        m_positionMarker.setVisible( m_positionMarkerEnabled );
-        ljPotentialGraph.addChild( m_positionMarker );
-
         // Add the arrows and labels that will depict sigma and epsilon.
         m_epsilonArrow = new DoubleArrowNode( new Point2D.Double( 0, 0 ), 
                 new Point2D.Double( 0, m_graphHeight / 2 ), ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_LINE_WIDTH);
@@ -228,6 +212,20 @@ public class InteractionPotentialDiagramNode extends PNode {
                 ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_LINE_WIDTH);
         m_sigmaArrow.setPaint( Color.BLACK );
         ljPotentialGraph.addChild( m_sigmaArrow );
+
+        // Add the position marker.
+        GeneralPath markerPath = new GeneralPath();
+        double markerDiameter = POSITION_MARKER_DIAMETER_PROPORTION * m_graphWidth;
+        markerPath.append( new Ellipse2D.Double(0, 0, markerDiameter, markerDiameter ), false );
+        markerPath.moveTo( 0f, (float)markerDiameter / 2 );
+        markerPath.lineTo( (float)markerDiameter, (float)markerDiameter / 2 );
+        markerPath.moveTo( (float)markerDiameter / 2, 0f );
+        markerPath.lineTo( (float)markerDiameter / 2, (float)markerDiameter );
+        m_positionMarker = new PPath( markerPath );
+        m_positionMarker.setStroke( POSITION_MARKER_STROKE );
+        m_positionMarker.setPaint( POSITION_MARKER_COLOR );
+        m_positionMarker.setVisible( m_positionMarkerEnabled );
+        ljPotentialGraph.addChild( m_positionMarker );
 
         // Create and add the labels for the axes.
         PText horizontalAxisLabel = new PText(StatesOfMatterStrings.INTERACTION_POTENTIAL_GRAPH_X_AXIS_LABEL);
