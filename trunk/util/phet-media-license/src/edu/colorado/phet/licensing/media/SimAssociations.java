@@ -6,8 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import edu.colorado.phet.common_force1d.util.QuickTimer;
-import edu.colorado.phet.licensing.media.FileUtils;
+import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
 
 /**
  * Author: Sam Reid
@@ -61,7 +60,7 @@ public class SimAssociations {
     }
 
     public static void main( String[] args ) throws IOException {
-        QuickTimer quickTimer = new QuickTimer();
+        QuickProfiler quickTimer = new QuickProfiler();
         ImageEntry[] nonPhetEntries = AnnotatedRepository.getNonPhetEntries();
         SimAssociations simAssociations = new SimAssociations(
 //                new ImageEntry[]{new ImageEntry( "dog.gif" ),new ImageEntry( "dollarbill.gif" )}
