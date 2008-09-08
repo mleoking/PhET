@@ -90,4 +90,8 @@ public class NuclearPhysicsStrings {
     
     public static final String REACTOR_PICTURE_CAPTION = NuclearPhysicsResources.getString( "NuclearReactorCorePhoto.Caption" );
     public static final String SHOW_REACTOR_IMAGE = NuclearPhysicsResources.getString( "ControlledFissionControlPanel.ShowReactorImage" );
+
+    public static final String U235_LABEL= NuclearPhysicsResources.getString( "ChainReactionControlPanel.U235" );
+    public static final String U238_LABEL= NuclearPhysicsResources.getString( "ChainReactionControlPanel.U238" );
+    public static final String NUCLEI_LABEL= NuclearPhysicsResources.getString( "ChainReactionControlPanel.Nuclei" );
 }
