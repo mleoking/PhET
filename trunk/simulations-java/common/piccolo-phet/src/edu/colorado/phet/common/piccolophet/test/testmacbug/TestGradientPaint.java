@@ -5,11 +5,9 @@ import java.awt.*;
 import javax.swing.*;
 
 /**
- * Created by IntelliJ IDEA.
- * User: reids
- * Date: Mar 9, 2006
- * Time: 4:51:44 PM
- * To change this template use File | Settings | File Templates.
+ * Gradient Paint causes this program to crash on Mac OS 10.4.11 with Java 1.5.0_13.
+ * The same program runs fine on Mac OS 10.5.4 with Java 1.5.0_13, so the problem
+ * must be in native code on Mac OS 10.4.
  */
 public class TestGradientPaint {
     public static void main( String[] args ) {
