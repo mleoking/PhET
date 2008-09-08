@@ -4,15 +4,19 @@ package edu.colorado.phet.statesofmatter.module.phasechanges;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Stroke;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.DualParticleModel;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.colorado.phet.statesofmatter.view.ResizeArrowNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -105,6 +109,39 @@ public class InteractionPotentialNodeWithInteraction extends InteractionPotentia
                 draggedNode.localToParent(d);
                 double scaleFactor = MAX_INTER_ATOM_DISTANCE / getGraphWidth();
                 m_model.setSigma( m_model.getSigma() + d.getWidth() * scaleFactor );
+            }
+        });
+        
+        // Add the ability to grab and move the position marker.
+        // This node will need to be pickable so the user can grab it.
+        m_positionMarker.setPickable( true );
+        m_positionMarker.setChildrenPickable( true );
+        m_positionMarker.addInputEventListener( new CursorHandler(Cursor.HAND_CURSOR) );
+        
+        m_positionMarker.addInputEventListener( new PDragEventHandler(){
+            
+            public void startDrag( PInputEvent event) {
+                super.startDrag(event);
+                // Stop the particle from moving in the model.
+                m_model.setParticleMotionPaused( true );
+            }
+            
+            public void drag(PInputEvent event){
+                PNode draggedNode = event.getPickedNode();
+                PDimension d = event.getDeltaRelativeTo(draggedNode);
+                draggedNode.localToParent(d);
+
+                // Move the particle based on the amount of mouse movement.
+                double scaleFactor = MAX_INTER_ATOM_DISTANCE / getGraphWidth();
+                StatesOfMatterAtom atom = m_model.getMovableParticleRef();
+                atom.setPosition( atom.getX() + (d.width * scaleFactor), atom.getY() );
+            }
+            
+            public void endDrag( PInputEvent event ){
+                super.endDrag(event);     
+                // Let the model move the particle again.  Note that this happens
+                // even if the motion was paused by some other means.
+                m_model.setParticleMotionPaused( false );
             }
         });
         
