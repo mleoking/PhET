@@ -264,6 +264,18 @@ public class PhetLookAndFeel {
     private PropertyList getTextValues() {
         PropertyList textValues = new PropertyList();
         textValues.addAll( getOptionPaneStrings() );
+        textValues.addAll( getFileDialogStrings() );
+        return textValues;
+    }
+
+    private PropertyList getFileDialogStrings() {
+        PropertyList textValues = new PropertyList();
+        textValues.add( "FileChooser", "openDialogTitleText", getCommonString( "FileChooser.openDialogTitleText" ) );
+        textValues.add( "FileChooser", "saveDialogTitleText", getCommonString( "FileChooser.saveDialogTitleText" ) );
+        textValues.add( "FileChooser", "lookInLabelText", getCommonString( "FileChooser.lookInLabelText" ) );
+        textValues.add( "FileChooser", "saveInLabelText", getCommonString( "FileChooser.saveInLabelText" ) );
+        textValues.add( "FileChooser", "fileNameLabelText", getCommonString( "FileChooser.fileNameLabelText" ) );
+        textValues.add( "FileChooser", "filesOfTypeLabelText", getCommonString( "FileChooser.filesOfTypeLabelText" ) );
         return textValues;
     }
 
