@@ -87,7 +87,7 @@ public class LjPotentialCalculator {
      */
     public double calculateLjPotential(double distance){
         double distanceRatio = m_sigma / distance;
-        return ( 4 * m_epsilonForCalcs * Math.pow( distanceRatio, 12 ) - Math.pow( distanceRatio, 6 ) );
+        return (4 * m_epsilonForCalcs * (Math.pow( distanceRatio, 12 ) - Math.pow( distanceRatio, 6 )));
     }
     
     /**
