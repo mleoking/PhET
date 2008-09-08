@@ -84,12 +84,12 @@ public class InteractionPotentialNodeWithInteraction extends InteractionPotentia
         m_epsilonLine = new PPath( new Line2D.Double( -epsilonLineLength / 2, 0, epsilonLineLength / 2, 0 ) );
         m_epsilonLine.setStroke( EPSILON_LINE_STROKE );
         m_epsilonLine.setStrokePaint( EPSILON_LINE_COLOR );
-        addChild( m_epsilonLine );
+        m_ljPotentialGraph.addChild( m_epsilonLine );
         
         // Add the arrow nodes that will allow the user to control the
         // parameters of the LJ potential.
         m_epsilonResizeHandle = new ResizeArrowNode(RESIZE_HANDLE_SIZE_PROPORTION * m_width, Math.PI/2);
-        addChild( m_epsilonResizeHandle );
+        m_ljPotentialGraph.addChild( m_epsilonResizeHandle );
         m_epsilonResizeHandle.addInputEventListener(new PBasicInputEventHandler(){
             public void mouseDragged(PInputEvent event) {
                 PNode draggedNode = event.getPickedNode();
@@ -101,7 +101,7 @@ public class InteractionPotentialNodeWithInteraction extends InteractionPotentia
         });
         
         m_sigmaResizeHandle = new ResizeArrowNode(RESIZE_HANDLE_SIZE_PROPORTION * m_width, 0);
-        addChild( m_sigmaResizeHandle );
+        m_ljPotentialGraph.addChild( m_sigmaResizeHandle );
         m_sigmaResizeHandle.addInputEventListener(new PBasicInputEventHandler(){
             public void mouseDragged(PInputEvent event) {
                 PNode draggedNode = event.getPickedNode();
@@ -170,18 +170,18 @@ public class InteractionPotentialNodeWithInteraction extends InteractionPotentia
         // Now position the control handles.
         if (m_epsilonResizeHandle != null){
             Point2D graphMin = getGraphMin();
-            m_epsilonResizeHandle.setOffset( 
-                    graphMin.getX() + getGraphOffsetX() + (m_width * EPSILON_HANDLE_OFFSET_PROPORTION), graphMin.getY() );
+            m_epsilonResizeHandle.setOffset( graphMin.getX() + (m_width * EPSILON_HANDLE_OFFSET_PROPORTION), 
+                    graphMin.getY() );
             m_epsilonResizeHandle.setVisible( m_interactionEnabled );
             m_epsilonResizeHandle.setPickable( m_interactionEnabled );
             m_epsilonResizeHandle.setChildrenPickable( m_interactionEnabled );
             
-            m_epsilonLine.setOffset( graphMin.getX() + getGraphOffsetX(), graphMin.getY() );
+            m_epsilonLine.setOffset( graphMin.getX(), graphMin.getY() );
             m_epsilonLine.setVisible( m_interactionEnabled );
         }
         if (m_sigmaResizeHandle != null){
             Point2D zeroCrossingPoint = getZeroCrossingPoint();
-            m_sigmaResizeHandle.setOffset( zeroCrossingPoint.getX() + getGraphOffsetX(), 
+            m_sigmaResizeHandle.setOffset( zeroCrossingPoint.getX(), 
                     (getGraphHeight() / 2) - SIGMA_HANDLE_OFFSET_PROPORTION * m_height );
             m_sigmaResizeHandle.setVisible( m_interactionEnabled );
             m_sigmaResizeHandle.setPickable( m_interactionEnabled );
