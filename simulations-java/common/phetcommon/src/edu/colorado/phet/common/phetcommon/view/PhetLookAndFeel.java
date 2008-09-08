@@ -268,6 +268,8 @@ public class PhetLookAndFeel {
         return textValues;
     }
 
+    //See: http://beradrian.wordpress.com/2007/07/30/internationalization-for-swing-standard-components/
+    //though it has some known problems with item #13
     private PropertyList getFileDialogStrings() {
         PropertyList textValues = new PropertyList();
         textValues.add( "FileChooser", "openDialogTitleText", getCommonString( "FileChooser.openDialogTitleText" ) );
