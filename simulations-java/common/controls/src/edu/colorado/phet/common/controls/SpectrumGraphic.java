@@ -18,6 +18,7 @@ import java.awt.RenderingHints;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
@@ -57,7 +58,7 @@ public class SpectrumGraphic extends CompositePhetGraphic {
                                                                                         visibleGraphic.getHeight() ),
                                                                          invisibleColor );
             PhetGraphic uvGraphicLabel = new PhetTextGraphic( component, font,
-                                                              "UV", Color.white );
+                                                              PhetCommonResources.getString( "wavelength.uv" ), Color.white );
             uvGraphicLabel.setLocation( uvGraphicWidth / 2 - 10, 10 );
             uvGraphic = new CompositePhetGraphic( component );
             uvGraphic.addGraphic( uvGraphicBackground );
@@ -74,7 +75,7 @@ public class SpectrumGraphic extends CompositePhetGraphic {
                                                                                         visibleGraphic.getHeight() ),
                                                                          invisibleColor );
             PhetGraphic irGraphicLabel = new PhetTextGraphic( component, font,
-                                                              "IR", Color.white );
+                                                              PhetCommonResources.getString( "wavelength.ir" ), Color.white );
             irGraphicLabel.setLocation( irGraphicWidth / 2 - 5, 10 );
             irGraphic = new CompositePhetGraphic( component );
             irGraphic.addGraphic( irGraphicBackground );
