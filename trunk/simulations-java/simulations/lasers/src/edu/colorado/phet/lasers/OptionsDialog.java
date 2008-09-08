@@ -23,16 +23,16 @@ public class OptionsDialog extends JDialog {
     private LasersApplication laserApplication;
 
     public OptionsDialog( final LasersApplication laserApplication ) {
-        super( laserApplication.getPhetFrame(), "View Options", false );
+        super( laserApplication.getPhetFrame(), LasersResources.getString( "options.view.title" ), false );
         VerticalLayoutPanel pane = new VerticalLayoutPanel();
         pane.setFillNone();
         setContentPane( pane );
         this.laserApplication = laserApplication;
-        JButton backgroundColor = new JButton( "Background Color" );
+        JButton backgroundColor = new JButton( LasersResources.getString( "options.background.color" ) );
         backgroundColor.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 final Color origColor = laserApplication.getBackgroundColor();
-                ColorChooserFactory.showDialog( "Background color", laserApplication.getPhetFrame(), laserApplication.getBackgroundColor(), new ColorChooserFactory.Listener() {
+                ColorChooserFactory.showDialog( LasersResources.getString( "options.background.color" ), laserApplication.getPhetFrame(), laserApplication.getBackgroundColor(), new ColorChooserFactory.Listener() {
                     public void colorChanged( Color color ) {
                         laserApplication.setBackgroundColor( color );
                     }
@@ -48,7 +48,7 @@ public class OptionsDialog extends JDialog {
         } );
         getContentPane().add( backgroundColor );
 
-        final LinearValueControl photonSize = new LinearValueControl( 1, 50, "Photon Diameter", "000", "pixels" );
+        final LinearValueControl photonSize = new LinearValueControl( 1, 50, LasersResources.getString( "options.photon-diameter" ), "000", LasersResources.getString( "options.pixels" ) );
         photonSize.setValue( laserApplication.getPhotonSize() );
         photonSize.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -57,7 +57,7 @@ public class OptionsDialog extends JDialog {
         } );
         getContentPane().add( photonSize );
 
-        final LinearValueControl photonSeparation = new LinearValueControl( 1, 100, "Pair Separation", "000", "" );
+        final LinearValueControl photonSeparation = new LinearValueControl( 1, 100, LasersResources.getString( "options.pair-separation" ), "000", "" );
         photonSeparation.setValue( StimulatedPhoton.getSeparation() );
         photonSeparation.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -66,7 +66,7 @@ public class OptionsDialog extends JDialog {
         } );
         getContentPane().add( photonSeparation );
 
-        final JCheckBox jcb = new JCheckBox( "Comet", PhotonGraphic.isCometGraphic() );
+        final JCheckBox jcb = new JCheckBox( LasersResources.getString( "options.comet" ), PhotonGraphic.isCometGraphic() );
         jcb.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 PhotonGraphic.setCometGraphic( jcb.isSelected() );

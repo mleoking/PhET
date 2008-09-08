@@ -44,7 +44,6 @@ public class LasersApplication extends PiccoloPhetApplication {
     private SingleAtomModule singleAtomModule;
     private MultipleAtomModule multipleAtomModule;
 
-
     private static final String VERSION = PhetApplicationConfig.getVersion( "lasers" ).formatForTitleBar();
 
     public SingleAtomModule getSingleAtomModule() {
@@ -107,12 +106,12 @@ public class LasersApplication extends PiccoloPhetApplication {
     }
 
     private void addMenuItems() {
-        JMenu optionMenu = new JMenu( "Options" );
+        JMenu optionMenu = new JMenu( LasersResources.getString( "options.menu.title" ));
         getPhetFrame().addMenu( optionMenu );
 
         // Additions to the Options menu
 
-        final JCheckBoxMenuItem cbMI = new JCheckBoxMenuItem( "Show all stimulated emissions" );
+        final JCheckBoxMenuItem cbMI = new JCheckBoxMenuItem( LasersResources.getString( "options.show-emissions" ));
         cbMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 LaserConfig.ENABLE_ALL_STIMULATED_EMISSIONS = cbMI.isSelected();
@@ -121,10 +120,10 @@ public class LasersApplication extends PiccoloPhetApplication {
         cbMI.setSelected( true );
         optionMenu.add( cbMI );
 
-        JMenuItem stimProbmenuItem = new JMenuItem( "Adjust stimulation likelihood..." );
+        JMenuItem stimProbmenuItem = new JMenuItem( LasersResources.getString( "options.adjust-stimulation-likelihood" ));
         stimProbmenuItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                final ModelSlider probSlider = new ModelSlider( "Probability", "", 0, 1, 1, new DecimalFormat( "0.00" ) );
+                final ModelSlider probSlider = new ModelSlider( LasersResources.getString( "options.probability" ), "", 0, 1, 1, new DecimalFormat( "0.00" ) );
                 probSlider.addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
                         AtomicState.setStimulationLikelihood( probSlider.getValue() );
@@ -138,7 +137,7 @@ public class LasersApplication extends PiccoloPhetApplication {
         } );
         optionMenu.add( stimProbmenuItem );
 
-        final JRadioButtonMenuItem colorEnergyRepStrategy = new JRadioButtonMenuItem( "Colored energy levels" );
+        final JRadioButtonMenuItem colorEnergyRepStrategy = new JRadioButtonMenuItem( LasersResources.getString( "options.colored-energy-levels" ) );
         colorEnergyRepStrategy.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( colorEnergyRepStrategy.isSelected() ) {
@@ -147,7 +146,7 @@ public class LasersApplication extends PiccoloPhetApplication {
             }
         } );
 
-        final JMenuItem optionsButton = new JMenuItem( "View Options" );
+        final JMenuItem optionsButton = new JMenuItem( LasersResources.getString( "options.view" ) );
         optionsButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 new OptionsDialog( LasersApplication.this ).show();
@@ -155,7 +154,7 @@ public class LasersApplication extends PiccoloPhetApplication {
         } );
         optionMenu.add( optionsButton );
 
-        JMenuItem profileOption = new JMenuItem( "Profile" );
+        JMenuItem profileOption = new JMenuItem( LasersResources.getString( "options.profile" ) );
         //todo: remove need for this cast
         final ClockProfiler profiler = new ClockProfiler( getPhetFrame(),
                                                           ( getActiveModule() == null ? getModule( 0 ) : getActiveModule() ).getName(),
@@ -176,7 +175,7 @@ public class LasersApplication extends PiccoloPhetApplication {
                 profiler.show();
             }
         } );
-        optionMenu.add( profileOption );
+//        optionMenu.add( profileOption );
     }
 
     public void setBackgroundColor( Color backgroundColor ) {

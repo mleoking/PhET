@@ -195,7 +195,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
                 state.setMeanLifetime( maxLifetime );
 
                 lifetimeSliders[i] = new EnergyLifetimeSlider( state, elg, maxLifetime, minLifetime, this );
-                System.out.println( "Constructed: modelvalue" + state.getMeanLifeTime() + ", slidermax=" + lifetimeSliders[i].getValue() );
+//                System.out.println( "Constructed: modelvalue" + state.getMeanLifeTime() + ", slidermax=" + lifetimeSliders[i].getValue() );
 //                lifetimeSliders[i].setValue( (int) Math.max( minLifetime, state.getMeanLifeTime() ) );
 //                lifetimeSliders[i].setValue( maxLifetime );
                 this.add( lifetimeSliders[i] );
