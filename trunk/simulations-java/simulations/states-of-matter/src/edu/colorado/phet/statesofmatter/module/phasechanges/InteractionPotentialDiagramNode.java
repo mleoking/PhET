@@ -12,9 +12,8 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.math.Function;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
@@ -265,24 +264,6 @@ public class InteractionPotentialDiagramNode extends PNode {
         
         // Redraw the graph to reflect the new parameters.
         drawPotentialCurve();
-
-        double de=0.001;
-        linearFunction = new Function.LinearFunction(0,-de,0,getEpsilonView(m_epsilon)-getEpsilonView(m_epsilon+de));
-
-    }
-
-    public Function.LinearFunction getLinearFunction() {
-        return linearFunction;
-    }
-
-    private double getEpsilonView(double tempEpsilon) {
-        double saveValue=this.m_epsilon;
-        this.m_epsilon=tempEpsilon;
-        drawPotentialCurve();
-        double v = m_epsilonArrow.getGlobalFullBounds().getMaxY();
-        this.m_epsilon=saveValue;
-        drawPotentialCurve();
-        return v;
     }
 
     protected DoubleArrowNode getEpsilonArrow() {
