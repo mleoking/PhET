@@ -10,7 +10,6 @@
  */
 package edu.umd.cs.piccolox.pswing;
 
-import edu.umd.cs.piccolo.IgnorableEventSource;
 import edu.umd.cs.piccolo.PCanvas;
 
 import javax.swing.*;
@@ -24,12 +23,12 @@ import java.awt.*;
  * @author Lance E. Good
  */
 
-public class PSwingCanvas extends PCanvas implements IgnorableEventSource {
+public class PSwingCanvas extends PCanvas {
     public static final String SWING_WRAPPER_KEY = "Swing Wrapper";
+    private static PSwingRepaintManager pSwingRepaintManager = new PSwingRepaintManager();
 
     private SwingWrapper swingWrapper;
     private PSwingEventHandler swingEventHandler;
-    private volatile boolean ignoringEvents;
 
     /**
      * Construct a new PSwingCanvas.
@@ -37,11 +36,8 @@ public class PSwingCanvas extends PCanvas implements IgnorableEventSource {
     public PSwingCanvas() {
         swingWrapper = new SwingWrapper( this );
         add( swingWrapper );
-        //allow a client application to set a subclass of PSwingRepaintManager instead of using the default provided in previous version of PSwingCanvas
-        if (!(RepaintManager.currentManager( this) instanceof PSwingRepaintManager)){
-            RepaintManager.setCurrentManager( new PSwingRepaintManager());
-        }
-        ((PSwingRepaintManager)RepaintManager.currentManager( this )).addPSwingCanvas( this );
+        RepaintManager.setCurrentManager( pSwingRepaintManager );
+        pSwingRepaintManager.addPSwingCanvas( this );
 
         swingEventHandler = new PSwingEventHandler( this, getCamera() );//todo or maybe getCameraLayer() or getRoot()?
         swingEventHandler.setActive( true );
@@ -49,20 +45,6 @@ public class PSwingCanvas extends PCanvas implements IgnorableEventSource {
 
     JComponent getSwingWrapper() {
         return swingWrapper;
-    }
-
-    /*
-     * For internal use only.
-     */
-    public void setIgnoringEvents(boolean flag) {
-        ignoringEvents = flag;
-    }
-
-    /*
-     * For internal use only.
-     */
-    public boolean isIgnoringEvents() {
-        return ignoringEvents;
     }
 
     public void addPSwing( PSwing pSwing ) {

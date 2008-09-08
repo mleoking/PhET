@@ -49,7 +49,7 @@ import java.util.Vector;
  * @author Lance E. Good
  * @author Sam R. Reid
  */
-public class PSwingRepaintManager extends MyRepaintManager {
+public class PSwingRepaintManager extends RepaintManager {
     private ArrayList swingWrappers = new ArrayList();
 
     // The components that are currently painting
