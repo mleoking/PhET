@@ -8,7 +8,6 @@ HIGH PRIORITY:
 - bug: snowfall visualization doesn't draw properly on PowerPC Mac OS 10.4, rewrite to create atmosphere path directly
 - bug: loading full-size background image causes OutOfMemoryException, exceeds JVM heap space [crop svg, talk with Archie]
 - birds-eye view should half the slope of zoomed view so that 80km is at far right
-- sky appears above snow in zoomed view on large monitors
 
 MEDIUM PRIORITY:
 - glacier growth from zero length still takes a long time, and then speeds up [Archie will fix model]
@@ -70,6 +69,8 @@ CLEANUP:
 
 
 DONE:
+9/8/08 - update snowfall shape based on bounds of both birds-eye and zoomed viewports, so that sky doesn't above snow in zoomed view on large monitors
+9/8/08 - simplify shape of snowfall, don't use constructive area geometry
 9/4/08 - implement Save/Load feature
 9/4/08 - replace "glacier picture" check box with a button (icon on button, to left of steady state button)
 9/4/08 - strip chart implementation for "ELA versus time" chart
