@@ -14,6 +14,7 @@ import javax.swing.JRadioButton;
 
 import edu.colorado.phet.common.motion.util.GraphicsUtil;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 
 /**
  * User: Sam Reid
@@ -26,7 +27,7 @@ public class GraphSelectionControl extends JPanel {
     public GraphSelectionControl( GraphSuiteSet graphSuiteSet, final GraphSetModel graphSetModel ) {
         setLayout( new GridBagLayout() );
         GridBagConstraints gridBagConstraints = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
-        JLabel label = new JLabel( "Show graphs:" );
+        JLabel label = new JLabel( PhetCommonResources.getString( "charts.show-graphs" ));
         label.setFont( new PhetFont( Font.PLAIN, 16 ) );
         add( label, gridBagConstraints );
         for ( int i = 0; i < graphSuiteSet.getNumGraphSuites(); i++ ) {
