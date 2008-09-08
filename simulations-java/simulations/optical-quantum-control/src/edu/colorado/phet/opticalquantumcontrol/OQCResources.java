@@ -65,4 +65,6 @@ public class OQCResources {
     public static final String EXPLANATION_MASK = RESOURCES.getLocalizedString( "ExplanationDialog.mask" );
     public static final String EXPLANATION_GRATING = RESOURCES.getLocalizedString( "ExplanationDialog.grating" );
     public static final String EXPLANATION_TEXT = RESOURCES.getLocalizedString( "ExplanationDialog.text" );
+    public static final String PULSE_X_AXIS_LABEL = RESOURCES.getLocalizedString( "pulse.xAxis" );
+    public static final String AMPLITUDE_X_AXIS_LABEL = RESOURCES.getLocalizedString( "amplitude.xAxis" );
 }

@@ -136,7 +136,7 @@ public class OutputPulseView extends GraphicLayerSet implements SimpleObserver {
             addGraphic( _chartGraphic, CHART_LAYER );
             _chartGraphic.setRegistrationPoint( 0, 0 );
             _chartGraphic.setLocation( 35, 35 );
-            _chartGraphic.setXAxisTitle( "t (ns)" ); 
+            _chartGraphic.setXAxisTitle( OQCResources.PULSE_X_AXIS_LABEL ); 
          
             // Output Pulse sum plot
             _outputSumPlot = new FourierSumPlot( getComponent(), _chartGraphic, _outputFourierSeries );
