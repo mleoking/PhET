@@ -184,6 +184,7 @@ public class DualParticleModel {
             m_sigma = sigma;
         }
         
+        m_ljPotentialCalculator.setSigma( m_sigma );
         notifyInteractionPotentialChanged();
         m_fixedParticle.setRadius( m_sigma / 2 );
         m_movableParticle.setRadius( m_sigma / 2 );
@@ -219,6 +220,7 @@ public class DualParticleModel {
             m_epsilon = epsilon;
         }
         
+        m_ljPotentialCalculator.setEpsilon( m_epsilon );
         notifyInteractionPotentialChanged();
     }
     
