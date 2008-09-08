@@ -29,6 +29,7 @@ import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.transla
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetButton;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
+import edu.colorado.phet.dischargelamps.DischargeLampsResources;
 import edu.colorado.phet.dischargelamps.model.Spectrometer;
 
 /**
@@ -132,7 +133,7 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
     }
 
     private void addTitle() {
-        String units = "Wavelength (nanometers)";
+        String units = DischargeLampsResources.getString( "spectrometer.axis.label" );
         double xLoc = xLocForWavelength( ( minWavelength + maxWavelength ) / 2 ) - 50;
         PhetTextGraphic unitsGraphic = new PhetTextGraphic( getComponent(),
                                                             DischargeLampsConfig.DEFAULT_CONTROL_FONT,
@@ -152,7 +153,7 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
 
         PhetTextGraphic uvText = new PhetTextGraphic( getComponent(),
                                                       DischargeLampsConfig.DEFAULT_CONTROL_FONT,
-                                                      "<- far UV",
+                                                      "<- "+ DischargeLampsResources.getString( "spectrometer.far.uv" ),
                                                       Color.white,
                                                       (int) ( xLocUv - 80 ),
                                                       (int) ( displayOrigin.getY() + 15 ) );
@@ -166,7 +167,7 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
 
         PhetTextGraphic irText = new PhetTextGraphic( getComponent(),
                                                       DischargeLampsConfig.DEFAULT_CONTROL_FONT,
-                                                      "far IR ->",
+                                                      DischargeLampsResources.getString( "spectrometer.far.ir" )+" ->",
                                                       Color.white,
                                                       (int) ( xLocIr + 30 ),
                                                       (int) ( displayOrigin.getY() + 15 ) );
@@ -177,7 +178,7 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
 
     private void addButtons( Component component, final Spectrometer spectrometer ) {
         // Add start/stop button
-        startStopBtn = new PhetButton( component, "Start" );
+        startStopBtn = new PhetButton( component, DischargeLampsResources.getString( "spectrometer.start" )+" ");
         startStopBtn.setFont( DischargeLampsConfig.DEFAULT_CONTROL_FONT );
         startStopBtn.addActionListener( new ActionListener() {
 
@@ -196,7 +197,7 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
         startStopBtn.setRegistrationPoint( 0, startStopBtn.getHeight() );
 
         // Add reset button
-        PhetButton resetBtn = new PhetButton( component, "Reset" );
+        PhetButton resetBtn = new PhetButton( component, DischargeLampsResources.getString( "spectrometer.reset" ) );
         resetBtn.setFont( DischargeLampsConfig.DEFAULT_CONTROL_FONT );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -258,12 +259,12 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
     }
 
     public void started( Spectrometer.StateChangeEvent eventCount ) {
-        startStopBtn.setText( "Stop " );
+        startStopBtn.setText( DischargeLampsResources.getString( "spectrometer.stop" )+" " );
         start = false;
     }
 
     public void stopped( Spectrometer.StateChangeEvent eventCount ) {
-        startStopBtn.setText( "Start " );
+        startStopBtn.setText( DischargeLampsResources.getString( "spectrometer.start" )+" " );
         start = true;
     }
 

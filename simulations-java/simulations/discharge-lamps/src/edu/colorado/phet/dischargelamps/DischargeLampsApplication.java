@@ -68,8 +68,8 @@ public class DischargeLampsApplication extends PiccoloPhetApplication {
         setActiveModule( singleAtomModule );
 
         // Add some options in a menu
-        JMenu optionsMenu = new JMenu( "Options" );
-        JMenuItem simulationSpeedMI = new JMenuItem( "Simulation speed..." );
+        JMenu optionsMenu = new JMenu( DischargeLampsResources.getString( "menu.options" ));
+        JMenuItem simulationSpeedMI = new JMenuItem( DischargeLampsResources.getString( "simulation.speed" ));
         simulationSpeedMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 final IClock clock = PhetApplication.instance().getActiveModule().getClock();
@@ -86,7 +86,7 @@ public class DischargeLampsApplication extends PiccoloPhetApplication {
                         ( (Clock) clock ).setTimingStrategy( new TimingStrategy.Constant( clockTickSlider.getValue() ) );
                     }
                 } );
-                int confirm = JOptionPane.showConfirmDialog( getPhetFrame(), clockTickSlider, "Simulation speed",
+                int confirm = JOptionPane.showConfirmDialog( getPhetFrame(), clockTickSlider, DischargeLampsResources.getString( "simulation.speed" ), 
                                                              JOptionPane.OK_CANCEL_OPTION );
                 // If the user canceled, reset the clock to its original value
                 if ( confirm == JOptionPane.CANCEL_OPTION ) {
