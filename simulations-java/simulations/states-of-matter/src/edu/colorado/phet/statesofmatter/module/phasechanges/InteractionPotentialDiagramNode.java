@@ -93,8 +93,12 @@ public class InteractionPotentialDiagramNode extends PNode {
     
     // Variables for controlling the appearance, visibility, and location of
     // the position marker.
+    protected final PNode m_markerLayer;
     protected final PPath m_positionMarker;
     private boolean m_positionMarkerEnabled;
+
+    // Layer where the graph elements are added.
+    protected final PPath m_ljPotentialGraph;
 
     /**
      * Constructor.
@@ -133,18 +137,17 @@ public class InteractionPotentialDiagramNode extends PNode {
         graphBackground.setPaint( BACKGROUND_COLOR );
         addChild( graphBackground );
 
-        // Create and add the Piccolo node that will contain the graph.
-        PPath ljPotentialGraph = new PPath(new Rectangle2D.Double(0, 0, m_graphWidth, m_graphHeight));
-        ljPotentialGraph.setOffset( m_graphOffsetX, 0 );
-        ljPotentialGraph.setPaint( Color.WHITE );
-        addChild( ljPotentialGraph );
+        m_ljPotentialGraph = new PPath(new Rectangle2D.Double(0, 0, m_graphWidth, m_graphHeight));
+        m_ljPotentialGraph.setOffset( m_graphOffsetX, 0 );
+        m_ljPotentialGraph.setPaint( Color.WHITE );
+        addChild( m_ljPotentialGraph );
         
         // Create and add the axis line for the graph.
         PPath horizontalAxis = new PPath(new Line2D.Double(new Point2D.Double(0, 0), 
                 new Point2D.Double(m_graphWidth, 0)));
         horizontalAxis.setStroke( AXIS_LINE_STROKE );
         horizontalAxis.setStrokePaint( AXIS_LINE_COLOR );
-        ljPotentialGraph.addChild( horizontalAxis );
+        m_ljPotentialGraph.addChild( horizontalAxis );
         horizontalAxis.setOffset( 0, m_graphHeight / 2 );
         
         // Create and add the tick marks for the graph.
@@ -159,7 +162,7 @@ public class InteractionPotentialDiagramNode extends PNode {
             tickMarkShape.setLine( endpoint1, endpoint2 );
             PPath topTickMark = new PPath(tickMarkShape);
             topTickMark.setStroke( TICK_MARK_STROKE );
-            ljPotentialGraph.addChild( topTickMark );
+            m_ljPotentialGraph.addChild( topTickMark );
 
             // Bottom tick mark
             endpoint1.setLocation( horizTickMarkSpacing * (i + 1), m_graphHeight );
@@ -167,7 +170,7 @@ public class InteractionPotentialDiagramNode extends PNode {
             tickMarkShape.setLine( endpoint1, endpoint2 );
             PPath bottomTickMark = new PPath(tickMarkShape);
             bottomTickMark.setStroke( TICK_MARK_STROKE );
-            ljPotentialGraph.addChild( bottomTickMark );
+            m_ljPotentialGraph.addChild( bottomTickMark );
         }
         double vertTickMarkSpacing = m_graphHeight / (NUM_VERT_TICK_MARKS + 1);
         for (int i = 0; i < NUM_VERT_TICK_MARKS; i++){
@@ -177,7 +180,7 @@ public class InteractionPotentialDiagramNode extends PNode {
             tickMarkShape.setLine( endpoint1, endpoint2 );
             PPath leftTickMark = new PPath(tickMarkShape);
             leftTickMark.setStroke( TICK_MARK_STROKE );
-            ljPotentialGraph.addChild( leftTickMark );
+            m_ljPotentialGraph.addChild( leftTickMark );
 
             // Right tick mark
             endpoint1.setLocation( m_graphWidth, vertTickMarkSpacing * (i + 1) );
@@ -185,35 +188,38 @@ public class InteractionPotentialDiagramNode extends PNode {
             tickMarkShape.setLine( endpoint1, endpoint2 );
             PPath rightTickMark = new PPath(tickMarkShape);
             rightTickMark.setStroke( TICK_MARK_STROKE );
-            ljPotentialGraph.addChild( rightTickMark );
+            m_ljPotentialGraph.addChild( rightTickMark );
         }
         
         // Add the potential energy line.
         m_potentialEnergyLine = new PPath();
         m_potentialEnergyLine.setStroke( POTENTIAL_ENERGY_LINE_STROKE );
         m_potentialEnergyLine.setStrokePaint( POTENTIAL_ENERGY_LINE_COLOR );
-        ljPotentialGraph.addChild( m_potentialEnergyLine );
+        m_ljPotentialGraph.addChild( m_potentialEnergyLine );
         
         // Add the arrows and labels that will depict sigma and epsilon.
         m_epsilonArrow = new DoubleArrowNode( new Point2D.Double( 0, 0 ), 
                 new Point2D.Double( 0, m_graphHeight / 2 ), ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_LINE_WIDTH);
         m_epsilonArrow.setPaint( Color.BLACK );
-        ljPotentialGraph.addChild( m_epsilonArrow );
+        m_ljPotentialGraph.addChild( m_epsilonArrow );
         
         m_epsilonLabel = new PText("\u03B5");
         m_epsilonLabel.setFont( GREEK_LETTER_FONT );
-        ljPotentialGraph.addChild( m_epsilonLabel );
+        m_ljPotentialGraph.addChild( m_epsilonLabel );
 
         m_sigmaLabel = new PText("\u03C3");
         m_sigmaLabel.setFont( GREEK_LETTER_FONT );
-        ljPotentialGraph.addChild( m_sigmaLabel );
+        m_ljPotentialGraph.addChild( m_sigmaLabel );
 
         m_sigmaArrow = new DoubleArrowNode(new Point2D.Double( 0, 0 ), new Point2D.Double( 0, 0 ), 
                 ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_LINE_WIDTH);
         m_sigmaArrow.setPaint( Color.BLACK );
-        ljPotentialGraph.addChild( m_sigmaArrow );
+        m_ljPotentialGraph.addChild( m_sigmaArrow );
 
         // Add the position marker.
+        m_markerLayer = new PNode();
+        m_markerLayer.setOffset( m_graphOffsetX, 0 );
+        addChild( m_markerLayer );
         GeneralPath markerPath = new GeneralPath();
         double markerDiameter = POSITION_MARKER_DIAMETER_PROPORTION * m_graphWidth;
         markerPath.append( new Ellipse2D.Double(0, 0, markerDiameter, markerDiameter ), false );
@@ -225,7 +231,7 @@ public class InteractionPotentialDiagramNode extends PNode {
         m_positionMarker.setStroke( POSITION_MARKER_STROKE );
         m_positionMarker.setPaint( POSITION_MARKER_COLOR );
         m_positionMarker.setVisible( m_positionMarkerEnabled );
-        ljPotentialGraph.addChild( m_positionMarker );
+        m_markerLayer.addChild( m_positionMarker );
 
         // Create and add the labels for the axes.
         PText horizontalAxisLabel = new PText(StatesOfMatterStrings.INTERACTION_POTENTIAL_GRAPH_X_AXIS_LABEL);
@@ -294,14 +300,6 @@ public class InteractionPotentialDiagramNode extends PNode {
         return m_graphMin;
     }
     
-    protected double getGraphOffsetX(){
-        return m_graphOffsetX;
-    }
-
-    protected double getGraphOffsetY(){
-        return m_graphOffsetY;
-    }
-
     public void setMarkerEnabled( boolean enabled ){
         m_positionMarkerEnabled = enabled;
     }
