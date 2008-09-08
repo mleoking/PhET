@@ -15,6 +15,7 @@ import java.awt.geom.Line2D;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 /**
  * FluorescentLightsConfig
@@ -89,7 +90,7 @@ public class DischargeLampsConfig {
     public static final double ELECTRON_ACCELERATION_CALIBRATION_FACTOR = 1 / 5.55;
 
     // Misc
-    public static final DecimalFormat VOLTAGE_FORMAT = new DecimalFormat( "#0.00 V" );
+    public static final DecimalFormat VOLTAGE_FORMAT = new DecimalFormat( "#0.00 "+ SimStrings.getInstance().getString( "voltage.abbreviation" ));
     // Simulation time for which EnergySquiggles remain on the screen
     public static final double ENERGY_SQUIGGLE_PERSISTENCE = 50;
 }
