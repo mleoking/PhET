@@ -18,6 +18,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.eatingandexercise.model.Human;
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -64,14 +65,14 @@ public class HumanNode extends PNode {
             }
         } );
 
-        infoButton = new GradientButtonNode( "?", 12, Color.red );
+        infoButton = new GradientButtonNode( EatingAndExerciseResources.getString( "question.mark" ), 12, Color.red );
         infoButton.setScale( 0.007 );
         infoButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 notifyInfoButtonPressed();
             }
         } );
-//        addChild( infoButton );
+        addChild( infoButton );
         update();
     }
 
