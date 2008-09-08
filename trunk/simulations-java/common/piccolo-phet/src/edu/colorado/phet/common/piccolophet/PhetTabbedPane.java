@@ -1,13 +1,5 @@
-/* Copyright 2003-2004, University of Colorado */
+/* Copyright 2003-2008, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author:samreid $
- * Revision : $Revision:14676 $
- * Date modified : $Date:2007-04-17 02:58:50 -0500 (Tue, 17 Apr 2007) $
- */
 package edu.colorado.phet.common.piccolophet;
 
 import java.awt.*;
@@ -16,7 +8,8 @@ import java.awt.event.ComponentListener;
 import java.awt.geom.GeneralPath;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -27,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.ToolTipHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -34,7 +28,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolo.util.PPaintContext;
 
 /**
  * The PhetTabbedPane is a Piccolo implementation of a tabbed pane.  In general, the interface resembles JTabbedPane.
@@ -422,32 +415,13 @@ public class PhetTabbedPane extends JPanel {
     }
 
     /**
-     * This is a workaround for a bug in rendering gradients on Mac.
-     * Chris Malley has posted a bug report with Apple.
-     */
-    static class LowQualityPPath extends PPath {
-        public LowQualityPPath( Shape shape ) {
-            super( shape );
-        }
-
-        protected void paint( PPaintContext paintContext ) {
-            Object orig = paintContext.getGraphics().getRenderingHint( RenderingHints.KEY_RENDERING );
-            paintContext.getGraphics().setRenderingHint( RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED );
-            super.paint( paintContext );
-            if ( orig != null ) {
-                paintContext.getGraphics().setRenderingHint( RenderingHints.KEY_RENDERING, orig );
-            }
-        }
-    }
-
-    /**
      * The AbstractTabNode is the graphic PNode for one tab.
      */
     public static abstract class AbstractTabNode extends PNode {
         private String text;/*The text for the tab*/
         private JComponent component;/*The swing component associated with this tab.*/
         private PNode textNode;/*The PNode that draws the text*/
-        private LowQualityPPath background; /*Draws the gradient background*/
+        private PhetPPath background; /*Draws the gradient background, use PhetPPath for Gradient workaround on Mac OS 10.4 */
         private boolean selected;/*True if this tab is selected.*/
         private float tiltWidth = 11; /*Amount the tab sticks out over adjacent tabs*/
         private Color selectedTabColor; /*Color when selected*/
@@ -464,7 +438,7 @@ public class PhetTabbedPane extends JPanel {
             this.component = component;
             textNode = createTextNode( text, selectedTabColor );
             outlineNode = new PPath( createTabTopBorder( textNode.getFullBounds().getWidth(), textNode.getFullBounds().getHeight() ) );
-            background = new LowQualityPPath( createTabShape( textNode.getFullBounds().getWidth(), textNode.getFullBounds().getHeight() ) );
+            background = new PhetPPath( createTabShape( textNode.getFullBounds().getWidth(), textNode.getFullBounds().getHeight() ) );
             background.setPaint( selectedTabColor );
             background.setStroke( null );
             addChild( background );
@@ -609,13 +583,13 @@ public class PhetTabbedPane extends JPanel {
      * The TabBase is a PNode graphic for the horizontal bar under the tabs.
      */
     public static class TabBase extends PNode {
-        private final PPath path;
+        private final PhetPPath path; // use PhetPPath for Gradient workaround on Mac OS 10.4
         private int tabBaseHeight = 6;
         private Color selectedTabColor;
 
         public TabBase( Color selectedTabColor ) {
             this.selectedTabColor = selectedTabColor;
-            path = new LowQualityPPath( new Rectangle( 0, 0, 200, tabBaseHeight ) );
+            path = new PhetPPath( new Rectangle( 0, 0, 200, tabBaseHeight ) );
             path.setPaint( selectedTabColor );
             path.setPaint( new GradientPaint( 0, 0, selectedTabColor, 0, tabBaseHeight + 4, selectedTabColor.darker() ) );
             path.setStroke( null );

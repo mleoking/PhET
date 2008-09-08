@@ -32,7 +32,9 @@ package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.*;
 
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
 /**
  * PhetPPath provides convenient constructors for setting up a PPath.
@@ -45,6 +47,15 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 
 public class PhetPPath extends PPath {
+    
+    private static final boolean IS_MAC_OS_10_4 = PhetUtilities.isMacOS_10_4();
+    
+    public PhetPPath() {}
+    
+    public PhetPPath( Shape shape ) {
+        super( shape );
+    }
+    
     /**
      * Creates a PhetPPath with the specified fill paint and no stroke.
      *
@@ -117,5 +128,24 @@ public class PhetPPath extends PPath {
         setPaint( fill );
         setStroke( stroke );
         setStrokePaint( strokePaint );
+    }
+    
+    /**
+     * WORKAROUND for Gradient Paint bug on Mac OS 10.4.
+     * With the default rendering value (VALUE_RENDER_QUALITY), gradient paints will crash.
+     * Using VALUE_RENDER_SPEED avoids the problem.
+     */
+    protected void paint( PPaintContext paintContext ) {
+        if ( IS_MAC_OS_10_4 ) {
+            boolean usesGradient = ( ( getPaint() instanceof GradientPaint ) || ( getStrokePaint() instanceof GradientPaint ) );
+            if ( usesGradient ) {
+                Object saveValueRender = paintContext.getGraphics().getRenderingHint( RenderingHints.KEY_RENDERING );
+                paintContext.getGraphics().setRenderingHint( RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED );
+                super.paint( paintContext );
+                if ( saveValueRender != null ) {
+                    paintContext.getGraphics().setRenderingHint( RenderingHints.KEY_RENDERING, saveValueRender );
+                }
+            }
+        }
     }
 }
