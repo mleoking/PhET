@@ -45,6 +45,7 @@ public class DualParticleModel {
     private double m_sigma;    // Sigma represents the diameter of the molecule, roughly speaking.
     private int m_currentMoleculeID;
     private boolean m_particleMotionPaused;
+    private LjPotentialCalculator m_ljPotentialCalculator;
     
     //----------------------------------------------------------------------------
     // Constructor
@@ -55,7 +56,8 @@ public class DualParticleModel {
         m_clock = clock;
         m_epsilon = DEFAULT_EPSILON;
         m_sigma = DEFAULT_SIGMA;
-        m_particleMotionPaused = true;
+        m_particleMotionPaused = false;
+        m_ljPotentialCalculator = new LjPotentialCalculator( m_epsilon, m_sigma );
         
         // Register as a clock listener.
         clock.addClockListener(new ClockAdapter(){
@@ -143,6 +145,10 @@ public class DualParticleModel {
         
         m_currentMoleculeID = atomID;
         
+        // Update our Lennard-Jones force calculator.
+        m_ljPotentialCalculator.setEpsilon( m_epsilon );
+        m_ljPotentialCalculator.setSigma( m_sigma );
+        
         // Let listeners know about the new molecules.
         notifyFixedParticleAdded( m_fixedParticle );
         notifyMovableParticleAdded( m_movableParticle );
@@ -154,9 +160,8 @@ public class DualParticleModel {
         notifyParticleDiameterChanged();
         
         // Move them to be initially separated.
-        double diameter = m_fixedParticle.getRadius() * 2;
         m_fixedParticle.setPosition( 0, 0 );
-        m_movableParticle.setPosition( 2 * diameter, 0 );
+        m_movableParticle.setPosition( m_ljPotentialCalculator.calculateMinimumForceDistance(), 0 );
         
         // Let listeners know that the molecule type has changed.
         notifyMoleculeTypeChanged();
@@ -237,7 +242,7 @@ public class DualParticleModel {
     public void reset() {
         
         // Initialize the system parameters.
-        m_particleMotionPaused = true;
+        m_particleMotionPaused = false;
         setMoleculeType( DEFAULT_MOLECULE );
     }
     
@@ -285,9 +290,7 @@ public class DualParticleModel {
         }
         
         // Calculate the force.  The result should be in newtons.
-        m_movableParticleHorizForce = 
-            ((48 * (m_epsilon * StatesOfMatterConstants.K_BOLTZMANN) * Math.pow( m_sigma, 12 ) / Math.pow( distance, 13 )) -
-             (24 * (m_epsilon * StatesOfMatterConstants.K_BOLTZMANN) * Math.pow( m_sigma, 6 ) / Math.pow( distance, 7 )));
+        m_movableParticleHorizForce = m_ljPotentialCalculator.calculateLjForce( distance );
     }
     
     private void updatePosition(){
