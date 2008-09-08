@@ -55,6 +55,17 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     // Factor used to control size of wiggle me.
     private static final double WIGGLE_ME_HEIGHT = CANVAS_HEIGHT * 0.10;
     
+    // The following constants control whether the wiggle me and stop buttons
+    // appear.  These two components of the user interface were requested in
+    // the original specification, but after being reviewed on 9/4/2008, it
+    // was requested that they be removed.  They are being left in the code so
+    // that it will be easy to bring them back if necessary.  If they aren't
+    // back in by, say, Feb 2009, the code should just be removed.  NOTE THAT
+    // THEY ARE NOT FULLY DEBUGGED, so it will take a little effort to make
+    // each of these feature fully operational.
+    private static final boolean ENABLE_STOP_BUTTON = false;
+    private static final boolean ENABLE_WIGGLE_ME = false;
+    
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -147,21 +158,23 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         addWorldChild( m_diagram );
         
         // Add button to the canvas for stopping the motion of the atom.
-        m_stopAtomButtonNode = new GradientButtonNode(StatesOfMatterStrings.STOP_ATOM, 16, new Color(0xffcc66));
-        m_stopAtomButtonNode.scale( BUTTON_HEIGHT / m_stopAtomButtonNode.getFullBoundsReference().height );
-        addWorldChild( m_stopAtomButtonNode );
-        m_stopAtomButtonNode.setOffset( 
-                m_diagram.getFullBoundsReference().getMaxX() - m_stopAtomButtonNode.getFullBoundsReference().width,
-                StatesOfMatterConstants.MAX_SIGMA / 2 * 1.1 );
-        
-        // Register to receive button pushes.
-        m_stopAtomButtonNode.addActionListener( new ActionListener(){
-            public void actionPerformed(ActionEvent event){
-                // Pause particle motion.  Moving the movable particle will
-                // restart it.
-                m_model.setParticleMotionPaused( true );
-            }
-        });
+        if ( ENABLE_STOP_BUTTON ) {
+            m_stopAtomButtonNode = new GradientButtonNode(StatesOfMatterStrings.STOP_ATOM, 16, new Color(0xffcc66));
+            m_stopAtomButtonNode.scale( BUTTON_HEIGHT / m_stopAtomButtonNode.getFullBoundsReference().height );
+            addWorldChild( m_stopAtomButtonNode );
+            m_stopAtomButtonNode.setOffset( 
+                    m_diagram.getFullBoundsReference().getMaxX() - m_stopAtomButtonNode.getFullBoundsReference().width,
+                    StatesOfMatterConstants.MAX_SIGMA / 2 * 1.1 );
+            
+            // Register to receive button pushes.
+            m_stopAtomButtonNode.addActionListener( new ActionListener(){
+                public void actionPerformed(ActionEvent event){
+                    // Pause particle motion.  Moving the movable particle will
+                    // restart it.
+                    m_model.setParticleMotionPaused( true );
+                }
+            });
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -184,7 +197,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
             return;
         }
         
-        if (!m_wiggleMeShown){
+        if ((!m_wiggleMeShown) && (ENABLE_WIGGLE_ME)){
             // The wiggle me has not yet been shown, so show it.
             m_wiggleMe = new DefaultWiggleMe( this, "Move atom and release." );  // TODO JBP TBD - Make this a string.
             m_wiggleMe.setArrowTailPosition( MotionHelpBalloon.BOTTOM_CENTER );
