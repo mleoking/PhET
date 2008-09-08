@@ -3,6 +3,7 @@ Change history for optical-quantum-control
 ===============================================================================
 
 DONE:
+9/8/08 - localize x-axis labels on graphs
 5/20/08 - replace Font with PhetFont
 4/28/08 - add PhetLookAndFeel to main
 1/7/08 - replace "Lucida Sans" with PhetDefaultFont

@@ -19,6 +19,7 @@ import edu.colorado.phet.common.charts.Chart;
 import edu.colorado.phet.common.charts.Range2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.HTMLGraphic;
+import edu.colorado.phet.opticalquantumcontrol.OQCResources;
 
 
 /**
@@ -36,7 +37,7 @@ public class AmplitudesChart extends Chart {
     private static final Color AXIS_TITLE_COLOR = Color.BLACK;
     
     // X axis
-    private static final String X_AXIS_TITLE = "n";
+    private static final String X_AXIS_LABEL = OQCResources.AMPLITUDE_X_AXIS_LABEL;
     
     // Y axis
     private static final double Y_MAJOR_TICK_SPACING = 0.5;
@@ -72,7 +73,7 @@ public class AmplitudesChart extends Chart {
             getXAxis().setStroke( AXIS_STROKE );
             getXAxis().setColor( AXIS_COLOR );
 
-            HTMLGraphic xAxisTitleGraphic = new HTMLGraphic( component, AXIS_TITLE_FONT, X_AXIS_TITLE, AXIS_TITLE_COLOR );
+            HTMLGraphic xAxisTitleGraphic = new HTMLGraphic( component, AXIS_TITLE_FONT, X_AXIS_LABEL, AXIS_TITLE_COLOR );
             xAxisTitleGraphic.setRegistrationPoint( -2, xAxisTitleGraphic.getHeight() / 2 ); // left center
             setXAxisTitle( xAxisTitleGraphic );
             
