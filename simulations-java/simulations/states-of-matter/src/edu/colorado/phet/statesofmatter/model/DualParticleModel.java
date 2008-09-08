@@ -26,7 +26,6 @@ public class DualParticleModel {
     //----------------------------------------------------------------------------
 
     private static final double TIME_STEP = Math.pow( 0.5, 5.0 );
-    private static final double K_BOLTZMANN = 1.38E-23; // Boltzmann's constant.
     
     public static final int DEFAULT_MOLECULE = StatesOfMatterConstants.MONATOMIC_OXYGEN;
     public static final double DEFAULT_SIGMA = OxygenAtom.getSigma();
@@ -285,10 +284,10 @@ public class DualParticleModel {
             distance = m_sigma;
         }
         
-        // Calculate the force.  The result should be in Newtons.
+        // Calculate the force.  The result should be in newtons.
         m_movableParticleHorizForce = 
-            ((48 * (m_epsilon * K_BOLTZMANN) * Math.pow( m_sigma, 12 ) / Math.pow( distance, 13 )) -
-             (24 * (m_epsilon * K_BOLTZMANN) * Math.pow( m_sigma, 6 ) / Math.pow( distance, 7 )));
+            ((48 * (m_epsilon * StatesOfMatterConstants.K_BOLTZMANN) * Math.pow( m_sigma, 12 ) / Math.pow( distance, 13 )) -
+             (24 * (m_epsilon * StatesOfMatterConstants.K_BOLTZMANN) * Math.pow( m_sigma, 6 ) / Math.pow( distance, 7 )));
     }
     
     private void updatePosition(){

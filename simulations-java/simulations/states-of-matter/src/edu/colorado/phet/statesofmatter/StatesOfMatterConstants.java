@@ -135,6 +135,11 @@ public class StatesOfMatterConstants {
     public static final double MIN_EPSILON = 30;     // Epsilon/k-Boltzmann is in Kelvin.
 
     //----------------------------------------------------------------------------
+    // Physical Constants
+    //----------------------------------------------------------------------------
+    public static final double K_BOLTZMANN = 1.38E-23; // Boltzmann's constant.
+
+    //----------------------------------------------------------------------------
     // Images
     //----------------------------------------------------------------------------
 
