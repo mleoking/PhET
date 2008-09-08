@@ -33,6 +33,7 @@ import java.awt.DisplayMode;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
+import java.awt.event.ComponentAdapter;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -59,7 +60,6 @@ public class PFrame extends JFrame {
 
 	private PCanvas canvas;
 	private GraphicsDevice graphicsDevice;
-	private DisplayMode originalDisplayMode;
 	private EventListener escapeFullScreenModeListener;
 
 	public PFrame() {
@@ -75,14 +75,8 @@ public class PFrame extends JFrame {
 		
 		graphicsDevice = aDevice;
 		
-		try {
-			originalDisplayMode = graphicsDevice.getDisplayMode();		 
-		} catch (InternalError e) {
-			e.printStackTrace();
-		}
-		
-		setBounds(getDefaultFrameBounds());
 		setBackground(null);
+		setBounds(getDefaultFrameBounds());
 		
 		try {
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -94,7 +88,7 @@ public class PFrame extends JFrame {
 			canvas = aCanvas;
 		}
 						
-		getContentPane().add(canvas);
+		setContentPane(canvas);
 		validate(); 	
 		setFullScreenMode(fullScreenMode);
 		canvas.requestFocus();

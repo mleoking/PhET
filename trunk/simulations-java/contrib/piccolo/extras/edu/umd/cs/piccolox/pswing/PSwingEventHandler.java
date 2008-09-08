@@ -347,11 +347,7 @@ public class PSwingEventHandler implements PInputEventListener {
     private void dispatchEvent( final Component target, final PSwingMouseEvent event ) {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                canvas.setIgnoringEvents( true );
-
                 target.dispatchEvent( event );
-
-                canvas.setIgnoringEvents( false );
             }
         } );
     }

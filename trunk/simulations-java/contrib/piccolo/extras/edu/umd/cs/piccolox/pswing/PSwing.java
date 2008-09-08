@@ -349,19 +349,8 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
         // Draw the component to the buffer
         component.paint( bufferedGraphics );
 
-        //non-nearest-neighbor Interpolation rendering hint and Java 1.6 and scale = 1.0 can cause the rendering to be fuzzy
-        Object interpolationHint = g2.getRenderingHint( RenderingHints.KEY_INTERPOLATION );
-        if( g2.getTransform().getScaleX() == 1.0 && g2.getTransform().getScaleY() == 1.0 ) {
-            g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR );
-        }
-
         // Draw the buffer to g2's associated drawing surface
         g2.drawRenderedImage( buffer, IDENTITY_TRANSFORM );
-
-        //restore the rendering hint if possible
-        if( interpolationHint != null ) {
-            g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, interpolationHint );
-        }
 
         manager.unlockRepaint( component );
     }
@@ -554,55 +543,4 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
     ////////////////////////////////////////////////////////////
     ///////End methods for automatic canvas detection
     ////////////////////////////////////////////////////////////
-
-    /**
-     * This method returns the location of a JComponent that may be embedded as a PSwing.
-     * Currently this method has several limitations:
-     * 1. The component cannot be multiply nested (i.e. a PSwingCanvas embedded as a PSwing in another PSwingCanvas
-     * 2. The global coordinate frame is assumed to be equivalent to the Screen coordinate frame.
-     * @param jComponent
-     * @return
-     */
-    public static Point getLocationOnScreen( JComponent jComponent ) {
-        PSwing ps = getParentPSwing( jComponent );
-        if( ps == null ) {
-            return jComponent.getLocationOnScreen();
-        }
-        else {
-            Point offset = getLocationInParent( jComponent, ps.component );
-
-            Point loc = new Point();
-            loc.x += ps.canvas.getLocationOnScreen().getX();
-            loc.y += ps.canvas.getLocationOnScreen().getY();
-
-            loc.x += offset.x;
-            loc.y += offset.y;
-
-            loc.x+=ps.getGlobalFullBounds().getX();
-            loc.y+=ps.getGlobalFullBounds().getY();
-            return loc;
-        }
-    }
-
-    private static Point getLocationInParent( JComponent child, JComponent parent ) {
-        if( child == parent ) {
-            return new Point( 0, 0 );
-        }
-        else {
-            Point p = child.getLocation();
-            Point par = getLocationInParent( (JComponent)child.getParent(), parent );
-            return new Point( p.x + par.x, p.y + par.y );
-        }
-    }
-
-    private static PSwing getParentPSwing( JComponent jComponent ) {
-        Object p = jComponent.getClientProperty( PSWING_PROPERTY );
-        if( p != null && p instanceof PSwing ) {
-            return (PSwing)p;
-        }
-        else if( jComponent.getParent() instanceof JComponent ) {
-            return getParentPSwing( (JComponent)jComponent.getParent() );
-        }
-        return null;
-    }
 }
