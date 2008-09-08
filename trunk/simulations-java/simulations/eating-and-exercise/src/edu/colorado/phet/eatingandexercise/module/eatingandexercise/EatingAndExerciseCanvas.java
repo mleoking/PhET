@@ -16,6 +16,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseConstants;
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.control.CaloriePanel;
 import edu.colorado.phet.eatingandexercise.control.HumanControlPanel;
 import edu.colorado.phet.eatingandexercise.model.Human;
@@ -84,7 +85,7 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
         humanAreaNode = new HumanNode( model.getHuman() );
         humanAreaNode.addListener( new HumanNode.Listener() {
             public void infoButtonPressed() {
-                JOptionPane.showMessageDialog( EatingAndExerciseCanvas.this, "Information about health goes here" );
+                JOptionPane.showMessageDialog( EatingAndExerciseCanvas.this, EatingAndExerciseResources.getString( "heart.health.info" ));
             }
         } );
 

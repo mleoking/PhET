@@ -149,7 +149,6 @@ public class EatingAndExerciseApplication extends PiccoloPhetApplication {
         SwingUtilities.invokeLater( new Runnable() {
 
             public void run() {
-//                DummyConstantStringTester.setTestScenario( new Locale( "ja" ), "\u30A8\u30CD\u30EB\u30AE\u30FC\u306E\u6642\u9593\u5909\u5316" );
                 PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
                 phetLookAndFeel.setFont( new PhetFont( 14, true ) );
                 phetLookAndFeel.setBackgroundColor( EatingAndExerciseColorScheme.getBackgroundColor() );
