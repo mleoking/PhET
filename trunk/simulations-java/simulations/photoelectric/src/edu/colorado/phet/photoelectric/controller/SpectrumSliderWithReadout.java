@@ -153,7 +153,7 @@ public class SpectrumSliderWithReadout extends SpectrumSliderWithSquareCursor {
 
         private void setText( double wavelength ) {
             DecimalFormat voltageFormat = new DecimalFormat( "000" );
-            readout.setText( voltageFormat.format( wavelength ) + " nm" );
+            readout.setText( voltageFormat.format( wavelength ) + " "+SimStrings.getInstance().getString( "units.nm" ) );
         }
 
         void setValue( double wavelength ) {

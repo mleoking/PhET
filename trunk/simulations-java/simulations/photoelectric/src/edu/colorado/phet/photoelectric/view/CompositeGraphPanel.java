@@ -126,7 +126,7 @@ public class CompositeGraphPanel extends JPanel {
                   SimStrings.getInstance().getString( "GraphLabel.Frequency" ),
                   SimStrings.getInstance().getString( "GraphLabel.Energy" ) );
 
-        setBorder( new TitledBorder( "Graphs" ) );
+        setBorder( new TitledBorder( SimStrings.getInstance().getString( "Graphs" ) ) );
     }
 
     private void setLogoVisibility( final ControlPanel controlPanel ) {
