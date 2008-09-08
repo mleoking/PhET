@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.coreadditions.ScalarObservable;
 import edu.colorado.phet.idealgas.instrumentation.DialGauge;
 import edu.colorado.phet.idealgas.model.PressureSensingBox;
@@ -41,7 +42,7 @@ public class PressureDialGauge extends PhetShapeGraphic {
         numberFormat = new DecimalFormat( "#0.00" );
         pressureGauge = new DialGauge( new ObservablePressureBox( updatePeriod ), component,
                                        center.getX(), center.getY(),
-                                       radius * 2, 0, IdealGasConfig.MAX_GAUGE_PRESSURE, "Pressure", "Atm",
+                                       radius * 2, 0, IdealGasConfig.MAX_GAUGE_PRESSURE, IdealGasResources.getString("pressure-gauge.title"), IdealGasResources.getString("pressure-gauge.units"),
                                        font, numberFormat );
         pressureGauge.setBackground( new Color( 230, 255, 230 ) );
         stem = new Rectangle2D.Double( box.getMaxX(), center.getY() - stemThickness / 2,
