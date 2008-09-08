@@ -129,7 +129,6 @@ public class SpectrumSliderWithReadout extends SpectrumSliderWithSquareCursor {
                 String text = readout.getText().toLowerCase();
                 int nmLoc = text.indexOf( "nm" );
                 text = nmLoc >= 0 ? readout.getText().substring( 0, nmLoc ) : text;
-                wavelength = Double.parseDouble( text );
                 wavelength = MathUtil.clamp( minWavelength,
                                              Double.parseDouble( text ),
                                              maxWavelength );
