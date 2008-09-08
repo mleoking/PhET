@@ -11,6 +11,7 @@ import javax.swing.plaf.basic.BasicComboPopup;
 import javax.swing.plaf.basic.ComboPopup;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.swing.PhetJComboBox;
 import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.colorado.phet.eatingandexercise.module.eatingandexercise.EatingAndExerciseCanvas;
 
@@ -18,7 +19,7 @@ import edu.colorado.phet.eatingandexercise.module.eatingandexercise.EatingAndExe
  * Created by: Sam
  * Jun 26, 2008 at 11:57:34 AM
  */
-public class ActivityLevelComboBox extends JComboBox {
+public class ActivityLevelComboBox extends PhetJComboBox {
     private EatingAndExerciseCanvas canvas;
     private Human human;
 
