@@ -66,4 +66,14 @@ public class PhetCommonResources {
         }
         return names;
     }
+
+    /**
+     * Convenience method for accessing a localized String from phetcommon.
+     *
+     * @param key the key for which to look up the String value
+     * @return the localized String
+     */
+    public static String getString( String key ) {
+        return INSTANCE.getLocalizedString( key );
+    }
 }
