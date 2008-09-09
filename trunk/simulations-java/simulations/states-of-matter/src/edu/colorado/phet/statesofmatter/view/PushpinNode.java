@@ -2,8 +2,6 @@
 
 package edu.colorado.phet.statesofmatter.view;
 
-import edu.colorado.phet.opticaltweezers.OTConstants;
-import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.umd.cs.piccolo.nodes.PImage;
