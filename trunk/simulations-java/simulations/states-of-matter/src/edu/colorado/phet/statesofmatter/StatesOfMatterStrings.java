@@ -59,6 +59,7 @@ public class StatesOfMatterStrings {
     public static final String INTERACTION_STRENGTH_CONTROL_TITLE = StatesOfMatterResources.getString("InteractionStrengthControl.Title");
     public static final String SHOW_FORCES = StatesOfMatterResources.getString("InteractionPotential.ShowForces");
     public static final String STOP_ATOM = StatesOfMatterResources.getString("InteractionPotential.StopAtom");
+    public static final String RETRIEVE_ATOM = StatesOfMatterResources.getString("InteractionPotential.RetrieveAtom");
     
     public static final String RESET = StatesOfMatterResources.getString("Reset");
 }

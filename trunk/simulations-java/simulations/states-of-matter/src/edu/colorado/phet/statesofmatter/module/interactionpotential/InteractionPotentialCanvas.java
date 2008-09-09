@@ -81,6 +81,8 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     private boolean m_useGradient;
     private boolean m_showForces;
     private GradientButtonNode m_stopAtomButtonNode;
+    private GradientButtonNode m_retrieveAtomButtonNode;
+    private boolean m_showRetrieveAtomButton;
     private DefaultWiggleMe m_wiggleMe;
     private boolean m_wiggleMeShown;
 
@@ -93,6 +95,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         m_model = dualParticleModel;
         m_showForces = false;
         m_wiggleMeShown = false;
+        m_showRetrieveAtomButton = false;
         
         // Decide whether to use gradients when drawing the particles.
         m_useGradient = true;
@@ -138,6 +141,18 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         m_atomListener = new StatesOfMatterAtom.Adapter(){
             public void positionChanged(){
                 updatePositionMarkerOnDiagram();
+                if ( m_model.getMovableParticleRef().getX() > (1 - WIDTH_TRANSLATION_FACTOR) * getWorldSize().getWidth()) {
+                    if ( !m_retrieveAtomButtonNode.isVisible() ) {
+                        // The particle is off the canvas and the button is not
+                        // yet shown, so show it.
+                        m_retrieveAtomButtonNode.setVisible( true );
+                    }
+                }
+                else if ( m_retrieveAtomButtonNode.isVisible() ) {
+                    // The particle is on the canvas but the button is visible
+                    // (which it shouldn't be), so hide it.
+                    m_retrieveAtomButtonNode.setVisible( false );
+                }
             };
         };
         
@@ -175,6 +190,22 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
                 }
             });
         }
+        
+        // Add the button for retrieving the atom to the canvas. 
+        m_retrieveAtomButtonNode = new GradientButtonNode(StatesOfMatterStrings.RETRIEVE_ATOM, 16, new Color(0xffcc66));
+        m_retrieveAtomButtonNode.scale( BUTTON_HEIGHT / m_retrieveAtomButtonNode.getFullBoundsReference().height );
+        addWorldChild( m_retrieveAtomButtonNode );
+        m_retrieveAtomButtonNode.setOffset( 
+                m_diagram.getFullBoundsReference().getMaxX() - m_retrieveAtomButtonNode.getFullBoundsReference().width,
+                StatesOfMatterConstants.MAX_SIGMA / 2 * 1.1 );
+        
+        // Register to receive button pushes.
+        m_retrieveAtomButtonNode.addActionListener( new ActionListener(){
+            public void actionPerformed(ActionEvent event){
+                // Move the rogue particle back to its initial position.
+                m_model.resetMovableParticlePos();
+            }
+        });
     }
     
     //----------------------------------------------------------------------------
