@@ -76,7 +76,12 @@ public class Glacier extends ClockAdapter {
         super();
         
         _valley = valley;
-        assert( _valley.getHeadwallPositionReference().getX() == 0 ); // x=0 required by this model
+        
+        /*
+         * I did my best to make this model independent of the headwall position,
+         * by many parts of the model that I was given require x=0.
+         */
+        assert( _valley.getHeadwallPositionReference().getX() == 0 ); 
         
         _climate = climate;
         _climateListener = new ClimateListener() {
