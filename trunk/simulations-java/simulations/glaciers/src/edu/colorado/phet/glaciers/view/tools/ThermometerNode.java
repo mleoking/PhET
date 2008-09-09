@@ -23,6 +23,7 @@ import edu.colorado.phet.glaciers.model.Glacier.GlacierListener;
 import edu.colorado.phet.glaciers.model.Movable.MovableAdapter;
 import edu.colorado.phet.glaciers.model.Movable.MovableListener;
 import edu.colorado.phet.glaciers.model.Thermometer.ThermometerListener;
+import edu.colorado.phet.glaciers.util.UnitsConverter;
 import edu.colorado.phet.glaciers.view.ModelViewTransform;
 import edu.colorado.phet.glaciers.view.tools.AbstractToolOriginNode.LeftToolOriginNode;
 import edu.umd.cs.piccolo.PNode;
@@ -163,7 +164,7 @@ public class ThermometerNode extends AbstractToolNode {
             String textC = TEMPERATURE_FORMAT.format( celsius ) + " " + GlaciersStrings.UNITS_CELSIUS;
             _celsiusLabel.setText( textC );
             // Fahrenheit
-            double valueF = Thermometer.celsiusToFahrenheit( celsius );
+            double valueF = UnitsConverter.celsiusToFahrenheit( celsius );
             String textF = TEMPERATURE_FORMAT.format( valueF ) + " " + GlaciersStrings.UNITS_FAHRENHEIT;
             _fahrenheitLabel.setText( textF );
             

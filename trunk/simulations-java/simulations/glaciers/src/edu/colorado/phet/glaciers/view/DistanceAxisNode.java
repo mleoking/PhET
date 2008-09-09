@@ -13,6 +13,7 @@ import java.text.DecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.Valley;
+import edu.colorado.phet.glaciers.util.UnitsConverter;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -217,8 +218,9 @@ public class DistanceAxisNode extends PComposite {
      * Creates a tick label.
      */
     private static PNode createTickLabelNode( double x, boolean englishUnits ) {
+        double value = ( englishUnits ? UnitsConverter.metersToFeet( x ) : x );
         String units = ( englishUnits ? GlaciersStrings.UNITS_FEET_SYMBOL : GlaciersStrings.UNITS_METERS );
-        String s = TICK_LABEL_FORMAT.format( x ) + units;
+        String s = TICK_LABEL_FORMAT.format( value ) + units;
         PText textNode = new PText( s );
         textNode.setFont( TICK_LABEL_FONT );
         textNode.setTextPaint( TICK_LABEL_COLOR );
