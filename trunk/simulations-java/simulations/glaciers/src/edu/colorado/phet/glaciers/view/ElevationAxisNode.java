@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -50,6 +51,7 @@ public class ElevationAxisNode extends PComposite {
     private final ModelViewTransform _mvt;
     private final double _minElevation, _maxElevation, _majorTickSpacing;
     private final boolean _tickLabelOnLeft;
+    private final boolean _englishUnits;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -64,8 +66,9 @@ public class ElevationAxisNode extends PComposite {
      * @param maxElevation meters
      * @param majorTickSpacing meters
      * @param tickLabelOnLeft  true for label to left of tick, false for label to right of tick
+     * @param englishUnits true for English units, false for metric units
      */
-    public ElevationAxisNode( ModelViewTransform mvt, DoubleRange elevationRange, double majorTickSpacing, boolean tickLabelOnLeft ) {
+    public ElevationAxisNode( ModelViewTransform mvt, DoubleRange elevationRange, double majorTickSpacing, boolean tickLabelOnLeft, boolean englishUnits ) {
         super();
         setPickable( false );
         setChildrenPickable( false );
@@ -75,6 +78,7 @@ public class ElevationAxisNode extends PComposite {
         _maxElevation = elevationRange.getMax();
         _majorTickSpacing = majorTickSpacing;
         _tickLabelOnLeft = tickLabelOnLeft;
+        _englishUnits = englishUnits;
         
         _parentNode = new PComposite();
         addChild( _parentNode );
@@ -100,7 +104,7 @@ public class ElevationAxisNode extends PComposite {
         // ticks & labels
         double elevation = _minElevation;
         while ( elevation <= _maxElevation ) {
-            PNode tickNode = createLabeledTickNode( x, elevation, _tickLabelOnLeft, _mvt );
+            PNode tickNode = createLabeledTickNode( x, elevation, _tickLabelOnLeft, _englishUnits, _mvt );
             _parentNode.addChild( tickNode );
             elevation += _majorTickSpacing;
         }
@@ -136,7 +140,7 @@ public class ElevationAxisNode extends PComposite {
     /*
      * Creates a labeled tick.
      */
-    private static PNode createLabeledTickNode( double x, double elevation, boolean tickLabelOnLeft, ModelViewTransform mvt ) {
+    private static PNode createLabeledTickNode( double x, double elevation, boolean tickLabelOnLeft, boolean englishUnits, ModelViewTransform mvt ) {
         
         PComposite parentNode = new PComposite();
         
@@ -145,7 +149,7 @@ public class ElevationAxisNode extends PComposite {
         parentNode.addChild( tickNode );
         
         // label
-        PNode labelNode = createTickLabelNode( elevation );
+        PNode labelNode = createTickLabelNode( elevation, englishUnits );
         parentNode.addChild( labelNode );
         
         tickNode.setOffset( 0, 0 );
@@ -193,8 +197,9 @@ public class ElevationAxisNode extends PComposite {
     /*
      * Creates a tick label.
      */
-    private static PNode createTickLabelNode( double elevation ) {
-        String s = TICK_LABEL_FORMAT.format( elevation );
+    private static PNode createTickLabelNode( double elevation, boolean englishUnits ) {
+        String units = ( englishUnits ? GlaciersStrings.UNITS_FEET_SYMBOL : GlaciersStrings.UNITS_METERS );
+        String s = TICK_LABEL_FORMAT.format( elevation ) + units;
         PText textNode = new PText( s );
         textNode.setFont( TICK_LABEL_FONT );
         textNode.setTextPaint( TICK_LABEL_COLOR );

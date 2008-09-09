@@ -249,9 +249,10 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         _snowfallLayer.addChild( _snowfallNode );
         
         // Axes
-        _leftElevationAxisNode = new ElevationAxisNode( _mvt, GlaciersConstants.ELEVATION_AXIS_RANGE, GlaciersConstants.ELEVATION_AXIS_TICK_SPACING, false );
-        _rightElevationAxisNode = new ElevationAxisNode( _mvt, GlaciersConstants.ELEVATION_AXIS_RANGE, GlaciersConstants.ELEVATION_AXIS_TICK_SPACING, true );
-        _distanceAxisNode = new DistanceAxisNode( _model.getValley(), _mvt, GlaciersConstants.DISTANCE_AXIS_TICK_SPACING );
+        final boolean englishUnits = false;//XXX
+        _leftElevationAxisNode = new ElevationAxisNode( _mvt, GlaciersConstants.ELEVATION_AXIS_RANGE, GlaciersConstants.ELEVATION_AXIS_TICK_SPACING, false, englishUnits );
+        _rightElevationAxisNode = new ElevationAxisNode( _mvt, GlaciersConstants.ELEVATION_AXIS_RANGE, GlaciersConstants.ELEVATION_AXIS_TICK_SPACING, true, englishUnits );
+        _distanceAxisNode = new DistanceAxisNode( _model.getValley(), _mvt, GlaciersConstants.DISTANCE_AXIS_TICK_SPACING, englishUnits );
         _coordinatesLayer.addChild( _leftElevationAxisNode );
         _coordinatesLayer.addChild( _rightElevationAxisNode );
         _coordinatesLayer.addChild( _distanceAxisNode );
