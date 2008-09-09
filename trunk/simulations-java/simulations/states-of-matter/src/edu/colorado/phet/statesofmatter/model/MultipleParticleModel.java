@@ -79,8 +79,6 @@ public class MultipleParticleModel {
     private static final double GAS_TEMPERATURE = 1.0;
     private static final double MIN_INITIAL_INTER_PARTICLE_DISTANCE = 1.2;
     private static final double MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE = 2.5;
-    private static final int MAX_INITIAL_NUMBER_OF_LIQUID_BLOBS = 1;
-    private static final double MIN_DISTANCE_FROM_BLOB_CTR_TO_WALL = 8.0;
     
     // Possible thermostat settings.
     public static final int NO_THERMOSTAT = 0;
@@ -90,6 +88,10 @@ public class MultipleParticleModel {
     // Parameters to control rates of change of the container size.
     private static final double MAX_PER_TICK_CONTAINER_SHRINKAGE = 25;
     private static final double MAX_PER_TICK_CONTAINER_EXPANSION = 200;
+    
+    // Countdown value used when recalculating temperature when the
+    // container size is changing.
+    private static final int CONTAINER_SIZE_CHANGE_RESET_COUNT = 50;
     
     // Parameters used for "hollywooding" of the water crystal.
     private static final double WATER_FULLY_MELTED_TEMPERATURE = 0.3;
@@ -141,20 +143,21 @@ public class MultipleParticleModel {
     double [] m_x0 = new double [3];
     double [] m_y0 = new double [3];
 
-    private double m_normalizedContainerWidth;
-    private double m_normalizedContainerHeight;
-    private double m_potentialEnergy;
-    private Random m_rand = new Random();
-    private double m_temperature;
-    private double m_gravitationalAcceleration;
-    private double m_heatingCoolingAmount;
-    private int    m_tempAdjustTickCounter;
-    private int    m_currentMolecule;
-    private double m_particleDiameter;
-    private double m_pressure;
-    private double m_pressure2;
+    private double  m_normalizedContainerWidth;
+    private double  m_normalizedContainerHeight;
+    private double  m_potentialEnergy;
+    private Random  m_rand = new Random();
+    private double  m_temperature;
+    private double  m_gravitationalAcceleration;
+    private double  m_heatingCoolingAmount;
+    private int     m_tempAdjustTickCounter;
+    private int     m_currentMolecule;
+    private double  m_particleDiameter;
+    private double  m_pressure;
+    private double  m_pressure2;
     private PressureCalculator m_pressureCalculator;
-    private int    m_thermostatType;
+    private int     m_thermostatType;
+    private int     m_heightChangeCounter;
     
     //----------------------------------------------------------------------------
     // Constructor
@@ -164,6 +167,7 @@ public class MultipleParticleModel {
         
         m_clock = clock;
         m_pressureCalculator = new PressureCalculator();
+        m_heightChangeCounter = 0;
         setThermostatType( ISOKINETIC_THERMOSTAT );
         
         // Register as a clock listener.
@@ -816,6 +820,7 @@ public class MultipleParticleModel {
         
         // Adjust the particle container height if needed.
         if ( m_targetContainerHeight != m_particleContainerHeight ){
+            m_heightChangeCounter = CONTAINER_SIZE_CHANGE_RESET_COUNT;
             double heightChange = m_targetContainerHeight - m_particleContainerHeight;
             if (heightChange > 0){
                 // The container is growing.
@@ -838,10 +843,16 @@ public class MultipleParticleModel {
             m_normalizedContainerHeight = m_particleContainerHeight / m_particleDiameter;
             notifyContainerSizeChanged();
         }
+        else {
+            if (m_heightChangeCounter > 0) {
+                m_heightChangeCounter--;
+            }
+        }
+        
         // Execute the Verlet algorithm.
         for (int i = 0; i < 8; i++ ){
             if (m_atomsPerMolecule == 1){
-                verletMonotomic();
+                verletMonatomic();
                 if (USE_NEW_PRESSURE_CALC_METHOD){
                     notifyPressureChanged(); // TODO: JPB TBD - This is temporary until the approach for
                                              // actually detecting pressure changes is worked out.
@@ -1670,7 +1681,7 @@ public class MultipleParticleModel {
      * Runs one iteration of the Verlet implementation of the Lennard-Jones
      * force calculation on a set of particles.
      */
-    private void verletMonotomic(){
+    private void verletMonatomic(){
         
         double kineticEnergy = 0;
         
@@ -1791,7 +1802,7 @@ public class MultipleParticleModel {
         // changing and interaction occurred with the moving surfaces of the
         // container, so that the increase/decrease in temperature caused by
         // the size change can actually happen.
-        if ((m_targetContainerHeight == m_particleContainerHeight) || (!interactionOccurredWithTop)){
+        if ((m_heightChangeCounter == 0) || !interactionOccurredWithTop){
             if (m_thermostatType == ISOKINETIC_THERMOSTAT){
                 // Isokinetic thermostat
                 
@@ -1991,7 +2002,7 @@ public class MultipleParticleModel {
         // changing and interaction occurred with the moving surfaces of the
         // container, so that the increase/decrease in temperature caused by
         // the size change can actually happen.
-        if ((m_targetContainerHeight == m_particleContainerHeight) || (!interactionOccurredWithTop)){
+        if ((m_heightChangeCounter == 0) || !interactionOccurredWithTop){
             if (m_thermostatType == ISOKINETIC_THERMOSTAT){
                 // Isokinetic thermostat
                 
@@ -2028,14 +2039,11 @@ public class MultipleParticleModel {
             }
         }
         else{
-            double newTemperature = calculateTemperatureFromKineticEnergy();
-            System.out.println("Calculated temperature when top moving = " + newTemperature);
             // Since the container size is changing, we should update the
             // temperature set point based on the current amount of kinetic
             // energy, since it may have changed as a result of the container
             // size change.
-            setTemperature( newTemperature );
-            System.out.println("Calculated temperature when top moving = " + newTemperature);
+            setTemperature( calculateTemperatureFromKineticEnergy() );
         }
     }
     
@@ -2205,7 +2213,6 @@ public class MultipleParticleModel {
                                 (WATER_FULLY_MELTED_TEMPERATURE - WATER_FULLY_FROZEN_TEMPERATURE);
                         scalingFactor = maxScalingFactor - (temperatureFactor * (maxScalingFactor - 1));
                     }
-//                    System.err.println("scalingFactor = " + scalingFactor);
                     double forceScaler = 48 * r2inv * r6inv * ((r6inv * scalingFactor) - 0.5);
                     if (forceScaler > 1000){
                         // TODO: JPB TBD - This is here to help track down when things
@@ -2284,7 +2291,7 @@ public class MultipleParticleModel {
         // changing and interaction occurred with the moving surfaces of the
         // container, so that the increase/decrease in temperature caused by
         // the size change can actually happen.
-        if ((m_targetContainerHeight == m_particleContainerHeight) || (!interactionOccurredWithTop)){
+        if ((m_heightChangeCounter == 0) || !interactionOccurredWithTop){
             if (m_thermostatType == ISOKINETIC_THERMOSTAT){
                 // Isokinetic thermostat
                 
@@ -2321,14 +2328,11 @@ public class MultipleParticleModel {
             }
         }
         else{
-            double newTemperature = calculateTemperatureFromKineticEnergy();
-            System.out.println("Calculated temperature when top moving = " + newTemperature);
             // Since the container size is changing, we should update the
             // temperature set point based on the current amount of kinetic
             // energy, since it may have changed as a result of the container
             // size change.
-            setTemperature( newTemperature );
-            System.out.println("Calculated temperature when top moving = " + newTemperature);
+            setTemperature( calculateTemperatureFromKineticEnergy() );
         }
     }
     
