@@ -67,8 +67,7 @@ public class LayoutUtil {
         for ( int i = 0; i < elements.length; i++ ) {
             LayoutElement element = elements[i];
             if ( element instanceof Fixed ) {
-                LayoutElement f = element;
-                fixedSpace += f.getSize();
+                fixedSpace += element.getSize();
             }
             else {
                 numVariable++;

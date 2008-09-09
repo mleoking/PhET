@@ -53,7 +53,6 @@ public class PlotDevice extends GraphicLayerSet {
     private HorizontalCursor2 horizontalCursor;
     private TextBox textBox;
     private ChartComponent chartComponent;
-    //    private ChartButton showButton;
     private PhetGraphic showButtonGraphic;
     private DecimalFormat format = new DecimalFormat( "0.00" );
     private String units;
@@ -485,6 +484,14 @@ public class PlotDevice extends GraphicLayerSet {
 //        floatingControl.setVisible( visible );
 //        titleLable.setVisible( visible && adorned );
         updateControllable();
+
+        //must invoke this later so that the jslider has its bounds set based on the chart size 
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                plotDeviceView.relayout();
+            }
+        } );
+
     }
 
     public void update() {
