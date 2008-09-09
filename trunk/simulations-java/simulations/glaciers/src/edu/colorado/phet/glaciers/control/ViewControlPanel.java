@@ -2,7 +2,10 @@
 
 package edu.colorado.phet.glaciers.control;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -37,7 +40,6 @@ public class ViewControlPanel extends AbstractSubPanel {
     //----------------------------------------------------------------------------
     
     private final GlaciersPlayArea _playArea;
-    private final Frame _dialogOwner;
     
     private final JRadioButton _englishUnitsButton, _metricUnitsButton;
     private final JCheckBox _equilibriumLineCheckBox;
@@ -50,11 +52,10 @@ public class ViewControlPanel extends AbstractSubPanel {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public ViewControlPanel( GlaciersPlayArea playArea, Frame dialogOwner ) {
+    public ViewControlPanel( GlaciersPlayArea playArea ) {
         super( TITLE_STRING, TITLE_COLOR, TITLE_FONT );
         
         _playArea = playArea;
-        _dialogOwner = dialogOwner;
         
         JPanel unitsPanel = new JPanel();
         {
@@ -162,7 +163,7 @@ public class ViewControlPanel extends AbstractSubPanel {
         setLayout( layout );
         layout.setInsets( new Insets( 0, 0, 0, 0 ) );
         layout.setAnchor( GridBagConstraints.WEST );
-//        layout.addComponent( unitsPanel, 0, 0, 2, 1 ); //XXX hide for 7/25/08 deadline
+//        layout.addComponent( unitsPanel, 0, 0, 2, 1 );
         layout.addComponent( equilibriumLinePanel, 1, 0 );
         layout.addComponent( snowfallPanel, 2, 0 );
         layout.addComponent( _iceFlowPanel, 1, 1 );

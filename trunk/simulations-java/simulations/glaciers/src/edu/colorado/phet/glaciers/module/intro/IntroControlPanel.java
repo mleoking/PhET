@@ -47,7 +47,7 @@ public class IntroControlPanel extends JPanel {
     public IntroControlPanel( GlaciersModel model, GlaciersPlayArea playArea, Frame dialogOwner, Module module ) {
         super();
         
-        _viewControlPanel = new ViewControlPanel( playArea, dialogOwner );
+        _viewControlPanel = new ViewControlPanel( playArea );
         _viewControlPanel.setCoordinatesCheckBoxVisible( false );
         _viewControlPanel.setIceFlowCheckBoxVisible( false );
         
