@@ -2,13 +2,6 @@
 ####	Todo Sam R		####
 ############################
 
-Actually, I rechecked and am sorry to say I found a major bug. This has to do with the force slider.
-
-1. When you first click Graph Force, the slider is very small. It expands when you mouse over it.
-2. If you set a force and hit go, when you rewind and playback, the force slider tracks the friction force rather than the applied force.
-
-Once these are fixed I believe it can be posted as 2.00.
-
 1. "More controls" should add controls below original "more controls" button (instead of replacing with a separate entire control panel)
 2. Add >> and << to More & Less controls.
 3. "more controls" button should stay in the same place instead of going to the bottom

@@ -20,6 +20,4 @@ public interface PlotDeviceView {
 
     void repaintBackground( Rectangle viewBounds );
 
-//    BufferedPhetGraphic getBackground();
-
 }

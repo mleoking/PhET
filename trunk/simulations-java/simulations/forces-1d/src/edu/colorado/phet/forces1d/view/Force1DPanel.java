@@ -116,8 +116,8 @@ public class Force1DPanel extends ApparatusPanel2 implements OffsetManager {
         Color tn = Force1DUtil.transparify( laf.getNetForceColor(), alpha );
         int cap = BasicStroke.CAP_BUTT;
         int join = BasicStroke.JOIN_ROUND;
-        forcePlotDevice.addDataSeries( model.getFrictionForceSeries(), tf, Force1DResources.get( "ArrowSetGraphic.frictionForce" ), new BasicStroke( frictionForceStrokeWidth, cap, join ) );
         forcePlotDevice.addDataSeries( model.getAppliedForceSeries().getSmoothedDataSeries(), ta, Force1DResources.get( "ArrowSetGraphic.appliedForce" ), new BasicStroke( appliedForceStrokeWidth, cap, join ) );
+        forcePlotDevice.addDataSeries( model.getFrictionForceSeries(), tf, Force1DResources.get( "ArrowSetGraphic.frictionForce" ), new BasicStroke( frictionForceStrokeWidth, cap, join ) );
         forcePlotDevice.addDataSeries( model.getNetForceSeries(), tn, Force1DResources.get( "ArrowSetGraphic.totalForce" ), new BasicStroke( totalForceStrokeWidth, cap, join ) );
 
         backgroundGraphic.addGraphic( forcePlotDevice );
