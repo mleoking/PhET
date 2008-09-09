@@ -68,6 +68,7 @@ CLEANUP:
 
 
 DONE:
+9/9/09 - add support for changing units on tools that user has already dragged out of the toolbox
 9/9/09 - add immutable support for units to tools (glacial budget meter, ice thickness tool, gps)
 9/9/09 - bugfix: glacial budget meter should use meter/yr for all values
 9/9/08 - convert existing data in time-based charts when switching units

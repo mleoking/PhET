@@ -142,6 +142,13 @@ public abstract class AbstractToolNode extends PNode {
         return _tool;
     }
     
+    /**
+     * Subclasses that need to switch between English and metric units should override this.
+     * 
+     * @param englishUnits true for English units, false for metric units
+     */
+    public void setEnglishUnits( boolean englishUnits ) {}
+    
     /*
      * Provides access to the model-view transform for subclasses.
      */
