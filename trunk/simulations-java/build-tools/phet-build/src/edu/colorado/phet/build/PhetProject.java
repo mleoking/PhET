@@ -88,8 +88,13 @@ public class PhetProject {
         return properties.getProperty( "project.depends.lib" );
     }
 
+    /**
+     *        return "" instead of null if no data directory specified
+     * @return
+     */
     public String getData() {
-        return properties.getProperty( "project.depends.data" );
+        String s = properties.getProperty( "project.depends.data" );
+        return s==null?"":s;
     }
 
     public String[] getKeepMains() {
