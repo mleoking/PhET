@@ -48,7 +48,7 @@ public class AdvancedControlPanel extends JPanel {
     public AdvancedControlPanel( GlaciersModel model, GlaciersPlayArea playArea, Frame dialogOwner, Module module ) {
         super();
         
-        _viewControlPanel = new ViewControlPanel( playArea, dialogOwner );
+        _viewControlPanel = new ViewControlPanel( playArea );
         _climateControlPanel = new ClimateControlPanel( model.getClimate() );
         _graphsControlPanel = new GraphsControlPanel( model, dialogOwner );
         _clockControlPanel = new GlaciersClockControlPanel( model.getClock() );

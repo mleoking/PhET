@@ -10,10 +10,10 @@ HIGH PRIORITY:
 - glacier growth from zero length still takes a long time, and then speeds up [Archie will fix model]
 
 MEDIUM PRIORITY:
-- switch tools between English & metric units
 - switch charts between English & metric units
-- switch climate controls between English & metric units
 - switch coordinates view between English & metric units
+- switch tools between English & metric units
+- switch climate controls between English & metric units
 - make sure everything works properly when clock is paused
 - "steady state" feature needs to fill glacier with debris and surface ripples (and create moraine?)
 
