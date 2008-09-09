@@ -7,10 +7,13 @@ HIGHEST PRIORITY:
 HIGH PRIORITY:
 - bug: loading full-size background image causes OutOfMemoryException, exceeds JVM heap space [crop svg, talk with Archie]
 - birds-eye view should half the slope of zoomed view so that 80km is at far right
+- glacier growth from zero length still takes a long time, and then speeds up [Archie will fix model]
 
 MEDIUM PRIORITY:
-- glacier growth from zero length still takes a long time, and then speeds up [Archie will fix model]
-- switch user-interface between English and metric units
+- switch tools between English & metric units
+- switch charts between English & metric units
+- switch climate controls between English & metric units
+- switch coordinates view between English & metric units
 - make sure everything works properly when clock is paused
 - "steady state" feature needs to fill glacier with debris and surface ripples (and create moraine?)
 
@@ -18,7 +21,6 @@ LOW PRIORITY:
 - remove registration points from background image in any versions published to PhET website
 - main control panel should be the same height in all modules
 - YAW_X_OFFSET should be computed as a function of YAW_ROTATION and PITCH_Y_OFFSET
-- add headwallX to new ice thickness model in model.txt, which assumes headwallX=0 (or assert headwallX==0 in associated code)
 - bug: edges of thermometer & ice thickness tool icons are clipped (see Unfuddle #558)
 - bug: creating a tool and dragging it straight to the trash doesn't work because we're in the middle of an event sequence
 - fix layout problems with main control panel
@@ -699,6 +701,7 @@ DONE:
 9/27/07 - set up simulation skeleton, check in to SVN
 
 REJECTED:
+9/9/09 - add headwallX to new ice thickness model in model.txt, which assumes headwallX=0 (too much work for Archie, assert headwallX==0 in model code)
 8/28/08 - make zoomed viewport follow terminus (defer until we decide whether this is really needed)
 8/28/08 - add rocks falling off mountains onto glacier surface?
 8/28/08 - more "cartoonish" view for Basic panel?
