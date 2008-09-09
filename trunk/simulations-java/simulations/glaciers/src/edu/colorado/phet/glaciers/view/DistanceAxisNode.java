@@ -180,8 +180,8 @@ public class DistanceAxisNode extends PComposite {
     }
     
     /*
-     * Create a line that follows the valley contour.
-     * The line is automatically positioned in the view coordinate system.
+     * Create a curve that follows the valley contour.
+     * The curve is automatically positioned in the view coordinate system.
      */
     private static PNode createAxis( Valley valley, ModelViewTransform mvt, double minX, double maxX, double dx ) {
 
@@ -224,9 +224,9 @@ public class DistanceAxisNode extends PComposite {
         
         // position label below tick, horizontally align centers
         lineNode.setOffset( 0, 0 );
-        PBounds b1 = lineNode.getFullBoundsReference();
-        PBounds b2 = labelNode.getFullBoundsReference();
-        labelNode.setOffset( b1.getX() + ( b1.getWidth() / 2 ) - ( b2.getWidth() / 2 ), b1.getMaxY() + TICK_LABEL_SPACING );
+        PBounds bLine = lineNode.getFullBoundsReference();
+        PBounds bLabel = labelNode.getFullBoundsReference();
+        labelNode.setOffset( bLine.getX() + ( bLine.getWidth() / 2 ) - ( bLabel.getWidth() / 2 ), bLine.getMaxY() + TICK_LABEL_SPACING );
         
         return tickNode;
     }

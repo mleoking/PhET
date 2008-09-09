@@ -250,8 +250,8 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         
         // Axes
         final boolean englishUnits = GlaciersConstants.DEFAULT_TO_ENGLISH_UNITS;
-        _leftElevationAxisNode = new ElevationAxisNode( _mvt, GlaciersConstants.ELEVATION_AXIS_RANGE, GlaciersConstants.ELEVATION_AXIS_TICK_SPACING, false, englishUnits );
-        _rightElevationAxisNode = new ElevationAxisNode( _mvt, GlaciersConstants.ELEVATION_AXIS_RANGE, GlaciersConstants.ELEVATION_AXIS_TICK_SPACING, true, englishUnits );
+        _leftElevationAxisNode = new ElevationAxisNode( _mvt, GlaciersConstants.ELEVATION_AXIS_RANGE, false, englishUnits );
+        _rightElevationAxisNode = new ElevationAxisNode( _mvt, GlaciersConstants.ELEVATION_AXIS_RANGE, true, englishUnits );
         _distanceAxisNode = new DistanceAxisNode( _model.getValley(), _mvt, englishUnits );
         _coordinatesLayer.addChild( _leftElevationAxisNode );
         _coordinatesLayer.addChild( _rightElevationAxisNode );
@@ -300,7 +300,6 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
     }
     
     public void setEnglishUnits( boolean englishUnits ) {
-        System.out.println( "GlaciersPlayArea.setEnglishUnits " + englishUnits );//XXX
         _leftElevationAxisNode.setEnglishUnits( englishUnits );
         _rightElevationAxisNode.setEnglishUnits( englishUnits );
         _distanceAxisNode.setEnglishUnits( englishUnits );

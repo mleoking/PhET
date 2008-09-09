@@ -70,13 +70,14 @@ CLEANUP:
 
 
 DONE:
-9/8/08 - hook up English/metric radio buttons to coordinate axes
-9/8/08 - rewrite DistanceAxisNode to handle English/metric switching
-9/8/08 - bugfix: fix loop start point in Valley elevation interpolation
-9/8/08 - quick-&-dirty handling of meters-to-feet in DistanceAxisNode, tick spacing is not adjusted
-9/8/08 - move all units conversions to UnitsConverter
-9/8/08 - add englishUnits arg to constructors for coordinates feature
-9/8/08 - simplify i18n for units, to accommodate switching between English and metric
+9/9/08 - rewrite ElevationAxisNode to handle English/metric switching
+9/9/08 - hook up English/metric radio buttons to coordinate axes
+9/9/08 - rewrite DistanceAxisNode to handle English/metric switching
+9/9/08 - bugfix: fix loop start point in Valley elevation interpolation
+9/9/08 - quick-&-dirty handling of meters-to-feet in DistanceAxisNode, tick spacing is not adjusted
+9/9/08 - move all units conversions to UnitsConverter
+9/9/08 - add englishUnits arg to constructors for coordinates feature
+9/9/08 - simplify i18n for units, to accommodate switching between English and metric
 ******* 1.00.02 (24258)
 9/8/08 - bugfix: snowfall gradient doesn't draw properly and crashes on Mac OS 10.4 (see Unfuddle #553)
 9/8/08 - update snowfall shape based on bounds of both birds-eye and zoomed viewports, so that sky doesn't above snow in zoomed view on large monitors
