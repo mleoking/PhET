@@ -26,6 +26,7 @@
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/beanshell/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/jade/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/piccolo2d/core/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../contrib/piccolo2d/core/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/piccolo2d/examples/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/piccolo2d/extras/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/balloons/src" isTestSource="false" />
@@ -1263,6 +1264,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntryProperties />
   </component>
 </module>
 
