@@ -11,3 +11,4 @@ finger-2.png source=PhET author=John Blanco
 flames.gif author=PhET 
 ice.gif author=PhET 
 stove.png author=PhET
+pushpin.png author=PhET
