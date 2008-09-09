@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-glaciers 1.00.01
+glaciers 1.00.02
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,14 +12,19 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>new background image, fixed valley width near headwall
+<li>clean up ground/snow interface for x<0
+<li>implement strip charts for time-based graphs, 1000-year window
+<li>show both ablation (solid green) and negative ablation (dashed green) on "glacial budget vs elevation" graph
+<li>replace "glacier picture" check box with a button
+<li>implement Save/Load feature
+<li>simplify implementation of snowfall visualization
+<li>phetcommon fix for gradients on Mac OS 10.4 (Unfuddle #553), applies to snowfall visualization
+<li>fix snowfall visualization so that you don't see blue sky above snow when window is maximized on large monitors
 </ul>
 <p>
 <b>Known problems:</b>
 <ul>
 <li>full-size background image is so large that it exceeds JVM heap space and causes OutOfMemoryException
-<li>model of valley floor is a rough approximation of background image for x<0
-<li>"Steady State" button doesn't advance clock time
 <li>glacier starts up in steady state, but with no debris or ripple in the ice, and no moraine
 </ul>
 <p>
