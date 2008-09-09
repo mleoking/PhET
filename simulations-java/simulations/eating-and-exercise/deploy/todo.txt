@@ -16,29 +16,9 @@ Use the "losing focus" method instead of incremental updates + 5 second sync to 
 
 -add/subtract foods and exercises from WA:
 
-Food:
+Food: finish adding pictures for new foods
 
-Remove pomegranate, beets, brussle sprouts, plain yogurt
-Add grapes, chicken, fish, beef, pancakes, eggs, rice, butter and cream
-cheese
-
-NP: keep plain yogurt, add flavored yogurt
-
-Exercise:
-
-Remove either walking dog or walking for pleasure, sitting in class,
-watching sporting event, one or two of the boating activities and
-unicycling.
-Add - tennis should have both singles and doubles. 
-Modify stroller with baby (not kid) seems odd that it's less calories than
-walking the dog/walking for pleasure. Golf with cart shows calories higher
-than walking the dog or non-competitive volleyball - makes no sense.
-Canoeing does not need qualifier of while camping. 
-
-NP: remove walking the dog, sitting in class, watching sporting event.
-Tennis doubles about 1/2-2/3 calories of singles.
-Make stroller with baby slightly higher than walking for pleasure.
-Lower golf with cart.
+Exercise: finish adding pictures for new exercises
 
 
 
