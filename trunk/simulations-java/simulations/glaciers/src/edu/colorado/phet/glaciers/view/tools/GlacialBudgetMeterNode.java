@@ -199,19 +199,19 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
         }
         
         public void setValues( double elevation, double accumulation, double ablation, double glacialBudget ) {
-            _elevationLabel.setText( ELEVATION_FORMAT.format( elevation ) + " " + GlaciersStrings.UNITS_METERS );
-            _accumulationLabel.setText( ACCUMULATION_FORMAT.format( accumulation ) + " " + GlaciersStrings.UNITS_METERS );
-            _ablationLabel.setText( ABLATION_FORMAT.format( ablation ) + " " + GlaciersStrings.UNITS_METERS );
-            _glacialBudgetLabel.setText( GLACIAL_BUDGET_FORMAT.format( glacialBudget )  + " " + GlaciersStrings.UNITS_METERS );
+            _elevationLabel.setText( ELEVATION_FORMAT.format( elevation ) + " " + GlaciersStrings.UNITS_METERS_PER_YEAR );
+            _accumulationLabel.setText( ACCUMULATION_FORMAT.format( accumulation ) + " " + GlaciersStrings.UNITS_METERS_PER_YEAR );
+            _ablationLabel.setText( ABLATION_FORMAT.format( ablation ) + " " + GlaciersStrings.UNITS_METERS_PER_YEAR );
+            _glacialBudgetLabel.setText( GLACIAL_BUDGET_FORMAT.format( glacialBudget )  + " " + GlaciersStrings.UNITS_METERS_PER_YEAR );
             _pswing.computeBounds(); //WORKAROUND: PSwing doesn't handle changing size of a JPanel properly
         }
 
         public void setValuesUnknown() {
             final String unknownValue = "?";
-            _elevationLabel.setText( unknownValue + " " + GlaciersStrings.UNITS_METERS );
-            _accumulationLabel.setText( unknownValue + " " + GlaciersStrings.UNITS_METERS );
-            _ablationLabel.setText( unknownValue + " " + GlaciersStrings.UNITS_METERS );
-            _glacialBudgetLabel.setText( unknownValue + " " + GlaciersStrings.UNITS_METERS );
+            _elevationLabel.setText( unknownValue + " " + GlaciersStrings.UNITS_METERS_PER_YEAR );
+            _accumulationLabel.setText( unknownValue + " " + GlaciersStrings.UNITS_METERS_PER_YEAR );
+            _ablationLabel.setText( unknownValue + " " + GlaciersStrings.UNITS_METERS_PER_YEAR );
+            _glacialBudgetLabel.setText( unknownValue + " " + GlaciersStrings.UNITS_METERS_PER_YEAR );
             _pswing.computeBounds(); //WORKAROUND: PSwing doesn't handle changing size of a JPanel properly
         }
     }

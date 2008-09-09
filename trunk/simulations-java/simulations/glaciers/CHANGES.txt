@@ -10,7 +10,6 @@ HIGH PRIORITY:
 - glacier growth from zero length still takes a long time, and then speeds up [Archie will fix model]
 
 MEDIUM PRIORITY:
-- make glacial budget units consistent between tool and graph
 - switch tools between English & metric units (gps, glacial budget meter, ice thickness tool)
 - switch climate controls between English & metric units
 - make sure everything works properly when clock is paused
@@ -69,6 +68,7 @@ CLEANUP:
 
 
 DONE:
+9/9/09 - bugfix: glacial budget meter should use meter/yr for all values
 9/9/08 - convert existing data in time-based charts when switching units
 9/9/08 - switch charts between English & metric units, any existing charts are closed and time-based data is lost
 9/9/08 - change string keys for chart axes to accommodate switching between English and metric
