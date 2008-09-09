@@ -1,0 +1,1 @@
+This version corresponds to the trunk of Piccolo as of 9/9/2008, which is Piccolo SVN Revision 390
