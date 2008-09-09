@@ -2614,12 +2614,14 @@ public class MultipleParticleModel {
         double translationalKineticEnergy = 0;
         double rotationalKineticEnergy = 0;
         double numberOfMolecules = m_numberOfAtoms / m_atomsPerMolecule;
+        double kineticEnergyPerMolecule;
         
         if (m_atomsPerMolecule == 1){
             for (int i = 0; i < m_numberOfAtoms; i++){
                 translationalKineticEnergy += ((m_atomVelocities[i].getX() * m_atomVelocities[i].getX()) + 
                         (m_atomVelocities[i].getY() * m_atomVelocities[i].getY())) / 2;
             }
+            kineticEnergyPerMolecule = translationalKineticEnergy / m_numberOfAtoms;
         }
         else{
             for (int i = 0; i < m_numberOfAtoms / m_atomsPerMolecule; i++){
@@ -2627,9 +2629,11 @@ public class MultipleParticleModel {
                         (Math.pow( m_moleculeVelocities[i].getX(), 2 ) + Math.pow( m_moleculeVelocities[i].getY(), 2 ));
                 rotationalKineticEnergy += 0.5 * m_moleculeRotationalInertia * Math.pow(m_moleculeRotationRates[i], 2);
             }            
+            kineticEnergyPerMolecule = 
+                (translationalKineticEnergy + rotationalKineticEnergy) / numberOfMolecules / 1.5;
         }
             
-        return (translationalKineticEnergy + rotationalKineticEnergy) / numberOfMolecules / 1.5;
+        return kineticEnergyPerMolecule;
     }
     
     //------------------------------------------------------------------------
