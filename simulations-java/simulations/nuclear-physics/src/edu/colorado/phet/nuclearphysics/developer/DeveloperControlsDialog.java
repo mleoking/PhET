@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.nuclearphysics.AbstractNuclearPhysicsApplication;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsApplication;
 
 /**
@@ -31,13 +32,13 @@ public class DeveloperControlsDialog extends JDialog {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private NuclearPhysicsApplication _app;
+    private AbstractNuclearPhysicsApplication _app;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
-    public DeveloperControlsDialog( Frame owner, NuclearPhysicsApplication app ) {
+    public DeveloperControlsDialog( Frame owner, AbstractNuclearPhysicsApplication app ) {
         super( owner, "Developer Controls" );
         setResizable( false );
         setModal( false );
