@@ -1,8 +1,11 @@
 ﻿class ControlPanel{
 	var view_arr:Array;
-	private var activePendulum:Number;		//0 for pendulum 1 to be adjusted, 1 for pendulum 2
+	//private var activePendulum:Number;		//0 for pendulum 1 to be adjusted, 1 for pendulum 2
 	private var periodPendulum:Number;		//0 for pendulum 1 to have period measured, 1 for pendulum 2
 	var panelClip:MovieClip;
+	var pausePlayControl:MovieClip;
+	var nowPaused:Boolean;
+	var savedRate:Number;					//time rate saved during pause
 	var protractor:Object;
 	var pausedSign:MovieClip;
 	var stopWatch:MovieClip;
@@ -23,7 +26,7 @@
 		//this.protractor.setInitAngle(2, 45);
 		this.stageW = Util.STAGEW;
 		this.stageH = Util.STAGEH;
-		this.activePendulum = 0;
+		//this.activePendulum = 0;
 		myKeyListener = new Object();
 		Key.addListener(myKeyListener);
 		this.initialize();
@@ -32,9 +35,13 @@
 	function initialize():Void{
 		this.panelClip = _root.attachMovie("controlPanel", "panel_mc", _root.getNextHighestDepth());
 		Util.setXYPosition(this.panelClip, stageW - (this.panelClip._width/2), 0.05*stageH);
+		this.pausePlayControl = _root.attachMovie("pausePlay", "pausePlay_mc", _root.getNextHighestDepth());
+		Util.setXYPosition(this.pausePlayControl, Util.ORIGINX - 0.1*stageW, 0.9*stageH);
 		this.pausedSign = _root.attachMovie("paused", "paused_mc",9);  //hard-coded level to get below everything else
 		Util.setXYPosition(this.pausedSign, Util.ORIGINX, 0.4*stageH);
 		this.pausedSign._visible = false;
+		this.nowPaused = false;
+		this.savedRate = _global.r;
 		this.stopWatch = _root.attachMovie("stopWatch","stopWatch_mc",_root.getNextHighestDepth());
 		Util.setXYPosition(this.stopWatch, 0.1*stageW, 0.6*stageH);
 		this.tapeMeasure = _root.attachMovie("tapeMeasureHolder","tapeMeasure_mc",_root.getNextHighestDepth());
@@ -127,7 +134,30 @@
 		
 		this.makeButton(this.photogate.periodButton_mc, this.startPhotogate);
 		
-		//this.makePauseButton();
+		//pause/Play control
+		this.pausePlayControl.button_mc.onRelease = function(){
+			controllerRef.pausePlay();
+			/*
+			if(controllerRef.nowPaused){  //if paused, then play
+				_global.r = controllerRef.savedRate;
+				//trace(_global.r);
+				this.gotoAndStop(2);
+				controllerRef.nowPaused = false;
+				controllerRef.pausedSign._visible = false;
+			}else{  //if playing, then pause
+				_global.r = 1/1000000;
+				//trace(_global.r);
+				this.gotoAndStop(1);
+				controllerRef.nowPaused = true;
+				controllerRef.pausedSign._visible = true;
+			}
+			if(!controllerRef.stopWatch.paused){
+				controllerRef.stopWatch.unpause();
+			}
+			*/
+		}//end onPress
+		
+		this.pausePlayControl.button_mc.onReleaseOutside = this.pausePlayControl.button_mc.onRelease;
 		
 		this.photogate.body_mc.onPress = function(){
 			this._parent.startDrag(false);
@@ -155,16 +185,49 @@
 				_root.dtMax._visible = !_root.dtMax._visible;
 				_root.dtMin._visible = !_root.dtMin._visible;
 				_root.dtAvg._visible = !_root.dtAvg._visible;
+			}//end if(pressedKeyCode == Key.SPACE)
+			if(pressedKeyCode == 80){
+				//trace("pause pushed");
+				controllerRef.pausePlay();
+				//display angles of pendula
+				var angleOneInDeg:Number = controllerRef.view_arr[0].pendulum.theta*180/Math.PI;
+				var angleTwoInDeg:Number = controllerRef.view_arr[1].pendulum.theta*180/Math.PI;
+				_root.angleOne_txt._visible = !_root.angleOne_txt._visible;
+				_root.angleTwo_txt._visible = !_root.angleTwo_txt._visible;
+				_root.angleOne_txt.text = "angle1 = " + Math.round(10*angleOneInDeg)/10 + " deg";
+				_root.angleTwo_txt.text = "angle2 = " + Math.round(10*angleTwoInDeg)/10 + " deg";
+				//trace("angle1: "+ angleOneInDeg);
+				//trace("angle2: "+ angleTwoInDeg);
 			}
-		}
+		}//end myKeyListener
 		
 		_root.dt._visible = false;
 		_root.dtMax._visible = false;
 		_root.dtMin._visible = false;
 		_root.dtAvg._visible = false;
+		_root.angleOne_txt._visible = false;
+		_root.angleTwo_txt._visible = false;
+		
 	}//end of initialize()
 	
-
+	function pausePlay():Void{
+		if(this.nowPaused){  //if paused, then play
+			_global.r = this.savedRate;
+			//trace(_global.r);
+			this.pausePlayControl.button_mc.gotoAndStop(2);
+			this.nowPaused = false;
+			this.pausedSign._visible = false;
+		}else{  //if playing, then pause
+			_global.r = 1/1000000;
+			//trace(_global.r);
+			this.pausePlayControl.button_mc.gotoAndStop(1);
+			this.nowPaused = true;
+			this.pausedSign._visible = true;
+		}
+		if(!this.stopWatch.paused){
+			this.stopWatch.unpause();
+		}
+	}//end pausePlay()
 	
 	function setPeriodPendulum(nbr:Number):Void{  //number (0 or 1) of pendulum whose period is measured by photogat
 		this.periodPendulum = nbr;
