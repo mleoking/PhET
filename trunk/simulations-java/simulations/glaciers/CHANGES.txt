@@ -67,6 +67,7 @@ CLEANUP:
 
 
 DONE:
+******* 1.00.03 (?)
 9/9/08 - completed: switch tools between English & metric units
 9/9/08 - add support for changing units on tools that user has already dragged out of the toolbox
 9/9/08 - add immutable support for units to tools (glacial budget meter, ice thickness tool, gps)

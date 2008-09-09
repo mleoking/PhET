@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-glaciers 1.00.02
+glaciers 1.00.03
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,27 +12,22 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>clean up ground/snow interface for x<0
-<li>implement strip charts for time-based graphs, 1000-year window
-<li>show both ablation (solid green) and negative ablation (dashed green) on "glacial budget vs elevation" graph
-<li>replace "glacier picture" check box with a button
-<li>implement Save/Load feature
-<li>simplify implementation of snowfall visualization
-<li>phetcommon fix for gradients on Mac OS 10.4 (Unfuddle #553), applies to snowfall visualization
-<li>fix snowfall visualization so that you don't see blue sky above snow when window is maximized on large monitors
+<li>make coordinates view switch between English and metric units
+<li>make all charts switch between English and metric units, preserve data for time-based charts, close and reopen static charts
+<li>make tools switchable between English and metric units (gps, budget meter, ice thickness)
+</ul>
+<p>
+<b>Not implemented:</b>
+<ul>
+<li>switching between English/metric units for temperature and snowfall sliders
+<li>Experiments tab
+<li>Help
 </ul>
 <p>
 <b>Known problems:</b>
 <ul>
 <li>full-size background image is so large that it exceeds JVM heap space and causes OutOfMemoryException
 <li>glacier starts up in steady state, but with no debris or ripple in the ice, and no moraine
-</ul>
-<p>
-<b>Not implemented:</b>
-<ul>
-<li>Experiments tab
-<li>English/metric units control
-<li>Help
 </ul>
 <p>
 <b>Remaining work:</b>
