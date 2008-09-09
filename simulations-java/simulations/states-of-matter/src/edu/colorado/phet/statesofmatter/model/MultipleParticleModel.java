@@ -2576,27 +2576,23 @@ public class MultipleParticleModel {
             break;
             
         case StatesOfMatterConstants.ARGON:
-            // JPB TBD - I think Paul actually gave me info for Krypton, so
-            // this is wrong, and it will need to be fixed at some point.
             if (m_temperature <= 0.4){
-                temperatureInKelvin = m_temperature * 289.38;
+                temperatureInKelvin = m_temperature * 210;
             }
             else if (m_temperature <= 0.5){
-                temperatureInKelvin = m_temperature * 936 - 258.65;
+                temperatureInKelvin = m_temperature * 670 - 184;
             }
             else {
-                temperatureInKelvin = m_temperature * 418.7;
+                temperatureInKelvin = m_temperature * 302;
             }
             break;
 
         case StatesOfMatterConstants.WATER:
-            // TODO: JPB TBD - this is made up.
-            temperatureInKelvin = m_temperature * 100;
+            temperatureInKelvin = m_temperature * 1000;
             break;
             
         case StatesOfMatterConstants.DIATOMIC_OXYGEN:
-            // TODO: JPB TBD - this is made up.
-            temperatureInKelvin = m_temperature * 100;
+            temperatureInKelvin = m_temperature * 180;
             break;
             
         default:
