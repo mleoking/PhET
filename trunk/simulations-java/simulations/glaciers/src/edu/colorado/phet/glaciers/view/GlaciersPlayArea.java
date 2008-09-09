@@ -85,9 +85,8 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
     private final ToolboxNode _toolboxNode;
     private final PNode _panControlNode;
     private final EquilibriumLineNode _equilibriumLineNode;
+    private final CoordinatesNode _coordinatesNode;
     private final ELAValueNode _elaValueNode;
-    private final ElevationAxisNode _leftElevationAxisNode, _rightElevationAxisNode;
-    private final DistanceAxisNode _distanceAxisNode;
     private final HashMap _toolsMap; // key=AbstractTool, value=AbstractToolNode, used for removing tool nodes when their model elements are deleted
     private final ModelViewTransform _mvt;
     private final ScrollArrowNode _leftScrollArrowNode, _rightScrollArrowNode;
@@ -250,12 +249,8 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         
         // Axes
         final boolean englishUnits = GlaciersConstants.DEFAULT_TO_ENGLISH_UNITS;
-        _leftElevationAxisNode = new ElevationAxisNode( _mvt, GlaciersConstants.ELEVATION_AXIS_RANGE, false, englishUnits );
-        _rightElevationAxisNode = new ElevationAxisNode( _mvt, GlaciersConstants.ELEVATION_AXIS_RANGE, true, englishUnits );
-        _distanceAxisNode = new DistanceAxisNode( _model.getValley(), _mvt, englishUnits );
-        _coordinatesLayer.addChild( _leftElevationAxisNode );
-        _coordinatesLayer.addChild( _rightElevationAxisNode );
-        _coordinatesLayer.addChild( _distanceAxisNode );
+        _coordinatesNode = new CoordinatesNode( _model, _mvt, englishUnits );
+        _coordinatesLayer.addChild( _coordinatesNode );
         
         // Equilibrium line
         _equilibriumLineNode = new EquilibriumLineNode( _model.getGlacier(), _mvt );
@@ -294,15 +289,11 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
     }
     
     public void setAxesVisible( boolean visible ) {
-        _leftElevationAxisNode.setVisible( visible );
-        _rightElevationAxisNode.setVisible( visible );
-        _distanceAxisNode.setVisible( visible );
+        _coordinatesNode.setVisible( visible );
     }
     
     public void setEnglishUnits( boolean englishUnits ) {
-        _leftElevationAxisNode.setEnglishUnits( englishUnits );
-        _rightElevationAxisNode.setEnglishUnits( englishUnits );
-        _distanceAxisNode.setEnglishUnits( englishUnits );
+        _coordinatesNode.setEnglishUnits( englishUnits );
     }
     
     public void setIceFlowVisible( boolean visible ) {
@@ -521,19 +512,7 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
      * Rebuilds the distance (x) axis.
      */
     private void updateCoordinateAxes() {
-        
-        Rectangle2D rModel = _zoomedViewport.getBoundsReference();
-        Rectangle2D rView = _mvt.modelToView( rModel );
-        
-        // rebuild the horizontal (distance) axis
-        final int minX = (int) Math.max( 0, rModel.getX() );
-        final int maxX = (int) ( rModel.getX() + rModel.getWidth() );
-        _distanceAxisNode.setRange( minX, maxX );
-        
-        // reposition the vertical (elevation) axes
-        final double margin = 15; // pixels
-        _leftElevationAxisNode.setOffset( rView.getMinX() + margin, _rightElevationAxisNode.getYOffset() );
-        _rightElevationAxisNode.setOffset( rView.getMaxX() - margin, _rightElevationAxisNode.getYOffset() );
+        _coordinatesNode.update( _zoomedViewport.getBoundsReference() );
     }
     
     //----------------------------------------------------------------------------

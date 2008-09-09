@@ -136,7 +136,7 @@ public class ViewControlPanel extends AbstractSubPanel {
                 }
             } );
             
-            JLabel coordinatesIcon = new JLabel( ElevationAxisNode.createIcon() );
+            JLabel coordinatesIcon = new JLabel( CoordinatesNode.createIcon() );
             
             _coordinatesPanel.add( _coordinatesCheckBox );
             _coordinatesPanel.add( coordinatesIcon );
