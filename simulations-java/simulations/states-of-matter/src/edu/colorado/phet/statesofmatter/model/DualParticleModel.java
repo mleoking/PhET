@@ -159,9 +159,9 @@ public class DualParticleModel {
         // Let listeners know about the diameter change.
         notifyParticleDiameterChanged();
         
-        // Move them to be initially separated.
+        // Move the particles to their initial positions.
         m_fixedParticle.setPosition( 0, 0 );
-        m_movableParticle.setPosition( m_ljPotentialCalculator.calculateMinimumForceDistance(), 0 );
+        resetMovableParticlePos();
         
         // Let listeners know that the molecule type has changed.
         notifyMoleculeTypeChanged();
@@ -246,6 +246,16 @@ public class DualParticleModel {
         // Initialize the system parameters.
         m_particleMotionPaused = false;
         setMoleculeType( DEFAULT_MOLECULE );
+    }
+    
+    /**
+     * Put the movable particle back to the location where the force is
+     * minimized, and reset the velocity and acceleration to 0.
+     */
+    public void resetMovableParticlePos() {
+        m_movableParticle.setPosition( m_ljPotentialCalculator.calculateMinimumForceDistance(), 0 );
+        m_movableParticle.setVx( 0 );
+        m_movableParticle.setAx( 0 );
     }
     
     public void addListener(Listener listener){
