@@ -92,7 +92,7 @@ public class GlaciersStrings {
     public static final String UNITS_FAHRENHEIT = GlaciersResources.getString( "units.fahrenheit" );
     public static final String UNITS_FEET = GlaciersResources.getString( "units.feet" );
     public static final String UNITS_FEET_SYMBOL = GlaciersResources.getString( "units.feet.symbol" );
-    public static final String UNITS_FEET_PER_YEARS = GlaciersResources.getString( "units.feetPerYear" );
+    public static final String UNITS_FEET_PER_YEAR = GlaciersResources.getString( "units.feetPerYear" );
     public static final String UNITS_METERS = GlaciersResources.getString( "units.meters" );
     public static final String UNITS_METERS_PER_YEAR = GlaciersResources.getString( "units.metersPerYear" );
     public static final String UNITS_YEARS = GlaciersResources.getString( "units.years" );

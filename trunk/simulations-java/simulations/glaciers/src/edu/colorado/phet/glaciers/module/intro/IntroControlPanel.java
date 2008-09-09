@@ -85,6 +85,8 @@ public class IntroControlPanel extends JPanel {
         
         Class[] excludedClasses = { ViewControlPanel.class, ClimateControlPanel.class, GraphsControlPanel.class, JTextComponent.class };
         SwingUtils.setBackgroundDeep( this, BACKGROUND_COLOR, excludedClasses, false /* processContentsOfExcludedContainers */ );
+        
+        _viewControlPanel.addUnitsChangedListener( playArea );
     }
     
     //----------------------------------------------------------------------------

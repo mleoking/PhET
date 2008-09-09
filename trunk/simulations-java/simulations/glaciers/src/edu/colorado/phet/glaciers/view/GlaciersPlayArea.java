@@ -93,6 +93,7 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
     private final HashMap _boreholesMap; // key=Borehole, value=BoreholeNode, used for removing borehole nodes when their model elements are deleted
     private final HashMap _debrisMap; // key=Debris, value=DebrisNode, used for removing debris nodes when their model elements are deleted
     private final HashMap _ripplesMap; // key=IceRipple, value=IceRippleNode, used for removing ripple nodes when their model elements are deleted
+    private boolean _englishUnits;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -104,6 +105,8 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         assert( GlaciersConstants.ZOOMED_CAMERA_VIEW_SCALE >= GlaciersConstants.BIRDS_EYE_CAMERA_VIEW_SCALE );
         assert( GlaciersConstants.BIRDS_EYE_CAMERA_VIEW_SCALE > 0 );
         assert( GlaciersConstants.ZOOMED_CAMERA_VIEW_SCALE > 0 );
+        
+        _englishUnits = GlaciersConstants.DEFAULT_TO_ENGLISH_UNITS;
         
         _model = model;
         _model.addToolProducerListener( this ); // manage nodes when tools are added/removed
@@ -248,8 +251,7 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         _snowfallLayer.addChild( _snowfallNode );
         
         // Axes
-        final boolean englishUnits = GlaciersConstants.DEFAULT_TO_ENGLISH_UNITS;
-        _coordinatesNode = new CoordinatesNode( _model, _mvt, englishUnits );
+        _coordinatesNode = new CoordinatesNode( _model, _mvt, _englishUnits );
         _coordinatesLayer.addChild( _coordinatesNode );
         
         // Equilibrium line
@@ -521,7 +523,7 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
      * @param tool
      */
     public void toolAdded( AbstractTool tool ) {
-        AbstractToolNode toolNode = ToolNodeFactory.createNode( tool, _model, _mvt, _toolboxNode.getTrashCanDelegate() );
+        AbstractToolNode toolNode = ToolNodeFactory.createNode( tool, _model, _mvt, _toolboxNode.getTrashCanDelegate(), _englishUnits );
         _toolsLayer.addChild( toolNode );
         _toolsMap.put( tool, toolNode );
     }
@@ -617,6 +619,7 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
     //----------------------------------------------------------------------------
     
     public void unitsChanged( boolean englishUnits ) {
+        _englishUnits = englishUnits;
         _coordinatesNode.setEnglishUnits( englishUnits );
     }
     

@@ -20,6 +20,7 @@ import edu.colorado.phet.glaciers.model.AbstractTool.ToolListener;
 import edu.colorado.phet.glaciers.model.IceThicknessTool.IceThicknessToolListener;
 import edu.colorado.phet.glaciers.model.Movable.MovableAdapter;
 import edu.colorado.phet.glaciers.model.Movable.MovableListener;
+import edu.colorado.phet.glaciers.util.UnitsConverter;
 import edu.colorado.phet.glaciers.view.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
@@ -59,7 +60,7 @@ public class IceThicknessToolNode extends AbstractToolNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public IceThicknessToolNode( IceThicknessTool iceThicknessTool, ModelViewTransform mvt, TrashCanDelegate trashCan ) {
+    public IceThicknessToolNode( IceThicknessTool iceThicknessTool, ModelViewTransform mvt, TrashCanDelegate trashCan, boolean englishUnits ) {
         super( iceThicknessTool, mvt, trashCan );
         
         _iceThicknessTool = iceThicknessTool;
@@ -101,7 +102,7 @@ public class IceThicknessToolNode extends AbstractToolNode {
         addChild( handleNode );
         handleNode.setOffset( -handleNode.getFullBoundsReference().getWidth(), _calipersNode.getFullBoundsReference().getMaxY() );
         
-        _valueNode = new ValueNode( getValueFont(), getValueBorder() );
+        _valueNode = new ValueNode( getValueFont(), getValueBorder(), englishUnits );
         addChild( _valueNode );
         _valueNode.setOffset( 3, -_valueNode.getFullBoundsReference().getHeight() + _calipersNode.getJawsHeight() );
         
@@ -218,9 +219,14 @@ public class IceThicknessToolNode extends AbstractToolNode {
         
         private JLabel _thicknessLabel;
         private PSwing _pswing;
+        private final boolean _englishUnits;
+        private final String _units;
         
-        public ValueNode( Font font, Border border ) {
+        public ValueNode( Font font, Border border, boolean englishUnits ) {
             super();
+            
+            _englishUnits = englishUnits;
+            _units = ( englishUnits ? GlaciersStrings.UNITS_FEET : GlaciersStrings.UNITS_METERS );
 
             _thicknessLabel = new JLabel( "?" );
             _thicknessLabel.setFont( font );
@@ -237,11 +243,14 @@ public class IceThicknessToolNode extends AbstractToolNode {
         }
         
         public void setThickness( double thickness ) {
+            if ( _englishUnits ) {
+                thickness = UnitsConverter.metersToFeet( thickness );
+            }
             setThickness( ICE_THICKNESS_FORMAT.format( thickness ) );
         }
         
         public void setThickness( String thickness ) {
-            String text =  thickness + " " + GlaciersStrings.UNITS_METERS;
+            String text =  thickness + " " + _units;
             _thicknessLabel.setText( text );
             _pswing.computeBounds(); //WORKAROUND: PSwing doesn't handle changing size of a JPanel properly
         }

@@ -24,6 +24,7 @@ import edu.colorado.phet.glaciers.model.Glacier.GlacierAdapter;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierListener;
 import edu.colorado.phet.glaciers.model.Movable.MovableAdapter;
 import edu.colorado.phet.glaciers.model.Movable.MovableListener;
+import edu.colorado.phet.glaciers.util.UnitsConverter;
 import edu.colorado.phet.glaciers.view.ModelViewTransform;
 import edu.colorado.phet.glaciers.view.tools.AbstractToolOriginNode.LeftToolOriginNode;
 import edu.umd.cs.piccolo.PNode;
@@ -64,8 +65,10 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public GlacialBudgetMeterNode( GlacialBudgetMeter glacialBudgetMeter, Glacier glacier, ModelViewTransform mvt, TrashCanDelegate trashCan ) {
+    public GlacialBudgetMeterNode( GlacialBudgetMeter glacialBudgetMeter, Glacier glacier, ModelViewTransform mvt, TrashCanDelegate trashCan, boolean englishUnits ) {
         super( glacialBudgetMeter, mvt, trashCan );
+        
+        System.out.println( "GlacialBudgetMeterNode.init englishUnits=" + englishUnits );//XXX
         
         _glacialBudgetMeter = glacialBudgetMeter;
         _glacier = glacier;
@@ -105,7 +108,7 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
         addChild( meterNode );
         meterNode.setOffset( arrowNode.getFullBoundsReference().getMaxX() + 2, -meterNode.getFullBoundsReference().getHeight() / 2 );
         
-        _valueNode = new ValueNode( getValueFont(), getValueBorder() );
+        _valueNode = new ValueNode( getValueFont(), getValueBorder(), englishUnits );
         addChild( _valueNode );
         _valueNode.setOffset( meterNode.getFullBounds().getMaxX() + 2, -_valueNode.getFullBounds().getHeight() / 2 );
         
@@ -146,9 +149,14 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
         private JLabel _ablationLabel;
         private JLabel _glacialBudgetLabel;
         private PSwing _pswing;
+        private final boolean _englishUnits;
+        private final String _units;
         
-        public ValueNode( Font font, Border border ) {
+        public ValueNode( Font font, Border border, boolean englishUnits ) {
             super();
+            
+            _englishUnits = englishUnits;
+            _units = ( englishUnits ? GlaciersStrings.UNITS_FEET_PER_YEAR : GlaciersStrings.UNITS_METERS_PER_YEAR );
             
             JLabel elevationLabel = new JLabel( GlaciersStrings.LABEL_ELEVATION + ":" );
             elevationLabel.setFont( font );
@@ -197,21 +205,29 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
             _pswing = new PSwing( displayPanel );
             addChild( _pswing );
         }
-        
+
         public void setValues( double elevation, double accumulation, double ablation, double glacialBudget ) {
-            _elevationLabel.setText( ELEVATION_FORMAT.format( elevation ) + " " + GlaciersStrings.UNITS_METERS_PER_YEAR );
-            _accumulationLabel.setText( ACCUMULATION_FORMAT.format( accumulation ) + " " + GlaciersStrings.UNITS_METERS_PER_YEAR );
-            _ablationLabel.setText( ABLATION_FORMAT.format( ablation ) + " " + GlaciersStrings.UNITS_METERS_PER_YEAR );
-            _glacialBudgetLabel.setText( GLACIAL_BUDGET_FORMAT.format( glacialBudget )  + " " + GlaciersStrings.UNITS_METERS_PER_YEAR );
+            if ( _englishUnits ) {
+                _elevationLabel.setText( ELEVATION_FORMAT.format( UnitsConverter.metersToFeet( elevation ) ) + " " + _units );
+                _accumulationLabel.setText( ACCUMULATION_FORMAT.format( UnitsConverter.metersToFeet( accumulation ) ) + " " + _units );
+                _ablationLabel.setText( ABLATION_FORMAT.format( UnitsConverter.metersToFeet( ablation ) ) + " " + _units );
+                _glacialBudgetLabel.setText( GLACIAL_BUDGET_FORMAT.format( UnitsConverter.metersToFeet( glacialBudget ) ) + " " + _units );
+            }
+            else {
+                _elevationLabel.setText( ELEVATION_FORMAT.format( elevation ) + " " + _units );
+                _accumulationLabel.setText( ACCUMULATION_FORMAT.format( accumulation ) + " " + _units );
+                _ablationLabel.setText( ABLATION_FORMAT.format( ablation ) + " " + _units );
+                _glacialBudgetLabel.setText( GLACIAL_BUDGET_FORMAT.format( glacialBudget ) + " " + _units );
+            }
             _pswing.computeBounds(); //WORKAROUND: PSwing doesn't handle changing size of a JPanel properly
         }
 
         public void setValuesUnknown() {
             final String unknownValue = "?";
-            _elevationLabel.setText( unknownValue + " " + GlaciersStrings.UNITS_METERS_PER_YEAR );
-            _accumulationLabel.setText( unknownValue + " " + GlaciersStrings.UNITS_METERS_PER_YEAR );
-            _ablationLabel.setText( unknownValue + " " + GlaciersStrings.UNITS_METERS_PER_YEAR );
-            _glacialBudgetLabel.setText( unknownValue + " " + GlaciersStrings.UNITS_METERS_PER_YEAR );
+            _elevationLabel.setText( unknownValue + " " + _units );
+            _accumulationLabel.setText( unknownValue + " " + _units );
+            _ablationLabel.setText( unknownValue + " " + _units );
+            _glacialBudgetLabel.setText( unknownValue + " " + _units );
             _pswing.computeBounds(); //WORKAROUND: PSwing doesn't handle changing size of a JPanel properly
         }
     }
