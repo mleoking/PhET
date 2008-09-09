@@ -2,6 +2,8 @@
 ###	Todo Sam	####
 ############################
 
+Use the "losing focus" method instead of incremental updates + 5 second sync to accept data from text boxes in control panel
+
 ############################
 ###	Todo Noah P	####
 ############################
