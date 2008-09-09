@@ -70,7 +70,7 @@ CLEANUP:
 
 
 DONE:
-******* 1.00.02 (?)
+******* 1.00.02 (24258)
 9/8/08 - bugfix: snowfall gradient doesn't draw properly and crashes on Mac OS 10.4 (see Unfuddle #553)
 9/8/08 - update snowfall shape based on bounds of both birds-eye and zoomed viewports, so that sky doesn't above snow in zoomed view on large monitors
 9/8/08 - simplify shape of snowfall, don't use constructive area geometry
