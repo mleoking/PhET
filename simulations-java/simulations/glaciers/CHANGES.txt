@@ -18,7 +18,7 @@ LOW PRIORITY:
 - remove registration points from background image in any versions published to PhET website
 - main control panel should be the same height in all modules
 - YAW_X_OFFSET should be computed as a function of YAW_ROTATION and PITCH_Y_OFFSET
-- add headwallX to new ice thickness model in model.txt, which assumes headwallX=0
+- add headwallX to new ice thickness model in model.txt, which assumes headwallX=0 (or assert headwallX==0 in associated code)
 - bug: edges of thermometer & ice thickness tool icons are clipped (see Unfuddle #558)
 - bug: creating a tool and dragging it straight to the trash doesn't work because we're in the middle of an event sequence
 - fix layout problems with main control panel
