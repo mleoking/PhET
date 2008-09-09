@@ -48,7 +48,7 @@ public class AlphaRadiationApplication extends AbstractNuclearPhysicsApplication
     
             public void run() {
     
-                PhetApplicationConfig config = new PhetApplicationConfig( args, NuclearPhysicsConstants.FRAME_SETUP, NuclearPhysicsResources.getResourceLoader() );
+                PhetApplicationConfig config = new PhetApplicationConfig( args, NuclearPhysicsConstants.FRAME_SETUP, NuclearPhysicsResources.getResourceLoader(), "alpha-radiation" );
                 
                 PhetLookAndFeel p = new PhetLookAndFeel();
                 p.setBackgroundColor( NuclearPhysicsConstants.CONTROL_PANEL_COLOR );
