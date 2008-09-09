@@ -131,7 +131,7 @@ public class HumanNode extends PNode {
         double h = human.getHeight();
         double m = human.getMass();
         double percentFat = human.getFatMassPercent();
-        double leanMuscleFraction = ( m / ( h * h ) / 15 - 1 ) * ( 40 / percentFat - 1 );
+        double leanMuscleFraction = ( m / ( h * h ) / 17.5 - 1 ) * ( 40 / percentFat - 1 );
         double muscleWidthBeyondArm = Math.max( leanMuscleFraction * 0.5, 0 );
         if ( muscleWidthBeyondArm > 1.0 ) {
             muscleWidthBeyondArm = 1.0 + ( muscleWidthBeyondArm - 1.0 ) * 0.25;
