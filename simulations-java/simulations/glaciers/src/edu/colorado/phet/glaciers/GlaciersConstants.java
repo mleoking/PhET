@@ -152,6 +152,7 @@ public class GlaciersConstants {
     
     // Coordinate axes
     public static final DoubleRange ELEVATION_AXIS_RANGE = new DoubleRange( 0, 7000 ); // meters
-    public static final double ELEVATION_AXIS_TICK_SPACING = 500; // meters
-    public static final double DISTANCE_AXIS_TICK_SPACING = 1000; // meters
+    public static final int ELEVATION_AXIS_TICK_SPACING = 500; // meters
+    public static final int DISTANCE_AXIS_TICK_SPACING_METRIC = 1000; // meters
+    public static final int DISTANCE_AXIS_TICK_SPACING_ENGLISH = 5000; // feet
 }

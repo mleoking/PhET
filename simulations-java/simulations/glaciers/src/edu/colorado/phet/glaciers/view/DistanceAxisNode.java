@@ -11,6 +11,7 @@ import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.Valley;
 import edu.colorado.phet.glaciers.util.UnitsConverter;
@@ -37,12 +38,15 @@ public class DistanceAxisNode extends PComposite {
     // Class data
     //----------------------------------------------------------------------------
     
+    private static final int TICK_SPACING_METRIC = GlaciersConstants.DISTANCE_AXIS_TICK_SPACING_METRIC;
+    private static final int TICK_SPACING_ENGLISH = GlaciersConstants.DISTANCE_AXIS_TICK_SPACING_ENGLISH;
+    
     private static final double DX = 100; // meters
     private static final Color AXIS_COLOR = Color.BLACK;
     private static final Stroke AXIS_STROKE = new BasicStroke( 1f );
     private static final Color TICK_COLOR = AXIS_COLOR;
     private static final Stroke TICK_STROKE = AXIS_STROKE;
-    private static final double TICK_LENGTH = 100; // meters
+    private static final double TICK_LENGTH = 10; // pixels
     private static final Color TICK_LABEL_COLOR = TICK_COLOR;
     private static final Font TICK_LABEL_FONT = new PhetFont( 12 );
     private static final double TICK_LABEL_SPACING = 2; // pixels
@@ -55,10 +59,9 @@ public class DistanceAxisNode extends PComposite {
     private final PComposite _parentNode;
     private final Valley _valley;
     private final ModelViewTransform _mvt;
-    private final double _majorTickSpacing;
-    private double _minX, _maxX; // x range
+    private double _minX, _maxX; // x range, in meters
     private boolean _isDirty; // does the axis need to be rebuilt when it becomes visible?
-    private final boolean _englishUnits;
+    private boolean _englishUnits;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -69,17 +72,15 @@ public class DistanceAxisNode extends PComposite {
      * 
      * @param valley
      * @param mvt
-     * @param majorTickSpacing meters
      * @param englishUnits true for English units, false for metric units
      */
-    public DistanceAxisNode( Valley valley, ModelViewTransform mvt, double majorTickSpacing, boolean englishUnits ) {
+    public DistanceAxisNode( Valley valley, ModelViewTransform mvt, boolean englishUnits ) {
         super();
         setPickable( false );
         setChildrenPickable( false );
         
         _valley = valley;
         _mvt = mvt;
-        _majorTickSpacing = majorTickSpacing;
         _englishUnits = englishUnits;
         
         _parentNode = new PComposite();
@@ -101,23 +102,42 @@ public class DistanceAxisNode extends PComposite {
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
         if ( _isDirty && getVisible() ) {
-            setRange( _minX, _maxX );
+            update();
         }
     }
     
     /**
      * Sets the x range for the axis.
-     * If visible, the axis is rebuilt; if not, it will be rebuilt when it becomes visible.
      * 
      * @param minX meters
      * @param maxX meters
      */
     public void setRange( double minX, double maxX ) {
-        
         assert( minX < maxX );
-        
         _minX = minX;
         _maxX = maxX;
+        update();
+    }
+    
+    /**
+     * Sets units to English or metric.
+     * 
+     * @param englishUnits true for English, false for metric
+     */
+    public void setEnglishUnits( boolean englishUnits ) {
+        _englishUnits = englishUnits;
+        update();
+    }
+    
+    //----------------------------------------------------------------------------
+    // Node creation
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Rebuilds the axis.
+     * If the node is not visible, it will be rebuilt when it becomes visible.
+     */
+    private void update() {
         
         if ( getVisible() == false ) {
             _isDirty = true;
@@ -126,28 +146,38 @@ public class DistanceAxisNode extends PComposite {
             _parentNode.removeAllChildren();
 
             // axis
-            PNode axisNode = createAxis( _valley, _mvt, minX, maxX, DX );
+            PNode axisNode = createAxis( _valley, _mvt, _minX, _maxX, DX );
             _parentNode.addChild( axisNode );
 
-            // ticks & labels
-            double x = minX;
+            // ticks
+            final double minX = ( _englishUnits ? UnitsConverter.metersToFeet( _minX ) : _minX );
+            final double maxX = ( _englishUnits ? UnitsConverter.metersToFeet( _maxX ) : _maxX );
+            final int tickSpacing = ( _englishUnits ? TICK_SPACING_ENGLISH : TICK_SPACING_METRIC );
+            final String units = ( _englishUnits ? GlaciersStrings.UNITS_FEET_SYMBOL : GlaciersStrings.UNITS_METERS );
+            int x = (int)( minX / tickSpacing ) * tickSpacing; // feet or meters, depending on value of _englishUnits
             while ( x <= maxX ) {
-                double elevation = _valley.getElevation( x );
-                PNode tickNode = createLabeledTickNode( x, elevation, _englishUnits, _mvt );
+                
+                // create the tick node
+                PNode tickNode = createTick( x, units );
                 _parentNode.addChild( tickNode );
-                x += _majorTickSpacing;
+                
+                // position the node
+                double meters = ( _englishUnits ? UnitsConverter.feetToMeters( x ) : x );
+                double elevation = _valley.getElevation( meters );
+                Point2D pModel = new Point2D.Double( meters, elevation );
+                Point2D pView = _mvt.modelToView( pModel );
+                tickNode.setOffset( pView );
+                
+                x += tickSpacing;
             }
             
             _isDirty = false;
         }
     }
     
-    //----------------------------------------------------------------------------
-    // Node creation
-    //----------------------------------------------------------------------------
-    
     /*
      * Create a line that follows the valley contour.
+     * The line is automatically positioned in the view coordinate system.
      */
     private static PNode createAxis( Valley valley, ModelViewTransform mvt, double minX, double maxX, double dx ) {
 
@@ -164,67 +194,37 @@ public class DistanceAxisNode extends PComposite {
     }
     
     /*
-     * Creates a labeled tick, a vertical line with a label below the line.
+     * Creates a tick, a vertical line with a label beneath it.
+     * Origin is at the top center of the vertical line.
      */
-    private static PNode createLabeledTickNode( double x, double elevation, boolean englishUnits, ModelViewTransform mvt ) {
+    private static PNode createTick( int value, String units ) {
         
-        PComposite parentNode = new PComposite();
+        PComposite tickNode = new PComposite();
         
-        // tick
-        PNode tickNode = createTickNode( x, elevation, mvt );
-        parentNode.addChild( tickNode );
+        // vertical line
+        GeneralPath path = new GeneralPath();
+        path.moveTo( 0f, 0f );
+        path.lineTo( 0f, (float) TICK_LENGTH );
+        PPath lineNode = new PPath( path );
+        lineNode.setPaint( null );
+        lineNode.setStroke( TICK_STROKE );
+        lineNode.setStrokePaint( TICK_COLOR );
+        tickNode.addChild( lineNode );
         
         // label
-        PNode labelNode = createTickLabelNode( x, englishUnits );
-        parentNode.addChild( labelNode );
+        String s = TICK_LABEL_FORMAT.format( value ) + units;
+        PText labelNode = new PText( s );
+        labelNode.setFont( TICK_LABEL_FONT );
+        labelNode.setTextPaint( TICK_LABEL_COLOR );
+        tickNode.addChild( labelNode );
         
         // position label below tick, horizontally align centers
-        tickNode.setOffset( 0, 0 );
-        PBounds tb = tickNode.getFullBoundsReference();
-        PBounds lb = labelNode.getFullBoundsReference();
-        labelNode.setOffset( tb.getX() + ( tb.getWidth() / 2 ) - ( lb.getWidth() / 2 ), tb.getMaxY() + TICK_LABEL_SPACING );
-
-        return parentNode;
-    }
-    
-    /*
-     * Creates a tick, a vertical line.
-     */
-    private static PNode createTickNode( double x, double elevation, ModelViewTransform mvt ) {
+        lineNode.setOffset( 0, 0 );
+        PBounds b1 = lineNode.getFullBoundsReference();
+        PBounds b2 = labelNode.getFullBoundsReference();
+        labelNode.setOffset( b1.getX() + ( b1.getWidth() / 2 ) - ( b2.getWidth() / 2 ), b1.getMaxY() + TICK_LABEL_SPACING );
         
-        // top of tick
-        Point2D pLeftModel = new Point2D.Double( x, elevation );
-        Point2D pLeftView = mvt.modelToView( pLeftModel );
-        
-        // bottom of tick
-        Point2D pRightModel = new Point2D.Double( x, elevation - TICK_LENGTH );
-        Point2D pRightView = mvt.modelToView( pRightModel );
-        
-        // path
-        GeneralPath path = new GeneralPath();
-        path.moveTo( (float)pLeftView.getX(), (float)pLeftView.getY() );
-        path.lineTo( (float)pRightView.getX(), (float)pRightView.getY() );
-        
-        // node
-        PPath pathNode = new PPath( path );
-        pathNode.setPaint( null );
-        pathNode.setStroke( TICK_STROKE );
-        pathNode.setStrokePaint( TICK_COLOR );
-        
-        return pathNode;
-    }
-    
-    /*
-     * Creates a tick label.
-     */
-    private static PNode createTickLabelNode( double x, boolean englishUnits ) {
-        double value = ( englishUnits ? UnitsConverter.metersToFeet( x ) : x );
-        String units = ( englishUnits ? GlaciersStrings.UNITS_FEET_SYMBOL : GlaciersStrings.UNITS_METERS );
-        String s = TICK_LABEL_FORMAT.format( value ) + units;
-        PText textNode = new PText( s );
-        textNode.setFont( TICK_LABEL_FONT );
-        textNode.setTextPaint( TICK_LABEL_COLOR );
-        return textNode;
+        return tickNode;
     }
 
 }
