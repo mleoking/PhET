@@ -70,6 +70,8 @@ CLEANUP:
 
 
 DONE:
+9/8/08 - quick-&-dirty handling of meters-to-feet in DistanceAxisNode, tick spacing is not adjusted
+9/8/08 - move all units conversions to UnitsConverter
 9/8/08 - add englishUnits arg to constructors for coordinates feature
 9/8/08 - simplify i18n for units, to accommodate switching between English and metric
 ******* 1.00.02 (24258)
