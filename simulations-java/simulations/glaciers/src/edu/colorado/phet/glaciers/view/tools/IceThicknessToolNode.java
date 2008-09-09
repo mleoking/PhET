@@ -241,7 +241,7 @@ public class IceThicknessToolNode extends AbstractToolNode {
         }
         
         public void setThickness( String thickness ) {
-            String text =  thickness + " " + GlaciersStrings.UNITS_ICE_THICKNESS;
+            String text =  thickness + " " + GlaciersStrings.UNITS_METERS;
             _thicknessLabel.setText( text );
             _pswing.computeBounds(); //WORKAROUND: PSwing doesn't handle changing size of a JPanel properly
         }

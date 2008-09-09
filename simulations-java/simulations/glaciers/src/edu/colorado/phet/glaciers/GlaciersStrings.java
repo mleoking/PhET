@@ -83,14 +83,12 @@ public class GlaciersStrings {
     public static final String TITLE_TOOLBOX = GlaciersResources.getString( "title.toolbox" );
     public static final String TITLE_VIEW_CONTROLS = GlaciersResources.getString( "title.viewControls" );
     
-    public static final String UNITS_ABLATION = GlaciersResources.getString( "units.ablation" );
-    public static final String UNITS_ACCUMULATION = GlaciersResources.getString( "units.accumulation" );
-    public static final String UNITS_DISTANCE = GlaciersResources.getString( "units.distance" );
-    public static final String UNITS_ELEVATION = GlaciersResources.getString( "units.elevation" );
-    public static final String UNITS_EQUILIBRIUM_LINE_ALTITUDE = GlaciersResources.getString( "units.equilibriumLineAltitude" );
-    public static final String UNITS_GLACIAL_BUDGET = GlaciersResources.getString( "units.glacialBudget" );
-    public static final String UNITS_ICE_THICKNESS = GlaciersResources.getString( "units.iceThickness" );
     public static final String UNITS_CELSIUS = GlaciersResources.getString( "units.celsius" );
     public static final String UNITS_FAHRENHEIT = GlaciersResources.getString( "units.fahrenheit" );
-    public static final String UNITS_TIME = GlaciersResources.getString( "units.time" );
+    public static final String UNITS_FEET = GlaciersResources.getString( "units.feet" );
+    public static final String UNITS_FEET_SYMBOL = GlaciersResources.getString( "units.feet.symbol" );
+    public static final String UNITS_FEET_PER_YEARS = GlaciersResources.getString( "units.feetPerYear" );
+    public static final String UNITS_METERS = GlaciersResources.getString( "units.meters" );
+    public static final String UNITS_METERS_PER_YEAR = GlaciersResources.getString( "units.metersPerYear" );
+    public static final String UNITS_YEARS = GlaciersResources.getString( "units.years" );
 }

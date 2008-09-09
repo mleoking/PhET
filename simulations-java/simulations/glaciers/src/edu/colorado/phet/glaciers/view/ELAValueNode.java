@@ -67,7 +67,7 @@ public class ELAValueNode extends PText {
         if ( getVisible() ) {
             final double ela = _climate.getELA();
             String s = NUMBER_FORMAT.format( ela );
-            setText( "ELA = " + s + " " + GlaciersStrings.UNITS_ELEVATION );
+            setText( "ELA = " + s + " " + GlaciersStrings.UNITS_METERS );
         }
     }
 }

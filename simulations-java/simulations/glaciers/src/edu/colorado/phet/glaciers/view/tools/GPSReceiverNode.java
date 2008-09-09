@@ -150,8 +150,8 @@ public class GPSReceiverNode extends AbstractToolNode {
         }
         
         public void setCoordinates( Point2D position ) {
-            _distanceLabel.setText( GlaciersStrings.LABEL_DISTANCE + ": " +  DISTANCE_FORMAT.format( position.getX() ) + " " + GlaciersStrings.UNITS_DISTANCE );
-            _elevationLabel.setText( GlaciersStrings.LABEL_ELEVATION + ": " +  ELEVATION_FORMAT.format( position.getY() ) + " " + GlaciersStrings.UNITS_ELEVATION );
+            _distanceLabel.setText( GlaciersStrings.LABEL_DISTANCE + ": " +  DISTANCE_FORMAT.format( position.getX() ) + " " + GlaciersStrings.UNITS_METERS );
+            _elevationLabel.setText( GlaciersStrings.LABEL_ELEVATION + ": " +  ELEVATION_FORMAT.format( position.getY() ) + " " + GlaciersStrings.UNITS_METERS );
         }
     }
     

@@ -110,7 +110,7 @@ public class ClimateControlPanel extends AbstractSubPanel {
             double max = GlaciersConstants.SNOWFALL_RANGE.getMax();
             String label = "";
             String textfieldPattern = "#0.00";
-            String units = GlaciersStrings.UNITS_ACCUMULATION;
+            String units = GlaciersStrings.UNITS_METERS;
             ILayoutStrategy layout = new HorizontalLayoutStrategy();
             _snowfallControl = new LinearValueControl( min, max, label, textfieldPattern, units, layout );
             _snowfallControl.setUpDownArrowDelta( 0.01 );
