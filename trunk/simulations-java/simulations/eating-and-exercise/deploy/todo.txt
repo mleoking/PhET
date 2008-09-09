@@ -10,6 +10,8 @@
 
 -make stomach scale properly with height
 
+>>NP: the appearance of muscles and stomach seems to be affected by the overall body size. The overall body thickness does not scale with height it seems.
+
 -add/subtract foods and exercises from WA:
 
 Food:
