@@ -118,7 +118,7 @@ public class IntroModule extends GlaciersModule {
         Climate climate = _model.getClimate();
         
         ViewControlPanel viewControlPanel = _controlPanel.getViewControlPanel();
-        viewControlPanel.setEnglishUnitsSelected( true );
+        viewControlPanel.setEnglishUnitsSelected( GlaciersConstants.DEFAULT_TO_ENGLISH_UNITS );
         viewControlPanel.setEquilibriumLineSelected( false );
         viewControlPanel.setIceFlowSelected( false );
         viewControlPanel.setSnowfallSelected( true );

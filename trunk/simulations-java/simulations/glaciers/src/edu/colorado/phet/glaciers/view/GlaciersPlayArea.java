@@ -249,7 +249,7 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         _snowfallLayer.addChild( _snowfallNode );
         
         // Axes
-        final boolean englishUnits = true;//XXX
+        final boolean englishUnits = GlaciersConstants.DEFAULT_TO_ENGLISH_UNITS;
         _leftElevationAxisNode = new ElevationAxisNode( _mvt, GlaciersConstants.ELEVATION_AXIS_RANGE, GlaciersConstants.ELEVATION_AXIS_TICK_SPACING, false, englishUnits );
         _rightElevationAxisNode = new ElevationAxisNode( _mvt, GlaciersConstants.ELEVATION_AXIS_RANGE, GlaciersConstants.ELEVATION_AXIS_TICK_SPACING, true, englishUnits );
         _distanceAxisNode = new DistanceAxisNode( _model.getValley(), _mvt, englishUnits );
@@ -297,6 +297,13 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         _leftElevationAxisNode.setVisible( visible );
         _rightElevationAxisNode.setVisible( visible );
         _distanceAxisNode.setVisible( visible );
+    }
+    
+    public void setEnglishUnits( boolean englishUnits ) {
+        System.out.println( "GlaciersPlayArea.setEnglishUnits " + englishUnits );//XXX
+        _leftElevationAxisNode.setEnglishUnits( englishUnits );
+        _rightElevationAxisNode.setEnglishUnits( englishUnits );
+        _distanceAxisNode.setEnglishUnits( englishUnits );
     }
     
     public void setIceFlowVisible( boolean visible ) {

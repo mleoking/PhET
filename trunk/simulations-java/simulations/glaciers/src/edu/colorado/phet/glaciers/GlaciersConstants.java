@@ -52,6 +52,9 @@ public class GlaciersConstants {
     // if true, tools dropped to the left of the headwall will snap to the headwall.
     public static final boolean SNAP_TOOLS_TO_HEADWALL = false;
     
+    // English or metric units as the default?
+    public static final boolean DEFAULT_TO_ENGLISH_UNITS = true;
+    
     //----------------------------------------------------------------------------
     // Application
     //----------------------------------------------------------------------------

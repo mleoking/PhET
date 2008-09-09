@@ -70,6 +70,7 @@ CLEANUP:
 
 
 DONE:
+9/8/08 - hook up English/metric radio buttons to coordinate axes
 9/8/08 - rewrite DistanceAxisNode to handle English/metric switching
 9/8/08 - bugfix: fix loop start point in Valley elevation interpolation
 9/8/08 - quick-&-dirty handling of meters-to-feet in DistanceAxisNode, tick spacing is not adjusted
