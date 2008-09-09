@@ -54,8 +54,8 @@ public class GraphsControlPanel extends AbstractSubPanel implements UnitsChangeL
     private final JCheckBox _glacialBudgetVersusElevationCheckBox;
     private final JCheckBox _temperatureVersusElevationCheckBox;
     
-    private JDialog _glacierLengthVersusTimeChart;
-    private JDialog _elaVersusTimeChart;
+    private GlacierLengthVersusTimeChart _glacierLengthVersusTimeChart;
+    private ELAVersusTimeChart _elaVersusTimeChart;
     private JDialog _glacialBudgetVersusElevationChart;
     private JDialog _temperatureVersusElevationChart;
 
@@ -330,19 +330,22 @@ public class GraphsControlPanel extends AbstractSubPanel implements UnitsChangeL
     }
     
     /*
-     * Changing units results in any open dialogs being closed and reopened.
+     * UnitsChangeListener implementation, updates any charts that are open.
      */
     public void unitsChanged( boolean englishUnits ) {
         if ( englishUnits != _englishUnits ) {
+            
             _englishUnits = englishUnits;
+            
+            // time-based charts are converted so we don't lose data
             if ( _glacierLengthVersusTimeChart != null ) {
-                closeGlacierLengthVersusTimeChart();
-                openGlacierLengthVersusTimeChart();
+                _glacierLengthVersusTimeChart.setEnglishUnits( englishUnits );
             }
             if ( _elaVersusTimeChart != null ) {
-                closeELAVersusTimeChart();
-                openELAVersusTimeChart();
+                _elaVersusTimeChart.setEnglishUnits( englishUnits );
             }
+            
+            // static charts are closed and reopened
             if ( _glacialBudgetVersusElevationChart != null ) {
                 closeGlacialBudgetVersusElevationChart();
                 openGlacialBudgetVersusElevationChart();

@@ -68,6 +68,7 @@ CLEANUP:
 
 
 DONE:
+9/9/08 - convert existing data in time-based charts when switching units
 9/9/08 - switch charts between English & metric units, any existing charts are closed and time-based data is lost
 9/9/08 - change string keys for chart axes to accommodate switching between English and metric
 9/9/08 - completed: switch coordinates view between English & metric units

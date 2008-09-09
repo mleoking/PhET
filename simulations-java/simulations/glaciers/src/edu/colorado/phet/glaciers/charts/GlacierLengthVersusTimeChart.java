@@ -16,6 +16,7 @@ import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.Range;
+import org.jfree.data.xy.XYDataItem;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -46,8 +47,8 @@ public class GlacierLengthVersusTimeChart extends JDialog {
     private final GlaciersClock _clock;
     private final ClockListener _clockListener;
     private final XYSeries _series;
-    private final NumberAxis _domainAxis;
-    private final boolean _englishUnits;
+    private final NumberAxis _rangeAxis, _domainAxis;
+    private boolean _englishUnits;
     
     public GlacierLengthVersusTimeChart( Frame owner, Dimension size, Glacier glacier, GlaciersClock clock, boolean englishUnits ) {
         super( owner );
@@ -95,12 +96,12 @@ public class GlacierLengthVersusTimeChart extends JDialog {
         _domainAxis.setStandardTickUnits( NumberAxis.createIntegerTickUnits() );
         // x-axis (time) range will be set dynamically
         
-        NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+        _rangeAxis = (NumberAxis) plot.getRangeAxis();
         if ( englishUnits ) {
-            rangeAxis.setRange( LENGTH_RANGE_ENGLISH );
+            _rangeAxis.setRange( LENGTH_RANGE_ENGLISH );
         }
         else {
-            rangeAxis.setRange( LENGTH_RANGE_METRIC );
+            _rangeAxis.setRange( LENGTH_RANGE_METRIC );
         }
         
         ChartPanel chartPanel = new ChartPanel(chart);
@@ -123,6 +124,34 @@ public class GlacierLengthVersusTimeChart extends JDialog {
     
     private void cleanup() {
         _clock.removeClockListener( _clockListener );
+    }
+    
+    public void setEnglishUnits( boolean englishUnits ) {
+        if ( englishUnits != _englishUnits ) {
+            _englishUnits = englishUnits;
+            
+            // change labels and ranges
+            if ( englishUnits ) {
+                _rangeAxis.setLabel( GlaciersStrings.AXIS_GLACIER_LENGTH_ENGLISH );
+                _rangeAxis.setRange( LENGTH_RANGE_ENGLISH );
+            }
+            else {
+                _rangeAxis.setLabel( GlaciersStrings.AXIS_GLACIER_LENGTH_METRIC );
+                _rangeAxis.setRange( LENGTH_RANGE_METRIC );
+            }
+            
+            // convert existing data to new units
+            int itemCount = _series.getItemCount();
+            for ( int i = 0; i < itemCount; i++ ) {
+                XYDataItem item = (XYDataItem) _series.getDataItem( i );
+                if ( _englishUnits ) {
+                    item.setY( UnitsConverter.metersToFeet( item.getY().doubleValue() ) );
+                }
+                else {
+                    item.setY( UnitsConverter.feetToMeters( item.getY().doubleValue() ) );
+                }
+            }
+        }
     }
     
     private void update() {
