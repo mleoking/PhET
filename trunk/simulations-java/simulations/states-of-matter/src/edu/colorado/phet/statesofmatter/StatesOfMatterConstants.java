@@ -143,7 +143,7 @@ public class StatesOfMatterConstants {
     // Images
     //----------------------------------------------------------------------------
 
-    public static final String COFFEE_CUP_IMAGE = "coffee-cup-image.png";
+    public static final String PUSH_PIN_IMAGE = "pushpin.png";
     
     //----------------------------------------------------------------------------
     // Cursors

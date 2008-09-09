@@ -21,6 +21,7 @@ import edu.colorado.phet.statesofmatter.module.phasechanges.InteractionPotential
 import edu.colorado.phet.statesofmatter.view.GrabbableParticleNode;
 import edu.colorado.phet.statesofmatter.view.ModelViewTransform;
 import edu.colorado.phet.statesofmatter.view.ParticleForceNode;
+import edu.colorado.phet.statesofmatter.view.PushpinNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -49,11 +50,14 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     private static final double HEIGHT_TRANSLATION_FACTOR = 0.73; // 0 puts the horizontal origin at the top of the 
                                                                   // window, 1 puts it at the bottom.
     
-    // Factor used to control size of button.
+    // Constant used to control size of button.
     private static final double BUTTON_HEIGHT = CANVAS_WIDTH * 0.06;
     
-    // Factor used to control size of wiggle me.
+    // Constant used to control size of wiggle me.
     private static final double WIGGLE_ME_HEIGHT = CANVAS_HEIGHT * 0.10;
+    
+    // Constant used to control size of push pin.
+    private static final double PUSH_PIN_WIDTH = CANVAS_WIDTH * 0.07;
     
     // The following constants control whether the wiggle me and stop buttons
     // appear.  These two components of the user interface were requested in
@@ -85,6 +89,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     private boolean m_showRetrieveAtomButton;
     private DefaultWiggleMe m_wiggleMe;
     private boolean m_wiggleMeShown;
+    private PushpinNode m_pushPinNode;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -206,6 +211,12 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
                 m_model.resetMovableParticlePos();
             }
         });
+        
+        // Create the push pin node that will be used to convey the idea that
+        // the fixed atom is pinned to the canvas.  It will be added to the
+        // canvas when the particles appear.
+        m_pushPinNode = new PushpinNode();
+        m_pushPinNode.scale( PUSH_PIN_WIDTH / m_pushPinNode.getFullBoundsReference().width );
     }
     
     //----------------------------------------------------------------------------
@@ -260,13 +271,18 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     
     private void handleFixedParticleAdded(StatesOfMatterAtom particle){
-        // Add an atom node for this guy.
+        
         m_fixedParticle = particle;
         m_fixedParticleNode = new ParticleForceNode(particle, m_mvt, m_useGradient);
         m_fixedParticleNode.setShowForces( m_showForces );
         addWorldChild( m_fixedParticleNode );
+        
         particle.addListener( m_atomListener );
+        
         updatePositionMarkerOnDiagram();
+        
+        // Add the push pin last so that it is on top of the fixed atom.
+        addWorldChild( m_pushPinNode );
     }
     
     private void handleFixedParticleRemoved(StatesOfMatterAtom particle){
@@ -275,6 +291,9 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
             
             // Remove the particle node.
             removeWorldChild( m_fixedParticleNode );
+            
+            // Remove the pin holding the node.
+            removeWorldChild( m_pushPinNode );
         }
         else{
             System.err.println("Error: Problem encountered removing node from canvas.");
