@@ -243,12 +243,14 @@ public class Valley {
         double elevation = -1;
         Point2D leftMostSample = NEGATIVE_X_SAMPLE_POINTS[NEGATIVE_X_SAMPLE_POINTS.length - 1];
         if ( x < leftMostSample.getX() ) {
+            // all value to the left are the same
             elevation = leftMostSample.getY();
         }
         else {
+            // interpolate between samples
             Point2D pLeft = null;
             Point2D pRight = null;
-            for ( int i = 1; i < NEGATIVE_X_SAMPLE_POINTS.length; i++ ) {
+            for ( int i = 0; i < NEGATIVE_X_SAMPLE_POINTS.length; i++ ) {
                 
                 pLeft = NEGATIVE_X_SAMPLE_POINTS[i];
                 if ( i == 0 ) {

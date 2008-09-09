@@ -249,10 +249,10 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         _snowfallLayer.addChild( _snowfallNode );
         
         // Axes
-        final boolean englishUnits = false;//XXX
+        final boolean englishUnits = true;//XXX
         _leftElevationAxisNode = new ElevationAxisNode( _mvt, GlaciersConstants.ELEVATION_AXIS_RANGE, GlaciersConstants.ELEVATION_AXIS_TICK_SPACING, false, englishUnits );
         _rightElevationAxisNode = new ElevationAxisNode( _mvt, GlaciersConstants.ELEVATION_AXIS_RANGE, GlaciersConstants.ELEVATION_AXIS_TICK_SPACING, true, englishUnits );
-        _distanceAxisNode = new DistanceAxisNode( _model.getValley(), _mvt, GlaciersConstants.DISTANCE_AXIS_TICK_SPACING, englishUnits );
+        _distanceAxisNode = new DistanceAxisNode( _model.getValley(), _mvt, englishUnits );
         _coordinatesLayer.addChild( _leftElevationAxisNode );
         _coordinatesLayer.addChild( _rightElevationAxisNode );
         _coordinatesLayer.addChild( _distanceAxisNode );
@@ -519,16 +519,15 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         Rectangle2D rModel = _zoomedViewport.getBoundsReference();
         Rectangle2D rView = _mvt.modelToView( rModel );
         
+        // rebuild the horizontal (distance) axis
+        final int minX = (int) Math.max( 0, rModel.getX() );
+        final int maxX = (int) ( rModel.getX() + rModel.getWidth() );
+        _distanceAxisNode.setRange( minX, maxX );
+        
         // reposition the vertical (elevation) axes
         final double margin = 15; // pixels
         _leftElevationAxisNode.setOffset( rView.getMinX() + margin, _rightElevationAxisNode.getYOffset() );
         _rightElevationAxisNode.setOffset( rView.getMaxX() - margin, _rightElevationAxisNode.getYOffset() );
-        
-        // rebuild the horizontal (distance) axis, ticks in multiples of 1000 meters
-        final int precision = 1000;
-        final int minX = Math.max( 0, precision * (int)( ( rModel.getX() / precision ) - 1 ) ); // don't draw axis for x < 0
-        final int maxX = precision * (int)( ( ( rModel.getX() + rModel.getWidth() ) / precision ) + 1 );
-        _distanceAxisNode.setRange( minX, maxX );
     }
     
     //----------------------------------------------------------------------------
