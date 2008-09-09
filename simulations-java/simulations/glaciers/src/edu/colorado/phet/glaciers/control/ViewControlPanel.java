@@ -75,7 +75,7 @@ public class ViewControlPanel extends AbstractSubPanel {
             _metricUnitsButton = new JRadioButton( GlaciersStrings.RADIO_BUTTON_METRIC_UNITS );
             _metricUnitsButton.setFont( CONTROL_FONT );
             _metricUnitsButton.setForeground( CONTROL_COLOR );
-            _englishUnitsButton.addActionListener( new ActionListener() {
+            _metricUnitsButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     handleUnitsButton();
                 }
@@ -163,7 +163,7 @@ public class ViewControlPanel extends AbstractSubPanel {
         setLayout( layout );
         layout.setInsets( new Insets( 0, 0, 0, 0 ) );
         layout.setAnchor( GridBagConstraints.WEST );
-//        layout.addComponent( unitsPanel, 0, 0, 2, 1 );
+        layout.addComponent( unitsPanel, 0, 0, 2, 1 );
         layout.addComponent( equilibriumLinePanel, 1, 0 );
         layout.addComponent( snowfallPanel, 2, 0 );
         layout.addComponent( _iceFlowPanel, 1, 1 );
@@ -252,7 +252,7 @@ public class ViewControlPanel extends AbstractSubPanel {
     //----------------------------------------------------------------------------
     
     private void handleUnitsButton() {
-        //XXX
+        _playArea.setEnglishUnits( _englishUnitsButton.isSelected() );
     }
     
     private void handleEquilibriumLineCheckBox() {

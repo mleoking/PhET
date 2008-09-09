@@ -113,10 +113,12 @@ public class DistanceAxisNode extends PComposite {
      * @param maxX meters
      */
     public void setRange( double minX, double maxX ) {
-        assert( minX < maxX );
-        _minX = minX;
-        _maxX = maxX;
-        update();
+        assert ( minX < maxX );
+        if ( minX != _minX || maxX != _maxX ) {
+            _minX = minX;
+            _maxX = maxX;
+            update();
+        }
     }
     
     /**
@@ -125,8 +127,10 @@ public class DistanceAxisNode extends PComposite {
      * @param englishUnits true for English, false for metric
      */
     public void setEnglishUnits( boolean englishUnits ) {
-        _englishUnits = englishUnits;
-        update();
+        if ( englishUnits != _englishUnits ) {
+            _englishUnits = englishUnits;
+            update();
+        }
     }
     
     //----------------------------------------------------------------------------

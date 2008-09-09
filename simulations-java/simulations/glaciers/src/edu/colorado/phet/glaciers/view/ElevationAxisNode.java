@@ -51,7 +51,7 @@ public class ElevationAxisNode extends PComposite {
     private final ModelViewTransform _mvt;
     private final double _minElevation, _maxElevation, _majorTickSpacing;
     private final boolean _tickLabelOnLeft;
-    private final boolean _englishUnits;
+    private boolean _englishUnits;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -87,8 +87,21 @@ public class ElevationAxisNode extends PComposite {
     }
     
     //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
+    
+    public void setEnglishUnits( boolean englishUnits ) {
+        _englishUnits = englishUnits;
+        update();
+    }
+    
+    //----------------------------------------------------------------------------
     // Node creation
     //----------------------------------------------------------------------------
+    
+    private void update() {
+        //XXX
+    }
     
     /*
      * Creates all nodes at some downvalley (horizontal) location.
