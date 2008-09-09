@@ -22,6 +22,7 @@ import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.GPSReceiver;
 import edu.colorado.phet.glaciers.model.Movable.MovableAdapter;
 import edu.colorado.phet.glaciers.model.Movable.MovableListener;
+import edu.colorado.phet.glaciers.util.UnitsConverter;
 import edu.colorado.phet.glaciers.view.ModelViewTransform;
 import edu.colorado.phet.glaciers.view.tools.AbstractToolOriginNode.LeftToolOriginNode;
 import edu.umd.cs.piccolo.PNode;
@@ -56,7 +57,7 @@ public class GPSReceiverNode extends AbstractToolNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public GPSReceiverNode( GPSReceiver gps, ModelViewTransform mvt, TrashCanDelegate trashCan ) {
+    public GPSReceiverNode( GPSReceiver gps, ModelViewTransform mvt, TrashCanDelegate trashCan, boolean englishUnits ) {
         super( gps, mvt, trashCan );
         
         _gps = gps;
@@ -78,7 +79,7 @@ public class GPSReceiverNode extends AbstractToolNode {
         receiverNode.setOffset( arrowNode.getFullBounds().getMaxX() + 2, -22 );
         
         // display to the right of arrow, vertically centered
-        _valueNode = new ValueNode( getValueFont(), getValueBorder() );
+        _valueNode = new ValueNode( getValueFont(), getValueBorder(), englishUnits );
         addChild( _valueNode );
         _valueNode.setOffset( receiverNode.getFullBounds().getMaxX() + 2, -arrowNode.getFullBounds().getHeight() / 2 );
         
@@ -114,9 +115,14 @@ public class GPSReceiverNode extends AbstractToolNode {
         private JLabel _distanceLabel;
         private JLabel _elevationLabel;
         private PSwing _pswing;
+        private final boolean _englishUnits;
+        private final String _units;
         
-        public ValueNode( Font font, Border border ) {
+        public ValueNode( Font font, Border border, boolean englishUnits ) {
             super();
+            
+            _englishUnits = englishUnits;
+            _units = ( englishUnits ? GlaciersStrings.UNITS_FEET : GlaciersStrings.UNITS_METERS );
             
             ArrowNode xArrowNode = new ArrowNode( new Point2D.Double( 0, 0 ), new Point2D.Double( 10, 0 ), 5, 8, 2 );
             xArrowNode.setStroke( null );
@@ -150,8 +156,14 @@ public class GPSReceiverNode extends AbstractToolNode {
         }
         
         public void setCoordinates( Point2D position ) {
-            _distanceLabel.setText( GlaciersStrings.LABEL_DISTANCE + ": " +  DISTANCE_FORMAT.format( position.getX() ) + " " + GlaciersStrings.UNITS_METERS );
-            _elevationLabel.setText( GlaciersStrings.LABEL_ELEVATION + ": " +  ELEVATION_FORMAT.format( position.getY() ) + " " + GlaciersStrings.UNITS_METERS );
+            double x = position.getX();
+            double elevation = position.getY();
+            if ( _englishUnits ) {
+                x = UnitsConverter.metersToFeet( x );
+                elevation = UnitsConverter.metersToFeet( elevation );
+            }
+            _distanceLabel.setText( GlaciersStrings.LABEL_DISTANCE + ": " +  DISTANCE_FORMAT.format( x ) + " " + _units );
+            _elevationLabel.setText( GlaciersStrings.LABEL_ELEVATION + ": " +  ELEVATION_FORMAT.format( elevation ) + " " + _units );
         }
     }
     
