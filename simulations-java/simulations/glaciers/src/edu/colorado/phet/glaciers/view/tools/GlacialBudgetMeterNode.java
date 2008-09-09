@@ -68,8 +68,6 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
     public GlacialBudgetMeterNode( GlacialBudgetMeter glacialBudgetMeter, Glacier glacier, ModelViewTransform mvt, TrashCanDelegate trashCan, boolean englishUnits ) {
         super( glacialBudgetMeter, mvt, trashCan );
         
-        System.out.println( "GlacialBudgetMeterNode.init englishUnits=" + englishUnits );//XXX
-        
         _glacialBudgetMeter = glacialBudgetMeter;
         _glacier = glacier;
         
@@ -123,6 +121,11 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
         super.cleanup();
     }
     
+    public void setEnglishUnits( boolean englishUnits ) {
+        _valueNode.setEnglishUnits( englishUnits );
+        update();
+    }
+    
     //----------------------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------------------
@@ -149,8 +152,8 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
         private JLabel _ablationLabel;
         private JLabel _glacialBudgetLabel;
         private PSwing _pswing;
-        private final boolean _englishUnits;
-        private final String _units;
+        private boolean _englishUnits;
+        private String _units;
         
         public ValueNode( Font font, Border border, boolean englishUnits ) {
             super();
@@ -229,6 +232,11 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
             _ablationLabel.setText( unknownValue + " " + _units );
             _glacialBudgetLabel.setText( unknownValue + " " + _units );
             _pswing.computeBounds(); //WORKAROUND: PSwing doesn't handle changing size of a JPanel properly
+        }
+        
+        public void setEnglishUnits( boolean englishUnits ) {
+            _englishUnits = englishUnits;
+            _units = ( englishUnits ? GlaciersStrings.UNITS_FEET_PER_YEAR : GlaciersStrings.UNITS_METERS_PER_YEAR );
         }
     }
     

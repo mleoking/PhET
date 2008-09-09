@@ -9,6 +9,8 @@ import java.awt.event.ComponentEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -87,7 +89,7 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
     private final EquilibriumLineNode _equilibriumLineNode;
     private final CoordinatesNode _coordinatesNode;
     private final ELAValueNode _elaValueNode;
-    private final HashMap _toolsMap; // key=AbstractTool, value=AbstractToolNode, used for removing tool nodes when their model elements are deleted
+    private final HashMap _toolsMap; // key=AbstractTool, value=AbstractToolNode, used for updating & removing tools
     private final ModelViewTransform _mvt;
     private final ScrollArrowNode _leftScrollArrowNode, _rightScrollArrowNode;
     private final HashMap _boreholesMap; // key=Borehole, value=BoreholeNode, used for removing borehole nodes when their model elements are deleted
@@ -621,6 +623,12 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
     public void unitsChanged( boolean englishUnits ) {
         _englishUnits = englishUnits;
         _coordinatesNode.setEnglishUnits( englishUnits );
+        Set keys = _toolsMap.keySet();
+        Iterator i = keys.iterator();
+        while ( i.hasNext() ) {
+            AbstractToolNode toolNode = (AbstractToolNode) _toolsMap.get( i.next() );
+            toolNode.setEnglishUnits( englishUnits );
+        }
     }
     
     //----------------------------------------------------------------------------

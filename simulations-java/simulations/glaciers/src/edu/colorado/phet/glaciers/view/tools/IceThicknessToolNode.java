@@ -117,6 +117,11 @@ public class IceThicknessToolNode extends AbstractToolNode {
         super.cleanup();
     }
     
+    public void setEnglishUnits( boolean englishUnits ) {
+        _valueNode.setEnglishUnits( englishUnits );
+        update();
+    }
+    
     //----------------------------------------------------------------------------
     // Geometry
     //----------------------------------------------------------------------------
@@ -219,8 +224,8 @@ public class IceThicknessToolNode extends AbstractToolNode {
         
         private JLabel _thicknessLabel;
         private PSwing _pswing;
-        private final boolean _englishUnits;
-        private final String _units;
+        private boolean _englishUnits;
+        private String _units;
         
         public ValueNode( Font font, Border border, boolean englishUnits ) {
             super();
@@ -253,6 +258,11 @@ public class IceThicknessToolNode extends AbstractToolNode {
             String text =  thickness + " " + _units;
             _thicknessLabel.setText( text );
             _pswing.computeBounds(); //WORKAROUND: PSwing doesn't handle changing size of a JPanel properly
+        }
+        
+        public void setEnglishUnits( boolean englishUnits ) {
+            _englishUnits = englishUnits;
+            _units = ( englishUnits ? GlaciersStrings.UNITS_FEET : GlaciersStrings.UNITS_METERS );
         }
     }
     

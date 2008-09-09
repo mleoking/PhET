@@ -63,7 +63,7 @@ public class GPSReceiverNode extends AbstractToolNode {
         _gps = gps;
         _movableListener = new MovableAdapter() {
             public void positionChanged() {
-                updateCoordinates();
+                update();
             }
         };
         _gps.addMovableListener( _movableListener );
@@ -84,12 +84,17 @@ public class GPSReceiverNode extends AbstractToolNode {
         _valueNode.setOffset( receiverNode.getFullBounds().getMaxX() + 2, -arrowNode.getFullBounds().getHeight() / 2 );
         
         // initial state
-        updateCoordinates();
+        update();
     }
     
     public void cleanup() {
         _gps.removeMovableListener( _movableListener );
         super.cleanup();
+    }
+    
+    public void setEnglishUnits( boolean englishUnits ) {
+        _valueNode.setEnglishUnits( englishUnits );
+        update();
     }
     
     //----------------------------------------------------------------------------
@@ -115,8 +120,8 @@ public class GPSReceiverNode extends AbstractToolNode {
         private JLabel _distanceLabel;
         private JLabel _elevationLabel;
         private PSwing _pswing;
-        private final boolean _englishUnits;
-        private final String _units;
+        private boolean _englishUnits;
+        private String _units;
         
         public ValueNode( Font font, Border border, boolean englishUnits ) {
             super();
@@ -165,6 +170,11 @@ public class GPSReceiverNode extends AbstractToolNode {
             _distanceLabel.setText( GlaciersStrings.LABEL_DISTANCE + ": " +  DISTANCE_FORMAT.format( x ) + " " + _units );
             _elevationLabel.setText( GlaciersStrings.LABEL_ELEVATION + ": " +  ELEVATION_FORMAT.format( elevation ) + " " + _units );
         }
+        
+        public void setEnglishUnits( boolean englishUnits ) {
+            _englishUnits = englishUnits;
+            _units = ( englishUnits ? GlaciersStrings.UNITS_FEET : GlaciersStrings.UNITS_METERS );
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -174,7 +184,7 @@ public class GPSReceiverNode extends AbstractToolNode {
     /*
      * Updates the displayed coordinates to match the model.
      */
-    private void updateCoordinates() {
+    private void update() {
         _valueNode.setCoordinates( _gps.getPositionReference() );
     }
     
