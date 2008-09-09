@@ -8,6 +8,8 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.*;
 
@@ -48,12 +50,16 @@ public class ViewControlPanel extends AbstractSubPanel {
     private final JCheckBox _snowfallCheckBox;
     private final JPanel _iceFlowPanel, _coordinatesPanel;
     
+    private final ArrayList _unitsChangeListeners;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
     public ViewControlPanel( GlaciersPlayArea playArea ) {
         super( TITLE_STRING, TITLE_COLOR, TITLE_FONT );
+        
+        _unitsChangeListeners = new ArrayList();
         
         _playArea = playArea;
         
@@ -251,8 +257,24 @@ public class ViewControlPanel extends AbstractSubPanel {
     // Event handlers
     //----------------------------------------------------------------------------
     
+    public void addUnitsChangedListener( UnitsChangeListener listener ) {
+        _unitsChangeListeners.add( listener );
+    }
+    
+    public void removeUnitsChangedListener( UnitsChangeListener listener ) {
+        _unitsChangeListeners.remove( listener );
+    }
+    
+    private void notifyUnitsChanged() {
+        final boolean englishUnits = _englishUnitsButton.isSelected();
+        Iterator i = _unitsChangeListeners.iterator();
+        while ( i.hasNext() ) {
+            ((UnitsChangeListener)i.next()).unitsChanged( englishUnits );
+        }
+    }
+    
     private void handleUnitsButton() {
-        _playArea.setEnglishUnits( _englishUnitsButton.isSelected() );
+        notifyUnitsChanged();
     }
     
     private void handleEquilibriumLineCheckBox() {

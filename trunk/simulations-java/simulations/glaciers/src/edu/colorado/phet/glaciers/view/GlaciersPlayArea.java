@@ -52,7 +52,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class GlaciersPlayArea extends JPanel implements IToolProducerListener, IBoreholeProducerListener, IDebrisProducerListener, IIceRippleProducerListener {
+public class GlaciersPlayArea extends JPanel implements IToolProducerListener, IBoreholeProducerListener, IDebrisProducerListener, IIceRippleProducerListener, UnitsChangeListener {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -290,10 +290,6 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
     
     public void setAxesVisible( boolean visible ) {
         _coordinatesNode.setVisible( visible );
-    }
-    
-    public void setEnglishUnits( boolean englishUnits ) {
-        _coordinatesNode.setEnglishUnits( englishUnits );
     }
     
     public void setIceFlowVisible( boolean visible ) {
@@ -614,6 +610,14 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         _ripplesLayer.removeChild( rippleNode );
         _ripplesMap.remove( ripple );
         rippleNode.cleanup();
+    }
+    
+    //----------------------------------------------------------------------------
+    // UnitsChangeListener implementation
+    //----------------------------------------------------------------------------
+    
+    public void unitsChanged( boolean englishUnits ) {
+        _coordinatesNode.setEnglishUnits( englishUnits );
     }
     
     //----------------------------------------------------------------------------

@@ -25,6 +25,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.Climate;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
+import edu.colorado.phet.glaciers.util.UnitsConverter;
 
 /**
  * ELAVersusTimeChart displays a "Equilibrium Line Altitude versus Time" chart.
@@ -34,7 +35,11 @@ import edu.colorado.phet.glaciers.model.GlaciersClock;
  */
 public class ELAVersusTimeChart extends JDialog {
     
-    private static final Range ELEVATION_RANGE = new Range( 2000, 6000 ); // meters
+    private static final Range ELEVATION_RANGE_METRIC = new Range( 2000, 6000 ); // meters
+    private static final Range ELEVATION_RANGE_ENGLISH = new Range( 
+            UnitsConverter.metersToFeet( ELEVATION_RANGE_METRIC.getLowerBound() ), 
+            UnitsConverter.metersToFeet( ELEVATION_RANGE_METRIC.getUpperBound() ) ); // feet
+    
     private static final int MAX_NUMBER_OF_YEARS = 1000;
     
     private final Climate _climate;
@@ -42,14 +47,16 @@ public class ELAVersusTimeChart extends JDialog {
     private final ClockListener _clockListener;
     private final XYSeries _series;
     private final NumberAxis _domainAxis;
+    private final boolean _englishUnits;
     
-    public ELAVersusTimeChart( Frame owner, Dimension size, Climate climate, GlaciersClock clock ) {
+    public ELAVersusTimeChart( Frame owner, Dimension size, Climate climate, GlaciersClock clock, boolean englishUnits ) {
         super( owner );
         
         setSize( size );
         setResizable( false );
         
         _climate = climate;
+        _englishUnits = englishUnits;
         
         _clock = clock;
         _clockListener = new ClockAdapter() {
@@ -68,10 +75,12 @@ public class ELAVersusTimeChart extends JDialog {
         dataset.addSeries( _series );
         
         // create the chart
+        String xAxisLabel = GlaciersStrings.AXIS_TIME;
+        String yAxisLabel = ( englishUnits ? GlaciersStrings.AXIS_ELA_ENGLISH : GlaciersStrings.AXIS_ELA_METRIC );
         JFreeChart chart = ChartFactory.createXYLineChart(
             GlaciersStrings.TITLE_ELA_VERSUS_TIME, // title
-            GlaciersStrings.AXIS_TIME, // x axis label
-            GlaciersStrings.AXIS_EQUILIBRIUM_LINE_ALTITUDE,  // y axis label
+            xAxisLabel,
+            yAxisLabel,
             dataset,
             PlotOrientation.VERTICAL,
             false, // legend
@@ -87,7 +96,12 @@ public class ELAVersusTimeChart extends JDialog {
         
         NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
         rangeAxis.setStandardTickUnits( NumberAxis.createIntegerTickUnits() );
-        rangeAxis.setRange( ELEVATION_RANGE );
+        if ( englishUnits ) {
+            rangeAxis.setRange( ELEVATION_RANGE_ENGLISH );
+        }
+        else {
+            rangeAxis.setRange( ELEVATION_RANGE_METRIC );
+        }
         
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setMouseZoomable( false );
@@ -113,7 +127,10 @@ public class ELAVersusTimeChart extends JDialog {
     
     private void update() {
         final double t = _clock.getSimulationTime();
-        final double ela = _climate.getELA();
+        double ela = _climate.getELA();
+        if ( _englishUnits ) {
+            ela = UnitsConverter.metersToFeet( ela );
+        }
         _series.add( t, ela );
         double tMin = _series.getDataItem( 0 ).getX().doubleValue();
         _domainAxis.setRange( new Range( tMin, tMin + MAX_NUMBER_OF_YEARS ) );

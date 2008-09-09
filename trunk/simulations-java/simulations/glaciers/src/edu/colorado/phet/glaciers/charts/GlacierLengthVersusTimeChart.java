@@ -13,7 +13,6 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.axis.NumberTickUnit;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.Range;
@@ -26,6 +25,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.Glacier;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
+import edu.colorado.phet.glaciers.util.UnitsConverter;
 
 /**
  * GlacierLengthVersusTimeChart displays a "Glacier Length versus Time" chart.
@@ -35,8 +35,11 @@ import edu.colorado.phet.glaciers.model.GlaciersClock;
  */
 public class GlacierLengthVersusTimeChart extends JDialog {
     
-    private static final Range LENGTH_RANGE = new Range( 0, 80E3 ); // meters
-    private static final double Y_AXIS_TICK_SPACING = 10000; // meters
+    private static final Range LENGTH_RANGE_METRIC = new Range( 0, 80E3 ); // meters
+    private static final Range LENGTH_RANGE_ENGLISH = new Range( 
+            UnitsConverter.metersToFeet( LENGTH_RANGE_METRIC.getLowerBound() ), 
+            UnitsConverter.metersToFeet( LENGTH_RANGE_METRIC.getUpperBound() ) ); // feet
+    
     private static final int MAX_NUMBER_OF_YEARS = 1000;
     
     private final Glacier _glacier;
@@ -44,13 +47,15 @@ public class GlacierLengthVersusTimeChart extends JDialog {
     private final ClockListener _clockListener;
     private final XYSeries _series;
     private final NumberAxis _domainAxis;
+    private final boolean _englishUnits;
     
-    public GlacierLengthVersusTimeChart( Frame owner, Dimension size, Glacier glacier, GlaciersClock clock ) {
+    public GlacierLengthVersusTimeChart( Frame owner, Dimension size, Glacier glacier, GlaciersClock clock, boolean englishUnits ) {
         super( owner );
         
         setSize( size );
         setResizable( false );
         
+        _englishUnits = englishUnits;
         _glacier = glacier;
         
         _clock = clock;
@@ -71,10 +76,12 @@ public class GlacierLengthVersusTimeChart extends JDialog {
         dataset.addSeries( _series );
         
         // create the chart
+        String xAxisLabel = GlaciersStrings.AXIS_TIME;
+        String yAxisLabel = ( englishUnits ? GlaciersStrings.AXIS_GLACIER_LENGTH_ENGLISH : GlaciersStrings.AXIS_GLACIER_LENGTH_METRIC );
         JFreeChart chart = ChartFactory.createXYLineChart(
             GlaciersStrings.TITLE_GLACIER_LENGTH_VERSUS_TIME, // title
-            GlaciersStrings.AXIS_TIME, // x axis label
-            GlaciersStrings.AXIS_GLACIER_LENGTH,  // y axis label
+            xAxisLabel,
+            yAxisLabel,
             dataset,
             PlotOrientation.VERTICAL,
             false, // legend
@@ -89,8 +96,12 @@ public class GlacierLengthVersusTimeChart extends JDialog {
         // x-axis (time) range will be set dynamically
         
         NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
-        rangeAxis.setRange( LENGTH_RANGE );
-        rangeAxis.setTickUnit( new NumberTickUnit( Y_AXIS_TICK_SPACING ) );
+        if ( englishUnits ) {
+            rangeAxis.setRange( LENGTH_RANGE_ENGLISH );
+        }
+        else {
+            rangeAxis.setRange( LENGTH_RANGE_METRIC );
+        }
         
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setMouseZoomable( false );
@@ -116,7 +127,10 @@ public class GlacierLengthVersusTimeChart extends JDialog {
     
     private void update() {
         final double t = _clock.getSimulationTime();
-        final double length = _glacier.getLength();
+        double length = _glacier.getLength();
+        if ( _englishUnits ) {
+            length = UnitsConverter.metersToFeet( length );
+        }
         _series.add( t, length );
         double tMin = _series.getDataItem( 0 ).getX().doubleValue();
         _domainAxis.setRange( new Range( tMin, tMin + MAX_NUMBER_OF_YEARS ) );

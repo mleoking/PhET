@@ -45,12 +45,12 @@ public class AdvancedControlPanel extends JPanel {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public AdvancedControlPanel( GlaciersModel model, GlaciersPlayArea playArea, Frame dialogOwner, Module module ) {
+    public AdvancedControlPanel( GlaciersModel model, GlaciersPlayArea playArea, Frame dialogOwner, Module module, boolean englishUnits ) {
         super();
         
         _viewControlPanel = new ViewControlPanel( playArea );
         _climateControlPanel = new ClimateControlPanel( model.getClimate() );
-        _graphsControlPanel = new GraphsControlPanel( model, dialogOwner );
+        _graphsControlPanel = new GraphsControlPanel( model, dialogOwner, englishUnits );
         _clockControlPanel = new GlaciersClockControlPanel( model.getClock() );
         _miscControlPanel = new MiscControlPanel( model.getGlacier(), dialogOwner, module );
         
@@ -85,6 +85,9 @@ public class AdvancedControlPanel extends JPanel {
         
         Class[] excludedClasses = { ViewControlPanel.class, ClimateControlPanel.class, GraphsControlPanel.class, JTextComponent.class };
         SwingUtils.setBackgroundDeep( this, BACKGROUND_COLOR, excludedClasses, false /* processContentsOfExcludedContainers */ );
+        
+        _viewControlPanel.addUnitsChangedListener( playArea );
+        _viewControlPanel.addUnitsChangedListener( _graphsControlPanel );
     }
     
     //----------------------------------------------------------------------------

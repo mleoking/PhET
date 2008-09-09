@@ -23,6 +23,7 @@ import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.Climate;
 import edu.colorado.phet.glaciers.model.Climate.ClimateAdapter;
 import edu.colorado.phet.glaciers.model.Climate.ClimateListener;
+import edu.colorado.phet.glaciers.util.UnitsConverter;
 
 /**
  * TemperatureVersusElevationChart displays a "Temperature versus Elevation" chart.
@@ -32,19 +33,30 @@ import edu.colorado.phet.glaciers.model.Climate.ClimateListener;
  */
 public class TemperatureVersusElevationChart extends JDialog {
     
-    private static final Range TEMPERATURE_RANGE = new Range( -20, 8 ); // degrees C
-    private static final Range ELEVATION_RANGE = new Range( 2000, 5000 ); // meters
+    private static final Range TEMPERATURE_RANGE_METRIC = new Range( -20, 8 ); // degrees C
+    private static final Range TEMPERATURE_RANGE_ENGLISH = new Range( 
+            UnitsConverter.celsiusToFahrenheit( TEMPERATURE_RANGE_METRIC.getLowerBound() ), 
+            UnitsConverter.celsiusToFahrenheit( TEMPERATURE_RANGE_METRIC.getUpperBound() ) ); // degrees F
+    
+    private static final Range ELEVATION_RANGE_METRIC = new Range( 2000, 5000 ); // meters
+    private static final Range ELEVATION_RANGE_ENGLISH = new Range( 
+            UnitsConverter.metersToFeet( ELEVATION_RANGE_METRIC.getLowerBound() ), 
+            UnitsConverter.metersToFeet( ELEVATION_RANGE_METRIC.getUpperBound() ) ); // feet
+    
     private static final double DELTA_ELEVATION = 100; // meters
     
     private final Climate _climate;
     private final ClimateListener _climateListener;
     private final XYSeries _series;
+    private final boolean _englishUnits;
     
-    public TemperatureVersusElevationChart( Frame owner, Dimension size, Climate climate ) {
+    public TemperatureVersusElevationChart( Frame owner, Dimension size, Climate climate, boolean englishUnits ) {
         super( owner );
         
         setSize( size );
         setResizable( false );
+        
+        _englishUnits = englishUnits;
         
         _climate = climate;
         _climateListener = new ClimateAdapter() {
@@ -60,10 +72,12 @@ public class TemperatureVersusElevationChart extends JDialog {
         dataset.addSeries( _series );
         
         // create the chart
+        String xAxisLabel = ( englishUnits ? GlaciersStrings.AXIS_TEMPERATURE_FAHRENHEIT : GlaciersStrings.AXIS_TEMPERATURE_CELSIUS );
+        String yAxisLabel = ( englishUnits ? GlaciersStrings.AXIS_ELEVATION_ENGLISH : GlaciersStrings.AXIS_ELEVATION_METRIC );
         JFreeChart chart = ChartFactory.createXYLineChart(
             GlaciersStrings.TITLE_TEMPERATURE_VERSUS_ELEVATION, // title
-            GlaciersStrings.AXIS_TEMPERATURE, // x axis label
-            GlaciersStrings.AXIS_ELEVATION,  // y axis label
+            xAxisLabel, 
+            yAxisLabel,
             dataset,
             PlotOrientation.VERTICAL,
             false, // legend
@@ -75,11 +89,21 @@ public class TemperatureVersusElevationChart extends JDialog {
         
         NumberAxis domainAxis = (NumberAxis) plot.getDomainAxis();
         domainAxis.setStandardTickUnits( NumberAxis.createIntegerTickUnits() );
-        domainAxis.setRange( TEMPERATURE_RANGE );
+        if ( englishUnits ) {
+            domainAxis.setRange( TEMPERATURE_RANGE_ENGLISH );
+        }
+        else {
+            domainAxis.setRange( TEMPERATURE_RANGE_METRIC );       
+        }
         
         NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
         rangeAxis.setStandardTickUnits( NumberAxis.createIntegerTickUnits() );
-        rangeAxis.setRange( ELEVATION_RANGE );
+        if ( englishUnits ) {
+            rangeAxis.setRange( ELEVATION_RANGE_ENGLISH );
+        }
+        else {
+            rangeAxis.setRange( ELEVATION_RANGE_METRIC );    
+        }
         
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setMouseZoomable( false );
@@ -105,12 +129,17 @@ public class TemperatureVersusElevationChart extends JDialog {
     
     private void update() {
         _series.clear();
-        double elevation = ELEVATION_RANGE.getLowerBound();
+        double elevation = ELEVATION_RANGE_METRIC.getLowerBound();
         double temperature = 0;
-        final double maxElevation = ELEVATION_RANGE.getUpperBound();
-        while ( elevation <=  maxElevation ) {
+        final double maxElevation = ELEVATION_RANGE_METRIC.getUpperBound();
+        while ( elevation <= maxElevation ) {
             temperature = _climate.getTemperature( elevation );
-            _series.add( temperature, elevation );
+            if ( _englishUnits ) {
+                _series.add( UnitsConverter.celsiusToFahrenheit( temperature ), UnitsConverter.metersToFeet( elevation ) );
+            }
+            else {
+                _series.add( temperature, elevation );
+            }
             elevation += DELTA_ELEVATION;
         }
     }

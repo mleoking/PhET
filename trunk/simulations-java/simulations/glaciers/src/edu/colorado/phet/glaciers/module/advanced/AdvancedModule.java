@@ -52,7 +52,7 @@ public class AdvancedModule extends GlaciersModule {
         setSimulationPanel( _playArea );
 
         // Put our control panel where the clock control panel normally goes
-        _controlPanel = new AdvancedControlPanel( _model, _playArea, dialogOwner, this );
+        _controlPanel = new AdvancedControlPanel( _model, _playArea, dialogOwner, this, GlaciersConstants.DEFAULT_TO_ENGLISH_UNITS );
         setClockControlPanel( _controlPanel );
         
         // Help
