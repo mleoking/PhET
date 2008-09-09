@@ -9,7 +9,6 @@
 	<classpathentry kind="src" path="common/mechanics/src"/>
 	<classpathentry kind="src" path="common/motion/src"/>
 	<classpathentry kind="src" path="common/motion/data"/>
-	<classpathentry kind="src" path="common/persistence/src"/>
 	<classpathentry kind="src" path="common/phetcommon/src"/>
 	<classpathentry kind="src" path="common/phetcommon/data"/>
 	<classpathentry kind="src" path="common/phetgraphics/src"/>
@@ -25,8 +24,10 @@
 	<classpathentry kind="src" path="contrib/beanshell/asm/src"/>
 	<classpathentry kind="src" path="contrib/jade/src"/>
 	<classpathentry kind="src" path="contrib/Jama/src"/>
-	<classpathentry kind="src" path="contrib/piccolo/src"/>
-	<classpathentry excluding="edu/umd/cs/piccolox/swt/" kind="src" path="contrib/piccolo/extras"/>
+	<classpathentry kind="src" path="contrib/piccolo2d/core/src/main/java"/>
+	<classpathentry kind="src" path="contrib/piccolo2d/core/src/test/java"/>
+	<classpathentry excluding="edu/umd/cs/piccolo/swtexamples/" kind="src" path="contrib/piccolo2d/examples/src/main/java"/>
+	<classpathentry excluding="edu/umd/cs/piccolox/swt/" kind="src" path="contrib/piccolo2d/extras/src/main/java"/>
 	<classpathentry kind="src" path="simulations/balloons/src"/>
 	<classpathentry kind="src" path="simulations/balloons/data"/>
 	<classpathentry kind="src" path="simulations/battery-voltage/src"/>
