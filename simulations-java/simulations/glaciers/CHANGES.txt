@@ -70,6 +70,7 @@ CLEANUP:
 
 
 DONE:
+9/9/08 - add CoordinatesNode, parent node for distance and elevation axes
 9/9/08 - rewrite ElevationAxisNode to handle English/metric switching
 9/9/08 - hook up English/metric radio buttons to coordinate axes
 9/9/08 - rewrite DistanceAxisNode to handle English/metric switching

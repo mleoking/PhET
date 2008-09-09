@@ -2,14 +2,13 @@
 
 package edu.colorado.phet.glaciers.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
-
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -231,54 +230,5 @@ public class ElevationAxisNode extends PComposite {
         }
         
         return tickNode;
-    }
-    
-    //----------------------------------------------------------------------------
-    // Utilities
-    //----------------------------------------------------------------------------
-
-    /**
-     * Creates an icon to represent a set of x-y axes.
-     * @return Icon
-     */
-    public static Icon createIcon() {
-        
-        PNode parentNode = new PNode();
-        
-        // constants
-        final double xStart = -10;
-        final double xEnd = 20;
-        final double yStart = -10;
-        final double yEnd = 10;
-        final double tickSpacing = 5;
-        final double tickLength = 2;
-        final Stroke stroke = new BasicStroke( 1f );
-        
-        // x axis with tick marks
-        PPath xAxisNode = new PPath( new Line2D.Double( xStart, 0, xEnd, 0 ) );
-        xAxisNode.setStroke( stroke );
-        xAxisNode.setStrokePaint( AXIS_COLOR );
-        parentNode.addChild( xAxisNode );
-        for ( double x = ( xStart + tickSpacing ); x < xEnd; x += tickSpacing ) {
-            PPath tickNode = new PPath( new Line2D.Double( x, -(tickLength/2), x, (tickLength/2) ) );
-            tickNode.setStroke( stroke );
-            tickNode.setStrokePaint( AXIS_COLOR );
-            parentNode.addChild( tickNode );
-        }
-        
-        // y axis with tick marks
-        PPath yAxisNode = new PPath( new Line2D.Double( 0, yStart, 0, yEnd ) );
-        yAxisNode.setStroke( stroke );
-        yAxisNode.setStrokePaint( AXIS_COLOR );
-        parentNode.addChild( yAxisNode );
-        for ( double y = ( yStart + tickSpacing ); y < yEnd; y += tickSpacing ) {
-            PPath tickNode = new PPath( new Line2D.Double( -(tickLength/2), y, (tickLength/2), y ) );
-            tickNode.setStroke( stroke );
-            tickNode.setStrokePaint( AXIS_COLOR );
-            parentNode.addChild( tickNode );
-        }
-        
-        Image image = parentNode.toImage();
-        return new ImageIcon( image );
     }
 }
