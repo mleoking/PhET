@@ -13,6 +13,7 @@ import javax.swing.JDialog;
 import javax.swing.JMenu;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.nuclearphysics.AbstractNuclearPhysicsApplication;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsApplication;
 
 /**
@@ -23,11 +24,11 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsApplication;
  */
 public class DeveloperMenu extends JMenu implements ActionListener {
 
-    private NuclearPhysicsApplication _app;
+    private AbstractNuclearPhysicsApplication _app;
     private JCheckBoxMenuItem _developerControlsItem;
     private JDialog _developerControlsDialog;
 
-    public DeveloperMenu( NuclearPhysicsApplication app ) {
+    public DeveloperMenu( AbstractNuclearPhysicsApplication app ) {
         super( "Developer" );
 
         _app = app;
