@@ -26,6 +26,7 @@ import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.Climate;
 import edu.colorado.phet.glaciers.model.Climate.ClimateListener;
+import edu.colorado.phet.glaciers.util.UnitsConverter;
 
 /**
  * GlacialBudgetVersusElevationChart charts glacial budget, accumulation and ablation versus elevation.
@@ -35,7 +36,11 @@ import edu.colorado.phet.glaciers.model.Climate.ClimateListener;
  */
 public class GlacialBudgetVersusElevationChart extends JDialog {
     
-    private static final Range ELEVATION_RANGE = new Range( 2000, 5000 ); // meters
+    private static final Range ELEVATION_RANGE_METRIC = new Range( 2000, 5000 ); // meters
+    private static final Range ELEVATION_RANGE_ENGLISH = new Range( 
+            UnitsConverter.metersToFeet( ELEVATION_RANGE_METRIC.getLowerBound() ), 
+            UnitsConverter.metersToFeet( ELEVATION_RANGE_METRIC.getUpperBound() ) ); // feet
+    
     private static final double DELTA_ELEVATION = 100; // meters
     private static final Stroke GLACIAL_BUDGET_STROKE = new BasicStroke( 2f );
     private static final Stroke ACCUMULATION_STROKE = new BasicStroke( 1f );
@@ -46,12 +51,15 @@ public class GlacialBudgetVersusElevationChart extends JDialog {
     private final Climate _climate;
     private final ClimateListener _climateListener;
     private final XYSeries _glacialBudgetSeries, _accumulationSeries, _ablationSeries, _negativeAblationSeries;
+    private final boolean _englishUnits;
     
-    public GlacialBudgetVersusElevationChart( Frame owner, Dimension size, Climate climate ) {
+    public GlacialBudgetVersusElevationChart( Frame owner, Dimension size, Climate climate, boolean englishUnits ) {
         super( owner );
         
         setSize( size );
         setResizable( false );
+        
+        _englishUnits = englishUnits;
         
         _climate = climate;
         _climateListener = new ClimateListener() {
@@ -77,10 +85,12 @@ public class GlacialBudgetVersusElevationChart extends JDialog {
         dataset.addSeries( _glacialBudgetSeries );
 
         // create the chart
+        String xAxisLabel = ( englishUnits ? GlaciersStrings.AXIS_FEET_PER_YEAR : GlaciersStrings.AXIS_METERS_PER_YEAR );
+        String yAxisLabel = ( englishUnits ? GlaciersStrings.AXIS_ELEVATION_ENGLISH : GlaciersStrings.AXIS_ELEVATION_METRIC );
         JFreeChart chart = ChartFactory.createXYLineChart(
             GlaciersStrings.TITLE_GLACIAL_BUDGET_VERSUS_ELEVATION, // title
-            GlaciersStrings.AXIS_METERS_PER_YEAR, // x axis label
-            GlaciersStrings.AXIS_ELEVATION,  // y axis label
+            xAxisLabel,
+            yAxisLabel,
             dataset,
             PlotOrientation.VERTICAL,
             true, // legend
@@ -107,7 +117,12 @@ public class GlacialBudgetVersusElevationChart extends JDialog {
         
         NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
         rangeAxis.setStandardTickUnits( NumberAxis.createIntegerTickUnits() );
-        rangeAxis.setRange( ELEVATION_RANGE );
+        if ( _englishUnits ) {
+            rangeAxis.setRange( ELEVATION_RANGE_ENGLISH );
+        }
+        else {
+            rangeAxis.setRange( ELEVATION_RANGE_METRIC );
+        }
         
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setMouseZoomable( false );
@@ -138,11 +153,11 @@ public class GlacialBudgetVersusElevationChart extends JDialog {
         _ablationSeries.clear();
         _negativeAblationSeries.clear();
         
-        double elevation = ELEVATION_RANGE.getLowerBound();
+        double elevation = ELEVATION_RANGE_METRIC.getLowerBound();
         double glacialBudget = 0;
         double accumulation = 0;
         double ablation = 0;
-        final double maxElevation = ELEVATION_RANGE.getUpperBound();
+        final double maxElevation = ELEVATION_RANGE_METRIC.getUpperBound();
         
         while ( elevation <=  maxElevation ) {
             
@@ -150,10 +165,18 @@ public class GlacialBudgetVersusElevationChart extends JDialog {
             accumulation = _climate.getAccumulation( elevation );
             ablation = _climate.getAblation( elevation );
             
-            _glacialBudgetSeries.add( glacialBudget, elevation );
-            _accumulationSeries.add( accumulation, elevation );
-            _ablationSeries.add( ablation, elevation );
-            _negativeAblationSeries.add( -ablation, elevation );
+            double adjustedElevation = elevation;
+            if ( _englishUnits ) {
+                adjustedElevation = UnitsConverter.metersToFeet( adjustedElevation );
+                glacialBudget = UnitsConverter.metersToFeet( glacialBudget );
+                accumulation = UnitsConverter.metersToFeet( accumulation );
+                ablation = UnitsConverter.metersToFeet( ablation );
+            }
+            
+            _glacialBudgetSeries.add( glacialBudget, adjustedElevation );
+            _accumulationSeries.add( accumulation, adjustedElevation );
+            _ablationSeries.add( ablation, adjustedElevation );
+            _negativeAblationSeries.add( -ablation, adjustedElevation );
 
             elevation += DELTA_ELEVATION;
         }

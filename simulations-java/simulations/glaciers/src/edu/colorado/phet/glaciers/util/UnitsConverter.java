@@ -21,7 +21,7 @@ public class UnitsConverter {
         return ( (9./5.) * celsius ) + 32.;
     }
     
-    public static double fahrenheitToCelcius( double fahrenheit ) {
+    public static double fahrenheitToCelsius( double fahrenheit ) {
         return ( 5./9.) * ( fahrenheit - 32. );
     }
 }

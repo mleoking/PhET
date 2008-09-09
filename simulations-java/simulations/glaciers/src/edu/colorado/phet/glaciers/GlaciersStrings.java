@@ -20,11 +20,16 @@ public class GlaciersStrings {
 
     public static final String BUTTON_STEADY_STATE = GlaciersResources.getString( "button.steadyState" );
     
-    public static final String AXIS_ELEVATION = GlaciersResources.getString( "axis.elevation" );
-    public static final String AXIS_EQUILIBRIUM_LINE_ALTITUDE = GlaciersResources.getString( "axis.equilibriumLineAltitude" );
-    public static final String AXIS_GLACIER_LENGTH = GlaciersResources.getString( "axis.glacierLength" );
+    public static final String AXIS_ELEVATION_METRIC = GlaciersResources.getString( "axis.elevation.metric" );
+    public static final String AXIS_ELEVATION_ENGLISH = GlaciersResources.getString( "axis.elevation.english" );
+    public static final String AXIS_ELA_METRIC = GlaciersResources.getString( "axis.ela.metric" );
+    public static final String AXIS_ELA_ENGLISH = GlaciersResources.getString( "axis.ela.english" );
+    public static final String AXIS_GLACIER_LENGTH_METRIC = GlaciersResources.getString( "axis.glacierLength.metric" );
+    public static final String AXIS_GLACIER_LENGTH_ENGLISH = GlaciersResources.getString( "axis.glacierLength.english" );
+    public static final String AXIS_FEET_PER_YEAR = GlaciersResources.getString( "axis.feetPerYear" );
     public static final String AXIS_METERS_PER_YEAR = GlaciersResources.getString( "axis.metersPerYear" );
-    public static final String AXIS_TEMPERATURE = GlaciersResources.getString( "axis.temperature" );
+    public static final String AXIS_TEMPERATURE_CELSIUS = GlaciersResources.getString( "axis.temperature.celsius" );
+    public static final String AXIS_TEMPERATURE_FAHRENHEIT = GlaciersResources.getString( "axis.temperature.fahrenheit" );
     public static final String AXIS_TIME = GlaciersResources.getString( "axis.time" );
     
     public static final String CHECK_BOX_EQUILIBRIUM_LINE = GlaciersResources.getString( "checkBox.equilibriumLine" );

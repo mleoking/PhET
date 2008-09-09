@@ -20,13 +20,14 @@ import edu.colorado.phet.glaciers.charts.GlacialBudgetVersusElevationChart;
 import edu.colorado.phet.glaciers.charts.GlacierLengthVersusTimeChart;
 import edu.colorado.phet.glaciers.charts.TemperatureVersusElevationChart;
 import edu.colorado.phet.glaciers.model.GlaciersModel;
+import edu.colorado.phet.glaciers.view.UnitsChangeListener;
 
 /**
  * GraphsControlPanel is the control panel for creating graphs.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class GraphsControlPanel extends AbstractSubPanel {
+public class GraphsControlPanel extends AbstractSubPanel implements UnitsChangeListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -68,15 +69,18 @@ public class GraphsControlPanel extends AbstractSubPanel {
     private Point _glacialBudgetVersusElevationChartLocation;
     private Point _temperatureVersusElevationChartLocation;
     
+    private boolean _englishUnits;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
-    public GraphsControlPanel( GlaciersModel model, Frame dialogOwner ) {
+    public GraphsControlPanel( GlaciersModel model, Frame dialogOwner, boolean englishUnits ) {
         super( TITLE_STRING, TITLE_COLOR, TITLE_FONT );
 
         _model = model;
         _dialogOwner = dialogOwner;
+        _englishUnits = englishUnits;
         
         _glacierLengthVersusTimeCheckBox = new JCheckBox( GlaciersStrings.TITLE_GLACIER_LENGTH_VERSUS_TIME );
         _glacierLengthVersusTimeCheckBox.setFont( CONTROL_FONT );
@@ -92,7 +96,7 @@ public class GraphsControlPanel extends AbstractSubPanel {
         _elaVersusTimeCheckBox.setForeground( CONTROL_COLOR );
         _elaVersusTimeCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                handleEquilibriumLineAltitudeVersusTimeCheckBox();
+                handleELAVersusTimeCheckBox();
             }
         } );
 
@@ -144,7 +148,7 @@ public class GraphsControlPanel extends AbstractSubPanel {
     public void setELAVersusTimeSelected( boolean selected ) {
         if ( selected != isELAVersusTimeSelected() ) {
             _elaVersusTimeCheckBox.setSelected( selected );
-            handleEquilibriumLineAltitudeVersusTimeCheckBox();
+            handleELAVersusTimeCheckBox();
         }
     }
 
@@ -198,36 +202,56 @@ public class GraphsControlPanel extends AbstractSubPanel {
     
     private void handleGlacierLengthVersusTimeCheckBox() {
         if ( _glacierLengthVersusTimeCheckBox.isSelected() ) {
-            _glacierLengthVersusTimeChart = new GlacierLengthVersusTimeChart( _dialogOwner, CHART_SIZE, _model.getGlacier(), _model.getClock() );
-            setDialogLocation( _glacierLengthVersusTimeChart, _glacierLengthVersusTimeChartLocation );
-            _glacierLengthVersusTimeChart.addWindowListener( new WindowAdapter() {
-                // called when the close button in the dialog's window dressing is clicked
-                public void windowClosing( WindowEvent e ) {
-                    setGlacierLengthVerusTimeSelected( false );
-                }
-            } );
-            _glacierLengthVersusTimeChart.setVisible( true );
+            openGlacierLengthVersusTimeChart();
         }
         else {
+            closeGlacierLengthVersusTimeChart();
+        }
+    }
+    
+    private void openGlacierLengthVersusTimeChart() {
+        _glacierLengthVersusTimeChart = new GlacierLengthVersusTimeChart( _dialogOwner, CHART_SIZE, _model.getGlacier(), _model.getClock(), _englishUnits );
+        setDialogLocation( _glacierLengthVersusTimeChart, _glacierLengthVersusTimeChartLocation );
+        _glacierLengthVersusTimeChart.addWindowListener( new WindowAdapter() {
+            // called when the close button in the dialog's window dressing is clicked
+            public void windowClosing( WindowEvent e ) {
+                setGlacierLengthVerusTimeSelected( false );
+            }
+        } );
+        _glacierLengthVersusTimeChart.setVisible( true );
+    }
+    
+    private void closeGlacierLengthVersusTimeChart() {
+        if ( _glacierLengthVersusTimeChart != null ) {
             _glacierLengthVersusTimeChartLocation = _glacierLengthVersusTimeChart.getLocation();
             _glacierLengthVersusTimeChart.dispose();
             _glacierLengthVersusTimeChart = null;
         }
     }
     
-    private void handleEquilibriumLineAltitudeVersusTimeCheckBox() {
+    private void handleELAVersusTimeCheckBox() {
         if ( _elaVersusTimeCheckBox.isSelected() ) {
-            _elaVersusTimeChart = new ELAVersusTimeChart( _dialogOwner, CHART_SIZE, _model.getClimate(), _model.getClock() );
-            setDialogLocation( _elaVersusTimeChart, _elaVersusTimeChartLocation );
-            _elaVersusTimeChart.addWindowListener( new WindowAdapter() {
-                // called when the close button in the dialog's window dressing is clicked
-                public void windowClosing( WindowEvent e ) {
-                    setELAVersusTimeSelected( false );
-                }
-            } );
-            _elaVersusTimeChart.setVisible( true );
+            openELAVersusTimeChart();
         }
         else {
+            closeELAVersusTimeChart();
+        }
+    }
+    
+    private void openELAVersusTimeChart() {
+        _elaVersusTimeChart = new ELAVersusTimeChart( _dialogOwner, CHART_SIZE, _model.getClimate(), _model.getClock(), _englishUnits );
+        setDialogLocation( _elaVersusTimeChart, _elaVersusTimeChartLocation );
+        _elaVersusTimeChart.addWindowListener( new WindowAdapter() {
+            // called when the close button in the dialog's window dressing is clicked
+            public void windowClosing( WindowEvent e ) {
+                setELAVersusTimeSelected( false );
+            }
+        } );
+        _elaVersusTimeChart.setVisible( true );
+    }
+    
+    private void closeELAVersusTimeChart() {
+        if ( _elaVersusTimeChart != null ) {
             _elaVersusTimeChartLocation = _elaVersusTimeChart.getLocation();
             _elaVersusTimeChart.dispose();
             _elaVersusTimeChart = null;
@@ -236,17 +260,27 @@ public class GraphsControlPanel extends AbstractSubPanel {
 
     private void handleGlacialBudgetVersusElevationCheckBox() {
         if ( _glacialBudgetVersusElevationCheckBox.isSelected() ) {
-            _glacialBudgetVersusElevationChart = new GlacialBudgetVersusElevationChart( _dialogOwner, CHART_SIZE, _model.getClimate() );
-            setDialogLocation( _glacialBudgetVersusElevationChart, _glacialBudgetVersusElevationChartLocation );
-            _glacialBudgetVersusElevationChart.addWindowListener( new WindowAdapter() {
-                // called when the close button in the dialog's window dressing is clicked
-                public void windowClosing( WindowEvent e ) {
-                    setGlacialBudgetVersusElevationSelected( false );
-                }
-            } );
-            _glacialBudgetVersusElevationChart.setVisible( true );
+            openGlacialBudgetVersusElevationChart();
         }
         else {
+            closeGlacialBudgetVersusElevationChart();
+        }
+    }
+    
+    private void openGlacialBudgetVersusElevationChart() {
+        _glacialBudgetVersusElevationChart = new GlacialBudgetVersusElevationChart( _dialogOwner, CHART_SIZE, _model.getClimate(), _englishUnits );
+        setDialogLocation( _glacialBudgetVersusElevationChart, _glacialBudgetVersusElevationChartLocation );
+        _glacialBudgetVersusElevationChart.addWindowListener( new WindowAdapter() {
+            // called when the close button in the dialog's window dressing is clicked
+            public void windowClosing( WindowEvent e ) {
+                setGlacialBudgetVersusElevationSelected( false );
+            }
+        } );
+        _glacialBudgetVersusElevationChart.setVisible( true );
+    }
+    
+    private void closeGlacialBudgetVersusElevationChart() {
+        if ( _glacialBudgetVersusElevationChart != null ) {
             _glacialBudgetVersusElevationChartLocation = _glacialBudgetVersusElevationChart.getLocation();
             _glacialBudgetVersusElevationChart.dispose();
             _glacialBudgetVersusElevationChart = null;
@@ -255,17 +289,27 @@ public class GraphsControlPanel extends AbstractSubPanel {
     
     private void handleTemperatureVersusElevationCheckBox() {
         if ( _temperatureVersusElevationCheckBox.isSelected() ) {
-            _temperatureVersusElevationChart = new TemperatureVersusElevationChart( _dialogOwner, CHART_SIZE, _model.getClimate() );
-            setDialogLocation( _temperatureVersusElevationChart, _temperatureVersusElevationChartLocation );
-            _temperatureVersusElevationChart.addWindowListener( new WindowAdapter() {
-                // called when the close button in the dialog's window dressing is clicked
-                public void windowClosing( WindowEvent e ) {
-                    setTemperatureVersusElevationSelected( false );
-                }
-            } );
-            _temperatureVersusElevationChart.setVisible( true );
+            openTemperatureVersusElevationChart();
         }
         else {
+            closeTemperatureVersusElevationChart();
+        }
+    }
+    
+    private void openTemperatureVersusElevationChart() {
+        _temperatureVersusElevationChart = new TemperatureVersusElevationChart( _dialogOwner, CHART_SIZE, _model.getClimate(), _englishUnits );
+        setDialogLocation( _temperatureVersusElevationChart, _temperatureVersusElevationChartLocation );
+        _temperatureVersusElevationChart.addWindowListener( new WindowAdapter() {
+            // called when the close button in the dialog's window dressing is clicked
+            public void windowClosing( WindowEvent e ) {
+                setTemperatureVersusElevationSelected( false );
+            }
+        } );
+        _temperatureVersusElevationChart.setVisible( true );
+    }
+    
+    private void closeTemperatureVersusElevationChart() {
+        if ( _temperatureVersusElevationChart != null ) {
             _temperatureVersusElevationChartLocation = _temperatureVersusElevationChart.getLocation();
             _temperatureVersusElevationChart.dispose();
             _temperatureVersusElevationChart = null;
@@ -282,6 +326,31 @@ public class GraphsControlPanel extends AbstractSubPanel {
         }
         else {
             SwingUtils.centerDialogInParent( dialog );
+        }
+    }
+    
+    /*
+     * Changing units results in any open dialogs being closed and reopened.
+     */
+    public void unitsChanged( boolean englishUnits ) {
+        if ( englishUnits != _englishUnits ) {
+            _englishUnits = englishUnits;
+            if ( _glacierLengthVersusTimeChart != null ) {
+                closeGlacierLengthVersusTimeChart();
+                openGlacierLengthVersusTimeChart();
+            }
+            if ( _elaVersusTimeChart != null ) {
+                closeELAVersusTimeChart();
+                openELAVersusTimeChart();
+            }
+            if ( _glacialBudgetVersusElevationChart != null ) {
+                closeGlacialBudgetVersusElevationChart();
+                openGlacialBudgetVersusElevationChart();
+            }
+            if ( _temperatureVersusElevationChart != null ) {
+                closeTemperatureVersusElevationChart();
+                openTemperatureVersusElevationChart();
+            }
         }
     }
 }
