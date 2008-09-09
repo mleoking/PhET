@@ -11,7 +11,7 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - make glacial budget units consistent between tool and graph
-- switch tools between English & metric units
+- switch tools between English & metric units (gps, glacial budget meter, ice thickness tool)
 - switch climate controls between English & metric units
 - make sure everything works properly when clock is paused
 - "steady state" feature needs to fill glacier with debris and surface ripples (and create moraine?)
