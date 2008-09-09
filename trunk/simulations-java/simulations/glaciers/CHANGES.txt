@@ -10,6 +10,7 @@ HIGH PRIORITY:
 - glacier growth from zero length still takes a long time, and then speeds up [Archie will fix model]
 
 MEDIUM PRIORITY:
+- make glacial budget units consistent between tool and graph
 - switch tools between English & metric units
 - switch climate controls between English & metric units
 - make sure everything works properly when clock is paused
