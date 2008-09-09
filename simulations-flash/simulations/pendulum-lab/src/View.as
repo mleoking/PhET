@@ -131,6 +131,9 @@
 			lineStyle(lineWidth, colorNbr, 100, false, "normal", "none");
 			moveTo(R*Math.cos(angle*dToR), R*Math.sin(angle*dToR));
 			lineTo((R+dR)*Math.cos(angle*dToR), (R+dR)*Math.sin(angle*dToR));
+			var angleOtherSide:Number = 90 + (90 - angle);
+			moveTo(R*Math.cos(angleOtherSide*dToR), R*Math.sin(angleOtherSide*dToR));
+			lineTo((R+dR)*Math.cos(angleOtherSide*dToR), (R+dR)*Math.sin(angleOtherSide*dToR));
 		}
  
 	}//setPointerAngle

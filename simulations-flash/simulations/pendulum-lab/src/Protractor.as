@@ -32,7 +32,7 @@
 		var tLL:Number = 10;
 		var dToR:Number = Math.PI/180;		//degrees to radians
 		this.clip.lineStyle(lineWidth, 0x000000, 100);
-		for(var i:Number = 0; i <= 90; i++){
+		for(var i:Number = 0; i <= 180; i++){
 			clip.moveTo(R*Math.cos(i*dToR), R*Math.sin(i*dToR));
 			clip.lineTo((R+tS)*Math.cos(i*dToR), (R+tS)*Math.sin(i*dToR));
 			if(i%5 == 0){
@@ -48,6 +48,7 @@
 		this.clip._visible = tOrF;
 	}
 	
+	//following function is obsolete
 	function setInitAngle(pendulumNbr:Number, initAngle:Number):Void{
 		var R:Number = this.radius
 		var dR:Number = 10
@@ -74,6 +75,9 @@
 			lineStyle(lineWidth, colorNbr, 100);
 			moveTo(R*Math.cos(initAngle*dToR), R*Math.sin(initAngle*dToR));
 			lineTo((R+dR)*Math.cos(initAngle*dToR), (R+dR)*Math.sin(initAngle*dToR));
+			//trace(initAngle);
+			//moveTo(R*Math.cos(initAngle*dToR), R*Math.sin(initAngle*dToR));
+			//lineTo((R+dR)*Math.cos(initAngle*dToR), (R+dR)*Math.sin(initAngle*dToR));
 		}
 
 	}//setInitAngle
