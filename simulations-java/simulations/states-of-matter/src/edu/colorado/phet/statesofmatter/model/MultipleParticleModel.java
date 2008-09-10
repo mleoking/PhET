@@ -2604,8 +2604,46 @@ public class MultipleParticleModel {
     }
     
     /**
-     * This function calculates the temperature of the system by looking at
-     * the kinetic energy of the particles.
+     * Take the internal pressure value and convert it to atmospheres.  This
+     * is dependent on the type of molecule selected.  The values and ranges
+     * used in this method were derived from information provided by Paul
+     * Beale.
+     * 
+     * @return
+     */
+    public double convertInteralPressureToAtmospheres() {
+        
+        double pressureInAtmospheres = 0;
+        
+        switch (m_currentMolecule){
+        
+        case StatesOfMatterConstants.NEON:
+            pressureInAtmospheres = 150 * getPressure();
+            break;
+            
+        case StatesOfMatterConstants.ARGON:
+            pressureInAtmospheres = 100 * getPressure();
+            break;
+
+        case StatesOfMatterConstants.WATER:
+            pressureInAtmospheres = 150 * getPressure();
+            break;
+            
+        case StatesOfMatterConstants.DIATOMIC_OXYGEN:
+            pressureInAtmospheres = 100 * getPressure();
+            break;
+            
+        default:
+            pressureInAtmospheres = 0;
+            break;
+        }
+        
+        return pressureInAtmospheres;
+    }
+
+    /**
+     * Calculate the temperature by examining the kinetic energy of the
+     * molecules.
      * 
      * @return
      */

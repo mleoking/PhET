@@ -9,6 +9,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
+import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.view.BicyclePumpNode;
 import edu.colorado.phet.statesofmatter.view.ModelViewTransform;
@@ -44,9 +45,8 @@ public class PhaseChangesCanvas extends PhetPCanvas {
     private final double PUMP_HEIGHT = CANVAS_HEIGHT / 2;
     private final double PUMP_WIDTH = CANVAS_WIDTH / 4;
     
-    // Maximum value expected for pressure.  JPB TBD - Should probably get
-    // this from the model or somewhere, though I'm not sure where yet.
-    private final double MAX_PRESSURE = 1;
+    // Maximum value expected for pressure, in atmospheres.
+    private final double MAX_PRESSURE = 10;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -83,7 +83,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         // Set ourself up as a listener to the model.
         m_model.addListener( new MultipleParticleModel.Adapter(){
             public void pressureChanged(){
-                m_pressureMeter.setValue(m_model.getPressure());
+                m_pressureMeter.setValue(m_model.convertInteralPressureToAtmospheres());
             }
             public void temperatureChanged(){
                 updateThermometerTemperature();
@@ -105,7 +105,8 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         Rectangle2D containerRect = m_model.getParticleContainerRect();
 
         // Add the pressure meter.
-        m_pressureMeter = new DialGaugeNode(PRESSURE_GAUGE_WIDTH, "Pressure", 0, MAX_PRESSURE, "");
+        m_pressureMeter = new DialGaugeNode(PRESSURE_GAUGE_WIDTH, StatesOfMatterStrings.PRESSURE_GAUGE_TITLE, 0, 
+                MAX_PRESSURE, StatesOfMatterStrings.PRESSURE_GAUGE_UNITS);
         m_pressureMeter.setOffset( containerRect.getX() - m_pressureMeter.getFullBoundsReference().width, 
                 containerRect.getY() - m_pressureMeter.getFullBoundsReference().height * 0.75 );
         addWorldChild( m_pressureMeter );
