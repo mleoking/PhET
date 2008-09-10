@@ -50,12 +50,12 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
     private final double CANVAS_HEIGHT = CANVAS_WIDTH * (3.0d/4.0d);
     
     // Translation factors, used to set origin of canvas area.
-    private final double WIDTH_TRANSLATION_FACTOR = 2.0;
-    private final double HEIGHT_TRANSLATION_FACTOR = 4.0;
+    private final double WIDTH_TRANSLATION_FACTOR = 0.5;   // 0 = all the way left, 1 = all the way right.
+    private final double HEIGHT_TRANSLATION_FACTOR = 0.45; // 0 = all the way up, 1 = all the way down.
     
     // Constants that control where the charts are placed.
-    private final double CHART_AREA_FRACTION = 0.5; // Fraction of canvas for charts.
-    private final double ENERGY_CHART_FRACTION = 0.6; // Fraction of chart area for this chart.
+    private final double TIME_CHART_FRACTION = 0.22;   // Fraction of canvas for time chart.
+    private final double ENERGY_CHART_FRACTION = 0.3; // Fraction of canvas for energy chart.
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -80,8 +80,8 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
         setWorldTransformStrategy( new RenderingSizeStrategy(this, 
                 new PDimension(CANVAS_WIDTH, CANVAS_HEIGHT) ){
             protected AffineTransform getPreprocessedTransform(){
-                return AffineTransform.getTranslateInstance( getWidth()/WIDTH_TRANSLATION_FACTOR, 
-                        getHeight()/HEIGHT_TRANSLATION_FACTOR );
+                return AffineTransform.getTranslateInstance( getWidth() * WIDTH_TRANSLATION_FACTOR, 
+                        getHeight() * HEIGHT_TRANSLATION_FACTOR );
             }
         });
         
@@ -190,24 +190,20 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
         
         // Add the lines that make it clear that the tunneling radius is at
         // the point where the particle energy exceeds the potential energy.
-        PPath leftBreakoutLine = new PPath(new Line2D.Double(-radius, 
-                -CANVAS_HEIGHT * HEIGHT_TRANSLATION_FACTOR, -radius, 
-                CANVAS_HEIGHT * (1 - 1/HEIGHT_TRANSLATION_FACTOR - (CHART_AREA_FRACTION * (1 - ENERGY_CHART_FRACTION) ))));
+        PPath leftBreakoutLine = new PPath(new Line2D.Double(-radius, -CANVAS_HEIGHT, -radius, CANVAS_HEIGHT));
         leftBreakoutLine.setStroke( new BasicStroke(0.1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
                 new float[] {2, 2 }, 0) );
         leftBreakoutLine.setStrokePaint( new Color(0x990099) );
         addWorldChild(leftBreakoutLine);
 
-        PPath rightBreakoutLine = new PPath(new Line2D.Double(radius, 
-                -CANVAS_HEIGHT * HEIGHT_TRANSLATION_FACTOR, radius, 
-                CANVAS_HEIGHT * (1 - 1/HEIGHT_TRANSLATION_FACTOR - (CHART_AREA_FRACTION * (1 - ENERGY_CHART_FRACTION) ))));
+        PPath rightBreakoutLine = new PPath(new Line2D.Double(radius, -CANVAS_HEIGHT, radius, CANVAS_HEIGHT));
         rightBreakoutLine.setStroke( new BasicStroke(0.1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
                 new float[] {2, 2 }, 0) );
         rightBreakoutLine.setStrokePaint( new Color(0x990099) );
         addWorldChild(rightBreakoutLine);
         
         // Add the button for resetting the nucleus to the canvas.
-        _resetButtonNode = new GradientButtonNode(NuclearPhysicsStrings.RESET_NUCLEUS, 16, new Color(0xff9900));
+        _resetButtonNode = new GradientButtonNode(NuclearPhysicsStrings.RESET_NUCLEUS, 22, new Color(0xff9900));
         addScreenChild(_resetButtonNode);
         
         // Register to receive button pushes.
@@ -232,18 +228,25 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
              */
             public void componentResized( ComponentEvent e ) {
                 
-                // Position the energy chart.
-                Rectangle2D energyChartRect = new Rectangle2D.Double(0, getHeight() * CHART_AREA_FRACTION, getWidth(),
-                        getHeight() * CHART_AREA_FRACTION * ENERGY_CHART_FRACTION);
+                // Redraw the energy chart.
+                Rectangle2D energyChartRect = new Rectangle2D.Double(0, 0, getWidth(), 
+                        getHeight() * ENERGY_CHART_FRACTION);
                 _alphaRadiationEnergyChart.componentResized( energyChartRect );
 
+                // Position the energy chart.
+                _alphaRadiationEnergyChart.setOffset( 0, 
+                        getHeight() - _alphaRadiationEnergyChart.getFullBoundsReference().height );
+                
+                // Redraw the time chart.
+                _alphaRadiationTimeChart.componentResized( new Rectangle2D.Double( 0, 0, getWidth(),
+                        getHeight() * TIME_CHART_FRACTION));
+                
                 // Position the time chart.
-                _alphaRadiationTimeChart.componentResized( 
-                        new Rectangle2D.Double( 0, energyChartRect.getMaxY(), getWidth(),
-                        getHeight() * CHART_AREA_FRACTION * (1 - ENERGY_CHART_FRACTION)));
+                _alphaRadiationTimeChart.setOffset( 0, 0 );
                 
                 // Position the reset button.
-                _resetButtonNode.setOffset( 0.80 * getWidth(), 0.10 * getHeight() );
+                _resetButtonNode.setOffset( (0.82 * getWidth()) - (_resetButtonNode.getFullBoundsReference().width / 2),
+                        0.30 * getHeight() );
             }
         } );
     }
