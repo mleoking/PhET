@@ -109,6 +109,7 @@ public class Forces1DControlPanel extends IForceControl {
             }
         } );
         mass.setMajorTickSpacing( ( mass.getMaximum() - mass.getMinimum() ) / 2.0 );
+        mass.getTextField().setColumns( 5 );
         gravity = createControl( model.getGravity(), 0, MAX_GRAV, Force1DResources.get( "Force1dControlPanel.gravity" ), Force1DResources.get( "Force1dControlPanel.gravityUnits" ), new SpinnerHandler() {
             public void changed( double value ) {
                 model.setGravity( value );
