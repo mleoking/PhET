@@ -306,10 +306,19 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     private void handleMovableParticleAdded(StatesOfMatterAtom particle){
         // Add an atom node for this guy.
         m_movableParticle = particle;
-        m_movableParticleNode = new GrabbableParticleNode(m_model, particle, m_mvt, m_useGradient);
+        m_movableParticleNode = new GrabbableParticleNode(m_model, particle, m_mvt, m_useGradient, 0,
+                Double.POSITIVE_INFINITY);
         m_movableParticleNode.setShowForces( m_showForces );
         addWorldChild( m_movableParticleNode );
+        
+        // Limit the particle's motion in the X direction so that it can
+        // only slightly overlap with the fixed particle.
+        m_movableParticleNode.setMinX( m_movableParticle.getRadius() * 1.9 );
+        
+        // Add ourself as a listener.
         particle.addListener( m_atomListener );
+        
+        // Update the position marker to represent the new particle's position.
         updatePositionMarkerOnDiagram();
     }
     
