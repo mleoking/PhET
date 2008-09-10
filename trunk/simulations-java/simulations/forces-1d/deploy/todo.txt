@@ -2,8 +2,6 @@
 ####	Todo Sam R		####
 ############################
 
-- The friction buttons do not show the initial state. The state appears to be "on", but the button does not show that it is selected.
-
 - The text box for mass (in more controls) is not large enough to show more than 3 digits. It should show up to 5 digits (to include 1000.0)
 
 ############################
