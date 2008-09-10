@@ -2,9 +2,8 @@
 ####	Todo Sam R		####
 ############################
 
-7. Change the friction checkbox into a horizontal layout Friction on/off radio buttons
 9. Better layout for gravity & mass sliders, try using linearvaluecontrol, see e.g. optical tweezers fluid controls (applies to all controls in the "more controls" area.)
-Initial values for advanced controls seem incorrect
+-Initial values for advanced controls seem incorrect
 
 ############################
 ####	For Discussion	####
