@@ -2,8 +2,6 @@
 ####	Todo Sam R		####
 ############################
 
-- The text box for mass (in more controls) is not large enough to show more than 3 digits. It should show up to 5 digits (to include 1000.0)
-
 ############################
 ####	For Discussion	####
 ############################
