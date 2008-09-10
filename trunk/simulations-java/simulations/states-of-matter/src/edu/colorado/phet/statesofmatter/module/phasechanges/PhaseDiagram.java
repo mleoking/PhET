@@ -73,7 +73,7 @@ public class PhaseDiagram extends PhetPCanvas {
     private static final double CURRENT_STATE_MARKER_DIAMETER = 7;
     private static final Point2D DEFAULT_TOP_OF_SOLID_LIQUID_CURVE = new Point2D.Double(xUsableRange * 0.4 + xOriginOffset, 
             yOriginOffset - yUsableRange);
-    private static final Point2D DEFAULT_TRIPLE_POINT = new Point2D.Double(xOriginOffset + (xUsableRange * 0.30), 
+    private static final Point2D DEFAULT_TRIPLE_POINT = new Point2D.Double(xOriginOffset + (xUsableRange * 0.28), 
             yOriginOffset - (yUsableRange * 0.2));
     private static final Point2D DEFAULT_CRITICAL_POINT = new Point2D.Double(xOriginOffset + (xUsableRange * 0.8), 
             yOriginOffset - (yUsableRange * 0.45));
@@ -237,7 +237,7 @@ public class PhaseDiagram extends PhetPCanvas {
         
         // Add the curve that separates solid and liquid.
         QuadCurve2D solidLiquidCurve = new QuadCurve2D.Double(xOriginOffset, yOriginOffset, 
-                (xOriginOffset + xUsableRange) * 0.5, yOriginOffset, DEFAULT_TOP_OF_SOLID_LIQUID_CURVE.getX(),
+                (xOriginOffset + xUsableRange) * 0.45, yOriginOffset, DEFAULT_TOP_OF_SOLID_LIQUID_CURVE.getX(),
                 DEFAULT_TOP_OF_SOLID_LIQUID_CURVE.getY() );
         
         m_solidLiquidLine.setPathTo( solidLiquidCurve );
@@ -318,7 +318,13 @@ public class PhaseDiagram extends PhetPCanvas {
      * @param normalizedPressure - Pressure (Y position) value between 0 and 1 (inclusive).
      */
     public void setStateMarkerPos(double normalizedTemperature, double normalizedPressure){
-        // TODO: JPB TBD - Add code to throw exception if out of range.
+        if ((normalizedTemperature < 0) || (normalizedTemperature > 1.0) ||
+            (normalizedPressure < 0) || (normalizedPressure > 1.0)) {
+            
+            // Parameter out of range - throw exception.
+            throw new IllegalArgumentException("Value out of range, temperature = " + normalizedTemperature + 
+                    ", pressure = " + normalizedPressure);
+        }
         m_currentStateMarkerPos.setLocation( normalizedTemperature, normalizedPressure );
         m_currentStateMarker.setOffset( normalizedTemperature * xUsableRange + xOriginOffset - (CURRENT_STATE_MARKER_DIAMETER / 2), 
                 -normalizedPressure * yUsableRange + yOriginOffset - (CURRENT_STATE_MARKER_DIAMETER / 2));

@@ -34,6 +34,8 @@ public class ParticleContainerNode2 extends PhetPNode {
     private static final double NON_CONTAINER_IMAGE_FRACTION_FROM_BOTTOM = 0.05;
     private static final double NON_CONTAINER_IMAGE_FRACTION_FROM_TOP    = 0.00;
     public static final String IMAGE_NAME = "cup_3D_front_70_back_line.png";
+    
+    public static final double MAX_TEMP_IN_KELVIN = 1000;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -133,7 +135,7 @@ public class ParticleContainerNode2 extends PhetPNode {
      * Update the value displayed in the thermometer.
      */
     private void updateThermometerTemperature(){
-        m_thermometerNode.setLiquidHeight( m_model.getNormalizedTemperature() );
+        double temperature = Math.min(  m_model.getTemperatureInKelvin() / MAX_TEMP_IN_KELVIN, 1 ); 
     }
 
     // TODO: JPB TBD - Is this needed?

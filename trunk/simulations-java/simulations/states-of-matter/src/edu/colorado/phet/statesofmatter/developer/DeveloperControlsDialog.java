@@ -110,7 +110,7 @@ public class DeveloperControlsDialog extends JDialog {
         // Register with the model for various events.
         m_model.addListener( new MultipleParticleModel.Adapter(){
             public void temperatureChanged(){
-                m_temperatureControl.setValue( m_model.getTemperature() );
+                m_temperatureControl.setValue( m_model.getModelTemperature() );
             }
             public void resetOccurred(){
                 updateAdditionalInfo();
@@ -166,7 +166,7 @@ public class DeveloperControlsDialog extends JDialog {
         m_temperatureControl.setMajorTickSpacing( 2.5 );
         m_temperatureControl.setMinorTickSpacing( 1.25 );
         m_temperatureControl.setBorder( BorderFactory.createEtchedBorder() );
-        m_temperatureControl.setValue( m_model.getTemperature() );
+        m_temperatureControl.setValue( m_model.getModelTemperature() );
         m_temperatureControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 Module activeModule = m_app.getActiveModule();
