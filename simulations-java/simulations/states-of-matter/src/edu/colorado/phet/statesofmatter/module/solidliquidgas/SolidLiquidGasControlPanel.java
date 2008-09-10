@@ -122,12 +122,14 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
             JLabel solidIcon = new JLabel( icon );
 
             image = StatesOfMatterResources.getImage( StatesOfMatterConstants.LIQUID_IMAGE );
+            scaleFactor = (double)(BUTTON_FONT.getSize() * 2) / (double)(image.getHeight());
             scaledImage = image.getScaledInstance( (int)(scaleFactor * image.getWidth()), 
                     (int)(scaleFactor * image.getHeight()), Image.SCALE_SMOOTH);
             icon = new ImageIcon( scaledImage );
             JLabel liquidIcon = new JLabel( icon );
 
             image = StatesOfMatterResources.getImage( StatesOfMatterConstants.GAS_IMAGE );
+            scaleFactor = (double)(BUTTON_FONT.getSize() * 2) / (double)(image.getHeight());
             scaledImage = image.getScaledInstance( (int)(scaleFactor * image.getWidth()), 
                     (int)(scaleFactor * image.getHeight()), Image.SCALE_SMOOTH);
             icon = new ImageIcon( scaledImage );
@@ -153,6 +155,7 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
                     m_model.setPhase( MultipleParticleModel.PHASE_LIQUID );
                 }
             } );
+            
             m_gasButton = new JButton( StatesOfMatterStrings.PHASE_STATE_GAS );
             m_gasButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
             m_gasButton.setAlignmentX( Component.CENTER_ALIGNMENT );
