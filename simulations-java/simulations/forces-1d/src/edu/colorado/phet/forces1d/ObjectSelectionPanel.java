@@ -24,7 +24,7 @@ public class ObjectSelectionPanel extends JPanel {
     private Font selectedFont = new Font( PhetFont.getDefaultFontName(), Font.BOLD, 13 );
     private Font normalFont = new Font( PhetFont.getDefaultFontName(), Font.PLAIN, 13 );
 
-    public ObjectSelectionPanel( final Force1dObject[] imageElements, final SimpleControlPanel simpleControlPanel ) {
+    public ObjectSelectionPanel( final Force1dObject[] imageElements, final Forces1DControlPanel simpleControlPanel ) {
         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
         ButtonGroup bg = new ButtonGroup();
         final JRadioButton[] jRadioButtons = new JRadioButton[imageElements.length];
