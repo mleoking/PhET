@@ -55,9 +55,13 @@ public class Forces1DModule extends Module {
                 new Force1dObject( "forces-1d/images/crate.gif", Force1DResources.get( "Force1DModule.crate" ), 0.8, 300, 0.2, 0.2 ),
                 new Force1dObject( "forces-1d/images/ollie.gif", Force1DResources.get( "Force1DModule.sleepyDog" ), 0.5, 25, 0.1, 0.1 ),
         };
+
         forcePanel = new Force1DPanel( this );
         forcePanel.addRepaintDebugGraphic( clock );
         setApparatusPanel( forcePanel );
+
+        //ensure model values are correct before creating controls
+        restoreDefaults();
 
         simpleControlPanel = new Forces1DControlPanel( this );
 

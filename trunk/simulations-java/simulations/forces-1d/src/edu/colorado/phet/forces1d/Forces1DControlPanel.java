@@ -103,13 +103,13 @@ public class Forces1DControlPanel extends IForceControl {
             }
         } );
 
-        mass = createControl( 5, 0.1, 1000, Force1DResources.get( "Force1dControlPanel.mass" ), Force1DResources.get( "Force1dControlPanel.kg" ), new SpinnerHandler() {
+        mass = createControl( model.getBlock().getMass(), 0.1, 1000, Force1DResources.get( "Force1dControlPanel.mass" ), Force1DResources.get( "Force1dControlPanel.kg" ), new SpinnerHandler() {
             public void changed( double value ) {
                 model.getBlock().setMass( value );
             }
         } );
         mass.setMajorTickSpacing( ( mass.getMaximum() - mass.getMinimum() ) / 2.0 );
-        gravity = createControl( 9.8, 0, MAX_GRAV, Force1DResources.get( "Force1dControlPanel.gravity" ), Force1DResources.get( "Force1dControlPanel.gravityUnits" ), new SpinnerHandler() {
+        gravity = createControl( model.getGravity(), 0, MAX_GRAV, Force1DResources.get( "Force1dControlPanel.gravity" ), Force1DResources.get( "Force1dControlPanel.gravityUnits" ), new SpinnerHandler() {
             public void changed( double value ) {
                 model.setGravity( value );
             }
@@ -126,7 +126,7 @@ public class Forces1DControlPanel extends IForceControl {
             }
         } );
 
-        staticFriction = createControl( 0.10, 0, MAX_KINETIC_FRICTION, Force1DResources.get( "Force1dControlPanel.staticFriction" ), "", new SpinnerHandler() {
+        staticFriction = createControl( model.getBlock().getStaticFriction(), 0, MAX_KINETIC_FRICTION, Force1DResources.get( "Force1dControlPanel.staticFriction" ), "", new SpinnerHandler() {
             public void changed( double value ) {
                 model.getBlock().setStaticFriction( value );
             }
@@ -141,7 +141,7 @@ public class Forces1DControlPanel extends IForceControl {
                 }
             }
         } );
-        kineticFriction = createControl( 0.05, 0, MAX_KINETIC_FRICTION, Force1DResources.get( "Force1dControlPanel.kineticFriction" ), "", new SpinnerHandler() {
+        kineticFriction = createControl( model.getBlock().getKineticFriction(), 0, MAX_KINETIC_FRICTION, Force1DResources.get( "Force1dControlPanel.kineticFriction" ), "", new SpinnerHandler() {
             public void changed( double value ) {
                 model.getBlock().setKineticFriction( value );
             }
