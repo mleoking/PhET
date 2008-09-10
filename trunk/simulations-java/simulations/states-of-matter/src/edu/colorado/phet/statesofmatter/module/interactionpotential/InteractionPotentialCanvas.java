@@ -125,6 +125,10 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
             public void movableParticleRemoved(StatesOfMatterAtom particle){
                 handleMovableParticleRemoved( particle );
             }
+            public void particleDiameterChanged(){
+                m_movableParticleNode.setMinX( m_movableParticle.getRadius() * 1.9 );
+            };
+
         });
 
         // Set the transform strategy so that the the origin (i.e. point x=0,

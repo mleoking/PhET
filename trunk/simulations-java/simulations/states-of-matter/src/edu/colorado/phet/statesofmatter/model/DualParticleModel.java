@@ -188,7 +188,7 @@ public class DualParticleModel {
         notifyInteractionPotentialChanged();
         m_fixedParticle.setRadius( m_sigma / 2 );
         m_movableParticle.setRadius( m_sigma / 2 );
-        notifyInteractionPotentialChanged();
+        notifyParticleDiameterChanged();
     }
     
     /**
