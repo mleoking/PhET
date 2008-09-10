@@ -108,8 +108,10 @@ public class WiggleMe extends CompositePhetGraphic {
     }
 
     private void tick() {
-        if ( isVisible() && getComponent().isShowing() ) {
-            double time = ( System.currentTimeMillis() - t0 ) / 1000.0;
+        double time = ( System.currentTimeMillis() - t0 ) / 1000.0;
+        double period=2*Math.PI/frequency;
+        if ( isVisible() && getComponent().isShowing() &&time<3*period) {
+
             Point targetLoc = target.getLocation();
 
             Point oscillationCenter = new Point( targetLoc.x - getWidth() - 5, targetLoc.y );
@@ -118,6 +120,7 @@ public class WiggleMe extends CompositePhetGraphic {
             Point2D dest = norm.getDestination( oscillationCenter );
 
             setLocation( (int) dest.getX(), (int) dest.getY() );
+
         }
     }
 
