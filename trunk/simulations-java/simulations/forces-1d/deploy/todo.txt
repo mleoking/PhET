@@ -2,6 +2,11 @@
 ####	Todo Sam R		####
 ############################
 
+- rename "kinetic friction" to "coefficient of kinetic friction".
+- remove the selection for different objects when more controls is selected. Should no longer be necessary since the objects will still be shown above the controls.
+- #9 below applies to all controls in the "more controls" area.
+- Just to be sure, the wiggle me help text should be "Drag object to apply a force."
+
 1. "More controls" should add controls below original "more controls" button (instead of replacing with a separate entire control panel)
 2. Add >> and << to More & Less controls.
 3. "more controls" button should stay in the same place instead of going to the bottom
