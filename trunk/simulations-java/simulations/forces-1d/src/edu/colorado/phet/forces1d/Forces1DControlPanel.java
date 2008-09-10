@@ -3,22 +3,10 @@ package edu.colorado.phet.forces1d;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.Hashtable;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ModelSliderLayoutStrategy;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
-import edu.colorado.phet.forces1d.model.Block;
 import edu.colorado.phet.forces1d.model.Force1DModel;
-import edu.colorado.phet.forces1d.phetcommon.view.components.VerticalLayoutPanel;
-import edu.colorado.phet.forces1d.phetcommon.view.util.GraphicsState;
 import edu.colorado.phet.forces1d.view.FreeBodyDiagramSuite;
 
 /**
@@ -29,7 +17,7 @@ import edu.colorado.phet.forces1d.view.FreeBodyDiagramSuite;
 public class Forces1DControlPanel extends IForceControl {
     private Forces1DModule module;
     private Force1DModel model;
-    
+
     private FreeBodyDiagramSuite freeBodyDiagramSuite;
     private JComboBox comboBox;
 
@@ -72,14 +60,10 @@ public class Forces1DControlPanel extends IForceControl {
         }
 
 
-
-
-
         JPanel smallPanel = new JPanel();
         smallPanel.add( barriers );
 
         addControlFullWidth( smallPanel );
-
 
 //        gravity.setPaintTicks( false );
 

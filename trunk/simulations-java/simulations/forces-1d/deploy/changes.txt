@@ -5,6 +5,9 @@ Fixed: The wiggle me help text should be "Drag object to apply a force."
 Fixed: Add >> and << to More & Less controls
 Fixed: "more controls" button should stay in the same place instead of going to the bottom
 Fixed: More controls" should add controls below original "more controls" button (instead of replacing with a separate entire control panel)
+Renamed "show component forces" to "show horizontal forces"
+Fixed: Stop animating the wiggle me help text after 2 oscillations
+Fixed: Remove the selection for different objects when more controls is selected (Should no longer be necessary since the objects will still be shown above the controls)
 
 New in 1.17.15
 Fixed: When you first click Graph Force, the slider is very small. It expands when you mouse over it.

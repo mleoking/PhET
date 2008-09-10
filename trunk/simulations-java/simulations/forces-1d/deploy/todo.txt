@@ -2,13 +2,8 @@
 ####	Todo Sam R		####
 ############################
 
-4. Change text "show component forces" to "show horizontal forces"
-5. Change wiggle me help text to "drag object"
-6. Stop animating the wiggle me help text after 2 oscillations
 7. Change the friction checkbox into a horizontal layout Friction on/off radio buttons
 9. Better layout for gravity & mass sliders, try using linearvaluecontrol, see e.g. optical tweezers fluid controls (applies to all controls in the "more controls" area.)
-- remove the selection for different objects when more controls is selected.
-    Should no longer be necessary since the objects will still be shown above the controls.
 Initial values for advanced controls seem incorrect
 
 ############################
