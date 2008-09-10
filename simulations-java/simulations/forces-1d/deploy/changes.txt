@@ -1,3 +1,6 @@
+New in 1.17.18
+Fixed: The friction buttons do not show the initial state. The state appears to be "on", but the button does not show that it is selected.
+
 New in 1.17.17
 Renamed "kinetic friction" to "coefficient of kinetic friction"
 Renamed "static friction" to "coefficient of static friction"

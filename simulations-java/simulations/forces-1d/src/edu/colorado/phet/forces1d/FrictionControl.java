@@ -32,5 +32,8 @@ public class FrictionControl extends JPanel {
         add(new JLabel(Force1DResources.get( "SimpleControlPanel.friction" )));
         add( onButton );
         add( offButton );
+
+        onButton.setSelected( module.isFrictionEnabled() );
+        onButton.setSelected( !module.isFrictionEnabled() );
     }
 }

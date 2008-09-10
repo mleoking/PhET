@@ -261,6 +261,10 @@ public class Force1DModel implements ModelElement {
         return appliedForceDataSeries;
     }
 
+    public boolean isFrictionEnabled() {
+        return friction;
+    }
+
     public static class CollisionEvent {
         double momentum = 0.0;
 

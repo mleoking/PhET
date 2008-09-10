@@ -186,6 +186,10 @@ public class Forces1DModule extends Module {
         getForceModel().setFrictionEnabled( useFriction );
     }
 
+    public boolean isFrictionEnabled(){
+        return getForceModel().isFrictionEnabled();
+    }
+
     public void setImageIndex( int imageIndex ) {
         try {
             getForcePanel().getBlockGraphic().setImage( imageElements[imageIndex].getImage() );
