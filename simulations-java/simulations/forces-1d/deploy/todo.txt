@@ -2,8 +2,6 @@
 ####	Todo Sam R		####
 ############################
 
--Initial values for advanced controls seem incorrect
-
 ############################
 ####	For Discussion	####
 ############################
