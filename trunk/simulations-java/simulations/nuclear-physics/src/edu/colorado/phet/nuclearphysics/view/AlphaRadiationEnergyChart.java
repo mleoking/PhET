@@ -50,7 +50,7 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
     private static final Stroke  BORDER_STROKE = new BasicStroke( BORDER_STROKE_WIDTH );
     private static final Color   BACKGROUND_COLOR = new Color( 246, 242, 175 );
     private static final double  AXES_LINE_WIDTH = 0.5f;
-    private static final Color   AXES_LINE_COLOR = Color.GRAY;
+    private static final Color   AXES_LINE_COLOR = Color.BLACK;
     private static final double  ORIGIN_PROPORTION_X = 0.1d;
     private static final double  ORIGIN_PROPORTION_Y = 0.33d;
     private static final float   ENERGY_LINE_STROKE_WIDTH = 2f;
