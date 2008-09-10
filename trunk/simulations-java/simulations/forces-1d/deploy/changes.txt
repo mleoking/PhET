@@ -1,3 +1,11 @@
+New in 1.17.16
+Renamed "kinetic friction" to "coefficient of kinetic friction"
+Renamed "static friction" to "coefficient of static friction"
+Fixed: The wiggle me help text should be "Drag object to apply a force."
+Fixed: Add >> and << to More & Less controls
+Fixed: "more controls" button should stay in the same place instead of going to the bottom
+Fixed: More controls" should add controls below original "more controls" button (instead of replacing with a separate entire control panel)
+
 New in 1.17.15
 Fixed: When you first click Graph Force, the slider is very small. It expands when you mouse over it.
 Fixed: If you set a force and hit go, when you rewind and playback, the force slider tracks the friction force rather than the applied force.
