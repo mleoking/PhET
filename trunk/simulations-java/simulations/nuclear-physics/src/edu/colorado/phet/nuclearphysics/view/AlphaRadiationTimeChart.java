@@ -51,7 +51,7 @@ public class AlphaRadiationTimeChart extends PNode {
     private static final Color BORDER_COLOR = Color.DARK_GRAY;
     private static final float BORDER_STROKE_WIDTH = 6f;
     private static final Stroke BORDER_STROKE = new BasicStroke( BORDER_STROKE_WIDTH );
-    private static final Color BACKGROUND_COLOR = Color.WHITE;
+    private static final Color   BACKGROUND_COLOR = new Color( 246, 242, 175 );
     private static final float AXES_LINE_WIDTH = 0.5f;
     private static final Stroke AXES_STROKE = new BasicStroke( AXES_LINE_WIDTH );
     private static final Color AXES_LINE_COLOR = Color.GRAY;
