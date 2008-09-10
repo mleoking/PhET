@@ -9,6 +9,7 @@ Renamed "show component forces" to "show horizontal forces"
 Fixed: Stop animating the wiggle me help text after 2 oscillations
 Fixed: Remove the selection for different objects when more controls is selected (Should no longer be necessary since the objects will still be shown above the controls)
 Changed the friction checkbox into a horizontal layout Friction on/off radio buttons
+Fixed: Better layout for gravity & mass sliders, try using linearvaluecontrol, see e.g. optical tweezers fluid controls (applies to all controls in the "more controls" area.)
 
 New in 1.17.15
 Fixed: When you first click Graph Force, the slider is very small. It expands when you mouse over it.

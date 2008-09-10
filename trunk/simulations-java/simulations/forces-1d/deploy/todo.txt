@@ -2,7 +2,6 @@
 ####	Todo Sam R		####
 ############################
 
-9. Better layout for gravity & mass sliders, try using linearvaluecontrol, see e.g. optical tweezers fluid controls (applies to all controls in the "more controls" area.)
 -Initial values for advanced controls seem incorrect
 
 ############################

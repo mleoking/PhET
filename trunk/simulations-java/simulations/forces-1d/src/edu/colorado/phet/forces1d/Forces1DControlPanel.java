@@ -259,7 +259,7 @@ public class Forces1DControlPanel extends IForceControl {
     }
 
     private LinearValueControl createControl( double value, double min, double max, String name, String units, final SpinnerHandler handler ) {
-        final LinearValueControl linearValueControl = new LinearValueControl( min, max, name, "0.0", units, new ModelSliderLayoutStrategy() );
+        final LinearValueControl linearValueControl = new LinearValueControl( min, max, name, "0.0", units);
         linearValueControl.setValue( value );
         linearValueControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
