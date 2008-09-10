@@ -2,6 +2,12 @@
 ####	Todo Sam R		####
 ############################
 
+The "Apply a Force...slider" wiggle me can end up in the wrong place.
+
+Open the sim, move the object a bit, then click Graph Force. Then hit clear and select yes. The wiggle me appears at the top instead of near the slider.
+
+If you click on Graph Force and then clear *before* you move the object, then the wiggle me ends up in the right place. 
+
 ############################
 ####	For Discussion	####
 ############################
