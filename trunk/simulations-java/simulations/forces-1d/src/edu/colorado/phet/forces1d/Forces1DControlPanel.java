@@ -29,7 +29,7 @@ import edu.colorado.phet.forces1d.view.FreeBodyDiagramSuite;
  * Time: 8:15:29 PM
  */
 
-public class SimpleControlPanel extends IForceControl {
+public class Forces1DControlPanel extends IForceControl {
     private FreeBodyDiagramSuite fbdSuite;
     //    private JCheckBox frictionCheckBox;
     private BarrierCheckBox barriers;
@@ -46,7 +46,7 @@ public class SimpleControlPanel extends IForceControl {
     static final Stroke stroke = new BasicStroke( 1 );
     private FrictionControl frictionControl;
 
-    public SimpleControlPanel( final Forces1DModule module ) {
+    public Forces1DControlPanel( final Forces1DModule module ) {
         super( module );
         this.module = module;
         this.model = module.getForceModel();

@@ -30,7 +30,7 @@ public class Forces1DModule extends Module {
     private Color backgroundColor;
     private Force1DModel forceModel;
     private Force1DPanel forcePanel;
-    private SimpleControlPanel simpleControlPanel;
+    private Forces1DControlPanel simpleControlPanel;
     private Force1dObject[] imageElements;
     private DefaultPlaybackPanel playbackPanel;
     private PhetFrame phetFrame;
@@ -59,7 +59,7 @@ public class Forces1DModule extends Module {
         forcePanel.addRepaintDebugGraphic( clock );
         setApparatusPanel( forcePanel );
 
-        simpleControlPanel = new SimpleControlPanel( this );
+        simpleControlPanel = new Forces1DControlPanel( this );
 
         setControlPanel( simpleControlPanel );
         addModelElement( forceModel );
