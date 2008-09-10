@@ -31,9 +31,9 @@ import edu.colorado.phet.forces1d.view.FreeBodyDiagramSuite;
 
 public class SimpleControlPanel extends IForceControl {
     private FreeBodyDiagramSuite fbdSuite;
-    private JCheckBox frictionCheckBox;
+    //    private JCheckBox frictionCheckBox;
     private BarrierCheckBox barriers;
-    private Forces1DModule simpleForceModule;
+    private Forces1DModule module;
 
     private LinearValueControl mass;
     private LinearValueControl gravity;
@@ -44,25 +44,15 @@ public class SimpleControlPanel extends IForceControl {
     private Force1DModel model;
 
     static final Stroke stroke = new BasicStroke( 1 );
+    private FrictionControl frictionControl;
 
     public SimpleControlPanel( final Forces1DModule module ) {
         super( module );
-        this.simpleForceModule = module;
+        this.module = module;
         this.model = module.getForceModel();
 
-//        JButton moreControls = new JButton( Force1DResources.get( "SimpleControlPanel.moreControls" ) );
-//        moreControls.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                simpleForceModule.setAdvancedControlPanel();
-//            }
-//        } );
 
-        frictionCheckBox = new JCheckBox( Force1DResources.get( "SimpleControlPanel.friction" ), true );
-        frictionCheckBox.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                module.setFrictionEnabled( frictionCheckBox.isSelected() );
-            }
-        } );
+        frictionControl = new FrictionControl( module );
 
         fbdSuite = new FreeBodyDiagramSuite( module );
         fbdSuite.setControlPanel( this );
@@ -78,7 +68,7 @@ public class SimpleControlPanel extends IForceControl {
         addFullWidth( new ShowComponentForcesCheckBox( module ) );
         addFullWidth( new ShowTotalForceCheckBox( module ) );
 
-        addFullWidth( frictionCheckBox );
+        addControl( frictionControl );
         barriers = new BarrierCheckBox( module );
         addFullWidth( barriers );
         super.setHelpPanelEnabled( true );
@@ -245,7 +235,7 @@ public class SimpleControlPanel extends IForceControl {
         staticFriction.setEnabled( enabled );
         kineticFriction.setEnabled( enabled );
         barriers.setEnabled( enabled );
-        frictionCheckBox.setEnabled( enabled );
+        frictionControl.setEnabled( enabled );
     }
 
     public static JLabel toJLabel( String name ) {
@@ -292,7 +282,7 @@ public class SimpleControlPanel extends IForceControl {
     }
 
     public void setup( Force1dObject imageElement ) {
-        simpleForceModule.setObject( imageElement );
+        module.setObject( imageElement );
     }
 
     public void handleUserInput() {
