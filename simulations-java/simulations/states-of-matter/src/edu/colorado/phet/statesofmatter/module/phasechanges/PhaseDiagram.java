@@ -71,16 +71,16 @@ public class PhaseDiagram extends PhetPCanvas {
     // of the overall graph size and not as absolute values.
     private static final double POINT_MARKER_DIAMETER = 4;
     private static final double CURRENT_STATE_MARKER_DIAMETER = 7;
-    private static final Point2D DEFAULT_TOP_OF_SOLID_LIQUID_CURVE = new Point2D.Double(xUsableRange/2 + xOriginOffset, 
+    private static final Point2D DEFAULT_TOP_OF_SOLID_LIQUID_CURVE = new Point2D.Double(xUsableRange * 0.4 + xOriginOffset, 
             yOriginOffset - yUsableRange);
-    private static final Point2D DEFAULT_TRIPLE_POINT = new Point2D.Double(xOriginOffset + (xUsableRange * 0.32), 
+    private static final Point2D DEFAULT_TRIPLE_POINT = new Point2D.Double(xOriginOffset + (xUsableRange * 0.30), 
             yOriginOffset - (yUsableRange * 0.2));
     private static final Point2D DEFAULT_CRITICAL_POINT = new Point2D.Double(xOriginOffset + (xUsableRange * 0.8), 
             yOriginOffset - (yUsableRange * 0.45));
     private static final Point2D DEFAULT_SOLID_LABEL_LOCATION = new Point2D.Double(xOriginOffset + (xUsableRange * 0.2), 
-            yOriginOffset - (yUsableRange * 0.6));
+            yOriginOffset - (yUsableRange * 0.72));
     private static final Point2D DEFAULT_LIQUID_LABEL_LOCATION = new Point2D.Double(xOriginOffset + (xUsableRange * 0.6), 
-            yOriginOffset - (yUsableRange * 0.45));
+            yOriginOffset - (yUsableRange * 0.60));
     private static final Point2D DEFAULT_GAS_LABEL_LOCATION = new Point2D.Double(xOriginOffset + (xUsableRange * 0.6), 
             yOriginOffset - (yUsableRange * 0.15));
     
