@@ -68,9 +68,9 @@ public class AlphaRadiationTimeChart extends PNode {
     private static final float HALF_LIFE_LINE_STROKE_WIDTH = 2.0f;
     private static final Stroke HALF_LIFE_LINE_STROKE = new BasicStroke( HALF_LIFE_LINE_STROKE_WIDTH, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 3.0f, 3.0f }, 0 );
     private static final Color HALF_LIFE_LINE_COLOR = new Color (0x990000);
-    private static final Color HALF_LIFE_TEXT_COLOR = Color.WHITE;
-    private static final Font HALF_LIFE_FONT = new PhetFont( Font.BOLD, 14 );
-    private static final Font DECAY_TIME_FONT = new PhetFont( Font.PLAIN, 14 );
+    private static final Color HALF_LIFE_TEXT_COLOR = HALF_LIFE_LINE_COLOR;
+    private static final Font HALF_LIFE_FONT = new PhetFont( Font.BOLD, 16 );
+    private static final Font DECAY_TIME_FONT = new PhetFont( Font.PLAIN, 16 );
     private static final Color DECAY_TIME_COLOR = Color.RED;
 
     // Constants that control the location of the origin.
@@ -79,7 +79,7 @@ public class AlphaRadiationTimeChart extends PNode {
 
     // Constants that control the marker character.
     private static final String MARKER_CHAR = "*";
-    private static final Font MARKER_CHAR_FONT = new PhetFont( Font.PLAIN, 20 );
+    private static final Font MARKER_CHAR_FONT = new PhetFont( Font.BOLD, 22 );
     private static final Color MARKER_COLOR = Color.RED;
 
     // Max number of decays that we will keep track of.
@@ -320,9 +320,8 @@ public class AlphaRadiationTimeChart extends PNode {
         _nonPickableChartNode.addChild( _halfLifeMarkerLine );
 
         // Create the label for the half life line.
-        _halfLifeLabel = new PText( " " + NuclearPhysicsStrings.DECAY_TIME_CHART_HALF_LIFE + " " );
+        _halfLifeLabel = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_HALF_LIFE);
         _halfLifeLabel.setFont( HALF_LIFE_FONT );
-        _halfLifeLabel.setPaint( HALF_LIFE_LINE_COLOR );
         _halfLifeLabel.setTextPaint( HALF_LIFE_TEXT_COLOR );
         _nonPickableChartNode.addChild( _halfLifeLabel );
 
@@ -340,7 +339,7 @@ public class AlphaRadiationTimeChart extends PNode {
         _timeToDecayLabel = new PText( NuclearPhysicsStrings.DECAY_TIME_LABEL );
         _timeToDecayLabel.setFont( DECAY_TIME_FONT );
         _nonPickableChartNode.addChild( _timeToDecayLabel );
-        _timeToDecayText = new PText( "0.000" );
+        _timeToDecayText = new PText( "0.00" );
         _timeToDecayText.setFont( DECAY_TIME_FONT );
         _timeToDecayText.setTextPaint( DECAY_TIME_COLOR );
         _nonPickableChartNode.addChild( _timeToDecayText );
@@ -451,7 +450,8 @@ public class AlphaRadiationTimeChart extends PNode {
         _halfLifeMarkerLine.lineTo( (float) ( _graphOriginX + TIMELINE_START_OFFEST + ( HALF_LIFE * _msToPixelsFactor ) ), (float) ( _usableAreaOriginY + ( 0.1 * _usableHeight ) ) );
 
         // Position the label for the half life.
-        _halfLifeLabel.setOffset( _halfLifeMarkerLine.getX(), ( _usableAreaOriginY + ( 0.1 * _usableHeight ) ) );
+        _halfLifeLabel.setOffset( _halfLifeMarkerLine.getX() - (_halfLifeLabel.getFullBoundsReference().width / 2),
+                _graphOriginY + ( 0.5 * _halfLifeLabel.getFullBoundsReference().height ) );
 
         // Position the pre-decay time line.
         _preDecayTimeLine.reset();
