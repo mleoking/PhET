@@ -6,14 +6,18 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.BevelBorder;
@@ -34,13 +38,15 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
     // Class Data
     //----------------------------------------------------------------------------
+
+    private static final Font BUTTON_FONT = new PhetFont( Font.PLAIN, 14 );
     
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
     
     MultipleParticleModel m_model;
-    ForceStateChangePanel m_stateSelectionPanel;
+    ChangeStateControlPanel m_stateSelectionPanel;
     LinearValueControl m_gravityControl;
     
     //----------------------------------------------------------------------------
@@ -66,7 +72,7 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
         addControlFullWidth( new MoleculeSelectionPanel() );
         
         // Add the panel that allows the user to select the phase state.
-        m_stateSelectionPanel = new ForceStateChangePanel();
+        m_stateSelectionPanel = new ChangeStateControlPanel();
         addControlFullWidth( m_stateSelectionPanel );
         
         // Add the panel that allows the user to control the system temperature.
@@ -85,15 +91,16 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
      * This class defines the panel that allows the user to immediately change
      * the state of the current molecules.
      */
-    private class ForceStateChangePanel extends JPanel {
+    private class ChangeStateControlPanel extends JPanel {
         
-        private JButton m_solidRadioButton;
-        private JButton m_liquidRadioButton;
-        private JButton m_gasRadioButton;
+        private JButton m_solidButton;
+        private JButton m_liquidButton;
+        private JButton m_gasButton;
         
-        ForceStateChangePanel(){
+        ChangeStateControlPanel(){
             
-            setLayout( new BoxLayout(this, BoxLayout.PAGE_AXIS));
+//            setLayout( new BoxLayout(this, BoxLayout.PAGE_AXIS));
+            setLayout( new GridLayout(3, 2) );
             
             BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
             TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
@@ -105,34 +112,65 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
             
             setBorder( titledBorder );
 
-            m_solidRadioButton = new JButton( StatesOfMatterStrings.PHASE_STATE_SOLID );
-            m_solidRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
-            m_solidRadioButton.setAlignmentX( JComponent.CENTER_ALIGNMENT );
-            m_solidRadioButton.addActionListener( new ActionListener() {
+            // Create the images used to depict the various states.
+            
+            BufferedImage image = StatesOfMatterResources.getImage( StatesOfMatterConstants.ICE_CUBE_IMAGE );
+            double scaleFactor = (double)(BUTTON_FONT.getSize() * 2) / (double)(image.getHeight());
+            Image scaledImage = image.getScaledInstance( (int)(scaleFactor * image.getWidth()), 
+                    (int)(scaleFactor * image.getHeight()), Image.SCALE_SMOOTH);
+            ImageIcon icon = new ImageIcon( scaledImage );
+            JLabel solidIcon = new JLabel(icon);
+
+            image = StatesOfMatterResources.getImage( StatesOfMatterConstants.LIQUID_IMAGE );
+            scaleFactor = (double)(BUTTON_FONT.getSize() * 2) / (double)(image.getHeight());
+            scaledImage = image.getScaledInstance( (int)(scaleFactor * image.getWidth()), 
+                    (int)(scaleFactor * image.getHeight()), Image.SCALE_SMOOTH);
+            icon = new ImageIcon( scaledImage );
+            JLabel liquidIcon = new JLabel(icon);
+
+            image = StatesOfMatterResources.getImage( StatesOfMatterConstants.GAS_IMAGE );
+            scaleFactor = (double)(BUTTON_FONT.getSize() * 2) / (double)(image.getHeight());
+            scaledImage = image.getScaledInstance( (int)(scaleFactor * image.getWidth()), 
+                    (int)(scaleFactor * image.getHeight()), Image.SCALE_SMOOTH);
+            icon = new ImageIcon( scaledImage );
+            JLabel gasIcon = new JLabel(icon);
+
+            // Create and set up the buttons which the user will press to
+            // initiate a state change.
+            
+            m_solidButton = new JButton( StatesOfMatterStrings.PHASE_STATE_SOLID );
+            m_solidButton.setFont( BUTTON_FONT );
+            m_solidButton.setAlignmentX( JComponent.CENTER_ALIGNMENT );
+            m_solidButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     m_model.setPhase( MultipleParticleModel.PHASE_SOLID );
                 }
             } );
-            m_liquidRadioButton = new JButton( StatesOfMatterStrings.PHASE_STATE_LIQUID );
-            m_liquidRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
-            m_liquidRadioButton.setAlignmentX( JComponent.CENTER_ALIGNMENT );
-            m_liquidRadioButton.addActionListener( new ActionListener() {
+
+            m_liquidButton = new JButton( StatesOfMatterStrings.PHASE_STATE_LIQUID );
+            m_liquidButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
+            m_liquidButton.setAlignmentX( JComponent.CENTER_ALIGNMENT );
+            m_liquidButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     m_model.setPhase( MultipleParticleModel.PHASE_LIQUID );
                 }
             } );
-            m_gasRadioButton = new JButton( StatesOfMatterStrings.PHASE_STATE_GAS );
-            m_gasRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
-            m_gasRadioButton.setAlignmentX( JComponent.CENTER_ALIGNMENT );
-            m_gasRadioButton.addActionListener( new ActionListener() {
+            m_gasButton = new JButton( StatesOfMatterStrings.PHASE_STATE_GAS );
+            m_gasButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
+            m_gasButton.setAlignmentX( JComponent.CENTER_ALIGNMENT );
+            m_gasButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     m_model.setPhase( MultipleParticleModel.PHASE_GAS );
                 }
             } );
             
-            add( m_solidRadioButton );
-            add( m_liquidRadioButton );
-            add( m_gasRadioButton );
+            // Add the various components to the panel.
+            add( solidIcon );
+            add( m_solidButton );
+            add( liquidIcon );
+            add( m_liquidButton );
+            add( gasIcon );
+            add( m_gasButton );
         }
     }
 
