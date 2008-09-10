@@ -17,6 +17,7 @@ import edu.colorado.phet.forces1d.phetcommon.view.util.FrameSetup;
 
 public class Forces1DApplication {
     static final String VERSION = PhetApplicationConfig.getVersion( "forces-1d" ).formatForTitleBar();
+    public static Color FORCES_1D_BACKGROUND_COLOR = new Color( 200, 240, 200 );
 
     public static void main( final String[] args ) throws IOException {
         SwingUtilities.invokeLater( new Runnable() {
@@ -33,8 +34,7 @@ public class Forces1DApplication {
 
     private static void runMain( String[] args ) throws IOException {
         edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel feel = new edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel();
-        Color backgroundColor = new Color( 200, 240, 200 );
-        feel.setBackgroundColor( backgroundColor );
+        feel.setBackgroundColor( FORCES_1D_BACKGROUND_COLOR );
         feel.initLookAndFeel();
 
         AbstractClock clock = new SwingTimerClock( 1, 30 );
@@ -44,7 +44,7 @@ public class Forces1DApplication {
         final PhetApplication phetApplication = new PhetApplication( args, Force1DResources.get( "Force1DModule.title" ) + " (" + version + ")",
                                                                      Force1DResources.get( "Force1DModule.description" ), version, clock, false, frameSetup );
 
-        final Forces1DModule module = new Forces1DModule( clock, backgroundColor);
+        final Forces1DModule module = new Forces1DModule( clock, FORCES_1D_BACKGROUND_COLOR );
         Module[] m = new Module[]{module};
         phetApplication.setModules( m );
 

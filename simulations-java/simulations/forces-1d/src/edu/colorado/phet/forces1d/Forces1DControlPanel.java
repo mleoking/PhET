@@ -1,4 +1,3 @@
-/*  */
 package edu.colorado.phet.forces1d;
 
 import java.awt.*;
@@ -14,7 +13,6 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.AdvancedPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ModelSliderLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
 import edu.colorado.phet.forces1d.model.Block;
@@ -31,7 +29,6 @@ import edu.colorado.phet.forces1d.view.FreeBodyDiagramSuite;
 
 public class Forces1DControlPanel extends IForceControl {
     private FreeBodyDiagramSuite fbdSuite;
-    //    private JCheckBox frictionCheckBox;
     private BarrierCheckBox barriers;
     private Forces1DModule module;
 
@@ -39,12 +36,12 @@ public class Forces1DControlPanel extends IForceControl {
     private LinearValueControl gravity;
     private LinearValueControl staticFriction;
     private LinearValueControl kineticFriction;
+    private Force1DModel model;
+    private FrictionControl frictionControl;
+    
+    static final Stroke stroke = new BasicStroke( 1 );
     private static final double MAX_GRAV = 30;
     public static final double MAX_KINETIC_FRICTION = 2.0;
-    private Force1DModel model;
-
-    static final Stroke stroke = new BasicStroke( 1 );
-    private FrictionControl frictionControl;
 
     public Forces1DControlPanel( final Forces1DModule module ) {
         super( module );
@@ -230,7 +227,6 @@ public class Forces1DControlPanel extends IForceControl {
 
     private void setChangesEnabled( boolean enabled ) {
         barriers.setEnabled( enabled );
-//        comboBox.setEnabled( enabled );
         mass.setEnabled( enabled );
         gravity.setEnabled( enabled );
         staticFriction.setEnabled( enabled );
@@ -260,7 +256,7 @@ public class Forces1DControlPanel extends IForceControl {
     }
 
     private LinearValueControl createControl( double value, double min, double max, String name, String units, final SpinnerHandler handler ) {
-        final LinearValueControl linearValueControl = new LinearValueControl( min, max, name, "0.0", units);
+        final LinearValueControl linearValueControl = new LinearValueControl( min, max, name, "0.0", units );
         linearValueControl.setValue( value );
         linearValueControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
