@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.nuclearphysics;
 
+import java.awt.Color;
 import java.awt.Frame;
 import java.lang.reflect.InvocationTargetException;
 
@@ -51,7 +52,7 @@ public class AlphaRadiationApplication extends AbstractNuclearPhysicsApplication
                 PhetApplicationConfig config = new PhetApplicationConfig( args, NuclearPhysicsConstants.FRAME_SETUP, NuclearPhysicsResources.getResourceLoader(), "alpha-radiation" );
                 
                 PhetLookAndFeel p = new PhetLookAndFeel();
-                p.setBackgroundColor( NuclearPhysicsConstants.CONTROL_PANEL_COLOR );
+                p.setBackgroundColor( new Color( 227, 239, 214 ) );
                 p.initLookAndFeel();
     
                 // Create the application.
