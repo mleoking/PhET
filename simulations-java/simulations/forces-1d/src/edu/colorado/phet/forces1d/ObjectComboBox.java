@@ -21,10 +21,10 @@ import edu.colorado.phet.forces1d.model.Force1dObject;
  */
 
 public class ObjectComboBox extends JComboBox {
-    private Forces1DControlPanel controlPanel;
+    private Forces1DControlPanelDeprecated controlPanel;
     private static Font font = new Font( PhetFont.getDefaultFontName(), Font.BOLD, 10 );
 
-    public ObjectComboBox( final Forces1DModule module, final Force1dObject[] imageElements, final Forces1DControlPanel controlPanel ) {
+    public ObjectComboBox( final Forces1DModule module, final Force1dObject[] imageElements, final Forces1DControlPanelDeprecated controlPanel ) {
         super( toLabelArray( imageElements, controlPanel ) );
         setRenderer( new ComboBoxRenderer() );
         this.controlPanel = controlPanel;

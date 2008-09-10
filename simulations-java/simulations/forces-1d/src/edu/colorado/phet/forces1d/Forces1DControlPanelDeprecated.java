@@ -14,7 +14,7 @@ import edu.colorado.phet.forces1d.view.FreeBodyDiagramSuite;
  * Date: Nov 22, 2004
  * Time: 11:11:57 AM
  */
-public class Forces1DControlPanel extends IForceControl {
+public class Forces1DControlPanelDeprecated extends IForceControl {
     private Forces1DModule module;
     private Force1DModel model;
 
@@ -24,7 +24,7 @@ public class Forces1DControlPanel extends IForceControl {
     private BarrierCheckBox barriers;
 
 
-    public Forces1DControlPanel( final Forces1DModule module ) {
+    public Forces1DControlPanelDeprecated( final Forces1DModule module ) {
         super( module );
         this.module = module;
         model = module.getForceModel();
