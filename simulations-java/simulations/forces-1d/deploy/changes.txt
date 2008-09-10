@@ -1,4 +1,4 @@
-New in 1.17.16
+New in 1.17.17
 Renamed "kinetic friction" to "coefficient of kinetic friction"
 Renamed "static friction" to "coefficient of static friction"
 Fixed: The wiggle me help text should be "Drag object to apply a force."
