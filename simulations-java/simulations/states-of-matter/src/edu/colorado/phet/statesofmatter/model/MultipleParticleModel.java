@@ -237,21 +237,13 @@ public class MultipleParticleModel {
     }
 
     /**
-     * Returns the value of the internal model temperature, which is only
-     * meaningful to the model.
+     * Returns the value of the internal model temperature, which is generally
+     * only meaningful to the model.
      */
-    public double getTemperature(){
+    public double getModelTemperature(){
         return m_temperature;
     }
     
-    /**
-     * Returns a normalized version of the temperature, meaning that it will
-     * be in the range between 0 for min temp and 1 for max temp.
-     */
-    public double getNormalizedTemperature(){
-        return (getTemperature() / MAX_TEMPERATURE);
-    }
-
     /**
      * Get the current temperature in degrees Kelvin.
      * @return
@@ -284,7 +276,13 @@ public class MultipleParticleModel {
         return m_currentMolecule;
     }
     
-    public double getPressure(){
+    /**
+     * Get the pressure value which is being calculated by the model and is
+     * not adjusted to represent any "real" units (such as atmospheres).
+     * 
+     * @return
+     */
+    public double getModelPressure(){
         if (USE_NEW_PRESSURE_CALC_METHOD){
             return m_pressure2;
         }
@@ -2618,19 +2616,19 @@ public class MultipleParticleModel {
         switch (m_currentMolecule){
         
         case StatesOfMatterConstants.NEON:
-            pressureInAtmospheres = 150 * getPressure();
+            pressureInAtmospheres = 150 * getModelPressure();
             break;
             
         case StatesOfMatterConstants.ARGON:
-            pressureInAtmospheres = 100 * getPressure();
+            pressureInAtmospheres = 100 * getModelPressure();
             break;
 
         case StatesOfMatterConstants.WATER:
-            pressureInAtmospheres = 150 * getPressure();
+            pressureInAtmospheres = 150 * getModelPressure();
             break;
             
         case StatesOfMatterConstants.DIATOMIC_OXYGEN:
-            pressureInAtmospheres = 100 * getPressure();
+            pressureInAtmospheres = 100 * getModelPressure();
             break;
             
         default:

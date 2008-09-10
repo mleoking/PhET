@@ -231,12 +231,27 @@ public class PhaseChangesControlPanel extends ControlPanel {
         }
     }
     
+    // Constants used to adjust the pressure and temperature such that the
+    // values are usable by the diagram.  These have been empirically
+    // determined and should be adjusted as needed.
+    private static final double TEMPERATURE_SCALE_FACTOR_FOR_DIAGRAM = 0.6;
+    private static final double PRESSURE_SCALE_FACTOR_FOR_DIAGRAM = 2;
+    
+    /**
+     * Update the position of the marker on the phase diagram based on the
+     * temperature and pressure values within the model.
+     */
     private void updatePhaseDiagram(){
         
-        // TODO: JPB TBD - This is very preliminary and I need to work with
-        // Paul Beale to finalize.
-        double pressure = Math.min( m_model.getPressure(), 1.0 );
-        m_phaseDiagram.setStateMarkerPos(m_model.getNormalizedTemperature(), m_model.getPressure());
+        double temperature = m_model.getModelTemperature() * TEMPERATURE_SCALE_FACTOR_FOR_DIAGRAM;
+        if (temperature > 1.0) {
+            temperature = 1.0;
+        }
+        double pressure = m_model.getModelPressure() * PRESSURE_SCALE_FACTOR_FOR_DIAGRAM;
+        if (pressure > 1.0) {
+            pressure = 1.0;
+        }
+        m_phaseDiagram.setStateMarkerPos( temperature, pressure );
 
     }
 }
