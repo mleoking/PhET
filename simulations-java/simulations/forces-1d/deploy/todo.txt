@@ -2,21 +2,14 @@
 ####	Todo Sam R		####
 ############################
 
-- rename "kinetic friction" to "coefficient of kinetic friction".
-- remove the selection for different objects when more controls is selected. Should no longer be necessary since the objects will still be shown above the controls.
-- #9 below applies to all controls in the "more controls" area.
-- Just to be sure, the wiggle me help text should be "Drag object to apply a force."
 
-1. "More controls" should add controls below original "more controls" button (instead of replacing with a separate entire control panel)
-2. Add >> and << to More & Less controls.
-3. "more controls" button should stay in the same place instead of going to the bottom
 4. Change text "show component forces" to "show horizontal forces"
 5. Change wiggle me help text to "drag object"
 6. Stop animating the wiggle me help text after 2 oscillations
 7. Change the friction checkbox into a horizontal layout Friction on/off radio buttons
-8. Rename "static friction" to "coefficient of static friction"
-9. Better layout for gravity & mass sliders, try using linearvaluecontrol, see e.g. optical tweezers fluid controls
-
+9. Better layout for gravity & mass sliders, try using linearvaluecontrol, see e.g. optical tweezers fluid controls (applies to all controls in the "more controls" area.)
+- remove the selection for different objects when more controls is selected.
+    Should no longer be necessary since the objects will still be shown above the controls.
 
 ############################
 ####	For Discussion	####

@@ -27,11 +27,9 @@ import edu.colorado.phet.forces1d.view.Force1DPanel;
  */
 public class Forces1DModule extends Module {
     public static final String LOCALIZATION_BUNDLE_BASENAME = "forces-1d/localization/forces-1d-strings";
-    //    public static final String LOCALIZATION_BUNDLE_BASENAME = "localization/Force1d-test";
     private Color backgroundColor;
     private Force1DModel forceModel;
-    protected Force1DPanel forcePanel;
-    private Forces1DControlPanel fullControlPanel;
+    private Force1DPanel forcePanel;
     private SimpleControlPanel simpleControlPanel;
     private Force1dObject[] imageElements;
     private DefaultPlaybackPanel playbackPanel;
@@ -61,7 +59,6 @@ public class Forces1DModule extends Module {
         forcePanel.addRepaintDebugGraphic( clock );
         setApparatusPanel( forcePanel );
 
-        fullControlPanel = new Forces1DControlPanel( this );
         simpleControlPanel = new SimpleControlPanel( this );
 
         setControlPanel( simpleControlPanel );
@@ -96,7 +93,6 @@ public class Forces1DModule extends Module {
     public void reset() {
         forceModel.reset();
         forcePanel.reset();
-        fullControlPanel.reset();
         simpleControlPanel.reset();
     }
 
@@ -273,12 +269,7 @@ public class Forces1DModule extends Module {
             frame.invalidate();
             frame.doLayout();
         }
-        fullControlPanel.getFreeBodyDiagramSuite().controlsChanged();
         simpleControlPanel.getFreeBodyDiagramSuite().controlsChanged();
-    }
-
-    public void setAdvancedControlPanel() {
-        setControlPanel( fullControlPanel );
     }
 
     public Paint getBackgroundColor() {
