@@ -46,7 +46,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
     private final double PUMP_WIDTH = CANVAS_WIDTH / 4;
     
     // Maximum value expected for pressure, in atmospheres.
-    private final double MAX_PRESSURE = 100;
+    private final double MAX_PRESSURE = 5;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -83,7 +83,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         // Set ourself up as a listener to the model.
         m_model.addListener( new MultipleParticleModel.Adapter(){
             public void pressureChanged(){
-                m_pressureMeter.setValue(m_model.convertInteralPressureToAtmospheres());
+                m_pressureMeter.setValue(m_model.getPressureInAtmospheres());
             }
             public void temperatureChanged(){
                 updateThermometerTemperature();

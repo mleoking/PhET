@@ -2609,26 +2609,26 @@ public class MultipleParticleModel {
      * 
      * @return
      */
-    public double convertInteralPressureToAtmospheres() {
+    public double getPressureInAtmospheres() {
         
         double pressureInAtmospheres = 0;
         
         switch (m_currentMolecule){
         
         case StatesOfMatterConstants.NEON:
-            pressureInAtmospheres = 150 * getModelPressure();
+            pressureInAtmospheres = 10 * getModelPressure();
             break;
             
         case StatesOfMatterConstants.ARGON:
-            pressureInAtmospheres = 100 * getModelPressure();
+            pressureInAtmospheres = 20 * getModelPressure();
             break;
 
         case StatesOfMatterConstants.WATER:
-            pressureInAtmospheres = 150 * getModelPressure();
+            pressureInAtmospheres = 10 * getModelPressure();
             break;
             
         case StatesOfMatterConstants.DIATOMIC_OXYGEN:
-            pressureInAtmospheres = 100 * getModelPressure();
+            pressureInAtmospheres = 20 * getModelPressure();
             break;
             
         default:
