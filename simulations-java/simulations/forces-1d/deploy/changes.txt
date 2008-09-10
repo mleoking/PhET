@@ -1,3 +1,6 @@
+New in 1.17.21
+Fixed: The "Apply a Force...slider" wiggle me can end up in the wrong place.
+
 New in 1.17.19
 Control panel no longer resizes on item change: this was done by highlighting the item instead of changing font.
 

@@ -92,6 +92,7 @@ public class WiggleMe extends CompositePhetGraphic {
                 clock.removeClockTickListener( tickListener );
             }
         }
+        t0=System.currentTimeMillis();
     }
 
     public void setAmplitude( double amplitude ) {
