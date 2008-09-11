@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
  * TemplateConstants is a collection of constants that configure global properties.
  * If you change something here, it will change *everywhere* in this simulation.
  */
+//test comments in 4 files
 public class EatingAndExerciseConstants {
 
     /* Not intended for instantiation. */
