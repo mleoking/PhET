@@ -260,7 +260,15 @@ public class BufferedImageUtils {
     public static BufferedImage multiScale( BufferedImage img, double scale ) {
         int w = (int) ( img.getWidth() * scale );
         int h = (int) ( img.getHeight() * scale );
-        return getScaledInstance( img, w, h, RenderingHints.VALUE_INTERPOLATION_BILINEAR, true );
+        if (scale < 1) {
+            return getScaledInstance( img, w, h, RenderingHints.VALUE_INTERPOLATION_BILINEAR, true );
+        }
+        else if (scale == 1) {
+            return img;
+        }
+        else {
+            return rescaleXMaintainAspectRatio( img, w );
+        }
     }
 
     /**
