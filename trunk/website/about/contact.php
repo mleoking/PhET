@@ -22,9 +22,9 @@ class ContactPage extends SitePage {
             University of Colorado 390 UCB<br />
             Boulder, CO 80309-0390<br /></p>
 
-            <h2 style="margin-bottom: -10px;">License Information::</h2>
+            <h2 style="margin-bottom: -10px;">License Information:</h2>
 
-            <p style="margin-left:0px;">The PhET software is open source, <a href="licensing.php"><em>Click here</em></a> to access the licensing information.</p>  
+            <p style="margin-left:0px;"><a href="licensing.php"><em>Click here</em></a> to access the licensing information for the interactive simulations and their source code.</p>  
 
             <h2 style="margin-bottom: -10px;">Email:</h2>
 
