@@ -1,9 +1,24 @@
-The Physics Education Technology (PhET) project provides a suite of interactive educational simulations. Copyright (C) 2004-2008 University of Colorado.
-
-This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-
-For additional licensing options, please contact PhET at phethelp@colorado.edu.
+<HTML>
+The PhET
+project provides a suite of interactive educational simulations.
+<BR>
+Copyright &copy; 2004-2008 University of Colorado. Some rights reserved.
+<BR>
+<BR>
+PhET interactive simulations by <A HREF="http://phet.colorado.edu/">The
+PhET Team, University of Colorado</A> are licensed under a
+<A HREF="http://creativecommons.org/licenses/by-nc/3.0/us/">Creative
+Commons Attribution-Noncommercial 3.0 United States License</A>.
+<BR>
+<BR>
+The PhET sourcecode
+is licensed under a <A HREF="http://creativecommons.org/licenses/GPL/2.0/">Creative
+Commons GNU General Public License</A>. 
+<BR>
+<BR>
+For more information
+about licensing, <A HREF="http://phet.colorado.edu/about/licensing.php">click
+here</A>. If you are interested in alternative license
+options, please contact PhET at <A HREF="mailto:phethelp@colorado.edu">phethelp@colorado.edu</A>.
+</BODY>
+</HTML>
