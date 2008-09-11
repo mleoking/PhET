@@ -1,0 +1,56 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: September 4-10, 2008 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  glaciers:
+  - implement time-based strip charts (1000-year window)
+  - replace "glacier picture" check box with a button
+  - implement Save/Load feature
+  - rewrite snowfall visualization to fix Mac OS 10.4 issue
+  - fix snowfall bounds problem on large monitors
+  - started on feature for switching units between English and metric (9.5 hours so far)
+  
+  density:
+  - review design draft
+  - discussion via email & Google doc
+  - summarize issues with adopting a 3D library
+  
+  translation-utility:
+  - improve validation code for initialization dialog
+  - move error strings into source code
+  
+  misc sims:
+  - replace DialogUtils with JOptionPane is all sims
+  - localize graph axis labels in optical-quantum-control
+  - debug problem with lifestyle combo box in eating-and-exercise
+  - feedback on control panel icons in states-of-matter for John
+  
+  common:
+  - email discussion about clock controls
+  - delete DialogUtils, obsolete
+  - workaround for gradient paint problem on Mac OS 10.4 (Unfuddle #553) with Sam Reid
+  - discuss FileChooser i18n with Sam Reid
+  - discuss 3D library issues with Sam Reid
+    
+  misc:
+  - sync with upgrade to piccolo2d, fix Eclipse classpath
+  
+WHAT'S NEXT:
+    
+  - continue work on glaciers, see:
+    http://phet.svn.sourceforge.net/viewvc/phet/trunk/simulations-java/simulations/glaciers/CHANGES.txt?view=markup
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+  September 11-15
+  September 16-23 (maybe?)
+  October 20-24
+  
+--
