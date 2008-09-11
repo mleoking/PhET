@@ -149,7 +149,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             
             BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
             TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
-                    StatesOfMatterStrings.MOLECULE_TYPE_SELECT_LABEL,
+                    StatesOfMatterStrings.INTERACTION_POTENTIAL_ATOM_SELECT_LABEL,
                     TitledBorder.LEFT,
                     TitledBorder.TOP,
                     new PhetFont( Font.BOLD, 14 ),
