@@ -22,7 +22,7 @@ import edu.colorado.phet.eatingandexercise.developer.DeveloperMenu;
 import edu.colorado.phet.eatingandexercise.module.eatingandexercise.EatingAndExerciseModule;
 import edu.colorado.phet.eatingandexercise.view.EatingAndExerciseColorScheme;
 import edu.colorado.phet.eatingandexercise.developer.DeveloperFrame;
-
+//test comments in 4 files
 public class EatingAndExerciseApplication extends PiccoloPhetApplication {
 
     //----------------------------------------------------------------------------
