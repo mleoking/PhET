@@ -44,16 +44,17 @@ public class PhetAboutDialog extends JDialog {
 
     // Resource (file) that contains the PhET license, in plain text format.
     private static final String LICENSE_RESOURCE = "phet-license.txt";
-    
+
     // Copyright notice, not translated so no one messes with it, and so that we can easily change the date.
-    private static final String COPYRIGHT = 
-        "<html><head><style type=\"text/css\">body { font-size: @FONT_SIZE@; font-family: @FONT_FAMILY@ }</style></head>" +
-        "<b>Physics Education Technology project</b><br>" +
-        "Copyright &copy; 2004-2008 University of Colorado.<br>" +
-        "All rights reserved.<br>" +
-        "Visit <a href=http://phet.colorado.edu>http://phet.colorado.edu</a>" +
-        "</html>";
-    
+    private static final String COPYRIGHT =
+            "<html><head><style type=\"text/css\">body { font-size: @FONT_SIZE@; font-family: @FONT_FAMILY@ }</style></head>" +
+            "<b>Physics Education Technology project</b><br>" +
+            "Copyright &copy; 2004-2008 University of Colorado.<br>" +
+//        "All rights reserved.<br>" +
+"<a href=http://phet.colorado.edu/about/licensing.php>Some rights reserved.</a><br>" +
+"Visit <a href=http://phet.colorado.edu>http://phet.colorado.edu</a>" +
+"</html>";
+
     private JPanel logoPanel;
     private String titleString, descriptionString, versionString, creditsString;
 
@@ -127,32 +128,18 @@ public class PhetAboutDialog extends JDialog {
 
         BufferedImage image = PhetCommonResources.getInstance().getImage( PhetLookAndFeel.PHET_LOGO_120x50 );
         JLabel logoLabel = new JLabel( new ImageIcon( image ) );
-//        logoLabel.setBorder( BorderFactory.createLineBorder( Color.black ) );
         logoLabel.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
         logoLabel.setToolTipText( getLocalizedString( "Common.About.WebLink" ) );
         logoLabel.addMouseListener( new MouseInputAdapter() {
-            // implements java.awt.event.MouseListener
             public void mouseReleased( MouseEvent e ) {
                 PhetServiceManager.showPhetPage();
             }
         } );
 
-        JEditorPane copyrightLabel = new JEditorPane();
-        copyrightLabel.setEditorKit( new HTMLEditorKit() );
         String html = COPYRIGHT;
         html = html.replaceAll( "@FONT_SIZE@", new PhetFont().getSize() + "pt" );
         html = html.replaceAll( "@FONT_FAMILY@", new PhetFont().getFamily() );
-        copyrightLabel.setText( html );
-        copyrightLabel.setEditable( false );
-        copyrightLabel.setBackground( new JLabel().getBackground() );
-        copyrightLabel.setFont( new PhetFont( Font.BOLD, 24 ) );
-        copyrightLabel.addHyperlinkListener( new HyperlinkListener() {
-            public void hyperlinkUpdate( HyperlinkEvent e ) {
-                if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED ) {
-                    PhetServiceManager.showWebPage( e.getURL() );
-                }
-            }
-        } );
+        HTMLPane copyrightLabel = new HTMLPane( html );
 
         HorizontalLayoutPanel logoPanel = new HorizontalLayoutPanel();
         logoPanel.setInsets( new Insets( 10, 10, 10, 10 ) ); // top,left,bottom,right
@@ -160,6 +147,24 @@ public class PhetAboutDialog extends JDialog {
         logoPanel.add( copyrightLabel );
 
         return logoPanel;
+    }
+
+    public static class HTMLPane extends JEditorPane {
+        public HTMLPane( String html ) {
+            setEditorKit( new HTMLEditorKit() );
+            setText( html );
+
+            setEditable( false );
+            setBackground( new JLabel().getBackground() );
+            setFont( new PhetFont( Font.BOLD, 24 ) );
+            addHyperlinkListener( new HyperlinkListener() {
+                public void hyperlinkUpdate( HyperlinkEvent e ) {
+                    if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED ) {
+                        PhetServiceManager.showWebPage( e.getURL() );
+                    }
+                }
+            } );
+        }
     }
 
     /*
@@ -197,7 +202,7 @@ public class PhetAboutDialog extends JDialog {
         // Java runtime version
         String javaVersionString = getLocalizedString( "Common.About.JavaVersion" ) + " " + System.getProperty( "java.version" );
         JLabel javaVersionLabel = new JLabel( javaVersionString );
-        
+
         // OS version
         String osVersion = getLocalizedString( "Common.About.OSVersion" ) + " " + System.getProperty( "os.name" ) + " " + System.getProperty( "os.version" );
         JLabel osVersionLabel = new JLabel( osVersion );
@@ -262,13 +267,35 @@ public class PhetAboutDialog extends JDialog {
      */
     protected void showLicenseInfo() {
         String phetLicenseString = readFile( LICENSE_RESOURCE );
-        JTextArea phetLicense = new JTextArea( phetLicenseString );
-        phetLicense.setColumns( 45 );
-        phetLicense.setLineWrap( true );
-        phetLicense.setWrapStyleWord( true );
-        phetLicense.setEditable( false );
-        phetLicense.setOpaque( false );
-        showMessageDialog( phetLicense, getLocalizedString( "Common.About.LicenseDialog.Title" ) );
+
+        HTMLPane htmlPane = new HTMLPane( phetLicenseString );
+        final JDialog dialog = new JDialog( this, getLocalizedString( "Common.About.LicenseDialog.Title" ), true );
+        BorderLayout borderLayout = new BorderLayout();
+        dialog.getContentPane().setLayout( borderLayout );
+        dialog.getContentPane().add( new JScrollPane( htmlPane ), BorderLayout.CENTER );
+
+        JPanel buttonPanel = new JPanel();
+        JButton okButton = new JButton( getLocalizedString( "Common.About.OKButton" ) );
+        okButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                dialog.setVisible( false );
+                dialog.dispose();
+            }
+        } );
+        buttonPanel.add( okButton );
+
+        dialog.getContentPane().add( buttonPanel, BorderLayout.SOUTH );
+        dialog.setSize( 440,400 );//todo: this shouldn't be hard coded, but I had trouble getting Swing to do something reasonable
+        SwingUtils.centerDialogInParent( dialog );
+        dialog.setVisible( true );
+
+//        JTextArea phetLicense = new JTextArea( phetLicenseString );
+//        phetLicense.setColumns( 45 );
+//        phetLicense.setLineWrap( true );
+//        phetLicense.setWrapStyleWord( true );
+//        phetLicense.setEditable( false );
+//        phetLicense.setOpaque( false );
+//        showMessageDialog( phetLicense, getLocalizedString( "Common.About.LicenseDialog.Title" ) );
     }
 
     /*
