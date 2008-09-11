@@ -23,7 +23,7 @@ class MainPage extends SitePage {
                         </div>
 
                         <div id="footer">
-                            <p>&copy; 2008 University of Colorado. All rights reserved.</p>
+                            <p>&copy; 2008 University of Colorado. <a href="about/licensing.php">Some rights reserved.</a></p>
                         </div>
 
                 <div id="utility-panel">
