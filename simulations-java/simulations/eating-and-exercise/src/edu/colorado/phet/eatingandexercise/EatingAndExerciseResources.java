@@ -13,7 +13,6 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * If we decide to use a different technique to load resources in the
  * future, all changes will be encapsulated here.
  */
-//test comments in 4 files
 public class EatingAndExerciseResources {
 
     private static final PhetResources RESOURCES = new PhetResources( "eating-and-exercise" );
