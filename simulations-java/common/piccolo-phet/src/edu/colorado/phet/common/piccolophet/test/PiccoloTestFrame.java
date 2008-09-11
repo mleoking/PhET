@@ -22,6 +22,12 @@ public class PiccoloTestFrame extends JFrame {
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+    
+    public PiccoloTestFrame() {
+        // Get the name of the class that called this method and use it for
+        // the title.
+        this(new Exception().getStackTrace()[1].getClassName());
+    }
 
     public void addNode(PNode node) {
         canvas.getLayer().addChild(node);
