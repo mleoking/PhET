@@ -68,28 +68,59 @@ public class LinearValueControlNode extends PNode {
         } );
         expirationTimer.setRepeats( false );
         formattedTextField.addKeyListener( new KeyAdapter() {
-            public void keyReleased( KeyEvent e ) {
-                try {
-                    double value = parseText();
-                    if ( value >= LinearValueControlNode.this.min && value <= LinearValueControlNode.this.max ) {
-                        setValueAndNotifyModel( value, false );
-                    }
-                    else {
-                        //todo: set the readout to expire if the user does something else or waits too long
-                        expirationTimer.start();
-                    }
-                }
-                catch( ParseException e1 ) {
-                    e1.printStackTrace();
-                }
-            }
+
+            //no incremental updates while typing
+//            public void keyReleased( KeyEvent e ) {
+//                try {
+//                    double value = parseText();
+//                    if ( value >= LinearValueControlNode.this.min && value <= LinearValueControlNode.this.max ) {
+//                        setValueAndNotifyModel( value, false );
+//                    }
+//                    else {
+//                        //todo: set the readout to expire if the user does something else or waits too long
+//
+//                        //no longer using expiration timer
+//                        //expirationTimer.start();
+//                    }
+//                }
+//                catch( ParseException e1 ) {
+//                    e1.printStackTrace();
+//                }
+//            }
         } );
+
+
         formattedTextField.addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
                         formattedTextField.setSelectionEnd( 0 );
                         formattedTextField.setSelectionEnd( formattedTextField.getText().length() );
+                    }
+                } );
+            }
+        } );
+
+        formattedTextField.addFocusListener( new FocusListener() {
+            public void focusGained( FocusEvent e ) {
+            }
+
+            public void focusLost( FocusEvent e ) {
+                SwingUtilities.invokeLater( new Runnable() {//wait until value set has completed
+
+                    public void run() {
+                        try {
+                            double value = parseText();
+                            if ( value >= LinearValueControlNode.this.min && value <= LinearValueControlNode.this.max ) {
+                                setValueAndNotifyModel( value, false );
+                            }
+                        }
+                        catch( ParseException e1 ) {
+                            e1.printStackTrace();
+                        }
+
+
+                        formattedTextField.setValue( new Double( getValue() ) );
                     }
                 } );
             }

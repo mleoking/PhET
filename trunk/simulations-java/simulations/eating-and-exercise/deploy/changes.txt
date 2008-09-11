@@ -1,5 +1,6 @@
 New in 0.00.82
-Fixed: clicking on "metric" twice disables all radio buttons 
+Fixed: clicking on "metric" twice disables all radio buttons
+Fixed: Use the "losing focus" method instead of incremental updates + 5 second sync to accept data from text boxes in control panel
 
 New in 0.00.81
 Adjustments for stomach sizes, including gender dependence

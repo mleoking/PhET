@@ -35,8 +35,8 @@ public class HumanControlPanel extends VerticalLayoutPanel {
     private HumanSlider ageSlider;
     private HumanSlider heightSlider;
     private HumanSlider weightSlider;
-    private final HumanSlider p0Slider;
-    private final JLabel pheart;
+    private HumanSlider p0Slider;
+    private JLabel pheart;
 
     private ArrayList sliders = new ArrayList();
 
