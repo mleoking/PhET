@@ -6,6 +6,16 @@
 ###	Todo Noah P	####
 ############################
 
+-make male/female not reset unless it is the first thing that is done
+
+-make %fat slider bounce back when at limits of BMI (upper limit is 36 now)
+
+-make muscle gained balance out based on average exercise
+
+-make neck as wide as torso
+
+-taller person should have bigger head
+
 -make arm muscles scale properly with height
 
 -make stomach scale properly with height
@@ -14,7 +24,12 @@
 
 -add/subtract foods and exercises from WA:
 
-Food: finish adding pictures for new foods
+Food:
+
+-find metal container for large milkshake
+-make frappuccino cup look like cold drink
+-make slow running slower
+-
 
 Exercise: finish adding pictures for new exercises
 
