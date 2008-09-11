@@ -15,15 +15,33 @@ class LicensingPage extends SitePage {
         $phet_help_email = PHET_HELP_EMAIL;
 
         print <<<EOT
-            <p>All PhET software is Copyright (c) The University of Colorado, under the GNU General Public License (GPL). Anyone can have access to the source code and make changes in it. According to the GPL, the source code for any changes someone makes to the software must, in turn, be made publicly available by the party that makes the changes.</p>
 
-            <p>You may freely distribute copies of this software, but you may not change the copyright or the license. If you modify this software and distribute it you are required to license your copyrighted modifications under an GPL-compatible license and to make the entire source code for your derivation available to anybody you distribute the software to.</p>
+        <p><strong>For non-commercial use and distribution of sims:</strong></p>
+        <blockquote><table width="486" border="0">
+          <tr>
+            <td width="32"><a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/us/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/3.0/us/88x31.png" /></a></td>
+            <td width="578"><span xmlns:dc="http://purl.org/dc/elements/1.1/" href="http://purl.org/dc/dcmitype/InteractiveResource" property="dc:title" rel="dc:type">PhET Interactive Simulations</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://phet.colorado.edu" property="cc:attributionName" rel="cc:attributionURL">The PhET Team, University of Colorado</a> are licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/us/">Creative Commons Attribution-Noncommercial 3.0 United States License</a>.</td>
+          </tr>
+        </table>
+          <em>What does this mean? </em><br>
+        The interactive simulations developed by The PhET Team may be freely used and/or redistributed by third parties (e.g. students, educators, school districts, museums, etc.) as long as that use or distribution  does <strong>not </strong>involve commercial uses (e.g. reselling the simulations, distributing the simulations through a website that makes money off of ads, etc.). If you are interested in commercial uses, see next section. </blockquote>
+        <p><strong>For commercial use and distribution of sims:</strong>
+        <blockquote>
+        If you are interested in alternative license options, please contact PhET at <a href="mailto:phethelp@colorado.edu" mailto:phethelp@colorado.edu>phethelp@colorado.edu</a>.
+        </blockquote>
+        <p><strong>Source code for sims:</strong>  
+        <blockquote>
+          <table width="485" border="0">
+            <tr>
+              <td width="32"><a rel="license" href="http://creativecommons.org/licenses/GPL/2.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/GPL/2.0/88x62.png" /></a></td>
+              <td width="443">The PhET sourcecode is licensed under a <A 
+        href="http://creativecommons.org/licenses/GPL/2.0/" rel=license>Creative Commons GNU General Public License</A>. </td>
+            </tr>
+          </table>
 
-            <p>For more information on the GPL, please see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>. The license itself can be found in its entirety at <a href="http://www.gnu.org/licenses/gpl.html">http://www.gnu.org/licenses/gpl.html</a>.</p>
-
-            <p>This program is distributed in the hope that it will be useful, but <strong>WITHOUT ANY WARRANTY</strong>; without even the implied warranty of <strong>MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE</strong>. See the GNU General Public License for more details.</p>
-
-            <p>For additional licensing options, please contact PhET at <a href="mailto:{$phet_help_email}">{$phet_help_email}</a>.</p>
+              <em> What does this mean? </em><br>
+              The source code for the simulations is available from <a href="http://sourceforge.net/">SourceForge</a>. Anyone can have access to the source code and make changes in it. The source code for any changes someone makes to the software must, in turn, be made publicly available by the party that makes the changes.  </p>
+        </blockquote>
 
             <h1>Source Code</h1>
 
@@ -31,7 +49,6 @@ class LicensingPage extends SitePage {
 
 EOT;
     }
-
 }
 
 $page = new LicensingPage("Licensing", NAV_ABOUT_PHET, null);
