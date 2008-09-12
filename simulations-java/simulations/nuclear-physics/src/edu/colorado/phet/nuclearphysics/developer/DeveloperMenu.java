@@ -14,7 +14,6 @@ import javax.swing.JMenu;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.nuclearphysics.AbstractNuclearPhysicsApplication;
-import edu.colorado.phet.nuclearphysics.NuclearFissionApplication;
 
 /**
  * DeveloperMenu is the "Developer" menu that appears in the menu bar.
