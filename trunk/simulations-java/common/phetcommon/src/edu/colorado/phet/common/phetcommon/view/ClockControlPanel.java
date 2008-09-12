@@ -41,7 +41,7 @@ public class ClockControlPanel extends TimeControlPanel {
             public void pausePressed() {
                 clock.pause();
             }
-            
+
             public void restartPressed() {
                 clock.resetSimulationTime();
             }
@@ -57,12 +57,12 @@ public class ClockControlPanel extends TimeControlPanel {
             public void clockPaused( ClockEvent clockEvent ) {
                 setPaused( clock.isPaused() );
             }
-            
+
             public void simulationTimeChanged( ClockEvent clockEvent ) {
                 setTimeDisplay( clock.getSimulationTime() );
                 advanceAnimatedClockIcon();
             }
-            
+
             public void simulationTimeReset( ClockEvent clockEvent ) {
                 resetAnimatedClockIcon();
             }
