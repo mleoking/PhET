@@ -7,6 +7,7 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
@@ -32,16 +33,32 @@ public class MediaPlaybackBarNode extends PNode {
         fillPath = new PhetPPath( Color.black );
         braidPath = new PhetPPath( new BasicStroke( 2 ), Color.red );
 
+
         addChild( outerShape );
         addChild( fillPath );
+
 //        addChild( braidPath );
         update();
     }
 
     private void update() {
         outerShape.setPathTo( new Rectangle2D.Double( 0, 0, width, height ) );
-        fillPath.setPathTo( new Rectangle2D.Double( 0, 0, width * progress, height ) );
-        braidPath.setPathTo( createSineCurve() );
+
+
+        int progressWindingNumber = (int) progress;
+        double relativeProgress = progress - progressWindingNumber;
+        if ( progressWindingNumber % 2 == 0 ) {
+            double max = width * relativeProgress;
+            max = MathUtil.clamp( 0, max, width );
+            fillPath.setPathTo( new Rectangle2D.Double( 0, 0, max, height ) );
+        }
+        else {
+            double max = width * relativeProgress;
+            max = MathUtil.clamp( 0, max, width );
+            double w = MathUtil.clamp( 0, width, width - max );
+            fillPath.setPathTo( new Rectangle2D.Double( max, 0, w, height ) );
+        }
+//        braidPath.setPathTo( createSineCurve() );
     }
 
     private Shape createSineCurve() {
@@ -61,7 +78,7 @@ public class MediaPlaybackBarNode extends PNode {
         node.setOffset( 100, 200 );
         testFrame.addNode( node );
 
-        final MediaPlaybackBarNode playbackBarNode = new MediaPlaybackBarNode( 100, 6 );
+        final MediaPlaybackBarNode playbackBarNode = new MediaPlaybackBarNode( 400, 3 );
 
         playbackBarNode.setOffset( 20, 20 );
         testFrame.addNode( playbackBarNode );
@@ -69,7 +86,7 @@ public class MediaPlaybackBarNode extends PNode {
 
         Timer timer = new Timer( 30, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                playbackBarNode.setProgress( playbackBarNode.getProgress() + 0.01 );
+                playbackBarNode.setProgress( playbackBarNode.getProgress() + 0.006 );
             }
         } );
         timer.start();
