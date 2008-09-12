@@ -28,7 +28,7 @@ public class PhaseChangesModule extends Module {
     public PhaseChangesModule( Frame parentFrame ) {
         
         super(StatesOfMatterStrings.TITLE_PHASE_CHANGES_MODULE, 
-                new ConstantDtClock(10, StatesOfMatterConstants.DELTA_T));
+                new ConstantDtClock(1000 / 25, StatesOfMatterConstants.DELTA_T));
 
         // Model
         m_model = new MultipleParticleModel( getClock() );
