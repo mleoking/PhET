@@ -21,19 +21,24 @@ public class ParticleForceNode extends ParticleNode {
     //-----------------------------------------------------------------------------
     
     // The following constants control some of the aspects of the appearance of
-    // the force arrow.  The values are arbitrary and are chosen to look good
+    // the force arrows.  The values are arbitrary and are chosen to look good
     // in this particular sim, so tweak them as needed for optimal appearance.
-    private static final double FORCE_ARROW_REFERENCE_LENGTH = 1000;
+    private static final double FORCE_ARROW_REFERENCE_LENGTH = 500;
     private static final double FORCE_ARROW_REFERENCE_MAGNITUDE = 1E-22;
     private static final double FORCE_ARROW_TAIL_WIDTH = 100;
     private static final double FORCE_ARROW_HEAD_WIDTH = 200;
     private static final double FORCE_ARROW_HEAD_LENGTH = 200;
+    private static final Color ATTRACTIVE_FORCE_COLOR = Color.GREEN;
+    private static final Color REPULSIVE_FORCE_COLOR = Color.ORANGE;
 
     //-----------------------------------------------------------------------------
     // Instance Data
     //-----------------------------------------------------------------------------
 
-    private Vector2DNode m_forceVectorNode;
+    private double m_attractiveForce;
+    private Vector2DNode m_attractiveForceVectorNode;
+    private double m_repulsiveForce;
+    private Vector2DNode m_repulsiveForceVectorNode;
     private boolean m_showForces;
     
     //-----------------------------------------------------------------------------
@@ -44,14 +49,24 @@ public class ParticleForceNode extends ParticleNode {
         super( particle, mvt, useGradient );
         
         m_showForces = false;
+        m_attractiveForce = 0;
+        m_repulsiveForce = 0;
         
-        m_forceVectorNode = new Vector2DNode(0, 0, FORCE_ARROW_REFERENCE_MAGNITUDE, FORCE_ARROW_REFERENCE_LENGTH);
-        m_forceVectorNode.setMagnitudeAngle( 0, 0 );
-        addChild(m_forceVectorNode);
-        m_forceVectorNode.setArrowFillPaint( Color.GREEN );
-        m_forceVectorNode.setHeadSize( FORCE_ARROW_HEAD_WIDTH, FORCE_ARROW_HEAD_LENGTH );
-        m_forceVectorNode.setTailWidth( FORCE_ARROW_TAIL_WIDTH );
-        m_forceVectorNode.setVisible( m_showForces );
+        m_attractiveForceVectorNode = new Vector2DNode(0, 0, FORCE_ARROW_REFERENCE_MAGNITUDE, FORCE_ARROW_REFERENCE_LENGTH);
+        m_attractiveForceVectorNode.setMagnitudeAngle( 0, 0 );
+        addChild(m_attractiveForceVectorNode);
+        m_attractiveForceVectorNode.setArrowFillPaint( ATTRACTIVE_FORCE_COLOR );
+        m_attractiveForceVectorNode.setHeadSize( FORCE_ARROW_HEAD_WIDTH, FORCE_ARROW_HEAD_LENGTH );
+        m_attractiveForceVectorNode.setTailWidth( FORCE_ARROW_TAIL_WIDTH );
+        m_attractiveForceVectorNode.setVisible( m_showForces );
+
+        m_repulsiveForceVectorNode = new Vector2DNode(0, 0, FORCE_ARROW_REFERENCE_MAGNITUDE, FORCE_ARROW_REFERENCE_LENGTH);
+        m_repulsiveForceVectorNode.setMagnitudeAngle( 0, 0 );
+        addChild(m_repulsiveForceVectorNode);
+        m_repulsiveForceVectorNode.setArrowFillPaint( REPULSIVE_FORCE_COLOR );
+        m_repulsiveForceVectorNode.setHeadSize( FORCE_ARROW_HEAD_WIDTH, FORCE_ARROW_HEAD_LENGTH );
+        m_repulsiveForceVectorNode.setTailWidth( FORCE_ARROW_TAIL_WIDTH );
+        m_repulsiveForceVectorNode.setVisible( m_showForces );
     }
 
     public ParticleForceNode( StatesOfMatterAtom particle, ModelViewTransform mvt ) {
@@ -61,6 +76,17 @@ public class ParticleForceNode extends ParticleNode {
     //-----------------------------------------------------------------------------
     // Accessor Methods
     //-----------------------------------------------------------------------------
+    
+    /**
+     * Set the levels of attractive and repulsive forces being experienced by
+     * the particles in the model so that they may be represented as force
+     * vectors.
+     */
+    public void setForces( double attractiveForce, double repulsiveForce ) {
+        m_attractiveForce = attractiveForce;
+        m_repulsiveForce = repulsiveForce;
+        updateForceVectors();
+    }
 
     //-----------------------------------------------------------------------------
     // Other Public Methods
@@ -69,7 +95,8 @@ public class ParticleForceNode extends ParticleNode {
     public void setShowForces( boolean showForces ){
         
         m_showForces = showForces;
-        m_forceVectorNode.setVisible( m_showForces );
+        m_attractiveForceVectorNode.setVisible( m_showForces );
+        m_repulsiveForceVectorNode.setVisible( showForces );
     }
 
     //-----------------------------------------------------------------------------
@@ -77,14 +104,11 @@ public class ParticleForceNode extends ParticleNode {
     //-----------------------------------------------------------------------------
     
     /**
-     * Handle notification of acceleration change by updating the size of the
-     * force arrows.
+     * Update the force vectors to reflect the forces being experienced by the
+     * atom.
      */
-    protected void updateForces() {
-        // Calculate the magnitude of the force being experienced by this
-        // node.  The result should be in Newtons.
-        double mass = m_particle.getMass() * 1.6605402e-27;  // Convert mass to kilograms.
-        double force = m_particle.getAx() * mass;
-        m_forceVectorNode.setMagnitudeAngle( force, 0 );
+    protected void updateForceVectors() {
+        m_attractiveForceVectorNode.setMagnitudeAngle( m_attractiveForce, 0 );
+        m_repulsiveForceVectorNode.setMagnitudeAngle( m_repulsiveForce, 0 );
     }
 }

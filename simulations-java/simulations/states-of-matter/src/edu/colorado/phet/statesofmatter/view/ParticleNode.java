@@ -62,11 +62,9 @@ public class ParticleNode extends PNode {
             }
 
             public void velocityChanged() {
-                updateVelocity();
             }
 
             public void accelerationChanged() {
-                updateForces();
             }
 
             public void particleRemoved( StatesOfMatterAtom particle ) {
@@ -112,14 +110,6 @@ public class ParticleNode extends PNode {
         }
     }
     
-    protected void updateVelocity(){
-        // Stubbed in base class.
-    }
-
-    protected void updateForces(){
-        // Stubbed in base class.
-    }
-
     /**
      * Handle the removal of the particle within the model that is being
      * represented in the view by this particle node.  This is done by

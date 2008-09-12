@@ -38,8 +38,8 @@ public class DualParticleModel {
     private ArrayList m_listeners = new ArrayList();
     private StatesOfMatterAtom m_fixedParticle;
     private StatesOfMatterAtom m_movableParticle;
-    private double m_fixedParticleHorizForce;
-    private double m_movableParticleHorizForce;
+    private double m_attractiveForce;
+    private double m_repulsiveForce;
     private double m_epsilon;  // Epsilon represents the interaction strength.
     private double m_sigma;    // Sigma represents the diameter of the molecule, roughly speaking.
     private int m_currentMoleculeID;
@@ -88,12 +88,12 @@ public class DualParticleModel {
         return m_movableParticle;
     }
     
-    public double getFixedParticleHorizForce(){
-        return m_fixedParticleHorizForce;
+    public double getAttractiveForce(){
+        return m_attractiveForce;
     }
-
-    public double getMovableParticleHorizForce(){
-        return m_movableParticleHorizForce;
+    
+    public double getRepulsiveForce(){
+        return m_repulsiveForce;
     }
     
     public int getMoleculeType(){
@@ -303,7 +303,8 @@ public class DualParticleModel {
         }
         
         // Calculate the force.  The result should be in newtons.
-        m_movableParticleHorizForce = m_ljPotentialCalculator.calculateLjForce( distance );
+        m_attractiveForce = m_ljPotentialCalculator.calculateAttractiveLjForce( distance );
+        m_repulsiveForce = m_ljPotentialCalculator.calculateRepulsiveLjForce( distance );
     }
     
     /**
@@ -314,7 +315,7 @@ public class DualParticleModel {
     private void updateMovableParticleMotion(){
         
         double mass = m_movableParticle.getMass() * 1.6605402E-27;  // Convert mass to kilograms.
-        double acceleration = m_movableParticleHorizForce / mass;
+        double acceleration = (m_repulsiveForce - m_attractiveForce) / mass;
         
         // Update the acceleration for the movable particle.  We do this
         // regardless of whether movement is paused so that the force vectors
