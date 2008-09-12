@@ -15,6 +15,10 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PlayPauseButton;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.StepButton;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * Feasibility test class for piccolo-based media control buttons.
@@ -26,8 +30,8 @@ public class PiccoloTimeControlPanel extends JPanel {
     public static final NumberFormat DEFAULT_TIME_FORMAT = new DecimalFormat( "0" );
     public static final int DEFAULT_TIME_COLUMNS = 8;
 
-    private JButton playPauseButton;
-    private JButton stepButton;
+//    private JButton playPauseButton;
+//    private JButton stepButton;
     private JButton restartButton;
     private ImageIcon playIcon;
     private ImageIcon pauseIcon;
@@ -45,6 +49,8 @@ public class PiccoloTimeControlPanel extends JPanel {
     private JPanel userPanel;
 
     private ArrayList listeners = new ArrayList();
+    private PlayPauseButton piccoloPlayPauseButton;
+    private StepButton piccoloStepButton;
 
     public PiccoloTimeControlPanel() {
 
@@ -59,7 +65,7 @@ public class PiccoloTimeControlPanel extends JPanel {
         BufferedImage pauseImage = PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_PAUSE );
         playIcon = new ImageIcon( playImage );
         pauseIcon = new ImageIcon( pauseImage );
-        playPauseButton = new JButton();
+        JButton playPauseButton = new JButton();
         Dimension maxSize = SwingUtils.getMaxDimension( playPauseButton, playString, playIcon, pauseString, pauseIcon );
         playPauseButton.setPreferredSize( maxSize );
 
@@ -67,7 +73,7 @@ public class PiccoloTimeControlPanel extends JPanel {
         String stepString = PhetCommonResources.getInstance().getLocalizedString( PhetCommonResources.STRING_CLOCK_STEP );
         BufferedImage stepImage = PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_STEP_FORWARD );
         ImageIcon stepIcon = new ImageIcon( stepImage );
-        stepButton = new JButton( stepString, stepIcon );
+        JButton stepButton = new JButton( stepString, stepIcon );
 
         // Restart
         String restartString = PhetCommonResources.getInstance().getLocalizedString( PhetCommonResources.STRING_CLOCK_RESTART );
@@ -75,11 +81,24 @@ public class PiccoloTimeControlPanel extends JPanel {
         ImageIcon restartIcon = new ImageIcon( restartImage );
         restartButton = new JButton( restartString, restartIcon );
 
+        piccoloPlayPauseButton = new PlayPauseButton( (int) ( playPauseButton.getPreferredSize().width * 0.7 ) );
+        piccoloStepButton = new StepButton( (int) ( piccoloPlayPauseButton.getButtonDimension().width * 0.8 ) );
+
         // Put all the buttons in a button panel
         buttonPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
         buttonPanel.add( restartButton );
-        buttonPanel.add( playPauseButton );
-        buttonPanel.add( stepButton );
+//        buttonPanel.add( playPauseButton );
+//        buttonPanel.add(Box.createHorizontalStrut( playPauseButton.getPreferredSize().width ));
+//        addScreenChild( piccoloPlayPauseButton );
+        PhetPCanvas piccoloPanel = new PhetPCanvas();
+        piccoloPanel.setBorder( null );
+        piccoloPanel.addScreenChild( piccoloPlayPauseButton );
+        piccoloPanel.addScreenChild( piccoloStepButton );
+        piccoloStepButton.setOffset( piccoloPlayPauseButton.getFullBounds().getMaxX(), piccoloPlayPauseButton.getFullBounds().getCenterY() - piccoloStepButton.getFullBounds().getHeight() / 2 );
+        piccoloPanel.setPreferredSize( new Dimension( (int) piccoloPlayPauseButton.getParent().getFullBounds().getWidth() + 100, (int) piccoloPlayPauseButton.getParent().getFullBounds().getHeight() ) );
+        buttonPanel.add( piccoloPanel );
+//        piccoloPlayPauseButton.setOffset( 200, 0 );
+//        buttonPanel.add( stepButton );
 
         // Time display, time value & units
         timeTextField = new JTextField();
@@ -128,11 +147,30 @@ public class PiccoloTimeControlPanel extends JPanel {
                 }
             }
         } );
+
+        piccoloPlayPauseButton.addListener( new PlayPauseButton.Listener() {
+            public void playbackStateChanged() {
+                paused = !piccoloPlayPauseButton.isPlaying();
+                updateButtons();
+                if ( paused ) {
+                    notifyPausePressed();
+                }
+                else {
+                    notifyPlayPressed();
+                }
+            }
+        } );
+        piccoloStepButton.addListener( new StepButton.Listener() {
+            public void buttonPressed() {
+                notifyStepPressed();
+            }
+        } );
         stepButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 notifyStepPressed();
             }
         } );
+
         restartButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 notifyRestartPressed();
@@ -148,7 +186,9 @@ public class PiccoloTimeControlPanel extends JPanel {
      * @param text the label text to display on the step button
      */
     public void setStepButtonText( String text ) {
-        stepButton.setText( text );
+        //todo: change this to tooltip
+//        stepButton.setText( text );
+
     }
 
     /**
@@ -322,73 +362,42 @@ public class PiccoloTimeControlPanel extends JPanel {
      * Updates the state of the play/pause and step buttons to reflect whether the control is paused and/or enabled.
      */
     private void updateButtons() {
-        playPauseButton.setText( paused ? playString : pauseString );
-        playPauseButton.setIcon( paused ? playIcon : pauseIcon );
-        playPauseButton.setEnabled( isEnabled() );
-        stepButton.setEnabled( isEnabled() && paused );
+//        playPauseButton.setText( paused ? playString : pauseString );
+//        playPauseButton.setIcon( paused ? playIcon : pauseIcon );
+//        playPauseButton.setEnabled( isEnabled() );
+        piccoloStepButton.setEnabled( isEnabled() && paused );
         restartButton.setEnabled( isEnabled() );
     }
 
-    /**
-     * Listener interface for receiving events from TimeControlPanel
-     * This interface may be revised to pass a TimeControlEvent.
-     */
-    public static interface TimeControlListener {
-        void stepPressed();
-
-        void playPressed();
-
-        void pausePressed();
-
-        void restartPressed();
-    }
-
-    /**
-     * Convenience adapter class for TimeControlListener
-     */
-    public static class TimeControlAdapter implements TimeControlListener {
-        public void stepPressed() {
-        }
-
-        public void playPressed() {
-        }
-
-        public void pausePressed() {
-        }
-
-        public void restartPressed() {
-        }
-    }
-
-    public void addTimeControlListener( TimeControlListener listener ) {
+    public void addTimeControlListener( TimeControlPanel.TimeControlListener listener ) {
         listeners.add( listener );
     }
 
-    public void removeTimeControlListener( TimeControlListener listener ) {
+    public void removeTimeControlListener( TimeControlPanel.TimeControlListener listener ) {
         listeners.remove( listener );
     }
 
     private void notifyStepPressed() {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (TimeControlListener) listeners.get( i ) ).stepPressed();
+            ( (TimeControlPanel.TimeControlListener) listeners.get( i ) ).stepPressed();
         }
     }
 
     private void notifyPlayPressed() {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (TimeControlListener) listeners.get( i ) ).playPressed();
+            ( (TimeControlPanel.TimeControlListener) listeners.get( i ) ).playPressed();
         }
     }
 
     private void notifyPausePressed() {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (TimeControlListener) listeners.get( i ) ).pausePressed();
+            ( (TimeControlPanel.TimeControlListener) listeners.get( i ) ).pausePressed();
         }
     }
 
     private void notifyRestartPressed() {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (TimeControlListener) listeners.get( i ) ).restartPressed();
+            ( (TimeControlPanel.TimeControlListener) listeners.get( i ) ).restartPressed();
         }
     }
 
@@ -397,15 +406,15 @@ public class PiccoloTimeControlPanel extends JPanel {
      *
      * @return the play/pause button
      */
-    public JComponent getPlayPauseButton() {
-        return playPauseButton;
+    public PNode getPlayPauseButton() {
+        return piccoloPlayPauseButton;
     }
 
     public static void main( String[] args ) {
         JFrame frame = new JFrame();
         PiccoloTimeControlPanel pane = new PiccoloTimeControlPanel();
         pane.setRestartButtonVisible( true );
-        pane.addTimeControlListener( new TimeControlListener() {
+        pane.addTimeControlListener( new TimeControlPanel.TimeControlListener() {
             public void stepPressed() {
                 System.out.println( "TimeControlPanel.stepPressed" );
             }
