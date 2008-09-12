@@ -29,7 +29,7 @@ public class ClockControlPanel extends TimeControlPanel {
         this.clock = clock;
 
         // Update the clock in response to control panel events
-        addTimeControlListener( new TimeControlAdapter() {
+        addTimeControlListener( new TimeControlPanel.TimeControlAdapter() {
             public void stepPressed() {
                 clock.stepClockWhilePaused();
             }
