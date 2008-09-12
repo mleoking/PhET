@@ -134,33 +134,12 @@ public class EatingAndExerciseApplication extends PiccoloPhetApplication {
         return getModule( 0 ).getSimulationPanel().getBackground();
     }
 
-    public static void main( final String[] args ) {
-        /*
-         * Wrap the body of main in invokeLater, so that all initialization occurs
-         * in the event dispatch thread. Sun now recommends doing all Swing init in
-         * the event dispatch thread. And the Piccolo-based tabs in TabbedModulePanePiccolo
-         * seem to cause startup deadlock problems if they aren't initialized in the
-         * event dispatch thread. Since we don't have an easy way to separate Swing and
-         * non-Swing init, we're stuck doing everything in invokeLater.
-         */
-        SwingUtilities.invokeLater( new Runnable() {
-
-            public void run() {
-                EatingAndExerciseLookAndFeel phetLookAndFeel = new EatingAndExerciseLookAndFeel();
-                phetLookAndFeel.initLookAndFeel();
-                PhetApplicationConfig config = new PhetApplicationConfig( args, EatingAndExerciseConstants.FRAME_SETUP, EatingAndExerciseResources.getResourceLoader() );
-
-                // Create the application.
-                EatingAndExerciseApplication app = new EatingAndExerciseApplication( config );
-
-                // Start the application.
-                app.startApplication();
-            }
-        } );
-    }
-
     public void startApplication() {
         super.startApplication();
         eatingAndExerciseModule.applicationStarted();
+    }
+
+    public static void main( final String[] args ) {
+        new EatingAndExerciseApplicationConfig( args ).launchSim();
     }
 }
