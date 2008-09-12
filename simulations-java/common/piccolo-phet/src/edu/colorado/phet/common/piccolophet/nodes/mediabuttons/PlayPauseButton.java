@@ -39,7 +39,7 @@ public class PlayPauseButton extends AbstractMediaButton {
         iconNode.setPathTo( isPlaying() ? buttonIconSet.createPauseIconShape() : buttonIconSet.createPlayIconShape() );
     }
 
-    private boolean isPlaying() {
+    public boolean isPlaying() {
         return playing;
     }
 

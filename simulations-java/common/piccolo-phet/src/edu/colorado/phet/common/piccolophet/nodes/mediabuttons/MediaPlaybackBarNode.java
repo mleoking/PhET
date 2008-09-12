@@ -29,10 +29,10 @@ public class MediaPlaybackBarNode extends PNode {
     public MediaPlaybackBarNode( double width, double height ) {
         this.width = width;
         this.height = height;
-        outerShape = new PhetPPath( Color.lightGray, new BasicStroke( 1 ), Color.black );
-        fillPath = new PhetPPath( Color.black );
+//        outerShape = new PhetPPath( Color.lightGray, new BasicStroke( 1 ), Color.black );
+        outerShape = new PhetPPath( Color.lightGray );
+        fillPath = new PhetPPath( Color.darkGray );
         braidPath = new PhetPPath( new BasicStroke( 2 ), Color.red );
-
 
         addChild( outerShape );
         addChild( fillPath );
@@ -73,7 +73,7 @@ public class MediaPlaybackBarNode extends PNode {
 
     public static void main( String[] args ) {
         PiccoloTestFrame testFrame = new PiccoloTestFrame( "Button Test" );
-        PlayPauseButton node = new PlayPauseButton( 75 );
+        final PlayPauseButton node = new PlayPauseButton( 75 );
 
         node.setOffset( 100, 200 );
         testFrame.addNode( node );
@@ -86,7 +86,9 @@ public class MediaPlaybackBarNode extends PNode {
 
         Timer timer = new Timer( 30, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                playbackBarNode.setProgress( playbackBarNode.getProgress() + 0.006 );
+                if ( node.isPlaying() ) {
+                    playbackBarNode.setProgress( playbackBarNode.getProgress() + 0.006 );
+                }
             }
         } );
         timer.start();
