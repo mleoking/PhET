@@ -5,11 +5,15 @@ package edu.colorado.phet.common.piccolophet.nodes.mediabuttons;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Shape;
+import java.awt.image.RescaleOp;
+import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 
 
 public class PlayPauseButton extends AbstractMediaButton {
@@ -24,6 +28,7 @@ public class PlayPauseButton extends AbstractMediaButton {
         dy = buttonHeight / 6;
         PPath playButton = new PhetPPath( createPlayIconShape(), Color.BLACK, new BasicStroke(1), Color.LIGHT_GRAY );
         addChild( playButton );
+
     }
     
     private Shape createPlayIconShape() {
