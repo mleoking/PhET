@@ -5,6 +5,7 @@ package edu.colorado.phet.common.piccolophet.nodes.mediabuttons;
 import java.awt.image.BufferedImage;
 import java.awt.image.LookupOp;
 import java.awt.image.LookupTable;
+import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
@@ -20,6 +21,9 @@ public class AbstractMediaButton extends PNode {
 
     private PImage buttonImageNode;
     private int buttonHeight;
+    private boolean enabled = true;
+    private boolean mousePressed = false;
+    private boolean mouseEntered = false;
 
     public AbstractMediaButton( int buttonHeight ) {
         this.buttonHeight = buttonHeight;
@@ -31,21 +35,69 @@ public class AbstractMediaButton extends PNode {
         addInputEventListener( new PBasicInputEventHandler() {
 
             public void mouseEntered( PInputEvent event ) {
-                buttonImageNode.setImage( new MyRescaleOp( 1.2, 0 ).filter( getImage(), null ) );
+                if (isEnabled()){
+                    event.getComponent().pushCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ));
+                }
+                mouseEntered = true;
+                updateImage();
             }
 
             public void mouseExited( PInputEvent event ) {
-                buttonImageNode.setImage( getImage() );
+                if (isEnabled()){
+                    event.getComponent().popCursor( );
+                }
+                mouseEntered = false;
+                updateImage();
             }
 
             public void mousePressed( PInputEvent event ) {
-                buttonImageNode.setImage( new MyRescaleOp( 0.9, 0 ).filter( getImage(), null ) );
+                mousePressed = true;
+                updateImage();
             }
 
             public void mouseReleased( PInputEvent event ) {
-                buttonImageNode.setImage( getImage() );
+                mousePressed = false;
+                updateImage();
             }
         } );
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public boolean isMousePressed() {
+        return mousePressed;
+    }
+
+    public boolean isMouseEntered() {
+        return mouseEntered;
+    }
+
+    public void setEnabled( boolean b ) {
+        this.enabled = b;
+        updateImage();
+    }
+
+    protected void updateImage() {
+        if ( !enabled ) {
+            buttonImageNode.setImage( new MyRescaleOp( 0.5, -100 ).filter( getImage(), null ) );
+        }
+        else if ( mouseEntered && mousePressed ) {
+            buttonImageNode.setImage( new MyRescaleOp( 0.9, 0 ).filter( getImage(), null ) );
+        }
+        else if ( !mouseEntered && mousePressed ) {
+            buttonImageNode.setImage( new MyRescaleOp( 1.0, -50 ).filter( getImage(), null ) );
+        }
+        else if ( mouseEntered ) {
+            buttonImageNode.setImage( new MyRescaleOp( 1.2, 0 ).filter( getImage(), null ) );
+        }
+        else if ( mousePressed ) {
+            buttonImageNode.setImage( new MyRescaleOp( 0.9, 0 ).filter( getImage(), null ) );
+        }
+        else {
+            buttonImageNode.setImage( getImage() );
+        }
     }
 
     static class MyRescaleOp extends LookupOp {
@@ -70,5 +122,5 @@ public class AbstractMediaButton extends PNode {
     public PDimension getButtonDimension() {
         return new PDimension( buttonImageNode.getFullBounds().width, buttonImageNode.getFullBounds().height );
     }
-
+                        
 }

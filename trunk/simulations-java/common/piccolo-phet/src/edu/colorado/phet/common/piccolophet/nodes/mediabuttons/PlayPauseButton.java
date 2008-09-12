@@ -3,6 +3,8 @@
 package edu.colorado.phet.common.piccolophet.nodes.mediabuttons;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
@@ -15,7 +17,8 @@ public class PlayPauseButton extends AbstractMediaButton {
     private boolean playing;
     private PPath iconNode;
     private ButtonIconSet buttonIconSet;
-
+    private ArrayList listeners = new ArrayList();
+    
     public PlayPauseButton( int buttonHeight ) {
         super( buttonHeight );
 
@@ -26,8 +29,10 @@ public class PlayPauseButton extends AbstractMediaButton {
             public void mouseReleased( PInputEvent event ) {
                 setPlaying( !isPlaying() );
                 updateShape();
+                notifyListener();
             }
         } );
+        setPlaying( true );
     }
 
     private void setPlaying( boolean b ) {
@@ -47,5 +52,19 @@ public class PlayPauseButton extends AbstractMediaButton {
         PiccoloTestFrame testFrame = new PiccoloTestFrame( "Button Test" );
         testFrame.addNode( new PlayPauseButton( 75 ) );
         testFrame.setVisible( true );
+    }
+
+    public static interface Listener {
+        void playbackStateChanged();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void notifyListener() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).playbackStateChanged();
+        }
     }
 }
