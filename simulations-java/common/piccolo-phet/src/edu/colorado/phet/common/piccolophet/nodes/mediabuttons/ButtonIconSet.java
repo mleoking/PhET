@@ -51,4 +51,25 @@ public class ButtonIconSet {
         shape.lineToRelative( buttonWidth, 0 );
         return shape.getGeneralPath();
     }
+
+    public Shape createStepIconShape() {
+        DoubleGeneralPath shape = new DoubleGeneralPath();
+        double width = buttonWidth;
+        double height = buttonHeight;
+
+        double buttonSpacing = dx / 5;
+        double buttonWidth = dx * 0.8;
+        shape.moveTo( width / 2 - buttonSpacing, height / 2 - dy );
+        shape.lineToRelative( 0, 2 * dy );
+        shape.lineToRelative( -buttonWidth * 0.8, 0 );
+        shape.lineToRelative( 0, -2 * dy );
+        shape.lineToRelative( buttonWidth * 0.8, 0 );
+
+        shape.moveTo( width / 2 + buttonSpacing, height / 2 - dy );
+        shape.lineToRelative( 0, 2 * dy );
+        shape.lineToRelative( buttonWidth * 1.5, -dy );
+        shape.lineToRelative( -buttonWidth * 1.5, -dy );
+//        shape.lineToRelative( buttonWidth, 0 );
+        return shape.getGeneralPath();
+    }
 }
