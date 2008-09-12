@@ -98,9 +98,31 @@ public class LjPotentialCalculator {
      * @param distance - Distance between interacting molecules in picometers.
      * @return - Force in newtons.
      */
-    public double calculateLjForce(double distance){
+    public double calculateLjForce( double distance ){
         return ((48 * m_epsilonForCalcs * Math.pow( m_sigma, 12 ) / Math.pow( distance, 13 )) -
                 (24 * m_epsilonForCalcs * Math.pow( m_sigma, 6 ) / Math.pow( distance, 7 )));
+    }
+    
+    /**
+     * Calculate only the repulsive component of the Lennard-Jones force for
+     * the specified distance.
+     * 
+     * @param distance - Distance between interacting molecules in picometers.
+     * @return - Force in newtons.
+     */
+    public double calculateRepulsiveLjForce( double distance ) {
+        return (48 * m_epsilonForCalcs * Math.pow( m_sigma, 12 ) / Math.pow( distance, 13 ));
+    }
+    
+    /**
+     * Calculate only the attractive component of the Lennard-Jones force for
+     * the specified distance.
+     * 
+     * @param distance - Distance between interacting molecules in picometers.
+     * @return - Force in newtons.
+     */
+    public double calculateAttractiveLjForce( double distance ) {
+        return (24 * m_epsilonForCalcs * Math.pow( m_sigma, 6 ) / Math.pow( distance, 7 ));
     }
     
     /**

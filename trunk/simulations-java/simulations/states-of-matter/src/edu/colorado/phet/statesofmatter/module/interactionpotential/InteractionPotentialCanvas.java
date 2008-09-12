@@ -86,7 +86,6 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     private boolean m_showForces;
     private GradientButtonNode m_stopAtomButtonNode;
     private GradientButtonNode m_retrieveAtomButtonNode;
-    private boolean m_showRetrieveAtomButton;
     private DefaultWiggleMe m_wiggleMe;
     private boolean m_wiggleMeShown;
     private PushpinNode m_pushPinNode;
@@ -100,7 +99,6 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         m_model = dualParticleModel;
         m_showForces = false;
         m_wiggleMeShown = false;
-        m_showRetrieveAtomButton = false;
         
         // Decide whether to use gradients when drawing the particles.
         m_useGradient = true;
@@ -150,6 +148,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         m_atomListener = new StatesOfMatterAtom.Adapter(){
             public void positionChanged(){
                 updatePositionMarkerOnDiagram();
+                updateForceVectors();
                 if ( m_model.getMovableParticleRef().getX() > (1 - WIDTH_TRANSLATION_FACTOR) * getWorldSize().getWidth()) {
                     if ( !m_retrieveAtomButtonNode.isVisible() ) {
                         // The particle is off the canvas and the button is not
@@ -362,6 +361,15 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         }
         else{
             m_diagram.setMarkerEnabled( false );
+        }
+    }
+    
+    private void updateForceVectors(){
+        
+        if ((m_fixedParticle != null) && (m_movableParticle != null))
+        {
+            m_fixedParticleNode.setForces( m_model.getAttractiveForce(), -m_model.getRepulsiveForce() );
+            m_movableParticleNode.setForces( -m_model.getAttractiveForce(), m_model.getRepulsiveForce() );
         }
     }
 }
