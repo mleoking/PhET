@@ -9,6 +9,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
+import edu.colorado.phet.statesofmatter.defaults.InteractionPotentialDefaults;
+import edu.colorado.phet.statesofmatter.defaults.PhaseChangesDefaults;
 import edu.colorado.phet.statesofmatter.defaults.SolidLiquidGasDefaults;
 import edu.colorado.phet.statesofmatter.model.DualParticleModel;
 
@@ -34,7 +36,8 @@ public class InteractionPotentialModule extends Module {
     public InteractionPotentialModule( Frame parentFrame ) {
         
         super(StatesOfMatterStrings.TITLE_INTERACTION_POTENTIAL_MODULE, 
-                new ConstantDtClock(10, StatesOfMatterConstants.DELTA_T));
+                new ConstantDtClock(InteractionPotentialDefaults.CLOCK_FRAME_DELAY, 
+                InteractionPotentialDefaults.CLOCK_DT));
 
         // Model
         m_model = new DualParticleModel( getClock() );
@@ -81,6 +84,6 @@ public class InteractionPotentialModule extends Module {
 
         // Reset the clock, which ultimately resets the model too.
         getClock().resetSimulationTime();
-        setClockRunningWhenActive( SolidLiquidGasDefaults.CLOCK_RUNNING );
+        setClockRunningWhenActive( InteractionPotentialDefaults.CLOCK_RUNNING );
     }
 }

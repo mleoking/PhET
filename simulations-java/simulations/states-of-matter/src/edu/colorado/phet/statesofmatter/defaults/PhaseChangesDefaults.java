@@ -1,15 +1,17 @@
+/* Copyright 2008, University of Colorado */
+
 package edu.colorado.phet.statesofmatter.defaults;
 
 
 /**
- * This class contains the default settings for the "Solid, Liquid, Gas" Module.
+ * This class contains the default settings for the "Phase Changes" Module.
  *
  * @author John Blanco
  */
-public class SolidLiquidGasDefaults {
+public class PhaseChangesDefaults {
     
     /* Not intended for instantiation */
-    private SolidLiquidGasDefaults() {}
+    private PhaseChangesDefaults() {}
     
     // Clock
     public static final boolean CLOCK_RUNNING = GlobalDefaults.CLOCK_RUNNING;

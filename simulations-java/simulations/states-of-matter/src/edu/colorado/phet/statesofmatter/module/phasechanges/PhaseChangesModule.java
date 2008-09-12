@@ -7,9 +7,8 @@ import java.awt.Frame;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
-import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
-import edu.colorado.phet.statesofmatter.defaults.SolidLiquidGasDefaults;
+import edu.colorado.phet.statesofmatter.defaults.PhaseChangesDefaults;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
 
@@ -28,7 +27,7 @@ public class PhaseChangesModule extends Module {
     public PhaseChangesModule( Frame parentFrame ) {
         
         super(StatesOfMatterStrings.TITLE_PHASE_CHANGES_MODULE, 
-                new ConstantDtClock(1000 / 25, StatesOfMatterConstants.DELTA_T));
+                new ConstantDtClock(PhaseChangesDefaults.CLOCK_FRAME_DELAY, PhaseChangesDefaults.CLOCK_DT));
 
         // Model
         m_model = new MultipleParticleModel( getClock() );
@@ -69,6 +68,6 @@ public class PhaseChangesModule extends Module {
 
         // Reset the clock, which ultimately resets the model too.
         getClock().resetSimulationTime();
-        setClockRunningWhenActive( SolidLiquidGasDefaults.CLOCK_RUNNING );
+        setClockRunningWhenActive( PhaseChangesDefaults.CLOCK_RUNNING );
     }
 }

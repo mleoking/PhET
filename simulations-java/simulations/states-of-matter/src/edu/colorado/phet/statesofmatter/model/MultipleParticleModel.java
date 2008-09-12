@@ -49,7 +49,7 @@ public class MultipleParticleModel {
     public static final double DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL = 0.3;  // In particle diameters.
     public static final double DISTANCE_BETWEEN_DIATOMIC_PAIRS = 0.8;  // In particle diameters.
     public static final double DIATOMIC_FORCE_CONSTANT = 100; // For calculating force between diatomic pairs.
-    public static final double TIME_STEP = Math.pow( 0.5, 7.0 );
+    public static final double TIME_STEP = 0.020;  // Time per simulation clock tick, in seconds.
     public static final double INITIAL_TEMPERATURE = 0.2;
     public static final double MAX_TEMPERATURE = 100.0;
     public static final double MIN_TEMPERATURE = 0.01;
