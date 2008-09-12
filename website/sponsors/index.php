@@ -33,9 +33,9 @@ class SponsorsPage extends SitePage {
 
                             <li class="nsf"><a href="http://www.nsf.gov/"><img class="sponsors" src="{$this->prefix}images/nsf-logo.gif" alt="NSF Logo"/><strong>The National Science Foundation</strong></a></li>
 
-                            <li class="kavli"><a href="http://www.kavlifoundation.org/"><img class="sponsors" src="{$this->prefix}images/kavli-logo.jpg" alt="Kavli Logo" /><strong>The Kavli Operating Institute</strong></a></li>
-
                             <li class="cu"><a href="http://www.colorado.edu"><img class="sponsors" src="{$this->prefix}images/cu.gif" width="45" alt="CU Logo" /><strong>University of Colorado</strong></a></li>
+
+                            <li class="kavli"><a href="http://www.kavlifoundation.org/"><img class="sponsors" src="{$this->prefix}images/kavli-logo.jpg" alt="Kavli Logo" /><strong>The Kavli Operating Institute</strong></a></li>
                         </ul>
                     </li>
                     <li class="simple"><strong>Gold Level Contributors ($10k - $100k)</strong>
