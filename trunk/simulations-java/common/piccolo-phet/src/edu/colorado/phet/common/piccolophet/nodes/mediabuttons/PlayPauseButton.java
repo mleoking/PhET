@@ -14,20 +14,19 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 public class PlayPauseButton extends AbstractMediaButton {
 
-    double dx;
-    double dy;
+    private double dx;
+    private double dy;
     
     public PlayPauseButton( int buttonHeight ) {
         super( buttonHeight );
         
         dx = buttonHeight / 6;
         dy = buttonHeight / 6;
-        PPath playButton = new PhetPPath( createPauseIconShape(), Color.BLACK, new BasicStroke(1), Color.LIGHT_GRAY );
+        PPath playButton = new PhetPPath( createPlayIconShape(), Color.BLACK, new BasicStroke(1), Color.LIGHT_GRAY );
         addChild( playButton );
     }
     
     private Shape createPlayIconShape() {
-        
         DoubleGeneralPath shape = new DoubleGeneralPath();
         double width = getButtonDimension().width;
         double height = getButtonDimension().height;
@@ -39,7 +38,6 @@ public class PlayPauseButton extends AbstractMediaButton {
     }
     
     private Shape createPauseIconShape() {
-        
         DoubleGeneralPath shape = new DoubleGeneralPath();
         double width = getButtonDimension().width;
         double height = getButtonDimension().height;
@@ -58,7 +56,7 @@ public class PlayPauseButton extends AbstractMediaButton {
     
     public static void main( String[] args ) {
         PiccoloTestFrame testFrame = new PiccoloTestFrame("Button Test");
-        testFrame.addNode( new PlayPauseButton(200) );
+        testFrame.addNode( new PlayPauseButton(75) );
         testFrame.setVisible( true );
     }
 }

@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
 import edu.umd.cs.piccolo.PNode;
@@ -20,12 +21,12 @@ public class AbstractMediaButton extends PNode {
     
     public AbstractMediaButton( int buttonHeight ) {
         
-//        BufferedImage image = PhetCommonResources.getInstance().getImage( "clock/Play24.gif" );
-//        image = BufferedImageUtils.multiScaleToHeight( image, buttonHeight );
-        BufferedImage image = new BufferedImage(buttonHeight, buttonHeight, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g = image.createGraphics();
-        g.setPaint( Color.ORANGE );
-        g.fillRect( 0, 0, buttonHeight, buttonHeight );
+        BufferedImage image = new PhetResources( "piccolo-phet" ).getImage( "button-template.png" );
+        image = BufferedImageUtils.multiScaleToHeight( image, buttonHeight );
+//        BufferedImage image = new BufferedImage(buttonHeight, buttonHeight, BufferedImage.TYPE_INT_ARGB);
+//        Graphics2D g = image.createGraphics();
+//        g.setPaint( Color.ORANGE );
+//        g.fillRect( 0, 0, buttonHeight, buttonHeight );
         buttonImageNode = new PImage( image );
         
         addChild( buttonImageNode );
