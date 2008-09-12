@@ -32,6 +32,8 @@ class SponsorsPage extends SitePage {
                             <li class="hewlett"><a href="http://www.hewlett.org/Default.htm"><img class="sponsors" src="{$this->prefix}images/hewlett-logo.jpg" alt="Hewlett Logo" /><strong>The William and Flora Hewlett Foundation</strong></a></li>
 
                             <li class="nsf"><a href="http://www.nsf.gov/"><img class="sponsors" src="{$this->prefix}images/nsf-logo.gif" alt="NSF Logo"/><strong>The National Science Foundation</strong></a></li>
+                            
+                            <li class="ksu"><a href="http://www.ksu.edu.sa"><img class="sponsors" src="{$this->prefix}images/ECSME-logo.jpg" alt="KSU Logo"/><strong>King Saud University</strong></a></li>
 
                             <li class="cu"><a href="http://www.colorado.edu"><img class="sponsors" src="{$this->prefix}images/cu.gif" width="45" alt="CU Logo" /><strong>University of Colorado</strong></a></li>
 
