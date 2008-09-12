@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
+import edu.colorado.phet.statesofmatter.defaults.InteractionPotentialDefaults;
 import edu.colorado.phet.statesofmatter.model.particle.ArgonAtom;
 import edu.colorado.phet.statesofmatter.model.particle.OxygenAtom;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
@@ -25,8 +26,6 @@ public class DualParticleModel {
     // Class Data
     //----------------------------------------------------------------------------
 
-    private static final double TIME_STEP = Math.pow( 0.5, 5.0 );
-    
     public static final int DEFAULT_MOLECULE = StatesOfMatterConstants.MONATOMIC_OXYGEN;
     public static final double DEFAULT_SIGMA = OxygenAtom.getSigma();
     public static final double DEFAULT_EPSILON = OxygenAtom.getEpsilon();
@@ -46,6 +45,7 @@ public class DualParticleModel {
     private int m_currentMoleculeID;
     private boolean m_particleMotionPaused;
     private LjPotentialCalculator m_ljPotentialCalculator;
+    private double m_timeStep;
     
     //----------------------------------------------------------------------------
     // Constructor
@@ -54,6 +54,7 @@ public class DualParticleModel {
     public DualParticleModel(IClock clock) {
         
         m_clock = clock;
+        m_timeStep = InteractionPotentialDefaults.CLOCK_DT / 1000;
         m_epsilon = DEFAULT_EPSILON;
         m_sigma = DEFAULT_SIGMA;
         m_particleMotionPaused = false;
@@ -288,7 +289,7 @@ public class DualParticleModel {
         updateForce();
 
         // Update the position of the particle.
-        updatePosition();
+        updateMovableParticleMotion();
     }
     
     private void updateForce(){
@@ -305,7 +306,12 @@ public class DualParticleModel {
         m_movableParticleHorizForce = m_ljPotentialCalculator.calculateLjForce( distance );
     }
     
-    private void updatePosition(){
+    /**
+     * Update the position, velocity, and acceleration of the movable particle.
+     * 
+     * @param timeStep - Amount of time to use in calculations.  In seconds.
+     */
+    private void updateMovableParticleMotion(){
         
         double mass = m_movableParticle.getMass() * 1.6605402E-27;  // Convert mass to kilograms.
         double acceleration = m_movableParticleHorizForce / mass;
@@ -317,8 +323,8 @@ public class DualParticleModel {
         
         if (!m_particleMotionPaused){
             // Update the position and velocity of the particle.
-            m_movableParticle.setVx( m_movableParticle.getVx() + (acceleration * TIME_STEP) );
-            double xPos = m_movableParticle.getPositionReference().getX() + (m_movableParticle.getVx() * TIME_STEP);
+            m_movableParticle.setVx( m_movableParticle.getVx() + (acceleration * m_timeStep) );
+            double xPos = m_movableParticle.getPositionReference().getX() + (m_movableParticle.getVx() * m_timeStep);
             m_movableParticle.setPosition( xPos, 0 );
         }
         
