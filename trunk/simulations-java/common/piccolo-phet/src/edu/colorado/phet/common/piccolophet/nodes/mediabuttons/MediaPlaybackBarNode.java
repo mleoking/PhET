@@ -31,13 +31,19 @@ public class MediaPlaybackBarNode extends PNode {
         this.height = height;
 //        outerShape = new PhetPPath( Color.lightGray, new BasicStroke( 1 ), Color.black );
         outerShape = new PhetPPath( Color.lightGray );
-        fillPath = new PhetPPath( Color.darkGray );
+        fillPath = new PhetPPath( Color.gray );
         braidPath = new PhetPPath( new BasicStroke( 2 ), Color.red );
 
         addChild( outerShape );
         addChild( fillPath );
 
 //        addChild( braidPath );
+        update();
+    }
+
+    public void setSize( double width, double height ) {
+        this.width = width;
+        this.height = height;
         update();
     }
 
@@ -94,7 +100,7 @@ public class MediaPlaybackBarNode extends PNode {
         timer.start();
     }
 
-    private double getProgress() {
+    public double getProgress() {
         return progress;
     }
 
