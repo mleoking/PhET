@@ -231,11 +231,19 @@ public class PhaseChangesControlPanel extends ControlPanel {
         }
     }
     
-    // Constants used to adjust the pressure and temperature such that the
-    // values are usable by the diagram.  These have been empirically
-    // determined and should be adjusted as needed.
-    private static final double TEMPERATURE_SCALE_FACTOR_FOR_DIAGRAM = 0.6;
-    private static final double PRESSURE_SCALE_FACTOR_FOR_DIAGRAM = 2;
+    // Constants used to control the way in which pressure and temperature
+    // data from the model are mapped to the phase diagram.  These values are
+    // empirically determined and can and should be tweaked as necessary to
+    // create the correct behavior.
+    private static final int ASSYMTOTIC_MAPPING_ALGORITHM = 0;
+    private static final int LINEAR_MAPPING_ALGORITHM = 1;
+    private static final int MAPPING_ALGORITHM = ASSYMTOTIC_MAPPING_ALGORITHM; 
+    
+    private static final double TEMPERATURE_SCALE_FACTOR_LINEAR = 0.6;
+    private static final double PRESSURE_SCALE_FACTOR_LINEAR = 2;
+    
+    private static final double TEMPERATURE_SCALE_FACTOR_ASSYMTOTIC = 1;
+    private static final double PRESSURE_SCALE_FACTOR_ASSYMTOTIC = 1;
     
     /**
      * Update the position of the marker on the phase diagram based on the
@@ -243,15 +251,30 @@ public class PhaseChangesControlPanel extends ControlPanel {
      */
     private void updatePhaseDiagram(){
         
-        double temperature = m_model.getModelTemperature() * TEMPERATURE_SCALE_FACTOR_FOR_DIAGRAM;
-        if (temperature > 1.0) {
-            temperature = 1.0;
+        double normalizedTemperature = 0;
+        double normalizedPressure = 0;
+        
+        if (MAPPING_ALGORITHM == LINEAR_MAPPING_ALGORITHM) {
+            normalizedTemperature = m_model.getModelTemperature() * TEMPERATURE_SCALE_FACTOR_LINEAR;
+            if (normalizedTemperature > 1.0) {
+                normalizedTemperature = 1.0;
+            }
+            normalizedPressure = m_model.getModelPressure() * PRESSURE_SCALE_FACTOR_LINEAR;
+            if (normalizedPressure > 1.0) {
+                normalizedPressure = 1.0;
+            }
+            
         }
-        double pressure = m_model.getModelPressure() * PRESSURE_SCALE_FACTOR_FOR_DIAGRAM;
-        if (pressure > 1.0) {
-            pressure = 1.0;
+        else if (MAPPING_ALGORITHM == ASSYMTOTIC_MAPPING_ALGORITHM) {
+            normalizedTemperature = -1 / ((m_model.getModelTemperature() * TEMPERATURE_SCALE_FACTOR_ASSYMTOTIC) + 1) + 1;
+            if (normalizedTemperature > 1.0) {
+                normalizedTemperature = 1.0;
+            }
+            normalizedPressure = -1 / ((m_model.getModelPressure() * PRESSURE_SCALE_FACTOR_ASSYMTOTIC) + 1) + 1;
+            if (normalizedPressure > 1.0) {
+                normalizedPressure = 1.0;
+            }
+            m_phaseDiagram.setStateMarkerPos( normalizedTemperature, normalizedPressure );
         }
-        m_phaseDiagram.setStateMarkerPos( temperature, pressure );
-
     }
 }

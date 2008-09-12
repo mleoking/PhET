@@ -34,7 +34,7 @@ public class SolidLiquidGasModule extends Module {
     public SolidLiquidGasModule( Frame parentFrame ) {
         
         super(StatesOfMatterStrings.TITLE_SOLID_LIQUID_GAS_MODULE, 
-                new ConstantDtClock(10, StatesOfMatterConstants.DELTA_T));
+                new ConstantDtClock(SolidLiquidGasDefaults.CLOCK_FRAME_DELAY, SolidLiquidGasDefaults.CLOCK_DT));
 
         // Model
         m_model = new MultipleParticleModel( getClock() );
