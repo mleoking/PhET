@@ -39,6 +39,7 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
 
     private static final Font BUTTON_FONT = new PhetFont( Font.PLAIN, 14 );
+    private static final int MATTER_STATE_ICON_HEIGHT = 32;
     
     //----------------------------------------------------------------------------
     // Instance Data
@@ -98,7 +99,6 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
         
         ChangeStateControlPanel(){
             
-//            setLayout( new BoxLayout(this, BoxLayout.PAGE_AXIS));
             setLayout( new GridLayout(3, 2) );
             
             BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
@@ -114,21 +114,21 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
             // Create the images used to depict the various states.
             
             BufferedImage image = StatesOfMatterResources.getImage( StatesOfMatterConstants.ICE_CUBE_IMAGE );
-            double scaleFactor = (double)(BUTTON_FONT.getSize() * 2) / (double)(image.getHeight());
+            double scaleFactor = (double)((double)MATTER_STATE_ICON_HEIGHT / (double)(image.getHeight()));
             Image scaledImage = image.getScaledInstance( (int)(scaleFactor * image.getWidth()), 
                     (int)(scaleFactor * image.getHeight()), Image.SCALE_SMOOTH);
             ImageIcon icon = new ImageIcon( scaledImage );
             JLabel solidIcon = new JLabel( icon );
 
             image = StatesOfMatterResources.getImage( StatesOfMatterConstants.LIQUID_IMAGE );
-            scaleFactor = (double)(BUTTON_FONT.getSize() * 2) / (double)(image.getHeight());
+            scaleFactor = (double)((double)MATTER_STATE_ICON_HEIGHT / (double)(image.getHeight()));
             scaledImage = image.getScaledInstance( (int)(scaleFactor * image.getWidth()), 
                     (int)(scaleFactor * image.getHeight()), Image.SCALE_SMOOTH);
             icon = new ImageIcon( scaledImage );
             JLabel liquidIcon = new JLabel( icon );
 
             image = StatesOfMatterResources.getImage( StatesOfMatterConstants.GAS_IMAGE );
-            scaleFactor = (double)(BUTTON_FONT.getSize() * 2) / (double)(image.getHeight());
+            scaleFactor = (double)((double)MATTER_STATE_ICON_HEIGHT / (double)(image.getHeight()));
             scaledImage = image.getScaledInstance( (int)(scaleFactor * image.getWidth()), 
                     (int)(scaleFactor * image.getHeight()), Image.SCALE_SMOOTH);
             icon = new ImageIcon( scaledImage );
