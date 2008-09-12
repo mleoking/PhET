@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.nuclearphysics.AbstractNuclearPhysicsApplication;
-import edu.colorado.phet.nuclearphysics.NuclearPhysicsApplication;
+import edu.colorado.phet.nuclearphysics.NuclearFissionApplication;
 
 /**
  * DeveloperControlsDialog is a dialog that contains "developer only" controls.
