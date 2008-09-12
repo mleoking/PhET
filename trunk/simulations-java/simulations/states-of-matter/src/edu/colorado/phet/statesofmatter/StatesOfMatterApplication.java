@@ -16,7 +16,6 @@ import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.statesofmatter.developer.DeveloperMenu;
-import edu.colorado.phet.statesofmatter.menu.OptionsMenu;
 import edu.colorado.phet.statesofmatter.module.interactionpotential.InteractionPotentialModule;
 import edu.colorado.phet.statesofmatter.module.phasechanges.PhaseChangesModule;
 import edu.colorado.phet.statesofmatter.module.solidliquidgas.SolidLiquidGasModule;
@@ -107,12 +106,6 @@ public class StatesOfMatterApplication extends PiccoloPhetApplication implements
     private void initMenubar( String[] args ) {
 
         final PhetFrame frame = getPhetFrame();
-
-        // Options menu
-        OptionsMenu optionsMenu = new OptionsMenu();
-        if ( optionsMenu.getMenuComponentCount() > 0 ) {
-            frame.addMenu( optionsMenu );
-        }
 
         // Developer menu
         DeveloperMenu developerMenu = new DeveloperMenu( this );
