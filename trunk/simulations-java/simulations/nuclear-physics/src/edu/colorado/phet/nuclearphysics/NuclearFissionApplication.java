@@ -17,12 +17,12 @@ import edu.colorado.phet.nuclearphysics.module.fissiononenucleus.FissionOneNucle
 import edu.colorado.phet.nuclearphysics.module.nuclearreactor.NuclearReactorModule;
 
 /**
- * TemplateApplication is the main application for this simulation.
+ * NuclearFissionApplication is the main application class for this simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * 
  */
-public class NuclearPhysicsApplication extends AbstractNuclearPhysicsApplication {
+public class NuclearFissionApplication extends AbstractNuclearPhysicsApplication {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -36,7 +36,7 @@ public class NuclearPhysicsApplication extends AbstractNuclearPhysicsApplication
      *
      * @param config - The configuration for the application.
      */
-    public NuclearPhysicsApplication( PhetApplicationConfig config )
+    public NuclearFissionApplication( PhetApplicationConfig config )
     {
         super( config );
         initTabbedPane();
@@ -63,7 +63,7 @@ public class NuclearPhysicsApplication extends AbstractNuclearPhysicsApplication
      * @throws InterruptedException
      */
     public static void main( final String[] args ) {
-        final QuickProfiler profiler=new QuickProfiler( "Nuclear Physics 2 Startup Time");
+        final QuickProfiler profiler=new QuickProfiler( "Nuclear Fission 2 Startup Time");
         /*
          * Wrap the body of main in invokeLater, so that all initialization occurs
          * in the event dispatch thread. Sun now recommends doing all Swing init in
@@ -76,14 +76,15 @@ public class NuclearPhysicsApplication extends AbstractNuclearPhysicsApplication
     
             public void run() {
     
-                PhetApplicationConfig config = new PhetApplicationConfig( args, NuclearPhysicsConstants.FRAME_SETUP, NuclearPhysicsResources.getResourceLoader() );
+                PhetApplicationConfig config = new PhetApplicationConfig( args, NuclearPhysicsConstants.FRAME_SETUP, 
+                        NuclearPhysicsResources.getResourceLoader(), "nuclear-fission" );
                 
                 PhetLookAndFeel p = new PhetLookAndFeel();
                 p.setBackgroundColor( NuclearPhysicsConstants.CONTROL_PANEL_COLOR );
                 p.initLookAndFeel();
     
                 // Create the application.
-                NuclearPhysicsApplication app = new NuclearPhysicsApplication( config );
+                NuclearFissionApplication app = new NuclearFissionApplication( config );
     
                 // Start the application.
                 app.startApplication();
