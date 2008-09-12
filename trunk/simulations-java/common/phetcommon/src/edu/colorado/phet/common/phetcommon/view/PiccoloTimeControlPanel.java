@@ -5,6 +5,8 @@ package edu.colorado.phet.common.phetcommon.view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -16,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.MediaPlaybackBarNode;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PlayPauseButton;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.StepButton;
 import edu.umd.cs.piccolo.PNode;
@@ -25,13 +28,13 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Sam Reid, Chris Malley
  */
-public class PiccoloTimeControlPanel extends JPanel {
+public class PiccoloTimeControlPanel extends PhetPCanvas {
 
     public static final NumberFormat DEFAULT_TIME_FORMAT = new DecimalFormat( "0" );
     public static final int DEFAULT_TIME_COLUMNS = 8;
 
-//    private JButton playPauseButton;
-//    private JButton stepButton;
+    //    private JButton playPauseButton;
+    //    private JButton stepButton;
     private JButton restartButton;
     private ImageIcon playIcon;
     private ImageIcon pauseIcon;
@@ -51,12 +54,16 @@ public class PiccoloTimeControlPanel extends JPanel {
     private ArrayList listeners = new ArrayList();
     private PlayPauseButton piccoloPlayPauseButton;
     private StepButton piccoloStepButton;
+    private MediaPlaybackBarNode mediaPlaybackBarNode;
 
     public PiccoloTimeControlPanel() {
-
+        setBorder( null );
         time = 0;
         paused = false;
         timeFormat = DEFAULT_TIME_FORMAT;
+
+        mediaPlaybackBarNode = new MediaPlaybackBarNode( 100, 3 );
+        addScreenChild( mediaPlaybackBarNode );
 
         // Play/Pause
         playString = PhetCommonResources.getInstance().getLocalizedString( PhetCommonResources.STRING_CLOCK_PLAY );
@@ -127,7 +134,7 @@ public class PiccoloTimeControlPanel extends JPanel {
 
         // Layout the button panel
         setLayout( new FlowLayout( FlowLayout.CENTER ) );
-        if ( PhetApplication.instance().isDeveloperControlsEnabled() ) { //TODO: only in dev versions until we finish this feature
+        if ( false && PhetApplication.instance().isDeveloperControlsEnabled() ) { //TODO: only in dev versions until we finish this feature
             add( animatedClockIcon );
         }
         add( timeDisplayPanel );
@@ -177,7 +184,18 @@ public class PiccoloTimeControlPanel extends JPanel {
             }
         } );
 
+        addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                updateShape();
+            }
+        } );
+
         updateButtons();
+        updateShape();
+    }
+
+    private void updateShape() {
+        mediaPlaybackBarNode.setSize( getWidth(), 3 );
     }
 
     /**
@@ -196,6 +214,7 @@ public class PiccoloTimeControlPanel extends JPanel {
      */
     public void advanceAnimatedClockIcon() {
         animatedClockIcon.advance();
+        mediaPlaybackBarNode.setProgress( mediaPlaybackBarNode.getProgress() + 0.001 );
     }
 
     /**
