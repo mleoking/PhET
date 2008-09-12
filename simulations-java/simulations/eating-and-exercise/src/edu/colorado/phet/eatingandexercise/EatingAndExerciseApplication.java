@@ -3,8 +3,8 @@
 package edu.colorado.phet.eatingandexercise;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
@@ -14,14 +14,11 @@ import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManage
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
-import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
+import edu.colorado.phet.eatingandexercise.developer.DeveloperFrame;
 import edu.colorado.phet.eatingandexercise.developer.DeveloperMenu;
 import edu.colorado.phet.eatingandexercise.module.eatingandexercise.EatingAndExerciseModule;
-import edu.colorado.phet.eatingandexercise.view.EatingAndExerciseColorScheme;
-import edu.colorado.phet.eatingandexercise.developer.DeveloperFrame;
 
 public class EatingAndExerciseApplication extends PiccoloPhetApplication {
 
@@ -149,10 +146,7 @@ public class EatingAndExerciseApplication extends PiccoloPhetApplication {
         SwingUtilities.invokeLater( new Runnable() {
 
             public void run() {
-                PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
-                phetLookAndFeel.setFont( new PhetFont( 14, true ) );
-                phetLookAndFeel.setBackgroundColor( EatingAndExerciseColorScheme.getBackgroundColor() );
-                phetLookAndFeel.setTextFieldBackgroundColor( Color.white );
+                EatingAndExerciseLookAndFeel phetLookAndFeel = new EatingAndExerciseLookAndFeel();
                 phetLookAndFeel.initLookAndFeel();
                 PhetApplicationConfig config = new PhetApplicationConfig( args, EatingAndExerciseConstants.FRAME_SETUP, EatingAndExerciseResources.getResourceLoader() );
 
