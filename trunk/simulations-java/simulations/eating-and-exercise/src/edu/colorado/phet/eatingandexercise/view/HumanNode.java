@@ -81,8 +81,8 @@ public class HumanNode extends PNode {
     }
 
     private void update() {
-        double headWidth = 0.2;
-        double headHeight = 0.2;
+        double headWidth = human.getHeight() * 0.125;
+        double headHeight = human.getHeight() * 0.125;
 
         double distBetweenShoulders = 0.5;
         double armLength = human.getHeight() * 0.35;
@@ -91,7 +91,7 @@ public class HumanNode extends PNode {
         double neckY = -human.getHeight() + headHeight;
         double shoulderY = neckY + headHeight;
 
-        double m = getScaledMass();
+        double m = getScaledMass() / human.getHeight() * 1.75;  //scale by height to make two people of same BMI have same proportions
 
         Line2D.Double leftLeg = ( new Line2D.Double( 0, hipY, -distBetweenShoulders / 2, 0 ) );
         Line2D.Double rightLeg = ( new Line2D.Double( 0, hipY, +distBetweenShoulders / 2, 0 ) );
@@ -133,12 +133,12 @@ public class HumanNode extends PNode {
         double percentFat = human.getFatMassPercent();
         double leanMuscleFraction = ( m / ( h * h ) / 17.5 - 1 ) * ( 40 / percentFat - 1 );
         double muscleWidthBeyondArm = Math.max( leanMuscleFraction * 0.5, 0 );
-        if ( muscleWidthBeyondArm > 1.0 ) {
-            muscleWidthBeyondArm = 1.0 + ( muscleWidthBeyondArm - 1.0 ) * 0.25;
+        if ( muscleWidthBeyondArm > .8 ) {
+            muscleWidthBeyondArm = .8 + ( muscleWidthBeyondArm - .8 ) * 0.25;
         }
         ;
-        if ( muscleWidthBeyondArm > 1.5 ) {
-            muscleWidthBeyondArm = 1.5;
+        if ( muscleWidthBeyondArm > 1.25 ) {
+            muscleWidthBeyondArm = 1.25;
         }
         ;
 
@@ -169,8 +169,8 @@ public class HumanNode extends PNode {
         double percentFat = human.getFatMassPercent();
 
         //should be percentFat/12 for male, percentFat/18 for female
-        double scaleFactor = human.getGender().equals( Human.Gender.MALE ) ? 12 : 18;
-        double w = Math.max( ( percentFat / scaleFactor - 1 ) * 0.05, 0 );
+        double scaleFactor = human.getGender().equals( Human.Gender.MALE ) ? 13 : 20;
+        double w = Math.max( ( percentFat / scaleFactor - 1 ) * 0.1, 0 );
         
         return new Ellipse2D.Double( bounds.getX() - w / 2, bounds.getCenterY(), bounds.getWidth() + w, bounds.getHeight() / 2 );
     }
