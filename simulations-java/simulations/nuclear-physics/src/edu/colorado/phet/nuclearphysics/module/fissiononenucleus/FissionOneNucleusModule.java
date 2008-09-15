@@ -49,7 +49,7 @@ public class FissionOneNucleusModule extends PiccoloModule {
         setControlPanel( _controlPanel );
         
         // Clock controls
-        _clockControlPanel = new ClockControlPanel( (NuclearPhysicsClock) getClock() );
+        _clockControlPanel = new ClockControlPanel( getClock() );
         setClockControlPanel( _clockControlPanel );
         
         // Help
