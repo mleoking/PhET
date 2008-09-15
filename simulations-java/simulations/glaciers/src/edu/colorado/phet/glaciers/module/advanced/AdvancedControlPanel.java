@@ -49,7 +49,7 @@ public class AdvancedControlPanel extends JPanel {
         super();
         
         _viewControlPanel = new ViewControlPanel( playArea );
-        _climateControlPanel = new ClimateControlPanel( model.getClimate() );
+        _climateControlPanel = new ClimateControlPanel( model.getClimate(), englishUnits );
         _graphsControlPanel = new GraphsControlPanel( model, dialogOwner, englishUnits );
         _clockControlPanel = new GlaciersClockControlPanel( model.getClock() );
         _miscControlPanel = new MiscControlPanel( model.getGlacier(), dialogOwner, module );
@@ -88,6 +88,7 @@ public class AdvancedControlPanel extends JPanel {
         
         _viewControlPanel.addUnitsChangedListener( playArea );
         _viewControlPanel.addUnitsChangedListener( _graphsControlPanel );
+        _viewControlPanel.addUnitsChangedListener( _climateControlPanel );
     }
     
     //----------------------------------------------------------------------------

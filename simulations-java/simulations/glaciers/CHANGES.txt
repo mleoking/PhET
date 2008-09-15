@@ -10,7 +10,7 @@ HIGH PRIORITY:
 - glacier growth from zero length still takes a long time, and then speeds up [Archie will fix model]
 
 MEDIUM PRIORITY:
-- switch climate controls between English & metric units
+- refactor ClimateControlPanel to remove deuplicate code in handling of English/metric
 - make sure everything works properly when clock is paused
 - "steady state" feature needs to fill glacier with debris and surface ripples (and create moraine?)
 
@@ -67,6 +67,7 @@ CLEANUP:
 
 
 DONE:
+9/15/08 - switch climate controls between English & metric units
 ******* 1.00.03 (24300)
 9/9/08 - completed: switch tools between English & metric units
 9/9/08 - add support for changing units on tools that user has already dragged out of the toolbox
