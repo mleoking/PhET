@@ -39,7 +39,8 @@ public class ParticleForceNode extends ParticleNode {
     private Vector2DNode m_attractiveForceVectorNode;
     private double m_repulsiveForce;
     private Vector2DNode m_repulsiveForceVectorNode;
-    private boolean m_showForces;
+    private boolean m_showAttractiveForces;
+    private boolean m_showRepulsiveForces;
     
     //-----------------------------------------------------------------------------
     // Constructor(s)
@@ -48,7 +49,8 @@ public class ParticleForceNode extends ParticleNode {
     public ParticleForceNode( StatesOfMatterAtom particle, ModelViewTransform mvt, boolean useGradient ) {
         super( particle, mvt, useGradient );
         
-        m_showForces = false;
+        m_showAttractiveForces = false;
+        m_showRepulsiveForces = false;
         m_attractiveForce = 0;
         m_repulsiveForce = 0;
         
@@ -58,7 +60,7 @@ public class ParticleForceNode extends ParticleNode {
         m_attractiveForceVectorNode.setArrowFillPaint( ATTRACTIVE_FORCE_COLOR );
         m_attractiveForceVectorNode.setHeadSize( FORCE_ARROW_HEAD_WIDTH, FORCE_ARROW_HEAD_LENGTH );
         m_attractiveForceVectorNode.setTailWidth( FORCE_ARROW_TAIL_WIDTH );
-        m_attractiveForceVectorNode.setVisible( m_showForces );
+        m_attractiveForceVectorNode.setVisible( m_showAttractiveForces );
 
         m_repulsiveForceVectorNode = new Vector2DNode(0, 0, FORCE_ARROW_REFERENCE_MAGNITUDE, FORCE_ARROW_REFERENCE_LENGTH);
         m_repulsiveForceVectorNode.setMagnitudeAngle( 0, 0 );
@@ -66,7 +68,7 @@ public class ParticleForceNode extends ParticleNode {
         m_repulsiveForceVectorNode.setArrowFillPaint( REPULSIVE_FORCE_COLOR );
         m_repulsiveForceVectorNode.setHeadSize( FORCE_ARROW_HEAD_WIDTH, FORCE_ARROW_HEAD_LENGTH );
         m_repulsiveForceVectorNode.setTailWidth( FORCE_ARROW_TAIL_WIDTH );
-        m_repulsiveForceVectorNode.setVisible( m_showForces );
+        m_repulsiveForceVectorNode.setVisible( m_showRepulsiveForces );
     }
 
     public ParticleForceNode( StatesOfMatterAtom particle, ModelViewTransform mvt ) {
@@ -92,10 +94,15 @@ public class ParticleForceNode extends ParticleNode {
     // Other Public Methods
     //-----------------------------------------------------------------------------
     
-    public void setShowForces( boolean showForces ){
+    public void setShowAttractiveForces( boolean showForces ){
         
-        m_showForces = showForces;
-        m_attractiveForceVectorNode.setVisible( m_showForces );
+        m_showAttractiveForces = showForces;
+        m_attractiveForceVectorNode.setVisible( m_showAttractiveForces );
+    }
+
+    public void setShowRepulsiveForces( boolean showForces ){
+        
+        m_showRepulsiveForces = showForces;
         m_repulsiveForceVectorNode.setVisible( showForces );
     }
 

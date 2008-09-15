@@ -59,7 +59,8 @@ public class InteractionPotentialControlPanel extends ControlPanel {
     private MoleculeSelectionPanel m_moleculeSelectionPanel;
     private AtomDiameterControlPanel m_atomDiameterControlPanel;
     private InteractionStrengthControlPanel m_interactionStrengthControlPanel;
-    private JCheckBox m_showForcesCheckbox;
+    private JCheckBox m_showAttractiveForcesCheckbox;
+    private JCheckBox m_showRepulsiveForcesCheckbox;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -98,18 +99,31 @@ public class InteractionPotentialControlPanel extends ControlPanel {
         addControlFullWidth( m_atomDiameterControlPanel );
         addControlFullWidth( m_interactionStrengthControlPanel );
         
-        // Add the check box for showing/hiding the force arrows.
+        // Add the check box for showing/hiding the the attractive force arrows.
         addVerticalSpace( 10 );
-        m_showForcesCheckbox = new JCheckBox();
-        m_showForcesCheckbox.setFont( LABEL_FONT );
-        m_showForcesCheckbox.setText( StatesOfMatterStrings.SHOW_FORCES );
-        m_showForcesCheckbox.setSelected( false );
-        addControl( m_showForcesCheckbox );
+        m_showAttractiveForcesCheckbox = new JCheckBox();
+        m_showAttractiveForcesCheckbox.setFont( LABEL_FONT );
+        m_showAttractiveForcesCheckbox.setText( StatesOfMatterStrings.SHOW_ATTRACTIVE_FORCES );
+        m_showAttractiveForcesCheckbox.setSelected( false );
+        addControl( m_showAttractiveForcesCheckbox );
         
-        // Add the handler for the force control check box.
-        m_showForcesCheckbox.addActionListener( new ActionListener() {
+        m_showAttractiveForcesCheckbox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                m_canvas.setShowForces( m_showForcesCheckbox.isSelected() );
+                m_canvas.setShowAttractiveForces( m_showAttractiveForcesCheckbox.isSelected() );
+            }
+        } );
+
+        // Add the check box for showing/hiding the the repulsive force arrows.
+        addVerticalSpace( 10 );
+        m_showRepulsiveForcesCheckbox = new JCheckBox();
+        m_showRepulsiveForcesCheckbox.setFont( LABEL_FONT );
+        m_showRepulsiveForcesCheckbox.setText( StatesOfMatterStrings.SHOW_REPULSIVE_FORCES );
+        m_showRepulsiveForcesCheckbox.setSelected( false );
+        addControl( m_showRepulsiveForcesCheckbox );
+        
+        m_showRepulsiveForcesCheckbox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                m_canvas.setShowRepulsiveForces( m_showRepulsiveForcesCheckbox.isSelected() );
             }
         } );
 
@@ -119,8 +133,9 @@ public class InteractionPotentialControlPanel extends ControlPanel {
         resetButton.addActionListener( new ActionListener(){
             public void actionPerformed( ActionEvent event ){
                 m_model.reset();
-                m_showForcesCheckbox.setSelected( false );
-                m_canvas.setShowForces( m_showForcesCheckbox.isSelected() );
+                m_showAttractiveForcesCheckbox.setSelected( false );
+                m_showRepulsiveForcesCheckbox.setSelected( false );
+                m_canvas.setShowAttractiveForces( m_showAttractiveForcesCheckbox.isSelected() );
             }
         });
         addControl( resetButton );
