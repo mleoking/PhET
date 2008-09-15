@@ -1,7 +1,5 @@
 package edu.colorado.phet.balloons;
 
-import edu.colorado.phet.balloons.DoubleSeries;
-
 import java.awt.*;
 import java.util.Vector;
 
@@ -25,7 +23,7 @@ public class ThresholdFilter implements BalloonDragListener {
 
     public void balloonDragged( BalloonPainter p ) {
         Point pos = p.getPosition();
-        if( lastSampleTime == -1 || lastPos == null ) {
+        if ( lastSampleTime == -1 || lastPos == null ) {
             lastSampleTime = System.currentTimeMillis();
             lastPos = pos;
             return;
@@ -33,9 +31,9 @@ public class ThresholdFilter implements BalloonDragListener {
         Point diff = new Point( pos.x - lastPos.x, pos.y - lastPos.y );
         long curTime = System.currentTimeMillis();
         long dt = curTime - lastSampleTime;
-        if( dt > 0 ) {
-            double xd = ( (double)diff.x ) / ( (double)dt );
-            double yd = ( (double)diff.y ) / ( (double)dt );
+        if ( dt > 0 ) {
+            double xd = ( (double) diff.x ) / ( (double) dt );
+            double yd = ( (double) diff.y ) / ( (double) dt );
             x.add( xd * xd );
             y.add( yd * yd );
             double xavg = x.average();
@@ -45,9 +43,9 @@ public class ThresholdFilter implements BalloonDragListener {
             //System.err.println("dt="+dt+", diff="+diff+", xavg="+xavg+", yavg="+yavg+"value="+val);
             //System.err.println("value="+val);
             lastSampleTime = curTime;
-            if( val >= thresh ) {
-                for( int i = 0; i < list.size(); i++ ) {
-                    ( (BalloonDragListener)list.get( i ) ).balloonDragged( p );
+            if ( val >= thresh ) {
+                for ( int i = 0; i < list.size(); i++ ) {
+                    ( (BalloonDragListener) list.get( i ) ).balloonDragged( p );
                 }
             }
         }

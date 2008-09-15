@@ -1,11 +1,11 @@
 package edu.colorado.phet.balloons;
 
+import java.awt.*;
+
 import edu.colorado.phet.balloons.common.paint.FixedImagePainter;
 import edu.colorado.phet.balloons.common.phys2d.DoublePoint;
 import edu.colorado.phet.balloons.common.phys2d.Law;
 import edu.colorado.phet.balloons.common.phys2d.System2D;
-
-import java.awt.*;
 
 public class BalloonForces implements Law {
     BalloonPainter a;
@@ -39,11 +39,11 @@ public class BalloonForces implements Law {
     double k = 10.00;
 
     public void iterate( double dt, System2D sys ) {
-        if( a.isVisible() && !a.isHeld() ) {
+        if ( a.isVisible() && !a.isHeld() ) {
             DoublePoint fa = getForce( a, b );
             applyForce( dt, fa, a );
         }
-        if( b.isVisible() && !b.isHeld() ) {
+        if ( b.isVisible() && !b.isHeld() ) {
             DoublePoint fb = getForce( b, a );
             applyForce( dt, fb, b );
         }
@@ -52,15 +52,15 @@ public class BalloonForces implements Law {
     public DoublePoint getForce( BalloonPainter me, BalloonPainter other ) {
         DoublePoint sweaterForce = getSweaterForce( me );
         DoublePoint otherForce = getOtherForce( me, other );
-        if( wall.isVisible() ) {
+        if ( wall.isVisible() ) {
             double distFromWall = wallX - me.getPosition().getX();
             double charge = me.getCharge();
-            if( charge > 5 ) {
+            if ( charge > 5 ) {
                 double relDist = distFromWall - 140;
                 //if (count++%disp==0)
                 //System.err.println("dist="+distFromWall+", charge="+charge);
                 double fright = .3;
-                if( relDist <= 20 + charge / 8 ) {
+                if ( relDist <= 20 + charge / 8 ) {
                     return new DoublePoint( fright * charge / 20.0, 0 );
                 }
             }
@@ -91,7 +91,7 @@ public class BalloonForces implements Law {
     public static DoublePoint getForce( DoublePoint m, DoublePoint n, double kqq ) {
         DoublePoint diff = m.subtract( n );
         double r = diff.length();
-        if( r == 0 ) {
+        if ( r == 0 ) {
             return new DoublePoint();
         }
         DoublePoint fa = diff.multiply( kqq / ( r * r * r ) );
@@ -101,7 +101,7 @@ public class BalloonForces implements Law {
     public static DoublePoint getForce( DoublePoint m, DoublePoint n, double kqq, double power ) {
         DoublePoint diff = m.subtract( n );
         double r = diff.length();
-        if( r == 0 ) {
+        if ( r == 0 ) {
             return new DoublePoint();
         }
         DoublePoint fa = diff.multiply( kqq / ( Math.pow( r, power + 1 ) ) );
@@ -109,7 +109,7 @@ public class BalloonForces implements Law {
     }
 
     public DoublePoint getOtherForce( BalloonPainter me, BalloonPainter other ) {
-        if( me.isHeld() || !me.isVisible() || !other.isVisible() ) {
+        if ( me.isHeld() || !me.isVisible() || !other.isVisible() ) {
             return new DoublePoint();
         }
         double kqq = k * me.getCharge() * other.getCharge();
@@ -128,10 +128,10 @@ public class BalloonForces implements Law {
         Point x0 = bp.getPosition();
         DoublePoint x00 = new DoublePoint( x0.x, x0.y );
         DoublePoint xnew = x00.add( v.multiply( dt ) );
-        Point newPt = new Point( (int)xnew.getX(), (int)xnew.getY() );
+        Point newPt = new Point( (int) xnew.getX(), (int) xnew.getY() );
         Point newRhs = new Point( newPt.x + w2 * 2, newPt.y + h2 * 2 );
         Point newpt = makeLegal( newPt );
-        if( bounds.contains( newPt ) && bounds.contains( newRhs ) ) {
+        if ( bounds.contains( newPt ) && bounds.contains( newRhs ) ) {
             bp.setVelocity( v );
             bp.getFixedPainter().setPosition( newPt );
         }

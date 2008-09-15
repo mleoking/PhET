@@ -1,9 +1,8 @@
 package edu.colorado.phet.balloons.common.paint;
 
-import edu.colorado.phet.balloons.common.paint.Painter;
-import edu.colorado.phet.balloons.common.phys2d.Particle;
-
 import java.awt.*;
+
+import edu.colorado.phet.balloons.common.phys2d.Particle;
 
 public class ParticlePainterAdapter implements Painter {
     ParticlePainter p;

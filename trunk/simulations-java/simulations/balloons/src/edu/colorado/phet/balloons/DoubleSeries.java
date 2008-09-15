@@ -16,13 +16,13 @@ public class DoubleSeries {
     public double sum() {
         Vector v = s.get();
         double avg = 0;
-        for( int i = 0; i < v.size(); i++ ) {
-            avg += ( (Double)v.get( i ) ).doubleValue();
+        for ( int i = 0; i < v.size(); i++ ) {
+            avg += ( (Double) v.get( i ) ).doubleValue();
         }
         return avg;
     }
 
     public double average() {
-        return sum() / ( (double)s.length() );
+        return sum() / ( (double) s.length() );
     }
 }

@@ -1,13 +1,13 @@
 package edu.colorado.phet.balloons;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
 import edu.colorado.phet.balloons.common.paint.LayeredPainter;
 import edu.colorado.phet.balloons.common.phys2d.DoublePoint;
 import edu.colorado.phet.balloons.common.phys2d.NullPropagator;
 import edu.colorado.phet.balloons.common.phys2d.Particle;
 import edu.colorado.phet.balloons.common.phys2d.Propagator;
-
-import java.awt.*;
-import java.awt.image.BufferedImage;
 
 public class MoveToBalloon implements Propagator {
     BalloonPainter ip;
@@ -37,12 +37,12 @@ public class MoveToBalloon implements Propagator {
         DoublePoint newPos = vhat.add( p.getPosition() );
         p.setPosition( newPos );
         double throsh = 60;
-        if( newPos.distance( imgCtr ) < throsh ) {
+        if ( newPos.distance( imgCtr ) < throsh ) {
 
-            Point pt = new Point( (int)newPos.getX(), (int)newPos.getY() );
+            Point pt = new Point( (int) newPos.getX(), (int) newPos.getY() );
             Point imPos = ip.getPosition();
             Point rel = new Point( pt.x - imPos.x, pt.y - imPos.y );
-            Charge ch = (Charge)p;
+            Charge ch = (Charge) p;
             ch.setPropagator( new NullPropagator() );
             Stick s = new Stick( ip, rel, ch, mp );
             lp.removePainter( ch.getPainter(), ch.getLevel() );

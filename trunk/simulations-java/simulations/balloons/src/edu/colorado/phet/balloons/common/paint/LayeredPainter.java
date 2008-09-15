@@ -14,8 +14,8 @@ public class LayeredPainter implements Painter {
     }
 
     public void remove( Painter p, int layer ) {
-        Vector v = (Vector)painters.get( new Integer( layer ) );
-        if( v != null ) {
+        Vector v = (Vector) painters.get( new Integer( layer ) );
+        if ( v != null ) {
             v.remove( p );
         }
     }
@@ -24,8 +24,8 @@ public class LayeredPainter implements Painter {
         //util.Debug.traceln("Painter added: "+p+", "+p.getClass());
         //new Exception().printStackTrace();
 
-        Vector v = (Vector)painters.get( new Integer( level ) );
-        if( v == null ) {
+        Vector v = (Vector) painters.get( new Integer( level ) );
+        if ( v == null ) {
             v = new Vector();
             painters.put( new Integer( level ), v );
         }
@@ -36,11 +36,11 @@ public class LayeredPainter implements Painter {
 
         Set e = painters.keySet();
         Iterator it = e.iterator();
-        while( it.hasNext() ) {
+        while ( it.hasNext() ) {
             Object key = it.next();
-            Vector next = (Vector)painters.get( key );
-            for( int i = 0; i < next.size(); i++ ) {
-                Painter p = (Painter)next.get( i );
+            Vector next = (Vector) painters.get( key );
+            for ( int i = 0; i < next.size(); i++ ) {
+                Painter p = (Painter) next.get( i );
                 //util.Debug.traceln("num graphics painters: "+graphicsPainters.size());
                 //util.Debug.traceln("Painter["+i+"]="+p);
                 p.paint( g );

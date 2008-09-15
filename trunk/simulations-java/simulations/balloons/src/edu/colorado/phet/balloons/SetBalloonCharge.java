@@ -1,8 +1,9 @@
 package edu.colorado.phet.balloons;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
 
 public class SetBalloonCharge implements ActionListener {
     BalloonImage bp;
@@ -16,12 +17,12 @@ public class SetBalloonCharge implements ActionListener {
     }
 
     public void actionPerformed( ActionEvent ae ) {
-        if( b.isSelected() )//ignore
+        if ( b.isSelected() )//ignore
         {
             bp.setShowCharged( false );
         }
         else {
-            if( showAll.isSelected() ) {
+            if ( showAll.isSelected() ) {
                 bp.setShowCharged( true );
             }
             else {

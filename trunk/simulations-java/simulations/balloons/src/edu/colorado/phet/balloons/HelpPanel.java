@@ -10,10 +10,11 @@
  */
 package edu.colorado.phet.balloons;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
 
 /**
  * HelpPanel
@@ -44,7 +45,7 @@ public class HelpPanel extends JPanel {
                 miniHelpShowing = !miniHelpShowing;
 
                 // If there is no megahelp, don't show the megahelp button
-                if( miniHelpShowing ) {
+                if ( miniHelpShowing ) {
                     setTwoButtonMode();
                 }
                 else {
@@ -66,10 +67,10 @@ public class HelpPanel extends JPanel {
     }
 
     private void layoutPanel() {
-        setPreferredSize( new Dimension( (int)Math.max( miniHelpBtn.getPreferredSize().getWidth(),
-                                                        megaHelpBtn.getPreferredSize().getWidth() ),
-                                         (int)( miniHelpBtn.getPreferredSize().getHeight()
-                                                + megaHelpBtn.getPreferredSize().getHeight() + padY * 2 ) ) );
+        setPreferredSize( new Dimension( (int) Math.max( miniHelpBtn.getPreferredSize().getWidth(),
+                                                         megaHelpBtn.getPreferredSize().getWidth() ),
+                                         (int) ( miniHelpBtn.getPreferredSize().getHeight()
+                                                 + megaHelpBtn.getPreferredSize().getHeight() + padY * 2 ) ) );
         GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 0, 0,
                                                          GridBagConstraints.CENTER,
                                                          GridBagConstraints.NONE,
@@ -78,51 +79,13 @@ public class HelpPanel extends JPanel {
         add( miniHelpBtn, gbc );
         gbc.gridy = 1;
         add( megaHelpBtn, gbc );
-        if( true ) {
-            return;
-        }
-        this.invalidate();
-        this.repaint();
-
-//        SpringLayout layout = new SpringLayout();
-//        this.setLayout( layout );
-//        Spring halfWidthS = FractionSpring.half( layout.getConstraint( SpringLayout.EAST, this ) );
-//        Spring halfHeightS = FractionSpring.half( layout.getConstraint( SpringLayout.SOUTH, this ) );
-//        Spring topOfMiniBtnS = Spring.sum( halfHeightS, Spring.minus( Spring.constant( (int)miniHelpBtn.getPreferredSize().getHeight() + padY ) ) );
-//        Spring leftOfMiniBtnS = Spring.sum( halfWidthS, Spring.minus( Spring.constant( (int)miniHelpBtn.getPreferredSize().getWidth() / 2 ) ) );
-//        layout.putConstraint( SpringLayout.NORTH, miniHelpBtn, topOfMiniBtnS, SpringLayout.NORTH, this );
-//        layout.putConstraint( SpringLayout.WEST, miniHelpBtn, leftOfMiniBtnS, SpringLayout.WEST, this );
-//
-//        Spring topOfMegaBtnS = Spring.sum( halfHeightS, Spring.constant( padY ) );
-//        Spring leftOfMegaBtnS = Spring.sum( halfWidthS, Spring.minus( Spring.constant( (int)megaHelpBtn.getPreferredSize().getWidth() / 2 ) ) );
-//        layout.putConstraint( SpringLayout.NORTH, megaHelpBtn, topOfMegaBtnS, SpringLayout.NORTH, this );
-//        layout.putConstraint( SpringLayout.WEST, megaHelpBtn, leftOfMegaBtnS, SpringLayout.WEST, this );
-//
-//        this.invalidate();
-//        this.repaint();
     }
 
     private void setOneButtonMode() {
         megaHelpBtn.setVisible( false );
         miniHelpBtn.setText( showHelpStr );
 
-        // If you want the two buttons to pop up centered in the panel, comment out the next line
-        // and uncomment the block following it
         layoutPanel();
-/*
-        setPreferredSize( new Dimension( 100, 70 ));
-        SpringLayout layout = new SpringLayout();
-        this.setLayout( layout );
-        Spring halfWidthS =  FractionSpring.half( layout.getConstraint( SpringLayout.EAST, this ));
-        Spring halfHeightS =  FractionSpring.half( layout.getConstraint( SpringLayout.SOUTH, this ));
-        Spring topOfMiniBtnS = Spring.sum( halfHeightS, Spring.minus( Spring.constant( (int)miniHelpBtn.getPreferredSize().getHeight() / 2 )));
-        Spring leftOfMiniBtnS = Spring.sum( halfWidthS, Spring.minus( Spring.constant( (int)miniHelpBtn.getPreferredSize().getWidth() / 2 )));
-        layout.putConstraint( SpringLayout.NORTH, miniHelpBtn, topOfMiniBtnS, SpringLayout.NORTH, this );
-        layout.putConstraint( SpringLayout.WEST, miniHelpBtn, leftOfMiniBtnS, SpringLayout.WEST, this );
-
-        this.invalidate();
-        this.repaint();
-*/
     }
 
     private void setTwoButtonMode() {
@@ -133,26 +96,5 @@ public class HelpPanel extends JPanel {
         // If you want the two buttons to pop up centered in the panel, comment out the next line
         // and uncomment the block following it
         layoutPanel();
-/*
-        setPreferredSize( new Dimension( 100, 70 ));
-        SpringLayout layout = new SpringLayout();
-        this.setLayout( layout );
-        int padY = 2;
-        Spring halfWidthS =  FractionSpring.half( layout.getConstraint( SpringLayout.EAST, this ));
-        Spring halfHeightS =  FractionSpring.half( layout.getConstraint( SpringLayout.SOUTH, this ));
-        Spring topOfMiniBtnS = Spring.sum( halfHeightS, Spring.minus( Spring.constant( (int)miniHelpBtn.getPreferredSize().getHeight() + padY )));
-        Spring leftOfMiniBtnS = Spring.sum( halfWidthS, Spring.minus( Spring.constant( (int)miniHelpBtn.getPreferredSize().getWidth() / 2 )));
-        layout.putConstraint( SpringLayout.NORTH, miniHelpBtn, topOfMiniBtnS, SpringLayout.NORTH, this );
-        layout.putConstraint( SpringLayout.WEST, miniHelpBtn, leftOfMiniBtnS, SpringLayout.WEST, this );
-
-        Spring topOfMegaBtnS = Spring.sum( halfHeightS, Spring.constant( padY ));
-        Spring leftOfMegaBtnS = Spring.sum( halfWidthS, Spring.minus( Spring.constant( (int)megaHelpBtn.getPreferredSize().getWidth() / 2 )));
-        layout.putConstraint( SpringLayout.NORTH, megaHelpBtn, topOfMegaBtnS, SpringLayout.NORTH, this );
-        layout.putConstraint( SpringLayout.WEST, megaHelpBtn, leftOfMegaBtnS, SpringLayout.WEST, this );
-
-        this.invalidate();
-        this.repaint();
-*/
     }
-
 }
