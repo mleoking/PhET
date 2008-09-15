@@ -1,4 +1,4 @@
-package edu.colorado.phet.balloons.common.utils;
+package edu.colorado.phet.balloons;
 
 import java.util.Vector;
 
