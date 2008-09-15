@@ -40,7 +40,7 @@ public class FixedImagePainter implements Painter {
     }
 
     public void paint( Graphics2D g ) {
-        if( im != null ) {
+        if ( im != null ) {
             g.drawRenderedImage( im, at );
         }
     }

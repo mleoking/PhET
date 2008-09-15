@@ -5,10 +5,10 @@ package edu.colorado.phet.balloons.common.phys2d;
  */
 public class ParticleLaw implements Law {
     public void iterate( double dt, System2D sys ) {
-        for( int i = 0; i < sys.numParticles(); i++ ) {
+        for ( int i = 0; i < sys.numParticles(); i++ ) {
             Particle p = sys.particleAt( i );
-            if( p instanceof PropagatingParticle ) {
-                Propagator prop = ( (PropagatingParticle)p ).getPropagator();
+            if ( p instanceof PropagatingParticle ) {
+                Propagator prop = ( (PropagatingParticle) p ).getPropagator();
                 //util.Debug.traceln("Read propagator for particle["+i+"]: "+prop);
                 prop.propagate( dt, p );
             }

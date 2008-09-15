@@ -1,11 +1,11 @@
 package edu.colorado.phet.balloons;
 
-import edu.colorado.phet.balloons.common.paint.LayeredPainter;
-import edu.colorado.phet.balloons.common.phys2d.Particle;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Vector;
+
+import edu.colorado.phet.balloons.common.paint.LayeredPainter;
+import edu.colorado.phet.balloons.common.phys2d.Particle;
 
 /**
  * Decides whether charges should start moving to the edu.colorado.phet.balloon.
@@ -29,12 +29,12 @@ public class ChargeMover implements BalloonDragListener {
         BufferedImage im = pt.getImage();
         int yinset = 10;
         Rectangle region = new Rectangle( pos.x, pos.y - yinset * 2, 15, im.getHeight() - yinset );
-        for( int i = 0; i < v.size(); i++ ) {
+        for ( int i = 0; i < v.size(); i++ ) {
             //System.err.println("i="+i);
-            Charge p = (Charge)v.get( i );
+            Charge p = (Charge) v.get( i );
             double positionX = p.getPosition().getX();
             double positionY = p.getPosition().getY();
-            if( region.contains( new Point( (int)positionX, (int)positionY ) ) ) {
+            if ( region.contains( new Point( (int) positionX, (int) positionY ) ) ) {
                 /**Set the painter to be on top.*/
                 lp.removePainter( p.getPainter(), p.getLevel() );
                 lp.addPainter( p.getPainter(), 100 );

@@ -1,12 +1,12 @@
 package edu.colorado.phet.balloons;
 
-import edu.colorado.phet.balloons.common.paint.FixedImagePainter;
-import edu.colorado.phet.balloons.common.paint.Painter;
-import edu.colorado.phet.balloons.common.phys2d.DoublePoint;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Vector;
+
+import edu.colorado.phet.balloons.common.paint.FixedImagePainter;
+import edu.colorado.phet.balloons.common.paint.Painter;
+import edu.colorado.phet.balloons.common.phys2d.DoublePoint;
 
 public class BalloonPainter implements Painter {
     Vector charges = new Vector();
@@ -71,7 +71,7 @@ public class BalloonPainter implements Painter {
     }
 
     public Charge[] getCharges() {
-        return (Charge[])charges.toArray( new Charge[0] );
+        return (Charge[]) charges.toArray( new Charge[0] );
     }
 
     public void addPainter( Painter p, Charge ch ) {
@@ -97,12 +97,12 @@ public class BalloonPainter implements Painter {
     }
 
     public void paint( Graphics2D g ) {
-        if( !vis ) {
+        if ( !vis ) {
             return;
         }
         fip.paint( g );
-        for( int i = 0; i < v.size(); i++ ) {
-            ( (Painter)v.get( i ) ).paint( g );
+        for ( int i = 0; i < v.size(); i++ ) {
+            ( (Painter) v.get( i ) ).paint( g );
         }
         Point p = fip.getPosition();
         g.setColor( stringColor );

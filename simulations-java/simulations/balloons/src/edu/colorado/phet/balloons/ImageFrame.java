@@ -1,8 +1,9 @@
 /*  */
 package edu.colorado.phet.balloons;
 
-import javax.swing.*;
 import java.awt.*;
+
+import javax.swing.*;
 
 /**
  * User: Sam Reid

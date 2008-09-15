@@ -27,10 +27,10 @@ public class DoublePoint {
     public DoublePoint( double x, double y ) {
         this.x = x;
         this.y = y;
-        if( Double.isNaN( x ) ) {
+        if ( Double.isNaN( x ) ) {
             throw new RuntimeException( "x was NaN" );
         }
-        if( Double.isNaN( y ) ) {
+        if ( Double.isNaN( y ) ) {
             throw new RuntimeException( "Y was NaN" );
         }
     }

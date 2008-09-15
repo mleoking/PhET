@@ -1,11 +1,11 @@
 package edu.colorado.phet.balloons;
 
+import java.awt.*;
+
 import edu.colorado.phet.balloons.common.paint.Painter;
 import edu.colorado.phet.balloons.common.paint.ParticlePainter;
 import edu.colorado.phet.balloons.common.paint.ParticlePainterAdapter;
 import edu.colorado.phet.balloons.common.phys2d.DoublePoint;
-
-import java.awt.*;
 
 public class Dipole implements Painter {
     Charge p;

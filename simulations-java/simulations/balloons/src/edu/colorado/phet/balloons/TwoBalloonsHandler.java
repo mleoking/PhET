@@ -1,8 +1,9 @@
 package edu.colorado.phet.balloons;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
 
 public class TwoBalloonsHandler implements ActionListener {
     JCheckBox box;
@@ -14,7 +15,7 @@ public class TwoBalloonsHandler implements ActionListener {
     }
 
     public void actionPerformed( ActionEvent ae ) {
-        if( box.isSelected() ) {
+        if ( box.isSelected() ) {
             bp.setVisible( true );
         }
         else {

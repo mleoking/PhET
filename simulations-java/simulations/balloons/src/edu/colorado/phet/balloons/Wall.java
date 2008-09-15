@@ -1,14 +1,15 @@
 package edu.colorado.phet.balloons;
 
+import java.awt.*;
+import java.util.Vector;
+
+import javax.swing.*;
+
 import edu.colorado.phet.balloons.common.paint.Painter;
 import edu.colorado.phet.balloons.common.paint.ParticlePainter;
 import edu.colorado.phet.balloons.common.phys2d.DoublePoint;
 import edu.colorado.phet.balloons.common.phys2d.Law;
 import edu.colorado.phet.balloons.common.phys2d.System2D;
-
-import javax.swing.*;
-import java.awt.*;
-import java.util.Vector;
 
 public class Wall implements Painter, Law {
     JCheckBox show;
@@ -28,8 +29,8 @@ public class Wall implements Painter, Law {
         DoublePoint yellow = new DoublePoint( pos2.x + w / 2, pos2.y + h / 2 );
         boolean yelVis = yel.isVisible();
         double k = 1;
-        for( int i = 0; i < d.size(); i++ ) {
-            Dipole dip = ( (Dipole)d.get( i ) );
+        for ( int i = 0; i < d.size(); i++ ) {
+            Dipole dip = ( (Dipole) d.get( i ) );
             Charge p = dip.p();
             Charge m = dip.m();
 //  		DoublePoint fx=getForce(p,blueVis,blue,blu.getCharge()).add(getForce(p,yelVis,yellow,yel.getCharge()));
@@ -40,7 +41,7 @@ public class Wall implements Painter, Law {
 
             DoublePoint fx = getForce( m, blueVis, blue, blu.getCharge() ).add( getForce( m, yelVis, yellow, yel.getCharge() ) );
             DoublePoint newPos = ( m.getInitialPosition().add( fx ) );
-            if( newPos.getX() < bounds.x ) {
+            if ( newPos.getX() < bounds.x ) {
                 newPos = new DoublePoint( bounds.x, newPos.getY() );
             }
             m.setPosition( newPos );
@@ -51,17 +52,17 @@ public class Wall implements Painter, Law {
     public static final double max = 40;
 
     public DoublePoint getForce( Charge ch, boolean vis, DoublePoint ctr, int c ) {
-        if( !vis ) {
+        if ( !vis ) {
             return ZERO;
         }
         //double k=-100000/4;
         double k = -1000000 / 5;
         double kqq = k * ch.getCharge() * c;
         DoublePoint force = BalloonForces.getForce( ch.getPosition(), ctr, kqq, 2.7 );
-        if( force.length() <= 2 ) {
+        if ( force.length() <= 2 ) {
             return ZERO;
         }
-        if( force.length() > max ) {
+        if ( force.length() > max ) {
             return force.normalize().multiply( max );
         }
         return force;
@@ -85,9 +86,9 @@ public class Wall implements Painter, Law {
         int dx = bounds.width / X + 4;
         int dy = bounds.height / Y;
         int y0 = 0;
-        for( int i = 0; i < X; i++ ) {
-            for( int k = 0; k < Y; k++ ) {
-                if( i % 2 == 0 ) {
+        for ( int i = 0; i < X; i++ ) {
+            for ( int k = 0; k < Y; k++ ) {
+                if ( i % 2 == 0 ) {
                     y0 = dy / 2;
                 }
                 else {
@@ -109,12 +110,12 @@ public class Wall implements Painter, Law {
     }
 
     public void paint( Graphics2D g ) {
-        if( !show.isSelected() ) {
+        if ( !show.isSelected() ) {
             return;
         }
         background.paint( g );
-        for( int i = 0; i < d.size(); i++ ) {
-            ( (Painter)d.get( i ) ).paint( g );
+        for ( int i = 0; i < d.size(); i++ ) {
+            ( (Painter) d.get( i ) ).paint( g );
         }
     }
 }

@@ -17,7 +17,7 @@ public class DoubleBufferPainter implements Painter {
     public DoubleBufferPainter( Painter p, BufferedImage buffer ) {
         this.p = p;
         this.buffer = buffer;
-        this.bufGraphics = (Graphics2D)buffer.getGraphics();
+        this.bufGraphics = (Graphics2D) buffer.getGraphics();
     }
 
     public void paint( Graphics2D g ) {

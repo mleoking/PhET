@@ -1,8 +1,8 @@
 package edu.colorado.phet.balloons;
 
-import edu.colorado.phet.balloons.common.paint.Painter;
-
 import java.awt.*;
+
+import edu.colorado.phet.balloons.common.paint.Painter;
 
 public class Stick implements Painter {
     Point rel;

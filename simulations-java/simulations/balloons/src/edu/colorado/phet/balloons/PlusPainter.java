@@ -1,10 +1,10 @@
 package edu.colorado.phet.balloons;
 
+import java.awt.*;
+
 import edu.colorado.phet.balloons.common.paint.ParticlePainter;
 import edu.colorado.phet.balloons.common.phys2d.DoublePoint;
 import edu.colorado.phet.balloons.common.phys2d.Particle;
-
-import java.awt.*;
 
 public class PlusPainter implements ParticlePainter {
     int halfWidth;
@@ -46,19 +46,19 @@ public class PlusPainter implements ParticlePainter {
     }
 
     public void paint( Charge p, int x, int y, Graphics2D g ) {
-        if( paint == NONE ) {
+        if ( paint == NONE ) {
             return;
         }
-        if( paint == ALL || ( paint == DIFF && ok( p ) ) ) {
+        if ( paint == ALL || ( paint == DIFF && ok( p ) ) ) {
             paintAt( x, y, g );
         }
     }
 
     public void paint( Particle p, Graphics2D g ) {
         DoublePoint pos = p.getPosition();
-        int x = (int)pos.getX();
-        int y = (int)pos.getY();
-        paint( (Charge)p, x, y, g );
+        int x = (int) pos.getX();
+        int y = (int) pos.getY();
+        paint( (Charge) p, x, y, g );
     }
 
 }

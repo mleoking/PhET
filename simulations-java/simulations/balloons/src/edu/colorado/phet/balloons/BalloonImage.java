@@ -1,8 +1,8 @@
 package edu.colorado.phet.balloons;
 
-import edu.colorado.phet.balloons.common.paint.FixedImagePainter;
-
 import java.awt.image.BufferedImage;
+
+import edu.colorado.phet.balloons.common.paint.FixedImagePainter;
 
 public class BalloonImage extends FixedImagePainter {
     BufferedImage empty;
@@ -15,7 +15,7 @@ public class BalloonImage extends FixedImagePainter {
     }
 
     public void setShowCharged( boolean t ) {
-        if( t ) {
+        if ( t ) {
             super.setImage( charged );
         }
         else {

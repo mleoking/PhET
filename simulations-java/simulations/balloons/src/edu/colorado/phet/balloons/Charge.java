@@ -25,7 +25,7 @@ public class Charge extends PropagatingParticle {
 
     public void setNeutral( boolean neutral ) {
         this.neutral = neutral;
-        if( partner != null ) {
+        if ( partner != null ) {
             partner.setNeutral( neutral );
         }
     }
@@ -44,6 +44,7 @@ public class Charge extends PropagatingParticle {
 //  	this.p=p;
 
     //      }
+
     public int getLevel() {
         return level;
     }
