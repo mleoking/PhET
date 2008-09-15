@@ -23,9 +23,7 @@ import edu.colorado.phet.balloons.common.phys2d.DoublePoint;
 import edu.colorado.phet.balloons.common.phys2d.ParticleLaw;
 import edu.colorado.phet.balloons.common.phys2d.Repaint;
 import edu.colorado.phet.balloons.common.phys2d.System2D;
-import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
@@ -35,7 +33,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 /**
  * Test comment.
  */
-public class BalloonsApplication extends JPanel implements IHelp {
+public class BalloonsSimulationPanel extends JPanel implements IHelp {
     private int width;
     private int height;
     private PainterPanel painterPanel;
@@ -61,7 +59,7 @@ public class BalloonsApplication extends JPanel implements IHelp {
     static PlusPainter plusPainter = new PlusPainter( 14, 4, plusColor, ovalColor );
     static MinusPainter minusPainter = new MinusPainter( 14, 4, minusColor, ovalColor );
 
-    public BalloonsApplication( String[] args ) {
+    public BalloonsSimulationPanel( String[] args ) {
         phetApplicationConfig = new PhetApplicationConfig( args, new FrameSetup.NoOp(), BalloonsResources.getResourceLoader() );
     }
 
@@ -387,7 +385,7 @@ public class BalloonsApplication extends JPanel implements IHelp {
                 laf.setBackgroundColor( new Color( 200, 240, 200 ) );
                 laf.initLookAndFeel();
 //                UIManager.setLookAndFeel( new PhetLookAndFeel() );
-                BalloonsApplication ba = new BalloonsApplication( args );
+                BalloonsSimulationPanel ba = new BalloonsSimulationPanel( args );
                 try {
                     ba.init( args );
                 }

@@ -13,10 +13,10 @@ import java.awt.*;
  */
 
 public class BalloonHelpPainter implements Painter {
-    private BalloonsApplication balloonsApplication;
+    private BalloonsSimulationPanel balloonsSimulationPanel;
 
-    public BalloonHelpPainter( BalloonsApplication balloonsApplication ) {
-        this.balloonsApplication = balloonsApplication;
+    public BalloonHelpPainter( BalloonsSimulationPanel balloonsSimulationPanel ) {
+        this.balloonsSimulationPanel = balloonsSimulationPanel;
     }
 
     public void paint( Graphics2D g ) {
@@ -26,13 +26,13 @@ public class BalloonHelpPainter implements Painter {
 
         double height = g.getFont().getStringBounds( rubTheBalloon, g.getFontRenderContext() ).getHeight();
 
-        g.drawString( rubTheBalloon, balloonsApplication.getSweaterMaxX(), 50 );
-        g.drawString( BalloonsResources.getString( "on.the.sweater" ), balloonsApplication.getSweaterMaxX(), (int)( 50 + height ) );
+        g.drawString( rubTheBalloon, balloonsSimulationPanel.getSweaterMaxX(), 50 );
+        g.drawString( BalloonsResources.getString( "on.the.sweater" ), balloonsSimulationPanel.getSweaterMaxX(), (int)( 50 + height ) );
 
         String bringNear = BalloonsResources.getString( "bring.the.balloon" );
         double w = g.getFont().getStringBounds( bringNear, g.getFontRenderContext() ).getWidth();
-        int x = (int)( balloonsApplication.getWallX() - w - 10 );
-        int y = (int)( balloonsApplication.getWallHeight() - height * 5 );
+        int x = (int)( balloonsSimulationPanel.getWallX() - w - 10 );
+        int y = (int)( balloonsSimulationPanel.getWallHeight() - height * 5 );
         g.drawString( bringNear, x, y );
         g.drawString( BalloonsResources.getString( "near.the.wall" ), x, (int)( y + height ) );
     }

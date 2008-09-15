@@ -29,7 +29,7 @@ public class BalloonsApplication2 extends PiccoloPhetApplication {
     public static class BalloonsFrameSetup implements FrameSetup {
         public void initialize( JFrame frame ) {
             BalloonsFrame f = (BalloonsFrame) frame;
-            frame.setSize( BalloonsApplication.PANEL_WIDTH, BalloonsApplication.PANEL_HEIGHT + f.getControlPanelHeight() + 10 );
+            frame.setSize( BalloonsSimulationPanel.PANEL_WIDTH, BalloonsSimulationPanel.PANEL_HEIGHT + f.getControlPanelHeight() + 10 );
             SwingUtils.centerWindowOnScreen( frame );
         }
     }
@@ -79,24 +79,24 @@ public class BalloonsApplication2 extends PiccoloPhetApplication {
     }
 
     private class BalloonsModule extends Module {
-        private BalloonsApplication balloonsApplication;
+        private BalloonsSimulationPanel balloonsSimulationPanel;
 
         public BalloonsModule( PhetApplicationConfig config ) {
             super( config.getName(), new ConstantDtClock( 30, 1 ) );
-            balloonsApplication = new BalloonsApplication( config.getCommandLineArgs() );
+            balloonsSimulationPanel = new BalloonsSimulationPanel( config.getCommandLineArgs() );
             try {
-                balloonsApplication.init( config.getCommandLineArgs() );
+                balloonsSimulationPanel.init( config.getCommandLineArgs() );
             }
             catch( IOException e ) {
                 e.printStackTrace();
             }
-            setSimulationPanel( balloonsApplication );
+            setSimulationPanel( balloonsSimulationPanel );
             setClockControlPanel( null );
             setLogoPanelVisible( false );
         }
 
         public int getControlPanelHeight() {
-            return balloonsApplication.getControlPanelHeight();
+            return balloonsSimulationPanel.getControlPanelHeight();
         }
     }
 }
