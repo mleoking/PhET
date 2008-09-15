@@ -29,6 +29,7 @@ public class DualParticleModel {
     public static final int DEFAULT_MOLECULE = StatesOfMatterConstants.MONATOMIC_OXYGEN;
     public static final double DEFAULT_SIGMA = OxygenAtom.getSigma();
     public static final double DEFAULT_EPSILON = OxygenAtom.getEpsilon();
+    public static final int CALCULATIONS_PER_TICK = 8;
     
     //----------------------------------------------------------------------------
     // Instance Data
@@ -38,6 +39,7 @@ public class DualParticleModel {
     private ArrayList m_listeners = new ArrayList();
     private StatesOfMatterAtom m_fixedParticle;
     private StatesOfMatterAtom m_movableParticle;
+    private StatesOfMatterAtom m_dummyMovableParticle;
     private double m_attractiveForce;
     private double m_repulsiveForce;
     private double m_epsilon;  // Epsilon represents the interaction strength.
@@ -47,6 +49,12 @@ public class DualParticleModel {
     private LjPotentialCalculator m_ljPotentialCalculator;
     private double m_timeStep;
     
+    // These variables are used for debugging energy conservation issues,
+    // and can possibly be removed at some point if no longer needed.
+    private double m_totalEnergy;
+    private double m_potentialEnergy;
+    private double m_kineticEnergy;
+    
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
@@ -54,7 +62,7 @@ public class DualParticleModel {
     public DualParticleModel(IClock clock) {
         
         m_clock = clock;
-        m_timeStep = InteractionPotentialDefaults.CLOCK_DT / 1000;
+        m_timeStep = InteractionPotentialDefaults.CLOCK_DT / 1000 / CALCULATIONS_PER_TICK;
         m_epsilon = DEFAULT_EPSILON;
         m_sigma = DEFAULT_SIGMA;
         m_particleMotionPaused = false;
@@ -170,7 +178,8 @@ public class DualParticleModel {
     
     /**
      * Set the sigma value, a.k.a. the Molecular Diameter Parameter, which is
-     * one of the two parameters that describes the Lennard-Jones potential.
+     * one of the two parameters that are used for calculating the Lennard-
+     * Jones potential.
      * 
      * @param sigma - distance parameter
      */
@@ -199,7 +208,6 @@ public class DualParticleModel {
      * @return
      */
     public double getSigma(){
-
         return m_sigma;
     }
     
@@ -284,57 +292,63 @@ public class DualParticleModel {
     //----------------------------------------------------------------------------
     
     private void handleClockTicked(ClockEvent clockEvent) {
-        
-        // Execute the force calculation.
-        updateForce();
 
-        // Update the position of the particle.
-        updateMovableParticleMotion();
+        m_dummyMovableParticle = (StatesOfMatterAtom)m_movableParticle.clone();
+        
+        for (int i = 0; i < CALCULATIONS_PER_TICK; i++) {
+
+            // Execute the force calculation.
+            updateForces();
+            
+            // Update the motion information.
+            updateParticleMotion();
+        }
+        
+        // Update the particle that is visible to the view.
+        m_movableParticle.setAx( m_dummyMovableParticle.getAx() );
+        m_movableParticle.setVx( m_dummyMovableParticle.getVx() );
+        m_movableParticle.setPosition( m_dummyMovableParticle.getX(), m_dummyMovableParticle.getY() );
     }
     
-    private void updateForce(){
+    private void updateForces(){
         
-        double distance = m_movableParticle.getPositionReference().distance( m_fixedParticle.getPositionReference() );
+        double distance = m_dummyMovableParticle.getPositionReference().distance( m_fixedParticle.getPositionReference() );
         
-        if (distance < m_sigma){
+        if (distance < m_sigma / 2){
             // The particles are too close together, and calculating the force
             // will cause unusable levels of speed later, so we limit it.
-            distance = m_sigma;
+            distance = m_sigma / 2;
         }
         
         // Calculate the force.  The result should be in newtons.
         m_attractiveForce = m_ljPotentialCalculator.calculateAttractiveLjForce( distance );
         m_repulsiveForce = m_ljPotentialCalculator.calculateRepulsiveLjForce( distance );
+        
+        m_potentialEnergy = m_ljPotentialCalculator.calculateLjPotential( distance );
     }
     
     /**
-     * Update the position, velocity, and acceleration of the movable particle.
-     * 
-     * @param timeStep - Amount of time to use in calculations.  In seconds.
+     * Update the position, velocity, and acceleration of the dummy movable particle.
      */
-    private void updateMovableParticleMotion(){
+    private void updateParticleMotion(){
         
-        double mass = m_movableParticle.getMass() * 1.6605402E-27;  // Convert mass to kilograms.
+        double mass = m_dummyMovableParticle.getMass() * 1.6605402E-27;  // Convert mass to kilograms.
         double acceleration = (m_repulsiveForce - m_attractiveForce) / mass;
         
         // Update the acceleration for the movable particle.  We do this
         // regardless of whether movement is paused so that the force vectors
         // can be shown appropriately if the user moves the particles.
-        m_movableParticle.setAx( acceleration );
+        m_dummyMovableParticle.setAx( acceleration );
         
         if (!m_particleMotionPaused){
             // Update the position and velocity of the particle.
-            m_movableParticle.setVx( m_movableParticle.getVx() + (acceleration * m_timeStep) );
-            double xPos = m_movableParticle.getPositionReference().getX() + (m_movableParticle.getVx() * m_timeStep);
-            m_movableParticle.setPosition( xPos, 0 );
+            m_dummyMovableParticle.setVx( m_dummyMovableParticle.getVx() + (acceleration * m_timeStep) );
+            double xPos = m_dummyMovableParticle.getPositionReference().getX() + (m_dummyMovableParticle.getVx() * m_timeStep);
+            m_dummyMovableParticle.setPosition( xPos, 0 );
         }
         
-        // Update the acceleration of the fixed particle so that the force
-        // acting on it can be displayed.
-        // TODO JPB TBD - This seems a little odd to me, but I believe that
-        // it is what was specified.  Isn't it likely to confuse people if
-        // they see that a force is acting on the particle but it doesn't move?
-        m_fixedParticle.setAx( -acceleration );
+        m_kineticEnergy = 0.5 * mass * m_dummyMovableParticle.getVx() * m_dummyMovableParticle.getVx();
+        m_totalEnergy = m_potentialEnergy + m_kineticEnergy;
     }
     
     private void notifyFixedParticleAdded(StatesOfMatterAtom particle){
