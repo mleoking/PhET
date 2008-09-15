@@ -16,10 +16,10 @@ import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
-public class BalloonsApplication2 extends PiccoloPhetApplication {
+public class BalloonsApplication extends PiccoloPhetApplication {
     private BalloonsModule module;
 
-    public BalloonsApplication2( PhetApplicationConfig config ) {
+    public BalloonsApplication( PhetApplicationConfig config ) {
         super( config );
         module = new BalloonsModule( config );
         addModule( module );
@@ -39,9 +39,9 @@ public class BalloonsApplication2 extends PiccoloPhetApplication {
     }
 
     static class BalloonsFrame extends PhetFrame {
-        private BalloonsApplication2 application;
+        private BalloonsApplication application;
 
-        public BalloonsFrame( final BalloonsApplication2 application ) throws HeadlessException {
+        public BalloonsFrame( final BalloonsApplication application ) throws HeadlessException {
             super( application );
             this.application = application;
         }
@@ -65,7 +65,7 @@ public class BalloonsApplication2 extends PiccoloPhetApplication {
             super( commandLineArgs, new BalloonsFrameSetup(), new PhetResources( "balloons" ) );
             super.setApplicationConstructor( new ApplicationConstructor() {
                 public PhetApplication getApplication( PhetApplicationConfig config ) {
-                    return new BalloonsApplication2( config );
+                    return new BalloonsApplication( config );
                 }
             } );
             PhetLookAndFeel laf = new PhetLookAndFeel();
@@ -83,9 +83,9 @@ public class BalloonsApplication2 extends PiccoloPhetApplication {
 
         public BalloonsModule( PhetApplicationConfig config ) {
             super( config.getName(), new ConstantDtClock( 30, 1 ) );
-            balloonsSimulationPanel = new BalloonsSimulationPanel( config.getCommandLineArgs() );
+            balloonsSimulationPanel = new BalloonsSimulationPanel();
             try {
-                balloonsSimulationPanel.init( config.getCommandLineArgs() );
+                balloonsSimulationPanel.init();
             }
             catch( IOException e ) {
                 e.printStackTrace();
