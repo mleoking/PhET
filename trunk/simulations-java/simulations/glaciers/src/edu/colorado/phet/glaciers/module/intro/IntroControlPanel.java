@@ -44,14 +44,14 @@ public class IntroControlPanel extends JPanel {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public IntroControlPanel( GlaciersModel model, GlaciersPlayArea playArea, Frame dialogOwner, Module module ) {
+    public IntroControlPanel( GlaciersModel model, GlaciersPlayArea playArea, Frame dialogOwner, Module module, boolean englishUnits ) {
         super();
         
         _viewControlPanel = new ViewControlPanel( playArea );
         _viewControlPanel.setCoordinatesCheckBoxVisible( false );
         _viewControlPanel.setIceFlowCheckBoxVisible( false );
         
-        _climateControlPanel = new ClimateControlPanel( model.getClimate() );
+        _climateControlPanel = new ClimateControlPanel( model.getClimate(), englishUnits );
         _clockControlPanel = new GlaciersClockControlPanel( model.getClock() );
         _miscControlPanel = new MiscControlPanel( model.getGlacier(), dialogOwner, module );
         
@@ -87,6 +87,7 @@ public class IntroControlPanel extends JPanel {
         SwingUtils.setBackgroundDeep( this, BACKGROUND_COLOR, excludedClasses, false /* processContentsOfExcludedContainers */ );
         
         _viewControlPanel.addUnitsChangedListener( playArea );
+        _viewControlPanel.addUnitsChangedListener( _climateControlPanel );
     }
     
     //----------------------------------------------------------------------------
