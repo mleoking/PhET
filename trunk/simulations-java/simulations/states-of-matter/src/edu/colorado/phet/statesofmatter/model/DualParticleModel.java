@@ -39,7 +39,7 @@ public class DualParticleModel {
     private ArrayList m_listeners = new ArrayList();
     private StatesOfMatterAtom m_fixedParticle;
     private StatesOfMatterAtom m_movableParticle;
-    private StatesOfMatterAtom m_dummyMovableParticle;
+    private StatesOfMatterAtom m_shadowMovableParticle;
     private double m_attractiveForce;
     private double m_repulsiveForce;
     private double m_epsilon;  // Epsilon represents the interaction strength.
@@ -48,6 +48,7 @@ public class DualParticleModel {
     private boolean m_particleMotionPaused;
     private LjPotentialCalculator m_ljPotentialCalculator;
     private double m_timeStep;
+    private StatesOfMatterAtom.Adapter m_movableParticleListener;
     
     // These variables are used for debugging energy conservation issues,
     // and can possibly be removed at some point if no longer needed.
@@ -79,6 +80,19 @@ public class DualParticleModel {
                 reset();
             }
         });
+        
+        // Create a listener for detecting when the movable particle is moved
+        // directly by the user.
+        m_movableParticleListener = new StatesOfMatterAtom.Adapter() {
+            public void positionChanged(){
+                if (m_particleMotionPaused == true) {
+                    // The user must be moving the particle from the view.
+                    // Update the forces correspondingly.
+                    m_shadowMovableParticle = (StatesOfMatterAtom)m_movableParticle.clone();
+                    updateForces();
+                }
+            };
+        };
         
         // Don't bother adding molecules since the model will be reset as part
         // of the initialization process.
@@ -127,6 +141,7 @@ public class DualParticleModel {
         }
         if (m_movableParticle != null){
             notifyMovableParticleRemoved( m_movableParticle );
+            m_movableParticle.removeListener( m_movableParticleListener );
             m_movableParticle = null;
         }
         
@@ -153,6 +168,10 @@ public class DualParticleModel {
         }
         
         m_currentMoleculeID = atomID;
+        
+        // Register to listen to motion of the movable particle so that we can
+        // tell when the user is moving it.
+        m_movableParticle.addListener( m_movableParticleListener );
         
         // Update our Lennard-Jones force calculator.
         m_ljPotentialCalculator.setEpsilon( m_epsilon );
@@ -293,7 +312,7 @@ public class DualParticleModel {
     
     private void handleClockTicked(ClockEvent clockEvent) {
 
-        m_dummyMovableParticle = (StatesOfMatterAtom)m_movableParticle.clone();
+        m_shadowMovableParticle = (StatesOfMatterAtom)m_movableParticle.clone();
         
         for (int i = 0; i < CALCULATIONS_PER_TICK; i++) {
 
@@ -305,14 +324,21 @@ public class DualParticleModel {
         }
         
         // Update the particle that is visible to the view.
-        m_movableParticle.setAx( m_dummyMovableParticle.getAx() );
-        m_movableParticle.setVx( m_dummyMovableParticle.getVx() );
-        m_movableParticle.setPosition( m_dummyMovableParticle.getX(), m_dummyMovableParticle.getY() );
+        syncMovableParticleWithDummy();
+    }
+
+    /**
+     * 
+     */
+    private void syncMovableParticleWithDummy() {
+        m_movableParticle.setAx( m_shadowMovableParticle.getAx() );
+        m_movableParticle.setVx( m_shadowMovableParticle.getVx() );
+        m_movableParticle.setPosition( m_shadowMovableParticle.getX(), m_shadowMovableParticle.getY() );
     }
     
     private void updateForces(){
         
-        double distance = m_dummyMovableParticle.getPositionReference().distance( m_fixedParticle.getPositionReference() );
+        double distance = m_shadowMovableParticle.getPositionReference().distance( m_fixedParticle.getPositionReference() );
         
         if (distance < m_sigma / 2){
             // The particles are too close together, and calculating the force
@@ -332,22 +358,22 @@ public class DualParticleModel {
      */
     private void updateParticleMotion(){
         
-        double mass = m_dummyMovableParticle.getMass() * 1.6605402E-27;  // Convert mass to kilograms.
+        double mass = m_shadowMovableParticle.getMass() * 1.6605402E-27;  // Convert mass to kilograms.
         double acceleration = (m_repulsiveForce - m_attractiveForce) / mass;
         
         // Update the acceleration for the movable particle.  We do this
         // regardless of whether movement is paused so that the force vectors
         // can be shown appropriately if the user moves the particles.
-        m_dummyMovableParticle.setAx( acceleration );
+        m_shadowMovableParticle.setAx( acceleration );
         
         if (!m_particleMotionPaused){
             // Update the position and velocity of the particle.
-            m_dummyMovableParticle.setVx( m_dummyMovableParticle.getVx() + (acceleration * m_timeStep) );
-            double xPos = m_dummyMovableParticle.getPositionReference().getX() + (m_dummyMovableParticle.getVx() * m_timeStep);
-            m_dummyMovableParticle.setPosition( xPos, 0 );
+            m_shadowMovableParticle.setVx( m_shadowMovableParticle.getVx() + (acceleration * m_timeStep) );
+            double xPos = m_shadowMovableParticle.getPositionReference().getX() + (m_shadowMovableParticle.getVx() * m_timeStep);
+            m_shadowMovableParticle.setPosition( xPos, 0 );
         }
         
-        m_kineticEnergy = 0.5 * mass * m_dummyMovableParticle.getVx() * m_dummyMovableParticle.getVx();
+        m_kineticEnergy = 0.5 * mass * m_shadowMovableParticle.getVx() * m_shadowMovableParticle.getVx();
         m_totalEnergy = m_potentialEnergy + m_kineticEnergy;
     }
     
