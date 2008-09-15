@@ -1,4 +1,4 @@
-package edu.colorado.phet.balloons.common.paint.particle;
+package edu.colorado.phet.balloons.common.paint;
 
 import edu.colorado.phet.balloons.common.paint.Painter;
 import edu.colorado.phet.balloons.common.phys2d.Particle;
