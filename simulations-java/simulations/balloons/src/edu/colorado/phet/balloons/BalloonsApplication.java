@@ -62,7 +62,7 @@ public class BalloonsApplication extends PiccoloPhetApplication {
 
     public static class BalloonsApplicationConfig extends PhetApplicationConfig {
         public BalloonsApplicationConfig( String[] commandLineArgs ) {
-            super( commandLineArgs, new BalloonsFrameSetup(), new PhetResources( "balloons" ) );
+            super( commandLineArgs, new FrameSetup.NoOp(), new PhetResources( "balloons" ) );
             super.setApplicationConstructor( new ApplicationConstructor() {
                 public PhetApplication getApplication( PhetApplicationConfig config ) {
                     return new BalloonsApplication( config );
@@ -72,10 +72,6 @@ public class BalloonsApplication extends PiccoloPhetApplication {
             laf.setBackgroundColor( new Color( 200, 240, 200 ) );
             super.setLookAndFeel( laf );
         }
-    }
-
-    public static void main( String[] args ) {
-        new BalloonsApplicationConfig( args ).launchSim();
     }
 
     private class BalloonsModule extends Module {
@@ -98,5 +94,9 @@ public class BalloonsApplication extends PiccoloPhetApplication {
         public int getControlPanelHeight() {
             return balloonsSimulationPanel.getControlPanelHeight();
         }
+    }
+
+    public static void main( String[] args ) {
+        new BalloonsApplicationConfig( args ).launchSim();
     }
 }
