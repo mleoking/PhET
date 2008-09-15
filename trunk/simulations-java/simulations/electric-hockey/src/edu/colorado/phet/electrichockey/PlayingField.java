@@ -193,11 +193,11 @@ public class PlayingField extends JPanel {
 
             g2D.drawRenderedImage( fieldLinesImage, new AffineTransform() );
         }
-        g2D.drawImage( electricHockeyApplication.plusBag, plusBag.x, plusBag.y, this );
+        g2D.drawImage( electricHockeyApplication.getPlusBag(), plusBag.x, plusBag.y, this );
         g2D.setColor( Color.black );
         g2D.drawRect( plusBag.x, plusBag.y, plusBag.width, plusBag.height );
 
-        g2D.drawImage( electricHockeyApplication.minusBag, minusBag.x, minusBag.y, this );
+        g2D.drawImage( electricHockeyApplication.getMinusBag(), minusBag.x, minusBag.y, this );
         g2D.setColor( Color.black );
         g2D.drawRect( minusBag.x, minusBag.y, minusBag.width, minusBag.height );
 
@@ -221,10 +221,10 @@ public class PlayingField extends JPanel {
             Charge chargeI = electricHockeyApplication.getModel().getChargeAt( i );//(edu.colorado.phet.ehockey.Charge)(chargeList.elementAt(i));
 
             if ( chargeI.getSign() == Charge.NEGATIVE ) {
-                g2D.drawImage( electricHockeyApplication.minusDisk, chargeI.getPosition().x - chargeI.radius, chargeI.getPosition().y - chargeI.radius, this );
+                g2D.drawImage( electricHockeyApplication.getMinusDisk(), chargeI.getPosition().x - chargeI.radius, chargeI.getPosition().y - chargeI.radius, this );
             }
             else if ( chargeI.getSign() == Charge.POSITIVE ) {
-                g2D.drawImage( electricHockeyApplication.plusDisk, chargeI.getPosition().x - chargeI.radius, chargeI.getPosition().y - chargeI.radius, this );
+                g2D.drawImage( electricHockeyApplication.getPlusDisk(), chargeI.getPosition().x - chargeI.radius, chargeI.getPosition().y - chargeI.radius, this );
             }
             //chargeI.paint(g2D);
             Force forceI = electricHockeyApplication.getModel().getForceAt( i );
@@ -236,10 +236,10 @@ public class PlayingField extends JPanel {
         //hockeyModule.getModel().getPuck().paint(g2D);
         Charge chargeP = electricHockeyApplication.getModel().getPuck();
         if ( chargeP.getSign() == Charge.POSITIVE ) {
-            g2D.drawImage( electricHockeyApplication.positivePuckImage, chargeP.getPosition().x - chargeP.radius, chargeP.getPosition().y - chargeP.radius, this );
+            g2D.drawImage( electricHockeyApplication.getPositivePuckImage(), chargeP.getPosition().x - chargeP.radius, chargeP.getPosition().y - chargeP.radius, this );
         }
         else {
-            g2D.drawImage( electricHockeyApplication.negativePuckImage, chargeP.getPosition().x - chargeP.radius, chargeP.getPosition().y - chargeP.radius, this );
+            g2D.drawImage( electricHockeyApplication.getNegativePuckImage(), chargeP.getPosition().x - chargeP.radius, chargeP.getPosition().y - chargeP.radius, this );
         }
 
         //draw collision and goal announcements
