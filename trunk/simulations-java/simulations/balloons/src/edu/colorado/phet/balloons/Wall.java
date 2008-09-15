@@ -1,14 +1,13 @@
 package edu.colorado.phet.balloons;
 
 import edu.colorado.phet.balloons.common.paint.Painter;
-import edu.colorado.phet.balloons.common.paint.particle.ParticlePainter;
+import edu.colorado.phet.balloons.common.paint.ParticlePainter;
 import edu.colorado.phet.balloons.common.phys2d.DoublePoint;
 import edu.colorado.phet.balloons.common.phys2d.Law;
 import edu.colorado.phet.balloons.common.phys2d.System2D;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Random;
 import java.util.Vector;
 
 public class Wall implements Painter, Law {

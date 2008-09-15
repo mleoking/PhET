@@ -1,6 +1,6 @@
 package edu.colorado.phet.balloons;
 
-import edu.colorado.phet.balloons.common.paint.particle.ParticlePainter;
+import edu.colorado.phet.balloons.common.paint.ParticlePainter;
 import edu.colorado.phet.balloons.common.phys2d.DoublePoint;
 import edu.colorado.phet.balloons.common.phys2d.Particle;
 
