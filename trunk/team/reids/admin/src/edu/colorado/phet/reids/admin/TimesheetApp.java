@@ -167,7 +167,7 @@ public class TimesheetApp extends JFrame {
     }
 
     private void updateIconImage() throws IOException {
-        setIconImage( ImageIO.read( new File( "C:\\reid-not-backed-up\\phet\\svn\\trunk2\\team\\reids\\admin\\contrib\\tango\\" + ( timesheetData.isRunning() ? "x-office-running.png" : "x-office-calendar.png" ) ) ) );
+        setIconImage( ImageIO.read( new File( "C:\\workingcopy\\phet\\svn\\trunk\\team\\reids\\admin\\contrib\\tango\\" + ( timesheetData.isRunning() ? "x-office-running.png" : "x-office-calendar.png" ) ) ) );
     }
 
     public File[] getRecentFiles() {
@@ -175,6 +175,10 @@ public class TimesheetApp extends JFrame {
     }
 
     private void loadPreferences() throws IOException {
+
+        if (!PREFERENCES_FILE.exists()){
+            savePreferences();
+        }
         Properties p = new Properties();
         p.load( new FileInputStream( PREFERENCES_FILE ) );
         Rectangle r = new Rectangle();
@@ -259,6 +263,7 @@ public class TimesheetApp extends JFrame {
         properties.put( RECENT_FILES, getRecentFileListString() );
         properties.put( CURRENT_FILE, currentFile == null ? "null" : currentFile.getAbsolutePath() );
 
+        PREFERENCES_FILE.getParentFile().mkdirs();
         properties.store( new FileOutputStream( PREFERENCES_FILE ), "auto-generated on " + new Date() );
         System.out.println( "Stored prefs: " + properties );
     }
