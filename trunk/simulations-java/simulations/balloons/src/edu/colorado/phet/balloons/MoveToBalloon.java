@@ -48,7 +48,7 @@ public class MoveToBalloon implements Propagator {
             ch.setPropagator( new NullPropagator() );
             Stick s = new Stick( ip, rel, ch, mp );
             lp.removePainter( ch.getPainter(), ch.getLevel() );
-            ch.setPainter( ch.getPainter(), BalloonsApplication.CHARGE_LEVEL );
+            ch.setPainter( ch.getPainter(), BalloonsSimulationPanel.CHARGE_LEVEL );
             ip.addPainter( s, ch );
             //lp.addPainter(s,10);
         }
