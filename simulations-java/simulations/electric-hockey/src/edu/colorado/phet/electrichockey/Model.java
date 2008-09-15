@@ -290,8 +290,8 @@ public class Model {
                 if( BarrierList.currentCollisionArray[x][y] == 1 ) {
                     prt( "Collision!" );
                     collisionState = true;
-                    if( electricHockeyApplication.cork != null ) {
-                        electricHockeyApplication.cork.play();
+                    if( electricHockeyApplication.getCork() != null ) {
+                        electricHockeyApplication.getCork().play();
                     }
                     electricHockeyApplication.getPlayingField().paintAgain();
                     stopTimer();
@@ -300,8 +300,8 @@ public class Model {
             if( electricHockeyApplication.getPlayingField().goal.contains( puck.getPosition() ) ) {
                 prt( "Goal!" );
                 goalState = true;
-                if( electricHockeyApplication.tada != null ) {
-                    electricHockeyApplication.tada.play();
+                if( electricHockeyApplication.getTada()!= null ) {
+                    electricHockeyApplication.getTada().play();
                 }
                 electricHockeyApplication.getPlayingField().paintAgain();
                 stopTimer();

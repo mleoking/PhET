@@ -4,18 +4,21 @@ package edu.colorado.phet.electrichockey;
 
 import java.applet.AudioClip;
 import java.awt.*;
-import java.util.Locale;
+import java.awt.image.BufferedImage;
 
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.PhetAudioClip;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.electrichockey.common.SwingUtils;
+import edu.colorado.phet.theramp.common.AudioSourceDataLinePlayer;
 
 //Need File class
 
-public class ElectricHockeyApplication extends JApplet implements Runnable {
+public class ElectricHockeyApplication extends JPanel implements Runnable {
     private int width;
     private int height;
     private PlayingField playingField;
@@ -23,12 +26,12 @@ public class ElectricHockeyApplication extends JApplet implements Runnable {
     private FieldGrid fieldGrid;
     private ControlPanel controlPanel;
     private BarrierList barrierList;
-    AudioClip tada;
-    AudioClip cork;
-    Image plusDisk, minusDisk, plusBag, minusBag, positivePuckImage;
+    private PhetAudioClip tada;
+    private PhetAudioClip cork;
+    private Image plusDisk, minusDisk, plusBag, minusBag, positivePuckImage;
 
-    Container pane;
-    MyClipLoader mcl;
+    private Container pane;
+//    MyClipLoader clipLoader;
     public Image negativePuckImage;
 
     public void init() {
@@ -42,17 +45,17 @@ public class ElectricHockeyApplication extends JApplet implements Runnable {
         playingField = new PlayingField( width, height, this );
 
 
-        ClassLoader cl = getClass().getClassLoader();
-        this.mcl = new MyClipLoader( cl, this );
-        ResourceLoader4 ralf = new ResourceLoader4( cl, this );
+//        ClassLoader cl = getClass().getClassLoader();
+//        this.clipLoader = new MyClipLoader( cl, this );
+//        ResourceLoader4 ralf = new ResourceLoader4( cl, this );
         new Thread( this ).start();
-        plusDisk = getImage( ralf, "plusDisk.gif" );
-        minusDisk = getImage( ralf, "minusDisk.gif" );
-        plusBag = getImage( ralf, "plusBag.gif" );
-        minusBag = getImage( ralf, "minusBag.gif" );
-        positivePuckImage = getImage( ralf, "puckPositive.gif" );
-        negativePuckImage = getImage( ralf, "puckNegative.gif" );
-        pane = getContentPane();
+        plusDisk = getImage( "plusDisk.gif" );
+        minusDisk = getImage( "minusDisk.gif" );
+        plusBag = getImage( "plusBag.gif" );
+        minusBag = getImage( "minusBag.gif" );
+        positivePuckImage = getImage( "puckPositive.gif" );
+        negativePuckImage = getImage( "puckNegative.gif" );
+        pane = this;
         pane.setLayout( new BorderLayout() );
         pane.add( playingField, BorderLayout.CENTER );
 
@@ -64,8 +67,8 @@ public class ElectricHockeyApplication extends JApplet implements Runnable {
         return mcl.loadAudioClip( name );
     }
 
-    public Image getImage( ResourceLoader4 ralf, String name ) {
-        return ralf.loadBufferedImage( "electric-hockey/images/" + name );
+    public Image getImage( String name ) {
+        return new PhetResources("electric-hockey").getImage( name );
     }
 
     public void paintComponent( Graphics g ) {
@@ -89,8 +92,11 @@ public class ElectricHockeyApplication extends JApplet implements Runnable {
     }
 
     public void run() {
-        tada = getAudioClip( mcl, "electric-hockey/audio/tada.WAV" );
-        cork = getAudioClip( mcl, "electric-hockey/audio/cork.au" );
+//        tada = getAudioClip( clipLoader, "electric-hockey/audio/tada.WAV" );
+        tada=new PhetAudioClip("electric-hockey/audio/tada.WAV");
+
+//        cork = getAudioClip( clipLoader, "electric-hockey/audio/cork.au" );
+        cork = new PhetAudioClip("electric-hockey/audio/cork.au");
     }
 
     public boolean isAntialias() {
@@ -103,7 +109,6 @@ public class ElectricHockeyApplication extends JApplet implements Runnable {
 //                DummyConstantStringTester.setTestScenario( new Locale( "ja" ), "\u30A8\u30CD\u30EB\u30AE\u30FC\u306E\u6642\u9593\u5909\u5316" );
                 SimStrings.getInstance().init( args, HockeyConfig.localizedStringPath );
                 new PhetLookAndFeel().initLookAndFeel();
-
 
 
                 JFrame frame = new JFrame( SimStrings.getInstance().getString( "HockeyApplication.Title" ) + " (" + PhetApplicationConfig.getVersion( "electric-hockey" ).formatForTitleBar() + ")" );
@@ -127,4 +132,35 @@ public class ElectricHockeyApplication extends JApplet implements Runnable {
         } );
     }
 
+    public Image getPlusBag() {
+        return plusBag;
+    }
+
+    public Image getMinusBag() {
+        return minusBag;
+    }
+
+    public Image getMinusDisk() {
+        return minusDisk;
+    }
+
+    public Image getPlusDisk() {
+        return plusDisk;
+    }
+
+    public Image getPositivePuckImage() {
+        return positivePuckImage;
+    }
+
+    public Image getNegativePuckImage() {
+        return negativePuckImage;
+    }
+
+    public PhetAudioClip getCork() {
+        return cork;
+    }
+
+    public PhetAudioClip getTada() {
+        return tada;
+    }
 }
