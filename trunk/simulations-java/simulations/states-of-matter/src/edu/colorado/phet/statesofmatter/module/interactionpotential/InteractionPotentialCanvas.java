@@ -83,7 +83,8 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     private InteractionPotentialDiagramNode m_diagram;
     private StatesOfMatterAtom.Listener m_atomListener;
     private boolean m_useGradient;
-    private boolean m_showForces;
+    private boolean m_showAttractiveForces;
+    private boolean m_showRepulsiveForces;
     private GradientButtonNode m_stopAtomButtonNode;
     private GradientButtonNode m_retrieveAtomButtonNode;
     private DefaultWiggleMe m_wiggleMe;
@@ -97,7 +98,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     public InteractionPotentialCanvas(DualParticleModel dualParticleModel) {
         
         m_model = dualParticleModel;
-        m_showForces = false;
+        m_showAttractiveForces = false;
         m_wiggleMeShown = false;
         
         // Decide whether to use gradients when drawing the particles.
@@ -227,12 +228,23 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     
     /**
-     * Turn on/off the displaying of force arrows by the particles.
+     * Turn on/off the displaying of the force arrows that represent the
+     * attractive force.
      */
-    public void setShowForces( boolean showForces ){
-        m_movableParticleNode.setShowForces( showForces );
-        m_fixedParticleNode.setShowForces( showForces );
-        m_showForces = showForces;
+    public void setShowAttractiveForces( boolean showForces ){
+        m_movableParticleNode.setShowAttractiveForces( showForces );
+        m_fixedParticleNode.setShowAttractiveForces( showForces );
+        m_showAttractiveForces = showForces;
+    }
+    
+    /**
+     * Turn on/off the displaying of the force arrows that represent the
+     * repulsive force.
+     */
+    public void setShowRepulsiveForces( boolean showForces ){
+        m_movableParticleNode.setShowRepulsiveForces( showForces );
+        m_fixedParticleNode.setShowRepulsiveForces( showForces );
+        m_showRepulsiveForces = showForces;
     }
     
     protected void updateLayout() {
@@ -277,7 +289,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         
         m_fixedParticle = particle;
         m_fixedParticleNode = new ParticleForceNode(particle, m_mvt, m_useGradient);
-        m_fixedParticleNode.setShowForces( m_showForces );
+        m_fixedParticleNode.setShowAttractiveForces( m_showAttractiveForces );
         addWorldChild( m_fixedParticleNode );
         
         particle.addListener( m_atomListener );
@@ -311,7 +323,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         m_movableParticle = particle;
         m_movableParticleNode = new GrabbableParticleNode(m_model, particle, m_mvt, m_useGradient, 0,
                 Double.POSITIVE_INFINITY);
-        m_movableParticleNode.setShowForces( m_showForces );
+        m_movableParticleNode.setShowAttractiveForces( m_showAttractiveForces );
         addWorldChild( m_movableParticleNode );
         
         // Limit the particle's motion in the X direction so that it can
