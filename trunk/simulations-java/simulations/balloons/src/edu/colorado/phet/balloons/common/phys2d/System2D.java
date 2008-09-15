@@ -35,10 +35,6 @@ public class System2D {
         return laws.size();
     }
 
-    public void removeAllLaws() {
-        laws = new Vector();
-    }
-
     public void remove( Law a ) {
         laws.remove( a );
     }

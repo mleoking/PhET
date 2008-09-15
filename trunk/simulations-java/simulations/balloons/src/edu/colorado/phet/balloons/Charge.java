@@ -5,12 +5,11 @@ import edu.colorado.phet.balloons.common.phys2d.DoublePoint;
 import edu.colorado.phet.balloons.common.phys2d.PropagatingParticle;
 
 public class Charge extends PropagatingParticle {
-    Painter p;
-    Painter defp;
-    int level;
-    boolean neutral = true;
-    Charge partner;
-    DoublePoint initPos;
+    private Painter p;
+    private int level;
+    private boolean neutral = true;
+    private Charge partner;
+    private DoublePoint initPos;
 
     public void setInitialPosition( DoublePoint initPos ) {
         this.initPos = initPos;
@@ -18,10 +17,6 @@ public class Charge extends PropagatingParticle {
 
     public DoublePoint getInitialPosition() {
         return initPos;
-    }
-
-    public void setDefaultPainter( Painter p ) {
-        this.defp = p;
     }
 
     public void setPartner( Charge partner ) {

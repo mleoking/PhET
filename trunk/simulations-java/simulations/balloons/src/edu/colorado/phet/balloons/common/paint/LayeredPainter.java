@@ -9,10 +9,6 @@ import java.util.Vector;
 public class LayeredPainter implements Painter {
     TreeMap painters = new TreeMap();
 
-    public int numPainters() {
-        return painters.size();
-    }
-
     public void removePainter( Painter p, int layer ) {
         remove( p, layer );
     }
@@ -22,10 +18,6 @@ public class LayeredPainter implements Painter {
         if( v != null ) {
             v.remove( p );
         }
-    }
-
-    public void addPainter( Painter p ) {
-        addPainter( p, 0 );
     }
 
     public void addPainter( Painter p, int level ) {

@@ -72,7 +72,7 @@ public class Wall implements Painter, Law {
         return show.isSelected();
     }
 
-    public Wall( JCheckBox show, int numDipoles, Rectangle bounds, Painter background, ParticlePainter plussy, ParticlePainter minnie, Random r, BalloonPainter blu, BalloonPainter yel ) {
+    public Wall( JCheckBox show, Rectangle bounds, Painter background, ParticlePainter plussy, ParticlePainter minnie, BalloonPainter blu, BalloonPainter yel ) {
         this.w = blu.getImage().getWidth();
         this.h = blu.getImage().getHeight();
         this.blu = blu;

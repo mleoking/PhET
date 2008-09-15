@@ -15,14 +15,6 @@ public class BalloonsResources {
         return INSTANCE.getLocalizedString( key );
     }
 
-    public static String getDescription() {
-        return INSTANCE.getProjectName();
-    }
-
-    public static PhetResources getResourceLoader() {
-        return INSTANCE;
-    }
-
     public static BufferedImage getImage( String s ) {
         return INSTANCE.getImage( s );
     }
