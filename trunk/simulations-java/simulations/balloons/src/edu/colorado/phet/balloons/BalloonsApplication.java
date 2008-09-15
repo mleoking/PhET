@@ -25,17 +25,17 @@ import edu.colorado.phet.balloons.common.phys2d.Repaint;
 import edu.colorado.phet.balloons.common.phys2d.System2D;
 import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 
 
 /**
  * Test comment.
  */
-public class BalloonsApplication extends JApplet implements IHelp {
+public class BalloonsApplication extends JPanel implements IHelp {
     private int width;
     private int height;
     private PainterPanel painterPanel;
@@ -229,18 +229,14 @@ public class BalloonsApplication extends JApplet implements IHelp {
         HelpPanel helpPanel = new HelpPanel( this );
         controlPanel.add( helpPanel );
 
-        JButton about = new JButton( PhetCommonResources.getString( "Common.HelpMenu.About" ));
-        about.addActionListener( new ActionListener() {
-
-
-            public void actionPerformed( ActionEvent e ) {
-                PhetAboutDialog phetAboutDialog = new PhetAboutDialog( frame, new PhetAboutDialog.PhetApplicationConfigDialogConfig( phetApplicationConfig ) );
-//                PhetAboutDialog phetAboutDialog = new PhetAboutDialog( frame, new PhetAboutDialog.SimpleDialogConfig(
-//                        phetApplicationConfig.getName(), phetApplicationConfig.getDescription(), phetApplicationConfig.getVersion().formatForAboutDialog(), phetApplicationConfig.getCredits() ) );
-                phetAboutDialog.show();
-            }
-        } );
-        controlPanel.add( about );
+//        JButton about = new JButton( PhetCommonResources.getString( "Common.HelpMenu.About" ) );
+//        about.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                PhetAboutDialog phetAboutDialog = new PhetAboutDialog( frame, new PhetAboutDialog.PhetApplicationConfigDialogConfig( phetApplicationConfig ) );
+//                phetAboutDialog.show();
+//            }
+//        } );
+//        controlPanel.add( about );
 
         int wallInset = 10;
         Rectangle wallBounds = new Rectangle( PANEL_WIDTH - wallWidth, 0, wallWidth, PANEL_HEIGHT );
@@ -308,7 +304,9 @@ public class BalloonsApplication extends JApplet implements IHelp {
         sys.addLaw( ( new Repaint( painterPanel ) ) );
         final double dt = 1.2;
         int waitTime = 30;
-        setContentPane( panel );
+        setLayout( new BorderLayout() );
+        add( panel, BorderLayout.CENTER );
+//        setContentPane( panel );
 //        final SystemRunner sr = new SystemRunner( sys, dt, waitTime );
 //        Thread t = new Thread( sr );
         Timer timer = new Timer( waitTime, new ActionListener() {
@@ -417,4 +415,12 @@ public class BalloonsApplication extends JApplet implements IHelp {
 
     }
 
+    public int getControlPanelHeight() {
+        if ( controlPanel == null ) {
+            return 0;
+        }
+        else {
+            return controlPanel.getPreferredSize().height;
+        }
+    }
 }
