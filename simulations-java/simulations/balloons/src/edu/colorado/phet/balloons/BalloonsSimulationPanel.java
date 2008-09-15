@@ -23,19 +23,13 @@ import edu.colorado.phet.balloons.common.phys2d.DoublePoint;
 import edu.colorado.phet.balloons.common.phys2d.ParticleLaw;
 import edu.colorado.phet.balloons.common.phys2d.Repaint;
 import edu.colorado.phet.balloons.common.phys2d.System2D;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 
 /**
  * Test comment.
  */
 public class BalloonsSimulationPanel extends JPanel implements IHelp {
-    private int width;
-    private int height;
     private PainterPanel painterPanel;
     private LayeredPainter layeredPainter;
     private boolean miniHelpShowing = false;
@@ -43,8 +37,6 @@ public class BalloonsSimulationPanel extends JPanel implements IHelp {
     private BufferedImage sweaterImage;
     private int wallWidth;
     private JPanel controlPanel;
-    private JFrame frame;
-    private PhetApplicationConfig phetApplicationConfig;
 
     static final int CHARGE_LEVEL = 1;
     static boolean isApplet = false;
@@ -58,10 +50,6 @@ public class BalloonsSimulationPanel extends JPanel implements IHelp {
 
     static PlusPainter plusPainter = new PlusPainter( 14, 4, plusColor, ovalColor );
     static MinusPainter minusPainter = new MinusPainter( 14, 4, minusColor, ovalColor );
-
-    public BalloonsSimulationPanel( String[] args ) {
-        phetApplicationConfig = new PhetApplicationConfig( args, new FrameSetup.NoOp(), BalloonsResources.getResourceLoader() );
-    }
 
     public static void paintCharge( BufferedImage bi ) {
         Graphics2D g2 = (Graphics2D) bi.getGraphics();
@@ -92,14 +80,12 @@ public class BalloonsSimulationPanel extends JPanel implements IHelp {
         minusPainter.paintAt( 84, 167, g2 );
     }
 
-    public void init( final String[] args ) throws IOException {
-//        BalloonStrings.init( args, BalloonsConfig.localizedStringsPath );
-
+    public void init() throws IOException {
         plusPainter.setPaint( PlusPainter.NONE );
         minusPainter.setPaint( MinusPainter.NONE );
 
-        width = PANEL_WIDTH;
-        height = PANEL_HEIGHT;
+        int width = PANEL_WIDTH;
+        int height = PANEL_HEIGHT;
 
         String blueBalloonIm = "balloon-blue.gif";
         String yellowBalloonIm = "balloon-yellow.gif";
@@ -364,10 +350,6 @@ public class BalloonsSimulationPanel extends JPanel implements IHelp {
         return painterPanel.getHeight();
     }
 
-    private void setFrame( JFrame frame ) {
-        this.frame = frame;
-    }
-
     public static Border createSmoothBorder( String s ) {
         return new TitledBorder( s ) {
             public void paintBorder( Component c, Graphics g, int x, int y, int width, int height ) {
@@ -376,41 +358,6 @@ public class BalloonsSimulationPanel extends JPanel implements IHelp {
                 super.paintBorder( c, g, x, y, width, height );
             }
         };
-    }
-
-    public static void main( final String[] args ) throws UnsupportedLookAndFeelException, IOException {
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                PhetLookAndFeel laf = new PhetLookAndFeel();
-                laf.setBackgroundColor( new Color( 200, 240, 200 ) );
-                laf.initLookAndFeel();
-//                UIManager.setLookAndFeel( new PhetLookAndFeel() );
-                BalloonsSimulationPanel ba = new BalloonsSimulationPanel( args );
-                try {
-                    ba.init( args );
-                }
-                catch( IOException e ) {
-                    e.printStackTrace();
-                }
-
-                JFrame frame = new JFrame( ba.phetApplicationConfig.getName() + " (" + ba.phetApplicationConfig.getVersion().formatForTitleBar() + ")" );
-                ba.setFrame( frame );
-                frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-                frame.setContentPane( ba );
-                frame.setSize( PANEL_WIDTH, PANEL_HEIGHT + ba.controlPanel.getPreferredSize().height + 10 );
-                SwingUtils.centerWindowOnScreen( frame );
-                frame.setVisible( true );
-
-                frame.invalidate();
-                frame.validate();
-                frame.repaint();
-                frame.getContentPane().invalidate();
-                frame.getContentPane().validate();
-                frame.getContentPane().repaint();
-                //System.out.println("main: height="+ba.getHeight()); //476 for full application.
-            }
-        } );
-
     }
 
     public int getControlPanelHeight() {
