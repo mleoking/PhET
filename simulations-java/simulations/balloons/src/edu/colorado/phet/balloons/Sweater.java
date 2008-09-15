@@ -3,16 +3,10 @@ package edu.colorado.phet.balloons;
 import edu.colorado.phet.balloons.common.phys2d.DoublePoint;
 
 public class Sweater {
-    int n;
-    DoublePoint ctr;
+    private DoublePoint ctr;
 
-    public Sweater( int n, DoublePoint ctr ) {
-        this.n = n;
+    public Sweater( DoublePoint ctr ) {
         this.ctr = ctr;
-    }
-
-    public int getN() {
-        return n;
     }
 
     public DoublePoint getCenter() {

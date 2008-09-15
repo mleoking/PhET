@@ -7,13 +7,9 @@ import java.awt.event.ActionListener;
 public class SetBalloonCharge implements ActionListener {
     BalloonImage bp;
     JCheckBox b;
-    JRadioButton showNone;
-    JRadioButton showDiff;
-    JRadioButton showAll;
+    private JRadioButton showAll;
 
-    public SetBalloonCharge( JCheckBox b, BalloonImage bp, JRadioButton showNone, JRadioButton showDiff, JRadioButton showAll ) {
-        this.showNone = showNone;
-        this.showDiff = showDiff;
+    public SetBalloonCharge( JCheckBox b, BalloonImage bp, JRadioButton showAll ) {
         this.showAll = showAll;
         this.b = b;
         this.bp = bp;

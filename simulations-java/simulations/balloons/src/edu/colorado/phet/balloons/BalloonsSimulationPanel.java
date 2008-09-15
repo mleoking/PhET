@@ -39,17 +39,15 @@ public class BalloonsSimulationPanel extends JPanel implements IHelp {
     private JPanel controlPanel;
 
     static final int CHARGE_LEVEL = 1;
-    static boolean isApplet = false;
 
     static final int PANEL_WIDTH = 750;
     static final int PANEL_HEIGHT = 500;
 
     static Color plusColor = new Color( 255, 0, 0 );
     static Color minusColor = new Color( 0, 0, 255 );
-    static Color ovalColor = new Color( 255, 255, 255, 80 );
 
-    static PlusPainter plusPainter = new PlusPainter( 14, 4, plusColor, ovalColor );
-    static MinusPainter minusPainter = new MinusPainter( 14, 4, minusColor, ovalColor );
+    static PlusPainter plusPainter = new PlusPainter( 14, 4, plusColor );
+    static MinusPainter minusPainter = new MinusPainter( 14, 4, minusColor );
 
     public static void paintCharge( BufferedImage bi ) {
         Graphics2D g2 = (Graphics2D) bi.getGraphics();
@@ -106,16 +104,16 @@ public class BalloonsSimulationPanel extends JPanel implements IHelp {
         int strLength = 300;
         Stroke stringStroke = new BasicStroke( 2.2f );
         Color stringColor = new Color( 200, 10, 230, 160 );
-        BalloonPainter blueBalloon = new BalloonPainter( bPainter, strAttach, strBase, strLength, stringStroke, stringColor );
+        BalloonPainter blueBalloon = new BalloonPainter( bPainter, strAttach, strBase, stringStroke, stringColor );
         blueBalloon.setInitialPosition( bPoint );
         blueBalloon.setVisible( false );
         Point yPoint = new Point( 480, 18 );
         BalloonImage yelPainter = new BalloonImage( yPoint.x, yPoint.y, yelBal, yelCharge );
-        BalloonPainter yellowBalloon = new BalloonPainter( yelPainter, strAttach, strBase, strLength, stringStroke, stringColor );
+        BalloonPainter yellowBalloon = new BalloonPainter( yelPainter, strAttach, strBase, stringStroke, stringColor );
         yellowBalloon.setInitialPosition( yPoint );
 
         this.layeredPainter = new LayeredPainter();
-        Reset reset = new Reset( this, layeredPainter, CHARGE_LEVEL );
+        Reset reset = new Reset( this, layeredPainter );
         reset.addBalloonPainter( yellowBalloon );
         reset.addBalloonPainter( blueBalloon );
 
@@ -137,7 +135,7 @@ public class BalloonsSimulationPanel extends JPanel implements IHelp {
 
 //        int moveToBalloonSpeed = 9;
         int moveToBalloonSpeed = 15;
-        MoveToBalloon mtb = new MoveToBalloon( moveToBalloonSpeed, layeredPainter, CHARGE_LEVEL, minusPainter );
+        MoveToBalloon mtb = new MoveToBalloon( moveToBalloonSpeed, layeredPainter, minusPainter );
         ChargeMover chargeMover = new ChargeMover( mtb, layeredPainter );
         reset.setChargeMover( chargeMover );
         cm.addBalloonDragListener( chargeMover );
@@ -190,9 +188,9 @@ public class BalloonsSimulationPanel extends JPanel implements IHelp {
         JCheckBox twoBalloons = new JCheckBox( BalloonsResources.getString( "BalloonApplet.TwoBalloons" ), false );
         twoBalloons.addActionListener( new TwoBalloonsHandler( twoBalloons, blueBalloon ) );
 
-        SetBalloonCharge sbc = ( new SetBalloonCharge( chargedBalloonBtn, bPainter, showNoCharges, showDiff, showAllCharges ) );
+        SetBalloonCharge sbc = ( new SetBalloonCharge( chargedBalloonBtn, bPainter, showAllCharges ) );
         chargedBalloonBtn.addActionListener( sbc );
-        SetBalloonCharge s2 = ( new SetBalloonCharge( chargedBalloonBtn, yelPainter, showNoCharges, showDiff, showAllCharges ) );
+        SetBalloonCharge s2 = ( new SetBalloonCharge( chargedBalloonBtn, yelPainter, showAllCharges ) );
         chargedBalloonBtn.addActionListener( s2 );
         showAllCharges.addActionListener( sbc );
         showAllCharges.addActionListener( s2 );
@@ -227,7 +225,7 @@ public class BalloonsSimulationPanel extends JPanel implements IHelp {
         Rectangle wallChargeBounds = new Rectangle( PANEL_WIDTH - wallWidth + wallInset, 0, wallWidth - wallInset * 2, PANEL_HEIGHT );
         Painter wallBack = new FilledRectanglePainter( wallBounds.x, wallBounds.y, wallBounds.width, wallBounds.height, Color.yellow );
         Random r = new Random();
-        Wall w = new Wall( showWall, 50, wallChargeBounds, wallBack, plusPainter, minusPainter, r, blueBalloon, yellowBalloon );
+        Wall w = new Wall( showWall, wallChargeBounds, wallBack, plusPainter, minusPainter, blueBalloon, yellowBalloon );
         layeredPainter.addPainter( w, 10 );
 
         int numSweaterCharges = 100;
@@ -236,7 +234,7 @@ public class BalloonsSimulationPanel extends JPanel implements IHelp {
         int minY = 50;
         int maxY = sweaterImage.getHeight() - 50;
         final System2D sys = new System2D();
-        Sweater wool = new Sweater( numSweaterCharges, new DoublePoint( sweaterImage.getWidth() / 2, sweaterImage.getHeight() / 2 ) );
+        Sweater wool = new Sweater( new DoublePoint( sweaterImage.getWidth() / 2, sweaterImage.getHeight() / 2 ) );
 
         resetBtn.addActionListener( reset );
         int neighborWidth = 20;
@@ -265,10 +263,8 @@ public class BalloonsSimulationPanel extends JPanel implements IHelp {
             chargeMover.addParticle( minus );
 
             Painter plusPaint = new ParticlePainterAdapter( plusPainter, plus );
-            plus.setDefaultPainter( plusPaint );
             layeredPainter.addPainter( plusPaint, CHARGE_LEVEL );
             Painter minusPaint = new ParticlePainterAdapter( minusPainter, minus );
-            minus.setDefaultPainter( minusPaint );
             layeredPainter.addPainter( minusPaint, CHARGE_LEVEL );
             plus.setPainter( plusPaint, CHARGE_LEVEL );
             minus.setPainter( minusPaint, CHARGE_LEVEL );

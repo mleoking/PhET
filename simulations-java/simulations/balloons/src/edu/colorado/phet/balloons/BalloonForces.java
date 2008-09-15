@@ -68,22 +68,7 @@ public class BalloonForces implements Law {
         return sweaterForce.add( otherForce );
     }
 
-    public DoublePoint getWallForce( BalloonPainter bp ) {
-        double x = wallX - bp.getPosition().getX();
-        double k = 1000000;
-        double kqq = bp.getCharge() * k;
-        double pow = Math.pow( x, 4 );//x*x*x*x;
-        //System.err.println("x="+x+", kqq="+kqq+", pow="+pow);
-        double f = kqq / pow;
-        if( count++ % disp == 0 ) {
-//            System.err.println( "pow=" + pow + ", k=" + k + ", f=" + f );
-        }
-        return new DoublePoint( f, 0 );
-    }
-
-    int count = 0;
-    int disp = 10;
-//      public DoublePoint getWallForce(BalloonPainter bp)
+    //      public DoublePoint getWallForce(BalloonPainter bp)
 //      {
 //  	double x=wallX-bp.getPosition().getX();
 //  	double k=100000/6;

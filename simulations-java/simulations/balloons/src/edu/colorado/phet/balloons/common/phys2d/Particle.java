@@ -1,11 +1,11 @@
 package edu.colorado.phet.balloons.common.phys2d;
 
 public class Particle {
-    DoublePoint x;
-    DoublePoint v;
-    DoublePoint a;
-    double mass;
-    double charge;
+    private DoublePoint x;
+    private DoublePoint v;
+    private DoublePoint a;
+    private double mass;
+    private double charge;
 
     /**
      * Constructs a stationary particle with mass 1.

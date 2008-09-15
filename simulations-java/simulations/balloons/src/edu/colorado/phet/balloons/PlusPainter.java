@@ -12,7 +12,6 @@ public class PlusPainter implements ParticlePainter {
     Color c;
     int strokeWidth;
     int halfStroke;
-    Color oval;
     int paint;
     public static final int ALL = 0;
     public static final int NONE = 1;
@@ -22,8 +21,7 @@ public class PlusPainter implements ParticlePainter {
         this.paint = paint;
     }
 
-    public PlusPainter( int width, int strokeWidth, Color c, Color oval ) {
-        this.oval = oval;
+    public PlusPainter( int width, int strokeWidth, Color c ) {
         this.strokeWidth = strokeWidth;
         this.width = width;
         this.c = c;

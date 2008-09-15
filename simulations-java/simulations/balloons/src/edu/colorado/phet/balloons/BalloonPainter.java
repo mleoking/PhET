@@ -15,18 +15,16 @@ public class BalloonPainter implements Painter {
     Vector v = new Vector();
     Point stringAttach;
     Point stringRoot;
-    int stringlength;
     Stroke stringStroke;
     Color stringColor;
     DoublePoint vel = new DoublePoint();
     Point initPos;
     boolean isHeld = false;
 
-    public BalloonPainter( FixedImagePainter fip, Point stringAttach, Point stringRoot, int stringlength, Stroke string, Color stringColor ) {
+    public BalloonPainter( FixedImagePainter fip, Point stringAttach, Point stringRoot, Stroke string, Color stringColor ) {
         this.fip = fip;
         this.stringAttach = stringAttach;
         this.stringRoot = stringRoot;
-        this.stringlength = stringlength;
         this.stringColor = stringColor;
         this.stringStroke = string;
     }

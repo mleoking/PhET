@@ -19,15 +19,13 @@ public class Reset implements ActionListener {
     Vector b = new Vector();
     Component paint;
     LayeredPainter lp;
-    int chargeLevel;
     ChargeMover chm;
 
     public void setChargeMover( ChargeMover chm ) {
         this.chm = chm;
     }
 
-    public Reset( Component paint, LayeredPainter lp, int chargeLevel ) {
-        this.chargeLevel = chargeLevel;
+    public Reset( Component paint, LayeredPainter lp ) {
         this.lp = lp;
         this.paint = paint;
     }

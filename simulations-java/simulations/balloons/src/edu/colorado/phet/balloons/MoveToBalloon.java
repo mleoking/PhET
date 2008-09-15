@@ -13,14 +13,12 @@ public class MoveToBalloon implements Propagator {
     BalloonPainter ip;
     double v;
     LayeredPainter lp;
-    int level;
     MinusPainter mp;
 
-    public MoveToBalloon( double v, LayeredPainter lp, int level, MinusPainter mp ) {
+    public MoveToBalloon( double v, LayeredPainter lp, MinusPainter mp ) {
         this.mp = mp;
         this.v = v;
         this.lp = lp;
-        this.level = level;
     }
 
     public void setTarget( BalloonPainter fip ) {

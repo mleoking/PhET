@@ -12,14 +12,12 @@ public class MinusPainter implements ParticlePainter {
     Color color;
     int strokeWidth;
     int halfStroke;
-    Color oval;
     int paint;
     public static final int ALL = 0;
     public static final int NONE = 1;
     public static final int DIFF = 2;
 
-    public MinusPainter( int width, int strokeWidth, Color color, Color oval ) {
-        this.oval = oval;
+    public MinusPainter( int width, int strokeWidth, Color color ) {
         this.strokeWidth = strokeWidth;
         this.width = width;
         this.color = color;
