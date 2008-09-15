@@ -50,12 +50,6 @@ public class DualParticleModel {
     private double m_timeStep;
     private StatesOfMatterAtom.Adapter m_movableParticleListener;
     
-    // These variables are used for debugging energy conservation issues,
-    // and can possibly be removed at some point if no longer needed.
-    private double m_totalEnergy;
-    private double m_potentialEnergy;
-    private double m_kineticEnergy;
-    
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
@@ -349,8 +343,6 @@ public class DualParticleModel {
         // Calculate the force.  The result should be in newtons.
         m_attractiveForce = m_ljPotentialCalculator.calculateAttractiveLjForce( distance );
         m_repulsiveForce = m_ljPotentialCalculator.calculateRepulsiveLjForce( distance );
-        
-        m_potentialEnergy = m_ljPotentialCalculator.calculateLjPotential( distance );
     }
     
     /**
@@ -372,9 +364,6 @@ public class DualParticleModel {
             double xPos = m_shadowMovableParticle.getPositionReference().getX() + (m_shadowMovableParticle.getVx() * m_timeStep);
             m_shadowMovableParticle.setPosition( xPos, 0 );
         }
-        
-        m_kineticEnergy = 0.5 * mass * m_shadowMovableParticle.getVx() * m_shadowMovableParticle.getVx();
-        m_totalEnergy = m_potentialEnergy + m_kineticEnergy;
     }
     
     private void notifyFixedParticleAdded(StatesOfMatterAtom particle){
