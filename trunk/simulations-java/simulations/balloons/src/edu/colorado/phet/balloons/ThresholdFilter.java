@@ -3,6 +3,8 @@ package edu.colorado.phet.balloons;
 import java.awt.*;
 import java.util.Vector;
 
+import edu.colorado.phet.common.phetcommon.math.DoubleSeries;
+
 public class ThresholdFilter implements BalloonDragListener {
     DoubleSeries x;
     DoubleSeries y;
