@@ -13,7 +13,7 @@ import javax.swing.*;
 public class SelectableJButton extends JButton
         implements ActionListener {
 
-    public SelectableJButton( String s, Icon icon, Icon icon1, boolean flag ) {
+    public SelectableJButton( String s, Icon icon1, boolean flag ) {
         super( s, icon1 );
         buttonGroup = new Vector();
         addActionListener( this );
