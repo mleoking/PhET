@@ -66,6 +66,7 @@ CLEANUP:
 
 
 DONE:
+******* 1.00.04 (?)
 9/15/08 - put default units on top in thermometer
 9/15/08 - refactor ClimateControlPanel for English/metric feature
 9/15/08 - switch climate controls between English & metric units
