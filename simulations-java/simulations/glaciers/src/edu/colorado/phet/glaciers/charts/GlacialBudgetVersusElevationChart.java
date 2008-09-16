@@ -36,6 +36,11 @@ import edu.colorado.phet.glaciers.util.UnitsConverter;
  */
 public class GlacialBudgetVersusElevationChart extends JDialog {
     
+    private static final Range GLACIAL_BUDGET_RANGE_METRIC = new Range( -19, 19 ); // meters/yr
+    private static final Range GLACIAL_BUDGET_RANGE_ENGLISH = new Range( 
+            UnitsConverter.metersToFeet( GLACIAL_BUDGET_RANGE_METRIC.getLowerBound() ), 
+            UnitsConverter.metersToFeet( GLACIAL_BUDGET_RANGE_METRIC.getUpperBound() ) ); // feet/yr
+    
     private static final Range ELEVATION_RANGE_METRIC = new Range( 2000, 5000 ); // meters
     private static final Range ELEVATION_RANGE_ENGLISH = new Range( 
             UnitsConverter.metersToFeet( ELEVATION_RANGE_METRIC.getLowerBound() ), 
@@ -113,7 +118,12 @@ public class GlacialBudgetVersusElevationChart extends JDialog {
         
         NumberAxis domainAxis = (NumberAxis) plot.getDomainAxis();
         domainAxis.setStandardTickUnits( NumberAxis.createIntegerTickUnits() );
-        // don't set a range for the x-axis, it will be set automatically to fit the data
+        if ( _englishUnits ) {
+            domainAxis.setRange( GLACIAL_BUDGET_RANGE_ENGLISH );
+        }
+        else {
+            domainAxis.setRange( GLACIAL_BUDGET_RANGE_METRIC );
+        }
         
         NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
         rangeAxis.setStandardTickUnits( NumberAxis.createIntegerTickUnits() );

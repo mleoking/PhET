@@ -8,19 +8,19 @@ HIGH PRIORITY:
 - bug: loading full-size background image causes OutOfMemoryException, exceeds JVM heap space [crop svg, talk with Archie]
 - birds-eye view should half the slope of zoomed view so that 80km is at far right
 - glacier growth from zero length still takes a long time, and then speeds up [Archie will fix model]
+- remove registration points from background image in any versions published to PhET website
 
 MEDIUM PRIORITY:
-- make sure everything works properly when clock is paused
 - "steady state" feature needs to fill glacier with debris and surface ripples (and create moraine?)
+- make sure everything works properly when clock is paused
 
 LOW PRIORITY:
-- remove registration points from background image in any versions published to PhET website
+- improve smoothness of DistanceAxisNode (x-axis for coordinates feature)
 - YAW_X_OFFSET should be computed as a function of YAW_ROTATION and PITCH_Y_OFFSET
 - bug: edges of thermometer & ice thickness tool icons are clipped (see Unfuddle #558)
 - bug: creating a tool and dragging it straight to the trash doesn't work because we're in the middle of an event sequence
-- improve smoothness of DistanceAxisNode (x-axis for coordinates feature)
 - bug: ticks & labels on sliders should be white, code to set their color is not working (Mac OS 10.4 only?)
-- Spanish translation
+- Spanish translation (Archie?)
 - Help
 
 DEFERRED FOR INTERVIEWS:
@@ -64,6 +64,7 @@ CLEANUP:
 
 
 DONE:
+9/16/08 - set a fixed range for x-axis in "glacial budget vs elevation" chart
 9/16/08 - fix: resizing window so that zoomed viewport size is zero fails assertion in GlaciersPlayArea.updateZoomedViewportBounds (assertion unnecessary)
 9/16/08 - fix: resizing window very narrow fails assertion in DistanceAxisNode.setRange
 9/16/08 - add ability to set minHeight of control panel via strings file, so that control panels in all modules will be same height
