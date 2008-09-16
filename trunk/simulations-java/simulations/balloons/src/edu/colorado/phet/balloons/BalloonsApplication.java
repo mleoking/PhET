@@ -18,6 +18,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 public class BalloonsApplication extends PiccoloPhetApplication {
     private BalloonsModule module;
+    public static final double DT = 1.2;
 
     public BalloonsApplication( PhetApplicationConfig config ) {
         super( config );
@@ -74,14 +75,14 @@ public class BalloonsApplication extends PiccoloPhetApplication {
         }
     }
 
-    private class BalloonsModule extends Module {
+    public class BalloonsModule extends Module {
         private BalloonsSimulationPanel balloonsSimulationPanel;
 
         public BalloonsModule( PhetApplicationConfig config ) {
-            super( config.getName(), new ConstantDtClock( 30, 1 ) );
+            super( config.getName(), new ConstantDtClock( 30, DT ) );
             balloonsSimulationPanel = new BalloonsSimulationPanel();
             try {
-                balloonsSimulationPanel.init();
+                balloonsSimulationPanel.init( this );
             }
             catch( IOException e ) {
                 e.printStackTrace();
