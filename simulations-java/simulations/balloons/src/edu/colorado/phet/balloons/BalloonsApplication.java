@@ -90,6 +90,26 @@ public class BalloonsApplication extends PiccoloPhetApplication {
             setSimulationPanel( balloonsSimulationPanel );
             setClockControlPanel( null );
             setLogoPanelVisible( false );
+            setControlPanel( null );
+            setHelpPanel( null );
+        }
+
+        public boolean hasMegaHelp() {
+            return true;
+        }
+
+        public boolean hasHelp() {
+            return true;
+        }
+
+        public void setHelpEnabled( boolean enabled ) {
+            super.setHelpEnabled( enabled );
+            balloonsSimulationPanel.setHelpEnabled( enabled );
+        }
+
+        public void showMegaHelp() {
+            super.showMegaHelp();
+            balloonsSimulationPanel.showMegaHelp();
         }
 
         public int getControlPanelHeight() {
