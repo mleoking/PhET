@@ -1738,9 +1738,9 @@ public class MultipleParticleModel {
         
         // Update the pressure calculation.
         // TODO: JPB TBD - Clean this up if we end up using it.
-        double pressureCalcGamma = 0.999;
-        m_pressure2 = (1 - pressureCalcGamma) * (totalTopForce / m_normalizedContainerWidth) + 
-                pressureCalcGamma * m_pressure2;
+        double pressureCalcWeighting = 0.9995;
+        m_pressure2 = (1 - pressureCalcWeighting) * (totalTopForce / m_normalizedContainerWidth) + 
+                pressureCalcWeighting * m_pressure2;
         
         // Advance the moving average window of the pressure calculator.
         m_pressureCalculator.advanceWindow();
@@ -1928,9 +1928,9 @@ public class MultipleParticleModel {
         
         // Update the pressure calculation.
         // TODO: JPB TBD - Clean this up if we end up using it.
-        double pressureCalcGamma = 0.999;
-        m_pressure2 = (1 - pressureCalcGamma) * (totalTopForce / m_normalizedContainerWidth) + 
-                pressureCalcGamma * m_pressure2;
+        double pressureCalcGammaWeighting = 0.999;
+        m_pressure2 = (1 - pressureCalcGammaWeighting) * (totalTopForce / m_normalizedContainerWidth) + 
+                pressureCalcGammaWeighting * m_pressure2;
         
         // Advance the moving average window of the pressure calculator.
         m_pressureCalculator.advanceWindow();
@@ -2161,9 +2161,9 @@ public class MultipleParticleModel {
         
         // Update the pressure calculation.
         // TODO: JPB TBD - Clean this up if we end up using it.
-        double pressureCalcGamma = 0.999;
-        m_pressure2 = (1 - pressureCalcGamma) * (totalTopForce / m_normalizedContainerWidth) + 
-                pressureCalcGamma * m_pressure2;
+        double pressureCalcWeighting = 0.9995;
+        m_pressure2 = (1 - pressureCalcWeighting) * (totalTopForce / m_normalizedContainerWidth) + 
+                pressureCalcWeighting * m_pressure2;
         
         // Advance the moving average window of the pressure calculator.
         m_pressureCalculator.advanceWindow();
@@ -2651,19 +2651,19 @@ public class MultipleParticleModel {
         switch (m_currentMolecule){
         
         case StatesOfMatterConstants.NEON:
-            pressureInAtmospheres = 10 * getModelPressure();
+            pressureInAtmospheres = 200 * getModelPressure();
             break;
             
         case StatesOfMatterConstants.ARGON:
-            pressureInAtmospheres = 20 * getModelPressure();
+            pressureInAtmospheres = 125 * getModelPressure();
             break;
 
         case StatesOfMatterConstants.WATER:
-            pressureInAtmospheres = 10 * getModelPressure();
+            pressureInAtmospheres = 200 * getModelPressure();
             break;
             
         case StatesOfMatterConstants.DIATOMIC_OXYGEN:
-            pressureInAtmospheres = 20 * getModelPressure();
+            pressureInAtmospheres = 125 * getModelPressure();
             break;
             
         default:
