@@ -14,9 +14,9 @@ public class Circuit {
 
     public WirePatch getPatch( double position ) {
         double sum = 0;
-        for( int i = 0; i < patches.size(); i++ ) {
+        for ( int i = 0; i < patches.size(); i++ ) {
             sum += patchAt( i ).totalDistance();
-            if( position <= sum ) {
+            if ( position <= sum ) {
                 return patchAt( i );
             }
         }
@@ -25,8 +25,8 @@ public class Circuit {
 
     public double getLocalPosition( double global, WirePatch patch ) {
         double sum = 0;
-        for( int i = 0; i < patches.size(); i++ ) {
-            if( patchAt( i ) == patch ) {
+        for ( int i = 0; i < patches.size(); i++ ) {
+            if ( patchAt( i ) == patch ) {
                 return global - sum;
             }
             sum += patchAt( i ).totalDistance();
@@ -36,14 +36,14 @@ public class Circuit {
 
     public double getLength() {
         double sum = 0;
-        for( int i = 0; i < patches.size(); i++ ) {
+        for ( int i = 0; i < patches.size(); i++ ) {
             sum += patchAt( i ).totalDistance();
         }
         return sum;
     }
 
     public WirePatch patchAt( int i ) {
-        return (WirePatch)patches.get( i );
+        return (WirePatch) patches.get( i );
     }
 }
 

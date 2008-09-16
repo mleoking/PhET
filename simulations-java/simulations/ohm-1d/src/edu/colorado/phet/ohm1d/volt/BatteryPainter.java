@@ -7,9 +7,9 @@
  */
 package edu.colorado.phet.ohm1d.volt;
 
-import edu.colorado.phet.ohm1d.common.paint.Painter;
-
 import java.awt.*;
+
+import edu.colorado.phet.ohm1d.common.paint.Painter;
 
 public class BatteryPainter implements Painter {
     Painter current;
@@ -39,13 +39,13 @@ public class BatteryPainter implements Painter {
     }
 
     private void chooseImage() {
-        if( !transp && isLeft ) {
+        if ( !transp && isLeft ) {
             current = left;
         }
-        else if( !transp && !isLeft ) {
+        else if ( !transp && !isLeft ) {
             current = right;
         }
-        else if( transp && isLeft ) {
+        else if ( transp && isLeft ) {
             current = leftTransparent;
         }
         else {

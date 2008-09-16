@@ -1,5 +1,8 @@
 package edu.colorado.phet.ohm1d;
 
+import java.util.ArrayList;
+import java.util.Vector;
+
 import edu.colorado.phet.ohm1d.common.paint.gauges.IGauge;
 import edu.colorado.phet.ohm1d.common.phys2d.Law;
 import edu.colorado.phet.ohm1d.common.phys2d.System2D;
@@ -9,9 +12,6 @@ import edu.colorado.phet.ohm1d.gui.CoreCountListener;
 import edu.colorado.phet.ohm1d.gui.VoltageListener;
 import edu.colorado.phet.ohm1d.volt.CurrentListener;
 import edu.colorado.phet.ohm1d.volt.WireRegion;
-
-import java.util.ArrayList;
-import java.util.Vector;
 
 /**
  * Sets the value of the gauge.
@@ -50,14 +50,14 @@ public class AverageCurrent2 implements Law, VoltageListener, CoreCountListener 
     public void iterate( double dt, System2D sys ) {
         double sum = 0;
         int n = 0;
-        for( int i = 0; i < al.size(); i++ ) {
-            WireParticle wp = (WireParticle)al.get( i );
-            if( region.contains( wp ) ) {
+        for ( int i = 0; i < al.size(); i++ ) {
+            WireParticle wp = (WireParticle) al.get( i );
+            if ( region.contains( wp ) ) {
                 sum += wp.getVelocity() * wp.getCharge();
                 n++;
             }
         }
-        if( n != 0 ) {
+        if ( n != 0 ) {
             sum /= n;
         }
         double hollyscale = 3.5 * 3.3;
@@ -68,8 +68,8 @@ public class AverageCurrent2 implements Law, VoltageListener, CoreCountListener 
         ds.add( total );
         double display = ds.average();
         ig.setValue( display * .4 );
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ( (CurrentListener)listeners.get( i ) ).currentChanged( display );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (CurrentListener) listeners.get( i ) ).currentChanged( display );
         }
 //  	if (count++%100==0)
 //  	    System.err.println("hollywood="+hollywood+", sum="+sum+", tot="+total);

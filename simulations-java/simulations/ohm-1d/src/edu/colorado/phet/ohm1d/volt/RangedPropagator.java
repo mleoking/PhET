@@ -1,9 +1,9 @@
 package edu.colorado.phet.ohm1d.volt;
 
+import java.util.Vector;
+
 import edu.colorado.phet.ohm1d.common.wire1d.Propagator1d;
 import edu.colorado.phet.ohm1d.common.wire1d.WireParticle;
-
-import java.util.Vector;
 
 public class RangedPropagator implements Propagator1d {
     private static class RangeProp {
@@ -28,15 +28,15 @@ public class RangedPropagator implements Propagator1d {
     }
 
     public void propagate( WireParticle wp, double dt ) {
-        for( int i = 0; i < v.size(); i++ ) {
-            RangeProp pr = ( (RangeProp)v.get( i ) );
-            if( pr.wr.contains( wp ) ) {
+        for ( int i = 0; i < v.size(); i++ ) {
+            RangeProp pr = ( (RangeProp) v.get( i ) );
+            if ( pr.wr.contains( wp ) ) {
                 pr.prop.propagate( wp, dt );
             }
         }
-        for( int i = 0; i < inv.size(); i++ ) {
-            RangeProp pr = ( (RangeProp)inv.get( i ) );
-            if( !pr.wr.contains( wp ) ) {
+        for ( int i = 0; i < inv.size(); i++ ) {
+            RangeProp pr = ( (RangeProp) inv.get( i ) );
+            if ( !pr.wr.contains( wp ) ) {
                 pr.prop.propagate( wp, dt );
             }
         }

@@ -1,9 +1,9 @@
 package edu.colorado.phet.ohm1d.common.phys2d.laws;
 
+import java.awt.*;
+
 import edu.colorado.phet.ohm1d.common.phys2d.Law;
 import edu.colorado.phet.ohm1d.common.phys2d.System2D;
-
-import java.awt.*;
 
 public class Repaint implements Law {
     Component p;

@@ -28,8 +28,8 @@ public class Batt implements Propagator1d, VoltageListener, CoreCountListener {
 
     public int countLeft() {
         int sum = 0;
-        for( int i = 0; i < sys.numParticles(); i++ ) {
-            if( plus.contains( sys.particleAt( i ) ) ) {
+        for ( int i = 0; i < sys.numParticles(); i++ ) {
+            if ( plus.contains( sys.particleAt( i ) ) ) {
                 sum++;
             }
         }
@@ -38,8 +38,8 @@ public class Batt implements Propagator1d, VoltageListener, CoreCountListener {
 
     public int countRight() {
         int sum = 0;
-        for( int i = 0; i < sys.numParticles(); i++ ) {
-            if( minus.contains( sys.particleAt( i ) ) ) {
+        for ( int i = 0; i < sys.numParticles(); i++ ) {
+            if ( minus.contains( sys.particleAt( i ) ) ) {
                 sum++;
             }
         }
@@ -52,11 +52,11 @@ public class Batt implements Propagator1d, VoltageListener, CoreCountListener {
         double volts = right - left;
 //  	if (count++%100==0)
 //  	    System.err.println("volts="+volts+", right="+right+", isLeft="+isLeft);
-        if( volts < desiredVolts ) //go right.
+        if ( volts < desiredVolts ) //go right.
         {
             wp.setVelocity( -v );
         }
-        else if( volts > desiredVolts ) //go isLeft.
+        else if ( volts > desiredVolts ) //go isLeft.
         {
             wp.setVelocity( v );
         }

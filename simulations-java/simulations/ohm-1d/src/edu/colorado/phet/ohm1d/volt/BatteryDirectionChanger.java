@@ -10,7 +10,7 @@ public class BatteryDirectionChanger implements VoltageListener {
     }
 
     public void valueChanged( double val ) {
-        if( val < 0 ) {
+        if ( val < 0 ) {
             bp.setLeft( true );
         }
         else {

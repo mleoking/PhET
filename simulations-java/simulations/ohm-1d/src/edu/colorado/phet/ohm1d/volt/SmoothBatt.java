@@ -29,8 +29,8 @@ public class SmoothBatt extends Batt {
 
     public int countLeft() {
         int sum = 0;
-        for( int i = 0; i < sys.numParticles(); i++ ) {
-            if( plus.contains( sys.particleAt( i ) ) ) {
+        for ( int i = 0; i < sys.numParticles(); i++ ) {
+            if ( plus.contains( sys.particleAt( i ) ) ) {
                 sum++;
             }
         }
@@ -39,8 +39,8 @@ public class SmoothBatt extends Batt {
 
     public int countRight() {
         int sum = 0;
-        for( int i = 0; i < sys.numParticles(); i++ ) {
-            if( minus.contains( sys.particleAt( i ) ) ) {
+        for ( int i = 0; i < sys.numParticles(); i++ ) {
+            if ( minus.contains( sys.particleAt( i ) ) ) {
                 sum++;
             }
         }
@@ -62,47 +62,47 @@ public class SmoothBatt extends Batt {
     public double getSpeed() {
         //System.err.println("Getting speed for des="+desiredVolts);
         double sign = 1;
-        if( desiredVolts < 0 ) {
+        if ( desiredVolts < 0 ) {
             sign = -1;
         }
         double abs = Math.abs( desiredVolts );
-        if( abs <= .1 ) {
+        if ( abs <= .1 ) {
             return 0;
         }
-        else if( abs <= .3 ) {
+        else if ( abs <= .3 ) {
             return -4 * sign;
         }
-        else if( abs <= .5 ) {
+        else if ( abs <= .5 ) {
             return -6 * sign;
         }
-        else if( abs <= .7 ) {
+        else if ( abs <= .7 ) {
             return -8 * sign;
         }
-        else if( abs <= .9 ) {
+        else if ( abs <= .9 ) {
             return -10 * sign;
         }
-        else if( abs <= 1.1 ) {
+        else if ( abs <= 1.1 ) {
             return -12 * sign;
         }
-        else if( abs < 1.3 ) {
+        else if ( abs < 1.3 ) {
             return -14 * sign;
         }
-        else if( abs < 1.7 ) {
+        else if ( abs < 1.7 ) {
             return -16 * sign;
         }
-        else if( abs < 1.9 ) {
+        else if ( abs < 1.9 ) {
             return -18 * sign;
         }
-        else if( abs < 3.1 ) {
+        else if ( abs < 3.1 ) {
             return -20 * sign;
         }
-        else if( abs < 5.1 ) {
+        else if ( abs < 5.1 ) {
             return -22 * sign;
         }
-        else if( abs < 7.1 ) {
+        else if ( abs < 7.1 ) {
             return -24 * sign;
         }
-        else if( abs < 9.1 ) {
+        else if ( abs < 9.1 ) {
             return -26 * sign;
         }
         else {

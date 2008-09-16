@@ -15,7 +15,7 @@ public class Oscillate implements Propagator {
     public Oscillate( DoublePoint x0, double amplitude, double freq, double amplitudeScale, DoublePoint axis ) {
         this.axis = axis.normalize();
         //System.err.println("Axis="+axis);
-        if( axis.getX() == 1 && axis.getY() == 1 ) {
+        if ( axis.getX() == 1 && axis.getY() == 1 ) {
             throw new RuntimeException();
         }
         //throw new RuntimeException();

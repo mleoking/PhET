@@ -1,8 +1,8 @@
 package edu.colorado.phet.ohm1d.oscillator2d;
 
-import edu.colorado.phet.ohm1d.common.phys2d.DoublePoint;
-
 import java.util.Random;
+
+import edu.colorado.phet.ohm1d.common.phys2d.DoublePoint;
 
 public class DefaultOscillateFactory implements OscillateFactory {
     Random random;
@@ -24,16 +24,16 @@ public class DefaultOscillateFactory implements OscillateFactory {
     public Oscillate newOscillate( double v, Core c ) {
         //Create a random axis of oscillation.
         double xVal = random.nextDouble() * 3 + .5;
-        if( random.nextBoolean() ) {
+        if ( random.nextBoolean() ) {
             xVal = -xVal;
         }
         axis = new DoublePoint( 1, xVal );
         double x = Math.abs( v * vToAScale );
         double amp = 0;
-        if( x < aMax ) {
+        if ( x < aMax ) {
             amp = v * vToAScale;
         }
-        else if( v < 0 ) {
+        else if ( v < 0 ) {
             amp = -aMax;
         }
         else {

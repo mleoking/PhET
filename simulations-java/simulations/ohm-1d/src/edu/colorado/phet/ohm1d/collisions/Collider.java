@@ -20,14 +20,14 @@ public class Collider implements Law {
     }
 
     public void iterate( double dt, System2D sys ) {
-        for( int i = 0; i < sys.numParticles(); i++ ) {
+        for ( int i = 0; i < sys.numParticles(); i++ ) {
             Particle wp = sys.particleAt( i );
-            if( wp instanceof Core ) {
-                Core c = (Core)wp;
-                for( int k = 0; k < ws.numParticles(); k++ ) {
+            if ( wp instanceof Core ) {
+                Core c = (Core) wp;
+                for ( int k = 0; k < ws.numParticles(); k++ ) {
                     //System.err.println("Colliding.");
-                    Electron other = (Electron)ws.particleAt( k );
-                    if( other.getWirePatch() == patch ) {
+                    Electron other = (Electron) ws.particleAt( k );
+                    if ( other.getWirePatch() == patch ) {
                         ce.collide( c, other );
                     }
                 }

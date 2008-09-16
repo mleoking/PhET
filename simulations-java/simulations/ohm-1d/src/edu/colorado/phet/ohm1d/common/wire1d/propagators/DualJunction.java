@@ -17,11 +17,11 @@ public class DualJunction implements Propagator1d {
     }
 
     public void propagate( WireParticle p, double dt ) {
-        if( p.getWirePatch() == a && p.getPosition() >= a.getLength() ) {
+        if ( p.getWirePatch() == a && p.getPosition() >= a.getLength() ) {
             p.setWirePatch( b );
             p.setPosition( 1 );//This should maybe be b.getScalarStart().
         }
-        else if( p.getWirePatch() == b && p.getPosition() <= 0 ) {
+        else if ( p.getWirePatch() == b && p.getPosition() <= 0 ) {
             p.setWirePatch( a );
             p.setPosition( a.getLength() - 4 );
         }

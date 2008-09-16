@@ -25,7 +25,7 @@ public class DefaultVectorPainter implements VectorPainter {
         g.setColor( c );
         g.drawLine( x, y, x + dx, y + dy );
         /**Draw the arrowhead.*/
-        if( dx == 0 && dy == 0 ) {
+        if ( dx == 0 && dy == 0 ) {
             return;
         }
         double phi = Math.atan2( dx, dy );
@@ -37,7 +37,7 @@ public class DefaultVectorPainter implements VectorPainter {
         double x2 = x + dx - tipLength * Math.sin( phi2 );
         double y2 = y + dy - tipLength * Math.cos( phi2 );
 
-        g.drawLine( x + dx, y + dy, (int)x1, (int)y1 );
-        g.drawLine( x + dx, y + dy, (int)x2, (int)y2 );
+        g.drawLine( x + dx, y + dy, (int) x1, (int) y1 );
+        g.drawLine( x + dx, y + dy, (int) x2, (int) y2 );
     }
 }

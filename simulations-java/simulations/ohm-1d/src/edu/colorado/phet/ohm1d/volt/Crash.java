@@ -6,8 +6,8 @@ import edu.colorado.phet.ohm1d.common.wire1d.WireParticle;
 
 public class Crash implements Propagator1d {
     public void propagate( WireParticle wp, double dt ) {
-        Electron e = (Electron)wp;
-        if( e.isCollided() ) {
+        Electron e = (Electron) wp;
+        if ( e.isCollided() ) {
             e.setVelocity( 0 );
             e.setCollided( false );
         }

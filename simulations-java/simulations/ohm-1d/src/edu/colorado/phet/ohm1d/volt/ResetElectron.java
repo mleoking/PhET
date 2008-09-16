@@ -16,7 +16,7 @@ public class ResetElectron implements Propagator1d {
     }
 
     public void propagate( WireParticle wireParticle, double v ) {
-        Electron e = (Electron)wireParticle;
+        Electron e = (Electron) wireParticle;
         e.forgetCollision();
     }
 }

@@ -19,7 +19,7 @@ public class MakeTransparentImage extends LookupTable {
 
     public int[] lookupPixel( int[] src, int[] dst ) {
         //util.Debug.traceln("Returning alpha.");
-        for( int i = 0; i < dst.length; i++ ) {
+        for ( int i = 0; i < dst.length; i++ ) {
             dst[i] = src[i];
         }
         dst[dst.length - 1] = alpha;
