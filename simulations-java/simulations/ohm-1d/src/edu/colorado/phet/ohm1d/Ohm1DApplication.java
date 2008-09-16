@@ -37,7 +37,7 @@ public class Ohm1DApplication extends PhetApplication {
             super( config.getName(), new ConstantDtClock( 30, 1 ) );
             Ohm1DSimulationPanel simulationPanel = new Ohm1DSimulationPanel();
             try {
-                simulationPanel.mainBAK();
+                simulationPanel.startApplication();
             }
             catch( IOException e ) {
                 e.printStackTrace();

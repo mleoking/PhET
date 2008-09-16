@@ -6,7 +6,7 @@ import java.awt.image.LookupTable;
 
 public class MakeMETransp extends LookupTable {
 
-    public MakeMETransp( int[] match ) {
+    public MakeMETransp() {
         super( 0, 4 );
     }
 

@@ -16,10 +16,6 @@ public class ResourceLoader4 {
         this.observer = observer;
     }
 
-    public URL getResource( String name ) {
-        return loader.getResource( name );
-    }
-
     public BufferedImage loadBufferedImage( String name ) {
         //URL fileLoc=findResource("ohm-1d/images/"+name,c);
         URL fileLoc = loader.getResource( name );

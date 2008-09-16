@@ -12,7 +12,6 @@ import java.util.Random;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.ohm1d.collisions.Collider;
 import edu.colorado.phet.ohm1d.collisions.DefaultCollisionEvent;
@@ -55,30 +54,9 @@ import edu.colorado.phet.ohm1d.util.MakeMETransp;
 import edu.colorado.phet.ohm1d.volt.*;
 
 public class Ohm1DSimulationPanel extends JPanel {
-    // Localization
-    public static final String localizedStringsPath = "ohm-1d/localization/ohm-1d-strings";
     public static int BASE_FRAME_WIDTH = 1028;
 
-    public Ohm1DSimulationPanel() {
-        //System.err.println("HI");
-    }
-
-    public void init() {
-        JButton jb = new JButton( Ohm1DStrings.get( "Ohm1dModule.StartButton" ) );
-        add( jb );
-        jb.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent ae ) {
-                try {
-                    mainBAK();
-                }
-                catch( Throwable t ) {
-                    throw new RuntimeException( t );
-                }
-            }
-        } );
-    }
-
-    public void mainBAK() throws IOException, FontFormatException {
+    public void startApplication() throws IOException, FontFormatException {
         ResourceLoader4 loader = new ResourceLoader4( getClass().getClassLoader(), this );
         int moveRight = 68;
         //int scatInset = 60;
@@ -195,7 +173,7 @@ public class Ohm1DSimulationPanel extends JPanel {
 
         //CenteredDotPainter dp = new CenteredDotPainter(Color.red, 12);
         BufferedImage greeny = loader.loadBufferedImage( "ohm-1d/images/ron/particle-green-med.gif" );
-        greeny = new MakeMETransp( new int[]{0} ).patchAlpha( greeny );
+        greeny = new MakeMETransp().patchAlpha( greeny );
         ParticlePainter dp = new edu.colorado.phet.ohm1d.common.paint.particle.ImagePainter( greeny );
         Resistance resistance = new Resistance( CORE_START, CORE_END, numCores, wp, amplitude, freq, decay, dp, CORE_LEVEL, CORE_LEVEL_BOTTOM, cp, showCores, sys );
         //double accelInset = 35;
@@ -216,7 +194,7 @@ public class Ohm1DSimulationPanel extends JPanel {
 
         //Batt battery = (new Batt(leftSideBatt, rightSideBatt, ws, batterySpeed, 3));
         double batterySpeed = 35;//10
-        SmoothBatt battery = ( new SmoothBatt( leftSideBatt, rightSideBatt, ws, batterySpeed, 18, 75 ) );
+        SmoothBatt battery = ( new SmoothBatt( leftSideBatt, rightSideBatt, ws, batterySpeed, 18 ) );
         range.addPropagator( batt, battery );
         range.addPropagator( batt, new ResetElectron() );
         cpr.addPropagator( range );

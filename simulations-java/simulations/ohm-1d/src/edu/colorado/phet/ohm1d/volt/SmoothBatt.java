@@ -18,7 +18,7 @@ public class SmoothBatt extends Batt {
     public void coreCountChanged( int val ) {
     }
 
-    public SmoothBatt( WireRegion plus, WireRegion minus, WireSystem sys, double v, double desiredVolts, int numPoints ) {
+    public SmoothBatt( WireRegion plus, WireRegion minus, WireSystem sys, double v, double desiredVolts ) {
         super( plus, minus, sys, v, desiredVolts );
 //        this.ds = new DoubleSeries( numPoints );
         this.desiredVolts = desiredVolts;

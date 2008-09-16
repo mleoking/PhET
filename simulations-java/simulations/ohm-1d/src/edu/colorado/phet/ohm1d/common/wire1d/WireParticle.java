@@ -53,9 +53,6 @@ public class WireParticle {
         //util.Debug.traceln("vel="+v);
     }
 
-    public void setAcceleration( double a ) {
-    }
-
     public double getCharge() {
         return q;
     }
