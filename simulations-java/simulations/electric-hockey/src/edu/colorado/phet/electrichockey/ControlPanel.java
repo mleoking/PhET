@@ -1,7 +1,5 @@
 package edu.colorado.phet.electrichockey;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -12,7 +10,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 public class ControlPanel extends JPanel {
-    private ElectricHockeyApplication electricHockeyApplication;
+    private ElectricHockeySimulationPanel electricHockeySimulationPanel;
     private JButton startBtn, resetBtn;
     private JButton clearBtn; //pauseBtn;
     private JCheckBox pauseChkBox;
@@ -49,8 +47,8 @@ public class ControlPanel extends JPanel {
     private JPanel panelBottom;
     private JPanel panelBottomLeft, panelBottomRight;
 
-    public ControlPanel( final ElectricHockeyApplication electricHockeyApplication ) {
-        this.electricHockeyApplication = electricHockeyApplication;
+    public ControlPanel( final ElectricHockeySimulationPanel electricHockeySimulationPanel ) {
+        this.electricHockeySimulationPanel = electricHockeySimulationPanel;
         startBtn = new JButton( ElectricHockeyStrings.getString( "HockeyControlPanel.Start" ) );
         resetBtn = new JButton( ElectricHockeyStrings.getString( "HockeyControlPanel.Reset" ) );
         nbrTries = 0;
@@ -72,16 +70,16 @@ public class ControlPanel extends JPanel {
         positivePuck.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 boolean sel = positivePuck.isSelected();
-                Charge c = electricHockeyApplication.getModel().getPuck();
+                Charge c = electricHockeySimulationPanel.getModel().getPuck();
                 if( sel ) {
                     c.setSign( Charge.POSITIVE );
                 }
                 else {
                     c.setSign( Charge.NEGATIVE );
                 }
-                electricHockeyApplication.getPlayingField().repaint();
-                electricHockeyApplication.getModel().updatePath();
-                electricHockeyApplication.getModel().updateForceList();
+                electricHockeySimulationPanel.getPlayingField().repaint();
+                electricHockeySimulationPanel.getModel().updatePath();
+                electricHockeySimulationPanel.getModel().updateForceList();
             }
         } );
         positivePuck.setBackground( Color.yellow );
@@ -90,10 +88,10 @@ public class ControlPanel extends JPanel {
         fieldGridChkBox.setBackground( Color.yellow );
         showField = false;
 
-        final JCheckBox antialiasButton = new JCheckBox( "Antialias", electricHockeyApplication.getFieldGrid().isAntialias() );
+        final JCheckBox antialiasButton = new JCheckBox( "Antialias", electricHockeySimulationPanel.getFieldGrid().isAntialias() );
         antialiasButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                electricHockeyApplication.getFieldGrid().setAntialias( antialiasButton.isSelected() );
+                electricHockeySimulationPanel.getFieldGrid().setAntialias( antialiasButton.isSelected() );
             }
         } );
         antialiasButton.setBackground( Color.yellow );
@@ -106,7 +104,7 @@ public class ControlPanel extends JPanel {
         difficultyLbl = new JLabel( ElectricHockeyStrings.getString( "HockeyControlPanel.Difficulty" ) );
 
         String str = ElectricHockeyStrings.getString( "HockeyControlPanel.Charges" ) +
-                     electricHockeyApplication.getModel().getChargeListSize();
+                     electricHockeySimulationPanel.getModel().getChargeListSize();
 
         nbrChargesLbl = new JLabel( str );
         nbrChargesLbl.setBackground( Color.green );
@@ -221,7 +219,7 @@ public class ControlPanel extends JPanel {
             }
             resetBtn.setEnabled( true );
             startBtn.setEnabled( false );
-            electricHockeyApplication.getModel().startTimer();
+            electricHockeySimulationPanel.getModel().startTimer();
         }
     }
 
@@ -230,7 +228,7 @@ public class ControlPanel extends JPanel {
             if( aevt.getSource() == resetBtn ) {
                 prt( "Reset button pushed" );
             }
-            electricHockeyApplication.getModel().resetTimer();
+            electricHockeySimulationPanel.getModel().resetTimer();
             nbrTries += 1;
             setNbrTriesLbl();
             resetBtn.setEnabled( false );
@@ -243,7 +241,7 @@ public class ControlPanel extends JPanel {
         public void actionPerformed( ActionEvent aevt ) {
             //if(aevt.getSource() == pauseBtn){prt("Pause button pushed.");}
             if( pauseChkBox.isSelected() ) {
-                electricHockeyApplication.getModel().stopTimer();
+                electricHockeySimulationPanel.getModel().stopTimer();
                 //togglePause = false;
                 //pauseBtn.setText("Unpause");
                 startBtn.setEnabled( false );
@@ -251,7 +249,7 @@ public class ControlPanel extends JPanel {
                 clearBtn.setEnabled( false );
             }
             else {
-                electricHockeyApplication.getModel().startTimer();
+                electricHockeySimulationPanel.getModel().startTimer();
                 //togglePause = true;
                 //pauseBtn.setText("Pause");
                 startBtn.setEnabled( true );
@@ -265,17 +263,17 @@ public class ControlPanel extends JPanel {
         public void actionPerformed( ActionEvent aevt ) {
             //if(aevt.getSource() == clearBtn){prt("Clear button pushed.");}
 
-            int listLength = electricHockeyApplication.getModel().getChargeListSize();
+            int listLength = electricHockeySimulationPanel.getModel().getChargeListSize();
             prt( "ChargeList length = " + listLength );
 
             for( int i = ( listLength - 1 ); i >= 0; i-- ) {
-                electricHockeyApplication.getModel().removeChargeAt( i );
+                electricHockeySimulationPanel.getModel().removeChargeAt( i );
             }
-            electricHockeyApplication.getFieldGrid().updateGridForceArray();
-            prt( "Cleared chargelist length = " + electricHockeyApplication.getModel().getChargeListSize() );
+            electricHockeySimulationPanel.getFieldGrid().updateGridForceArray();
+            prt( "Cleared chargelist length = " + electricHockeySimulationPanel.getModel().getChargeListSize() );
 
-            electricHockeyApplication.getModel().stopTimer();
-            electricHockeyApplication.getPlayingField().paintAgain();
+            electricHockeySimulationPanel.getModel().stopTimer();
+            electricHockeySimulationPanel.getPlayingField().paintAgain();
 
         }
     }
@@ -286,8 +284,8 @@ public class ControlPanel extends JPanel {
                 //prt("CheckBox");
                 if( traceChkBox.isSelected() ) {
                     toggleTrace = true;
-                    electricHockeyApplication.getModel().setPathStarted( false );
-                    electricHockeyApplication.getModel().getPath().reset();
+                    electricHockeySimulationPanel.getModel().setPathStarted( false );
+                    electricHockeySimulationPanel.getModel().getPath().reset();
                 }
                 else {
                     toggleTrace = false;
@@ -302,11 +300,11 @@ public class ControlPanel extends JPanel {
             if( aevt.getSource() == fieldGridChkBox ) {
                 if( fieldGridChkBox.isSelected() ) {
                     showField = true;
-                    electricHockeyApplication.getPlayingField().paintAgain();
+                    electricHockeySimulationPanel.getPlayingField().paintAgain();
                 }
                 else {
                     showField = false;
-                    electricHockeyApplication.getPlayingField().paintAgain();
+                    electricHockeySimulationPanel.getPlayingField().paintAgain();
                 }
             }
         }
@@ -332,8 +330,8 @@ public class ControlPanel extends JPanel {
             }
             nbrTries = 0;
             setNbrTriesLbl();
-            electricHockeyApplication.getModel().setBarrierState( levelState );
-            electricHockeyApplication.getPlayingField().paintAgain();
+            electricHockeySimulationPanel.getModel().setBarrierState( levelState );
+            electricHockeySimulationPanel.getPlayingField().paintAgain();
         }
     }
 
@@ -342,7 +340,7 @@ public class ControlPanel extends JPanel {
             if( aevt.getSource() == massText ) {
                 try {
                     double m = Double.parseDouble( massText.getText() );
-                    electricHockeyApplication.getModel().setMass( m );
+                    electricHockeySimulationPanel.getModel().setMass( m );
                     if( m >= 1.0 && m <= 99.0 ) {
                         massSlider.setValue( (int)m );
                     }
@@ -365,7 +363,7 @@ public class ControlPanel extends JPanel {
         public void stateChanged( ChangeEvent cevt ) {
             if( cevt.getSource() == massSlider ) {
                 int m = (int)massSlider.getValue();
-                electricHockeyApplication.getModel().setMass( m );
+                electricHockeySimulationPanel.getModel().setMass( m );
                 massText.setText( new Integer( m ).toString() );
                 //prt("Mass is " + hockeyModule.getModel().getMass());
             }
