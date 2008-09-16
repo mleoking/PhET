@@ -72,16 +72,12 @@ public class EFieldSimulationPanel extends JPanel {
 
         system2D = randFact.newSystem();
 
-//        double dt = .15;
-//        int wait = 35;
         final SystemRunner systemRunner = new SystemRunner( system2D );
-//        new Thread( systemRunner ).start();
         clock.addClockListener( new ClockAdapter() {
             public void simulationTimeChanged( ClockEvent clockEvent ) {
                 systemRunner.step( clockEvent.getSimulationTimeChange() );
             }
         } );
-
 
         particlePanel = new ParticlePanel();
         BufferedImage bi = EFieldResources.loadBufferedImage( "electron9.gif" );
