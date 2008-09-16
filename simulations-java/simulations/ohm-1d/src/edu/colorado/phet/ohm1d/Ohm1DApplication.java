@@ -11,10 +11,10 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
-public class Ohm1DApplication2 extends PhetApplication {
+public class Ohm1DApplication extends PhetApplication {
     private Ohm1DModule module;
 
-    public Ohm1DApplication2( PhetApplicationConfig config ) {
+    public Ohm1DApplication( PhetApplicationConfig config ) {
         super( config );
         module = new Ohm1DModule( config );
         addModule( module );
@@ -25,7 +25,7 @@ public class Ohm1DApplication2 extends PhetApplication {
             super( commandLineArgs, new FrameSetup.CenteredWithSize( Ohm1DSimulationPanel.BASE_FRAME_WIDTH, 660 ), new PhetResources( "ohm-1d" ) );
             super.setApplicationConstructor( new ApplicationConstructor() {
                 public PhetApplication getApplication( PhetApplicationConfig config ) {
-                    return new Ohm1DApplication2( config );
+                    return new Ohm1DApplication( config );
                 }
             } );
             super.setLookAndFeel( new PhetLookAndFeel() );
