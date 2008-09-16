@@ -245,7 +245,6 @@ public class Model {
     public void startTimer() {
         timer.start();
         puckMoving = true;
-        prt( "Timer started" );
     }
 
     public void stopTimer() {
@@ -272,7 +271,6 @@ public class Model {
         starting = true;
         goalState = false;
         collisionState = false;
-        prt( "positivePuckImage reset y = " + puckPosition2D.getY() );
         electricHockeySimulationPanel.getPlayingField().paintAgain();
     }
 
@@ -288,7 +286,6 @@ public class Model {
             //prt("x=" + x);
             if ( x > 0 && x < fieldWidth && y > 0 && y < fieldHeight ) {
                 if ( BarrierList.currentCollisionArray[x][y] == 1 ) {
-                    prt( "Collision!" );
                     collisionState = true;
                     if ( electricHockeySimulationPanel.getCork() != null ) {
                         electricHockeySimulationPanel.getCork().play();
@@ -298,7 +295,6 @@ public class Model {
                 }
             }
             if ( electricHockeySimulationPanel.getPlayingField().goal.contains( puck.getPosition() ) ) {
-                prt( "Goal!" );
                 goalState = true;
                 if ( electricHockeySimulationPanel.getTada() != null ) {
                     electricHockeySimulationPanel.getTada().play();
@@ -325,8 +321,4 @@ public class Model {
         return puckMoving;
     }
 
-    public void prt( String str ) {
-        System.out.println( str );
-    }
-
-}//end of public class
+}

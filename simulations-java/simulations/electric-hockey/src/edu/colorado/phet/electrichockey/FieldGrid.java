@@ -69,7 +69,6 @@ public class FieldGrid //extends JLabel
                     colorFactor = 255;                //white
                 }
                 Color gridColor = new Color( colorFactor, colorFactor, colorFactor );
-                //System.out.println("edu.colorado.phet.ehockey.Force = " + (int)forceMag + "  Factor = " + forceFactor);
                 gridForceArray[i][j] = new Force( gridForceFactor * gridIJNetX / forceMag, gridForceFactor * gridIJNetY / forceMag, gridChargeArray[i][j], gridColor );
             }
         }
