@@ -4,6 +4,13 @@
 
 package edu.colorado.phet.efield.electron.gui.addRemove;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Vector;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.efield.electron.core.ParticleContainer;
 import edu.colorado.phet.efield.electron.core.ParticleFactory;
@@ -13,12 +20,6 @@ import edu.colorado.phet.efield.electron.gui.media.EFieldResettable;
 import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
 import edu.colorado.phet.efield.electron.phys2d_efield.System2D;
 import edu.colorado.phet.efield.electron.utils.Debug;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Vector;
 
 // Referenced classes of package edu.colorado.phet.efield.electron.gui.addRemove:
 //            SystemAdapter, PanelAdapter
@@ -64,9 +65,9 @@ public class AddRemove
         containers = new Vector();
         add( new SystemAdapter( system2d ) );
         add( new PanelAdapter( particlepanel, painter ) );
-        for( int i = 0; i < system2d.numLaws(); i++ ) {
-            if( system2d.lawAt( i ) instanceof ParticleContainer ) {
-                add( (ParticleContainer)system2d.lawAt( i ) );
+        for ( int i = 0; i < system2d.numLaws(); i++ ) {
+            if ( system2d.lawAt( i ) instanceof ParticleContainer ) {
+                add( (ParticleContainer) system2d.lawAt( i ) );
             }
         }
 
@@ -85,12 +86,12 @@ public class AddRemove
     }
 
     public ParticleContainer containerAt( int i ) {
-        return (ParticleContainer)containers.get( i );
+        return (ParticleContainer) containers.get( i );
     }
 
     public void addElectron() {
         Particle particle = pf.newParticle();
-        for( int i = 0; i < containers.size(); i++ ) {
+        for ( int i = 0; i < containers.size(); i++ ) {
             ParticleContainer particlecontainer = containerAt( i );
             Debug.traceln( "Adding to: " + particlecontainer );
             particlecontainer.add( particle );
@@ -101,18 +102,18 @@ public class AddRemove
     }
 
     public void remove() {
-        if( electrons.size() == 0 ) {
+        if ( electrons.size() == 0 ) {
             return;
         }
         else {
-            Particle particle = (Particle)electrons.lastElement();
+            Particle particle = (Particle) electrons.lastElement();
             remove( particle );
             return;
         }
     }
 
     public void remove( Particle particle ) {
-        for( int i = 0; i < containers.size(); i++ ) {
+        for ( int i = 0; i < containers.size(); i++ ) {
             containerAt( i ).remove( particle );
         }
 

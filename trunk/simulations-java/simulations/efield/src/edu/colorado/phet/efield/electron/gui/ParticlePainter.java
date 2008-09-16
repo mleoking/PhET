@@ -4,9 +4,9 @@
 
 package edu.colorado.phet.efield.electron.gui;
 
-import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
-
 import java.awt.*;
+
+import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
 
 public interface ParticlePainter {
 

@@ -16,7 +16,7 @@ public class Averager
     public void update( double d ) {
         sum += d;
         num++;
-        average = sum / (double)num;
+        average = sum / (double) num;
     }
 
     public double value() {

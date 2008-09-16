@@ -34,15 +34,15 @@ public class CoulombsLaw
         DoublePoint doublepoint1 = particle1.getPosition();
         doublepoint2 = doublepoint.subtract( doublepoint1 );
         double d = doublepoint2.getLength();
-        if( d < minDist ) {
+        if ( d < minDist ) {
             d = minDist;
         }
-        if( d > range ) {
+        if ( d > range ) {
             return new DoublePoint( 0.0D, 0.0D );
         }
         double d1 = Math.pow( d, 3D );
         d2 = ( -k * particle.getCharge() * particle1.getCharge() ) / d1;
-        if( Double.isInfinite( d2 ) || Double.isNaN( d2 ) || Double.isNaN( doublepoint2.getX() ) || Double.isNaN( doublepoint2.getY() ) ) {
+        if ( Double.isInfinite( d2 ) || Double.isNaN( d2 ) || Double.isNaN( doublepoint2.getX() ) || Double.isNaN( doublepoint2.getY() ) ) {
             return new DoublePoint();
         }
         DoublePoint doublepoint3 = doublepoint2.multiply( d2 );

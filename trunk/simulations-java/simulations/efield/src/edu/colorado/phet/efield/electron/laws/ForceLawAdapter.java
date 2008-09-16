@@ -19,7 +19,7 @@ public class ForceLawAdapter extends ParticleList
     public ForceLawAdapter( Particle aparticle[], MyForceLaw forcelaw ) {
         addAll( aparticle );
         law = forcelaw;
-        if( forcelaw == null ) {
+        if ( forcelaw == null ) {
             throw new RuntimeException( "Law is null." );
         }
         else {
@@ -32,10 +32,10 @@ public class ForceLawAdapter extends ParticleList
     }
 
     public void iterate( double d, System2D system2d ) {
-        for( int i = 0; i < numParticles(); i++ ) {
+        for ( int i = 0; i < numParticles(); i++ ) {
             DoublePoint doublepoint = new DoublePoint();
-            for( int j = 0; j < numParticles(); j++ ) {
-                if( i != j ) {
+            for ( int j = 0; j < numParticles(); j++ ) {
+                if ( i != j ) {
                     doublepoint = doublepoint.add( law.getForce( particleAt( j ), particleAt( i ) ) );
                 }
             }

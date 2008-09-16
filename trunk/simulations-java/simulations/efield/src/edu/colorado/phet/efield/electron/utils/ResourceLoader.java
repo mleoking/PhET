@@ -22,7 +22,7 @@ public class ResourceLoader {
     public static BufferedImage loadBufferedImage( String s, Component component, boolean flag ) throws InterruptedException {
         URL url = findResource( s, component );
         Image image = component.getToolkit().createImage( url );
-        if( flag ) {
+        if ( flag ) {
             return ImageConverter.toBufferedImageARGB( image, component );
         }
         return ImageConverter.toBufferedImageRGB( image, component );

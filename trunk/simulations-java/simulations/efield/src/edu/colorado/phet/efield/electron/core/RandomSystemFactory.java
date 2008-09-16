@@ -4,6 +4,9 @@
 
 package edu.colorado.phet.efield.electron.core;
 
+import java.util.Random;
+import java.util.Vector;
+
 import edu.colorado.phet.efield.electron.gui.ParticlePainter;
 import edu.colorado.phet.efield.electron.gui.ParticlePanel;
 import edu.colorado.phet.efield.electron.gui.RepaintLaw;
@@ -15,9 +18,6 @@ import edu.colorado.phet.efield.electron.phys2d_efield.propagators.FourBounds;
 import edu.colorado.phet.efield.electron.phys2d_efield.propagators.PositionUpdate;
 import edu.colorado.phet.efield.electron.phys2d_efield.propagators.ResetAcceleration;
 import edu.colorado.phet.efield.electron.phys2d_efield.propagators.VelocityUpdate;
-
-import java.util.Random;
-import java.util.Vector;
 
 // Referenced classes of package edu.colorado.phet.efield.electron.core:
 //            ParticleContainer, SystemFactory
@@ -50,7 +50,7 @@ public class RandomSystemFactory
         Random random = new Random( seed );
         System2D system2d = new System2D();
         Vector vector = new Vector();
-        for( int i = 0; i < numParticles; i++ ) {
+        for ( int i = 0; i < numParticles; i++ ) {
             int j = random.nextInt( width ) + minX;
             int k = random.nextInt( height ) + minY;
             Particle particle = newParticle( j, k, -1D );
@@ -58,15 +58,15 @@ public class RandomSystemFactory
             vector.add( particle );
         }
 
-        Particle aparticle[] = (Particle[])vector.toArray( new Particle[vector.size()] );
+        Particle aparticle[] = (Particle[]) vector.toArray( new Particle[vector.size()] );
         system2d.addLaw( new ResetAcceleration() );
         system2d.addLaw( new FourBounds( minX, minY, width, height, 1.2D ) );
-        for( int l = 0; l < forceLaws.size(); l++ ) {
-            Law law = (Law)forceLaws.get( l );
+        for ( int l = 0; l < forceLaws.size(); l++ ) {
+            Law law = (Law) forceLaws.get( l );
             system2d.addLaw( law );
-            if( law instanceof ParticleContainer ) {
-                for( int i1 = 0; i1 < aparticle.length; i1++ ) {
-                    ( (ParticleContainer)law ).add( aparticle[i1] );
+            if ( law instanceof ParticleContainer ) {
+                for ( int i1 = 0; i1 < aparticle.length; i1++ ) {
+                    ( (ParticleContainer) law ).add( aparticle[i1] );
                 }
 
             }

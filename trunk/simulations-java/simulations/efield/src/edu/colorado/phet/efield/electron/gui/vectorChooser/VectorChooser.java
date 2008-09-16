@@ -4,14 +4,15 @@
 
 package edu.colorado.phet.efield.electron.gui.vectorChooser;
 
-import edu.colorado.phet.efield.electron.phys2d_efield.DoublePoint;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Vector;
+
+import javax.swing.*;
+
+import edu.colorado.phet.efield.electron.phys2d_efield.DoublePoint;
 
 // Referenced classes of package edu.colorado.phet.efield.electron.gui.vectorChooser:
 //            VectorListener, VectorPainter
@@ -52,14 +53,14 @@ public class VectorChooser extends JPanel
         int l = height / 2;
         dx = i - k;
         dy = j - l;
-        vec = new DoublePoint( (double)dx * scaleX, (double)dy * scaleY );
+        vec = new DoublePoint( (double) dx * scaleX, (double) dy * scaleY );
         repaint();
         informListeners( vec );
     }
 
     private void informListeners( DoublePoint doublepoint ) {
-        for( int i = 0; i < vectorListeners.size(); i++ ) {
-            ( (VectorListener)vectorListeners.get( i ) ).vectorChanged( doublepoint );
+        for ( int i = 0; i < vectorListeners.size(); i++ ) {
+            ( (VectorListener) vectorListeners.get( i ) ).vectorChanged( doublepoint );
         }
 
     }
@@ -78,11 +79,11 @@ public class VectorChooser extends JPanel
     }
 
     public void paintComponent( Graphics g ) {
-        Graphics2D g2 = (Graphics2D)g;
+        Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         super.paintComponent( g );
 
-        vp.paint( (Graphics2D)g, width / 2, height / 2, dx, dy );
+        vp.paint( (Graphics2D) g, width / 2, height / 2, dx, dy );
     }
 
     int width;

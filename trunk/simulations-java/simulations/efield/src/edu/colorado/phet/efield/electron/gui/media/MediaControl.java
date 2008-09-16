@@ -4,17 +4,18 @@
 
 package edu.colorado.phet.efield.electron.gui.media;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.util.Vector;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.efield.electron.core.SystemFactory;
 import edu.colorado.phet.efield.electron.gui.ParticlePainter;
 import edu.colorado.phet.efield.electron.gui.ParticlePanel;
 import edu.colorado.phet.efield.electron.phys2d_efield.SystemRunner;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.util.Vector;
 
 // Referenced classes of package edu.colorado.phet.efield.electron.gui.media:
 //            SelectableJButton, Resettable
@@ -103,8 +104,8 @@ public class MediaControl {
         system.setSystem( system2d );
         resetter.updatePanel( pp, system2d, painter );
         pp.repaint();
-        for( int i = 0; i < resettables.size(); i++ ) {
-            EFieldResettable EFieldResettable = (EFieldResettable)resettables.get( i );
+        for ( int i = 0; i < resettables.size(); i++ ) {
+            EFieldResettable EFieldResettable = (EFieldResettable) resettables.get( i );
             EFieldResettable.fireResetAction( system2d, pp );
         }
 

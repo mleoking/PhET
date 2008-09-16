@@ -4,13 +4,13 @@
 
 package edu.colorado.phet.efield.electron.particleFactory;
 
+import java.awt.*;
+import java.util.Random;
+
 import edu.colorado.phet.efield.electron.core.ParticleFactory;
 import edu.colorado.phet.efield.electron.phys2d_efield.DoublePoint;
 import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
 import edu.colorado.phet.efield.electron.utils.Debug;
-
-import java.awt.*;
-import java.util.Random;
 
 // Referenced classes of package edu.colorado.phet.efield.electron.particleFactory:
 //            ParticlePropertyListener

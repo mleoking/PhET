@@ -4,10 +4,10 @@
 
 package edu.colorado.phet.efield.electron.gui;
 
+import java.awt.*;
+
 import edu.colorado.phet.efield.electron.phys2d_efield.Law;
 import edu.colorado.phet.efield.electron.phys2d_efield.System2D;
-
-import java.awt.*;
 
 public class RepaintLaw
         implements Law {

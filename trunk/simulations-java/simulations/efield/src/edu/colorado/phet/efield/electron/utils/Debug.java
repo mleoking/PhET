@@ -22,7 +22,7 @@ public class Debug {
 
     private static Vector toVector( Enumeration enumeration ) {
         Vector vector = new Vector();
-        for( ; enumeration.hasMoreElements(); vector.add( enumeration.nextElement() ) ) {
+        for ( ; enumeration.hasMoreElements(); vector.add( enumeration.nextElement() ) ) {
             ;
         }
         return vector;
@@ -36,7 +36,7 @@ public class Debug {
         String s = stringwriter.toString();
         StringTokenizer stringtokenizer = new StringTokenizer( s );
         Vector vector = toVector( stringtokenizer );
-        for( int k = 0; k < Math.min( i, vector.size() ); k++ ) {
+        for ( int k = 0; k < Math.min( i, vector.size() ); k++ ) {
             int l = k * 2 + j;
             System.out.println( vector.elementAt( l ) );
         }
