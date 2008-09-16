@@ -15,6 +15,7 @@ import javax.swing.border.Border;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.piccolophet.nodes.LiquidExpansionThermometerNode;
+import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.Glacier;
 import edu.colorado.phet.glaciers.model.Thermometer;
@@ -152,8 +153,16 @@ public class ThermometerNode extends AbstractToolNode {
             EasyGridBagLayout layout = new EasyGridBagLayout( panel );
             layout.setAnchor( GridBagConstraints.EAST );
             panel.setLayout( layout );
-            layout.addComponent( _celsiusLabel, 0, 0 );
-            layout.addComponent( _fahrenheitLabel, 1, 0 );
+            if ( GlaciersConstants.DEFAULT_TO_ENGLISH_UNITS ) {
+                // Fahrenheit on top
+                layout.addComponent( _fahrenheitLabel, 0, 0 );
+                layout.addComponent( _celsiusLabel, 1, 0 );
+            }
+            else {
+                // Celsius on top
+                layout.addComponent( _celsiusLabel, 0, 0 );
+                layout.addComponent( _fahrenheitLabel, 1, 0 );
+            }
             
             _pswing = new PSwing( panel );
             addChild( _pswing );
