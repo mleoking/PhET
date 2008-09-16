@@ -1,13 +1,14 @@
 package edu.colorado.phet.electrichockey;
 
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class ControlPanel extends JPanel {
     private ElectricHockeySimulationPanel electricHockeySimulationPanel;
@@ -71,7 +72,7 @@ public class ControlPanel extends JPanel {
             public void actionPerformed( ActionEvent e ) {
                 boolean sel = positivePuck.isSelected();
                 Charge c = electricHockeySimulationPanel.getModel().getPuck();
-                if( sel ) {
+                if ( sel ) {
                     c.setSign( Charge.POSITIVE );
                 }
                 else {
@@ -214,7 +215,7 @@ public class ControlPanel extends JPanel {
 
     private class StartBtnHandler implements ActionListener {
         public void actionPerformed( ActionEvent aevt ) {
-            if( aevt.getSource() == startBtn ) {
+            if ( aevt.getSource() == startBtn ) {
                 prt( "Start button pushed" );
             }
             resetBtn.setEnabled( true );
@@ -225,7 +226,7 @@ public class ControlPanel extends JPanel {
 
     private class ResetBtnHandler implements ActionListener {
         public void actionPerformed( ActionEvent aevt ) {
-            if( aevt.getSource() == resetBtn ) {
+            if ( aevt.getSource() == resetBtn ) {
                 prt( "Reset button pushed" );
             }
             electricHockeySimulationPanel.getModel().resetTimer();
@@ -240,7 +241,7 @@ public class ControlPanel extends JPanel {
     private class PauseChkBoxHandler implements ActionListener {
         public void actionPerformed( ActionEvent aevt ) {
             //if(aevt.getSource() == pauseBtn){prt("Pause button pushed.");}
-            if( pauseChkBox.isSelected() ) {
+            if ( pauseChkBox.isSelected() ) {
                 electricHockeySimulationPanel.getModel().stopTimer();
                 //togglePause = false;
                 //pauseBtn.setText("Unpause");
@@ -266,7 +267,7 @@ public class ControlPanel extends JPanel {
             int listLength = electricHockeySimulationPanel.getModel().getChargeListSize();
             prt( "ChargeList length = " + listLength );
 
-            for( int i = ( listLength - 1 ); i >= 0; i-- ) {
+            for ( int i = ( listLength - 1 ); i >= 0; i-- ) {
                 electricHockeySimulationPanel.getModel().removeChargeAt( i );
             }
             electricHockeySimulationPanel.getFieldGrid().updateGridForceArray();
@@ -280,9 +281,9 @@ public class ControlPanel extends JPanel {
 
     private class TraceChkBoxHandler implements ActionListener {
         public void actionPerformed( ActionEvent aevt ) {
-            if( aevt.getSource() == traceChkBox ) {
+            if ( aevt.getSource() == traceChkBox ) {
                 //prt("CheckBox");
-                if( traceChkBox.isSelected() ) {
+                if ( traceChkBox.isSelected() ) {
                     toggleTrace = true;
                     electricHockeySimulationPanel.getModel().setPathStarted( false );
                     electricHockeySimulationPanel.getModel().getPath().reset();
@@ -297,8 +298,8 @@ public class ControlPanel extends JPanel {
 
     private class FieldGridChkBoxHandler implements ActionListener {
         public void actionPerformed( ActionEvent aevt ) {
-            if( aevt.getSource() == fieldGridChkBox ) {
-                if( fieldGridChkBox.isSelected() ) {
+            if ( aevt.getSource() == fieldGridChkBox ) {
+                if ( fieldGridChkBox.isSelected() ) {
                     showField = true;
                     electricHockeySimulationPanel.getPlayingField().paintAgain();
                 }
@@ -312,19 +313,19 @@ public class ControlPanel extends JPanel {
 
     private class LevelBtnHandler implements ItemListener {
         public void itemStateChanged( ItemEvent ie ) {
-            if( ie.getSource() == radio0 ) {
+            if ( ie.getSource() == radio0 ) {
                 //prt("Practice pushed");
                 levelState = LEVEL_0;
             }
-            else if( ie.getSource() == radio1 ) {
+            else if ( ie.getSource() == radio1 ) {
                 //prt("Level 1 pushed");
                 levelState = LEVEL_1;
             }
-            else if( ie.getSource() == radio2 ) {
+            else if ( ie.getSource() == radio2 ) {
                 //prt("Level 2 pushed");
                 levelState = LEVEL_2;
             }
-            else if( ie.getSource() == radio3 ) {
+            else if ( ie.getSource() == radio3 ) {
                 //prt("Level 3 pushed");
                 levelState = LEVEL_3;
             }
@@ -337,17 +338,17 @@ public class ControlPanel extends JPanel {
 
     private class MassTextListener implements ActionListener {
         public void actionPerformed( ActionEvent aevt ) {
-            if( aevt.getSource() == massText ) {
+            if ( aevt.getSource() == massText ) {
                 try {
                     double m = Double.parseDouble( massText.getText() );
                     electricHockeySimulationPanel.getModel().setMass( m );
-                    if( m >= 1.0 && m <= 99.0 ) {
-                        massSlider.setValue( (int)m );
+                    if ( m >= 1.0 && m <= 99.0 ) {
+                        massSlider.setValue( (int) m );
                     }
-                    else if( m < 1.0 ) {
+                    else if ( m < 1.0 ) {
                         massSlider.setValue( 1 );
                     }
-                    else if( m > 100.0 ) {
+                    else if ( m > 100.0 ) {
                         massSlider.setValue( 99 );
                     }
 
@@ -361,8 +362,8 @@ public class ControlPanel extends JPanel {
 
     private class SliderHandler implements ChangeListener {
         public void stateChanged( ChangeEvent cevt ) {
-            if( cevt.getSource() == massSlider ) {
-                int m = (int)massSlider.getValue();
+            if ( cevt.getSource() == massSlider ) {
+                int m = (int) massSlider.getValue();
                 electricHockeySimulationPanel.getModel().setMass( m );
                 massText.setText( new Integer( m ).toString() );
                 //prt("Mass is " + hockeyModule.getModel().getMass());

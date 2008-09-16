@@ -98,26 +98,26 @@ public class BarrierList {
 
     public static int[][] makeCollisionArray( Rectangle[] rectArray ) {
         //grow wall rectangles to collision rectangles
-        for( int k = 0; k < rectArray.length; k++ ) {
+        for ( int k = 0; k < rectArray.length; k++ ) {
             int r = 8; //edu.colorado.phet.ehockey.BarrierMaker.radius;
             rectArray[k].grow( r, r );
         }
 
         int[][] collisionArray = new int[fullWidth][fullHeight];
 
-        for( int i = 0; i < collisionArray.length; i++ ) {
-            for( int j = 0; j < collisionArray[0].length; j++ ) {
+        for ( int i = 0; i < collisionArray.length; i++ ) {
+            for ( int j = 0; j < collisionArray[0].length; j++ ) {
                 Point pt = new Point( i, j );
                 boolean isInside = false;
 
-                for( int k = 0; k < rectArray.length; k++ ) {
+                for ( int k = 0; k < rectArray.length; k++ ) {
 
-                    if( rectArray[k].contains( pt ) ) {
+                    if ( rectArray[k].contains( pt ) ) {
                         isInside = true;
                         break;
                     }
                 }
-                if( isInside ) {
+                if ( isInside ) {
                     collisionArray[i][j] = 1;
                     //System.out.print("*");
                 }
