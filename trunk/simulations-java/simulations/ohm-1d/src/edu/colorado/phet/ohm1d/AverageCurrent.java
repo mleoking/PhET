@@ -16,7 +16,7 @@ import edu.colorado.phet.ohm1d.volt.WireRegion;
 /**
  * Sets the value of the gauge.
  */
-public class AverageCurrent2 implements Law, VoltageListener, CoreCountListener {
+public class AverageCurrent implements Law, VoltageListener, CoreCountListener {
     ArrayList al = new ArrayList();
     IGauge ig;
     DoubleSeries ds;
@@ -37,7 +37,7 @@ public class AverageCurrent2 implements Law, VoltageListener, CoreCountListener 
         this.voltage = x;
     }
 
-    public AverageCurrent2( IGauge ig, int numPoints, WireRegion region ) {
+    public AverageCurrent( IGauge ig, int numPoints, WireRegion region ) {
         this.region = region;
         ds = new DoubleSeries( numPoints );
         this.ig = ig;
