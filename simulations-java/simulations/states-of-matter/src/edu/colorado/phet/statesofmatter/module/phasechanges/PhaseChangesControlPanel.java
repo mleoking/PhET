@@ -24,7 +24,6 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
-import edu.colorado.phet.statesofmatter.control.GravityControlPanel;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
 
@@ -88,9 +87,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
         // Add the panel that allows the user to select molecule type.
         addControlFullWidth( new MoleculeSelectionPanel() );
         
-        // Add the panel that allows the user to control the amount of gravity.
-        addControlFullWidth( new GravityControlPanel( m_model ) );
-        
+        // Add a little spacing.
         addVerticalSpace( 10 );
         
         // Add the button that allows the user to turn the phase diagram on/off.

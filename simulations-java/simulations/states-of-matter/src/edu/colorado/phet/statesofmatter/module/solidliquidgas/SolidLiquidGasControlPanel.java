@@ -23,12 +23,10 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
-import edu.colorado.phet.statesofmatter.control.GravityControlPanel;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
 
@@ -47,7 +45,6 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
     
     MultipleParticleModel m_model;
     ChangeStateControlPanel m_stateSelectionPanel;
-    LinearValueControl m_gravityControl;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -74,9 +71,6 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
         // Add the panel that allows the user to select the phase state.
         m_stateSelectionPanel = new ChangeStateControlPanel();
         addControlFullWidth( m_stateSelectionPanel );
-        
-        // Add the panel that allows the user to control the system temperature.
-        addControlFullWidth( new GravityControlPanel(m_model) );
         
         // Add the Reset All button.
         addVerticalSpace( 10 );
@@ -226,7 +220,7 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
                     }
                 }
             } );
-            m_waterRadioButton = new JRadioButton( "Water" ); // TODO: JPB TBD - Make into a string resource if kept.
+            m_waterRadioButton = new JRadioButton( StatesOfMatterStrings.WATER_SELECTION_LABEL );
             m_waterRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
             m_waterRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
