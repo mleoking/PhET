@@ -30,12 +30,12 @@ public class DefaultCollisionEvent implements CollisionEvent, Law {
 
     public void collide( Core c, Electron wp ) {
         double dx = c.getScalarPosition() - wp.getPosition();
-        Oscillate osc = (Oscillate)c.getPropagator();
+        Oscillate osc = (Oscillate) c.getPropagator();
         //System.err.println("DX="+dx);
         double v = wp.getVelocity();
-        if( Math.abs( dx ) < distThreshold ) {
-            if( osc.getAmplitude() < amplitudeThreshold ) {
-                if( wp.getLastCollision() != c ) {
+        if ( Math.abs( dx ) < distThreshold ) {
+            if ( osc.getAmplitude() < amplitudeThreshold ) {
+                if ( wp.getLastCollision() != c ) {
                     //wp.setAcceleration(0);
                     //wp.setPosition(10);
                     //System.err.println("Collision!");
@@ -47,7 +47,7 @@ public class DefaultCollisionEvent implements CollisionEvent, Law {
                     wp.setLastCollision( c, time );
                 }
             }
-            else if( v >= velocityToZero ) {
+            else if ( v >= velocityToZero ) {
                 //wp.setVelocity(0);
                 wp.setCollided( true );
             }

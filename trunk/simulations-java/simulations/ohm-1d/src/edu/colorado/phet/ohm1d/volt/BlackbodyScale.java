@@ -1,10 +1,10 @@
 package edu.colorado.phet.ohm1d.volt;
 
-import edu.colorado.phet.ohm1d.common.paint.Painter;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+
+import edu.colorado.phet.ohm1d.common.paint.Painter;
 
 /**
  * Created by IntelliJ IDEA.

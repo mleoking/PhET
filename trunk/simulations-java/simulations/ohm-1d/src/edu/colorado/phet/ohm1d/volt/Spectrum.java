@@ -7,11 +7,11 @@
  */
 package edu.colorado.phet.ohm1d.volt;
 
-import edu.colorado.phet.ohm1d.common.utils.DoubleSeries;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Vector;
+
+import edu.colorado.phet.ohm1d.common.utils.DoubleSeries;
 
 public class Spectrum implements ColorMap {
     BufferedImage bi;
@@ -26,40 +26,40 @@ public class Spectrum implements ColorMap {
     }
 
     public Color toColor( double ratio ) {
-        if( ratio < 0 ) {
+        if ( ratio < 0 ) {
             ratio = 0;
         }
-        if( ratio > 1 ) {
+        if ( ratio > 1 ) {
             ratio = 1;
         }
         //System.err.println("Ratio="+ratio);
         series.add( ratio );
         ratio = series.average();
-        int x = (int)( bi.getWidth() * ratio );
-        if( x < 0 ) {
+        int x = (int) ( bi.getWidth() * ratio );
+        if ( x < 0 ) {
             x = 0;
         }
-        if( x >= bi.getWidth() ) {
+        if ( x >= bi.getWidth() ) {
             x = bi.getWidth() - 1;
         }
         int[] rgb = new int[4];
         rgb = bi.getRaster().getPixel( x, 0, rgb );
         double average = ratio;
-        if( lastAverage == average ) {
+        if ( lastAverage == average ) {
             numSame++;
         }
         else {
             numSame = 0;
         }
         lastAverage = average;
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ( (PowerListener)( listeners.get( i ) ) ).powerChanged( average );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (PowerListener) ( listeners.get( i ) ) ).powerChanged( average );
         }
         return new Color( rgb[0], rgb[1], rgb[2] );
     }
 
     public boolean isChanging() {
-        if( numSame < series.numElements() ) {
+        if ( numSame < series.numElements() ) {
             return true;
         }
         else {

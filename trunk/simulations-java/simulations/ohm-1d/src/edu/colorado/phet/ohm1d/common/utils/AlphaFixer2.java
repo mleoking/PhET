@@ -22,9 +22,9 @@ public class AlphaFixer2 extends LookupTable {
     public int[] lookupPixel( int[] src, int[] dst ) {
         //util.Debug.traceln("Looking up source="+toString(src));
         //util.Debug.traceln("Match="+toString(match));
-        if( isWhite( src ) ) {
+        if ( isWhite( src ) ) {
             //util.Debug.traceln("Returning alpha.");
-            for( int i = 0; i < dst.length; i++ ) {
+            for ( int i = 0; i < dst.length; i++ ) {
                 dst[i] = ALPHA[i];
             }
             return dst;

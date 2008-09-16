@@ -15,11 +15,11 @@ public class CoulombForce implements Force1d {
 
     public double getForce( WireParticle wp ) {
         double sum = 0;
-        for( int i = 0; i < sys.numParticles(); i++ ) {
+        for ( int i = 0; i < sys.numParticles(); i++ ) {
             WireParticle p = sys.particleAt( i );
             //System.err.println("i="+i+", p="+p+", wp="+wp);
-            if( p != wp ) {
-                if( p.getWirePatch() == wp.getWirePatch() ) {
+            if ( p != wp ) {
+                if ( p.getWirePatch() == wp.getWirePatch() ) {
                     sum += params.getForce( p, wp );
                 }
                 else {

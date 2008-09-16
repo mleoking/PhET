@@ -18,14 +18,14 @@ public class TextPainter implements Painter {
     }
 
     public void setPosition( double x, double y ) {
-        this.x = (float)x;
-        this.y = (float)y;
+        this.x = (float) x;
+        this.y = (float) y;
     }
 
     public void paint( Graphics2D g ) {
         g.setColor( c );
         g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-        if( f != null ) {
+        if ( f != null ) {
             g.setFont( f );
         }
         g.drawString( text, x, y );

@@ -51,8 +51,8 @@ public class ImageGauge implements IGauge {
         double yD = length * Math.cos( theta );
         //util.Debug.traceln("XD="+xD);
         //util.Debug.traceln("yD="+yD);
-        int endX = x + (int)xD + lineX;
-        int endY = y - (int)yD + lineY;
+        int endX = x + (int) xD + lineX;
+        int endY = y - (int) yD + lineY;
         //util.Debug.traceln(helper.ArraysHelper.toString(new int[]{x,y,endX,endY}));
         g.setColor( new Color( 240, 20, 120 ) );
         g.setStroke( new BasicStroke( 5 ) );

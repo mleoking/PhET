@@ -1,8 +1,8 @@
 package edu.colorado.phet.ohm1d.common.wire1d;
 
-import edu.colorado.phet.ohm1d.common.phys2d.DoublePoint;
-
 import java.util.Vector;
+
+import edu.colorado.phet.ohm1d.common.phys2d.DoublePoint;
 
 /**
  * Represents a single path along wires and tools for creating that path.
@@ -25,14 +25,14 @@ public class WirePatch {
 
     public DoublePoint getPosition( double dist ) {
         double length = getLength();
-        while( dist > length ) {
+        while ( dist > length ) {
             dist -= length;
         }
-        while( dist < 0 ) {
+        while ( dist < 0 ) {
             dist += length;
         }
-        for( int i = 0; i < numSegments(); i++ ) {
-            if( segmentAt( i ).contains( dist ) ) {
+        for ( int i = 0; i < numSegments(); i++ ) {
+            if ( segmentAt( i ).contains( dist ) ) {
                 //util.Debug.traceln("Contained at segment: "+i+", segment="+segmentAt(i));
                 return segmentAt( i ).getPosition( dist );
             }
@@ -44,7 +44,7 @@ public class WirePatch {
      * Attach to the previous wire.
      */
     public void add( double x, double y ) {
-        if( segments.size() == 0 ) {
+        if ( segments.size() == 0 ) {
             throw new RuntimeException( "No wires specified." );
         }
         DoublePoint start = segmentAt( segments.size() - 1 ).getFinish();
@@ -65,7 +65,7 @@ public class WirePatch {
      * Start the system.
      */
     public void add( double x, double y, double dx, double dy ) {
-        if( segments.size() != 0 ) {
+        if ( segments.size() != 0 ) {
             throw new RuntimeException( "Already started." );
         }
         DoublePoint start = new DoublePoint( x, y );
@@ -82,7 +82,7 @@ public class WirePatch {
 
     public double totalDistance() {
         double x = 0;
-        for( int i = 0; i < numSegments(); i++ ) {
+        for ( int i = 0; i < numSegments(); i++ ) {
             x += segmentAt( i ).length();
         }
         return x;
@@ -93,6 +93,6 @@ public class WirePatch {
     }
 
     public WireSegment segmentAt( int i ) {
-        return (WireSegment)segments.get( i );
+        return (WireSegment) segments.get( i );
     }
 }

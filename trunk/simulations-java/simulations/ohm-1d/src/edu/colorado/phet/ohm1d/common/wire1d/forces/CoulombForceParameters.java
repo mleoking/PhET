@@ -23,15 +23,15 @@ public class CoulombForceParameters {
         double dx = sourceX - testX;
         double r = Math.abs( dx );
 
-        if( r < minDist ) {
+        if ( r < minDist ) {
             r = minDist;
         }
-        else if( r > maxDist ) {
+        else if ( r > maxDist ) {
             r = maxDist;
         }
         //System.err.println("P="+i);
         double term = k * Math.pow( r, power ) * sourceQ * testQ;
-        if( dx > 0 ) {
+        if ( dx > 0 ) {
             term *= -1;
         }
 

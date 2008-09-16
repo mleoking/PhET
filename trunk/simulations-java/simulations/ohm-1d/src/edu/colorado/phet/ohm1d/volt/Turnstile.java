@@ -1,12 +1,12 @@
 package edu.colorado.phet.ohm1d.volt;
 
-import edu.colorado.phet.ohm1d.common.paint.Painter;
-import edu.colorado.phet.ohm1d.common.phys2d.Law;
-import edu.colorado.phet.ohm1d.common.phys2d.System2D;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+
+import edu.colorado.phet.ohm1d.common.paint.Painter;
+import edu.colorado.phet.ohm1d.common.phys2d.Law;
+import edu.colorado.phet.ohm1d.common.phys2d.System2D;
 
 /**
  * Created by IntelliJ IDEA.

@@ -1,8 +1,8 @@
 package edu.colorado.phet.ohm1d.common.paint.vector;
 
-import edu.colorado.phet.ohm1d.common.paint.Painter;
-
 import java.awt.*;
+
+import edu.colorado.phet.ohm1d.common.paint.Painter;
 
 public class VectorPainterAdapter implements Painter {
     VectorPainter vp;

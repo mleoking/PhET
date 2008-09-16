@@ -1,11 +1,11 @@
 package edu.colorado.phet.ohm1d.volt;
 
+import java.util.Vector;
+
 import edu.colorado.phet.ohm1d.common.wire1d.Force1d;
 import edu.colorado.phet.ohm1d.common.wire1d.Propagator1d;
 import edu.colorado.phet.ohm1d.common.wire1d.WireParticle;
 import edu.colorado.phet.ohm1d.gui.VoltageListener;
-
-import java.util.Vector;
 
 public class BatteryForcePropagator implements Propagator1d, VoltageListener {
     Vector forces = new Vector();
@@ -28,8 +28,8 @@ public class BatteryForcePropagator implements Propagator1d, VoltageListener {
 
     public void propagate( WireParticle wp, double dt ) {
         double f = 0;
-        for( int i = 0; i < forces.size(); i++ ) {
-            f += ( (Force1d)forces.get( i ) ).getForce( wp );
+        for ( int i = 0; i < forces.size(); i++ ) {
+            f += ( (Force1d) forces.get( i ) ).getForce( wp );
         }
         double m = wp.getMass();
         double v = wp.getVelocity();
@@ -41,20 +41,20 @@ public class BatteryForcePropagator implements Propagator1d, VoltageListener {
         //v=v+a*dt;
         v = v + a * dt;
         double vpre = v;
-        if( desiredVoltage < 0 ) //going clockwise... Positive velocity required.
+        if ( desiredVoltage < 0 ) //going clockwise... Positive velocity required.
         {
-            if( v > maxSpeed ) {
+            if ( v > maxSpeed ) {
                 v = maxSpeed;
             }
-            else if( v < minSpeed ) {
+            else if ( v < minSpeed ) {
                 v = minSpeed;
             }
         }
         else {
-            if( v < -maxSpeed ) {
+            if ( v < -maxSpeed ) {
                 v = -maxSpeed;
             }
-            else if( v > -minSpeed ) {
+            else if ( v > -minSpeed ) {
                 v = -minSpeed;
             }
             //v=Math.max(-

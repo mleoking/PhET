@@ -23,11 +23,11 @@ public class Accel implements edu.colorado.phet.ohm1d.common.wire1d.Propagator1d
         double v = wp.getVelocity() + g * dt;
 
         wp.setVelocity( v );
-        if( v < 0 && g > 0 )  //don't go backwards
+        if ( v < 0 && g > 0 )  //don't go backwards
         {
             wp.setVelocity( 0 );
         }
-        else if( v > 0 && g < 0 ) {
+        else if ( v > 0 && g < 0 ) {
             wp.setVelocity( 0 );
         }
         v = Math.min( v, vmax );

@@ -1,5 +1,7 @@
 package edu.colorado.phet.ohm1d;
 
+import java.util.Vector;
+
 import edu.colorado.phet.ohm1d.common.paint.LayeredPainter;
 import edu.colorado.phet.ohm1d.common.paint.Painter;
 import edu.colorado.phet.ohm1d.common.paint.SwitchablePainter;
@@ -14,8 +16,6 @@ import edu.colorado.phet.ohm1d.gui.CoreCountListener;
 import edu.colorado.phet.ohm1d.gui.ShowPainters;
 import edu.colorado.phet.ohm1d.oscillator2d.Core;
 import edu.colorado.phet.ohm1d.oscillator2d.Oscillate;
-
-import java.util.Vector;
 
 public class Resistance implements CoreCountListener, Law {
     double start;
@@ -58,7 +58,7 @@ public class Resistance implements CoreCountListener, Law {
     }
 
     public void coreCountChanged( int value ) {
-        if( value != numCores ) {
+        if ( value != numCores ) {
             this.numCores = value;
             sys.addLaw( this );//register the update to happen synchronously.
         }
@@ -66,9 +66,9 @@ public class Resistance implements CoreCountListener, Law {
 
     public void layoutCores() {
         double coreDX = getCoreDX();
-        for( int i = 0; i < numCores; i++ ) {
+        for ( int i = 0; i < numCores; i++ ) {
             double scalarPosition = start + ( coreDX * i ) + 15;
-            if( numCores == 1 ) {
+            if ( numCores == 1 ) {
                 scalarPosition = ( end - start ) / 2 + start;
                 //System.err.println("NumCores=1: end="+end+", start="+start+", scalarPos="+scalarPosition);
             }
@@ -88,7 +88,7 @@ public class Resistance implements CoreCountListener, Law {
             ParticlePainterAdapter ppa = new ParticlePainterAdapter( dp, core );
             SwitchablePainter switcher = new SwitchablePainter( ppa ); //to allow easy switching of painters.
             painteric.add( switcher );
-            if( i % 2 == 0 ) {
+            if ( i % 2 == 0 ) {
                 cp.addPainter( switcher, coreLevelTop );
             }
             else {
@@ -104,20 +104,20 @@ public class Resistance implements CoreCountListener, Law {
     Vector systemic = new Vector();
 
     public void removeCores() {
-        for( int i = 0; i < painteric.size(); i++ ) {
-            Painter p = (Painter)painteric.get( i );
+        for ( int i = 0; i < painteric.size(); i++ ) {
+            Painter p = (Painter) painteric.get( i );
             cp.removePainter( p, coreLevelTop ); //!!!Because I wasn't keeping track of which it was.
             cp.removePainter( p, coreLevelBottom );
             showCores.remove( p );
         }
-        for( int i = 0; i < systemic.size(); i++ ) {
-            Particle p = (Particle)systemic.get( i );
+        for ( int i = 0; i < systemic.size(); i++ ) {
+            Particle p = (Particle) systemic.get( i );
             sys.remove( p );
         }
     }
 
     public double getCoreDX() {
-        if( numCores <= 1 ) {
+        if ( numCores <= 1 ) {
             return 0;
         }
         double coredomain = end - start;

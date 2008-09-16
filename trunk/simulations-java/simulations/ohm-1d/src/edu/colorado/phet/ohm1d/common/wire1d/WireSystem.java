@@ -1,9 +1,9 @@
 package edu.colorado.phet.ohm1d.common.wire1d;
 
+import java.util.Vector;
+
 import edu.colorado.phet.ohm1d.common.phys2d.Law;
 import edu.colorado.phet.ohm1d.common.phys2d.System2D;
-
-import java.util.Vector;
 
 public class WireSystem implements Law {
     Vector particles;
@@ -17,9 +17,9 @@ public class WireSystem implements Law {
     }
 
     public void iterate( double dt, System2D sys ) {
-        for( int i = 0; i < particles.size(); i++ ) {
+        for ( int i = 0; i < particles.size(); i++ ) {
             //o.O.p("i="+i);
-            ( (WireParticle)particles.get( i ) ).propagate( dt );
+            ( (WireParticle) particles.get( i ) ).propagate( dt );
         }
     }
 
@@ -28,6 +28,6 @@ public class WireSystem implements Law {
     }
 
     public WireParticle particleAt( int i ) {
-        return (WireParticle)particles.get( i );
+        return (WireParticle) particles.get( i );
     }
 }

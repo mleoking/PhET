@@ -7,13 +7,13 @@
  */
 package edu.colorado.phet.ohm1d.volt;
 
+import java.awt.*;
+
 import edu.colorado.phet.ohm1d.common.paint.Painter;
 import edu.colorado.phet.ohm1d.common.wire1d.WirePatch;
 import edu.colorado.phet.ohm1d.common.wire1d.paint.WirePatchPainter;
 import edu.colorado.phet.ohm1d.gui.CoreCountListener;
 import edu.colorado.phet.ohm1d.gui.VoltageListener;
-
-import java.awt.*;
 
 public class Filament implements Painter, CoreCountListener, VoltageListener {
     BasicStroke stroke;
@@ -35,7 +35,7 @@ public class Filament implements Painter, CoreCountListener, VoltageListener {
 
     public void paint( Graphics2D g ) {
         //see if we need to keep changing continuously.
-        if( cm.isChanging() ) {
+        if ( cm.isChanging() ) {
             fixPainter();
         }
         painter.paint( g );

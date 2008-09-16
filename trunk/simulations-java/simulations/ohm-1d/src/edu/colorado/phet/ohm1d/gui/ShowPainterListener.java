@@ -1,8 +1,9 @@
 package edu.colorado.phet.ohm1d.gui;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
 
 public class ShowPainterListener implements ActionListener {
     JCheckBox source;

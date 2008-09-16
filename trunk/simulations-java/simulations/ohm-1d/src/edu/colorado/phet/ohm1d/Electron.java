@@ -25,10 +25,10 @@ public class Electron extends WireParticle {
     }
 
     public Core getLastCollision() {
-        if( dce == null ) {
+        if ( dce == null ) {
             return null;
         }
-        if( dce.currentTime() - time > 20 ) {
+        if ( dce.currentTime() - time > 20 ) {
             setCollided( false );
         }
         return last;

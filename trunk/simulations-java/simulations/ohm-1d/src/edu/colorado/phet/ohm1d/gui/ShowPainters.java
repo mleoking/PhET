@@ -1,9 +1,9 @@
 package edu.colorado.phet.ohm1d.gui;
 
+import java.util.Vector;
+
 import edu.colorado.phet.ohm1d.common.paint.LayeredPainter;
 import edu.colorado.phet.ohm1d.common.paint.Painter;
-
-import java.util.Vector;
 
 public class ShowPainters {
     Vector v = new Vector();
@@ -28,15 +28,15 @@ public class ShowPainters {
     }
 
     public static void setShowPainters( boolean t, Vector v, LayeredPainter lp, int level ) {
-        for( int i = 0; i < v.size(); i++ ) {
-            Painter p = (Painter)v.get( i );
-            if( t ) {
-                if( !lp.hasPainter( p, level ) ) {
+        for ( int i = 0; i < v.size(); i++ ) {
+            Painter p = (Painter) v.get( i );
+            if ( t ) {
+                if ( !lp.hasPainter( p, level ) ) {
                     lp.addPainter( p, level );
                 }
             }
             else {
-                while( lp.hasPainter( p, level ) ) {
+                while ( lp.hasPainter( p, level ) ) {
                     lp.removePainter( p, level );
                 }
             }
@@ -44,7 +44,7 @@ public class ShowPainters {
     }
 
     public void setShowPainters( boolean t ) {
-        for( int i = 0; i < levels.length; i++ ) {
+        for ( int i = 0; i < levels.length; i++ ) {
             setShowPainters( t, v, lp, levels[i] );
         }
     }

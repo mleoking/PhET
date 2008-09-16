@@ -1,13 +1,14 @@
 package edu.colorado.phet.ohm1d.gui;
 
-import edu.colorado.phet.ohm1d.common.math.functions.Transform;
+import java.awt.*;
+import java.text.NumberFormat;
+import java.util.Vector;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.text.NumberFormat;
-import java.util.Vector;
+
+import edu.colorado.phet.ohm1d.common.math.functions.Transform;
 
 public class VoltageSlider extends JPanel implements ChangeListener {
     Transform transform;
@@ -29,9 +30,9 @@ public class VoltageSlider extends JPanel implements ChangeListener {
         jtf.setEditable( false );
         double defaultDomain = transform.invert().evaluate( defaultValue );
         //System.err.println("Transform="+transform);
-        int min = (int)transform.getDomainMin();
-        int max = (int)transform.getDomainMax();
-        int defDom = (int)defaultDomain;
+        int min = (int) transform.getDomainMin();
+        int max = (int) transform.getDomainMax();
+        int defDom = (int) defaultDomain;
         int range = max - min;
         //System.err.println("min="+min+", max="+max+", defDom="+defDom);
         js = new JSlider( min, max, defDom );
@@ -55,8 +56,8 @@ public class VoltageSlider extends JPanel implements ChangeListener {
     //sync the controller with the model.
     public void fireChange() {
         double value = transform.evaluate( js.getValue() );
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ( (VoltageListener)listeners.get( i ) ).valueChanged( value );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (VoltageListener) listeners.get( i ) ).valueChanged( value );
         }
         jtf.setText( name + " = " + nf.format( value ) + " " + units );
     }

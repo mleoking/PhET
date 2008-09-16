@@ -13,7 +13,7 @@ public class ImageConverter {
         mt.addImage( im, 0 );
         mt.waitForAll();
         BufferedImage bi = new BufferedImage( im.getWidth( null ), im.getHeight( null ), BufferedImage.TYPE_INT_ARGB );//watch out for -1.
-        Graphics2D g = (Graphics2D)bi.getGraphics();
+        Graphics2D g = (Graphics2D) bi.getGraphics();
         g.drawImage( im, new AffineTransform(), null );
         return bi;
     }

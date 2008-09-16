@@ -7,9 +7,10 @@
  */
 package edu.colorado.phet.ohm1d.volt;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
 
 public class ShowInsideBattery implements ActionListener {
     private JCheckBox source;

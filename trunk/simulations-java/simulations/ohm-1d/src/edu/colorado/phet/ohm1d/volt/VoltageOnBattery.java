@@ -1,12 +1,13 @@
 package edu.colorado.phet.ohm1d.volt;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.ohm1d.common.paint.Painter;
-import edu.colorado.phet.ohm1d.common.paint.TextPainter;
-import edu.colorado.phet.ohm1d.gui.VoltageListener;
 
 import java.awt.*;
 import java.text.DecimalFormat;
+
+import edu.colorado.phet.ohm1d.common.paint.Painter;
+import edu.colorado.phet.ohm1d.common.paint.TextPainter;
+import edu.colorado.phet.ohm1d.gui.VoltageListener;
+import edu.colorado.phet.ohm1d.Ohm1DStrings;
 
 /**
  * Created by IntelliJ IDEA.
@@ -37,7 +38,7 @@ public class VoltageOnBattery implements Painter, VoltageListener {
     }
 
     public void valueChanged( double val ) {
-        if( val < 0 ) {
+        if ( val < 0 ) {
             tp.setPosition( neg.x, neg.y );
         }
         else {
@@ -45,6 +46,6 @@ public class VoltageOnBattery implements Painter, VoltageListener {
         }
         val = Math.abs( val );
         String str = nf.format( val );
-        tp.setText( str + " " + SimStrings.get( "VoltageOnBattery.VoltsAbbreviation" ) );
+        tp.setText( str + " " + Ohm1DStrings.get( "VoltageOnBattery.VoltsAbbreviation" ) );
     }
 }

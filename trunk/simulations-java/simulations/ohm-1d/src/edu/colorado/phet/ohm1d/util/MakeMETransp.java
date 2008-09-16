@@ -20,11 +20,11 @@ public class MakeMETransp extends LookupTable {
         //util.Debug.traceln("Match="+toString(match));
 
         //util.Debug.traceln("Returning alpha.");
-        for( int i = 0; i < dst.length; i++ ) {
+        for ( int i = 0; i < dst.length; i++ ) {
             dst[i] = src[i];
         }
-        if( dst.length == 4 ) {
-            dst[3] = (int)( src[3] * .7 );
+        if ( dst.length == 4 ) {
+            dst[3] = (int) ( src[3] * .7 );
         }
         return dst;
         //util.Debug.traceln("Returning source.");

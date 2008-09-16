@@ -1,12 +1,13 @@
 package edu.colorado.phet.ohm1d.gui;
 
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Vector;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class CoreCountSlider extends JPanel implements ChangeListener {
     // Transform transform;
@@ -45,8 +46,8 @@ public class CoreCountSlider extends JPanel implements ChangeListener {
     public void fireChange() {
         //double value=transform.evaluate(js.getValue());
         int value = js.getValue();
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ( (CoreCountListener)listeners.get( i ) ).coreCountChanged( value );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (CoreCountListener) listeners.get( i ) ).coreCountChanged( value );
         }
         //jtf.setText("Hi Ingrid!: "+value);
         double displayValue = value * .2 / 3.0;

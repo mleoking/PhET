@@ -1,9 +1,9 @@
 package edu.colorado.phet.ohm1d.common.paint.particle;
 
+import java.awt.*;
+
 import edu.colorado.phet.ohm1d.common.paint.Painter;
 import edu.colorado.phet.ohm1d.common.phys2d.Particle;
-
-import java.awt.*;
 
 public class ParticlePainterAdapter implements Painter {
     ParticlePainter p;

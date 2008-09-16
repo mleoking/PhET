@@ -19,11 +19,11 @@ public class CompositePainter implements Painter {
     }
 
     public Painter painterAt( int i ) {
-        return (Painter)v.get( i );
+        return (Painter) v.get( i );
     }
 
     public void paint( Graphics2D g ) {
-        for( int i = 0; i < v.size(); i++ ) {
+        for ( int i = 0; i < v.size(); i++ ) {
             painterAt( i ).paint( g );
         }
     }
