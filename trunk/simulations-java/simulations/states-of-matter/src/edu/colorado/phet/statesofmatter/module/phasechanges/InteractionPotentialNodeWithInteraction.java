@@ -10,6 +10,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler2;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.DualParticleModel;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
@@ -116,7 +117,7 @@ public class InteractionPotentialNodeWithInteraction extends InteractionPotentia
         // This node will need to be pickable so the user can grab it.
         m_positionMarker.setPickable( true );
         m_positionMarker.setChildrenPickable( true );
-        m_positionMarker.addInputEventListener( new CursorHandler(Cursor.HAND_CURSOR) );
+        m_positionMarker.addInputEventListener( new CursorHandler2(Cursor.HAND_CURSOR) );
         
         m_positionMarker.addInputEventListener( new PDragEventHandler(){
             
