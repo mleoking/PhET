@@ -8,10 +8,10 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
-public class ElectricHockeyApplication2 extends PhetApplication {
+public class ElectricHockeyApplication extends PhetApplication {
     private ElectricHockeyModule module;
 
-    public ElectricHockeyApplication2( PhetApplicationConfig config ) {
+    public ElectricHockeyApplication( PhetApplicationConfig config ) {
         super( config );
         module = new ElectricHockeyModule( config );
         addModule( module );
@@ -22,7 +22,7 @@ public class ElectricHockeyApplication2 extends PhetApplication {
             super( commandLineArgs, new FrameSetup.CenteredWithSize( 800, 750 ), new PhetResources( "electric-hockey" ) );
             super.setApplicationConstructor( new ApplicationConstructor() {
                 public PhetApplication getApplication( PhetApplicationConfig config ) {
-                    return new ElectricHockeyApplication2( config );
+                    return new ElectricHockeyApplication( config );
                 }
             } );
             super.setLookAndFeel( new PhetLookAndFeel() );
