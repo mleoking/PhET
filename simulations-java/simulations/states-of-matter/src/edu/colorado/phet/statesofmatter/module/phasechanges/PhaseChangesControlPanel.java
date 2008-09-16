@@ -234,13 +234,17 @@ public class PhaseChangesControlPanel extends ControlPanel {
     // create the correct behavior.
     private static final int ASSYMTOTIC_MAPPING_ALGORITHM = 0;
     private static final int LINEAR_MAPPING_ALGORITHM = 1;
-    private static final int MAPPING_ALGORITHM = ASSYMTOTIC_MAPPING_ALGORITHM; 
+    private static final int SIGMOID_MAPPING_ALGORITHM = 2;
+    private static final int MAPPING_ALGORITHM = SIGMOID_MAPPING_ALGORITHM; 
     
     private static final double TEMPERATURE_SCALE_FACTOR_LINEAR = 0.6;
     private static final double PRESSURE_SCALE_FACTOR_LINEAR = 2;
     
-    private static final double TEMPERATURE_SCALE_FACTOR_ASSYMTOTIC = 1;
-    private static final double PRESSURE_SCALE_FACTOR_ASSYMTOTIC = 1;
+    private static final double TEMPERATURE_SCALE_FACTOR_ASSYMTOTIC = 10;
+    private static final double PRESSURE_SCALE_FACTOR_ASSYMTOTIC = 100;
+    
+    private static final double TEMPERATURE_SCALE_FACTOR_SIGMOID = 20;
+    private static final double TEMPERATURE_SHIFT_FACTOR_SIGMOID = 0.43;
     
     /**
      * Update the position of the marker on the phase diagram based on the
@@ -248,30 +252,41 @@ public class PhaseChangesControlPanel extends ControlPanel {
      */
     private void updatePhaseDiagram(){
         
+        double modelTemperature = m_model.getModelTemperature();
+        double modelPressure = m_model.getModelPressure();
         double normalizedTemperature = 0;
         double normalizedPressure = 0;
         
         if (MAPPING_ALGORITHM == LINEAR_MAPPING_ALGORITHM) {
-            normalizedTemperature = m_model.getModelTemperature() * TEMPERATURE_SCALE_FACTOR_LINEAR;
+            normalizedTemperature = modelTemperature * TEMPERATURE_SCALE_FACTOR_LINEAR;
             if (normalizedTemperature > 1.0) {
                 normalizedTemperature = 1.0;
             }
-            normalizedPressure = m_model.getModelPressure() * PRESSURE_SCALE_FACTOR_LINEAR;
+            normalizedPressure = modelPressure * PRESSURE_SCALE_FACTOR_LINEAR;
             if (normalizedPressure > 1.0) {
                 normalizedPressure = 1.0;
             }
-            
         }
         else if (MAPPING_ALGORITHM == ASSYMTOTIC_MAPPING_ALGORITHM) {
-            normalizedTemperature = -1 / ((m_model.getModelTemperature() * TEMPERATURE_SCALE_FACTOR_ASSYMTOTIC) + 1) + 1;
+            normalizedTemperature = -1 / ((modelTemperature * TEMPERATURE_SCALE_FACTOR_ASSYMTOTIC) + 1) + 1;
             if (normalizedTemperature > 1.0) {
                 normalizedTemperature = 1.0;
             }
-            normalizedPressure = -1 / ((m_model.getModelPressure() * PRESSURE_SCALE_FACTOR_ASSYMTOTIC) + 1) + 1;
+            normalizedPressure = -1 / ((modelPressure * PRESSURE_SCALE_FACTOR_ASSYMTOTIC) + 1) + 1;
             if (normalizedPressure > 1.0) {
                 normalizedPressure = 1.0;
             }
-            m_phaseDiagram.setStateMarkerPos( normalizedTemperature, normalizedPressure );
         }
+        else if (MAPPING_ALGORITHM == SIGMOID_MAPPING_ALGORITHM) {
+            normalizedTemperature = 1 / (1 + (Math.exp((-modelTemperature + TEMPERATURE_SHIFT_FACTOR_SIGMOID ) * 
+                    TEMPERATURE_SCALE_FACTOR_SIGMOID)));
+            normalizedPressure = -1 / ((modelPressure * PRESSURE_SCALE_FACTOR_ASSYMTOTIC) + 1) + 1;
+            if (normalizedPressure > 1.0) {
+                normalizedPressure = 1.0;
+            }
+            System.out.println("model temp = " + modelTemperature + ", normalized temp = " + normalizedTemperature);
+            System.out.println("model pressure = " + modelPressure + ", normalized pressure = " + normalizedPressure);
+        }
+        m_phaseDiagram.setStateMarkerPos( normalizedTemperature, normalizedPressure );
     }
 }
