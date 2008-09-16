@@ -1701,7 +1701,7 @@ public class MultipleParticleModel {
         
         // Calculate the forces exerted on the particles by the container
         // walls and by gravity.
-        double totalBottomForce = 0;
+        double totalTopForce = 0;
         boolean interactionOccurredWithTop = false;
         for (int i = 0; i < m_numberOfAtoms; i++){
             
@@ -1715,13 +1715,8 @@ public class MultipleParticleModel {
             // Accumulate this force value as part of the pressure being
             // exerted on the walls of the container.
             m_pressureCalculator.accumulatePressureValue( m_nextAtomForces[i] );
-            if (m_nextAtomForces[i].getY() > 0){
-                totalBottomForce += m_nextAtomForces[i].getY();
-            }
-            else if (m_nextAtomForces[i].getY() < 0){
-                // Set a flag indicating that interaction occurred with the
-                // top of the container.  This is necessary later for dealing
-                // with changes to the size of the container.
+            if (m_nextAtomForces[i].getY() < 0){
+                totalTopForce += -m_nextAtomForces[i].getY();
                 interactionOccurredWithTop = true;
             }
             
@@ -1731,8 +1726,8 @@ public class MultipleParticleModel {
         
         // Update the pressure calculation.
         // TODO: JPB TBD - Clean this up if we end up using it.
-        double pressureCalcGamma = 0.9992;
-        m_pressure2 = (1 - pressureCalcGamma) * (totalBottomForce / m_normalizedContainerWidth) + 
+        double pressureCalcGamma = 0.999;
+        m_pressure2 = (1 - pressureCalcGamma) * (totalTopForce / m_normalizedContainerWidth) + 
                 pressureCalcGamma * m_pressure2;
         
         // Advance the moving average window of the pressure calculator.
@@ -1884,7 +1879,7 @@ public class MultipleParticleModel {
         // on the center of mass, so there is no torque.
         // Calculate the forces exerted on the particles by the container
         // walls and by gravity.
-        double totalBottomForce = 0;
+        double totalTopForce = 0;
         boolean interactionOccurredWithTop = false;
         for (int i = 0; i < numberOfMolecules; i++){
 
@@ -1899,13 +1894,8 @@ public class MultipleParticleModel {
             // Accumulate this force value as part of the pressure being
             // exerted on the walls of the container.
             m_pressureCalculator.accumulatePressureValue( m_nextMoleculeForces[i] );
-            if (m_nextMoleculeForces[i].getY() > 0){
-                totalBottomForce += m_nextMoleculeForces[i].getY();
-            }
-            else if (m_nextMoleculeForces[i].getY() < 0){
-                // Set a flag indicating that interaction occurred with the
-                // top of the container.  This is necessary later for dealing
-                // with changes to the size of the container.
+            if (m_nextMoleculeForces[i].getY() < 0){
+                totalTopForce += -m_nextMoleculeForces[i].getY();
                 interactionOccurredWithTop = true;
             }
             
@@ -1915,8 +1905,8 @@ public class MultipleParticleModel {
         
         // Update the pressure calculation.
         // TODO: JPB TBD - Clean this up if we end up using it.
-        double pressureCalcGamma = 0.9999;
-        m_pressure2 = (1 - pressureCalcGamma) * (totalBottomForce / m_normalizedContainerWidth) + 
+        double pressureCalcGamma = 0.999;
+        m_pressure2 = (1 - pressureCalcGamma) * (totalTopForce / m_normalizedContainerWidth) + 
                 pressureCalcGamma * m_pressure2;
         
         // Advance the moving average window of the pressure calculator.
@@ -2108,7 +2098,7 @@ public class MultipleParticleModel {
         // on the center of mass, so there is no torque.
         // Calculate the forces exerted on the particles by the container
         // walls and by gravity.
-        double totalBottomForce = 0;
+        double totalTopForce = 0;
         boolean interactionOccurredWithTop = false;
         for (int i = 0; i < numberOfMolecules; i++){
             
@@ -2123,13 +2113,8 @@ public class MultipleParticleModel {
             // Accumulate this force value as part of the pressure being
             // exerted on the walls of the container.
             m_pressureCalculator.accumulatePressureValue( m_nextMoleculeForces[i] );
-            if (m_nextMoleculeForces[i].getY() > 0){
-                totalBottomForce += m_nextMoleculeForces[i].getY();
-            }
-            else if (m_nextMoleculeForces[i].getY() < 0){
-                // Set a flag indicating that interaction occurred with the
-                // top of the container.  This is necessary later for dealing
-                // with changes to the size of the container.
+            if (m_nextMoleculeForces[i].getY() < 0){
+                totalTopForce += -m_nextMoleculeForces[i].getY();
                 interactionOccurredWithTop = true;
             }
             
@@ -2139,8 +2124,8 @@ public class MultipleParticleModel {
         
         // Update the pressure calculation.
         // TODO: JPB TBD - Clean this up if we end up using it.
-        double pressureCalcGamma = 0.9999;
-        m_pressure2 = (1 - pressureCalcGamma) * (totalBottomForce / m_normalizedContainerWidth) + 
+        double pressureCalcGamma = 0.999;
+        m_pressure2 = (1 - pressureCalcGamma) * (totalTopForce / m_normalizedContainerWidth) + 
                 pressureCalcGamma * m_pressure2;
         
         // Advance the moving average window of the pressure calculator.
