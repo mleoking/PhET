@@ -12,7 +12,6 @@ public class Charge extends JComponent {
     private Color color;
 
     int sign;                  //O = plus, 1 = minus
-    double magnitude;
     int radius;
     public static final int NEGATIVE = -1;
     public static final int POSITIVE = 1;

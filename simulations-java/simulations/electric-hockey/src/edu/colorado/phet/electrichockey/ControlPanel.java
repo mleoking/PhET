@@ -15,7 +15,6 @@ public class ControlPanel extends JPanel {
     private JButton startBtn, resetBtn;
     private JButton clearBtn; //pauseBtn;
     private JCheckBox pauseChkBox;
-    private JButton traceBtn;
     private boolean toggleTrace, showField;    //togglePause,
     private JCheckBox traceChkBox;
     private JCheckBox fieldGridChkBox;

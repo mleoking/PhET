@@ -8,8 +8,6 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 
 public class Force {
-    private double magnitude;        //magnitude of force, never used
-    private Charge puck;            //charged positivePuckImage force acts on
     private Charge charge;            //charge causing force on positivePuckImage
     private Color gridColor;
     private Point chargePt;            //position of charge producing force
@@ -27,7 +25,6 @@ public class Force {
     public Force( Charge charge, Charge puck )  //force on positivePuckImage due to charge
     {
         this.charge = charge;
-        this.puck = puck;
         chargePt = charge.getPosition();
         x0 = puck.getPosition2D().getX();
         y0 = puck.getPosition2D().getY();
@@ -67,13 +64,6 @@ public class Force {
         y0Int = (int) y0;
     }
 
-    public void updateForce() {
-    }
-
-    public double getR() {
-        return r;
-    }
-
     public double getXComp() {
         return xComp;
     }
@@ -91,17 +81,6 @@ public class Force {
         }
         //else if (charge.getSign() == edu.colorado.phet.ehockey.Charge.GRID) g2D.setColor(Color.gray);
         forceArrow.paint( g2D );
-    }
-
-    public void paintGridArrowOrig( Graphics2D g2D ) {
-        g2D.setColor( gridColor );
-        if ( gridColor.getBlue() < 252 )        //don't bother to paint is grid arrow too faint
-        {
-            g2D.drawLine( x0Int, y0Int, x0Int + xCompInt, y0Int + yCompInt );
-            g2D.fillOval( x0Int - 2, y0Int - 2, 4, 4 );
-            //g2D.fillOval(i*gridSpacing + gridSpacing/2 -2 , j*gridSpacing + gridSpacing/2 - 2, 4, 4);
-            //gridArrow.paint(g2D);
-        }
     }
 
     public void paintGridArrow( Graphics2D g2D ) {
