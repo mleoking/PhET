@@ -10,7 +10,6 @@ HIGH PRIORITY:
 - glacier growth from zero length still takes a long time, and then speeds up [Archie will fix model]
 
 MEDIUM PRIORITY:
-- since F is the default, put it above C on the thermometer display
 - make sure everything works properly when clock is paused
 - "steady state" feature needs to fill glacier with debris and surface ripples (and create moraine?)
 
@@ -67,6 +66,7 @@ CLEANUP:
 
 
 DONE:
+9/15/08 - put default units on top in thermometer
 9/15/08 - refactor ClimateControlPanel for English/metric feature
 9/15/08 - switch climate controls between English & metric units
 ******* 1.00.03 (24300)
