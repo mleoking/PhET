@@ -12,14 +12,13 @@ HIGH PRIORITY:
 MEDIUM PRIORITY:
 - make sure everything works properly when clock is paused
 - "steady state" feature needs to fill glacier with debris and surface ripples (and create moraine?)
+- resizing window very narrow fails assertion in DistanceAxisNode.setRange
 
 LOW PRIORITY:
 - remove registration points from background image in any versions published to PhET website
-- main control panel should be the same height in all modules
 - YAW_X_OFFSET should be computed as a function of YAW_ROTATION and PITCH_Y_OFFSET
 - bug: edges of thermometer & ice thickness tool icons are clipped (see Unfuddle #558)
 - bug: creating a tool and dragging it straight to the trash doesn't work because we're in the middle of an event sequence
-- fix layout problems with main control panel
 - improve smoothness of DistanceAxisNode (x-axis for coordinates feature)
 - bug: ticks & labels on sliders should be white, code to set their color is not working (Mac OS 10.4 only?)
 - Spanish translation
@@ -66,6 +65,8 @@ CLEANUP:
 
 
 DONE:
+9/16/08 - add ability to set minHeight of control panel via strings file, so that control panels in all modules will be same height
+9/16/08 - fix layout problems with main control panel (bogus calls to BorderLayout)
 9/16/08 - change "equilibrium" to "steady state" in MiscControlPanel so that terminology is consistent
 ******* 1.00.04 (24458)
 9/15/08 - put default units on top in thermometer

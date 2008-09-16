@@ -2,10 +2,7 @@
 
 package edu.colorado.phet.glaciers.module.advanced;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Frame;
-import java.awt.GridBagConstraints;
+import java.awt.*;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
@@ -45,7 +42,7 @@ public class AdvancedControlPanel extends JPanel {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public AdvancedControlPanel( GlaciersModel model, GlaciersPlayArea playArea, Frame dialogOwner, Module module, boolean englishUnits ) {
+    public AdvancedControlPanel( GlaciersModel model, GlaciersPlayArea playArea, Frame dialogOwner, Module module, boolean englishUnits, int minHeight ) {
         super();
         
         _viewControlPanel = new ViewControlPanel( playArea );
@@ -77,11 +74,17 @@ public class AdvancedControlPanel extends JPanel {
         bottomLayout.addComponent( Box.createHorizontalStrut( 10 ), row, column++ );
         bottomLayout.addAnchoredComponent( _miscControlPanel, row, column++, GridBagConstraints.EAST );
         
-        JPanel p = new JPanel( new BorderLayout() );
-        p.setLayout( new BoxLayout( p, BoxLayout.Y_AXIS ) );
-        p.add( topPanel );
-        p.add( bottomPanel );
-        add( p, BorderLayout.WEST );
+        JPanel p = new JPanel();
+        EasyGridBagLayout layout = new EasyGridBagLayout( p );
+        p.setLayout( layout );
+        row = 0;
+        column = 0;
+        layout.addFilledComponent( Box.createVerticalStrut( minHeight ), row, column++, 1, 2, GridBagConstraints.VERTICAL );
+        layout.addAnchoredComponent( topPanel, row++, column, GridBagConstraints.CENTER );
+        layout.addAnchoredComponent( bottomPanel, row++, column, GridBagConstraints.CENTER );
+        
+        setLayout( new FlowLayout() );
+        add( p );
         
         Class[] excludedClasses = { ViewControlPanel.class, ClimateControlPanel.class, GraphsControlPanel.class, JTextComponent.class };
         SwingUtils.setBackgroundDeep( this, BACKGROUND_COLOR, excludedClasses, false /* processContentsOfExcludedContainers */ );

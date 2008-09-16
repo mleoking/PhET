@@ -8,6 +8,7 @@ import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
 import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.GlaciersConstants;
+import edu.colorado.phet.glaciers.GlaciersResources;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.control.ClimateControlPanel;
 import edu.colorado.phet.glaciers.control.MiscControlPanel;
@@ -51,7 +52,8 @@ public class IntroModule extends GlaciersModule {
         setSimulationPanel( _playArea );
 
         // Put our control panel where the clock control panel normally goes
-        _controlPanel = new IntroControlPanel( _model, _playArea, dialogOwner, this, GlaciersConstants.DEFAULT_TO_ENGLISH_UNITS );
+        int minHeight = GlaciersResources.getInt( "controlPanel.minHeight", 100 );
+        _controlPanel = new IntroControlPanel( _model, _playArea, dialogOwner, this, GlaciersConstants.DEFAULT_TO_ENGLISH_UNITS, minHeight );
         setClockControlPanel( _controlPanel );
         
         // Help
