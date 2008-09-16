@@ -252,7 +252,7 @@ public class Ohm1DSimulationPanel extends JPanel {
         AndRegion currentRegion = new AndRegion();
         currentRegion.addRegion( new SimplePatch( wp ) );
         currentRegion.addRegion( new SimplePatch( wp2 ) );
-        AverageCurrent2 current = new AverageCurrent2( gauge, 100, currentRegion );
+        AverageCurrent current = new AverageCurrent( gauge, 100, currentRegion );
 
         GaugeScaling gus = new GaugeScaling();
         gus.add( new Scaling( gauge, Ohm1DStrings.get( "Ohm1dModule.Low" ), -maxCurrent / 4, maxCurrent / 4 ), false );
