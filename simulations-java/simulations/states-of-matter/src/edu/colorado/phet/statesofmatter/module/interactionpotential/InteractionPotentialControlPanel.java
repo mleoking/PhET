@@ -265,8 +265,10 @@ public class InteractionPotentialControlPanel extends ControlPanel {
         private final Font LABEL_FONT = new PhetFont( Font.BOLD, 14 );
 
         private LinearValueControl m_atomDiameterControl;
-        
         private DualParticleModel m_model;
+        private TitledBorder m_titledBorder;
+        private JLabel m_leftLabel;
+        private JLabel m_rightLabel;
         
         public AtomDiameterControlPanel(DualParticleModel model){
 
@@ -276,14 +278,14 @@ public class InteractionPotentialControlPanel extends ControlPanel {
 
             // Create the border.
             BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
-            TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
+            m_titledBorder = BorderFactory.createTitledBorder( baseBorder,
                     StatesOfMatterStrings.ATOM_DIAMETER_CONTROL_TITLE,
                     TitledBorder.LEFT,
                     TitledBorder.TOP,
                     new PhetFont( Font.BOLD, 14 ),
-                    Color.GRAY );
+                    Color.BLACK );
             
-            setBorder( titledBorder );
+            setBorder( m_titledBorder );
             
             // Add the control slider.
             m_atomDiameterControl = new LinearValueControl( StatesOfMatterConstants.MIN_SIGMA,
@@ -296,12 +298,12 @@ public class InteractionPotentialControlPanel extends ControlPanel {
                 }
             });
             Hashtable diameterControlLabelTable = new Hashtable();
-            JLabel leftLabel = new JLabel("Small"); // TODO: JPB TBD - Turn into resource if kept.
-            leftLabel.setFont( LABEL_FONT );
-            diameterControlLabelTable.put( new Double( m_atomDiameterControl.getMinimum() ), leftLabel );
-            JLabel rightLabel = new JLabel("Large"); // TODO: JPB TBD - Turn into resource if kept.
-            rightLabel.setFont( LABEL_FONT );
-            diameterControlLabelTable.put( new Double( m_atomDiameterControl.getMaximum() ), rightLabel );
+            m_leftLabel = new JLabel("Small"); // TODO: JPB TBD - Turn into resource if kept.
+            m_leftLabel.setFont( LABEL_FONT );
+            diameterControlLabelTable.put( new Double( m_atomDiameterControl.getMinimum() ), m_leftLabel );
+            m_rightLabel = new JLabel("Large"); // TODO: JPB TBD - Turn into resource if kept.
+            m_rightLabel.setFont( LABEL_FONT );
+            diameterControlLabelTable.put( new Double( m_atomDiameterControl.getMaximum() ), m_rightLabel );
             m_atomDiameterControl.setTickLabels( diameterControlLabelTable );
             m_atomDiameterControl.setValue(m_model.getSigma());
             add(m_atomDiameterControl);
@@ -319,6 +321,14 @@ public class InteractionPotentialControlPanel extends ControlPanel {
         public void setEnabled( boolean enabled ){
             super.setEnabled( enabled );
             m_atomDiameterControl.setEnabled( enabled );
+            m_leftLabel.setEnabled( enabled );
+            m_rightLabel.setEnabled( enabled );
+            if (enabled) {
+                m_titledBorder.setTitleColor( Color.BLACK );
+            }
+            else {
+                m_titledBorder.setTitleColor( Color.LIGHT_GRAY );
+            }
         }
     }
     
@@ -327,9 +337,11 @@ public class InteractionPotentialControlPanel extends ControlPanel {
         private final Font LABEL_FONT = new PhetFont( Font.BOLD, 14 );
 
         private LinearValueControl m_interactionStrengthControl;
-        
         private DualParticleModel m_model;
-        
+        private TitledBorder m_titledBorder;
+        private JLabel m_leftLabel;
+        private JLabel m_rightLabel;
+
         public InteractionStrengthControlPanel(DualParticleModel model){
 
 
@@ -339,14 +351,14 @@ public class InteractionPotentialControlPanel extends ControlPanel {
 
             // Create the border.
             BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
-            TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
+            m_titledBorder = BorderFactory.createTitledBorder( baseBorder,
                     StatesOfMatterStrings.INTERACTION_STRENGTH_CONTROL_TITLE,
                     TitledBorder.LEFT,
                     TitledBorder.TOP,
                     new PhetFont( Font.BOLD, 14 ),
-                    Color.GRAY );
+                    Color.BLACK );
             
-            setBorder( titledBorder );
+            setBorder( m_titledBorder );
             
             // Add the control slider.
             m_interactionStrengthControl = new LinearValueControl( StatesOfMatterConstants.MIN_EPSILON,
@@ -360,12 +372,12 @@ public class InteractionPotentialControlPanel extends ControlPanel {
                 }
             });
             Hashtable diameterControlLabelTable = new Hashtable();
-            JLabel leftLabel = new JLabel("Weak"); // TODO: JPB TBD - Turn into resource if kept.
-            leftLabel.setFont( LABEL_FONT );
-            diameterControlLabelTable.put( new Double( m_interactionStrengthControl.getMinimum() ), leftLabel );
-            JLabel rightLabel = new JLabel("Strong"); // TODO: JPB TBD - Turn into resource if kept.
-            rightLabel.setFont( LABEL_FONT );
-            diameterControlLabelTable.put( new Double( m_interactionStrengthControl.getMaximum() ), rightLabel );
+            m_leftLabel = new JLabel("Weak"); // TODO: JPB TBD - Turn into resource if kept.
+            m_leftLabel.setFont( LABEL_FONT );
+            diameterControlLabelTable.put( new Double( m_interactionStrengthControl.getMinimum() ), m_leftLabel );
+            m_rightLabel = new JLabel("Strong"); // TODO: JPB TBD - Turn into resource if kept.
+            m_rightLabel.setFont( LABEL_FONT );
+            diameterControlLabelTable.put( new Double( m_interactionStrengthControl.getMaximum() ), m_rightLabel );
             m_interactionStrengthControl.setTickLabels( diameterControlLabelTable );
 
             // Register as a listener with the model so that we know when the
@@ -382,6 +394,14 @@ public class InteractionPotentialControlPanel extends ControlPanel {
         public void setEnabled( boolean enabled ){
             super.setEnabled( enabled );
             m_interactionStrengthControl.setEnabled( enabled );
+            m_leftLabel.setEnabled( enabled );
+            m_rightLabel.setEnabled( enabled );
+            if (enabled) {
+                m_titledBorder.setTitleColor( Color.BLACK );
+            }
+            else {
+                m_titledBorder.setTitleColor( Color.LIGHT_GRAY );
+            }
         }
     }
 
