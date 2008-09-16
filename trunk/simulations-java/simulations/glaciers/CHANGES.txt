@@ -12,7 +12,7 @@ HIGH PRIORITY:
 MEDIUM PRIORITY:
 - make sure everything works properly when clock is paused
 - "steady state" feature needs to fill glacier with debris and surface ripples (and create moraine?)
-- resizing window very narrow fails assertion in DistanceAxisNode.setRange
+- resizing window so that zoomed viewport size is zero fails assertion in GlaciersPlayArea.updateZoomedViewportBounds
 
 LOW PRIORITY:
 - remove registration points from background image in any versions published to PhET website
@@ -65,6 +65,7 @@ CLEANUP:
 
 
 DONE:
+9/16/08 - fix: resizing window very narrow fails assertion in DistanceAxisNode.setRange
 9/16/08 - add ability to set minHeight of control panel via strings file, so that control panels in all modules will be same height
 9/16/08 - fix layout problems with main control panel (bogus calls to BorderLayout)
 9/16/08 - change "equilibrium" to "steady state" in MiscControlPanel so that terminology is consistent

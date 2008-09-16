@@ -53,7 +53,7 @@ public class CoordinatesNode extends PhetPNode {
         
         // rebuild the horizontal (distance) axis
         final int minX = (int) Math.max( 0, zoomedViewportBounds.getX() );
-        final int maxX = (int) ( zoomedViewportBounds.getX() + zoomedViewportBounds.getWidth() );
+        final int maxX = (int) Math.max( 1, zoomedViewportBounds.getX() + zoomedViewportBounds.getWidth() );
         _distanceAxisNode.setRange( minX, maxX );
         
         // reposition the vertical (elevation) axes
