@@ -1,7 +1,5 @@
 package edu.colorado.phet.ohm1d.common.phys2d;
 
-import edu.colorado.phet.ohm1d.common.phys2d.NullPropagator;
-
 public class PropagatingParticle extends Particle {
     Propagator p;
 
