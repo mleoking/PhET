@@ -46,7 +46,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
     private final double PUMP_WIDTH = CANVAS_WIDTH / 4;
     
     // Maximum value expected for pressure, in atmospheres.
-    private final double MAX_PRESSURE = 5;
+    private final double MAX_PRESSURE = 100;
 
     //----------------------------------------------------------------------------
     // Instance Data
