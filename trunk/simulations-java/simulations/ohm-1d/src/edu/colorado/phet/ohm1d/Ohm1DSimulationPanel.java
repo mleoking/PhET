@@ -225,7 +225,6 @@ public class Ohm1DSimulationPanel extends JPanel {
         BufferedImage batteryImage2 = Ohm1DResources.loadBufferedImage( "ron/AA-battery-555.png" );
         BufferedImagePainter battPainter2 = new BufferedImagePainter( batteryImage2, (int) bottomLeftWirePoint.getX() + 59, (int) bottomLeftWirePoint.getY() - batteryImage2.getHeight() / 2 + 3 );
 
-        int batteryTransparentness = 150;//195
         BufferedImagePainter transLeft = new BufferedImagePainter( BufferedImageUtils.scaleAlpha( batteryImage, 0.5 ), (int) bottomLeftWirePoint.getX() + 59, (int) bottomLeftWirePoint.getY() - batteryImage.getHeight() / 2 + 3 );
         BufferedImagePainter transRight = new BufferedImagePainter( BufferedImageUtils.scaleAlpha( batteryImage, 0.5 ), (int) bottomLeftWirePoint.getX() + 59, (int) bottomLeftWirePoint.getY() - batteryImage.getHeight() / 2 + 3 );
 
@@ -486,7 +485,7 @@ public class Ohm1DSimulationPanel extends JPanel {
 
         voltageSlider.addVoltageListener( angelPaint );
         voltageSlider.fireChange();
-        final SystemRunner sr = new SystemRunner( sys, .2, 20 );
+        final SystemRunner sr = new SystemRunner( sys, .2 );
 
         new MediaHandler( playButton, pauseButton, sr );
 
@@ -522,7 +521,7 @@ public class Ohm1DSimulationPanel extends JPanel {
             public void actionPerformed( ActionEvent e ) {
                 playButton.setEnabled( false );
                 pauseButton.setEnabled( true );
-                sr.setRunning( true );
+                clock.start();
             }
 
         }
@@ -531,7 +530,7 @@ public class Ohm1DSimulationPanel extends JPanel {
             public void actionPerformed( ActionEvent e ) {
                 playButton.setEnabled( true );
                 pauseButton.setEnabled( false );
-                sr.setRunning( false );
+                clock.pause();
             }
 
         }
