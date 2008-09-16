@@ -4,10 +4,10 @@
 
 package edu.colorado.phet.efield.electron.core;
 
-import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
-
 import java.util.Arrays;
 import java.util.Vector;
+
+import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
 
 // Referenced classes of package edu.colorado.phet.efield.electron.core:
 //            ParticleContainer
@@ -35,7 +35,7 @@ public class ParticleList implements ParticleContainer {
     }
 
     public Particle particleAt( int i ) {
-        return (Particle)v.get( i );
+        return (Particle) v.get( i );
     }
 
     Vector v;

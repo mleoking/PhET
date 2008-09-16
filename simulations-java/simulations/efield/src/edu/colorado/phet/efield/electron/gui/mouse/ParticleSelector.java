@@ -4,11 +4,11 @@
 
 package edu.colorado.phet.efield.electron.gui.mouse;
 
+import java.awt.*;
+
 import edu.colorado.phet.efield.electron.gui.ParticlePainter;
 import edu.colorado.phet.efield.electron.gui.ParticlePanel;
 import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
-
-import java.awt.*;
 
 public class ParticleSelector {
 
@@ -17,10 +17,10 @@ public class ParticleSelector {
     }
 
     public Particle selectAt( Point point ) {
-        for( int i = 0; i < pp.numParticles(); i++ ) {
+        for ( int i = 0; i < pp.numParticles(); i++ ) {
             Particle particle = pp.particleAt( i );
             ParticlePainter particlepainter = pp.painterAt( i );
-            if( particlepainter.contains( particle, point ) ) {
+            if ( particlepainter.contains( particle, point ) ) {
                 return particle;
             }
         }

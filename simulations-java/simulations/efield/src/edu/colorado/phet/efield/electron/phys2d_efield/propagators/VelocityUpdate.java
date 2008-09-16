@@ -21,7 +21,7 @@ public class VelocityUpdate
         DoublePoint doublepoint2 = doublepoint.multiply( d );
         DoublePoint doublepoint3 = doublepoint1.add( doublepoint2 );
         double d1 = doublepoint3.getLength();
-        if( d1 > max ) {
+        if ( d1 > max ) {
             doublepoint3 = doublepoint3.multiply( max / d1 );
         }
         particle.setVelocity( doublepoint3 );

@@ -29,7 +29,7 @@ public class System2D {
     }
 
     public void addLaw( Law law ) {
-        if( !( law instanceof Law ) ) {
+        if ( !( law instanceof Law ) ) {
             throw new RuntimeException( "What?!" );
         }
         else {
@@ -40,7 +40,7 @@ public class System2D {
 
     public void addLaw( Propagator propagator ) {
         PropagatorLaw propagatorlaw = new PropagatorLaw( propagator );
-        addLaw( ( (Law)( propagatorlaw ) ) );
+        addLaw( ( (Law) ( propagatorlaw ) ) );
     }
 
     public int numLaws() {
@@ -48,7 +48,7 @@ public class System2D {
     }
 
     public Law lawAt( int i ) {
-        return (Law)laws.get( i );
+        return (Law) laws.get( i );
     }
 
     public int numParticles() {
@@ -56,11 +56,11 @@ public class System2D {
     }
 
     public Particle particleAt( int i ) {
-        return (Particle)particles.get( i );
+        return (Particle) particles.get( i );
     }
 
     public void iterate( double d ) {
-        for( int i = 0; i < numLaws(); i++ ) {
+        for ( int i = 0; i < numLaws(); i++ ) {
             lawAt( i ).iterate( d, this );
         }
 

@@ -1,10 +1,10 @@
 package edu.colorado.phet.efield.electron.electricField;
 
+import java.util.Vector;
+
 import edu.colorado.phet.efield.electron.core.ParticleContainer;
 import edu.colorado.phet.efield.electron.phys2d_efield.DoublePoint;
 import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
-
-import java.util.Vector;
 
 public class ChargeFieldSource implements ElectricFieldSource {
     ParticleContainer pc;
@@ -24,7 +24,7 @@ public class ChargeFieldSource implements ElectricFieldSource {
     }
 
     public void removeFromIgnore( Particle p ) {
-        while( ignore.contains( p ) ) {
+        while ( ignore.contains( p ) ) {
             ignore.remove( p );
         }
     }
@@ -36,9 +36,9 @@ public class ChargeFieldSource implements ElectricFieldSource {
     public DoublePoint getField( double x, double y ) {
         DoublePoint field = new DoublePoint();
         DoublePoint pos = new DoublePoint( x, y );
-        for( int i = 0; i < pc.numParticles(); i++ ) {
+        for ( int i = 0; i < pc.numParticles(); i++ ) {
             Particle p = pc.particleAt( i );
-            if( !ignore.contains( p ) ) {
+            if ( !ignore.contains( p ) ) {
                 DoublePoint f = ( getField( p, pos ) );
                 field = field.add( f );
             }
@@ -53,7 +53,7 @@ public class ChargeFieldSource implements ElectricFieldSource {
         DoublePoint pos = p.getPosition();
         DoublePoint r = test.subtract( pos );
         double dist = r.getLength();
-        if( dist == 0 ) {
+        if ( dist == 0 ) {
             return new DoublePoint();
         }
 
@@ -61,7 +61,7 @@ public class ChargeFieldSource implements ElectricFieldSource {
         //System.out.println("scale="+scale);
         r = r.multiply( scale );
         double mag = r.getLength();
-        if( mag > max ) {
+        if ( mag > max ) {
             double rescale = max / mag;
             r = r.multiply( rescale );
         }

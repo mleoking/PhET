@@ -34,8 +34,8 @@ public class SystemRunner
     public void run() {
         alive = true;
         running = true;
-        while( alive ) {
-            while( running ) {
+        while ( alive ) {
+            while ( running ) {
                 system.iterate( dt );
                 ThreadHelper.quietNap( waitTime );
             }

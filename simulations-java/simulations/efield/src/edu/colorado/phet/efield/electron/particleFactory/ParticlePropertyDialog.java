@@ -4,14 +4,15 @@
 
 package edu.colorado.phet.efield.electron.particleFactory;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
-import edu.colorado.phet.efield.electron.utils.Debug;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
+import edu.colorado.phet.efield.electron.utils.Debug;
 
 // Referenced classes of package edu.colorado.phet.efield.electron.particleFactory:
 //            ParticlePropertyListener
@@ -59,8 +60,8 @@ public class ParticlePropertyDialog extends JPanel
 
     public void actionPerformed( ActionEvent actionevent ) {
         Particle particle = getProperties();
-        for( int i = 0; i < v.size(); i++ ) {
-            ( (ParticlePropertyListener)v.get( i ) ).propertiesChanged( particle );
+        for ( int i = 0; i < v.size(); i++ ) {
+            ( (ParticlePropertyListener) v.get( i ) ).propertiesChanged( particle );
             Debug.traceln( "Informing: " + i );
         }
 

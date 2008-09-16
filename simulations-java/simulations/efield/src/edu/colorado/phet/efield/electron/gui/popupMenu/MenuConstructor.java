@@ -4,9 +4,9 @@
 
 package edu.colorado.phet.efield.electron.gui.popupMenu;
 
-import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
-
 import javax.swing.*;
+
+import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
 
 public interface MenuConstructor {
 

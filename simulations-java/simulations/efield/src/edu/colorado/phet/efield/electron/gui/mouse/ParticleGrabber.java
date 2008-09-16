@@ -4,16 +4,16 @@
 
 package edu.colorado.phet.efield.electron.gui.mouse;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+
 import edu.colorado.phet.efield.electron.gui.ParticlePanel;
 import edu.colorado.phet.efield.electron.gui.media.EFieldResettable;
 import edu.colorado.phet.efield.electron.phys2d_efield.DoublePoint;
 import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
 import edu.colorado.phet.efield.electron.phys2d_efield.System2D;
 import edu.colorado.phet.efield.electron.phys2d_efield.SystemRunner;
-
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 
 // Referenced classes of package edu.colorado.phet.efield.electron.gui.mouse:
 //            ParticleSelector
@@ -38,7 +38,7 @@ public class ParticleGrabber
     }
 
     public void mouseReleased( MouseEvent mouseevent ) {
-        if( selected != null ) {
+        if ( selected != null ) {
             sys.addParticle( selected );
         }
         selected = null;
@@ -54,17 +54,17 @@ public class ParticleGrabber
         java.awt.Point point = mouseevent.getPoint();
         Particle particle = ps.selectAt( point );
         selected = particle;
-        if( particle != null ) {
+        if ( particle != null ) {
             sys.remove( selected );
         }
     }
 
     public void mouseDragged( MouseEvent mouseevent ) {
-        if( selected == null ) {
+        if ( selected == null ) {
             return;
         }
         selected.setPosition( new DoublePoint( mouseevent.getX(), mouseevent.getY() ) );
-        if( !run.isActiveAndRunning() ) {
+        if ( !run.isActiveAndRunning() ) {
             pp.repaint();
         }
     }

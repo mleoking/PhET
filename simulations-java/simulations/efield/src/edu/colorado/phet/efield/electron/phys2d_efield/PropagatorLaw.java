@@ -15,7 +15,7 @@ public class PropagatorLaw
     }
 
     public void iterate( double d, System2D system2d ) {
-        for( int i = 0; i < system2d.numParticles(); i++ ) {
+        for ( int i = 0; i < system2d.numParticles(); i++ ) {
             p.propagate( d, system2d.particleAt( i ) );
         }
 

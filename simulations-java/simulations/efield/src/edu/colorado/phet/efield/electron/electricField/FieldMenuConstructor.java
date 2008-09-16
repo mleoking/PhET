@@ -1,13 +1,14 @@
 package edu.colorado.phet.efield.electron.electricField;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.efield.electron.gui.popupMenu.MenuConstructor;
-import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.efield.electron.gui.popupMenu.MenuConstructor;
+import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
 
 public class FieldMenuConstructor implements MenuConstructor {
     ChargeFieldSource cfs;
@@ -40,7 +41,7 @@ public class FieldMenuConstructor implements MenuConstructor {
         }
 
         public void actionPerformed( ActionEvent ae ) {
-            if( isSelected() ) {
+            if ( isSelected() ) {
                 cfs.removeFromIgnore( p );
             }
             else {

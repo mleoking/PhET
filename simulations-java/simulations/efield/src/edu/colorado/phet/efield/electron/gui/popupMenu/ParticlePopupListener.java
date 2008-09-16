@@ -4,12 +4,13 @@
 
 package edu.colorado.phet.efield.electron.gui.popupMenu;
 
-import edu.colorado.phet.efield.electron.gui.ParticlePanel;
-import edu.colorado.phet.efield.electron.gui.mouse.ParticleSelector;
-
-import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
+import javax.swing.*;
+
+import edu.colorado.phet.efield.electron.gui.ParticlePanel;
+import edu.colorado.phet.efield.electron.gui.mouse.ParticleSelector;
 
 // Referenced classes of package edu.colorado.phet.efield.electron.gui.popupMenu:
 //            MenuConstructor
@@ -29,12 +30,12 @@ public class ParticlePopupListener
     }
 
     public void mouseReleased( MouseEvent mouseevent ) {
-        if( mouseevent.isPopupTrigger() ) {
-            if( last != null ) {
+        if ( mouseevent.isPopupTrigger() ) {
+            if ( last != null ) {
                 last.getPopupMenu().setVisible( false );
             }
             edu.colorado.phet.efield.electron.phys2d_efield.Particle particle = ps.selectAt( mouseevent.getPoint() );
-            if( particle != null ) {
+            if ( particle != null ) {
                 last = mc.getMenu( particle );
                 last.setMenuLocation( mouseevent.getPoint().x, mouseevent.getPoint().y );
                 JPopupMenu jpopupmenu = last.getPopupMenu();

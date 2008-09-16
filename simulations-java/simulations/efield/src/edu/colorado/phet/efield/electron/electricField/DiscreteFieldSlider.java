@@ -1,13 +1,14 @@
 package edu.colorado.phet.efield.electron.electricField;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 public class DiscreteFieldSlider implements ActionListener, ChangeListener {
     //JButton b;
@@ -37,6 +38,7 @@ public class DiscreteFieldSlider implements ActionListener, ChangeListener {
 //  	return b;
 
     //      }
+
     public void actionPerformed( ActionEvent ae ) {
         sliderFrame.setVisible( true );
     }

@@ -4,10 +4,11 @@
 
 package edu.colorado.phet.efield.electron.gui.media;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
+
+import javax.swing.*;
 
 public class SelectableJButton extends JButton
         implements ActionListener {
@@ -25,15 +26,15 @@ public class SelectableJButton extends JButton
 
     public void actionPerformed( ActionEvent actionevent ) {
         setSelected( true );
-        for( int i = 0; i < buttonGroup.size(); i++ ) {
-            SelectableJButton selectablejbutton = (SelectableJButton)buttonGroup.get( i );
+        for ( int i = 0; i < buttonGroup.size(); i++ ) {
+            SelectableJButton selectablejbutton = (SelectableJButton) buttonGroup.get( i );
             selectablejbutton.setSelected( false );
         }
 
     }
 
     public void setSelected( boolean flag ) {
-        if( flag ) {
+        if ( flag ) {
             setBorder( BorderFactory.createLoweredBevelBorder() );
         }
         else {

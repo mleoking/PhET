@@ -23,19 +23,19 @@ public class DefaultVectorPainter
         graphics2d.setStroke( stroke );
         graphics2d.setColor( c );
         graphics2d.drawLine( i, j, i + k, j + l );
-        if( k == 0 && l == 0 ) {
+        if ( k == 0 && l == 0 ) {
             return;
         }
         else {
             double d = Math.atan2( k, l );
             double d1 = d + theta;
             double d2 = d - theta;
-            double d3 = (double)( i + k ) - tipLength * Math.sin( d1 );
-            double d4 = (double)( j + l ) - tipLength * Math.cos( d1 );
-            double d5 = (double)( i + k ) - tipLength * Math.sin( d2 );
-            double d6 = (double)( j + l ) - tipLength * Math.cos( d2 );
-            graphics2d.drawLine( i + k, j + l, (int)d3, (int)d4 );
-            graphics2d.drawLine( i + k, j + l, (int)d5, (int)d6 );
+            double d3 = (double) ( i + k ) - tipLength * Math.sin( d1 );
+            double d4 = (double) ( j + l ) - tipLength * Math.cos( d1 );
+            double d5 = (double) ( i + k ) - tipLength * Math.sin( d2 );
+            double d6 = (double) ( j + l ) - tipLength * Math.cos( d2 );
+            graphics2d.drawLine( i + k, j + l, (int) d3, (int) d4 );
+            graphics2d.drawLine( i + k, j + l, (int) d5, (int) d6 );
             return;
         }
     }

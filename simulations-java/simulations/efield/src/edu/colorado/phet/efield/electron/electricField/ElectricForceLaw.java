@@ -22,7 +22,7 @@ public class ElectricForceLaw implements Law, VectorListener, ElectricFieldSourc
     }
 
     public void iterate( double dt, System2D sys ) {
-        for( int i = 0; i < sys.numParticles(); i++ ) {
+        for ( int i = 0; i < sys.numParticles(); i++ ) {
             Particle p = sys.particleAt( i );
             DoublePoint force = field.multiply( p.getCharge() );//f=qE
             //f=ma

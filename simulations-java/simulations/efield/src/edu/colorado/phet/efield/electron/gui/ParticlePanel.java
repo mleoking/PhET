@@ -4,12 +4,13 @@
 
 package edu.colorado.phet.efield.electron.gui;
 
-import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
-import edu.colorado.phet.efield.electron.phys2d_efield.System2D;
-
-import javax.swing.*;
 import java.awt.*;
 import java.util.Vector;
+
+import javax.swing.*;
+
+import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
+import edu.colorado.phet.efield.electron.phys2d_efield.System2D;
 
 // Referenced classes of package edu.colorado.phet.efield.electron.gui:
 //            ParticlePainter, Painter
@@ -38,7 +39,7 @@ public class ParticlePanel extends JPanel {
 
     public void remove( Particle particle ) {
         int i = particles.indexOf( particle );
-        if( i == -1 ) {
+        if ( i == -1 ) {
             return;
         }
         else {
@@ -48,11 +49,11 @@ public class ParticlePanel extends JPanel {
     }
 
     public Particle particleAt( int i ) {
-        return (Particle)particles.get( i );
+        return (Particle) particles.get( i );
     }
 
     public ParticlePainter painterAt( int i ) {
-        return (ParticlePainter)painters.get( i );
+        return (ParticlePainter) painters.get( i );
     }
 
     public void reset() {
@@ -61,7 +62,7 @@ public class ParticlePanel extends JPanel {
     }
 
     public void addAll( System2D system2d, ParticlePainter particlepainter ) {
-        for( int i = 0; i < system2d.numParticles(); i++ ) {
+        for ( int i = 0; i < system2d.numParticles(); i++ ) {
             add( system2d.particleAt( i ), particlepainter );
         }
 
@@ -73,23 +74,23 @@ public class ParticlePanel extends JPanel {
     }
 
     public void paintComponent( Graphics g ) {
-        Graphics2D g2 = (Graphics2D)g;
+        Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         super.paintComponent( g );
-        Graphics2D graphics2d = (Graphics2D)g;
-        for( int i = 0; i < graphicsPainters.size(); i++ ) {
-            Painter painter = (Painter)graphicsPainters.get( i );
+        Graphics2D graphics2d = (Graphics2D) g;
+        for ( int i = 0; i < graphicsPainters.size(); i++ ) {
+            Painter painter = (Painter) graphicsPainters.get( i );
             painter.paint( graphics2d );
         }
 
-        for( int j = 0; j < painters.size(); j++ ) {
-            Particle particle = (Particle)particles.get( j );
-            ParticlePainter particlepainter = (ParticlePainter)painters.get( j );
+        for ( int j = 0; j < painters.size(); j++ ) {
+            Particle particle = (Particle) particles.get( j );
+            ParticlePainter particlepainter = (ParticlePainter) painters.get( j );
             particlepainter.paint( particle, graphics2d );
         }
 
-        for( int k = 0; k < postPainters.size(); k++ ) {
-            Painter painter1 = (Painter)postPainters.get( k );
+        for ( int k = 0; k < postPainters.size(); k++ ) {
+            Painter painter1 = (Painter) postPainters.get( k );
             painter1.paint( graphics2d );
         }
 

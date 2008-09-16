@@ -4,9 +4,9 @@
 
 package edu.colorado.phet.efield.electron.phys2d_efield;
 
-import edu.colorado.phet.efield.electron.phys2d_efield.util.Averager;
-
 import java.util.Vector;
+
+import edu.colorado.phet.efield.electron.phys2d_efield.util.Averager;
 
 public class DoublePoint {
 
@@ -28,10 +28,10 @@ public class DoublePoint {
     public DoublePoint( double d, double d1 ) {
         x = d;
         y = d1;
-        if( Double.isNaN( d ) ) {
+        if ( Double.isNaN( d ) ) {
             throw new RuntimeException( "x was NaN" );
         }
-        if( Double.isNaN( d1 ) ) {
+        if ( Double.isNaN( d1 ) ) {
             throw new RuntimeException( "Y was NaN" );
         }
         else {
@@ -62,7 +62,7 @@ public class DoublePoint {
     public static DoublePoint average( DoublePoint adoublepoint[] ) {
         Averager averager = new Averager();
         Averager averager1 = new Averager();
-        for( int i = 0; i < adoublepoint.length; i++ ) {
+        for ( int i = 0; i < adoublepoint.length; i++ ) {
             averager.update( adoublepoint[i].getX() );
             averager1.update( adoublepoint[i].getY() );
         }

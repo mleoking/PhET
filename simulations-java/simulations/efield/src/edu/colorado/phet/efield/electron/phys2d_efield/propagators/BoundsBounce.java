@@ -17,7 +17,7 @@ public abstract class BoundsBounce
     public void propagate( double d, Particle particle ) {
         DoublePoint doublepoint = particle.getVelocity();
         DoublePoint doublepoint1 = particle.getPosition();
-        if( isOutOfBounds( doublepoint1 ) ) {
+        if ( isOutOfBounds( doublepoint1 ) ) {
             DoublePoint doublepoint2 = getNewVelocity( doublepoint );
             particle.setVelocity( doublepoint2 );
             particle.setPosition( getPointAtBounds( doublepoint1 ) );
