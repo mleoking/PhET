@@ -2,12 +2,15 @@
 
 package edu.colorado.phet.glaciers.module.intro;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 
-import javax.swing.*;
+import javax.swing.Box;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 import javax.swing.text.JTextComponent;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
@@ -44,7 +47,7 @@ public class IntroControlPanel extends JPanel {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public IntroControlPanel( GlaciersModel model, GlaciersPlayArea playArea, Frame dialogOwner, Module module, boolean englishUnits ) {
+    public IntroControlPanel( GlaciersModel model, GlaciersPlayArea playArea, Frame dialogOwner, Module module, boolean englishUnits, int minHeight ) {
         super();
         
         _viewControlPanel = new ViewControlPanel( playArea );
@@ -77,11 +80,17 @@ public class IntroControlPanel extends JPanel {
         bottomLayout.addComponent( Box.createHorizontalStrut( 10 ), row, column++ );
         bottomLayout.addAnchoredComponent( _miscControlPanel, row, column++, GridBagConstraints.EAST );
         
-        JPanel p = new JPanel( new BorderLayout() );
-        p.setLayout( new BoxLayout( p, BoxLayout.Y_AXIS ) );
-        p.add( topPanel );
-        p.add( bottomPanel );
-        add( p, BorderLayout.WEST );
+        JPanel p = new JPanel();
+        EasyGridBagLayout layout = new EasyGridBagLayout( p );
+        p.setLayout( layout );
+        row = 0;
+        column = 0;
+        layout.addFilledComponent( Box.createVerticalStrut( minHeight ), row, column++, 1, 2, GridBagConstraints.VERTICAL );
+        layout.addAnchoredComponent( topPanel, row++, column, GridBagConstraints.CENTER );
+        layout.addAnchoredComponent( bottomPanel, row++, column, GridBagConstraints.CENTER );
+        
+        setLayout( new FlowLayout() );
+        add( p );
         
         Class[] excludedClasses = { ViewControlPanel.class, ClimateControlPanel.class, GraphsControlPanel.class, JTextComponent.class };
         SwingUtils.setBackgroundDeep( this, BACKGROUND_COLOR, excludedClasses, false /* processContentsOfExcludedContainers */ );
