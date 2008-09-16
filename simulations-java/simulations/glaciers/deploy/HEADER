@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-glaciers 1.00.03
+glaciers 1.00.04
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,14 +12,12 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>make coordinates view switch between English and metric units
-<li>make all charts switch between English and metric units, preserve data for time-based charts, close and reopen static charts
-<li>make tools switchable between English and metric units (gps, budget meter, ice thickness)
+<li>switch climate controls between English and metric units
+<li>put default units (F) on top in thermometer tool
 </ul>
 <p>
 <b>Not implemented:</b>
 <ul>
-<li>switching between English/metric units for temperature and snowfall sliders
 <li>Experiments tab
 <li>Help
 </ul>
