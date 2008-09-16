@@ -3,7 +3,6 @@ package edu.colorado.phet.efield;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
-import edu.colorado.phet.efield.electron.gui.ParticlePanel;
 
 public class EFieldResources {
     private static PhetResources INSTANCE = new PhetResources( "efield" );
