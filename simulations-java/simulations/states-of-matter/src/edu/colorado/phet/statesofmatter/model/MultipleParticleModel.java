@@ -84,6 +84,9 @@ public class MultipleParticleModel {
     public static final int NO_THERMOSTAT = 0;
     public static final int ISOKINETIC_THERMOSTAT = 1;
     public static final int ANDERSEN_THERMOSTAT = 2;
+    public static final int ADAPTIVE_THERMOSTAT = 3;   // Adaptive uses isokinetic when temperature is changing and
+                                                       // Andersen when temperature is stable.  This is done because
+                                                       // it provides the most visually appealing behavior.
     
     // Parameters to control rates of change of the container size.
     private static final double MAX_PER_TICK_CONTAINER_SHRINKAGE = 25;
@@ -91,7 +94,14 @@ public class MultipleParticleModel {
     
     // Countdown value used when recalculating temperature when the
     // container size is changing.
-    private static final int CONTAINER_SIZE_CHANGE_RESET_COUNT = 50;
+    private static final int CONTAINER_SIZE_CHANGE_RESET_COUNT = 25;
+    
+    // Countdown value used when deciding if the temperature is stable.
+    private static final int TEMPERATURE_STABILITY_RESET_COUNT = 50;
+    
+    // Range for deciding if the temperature is near the current set point.
+    // The units are internal model units.
+    private static final double TEMPERATURE_CLOSENESS_RANGE = 0.15;
     
     // Parameters used for "hollywooding" of the water crystal.
     private static final double WATER_FULLY_MELTED_TEMPERATURE = 0.3;
@@ -147,7 +157,7 @@ public class MultipleParticleModel {
     private double  m_normalizedContainerHeight;
     private double  m_potentialEnergy;
     private Random  m_rand = new Random();
-    private double  m_temperature;
+    private double  m_temperatureSetPoint;
     private double  m_gravitationalAcceleration;
     private double  m_heatingCoolingAmount;
     private int     m_tempAdjustTickCounter;
@@ -158,6 +168,7 @@ public class MultipleParticleModel {
     private PressureCalculator m_pressureCalculator;
     private int     m_thermostatType;
     private int     m_heightChangeCounter;
+    private int     m_temperatureChangeCounter;
     
     //----------------------------------------------------------------------------
     // Constructor
@@ -168,7 +179,7 @@ public class MultipleParticleModel {
         m_clock = clock;
         m_pressureCalculator = new PressureCalculator();
         m_heightChangeCounter = 0;
-        setThermostatType( ISOKINETIC_THERMOSTAT );
+        setThermostatType( ADAPTIVE_THERMOSTAT );
         
         // Register as a clock listener.
         clock.addClockListener(new ClockAdapter(){
@@ -224,13 +235,13 @@ public class MultipleParticleModel {
     
     public void setTemperature(double newTemperature){
         if (newTemperature > MAX_TEMPERATURE) {
-            m_temperature = MAX_TEMPERATURE;
+            m_temperatureSetPoint = MAX_TEMPERATURE;
         }
         else if (newTemperature < MIN_TEMPERATURE){
-            m_temperature = MIN_TEMPERATURE;
+            m_temperatureSetPoint = MIN_TEMPERATURE;
         }
         else{
-            m_temperature = newTemperature;
+            m_temperatureSetPoint = newTemperature;
         }
 
         notifyTemperatureChanged();
@@ -241,7 +252,7 @@ public class MultipleParticleModel {
      * only meaningful to the model.
      */
     public double getModelTemperature(){
-        return m_temperature;
+        return m_temperatureSetPoint;
     }
     
     /**
@@ -355,7 +366,8 @@ public class MultipleParticleModel {
     public void setThermostatType( int type ) {
         if ((type == NO_THERMOSTAT) ||
             (type == ISOKINETIC_THERMOSTAT) ||
-            (type == ANDERSEN_THERMOSTAT))
+            (type == ANDERSEN_THERMOSTAT) ||
+            (type == ADAPTIVE_THERMOSTAT))
         {
             m_thermostatType = type;
         }
@@ -500,8 +512,8 @@ public class MultipleParticleModel {
         m_gravitationalAcceleration = INITIAL_GRAVITATIONAL_ACCEL;
         m_heatingCoolingAmount = 0;
         m_tempAdjustTickCounter = 0;
-        if (m_temperature != INITIAL_TEMPERATURE){
-            m_temperature = INITIAL_TEMPERATURE;
+        if (m_temperatureSetPoint != INITIAL_TEMPERATURE){
+            m_temperatureSetPoint = INITIAL_TEMPERATURE;
             notifyTemperatureChanged();
         }
         
@@ -678,13 +690,13 @@ public class MultipleParticleModel {
     /**
      * Sets the amount of heating or cooling that the system is undergoing.
      * 
-     * @param heatingCoolingAmount - Normalized amount of heating or cooling
+     * @param normalizedHeatingCoolingAmount - Normalized amount of heating or cooling
      * that the system is undergoing, ranging from -1 to +1.
      */
-    public void setHeatingCoolingAmount(double heatingCoolingAmount){
-        assert (heatingCoolingAmount <= 1.0) && (heatingCoolingAmount >= -1.0);
+    public void setHeatingCoolingAmount(double normalizedHeatingCoolingAmount){
+        assert (normalizedHeatingCoolingAmount <= 1.0) && (normalizedHeatingCoolingAmount >= -1.0);
         
-        m_heatingCoolingAmount = heatingCoolingAmount;
+        m_heatingCoolingAmount = normalizedHeatingCoolingAmount * MAX_TEMPERATURE_CHANGE_PER_ADJUSTMENT;
     }
     
     /**
@@ -886,12 +898,12 @@ public class MultipleParticleModel {
         m_tempAdjustTickCounter++;
         if ((m_tempAdjustTickCounter > TICKS_PER_TEMP_ADJUSTEMENT) && m_heatingCoolingAmount != 0){
             m_tempAdjustTickCounter = 0;
-            m_temperature += m_heatingCoolingAmount * MAX_TEMPERATURE_CHANGE_PER_ADJUSTMENT;
-            if (m_temperature >= MAX_TEMPERATURE){
-                m_temperature = MAX_TEMPERATURE;
+            m_temperatureSetPoint += m_heatingCoolingAmount;
+            if (m_temperatureSetPoint >= MAX_TEMPERATURE){
+                m_temperatureSetPoint = MAX_TEMPERATURE;
             }
-            else if (m_temperature <= MIN_TEMPERATURE){
-                m_temperature = MIN_TEMPERATURE;
+            else if (m_temperatureSetPoint <= MIN_TEMPERATURE){
+                m_temperatureSetPoint = MIN_TEMPERATURE;
             }
             notifyTemperatureChanged();
         }
@@ -1233,7 +1245,7 @@ public class MultipleParticleModel {
     private void gasifyMonatomicMolecules(){
         setTemperature( GAS_TEMPERATURE );
         Random rand = new Random();
-        double temperatureSqrt = Math.sqrt( m_temperature );
+        double temperatureSqrt = Math.sqrt( m_temperatureSetPoint );
         for (int i = 0; i < m_numberOfAtoms; i++){
             // Temporarily position the particles at (0,0).
             m_atomPositions[i].setLocation( 0, 0 );
@@ -1285,7 +1297,7 @@ public class MultipleParticleModel {
         
         setTemperature( GAS_TEMPERATURE );
         Random rand = new Random();
-        double temperatureSqrt = Math.sqrt( m_temperature );
+        double temperatureSqrt = Math.sqrt( m_temperatureSetPoint );
         int numberOfMolecules = m_numberOfAtoms / m_atomsPerMolecule;
         
         for (int i = 0; i < numberOfMolecules; i++){
@@ -1362,7 +1374,7 @@ public class MultipleParticleModel {
     private void liquifyMonatomicMolecules(){
         
         setTemperature( LIQUID_TEMPERATURE );
-        double temperatureSqrt = Math.sqrt( m_temperature );
+        double temperatureSqrt = Math.sqrt( m_temperatureSetPoint );
         
         // Set the initial velocity for each of the atoms based on the new
         // temperature.
@@ -1436,7 +1448,7 @@ public class MultipleParticleModel {
     private void liquifyMultiAtomicMolecules(){
         
         setTemperature( LIQUID_TEMPERATURE );
-        double temperatureSqrt = Math.sqrt( m_temperature );
+        double temperatureSqrt = Math.sqrt( m_temperatureSetPoint );
         int numberOfMolecules = m_numberOfAtoms / m_atomsPerMolecule;
 
         // Initialize the velocities and angles of the molecules.
@@ -1539,7 +1551,7 @@ public class MultipleParticleModel {
 
         setTemperature( SOLID_TEMPERATURE );
         Random rand = new Random();
-        double temperatureSqrt = Math.sqrt( m_temperature );
+        double temperatureSqrt = Math.sqrt( m_temperatureSetPoint );
         int particlesPerLayer = (int)Math.round( Math.sqrt( m_numberOfAtoms ) );
         if ((m_atomsPerMolecule == 2) && (particlesPerLayer % 2 != 0)){
             // We must have an even number of particles per layer if the
@@ -1581,7 +1593,7 @@ public class MultipleParticleModel {
         
         setTemperature( SOLID_TEMPERATURE );
         Random rand = new Random();
-        double temperatureSqrt = Math.sqrt( m_temperature );
+        double temperatureSqrt = Math.sqrt( m_temperatureSetPoint );
         int moleculesPerLayer = (int)Math.round( Math.sqrt( m_numberOfAtoms ) / 2 );
         
         double startingPosX = (m_normalizedContainerWidth / 2) - 
@@ -1626,7 +1638,7 @@ public class MultipleParticleModel {
         
         setTemperature( SOLID_TEMPERATURE );
         Random rand = new Random();
-        double temperatureSqrt = Math.sqrt( m_temperature );
+        double temperatureSqrt = Math.sqrt( m_temperatureSetPoint );
         int moleculesPerLayer = (int)Math.round( Math.sqrt( m_numberOfAtoms / 3 ) );
         
         double startingPosX = (m_normalizedContainerWidth / 2) - (double)(moleculesPerLayer / 2) - 
@@ -1789,6 +1801,15 @@ public class MultipleParticleModel {
                     (m_atomVelocities[i].getY() * m_atomVelocities[i].getY())) / 2;
         }
         
+        double calculatedTemperature = kineticEnergy / m_numberOfAtoms;
+        boolean temperatureIsChanging = false;
+        
+        if ((m_heatingCoolingAmount != 0) ||
+            (m_temperatureSetPoint + TEMPERATURE_CLOSENESS_RANGE < calculatedTemperature) ||
+            (m_temperatureSetPoint - TEMPERATURE_CLOSENESS_RANGE > calculatedTemperature)) {
+            temperatureIsChanging = true;
+        }
+        
         // Run the thermostat, which keeps the atoms from getting way too much
         // energy over time due to simulation inaccuracies and limitations.
         // Note that the thermostat is NOT run if the container size is
@@ -1796,15 +1817,16 @@ public class MultipleParticleModel {
         // container, so that the increase/decrease in temperature caused by
         // the size change can actually happen.
         if ((m_heightChangeCounter == 0) || !interactionOccurredWithTop){
-            if (m_thermostatType == ISOKINETIC_THERMOSTAT){
+            if ((m_thermostatType == ISOKINETIC_THERMOSTAT) ||
+                (m_thermostatType == ADAPTIVE_THERMOSTAT && temperatureIsChanging)){
                 // Isokinetic thermostat
                 
                 double temperatureScaleFactor;
-                if (m_temperature == 0){
+                if (m_temperatureSetPoint == 0){
                     temperatureScaleFactor = 0;
                 }
                 else{
-                    temperatureScaleFactor = Math.sqrt( m_temperature * m_numberOfAtoms / kineticEnergy );
+                    temperatureScaleFactor = Math.sqrt( m_temperatureSetPoint * m_numberOfAtoms / kineticEnergy );
                 }
                 kineticEnergy = 0;
                 for (int i = 0; i < m_numberOfAtoms; i++){
@@ -1814,14 +1836,15 @@ public class MultipleParticleModel {
                             (m_atomVelocities[i].getY() * m_atomVelocities[i].getY())) / 2;
                 }
             }
-            else if (m_thermostatType == ANDERSEN_THERMOSTAT){
+            else if ((m_thermostatType == ANDERSEN_THERMOSTAT) ||
+                     (m_thermostatType == ADAPTIVE_THERMOSTAT && !temperatureIsChanging)){
                 // Modified Andersen Thermostat to maintain fixed temperature
                 // modification to reduce abruptness of heat bath interactions.
                 // For bare Andersen, set gamma=0.0d0.
                 double gamma = 0.9999;
                 for (int i = 0; i < m_numberOfAtoms; i++){
-                    double xVel = m_atomVelocities[i].getX() * gamma + m_rand.nextGaussian() * Math.sqrt(  m_temperature * (1 - Math.pow(gamma, 2)) );
-                    double yVel = m_atomVelocities[i].getY() * gamma + m_rand.nextGaussian() * Math.sqrt(  m_temperature * (1 - Math.pow(gamma, 2)) );
+                    double xVel = m_atomVelocities[i].getX() * gamma + m_rand.nextGaussian() * Math.sqrt(  m_temperatureSetPoint * (1 - Math.pow(gamma, 2)) );
+                    double yVel = m_atomVelocities[i].getY() * gamma + m_rand.nextGaussian() * Math.sqrt(  m_temperatureSetPoint * (1 - Math.pow(gamma, 2)) );
                     m_atomVelocities[i].setComponents( xVel, yVel );
                 }
             }
@@ -1984,6 +2007,15 @@ public class MultipleParticleModel {
             m_moleculeTorques[i] = m_nextMoleculeTorques[i];
         }
         
+        double calculatedTemperature = (centersOfMassKineticEnergy + rotationalKineticEnergy) / numberOfMolecules / 1.5;
+        boolean temperatureIsChanging = false;
+        
+        if ((m_heatingCoolingAmount != 0) ||
+            (m_temperatureSetPoint + TEMPERATURE_CLOSENESS_RANGE < calculatedTemperature) ||
+            (m_temperatureSetPoint - TEMPERATURE_CLOSENESS_RANGE > calculatedTemperature)) {
+            temperatureIsChanging = true;
+        }
+        
         // Run the thermostat, which keeps the atoms from getting way too much
         // energy over time due to simulation inaccuracies and limitations.
         // Note that the thermostat is NOT run if the container size is
@@ -1991,15 +2023,18 @@ public class MultipleParticleModel {
         // container, so that the increase/decrease in temperature caused by
         // the size change can actually happen.
         if ((m_heightChangeCounter == 0) || !interactionOccurredWithTop){
-            if (m_thermostatType == ISOKINETIC_THERMOSTAT){
+            
+            if ((m_thermostatType == ISOKINETIC_THERMOSTAT) ||
+                (m_thermostatType == ADAPTIVE_THERMOSTAT && temperatureIsChanging)){
+
                 // Isokinetic thermostat
                 
                 double temperatureScaleFactor;
-                if (m_temperature == 0){
+                if (m_temperatureSetPoint == 0){
                     temperatureScaleFactor = 0;
                 }
                 else{
-                    temperatureScaleFactor = Math.sqrt( 1.5 * m_temperature * numberOfMolecules / (centersOfMassKineticEnergy + rotationalKineticEnergy) );
+                    temperatureScaleFactor = Math.sqrt( 1.5 * m_temperatureSetPoint * numberOfMolecules / (centersOfMassKineticEnergy + rotationalKineticEnergy) );
                 }
                 for (int i = 0; i < numberOfMolecules; i++){
                     m_moleculeVelocities[i].setComponents( m_moleculeVelocities[i].getX() * temperatureScaleFactor, 
@@ -2009,13 +2044,15 @@ public class MultipleParticleModel {
                 centersOfMassKineticEnergy = centersOfMassKineticEnergy * temperatureScaleFactor * temperatureScaleFactor;
                 rotationalKineticEnergy = rotationalKineticEnergy * temperatureScaleFactor * temperatureScaleFactor;
             }
-            else if (m_thermostatType == ANDERSEN_THERMOSTAT){
+            else if ((m_thermostatType == ANDERSEN_THERMOSTAT) ||
+                     (m_thermostatType == ADAPTIVE_THERMOSTAT && !temperatureIsChanging)){
+
                 // Modified Andersen Thermostat to maintain fixed temperature
                 // modification to reduce abruptness of heat bath interactions.
                 // For bare Andersen, set gamma=0.0d0.
                 double gamma = 0.9999;
-                double velocityScalingFactor = Math.sqrt( m_temperature * massInverse * (1 - Math.pow( gamma, 2)));
-                double rotationScalingFactor = Math.sqrt( m_temperature * inertiaInverse * (1 - Math.pow( gamma, 2)));
+                double velocityScalingFactor = Math.sqrt( m_temperatureSetPoint * massInverse * (1 - Math.pow( gamma, 2)));
+                double rotationScalingFactor = Math.sqrt( m_temperatureSetPoint * inertiaInverse * (1 - Math.pow( gamma, 2)));
                 
                 for (int i = 0; i < numberOfMolecules; i++){
                     double xVel = m_moleculeVelocities[i].getX() * gamma + m_rand.nextGaussian() * velocityScalingFactor;
@@ -2048,12 +2085,12 @@ public class MultipleParticleModel {
         // TODO: JPB TBD Work with Paul to come up with better names for these
         // charge-defining variables.
         double q0;
-        if ( m_temperature < WATER_FULLY_FROZEN_TEMPERATURE ){
+        if ( m_temperatureSetPoint < WATER_FULLY_FROZEN_TEMPERATURE ){
             // Use stronger electrostatic forces in order to create more of
             // a crystal structure.
             q0 = WATER_FULLY_FROZEN_ELECTROSTATIC_FORCE;
         }
-        else if ( m_temperature > WATER_FULLY_MELTED_TEMPERATURE ){
+        else if ( m_temperatureSetPoint > WATER_FULLY_MELTED_TEMPERATURE ){
             // Use weaker electrostatic forces in order to create more of an
             // appearance of liquid.
             q0 = WATER_FULLY_MELTED_ELECTROSTATIC_FORCE;
@@ -2061,7 +2098,7 @@ public class MultipleParticleModel {
         else {
             // We are somewhere in between the temperature for being fully
             // melted or frozen, so scale accordingly.
-            double temperatureFactor = (m_temperature - WATER_FULLY_FROZEN_TEMPERATURE)/
+            double temperatureFactor = (m_temperatureSetPoint - WATER_FULLY_FROZEN_TEMPERATURE)/
                     (WATER_FULLY_MELTED_TEMPERATURE - WATER_FULLY_FROZEN_TEMPERATURE);
             q0 = WATER_FULLY_FROZEN_ELECTROSTATIC_FORCE - 
                 (temperatureFactor * (WATER_FULLY_FROZEN_ELECTROSTATIC_FORCE - WATER_FULLY_MELTED_ELECTROSTATIC_FORCE));
@@ -2181,18 +2218,18 @@ public class MultipleParticleModel {
                     // crystalline behavior we need for ice.
                     double scalingFactor;
                     double maxScalingFactor = 3;  // TODO: JPB TBD - Make a constant if kept.
-                    if (m_temperature > WATER_FULLY_MELTED_TEMPERATURE){
+                    if (m_temperatureSetPoint > WATER_FULLY_MELTED_TEMPERATURE){
                         // No scaling of the repulsive force.
                         scalingFactor = 1;
                     }
-                    else if (m_temperature < WATER_FULLY_FROZEN_TEMPERATURE){
+                    else if (m_temperatureSetPoint < WATER_FULLY_FROZEN_TEMPERATURE){
                         // Scale by the max to force space in the crystal.
                         scalingFactor = maxScalingFactor;
                     }
                     else{
                         // We are somewhere between fully frozen and fully
                         // liquified, so adjust the scaling factor accordingly.
-                        double temperatureFactor = (m_temperature - WATER_FULLY_FROZEN_TEMPERATURE)/
+                        double temperatureFactor = (m_temperatureSetPoint - WATER_FULLY_FROZEN_TEMPERATURE)/
                                 (WATER_FULLY_MELTED_TEMPERATURE - WATER_FULLY_FROZEN_TEMPERATURE);
                         scalingFactor = maxScalingFactor - (temperatureFactor * (maxScalingFactor - 1));
                     }
@@ -2268,6 +2305,15 @@ public class MultipleParticleModel {
         }
 //        System.out.println("kecm/n = " + kecm/numberOfMolecules + ", kerot/n = " + kerot/numberOfMolecules);
         
+        double calculatedTemperature = (kecm + kerot) / numberOfMolecules / 1.5;
+        boolean temperatureIsChanging = false;
+        
+        if ((m_heatingCoolingAmount != 0) ||
+            (m_temperatureSetPoint + TEMPERATURE_CLOSENESS_RANGE < calculatedTemperature) ||
+            (m_temperatureSetPoint - TEMPERATURE_CLOSENESS_RANGE > calculatedTemperature)) {
+            temperatureIsChanging = true;
+        }
+        
         // Run the thermostat, which keeps the atoms from getting way too much
         // energy over time due to simulation inaccuracies and limitations.
         // Note that the thermostat is NOT run if the container size is
@@ -2275,15 +2321,17 @@ public class MultipleParticleModel {
         // container, so that the increase/decrease in temperature caused by
         // the size change can actually happen.
         if ((m_heightChangeCounter == 0) || !interactionOccurredWithTop){
-            if (m_thermostatType == ISOKINETIC_THERMOSTAT){
+            if ((m_thermostatType == ISOKINETIC_THERMOSTAT) ||
+                (m_thermostatType == ADAPTIVE_THERMOSTAT && temperatureIsChanging)){
+
                 // Isokinetic thermostat
                 
                 double temperatureScaleFactor;
-                if (m_temperature == 0){
+                if (m_temperatureSetPoint == 0){
                     temperatureScaleFactor = 0;
                 }
                 else{
-                    temperatureScaleFactor = Math.sqrt( 1.5 * m_temperature * numberOfMolecules / (kecm + kerot) );
+                    temperatureScaleFactor = Math.sqrt( 1.5 * m_temperatureSetPoint * numberOfMolecules / (kecm + kerot) );
                 }
                 for (int i = 0; i < numberOfMolecules; i++){
                     m_moleculeVelocities[i].setComponents( m_moleculeVelocities[i].getX() * temperatureScaleFactor, 
@@ -2293,13 +2341,15 @@ public class MultipleParticleModel {
                 kecm = kecm * temperatureScaleFactor * temperatureScaleFactor;
                 kerot = kerot * temperatureScaleFactor * temperatureScaleFactor;
             }
-            else if (m_thermostatType == ANDERSEN_THERMOSTAT){
+            else if ((m_thermostatType == ANDERSEN_THERMOSTAT) ||
+                     (m_thermostatType == ADAPTIVE_THERMOSTAT && !temperatureIsChanging)){
+
                 // Modified Andersen Thermostat to maintain fixed temperature
                 // modification to reduce abruptness of heat bath interactions.
                 // For bare Andersen, set gamma=0.0d0.
                 double gamma = 0.9999;
-                double velocityScalingFactor = Math.sqrt( m_temperature * massInverse * (1 - Math.pow( gamma, 2)));
-                double rotationScalingFactor = Math.sqrt( m_temperature * inertiaInverse * (1 - Math.pow( gamma, 2)));
+                double velocityScalingFactor = Math.sqrt( m_temperatureSetPoint * massInverse * (1 - Math.pow( gamma, 2)));
+                double rotationScalingFactor = Math.sqrt( m_temperatureSetPoint * inertiaInverse * (1 - Math.pow( gamma, 2)));
                 
                 for (int i = 0; i < numberOfMolecules; i++){
                     double xVel = m_moleculeVelocities[i].getX() * gamma + m_rand.nextGaussian() * velocityScalingFactor;
@@ -2315,7 +2365,7 @@ public class MultipleParticleModel {
             // temperature set point based on the current amount of kinetic
             // energy, since it may have changed as a result of the container
             // size change.
-            setTemperature( calculateTemperatureFromKineticEnergy() );
+            setTemperature( calculatedTemperature );
         }
     }
     
@@ -2547,35 +2597,35 @@ public class MultipleParticleModel {
         switch (m_currentMolecule){
         
         case StatesOfMatterConstants.NEON:
-            if (m_temperature <= 0.4){
-                temperatureInKelvin = m_temperature * 61.375;
+            if (m_temperatureSetPoint <= 0.4){
+                temperatureInKelvin = m_temperatureSetPoint * 61.375;
             }
-            else if (m_temperature <= 0.5){
-                temperatureInKelvin = m_temperature * 198 - 54.65;
+            else if (m_temperatureSetPoint <= 0.5){
+                temperatureInKelvin = m_temperatureSetPoint * 198 - 54.65;
             }
             else {
-                temperatureInKelvin = m_temperature * 88.7;
+                temperatureInKelvin = m_temperatureSetPoint * 88.7;
             }
             break;
             
         case StatesOfMatterConstants.ARGON:
-            if (m_temperature <= 0.4){
-                temperatureInKelvin = m_temperature * 210;
+            if (m_temperatureSetPoint <= 0.4){
+                temperatureInKelvin = m_temperatureSetPoint * 210;
             }
-            else if (m_temperature <= 0.5){
-                temperatureInKelvin = m_temperature * 670 - 184;
+            else if (m_temperatureSetPoint <= 0.5){
+                temperatureInKelvin = m_temperatureSetPoint * 670 - 184;
             }
             else {
-                temperatureInKelvin = m_temperature * 302;
+                temperatureInKelvin = m_temperatureSetPoint * 302;
             }
             break;
 
         case StatesOfMatterConstants.WATER:
-            temperatureInKelvin = m_temperature * 1000;
+            temperatureInKelvin = m_temperatureSetPoint * 1000;
             break;
             
         case StatesOfMatterConstants.DIATOMIC_OXYGEN:
-            temperatureInKelvin = m_temperature * 180;
+            temperatureInKelvin = m_temperatureSetPoint * 180;
             break;
             
         default:
