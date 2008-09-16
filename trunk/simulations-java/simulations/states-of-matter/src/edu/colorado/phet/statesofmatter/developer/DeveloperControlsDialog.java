@@ -34,6 +34,7 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.statesofmatter.StatesOfMatterApplication;
+import edu.colorado.phet.statesofmatter.control.GravityControlPanel;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.colorado.phet.statesofmatter.module.exp2.Exp2SolidLiquidGasModule;
@@ -163,8 +164,8 @@ public class DeveloperControlsDialog extends JDialog {
         m_temperatureControl.setTextFieldEditable( true );
         m_temperatureControl.setFont( new PhetFont( Font.PLAIN, 14 ) );
         m_temperatureControl.setTickPattern( "0" );
-        m_temperatureControl.setMajorTickSpacing( 2.5 );
-        m_temperatureControl.setMinorTickSpacing( 1.25 );
+        m_temperatureControl.setMajorTickSpacing( 100 );
+        m_temperatureControl.setMinorTickSpacing( 10 );
         m_temperatureControl.setBorder( BorderFactory.createEtchedBorder() );
         m_temperatureControl.setValue( m_model.getModelTemperature() );
         m_temperatureControl.addChangeListener( new ChangeListener() {
@@ -178,6 +179,9 @@ public class DeveloperControlsDialog extends JDialog {
                 }
             }
         });
+        
+        // Gravity control.
+        GravityControlPanel gravityControlPanel = new GravityControlPanel( m_model );
         
         // Create the "Additional Information" panel.
         JPanel infoPanel = new JPanel();
@@ -210,6 +214,7 @@ public class DeveloperControlsDialog extends JDialog {
         layout.addComponent( selectedTabColorControl, row++, column );
         layout.addComponent( thermostatSelectionPanel, row++, column );
         layout.addComponent( m_temperatureControl, row++, column );
+        layout.addComponent( gravityControlPanel, row++, column );
         layout.addComponent( infoPanel, row++, column );
 
         return panel;
