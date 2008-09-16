@@ -16,13 +16,10 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.phetcommon.view.AnimatedClockJComponent;
 import edu.colorado.phet.common.phetcommon.view.TimeControlPanel;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.MediaPlaybackBarNode;
-import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PlayPauseButton;
-import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.StepButton;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -91,7 +88,7 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
         ImageIcon restartIcon = new ImageIcon( restartImage );
         restartButton = new JButton( restartString, restartIcon );
 
-        piccoloPlayPauseButton = new PlayPauseButton( (int) ( playPauseButton.getPreferredSize().width * 0.7 ) );
+        piccoloPlayPauseButton = new PlayPauseButton( (int) ( playPauseButton.getPreferredSize().width * 0.7 * 0.7 ) );
         piccoloStepButton = new StepButton( (int) ( piccoloPlayPauseButton.getButtonDimension().width * 0.8 ) );
 
         // Put all the buttons in a button panel
@@ -102,6 +99,7 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
 //        addScreenChild( piccoloPlayPauseButton );
         PhetPCanvas piccoloPanel = new PhetPCanvas();
         piccoloPanel.setBorder( null );
+        piccoloPanel.setBackground( null );
         piccoloPanel.addScreenChild( piccoloPlayPauseButton );
         piccoloPanel.addScreenChild( piccoloStepButton );
         piccoloStepButton.setOffset( piccoloPlayPauseButton.getFullBounds().getMaxX(), piccoloPlayPauseButton.getFullBounds().getCenterY() - piccoloStepButton.getFullBounds().getHeight() / 2 );
