@@ -2,13 +2,19 @@
 
 package edu.colorado.phet.common.piccolophet.event;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.event.InputEvent;
+import java.awt.geom.Rectangle2D;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
 
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PComponent;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * Feasibility test for improved cursor handling
@@ -108,5 +114,62 @@ public class CursorHandler2 extends PBasicInputEventHandler {
         else {//if ( mouseEntered && mousePressed ) {
             return cursor;
         }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Utilities for examining PInputEvent
+    //----------------------------------------------------------------------------
+    
+    private static boolean isAnyButtonDown( PInputEvent event ) {
+        return isButton1Down( event ) || isButton2Down( event ) || isButton3Down( event );
+    }
+    
+    private static boolean isButton1Down( PInputEvent event ) {
+        return  hasModifier( event, InputEvent.BUTTON1_DOWN_MASK );
+    }
+    
+    private static boolean isButton2Down( PInputEvent event ) {
+        return hasModifier( event, InputEvent.BUTTON2_DOWN_MASK );
+    }
+    
+    private static boolean isButton3Down( PInputEvent event ) {
+        return hasModifier( event, InputEvent.BUTTON3_DOWN_MASK );
+    }
+    
+    /*
+     * Checks to see if event has the specified modifier as part of its extended modifier mask.
+     * 
+     * @param event
+     * @param modifier one of the modifier constants documented in java.awt.event.InputEvent
+     */
+    private static boolean hasModifier( PInputEvent event, int modifier ) {
+        return ( event.getModifiersEx() & modifier ) != 0;
+    }
+    
+    //----------------------------------------------------------------------------
+    // test
+    //----------------------------------------------------------------------------
+    
+    public static void main( String[] args ) {
+        
+        PhetPCanvas canvas = new PhetPCanvas();
+        
+        PPath redNode = new PPath( new Rectangle2D.Double( 0, 0, 100, 100 ) );
+        redNode.setPaint( Color.RED );
+        redNode.setOffset( 50, 50 );
+        redNode.addInputEventListener( new CursorHandler2( CROSSHAIR ) );
+        canvas.getLayer().addChild( redNode );
+        
+        PPath greenNode = new PPath( new Rectangle2D.Double( 0, 0, 100, 100 ) );
+        greenNode.setPaint( Color.GREEN );
+        greenNode.setOffset( redNode.getFullBoundsReference().getMaxX() + 50, redNode.getFullBoundsReference().getY() );
+        greenNode.addInputEventListener( new CursorHandler2( HAND ) );
+        canvas.getLayer().addChild( greenNode );
+        
+        JFrame frame = new JFrame();
+        frame.setContentPane( canvas );
+        frame.setSize( 500, 300 );
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        frame.setVisible( true );
     }
 }
