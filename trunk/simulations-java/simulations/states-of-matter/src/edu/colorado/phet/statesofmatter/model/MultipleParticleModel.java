@@ -403,11 +403,6 @@ public class MultipleParticleModel {
             // This is a valid value.
             m_targetContainerHeight = desiredContainerHeight;
         }
-        else{
-            // Invalid value.
-            System.err.println("Error: Contain height value out of range.");
-            assert false;
-        }
     }
 
     /**
