@@ -381,7 +381,6 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
      */
     private void updateZoomedViewportBounds() {
         Rectangle2D zb = _zoomedCanvas.getBounds();
-        assert ( !zb.isEmpty() );
         double scale = _zoomedCanvas.getCamera().getViewScale();
         Rectangle2D rView = _mvt.modelToView( _zoomedViewport.getBoundsReference() );
         rView.setRect( rView.getX(), rView.getY(), zb.getWidth() / scale, zb.getHeight() / scale );
