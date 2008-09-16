@@ -59,7 +59,11 @@ public class StatesOfMatterStrings {
     public static final String GRAVITY_CONTROL_LOTS = StatesOfMatterResources.getString("GravityControl.Lots");
 
     public static final String ATOM_DIAMETER_CONTROL_TITLE = StatesOfMatterResources.getString("AtomDiameterControl.Title");
+    public static final String ATOM_DIAMETER_SMALL = StatesOfMatterResources.getString("AtomDiameterControl.Small");
+    public static final String ATOM_DIAMETER_LARGE = StatesOfMatterResources.getString("AtomDiameterControl.Large");
     public static final String INTERACTION_STRENGTH_CONTROL_TITLE = StatesOfMatterResources.getString("InteractionStrengthControl.Title");
+    public static final String INTERACTION_STRENGTH_WEAK = StatesOfMatterResources.getString("InteractionStrengthControl.Weak");
+    public static final String INTERACTION_STRENGTH_STRONG = StatesOfMatterResources.getString("InteractionStrengthControl.Strong");
     public static final String SHOW_ATTRACTIVE_FORCES = StatesOfMatterResources.getString("InteractionPotential.ShowAttractiveForces");
     public static final String SHOW_REPULSIVE_FORCES = StatesOfMatterResources.getString("InteractionPotential.ShowRepulsiveForces");
     public static final String STOP_ATOM = StatesOfMatterResources.getString("InteractionPotential.StopAtom");

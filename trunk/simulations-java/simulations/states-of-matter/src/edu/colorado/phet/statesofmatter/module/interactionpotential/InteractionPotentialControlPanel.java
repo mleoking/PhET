@@ -298,10 +298,10 @@ public class InteractionPotentialControlPanel extends ControlPanel {
                 }
             });
             Hashtable diameterControlLabelTable = new Hashtable();
-            m_leftLabel = new JLabel("Small"); // TODO: JPB TBD - Turn into resource if kept.
+            m_leftLabel = new JLabel(StatesOfMatterStrings.ATOM_DIAMETER_SMALL);
             m_leftLabel.setFont( LABEL_FONT );
             diameterControlLabelTable.put( new Double( m_atomDiameterControl.getMinimum() ), m_leftLabel );
-            m_rightLabel = new JLabel("Large"); // TODO: JPB TBD - Turn into resource if kept.
+            m_rightLabel = new JLabel(StatesOfMatterStrings.ATOM_DIAMETER_LARGE);
             m_rightLabel.setFont( LABEL_FONT );
             diameterControlLabelTable.put( new Double( m_atomDiameterControl.getMaximum() ), m_rightLabel );
             m_atomDiameterControl.setTickLabels( diameterControlLabelTable );
@@ -372,10 +372,10 @@ public class InteractionPotentialControlPanel extends ControlPanel {
                 }
             });
             Hashtable diameterControlLabelTable = new Hashtable();
-            m_leftLabel = new JLabel("Weak"); // TODO: JPB TBD - Turn into resource if kept.
+            m_leftLabel = new JLabel(StatesOfMatterStrings.INTERACTION_STRENGTH_WEAK);
             m_leftLabel.setFont( LABEL_FONT );
             diameterControlLabelTable.put( new Double( m_interactionStrengthControl.getMinimum() ), m_leftLabel );
-            m_rightLabel = new JLabel("Strong"); // TODO: JPB TBD - Turn into resource if kept.
+            m_rightLabel = new JLabel(StatesOfMatterStrings.INTERACTION_STRENGTH_STRONG);
             m_rightLabel.setFont( LABEL_FONT );
             diameterControlLabelTable.put( new Double( m_interactionStrengthControl.getMaximum() ), m_rightLabel );
             m_interactionStrengthControl.setTickLabels( diameterControlLabelTable );
