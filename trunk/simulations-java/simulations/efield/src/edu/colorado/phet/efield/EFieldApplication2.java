@@ -1,8 +1,5 @@
 package edu.colorado.phet.efield;
 
-import java.awt.*;
-import java.io.IOException;
-
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
@@ -12,8 +9,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.efield.electron.electricField.DiscreteFieldSlider;
 
 public class EFieldApplication2 extends PhetApplication {
     private EFieldModule module;
@@ -22,12 +17,12 @@ public class EFieldApplication2 extends PhetApplication {
         super( config );
         module = new EFieldModule( config );
         addModule( module );
-        getPhetFrame().addMenu(  module.getMenu());
+        getPhetFrame().addMenu( module.getMenu() );
     }
 
     public static class EFieldApplicationConfig extends PhetApplicationConfig {
         public EFieldApplicationConfig( String[] commandLineArgs ) {
-            super( commandLineArgs, new FrameSetup.CenteredWithSize( 600,600), new PhetResources( "efield" ) );
+            super( commandLineArgs, new FrameSetup.CenteredWithSize( 600, 600 ), new PhetResources( "efield" ) );
             super.setApplicationConstructor( new ApplicationConstructor() {
                 public PhetApplication getApplication( PhetApplicationConfig config ) {
                     return new EFieldApplication2( config );
@@ -49,7 +44,7 @@ public class EFieldApplication2 extends PhetApplication {
         }
 
         public JMenu getMenu() {
-            return simulationPanel.getMenu(); 
+            return simulationPanel.getMenu();
         }
     }
 

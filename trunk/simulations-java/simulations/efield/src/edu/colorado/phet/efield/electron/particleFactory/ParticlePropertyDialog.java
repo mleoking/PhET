@@ -10,9 +10,9 @@ import java.util.Vector;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
 import edu.colorado.phet.efield.electron.utils.Debug;
+import edu.colorado.phet.efield.EFieldResources;
 
 // Referenced classes of package edu.colorado.phet.efield.electron.particleFactory:
 //            ParticlePropertyListener
@@ -25,9 +25,9 @@ public class ParticlePropertyDialog extends JPanel
         charge = new JTextField( "" + d1 );
         mass = new JTextField( "" + d );
         setLayout( new BoxLayout( this, 1 ) );
-        add( label( SimStrings.get( "ParticlePropertyDialog.ChargeLabel" ), charge ) );
-        add( label( SimStrings.get( "ParticlePropertyDialog.MassLabel" ), mass ) );
-        done = new JButton( SimStrings.get( "ParticlePropertyDialog.DoneButton" ) );
+        add( label( EFieldResources.getString( "ParticlePropertyDialog.ChargeLabel" ), charge ) );
+        add( label( EFieldResources.getString( "ParticlePropertyDialog.MassLabel" ), mass ) );
+        done = new JButton( EFieldResources.getString( "ParticlePropertyDialog.DoneButton" ) );
         done.addActionListener( this );
         add( done );
     }

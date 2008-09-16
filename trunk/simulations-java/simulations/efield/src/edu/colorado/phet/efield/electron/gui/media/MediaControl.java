@@ -11,11 +11,11 @@ import java.util.Vector;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.efield.electron.core.SystemFactory;
 import edu.colorado.phet.efield.electron.gui.ParticlePainter;
 import edu.colorado.phet.efield.electron.gui.ParticlePanel;
 import edu.colorado.phet.efield.electron.phys2d_efield.SystemRunner;
+import edu.colorado.phet.efield.EFieldResources;
 
 // Referenced classes of package edu.colorado.phet.efield.electron.gui.media:
 //            SelectableJButton, Resettable
@@ -77,13 +77,13 @@ public class MediaControl {
         jpanel.setLayout( new BoxLayout( jpanel, 0 ) );
         ImageIcon imageicon = new ImageIcon( playIcon );
         javax.swing.Icon icon = ( new JLabel( imageicon ) ).getDisabledIcon();
-        playButton = new SelectableJButton( SimStrings.get( "MediaControl.PlayButton" ) + " ", imageicon, true );
+        playButton = new SelectableJButton( EFieldResources.getString( "MediaControl.PlayButton" ) + " ", imageicon, true );
         playButton.addActionListener( new UnPauseListener() );
         ImageIcon imageicon1 = new ImageIcon( pauseIcon );
-        pauseButton = new SelectableJButton( SimStrings.get( "MediaControl.PauseButton" ) + " ", imageicon1, false );
+        pauseButton = new SelectableJButton( EFieldResources.getString( "MediaControl.PauseButton" ) + " ", imageicon1, false );
         pauseButton.addActionListener( new PauseListener() );
         ImageIcon imageicon2 = new ImageIcon( resetIcon );
-        resetButton = new SelectableJButton( SimStrings.get( "MediaControl.ResetButton" ) + " ", imageicon2, false );
+        resetButton = new SelectableJButton( EFieldResources.getString( "MediaControl.ResetButton" ) + " ", imageicon2, false );
         resetButton.addActionListener( new ResetListener() );
         jpanel.add( pauseButton );
         jpanel.add( playButton );

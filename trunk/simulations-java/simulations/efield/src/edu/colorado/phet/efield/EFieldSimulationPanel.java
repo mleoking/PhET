@@ -82,10 +82,8 @@ public class EFieldSimulationPanel extends JPanel {
         new Thread( sr ).start();
 
         particlePanel = new ParticlePanel();
-        //ParticlePainter painter=new DotPainter(Color.blue,16);
         BufferedImage bi = null;
         try {
-//            bi = ResourceLoader.loadBufferedImage("images/Electron3.GIF", particlePanel, true);
             bi = ResourceLoader.loadBufferedImage( "efield/images/electron9.gif", particlePanel, true );
         }
         catch( InterruptedException e ) {
@@ -128,7 +126,7 @@ public class EFieldSimulationPanel extends JPanel {
 
         JPanel addRemovePanel = ar.getJPanel();
 
-        JButton propertyButton = new JButton( SimStrings.get( "FieldNode2.PropertiesButton" ) );
+        JButton propertyButton = new JButton( EFieldResources.getString( "FieldNode2.PropertiesButton" ) );
         propertyButton.addActionListener( sppd );
         addRemovePanel.add( propertyButton );
 
@@ -144,7 +142,7 @@ public class EFieldSimulationPanel extends JPanel {
         southPanel.add( fieldPanel );
 
         Border etched = BorderFactory.createEtchedBorder();
-        Border b = BorderFactory.createTitledBorder( etched, SimStrings.get( "FieldNode2.ExternalFieldBorder" ) );
+        Border b = BorderFactory.createTitledBorder( etched, EFieldResources.getString( "FieldNode2.ExternalFieldBorder" ) );
         fieldPanel.setBorder( b );
         add( southPanel, BorderLayout.SOUTH );
 
@@ -172,9 +170,9 @@ public class EFieldSimulationPanel extends JPanel {
 
     public JMenu getMenu() {
         DiscreteFieldSlider dfs = new DiscreteFieldSlider( electricFieldPainter, particlePanel );
-        JMenuItem fieldDiscretionItem = new JMenuItem( SimStrings.get( "FieldNode2.SetFieldDiscretenessMenuItem" ) );
+        JMenuItem fieldDiscretionItem = new JMenuItem( EFieldResources.getString( "FieldNode2.SetFieldDiscretenessMenuItem" ) );
         fieldDiscretionItem.addActionListener( dfs );
-        JMenu fieldMenu = new JMenu( SimStrings.get( "FieldNode2.ElectricFieldMenuTitle" ) );
+        JMenu fieldMenu = new JMenu( EFieldResources.getString( "FieldNode2.ElectricFieldMenuTitle" ) );
         fieldMenu.add( fieldDiscretionItem );
         return fieldMenu;
     }

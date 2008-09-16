@@ -6,9 +6,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.efield.electron.gui.popupMenu.MenuConstructor;
 import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
+import edu.colorado.phet.efield.EFieldResources;
 
 public class FieldMenuConstructor implements MenuConstructor {
     ChargeFieldSource cfs;
@@ -20,7 +20,7 @@ public class FieldMenuConstructor implements MenuConstructor {
     }
 
     public JMenu getMenu( Particle p ) {
-        JMenu jm = new JMenu( SimStrings.get( "FieldMenuConstructor.ParticleMenuTitle" ) );
+        JMenu jm = new JMenu( EFieldResources.getString( "FieldMenuConstructor.ParticleMenuTitle" ) );
         ShowEField se = ( new ShowEField( cfs, p, paintMe ) );
         se.setSelected( !cfs.isIgnoring( p ) );
         jm.add( se );
@@ -33,7 +33,7 @@ public class FieldMenuConstructor implements MenuConstructor {
         Component paintMe;
 
         public ShowEField( ChargeFieldSource cfs, Particle p, Component paintMe ) {
-            super( SimStrings.get( "FieldMenuConstructor.ShowContributionCheckBox" ), true );
+            super( EFieldResources.getString( "FieldMenuConstructor.ShowContributionCheckBox" ), true );
             this.cfs = cfs;
             this.p = p;
             addActionListener( this );
