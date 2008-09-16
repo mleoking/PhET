@@ -1,8 +1,9 @@
 package edu.colorado.phet.electrichockey;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
+
+import javax.swing.*;
 
 
 public class Charge extends JComponent {
@@ -22,10 +23,10 @@ public class Charge extends JComponent {
     }
 
     private static Color getColor( int sign ) {
-        if( sign == NEGATIVE ) {
+        if ( sign == NEGATIVE ) {
             return Color.blue;
         }
-        else if( sign == POSITIVE ) {
+        else if ( sign == POSITIVE ) {
             return Color.red;
         }
         else {
@@ -36,7 +37,7 @@ public class Charge extends JComponent {
     public Charge( Point2D position2D, int sign, Color color ) {
         this.position2D = position2D;
         this.color = color;
-        this.position = new Point( (int)position2D.getX(), (int)position2D.getY() );
+        this.position = new Point( (int) position2D.getX(), (int) position2D.getY() );
         this.sign = sign;
         radius = 8;
     }
@@ -69,8 +70,8 @@ public class Charge extends JComponent {
     }
 
     public boolean contains( Point p ) {
-        if( p.x < ( position.x + radius ) && p.x > ( position.x - radius ) &&
-            p.y < ( position.y + radius ) && p.y > ( position.y - radius ) ) {
+        if ( p.x < ( position.x + radius ) && p.x > ( position.x - radius ) &&
+             p.y < ( position.y + radius ) && p.y > ( position.y - radius ) ) {
             return true;
         }
         else {

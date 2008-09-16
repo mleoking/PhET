@@ -49,7 +49,7 @@ public class Model {
         collisionState = false;
         puckMoving = false;
         puckPosition = new Point( fieldWidth / 5, fieldHeight / 2 );
-        initialPuckPosition2D = new Point2D.Double( (double)fieldWidth / 5, (double)fieldHeight / 2 );
+        initialPuckPosition2D = new Point2D.Double( (double) fieldWidth / 5, (double) fieldHeight / 2 );
         puckPosition2D = initialPuckPosition2D;
 
         pathStarted = false;
@@ -83,8 +83,8 @@ public class Model {
 */
 
     public void updateForceList() {
-        for( int i = 0; i < forceList.size(); i++ ) {
-            Charge chargeI = (Charge)chargeList.elementAt( i );
+        for ( int i = 0; i < forceList.size(); i++ ) {
+            Charge chargeI = (Charge) chargeList.elementAt( i );
             Force forceI = new Force( chargeI, puck );
             forceList.setElementAt( forceI, i );
         }
@@ -113,12 +113,12 @@ public class Model {
     }
 
     public Charge getChargeAt( int i ) {
-        Charge charge = (Charge)chargeList.elementAt( i );
+        Charge charge = (Charge) chargeList.elementAt( i );
         return charge;
     }
 
     public Force getForceAt( int i ) {
-        Force force = (Force)forceList.elementAt( i );
+        Force force = (Force) forceList.elementAt( i );
         return force;
     }
 
@@ -149,8 +149,8 @@ public class Model {
     public Force getNetForce() {
         double netXComp = 0;
         double netYComp = 0;
-        for( int i = 0; i < forceList.size(); i++ ) {
-            Force forceI = (Force)forceList.elementAt( i );
+        for ( int i = 0; i < forceList.size(); i++ ) {
+            Force forceI = (Force) forceList.elementAt( i );
             netXComp += forceI.getXComp();
             netYComp += forceI.getYComp();
         }
@@ -159,7 +159,7 @@ public class Model {
     }
 
     public void updatePuckPositionVerlet() {
-        if( starting ) {
+        if ( starting ) {
             Force F = getNetForce();
             xBefore = x;
             yBefore = y;
@@ -177,10 +177,10 @@ public class Model {
             yBefore = yTemp;
 
             puck.setPosition2D( new Point2D.Double( x, y ) );
-            puck.setPosition( new Point( (int)x, (int)y ) );
+            puck.setPosition( new Point( (int) x, (int) y ) );
             updateForceList();
 
-            if( x > 3 * fieldWidth || x < -3 * fieldWidth || y > 3 * fieldHeight || y < -3 * fieldHeight ) {
+            if ( x > 3 * fieldWidth || x < -3 * fieldWidth || y > 3 * fieldHeight || y < -3 * fieldHeight ) {
                 stopTimer();
             }
         }
@@ -197,17 +197,17 @@ public class Model {
         y += vY * dt + ( fFactor * F.getYComp() / ( 2.0 * mass ) ) * dt * dt;
 
         puck.setPosition2D( new Point2D.Double( x, y ) );
-        puck.setPosition( new Point( (int)x, (int)y ) );
+        puck.setPosition( new Point( (int) x, (int) y ) );
         updateForceList();        //Attention! Rounding error in updated forces because puckPosition integer
 
-        if( x > 3 * fieldWidth || x < -3 * fieldWidth || y > 3 * fieldHeight || y < -3 * fieldHeight ) {
+        if ( x > 3 * fieldWidth || x < -3 * fieldWidth || y > 3 * fieldHeight || y < -3 * fieldHeight ) {
             stopTimer();
         }
 
     }
 
     public void updatePath() {
-        if( !pathStarted ) {
+        if ( !pathStarted ) {
             path.moveTo( puck.getPosition().x, puck.getPosition().y );
             pathStarted = true;
         }
@@ -265,7 +265,7 @@ public class Model {
         vY = 0.0;
         //puckPosition = initialPuckPosition;
         puck.setPosition2D( initialPuckPosition2D );
-        puck.setPosition( new Point( (int)initialPuckPosition2D.getX(), (int)initialPuckPosition2D.getY() ) );
+        puck.setPosition( new Point( (int) initialPuckPosition2D.getX(), (int) initialPuckPosition2D.getY() ) );
         updateForceList();
         path.reset();
         pathStarted = false;
@@ -280,27 +280,27 @@ public class Model {
         public void actionPerformed( ActionEvent aevt ) {
             time++;
             updatePuckPositionVerlet();
-            if( electricHockeySimulationPanel.getControlPanel().getTraceState() ) {
+            if ( electricHockeySimulationPanel.getControlPanel().getTraceState() ) {
                 updatePath();
             }
             int x = puck.getPosition().x;
             int y = puck.getPosition().y;
             //prt("x=" + x);
-            if( x > 0 && x < fieldWidth && y > 0 && y < fieldHeight ) {
-                if( BarrierList.currentCollisionArray[x][y] == 1 ) {
+            if ( x > 0 && x < fieldWidth && y > 0 && y < fieldHeight ) {
+                if ( BarrierList.currentCollisionArray[x][y] == 1 ) {
                     prt( "Collision!" );
                     collisionState = true;
-                    if( electricHockeySimulationPanel.getCork() != null ) {
+                    if ( electricHockeySimulationPanel.getCork() != null ) {
                         electricHockeySimulationPanel.getCork().play();
                     }
                     electricHockeySimulationPanel.getPlayingField().paintAgain();
                     stopTimer();
                 }
             }
-            if( electricHockeySimulationPanel.getPlayingField().goal.contains( puck.getPosition() ) ) {
+            if ( electricHockeySimulationPanel.getPlayingField().goal.contains( puck.getPosition() ) ) {
                 prt( "Goal!" );
                 goalState = true;
-                if( electricHockeySimulationPanel.getTada()!= null ) {
+                if ( electricHockeySimulationPanel.getTada() != null ) {
                     electricHockeySimulationPanel.getTada().play();
                 }
                 electricHockeySimulationPanel.getPlayingField().paintAgain();

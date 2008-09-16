@@ -1,10 +1,10 @@
 package edu.colorado.phet.electrichockey;
 
-//edu.colorado.phet.ehockey.Arrow.class  M.Dubson 5/30/02  Draws a nice arrow.
+//edu.colorado.phet.ehockey.ElectricHockeyArrow.class  M.Dubson 5/30/02  Draws a nice arrow.
 
 import java.awt.*;
 
-public class Arrow {
+public class ElectricHockeyArrow {
 
     protected double L;      //length of arrow
     protected double thta;//angle of of arrow
@@ -17,7 +17,7 @@ public class Arrow {
     protected int[] yInt = new int[8];
 
 
-    public Arrow() //default constructor
+    public ElectricHockeyArrow() //default constructor
     {
         this.x0 = 0;
         this.y0 = 0;
@@ -30,7 +30,7 @@ public class Arrow {
     //formula for width of arrow line
 
     public double computeWidth() {
-        return ( this.L / 8.0 );
+        return ( Math.min( 6.0, this.L / 10.0 ) );
     }
 
     public double getLength() {
@@ -70,16 +70,16 @@ public class Arrow {
                 ( w / 2 ) * ( -x1 / L ),
                 ( w / 2 ) * ( x1 / L )};
 
-        for( int i = 0; i < x.length; i++ ) {
-            xInt[i] = x0 + (int)( x[i] );
-            yInt[i] = y0 + (int)( y[i] );
+        for ( int i = 0; i < x.length; i++ ) {
+            xInt[i] = x0 + (int) ( x[i] );
+            yInt[i] = y0 + (int) ( y[i] );
         }
 
     }//end of position()
 
 
     public void paint( Graphics g ) {
-        Graphics2D g2 = (Graphics2D)g;
+        Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         g.fillPolygon( xInt, yInt, xInt.length );
     }//end of paint method

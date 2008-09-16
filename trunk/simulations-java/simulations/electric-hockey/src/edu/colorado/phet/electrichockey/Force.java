@@ -2,10 +2,10 @@ package edu.colorado.phet.electrichockey;
 
 //edu.colorado.phet.ehockey.Force on the positivePuckImage due to a charge;  not a general edu.colorado.phet.ehockey.Force
 
-import edu.colorado.phet.electrichockey.common.Arrow;
-
 import java.awt.*;
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 
 public class Force {
     private double magnitude;        //magnitude of force, never used
@@ -13,7 +13,6 @@ public class Force {
     private Charge charge;            //charge causing force on positivePuckImage
     private Color gridColor;
     private Point chargePt;            //position of charge producing force
-    //private Point2D.Double chargePt2D;
     private Point2D displacement;      //displacement vector from charge to positivePuckImage
     private double r;                //magnitude of displacement
     private double cutoff;            //value of r at which force divergence is cutoff
@@ -23,8 +22,7 @@ public class Force {
     private double x0, y0;            //x- and y-components of the tail of the arrow, double-valued
     private int x0Int, y0Int;        //x- and y-components of the tail of the arrow, integer-valued
     private double forceFactor = 1000000.0;        //arbitrary factor
-    private ArrowB forceArrow;                //arrow representing force
-//    private edu.colorado.phet.ehockey.ArrowC gridArrow;		//needed if arrow head must be drawn
+    private ElectricHockeyArrow forceArrow;                //arrow representing force
 
     public Force( Charge charge, Charge puck )  //force on positivePuckImage due to charge
     {
@@ -34,11 +32,11 @@ public class Force {
         x0 = puck.getPosition2D().getX();
         y0 = puck.getPosition2D().getY();
 
-        displacement = new Point2D.Double( x0 - (double)chargePt.x, y0 - (double)chargePt.y );
+        displacement = new Point2D.Double( x0 - (double) chargePt.x, y0 - (double) chargePt.y );
 
         r = puck.getPosition2D().distance( chargePt );
         cutoff = 25.0;
-        if( r < cutoff ) {
+        if ( r < cutoff ) {
             r = cutoff;        //short distance cutoff
         }
         rSq = r * r;
@@ -46,8 +44,8 @@ public class Force {
         xComp = forceFactor * charge.getSign() * puck.getSign() * displacement.getX() / ( r * rSq );
         yComp = forceFactor * charge.getSign() * puck.getSign() * displacement.getY() / ( r * rSq );
 
-        forceArrow = new ArrowB();
-        forceArrow.setPosition( (int)x0, (int)y0, (int)x0 + (int)xComp, (int)y0 + (int)yComp );
+        forceArrow = new ElectricHockeyArrow();
+        forceArrow.setPosition( (int) x0, (int) y0, (int) x0 + (int) xComp, (int) y0 + (int) yComp );
     }
 
     public Force( double xComp, double yComp ) {
@@ -59,20 +57,17 @@ public class Force {
     public Force( double xComp, double yComp, Charge gridCharge, Color gridColor ) {
         this.xComp = xComp;
         this.yComp = yComp;
-        xCompInt = (int)xComp;
-        yCompInt = (int)yComp;
+        xCompInt = (int) xComp;
+        yCompInt = (int) yComp;
         this.charge = gridCharge;
         this.gridColor = gridColor;
         x0 = gridCharge.getPosition2D().getX();
         y0 = gridCharge.getPosition2D().getY();
-        x0Int = (int)x0;
-        y0Int = (int)y0;
-        //gridArrow = new edu.colorado.phet.ehockey.ArrowC();
-        //gridArrow.setPosition((int)x0, (int)y0, (int)x0 + (int)xComp, (int)y0 + (int)yComp);
+        x0Int = (int) x0;
+        y0Int = (int) y0;
     }
 
     public void updateForce() {
-
     }
 
     public double getR() {
@@ -88,10 +83,10 @@ public class Force {
     }
 
     public void paint( Graphics g2D ) {
-        if( charge.getSign() == Charge.POSITIVE ) {
+        if ( charge.getSign() == Charge.POSITIVE ) {
             g2D.setColor( Color.pink );
         }
-        else if( charge.getSign() == Charge.NEGATIVE ) {
+        else if ( charge.getSign() == Charge.NEGATIVE ) {
             g2D.setColor( Color.cyan );
         }
         //else if (charge.getSign() == edu.colorado.phet.ehockey.Charge.GRID) g2D.setColor(Color.gray);
@@ -100,7 +95,7 @@ public class Force {
 
     public void paintGridArrowOrig( Graphics2D g2D ) {
         g2D.setColor( gridColor );
-        if( gridColor.getBlue() < 252 )        //don't bother to paint is grid arrow too faint
+        if ( gridColor.getBlue() < 252 )        //don't bother to paint is grid arrow too faint
         {
             g2D.drawLine( x0Int, y0Int, x0Int + xCompInt, y0Int + yCompInt );
             g2D.fillOval( x0Int - 2, y0Int - 2, 4, 4 );
@@ -113,13 +108,10 @@ public class Force {
         Point loc = new Point( x0Int, y0Int );
         Point dst = new Point( x0Int + xCompInt, y0Int + yCompInt );
 
-        edu.colorado.phet.electrichockey.common.Arrow arrow = new Arrow( loc, dst, 6, 6, 2, 3, true );
+        Arrow arrow = new Arrow( loc, dst, 6, 6, 2, 3, true );
         g2D.setColor( gridColor );
-//        g2D.setStroke( new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[]{3, 1}, 0 ) );
-//        g2D.setStroke( new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[]{3, 1}, 0 ) );
         g2D.draw( arrow.getShape() );
     }
 
-
-}//end of public class
+}
 
