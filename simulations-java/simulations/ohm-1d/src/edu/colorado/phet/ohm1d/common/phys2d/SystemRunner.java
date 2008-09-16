@@ -1,7 +1,7 @@
 package edu.colorado.phet.ohm1d.common.phys2d;
 
 
-public class SystemRunner implements Runnable {
+public class SystemRunner  {
     System2D system;
     boolean running = true;
     boolean alive;
@@ -15,26 +15,8 @@ public class SystemRunner implements Runnable {
         this.waitTime = waitTime;
     }
 
-    public void run() {
-        this.alive = true;
-        this.running = true;
-        while ( alive ) {
-            while ( running ) {
-                system.iterate( dt );
-                try {
-                    Thread.sleep( waitTime );
-                }
-                catch( InterruptedException e ) {
-                    e.printStackTrace();
-                }
-            }
-            try {
-                Thread.sleep( notRunningWaitTime );
-            }
-            catch( InterruptedException e ) {
-                e.printStackTrace();
-            }
-        }
+    public void step() {
+        system.iterate( dt );
     }
 
     public void setRunning( boolean b ) {
