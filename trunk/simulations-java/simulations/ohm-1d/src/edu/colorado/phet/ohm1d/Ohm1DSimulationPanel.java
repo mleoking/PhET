@@ -213,20 +213,19 @@ public class Ohm1DSimulationPanel extends JPanel {
         //ronImage=new AlphaFixer2(new int[]{252,254,252,255}).patchAlpha(ronImage);
         ParticlePainter painter = new edu.colorado.phet.ohm1d.common.paint.particle.ImagePainter( ronImage );
 
-        BufferedImage batteryImage = Ohm1DResources.loadBufferedImage( "ron/AA-battery-555.gif" );
+        BufferedImage batteryImage = Ohm1DResources.loadBufferedImage( "ron/AA-battery-555.png" );
         batteryImage = BufferedImageUtils.flipX( batteryImage );
-        //batteryImage=new MakeTransparentImage(195).patchAlpha(batteryImage);
         int battImageX = (int) bottomLeftWirePoint.getX() + 59;
         int battImageY = (int) bottomLeftWirePoint.getY() - batteryImage.getHeight() / 2 + 3;
         BufferedImagePainter battPainter = new BufferedImagePainter( batteryImage, battImageX, battImageY );
         int BATT_LAYER = 10;
 
         //Need an image changer component
-        BufferedImage batteryImage2 = Ohm1DResources.loadBufferedImage( "ron/AA-battery-555.png" );
-        BufferedImagePainter battPainter2 = new BufferedImagePainter( batteryImage2, (int) bottomLeftWirePoint.getX() + 59, (int) bottomLeftWirePoint.getY() - batteryImage2.getHeight() / 2 + 3 );
+        BufferedImage batteryImageLeft = BufferedImageUtils.flipX( batteryImage );
+        BufferedImagePainter battPainter2 = new BufferedImagePainter( batteryImageLeft, (int) bottomLeftWirePoint.getX() + 59, (int) bottomLeftWirePoint.getY() - batteryImageLeft.getHeight() / 2 + 3 );
 
         BufferedImagePainter transLeft = new BufferedImagePainter( BufferedImageUtils.scaleAlpha( batteryImage, 0.5 ), (int) bottomLeftWirePoint.getX() + 59, (int) bottomLeftWirePoint.getY() - batteryImage.getHeight() / 2 + 3 );
-        BufferedImagePainter transRight = new BufferedImagePainter( BufferedImageUtils.scaleAlpha( batteryImage, 0.5 ), (int) bottomLeftWirePoint.getX() + 59, (int) bottomLeftWirePoint.getY() - batteryImage.getHeight() / 2 + 3 );
+        BufferedImagePainter transRight = new BufferedImagePainter( BufferedImageUtils.scaleAlpha( batteryImageLeft, 0.5 ), (int) bottomLeftWirePoint.getX() + 59, (int) bottomLeftWirePoint.getY() - batteryImage.getHeight() / 2 + 3 );
 
         BatteryPainter bp = new BatteryPainter( battPainter, battPainter2, transLeft, transRight );
         BatteryDirectionChanger bdc = new BatteryDirectionChanger( bp );//battPainter,battPainter2,cp,BATT_LAYER);
