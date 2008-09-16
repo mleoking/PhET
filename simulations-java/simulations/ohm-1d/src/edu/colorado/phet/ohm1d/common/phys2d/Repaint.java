@@ -1,4 +1,4 @@
-package edu.colorado.phet.ohm1d.common.phys2d.laws;
+package edu.colorado.phet.ohm1d.common.phys2d;
 
 import java.awt.*;
 
