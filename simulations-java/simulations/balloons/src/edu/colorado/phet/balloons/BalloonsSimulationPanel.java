@@ -22,6 +22,8 @@ import edu.colorado.phet.balloons.common.phys2d.DoublePoint;
 import edu.colorado.phet.balloons.common.phys2d.ParticleLaw;
 import edu.colorado.phet.balloons.common.phys2d.Repaint;
 import edu.colorado.phet.balloons.common.phys2d.System2D;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 
 
@@ -77,7 +79,7 @@ public class BalloonsSimulationPanel extends JPanel implements IHelp {
         minusPainter.paintAt( 84, 167, g2 );
     }
 
-    public void init() throws IOException {
+    public void init( BalloonsApplication.BalloonsModule balloonsModule ) throws IOException {
         plusPainter.setPaint( PlusPainter.NONE );
         minusPainter.setPaint( MinusPainter.NONE );
 
@@ -281,24 +283,19 @@ public class BalloonsSimulationPanel extends JPanel implements IHelp {
         sys.addLaw( new BalloonForces( blueBalloon, yellowBalloon, wool, bounds, wallBounds.x, w ) );
         sys.addLaw( w );
         sys.addLaw( ( new Repaint( painterPanel ) ) );
-        final double dt = 1.2;
-        int waitTime = 30;
+//        final double dt = 1.2;
+
         setLayout( new BorderLayout() );
         add( panel, BorderLayout.CENTER );
-//        setContentPane( panel );
-//        final SystemRunner sr = new SystemRunner( sys, dt, waitTime );
-//        Thread t = new Thread( sr );
-        Timer timer = new Timer( waitTime, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                sys.iterate( dt );
+        balloonsModule.getClock().addClockListener( new ClockAdapter() {
+            public void clockTicked( ClockEvent clockEvent ) {
+                sys.iterate( clockEvent.getSimulationTimeChange() );
             }
         } );
-        timer.start();
-//        t.start();
         validate();
         painterPanel.addMouseMotionListener( new MouseMotionAdapter() {
             public void mouseDragged( MouseEvent e ) {
-                sys.iterate( dt );
+                sys.iterate( BalloonsApplication.DT );
                 painterPanel.repaint();
             }
         } );
