@@ -4,10 +4,10 @@ package edu.colorado.phet.ohm1d.volt;
 import java.awt.*;
 import java.text.DecimalFormat;
 
+import edu.colorado.phet.ohm1d.Ohm1DStrings;
 import edu.colorado.phet.ohm1d.common.paint.Painter;
 import edu.colorado.phet.ohm1d.common.paint.TextPainter;
 import edu.colorado.phet.ohm1d.gui.VoltageListener;
-import edu.colorado.phet.ohm1d.Ohm1DStrings;
 
 /**
  * Created by IntelliJ IDEA.

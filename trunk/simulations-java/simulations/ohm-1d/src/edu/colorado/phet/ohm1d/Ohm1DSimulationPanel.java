@@ -3,7 +3,6 @@ package edu.colorado.phet.ohm1d;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -12,6 +11,9 @@ import java.util.Random;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.ohm1d.collisions.Collider;
 import edu.colorado.phet.ohm1d.collisions.DefaultCollisionEvent;
@@ -55,6 +57,11 @@ import edu.colorado.phet.ohm1d.volt.*;
 
 public class Ohm1DSimulationPanel extends JPanel {
     public static int BASE_FRAME_WIDTH = 1028;
+    private IClock clock;
+
+    public Ohm1DSimulationPanel( IClock clock ) {
+        this.clock = clock;
+    }
 
     public void startApplication() throws IOException, FontFormatException {
         ResourceLoader4 loader = new ResourceLoader4( getClass().getClassLoader(), this );
@@ -78,12 +85,8 @@ public class Ohm1DSimulationPanel extends JPanel {
         wp.add( topRightWirePoint );
         wp.add( bottomRightWirePoint );
         wp.add( bottomRightInset );
-//        wp.start(bottomLeftWirePoint, topLeftWirePoint);
-//        wp.add(topRightWirePoint);
-//        wp.add(bottomRightWirePoint);
 
         WirePatch wp2 = new WirePatch();
-        //wp2.start(bottomRightWirePoint, bottomLeftWirePoint);
         wp2.start( bottomRightInset, bottomLeftInset );
 
         Circuit cir = new Circuit();
@@ -91,9 +94,6 @@ public class Ohm1DSimulationPanel extends JPanel {
         cir.addWirePatch( wp2 );
 
         LayeredPainter cp = new LayeredPainter();
-        AffineTransform at = AffineTransform.getScaleInstance( 1.5, 1.5 );
-        Point affineTransformPanelDimension = new Point( 736 + moveRight, 586 );
-        //AffineTransformPanel pp = new AffineTransformPanel(cp, affineTransformPanelDimension.x, affineTransformPanelDimension.y, at);
         PainterPanel pp = new PainterPanel( cp );
 
         Stroke wireStroke = new BasicStroke( 35.2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL );
@@ -171,12 +171,10 @@ public class Ohm1DSimulationPanel extends JPanel {
         int CORE_LEVEL_BOTTOM = 1;
         ShowPainters showCores = new ShowPainters( cp, new int[]{CORE_LEVEL, CORE_LEVEL_BOTTOM} );
 
-        //CenteredDotPainter dp = new CenteredDotPainter(Color.red, 12);
         BufferedImage greeny = loader.loadBufferedImage( "ohm-1d/images/ron/particle-green-med.gif" );
         greeny = new MakeMETransp().patchAlpha( greeny );
         ParticlePainter dp = new edu.colorado.phet.ohm1d.common.paint.particle.ImagePainter( greeny );
         Resistance resistance = new Resistance( CORE_START, CORE_END, numCores, wp, amplitude, freq, decay, dp, CORE_LEVEL, CORE_LEVEL_BOTTOM, cp, showCores, sys );
-        //double accelInset = 35;
         double accelInset = 15;
         double coulombInset = 10;
         PatchRegion accelRegion = new PatchRegion( CORE_START - accelInset, CORE_END + accelInset, wp );
@@ -200,7 +198,6 @@ public class Ohm1DSimulationPanel extends JPanel {
         cpr.addPropagator( range );
         cpr.addPropagator( new Crash() );
         prop.addPropagator( cpr );
-        //ForcePropagator fp = new ForcePropagator(-vmax, vmax);
         BatteryForcePropagator fp = new BatteryForcePropagator( 0, 10 * vmax );
         fp.addForce( cf );
         /*Add a coulomb force from the end of wp2 onto the beginning of wp.*/
@@ -211,7 +208,6 @@ public class Ohm1DSimulationPanel extends JPanel {
         ResetScatterability rs = new ResetScatterability( ws );
         AndRegion nonCoulombRegion = new AndRegion();
         nonCoulombRegion.addRegion( batt );
-        //PatchRegion scatteringRegionNoCoulomb2 = new PatchRegion(CORE_START - accelInset, CORE_END + accelInset, wp);
         nonCoulombRegion.addRegion( scatteringRegionNoCoulomb );  //comment out this line to put coulomb interactions into the scattering region
 
         double accelScale = 1.4;
@@ -233,11 +229,7 @@ public class Ohm1DSimulationPanel extends JPanel {
         int BATT_LAYER = 10;
 
         //Need an image changer component
-        //BufferedImage batteryImage2 = loader.loadBufferedImage("ohm-1d/images/components/batteries/AA256_H100-Hollow-Right-big-empty-hack2.GIF");
-        //batteryImage2 = new AlphaFixer2(new int[]{248, 248, 247, 255}).patchAlpha(batteryImage2);
         BufferedImage batteryImage2 = loader.loadBufferedImage( "ohm-1d/images/ron/AA-battery-555.gif" );
-        //batteryImage2=new MakeTransparentImage(195).patchAlpha(batteryImage2);
-        //batteryImage2=batteryImage;
         BufferedImagePainter battPainter2 = new BufferedImagePainter( batteryImage2, (int) bottomLeftWirePoint.getX() + 59, (int) bottomLeftWirePoint.getY() - batteryImage2.getHeight() / 2 + 3 );
 
         int batteryTransparentness = 150;//195
@@ -270,9 +262,6 @@ public class Ohm1DSimulationPanel extends JPanel {
         currentRegion.addRegion( new SimplePatch( wp2 ) );
         AverageCurrent2 current = new AverageCurrent2( gauge, 100, currentRegion );
 
-        //current.addCurrentListener(gauge);
-        //wp,CORE_START+10,CORE_END-10);//wp.getLength());
-        //AverageCurrent current=new AverageCurrent(gauge,45);
         GaugeScaling gus = new GaugeScaling();
         gus.add( new Scaling( gauge, Ohm1DStrings.get( "Ohm1dModule.Low" ), -maxCurrent / 4, maxCurrent / 4 ), false );
         Scaling medium = new Scaling( gauge, Ohm1DStrings.get( "Ohm1dModule.Medium" ), -maxCurrent / 2, maxCurrent / 2 );
@@ -283,7 +272,6 @@ public class Ohm1DSimulationPanel extends JPanel {
         int ELECTRON_LEVEL = 3;
         ShowPainters showElectrons = new ShowPainters( cp, new int[]{ELECTRON_LEVEL, ELECTRON_LEVEL - 1} );
 
-        //double height=topLeftWirePoint.getY()-topRightWirePoint.getY();
         resistance.layoutCores();
         double aMax = Double.MAX_VALUE;//10000;//35;
         DoublePoint axis = new DoublePoint( 1, 2 );
@@ -294,8 +282,6 @@ public class Ohm1DSimulationPanel extends JPanel {
         double collisionDist = 18;
         DefaultCollisionEvent ce = new DefaultCollisionEvent( collisionDist, amplitudeThreshold, of );
         sys.addLaw( ce );//to time the collisionsDeprecated.
-//        sys.addLaw(equalizeRight);
-//        sys.addLaw(equalizeLeft);//equalize left and right
         Collider coll = new Collider( ws, ce, wp );
 
         int dx = (int) ( cir.getLength() / numParticles );
@@ -327,12 +313,9 @@ public class Ohm1DSimulationPanel extends JPanel {
         sys.addLaw( current ); //Uncomment this to show the actual current.
         sys.addLaw( new Repaint( pp ) );
 
-//        JFrame f = new JFrame( Ohm1DStrings.get( "Ohm1dApplication.title" ) + " (" + VERSION + ")" );
-//        f.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         pp.setBackground( new Color( 235, 230, 240 ) );
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout( new BorderLayout() );
-        //pp.addComponentListener(new AffineTransformResize(pp, pp, 736, 586));//uncomment this line to use a resizable painter panel.
         mainPanel.add( pp, BorderLayout.CENTER );
 
         JFrame control = new JFrame( Ohm1DStrings.get( "Ohm1dModule.ControlsTitle" ) );
@@ -341,20 +324,16 @@ public class Ohm1DSimulationPanel extends JPanel {
         conPan.setBorder( BorderFactory.createTitledBorder( Ohm1DStrings.get( "Ohm1dModule.ControlPanelBorder" ) ) );
         GridBagLayout gridLayout = new GridBagLayout();
         conPan.setLayout( gridLayout );
-        //conPan.setLayout(conPanLayout);//new BoxLayout(conPan, BoxLayout.Y_AXIS));
 
         JPanel butPan = new JPanel();
         butPan.setLayout( new BoxLayout( butPan, BoxLayout.Y_AXIS ) );
 
         JCheckBox showCoreBox = new JCheckBox( Ohm1DStrings.get( "Ohm1dModule.ShowCoresCheckbox" ), true );
         showCoreBox.addActionListener( new ShowPainterListener( showCoreBox, showCores ) );
-        //conPan.add(showCoreBox);
         butPan.add( showCoreBox );
 
         JCheckBox showElectronBox = new JCheckBox( Ohm1DStrings.get( "Ohm1dModule.ShowElectronsCheckbox" ), true );
         showElectronBox.addActionListener( new ShowPainterListener( showElectronBox, showElectrons ) );
-        //conPan.add(showElectronBox);
-        //butPan.add( showElectronBox );
 
         JCheckBox showVoltDesc = new JCheckBox( Ohm1DStrings.get( "Ohm1dModule.ShowVoltageCalcCheckbox" ), false );
         int VP_LEVEL = 100;
@@ -370,7 +349,6 @@ public class Ohm1DSimulationPanel extends JPanel {
         showInsideBattery.addActionListener( sib );
 
         butPan.add( showInsideBattery );
-        //conPan.add(showInsideBattery);
 
         double minAcc = -12;
         double accWidth = Math.abs( minAcc * 2 );
@@ -411,16 +389,9 @@ public class Ohm1DSimulationPanel extends JPanel {
         mediaControlPanel.add( pauseButton );
         playButton.setEnabled( false );
 
-        //butPan.add(mediaControlPanel);
-        //JLabel voltageLabel=new JLabel("Voltage",new ImageIcon(tinyBatteryImage),JLabel.TRAILING);
-        //conPan.add(voltageLabel);
-
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.NORTH;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        //gbc.fill=GridBagConstraints.BOTH;
-        //gbc.gridwidth=1;
-        //gbc.gridheight=3;
         gbc.gridx = 0;
         gbc.gridy = 0;
         gridLayout.setConstraints( butPan, gbc );
@@ -439,11 +410,6 @@ public class Ohm1DSimulationPanel extends JPanel {
         gbc.gridx = 0;
         gridLayout.setConstraints( mediaControlPanel, gbc );
         conPan.add( mediaControlPanel );
-
-        //conPan.add(new JPanel());
-        //control.setContentPane(conPan);
-        //control.pack();
-        //control.setVisible(true);
 
         Stroke circleStroke = new BasicStroke( 11.2f );
         double circleInset = 25;
@@ -505,8 +471,6 @@ public class Ohm1DSimulationPanel extends JPanel {
         AngelPaint angelPaint = new AngelPaint( angelRegion, leftAngel, rightAngel, ws, wp2, angeldx, angeldx2, showInsideBattery );
         cp.addPainter( angelPaint, 2 );
 
-        //BufferedImage turnstileImage = loader.loadBufferedImage("ohm-1d/images/ron/turnstile-0-deg.gif");
-        ///no region necessary for ron's image.
         BufferedImage turnstileImage = loader.loadBufferedImage( "ohm-1d/images/wheels/Pinwheel2.gif" );
         AlphaFixer2 alphaFixerPureWhite = new AlphaFixer2( new int[]{255, 255, 255, 255} );
 
@@ -523,17 +487,8 @@ public class Ohm1DSimulationPanel extends JPanel {
         BufferedImagePainter ammeterWirePainter = new BufferedImagePainter( ammeterWireImage, turnstileCenter.x + turnstileImage.getWidth() / 2 - ammeterWireImage.getWidth() / 2, turnstileCenter.y + turnstileImage.getHeight() / 2 );
         cp.addPainter( ammeterWirePainter, -1 );
 
-        //cp.addPainter(vp,VP_LEVEL);
-        //o.O.bottomRightWirePoint(leftOval);
+        Font sylfFont = font.deriveFont( Font.PLAIN, 44.2f );
 
-//        URL fontLocation = loader.getResource( "fonts/SYLFAEN.TTF" );
-        //URL fontLocation=loader.getResource("fonts/PAPYRUS.TTF");
-
-        Font sylfFont = new PhetFont( Font.PLAIN, 18 );
-        sylfFont = font.deriveFont( Font.PLAIN, 44.2f );
-
-        //System.err.println("Battx="+battX+", batty="+battY);
-        //
         Point positiveLocation = new Point( battImageX + 30, battImageY + 45 );
         Point negativeLocation = new Point( battImageX + batteryImage.getWidth() - 170, positiveLocation.y );
         VoltageOnBattery voltagePainter = new VoltageOnBattery( positiveLocation, negativeLocation, sylfFont,
@@ -543,24 +498,23 @@ public class Ohm1DSimulationPanel extends JPanel {
 
         voltageSlider.addVoltageListener( angelPaint );
         voltageSlider.fireChange();
-        SystemRunner sr = new SystemRunner( sys, .2, 20 );
+        final SystemRunner sr = new SystemRunner( sys, .2, 20 );
 
         new MediaHandler( playButton, pauseButton, sr );
 
-        Thread t = new Thread( sr );
-//        t.setPriority( Thread.MAX_PRIORITY );
-        t.start();
+        clock.addClockListener( new ClockAdapter() {
+            public void simulationTimeChanged( ClockEvent clockEvent ) {
+                sr.step();
+            }
+        } );
 
         JPanel jp = new JPanel();
         jp.add( conPan );
         mainPanel.add( jp, BorderLayout.EAST );
-        //jp.setSize(50,100);
         conPan.setPreferredSize( new Dimension( 200, 300 ) );
 
         setLayout( new BorderLayout() );
         add( mainPanel, BorderLayout.CENTER );
-        // jp.setPreferredSize(new Dimension(150,100));
-        //getContentPane().add(conPan,BorderLayout.EAST);
     }
 
     class MediaHandler {
