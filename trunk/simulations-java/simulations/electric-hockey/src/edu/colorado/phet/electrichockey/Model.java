@@ -13,16 +13,11 @@ public class Model {
     private int barrierState;
     private boolean goalState;
     private boolean collisionState;
-    private boolean traceState;
     private boolean pathStarted;
-    private boolean puckMoving;
     private GeneralPath path;
     private Vector chargeList;    //methods of Vector class: elementAt(int), size(), removeElementAt(int), addElement(Object)
-    //private Vector displacementList;
     private Vector forceList;    //list of forces on positivePuckImage
-    //private final Point initialPuckPosition;
     private final Point2D initialPuckPosition2D;
-    private Point puckPosition;
     private Point2D puckPosition2D;
     private Charge puck;
     private double mass = 25.0;            //mass of positivePuckImage
@@ -35,20 +30,16 @@ public class Model {
     private double xBefore, yBefore;    //position in prior step
     private double xTemp, yTemp;        //temporary storage of x, y
     private boolean starting;
-    private double vX, vY;      //x, y components of velocity and acceleration of positivePuckImage
 
     public Model( int width, int height, ElectricHockeySimulationPanel electricHockeySimulationPanel ) {
         this.electricHockeySimulationPanel = electricHockeySimulationPanel;
         this.fieldWidth = width;
         this.fieldHeight = height;
         chargeList = new Vector();
-        //displacementList = new Vector();
         forceList = new Vector();
 
         goalState = false;
         collisionState = false;
-        puckMoving = false;
-        puckPosition = new Point( fieldWidth / 5, fieldHeight / 2 );
         initialPuckPosition2D = new Point2D.Double( (double) fieldWidth / 5, (double) fieldHeight / 2 );
         puckPosition2D = initialPuckPosition2D;
 
@@ -56,31 +47,13 @@ public class Model {
         path = new GeneralPath();
 
         puck = new Charge( puckPosition2D, Charge.POSITIVE );
-        Force netForce;        //net force on positivePuckImage
 
         x = puckPosition2D.getX();
         y = puckPosition2D.getY();
         starting = true;
-        //x = (double)puckPosition.x;
-        //y = (double)puckPosition.y;
-        vX = 0.0;
-        vY = 0.0;   //initial double velocity is zero
 
         timer = new javax.swing.Timer( dt, new timerHandler() );
     }//end of constructor
-
-/*
-	public void updateDisplacementList()
-	{
-		for (int i = 0; i < chargeList.size(); i++)
-		{
-			edu.colorado.phet.ehockey.Charge charge = (edu.colorado.phet.ehockey.Charge)chargeList.elementAt(i);
-			Point chargePt = charge.getPosition();
-			Point displacement = new  Point(positivePuckImage.getPosition().x - chargePt.x, positivePuckImage.getPosition().y - chargePt.y);
-			displacementList.setElementAt(displacement, i);
-		}
-	}
-*/
 
     public void updateForceList() {
         for ( int i = 0; i < forceList.size(); i++ ) {
@@ -108,10 +81,6 @@ public class Model {
         return chargeList.size();
     }
 
-    public int getForceListSize() {
-        return forceList.size();
-    }
-
     public Charge getChargeAt( int i ) {
         Charge charge = (Charge) chargeList.elementAt( i );
         return charge;
@@ -134,16 +103,8 @@ public class Model {
         return puck;
     }
 
-    public double getMass() {
-        return mass;
-    }
-
     public void setMass( double m ) {
         mass = m;
-    }
-
-    public Point getPuckPosition() {
-        return puckPosition;
     }
 
     public Force getNetForce() {
@@ -186,26 +147,6 @@ public class Model {
         }
     }
 
-    public void updatePuckPositionEuler() {
-        //double x = puckPosition.x;
-        //double y = puckPosition.y;
-        Force F = getNetForce();
-
-        vX += ( fFactor * F.getXComp() / mass ) * dt;
-        vY += ( fFactor * F.getYComp() / mass ) * dt;
-        x += vX * dt + ( fFactor * F.getXComp() / ( 2.0 * mass ) ) * dt * dt;
-        y += vY * dt + ( fFactor * F.getYComp() / ( 2.0 * mass ) ) * dt * dt;
-
-        puck.setPosition2D( new Point2D.Double( x, y ) );
-        puck.setPosition( new Point( (int) x, (int) y ) );
-        updateForceList();        //Attention! Rounding error in updated forces because puckPosition integer
-
-        if ( x > 3 * fieldWidth || x < -3 * fieldWidth || y > 3 * fieldHeight || y < -3 * fieldHeight ) {
-            stopTimer();
-        }
-
-    }
-
     public void updatePath() {
         if ( !pathStarted ) {
             path.moveTo( puck.getPosition().x, puck.getPosition().y );
@@ -244,25 +185,17 @@ public class Model {
 
     public void startTimer() {
         timer.start();
-        puckMoving = true;
     }
 
     public void stopTimer() {
         timer.stop();
-        puckMoving = false;
     }
 
     public void resetTimer() {
         timer.stop();
-        puckMoving = false;
         time = 0;
         x = initialPuckPosition2D.getX();
         y = initialPuckPosition2D.getY();
-        //x = (double)initialPuckPosition.x;
-        //y = (double)initialPuckPosition.y;
-        vX = 0.0;
-        vY = 0.0;
-        //puckPosition = initialPuckPosition;
         puck.setPosition2D( initialPuckPosition2D );
         puck.setPosition( new Point( (int) initialPuckPosition2D.getX(), (int) initialPuckPosition2D.getY() ) );
         updateForceList();
@@ -315,10 +248,6 @@ public class Model {
 
     public boolean getGoalState() {
         return goalState;
-    }
-
-    public boolean getPuckMovingState() {
-        return puckMoving;
     }
 
 }

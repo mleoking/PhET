@@ -75,14 +75,6 @@ public class FieldGrid //extends JLabel
     }
 
 
-    public void setGridNbrWidth( int gridNbrWidth ) {
-        this.gridNbrWidth = gridNbrWidth;
-    }
-
-    public int getGridNbrWidth() {
-        return gridNbrWidth;
-    }
-
     public void paint( Graphics2D g2D ) {
         g2D.setColor( Color.white );
         g2D.setBackground( Color.white );

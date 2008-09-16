@@ -9,8 +9,6 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.util.PhetAudioClip;
 
-//Need File class
-
 public class ElectricHockeySimulationPanel extends JPanel implements Runnable {
     private int width;
     private int height;
@@ -18,7 +16,6 @@ public class ElectricHockeySimulationPanel extends JPanel implements Runnable {
     private Model model;
     private FieldGrid fieldGrid;
     private ControlPanel controlPanel;
-    private BarrierList barrierList;
     private PhetAudioClip tada;
     private PhetAudioClip cork;
     private Image plusDisk, minusDisk, plusBag, minusBag, positivePuckImage;
@@ -30,7 +27,6 @@ public class ElectricHockeySimulationPanel extends JPanel implements Runnable {
         width = 700;
         height = 600;
 
-        barrierList = new BarrierList( this );
         model = new Model( width, height, this );
         fieldGrid = new FieldGrid( width, height, this );
         controlPanel = new ControlPanel( this );
