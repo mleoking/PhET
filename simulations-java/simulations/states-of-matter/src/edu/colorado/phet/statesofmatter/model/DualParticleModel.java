@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.defaults.InteractionPotentialDefaults;
 import edu.colorado.phet.statesofmatter.model.particle.ArgonAtom;
-import edu.colorado.phet.statesofmatter.model.particle.OxygenAtom;
+import edu.colorado.phet.statesofmatter.model.particle.NeonAtom;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.colorado.phet.statesofmatter.model.particle.UserDefinedAtom;
 
@@ -26,9 +26,9 @@ public class DualParticleModel {
     // Class Data
     //----------------------------------------------------------------------------
 
-    public static final int DEFAULT_MOLECULE = StatesOfMatterConstants.MONATOMIC_OXYGEN;
-    public static final double DEFAULT_SIGMA = OxygenAtom.getSigma();
-    public static final double DEFAULT_EPSILON = OxygenAtom.getEpsilon();
+    public static final int DEFAULT_MOLECULE = StatesOfMatterConstants.NEON;
+    public static final double DEFAULT_SIGMA = NeonAtom.getSigma();
+    public static final double DEFAULT_EPSILON = NeonAtom.getEpsilon();
     public static final int CALCULATIONS_PER_TICK = 8;
     
     //----------------------------------------------------------------------------
@@ -121,11 +121,11 @@ public class DualParticleModel {
         // Verify that this is a supported value.
         if ((atomID != StatesOfMatterConstants.USER_DEFINED_MOLECULE) &&
             (atomID != StatesOfMatterConstants.ARGON) &&
-            (atomID != StatesOfMatterConstants.MONATOMIC_OXYGEN)){
+            (atomID != StatesOfMatterConstants.NEON)){
             
             System.err.println("Error: Unsupported molecule type.");
             assert false;
-            atomID = StatesOfMatterConstants.MONATOMIC_OXYGEN;
+            atomID = StatesOfMatterConstants.NEON;
         }
         
         // Inform any listeners of the removal of existing particles.
@@ -153,11 +153,11 @@ public class DualParticleModel {
             m_sigma = ArgonAtom.getSigma();
             m_epsilon = ArgonAtom.getEpsilon();
             break;
-        case StatesOfMatterConstants.MONATOMIC_OXYGEN:
-            m_fixedParticle = new OxygenAtom(0, 0);
-            m_movableParticle = new OxygenAtom(0, 0);
-            m_sigma = OxygenAtom.getSigma();
-            m_epsilon = OxygenAtom.getEpsilon();
+        case StatesOfMatterConstants.NEON:
+            m_fixedParticle = new NeonAtom(0, 0);
+            m_movableParticle = new NeonAtom(0, 0);
+            m_sigma = NeonAtom.getSigma();
+            m_epsilon = NeonAtom.getEpsilon();
             break;
         }
         

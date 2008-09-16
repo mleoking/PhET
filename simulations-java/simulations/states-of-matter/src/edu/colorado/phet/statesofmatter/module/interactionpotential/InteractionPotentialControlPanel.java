@@ -151,7 +151,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
      */
     private class MoleculeSelectionPanel extends JPanel {
         
-        private JRadioButton m_monatomicOxygenRadioButton;
+        private JRadioButton m_neonRadioButton;
         private JRadioButton m_argonRadioButton;
         private JRadioButton m_adjustableAttractionRadioButton;
         private boolean m_adjustableAtomSelected;
@@ -172,12 +172,12 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             
             setBorder( titledBorder );
 
-            m_monatomicOxygenRadioButton = new JRadioButton( StatesOfMatterStrings.MONATOMIC_OXYGEN_SELECTION_LABEL );
-            m_monatomicOxygenRadioButton.setFont( LABEL_FONT );
-            m_monatomicOxygenRadioButton.addActionListener( new ActionListener() {
+            m_neonRadioButton = new JRadioButton( StatesOfMatterStrings.NEON_SELECTION_LABEL );
+            m_neonRadioButton.setFont( LABEL_FONT );
+            m_neonRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    if (m_model.getMoleculeType() != StatesOfMatterConstants.MONATOMIC_OXYGEN){
-                        m_model.setMoleculeType( StatesOfMatterConstants.MONATOMIC_OXYGEN );
+                    if (m_model.getMoleculeType() != StatesOfMatterConstants.NEON){
+                        m_model.setMoleculeType( StatesOfMatterConstants.NEON );
                         m_adjustableAtomSelected = false;
                         updateLjControlSliderState();
                     }
@@ -208,12 +208,12 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             } );
 
             ButtonGroup buttonGroup = new ButtonGroup();
-            buttonGroup.add( m_monatomicOxygenRadioButton );
+            buttonGroup.add( m_neonRadioButton );
             buttonGroup.add( m_argonRadioButton );
             buttonGroup.add( m_adjustableAttractionRadioButton );
-            m_monatomicOxygenRadioButton.setSelected( true );
+            m_neonRadioButton.setSelected( true );
             
-            add( m_monatomicOxygenRadioButton );
+            add( m_neonRadioButton );
             add( m_argonRadioButton );
             add( m_adjustableAttractionRadioButton );
             
@@ -228,8 +228,8 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             int moleculeType = m_model.getMoleculeType();
             
             switch (moleculeType){
-            case StatesOfMatterConstants.MONATOMIC_OXYGEN:
-                m_monatomicOxygenRadioButton.setSelected( true );
+            case StatesOfMatterConstants.NEON:
+                m_neonRadioButton.setSelected( true );
                 m_adjustableAtomSelected = false;
                 break;
             case StatesOfMatterConstants.ARGON:

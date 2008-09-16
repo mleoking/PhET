@@ -10,10 +10,10 @@ package edu.colorado.phet.statesofmatter.model.particle;
  */
 public class UserDefinedAtom extends StatesOfMatterAtom {
     
-    public static final double RADIUS = 100;    // In picometers.
+    public static final double RADIUS = 195;    // In picometers.
     private static final double MASS = 14;      // In atomic mass units.
-    private static final double SIGMA = 200;    // In picometers.
-    private static final double EPSILON = 65;   // epsilon/k-Boltzmann is in Kelvin.
+    private static final double SIGMA = 390;    // In picometers.
+    private static final double EPSILON = 155;   // epsilon/k-Boltzmann is in Kelvin.
 
     
     public UserDefinedAtom(double xPos, double yPos){
