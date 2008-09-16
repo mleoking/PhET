@@ -3,7 +3,7 @@ package edu.colorado.phet.electrichockey;
 import java.awt.*;
 
 public class BarrierList {
-    private ElectricHockeyApplication electricHockeyApplication;
+    private ElectricHockeySimulationPanel electricHockeySimulationPanel;
     static int fullWidth = 700;    //edu.colorado.phet.ehockey.BarrierMaker.fullWidth;		//edu.colorado.phet.ehockey.BarrierMaker.fullWidth;
     static int fullHeight = 600;    //edu.colorado.phet.ehockey.BarrierMaker.fullHeight;	//edu.colorado.phet.ehockey.BarrierMaker.fullHeight;
 
@@ -92,8 +92,8 @@ public class BarrierList {
         collisionArray3 = makeCollisionArray( rectArray3b );
     }
 
-    public BarrierList( ElectricHockeyApplication electricHockeyApplication ) {
-        this.electricHockeyApplication = electricHockeyApplication;
+    public BarrierList( ElectricHockeySimulationPanel electricHockeySimulationPanel ) {
+        this.electricHockeySimulationPanel = electricHockeySimulationPanel;
     }
 
     public static int[][] makeCollisionArray( Rectangle[] rectArray ) {

@@ -2,7 +2,6 @@ package edu.colorado.phet.electrichockey;
 
 //Mediator applet for Electric edu.colorado.phet.ehockey.HockeyModule
 
-import java.applet.AudioClip;
 import java.awt.*;
 
 import javax.swing.*;
@@ -16,7 +15,7 @@ import edu.colorado.phet.electrichockey.common.SwingUtils;
 
 //Need File class
 
-public class ElectricHockeyApplication extends JPanel implements Runnable {
+public class ElectricHockeySimulationPanel extends JPanel implements Runnable {
     private int width;
     private int height;
     private PlayingField playingField;
@@ -118,34 +117,6 @@ public class ElectricHockeyApplication extends JPanel implements Runnable {
 
     public PhetAudioClip getTada() {
         return tada;
-    }
-
-    public static void main( final String[] args ) {
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                SimStrings.getInstance().init( args, HockeyConfig.localizedStringPath );
-                new PhetLookAndFeel().initLookAndFeel();
-
-
-                JFrame frame = new JFrame( ElectricHockeyStrings.getString( "HockeyApplication.Title" ) + " (" + PhetApplicationConfig.getVersion( "electric-hockey" ).formatForTitleBar() + ")" );
-                ElectricHockeyApplication electricHockeyApplication = new ElectricHockeyApplication();
-                frame.setContentPane( electricHockeyApplication );
-                frame.setSize( 800, 750 );
-
-                electricHockeyApplication.init();
-
-                frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-
-                SwingUtils.centerWindowOnScreen( frame );
-                frame.setVisible( true );
-
-                frame.invalidate();
-                frame.repaint();
-                frame.validate();
-                frame.repaint();
-                new PhetLookAndFeel().initLookAndFeel();
-            }
-        } );
     }
 
 }

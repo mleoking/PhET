@@ -8,7 +8,7 @@ import java.awt.geom.Point2D;
 import java.util.Vector;
 
 public class Model {
-    private ElectricHockeyApplication electricHockeyApplication;
+    private ElectricHockeySimulationPanel electricHockeySimulationPanel;
     private int fieldWidth, fieldHeight;
     private int barrierState;
     private boolean goalState;
@@ -37,8 +37,8 @@ public class Model {
     private boolean starting;
     private double vX, vY;      //x, y components of velocity and acceleration of positivePuckImage
 
-    public Model( int width, int height, ElectricHockeyApplication electricHockeyApplication ) {
-        this.electricHockeyApplication = electricHockeyApplication;
+    public Model( int width, int height, ElectricHockeySimulationPanel electricHockeySimulationPanel ) {
+        this.electricHockeySimulationPanel = electricHockeySimulationPanel;
         this.fieldWidth = width;
         this.fieldHeight = height;
         chargeList = new Vector();
@@ -273,14 +273,14 @@ public class Model {
         goalState = false;
         collisionState = false;
         prt( "positivePuckImage reset y = " + puckPosition2D.getY() );
-        electricHockeyApplication.getPlayingField().paintAgain();
+        electricHockeySimulationPanel.getPlayingField().paintAgain();
     }
 
     class timerHandler implements ActionListener {
         public void actionPerformed( ActionEvent aevt ) {
             time++;
             updatePuckPositionVerlet();
-            if( electricHockeyApplication.getControlPanel().getTraceState() ) {
+            if( electricHockeySimulationPanel.getControlPanel().getTraceState() ) {
                 updatePath();
             }
             int x = puck.getPosition().x;
@@ -290,24 +290,24 @@ public class Model {
                 if( BarrierList.currentCollisionArray[x][y] == 1 ) {
                     prt( "Collision!" );
                     collisionState = true;
-                    if( electricHockeyApplication.getCork() != null ) {
-                        electricHockeyApplication.getCork().play();
+                    if( electricHockeySimulationPanel.getCork() != null ) {
+                        electricHockeySimulationPanel.getCork().play();
                     }
-                    electricHockeyApplication.getPlayingField().paintAgain();
+                    electricHockeySimulationPanel.getPlayingField().paintAgain();
                     stopTimer();
                 }
             }
-            if( electricHockeyApplication.getPlayingField().goal.contains( puck.getPosition() ) ) {
+            if( electricHockeySimulationPanel.getPlayingField().goal.contains( puck.getPosition() ) ) {
                 prt( "Goal!" );
                 goalState = true;
-                if( electricHockeyApplication.getTada()!= null ) {
-                    electricHockeyApplication.getTada().play();
+                if( electricHockeySimulationPanel.getTada()!= null ) {
+                    electricHockeySimulationPanel.getTada().play();
                 }
-                electricHockeyApplication.getPlayingField().paintAgain();
+                electricHockeySimulationPanel.getPlayingField().paintAgain();
                 stopTimer();
             }
             //if(time%4 == 0)		//use to paint at intervals
-            electricHockeyApplication.getPlayingField().paintAgain(); //
+            electricHockeySimulationPanel.getPlayingField().paintAgain(); //
 
         }
     }//end of timerHandler()

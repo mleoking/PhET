@@ -5,7 +5,7 @@ import java.util.Vector;
 
 public class FieldGrid //extends JLabel
 {
-    private ElectricHockeyApplication electricHockeyApplication;
+    private ElectricHockeySimulationPanel electricHockeySimulationPanel;
     private int width, height;
     private int gridNbrWidth;            //number of grid points across width of field
     private int gridSpacing;            //grid spacing
@@ -15,10 +15,10 @@ public class FieldGrid //extends JLabel
     private double gridForceFactor;        //arbitrary scale factor controlling force arrow length
     private boolean antialias = false;
 
-    public FieldGrid( int width, int height, ElectricHockeyApplication electricHockeyApplication ) {
+    public FieldGrid( int width, int height, ElectricHockeySimulationPanel electricHockeySimulationPanel ) {
         this.width = width;
         this.height = height;
-        this.electricHockeyApplication = electricHockeyApplication;
+        this.electricHockeySimulationPanel = electricHockeySimulationPanel;
         gridForceFactor = 25;
         gridNbrWidth = 25;
         gridSpacing = width / gridNbrWidth;
@@ -41,7 +41,7 @@ public class FieldGrid //extends JLabel
     }
 
     public void updateGridForceArray() {
-        Vector chargeList = electricHockeyApplication.getModel().getChargeList();
+        Vector chargeList = electricHockeySimulationPanel.getModel().getChargeList();
         for( int i = 0; i < gridNbrWidth; i++ ) {
             for( int j = 0; j < gridNbrHeight; j++ ) {
                 double gridIJNetX = 0.0;
@@ -105,7 +105,7 @@ public class FieldGrid //extends JLabel
 
     public void setAntialias( boolean antialias ) {
         this.antialias = antialias;
-        electricHockeyApplication.getPlayingField().updateBufferedImage();
-        electricHockeyApplication.getPlayingField().repaint();
+        electricHockeySimulationPanel.getPlayingField().updateBufferedImage();
+        electricHockeySimulationPanel.getPlayingField().repaint();
     }
 }//end of public class
