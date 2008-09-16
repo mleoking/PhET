@@ -202,6 +202,7 @@ public class PiccoloModule extends Module {
     }
 
     protected JComponent createClockControlPanel( IClock clock ) {
-        return new PiccoloClockControlPanel(clock);
+//        return new PiccoloClockControlPanel(clock);
+        return super.createClockControlPanel( clock );
     }
 }
