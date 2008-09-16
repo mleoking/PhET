@@ -6,10 +6,10 @@ package edu.colorado.phet.efield.phys2d_efield;
 
 import java.util.Vector;
 
-// Referenced classes of package phys2d:
-//            Law, PropagatorLaw, Particle, Propagator
-
 public class System2D {
+
+    Vector particles;
+    Vector laws;
 
     public System2D() {
         particles = new Vector();
@@ -66,6 +66,4 @@ public class System2D {
 
     }
 
-    Vector particles;
-    Vector laws;
 }

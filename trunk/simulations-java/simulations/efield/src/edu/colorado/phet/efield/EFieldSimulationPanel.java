@@ -7,9 +7,12 @@ import java.util.Vector;
 import javax.swing.*;
 import javax.swing.border.Border;
 
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
+import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.efield.core.ParticleContainer;
 import edu.colorado.phet.efield.core.RandomSystemFactory;
 import edu.colorado.phet.efield.electricField.*;
@@ -38,6 +41,10 @@ public class EFieldSimulationPanel extends JPanel {
     private ElectricFieldPainter electricFieldPainter;
     private ParticlePanel particlePanel;
     private IClock clock;
+    private AddRemove addRemove;
+    private ParticleGrabber particleGrabber;
+    private System2D system2D;
+    private MediaControl mediaControl;
 
     public EFieldSimulationPanel( IClock clock ) {
         this.clock = clock;
@@ -63,15 +70,15 @@ public class EFieldSimulationPanel extends JPanel {
         ForceLawAdapter cla = new ForceLawAdapter( new Particle[0], law );
         randFact.addForceLaw( cla );
 
-        System2D sys = randFact.newSystem();
+        system2D = randFact.newSystem();
 
 //        double dt = .15;
 //        int wait = 35;
-        final SystemRunner systemRunner = new SystemRunner( sys);
+        final SystemRunner systemRunner = new SystemRunner( system2D );
 //        new Thread( systemRunner ).start();
-        clock.addClockListener( new ClockAdapter(){
+        clock.addClockListener( new ClockAdapter() {
             public void simulationTimeChanged( ClockEvent clockEvent ) {
-                systemRunner.step(clockEvent.getSimulationTimeChange());
+                systemRunner.step( clockEvent.getSimulationTimeChange() );
             }
         } );
 
@@ -80,34 +87,34 @@ public class EFieldSimulationPanel extends JPanel {
         BufferedImage bi = EFieldResources.loadBufferedImage( "electron9.gif" );
         ParticlePainter painter = new ImagePainter( bi );
 
-        randFact.updatePanel( particlePanel, sys, painter );
-        ParticleGrabber pg = new ParticleThrower( particlePanel, sys, systemRunner, 5, 18 );
-        particlePanel.addMouseListener( pg );
-        particlePanel.addMouseMotionListener( pg );
+        randFact.updatePanel( particlePanel, system2D, painter );
+        particleGrabber = new ParticleThrower( particlePanel, system2D, systemRunner, 5, 18 );
+        particlePanel.addMouseListener( particleGrabber );
+        particlePanel.addMouseMotionListener( particleGrabber );
 
         setLayout( new BorderLayout() );
         add( particlePanel, BorderLayout.CENTER );
         validate();
 
-        MediaControl mc = new MediaControl( clock, systemRunner, randFact, particlePanel, painter,
-                                            EFieldResources.loadBufferedImage( "icons/media/Play24.gif" ),
-                                            EFieldResources.loadBufferedImage( "icons/media/Pause24.gif" ),
-                                            EFieldResources.loadBufferedImage( "icons/media/Stop24.gif" ) );
-        JPanel controlPanel = ( mc.getPanel() );
+        ClockControlPanel clockControlPanel = new ClockControlPanel( clock );
+        ResetAllButton resetAllButton = new ResetAllButton( new Resettable() {
+            public void reset() {
+                doReset();
+            }
+        }, this );
 
+        addRemove = new AddRemove( new Vector(), ef, particlePanel, painter );
+        addRemove.add( new PanelAdapter( particlePanel, painter ) );
+        SystemAdapter sa = new SystemAdapter( system2D );
+        addRemove.add( sa );
 
-        AddRemove ar = new AddRemove( new Vector(), ef, particlePanel, painter );
-        ar.add( new PanelAdapter( particlePanel, painter ) );
-        SystemAdapter sa = new SystemAdapter( sys );
-        ar.add( sa );
-
-        for ( int i = 0; i < sys.numLaws(); i++ ) {
-            if ( sys.lawAt( i ) instanceof ParticleContainer ) {
-                ar.add( (ParticleContainer) sys.lawAt( i ) );
+        for ( int i = 0; i < system2D.numLaws(); i++ ) {
+            if ( system2D.lawAt( i ) instanceof ParticleContainer ) {
+                addRemove.add( (ParticleContainer) system2D.lawAt( i ) );
             }
         }
 
-        JPanel addRemovePanel = ar.getJPanel();
+        JPanel addRemovePanel = addRemove.getJPanel();
 
         JButton propertyButton = new JButton( EFieldResources.getString( "FieldNode2.PropertiesButton" ) );
         propertyButton.addActionListener( sppd );
@@ -116,7 +123,8 @@ public class EFieldSimulationPanel extends JPanel {
 
         JPanel southPanel = new JPanel();
         southPanel.setLayout( new BoxLayout( southPanel, BoxLayout.X_AXIS ) );
-        southPanel.add( controlPanel );
+        southPanel.add( clockControlPanel );
+        clockControlPanel.add( resetAllButton );
         southPanel.add( addRemovePanel );
         VectorPainter vp = new DefaultVectorPainter( Color.blue, new BasicStroke( 6 ), Math.PI / 8, 10 );
 
@@ -128,9 +136,6 @@ public class EFieldSimulationPanel extends JPanel {
         Border b = BorderFactory.createTitledBorder( etched, EFieldResources.getString( "FieldNode2.ExternalFieldBorder" ) );
         fieldPanel.setBorder( b );
         add( southPanel, BorderLayout.SOUTH );
-
-        mc.add( ar );/*Notify of reset actions.*/
-        mc.add( pg );
 
         Painter wally = new WallPainter( x - 15, y - 15, width + 25, height + 25, new BasicStroke( 8, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER ), Color.blue );
         particlePanel.add( wally );
@@ -149,6 +154,14 @@ public class EFieldSimulationPanel extends JPanel {
         MenuConstructor emcee = new FieldMenuConstructor( cs, particlePanel );
         ParticlePopupListener ml = new ParticlePopupListener( particlePanel, emcee );
         particlePanel.addMouseListener( ml );
+
+        mediaControl = new MediaControl( clock, systemRunner, randFact, particlePanel, painter );
+        mediaControl.add( addRemove );
+        mediaControl.add( particleGrabber );
+    }
+
+    private void doReset() {
+        mediaControl.reset();
     }
 
     public JMenu getMenu() {
