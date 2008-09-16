@@ -67,7 +67,7 @@
 //        jb.addActionListener(new ActionListener() {
 //            public void actionPerformed(ActionEvent ae) {
 //                try {
-//                    mainBAK();
+//                    startApplication();
 //                } catch (Throwable t) {
 //                    throw new RuntimeException(t);
 //                }
@@ -75,7 +75,7 @@
 //        });
 //    }
 //
-//    public void mainBAK() throws IOException, FontFormatException {
+//    public void startApplication() throws IOException, FontFormatException {
 //        ResourceLoader4 loader = new ResourceLoader4(getClass().getClassLoader(), this);
 //        int scatInset = 60;
 //        int battInset = 60;
@@ -567,7 +567,7 @@
 //        }
 //    }
 //
-//    public static void mainBAK(String[] args) throws Throwable {
-//        new Loop7().mainBAK();
+//    public static void startApplication(String[] args) throws Throwable {
+//        new Loop7().startApplication();
 //    }
 //}

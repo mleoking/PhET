@@ -15,10 +15,6 @@ public class SystemRunner implements Runnable {
         this.waitTime = waitTime;
     }
 
-    public void setAlive( boolean b ) {
-        this.alive = b;
-    }
-
     public void run() {
         this.alive = true;
         this.running = true;

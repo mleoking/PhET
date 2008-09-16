@@ -37,7 +37,6 @@ public class BatteryForcePropagator implements Propagator1d, VoltageListener {
         //util.Debug.traceln("Started propagate,: x="+x+", v="+v+", a="+a+",this="+this);
         //System.err.println("Force="+force);
         double a = f / m;
-        wp.setAcceleration( a );
         //v=v+a*dt;
         v = v + a * dt;
         double vpre = v;
