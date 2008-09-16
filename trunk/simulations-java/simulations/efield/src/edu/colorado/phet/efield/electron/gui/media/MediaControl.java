@@ -55,7 +55,7 @@ public class MediaControl {
     }
 
 
-    public MediaControl( SystemRunner systemrunner, SystemFactory systemfactory, ParticlePanel particlepanel, double d, int i, ParticlePainter particlepainter,
+    public MediaControl( SystemRunner systemrunner, SystemFactory systemfactory, ParticlePanel particlepanel, ParticlePainter particlepainter,
                          BufferedImage bufferedimage, BufferedImage bufferedimage1, BufferedImage bufferedimage2 ) {
         playIcon = bufferedimage;
         pauseIcon = bufferedimage1;
@@ -77,13 +77,13 @@ public class MediaControl {
         jpanel.setLayout( new BoxLayout( jpanel, 0 ) );
         ImageIcon imageicon = new ImageIcon( playIcon );
         javax.swing.Icon icon = ( new JLabel( imageicon ) ).getDisabledIcon();
-        playButton = new SelectableJButton( SimStrings.get( "MediaControl.PlayButton" ) + " ", icon, imageicon, true );
+        playButton = new SelectableJButton( SimStrings.get( "MediaControl.PlayButton" ) + " ", imageicon, true );
         playButton.addActionListener( new UnPauseListener() );
         ImageIcon imageicon1 = new ImageIcon( pauseIcon );
-        pauseButton = new SelectableJButton( SimStrings.get( "MediaControl.PauseButton" ) + " ", ( new JLabel( imageicon1 ) ).getDisabledIcon(), imageicon1, false );
+        pauseButton = new SelectableJButton( SimStrings.get( "MediaControl.PauseButton" ) + " ", imageicon1, false );
         pauseButton.addActionListener( new PauseListener() );
         ImageIcon imageicon2 = new ImageIcon( resetIcon );
-        resetButton = new SelectableJButton( SimStrings.get( "MediaControl.ResetButton" ) + " ", ( new JLabel( imageicon2 ) ).getDisabledIcon(), imageicon2, false );
+        resetButton = new SelectableJButton( SimStrings.get( "MediaControl.ResetButton" ) + " ", imageicon2, false );
         resetButton.addActionListener( new ResetListener() );
         jpanel.add( pauseButton );
         jpanel.add( playButton );

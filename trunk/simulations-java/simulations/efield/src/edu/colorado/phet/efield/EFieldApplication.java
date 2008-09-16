@@ -104,7 +104,7 @@ public class EFieldApplication extends JApplet {
 
         MediaControl mc = null;
         try {
-            mc = new MediaControl( sr, randFact, pp, dt, wait, painter,
+            mc = new MediaControl( sr, randFact, pp, painter,
                                    ResourceLoader.loadBufferedImage( "efield/icons/media/Play24.gif", pp, false ),
                                    ResourceLoader.loadBufferedImage( "efield/icons/media/Pause24.gif", pp, false ),
                                    ResourceLoader.loadBufferedImage( "efield/icons/media/Stop24.gif", pp, false ) );
