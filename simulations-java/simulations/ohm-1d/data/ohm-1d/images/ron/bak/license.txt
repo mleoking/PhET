@@ -1,8 +1,0 @@
-###################################
-# License info for ohm-1d
-# Automatically generated on Fri Aug 08 00:08:02 MDT 2008
-###################################
-
-AA-battery-555-left.gif author=PhET 
-AA-battery-555.gif author=PhET 
-particle-green-med.gif author=PhET 
