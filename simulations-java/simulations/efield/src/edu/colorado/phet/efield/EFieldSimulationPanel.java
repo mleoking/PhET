@@ -33,7 +33,6 @@ import edu.colorado.phet.efield.electron.phys2d_efield.DoublePoint;
 import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
 import edu.colorado.phet.efield.electron.phys2d_efield.System2D;
 import edu.colorado.phet.efield.electron.phys2d_efield.SystemRunner;
-import edu.colorado.phet.efield.electron.utils.ResourceLoader;
 
 public class EFieldSimulationPanel extends JPanel {
     public static final String localizedStringsPath = "efield/localization/efield-strings";
@@ -82,13 +81,7 @@ public class EFieldSimulationPanel extends JPanel {
         new Thread( sr ).start();
 
         particlePanel = new ParticlePanel();
-        BufferedImage bi = null;
-        try {
-            bi = ResourceLoader.loadBufferedImage( "efield/images/electron9.gif", particlePanel, true );
-        }
-        catch( InterruptedException e ) {
-            e.printStackTrace();
-        }
+        BufferedImage bi = EFieldResources.loadBufferedImage( "electron9.gif" );
         ParticlePainter painter = new ImagePainter( bi );
 
         randFact.updatePanel( particlePanel, sys, painter );
@@ -100,16 +93,10 @@ public class EFieldSimulationPanel extends JPanel {
         add( particlePanel, BorderLayout.CENTER );
         validate();
 
-        MediaControl mc = null;
-        try {
-            mc = new MediaControl( sr, randFact, particlePanel, painter,
-                                   ResourceLoader.loadBufferedImage( "efield/icons/media/Play24.gif", particlePanel, false ),
-                                   ResourceLoader.loadBufferedImage( "efield/icons/media/Pause24.gif", particlePanel, false ),
-                                   ResourceLoader.loadBufferedImage( "efield/icons/media/Stop24.gif", particlePanel, false ) );
-        }
-        catch( InterruptedException e ) {
-            e.printStackTrace();
-        }
+        MediaControl mc = new MediaControl( sr, randFact, particlePanel, painter,
+                                            EFieldResources.loadBufferedImage( "icons/media/Play24.gif" ),
+                                            EFieldResources.loadBufferedImage( "icons/media/Pause24.gif" ),
+                                            EFieldResources.loadBufferedImage( "icons/media/Stop24.gif" ) );
         JPanel controlPanel = ( mc.getPanel() );
 
 
