@@ -9,5 +9,5 @@ import edu.colorado.phet.efield.phys2d_efield.System2D;
 
 public interface EFieldResettable {
 
-    public abstract void fireResetAction( System2D system2d, ParticlePanel particlepanel );
+    public abstract void fireResetAction( ParticlePanel particlepanel );
 }

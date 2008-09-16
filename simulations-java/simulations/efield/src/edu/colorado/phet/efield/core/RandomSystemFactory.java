@@ -19,11 +19,15 @@ import edu.colorado.phet.efield.phys2d_efield.propagators.PositionUpdate;
 import edu.colorado.phet.efield.phys2d_efield.propagators.ResetAcceleration;
 import edu.colorado.phet.efield.phys2d_efield.propagators.VelocityUpdate;
 
-// Referenced classes of package edu.colorado.phet.efield.core:
-//            ParticleContainer, SystemFactory
+public class RandomSystemFactory implements SystemFactory {
 
-public class RandomSystemFactory
-        implements SystemFactory {
+    int seed;
+    int numParticles;
+    int minX;
+    int minY;
+    int width;
+    int height;
+    Vector forceLaws;
 
     public RandomSystemFactory( int i, int j, int k, int l, int i1, int j1 ) {
         forceLaws = new Vector();
@@ -78,15 +82,9 @@ public class RandomSystemFactory
     }
 
     public void updatePanel( ParticlePanel particlepanel, System2D system2d, ParticlePainter particlepainter ) {
+        particlepanel.removeAll();
         particlepanel.addAll( system2d, particlepainter );
         system2d.addLaw( new RepaintLaw( particlepanel ) );
     }
 
-    int seed;
-    int numParticles;
-    int minX;
-    int minY;
-    int width;
-    int height;
-    Vector forceLaws;
 }

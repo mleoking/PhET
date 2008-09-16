@@ -15,11 +15,7 @@ import edu.colorado.phet.efield.phys2d_efield.Particle;
 import edu.colorado.phet.efield.phys2d_efield.System2D;
 import edu.colorado.phet.efield.phys2d_efield.SystemRunner;
 
-// Referenced classes of package edu.colorado.phet.efield.gui.mouse:
-//            ParticleSelector
-
-public class ParticleGrabber
-        implements MouseListener, MouseMotionListener, EFieldResettable {
+public class ParticleGrabber implements MouseListener, MouseMotionListener, EFieldResettable {
 
     public ParticleGrabber( ParticlePanel particlepanel, System2D system2d, SystemRunner systemrunner ) {
         systemRunner = systemrunner;
@@ -29,8 +25,7 @@ public class ParticleGrabber
         particleSelector = new ParticleSelector( particlepanel );
     }
 
-    public void fireResetAction( System2D system2d, ParticlePanel particlepanel ) {
-        system2D = system2d;
+    public void fireResetAction( ParticlePanel particlepanel ) {
         particlePanel = particlepanel;
     }
 

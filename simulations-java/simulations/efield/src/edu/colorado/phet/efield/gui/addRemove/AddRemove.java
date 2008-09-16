@@ -18,7 +18,6 @@ import edu.colorado.phet.efield.gui.ParticlePainter;
 import edu.colorado.phet.efield.gui.ParticlePanel;
 import edu.colorado.phet.efield.gui.media.EFieldResettable;
 import edu.colorado.phet.efield.phys2d_efield.Particle;
-import edu.colorado.phet.efield.phys2d_efield.System2D;
 
 public class AddRemove implements EFieldResettable {
     public class Remover
@@ -56,16 +55,10 @@ public class AddRemove implements EFieldResettable {
         containers.add( particlecontainer );
     }
 
-    public void fireResetAction( System2D system2d, ParticlePanel particlepanel ) {
-        containers = new Vector();
-        add( new SystemAdapter( system2d ) );
-        add( new PanelAdapter( particlepanel, painter ) );
-        for ( int i = 0; i < system2d.numLaws(); i++ ) {
-            if ( system2d.lawAt( i ) instanceof ParticleContainer ) {
-                add( (ParticleContainer) system2d.lawAt( i ) );
-            }
+    public void fireResetAction( ParticlePanel particlepanel ) {
+        while ( electrons.size() > 0 ) {
+            remove();
         }
-
     }
 
     public JPanel getJPanel() {
@@ -96,13 +89,9 @@ public class AddRemove implements EFieldResettable {
     }
 
     public void remove() {
-        if ( electrons.size() == 0 ) {
-            return;
-        }
-        else {
+        if ( electrons.size() > 0 ) {
             Particle particle = (Particle) electrons.lastElement();
             remove( particle );
-            return;
         }
     }
 
