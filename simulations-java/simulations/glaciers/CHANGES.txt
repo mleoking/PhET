@@ -66,6 +66,7 @@ CLEANUP:
 
 
 DONE:
+9/16/08 - change "equilibrium" to "steady state" in MiscControlPanel so that terminology is consistent
 ******* 1.00.04 (24458)
 9/15/08 - put default units on top in thermometer
 9/15/08 - refactor ClimateControlPanel for English/metric feature

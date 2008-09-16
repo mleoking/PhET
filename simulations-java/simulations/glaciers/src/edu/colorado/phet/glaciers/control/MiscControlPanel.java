@@ -36,7 +36,7 @@ public class MiscControlPanel extends JPanel {
     private final Frame _dialogOwner;
     
     private final JButton _pictureButton;
-    private final JButton _equilibriumButton;
+    private final JButton _steadyStateButton;
     private final ResetAllButton _resetAllButton;
     private final HelpButton _helpButton;
     
@@ -56,7 +56,7 @@ public class MiscControlPanel extends JPanel {
         _glacier = glacier;
         glacier.addGlacierListener( new GlacierAdapter() {
             public void steadyStateChanged() {
-                setEquilibriumButtonEnabled( !_glacier.isSteadyState() );
+                setSteadyStateButtonEnabled( !_glacier.isSteadyState() );
             }
         } );
         
@@ -67,8 +67,8 @@ public class MiscControlPanel extends JPanel {
             }
         } );
         
-        _equilibriumButton = new JButton( GlaciersStrings.BUTTON_STEADY_STATE );
-        _equilibriumButton.addActionListener( new ActionListener() {
+        _steadyStateButton = new JButton( GlaciersStrings.BUTTON_STEADY_STATE );
+        _steadyStateButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 _glacier.setSteadyState();
             }
@@ -82,7 +82,7 @@ public class MiscControlPanel extends JPanel {
         setLayout( layout );
         int column = 0;
         layout.addComponent( _pictureButton, 0, column++ );
-        layout.addComponent( _equilibriumButton, 0, column++ );
+        layout.addComponent( _steadyStateButton, 0, column++ );
         layout.addComponent( _resetAllButton, 0, column++ );
         if ( module.hasHelp() ) {
             layout.addComponent( _helpButton, 0, column++ );
@@ -93,8 +93,8 @@ public class MiscControlPanel extends JPanel {
     // Setters and getters
     //----------------------------------------------------------------------------
     
-    public void setEquilibriumButtonEnabled( boolean enabled ) {
-        _equilibriumButton.setEnabled( enabled );
+    public void setSteadyStateButtonEnabled( boolean enabled ) {
+        _steadyStateButton.setEnabled( enabled );
     }
     
     public void setHelpEnabled( boolean enabled ) {
@@ -104,8 +104,8 @@ public class MiscControlPanel extends JPanel {
     /**
      *  For attaching Help items.
      */
-    public JComponent getEquilibriumButton() {
-        return _equilibriumButton;
+    public JComponent getSteadyStateButton() {
+        return _steadyStateButton;
     }
     
     public void activate() {

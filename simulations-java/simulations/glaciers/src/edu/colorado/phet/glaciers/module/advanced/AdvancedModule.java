@@ -61,7 +61,7 @@ public class AdvancedModule extends GlaciersModule {
             HelpPane helpPane = getDefaultHelpPane();
             HelpBalloon equilibriumButtonHelp = new HelpBalloon( helpPane, GlaciersStrings.HELP_EQUILIBRIUM_BUTTON, HelpBalloon.BOTTOM_CENTER, 80 );
             helpPane.add( equilibriumButtonHelp );
-            equilibriumButtonHelp.pointAt( _controlPanel.getMiscControlPanel().getEquilibriumButton() );
+            equilibriumButtonHelp.pointAt( _controlPanel.getMiscControlPanel().getSteadyStateButton() );
         }
         
         // Set initial state
@@ -137,7 +137,7 @@ public class AdvancedModule extends GlaciersModule {
         graphsControlPanel.setTemperatureVersusElevationSelected( false );
         
         MiscControlPanel miscControlPanel = _controlPanel.getMiscControlPanel();
-        miscControlPanel.setEquilibriumButtonEnabled( !glacier.isSteadyState() );
+        miscControlPanel.setSteadyStateButtonEnabled( !glacier.isSteadyState() );
 
         // View ---------------------------------------------
         
