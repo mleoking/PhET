@@ -86,21 +86,15 @@ public class BarrierList {
     static int[][] collisionArray3 = new int[fullWidth][fullHeight];
 
     static {
-        System.out.println( "Making collisionArray0" );
         collisionArray0 = makeCollisionArray( rectArray0b );
-        System.out.println( "Making collisionArray1" );
         collisionArray1 = makeCollisionArray( rectArray1b );
-        System.out.println( "Making collisionArray2" );
         collisionArray2 = makeCollisionArray( rectArray2b );
-        System.out.println( "Making collisionArray3" );
         collisionArray3 = makeCollisionArray( rectArray3b );
     }
-
 
     public BarrierList( ElectricHockeyApplication electricHockeyApplication ) {
         this.electricHockeyApplication = electricHockeyApplication;
     }
-
 
     public static int[][] makeCollisionArray( Rectangle[] rectArray ) {
         //grow wall rectangles to collision rectangles
