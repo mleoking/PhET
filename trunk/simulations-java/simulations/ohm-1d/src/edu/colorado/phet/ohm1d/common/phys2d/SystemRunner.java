@@ -1,7 +1,7 @@
 package edu.colorado.phet.ohm1d.common.phys2d;
 
 
-public class SystemRunner  {
+public class SystemRunner {
     System2D system;
     boolean running = true;
     boolean alive;

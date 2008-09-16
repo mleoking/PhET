@@ -3,6 +3,7 @@ package edu.colorado.phet.ohm1d;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import edu.colorado.phet.common.phetcommon.math.DoubleSeries;
 import edu.colorado.phet.ohm1d.common.paint.gauges.IGauge;
 import edu.colorado.phet.ohm1d.common.phys2d.Law;
 import edu.colorado.phet.ohm1d.common.phys2d.System2D;
@@ -11,7 +12,6 @@ import edu.colorado.phet.ohm1d.gui.CoreCountListener;
 import edu.colorado.phet.ohm1d.gui.VoltageListener;
 import edu.colorado.phet.ohm1d.volt.CurrentListener;
 import edu.colorado.phet.ohm1d.volt.WireRegion;
-import edu.colorado.phet.common.phetcommon.math.DoubleSeries;
 
 /**
  * Sets the value of the gauge.
