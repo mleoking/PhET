@@ -22,26 +22,26 @@ public class ParticleGrabber
         implements MouseListener, MouseMotionListener, EFieldResettable {
 
     public ParticleGrabber( ParticlePanel particlepanel, System2D system2d, SystemRunner systemrunner ) {
-        run = systemrunner;
-        pp = particlepanel;
-        selected = null;
-        sys = system2d;
-        ps = new ParticleSelector( particlepanel );
+        systemRunner = systemrunner;
+        particlePanel = particlepanel;
+        selectedParticle = null;
+        system2D = system2d;
+        particleSelector = new ParticleSelector( particlepanel );
     }
 
     public void fireResetAction( System2D system2d, ParticlePanel particlepanel ) {
-        sys = system2d;
-        pp = particlepanel;
+        system2D = system2d;
+        particlePanel = particlepanel;
     }
 
     public void mouseClicked( MouseEvent mouseevent ) {
     }
 
     public void mouseReleased( MouseEvent mouseevent ) {
-        if ( selected != null ) {
-            sys.addParticle( selected );
+        if ( selectedParticle != null ) {
+            system2D.addParticle( selectedParticle );
         }
-        selected = null;
+        selectedParticle = null;
     }
 
     public void mouseEntered( MouseEvent mouseevent ) {
@@ -52,29 +52,27 @@ public class ParticleGrabber
 
     public void mousePressed( MouseEvent mouseevent ) {
         java.awt.Point point = mouseevent.getPoint();
-        Particle particle = ps.selectAt( point );
-        selected = particle;
+        Particle particle = particleSelector.selectAt( point );
+        selectedParticle = particle;
         if ( particle != null ) {
-            sys.remove( selected );
+            system2D.remove( selectedParticle );
         }
     }
 
     public void mouseDragged( MouseEvent mouseevent ) {
-        if ( selected == null ) {
+        if ( selectedParticle == null ) {
             return;
         }
-        selected.setPosition( new DoublePoint( mouseevent.getX(), mouseevent.getY() ) );
-        if ( !run.isActiveAndRunning() ) {
-            pp.repaint();
-        }
+        selectedParticle.setPosition( new DoublePoint( mouseevent.getX(), mouseevent.getY() ) );
+        particlePanel.repaint();
     }
 
     public void mouseMoved( MouseEvent mouseevent ) {
     }
 
-    ParticlePanel pp;
-    Particle selected;
-    System2D sys;
-    SystemRunner run;
-    ParticleSelector ps;
+    ParticlePanel particlePanel;
+    Particle selectedParticle;
+    System2D system2D;
+    SystemRunner systemRunner;
+    ParticleSelector particleSelector;
 }

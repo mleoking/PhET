@@ -2,14 +2,14 @@ package edu.colorado.phet.efield;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.Locale;
 import java.util.Vector;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.efield.electron.core.ParticleContainer;
 import edu.colorado.phet.efield.electron.core.RandomSystemFactory;
 import edu.colorado.phet.efield.electron.electricField.*;
@@ -35,8 +35,6 @@ import edu.colorado.phet.efield.electron.phys2d_efield.System2D;
 import edu.colorado.phet.efield.electron.phys2d_efield.SystemRunner;
 
 public class EFieldSimulationPanel extends JPanel {
-    public static final String localizedStringsPath = "efield/localization/efield-strings";
-    private String applicationLocale = null;
     private ElectricFieldPainter electricFieldPainter;
     private ParticlePanel particlePanel;
     private IClock clock;
@@ -46,14 +44,6 @@ public class EFieldSimulationPanel extends JPanel {
     }
 
     public void init() {
-        if ( applicationLocale == null ) {
-            applicationLocale = Toolkit.getDefaultToolkit().getProperty( "javaws.phet.locale", null );
-            if ( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-                SimStrings.getInstance().setLocale( new Locale( applicationLocale ) );
-            }
-        }
-        SimStrings.setStrings( localizedStringsPath );
-
         int num = 0;
         int x = 50;
         int y = 50;
@@ -75,17 +65,23 @@ public class EFieldSimulationPanel extends JPanel {
 
         System2D sys = randFact.newSystem();
 
-        double dt = .15;
-        int wait = 35;
-        SystemRunner sr = new SystemRunner( sys, dt, wait );
-        new Thread( sr ).start();
+//        double dt = .15;
+//        int wait = 35;
+        final SystemRunner systemRunner = new SystemRunner( sys);
+//        new Thread( systemRunner ).start();
+        clock.addClockListener( new ClockAdapter(){
+            public void simulationTimeChanged( ClockEvent clockEvent ) {
+                systemRunner.step(clockEvent.getSimulationTimeChange());
+            }
+        } );
+
 
         particlePanel = new ParticlePanel();
         BufferedImage bi = EFieldResources.loadBufferedImage( "electron9.gif" );
         ParticlePainter painter = new ImagePainter( bi );
 
         randFact.updatePanel( particlePanel, sys, painter );
-        ParticleGrabber pg = new ParticleThrower( particlePanel, sys, sr, 5, 18 );
+        ParticleGrabber pg = new ParticleThrower( particlePanel, sys, systemRunner, 5, 18 );
         particlePanel.addMouseListener( pg );
         particlePanel.addMouseMotionListener( pg );
 
@@ -93,7 +89,7 @@ public class EFieldSimulationPanel extends JPanel {
         add( particlePanel, BorderLayout.CENTER );
         validate();
 
-        MediaControl mc = new MediaControl( sr, randFact, particlePanel, painter,
+        MediaControl mc = new MediaControl( clock, systemRunner, randFact, particlePanel, painter,
                                             EFieldResources.loadBufferedImage( "icons/media/Play24.gif" ),
                                             EFieldResources.loadBufferedImage( "icons/media/Pause24.gif" ),
                                             EFieldResources.loadBufferedImage( "icons/media/Stop24.gif" ) );

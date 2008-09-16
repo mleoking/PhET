@@ -10,12 +10,8 @@ import java.util.Vector;
 
 import javax.swing.*;
 
-import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
-import edu.colorado.phet.efield.electron.utils.Debug;
 import edu.colorado.phet.efield.EFieldResources;
-
-// Referenced classes of package edu.colorado.phet.efield.electron.particleFactory:
-//            ParticlePropertyListener
+import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
 
 public class ParticlePropertyDialog extends JPanel
         implements ActionListener {
@@ -62,7 +58,6 @@ public class ParticlePropertyDialog extends JPanel
         Particle particle = getProperties();
         for ( int i = 0; i < v.size(); i++ ) {
             ( (ParticlePropertyListener) v.get( i ) ).propertiesChanged( particle );
-            Debug.traceln( "Informing: " + i );
         }
 
     }
