@@ -24,13 +24,9 @@ import edu.colorado.phet.balloons.common.phys2d.Repaint;
 import edu.colorado.phet.balloons.common.phys2d.System2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.HelpPanel;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 
-
-/**
- * Test comment.
- */
 public class BalloonsSimulationPanel extends JPanel {
     private PainterPanel painterPanel;
     private LayeredPainter layeredPainter;
