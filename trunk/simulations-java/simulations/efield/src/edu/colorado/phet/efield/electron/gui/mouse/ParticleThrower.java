@@ -55,7 +55,7 @@ public class ParticleThrower extends ParticleGrabber {
     }
 
     public void mouseReleased( MouseEvent mouseevent ) {
-        if ( selected == null ) {
+        if ( selectedParticle == null ) {
             return;
         }
         Vector vector = ts.get();
@@ -67,7 +67,7 @@ public class ParticleThrower extends ParticleGrabber {
             doublepoint = new DoublePoint( doublepoint.getX(), 0.0D );
         }
         doublepoint = doublepoint.multiply( scale );
-        selected.setVelocity( doublepoint );
+        selectedParticle.setVelocity( doublepoint );
         super.mouseReleased( mouseevent );
     }
 
@@ -78,15 +78,13 @@ public class ParticleThrower extends ParticleGrabber {
 
     public void mouseDragged( MouseEvent mouseevent ) {
         super.mouseDragged( mouseevent );
-        if ( selected == null ) {
+        if ( selectedParticle == null ) {
             return;
         }
         DoublePoint doublepoint = new DoublePoint( mouseevent.getX(), mouseevent.getY() );
         TimedPoint timedpoint = new TimedPoint( doublepoint, System.currentTimeMillis() );
         ts.add( timedpoint );
-        if ( !run.isActiveAndRunning() ) {
-            pp.repaint();
-        }
+        particlePanel.repaint();
     }
 
     TruncatedSeries ts;

@@ -10,10 +10,6 @@ import java.util.Random;
 import edu.colorado.phet.efield.electron.core.ParticleFactory;
 import edu.colorado.phet.efield.electron.phys2d_efield.DoublePoint;
 import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
-import edu.colorado.phet.efield.electron.utils.Debug;
-
-// Referenced classes of package edu.colorado.phet.efield.electron.particleFactory:
-//            ParticlePropertyListener
 
 public class CustomizableParticleFactory
         implements ParticleFactory, ParticlePropertyListener {
@@ -38,7 +34,6 @@ public class CustomizableParticleFactory
         particle.setPosition( new DoublePoint( i, j ) );
         particle.setCharge( properties.getCharge() );
         particle.setMass( properties.getMass() );
-        Debug.traceln( "created: " + particle );
         return particle;
     }
 

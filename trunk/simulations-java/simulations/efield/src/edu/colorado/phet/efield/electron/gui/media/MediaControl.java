@@ -11,14 +11,12 @@ import java.util.Vector;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.efield.EFieldResources;
 import edu.colorado.phet.efield.electron.core.SystemFactory;
 import edu.colorado.phet.efield.electron.gui.ParticlePainter;
 import edu.colorado.phet.efield.electron.gui.ParticlePanel;
 import edu.colorado.phet.efield.electron.phys2d_efield.SystemRunner;
-import edu.colorado.phet.efield.EFieldResources;
-
-// Referenced classes of package edu.colorado.phet.efield.electron.gui.media:
-//            SelectableJButton, Resettable
 
 public class MediaControl {
     public class UnPauseListener
@@ -55,15 +53,16 @@ public class MediaControl {
     }
 
 
-    public MediaControl( SystemRunner systemrunner, SystemFactory systemfactory, ParticlePanel particlepanel, ParticlePainter particlepainter,
+    public MediaControl( IClock clock, SystemRunner systemrunner, SystemFactory systemfactory, ParticlePanel particlepanel, ParticlePainter particlepainter,
                          BufferedImage bufferedimage, BufferedImage bufferedimage1, BufferedImage bufferedimage2 ) {
+        this.clock = clock;
         playIcon = bufferedimage;
         pauseIcon = bufferedimage1;
         resetIcon = bufferedimage2;
-        painter = particlepainter;
-        system = systemrunner;
-        resetter = systemfactory;
-        pp = particlepanel;
+        particlePainter = particlepainter;
+        systemRunner = systemrunner;
+        systemFactory = systemfactory;
+        particlePanel = particlepanel;
         resettables = new Vector();
 //        display = new JTextArea("My text area.");
     }
@@ -98,35 +97,36 @@ public class MediaControl {
     }
 
     public void reset() {
-        pp.reset();
-        system.setRunning( false );
-        edu.colorado.phet.efield.electron.phys2d_efield.System2D system2d = resetter.newSystem();
-        system.setSystem( system2d );
-        resetter.updatePanel( pp, system2d, painter );
-        pp.repaint();
+        particlePanel.reset();
+        clock.start();
+        edu.colorado.phet.efield.electron.phys2d_efield.System2D system2d = systemFactory.newSystem();
+        systemRunner.setSystem( system2d );
+        systemFactory.updatePanel( particlePanel, system2d, particlePainter );
+        particlePanel.repaint();
         for ( int i = 0; i < resettables.size(); i++ ) {
             EFieldResettable EFieldResettable = (EFieldResettable) resettables.get( i );
-            EFieldResettable.fireResetAction( system2d, pp );
+            EFieldResettable.fireResetAction( system2d, particlePanel );
         }
 
     }
 
     public void pause() {
-        system.setRunning( false );
+        clock.pause();
     }
 
     public void unpause() {
-        system.setRunning( true );
+        clock.start();
     }
 
-    SystemRunner system;
-    SystemFactory resetter;
-    ParticlePanel pp;
-    ParticlePainter painter;
+    SystemRunner systemRunner;
+    SystemFactory systemFactory;
+    ParticlePanel particlePanel;
+    ParticlePainter particlePainter;
     Vector resettables;
     SelectableJButton playButton;
     SelectableJButton resetButton;
     SelectableJButton pauseButton;
+    private IClock clock;
     BufferedImage playIcon;
     BufferedImage pauseIcon;
     BufferedImage resetIcon;

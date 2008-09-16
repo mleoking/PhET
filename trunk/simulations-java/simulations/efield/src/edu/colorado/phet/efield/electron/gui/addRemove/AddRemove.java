@@ -11,6 +11,7 @@ import java.util.Vector;
 
 import javax.swing.*;
 
+import edu.colorado.phet.efield.EFieldResources;
 import edu.colorado.phet.efield.electron.core.ParticleContainer;
 import edu.colorado.phet.efield.electron.core.ParticleFactory;
 import edu.colorado.phet.efield.electron.gui.ParticlePainter;
@@ -18,14 +19,8 @@ import edu.colorado.phet.efield.electron.gui.ParticlePanel;
 import edu.colorado.phet.efield.electron.gui.media.EFieldResettable;
 import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
 import edu.colorado.phet.efield.electron.phys2d_efield.System2D;
-import edu.colorado.phet.efield.electron.utils.Debug;
-import edu.colorado.phet.efield.EFieldResources;
 
-// Referenced classes of package edu.colorado.phet.efield.electron.gui.addRemove:
-//            SystemAdapter, PanelAdapter
-
-public class AddRemove
-        implements EFieldResettable {
+public class AddRemove implements EFieldResettable {
     public class Remover
             implements ActionListener {
 
@@ -93,7 +88,6 @@ public class AddRemove
         Particle particle = pf.newParticle();
         for ( int i = 0; i < containers.size(); i++ ) {
             ParticleContainer particlecontainer = containerAt( i );
-            Debug.traceln( "Adding to: " + particlecontainer );
             particlecontainer.add( particle );
         }
 

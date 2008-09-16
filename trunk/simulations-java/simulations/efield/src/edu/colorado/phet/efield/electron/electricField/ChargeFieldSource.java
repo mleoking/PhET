@@ -58,7 +58,6 @@ public class ChargeFieldSource implements ElectricFieldSource {
         }
 
         double scale = Math.pow( dist, -3 ) * k * q;
-        //System.out.println("scale="+scale);
         r = r.multiply( scale );
         double mag = r.getLength();
         if ( mag > max ) {

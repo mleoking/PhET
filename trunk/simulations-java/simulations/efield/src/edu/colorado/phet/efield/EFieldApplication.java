@@ -10,10 +10,10 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
-public class EFieldApplication2 extends PhetApplication {
+public class EFieldApplication extends PhetApplication {
     private EFieldModule module;
 
-    public EFieldApplication2( PhetApplicationConfig config ) {
+    public EFieldApplication( PhetApplicationConfig config ) {
         super( config );
         module = new EFieldModule( config );
         addModule( module );
@@ -25,7 +25,7 @@ public class EFieldApplication2 extends PhetApplication {
             super( commandLineArgs, new FrameSetup.CenteredWithSize( 600, 600 ), new PhetResources( "efield" ) );
             super.setApplicationConstructor( new ApplicationConstructor() {
                 public PhetApplication getApplication( PhetApplicationConfig config ) {
-                    return new EFieldApplication2( config );
+                    return new EFieldApplication( config );
                 }
             } );
             super.setLookAndFeel( new PhetLookAndFeel() );
@@ -36,7 +36,7 @@ public class EFieldApplication2 extends PhetApplication {
         private EFieldSimulationPanel simulationPanel = new EFieldSimulationPanel( getClock() );
 
         public EFieldModule( PhetApplicationConfig config ) {
-            super( config.getName(), new ConstantDtClock( 30, 1 ) );
+            super( config.getName(), new ConstantDtClock( 35, 0.15 ) );
             simulationPanel.init();
             setSimulationPanel( simulationPanel );
             setClockControlPanel( null );
