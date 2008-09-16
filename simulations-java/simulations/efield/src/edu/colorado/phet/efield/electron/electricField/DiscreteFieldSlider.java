@@ -8,7 +8,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.efield.EFieldResources;
 
 public class DiscreteFieldSlider implements ActionListener, ChangeListener {
     //JButton b;
@@ -19,9 +19,9 @@ public class DiscreteFieldSlider implements ActionListener, ChangeListener {
 
     public DiscreteFieldSlider( ElectricFieldPainter efp, Component paintMe ) {
         this.paintMe = paintMe;
-        //b=new JButton( SimStrings.get( "DiscreteFieldSlider.ChangeElectricFieldButton" ) );
+        //b=new JButton( EFieldResources.getString( "DiscreteFieldSlider.ChangeElectricFieldButton" ) );
         //b.addActionListener(this);
-        sliderFrame = new JFrame( SimStrings.get( "DiscreteFieldSlider.ElectricFieldDiscretenessTitle" ) );
+        sliderFrame = new JFrame( EFieldResources.getString( "DiscreteFieldSlider.ElectricFieldDiscretenessTitle" ) );
         s = new JSlider( 1, 30, 10 );
         s.setMajorTickSpacing( 1 );
         s.setPaintTicks( true );

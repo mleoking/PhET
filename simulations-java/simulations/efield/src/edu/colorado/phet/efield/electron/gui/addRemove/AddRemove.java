@@ -11,7 +11,6 @@ import java.util.Vector;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.efield.electron.core.ParticleContainer;
 import edu.colorado.phet.efield.electron.core.ParticleFactory;
 import edu.colorado.phet.efield.electron.gui.ParticlePainter;
@@ -20,6 +19,7 @@ import edu.colorado.phet.efield.electron.gui.media.EFieldResettable;
 import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
 import edu.colorado.phet.efield.electron.phys2d_efield.System2D;
 import edu.colorado.phet.efield.electron.utils.Debug;
+import edu.colorado.phet.efield.EFieldResources;
 
 // Referenced classes of package edu.colorado.phet.efield.electron.gui.addRemove:
 //            SystemAdapter, PanelAdapter
@@ -74,9 +74,9 @@ public class AddRemove
     }
 
     public JPanel getJPanel() {
-        JButton jbutton = new JButton( SimStrings.get( "AddRemove.AddButton" ) );
+        JButton jbutton = new JButton( EFieldResources.getString( "AddRemove.AddButton" ) );
         jbutton.addActionListener( new Adder() );
-        JButton jbutton1 = new JButton( SimStrings.get( "AddRemove.RemoveButton" ) );
+        JButton jbutton1 = new JButton( EFieldResources.getString( "AddRemove.RemoveButton" ) );
         jbutton1.addActionListener( new Remover() );
         JPanel jpanel = new JPanel();
         jpanel.setLayout( new BoxLayout( jpanel, 1 ) );
