@@ -17,6 +17,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
 
 /**
@@ -200,4 +201,7 @@ public class PiccoloModule extends Module {
         }
     }
 
+    protected JComponent createClockControlPanel( IClock clock ) {
+        return new PiccoloClockControlPanel(clock);
+    }
 }
