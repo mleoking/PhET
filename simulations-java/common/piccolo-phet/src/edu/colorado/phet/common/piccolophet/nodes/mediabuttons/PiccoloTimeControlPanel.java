@@ -1,6 +1,6 @@
 /* Copyright 2004-2008, University of Colorado */
 
-package edu.colorado.phet.common.phetcommon.view;
+package edu.colorado.phet.common.piccolophet.nodes.mediabuttons;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,6 +17,8 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.phetcommon.view.AnimatedClockJComponent;
+import edu.colorado.phet.common.phetcommon.view.TimeControlPanel;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.MediaPlaybackBarNode;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PlayPauseButton;
@@ -58,6 +60,7 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
 
     public PiccoloTimeControlPanel() {
         setBorder( null );
+        setBackground( new JLabel().getBackground() );
         time = 0;
         paused = false;
         timeFormat = DEFAULT_TIME_FORMAT;
