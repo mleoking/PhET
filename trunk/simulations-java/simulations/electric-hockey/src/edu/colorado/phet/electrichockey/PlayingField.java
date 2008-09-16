@@ -77,13 +77,11 @@ public class PlayingField extends JPanel {
     class FieldMouseListener extends MouseAdapter {
         public void mousePressed( MouseEvent mevt ) {
             if ( plusBag.contains( mevt.getPoint() ) ) {
-                prt( "Plus bag selected." );
                 newChargeIsGrabbed = true;
                 grabbedCharge = new Charge( mevt.getPoint(), Charge.POSITIVE );
                 grabbedChargeForce = new Force( grabbedCharge, electricHockeySimulationPanel.getModel().getPuck() );
             }
             else if ( minusBag.contains( mevt.getPoint() ) ) {
-                prt( "Minus bag selected." );
                 newChargeIsGrabbed = true;
                 grabbedCharge = new Charge( mevt.getPoint(), Charge.NEGATIVE );
                 grabbedChargeForce = new Force( grabbedCharge, electricHockeySimulationPanel.getModel().getPuck() );
@@ -110,19 +108,14 @@ public class PlayingField extends JPanel {
                     electricHockeySimulationPanel.getModel().addCharge( grabbedCharge ); //chargeList.addElement(grabbedCharge);
                     //hockeyModule.getModel().updateForceList();
                     //repaint();
-                    prt( "Nbr of charges " + electricHockeySimulationPanel.getModel().getChargeListSize() );
                     electricHockeySimulationPanel.getControlPanel().setNbrChargesLbl( electricHockeySimulationPanel.getModel().getChargeListSize() );
                 }
             }
             if ( oldChargeIsGrabbed ) {
                 oldChargeIsGrabbed = false;
                 if ( chargeBag.contains( mevt.getPoint() ) ) {
-                    //chargeList.removeElementAt(grabbedChargeIndex);
                     electricHockeySimulationPanel.getModel().removeChargeAt( grabbedChargeIndex );
-                    //hockeyModule.getModel().updateForceList();
-                    prt( "edu.colorado.phet.ehockey.Charge " + grabbedChargeIndex + " removed." );
                     electricHockeySimulationPanel.getControlPanel().setNbrChargesLbl( electricHockeySimulationPanel.getModel().getChargeListSize() );
-                    //repaint();
                 }
             }
             electricHockeySimulationPanel.getFieldGrid().updateGridForceArray();
@@ -265,12 +258,7 @@ public class PlayingField extends JPanel {
             g2D.setStroke( origStroke );
         }
 
-    }//end of paint()
-
-
-    //A simple print method -- just to avoid typing "System.out.println"
-    public void prt( String str ) {
-        System.out.println( str );
     }
+
 }
 

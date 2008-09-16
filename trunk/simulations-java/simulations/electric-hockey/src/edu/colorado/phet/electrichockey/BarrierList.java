@@ -119,17 +119,12 @@ public class BarrierList {
                 }
                 if ( isInside ) {
                     collisionArray[i][j] = 1;
-                    //System.out.print("*");
                 }
                 else {
                     collisionArray[i][j] = 0;
-                    //System.out.print(" ");
                 }
-            }//end of j loop
-        }//end of i loop
-
+            }
+        }
         return collisionArray;
-    }//end of makeCollisionArray method
-
-
-}//end of public class
+    }
+}

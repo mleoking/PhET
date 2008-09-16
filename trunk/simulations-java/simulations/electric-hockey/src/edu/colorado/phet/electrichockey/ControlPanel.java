@@ -215,9 +215,6 @@ public class ControlPanel extends JPanel {
 
     private class StartBtnHandler implements ActionListener {
         public void actionPerformed( ActionEvent aevt ) {
-            if ( aevt.getSource() == startBtn ) {
-                prt( "Start button pushed" );
-            }
             resetBtn.setEnabled( true );
             startBtn.setEnabled( false );
             electricHockeySimulationPanel.getModel().startTimer();
@@ -226,9 +223,6 @@ public class ControlPanel extends JPanel {
 
     private class ResetBtnHandler implements ActionListener {
         public void actionPerformed( ActionEvent aevt ) {
-            if ( aevt.getSource() == resetBtn ) {
-                prt( "Reset button pushed" );
-            }
             electricHockeySimulationPanel.getModel().resetTimer();
             nbrTries += 1;
             setNbrTriesLbl();
@@ -262,16 +256,12 @@ public class ControlPanel extends JPanel {
 
     private class ClearBtnHandler implements ActionListener {
         public void actionPerformed( ActionEvent aevt ) {
-            //if(aevt.getSource() == clearBtn){prt("Clear button pushed.");}
-
             int listLength = electricHockeySimulationPanel.getModel().getChargeListSize();
-            prt( "ChargeList length = " + listLength );
 
             for ( int i = ( listLength - 1 ); i >= 0; i-- ) {
                 electricHockeySimulationPanel.getModel().removeChargeAt( i );
             }
             electricHockeySimulationPanel.getFieldGrid().updateGridForceArray();
-            prt( "Cleared chargelist length = " + electricHockeySimulationPanel.getModel().getChargeListSize() );
 
             electricHockeySimulationPanel.getModel().stopTimer();
             electricHockeySimulationPanel.getPlayingField().paintAgain();
@@ -354,7 +344,7 @@ public class ControlPanel extends JPanel {
 
                 }
                 catch( NumberFormatException ne ) {
-                    prt( "You must enter a number." );
+                    ne.printStackTrace();
                 }
             }
         }
@@ -391,8 +381,4 @@ public class ControlPanel extends JPanel {
         nbrChargesLbl.setText( ElectricHockeyStrings.getString( "HockeyControlPanel.Charges" ) + new Integer( n ).toString() );
     }
 
-    public void prt( String str ) {
-        System.out.println( str );
-    }
-
-}//end of public class
+}
