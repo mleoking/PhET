@@ -11,7 +11,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Vector;
 
-import edu.colorado.phet.ohm1d.common.utils.DoubleSeries;
+import edu.colorado.phet.common.phetcommon.math.DoubleSeries;
 
 public class Spectrum implements ColorMap {
     BufferedImage bi;
@@ -59,12 +59,7 @@ public class Spectrum implements ColorMap {
     }
 
     public boolean isChanging() {
-        if ( numSame < series.numElements() ) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return numSame < series.getSampleCount();
     }
 
     public void addPowerListener( PowerListener pow ) {
