@@ -92,7 +92,7 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
         buttonPCanvas.addScreenChild( piccoloPlayPauseButton );
         buttonPCanvas.addScreenChild( piccoloStepButton );
         piccoloStepButton.setOffset( piccoloPlayPauseButton.getFullBounds().getMaxX(), piccoloPlayPauseButton.getFullBounds().getCenterY() - piccoloStepButton.getFullBounds().getHeight() / 2 );
-        buttonPCanvas.setPreferredSize( new Dimension( (int) piccoloPlayPauseButton.getFullBounds().getWidth() * 2, (int) piccoloPlayPauseButton.getParent().getFullBounds().getHeight() ) );
+        buttonPCanvas.setPreferredSize( new Dimension( (int) (  piccoloPlayPauseButton.getFullBounds().getWidth() * 1.92 ), (int) piccoloPlayPauseButton.getParent().getFullBounds().getHeight() ) );
         buttonPanel.add( buttonPCanvas );
 
         // Time display, time value & units
@@ -124,8 +124,11 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
         if ( false && PhetApplication.instance().isDeveloperControlsEnabled() ) { //TODO: only in dev versions until we finish this feature
             add( animatedClockIcon );
         }
+
+        //TODO: the next two lines make the shape of the panel asymmetric, even if the time display panel and userpanel are invisible
         add( timeDisplayPanel );
         add( userPanel );
+        
         add( buttonPanel );
 
         piccoloPlayPauseButton.addListener( new PlayPauseButton.Listener() {
