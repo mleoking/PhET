@@ -311,6 +311,9 @@ public class PhetLookAndFeel {
             e.printStackTrace();
         }
         updateDefaults();
+
+        //On 9-17-2008, Wendy Adams reported that tooltips have too long of an initial delay (was 750)
+        ToolTipManager.sharedInstance().setInitialDelay( 375 );
         refreshApp();
     }
 
