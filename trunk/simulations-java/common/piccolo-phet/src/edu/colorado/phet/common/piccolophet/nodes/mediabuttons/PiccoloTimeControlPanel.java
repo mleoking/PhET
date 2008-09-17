@@ -27,6 +27,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Sam Reid, Chris Malley
  */
+//todo: this duplicates code with TimeControlPanel
 public class PiccoloTimeControlPanel extends PhetPCanvas {
 
     public static final NumberFormat DEFAULT_TIME_FORMAT = new DecimalFormat( "0" );
@@ -53,7 +54,7 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
     private ArrayList listeners = new ArrayList();
     private PlayPauseButton piccoloPlayPauseButton;
     private StepButton piccoloStepButton;
-    private MediaPlaybackBarNode mediaPlaybackBarNode;
+//    private MediaPlaybackBarNode mediaPlaybackBarNode;
 
     public PiccoloTimeControlPanel() {
         setBorder( null );
@@ -62,8 +63,8 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
         paused = false;
         timeFormat = DEFAULT_TIME_FORMAT;
 
-        mediaPlaybackBarNode = new MediaPlaybackBarNode( 100, 3 );
-        addScreenChild( mediaPlaybackBarNode );
+//        mediaPlaybackBarNode = new MediaPlaybackBarNode( 100, 3 );
+//        addScreenChild( mediaPlaybackBarNode );
 
         // Play/Pause
         playString = PhetCommonResources.getInstance().getLocalizedString( PhetCommonResources.STRING_CLOCK_PLAY );
@@ -196,7 +197,7 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
     }
 
     private void updateShape() {
-        mediaPlaybackBarNode.setSize( getWidth(), 3 );
+//        mediaPlaybackBarNode.setSize( getWidth(), 3 );
     }
 
     /**
@@ -215,7 +216,7 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
      */
     public void advanceAnimatedClockIcon() {
         animatedClockIcon.advance();
-        mediaPlaybackBarNode.setProgress( mediaPlaybackBarNode.getProgress() + 0.001 );
+//        mediaPlaybackBarNode.setProgress( mediaPlaybackBarNode.getProgress() + 0.001 );
     }
 
     /**
