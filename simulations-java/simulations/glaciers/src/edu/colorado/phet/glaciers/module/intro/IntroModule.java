@@ -59,7 +59,6 @@ public class IntroModule extends GlaciersModule {
             HelpPane helpPane = getDefaultHelpPane();
             
             HelpBalloon steadyStateButtonHelp = new GlaciersHelpBalloon( helpPane, GlaciersStrings.HELP_STEADY_STATE_BUTTON, HelpBalloon.BOTTOM_CENTER, 80 );
-            steadyStateButtonHelp.setTextColor( Color.WHITE );
             helpPane.add( steadyStateButtonHelp );
             steadyStateButtonHelp.pointAt( _controlPanel.getMiscControlPanel().getSteadyStateButton() );
             

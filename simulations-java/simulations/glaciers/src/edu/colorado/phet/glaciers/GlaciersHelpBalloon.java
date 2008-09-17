@@ -15,7 +15,5 @@ public class GlaciersHelpBalloon extends HelpBalloon {
 
     public GlaciersHelpBalloon( JComponent helpPanel, String text, Attachment arrowTailPosition, double arrowLength ) {
         super( helpPanel, text, arrowTailPosition, arrowLength, 0 /* arrowRotation */ );
-        setBalloonFillPaint( null );
-        setBalloonStroke( null );
     }
 }
