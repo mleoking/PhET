@@ -17,7 +17,12 @@ public class WaveIntereferenceLookAndFeel extends PhetLookAndFeel {
 
     public WaveIntereferenceLookAndFeel() {
         setBackgroundColor( backgroundColor );
+
         setFont( new PhetFont( Font.BOLD, 13 ) );
+//
+//        setFont( new PhetFont( 22) );
+//        setTitledBorderFont( new PhetFont( 26,true) );
+        
         updateDefaults();//todo is this necessary?
     }
 
