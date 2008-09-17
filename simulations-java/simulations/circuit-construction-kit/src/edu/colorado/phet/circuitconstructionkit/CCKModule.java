@@ -18,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
+import edu.colorado.phet.common.piccolophet.PiccoloModule;
 
 /**
  * User: Sam Reid
@@ -25,7 +26,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
  * Time: 2:47:24 AM
  */
 
-public class CCKModule extends Module {
+public class CCKModule extends PiccoloModule {
     public static Color BACKGROUND_COLOR = new Color( 100, 160, 255 );
     private String[] args;
     private CCKModel model;
