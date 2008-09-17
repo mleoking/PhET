@@ -64,7 +64,7 @@ CLEANUP:
 
 
 DONE:
-******* 1.00.056 (?)
+******* 1.00.056 (24518)
 9/16/08 - add bubbles to sample help items to demonstrate improved legibility
 ******* 1.00.05 (24516)
 9/16/08 - add a couple of sample help items, with no help bubble as requested by Wendy
