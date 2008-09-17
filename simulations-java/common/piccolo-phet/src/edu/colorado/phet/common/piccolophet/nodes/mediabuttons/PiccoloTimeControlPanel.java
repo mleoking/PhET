@@ -59,6 +59,8 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
     private StepButton piccoloStepButton;
     private BackgroundNode backgroundNode;
     private PhetPCanvas buttonPCanvas;
+    private ToolTipHandler stepToolTipHandler;
+    private ToolTipHandler pauseTooltipHandler;
 //    private MediaPlaybackBarNode mediaPlaybackBarNode;
 
     public PiccoloTimeControlPanel() {
@@ -105,8 +107,13 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
 //        buttonPanel.add(Box.createHorizontalStrut( playPauseButton.getPreferredSize().width ));
 //        addScreenChild( piccoloPlayPauseButton );
         buttonPCanvas = new PhetPCanvas();
-        piccoloStepButton.addInputEventListener( new ToolTipHandler( "Step", buttonPCanvas ) );
-        piccoloPlayPauseButton.addInputEventListener( new ToolTipHandler( "Pause", buttonPCanvas ) );
+
+        stepToolTipHandler = new ToolTipHandler( "Step", buttonPCanvas );
+        piccoloStepButton.addInputEventListener( stepToolTipHandler );
+
+        pauseTooltipHandler = new ToolTipHandler( "Pause", buttonPCanvas );
+        piccoloPlayPauseButton.addInputEventListener( pauseTooltipHandler );
+
         buttonPCanvas.setOpaque( false );
         buttonPCanvas.setBorder( null );
         buttonPCanvas.setBackground( null );
@@ -401,11 +408,12 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
      * Updates the state of the play/pause and step buttons to reflect whether the control is paused and/or enabled.
      */
     private void updateButtons() {
-//        playPauseButton.setText( paused ? playString : pauseString );
-//        playPauseButton.setIcon( paused ? playIcon : pauseIcon );
-//        playPauseButton.setEnabled( isEnabled() );
         piccoloStepButton.setEnabled( isEnabled() && paused );
         restartButton.setEnabled( isEnabled() );
+
+        //todo: internationalize
+        pauseTooltipHandler.setText( paused ? "Play" : "Pause" );
+        stepToolTipHandler.setText( paused ? "Step" : null );
     }
 
     public void addTimeControlListener( TimeControlPanel.TimeControlListener listener ) {
