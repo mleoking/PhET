@@ -23,6 +23,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
@@ -109,23 +110,20 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
             
             BufferedImage image = StatesOfMatterResources.getImage( StatesOfMatterConstants.ICE_CUBE_IMAGE );
             double scaleFactor = (double)((double)MATTER_STATE_ICON_HEIGHT / (double)(image.getHeight()));
-            Image scaledImage = image.getScaledInstance( (int)(scaleFactor * image.getWidth()), 
-                    (int)(scaleFactor * image.getHeight()), Image.SCALE_SMOOTH);
-            ImageIcon icon = new ImageIcon( scaledImage );
+            image = BufferedImageUtils.rescaleFractional( image, scaleFactor, scaleFactor );
+            ImageIcon icon = new ImageIcon( image );
             JLabel solidIcon = new JLabel( icon );
 
             image = StatesOfMatterResources.getImage( StatesOfMatterConstants.LIQUID_IMAGE );
             scaleFactor = (double)((double)MATTER_STATE_ICON_HEIGHT / (double)(image.getHeight()));
-            scaledImage = image.getScaledInstance( (int)(scaleFactor * image.getWidth()), 
-                    (int)(scaleFactor * image.getHeight()), Image.SCALE_SMOOTH);
-            icon = new ImageIcon( scaledImage );
+            image = BufferedImageUtils.rescaleFractional( image, scaleFactor, scaleFactor );
+            icon = new ImageIcon( image );
             JLabel liquidIcon = new JLabel( icon );
 
             image = StatesOfMatterResources.getImage( StatesOfMatterConstants.GAS_IMAGE );
             scaleFactor = (double)((double)MATTER_STATE_ICON_HEIGHT / (double)(image.getHeight()));
-            scaledImage = image.getScaledInstance( (int)(scaleFactor * image.getWidth()), 
-                    (int)(scaleFactor * image.getHeight()), Image.SCALE_SMOOTH);
-            icon = new ImageIcon( scaledImage );
+            image = BufferedImageUtils.rescaleFractional( image, scaleFactor, scaleFactor );
+            icon = new ImageIcon( image );
             JLabel gasIcon = new JLabel( icon );
 
             // Create and set up the buttons which the user will press to
