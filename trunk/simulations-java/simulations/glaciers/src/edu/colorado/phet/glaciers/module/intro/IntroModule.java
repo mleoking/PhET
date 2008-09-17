@@ -65,6 +65,10 @@ public class IntroModule extends GlaciersModule {
             HelpBalloon simSpeedHelp = new GlaciersHelpBalloon( helpPane, GlaciersStrings.HELP_SIM_SPEED, HelpBalloon.BOTTOM_CENTER, 80 );
             helpPane.add( simSpeedHelp );
             simSpeedHelp.pointAt( _controlPanel.getClockControlPanel().getFrameRateControl() );
+            
+            HelpBalloon toolboxHelp = new GlaciersHelpBalloon( helpPane, GlaciersStrings.HELP_TOOLBOX, HelpBalloon.LEFT_CENTER, 40 );
+            helpPane.add( toolboxHelp );
+            toolboxHelp.pointAt( _playArea.getToolboxNode(), _playArea.getZoomedCanvas() );
         }
         
         // Set initial state

@@ -5,7 +5,6 @@ Change history for glaciers
 HIGHEST PRIORITY:
 
 HIGH PRIORITY:
-- common: HelpBallon won't work with glaciers, expects all nodes to be on layer 0
 - bug: loading full-size background image causes OutOfMemoryException, exceeds JVM heap space [crop svg, talk with Archie]
 - birds-eye view should half the slope of zoomed view so that 80km is at far right
 - glacier growth from zero length still takes a long time, and then speeds up [Archie will fix model]
@@ -65,6 +64,8 @@ CLEANUP:
 
 
 DONE:
+9/16/08 - add help item for toolbox node in zoomed viewport
+9/16/08 - fix common Help so that help ballons can be attached to nodes on any PLayer
 ******* 1.00.06 (24518)
 9/16/08 - add bubbles to sample help items to demonstrate improved legibility
 ******* 1.00.05 (24516)
