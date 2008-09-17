@@ -64,7 +64,7 @@ public class PhetLookAndFeel {
             "OptionPane", "Panel",
             "RadioButton", "RadioButtonMenuItem",
             "Slider", "Spinner",
-            "TabbedPane", "TextArea", "TextField", "TextPane",
+            "TabbedPane", "TextArea", "TextField", "TextPane", "FormattedTextField",
             "ScrollBar", "Viewport"
     };
 
