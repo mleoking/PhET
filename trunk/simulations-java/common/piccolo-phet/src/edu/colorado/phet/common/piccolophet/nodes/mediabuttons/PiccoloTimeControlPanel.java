@@ -13,6 +13,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import javax.swing.*;
+import javax.swing.text.JTextComponent;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
@@ -36,17 +37,9 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
     public static final NumberFormat DEFAULT_TIME_FORMAT = new DecimalFormat( "0" );
     public static final int DEFAULT_TIME_COLUMNS = 8;
 
-    //    private JButton playPauseButton;
-    //    private JButton stepButton;
     private JButton restartButton;
-    private ImageIcon playIcon;
-    private ImageIcon pauseIcon;
-    private String playString;
-    private String pauseString;
     private JTextField timeTextField;
     private JLabel unitsLabel;
-    private JPanel buttonPanel;
-    private JPanel timeDisplayPanel;
     private AnimatedClockJComponent animatedClockIcon;
 
     private NumberFormat timeFormat;
@@ -58,7 +51,6 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
     private PlayPauseButton piccoloPlayPauseButton;
     private StepButton piccoloStepButton;
     private BackgroundNode backgroundNode;
-    private PhetPCanvas buttonPCanvas;
     private ToolTipHandler stepToolTipHandler;
     private ToolTipHandler pauseTooltipHandler;
 //    private MediaPlaybackBarNode mediaPlaybackBarNode;
@@ -70,43 +62,20 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
         paused = false;
         timeFormat = DEFAULT_TIME_FORMAT;
 
-//        mediaPlaybackBarNode = new MediaPlaybackBarNode( 100, 3 );
-//        addScreenChild( mediaPlaybackBarNode );
-
-        // Play/Pause
-        playString = PhetCommonResources.getInstance().getLocalizedString( PhetCommonResources.STRING_CLOCK_PLAY );
-        pauseString = PhetCommonResources.getInstance().getLocalizedString( PhetCommonResources.STRING_CLOCK_PAUSE );
-        BufferedImage playImage = PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_PLAY );
-        BufferedImage pauseImage = PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_PAUSE );
-        playIcon = new ImageIcon( playImage );
-        pauseIcon = new ImageIcon( pauseImage );
-        JButton playPauseButton = new JButton();
-        Dimension maxSize = SwingUtils.getMaxDimension( playPauseButton, playString, playIcon, pauseString, pauseIcon );
-        playPauseButton.setPreferredSize( maxSize );
-
-        // Step
-        String stepString = PhetCommonResources.getInstance().getLocalizedString( PhetCommonResources.STRING_CLOCK_STEP );
-        BufferedImage stepImage = PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_STEP_FORWARD );
-        ImageIcon stepIcon = new ImageIcon( stepImage );
-        JButton stepButton = new JButton( stepString, stepIcon );
-
         // Restart
         String restartString = PhetCommonResources.getInstance().getLocalizedString( PhetCommonResources.STRING_CLOCK_RESTART );
         BufferedImage restartImage = PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_RESTART );
         ImageIcon restartIcon = new ImageIcon( restartImage );
         restartButton = new JButton( restartString, restartIcon );
 
-        piccoloPlayPauseButton = new PlayPauseButton( (int) ( playPauseButton.getPreferredSize().width * 0.7 * 0.7 ) );
+        piccoloPlayPauseButton = new PlayPauseButton( (int) ( 100 * 0.7 * 0.7 ) );
         piccoloStepButton = new StepButton( (int) ( piccoloPlayPauseButton.getButtonDimension().width * 0.8 ) );
 
         // Put all the buttons in a button panel
-        this.buttonPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
-        this.buttonPanel.setOpaque( false );
-        this.buttonPanel.add( restartButton );
-//        buttonPanel.add( playPauseButton );
-//        buttonPanel.add(Box.createHorizontalStrut( playPauseButton.getPreferredSize().width ));
-//        addScreenChild( piccoloPlayPauseButton );
-        buttonPCanvas = new PhetPCanvas();
+        JPanel buttonPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
+        buttonPanel.setOpaque( false );
+        buttonPanel.add( restartButton );
+        PhetPCanvas buttonPCanvas = new PhetPCanvas();
 
         stepToolTipHandler = new ToolTipHandler( "Step", buttonPCanvas );
         piccoloStepButton.addInputEventListener( stepToolTipHandler );
@@ -116,7 +85,6 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
 
         buttonPCanvas.setOpaque( false );
         buttonPCanvas.setBorder( null );
-        buttonPCanvas.setBackground( null );
 
         backgroundNode = new BackgroundNode();
         addScreenChild( backgroundNode );
@@ -124,10 +92,8 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
         buttonPCanvas.addScreenChild( piccoloPlayPauseButton );
         buttonPCanvas.addScreenChild( piccoloStepButton );
         piccoloStepButton.setOffset( piccoloPlayPauseButton.getFullBounds().getMaxX(), piccoloPlayPauseButton.getFullBounds().getCenterY() - piccoloStepButton.getFullBounds().getHeight() / 2 );
-        buttonPCanvas.setPreferredSize( new Dimension( (int) piccoloPlayPauseButton.getParent().getFullBounds().getWidth() + 100, (int) piccoloPlayPauseButton.getParent().getFullBounds().getHeight() ) );
-        this.buttonPanel.add( buttonPCanvas );
-//        piccoloPlayPauseButton.setOffset( 200, 0 );
-//        buttonPanel.add( stepButton );
+        buttonPCanvas.setPreferredSize( new Dimension( (int) piccoloPlayPauseButton.getFullBounds().getWidth() * 2, (int) piccoloPlayPauseButton.getParent().getFullBounds().getHeight() ) );
+        buttonPanel.add( buttonPCanvas );
 
         // Time display, time value & units
         timeTextField = new JTextField();
@@ -135,26 +101,23 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
         timeTextField.setEditable( false );
         timeTextField.setHorizontalAlignment( JTextField.RIGHT );
         unitsLabel = new JLabel();
-        timeDisplayPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
+        JPanel timeDisplayPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
         timeDisplayPanel.add( timeTextField );
         timeDisplayPanel.add( unitsLabel );
+
+        setOpaque( timeDisplayPanel, false );
 
         // Animated clock icon
         animatedClockIcon = new AnimatedClockJComponent();
 
         // User panel, for stuff between the time display and buttons
         userPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
-        userPanel.setBackground( new Color( 0, 0, 0, 0 ) );
         userPanel.setOpaque( false );
 
         // for backward compatibility with existing sims
         restartButton.setVisible( false );
         timeTextField.setVisible( false );
         unitsLabel.setVisible( false );
-
-        // Workaround for Macintosh
-        SwingUtils.fixButtonOpacity( playPauseButton );
-        SwingUtils.fixButtonOpacity( stepButton );
 
         // Layout the button panel
         setLayout( new FlowLayout( FlowLayout.CENTER ) );
@@ -164,20 +127,6 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
         add( timeDisplayPanel );
         add( userPanel );
         add( buttonPanel );
-
-        // Adapter methods for event dispatch
-        playPauseButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                paused = !paused;
-                updateButtons();
-                if ( paused ) {
-                    notifyPausePressed();
-                }
-                else {
-                    notifyPlayPressed();
-                }
-            }
-        } );
 
         piccoloPlayPauseButton.addListener( new PlayPauseButton.Listener() {
             public void playbackStateChanged() {
@@ -196,12 +145,6 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
                 notifyStepPressed();
             }
         } );
-        stepButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                notifyStepPressed();
-            }
-        } );
-
         restartButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 notifyRestartPressed();
@@ -216,6 +159,14 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
 
         updateButtons();
         updateShape();
+    }
+
+    private String getPauseString() {
+        return PhetCommonResources.getInstance().getLocalizedString( PhetCommonResources.STRING_CLOCK_PAUSE );
+    }
+
+    private String getPlayString() {
+        return PhetCommonResources.getInstance().getLocalizedString( PhetCommonResources.STRING_CLOCK_PLAY );
     }
 
     private void updateShape() {
@@ -253,7 +204,7 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
      * Sets the visibility of the Restart button.
      * This button is invisible by default for backward compatibility with existing sims.
      *
-     * @param visible
+     * @param visible true if the restart button should be visible
      */
     public void setRestartButtonVisible( boolean visible ) {
         restartButton.setVisible( visible );
@@ -263,7 +214,7 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
      * Sets the visibility of the time display.
      * This display is invisible by default for backward compatibility with existing sims.
      *
-     * @param visible
+     * @param visible true if the time display should be visible
      */
     public void setTimeDisplayVisible( boolean visible ) {
         timeTextField.setVisible( visible );
@@ -292,9 +243,20 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
      * @param component
      */
     public void addBetweenTimeDisplayAndButtons( JComponent component ) {
-//        component.setBackground( null);
-        component.setOpaque( false );
+        setOpaque( component, false );
         userPanel.add( component );
+    }
+
+    private void setOpaque( JComponent component, boolean opaque ) {
+        if ( !( component instanceof JTextComponent ) ) {
+            component.setOpaque( opaque );
+            for ( int i = 0; i < component.getComponentCount(); i++ ) {
+                Component c = component.getComponent( i );
+                if ( c instanceof JComponent ) {
+                    setOpaque( (JComponent) c, opaque );
+                }
+            }
+        }
     }
 
     /**
@@ -411,9 +373,12 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
         piccoloStepButton.setEnabled( isEnabled() && paused );
         restartButton.setEnabled( isEnabled() );
 
-        //todo: internationalize
-        pauseTooltipHandler.setText( paused ? "Play" : "Pause" );
-        stepToolTipHandler.setText( paused ? "Step" : null );
+        pauseTooltipHandler.setText( paused ? getPlayString() : getPauseString() );
+        stepToolTipHandler.setText( paused ? getStepString() : null );
+    }
+
+    private String getStepString() {
+        return PhetCommonResources.getInstance().getLocalizedString( PhetCommonResources.STRING_CLOCK_STEP );
     }
 
     public void addTimeControlListener( TimeControlPanel.TimeControlListener listener ) {
