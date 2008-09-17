@@ -39,17 +39,18 @@ public class ButtonIconSet {
         double buttonSpacing = dx / 4;
         double buttonWidth = dx * 0.8;
         shape.moveTo( width / 2 - buttonSpacing, height / 2 - dy );
-        shape.lineToRelative( 0, 2 * dy );
-        shape.lineToRelative( -buttonWidth, 0 );
-        shape.lineToRelative( 0, -2 * dy );
-        shape.lineToRelative( buttonWidth, 0 );
+        moveInSquare( shape, buttonWidth );
 
         shape.moveTo( width / 2 + buttonWidth + buttonSpacing, height / 2 - dy );
+        moveInSquare( shape, buttonWidth );
+        return shape.getGeneralPath();
+    }
+
+    private void moveInSquare( DoubleGeneralPath shape, double buttonWidth ) {
         shape.lineToRelative( 0, 2 * dy );
         shape.lineToRelative( -buttonWidth, 0 );
         shape.lineToRelative( 0, -2 * dy );
         shape.lineToRelative( buttonWidth, 0 );
-        return shape.getGeneralPath();
     }
 
     public Shape createStepIconShape() {
