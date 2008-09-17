@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.glaciers.module.intro;
 
+import java.awt.Color;
 import java.awt.Frame;
 
 import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
@@ -58,6 +59,7 @@ public class IntroModule extends GlaciersModule {
             HelpPane helpPane = getDefaultHelpPane();
             
             HelpBalloon steadyStateButtonHelp = new GlaciersHelpBalloon( helpPane, GlaciersStrings.HELP_STEADY_STATE_BUTTON, HelpBalloon.BOTTOM_CENTER, 80 );
+            steadyStateButtonHelp.setTextColor( Color.WHITE );
             helpPane.add( steadyStateButtonHelp );
             steadyStateButtonHelp.pointAt( _controlPanel.getMiscControlPanel().getSteadyStateButton() );
             

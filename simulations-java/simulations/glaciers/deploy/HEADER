@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-glaciers 1.00.04
+glaciers 1.00.05
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,8 +12,7 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>switch climate controls between English and metric units
-<li>put default units (F) on top in thermometer tool
+<li>add sample help items with no "bubbles" to demonstrate legibility problems
 </ul>
 <p>
 <b>Not implemented:</b>
@@ -24,6 +23,7 @@ Click to launch English version:
 <p>
 <b>Known problems:</b>
 <ul>
+<li>birds-eye view should half the slope of zoomed view so that 80km is at far right
 <li>full-size background image is so large that it exceeds JVM heap space and causes OutOfMemoryException
 <li>glacier starts up in steady state, but with no debris or ripple in the ice, and no moraine
 </ul>
