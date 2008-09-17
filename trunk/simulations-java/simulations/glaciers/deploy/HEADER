@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-glaciers 1.00.05
+glaciers 1.00.06
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,7 +12,7 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>add sample help items with no "bubbles" to demonstrate legibility problems
+<li>add bubbles to sample help items, for demonstration purposes
 </ul>
 <p>
 <b>Not implemented:</b>
