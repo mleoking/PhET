@@ -114,4 +114,12 @@ public class GlaciersClockControlPanel extends ClockControlPanel {
         cleanup();
         _clock.removeConstantDtClockListener( _clockListener );
     }
+    
+    /**
+     * For attaching help items.
+     * @return
+     */
+    public JComponent getFrameRateControl() {
+        return _frameRateControl;
+    }
 }
