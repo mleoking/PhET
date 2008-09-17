@@ -18,8 +18,11 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.AnimatedClockJComponent;
 import edu.colorado.phet.common.phetcommon.view.TimeControlPanel;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.event.ToolTipHandler;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -54,6 +57,8 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
     private ArrayList listeners = new ArrayList();
     private PlayPauseButton piccoloPlayPauseButton;
     private StepButton piccoloStepButton;
+    private BackgroundNode backgroundNode;
+    private PhetPCanvas buttonPCanvas;
 //    private MediaPlaybackBarNode mediaPlaybackBarNode;
 
     public PiccoloTimeControlPanel() {
@@ -93,19 +98,27 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
         piccoloStepButton = new StepButton( (int) ( piccoloPlayPauseButton.getButtonDimension().width * 0.8 ) );
 
         // Put all the buttons in a button panel
-        buttonPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
-        buttonPanel.add( restartButton );
+        this.buttonPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
+        this.buttonPanel.setOpaque( false );
+        this.buttonPanel.add( restartButton );
 //        buttonPanel.add( playPauseButton );
 //        buttonPanel.add(Box.createHorizontalStrut( playPauseButton.getPreferredSize().width ));
 //        addScreenChild( piccoloPlayPauseButton );
-        PhetPCanvas piccoloPanel = new PhetPCanvas();
-        piccoloPanel.setBorder( null );
-        piccoloPanel.setBackground( null );
-        piccoloPanel.addScreenChild( piccoloPlayPauseButton );
-        piccoloPanel.addScreenChild( piccoloStepButton );
+        buttonPCanvas = new PhetPCanvas();
+        piccoloStepButton.addInputEventListener( new ToolTipHandler( "Step", buttonPCanvas ) );
+        piccoloPlayPauseButton.addInputEventListener( new ToolTipHandler( "Pause", buttonPCanvas ) );
+        buttonPCanvas.setOpaque( false );
+        buttonPCanvas.setBorder( null );
+        buttonPCanvas.setBackground( null );
+
+        backgroundNode = new BackgroundNode();
+        addScreenChild( backgroundNode );
+
+        buttonPCanvas.addScreenChild( piccoloPlayPauseButton );
+        buttonPCanvas.addScreenChild( piccoloStepButton );
         piccoloStepButton.setOffset( piccoloPlayPauseButton.getFullBounds().getMaxX(), piccoloPlayPauseButton.getFullBounds().getCenterY() - piccoloStepButton.getFullBounds().getHeight() / 2 );
-        piccoloPanel.setPreferredSize( new Dimension( (int) piccoloPlayPauseButton.getParent().getFullBounds().getWidth() + 100, (int) piccoloPlayPauseButton.getParent().getFullBounds().getHeight() ) );
-        buttonPanel.add( piccoloPanel );
+        buttonPCanvas.setPreferredSize( new Dimension( (int) piccoloPlayPauseButton.getParent().getFullBounds().getWidth() + 100, (int) piccoloPlayPauseButton.getParent().getFullBounds().getHeight() ) );
+        this.buttonPanel.add( buttonPCanvas );
 //        piccoloPlayPauseButton.setOffset( 200, 0 );
 //        buttonPanel.add( stepButton );
 
@@ -124,6 +137,8 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
 
         // User panel, for stuff between the time display and buttons
         userPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
+        userPanel.setBackground( new Color( 0, 0, 0, 0 ) );
+        userPanel.setOpaque( false );
 
         // for backward compatibility with existing sims
         restartButton.setVisible( false );
@@ -198,6 +213,7 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
 
     private void updateShape() {
 //        mediaPlaybackBarNode.setSize( getWidth(), 3 );
+        backgroundNode.setSize( getWidth(), getHeight() );
     }
 
     /**
@@ -269,6 +285,8 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
      * @param component
      */
     public void addBetweenTimeDisplayAndButtons( JComponent component ) {
+//        component.setBackground( null);
+        component.setOpaque( false );
         userPanel.add( component );
     }
 
@@ -434,7 +452,7 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
     public static void main( String[] args ) {
         JFrame frame = new JFrame();
         PiccoloTimeControlPanel pane = new PiccoloTimeControlPanel();
-        pane.setRestartButtonVisible( true );
+//        pane.setRestartButtonVisible( true );
         pane.addTimeControlListener( new TimeControlPanel.TimeControlListener() {
             public void stepPressed() {
                 System.out.println( "TimeControlPanel.stepPressed" );
@@ -457,5 +475,55 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         SwingUtils.centerWindowOnScreen( frame );
         frame.setVisible( true );
+    }
+
+    private class BackgroundNode extends PNode {
+        private PhetPPath backgroundNode = new PhetPPath( new JLabel().getBackground() );
+        private PhetPPath tabNode = new PhetPPath();
+        private int width;
+        private int height;
+
+        private BackgroundNode() {
+            addChild( backgroundNode );
+            addChild( tabNode );
+        }
+
+        public void setSize( int width, int height ) {
+            this.width = width;
+            this.height = height - 2;
+            tabNode.setPathTo( createPath() );
+            tabNode.setPaint( getGradientPaint( height ) );
+
+            backgroundNode.setPathToRectangle( 0, 0, width, height );
+            tabNode.setStrokePaint( getGradientPaintBorder( height ) );
+        }
+
+
+        private Shape createPath() {
+            double dw = 10;
+            DoubleGeneralPath path = new DoubleGeneralPath( 0, 0 );
+            path.lineToRelative( width, 0 );
+            path.lineToRelative( -dw, height );
+            path.lineTo( +dw, height );
+            path.lineTo( 0, 0 );
+            return path.getGeneralPath();
+        }
+    }
+
+    private GradientPaint getGradientPaintBorder( int height ) {
+        return new GradientPaint( 0, height / 4, new JLabel().getBackground(), 0, height, darker( darker( new JLabel().getBackground() ) ) );
+    }
+
+    private GradientPaint getGradientPaint( int height ) {
+        return new GradientPaint( 0, height / 4, new JLabel().getBackground(), 0, height, darker( new JLabel().getBackground() ) );
+    }
+
+    private Color darker( Color orig ) {
+        int dred = 30;
+        int dgreen = 40;
+        int dblue = 40;
+        return new Color( Math.min( orig.getRed() - dred, 255 )
+                , Math.min( orig.getGreen() - dgreen, 255 )
+                , Math.min( orig.getBlue() - dblue, 255 ) );
     }
 }
