@@ -16,6 +16,7 @@ public class ToolTipHandler extends PBasicInputEventHandler {
     private String text;
     private JComponent parent;
     private String previousValue;
+    private boolean entered = false;
 
     /**
      * Constructs an input handler that displays the specified text as a popup tooltip,
@@ -30,12 +31,21 @@ public class ToolTipHandler extends PBasicInputEventHandler {
         this.previousValue = parent.getToolTipText();
     }
 
+    public void setText( String text ) {
+        this.text = text;
+        if ( entered ) {
+            parent.setToolTipText( text );
+        }
+    }
+
     public void mouseEntered( PInputEvent event ) {
+        this.entered = true;
         this.previousValue = parent.getToolTipText();
         parent.setToolTipText( text );
     }
 
     public void mouseExited( PInputEvent event ) {
         parent.setToolTipText( this.previousValue );
+        this.entered = false;
     }
 }
