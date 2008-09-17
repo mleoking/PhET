@@ -226,7 +226,6 @@ public class PhetLookAndFeel {
             String type = types[i];
 
             list.add( type, "font", new FontUIResource( font ) );
-            list.add( type, "font", new FontUIResource( font ) );
 
             if ( foregroundResource != null ) {
                 list.add( type, "foreground", foregroundResource );
