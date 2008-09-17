@@ -1,3 +1,5 @@
+/* Dummy header, added for testing. */
+
 package edu.colorado.phet.circuitconstructionkit.model;
 
 import java.awt.*;
