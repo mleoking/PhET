@@ -1,7 +1,5 @@
 package edu.colorado.phet.mazegame;
 
-//Driver class for MazeGame. Contains main thread.
-
 import java.awt.*;
 
 import javax.swing.*;
@@ -9,13 +7,9 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
-//Need File class
-
-public class ParticleArena extends JPanel
-        implements Runnable {
-    private MazeGameApplet mazeGUI1;
+public class ParticleArena extends JPanel implements Runnable {
+    private MazeGameSimulationPanel mazeGUI1;
     private ScorePanel scrPanel;
     private Particle myParticle;
     private int radius;                //radius of particle (and goal)
@@ -29,8 +23,8 @@ public class ParticleArena extends JPanel
     private int collisionY;
 
     boolean setToPlayTada = true;  //used to prevent multiple restarting audioclip
-    private int goalX = MazeGameApplet.fullWidth / 8;     //position of goal
-    private int goalY = 3 * MazeGameApplet.fullHeight / 8;
+    private int goalX = MazeGameSimulationPanel.fullWidth / 8;     //position of goal
+    private int goalY = 3 * MazeGameSimulationPanel.fullHeight / 8;
     private ControlBoxPanel cbPanel;
 
     private PositionUpdater pUpdater;
@@ -41,18 +35,17 @@ public class ParticleArena extends JPanel
     private double vTimeStep = (double) ( 0.0010 * timeStep );    //timeStep for velocity update
     private double aTimeStep = (double) ( 0.0010 * timeStep ); //timeStep for acceleration update
 
-    private Border raisedBevel, loweredBevel, compound2;
+    private Border raisedBevel, compound2;
     private Font arenaFont = new PhetFont( 25, true );
 
 
-    public ParticleArena( MazeGameApplet mazeGUI1 ) {
+    public ParticleArena( MazeGameSimulationPanel mazeGUI1 ) {
 
         this.mazeGUI1 = mazeGUI1;
         setBackground( new Color( 255, 232, 45 ) );
         barrierColor = new Color( 50, 50, 250 );
         raisedBevel = BorderFactory.createRaisedBevelBorder();
-        loweredBevel = BorderFactory.createLoweredBevelBorder();
-        compound2 = BorderFactory.createTitledBorder( raisedBevel, SimStrings.getInstance().getString( "ParticleArena.ArenaBorder" ), TitledBorder.CENTER, TitledBorder.ABOVE_BOTTOM );
+        compound2 = BorderFactory.createTitledBorder( raisedBevel, MazeGameResources.getString( "ParticleArena.ArenaBorder" ), TitledBorder.CENTER, TitledBorder.ABOVE_BOTTOM );
         setBorder( compound2 );
 
         collisionDetected = false;
@@ -60,7 +53,7 @@ public class ParticleArena extends JPanel
         nbrCollisions = 0;
         cbPanel = new ControlBoxPanel( this );
         scrPanel = new ScorePanel( this, cbPanel );
-        pUpdater = new PositionUpdater( positionFactor * cbPanel.getDeltaX() + MazeGameApplet.fullWidth / 2, positionFactor * cbPanel.getDeltaY() + MazeGameApplet.fullHeight / 4 );  //argument is initial positionudio
+        pUpdater = new PositionUpdater( positionFactor * cbPanel.getDeltaX() + MazeGameSimulationPanel.fullWidth / 2, positionFactor * cbPanel.getDeltaY() + MazeGameSimulationPanel.fullHeight / 4 );  //argument is initial positionudio
 
         myParticle = new Particle( pUpdater.getX(), pUpdater.getY() );
         radius = myParticle.getRadius();
@@ -83,8 +76,8 @@ public class ParticleArena extends JPanel
         Thread thisThread = Thread.currentThread();
         while ( myThread == thisThread ) {
             if ( cbPanel.getControlState() == ControlBoxPanel.POSITION ) {
-                double X = positionFactor * cbPanel.getDeltaX() + MazeGameApplet.fullWidth / 2;
-                double Y = positionFactor * cbPanel.getDeltaY() + MazeGameApplet.fullHeight / 4;
+                double X = positionFactor * cbPanel.getDeltaX() + MazeGameSimulationPanel.fullWidth / 2;
+                double Y = positionFactor * cbPanel.getDeltaY() + MazeGameSimulationPanel.fullHeight / 4;
                 //myParticle.setXY((int)cbPanel.getDeltaX() + 200, (int)cbPanel.getDeltaY() + 100);
                 if ( pUpdater != null ) {
                     pUpdater.updateWithPos( X, Y );
@@ -111,7 +104,7 @@ public class ParticleArena extends JPanel
             int x = (int) myParticle.getX();
             int y = (int) myParticle.getY();
             int w = 20;  //width for checking if disqualified
-            if ( x > 0 && x < MazeGameApplet.fullWidth && y > 0 && y < MazeGameApplet.fullHeight / 2 )  //check that particle is inside arena window
+            if ( x > 0 && x < MazeGameSimulationPanel.fullWidth && y > 0 && y < MazeGameSimulationPanel.fullHeight / 2 )  //check that particle is inside arena window
             {
                 if ( BarrierList.currentCollisionArray[x][y] == 0 && !collisionDetected ) {
                     lastX = x;
@@ -216,10 +209,6 @@ public class ParticleArena extends JPanel
         return this.positionFactor;
     }
 
-    public int getBarrierState() {
-        return barrierState;
-    }
-
     public void setCollisionDetected( boolean b ) {
         this.collisionDetected = b;
     }
@@ -245,8 +234,6 @@ public class ParticleArena extends JPanel
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         super.paintComponent( g );  //necessary for drawing background!
-        //g.setColor(Color.orange);
-        //g.fillRect(0,0,getWidth(),getHeight());
 
         //draw barriers
         g.setColor( barrierColor );
@@ -265,41 +252,30 @@ public class ParticleArena extends JPanel
             g.drawImage( mazeGUI1.splat, collisionX - 15, collisionY - 15, this );
             g.setColor( Color.red );
             g.setFont( arenaFont );
-            g.drawString( SimStrings.getInstance().getString( "ParticleArena.CollisionText" ), MazeGameApplet.fullWidth / 2, 7 * MazeGameApplet.fullHeight / 16 );
+            g.drawString( MazeGameResources.getString( "ParticleArena.CollisionText" ), MazeGameSimulationPanel.fullWidth / 2, 7 * MazeGameSimulationPanel.fullHeight / 16 );
         }
 
         //Draw Goal indicator
         if ( goalDetected && !collisionDetected ) {
             g.setColor( Color.blue );
             g.setFont( arenaFont );
-            g.drawString( SimStrings.getInstance().getString( "ParticleArena.GoalText" ), MazeGameApplet.fullWidth / 10, 11 * MazeGameApplet.fullHeight / 32 );
+            g.drawString( MazeGameResources.getString( "ParticleArena.GoalText" ), MazeGameSimulationPanel.fullWidth / 10, 11 * MazeGameSimulationPanel.fullHeight / 32 );
         }
 
         if ( goalDetected && collisionDetected ) //
         {
             g.setColor( Color.red );
             g.setFont( arenaFont );
-            g.drawString( SimStrings.getInstance().getString( "ParticleArena.NoGoalText" ), MazeGameApplet.fullWidth / 12, 11 * MazeGameApplet.fullHeight / 32 );
+            g.drawString( MazeGameResources.getString( "ParticleArena.NoGoalText" ), MazeGameSimulationPanel.fullWidth / 12, 11 * MazeGameSimulationPanel.fullHeight / 32 );
         }
 
         //Draw goal
         g.fillOval( goalX - radius, goalY - radius, 2 * radius, 2 * radius );
         g.setFont( new PhetFont( 15, true ) );
-        g.drawString( SimStrings.getInstance().getString( "ParticleArena.FinishText" ), goalX - 2 * radius, goalY + 25 );
+        g.drawString( MazeGameResources.getString( "ParticleArena.FinishText" ), goalX - 2 * radius, goalY + 25 );
 
         //draw particle
-        //myParticle.paint(g);
         g.drawImage( mazeGUI1.ballImage, (int) myParticle.getX() - radius, (int) myParticle.getY() - radius, this );
-    }//end of paintComponent()
+    }
 
-//    public void mouseDragged(MouseEvent mevt) {
-//        int xF = mevt.getX();
-//        int yF = mevt.getY();
-//        myParticle.setXY(xF, yF);
-//        repaint();
-//        //System.out.println("x="+ getDeltaX()+ ",  y="+ getDeltaY());
-//    }
-//
-//    public void mouseMoved(MouseEvent mevt) {
-//    }
 }

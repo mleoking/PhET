@@ -30,19 +30,4 @@ public class Particle {
         return this.radius;
     }
 
-    public void translateXY( double dx, double dy ) {
-        this.x += dx;
-        this.y += dy;
-    }
-
-
-    public void paint( Graphics g ) {
-        int xInt = (int) ( this.x );
-        int yInt = (int) ( this.y );
-        g.setColor( Color.red );
-        g.fillOval( xInt - radius, yInt - radius, 2 * radius, 2 * radius );
-
-    }
-
-
-}// end of public class
+}

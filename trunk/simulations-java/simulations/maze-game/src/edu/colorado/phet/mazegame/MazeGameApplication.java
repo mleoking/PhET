@@ -1,12 +1,13 @@
 package edu.colorado.phet.mazegame;
 
-import java.awt.*;
-
-import javax.swing.*;
-
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.colorado.phet.common.piccolophet.PiccoloModule;
 
 /**
  * User: Sam Reid
@@ -14,34 +15,42 @@ import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
  * Time: 10:53:32 AM
  */
 
-public class MazeGameApplication {
-    public static final String version = PhetApplicationConfig.getVersion( "maze-game" ).formatForTitleBar();
-    public static final String localizedStringsPath = "maze-game/localization/maze-game-strings";
+public class MazeGameApplication extends PiccoloPhetApplication {
 
-    private static void centerFrameOnScreen( JFrame f ) {
-        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-        int dw = size.width - f.getWidth();
-        int dh = size.height - f.getHeight();
+    private MazeGameModule module;
 
-        f.setBounds( dw / 2, dh / 2, f.getWidth(), f.getHeight() );
+    public MazeGameApplication( PhetApplicationConfig config ) {
+        super( config );
+        module = new MazeGameModule( config );
+        addModule( module );
     }
 
-    public static void main( final String[] args ) {
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                new PhetLookAndFeel().initLookAndFeel();
-                SimStrings.getInstance().init( args, localizedStringsPath );
+    public static class MazeGameApplicationConfig extends PhetApplicationConfig {
+        public MazeGameApplicationConfig( String[] commandLineArgs ) {
+            super( commandLineArgs, new FrameSetup.CenteredWithSize( 700, 600 ), new PhetResources( "maze-game" ) );
+            super.setApplicationConstructor( new ApplicationConstructor() {
+                public PhetApplication getApplication( PhetApplicationConfig config ) {
+                    return new MazeGameApplication( config );
+                }
+            } );
+            super.setLookAndFeel( new PhetLookAndFeel() );
+        }
+    }
 
-                JFrame f = new JFrame( "Maze Game (" + version + ")" );
-                MazeGameApplet mg = new MazeGameApplet();
-                f.setContentPane( mg );
-                mg.init();
-                f.setSize( 700, 500 );
-                centerFrameOnScreen( f );
-                f.setVisible( true );
-                f.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-            }
-        } );
+    private class MazeGameModule extends PiccoloModule {
+        private MazeGameSimulationPanel simulationPanel = new MazeGameSimulationPanel();
+
+        public MazeGameModule( PhetApplicationConfig config ) {
+            super( config.getName(), new ConstantDtClock( 35, 0.15 ) );
+            simulationPanel.init();
+            setSimulationPanel( simulationPanel );
+            setClockControlPanel( null );
+            setLogoPanelVisible( false );
+        }
+    }
+
+    public static void main( String[] args ) {
+        new MazeGameApplicationConfig( args ).launchSim();
     }
 
 }
