@@ -23,13 +23,16 @@ public class ParticleForceNode extends ParticleNode {
     // The following constants control some of the aspects of the appearance of
     // the force arrows.  The values are arbitrary and are chosen to look good
     // in this particular sim, so tweak them as needed for optimal appearance.
-    private static final double FORCE_ARROW_REFERENCE_LENGTH = 500;
-    private static final double FORCE_ARROW_REFERENCE_MAGNITUDE = 1E-22;
+    private static final double COMPONENT_FORCE_ARROW_REFERENCE_LENGTH = 500;
+    private static final double COMPONENT_FORCE_ARROW_REFERENCE_MAGNITUDE = 1E-22;
+    private static final double TOTAL_FORCE_ARROW_REFERENCE_LENGTH = 1000;
+    private static final double TOTAL_FORCE_ARROW_REFERENCE_MAGNITUDE = 1E-22;
     private static final double FORCE_ARROW_TAIL_WIDTH = 100;
     private static final double FORCE_ARROW_HEAD_WIDTH = 200;
     private static final double FORCE_ARROW_HEAD_LENGTH = 200;
-    private static final Color ATTRACTIVE_FORCE_COLOR = Color.GREEN;
+    private static final Color ATTRACTIVE_FORCE_COLOR = Color.YELLOW;
     private static final Color REPULSIVE_FORCE_COLOR = Color.ORANGE;
+    private static final Color TOTAL_FORCE_COLOR = Color.GREEN;
 
     //-----------------------------------------------------------------------------
     // Instance Data
@@ -39,8 +42,10 @@ public class ParticleForceNode extends ParticleNode {
     private Vector2DNode m_attractiveForceVectorNode;
     private double m_repulsiveForce;
     private Vector2DNode m_repulsiveForceVectorNode;
+    private Vector2DNode m_totalForceVectorNode;
     private boolean m_showAttractiveForces;
     private boolean m_showRepulsiveForces;
+    private boolean m_showTotalForces;
     
     //-----------------------------------------------------------------------------
     // Constructor(s)
@@ -51,10 +56,12 @@ public class ParticleForceNode extends ParticleNode {
         
         m_showAttractiveForces = false;
         m_showRepulsiveForces = false;
+        m_showTotalForces = false;
         m_attractiveForce = 0;
         m_repulsiveForce = 0;
         
-        m_attractiveForceVectorNode = new Vector2DNode(0, 0, FORCE_ARROW_REFERENCE_MAGNITUDE, FORCE_ARROW_REFERENCE_LENGTH);
+        m_attractiveForceVectorNode = new Vector2DNode(0, 0, COMPONENT_FORCE_ARROW_REFERENCE_MAGNITUDE, 
+                COMPONENT_FORCE_ARROW_REFERENCE_LENGTH);
         m_attractiveForceVectorNode.setMagnitudeAngle( 0, 0 );
         addChild(m_attractiveForceVectorNode);
         m_attractiveForceVectorNode.setArrowFillPaint( ATTRACTIVE_FORCE_COLOR );
@@ -62,13 +69,23 @@ public class ParticleForceNode extends ParticleNode {
         m_attractiveForceVectorNode.setTailWidth( FORCE_ARROW_TAIL_WIDTH );
         m_attractiveForceVectorNode.setVisible( m_showAttractiveForces );
 
-        m_repulsiveForceVectorNode = new Vector2DNode(0, 0, FORCE_ARROW_REFERENCE_MAGNITUDE, FORCE_ARROW_REFERENCE_LENGTH);
+        m_repulsiveForceVectorNode = new Vector2DNode(0, 0, COMPONENT_FORCE_ARROW_REFERENCE_MAGNITUDE, 
+                COMPONENT_FORCE_ARROW_REFERENCE_LENGTH);
         m_repulsiveForceVectorNode.setMagnitudeAngle( 0, 0 );
         addChild(m_repulsiveForceVectorNode);
         m_repulsiveForceVectorNode.setArrowFillPaint( REPULSIVE_FORCE_COLOR );
         m_repulsiveForceVectorNode.setHeadSize( FORCE_ARROW_HEAD_WIDTH, FORCE_ARROW_HEAD_LENGTH );
         m_repulsiveForceVectorNode.setTailWidth( FORCE_ARROW_TAIL_WIDTH );
         m_repulsiveForceVectorNode.setVisible( m_showRepulsiveForces );
+
+        m_totalForceVectorNode = new Vector2DNode(0, 0, TOTAL_FORCE_ARROW_REFERENCE_MAGNITUDE, 
+                TOTAL_FORCE_ARROW_REFERENCE_LENGTH);
+        m_totalForceVectorNode.setMagnitudeAngle( 0, 0 );
+        addChild(m_totalForceVectorNode);
+        m_totalForceVectorNode.setArrowFillPaint( TOTAL_FORCE_COLOR );
+        m_totalForceVectorNode.setHeadSize( FORCE_ARROW_HEAD_WIDTH, FORCE_ARROW_HEAD_LENGTH );
+        m_totalForceVectorNode.setTailWidth( FORCE_ARROW_TAIL_WIDTH );
+        m_totalForceVectorNode.setVisible( m_showRepulsiveForces );
     }
 
     public ParticleForceNode( StatesOfMatterAtom particle, ModelViewTransform mvt ) {
@@ -105,6 +122,13 @@ public class ParticleForceNode extends ParticleNode {
         m_showRepulsiveForces = showForces;
         m_repulsiveForceVectorNode.setVisible( showForces );
     }
+    
+    public void setShowTotalForces( boolean showForces ){
+        
+        m_showTotalForces = showForces;
+        m_totalForceVectorNode.setVisible( showForces );
+    }
+    
 
     //-----------------------------------------------------------------------------
     // Private Methods
@@ -117,5 +141,6 @@ public class ParticleForceNode extends ParticleNode {
     protected void updateForceVectors() {
         m_attractiveForceVectorNode.setMagnitudeAngle( m_attractiveForce, 0 );
         m_repulsiveForceVectorNode.setMagnitudeAngle( m_repulsiveForce, 0 );
+        m_totalForceVectorNode.setMagnitudeAngle( m_attractiveForce + m_repulsiveForce, 0 );
     }
 }

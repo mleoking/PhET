@@ -85,6 +85,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     private boolean m_useGradient;
     private boolean m_showAttractiveForces;
     private boolean m_showRepulsiveForces;
+    private boolean m_showTotalForces;
     private GradientButtonNode m_stopAtomButtonNode;
     private GradientButtonNode m_retrieveAtomButtonNode;
     private DefaultWiggleMe m_wiggleMe;
@@ -99,6 +100,8 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         
         m_model = dualParticleModel;
         m_showAttractiveForces = false;
+        m_showRepulsiveForces = false;
+        m_showTotalForces = false;
         m_wiggleMeShown = false;
         
         // Decide whether to use gradients when drawing the particles.
@@ -247,6 +250,16 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         m_showRepulsiveForces = showForces;
     }
     
+    /**
+     * Turn on/off the displaying of the force arrows that represent the
+     * total force, i.e. attractive plus repulsive.
+     */
+    public void setShowTotalForces( boolean showForces ){
+        m_movableParticleNode.setShowTotalForces( showForces );
+        m_fixedParticleNode.setShowTotalForces( showForces );
+        m_showTotalForces = showForces;
+    }
+    
     protected void updateLayout() {
         
         if ( getWorldSize().getWidth() <= 0 || getWorldSize().getHeight() <= 0 ) {
@@ -290,6 +303,8 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         m_fixedParticle = particle;
         m_fixedParticleNode = new ParticleForceNode(particle, m_mvt, m_useGradient);
         m_fixedParticleNode.setShowAttractiveForces( m_showAttractiveForces );
+        m_fixedParticleNode.setShowRepulsiveForces( m_showRepulsiveForces );
+        m_fixedParticleNode.setShowTotalForces( m_showTotalForces );
         addWorldChild( m_fixedParticleNode );
         
         particle.addListener( m_atomListener );
@@ -324,6 +339,8 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         m_movableParticleNode = new GrabbableParticleNode(m_model, particle, m_mvt, m_useGradient, 0,
                 Double.POSITIVE_INFINITY);
         m_movableParticleNode.setShowAttractiveForces( m_showAttractiveForces );
+        m_movableParticleNode.setShowRepulsiveForces( m_showRepulsiveForces );
+        m_movableParticleNode.setShowTotalForces( m_showTotalForces );
         addWorldChild( m_movableParticleNode );
         
         // Limit the particle's motion in the X direction so that it can
