@@ -50,6 +50,13 @@ public class StatesOfMatterStrings {
     public static final String PHASE_DIAGRAM_BUTTON_LABEL = StatesOfMatterResources.getString("PhaseChanges.PhaseDiagram.ButtonLabel");
     
     public static final String INTERACTION_POTENTIAL_ATOM_SELECT_LABEL = StatesOfMatterResources.getString("InteractionPotential.Atoms");
+    public static final String INTERACTION_POTENTIAL_SHOW_FORCES = StatesOfMatterResources.getString("InteractionPotential.ShowForces");
+    public static final String INTERACTION_POTENTIAL_HIDE_FORCES = StatesOfMatterResources.getString("InteractionPotential.HideForces");
+    public static final String INTERACTION_POTENTIAL_TOTAL_FORCES = StatesOfMatterResources.getString("InteractionPotential.TotalForces");
+    public static final String INTERACTION_POTENTIAL_COMPONENT_FORCES = StatesOfMatterResources.getString("InteractionPotential.ComponentForces");
+    public static final String STOP_ATOM = StatesOfMatterResources.getString("InteractionPotential.StopAtom");
+    public static final String RETRIEVE_ATOM = StatesOfMatterResources.getString("InteractionPotential.RetrieveAtom");
+
     public static final String INTERACTION_POTENTIAL_GRAPH_X_AXIS_LABEL_ATOMS = StatesOfMatterResources.getString("PhaseChanges.InteractionPotentialGraph.xAxisLabelAtoms");
     public static final String INTERACTION_POTENTIAL_GRAPH_X_AXIS_LABEL_MOLECULES = StatesOfMatterResources.getString("PhaseChanges.InteractionPotentialGraph.xAxisLabelMolecules");
     public static final String INTERACTION_POTENTIAL_GRAPH_Y_AXIS_LABEL = StatesOfMatterResources.getString("PhaseChanges.InteractionPotentialGraph.yAxisLabel");
@@ -65,10 +72,6 @@ public class StatesOfMatterStrings {
     public static final String INTERACTION_STRENGTH_CONTROL_TITLE = StatesOfMatterResources.getString("InteractionStrengthControl.Title");
     public static final String INTERACTION_STRENGTH_WEAK = StatesOfMatterResources.getString("InteractionStrengthControl.Weak");
     public static final String INTERACTION_STRENGTH_STRONG = StatesOfMatterResources.getString("InteractionStrengthControl.Strong");
-    public static final String SHOW_ATTRACTIVE_FORCES = StatesOfMatterResources.getString("InteractionPotential.ShowAttractiveForces");
-    public static final String SHOW_REPULSIVE_FORCES = StatesOfMatterResources.getString("InteractionPotential.ShowRepulsiveForces");
-    public static final String STOP_ATOM = StatesOfMatterResources.getString("InteractionPotential.StopAtom");
-    public static final String RETRIEVE_ATOM = StatesOfMatterResources.getString("InteractionPotential.RetrieveAtom");
     
     public static final String RESET = StatesOfMatterResources.getString("Reset");
 }

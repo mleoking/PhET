@@ -56,11 +56,10 @@ public class InteractionPotentialControlPanel extends ControlPanel {
     
     private DualParticleModel m_model;
     private InteractionPotentialCanvas m_canvas;
-    private MoleculeSelectionPanel m_moleculeSelectionPanel;
+    private AtomSelectionPanel m_moleculeSelectionPanel;
     private AtomDiameterControlPanel m_atomDiameterControlPanel;
     private InteractionStrengthControlPanel m_interactionStrengthControlPanel;
-    private JCheckBox m_showAttractiveForcesCheckbox;
-    private JCheckBox m_showRepulsiveForcesCheckbox;
+    private ForceControlPanel m_forceControlPanel;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -92,50 +91,25 @@ public class InteractionPotentialControlPanel extends ControlPanel {
         m_interactionStrengthControlPanel = new InteractionStrengthControlPanel( m_model );
         
         // Create the panel that allows the user to select molecule type.
-        m_moleculeSelectionPanel = new MoleculeSelectionPanel();
+        m_moleculeSelectionPanel = new AtomSelectionPanel();
+
+        // Create the panel that allows the user to control which forces are
+        // shown on the atoms.
+        m_forceControlPanel = new ForceControlPanel();
         
         // Add the panels we just created.
         addControlFullWidth( m_moleculeSelectionPanel );
         addControlFullWidth( m_atomDiameterControlPanel );
         addControlFullWidth( m_interactionStrengthControlPanel );
+        addControlFullWidth( m_forceControlPanel );
         
-        // Add the check box for showing/hiding the the attractive force arrows.
-        addVerticalSpace( 10 );
-        m_showAttractiveForcesCheckbox = new JCheckBox();
-        m_showAttractiveForcesCheckbox.setFont( LABEL_FONT );
-        m_showAttractiveForcesCheckbox.setText( StatesOfMatterStrings.SHOW_ATTRACTIVE_FORCES );
-        m_showAttractiveForcesCheckbox.setSelected( false );
-        addControl( m_showAttractiveForcesCheckbox );
-        
-        m_showAttractiveForcesCheckbox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                m_canvas.setShowAttractiveForces( m_showAttractiveForcesCheckbox.isSelected() );
-            }
-        } );
-
-        // Add the check box for showing/hiding the the repulsive force arrows.
-        addVerticalSpace( 10 );
-        m_showRepulsiveForcesCheckbox = new JCheckBox();
-        m_showRepulsiveForcesCheckbox.setFont( LABEL_FONT );
-        m_showRepulsiveForcesCheckbox.setText( StatesOfMatterStrings.SHOW_REPULSIVE_FORCES );
-        m_showRepulsiveForcesCheckbox.setSelected( false );
-        addControl( m_showRepulsiveForcesCheckbox );
-        
-        m_showRepulsiveForcesCheckbox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                m_canvas.setShowRepulsiveForces( m_showRepulsiveForcesCheckbox.isSelected() );
-            }
-        } );
-
         // Add a reset button.
         addVerticalSpace( 10 );
         JButton resetButton = new JButton("Reset");
         resetButton.addActionListener( new ActionListener(){
             public void actionPerformed( ActionEvent event ){
                 m_model.reset();
-                m_showAttractiveForcesCheckbox.setSelected( false );
-                m_showRepulsiveForcesCheckbox.setSelected( false );
-                m_canvas.setShowAttractiveForces( m_showAttractiveForcesCheckbox.isSelected() );
+                m_forceControlPanel.reset();
             }
         });
         addControl( resetButton );
@@ -149,14 +123,14 @@ public class InteractionPotentialControlPanel extends ControlPanel {
      * This class defines the selection panel that allows the user to choose
      * the type of molecule.
      */
-    private class MoleculeSelectionPanel extends JPanel {
+    private class AtomSelectionPanel extends JPanel {
         
         private JRadioButton m_neonRadioButton;
         private JRadioButton m_argonRadioButton;
         private JRadioButton m_adjustableAttractionRadioButton;
         private boolean m_adjustableAtomSelected;
         
-        MoleculeSelectionPanel(){
+        AtomSelectionPanel(){
             
             m_adjustableAtomSelected = false;
             
@@ -402,6 +376,74 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             else {
                 m_titledBorder.setTitleColor( Color.LIGHT_GRAY );
             }
+        }
+    }
+    
+    private class ForceControlPanel extends JPanel {
+
+        private JRadioButton m_noForcesButton;
+        private JRadioButton m_totalForcesButton;
+        private JRadioButton m_componentForceButton;
+        
+        public ForceControlPanel(){
+            
+            setLayout( new GridLayout(0, 1) );
+            
+            BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
+            TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
+                    StatesOfMatterStrings.INTERACTION_POTENTIAL_SHOW_FORCES,
+                    TitledBorder.LEFT,
+                    TitledBorder.TOP,
+                    new PhetFont( Font.BOLD, 14 ),
+                    Color.GRAY );
+            
+            setBorder( titledBorder );
+
+            m_noForcesButton = new JRadioButton( StatesOfMatterStrings.INTERACTION_POTENTIAL_HIDE_FORCES );
+            m_noForcesButton.setFont( LABEL_FONT );
+            m_noForcesButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    m_canvas.setShowAttractiveForces( false );
+                    m_canvas.setShowRepulsiveForces( false );
+                    m_canvas.setShowTotalForces( false );
+                }
+            } );
+            m_totalForcesButton = new JRadioButton( StatesOfMatterStrings.INTERACTION_POTENTIAL_TOTAL_FORCES );
+            m_totalForcesButton.setFont( LABEL_FONT );
+            m_totalForcesButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    m_canvas.setShowAttractiveForces( false );
+                    m_canvas.setShowRepulsiveForces( false );
+                    m_canvas.setShowTotalForces( true );
+                }
+            } );
+            m_componentForceButton = 
+                new JRadioButton( StatesOfMatterStrings.INTERACTION_POTENTIAL_COMPONENT_FORCES );
+            m_componentForceButton.setFont( LABEL_FONT );
+            m_componentForceButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    m_canvas.setShowAttractiveForces( true );
+                    m_canvas.setShowRepulsiveForces( true );
+                    m_canvas.setShowTotalForces( false );
+                }
+            } );
+
+            ButtonGroup buttonGroup = new ButtonGroup();
+            buttonGroup.add( m_noForcesButton );
+            buttonGroup.add( m_totalForcesButton );
+            buttonGroup.add( m_componentForceButton );
+            m_noForcesButton.setSelected( true );
+            
+            add( m_noForcesButton );
+            add( m_totalForcesButton );
+            add( m_componentForceButton );
+        }
+        
+        private void reset() {
+            m_noForcesButton.setSelected( true );
+            m_canvas.setShowAttractiveForces( false );
+            m_canvas.setShowRepulsiveForces( false );
+            m_canvas.setShowTotalForces( false );
         }
     }
 
