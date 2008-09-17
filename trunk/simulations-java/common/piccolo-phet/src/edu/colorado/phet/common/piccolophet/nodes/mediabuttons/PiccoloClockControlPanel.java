@@ -5,6 +5,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.TimeControlPanel;
 
+
+//todo: this duplicates code with TimeControlPanel
 public class PiccoloClockControlPanel extends PiccoloTimeControlPanel{
     private IClock clock;
     private ClockAdapter clockListener;
