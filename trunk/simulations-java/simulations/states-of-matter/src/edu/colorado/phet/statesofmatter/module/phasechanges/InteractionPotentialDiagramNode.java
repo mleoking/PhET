@@ -89,6 +89,7 @@ public class InteractionPotentialDiagramNode extends PNode {
     private Point2D m_graphMin;
     private Point2D m_zeroCrossingPoint;
     private double m_markerDistance;
+    private PText m_horizontalAxisLabel;
     private LjPotentialCalculator m_LjPotentialCalculator;
     
     // Variables for controlling the appearance, visibility, and location of
@@ -233,13 +234,10 @@ public class InteractionPotentialDiagramNode extends PNode {
         m_positionMarker.setVisible( m_positionMarkerEnabled );
         m_markerLayer.addChild( m_positionMarker );
 
-        // Create and add the labels for the axes.
-        PText horizontalAxisLabel = new PText(StatesOfMatterStrings.INTERACTION_POTENTIAL_GRAPH_X_AXIS_LABEL);
-        horizontalAxisLabel.setFont( AXIS_LABEL_FONT );
-        horizontalAxisLabel.setOffset( m_graphOffsetX + (m_graphWidth / 2) - 
-                (horizontalAxisLabel.getFullBoundsReference().width / 2), 
-                m_graphOffsetY + m_graphHeight + (horizontalAxisLabel.getFullBoundsReference().height * 0.3));
-        addChild( horizontalAxisLabel );
+        m_horizontalAxisLabel = new PText(StatesOfMatterStrings.INTERACTION_POTENTIAL_GRAPH_X_AXIS_LABEL_ATOMS);
+        m_horizontalAxisLabel.setFont( AXIS_LABEL_FONT );
+        addChild( m_horizontalAxisLabel );
+        setMolecular( false );
         
         PText verticalAxisLabel = new PText(StatesOfMatterStrings.INTERACTION_POTENTIAL_GRAPH_Y_AXIS_LABEL);
         verticalAxisLabel.setFont( AXIS_LABEL_FONT );
@@ -344,6 +342,26 @@ public class InteractionPotentialDiagramNode extends PNode {
      */
     public double getXAxisGraphProportion(){
         return m_graphWidth / m_width;
+    }
+    
+    /**
+     * Set whether the graph is showing the potential between individual atoms
+     * or multi-atom molecules.
+     * 
+     * @param molecular - true if graph is portraying molecules, false for
+     * individual atoms.
+     */
+    public void setMolecular( boolean molecular ) {
+        if (molecular) {
+            m_horizontalAxisLabel.setText( StatesOfMatterStrings.INTERACTION_POTENTIAL_GRAPH_X_AXIS_LABEL_MOLECULES );
+        }
+        else {
+            m_horizontalAxisLabel.setText( StatesOfMatterStrings.INTERACTION_POTENTIAL_GRAPH_X_AXIS_LABEL_ATOMS );
+        }
+        m_horizontalAxisLabel.setOffset( m_graphOffsetX + (m_graphWidth / 2) - 
+                (m_horizontalAxisLabel.getFullBoundsReference().width / 2), 
+                m_graphOffsetY + m_graphHeight + (m_horizontalAxisLabel.getFullBoundsReference().height * 0.3));
+
     }
     
     /**

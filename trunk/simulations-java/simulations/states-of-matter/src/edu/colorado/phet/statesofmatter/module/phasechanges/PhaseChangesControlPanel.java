@@ -172,6 +172,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
             m_oxygenRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     m_model.setMoleculeType( StatesOfMatterConstants.DIATOMIC_OXYGEN );
+                    m_interactionPotentialDiagram.setMolecular( true );
                 }
             } );
             m_neonRadioButton = new JRadioButton( StatesOfMatterStrings.NEON_SELECTION_LABEL );
@@ -179,6 +180,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
             m_neonRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     m_model.setMoleculeType( StatesOfMatterConstants.NEON );
+                    m_interactionPotentialDiagram.setMolecular( false );
                 }
             } );
             m_argonRadioButton = new JRadioButton( StatesOfMatterStrings.ARGON_SELECTION_LABEL );
@@ -186,6 +188,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
             m_argonRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     m_model.setMoleculeType( StatesOfMatterConstants.ARGON );
+                    m_interactionPotentialDiagram.setMolecular( false );
                 }
             } );
             m_waterRadioButton = new JRadioButton( StatesOfMatterStrings.WATER_SELECTION_LABEL );
@@ -193,6 +196,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
             m_waterRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     m_model.setMoleculeType( StatesOfMatterConstants.WATER );
+                    m_interactionPotentialDiagram.setMolecular( true );
                 }
             } );
             
