@@ -5,6 +5,7 @@ Change history for glaciers
 HIGHEST PRIORITY:
 
 HIGH PRIORITY:
+- common: HelpBallon won't work with glaciers, expects all nodes to be on layer 0
 - bug: loading full-size background image causes OutOfMemoryException, exceeds JVM heap space [crop svg, talk with Archie]
 - birds-eye view should half the slope of zoomed view so that 80km is at far right
 - glacier growth from zero length still takes a long time, and then speeds up [Archie will fix model]
@@ -13,6 +14,7 @@ HIGH PRIORITY:
 MEDIUM PRIORITY:
 - "steady state" feature needs to fill glacier with debris and surface ripples (and create moraine?)
 - make sure everything works properly when clock is paused
+- add Help items
 
 LOW PRIORITY:
 - improve smoothness of DistanceAxisNode (x-axis for coordinates feature)
@@ -21,7 +23,6 @@ LOW PRIORITY:
 - bug: creating a tool and dragging it straight to the trash doesn't work because we're in the middle of an event sequence
 - bug: ticks & labels on sliders should be white, code to set their color is not working (Mac OS 10.4 only?)
 - Spanish translation (Archie?)
-- Help
 
 DEFERRED FOR INTERVIEWS:
 - behavior of glacial budget meter (snap-to-ice) is hard to discover and potentially misleading
