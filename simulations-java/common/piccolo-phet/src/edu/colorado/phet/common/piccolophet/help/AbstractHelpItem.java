@@ -212,7 +212,7 @@ public abstract class AbstractHelpItem extends PNode {
      * @throws IllegalArgumentException if node is not a descendent of canvas
      */
     public void pointAt( PNode node, PCanvas canvas ) {
-        if ( !node.isDescendentOf( canvas.getLayer() ) ) {
+        if ( !nodeIsOnCanvas( node, canvas ) ) {
             throw new IllegalArgumentException( "node is not on canvas" );
         }
         if ( _follower != null ) {
@@ -221,7 +221,20 @@ public abstract class AbstractHelpItem extends PNode {
         _follower = new PNodeFollower( this, node, canvas );
         _follower.setFollowEnabled( _enabled );
     }
-
+    
+    /*
+     * Determines if a node is on a canvas.
+     */
+    private static boolean nodeIsOnCanvas( PNode node, PCanvas canvas ) {
+        boolean found = false;
+        PCamera camera = canvas.getCamera();
+        int layerCount = camera.getLayerCount();
+        for ( int i = 0; i < layerCount && found == false; i++ ) {
+            found = node.isDescendentOf( camera.getLayer( i ) );
+        }
+        return found;
+    }
+    
     /**
      * Makes the help item point at JComponent.
      * Responsibility for following the JComponent is delegated
