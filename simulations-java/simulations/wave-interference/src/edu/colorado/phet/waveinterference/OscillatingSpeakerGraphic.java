@@ -34,7 +34,7 @@ public class OscillatingSpeakerGraphic extends ImageOscillatorPNode {
         addChild( foreground );
 
         PSwing pswing = new PSwing( new ShinyPanel( oscillatorOnOffControlPanel ) );
-//        pswing.setOffset( 0, -50 );
+        pswing.setOffset( -pswing.getFullBounds().getWidth()/2, -pswing.getFullBounds().getHeight()+pswing.getFullBounds().getHeight()/2);
         addChild( pswing );
         update();
 

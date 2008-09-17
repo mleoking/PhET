@@ -71,6 +71,7 @@ public class FaucetGraphic extends PhetPNode {
             }
         } );
         FaucetOnOffControl faucetOnOffButton = new FaucetOnOffControl( this );
+        faucetOnOffButton.setOffset( 0,-faucetOnOffButton.getFullBounds().getHeight() );
         addChild( faucetOnOffButton );
 
         horizontalDragHandler = new HorizontalFaucetDragHandler( this );
