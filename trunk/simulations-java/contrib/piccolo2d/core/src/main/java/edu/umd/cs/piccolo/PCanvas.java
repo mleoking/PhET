@@ -602,8 +602,12 @@ public class PCanvas extends JComponent implements PComponent {
         PDebug.startProcessingOutput();
 
         Graphics2D g2 = (Graphics2D) g.create();
-        g2.setColor(getBackground());
-        g2.fillRect(0, 0, getWidth(), getHeight());
+        //TODO: Integrate with piccolo codebase,
+        //TODO: see http://groups.google.com/group/piccolo2d-dev/browse_thread/thread/134e2792d3a54cf
+        if ( isOpaque() ) {
+            g2.setColor( getBackground() );
+            g2.fillRect( 0, 0, getWidth(), getHeight() );
+        }
 
         // create new paint context and set render quality to lowest common
         // denominator render quality.
