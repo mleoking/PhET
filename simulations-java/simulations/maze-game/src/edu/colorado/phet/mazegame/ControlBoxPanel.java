@@ -14,7 +14,6 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 public class ControlBoxPanel extends JPanel    //possible to replace Applet with Panel?
         implements ItemListener, MouseMotionListener {
@@ -37,29 +36,23 @@ public class ControlBoxPanel extends JPanel    //possible to replace Applet with
     public static int VELOCITY = 1;
     public static int ACCELERATION = 2;
 
-    //private Button rButton, vButton, aButton;  //Buttons to choose among: Position, Velocity, Acceleration
-    //private Image offScreenImage; //used when double buffering image to prevent flicker
-    //private Graphics offScreenGraphics;
-
     private JRadioButton rButton, vButton, aButton;
     private Border raisedBevel, loweredBevel, compound1, compound2;
 
     public ControlBoxPanel( ParticleArena pArena )  //  edu.colorado.phet.mazegame.ControlBox()
     {
-        //super();  							//necessary to call for panel construtor?  -- get peculiar error message on compile
-        //this.setSize(200,200); 				//doesn't seem to be necessary
         this.pArena = pArena;
         raisedBevel = BorderFactory.createRaisedBevelBorder();
         loweredBevel = BorderFactory.createLoweredBevelBorder();
         compound1 = BorderFactory.createCompoundBorder( raisedBevel, loweredBevel );
-        compound2 = BorderFactory.createTitledBorder( compound1, SimStrings.getInstance().getString( "ControlBoxPanel.CrontrolArrowBorder" ), TitledBorder.CENTER, TitledBorder.BOTTOM );
+        compound2 = BorderFactory.createTitledBorder( compound1, MazeGameResources.getString( "ControlBoxPanel.CrontrolArrowBorder" ), TitledBorder.CENTER, TitledBorder.BOTTOM );
         setBorder( compound2 );
         arrow = new ArrowA();
-        x0 = MazeGameApplet.fullWidth / 4;
-                      //changed from getWidth()/2; when Applet changed to Panel
-        y0 = MazeGameApplet.fullHeight / 4;
-        xF = x0 + 9 * ( MazeGameApplet.fullWidth / 4 ) / 10;      //Initial Position of throttle
-        yF = y0 - 5 * ( MazeGameApplet.fullHeight / 4 ) / 10;
+        x0 = MazeGameSimulationPanel.fullWidth / 4;
+        //changed from getWidth()/2; when Applet changed to Panel
+        y0 = MazeGameSimulationPanel.fullHeight / 4;
+        xF = x0 + 9 * ( MazeGameSimulationPanel.fullWidth / 4 ) / 10;      //Initial Position of throttle
+        yF = y0 - 5 * ( MazeGameSimulationPanel.fullHeight / 4 ) / 10;
         controlState = POSITION;                  //Start with throttle in POSITION-control-state
 
         trace = new GeneralPath();
@@ -68,11 +61,11 @@ public class ControlBoxPanel extends JPanel    //possible to replace Applet with
         arrowFont = new PhetFont( 40 );
         fontColor = new Color( 255, 0, 0 );
 
-        rButton = new JRadioButton( SimStrings.getInstance().getString( "ControlBoxPanel.PositionRadioButton" ), true );
+        rButton = new JRadioButton( MazeGameResources.getString( "ControlBoxPanel.PositionRadioButton" ), true );
         rButton.setBackground( Color.yellow );//rButton.setOpaque(false);
-        vButton = new JRadioButton( SimStrings.getInstance().getString( "ControlBoxPanel.VelocityRadioButton" ), false );
+        vButton = new JRadioButton( MazeGameResources.getString( "ControlBoxPanel.VelocityRadioButton" ), false );
         vButton.setBackground( Color.yellow );//vButton.setOpaque(false);
-        aButton = new JRadioButton( SimStrings.getInstance().getString( "ControlBoxPanel.AccelerationRadioButton" ), false );
+        aButton = new JRadioButton( MazeGameResources.getString( "ControlBoxPanel.AccelerationRadioButton" ), false );
         aButton.setBackground( Color.yellow );//aButton.setOpaque(false);
         rButton.addItemListener( this );
         vButton.addItemListener( this );
@@ -88,12 +81,8 @@ public class ControlBoxPanel extends JPanel    //possible to replace Applet with
 
         addMouseMotionListener( this );
         arrow.setPosition( x0, y0, xF, yF );
-        //System.out.println("Deltax="+ getDeltaX()+ ",  Deltay="+ getDeltaY());
         setBackground( Color.yellow );
-        //offScreenImage = createImage(getWidth(), getHeight()); //getSize().width, getSize().height);
-        //offScreenGraphics = offScreenImage.getGraphics();
-
-    }//end of init()
+    }
 
     public double getDeltaX() {
         return (double) ( xF - x0 );
@@ -101,14 +90,6 @@ public class ControlBoxPanel extends JPanel    //possible to replace Applet with
 
     public double getDeltaY() {
         return (double) ( yF - y0 );
-    }
-
-    public int getXF() {
-        return xF;
-    }
-
-    public int getYF() {
-        return yF;
     }
 
     public int getControlState() {
@@ -123,13 +104,13 @@ public class ControlBoxPanel extends JPanel    //possible to replace Applet with
         g.setColor( fontColor );
         g.setFont( arrowFont );
         if ( controlState == POSITION ) {
-            g.drawString( SimStrings.getInstance().getString( "ControlBoxPanel.PositionLabel" ), 5 * MazeGameApplet.fullWidth / 32, 3 * MazeGameApplet.fullHeight / 8 );
+            g.drawString( MazeGameResources.getString( "ControlBoxPanel.PositionLabel" ), 5 * MazeGameSimulationPanel.fullWidth / 32, 3 * MazeGameSimulationPanel.fullHeight / 8 );
         }
         else if ( controlState == VELOCITY ) {
-            g.drawString( SimStrings.getInstance().getString( "ControlBoxPanel.VelocityLabel" ), 5 * MazeGameApplet.fullWidth / 32, 3 * MazeGameApplet.fullHeight / 8 );
+            g.drawString( MazeGameResources.getString( "ControlBoxPanel.VelocityLabel" ), 5 * MazeGameSimulationPanel.fullWidth / 32, 3 * MazeGameSimulationPanel.fullHeight / 8 );
         }
         else {
-            g.drawString( SimStrings.getInstance().getString( "ControlBoxPanel.AccelerationLabel" ), MazeGameApplet.fullWidth / 8, 3 * MazeGameApplet.fullHeight / 8 );
+            g.drawString( MazeGameResources.getString( "ControlBoxPanel.AccelerationLabel" ), MazeGameSimulationPanel.fullWidth / 8, 3 * MazeGameSimulationPanel.fullHeight / 8 );
         }
 
         g.setColor( Color.black );
@@ -161,12 +142,12 @@ public class ControlBoxPanel extends JPanel    //possible to replace Applet with
 
     public void itemStateChanged( ItemEvent aevt ) {
         if ( aevt.getSource() == rButton ) {
-            //xF = x0 + 9*(edu.colorado.phet.mazegame.MazeGameApplet.fullWidth/4)/10;
-            //yF = y0 - 5*(edu.colorado.phet.mazegame.MazeGameApplet.fullHeight/4)/10;
+            //xF = x0 + 9*(edu.colorado.phet.mazegame.MazeGameSimulationPanel.fullWidth/4)/10;
+            //yF = y0 - 5*(edu.colorado.phet.mazegame.MazeGameSimulationPanel.fullHeight/4)/10;
 
             //read current position of particle, set control arrow to match
-            int deltX = (int) ( ( pArena.getCurrentX() - ( MazeGameApplet.fullWidth / 2 ) ) / pArena.getPositionFactor() );
-            int deltY = (int) ( ( pArena.getCurrentY() - ( MazeGameApplet.fullHeight / 4 ) ) / pArena.getPositionFactor() );
+            int deltX = (int) ( ( pArena.getCurrentX() - ( MazeGameSimulationPanel.fullWidth / 2 ) ) / pArena.getPositionFactor() );
+            int deltY = (int) ( ( pArena.getCurrentY() - ( MazeGameSimulationPanel.fullHeight / 4 ) ) / pArena.getPositionFactor() );
             this.controlState = POSITION;
 //            System.out.println("x= " + deltX + "   y= " + deltY);
             xF = deltX + x0;
@@ -197,8 +178,8 @@ public class ControlBoxPanel extends JPanel    //possible to replace Applet with
     //reset game to starting position
     public void reset() {
         rButton.doClick();
-        xF = x0 + 9 * ( MazeGameApplet.fullWidth / 4 ) / 10;      //Initial Position of throttle
-        yF = y0 - 5 * ( MazeGameApplet.fullHeight / 4 ) / 10;
+        xF = x0 + 9 * ( MazeGameSimulationPanel.fullWidth / 4 ) / 10;      //Initial Position of throttle
+        yF = y0 - 5 * ( MazeGameSimulationPanel.fullHeight / 4 ) / 10;
         arrow.setPosition( x0, y0, xF, yF );
         this.controlState = POSITION;
         pArena.setNbrCollisions( 0 );
@@ -207,10 +188,6 @@ public class ControlBoxPanel extends JPanel    //possible to replace Applet with
         pArena.getScorePanel().nbrCollisionsLbl.setText( "0" );
         setTraceToZero();
         repaint();
-    }
-
-    public GeneralPath getTrace() {
-        return trace;
     }
 
     public void setTraceState( boolean traceOn ) {
