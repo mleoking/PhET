@@ -6,10 +6,7 @@ import java.awt.Frame;
 
 import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
-import edu.colorado.phet.glaciers.GlaciersApplication;
-import edu.colorado.phet.glaciers.GlaciersConstants;
-import edu.colorado.phet.glaciers.GlaciersResources;
-import edu.colorado.phet.glaciers.GlaciersStrings;
+import edu.colorado.phet.glaciers.*;
 import edu.colorado.phet.glaciers.control.ClimateControlPanel;
 import edu.colorado.phet.glaciers.control.MiscControlPanel;
 import edu.colorado.phet.glaciers.control.ViewControlPanel;
@@ -58,11 +55,15 @@ public class IntroModule extends GlaciersModule {
         
         // Help
         if ( hasHelp() ) {
-            //XXX add help items
             HelpPane helpPane = getDefaultHelpPane();
-            HelpBalloon equilibriumButtonHelp = new HelpBalloon( helpPane, GlaciersStrings.HELP_EQUILIBRIUM_BUTTON, HelpBalloon.BOTTOM_CENTER, 80 );
-            helpPane.add( equilibriumButtonHelp );
-            equilibriumButtonHelp.pointAt( _controlPanel.getMiscControlPanel().getSteadyStateButton() );
+            
+            HelpBalloon steadyStateButtonHelp = new GlaciersHelpBalloon( helpPane, GlaciersStrings.HELP_STEADY_STATE_BUTTON, HelpBalloon.BOTTOM_CENTER, 80 );
+            helpPane.add( steadyStateButtonHelp );
+            steadyStateButtonHelp.pointAt( _controlPanel.getMiscControlPanel().getSteadyStateButton() );
+            
+            HelpBalloon simSpeedHelp = new GlaciersHelpBalloon( helpPane, GlaciersStrings.HELP_SIM_SPEED, HelpBalloon.BOTTOM_CENTER, 80 );
+            helpPane.add( simSpeedHelp );
+            simSpeedHelp.pointAt( _controlPanel.getClockControlPanel().getFrameRateControl() );
         }
         
         // Set initial state
@@ -89,7 +90,7 @@ public class IntroModule extends GlaciersModule {
      * @return true or false
      */
     public boolean hasHelp() {
-        return false;
+        return true;
     }
     
     /**

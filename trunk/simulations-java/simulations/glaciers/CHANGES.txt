@@ -64,6 +64,7 @@ CLEANUP:
 
 
 DONE:
+9/16/08 - add a couple of example help items, with no help bubble as requested by Wendy
 9/16/08 - set a fixed range for x-axis in "glacial budget vs elevation" chart
 9/16/08 - fix: resizing window so that zoomed viewport size is zero fails assertion in GlaciersPlayArea.updateZoomedViewportBounds (assertion unnecessary)
 9/16/08 - fix: resizing window very narrow fails assertion in DistanceAxisNode.setRange

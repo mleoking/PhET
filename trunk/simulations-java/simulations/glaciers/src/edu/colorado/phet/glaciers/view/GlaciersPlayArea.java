@@ -308,6 +308,17 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         return new Point2D.Double( GlaciersConstants.BIRDS_EYE_VIEWPORT_OFFSET.getX(), GlaciersConstants.BIRDS_EYE_VIEWPORT_OFFSET.getY() );
     }
     
+    /**
+     * For attaching help items.
+     */
+    public PNode getToolboxNode() {
+        return _toolboxNode;
+    }
+    
+    public PhetPCanvas getZoomedCanvas() {
+        return _zoomedCanvas;
+    }
+    
     //----------------------------------------------------------------------------
     // Layer management
     //----------------------------------------------------------------------------

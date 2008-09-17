@@ -114,6 +114,10 @@ public class AdvancedControlPanel extends JPanel {
         return _miscControlPanel;
     }
     
+    public GlaciersClockControlPanel getClockControlPanel() {
+        return _clockControlPanel;
+    }
+    
     public void setHelpEnabled( boolean enabled ) {
         _miscControlPanel.setHelpEnabled( enabled );
     }
