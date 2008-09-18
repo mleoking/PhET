@@ -1,6 +1,10 @@
 package edu.colorado.phet.signalcircuit;
 
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
+import javax.swing.*;
+
 import edu.colorado.phet.signalcircuit.electron.wire1d.WireParticle;
 import edu.colorado.phet.signalcircuit.electron.wire1d.WirePatch;
 import edu.colorado.phet.signalcircuit.electron.wire1d.WireSegment;
@@ -21,20 +25,12 @@ import edu.colorado.phet.signalcircuit.paint.particle.ParticlePainter;
 import edu.colorado.phet.signalcircuit.phys2d.DoublePoint;
 import edu.colorado.phet.signalcircuit.phys2d.System2D;
 import edu.colorado.phet.signalcircuit.phys2d.SystemRunner;
-import edu.colorado.phet.signalcircuit.phys2d.gui.Range;
-import edu.colorado.phet.signalcircuit.phys2d.gui.SystemRunnerControl;
 import edu.colorado.phet.signalcircuit.phys2d.laws.Repaint;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class Signal extends JApplet {
     LayeredPanel panel;
     System2D sys;
     JPanel controlPanel;
-    private boolean visibleSystemRunner = false;
 
     public JPanel getControlPanel() {
         return controlPanel;
@@ -52,23 +48,23 @@ public class Signal extends JApplet {
 
 //        ImageLoader loader = new ResourceLoader3( getClass().getClassLoader(), this );
 //        BufferedImage bi = loadBufferedImage("signal-circuit/images/Electron3V.GIF");
-        BufferedImage bi = loadBufferedImage( "signal-circuit/images/electron9.gif" );
+        BufferedImage bi = SignalCircuitResources.loadBufferedImage("electron9.gif" );
 //        bi = new AlphaFixer2(new int[]{252, 254, 252, 255}).patchAlpha(bi);
 
-        BufferedImage phetBattery = loadBufferedImage( "signal-circuit/images/PhetBattery1.gif" );
+        BufferedImage phetBattery = SignalCircuitResources.loadBufferedImage("PhetBattery1.gif" );
 //        phetBattery = new AlphaFixer2( new int[]{252, 254, 252, 255} ).patchAlpha( phetBattery );
 
         //System.exit(0);
         bi = ImageUtils.scaleToSizeApproximate( bi, 20, 20 );
         ParticlePainter painter = new ImagePainter( bi );
-        BufferedImage b2 = loadBufferedImage( "signal-circuit/images/Electron3VX.GIF" );//PaintedElectron.gif");
+        BufferedImage b2 = SignalCircuitResources.loadBufferedImage("Electron3VX.GIF" );//PaintedElectron.gif");
 //        b2 = new AlphaFixer2( new int[]{252, 254, 252, 255} ).patchAlpha( b2 );
         b2 = ImageUtils.scaleToSizeApproximate( b2, 20, 20 );
         ParticlePainter tagged = new ImagePainter( b2 );
 
         panel = new LayeredPanel();
         panel.addPainter( new FilledRectanglePainter( 0, 0, 800, 800, Color.white ) );
-        Stroke stroke = new BasicStroke( (int)( bi.getWidth() * 1.2 ) );
+        Stroke stroke = new BasicStroke( (int) ( bi.getWidth() * 1.2 ) );
         //DoublePoint start=new DoublePoint(width/2+50,height/2+50);
         DoublePoint start = new DoublePoint( 100, height / 2 + 50 );
         WirePatch wp = new WirePatch();
@@ -169,7 +165,7 @@ public class Signal extends JApplet {
         //SignalPropagator2 sp2=new SignalPropagator2(electronSpeed,foreSpeed,wp,wireSystem,rs,backSpeed,endPadding);
         //sp2.addForce(coulomb);
         sys.addLaw( clop );
-        for( int i = 0; i < numElectrons; i++ ) {
+        for ( int i = 0; i < numElectrons; i++ ) {
             WireParticle p = new WireParticle( painter, sp3 );
             p.setPosition( i * dx );
             //o.O.p("Set position: "+i*dx);
@@ -205,7 +201,7 @@ public class Signal extends JApplet {
         sys.addLaw( new Repaint( panel ) );
 
         double dt = 0;
-        if( applet ) {
+        if ( applet ) {
             dt = .04;
         }
         else {
@@ -219,22 +215,12 @@ public class Signal extends JApplet {
 
         SystemRunner sr = new SystemRunner( sys, dt, wait );
 
-        SystemRunnerControl src = new SystemRunnerControl( new Range( .01, .3 ), dt, new Range( 5, 40 ), wait, sr );
-        JPanel jp = src.getJPanel();
-        JFrame f = new JFrame( "SystemRunner(tm)" );
-        f.setContentPane( jp );
-        f.pack();
-        f.setSize( 600, f.getHeight() );
-        if( visibleSystemRunner ) {
-            f.setVisible( true );
-        }
-
         Signal s = this;
         Point covered = new Point( 105, 110 );
         Point uncovered = new Point( 105, 220 );
 
-        BufferedImage up = loadBufferedImage( "signal-circuit/images/A.jpg" );
-        BufferedImage down = loadBufferedImage( "signal-circuit/images/B.jpg" );
+        BufferedImage up = SignalCircuitResources.loadBufferedImage("A.jpg" );
+        BufferedImage down = SignalCircuitResources.loadBufferedImage("B.jpg" );
         Switch top = new Switch( new BufferedImagePainter( down, covered.x, covered.y ),
                                  new BufferedImagePainter( up, covered.x, covered.y ),
                                  false, angleSlider );
@@ -246,8 +232,8 @@ public class Signal extends JApplet {
 
         sc.addSwitchListener( switchCover );
 
-        BufferedImage chandOn = loadBufferedImage( "signal-circuit/images/ChandelierOn2.jpg" );
-        BufferedImage chandOff = loadBufferedImage( "signal-circuit/images/ChandelierOff2.jpg" );
+        BufferedImage chandOn = SignalCircuitResources.loadBufferedImage("ChandelierOn2.jpg" );
+        BufferedImage chandOff = SignalCircuitResources.loadBufferedImage("ChandelierOff2.jpg" );
 
         int chandX = 250;
         int chandY = 62;
@@ -297,13 +283,10 @@ public class Signal extends JApplet {
         Movie m = new Movie();
         int layer = 10;
         Stroke twinkleStroke = new BasicStroke( .8f );//,BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND );
-        //PointSource ps=new FixedPoint(100+60,220+40);
         PointSource ps = switchCover;
         RotatingTwinkle2 rt = new RotatingTwinkle2( ps, twinkleStroke, 20, 3, 8, 15 );
         m.addAnimation( rt );
         AnimateLaw al = new AnimateLaw( dt * 2.5, m, s.getPanel(), layer );
-// 	new Thread(new AnimateAdder(1000,al,s.getSystem(),s.getPanel(),layer)).start();
-        al = new AnimateLaw( dt * 2.5, m, s.getPanel(), layer );
         new Thread( new AnimateAdder( 2000, al, s.getSystem(), s.getPanel(), layer ) ).start();
         al = new AnimateLaw( dt * 2.5, m, s.getPanel(), layer );
         new Thread( new AnimateAdder( 8000, al, s.getSystem(), s.getPanel(), layer ) ).start();
@@ -311,13 +294,4 @@ public class Signal extends JApplet {
         new Thread( sr ).start();
     }
 
-    private BufferedImage loadBufferedImage( String s ) {
-        try {
-            return ImageLoader.loadBufferedImage( s );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-            throw new RuntimeException( e );
-        }
-    }
 }
