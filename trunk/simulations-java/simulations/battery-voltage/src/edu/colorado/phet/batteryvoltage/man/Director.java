@@ -20,7 +20,7 @@ public class Director implements VoltageListener, ParticleMoveListener {
     double middle;
     Hashtable sideTags = new Hashtable();
 
-    public Director( Battery b, System2D sys, Vector carried, Vector targeted, int setVolts, double middle ) {
+    public Director( System2D sys, Vector carried, Vector targeted, int setVolts, double middle ) {
         this.middle = middle;
         this.sys = sys;
         men = new Vector();

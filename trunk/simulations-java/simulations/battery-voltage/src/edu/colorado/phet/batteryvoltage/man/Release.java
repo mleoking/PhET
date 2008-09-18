@@ -24,7 +24,7 @@ public class Release implements Action, Directional {
         this.right = right;
     }
 
-    public Release( Man m, Vector carried, Propagator freePropagator, Hashtable carrierMap, Get get, Vector targeted, Battery b, boolean right ) {
+    public Release( Vector carried, Propagator freePropagator, Hashtable carrierMap, Get get, Vector targeted, Battery b ) {
         this.get = get;
         this.targeted = targeted;
         this.carrierMap = carrierMap;

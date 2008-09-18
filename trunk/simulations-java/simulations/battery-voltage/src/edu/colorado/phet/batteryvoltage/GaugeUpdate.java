@@ -12,7 +12,7 @@ public class GaugeUpdate implements ParticleMoveListener {
     Propagator right;
     Propagator left;
 
-    public GaugeUpdate( Gauge g, int numElectrons, System2D sys, Propagator right, Propagator left ) {
+    public GaugeUpdate( Gauge g, System2D sys, Propagator right, Propagator left ) {
         this.left = left;
         this.sys = sys;
         this.right = right;

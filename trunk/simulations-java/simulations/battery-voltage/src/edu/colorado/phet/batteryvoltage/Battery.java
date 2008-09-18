@@ -126,10 +126,10 @@ public class Battery {
         Movie movie = new Movie();
 
         for ( int i = 0; i < numElectrons / 2; i++ ) {
-            addParticle( x, barrierX, leftPropagator, leftElectrons, movie, i );
+            addParticle( x, barrierX, leftPropagator, leftElectrons, movie );
         }
         for ( int i = numElectrons / 2; i < numElectrons; i++ ) {
-            addParticle( barrierX + barrierWidth, x + width - barrierX - barrierWidth, rightPropagator, rightElectrons, movie, i + numElectrons / 2 );
+            addParticle( barrierX + barrierWidth, x + width - barrierX - barrierWidth, rightPropagator, rightElectrons, movie );
         }
 
         /*Add the Magnesium chemicals.*/
@@ -150,7 +150,7 @@ public class Battery {
         int barrierInset = 10;
         Vector targeted = new Vector();
 
-        VoltManFactory brainFactory = new VoltManFactory( sys, barrierX, barrierWidth, grabDist, goToElectronSpeed, leftPropagator, rightPropagator, barrierInset, carrierMap, goHomeSpeed, carried, homeThreshold, minCarrySpeed, maxCarrySpeed, targeted, this );
+        VoltManFactory brainFactory = new VoltManFactory( barrierX, barrierWidth, goToElectronSpeed, leftPropagator, rightPropagator, barrierInset, carrierMap, goHomeSpeed, carried, homeThreshold, minCarrySpeed, maxCarrySpeed, targeted, this );
 
         Color[] colors = new Color[]{Color.red, Color.blue, Color.green, Color.gray, Color.orange, Color.yellow, new Color( 200, 20, 200 ), Color.white};
 
@@ -172,7 +172,7 @@ public class Battery {
         int homeY = y + homeInset;
         int homeHeight = height - 2 * homeInset;
         int homeDY = homeHeight / numMen;
-        Director director = new Director( this, sys, carried, targeted, 0, thresholdX );
+        Director director = new Director( sys, carried, targeted, 0, thresholdX );
 
         addParticleMoveListener( director );
         cvl.addVoltageListener( director );
@@ -200,7 +200,7 @@ public class Battery {
         int gy = 200;
         int gaugeWidth = 250;
         Gauge g = new Gauge( gx, gy, -numElectrons, numElectrons, 0, gaugeWidth );
-        GaugeUpdate gu = new GaugeUpdate( g, numElectrons, sys, rightPropagator, leftPropagator );
+        GaugeUpdate gu = new GaugeUpdate( g, sys, rightPropagator, leftPropagator );
         addParticleMoveListener( gu );
         g.setText( BatteryVoltageResources.getString( "Battery.GaugeText" ) );
         panel.addPainter( new GuiToPaint( g ) );
@@ -219,13 +219,13 @@ public class Battery {
         panel.addMouseListener( pg );
 
         int layer = 100;
-        AnimateLaw al = new AnimateLaw( dt * 2.5, movie, panel, sys, layer );
+        AnimateLaw al = new AnimateLaw( dt * 2.5, movie, panel, layer );
         new Thread( new AnimateAdder( 1200, al, sys, panel, layer ) ).start();
 
-        al = new AnimateLaw( dt * 2.5, movie, panel, sys, layer );
+        al = new AnimateLaw( dt * 2.5, movie, panel, layer );
         new Thread( new AnimateAdder( 5000, al, sys, panel, layer ) ).start();
 
-        al = new AnimateLaw( dt * 2.5, movie, panel, sys, layer );
+        al = new AnimateLaw( dt * 2.5, movie, panel, layer );
         new Thread( new AnimateAdder( 10000, al, sys, panel, layer ) ).start();
     }
 
@@ -288,7 +288,7 @@ public class Battery {
         }
     }
 
-    public void addParticle( int x, int width, Propagator p, Vector container, Movie m, int i ) {
+    public void addParticle( int x, int width, Propagator p, Vector container, Movie m ) {
         PropagatingParticle pp = new PropagatingParticle( p );
         container.add( pp );
         int xPos = r.nextInt( width ) + x;

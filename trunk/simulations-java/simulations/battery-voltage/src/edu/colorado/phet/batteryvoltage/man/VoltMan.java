@@ -17,7 +17,7 @@ public class VoltMan implements MotionChooser {
 
     Vector dir;
 
-    public VoltMan( Man m, VoltManFactory vbf, Action goToHome, Action carry, Get get ) {
+    public VoltMan( Action goToHome, Get get ) {
         dir = new Vector();
         this.get = get;
         this.goToHome = goToHome;

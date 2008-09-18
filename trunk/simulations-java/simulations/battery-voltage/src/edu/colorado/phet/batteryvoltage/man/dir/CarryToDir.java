@@ -8,7 +8,7 @@ public class CarryToDir implements Directional {
     double xMax;
     ReadyToDrop rtd;
 
-    public CarryToDir( double xMin, double xMax, boolean goToMin, ReadyToDrop rtd ) {
+    public CarryToDir( double xMin, double xMax, ReadyToDrop rtd ) {
         this.rtd = rtd;
         this.xMin = xMin;
         this.xMax = xMax;

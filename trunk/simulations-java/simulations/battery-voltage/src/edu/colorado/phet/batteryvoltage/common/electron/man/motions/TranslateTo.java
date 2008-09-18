@@ -15,12 +15,11 @@ public class TranslateTo implements Motion {
         this.y = y;
     }
 
-    public boolean update( double dt, Man m ) {
+    public void update( double dt, Man m ) {
         DoublePoint dir = new DoublePoint( x, y ).subtract( m.getNeck().getPosition() ).normalize();
         double dx = dt * dir.getX() * speed;
         double dy = dt * dir.getY() * speed;
 
         m.getNeck().translate( dx, dy );
-        return true;
     }
 }

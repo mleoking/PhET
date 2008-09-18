@@ -31,24 +31,23 @@ public class VoltManFactory {
     Vector targeted;
     Battery b;
 
-    public VoltManFactory( System2D sys,
-                           int barrierX,
-                           int barrierWidth,
-                           double grabDist,
-                           double goToElectronSpeed,
+    public VoltManFactory(
+            int barrierX,
+            int barrierWidth,
+            double goToElectronSpeed,
 
-                           Propagator leftPropagator,
-                           Propagator rightPropagator,
+            Propagator leftPropagator,
+            Propagator rightPropagator,
 
-                           double barrierInset,
-                           Hashtable carrierMap,
-                           double returnHomeSpeed,
-                           Vector carried,
-                           double homeThreshold,
-                           double minCarrySpeed,
-                           double maxCarrySpeed,
-                           Vector targeted,
-                           Battery b ) {
+            double barrierInset,
+            Hashtable carrierMap,
+            double returnHomeSpeed,
+            Vector carried,
+            double homeThreshold,
+            double minCarrySpeed,
+            double maxCarrySpeed,
+            Vector targeted,
+            Battery b ) {
         this.b = b;
         this.targeted = targeted;
         this.minCarrySpeed = minCarrySpeed;
@@ -95,7 +94,7 @@ public class VoltManFactory {
         goHomeAndStayThere.addClause( closeToHome, stayAtHome );
         Get get = new Get( runToElectron, toLoc );
         Condition closeToTarget = new ManIsClose( m, get, homeThreshold );
-        Grab grab = new Grab( m, carried, carryPropagator, carrierMap, get, goHomeAndStayThere, targeted );
+        Grab grab = new Grab( m, carried, carryPropagator, carrierMap, get, targeted );
         get.addClause( closeToTarget, grab );
 
         Translate run = new Translate( maxCarrySpeed, 0 );
@@ -105,18 +104,18 @@ public class VoltManFactory {
         runMotion.add( moveLegs );
 
         DefaultAction runRightWithElectron = new DefaultAction( runMotion );
-        Release drop = new Release( m, carried, rightPropagator, carrierMap, get, targeted, b, true );
+        Release drop = new Release( carried, rightPropagator, carrierMap, get, targeted, b );
         ReadyToDrop closeToDropSite = new ReadyToDrop( m, barrierX + barrierWidth + barrierInset, true );
         runRightWithElectron.addClause( closeToDropSite, drop );
 
         grab.setCarry( runRightWithElectron );
 
-        VoltMan vm = new VoltMan( m, this, goHomeAndStayThere, goToElectron, get );
+        VoltMan vm = new VoltMan( goHomeAndStayThere, get );
         drop.setVoltMan( vm );
         vm.goHomeAndStayThere();
         vm.addDirectional( drop );
         vm.addDirectional( new PropagatorDir( drop, leftPropagator, rightPropagator ) );
-        vm.addDirectional( new CarryToDir( barrierX - barrierInset, barrierX + barrierWidth + barrierInset, true, closeToDropSite ) );
+        vm.addDirectional( new CarryToDir( barrierX - barrierInset, barrierX + barrierWidth + barrierInset, closeToDropSite ) );
         SpeedDir sd = new SpeedDir( b, run, true, minCarrySpeed, maxCarrySpeed );
         b.addParticleMoveListener( sd );
         vm.addDirectional( sd );

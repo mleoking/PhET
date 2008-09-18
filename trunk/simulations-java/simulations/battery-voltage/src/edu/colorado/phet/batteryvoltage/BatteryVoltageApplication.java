@@ -4,7 +4,6 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
@@ -19,7 +18,7 @@ public class BatteryVoltageApplication extends PiccoloPhetApplication {
 
     public static class BatteryVoltageApplicationConfig extends PhetApplicationConfig {
         public BatteryVoltageApplicationConfig( String[] commandLineArgs ) {
-            super( commandLineArgs, new FrameSetup.CenteredWithSize( 850, 525 ), new PhetResources( "battery-voltage" ) );
+            super( commandLineArgs, new FrameSetup.CenteredWithSize( 850, 525 ), BatteryVoltageResources.getResourceLoader() );
             super.setApplicationConstructor( new ApplicationConstructor() {
                 public PhetApplication getApplication( PhetApplicationConfig config ) {
                     return new BatteryVoltageApplication( config );

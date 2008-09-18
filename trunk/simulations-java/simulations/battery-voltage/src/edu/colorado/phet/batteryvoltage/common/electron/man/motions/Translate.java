@@ -17,8 +17,7 @@ public class Translate implements Motion {
         this.vy = vy;
     }
 
-    public boolean update( double dt, Man m ) {
+    public void update( double dt, Man m ) {
         m.getNeck().translate( vx * dt, vy * dt );
-        return true;
     }
 }
