@@ -17,7 +17,7 @@ public class AnimateLaw implements Law, Painter {
     int numFrames; //not protected if the user adds frames during running.
     int layer;
 
-    public AnimateLaw( double dt, Animation a, LayeredPanel paintMe, System2D sys, int layer ) {
+    public AnimateLaw( double dt, Animation a, LayeredPanel paintMe, int layer ) {
         this.layer = layer;
         this.numFrames = a.numFrames();
         this.paintMe = paintMe;

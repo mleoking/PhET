@@ -1,7 +1,6 @@
 package edu.colorado.phet.signalcircuit;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.signalcircuit.electron.wire1d.WireParticle;
 import edu.colorado.phet.signalcircuit.electron.wire1d.WirePatch;
 import edu.colorado.phet.signalcircuit.electron.wire1d.WireSegment;
@@ -103,7 +102,7 @@ public class Signal extends JApplet {
         openCoulomb.setMaxDistance( 100 );
 
         int numElectrons = 52;
-        SignalPropagator dp = new SignalPropagator( 100, wp, wireSystem );
+        SignalPropagator dp = new SignalPropagator( 100, wp );
 // 	CompositePropagator cp=new CompositePropagator();
 // 	cp.addPropagator(new Battery(30));
 // 	cp.addPropagator(dp);
@@ -302,11 +301,11 @@ public class Signal extends JApplet {
         PointSource ps = switchCover;
         RotatingTwinkle2 rt = new RotatingTwinkle2( ps, twinkleStroke, 20, 3, 8, 15 );
         m.addAnimation( rt );
-        AnimateLaw al = new AnimateLaw( dt * 2.5, m, s.getPanel(), s.getSystem(), layer );
+        AnimateLaw al = new AnimateLaw( dt * 2.5, m, s.getPanel(), layer );
 // 	new Thread(new AnimateAdder(1000,al,s.getSystem(),s.getPanel(),layer)).start();
-        al = new AnimateLaw( dt * 2.5, m, s.getPanel(), s.getSystem(), layer );
+        al = new AnimateLaw( dt * 2.5, m, s.getPanel(), layer );
         new Thread( new AnimateAdder( 2000, al, s.getSystem(), s.getPanel(), layer ) ).start();
-        al = new AnimateLaw( dt * 2.5, m, s.getPanel(), s.getSystem(), layer );
+        al = new AnimateLaw( dt * 2.5, m, s.getPanel(), layer );
         new Thread( new AnimateAdder( 8000, al, s.getSystem(), s.getPanel(), layer ) ).start();
 
         new Thread( sr ).start();

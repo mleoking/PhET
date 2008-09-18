@@ -10,7 +10,7 @@ public class SignalPropagator implements Propagator1d {
     boolean switchClosed = false;
     WirePatch patch;
 
-    public SignalPropagator( double vMax, WirePatch wp, WireSystem ws ) {
+    public SignalPropagator( double vMax, WirePatch wp ) {
         this.patch = wp;
         this.vMax = vMax;
     }
@@ -38,7 +38,6 @@ public class SignalPropagator implements Propagator1d {
 
         //o.O.d("Force="+force);
         double a = force / m;
-        wp.setAcceleration( a );
 
         //v=v+a*dt;
         v = v + a * dt;

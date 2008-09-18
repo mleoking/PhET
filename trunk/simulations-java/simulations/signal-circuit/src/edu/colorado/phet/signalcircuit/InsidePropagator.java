@@ -23,6 +23,5 @@ public class InsidePropagator implements Propagator1d {
         }
         wp.setPosition( x );
         wp.setVelocity( v );
-        wp.setAcceleration( 0 );
     }
 }
