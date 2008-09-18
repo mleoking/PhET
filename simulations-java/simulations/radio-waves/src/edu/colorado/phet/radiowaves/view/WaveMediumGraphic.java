@@ -1,25 +1,23 @@
 /* Copyright 2003-2004, University of Colorado */
 
 /*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+ * CVS Info - Filename : $Source$ Branch : $Name$ Modified by : $Author$
+ * Revision : $Revision$ Date modified : $Date: 2008-09-03 12:07:16
+ * -0600 (Wed, 03 Sep 2008) $
  */
-package edu.colorado.phet.radiowaves.view;
 
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common_1200.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.radiowaves.EmfConfig;
-import edu.colorado.phet.radiowaves.model.Electron;
+package edu.colorado.phet.radiowaves.view;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common_1200.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.radiowaves.EmfConfig;
+import edu.colorado.phet.radiowaves.model.Electron;
 
 /**
  * WaveMdeiumGraphic
@@ -42,7 +40,7 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
 
     // Note that larger values for the stroke slow down performance considerably
     private static double s_defaultStrokeWidth = 5;
-    private static Stroke s_defaultStroke = new BasicStroke( (float)s_defaultStrokeWidth );
+    private static Stroke s_defaultStroke = new BasicStroke( (float) s_defaultStrokeWidth );
     public static boolean Y_GRADIENT = false;
 
     private static BufferedImage createBufferedImage() {
@@ -70,7 +68,8 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
     private int direction;
     private Color maxAmplitudeColor = Color.red;
     private Paint[] colorForAmplitude = new Paint[255];
-//    private Color[] colorForAmplitude = new Color[255];
+
+    //    private Color[] colorForAmplitude = new Color[255];
 
     /**
      * todo: rename WaveMediumGraphic
@@ -90,25 +89,12 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
     }
 
     public void setMaxAmplitudeColor( Color color ) {
-        for( int i = 0; i < colorForAmplitude.length; i++ ) {
-            if( Y_GRADIENT ) {
-                colorForAmplitude[i] = new GradientPaint( 0,
-                                                          (int)( origin.getY() - height / 2 ),
-                                                          new Color( color.getRed(),
-                                                                     color.getGreen(),
-                                                                     color.getBlue(), 0 ),
-                                                          0,
-                                                          (int)( origin.getY() ),
-                                                          new Color( color.getRed(),
-                                                                     color.getGreen(),
-                                                                     color.getBlue(), i ),
-                                                          true );
+        for ( int i = 0; i < colorForAmplitude.length; i++ ) {
+            if ( Y_GRADIENT ) {
+                colorForAmplitude[i] = new GradientPaint( 0, (int) ( origin.getY() - height / 2 ), new Color( color.getRed(), color.getGreen(), color.getBlue(), 0 ), 0, (int) ( origin.getY() ), new Color( color.getRed(), color.getGreen(), color.getBlue(), i ), true );
             }
             else {
-                colorForAmplitude[i] = new Color( color.getRed(),
-                                                  color.getGreen(),
-                                                  color.getBlue(),
-                                                  i );
+                colorForAmplitude[i] = new Color( color.getRed(), color.getGreen(), color.getBlue(), i );
             }
         }
     }
@@ -123,7 +109,7 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
      */
     private Paint getColorForAmplitude( double amplitude ) {
         double normalizedAmplitude = Math.min( 1, Math.abs( amplitude / MAX_AMPLITDUE ) );
-        return colorForAmplitude[(int)( normalizedAmplitude * ( 255 - 1 ) )];
+        return colorForAmplitude[(int) ( normalizedAmplitude * ( 255 - 1 ) )];
     }
 
     private void setGraphicsHints( Graphics2D g2 ) {
@@ -162,7 +148,7 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
         Composite incomingComposite = g.getComposite();
         g.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, opacity ) );
 
-//        g.setStroke( new BasicStroke( 1 ));
+        //        g.setStroke( new BasicStroke( 1 ));
 
         Point2D end1 = new Point2D.Float();
         Point2D end2 = new Point2D.Float();
@@ -171,11 +157,11 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
         Rectangle2D rect = new Rectangle2D.Double();
 
         // Draw a line or arc for each value in the amplitude array of the wave front
-        for( double x = 1; x * direction < xExtent; x += s_defaultStrokeWidth * direction ) {
+        for ( double x = 1; x * direction < xExtent; x += s_defaultStrokeWidth * direction ) {
             g.setPaint( getColorForAmplitude( electron.getDynamicFieldAt( new Point2D.Double( origin.getX() + x, origin.getY() ) ).getMagnitude() ) );
-            if( this.isPlanar ) {
+            if ( this.isPlanar ) {
                 end1.setLocation( origin.getX() + ( xOffset * direction ) + x - s_defaultStrokeWidth / 2, origin.getY() - height / 2 );
-//                end2.setLocation( origin.getX() + ( xOffset * direction ) + x, origin.getY() + height / 2 );
+                //                end2.setLocation( origin.getX() + ( xOffset * direction ) + x, origin.getY() + height / 2 );
                 rect.setRect( end1.getX(), end1.getY(), s_defaultStrokeWidth, height );
                 g.fill( rect );
             }
@@ -194,9 +180,9 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
      *
      */
     public void update() {
-//        for( int i = 0; i < amplitudes.length; i++ ) {
-//            amplitudes[i] = electron.getDynamicFieldAt( (double)i );
-//        }
+        //        for( int i = 0; i < amplitudes.length; i++ ) {
+        //            amplitudes[i] = electron.getDynamicFieldAt( (double)i );
+        //        }
         this.repaint();
     }
 }

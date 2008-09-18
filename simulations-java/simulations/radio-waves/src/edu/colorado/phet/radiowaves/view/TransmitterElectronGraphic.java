@@ -1,10 +1,16 @@
 /**
- * Class: TransmitterElectronGraphic
- * Package: edu.colorado.phet.emf.view
- * Author: Another Guy
- * Date: Dec 4, 2003
+ * Class: TransmitterElectronGraphic Package: edu.colorado.phet.emf.view Author:
+ * Another Guy Date: Dec 4, 2003
  */
+
 package edu.colorado.phet.radiowaves.view;
+
+import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 import edu.colorado.phet.common_1200.view.ApparatusPanel;
 import edu.colorado.phet.common_1200.view.graphics.BoundedGraphic;
@@ -18,15 +24,7 @@ import edu.colorado.phet.radiowaves.EmfConfig;
 import edu.colorado.phet.radiowaves.EmfModule;
 import edu.colorado.phet.radiowaves.model.Electron;
 
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-
-public class TransmitterElectronGraphic extends DefaultInteractiveGraphic
-        implements BoundedGraphic, Translatable, TransformListener {
+public class TransmitterElectronGraphic extends DefaultInteractiveGraphic implements BoundedGraphic, Translatable, TransformListener {
 
     private static BufferedImage image;
 
@@ -34,7 +32,7 @@ public class TransmitterElectronGraphic extends DefaultInteractiveGraphic
         try {
             image = ImageLoader.loadBufferedImage( EmfConfig.bigElectronImg );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
     }
@@ -48,7 +46,7 @@ public class TransmitterElectronGraphic extends DefaultInteractiveGraphic
     private AffineTransform atx;
 
 
-    public TransmitterElectronGraphic( ApparatusPanel apparatusPanel, Electron electron, /*Point origin,*/ EmfModule module ) {
+    public TransmitterElectronGraphic( ApparatusPanel apparatusPanel, Electron electron, /*Point origin,*/EmfModule module ) {
         super( null );
         this.electron = electron;
         this.module = module;
@@ -76,7 +74,7 @@ public class TransmitterElectronGraphic extends DefaultInteractiveGraphic
         return b;
     }
 
-    private void init( ApparatusPanel apparatusPanel, /*final Point origin,*/ Electron electron ) {
+    private void init( ApparatusPanel apparatusPanel, /*final Point origin,*/Electron electron ) {
         this.apparatusPanel = apparatusPanel;
         electronGraphic = new ElectronGraphic( apparatusPanel, image, electron );
         super.setBoundary( electronGraphic );

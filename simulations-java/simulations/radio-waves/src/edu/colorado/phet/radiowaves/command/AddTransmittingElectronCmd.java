@@ -1,9 +1,8 @@
 /**
- * Class: AddTransmittingElectronCmd
- * Package: edu.colorado.phet.command
- * Author: Another Guy
- * Date: May 27, 2003
+ * Class: AddTransmittingElectronCmd Package: edu.colorado.phet.command Author:
+ * Another Guy Date: May 27, 2003
  */
+
 package edu.colorado.phet.radiowaves.command;
 
 import edu.colorado.phet.common_1200.model.Command;
@@ -22,9 +21,9 @@ public class AddTransmittingElectronCmd implements Command {
 
     public void doIt() {
         // TODO: rjl 6/26/03
-//        EmfModel model = EmfModel.instance();
+        //        EmfModel model = EmfModel.instance();
         model.addTransmittingElectrons( electron );
         new AddEmfModelElementCmd( model, electron ).doIt();
-//        new AddEmfModelElementCmd( electron ).doIt();
+        //        new AddEmfModelElementCmd( electron ).doIt();
     }
 }

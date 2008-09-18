@@ -1,23 +1,24 @@
 /**
- * Class: EmfApplication
- * Package: edu.colorado.phet.emf
- * Author: Another Guy
+ * Class: EmfApplication Package: edu.colorado.phet.emf Author: Another Guy
  * Date: May 23, 2003
  */
+
 package edu.colorado.phet.radiowaves;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JMenu;
+
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_1200.application.ApplicationModel;
 import edu.colorado.phet.common_1200.application.PhetApplication;
 import edu.colorado.phet.common_1200.model.clock.SwingTimerClock;
 import edu.colorado.phet.common_1200.view.PhetFrame;
 import edu.colorado.phet.common_1200.view.util.FrameSetup;
 import edu.colorado.phet.radiowaves.view.WaveMediumGraphic;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class RadioWavesApplication {
 
@@ -32,16 +33,10 @@ public class RadioWavesApplication {
 
 
         SwingTimerClock clock = new SwingTimerClock( 0.5, 40, true );
-//        SwingTimerClock clock = new SwingTimerClock( 1, 40, false  );
+        //        SwingTimerClock clock = new SwingTimerClock( 1, 40, false  );
         final EmfModule antennaModule = new EmfModule( clock );
         FrameSetup fs = new FrameSetup.CenteredWithSize( 1024, 768 );
-        ApplicationModel appDescriptor = new ApplicationModel(
-                new String( SimStrings.get( "radio-waves.name" )
-                            + " ("
-                            + EmfConfig.VERSION
-                            + ")" ),
-                SimStrings.get( "radio-waves.description" ),
-                EmfConfig.VERSION, fs );
+        ApplicationModel appDescriptor = new ApplicationModel( new String( SimStrings.get( "radio-waves.name" ) + " (" + EmfConfig.VERSION + ")" ), SimStrings.get( "radio-waves.description" ), EmfConfig.VERSION, fs );
         appDescriptor.setModule( antennaModule );
         appDescriptor.setInitialModule( antennaModule );
         appDescriptor.setClock( clock );
@@ -55,6 +50,7 @@ public class RadioWavesApplication {
         JMenu optionsMenu = new JMenu( "Options" );
         final JCheckBoxMenuItem fadeScalarRepCB = new JCheckBoxMenuItem( "Fade scalar representation" );
         fadeScalarRepCB.addActionListener( new ActionListener() {
+
             public void actionPerformed( ActionEvent e ) {
                 WaveMediumGraphic.Y_GRADIENT = fadeScalarRepCB.isSelected();
                 antennaModule.setFieldSense( antennaModule.getFieldSense() );

@@ -1,16 +1,15 @@
 /**
- * Class: ManualMovement
- * Package: edu.colorado.phet.waves.model
- * Author: Another Guy
- * Date: May 27, 2003
+ * Class: ManualMovement Package: edu.colorado.phet.waves.model Author: Another
+ * Guy Date: May 27, 2003
  */
+
 package edu.colorado.phet.radiowaves.model.movement;
+
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common_1200.math.MedianFilter;
 import edu.colorado.phet.common_1200.math.Vector2D;
 import edu.colorado.phet.radiowaves.model.Electron;
-
-import java.awt.geom.Point2D;
 
 /**
  * This movement strategy does nothing automatically. It is
@@ -42,13 +41,13 @@ public class ManualMovement implements MovementType {
     }
 
     public void stepInTime( Electron electron, double dt ) {
-        if( this.position != null ) {
+        if ( this.position != null ) {
             numHistoryEntries = Math.min( numHistoryEntries + 1, s_posHistoryLength );
             electron.setCurrentPosition( this.position );
-            for( int i = yPosHistory.length - 1; i > 0; i-- ) {
+            for ( int i = yPosHistory.length - 1; i > 0; i-- ) {
                 yPosHistory[i] = yPosHistory[i - 1];
             }
-            yPosHistory[0] = (float)electron.getCurrentPosition().getY();
+            yPosHistory[0] = (float) electron.getCurrentPosition().getY();
             computeKinetics();
         }
     }
@@ -56,7 +55,7 @@ public class ManualMovement implements MovementType {
     private void computeKinetics() {
         // Compute velocities
         vAve = 0;
-        for( int i = 0; i < numHistoryEntries - 1; i++ ) {
+        for ( int i = 0; i < numHistoryEntries - 1; i++ ) {
             float v = yPosHistory[i + 1] - yPosHistory[i];
             yVHistory[i] = v;
             vAve += v;
@@ -67,13 +66,13 @@ public class ManualMovement implements MovementType {
         // Compute accelerations
         dataFilter.filter( 3 );
         aAve = 0;
-        for( int i = 0; i < numHistoryEntries - 2; i++ ) {
+        for ( int i = 0; i < numHistoryEntries - 2; i++ ) {
             double a = yVHistory[i + 1] - yVHistory[i];
             yAHistory[i] = a;
             aAve += a;
         }
         aAve /= yAHistory.length;
-//        aAve = (float)MedianFilter.getMedian( yAHistory );
+        //        aAve = (float)MedianFilter.getMedian( yAHistory );
     }
 
     public Vector2D getVelocity( Electron electron ) {
@@ -81,7 +80,7 @@ public class ManualMovement implements MovementType {
     }
 
     public float getAcceleration( Electron electron ) {
-        return (float)aAve;
+        return (float) aAve;
     }
 
     public float getMaxAcceleration( Electron electron ) {

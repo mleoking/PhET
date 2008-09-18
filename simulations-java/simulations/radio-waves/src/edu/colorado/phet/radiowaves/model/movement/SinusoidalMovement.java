@@ -1,18 +1,17 @@
 /**
- * Class: SinusoidalMovement
- * Package: edu.colorado.phet.emf
- * Author: Another Guy
+ * Class: SinusoidalMovement Package: edu.colorado.phet.emf Author: Another Guy
  * Date: May 23, 2003
  */
+
 package edu.colorado.phet.radiowaves.model.movement;
+
+import java.awt.geom.Point2D;
+import java.util.Observable;
 
 import edu.colorado.phet.common_1200.math.Vector2D;
 import edu.colorado.phet.radiowaves.RadioWavesApplication;
 import edu.colorado.phet.radiowaves.model.EMFSineFunction;
 import edu.colorado.phet.radiowaves.model.Electron;
-
-import java.awt.geom.Point2D;
-import java.util.Observable;
 
 public class SinusoidalMovement extends Observable implements MovementType {
 
@@ -38,18 +37,18 @@ public class SinusoidalMovement extends Observable implements MovementType {
     }
 
     public Vector2D getVelocity( Electron electron ) {
-        velocity.setY( omega * (float)Math.cos( omega * runningTime ) );
+        velocity.setY( omega * (float) Math.cos( omega * runningTime ) );
         return velocity;
     }
 
     public float getWaveValue( double x ) {
         double k = omega / RadioWavesApplication.s_speedOfLight;
         double s = Math.sin( k * x - omega * runningTime );
-        return (float)( -amplitude * omega * omega * s );
+        return (float) ( -amplitude * omega * omega * s );
     }
 
     public float getAcceleration( Electron electron ) {
-        return (float)( -amplitude * omega * omega * Math.sin( omega * runningTime ) );
+        return (float) ( -amplitude * omega * omega * Math.sin( omega * runningTime ) );
     }
 
     /**
@@ -62,7 +61,7 @@ public class SinusoidalMovement extends Observable implements MovementType {
      * @return
      */
     public Point2D getNextPosition( Point2D position, double t ) {
-        float yNew = sineFunction.valueAtTime( frequency, amplitude, (float)( t ) );
+        float yNew = sineFunction.valueAtTime( frequency, amplitude, (float) ( t ) );
         Math.sin( frequency * Math.PI * 2 * t );
         nextPosition.setLocation( position.getX(), position.getY() + yNew );
         return nextPosition;
@@ -95,7 +94,7 @@ public class SinusoidalMovement extends Observable implements MovementType {
 
     public void setRunningTime( float runningTime ) {
         this.runningTime = runningTime;
-        if( runningTime == Float.POSITIVE_INFINITY ) {
+        if ( runningTime == Float.POSITIVE_INFINITY ) {
             System.out.println( "" );
         }
     }
@@ -112,6 +111,6 @@ public class SinusoidalMovement extends Observable implements MovementType {
     // Statics
     //
     private static float computeOmega( float frequency ) {
-        return (float)( frequency * Math.PI * 2 );
+        return (float) ( frequency * Math.PI * 2 );
     }
 }

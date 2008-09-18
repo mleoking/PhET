@@ -1,15 +1,14 @@
 /**
- * Class: MovementType
- * Package: edu.colorado.phet.waves.model
- * Author: Another Guy
- * Date: May 27, 2003
+ * Class: MovementType Package: edu.colorado.phet.waves.model Author: Another
+ * Guy Date: May 27, 2003
  */
+
 package edu.colorado.phet.radiowaves.model.movement;
+
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common_1200.math.Vector2D;
 import edu.colorado.phet.radiowaves.model.Electron;
-
-import java.awt.geom.Point2D;
 
 public interface MovementType {
 

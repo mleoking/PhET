@@ -1,10 +1,16 @@
 /**
- * Class: EmfPanel
- * Package: edu.colorado.phet.waves.view
- * Author: Another Guy
+ * Class: EmfPanel Package: edu.colorado.phet.waves.view Author: Another Guy
  * Date: May 23, 2003
  */
+
 package edu.colorado.phet.radiowaves.view;
+
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 import edu.colorado.phet.common_1200.view.ApparatusPanel;
 import edu.colorado.phet.common_1200.view.fastpaint.FastPaintImageGraphic;
@@ -13,11 +19,6 @@ import edu.colorado.phet.common_1200.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common_1200.view.util.GraphicsUtil;
 import edu.colorado.phet.common_1200.view.util.ImageLoader;
 import edu.colorado.phet.radiowaves.model.Electron;
-
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class EmfPanel extends ApparatusPanel implements TransformListener {
 
@@ -62,12 +63,7 @@ public class EmfPanel extends ApparatusPanel implements TransformListener {
         // Add the field lattice
         int latticeSpacingX = 50;
         int latticeSpacingY = 50;
-        fieldLatticeView = new FieldLatticeView( electron,
-                                                 origin,
-                                                 fieldWidth - latticeSpacingX, fieldHeight,
-                                                 latticeSpacingX,
-                                                 latticeSpacingY,
-                                                 this );
+        fieldLatticeView = new FieldLatticeView( electron, origin, fieldWidth - latticeSpacingX, fieldHeight, latticeSpacingX, latticeSpacingY, this );
         addGraphic( fieldLatticeView, 4 );
 
         // Add the background
@@ -78,17 +74,16 @@ public class EmfPanel extends ApparatusPanel implements TransformListener {
             backgroundImg = new FastPaintImageGraphic( im, this );
             addGraphic( backgroundImg, 0 );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
     }
 
     protected void paintComponent( Graphics graphics ) {
-        if( useBufferedImage ) {
-            if( size.getWidth() != this.getSize().getWidth()
-                || size.getHeight() != this.getSize().getHeight() ) {
+        if ( useBufferedImage ) {
+            if ( size.getWidth() != this.getSize().getWidth() || size.getHeight() != this.getSize().getHeight() ) {
                 size.setSize( this.getSize() );
-                bi = new BufferedImage( (int)size.getWidth(), (int)size.getHeight(), BufferedImage.TYPE_INT_RGB );
+                bi = new BufferedImage( (int) size.getWidth(), (int) size.getHeight(), BufferedImage.TYPE_INT_RGB );
             }
             Graphics gBI = bi.getGraphics();
             super.paintComponent( gBI );

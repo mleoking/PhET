@@ -1,9 +1,8 @@
 /**
- * Class: Antenna
- * Package: edu.colorado.phet.emf.model
- * Author: Another Guy
- * Date: Jul 8, 2003
+ * Class: Antenna Package: edu.colorado.phet.emf.model Author: Another Guy Date:
+ * Jul 8, 2003
  */
+
 package edu.colorado.phet.radiowaves.model;
 
 import java.awt.geom.Point2D;
@@ -31,7 +30,7 @@ public class Antenna implements PositionConstraint {
 
         r = Math.sqrt( ( Math.pow( end1.getX() - end2.getX(), 2 ) + Math.pow( end1.getY() - end2.getY(), 2 ) ) );
         theta = Math.atan( ( end1.getY() - end2.getY() ) / ( end1.getX() - end2.getX() ) );
-        if( end1.getX() == end2.getX() ) {
+        if ( end1.getX() == end2.getX() ) {
             theta = Math.PI / 2;
             m = Double.POSITIVE_INFINITY;
             b = Double.NaN;
@@ -43,16 +42,16 @@ public class Antenna implements PositionConstraint {
     }
 
     public Point2D constrainPosition( Point2D pos ) {
-        if( pos.getX() > this.maxX ) {
+        if ( pos.getX() > this.maxX ) {
             pos.setLocation( this.maxX, getYForX( this.maxX, pos.getY() ) );
         }
-        if( pos.getX() < this.minX ) {
+        if ( pos.getX() < this.minX ) {
             pos.setLocation( this.minX, getYForX( this.minX, pos.getY() ) );
         }
-        if( pos.getY() > this.maxY ) {
+        if ( pos.getY() > this.maxY ) {
             pos.setLocation( getXForY( this.maxY, pos.getX() ), this.maxY );
         }
-        if( pos.getY() < this.minY ) {
+        if ( pos.getY() < this.minY ) {
             pos.setLocation( getXForY( this.minY, pos.getX() ), this.minY );
         }
         pos.setLocation( pos.getX(), getYForX( pos.getX(), pos.getY() ) );
@@ -60,7 +59,7 @@ public class Antenna implements PositionConstraint {
     }
 
     private double getYForX( double x, double y ) {
-        if( m == Double.POSITIVE_INFINITY ) {
+        if ( m == Double.POSITIVE_INFINITY ) {
             return y;
         }
         else {
@@ -69,7 +68,7 @@ public class Antenna implements PositionConstraint {
     }
 
     private double getXForY( double y, double x ) {
-        if( m == 0 || m == Double.POSITIVE_INFINITY ) {
+        if ( m == 0 || m == Double.POSITIVE_INFINITY ) {
             return x;
         }
         else {
@@ -113,7 +112,7 @@ public class Antenna implements PositionConstraint {
     public static void main( String[] args ) {
         Antenna a = new Antenna( new Point2D.Double( 2, 1 ), new Point2D.Double( 2, 6 ) );
         Point2D.Double p = new Point2D.Double( 2, 7 );
-        p = (Point2D.Double)a.constrainPosition( p );
+        p = (Point2D.Double) a.constrainPosition( p );
         System.out.println( "-->" + p.getX() + "," + p.getY() );
     }
 }

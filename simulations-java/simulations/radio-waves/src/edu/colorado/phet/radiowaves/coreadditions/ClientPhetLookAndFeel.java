@@ -1,16 +1,13 @@
 /**
- * Class: ClientPhetLookAndFeel
- * Package: edu.colorado.phet.coreadditions
- * Author: Another Guy
- * Date: Aug 5, 2003
+ * Class: ClientPhetLookAndFeel Package: edu.colorado.phet.coreadditions Author:
+ * Another Guy Date: Aug 5, 2003
  */
+
 package edu.colorado.phet.radiowaves.coreadditions;
 
-import edu.colorado.phet.common_1200.view.util.ImageLoader;
+import java.awt.Color;
 
-import javax.swing.*;
-import java.awt.*;
-import java.io.IOException;
+import javax.swing.UIManager;
 
 public class ClientPhetLookAndFeel implements PhetLookAndFeel {
 
@@ -20,14 +17,7 @@ public class ClientPhetLookAndFeel implements PhetLookAndFeel {
     //    Color buttonBackground = new Color( 210, 200, 250 );
     Color controlTextColor = new Color( 20, 0, 80 );
 
-    static String[] controlTypes = new String[]{
-            "Menu",
-            "MenuItem",
-            "RadioButton",
-            "Button",
-            "CheckBox",
-            "Label"
-    };
+    static String[] controlTypes = new String[] { "Menu", "MenuItem", "RadioButton", "Button", "CheckBox", "Label" };
 
 
     public ClientPhetLookAndFeel() {
@@ -42,7 +32,7 @@ public class ClientPhetLookAndFeel implements PhetLookAndFeel {
         UIManager.put( "CheckBox.background", background );
         UIManager.put( "Button.background", buttonBackground );
 
-        for( int i = 0; i < controlTypes.length; i++ ) {
+        for ( int i = 0; i < controlTypes.length; i++ ) {
             UIManager.put( controlTypes[i] + ".foreground", controlTextColor );
         }
 
