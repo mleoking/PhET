@@ -16,7 +16,6 @@ import javax.swing.*;
 
 import edu.colorado.phet.common_1200.application.Module;
 import edu.colorado.phet.common_1200.view.help.HelpPanel;
-import edu.colorado.phet.common_1200.view.util.FractionSpring;
 
 /**
  * This class is a JPanel with the PhET logo at the top, a HelpPanel at the
