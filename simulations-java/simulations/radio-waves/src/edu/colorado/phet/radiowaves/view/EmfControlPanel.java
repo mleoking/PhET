@@ -15,9 +15,9 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_1200.view.util.GraphicsUtil;
-import edu.colorado.phet.common_1200.view.util.ImageLoader;
 import edu.colorado.phet.radiowaves.EmfConfig;
 import edu.colorado.phet.radiowaves.EmfModule;
 import edu.colorado.phet.radiowaves.command.DynamicFieldIsEnabledCmd;

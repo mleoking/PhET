@@ -1,14 +1,15 @@
 /* Copyright University of Colorado, 2003 */
 package edu.colorado.phet.common_1200.view;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common_1200.view.util.ImageLoader;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Rectangle;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 /**
  * The content pane for the JFrame of a PhetApplication.
