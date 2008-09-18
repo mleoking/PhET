@@ -4,10 +4,8 @@ package edu.colorado.phet.statesofmatter.module.solidliquidgas;
 
 import java.awt.Frame;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
-import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
+import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.defaults.SolidLiquidGasDefaults;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
@@ -18,7 +16,7 @@ import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
  *
  * @author John Blanco
  */
-public class SolidLiquidGasModule extends Module {
+public class SolidLiquidGasModule extends PiccoloModule {
     
     //----------------------------------------------------------------------------
     // Instance Data
@@ -45,9 +43,6 @@ public class SolidLiquidGasModule extends Module {
         
         // Control panel
         setControlPanel( new SolidLiquidGasControlPanel( this, parentFrame ) );
-        
-        // Clock controls
-        setClockControlPanel( new ClockControlPanel( getClock() ) );
         
         // Help
         if ( hasHelp() ) {
