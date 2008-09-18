@@ -7,7 +7,6 @@
 package edu.colorado.phet.signalcircuit;
 
 import java.awt.*;
-import java.util.Locale;
 
 import javax.swing.*;
 
@@ -17,12 +16,12 @@ import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.signalcircuit.phys2d.laws.Validate;
 
 
-public class SignalCircuitApplication extends JApplet {
+public class SignalCircuitSimulationPanel extends JApplet {
     // Localization
     public static final String localizedStringsPath = "signal-circuit/localization/signal-circuit-strings";
     private static final String VERSION = PhetApplicationConfig.getVersion( "signal-circuit" ).formatForTitleBar();
 
-    public SignalCircuitApplication() {
+    public SignalCircuitSimulationPanel() {
         int width = 600;
         int height = 300;
 
@@ -42,7 +41,7 @@ public class SignalCircuitApplication extends JApplet {
                 new PhetLookAndFeel().initLookAndFeel();
                 SimStrings.getInstance().init( args, localizedStringsPath );
                 JFrame f = new JFrame( SimStrings.getInstance().getString( "SignalCircuitApplication.title" ) + " (" + VERSION + ")" );
-                f.setContentPane( new SignalCircuitApplication() );
+                f.setContentPane( new SignalCircuitSimulationPanel() );
                 f.setSize( new Dimension( 850, 435 ) );
                 f.setVisible( true );
                 f.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
