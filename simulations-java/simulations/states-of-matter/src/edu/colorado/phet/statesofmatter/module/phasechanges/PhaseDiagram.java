@@ -9,6 +9,7 @@ import java.awt.GradientPaint;
 import java.awt.Paint;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.QuadCurve2D;
 
@@ -92,6 +93,7 @@ public class PhaseDiagram extends PhetPCanvas {
     private PPath m_triplePoint;
     private PPath m_criticalPoint;
     private PPath m_solidLiquidLine;
+    private PPath m_solidGasLine;
     private PPath m_solidAreaBackground;
     private PPath m_liquidGasLine;
     private PPath m_liquidAreaBackground;
@@ -144,6 +146,8 @@ public class PhaseDiagram extends PhetPCanvas {
         addWorldChild( m_solidAreaBackground );
         m_solidLiquidLine = new PPath();
         addWorldChild( m_solidLiquidLine );
+        m_solidGasLine = new PPath();
+        addWorldChild( m_solidGasLine );
         m_liquidGasLine = new PPath();
         addWorldChild( m_liquidGasLine );
         m_triplePoint = new PPath(new Ellipse2D.Double(0, 0, POINT_MARKER_DIAMETER, POINT_MARKER_DIAMETER));
@@ -235,16 +239,24 @@ public class PhaseDiagram extends PhetPCanvas {
         m_triplePoint.setOffset( DEFAULT_TRIPLE_POINT.getX() - POINT_MARKER_DIAMETER / 2, 
                 DEFAULT_TRIPLE_POINT.getY() - POINT_MARKER_DIAMETER / 2 );
         
-        // Add the curve that separates solid and liquid.
-        QuadCurve2D solidLiquidCurve = new QuadCurve2D.Double(xOriginOffset, yOriginOffset, 
-                (xOriginOffset + xUsableRange) * 0.45, yOriginOffset, DEFAULT_TOP_OF_SOLID_LIQUID_CURVE.getX(),
-                DEFAULT_TOP_OF_SOLID_LIQUID_CURVE.getY() );
+        // Add the curve that separates the solid and gaseous regions.
+        QuadCurve2D solidGasCurve = new QuadCurve2D.Double(xOriginOffset, yOriginOffset, 
+                xOriginOffset + (xUsableRange * 0.2), yOriginOffset - (yUsableRange * 0.02), DEFAULT_TRIPLE_POINT.getX(),
+                DEFAULT_TRIPLE_POINT.getY() );
         
-        m_solidLiquidLine.setPathTo( solidLiquidCurve );
+        m_solidGasLine.setPathTo( solidGasCurve );
+        
+        // Add the line that separates solid and liquid.
+        Line2D solidLiquidLine = new Line2D.Double(DEFAULT_TRIPLE_POINT.getX(), DEFAULT_TRIPLE_POINT.getY(), 
+                DEFAULT_TOP_OF_SOLID_LIQUID_CURVE.getX(), DEFAULT_TOP_OF_SOLID_LIQUID_CURVE.getY() );
+        
+        m_solidLiquidLine.setPathTo( solidLiquidLine );
         
         // Update the shape of the background for the area that represents the solid phase.
-        GeneralPath solidBackground = new GeneralPath(solidLiquidCurve);
-        solidBackground.lineTo( (float)xOriginOffset, (float)DEFAULT_TOP_OF_SOLID_LIQUID_CURVE.getY() );
+        GeneralPath solidBackground = new GeneralPath(solidGasCurve);
+        solidBackground.lineTo( (float)DEFAULT_TOP_OF_SOLID_LIQUID_CURVE.getX(), 
+                (float)DEFAULT_TOP_OF_SOLID_LIQUID_CURVE.getY() );
+        solidBackground.lineTo( (float)xOriginOffset, (float)(yOriginOffset - yUsableRange) );
         solidBackground.lineTo( (float)xOriginOffset, (float)yOriginOffset );
         solidBackground.closePath();
         m_solidAreaBackground.setPathTo( solidBackground );
@@ -328,6 +340,21 @@ public class PhaseDiagram extends PhetPCanvas {
         m_currentStateMarkerPos.setLocation( normalizedTemperature, normalizedPressure );
         m_currentStateMarker.setOffset( normalizedTemperature * xUsableRange + xOriginOffset - (CURRENT_STATE_MARKER_DIAMETER / 2), 
                 -normalizedPressure * yUsableRange + yOriginOffset - (CURRENT_STATE_MARKER_DIAMETER / 2));
+    }
+    
+    /**
+     * Set the phase diagram to be shaped such that it looks like water, which
+     * is to say that the solid-liquid line leans to the left rather than to
+     * the right, as it does for most substances.  Note that this is a very
+     * non-general approach - it would be more general to allow the various
+     * points in the graph (e.g. triple point, critical point) to be
+     * positioned anywhere, but currently it isn't worth the extra effort to
+     * do so.  Feel free if it is ever needed.
+     * 
+     * @param depictingWater
+     */
+    public void setDepictingWater( boolean depictingWater ) {
+//        yugga;
     }
     
     /**
