@@ -1,34 +1,26 @@
 /**
- * Class: ClientPhetLookAndFeel
- * Package: edu.colorado.phet.coreadditions
- * Author: Another Guy
- * Date: Aug 5, 2003
+ * Class: ClientPhetLookAndFeel Package: edu.colorado.phet.coreadditions Author:
+ * Another Guy Date: Aug 5, 2003
  */
+
 package edu.colorado.phet.radiowaves.coreadditions;
 
 
-import edu.colorado.phet.common_1200.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import java.awt.Color;
+import java.awt.Font;
 
-import javax.swing.*;
-import java.awt.*;
-import java.io.IOException;
+import javax.swing.UIManager;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 public class LecturePhetLookAndFeel implements PhetLookAndFeel {
 
     Color background = new Color( 60, 80, 60 );
     Color buttonBackground = new Color( 60, 60, 100 );
     Color controlTextColor = new Color( 230, 230, 230 );
-    Font controlFont = new PhetFont( 16,true);
+    Font controlFont = new PhetFont( 16, true );
 
-    static String[] controlTypes = new String[]{
-            "Menu",
-            "MenuItem",
-            "RadioButton",
-            "Button",
-            "CheckBox",
-            "Label"
-    };
+    static String[] controlTypes = new String[] { "Menu", "MenuItem", "RadioButton", "Button", "CheckBox", "Label" };
 
 
     public LecturePhetLookAndFeel() {
@@ -42,7 +34,7 @@ public class LecturePhetLookAndFeel implements PhetLookAndFeel {
         UIManager.put( "CheckBox.background", background );
         UIManager.put( "Button.background", buttonBackground );
 
-        for( int i = 0; i < controlTypes.length; i++ ) {
+        for ( int i = 0; i < controlTypes.length; i++ ) {
             UIManager.put( controlTypes[i] + ".foreground", controlTextColor );
             UIManager.put( controlTypes[i] + ".font", controlFont );
         }

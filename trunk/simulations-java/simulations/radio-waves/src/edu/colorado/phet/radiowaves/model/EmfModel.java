@@ -1,17 +1,16 @@
 /**
- * Class: EmfModel
- * Package: edu.colorado.phet.emf.model
- * Author: Another Guy
+ * Class: EmfModel Package: edu.colorado.phet.emf.model Author: Another Guy
  * Date: May 27, 2003
  */
+
 package edu.colorado.phet.radiowaves.model;
+
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common_1200.model.BaseModel;
 import edu.colorado.phet.common_1200.model.clock.AbstractClock;
 import edu.colorado.phet.radiowaves.model.movement.MovementType;
-
-import java.util.ArrayList;
 
 public class EmfModel extends BaseModel {
 
@@ -20,7 +19,7 @@ public class EmfModel extends BaseModel {
     private boolean dynamicFieldEnabled;
 
     public EmfModel( AbstractClock clock ) {
-//        super( clock );
+    //        super( clock );
     }
 
 
@@ -38,8 +37,8 @@ public class EmfModel extends BaseModel {
     }
 
     public void setTransmittingElectronMovementStrategy( MovementType movementStrategy ) {
-        for( int i = 0; i < transmittingElectrons.size(); i++ ) {
-            Electron electron = (Electron)transmittingElectrons.get( i );
+        for ( int i = 0; i < transmittingElectrons.size(); i++ ) {
+            Electron electron = (Electron) transmittingElectrons.get( i );
             electron.setMovementStrategy( movementStrategy );
         }
     }
@@ -66,15 +65,15 @@ public class EmfModel extends BaseModel {
     public static double s_fieldWidth = 800;
 
     public void setTransmittingFrequency( float freq ) {
-        for( int i = 0; i < transmittingElectrons.size(); i++ ) {
-            Electron electron = (Electron)transmittingElectrons.get( i );
+        for ( int i = 0; i < transmittingElectrons.size(); i++ ) {
+            Electron electron = (Electron) transmittingElectrons.get( i );
             electron.setFrequency( freq );
         }
     }
 
     public void setTransmittingAmplitude( float amplitude ) {
-        for( int i = 0; i < transmittingElectrons.size(); i++ ) {
-            Electron electron = (Electron)transmittingElectrons.get( i );
+        for ( int i = 0; i < transmittingElectrons.size(); i++ ) {
+            Electron electron = (Electron) transmittingElectrons.get( i );
             electron.setAmplitude( amplitude );
         }
     }

@@ -1,20 +1,20 @@
 /**
- * Class: ControlCurve
- * Package: edu.colorado.phet.emf.view.graphics
- * Author: Tim Lambert
- * See: http://www.cse.unsw.edu.au/~lambert/
- * See: http://www.cse.unsw.edu.au/~lambert/splines
- * Tim Lambert                                         Office: EE344
- * School of Computer Science and Engineering          Email:  lambert@cse.unsw.edu.au
- * The University of New South Wales                   Phone:  +61 2 9385 6496
- * Sydney 2052, AUSTRALIA                              Fax:    +61 2 9385 5995
- *
- * Adapted By: Ron LeMaster
- * Date: Jun 2, 2003
+ * Class: ControlCurve Package: edu.colorado.phet.emf.view.graphics Author: Tim
+ * Lambert See: http://www.cse.unsw.edu.au/~lambert/ See:
+ * http://www.cse.unsw.edu.au/~lambert/splines Tim Lambert Office: EE344 School
+ * of Computer Science and Engineering Email: lambert@cse.unsw.edu.au The
+ * University of New South Wales Phone: +61 2 9385 6496 Sydney 2052, AUSTRALIA
+ * Fax: +61 2 9385 5995
+ * 
+ * Adapted By: Ron LeMaster Date: Jun 2, 2003
  */
+
 package edu.colorado.phet.radiowaves.view.graphics.splines;
 
-import java.awt.*;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Polygon;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
@@ -30,7 +30,7 @@ public class ControlCurve {
         pts = new Polygon();
     }
 
-    static Font f = new PhetFont( 12);
+    static Font f = new PhetFont( 12 );
 
     /**
      * Clears the points so we can reuse the curve.
@@ -48,14 +48,14 @@ public class ControlCurve {
         g.setFont( f );
         int h = fm.getAscent() / 2;
 
-        for( int i = 0; i < pts.npoints; i++ ) {
+        for ( int i = 0; i < pts.npoints; i++ ) {
             String s = Integer.toString( i );
             int w = fm.stringWidth( s ) / 2;
             g.drawString( Integer.toString( i ), pts.xpoints[i] - w, pts.ypoints[i] + h );
         }
     }
 
-    static final int EPSILON = 36;  /* square of distance for picking */
+    static final int EPSILON = 36; /* square of distance for picking */
 
     /**
      * return index of control point near to (x,y) or -1 if nothing near
@@ -63,9 +63,9 @@ public class ControlCurve {
     public int selectPoint( int x, int y ) {
         int mind = Integer.MAX_VALUE;
         selection = -1;
-        for( int i = 0; i < pts.npoints; i++ ) {
+        for ( int i = 0; i < pts.npoints; i++ ) {
             int d = sqr( pts.xpoints[i] - x ) + sqr( pts.ypoints[i] - y );
-            if( d < mind && d < EPSILON ) {
+            if ( d < mind && d < EPSILON ) {
                 mind = d;
                 selection = i;
             }
@@ -90,7 +90,7 @@ public class ControlCurve {
      * set selected control point
      */
     public void setPoint( int x, int y ) {
-        if( selection >= 0 ) {
+        if ( selection >= 0 ) {
             pts.xpoints[selection] = x;
             pts.ypoints[selection] = y;
         }
@@ -100,9 +100,9 @@ public class ControlCurve {
      * remove selected control point
      */
     public void removePoint() {
-        if( selection >= 0 ) {
+        if ( selection >= 0 ) {
             pts.npoints--;
-            for( int i = selection; i < pts.npoints; i++ ) {
+            for ( int i = selection; i < pts.npoints; i++ ) {
                 pts.xpoints[i] = pts.xpoints[i + 1];
                 pts.ypoints[i] = pts.ypoints[i + 1];
             }
@@ -111,10 +111,9 @@ public class ControlCurve {
 
     public String toString() {
         StringBuffer result = new StringBuffer();
-        for( int i = 0; i < pts.npoints; i++ ) {
+        for ( int i = 0; i < pts.npoints; i++ ) {
             result.append( " " + pts.xpoints[i] + " " + pts.ypoints[i] );
         }
         return result.toString();
     }
 }
-

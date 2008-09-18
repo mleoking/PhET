@@ -1,22 +1,22 @@
 /**
- * Class: PhetControlPanel
- * Package: edu.colorado.phet.coreadditions
- * Author: Another Guy
- * Date: Jul 15, 2004
+ * Class: PhetControlPanel Package: edu.colorado.phet.coreadditions Author:
+ * Another Guy Date: Jul 15, 2004
  */
+
 package edu.colorado.phet.radiowaves.coreadditions;
 
-import edu.colorado.phet.common_1200.application.Module;
-import edu.colorado.phet.common_1200.view.help.HelpPanel;
-import edu.colorado.phet.common_1200.view.util.FractionSpring;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ContainerAdapter;
 import java.awt.event.ContainerEvent;
 import java.net.URL;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common_1200.application.Module;
+import edu.colorado.phet.common_1200.view.help.HelpPanel;
+import edu.colorado.phet.common_1200.view.util.FractionSpring;
 
 /**
  * This class is a JPanel with the PhET logo at the top, a HelpPanel at the
@@ -25,6 +25,7 @@ import java.net.URL;
  * getPreferredSize() is called on it.
  */
 public class PhetControlPanel extends JPanel {
+
     private Module module;
     private JPanel controlPane;
     private SpringLayout layout;
@@ -54,6 +55,7 @@ public class PhetControlPanel extends JPanel {
 
         adjustLayout();
         controlPane.addContainerListener( new ContainerAdapter() {
+
             public void componentAdded( ContainerEvent e ) {
                 adjustLayout();
             }
@@ -64,6 +66,7 @@ public class PhetControlPanel extends JPanel {
         } );
 
         controlPane.addComponentListener( new ComponentAdapter() {
+
             public void componentResized( ComponentEvent e ) {
                 adjustLayout();
             }
@@ -76,13 +79,10 @@ public class PhetControlPanel extends JPanel {
 
     protected void adjustLayout() {
         Dimension controlPaneSize = controlPane.getPreferredSize();
-        int controlPaneWidth = (int)Math.round( controlPaneSize.getWidth() );
-        int controlPaneHeight = (int)Math.round( controlPaneSize.getHeight() );
-        int width = (int)Math.max( imageIcon.getIconWidth() + padX * 2,
-                                   controlPaneWidth /*+ padX * 2 */ );
-        int height = (int)( padY * 4 + imageIcon.getIconHeight()
-                            + helpPanel.getPreferredSize().getHeight()
-                            + controlPaneHeight );
+        int controlPaneWidth = (int) Math.round( controlPaneSize.getWidth() );
+        int controlPaneHeight = (int) Math.round( controlPaneSize.getHeight() );
+        int width = (int) Math.max( imageIcon.getIconWidth() + padX * 2, controlPaneWidth /*+ padX * 2 */);
+        int height = (int) ( padY * 4 + imageIcon.getIconHeight() + helpPanel.getPreferredSize().getHeight() + controlPaneHeight );
 
         this.setMinimumSize( new Dimension( width, height ) );
         this.setPreferredSize( new Dimension( width, height ) );
@@ -96,10 +96,8 @@ public class PhetControlPanel extends JPanel {
         // Place the logo icon
         Spring middleOfIconS = Spring.constant( imageIcon.getIconWidth() / 2 );
         Spring leftOfIconS = Spring.sum( xCenterS, Spring.minus( middleOfIconS ) );
-        layout.putConstraint( SpringLayout.NORTH, titleLabel, padY,
-                              SpringLayout.NORTH, this );
-        layout.putConstraint( SpringLayout.WEST, titleLabel, leftOfIconS,
-                              SpringLayout.WEST, this );
+        layout.putConstraint( SpringLayout.NORTH, titleLabel, padY, SpringLayout.NORTH, this );
+        layout.putConstraint( SpringLayout.WEST, titleLabel, leftOfIconS, SpringLayout.WEST, this );
 
         // Place the panel with the controls
         Spring controlsHalfHeightS = Spring.constant( controlPaneHeight / 2 );
@@ -107,25 +105,19 @@ public class PhetControlPanel extends JPanel {
         Spring controlsTopS = Spring.constant( padY * 2 );
         // Enable the following line if you want the controls to float in the middle of
         // the control panel
-//        Spring controlsTopS = Spring.sum( yCenterS, Spring.minus( controlsHalfHeightS ) );
+        //        Spring controlsTopS = Spring.sum( yCenterS, Spring.minus( controlsHalfHeightS ) );
         Spring controlsTopSS = Spring.max( bottomOfIconS, controlsTopS );
-        layout.putConstraint( SpringLayout.NORTH, controlPane, controlsTopSS,
-                              SpringLayout.NORTH, this );
-        layout.putConstraint( SpringLayout.WEST, controlPane,
-                              (int)( ( this.getPreferredSize().getWidth() - controlPaneWidth ) / 2 ),
-                              SpringLayout.WEST, this );
+        layout.putConstraint( SpringLayout.NORTH, controlPane, controlsTopSS, SpringLayout.NORTH, this );
+        layout.putConstraint( SpringLayout.WEST, controlPane, (int) ( ( this.getPreferredSize().getWidth() - controlPaneWidth ) / 2 ), SpringLayout.WEST, this );
 
         // Place the help panel
-        Spring middleOfHelpPanelS = Spring.constant( (int)helpPanel.getPreferredSize().getWidth() / 2 );
+        Spring middleOfHelpPanelS = Spring.constant( (int) helpPanel.getPreferredSize().getWidth() / 2 );
         Spring leftOfHelpPanelS = Spring.sum( xCenterS, Spring.minus( middleOfHelpPanelS ) );
-        layout.putConstraint( SpringLayout.WEST, helpPanel, leftOfHelpPanelS,
-                              SpringLayout.WEST, this );
+        layout.putConstraint( SpringLayout.WEST, helpPanel, leftOfHelpPanelS, SpringLayout.WEST, this );
         Spring bottomOfControlsS = Spring.sum( controlsTopSS, Spring.constant( controlPaneHeight ) );
-        Spring minOffsetY = Spring.sum( containerSouthEdge, Spring.minus( Spring.constant( (int)helpPanel.getPreferredSize().getHeight() ) ) );
-        Spring s = Spring.max( Spring.sum( bottomOfControlsS, Spring.constant( padY ) ),
-                               minOffsetY );
-        layout.putConstraint( SpringLayout.NORTH, helpPanel, s,
-                              SpringLayout.NORTH, this );
+        Spring minOffsetY = Spring.sum( containerSouthEdge, Spring.minus( Spring.constant( (int) helpPanel.getPreferredSize().getHeight() ) ) );
+        Spring s = Spring.max( Spring.sum( bottomOfControlsS, Spring.constant( padY ) ), minOffsetY );
+        layout.putConstraint( SpringLayout.NORTH, helpPanel, s, SpringLayout.NORTH, this );
         this.invalidate();
         this.repaint();
     }

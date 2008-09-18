@@ -1,14 +1,13 @@
 /**
- * Class: Config
- * Package: edu.colorado.phet.emf
- * Author: Another Guy
- * Date: May 11, 2004
+ * Class: Config Package: edu.colorado.phet.emf Author: Another Guy Date: May
+ * 11, 2004
  */
+
 package edu.colorado.phet.radiowaves;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import java.awt.Color;
 
-import java.awt.*;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 
 public class EmfConfig {
 

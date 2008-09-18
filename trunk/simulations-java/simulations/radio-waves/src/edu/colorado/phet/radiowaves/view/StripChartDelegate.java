@@ -1,9 +1,8 @@
 /**
- * Class: StripChartDelegate
- * Package: edu.colorado.phet.emf.view
- * Author: Another Guy
- * Date: Aug 5, 2003
+ * Class: StripChartDelegate Package: edu.colorado.phet.emf.view Author: Another
+ * Guy Date: Aug 5, 2003
  */
+
 package edu.colorado.phet.radiowaves.view;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -15,6 +14,7 @@ import edu.colorado.phet.radiowaves.util.StripChart;
  * a strip chart.
  */
 public class StripChartDelegate implements SimpleObserver {
+
     private StripChart chart;
     private Electron electron;
 

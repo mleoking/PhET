@@ -1,10 +1,8 @@
 /**
- * Class: DynamicFieldIsEnabledCmd
- * Class: edu.colorado.phet.emf.command
- * User: Ron LeMaster
- * Date: Jun 4, 2003
- * Time: 3:58:12 AM
+ * Class: DynamicFieldIsEnabledCmd Class: edu.colorado.phet.emf.command User:
+ * Ron LeMaster Date: Jun 4, 2003 Time: 3:58:12 AM
  */
+
 package edu.colorado.phet.radiowaves.command;
 
 import edu.colorado.phet.common_1200.model.Command;
@@ -23,6 +21,6 @@ public class DynamicFieldIsEnabledCmd implements Command {
     public void doIt() {
         // TODO: rjl 6/23/03
         model.setDynamicFieldEnabled( isEnabled );
-//        EmfModel.instance().setDynamicFieldEnabled( isEnabled );
+        //        EmfModel.instance().setDynamicFieldEnabled( isEnabled );
     }
 }
