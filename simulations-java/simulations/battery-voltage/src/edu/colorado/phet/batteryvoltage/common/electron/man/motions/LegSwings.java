@@ -16,7 +16,7 @@ public class LegSwings implements Motion {
         double dTheta = omega * dt;
         m.getLeftHip().rotate( omega * dt );
         ang += dTheta;
-        if( ang > Math.PI / 2 * .8 || ang < -Math.PI / 2 * .4 ) {
+        if ( ang > Math.PI / 2 * .8 || ang < -Math.PI / 2 * .4 ) {
             omega = -omega;
         }
         return true;

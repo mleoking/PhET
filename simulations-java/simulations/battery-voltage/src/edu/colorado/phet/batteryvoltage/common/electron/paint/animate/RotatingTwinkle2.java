@@ -1,8 +1,8 @@
 package edu.colorado.phet.batteryvoltage.common.electron.paint.animate;
 
-import edu.colorado.phet.batteryvoltage.common.electron.paint.Painter;
-
 import java.awt.*;
+
+import edu.colorado.phet.batteryvoltage.common.electron.paint.Painter;
 
 public class RotatingTwinkle2 implements Animation, Painter {
     int numFrames;
@@ -27,16 +27,16 @@ public class RotatingTwinkle2 implements Animation, Painter {
     }
 
     private double getFrameFraction() {
-        return ( (double)frame ) / ( (double)numFrames );
+        return ( (double) frame ) / ( (double) numFrames );
     }
 
     public void paint( Graphics2D g ) {
-        if( frame > numFrames ) {
+        if ( frame > numFrames ) {
             return;
         }
         double ff = getFrameFraction();
-        int height = (int)( Math.sin( ff * Math.PI ) * maxHeight );
-        int width = (int)( Math.sin( ff * Math.PI ) * maxWidth );
+        int height = (int) ( Math.sin( ff * Math.PI ) * maxHeight );
+        int width = (int) ( Math.sin( ff * Math.PI ) * maxWidth );
         Point p = ps.getPoint();
         int x = p.x;
         int y = p.y;
@@ -53,10 +53,10 @@ public class RotatingTwinkle2 implements Animation, Painter {
         //g.drawLine(x-width,y,x+width,y);
 
         //o.O.p(""+angle*rot);
-        g.drawLine( x, y, x + (int)( width * Math.cos( angle * rot ) ), y + (int)( height * Math.sin( angle * rot ) ) );
-        g.drawLine( x, y, x - (int)( width * Math.cos( angle * rot ) ), y - (int)( height * Math.sin( angle * rot ) ) );
-        g.drawLine( x, y, x - (int)( width * Math.sin( -angle * rot ) ), y - (int)( height * Math.cos( -angle * rot ) ) );
-        g.drawLine( x, y, x + (int)( width * Math.sin( -angle * rot ) ), y + (int)( height * Math.cos( -angle * rot ) ) );
+        g.drawLine( x, y, x + (int) ( width * Math.cos( angle * rot ) ), y + (int) ( height * Math.sin( angle * rot ) ) );
+        g.drawLine( x, y, x - (int) ( width * Math.cos( angle * rot ) ), y - (int) ( height * Math.sin( angle * rot ) ) );
+        g.drawLine( x, y, x - (int) ( width * Math.sin( -angle * rot ) ), y - (int) ( height * Math.cos( -angle * rot ) ) );
+        g.drawLine( x, y, x + (int) ( width * Math.sin( -angle * rot ) ), y + (int) ( height * Math.cos( -angle * rot ) ) );
         //g.drawLine(x,y,x+width,y);
         //g.drawLine(x,y,x-width,y);
 

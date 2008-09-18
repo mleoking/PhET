@@ -23,7 +23,7 @@ public class VelocityUpdate implements Propagator {
         DoublePoint vNew = v.add( aDt );
 
         double speed = vNew.getLength();
-        if( speed > max ) {
+        if ( speed > max ) {
             vNew = vNew.multiply( max / speed );
         }
         p.setVelocity( vNew );

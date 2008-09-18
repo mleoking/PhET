@@ -1,11 +1,12 @@
 package edu.colorado.phet.batteryvoltage.man.voltListeners;
 
-import edu.colorado.phet.batteryvoltage.Battery;
+import java.util.Vector;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.util.Vector;
+
+import edu.colorado.phet.batteryvoltage.Battery;
 
 public class CompositeVoltageListener implements VoltageListener, ChangeListener {
     JSlider source;
@@ -22,8 +23,8 @@ public class CompositeVoltageListener implements VoltageListener, ChangeListener
     }
 
     public void voltageChanged( int value, Battery b ) {
-        for( int i = 0; i < v.size(); i++ ) {
-            ( (VoltageListener)v.get( i ) ).voltageChanged( value, b );
+        for ( int i = 0; i < v.size(); i++ ) {
+            ( (VoltageListener) v.get( i ) ).voltageChanged( value, b );
         }
     }
 

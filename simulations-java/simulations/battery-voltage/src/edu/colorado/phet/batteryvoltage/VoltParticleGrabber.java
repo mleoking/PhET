@@ -1,13 +1,13 @@
 package edu.colorado.phet.batteryvoltage;
 
+import java.awt.*;
+import java.awt.event.MouseEvent;
+
 import edu.colorado.phet.batteryvoltage.common.electron.gui.mouse2.ParticleGrabber;
 import edu.colorado.phet.batteryvoltage.common.electron.gui.mouse2.ParticleSelector;
 import edu.colorado.phet.batteryvoltage.common.phys2d.PropagatingParticle;
 import edu.colorado.phet.batteryvoltage.common.phys2d.Propagator;
 import edu.colorado.phet.batteryvoltage.man.Director;
-
-import java.awt.*;
-import java.awt.event.MouseEvent;
 
 public class VoltParticleGrabber extends ParticleGrabber {
     Propagator dropRight;
@@ -26,11 +26,11 @@ public class VoltParticleGrabber extends ParticleGrabber {
     }
 
     public void mouseReleased( MouseEvent me ) {
-        PropagatingParticle sel = (PropagatingParticle)getSelected();
-        if( sel == null ) {
+        PropagatingParticle sel = (PropagatingParticle) getSelected();
+        if ( sel == null ) {
             return;
         }
-        if( sel.getPosition().getX() > threshold ) {
+        if ( sel.getPosition().getX() > threshold ) {
             d.putTag( sel, true );
             sel.setPropagator( dropRight );
         }

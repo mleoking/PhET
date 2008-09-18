@@ -1,11 +1,11 @@
 package edu.colorado.phet.batteryvoltage.common.phys2d.gui;
 
-import edu.colorado.phet.batteryvoltage.BatteryVoltageResources;
-import edu.colorado.phet.batteryvoltage.common.phys2d.SystemRunner;
-
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import edu.colorado.phet.batteryvoltage.BatteryVoltageResources;
+import edu.colorado.phet.batteryvoltage.common.phys2d.SystemRunner;
 
 public class SystemRunnerControl {
     JPanel panel;
@@ -60,8 +60,8 @@ public class SystemRunnerControl {
         double tReadout = dtRange.convertTo( dtSliderRange, dt );
         double waitReadout = waitRange.convertTo( waitSliderRange, wait );
 
-        dtSlider.setValue( (int)tReadout );
-        waitTimeSlider.setValue( (int)waitReadout );
+        dtSlider.setValue( (int) tReadout );
+        waitTimeSlider.setValue( (int) waitReadout );
         updateSystem();
     }
 
@@ -73,7 +73,7 @@ public class SystemRunnerControl {
 
         int waitReadout = waitTimeSlider.getValue();
         double wait = waitSliderRange.convertTo( waitRange, waitReadout );
-        waitField.setText( BatteryVoltageResources.getString( "SystemRunnerControl.WaitTimeText" ) + "=" + ( (int)wait ) );
-        sr.setWaitTime( (int)wait );
+        waitField.setText( BatteryVoltageResources.getString( "SystemRunnerControl.WaitTimeText" ) + "=" + ( (int) wait ) );
+        sr.setWaitTime( (int) wait );
     }
 }

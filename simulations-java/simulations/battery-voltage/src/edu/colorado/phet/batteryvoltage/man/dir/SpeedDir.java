@@ -33,7 +33,7 @@ public class SpeedDir implements ParticleMoveListener, Directional {
         double dSpeed = maxSpeed - minSpeed;
         double count = 0;
         int sign = 1;
-        if( right ) {
+        if ( right ) {
             count = b.numRight();
         }
         else {

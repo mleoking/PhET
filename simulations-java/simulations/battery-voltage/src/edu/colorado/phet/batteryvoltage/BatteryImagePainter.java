@@ -1,9 +1,9 @@
 package edu.colorado.phet.batteryvoltage;
 
-import edu.colorado.phet.batteryvoltage.common.electron.paint.BufferedImagePainter;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
+
+import edu.colorado.phet.batteryvoltage.common.electron.paint.BufferedImagePainter;
 
 public class BatteryImagePainter extends BufferedImagePainter {
     boolean t;
@@ -17,7 +17,7 @@ public class BatteryImagePainter extends BufferedImagePainter {
     }
 
     public void paint( Graphics2D g ) {
-        if( t ) {
+        if ( t ) {
             super.paint( g );
         }
     }

@@ -1,9 +1,9 @@
 package edu.colorado.phet.batteryvoltage.common.electron.man.laws;
 
+import java.util.Vector;
+
 import edu.colorado.phet.batteryvoltage.common.phys2d.Law;
 import edu.colorado.phet.batteryvoltage.common.phys2d.System2D;
-
-import java.util.Vector;
 
 /*Uses the time step from a System2D for motion.*/
 
@@ -20,9 +20,9 @@ public class ManLaw implements Law {
     }
 
     public void iterate( double dt, System2D sys ) {
-        for( int i = 0; i < movers.size(); i++ ) {
+        for ( int i = 0; i < movers.size(); i++ ) {
             //o.O.p("Moving "+i);
-            ManMover mm = (ManMover)movers.get( i );
+            ManMover mm = (ManMover) movers.get( i );
             mm.move( dt * timeScale );
         }
     }

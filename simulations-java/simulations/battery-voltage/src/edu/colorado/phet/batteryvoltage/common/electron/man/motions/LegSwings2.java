@@ -15,12 +15,12 @@ public class LegSwings2 implements Motion {
     public boolean update( double dt, Man m ) {
         double dTheta = omega * dt;
         ang += dTheta;
-        if( Math.abs( ang ) > Math.PI / 2 * .4 ) {
+        if ( Math.abs( ang ) > Math.PI / 2 * .4 ) {
             started = true;
         }
-        if( started ) {
+        if ( started ) {
             m.getRightHip().rotate( omega * dt );
-            if( ang > Math.PI / 2 * .4 || ang < -Math.PI / 2 * .4 ) {
+            if ( ang > Math.PI / 2 * .4 || ang < -Math.PI / 2 * .4 ) {
                 omega = -omega;
             }
             return true;

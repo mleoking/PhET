@@ -21,12 +21,12 @@ public class GaugeUpdate implements ParticleMoveListener {
 
     public void particleMoved( Battery source, Particle p ) {
         int num = 0;
-        for( int i = 0; i < sys.numParticles(); i++ ) {
-            PropagatingParticle pp = (PropagatingParticle)sys.particleAt( i );
-            if( pp.getPropagator() == right ) {
+        for ( int i = 0; i < sys.numParticles(); i++ ) {
+            PropagatingParticle pp = (PropagatingParticle) sys.particleAt( i );
+            if ( pp.getPropagator() == right ) {
                 num++;
             }
-            if( pp.getPropagator() == left ) {
+            if ( pp.getPropagator() == left ) {
                 num--;
             }
         }

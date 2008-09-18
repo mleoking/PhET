@@ -1,9 +1,9 @@
 package edu.colorado.phet.batteryvoltage.common.phys2d.propagators;
 
+import java.awt.*;
+
 import edu.colorado.phet.batteryvoltage.common.phys2d.Particle;
 import edu.colorado.phet.batteryvoltage.common.phys2d.Propagator;
-
-import java.awt.*;
 
 public class FourBounds implements Propagator {
     NorthBounce n;
@@ -27,7 +27,7 @@ public class FourBounds implements Propagator {
     }
 
     public Rectangle toRectangle() {
-        Rectangle r = new Rectangle( (int)x, (int)y, (int)width, (int)height );
+        Rectangle r = new Rectangle( (int) x, (int) y, (int) width, (int) height );
         return r;
     }
 

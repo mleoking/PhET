@@ -1,9 +1,9 @@
 package edu.colorado.phet.batteryvoltage.common.electron.components;
 
-import edu.colorado.phet.batteryvoltage.BatteryVoltageResources;
-
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+
+import edu.colorado.phet.batteryvoltage.BatteryVoltageResources;
 
 public class Gauge implements IGauge {
     int numMajorTicks;
@@ -19,7 +19,7 @@ public class Gauge implements IGauge {
     String text = BatteryVoltageResources.getString( "Gauge.DefaultText" );
 
     public Gauge( int x, int y, double min, double max, double amount, double length ) {
-        this( x, y, (int)length, (int)length, min, max, amount, length / 2, 5, 9 );
+        this( x, y, (int) length, (int) length, min, max, amount, length / 2, 5, 9 );
     }
 
     public void setText( String text ) {
@@ -44,8 +44,8 @@ public class Gauge implements IGauge {
     }
 
     private Point getPoint( int length, double angle ) {
-        int i = (int)( length * Math.sin( angle ) + x + width / 2 );
-        int j = (int)( length * Math.cos( angle ) + y + height / 2 );
+        int i = (int) ( length * Math.sin( angle ) + x + width / 2 );
+        int j = (int) ( length * Math.cos( angle ) + y + height / 2 );
         return new Point( i, j );
     }
 
@@ -65,7 +65,7 @@ public class Gauge implements IGauge {
         g.setColor( Color.black );
         Point needle = getPoint( 10, Math.PI / 2 + Math.PI / 4 );
         Rectangle2D rect = f.getStringBounds( text, g.getFontRenderContext() );
-        int w = (int)rect.getWidth();
+        int w = (int) rect.getWidth();
         int startX = x + width / 2 - w / 2;
         int startY = y + height / 3;
         g.drawString( text, startX, startY );
@@ -100,10 +100,10 @@ public class Gauge implements IGauge {
         int needleX = x + width / 2;
         int needleY = y + height / 2;
 
-        int needleEndX = needleX + (int)xD;
-        int needleEndY = needleY - (int)yD;
+        int needleEndX = needleX + (int) xD;
+        int needleEndY = needleY - (int) yD;
         //util.Debug.traceln(helper.ArraysHelper.toString(new int[]{x,y,endX,endY}));
-        if( amt == max || amt == min ) {
+        if ( amt == max || amt == min ) {
             g.setColor( Color.red );
         }
         else {
@@ -123,12 +123,12 @@ public class Gauge implements IGauge {
 
     public void drawTicks( Graphics2D g ) {
         g.setStroke( new BasicStroke( 3 ) );
-        double dTheta = Math.PI / 2 / (double)( numMajorTicks - 1 );
+        double dTheta = Math.PI / 2 / (double) ( numMajorTicks - 1 );
         double ang = Math.PI;//straight up
         g.setColor( Color.black );
         int tickSize = 10;
         /*Paint the ticks.*/
-        for( int i = 0; i < numMajorTicks; i++ ) {
+        for ( int i = 0; i < numMajorTicks; i++ ) {
             Point start = getPoint( width / 2 - tickSize, ang );
             Point end = getPoint( width / 2, ang );
             //System.out.println("ang="+ang+", start="+start+", end="+end);
@@ -136,7 +136,7 @@ public class Gauge implements IGauge {
             ang += dTheta;
         }
         ang = Math.PI / 2;
-        for( int i = 0; i < numMajorTicks; i++ ) {
+        for ( int i = 0; i < numMajorTicks; i++ ) {
             Point start = getPoint( width / 2 - tickSize, ang );
             Point end = getPoint( width / 2, ang );
             //System.out.println("ang="+ang+", start="+start+", end="+end);
@@ -147,12 +147,12 @@ public class Gauge implements IGauge {
 
     public void drawMinorTicks( Graphics2D g ) {
         g.setStroke( new BasicStroke( 1 ) );
-        double dTheta = Math.PI / 2 / (double)( numMinorTicks - 1 );
+        double dTheta = Math.PI / 2 / (double) ( numMinorTicks - 1 );
         double ang = Math.PI;//straight up
         g.setColor( Color.green );
         int tickSize = 7;
         /*Paint the ticks.*/
-        for( int i = 0; i < numMinorTicks; i++ ) {
+        for ( int i = 0; i < numMinorTicks; i++ ) {
             Point start = getPoint( width / 2 - tickSize, ang );
             Point end = getPoint( width / 2, ang );
             //System.out.println("ang="+ang+", start="+start+", end="+end);
@@ -160,7 +160,7 @@ public class Gauge implements IGauge {
             ang += dTheta;
         }
         ang = Math.PI / 2;
-        for( int i = 0; i < numMinorTicks; i++ ) {
+        for ( int i = 0; i < numMinorTicks; i++ ) {
             Point start = getPoint( width / 2 - tickSize, ang );
             Point end = getPoint( width / 2, ang );
             //System.out.println("ang="+ang+", start="+start+", end="+end);

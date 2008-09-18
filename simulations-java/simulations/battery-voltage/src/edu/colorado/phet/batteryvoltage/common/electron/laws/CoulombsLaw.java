@@ -20,16 +20,16 @@ public class CoulombsLaw implements ForceLaw {
         //util.Debug.traceln("ax="+ax+", bx="+bx);
         DoublePoint diff = ax.subtract( bx );
         double length = diff.getLength();
-        if( length < minDist ) {
+        if ( length < minDist ) {
             length = minDist;
         }
-        if( length > range ) {
+        if ( length > range ) {
             return new DoublePoint( 0, 0 );
         }
         //f=k q1 q2/r/r * rhat
         double rCubed = Math.pow( length, 3 );
         double force = -k * a.getCharge() * b.getCharge() / rCubed;
-        if( Double.isInfinite( force ) || Double.isNaN( force ) || Double.isNaN( diff.getX() ) || Double.isNaN( diff.getY() ) ) {
+        if ( Double.isInfinite( force ) || Double.isNaN( force ) || Double.isNaN( diff.getX() ) || Double.isNaN( diff.getY() ) ) {
             return new DoublePoint();
         }
         try {

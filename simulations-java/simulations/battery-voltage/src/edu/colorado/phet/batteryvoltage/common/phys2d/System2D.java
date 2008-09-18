@@ -21,7 +21,7 @@ public class System2D {
 
     public void addLaw( Law lx ) {
         //util.Debug.traceln("adding law: "+lx+", "+lx.getClass().getName());
-        if( !( lx instanceof Law ) ) {
+        if ( !( lx instanceof Law ) ) {
             throw new RuntimeException( "What?!" );
         }
         laws.add( lx );
@@ -36,7 +36,7 @@ public class System2D {
     }
 
     public Law lawAt( int i ) {
-        return (Law)laws.get( i );
+        return (Law) laws.get( i );
     }
 
     public int numParticles() {
@@ -44,11 +44,11 @@ public class System2D {
     }
 
     public Particle particleAt( int i ) {
-        return (Particle)particles.get( i );
+        return (Particle) particles.get( i );
     }
 
     public void iterate( double time ) {
-        for( int i = 0; i < numLaws(); i++ ) {
+        for ( int i = 0; i < numLaws(); i++ ) {
             lawAt( i ).iterate( time, this );
         }
     }

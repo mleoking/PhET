@@ -16,7 +16,7 @@ public class PropagatorDir implements Directional {
     }
 
     public void setCarryRight( boolean b ) {
-        if( b ) {
+        if ( b ) {
             drop.setPropagator( right );
         }
         else {
