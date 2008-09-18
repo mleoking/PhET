@@ -1,8 +1,8 @@
 package edu.colorado.phet.common_1200.model;
 
-import edu.colorado.phet.common_1200.util.SimpleObservable;
-
 import java.util.ArrayList;
+
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 /**
  * Created by IntelliJ IDEA.

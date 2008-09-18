@@ -7,14 +7,14 @@
  */
 package edu.colorado.phet.common_1200.view;
 
-import edu.colorado.phet.common_1200.util.MultiMap;
+import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import edu.colorado.phet.common.phetcommon.util.MultiMap;
 import edu.colorado.phet.common_1200.view.graphics.Boundary;
 import edu.colorado.phet.common_1200.view.graphics.BoundedGraphic;
 import edu.colorado.phet.common_1200.view.graphics.Graphic;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 public class CompositeGraphic implements BoundedGraphic {
 
@@ -88,12 +88,12 @@ public class CompositeGraphic implements BoundedGraphic {
     }
 
     public void addGraphic( Graphic graphic, double layer ) {
-        this.graphicMap.add( new Double( layer ), graphic );
+        this.graphicMap.put( new Double( layer ), graphic );
     }
 
     public void moveToTop( Graphic target ) {
         this.removeGraphic( target );
-        graphicMap.add( graphicMap.lastKey(), target );
+        graphicMap.put( graphicMap.lastKey(), target );
     }
 
 }
