@@ -1,0 +1,42 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: September 11-17, 2008 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  glaciers:
+  - finished English/metric feature
+  - put default units on top in thermometer tool
+  - use a fixed range for x-axis in "glacial budget vs elevation" graph
+  - use consistent terminology through code for "steady state"
+  - fix layout & resize problems with control panel
+  - fix misc exceptions that occurred when window was resized to extreme sizes
+  - add some sample help items
+  
+  common:
+  - fix help code so that help items can point to nodes on any PLayer
+  - discuss introduction of piccolo dependencies into phetcommon with Sam
+  - test drive new clock control panel
+  - discuss changes to piccolo cursor handler with Sam Reid
+  
+  misc:
+  - discussion about moving SVN repository to Unfuddle or Google Code
+  - discussion about "usage" and "update" features for sims
+  
+WHAT'S NEXT:
+    
+  - continue work on glaciers, see:
+    http://phet.svn.sourceforge.net/viewvc/phet/trunk/simulations-java/simulations/glaciers/CHANGES.txt?view=markup
+    
+  - port sims to phetcommon, as described in Unfuddle #562
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+  October 20-24
+  
+--
