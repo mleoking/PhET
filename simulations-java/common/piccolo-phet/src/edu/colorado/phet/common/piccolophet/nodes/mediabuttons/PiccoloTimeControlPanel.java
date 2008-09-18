@@ -476,7 +476,7 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
 
 
         private Shape createPath() {
-            double dw = 10;
+            double dw = 0;
             DoubleGeneralPath path = new DoubleGeneralPath( 0, 0 );
             path.lineToRelative( width, 0 );
             path.lineToRelative( -dw, height );
@@ -487,7 +487,7 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
     }
 
     private GradientPaint getGradientPaintBorder( int height ) {
-        return new GradientPaint( 0, height / 4, new JLabel().getBackground(), 0, height, darker( darker( new JLabel().getBackground() ) ) );
+        return new GradientPaint( 0, height / 4, darker(new JLabel().getBackground()), 0, height, darker( darker( new JLabel().getBackground() ) ) );
     }
 
     private GradientPaint getGradientPaint( int height ) {
@@ -498,8 +498,17 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
         int dred = 30;
         int dgreen = 40;
         int dblue = 40;
-        return new Color( Math.min( orig.getRed() - dred, 255 )
-                , Math.min( orig.getGreen() - dgreen, 255 )
-                , Math.min( orig.getBlue() - dblue, 255 ) );
+        return new Color( Math.max( orig.getRed() - dred, 0 )
+                , Math.max( orig.getGreen() - dgreen, 0 )
+                , Math.max( orig.getBlue() - dblue, 0 ) );
+    }
+
+    private Color lighter( Color orig ) {
+        int dred = 30;
+        int dgreen = 40;
+        int dblue = 40;
+        return new Color( Math.min( orig.getRed() + dred, 255 )
+                , Math.min( orig.getGreen() + dgreen, 255 )
+                , Math.min( orig.getBlue() + dblue, 255 ) );
     }
 }

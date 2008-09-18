@@ -24,6 +24,8 @@ import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.help.HelpManager;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 
 /**
  * This class encapsulates the parts of an application that make up
@@ -215,5 +217,9 @@ public class PhetGraphicsModule extends Module {
             // reference size
             apparatusPanel.setReferenceSize();
         }
+    }
+
+    protected JComponent createClockControlPanel( IClock clock ) {
+        return new PiccoloClockControlPanel( clock );
     }
 }
