@@ -12,12 +12,12 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_1200.application.ApplicationModel;
 import edu.colorado.phet.common_1200.application.PhetApplication;
 import edu.colorado.phet.common_1200.model.clock.SwingTimerClock;
 import edu.colorado.phet.common_1200.view.PhetFrame;
-import edu.colorado.phet.common_1200.view.util.FrameSetup;
 import edu.colorado.phet.radiowaves.view.WaveMediumGraphic;
 
 public class RadioWavesApplication {
