@@ -4,10 +4,13 @@
  * Author: Another Guy
  * Date: Jul 14, 2004
  */
-package edu.colorado.phet.common_1200.view.util;
+package edu.colorado.phet.radiowaves.coreadditions;
 
 import javax.swing.*;
 
+/**
+ * An extension of javax.swing.Spring, for use in layouts.
+ */
 public class FractionSpring extends Spring {
 
     protected Spring parent;

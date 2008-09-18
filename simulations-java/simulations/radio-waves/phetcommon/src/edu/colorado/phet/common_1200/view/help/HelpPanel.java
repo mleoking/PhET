@@ -8,7 +8,7 @@ package edu.colorado.phet.common_1200.view.help;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_1200.application.Module;
-import edu.colorado.phet.common_1200.view.util.FractionSpring;
+import edu.colorado.phet.radiowaves.coreadditions.FractionSpring;
 
 import javax.swing.*;
 import java.awt.*;
