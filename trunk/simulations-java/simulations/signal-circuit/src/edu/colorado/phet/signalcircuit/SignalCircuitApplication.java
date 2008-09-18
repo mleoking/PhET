@@ -31,10 +31,11 @@ public class SignalCircuitApplication extends PiccoloPhetApplication {
     }
 
     private class SignalCircuitModule extends Module {
-        private SignalCircuitSimulationPanel simulationPanel = new SignalCircuitSimulationPanel();
+        private SignalCircuitSimulationPanel simulationPanel;
 
         public SignalCircuitModule( PhetApplicationConfig config ) {
-            super( config.getName(), new ConstantDtClock( 35, 0.15 ) );
+            super( config.getName(), new ConstantDtClock( 22, 0.0216) );
+            simulationPanel = new SignalCircuitSimulationPanel( getClock() );
             setSimulationPanel( simulationPanel );
             setClockControlPanel( null );
             setLogoPanelVisible( false );

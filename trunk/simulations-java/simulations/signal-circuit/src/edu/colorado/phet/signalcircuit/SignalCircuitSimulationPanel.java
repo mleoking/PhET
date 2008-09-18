@@ -11,12 +11,13 @@ import java.awt.*;
 import javax.swing.*;
 
 import edu.colorado.phet.signalcircuit.phys2d.laws.Validate;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 
 
 public class SignalCircuitSimulationPanel extends JPanel {
 
-    public SignalCircuitSimulationPanel() {
-        Signal s = new Signal( 600, 300, false );
+    public SignalCircuitSimulationPanel( IClock clock) {
+        Signal s = new Signal( 600, 300, clock );
         s.getSystem().addLaw( new Validate( this ) );
 
         setLayout( new BorderLayout() );
