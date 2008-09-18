@@ -17,7 +17,7 @@ public class TranslateToLocation implements Motion {
         this.loc = loc;
     }
 
-    public boolean update( double dt, Man m ) {
+    public void update( double dt, Man m ) {
         DoublePoint x = loc.getPosition();
         try {
             DoublePoint dir = x.subtract( m.getNeck().getPosition() ).normalize();
@@ -25,10 +25,8 @@ public class TranslateToLocation implements Motion {
             double dy = dt * dir.getY() * speed;
 
             m.getNeck().translate( dx, dy );
-            return true;
         }
         catch( Exception e ) {
-            return true;
         }//got too close.
     }
 }

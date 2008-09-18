@@ -17,7 +17,7 @@ public class ForceLawPropagator extends ParticleList implements Propagator {
         this.law = law;
     }
 
-    public DoublePoint getForce( double dt, Particle p ) {
+    public DoublePoint getForce( Particle p ) {
         DoublePoint force = new DoublePoint();
         //util.Debug.traceln("Num sources="+sources.size());
         for ( int j = 0; j < numParticles(); j++ ) {
@@ -37,7 +37,7 @@ public class ForceLawPropagator extends ParticleList implements Propagator {
     public void propagate( double dt, Particle p ) {
         //util.Debug.traceln(force);
         //f=ma
-        DoublePoint force = getForce( dt, p );
+        DoublePoint force = getForce( p );
         double mass = p.getMass();
         DoublePoint fOverM = force.multiply( 1.0 / mass );
         DoublePoint oldAcc = p.getAcceleration();

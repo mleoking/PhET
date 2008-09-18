@@ -10,14 +10,8 @@ public class DefaultAction implements Action {
     Vector actions = new Vector();
 
     Motion m;
-//    ActionContent ac;
 
     public DefaultAction( Motion m ) {
-        this( null, m );
-    }
-
-    public DefaultAction( Object ac, Motion m ) {
-//        this.ac = ac;
         this.m = m;
     }
 

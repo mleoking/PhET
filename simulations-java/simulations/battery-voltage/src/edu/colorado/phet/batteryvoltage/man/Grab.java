@@ -19,7 +19,7 @@ public class Grab implements Action {
     Get get;
     Vector targeted;
 
-    public Grab( Man m, Vector carried, Propagator carryPropagator, Hashtable carrierMap, Get get, Action looking, Vector targeted ) {
+    public Grab( Man m, Vector carried, Propagator carryPropagator, Hashtable carrierMap, Get get, Vector targeted ) {
         this.targeted = targeted;
         this.get = get;
         this.carrierMap = carrierMap;
