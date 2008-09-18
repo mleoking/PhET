@@ -1,9 +1,9 @@
 /* Copyright University of Colorado, 2003 */
 package edu.colorado.phet.common_1200.application;
 
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_1200.model.clock.AbstractClock;
-import edu.colorado.phet.common_1200.view.util.FrameSetup;
 
 /**
  * This class is essentially a data structure that contains specifications for the top-level
