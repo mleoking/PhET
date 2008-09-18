@@ -57,35 +57,25 @@ public class WraparoundForce implements Force1d, SwitchListener {
     }
 
     public double getForce( WireParticle wp ) {
-        int x;
-        //double wireLength=patch.getLength();
         double sum = 0;
         for( int i = 0; i < sys.numParticles(); i++ ) {
             WireParticle p = sys.particleAt( i );
-            //o.O.d("i="+i+", p="+p+", wp="+wp);
             if( p != wp ) {
-                //o.O.d("Differenct reference.");
                 double dx = getPositionDifference( p.getPosition(), wp.getPosition(), patch.getLength() );
                 double r = Math.abs( dx );
                 if( r < minDist ) {
                     r = minDist;
                 }
-                //o.O.p("i="+i+", r="+r);
                 double term = 0;
                 if( r > maxDist && maxDist != 0 ) {
-                    //o.O.p("Too far.");
-                    x = 0; //dummy command for jikes.
                 }
                 else {
-                    //o.O.p("Close enough..");
                     term = k * Math.pow( r, power );
                     if( dx > 0 ) {
                         term *= -1;
                     }
-                    //o.O.d("particle["+i+"] r="+r+", term"+term+", sum="+sum);
                 }
                 sum += term;
-                //o.O.d("term="+term);
             }
         }
         return sum;

@@ -34,7 +34,7 @@ public class Switch implements Painter, MouseListener {
     }
 
     public void mouseReleased( MouseEvent me ) {
-        BufferedImagePainter bip = (BufferedImagePainter)on;
+        BufferedImagePainter bip = on;
         if( bip.contains( me.getX(), me.getY() ) ) {
             isOn = !isOn;
             if( isOn ) {

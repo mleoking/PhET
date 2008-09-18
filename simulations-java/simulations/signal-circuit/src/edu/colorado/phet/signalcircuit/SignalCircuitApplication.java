@@ -10,11 +10,10 @@ import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 public class SignalCircuitApplication extends PiccoloPhetApplication {
-    private SignalCircuitModule module;
 
     public SignalCircuitApplication( PhetApplicationConfig config ) {
         super( config );
-        module = new SignalCircuitModule( config );
+        SignalCircuitModule module = new SignalCircuitModule( config );
         addModule( module );
     }
 
@@ -31,11 +30,10 @@ public class SignalCircuitApplication extends PiccoloPhetApplication {
     }
 
     private class SignalCircuitModule extends Module {
-        private SignalCircuitSimulationPanel simulationPanel;
 
         public SignalCircuitModule( PhetApplicationConfig config ) {
             super( config.getName(), new ConstantDtClock( 22, 0.0216) );
-            simulationPanel = new SignalCircuitSimulationPanel( getClock() );
+            SignalCircuitSimulationPanel simulationPanel = new SignalCircuitSimulationPanel( getClock() );
             setSimulationPanel( simulationPanel );
             setClockControlPanel( null );
             setLogoPanelVisible( false );

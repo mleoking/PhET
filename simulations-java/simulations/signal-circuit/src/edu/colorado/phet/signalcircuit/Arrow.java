@@ -53,7 +53,6 @@ public class Arrow implements Painter, SignalListener, SwitchListener {
             if( fore == 0 ) {
                 return;
             }
-            Point p = new Point( (int)dp.getX(), (int)dp.getY() );
             Point prev = new Point( (int)last.getX(), (int)last.getY() );
             int length = 20;
             DoublePoint diff = dp.subtract( last );

@@ -82,8 +82,6 @@ public class Signal extends JApplet {
         WireSegment seg0 = wp.getLastSegment();
 
         this.sys = new System2D();
-        //int wait=20;
-        int wait = 40;
         WireSystem wireSystem = new WireSystem();
         sys.addLaw( wireSystem );
 
@@ -110,14 +108,9 @@ public class Signal extends JApplet {
         dp.addForce( openCoulomb );
         double dx = dist / ( numElectrons );
 
-// 	int foreSpeed=160;
-// 	int backSpeed=680;
-// 	int electronSpeed=25;
-
         int foreSpeed = 150;//200; //230
         int backSpeed = 150;//200;//350; //230
         int electronSpeed = 10;//15
-        double endPadding = 0;
 
         CompositePropagator1d open = new CompositePropagator1d();
         double maxElectronSpeed = 90;//50
@@ -132,25 +125,20 @@ public class Signal extends JApplet {
 
         openForce.addForce( openCoulomb );
         double battForce = 2500;//
-        //double battForce=1000;//testing
-        //double battForce=900;//running
         double battStart = 1100;
         double battEnd = 1200;
         int maxOver = 20;
-        //int maxOver=16;
         BatteryForce batt = new BatteryForce( battForce, battStart, battEnd, wireSystem, maxOver );
         sys.addLaw( batt );
         openForce.addForce( batt );
         double maxClosedSpeed = 100;
         ForcePropagator closedForce = new ForcePropagator( maxClosedSpeed );
         closedForce.addForce( closedCoulomb );
-        //closedForce.addForce(batt);//Maybe this will take care of the back-current.
 
         open.addPropagator( openForce );
         open.addPropagator( new Friction( .6 ) );
         open.addPropagator( new WireEndPropagator( wp ) );
 
-        CompositePropagator1d closed = new CompositePropagator1d();
         CompositePropagator1d inside = new CompositePropagator1d();
         inside.addPropagator( new InsidePropagator( electronSpeed, wp ) );
         CompositePropagator1d outside = new CompositePropagator1d();
@@ -158,17 +146,10 @@ public class Signal extends JApplet {
         SignalPropagator3 sp3 = new SignalPropagator3( open, clop, false );
         //closed.addPropagator(clop);
         inside.addPropagator( closedForce );
-        //inside.addPropagator(new Friction(.5));
-
-        //SignalPropagator2 sp2=new SignalPropagator2(electronSpeed,foreSpeed,wp,wireSystem,rs,backSpeed,endPadding);
-        //sp2.addForce(coulomb);
         sys.addLaw( clop );
         for ( int i = 0; i < numElectrons; i++ ) {
             WireParticle p = new WireParticle( painter, sp3 );
             p.setPosition( i * dx );
-            //o.O.p("Set position: "+i*dx);
-            //p.setPosition(i*20+101);
-            //p.setVelocity(10*i);
             wireSystem.add( p );
         }
 
@@ -270,8 +251,7 @@ public class Signal extends JApplet {
         Movie m = new Movie();
         int layer = 10;
         Stroke twinkleStroke = new BasicStroke( .8f );//,BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND );
-        PointSource ps = switchCover;
-        RotatingTwinkle2 rt = new RotatingTwinkle2( ps, twinkleStroke, 20, 3, 8, 15 );
+        RotatingTwinkle2 rt = new RotatingTwinkle2( switchCover, twinkleStroke, 20, 3, 8, 15 );
         m.addAnimation( rt );
         double dt=0.02;
         AnimateLaw al = new AnimateLaw( dt * 2.5, m, s.getPanel(), layer );
