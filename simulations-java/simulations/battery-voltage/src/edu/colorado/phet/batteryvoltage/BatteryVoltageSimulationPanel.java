@@ -17,10 +17,10 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
-public class BatteryVoltageApplication extends JApplet {
+public class BatteryVoltageSimulationPanel extends JApplet {
     private SystemRunnerControl timeControls;
 
-    public BatteryVoltageApplication() {
+    public BatteryVoltageSimulationPanel() {
         int width = 500;
         int height = 300;
         int barrierX = 100;
@@ -59,7 +59,7 @@ public class BatteryVoltageApplication extends JApplet {
                 phetLookAndFeel.initLookAndFeel();
                 PhetApplicationConfig phetApplicationConfig = new PhetApplicationConfig( args, new FrameSetup.NoOp(), BatteryVoltageResources.getResourceLoader() );
                 JFrame f = new JFrame( phetApplicationConfig.getName() + " (" + phetApplicationConfig.getVersion().formatForTitleBar() + ")" );
-                f.setContentPane( new BatteryVoltageApplication() );
+                f.setContentPane( new BatteryVoltageSimulationPanel() );
                 f.setSize( new Dimension( 850, 525 ) );
                 f.setVisible( true );
                 f.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
