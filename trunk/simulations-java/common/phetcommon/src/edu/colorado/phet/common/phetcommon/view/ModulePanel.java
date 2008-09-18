@@ -173,7 +173,12 @@ public class ModulePanel extends JPanel {
         }
         clockControlPanel = panel;
         if ( panel != null ) {
-            leftPanel.add( panel, BorderLayout.SOUTH );
+            // Embed the clockControlPanel in its own JPanel so that it will be centered.
+            // This might cause issues for users that want to get a reference to the southern
+            // part of the module panel instead of the control panel itself.
+            JPanel container = new JPanel();
+            container.add( panel );
+            leftPanel.add( container, BorderLayout.SOUTH );
         }
     }
 
