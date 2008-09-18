@@ -41,10 +41,6 @@ public class WireParticle {
 
     public void setVelocity( double v ) {
         this.v = v;
-        //edu.colorado.phet.util.Debug.traceln("vel="+v);
-    }
-
-    public void setAcceleration( double a ) {
     }
 
     public double getMass() {

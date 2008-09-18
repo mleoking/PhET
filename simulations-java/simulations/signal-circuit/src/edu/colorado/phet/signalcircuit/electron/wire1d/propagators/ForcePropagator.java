@@ -30,7 +30,6 @@ public class ForcePropagator implements Propagator1d {
 
         //o.O.d("Force="+force);
         double a = f / m;
-        wp.setAcceleration( a );
 
         //v=v+a*dt;
         v = v + a * dt;
