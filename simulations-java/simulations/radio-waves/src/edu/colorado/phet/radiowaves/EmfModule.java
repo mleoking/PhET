@@ -15,11 +15,11 @@ import java.io.IOException;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.model.Command;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_1200.application.Module;
 import edu.colorado.phet.common_1200.application.PhetApplication;
-import edu.colorado.phet.common_1200.model.Command;
 import edu.colorado.phet.common_1200.model.clock.AbstractClock;
 import edu.colorado.phet.common_1200.view.graphics.Graphic;
 import edu.colorado.phet.common_1200.view.graphics.shapes.Arrow;

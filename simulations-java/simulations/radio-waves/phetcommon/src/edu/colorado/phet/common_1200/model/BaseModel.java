@@ -4,6 +4,8 @@
  */
 package edu.colorado.phet.common_1200.model;
 
+import edu.colorado.phet.common.phetcommon.model.Command;
+import edu.colorado.phet.common.phetcommon.model.CommandQueue;
 import edu.colorado.phet.common_1200.model.clock.AbstractClock;
 import edu.colorado.phet.common_1200.model.clock.ClockTickListener;
 

@@ -7,8 +7,8 @@ package edu.colorado.phet.radiowaves.model;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common_1200.math.Vector2D;
-import edu.colorado.phet.common_1200.model.ModelElement;
 
 public class ElectronSpring implements ModelElement {
 
