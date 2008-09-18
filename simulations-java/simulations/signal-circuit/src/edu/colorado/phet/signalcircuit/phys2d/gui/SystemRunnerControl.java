@@ -2,6 +2,7 @@ package edu.colorado.phet.signalcircuit.phys2d.gui;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.signalcircuit.phys2d.SystemRunner;
+import edu.colorado.phet.signalcircuit.SignalCircuitStrings;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -42,7 +43,7 @@ public class SystemRunnerControl {
                 updateSystem();
             }
         } );
-        dtSlider.setBorder( BorderFactory.createTitledBorder( SimStrings.getInstance().getString( "SystemRunnerControl.TimeIncrementSlider" ) ) );
+        dtSlider.setBorder( BorderFactory.createTitledBorder( SignalCircuitStrings.getString( "SystemRunnerControl.TimeIncrementSlider" ) ) );
         panel.setLayout( new BoxLayout( panel, BoxLayout.Y_AXIS ) );
 
         this.waitTimeSlider = new JSlider( 0, 100, 50 );
@@ -52,7 +53,7 @@ public class SystemRunnerControl {
                 updateSystem();
             }
         } );
-        waitTimeSlider.setBorder( BorderFactory.createTitledBorder( SimStrings.getInstance().getString( "SystemRunnerControl.WaitTimeSlider" ) ) );
+        waitTimeSlider.setBorder( BorderFactory.createTitledBorder( SignalCircuitStrings.getString( "SystemRunnerControl.WaitTimeSlider" ) ) );
         panel.add( dtSlider );
         panel.add( dtField );
         panel.add( waitTimeSlider );
