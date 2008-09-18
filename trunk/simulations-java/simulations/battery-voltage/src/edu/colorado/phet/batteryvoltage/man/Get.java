@@ -25,7 +25,7 @@ public class Get extends DefaultAction implements Location {
     }
 
     public void setTarget( PropagatingParticle t ) {
-        if( t == null ) {
+        if ( t == null ) {
             throw new RuntimeException( "Set null target." );
         }
         this.target = t;

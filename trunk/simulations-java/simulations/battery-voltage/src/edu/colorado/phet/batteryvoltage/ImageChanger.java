@@ -1,9 +1,9 @@
 package edu.colorado.phet.batteryvoltage;
 
+import java.awt.image.BufferedImage;
+
 import edu.colorado.phet.batteryvoltage.common.electron.paint.BufferedImagePainter;
 import edu.colorado.phet.batteryvoltage.man.voltListeners.VoltageListener;
-
-import java.awt.image.BufferedImage;
 
 public class ImageChanger implements VoltageListener {
     BufferedImagePainter bip;
@@ -19,7 +19,7 @@ public class ImageChanger implements VoltageListener {
     }
 
     public void voltageChanged( int value, Battery b ) {
-        if( value >= numElectrons / 2 ) {
+        if ( value >= numElectrons / 2 ) {
             bip.setImage( leftPlus );
         }
         else {

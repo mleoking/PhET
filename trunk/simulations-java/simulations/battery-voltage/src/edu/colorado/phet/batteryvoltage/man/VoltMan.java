@@ -1,12 +1,12 @@
 package edu.colorado.phet.batteryvoltage.man;
 
+import java.util.Vector;
+
 import edu.colorado.phet.batteryvoltage.Action;
 import edu.colorado.phet.batteryvoltage.common.electron.man.Man;
 import edu.colorado.phet.batteryvoltage.common.electron.man.Motion;
 import edu.colorado.phet.batteryvoltage.common.electron.man.laws.MotionChooser;
 import edu.colorado.phet.batteryvoltage.common.phys2d.PropagatingParticle;
-
-import java.util.Vector;
 
 public class VoltMan implements MotionChooser {
     Action action;
@@ -33,8 +33,8 @@ public class VoltMan implements MotionChooser {
 
     public void setGoingRight( boolean t ) {
         /*Make sure we're going right.*/
-        for( int i = 0; i < dir.size(); i++ ) {
-            Directional d = (Directional)dir.get( i );
+        for ( int i = 0; i < dir.size(); i++ ) {
+            Directional d = (Directional) dir.get( i );
             d.setCarryRight( t );
         }
     }
@@ -69,7 +69,7 @@ public class VoltMan implements MotionChooser {
         Action old = action;
         this.action = action.act();
         //o.O.p(action);
-        if( action == null ) {
+        if ( action == null ) {
             throw new RuntimeException( "Returned null action: " + old );
             //util.Debug.traceln("Action returned null: "+old);
         }

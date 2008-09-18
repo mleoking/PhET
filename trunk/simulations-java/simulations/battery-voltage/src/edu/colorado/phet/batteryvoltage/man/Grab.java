@@ -1,14 +1,14 @@
 package edu.colorado.phet.batteryvoltage.man;
 
+import java.util.Hashtable;
+import java.util.Vector;
+
 import edu.colorado.phet.batteryvoltage.Action;
 import edu.colorado.phet.batteryvoltage.common.electron.man.Man;
 import edu.colorado.phet.batteryvoltage.common.electron.man.Motion;
 import edu.colorado.phet.batteryvoltage.common.electron.man.motions.StandStill;
 import edu.colorado.phet.batteryvoltage.common.phys2d.PropagatingParticle;
 import edu.colorado.phet.batteryvoltage.common.phys2d.Propagator;
-
-import java.util.Hashtable;
-import java.util.Vector;
 
 public class Grab implements Action {
     Vector carried;

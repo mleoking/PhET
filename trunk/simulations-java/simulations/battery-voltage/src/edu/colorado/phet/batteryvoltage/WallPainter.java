@@ -1,9 +1,9 @@
 package edu.colorado.phet.batteryvoltage;
 
+import java.awt.*;
+
 import edu.colorado.phet.batteryvoltage.common.electron.paint.Painter;
 import edu.colorado.phet.batteryvoltage.common.electron.paint.StrokedRectanglePainter;
-
-import java.awt.*;
 
 public class WallPainter implements Painter {
     StrokedRectanglePainter srp;

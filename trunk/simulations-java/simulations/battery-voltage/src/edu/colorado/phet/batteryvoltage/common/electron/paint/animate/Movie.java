@@ -1,9 +1,9 @@
 package edu.colorado.phet.batteryvoltage.common.electron.paint.animate;
 
+import java.util.Vector;
+
 import edu.colorado.phet.batteryvoltage.common.electron.paint.CompositePainter;
 import edu.colorado.phet.batteryvoltage.common.electron.paint.Painter;
-
-import java.util.Vector;
 
 public class Movie implements Animation {
     Vector v = new Vector();
@@ -19,19 +19,19 @@ public class Movie implements Animation {
     }
 
     public Animation animationAt( int i ) {
-        return (Animation)v.get( i );
+        return (Animation) v.get( i );
     }
 
     public int getStartingFrame( int i ) {
-        return ( (Integer)indices.get( i ) ).intValue();
+        return ( (Integer) indices.get( i ) ).intValue();
     }
 
     public int numFrames() {
         int max = 0;
-        for( int i = 0; i < v.size(); i++ ) {
+        for ( int i = 0; i < v.size(); i++ ) {
             Animation a = animationAt( i );
             int n = a.numFrames() + getStartingFrame( i );
-            if( n > max ) {
+            if ( n > max ) {
                 max = n;
             }
         }
@@ -40,11 +40,11 @@ public class Movie implements Animation {
 
     public Painter frameAt( int f ) {
         CompositePainter cp = new CompositePainter();
-        for( int i = 0; i < v.size(); i++ ) {
+        for ( int i = 0; i < v.size(); i++ ) {
             //o.O.p(""+i);
             Animation a = animationAt( i );
             int relFrame = f - getStartingFrame( i );
-            if( relFrame >= 0 && relFrame < a.numFrames() ) {
+            if ( relFrame >= 0 && relFrame < a.numFrames() ) {
                 //o.O.p("adding painter: "+a.frameAt(f));
                 cp.addPainter( a.frameAt( relFrame ) );
             }

@@ -27,8 +27,8 @@ public class SystemRunner implements Runnable {
     public void run() {
         this.alive = true;
         this.running = true;
-        while( alive ) {
-            while( running ) {
+        while ( alive ) {
+            while ( running ) {
                 system.iterate( dt );
                 try {
                     Thread.sleep( waitTime );

@@ -15,7 +15,7 @@ public class ThoughtfulMover extends ManMover {
 
     public void move( double dt ) {
         Motion m = mc.getMotion();
-        if( m != null ) {
+        if ( m != null ) {
             m.update( dt, getMan() );
         }
     }

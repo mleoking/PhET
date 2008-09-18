@@ -1,5 +1,13 @@
 package edu.colorado.phet.batteryvoltage;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.Hashtable;
+import java.util.Random;
+import java.util.Vector;
+
+import javax.swing.*;
+
 import edu.colorado.phet.batteryvoltage.common.electron.components.Gauge;
 import edu.colorado.phet.batteryvoltage.common.electron.gui.mouse2.ParticleSelector;
 import edu.colorado.phet.batteryvoltage.common.electron.laws.CoulombsLaw;
@@ -26,13 +34,6 @@ import edu.colorado.phet.batteryvoltage.man.VoltMan;
 import edu.colorado.phet.batteryvoltage.man.VoltManFactory;
 import edu.colorado.phet.batteryvoltage.man.voltListeners.CompositeVoltageListener;
 import edu.colorado.phet.batteryvoltage.man.voltListeners.VoltageListener;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.util.Hashtable;
-import java.util.Random;
-import java.util.Vector;
 
 public class Battery {
     Vector papas = new Vector();
@@ -124,10 +125,10 @@ public class Battery {
 
         Movie movie = new Movie();
 
-        for( int i = 0; i < numElectrons / 2; i++ ) {
+        for ( int i = 0; i < numElectrons / 2; i++ ) {
             addParticle( x, barrierX, leftPropagator, leftElectrons, movie, i );
         }
-        for( int i = numElectrons / 2; i < numElectrons; i++ ) {
+        for ( int i = numElectrons / 2; i < numElectrons; i++ ) {
             addParticle( barrierX + barrierWidth, x + width - barrierX - barrierWidth, rightPropagator, rightElectrons, movie, i + numElectrons / 2 );
         }
 
@@ -178,7 +179,7 @@ public class Battery {
         cvl.addVoltageListener( imageChanger );
         addParticleMoveListener( new MaxSpeed( leftMaxSpeed, rightMaxSpeed ) );
 
-        for( int i = 0; i < numMen; i++ ) {
+        for ( int i = 0; i < numMen; i++ ) {
             Man m = new ManMaker( manSizeScale ).newMan();
 
             DoublePoint home = new DoublePoint( thresholdX, homeY + i * homeDY );
@@ -207,12 +208,12 @@ public class Battery {
         Vector all = new Vector();
         all.addAll( leftElectrons );
         all.addAll( rightElectrons );
-        director.initTags( (Particle[])all.toArray( new Particle[0] ) );
+        director.initTags( (Particle[]) all.toArray( new Particle[0] ) );
         cvl.stateChanged( null );
         fireParticleMoved( null );
 
         ParticleSelector ps = new ParticleSelector();
-        ps.addAll( (ParticlePainterAdapter[])papas.toArray( new ParticlePainterAdapter[0] ) );
+        ps.addAll( (ParticlePainterAdapter[]) papas.toArray( new ParticlePainterAdapter[0] ) );
         VoltParticleGrabber pg = new VoltParticleGrabber( panel, ps, new NullPropagator(), rightPropagator, leftPropagator, x + width / 2, this, director );
         panel.addMouseMotionListener( pg );
         panel.addMouseListener( pg );
@@ -266,7 +267,7 @@ public class Battery {
 
     public void setLeft( Particle p ) {
         rightElectrons.remove( p );
-        if( !leftElectrons.contains( p ) ) {
+        if ( !leftElectrons.contains( p ) ) {
             leftElectrons.add( p );
         }
         fireParticleMoved( p );
@@ -274,15 +275,15 @@ public class Battery {
 
     public void setRight( Particle p ) {
         leftElectrons.remove( p );
-        if( !rightElectrons.contains( p ) ) {
+        if ( !rightElectrons.contains( p ) ) {
             rightElectrons.add( p );
         }
         fireParticleMoved( p );
     }
 
     void fireParticleMoved( Particle p ) {
-        for( int i = 0; i < moveListeners.size(); i++ ) {
-            ParticleMoveListener pml = (ParticleMoveListener)moveListeners.get( i );
+        for ( int i = 0; i < moveListeners.size(); i++ ) {
+            ParticleMoveListener pml = (ParticleMoveListener) moveListeners.get( i );
             pml.particleMoved( this, p );
         }
     }

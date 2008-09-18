@@ -9,7 +9,7 @@ public abstract class BoundsBounce implements Propagator {
         DoublePoint v = p.getVelocity();
         DoublePoint x = p.getPosition();
 
-        if( isOutOfBounds( x ) ) {
+        if ( isOutOfBounds( x ) ) {
             //util.Debug.traceln("out of bounds.");
             DoublePoint newVel = ( getNewVelocity( v ) );
             //util.Debug.traceln("V0="+p.getVelocity());

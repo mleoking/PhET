@@ -1,14 +1,14 @@
 package edu.colorado.phet.batteryvoltage.man;
 
+import java.util.Hashtable;
+import java.util.Vector;
+
 import edu.colorado.phet.batteryvoltage.Action;
 import edu.colorado.phet.batteryvoltage.Battery;
 import edu.colorado.phet.batteryvoltage.common.electron.man.Man;
 import edu.colorado.phet.batteryvoltage.common.electron.man.Motion;
 import edu.colorado.phet.batteryvoltage.common.phys2d.PropagatingParticle;
 import edu.colorado.phet.batteryvoltage.common.phys2d.Propagator;
-
-import java.util.Hashtable;
-import java.util.Vector;
 
 public class Release implements Action, Directional {
     Vector carried;
@@ -48,7 +48,7 @@ public class Release implements Action, Directional {
         carried.remove( target );
         targeted.remove( target );
         target.setPropagator( freePropagator );
-        if( right ) {
+        if ( right ) {
             b.setRight( target );
         }
         else {

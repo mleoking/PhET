@@ -20,9 +20,9 @@ public class ForceLawPropagator extends ParticleList implements Propagator {
     public DoublePoint getForce( double dt, Particle p ) {
         DoublePoint force = new DoublePoint();
         //util.Debug.traceln("Num sources="+sources.size());
-        for( int j = 0; j < numParticles(); j++ ) {
+        for ( int j = 0; j < numParticles(); j++ ) {
             Particle x = particleAt( j );
-            if( x == p ) {
+            if ( x == p ) {
             }//ignore
             else {
                 force = force.add( law.getForce( x, p ) );

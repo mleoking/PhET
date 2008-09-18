@@ -1,8 +1,8 @@
 package edu.colorado.phet.batteryvoltage.common.electron.paint.particle;
 
-import edu.colorado.phet.batteryvoltage.common.phys2d.Particle;
-
 import java.awt.*;
+
+import edu.colorado.phet.batteryvoltage.common.phys2d.Particle;
 
 public interface ParticlePainter {
     public void paint( Particle p, Graphics2D g );

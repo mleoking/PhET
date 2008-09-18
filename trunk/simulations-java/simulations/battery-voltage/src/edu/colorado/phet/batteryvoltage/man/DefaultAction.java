@@ -1,9 +1,9 @@
 package edu.colorado.phet.batteryvoltage.man;
 
+import java.util.Vector;
+
 import edu.colorado.phet.batteryvoltage.Action;
 import edu.colorado.phet.batteryvoltage.common.electron.man.Motion;
-
-import java.util.Vector;
 
 public class DefaultAction implements Action {
     Vector conditions = new Vector();
@@ -29,10 +29,10 @@ public class DefaultAction implements Action {
     public Action act() {
 //        if (ac != null)
 //            ac.act();
-        for( int i = 0; i < conditions.size(); i++ ) {
-            Condition c = (Condition)conditions.get( i );
-            if( c.isSatisfied() ) {
-                return ( (Action)actions.get( i ) );
+        for ( int i = 0; i < conditions.size(); i++ ) {
+            Condition c = (Condition) conditions.get( i );
+            if ( c.isSatisfied() ) {
+                return ( (Action) actions.get( i ) );
             }
         }
         return this;

@@ -1,10 +1,10 @@
 package edu.colorado.phet.batteryvoltage.common.electron.man;
 
-import edu.colorado.phet.batteryvoltage.common.phys2d.DoublePoint;
-
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.Vector;
+
+import edu.colorado.phet.batteryvoltage.common.phys2d.DoublePoint;
 
 /*A kinematic chain.*/
 
@@ -49,17 +49,17 @@ public class Node {
     }
 
     public void rotate( double angle ) {
-        for( int i = 0; i < numChildren(); i++ ) {
+        for ( int i = 0; i < numChildren(); i++ ) {
             childAt( i ).rotate( x, y, angle );
         }
     }
 
     public void transform( AffineTransform t ) {
         Point2D.Double pt = new Point2D.Double( x, y );
-        Point2D.Double out = (Point2D.Double)t.transform( pt, null );
+        Point2D.Double out = (Point2D.Double) t.transform( pt, null );
         x = out.x;
         y = out.y;
-        for( int i = 0; i < children.size(); i++ ) {
+        for ( int i = 0; i < children.size(); i++ ) {
             childAt( i ).transform( t );
         }
     }
@@ -67,13 +67,13 @@ public class Node {
     public void translate( double dx, double dy ) {
         x += dx;
         y += dy;
-        for( int i = 0; i < children.size(); i++ ) {
+        for ( int i = 0; i < children.size(); i++ ) {
             childAt( i ).translate( dx, dy );
         }
     }
 
     public Node childAt( int i ) {
-        return (Node)children.get( i );
+        return (Node) children.get( i );
     }
 
 }

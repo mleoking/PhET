@@ -22,10 +22,10 @@ public class ReadyToDrop implements Condition {
     public boolean isSatisfied() {
         DoublePoint p = m.getNeck().getPosition();
         double px = p.getX();
-        if( greater && px > x ) {
+        if ( greater && px > x ) {
             return true;
         }
-        if( !greater && px < x ) {
+        if ( !greater && px < x ) {
             return true;
         }
         return false;

@@ -1,15 +1,15 @@
 package edu.colorado.phet.batteryvoltage.man;
 
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Vector;
+
 import edu.colorado.phet.batteryvoltage.Battery;
 import edu.colorado.phet.batteryvoltage.ParticleMoveListener;
 import edu.colorado.phet.batteryvoltage.common.phys2d.Particle;
 import edu.colorado.phet.batteryvoltage.common.phys2d.PropagatingParticle;
 import edu.colorado.phet.batteryvoltage.common.phys2d.System2D;
 import edu.colorado.phet.batteryvoltage.man.voltListeners.VoltageListener;
-
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Vector;
 
 public class Director implements VoltageListener, ParticleMoveListener {
     Vector carried;
@@ -30,7 +30,7 @@ public class Director implements VoltageListener, ParticleMoveListener {
     }
 
     public void determineTag( Particle p ) {
-        if( p.getPosition().getX() > middle ) {
+        if ( p.getPosition().getX() > middle ) {
             putTag( p, true );
         }
         else {
@@ -42,9 +42,9 @@ public class Director implements VoltageListener, ParticleMoveListener {
         Boolean t = new Boolean( tag );
         Enumeration k = sideTags.keys();
         int num = 0;
-        while( k.hasMoreElements() ) {
+        while ( k.hasMoreElements() ) {
             Object key = k.nextElement();
-            if( t.equals( sideTags.get( key ) ) ) {
+            if ( t.equals( sideTags.get( key ) ) ) {
                 num++;
             }
         }
@@ -52,7 +52,7 @@ public class Director implements VoltageListener, ParticleMoveListener {
     }
 
     public void initTags( Particle[] p ) {
-        for( int i = 0; i < p.length; i++ ) {
+        for ( int i = 0; i < p.length; i++ ) {
             determineTag( p[i] );
         }
     }
@@ -71,11 +71,11 @@ public class Director implements VoltageListener, ParticleMoveListener {
     }
 
     public VoltMan manAt( int i ) {
-        return (VoltMan)men.get( i );
+        return (VoltMan) men.get( i );
     }
 
     public void particleMoved( Battery source, Particle p ) {
-        if( p != null ) {
+        if ( p != null ) {
             determineTag( p );
         }
         voltageChanged( setVolts, source );
@@ -94,26 +94,26 @@ public class Director implements VoltageListener, ParticleMoveListener {
         //util.Debug.traceln("Num right="+currentInRight+", desire="+desiredNumInRight+", numToMoveRight="+dv);
         //util.Debug.traceln("L="+leftCount+", R="+rightCount+", volts="+currentVolts+", voltsToAimFor="+voltsToAimFor+", dv="+dv);
 
-        if( dv == 0 ) {
+        if ( dv == 0 ) {
             return;
         }
         boolean right = dv < 0;
-        if( right ) {
+        if ( right ) {
             int numNewToSendRight = Math.abs( dv );
             //util.Debug.traceln("DV="+dv+", Sending "+numNewToSendRight+" new men right.");
             int numSent = 0;
-            for( int i = 0; i < numMen(); i++ ) {
-                if( manAt( i ).isAvailable() ) {
+            for ( int i = 0; i < numMen(); i++ ) {
+                if ( manAt( i ).isAvailable() ) {
                     PropagatingParticle get = nextLeftParticle( 0 );
                     targeted.add( get );
                     //util.Debug.traceln("Recruited man : "+i+"= "+manAt(i)+" to carry right particle: "+get);
-                    if( get == null ) {
+                    if ( get == null ) {
                         break;
                     }
                     manAt( i ).carryElectronRight( get );
                     putTag( get, true );
                     numSent++;
-                    if( numSent >= numNewToSendRight ) {
+                    if ( numSent >= numNewToSendRight ) {
                         break;
                     }
                 }
@@ -123,18 +123,18 @@ public class Director implements VoltageListener, ParticleMoveListener {
             int numNewToSendLeft = Math.abs( dv );
             //util.Debug.traceln("Sending "+numNewToSendLeft+" new men left.");
             int numSent = 0;
-            for( int i = 0; i < numMen(); i++ ) {
-                if( manAt( i ).isAvailable() ) {
+            for ( int i = 0; i < numMen(); i++ ) {
+                if ( manAt( i ).isAvailable() ) {
                     PropagatingParticle get = nextRightParticle( 0 );
                     targeted.add( get );
                     //util.Debug.traceln("Recruited man : "+i+"= "+manAt(i)+" to carry left particle: "+get);
-                    if( get == null ) {
+                    if ( get == null ) {
                         break;
                     }
                     manAt( i ).carryElectronLeft( get );
                     putTag( get, false );
                     numSent++;
-                    if( numSent >= numNewToSendLeft ) {
+                    if ( numSent >= numNewToSendLeft ) {
                         break;
                     }
                 }
@@ -143,12 +143,12 @@ public class Director implements VoltageListener, ParticleMoveListener {
     }
 
     public PropagatingParticle nextLeftParticle( int start ) {
-        for( int i = start; i < sys.numParticles(); i++ ) {
-            PropagatingParticle p = (PropagatingParticle)sys.particleAt( i );
-            if( carried.contains( p ) || targeted.contains( p ) ) {
+        for ( int i = start; i < sys.numParticles(); i++ ) {
+            PropagatingParticle p = (PropagatingParticle) sys.particleAt( i );
+            if ( carried.contains( p ) || targeted.contains( p ) ) {
             }
             else {
-                if( p.getPosition().getX() < middle ) {
+                if ( p.getPosition().getX() < middle ) {
                     return p;
                 }
             }
@@ -157,12 +157,12 @@ public class Director implements VoltageListener, ParticleMoveListener {
     }
 
     public PropagatingParticle nextRightParticle( int start ) {
-        for( int i = start; i < sys.numParticles(); i++ ) {
-            PropagatingParticle p = (PropagatingParticle)sys.particleAt( i );
-            if( carried.contains( p ) || targeted.contains( p ) ) {
+        for ( int i = start; i < sys.numParticles(); i++ ) {
+            PropagatingParticle p = (PropagatingParticle) sys.particleAt( i );
+            if ( carried.contains( p ) || targeted.contains( p ) ) {
             }
             else {
-                if( p.getPosition().getX() > middle ) {
+                if ( p.getPosition().getX() > middle ) {
                     return p;
                 }
             }

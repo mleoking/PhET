@@ -1,14 +1,14 @@
 package edu.colorado.phet.batteryvoltage.common.electron.gui.mouse2;
 
-import edu.colorado.phet.batteryvoltage.common.phys2d.DoublePoint;
-import edu.colorado.phet.batteryvoltage.common.phys2d.Particle;
-import edu.colorado.phet.batteryvoltage.common.phys2d.PropagatingParticle;
-import edu.colorado.phet.batteryvoltage.common.phys2d.Propagator;
-
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+
+import edu.colorado.phet.batteryvoltage.common.phys2d.DoublePoint;
+import edu.colorado.phet.batteryvoltage.common.phys2d.Particle;
+import edu.colorado.phet.batteryvoltage.common.phys2d.PropagatingParticle;
+import edu.colorado.phet.batteryvoltage.common.phys2d.Propagator;
 
 public class ParticleGrabber implements MouseListener, MouseMotionListener {
     PropagatingParticle selected;
@@ -48,17 +48,17 @@ public class ParticleGrabber implements MouseListener, MouseMotionListener {
      * Grab the topmost edu.colorado.phet.electron under the mouse, if any.
      */
     public void mousePressed( MouseEvent me ) {
-        if( me.isControlDown() ) {
-            this.selected = (PropagatingParticle)ps.selectClosestTo( me.getPoint() );
+        if ( me.isControlDown() ) {
+            this.selected = (PropagatingParticle) ps.selectClosestTo( me.getPoint() );
         }
         else {
             Point pt = me.getPoint();
-            PropagatingParticle p = (PropagatingParticle)ps.selectAt( pt );
+            PropagatingParticle p = (PropagatingParticle) ps.selectAt( pt );
             selected = p;
 
             //util.Debug.traceln("Grabbed: "+p);
         }
-        if( selected != null ) {
+        if ( selected != null ) {
             selected.setPropagator( carryPropagator );
         }
     }
@@ -67,7 +67,7 @@ public class ParticleGrabber implements MouseListener, MouseMotionListener {
      * Motion.
      */
     public void mouseDragged( MouseEvent me ) {
-        if( selected == null ) {
+        if ( selected == null ) {
             return;
         }
         selected.setPosition( new DoublePoint( me.getX(), me.getY() ) );

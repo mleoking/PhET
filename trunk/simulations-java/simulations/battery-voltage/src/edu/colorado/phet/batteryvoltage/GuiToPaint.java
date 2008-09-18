@@ -1,8 +1,8 @@
 package edu.colorado.phet.batteryvoltage;
 
-import edu.colorado.phet.batteryvoltage.common.electron.paint.Painter;
-
 import java.awt.*;
+
+import edu.colorado.phet.batteryvoltage.common.electron.paint.Painter;
 
 /**
  * Created by IntelliJ IDEA.

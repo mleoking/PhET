@@ -1,9 +1,9 @@
 package edu.colorado.phet.batteryvoltage.common.electron.core;
 
-import edu.colorado.phet.batteryvoltage.common.phys2d.Particle;
-
 import java.util.Arrays;
 import java.util.Vector;
+
+import edu.colorado.phet.batteryvoltage.common.phys2d.Particle;
 
 public class ParticleList  //an adapter.
 {
@@ -26,6 +26,6 @@ public class ParticleList  //an adapter.
     }
 
     public Particle particleAt( int i ) {
-        return (Particle)v.get( i );
+        return (Particle) v.get( i );
     }
 }

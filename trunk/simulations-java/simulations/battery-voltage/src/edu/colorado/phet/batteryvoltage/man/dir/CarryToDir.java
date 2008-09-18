@@ -15,7 +15,7 @@ public class CarryToDir implements Directional {
     }
 
     public void setCarryRight( boolean b ) {
-        if( b ) {
+        if ( b ) {
             rtd.setState( xMax, true );
         }
         else {

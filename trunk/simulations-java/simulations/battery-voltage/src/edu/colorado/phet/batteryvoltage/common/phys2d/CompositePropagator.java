@@ -6,7 +6,7 @@ public class CompositePropagator implements Propagator {
     Vector x = new Vector();
 
     public Propagator propagatorAt( int i ) {
-        return (Propagator)x.get( i );
+        return (Propagator) x.get( i );
     }
 
     public void add( Propagator p ) {
@@ -18,7 +18,7 @@ public class CompositePropagator implements Propagator {
     }
 
     public void propagate( double dt, Particle p ) {
-        for( int i = 0; i < numPropagators(); i++ ) {
+        for ( int i = 0; i < numPropagators(); i++ ) {
             propagatorAt( i ).propagate( dt, p );
         }
     }

@@ -1,11 +1,11 @@
 package edu.colorado.phet.batteryvoltage.common.electron.paint.animate;
 
+import java.awt.*;
+
 import edu.colorado.phet.batteryvoltage.common.electron.paint.LayeredPanel;
 import edu.colorado.phet.batteryvoltage.common.electron.paint.Painter;
 import edu.colorado.phet.batteryvoltage.common.phys2d.Law;
 import edu.colorado.phet.batteryvoltage.common.phys2d.System2D;
-
-import java.awt.*;
 
 public class AnimateLaw implements Law, Painter {
     double dt;
@@ -26,26 +26,26 @@ public class AnimateLaw implements Law, Painter {
     }
 
     public void paint( Graphics2D g ) {
-        if( current != null ) {
+        if ( current != null ) {
             current.paint( g );
         }
     }
 
     public void iterate( double dx, System2D sys ) {
         //just see if we need a new frame.
-        int frameA = (int)( simulationTime / dt );
+        int frameA = (int) ( simulationTime / dt );
         simulationTime += dx;
-        int frameB = (int)( simulationTime / dt );
+        int frameB = (int) ( simulationTime / dt );
         //o.O.p("a="+frameA+", b="+frameB);
-        if( frameA == frameB ) {
+        if ( frameA == frameB ) {
             return;
         }
-        if( frameB > numFrames ) {
+        if ( frameB > numFrames ) {
             sys.remove( this );
             paintMe.remove( this, layer );
         }
         else {
-            if( frameB >= numFrames )//a.numFrames())
+            if ( frameB >= numFrames )//a.numFrames())
             {
                 return;
             }
