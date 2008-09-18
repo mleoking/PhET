@@ -12,10 +12,10 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common_1200.view.ApparatusPanel;
 import edu.colorado.phet.common_1200.view.fastpaint.FastPaintImageGraphic;
-import edu.colorado.phet.common_1200.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common_1200.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common_1200.view.util.GraphicsUtil;
 import edu.colorado.phet.common_1200.view.util.ImageLoader;
 import edu.colorado.phet.radiowaves.model.Electron;
