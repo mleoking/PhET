@@ -9,19 +9,13 @@ import java.util.Random;
 
 import javax.swing.*;
 
-import edu.colorado.phet.batteryvoltage.common.phys2d.System2D;
-import edu.colorado.phet.batteryvoltage.common.phys2d.SystemRunner;
-import edu.colorado.phet.batteryvoltage.common.phys2d.gui.Range;
-import edu.colorado.phet.batteryvoltage.common.phys2d.gui.SystemRunnerControl;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 
-public class BatteryVoltageSimulationPanel extends JPanel{
-    private SystemRunnerControl timeControls;
+public class BatteryVoltageSimulationPanel extends JPanel {
 
-    public BatteryVoltageSimulationPanel( IClock clock) {
+    public BatteryVoltageSimulationPanel( IClock clock ) {
         int width = 500;
         int height = 300;
         int barrierX = 100;
@@ -32,13 +26,7 @@ public class BatteryVoltageSimulationPanel extends JPanel{
         int y = 20;
         int seed = 0;
         int numMen = 7;
-        double dt = .021;
-        Battery b = new Battery( x, y, width, height, barrierX, barrierWidth, numElectrons, new Random( seed ), numMen, dt );
-
-        int waitTime = 20;
-        System2D sys = b.getSystem();
-        SystemRunner sr = new SystemRunner( sys, dt, waitTime );
-        timeControls = new SystemRunnerControl( new Range( .005, .08 ), dt, new Range( 0, 100 ), waitTime, sr );
+        final Battery b = new Battery( x, y, width, height, barrierX, barrierWidth, numElectrons, new Random( seed ), numMen, 0.021 );
 
         setLayout( new BorderLayout() );
         add( b.getJPanel(), BorderLayout.CENTER );
@@ -50,21 +38,11 @@ public class BatteryVoltageSimulationPanel extends JPanel{
         south.add( b.getControlPanel(), BorderLayout.CENTER );
         validate();
 
-        new Thread( sr ).start();
+        clock.addClockListener( new ClockAdapter() {
+            public void simulationTimeChanged( ClockEvent clockEvent ) {
+                b.getSystem().iterate( clockEvent.getSimulationTimeChange() );
+            }
+        } );
     }
 
-//    public static void main( final String[] args ) {
-//        SwingUtilities.invokeLater( new Runnable() {
-//            public void run() {
-//                PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
-//                phetLookAndFeel.initLookAndFeel();
-//                PhetApplicationConfig phetApplicationConfig = new PhetApplicationConfig( args, new FrameSetup.NoOp(), BatteryVoltageResources.getResourceLoader() );
-//                JFrame f = new JFrame( phetApplicationConfig.getName() + " (" + phetApplicationConfig.getVersion().formatForTitleBar() + ")" );
-//                f.setContentPane( new BatteryVoltageSimulationPanel() );
-//                f.setSize( new Dimension( 850, 525 ) );
-//                f.setVisible( true );
-//                f.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-//            }
-//        } );
-//    }
 }
