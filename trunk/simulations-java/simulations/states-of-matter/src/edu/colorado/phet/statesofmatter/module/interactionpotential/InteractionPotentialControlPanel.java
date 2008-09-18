@@ -2,17 +2,26 @@
 
 package edu.colorado.phet.statesofmatter.module.interactionpotential;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 import java.util.Hashtable;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
@@ -24,12 +33,17 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.motion.graphs.ControlGraph.FlowLayout;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractValueControl;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ILayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
@@ -379,15 +393,16 @@ public class InteractionPotentialControlPanel extends ControlPanel {
         }
     }
     
-    private class ForceControlPanel extends JPanel {
+    private class ForceControlPanel extends VerticalLayoutPanel {
 
         private JRadioButton m_noForcesButton;
         private JRadioButton m_totalForcesButton;
         private JRadioButton m_componentForceButton;
+        private JLabel m_totalForceLegendEntry;
+        private JLabel m_attractiveForceLegendEntry;
+        private JLabel m_repulsiveForceLegendEntry;
         
         public ForceControlPanel(){
-            
-            setLayout( new GridLayout(0, 1) );
             
             BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
             TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
@@ -408,7 +423,8 @@ public class InteractionPotentialControlPanel extends ControlPanel {
                     m_canvas.setShowTotalForces( false );
                 }
             } );
-            m_totalForcesButton = new JRadioButton( StatesOfMatterStrings.INTERACTION_POTENTIAL_TOTAL_FORCES );
+            
+            m_totalForcesButton = new JRadioButton( StatesOfMatterStrings.INTERACTION_POTENTIAL_TOTAL_FORCES);
             m_totalForcesButton.setFont( LABEL_FONT );
             m_totalForcesButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -417,6 +433,11 @@ public class InteractionPotentialControlPanel extends ControlPanel {
                     m_canvas.setShowTotalForces( true );
                 }
             } );
+            JPanel totalForceButtonPanel = new JPanel();
+            totalForceButtonPanel.setLayout( new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0) );
+            totalForceButtonPanel.add( m_totalForcesButton );
+            totalForceButtonPanel.add( new JLabel( createArrowIcon( Color.GREEN, false ) ) );
+            
             m_componentForceButton = 
                 new JRadioButton( StatesOfMatterStrings.INTERACTION_POTENTIAL_COMPONENT_FORCES );
             m_componentForceButton.setFont( LABEL_FONT );
@@ -428,15 +449,43 @@ public class InteractionPotentialControlPanel extends ControlPanel {
                 }
             } );
 
+            // Group the buttons logically (not physically) together and set initial state.
             ButtonGroup buttonGroup = new ButtonGroup();
             buttonGroup.add( m_noForcesButton );
             buttonGroup.add( m_totalForcesButton );
             buttonGroup.add( m_componentForceButton );
             m_noForcesButton.setSelected( true );
             
+            // Create the sub-panels that will be used for the key to the various force types.
+
+            JPanel spacePanel = new JPanel();
+            spacePanel.setLayout( new BoxLayout( spacePanel, BoxLayout.X_AXIS ) );
+            spacePanel.add( Box.createHorizontalStrut( 14 ) );
+
+            JPanel attractiveForceLegendEntry = new JPanel();
+            attractiveForceLegendEntry.setLayout( new java.awt.FlowLayout(java.awt.FlowLayout.LEFT) );
+            m_attractiveForceLegendEntry = new JLabel("<html>Attractive<br>(Van der Waals)</html>", 
+                    createArrowIcon( Color.YELLOW, false ), JLabel.LEFT);
+            attractiveForceLegendEntry.add( spacePanel );
+            attractiveForceLegendEntry.add( m_attractiveForceLegendEntry );
+            
+            spacePanel = new JPanel();
+            spacePanel.setLayout( new BoxLayout( spacePanel, BoxLayout.X_AXIS ) );
+            spacePanel.add( Box.createHorizontalStrut( 14 ) );
+
+            JPanel repulsiveForceLegendEntry = new JPanel();
+            repulsiveForceLegendEntry.setLayout( new java.awt.FlowLayout(java.awt.FlowLayout.LEFT) );
+            m_repulsiveForceLegendEntry = new JLabel("<html>Repulsive<br>(Electron Overlap)</html>", 
+                    createArrowIcon( Color.ORANGE, true ), JLabel.LEFT);
+            repulsiveForceLegendEntry.add( spacePanel );
+            repulsiveForceLegendEntry.add( m_repulsiveForceLegendEntry );
+            
+            // Add the components to the main panel.
             add( m_noForcesButton );
-            add( m_totalForcesButton );
+            add( totalForceButtonPanel );
             add( m_componentForceButton );
+            add( attractiveForceLegendEntry );
+            add( repulsiveForceLegendEntry );
         }
         
         private void reset() {
@@ -444,6 +493,16 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             m_canvas.setShowAttractiveForces( false );
             m_canvas.setShowRepulsiveForces( false );
             m_canvas.setShowTotalForces( false );
+        }
+        
+        private ImageIcon createArrowIcon( Color color, boolean pointRight ) {
+            ArrowNode arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(20, 0), 10, 15, 6 );
+            arrowNode.setPaint( color );
+            Image arrowImage = arrowNode.toImage();
+            if (!pointRight) {
+                arrowImage = BufferedImageUtils.flipX( BufferedImageUtils.toBufferedImage( arrowImage ) );
+            }
+            return( new ImageIcon(arrowImage)) ;
         }
     }
 
