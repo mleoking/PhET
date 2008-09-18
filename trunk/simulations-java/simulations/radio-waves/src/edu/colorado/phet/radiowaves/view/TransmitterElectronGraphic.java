@@ -14,12 +14,12 @@ import java.io.IOException;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common_1200.view.ApparatusPanel;
 import edu.colorado.phet.common_1200.view.graphics.BoundedGraphic;
 import edu.colorado.phet.common_1200.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common_1200.view.graphics.Graphic;
 import edu.colorado.phet.common_1200.view.graphics.mousecontrols.Translatable;
-import edu.colorado.phet.common_1200.view.util.ImageLoader;
 import edu.colorado.phet.radiowaves.EmfConfig;
 import edu.colorado.phet.radiowaves.EmfModule;
 import edu.colorado.phet.radiowaves.model.Electron;

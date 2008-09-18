@@ -17,6 +17,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.Command;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_1200.application.Module;
@@ -26,7 +27,6 @@ import edu.colorado.phet.common_1200.view.graphics.Graphic;
 import edu.colorado.phet.common_1200.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common_1200.view.help.HelpItem;
 import edu.colorado.phet.common_1200.view.util.GraphicsUtil;
-import edu.colorado.phet.common_1200.view.util.ImageLoader;
 import edu.colorado.phet.radiowaves.command.AddTransmittingElectronCmd;
 import edu.colorado.phet.radiowaves.command.DynamicFieldIsEnabledCmd;
 import edu.colorado.phet.radiowaves.command.SetMovementCmd;
