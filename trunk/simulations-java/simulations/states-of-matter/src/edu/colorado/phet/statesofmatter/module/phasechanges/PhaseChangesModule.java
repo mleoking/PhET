@@ -4,15 +4,14 @@ package edu.colorado.phet.statesofmatter.module.phasechanges;
 
 import java.awt.Frame;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
+import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.defaults.PhaseChangesDefaults;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
 
-public class PhaseChangesModule extends Module {
+public class PhaseChangesModule extends PiccoloModule {
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -38,9 +37,6 @@ public class PhaseChangesModule extends Module {
         
         // Control panel
         setControlPanel( new PhaseChangesControlPanel( this, parentFrame ) );
-        
-        // Clock controls
-        setClockControlPanel( new ClockControlPanel( getClock() ) );
         
         // Help
         if ( hasHelp() ) {

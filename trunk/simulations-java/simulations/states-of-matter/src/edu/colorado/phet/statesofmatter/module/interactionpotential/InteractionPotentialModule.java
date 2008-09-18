@@ -4,14 +4,10 @@ package edu.colorado.phet.statesofmatter.module.interactionpotential;
 
 import java.awt.Frame;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
-import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
+import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.defaults.InteractionPotentialDefaults;
-import edu.colorado.phet.statesofmatter.defaults.PhaseChangesDefaults;
-import edu.colorado.phet.statesofmatter.defaults.SolidLiquidGasDefaults;
 import edu.colorado.phet.statesofmatter.model.DualParticleModel;
 
 /**
@@ -20,7 +16,7 @@ import edu.colorado.phet.statesofmatter.model.DualParticleModel;
  *
  * @author John Blanco
  */
-public class InteractionPotentialModule extends Module {
+public class InteractionPotentialModule extends PiccoloModule {
     
     //----------------------------------------------------------------------------
     // Instance Data
@@ -48,9 +44,6 @@ public class InteractionPotentialModule extends Module {
         
         // Control panel
         setControlPanel( new InteractionPotentialControlPanel( this, parentFrame ) );
-        
-        // Clock controls
-        setClockControlPanel( new ClockControlPanel( getClock() ) );
         
         // Help
         if ( hasHelp() ) {
