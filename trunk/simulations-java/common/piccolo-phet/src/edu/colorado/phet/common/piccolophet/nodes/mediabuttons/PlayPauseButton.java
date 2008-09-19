@@ -52,7 +52,7 @@ public class PlayPauseButton extends AbstractMediaButton {
         iconNode.setPaint( isEnabled() ? Color.black : Color.gray );
     }
 
-    private void setPlaying( boolean b ) {
+    public void setPlaying( boolean b ) {
         this.playing = b;
         update();
         updateImage();
