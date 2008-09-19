@@ -78,6 +78,7 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
         PhetPCanvas buttonPCanvas = new PhetPCanvas();
 
         stepToolTipHandler = new ToolTipHandler( "Step", buttonPCanvas );
+        stepToolTipHandler.setText( getStepString() );
         piccoloStepButton.addInputEventListener( stepToolTipHandler );
 
         pauseTooltipHandler = new ToolTipHandler( "Pause", buttonPCanvas );
@@ -379,7 +380,6 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
         restartButton.setEnabled( isEnabled() );
 
         pauseTooltipHandler.setText( paused ? getPlayString() : getPauseString() );
-        stepToolTipHandler.setText( paused ? getStepString() : null );
     }
 
     private String getStepString() {
