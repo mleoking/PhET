@@ -373,6 +373,7 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
      * Updates the state of the play/pause and step buttons to reflect whether the control is paused and/or enabled.
      */
     private void updateButtons() {
+        piccoloPlayPauseButton.setEnabled( isEnabled() );
         piccoloStepButton.setEnabled( isEnabled() && paused );
         restartButton.setEnabled( isEnabled() );
 
