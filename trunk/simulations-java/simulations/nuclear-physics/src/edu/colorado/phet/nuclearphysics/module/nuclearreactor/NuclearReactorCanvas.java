@@ -43,6 +43,7 @@ public class NuclearReactorCanvas extends PhetPCanvas{
     
     private NuclearReactorModel _nuclearReactorModel;
     private NuclearReactorNode  _nuclearReactorNode;
+    private GradientButtonNode _fireNeutronsButtonNode;
     private GradientButtonNode _showReactorImageButtonNode;
     private Frame _parentFrame;
 
@@ -72,12 +73,25 @@ public class NuclearReactorCanvas extends PhetPCanvas{
         _nuclearReactorNode = new NuclearReactorNode(_nuclearReactorModel, this);
         addWorldChild( _nuclearReactorNode );
         
+        // Add the button for firing neutrons into the reactor.
+        _fireNeutronsButtonNode = new GradientButtonNode(NuclearPhysicsStrings.FIRE_NEUTRONS_BUTTON_LABEL, 16, 
+                new Color(0xff9900));
+        addWorldChild( _fireNeutronsButtonNode );
+        _fireNeutronsButtonNode.setOffset( _nuclearReactorNode.getFullBounds().getMaxX() - 
+                _fireNeutronsButtonNode.getFullBounds().width, _nuclearReactorNode.getFullBounds().getMinY() -
+                _fireNeutronsButtonNode.getFullBounds().height);
+        
+        _fireNeutronsButtonNode.addActionListener( new ActionListener() {
+            public void actionPerformed(ActionEvent event){
+                _nuclearReactorModel.fireNeutrons();
+            }
+        });
+        
         // Add the button for showing the reactor photo.
         _showReactorImageButtonNode = new GradientButtonNode(NuclearPhysicsStrings.SHOW_REACTOR_IMAGE, 16, new Color(0x88ff00));
         addWorldChild(_showReactorImageButtonNode);
-        _showReactorImageButtonNode.setOffset( -(CANVAS_WIDTH/2) , CANVAS_HEIGHT / 2 ); 
+        _showReactorImageButtonNode.setOffset( -(CANVAS_WIDTH/2), CANVAS_HEIGHT / 2 );
         
-        // Register to receive button pushes.
         _showReactorImageButtonNode.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent event){
                 // Show the image dialog.

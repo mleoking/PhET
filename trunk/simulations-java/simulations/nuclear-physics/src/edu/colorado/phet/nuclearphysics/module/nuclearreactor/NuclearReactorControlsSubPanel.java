@@ -17,8 +17,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -26,8 +24,8 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 
 /**
  * This class defines a subpanel that goes on the main control panel for the
- * nuclear reactor tab and allows the user to enable a graph, fire neutrons,
- * and reset the reaction.
+ * nuclear reactor tab and allows the user to enable a graph, and/or reset the
+ * reactor.
  *
  * @author John Blanco
  */
@@ -80,23 +78,11 @@ public class NuclearReactorControlsSubPanel extends VerticalLayoutPanel {
         _energyGraphsCheckBox.setBorder( BorderFactory.createEtchedBorder() );
         add(_energyGraphsCheckBox);
         
-        // Add a little spacing in order to make the controls easier to spot.
-        addSpace( 20 );
+        // Add a little spacing in order to make the button(s) easier to spot.
+        addSpace( 10 );
         
         // Turn off the fill so the buttons don't get stretched.
         setFillNone();
-        
-        // Add the button that allows users to fire neutrons into the reaction area.
-        JButton fireNeutronsButton = new JButton(NuclearPhysicsStrings.FIRE_NEUTRONS_BUTTON_LABEL );
-        fireNeutronsButton.addActionListener( new ActionListener(){
-            public void actionPerformed(ActionEvent event){
-                _model.fireNeutrons();
-            }
-        });
-        add(fireNeutronsButton);
-        
-        // Add a bit more spacing.
-        addSpace( 10 );
         
         // Add the button that allows the user to reset the reaction.
         JButton resetButton = new JButton(NuclearPhysicsStrings.RESET_BUTTON_LABEL);
@@ -107,6 +93,7 @@ public class NuclearReactorControlsSubPanel extends VerticalLayoutPanel {
             }
         });
         add(resetButton);
+        addSpace( 10 );
     }
     
     //------------------------------------------------------------------------
