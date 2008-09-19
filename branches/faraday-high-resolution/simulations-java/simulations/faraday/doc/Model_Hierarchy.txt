@@ -1,0 +1,28 @@
+Faraday's Law - Model Heirarchy
+
+Below is the type hierarchy of the Faraday simulation model (edu.colorado.phet.faraday.model).
+Classes that implement ModelElement are marked with a '*'; they contain one or more attributes that vary over time. 
+Also indicated are the Observer-Observable relationships.
+
+--
+
+Object
+	  FaradayObservable
+	  	    AbstractMagnet
+				    DipoleMagnet
+ 					      BarMagnet
+ 					      Turbine *
+ 					  CoilMagnet
+					      Electromagnet (SimpleObserver of SourceCoil)
+			  AbstractVoltageSource
+				    ACPowerSupply *
+				    Battery
+				AbstractCoil
+					  PickupCoil (SimpleObserver of AbstractMagnet) *
+					  SourceCoil
+			  Compass (SimpleObserver of AbstractMagnet) *
+		    Lightbulb (SimpleObserver of PickupCoil)
+		    Voltmeter (SimpleObserver of PickupCoil) *
+			  Electron *
+
+--

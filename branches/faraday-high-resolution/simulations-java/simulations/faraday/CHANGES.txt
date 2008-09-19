@@ -1,0 +1,594 @@
+===============================================================================
+Changes for faraday
+===============================================================================
+
+
+DONE:
+********* version 2.01.01 (24585)
+9/18/08 - update compass while clock is paused (Unfuddle #711)
+5/20/08 - replace new Font("Sans Serif",...) with new PhetFont(...)
+5/8/08 - fix translations (ar,es,lt) that were using obsolete MessageFormat syntax
+********* version 2.01.00 (21052)
+********* version 2.00.04 (21033)
+4/28/08 - add PhetLookAndFeel to mains
+4/28/08 - pick up PhetDefaultFont fixes
+4/14/08 - restore "Show Field" and "Show Electrons" features that were hidden for 2.00.01, 2.00.02 and 2.00.03
+********* version 2.00.03 (20727)
+4/14/08 - hide "Show Field" and "Show Electrons" features (for Archie's studies)
+********* version 2.00.02 (20725)
+4/14/08 - show "Show Field" feature, hide "Show Electrons" feature (for Archie's studies)
+********* version 2.00.01 (20722)
+4/14/08 - hide "Show Field" feature (for Archie's studies)
+4/14/08 - add compile-time flags to hide "Show Field" and "show Electrons" features (for Archie's studies)
+4/14/08 - set B-field to "off" by default in GeneratorModule.reset
+4/14/08 - add missing call to reset() at end of constructor for GeneratorModule
+********* version 2.00.00 (20682)
+4/10/08 - fix "see inside" feature to handle magnet rotation that occurs with "show Earth"
+********* version 1.05.15 (20599)
+4/8/09 - strength slider for bar magnet and turbine both need to be constrained to integer values [504]
+4/7/08 - no water is shown when turbine is spinning at 1 or 2 rpm [503]
+********* version 1.05.14 (20577)
+4/7/08 - add clock control panels to all modules of magnets-and-electromagnets
+********* version 1.05.13 (20568)
+4/7/08 - hide the slow hand on the clock animation as suggested by Kathy, for purposes of demonstration
+********* version 1.05.12 (20556)
+4/7/08 - hide clock control panel for all modules in magnet-and-compass and magnets-and-electromagnets
+********* version 1.05.11 (20528)
+4/3/08 - change method of rescaling the B-field visualization [490]
+4/2/08 - change faraday.description
+********* version 1.05.10 (20509)
+4/2/08 - organize imports
+4/2/08 - fix bounds problem in AbstractBFieldGraphic, needed to call setBoundsDirty when grid bounds change [351]
+4/2/08 - remove AbstractBFieldGraphic.setRescalingEnabled and getRescalingEnabled, not useful, we always rescale
+4/2/08 - rename CompassGridGraphic to AbstractBFieldGraphic
+4/2/08 - change terminology in CompassGridGraphic, use "grid points" instead of "needle descriptors"
+4/2/08 - convert CompassNeedleCache to use strategy pattern for colors
+4/1/08 - create BFieldInsideGraphic, field grid inside the magnet that moves with the magnet [351]
+4/1/08 - create BFieldOutsideGraphic, a specialization of CompassGridGraphic that fills the play area [351]
+4/1/08 - generalize CompassGridGraphic so that it can be used for the bar magnet's internal B-field display [351]
+4/1/08 - visually inspect all AbstractMagnet.getStrength calls to make sure that having zero magnet strength won't cause problems [435]
+4/1/08 - fix divide-by-zero problem in Dipole.getStrengthOutside that occurs when one of the poles is on the point of interest [492]
+********* version 1.05.09 (20482)
+4/1/08 - change screenshot for magnet-and-compass, turn off field meter [442]
+4/1/08 - create screenshots for new faraday sims [442]
+4/1/08 - change Earth transparency from 0.65 to 0.75 [443]
+4/1/08 - put Earth in top-most layer, in front of magnet, compass and field meter [443]
+4/1/08 - change lightbulb min alpha=0.35 and light glow scale=15 throughout [488]
+********* version 1.05.08 (20467)
+3/31/08 - make Earth image smaller to match Kathy's mockup [443]
+3/31/08 - for bar magnet, make compass grid use B-field slightly outside magnet's 2D plan to prevent needles from flipping [424] 
+********* version 1.05.07 (20456)
+3/31/08 - add "Show Earth" feature to magnet-and-compass and magnets-and-electromagnets flavors [443]
+3/31/08 - make faraday into multiple flavors: faraday, magnets-and-compass, magnets-and-electromagnets, generator [442]
+********* version 1.05.06 (20441)
+3/28/08 - add developer control for setting scaling factor to calibrate how much the lightbulb glows [420]
+3/28/08 - add developer control for setting the min value for the lightbulb's alpha channel [420]
+3/28/08 - make lightbulb glow by modulating alpha channel of lightbulb glass to correspond to intensity [420]
+3/28/08 - separate lightbulb image into glass, cap and base components [420]
+3/28/08 - change red voltmeter probe to white [423] 
+********* version 1.05.05 (20430)
+3/27/08 - absorb controls from DeveloperControlsDialog into DeveloperControlsPanel
+3/27/08 - clean up pickup coil flux display 
+3/27/08 - add message to DeveloperControlsPanel indicating these controls will not be reset by Reset All
+3/27/08 - absorb ScalePanel into DeveloperControlsPanel
+3/27/08 - create DeveloperControlsPanel for all developer controls that appear in ControlPanel [248]
+3/27/08 - make VariableNumberOfSamplePointsStrategy the permanent strategy [248]
+3/27/08 - add developer control for pickup coil B-field fudge factor to PickupCoilPanel [248]
+3/27/08 - use pickup coil fudge factor to scale B-field for sample points inside magnet [248]
+3/27/08 - simplify pickup coil emf calculation by using only B-field x component (Bx) [248]
+3/27/08 - enable display of flux by default (developer control) [248]
+3/27/08 - convert Developer menu items to a dialog so we can add other types of controls [248]
+3/27/08 - simplify calculation of single-loop flux in PickupCoil.updateEmf [248]
+********* version 1.05.04 (20411)
+3/27/08 - reduce spacing between sample points on pickup coils [248]
+3/27/08 - change CoilMagnet shape from circle to square to accommodate new pickup coil sample point strategy [248]
+3/27/08 - remove redundant bounds member from DipoleMagnet, use modelShape to determine inside/outside [248]
+3/26/08 - recalibrate PICKUP_REFERENCE_EMF and module scaling factors (LIGHTBULB_SCALE, VOLTMETER_SCALE, ELECTRON_SPEED_SCALE) [441]
+3/26/08 - rename FaradayConstants.MAX_PICKUP_EMF to PICKUP_REFERENCE_EMF, add doc about how to set this [441]
+3/26/08 - rename "voltage source" to "current source" throughout source code [437]
+3/26/08 - set size of bar magnet model directly, scale graphic accordingly (instead of visa versa) [248]
+3/26/08 - add a flag for quickly switching between pickup coil sample points strategies [248]
+3/26/08 - set variable sample points strategy for pickup coil based on height of magnet [248]
+3/26/08 - use strategy pattern for the multiple ways that we have to create pickup coil sample points [248]
+3/25/08 - rename methods related to bar magnet "see inside" feature [351]
+3/25/08 - use Point2D[] instead of double[] for sample points on pickup coil [248]
+3/24/08 - revert to fixed number of sample points on pickup coil [248]
+3/24/08 - calculate pickup coil sample points as y offset from coil's center, update only when radius changes [248]
+3/24/08 - change instance data and accessors for AbstractMagnet size, delete unused code [248]
+3/24/08 - undo conversion of magnet dimensions to integer precision [248]
+3/24/08 - convert magnet dimensions to integer precision to satisfy constraints of new pickup coil model [248]
+3/24/08 - set spacing of pickup coil sample points based on height of magnet [248]
+3/21/08 - promote graphic that displays coil sample points to top-level [248]
+3/21/08 - generalize view of pickup coil sample points to handle variable number of sample points [248]
+3/21/08 - change pickup coil model to store and provide access to sample points [248]
+3/21/08 - pull flux display graphics out of PickupCoilGraphic and into FluxDisplayGraphic [248]
+3/21/08 - change "AC Power Supply" to "AC Current Supply" [80]
+********* version 1.05.03 (20342)
+3/20/08 - change turbine strength range to 0-100%, adjust major ticks on slider [435]
+3/20/08 - change bar magnet strength range to 0-100%, adjust major ticks on slider [435]
+3/20/08 - add developer control to show electromagnet model shape
+3/20/08 - add developer control to turn on/off display of pickup coil sample points
+3/20/08 - simplify setting of DEBUG_DISPLAY_FLUX from Developer menu
+3/20/08 - read -dev command line arg to enable developer controls
+3/20/08 - delete CVS file headers, remove CVS keywords from javadoc, organize imports
+3/20/08 - increase range of loop area control [425]
+3/20/08 - revert settings if Field Controls dialog is closed via close button in window dressing
+3/20/08 - ensure that Options menu can't open multiple copies of the same dialog [427]
+3/20/08 - convert to new-style tabs for switching modules [426]
+3/19/08 - remove redundant entries from localization files
+3/19/08 - statically load all localized strings in FaradayStrings
+3/19/08 - remove MessageFormat-style strings from localization files, convert to symbolic constants
+3/19/08 - remove obsolete/disabled "challenge" from Transformer module and localization files
+11/9/07 - move about.credits property to localization file
+10/9/07 - migrate "Reset All" and "set minimum width" features to phetcommon ControlPanel
+********* version 1.05.02 (?)
+********* version 1.05.01 (?)
+10/8/07 - added Arabic translation
+********* version 1.05.00 (17033)
+7/27/07 - new version published as part of new website deployment
+7/2/07 - wrap the body of main in invokeLater
+6/15/07 - convert description properties to well-formed HTML
+4/24/07 - replace ControlPanelSlider with LinearValueControl from phetcommon
+4/7/07 - organize imports
+4/7/07 - set locale in Spanish JNLP file via javaws.phet.locale property
+4/7/07 - encapsulate loading of strings and images in FaradayResources
+4/7/07 - convert from SimStrings to PhetProjectConfig
+3/20/07 - move ColorChooserFactory to phetcommon
+3/14/07 - rename FaradayConfig to FaradayConstants to be consistent with my other sims
+3/14/07 - rename SimStrings files to have basename faraday_strings
+3/14/07 - move images to data/faraday/images to avoid namespace collisions
+3/14/07 - get version and credits from properties file
+v1r4....
+(2/14/07) - recalibrate LIGHTBULB_SCALE, VOLTMETER_SCALE and ELECTRON_SPEED_SCALE in PickupCoilModule
+(2/13/07) - change PICKUP_COIL_DISTANCE_EXPONENT=3 for PickupCoilModule to address issue with electrons appearing to move in wrong direction 
+(2/13/07) - use PICKUP_COIL_DISTANCE_EXPONENT=2 in all modules that create a PickupCoil (no behavior change)
+(2/13/07) - make "distance exponent" an arg to PickupCoil constructor
+(2/7/07) - remove unused argument (AbstractMagnet) from PickupCoilGraphic
+v1r3...
+(8/25/06) - replace water faucet image (not sure where it came from) with one I made
+v1r2...
+(8/3/06) - create ProGuard config file for optimizing JAR file size
+(8/3/06) - AC power source is positioned incorrectly, not attached to coil (bounds problem with PhetTextGraphic and SineWaveGraphic)
+(8/3/06) - add a JSeparator between inputPanel and actionPanel in GridControlsDialog
+(8/3/06) - change "Reset" to "Reset All"
+(8/3/06) - fix all javadoc warnings
+(8/3/06) - change finalize() methods to cleanup(), shouldn't override finalize
+(8/3/06) - replace fourier.util.EasyGridBagLayout with phetcommon.view.utils.EasyGridBagLayout
+(8/3/06) - fix positioning of arc around voltmeter guage
+(8/3/06) - fix TurbineGraphic so that column of water is properly resized
+(8/3/06) - pickup Spanish translations that were previously missing from phetcommon
+(1/2/06) - changes to support new ModulePanel layout
+(12/27/05) - add a Version object, like my in my other sims
+(12/27/05) - changes to support phetcommon's new Module and Clock architecture
+(12/14/05) - minor changes to support separation of phetcommon and phetgraphics into separate CVS projects
+(9/27/05) - changed all JNLP files to assume that everything lives in faraday.jar
+(9/27/05) - moved Spanish translations and JNLP file into the faraday CVS project
+v1r1...
+(5/3/05) - changed the simulation title
+v1r0...
+(4/27/05) - fix the theta label in the Field Meter
+(4/27/05) - voltmeter: left probe red, right probe black
+(4/27/05) - disable all Wiggle Mes and Challenges except in BarMagnet module
+(4/27/05) - move version number to FaradayConfig, use CVS tag as version number
+(4/27/05) - move phetcommon bug/feature reports to SourceForge bug tracker
+(4/27/05) - add package-level javadoc
+v0r25...
+(4/25/05) - disable PhetLookAndFeel, it looks ugly
+(4/25/05) - rename meterProbe image to voltmeterProbe
+(4/25/05) - move test-src programs to examples project
+(4/25/05) - fix PhetLookAndFeel so that it works on all platforms
+(4/25/05) - remove "skip rectangle computation stuff from FaradayApplication & FaradayModule, no performance gain
+(4/25/05) - fix LightRaysGraphic bounds so that the end caps on the ray lines are included
+(4/24/05) - optimize lightbulb by having one PhetGraphic (LightRaysGraphic) that the draws all the rays
+(4/24/05) - lightbulb can optionally go "off" when direction of current in the pickup coil changes
+(4/22/05) - rename voltmeter methods that deal with needle jiggle so that they're not misleading
+(4/22/05) - get rid of scrollbars on control panel by decreasing the title font size and the vertical spacing
+(4/22/05) - generate javadoc and resolve all warnings
+(4/22/05) - rewrite Faraday algorithm to minimize trig operations
+(4/22/05) - make pickup sample points configurable in FaradayConfig
+(4/22/05) - check all files for missing javadoc
+(4/22/05) - set AC voltage to 110, seems to work fine
+(4/22/05) - cleanup FaradayConfig: comment blocks, rearrange, remove unneeded constants, rename a couple of constants
+(4/22/05) - add a method to FaradayControlPanel that adds a default amout of vertical space
+(4/22/05) - make Lightbulb and Voltmeter read the PickupCoil current, instead of the induced emf
+(4/21/05) - turn off all debugging flags in FaradayConfig
+(4/21/05) - encapsulate mouse handling, collision detection & drag bounds inside of FaradayMouseHandler
+(4/21/05) - ignore the mouse in the pickup coil when dragging is disabled
+(4/21/05) - ignore the mouse in all parts of the turbine except the faucet slider
+(4/21/05) - set compass grid to ignore the mouse so that we can pick the back of the coils
+(4/21/05) - raise the threshold below which grid needles are not drawn
+(4/21/05) - document DipoleMagnet algorithm like I did for CoilMagnet
+(4/21/05) - CoilGraphic uses current flow in the coil to set the electron speed (independent of #loops)
+(4/21/05) - add attribute "current amplitude" to AbstractCoil, to represent current flow in the coil
+(4/20/05) - compass should be off by default in Pickup and Transformer modules
+(4/20/05) - put compass in a better initial location in Pickup and Transformer modules
+(4/20/05) - add a model component for the Field Meter
+(4/20/05) - major overhaul of model:
+         o AbstractCoil should not be descended from AbstractVoltageSource
+         o make all observables extend FaradayObservable
+         o rename SpacialObservable to FaradayObservable, add enabled attribute, rename updateSelf to notifySelf
+         o make Lightbulb and Voltmeter observers of PickupCoil instead of AbstractVoltageSource
+         o make PickupCoil an observer of AbstractMagnet, to make the relationship more obvious
+v0r24...
+(4/19/05) - increase size of circle used to represent CoilMagnet
+(4/19/05) - handle null _gridGraphic in FaradayModule 
+(4/19/05) - created FaradayControlPanel that contains common control panel things (reset button, vertical space)
+(4/19/05) - add some missing constants in modules, adjust constant names for consistency between modules
+(4/19/05) - adjust scaling of lightbulb/voltmeter/electrons in Transformer module to account for new electromagnet model
+(4/19/05) - fixed Options>GridControl, grid's cache was broken
+(4/19/05) - factor out Option menu and Developer menu into their own class files
+(4/19/05) - add a couple of spaces to end of strings for wiggle mes and challenges, so they don't leave screen turds
+(4/19/05) - tone down the hilite on the water wheel, it makes it look wobbly
+(4/19/05) - use 9 B-field sample points for the pickup coil
+(4/19/05) - remove '.' from wiggle mes and challenges, per Ron's request
+(4/19/05) - add a Reset button to each control panel
+(4/19/05) - fix: objects can still be dragged off the apparatus panel
+(4/19/05) - make compass grid appear to be in the same plane as the center of the coils
+(4/18/05) - implement Mike Dubson's "coil magnet" model for the electromagnet
+v0r23...
+(4/18/05) - add ability to vary the number of sample points in the Pickup Coil model and view
+(4/15/05) - add DipoleMagnet.getShape so that view doesn't have to know how to construct the correct model shape
+(4/15/05) - simplify calculations in Compass.IncrementalBehavior
+(4/15/05) - ensure that field meter angles are always in the range -180...180 degrees
+(4/14/05) - move light rays in front of lightbulb base
+(4/14/05) - add code to FieldMeterGraphic so that magnitude and angle formats can be changes independently
+(4/13/05) - separate compass behavior into 3 different behavior classes, fix the ones that were broken
+(4/13/05) - add constants to modules for wiggle me and challenge locations
+(4/13/05) - initialize compass location in Transformer module so that it's not behind electromagnet
+v0r22...
+(4/12/05) - optimize LightbulbGraphic by drawing rays using Graphics.drawLine
+(4/12/05) - add debug code to display the pickup coil sample points
+(4/12/05) - crank up the compass grid rescaling a little so that it fills more of the apparatus panel
+(4/12/05) - bug: hand cursor accidentally moves another object when you release mouse (ApparatusPanel2 bug)
+(4/12/05) - move collision classes to faraday.collision package
+(4/12/05) - move EasyGridBagLayout to faraday.util package
+(4/12/05) - phetcommon test program for mouse event handling
+(4/12/05) - add setName and getName to PhetGraphic
+(4/11/05) - fix sliders do that they always unhighlight when you roll off them
+(4/11/05) - replace all implementations of TranslationListener with an extension of MouseInputAdapter
+(4/11/05) - use red color for Challenges
+(4/11/05) - create a ChallengeGraphic, so that challenges are distinct from wiggle mes
+(4/11/05) - make Eletromagnet wiggle me go away if location changes
+(4/11/05) - fix: objects can be dragged off the apparatus panel in certain situations
+v0r21...
+(4/8/05) - LightBulbGraphic leaves screen turds (fixed GraphicLayerSet.clear)
+(4/8/05) - minimize memory allocation in LightbulbGraphic
+(4/8/05) - clean up FaradayPanel base class
+(4/8/05) - clean up localization file, remove unused strings
+(4/7/05) - wire up wiggle me's so that they disappear at the appropriate time
+(4/7/05) - add wiggle me's to all modules, but not wired to disappear
+(4/7/05) - create WiggleMeGraphic to use for all wiggle me's
+(4/6/05) - add debug code to draw the bounds of the electromagnet model
+(4/6/05) - add Vector2D.zero
+(4/6/05) - change coil collision bounds to include the coil ends
+(4/5/05) - add a resistor & probes to the Voltmeter indicator
+(4/4/05) - make compass needle do a simple rotation (instead of a flip) when rotational kinematics is disabled
+(4/4/05) - make compass react more quickly when rotational kinematics is enabled
+(4/4/05) - disable "Scale" debug panel, move debug flags into FaradayConfig
+(4/4/05) - lightbulb/voltmeter/electrons should have a lower threshold, values below which are effectively zero
+(4/4/05) - set scale for lightbulb, voltmeter and electrons after meeting with Kathy
+(4/4/05) - add mapping between distance and pixels in DipoleMagnet, currently 1:1
+(4/4/05) - add debugging panel for changing lightbulb, voltmeter and electron scale
+(4/4/05) - encapsulate JSlider + JLabel into ControlPanelSlider UI component
+(4/4/05) - integrate CompassGridRescaler into CompassGridGraphic
+(4/4/05) - delete all rescalers except CompassGridRescaler
+(4/4/05) - modify Faraday algorithm so that there is an emf induced when the #loops in pickup coil changes
+(4/1/05) - use "distance squared" for field strength at pickup coil
+(4/1/05) - rewrite CompassGridRescaler, disable all others
+(4/1/05) - add AbstractMagnet.getStrength that allows you to specify the distance exponent
+(4/1/05) - add a way to change the scale of the voltmeter and lightbulb, for situations where coil and magnet are in fixed positions
+(3/31/05) - fix delta flux calculation, should be based on the surface area of 1 loop, not total coil area
+(3/31/05) - turn off coil edges in Faraday computation to see if light intensity becomes sinusoidal (no change)
+(3/31/05) - center the voltmeter needle screw at the pivot point
+(3/31/05) - make voltmeter needle a bit less lively
+(3/31/05) - remove performance problem in ApparatusPanel2, minimize calls to AffineTransform.createTransformedShape
+(3/29/05) - make all ModelElements compliant with fixed or variable clock (use dt in stepInTime)
+v0r20...
+(3/29/05) - add Developer menu to control various internal knobs
+(3/29/05) - optimize getCollisionBounds implementations so that rectangles are reused
+(3/29/05) - fixed CoilGraphic collision bounds
+(3/29/05) - fix area control in PickupCoilPanel so that the area (not the radius) scales correctly
+(3/29/05) - debug mode that shows area, flux and delta flux for the pickup coil
+(3/28/05) - add cache of needle shapes and colors
+(3/26/05) - add FaradayModule.drawBounds, to hide use of DebuggerGraphic
+(3/26/05) - add loop spacing to Coil model, set differently for Source & Pickup coils, remains constant
+(3/26/05) - consolidate code that is duplicated between CompassNeedleGraphic and CompassGridNeedle
+(3/26/05) - flatten static components of CompassGraphic
+(3/26/05) - document all output parameters in method definition and use
+(3/26/05) - reuse mutable vectors wherever possible (eg, DipoleMagnet.getStrength)
+(3/25/05) - optimized memory allocation in all classes (optimization)
+(3/25/05) - add SpacialObserver.getLocation(Point2D) to minimize point allocation (optimization/)
+(3/25/05) - reduce number of points created in ElectronGraphic and QuadBezierSpline (optimization)
+(3/25/05) - reduce memory allocation in CoilGraphic.getCollisionBounds (optimization)
+(3/25/05) - use two different images for electron instead of changing alpha (optimization)
+(3/25/05) - reduce amount of memory allocation in DipoleMagnet, reuse mutable objects (optimization)
+(3/25/05) - remove extra notifyObservers from Electron model, causing 2 updates of Electron view per clock tick (optimization)
+(3/25/05) - remove bounds stuff in CompassGridNeedle, not needed (5% optimization)
+(3/23/05) - added a code switch for turning off critical angles in ACPowerSupply and Turbine models
+(3/23/05) - verify that AC hits zero crossings, check with lightbulb (it does)
+(3/23/05) - optimize ACPowerSupply so that it's not doing any work when amplitude is set to zero
+(3/23/05) - move voltmeter tick marks in one pixel so that they look good on Windows
+(3/23/05) - reuse the same AffineTransform each time a compass grid needle needs updating (optimization)
+(3/23/05) - make compass grid use apparatus panel's canvas size to compute its bounds
+(3/23/05) - reduce JAR file size by 50% by saving all image files with Photoshop's "Save for Web" feature.
+(3/23/05) - resize barMagnet.png to eliminate need for scaling, set model size based on image size.
+(3/23/05) - resize electron.png to eliminate need for scaling
+(3/23/05) - move all knowledge of rendering strategy inside compass grid graphic
+(3/23/05) - water wheel needs to hit 0/90/180/270 degree rotation points to hit min/max field strength
+(3/23/05) - remove source files for unused classes: ACPowerSupplyPanel, BatteryPanel, DeveloperPanel
+(3/22/05) - handle for faucet that looks like the side view of a faucet handle, put slider inside handle
+(3/22/05) - make water wheel look like brown wood
+(3/22/05) - set initial positions of compass & field meter in Generator module
+(3/22/05) - make generator pickup coil non-moveable, aligned with turbine magnet
+(3/22/05) - set minimum AC frequency to 5%
+(3/22/05) - put water behind magnet in turbine
+(3/22/05) - limit turbine to 100 RPM
+(3/22/05) - Turbine.getRPM should use the frame rate of the simulation clock
+(3/22/05) - add RPM readout to turbine
+(3/22/05) - add a water wheel graphic to turbine, paddles as wide as widest water stream
+v0r19...
+(3/21/05) - cursor that moves across the AC sin wave
+(3/18/05) - make sure that AC hits all peaks and zero-crossing values.
+(3/18/05) - added a debug readout for the current AC amplitude value
+(3/17/05) - flatten all static graphics in voltmeter
+(3/17/05) - revise the Fireworks image used for the voltmeter body
+(3/17/05) - add tick marks around voltmeter display, convert guage to Java shapes
+(3/17/05) - fix case where Field Meter displays B=0.00 and a non-zero theta
+(3/17/05) - label electromagnet current source choices "DC" and "AC"
+(3/17/05) - flatten all static graphic components of AC Power Supply
+(3/17/05) - keep zero-crossing of AC sine wave at origin of the XY axis
+(3/17/05) - fix bug in the number of cycles displayed by AC
+(3/17/05) - add an X/Y axis at center of the AC display
+(3/16/05) - ACSource -> ACPowerSupply throughout the source code & data files
+(3/16/05) - set low end of AC frequency to 10%
+(3/16/05) - label ACSourceGraphic with "AC Power Supply"
+(3/16/05) - add field meter to Transformer & Generator modules
+(3/16/05) - requirements for Generator module (discussed at 3/16 tatus meeting)
+v0r18...
+(3/16/05) - used icons in control panels for selecting current source and pickup indicator
+(3/16/05) - change order of controls in Electromagnet and Pickup panels
+(3/16/05) - use same threshold/min/max in all rescalers (as a starting point)
+(3/16/05) - remove rescaler from source coil, shouldn't be rescaled
+(3/16/05) - separate rescaler classes for lightbulb, voltmeter, electrons and compass grid.
+(3/15/05) - draw the AC sine wave so that it fills the "scope" viewport
+(3/14/05) - increase bar magnet strength range to 25-100%
+(3/14/05) - calibrate compass grid
+(3/14/05) - fix: electrons in electromagnet coil loops don't line up with each other (due to ends being shorter)
+(3/14/05) - fix: center of slider knob doesn't line up with ticks on Battery (fix to PhetGraphic.centerRegistrationPoint)
+(3/14/05) - fix: changing number of loops in source coil doesn't affect electromagnet strength
+(3/14/05) - fix: grid needles nearest electromagnet always appear to be full strength, regardless of DC/AC amplitude
+(3/14/05) - fix: field is rotating in opposite direction of turbine magnet
+(3/14/05) - behavior of AC/DC amplitude around "zero" should be smoother
+(3/11/05) - give Turbine its own control panel and FaradyConfig config, instead of reusing BarMagnet
+(3/11/05) - make Voltmeter and observer of the voltage source so that there is symmetry with Lightbulb
+(3/11/05) - fix PickupCoil so that Lightbulb and Voltmeter can use its amplitude
+(3/10/05) - delete all ControlPanel subclasses, assembly is trivial in modules
+(3/10/05) - rename module "Magnet & Coil" to "Pickup Coil"
+(3/10/05) - add spacing between titled panels in the control panel
+(3/10/05) - workaround for zero scaling exception on Windows & Linux
+v0r17...
+(3/9/05) - replace deprecated Module constructor with new constructor for all modules
+(3/9/05) - add water faucet to control turbine speed
+(3/9/05) - redo AC graphic
+(3/9/05) - fixed the bounds & registration point of FaradaySlider
+(3/8/05) - first pass at Generator module
+(3/8/05) - no magnetic field (strength=0) should cause the compass to stay in its current location, not move to 0 degrees
+(3/8/05) - add ticks at min/max/zero on battery amplitude slider track (no labels)
+v0r16...
+(3/7/05) - show frequency & amplitude graph on the ACSourceGraphic
+(3/7/05) - make AC vary sinusoidally
+(3/7/05) - put controls directly on AC graphic
+(3/4/05) - label battery amplitude in volts, -10 to +10
+(3/4/05) - put amplitude control directly on battery graphic
+(3/4/05) - create a phetgraphic-based slider
+(3/3/05) - change GraphicLayerSet so that it handles mouse events if none of its children does
+(2/28/05) - fix Field Meter so that it doesn't display -0.00 and -180.00 values
+(2/28/05) - redo battery graphic to include a "clip" to hold battery and connect to coil
+(2/28/05) - add skeleton for Generator module
+(2/28/05) - move strength threshold into CompassGridGraphic, adjust value for better look
+(2/28/05) - get rid of minimum ray length on lightbulb
+(2/28/05) - disble rotational kinematics for compass in Electromagnet & Transformer modules
+v0r15...
+(2/28/05) - first pass at Transformer module
+(2/28/05) - factor common controls out of control panels so they can be reused across modules
+(2/28/05) - grid doesn't gradually dim as amplitude approaches zero, turns abruptly off at zero
+(2/28/05) - make sure that AC amplitude always hits exactly zero as it modulates
+(2/28/05) - set Electromagnet model size based on size of the coil in the Electromagnet graphic
+(2/28/05) - redo battery graphic
+(2/25/05) - move ICompassGridModule implementation into FaradayModule
+(2/25/05) - bug fix: changing the number of loops when the AC is connected makes the grid disappear (integer math)
+(2/25/05) - major change to how voltage is handled throughout; now a function of maxVoltage and amplitude
+(2/25/05) - bug fix: grid doesn't display until the battery voltage is changed
+(2/24/05) - increase frequency range of the AC source so that the change is easier to see
+(2/24/05) - add "Show Electrons" and "Loops" controls to Electromagnet module
+(2/24/05) - set a maximum position delta in Electron, so that we can see the animation at maximum speeds
+(2/24/05) - give CoilGraphic it's own rescaler to control "look" of electron speed
+(2/24/05) - wire up amplitude & frequency controls to AC source
+(2/23/05) - fix magnet hierarcy, BarMagnet and Electromagnet are subclasses of DipoleMagnet
+(2/23/05) - connect Lightbulb and Voltmeter to an AbstractVoltageSource instead of a PickupCoil
+(2/23/05) - do not embed MAX_EMF in any classes, make it a settable property of an AbstractVoltageSource
+(2/23/05) - created MagneticFieldRescaler, instantiated and used throughout a module
+(2/23/05) - create "rescaler" hierarchy to provide better abstraction over rescaling of value for display
+(2/22/05) - set up control panel for Electromagnet module
+(2/22/05) - add "Show Field" control to Bar Magnet module
+(2/22/05) - put a thicker border around groups of UI controls
+(2/21/05) - add a titled border around Magnet controls in Bar Magnet module
+(2/21/05) - bug fix: update Field Meter when it is made visible
+(2/21/05) - made Rescaler less specific to magnet strength, can use any reference value
+(2/21/05) - move more of the rescaling interface into AbstractMagnet model
+v0r14...
+(2/18/05) - after a collision, don't start dragging again until cursor is over the object
+(2/18/05) - remove data smoothing code from PickupCoil, nothing but problems
+(2/18/05) - "spike" emf changes are not being displayed
+(2/17/05) - handle temporary disabling of data smoothing in PickupCoil.updateNow
+(2/17/05) - use ApparatusPanel2.ChangeListener to constrain drags within apparatus panel
+(2/17/05) - use ApparatusPanel2.ChangeListener to determine compass grid size
+(2/17/05) - change magnet strength control to a percentage
+(2/17/05) - change loop area control to a percentage
+(2/17/05) - group Coil items (Loops, Area, Indicator, Show Electrons)
+(2/17/05) - group Magnet items (Strength, Flip Polarity, Show Field, Show Compass)
+(2/17/05) - hide play/pause/stop buttons
+(2/17/05) - add skeleton for "Electromagnet" module
+(2/17/05) - rename "Connect to Coil" -> "Indicator"
+(2/17/05) - values in FieldMeter are still sitting a little high
+(2/17/05) - remove "See Inside" control from Magnet & Coil module
+(2/17/05) - field meter "off" by default in Bar Magnet module
+(2/16/05) - agreed on control labels @ status meeting
+(2/16/05) - add a strength threshold, below which compass grid won't draw needle (optimization)
+(2/16/05) - make CompassGrid use color saturation on black background, alpha on non-black (optimization)
+(2/16/05) - optimize bounds calculation in CompassGridGraphic (optimization)
+(2/16/05) - after resizing the app, objects have incorrect knowledge of the "edges of the apparatus panel"
+(2/16/05) - compass grid does not fill the apparatus panel
+(2/16/05) - implement TranslationListener as an inner class instead of and anonymous class
+v0r13...
+(2/15/05) - collision detection between compass and magnet
+(2/15/05) - collision detection between magnet and coil
+(2/15/05) - when electrons jump between curves, they sometimes end up in the wrong position
+(2/14/05) - remove CompassGraphic.setVisible override, not needed
+(2/14/05) - loop radius should be displayed as loop area
+(2/14/05) - fix electron density in coil ends
+v0r12...
+(2/10/05) - make electrons jump between front & back layers
+(2/10/05) - make electrons look different in front and back layers
+(2/10/05) - make QuadBezierSpline a subclass of QuadCurve.Double
+(2/10/05) - make electrons move as a function of induced current
+(2/10/05) - don't recreate coil when emf changes, only when physical coil properties change
+(2/10/05) - on/off control for electrons
+(2/10/05) - 25% more space between electrons
+(2/10/05) - add jiggle to voltmeter needle
+(2/10/05) - move localization init into SimStrings
+(2/9/05) - move localization init into PhetApplication
+(2/9/05) - reposition objects in all modules
+(2/9/05) - localize mnemonics for menus and menu items
+(2/9/05) - lightBulb -> lightbulb, voltMeter -> voltmeter
+(2/9/05) - move background color control out of FaradayApplication
+(2/9/05) - beautify Control Panels
+(2/8/05) - disable Developer Controls panel
+(2/8/05) - move grid controls to dialog accessible via Options menu, include a performance warning, change all grids
+(2/8/05) - prevent dragging of stuff out of the apparatus panel viewport
+(2/8/05) - show important "spikes" in induced emf (fixed when I disabling smoothing)
+(2/8/05) - disable emf smoothing (median filter) in coil
+(2/8/05) - tune min/max number of light rays
+(2/8/05) - tune min/max light ray length
+(2/8/05) - light rays should be opaque, thicker stroke
+(2/8/05) - compass "off" by default in "Magnet & Coil" module
+(2/8/05) - grid "off" by default in "Magnet & Coil" module
+(2/8/05) - increase frame rate to 25 fps
+v0r11...
+(2/7/05) - basic support for electron animation
+(2/7/05) - convert CompassNeedleGraphic to be a CompositePhetGraphic composed of PhetShapeGraphics
+(2/7/05) - optimize CompassGridGraphic to draw its own needles
+(2/4/05) - adjust top part of coil loop for collision detection & shading
+(2/3/05) - add background color chooser to menubar (ala CCK)
+(2/3/05) - synchronize phetcommon-HEAD to pick up major "persistence" merge
+(2/3/05) - various adjustments to handle arbitrary orientation of the coil
+(2/3/05) - compute induced emf using average of flux at 3 points (center and 2 edges of coil)
+(2/3/05) - calibrate MAX_EMF to match emf induced when magnet strength, loop radius, #loops are all maximums
+(2/3/05) - simplify some of the Developer Controls (magnet size, needle size)
+(2/3/05) - optimize grid when background is black (don't use alpha)
+(2/3/05) - lower frame rate to 10 fps (performance optimization)
+(2/3/05) - convert all model elements to use radians instead of degrees (performance optimization)
+(2/3/05) - fix Field Meter text field locations (broken by PhetTextGraphic change)
+(2/3/05) - merge HollywoodCompass into Compass, collapse AbstractCompass and Compass
+v0r10...
+(2/2/05) - redo lightbulb graphic, looks ratty on black background
+(2/2/05) - fix CoilGraphic so that it's foreground & background look right when magnet passes thru coil near edges
+(2/1/05) - add threshold to Compass.stepInTime to prevent Verlet from hogging CPU
+(2/1/05) - redo coil graphic (constant wire gauge, fix colors)
+v0r9...
+(1/28/05) - pull "developer" panel out of BarMagnetControlPanel so that it can be reused elsewhere
+(1/28/05) - grid is not always full of needles (GraphicLayerSet fix)
+(1/28/05) - bounds of light rays are not always correct (GraphicLayerSet fix)
+(1/28/05) - rewrite CompassGraphic to use Shapes instead of image
+v0r8...
+(1/27/05) - add color chooser so that folks can experiment with apparatus panel colors
+(1/27/05) - let control panels manipulate model/view components directly instead of via module
+(1/27/05) - one debug control for "Grid spacing" (instead of separate controls for XY spacing)
+(1/27/05) - "probe" to "meter" throughout code
+(1/27/05) - B Field Meter coordinate system: +X right, +Y up, +angle counterclockwise (0 degrees down +X axis)
+(1/27/05) - redo B Field Meter graphic (30% larger fonts, "Magnetic (B) Field" title, i18n)
+(1/27/05) - use compass needle aspect ratio for grid needles
+v0r7...
+(1/26/05) - adjust sensitivity of voltmeter and lightbulb
+(1/26/05) - factor out common code for value rescaling
+(1/26/05) - add value rescaling to lightbulb & voltmeter
+(1/25/05) - use median values always, except when changing polarity, #loops or radius
+(1/25/05) - compass on/off control
+(1/25/05) - reduce range of magnet strength to 100-300 Gs
+(1/25/05) - move median filtering into PickupCoil (emf)
+(1/25/05) - use one image for bar magnet, set transparency using g2.setComposite
+(1/24/05) - use CCK graphic for lightbulb illumination
+(1/24/05) - use median values only when magnet or coil are being dragged
+(1/21/05) - separate PickupCoilGraphic into foreground & background layers
+(1/21/05) - rescale alpha values in compass grid to account for magnet strength and field dropoff
+(1/21/05) - redo BFieldProbe graphic, add crosshairs
+(1/21/05) - redo voltmeter graphic, add "volts" label
+v0r6...
+(1/20/05) - when flipping polarity, jiggle the compass so that it starts moving sooner
+(1/20/05) - control to turn BFieldProbe on/off
+(1/20/05) - "see inside magnet" feature
+(1/20/05) - no change in EMF when point moves around inside magnet (THIS IS CORRECT! Mike)
+(1/20/05) - rename module Compass Grid -> Bar Magnet
+(1/20/05) - rename module Bar Magnet -> Magnet & Coil
+(1/20/05) - redo compass graphic
+(1/20/05) - use Ron's enhancements to ControlPanel
+v0r5...
+(1/19/05) - sample graphic for electron "look"
+(1/19/05) - draw pickup coil correctly when loop area is changed
+(1/19/05) - redo coil graphic, more of a tilt, thicker wire, copper/brown color
+(1/18/05) - averaging of values so that lightbulb & voltmeter behave smoothly
+(1/18/05) - determine the role of "current" in the model
+(1/14/05) - fix PickupCoil.stepInTime to properly set EMF and induced current
+(1/14/05) - model elements for lightbulb and voltmeter
+(1/13/05) - add inertia to compass needle
+v0r4...
+(1/12/05) - dipole stuff is screwed up when magnet polarity is flipped
+(1/11/05) - add B-field probe
+(1/6/05) - nail down semantics of magnet "strength"
+(1/5/05) - equation for the magnetic field of a dipole
+v0r3...
+(1/4/05) - how to populate resized apparatus panel with grid?
+(1/3/05) - compass
+(1/3/05) - wires connecting loop to meter/bulb
+(1/3/05) - alpha channel in lightbulb emission
+(12/28/04) - change "loop area" control to be value-based, not scale-based
+
+REJECTED:
+(2/7/07) - bug: direction of electron movement is wrong "Pickup Coil" module (not a problem, Mike Dubson verified) 
+(?) - add a graph of field strength over time to the Field Meter (unnecessary)
+(4/25/05) - use offscreen buffering (no improvement/05)
+(4/25/05) - disable rectangle computations and use paintImmediately (no improvement)
+(4/24/05) - use a variable-step clock with median filtering of dt (lightbulb & voltmeter don't look cyclic, they jump around)
+(4/24/05) - optimize electrons (their performance hit is negligible compared to grid)
+(4/24/05) - calculate periods of Generator and AC so that delta flux is zero/max at correct point (no, handle this in Lightbulb)
+(4/22/05) - simplified expressions in DipoleMagnet.getStrengthInside (already optimal, no trig functions)
+(4/22/05) - get rid of the amplitude stuff in AbstractVoltageSource and AbstractCoil (document it clearly)
+(4/19/05) - glitch in the B-field when approaching the electromagnet coil from above or below (this is physically correct)
+(4/12/05) - replace EasyGridBagLayout with SwingUtils.addGridBagComponent (no, SwingUtils version is inadequate)
+(4/12/05) - fix PhetShapeGraphic.contains so that stroke width is taken into account (compass is now flattened to an image)
+(4/8/05) - make wiggle me's fade out instead of blinking off (no one asked for this, different than other sims)
+(4/6/05) - put compass in top layer so it doesn't get hidden behind larger objects (compass needs to move through coil)
+(4/5/05) - lightbulb flashes the first time that you visit each module (Carl likes this, leave it in)
+(4/4/05) - eliminate AffineTransform from BarMagnet.getStrength(Point2D) and PickupCoil.updateEmf (not possible)
+(4/4/05) - add scaling of pixel-space (not necessary, but would be done in DipoleMagnet.getStrengthInside)
+(3/29/05) - draw needles using Graphics.fillPolygon (no performance improvement)
+(3/29/05) - transparent bar magnet layer so that field meter looks like it's inside it (no one except Ron asked for this feature)
+(3/29/05) - redo Turbine model, it should not extend BarMagnet (fine as is for this simulation)
+(3/24/05) - cache grid needles at N-degree angles to eliminate rotation transform (rotation is not the problem, fill is the problem)
+(3/24/05) - draw grid needles as images instead of shapes (no improvement using images)
+(3/24/05) - explicitly set the initial capacity (# coordinates) in the compass needle paths (no performance improvement)
+(3/24/05) - explicitly set the winding rule for the compass needle paths (no performance improvement)
+(3/23/05) - draw the needles into a buffered image, then blit it to the screen (slower)
+(3/23/05) - flatten static components of TurbineGraphic (water needs to be between wheel and magnet)
+(3/17/05) - add playback controls to relevant modules (code & semantics do not support this on a per-Module basis)
+(3/16/05) - collision detection in Generator & Transformer modules (fine as is)
+(2/23/05) - handle rescaling in VoltmeterGraphic instead of in Voltmeter model (rotational kinematics of needle requires rescaling)
+(2/17/05) - disable "See Inside Magnet" control when grid is off (control was removed)
+(2/17/05) - change sliders to "ModelSlider" used by other simulations (No - not used by many others, has problems)
+(2/15/05) - encapulate all rescaling of emf into one place (already encapsulated in Rescaler)
+(2/10/05) - PickupCoilGraphic leaves screen turds (ApparatusPanel2 problem)
+(2/10/05) - make lightbulb ramp up/down instead of immediate on/off (looks fine as is)
+(2/7/05) - repaint compass grid when background color changes, in case we're switching rendering strategies (no longer necessary)
+(1/28/05) - use offscreen buffering in apparatus panel to remove screen turds? (found GraphicLayerSet problem)
+
+===============================================================================

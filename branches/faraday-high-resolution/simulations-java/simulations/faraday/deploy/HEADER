@@ -1,0 +1,27 @@
+<html>
+<!-- This file is named HEADER so that it will appear at the top of a browser's directory listing. -->
+<p>
+<big><big><b>
+faraday 2.01.01
+</b></big></big>
+<p>
+<b>Click to run English versions:</b>
+<ul>
+<li><a href="faraday.jnlp">Faraday's Electromagnetic Lab</a>
+<li><a href="magnet-and-compass.jnlp">Magnet and Compass</a>
+<li><a href="magnets-and-electromagnets.jnlp">Magnets and Electromagnets</a>
+<li><a href="generator.jnlp">Generator</a>
+</ul>
+<p>
+<b>What's new:</b>
+<p>
+<ul>
+<li>fix compass so that it updates properly when clock is paused
+</ul>
+<p>
+<b>Known problems:</b>
+<p>
+<ul>
+<li>none
+</ul>
+</html>
