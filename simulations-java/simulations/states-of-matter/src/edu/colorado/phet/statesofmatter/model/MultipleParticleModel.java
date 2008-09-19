@@ -13,6 +13,7 @@ import java.util.Random;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.engine.EngineFacade;
@@ -89,15 +90,12 @@ public class MultipleParticleModel {
                                                        // it provides the most visually appealing behavior.
     
     // Parameters to control rates of change of the container size.
-    private static final double MAX_PER_TICK_CONTAINER_SHRINKAGE = 25;
+    private static final double MAX_PER_TICK_CONTAINER_SHRINKAGE = 50;
     private static final double MAX_PER_TICK_CONTAINER_EXPANSION = 200;
     
     // Countdown value used when recalculating temperature when the
     // container size is changing.
     private static final int CONTAINER_SIZE_CHANGE_RESET_COUNT = 25;
-    
-    // Countdown value used when deciding if the temperature is stable.
-    private static final int TEMPERATURE_STABILITY_RESET_COUNT = 50;
     
     // Range for deciding if the temperature is near the current set point.
     // The units are internal model units.
@@ -121,6 +119,7 @@ public class MultipleParticleModel {
     private double m_minAllowableContainerHeight;
     private final List m_particles = new ArrayList();
     private double m_totalEnergy;
+    private boolean m_lidBlownOff;
     private EngineFacade m_engineFacade;
     IClock m_clock;
     private ArrayList _listeners = new ArrayList();
@@ -168,7 +167,6 @@ public class MultipleParticleModel {
     private PressureCalculator m_pressureCalculator;
     private int     m_thermostatType;
     private int     m_heightChangeCounter;
-    private int     m_temperatureChangeCounter;
     
     //----------------------------------------------------------------------------
     // Constructor
@@ -179,6 +177,7 @@ public class MultipleParticleModel {
         m_clock = clock;
         m_pressureCalculator = new PressureCalculator();
         m_heightChangeCounter = 0;
+        m_lidBlownOff = false;
         setThermostatType( ADAPTIVE_THERMOSTAT );
         
         // Register as a clock listener.
@@ -201,6 +200,10 @@ public class MultipleParticleModel {
     // Accessor Methods
     //----------------------------------------------------------------------------
     
+    public IClock getClock(){
+        return m_clock;
+    }
+
     public List getParticles() {
         return Collections.unmodifiableList(m_particles);
     }
@@ -504,6 +507,7 @@ public class MultipleParticleModel {
         m_particles.clear();
 
         // Initialize the system parameters.
+        m_lidBlownOff = false;
         m_gravitationalAcceleration = INITIAL_GRAVITATIONAL_ACCEL;
         m_heatingCoolingAmount = 0;
         m_tempAdjustTickCounter = 0;
@@ -824,33 +828,43 @@ public class MultipleParticleModel {
     private void handleClockTicked(ClockEvent clockEvent) {
         
         // Adjust the particle container height if needed.
-        if ( m_targetContainerHeight != m_particleContainerHeight ){
-            m_heightChangeCounter = CONTAINER_SIZE_CHANGE_RESET_COUNT;
-            double heightChange = m_targetContainerHeight - m_particleContainerHeight;
-            if (heightChange > 0){
-                // The container is growing.
-                if (m_particleContainerHeight + heightChange <= StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT){
-                    m_particleContainerHeight += Math.min( heightChange, MAX_PER_TICK_CONTAINER_EXPANSION );
+        if (!m_lidBlownOff) {
+            if ( m_targetContainerHeight != m_particleContainerHeight ){
+                m_heightChangeCounter = CONTAINER_SIZE_CHANGE_RESET_COUNT;
+                double heightChange = m_targetContainerHeight - m_particleContainerHeight;
+                if (heightChange > 0){
+                    // The container is growing.
+                    if (m_particleContainerHeight + heightChange <= StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT){
+                        m_particleContainerHeight += Math.min( heightChange, MAX_PER_TICK_CONTAINER_EXPANSION );
+                    }
+                    else{
+                        m_particleContainerHeight = StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT;
+                    }
                 }
                 else{
-                    m_particleContainerHeight = StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT;
+                    // The container is shrinking.
+                    if (m_particleContainerHeight - heightChange >= m_minAllowableContainerHeight){
+                        m_particleContainerHeight += Math.max( heightChange, -MAX_PER_TICK_CONTAINER_SHRINKAGE );
+                    }
+                    else{
+                        m_particleContainerHeight = m_minAllowableContainerHeight;
+                    }
+                }
+                m_normalizedContainerHeight = m_particleContainerHeight / m_particleDiameter;
+                notifyContainerSizeChanged();
+            }
+            else {
+                if (m_heightChangeCounter > 0) {
+                    m_heightChangeCounter--;
                 }
             }
-            else{
-                // The container is shrinking.
-                if (m_particleContainerHeight - heightChange >= m_minAllowableContainerHeight){
-                    m_particleContainerHeight += Math.max( heightChange, -MAX_PER_TICK_CONTAINER_SHRINKAGE );
-                }
-                else{
-                    m_particleContainerHeight = m_minAllowableContainerHeight;
-                }
-            }
-            m_normalizedContainerHeight = m_particleContainerHeight / m_particleDiameter;
-            notifyContainerSizeChanged();
         }
         else {
-            if (m_heightChangeCounter > 0) {
-                m_heightChangeCounter--;
+            // The lid is blowing off the container, so increase the container
+            // size until the lid should be well off the screen.
+            if (m_particleContainerHeight < StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT * 3) {
+                m_particleContainerHeight += MAX_PER_TICK_CONTAINER_EXPANSION;
+                notifyContainerSizeChanged();
             }
         }
         
@@ -1213,6 +1227,12 @@ public class MultipleParticleModel {
     private void notifyMoleculeTypeChanged(){
         for (int i = 0; i < _listeners.size(); i++){
             ((Listener)_listeners.get( i )).moleculeTypeChanged();
+        }        
+    }
+
+    private void notifyContainerExploded(){
+        for (int i = 0; i < _listeners.size(); i++){
+            ((Listener)_listeners.get( i )).containerExploded();
         }        
     }
 
@@ -2540,6 +2560,12 @@ public class MultipleParticleModel {
             }
             resultantForce.setX( (48/(Math.pow(xPos, 13))) - (24/(Math.pow( xPos, 7))) );
             m_potentialEnergy += 4/(Math.pow(xPos, 12)) - 4/(Math.pow( xPos, 6)) + 1;
+            
+            if (xPos < 0) {
+                // If particles are energetic enough to make it outside of the
+                // side wall in a single iteration, explode the container.
+                explode();
+            }
         }
         else if (containerWidth - xPos < WALL_DISTANCE_THRESHOLD){
             // Close enough to the right wall to feel the force.
@@ -2551,6 +2577,11 @@ public class MultipleParticleModel {
                     (24/(Math.pow( distance, 7))) );
             m_potentialEnergy += 4/(Math.pow(distance, 12)) - 
                     4/(Math.pow( distance, 6)) + 1;
+            if (xPos > containerWidth) {
+                // If particles are energetic enough to make it outside of the
+                // side wall in a single iteration, explode the container.
+                explode();
+            }
         }
         
         // Calculate the force in the Y direction.
@@ -2562,7 +2593,7 @@ public class MultipleParticleModel {
             resultantForce.setY( 48/(Math.pow(yPos, 13)) - (24/(Math.pow( yPos, 7))) );
             m_potentialEnergy += 4/(Math.pow(yPos, 12)) - 4/(Math.pow( yPos, 6)) + 1;
         }
-        else if (containerHeight - yPos < WALL_DISTANCE_THRESHOLD){
+        else if ( ( containerHeight - yPos < WALL_DISTANCE_THRESHOLD ) && !m_lidBlownOff ){
             // Close enough to the top to feel the force.
             distance = containerHeight - yPos;
             if (distance < minDistance){
@@ -2575,6 +2606,18 @@ public class MultipleParticleModel {
             // TODO: JPB TBD - Here to help track down when things get crazy,
             // remove eventually.
             System.err.println("Big wall force, = " + resultantForce);
+        }
+    }
+    
+    /**
+     * Take the steps necessary to start the "explosion" of the container.
+     */
+    private void explode() {
+        
+        if (m_lidBlownOff == false) {
+            
+            m_lidBlownOff = true;
+            notifyContainerExploded();
         }
     }
     
@@ -2739,6 +2782,11 @@ public class MultipleParticleModel {
          */
         public void moleculeTypeChanged();
 
+        /**
+         * Inform listeners that the container has exploded.
+         */
+        public void containerExploded();
+
     }
     
     public static class Adapter implements Listener {
@@ -2748,6 +2796,7 @@ public class MultipleParticleModel {
         public void pressureChanged(){}
         public void containerSizeChanged(){}
         public void moleculeTypeChanged(){}
+        public void containerExploded(){}
     }
     
     /**

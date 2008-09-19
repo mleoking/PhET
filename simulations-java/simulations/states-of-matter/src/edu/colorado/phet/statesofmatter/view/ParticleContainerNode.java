@@ -10,7 +10,10 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.nodes.HandleNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
@@ -19,6 +22,7 @@ import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * This class is the "view" for the particle container.  This is where the
@@ -27,7 +31,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  *
  * @author John Blanco
  */
-public class ParticleContainerNode3 extends PhetPNode {
+public class ParticleContainerNode extends PhetPNode {
     
     //----------------------------------------------------------------------------
     // Class Data
@@ -87,12 +91,13 @@ public class ParticleContainerNode3 extends PhetPNode {
     private PNode m_bottomContainerLayer;
     private PNode m_containerLid;
     private PPath m_tempContainerRect;
+    private boolean m_containerExploded;
 
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
     
-    public ParticleContainerNode3(MultipleParticleModel model, ModelViewTransform mvt, boolean volumeControlEnabled) {
+    public ParticleContainerNode(MultipleParticleModel model, ModelViewTransform mvt, boolean volumeControlEnabled) {
         
         super();
 
@@ -113,6 +118,17 @@ public class ParticleContainerNode3 extends PhetPNode {
             }
             public void containerSizeChanged(){
                 handleContainerSizeChanged();
+            }
+            public void containerExploded() {
+                m_containerExploded = true;
+            }
+        });
+        
+        // Set up to listen to the clock, which is only needed when simulating
+        // and explosion.
+        m_model.getClock().addClockListener( new ClockAdapter() {
+            public void clockTicked(ClockEvent clockEvent){
+                handleClockTicked(clockEvent);
             }
         });
         
@@ -158,6 +174,13 @@ public class ParticleContainerNode3 extends PhetPNode {
             // Note that this node will set its own offset, since it has to be
             // responsible for positioning itself later based on user interaction.
             m_middleContainerLayer.addChild( fingerNode );
+            
+            // Add the handle to the lid.
+            HandleNode handleNode = new HandleNode(50, 100, Color.YELLOW);
+            handleNode.rotate( Math.PI / 2 );
+            handleNode.setOffset( (m_containerLid.getWidth() / 2) + (handleNode.getFullBoundsReference().width / 2), 0 );
+            m_containerLid.addChild( handleNode );
+
         }
         
         // TODO: JPB TBD - This is temporary for debugging and should
@@ -248,13 +271,15 @@ public class ParticleContainerNode3 extends PhetPNode {
         // Create the lid of the container, which will appear above the
         // particles in the Z-order.
 
-        PPath containerTop = new PPath( new Ellipse2D.Double(0, 0, m_containmentAreaWidth, ellipseHeight));
+        PPath containerTop = new PPath( new Ellipse2D.Double(0, 0, m_containmentAreaWidth, ellipseHeight) );
         containerTop.setStroke( CONTAINER_EDGE_STROKE );
         containerTop.setStrokePaint( CONTAINER_EDGE_COLOR );
+        HandleNode containerTopHandle = new HandleNode(m_containmentAreaWidth * 0.2, m_containmentAreaHeight * 0.05, Color.RED);
         m_containerLid = new PNode();
         m_containerLid.setPickable( false );
         m_containerLid.setChildrenPickable( false );
         m_containerLid.addChild( containerTop );
+        m_containerLid.addChild( containerTopHandle );
         m_middleContainerLayer.addChild( m_containerLid );
         m_containerLid.setOffset( 0, -ellipseHeight / 2 );
         
@@ -361,6 +386,19 @@ public class ParticleContainerNode3 extends PhetPNode {
             m_bottomContainerLayer.addChild(containerTopBackImageNode);
             containerTopBackImageNode.setOffset( 0, -(m_model.getParticleContainerHeight() * ELLIPSE_HEIGHT_PROPORTION / 2) );
             
+        }
+    }
+    
+    private void handleClockTicked(ClockEvent event) {
+        if (m_containerExploded) {
+            // Rotate the lid to make it look like it has been blown off the
+            // top of the container.  The retraction of the lid is handled
+            // elsewhere.
+//            PBounds lidBounds = m_containerLid.getFullBoundsReference();
+//            double rotationPointX = lidBounds.x + lidBounds.width / 2;
+//            double rotationPointY = lidBounds.y + lidBounds.height / 2;
+//            m_containerLid.rotateAboutPoint( Math.PI/50, rotationPointX, rotationPointY );
+            m_containerLid.rotateInPlace( -Math.PI/50 );
         }
     }
 }

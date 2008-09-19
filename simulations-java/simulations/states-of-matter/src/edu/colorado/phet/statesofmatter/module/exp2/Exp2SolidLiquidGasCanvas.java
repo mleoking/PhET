@@ -8,7 +8,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.view.ModelViewTransform;
-import edu.colorado.phet.statesofmatter.view.ParticleContainerNode3;
+import edu.colorado.phet.statesofmatter.view.ParticleContainerNode;
 import edu.colorado.phet.statesofmatter.view.StoveNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -41,7 +41,7 @@ public class Exp2SolidLiquidGasCanvas extends PhetPCanvas{
     //----------------------------------------------------------------------------
     
     private MultipleParticleModel m_model;
-    private ParticleContainerNode3 m_particleContainer;
+    private ParticleContainerNode m_particleContainer;
     private ModelViewTransform m_mvt;
 
     //----------------------------------------------------------------------------
@@ -70,7 +70,7 @@ public class Exp2SolidLiquidGasCanvas extends PhetPCanvas{
         setBackground( StatesOfMatterConstants.CANVAS_BACKGROUND );
         
         // Create and add the particle container.
-        m_particleContainer = new ParticleContainerNode3(m_model, m_mvt, false);
+        m_particleContainer = new ParticleContainerNode(m_model, m_mvt, false);
         
         addWorldChild(m_particleContainer);
         

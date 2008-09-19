@@ -43,7 +43,7 @@ public class CompositeThermometerNode extends PNode {
         addChild(m_liquidThermometer);
         
         m_kelvinReadout = new DigitalReadoutNode( width * (1 - THERMOMETER_WIDTH_PROPORTION), "\u212A" );
-        m_kelvinReadout.setOffset( m_liquidThermometer.getFullBoundsReference().width, 
+        m_kelvinReadout.setOffset( -m_kelvinReadout.getFullBounds().width, 
                 m_liquidThermometer.getFullBoundsReference().height * 0.2 );
         addChild(m_kelvinReadout);
     }
