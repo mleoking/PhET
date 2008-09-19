@@ -30,7 +30,7 @@ public class PointingHandNode extends PNode {
     private static final double NODE_WIDTH_PROPORTION = 0.65;
     
     // Horizontal position of the node as function of the container width.
-    private static final double NODE_X_POS_PROPORTION = 0.10;
+    private static final double NODE_X_POS_PROPORTION = 0.20;
     
     // File name of the primary image.
     public static final String PRIMARY_IMAGE = "finger-2.png";

@@ -7,13 +7,15 @@ import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.view.BicyclePumpNode;
 import edu.colorado.phet.statesofmatter.view.ModelViewTransform;
-import edu.colorado.phet.statesofmatter.view.ParticleContainerNode3;
+import edu.colorado.phet.statesofmatter.view.ParticleContainerNode;
 import edu.colorado.phet.statesofmatter.view.StoveNode;
 import edu.colorado.phet.statesofmatter.view.instruments.CompositeThermometerNode;
 import edu.colorado.phet.statesofmatter.view.instruments.DialGaugeNode;
@@ -53,10 +55,11 @@ public class PhaseChangesCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     
     private MultipleParticleModel m_model;
-    private ParticleContainerNode3 m_particleContainer;
+    private ParticleContainerNode m_particleContainer;
     private ModelViewTransform m_mvt;
     private DialGaugeNode m_pressureMeter;
     private CompositeThermometerNode m_thermometerNode;
+    private boolean m_containerExploded;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -65,6 +68,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
     public PhaseChangesCanvas(MultipleParticleModel multipleParticleModel) {
         
         m_model = multipleParticleModel;
+        m_containerExploded = false;
         
         // Create the Model-View transform that we will be using.
         m_mvt = new ModelViewTransform(1.0, 1.0, 0.0, 0.0, false, true);
@@ -91,13 +95,16 @@ public class PhaseChangesCanvas extends PhetPCanvas {
             public void containerSizeChanged(){
                 updateThermometerPosition();
             }
+            public void containerExploded() {
+                m_containerExploded = true;
+            }
         });
-        
+
         // Set the background color.
         setBackground( StatesOfMatterConstants.CANVAS_BACKGROUND );
         
         // Create the particle container.
-        m_particleContainer = new ParticleContainerNode3(m_model, m_mvt, true);
+        m_particleContainer = new ParticleContainerNode(m_model, m_mvt, true);
 
         // Get the rectangle that describes the position of the particle
         // container within the model, since the various nodes below will
@@ -176,7 +183,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         Rectangle2D containerRect = m_model.getParticleContainerRect();
         
         m_thermometerNode.setOffset( 
-                containerRect.getX() + containerRect.getWidth() * 0.77, 
+                containerRect.getX() + containerRect.getWidth() * 0.23, 
                 containerRect.getY() - containerRect.getHeight() - 
                 (m_thermometerNode.getFullBoundsReference().height * 0.5) );
     }
