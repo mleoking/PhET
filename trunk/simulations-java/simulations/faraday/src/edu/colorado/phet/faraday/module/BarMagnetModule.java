@@ -96,7 +96,7 @@ public class BarMagnetModule extends FaradayModule {
         _barMagnetModel.setDirection( BAR_MAGNET_DIRECTION );
         
         // Compass model
-        _compassModel = new Compass( _barMagnetModel );
+        _compassModel = new Compass( _barMagnetModel, getClock() );
         _compassModel.setLocation( COMPASS_LOCATION );
         _compassModel.setBehavior( Compass.KINEMATIC_BEHAVIOR );
         model.addModelElement( _compassModel );

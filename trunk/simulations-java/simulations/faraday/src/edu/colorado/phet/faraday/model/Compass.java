@@ -5,6 +5,7 @@ package edu.colorado.phet.faraday.model;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.faraday.util.Vector2D;
 
@@ -15,7 +16,7 @@ import edu.colorado.phet.faraday.util.Vector2D;
  * In the case of KINEMATIC_BEHAVIOR, the compass needle attempts to be 
  * physically accurate with respect to force, friction, inertia, etc. 
  * Instead of jumping to an orientation, the needle will overshoot, 
- * then gradually reach equillibrium.
+ * then gradually reach equilibrium.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -36,12 +37,16 @@ public class Compass extends FaradayObservable implements ModelElement, SimpleOb
     
     // Magnet that the compass is observing.
     private AbstractMagnet _magnetModel;
+    // the clock
+    private IClock _clock;
     // The rotation behavior.
     private IBehavior _behavior;
     // A reusable point.
     private Point2D _somePoint;
     // A reusable vector
     private Vector2D _someVector;
+    // Simple behavior, for when clock is paused
+    private IBehavior _clockPausedBehavior;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -52,14 +57,17 @@ public class Compass extends FaradayObservable implements ModelElement, SimpleOb
      * 
      * @param magnetModel the magnet that the compass is observing
      */
-    public Compass( AbstractMagnet magnetModel ) {
+    public Compass( AbstractMagnet magnetModel, IClock clock ) {
         super();
         
         assert( magnetModel != null );
         _magnetModel = magnetModel;
         _magnetModel.addObserver( this );
         
-        _behavior = new SimpleBehavior( this );
+        _clock = clock;
+        
+        _behavior = new ImmediateBehavior( this );
+        _clockPausedBehavior = new ImmediateBehavior( this );
         
         _somePoint = new Point2D.Double();
         _someVector = new Vector2D();
@@ -89,7 +97,7 @@ public class Compass extends FaradayObservable implements ModelElement, SimpleOb
     public void setBehavior( int behavior ) {
         switch ( behavior ) {
         case SIMPLE_BEHAVIOR:
-            _behavior = new SimpleBehavior( this );
+            _behavior = new ImmediateBehavior( this );
             break;
         case INCREMENTAL_BEHAVIOR:
             _behavior = new IncrementalBehavior( this );
@@ -113,6 +121,17 @@ public class Compass extends FaradayObservable implements ModelElement, SimpleOb
     }
     
     //----------------------------------------------------------------------------
+    // FaradayObservable overrides
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Respond to changes in superclass attributes (eg, location).
+     */
+    public void notifySelf() {
+        update();
+    }
+    
+    //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
     
@@ -120,7 +139,12 @@ public class Compass extends FaradayObservable implements ModelElement, SimpleOb
      * @see edu.colorado.phet.common.phetcommon.util.SimpleObserver#update()
      */
     public void update() {
-        // Do nothing, handled by stepInTime.
+        // if the clock is running, updates are handled via stepInTime
+        if ( _clock.isPaused() ) {
+            getLocation( _somePoint /* output */ );
+            _magnetModel.getStrength( _somePoint, _someVector /* output */ );
+            _clockPausedBehavior.setDirection( _someVector, 1 /* don't care */ );
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -190,11 +214,12 @@ public class Compass extends FaradayObservable implements ModelElement, SimpleOb
     }
     
     /**
-     * SimpleBehavior tracks the B-field exactly.
+     * ImmediateBehavior immediately sets the compass direction to 
+     * match the direction of the B-field.
      */
-    private static class SimpleBehavior extends AbstractBehavior {
+    private static class ImmediateBehavior extends AbstractBehavior {
         
-        public SimpleBehavior( Compass compassModel ) {
+        public ImmediateBehavior( Compass compassModel ) {
             super( compassModel );
         }
 
