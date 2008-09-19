@@ -41,6 +41,7 @@ import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.model.DualParticleModel;
+import edu.colorado.phet.statesofmatter.view.ParticleForceNode;
 
 
 /**
@@ -112,7 +113,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
         
         // Add a reset button.
         addVerticalSpace( 10 );
-        JButton resetButton = new JButton("Reset");
+        JButton resetButton = new JButton( StatesOfMatterStrings.RESET );
         resetButton.addActionListener( new ActionListener(){
             public void actionPerformed( ActionEvent event ){
                 m_model.reset();
@@ -391,7 +392,6 @@ public class InteractionPotentialControlPanel extends ControlPanel {
         private JRadioButton m_noForcesButton;
         private JRadioButton m_totalForcesButton;
         private JRadioButton m_componentForceButton;
-        private JLabel m_totalForceLegendEntry;
         private JLabel m_attractiveForceLegendEntry;
         private JLabel m_repulsiveForceLegendEntry;
         
@@ -429,7 +429,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             JPanel totalForceButtonPanel = new JPanel();
             totalForceButtonPanel.setLayout( new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0) );
             totalForceButtonPanel.add( m_totalForcesButton );
-            totalForceButtonPanel.add( new JLabel( createArrowIcon( Color.GREEN, false ) ) );
+            totalForceButtonPanel.add( new JLabel( createArrowIcon( ParticleForceNode.TOTAL_FORCE_COLOR, false ) ) );
             
             m_componentForceButton = 
                 new JRadioButton( StatesOfMatterStrings.INTERACTION_POTENTIAL_COMPONENT_FORCES );
@@ -449,16 +449,14 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             buttonGroup.add( m_componentForceButton );
             m_noForcesButton.setSelected( true );
             
-            // Create the sub-panels that will be used for the key to the various force types.
-
             JPanel spacePanel = new JPanel();
             spacePanel.setLayout( new BoxLayout( spacePanel, BoxLayout.X_AXIS ) );
             spacePanel.add( Box.createHorizontalStrut( 14 ) );
 
             JPanel attractiveForceLegendEntry = new JPanel();
             attractiveForceLegendEntry.setLayout( new java.awt.FlowLayout(java.awt.FlowLayout.LEFT) );
-            m_attractiveForceLegendEntry = new JLabel("<html>Attractive<br>(Van der Waals)</html>", 
-                    createArrowIcon( Color.YELLOW, false ), JLabel.LEFT);
+            m_attractiveForceLegendEntry = new JLabel(StatesOfMatterStrings.ATTRACTIVE_FORCE_KEY, 
+                    createArrowIcon( ParticleForceNode.ATTRACTIVE_FORCE_COLOR, false ), JLabel.LEFT);
             attractiveForceLegendEntry.add( spacePanel );
             attractiveForceLegendEntry.add( m_attractiveForceLegendEntry );
             
@@ -468,8 +466,8 @@ public class InteractionPotentialControlPanel extends ControlPanel {
 
             JPanel repulsiveForceLegendEntry = new JPanel();
             repulsiveForceLegendEntry.setLayout( new java.awt.FlowLayout(java.awt.FlowLayout.LEFT) );
-            m_repulsiveForceLegendEntry = new JLabel("<html>Repulsive<br>(Electron Overlap)</html>", 
-                    createArrowIcon( Color.ORANGE, true ), JLabel.LEFT);
+            m_repulsiveForceLegendEntry = new JLabel(StatesOfMatterStrings.REPULSIVE_FORCE_KEY, 
+                    createArrowIcon( ParticleForceNode.REPULSIVE_FORCE_COLOR, true ), JLabel.LEFT);
             repulsiveForceLegendEntry.add( spacePanel );
             repulsiveForceLegendEntry.add( m_repulsiveForceLegendEntry );
             
