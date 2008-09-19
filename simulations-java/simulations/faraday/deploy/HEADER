@@ -2,7 +2,7 @@
 <!-- This file is named HEADER so that it will appear at the top of a browser's directory listing. -->
 <p>
 <big><big><b>
-faraday 2.01.00
+faraday 2.01.01
 </b></big></big>
 <p>
 <b>Click to run English versions:</b>
@@ -16,7 +16,7 @@ faraday 2.01.00
 <b>What's new:</b>
 <p>
 <ul>
-<li>PhetDefaultFont fixes in common code
+<li>fix compass so that it updates properly when clock is paused
 </ul>
 <p>
 <b>Known problems:</b>
