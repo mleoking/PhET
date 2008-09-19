@@ -44,7 +44,13 @@ public class AbstractMediaButton extends PNode {
 
             public void mouseExited( PInputEvent event ) {
                 if (isEnabled()){
-                    event.getComponent().popCursor( );
+                    try {
+                        event.getComponent().popCursor();
+                    }
+                    catch( ArrayIndexOutOfBoundsException e ) {
+                        // this is a well-known (but benign) problem, so don't print the stack trace
+                        System.err.println( getClass().getName() + ".popCursor attempted to pop an empty cursor stack" );
+                    }
                 }
                 mouseEntered = false;
                 updateImage();
