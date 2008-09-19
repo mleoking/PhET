@@ -2,8 +2,7 @@
 
 package edu.colorado.phet.common.piccolophet.nodes.mediabuttons;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
+import java.awt.*;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -13,7 +12,6 @@ import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
 
@@ -23,7 +21,7 @@ public class PlayPauseButton extends AbstractMediaButton {
     private ButtonIconSet buttonIconSet;
     private ArrayList listeners = new ArrayList();
     private ShadowPText pauseLabel;
-    
+
     public PlayPauseButton( int buttonHeight ) {
         super( buttonHeight );
 
@@ -32,23 +30,31 @@ public class PlayPauseButton extends AbstractMediaButton {
         addChild( iconNode );
         addInputEventListener( new PBasicInputEventHandler() {
             public void mouseReleased( PInputEvent event ) {
-                setPlaying( !isPlaying() );
-                update();
-                notifyListener();
+                if ( isEnabled() ) {
+                    setPlaying( !isPlaying() );
+                    update();
+                    notifyListener();
+                }
             }
         } );
-        
-        pauseLabel = new ShadowPText("Paused");   // TODO: Make this translatable.
+
+        pauseLabel = new ShadowPText( "Paused" );   // TODO: Make this translatable.
         pauseLabel.setTextPaint( Color.RED );
-        pauseLabel.setFont( new PhetFont(PhetFont.getDefaultFontSize(), true) );
+        pauseLabel.setFont( new PhetFont( PhetFont.getDefaultFontSize(), true ) );
         addChild( pauseLabel );
-        
+
         setPlaying( true );
+    }
+
+    protected void updateImage() {
+        super.updateImage();
+        iconNode.setPaint( isEnabled() ? Color.black : Color.gray );
     }
 
     private void setPlaying( boolean b ) {
         this.playing = b;
         update();
+        updateImage();
     }
 
     private void update() {
