@@ -7,7 +7,6 @@
       <antReference projectDefault="true" />
       <customJdkName value="1.6" />
       <maximumHeapSize value="512" />
-      <maximumStackSize value="32" /> 
       <properties>
         <property name="sun.java2d.noddraw" value="true" />
       </properties>
@@ -17,7 +16,13 @@
       <antReference projectDefault="true" />
       <customJdkName value="" />
       <maximumHeapSize value="128" />
-      <maximumStackSize value="32" />
+      <properties />
+    </buildFile>
+    <buildFile url="file://$PROJECT_DIR$/../../../team/reids/admin/build.xml">
+      <additionalClassPath />
+      <antReference projectDefault="true" />
+      <customJdkName value="" />
+      <maximumHeapSize value="128" />
       <properties />
     </buildFile>
   </component>
@@ -274,8 +279,8 @@
       <module fileurl="file://$PROJECT_DIR$/intellij-idea-all.iml" filepath="$PROJECT_DIR$/intellij-idea-all.iml" />
     </modules>
   </component>
-  <component name="ProjectRootManager" version="2" assert-keyword="true" jdk-15="false" project-jdk-name="1.4" project-jdk-type="JavaSDK">
-    <output url="file://$PROJECT_DIR$/../../../../../../../Temp/simulations-java/temp/classes" />
+  <component name="ProjectRootManager" version="2" assert-keyword="true" jdk-15="false" project-jdk-name="1.6" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/../../../../../../Temp/simulations-java/temp/classes" />
   </component>
   <component name="ResourceManagerContainer">
     <option name="myResourceBundles">
