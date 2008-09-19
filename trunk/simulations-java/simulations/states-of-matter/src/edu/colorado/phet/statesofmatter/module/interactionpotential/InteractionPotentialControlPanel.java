@@ -57,6 +57,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
     
     private static final Font LABEL_FONT = new PhetFont( Font.PLAIN, 14 );
+    private static final Color ENABLED_TITLE_COLOR = new Color ( 128, 128, 128 );
     
     //----------------------------------------------------------------------------
     // Instance Data
@@ -244,7 +245,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
     
     private class AtomDiameterControlPanel extends JPanel {
         
-        private final Font LABEL_FONT = new PhetFont( Font.BOLD, 14 );
+        private final Font LABEL_FONT = new PhetFont(14, false);
 
         private LinearValueControl m_atomDiameterControl;
         private DualParticleModel m_model;
@@ -265,7 +266,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
                     TitledBorder.LEFT,
                     TitledBorder.TOP,
                     new PhetFont( Font.BOLD, 14 ),
-                    Color.BLACK );
+                    ENABLED_TITLE_COLOR );
             
             setBorder( m_titledBorder );
             
@@ -306,7 +307,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             m_leftLabel.setEnabled( enabled );
             m_rightLabel.setEnabled( enabled );
             if (enabled) {
-                m_titledBorder.setTitleColor( Color.BLACK );
+                m_titledBorder.setTitleColor( ENABLED_TITLE_COLOR );
             }
             else {
                 m_titledBorder.setTitleColor( Color.LIGHT_GRAY );
@@ -316,7 +317,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
     
     private class InteractionStrengthControlPanel extends JPanel {
         
-        private final Font LABEL_FONT = new PhetFont( Font.BOLD, 14 );
+        private final Font LABEL_FONT = new PhetFont(14, false);
 
         private LinearValueControl m_interactionStrengthControl;
         private DualParticleModel m_model;
@@ -338,7 +339,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
                     TitledBorder.LEFT,
                     TitledBorder.TOP,
                     new PhetFont( Font.BOLD, 14 ),
-                    Color.BLACK );
+                    ENABLED_TITLE_COLOR );
             
             setBorder( m_titledBorder );
             
@@ -379,7 +380,7 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             m_leftLabel.setEnabled( enabled );
             m_rightLabel.setEnabled( enabled );
             if (enabled) {
-                m_titledBorder.setTitleColor( Color.BLACK );
+                m_titledBorder.setTitleColor( ENABLED_TITLE_COLOR );
             }
             else {
                 m_titledBorder.setTitleColor( Color.LIGHT_GRAY );
