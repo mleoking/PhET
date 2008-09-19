@@ -72,9 +72,11 @@ public class PhaseDiagram extends PhetPCanvas {
     // of the overall graph size and not as absolute values.
     private static final double POINT_MARKER_DIAMETER = 4;
     private static final double CURRENT_STATE_MARKER_DIAMETER = 7;
-    private static final Point2D DEFAULT_TOP_OF_SOLID_LIQUID_CURVE = new Point2D.Double(xUsableRange * 0.4 + xOriginOffset, 
+    private static final Point2D DEFAULT_TOP_OF_SOLID_LIQUID_LINE = new Point2D.Double(xUsableRange * 0.40 + xOriginOffset, 
             yOriginOffset - yUsableRange);
-    private static final Point2D DEFAULT_TRIPLE_POINT = new Point2D.Double(xOriginOffset + (xUsableRange * 0.28), 
+    private static final Point2D TOP_OF_SOLID_LIQUID_LINE_FOR_WATER = new Point2D.Double(xUsableRange * 0.30 + xOriginOffset, 
+            yOriginOffset - yUsableRange);
+    private static final Point2D DEFAULT_TRIPLE_POINT = new Point2D.Double(xOriginOffset + (xUsableRange * 0.35), 
             yOriginOffset - (yUsableRange * 0.2));
     private static final Point2D DEFAULT_CRITICAL_POINT = new Point2D.Double(xOriginOffset + (xUsableRange * 0.8), 
             yOriginOffset - (yUsableRange * 0.45));
@@ -107,6 +109,7 @@ public class PhaseDiagram extends PhetPCanvas {
     private PText m_criticalPointLabel1;
     private PText m_criticalPointLabel2;
     private PPath m_currentStateMarker;
+    private Point2D m_topOfSolidLiquidLine;
     
     // Variable that defines the normalized position of the current phase
     // state marker.
@@ -128,6 +131,8 @@ public class PhaseDiagram extends PhetPCanvas {
         
         // Initialize the variables for the lines, points, and shapes in the
         // phase diagram.  The order in which these are added is important.
+        m_topOfSolidLiquidLine = new Point2D.Double(DEFAULT_TOP_OF_SOLID_LIQUID_LINE.getX(), 
+                DEFAULT_TOP_OF_SOLID_LIQUID_LINE.getY());
         m_gasAreaBackground = new PPath();
         m_gasAreaBackground.setPaint( BACKGROUND_COLOR_FOR_GAS );
         m_gasAreaBackground.setStrokePaint( BACKGROUND_COLOR_FOR_GAS );
@@ -227,13 +232,13 @@ public class PhaseDiagram extends PhetPCanvas {
         addWorldChild( m_currentStateMarker );
 
         // Draw the initial phase diagram.
-        drawPhaseDiagram( 0 );
+        drawPhaseDiagram();
         
         // Set the initial position of the current phase state marker.
         setStateMarkerPos( 0, 0 );
     }
 
-    private void drawPhaseDiagram(int substance){
+    private void drawPhaseDiagram(){
         
         // Place the triple point marker.
         m_triplePoint.setOffset( DEFAULT_TRIPLE_POINT.getX() - POINT_MARKER_DIAMETER / 2, 
@@ -248,14 +253,14 @@ public class PhaseDiagram extends PhetPCanvas {
         
         // Add the line that separates solid and liquid.
         Line2D solidLiquidLine = new Line2D.Double(DEFAULT_TRIPLE_POINT.getX(), DEFAULT_TRIPLE_POINT.getY(), 
-                DEFAULT_TOP_OF_SOLID_LIQUID_CURVE.getX(), DEFAULT_TOP_OF_SOLID_LIQUID_CURVE.getY() );
+                m_topOfSolidLiquidLine.getX(), m_topOfSolidLiquidLine.getY() );
         
         m_solidLiquidLine.setPathTo( solidLiquidLine );
         
         // Update the shape of the background for the area that represents the solid phase.
         GeneralPath solidBackground = new GeneralPath(solidGasCurve);
-        solidBackground.lineTo( (float)DEFAULT_TOP_OF_SOLID_LIQUID_CURVE.getX(), 
-                (float)DEFAULT_TOP_OF_SOLID_LIQUID_CURVE.getY() );
+        solidBackground.lineTo( (float)m_topOfSolidLiquidLine.getX(), 
+                (float)m_topOfSolidLiquidLine.getY() );
         solidBackground.lineTo( (float)xOriginOffset, (float)(yOriginOffset - yUsableRange) );
         solidBackground.lineTo( (float)xOriginOffset, (float)yOriginOffset );
         solidBackground.closePath();
@@ -278,7 +283,7 @@ public class PhaseDiagram extends PhetPCanvas {
         // liquid phase.  It is expected that the solid shape overlays this one.
         GeneralPath liquidBackground = new GeneralPath( liquidGasCurve );
         liquidBackground.lineTo( (float)(xOriginOffset + xUsableRange), (float)(yOriginOffset - yUsableRange));
-        liquidBackground.lineTo( (float)(DEFAULT_TOP_OF_SOLID_LIQUID_CURVE.getX()),
+        liquidBackground.lineTo( (float)(m_topOfSolidLiquidLine.getX()),
                 (float)(yOriginOffset - yUsableRange));
         liquidBackground.lineTo( (float)(DEFAULT_TRIPLE_POINT.getX()), (float)(DEFAULT_TRIPLE_POINT.getY()) );
         liquidBackground.append( liquidGasCurve, true );
@@ -354,7 +359,13 @@ public class PhaseDiagram extends PhetPCanvas {
      * @param depictingWater
      */
     public void setDepictingWater( boolean depictingWater ) {
-//        yugga;
+        if (depictingWater) {
+            m_topOfSolidLiquidLine.setLocation( TOP_OF_SOLID_LIQUID_LINE_FOR_WATER );
+        }
+        else {
+            m_topOfSolidLiquidLine.setLocation(  DEFAULT_TOP_OF_SOLID_LIQUID_LINE );
+        }
+        drawPhaseDiagram();
     }
     
     /**
