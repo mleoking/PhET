@@ -54,6 +54,8 @@ public class StatesOfMatterStrings {
     public static final String INTERACTION_POTENTIAL_HIDE_FORCES = StatesOfMatterResources.getString("InteractionPotential.HideForces");
     public static final String INTERACTION_POTENTIAL_TOTAL_FORCES = StatesOfMatterResources.getString("InteractionPotential.TotalForces");
     public static final String INTERACTION_POTENTIAL_COMPONENT_FORCES = StatesOfMatterResources.getString("InteractionPotential.ComponentForces");
+    public static final String ATTRACTIVE_FORCE_KEY = StatesOfMatterResources.getString("InteractionPotential.AttractiveForce");
+    public static final String REPULSIVE_FORCE_KEY = StatesOfMatterResources.getString("InteractionStrengthControl.RepulsiveForce");
     public static final String STOP_ATOM = StatesOfMatterResources.getString("InteractionPotential.StopAtom");
     public static final String RETRIEVE_ATOM = StatesOfMatterResources.getString("InteractionPotential.RetrieveAtom");
 
