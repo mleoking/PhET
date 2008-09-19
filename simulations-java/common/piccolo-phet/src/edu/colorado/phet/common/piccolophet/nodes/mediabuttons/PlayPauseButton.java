@@ -41,7 +41,8 @@ public class PlayPauseButton extends AbstractMediaButton {
         pauseLabel = new ShadowPText( "Paused" );   // TODO: Make this translatable.
         pauseLabel.setTextPaint( Color.RED );
         pauseLabel.setFont( new PhetFont( PhetFont.getDefaultFontSize(), true ) );
-        addChild( pauseLabel );
+        //Wendy recommends to interview without pause label first, 9-18-2008
+//        addChild( pauseLabel );
 
         setPlaying( true );
     }
