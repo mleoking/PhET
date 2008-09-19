@@ -25,7 +25,6 @@ public class AlphaRadiationModule extends PiccoloModule {
     private AlphaRadiationModel _model;
     private AlphaRadiationCanvas _canvas;
     private AlphaRadiationControlPanel _controlPanel;
-    private ClockControlPanel _clockControlPanel;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -46,10 +45,6 @@ public class AlphaRadiationModule extends PiccoloModule {
         // Control Panel
         _controlPanel = new AlphaRadiationControlPanel( this, parentFrame );
         setControlPanel( _controlPanel );
-        
-        // Clock controls
-        _clockControlPanel = new ClockControlPanel( getClock() );
-        setClockControlPanel( _clockControlPanel );
         
         // Help
         if ( hasHelp() ) {
