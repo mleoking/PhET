@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantD
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
@@ -28,7 +29,7 @@ import edu.colorado.phet.glaciers.model.GlaciersClock;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class GlaciersClockControlPanel extends ClockControlPanel {
+public class GlaciersClockControlPanel extends PiccoloClockControlPanel {
     
     //----------------------------------------------------------------------------
     // Instance data
