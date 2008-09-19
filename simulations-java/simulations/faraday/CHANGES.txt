@@ -4,6 +4,7 @@ Changes for faraday
 
 
 DONE:
+9/18/08 - update compass while clock is paused (Unfuddle #711)
 5/20/08 - replace new Font("Sans Serif",...) with new PhetFont(...)
 5/8/08 - fix translations (ar,es,lt) that were using obsolete MessageFormat syntax
 ********* version 2.01.00 (21052)

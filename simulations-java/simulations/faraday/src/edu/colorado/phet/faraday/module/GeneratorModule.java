@@ -113,7 +113,7 @@ public class GeneratorModule extends FaradayModule {
         model.addModelElement( _turbineModel );
         
         // Compass
-        _compassModel = new Compass( _turbineModel ); 
+        _compassModel = new Compass( _turbineModel, getClock() ); 
         _compassModel.setLocation( COMPASS_LOCATION );
         _compassModel.setBehavior( Compass.SIMPLE_BEHAVIOR );
         _compassModel.setEnabled( false );
