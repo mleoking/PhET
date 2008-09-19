@@ -12,6 +12,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.HADefaults;
 import edu.colorado.phet.hydrogenatom.HAResources;
@@ -24,7 +25,7 @@ import edu.colorado.phet.hydrogenatom.model.HAClock;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class HAClockControlPanel extends ClockControlPanel {
+public class HAClockControlPanel extends PiccoloClockControlPanel {
     
     //----------------------------------------------------------------------------
     // Instance data

@@ -16,6 +16,7 @@ import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.boundstates.model.BSClock;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 
 
 /**
@@ -24,7 +25,7 @@ import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BSClockControls extends ClockControlPanel {
+public class BSClockControls extends PiccoloClockControlPanel {
     
     //----------------------------------------------------------------------------
     // Instance data
