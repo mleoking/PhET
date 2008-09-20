@@ -5,6 +5,10 @@ Change history for glaciers
 HIGHEST PRIORITY:
 
 HIGH PRIORITY:
+- bug: Reset All does not reset viewport position
+- change glacier picture button to "Show real glacier picture" text
+- increase glacial budget meter snap threshold to 1.5x what it is now
+- make glacial budget meter snap to glacier surface (or valley surface) when released, ala tracer flags?
 - bug: loading full-size background image causes OutOfMemoryException, exceeds JVM heap space [crop svg, talk with Archie]
 - birds-eye view should half the slope of zoomed view so that 80km is at far right
 - glacier growth from zero length still takes a long time, and then speeds up [Archie will fix model]
@@ -64,6 +68,7 @@ CLEANUP:
 
 
 DONE:
+9/20/08 - add tools to birds-eye view
 9/16/08 - add help item for toolbox node in zoomed viewport
 9/16/08 - fix common Help so that help ballons can be attached to nodes on any PLayer
 ******* 1.00.06 (24518)
