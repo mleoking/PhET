@@ -137,7 +137,6 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         
         // zoomed viewport
         _zoomedViewport = new Viewport( "zoomed" ); // bounds will be set when play area is resized
-        _zoomedViewport.setPosition( _birdsEyeViewport.getX(), _birdsEyeViewport.getY() ); // upper-left of birds-eye viewport
         _zoomedViewport.addViewportListener( new ViewportListener() {
             public void boundsChanged() {
                 verticallyAlignZoomedViewport();
@@ -287,6 +286,10 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
+    
+    public void resetZoomedViewport() {
+        _zoomedViewport.setPosition( _birdsEyeViewport.getX(), _birdsEyeViewport.getY() ); // upper-left of birds-eye viewport
+    }
     
     public void setEquilibriumLineVisible( boolean visible ) {
         _equilibriumLineNode.setVisible( visible );

@@ -141,6 +141,7 @@ public class IntroModule extends GlaciersModule {
 
         // View ---------------------------------------------
         
+        _playArea.resetZoomedViewport();
         _playArea.setEquilibriumLineVisible( viewControlPanel.isEquilibriumLineSelected() );
         _playArea.setIceFlowVisible( viewControlPanel.isIceFlowSelected() );
         _playArea.setAxesVisible( viewControlPanel.isCoordinatesSelected() );
