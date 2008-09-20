@@ -147,7 +147,7 @@ public class AdvancedModule extends GlaciersModule {
         miscControlPanel.setSteadyStateButtonEnabled( !glacier.isSteadyState() );
 
         // View ---------------------------------------------
-        
+        _playArea.resetZoomedViewport();
         _playArea.setEquilibriumLineVisible( viewControlPanel.isEquilibriumLineSelected() );
         _playArea.setIceFlowVisible( viewControlPanel.isIceFlowSelected() );
         _playArea.setAxesVisible( viewControlPanel.isCoordinatesSelected() );

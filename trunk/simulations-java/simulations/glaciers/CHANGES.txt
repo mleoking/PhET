@@ -5,7 +5,7 @@ Change history for glaciers
 HIGHEST PRIORITY:
 
 HIGH PRIORITY:
-- bug: Reset All does not reset viewport position
+- bug: Save should save zoomed viewport position
 - change glacier picture button to "Show real glacier picture" text
 - increase glacial budget meter snap threshold to 1.5x what it is now
 - make glacial budget meter snap to glacier surface (or valley surface) when released, ala tracer flags?
@@ -68,6 +68,7 @@ CLEANUP:
 
 
 DONE:
+9/20/08 - bugfix: Reset All does not reset viewport position
 9/20/08 - add tools to birds-eye view
 9/16/08 - add help item for toolbox node in zoomed viewport
 9/16/08 - fix common Help so that help ballons can be attached to nodes on any PLayer
