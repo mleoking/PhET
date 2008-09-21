@@ -11,7 +11,7 @@ Follow these steps:
 (1) copy dot-classpath to simulations-java/.classpath
 This sets the Java classpath, and associates source code with JAR files.
 
-(2) copy org.eclipse.jdt.core.prefs to simulations-java/settings/org.eclipse.jdt.core.prefs
+(2) copy org.eclipse.jdt.core.prefs to simulations-java/.settings/org.eclipse.jdt.core.prefs
 This configures compiler settings for project simulations-java.
 
 (3) Import the PhET code format conventions.
