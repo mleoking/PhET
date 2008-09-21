@@ -58,15 +58,15 @@ public class IntroModule extends GlaciersModule {
         if ( hasHelp() ) {
             HelpPane helpPane = getDefaultHelpPane();
             
-            HelpBalloon steadyStateButtonHelp = new GlaciersHelpBalloon( helpPane, GlaciersStrings.HELP_STEADY_STATE_BUTTON, HelpBalloon.BOTTOM_CENTER, 80 );
+            HelpBalloon steadyStateButtonHelp = new GlaciersHelpBalloon( helpPane, GlaciersStrings.HELP_STEADY_STATE_BUTTON, HelpBalloon.BOTTOM_LEFT, 200 );
             helpPane.add( steadyStateButtonHelp );
             steadyStateButtonHelp.pointAt( _controlPanel.getMiscControlPanel().getSteadyStateButton() );
             
-            HelpBalloon simSpeedHelp = new GlaciersHelpBalloon( helpPane, GlaciersStrings.HELP_SIM_SPEED, HelpBalloon.BOTTOM_CENTER, 80 );
+            HelpBalloon simSpeedHelp = new GlaciersHelpBalloon( helpPane, GlaciersStrings.HELP_SIM_SPEED, HelpBalloon.BOTTOM_LEFT, 190 );
             helpPane.add( simSpeedHelp );
             simSpeedHelp.pointAt( _controlPanel.getClockControlPanel().getFrameRateControl() );
             
-            HelpBalloon toolboxHelp = new GlaciersHelpBalloon( helpPane, GlaciersStrings.HELP_TOOLBOX, HelpBalloon.LEFT_CENTER, 40 );
+            HelpBalloon toolboxHelp = new GlaciersHelpBalloon( helpPane, GlaciersStrings.HELP_TOOLBOX, HelpBalloon.BOTTOM_CENTER, 30 );
             helpPane.add( toolboxHelp );
             toolboxHelp.pointAt( _playArea.getToolboxNode(), _playArea.getZoomedCanvas() );
         }
@@ -171,6 +171,8 @@ public class IntroModule extends GlaciersModule {
 
         // Control panel settings that are view-related
         {
+            config.setZoomedViewportPosition( _playArea.getZoomedViewportPosition() );
+            
             config.setSnowfallSelected( _controlPanel.getViewControlPanel().isSnowfallSelected() );
             config.setEquilibriumLineSelected( _controlPanel.getViewControlPanel().isEquilibriumLineSelected() );
         }
@@ -199,6 +201,8 @@ public class IntroModule extends GlaciersModule {
 
         // Control panel settings that are view-related
         {
+            _playArea.setZoomedViewportPosition( config.getZoomedViewportPosition() );
+            
             _controlPanel.getViewControlPanel().setSnowfallSelected( config.isSnowfallSelected() );
             _controlPanel.getViewControlPanel().setEquilibriumLineSelected( config.isEquilibriumLineSelected() );
         }

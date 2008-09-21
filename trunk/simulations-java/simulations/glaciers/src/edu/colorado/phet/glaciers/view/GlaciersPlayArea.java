@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
@@ -289,6 +290,14 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
     
     public void resetZoomedViewport() {
         _zoomedViewport.setPosition( _birdsEyeViewport.getX(), _birdsEyeViewport.getY() ); // upper-left of birds-eye viewport
+    }
+    
+    public void setZoomedViewportPosition( Point2D p ) {
+        _zoomedViewport.setPosition( p );
+    }
+    
+    public Point2D getZoomedViewportPosition() {
+        return _zoomedViewport.getPosition();
     }
     
     public void setEquilibriumLineVisible( boolean visible ) {
