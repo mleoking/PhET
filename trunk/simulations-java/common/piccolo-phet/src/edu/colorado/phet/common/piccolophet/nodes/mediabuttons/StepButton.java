@@ -12,7 +12,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * Created by: Sam
  * Sep 12, 2008 at 7:13:02 AM
  */
-public class StepButton extends AbstractMediaButton {
+public class StepButton extends IconButton {
     private PhetPPath iconNode;
     private ArrayList listeners = new ArrayList();
 

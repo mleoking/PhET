@@ -6,18 +6,15 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
 
-public class PlayPauseButton extends AbstractMediaButton {
+public class PlayPauseButton extends IconButton {
     private boolean playing;
-    private PPath iconNode;
     private ButtonIconSet buttonIconSet;
     private ArrayList listeners = new ArrayList();
     private ShadowPText pauseLabel;
@@ -26,8 +23,7 @@ public class PlayPauseButton extends AbstractMediaButton {
         super( buttonHeight );
 
         buttonIconSet = new ButtonIconSet( buttonHeight, buttonHeight );
-        iconNode = new PhetPPath( buttonIconSet.createPlayIconShape(), Color.BLACK, new BasicStroke( 1 ), Color.LIGHT_GRAY );
-        addChild( iconNode );
+
         addInputEventListener( new PBasicInputEventHandler() {
             public void mouseReleased( PInputEvent event ) {
                 if ( isEnabled() ) {
@@ -47,11 +43,6 @@ public class PlayPauseButton extends AbstractMediaButton {
         setPlaying( true );
     }
 
-    protected void updateImage() {
-        super.updateImage();
-        iconNode.setPaint( isEnabled() ? Color.black : Color.gray );
-    }
-
     public void setPlaying( boolean b ) {
         this.playing = b;
         update();
@@ -59,7 +50,7 @@ public class PlayPauseButton extends AbstractMediaButton {
     }
 
     private void update() {
-        iconNode.setPathTo( isPlaying() ? buttonIconSet.createPauseIconShape() : buttonIconSet.createPlayIconShape() );
+        super.setIconPath( isPlaying() ? buttonIconSet.createPauseIconShape() : buttonIconSet.createPlayIconShape() );
         PDimension buttonDimension = getButtonDimension();
         pauseLabel.setScale( 1 );
         pauseLabel.setScale( buttonDimension.width / pauseLabel.getFullBounds().width );
