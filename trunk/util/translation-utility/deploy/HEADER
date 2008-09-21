@@ -1,0 +1,19 @@
+<html>
+<p>
+<big><big><b>
+translation-utility 1.01.00
+</b></big></big>
+<p>
+<b>What's new:</b>
+<p>
+<ul>
+<li>fix version number, it was displaying 1.-1.00
+<li>remove uses of DialogUtils, replace with JOptionPane
+<li>improve validation code for initialization dialog
+</ul>
+<p>
+<b>Known problems:</b>
+<ul>
+<li>none
+</ul>
+</html>
