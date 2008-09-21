@@ -8,12 +8,15 @@ Follow these steps to build & deploy:
 
 2. set the version properties in data/translation-utility/translation-utility.properties,
    document the version number in CHANGES.txt,
-   then check in both translation-utility.properties and CHANGES.txt
+   write release notes in deploy/HEADER,
+   then check in translation-utility.properties, CHANGES.txt, and HEADER
 
 3. ant build-jar
 
-4. scp deploy/translation-utility.jar tigercat:/web/htdocs/phet/phet-dist/translation-utility/
+4. copy files to tigercat:
 
-5. scp data/translation-utility/translation-utility.properties tigercat:/web/htdocs/phet/phet-dist/translation-utility/
+   scp deploy/HEADER tigercat:/web/htdocs/phet/phet-dist/translation-utility/
+   scp deploy/translation-utility.jar tigercat:/web/htdocs/phet/phet-dist/translation-utility/
+   scp data/translation-utility/translation-utility.properties tigercat:/web/htdocs/phet/phet-dist/translation-utility/
 
 --
