@@ -5,10 +5,9 @@ Change history for glaciers
 HIGHEST PRIORITY:
 
 HIGH PRIORITY:
-- bug: Save should save zoomed viewport position
-- change glacier picture button to "Show real glacier picture" text
-- increase glacial budget meter snap threshold to 1.5x what it is now
-- make glacial budget meter snap to glacier surface (or valley surface) when released, ala tracer flags?
+- should glacial budget meter snap to valley floor for x<0 like it does for x>=0 ?
+- change glacier picture button to "Show real glacier picture" text ?
+- make glacial budget meter snap to glacier surface (or valley surface) when released, ala tracer flags ?
 - bug: loading full-size background image causes OutOfMemoryException, exceeds JVM heap space [crop svg, talk with Archie]
 - birds-eye view should half the slope of zoomed view so that 80km is at far right
 - glacier growth from zero length still takes a long time, and then speeds up [Archie will fix model]
@@ -16,8 +15,8 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - "steady state" feature needs to fill glacier with debris and surface ripples (and create moraine?)
+- finalize Help items (what are they? where should they be located? bubbles or no bubbles? text color and style? arrow color and style?)
 - make sure everything works properly when clock is paused
-- add Help items
 
 LOW PRIORITY:
 - improve smoothness of DistanceAxisNode (x-axis for coordinates feature)
@@ -28,7 +27,7 @@ LOW PRIORITY:
 - Spanish translation (Archie?)
 
 DEFERRED FOR INTERVIEWS:
-- behavior of glacial budget meter (snap-to-ice) is hard to discover and potentially misleading
+- behavior of glacial budget meter (snap-to-ice) is hard to discover
 - do we want to show values or relative ranges (temperature=cold-to-hot,snowfall=none-to-lots) for Intro climate controls?
 
 DEFERRED FOR FUTURE VERSION:
@@ -68,6 +67,9 @@ CLEANUP:
 
 
 DONE:
+9/20/08 - reposition sample help items so they don't overlap any controls
+9/20/08 - increase glacial budget meter snap threshold to 1.5x what it is now (150 meters)
+9/20/08 - bugfix: Save should save zoomed viewport position
 9/20/08 - bugfix: Reset All does not reset viewport position
 9/20/08 - add tools to birds-eye view
 9/16/08 - add help item for toolbox node in zoomed viewport

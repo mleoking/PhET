@@ -86,6 +86,10 @@ public class Viewport {
         setBounds( x, y, _bounds.getWidth(), _bounds.getHeight() );
     }
     
+    public Point2D getPosition() {
+        return new Point2D.Double( _bounds.getX(), _bounds.getY() );
+    }
+    
     public void translate( double dx, double dy ) {
         setPosition( _bounds.getX() + dx, _bounds.getY() + dy );
     }

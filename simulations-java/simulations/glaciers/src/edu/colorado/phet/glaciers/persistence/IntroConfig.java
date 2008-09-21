@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.glaciers.persistence;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
 
@@ -27,6 +29,8 @@ public class IntroConfig implements IProguardKeepClass {
     private boolean _snowfallSelected;
     private double _temperature;
     private double _snowfall;
+    private double _zoomedViewportX;
+    private double _zoomedViewportY;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -103,5 +107,34 @@ public class IntroConfig implements IProguardKeepClass {
 
     public void setSnowfall( double snowfall ) {
         _snowfall = snowfall;
+    }
+    
+    public void setZoomedViewportX( double x ) {
+        _zoomedViewportX = x;
+    }
+    
+    public double getZoomedViewportX() {
+        return _zoomedViewportX;
+    }
+    
+    public void setZoomedViewportY( double y ) {
+        _zoomedViewportY = y;
+    }
+    
+    public double getZoomedViewportY() {
+        return _zoomedViewportY;
+    }
+    
+    //----------------------------------------------------------------------------
+    // Convenience methods
+    //----------------------------------------------------------------------------
+    
+    public void setZoomedViewportPosition( Point2D p ) {
+        _zoomedViewportX = p.getX();
+        _zoomedViewportY = p.getY();
+    }
+    
+    public Point2D getZoomedViewportPosition() {
+        return new Point2D.Double( _zoomedViewportX, _zoomedViewportY );
     }
 }

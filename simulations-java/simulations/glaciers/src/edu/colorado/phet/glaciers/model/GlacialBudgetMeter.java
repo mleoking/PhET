@@ -23,7 +23,7 @@ public class GlacialBudgetMeter extends AbstractTool {
     //----------------------------------------------------------------------------
     
     // when the position is this close or closer to the ice or valley surface, snap to the surface
-    private static final double SNAP_TO_SURFACE_THRESHOLD = 100; // meters
+    private static final double SNAP_TO_SURFACE_THRESHOLD = 150; // meters
     
     //----------------------------------------------------------------------------
     // Instance data
