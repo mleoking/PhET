@@ -7,8 +7,9 @@ translation-utility 1.04.00
 <b>What's new:</b>
 <p>
 <ul>
-<li>enhance error dialogs, add info (versions, stack trace, etc) that can be reported to phethelp
-<li>build jar file with line# and source file debugging info enabled, so that this info is in stack traces
+<li>explicitly read and add manifest to phet-test-translation.jar for Java & Flash sims (Unfuddle 720)
+<li>ignore manifest file when copying jar entries, this causes problems on Mac (Unfuddle 720)
+<li>move shared instance data, interfaces, and utilities to AbstractSimulation
 </ul>
 <p>
 <b>Known problems:</b>
