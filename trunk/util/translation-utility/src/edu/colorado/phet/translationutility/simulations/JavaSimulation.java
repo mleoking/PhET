@@ -42,6 +42,7 @@ public class JavaSimulation implements ISimulation {
     
     private final String _jarFileName;
     private final String _projectName;
+    private final Manifest _manifest;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -51,6 +52,7 @@ public class JavaSimulation implements ISimulation {
         super();
         _jarFileName = jarFileName;
         _projectName = getProjectName( jarFileName );
+        _manifest = getManifest( jarFileName );
     }
     
     //----------------------------------------------------------------------------
@@ -63,7 +65,7 @@ public class JavaSimulation implements ISimulation {
     
     public void testStrings( Properties properties, String languageCode ) throws SimulationException {
         String propertiesFileName = getPropertiesResourceName( _projectName, languageCode );
-        writePropertiesToJarCopy( _jarFileName, TEST_JAR, propertiesFileName, properties );
+        writePropertiesToJarCopy( _jarFileName, TEST_JAR, _manifest, propertiesFileName, properties );
         try {
             String[] cmdArray = { "java", "-jar", "-Duser.language=" + languageCode, TEST_JAR };
             Command.run( cmdArray, false /* waitForCompletion */ );
@@ -200,6 +202,30 @@ public class JavaSimulation implements ISimulation {
     }
     
     /*
+     * Gets the manifest from a jar file.
+     * If there is no manifest, this will throw IOException.
+     * All JAR files for PhET Java simulations must have a manifest.
+     * 
+     * @param jarFileName
+     * @return Manifest
+     */
+    private static Manifest getManifest( String jarFileName ) throws SimulationException {
+        Manifest manifest = null;
+        try {
+            JarFile jarFile = new JarFile( jarFileName );
+            JarEntry jarEntry = jarFile.getJarEntry( JarFile.MANIFEST_NAME );
+            InputStream inputStream = jarFile.getInputStream( jarEntry );
+            manifest = new Manifest( inputStream ); // constructor reads the input stream
+            inputStream.close();
+            jarFile.close();
+        }
+        catch ( IOException e ) {
+            throw new SimulationException( "error reading manifest from " + jarFileName );
+        }
+        return manifest;
+    }
+    
+    /*
      * Discovers the name of the project that was used to build the JAR file.
      * We search for localization files in the JAR file.
      * The first localization file that does not belong to a common project is assumed
@@ -329,10 +355,11 @@ public class JavaSimulation implements ISimulation {
      * 
      * @param originalJarFileName
      * @param newJarFileName
+     * @param manifest
      * @param propertiesFileName
      * @param properties
      */
-    private static void writePropertiesToJarCopy( String originalJarFileName, String newJarFileName, String propertiesFileName, Properties properties ) throws SimulationException {
+    private static void writePropertiesToJarCopy( String originalJarFileName, String newJarFileName, Manifest manifest, String propertiesFileName, Properties properties ) throws SimulationException {
         
         if ( originalJarFileName.equals( newJarFileName  ) ) {
             throw new IllegalArgumentException( "originalJarFileName and newJarFileName must be different" );
@@ -353,23 +380,15 @@ public class JavaSimulation implements ISimulation {
         try {
             // input comes from the original JAR file
             JarInputStream jarInputStream = new JarInputStream( inputStream ); // throws IOException
-
-
-            JarFile zipFile = new JarFile(jarFile);
-            JarEntry zipEntry = zipFile.getJarEntry( JarFile.MANIFEST_NAME );
-            InputStream barWarStream = zipFile.getInputStream( zipEntry );
-
-            Manifest mf= new Manifest( barWarStream );
-            mf.read( barWarStream );
-
+            
             // output goes to test JAR file
             OutputStream outputStream = new FileOutputStream( testFile );
-            JarOutputStream testOutputStream = new JarOutputStream( outputStream,mf );
+            JarOutputStream testOutputStream = new JarOutputStream( outputStream, manifest );
             
-            // copy all entries from input to output, skipping the properties file
+            // copy all entries from input to output, skipping the properties file & manifest
             JarEntry jarEntry = jarInputStream.getNextJarEntry();
             while ( jarEntry != null ) {
-                if ( !jarEntry.getName().equals( propertiesFileName ) ) {
+                if ( !jarEntry.getName().equals( propertiesFileName ) && !jarEntry.getName().equals( JarFile.MANIFEST_NAME )) {
                     testOutputStream.putNextEntry( jarEntry );
                     byte[] buf = new byte[1024];
                     int len;
