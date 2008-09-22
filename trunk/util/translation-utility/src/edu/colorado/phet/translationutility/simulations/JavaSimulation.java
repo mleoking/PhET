@@ -20,14 +20,11 @@ import edu.colorado.phet.translationutility.util.PropertiesIO.PropertiesIOExcept
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class JavaSimulation implements ISimulation {
+public class JavaSimulation extends AbstractSimulation {
     
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
-    // temporary JAR file used to test translations
-    private static final String TEST_JAR = System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.separator" ) + "phet-test-translation.jar";
     
     // regular expression that matches localization string files
     private static final String REGEX_LOCALIZATION_FILES = ".*-strings.*\\.properties";
@@ -37,35 +34,20 @@ public class JavaSimulation implements ISimulation {
     private static final String PROJECT_NAME_PROPERTY = "project.name";
     
     //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-    
-    private final String _jarFileName;
-    private final String _projectName;
-    private final Manifest _manifest;
-
-    //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
     public JavaSimulation( String jarFileName ) throws SimulationException {
-        super();
-        _jarFileName = jarFileName;
-        _projectName = getProjectName( jarFileName );
-        _manifest = getManifest( jarFileName );
+        super( jarFileName );
     }
     
     //----------------------------------------------------------------------------
     // Public interface
     //----------------------------------------------------------------------------
     
-    public String getProjectName() {
-        return _projectName;
-    }
-    
     public void testStrings( Properties properties, String languageCode ) throws SimulationException {
-        String propertiesFileName = getPropertiesResourceName( _projectName, languageCode );
-        writePropertiesToJarCopy( _jarFileName, TEST_JAR, _manifest, propertiesFileName, properties );
+        String propertiesFileName = getPropertiesResourceName( getProjectName(), languageCode );
+        writePropertiesToJarCopy( getJarFileName(), TEST_JAR, getManifest(), propertiesFileName, properties );
         try {
             String[] cmdArray = { "java", "-jar", "-Duser.language=" + languageCode, TEST_JAR };
             Command.run( cmdArray, false /* waitForCompletion */ );
@@ -78,13 +60,13 @@ public class JavaSimulation implements ISimulation {
     public Properties getStrings( String languageCode ) throws SimulationException {
         
         // Load strings from a resource file.
-        String propertiesFileName = getPropertiesResourceName( _projectName, languageCode );
-        Properties properties = readPropertiesFromJar( _jarFileName, propertiesFileName );
+        String propertiesFileName = getPropertiesResourceName( getProjectName(), languageCode );
+        Properties properties = readPropertiesFromJar( getJarFileName(), propertiesFileName );
         
         // English strings may be in a fallback resource file.
         if ( properties == null && languageCode.equals( TUConstants.ENGLISH_LANGUAGE_CODE ) ) {
-            propertiesFileName = getFallbackPropertiesResourceName( _projectName );
-            properties = readPropertiesFromJar( _jarFileName, propertiesFileName );
+            propertiesFileName = getFallbackPropertiesResourceName( getProjectName() );
+            properties = readPropertiesFromJar( getJarFileName(), propertiesFileName );
         }
         
         return properties;
@@ -111,7 +93,45 @@ public class JavaSimulation implements ISimulation {
     }
     
     public String getSubmitBasename( String languageCode ) {
-        return getPropertiesResourceBasename( _projectName, languageCode );
+        return getPropertiesResourceBasename( getProjectName(), languageCode );
+    }
+    
+    /*
+     * Gets the project name for the simulation
+     * 
+     * @param jarFileName
+     */
+    protected String getProjectName( String jarFileName ) throws SimulationException {
+        
+        String projectName = null;
+        
+        // For newer sims, the project name is identified in project.properties
+        Properties projectProperties = readPropertiesFromJar( jarFileName, PROJECT_PROPERTIES_FILENAME );
+        if ( projectProperties != null ) {
+            projectName = projectProperties.getProperty( PROJECT_NAME_PROPERTY );
+        }
+        
+        // For older sims (or if PROJECT_NAME_PROPERTY is missing), discover the project name
+        if ( projectName == null ) {
+            projectName = discoverProjectName( jarFileName );
+        }
+        
+        if ( projectName == null ) {
+            throw new SimulationException( "could not determine this simulation's project name: " + jarFileName );
+        }
+        
+        // HACK:
+        // PhET common strings are bundled into their own JAR file for use with translation utility.
+        // Because the PhET build process is so inflexible, the JAR file must be built & deployed
+        // via a dummy sim named "common-strings", found in trunk/simulations-java/simulations.
+        // If the project name is "common-strings", we really want to load the common strings
+        // which are in files with basename "phetcommon-strings".  So we use "phetcommon" 
+        // as the project name.
+        if ( projectName.equals( "common-strings" ) ) {
+            projectName = "phetcommon";
+        }
+        
+        return projectName;
     }
     
     //----------------------------------------------------------------------------
@@ -161,68 +181,6 @@ public class JavaSimulation implements ISimulation {
             basename = projectName + "-strings_" + languageCode + ".properties";
         }
         return basename;
-    }
-    
-    /*
-     * Gets the project name for the simulation
-     * 
-     * @param jarFileName
-     */
-    private static String getProjectName( String jarFileName ) throws SimulationException {
-        
-        String projectName = null;
-        
-        // For newer sims, the project name is identified in project.properties
-        Properties projectProperties = readPropertiesFromJar( jarFileName, PROJECT_PROPERTIES_FILENAME );
-        if ( projectProperties != null ) {
-            projectName = projectProperties.getProperty( PROJECT_NAME_PROPERTY );
-        }
-        
-        // For older sims (or if PROJECT_NAME_PROPERTY is missing), discover the project name
-        if ( projectName == null ) {
-            projectName = discoverProjectName( jarFileName );
-        }
-        
-        if ( projectName == null ) {
-            throw new SimulationException( "could not determine this simulation's project name: " + jarFileName );
-        }
-        
-        // HACK:
-        // PhET common strings are bundled into their own JAR file for use with translation utility.
-        // Because the PhET build process is so inflexible, the JAR file must be built & deployed
-        // via a dummy sim named "common-strings", found in trunk/simulations-java/simulations.
-        // If the project name is "common-strings", we really want to load the common strings
-        // which are in files with basename "phetcommon-strings".  So we use "phetcommon" 
-        // as the project name.
-        if ( projectName.equals( "common-strings" ) ) {
-            projectName = "phetcommon";
-        }
-        
-        return projectName;
-    }
-    
-    /*
-     * Gets the manifest from a jar file.
-     * If there is no manifest, this will throw IOException.
-     * All JAR files for PhET Java simulations must have a manifest.
-     * 
-     * @param jarFileName
-     * @return Manifest
-     */
-    private static Manifest getManifest( String jarFileName ) throws SimulationException {
-        Manifest manifest = null;
-        try {
-            JarFile jarFile = new JarFile( jarFileName );
-            JarEntry jarEntry = jarFile.getJarEntry( JarFile.MANIFEST_NAME );
-            InputStream inputStream = jarFile.getInputStream( jarEntry );
-            manifest = new Manifest( inputStream ); // constructor reads the input stream
-            inputStream.close();
-            jarFile.close();
-        }
-        catch ( IOException e ) {
-            throw new SimulationException( "error reading manifest from " + jarFileName );
-        }
-        return manifest;
     }
     
     /*
@@ -359,7 +317,9 @@ public class JavaSimulation implements ISimulation {
      * @param propertiesFileName
      * @param properties
      */
-    private static void writePropertiesToJarCopy( String originalJarFileName, String newJarFileName, Manifest manifest, String propertiesFileName, Properties properties ) throws SimulationException {
+    private static void writePropertiesToJarCopy( 
+            String originalJarFileName, String newJarFileName, Manifest manifest, 
+            String propertiesFileName, Properties properties ) throws SimulationException {
         
         if ( originalJarFileName.equals( newJarFileName  ) ) {
             throw new IllegalArgumentException( "originalJarFileName and newJarFileName must be different" );
@@ -388,7 +348,7 @@ public class JavaSimulation implements ISimulation {
             // copy all entries from input to output, skipping the properties file & manifest
             JarEntry jarEntry = jarInputStream.getNextJarEntry();
             while ( jarEntry != null ) {
-                if ( !jarEntry.getName().equals( propertiesFileName ) && !jarEntry.getName().equals( JarFile.MANIFEST_NAME )) {
+                if ( !jarEntry.getName().equals( propertiesFileName ) && !jarEntry.getName().equals( JarFile.MANIFEST_NAME ) ) {
                     testOutputStream.putNextEntry( jarEntry );
                     byte[] buf = new byte[1024];
                     int len;

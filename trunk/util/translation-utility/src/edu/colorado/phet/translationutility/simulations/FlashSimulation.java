@@ -5,9 +5,7 @@ package edu.colorado.phet.translationutility.simulations;
 import java.io.*;
 import java.text.MessageFormat;
 import java.util.Properties;
-import java.util.jar.JarEntry;
-import java.util.jar.JarInputStream;
-import java.util.jar.JarOutputStream;
+import java.util.jar.*;
 
 import edu.colorado.phet.translationutility.util.Command;
 import edu.colorado.phet.translationutility.util.DocumentAdapter;
@@ -21,43 +19,29 @@ import edu.colorado.phet.translationutility.util.DocumentIO.DocumentIOException;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class FlashSimulation implements ISimulation {
+public class FlashSimulation extends AbstractSimulation {
     
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final String TEST_JAR = System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.separator" ) + "phet-test-translation.jar"; // temporary JAR file used to test translations
     private static final String ARGS_FILENAME = "flash-launcher-args.txt";
     
-    //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-    
-    private final String _jarFileName;
-    private final String _projectName;
-
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
     public FlashSimulation( String jarFileName ) throws SimulationException {
-        super();
-        _jarFileName = jarFileName;
-        _projectName = getSimulationProjectName( jarFileName );
+        super( jarFileName );
     }
     
     //----------------------------------------------------------------------------
     // Public interface
     //----------------------------------------------------------------------------
     
-    public String getProjectName() {
-        return _projectName;
-    }
-
     public void testStrings( Properties properties, String languageCode ) throws SimulationException {
-        String xmlFilename = getDocumentResourceName( _projectName, languageCode );
-        writeDocumentToJarCopy( _projectName, languageCode, _jarFileName, TEST_JAR, xmlFilename, properties );
+        String xmlFilename = getDocumentResourceName( getProjectName(), languageCode );
+        writeDocumentToJarCopy( getProjectName(), languageCode, getJarFileName(), TEST_JAR, getManifest(), xmlFilename, properties );
         try {
             String[] cmdArray = { "java", "-jar", TEST_JAR };
             Command.run( cmdArray, false /* waitForCompletion */ );
@@ -68,7 +52,7 @@ public class FlashSimulation implements ISimulation {
     }
 
     public Properties getStrings( String languageCode ) throws SimulationException {
-        return readDocumentFromJar( _jarFileName, _projectName, languageCode );
+        return readDocumentFromJar( getJarFileName(), getProjectName(), languageCode );
     }
 
     public Properties loadStrings( File file ) throws SimulationException {
@@ -99,7 +83,37 @@ public class FlashSimulation implements ISimulation {
     }
 
     public String getSubmitBasename( String languageCode ) {
-        return getDocumentResourceBasename( _projectName, languageCode );
+        return getDocumentResourceBasename( getProjectName(), languageCode );
+    }
+    
+    /*
+     * Gets the project name, based on the JAR file name.
+     * The JAR file name may or may not contain a language code.
+     * For example, acceptable file names for the "curve-fit" project are curve-fit.jar and curve-fit_fr.jar.
+     * 
+     * @param jarFileName
+     * @return String
+     */
+    protected String getProjectName( String jarFileName ) throws SimulationException {
+        String projectName = null;
+        File jarFile = new File( jarFileName );
+        String name = jarFile.getName();
+        int index = name.indexOf( "_" );
+        if ( index != -1 ) {
+            // eg, curve-fit_fr.jar
+            projectName = name.substring( 0, index );
+        }
+        else {
+            // eg, curve-fit.jar
+            index = name.indexOf( "." );
+            if ( index != -1 ) {
+                projectName = name.substring( 0, index );
+            }
+            else {
+                throw new SimulationException( "cannot determine project name" );
+            }
+        }
+        return projectName;
     }
     
     //----------------------------------------------------------------------------
@@ -133,36 +147,6 @@ public class FlashSimulation implements ISimulation {
         String format = "{0}_{1}.html"; // eg, curve-fit_en.html
         Object[] args = { projectName, languageCode };
         return MessageFormat.format( format, args );
-    }
-    
-    /*
-     * Gets the project name, based on the JAR file name.
-     * The JAR file name may or may not contain a language code.
-     * For example, acceptable file names for the "curve-fit" project are curve-fit.jar and curve-fit_fr.jar.
-     * 
-     * @param jarFileName
-     * @return String
-     */
-    private static String getSimulationProjectName( String jarFileName ) throws SimulationException {
-        String projectName = null;
-        File jarFile = new File( jarFileName );
-        String name = jarFile.getName();
-        int index = name.indexOf( "_" );
-        if ( index != -1 ) {
-            // eg, curve-fit_fr.jar
-            projectName = name.substring( 0, index );
-        }
-        else {
-            // eg, curve-fit.jar
-            index = name.indexOf( "." );
-            if ( index != -1 ) {
-                projectName = name.substring( 0, index );
-            }
-            else {
-                throw new SimulationException( "cannot determine project name" );
-            }
-        }
-        return projectName;
     }
     
     /*
@@ -235,13 +219,18 @@ public class FlashSimulation implements ISimulation {
      * The XML file contains localized strings.
      * The original JAR file is not modified.
      * 
+     * @param projectName
+     * @param languageCode
      * @param originalJarFileName
      * @param newJarFileName
-     * @param propertiesFileName
+     * @param manifest
+     * @param xmlFileName
      * @param properties
      * @throws JarIOException
      */
-    private static void writeDocumentToJarCopy( String projectName, String languageCode, String originalJarFileName, String newJarFileName, String xmlFilename, Properties properties ) throws SimulationException {
+    private static void writeDocumentToJarCopy( 
+            String projectName, String languageCode, String originalJarFileName, String newJarFileName, Manifest manifest, 
+            String xmlFilename, Properties properties ) throws SimulationException {
         
         if ( originalJarFileName.equals( newJarFileName  ) ) {
             throw new IllegalArgumentException( "originalJarFileName and newJarFileName must be different" );
@@ -265,13 +254,15 @@ public class FlashSimulation implements ISimulation {
             
             // output goes to test JAR file
             OutputStream outputStream = new FileOutputStream( testFile );
-            JarOutputStream testOutputStream = new JarOutputStream( outputStream );
+            JarOutputStream testOutputStream = new JarOutputStream( outputStream, manifest );
             
-            // copy all entries from input to output, skipping the properties file & args.txt & HTML file
+            // copy all entries from input to output, skipping the properties file, manifest, args.txt & HTML file
             String htmlResourceName = getHTMLResourceName( projectName, languageCode );
             JarEntry jarEntry = jarInputStream.getNextJarEntry();
             while ( jarEntry != null ) {
-                if ( !jarEntry.getName().equals( xmlFilename ) && !jarEntry.getName().equals( ARGS_FILENAME ) && !jarEntry.getName().equals( htmlResourceName ) ) {
+                if ( !jarEntry.getName().equals( xmlFilename ) && !jarEntry.getName().equals( JarFile.MANIFEST_NAME ) &&
+                     !jarEntry.getName().equals( ARGS_FILENAME ) && !jarEntry.getName().equals( htmlResourceName ) ) {
+                    
                     testOutputStream.putNextEntry( jarEntry );
                     byte[] buf = new byte[1024];
                     int len;
