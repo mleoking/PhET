@@ -3,7 +3,7 @@ Change history for translation-utility
 ================================================================================
 
 DONE:
-********* version 1.03.00 (24624)
+********* version 1.03.00 (24625)
 9/22/08 - add info to exception dialog (version, stack trace, etc), to be reported to phethelp
 9/22/08 - replace JOptionPane with custom ExceptionDialog for notifying the user about exceptions
 9/22/08 - fix title on dialog that reports non-fatal exceptions
