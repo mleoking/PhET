@@ -4,9 +4,7 @@ package edu.colorado.phet.translationutility.simulations;
 
 import java.io.*;
 import java.util.Properties;
-import java.util.jar.JarEntry;
-import java.util.jar.JarInputStream;
-import java.util.jar.JarOutputStream;
+import java.util.jar.*;
 
 import edu.colorado.phet.translationutility.TUConstants;
 import edu.colorado.phet.translationutility.TUResources;
@@ -355,7 +353,15 @@ public class JavaSimulation implements ISimulation {
         try {
             // input comes from the original JAR file
             JarInputStream jarInputStream = new JarInputStream( inputStream ); // throws IOException
-            
+
+
+            JarFile zipFile = new JarFile(jarFile);
+            JarEntry zipEntry = zipFile.getJarEntry( JarFile.MANIFEST_NAME );
+            InputStream barWarStream = zipFile.getInputStream( zipEntry );
+
+            Manifest mf= new Manifest( barWarStream );
+            mf.read( barWarStream );
+
             // output goes to test JAR file
             OutputStream outputStream = new FileOutputStream( testFile );
             JarOutputStream testOutputStream = new JarOutputStream( outputStream );
