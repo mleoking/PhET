@@ -3,7 +3,7 @@ Change history for translation-utility
 ================================================================================
 
 DONE:
-********* version 1.03.00 (?)
+********* version 1.03.00 (24629)
 9/22/08 - build jar file with line# and source file debugging info enabled, so that this info is in stack traces
 9/22/08 - add info to exception dialog (version, stack trace, etc), to be reported to phethelp
 9/22/08 - replace JOptionPane with custom ExceptionDialog for notifying the user about exceptions
