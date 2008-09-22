@@ -1,13 +1,14 @@
 <html>
 <p>
 <big><big><b>
-translation-utility 1.03.00
+translation-utility 1.04.00
 </b></big></big>
 <p>
 <b>What's new:</b>
 <p>
 <ul>
 <li>enhance error dialogs, add info (versions, stack trace, etc) that can be reported to phethelp
+<li>build jar file with line# and source file debugging info enabled, so that this info is in stack traces
 </ul>
 <p>
 <b>Known problems:</b>
