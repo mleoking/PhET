@@ -37,8 +37,8 @@ public class ExceptionDialog extends JDialog {
         JLabel reportLabel = new JLabel( "<html>To report this problem, send an email to phethelp@colorado.edu.<br>Copy-&-paste the information shown below, and describe how to reproduce the problem." );
         
         String infoString = "Translation Utility version: " + TUResources.getVersion() + "\n";
-        infoString += "OS version: " + System.getProperty( "java.version" ) + "\n";
-        infoString += "Java version: " + System.getProperty( "os.name" ) + " " + System.getProperty( "os.version" ) + "\n";
+        infoString += "OS version: " + System.getProperty( "os.name" ) + " " + System.getProperty( "os.version" ) + "\n";
+        infoString += "Java version: " + System.getProperty( "java.version" ) + "\n";
         infoString += "\nStack trace:\n";
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter( sw );
