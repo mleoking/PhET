@@ -355,20 +355,6 @@ public class SemiconductorApplication extends Module implements Graphic {
                 final PhetApplication pa = new PhetApplication( ad, application, clock );
                 pa.startApplication( application );
                 enableAspectRatio( pa, application );
-                pa.getApplicationView().getPhetFrame().addComponentListener( new ComponentListener() {
-                    public void componentHidden( ComponentEvent e ) {
-                    }
-
-                    public void componentMoved( ComponentEvent e ) {
-                    }
-
-                    public void componentResized( ComponentEvent e ) {
-                        System.out.println( "pa.getApplicationView().getPhetFrame().getSize( ) = " + pa.getApplicationView().getPhetFrame().getSize() );
-                    }
-
-                    public void componentShown( ComponentEvent e ) {
-                    }
-                } );
             }
         } );
     }
