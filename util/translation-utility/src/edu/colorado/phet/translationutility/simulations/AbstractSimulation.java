@@ -8,8 +8,6 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
-import edu.colorado.phet.translationutility.simulations.ISimulation.SimulationException;
-
 /**
  * AbstractSimulation is the base class for all PhET simulations.
  * All PhET simulations are delivered as JAR files.
