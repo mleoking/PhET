@@ -34,20 +34,21 @@ public class ExceptionDialog extends JDialog {
         
         JLabel errorMessage = new JLabel( "ERROR: " + e.getMessage() );
         
-        JLabel reportLabel = new JLabel( "<html>To report this problem, send an email to phethelp@colorado.edu.<br>Please include the information shown below, and steps to reproduce the problem." );
+        JLabel reportLabel = new JLabel( "<html>To report this problem, send an email to phethelp@colorado.edu.<br>Copy-&-paste the information shown below, and describe how to reproduce the problem." );
         
-        JLabel translationUtilityVersionLabel = new JLabel( "Translation Utility verion: " + TUResources.getVersion() );
-        JLabel osVersionLabel = new JLabel( "OS version: " + System.getProperty( "java.version" ) );
-        JLabel javaVersionLabel = new JLabel( "Java version: " + System.getProperty( "os.name" ) + " " + System.getProperty( "os.version" ) );
-        JLabel stackTraceLabel = new JLabel( "Stack trace:" );
-        
+        String infoString = "Translation Utility version: " + TUResources.getVersion() + "\n";
+        infoString += "OS version: " + System.getProperty( "java.version" ) + "\n";
+        infoString += "Java version: " + System.getProperty( "os.name" ) + " " + System.getProperty( "os.version" ) + "\n";
+        infoString += "\nStack trace:\n";
         StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        e.printStackTrace(pw);
-        JTextArea stackTraceTextArea = new JTextArea( sw.toString() );
+        PrintWriter pw = new PrintWriter( sw );
+        e.printStackTrace( pw );
+        infoString += sw.toString();
+        
+        JTextArea stackTraceTextArea = new JTextArea( infoString );
         stackTraceTextArea.setEditable( false );
         JScrollPane scrollPane = new JScrollPane( stackTraceTextArea );
-        int width = (int) scrollPane.getPreferredSize().getWidth();
+        int width = (int) 550;
         int height = (int) Math.min( 200, scrollPane.getPreferredSize().getHeight() );
         scrollPane.setPreferredSize( new Dimension( width, height ) );
         
@@ -60,10 +61,6 @@ public class ExceptionDialog extends JDialog {
         infoLayout.addComponent( Box.createVerticalStrut( 15 ), row++, column );
         infoLayout.addComponent( reportLabel, row++, column, 2, 1 );
         infoLayout.addComponent( Box.createVerticalStrut( 15 ), row++, column );
-        infoLayout.addComponent( translationUtilityVersionLabel, row++, column );
-        infoLayout.addComponent( osVersionLabel, row++, column );
-        infoLayout.addComponent( javaVersionLabel, row++, column );
-        infoLayout.addComponent( stackTraceLabel, row++, column );
         infoLayout.addComponent( scrollPane, row++, column, 2, 1 );
         
         JButton closeButton = new JButton( "Close" );
