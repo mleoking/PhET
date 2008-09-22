@@ -8,6 +8,7 @@ translation-utility 1.02.00
 <p>
 <ul>
 <li>workaround problem with "Test" feature, couldn't find manifest in Offline JAR files after they had been modified by deploy-translation task
+<li>comparison of SVN revision numbers in update feature was "remote != local", should be "remote > local" so that dev versions aren't confused
 </ul>
 <p>
 <b>Known problems:</b>

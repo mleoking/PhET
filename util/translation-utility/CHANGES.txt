@@ -3,7 +3,8 @@ Change history for translation-utility
 ================================================================================
 
 DONE:
-********* version 1.02.00 (24618)
+********* version 1.02.00 (24619)
+9/21/08 - comparison of SVN revision numbers in update feature was "remote != local", should be "remote > local" so that dev versions aren't confused
 9/21/08 - workaround for problem with "Test" feature, couldn't find manifest in Offline JAR files after they had been modified by deploy-translation task
 ********* version 1.01.00 (24616)
 9/21/08 - fix version number, it was displaying 1.-1.00
