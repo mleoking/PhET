@@ -3,12 +3,12 @@ Change history for translation-utility
 ================================================================================
 
 DONE:
-9/22/08 - ignore manifest file when copying jar entries, this causes problems on Mac (and elsewhere?)
-9/22/08 - read & reuse manifest from Java sim jars
+9/22/08 - ignore manifest file when copying jar entries, this causes problems on Mac (Unfuddle 720)
+9/22/08 - explicitly read manifest from Java sim jars, use to create JarOutputStream, needed by Windows (Unfuddle 720)
 ********* version 1.03.00 (24629)
-9/22/08 - build jar file with line# and source file debugging info enabled, so that this info is in stack traces
-9/22/08 - add info to exception dialog (version, stack trace, etc), to be reported to phethelp
-9/22/08 - replace JOptionPane with custom ExceptionDialog for notifying the user about exceptions
+9/22/08 - build jar file with line# and source file debugging info enabled, so that this info is in stack traces (Unfuddle 720)
+9/22/08 - add info to exception dialog (version, stack trace, etc), to be reported to phethelp (Unfuddle 720)
+9/22/08 - replace JOptionPane with custom ExceptionDialog for notifying the user about exceptions (Unfuddle 720)
 9/22/08 - fix title on dialog that reports non-fatal exceptions
 ********* version 1.02.00 (24619)
 9/21/08 - comparison of SVN revision numbers in update feature was "remote != local", should be "remote > local" so that dev versions aren't confused
