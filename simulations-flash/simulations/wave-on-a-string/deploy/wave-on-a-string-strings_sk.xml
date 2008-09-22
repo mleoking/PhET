@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<SimStrings>
+<string key="manual" value="manuálne"/>
+<string key="resetTimer" value="nulovať"/>
+<string key="damping" value="tlmenie"/>
+<string key="showHelp" value="Zobraz pomoc"/>
+<string key="pulse" value="impulz"/>
+<string key="amplitude" value="amplitúda"/>
+<string key="pausePlay" value="pauza/štart"/>
+<string key="step" value="krok"/>
+<string key="tension" value="napnutie"/>
+<string key="startTimer" value="štart/pauza"/>
+<string key="pulseWidth" value="šírka pulzu"/>
+<string key="rulerHelp" value="presuň meter"/>
+<string key="high" value="vysoké"/>
+<string key="wiggleWrench" value="Pohýbte francúzskym kľúčom !"/>
+<string key="timer" value="Stopky"/>
+<string key="oscillate" value="oscilátor"/>
+<string key="rulers" value="Meter"/>
+<string key="frequency" value="frekvencia"/>
+<string key="wrenchHelp" value="presuň kľúč"/>
+<string key="fixedEnd" value="pevný koniec"/>
+<string key="refLineHelp" value="presuň porovnávaciu čiaru"/>
+<string key="hideHelp" value="Skry pomoc"/>
+<string key="timerHelp" value="presuň stopky"/>
+<string key="looseEnd" value="voľný koniec"/>
+<string key="noEnd" value="bez konca"/>
+<string key="paused" value="Pauza"/>
+<string key="reset" value="Nulovať"/>
+<string key="pulse2" value="Impulz"/>
+<string key="low" value="nízke"/>
+</SimStrings>
