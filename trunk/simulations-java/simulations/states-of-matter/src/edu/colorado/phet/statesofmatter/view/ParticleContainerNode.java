@@ -22,7 +22,6 @@ import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * This class is the "view" for the particle container.  This is where the
@@ -233,7 +232,12 @@ public class ParticleContainerNode extends PhetPNode {
         double containerHeight = m_model.getParticleContainerHeight();
         m_containerLid.setOffset( 0, 
                 m_containmentAreaHeight - containerHeight - (m_containerLid.getFullBoundsReference().height / 2) + LID_POSITION_TWEAK_FACTOR);
-        
+
+        if (m_containerExploded){
+        	// Rotate the lid to create the visual appearance of it being
+        	// blown off the top of the container.
+        	m_containerLid.rotate(-Math.PI/30);
+        }
         // TODO: JPB TBD temp code.
         if (SHOW_RECTANGLE){
             m_tempContainerRect.setPathTo( m_model.getParticleContainerRect() );
@@ -398,7 +402,13 @@ public class ParticleContainerNode extends PhetPNode {
 //            double rotationPointX = lidBounds.x + lidBounds.width / 2;
 //            double rotationPointY = lidBounds.y + lidBounds.height / 2;
 //            m_containerLid.rotateAboutPoint( Math.PI/50, rotationPointX, rotationPointY );
-            m_containerLid.rotateInPlace( -Math.PI/50 );
+        	
+//            m_containerLid.rotateInPlace( -Math.PI/50 );
+            
+//            m_containerLid.rotateAboutPoint(-Math.PI/59, m_containerLid.getFullBoundsReference().width/2, m_containerLid.getFullBoundsReference().height/2);
+  
+//        	m_containerLid.rotateAboutPoint(-Math.PI/50, m_containmentAreaWidth / 2, m_containmentAreaHeight / 2);
+        	System.out.println("width = " + m_containmentAreaWidth + ", height = " + m_containmentAreaHeight);
         }
     }
 }
