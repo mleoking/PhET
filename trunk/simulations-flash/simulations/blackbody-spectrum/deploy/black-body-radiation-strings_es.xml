@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SimStrings>
+<string key="r" value="R"/>
+<string key="zoomIn" value="acercar"/>
+<string key="intensity" value="intensidad"/>
+<string key="zoomOut" value="alejar"/>
+<string key="clear" value="Limpiar"/>
+<string key="g" value="V"/>
+<string key="sun" value="Sol"/>
+<string key="tempInK" value="T(K)"/>
+<string key="save" value="Guardar"/>
+<string key="showRuler" value="mostrar regla"/>
+<string key="wavelength" value="longitud de onda"/>
+<string key="b" value="A"/>
+<string key="oven" value="horno"/>
+<string key="earth" value="tierra"/>
+<string key="lightBulb" value="lamparita"/>
+</SimStrings>
