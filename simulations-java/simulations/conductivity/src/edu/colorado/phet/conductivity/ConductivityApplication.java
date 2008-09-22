@@ -312,7 +312,6 @@ public class ConductivityApplication extends Module {
                             module1.getApparatusPanel().invalidate();
                             module1.getApparatusPanel().revalidate();
                             module1.getApparatusPanel().repaint();
-                            System.out.println( "Revalidating." );
                             abstractclock.removeClockTickListener( this );
                         }
                     }
