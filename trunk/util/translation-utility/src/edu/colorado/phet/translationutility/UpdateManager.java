@@ -103,12 +103,22 @@ public class UpdateManager {
 
             // compare the SVN revision numbers
             if ( properties != null ) {
-                String thisRevision = TUResources.getProjectProperty( SVN_REVISION_KEY );
-                String remoteRevision = properties.getProperty( SVN_REVISION_KEY );
-                if ( remoteRevision != null && !thisRevision.equals( remoteRevision ) ) {
-                    UpdateDialog updateDialog = new UpdateDialog( null );
-                    SwingUtils.centerWindowOnScreen( updateDialog );
-                    updateDialog.setVisible( true );
+                String thisRevisionString = TUResources.getProjectProperty( SVN_REVISION_KEY );
+                String remoteRevisionString = properties.getProperty( SVN_REVISION_KEY );
+                if ( remoteRevisionString != null && !thisRevisionString.equals( remoteRevisionString ) ) {
+                    try {
+                        int thisRevision = Integer.valueOf( thisRevisionString ).intValue();
+                        int remoteRevision = Integer.valueOf( remoteRevisionString ).intValue();
+                        if ( thisRevision < remoteRevision ) {
+                            UpdateDialog updateDialog = new UpdateDialog( null );
+                            SwingUtils.centerWindowOnScreen( updateDialog );
+                            updateDialog.setVisible( true );
+                        }
+                    }
+                    catch ( NumberFormatException nfe ) {
+                        System.out.println( "UpdateManager: SVN revision number is not an integer" );
+                    }
+                    
                 }
             }
         }
