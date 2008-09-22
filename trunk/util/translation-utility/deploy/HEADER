@@ -7,6 +7,7 @@ translation-utility 1.01.00
 <b>What's new:</b>
 <p>
 <ul>
+<li>workaround problem with "Test" feature, couldn't find manifest in Offline JAR files after they had been modified by deploy-translation task
 <li>fix version number, it was displaying 1.-1.00
 <li>remove uses of DialogUtils, replace with JOptionPane
 <li>improve validation code for initialization dialog
