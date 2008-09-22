@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.translationutility.util;
 
-import javax.swing.JOptionPane;
+import javax.swing.JDialog;
 
 import edu.colorado.phet.translationutility.TUResources;
 
@@ -20,12 +20,14 @@ public class ExceptionHandler {
 
     public static void handleFatalException( Exception e ) {
         e.printStackTrace();
-        JOptionPane.showMessageDialog( null, e.getMessage(), FATAL_ERROR_DIALOG_TITLE, JOptionPane.ERROR_MESSAGE );
+        JDialog dialog = new ExceptionDialog( null, FATAL_ERROR_DIALOG_TITLE, e );
+        dialog.setVisible( true );
         System.exit( 1 ); // non-zero status to indicate abnormal termination
     }
     
     public static void handleNonFatalException( Exception e ) {
         e.printStackTrace();
-        JOptionPane.showMessageDialog( null, e.getMessage(), ERROR_DIALOG_TITLE, JOptionPane.ERROR_MESSAGE );
+        JDialog dialog = new ExceptionDialog( null, ERROR_DIALOG_TITLE, e );
+        dialog.setVisible( true );
     }
 }
