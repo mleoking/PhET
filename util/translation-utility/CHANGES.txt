@@ -3,6 +3,8 @@ Change history for translation-utility
 ================================================================================
 
 DONE:
+9/22/08 - ignore manifest file when copying jar entries, this causes problems on Mac (and elsewhere?)
+9/22/08 - read & reuse manifest from Java sim jars
 ********* version 1.03.00 (24629)
 9/22/08 - build jar file with line# and source file debugging info enabled, so that this info is in stack traces
 9/22/08 - add info to exception dialog (version, stack trace, etc), to be reported to phethelp
