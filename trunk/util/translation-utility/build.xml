@@ -63,7 +63,7 @@
 		<mkdir dir="${dir.output.classes}"/>
 		
 		<!-- compile Java source files -->
-		<javac source="1.4" destdir="${dir.output.classes}" classpath="${jmock.jar};${jnlp.jar};${junit.jar}">
+		<javac source="1.4" destdir="${dir.output.classes}" classpath="${jmock.jar};${jnlp.jar};${junit.jar}" debug="true" debuglevel="lines,source">
 			<src path="${basedir}/src"/>
 			<src path="${dir.phetcommon}/src"/>
 		</javac>
