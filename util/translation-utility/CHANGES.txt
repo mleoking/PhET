@@ -3,7 +3,8 @@ Change history for translation-utility
 ================================================================================
 
 DONE:
-********* version 1.01.00 (24616)
+********* version 1.01.00 (?)
+9/21/08 - workaround for problem with "Test" feature, couldn't find manifest in Offline JAR files after they had been modified by deploy-translation task
 9/21/08 - fix version number, it was displaying 1.-1.00
 9/5/08 - remove uses of DialogUtils, replace with JOptionPane
 9/5/08 - improve validation code for InitializationDialog

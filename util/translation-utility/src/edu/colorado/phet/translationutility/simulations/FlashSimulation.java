@@ -8,7 +8,6 @@ import java.util.Properties;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 import java.util.jar.JarOutputStream;
-import java.util.jar.Manifest;
 
 import edu.colorado.phet.translationutility.util.Command;
 import edu.colorado.phet.translationutility.util.DocumentAdapter;
@@ -263,14 +262,10 @@ public class FlashSimulation implements ISimulation {
         try {
             // input comes from the original JAR file
             JarInputStream jarInputStream = new JarInputStream( inputStream ); // throws IOException
-            Manifest manifest = jarInputStream.getManifest();
-            if ( manifest == null ) {
-                throw new SimulationException( "jar file is missing its manifest: " + originalJarFileName );
-            }
             
             // output goes to test JAR file
             OutputStream outputStream = new FileOutputStream( testFile );
-            JarOutputStream testOutputStream = new JarOutputStream( outputStream, manifest );
+            JarOutputStream testOutputStream = new JarOutputStream( outputStream );
             
             // copy all entries from input to output, skipping the properties file & args.txt & HTML file
             String htmlResourceName = getHTMLResourceName( projectName, languageCode );
