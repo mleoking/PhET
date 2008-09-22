@@ -364,7 +364,7 @@ public class JavaSimulation implements ISimulation {
 
             // output goes to test JAR file
             OutputStream outputStream = new FileOutputStream( testFile );
-            JarOutputStream testOutputStream = new JarOutputStream( outputStream );
+            JarOutputStream testOutputStream = new JarOutputStream( outputStream,mf );
             
             // copy all entries from input to output, skipping the properties file
             JarEntry jarEntry = jarInputStream.getNextJarEntry();
