@@ -9,7 +9,6 @@ import java.awt.Stroke;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler2;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.DualParticleModel;
@@ -133,9 +132,10 @@ public class InteractionPotentialNodeWithInteraction extends InteractionPotentia
                 draggedNode.localToParent(d);
 
                 // Move the particle based on the amount of mouse movement.
-                double scaleFactor = MAX_INTER_ATOM_DISTANCE / getGraphWidth();
                 StatesOfMatterAtom atom = m_model.getMovableParticleRef();
-                atom.setPosition( atom.getX() + (d.width * scaleFactor), atom.getY() );
+                double scaleFactor = MAX_INTER_ATOM_DISTANCE / getGraphWidth();
+                double newPosX = Math.max( atom.getX() + (d.width * scaleFactor), atom.getRadius() * 1.8);
+                atom.setPosition( newPosX, atom.getY() );
             }
             
             public void endDrag( PInputEvent event ){
