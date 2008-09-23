@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformLis
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common_1200.view.ApparatusPanel;
-import edu.colorado.phet.common_1200.view.fastpaint.FastPaintImageGraphic;
+import edu.colorado.phet.common_1200.view.graphics.BufferedImageGraphic;
 import edu.colorado.phet.radiowaves.model.Electron;
 
 public class EmfPanel extends ApparatusPanel implements TransformListener {
@@ -50,7 +50,7 @@ public class EmfPanel extends ApparatusPanel implements TransformListener {
     private BufferedImage bi;
     private boolean useBufferedImage = false;
     private AffineTransform atx;
-    private FastPaintImageGraphic backgroundImg;
+    private BufferedImageGraphic backgroundImg;
 
     public void setUseBufferedImage( boolean useBufferedImage ) {
         this.useBufferedImage = useBufferedImage;
@@ -71,7 +71,7 @@ public class EmfPanel extends ApparatusPanel implements TransformListener {
         try {
             im = BufferedImageUtils.toBufferedImage( ImageLoader.loadBufferedImage( "radio-waves/images/background.gif" ) );
             this.setPreferredSize( new Dimension( im.getWidth(), im.getHeight() ) );
-            backgroundImg = new FastPaintImageGraphic( im, this );
+            backgroundImg = new BufferedImageGraphic( im);
             addGraphic( backgroundImg, 0 );
         }
         catch ( IOException e ) {
