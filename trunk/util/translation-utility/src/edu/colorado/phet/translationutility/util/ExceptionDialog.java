@@ -80,7 +80,7 @@ public class ExceptionDialog extends JDialog {
         column = 0;
         layout.addComponent( infoPanel, row++, column );
         layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
-        layout.addComponent( buttonPanel, row++, column );
+        layout.addAnchoredComponent( buttonPanel, row++, column, GridBagConstraints.CENTER );
         
         getContentPane().add( panel );
         pack();
