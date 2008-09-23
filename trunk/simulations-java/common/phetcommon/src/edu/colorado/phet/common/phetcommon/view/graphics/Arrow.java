@@ -91,47 +91,44 @@ public class Arrow {
     }
 
     private void computeArrow() {
-
-        if ( tailLocation.distance( tipLocation ) == 0 ) {
-            return;
-        }
-
-        AbstractVector2D.Double tailPt = new ImmutableVector2D.Double( tailLocation );
-        AbstractVector2D.Double tipPt = new ImmutableVector2D.Double( tipLocation );
-        AbstractVector2D distanceVector = tipPt.getSubtractedInstance( tailPt );
-        direction = distanceVector.getNormalizedInstance();
-        double length = tipLocation.distance( tailLocation );
-        double tempHeadHeight = headHeight;
-        double tempHeadWidth = headWidth;
-        double tempTailWidth = tailWidth;
-        if ( isHeadDynamic && length < headHeight / fractionalHeadHeight ) {
-            tempHeadHeight = length * fractionalHeadHeight;
-            if ( scaleTailToo ) {
-                tempTailWidth = tailWidth * tempHeadHeight / headHeight;
-                tempHeadWidth = headWidth * tempHeadHeight / headHeight;
-            }
-        }
-        else if ( length < headHeight ) {
-            throw new RuntimeException( "headHeight is bigger than arrow length: length=" + length + " headHeight=" + headHeight );
-        }
-        norm = direction.getNormalVector();
-
-        AbstractVector2D.Double rightFlap = getPoint( -1 * tempHeadHeight, -tempHeadWidth / 2 );
-        AbstractVector2D.Double leftFlap = getPoint( -1 * tempHeadHeight, tempHeadWidth / 2 );
-        AbstractVector2D.Double rightPin = getPoint( -1 * tempHeadHeight, -tempTailWidth / 2 );
-        AbstractVector2D.Double leftPin = getPoint( -1 * tempHeadHeight, tempTailWidth / 2 );
-        AbstractVector2D.Double rightTail = getPoint( -1 * length, -tempTailWidth / 2 );
-        AbstractVector2D.Double leftTail = getPoint( -1 * length, tempTailWidth / 2 );
-
         this.arrowPath.reset();
-        arrowPath.moveTo( (float) tipPt.getX(), (float) tipPt.getY() );
-        lineTo( arrowPath, rightFlap );
-        lineTo( arrowPath, rightPin );
-        lineTo( arrowPath, rightTail );
-        lineTo( arrowPath, leftTail );
-        lineTo( arrowPath, leftPin );
-        lineTo( arrowPath, leftFlap );
-        arrowPath.closePath();
+        if ( tailLocation.distance( tipLocation ) != 0 ) {
+            AbstractVector2D.Double tailPt = new ImmutableVector2D.Double( tailLocation );
+            AbstractVector2D.Double tipPt = new ImmutableVector2D.Double( tipLocation );
+            AbstractVector2D distanceVector = tipPt.getSubtractedInstance( tailPt );
+            direction = distanceVector.getNormalizedInstance();
+            double length = tipLocation.distance( tailLocation );
+            double tempHeadHeight = headHeight;
+            double tempHeadWidth = headWidth;
+            double tempTailWidth = tailWidth;
+            if ( isHeadDynamic && length < headHeight / fractionalHeadHeight ) {
+                tempHeadHeight = length * fractionalHeadHeight;
+                if ( scaleTailToo ) {
+                    tempTailWidth = tailWidth * tempHeadHeight / headHeight;
+                    tempHeadWidth = headWidth * tempHeadHeight / headHeight;
+                }
+            }
+            else if ( length < headHeight ) {
+                throw new RuntimeException( "headHeight is bigger than arrow length: length=" + length + " headHeight=" + headHeight );
+            }
+            norm = direction.getNormalVector();
+
+            AbstractVector2D.Double rightFlap = getPoint( -1 * tempHeadHeight, -tempHeadWidth / 2 );
+            AbstractVector2D.Double leftFlap = getPoint( -1 * tempHeadHeight, tempHeadWidth / 2 );
+            AbstractVector2D.Double rightPin = getPoint( -1 * tempHeadHeight, -tempTailWidth / 2 );
+            AbstractVector2D.Double leftPin = getPoint( -1 * tempHeadHeight, tempTailWidth / 2 );
+            AbstractVector2D.Double rightTail = getPoint( -1 * length, -tempTailWidth / 2 );
+            AbstractVector2D.Double leftTail = getPoint( -1 * length, tempTailWidth / 2 );
+
+            arrowPath.moveTo( (float) tipPt.getX(), (float) tipPt.getY() );
+            lineTo( arrowPath, rightFlap );
+            lineTo( arrowPath, rightPin );
+            lineTo( arrowPath, rightTail );
+            lineTo( arrowPath, leftTail );
+            lineTo( arrowPath, leftPin );
+            lineTo( arrowPath, leftFlap );
+            arrowPath.closePath();
+        }
     }
 
     private void lineTo( GeneralPath path, AbstractVector2D.Double loc ) {
