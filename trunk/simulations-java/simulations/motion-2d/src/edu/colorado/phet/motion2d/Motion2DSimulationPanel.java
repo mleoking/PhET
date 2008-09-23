@@ -2,18 +2,23 @@ package edu.colorado.phet.motion2d;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.Locale;
 
-public class Motion2DApplet extends JApplet {
+public class Motion2DSimulationPanel extends JPanel{
 
-    private Container myPane;
     private Motion2DPanel motion2DPanel;
     private Image ballImage, emptyImage;
     Cursor hide, show;        //Invisible and visible mouse cursors
+    private IClock clock;
+
+    public Motion2DSimulationPanel( IClock clock ) {
+        this.clock=clock;
+    }
 
     public void init() {
         String applicationLocale = Toolkit.getDefaultToolkit().getProperty( "javaws.phet.locale", null );
@@ -34,11 +39,10 @@ public class Motion2DApplet extends JApplet {
         this.show = new Cursor( Cursor.DEFAULT_CURSOR );
         setCursor( show );
 
-        myPane = getContentPane();
-        myPane.setLayout( new BorderLayout() );
+        setLayout( new BorderLayout() );
         motion2DPanel = new Motion2DPanel( this );
         motion2DPanel.setBackground( Color.yellow );
-        myPane.add( motion2DPanel, BorderLayout.CENTER );
+        add( motion2DPanel, BorderLayout.CENTER );
     }
 
     public Image getBallImage() {

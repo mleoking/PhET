@@ -9,7 +9,7 @@ import java.awt.event.*;
 
 public class Motion2DPanel extends JPanel
         implements MouseMotionListener, ActionListener, MouseListener {
-    private Motion2DApplet myGui;
+    private Motion2DSimulationPanel myGui;
     private MotionPanel motionPanel1;
     private int xNow;
     private int yNow;
@@ -40,7 +40,7 @@ public class Motion2DPanel extends JPanel
     private WiggleMe wiggleMe;
     private Timer wiggleMeTimer;
 
-    public Motion2DPanel( Motion2DApplet myGui ) {
+    public Motion2DPanel( Motion2DSimulationPanel myGui ) {
         this.myGui = myGui;
         myGreen = new Color( 0, 150, 0 );
         JPanel northPanel = new JPanel();
