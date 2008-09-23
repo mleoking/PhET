@@ -34,7 +34,7 @@ import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
  */
 public class MultipleParticleModel {
     
-    //----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
     // Class Data
     //----------------------------------------------------------------------------
     
@@ -70,6 +70,7 @@ public class MultipleParticleModel {
     private static final double INJECTION_POINT_VERT_PROPORTION = 0.5;
     private static final int MAX_PLACEMENT_ATTEMPTS = 500; // For random placement when creating gas or liquid.
     private static final double SAFE_INTER_MOLECULE_DISTANCE = 2.0;
+    public static final int DEFAULT_MOLECULE = StatesOfMatterConstants.NEON;
     
     // Constants used for setting the phase directly.
     public static final int PHASE_SOLID = 1;
@@ -100,7 +101,11 @@ public class MultipleParticleModel {
     // Range for deciding if the temperature is near the current set point.
     // The units are internal model units.
     private static final double TEMPERATURE_CLOSENESS_RANGE = 0.15;
-    
+
+    // Constant used to limit how close the atoms are allowed to get to one
+    // another so that we don't end up getting crazy big forces.
+    private static final double MIN_DISTANCE_SQUARED = 0.7225;
+
     // Parameters used for "hollywooding" of the water crystal.
     private static final double WATER_FULLY_MELTED_TEMPERATURE = 0.3;
     private static final double WATER_FULLY_MELTED_ELECTROSTATIC_FORCE = 1.0;
@@ -188,12 +193,12 @@ public class MultipleParticleModel {
             }
             
             public void simulationTimeReset( ClockEvent clockEvent ) {
-                reset();
+                resetAll();
             }
         });
         
         // Set the default particle type.
-        setMoleculeType( StatesOfMatterConstants.NEON );
+        setMoleculeType( DEFAULT_MOLECULE );
     }
 
     //----------------------------------------------------------------------------
@@ -633,6 +638,10 @@ public class MultipleParticleModel {
         // Let any listeners know that things have changed.
         notifyContainerSizeChanged();
         notifyResetOccurred();
+    }
+    
+    public void resetAll(){
+    	setMoleculeType( DEFAULT_MOLECULE );
     }
 
     /**
@@ -1794,9 +1803,9 @@ public class MultipleParticleModel {
                 if (distanceSqrd < PARTICLE_INTERACTION_DISTANCE_THRESH_SQRD){
                     // This pair of particles is close enough to one another
                     // that we need to calculate their interaction forces.
-                    if (distanceSqrd < 0.7225){
+                    if (distanceSqrd < MIN_DISTANCE_SQUARED){
                         System.out.println("Spacing less than min distance: " + Math.sqrt( distanceSqrd ));
-                        distanceSqrd = 0.7225;
+                        distanceSqrd = MIN_DISTANCE_SQUARED;
                     }
                     double r2inv = 1 / distanceSqrd;
                     double r6inv = r2inv * r2inv * r2inv;
@@ -1975,6 +1984,12 @@ public class MultipleParticleModel {
                         double distanceSquared = dx * dx + dy * dy;
                         
                         if (distanceSquared < PARTICLE_INTERACTION_DISTANCE_THRESH_SQRD){
+                        	
+                            if (distanceSquared < MIN_DISTANCE_SQUARED){
+                                System.out.println("Spacing less than min distance: " + Math.sqrt( distanceSquared ));
+                                distanceSquared = MIN_DISTANCE_SQUARED;
+                            }
+
                             // Calculate the Lennard-Jones interaction forces.
                             double r2inv = 1 / distanceSquared;
                             double r6inv = r2inv * r2inv * r2inv;
@@ -2227,6 +2242,12 @@ public class MultipleParticleModel {
                 
                 if (distanceSquared < PARTICLE_INTERACTION_DISTANCE_THRESH_SQRD){
                     // Calculate the Lennard-Jones interaction forces.
+                	
+                    if (distanceSquared < MIN_DISTANCE_SQUARED){
+                        System.out.println("Spacing less than min distance: " + Math.sqrt( distanceSquared ));
+                        distanceSquared = MIN_DISTANCE_SQUARED;
+                    }
+
                     double r2inv = 1 / distanceSquared;
                     double r6inv = r2inv * r2inv * r2inv;
                     
