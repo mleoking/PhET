@@ -3,6 +3,7 @@ package edu.colorado.phet.motion2d;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +27,7 @@ public class Motion2DApplication {
                 SimStrings.getInstance().init( args, localizedStringsPath );
                 new PhetLookAndFeel().initLookAndFeel();
 
-                Motion2DApplet ja = new Motion2DApplet();
+                Motion2DSimulationPanel ja = new Motion2DSimulationPanel(new ConstantDtClock( 30,1) );
                 ja.init();
 
                 JFrame f = new JFrame( SimStrings.getInstance().getString( "Motion2dApplication.title" ) + " (" + PhetApplicationConfig.getVersion( "motion-2d" ).formatForTitleBar() + ")" );

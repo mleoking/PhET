@@ -28,8 +28,8 @@ public class MotionPanel extends JPanel implements ActionListener //, Runnable
     private final int STOP = 4;
     private int xNow, yNow;
     private double xDoubleNow;  //used for constant acceleration motion
-    private int width = -1;// = edu.colorado.phet.motion2d.Motion2DApplet.width;
-    private int height = -1;// = edu.colorado.phet.motion2d.Motion2DApplet.height;
+    private int width = -1;// = edu.colorado.phet.motion2d.Motion2DSimulationPanel.width;
+    private int height = -1;// = edu.colorado.phet.motion2d.Motion2DSimulationPanel.height;
 
     public MotionPanel( final Motion2DPanel myJP, Motion2DModel vaa, int width, int height ) {
         this.width = width;
