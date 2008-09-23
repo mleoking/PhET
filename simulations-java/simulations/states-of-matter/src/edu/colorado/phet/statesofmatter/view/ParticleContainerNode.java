@@ -9,6 +9,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.util.Random;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.HandleNode;
@@ -88,6 +89,8 @@ public class ParticleContainerNode extends PhetPNode {
     private PNode m_bottomContainerLayer;
     private PNode m_containerLid;
     private PPath m_tempContainerRect;
+    private Random m_rand;
+    private double m_rotationAmount;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -101,6 +104,7 @@ public class ParticleContainerNode extends PhetPNode {
         m_mvt = mvt;
         m_containmentAreaWidth  = StatesOfMatterConstants.CONTAINER_BOUNDS.getWidth();
         m_containmentAreaHeight = StatesOfMatterConstants.CONTAINER_BOUNDS.getHeight();
+        m_rand = new Random();
         
         // Set ourself up as a listener to the model.
         m_model.addListener( new MultipleParticleModel.Adapter(){
@@ -114,6 +118,12 @@ public class ParticleContainerNode extends PhetPNode {
             }
             public void containerSizeChanged(){
                 handleContainerSizeChanged();
+            }
+            public void containerExploded(){
+            	m_rotationAmount = Math.PI/100 + (m_rand.nextDouble() * Math.PI/50);
+            	if (m_rand.nextBoolean()){
+            		m_rotationAmount = -m_rotationAmount;
+            	}
             }
         });
         
@@ -226,7 +236,7 @@ public class ParticleContainerNode extends PhetPNode {
         else {
         	// Rotate the lid to create the visual appearance of it being
         	// blown off the top of the container.
-        	m_containerLid.rotateAboutPoint(-Math.PI/100, (m_containmentAreaWidth / 2) / m_containerLid.getScale(), 0);
+        	m_containerLid.rotateAboutPoint(m_rotationAmount, (m_containmentAreaWidth / 2) / m_containerLid.getScale(), 0);
         	double centerPosY = m_containmentAreaHeight - containerHeight - (m_containerLid.getFullBoundsReference().height / 2) + LID_POSITION_TWEAK_FACTOR;
         	double currentPosY = m_containerLid.getOffset().getY();
         	double newPosX = m_containerLid.getOffset().getX();
