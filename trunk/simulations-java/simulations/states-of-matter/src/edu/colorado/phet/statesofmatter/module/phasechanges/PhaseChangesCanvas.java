@@ -186,5 +186,9 @@ public class PhaseChangesCanvas extends PhetPCanvas {
                 containerRect.getX() + containerRect.getWidth() * 0.23, 
                 containerRect.getY() - containerRect.getHeight() - 
                 (m_thermometerNode.getFullBoundsReference().height * 0.5) );
+
+        if (m_model.getContainerExploded()){
+            m_thermometerNode.rotateInPlace(-Math.PI/100);
+        }
     }
 }
