@@ -17,12 +17,6 @@ public class FastPaintImageGraphic extends BufferedImageGraphic implements FastP
         repaint();
     }
 
-    public FastPaintImageGraphic( BufferedImage image, AffineTransform transform, Component parent ) {
-        super( image, transform );
-        fastPaint = new FastPaint( parent, this );
-        repaint();
-    }
-
     public Rectangle getBounds() {
         Rectangle visibleBounds = super.getShape().getBounds();
         return visibleBounds;
