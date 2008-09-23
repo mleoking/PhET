@@ -19,10 +19,6 @@ public class TextGraphic implements BoundedGraphic {
     Paint paint;
     private FontRenderContext fontRenderContext;
 
-    public TextGraphic( String text, Font font, float x, float y ) {
-        this( text, font, x, y, Color.black );
-    }
-
     public TextGraphic( String text, Font font, float x, float y, Paint paint ) {
         this.text = text;
         this.font = font;
