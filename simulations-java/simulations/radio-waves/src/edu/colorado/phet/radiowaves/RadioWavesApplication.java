@@ -14,6 +14,7 @@ import javax.swing.JMenu;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common_1200.application.ApplicationModel;
 import edu.colorado.phet.common_1200.application.PhetApplication;
 import edu.colorado.phet.common_1200.model.clock.SwingTimerClock;
@@ -31,8 +32,8 @@ public class RadioWavesApplication {
         SimStrings.setStrings( EmfConfig.localizedStringsPath );//todo: add String[] args to this
         SimStrings.getInstance().addStrings( "localization/phetcommon-strings" );//todo: add String[] args to this
 
-
-        SwingTimerClock clock = new SwingTimerClock( 0.5, 40, true );
+        ConstantDtClock clock=new ConstantDtClock( 40,0.5);
+//        SwingTimerClock clock = new SwingTimerClock( 0.5, 40, true );
         //        SwingTimerClock clock = new SwingTimerClock( 1, 40, false  );
         final EmfModule antennaModule = new EmfModule( clock );
         FrameSetup fs = new FrameSetup.CenteredWithSize( 1024, 768 );

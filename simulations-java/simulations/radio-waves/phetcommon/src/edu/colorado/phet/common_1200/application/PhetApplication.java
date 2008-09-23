@@ -4,6 +4,8 @@ package edu.colorado.phet.common_1200.application;
 import edu.colorado.phet.common_1200.model.clock.ClockTickListener;
 import edu.colorado.phet.common_1200.view.ApplicationView;
 import edu.colorado.phet.common_1200.view.TabbedApparatusPanelContainer;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -96,12 +98,12 @@ public class PhetApplication {
         return moduleManager.indexOf( m );
     }
 
-    public void addClockTickListener( ClockTickListener clockTickListener ) {
-        applicationModel.getClock().addClockTickListener( clockTickListener );
+    public void addClockTickListener( ClockListener clockTickListener ) {
+        applicationModel.getClock().addClockListener(clockTickListener );
     }
 
-    public void removeClockTickListener( ClockTickListener clockTickListener ) {
-        applicationModel.getClock().removeClockTickListener( clockTickListener );
+    public void removeClockTickListener( ClockListener clockTickListener ) {
+        applicationModel.getClock().removeClockListener( clockTickListener );
     }
 
     /**

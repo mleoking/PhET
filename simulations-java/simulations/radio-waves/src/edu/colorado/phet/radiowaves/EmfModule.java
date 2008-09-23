@@ -16,6 +16,7 @@ import java.io.IOException;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.Command;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
@@ -65,7 +66,7 @@ public class EmfModule extends Module {
     private int fieldSense = EmfConfig.SHOW_FORCE_ON_ELECTRON;
 
 
-    public EmfModule( AbstractClock clock ) {
+    public EmfModule( IClock clock ) {
         super( SimStrings.get( "ModuleTitle.EmfModule" ) );
         super.setModel( new EmfModel( clock ) );
 

@@ -8,6 +8,7 @@ package edu.colorado.phet.radiowaves.model;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common_1200.model.BaseModel;
 import edu.colorado.phet.common_1200.model.clock.AbstractClock;
 import edu.colorado.phet.radiowaves.model.movement.MovementType;
@@ -18,7 +19,7 @@ public class EmfModel extends BaseModel {
     private boolean staticFieldEnabled;
     private boolean dynamicFieldEnabled;
 
-    public EmfModel( AbstractClock clock ) {
+    public EmfModel( IClock clock ) {
     //        super( clock );
     }
 
