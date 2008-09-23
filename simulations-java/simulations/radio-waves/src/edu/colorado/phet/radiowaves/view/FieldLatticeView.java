@@ -13,11 +13,11 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
-import edu.colorado.phet.common_1200.math.Vector2D;
 import edu.colorado.phet.common_1200.view.graphics.Graphic;
-import edu.colorado.phet.common_1200.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common_1200.view.util.GraphicsUtil;
 import edu.colorado.phet.radiowaves.EmfConfig;
 import edu.colorado.phet.radiowaves.model.Electron;
