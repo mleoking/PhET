@@ -11,14 +11,17 @@ HIGH PRIORITY:
 - bug: loading full-size background image causes OutOfMemoryException, exceeds JVM heap space [crop svg, talk with Archie]
 - birds-eye view should half the slope of zoomed view so that 80km is at far right
 - glacier growth from zero length still takes a long time, and then speeds up [Archie will fix model]
+- flags and debris on glacier surface stop advancing when glacier is retreating (reported by Bob Anderson)
 - remove registration points from background image in any versions published to PhET website
 
 MEDIUM PRIORITY:
+- change color of glacier cross-section? (requested by Andrea)
 - "steady state" feature needs to fill glacier with debris and surface ripples (and create moraine?)
 - finalize Help items (what are they? where should they be located? bubbles or no bubbles? text color and style? arrow color and style?)
 - make sure everything works properly when clock is paused
 
 LOW PRIORITY:
+- make borehole drill fire every N years? (requested by Andrea)
 - improve smoothness of DistanceAxisNode (x-axis for coordinates feature)
 - YAW_X_OFFSET should be computed as a function of YAW_ROTATION and PITCH_Y_OFFSET
 - bug: edges of thermometer & ice thickness tool icons are clipped (see Unfuddle #558)
