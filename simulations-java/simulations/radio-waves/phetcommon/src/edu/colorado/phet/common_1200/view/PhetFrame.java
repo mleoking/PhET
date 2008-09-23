@@ -7,12 +7,15 @@
  */
 package edu.colorado.phet.common_1200.view;
 
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common_1200.application.ApplicationModel;
 import edu.colorado.phet.common_1200.view.components.menu.HelpMenu;
 import edu.colorado.phet.common_1200.view.components.menu.PhetFileMenu;
-import edu.colorado.phet.common_1200.view.util.GraphicsUtil;
-
-import javax.swing.*;
 
 public class PhetFrame extends JFrame {
     HelpMenu helpMenu;
@@ -40,7 +43,7 @@ public class PhetFrame extends JFrame {
      * @param menu
      */
     public void addMenu( JMenu menu ) {
-        GraphicsUtil.addMenuAt( menu, getJMenuBar(), getJMenuBar().getComponentCount() - 1 );
+        SwingUtils.addMenuAt( menu, getJMenuBar(), getJMenuBar().getComponentCount() - 1 );
     }
 
     public void addFileMenuSeparator() {

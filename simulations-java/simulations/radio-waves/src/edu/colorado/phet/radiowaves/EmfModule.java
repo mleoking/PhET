@@ -21,12 +21,12 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common_1200.application.Module;
 import edu.colorado.phet.common_1200.application.PhetApplication;
 import edu.colorado.phet.common_1200.model.clock.AbstractClock;
 import edu.colorado.phet.common_1200.view.graphics.Graphic;
 import edu.colorado.phet.common_1200.view.help.HelpItem;
-import edu.colorado.phet.common_1200.view.util.GraphicsUtil;
 import edu.colorado.phet.radiowaves.command.AddTransmittingElectronCmd;
 import edu.colorado.phet.radiowaves.command.DynamicFieldIsEnabledCmd;
 import edu.colorado.phet.radiowaves.command.SetMovementCmd;
@@ -224,12 +224,12 @@ public class EmfModule extends Module {
 
             try {
                 int rowIdx = 0;
-                GraphicsUtil.addGridBagComponent( stripChartDlg.getContentPane(), new JLabel( SimStrings.get( "EmfModule.Transmitter" ) ), 0, rowIdx++, 1, 1, GridBagConstraints.NONE, GridBagConstraints.WEST );
-                GraphicsUtil.addGridBagComponent( stripChartDlg.getContentPane(), senderStripChart, 0, rowIdx++, 1, 1, GridBagConstraints.NONE, GridBagConstraints.WEST );
-                GraphicsUtil.addGridBagComponent( stripChartDlg.getContentPane(), new JLabel( SimStrings.get( "EmfModule.TimeLabel" ) ), 0, rowIdx++, 1, 1, GridBagConstraints.NONE, GridBagConstraints.CENTER );
-                GraphicsUtil.addGridBagComponent( stripChartDlg.getContentPane(), new JLabel( SimStrings.get( "EmfModule.Receiver" ) ), 0, rowIdx++, 1, 1, GridBagConstraints.NONE, GridBagConstraints.WEST );
-                GraphicsUtil.addGridBagComponent( stripChartDlg.getContentPane(), receiverStripChart, 0, rowIdx++, 1, 1, GridBagConstraints.NONE, GridBagConstraints.WEST );
-                GraphicsUtil.addGridBagComponent( stripChartDlg.getContentPane(), new JLabel( SimStrings.get( "EmfModule.TimeLabel" ) ), 0, rowIdx++, 1, 1, GridBagConstraints.NONE, GridBagConstraints.CENTER );
+                SwingUtils.addGridBagComponent( stripChartDlg.getContentPane(), new JLabel( SimStrings.get( "EmfModule.Transmitter" ) ), 0, rowIdx++, 1, 1, GridBagConstraints.NONE, GridBagConstraints.WEST );
+                SwingUtils.addGridBagComponent( stripChartDlg.getContentPane(), senderStripChart, 0, rowIdx++, 1, 1, GridBagConstraints.NONE, GridBagConstraints.WEST );
+                SwingUtils.addGridBagComponent( stripChartDlg.getContentPane(), new JLabel( SimStrings.get( "EmfModule.TimeLabel" ) ), 0, rowIdx++, 1, 1, GridBagConstraints.NONE, GridBagConstraints.CENTER );
+                SwingUtils.addGridBagComponent( stripChartDlg.getContentPane(), new JLabel( SimStrings.get( "EmfModule.Receiver" ) ), 0, rowIdx++, 1, 1, GridBagConstraints.NONE, GridBagConstraints.WEST );
+                SwingUtils.addGridBagComponent( stripChartDlg.getContentPane(), receiverStripChart, 0, rowIdx++, 1, 1, GridBagConstraints.NONE, GridBagConstraints.WEST );
+                SwingUtils.addGridBagComponent( stripChartDlg.getContentPane(), new JLabel( SimStrings.get( "EmfModule.TimeLabel" ) ), 0, rowIdx++, 1, 1, GridBagConstraints.NONE, GridBagConstraints.CENTER );
             }
             catch ( AWTException e ) {
                 e.printStackTrace();
@@ -237,7 +237,7 @@ public class EmfModule extends Module {
 
             //            stripChartDlg.setDefaultCloseOperation( JDialog.DO_NOTHING_ON_CLOSE );
             stripChartDlg.pack();
-            GraphicsUtil.centerDialogInParent( stripChartDlg );
+            SwingUtils.centerDialogInParent( stripChartDlg );
 
         }
 

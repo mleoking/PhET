@@ -17,7 +17,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common_1200.view.util.GraphicsUtil;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.radiowaves.EmfConfig;
 import edu.colorado.phet.radiowaves.EmfModule;
 import edu.colorado.phet.radiowaves.command.DynamicFieldIsEnabledCmd;
@@ -236,7 +236,7 @@ public class EmfControlPanel extends JPanel {
 
 
             int display = EmfPanel.NO_FIELD;
-            JRadioButton rb = GraphicsUtil.getSelection( fieldDisplayRBGroup );
+            JRadioButton rb = SwingUtils.getSelection( fieldDisplayRBGroup );
             display = rb == fullFieldRB ? EmfPanel.FULL_FIELD : display;
             if ( fullFieldRB.isSelected() ) {
                 display = EmfPanel.FULL_FIELD;
@@ -398,7 +398,7 @@ public class EmfControlPanel extends JPanel {
             }
             int rowIdx = 0;
             try {
-                GraphicsUtil.addGridBagComponent( this, new JLabel( SimStrings.get( "EmfControlPanel.ElectronLabel" ), electronImg, SwingConstants.LEFT ), 0, rowIdx++, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.WEST );
+                SwingUtils.addGridBagComponent( this, new JLabel( SimStrings.get( "EmfControlPanel.ElectronLabel" ), electronImg, SwingConstants.LEFT ), 0, rowIdx++, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.WEST );
             }
             catch ( AWTException e ) {
                 e.printStackTrace();
