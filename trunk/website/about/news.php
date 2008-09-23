@@ -13,7 +13,7 @@ class NewsPage extends SitePage {
             return $result;
         }
 
-        $changes_file = file_get_contents('http://phet.svn.sourceforge.net/viewvc/*checkout*/phet/trunk/simulations-java/doc/changes.txt');
+        $changes_file = file_get_contents(SITE_ROOT."about/changes.txt");
         $changes_file = htmlentities($changes_file);
         $changes_html = preg_replace('/ *\n+ */', '<br/>', $changes_file);
 
