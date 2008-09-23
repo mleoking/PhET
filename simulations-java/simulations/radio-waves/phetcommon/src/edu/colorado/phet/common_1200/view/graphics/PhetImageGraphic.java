@@ -8,7 +8,7 @@
  *      $Name$
  *      $Revision$
  */
-package edu.colorado.phet.common_1200.view.phetgraphics;
+package edu.colorado.phet.common_1200.view.graphics;
 
 import java.awt.Component;
 import java.awt.Graphics2D;
@@ -16,6 +16,7 @@ import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+
 
 public class PhetImageGraphic extends PhetGraphic {
     private BufferedImage image;
