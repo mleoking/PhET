@@ -108,9 +108,9 @@ public class TimeControlPanel extends JPanel {
 
         // Layout the button panel
         setLayout( new FlowLayout( FlowLayout.CENTER ) );
-        if ( PhetApplication.instance().isDeveloperControlsEnabled() ) { //TODO: only in dev versions until we finish this feature
-            add( animatedClockIcon );
-        }
+//        if ( PhetApplication.instance().isDeveloperControlsEnabled() ) { //TODO: only in dev versions until we finish this feature
+//            add( animatedClockIcon );
+//        }
         add( timeDisplayPanel );
         add( userPanel );
         add( buttonPanel );
