@@ -1835,7 +1835,7 @@ public class MultipleParticleModel {
         // changing and interaction occurred with the moving surfaces of the
         // container, so that the increase/decrease in temperature caused by
         // the size change can actually happen.
-        if ((m_heightChangeCounter == 0) || !interactionOccurredWithTop){
+        if ((m_heightChangeCounter == 0 || !interactionOccurredWithTop) && !m_lidBlownOff){
             if ((m_thermostatType == ISOKINETIC_THERMOSTAT) ||
                 (m_thermostatType == ADAPTIVE_THERMOSTAT && temperatureIsChanging)){
                 // Isokinetic thermostat
