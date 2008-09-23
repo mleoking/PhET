@@ -1,4 +1,4 @@
-package edu.colorado.phet.common_1200.view.phetgraphics;
+package edu.colorado.phet.common_1200.view.graphics;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -10,7 +10,6 @@ import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.MouseInputListener;
 
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
-import edu.colorado.phet.common_1200.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common_1200.view.graphics.mousecontrols.CompositeMouseInputListener;
 import edu.colorado.phet.common_1200.view.graphics.mousecontrols.CursorControl;
 import edu.colorado.phet.common_1200.view.graphics.mousecontrols.Translatable;

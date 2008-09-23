@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
 import edu.colorado.phet.common_1200.view.graphics.Graphic;
-import edu.colorado.phet.common_1200.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common_1200.view.graphics.PhetGraphic;
 
 /**
  * This is a base class for panels that contain graphic representations
