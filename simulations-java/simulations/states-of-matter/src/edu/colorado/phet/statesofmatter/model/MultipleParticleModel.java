@@ -309,6 +309,10 @@ public class MultipleParticleModel {
         return m_currentMolecule;
     }
     
+    public boolean getContainerExploded(){
+    	return m_lidBlownOff;
+    }
+    
     /**
      * Set the molecule type to be simulated.
      * 

@@ -126,8 +126,17 @@ public class PointingHandNode extends PNode {
 
     private void handleContainerSizeChanged(){
         Rectangle2D containerRect = m_model.getParticleContainerRect();
-        setOffset( getFullBoundsReference().x, 
-                StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT - containerRect.getHeight() - 
-                getFullBoundsReference().height);
+        if (!m_model.getContainerExploded()){
+	        setOffset( getFullBoundsReference().x, 
+	                StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT - containerRect.getHeight() - 
+	                getFullBoundsReference().height);
+        }
+        else{
+        	// If the container is exploding that hand is retracted more
+        	// quickly.
+	        setOffset( getFullBoundsReference().x, 
+	                StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT - (containerRect.getHeight() * 2) - 
+	                getFullBoundsReference().height);
+        }
     }
 }

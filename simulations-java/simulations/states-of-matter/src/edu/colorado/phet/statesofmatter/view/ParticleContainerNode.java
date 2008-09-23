@@ -10,8 +10,6 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.HandleNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
@@ -38,7 +36,7 @@ public class ParticleContainerNode extends PhetPNode {
     
     // Constants that control whether the container is drawn using Java2D,
     // whether it is loaded as a single image, or whether it is loaded as
-    // several image pieces.  TODO: JPB TBD - This has been implemented to
+    // several image pieces.  TODO:  JPB TBD - This has been implemented to
     // ease the comparison of these options and make sure it will work on all
     // platforms.  Once a final decision is made, some or all of this can
     // probably be removed.
@@ -120,14 +118,6 @@ public class ParticleContainerNode extends PhetPNode {
             }
             public void containerExploded() {
                 m_containerExploded = true;
-            }
-        });
-        
-        // Set up to listen to the clock, which is only needed when simulating
-        // and explosion.
-        m_model.getClock().addClockListener( new ClockAdapter() {
-            public void clockTicked(ClockEvent clockEvent){
-                handleClockTicked(clockEvent);
             }
         });
         
@@ -230,14 +220,27 @@ public class ParticleContainerNode extends PhetPNode {
         // this assumption is ever invalidated, this routine will need to be
         // changed.
         double containerHeight = m_model.getParticleContainerHeight();
-        m_containerLid.setOffset( 0, 
-                m_containmentAreaHeight - containerHeight - (m_containerLid.getFullBoundsReference().height / 2) + LID_POSITION_TWEAK_FACTOR);
-
-        if (m_containerExploded){
+        if (!m_containerExploded){
+        	m_containerLid.setOffset(( m_containmentAreaWidth - m_containerLid.getFullBoundsReference().width) / 2, 
+        			m_containmentAreaHeight - containerHeight - (m_containerLid.getFullBoundsReference().height / 2) + LID_POSITION_TWEAK_FACTOR);
+        }
+        else {
         	// Rotate the lid to create the visual appearance of it being
         	// blown off the top of the container.
-        	m_containerLid.rotate(-Math.PI/30);
+        	m_containerLid.rotateAboutPoint(-Math.PI/100, (m_containmentAreaWidth / 2) / m_containerLid.getScale(), 0);
+        	double centerPosY = m_containmentAreaHeight - containerHeight - (m_containerLid.getFullBoundsReference().height / 2) + LID_POSITION_TWEAK_FACTOR;
+        	double currentPosY = m_containerLid.getOffset().getY();
+        	double newPosX = m_containerLid.getOffset().getX();
+        	double newPosY;
+        	if ( currentPosY > centerPosY ){
+        		newPosY = centerPosY;
+        	}
+        	else{
+        		newPosY = currentPosY;
+        	}
+        	m_containerLid.setOffset(newPosX , newPosY);
         }
+        
         // TODO: JPB TBD temp code.
         if (SHOW_RECTANGLE){
             m_tempContainerRect.setPathTo( m_model.getParticleContainerRect() );
@@ -390,25 +393,6 @@ public class ParticleContainerNode extends PhetPNode {
             m_bottomContainerLayer.addChild(containerTopBackImageNode);
             containerTopBackImageNode.setOffset( 0, -(m_model.getParticleContainerHeight() * ELLIPSE_HEIGHT_PROPORTION / 2) );
             
-        }
-    }
-    
-    private void handleClockTicked(ClockEvent event) {
-        if (m_containerExploded) {
-            // Rotate the lid to make it look like it has been blown off the
-            // top of the container.  The retraction of the lid is handled
-            // elsewhere.
-//            PBounds lidBounds = m_containerLid.getFullBoundsReference();
-//            double rotationPointX = lidBounds.x + lidBounds.width / 2;
-//            double rotationPointY = lidBounds.y + lidBounds.height / 2;
-//            m_containerLid.rotateAboutPoint( Math.PI/50, rotationPointX, rotationPointY );
-        	
-//            m_containerLid.rotateInPlace( -Math.PI/50 );
-            
-//            m_containerLid.rotateAboutPoint(-Math.PI/59, m_containerLid.getFullBoundsReference().width/2, m_containerLid.getFullBoundsReference().height/2);
-  
-//        	m_containerLid.rotateAboutPoint(-Math.PI/50, m_containmentAreaWidth / 2, m_containmentAreaHeight / 2);
-        	System.out.println("width = " + m_containmentAreaWidth + ", height = " + m_containmentAreaHeight);
         }
     }
 }
