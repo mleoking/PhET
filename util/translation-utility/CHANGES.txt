@@ -3,6 +3,7 @@ Change history for translation-utility
 ================================================================================
 
 DONE:
+9/22/08 - center Close button in ExceptionDialog
 ********* version 1.04.00 (24643)
 9/22/08 - explicitly read and add manifest to test jar for Flash sims, same problem here as Java sims (Unfuddle 720) 
 9/22/08 - move shared instance data, interfaces, and utilities to AbstractSimulation
