@@ -5,29 +5,30 @@ Change history for glaciers
 HIGHEST PRIORITY:
 
 HIGH PRIORITY:
-- should glacial budget meter snap to valley floor for x<0 like it does for x>=0 ?
-- change glacier picture button to "Show real glacier picture" text ?
-- make glacial budget meter snap to glacier surface (or valley surface) when released, ala tracer flags ?
-- bug: loading full-size background image causes OutOfMemoryException, exceeds JVM heap space [crop svg, talk with Archie]
-- birds-eye view should half the slope of zoomed view so that 80km is at far right
-- glacier growth from zero length still takes a long time, and then speeds up [Archie will fix model]
-- flags and debris on glacier surface stop advancing when glacier is retreating (reported by Bob Anderson)
-- remove registration points from background image in any versions published to PhET website
+- [733] hould glacial budget meter snap to valley floor for x<0 like it does for x>=0
+- [733] make glacial budget meter snap to glacier surface (or valley surface) when released, ala tracer flags
+- [730] birds-eye view should half the slope of zoomed view so that 80km is at far right
+- [727] glacier growth from zero length still takes a long time, and then speeds up
+- [726] flags and debris on glacier surface stop advancing when glacier is retreating
 
 MEDIUM PRIORITY:
-- change color of glacier cross-section? (requested by Andrea)
-- "steady state" feature needs to fill glacier with debris and surface ripples (and create moraine?)
-- finalize Help items (what are they? where should they be located? bubbles or no bubbles? text color and style? arrow color and style?)
-- make sure everything works properly when clock is paused
+- [728] change color of glacier cross-section
+- [729] "steady state" feature needs to fill glacier with debris and surface ripples
+- [725] finalize Help items
+- [731] change label on steady state button
+- [732] change glacier picture button to use text "Show glacier picture"
 
 LOW PRIORITY:
-- make borehole drill fire every N years? (requested by Andrea)
-- improve smoothness of DistanceAxisNode (x-axis for coordinates feature)
+- [724] make borehole drill fire every N years
+- [735] improve smoothness of DistanceAxisNode (x-axis for coordinates feature)
+- [558] edges of thermometer & ice thickness tool icons are clipped
+- [734] dragging out and immediately into the toolbox doesn't delete tool
+- [736] ticks & labels on sliders should be white, code to set their color is not working (Mac OS 10.4 only?)
+- [735] Spanish translation
+- [738] crop SVG mountains image to prevent OutOfMemoryException
 - YAW_X_OFFSET should be computed as a function of YAW_ROTATION and PITCH_Y_OFFSET
-- bug: edges of thermometer & ice thickness tool icons are clipped (see Unfuddle #558)
-- bug: creating a tool and dragging it straight to the trash doesn't work because we're in the middle of an event sequence
-- bug: ticks & labels on sliders should be white, code to set their color is not working (Mac OS 10.4 only?)
-- Spanish translation (Archie?)
+- remove registration points from background image in any versions published to PhET website
+- make sure everything works properly when clock is paused
 
 DEFERRED FOR INTERVIEWS:
 - behavior of glacial budget meter (snap-to-ice) is hard to discover
