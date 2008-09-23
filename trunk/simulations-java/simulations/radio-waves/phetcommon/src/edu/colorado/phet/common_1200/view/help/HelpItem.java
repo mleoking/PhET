@@ -6,15 +6,17 @@
  */
 package edu.colorado.phet.common_1200.view.help;
 
-import edu.colorado.phet.common_1200.view.graphics.Graphic;
-import edu.colorado.phet.common_1200.view.graphics.ShadowTextGraphic;
-import edu.colorado.phet.common_1200.view.graphics.ShapeGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common_1200.view.graphics.Graphic;
+import edu.colorado.phet.common_1200.view.graphics.ShadowTextGraphic;
 
 public class HelpItem implements Graphic {
     public final static int ABOVE = 1;
@@ -23,7 +25,6 @@ public class HelpItem implements Graphic {
     public final static int CENTER = 4;
     public final static int RIGHT = 5;
 
-    ShapeGraphic backgroundGraphic;
     ArrayList shadowTextGraphics = new ArrayList();
     int horizontalAlignment;
     int verticalAlignment;
@@ -76,9 +77,6 @@ public class HelpItem implements Graphic {
         if( !inited ) {
             init( g );
             inited = true;
-        }
-        if( backgroundGraphic != null ) {
-            backgroundGraphic.paint( g );
         }
         for( int i = 0; i < shadowTextGraphics.size(); i++ ) {
             ShadowTextGraphic textGraphic = (ShadowTextGraphic)shadowTextGraphics.get( i );
