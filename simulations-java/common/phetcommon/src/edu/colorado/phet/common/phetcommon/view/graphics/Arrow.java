@@ -99,9 +99,6 @@ public class Arrow {
         AbstractVector2D.Double tailPt = new ImmutableVector2D.Double( tailLocation );
         AbstractVector2D.Double tipPt = new ImmutableVector2D.Double( tipLocation );
         AbstractVector2D distanceVector = tipPt.getSubtractedInstance( tailPt );
-        if ( distanceVector.getMagnitude() == 0 ) {
-            return;
-        }
         direction = distanceVector.getNormalizedInstance();
         double length = tipLocation.distance( tailLocation );
         double tempHeadHeight = headHeight;
