@@ -6,6 +6,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -59,7 +60,8 @@ public class PhaseChangesCanvas extends PhetPCanvas {
     private ModelViewTransform m_mvt;
     private DialGaugeNode m_pressureMeter;
     private CompositeThermometerNode m_thermometerNode;
-    private boolean m_containerExploded;
+    private Random m_rand;
+    private double m_rotationAngle;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -68,7 +70,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
     public PhaseChangesCanvas(MultipleParticleModel multipleParticleModel) {
         
         m_model = multipleParticleModel;
-        m_containerExploded = false;
+        m_rand = new Random();
         
         // Create the Model-View transform that we will be using.
         m_mvt = new ModelViewTransform(1.0, 1.0, 0.0, 0.0, false, true);
@@ -96,7 +98,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
                 updateThermometerPosition();
             }
             public void containerExploded() {
-                m_containerExploded = true;
+                m_rotationAngle = -(Math.PI/100 + (m_rand.nextDouble() * Math.PI/50));
             }
         });
 
@@ -181,17 +183,20 @@ public class PhaseChangesCanvas extends PhetPCanvas {
      */
     private void updateThermometerPosition(){
         Rectangle2D containerRect = m_model.getParticleContainerRect();
+
+        if (!m_model.getContainerExploded()){
+            if (m_thermometerNode.getRotation() != 0){
+            	m_thermometerNode.setRotation(0);
+            }
+        }
+        else{
+        	// The container is exploding, so spin the thermometer.
+            m_thermometerNode.rotateInPlace(m_rotationAngle);
+        }
         
         m_thermometerNode.setOffset( 
                 containerRect.getX() + containerRect.getWidth() * 0.23, 
                 containerRect.getY() - containerRect.getHeight() - 
                 (m_thermometerNode.getFullBoundsReference().height * 0.5) );
-
-        if (m_model.getContainerExploded()){
-            m_thermometerNode.rotateInPlace(-Math.PI/100);
-        }
-        else if (m_thermometerNode.getRotation() != 0){
-        	m_thermometerNode.setRotation(0);
-        }
     }
 }
