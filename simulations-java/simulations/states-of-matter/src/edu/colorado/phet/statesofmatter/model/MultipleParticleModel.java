@@ -527,8 +527,8 @@ public class MultipleParticleModel {
         // Set the initial size of the container.
         m_particleContainerHeight = StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT;
         m_targetContainerHeight = StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT;
-        m_normalizedContainerHeight = StatesOfMatterConstants.CONTAINER_BOUNDS.height / m_particleDiameter;
-        m_normalizedContainerWidth = StatesOfMatterConstants.CONTAINER_BOUNDS.width / m_particleDiameter;
+        m_normalizedContainerHeight = m_particleContainerHeight / m_particleDiameter;
+        m_normalizedContainerWidth = StatesOfMatterConstants.PARTICLE_CONTAINER_WIDTH / m_particleDiameter;
         notifyContainerSizeChanged();
         
         // Initialize the particles.
@@ -2555,37 +2555,39 @@ public class MultipleParticleModel {
         double minDistance = WALL_DISTANCE_THRESHOLD * 0.8;
         double distance;
         
-        // Calculate the force in the X direction.
-        if (xPos < WALL_DISTANCE_THRESHOLD){
-            // Close enough to the left wall to feel the force.
-            if (xPos < minDistance){
-                // Limit the distance, and thus the force, if we are really close.
-                xPos = minDistance;
-            }
-            resultantForce.setX( (48/(Math.pow(xPos, 13))) - (24/(Math.pow( xPos, 7))) );
-            m_potentialEnergy += 4/(Math.pow(xPos, 12)) - 4/(Math.pow( xPos, 6)) + 1;
-            
-            if (xPos < 0) {
-                // If particles are energetic enough to make it outside of the
-                // side wall in a single iteration, explode the container.
-                explode();
-            }
-        }
-        else if (containerWidth - xPos < WALL_DISTANCE_THRESHOLD){
-            // Close enough to the right wall to feel the force.
-            distance = containerWidth - xPos;
-            if (distance < minDistance){
-                distance = minDistance;
-            }
-            resultantForce.setX( -(48/(Math.pow(distance, 13))) + 
-                    (24/(Math.pow( distance, 7))) );
-            m_potentialEnergy += 4/(Math.pow(distance, 12)) - 
-                    4/(Math.pow( distance, 6)) + 1;
-            if (xPos > containerWidth) {
-                // If particles are energetic enough to make it outside of the
-                // side wall in a single iteration, explode the container.
-                explode();
-            }
+        if (yPos < StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT / m_particleDiameter){  // This handles the case where particles have blown out the top.
+	        // Calculate the force in the X direction.
+	        if (xPos < WALL_DISTANCE_THRESHOLD){
+	            // Close enough to the left wall to feel the force.
+	            if (xPos < minDistance){
+	                // Limit the distance, and thus the force, if we are really close.
+	                xPos = minDistance;
+	            }
+	            resultantForce.setX( (48/(Math.pow(xPos, 13))) - (24/(Math.pow( xPos, 7))) );
+	            m_potentialEnergy += 4/(Math.pow(xPos, 12)) - 4/(Math.pow( xPos, 6)) + 1;
+	            
+	            if (xPos < 0) {
+	                // If particles are energetic enough to make it outside of the
+	                // side wall in a single iteration, explode the container.
+	                explode();
+	            }
+	        }
+	        else if (containerWidth - xPos < WALL_DISTANCE_THRESHOLD){
+	            // Close enough to the right wall to feel the force.
+	            distance = containerWidth - xPos;
+	            if (distance < minDistance){
+	                distance = minDistance;
+	            }
+	            resultantForce.setX( -(48/(Math.pow(distance, 13))) + 
+	                    (24/(Math.pow( distance, 7))) );
+	            m_potentialEnergy += 4/(Math.pow(distance, 12)) - 
+	                    4/(Math.pow( distance, 6)) + 1;
+	            if (xPos > containerWidth) {
+	                // If particles are energetic enough to make it outside of the
+	                // side wall in a single iteration, explode the container.
+	                explode();
+	            }
+	        }
         }
         
         // Calculate the force in the Y direction.
@@ -2621,6 +2623,7 @@ public class MultipleParticleModel {
         if (m_lidBlownOff == false) {
             
             m_lidBlownOff = true;
+            m_gravitationalAcceleration = 0;  // If we don't do this, the particles come back after a while.
             notifyContainerExploded();
         }
     }
