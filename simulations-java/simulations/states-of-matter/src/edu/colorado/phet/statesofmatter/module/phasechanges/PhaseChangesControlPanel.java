@@ -49,6 +49,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
     private JButton m_interactionDiagramCtrlButton;
     private InteractionPotentialDiagramNode m_interactionPotentialDiagram;
     private PhaseDiagram m_phaseDiagram;
+    private MoleculeSelectionPanel m_moleculeSelectionPanel;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -71,6 +72,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
         m_model.addListener( new MultipleParticleModel.Adapter(){
             public void moleculeTypeChanged(){
                 m_interactionPotentialDiagram.setLjPotentialParameters( m_model.getSigma(), m_model.getEpsilon() );
+                m_moleculeSelectionPanel.setMolecule(m_model.getMoleculeType());
             }
             public void temperatureChanged(){
                 updatePhaseDiagram();
@@ -85,7 +87,8 @@ public class PhaseChangesControlPanel extends ControlPanel {
         setMinimumWidth( minimumWidth );
         
         // Add the panel that allows the user to select molecule type.
-        addControlFullWidth( new MoleculeSelectionPanel() );
+        m_moleculeSelectionPanel = new MoleculeSelectionPanel();
+        addControlFullWidth( m_moleculeSelectionPanel );
         
         // Add a little spacing.
         addVerticalSpace( 10 );
@@ -215,6 +218,23 @@ public class PhaseChangesControlPanel extends ControlPanel {
             add( m_argonRadioButton );
             add( m_oxygenRadioButton );
             add( m_waterRadioButton );
+        }
+        
+        public void setMolecule( int molecule ){
+        	switch (molecule){
+        	case StatesOfMatterConstants.ARGON:
+        		m_argonRadioButton.setSelected(true);
+        		break;
+        	case StatesOfMatterConstants.NEON:
+        		m_neonRadioButton.setSelected(true);
+        		break;
+        	case StatesOfMatterConstants.DIATOMIC_OXYGEN:
+        		m_oxygenRadioButton.setSelected(true);
+        		break;
+        	case StatesOfMatterConstants.WATER:
+        		m_waterRadioButton.setSelected(true);
+        		break;
+        	}
         }
     }
     
