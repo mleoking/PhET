@@ -14,10 +14,10 @@ import java.io.IOException;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common_1200.view.ApparatusPanel;
 import edu.colorado.phet.common_1200.view.fastpaint.FastPaintImageGraphic;
-import edu.colorado.phet.common_1200.view.util.GraphicsUtil;
 import edu.colorado.phet.radiowaves.model.Electron;
 
 public class EmfPanel extends ApparatusPanel implements TransformListener {
@@ -69,7 +69,7 @@ public class EmfPanel extends ApparatusPanel implements TransformListener {
         // Add the background
         final BufferedImage im;
         try {
-            im = GraphicsUtil.toBufferedImage( ImageLoader.loadBufferedImage( "radio-waves/images/background.gif" ) );
+            im = BufferedImageUtils.toBufferedImage( ImageLoader.loadBufferedImage( "radio-waves/images/background.gif" ) );
             this.setPreferredSize( new Dimension( im.getWidth(), im.getHeight() ) );
             backgroundImg = new FastPaintImageGraphic( im, this );
             addGraphic( backgroundImg, 0 );
