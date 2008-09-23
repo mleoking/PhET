@@ -21,7 +21,8 @@ public class ApplicationView {
     public ApplicationView( ApplicationModel applicationModel, JComponent apparatusPanelContainer ) throws IOException {
         this.appDescriptor = applicationModel;
         if( applicationModel.getUseClockControlPanel() ) {
-            clockControlPanel = new ClockControlPanel( applicationModel.getClock() );
+//            clockControlPanel = new ClockControlPanel( applicationModel.getClock() );
+//            clockControlPanel = new ClockControlPanel( applicationModel.getClock() );
         }
         basicPhetPanel = new BasicPhetPanel( apparatusPanelContainer, null, null, clockControlPanel );
         phetFrame = new PhetFrame( applicationModel );

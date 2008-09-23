@@ -6,6 +6,8 @@ package edu.colorado.phet.common_1200.model;
 
 import edu.colorado.phet.common.phetcommon.model.Command;
 import edu.colorado.phet.common.phetcommon.model.CommandQueue;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common_1200.model.clock.AbstractClock;
 import edu.colorado.phet.common_1200.model.clock.ClockTickListener;
 
@@ -17,7 +19,7 @@ import edu.colorado.phet.common_1200.model.clock.ClockTickListener;
  * class, or a subclass. The application's single ApplicationModel instance will
  * be told which BaseModel is active when Modules are activated.
  */
-public class BaseModel extends CompositeModelElement implements ClockTickListener {
+public class BaseModel extends CompositeModelElement implements ClockTickListener, ClockListener {
 
     private CommandQueue commandList = new CommandQueue();
 
@@ -42,5 +44,21 @@ public class BaseModel extends CompositeModelElement implements ClockTickListene
 
     public void clockTicked( AbstractClock c, double dt ) {
         stepInTime( dt );
+    }
+
+    public void clockTicked( ClockEvent clockEvent ) {
+        stepInTime( clockEvent.getSimulationTimeChange() );
+    }
+
+    public void clockStarted( ClockEvent clockEvent ) {
+    }
+
+    public void clockPaused( ClockEvent clockEvent ) {
+    }
+
+    public void simulationTimeChanged( ClockEvent clockEvent ) {
+    }
+
+    public void simulationTimeReset( ClockEvent clockEvent ) {
     }
 }
