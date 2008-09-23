@@ -866,7 +866,7 @@ public class MultipleParticleModel {
         else {
             // The lid is blowing off the container, so increase the container
             // size until the lid should be well off the screen.
-            if (m_particleContainerHeight < StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT * 3) {
+            if (m_particleContainerHeight < StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT * 10) {
                 m_particleContainerHeight += MAX_PER_TICK_CONTAINER_EXPANSION;
                 notifyContainerSizeChanged();
             }
