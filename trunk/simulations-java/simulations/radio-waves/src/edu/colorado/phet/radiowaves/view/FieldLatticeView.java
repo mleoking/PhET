@@ -169,7 +169,9 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
         GraphicsUtil.setAntiAliasingOn( g2 );
 
         AffineTransform orgTx = g2.getTransform();
-        g2.transform( atx );
+        if ( atx != null ) {
+            g2.transform( atx );
+        }
 
         Color color = fieldSense == EmfConfig.SHOW_FORCE_ON_ELECTRON ? arrowRed : arrowGreen;
 
