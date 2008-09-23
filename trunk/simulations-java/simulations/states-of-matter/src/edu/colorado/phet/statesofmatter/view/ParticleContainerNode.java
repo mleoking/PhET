@@ -88,7 +88,6 @@ public class ParticleContainerNode extends PhetPNode {
     private PNode m_bottomContainerLayer;
     private PNode m_containerLid;
     private PPath m_tempContainerRect;
-    private boolean m_containerExploded;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -115,9 +114,6 @@ public class ParticleContainerNode extends PhetPNode {
             }
             public void containerSizeChanged(){
                 handleContainerSizeChanged();
-            }
-            public void containerExploded() {
-                m_containerExploded = true;
             }
         });
         
@@ -220,7 +216,10 @@ public class ParticleContainerNode extends PhetPNode {
         // this assumption is ever invalidated, this routine will need to be
         // changed.
         double containerHeight = m_model.getParticleContainerHeight();
-        if (!m_containerExploded){
+        if (!m_model.getContainerExploded()){
+        	if (m_containerLid.getRotation() != 0){
+        		m_containerLid.setRotation(0);
+        	}
         	m_containerLid.setOffset(( m_containmentAreaWidth - m_containerLid.getFullBoundsReference().width) / 2, 
         			m_containmentAreaHeight - containerHeight - (m_containerLid.getFullBoundsReference().height / 2) + LID_POSITION_TWEAK_FACTOR);
         }

@@ -527,10 +527,7 @@ public class MultipleParticleModel {
         // Set the initial size of the container.
         m_particleContainerHeight = StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT;
         m_targetContainerHeight = StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT;
-        m_normalizedContainerHeight = m_particleContainerHeight / m_particleDiameter;
-        m_normalizedContainerWidth = StatesOfMatterConstants.PARTICLE_CONTAINER_WIDTH / m_particleDiameter;
-        notifyContainerSizeChanged();
-        
+
         // Initialize the particles.
         switch (m_currentMolecule){
         case StatesOfMatterConstants.DIATOMIC_OXYGEN:
@@ -549,6 +546,9 @@ public class MultipleParticleModel {
             System.err.println("ERROR: Unrecognized particle type, using default number of layers.");
             break;
         }
+        
+        m_normalizedContainerHeight = m_particleContainerHeight / m_particleDiameter;
+        m_normalizedContainerWidth = StatesOfMatterConstants.PARTICLE_CONTAINER_WIDTH / m_particleDiameter;
         
         calculateMinAllowableContainerHeight();
         
@@ -629,8 +629,9 @@ public class MultipleParticleModel {
 
         m_totalEnergy = m_engineFacade.measureKineticEnergy() + m_engineFacade.measurePotentialEnergy();
         */
-        
-        // Let any listeners know that the model has been reset.
+
+        // Let any listeners know that things have changed.
+        notifyContainerSizeChanged();
         notifyResetOccurred();
     }
 

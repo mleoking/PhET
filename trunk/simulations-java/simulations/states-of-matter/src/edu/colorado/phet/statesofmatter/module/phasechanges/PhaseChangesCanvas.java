@@ -190,5 +190,8 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         if (m_model.getContainerExploded()){
             m_thermometerNode.rotateInPlace(-Math.PI/100);
         }
+        else if (m_thermometerNode.getRotation() != 0){
+        	m_thermometerNode.setRotation(0);
+        }
     }
 }
