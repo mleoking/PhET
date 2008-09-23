@@ -16,9 +16,6 @@ import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 
 public class PhetImageGraphic extends PhetGraphic {
     private BufferedImage image;
@@ -26,37 +23,10 @@ public class PhetImageGraphic extends PhetGraphic {
     private boolean shapeDirty = true;
     private Shape shape;
 
-    protected PhetImageGraphic( Component component ) {
-        this( component, null, 0, 0 );
-    }
-
-    public PhetImageGraphic( Component component, String imageResourceName ) {
-        this( component, (BufferedImage)null );
-
-        BufferedImage bufferedImage;
-        try {
-            bufferedImage = ImageLoader.loadBufferedImage( imageResourceName );
-        }
-        catch( IOException e ) {
-            throw new RuntimeException( "Image resource not found: " + imageResourceName );
-        }
-        setImage( bufferedImage );
-    }
-
     public PhetImageGraphic( Component component, BufferedImage image ) {
-        this( component, image, new AffineTransform() );
-    }
-
-    public PhetImageGraphic( Component component, BufferedImage image, int x, int y ) {
         super( component );
         this.image = image;
-        this.transform = AffineTransform.getTranslateInstance( x, y );
-    }
-
-    public PhetImageGraphic( Component component, BufferedImage image, AffineTransform transform ) {
-        super( component );
-        this.image = image;
-        this.transform = transform;
+        this.transform = new AffineTransform();
     }
 
     public Shape getShape() {

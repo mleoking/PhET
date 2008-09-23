@@ -32,7 +32,6 @@ public abstract class PhetGraphic implements InteractiveGraphic {
     private RenderingHints savedRenderingHints;
     private RenderingHints renderingHints;
     private Stack graphicsStates = new Stack();
-    private CompositePhetGraphic parent;
 
     /*A bit of state to facilitate interactivity.*/
     private CompositeMouseInputListener mouseInputListener = new CompositeMouseInputListener();//delegates to
@@ -41,10 +40,6 @@ public abstract class PhetGraphic implements InteractiveGraphic {
 
     protected PhetGraphic( Component component ) {
         this.component = component;
-    }
-
-    protected void setParent( CompositePhetGraphic parent ) {
-        this.parent = parent;
     }
 
     public Rectangle getBounds() {
@@ -95,13 +90,7 @@ public abstract class PhetGraphic implements InteractiveGraphic {
     }
 
     public boolean isVisible() {
-        // If we have a parent, check to see if it is visible
-        if( parent != null ) {
-            return parent.isVisible() && this.visible;
-        }
-        else {
-            return visible;
-        }
+        return visible;
     }
 
     public void setVisible( boolean visible ) {
