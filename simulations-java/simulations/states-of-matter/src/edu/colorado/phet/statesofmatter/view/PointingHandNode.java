@@ -5,7 +5,7 @@ package edu.colorado.phet.statesofmatter.view;
 import java.awt.Cursor;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler2;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
@@ -70,7 +70,7 @@ public class PointingHandNode extends PNode {
         // Set up a cursor handler so that the user will get an indication
         // that the node can be moved.
         m_fingerImageNode.setPickable( true );
-        m_fingerImageNode.addInputEventListener( new CursorHandler(Cursor.N_RESIZE_CURSOR) );
+        m_fingerImageNode.addInputEventListener( new CursorHandler2(Cursor.N_RESIZE_CURSOR) );
         
         // Set ourself up to listen for and handle mouse dragging events.
         m_fingerImageNode.addInputEventListener( new PDragEventHandler(){
