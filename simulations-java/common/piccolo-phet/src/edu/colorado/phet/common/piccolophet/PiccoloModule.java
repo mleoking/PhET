@@ -203,7 +203,7 @@ public class PiccoloModule extends Module {
 
     //Enable PiccoloClockControlPanel by default, toggle these lines to use the previous swing ClockControlPanel
     protected JComponent createClockControlPanel( IClock clock ) {
-        return new PiccoloClockControlPanel(clock);
-//        return super.createClockControlPanel( clock );
+//        return new PiccoloClockControlPanel(clock);
+        return super.createClockControlPanel( clock );
     }
 }
