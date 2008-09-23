@@ -11,13 +11,12 @@ import java.awt.event.ActionListener;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common_1200.application.ApplicationModel;
 import edu.colorado.phet.common_1200.application.PhetApplication;
-import edu.colorado.phet.common_1200.model.clock.SwingTimerClock;
 import edu.colorado.phet.common_1200.view.PhetFrame;
 import edu.colorado.phet.radiowaves.view.WaveMediumGraphic;
 
@@ -32,9 +31,7 @@ public class RadioWavesApplication {
         SimStrings.setStrings( EmfConfig.localizedStringsPath );//todo: add String[] args to this
         SimStrings.getInstance().addStrings( "localization/phetcommon-strings" );//todo: add String[] args to this
 
-        ConstantDtClock clock=new ConstantDtClock( 40,0.5);
-//        SwingTimerClock clock = new SwingTimerClock( 0.5, 40, true );
-        //        SwingTimerClock clock = new SwingTimerClock( 1, 40, false  );
+        ConstantDtClock clock = new ConstantDtClock( 40, 0.5 );
         final EmfModule antennaModule = new EmfModule( clock );
         FrameSetup fs = new FrameSetup.CenteredWithSize( 1024, 768 );
         ApplicationModel appDescriptor = new ApplicationModel( new String( SimStrings.get( "radio-waves.name" ) + " (" + EmfConfig.VERSION + ")" ), SimStrings.get( "radio-waves.description" ), EmfConfig.VERSION, fs );

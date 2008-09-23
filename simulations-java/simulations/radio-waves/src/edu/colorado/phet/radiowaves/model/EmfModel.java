@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common_1200.model.BaseModel;
-import edu.colorado.phet.common_1200.model.clock.AbstractClock;
 import edu.colorado.phet.radiowaves.model.movement.MovementType;
 
 public class EmfModel extends BaseModel {
@@ -23,11 +22,6 @@ public class EmfModel extends BaseModel {
     //        super( clock );
     }
 
-
-    public void clockTicked( AbstractClock iClock, double v ) {
-        // This makes the clock static
-        super.clockTicked( iClock, v );
-    }
 
     public void addModelElement( ModelElement modelElement ) {
         super.addModelElement( modelElement );

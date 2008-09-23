@@ -25,7 +25,6 @@ import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common_1200.application.Module;
 import edu.colorado.phet.common_1200.application.PhetApplication;
-import edu.colorado.phet.common_1200.model.clock.AbstractClock;
 import edu.colorado.phet.common_1200.view.graphics.Graphic;
 import edu.colorado.phet.common_1200.view.help.HelpItem;
 import edu.colorado.phet.radiowaves.command.AddTransmittingElectronCmd;

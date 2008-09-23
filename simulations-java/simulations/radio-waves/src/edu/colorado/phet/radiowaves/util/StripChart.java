@@ -11,9 +11,9 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import edu.colorado.phet.common_1200.model.clock.AbstractClock;
-import edu.colorado.phet.common_1200.model.clock.ClockTickListener;
-import edu.colorado.phet.common_1200.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 
 public class StripChart extends JPanel {
 
@@ -137,17 +137,24 @@ public class StripChart extends JPanel {
         frame.pack();
         frame.setVisible( true );
 
-        SwingTimerClock clock = new SwingTimerClock( 1, 20, true );
+        ConstantDtClock clock = new ConstantDtClock( 20, 1 );
         clock.start();
-        clock.addClockTickListener( new ClockTickListener() {
+        clock.addClockListener( new ClockListener() {
 
             double d = 0;
 
-            public void clockTicked( AbstractClock iClock, double v ) {
+            public void clockTicked( ClockEvent clockEvent ) {
                 d = ( d + 0.1 ) % ( Math.PI * 2 );
                 sc.addDatum( Math.sin( d ), 1 );
             }
-        } );
 
+            public void clockPaused( ClockEvent clockEvent ) {}
+
+            public void clockStarted( ClockEvent clockEvent ) {}
+
+            public void simulationTimeChanged( ClockEvent clockEvent ) {}
+
+            public void simulationTimeReset( ClockEvent clockEvent ) {} 
+        } );
     }
 }

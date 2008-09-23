@@ -1,16 +1,16 @@
 /* Copyright University of Colorado, 2003 */
 package edu.colorado.phet.common_1200.application;
 
-import edu.colorado.phet.common_1200.model.clock.ClockTickListener;
-import edu.colorado.phet.common_1200.view.ApplicationView;
-import edu.colorado.phet.common_1200.view.TabbedApparatusPanelContainer;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.GridLayout;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+
+import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
+import edu.colorado.phet.common_1200.view.ApplicationView;
+import edu.colorado.phet.common_1200.view.TabbedApparatusPanelContainer;
 
 /**
  * The top-level class for all PhET applications.
