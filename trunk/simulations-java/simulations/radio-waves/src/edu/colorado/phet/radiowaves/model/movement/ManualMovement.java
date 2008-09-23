@@ -8,7 +8,7 @@ package edu.colorado.phet.radiowaves.model.movement;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.MedianFilter;
-import edu.colorado.phet.common_1200.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.radiowaves.model.Electron;
 
 /**

@@ -9,7 +9,7 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.mechanics.Body;
-import edu.colorado.phet.common_1200.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.radiowaves.RadioWavesApplication;
 import edu.colorado.phet.radiowaves.model.movement.ManualMovement;
 import edu.colorado.phet.radiowaves.model.movement.MovementType;
