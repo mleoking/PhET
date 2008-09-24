@@ -11,7 +11,6 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 /**
  * PushpinNode represents the pushpin used to "pin" an atom in one location.
  *
- * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class PushpinNode extends PComposite {
 

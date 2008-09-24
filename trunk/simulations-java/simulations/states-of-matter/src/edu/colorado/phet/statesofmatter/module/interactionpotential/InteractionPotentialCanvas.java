@@ -57,7 +57,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     private static final double WIGGLE_ME_HEIGHT = CANVAS_HEIGHT * 0.10;
     
     // Constant used to control size of push pin.
-    private static final double PUSH_PIN_WIDTH = CANVAS_WIDTH * 0.07;
+    private static final double PUSH_PIN_WIDTH = CANVAS_WIDTH * 0.10;
     
     // The following constants control whether the wiggle me and stop buttons
     // appear.  These two components of the user interface were requested in
@@ -313,6 +313,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         
         // Add the push pin last so that it is on top of the fixed atom.
         addWorldChild( m_pushPinNode );
+        m_pushPinNode.setOffset(  particle.getRadius() * 0.3, particle.getRadius() * 0.3);
     }
     
     private void handleFixedParticleRemoved(StatesOfMatterAtom particle){
