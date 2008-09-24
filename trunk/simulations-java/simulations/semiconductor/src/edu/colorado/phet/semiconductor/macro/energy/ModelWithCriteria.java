@@ -20,7 +20,7 @@ public class ModelWithCriteria {
     }
 
     public void stepInTime( double dt ) {
-        if( criteria.isApplicable( energySection ) ) {
+        if ( criteria.isApplicable( energySection ) ) {
             model.stepInTime( dt );
         }
     }

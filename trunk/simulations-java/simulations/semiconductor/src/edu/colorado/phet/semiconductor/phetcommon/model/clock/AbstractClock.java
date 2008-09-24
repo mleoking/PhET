@@ -19,7 +19,7 @@ public abstract class AbstractClock {
     private double dt;
 
     public AbstractClock( double dt, int delay, boolean isFixed ) {
-        if( isFixed ) {
+        if ( isFixed ) {
             tickConverter = new Static();
         }
         else {
@@ -38,7 +38,7 @@ public abstract class AbstractClock {
     }
 
     public synchronized void start() {
-        if( executionState == NOT_STARTED || executionState == DEAD ) {
+        if ( executionState == NOT_STARTED || executionState == DEAD ) {
             doStart();
             setRunningTime( 0 );
             this.executionState = RUNNING;
@@ -49,8 +49,8 @@ public abstract class AbstractClock {
     }
 
     public void setPaused( boolean paused ) {
-        if( paused ) {
-            if( executionState == RUNNING ) {
+        if ( paused ) {
+            if ( executionState == RUNNING ) {
                 this.executionState = PAUSED;
             }
             else {
@@ -58,7 +58,7 @@ public abstract class AbstractClock {
             }
         }
         else {
-            if( executionState == PAUSED ) {
+            if ( executionState == PAUSED ) {
                 doUnpause();
                 this.executionState = RUNNING;
             }

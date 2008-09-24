@@ -1,12 +1,12 @@
 package edu.colorado.phet.semiconductor.macro.doping;
 
-import edu.colorado.phet.semiconductor.SemiconductorApplication;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.semiconductor.SemiconductorApplication;
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
 
 /**
  * User: Sam Reid
@@ -33,7 +33,7 @@ public class DopantSlotGraphic implements Graphic {
     }
 
     public void paint( Graphics2D graphics2D ) {
-        if( texture == null ) {
+        if ( texture == null ) {
             return;
         }
         graphics2D.setPaint( texture );
@@ -43,10 +43,10 @@ public class DopantSlotGraphic implements Graphic {
     }
 
     private TexturePaint getTexture( DopantType type ) {
-        if( type == DopantType.N ) {
+        if ( type == DopantType.N ) {
             return green;
         }
-        else if( type == DopantType.P ) {
+        else if ( type == DopantType.P ) {
             return red;
         }
         return null;

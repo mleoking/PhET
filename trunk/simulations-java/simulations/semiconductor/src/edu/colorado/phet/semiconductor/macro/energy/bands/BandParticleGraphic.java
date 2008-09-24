@@ -1,16 +1,16 @@
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.macro.energy.bands;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.semiconductor.common.SimpleBufferedImageGraphic;
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
 import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.TransformListener;
-
-import java.awt.*;
-import java.awt.image.BufferedImage;
 
 /**
  * User: Sam Reid
@@ -21,7 +21,7 @@ public class BandParticleGraphic extends TransformGraphic {
     BandParticle bandParticle;
     SimpleBufferedImageGraphic graphic;
     private static boolean showExclaim = true;
-    private Font msgFont = new PhetFont( 12);
+    private Font msgFont = new PhetFont( 12 );
 
     public BandParticleGraphic( BandParticle bandParticle, ModelViewTransform2D transform, BufferedImage image ) {
         super( transform );
@@ -42,7 +42,7 @@ public class BandParticleGraphic extends TransformGraphic {
         graphic.setPosition( pt );
         graphic.paint( graphics2D );
 
-        if( showExclaim && bandParticle.isExcited() ) {
+        if ( showExclaim && bandParticle.isExcited() ) {
             graphics2D.setColor( Color.red );
             graphics2D.setFont( exclaimFont );
             graphics2D.drawString( SimStrings.get( "BandParticleGraphic.ExclaimText" ), pt.x - 14, pt.y );

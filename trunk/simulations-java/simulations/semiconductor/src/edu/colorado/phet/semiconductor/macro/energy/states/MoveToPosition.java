@@ -35,7 +35,7 @@ public class MoveToPosition implements BandParticleState {
         PhetVector dx = targetLoc.getSubtractedInstance( myLoc );
 //        particle.setVelocity(dx.getScaledInstance(1.0/dt));
         double dist = dx.getMagnitude();
-        if( dist <= distPerStep ) {
+        if ( dist <= distPerStep ) {
             //got there
             particle.setPosition( targetLoc );
             return true;

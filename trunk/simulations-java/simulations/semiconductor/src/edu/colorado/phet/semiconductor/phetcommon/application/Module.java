@@ -6,12 +6,12 @@
  */
 package edu.colorado.phet.semiconductor.phetcommon.application;
 
+import javax.swing.*;
+
 import edu.colorado.phet.semiconductor.phetcommon.model.BaseModel;
 import edu.colorado.phet.semiconductor.phetcommon.model.ModelElement;
 import edu.colorado.phet.semiconductor.phetcommon.view.ApparatusPanel;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
-
-import javax.swing.*;
 
 /**
  * This class encapsulates the parts of an application that make up

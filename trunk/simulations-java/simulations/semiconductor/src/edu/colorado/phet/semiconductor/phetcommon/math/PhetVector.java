@@ -36,10 +36,10 @@ public class PhetVector {
     }
 
     public boolean equals( Object obj ) {
-        if( !( obj instanceof PhetVector ) ) {
+        if ( !( obj instanceof PhetVector ) ) {
             return false;
         }
-        PhetVector b = (PhetVector)obj;
+        PhetVector b = (PhetVector) obj;
         return b.getX() == getX() && b.getY() == getY();
     }
 

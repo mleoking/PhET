@@ -1,9 +1,9 @@
 package edu.colorado.phet.semiconductor.macro.energy.bands;
 
+import java.util.Iterator;
+
 import edu.colorado.phet.semiconductor.macro.doping.DopantType;
 import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
-
-import java.util.Iterator;
 
 /**
  * User: Sam Reid
@@ -16,7 +16,7 @@ public class SemiconductorBandSet extends BandSet {
 
     public SemiconductorBandSet( BandSetDescriptor bsd, EnergySection dopantManager, int index ) {
 
-        for( int i = 0; i < bsd.numBands(); i++ ) {
+        for ( int i = 0; i < bsd.numBands(); i++ ) {
             BandDescriptor bd = bsd.bandDescriptorAt( i );
             Band band = new Band( bd.getRegion(), bd.getNumLevels(), this, index );
             bands.add( band );
@@ -45,7 +45,7 @@ public class SemiconductorBandSet extends BandSet {
         int curIndex;
 
         public boolean hasNext() {
-            if( curBand >= numBands() ) {
+            if ( curBand >= numBands() ) {
                 return false;
             }
             else {
@@ -62,7 +62,7 @@ public class SemiconductorBandSet extends BandSet {
             EnergyLevel level = band.energyLevelAt( curIndex );
 
             curIndex++;
-            if( curIndex >= band.numEnergyLevels() ) {
+            if ( curIndex >= band.numEnergyLevels() ) {
                 curIndex = 0;
                 curBand++;
             }
@@ -87,11 +87,11 @@ public class SemiconductorBandSet extends BandSet {
     public void setDopantType( DopantType dopantType ) {
         this.dopantType = dopantType;
         EnergyLevelIterator it = energyLevelIterator();
-        while( it.hasNext() ) {
-            EnergyLevel energyLevel = (EnergyLevel)it.next();
+        while ( it.hasNext() ) {
+            EnergyLevel energyLevel = (EnergyLevel) it.next();
             dopantManager.clear( energyLevel );
         }
-        if( dopantType == null ) {
+        if ( dopantType == null ) {
             dopeLevels( getBottomBand(), 0, getBottomBand().numEnergyLevels(), getEnergySection() );
             dopeLevels( getValenceBand(), 0, getBottomBand().numEnergyLevels(), getEnergySection() );
         }
@@ -103,12 +103,12 @@ public class SemiconductorBandSet extends BandSet {
 
     public void dope() {
         SemiconductorBandSet semiconductorBandSet = this;
-        if( getDopantType() == DopantType.N ) {
+        if ( getDopantType() == DopantType.N ) {
             dopeLevels( semiconductorBandSet.getBottomBand(), 0, semiconductorBandSet.getBottomBand().numEnergyLevels(), semiconductorBandSet.getEnergySection() );
             dopeLevels( semiconductorBandSet.getValenceBand(), 0, semiconductorBandSet.getValenceBand().numEnergyLevels(), semiconductorBandSet.getEnergySection() );
             dopeLevels( semiconductorBandSet.getConductionBand(), 0, getDopantType().getNumFilledLevels(), semiconductorBandSet.getEnergySection() );
         }
-        else if( getDopantType() == DopantType.P ) {
+        else if ( getDopantType() == DopantType.P ) {
             dopeLevels( semiconductorBandSet.getBottomBand(), 0, semiconductorBandSet.getBottomBand().numEnergyLevels(), semiconductorBandSet.getEnergySection() );
             dopeLevels( semiconductorBandSet.getValenceBand(), 0, getDopantType().getNumFilledLevels(), semiconductorBandSet.getEnergySection() );
         }
@@ -116,7 +116,7 @@ public class SemiconductorBandSet extends BandSet {
     }
 
     public void dopeLevels( Band band, int min, int max, EnergySection energySection ) {
-        for( int level = min; level < max; level++ ) {
+        for ( int level = min; level < max; level++ ) {
             energySection.fillLevel( band.energyLevelAt( level ) );
         }
     }

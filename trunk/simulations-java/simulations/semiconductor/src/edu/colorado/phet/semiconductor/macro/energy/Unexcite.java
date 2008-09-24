@@ -16,8 +16,8 @@ public class Unexcite implements ParticleAction {
     }
 
     public void apply( BandParticle particle ) {
-        if( particle.getEnergyCell() == cell
-            && particle.isLocatedAtCell()
+        if ( particle.getEnergyCell() == cell
+             && particle.isLocatedAtCell()
                 ) {
             particle.setExcited( false );
         }

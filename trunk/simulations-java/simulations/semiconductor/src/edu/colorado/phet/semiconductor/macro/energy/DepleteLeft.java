@@ -25,10 +25,10 @@ public class DepleteLeft implements ModelElement {
 
     public int highestClaimedLevel() {
         Band b = energySection.bandSetAt( bandSet ).bandAt( band );
-        for( int i = 0; i < b.numEnergyLevels(); i++ ) {
+        for ( int i = 0; i < b.numEnergyLevels(); i++ ) {
             int index = b.numEnergyLevels() - 1 - i;
             EnergyLevel level = b.energyLevelAt( index );
-            if( energySection.isClaimed( level.cellAt( 0 ) ) || energySection.isClaimed( level.cellAt( 1 ) ) ) {
+            if ( energySection.isClaimed( level.cellAt( 0 ) ) || energySection.isClaimed( level.cellAt( 1 ) ) ) {
                 return index;
             }
         }
@@ -37,14 +37,14 @@ public class DepleteLeft implements ModelElement {
 
     public void stepInTime( double dt ) {
         int hi = highestClaimedLevel();
-        if( hi == -1 ) {
+        if ( hi == -1 ) {
             return;
         }
         EnergyLevel level = energySection.bandSetAt( bandSet ).bandAt( band ).energyLevelAt( hi );
         BandParticle left = energySection.getBandParticle( level.cellAt( 0 ) );
         BandParticle right = energySection.getBandParticle( level.cellAt( 1 ) );
-        if( right != null ) {
-            if( right.isExcited() ) {
+        if ( right != null ) {
+            if ( right.isExcited() ) {
                 Move m = new Move( right.getEnergyCell(), energySection.getLeftNeighbor( right.getEnergyCell() ), energySection.getSpeed() );
                 boolean out = m.apply( right, energySection );
             }
@@ -53,10 +53,10 @@ public class DepleteLeft implements ModelElement {
                 boolean out = m.apply( right, energySection );
             }
         }
-        if( left != null ) {
+        if ( left != null ) {
 
-            if( left.isExcited() ) {
-                if( bandSet == 0 ) {
+            if ( left.isExcited() ) {
+                if ( bandSet == 0 ) {
                     ExitLeftFrom erf = new ExitLeftFrom( left.getEnergyCell() );
                     boolean out = erf.apply( left, energySection );
                 }

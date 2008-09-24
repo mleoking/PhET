@@ -1,11 +1,11 @@
 /*  */
 package edu.colorado.phet.semiconductor.macro.energy;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.semiconductor.macro.doping.DopantType;
 import edu.colorado.phet.semiconductor.macro.energy.statemodels.ModelCriteria;
 import edu.colorado.phet.semiconductor.phetcommon.model.ModelElement;
-
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -22,7 +22,7 @@ public class DiodeIn3Handler implements ModelCriteria, ModelElement {
     }
 
     public boolean isApplicable( EnergySection energySection ) {
-        if( energySection.numBandSets() == 3 ) {
+        if ( energySection.numBandSets() == 3 ) {
             DopantType left = energySection.bandSetAt( 0 ).getDopantType();
             DopantType mid = energySection.bandSetAt( 1 ).getDopantType();
             DopantType right = energySection.bandSetAt( 2 ).getDopantType();
@@ -41,14 +41,14 @@ public class DiodeIn3Handler implements ModelCriteria, ModelElement {
     }
 
     private boolean listEquals( DopantType a, DopantType b, DopantType c ) {
-        if( a == null || b == null || c == null ) {
+        if ( a == null || b == null || c == null ) {
             return false;
         }
         return tempList.get( 0 ).equals( a ) && tempList.get( 1 ).equals( b ) && tempList.get( 2 ).equals( c );
     }
 
     public void stepInTime( double dt ) {
-        if( Math.abs( energySection.getVoltage() ) <= 0.1 ) {
+        if ( Math.abs( energySection.getVoltage() ) <= 0.1 ) {
             //setup bias
 
         }

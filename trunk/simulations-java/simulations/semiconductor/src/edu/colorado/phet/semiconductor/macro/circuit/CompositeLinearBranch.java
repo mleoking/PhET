@@ -1,8 +1,8 @@
 package edu.colorado.phet.semiconductor.macro.circuit;
 
-import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
-
 import java.util.ArrayList;
+
+import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
 
 /**
  * User: Sam Reid
@@ -18,8 +18,8 @@ public class CompositeLinearBranch {
 
     public double getLength() {
         double sum = 0;
-        for( int i = 0; i < branches.size(); i++ ) {
-            LinearBranch linearBranch = (LinearBranch)branches.get( i );
+        for ( int i = 0; i < branches.size(); i++ ) {
+            LinearBranch linearBranch = (LinearBranch) branches.get( i );
             sum += linearBranch.getLength();
         }
         return sum;
@@ -27,9 +27,9 @@ public class CompositeLinearBranch {
 
     public PhetVector getPosition( double dist ) {
         double start = 0;
-        for( int i = 0; i < branches.size(); i++ ) {
-            LinearBranch linearBranch = (LinearBranch)branches.get( i );
-            if( linearBranch.getLength() + start >= dist ) {
+        for ( int i = 0; i < branches.size(); i++ ) {
+            LinearBranch linearBranch = (LinearBranch) branches.get( i );
+            if ( linearBranch.getLength() + start >= dist ) {
                 double distAlongBranch = dist - start;
                 return linearBranch.getLocation( distAlongBranch );
             }
@@ -39,7 +39,7 @@ public class CompositeLinearBranch {
     }
 
     public LinearBranch branchAt( int i ) {
-        return (LinearBranch)this.branches.get( i );
+        return (LinearBranch) this.branches.get( i );
     }
 
     public int numBranches() {

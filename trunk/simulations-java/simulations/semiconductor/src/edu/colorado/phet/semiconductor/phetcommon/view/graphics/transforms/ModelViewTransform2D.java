@@ -6,12 +6,12 @@
  */
 package edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms;
 
-import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+
+import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
 
 public class ModelViewTransform2D {
     private Rectangle2D.Double modelBounds;
@@ -27,10 +27,10 @@ public class ModelViewTransform2D {
     public ModelViewTransform2D( Rectangle2D.Double modelBounds, Rectangle viewBounds ) {
         this.modelBounds = modelBounds;
         this.viewBounds = viewBounds;
-        if( viewBounds.getWidth() <= 0 ) {
+        if ( viewBounds.getWidth() <= 0 ) {
             throw new RuntimeException( "View Bounds width must be positive." );
         }
-        if( viewBounds.getHeight() <= 0 ) {
+        if ( viewBounds.getHeight() <= 0 ) {
             throw new RuntimeException( "View Bounds height must be positive." );
         }
     }
@@ -56,13 +56,13 @@ public class ModelViewTransform2D {
 
     public int modelToViewX( double x ) {
         double m = viewBounds.width / modelBounds.width;
-        int out = (int)( m * ( x - modelBounds.x ) + viewBounds.x );
+        int out = (int) ( m * ( x - modelBounds.x ) + viewBounds.x );
         return out;
     }
 
     public int modelToViewY( double y ) {
         double m = -viewBounds.height / modelBounds.height;
-        int out = (int)( m * ( y - modelBounds.y - modelBounds.height ) + viewBounds.y );
+        int out = (int) ( m * ( y - modelBounds.y - modelBounds.height ) + viewBounds.y );
         return out;
     }
 
@@ -87,10 +87,10 @@ public class ModelViewTransform2D {
     }
 
     public void setViewBounds( Rectangle viewBounds ) {
-        if( viewBounds.getWidth() <= 0 ) {
+        if ( viewBounds.getWidth() <= 0 ) {
             throw new RuntimeException( "View Bounds width must be positive." );
         }
-        if( viewBounds.getHeight() <= 0 ) {
+        if ( viewBounds.getHeight() <= 0 ) {
             throw new RuntimeException( "View Bounds height must be positive." );
         }
         this.viewBounds = viewBounds;
@@ -99,7 +99,7 @@ public class ModelViewTransform2D {
 
     public int modelToViewDifferentialY( double dy ) {
         double m = -viewBounds.height / modelBounds.height;
-        return (int)( m * dy );
+        return (int) ( m * dy );
     }
 
     public double viewToModelDifferentialY( double dy ) {

@@ -1,13 +1,13 @@
 package edu.colorado.phet.semiconductor.macro.energyprobe;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
 import edu.colorado.phet.semiconductor.common.SimpleBufferedImageGraphic;
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
 import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
 import edu.colorado.phet.semiconductor.phetcommon.model.simpleobservable.SimpleObserver;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-
-import java.awt.*;
-import java.awt.image.BufferedImage;
 
 /**
  * User: Sam Reid

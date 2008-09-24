@@ -1,9 +1,10 @@
 package edu.colorado.phet.semiconductor.common;
 
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
+import java.awt.*;
 
 import javax.swing.border.Border;
-import java.awt.*;
+
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
 
 /**
  * User: Sam Reid

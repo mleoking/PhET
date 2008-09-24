@@ -6,15 +6,16 @@
  */
 package edu.colorado.phet.semiconductor.phetcommon.view.graphics;
 
+import java.awt.*;
+import java.awt.event.MouseEvent;
+
+import javax.swing.event.MouseInputListener;
+
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.bounds.Boundary;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.mousecontrols.CompositeMouseInputListener;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.mousecontrols.HandCursorControl;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.mousecontrols.TranslationControl;
-
-import javax.swing.event.MouseInputListener;
-import java.awt.*;
-import java.awt.event.MouseEvent;
 
 /**
  * This class facilitates adding behaviors to an interactive graphic.
@@ -71,7 +72,7 @@ public class DefaultInteractiveGraphic implements InteractiveGraphic {
      * Cause the cursor to turn into a hand when within the boundary.
      */
     public void addCursorHandBehavior() {
-        if( handControl == null ) {
+        if ( handControl == null ) {
             handControl = new HandCursorControl();
             mouseControl.addMouseInputListener( handControl );
         }

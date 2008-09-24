@@ -6,13 +6,13 @@
  */
 package edu.colorado.phet.semiconductor.phetcommon.application;
 
+import java.io.IOException;
+
 import edu.colorado.phet.semiconductor.phetcommon.model.clock.AbstractClock;
 import edu.colorado.phet.semiconductor.phetcommon.view.ApplicationDescriptor;
 import edu.colorado.phet.semiconductor.phetcommon.view.ApplicationView;
 import edu.colorado.phet.semiconductor.phetcommon.view.apparatuspanelcontainment.ApparatusPanelContainerFactory;
 import edu.colorado.phet.semiconductor.phetcommon.view.apparatuspanelcontainment.SingleApparatusPanelContainer;
-
-import java.io.IOException;
 
 public class PhetApplication {
     private ApplicationView view;

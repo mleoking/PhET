@@ -1,13 +1,14 @@
 package edu.colorado.phet.semiconductor.macro;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.semiconductor.SemiconductorApplication;
-
-import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.semiconductor.SemiconductorApplication;
 
 /**
  * User: Sam Reid
@@ -59,7 +60,7 @@ public class DiodeControlPanel extends JPanel {
 //        SemiconductorModule module = ...;
 //        JCheckBox gateCheckBox = ...;
         application.getMagnetGraphic().setVisible( gateCheckBox.isSelected() );
-        if( !gateCheckBox.isSelected() ) {
+        if ( !gateCheckBox.isSelected() ) {
             application.releaseGate();
         }
     }

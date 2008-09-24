@@ -100,7 +100,7 @@ public class DefaultStateDiagram extends CompositeModelElement {
         EnergyCell from = src;
         EnergyCell to = energySection.getRightNeighbor( from );
         Move mo = null;
-        while( to != null ) {
+        while ( to != null ) {
             mo = move( from, to, getSpeed() );
             from = to;
             to = energySection.getRightNeighbor( to );
@@ -112,7 +112,7 @@ public class DefaultStateDiagram extends CompositeModelElement {
         EnergyCell from = src;
         EnergyCell to = energySection.getLeftNeighbor( from );
         Move mo = null;
-        while( to != null ) {
+        while ( to != null ) {
             mo = move( from, to, getSpeed() );
             from = to;
             to = energySection.getLeftNeighbor( to );

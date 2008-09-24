@@ -1,5 +1,15 @@
 package edu.colorado.phet.semiconductor.macro.circuit;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.semiconductor.SemiconductorApplication;
 import edu.colorado.phet.semiconductor.macro.circuit.battery.BatterySpinner;
@@ -16,15 +26,6 @@ import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.semiconductor.util.RectangleUtils;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.RoundRectangle2D;
-import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -56,9 +57,9 @@ public class CircuitSection implements ModelElement, Graphic, DopantDropListener
 
         double dx = .5;
         double length = circuit.getLength();
-        int numParticles = (int)( length / dx + 1 );
+        int numParticles = (int) ( length / dx + 1 );
         double particleX = 0;
-        for( int i = 0; i < numParticles; i++ ) {
+        for ( int i = 0; i < numParticles; i++ ) {
             WireParticle p = new WireParticle( particleX, circuit );
             particles.add( p );
             Graphic wireParticleGraphic = new WireParticleGraphic( p, transform, MacroCircuitGraphic.getParticleImage() );
@@ -75,7 +76,7 @@ public class CircuitSection implements ModelElement, Graphic, DopantDropListener
         } );
         jb = new JButton( SimStrings.get( "CircuitSection.ClearButton" ) ) {
             protected void paintComponent( Graphics g ) {
-                Graphics2D g2 = (Graphics2D)g;
+                Graphics2D g2 = (Graphics2D) g;
                 g2.setStroke( new BasicStroke( 1 ) );
                 super.paintComponent( g );
             }
@@ -96,7 +97,7 @@ public class CircuitSection implements ModelElement, Graphic, DopantDropListener
     private void addDopantSlots( int numDopantRegions ) {
         Color slotColor = ( new Color( 220, 155, 225 ) );
 //        Color slotColor=Color.yellow;
-        for( int i = 0; i < numDopantRegions; i++ ) {
+        for ( int i = 0; i < numDopantRegions; i++ ) {
             //get shape for the dopant.
             Shape dopantSlotShape = getDopantSlotShape( i, numDopantRegions );
 //            System.out.println( "dopantSlotShape = " + dopantSlotShape );
@@ -112,7 +113,7 @@ public class CircuitSection implements ModelElement, Graphic, DopantDropListener
     }
 
     private void clearDopants() {
-        for( int i = 0; i < numDopantSlots(); i++ ) {
+        for ( int i = 0; i < numDopantSlots(); i++ ) {
             dopantSlotAt( i ).setDopantType( null );
         }
 //        updateCircuitListeners();
@@ -144,7 +145,7 @@ public class CircuitSection implements ModelElement, Graphic, DopantDropListener
     }
 
     public DopantSlot dopantSlotAt( int i ) {
-        return (DopantSlot)dopantSlots.get( i );
+        return (DopantSlot) dopantSlots.get( i );
     }
 
     private void relayoutClearButton() {
@@ -153,9 +154,9 @@ public class CircuitSection implements ModelElement, Graphic, DopantDropListener
     }
 
     public void stepInTime( double v ) {
-        if( conductionAllowed ) {
-            for( int i = 0; i < particles.size(); i++ ) {
-                WireParticle wireParticle = (WireParticle)particles.get( i );
+        if ( conductionAllowed ) {
+            for ( int i = 0; i < particles.size(); i++ ) {
+                WireParticle wireParticle = (WireParticle) particles.get( i );
                 wireParticle.setSpeed( getMacroSpeed() );
                 wireParticle.stepInTime( v );
             }
@@ -171,13 +172,13 @@ public class CircuitSection implements ModelElement, Graphic, DopantDropListener
         double scale = 1.0 / 15.0;
 //        double scale=1.0/25.0;
         double speed = volts * scale;
-        if( speed >= 0 && speed < .021 ) {
+        if ( speed >= 0 && speed < .021 ) {
             speed = .021;
         }
-        if( speed <= 0 && speed > -.021 ) {
+        if ( speed <= 0 && speed > -.021 ) {
             speed = .021;
         }
-        if( speed < 0 ) {
+        if ( speed < 0 ) {
             speed = -speed;
         }
 //        System.out.println("Volts="+volts+", speed = " + speed);
@@ -198,12 +199,12 @@ public class CircuitSection implements ModelElement, Graphic, DopantDropListener
     public void paint( Graphics2D graphics2D ) {
         circuitGraphic.paint( graphics2D );
 //        dopantGraphic.paint(graphics2D);
-        for( int i = 0; i < dopantSlots.size(); i++ ) {
+        for ( int i = 0; i < dopantSlots.size(); i++ ) {
             DopantSlot ds = dopantSlotAt( i );
             ds.paint( graphics2D );
         }
-        for( int i = 0; i < particleGraphics.size(); i++ ) {
-            Graphic graphic = (Graphic)particleGraphics.get( i );
+        for ( int i = 0; i < particleGraphics.size(); i++ ) {
+            Graphic graphic = (Graphic) particleGraphics.get( i );
             graphic.paint( graphics2D );
         }
     }
@@ -224,17 +225,17 @@ public class CircuitSection implements ModelElement, Graphic, DopantDropListener
         DopantSlot closest = null;
         double closestDist = 0;
         dopantRect = dopant.getShape();//the guy being dropped
-        for( int i = 0; i < numDopantSlots(); i++ ) {
+        for ( int i = 0; i < numDopantSlots(); i++ ) {
             DopantSlot ds = dopantSlotAt( i );
             Shape shape = ds.getViewShape();
             double dist = dopant.getCenter().getSubtractedInstance( getCenter( shape ) ).getMagnitude();
             boolean ok = dopantSlotAt( i ).getViewShape().intersects( dopantRect.getBounds2D() );
-            if( ok && ( closest == null || dist < closestDist ) ) {
+            if ( ok && ( closest == null || dist < closestDist ) ) {
                 closest = ds;
                 closestDist = dist;
             }
         }
-        if( closest != null ) {
+        if ( closest != null ) {
             closest.setDopantType( dopant.getType() );
 //            updateCircuitListeners();
             application.removeDopantGraphic( dopant );
@@ -249,8 +250,8 @@ public class CircuitSection implements ModelElement, Graphic, DopantDropListener
     }
 
     private void updateDopantChangeListeners() {
-        for( int i = 0; i < dopantChangeListeners.size(); i++ ) {
-            DopantChangeListener listener = (DopantChangeListener)dopantChangeListeners.get( i );
+        for ( int i = 0; i < dopantChangeListeners.size(); i++ ) {
+            DopantChangeListener listener = (DopantChangeListener) dopantChangeListeners.get( i );
             listener.dopingChanged( this );
         }
     }

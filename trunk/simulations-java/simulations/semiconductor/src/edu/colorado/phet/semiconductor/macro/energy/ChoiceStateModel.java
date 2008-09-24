@@ -1,9 +1,9 @@
 package edu.colorado.phet.semiconductor.macro.energy;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.semiconductor.macro.energy.statemodels.ModelCriteria;
 import edu.colorado.phet.semiconductor.phetcommon.model.ModelElement;
-
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -23,8 +23,8 @@ public class ChoiceStateModel implements ModelElement {
     }
 
     public void stepInTime( double dt ) {
-        for( int i = 0; i < models.size(); i++ ) {
-            ModelWithCriteria modelWithCriteria = (ModelWithCriteria)models.get( i );
+        for ( int i = 0; i < models.size(); i++ ) {
+            ModelWithCriteria modelWithCriteria = (ModelWithCriteria) models.get( i );
             modelWithCriteria.stepInTime( dt );
 //            if( modelWithCriteria.getCriteria().isApplicable( energySection ) ) {
 //                modelWithCriteria.getModel().stepInTime( dt );

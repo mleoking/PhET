@@ -1,16 +1,16 @@
 package edu.colorado.phet.semiconductor.macro.energy.bands;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.semiconductor.common.TransformGraphic;
-import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.shapes.ArrowShape;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-
 import java.awt.*;
 import java.awt.font.GlyphVector;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.semiconductor.common.TransformGraphic;
+import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.shapes.ArrowShape;
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 
 /**
  * User: Sam Reid
@@ -33,12 +33,12 @@ public class EnergyTextGraphic extends TransformGraphic {
         this.loc = loc;
         text = SimStrings.get( "EnergyTextGraphic.EnergyText" );
         font = new PhetFont( Font.PLAIN, 36 );
-        smallFont = new PhetFont( 18);
+        smallFont = new PhetFont( 18 );
     }
 
     public void paint( Graphics2D graphics2D ) {
         this.graphics2D = graphics2D;
-        if( trfShape == null ) {
+        if ( trfShape == null ) {
             recompute();
         }
         graphics2D.setColor( Color.blue );
@@ -70,8 +70,8 @@ public class EnergyTextGraphic extends TransformGraphic {
         PhetVector tipLocation = topPoint.getAddedInstance( 0, -200 );
         arrowShape = new ArrowShape( topPoint, tipLocation, 50, 50, 20 ).getArrowShape();
 
-        highShape = smallFont.createGlyphVector( graphics2D.getFontRenderContext(), SimStrings.get( "EnergyTextGraphic.HighText" ) ).getOutline( (float)tipLocation.getX() - 20, (float)tipLocation.getY() - 20 );
-        lowShape = smallFont.createGlyphVector( graphics2D.getFontRenderContext(), SimStrings.get( "EnergyTextGraphic.LowText" ) ).getOutline( (float)topPoint.getX() - 20, (float)topPoint.getY() + 20 );
+        highShape = smallFont.createGlyphVector( graphics2D.getFontRenderContext(), SimStrings.get( "EnergyTextGraphic.HighText" ) ).getOutline( (float) tipLocation.getX() - 20, (float) tipLocation.getY() - 20 );
+        lowShape = smallFont.createGlyphVector( graphics2D.getFontRenderContext(), SimStrings.get( "EnergyTextGraphic.LowText" ) ).getOutline( (float) topPoint.getX() - 20, (float) topPoint.getY() + 20 );
     }
 
     public void update() {

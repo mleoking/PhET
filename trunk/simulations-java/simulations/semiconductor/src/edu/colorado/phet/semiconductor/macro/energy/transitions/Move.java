@@ -37,8 +37,8 @@ public class Move extends StateTransition {
         BandParticle occupant = section.getBandParticle( src );
 //        System.out.println( "src = " + src );
 //        System.out.println( "occupant = " + occupant+", particle="+particle );
-        if( occupant == particle && particle.isLocatedAtCell() ) {
-            if( !section.isClaimed( dst ) ) {
+        if ( occupant == particle && particle.isLocatedAtCell() ) {
+            if ( !section.isClaimed( dst ) ) {
                 return new MoveToCell( particle, dst, speed );
             }
         }

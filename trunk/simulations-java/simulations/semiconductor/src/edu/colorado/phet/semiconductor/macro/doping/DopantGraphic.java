@@ -1,16 +1,16 @@
 package edu.colorado.phet.semiconductor.macro.doping;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+
 import edu.colorado.phet.semiconductor.common.SimpleBufferedImageGraphic;
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
 import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
 import edu.colorado.phet.semiconductor.phetcommon.model.simpleobservable.SimpleObserver;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.bounds.Boundary;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
 /**
  * User: Sam Reid
@@ -113,7 +113,7 @@ public class DopantGraphic extends TransformGraphic implements Boundary {
     }
 
     public void translate( double dx, double dy ) {
-        Point2D.Double trf = getTransform().viewToModelDifferential( (int)dx, (int)dy );
+        Point2D.Double trf = getTransform().viewToModelDifferential( (int) dx, (int) dy );
         dopant.translate( trf.getX(), trf.getY() );
     }
 

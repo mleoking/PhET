@@ -13,7 +13,7 @@ public abstract class StateTransition {
 
     public boolean apply( BandParticle particle, EnergySection section ) {
         BandParticleState result = getState( particle, section );
-        if( result != null ) {
+        if ( result != null ) {
             particle.setState( result );
             return true;
         }

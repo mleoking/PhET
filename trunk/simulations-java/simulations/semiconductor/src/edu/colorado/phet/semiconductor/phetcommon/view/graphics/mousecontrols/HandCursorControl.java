@@ -1,9 +1,10 @@
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.phetcommon.view.graphics.mousecontrols;
 
-import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+
+import javax.swing.event.MouseInputListener;
 
 /**
  * User: Sam Reid

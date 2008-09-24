@@ -77,7 +77,7 @@ public class BandParticle extends SimpleObservable implements ModelElement {
     }
 
     public EnergyLevel getEnergyLevel() {
-        if( cell == null ) {
+        if ( cell == null ) {
             return null;
         }
         return cell.getEnergyLevel();
@@ -86,7 +86,7 @@ public class BandParticle extends SimpleObservable implements ModelElement {
     public void stepInTime( double v ) {
         lastPosition = getPosition();
         boolean done = this.state.stepInTime( this, v );
-        if( done ) {
+        if ( done ) {
             this.state = new Waiting();
         }
     }
@@ -98,7 +98,7 @@ public class BandParticle extends SimpleObservable implements ModelElement {
     }
 
     public double getDistanceFromOwnedSite() {
-        if( cell == null ) {
+        if ( cell == null ) {
             return Double.POSITIVE_INFINITY;
         }
         PhetVector site = cell.getPosition();
@@ -118,7 +118,7 @@ public class BandParticle extends SimpleObservable implements ModelElement {
     }
 
     public boolean isLocatedAtCell() {
-        if( cell == null ) {
+        if ( cell == null ) {
             return false;
         }
         double dist = getDistanceFromOwnedSite();
@@ -131,14 +131,14 @@ public class BandParticle extends SimpleObservable implements ModelElement {
     }
 
     public SemiconductorBandSet getBandSet() {
-        if( getEnergyCell() == null ) {
+        if ( getEnergyCell() == null ) {
             return null;
         }
         return getEnergyLevel().getBand().getBandSet();
     }
 
     public Band getBand() {
-        if( getEnergyLevel() == null ) {
+        if ( getEnergyLevel() == null ) {
             return null;
         }
         return getEnergyLevel().getBand();

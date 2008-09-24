@@ -6,10 +6,10 @@
  */
 package edu.colorado.phet.semiconductor.phetcommon.application;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.semiconductor.phetcommon.model.clock.AbstractClock;
 import edu.colorado.phet.semiconductor.phetcommon.model.clock.ClockTickListener;
-
-import java.util.ArrayList;
 
 /**
  * Maintains a list of all modules in an application, and provides a mechanism for switching
@@ -43,30 +43,30 @@ public class ModuleManager implements ClockTickListener {
     public void addModule( Module module, boolean isActive ) {
 
         // Check that the module is well-formed
-        if( !moduleIsWellFormed( module ) ) {
+        if ( !moduleIsWellFormed( module ) ) {
             throw new RuntimeException( "Module is missing something." );
         }
 
         modules.add( module );
-        if( isActive ) {
+        if ( isActive ) {
             setActiveModule( module );
         }
-        for( int i = 0; i < observers.size(); i++ ) {
-            ModuleObserver moduleObserver = (ModuleObserver)observers.get( i );
+        for ( int i = 0; i < observers.size(); i++ ) {
+            ModuleObserver moduleObserver = (ModuleObserver) observers.get( i );
             moduleObserver.moduleAdded( module );
         }
     }
 
     public void setActiveModule( Module module ) {
-        if( activeModule != module ) {
-            if( activeModule != null ) {
+        if ( activeModule != module ) {
+            if ( activeModule != null ) {
                 activeModule.deactivate( application );
             }
             activeModule = module;
             module.activate( application );
         }
-        for( int i = 0; i < observers.size(); i++ ) {
-            ModuleObserver moduleObserver = (ModuleObserver)observers.get( i );
+        for ( int i = 0; i < observers.size(); i++ ) {
+            ModuleObserver moduleObserver = (ModuleObserver) observers.get( i );
             moduleObserver.activeModuleChanged( module );
         }
     }
@@ -76,7 +76,7 @@ public class ModuleManager implements ClockTickListener {
     }
 
     public void addAllModules( Module[] modules ) {
-        for( int i = 0; i < modules.length; i++ ) {
+        for ( int i = 0; i < modules.length; i++ ) {
             addModule( modules[i] );
         }
     }

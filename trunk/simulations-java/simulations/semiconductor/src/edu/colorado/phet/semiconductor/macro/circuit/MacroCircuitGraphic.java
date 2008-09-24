@@ -1,5 +1,11 @@
 package edu.colorado.phet.semiconductor.macro.circuit;
 
+import java.awt.*;
+import java.awt.geom.Line2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import edu.colorado.phet.semiconductor.common.StretchedBufferedImage;
 import edu.colorado.phet.semiconductor.macro.circuit.battery.Battery;
 import edu.colorado.phet.semiconductor.macro.circuit.battery.BatteryListener;
@@ -9,12 +15,6 @@ import edu.colorado.phet.semiconductor.phetcommon.view.graphics.ShapeGraphic;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.semiconductor.phetcommon.view.util.graphics.ImageLoader;
-
-import java.awt.*;
-import java.awt.geom.Line2D;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -40,9 +40,9 @@ public class MacroCircuitGraphic implements Graphic, BatteryListener {
     }
 
     void init() throws IOException {
-        for( int i = 0; i < circuit.numBranches(); i++ ) {
+        for ( int i = 0; i < circuit.numBranches(); i++ ) {
             final LinearBranch b = circuit.wireAt( i );
-            if( b instanceof Wire ) {
+            if ( b instanceof Wire ) {
                 Shape sh = new Line2D.Double( b.getStartPosition().toPoint2D(), b.getEndPosition().toPoint2D() );
 //            sh=transform.toAffineTransform().createTransformedShape(sh);
                 Color wireColor = MacroCircuitGraphic.COPPER;
@@ -58,7 +58,7 @@ public class MacroCircuitGraphic implements Graphic, BatteryListener {
                     }
                 } );
             }
-            else if( b instanceof Resistor ) {
+            else if ( b instanceof Resistor ) {
 
                 final Shape sh = new Line2D.Double( b.getStartPosition().toPoint2D(), b.getEndPosition().toPoint2D() );
                 int viewWidth = transform.modelToViewY( circuit.getResistor().getHeight() );
@@ -77,7 +77,7 @@ public class MacroCircuitGraphic implements Graphic, BatteryListener {
                     }
                 } );
             }
-            else if( b instanceof Battery ) {
+            else if ( b instanceof Battery ) {
                 BufferedImage battIm = getBatteryImage();
                 final StretchedBufferedImage sbi = new StretchedBufferedImage( battIm, new Rectangle( 0, 0, 100, 100 ) );
                 this.battGraphic = sbi;
@@ -99,7 +99,7 @@ public class MacroCircuitGraphic implements Graphic, BatteryListener {
     }
 
     private BufferedImage getBatteryImage() throws IOException {
-        if( batteryImage != null ) {
+        if ( batteryImage != null ) {
             return batteryImage;
         }
         else {
@@ -110,7 +110,7 @@ public class MacroCircuitGraphic implements Graphic, BatteryListener {
     }
 
     public static BufferedImage getParticleImage() throws IOException {
-        if( particleImage != null ) {
+        if ( particleImage != null ) {
             return particleImage;
         }
         else {
@@ -125,11 +125,11 @@ public class MacroCircuitGraphic implements Graphic, BatteryListener {
     }
 
     public Graphic wireGraphicAt( int i ) {
-        return (Graphic)wireGraphics.get( i );
+        return (Graphic) wireGraphics.get( i );
     }
 
     public void paint( Graphics2D graphics2D ) {
-        for( int i = 0; i < numWireGraphics(); i++ ) {
+        for ( int i = 0; i < numWireGraphics(); i++ ) {
             wireGraphicAt( i ).paint( graphics2D );
         }
         battGraphic.paint( graphics2D );
@@ -137,7 +137,7 @@ public class MacroCircuitGraphic implements Graphic, BatteryListener {
     }
 
     public void voltageChanged( Battery source ) {
-        if( source.getVoltage() < 0 ) {
+        if ( source.getVoltage() < 0 ) {
             battGraphic.setFlipX( false );
         }
         else {

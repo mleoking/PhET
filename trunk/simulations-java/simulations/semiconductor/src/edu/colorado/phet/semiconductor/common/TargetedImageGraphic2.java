@@ -1,12 +1,12 @@
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.common;
 
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
 
 /**
  * User: Sam Reid

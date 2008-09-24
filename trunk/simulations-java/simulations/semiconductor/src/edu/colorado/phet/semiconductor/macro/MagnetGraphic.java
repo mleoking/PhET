@@ -1,12 +1,12 @@
 package edu.colorado.phet.semiconductor.macro;
 
-import edu.colorado.phet.semiconductor.common.TargetedImageGraphic2;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+
+import edu.colorado.phet.semiconductor.common.TargetedImageGraphic2;
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 
 /**
  * User: Sam Reid
@@ -26,7 +26,7 @@ public class MagnetGraphic implements Graphic {
     }
 
     public void paint( Graphics2D g ) {
-        if( visible ) {
+        if ( visible ) {
             Rectangle2D r = transform.createTransformedShape( magnet.getBounds() ).getBounds2D();
             TargetedImageGraphic2 tig = new TargetedImageGraphic2( image, r );
             tig.paint( g );

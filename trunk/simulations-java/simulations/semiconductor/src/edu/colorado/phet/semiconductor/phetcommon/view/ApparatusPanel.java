@@ -7,11 +7,12 @@
  */
 package edu.colorado.phet.semiconductor.phetcommon.view;
 
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
-
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+
+import javax.swing.*;
+
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
 
 /**
  * This is a base class for panels that contain graphic representations
@@ -66,10 +67,10 @@ public class ApparatusPanel extends JPanel {
      * @param graphics
      */
     protected void paintComponent( Graphics graphics ) {
-        Graphics2D g2 = (Graphics2D)graphics;
+        Graphics2D g2 = (Graphics2D) graphics;
         super.paintComponent( g2 );
-        for( int i = 0; i < graphicsSetups.size(); i++ ) {
-            GraphicsSetup graphicsSetup = (GraphicsSetup)graphicsSetups.get( i );
+        for ( int i = 0; i < graphicsSetups.size(); i++ ) {
+            GraphicsSetup graphicsSetup = (GraphicsSetup) graphicsSetups.get( i );
             graphicsSetup.setup( g2 );
         }
         graphic.paint( g2 );

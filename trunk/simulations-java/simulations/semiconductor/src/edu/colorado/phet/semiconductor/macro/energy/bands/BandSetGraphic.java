@@ -1,6 +1,10 @@
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.macro.energy.bands;
 
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.semiconductor.common.ClipGraphic;
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
 import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
@@ -10,10 +14,6 @@ import edu.colorado.phet.semiconductor.phetcommon.view.graphics.ShapeGraphic;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.semiconductor.util.RectangleUtils;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -71,14 +71,14 @@ public class BandSetGraphic extends TransformGraphic implements BandParticleObse
 //        graphic.paint(graphics2D);
 
         chargeCountGraphic.paint( graphics2D );
-        if( paintLevelIDs ) {
+        if ( paintLevelIDs ) {
             SemiconductorBandSet.EnergyLevelIterator it = bandSet.energyLevelIterator();
-            Font font = new PhetFont( 10);
+            Font font = new PhetFont( 10 );
             Color color = Color.black;
             graphics2D.setFont( font );
             graphics2D.setColor( color );
-            while( it.hasNext() ) {
-                EnergyLevel energyLevel = (EnergyLevel)it.next();
+            while ( it.hasNext() ) {
+                EnergyLevel energyLevel = (EnergyLevel) it.next();
                 Rectangle2D rect = energyLevel.getRegion().toRectangle();
                 PhetVector ctr = RectangleUtils.getCenter( rect );
                 Point viewpt = getTransform().modelToView( ctr );

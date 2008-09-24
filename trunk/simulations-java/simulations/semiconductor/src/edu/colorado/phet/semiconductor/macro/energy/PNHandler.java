@@ -71,10 +71,10 @@ public class PNHandler implements ModelElement, ModelCriteria {
     }
 
     public void stepInTime( double dt ) {
-        if( energySection.getVoltage() > 0 ) {
+        if ( energySection.getVoltage() > 0 ) {
             pnBackBias.stepInTime( dt );
         }
-        else if( energySection.getVoltage() < -.4 ) {
+        else if ( energySection.getVoltage() < -.4 ) {
             pnForwardClear.stepInTime( dt );
         }
         else {
@@ -106,7 +106,7 @@ class PNForwardClear extends DefaultStateDiagram {
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
         boolean finished = doClear( dt );
-        if( finished && carryOn ) {
+        if ( finished && carryOn ) {
             pnForward.stepInTime( dt );
         }
     }
@@ -121,14 +121,14 @@ class PNForwardClear extends DefaultStateDiagram {
         Band p = bs0.bandAt( DopantType.P.getDopingBand() );
         Band n = bs1.bandAt( DopantType.N.getDopingBand() );
         boolean clear = true;
-        for( int i = 0; i < DopantType.N.getNumFilledLevels() - 1; i++ ) {
+        for ( int i = 0; i < DopantType.N.getNumFilledLevels() - 1; i++ ) {
             EnergyLevel eel = n.energyLevelAt( i );
-            if( !getEnergySection().isOwned( eel ) ) {
+            if ( !getEnergySection().isOwned( eel ) ) {
                 Entrance e = new Entrance( getEnergySection(), eel.cellAt( 1 ) );
                 e.stepInTime( dt );
                 Move mo = new Move( e.getCell(), getEnergySection().getLeftNeighbor( e.getCell() ), getSpeed() );
                 BandParticle bp = getEnergySection().getBandParticle( e.getCell() );
-                if( bp != null && bp.isLocatedAtCell() ) {
+                if ( bp != null && bp.isLocatedAtCell() ) {
                     mo.apply( bp, getEnergySection() );
                 }
                 clear = false;
@@ -143,21 +143,21 @@ class PNForwardClear extends DefaultStateDiagram {
         }
 
         //add a loop for the p band
-        for( int i = p.numEnergyLevels() - 1; i >= topLevel; i-- ) {
+        for ( int i = p.numEnergyLevels() - 1; i >= topLevel; i-- ) {
             EnergyLevel eel = p.energyLevelAt( i );
             EnergyCell l = eel.cellAt( 0 );
             EnergyCell r = eel.cellAt( 1 );
             BandParticle pl = getEnergySection().getBandParticle( l );
             BandParticle pr = getEnergySection().getBandParticle( r );
-            if( pl != null && pr != null && i != DopantType.P.getNumFilledLevels() ) {
+            if ( pl != null && pr != null && i != DopantType.P.getNumFilledLevels() ) {
                 clear = false;
             }
-            if( pl != null ) {
+            if ( pl != null ) {
                 ExitLeft el = new ExitLeft();
                 el.apply( pl, getEnergySection() );
                 break;
             }
-            if( pr != null ) {
+            if ( pr != null ) {
                 Move m = new Move( r, l, getSpeed() );
                 m.apply( pr, getEnergySection() );
                 break;

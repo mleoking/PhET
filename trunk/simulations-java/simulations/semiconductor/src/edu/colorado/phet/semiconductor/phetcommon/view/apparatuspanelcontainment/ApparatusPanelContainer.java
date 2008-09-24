@@ -6,9 +6,9 @@
  */
 package edu.colorado.phet.semiconductor.phetcommon.view.apparatuspanelcontainment;
 
-import edu.colorado.phet.semiconductor.phetcommon.application.ModuleObserver;
-
 import javax.swing.*;
+
+import edu.colorado.phet.semiconductor.phetcommon.application.ModuleObserver;
 
 public interface ApparatusPanelContainer extends ModuleObserver {
     JComponent getComponent();

@@ -19,7 +19,7 @@ public class VoltageSplit implements ModelElement {
     }
 
     public void stepInTime( double dt ) {
-        if( energySection.getVoltage() == 0 ) {
+        if ( energySection.getVoltage() == 0 ) {
             zero.stepInTime( dt );
         }
         else {

@@ -6,9 +6,9 @@
  */
 package edu.colorado.phet.semiconductor.phetcommon.view.graphics;
 
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.bounds.Boundary;
-
 import java.awt.*;
+
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.bounds.Boundary;
 
 /**
  * Wrap an Area around your Shape to make it mutable.
@@ -35,11 +35,11 @@ public class ShapeGraphic implements Graphic, Boundary {
     }
 
     public void paint( Graphics2D g ) {
-        if( fillPaint != null ) {
+        if ( fillPaint != null ) {
             g.setPaint( fillPaint );
             g.fill( shape );
         }
-        if( outlineStroke != null ) {
+        if ( outlineStroke != null ) {
             g.setPaint( outlinePaint );
             g.setStroke( outlineStroke );
             g.draw( shape );

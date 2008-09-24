@@ -1,9 +1,9 @@
 package edu.colorado.phet.semiconductor.macro.circuit.battery;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.semiconductor.macro.circuit.LinearBranch;
 import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
-
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -24,8 +24,8 @@ public class Battery extends LinearBranch {
 
     public void setVoltage( double volts ) {
         this.volts = volts;
-        for( int i = 0; i < obs.size(); i++ ) {
-            BatteryListener batteryListener = (BatteryListener)obs.get( i );
+        for ( int i = 0; i < obs.size(); i++ ) {
+            BatteryListener batteryListener = (BatteryListener) obs.get( i );
             batteryListener.voltageChanged( this );
         }
     }

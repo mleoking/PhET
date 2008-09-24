@@ -1,9 +1,9 @@
 package edu.colorado.phet.semiconductor.macro.energy.states;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.semiconductor.macro.energy.bands.BandParticle;
 import edu.colorado.phet.semiconductor.macro.energy.bands.BandParticleState;
-
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -18,17 +18,17 @@ public class StateChain implements BandParticleState {
     }
 
     BandParticleState stateAt( int i ) {
-        return (BandParticleState)states.get( i );
+        return (BandParticleState) states.get( i );
     }
 
     public boolean stepInTime( BandParticle particle, double dt ) {
-        if( states.size() == 0 ) {
+        if ( states.size() == 0 ) {
             return true;
         }
         boolean done = stateAt( 0 ).stepInTime( particle, dt );
-        if( done ) {
+        if ( done ) {
             states.remove( 0 );
-            if( states.size() == 0 ) {
+            if ( states.size() == 0 ) {
                 return true;
             }
         }

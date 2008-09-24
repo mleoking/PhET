@@ -18,7 +18,7 @@ public class VerticalTearLine {
         //first one, move left and down half the specified amount.
         double jagHeight = totalHeight / numJags;
         path.lineToRelative( -width / 2, jagHeight / 2 );
-        for( int i = 0; i < numJags - 1; i++ ) {
+        for ( int i = 0; i < numJags - 1; i++ ) {
             path.lineToRelative( width, jagHeight );
             path.lineToRelative( -width, jagHeight );
         }

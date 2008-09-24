@@ -16,8 +16,8 @@ public class SimpleObservable {
     }
 
     public void updateObservers() {
-        for( int i = 0; i < observers.size(); i++ ) {
-            SimpleObserver simpleObserver = (SimpleObserver)observers.get( i );
+        for ( int i = 0; i < observers.size(); i++ ) {
+            SimpleObserver simpleObserver = (SimpleObserver) observers.get( i );
             simpleObserver.update();
         }
     }

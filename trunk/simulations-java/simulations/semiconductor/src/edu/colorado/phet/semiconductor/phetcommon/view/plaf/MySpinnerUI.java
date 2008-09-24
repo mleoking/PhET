@@ -1,14 +1,15 @@
 package edu.colorado.phet.semiconductor.phetcommon.view.plaf;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-
-import javax.swing.*;
-import javax.swing.plaf.basic.BasicSpinnerUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
+import javax.swing.*;
+import javax.swing.plaf.basic.BasicSpinnerUI;
+
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 /**
  * User: Sam Reid
@@ -37,25 +38,25 @@ public class MySpinnerUI extends BasicSpinnerUI {
     }
 
     public void paint( Graphics g, JComponent c ) {
-        Graphics2D g2 = (Graphics2D)g;
+        Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         g2.setRenderingHint( RenderingHints.KEY_TEXT_ANTIALIASING,
                              RenderingHints.VALUE_TEXT_ANTIALIAS_ON );
-        JSpinner spinner = (JSpinner)c;
+        JSpinner spinner = (JSpinner) c;
         Component[] comp = spinner.getComponents();
         boolean first = true;
         //This hack is for working around swing's lack of support for customizing spinner components.
-        for( int i = 0; i < comp.length; i++ ) {
+        for ( int i = 0; i < comp.length; i++ ) {
             Component component = comp[i];
 //            System.out.println( "component = " + component );
-            if( component instanceof JButton && first ) {
-                JButton jb = (JButton)component;
+            if ( component instanceof JButton && first ) {
+                JButton jb = (JButton) component;
                 jb.setIcon( up );
                 jb.setPressedIcon( uppressed );
                 first = false;
             }
-            else if( component instanceof JButton ) {
-                JButton jb = (JButton)component;
+            else if ( component instanceof JButton ) {
+                JButton jb = (JButton) component;
                 jb.setIcon( down );
                 jb.setPressedIcon( downpressed );
             }
@@ -73,7 +74,7 @@ public class MySpinnerUI extends BasicSpinnerUI {
 
         public void mouseClicked( MouseEvent e ) {
             MouseListener[] m = origButton.getMouseListeners();
-            for( int i = 0; i < m.length; i++ ) {
+            for ( int i = 0; i < m.length; i++ ) {
                 MouseListener mouseListener = m[i];
                 mouseListener.mouseClicked( e );
             }
@@ -81,7 +82,7 @@ public class MySpinnerUI extends BasicSpinnerUI {
 
         public void mouseEntered( MouseEvent e ) {
             MouseListener[] m = origButton.getMouseListeners();
-            for( int i = 0; i < m.length; i++ ) {
+            for ( int i = 0; i < m.length; i++ ) {
                 MouseListener mouseListener = m[i];
                 mouseListener.mouseEntered( e );
             }
@@ -89,7 +90,7 @@ public class MySpinnerUI extends BasicSpinnerUI {
 
         public void mouseExited( MouseEvent e ) {
             MouseListener[] m = origButton.getMouseListeners();
-            for( int i = 0; i < m.length; i++ ) {
+            for ( int i = 0; i < m.length; i++ ) {
                 MouseListener mouseListener = m[i];
                 mouseListener.mouseExited( e );
             }
@@ -97,7 +98,7 @@ public class MySpinnerUI extends BasicSpinnerUI {
 
         public void mousePressed( MouseEvent e ) {
             MouseListener[] m = origButton.getMouseListeners();
-            for( int i = 0; i < m.length; i++ ) {
+            for ( int i = 0; i < m.length; i++ ) {
                 MouseListener mouseListener = m[i];
                 mouseListener.mousePressed( e );
             }
@@ -105,7 +106,7 @@ public class MySpinnerUI extends BasicSpinnerUI {
 
         public void mouseReleased( MouseEvent e ) {
             MouseListener[] m = origButton.getMouseListeners();
-            for( int i = 0; i < m.length; i++ ) {
+            for ( int i = 0; i < m.length; i++ ) {
                 MouseListener mouseListener = m[i];
                 mouseListener.mouseReleased( e );
             }
@@ -121,7 +122,7 @@ public class MySpinnerUI extends BasicSpinnerUI {
 
         public void actionPerformed( ActionEvent e ) {
             ActionListener[] a = curButton.getActionListeners();
-            for( int i = 0; i < a.length; i++ ) {
+            for ( int i = 0; i < a.length; i++ ) {
                 ActionListener actionListener = a[i];
                 actionListener.actionPerformed( e );
             }
@@ -129,7 +130,7 @@ public class MySpinnerUI extends BasicSpinnerUI {
     }
 
     protected Component createNextButton() {
-        final JButton next = (JButton)super.createNextButton();
+        final JButton next = (JButton) super.createNextButton();
         JButton but = new JButton( SimStrings.get( "MySpinnerUI.NextButton" ), up );
 
         but.setIcon( up );
@@ -146,7 +147,7 @@ public class MySpinnerUI extends BasicSpinnerUI {
     }
 
     protected Component createPreviousButton() {
-        final JButton prev = (JButton)super.createPreviousButton();
+        final JButton prev = (JButton) super.createPreviousButton();
         JButton but = new JButton( SimStrings.get( "MySpinnerUI.DownButton" ), down );
 
         but.setIcon( down );
@@ -165,7 +166,7 @@ public class MySpinnerUI extends BasicSpinnerUI {
 
     public void installUI( JComponent c ) {
         super.installUI( c );
-        JSpinner spinner = (JSpinner)c;
+        JSpinner spinner = (JSpinner) c;
 
         Dimension cur = spinner.getPreferredSize();
         int up1 = up.getIconHeight();

@@ -1,10 +1,10 @@
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.phetcommon.view.util;
 
-import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
-
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
 
 /**
  * This adapter class for GeneralPath allows provides an interface in double coordinates.
@@ -18,11 +18,11 @@ public class DoubleGeneralPath {
 
     public DoubleGeneralPath( double x, double y ) {
         path = new GeneralPath();
-        path.moveTo( (float)x, (float)y );
+        path.moveTo( (float) x, (float) y );
     }
 
     public void lineTo( double x, double y ) {
-        path.lineTo( (float)x, (float)y );
+        path.lineTo( (float) x, (float) y );
     }
 
     public void lineToRelative( double dx, double dy ) {

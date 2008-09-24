@@ -23,11 +23,11 @@ public class ExitRightFrom extends StateTransition {
 
     public BandParticleState getState( BandParticle particle, EnergySection energySection ) {
         EnergyCell cell = particle.getEnergyCell();
-        if( cell == null ) {
+        if ( cell == null ) {
             return null;
         }
         EnergyCell right = energySection.getNeighbor( cell, 0, 1 );
-        if( cell != null && right == null && cell.getIndex() == 1 && particle.isLocatedAtCell() && particle.isExcited() && cell == from ) {
+        if ( cell != null && right == null && cell.getIndex() == 1 && particle.isLocatedAtCell() && particle.isExcited() && cell == from ) {
 
             double targetX = energySection.getRightBand().getX() + energySection.getRightBand().getWidth();
             double targetY = particle.getY();

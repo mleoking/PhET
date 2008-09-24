@@ -33,15 +33,15 @@ public class WireParticle extends SimpleObservable implements ModelElement {
 
     public void stepInTime( double dt ) {
         double newLoc = dist + speed * dt;
-        if( circuit.contains( newLoc ) ) {
+        if ( circuit.contains( newLoc ) ) {
             setPosition( newLoc );
         }
         else {
             double length = circuit.getLength();
-            while( newLoc < 0 ) {
+            while ( newLoc < 0 ) {
                 newLoc += length;
             }
-            while( newLoc > length ) {
+            while ( newLoc > length ) {
                 newLoc -= length;
             }
             setPosition( newLoc );

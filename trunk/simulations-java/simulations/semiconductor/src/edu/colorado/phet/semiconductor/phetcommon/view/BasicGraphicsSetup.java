@@ -16,7 +16,7 @@ public class BasicGraphicsSetup implements GraphicsSetup {
     }
 
     public void setAntialias( boolean antialias ) {
-        if( antialias ) {
+        if ( antialias ) {
             renderingHints.put( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         }
         else {

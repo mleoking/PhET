@@ -1,14 +1,14 @@
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.macro.energy;
 
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
 import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.shapes.ArrowShape;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -32,7 +32,7 @@ public class ElectricFieldGraphic extends TransformGraphic {
     public void paint( Graphics2D g ) {
         g.setColor( Color.black );
         int h = 0;
-        if( field.getStrength() != 0 ) {
+        if ( field.getStrength() != 0 ) {
             try {
                 PhetVector dest = field.getCenter().getAddedInstance( field.getStrength(), 0 );
                 PhetVector start = field.getCenter();
@@ -48,7 +48,7 @@ public class ElectricFieldGraphic extends TransformGraphic {
                 double headWidth = .2;
                 double headHeight = .1;
                 double dist = start.getSubtractedInstance( dest ).getMagnitude();
-                if( dist < headHeight ) {
+                if ( dist < headHeight ) {
                     headHeight = dist * .9;
 //                    headWidth=headHeight;
 //                    tailWidth=headHeight/2;
@@ -71,13 +71,13 @@ public class ElectricFieldGraphic extends TransformGraphic {
         g.setColor( Color.blue );
         g.setFont( font );
         String text = "" + name;
-        if( field.getStrength() == 0 ) {
+        if ( field.getStrength() == 0 ) {
             text += "=0";
             h = -getTransform().modelToViewDifferentialY( .2 );
         }
         Rectangle2D textBounds = font.getStringBounds( text, g.getFontRenderContext() );
         double dx = textBounds.getWidth() / 2;
-        int dxint = (int)dx;
+        int dxint = (int) dx;
         g.drawString( text, ctr.x - dxint, ctr.y - h );
     }
 }

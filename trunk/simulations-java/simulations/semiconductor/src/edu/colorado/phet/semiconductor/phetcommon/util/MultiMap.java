@@ -24,9 +24,9 @@ public class MultiMap extends TreeMap {
      */
     public Object put( Object key, Object value ) {
         Object returnValue = this.get( key );
-        ArrayList list = (ArrayList)returnValue;
+        ArrayList list = (ArrayList) returnValue;
         lastModified = System.currentTimeMillis();
-        if( returnValue == null ) {
+        if ( returnValue == null ) {
             list = new ArrayList();
             super.put( key, list );
         }
@@ -42,8 +42,8 @@ public class MultiMap extends TreeMap {
     public boolean containsValue( Object value ) {
         boolean result = false;
         Iterator it = values().iterator();
-        while( it.hasNext() && !result ) {
-            result = ( (ArrayList)it.next() ).contains( value );
+        while ( it.hasNext() && !result ) {
+            result = ( (ArrayList) it.next() ).contains( value );
         }
         return result;
     }
@@ -74,9 +74,9 @@ public class MultiMap extends TreeMap {
 
     public void removeValue( Object value ) {
         Iterator forwardIterator = iterator();
-        while( forwardIterator.hasNext() ) {
-            Object key = (Object)forwardIterator.next();
-            if( key == value ) {
+        while ( forwardIterator.hasNext() ) {
+            Object key = (Object) forwardIterator.next();
+            if ( key == value ) {
                 forwardIterator.remove();
                 break;
             }
@@ -98,7 +98,7 @@ public class MultiMap extends TreeMap {
         }
 
         protected void concurrentModificationCheck() {
-            if( timeCreated < MultiMap.this.lastModified ) {
+            if ( timeCreated < MultiMap.this.lastModified ) {
                 throw new ConcurrentModificationException();
             }
         }
@@ -112,17 +112,17 @@ public class MultiMap extends TreeMap {
 
         ForwardIterator() {
             mapIterator = MultiMap.this.entrySet().iterator();
-            if( mapIterator.hasNext() ) {
+            if ( mapIterator.hasNext() ) {
                 nextListIterator();
             }
         }
 
         public boolean hasNext() {
             concurrentModificationCheck();
-            if( mapIterator.hasNext() ) {
+            if ( mapIterator.hasNext() ) {
                 return true;
             }
-            else if( listIterator != null ) {
+            else if ( listIterator != null ) {
                 return listIterator.hasNext();
             }
             return false;
@@ -130,10 +130,10 @@ public class MultiMap extends TreeMap {
 
         public Object next() {
             concurrentModificationCheck();
-            if( listIterator.hasNext() ) {
+            if ( listIterator.hasNext() ) {
                 return listIterator.next();
             }
-            else if( mapIterator.hasNext() ) {
+            else if ( mapIterator.hasNext() ) {
                 nextListIterator();
                 return this.next();
             }
@@ -143,14 +143,14 @@ public class MultiMap extends TreeMap {
         public void remove() {
             concurrentModificationCheck();
             listIterator.remove();
-            if( currentList.size() == 0 ) {
+            if ( currentList.size() == 0 ) {
                 mapIterator.remove();
             }
             MultiMap.this.lastModified++;
         }
 
         private void nextListIterator() {
-            currentList = (ArrayList)( (Map.Entry)mapIterator.next() ).getValue();
+            currentList = (ArrayList) ( (Map.Entry) mapIterator.next() ).getValue();
             listIterator = currentList.iterator();
         }
     }
@@ -165,20 +165,20 @@ public class MultiMap extends TreeMap {
 
         public ReverseIterator() {
             Object currentLastKey = MultiMap.this.lastKey();
-            if( currentLastKey != null ) {
-                currentList = (ArrayList)MultiMap.this.get( currentLastKey );
+            if ( currentLastKey != null ) {
+                currentList = (ArrayList) MultiMap.this.get( currentLastKey );
                 currentListIdx = currentList.size();
             }
         }
 
         public boolean hasNext() {
             concurrentModificationCheck();
-            if( currentList != null && currentListIdx > 0 ) {
+            if ( currentList != null && currentListIdx > 0 ) {
                 return true;
             }
             else {
                 nextList();
-                if( currentList != null ) {
+                if ( currentList != null ) {
                     currentListIdx = currentList.size();
                     return hasNext();
                 }
@@ -188,13 +188,13 @@ public class MultiMap extends TreeMap {
 
         public Object next() {
             concurrentModificationCheck();
-            if( currentList != null && currentListIdx > 0 ) {
+            if ( currentList != null && currentListIdx > 0 ) {
                 currentListIdx--;
                 return currentList.get( currentListIdx );
             }
             else {
                 nextList();
-                if( currentList != null ) {
+                if ( currentList != null ) {
                     currentListIdx = currentList.size();
                     return next();
                 }
@@ -204,14 +204,14 @@ public class MultiMap extends TreeMap {
 
         public void remove() {
             concurrentModificationCheck();
-            if( currentList != null ) {
+            if ( currentList != null ) {
                 currentList.remove( currentListIdx );
-                if( currentList.isEmpty() ) {
+                if ( currentList.isEmpty() ) {
                     Iterator it = MultiMap.this.keySet().iterator();
                     boolean found = false;
-                    while( it.hasNext() && !found ) {
+                    while ( it.hasNext() && !found ) {
                         Object o = it.next();
-                        if( o == currentList ) {
+                        if ( o == currentList ) {
                             MultiMap.this.remove( o );
                             found = true;
                         }
@@ -225,17 +225,17 @@ public class MultiMap extends TreeMap {
             Iterator it = MultiMap.this.values().iterator();
             ArrayList nextList = null;
             boolean found = false;
-            while( it.hasNext() && !found ) {
+            while ( it.hasNext() && !found ) {
                 Object o = it.next();
-                if( o == currentList ) {
+                if ( o == currentList ) {
                     currentList = nextList;
-                    if( currentList != null ) {
+                    if ( currentList != null ) {
                         currentListIdx = currentList.size();
                     }
                     found = true;
                 }
                 else {
-                    nextList = (ArrayList)o;
+                    nextList = (ArrayList) o;
                 }
             }
         }
