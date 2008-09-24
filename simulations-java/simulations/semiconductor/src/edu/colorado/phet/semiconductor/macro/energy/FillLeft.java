@@ -26,9 +26,9 @@ public class FillLeft implements ModelElement {
 
     public EnergyLevel getActiveLevel() {
         Band b = energySection.bandSetAt( bandSet ).bandAt( band );
-        for( int i = 0; i < b.numEnergyLevels(); i++ ) {
+        for ( int i = 0; i < b.numEnergyLevels(); i++ ) {
             EnergyLevel lvl = b.energyLevelAt( i );
-            if( !energySection.isOwned( lvl ) ) {
+            if ( !energySection.isOwned( lvl ) ) {
                 return lvl;
             }
         }
@@ -37,14 +37,14 @@ public class FillLeft implements ModelElement {
 
     public void stepInTime( double dt ) {
         EnergyLevel active = getActiveLevel();
-        if( active == null ) {
+        if ( active == null ) {
             return;
         }
         EnergyCell left = active.cellAt( 0 );
         EnergyCell right = active.cellAt( 1 );
         Move mo = new Move( left, right, energySection.getSpeed() );
         BandParticle bp = energySection.getBandParticle( left );
-        if( bp != null ) {
+        if ( bp != null ) {
             boolean ok = mo.apply( bp, energySection );
         }
         Entrance e = new Entrance( energySection, left );

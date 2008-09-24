@@ -1,7 +1,20 @@
 package edu.colorado.phet.semiconductor.macro.doping;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Hashtable;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.event.MouseInputAdapter;
+
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.semiconductor.common.BorderGraphic;
 import edu.colorado.phet.semiconductor.common.ModelLocation;
 import edu.colorado.phet.semiconductor.common.TextGraphic;
@@ -17,18 +30,6 @@ import edu.colorado.phet.semiconductor.phetcommon.view.graphics.mousecontrols.In
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.TransformListener;
-
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.event.MouseInputAdapter;
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Hashtable;
 
 /**
  * User: Sam Reid
@@ -133,10 +134,10 @@ public class DopantPanel extends CompositeInteractiveGraphic {
             map.put( dragDopantGraphic, graphic );
             Translatable t = new Translatable() {
                 public void translate( double dx, double dy ) {
-                    Point2D.Double trf = transform.viewToModelDifferential( (int)dx, (int)dy );
+                    Point2D.Double trf = transform.viewToModelDifferential( (int) dx, (int) dy );
                     trf.x += dragDopantGraphic.getDopant().getPosition().getX();
                     trf.y += dragDopantGraphic.getDopant().getPosition().getY();
-                    if( trf.x < 5.7 ) {
+                    if ( trf.x < 5.7 ) {
                         dx = 0;
                     }
 //                        PhetVector pv=dragDopantGraphic.getDestination(dx,dy);
@@ -151,8 +152,8 @@ public class DopantPanel extends CompositeInteractiveGraphic {
                 // implements java.awt.event.MouseListener
                 public void mouseReleased( MouseEvent e ) {
                     //dropping the dopant here.
-                    for( int i = 0; i < dopantListeners.size(); i++ ) {
-                        DopantDropListener dopantDropListener = (DopantDropListener)dopantListeners.get( i );
+                    for ( int i = 0; i < dopantListeners.size(); i++ ) {
+                        DopantDropListener dopantDropListener = (DopantDropListener) dopantListeners.get( i );
                         dopantDropListener.dopantDropped( dragDopantGraphic );
                     }
                 }
@@ -179,7 +180,7 @@ public class DopantPanel extends CompositeInteractiveGraphic {
     }
 
     public void paint( Graphics2D graphics2D ) {
-        if( !visible ) {
+        if ( !visible ) {
             return;
         }
 
@@ -189,7 +190,7 @@ public class DopantPanel extends CompositeInteractiveGraphic {
     }
 
     public void removeDopant( DopantGraphic dg ) {
-        Graphic g = (Graphic)map.get( dg );
+        Graphic g = (Graphic) map.get( dg );
         super.removeGraphic( g );
     }
 }

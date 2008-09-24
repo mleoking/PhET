@@ -21,7 +21,7 @@ public class DopantType {
     }
 
     public boolean equals( Object obj ) {
-        return ( ( obj instanceof DopantType ) && ( (DopantType)obj ).name.equals( name ) );
+        return ( ( obj instanceof DopantType ) && ( (DopantType) obj ).name.equals( name ) );
     }
 
     public int hashCode() {

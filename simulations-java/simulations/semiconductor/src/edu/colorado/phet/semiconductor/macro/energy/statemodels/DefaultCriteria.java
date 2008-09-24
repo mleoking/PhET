@@ -1,9 +1,9 @@
 package edu.colorado.phet.semiconductor.macro.energy.statemodels;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.semiconductor.macro.doping.DopantType;
 import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
-
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -60,19 +60,19 @@ public class DefaultCriteria implements ModelCriteria {
 
     public boolean isApplicable( EnergySection energySection ) {
         int num = energySection.numBandSets();
-        if( num != numDopantTypes() ) {
+        if ( num != numDopantTypes() ) {
             return false;
         }
         else {
-            for( int i = 0; i < dopantTypes.size(); i++ ) {
-                DopantType dopantType = (DopantType)dopantTypes.get( i );
-                if( dopantType != energySection.bandSetAt( i ).getDopantType() ) {
+            for ( int i = 0; i < dopantTypes.size(); i++ ) {
+                DopantType dopantType = (DopantType) dopantTypes.get( i );
+                if ( dopantType != energySection.bandSetAt( i ).getDopantType() ) {
                     return false;
                 }
             }
         }
         double v = energySection.getVoltage();
-        if( v < minVolts || v > maxVolts ) {
+        if ( v < minVolts || v > maxVolts ) {
             return false;
         }
         return true;

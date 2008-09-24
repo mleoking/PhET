@@ -1,8 +1,8 @@
 package edu.colorado.phet.semiconductor.macro.energy.bands;
 
-import edu.colorado.phet.semiconductor.common.EnergySpaceRegion;
-
 import java.util.ArrayList;
+
+import edu.colorado.phet.semiconductor.common.EnergySpaceRegion;
 
 /**
  * User: Sam Reid
@@ -41,7 +41,7 @@ public class EnergyLevel {
     }
 
     public EnergyCell cellAt( int i ) {
-        return (EnergyCell)cells.get( i );
+        return (EnergyCell) cells.get( i );
     }
 
     public int indexOf( EnergyCell cell ) {

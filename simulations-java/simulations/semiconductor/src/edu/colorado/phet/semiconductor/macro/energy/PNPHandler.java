@@ -41,7 +41,7 @@ public class PNPHandler implements ModelCriteria, ModelElement {
             pnpRight.addModelElement( dr );
 
             Band band = energySection.bandSetAt( 2 ).getConductionBand();
-            for( int i = 0; i < DopantType.N.getNumFilledLevels(); i++ ) {
+            for ( int i = 0; i < DopantType.N.getNumFilledLevels(); i++ ) {
                 pnpRight.move( band.energyLevelAt( i ).cellAt( 0 ), rex.getLeftCell(), energySection.getFallSpeed() );
             }
             //rightClear pnpRight
@@ -66,7 +66,7 @@ public class PNPHandler implements ModelCriteria, ModelElement {
             pnpLeft.addModelElement( dl );
 
             Band band = energySection.bandSetAt( 0 ).getConductionBand();
-            for( int i = 0; i < DopantType.N.getNumFilledLevels(); i++ ) {
+            for ( int i = 0; i < DopantType.N.getNumFilledLevels(); i++ ) {
                 pnpLeft.move( band.energyLevelAt( i ).cellAt( 1 ), lex.getRightCell(), energySection.getFallSpeed() );
             }
             //clear pnpLeft
@@ -79,10 +79,10 @@ public class PNPHandler implements ModelCriteria, ModelElement {
     }
 
     public void stepInTime( double dt ) {
-        if( energySection.getVoltage() > .4 ) {
+        if ( energySection.getVoltage() > .4 ) {
             rightClear.stepInTime( dt );
         }
-        else if( energySection.getVoltage() < -.4 ) {
+        else if ( energySection.getVoltage() < -.4 ) {
             leftClear.stepInTime( dt );
         }
         else {
@@ -101,7 +101,7 @@ class PNPLeftClear extends DefaultStateDiagram {
 
     public void stepInTime( double dt ) {
         boolean finished = doClear( dt );
-        if( finished ) {
+        if ( finished ) {
             npForward.stepInTime( dt );
         }
     }
@@ -110,21 +110,21 @@ class PNPLeftClear extends DefaultStateDiagram {
         SemiconductorBandSet bs2 = getEnergySection().bandSetAt( 0 );
         Band p = bs2.bandAt( DopantType.P.getDopingBand() );
         boolean clear = true;
-        for( int i = p.numEnergyLevels() - 1; i >= DopantType.P.getNumFilledLevels(); i-- ) {
+        for ( int i = p.numEnergyLevels() - 1; i >= DopantType.P.getNumFilledLevels(); i-- ) {
             EnergyLevel eel = p.energyLevelAt( i );
             EnergyCell l = eel.cellAt( 0 );
             EnergyCell r = eel.cellAt( 1 );
             BandParticle pl = getEnergySection().getBandParticle( l );
             BandParticle pr = getEnergySection().getBandParticle( r );
-            if( pl != null || pr != null ) {
+            if ( pl != null || pr != null ) {
                 clear = false;
             }
-            if( pl != null ) {
+            if ( pl != null ) {
                 ExitLeft exitLeft = new ExitLeft();
                 exitLeft.apply( pl, getEnergySection() );
                 break;
             }
-            if( pr != null ) {
+            if ( pr != null ) {
                 Move m = new Move( r, l, getSpeed() );
                 m.apply( pr, getEnergySection() );
                 break;
@@ -144,7 +144,7 @@ class PNPRightClear extends DefaultStateDiagram {
 
     public void stepInTime( double dt ) {
         boolean finished = doClear( dt );
-        if( finished ) {
+        if ( finished ) {
             npForward.stepInTime( dt );
         }
     }
@@ -153,21 +153,21 @@ class PNPRightClear extends DefaultStateDiagram {
         SemiconductorBandSet bs2 = getEnergySection().bandSetAt( 2 );
         Band p = bs2.bandAt( DopantType.P.getDopingBand() );
         boolean clear = true;
-        for( int i = p.numEnergyLevels() - 1; i >= DopantType.P.getNumFilledLevels() + 1; i-- ) {
+        for ( int i = p.numEnergyLevels() - 1; i >= DopantType.P.getNumFilledLevels() + 1; i-- ) {
             EnergyLevel eel = p.energyLevelAt( i );
             EnergyCell l = eel.cellAt( 0 );
             EnergyCell r = eel.cellAt( 1 );
             BandParticle pl = getEnergySection().getBandParticle( l );
             BandParticle pr = getEnergySection().getBandParticle( r );
-            if( pl != null || pr != null ) {
+            if ( pl != null || pr != null ) {
                 clear = false;
             }
-            if( pr != null ) {
+            if ( pr != null ) {
                 ExitRight er = new ExitRight();
                 er.apply( pr, getEnergySection() );
                 break;
             }
-            if( pl != null ) {
+            if ( pl != null ) {
                 Move m = new Move( l, r, getSpeed() );
                 m.apply( pl, getEnergySection() );
                 break;

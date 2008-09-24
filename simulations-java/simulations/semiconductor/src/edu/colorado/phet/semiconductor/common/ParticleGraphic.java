@@ -1,11 +1,11 @@
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.common;
 
-import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
+
+import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 
 /**
  * User: Sam Reid

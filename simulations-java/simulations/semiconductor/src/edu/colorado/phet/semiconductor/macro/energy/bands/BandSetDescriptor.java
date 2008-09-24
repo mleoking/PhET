@@ -19,6 +19,6 @@ public class BandSetDescriptor {
     }
 
     public BandDescriptor bandDescriptorAt( int i ) {
-        return (BandDescriptor)bandDescriptors.get( i );
+        return (BandDescriptor) bandDescriptors.get( i );
     }
 }

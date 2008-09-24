@@ -1,13 +1,13 @@
 package edu.colorado.phet.semiconductor.macro.circuit.particles;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
 import edu.colorado.phet.semiconductor.common.SimpleBufferedImageGraphic;
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
 import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
 import edu.colorado.phet.semiconductor.phetcommon.model.simpleobservable.SimpleObserver;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-
-import java.awt.*;
-import java.awt.image.BufferedImage;
 
 /**
  * User: Sam Reid
@@ -37,7 +37,7 @@ public class WireParticleGraphic extends TransformGraphic {
 
     public void paint( Graphics2D graphics2D ) {
         PhetVector modelLoc = particle.getPosition();
-        if( modelLoc != null ) {
+        if ( modelLoc != null ) {
             Point pt = getTransform().modelToView( modelLoc );
             imageGraphic.setPosition( pt );
             imageGraphic.paint( graphics2D );

@@ -1,16 +1,17 @@
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.phetcommon.view;
 
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.semiconductor.phetcommon.model.clock.AbstractClock;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.semiconductor.phetcommon.model.clock.AbstractClock;
 
 /**
  * User: Sam Reid
@@ -34,7 +35,7 @@ public class ApplicationModelControlPanel extends JPanel {
 
     public ApplicationModelControlPanel( final AbstractClock runner, final Object rh ) throws IOException {
         this.clock = runner;
-        if( clock == null ) {
+        if ( clock == null ) {
             throw new RuntimeException( "Cannot have a control panel for a null clock." );
         }
 //        ImageLoader cil = new ImageLoader();
@@ -90,9 +91,9 @@ public class ApplicationModelControlPanel extends JPanel {
         logoButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 // Get the frame
-                Component c = (Component)e.getSource();
+                Component c = (Component) e.getSource();
                 Component frame = SwingUtilities.getRoot( c );
-                PhetFrame phetFrame = (PhetFrame)frame;
+                PhetFrame phetFrame = (PhetFrame) frame;
                 ApplicationView view = phetFrame.getApp().getApplicationView();
                 view.setFullScreen( true );
             }

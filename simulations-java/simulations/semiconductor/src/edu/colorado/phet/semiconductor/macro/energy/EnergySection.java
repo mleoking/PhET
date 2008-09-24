@@ -1,5 +1,11 @@
 package edu.colorado.phet.semiconductor.macro.energy;
 
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import edu.colorado.phet.semiconductor.SemiconductorApplication;
 import edu.colorado.phet.semiconductor.common.EnergySpaceRegion;
 import edu.colorado.phet.semiconductor.macro.BucketSection;
@@ -23,12 +29,6 @@ import edu.colorado.phet.semiconductor.phetcommon.model.simpleobservable.SimpleO
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.semiconductor.util.RectangleUtils;
-
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -86,7 +86,7 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
     }
 
     public BandParticle particleAt( int i ) {
-        return (BandParticle)particles.get( i );
+        return (BandParticle) particles.get( i );
     }
 
     void clearDoping() {
@@ -218,7 +218,7 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
         stateModel.clear();
         double minVolts = .1;
         double maxVolts = 10;
-        if( numBandSets() == 1 ) {
+        if ( numBandSets() == 1 ) {
             ConductRight1 pright = new ConductRight1( this, 1, 0, DopantType.P );
             stateModel.addModel( new DefaultCriteria( DopantType.P, 0, maxVolts ), pright );
 
@@ -231,10 +231,10 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
             ConductLeft1 nleft = new ConductLeft1( this, 2, 0, DopantType.N );
             stateModel.addModel( new DefaultCriteria( DopantType.N, -maxVolts, -minVolts ), nleft );
         }
-        if( numBandSets() == 2 ) {
+        if ( numBandSets() == 2 ) {
             add2StateDiagrams();
         }
-        if( numBandSets() == 3 ) {
+        if ( numBandSets() == 3 ) {
             add3StateDiagrams();
         }
     }
@@ -258,11 +258,11 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
         double maxVolts = 10;
         DopantType[] keys = new DopantType[]{null, DopantType.P, DopantType.N};
         ArrayList lists = new ArrayList();
-        for( int i = 0; i < keys.length; i++ ) {
+        for ( int i = 0; i < keys.length; i++ ) {
             DopantType a = keys[i];
-            for( int j = 0; j < keys.length; j++ ) {
+            for ( int j = 0; j < keys.length; j++ ) {
                 DopantType b = keys[j];
-                for( int k = 0; k < keys.length; k++ ) {
+                for ( int k = 0; k < keys.length; k++ ) {
                     DopantType c = keys[k];
                     lists.add( new DopantList( a, b, c ) );
                 }
@@ -445,7 +445,7 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
 
         BandSetGraphic graphic = null;
 
-        if( jagged ) {
+        if ( jagged ) {
             graphic = new JaggedSplitBandGraphic( this, transform, bandSet, rect );
         }
         else {
@@ -464,14 +464,14 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
     }
 
     private void fillBand( Band b ) {
-        for( int i = 0; i < b.numEnergyLevels(); i++ ) {
+        for ( int i = 0; i < b.numEnergyLevels(); i++ ) {
             EnergyLevel level = b.energyLevelAt( i );
             fillLevel( level );
         }
     }
 
     public void fillLevel( EnergyLevel level ) {
-        for( int k = 0; k < level.numCells(); k++ ) {
+        for ( int k = 0; k < level.numCells(); k++ ) {
             BandParticle bp = new BandParticle( level.cellAt( k ) );
             PlusCharge plus = new PlusCharge( level.cellAt( k ) );
             addPlus( plus );
@@ -486,8 +486,8 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
     }
 
     public void stepInTime( double dt ) {
-        for( int i = 0; i < particles.size(); i++ ) {
-            BandParticle bandParticle = (BandParticle)particles.get( i );
+        for ( int i = 0; i < particles.size(); i++ ) {
+            BandParticle bandParticle = (BandParticle) particles.get( i );
             bandParticle.stepInTime( dt );
         }
 //        if( stateModel != null ) {
@@ -503,11 +503,11 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
         energyTextGraphic.paint( graphics2D );
 //        Area clip = null;// For keeping electrons within the valid range.
         Rectangle2D clip = null;
-        for( int i = 0; i < bandSetGraphics.size(); i++ ) {
-            BandSetGraphic bandSetGraphic = (BandSetGraphic)bandSetGraphics.get( i );
+        for ( int i = 0; i < bandSetGraphics.size(); i++ ) {
+            BandSetGraphic bandSetGraphic = (BandSetGraphic) bandSetGraphics.get( i );
             Shape viewBounds = transform.createTransformedShape( bandSetGraphic.getViewport() );
 
-            if( clip == null ) {
+            if ( clip == null ) {
 //                clip = new Area( viewBounds);//bandSetGraphic.getViewport();
                 clip = viewBounds.getBounds2D();
             }
@@ -519,22 +519,22 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
         Shape orig = graphics2D.getClip();
         graphics2D.setClip( clip );
 
-        for( int i = 0; i < bandSetGraphics.size(); i++ ) {
-            BandSetGraphic bandSetGraphic = (BandSetGraphic)bandSetGraphics.get( i );
+        for ( int i = 0; i < bandSetGraphics.size(); i++ ) {
+            BandSetGraphic bandSetGraphic = (BandSetGraphic) bandSetGraphics.get( i );
             bandSetGraphic.paint( graphics2D );
         }
 
-        for( int i = 0; i < particleGraphics.size(); i++ ) {
-            BandParticleGraphic bandParticleGraphic = (BandParticleGraphic)particleGraphics.get( i );
+        for ( int i = 0; i < particleGraphics.size(); i++ ) {
+            BandParticleGraphic bandParticleGraphic = (BandParticleGraphic) particleGraphics.get( i );
             bandParticleGraphic.paint( graphics2D );
         }
-        for( int i = 0; i < plusGraphics.size(); i++ ) {
-            Graphic g = (Graphic)plusGraphics.get( i );
+        for ( int i = 0; i < plusGraphics.size(); i++ ) {
+            Graphic g = (Graphic) plusGraphics.get( i );
             g.paint( graphics2D );
         }
 
-        for( int i = 0; i < electricFieldGraphics.size(); i++ ) {
-            ElectricFieldSectionGraphic electricFieldGraphic = (ElectricFieldSectionGraphic)electricFieldGraphics.get( i );
+        for ( int i = 0; i < electricFieldGraphics.size(); i++ ) {
+            ElectricFieldSectionGraphic electricFieldGraphic = (ElectricFieldSectionGraphic) electricFieldGraphics.get( i );
             electricFieldGraphic.paint( graphics2D );
         }
 
@@ -553,9 +553,9 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
 
     public void removeParticle( BandParticle bandParticle ) {
         particles.remove( bandParticle );
-        for( int i = 0; i < particleGraphics.size(); i++ ) {
-            BandParticleGraphic bandParticleGraphic = (BandParticleGraphic)particleGraphics.get( i );
-            if( bandParticleGraphic.getBandParticle() == bandParticle ) {
+        for ( int i = 0; i < particleGraphics.size(); i++ ) {
+            BandParticleGraphic bandParticleGraphic = (BandParticleGraphic) particleGraphics.get( i );
+            if ( bandParticleGraphic.getBandParticle() == bandParticle ) {
                 particleGraphics.remove( bandParticleGraphic );
                 i--;
             }
@@ -564,9 +564,9 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
 
     private void removePlus( PlusCharge plusCharge ) {
         plusses.remove( plusCharge );
-        for( int i = 0; i < plusGraphics.size(); i++ ) {
-            PlusGraphic plusGraphic = (PlusGraphic)plusGraphics.get( i );
-            if( plusGraphic.getPlusCharge() == plusCharge ) {
+        for ( int i = 0; i < plusGraphics.size(); i++ ) {
+            PlusGraphic plusGraphic = (PlusGraphic) plusGraphics.get( i );
+            if ( plusGraphic.getPlusCharge() == plusCharge ) {
                 plusGraphics.remove( plusGraphic );
                 i--;
             }
@@ -574,7 +574,7 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
     }
 
     public SemiconductorBandSet bandSetAt( int i ) {
-        return (SemiconductorBandSet)bandSets.get( i );
+        return (SemiconductorBandSet) bandSets.get( i );
     }
 
     public int numBandSets() {
@@ -586,16 +586,16 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
     }
 
     public void clear( EnergyLevel energyLevel ) {
-        for( int i = 0; i < particles.size(); i++ ) {
-            BandParticle bandParticle = (BandParticle)particles.get( i );
-            if( bandParticle.getEnergyLevel() == energyLevel ) {
+        for ( int i = 0; i < particles.size(); i++ ) {
+            BandParticle bandParticle = (BandParticle) particles.get( i );
+            if ( bandParticle.getEnergyLevel() == energyLevel ) {
                 removeParticle( bandParticle );
                 i--;
             }
         }
-        for( int i = 0; i < plusses.size(); i++ ) {
-            PlusCharge plusCharge = (PlusCharge)plusses.get( i );
-            if( plusCharge.getEnergyLevel() == energyLevel ) {
+        for ( int i = 0; i < plusses.size(); i++ ) {
+            PlusCharge plusCharge = (PlusCharge) plusses.get( i );
+            if ( plusCharge.getEnergyLevel() == energyLevel ) {
                 removePlus( plusCharge );
                 i--;
             }
@@ -605,11 +605,11 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
     public void dopingChanged( CircuitSection circuitSection ) {
 //        clearRegions();
         clearDoping();
-        for( int i = 0; i < circuitSection.numDopantSlots() && i < numBandSets(); i++ ) {
+        for ( int i = 0; i < circuitSection.numDopantSlots() && i < numBandSets(); i++ ) {
             setDopant( bandSetAt( i ), circuitSection.dopantSlotAt( i ).getDopantType() );
         }
 
-        if( getVoltage() == 0 ) {
+        if ( getVoltage() == 0 ) {
             biasManager.setupInternalBias();
         }
         determineState();
@@ -635,8 +635,8 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
 
     private void recomputeElectricFields() {
         /**Recompute the internal electric field.*/
-        for( int i = 0; i < electricFields.size(); i++ ) {
-            ElectricFieldSection electricFieldSection = (ElectricFieldSection)electricFields.get( i );
+        for ( int i = 0; i < electricFields.size(); i++ ) {
+            ElectricFieldSection electricFieldSection = (ElectricFieldSection) electricFields.get( i );
             BandSet pre = bandSetAt( i );
             BandSet post = bandSetAt( i + 1 );
             double voltage = getExcessCharge( post ) - getExcessCharge( pre );
@@ -649,12 +649,12 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
     }
 
     private double getAmountComplete() {
-        if( continuousBiasChangeListeners.size() == 0 ) {
+        if ( continuousBiasChangeListeners.size() == 0 ) {
             return 1;
         }
         double sum = 0;
-        for( int i = 0; i < continuousBiasChangeListeners.size(); i++ ) {
-            ContinuousBiasObserver continuousBiasObserver = (ContinuousBiasObserver)continuousBiasChangeListeners.get( i );
+        for ( int i = 0; i < continuousBiasChangeListeners.size(); i++ ) {
+            ContinuousBiasObserver continuousBiasObserver = (ContinuousBiasObserver) continuousBiasChangeListeners.get( i );
             double frac = continuousBiasObserver.getFractionalDistanceToDestination();
 //            System.out.println("frac = " + frac);
             sum += frac;
@@ -686,7 +686,7 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
         }
 
         public void update() {
-            if( getFractionalDistanceToDestination() >= .99 ) {
+            if ( getFractionalDistanceToDestination() >= .99 ) {
                 continuousBiasChangeListeners.remove( this );
                 donor.removeObserver( this );
             }
@@ -695,8 +695,8 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
     }
 
     public void voltageChanged( Battery source ) {
-        for( int i = 0; i < electricFields.size(); i++ ) {
-            ElectricFieldSection electricFieldSection = (ElectricFieldSection)electricFields.get( i );
+        for ( int i = 0; i < electricFields.size(); i++ ) {
+            ElectricFieldSection electricFieldSection = (ElectricFieldSection) electricFields.get( i );
             electricFieldSection.voltageChanged( source );
         }
         determineState();
@@ -752,14 +752,14 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
     public EnergyCell energyCellAt( int level, int column ) {
         int dstBand = column / 2;
         int destIndex = column % 2;
-        if( dstBand < 0 || dstBand >= numBandSets() ) {
+        if ( dstBand < 0 || dstBand >= numBandSets() ) {
             return null;
         }
         SemiconductorBandSet band = bandSetAt( dstBand );
-        if( level < 0 || level >= numRows() ) {
+        if ( level < 0 || level >= numRows() ) {
             return null;
         }
-        if( destIndex == 0 || destIndex == 1 ) {
+        if ( destIndex == 0 || destIndex == 1 ) {
             return band.energyCellAt( level, destIndex );
         }
         else {
@@ -780,11 +780,11 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
     }
 
     public EnergyLevel getHighestFilledLevel( SemiconductorBandSet bandSet ) {
-        for( int i = 0; i < bandSet.numEnergyLevels(); i++ ) {
+        for ( int i = 0; i < bandSet.numEnergyLevels(); i++ ) {
             EnergyLevel level = bandSet.levelAt( i );
-            if( !isFilled( level ) ) {
+            if ( !isFilled( level ) ) {
                 int abs = level.getAbsoluteHeight();
-                if( abs == -1 ) {
+                if ( abs == -1 ) {
                     return null;
                 }
                 return bandSet.levelAt( abs - 1 );
@@ -804,9 +804,9 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
     }
 
     public BandParticle getBandParticle( EnergyCell cell ) {
-        for( int i = 0; i < particles.size(); i++ ) {
-            BandParticle bandParticle = (BandParticle)particles.get( i );
-            if( bandParticle.getEnergyCell() == cell ) {
+        for ( int i = 0; i < particles.size(); i++ ) {
+            BandParticle bandParticle = (BandParticle) particles.get( i );
+            if ( bandParticle.getEnergyCell() == cell ) {
                 return bandParticle;
             }
         }
@@ -820,23 +820,23 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
 
     public int getExcessCharge( BandSet bandSet ) {
         int sum = 0;
-        for( int i = 0; i < particles.size(); i++ ) {
-            BandParticle bandParticle = (BandParticle)particles.get( i );
+        for ( int i = 0; i < particles.size(); i++ ) {
+            BandParticle bandParticle = (BandParticle) particles.get( i );
             Band b = bandParticle.getBand();
-            if( b == null ) {
+            if ( b == null ) {
                 continue;
             }
             EnergySpaceRegion region = b.getRegion();
-            if( bandParticle.getBandSet() == bandSet && b != null
-                && region.contains( bandParticle.getPosition() )
+            if ( bandParticle.getBandSet() == bandSet && b != null
+                 && region.contains( bandParticle.getPosition() )
 //            && !bandParticle.isMoving()
                     ) {
                 sum++;
             }
         }
-        for( int i = 0; i < plusses.size(); i++ ) {
-            PlusCharge plusCharge = (PlusCharge)plusses.get( i );
-            if( plusCharge.getBandSet() == bandSet ) {
+        for ( int i = 0; i < plusses.size(); i++ ) {
+            PlusCharge plusCharge = (PlusCharge) plusses.get( i );
+            if ( plusCharge.getBandSet() == bandSet ) {
                 sum--;
             }
         }
@@ -849,8 +849,8 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
 
     public double getAverageParticleDX() {
         double sum = 0;
-        for( int i = 0; i < particles.size(); i++ ) {
-            BandParticle bandParticle = (BandParticle)particles.get( i );
+        for ( int i = 0; i < particles.size(); i++ ) {
+            BandParticle bandParticle = (BandParticle) particles.get( i );
             PhetVector vel = bandParticle.getDX();
             double x = vel.getX();
             sum += x;
@@ -859,7 +859,7 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
     }
 
     public BandSetGraphic bandSetGraphicAt( int bandIndex ) {
-        return (BandSetGraphic)bandSetGraphics.get( bandIndex );
+        return (BandSetGraphic) bandSetGraphics.get( bandIndex );
     }
 
     private boolean isPNP() {
@@ -879,7 +879,7 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
     }
 
     public boolean isDiodeForTypes( DopantType left, DopantType right ) {
-        if( numBandSets() == 2 ) {
+        if ( numBandSets() == 2 ) {
             DopantType leftDopant = bandSetAt( 0 ).getDopantType();
             DopantType rightDopant = bandSetAt( 1 ).getDopantType();
             return leftDopant == left && rightDopant == right;
@@ -890,7 +890,7 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
     }
 
     public boolean isTriodeForTypes( DopantType left, DopantType mid, DopantType right ) {
-        if( numBandSets() == 3 ) {
+        if ( numBandSets() == 3 ) {
             DopantType leftDopant = bandSetAt( 0 ).getDopantType();
             DopantType midDopant = bandSetAt( 1 ).getDopantType();
             DopantType rightDopant = bandSetAt( 2 ).getDopantType();
@@ -912,7 +912,7 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
 
     private void setupBias( EnergyCell src, EnergyCell dstCell ) {
         BandParticle bp = getBandParticle( src );
-        if( bp.isLocatedAtCell() && !isClaimed( dstCell ) ) {
+        if ( bp.isLocatedAtCell() && !isClaimed( dstCell ) ) {
             EnergySection.ContinuousBiasObserver cbo = new EnergySection.ContinuousBiasObserver( dstCell, bp );
             continuousBiasChangeListeners.add( cbo );
             bp.setState( new MoveToCell( bp, dstCell, .2 ) );
@@ -928,25 +928,25 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
     }
 
     public int getColumnCharge( int column ) {
-        if( column == -1 ) {
+        if ( column == -1 ) {
             double volts = getVoltage();
-            return (int)volts;
+            return (int) volts;
         }
-        else if( column == numColumns() ) {
+        else if ( column == numColumns() ) {
             double volts = getVoltage();
-            return -(int)volts;
+            return -(int) volts;
         }
         else {
             int sum = 0;
             Rectangle2D.Double rect = getColumnRect( column );
-            for( int i = 0; i < numParticles(); i++ ) {
-                if( rect.contains( particleAt( i ).getPosition().toPoint2D() ) ) {
+            for ( int i = 0; i < numParticles(); i++ ) {
+                if ( rect.contains( particleAt( i ).getPosition().toPoint2D() ) ) {
                     sum++;
                 }
             }
-            for( int i = 0; i < numPlusses(); i++ ) {
+            for ( int i = 0; i < numPlusses(); i++ ) {
                 PlusCharge pc = plusAt( i );
-                if( rect.contains( pc.getPosition().toPoint2D() ) ) {
+                if ( rect.contains( pc.getPosition().toPoint2D() ) ) {
                     sum--;
                 }
             }
@@ -955,7 +955,7 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
     }
 
     private PlusCharge plusAt( int i ) {
-        return (PlusCharge)plusses.get( i );
+        return (PlusCharge) plusses.get( i );
     }
 
     private int numPlusses() {
@@ -966,11 +966,11 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
         int index = column % 2;
         BandSet bs = bandSetAt( column / 2 );
         Rectangle2D.Double rect = bs.getBounds();
-        if( index == 0 ) {
+        if ( index == 0 ) {
             Rectangle2D.Double leftSide = new Rectangle2D.Double( rect.x, rect.y, rect.width / 2, rect.height );
             return leftSide;
         }
-        else if( index == 1 ) {
+        else if ( index == 1 ) {
             Rectangle2D.Double rightSide = new Rectangle2D.Double( rect.x + rect.width / 2, rect.y, rect.width / 2, rect.height );
             return rightSide;
         }
@@ -980,13 +980,13 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
     public EnergyCell getLowerNeighbor( EnergyCell cell ) {
         int index = cell.getIndex();
         int level = cell.getEnergyLevel().getAbsoluteHeight();
-        if( level == 0 ) {
+        if ( level == 0 ) {
             return null;
         }
 //        System.out.println( "Getting lower neighber for level=" + level + ", id=" + cell.getEnergyLevel().getID() );
         EnergyLevel lower = cell.getBandSet().levelAt( level - 1 );
 
-        if( lower == null ) {
+        if ( lower == null ) {
 //            System.out.println("lower = " + lower);
             return null;
         }
@@ -999,7 +999,7 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
 
     public boolean isOwned( EnergyCell cell ) {
         BandParticle bp = getBandParticle( cell );
-        if( bp != null && bp.isLocatedAtCell() ) {
+        if ( bp != null && bp.isLocatedAtCell() ) {
             return true;
         }
         return false;
@@ -1104,9 +1104,9 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
 
         private void setupInternalBias() {
             continuousBiasChangeListeners.clear();
-            for( int i = 0; i < biases.size(); i++ ) {
-                InternalBiasSetup internalBiasSetup = (InternalBiasSetup)biases.get( i );
-                if( internalBiasSetup.isValid( EnergySection.this ) ) {
+            for ( int i = 0; i < biases.size(); i++ ) {
+                InternalBiasSetup internalBiasSetup = (InternalBiasSetup) biases.get( i );
+                if ( internalBiasSetup.isValid( EnergySection.this ) ) {
                     internalBiasSetup.apply( EnergySection.this );
                     break;
                 }

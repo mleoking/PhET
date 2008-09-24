@@ -7,17 +7,17 @@
  */
 package edu.colorado.phet.semiconductor.phetcommon.view;
 
-import edu.colorado.phet.semiconductor.phetcommon.util.MultiMap;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.InteractiveGraphic;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.bounds.Boundary;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.mousecontrols.MouseManager;
-
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.util.HashMap;
 import java.util.Iterator;
+
+import edu.colorado.phet.semiconductor.phetcommon.util.MultiMap;
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.InteractiveGraphic;
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.bounds.Boundary;
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.mousecontrols.MouseManager;
 
 public class CompositeInteractiveGraphic implements InteractiveGraphic {
 
@@ -32,13 +32,13 @@ public class CompositeInteractiveGraphic implements InteractiveGraphic {
 
     public void paint( Graphics2D g ) {
         Iterator it = graphicMap.iterator();
-        while( it.hasNext() ) {
-            Graphic graphic = (Graphic)it.next();
+        while ( it.hasNext() ) {
+            Graphic graphic = (Graphic) it.next();
             AffineTransform orgTx = g.getTransform();
             // If there is an affine transform bound to this graphic, updateFrames
             // it to the graphics object
-            AffineTransform atx = (AffineTransform)graphicTxMap.get( graphic );
-            if( atx != null ) {
+            AffineTransform atx = (AffineTransform) graphicTxMap.get( graphic );
+            if ( atx != null ) {
                 g.transform( atx );
             }
 //            RevertableGraphicsSetup setup = (RevertableGraphicsSetup)graphicSetupMap.get( graphic );
@@ -55,11 +55,11 @@ public class CompositeInteractiveGraphic implements InteractiveGraphic {
 
     public boolean contains( int x, int y ) {
         Iterator it = this.graphicMap.iterator();
-        while( it.hasNext() ) {
+        while ( it.hasNext() ) {
             Object o = it.next();
-            if( o instanceof Boundary ) {
-                Boundary boundary = (Boundary)o;
-                if( boundary.contains( x, y ) ) {
+            if ( o instanceof Boundary ) {
+                Boundary boundary = (Boundary) o;
+                if ( boundary.contains( x, y ) ) {
                     return true;
                 }
             }

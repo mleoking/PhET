@@ -1,9 +1,9 @@
 package edu.colorado.phet.semiconductor.macro.energy;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.semiconductor.macro.energy.bands.BandParticle;
 import edu.colorado.phet.semiconductor.phetcommon.model.ModelElement;
-
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -23,10 +23,10 @@ public class ParticleActionApplicator implements ModelElement {
     }
 
     public void stepInTime( double dt ) {
-        for( int i = 0; i < energySection.numParticles(); i++ ) {
+        for ( int i = 0; i < energySection.numParticles(); i++ ) {
             BandParticle bp = energySection.particleAt( i );
-            for( int j = 0; j < particleActions.size(); j++ ) {
-                ParticleAction particleAction = (ParticleAction)particleActions.get( j );
+            for ( int j = 0; j < particleActions.size(); j++ ) {
+                ParticleAction particleAction = (ParticleAction) particleActions.get( j );
                 particleAction.apply( bp );
             }
         }

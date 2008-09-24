@@ -1,14 +1,11 @@
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.phetcommon.view;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.semiconductor.phetcommon.view.util.graphics.ImageLoader;
+import java.awt.*;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
+
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 /**
  * A panel for the apparatus, large and in the left side.  A north panel for display, an east panel for controls, and a south panel for other controls.
@@ -31,7 +28,7 @@ public class BasicPhetPanel extends JPanel {
     }
 
     public void setControlPanel( JComponent panel ) {
-        if( east != null ) {
+        if ( east != null ) {
             remove( east );
         }
         east = panel;
@@ -39,7 +36,7 @@ public class BasicPhetPanel extends JPanel {
     }
 
     public void setMonitorPanel( JComponent panel ) {
-        if( north != null ) {
+        if ( north != null ) {
             remove( north );
         }
         north = panel;
@@ -47,7 +44,7 @@ public class BasicPhetPanel extends JPanel {
     }
 
     public void setApparatusPanelContainer( JComponent panel ) {
-        if( center != null ) {
+        if ( center != null ) {
             remove( center );
         }
         center = panel;
@@ -55,7 +52,7 @@ public class BasicPhetPanel extends JPanel {
     }
 
     public void setAppControlPanel( JComponent panel ) {
-        if( south != null ) {
+        if ( south != null ) {
             remove( south );
         }
         south = panel;
@@ -63,54 +60,54 @@ public class BasicPhetPanel extends JPanel {
     }
 
     private void setPanel( JComponent component, String place ) {
-        if( component != null ) {
+        if ( component != null ) {
             add( component, place );
         }
         repaint();
     }
 
     public void setFullScreen( boolean fullScreen ) {
-        if( fullScreen && !isFullScreen() ) {
+        if ( fullScreen && !isFullScreen() ) {
             activateFullScreen();
         }
-        else if( !fullScreen && isFullScreen() ) {
+        else if ( !fullScreen && isFullScreen() ) {
             deactivateFullScreen();
         }
     }
 
     private void deactivateFullScreen() {
-        if( east != null ) {
+        if ( east != null ) {
             east.setVisible( true );
         }
-        if( north != null ) {
+        if ( north != null ) {
             north.setVisible( true );
         }
-        if( south != null ) {
+        if ( south != null ) {
             south.setVisible( true );
         }
         this.fullScreen = false;
     }
 
     private void activateFullScreen() {
-        if( east != null ) {
+        if ( east != null ) {
             east.setVisible( false );
         }
-        if( north != null ) {
+        if ( north != null ) {
             north.setVisible( false );
         }
-        if( south != null ) {
+        if ( south != null ) {
             south.setVisible( false );
         }
 
-        if( buttonDlg == null ) {
+        if ( buttonDlg == null ) {
             buttonDlg = new JDialog();
             buttonDlg.setTitle( SimStrings.get( "BasicPhetPanel.Title" ) );
             buttonDlg.setDefaultCloseOperation( JDialog.DO_NOTHING_ON_CLOSE );
             buttonDlg.getContentPane().setLayout( new FlowLayout( FlowLayout.CENTER ) );
             Rectangle thisBounds = this.getBounds();
             buttonDlg.pack();
-            buttonDlg.setLocation( (int)( this.getLocationOnScreen().getX() + thisBounds.getMaxX() - buttonDlg.getWidth() ),
-                                   (int)( this.getLocationOnScreen().getY() + thisBounds.getMaxY() - buttonDlg.getHeight() ) );
+            buttonDlg.setLocation( (int) ( this.getLocationOnScreen().getX() + thisBounds.getMaxX() - buttonDlg.getWidth() ),
+                                   (int) ( this.getLocationOnScreen().getY() + thisBounds.getMaxY() - buttonDlg.getHeight() ) );
         }
         buttonDlg.setVisible( true );
         this.fullScreen = true;

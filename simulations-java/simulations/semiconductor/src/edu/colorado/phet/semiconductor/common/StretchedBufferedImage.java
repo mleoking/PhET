@@ -1,12 +1,12 @@
 package edu.colorado.phet.semiconductor.common;
 
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 
 /**
  * User: Sam Reid
@@ -21,7 +21,7 @@ public class StretchedBufferedImage implements Graphic {
     public StretchedBufferedImage( BufferedImage battIm, Rectangle rectangle ) {
         this.battIm = battIm;
         this.rectangle = new Rectangle( rectangle );
-        if( rectangle.width == 0 || rectangle.height == 0 ) {
+        if ( rectangle.width == 0 || rectangle.height == 0 ) {
             throw new RuntimeException( "Zero width or height rect." );
         }
     }
@@ -37,7 +37,7 @@ public class StretchedBufferedImage implements Graphic {
 //        System.out.println("rectangle = " + rectangle);
         ModelViewTransform2D transform = new ModelViewTransform2D( picBounds, rectangle );
         AffineTransform at = transform.toAffineTransform();
-        if( flipX ) {
+        if ( flipX ) {
             at.concatenate( AffineTransform.getScaleInstance( -1, 1 ) );
             at.concatenate( AffineTransform.getTranslateInstance( -w, 0 ) );
         }

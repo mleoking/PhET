@@ -6,9 +6,10 @@
  */
 package edu.colorado.phet.semiconductor.phetcommon.model.clock;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
 
 public class SwingTimerClock extends AbstractClock {
 
@@ -36,11 +37,11 @@ public class SwingTimerClock extends AbstractClock {
     private class Ticker implements ActionListener {
 
         public void actionPerformed( ActionEvent e ) {
-            if( isRunning() ) {
+            if ( isRunning() ) {
                 long tickTime = System.currentTimeMillis();
                 long actualWaitTime = tickTime - lastTickTime;
                 lastTickTime = tickTime;
-                if( isRunning() ) {
+                if ( isRunning() ) {
                     clockTicked( getSimulationTime( actualWaitTime ) );
                 }
             }

@@ -6,11 +6,12 @@
  */
 package edu.colorado.phet.semiconductor.phetcommon.view.util;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.PixelGrabber;
+
+import javax.swing.*;
 
 public class GraphicsUtil {
 
@@ -19,8 +20,8 @@ public class GraphicsUtil {
     // Taken from The Java Developer's Almanac, 1.4
     public static boolean hasAlpha( Image image ) {
         // If buffered image, the color model is readily available
-        if( image instanceof BufferedImage ) {
-            BufferedImage bimage = (BufferedImage)image;
+        if ( image instanceof BufferedImage ) {
+            BufferedImage bimage = (BufferedImage) image;
             return bimage.getColorModel().hasAlpha();
         }
 
@@ -42,8 +43,8 @@ public class GraphicsUtil {
     // This method returns a buffered image with the contents of an image
     // Taken from The Java Developer's Almanac, 1.4
     public static BufferedImage toBufferedImage( Image image ) {
-        if( image instanceof BufferedImage ) {
-            return (BufferedImage)image;
+        if ( image instanceof BufferedImage ) {
+            return (BufferedImage) image;
         }
 
         // This code ensures that all the pixels in the image are loaded
@@ -59,7 +60,7 @@ public class GraphicsUtil {
         try {
             // Determine the type of transparency of the new buffered image
             int transparency = Transparency.OPAQUE;
-            if( hasAlpha ) {
+            if ( hasAlpha ) {
                 transparency = Transparency.BITMASK;
             }
 
@@ -72,10 +73,10 @@ public class GraphicsUtil {
             // The system does not have a screen
         }
 
-        if( bimage == null ) {
+        if ( bimage == null ) {
             // Create a buffered image using the default color model
             int type = BufferedImage.TYPE_INT_RGB;
-            if( hasAlpha ) {
+            if ( hasAlpha ) {
                 type = BufferedImage.TYPE_INT_ARGB;
             }
             bimage = new BufferedImage( image.getWidth( null ), image.getHeight( null ), type );

@@ -6,9 +6,9 @@
  */
 package edu.colorado.phet.semiconductor.phetcommon.view.graphics;
 
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.bounds.Boundary;
-
 import javax.swing.event.MouseInputListener;
+
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.bounds.Boundary;
 
 /**
  * The coupling of Graphic and Controller.

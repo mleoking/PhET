@@ -1,10 +1,10 @@
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.phetcommon.util;
 
-import edu.colorado.phet.semiconductor.phetcommon.application.PhetApplication;
-
 import java.io.*;
 import java.net.URL;
+
+import edu.colorado.phet.semiconductor.phetcommon.application.PhetApplication;
 
 /**
  * User: Sam Reid
@@ -35,15 +35,15 @@ public class VersionUtils {
         ClassLoader cl = app.getClass().getClassLoader();
         URL buildNumberURL = cl.getResource( ( name != null ? name + "." : "" ) + "build.number" );
         System.out.println( "buildNumberURL = " + buildNumberURL );
-        if( buildNumberURL == null ) {
+        if ( buildNumberURL == null ) {
             return new VersionInfo( -1, "Not Recorded" );
         }
         int buildNum = -1;
         try {
             BufferedReader br = new BufferedReader( new InputStreamReader( buildNumberURL.openStream() ) );
             String line = br.readLine();
-            while( line != null ) {
-                if( line.toLowerCase().startsWith( "build.number=" ) ) {
+            while ( line != null ) {
+                if ( line.toLowerCase().startsWith( "build.number=" ) ) {
                     String number = line.substring( "build.number=".length() );
                     buildNum = Integer.parseInt( number );
                 }

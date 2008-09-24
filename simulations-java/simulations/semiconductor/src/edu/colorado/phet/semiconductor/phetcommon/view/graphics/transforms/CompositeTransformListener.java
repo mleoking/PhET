@@ -17,8 +17,8 @@ public class CompositeTransformListener implements TransformListener {
     ArrayList listeners = new ArrayList();
 
     public void transformChanged( ModelViewTransform2D mvt ) {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            TransformListener o = (TransformListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            TransformListener o = (TransformListener) listeners.get( i );
             o.transformChanged( mvt );
         }
     }

@@ -1,10 +1,10 @@
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.phetcommon.view.graphics.shapes;
 
+import java.awt.geom.GeneralPath;
+
 import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
 import edu.colorado.phet.semiconductor.phetcommon.view.util.DoubleGeneralPath;
-
-import java.awt.geom.GeneralPath;
 
 /**
  * User: Sam Reid
@@ -20,7 +20,7 @@ public class ArrowShape {
     public ArrowShape( PhetVector tailLocation, PhetVector tipLocation, double headHeight, double headWidth, double tailWidth ) {
         direction = tipLocation.getSubtractedInstance( tailLocation ).getNormalizedInstance();
         double dist = tipLocation.getSubtractedInstance( tailLocation ).getMagnitude();
-        if( dist < headHeight ) {
+        if ( dist < headHeight ) {
             throw new RuntimeException( "Head too big." );
         }
         norm = direction.getNormalVector();

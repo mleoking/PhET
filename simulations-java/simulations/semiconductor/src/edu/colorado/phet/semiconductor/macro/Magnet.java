@@ -1,9 +1,9 @@
 package edu.colorado.phet.semiconductor.macro;
 
-import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
-
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+
+import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
 
 /**
  * User: Sam Reid

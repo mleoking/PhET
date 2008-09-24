@@ -6,12 +6,12 @@
  */
 package edu.colorado.phet.semiconductor.phetcommon.view.apparatuspanelcontainment;
 
+import javax.swing.*;
+
 import edu.colorado.phet.semiconductor.phetcommon.application.Module;
 import edu.colorado.phet.semiconductor.phetcommon.application.ModuleManager;
 import edu.colorado.phet.semiconductor.phetcommon.view.ApparatusPanel;
 import edu.colorado.phet.semiconductor.phetcommon.view.util.AspectRatioLayout;
-
-import javax.swing.*;
 
 /**
  * An apparatus panel container for applications that have only one
@@ -36,7 +36,7 @@ public class SingleApparatusPanelContainer implements ApparatusPanelContainer {
     }
 
     public void activeModuleChanged( Module m ) {
-        if( apparatusPanel != null ) {
+        if ( apparatusPanel != null ) {
             container.remove( apparatusPanel );
         }
         this.apparatusPanel = m.getApparatusPanel();

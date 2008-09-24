@@ -1,10 +1,11 @@
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.phetcommon.view.graphics.mousecontrols;
 
-import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+
+import javax.swing.event.MouseInputListener;
 
 /**
  * User: Sam Reid
@@ -20,7 +21,7 @@ public class TranslationControl implements MouseInputListener {
     }
 
     public void mouseDragged( MouseEvent event ) {
-        if( last == null ) {
+        if ( last == null ) {
             mousePressed( event );
             return;
         }

@@ -14,10 +14,10 @@ public class BandSet {
 
     public Rectangle2D.Double getBounds() {
         Rectangle2D r = null;
-        for( int i = 0; i < bands.size(); i++ ) {
-            Band band = (Band)bands.get( i );
+        for ( int i = 0; i < bands.size(); i++ ) {
+            Band band = (Band) bands.get( i );
             Rectangle2D.Double rx = band.getRegion().toRectangle();
-            if( r == null ) {
+            if ( r == null ) {
                 r = rx;
             }
             else {
@@ -40,15 +40,15 @@ public class BandSet {
     }
 
     public Band bandAt( int i ) {
-        return (Band)bands.get( i );
+        return (Band) bands.get( i );
     }
 
     public EnergyLevel levelAt( int abslevel ) {
         int rel = abslevel;
-        for( int i = 0; i < numBands(); i++ ) {
+        for ( int i = 0; i < numBands(); i++ ) {
             Band b = bandAt( i );
 
-            if( rel < b.numEnergyLevels() ) {
+            if ( rel < b.numEnergyLevels() ) {
                 return b.energyLevelAt( rel );
             }
             else {
@@ -59,8 +59,8 @@ public class BandSet {
     }
 
     public int absoluteIndexOf( EnergyLevel level ) {
-        for( int i = 0; i < numEnergyLevels(); i++ ) {
-            if( levelAt( i ) == level ) {
+        for ( int i = 0; i < numEnergyLevels(); i++ ) {
+            if ( levelAt( i ) == level ) {
                 return i;
             }
         }
@@ -69,7 +69,7 @@ public class BandSet {
 
     public int numEnergyLevels() {
         int sum = 0;
-        for( int i = 0; i < numBands(); i++ ) {
+        for ( int i = 0; i < numBands(); i++ ) {
             sum += bandAt( i ).numEnergyLevels();
         }
         return sum;

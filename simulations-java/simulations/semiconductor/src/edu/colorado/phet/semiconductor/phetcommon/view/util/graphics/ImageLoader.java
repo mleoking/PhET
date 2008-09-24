@@ -2,12 +2,12 @@
 // TODO: move up on level in package hierarchy
 package edu.colorado.phet.semiconductor.phetcommon.view.util.graphics;
 
-import edu.colorado.phet.semiconductor.phetcommon.view.util.GraphicsUtil;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
+
+import edu.colorado.phet.semiconductor.phetcommon.view.util.GraphicsUtil;
 
 /**
  * User: Sam Reid
@@ -56,7 +56,7 @@ public class ImageLoader {
     public BufferedImage loadImage( String name ) throws IOException {
         ClassLoader cl = this.getClass().getClassLoader();
         URL imageUrl = cl.getResource( name );
-        if( imageUrl == null ) {
+        if ( imageUrl == null ) {
             throw new IOException( "Null image URL for resource name=" + name );
         }
         Image image = loadStrategy.loadImage( imageUrl );
@@ -81,7 +81,7 @@ public class ImageLoader {
             public Image fetchImage( URL imageLocation ) throws IOException {
                 Image image = null;
                 try {
-                    if( imageLocation == null ) {
+                    if ( imageLocation == null ) {
                         throw new IOException( "Image resource not found: Null imagelocation URL" );
                     }
                     else {
@@ -99,7 +99,7 @@ public class ImageLoader {
         }
 
         public Image loadImage( URL location ) throws IOException {
-            if( location == null ) {
+            if ( location == null ) {
                 throw new IOException( "Null URL Location" );
             }
             Image im = null;

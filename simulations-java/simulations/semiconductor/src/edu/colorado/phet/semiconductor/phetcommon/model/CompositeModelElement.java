@@ -1,8 +1,8 @@
 package edu.colorado.phet.semiconductor.phetcommon.model;
 
-import edu.colorado.phet.semiconductor.phetcommon.model.simpleobservable.SimpleObservable;
-
 import java.util.ArrayList;
+
+import edu.colorado.phet.semiconductor.phetcommon.model.simpleobservable.SimpleObservable;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,7 +19,7 @@ public class CompositeModelElement extends SimpleObservable implements ModelElem
     }
 
     public ModelElement modelElementAt( int i ) {
-        return (ModelElement)modelElements.get( i );
+        return (ModelElement) modelElements.get( i );
     }
 
     public int numModelElements() {
@@ -27,7 +27,7 @@ public class CompositeModelElement extends SimpleObservable implements ModelElem
     }
 
     public void stepInTime( double dt ) {
-        for( int i = 0; i < numModelElements(); i++ ) {
+        for ( int i = 0; i < numModelElements(); i++ ) {
             modelElementAt( i ).stepInTime( dt );
         }
     }

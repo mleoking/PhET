@@ -27,7 +27,7 @@ public class Entrance implements ModelElement {
     }
 
     public void stepInTime( double dt ) {
-        if( cell.getIndex() == 0 ) {
+        if ( cell.getIndex() == 0 ) {
             EntryPoint ep = new EntryPoint( cell, new PhetVector( -1, 0 ) );
             enter( energySection, ep );
         }
@@ -39,7 +39,7 @@ public class Entrance implements ModelElement {
 
     public void enter( EnergySection energySection, EntryPoint source ) {
         BandParticle bp = energySection.getBandParticle( source.getCell() );
-        if( bp == null ) {
+        if ( bp == null ) {
             //free to enter.
             bp = new BandParticle( source.getSource() );
             bp.setExcited( true );

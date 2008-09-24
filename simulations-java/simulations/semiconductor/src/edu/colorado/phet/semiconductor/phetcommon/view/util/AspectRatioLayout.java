@@ -22,7 +22,7 @@ public class AspectRatioLayout implements LayoutManager {
     }
 
     public AspectRatioLayout( Component target, int insetX, int insetY, double aspectRatio ) {
-        if( target == null ) {
+        if ( target == null ) {
             throw new RuntimeException( "Null target component." );
         }
         this.aspectRatio = aspectRatio;
@@ -53,19 +53,19 @@ public class AspectRatioLayout implements LayoutManager {
         double availWidth = parent.getWidth() - insetX * 2;
         double availHeight = parent.getHeight() - insetY * 2;
         double availAR = availHeight / availWidth;
-        if( availAR == aspectRatio ) {
-            return new Dimension( (int)availWidth, (int)availHeight );
+        if ( availAR == aspectRatio ) {
+            return new Dimension( (int) availWidth, (int) availHeight );
         }
-        else if( availAR < aspectRatio ) {
+        else if ( availAR < aspectRatio ) {
             //width is too high
 
             double reducedWidth = availHeight / aspectRatio;
-            return new Dimension( (int)reducedWidth, (int)availHeight );
+            return new Dimension( (int) reducedWidth, (int) availHeight );
         }
         else {
 
             double reducedHeight = availWidth * aspectRatio;
-            return new Dimension( (int)availWidth, (int)reducedHeight );
+            return new Dimension( (int) availWidth, (int) reducedHeight );
         }
     }
 

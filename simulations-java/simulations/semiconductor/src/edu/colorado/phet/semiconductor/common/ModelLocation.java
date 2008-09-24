@@ -1,13 +1,13 @@
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.common;
 
+import java.awt.*;
+import java.util.ArrayList;
+
 import edu.colorado.phet.semiconductor.macro.doping.ViewChangeListener;
 import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.TransformListener;
-
-import java.awt.*;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -24,8 +24,8 @@ public class ModelLocation {
         transform.addTransformListener( new TransformListener() {
             public void transformChanged( ModelViewTransform2D mvt ) {
                 viewLocation = transform.modelToView( modelLocation );
-                for( int i = 0; i < listeners.size(); i++ ) {
-                    ViewChangeListener viewChangeListener = (ViewChangeListener)listeners.get( i );
+                for ( int i = 0; i < listeners.size(); i++ ) {
+                    ViewChangeListener viewChangeListener = (ViewChangeListener) listeners.get( i );
                     Point viewLoc = getViewLocation();
                     viewChangeListener.viewCoordinateChanged( viewLoc.x, viewLoc.y );
                 }

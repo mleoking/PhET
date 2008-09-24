@@ -1,8 +1,8 @@
 package edu.colorado.phet.semiconductor.macro.energy.bands;
 
-import edu.colorado.phet.semiconductor.common.EnergySpaceRegion;
-
 import java.util.ArrayList;
+
+import edu.colorado.phet.semiconductor.common.EnergySpaceRegion;
 
 /**
  * User: Sam Reid
@@ -21,13 +21,13 @@ public class Band {
         this.region = region;
         this.bandSet = bandSet;
         double energyPerLevel = region.getEnergyRange() / numLevels;
-        for( int i = 0; i < numLevels; i++ ) {
+        for ( int i = 0; i < numLevels; i++ ) {
             double energy = i * energyPerLevel + region.getMinEnergy();
             EnergySpaceRegion subRegion = new EnergySpaceRegion( region.getMinX(), energy, region.getSpatialWidth(), energyPerLevel );
             EnergyLevel level = new EnergyLevel( this, subRegion, index );
             addLevel( level );
         }
-        if( bandSet == null ) {
+        if ( bandSet == null ) {
             throw new RuntimeException( "Null bandset." );
         }
     }
@@ -58,7 +58,7 @@ public class Band {
     }
 
     public EnergyLevel energyLevelAt( int i ) {
-        return (EnergyLevel)levels.get( i );
+        return (EnergyLevel) levels.get( i );
     }
 
     public int indexOf( EnergyLevel level ) {

@@ -1,12 +1,12 @@
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.common;
 
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.bounds.Boundary;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.bounds.Boundary;
 
 /**
  * User: Sam Reid
@@ -19,13 +19,13 @@ public class SimpleBufferedImageGraphic implements Graphic, Boundary {
 
     public SimpleBufferedImageGraphic( BufferedImage image ) {
         this.image = image;
-        if( image == null ) {
+        if ( image == null ) {
             throw new RuntimeException( "Null image." );
         }
     }
 
     public void paint( Graphics2D graphics2D ) {
-        if( image != null && transform != null ) {
+        if ( image != null && transform != null ) {
             graphics2D.drawRenderedImage( image, transform );
         }
     }

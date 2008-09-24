@@ -1,9 +1,9 @@
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.common;
 
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
-
 import java.awt.*;
+
+import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
 
 /**
  * User: Sam Reid
@@ -19,8 +19,8 @@ public class TextGraphic implements Graphic {
 
     public TextGraphic( double x, double y, Font font, Color color, String text ) {
         this.text = text;
-        this.x = (float)x;
-        this.y = (float)y;
+        this.x = (float) x;
+        this.y = (float) y;
         this.font = font;
         this.color = color;
     }

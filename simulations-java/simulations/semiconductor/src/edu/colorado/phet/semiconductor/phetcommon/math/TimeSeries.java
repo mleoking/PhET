@@ -20,7 +20,7 @@ public class TimeSeries {
 
     public void add( Object obj ) {
         list.add( obj );
-        if( list.size() > size ) {
+        if ( list.size() > size ) {
             list.remove( 0 );
         }
     }

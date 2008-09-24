@@ -1,13 +1,13 @@
 /*, 2003.  Editing.*/
 package edu.colorado.phet.semiconductor.phetcommon.view;
 
+import java.io.IOException;
+
 import edu.colorado.phet.semiconductor.phetcommon.application.Module;
 import edu.colorado.phet.semiconductor.phetcommon.application.ModuleManager;
 import edu.colorado.phet.semiconductor.phetcommon.application.ModuleObserver;
 import edu.colorado.phet.semiconductor.phetcommon.application.PhetApplication;
 import edu.colorado.phet.semiconductor.phetcommon.view.apparatuspanelcontainment.ApparatusPanelContainer;
-
-import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -26,7 +26,7 @@ public class ApplicationView {
         this.application = application;
         apparatusPanelContainer = application.getContainerStrategy().createApparatusPanelContainer( application.getModuleManager() );
 
-        if( application.getClock() == null ) {
+        if ( application.getClock() == null ) {
             throw new RuntimeException( "Clock is null" );
         }
         controlPanel = new ApplicationModelControlPanel( application.getClock() );

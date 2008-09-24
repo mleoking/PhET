@@ -18,11 +18,11 @@ public class ExitRight extends StateTransition {
 
     public BandParticleState getState( BandParticle particle, EnergySection energySection ) {
         EnergyCell cell = particle.getEnergyCell();
-        if( cell == null ) {
+        if ( cell == null ) {
             return null;
         }
         EnergyCell right = energySection.getNeighbor( cell, 0, 1 );
-        if( cell != null && right == null && cell.getIndex() == 1 && particle.isLocatedAtCell() && particle.isExcited() ) {
+        if ( cell != null && right == null && cell.getIndex() == 1 && particle.isLocatedAtCell() && particle.isExcited() ) {
             double targetX = energySection.getRightBand().getX() + energySection.getRightBand().getWidth();
             double targetY = particle.getY();
             PhetVector dest = new PhetVector( targetX, targetY );
