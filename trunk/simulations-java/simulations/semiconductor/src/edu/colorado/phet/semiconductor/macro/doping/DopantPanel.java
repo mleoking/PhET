@@ -14,7 +14,7 @@ import javax.swing.border.Border;
 import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.semiconductor.SemiconductorResources;
 import edu.colorado.phet.semiconductor.common.BorderGraphic;
 import edu.colorado.phet.semiconductor.common.ModelLocation;
 import edu.colorado.phet.semiconductor.common.TextGraphic;
@@ -64,7 +64,7 @@ public class DopantPanel extends CompositeInteractiveGraphic {
         } );
         Border init = BorderFactory.createLineBorder( Color.blue, 2 );
         Font font = new PhetFont( Font.BOLD, 16 );
-        Border bo = BorderFactory.createTitledBorder( init, SimStrings.get( "DopantPanel.DopantBorder" ), 0, 0, font, Color.black );
+        Border bo = BorderFactory.createTitledBorder( init, SemiconductorResources.getString( "DopantPanel.DopantBorder" ), 0, 0, font, Color.black );
         border = new BorderGraphic( bo, apparatusPanel, viewRect );
 
         PhetVector leftCell = getCenter( modelRect ).getAddedInstance( 0, -modelRect.getHeight() / 5.5 );
@@ -82,8 +82,8 @@ public class DopantPanel extends CompositeInteractiveGraphic {
         positive.addGraphic( posDopGraphic );
         negative.addGraphic( negDopGraphic );
 
-        addText( SimStrings.get( "DopantPanel.PositiveTypeText" ), positive, rightCell, transform );
-        addText( SimStrings.get( "DopantPanel.NegativeTypeText" ), negative, leftCell, transform );
+        addText( SemiconductorResources.getString( "DopantPanel.PositiveTypeText" ), positive, rightCell, transform );
+        addText( SemiconductorResources.getString( "DopantPanel.NegativeTypeText" ), negative, leftCell, transform );
 
         InteractiveGraphicCreator nsource = makeSource( negativeDopant, nDopantImage, false, "N" );
         InteractiveGraphicCreator psource = makeSource( positiveDopant, pDopantImage, true, "P" );

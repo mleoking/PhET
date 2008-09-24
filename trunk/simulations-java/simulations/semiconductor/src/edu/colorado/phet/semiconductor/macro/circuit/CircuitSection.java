@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.semiconductor.SemiconductorApplication;
+import edu.colorado.phet.semiconductor.SemiconductorResources;
 import edu.colorado.phet.semiconductor.macro.circuit.battery.BatterySpinner;
 import edu.colorado.phet.semiconductor.macro.circuit.particles.WireParticle;
 import edu.colorado.phet.semiconductor.macro.circuit.particles.WireParticleGraphic;
@@ -74,7 +74,7 @@ public class CircuitSection implements ModelElement, Graphic, DopantDropListener
                 relayoutClearButton();
             }
         } );
-        jb = new JButton( SimStrings.get( "CircuitSection.ClearButton" ) ) {
+        jb = new JButton( SemiconductorResources.getString( "CircuitSection.ClearButton" ) ) {
             protected void paintComponent( Graphics g ) {
                 Graphics2D g2 = (Graphics2D) g;
                 g2.setStroke( new BasicStroke( 1 ) );

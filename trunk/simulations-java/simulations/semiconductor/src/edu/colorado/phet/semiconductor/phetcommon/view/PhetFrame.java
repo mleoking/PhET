@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.semiconductor.SemiconductorResources;
 import edu.colorado.phet.semiconductor.phetcommon.application.PhetApplication;
 import edu.colorado.phet.semiconductor.phetcommon.view.components.menu.HelpMenu;
 import edu.colorado.phet.semiconductor.phetcommon.view.components.menu.PhetFileMenu;
@@ -34,8 +35,8 @@ public class PhetFrame extends JFrame {
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         JMenuBar menuBar = new JMenuBar();
         this.helpMenu = new HelpMenu( this );
-        JMenu controlMenu = new JMenu( SimStrings.get( "PhetFrame.ControlMenu" ) );
-        JMenuItem showClockDialog = new JMenuItem( SimStrings.get( "PhetFrame.FixedClockMenuItem" ) );
+        JMenu controlMenu = new JMenu( SemiconductorResources.getString( "PhetFrame.ControlMenu" ) );
+        JMenuItem showClockDialog = new JMenuItem( SemiconductorResources.getString( "PhetFrame.FixedClockMenuItem" ) );
         showClockDialog.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
 //                clockDialog.setVisible(true);

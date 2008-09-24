@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.semiconductor.SemiconductorResources;
 import edu.colorado.phet.semiconductor.common.SimpleBufferedImageGraphic;
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
 import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
@@ -45,7 +45,7 @@ public class BandParticleGraphic extends TransformGraphic {
         if ( showExclaim && bandParticle.isExcited() ) {
             graphics2D.setColor( Color.red );
             graphics2D.setFont( exclaimFont );
-            graphics2D.drawString( SimStrings.get( "BandParticleGraphic.ExclaimText" ), pt.x - 14, pt.y );
+            graphics2D.drawString( SemiconductorResources.getString( "BandParticleGraphic.ExclaimText" ), pt.x - 14, pt.y );
         }
         graphics2D.setColor( Color.black );
         graphics2D.setFont( msgFont );

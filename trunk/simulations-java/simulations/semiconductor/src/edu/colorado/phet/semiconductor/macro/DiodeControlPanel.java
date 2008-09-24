@@ -7,8 +7,8 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.Border;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.semiconductor.SemiconductorApplication;
+import edu.colorado.phet.semiconductor.SemiconductorResources;
 
 /**
  * User: Sam Reid
@@ -25,27 +25,27 @@ public class DiodeControlPanel extends JPanel {
         this.application = application;
         pan.setLayout( new BoxLayout( pan, BoxLayout.Y_AXIS ) );
 
-        addJButton( SimStrings.get( "DiodeControlPanel.OneButton" ), new ActionListener() {
+        addJButton( SemiconductorResources.getString( "DiodeControlPanel.OneButton" ), new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 application.setSingleSection();
             }
         }, false );
-        addJButton( SimStrings.get( "DiodeControlPanel.TwoButton" ), new ActionListener() {
+        addJButton( SemiconductorResources.getString( "DiodeControlPanel.TwoButton" ), new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 application.setDoubleSection();
             }
         }, true );
-//        addJButton( SimStrings.get( "DiodeControlPanel.ThreeButton" ), new ActionListener() {
+//        addJButton( SemiconductorResources.getString( "DiodeControlPanel.ThreeButton" ), new ActionListener() {
 //            public void actionPerformed( ActionEvent e ) {
 //                module.setTripleSection();
 //            }
 //        }, false );
-        Border b = BorderFactory.createTitledBorder( SimStrings.get( "DiodeControlPanel.SegmentBorder" ) );
+        Border b = BorderFactory.createTitledBorder( SemiconductorResources.getString( "DiodeControlPanel.SegmentBorder" ) );
         pan.setBorder( b );
 
         setBackground( new Color( 240, 230, 210 ) );
         add( pan );
-        gateCheckBox = new JCheckBox( SimStrings.get( "DiodeControlPanel.GateCheckBox" ) );
+        gateCheckBox = new JCheckBox( SemiconductorResources.getString( "DiodeControlPanel.GateCheckBox" ) );
         gateCheckBox.setSelected( false );
         gateCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

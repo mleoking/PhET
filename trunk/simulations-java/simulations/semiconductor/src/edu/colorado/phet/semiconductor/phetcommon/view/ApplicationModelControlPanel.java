@@ -11,6 +11,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.semiconductor.SemiconductorResources;
 import edu.colorado.phet.semiconductor.phetcommon.model.clock.AbstractClock;
 
 /**
@@ -48,9 +49,9 @@ public class ApplicationModelControlPanel extends JPanel {
         ImageIcon pauseIcon = new ImageIcon( pauseU );
         ImageIcon stepIcon = new ImageIcon( stepU );
 //        this.rh = rh;
-        play = new JButton( SimStrings.get( "ApplicationModelControlPanel.PlayButton" ), playIcon );
-        pause = new JButton( SimStrings.get( "ApplicationModelControlPanel.PauseButton" ), pauseIcon );
-        step = new JButton( SimStrings.get( "ApplicationModelControlPanel.StepButton" ), stepIcon );
+        play = new JButton( SemiconductorResources.getString( "ApplicationModelControlPanel.PlayButton" ), playIcon );
+        pause = new JButton( SemiconductorResources.getString( "ApplicationModelControlPanel.PauseButton" ), pauseIcon );
+        step = new JButton( SemiconductorResources.getString( "ApplicationModelControlPanel.StepButton" ), stepIcon );
         step.setEnabled( false );
 
         play.addActionListener( new ActionListener() {
@@ -85,7 +86,7 @@ public class ApplicationModelControlPanel extends JPanel {
 
         ImageIcon logo = new ImageIcon( PhetCommonResources.getInstance().getImage( "logos/phet-logo.jpg" ) );
         logoButton = new JButton( logo );
-        logoButton.setToolTipText( SimStrings.get( "ApplicationModelControlPanel.LogoButtonToolTipText" ) );
+        logoButton.setToolTipText( SemiconductorResources.getString( "ApplicationModelControlPanel.LogoButtonToolTipText" ) );
         logoButton.setPreferredSize( new Dimension( logo.getIconWidth() + 12, logo.getIconHeight() + 12 ) );
 //        this.add( logoButton, BorderLayout.EAST );
         logoButton.addActionListener( new ActionListener() {

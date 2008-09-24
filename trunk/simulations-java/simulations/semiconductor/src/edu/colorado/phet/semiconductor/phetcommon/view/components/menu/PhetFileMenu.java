@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.semiconductor.SemiconductorResources;
 
 public class PhetFileMenu extends JMenu {
 
@@ -25,19 +26,19 @@ public class PhetFileMenu extends JMenu {
     }
 
     public PhetFileMenu( JComponent[] menuStuff ) {
-        super( SimStrings.get( "PhetFileMenu.FileMenu" ) );
-        setMnemonic( SimStrings.get( "PhetFileMenu.FileMnemonic" ).charAt( 0 ) );
+        super( SemiconductorResources.getString( "PhetFileMenu.FileMenu" ) );
+        setMnemonic( SemiconductorResources.getString( "PhetFileMenu.FileMnemonic" ).charAt( 0 ) );
         for ( int i = 0; i < menuStuff.length; i++ ) {
             Component component = menuStuff[i];
             this.add( component );
         }
-        JMenuItem exitMI = new JMenuItem( SimStrings.get( "PhetFileMenu.ExitMenuItem" ) );
+        JMenuItem exitMI = new JMenuItem( SemiconductorResources.getString( "PhetFileMenu.ExitMenuItem" ) );
         exitMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 System.exit( 0 );
             }
         } );
-        exitMI.setMnemonic( SimStrings.get( "PhetFileMenu.ExitMnemonic" ).charAt( 0 ) );
+        exitMI.setMnemonic( SemiconductorResources.getString( "PhetFileMenu.ExitMnemonic" ).charAt( 0 ) );
         this.add( exitMI );
     }
 }

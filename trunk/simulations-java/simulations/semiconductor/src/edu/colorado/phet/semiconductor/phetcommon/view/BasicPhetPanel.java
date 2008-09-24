@@ -5,7 +5,7 @@ import java.awt.*;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.semiconductor.SemiconductorResources;
 
 /**
  * A panel for the apparatus, large and in the left side.  A north panel for display, an east panel for controls, and a south panel for other controls.
@@ -101,7 +101,7 @@ public class BasicPhetPanel extends JPanel {
 
         if ( buttonDlg == null ) {
             buttonDlg = new JDialog();
-            buttonDlg.setTitle( SimStrings.get( "BasicPhetPanel.Title" ) );
+            buttonDlg.setTitle( SemiconductorResources.getString( "BasicPhetPanel.Title" ) );
             buttonDlg.setDefaultCloseOperation( JDialog.DO_NOTHING_ON_CLOSE );
             buttonDlg.getContentPane().setLayout( new FlowLayout( FlowLayout.CENTER ) );
             Rectangle thisBounds = this.getBounds();
