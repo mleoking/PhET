@@ -11,7 +11,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.semiconductor.SemiconductorResources;
 
 /**
  * User: Sam Reid
@@ -29,7 +29,7 @@ public class BatterySpinner {
         this.battery = battery;
         spinner = new MyJSpinner( new SpinnerNumberModel( battery.getVoltage(), min, max, .1 ) );
 
-        TitledBorder border = BorderFactory.createTitledBorder( SimStrings.get( "BatterySpinner.BorderTitle" ) );
+        TitledBorder border = BorderFactory.createTitledBorder( SemiconductorResources.getString( "BatterySpinner.BorderTitle" ) );
         border.setTitleFont( new PhetFont( Font.PLAIN, 18 ) );
 
         spinner.setBorder( border );

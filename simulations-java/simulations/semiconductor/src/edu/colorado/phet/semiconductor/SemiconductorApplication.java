@@ -79,7 +79,7 @@ public class SemiconductorApplication extends Module implements Graphic {
 
 
     public SemiconductorApplication( SwingTimerClock clock ) throws IOException {
-        super( SimStrings.get( "ModuleTitle.SemiconductorModule" ) );
+        super( SemiconductorResources.getString( "ModuleTitle.SemiconductorModule" ) );
         transform = new ModelViewTransform2D( new Rectangle2D.Double( 0, 0, 10, 10 ), new Rectangle( 0, 0, 1, 1 ) );
 
 
@@ -339,8 +339,8 @@ public class SemiconductorApplication extends Module implements Graphic {
 //        UIManager.setLookAndFeel(new SemiconductorLookAndFeel());
 //        FrameSetup fs = new MaxExtentFrameSetup( new FullScreen() );
                 FrameSetup fs = new TopOfScreen();
-                ApplicationDescriptor ad = new ApplicationDescriptor( SimStrings.get( "SemiconductorApplication.title" ) + " " + VERSION,
-                                                                      SimStrings.get( "SemiconductorApplication.description" ),
+                ApplicationDescriptor ad = new ApplicationDescriptor( SemiconductorResources.getString( "SemiconductorApplication.title" ) + " " + VERSION,
+                                                                      SemiconductorResources.getString( "SemiconductorApplication.description" ),
                                                                       VERSION, fs );
                 ad.setName( "semiconductor" );
                 SwingTimerClock clock = new SwingTimerClock( 1, 45, true );

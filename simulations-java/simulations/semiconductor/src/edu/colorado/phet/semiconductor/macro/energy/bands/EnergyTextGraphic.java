@@ -6,7 +6,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.semiconductor.SemiconductorResources;
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
 import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.shapes.ArrowShape;
@@ -31,7 +31,7 @@ public class EnergyTextGraphic extends TransformGraphic {
     public EnergyTextGraphic( ModelViewTransform2D transform, PhetVector loc ) {
         super( transform );
         this.loc = loc;
-        text = SimStrings.get( "EnergyTextGraphic.EnergyText" );
+        text = SemiconductorResources.getString( "EnergyTextGraphic.EnergyText" );
         font = new PhetFont( Font.PLAIN, 36 );
         smallFont = new PhetFont( 18 );
     }
@@ -70,8 +70,8 @@ public class EnergyTextGraphic extends TransformGraphic {
         PhetVector tipLocation = topPoint.getAddedInstance( 0, -200 );
         arrowShape = new ArrowShape( topPoint, tipLocation, 50, 50, 20 ).getArrowShape();
 
-        highShape = smallFont.createGlyphVector( graphics2D.getFontRenderContext(), SimStrings.get( "EnergyTextGraphic.HighText" ) ).getOutline( (float) tipLocation.getX() - 20, (float) tipLocation.getY() - 20 );
-        lowShape = smallFont.createGlyphVector( graphics2D.getFontRenderContext(), SimStrings.get( "EnergyTextGraphic.LowText" ) ).getOutline( (float) topPoint.getX() - 20, (float) topPoint.getY() + 20 );
+        highShape = smallFont.createGlyphVector( graphics2D.getFontRenderContext(), SemiconductorResources.getString( "EnergyTextGraphic.HighText" ) ).getOutline( (float) tipLocation.getX() - 20, (float) tipLocation.getY() - 20 );
+        lowShape = smallFont.createGlyphVector( graphics2D.getFontRenderContext(), SemiconductorResources.getString( "EnergyTextGraphic.LowText" ) ).getOutline( (float) topPoint.getX() - 20, (float) topPoint.getY() + 20 );
     }
 
     public void update() {

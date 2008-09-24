@@ -13,6 +13,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.semiconductor.SemiconductorResources;
 import edu.colorado.phet.semiconductor.phetcommon.view.PhetFrame;
 
 public class HelpMenu extends JMenu {
@@ -22,11 +23,11 @@ public class HelpMenu extends JMenu {
     }
 
     public HelpMenu( final PhetFrame phetFrame ) {
-        super( SimStrings.get( "HelpMenu.HelpMenu" ) );
-        this.setMnemonic( SimStrings.get( "HelpMenu.HelpMnemonic" ).charAt( 0 ) );
+        super( SemiconductorResources.getString( "HelpMenu.HelpMenu" ) );
+        this.setMnemonic( SemiconductorResources.getString( "HelpMenu.HelpMnemonic" ).charAt( 0 ) );
 
-        final JMenuItem about = new JMenuItem( SimStrings.get( "HelpMenu.AboutMenuItem" ) );
-        about.setMnemonic( SimStrings.get( "HelpMenu.AboutMnemonic" ).charAt( 0 ) );
+        final JMenuItem about = new JMenuItem( SemiconductorResources.getString( "HelpMenu.AboutMenuItem" ) );
+        about.setMnemonic( SemiconductorResources.getString( "HelpMenu.AboutMnemonic" ).charAt( 0 ) );
         about.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 new PhetAboutDialog( phetFrame, "semiconductor" ).show();

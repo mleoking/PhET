@@ -3,7 +3,7 @@ package edu.colorado.phet.semiconductor.macro.energy;
 
 import java.awt.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.semiconductor.SemiconductorResources;
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 
@@ -19,8 +19,8 @@ public class ElectricFieldSectionGraphic extends TransformGraphic {
     public ElectricFieldSectionGraphic( ElectricFieldSection field, ModelViewTransform2D transform ) {
         super( transform );
 
-        bfieldG = new ElectricFieldGraphic( SimStrings.get( "ElectricFieldSectionGraphic.BatteryForceLabel" ), field.getBatteryField(), transform );
-        ifieldG = new ElectricFieldGraphic( SimStrings.get( "ElectricFieldSectionGraphic.InternalForceLabel" ), field.getInternalField(), transform );
+        bfieldG = new ElectricFieldGraphic( SemiconductorResources.getString( "ElectricFieldSectionGraphic.BatteryForceLabel" ), field.getBatteryField(), transform );
+        ifieldG = new ElectricFieldGraphic( SemiconductorResources.getString( "ElectricFieldSectionGraphic.InternalForceLabel" ), field.getInternalField(), transform );
     }
 
     public void paint( Graphics2D g ) {

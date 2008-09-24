@@ -10,6 +10,7 @@ import javax.swing.*;
 import javax.swing.plaf.basic.BasicSpinnerUI;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.semiconductor.SemiconductorResources;
 
 /**
  * User: Sam Reid
@@ -131,7 +132,7 @@ public class MySpinnerUI extends BasicSpinnerUI {
 
     protected Component createNextButton() {
         final JButton next = (JButton) super.createNextButton();
-        JButton but = new JButton( SimStrings.get( "MySpinnerUI.NextButton" ), up );
+        JButton but = new JButton( SemiconductorResources.getString( "MySpinnerUI.NextButton" ), up );
 
         but.setIcon( up );
         but.setPressedIcon( uppressed );
@@ -148,7 +149,7 @@ public class MySpinnerUI extends BasicSpinnerUI {
 
     protected Component createPreviousButton() {
         final JButton prev = (JButton) super.createPreviousButton();
-        JButton but = new JButton( SimStrings.get( "MySpinnerUI.DownButton" ), down );
+        JButton but = new JButton( SemiconductorResources.getString( "MySpinnerUI.DownButton" ), down );
 
         but.setIcon( down );
         but.setPressedIcon( down );

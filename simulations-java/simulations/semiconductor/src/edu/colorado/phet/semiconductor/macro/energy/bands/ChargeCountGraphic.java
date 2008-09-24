@@ -4,7 +4,7 @@ package edu.colorado.phet.semiconductor.macro.energy.bands;
 import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.semiconductor.SemiconductorResources;
 import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
 import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
@@ -39,7 +39,7 @@ public class ChargeCountGraphic implements Graphic {
             Point pt = transform.modelToView( ctr );
             g.setFont( font );
             g.setColor( color );
-            String str = SimStrings.get( "ChargeCountGraphic.NetChargeLabel" ) + "=" + es.getExcessCharge( bandSet );
+            String str = SemiconductorResources.getString( "ChargeCountGraphic.NetChargeLabel" ) + "=" + es.getExcessCharge( bandSet );
             int width = (int) font.getStringBounds( str, g.getFontRenderContext() ).getWidth();
             g.drawString( str, pt.x - width / 2, pt.y );
         }

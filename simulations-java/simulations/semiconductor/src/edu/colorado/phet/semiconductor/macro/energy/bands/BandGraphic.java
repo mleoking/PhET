@@ -6,7 +6,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.semiconductor.SemiconductorResources;
 import edu.colorado.phet.semiconductor.common.EnergySpaceRegion;
 import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
@@ -67,7 +67,7 @@ public class BandGraphic implements Graphic {
                 for ( int k = 0; k < el.numCells(); k++ ) {
                     EnergyCell cell = el.cellAt( k );
                     Point pt = transform.modelToView( cell.getPosition() );
-                    String str = SimStrings.get( "BandGraphic.NullText" );
+                    String str = SemiconductorResources.getString( "BandGraphic.NullText" );
                     BandParticle bp = diodeSection.getBandParticle( cell );
                     if ( bp != null ) {
                         str = bp.toString();
