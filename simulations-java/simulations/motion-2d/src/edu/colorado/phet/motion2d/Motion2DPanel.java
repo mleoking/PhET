@@ -1,22 +1,25 @@
 package edu.colorado.phet.motion2d;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+
 public class Motion2DPanel extends JPanel
         implements MouseMotionListener, ActionListener, MouseListener {
-    private Motion2DSimulationPanel myGui;
+    private Motion2DSimulationPanel simulationPanel;
     private MotionPanel motionPanel1;
     private int xNow;
     private int yNow;
 
     private int avgXMid, avgYMid;
     private int xVel, yVel;
-    private Color myGreen;
+    private Color green;
     private int nAInit;        //position-averaging radius
     private int nGroupInit;    //# of avg-positions averaged in computing v, a
     private int timeStep;    //time step in millisec
@@ -35,14 +38,13 @@ public class Motion2DPanel extends JPanel
     private Motion2DControlFrame motion2DControlFrame;
     private Motion2DArrow motion2DArrow;
     private boolean antialias = true;
-    private Timer timer;
     private ButtonGroup buttonGroup;
     private WiggleMe wiggleMe;
     private Timer wiggleMeTimer;
 
-    public Motion2DPanel( Motion2DSimulationPanel myGui ) {
-        this.myGui = myGui;
-        myGreen = new Color( 0, 150, 0 );
+    public Motion2DPanel( Motion2DSimulationPanel simulationPanel ) {
+        this.simulationPanel = simulationPanel;
+        green = new Color( 0, 150, 0 );
         JPanel northPanel = new JPanel();
         northPanel.setBackground( Color.orange );
         JPanel southPanel = new JPanel();
@@ -59,7 +61,7 @@ public class Motion2DPanel extends JPanel
         motion2DControlFrame = new Motion2DControlFrame( this );
         motion2DControlFrame.setVisible( false );
 
-        motionPanel1 = new MotionPanel( this, motion2DModel, myGui.getWidth(), myGui.getHeight() );
+        motionPanel1 = new MotionPanel( this, motion2DModel, simulationPanel.getWidth(), simulationPanel.getHeight() );
         motionPanel1.launchMotionPanel();
 
         motion2DArrow = new Motion2DArrow();
@@ -106,13 +108,18 @@ public class Motion2DPanel extends JPanel
         addMouseMotionListener( this );
         addMouseListener( this );
 
-        timer = new Timer( 30, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
+//        timer = new Timer( 30, new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                stepInTime();
+//            }
+//        } );
+//
+//        timer.start();
+        simulationPanel.getClock().addClockListener( new ClockAdapter() {
+            public void simulationTimeChanged( ClockEvent clockEvent ) {
                 stepInTime();
             }
         } );
-
-        timer.start();
         bothButton.doClick();
 
         Point pt = new Point( 20, yNow );
@@ -130,7 +137,7 @@ public class Motion2DPanel extends JPanel
     }
 
     private void stepInTime() {
-        if( motionPanel1.getMotionOnState() ) {
+        if ( motionPanel1.getMotionOnState() ) {
             motionPanel1.nextPosition();
             setXYNow( motionPanel1.getXNow(), motionPanel1.getYNow() );
         }
@@ -144,62 +151,62 @@ public class Motion2DPanel extends JPanel
     }
 
     public void paintComponent( Graphics g ) {
-        Graphics2D g2 = (Graphics2D)g;
-        if( antialias ) {
+        Graphics2D g2 = (Graphics2D) g;
+        if ( antialias ) {
             g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         }
         super.paintComponent( g );
-        avgXMid = (int)motion2DModel.getAvgXMid();
-        avgYMid = (int)motion2DModel.getAvgYMid();
+        avgXMid = (int) motion2DModel.getAvgXMid();
+        avgYMid = (int) motion2DModel.getAvgYMid();
 
-        xVel = (int)( ( velFactor / 2 ) * ( motion2DModel.getXVel() ) );
-        yVel = (int)( ( velFactor / 2 ) * ( motion2DModel.getYVel() ) );
+        xVel = (int) ( ( velFactor / 2 ) * ( motion2DModel.getXVel() ) );
+        yVel = (int) ( ( velFactor / 2 ) * ( motion2DModel.getYVel() ) );
         double xAcc = accFactor * ( motion2DModel.getXAcc() );
         double yAcc = accFactor * ( motion2DModel.getYAcc() );
-        g.drawImage( myGui.getBallImage(), avgXMid - radius, avgYMid - radius, 2 * radius, 2 * radius, this );
+        g.drawImage( simulationPanel.getBallImage(), avgXMid - radius, avgYMid - radius, 2 * radius, 2 * radius, this );
 
-        if( buttonFlag == SHOW_NEITHER ) {
+        if ( buttonFlag == SHOW_NEITHER ) {
         }
-        else if( buttonFlag == SHOW_VEL ) {
-            g.setColor( myGreen );
+        else if ( buttonFlag == SHOW_VEL ) {
+            g.setColor( green );
             motion2DArrow.setPosition( avgXMid, avgYMid, avgXMid + xVel, avgYMid + yVel );
             motion2DArrow.paint( g );
         }
-        else if( buttonFlag == SHOW_ACC ) {
+        else if ( buttonFlag == SHOW_ACC ) {
             g.setColor( Color.blue );
             motion2DArrow.setPosition( avgXMid, avgYMid, avgXMid + xAcc, avgYMid + yAcc );
             motion2DArrow.paint( g );
         }
-        else if( buttonFlag == SHOW_BOTH ) {
-            g.setColor( myGreen );
+        else if ( buttonFlag == SHOW_BOTH ) {
+            g.setColor( green );
             motion2DArrow.setPosition( avgXMid, avgYMid, avgXMid + xVel, avgYMid + yVel );
             motion2DArrow.paint( g );
             g.setColor( Color.blue );
             motion2DArrow.setPosition( avgXMid, avgYMid, avgXMid + xAcc, avgYMid + yAcc );
             motion2DArrow.paint( g );
         }
-        if( wiggleMe != null ) {
+        if ( wiggleMe != null ) {
             wiggleMe.paint( g2 );
         }
     }//end of paintComponent method
 
     public void actionPerformed( ActionEvent e ) {
-        if( e.getSource() == vButton ) {
+        if ( e.getSource() == vButton ) {
             buttonFlag = SHOW_VEL;
         }
-        else if( e.getSource() == aButton ) {
+        else if ( e.getSource() == aButton ) {
             buttonFlag = SHOW_ACC;
         }
-        else if( e.getSource() == bothButton ) {
+        else if ( e.getSource() == bothButton ) {
             buttonFlag = SHOW_BOTH;
         }
 //        else if( e.getSource() == hideMouseButton ) {
 //            hideOrShowCursor();
 //        }
-        else if( e.getSource() == neitherButton ) {
+        else if ( e.getSource() == neitherButton ) {
             buttonFlag = SHOW_NEITHER;
         }
-        else if( e.getSource() == moreButton ) {
+        else if ( e.getSource() == moreButton ) {
             motion2DControlFrame.setVisible( true );
             moreButton.setEnabled( false );
             motion2DControlFrame.toFront();
@@ -215,7 +222,7 @@ public class Motion2DPanel extends JPanel
     }//end of mouseDragged method
 
     private void removeWiggler() {
-        if( wiggleMe != null ) {
+        if ( wiggleMe != null ) {
             wiggleMeTimer.stop();
             wiggleMe.setVisible( false );
             repaint( wiggleMe.getBounds() );
@@ -224,27 +231,27 @@ public class Motion2DPanel extends JPanel
     }
 
     private void hideCursor() {
-        myGui.setCursor( myGui.hide );
+        simulationPanel.setCursor( simulationPanel.hide );
     }
 
     private void showCursor() {
-        myGui.setCursor( myGui.show );
+        simulationPanel.setCursor( simulationPanel.show );
     }
 
     public void mouseMoved( MouseEvent e ) {
         Point pt = e.getPoint();
         Point cur = new Point( xNow, yNow );
         double dist = pt.distance( cur );
-        if( dist < myGui.getBallImage().getWidth( this ) / 2.0 ) {
-            myGui.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+        if ( dist < simulationPanel.getBallImage().getWidth( this ) / 2.0 ) {
+            simulationPanel.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
         }
         else {
-            myGui.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+            simulationPanel.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
         }
     }
 
     public void setXYNow( int xNow, int yNow ) {
-        if( xNow != this.xNow || this.yNow != yNow ) {
+        if ( xNow != this.xNow || this.yNow != yNow ) {
             this.xNow = xNow;
             this.yNow = yNow;
         }
@@ -257,7 +264,7 @@ public class Motion2DPanel extends JPanel
     public void setTimeStep( int timeStep ) {
         this.timeStep = timeStep;
         motion2DControlFrame.getTimeStepBar().setValue( timeStep );
-        timer.setDelay( timeStep );
+        simulationPanel.getClock().setDelay( timeStep );
     }
 
     public double getVelFactor() {
@@ -266,7 +273,7 @@ public class Motion2DPanel extends JPanel
 
     public void setVelFactor( double velFactor ) {
         this.velFactor = velFactor;
-        motion2DControlFrame.getVelFactorBar().setValue( (int)velFactor );
+        motion2DControlFrame.getVelFactorBar().setValue( (int) velFactor );
     }
 
     public double getAccFactor() {
@@ -275,7 +282,7 @@ public class Motion2DPanel extends JPanel
 
     public void setAccFactor( double accFactor ) {
         this.accFactor = accFactor;
-        motion2DControlFrame.getAccFactorBar().setValue( (int)accFactor );
+        motion2DControlFrame.getAccFactorBar().setValue( (int) accFactor );
     }
 
     public JButton getMoreButton() {
