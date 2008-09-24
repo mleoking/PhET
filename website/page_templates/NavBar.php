@@ -317,8 +317,16 @@ EOT;
                     <dd><br />
                     An independent federal agency created by Congress in 1950 to promote the progress of science.<br />
                     <br />
+
+                    <dt><a href="http://www.ksu.edu.sa/">
+                    <img class="sponsors" src="{$prefix}images/ksu-logo.gif" alt="The King Saud Logo"/ >King Saud University</a></dt>
+
+                    <dd><br />
+                    King Saud University seeks to become a leader in educational and technological innovation, scientific discovery and creativity through fostering an atmosphere of intellectual inspiration and partnership for the prosperity of society.<br />
+                    <br />
                     <a href="{$prefix}sponsors/index.php">
                     <img src="{$prefix}images/other-sponsors.gif" alt="Other Sponsors Logo"/></a></dd>
+
                 </dl>
             </div>
         </div>
