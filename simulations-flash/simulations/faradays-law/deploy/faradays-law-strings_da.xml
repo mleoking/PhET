@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<SimStrings>
+<string key="twoCoils" value="2 Spoler"/>
+<string key="n" value="N"/>
+<string key="noSound" value="Ingen lyd"/>
+<string key="showFieldLines" value="Vis feltlinjer"/>
+<string key="voltage" value="Spænding"/>
+<string key="flipMagnet" value="Vend magneten"/>
+<string key="oneCoil" value="1 Spole"/>
+<string key="moveMe" value="Bevæg mig"/>
+<string key="s" value="S"/>
+</SimStrings>
