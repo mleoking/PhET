@@ -532,7 +532,9 @@ public class MultipleParticleModel {
         // Set the initial size of the container.
         m_particleContainerHeight = StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT;
         m_targetContainerHeight = StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT;
-
+        m_normalizedContainerHeight = m_particleContainerHeight / m_particleDiameter;
+        m_normalizedContainerWidth = StatesOfMatterConstants.PARTICLE_CONTAINER_WIDTH / m_particleDiameter;
+        
         // Initialize the particles.
         switch (m_currentMolecule){
         case StatesOfMatterConstants.DIATOMIC_OXYGEN:
@@ -551,9 +553,6 @@ public class MultipleParticleModel {
             System.err.println("ERROR: Unrecognized particle type, using default number of layers.");
             break;
         }
-        
-        m_normalizedContainerHeight = m_particleContainerHeight / m_particleDiameter;
-        m_normalizedContainerWidth = StatesOfMatterConstants.PARTICLE_CONTAINER_WIDTH / m_particleDiameter;
         
         calculateMinAllowableContainerHeight();
         
@@ -1678,7 +1677,7 @@ public class MultipleParticleModel {
         
         int moleculesPlaced = 0;
         double xPos, yPos;
-        for (int i = 0; moleculesPlaced < m_numberOfAtoms / 3; i++){ // One iteration per layer.
+        for (int i = 0; moleculesPlaced < m_numberOfAtoms / 3; i++){ // One iteration per circular layer.
             for (int j = 0; (j < moleculesPerLayer) && (moleculesPlaced < m_numberOfAtoms / 3); j++){
                 xPos = startingPosX + j + (j * DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL);
                 if (i % 2 != 0){
