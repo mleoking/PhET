@@ -106,12 +106,18 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         
         // Decide whether to use gradients when drawing the particles.
         m_useGradient = true;
+        /*
+         * TODO JPB TBD - This used to prevent gradients from being used
+         * on a Mac, but some code has been added that may make it safe to
+         * use them, so this is commented out be left here until we find out
+         * whether or not the changes work.
         if (PhetUtilities.getOperatingSystem() == PhetUtilities.OS_MACINTOSH){
             // We have been having trouble with gradients causing Macs to
             // crash and/or run very slowly, so we don't use them when running
             // there.
             m_useGradient = false;
         }
+         */
 
         // Register for notifications of important events from the model.
         m_model.addListener( new DualParticleModel.Adapter(){
