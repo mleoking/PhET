@@ -62,7 +62,8 @@ EOT;
             }
 
             print <<<EOT
-                            <a href="about/news.php">What's New</a>
+                            <a href="about/news.php">What's&nbsp;New</a> |
+                            <a href="about/index.php">About&nbsp;PhET</a>
                         </td>
                     </tr>
                 </table>
@@ -78,23 +79,43 @@ EOT;
 
                 <p class="openingParagraph">Fun, interactive, <a href="research/index.php">research-based</a> simulations of physical phenomena from the Physics Education Technology project at the University of Colorado.</p>
 
-                <table id="hotlinks">
-                    <tr>
-                        <td colspan="2">
-                            <p class="findOutMore" onclick="javascript:location.href='simulations/index.php?cat=Top_Simulations'">
-                                <a href="simulations/index.php?cat=Top_Simulations">
-                                    Play with sims... &gt;
-                                </a>
-                            </p>
-                        </td>
-                    </tr>
-                </table>
+                <div id="hotlinks">
+                <p class="findOutMore" onclick="javascript:location.href='simulations/index.php?cat=Top_Simulations'">
+                    <a href="simulations/index.php?cat=Top_Simulations">
+                        Play with sims... &gt;
+                    </a>
+                </p>
+
+                <div>
+                <div style="float: right;">
+                    <a href="simulations/translations.php" style="text-decoration: none;">
+                        <img src="images/un-flag-43x43.png" alt="UN Flag" style="float:left;"/>
+                        <span style="float:left;padding-left:1em;padding-right:1em;padding-top:0.5em;">Other<br /> languages...</span>
+                    </a>
+                    &nbsp;
+                </div>
+                </div>
+
+                </div>
+
+
             </div>
 
             <div class="clear"></div>
         </div>
 
         <div id="home-page-sponsors">
+            <div class="sponsor">
+                <a href="http://www.ksu.edu.sa/" title="Click here to visit the King Saud University">
+                    <img src="images/ksu-logo.gif" height="28" alt="King Saud University Logo"/>
+                </a>
+                <p>
+                    <a href="http://www.ksu.edu.sa/" title="Click here to visit the King Saud University">
+                        King Saud University
+                    </a>
+                </p>
+            </div>
+
             <div class="sponsor">
                 <a href="http://www.nsf.gov/" title="Click here to visit the National Science Foundation" >
                     <img src="images/nsf-logo-small.gif" height="28" alt="National Science Foundation Logo"/>
@@ -115,26 +136,6 @@ EOT;
                         The William and Flora Hewlett Foundation
                     </a>
                 </p>
-            </div>
-
-            <div class="sponsor wide">
-                <table>
-                    <tr>
-                        <td class="other-languages">
-                            <a href="simulations/translations.php">
-                                <img src="images/un-flag-43x43.png" alt="UN Flag" />
-                            </a>
-                        </td>
-
-                        <td>
-                            <p>
-                                <a href="simulations/translations.php">
-                                    Other languages...
-                                </a>
-                            </p>
-                        </td>
-                    </tr>
-                </table>
             </div>
 
             <div class="clear"></div>
@@ -188,9 +189,7 @@ EOT;
                 <dd class="readMore"><a href="simulations/index.php"><img src="images/search.gif" alt="Search" title="Search" /></a></dd>
             </dl>
 
-            <div class="home-page-links">
-                <a href="about/index.php">About PhET</a>
-            </div>
+            <div class="clear"></div>
         </div>
 
 EOT;
