@@ -54,16 +54,19 @@ EOT;
 
 EOT;
 
+/*
+ * temporary disable newsletter option until I get final OK to permanantly remove it
             if (!isset($contributor_receive_email) || $contributor_receive_email == 0) {
                 print <<<EOT
                             <a href="teacher_ideas/subscribe-newsletter.php">Subscribe to PhET Newsletter</a> |
 
 EOT;
             }
+*/
 
             print <<<EOT
-                            <a href="about/news.php">What's&nbsp;New</a> |
-                            <a href="about/index.php">About&nbsp;PhET</a>
+                            <a href="about/news.php">What's New</a> |
+                            <a href="about/index.php">About PhET</a>
                         </td>
                     </tr>
                 </table>
