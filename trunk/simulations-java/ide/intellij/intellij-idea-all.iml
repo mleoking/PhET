@@ -27,7 +27,7 @@
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/beanshell/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/jade/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/piccolo2d/core/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../contrib/piccolo2d/core/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../contrib/piccolo2d/core/src/test/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/piccolo2d/examples/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/piccolo2d/extras/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/balloons/src" isTestSource="false" />
@@ -50,7 +50,6 @@
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/forces-1d/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/fourier/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/glaciers/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/greenhouse/phetcommon/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/greenhouse/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/hydrogen-atom/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/ideal-gas/src" isTestSource="false" />
@@ -90,7 +89,6 @@
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/wave-interference/src" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/../../../team/reids">
-      <sourceFolder url="file://$MODULE_DIR$/../../../team/reids/admin/parser" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../../team/reids/admin/src" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/../../../util/phet-media-license">
@@ -99,6 +97,7 @@
     <content url="file://$MODULE_DIR$/../../../util/translation-utility">
       <sourceFolder url="file://$MODULE_DIR$/../../../util/translation-utility/src" isTestSource="false" />
     </content>
+    <content url="file://$MODULE_DIR$/../../../website" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
