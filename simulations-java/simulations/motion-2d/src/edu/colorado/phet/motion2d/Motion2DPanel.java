@@ -60,7 +60,7 @@ public class Motion2DPanel extends JPanel
         motion2DControlFrame = new Motion2DControlFrame( this );
         motion2DControlFrame.setVisible( false );
 
-        motionPanel1 = new MotionPanel( this, motion2DModel, simulationPanel.getWidth(), simulationPanel.getHeight() );
+        motionPanel1 = new MotionPanel( this, simulationPanel.getWidth(), simulationPanel.getHeight() );
         motionPanel1.launchMotionPanel();
 
         motion2DArrow = new Motion2DArrow();

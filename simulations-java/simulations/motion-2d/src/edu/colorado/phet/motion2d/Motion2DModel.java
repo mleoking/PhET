@@ -34,20 +34,12 @@ public class Motion2DModel {
         return y.getAcceleration();
     }
 
-    public double getAvgXNow() {
-        return x.getAvgNow();
-    }
-
     public double getAvgXMid() {
         return x.getAvgMid();
     }
 
     public double getAvgYMid() {
         return y.getAvgMid();
-    }
-
-    public double getAvgXBefore() {
-        return x.getAvgBefore();
     }
 
     private static class Motion2DValue {
@@ -127,16 +119,8 @@ public class Motion2DModel {
             return avgNow - 2 * avgMid + avgBefore;
         }
 
-        public double getAvgNow() {
-            return this.avgNow;
-        }
-
         public double getAvgMid() {
             return avgMid;
-        }
-
-        public double getAvgBefore() {
-            return avgBefore;
         }
 
         public void addPointAndUpdate( int val ) {
