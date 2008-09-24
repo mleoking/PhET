@@ -8,9 +8,9 @@ import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
-public class Motion2DApplication2 extends PiccoloPhetApplication {
+public class Motion2DApplication extends PiccoloPhetApplication {
 
-    public Motion2DApplication2( PhetApplicationConfig config ) {
+    public Motion2DApplication( PhetApplicationConfig config ) {
         super( config );
         Motion2DModule module = new Motion2DModule( config );
         addModule( module );
@@ -21,7 +21,7 @@ public class Motion2DApplication2 extends PiccoloPhetApplication {
             super( commandLineArgs, new FrameSetup.CenteredWithSize( 850, 600 ), Motion2DResources.getResourceLoader() );
             super.setApplicationConstructor( new ApplicationConstructor() {
                 public PhetApplication getApplication( PhetApplicationConfig config ) {
-                    return new Motion2DApplication2( config );
+                    return new Motion2DApplication( config );
                 }
             } );
             super.setLookAndFeel( new PhetLookAndFeel() );
