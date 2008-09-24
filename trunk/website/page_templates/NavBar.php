@@ -303,29 +303,45 @@ EOT;
                 <div class="header">
                 </div>
                 <dl>
-                    <dt><a href="http://www.hewlett.org/Default.htm">The William and Flora Hewlett Foundation</a></dt>
+                    <dt>
+                        <a href="http://www.hewlett.org/Default.htm">The William and Flora Hewlett Foundation</a>
+                    </dt>
 
-                    <dd><a href="http://www.hewlett.org/Default.htm">
-                    <img src="{$prefix}images/hewlett-logo.jpg" alt="The Hewlett Logo"/></a><br />
+                    <dd>
+                        <a href="http://www.hewlett.org/Default.htm">
+                            <img src="{$prefix}images/hewlett-logo.jpg" alt="The Hewlett Logo"/>
+                        </a>
+                        <br />
 
-                    <br />
-                    Makes grants to address the most serious social and environmental problems facing society, where risk capital, responsibly invested, may make a difference over time.</dd>
+                        <br />
+                        Makes grants to address the most serious social and environmental problems facing society, where risk capital, responsibly invested, may make a difference over time.
+                    </dd>
 
-                    <dt><a href="http://www.nsf.gov/">
-                    <img class="sponsors" src="{$prefix}images/nsf-logo.gif" alt="The NSF Logo"/>National Science Foundation</a></dt>
+                    <dt>
+                        <a href="http://www.nsf.gov/">
+                            <img class="sponsors" src="{$prefix}images/nsf-logo.gif" alt="The NSF Logo"/>National Science Foundation</a>
+                    </dt>
 
-                    <dd><br />
-                    An independent federal agency created by Congress in 1950 to promote the progress of science.<br />
-                    <br />
+                    <dd>
+                        <br />
+                        An independent federal agency created by Congress in 1950 to promote the progress of science.<br />
+                        <br />
+                    </dd>
 
-                    <dt><a href="http://www.ksu.edu.sa/">
-                    <img class="sponsors" src="{$prefix}images/ksu-logo.gif" alt="The King Saud Logo"/ >King Saud University</a></dt>
+                    <dt>
+                        <a href="http://www.ksu.edu.sa/">
+                            <img class="sponsors" src="{$prefix}images/ksu-logo.gif" alt="The King Saud Logo" />King Saud University</a>
+                    </dt>
 
-                    <dd><br />
-                    King Saud University seeks to become a leader in educational and technological innovation, scientific discovery and creativity through fostering an atmosphere of intellectual inspiration and partnership for the prosperity of society.<br />
-                    <br />
-                    <a href="{$prefix}sponsors/index.php">
-                    <img src="{$prefix}images/other-sponsors.gif" alt="Other Sponsors Logo"/></a></dd>
+                    <dd>
+                        <br />
+                        King Saud University seeks to become a leader in educational and technological innovation, scientific discovery and creativity through fostering an atmosphere of intellectual inspiration and partnership for the prosperity of society.<br />
+                        <br />
+                    </dd>
+                    <dt>
+                        <a href="{$prefix}sponsors/index.php">
+                        <img src="{$prefix}images/other-sponsors.gif" alt="Other Sponsors Logo"/></a>
+                    </dt>
 
                 </dl>
             </div>
