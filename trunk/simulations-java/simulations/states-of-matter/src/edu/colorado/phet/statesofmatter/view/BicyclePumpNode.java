@@ -5,10 +5,13 @@ package edu.colorado.phet.statesofmatter.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.GradientPaint;
+import java.awt.Paint;
 import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
@@ -36,9 +39,9 @@ public class BicyclePumpNode extends PNode {
     private static final double PUMP_BASE_WIDTH_PROPORTION = 0.4;
     private static final double PUMP_BASE_HEIGHT_PROPORTION = 0.02;
     private static final Color PUMP_BASE_COLOR = new Color( 0xbb8855 );
-    private static final Color PUMP_BODY_COLOR = Color.RED;
     private static final double PUMP_BODY_HEIGHT_PROPORTION = 0.75;
     private static final double PUMP_BODY_WIDTH_PROPORTION = 0.1;
+    private static final Color PUMP_BODY_COLOR = Color.red;
     private static final double PUMP_SHAFT_WIDTH_PROPORTION = PUMP_BODY_WIDTH_PROPORTION * 0.25;
     private static final double PUMP_SHAFT_HEIGHT_PROPORTION = PUMP_BODY_HEIGHT_PROPORTION;
     private static final Color PUMP_SHAFT_COLOR = Color.LIGHT_GRAY;
@@ -161,23 +164,13 @@ public class BicyclePumpNode extends PNode {
         // Add the body of the pump
         double pumpBodyWidth = width * PUMP_BODY_WIDTH_PROPORTION;
         double pumpBodyHeight = height * PUMP_BODY_HEIGHT_PROPORTION;
-        PPath pumpBody = new PPath( new Rectangle2D.Double( 0, 0, pumpBodyWidth, pumpBodyHeight ) );
-        pumpBody.setPaint( PUMP_BODY_COLOR );
+        PPath pumpBody = new PhetPPath( new Rectangle2D.Double( 0, 0, pumpBodyWidth, pumpBodyHeight ) );
+        GradientPaint pumpBodyPaint = new GradientPaint(0, (float)pumpBodyHeight/2, new Color(0x808080), (float)pumpBodyWidth, (float)pumpBodyHeight/2,
+        		PUMP_BODY_COLOR);
+        
+        pumpBody.setPaint( pumpBodyPaint );
         pumpBody.setOffset( width * PUMP_HORIZ_POSITION_PROPORTION - ( pumpBodyWidth / 2 ), height - pumpBodyHeight - pumpBaseHeight );
         pumpBody.setPickable( false );
         addChild( pumpBody );
-
     }
-
-    //------------------------------------------------------------------------
-    // Accessor Methods
-    //------------------------------------------------------------------------
-    //------------------------------------------------------------------------
-    // Other Public Methods
-    //------------------------------------------------------------------------
-    //------------------------------------------------------------------------
-    // Private Methods
-    //------------------------------------------------------------------------
-
-
 }
