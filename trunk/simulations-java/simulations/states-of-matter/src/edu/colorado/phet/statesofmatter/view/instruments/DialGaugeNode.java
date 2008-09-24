@@ -17,6 +17,7 @@ import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -164,21 +165,13 @@ public class DialGaugeNode extends PNode {
         dialComponentsNode.addChild( pin );
 
         // Create the connector.  It is placed first because then it can be
-        // behind everything else.
-        PPath connector = new PPath(new Rectangle2D.Double(0, 0, connectorWidth, 
+        // behind everything else.  A PhetPPath is used because it allows us
+        // to use a gradient without crashing any Macs.
+        PhetPPath connector = new PhetPPath(new Rectangle2D.Double(0, 0, connectorWidth, 
                 CONNECTOR_HEIGHT_PROPORATION * diameter));
         
-        Paint paint;
-        
-        if (PhetUtilities.getOperatingSystem() == PhetUtilities.OS_MACINTOSH){
-            // We have been having issues with gradient paints causing crashes
-            // on Macs, so Mac users get solid colors.
-            paint = Color.BLUE;
-        }
-        else{
-            paint = new GradientPaint((float)(diameter / 2), 0, Color.LIGHT_GRAY, (float)(diameter / 2), 
+        Paint paint = new GradientPaint((float)(diameter / 2), 0, Color.LIGHT_GRAY, (float)(diameter / 2), 
                     (float)(CONNECTOR_HEIGHT_PROPORATION * diameter), Color.BLUE);
-        }
 
         connector.setPaint( paint );
         connector.setOffset( dialComponentsNode.getFullBoundsReference().width * 0.9, 
