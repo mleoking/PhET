@@ -614,10 +614,12 @@ div.horizontal_center {
 
 #footer p a,#footer p a {
     color: #900;
+    font-weight: normal;
 }
 
 #footer p a:hover {
     color: #666;
+    font-weight: normal;
 }
 
 /******** =content ********/
