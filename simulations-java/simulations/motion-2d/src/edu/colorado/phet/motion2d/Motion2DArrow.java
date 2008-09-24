@@ -44,16 +44,16 @@ public class Motion2DArrow {
                 ( w / 2 ) * ( -x1 / L ),
                 ( w / 2 ) * ( x1 / L )};
 
-        for( int i = 0; i < x.length; i++ ) {
-            xInt[i] = (int)x0 + (int)( x[i] );
-            yInt[i] = (int)y0 + (int)( y[i] );
+        for ( int i = 0; i < x.length; i++ ) {
+            xInt[i] = (int) x0 + (int) ( x[i] );
+            yInt[i] = (int) y0 + (int) ( y[i] );
         }
 
     }//end of position()
 
 
     public void paint( Graphics g ) {
-        Graphics2D g2 = (Graphics2D)g;
+        Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF );
         g.fillPolygon( xInt, yInt, xInt.length );
     }//end of paint method

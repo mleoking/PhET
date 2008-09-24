@@ -69,7 +69,7 @@ public class Motion2DModel {
             this.numPtsAvg = numPtsAvg;
             this.value = new double[numPoints];
             this.avg = new double[numPoints - 2 * halfWindowSize];
-            for( int i = 0; i < numPoints; i++ ) {
+            for ( int i = 0; i < numPoints; i++ ) {
                 value[i] = 100;
             }
         }
@@ -77,15 +77,15 @@ public class Motion2DModel {
         public void addPoint( double v ) {
             int numPoints = value.length;
             //update x and y-arrays
-            for( int i = 0; i < ( numPoints - 1 ); i++ ) {
+            for ( int i = 0; i < ( numPoints - 1 ); i++ ) {
                 value[i] = value[i + 1];
             }
             value[numPoints - 1] = v;
 
             //update averagePosition arrays
-            for( int i = 0; i < ( numPoints - 2 * halfWindowSize ); i++ ) {
+            for ( int i = 0; i < ( numPoints - 2 * halfWindowSize ); i++ ) {
                 avg[i] = 0;
-                for( int j = -halfWindowSize; j <= +halfWindowSize; j++ ) {
+                for ( int j = -halfWindowSize; j <= +halfWindowSize; j++ ) {
                     avg[i] += value[i + halfWindowSize + j];
                 }
 
@@ -101,19 +101,19 @@ public class Motion2DModel {
             double sumXNow = 0;
 
             //Compute avgXBefore, avgYBefore
-            for( int i = 0; i <= ( numPtsAvg - 1 ); i++ ) {
+            for ( int i = 0; i <= ( numPtsAvg - 1 ); i++ ) {
                 sumXBefore += avg[i];
             }
             this.avgBefore = sumXBefore / numPtsAvg;
 
             //Compute avgXMid, avgYMid
-            for( int i = ( nStack - numPtsAvg ) / 2; i <= ( nStack + numPtsAvg - 2 ) / 2; i++ ) {
+            for ( int i = ( nStack - numPtsAvg ) / 2; i <= ( nStack + numPtsAvg - 2 ) / 2; i++ ) {
                 sumXMid += avg[i];
             }
             this.avgMid = sumXMid / numPtsAvg;
 
             //Compute avgXNow, avgYNow
-            for( int i = ( nStack - numPtsAvg ); i <= ( nStack - 1 ); i++ ) {
+            for ( int i = ( nStack - numPtsAvg ); i <= ( nStack - 1 ); i++ ) {
                 sumXNow += avg[i];
             }
             this.avgNow = sumXNow / numPtsAvg;

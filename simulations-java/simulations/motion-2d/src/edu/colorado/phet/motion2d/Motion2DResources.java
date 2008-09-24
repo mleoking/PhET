@@ -9,7 +9,13 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
  * Time: 11:47:41 AM
  */
 public class Motion2DResources {
+    private static PhetResources phetResources = new PhetResources( "motion-2d" );
+
     public static PhetResources getResourceLoader() {
-        return new PhetResources( "motion-2d");
+        return phetResources;
+    }
+
+    public static String getString( String key ) {
+        return getResourceLoader().getLocalizedString( key );
     }
 }
