@@ -45,7 +45,7 @@ public class SphericalNode extends PhetPNode {
         
         _convertToImage = convertToImage;
 
-        _pathNode = new PPath();
+        _pathNode = new PhetPPath();
         _pathNode.setPaint( fillPaint );
         _pathNode.setStroke( stroke );
         _pathNode.setStrokePaint( strokePaint );
