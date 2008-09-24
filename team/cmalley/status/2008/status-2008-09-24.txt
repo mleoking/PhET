@@ -1,0 +1,54 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: September 18-24, 2008 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  glaciers:
+  - review change requests from Wendy's interview
+  - review change requests and bug reports from Andrea
+  - created Unfuddle tickets for all outstanding issues
+  
+  density:
+  - review and feedback on revised design drafts
+  - looked at Pure Java 3D library options with Sam
+  
+  translation-utility:
+  - workaround manifest issues and general vagueness in java.util.jar API
+  - improve auto-update feature
+  - corrupt JAR issue reported by Danish translator (Unfuddle 720)
+  - various collaborations with Sam for testing on Windows
+  - published 1.01, 1.02, 1.03, 1.04
+  
+  common:
+  - identified and worked on misc problems with new clock controls (Unfuddle 713,714,715,716,717)
+  - discuss and work on thermometer (Unfuddle 656)
+  - discuss "update" and "usage" features (Unfuddle 741)
+  
+  misc:
+  - move my workspace to Unfuddle SVN
+  - started port of radio-waves to phetcommon trunk, some collaboration with Sam (Unfuddle 562)
+  - followup on Flash sim translation problems that were reported to Marj
+  - review faraday transformer bug report (Unfuddle 721)
+  
+WHAT'S NEXT:
+    
+  - continue work on glaciers, see:
+    http://phet.svn.sourceforge.net/viewvc/phet/trunk/simulations-java/simulations/glaciers/CHANGES.txt?view=markup
+    
+  - port sims to phetcommon trunk, as described in Unfuddle #562
+  
+  - discuss faraday bug #721 with faraday team
+  
+  - start on density sim when design is ready
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+  October 20-24
+  
+--
