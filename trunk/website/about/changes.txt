@@ -1,3 +1,4 @@
+9-23-2008: Circuit Construction Kit (3.14) - User interface improvements
 9-10-2008: Forces in 1 Dimension (1.18) - User interface improvements
 9-9-2008: Arithmetic - bug fix
 9-9-2008: Pendulum Lab - enhancement, improved protractor
