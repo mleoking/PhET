@@ -50,6 +50,7 @@ public class ModulePanel extends JPanel {
 
     private boolean fullScreen = false;
     private JDialog buttonDlg;
+    private JPanel clockControlPanelContainer;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -169,16 +170,16 @@ public class ModulePanel extends JPanel {
      */
     public void setClockControlPanel( JComponent panel ) {
         if ( clockControlPanel != null ) {
-            leftPanel.remove( clockControlPanel );
+            leftPanel.remove( clockControlPanelContainer );
         }
         clockControlPanel = panel;
         if ( panel != null ) {
             // Embed the clockControlPanel in its own JPanel so that it will be centered.
             // This might cause issues for users that want to get a reference to the southern
             // part of the module panel instead of the control panel itself.
-            JPanel container = new JPanel();
-            container.add( panel );
-            leftPanel.add( container, BorderLayout.SOUTH );
+            clockControlPanelContainer = new JPanel();
+            clockControlPanelContainer.add( panel );
+            leftPanel.add( clockControlPanelContainer, BorderLayout.SOUTH );
         }
     }
 
