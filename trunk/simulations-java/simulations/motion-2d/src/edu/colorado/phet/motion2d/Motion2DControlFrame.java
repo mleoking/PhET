@@ -1,15 +1,14 @@
 package edu.colorado.phet.motion2d;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class Motion2DControlFrame extends JFrame implements ChangeListener {
     private JSlider timeStepBar;
@@ -18,24 +17,24 @@ public class Motion2DControlFrame extends JFrame implements ChangeListener {
     private Motion2DPanel myJP;
 
     public Motion2DControlFrame( Motion2DPanel myJP ) {
-        super( SimStrings.getInstance().getString( "VAScrolls.SliderControlTitle" ) );
+        super( Motion2DResources.getString( "VAScrolls.SliderControlTitle" ) );
         //setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         Container scrollPane = getContentPane();
         this.myJP = myJP;
 
         this.setSize( 400, 120 );
         timeStepBar = new JSlider( JSlider.HORIZONTAL, 3, 50, myJP.getTimeStep() );
-        velFactorBar = new JSlider( JSlider.HORIZONTAL, 1, 10, (int)myJP.getVelFactor() );
-        accFactorBar = new JSlider( JSlider.HORIZONTAL, 2, 36, (int)myJP.getAccFactor() );
+        velFactorBar = new JSlider( JSlider.HORIZONTAL, 1, 10, (int) myJP.getVelFactor() );
+        accFactorBar = new JSlider( JSlider.HORIZONTAL, 2, 36, (int) myJP.getAccFactor() );
 
-        String str5 = SimStrings.getInstance().getString( "VAScrolls.VelocityScaleLabel" ) + " "
-                      + ( new Integer( (int)myJP.getVelFactor() ) ).toString()
-                      + SimStrings.getInstance().getString( "VAScrolls.ScaleSuffix" );
+        String str5 = Motion2DResources.getString( "VAScrolls.VelocityScaleLabel" ) + " "
+                      + ( new Integer( (int) myJP.getVelFactor() ) ).toString()
+                      + Motion2DResources.getString( "VAScrolls.ScaleSuffix" );
         field5 = new TextField( str5, 3 );
 
-        String str6 = SimStrings.getInstance().getString( "VAScrolls.AccelerationScaleLabel" ) + " "
-                      + ( new Integer( (int)myJP.getAccFactor() ) ).toString()
-                      + SimStrings.getInstance().getString( "VAScrolls.ScaleSuffix" );
+        String str6 = Motion2DResources.getString( "VAScrolls.AccelerationScaleLabel" ) + " "
+                      + ( new Integer( (int) myJP.getAccFactor() ) ).toString()
+                      + Motion2DResources.getString( "VAScrolls.ScaleSuffix" );
         field6 = new TextField( str6, 3 );
 
         field5.setEditable( false );
@@ -47,7 +46,7 @@ public class Motion2DControlFrame extends JFrame implements ChangeListener {
         scrollPane.setLayout( new GridLayout( 3, 2, 10, 5 ) );
 
         scrollPane.add( timeStepBar );
-        scrollPane.add( new JLabel( SimStrings.getInstance().getString( "controls.time-scale" ) ) );
+        scrollPane.add( new JLabel( Motion2DResources.getString( "controls.time-scale" ) ) );
 
         scrollPane.add( velFactorBar );
         scrollPane.add( field5 );
@@ -73,21 +72,21 @@ public class Motion2DControlFrame extends JFrame implements ChangeListener {
 
     public void stateChanged( ChangeEvent e ) {
 
-        if( e.getSource() == timeStepBar ) {
+        if ( e.getSource() == timeStepBar ) {
             int timeStep = timeStepBar.getValue();
             myJP.setTimeStep( timeStep );
         }
-        else if( e.getSource() == velFactorBar ) {
+        else if ( e.getSource() == velFactorBar ) {
             int velFactor = velFactorBar.getValue();
-            field5.setText( SimStrings.getInstance().getString( "VAScrolls.VelocityScaleLabel" ) + " "
-                            + velFactor + SimStrings.getInstance().getString( "VAScrolls.ScaleSuffix" ) );
-            myJP.setVelFactor( (double)velFactor );
+            field5.setText( Motion2DResources.getString( "VAScrolls.VelocityScaleLabel" ) + " "
+                            + velFactor + Motion2DResources.getString( "VAScrolls.ScaleSuffix" ) );
+            myJP.setVelFactor( (double) velFactor );
         }
-        else if( e.getSource() == accFactorBar ) {
+        else if ( e.getSource() == accFactorBar ) {
             int accFactor = accFactorBar.getValue();
-            field6.setText( SimStrings.getInstance().getString( "VAScrolls.AccelerationScaleLabel" ) + " "
-                            + accFactor + SimStrings.getInstance().getString( "VAScrolls.ScaleSuffix" ) );
-            myJP.setAccFactor( (double)accFactor );
+            field6.setText( Motion2DResources.getString( "VAScrolls.AccelerationScaleLabel" ) + " "
+                            + accFactor + Motion2DResources.getString( "VAScrolls.ScaleSuffix" ) );
+            myJP.setAccFactor( (double) accFactor );
         }
     }//end of stateChanged
 

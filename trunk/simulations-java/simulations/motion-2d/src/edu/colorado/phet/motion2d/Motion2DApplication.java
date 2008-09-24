@@ -1,5 +1,7 @@
 package edu.colorado.phet.motion2d;
 
+import java.io.IOException;
+
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
@@ -33,7 +35,12 @@ public class Motion2DApplication extends PiccoloPhetApplication {
         public Motion2DModule( PhetApplicationConfig config ) {
             super( config.getName(), new ConstantDtClock( 20, 0.021 ) );
             Motion2DSimulationPanel simulationPanel = new Motion2DSimulationPanel( (ConstantDtClock) getClock() );
-            simulationPanel.init();
+            try {
+                simulationPanel.init();
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
             setSimulationPanel( simulationPanel );
             setClockControlPanel( null );
             setLogoPanelVisible( false );

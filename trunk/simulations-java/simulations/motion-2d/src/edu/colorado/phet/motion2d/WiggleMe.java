@@ -1,17 +1,17 @@
 package edu.colorado.phet.motion2d;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
-import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShadowTextGraphic;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-
 import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShadowTextGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 
 /**
  * User: Sam Reid
@@ -22,7 +22,7 @@ public class WiggleMe extends CompositePhetGraphic implements ModelElement {
     private Sine sine;
     private double time = 0;
     private Point2D.Double current;
-    private Font font = new PhetFont( 16,true);
+    private Font font = new PhetFont( 16, true );
     private AbstractVector2D oscillationVector;
     private Point2D startPt;
     private PhetShadowTextGraphic textGraphic;
@@ -44,20 +44,20 @@ public class WiggleMe extends CompositePhetGraphic implements ModelElement {
     }
 
     public int getWidth() {
-        return (int)( textGraphic.getBounds().width + .5 );
+        return (int) ( textGraphic.getBounds().width + .5 );
     }
 
     public void stepInTime( double dt ) {
-        if( !isVisible() ) {
+        if ( !isVisible() ) {
             return;
         }
         this.time += dt;
         double value = sine.valueAtTime( time );
         Point2D at = oscillationVector.getScaledInstance( value ).getDestination( startPt );
         current.setLocation( at );
-        if( textGraphic != null ) {
+        if ( textGraphic != null ) {
             Rectangle r1 = textGraphic.getBounds();
-            textGraphic.setLocation( (int)at.getX(), (int)at.getY() );
+            textGraphic.setLocation( (int) at.getX(), (int) at.getY() );
             Rectangle r2 = textGraphic.getBounds();
             r1 = RectangleUtils.expand( r1, 5, 5 );
             r2 = RectangleUtils.expand( r2, 5, 5 );
@@ -87,7 +87,7 @@ public class WiggleMe extends CompositePhetGraphic implements ModelElement {
 
         public double valueAtTime( double time ) {
             double value = 0.0;
-            if( frequency != 0 ) {
+            if ( frequency != 0 ) {
                 value = Math.sin( frequency * time * Math.PI * 2 - phase ) * amplitude;
             }
             else {
