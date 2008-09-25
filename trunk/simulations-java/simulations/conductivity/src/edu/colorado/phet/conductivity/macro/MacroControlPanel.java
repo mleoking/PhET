@@ -11,8 +11,8 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.conductivity.ConductivityApplication;
+import edu.colorado.phet.conductivity.ConductivityResources;
 
 // Referenced classes of package edu.colorado.phet.semiconductor.macro:
 //            MacroModule
@@ -23,9 +23,9 @@ public class MacroControlPanel extends JPanel {
     private JButton onePhoton;
 
     public MacroControlPanel( final ConductivityApplication conductivityApplication ) {
-        JRadioButton jradiobutton = new JRadioButton( SimStrings.get( "MacroControlPanel.MetalRadioButton" ) );
-        JRadioButton jradiobutton1 = new JRadioButton( SimStrings.get( "MacroControlPanel.PlasticRadioButton" ) );
-        JRadioButton jradiobutton2 = new JRadioButton( SimStrings.get( "MacroControlPanel.PhotoconductorRadioButton" ) );
+        JRadioButton jradiobutton = new JRadioButton( ConductivityResources.getString( "MacroControlPanel.MetalRadioButton" ) );
+        JRadioButton jradiobutton1 = new JRadioButton( ConductivityResources.getString( "MacroControlPanel.PlasticRadioButton" ) );
+        JRadioButton jradiobutton2 = new JRadioButton( ConductivityResources.getString( "MacroControlPanel.PhotoconductorRadioButton" ) );
         jradiobutton.addActionListener( new ActionListener() {
 
             public void actionPerformed( ActionEvent actionevent ) {
@@ -59,10 +59,10 @@ public class MacroControlPanel extends JPanel {
         jpanel.add( jradiobutton1 );
         jpanel.add( jradiobutton2 );
         Object obj = BorderFactory.createRaisedBevelBorder();
-        obj = BorderFactory.createTitledBorder( ( (javax.swing.border.Border) ( obj ) ), SimStrings.get( "MacroControlPanel.MaterialsBorder" ) );
+        obj = BorderFactory.createTitledBorder( ( (javax.swing.border.Border) ( obj ) ), ConductivityResources.getString( "MacroControlPanel.MaterialsBorder" ) );
         jpanel.setBorder( ( (javax.swing.border.Border) ( obj ) ) );
         add( jpanel );
-        lightOn = new JCheckBox( SimStrings.get( "MacroControlPanel.ShineLightCheckBox" ) );
+        lightOn = new JCheckBox( ConductivityResources.getString( "MacroControlPanel.ShineLightCheckBox" ) );
         lightOn.addChangeListener( new ChangeListener() {
 
             public void stateChanged( ChangeEvent changeevent ) {
@@ -71,7 +71,7 @@ public class MacroControlPanel extends JPanel {
 
         } );
         add( lightOn );
-        onePhoton = new JButton( SimStrings.get( "MacroControlPanel.FirePhotonButton" ) );
+        onePhoton = new JButton( ConductivityResources.getString( "MacroControlPanel.FirePhotonButton" ) );
         onePhoton.addActionListener( new ActionListener() {
 
             public void actionPerformed( ActionEvent actionevent ) {

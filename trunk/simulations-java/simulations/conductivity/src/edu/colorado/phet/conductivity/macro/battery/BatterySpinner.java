@@ -14,8 +14,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.conductivity.ConductivityApplication;
+import edu.colorado.phet.conductivity.ConductivityResources;
 
 // Referenced classes of package edu.colorado.phet.semiconductor.macro.battery:
 //            Battery
@@ -54,7 +54,7 @@ public class BatterySpinner {
             } );
         }
 
-        TitledBorder titledborder = BorderFactory.createTitledBorder( SimStrings.get( "BatterySpinner.BorderTitle" ) );
+        TitledBorder titledborder = BorderFactory.createTitledBorder( ConductivityResources.getString( "BatterySpinner.BorderTitle" ) );
         titledborder.setTitleFont( new PhetFont( Font.BOLD, 12 ) );
         spinner.setBorder( titledborder );
         spinner.setPreferredSize( new Dimension( 150, spinner.getPreferredSize().height ) );
