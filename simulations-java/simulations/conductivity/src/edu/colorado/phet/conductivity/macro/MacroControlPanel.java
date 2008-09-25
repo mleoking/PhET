@@ -4,14 +4,15 @@
 
 package edu.colorado.phet.conductivity.macro;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.conductivity.ConductivityApplication;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.conductivity.ConductivityApplication;
 
 // Referenced classes of package edu.colorado.phet.semiconductor.macro:
 //            MacroModule
@@ -58,8 +59,8 @@ public class MacroControlPanel extends JPanel {
         jpanel.add( jradiobutton1 );
         jpanel.add( jradiobutton2 );
         Object obj = BorderFactory.createRaisedBevelBorder();
-        obj = BorderFactory.createTitledBorder( ( (javax.swing.border.Border)( obj ) ), SimStrings.get( "MacroControlPanel.MaterialsBorder" ) );
-        jpanel.setBorder( ( (javax.swing.border.Border)( obj ) ) );
+        obj = BorderFactory.createTitledBorder( ( (javax.swing.border.Border) ( obj ) ), SimStrings.get( "MacroControlPanel.MaterialsBorder" ) );
+        jpanel.setBorder( ( (javax.swing.border.Border) ( obj ) ) );
         add( jpanel );
         lightOn = new JCheckBox( SimStrings.get( "MacroControlPanel.ShineLightCheckBox" ) );
         lightOn.addChangeListener( new ChangeListener() {

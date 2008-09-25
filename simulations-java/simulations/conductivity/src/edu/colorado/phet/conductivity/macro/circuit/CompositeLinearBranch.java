@@ -4,9 +4,9 @@
 
 package edu.colorado.phet.conductivity.macro.circuit;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-
 import java.util.ArrayList;
+
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 
 // Referenced classes of package edu.colorado.phet.semiconductor.macro.circuit:
 //            LinearBranch
@@ -23,8 +23,8 @@ public class CompositeLinearBranch {
 
     public double getLength() {
         double d = 0.0D;
-        for( int i = 0; i < branches.size(); i++ ) {
-            LinearBranch linearbranch = (LinearBranch)branches.get( i );
+        for ( int i = 0; i < branches.size(); i++ ) {
+            LinearBranch linearbranch = (LinearBranch) branches.get( i );
             d += linearbranch.getLength();
         }
 
@@ -33,9 +33,9 @@ public class CompositeLinearBranch {
 
     public AbstractVector2D getPosition( double d ) {
         double d1 = 0.0D;
-        for( int i = 0; i < branches.size(); i++ ) {
-            LinearBranch linearbranch = (LinearBranch)branches.get( i );
-            if( linearbranch.getLength() + d1 >= d ) {
+        for ( int i = 0; i < branches.size(); i++ ) {
+            LinearBranch linearbranch = (LinearBranch) branches.get( i );
+            if ( linearbranch.getLength() + d1 >= d ) {
                 double d2 = d - d1;
                 return linearbranch.getLocation( d2 );
             }
@@ -46,7 +46,7 @@ public class CompositeLinearBranch {
     }
 
     public LinearBranch branchAt( int i ) {
-        return (LinearBranch)branches.get( i );
+        return (LinearBranch) branches.get( i );
     }
 
     public int numBranches() {

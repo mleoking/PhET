@@ -29,15 +29,15 @@ public class WireParticle extends SimpleObservable
 
     public void stepInTime( double d ) {
         double d1 = dist + speed * d;
-        if( circuit.contains( d1 ) ) {
+        if ( circuit.contains( d1 ) ) {
             setPosition( d1 );
         }
         else {
             double d2 = circuit.getLength();
-            for( ; d1 < 0.0D; d1 += d2 ) {
+            for ( ; d1 < 0.0D; d1 += d2 ) {
                 ;
             }
-            for( ; d1 > d2; d1 -= d2 ) {
+            for ( ; d1 > d2; d1 -= d2 ) {
                 ;
             }
             setPosition( d1 );

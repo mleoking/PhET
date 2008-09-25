@@ -4,6 +4,10 @@
 
 package edu.colorado.phet.conductivity.macro;
 
+import java.awt.*;
+import java.io.IOException;
+import java.util.Hashtable;
+
 import edu.colorado.phet.common.conductivity.view.CompositeInteractiveGraphic;
 import edu.colorado.phet.common.conductivity.view.graphics.Graphic;
 import edu.colorado.phet.common.conductivity.view.graphics.transforms.ModelViewTransform2D;
@@ -11,10 +15,6 @@ import edu.colorado.phet.conductivity.common.ClipGraphic;
 import edu.colorado.phet.conductivity.common.TransformGraphic;
 import edu.colorado.phet.conductivity.macro.bands.*;
 import edu.colorado.phet.conductivity.macro.circuit.MacroCircuitGraphic;
-
-import java.awt.*;
-import java.io.IOException;
-import java.util.Hashtable;
 
 public class BandSetGraphic extends TransformGraphic
         implements BandParticleObserver {
@@ -31,7 +31,7 @@ public class BandSetGraphic extends TransformGraphic
     }
 
     public void particleRemoved( BandParticle bandparticle ) {
-        Graphic graphic1 = (Graphic)bandParticleGraphicTable.get( bandparticle );
+        Graphic graphic1 = (Graphic) bandParticleGraphicTable.get( bandparticle );
         graphic.remove( graphic1 );
         bandParticleGraphicTable.remove( bandparticle );
     }

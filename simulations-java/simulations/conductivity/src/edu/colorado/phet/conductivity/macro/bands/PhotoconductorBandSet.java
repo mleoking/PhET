@@ -4,9 +4,9 @@
 
 package edu.colorado.phet.conductivity.macro.bands;
 
-import edu.colorado.phet.conductivity.macro.MacroSystem;
-
 import java.util.Random;
+
+import edu.colorado.phet.conductivity.macro.MacroSystem;
 
 // Referenced classes of package edu.colorado.phet.semiconductor.macro.bands:
 //            DefaultBandSet, Band, EnergyLevel
@@ -28,7 +28,7 @@ public class PhotoconductorBandSet extends DefaultBandSet {
         double d1 = d;
         double d2 = d1 * 1.2D;
         double d3 = 0.14000000000000001D + inset * 2D;
-        int i = (int)( d3 / d2 );
+        int i = (int) ( d3 / d2 );
         double d4 = d1 * 0.51000000000000001D;
         upper.addLevels( 0.5D, 0.69999999999999996D, highBandNumLevels, 0.10000000000000001D - inset, d3, i, d4, 0.033333333333333333D );
         lowband.addLevels( lowBandY1, lowBandY2, lowNumLevels, 0.10000000000000001D - inset, d3, i, d4, 0.033333333333333333D );
@@ -39,7 +39,7 @@ public class PhotoconductorBandSet extends DefaultBandSet {
         super.stepInTime( d );
         //make sure everything is working.
         macrosystem.doVoltageChanged();
-        if( !lightOn ) {
+        if ( !lightOn ) {
             excitedCount = 0;
             moveDown();//src,dst,false
             //make sure everything falls down
@@ -58,14 +58,14 @@ public class PhotoconductorBandSet extends DefaultBandSet {
 
     public void initParticles() {
         super.initParticles();
-        for( int i = 0; i < getLowerBand().numEnergyLevels(); i++ ) {
+        for ( int i = 0; i < getLowerBand().numEnergyLevels(); i++ ) {
             super.fillLevel( getLowerBand().energyLevelAt( i ) );
         }
     }
 
     public double desiredSpeedToActualSpeed( double d ) {
         int i = getUpperBand().numParticles();
-        if( i == 0 ) {
+        if ( i == 0 ) {
             return 0.0D;
         }
         else {
@@ -74,7 +74,7 @@ public class PhotoconductorBandSet extends DefaultBandSet {
     }
 
     public void photonHit() {
-        if( !lightOn ) {
+        if ( !lightOn ) {
             return;
         }
         moveUp();
@@ -124,7 +124,7 @@ public class PhotoconductorBandSet extends DefaultBandSet {
 
     public void setFlashlightOn( boolean flag ) {
         lightOn = flag;
-        if( !lightOn ) {
+        if ( !lightOn ) {
             excitedCount = 0;
             moveDown();
         }
@@ -141,26 +141,26 @@ public class PhotoconductorBandSet extends DefaultBandSet {
 
     public double voltageChanged( double voltage, double desiredSpeed ) {
 //        super.voltageChanged( d, d1 );
-        if( lightOn && particlesElevated() ) {
+        if ( lightOn && particlesElevated() ) {
 //            int i = getFermiLevel();
 //            Band band = getLowerBand();
 //            EnergyLevel energylevel = band.energyLevelAt( i + 1 );
 //            EnergyLevel energylevel1 = band.energyLevelAt( i + 2 );
 //            energylevel.setCanConduct( true );
 //            energylevel1.setCanConduct( true );
-            if( voltage == 0.0D ) {
+            if ( voltage == 0.0D ) {
                 setConductionCount( 0, 0 );
             }
-            else if( voltage > 0.0D && voltage <= 0.5D ) {
+            else if ( voltage > 0.0D && voltage <= 0.5D ) {
                 setConductionCount( 1, 0 );
             }
-            else if( ( voltage > 0.5D ) & ( voltage <= 1.0D ) ) {
+            else if ( ( voltage > 0.5D ) & ( voltage <= 1.0D ) ) {
                 setConductionCount( 1, 1 );
             }
-            else if( voltage > 1.0D && voltage <= 1.5D ) {
+            else if ( voltage > 1.0D && voltage <= 1.5D ) {
                 setConductionCount( 2, 1 );
             }
-            else if( voltage > 1.5D && voltage <= 2D ) {
+            else if ( voltage > 1.5D && voltage <= 2D ) {
                 setConductionCount( 2, 2 );
             }
         }
@@ -185,8 +185,8 @@ public class PhotoconductorBandSet extends DefaultBandSet {
 
     EnergyLevel getDonorLevel() {
         int i = getFermiLevel();
-        for( int j = i; j >= 0; j-- ) {
-            if( lowband.energyLevelAt( j ).numParticles() > 0 ) {
+        for ( int j = i; j >= 0; j-- ) {
+            if ( lowband.energyLevelAt( j ).numParticles() > 0 ) {
                 return lowband.energyLevelAt( j );
             }
         }
@@ -196,8 +196,8 @@ public class PhotoconductorBandSet extends DefaultBandSet {
 
     EnergyLevel getAcceptor() {
         int i = getFermiLevel();
-        for( int j = i; j >= 0; j-- ) {
-            if( lowband.energyLevelAt( j ).numParticles() < 2 ) {
+        for ( int j = i; j >= 0; j-- ) {
+            if ( lowband.energyLevelAt( j ).numParticles() < 2 ) {
                 return lowband.energyLevelAt( j );
             }
         }
@@ -208,23 +208,23 @@ public class PhotoconductorBandSet extends DefaultBandSet {
 
     protected void moveParticles( EnergyLevel energylevel, int i ) {
         int j = 0;
-        while( energylevel.numParticles() > i ) {
+        while ( energylevel.numParticles() > i ) {
             EnergyLevel dst = getAcceptor();
-            if( dst == null ) {
+            if ( dst == null ) {
                 break;
             }
             moveParticle( energylevel, dst );
-            if( ++j > 100 ) {
+            if ( ++j > 100 ) {
                 throw new RuntimeException( "Loop broke." );
             }
         }
-        while( energylevel.numParticles() < i ) {
+        while ( energylevel.numParticles() < i ) {
             EnergyLevel src = getDonorLevel();
-            if( src == null ) {
+            if ( src == null ) {
                 break;
             }
             moveParticle( src, energylevel );
-            if( ++j > 100 ) {
+            if ( ++j > 100 ) {
                 throw new RuntimeException( "Loop broke." );
             }
         }

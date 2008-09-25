@@ -4,6 +4,8 @@
 
 package edu.colorado.phet.conductivity.macro;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.common.conductivity.model.ModelElement;
 import edu.colorado.phet.conductivity.macro.bands.ConductorBandSet;
 import edu.colorado.phet.conductivity.macro.bands.DefaultBandSet;
@@ -13,8 +15,6 @@ import edu.colorado.phet.conductivity.macro.battery.Battery;
 import edu.colorado.phet.conductivity.macro.battery.BatteryListener;
 import edu.colorado.phet.conductivity.macro.circuit.MacroCircuit;
 import edu.colorado.phet.conductivity.macro.particles.WireParticle;
-
-import java.util.ArrayList;
 
 public class MacroSystem
         implements ModelElement {
@@ -56,8 +56,8 @@ public class MacroSystem
         double d6 = d2;
         recommendedSpeed = d * d5 + d6;
         double d7 = bandSet.voltageChanged( d, recommendedSpeed );
-        for( int i = 0; i < particles.size(); i++ ) {
-            WireParticle wireparticle = (WireParticle)particles.get( i );
+        for ( int i = 0; i < particles.size(); i++ ) {
+            WireParticle wireparticle = (WireParticle) particles.get( i );
             wireparticle.setSpeed( d7 );
         }
 
@@ -97,8 +97,8 @@ public class MacroSystem
         double d6 = d2;
         recommendedSpeed = d * d5 + d6;
         double d7 = bandSet.desiredSpeedToActualSpeed( recommendedSpeed );
-        for( int i = 0; i < particles.size(); i++ ) {
-            WireParticle wireparticle = (WireParticle)particles.get( i );
+        for ( int i = 0; i < particles.size(); i++ ) {
+            WireParticle wireparticle = (WireParticle) particles.get( i );
             wireparticle.setSpeed( d7 );
         }
 

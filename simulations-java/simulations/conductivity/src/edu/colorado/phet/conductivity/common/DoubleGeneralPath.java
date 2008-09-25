@@ -4,10 +4,10 @@
 
 package edu.colorado.phet.conductivity.common;
 
+import java.awt.geom.GeneralPath;
+
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-
-import java.awt.geom.GeneralPath;
 
 public class DoubleGeneralPath {
 
@@ -17,11 +17,11 @@ public class DoubleGeneralPath {
 
     public DoubleGeneralPath( double d, double d1 ) {
         path = new GeneralPath();
-        path.moveTo( (float)d, (float)d1 );
+        path.moveTo( (float) d, (float) d1 );
     }
 
     public void lineTo( double d, double d1 ) {
-        path.lineTo( (float)d, (float)d1 );
+        path.lineTo( (float) d, (float) d1 );
     }
 
     public GeneralPath getGeneralPath() {

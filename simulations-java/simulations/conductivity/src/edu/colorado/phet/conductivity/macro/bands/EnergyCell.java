@@ -30,7 +30,7 @@ public class EnergyCell {
     }
 
     public void setOwner( BandParticle bandparticle ) {
-        if( owner == null || owner == bandparticle ) {
+        if ( owner == null || owner == bandparticle ) {
             owner = bandparticle;
         }
         else {
@@ -39,7 +39,7 @@ public class EnergyCell {
     }
 
     public void detach( BandParticle bandparticle ) {
-        if( owner == bandparticle ) {
+        if ( owner == bandparticle ) {
             owner = null;
         }
         else {

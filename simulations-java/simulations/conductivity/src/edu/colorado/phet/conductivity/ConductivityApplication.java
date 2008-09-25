@@ -12,7 +12,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.Locale;
 
 import javax.swing.*;
 
@@ -35,10 +34,10 @@ import edu.colorado.phet.common.conductivity.view.util.AspectRatioLayout;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.conductivity.macro.BandSetGraphic;
 import edu.colorado.phet.conductivity.macro.EnergyTextGraphic;
 import edu.colorado.phet.conductivity.macro.MacroControlPanel;
@@ -275,7 +274,7 @@ public class ConductivityApplication extends Module {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 new PhetLookAndFeel().initLookAndFeel();
-                
+
                 SimStrings.getInstance().init( args, localizedStringsPath );
 
                 SwingTimerClock swingtimerclock = new SwingTimerClock( 1.0D, 30, true );
