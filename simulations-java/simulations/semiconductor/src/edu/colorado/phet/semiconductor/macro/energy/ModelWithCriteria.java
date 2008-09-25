@@ -1,7 +1,8 @@
 package edu.colorado.phet.semiconductor.macro.energy;
 
 import edu.colorado.phet.semiconductor.macro.energy.statemodels.ModelCriteria;
-import edu.colorado.phet.semiconductor.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
+
 
 /**
  * User: Sam Reid

@@ -24,11 +24,12 @@ import edu.colorado.phet.semiconductor.macro.energy.statemodels.ModelCriteria;
 import edu.colorado.phet.semiconductor.macro.energy.states.MoveToCell;
 import edu.colorado.phet.semiconductor.macro.energy.states.Speed;
 import edu.colorado.phet.semiconductor.util.math.PhetVector;
-import edu.colorado.phet.semiconductor.phetcommon.model.ModelElement;
+
 import edu.colorado.phet.semiconductor.phetcommon.model.simpleobservable.SimpleObserver;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.semiconductor.util.RectangleUtils;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 
 /**
  * User: Sam Reid
