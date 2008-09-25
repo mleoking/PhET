@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: May 24, 2004
  */
-package edu.colorado.phet.common_1200.view.help;
+package edu.colorado.phet.common_1200.view.graphics;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common_1200.view.graphics.Graphic;
-import edu.colorado.phet.common_1200.view.graphics.ShadowTextGraphic;
 
 public class HelpItem implements Graphic {
     public final static int ABOVE = 1;

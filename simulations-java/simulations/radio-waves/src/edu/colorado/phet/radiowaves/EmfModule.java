@@ -15,18 +15,17 @@ import java.io.IOException;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.Command;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.common_1200.application.Module;
-import edu.colorado.phet.common_1200.application.PhetApplication;
 import edu.colorado.phet.common_1200.view.graphics.Graphic;
-import edu.colorado.phet.common_1200.view.help.HelpItem;
+import edu.colorado.phet.common_1200.view.graphics.HelpItem;
 import edu.colorado.phet.radiowaves.command.AddTransmittingElectronCmd;
 import edu.colorado.phet.radiowaves.command.DynamicFieldIsEnabledCmd;
 import edu.colorado.phet.radiowaves.command.SetMovementCmd;
@@ -42,6 +41,9 @@ import edu.colorado.phet.radiowaves.util.StripChart;
 import edu.colorado.phet.radiowaves.view.*;
 
 public class EmfModule extends Module {
+    
+    final double HELP_LAYER_NUMBER = Double.POSITIVE_INFINITY;
+    final double WIGGLE_ME_LAYER_NUMBER = 5;
 
     private PositionConstrainedElectron electron;
     int fieldWidth = 1000;
@@ -58,7 +60,8 @@ public class EmfModule extends Module {
     private MovementType movementStrategy;
     private Graphic wiggleMeGraphic;
     private boolean beenWiggled;
-
+    private final EmfModel model;
+    
     private ModelViewTransform2D mvTx;
     private WaveMediumGraphic waveMediumGraphicB;
     private WaveMediumGraphic waveMediumGraphicA;
@@ -66,8 +69,9 @@ public class EmfModule extends Module {
 
 
     public EmfModule( IClock clock ) {
-        super( SimStrings.get( "ModuleTitle.EmfModule" ) );
-        super.setModel( new EmfModel( clock ) );
+        super( RadioWavesResources.getString( "ModuleTitle.EmfModule" ), clock );
+        model = new EmfModel( clock );
+        super.setModel( model );
 
         final Point origin = new Point( 125, 300 );
 
@@ -77,9 +81,9 @@ public class EmfModule extends Module {
 
         Antenna transmittingAntenna = new Antenna( new Point2D.Double( origin.getX(), origin.getY() - 100 ), new Point2D.Double( origin.getX(), origin.getY() + 250 ) );
         electronLoc = new Point2D.Double( origin.getX(), origin.getY() );
-        electron = new PositionConstrainedElectron( (EmfModel) this.getModel(), electronLoc, transmittingAntenna );
-        new AddTransmittingElectronCmd( (EmfModel) this.getModel(), electron ).doIt();
-        new DynamicFieldIsEnabledCmd( (EmfModel) getModel(), true ).doIt();
+        electron = new PositionConstrainedElectron( model, electronLoc, transmittingAntenna );
+        new AddTransmittingElectronCmd( model, electron ).doIt();
+        new DynamicFieldIsEnabledCmd( model, true ).doIt();
 
         apparatusPanel = new EmfPanel( electron, origin, fieldWidth, fieldHeight );
         mvTx.addTransformListener( apparatusPanel );
@@ -98,28 +102,27 @@ public class EmfModule extends Module {
                 mvTx.setViewBounds( apparatusPanel.getBounds() );
             }
         } );
-        super.setApparatusPanel( apparatusPanel );
+        super.setSimulationPanel( apparatusPanel );
 
         // Set up the electron graphic
         TransmitterElectronGraphic electronGraphic = new TransmitterElectronGraphic( apparatusPanel, electron, this );
-        this.getApparatusPanel().addGraphic( electronGraphic, 5 );
+        apparatusPanel.addGraphic( electronGraphic, 5 );
         mvTx.addTransformListener( electronGraphic );
 
         // Set up the receiving electron and antenna
         Antenna receivingAntenna = new Antenna( new Point2D.Double( origin.x + 679, electron.getStartPosition().getY() - 50 ), new Point2D.Double( origin.x + 679, electron.getStartPosition().getY() + 75 ) );
         receivingElectronLoc = new Point2D.Double( origin.x + 680, electron.getStartPosition().getY() );
-        receivingElectron = new EmfSensingElectron( (EmfModel) this.getModel(), receivingElectronLoc, electron, receivingAntenna );
-        getModel().execute( new Command() {
-
+        receivingElectron = new EmfSensingElectron( model, receivingElectronLoc, electron, receivingAntenna );
+        model.execute( new Command() {
             public void doIt() {
-                getModel().addModelElement( receivingElectron );
+                model.addModelElement( receivingElectron );
             }
         } );
 
         // Load image for small electron
         ElectronGraphic receivingElectronGraphic = new ReceivingElectronGraphic( apparatusPanel, receivingElectron );
         receivingElectron.addObserver( receivingElectronGraphic );
-        this.getApparatusPanel().addGraphic( receivingElectronGraphic, 5 );
+        apparatusPanel.addGraphic( receivingElectronGraphic, 5 );
         mvTx.addTransformListener( receivingElectronGraphic );
 
         // Create the strip chart
@@ -128,7 +131,7 @@ public class EmfModule extends Module {
         senderStripChart = new StripChart( 200, 80, 0, 500, electron.getPositionAt( 0 ) + dy, electron.getPositionAt( 0 ) - dy, 1 );
 
         // Set the control panel
-        EmfControlPanel emfControlsPanel = new EmfControlPanel( (EmfModel) this.getModel(), this );
+        EmfControlPanel emfControlsPanel = new EmfControlPanel( model, this );
         PhetControlPanel controlPanel = new PhetControlPanel( this, emfControlsPanel );
         setControlPanel( controlPanel );
 
@@ -139,15 +142,15 @@ public class EmfModule extends Module {
         createScalarRepresentations();
 
         // Create some help items
-        HelpItem helpItem1 = new HelpItem( SimStrings.get( "EmfModule.help1" ), origin.getX() + 15, origin.getY() + 10, HelpItem.RIGHT, HelpItem.BELOW );
+        HelpItem helpItem1 = new HelpItem( RadioWavesResources.getString( "EmfModule.help1" ), origin.getX() + 15, origin.getY() + 10, HelpItem.RIGHT, HelpItem.BELOW );
         helpItem1.setForegroundColor( Color.black );
         helpItem1.setShadowColor( Color.gray );
-        addHelpItem( helpItem1 );
+        apparatusPanel.addGraphic( helpItem1, HELP_LAYER_NUMBER );
     }
 
     private void createScalarRepresentations() {
-        waveMediumGraphicA = new WaveMediumGraphic( electron, getApparatusPanel(), electronLoc, 800, WaveMediumGraphic.TO_RIGHT );
-        waveMediumGraphicB = new WaveMediumGraphic( electron, getApparatusPanel(), electronLoc, 200, WaveMediumGraphic.TO_LEFT );
+        waveMediumGraphicA = new WaveMediumGraphic( electron, apparatusPanel, electronLoc, 800, WaveMediumGraphic.TO_RIGHT );
+        waveMediumGraphicB = new WaveMediumGraphic( electron, apparatusPanel, electronLoc, 200, WaveMediumGraphic.TO_LEFT );
     }
 
     public ModelViewTransform2D getMvTx() {
@@ -168,8 +171,8 @@ public class EmfModule extends Module {
                 current.setLocation( ( current.x + ( stop.x - current.x ) * .02 ), ( current.y + ( stop.y - current.y ) * .04 ) );
                 g.setFont( font );
                 g.setColor( new Color( 0, 100, 0 ) );
-                String s1 = SimStrings.get( "EmfModule.Wiggle" );
-                String s2 = SimStrings.get( "EmfModule.Electron" );
+                String s1 = RadioWavesResources.getString( "EmfModule.Wiggle" );
+                String s2 = RadioWavesResources.getString( "EmfModule.Electron" );
                 g.drawString( s1, (int) current.getX(), (int) current.getY() - g.getFontMetrics( font ).getHeight() );
                 g.drawString( s2, (int) current.getX(), (int) current.getY() );
                 Point2D.Double arrowTail = new Point2D.Double( current.getX() + SwingUtilities.computeStringWidth( g.getFontMetrics( font ), s2 ) + 10, (int) current.getY() - g.getFontMetrics( font ).getHeight() / 2 );
@@ -192,18 +195,18 @@ public class EmfModule extends Module {
     private void setWiggleMeGraphicState() {
         if ( wiggleMeGraphic != null ) {
             if ( movementStrategy == manualMovement && !beenWiggled ) {
-                this.addGraphic( wiggleMeGraphic, 5 );
+                apparatusPanel.addGraphic( wiggleMeGraphic, WIGGLE_ME_LAYER_NUMBER );
                 wiggleMeTimer.start();
             }
             else {
-                this.getApparatusPanel().removeGraphic( wiggleMeGraphic );
+                apparatusPanel.removeGraphic( wiggleMeGraphic );
                 wiggleMeTimer.stop();
             }
         }
     }
 
     public void setAutoscaleEnabled( boolean enabled ) {
-        ( (EmfPanel) this.getApparatusPanel() ).setAutoscaleEnabled( enabled );
+        apparatusPanel.setAutoscaleEnabled( enabled );
     }
 
     public void recenterElectrons() {
@@ -213,23 +216,23 @@ public class EmfModule extends Module {
 
     public JDialog setStripChartEnabled( boolean isEnabled ) {
         if ( isEnabled && stripChartDlg == null ) {
-            JFrame frame = PhetApplication.instance().getApplicationView().getPhetFrame();
+            JFrame frame = PhetApplication.instance().getPhetFrame();
             stripChartDlg = new JDialog( frame, false );
             //            stripChartDlg.setUndecorated( true );
             //            stripChartDlg.getRootPane().setWindowDecorationStyle( JRootPane.PLAIN_DIALOG );
             stripChartDlg.getContentPane().setLayout( new GridBagLayout() );
             new StripChartDelegate( receivingElectron, receiverStripChart );
             new StripChartDelegate( electron, senderStripChart );
-            stripChartDlg.setTitle( SimStrings.get( "EmfModule.ChartTitle" ) );
+            stripChartDlg.setTitle( RadioWavesResources.getString( "EmfModule.ChartTitle" ) );
 
             try {
                 int rowIdx = 0;
-                SwingUtils.addGridBagComponent( stripChartDlg.getContentPane(), new JLabel( SimStrings.get( "EmfModule.Transmitter" ) ), 0, rowIdx++, 1, 1, GridBagConstraints.NONE, GridBagConstraints.WEST );
+                SwingUtils.addGridBagComponent( stripChartDlg.getContentPane(), new JLabel( RadioWavesResources.getString( "EmfModule.Transmitter" ) ), 0, rowIdx++, 1, 1, GridBagConstraints.NONE, GridBagConstraints.WEST );
                 SwingUtils.addGridBagComponent( stripChartDlg.getContentPane(), senderStripChart, 0, rowIdx++, 1, 1, GridBagConstraints.NONE, GridBagConstraints.WEST );
-                SwingUtils.addGridBagComponent( stripChartDlg.getContentPane(), new JLabel( SimStrings.get( "EmfModule.TimeLabel" ) ), 0, rowIdx++, 1, 1, GridBagConstraints.NONE, GridBagConstraints.CENTER );
-                SwingUtils.addGridBagComponent( stripChartDlg.getContentPane(), new JLabel( SimStrings.get( "EmfModule.Receiver" ) ), 0, rowIdx++, 1, 1, GridBagConstraints.NONE, GridBagConstraints.WEST );
+                SwingUtils.addGridBagComponent( stripChartDlg.getContentPane(), new JLabel( RadioWavesResources.getString( "EmfModule.TimeLabel" ) ), 0, rowIdx++, 1, 1, GridBagConstraints.NONE, GridBagConstraints.CENTER );
+                SwingUtils.addGridBagComponent( stripChartDlg.getContentPane(), new JLabel( RadioWavesResources.getString( "EmfModule.Receiver" ) ), 0, rowIdx++, 1, 1, GridBagConstraints.NONE, GridBagConstraints.WEST );
                 SwingUtils.addGridBagComponent( stripChartDlg.getContentPane(), receiverStripChart, 0, rowIdx++, 1, 1, GridBagConstraints.NONE, GridBagConstraints.WEST );
-                SwingUtils.addGridBagComponent( stripChartDlg.getContentPane(), new JLabel( SimStrings.get( "EmfModule.TimeLabel" ) ), 0, rowIdx++, 1, 1, GridBagConstraints.NONE, GridBagConstraints.CENTER );
+                SwingUtils.addGridBagComponent( stripChartDlg.getContentPane(), new JLabel( RadioWavesResources.getString( "EmfModule.TimeLabel" ) ), 0, rowIdx++, 1, 1, GridBagConstraints.NONE, GridBagConstraints.CENTER );
             }
             catch ( AWTException e ) {
                 e.printStackTrace();
@@ -250,26 +253,26 @@ public class EmfModule extends Module {
     public void setMovementSinusoidal() {
         setWiggleMeGraphicState();
         movementStrategy = sinusoidalMovement;
-        this.getModel().execute( new SetMovementCmd( (EmfModel) this.getModel(), sinusoidalMovement ) );
+        model.execute( new SetMovementCmd( model, sinusoidalMovement ) );
         setWiggleMeGraphicState();
     }
 
     public void setMovementManual() {
         movementStrategy = manualMovement;
-        this.getModel().execute( new SetMovementCmd( (EmfModel) this.getModel(), manualMovement ) );
+        model.execute( new SetMovementCmd( model, manualMovement ) );
         setWiggleMeGraphicState();
     }
 
     public void displayStaticField( boolean display ) {
-        ( (EmfPanel) getApparatusPanel() ).displayStaticField( display );
+        apparatusPanel.displayStaticField( display );
     }
 
     public void displayDynamicField( boolean display ) {
-        ( (EmfPanel) getApparatusPanel() ).displayDynamicField( display );
+        apparatusPanel.displayDynamicField( display );
     }
 
     public void setUseBufferedImage( boolean selected ) {
-        ( (EmfPanel) getApparatusPanel() ).setUseBufferedImage( selected );
+        apparatusPanel.setUseBufferedImage( selected );
     }
 
     public void setFieldSense( int fieldSense ) {
@@ -291,7 +294,7 @@ public class EmfModule extends Module {
         }
 
         // Causes screen to repaint if the clock is paused
-        getModel().stepInTime( 0 );
+        model.updateWhileClockIsPaused();
     }
 
     public int getFieldSense() {
@@ -301,7 +304,7 @@ public class EmfModule extends Module {
     public void setFieldDisplay( int display ) {
         apparatusPanel.setFieldDisplay( display );
         // This makes the display refresh if the clock is paused
-        getModel().stepInTime( 0 );
+        model.updateWhileClockIsPaused();
     }
 
     public void setCurveVisible( boolean isVisible ) {
@@ -326,7 +329,7 @@ public class EmfModule extends Module {
     }
 
     public void showMegaHelp() {
-        final JDialog imageFrame = new JDialog( PhetApplication.instance().getApplicationView().getPhetFrame(), false );
+        final JDialog imageFrame = new JDialog( PhetApplication.instance().getPhetFrame(), false );
         try {
             final BufferedImage image = ImageLoader.loadBufferedImage( "radio-waves/images/emf.gif" );
             final JPanel panel = new JPanel() {
@@ -378,12 +381,12 @@ public class EmfModule extends Module {
 
     public void setScalarRepEnabled( boolean enabled ) {
         if ( enabled ) {
-            getApparatusPanel().addGraphic( waveMediumGraphicA, 1E5 );
-            getApparatusPanel().addGraphic( waveMediumGraphicB, 1E5 );
+            apparatusPanel.addGraphic( waveMediumGraphicA, 1E5 );
+            apparatusPanel.addGraphic( waveMediumGraphicB, 1E5 );
         }
         else if ( waveMediumGraphicA != null ) {
-            getApparatusPanel().removeGraphic( waveMediumGraphicA );
-            getApparatusPanel().removeGraphic( waveMediumGraphicB );
+            apparatusPanel.removeGraphic( waveMediumGraphicA );
+            apparatusPanel.removeGraphic( waveMediumGraphicB );
             waveMediumGraphicA.setVisible( false );
             waveMediumGraphicB.setVisible( false );
         }

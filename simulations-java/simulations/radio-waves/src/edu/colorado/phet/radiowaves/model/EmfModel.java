@@ -7,9 +7,9 @@ package edu.colorado.phet.radiowaves.model;
 
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common_1200.model.BaseModel;
 import edu.colorado.phet.radiowaves.model.movement.MovementType;
 
 public class EmfModel extends BaseModel {
@@ -73,4 +73,7 @@ public class EmfModel extends BaseModel {
         }
     }
 
+    public void updateWhileClockIsPaused() {
+        stepInTime( 0 );
+    }
 }
