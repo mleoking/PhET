@@ -1,6 +1,7 @@
 package edu.colorado.phet.conductivity;
 
-import edu.colorado.phet.common.conductivity.view.ApparatusPanel;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
+
 
 /**
  * Created by IntelliJ IDEA.

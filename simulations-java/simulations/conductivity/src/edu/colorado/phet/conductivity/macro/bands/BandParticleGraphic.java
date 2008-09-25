@@ -7,9 +7,11 @@ package edu.colorado.phet.conductivity.macro.bands;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.common.conductivity.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.conductivity.view.graphics.transforms.TransformListener;
+
+
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.conductivity.common.SimpleBufferedImageGraphic;
 import edu.colorado.phet.conductivity.common.TransformGraphic;
 

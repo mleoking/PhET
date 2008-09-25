@@ -15,11 +15,11 @@ import java.util.Hashtable;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.conductivity.view.ApparatusPanel;
-import edu.colorado.phet.common.conductivity.view.graphics.Graphic;
-import edu.colorado.phet.common.conductivity.view.graphics.ShapeGraphic;
-import edu.colorado.phet.common.conductivity.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.conductivity.view.graphics.transforms.TransformListener;
+
+
+
+
+
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
@@ -31,8 +31,13 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.conductivity.oldphetgraphics.ApparatusPanel;
+import edu.colorado.phet.conductivity.oldphetgraphics.Graphic;
+import edu.colorado.phet.conductivity.oldphetgraphics.ShapeGraphic;
 import edu.colorado.phet.conductivity.macro.BandSetGraphic;
 import edu.colorado.phet.conductivity.macro.EnergyTextGraphic;
 import edu.colorado.phet.conductivity.macro.MacroControlPanel;
@@ -128,7 +133,7 @@ public class ConductivityApplication {
         transform.addTransformListener( new TransformListener() {
 
             public void transformChanged( ModelViewTransform2D modelviewtransform2d ) {
-                java.awt.Shape shape = transform.toAffineTransform().createTransformedShape( lowBandRect1 );
+                java.awt.Shape shape = transform.getAffineTransform().createTransformedShape( lowBandRect1 );
                 backgroundWhite.setShape( shape );
                 backgroundBorder.setShape( shape );
             }
@@ -246,7 +251,7 @@ public class ConductivityApplication {
         transform.addTransformListener( new TransformListener() {
 
             public void transformChanged( ModelViewTransform2D modelviewtransform2d ) {
-                java.awt.Shape shape = transform.toAffineTransform().createTransformedShape( cablePath );
+                java.awt.Shape shape = transform.getAffineTransform().createTransformedShape( cablePath );
                 curveShape.setShape( shape );
             }
 

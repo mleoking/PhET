@@ -7,9 +7,9 @@ package edu.colorado.phet.conductivity.macro.bands;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
-import edu.colorado.phet.common.conductivity.view.graphics.Graphic;
-import edu.colorado.phet.common.conductivity.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.conductivity.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.conductivity.oldphetgraphics.Graphic;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
 
 // Referenced classes of package edu.colorado.phet.semiconductor.macro.bands:
 //            Band, EnergyLevel
@@ -35,7 +35,7 @@ public class BandGraphic
 
     public void paint( Graphics2D graphics2d ) {
         Stroke origStroke = graphics2d.getStroke();
-        AffineTransform affinetransform = transform.toAffineTransform();
+        AffineTransform affinetransform = transform.getAffineTransform();
         java.awt.geom.Rectangle2D.Double double1 = band.getBounds();
         graphics2d.setColor( Color.yellow );
         graphics2d.fill( affinetransform.createTransformedShape( double1 ) );

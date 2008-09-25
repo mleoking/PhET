@@ -19,7 +19,7 @@ import edu.colorado.phet.common.conductivity.model.clock.ClockTickListener;
  */
 public class BaseModel extends CompositeModelElement implements ClockTickListener {
 
-    public BaseModel( AbstractClock clock ) {
+    public BaseModel() {
     }
 
     public void clockTicked( AbstractClock c, double dt ) {

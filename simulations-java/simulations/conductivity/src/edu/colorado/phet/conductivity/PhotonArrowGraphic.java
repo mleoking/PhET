@@ -8,14 +8,17 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
 
-import edu.colorado.phet.common.conductivity.view.graphics.Graphic;
-import edu.colorado.phet.common.conductivity.view.graphics.ImageGraphic;
-import edu.colorado.phet.common.conductivity.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.conductivity.view.graphics.transforms.TransformListener;
+
+import edu.colorado.phet.conductivity.oldphetgraphics.ImageGraphic;
+import edu.colorado.phet.conductivity.oldphetgraphics.Graphic;
+
+
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
 
 // Referenced classes of package edu.colorado.phet.semiconductor.photons:
 //            Photon

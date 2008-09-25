@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Dec 18, 2003
  */
-package edu.colorado.phet.common.conductivity.view.graphics.bounds;
+package edu.colorado.phet.conductivity.oldphetgraphics;
 
 public interface Boundary {
     public boolean contains( int x, int y );

@@ -9,10 +9,11 @@ import java.awt.font.GlyphVector;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.conductivity.view.graphics.transforms.ModelViewTransform2D;
+
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.conductivity.ConductivityResources;
 import edu.colorado.phet.conductivity.common.ArrowShape;
 import edu.colorado.phet.conductivity.common.TransformGraphic;

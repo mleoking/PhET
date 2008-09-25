@@ -8,7 +8,8 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.common.conductivity.view.graphics.Graphic;
+import edu.colorado.phet.conductivity.oldphetgraphics.Graphic;
+
 
 public class SimpleBufferedImageGraphic
         implements Graphic {

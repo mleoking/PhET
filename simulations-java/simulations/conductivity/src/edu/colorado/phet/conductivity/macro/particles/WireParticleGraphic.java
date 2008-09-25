@@ -8,9 +8,10 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.common.conductivity.view.graphics.transforms.ModelViewTransform2D;
+
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.conductivity.common.SimpleBufferedImageGraphic;
 import edu.colorado.phet.conductivity.common.TransformGraphic;
 

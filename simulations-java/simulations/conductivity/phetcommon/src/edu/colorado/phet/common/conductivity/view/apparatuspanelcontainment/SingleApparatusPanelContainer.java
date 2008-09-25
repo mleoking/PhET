@@ -8,7 +8,7 @@ package edu.colorado.phet.common.conductivity.view.apparatuspanelcontainment;
 
 import edu.colorado.phet.common.conductivity.application.Module;
 import edu.colorado.phet.common.conductivity.application.ModuleManager;
-import edu.colorado.phet.common.conductivity.view.ApparatusPanel;
+import edu.colorado.phet.conductivity.oldphetgraphics.ApparatusPanel;
 import edu.colorado.phet.common.conductivity.view.util.AspectRatioLayout;
 
 import javax.swing.*;
