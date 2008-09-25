@@ -22,28 +22,30 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 
 public class StoveControlSlider extends JSlider {
-    private static final int s_stoveSliderHeight = 60;
-    private Color m_controlColor = new Color(240, 230, 255);
+    private static final int STOVE_SLIDER_HEIGHT = 85;
+    private static final int STOVE_SLIDER_WIDTH = 100;
+    private static final int MAX_SLIDER_VALULE = 50;
+    private static final int MIN_SLIDER_VALULE = -50;
+    private static final Color CONTROL_COLOR = new Color(240, 230, 255);
     private ArrayList m_listeners = new ArrayList();
-    private JSlider m_stoveSlider;
 
     public StoveControlSlider() {
     	
         setOrientation( JSlider.VERTICAL );
-        setMinimum( -50 );
-        setMaximum( 50 );
+        setMinimum( MIN_SLIDER_VALULE );
+        setMaximum( MAX_SLIDER_VALULE );
         setValue( 0 );
-        setMajorTickSpacing( 50 );
-        setMinorTickSpacing( 10 );
+        setMajorTickSpacing( (MAX_SLIDER_VALULE - MIN_SLIDER_VALULE) / 2 );
+        setMinorTickSpacing( (MAX_SLIDER_VALULE - MIN_SLIDER_VALULE) / 10 );
         setPaintTicks( true );
         setPaintLabels( true );
-        setPreferredSize(new Dimension(100, s_stoveSliderHeight));
+        setPreferredSize(new Dimension(STOVE_SLIDER_WIDTH, STOVE_SLIDER_HEIGHT));
         setFont( new PhetFont(11) );
 
         Hashtable labelTable = new Hashtable();
-        labelTable.put(new Integer(40), new JLabel(StatesOfMatterStrings.STOVE_CONTROL_PANEL_ADD_LABEL));
+        labelTable.put(new Integer(MAX_SLIDER_VALULE), new JLabel(StatesOfMatterStrings.STOVE_CONTROL_PANEL_ADD_LABEL));
         labelTable.put(new Integer(0), new JLabel(StatesOfMatterStrings.STOVE_CONTROL_PANEL_ZERO_LABEL));
-        labelTable.put(new Integer(-40), new JLabel(StatesOfMatterStrings.STOVE_CONTROL_PANEL_REMOVE_LABEL));
+        labelTable.put(new Integer(MIN_SLIDER_VALULE), new JLabel(StatesOfMatterStrings.STOVE_CONTROL_PANEL_REMOVE_LABEL));
         setLabelTable(labelTable);
         
         addMouseListener(new MouseAdapter() {
@@ -53,17 +55,16 @@ public class StoveControlSlider extends JSlider {
             }
         });
         
-        /*
         TitledBorder border = new TitledBorder(new EtchedBorder(BevelBorder.RAISED, 
                 new Color(40, 20, 255),
                 Color.black),
                 StatesOfMatterStrings.STOVE_CONTROL_PANEL_TITLE);
         border.setTitleFont( new PhetFont(12) );
-        stovePanel.setBorder(border);
-        m_stoveSlider.setBackground(m_controlColor);
-        stovePanel.setBackground(m_controlColor);
-        add(m_stoveSlider);
+        setBorder(border);
+        setBackground(CONTROL_COLOR);
+        setBackground(CONTROL_COLOR);
 
+        /*
         m_stoveSlider.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
                 notifyListeners();

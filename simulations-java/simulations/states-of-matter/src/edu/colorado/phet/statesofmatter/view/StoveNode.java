@@ -63,7 +63,7 @@ public class StoveNode extends PNode {
         m_stoveControlSlider = new StoveControlSlider();
         PSwing stoveControlPanelNode = new PSwing(m_stoveControlSlider);
         addChild(stoveControlPanelNode);
-        stoveControlPanelNode.setOffset(m_stoveImage.getFullBoundsReference().getWidth() + 15, 20);
+        stoveControlPanelNode.setOffset(m_stoveImage.getFullBoundsReference().getWidth() + 15, 0);
 
         update();
     }
