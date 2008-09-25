@@ -6,13 +6,13 @@
  */
 package edu.colorado.phet.sound.view;
 
+import java.awt.geom.Point2D;
+
+import javasound.SrrOscillatorPlayer;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common_sound.model.clock.AbstractClock;
-import edu.colorado.phet.common_sound.util.SimpleObserver;
 import edu.colorado.phet.sound.SoundConfig;
 import edu.colorado.phet.sound.model.Listener;
-import javasound.SrrOscillatorPlayer;
-
-import java.awt.geom.Point2D;
 
 public class WavefrontOscillator extends SrrOscillatorPlayer implements SimpleObserver {
 

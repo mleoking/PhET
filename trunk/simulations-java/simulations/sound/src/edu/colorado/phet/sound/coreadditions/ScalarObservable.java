@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.sound.coreadditions;
 
-import edu.colorado.phet.common_sound.util.SimpleObservable;
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 public abstract class ScalarObservable extends SimpleObservable {
 

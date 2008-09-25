@@ -6,18 +6,18 @@
  */
 package edu.colorado.phet.sound.view;
 
-import edu.colorado.phet.common_sound.util.SimpleObserver;
-import edu.colorado.phet.common_sound.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.sound.SoundConfig;
-import edu.colorado.phet.sound.model.WaveMedium;
-import edu.colorado.phet.sound.model.Wavefront;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common_sound.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.sound.SoundConfig;
+import edu.colorado.phet.sound.model.WaveMedium;
+import edu.colorado.phet.sound.model.Wavefront;
 
 /**
  * This variant of the WaveMediumGraphic is used for the movable speaker in the Two

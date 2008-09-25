@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.common_sound.model;
 
-import edu.colorado.phet.common_sound.util.SimpleObservable;
-
 import java.util.ArrayList;
+
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 /**
  * CompositeModelElement
