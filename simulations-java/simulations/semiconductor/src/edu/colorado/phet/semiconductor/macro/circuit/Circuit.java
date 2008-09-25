@@ -1,7 +1,9 @@
 package edu.colorado.phet.semiconductor.macro.circuit;
 
 import edu.colorado.phet.semiconductor.macro.circuit.battery.Battery;
-import edu.colorado.phet.semiconductor.util.math.PhetVector;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+
 
 /**
  * User: Sam Reid
@@ -10,12 +12,12 @@ import edu.colorado.phet.semiconductor.util.math.PhetVector;
  */
 public class Circuit {
     CompositeLinearBranch circuit = new CompositeLinearBranch();
-    PhetVector at;
+    Vector2D.Double at;
     private double resistorWidth;
 
     public Circuit( double x, double y, double resistorWidth ) {
         this.resistorWidth = resistorWidth;
-        this.at = new PhetVector( x, y );
+        this.at = new Vector2D.Double( x, y );
     }
 
     public LinearBranch wireAt( int i ) {
@@ -23,7 +25,7 @@ public class Circuit {
     }
 
     public Wire wireTo( double x, double y ) {
-        PhetVector to = new PhetVector( x, y );
+        Vector2D.Double to = new Vector2D.Double( x, y );
         Wire branch = new Wire( at, to );
         circuit.addBranch( branch );
         at = to;
@@ -31,7 +33,7 @@ public class Circuit {
     }
 
     public Resistor resistorTo( double x, double y ) {
-        PhetVector to = new PhetVector( x, y );
+        Vector2D.Double to = new Vector2D.Double( x, y );
         Resistor branch = new Resistor( at, to, resistorWidth );
         circuit.addBranch( branch );
         at = to;
@@ -39,7 +41,7 @@ public class Circuit {
     }
 
     public Battery batteryTo( double x, double y ) {
-        PhetVector to = new PhetVector( x, y );
+        Vector2D.Double to = new Vector2D.Double( x, y );
         Battery branch = new Battery( at, to );
         circuit.addBranch( branch );
         at = to;
@@ -54,7 +56,7 @@ public class Circuit {
         return circuit.numBranches();
     }
 
-    public PhetVector getPosition( double dist ) {
+    public AbstractVector2D getPosition( double dist ) {
         return circuit.getPosition( dist );
     }
 

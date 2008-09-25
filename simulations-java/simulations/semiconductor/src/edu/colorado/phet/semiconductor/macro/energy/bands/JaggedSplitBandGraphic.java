@@ -7,9 +7,12 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
-import edu.colorado.phet.semiconductor.util.math.PhetVector;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+
+
 import edu.colorado.phet.semiconductor.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 
 /**
  * User: Sam Reid
@@ -26,25 +29,25 @@ public class JaggedSplitBandGraphic extends BandSetGraphic {
         super( diodeSection, transform, bandSet, viewport );
         Rectangle2D.Double bandRect = bandSet.getBounds();
 //        Rectangle2D.Double bandRect = viewport;
-        PhetVector src = new PhetVector( bandRect.getX() + bandRect.getWidth() / 2, bandRect.getY() );
-        PhetVector dst = new PhetVector( bandRect.getX() + bandRect.getWidth() / 2, bandRect.getY() + bandRect.getHeight() );
+        Vector2D.Double src = new Vector2D.Double( bandRect.getX() + bandRect.getWidth() / 2, bandRect.getY() );
+        Vector2D.Double dst = new Vector2D.Double( bandRect.getX() + bandRect.getWidth() / 2, bandRect.getY() + bandRect.getHeight() );
         double tearDX = bandRect.getWidth() / 35;
-        PhetVector leftSrc = src.getAddedInstance( -tearDX, 0 );
-        PhetVector rightSrc = src.getAddedInstance( tearDX, 0 );
-        PhetVector leftDst = dst.getAddedInstance( -tearDX, 0 );
-        PhetVector rightDst = dst.getAddedInstance( tearDX, 0 );
+        AbstractVector2D leftSrc = src.getAddedInstance( -tearDX, 0 );
+        AbstractVector2D rightSrc = src.getAddedInstance( tearDX, 0 );
+        AbstractVector2D leftDst = dst.getAddedInstance( -tearDX, 0 );
+        AbstractVector2D rightDst = dst.getAddedInstance( tearDX, 0 );
         int tearCount = 28;
         rightTear = new VerticalTearLine( rightSrc, rightDst, bandRect.getWidth() / 10, tearCount );
         leftTear = new VerticalTearLine( leftSrc, leftDst, bandRect.getWidth() / 10, tearCount );
 
-        DoubleGeneralPath leftApp = new DoubleGeneralPath( leftDst );//leftTear.getPath().getGeneralPath());
+        DoubleGeneralPath leftApp = new DoubleGeneralPath( leftDst.getX(), leftDst.getY());//leftTear.getPath().getGeneralPath());
         leftApp.lineTo( bandRect.getX(), bandRect.getY() + bandRect.getHeight() );
         leftApp.lineTo( bandRect.getX(), bandRect.getY() );
         leftApp.lineTo( leftSrc );
         leftPath = leftApp.getGeneralPath();
         leftPath.append( leftTear.getPath().getGeneralPath(), false );
 
-        DoubleGeneralPath rightApp = new DoubleGeneralPath( rightDst );
+        DoubleGeneralPath rightApp = new DoubleGeneralPath( rightDst.getX(), rightDst.getY());
         rightApp.lineTo( bandRect.getX() + bandRect.getWidth(), bandRect.getY() + bandRect.getHeight() );
         rightApp.lineTo( bandRect.getX() + bandRect.getWidth(), bandRect.getY() );
         rightApp.lineTo( rightSrc );

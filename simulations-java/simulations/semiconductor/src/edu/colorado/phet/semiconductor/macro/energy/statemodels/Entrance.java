@@ -5,8 +5,9 @@ import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
 import edu.colorado.phet.semiconductor.macro.energy.bands.BandParticle;
 import edu.colorado.phet.semiconductor.macro.energy.bands.EnergyCell;
 import edu.colorado.phet.semiconductor.macro.energy.states.MoveToCell;
-import edu.colorado.phet.semiconductor.util.math.PhetVector;
+
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 
 /**
@@ -29,11 +30,11 @@ public class Entrance implements ModelElement {
 
     public void stepInTime( double dt ) {
         if ( cell.getIndex() == 0 ) {
-            EntryPoint ep = new EntryPoint( cell, new PhetVector( -1, 0 ) );
+            EntryPoint ep = new EntryPoint( cell, new Vector2D.Double( -1, 0 ) );
             enter( energySection, ep );
         }
         else {
-            EntryPoint ep = new EntryPoint( cell, new PhetVector( 1, 0 ) );
+            EntryPoint ep = new EntryPoint( cell, new Vector2D.Double( 1, 0 ) );
             enter( energySection, ep );
         }
     }

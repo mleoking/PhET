@@ -15,7 +15,7 @@ public class Waiting implements BandParticleState {
     }
 
     public boolean stepInTime( final BandParticle particle, double dt ) {
-//        particle.setVelocity(new PhetVector());
+//        particle.setVelocity(new Vector2D.Double());
         return false;
     }
 

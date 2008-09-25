@@ -7,10 +7,12 @@ import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.semiconductor.common.SimpleBufferedImageGraphic;
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
-import edu.colorado.phet.semiconductor.util.math.PhetVector;
+
 import edu.colorado.phet.semiconductor.phetcommon.model.simpleobservable.SimpleObserver;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.bounds.Boundary;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+
 
 /**
  * User: Sam Reid
@@ -113,7 +115,7 @@ public class DopantGraphic extends TransformGraphic implements Boundary {
     }
 
     public void translate( double dx, double dy ) {
-        Point2D.Double trf = getTransform().viewToModelDifferential( (int) dx, (int) dy );
+        Point2D trf = getTransform().viewToModelDifferential( (int) dx, (int) dy );
         dopant.translate( trf.getX(), trf.getY() );
     }
 
@@ -125,8 +127,8 @@ public class DopantGraphic extends TransformGraphic implements Boundary {
         return dopant.getType();
     }
 
-    public PhetVector getCenter() {
-        return new PhetVector( viewLoc );
+    public Vector2D.Double getCenter() {
+        return new Vector2D.Double( viewLoc );
     }
 
 

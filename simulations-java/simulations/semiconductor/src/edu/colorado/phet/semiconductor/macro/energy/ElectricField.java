@@ -1,7 +1,9 @@
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.macro.energy;
 
-import edu.colorado.phet.semiconductor.util.math.PhetVector;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+
 
 /**
  * User: Sam Reid
@@ -9,10 +11,10 @@ import edu.colorado.phet.semiconductor.util.math.PhetVector;
  * Time: 9:59:15 AM
  */
 public class ElectricField {
-    private PhetVector center;
+    private AbstractVector2D center;
     double strength = 0;
 
-    public ElectricField( PhetVector center ) {
+    public ElectricField( AbstractVector2D center ) {
         this.center = center;
     }
 
@@ -20,7 +22,7 @@ public class ElectricField {
         return strength;
     }
 
-    public PhetVector getCenter() {
+    public AbstractVector2D getCenter() {
         return center;
     }
 

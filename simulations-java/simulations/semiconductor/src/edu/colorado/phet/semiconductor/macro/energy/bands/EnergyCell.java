@@ -1,7 +1,8 @@
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.macro.energy.bands;
 
-import edu.colorado.phet.semiconductor.util.math.PhetVector;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+
 
 /**
  * User: Sam Reid
@@ -34,8 +35,8 @@ public class EnergyCell {
         return energy;
     }
 
-    public PhetVector getPosition() {
-        return new PhetVector( x, energy );
+    public Vector2D.Double getPosition() {
+        return new Vector2D.Double( x, energy );
     }
 
     public EnergyLevel getEnergyLevel() {

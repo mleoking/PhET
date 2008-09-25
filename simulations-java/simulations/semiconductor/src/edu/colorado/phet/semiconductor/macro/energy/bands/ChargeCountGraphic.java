@@ -4,11 +4,13 @@ package edu.colorado.phet.semiconductor.macro.energy.bands;
 import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.semiconductor.SemiconductorResources;
 import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
-import edu.colorado.phet.semiconductor.util.math.PhetVector;
+
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+
 import edu.colorado.phet.semiconductor.util.RectangleUtils;
 
 /**
@@ -35,7 +37,7 @@ public class ChargeCountGraphic implements Graphic {
     public void paint( Graphics2D g ) {
         if ( visible ) {
             //TODO fix charge count graphic.
-            PhetVector ctr = RectangleUtils.getCenter( bsg.getViewport() );
+            Vector2D.Double ctr = RectangleUtils.getCenter( bsg.getViewport() );
             Point pt = transform.modelToView( ctr );
             g.setFont( font );
             g.setColor( color );

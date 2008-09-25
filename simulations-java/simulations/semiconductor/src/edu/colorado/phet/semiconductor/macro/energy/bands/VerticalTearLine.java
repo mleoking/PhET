@@ -1,8 +1,10 @@
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.macro.energy.bands;
 
-import edu.colorado.phet.semiconductor.util.math.PhetVector;
+
 import edu.colorado.phet.semiconductor.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 
 /**
  * User: Sam Reid
@@ -12,8 +14,8 @@ import edu.colorado.phet.semiconductor.phetcommon.view.util.DoubleGeneralPath;
 public class VerticalTearLine {
     DoubleGeneralPath path;
 
-    public VerticalTearLine( PhetVector src, PhetVector dst, double width, int numJags ) {
-        path = new DoubleGeneralPath( src );
+    public VerticalTearLine( AbstractVector2D src, AbstractVector2D dst, double width, int numJags ) {
+        path = new DoubleGeneralPath( src.getX(), src.getY());
         double totalHeight = dst.getY() - src.getY();
         //first one, move left and down half the specified amount.
         double jagHeight = totalHeight / numJags;
@@ -30,8 +32,8 @@ public class VerticalTearLine {
     }
 
 //    static void test(Rectangle2D bounds){
-//        PhetVector src=new PhetVector(bounds.getX()+bounds.getWidth()/2,bounds.getEnergy());
-//        PhetVector dst=new PhetVector(bounds.getX()+bounds.getWidth()/2,bounds.getEnergy()+bounds.getNumFilledLevels());
+//        Vector2D.Double src=new Vector2D.Double(bounds.getX()+bounds.getWidth()/2,bounds.getEnergy());
+//        Vector2D.Double dst=new Vector2D.Double(bounds.getX()+bounds.getWidth()/2,bounds.getEnergy()+bounds.getNumFilledLevels());
 //        VerticalTearLine vtl=new VerticalTearLine(src, dst,bounds.getWidth()/10,10);
 //
 //    }

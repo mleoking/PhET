@@ -6,7 +6,8 @@ import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.semiconductor.common.TargetedImageGraphic2;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+
 
 /**
  * User: Sam Reid

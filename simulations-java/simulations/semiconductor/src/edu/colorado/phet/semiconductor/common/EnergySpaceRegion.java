@@ -2,7 +2,8 @@ package edu.colorado.phet.semiconductor.common;
 
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.semiconductor.util.math.PhetVector;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+
 
 /**
  * User: Sam Reid
@@ -42,7 +43,7 @@ public class EnergySpaceRegion {
         return new Rectangle2D.Double( getMinX(), getMinEnergy(), getSpatialWidth(), getEnergyRange() );
     }
 
-    public boolean contains( PhetVector particlePosition ) {
+    public boolean contains( Vector2D.Double particlePosition ) {
         return toRectangle().contains( particlePosition.toPoint2D() );
     }
 }

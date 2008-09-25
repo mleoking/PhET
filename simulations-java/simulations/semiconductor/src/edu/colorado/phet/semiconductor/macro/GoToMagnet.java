@@ -6,7 +6,9 @@ import edu.colorado.phet.semiconductor.macro.energy.bands.BandParticle;
 import edu.colorado.phet.semiconductor.macro.energy.bands.BandParticleState;
 import edu.colorado.phet.semiconductor.macro.energy.bands.EnergyCell;
 import edu.colorado.phet.semiconductor.macro.energy.states.MoveToPosition;
-import edu.colorado.phet.semiconductor.util.math.PhetVector;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+
 
 /**
  * User: Sam Reid
@@ -29,9 +31,9 @@ public class GoToMagnet implements BandParticleState {
     }
 
     public boolean stepInTime( BandParticle particle, double dt ) {
-        PhetVector p = magnet.getPlusSide();
+        Vector2D.Double p = magnet.getPlusSide();
 
-        PhetVector dest = p.getAddedInstance( dx, dy );
+        AbstractVector2D dest = p.getAddedInstance( dx, dy );
 
         MoveToPosition mtp = new MoveToPosition( dest, .2 );
         mtp.stepInTime( particle, dt );

@@ -1,10 +1,12 @@
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.common;
 
-import edu.colorado.phet.semiconductor.util.math.PhetVector;
+
 
 import edu.colorado.phet.semiconductor.phetcommon.model.simpleobservable.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 
 /**
  * User: Sam Reid
@@ -12,29 +14,29 @@ import edu.colorado.phet.common.phetcommon.model.ModelElement;
  * Time: 2:48:10 PM
  */
 public class Particle extends SimpleObservable implements ModelElement {
-    PhetVector position;
-    PhetVector velocity;
-    PhetVector acceleration;
+    AbstractVector2D position;
+    AbstractVector2D velocity;
+    Vector2D.Double acceleration;
 
     public Particle( double x, double y ) {
-        this.position = new PhetVector( x, y );
-        this.velocity = new PhetVector();
-        this.acceleration = new PhetVector();
+        this.position = new Vector2D.Double( x, y );
+        this.velocity = new Vector2D.Double();
+        this.acceleration = new Vector2D.Double();
     }
 
-    public Particle( PhetVector position ) {
+    public Particle( AbstractVector2D position ) {
         this( position.getX(), position.getY() );
     }
 
-    public PhetVector getPosition() {
+    public AbstractVector2D getPosition() {
         return position;
     }
 
     public void stepInTime( double dt ) {
         //acceleration doesn't change here.
-        PhetVector dv = acceleration.getScaledInstance( dt );
+        AbstractVector2D dv = acceleration.getScaledInstance( dt );
         this.velocity = velocity.getAddedInstance( dv );
-        PhetVector dx = velocity.getScaledInstance( dt );
+        AbstractVector2D dx = velocity.getScaledInstance( dt );
         this.position = position.getAddedInstance( dx );
         updateObservers();
     }
@@ -48,7 +50,7 @@ public class Particle extends SimpleObservable implements ModelElement {
     }
 
     public void setPosition( double x, double y ) {
-        this.position = new PhetVector( x, y );
+        this.position = new Vector2D.Double( x, y );
     }
 
     public void translate( double dx, double dy ) {

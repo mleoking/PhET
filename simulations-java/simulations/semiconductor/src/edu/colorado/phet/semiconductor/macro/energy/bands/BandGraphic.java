@@ -6,12 +6,14 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.semiconductor.SemiconductorResources;
 import edu.colorado.phet.semiconductor.common.EnergySpaceRegion;
 import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.TransformListener;
+
+
 
 /**
  * User: Sam Reid
@@ -41,7 +43,7 @@ public class BandGraphic implements Graphic {
 
     public void paint( Graphics2D graphics2D ) {
         //To change body of implemented methods use Options | File Templates.
-        AffineTransform tr = transform.toAffineTransform();
+        AffineTransform tr = transform.getAffineTransform();
 
         EnergySpaceRegion esr = band.getRegion();
         Rectangle2D.Double rect = new Rectangle2D.Double( esr.getMinX(), esr.getMinEnergy(), esr.getSpatialWidth(), esr.getEnergyRange() );

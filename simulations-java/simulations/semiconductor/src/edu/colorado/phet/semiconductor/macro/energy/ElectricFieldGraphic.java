@@ -5,10 +5,13 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
-import edu.colorado.phet.semiconductor.util.math.PhetVector;
+
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.shapes.ArrowShape;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+
 
 /**
  * User: Sam Reid
@@ -34,12 +37,12 @@ public class ElectricFieldGraphic extends TransformGraphic {
         int h = 0;
         if ( field.getStrength() != 0 ) {
             try {
-                PhetVector dest = field.getCenter().getAddedInstance( field.getStrength(), 0 );
-                PhetVector start = field.getCenter();
+                AbstractVector2D dest = field.getCenter().getAddedInstance( field.getStrength(), 0 );
+                AbstractVector2D start = field.getCenter();
 
-                PhetVector dir = dest.getSubtractedInstance( start );
-                PhetVector mid = start.getAddedInstance( dir.getScaledInstance( .5 ) );
-                PhetVector dx = start.getSubtractedInstance( mid );
+                AbstractVector2D dir = dest.getSubtractedInstance( start );
+                AbstractVector2D mid = start.getAddedInstance( dir.getScaledInstance( .5 ) );
+                AbstractVector2D dx = start.getSubtractedInstance( mid );
 
                 start = start.getAddedInstance( dx );
                 dest = dest.getAddedInstance( dx );

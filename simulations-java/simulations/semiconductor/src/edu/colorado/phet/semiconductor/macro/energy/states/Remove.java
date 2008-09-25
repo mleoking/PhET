@@ -18,7 +18,7 @@ public class Remove implements BandParticleState {
 
     public boolean stepInTime( BandParticle particle, double dt ) {
         diodeSection.removeParticle( particle );
-//        particle.setVelocity(new PhetVector());
+//        particle.setVelocity(new Vector2D.Double());
         return true;
     }
 

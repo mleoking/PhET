@@ -4,8 +4,11 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.semiconductor.common.ParticleGraphic;
-import edu.colorado.phet.semiconductor.util.math.PhetVector;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+
 
 /**
  * User: Sam Reid
@@ -21,7 +24,7 @@ public class PlusGraphic extends ParticleGraphic {
     }
 
     public void update() {
-        PhetVector modelLoc = particle.getPosition();
+        AbstractVector2D modelLoc = particle.getPosition();
         Point pt = getTransform().modelToView( modelLoc );
         pt = new Point( pt.x + getImage().getWidth(), pt.y );
         graphic.setPosition( pt );

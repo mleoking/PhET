@@ -5,9 +5,11 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import edu.colorado.phet.semiconductor.macro.doping.ViewChangeListener;
-import edu.colorado.phet.semiconductor.util.math.PhetVector;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.TransformListener;
+
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+
 
 /**
  * User: Sam Reid
@@ -15,12 +17,12 @@ import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.Trans
  * Time: 2:19:43 PM
  */
 public class ModelLocation {
-    PhetVector modelLocation;
+    Vector2D.Double modelLocation;
     private Point viewLocation;
     ArrayList listeners = new ArrayList();
 
     public ModelLocation( double x, double y, final ModelViewTransform2D transform ) {
-        this.modelLocation = new PhetVector( x, y );
+        this.modelLocation = new Vector2D.Double( x, y );
         transform.addTransformListener( new TransformListener() {
             public void transformChanged( ModelViewTransform2D mvt ) {
                 viewLocation = transform.modelToView( modelLocation );

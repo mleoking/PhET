@@ -11,7 +11,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.semiconductor.util.math.PhetVector;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+
 
 public class ModelViewTransform2D {
     private Rectangle2D.Double modelBounds;
@@ -50,8 +51,8 @@ public class ModelViewTransform2D {
         return modelToView( pt.x, pt.y );
     }
 
-    public Point modelToView( PhetVector pt ) {
-        return modelToView( pt.toPoint2D() );
+    public Point modelToView( Vector2D.Double pt ) {
+        return modelToView( pt.getX(),pt.getY());
     }
 
     public int modelToViewX( double x ) {
