@@ -6,7 +6,7 @@ package edu.colorado.phet.conductivity.macro;
 
 import java.util.ArrayList;
 
-
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.conductivity.macro.bands.ConductorBandSet;
 import edu.colorado.phet.conductivity.macro.bands.DefaultBandSet;
 import edu.colorado.phet.conductivity.macro.bands.InsulatorBandSet;
@@ -15,7 +15,6 @@ import edu.colorado.phet.conductivity.macro.battery.Battery;
 import edu.colorado.phet.conductivity.macro.battery.BatteryListener;
 import edu.colorado.phet.conductivity.macro.circuit.MacroCircuit;
 import edu.colorado.phet.conductivity.macro.particles.WireParticle;
-import edu.colorado.phet.common.phetcommon.model.ModelElement;
 
 public class MacroSystem
         implements ModelElement {
