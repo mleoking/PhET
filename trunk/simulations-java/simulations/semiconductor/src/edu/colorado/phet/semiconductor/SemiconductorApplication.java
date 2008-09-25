@@ -410,30 +410,6 @@ public class SemiconductorApplication implements Graphic {
 
     public static void main( final String[] args ) throws IOException, UnsupportedLookAndFeelException {
         new SemiconductorApplicationConfig( args ).launchSim();
-//        SwingUtilities.invokeLater( new Runnable() {
-//            public void run() {
-//                new PhetLookAndFeel().initLookAndFeel();
-//
-////        UIManager.setLookAndFeel(new SemiconductorLookAndFeel());
-////        FrameSetup fs = new MaxExtentFrameSetup( new FullScreen() );
-//                FrameSetup fs = new TopOfScreen();
-//                ApplicationDescriptor ad = new ApplicationDescriptor( SemiconductorResources.getString( "SemiconductorApplication.title" ) + " " + VERSION,
-//                                                                      SemiconductorResources.getString( "SemiconductorApplication.description" ),
-//                                                                      VERSION, fs );
-//                ad.setName( "semiconductor" );
-//                SwingTimerClock clock = new SwingTimerClock( 1, 45, true );
-//                SemiconductorApplication application = null;
-//                try {
-//                    application = new SemiconductorApplication( clock );
-//                }
-//                catch( IOException e ) {
-//                    e.printStackTrace();
-//                }
-//                final PhetApplication pa = new PhetApplication( ad, application, clock );
-//                pa.startApplication( application );
-//                enableAspectRatio( pa, application );
-//            }
-//        } );
     }
 
 }
