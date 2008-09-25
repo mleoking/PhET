@@ -37,7 +37,6 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.conductivity.macro.BandSetGraphic;
 import edu.colorado.phet.conductivity.macro.EnergyTextGraphic;
 import edu.colorado.phet.conductivity.macro.MacroControlPanel;
@@ -81,7 +80,7 @@ public class ConductivityApplication extends Module {
 
     public ConductivityApplication( AbstractClock abstractclock )
             throws IOException {
-        super( SimStrings.get( "ModuleTitle.SemiconductorsModule" ) );
+        super( ConductivityResources.getString( "ModuleTitle.SemiconductorsModule" ) );
         this.clock = abstractclock;
         minVolts = 0.0D;
         maxVolts = 2D;
@@ -275,8 +274,6 @@ public class ConductivityApplication extends Module {
             public void run() {
                 new PhetLookAndFeel().initLookAndFeel();
 
-                SimStrings.getInstance().init( args, localizedStringsPath );
-
                 SwingTimerClock swingtimerclock = new SwingTimerClock( 1.0D, 30, true );
                 ConductivityApplication module = null;
                 try {
@@ -287,8 +284,8 @@ public class ConductivityApplication extends Module {
                 }
                 String version = PhetApplicationConfig.getVersion( "conductivity" ).formatForTitleBar();
                 ApplicationDescriptor ad = new ApplicationDescriptor(
-                        SimStrings.get( "ConductivityApplication.title" ) + " " + version,
-                        SimStrings.get( "ConductivityApplication.description" ), version,
+                        ConductivityResources.getString( "ConductivityApplication.title" ) + " " + version,
+                        ConductivityResources.getString( "ConductivityApplication.description" ), version,
                         new FrameSetup.CenteredWithInsets( 100, 100 ) );
                 ad.setName( "conductivity" );
                 PhetApplication phetapplication = new PhetApplication( ad, module, swingtimerclock );

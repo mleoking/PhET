@@ -6,7 +6,7 @@ package edu.colorado.phet.conductivity.macro.bands;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.conductivity.ConductivityResources;
 import edu.colorado.phet.conductivity.macro.bands.states.Speed;
 
 // Referenced classes of package edu.colorado.phet.semiconductor.macro.bands:
@@ -25,10 +25,10 @@ public class Band {
 
     public String toString() {
         if ( bandSet.getUpperBand() == this ) {
-            return SimStrings.get( "Band.UpperLabel" );
+            return ConductivityResources.getString( "Band.UpperLabel" );
         }
         if ( bandSet.getLowerBand() == this ) {
-            return SimStrings.get( "Band.LowerLabel" );
+            return ConductivityResources.getString( "Band.LowerLabel" );
         }
         else {
             return super.toString();
