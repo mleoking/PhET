@@ -7,8 +7,9 @@ package edu.colorado.phet.conductivity.macro.bands;
 import java.util.ArrayList;
 import java.util.Random;
 
-import edu.colorado.phet.common.conductivity.model.ModelElement;
+
 import edu.colorado.phet.conductivity.macro.MacroSystem;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 
 // Referenced classes of package edu.colorado.phet.semiconductor.macro.bands:
 //            Band, BandParticle, BandParticleObserver, EnergyLevel, 
