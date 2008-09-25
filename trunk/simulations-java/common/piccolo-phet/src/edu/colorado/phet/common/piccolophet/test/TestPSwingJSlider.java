@@ -25,8 +25,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * unacceptable when the JPanel has a titled border, and just a little off 
  * if the JPanel has no titled border.
  * <p>
- * This program creates 3 instances of the JPanel. Two of them are wrapper
- * with PSwing (one with a titled border, or without), while the third is 
+ * This program creates 3 instances of the JPanel. Two of them are wrapped
+ * with PSwing (one with a titled border, one without), while the third is 
  * rendered entirely via Swing. It also creates a slider that is not 
  * contained in a JPanel, but is wrapped by a PSwing directly.
  * This demonstrates what the JSlider should look like.
