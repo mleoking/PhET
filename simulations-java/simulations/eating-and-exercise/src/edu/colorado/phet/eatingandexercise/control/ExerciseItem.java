@@ -36,7 +36,13 @@ public class ExerciseItem extends CaloricItem {
     private void updateCalories() {
         double newCalories = referenceCalories * ( 1 + weightDependence * ( EatingAndExerciseUnits.kgToPounds( human.getMass() ) - referenceWeightPounds ) / referenceWeightPounds );
 //        System.out.println( "weightDependence = " + weightDependence + ", newcal=" + newCalories );
-        setCalories( newCalories );
+
+        setCalories( round(newCalories) );
+    }
+
+    private static double round( double newCalories ) {
+        //round to nearest 10
+        return Math.round( newCalories/10 )*10;
     }
 
     public Object clone() {
@@ -52,5 +58,11 @@ public class ExerciseItem extends CaloricItem {
     public String getLabelText() {
         String onehour = EatingAndExerciseResources.getString( "one.hour" );
         return "<html>" + onehour + " " + getName() + " " + "<br>(" + EatingAndExerciseStrings.KCAL_PER_DAY_FORMAT.format( getCalories() ) + " " + EatingAndExerciseStrings.KCAL_PER_DAY + ")</html>";
+    }
+
+    public static void main( String[] args ) {
+        for (double d=0.0;d<=20.0;d+=0.023){
+            System.out.println( ""+d+": "+round(d) );
+        }
     }
 }
