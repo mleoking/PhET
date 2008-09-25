@@ -17,8 +17,6 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.conductivity.model.BaseModel;
 import edu.colorado.phet.common.conductivity.model.ModelElement;
-import edu.colorado.phet.common.conductivity.model.clock.AbstractClock;
-import edu.colorado.phet.common.conductivity.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.conductivity.view.ApparatusPanel;
 import edu.colorado.phet.common.conductivity.view.graphics.Graphic;
 import edu.colorado.phet.common.conductivity.view.graphics.ShapeGraphic;
@@ -79,7 +77,7 @@ public class ConductivityApplication {
             throws IOException {
 //        super( ConductivityResources.getString( "ModuleTitle.SemiconductorsModule" ) );
         this.clock = clock;
-        clock.addClockListener( new ClockAdapter(){
+        clock.addClockListener( new ClockAdapter() {
             public void simulationTimeChanged( ClockEvent clockEvent ) {
                 baseModel.stepInTime( clockEvent.getSimulationTimeChange() );
             }
@@ -407,7 +405,7 @@ public class ConductivityApplication {
         public ConductivityModule( PhetApplicationConfig config ) {
             super( "name", new ConstantDtClock( 30, 1 ) );
             try {
-                ConductivityApplication ca = new ConductivityApplication( getClock());
+                ConductivityApplication ca = new ConductivityApplication( getClock() );
                 setSimulationPanel( ca.getApparatusPanel() );
                 setControlPanel( ca.controlPanel );
                 getClock().addClockListener( new ClockAdapter() {
