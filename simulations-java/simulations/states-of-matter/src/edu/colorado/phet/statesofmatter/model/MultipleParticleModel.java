@@ -726,7 +726,6 @@ public class MultipleParticleModel {
         if (( m_numberOfAtoms + m_atomsPerMolecule <= MAX_NUM_ATOMS ) &&
             ( m_normalizedContainerHeight > injectionPointY * 1.05)){
 
-//            double angle = (m_rand.nextDouble() + 1) * (2 * Math.PI / 3);
             double angle = Math.PI + ((m_rand.nextDouble() - 0.5) * MAX_INJECTED_MOLECULE_ANGLE);
             double velocity = MIN_INJECTED_MOLECULE_VELOCITY + (m_rand.nextDouble() *
                     (MAX_INJECTED_MOLECULE_VELOCITY - MIN_INJECTED_MOLECULE_VELOCITY));
