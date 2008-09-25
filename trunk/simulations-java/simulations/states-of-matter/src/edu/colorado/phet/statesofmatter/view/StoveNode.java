@@ -63,6 +63,7 @@ public class StoveNode extends PNode {
         });
         */
         m_stoveControlSlider = new StoveControlSlider();
+        m_stoveControlSlider.setOpaque( true ); // Mac slider is transparent by default
         m_stoveControlSlider.addChangeListener( new ChangeListener(){
             public void stateChanged( ChangeEvent e ) {
                 m_heat = m_stoveControlSlider.getNormalizedValue();
