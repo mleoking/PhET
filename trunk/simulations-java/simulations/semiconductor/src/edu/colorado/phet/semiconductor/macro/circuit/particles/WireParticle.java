@@ -3,10 +3,11 @@ package edu.colorado.phet.semiconductor.macro.circuit.particles;
 import edu.colorado.phet.semiconductor.macro.circuit.Circuit;
 
 
-import edu.colorado.phet.semiconductor.phetcommon.model.simpleobservable.SimpleObservable;
+
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 /**
  * User: Sam Reid
@@ -27,7 +28,7 @@ public class WireParticle extends SimpleObservable implements ModelElement {
     public void setPosition( double dist ) {
         this.dist = dist;
 //        System.out.println("dist = " + dist);
-        updateObservers();
+        notifyObservers();
     }
 
     public AbstractVector2D getPosition() {

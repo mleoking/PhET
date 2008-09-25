@@ -47,10 +47,10 @@ import edu.colorado.phet.semiconductor.phetcommon.model.clock.SwingTimerClock;
 import edu.colorado.phet.semiconductor.phetcommon.view.ApparatusPanel;
 import edu.colorado.phet.semiconductor.phetcommon.view.BasicGraphicsSetup;
 import edu.colorado.phet.semiconductor.phetcommon.view.CompositeInteractiveGraphic;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.DefaultInteractiveGraphic;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.bounds.Boundary;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.mousecontrols.Translatable;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.DefaultInteractiveGraphic;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.Graphic;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.bounds.Boundary;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.mousecontrols.Translatable;
 
 import edu.colorado.phet.semiconductor.phetcommon.view.util.framesetup.FrameSetup;
 import edu.colorado.phet.semiconductor.phetcommon.view.util.graphics.HashedImageLoader;

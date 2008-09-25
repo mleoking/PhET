@@ -4,10 +4,11 @@ package edu.colorado.phet.semiconductor.macro.energy.bands;
 import edu.colorado.phet.semiconductor.macro.energy.states.Waiting;
 
 
-import edu.colorado.phet.semiconductor.phetcommon.model.simpleobservable.SimpleObservable;
+
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 /**
  * User: Sam Reid
@@ -97,7 +98,7 @@ public class BandParticle extends SimpleObservable implements ModelElement {
     public void setPosition( Vector2D.Double loc ) {
         this.x = loc.getX();
         this.y = loc.getY();
-        updateObservers();
+        notifyObservers();
     }
 
     public double getDistanceFromOwnedSite() {

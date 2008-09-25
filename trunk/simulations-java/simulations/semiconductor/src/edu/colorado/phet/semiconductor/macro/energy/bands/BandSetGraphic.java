@@ -13,7 +13,7 @@ import edu.colorado.phet.semiconductor.common.TransformGraphic;
 import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
 
 import edu.colorado.phet.semiconductor.phetcommon.view.CompositeInteractiveGraphic;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.ShapeGraphic;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.ShapeGraphic;
 
 
 import edu.colorado.phet.semiconductor.util.RectangleUtils;

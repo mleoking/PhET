@@ -8,10 +8,10 @@ import java.awt.image.BufferedImage;
 import edu.colorado.phet.semiconductor.common.SimpleBufferedImageGraphic;
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
 
-import edu.colorado.phet.semiconductor.phetcommon.model.simpleobservable.SimpleObserver;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.bounds.Boundary;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.bounds.Boundary;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 
 /**

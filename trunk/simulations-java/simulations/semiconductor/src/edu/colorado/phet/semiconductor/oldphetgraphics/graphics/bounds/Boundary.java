@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Dec 18, 2003
  */
-package edu.colorado.phet.semiconductor.phetcommon.view.graphics.bounds;
+package edu.colorado.phet.semiconductor.oldphetgraphics.graphics.bounds;
 
 /**
  * A Boundary represents the area within which a graphic is controllable.

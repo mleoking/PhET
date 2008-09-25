@@ -1,5 +1,5 @@
 /*, 2003.*/
-package edu.colorado.phet.semiconductor.phetcommon.view.graphics.mousecontrols;
+package edu.colorado.phet.semiconductor.oldphetgraphics.graphics.mousecontrols;
 
 import java.awt.event.MouseEvent;
 import java.util.Iterator;
@@ -7,7 +7,7 @@ import java.util.Iterator;
 import javax.swing.event.MouseInputListener;
 
 import edu.colorado.phet.semiconductor.phetcommon.util.MultiMap;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.bounds.Boundary;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.bounds.Boundary;
 
 /**
  * User: Sam Reid

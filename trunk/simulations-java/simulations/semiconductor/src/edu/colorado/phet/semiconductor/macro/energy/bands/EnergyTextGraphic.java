@@ -10,9 +10,8 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.semiconductor.SemiconductorResources;
-import edu.colorado.phet.semiconductor.common.TransformGraphic;
-
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.shapes.ArrowShape;
+import edu.colorado.phet.semiconductor.common.TransformGraphic;
 
 
 /**
