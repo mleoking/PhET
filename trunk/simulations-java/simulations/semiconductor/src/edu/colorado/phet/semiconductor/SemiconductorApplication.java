@@ -15,6 +15,8 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.model.BaseModel;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.semiconductor.macro.*;
 import edu.colorado.phet.semiconductor.macro.circuit.CircuitSection;
@@ -36,8 +38,8 @@ import edu.colorado.phet.semiconductor.macro.energyprobe.Lead;
 import edu.colorado.phet.semiconductor.macro.energyprobe.LeadGraphic;
 import edu.colorado.phet.semiconductor.util.math.DoubleSeries;
 import edu.colorado.phet.semiconductor.util.math.PhetVector;
-import edu.colorado.phet.semiconductor.phetcommon.model.BaseModel;
-import edu.colorado.phet.semiconductor.phetcommon.model.ModelElement;
+
+
 import edu.colorado.phet.semiconductor.phetcommon.model.clock.ClockTickListener;
 import edu.colorado.phet.semiconductor.phetcommon.model.clock.SwingTimerClock;
 import edu.colorado.phet.semiconductor.phetcommon.view.ApparatusPanel;
@@ -84,7 +86,7 @@ public class SemiconductorApplication implements Graphic {
         setApparatusPanel( ap );
         getApparatusPanel().setBackground( new Color( 230, 220, 255 ) );
         getApparatusPanel().addGraphicsSetup( new BasicGraphicsSetup() );
-        BaseModel bm = new BaseModel( clock );
+        BaseModel bm = new BaseModel( );
         setModel( bm );
         int NUM_REGIONS = 2;
         circuitSection = new CircuitSection( this, transform, 6, 5, 3.5, 4, NUM_REGIONS );
@@ -389,7 +391,7 @@ public class SemiconductorApplication implements Graphic {
     }
 
     private void clockTicked( ClockEvent clockEvent ) {
-        bm.clockTicked( clockEvent.getSimulationTimeChange() );
+        bm.update(clockEvent );
     }
 
     public static void main( final String[] args ) throws IOException, UnsupportedLookAndFeelException {

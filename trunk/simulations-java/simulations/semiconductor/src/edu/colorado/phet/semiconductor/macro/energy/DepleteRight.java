@@ -5,7 +5,8 @@ import edu.colorado.phet.semiconductor.macro.energy.bands.BandParticle;
 import edu.colorado.phet.semiconductor.macro.energy.bands.EnergyLevel;
 import edu.colorado.phet.semiconductor.macro.energy.transitions.ExitRightFrom;
 import edu.colorado.phet.semiconductor.macro.energy.transitions.Move;
-import edu.colorado.phet.semiconductor.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
+
 
 /**
  * User: Sam Reid

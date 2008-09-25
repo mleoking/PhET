@@ -11,15 +11,15 @@ import edu.colorado.phet.semiconductor.phetcommon.model.simpleobservable.SimpleO
  * Time: 5:38:59 PM
  * To change this template use Options | File Templates.
  */
-public class CompositeModelElement extends SimpleObservable implements ModelElement {
+public class CompositeModelElement extends SimpleObservable implements edu.colorado.phet.common.phetcommon.model.ModelElement {
     ArrayList modelElements = new ArrayList();
 
-    public void addModelElement( ModelElement aps ) {
+    public void addModelElement( edu.colorado.phet.common.phetcommon.model.ModelElement aps ) {
         modelElements.add( aps );
     }
 
-    public ModelElement modelElementAt( int i ) {
-        return (ModelElement) modelElements.get( i );
+    public edu.colorado.phet.common.phetcommon.model.ModelElement modelElementAt( int i ) {
+        return (edu.colorado.phet.common.phetcommon.model.ModelElement ) modelElements.get( i );
     }
 
     public int numModelElements() {
