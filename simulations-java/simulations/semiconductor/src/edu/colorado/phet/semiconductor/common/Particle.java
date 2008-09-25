@@ -1,7 +1,7 @@
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.common;
 
-import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
+import edu.colorado.phet.semiconductor.util.math.PhetVector;
 import edu.colorado.phet.semiconductor.phetcommon.model.ModelElement;
 import edu.colorado.phet.semiconductor.phetcommon.model.simpleobservable.SimpleObservable;
 

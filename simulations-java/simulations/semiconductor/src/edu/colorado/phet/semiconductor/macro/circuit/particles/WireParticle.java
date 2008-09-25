@@ -1,7 +1,7 @@
 package edu.colorado.phet.semiconductor.macro.circuit.particles;
 
 import edu.colorado.phet.semiconductor.macro.circuit.Circuit;
-import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
+import edu.colorado.phet.semiconductor.util.math.PhetVector;
 import edu.colorado.phet.semiconductor.phetcommon.model.ModelElement;
 import edu.colorado.phet.semiconductor.phetcommon.model.simpleobservable.SimpleObservable;
 

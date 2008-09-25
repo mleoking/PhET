@@ -23,7 +23,7 @@ import edu.colorado.phet.semiconductor.macro.energy.statemodels.ExciteForConduct
 import edu.colorado.phet.semiconductor.macro.energy.statemodels.ModelCriteria;
 import edu.colorado.phet.semiconductor.macro.energy.states.MoveToCell;
 import edu.colorado.phet.semiconductor.macro.energy.states.Speed;
-import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
+import edu.colorado.phet.semiconductor.util.math.PhetVector;
 import edu.colorado.phet.semiconductor.phetcommon.model.ModelElement;
 import edu.colorado.phet.semiconductor.phetcommon.model.simpleobservable.SimpleObserver;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;

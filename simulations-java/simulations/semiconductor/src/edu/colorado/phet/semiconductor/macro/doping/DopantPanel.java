@@ -18,7 +18,7 @@ import edu.colorado.phet.semiconductor.SemiconductorResources;
 import edu.colorado.phet.semiconductor.common.BorderGraphic;
 import edu.colorado.phet.semiconductor.common.ModelLocation;
 import edu.colorado.phet.semiconductor.common.TextGraphic;
-import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
+import edu.colorado.phet.semiconductor.util.math.PhetVector;
 import edu.colorado.phet.semiconductor.phetcommon.view.ApparatusPanel;
 import edu.colorado.phet.semiconductor.phetcommon.view.CompositeInteractiveGraphic;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.DefaultInteractiveGraphic;

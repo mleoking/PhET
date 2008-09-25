@@ -1,5 +1,5 @@
 /*, 2003.*/
-package edu.colorado.phet.semiconductor.phetcommon.math;
+package edu.colorado.phet.semiconductor.util.math;
 
 import java.awt.geom.Point2D;
 

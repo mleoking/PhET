@@ -1,4 +1,4 @@
-package edu.colorado.phet.semiconductor.phetcommon.math;
+package edu.colorado.phet.semiconductor.util.math;
 
 import java.util.ArrayList;
 

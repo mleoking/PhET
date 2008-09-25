@@ -4,7 +4,7 @@ package edu.colorado.phet.semiconductor.phetcommon.view.util;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
+import edu.colorado.phet.semiconductor.util.math.PhetVector;
 
 /**
  * This adapter class for GeneralPath allows provides an interface in double coordinates.

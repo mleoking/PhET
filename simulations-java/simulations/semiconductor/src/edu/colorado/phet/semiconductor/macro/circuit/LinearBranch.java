@@ -1,6 +1,6 @@
 package edu.colorado.phet.semiconductor.macro.circuit;
 
-import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
+import edu.colorado.phet.semiconductor.util.math.PhetVector;
 
 /**
  * User: Sam Reid

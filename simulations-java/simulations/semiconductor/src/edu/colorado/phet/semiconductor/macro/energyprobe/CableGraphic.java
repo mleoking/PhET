@@ -5,7 +5,7 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
-import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
+import edu.colorado.phet.semiconductor.util.math.PhetVector;
 import edu.colorado.phet.semiconductor.phetcommon.model.simpleobservable.SimpleObserver;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.ShapeGraphic;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;

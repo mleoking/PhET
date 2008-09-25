@@ -20,7 +20,7 @@ import edu.colorado.phet.semiconductor.macro.doping.DopantDropListener;
 import edu.colorado.phet.semiconductor.macro.doping.DopantGraphic;
 import edu.colorado.phet.semiconductor.macro.doping.DopantSlot;
 import edu.colorado.phet.semiconductor.macro.energy.states.Speed;
-import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
+import edu.colorado.phet.semiconductor.util.math.PhetVector;
 import edu.colorado.phet.semiconductor.phetcommon.model.ModelElement;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
