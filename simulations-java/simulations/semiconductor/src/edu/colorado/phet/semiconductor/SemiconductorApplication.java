@@ -34,8 +34,6 @@ import edu.colorado.phet.semiconductor.macro.energyprobe.Cable;
 import edu.colorado.phet.semiconductor.macro.energyprobe.CableGraphic;
 import edu.colorado.phet.semiconductor.macro.energyprobe.Lead;
 import edu.colorado.phet.semiconductor.macro.energyprobe.LeadGraphic;
-import edu.colorado.phet.semiconductor.phetcommon.application.Module;
-import edu.colorado.phet.semiconductor.phetcommon.application.PhetApplication;
 import edu.colorado.phet.semiconductor.phetcommon.math.DoubleSeries;
 import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
 import edu.colorado.phet.semiconductor.phetcommon.model.BaseModel;
@@ -303,17 +301,6 @@ public class SemiconductorApplication implements Graphic {
             frame.setLocation( 0, 0 );
 //            frame.setSize( Toolkit.getDefaultToolkit().getScreenSize().width - 300, Toolkit.getDefaultToolkit().getScreenSize().height - 300 );
             frame.setSize( 944, 706 );
-        }
-    }
-
-    private static void enableAspectRatio( PhetApplication app, Module module ) {
-        ApparatusPanelContainer apc = app.getApplicationView().getApparatusPanelContainer();
-        if ( apc instanceof SingleApparatusPanelContainer ) {
-            SingleApparatusPanelContainer sapc = (SingleApparatusPanelContainer) apc;
-            sapc.getComponent().setLayout( new AspectRatioLayout( module.getApparatusPanel(), 10, 10, .75 ) );
-            app.getApplicationView().getBasicPhetPanel().invalidate();
-            app.getApplicationView().getBasicPhetPanel().validate();
-            app.getApplicationView().getBasicPhetPanel().repaint();
         }
     }
 
