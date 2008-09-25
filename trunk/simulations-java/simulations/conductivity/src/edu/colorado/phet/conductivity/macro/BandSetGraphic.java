@@ -8,13 +8,16 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.Hashtable;
 
-import edu.colorado.phet.common.conductivity.view.CompositeInteractiveGraphic;
-import edu.colorado.phet.common.conductivity.view.graphics.Graphic;
-import edu.colorado.phet.common.conductivity.view.graphics.transforms.ModelViewTransform2D;
+
+
+
 import edu.colorado.phet.conductivity.common.ClipGraphic;
 import edu.colorado.phet.conductivity.common.TransformGraphic;
 import edu.colorado.phet.conductivity.macro.bands.*;
 import edu.colorado.phet.conductivity.macro.circuit.MacroCircuitGraphic;
+import edu.colorado.phet.conductivity.oldphetgraphics.Graphic;
+import edu.colorado.phet.conductivity.oldphetgraphics.CompositeInteractiveGraphic;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 
 public class BandSetGraphic extends TransformGraphic
         implements BandParticleObserver {

@@ -7,8 +7,9 @@ package edu.colorado.phet.conductivity.common;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.common.conductivity.view.graphics.Graphic;
-import edu.colorado.phet.common.conductivity.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.conductivity.oldphetgraphics.Graphic;
+
 
 public class StretchedBufferedImage
         implements Graphic {
@@ -21,7 +22,7 @@ public class StretchedBufferedImage
     public void paint( Graphics2D graphics2d ) {
         java.awt.geom.Rectangle2D.Double double1 = new java.awt.geom.Rectangle2D.Double( 0.0D, 0.0D, battIm.getWidth(), battIm.getHeight() );
         ModelViewTransform2D modelviewtransform2d = new ModelViewTransform2D( double1, rectangle );
-        java.awt.geom.AffineTransform affinetransform = modelviewtransform2d.toAffineTransform();
+        java.awt.geom.AffineTransform affinetransform = modelviewtransform2d.getAffineTransform();
         graphics2d.drawRenderedImage( battIm, affinetransform );
     }
 

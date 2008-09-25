@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Dec 18, 2003
  */
-package edu.colorado.phet.common.conductivity.view.graphics;
+package edu.colorado.phet.conductivity.oldphetgraphics;
 
 import java.awt.*;
 

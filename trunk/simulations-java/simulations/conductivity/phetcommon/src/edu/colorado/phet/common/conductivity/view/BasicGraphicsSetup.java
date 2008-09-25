@@ -3,6 +3,8 @@ package edu.colorado.phet.common.conductivity.view;
 
 import java.awt.*;
 
+import edu.colorado.phet.conductivity.oldphetgraphics.GraphicsSetup;
+
 /**
  * User: Sam Reid
  * Date: Jan 2, 2004

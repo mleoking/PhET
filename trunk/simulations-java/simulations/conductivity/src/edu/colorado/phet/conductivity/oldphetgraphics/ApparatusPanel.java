@@ -5,9 +5,11 @@
  * Created by: Ron LeMaster
  * Date: Nov 6, 2002
  */
-package edu.colorado.phet.common.conductivity.view;
+package edu.colorado.phet.conductivity.oldphetgraphics;
 
-import edu.colorado.phet.common.conductivity.view.graphics.Graphic;
+import edu.colorado.phet.conductivity.oldphetgraphics.Graphic;
+import edu.colorado.phet.conductivity.oldphetgraphics.CompositeInteractiveGraphic;
+import edu.colorado.phet.conductivity.oldphetgraphics.GraphicsSetup;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,7 +27,7 @@ import java.util.Observer;
  * in which objects in a given level are drawn in undefined.
  * <p/>
  *
- * @see edu.colorado.phet.common.conductivity.view.graphics.Graphic
+ * @see Graphic
  */
 public class ApparatusPanel extends JPanel implements Observer {
 

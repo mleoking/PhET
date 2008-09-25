@@ -5,24 +5,26 @@
  * Author: Another Guy
  * Date: Dec 19, 2003
  */
-package edu.colorado.phet.common.conductivity.view;
+package edu.colorado.phet.conductivity.oldphetgraphics;
 
-import edu.colorado.phet.common.conductivity.view.graphics.Graphic;
-import edu.colorado.phet.common.conductivity.view.graphics.bounds.Boundary;
+import edu.colorado.phet.conductivity.oldphetgraphics.Graphic;
+import edu.colorado.phet.conductivity.oldphetgraphics.InteractiveGraphic;
+import edu.colorado.phet.conductivity.oldphetgraphics.Boundary;
 import edu.colorado.phet.common.phetcommon.util.MultiMap;
+import edu.colorado.phet.conductivity.oldphetgraphics.MouseManager;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.Iterator;
 
-public class CompositeInteractiveGraphic implements edu.colorado.phet.common.conductivity.view.graphics.InteractiveGraphic {
+public class CompositeInteractiveGraphic implements InteractiveGraphic {
 
     MultiMap graphicMap;
-    edu.colorado.phet.common.conductivity.view.graphics.mousecontrols.MouseManager mouseManager;
+    MouseManager mouseManager;
 
     public CompositeInteractiveGraphic() {
         graphicMap = new MultiMap();
-        mouseManager = new edu.colorado.phet.common.conductivity.view.graphics.mousecontrols.MouseManager( graphicMap );
+        mouseManager = new MouseManager( graphicMap );
     }
 
     public void paint( Graphics2D g ) {

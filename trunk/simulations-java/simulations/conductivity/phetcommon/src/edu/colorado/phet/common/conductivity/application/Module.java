@@ -7,7 +7,7 @@
 package edu.colorado.phet.common.conductivity.application;
 
 import edu.colorado.phet.common.conductivity.model.BaseModel;
-import edu.colorado.phet.common.conductivity.view.ApparatusPanel;
+import edu.colorado.phet.conductivity.oldphetgraphics.ApparatusPanel;
 
 import javax.swing.*;
 

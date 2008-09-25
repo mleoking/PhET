@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.conductivity.view;
+package edu.colorado.phet.conductivity.oldphetgraphics;
 
 import java.awt.*;
 

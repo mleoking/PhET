@@ -4,9 +4,9 @@
  * Author: Another Guy
  * Date: Dec 19, 2003
  */
-package edu.colorado.phet.common.conductivity.view.graphics;
+package edu.colorado.phet.conductivity.oldphetgraphics;
 
-import edu.colorado.phet.common.conductivity.view.graphics.bounds.Boundary;
+import edu.colorado.phet.conductivity.oldphetgraphics.Boundary;
 
 import javax.swing.event.MouseInputListener;
 

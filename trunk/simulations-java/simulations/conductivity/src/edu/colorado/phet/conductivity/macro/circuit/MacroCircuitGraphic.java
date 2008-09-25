@@ -9,12 +9,16 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.conductivity.view.graphics.Graphic;
-import edu.colorado.phet.common.conductivity.view.graphics.ShapeGraphic;
-import edu.colorado.phet.common.conductivity.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.conductivity.view.graphics.transforms.TransformListener;
+
+
+
+
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.conductivity.oldphetgraphics.Graphic;
+import edu.colorado.phet.conductivity.oldphetgraphics.ShapeGraphic;
 import edu.colorado.phet.conductivity.common.StretchedBufferedImage;
 import edu.colorado.phet.conductivity.macro.battery.Battery;
 
@@ -44,7 +48,7 @@ public class MacroCircuitGraphic {
                 transform.addTransformListener( new TransformListener() {
 
                     public void transformChanged( ModelViewTransform2D modelviewtransform2d ) {
-                        Shape shape = transform.toAffineTransform().createTransformedShape( sh1 );
+                        Shape shape = transform.getAffineTransform().createTransformedShape( sh1 );
                         sg.setShape( shape );
                     }
 
@@ -57,7 +61,7 @@ public class MacroCircuitGraphic {
                 transform.addTransformListener( new TransformListener() {
 
                     public void transformChanged( ModelViewTransform2D modelviewtransform2d ) {
-                        Shape shape = transform.toAffineTransform().createTransformedShape( sh1 );
+                        Shape shape = transform.getAffineTransform().createTransformedShape( sh1 );
                         resistorGraphic.setShape( shape );
                     }
 

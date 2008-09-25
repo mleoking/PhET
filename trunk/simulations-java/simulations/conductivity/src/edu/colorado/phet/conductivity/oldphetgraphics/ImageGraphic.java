@@ -1,5 +1,5 @@
 /*  */
-package edu.colorado.phet.common.conductivity.view.graphics;
+package edu.colorado.phet.conductivity.oldphetgraphics;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
