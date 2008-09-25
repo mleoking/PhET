@@ -15,8 +15,8 @@ import java.util.Hashtable;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.conductivity.model.BaseModel;
-import edu.colorado.phet.common.conductivity.model.ModelElement;
+
+
 import edu.colorado.phet.common.conductivity.view.ApparatusPanel;
 import edu.colorado.phet.common.conductivity.view.graphics.Graphic;
 import edu.colorado.phet.common.conductivity.view.graphics.ShapeGraphic;
@@ -30,6 +30,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.model.BaseModel;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
@@ -79,7 +81,7 @@ public class ConductivityApplication {
         this.clock = clock;
         clock.addClockListener( new ClockAdapter() {
             public void simulationTimeChanged( ClockEvent clockEvent ) {
-                baseModel.stepInTime( clockEvent.getSimulationTimeChange() );
+                baseModel.update( clockEvent );
             }
         } );
         minVolts = 0.0D;
