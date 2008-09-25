@@ -13,7 +13,6 @@ import java.util.Random;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.engine.EngineFacade;
@@ -65,7 +64,9 @@ public class MultipleParticleModel {
                                                                  // number of ticks).  Should it instead be based on
                                                                  // the time step defined above?
     private static final int MAX_NUM_ATOMS = 500;
-    private static final double INJECTED_MOLECULE_VELOCITY = 1.0;
+    private static final double MIN_INJECTED_MOLECULE_VELOCITY = 0.5;
+    private static final double MAX_INJECTED_MOLECULE_VELOCITY = 2.0;
+    private static final double MAX_INJECTED_MOLECULE_ANGLE = Math.PI * 0.8;
     private static final double INJECTION_POINT_HORIZ_PROPORTION = 0.95;
     private static final double INJECTION_POINT_VERT_PROPORTION = 0.5;
     private static final int MAX_PLACEMENT_ATTEMPTS = 500; // For random placement when creating gas or liquid.
@@ -725,9 +726,12 @@ public class MultipleParticleModel {
         if (( m_numberOfAtoms + m_atomsPerMolecule <= MAX_NUM_ATOMS ) &&
             ( m_normalizedContainerHeight > injectionPointY * 1.05)){
 
-            double angle = (m_rand.nextDouble() + 1) * (2 * Math.PI / 3);
-            double xVel = Math.cos( angle ) * INJECTED_MOLECULE_VELOCITY;
-            double yVel = Math.sin( angle ) * INJECTED_MOLECULE_VELOCITY;
+//            double angle = (m_rand.nextDouble() + 1) * (2 * Math.PI / 3);
+            double angle = Math.PI + ((m_rand.nextDouble() - 0.5) * MAX_INJECTED_MOLECULE_ANGLE);
+            double velocity = MIN_INJECTED_MOLECULE_VELOCITY + (m_rand.nextDouble() *
+                    (MAX_INJECTED_MOLECULE_VELOCITY - MIN_INJECTED_MOLECULE_VELOCITY));
+            double xVel = Math.cos( angle ) * velocity;
+            double yVel = Math.sin( angle ) * velocity;
             if (m_atomsPerMolecule == 1){
                 // Add particle and its velocity and forces to normalized set.
                 m_atomPositions[m_numberOfAtoms] = 
