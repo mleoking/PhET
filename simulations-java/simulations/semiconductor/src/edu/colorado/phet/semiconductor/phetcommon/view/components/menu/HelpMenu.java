@@ -12,15 +12,10 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.semiconductor.SemiconductorResources;
 import edu.colorado.phet.semiconductor.phetcommon.view.PhetFrame;
 
 public class HelpMenu extends JMenu {
-
-    static {
-        SimStrings.setStrings( "localization/SemiConductorPCStrings" );
-    }
 
     public HelpMenu( final PhetFrame phetFrame ) {
         super( SemiconductorResources.getString( "HelpMenu.HelpMenu" ) );
