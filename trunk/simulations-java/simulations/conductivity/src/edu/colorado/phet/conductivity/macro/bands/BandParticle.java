@@ -21,7 +21,7 @@ public class BandParticle extends SimpleObservable
         x = d;
         y = d1;
         cell = energycell;
-        if( energycell.hasOwner() && energycell.getOwner() != this ) {
+        if ( energycell.hasOwner() && energycell.getOwner() != this ) {
             throw new RuntimeException( "Wrong owner." );
         }
         else {
@@ -62,7 +62,7 @@ public class BandParticle extends SimpleObservable
         energycell.setOwner( this );
         state = new MoveTo( energycell, speed );
         cell = energycell;
-        return (MoveTo)state;
+        return (MoveTo) state;
     }
 
     public void stepInTime( double d ) {
@@ -81,7 +81,7 @@ public class BandParticle extends SimpleObservable
     }
 
     public void detach() {
-        if( cell != null ) {
+        if ( cell != null ) {
             cell.detach( this );
         }
         cell = null;
@@ -92,7 +92,7 @@ public class BandParticle extends SimpleObservable
     }
 
     public void pairPropagate( BandParticle bandparticle, Speed speed ) {
-        if( getDistanceFromOwnedSite() < 0.0001D && bandparticle.getDistanceFromOwnedSite() < 0.0001D ) {
+        if ( getDistanceFromOwnedSite() < 0.0001D && bandparticle.getDistanceFromOwnedSite() < 0.0001D ) {
             EnergyCell energycell = bandparticle.getEnergyCell();
             EnergyCell energycell1 = getEnergyCell();
             cell.detach( this );

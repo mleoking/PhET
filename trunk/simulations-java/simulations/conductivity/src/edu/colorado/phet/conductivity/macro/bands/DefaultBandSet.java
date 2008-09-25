@@ -4,11 +4,11 @@
 
 package edu.colorado.phet.conductivity.macro.bands;
 
-import edu.colorado.phet.common.conductivity.model.ModelElement;
-import edu.colorado.phet.conductivity.macro.MacroSystem;
-
 import java.util.ArrayList;
 import java.util.Random;
+
+import edu.colorado.phet.common.conductivity.model.ModelElement;
+import edu.colorado.phet.conductivity.macro.MacroSystem;
 
 // Referenced classes of package edu.colorado.phet.semiconductor.macro.bands:
 //            Band, BandParticle, BandParticleObserver, EnergyLevel, 
@@ -40,7 +40,7 @@ public class DefaultBandSet implements ModelElement {
         lowNumLevels = 6;
         highBandNumLevels = 6;
         system = macrosystem;
-        if( macrosystem == null ) {
+        if ( macrosystem == null ) {
             throw new RuntimeException( "Null system." );
         }
         else {
@@ -52,7 +52,7 @@ public class DefaultBandSet implements ModelElement {
     }
 
     public void removeParticles() {
-        for( ; bandParticles.size() > 0; removeParticle( (BandParticle)bandParticles.get( 0 ) ) ) {
+        for ( ; bandParticles.size() > 0; removeParticle( (BandParticle) bandParticles.get( 0 ) ) ) {
             ;
         }
     }
@@ -63,7 +63,7 @@ public class DefaultBandSet implements ModelElement {
 
     public void fillLevel( EnergyLevel energylevel ) {
         BandParticle abandparticle[] = energylevel.fillLevel();
-        for( int i = 0; i < abandparticle.length; i++ ) {
+        for ( int i = 0; i < abandparticle.length; i++ ) {
             BandParticle bandparticle = abandparticle[i];
             addParticle( bandparticle );
         }
@@ -76,8 +76,8 @@ public class DefaultBandSet implements ModelElement {
     }
 
     private void fireParticleAdded( BandParticle bandparticle ) {
-        for( int i = 0; i < bandParticleObservers.size(); i++ ) {
-            BandParticleObserver bandparticleobserver = (BandParticleObserver)bandParticleObservers.get( i );
+        for ( int i = 0; i < bandParticleObservers.size(); i++ ) {
+            BandParticleObserver bandparticleobserver = (BandParticleObserver) bandParticleObservers.get( i );
             bandparticleobserver.particleAdded( bandparticle );
         }
 
@@ -119,8 +119,8 @@ public class DefaultBandSet implements ModelElement {
     }
 
     public void stepInTime( double d ) {
-        for( int i = 0; i < bandParticles.size(); i++ ) {
-            BandParticle bandparticle = (BandParticle)bandParticles.get( i );
+        for ( int i = 0; i < bandParticles.size(); i++ ) {
+            BandParticle bandparticle = (BandParticle) bandParticles.get( i );
             bandparticle.stepInTime( d );
         }
 
@@ -139,15 +139,15 @@ public class DefaultBandSet implements ModelElement {
     }
 
     private void fireParticleRemoved( BandParticle bandparticle ) {
-        for( int i = 0; i < bandParticleObservers.size(); i++ ) {
-            BandParticleObserver bandparticleobserver = (BandParticleObserver)bandParticleObservers.get( i );
+        for ( int i = 0; i < bandParticleObservers.size(); i++ ) {
+            BandParticleObserver bandparticleobserver = (BandParticleObserver) bandParticleObservers.get( i );
             bandparticleobserver.particleRemoved( bandparticle );
         }
 
     }
 
     protected boolean moveParticle( EnergyLevel src, EnergyLevel dst, boolean reverse ) {
-        if( reverse ) {
+        if ( reverse ) {
             return moveParticle( dst, src );
         }
         else {
@@ -156,28 +156,28 @@ public class DefaultBandSet implements ModelElement {
     }
 
     protected boolean moveParticle( EnergyLevel src, EnergyLevel dst ) {
-        if( !dst.hasAnEmptyCell() ) {
+        if ( !dst.hasAnEmptyCell() ) {
 //            System.out.println( "No empty cell in destination level." );
             return false;
         }
         boolean flag = false;
         int i = random.nextInt( src.numCells() );
-        for( int j = i; j < src.numCells(); j++ ) {
+        for ( int j = i; j < src.numCells(); j++ ) {
             flag = tryToMove( src.cellAt( j ), dst.cellAt( j ) );
-            if( flag ) {
+            if ( flag ) {
                 return true;
             }
         }
 
-        for( int k = i; k >= 0; k-- ) {
+        for ( int k = i; k >= 0; k-- ) {
             flag = tryToMove( src.cellAt( k ), dst.cellAt( k ) );
-            if( flag ) {
+            if ( flag ) {
                 return true;
             }
         }
 
         flag = tryToMoveAny( src, dst );
-        if( flag ) {
+        if ( flag ) {
             return true;
         }
         else {
@@ -187,12 +187,12 @@ public class DefaultBandSet implements ModelElement {
     }
 
     private boolean tryToMoveAny( EnergyLevel energylevel, EnergyLevel energylevel1 ) {
-        for( int i = 0; i < energylevel.numCells(); i++ ) {
-            for( int j = 0; j < energylevel1.numCells(); j++ ) {
+        for ( int i = 0; i < energylevel.numCells(); i++ ) {
+            for ( int j = 0; j < energylevel1.numCells(); j++ ) {
                 EnergyCell energycell = energylevel.cellAt( i );
                 EnergyCell energycell1 = energylevel1.cellAt( j );
                 boolean flag = tryToMove( energycell, energycell1 );
-                if( flag ) {
+                if ( flag ) {
                     return true;
                 }
             }
@@ -202,7 +202,7 @@ public class DefaultBandSet implements ModelElement {
 
     private boolean tryToMove( EnergyCell energycell, EnergyCell energycell1 ) {
         BandParticle bandparticle = energycell.getOwner();
-        if( bandparticle != null && !energycell1.isOccupied() ) {
+        if ( bandparticle != null && !energycell1.isOccupied() ) {
             bandparticle.moveTo( energycell1, 0.006 );
             return true;
         }
@@ -212,13 +212,13 @@ public class DefaultBandSet implements ModelElement {
     }
 
     public EnergyLevel getLowerLevel( EnergyLevel energylevel ) {
-        if( upper.indexOf( energylevel ) >= 1 ) {
+        if ( upper.indexOf( energylevel ) >= 1 ) {
             return upper.energyLevelAt( upper.indexOf( energylevel ) - 1 );
         }
-        if( upper.indexOf( energylevel ) == 0 ) {
+        if ( upper.indexOf( energylevel ) == 0 ) {
             return lowband.energyLevelAt( lowband.numEnergyLevels() - 1 );
         }
-        if( lowband.indexOf( energylevel ) >= 1 ) {
+        if ( lowband.indexOf( energylevel ) >= 1 ) {
             return lowband.energyLevelAt( lowband.indexOf( energylevel ) - 1 );
         }
         else {

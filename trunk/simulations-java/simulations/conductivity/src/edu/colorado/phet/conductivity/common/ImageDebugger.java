@@ -1,8 +1,9 @@
 /*  */
 package edu.colorado.phet.conductivity.common;
 
-import javax.swing.*;
 import java.awt.*;
+
+import javax.swing.*;
 
 /**
  * User: Sam Reid

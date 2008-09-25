@@ -4,18 +4,18 @@
 
 package edu.colorado.phet.conductivity.macro;
 
-import edu.colorado.phet.common.conductivity.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.conductivity.common.ArrowShape;
-import edu.colorado.phet.conductivity.common.TransformGraphic;
-
 import java.awt.*;
 import java.awt.font.GlyphVector;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
+
+import edu.colorado.phet.common.conductivity.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.conductivity.common.ArrowShape;
+import edu.colorado.phet.conductivity.common.TransformGraphic;
 
 public class EnergyTextGraphic extends TransformGraphic {
 
@@ -29,7 +29,7 @@ public class EnergyTextGraphic extends TransformGraphic {
 
     public void paint( Graphics2D graphics2d ) {
         graphics2D = graphics2d;
-        if( trfShape == null ) {
+        if ( trfShape == null ) {
             recompute();
         }
         graphics2d.setColor( Color.blue );
@@ -57,11 +57,11 @@ public class EnergyTextGraphic extends TransformGraphic {
         AbstractVector2D phetvector1 = phetvector.getAddedInstance( 0.0D, -200D );
         arrowShape = ( new ArrowShape( phetvector, phetvector1, 50D, 50D, 20D ) ).getArrowPath();
         highShape = smallFont.createGlyphVector( graphics2D.getFontRenderContext(),
-                                                 SimStrings.get( "EnergyTextGraphic.HighText" ) ).getOutline( (float)phetvector1.getX() - 20F,
-                                                                                                              (float)phetvector1.getY() - 20F );
+                                                 SimStrings.get( "EnergyTextGraphic.HighText" ) ).getOutline( (float) phetvector1.getX() - 20F,
+                                                                                                              (float) phetvector1.getY() - 20F );
         lowShape = smallFont.createGlyphVector( graphics2D.getFontRenderContext(),
-                                                SimStrings.get( "EnergyTextGraphic.LowText" ) ).getOutline( (float)phetvector.getX() - 20F,
-                                                                                                            (float)phetvector.getY() + 20F );
+                                                SimStrings.get( "EnergyTextGraphic.LowText" ) ).getOutline( (float) phetvector.getX() - 20F,
+                                                                                                            (float) phetvector.getY() + 20F );
     }
 
     public void update() {

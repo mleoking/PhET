@@ -4,15 +4,15 @@
 
 package edu.colorado.phet.conductivity;
 
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+
 import edu.colorado.phet.common.conductivity.view.graphics.Graphic;
 import edu.colorado.phet.common.conductivity.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.conductivity.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.conductivity.common.SimpleBufferedImageGraphic;
-
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
 
 // Referenced classes of package edu.colorado.phet.semiconductor.flashlight:
 //            Flashlight
@@ -54,7 +54,7 @@ public class FlashlightGraphic implements Graphic {
     }
 
     public void paint( Graphics2D graphics2d ) {
-        if( visible ) {
+        if ( visible ) {
             imageGraphic.paint( graphics2d );
         }
     }

@@ -4,9 +4,9 @@
 
 package edu.colorado.phet.conductivity.macro.bands;
 
-import edu.colorado.phet.conductivity.macro.bands.states.Speed;
-
 import java.util.ArrayList;
+
+import edu.colorado.phet.conductivity.macro.bands.states.Speed;
 
 // Referenced classes of package edu.colorado.phet.semiconductor.macro.bands:
 //            EnergyCell, BandParticle, Band
@@ -49,7 +49,7 @@ public class EnergyLevel {
     }
 
     public EnergyCell cellAt( int i ) {
-        return (EnergyCell)cells.get( i );
+        return (EnergyCell) cells.get( i );
     }
 
     public void setCanConduct( boolean flag ) {
@@ -58,9 +58,9 @@ public class EnergyLevel {
 
     public int numParticles() {
         int i = 0;
-        for( int j = 0; j < cells.size(); j++ ) {
-            EnergyCell energycell = (EnergyCell)cells.get( j );
-            if( energycell.hasOwner() ) {
+        for ( int j = 0; j < cells.size(); j++ ) {
+            EnergyCell energycell = (EnergyCell) cells.get( j );
+            if ( energycell.hasOwner() ) {
                 i++;
             }
         }
@@ -73,9 +73,9 @@ public class EnergyLevel {
     }
 
     public int indexOf( BandParticle bandparticle ) {
-        for( int i = 0; i < cells.size(); i++ ) {
-            EnergyCell energycell = (EnergyCell)cells.get( i );
-            if( energycell.getOwner() == bandparticle ) {
+        for ( int i = 0; i < cells.size(); i++ ) {
+            EnergyCell energycell = (EnergyCell) cells.get( i );
+            if ( energycell.getOwner() == bandparticle ) {
                 return i;
             }
         }

@@ -4,6 +4,11 @@
 
 package edu.colorado.phet.conductivity.macro.circuit;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import edu.colorado.phet.common.conductivity.view.graphics.Graphic;
 import edu.colorado.phet.common.conductivity.view.graphics.ShapeGraphic;
 import edu.colorado.phet.common.conductivity.view.graphics.transforms.ModelViewTransform2D;
@@ -12,11 +17,6 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.conductivity.common.StretchedBufferedImage;
 import edu.colorado.phet.conductivity.macro.battery.Battery;
-
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.ArrayList;
 
 // Referenced classes of package edu.colorado.phet.semiconductor.macro.circuit:
 //            Wire, Resistor, MacroCircuit, LinearBranch
@@ -33,9 +33,9 @@ public class MacroCircuitGraphic {
 
     void init()
             throws IOException {
-        for( int i = 0; i < circuit.numBranches(); i++ ) {
+        for ( int i = 0; i < circuit.numBranches(); i++ ) {
             final LinearBranch b = circuit.wireAt( i );
-            if( b instanceof Wire ) {
+            if ( b instanceof Wire ) {
                 java.awt.geom.Line2D.Double double1 = new java.awt.geom.Line2D.Double( b.getStartPosition().toPoint2D(), b.getEndPosition().toPoint2D() );
                 Color color = new Color( 240, 130, 150 );
                 final ShapeGraphic sg = new ShapeGraphic( double1, color, new BasicStroke( getParticleImage().getWidth() + 4 ) );
@@ -50,7 +50,7 @@ public class MacroCircuitGraphic {
 
                 } );
             }
-            else if( b instanceof Resistor ) {
+            else if ( b instanceof Resistor ) {
                 java.awt.geom.Line2D.Double double2 = new java.awt.geom.Line2D.Double( b.getStartPosition().toPoint2D(), b.getEndPosition().toPoint2D() );
                 resistorGraphic = new ShapeGraphic( double2, Color.yellow, new BasicStroke( getParticleImage().getWidth() * 4 ) );
                 final java.awt.geom.Line2D.Double sh1 = double2;
@@ -63,7 +63,7 @@ public class MacroCircuitGraphic {
 
                 } );
             }
-            else if( b instanceof Battery ) {
+            else if ( b instanceof Battery ) {
                 BufferedImage bufferedimage = getBatteryImage();
                 final StretchedBufferedImage sbi = new StretchedBufferedImage( bufferedimage, new Rectangle( 0, 0, 100, 100 ) );
                 battGraphic = sbi;
@@ -72,7 +72,7 @@ public class MacroCircuitGraphic {
                     public void transformChanged( ModelViewTransform2D modelviewtransform2d ) {
                         Vector2D.Double phetvector = b.getEndPosition();
                         Vector2D.Double phetvector1 = b.getStartPosition();
-                        int height = (int)( batteryImage.getHeight() * 0.8 );
+                        int height = (int) ( batteryImage.getHeight() * 0.8 );
                         int x = transform.modelToViewX( phetvector.getX() );
                         int w = transform.modelToViewX( phetvector1.getX() ) - x;
                         int y0 = transform.modelToViewY( phetvector.getY() );
@@ -88,7 +88,7 @@ public class MacroCircuitGraphic {
 
     private BufferedImage getBatteryImage()
             throws IOException {
-        if( batteryImage != null ) {
+        if ( batteryImage != null ) {
             return batteryImage;
         }
         else {
@@ -101,7 +101,7 @@ public class MacroCircuitGraphic {
 
     public static BufferedImage getParticleImage()
             throws IOException {
-        if( particleImage != null ) {
+        if ( particleImage != null ) {
             return particleImage;
         }
         else {
@@ -117,7 +117,7 @@ public class MacroCircuitGraphic {
     }
 
     public Graphic wireGraphicAt( int i ) {
-        return (Graphic)wireGraphics.get( i );
+        return (Graphic) wireGraphics.get( i );
     }
 
     public ShapeGraphic getResistorGraphic() {

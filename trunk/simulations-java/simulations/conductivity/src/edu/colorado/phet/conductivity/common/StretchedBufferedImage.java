@@ -4,11 +4,11 @@
 
 package edu.colorado.phet.conductivity.common;
 
-import edu.colorado.phet.common.conductivity.view.graphics.Graphic;
-import edu.colorado.phet.common.conductivity.view.graphics.transforms.ModelViewTransform2D;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
+
+import edu.colorado.phet.common.conductivity.view.graphics.Graphic;
+import edu.colorado.phet.common.conductivity.view.graphics.transforms.ModelViewTransform2D;
 
 public class StretchedBufferedImage
         implements Graphic {

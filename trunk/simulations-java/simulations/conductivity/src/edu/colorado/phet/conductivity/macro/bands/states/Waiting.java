@@ -4,9 +4,9 @@
 
 package edu.colorado.phet.conductivity.macro.bands.states;
 
-import edu.colorado.phet.conductivity.macro.bands.*;
-
 import java.util.Random;
+
+import edu.colorado.phet.conductivity.macro.bands.*;
 
 // Referenced classes of package edu.colorado.phet.semiconductor.macro.bands.states:
 //            MoveTo, Speed
@@ -20,19 +20,19 @@ public class Waiting
 
     public BandParticleState stepInTime( final BandParticle particle, double d ) {
         int i = particle.getEnergyLevel().indexOf( particle );
-        if( i == -1 ) {
+        if ( i == -1 ) {
             return this;
         }
         double d1 = particle.getEnergyLevel().getBand().getVoltage();
-        if( d1 == 0.0D && ( particle.getEnergyLevel().canConduct() && !isPhotoConductor( particle ) || canPhotoFall( particle ) ) ) {
+        if ( d1 == 0.0D && ( particle.getEnergyLevel().canConduct() && !isPhotoConductor( particle ) || canPhotoFall( particle ) ) ) {
             EnergyLevel energylevel = particle.getEnergyLevel().getBand().getBandSet().getLowerLevel( particle.getEnergyLevel() );
-            if( energylevel != null ) {
+            if ( energylevel != null ) {
                 EnergyCell energycell = energylevel.cellAt( i );
                 boolean flag = energycell.isOccupied();
-                if( particle.getEnergyLevel().getBand() == energylevel.getBand() ) {
+                if ( particle.getEnergyLevel().getBand() == energylevel.getBand() ) {
                     ;
                 }
-                if( !flag ) {
+                if ( !flag ) {
                     return particle.moveTo( energycell, new Speed() {
 
                         public double getSpeed() {
@@ -43,15 +43,15 @@ public class Waiting
                 }
             }
         }
-        if( d1 == 0.0D ) {
+        if ( d1 == 0.0D ) {
             return this;
         }
         int j = i - 1;
-        if( j == -1 ) {
+        if ( j == -1 ) {
             j = 1;
         }
         EnergyCell energycell1 = particle.getEnergyLevel().cellAt( j );
-        if( !energycell1.hasOwner() && particle.getEnergyLevel().canConduct() && random.nextInt( 100 ) <= 100 ) {
+        if ( !energycell1.hasOwner() && particle.getEnergyLevel().canConduct() && random.nextInt( 100 ) <= 100 ) {
             MoveTo moveto = particle.moveTo( energycell1, new Speed() {
 
                 public double getSpeed() {
@@ -68,11 +68,11 @@ public class Waiting
     }
 
     private boolean canPhotoFall( BandParticle bandparticle ) {
-        if( !isPhotoConductor( bandparticle ) ) {
+        if ( !isPhotoConductor( bandparticle ) ) {
             return false;
         }
         else {
-            PhotoconductorBandSet photoconductorbandset = (PhotoconductorBandSet)bandparticle.getEnergyLevel().getBand().getBandSet();
+            PhotoconductorBandSet photoconductorbandset = (PhotoconductorBandSet) bandparticle.getEnergyLevel().getBand().getBandSet();
             return !photoconductorbandset.isLightOn();
         }
     }

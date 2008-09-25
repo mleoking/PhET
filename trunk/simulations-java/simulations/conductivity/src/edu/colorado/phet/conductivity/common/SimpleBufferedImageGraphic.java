@@ -4,11 +4,11 @@
 
 package edu.colorado.phet.conductivity.common;
 
-import edu.colorado.phet.common.conductivity.view.graphics.Graphic;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+
+import edu.colorado.phet.common.conductivity.view.graphics.Graphic;
 
 public class SimpleBufferedImageGraphic
         implements Graphic {
@@ -18,7 +18,7 @@ public class SimpleBufferedImageGraphic
     }
 
     public void paint( Graphics2D graphics2d ) {
-        if( image != null && transform != null ) {
+        if ( image != null && transform != null ) {
             graphics2d.drawRenderedImage( image, transform );
         }
     }
@@ -34,7 +34,7 @@ public class SimpleBufferedImageGraphic
     public AffineTransform getCenterTransform( Point point ) {
         double d = image.getWidth();
         double d1 = image.getHeight();
-        AffineTransform affinetransform = AffineTransform.getTranslateInstance( (double)point.x - d / 2D, (double)point.y - d1 / 2D );
+        AffineTransform affinetransform = AffineTransform.getTranslateInstance( (double) point.x - d / 2D, (double) point.y - d1 / 2D );
         return affinetransform;
     }
 

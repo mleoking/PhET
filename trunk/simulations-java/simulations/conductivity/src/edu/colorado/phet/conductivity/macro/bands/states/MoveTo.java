@@ -23,7 +23,7 @@ public class MoveTo
 
     public BandParticleState stepInTime( BandParticle bandparticle, double d ) {
         double d1 = 0.0D;
-        if( bandparticle.getX() < bandparticle.getEnergyLevel().getLine().getX1() - d1 ) {
+        if ( bandparticle.getX() < bandparticle.getEnergyLevel().getLine().getX1() - d1 ) {
             bandparticle.setX( bandparticle.getEnergyLevel().getLine().getX2() + d1 );
         }
         double d2 = speed.getSpeed() * d;
@@ -31,7 +31,7 @@ public class MoveTo
         Vector2D.Double phetvector1 = bandparticle.getPosition();
         AbstractVector2D phetvector2 = phetvector.getSubtractedInstance( phetvector1 );
         double d3 = phetvector2.getMagnitude();
-        if( d3 <= d2 ) {
+        if ( d3 <= d2 ) {
             bandparticle.setPosition( phetvector );
             return new Waiting();
         }

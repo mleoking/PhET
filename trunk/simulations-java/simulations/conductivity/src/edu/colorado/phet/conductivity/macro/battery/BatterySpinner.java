@@ -81,7 +81,7 @@ public class BatterySpinner {
         spinner.setValue( new Double( battery.getVoltage() ) );//doesn't fix the text field
         if ( spinner.getEditor() instanceof JSpinner.DefaultEditor ) {
             final JSpinner.DefaultEditor ed = (JSpinner.DefaultEditor) spinner.getEditor();
-            ed.getTextField().setText( battery.getVoltage()+"");
+            ed.getTextField().setText( battery.getVoltage() + "" );
         }
     }
 

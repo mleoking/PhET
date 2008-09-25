@@ -4,10 +4,10 @@
 
 package edu.colorado.phet.conductivity.macro.bands;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.conductivity.macro.bands.states.Speed;
-
-import java.util.ArrayList;
 
 // Referenced classes of package edu.colorado.phet.semiconductor.macro.bands:
 //            EnergyLevel, DefaultBandSet
@@ -24,10 +24,10 @@ public class Band {
     }
 
     public String toString() {
-        if( bandSet.getUpperBand() == this ) {
+        if ( bandSet.getUpperBand() == this ) {
             return SimStrings.get( "Band.UpperLabel" );
         }
-        if( bandSet.getLowerBand() == this ) {
+        if ( bandSet.getLowerBand() == this ) {
             return SimStrings.get( "Band.LowerLabel" );
         }
         else {
@@ -39,7 +39,7 @@ public class Band {
                            double d3, int j, double d4, double d5 ) {
         de = d5;
         double d6 = d;
-        for( int k = 0; k < i; k++ ) {
+        for ( int k = 0; k < i; k++ ) {
             EnergyLevel energylevel = new EnergyLevel( this, d2, d6, d3, 2, d4 );
             addLevel( energylevel );
             d6 += d5;
@@ -56,7 +56,7 @@ public class Band {
     }
 
     public EnergyLevel energyLevelAt( int i ) {
-        return (EnergyLevel)levels.get( i );
+        return (EnergyLevel) levels.get( i );
     }
 
     public int indexOf( EnergyLevel energylevel ) {
@@ -78,8 +78,8 @@ public class Band {
 
     public int numParticles() {
         int i = 0;
-        for( int j = 0; j < levels.size(); j++ ) {
-            EnergyLevel energylevel = (EnergyLevel)levels.get( j );
+        for ( int j = 0; j < levels.size(); j++ ) {
+            EnergyLevel energylevel = (EnergyLevel) levels.get( j );
             i += energylevel.numParticles();
         }
 
@@ -100,9 +100,9 @@ public class Band {
     }
 
     public void propagate() {
-        for( int i = 0; i < numEnergyLevels(); i++ ) {
+        for ( int i = 0; i < numEnergyLevels(); i++ ) {
             EnergyLevel energylevel = energyLevelAt( i );
-            if( energylevel.canConduct() && energylevel.isFull() ) {
+            if ( energylevel.canConduct() && energylevel.isFull() ) {
 //            if( energylevel.canConduct()  ) {
                 energylevel.propagateBoth( new Speed() {
 
