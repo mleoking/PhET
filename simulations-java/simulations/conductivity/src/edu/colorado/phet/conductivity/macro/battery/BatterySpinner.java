@@ -75,9 +75,9 @@ public class BatterySpinner {
     }
 
     private void handleErrorInput() {
-        conductivityApplication.getClock().stop();
+        conductivityApplication.stopClock();
         JOptionPane.showMessageDialog( spinner, "Value out of range: Voltage should be betwen 0 and 2 Volts.", "Invalid Voltage", JOptionPane.ERROR_MESSAGE );
-        conductivityApplication.getClock().start();
+        conductivityApplication.startClock();
         spinner.setValue( new Double( battery.getVoltage() ) );//doesn't fix the text field
         if ( spinner.getEditor() instanceof JSpinner.DefaultEditor ) {
             final JSpinner.DefaultEditor ed = (JSpinner.DefaultEditor) spinner.getEditor();
