@@ -26,7 +26,7 @@ public class StoveNode extends PNode {
     private PImage m_fireImage;
     private PImage m_iceImage;
     private PImage m_stoveImage;
-    private StoveControlPanel m_stoveControlPanel;
+    private StoveControlSlider m_stoveControlSlider;
     private MultipleParticleModel m_model;
 
     public StoveNode(MultipleParticleModel model) {
@@ -48,6 +48,7 @@ public class StoveNode extends PNode {
         m_stoveImage.setScale( INITIAL_STOVE_SCALING );
         addChild(m_stoveImage);
 
+        /*
         m_stoveControlPanel = new StoveControlPanel();
         m_stoveControlPanel.addListener(new StoveControlPanel.Listener() {
             public void valueChanged(double value) {
@@ -58,9 +59,11 @@ public class StoveNode extends PNode {
                 }
             }
         });
-        PSwing stoveControlPanelNode = new PSwing(m_stoveControlPanel);
+        */
+        m_stoveControlSlider = new StoveControlSlider();
+        PSwing stoveControlPanelNode = new PSwing(m_stoveControlSlider);
         addChild(stoveControlPanelNode);
-        stoveControlPanelNode.setOffset(m_stoveImage.getFullBoundsReference().getWidth() + 15, 0);
+        stoveControlPanelNode.setOffset(m_stoveImage.getFullBoundsReference().getWidth() + 15, 20);
 
         update();
     }
