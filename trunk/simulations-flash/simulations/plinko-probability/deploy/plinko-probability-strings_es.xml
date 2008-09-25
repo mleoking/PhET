@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<SimStrings>
+<string key="none" value="nada"/>
+<string key="number" value="número"/>
+<string key="start" value="Empezar"/>
+<string key="continuous" value="continuo"/>
+<string key="fraction" value="fracción"/>
+<string key="NEquals" value="N ="/>
+<string key="rows" value="hileras"/>
+<string key="sEquals" value="s ="/>
+<string key="sound" value="Sonido"/>
+<string key="oneBall" value="1 pelota"/>
+<string key="path" value="camino"/>
+<string key="histogramDisplay" value="Histograma"/>
+<string key="p" value="p"/>
+<string key="stop" value="Parar"/>
+<string key="ball" value="pelota"/>
+<string key="help" value="Ayuda"/>
+<string key="reset" value="borrar"/>
+<string key="show" value="Muestra:"/>
+<string key="autoScale" value="auto-escala"/>
+</SimStrings>
