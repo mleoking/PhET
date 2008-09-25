@@ -5,6 +5,7 @@ package edu.colorado.phet.common.piccolophet.test;
 import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JFrame;
@@ -48,9 +49,14 @@ public class TestCreateStrokedShape extends JFrame {
         thermometerStrokeNode.setPaint( Color.RED );
         thermometerStrokeNode.setOffset( thermometerAreaNode.getFullBoundsReference().getMaxX() + 50, thermometerAreaNode.getFullBoundsReference().getY() );
         
+        // a simpler shape that demonstrates the same problem
+        PPath rectStrokeNoke = new PPath( stroke.createStrokedShape( new Rectangle2D.Double( 0, 0, 100, 100 ) ) );
+        rectStrokeNoke.setOffset( thermometerStrokeNode.getFullBoundsReference().getMaxX() + 50, thermometerStrokeNode.getFullBoundsReference().getY() );
+        
         PCanvas canvas = new PhetPCanvas();
         canvas.getLayer().addChild( thermometerAreaNode );
         canvas.getLayer().addChild( thermometerStrokeNode );   
+        canvas.getLayer().addChild( rectStrokeNoke );   
         
         getContentPane().add( canvas );
     }
@@ -58,7 +64,7 @@ public class TestCreateStrokedShape extends JFrame {
     public static void main( String args[] ) {
         TestCreateStrokedShape frame = new TestCreateStrokedShape();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.setSize( new Dimension( 400, 300 ) );
+        frame.setSize( new Dimension( 600, 300 ) );
         frame.setVisible( true );
     }
 }
