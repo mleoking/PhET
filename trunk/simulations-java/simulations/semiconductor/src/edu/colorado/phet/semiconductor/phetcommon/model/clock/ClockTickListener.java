@@ -8,5 +8,5 @@ package edu.colorado.phet.semiconductor.phetcommon.model.clock;
 
 
 public interface ClockTickListener {
-    public void clockTicked( AbstractClock c, double dt );
+    public void clockTicked( double dt );
 }

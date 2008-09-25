@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.semiconductor.macro.*;
 import edu.colorado.phet.semiconductor.macro.circuit.CircuitSection;
@@ -37,11 +40,9 @@ import edu.colorado.phet.semiconductor.phetcommon.math.DoubleSeries;
 import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
 import edu.colorado.phet.semiconductor.phetcommon.model.BaseModel;
 import edu.colorado.phet.semiconductor.phetcommon.model.ModelElement;
-import edu.colorado.phet.semiconductor.phetcommon.model.clock.AbstractClock;
 import edu.colorado.phet.semiconductor.phetcommon.model.clock.ClockTickListener;
 import edu.colorado.phet.semiconductor.phetcommon.model.clock.SwingTimerClock;
 import edu.colorado.phet.semiconductor.phetcommon.view.ApparatusPanel;
-import edu.colorado.phet.semiconductor.phetcommon.view.ApplicationDescriptor;
 import edu.colorado.phet.semiconductor.phetcommon.view.BasicGraphicsSetup;
 import edu.colorado.phet.semiconductor.phetcommon.view.CompositeInteractiveGraphic;
 import edu.colorado.phet.semiconductor.phetcommon.view.apparatuspanelcontainment.ApparatusPanelContainer;
@@ -61,7 +62,7 @@ import edu.colorado.phet.semiconductor.phetcommon.view.util.graphics.ImageLoader
  * Date: Feb 7, 2004
  * Time: 7:11:36 PM
  */
-public class SemiconductorApplication extends Module implements Graphic {
+public class SemiconductorApplication implements Graphic {
     // Localization
     public static final String localizedStringsPath = "semiconductor/localization/semiconductor-strings";
     private static final String VERSION = PhetApplicationConfig.getVersion( "semiconductor" ).formatForTitleBar();
@@ -75,10 +76,12 @@ public class SemiconductorApplication extends Module implements Graphic {
     private ArrayList cableGraphics = new ArrayList();
     private Magnet magnet;
     private MagnetGraphic magnetGraphic;
+    private ApparatusPanel apparatusPanel;
+    private BaseModel bm;
+    private DiodeControlPanel dcp;
 
 
     public SemiconductorApplication( SwingTimerClock clock ) throws IOException {
-        super( SemiconductorResources.getString( "ModuleTitle.SemiconductorModule" ) );
         transform = new ModelViewTransform2D( new Rectangle2D.Double( 0, 0, 10, 10 ), new Rectangle( 0, 0, 1, 1 ) );
 
 
@@ -131,7 +134,7 @@ public class SemiconductorApplication extends Module implements Graphic {
         getApparatusPanel().addGraphic( dopantPanel, 2 );
 
         clock.addClockTickListener( new ClockTickListener() {
-            public void clockTicked( AbstractClock abstractClock, double v ) {
+            public void clockTicked( double v ) {
                 getApparatusPanel().repaint();
             }
         } );
@@ -210,8 +213,35 @@ public class SemiconductorApplication extends Module implements Graphic {
         setControlPanel( dcp );
     }
 
+    private void setControlPanel( DiodeControlPanel dcp ) {
+        this.dcp = dcp;
+    }
+
+    private void addModelElement( ModelElement modelElement ) {
+        bm.addModelElement( modelElement );
+    }
+
+    private void addGraphic( Graphic dig, int layer ) {
+    }
+
+    private BaseModel getModel() {
+        return bm;
+    }
+
+    private void setModel( BaseModel bm ) {
+        this.bm = bm;
+    }
+
+    private void setApparatusPanel( ApparatusPanel ap ) {
+        this.apparatusPanel = ap;
+    }
+
     public MagnetGraphic getMagnetGraphic() {
         return magnetGraphic;
+    }
+
+    public ApparatusPanel getApparatusPanel() {
+        return apparatusPanel;
     }
 
     class Relayout extends ComponentAdapter {
@@ -329,30 +359,81 @@ public class SemiconductorApplication extends Module implements Graphic {
         }
     }
 
-    public static void main( final String[] args ) throws IOException, UnsupportedLookAndFeelException {
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                new PhetLookAndFeel().initLookAndFeel();
+    public static class SemiconductorApplicationConfig extends PhetApplicationConfig {
 
-//        UIManager.setLookAndFeel(new SemiconductorLookAndFeel());
-//        FrameSetup fs = new MaxExtentFrameSetup( new FullScreen() );
-                FrameSetup fs = new TopOfScreen();
-                ApplicationDescriptor ad = new ApplicationDescriptor( SemiconductorResources.getString( "SemiconductorApplication.title" ) + " " + VERSION,
-                                                                      SemiconductorResources.getString( "SemiconductorApplication.description" ),
-                                                                      VERSION, fs );
-                ad.setName( "semiconductor" );
-                SwingTimerClock clock = new SwingTimerClock( 1, 45, true );
-                SemiconductorApplication application = null;
-                try {
-                    application = new SemiconductorApplication( clock );
+        public SemiconductorApplicationConfig( String[] commandLineArgs ) {
+            super( commandLineArgs, new edu.colorado.phet.common.phetcommon.view.util.FrameSetup.CenteredWithInsets( 100, 100 ), SemiconductorResources.getResourceLoader() );
+            PhetLookAndFeel feel = new PhetLookAndFeel();
+            feel.setBackgroundColor( new Color( 245, 245, 255 ) );
+            setLookAndFeel( feel );
+            setApplicationConstructor( new ApplicationConstructor() {
+                public edu.colorado.phet.common.phetcommon.application.PhetApplication getApplication( PhetApplicationConfig config ) {
+                    return new SemiconductorPhetApplication( config );
                 }
-                catch( IOException e ) {
-                    e.printStackTrace();
-                }
-                final PhetApplication pa = new PhetApplication( ad, application, clock );
-                pa.startApplication( application );
-                enableAspectRatio( pa, application );
-            }
-        } );
+            } );
+        }
+
     }
+
+    private static class SemiconductorPhetApplication extends edu.colorado.phet.common.phetcommon.application.PhetApplication {
+        protected SemiconductorPhetApplication( PhetApplicationConfig config ) {
+            super( config );
+            addModule( new SemiconductorModule( config ) );
+        }
+
+    }
+
+    private static class SemiconductorModule extends edu.colorado.phet.common.phetcommon.application.Module {
+        public SemiconductorModule( PhetApplicationConfig config ) {
+            super( "name", new ConstantDtClock( 30, 1 ) );
+            try {
+                final SemiconductorApplication ca = new SemiconductorApplication( new SwingTimerClock( 1, 45, true ) );
+                setSimulationPanel( ca.getApparatusPanel() );
+                setControlPanel( ca.dcp );
+                getClock().addClockListener( new ClockAdapter() {
+                    public void clockTicked( ClockEvent clockEvent ) {
+                        ca.clockTicked( clockEvent );
+                        getSimulationPanel().repaint();
+                    }
+                } );
+            }
+            catch( IOException e ) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+
+        }
+    }
+
+    private void clockTicked( ClockEvent clockEvent ) {
+        bm.clockTicked( clockEvent.getSimulationTimeChange() );
+    }
+
+    public static void main( final String[] args ) throws IOException, UnsupportedLookAndFeelException {
+        new SemiconductorApplicationConfig( args ).launchSim();
+//        SwingUtilities.invokeLater( new Runnable() {
+//            public void run() {
+//                new PhetLookAndFeel().initLookAndFeel();
+//
+////        UIManager.setLookAndFeel(new SemiconductorLookAndFeel());
+////        FrameSetup fs = new MaxExtentFrameSetup( new FullScreen() );
+//                FrameSetup fs = new TopOfScreen();
+//                ApplicationDescriptor ad = new ApplicationDescriptor( SemiconductorResources.getString( "SemiconductorApplication.title" ) + " " + VERSION,
+//                                                                      SemiconductorResources.getString( "SemiconductorApplication.description" ),
+//                                                                      VERSION, fs );
+//                ad.setName( "semiconductor" );
+//                SwingTimerClock clock = new SwingTimerClock( 1, 45, true );
+//                SemiconductorApplication application = null;
+//                try {
+//                    application = new SemiconductorApplication( clock );
+//                }
+//                catch( IOException e ) {
+//                    e.printStackTrace();
+//                }
+//                final PhetApplication pa = new PhetApplication( ad, application, clock );
+//                pa.startApplication( application );
+//                enableAspectRatio( pa, application );
+//            }
+//        } );
+    }
+
 }

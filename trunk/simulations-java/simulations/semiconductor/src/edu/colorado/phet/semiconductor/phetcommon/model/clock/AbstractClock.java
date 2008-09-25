@@ -81,7 +81,7 @@ public abstract class AbstractClock {
 
     protected void clockTicked( double dt ) {
         runningTime += dt;
-        timeListeners.clockTicked( this, dt );
+        timeListeners.clockTicked( dt );
     }
 
     public String toString() {

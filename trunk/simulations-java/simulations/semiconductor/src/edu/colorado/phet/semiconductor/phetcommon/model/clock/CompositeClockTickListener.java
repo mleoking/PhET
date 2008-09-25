@@ -15,10 +15,10 @@ public class CompositeClockTickListener implements ClockTickListener {
         list.add( cl );
     }
 
-    public void clockTicked( AbstractClock c, double dt ) {
+    public void clockTicked( double dt ) {
         for ( int i = 0; i < list.size(); i++ ) {
             ClockTickListener clockListener = (ClockTickListener) list.get( i );
-            clockListener.clockTicked( c, dt );
+            clockListener.clockTicked( dt );
         }
     }
 
