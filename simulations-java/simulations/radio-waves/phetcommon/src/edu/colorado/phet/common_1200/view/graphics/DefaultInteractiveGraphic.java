@@ -6,16 +6,19 @@
  */
 package edu.colorado.phet.common_1200.view.graphics;
 
-import edu.colorado.phet.common_1200.view.graphics.mousecontrols.CompositeMouseInputListener;
-import edu.colorado.phet.common_1200.view.graphics.mousecontrols.CursorControl;
-import edu.colorado.phet.common_1200.view.graphics.mousecontrols.Translatable;
-import edu.colorado.phet.common_1200.view.graphics.mousecontrols.TranslationControl;
+import java.awt.Cursor;
+import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
 
-import javax.swing.*;
+import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.MouseInputListener;
-import java.awt.*;
-import java.awt.event.MouseEvent;
+
+import edu.colorado.phet.common.phetgraphics.view.util.CompositeMouseInputListener;
+import edu.colorado.phet.common.phetgraphics.view.util.CursorControl;
+import edu.colorado.phet.common_1200.view.graphics.mousecontrols.Translatable;
+import edu.colorado.phet.common_1200.view.graphics.mousecontrols.TranslationControl;
 
 /**
  * This class facilitates adding behaviors to an interactive graphic.
