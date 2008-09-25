@@ -28,10 +28,13 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.conductivity.macro.BandSetGraphic;
 import edu.colorado.phet.conductivity.macro.EnergyTextGraphic;
 import edu.colorado.phet.conductivity.macro.MacroControlPanel;
@@ -59,7 +62,7 @@ public class ConductivityApplication {
     private Hashtable bandSetGraphicTable;
     private Flashlight light;
     private boolean lightOn;
-    private AbstractClock clock;
+    private IClock clock;
     private double timeBetweenFires;
     private ArrayList photons;
     private MacroControlPanel macroControlPanel;
@@ -72,14 +75,15 @@ public class ConductivityApplication {
     private MacroControlPanel controlPanel;
     private BaseModel baseModel;
 
-    public AbstractClock getClock() {
-        return clock;
-    }
-
-    public ConductivityApplication( AbstractClock abstractclock )
+    public ConductivityApplication( IClock clock )
             throws IOException {
 //        super( ConductivityResources.getString( "ModuleTitle.SemiconductorsModule" ) );
-        this.clock = abstractclock;
+        this.clock = clock;
+        clock.addClockListener( new ClockAdapter(){
+            public void simulationTimeChanged( ClockEvent clockEvent ) {
+                baseModel.stepInTime( clockEvent.getSimulationTimeChange() );
+            }
+        } );
         minVolts = 0.0D;
         maxVolts = 2D;
 //        initstroke = new BasicStroke( 1.0F, 2, 0 );
@@ -87,14 +91,13 @@ public class ConductivityApplication {
         photons = new ArrayList();
         timeSinceFire = 1.7976931348623157E+308D;
         photonGraphicTable = new Hashtable();
-        clock = abstractclock;
         transform = new ModelViewTransform2D( new java.awt.geom.Rectangle2D.Double( 0.0D, 0.0D, 1.0D, 1.0D ), new Rectangle( 0, 0, 600, 600 ) );
         setApparatusPanel( new ApparatusPanel() );
         getApparatusPanel().setBackground( new Color( 230, 220, 255 ) );
 //        getApparatusPanel().addGraphicsSetup( new BasicGraphicsSetup() );
         macroControlPanel = new MacroControlPanel( this );
         setControlPanel( macroControlPanel );
-        setBaseModel( new BaseModel( abstractclock ) );
+        setBaseModel( new BaseModel() );
         addViewBoundsListener();
         double particleWidth = transform.viewToModelDifferentialX( MacroCircuitGraphic.getParticleImage().getWidth() );
         model = new MacroSystem( minVolts, maxVolts, particleWidth );
@@ -168,7 +171,7 @@ public class ConductivityApplication {
 
     private void addLight()
             throws IOException {
-        timeBetweenFires = clock.getDt() * 3D;
+        timeBetweenFires = 3D;
         light = new Flashlight( 0.80000000000000004D, 0.10000000000000001D, 0.0D );
         ImageLoader imageloader = new ImageLoader();
         BufferedImage bufferedimage = imageloader.loadImage( "conductivity/images/light.gif" );
@@ -179,6 +182,9 @@ public class ConductivityApplication {
         ModelElement modelelement = new ModelElement() {
 
             public void stepInTime( double d ) {
+//                System.out.println( "d = " + d );
+//                System.out.println( "timeSinceFire = " + timeSinceFire );
+//                System.out.println( "timeBetweenFires = " + timeBetweenFires );
                 if ( timeSinceFire > timeBetweenFires && lightOn ) {
                     firePhoton();
                     timeSinceFire = 0.0D;
@@ -365,12 +371,20 @@ public class ConductivityApplication {
         return baseModel;
     }
 
+    public void stopClock() {
+        clock.pause();
+    }
+
+    public void startClock() {
+        clock.start();
+    }
+
     public static class ConductivityApplicationConfig extends PhetApplicationConfig {
 
         public ConductivityApplicationConfig( String[] commandLineArgs ) {
             super( commandLineArgs, new FrameSetup.CenteredWithInsets( 100, 100 ), ConductivityResources.getResourceLoader() );
             PhetLookAndFeel feel = new PhetLookAndFeel();
-            feel.setBackgroundColor( new Color( 245, 245, 255 )  );
+            feel.setBackgroundColor( new Color( 245, 245, 255 ) );
             setLookAndFeel( feel );
             setApplicationConstructor( new ApplicationConstructor() {
                 public edu.colorado.phet.common.phetcommon.application.PhetApplication getApplication( PhetApplicationConfig config ) {
@@ -393,9 +407,14 @@ public class ConductivityApplication {
         public ConductivityModule( PhetApplicationConfig config ) {
             super( "name", new ConstantDtClock( 30, 1 ) );
             try {
-                ConductivityApplication ca=new ConductivityApplication( new SwingTimerClock( 1,30,true) );
+                ConductivityApplication ca = new ConductivityApplication( getClock());
                 setSimulationPanel( ca.getApparatusPanel() );
                 setControlPanel( ca.controlPanel );
+                getClock().addClockListener( new ClockAdapter() {
+                    public void clockTicked( ClockEvent clockEvent ) {
+                        getSimulationPanel().repaint();
+                    }
+                } );
             }
             catch( IOException e ) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -406,62 +425,6 @@ public class ConductivityApplication {
 
     public static void main( final String args[] ) throws IOException {
         new ConductivityApplicationConfig( args ).launchSim();
-//        SwingUtilities.invokeLater( new Runnable() {
-//            public void run() {
-//                new PhetLookAndFeel().initLookAndFeel();
-//
-//                SwingTimerClock swingtimerclock = new SwingTimerClock( 1.0D, 30, true );
-//                ConductivityApplication module = null;
-//                try {
-//                    module = new ConductivityApplication( swingtimerclock );
-//                }
-//                catch( IOException e ) {
-//                    e.printStackTrace();
-//                }
-//                String version = PhetApplicationConfig.getVersion( "conductivity" ).formatForTitleBar();
-//                ApplicationDescriptor ad = new ApplicationDescriptor(
-//                        ConductivityResources.getString( "ConductivityApplication.title" ) + " " + version,
-//                        ConductivityResources.getString( "ConductivityApplication.description" ), version,
-//                        new FrameSetup.CenteredWithInsets( 100, 100 ) );
-//                ad.setName( "conductivity" );
-//                PhetApplication phetapplication = new PhetApplication( ad, module, swingtimerclock );
-//                phetapplication.startApplication( module );
-//                final ConductivityApplication module1 = module;
-//                swingtimerclock.addClockTickListener( new ClockTickListener() {
-//
-//                    public void clockTicked( AbstractClock abstractclock, double d ) {
-//                        module1.getApparatusPanel().repaint();
-//                    }
-//
-//                } );
-//                module.getApparatusPanel().invalidate();
-//                module.getApparatusPanel().validate();
-//                module.getApparatusPanel().repaint();
-//                ClockTickListener clockticklistener = new ClockTickListener() {
-//
-//                    public void clockTicked( AbstractClock abstractclock, double d ) {
-//                        if ( abstractclock.getRunningTime() > abstractclock.getDt() * 20D ) {
-//                            module1.getApparatusPanel().invalidate();
-//                            module1.getApparatusPanel().revalidate();
-//                            module1.getApparatusPanel().repaint();
-//                            abstractclock.removeClockTickListener( this );
-//                        }
-//                    }
-//
-//                };
-//                swingtimerclock.addClockTickListener( clockticklistener );
-//                phetapplication.getApplicationView().getBasicPhetPanel().setBackground( new Color( 245, 245, 255 ) );
-//                edu.colorado.phet.common.conductivity.view.apparatuspanelcontainment.ApparatusPanelContainer apparatuspanelcontainer = phetapplication.getApplicationView().getApparatusPanelContainer();
-//                if ( apparatuspanelcontainer instanceof SingleApparatusPanelContainer ) {
-//                    SingleApparatusPanelContainer singleapparatuspanelcontainer = (SingleApparatusPanelContainer) apparatuspanelcontainer;
-//                    singleapparatuspanelcontainer.getComponent().setLayout( new AspectRatioLayout( module.getApparatusPanel(), 10, 10, 0.75D ) );
-//                    phetapplication.getApplicationView().getBasicPhetPanel().invalidate();
-//                    phetapplication.getApplicationView().getBasicPhetPanel().validate();
-//                    phetapplication.getApplicationView().getBasicPhetPanel().repaint();
-//                }
-//            }
-//        } );
-
     }
 
 }
