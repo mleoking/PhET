@@ -9,9 +9,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.MouseInputListener;
 
+import edu.colorado.phet.common.phetgraphics.view.util.CompositeMouseInputListener;
+import edu.colorado.phet.common.phetgraphics.view.util.CursorControl;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
-import edu.colorado.phet.common_1200.view.graphics.mousecontrols.CompositeMouseInputListener;
-import edu.colorado.phet.common_1200.view.graphics.mousecontrols.CursorControl;
 import edu.colorado.phet.common_1200.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common_1200.view.graphics.mousecontrols.TranslationControl;
 
