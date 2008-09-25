@@ -1,0 +1,47 @@
+PhET Progress Report
+John Blanco
+September 10, 2008
+
+States of Matter Sim - 21 hrs
+
+•	Added the ability to interact with Interaction Potential diagram in order to to set LJ params, move atoms.
+•	Made the particles on Interaction Potential tab start in the potential energy well.
+•	Added button to retrieve atom if it goes off the page.
+•	Added limitations to movement of atom.
+•	Removed wiggle me and stop button from Interaction Potential diagram.
+•	Added push pin to convey idea that fixed atom is stuck in one place.
+•	Incorporated model-to-Kelvin translation information supplied by Paul Beale.
+•	Added ability to display pressure in atmospheres.
+•	Resolved issues with temperature not rising/falling correctly as container is resized.
+•	Added icons and changed wording on state change.
+
+Circuit Construction Kit - 3.0 hrs
+
+•	Worked with Sam R. to resolve the remaining high priority issues for CCK.
+
+Nuclear Physics - 5.0
+
+•	Split Alpha Radiation into a separate tab.
+•	Implemented the bulk of the requested changes to the Alpha Radiation UI.
+
+Web Site - 4.0
+
+•	Removed the "1.0" string from the web site installer files as well as the installation directory.
+•	Updated caption for web site picture.
+
+
+Meetings & Email - 4.5 hrs
+
+•	Meeting with NSF representative.
+•	Regular weekly status meeting.
+•	Various discussions with Noah P, Paul B, Sam R, and Kathy in person and via email.
+
+Tools and Infrastructure - 2.5 hrs
+
+•	Experimented with workarounds for some SVN update problems.
+•	Spent some time trying to install PHP plugin for Eclipse in order to make it faster and easier to work on web site when needed.
+
+Misc - 0 hrs
+
+•	Worked with the new science teacher at Horizons Middle School to get him starting using sims for teaching basic motion concepts.
+

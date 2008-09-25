@@ -1,0 +1,44 @@
+PhET Progress Report
+John Blanco
+September 17, 2008
+
+States of Matter Sim - 29.5 hrs
+
+•	Worked on tracking down and correcting the "jerky" behavior that is occasionally seen.  A possible fix has been implemented and the behavior as not been seen since.
+•	Added ability to enabled viewing of separate attractive and repulsive forces to the Interaction Potential tab.
+•	Made phase diagram behavior to be non-linear, since this is more real.
+•	Corrected wording and labels on the Interaction Potential diagrams based on feedback from meetings.
+•	Removed the gravity control slider (it is now available on developer controls if needed).
+•	Incorporated improved icons from Noah P. for depicting the state selections on the first tab.
+•	Fixed a "conservation of energy" issue that was causing odd behavior on the Interaction Potential tab.
+•	Added ability to recalculate and adjust force vectors even if sim is paused.
+•	Added Neon to the Interaction Potential tab and removed monatomic oxygen (requested by Paul B).
+•	Improved the "gray out" behavior of the slider controls based on feedback from meeting.
+•	Calibrated scaling factors for pressure and temperature for better mapping to phase diagram and for more realistic behavior.
+•	Implemented code to use Isokinetic thermostat when temperature is changing and Anderson when temperature is stable.
+
+Common Code - 2 hrs
+
+•	Worked with Sam R. on creating new and improved play/pause buttons.
+
+Nuclear Physics - 1.0
+
+•	Changed the name of the simulation that shows fission from Nuclear Physics to Nuclear Fission.
+•	Deployed Nuclear Fission and Alpha Radiation sims to dev and solicited feedback.
+
+Web Site - 1.0
+
+•	Worked with Kathy to get licensing links and wording updated based on feedback from Hewlett.
+
+
+Meetings & Email - 2.5 hrs
+
+•	Regular weekly status meeting.
+•	Various discussions with Noah P, Paul B, Sam R, and Kathy in person and via email.
+
+Tools and Infrastructure - 4.0 hrs
+
+•	Got the PHP tools for Eclipse installed and working.  This should make web fixes go faster.
+•	Updated PC with service pack 3 and latest Java version.
+•	Studied Java class "GridBagLayout" and "GridBagContraints" to allow me to do better layout of controls on control panels.
+
