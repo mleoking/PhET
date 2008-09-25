@@ -60,6 +60,7 @@ public class Electron extends Body {
             accelerationHistory[i] = new Vector2D.Float();
             maxAccelerationHistory[i] = new Vector2D.Float();
         }
+        movementStrategy = new ManualMovement();
     }
 
     public Point2D getCurrentPosition() {

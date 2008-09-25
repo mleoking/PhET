@@ -1,13 +1,14 @@
 /* Copyright University of Colorado, 2003 */
 package edu.colorado.phet.common_1200.view;
 
-import edu.colorado.phet.common_1200.application.Module;
-import edu.colorado.phet.common_1200.application.ModuleObserver;
-import edu.colorado.phet.common_1200.application.PhetApplication;
-
-import javax.swing.*;
+import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
+import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 
 /**
  * An on-screen container for the modules in an application. It displays the
@@ -31,7 +32,7 @@ public class TabbedApparatusPanelContainer extends JTabbedPane implements Module
     }
 
     public void moduleAdded( Module module ) {
-        addTab( module.getName(), module.getApparatusPanel() );
+        addTab( module.getName(), module.getSimulationPanel() );
     }
 
     public void activeModuleChanged( Module m ) {
@@ -44,6 +45,21 @@ public class TabbedApparatusPanelContainer extends JTabbedPane implements Module
     public void moduleRemoved( Module m ) {
 //        removeTabAt( );
         throw new RuntimeException( "Module removal is not yet handled." );
+    }
+
+    public void activeModuleChanged( ModuleEvent event ) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    public void moduleAdded( ModuleEvent event ) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    public void moduleRemoved( ModuleEvent event ) {
+        // TODO Auto-generated method stub
+        
     }
 
 }

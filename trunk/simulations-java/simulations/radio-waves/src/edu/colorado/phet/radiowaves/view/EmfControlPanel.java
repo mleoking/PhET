@@ -16,10 +16,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.radiowaves.EmfConfig;
 import edu.colorado.phet.radiowaves.EmfModule;
+import edu.colorado.phet.radiowaves.RadioWavesResources;
 import edu.colorado.phet.radiowaves.command.DynamicFieldIsEnabledCmd;
 import edu.colorado.phet.radiowaves.command.SetAmplitudeCmd;
 import edu.colorado.phet.radiowaves.command.SetFreqencyCmd;
@@ -71,12 +71,12 @@ public class EmfControlPanel extends JPanel {
      */
     private class OptionControlPane extends JPanel {
 
-        private JCheckBox stripChartCB = new JCheckBox( SimStrings.get( "EmfControlPanel.StripChartCheckBox" ) );
-        private JRadioButton staticFieldRB = new JRadioButton( SimStrings.get( "EmfControlPanel.StaticFieldRadioButton" ) );
-        private JRadioButton dynamicFieldRB = new JRadioButton( SimStrings.get( "EmfControlPanel.RadiatedFieldRadioButton" ) );
+        private JCheckBox stripChartCB = new JCheckBox( RadioWavesResources.getString( "EmfControlPanel.StripChartCheckBox" ) );
+        private JRadioButton staticFieldRB = new JRadioButton( RadioWavesResources.getString( "EmfControlPanel.StaticFieldRadioButton" ) );
+        private JRadioButton dynamicFieldRB = new JRadioButton( RadioWavesResources.getString( "EmfControlPanel.RadiatedFieldRadioButton" ) );
 
-        private JRadioButton fullFieldRB = new JRadioButton( SimStrings.get( "EmfControlPanel.FullRadioButton" ) );
-        private JRadioButton hideFieldRB = new JRadioButton( SimStrings.get( "EmfControlPanel.NoneRadioButton" ) );
+        private JRadioButton fullFieldRB = new JRadioButton( RadioWavesResources.getString( "EmfControlPanel.FullRadioButton" ) );
+        private JRadioButton hideFieldRB = new JRadioButton( RadioWavesResources.getString( "EmfControlPanel.NoneRadioButton" ) );
         private ButtonGroup fieldDisplayRBGroup;
         private JRadioButton singleVectorRowRB;
         private JRadioButton vectorWCurveRB;
@@ -100,7 +100,7 @@ public class EmfControlPanel extends JPanel {
             fieldTypeRBGroup.add( staticFieldRB );
             JPanel fieldTypePane = new JPanel( new GridBagLayout() );
             GridBagConstraints gbcA = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets( 0, 10, 0, 0 ), 0, 0 );
-            fieldTypePane.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "EmfControlPanel.FieldVectorBorder" ) ) );
+            fieldTypePane.setBorder( BorderFactory.createTitledBorder( RadioWavesResources.getString( "EmfControlPanel.FieldVectorBorder" ) ) );
             fieldTypePane.add( dynamicFieldRB, gbcA );
             fieldTypePane.add( staticFieldRB, gbcA );
             staticFieldRB.addActionListener( new FieldViewRBActionListener() );
@@ -112,14 +112,14 @@ public class EmfControlPanel extends JPanel {
             hideFieldRB.addActionListener( new FieldViewRBActionListener() );
             hideFieldRB.addActionListener( new FieldViewRBActionListener() );
             fullFieldRB.addActionListener( new FieldViewRBActionListener() );
-            singleVectorRowRB = new JRadioButton( SimStrings.get( "EmfControlPanel.SingleLineOfVectors" ) );
+            singleVectorRowRB = new JRadioButton( RadioWavesResources.getString( "EmfControlPanel.SingleLineOfVectors" ) );
             singleVectorRowRB.addActionListener( new FieldViewRBActionListener() );
-            vectorWCurveRB = new JRadioButton( SimStrings.get( "EmfControlPanel.CurveVectorsRadioButton" ) );
+            vectorWCurveRB = new JRadioButton( RadioWavesResources.getString( "EmfControlPanel.CurveVectorsRadioButton" ) );
             vectorWCurveRB.addActionListener( new FieldViewRBActionListener() );
-            curveRB = new JRadioButton( SimStrings.get( "EmfControlPanel.CurveRadioButton" ) );
+            curveRB = new JRadioButton( RadioWavesResources.getString( "EmfControlPanel.CurveRadioButton" ) );
             curveRB.addActionListener( new FieldViewRBActionListener() );
 
-            scalarRepRB = new JRadioButton( SimStrings.get( "EmfControlPanel.ScalarRep" ) );
+            scalarRepRB = new JRadioButton( RadioWavesResources.getString( "EmfControlPanel.ScalarRep" ) );
             scalarRepRB.addActionListener( new FieldViewRBActionListener() );
 
             fieldDisplayRBGroup = new ButtonGroup();
@@ -136,7 +136,7 @@ public class EmfControlPanel extends JPanel {
             // Lay out the radio buttons
             JPanel fieldRepPane = new JPanel( new GridBagLayout() );
             GridBagConstraints gbcB = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets( 0, 10, 0, 0 ), 0, 0 );
-            fieldRepPane.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "EmfControlPanel.FieldDisplayBorder" ) ) );
+            fieldRepPane.setBorder( BorderFactory.createTitledBorder( RadioWavesResources.getString( "EmfControlPanel.FieldDisplayBorder" ) ) );
             fieldRepPane.add( vectorWCurveRB, gbcB );
             fieldRepPane.add( curveRB, gbcB );
             fieldRepPane.add( singleVectorRowRB, gbcB );
@@ -150,7 +150,7 @@ public class EmfControlPanel extends JPanel {
             ButtonGroup fieldSenseRBGroup = new ButtonGroup();
             JPanel fieldSensePane = new JPanel( new GridBagLayout() );
             GridBagConstraints gbcD = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets( 0, 10, 0, 0 ), 0, 0 );
-            JRadioButton fFieldRB = new JRadioButton( MessageFormatter.format( SimStrings.get( "EmfControlPanel.ForceFieldRadioButton" ) ) );
+            JRadioButton fFieldRB = new JRadioButton( MessageFormatter.format( RadioWavesResources.getString( "EmfControlPanel.ForceFieldRadioButton" ) ) );
             fFieldRB.addActionListener( new ActionListener() {
 
                 public void actionPerformed( ActionEvent e ) {
@@ -159,7 +159,7 @@ public class EmfControlPanel extends JPanel {
             } );
             fieldSenseRBGroup.add( fFieldRB );
             fieldSensePane.add( fFieldRB, gbcD );
-            JRadioButton eFieldRB = new JRadioButton( SimStrings.get( "EmfControlPanel.ElectricFieldRadioButton" ) );
+            JRadioButton eFieldRB = new JRadioButton( RadioWavesResources.getString( "EmfControlPanel.ElectricFieldRadioButton" ) );
             eFieldRB.addActionListener( new ActionListener() {
 
                 public void actionPerformed( ActionEvent e ) {
@@ -168,7 +168,7 @@ public class EmfControlPanel extends JPanel {
             } );
             fieldSenseRBGroup.add( eFieldRB );
             fieldSensePane.add( eFieldRB, gbcD );
-            TitledBorder fieldSenseBorder = BorderFactory.createTitledBorder( SimStrings.get( "EmfControlPanel.FieldSenseBorder" ) );
+            TitledBorder fieldSenseBorder = BorderFactory.createTitledBorder( RadioWavesResources.getString( "EmfControlPanel.FieldSenseBorder" ) );
             fieldSensePane.setBorder( fieldSenseBorder );
 
             stripChartCB.addActionListener( new ActionListener() {
@@ -184,7 +184,7 @@ public class EmfControlPanel extends JPanel {
                 }
             } );
 
-            JButton recenterButton = new JButton( SimStrings.get( "EmfControlPanel.RecenterButton" ) );
+            JButton recenterButton = new JButton( RadioWavesResources.getString( "EmfControlPanel.RecenterButton" ) );
             recenterButton.addActionListener( new ActionListener() {
 
                 public void actionPerformed( ActionEvent e ) {
@@ -276,9 +276,9 @@ public class EmfControlPanel extends JPanel {
      */
     private class MovementControlPane extends JPanel {
 
-        JRadioButton sineRB = new JRadioButton( SimStrings.get( "EmfControlPanel.OscillateRadioButton" ) );
-        JRadioButton manualRB = new JRadioButton( SimStrings.get( "EmfControlPanel.ManualRadioButton" ) );
-        JCheckBox coordinateFACB = new JCheckBox( MessageFormatter.format( SimStrings.get( "EmfControlPanel.CoordinateFACheckBox" ) ) );
+        JRadioButton sineRB = new JRadioButton( RadioWavesResources.getString( "EmfControlPanel.OscillateRadioButton" ) );
+        JRadioButton manualRB = new JRadioButton( RadioWavesResources.getString( "EmfControlPanel.ManualRadioButton" ) );
+        JCheckBox coordinateFACB = new JCheckBox( MessageFormatter.format( RadioWavesResources.getString( "EmfControlPanel.CoordinateFACheckBox" ) ) );
         ButtonGroup rbGroup = new ButtonGroup();
         int maxFreq = 200;
         JSlider freqSlider = new JSlider( 0, maxFreq, maxFreq / 2 );
@@ -294,7 +294,7 @@ public class EmfControlPanel extends JPanel {
             rbGroup.add( manualRB );
             EtchedBorder etchedBorder = (EtchedBorder) BorderFactory.createEtchedBorder();
             this.setBorder( etchedBorder );
-            this.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "EmfControlPanel.TransmitterMovementBorder" ) ) );
+            this.setBorder( BorderFactory.createTitledBorder( RadioWavesResources.getString( "EmfControlPanel.TransmitterMovementBorder" ) ) );
 
             sineRB.addActionListener( new ActionListener() {
 
@@ -349,11 +349,11 @@ public class EmfControlPanel extends JPanel {
             gbc.anchor = GridBagConstraints.CENTER;
             gbc.insets = new Insets( 0, 0, 0, 0 );
             gbc.gridy++;
-            freqLabel = new JLabel( SimStrings.get( "EmfControlPanel.FrequencyLabel" ) );
+            freqLabel = new JLabel( RadioWavesResources.getString( "EmfControlPanel.FrequencyLabel" ) );
             add( freqLabel, gbc );
             gbc.gridy++;
             add( freqSlider, gbc );
-            ampLabel = new JLabel( SimStrings.get( "EmfControlPanel.AmplitudeLabel" ) );
+            ampLabel = new JLabel( RadioWavesResources.getString( "EmfControlPanel.AmplitudeLabel" ) );
             gbc.gridy++;
             add( ampLabel, gbc );
             gbc.gridy++;
@@ -388,7 +388,7 @@ public class EmfControlPanel extends JPanel {
 
         Legend() {
             setLayout( new GridBagLayout() );
-            this.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "EmfControlPanel.LegendBorder" ) ) );
+            this.setBorder( BorderFactory.createTitledBorder( RadioWavesResources.getString( "EmfControlPanel.LegendBorder" ) ) );
             ImageIcon electronImg = null;
             try {
                 electronImg = new ImageIcon( ImageLoader.loadBufferedImage( EmfConfig.smallElectronImg ) );
@@ -398,7 +398,7 @@ public class EmfControlPanel extends JPanel {
             }
             int rowIdx = 0;
             try {
-                SwingUtils.addGridBagComponent( this, new JLabel( SimStrings.get( "EmfControlPanel.ElectronLabel" ), electronImg, SwingConstants.LEFT ), 0, rowIdx++, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.WEST );
+                SwingUtils.addGridBagComponent( this, new JLabel( RadioWavesResources.getString( "EmfControlPanel.ElectronLabel" ), electronImg, SwingConstants.LEFT ), 0, rowIdx++, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.WEST );
             }
             catch ( AWTException e ) {
                 e.printStackTrace();
