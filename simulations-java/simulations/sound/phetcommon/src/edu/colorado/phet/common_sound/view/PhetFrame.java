@@ -10,6 +10,15 @@
  */
 package edu.colorado.phet.common_sound.view;
 
+import java.awt.GridLayout;
+import java.awt.HeadlessException;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common_sound.application.ApplicationModel;
 import edu.colorado.phet.common_sound.application.Module;
@@ -18,13 +27,6 @@ import edu.colorado.phet.common_sound.application.PhetApplication;
 import edu.colorado.phet.common_sound.model.clock.AbstractClock;
 import edu.colorado.phet.common_sound.view.components.menu.HelpMenu;
 import edu.colorado.phet.common_sound.view.components.menu.PhetFileMenu;
-import edu.colorado.phet.common_sound.view.util.FrameSetup;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.IOException;
 
 /**
  * PhetFrame

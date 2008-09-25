@@ -6,16 +6,16 @@
  */
 package edu.colorado.phet.sound;
 
-import java.util.Locale;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_sound.application.Module;
 import edu.colorado.phet.common_sound.application.PhetApplication;
-import edu.colorado.phet.common_sound.view.util.FrameSetup;
 import edu.colorado.phet.sound.model.SoundClock;
-
-import javax.swing.*;
 
 
 public class SoundApplication extends PhetApplication {

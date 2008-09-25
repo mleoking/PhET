@@ -11,9 +11,9 @@
 
 package edu.colorado.phet.common_sound.application;
 
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_sound.model.clock.AbstractClock;
-import edu.colorado.phet.common_sound.view.util.FrameSetup;
 
 /**
  * This class is essentially a data structure that contains specifications for the top-level
