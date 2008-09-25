@@ -1,4 +1,4 @@
-
+/* Copyright 2008, University of Colorado */
 
 package edu.colorado.phet.statesofmatter.view;
 
@@ -21,7 +21,15 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 
+/**
+ * This class is the slider that is used to control the StoveNode, causing it
+ * to add heat or cooling to the simulated system.
+ * 
+ * @author John Blanco
+ *
+ */
 public class StoveControlSlider extends JSlider {
+	
     private static final int STOVE_SLIDER_HEIGHT = 85;
     private static final int STOVE_SLIDER_WIDTH = 100;
     private static final int MAX_SLIDER_VALULE = 50;
@@ -55,21 +63,15 @@ public class StoveControlSlider extends JSlider {
             }
         });
         
-        TitledBorder border = new TitledBorder(new EtchedBorder(BevelBorder.RAISED, 
-                new Color(40, 20, 255),
-                Color.black),
-                StatesOfMatterStrings.STOVE_CONTROL_PANEL_TITLE);
+        TitledBorder border = new TitledBorder( new EtchedBorder( BevelBorder.RAISED, new Color(40, 20, 255), Color.black), 
+        		StatesOfMatterStrings.STOVE_CONTROL_PANEL_TITLE );
         border.setTitleFont( new PhetFont(12) );
         setBorder(border);
         setBackground(CONTROL_COLOR);
         setBackground(CONTROL_COLOR);
-
-        /*
-        m_stoveSlider.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {
-                notifyListeners();
-            }
-        });
-        */
+    }
+    
+    public double getNormalizedValue(){
+    	return ((double)getValue() / (double)MAX_SLIDER_VALULE);
     }
 }
