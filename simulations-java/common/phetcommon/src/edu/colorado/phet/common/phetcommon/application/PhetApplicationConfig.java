@@ -307,7 +307,7 @@ public class PhetApplicationConfig {
     *  This implementation uses ApplicationConstructor instead of reflection to ensure compile-time checking (at the expense of slightly more complicated subclass implementations).
     */
     private ApplicationConstructor applicationConstructor;//used to create the PhetApplication
-    private PhetLookAndFeel phetLookAndFeel;//the specified look and feel to be inited in launchSim
+    private PhetLookAndFeel phetLookAndFeel=new PhetLookAndFeel();//the specified look and feel to be inited in launchSim
 
     public static interface ApplicationConstructor {
         PhetApplication getApplication( PhetApplicationConfig config );
