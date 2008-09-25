@@ -39,6 +39,7 @@ public class RadioWavesApplication extends PhetApplication {
             }
         } );
         optionsMenu.add( fadeScalarRepCB );
+        //XXX this is not actually added to the menu bar, if added in the future it requires i18n
     }
 
     public static class RadioWavesApplicationConfig extends PhetApplicationConfig {
