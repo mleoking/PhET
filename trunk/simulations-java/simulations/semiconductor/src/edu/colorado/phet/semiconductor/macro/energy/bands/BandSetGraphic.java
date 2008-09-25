@@ -5,14 +5,17 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.semiconductor.common.ClipGraphic;
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
 import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
-import edu.colorado.phet.semiconductor.util.math.PhetVector;
+
 import edu.colorado.phet.semiconductor.phetcommon.view.CompositeInteractiveGraphic;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.ShapeGraphic;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.TransformListener;
+
+
 import edu.colorado.phet.semiconductor.util.RectangleUtils;
 
 /**
@@ -40,7 +43,7 @@ public class BandSetGraphic extends TransformGraphic implements BandParticleObse
         backgroundBorder = new ShapeGraphic( viewport, Color.blue, new BasicStroke( 3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ) );
         transform.addTransformListener( new TransformListener() {
             public void transformChanged( ModelViewTransform2D modelViewTransform2D ) {
-                Shape shape = getTransform().toAffineTransform().createTransformedShape( viewport );
+                Shape shape = getTransform().getAffineTransform().createTransformedShape( viewport );
                 backgroundWhite.setShape( shape );
                 backgroundBorder.setShape( shape );
             }
@@ -80,7 +83,7 @@ public class BandSetGraphic extends TransformGraphic implements BandParticleObse
             while ( it.hasNext() ) {
                 EnergyLevel energyLevel = (EnergyLevel) it.next();
                 Rectangle2D rect = energyLevel.getRegion().toRectangle();
-                PhetVector ctr = RectangleUtils.getCenter( rect );
+                Vector2D.Double ctr = RectangleUtils.getCenter( rect );
                 Point viewpt = getTransform().modelToView( ctr );
 
                 graphics2D.drawString( energyLevel.getID() + "", viewpt.x, viewpt.y );
@@ -92,8 +95,8 @@ public class BandSetGraphic extends TransformGraphic implements BandParticleObse
         return viewport;
     }
 
-    public PhetVector getViewportBottomCenter() {
-        return new PhetVector( getViewport().getX() + getViewport().getWidth() / 2, getViewport().getY() );
+    public Vector2D.Double getViewportBottomCenter() {
+        return new Vector2D.Double( getViewport().getX() + getViewport().getWidth() / 2, getViewport().getY() );
     }
 
 }

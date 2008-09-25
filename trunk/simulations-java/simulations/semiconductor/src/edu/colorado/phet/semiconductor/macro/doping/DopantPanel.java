@@ -14,11 +14,15 @@ import javax.swing.border.Border;
 import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.semiconductor.SemiconductorResources;
 import edu.colorado.phet.semiconductor.common.BorderGraphic;
 import edu.colorado.phet.semiconductor.common.ModelLocation;
 import edu.colorado.phet.semiconductor.common.TextGraphic;
-import edu.colorado.phet.semiconductor.util.math.PhetVector;
+
 import edu.colorado.phet.semiconductor.phetcommon.view.ApparatusPanel;
 import edu.colorado.phet.semiconductor.phetcommon.view.CompositeInteractiveGraphic;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.DefaultInteractiveGraphic;
@@ -28,8 +32,8 @@ import edu.colorado.phet.semiconductor.phetcommon.view.graphics.ShapeGraphic;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.mousecontrols.DragToCreate;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.mousecontrols.InteractiveGraphicCreator;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.mousecontrols.Translatable;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.TransformListener;
+
+
 
 /**
  * User: Sam Reid
@@ -67,8 +71,8 @@ public class DopantPanel extends CompositeInteractiveGraphic {
         Border bo = BorderFactory.createTitledBorder( init, SemiconductorResources.getString( "DopantPanel.DopantBorder" ), 0, 0, font, Color.black );
         border = new BorderGraphic( bo, apparatusPanel, viewRect );
 
-        PhetVector leftCell = getCenter( modelRect ).getAddedInstance( 0, -modelRect.getHeight() / 5.5 );
-        PhetVector rightCell = getCenter( modelRect ).getAddedInstance( 0, modelRect.getHeight() / 5.5 );
+        AbstractVector2D leftCell = getCenter( modelRect ).getAddedInstance( 0, -modelRect.getHeight() / 5.5 );
+        AbstractVector2D rightCell = getCenter( modelRect ).getAddedInstance( 0, modelRect.getHeight() / 5.5 );
 
         Dopant negativeDopant = new Dopant( leftCell, DopantType.N );
         Dopant positiveDopant = new Dopant( rightCell, DopantType.P );
@@ -102,7 +106,7 @@ public class DopantPanel extends CompositeInteractiveGraphic {
         addGraphic( createP, 0 );
     }
 
-    private void addText( String s, CompositeInteractiveGraphic graphic, PhetVector cell, ModelViewTransform2D transform ) {
+    private void addText( String s, CompositeInteractiveGraphic graphic, AbstractVector2D cell, ModelViewTransform2D transform ) {
         final TextGraphic pText = new TextGraphic( 100, 100, new PhetFont( Font.PLAIN, 14 ), Color.black, s );
         ViewChangeListener vcl = new ViewChangeListener() {
             public void viewCoordinateChanged( int x, int y ) {
@@ -134,13 +138,15 @@ public class DopantPanel extends CompositeInteractiveGraphic {
             map.put( dragDopantGraphic, graphic );
             Translatable t = new Translatable() {
                 public void translate( double dx, double dy ) {
-                    Point2D.Double trf = transform.viewToModelDifferential( (int) dx, (int) dy );
-                    trf.x += dragDopantGraphic.getDopant().getPosition().getX();
-                    trf.y += dragDopantGraphic.getDopant().getPosition().getY();
-                    if ( trf.x < 5.7 ) {
+                    Point2D trf = transform.viewToModelDifferential( (int) dx, (int) dy );
+                    trf.setLocation( trf.getX()+dragDopantGraphic.getDopant().getPosition().getX(),
+                                     trf.getY()+dragDopantGraphic.getDopant().getPosition().getY());
+//                    trf.x += dragDopantGraphic.getDopant().getPosition().getX();
+//                    trf.y += dragDopantGraphic.getDopant().getPosition().getY();
+                    if ( trf.getX() < 5.7 ) {
                         dx = 0;
                     }
-//                        PhetVector pv=dragDopantGraphic.getDestination(dx,dy);
+//                        Vector2D.Double pv=dragDopantGraphic.getDestination(dx,dy);
                     dragDopantGraphic.translate( dx, dy );
                     apparatusPanel.repaint();
 //                        System.out.println("Calling repaint, time="+System.currentTimeMillis());
@@ -175,8 +181,8 @@ public class DopantPanel extends CompositeInteractiveGraphic {
         return igc;
     }
 
-    private PhetVector getCenter( Rectangle2D.Double modelRect ) {
-        return new PhetVector( modelRect.x + modelRect.width / 2, modelRect.y + modelRect.height / 2 );
+    private Vector2D.Double getCenter( Rectangle2D.Double modelRect ) {
+        return new Vector2D.Double( modelRect.x + modelRect.width / 2, modelRect.y + modelRect.height / 2 );
     }
 
     public void paint( Graphics2D graphics2D ) {

@@ -2,7 +2,8 @@
 package edu.colorado.phet.semiconductor.macro;
 
 import edu.colorado.phet.semiconductor.macro.energy.bands.EnergyCell;
-import edu.colorado.phet.semiconductor.util.math.PhetVector;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+
 
 /**
  * User: Sam Reid
@@ -10,19 +11,19 @@ import edu.colorado.phet.semiconductor.util.math.PhetVector;
  * Time: 12:29:41 PM
  */
 public class EntryPoint {
-    PhetVector source;
+    Vector2D.Double source;
     EnergyCell cell;
 
-    public EntryPoint( EnergyCell cell, PhetVector offset ) {
+    public EntryPoint( EnergyCell cell, Vector2D.Double offset ) {
         this( cell.getX() + offset.getX(), cell.getEnergy() + offset.getY(), cell );
     }
 
     public EntryPoint( double x, double y, EnergyCell cell ) {
-        this.source = new PhetVector( x, y );
+        this.source = new Vector2D.Double( x, y );
         this.cell = cell;
     }
 
-    public PhetVector getSource() {
+    public Vector2D.Double getSource() {
         return source;
     }
 

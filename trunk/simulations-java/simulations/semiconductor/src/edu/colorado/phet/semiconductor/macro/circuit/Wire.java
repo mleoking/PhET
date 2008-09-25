@@ -1,6 +1,7 @@
 package edu.colorado.phet.semiconductor.macro.circuit;
 
-import edu.colorado.phet.semiconductor.util.math.PhetVector;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+
 
 /**
  * User: Sam Reid
@@ -8,7 +9,7 @@ import edu.colorado.phet.semiconductor.util.math.PhetVector;
  * Time: 1:12:07 PM
  */
 public class Wire extends LinearBranch {
-    public Wire( PhetVector start, PhetVector end ) {
+    public Wire( Vector2D.Double start, Vector2D.Double end ) {
         super( start, end );
     }
 }

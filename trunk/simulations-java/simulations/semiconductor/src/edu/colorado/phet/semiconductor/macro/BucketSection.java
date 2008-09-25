@@ -9,8 +9,10 @@ import edu.colorado.phet.semiconductor.common.SimpleBufferedImageGraphic;
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
 import edu.colorado.phet.semiconductor.macro.circuit.battery.BatterySpinner;
 import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
-import edu.colorado.phet.semiconductor.util.math.PhetVector;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+
 
 /**
  * User: Sam Reid
@@ -46,12 +48,12 @@ public class BucketSection extends TransformGraphic {
 
         EntryPoint[] sources = model.getSources();
         for ( int i = 0; i < sources.length; i++ ) {
-            PhetVector phetVector = sources[i].getSource();
+            Vector2D.Double a= sources[i].getSource();
             double startX = sources[i].getSource().getX();
             double endX = sources[i].getCell().getX();
             int dir = (int) ( ( startX - endX ) / ( Math.abs( startX - endX ) ) );
 
-            Point pt = super.getTransform().modelToView( phetVector );
+            Point pt = super.getTransform().modelToView( a);
             Point at = new Point( (int) ( pt.x + dir * diameter / 2 ), pt.y );
             spackleAt( graphics2D, at, num );
         }

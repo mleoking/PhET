@@ -3,8 +3,9 @@ package edu.colorado.phet.semiconductor.common;
 import java.awt.*;
 
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
+
 
 /**
  * User: Sam Reid
@@ -30,6 +31,6 @@ public abstract class TransformGraphic implements Graphic {
     public abstract void update();
 
     public Shape createTransformedShape( Shape sh ) {
-        return transform.toAffineTransform().createTransformedShape( sh );
+        return transform.getAffineTransform().createTransformedShape( sh );
     }
 }

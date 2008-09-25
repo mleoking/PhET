@@ -5,12 +5,15 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.semiconductor.SemiconductorResources;
 import edu.colorado.phet.semiconductor.common.SimpleBufferedImageGraphic;
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
-import edu.colorado.phet.semiconductor.util.math.PhetVector;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.TransformListener;
+
+
+
 
 /**
  * User: Sam Reid
@@ -37,7 +40,7 @@ public class BandParticleGraphic extends TransformGraphic {
     static Font exclaimFont = new PhetFont( Font.ITALIC, 18 );
 
     public void paint( Graphics2D graphics2D ) {
-        PhetVector modelLoc = bandParticle.getPosition();
+        Vector2D.Double modelLoc = bandParticle.getPosition();
         Point pt = getTransform().modelToView( modelLoc );
         graphic.setPosition( pt );
         graphic.paint( graphics2D );

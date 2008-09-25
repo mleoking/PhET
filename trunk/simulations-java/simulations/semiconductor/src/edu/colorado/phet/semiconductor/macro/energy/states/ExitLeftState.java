@@ -2,7 +2,8 @@
 package edu.colorado.phet.semiconductor.macro.energy.states;
 
 import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
-import edu.colorado.phet.semiconductor.util.math.PhetVector;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+
 
 /**
  * User: Sam Reid
@@ -11,7 +12,7 @@ import edu.colorado.phet.semiconductor.util.math.PhetVector;
  */
 public class ExitLeftState extends StateChain {
 
-    public ExitLeftState( PhetVector dest, Speed speed, EnergySection section ) {
+    public ExitLeftState( Vector2D.Double dest, Speed speed, EnergySection section ) {
         super();
 
         addState( new MoveToPosition( dest, speed ) );

@@ -3,8 +3,10 @@ package edu.colorado.phet.semiconductor.phetcommon.view.graphics.shapes;
 
 import java.awt.geom.GeneralPath;
 
-import edu.colorado.phet.semiconductor.util.math.PhetVector;
+
 import edu.colorado.phet.semiconductor.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 
 /**
  * User: Sam Reid
@@ -13,11 +15,11 @@ import edu.colorado.phet.semiconductor.phetcommon.view.util.DoubleGeneralPath;
  */
 public class ArrowShape {
     GeneralPath arrowPath;
-    PhetVector tipLocation;
-    private PhetVector direction;
-    private PhetVector norm;
+    AbstractVector2D tipLocation;
+    private AbstractVector2D direction;
+    private AbstractVector2D norm;
 
-    public ArrowShape( PhetVector tailLocation, PhetVector tipLocation, double headHeight, double headWidth, double tailWidth ) {
+    public ArrowShape( AbstractVector2D tailLocation, AbstractVector2D tipLocation, double headHeight, double headWidth, double tailWidth ) {
         direction = tipLocation.getSubtractedInstance( tailLocation ).getNormalizedInstance();
         double dist = tipLocation.getSubtractedInstance( tailLocation ).getMagnitude();
         if ( dist < headHeight ) {
@@ -25,13 +27,13 @@ public class ArrowShape {
         }
         norm = direction.getNormalVector();
         this.tipLocation = tipLocation;
-        PhetVector rightFlap = getPoint( -1 * headHeight, -headWidth / 2 );
-        PhetVector leftFlap = getPoint( -1 * headHeight, headWidth / 2 );
-        PhetVector rightPin = getPoint( -1 * headHeight, -tailWidth / 2 );
-        PhetVector leftPin = getPoint( -1 * headHeight, tailWidth / 2 );
-        PhetVector rightTail = getPoint( -1 * dist, -tailWidth / 2 );
-        PhetVector leftTail = getPoint( -1 * dist, tailWidth / 2 );
-        DoubleGeneralPath path = new DoubleGeneralPath( tipLocation );
+        AbstractVector2D rightFlap = getPoint( -1 * headHeight, -headWidth / 2 );
+        AbstractVector2D leftFlap = getPoint( -1 * headHeight, headWidth / 2 );
+        AbstractVector2D rightPin = getPoint( -1 * headHeight, -tailWidth / 2 );
+        AbstractVector2D leftPin = getPoint( -1 * headHeight, tailWidth / 2 );
+        AbstractVector2D rightTail = getPoint( -1 * dist, -tailWidth / 2 );
+        AbstractVector2D leftTail = getPoint( -1 * dist, tailWidth / 2 );
+        DoubleGeneralPath path = new DoubleGeneralPath( tipLocation.getX(), tipLocation.getY());
         path.lineTo( rightFlap );
         path.lineTo( rightPin );
         path.lineTo( rightTail );
@@ -43,10 +45,10 @@ public class ArrowShape {
     }
 
     //parallel and normal are from the tip
-    private PhetVector getPoint( double parallel, double normal ) {
-        PhetVector dv = direction.getScaledInstance( parallel ).
+    private AbstractVector2D getPoint( double parallel, double normal ) {
+        AbstractVector2D dv = direction.getScaledInstance( parallel ).
                 getAddedInstance( norm.getScaledInstance( normal ) );
-        PhetVector abs = tipLocation.getAddedInstance( dv );
+        AbstractVector2D abs = tipLocation.getAddedInstance( dv );
         return abs;
     }
 

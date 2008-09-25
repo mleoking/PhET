@@ -18,6 +18,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.semiconductor.macro.*;
 import edu.colorado.phet.semiconductor.macro.circuit.CircuitSection;
 import edu.colorado.phet.semiconductor.macro.circuit.MacroCircuitGraphic;
@@ -37,7 +39,7 @@ import edu.colorado.phet.semiconductor.macro.energyprobe.CableGraphic;
 import edu.colorado.phet.semiconductor.macro.energyprobe.Lead;
 import edu.colorado.phet.semiconductor.macro.energyprobe.LeadGraphic;
 import edu.colorado.phet.semiconductor.util.math.DoubleSeries;
-import edu.colorado.phet.semiconductor.util.math.PhetVector;
+
 
 
 import edu.colorado.phet.semiconductor.phetcommon.model.clock.ClockTickListener;
@@ -49,7 +51,7 @@ import edu.colorado.phet.semiconductor.phetcommon.view.graphics.DefaultInteracti
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.bounds.Boundary;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.mousecontrols.Translatable;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+
 import edu.colorado.phet.semiconductor.phetcommon.view.util.framesetup.FrameSetup;
 import edu.colorado.phet.semiconductor.phetcommon.view.util.graphics.HashedImageLoader;
 import edu.colorado.phet.semiconductor.phetcommon.view.util.graphics.ImageLoader;
@@ -162,11 +164,11 @@ public class SemiconductorApplication implements Graphic {
         dig.addCursorHandBehavior();
         dig.addTranslationBehavior( new Translatable() {
             public void translate( double dx, double dy ) {
-                Point2D.Double out = transform.viewToModelDifferential( (int) dx, (int) dy );
-                Rectangle2D.Double allowed = transform.getModelBounds();
-                Shape trans = magnet.getTranslatedShape( out.x, out.y );
+                Point2D out = transform.viewToModelDifferential( (int) dx, (int) dy );
+                Rectangle2D allowed = transform.getModelBounds();
+                Shape trans = magnet.getTranslatedShape( out.getX(), out.getY());
                 if ( allowed.contains( trans.getBounds2D() ) ) {
-                    magnet.translate( out.x, out.y );
+                    magnet.translate( out.getX(), out.getY() );
                     getApparatusPanel().repaint();
                 }
             }
@@ -270,7 +272,7 @@ public class SemiconductorApplication implements Graphic {
         }
     }
 
-    private void addCable( PhetVector tip, int bandIndex ) throws IOException {
+    private void addCable( Vector2D.Double tip, int bandIndex ) throws IOException {
         Lead lead = new Lead( tip );
         BandSetGraphic bsg = energySection.bandSetGraphicAt( bandIndex );
         Cable c = new Cable( lead, bsg.getViewportBottomCenter() );

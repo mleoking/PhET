@@ -6,11 +6,14 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.semiconductor.SemiconductorResources;
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
-import edu.colorado.phet.semiconductor.util.math.PhetVector;
+
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.shapes.ArrowShape;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+
 
 /**
  * User: Sam Reid
@@ -20,7 +23,7 @@ import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.Model
 public class EnergyTextGraphic extends TransformGraphic {
     private Font font;
     private String text;
-    private PhetVector loc;
+    private Vector2D.Double loc;
     private Shape trfShape;
     private Shape arrowShape;
     private Graphics2D graphics2D;
@@ -28,7 +31,7 @@ public class EnergyTextGraphic extends TransformGraphic {
     private Shape highShape;
     private Shape lowShape;
 
-    public EnergyTextGraphic( ModelViewTransform2D transform, PhetVector loc ) {
+    public EnergyTextGraphic( ModelViewTransform2D transform, Vector2D.Double loc ) {
         super( transform );
         this.loc = loc;
         text = SemiconductorResources.getString( "EnergyTextGraphic.EnergyText" );
@@ -51,8 +54,8 @@ public class EnergyTextGraphic extends TransformGraphic {
 
     }
 
-    private PhetVector getTopCenter( Rectangle2D bounds2D ) {
-        return new PhetVector( bounds2D.getX() + bounds2D.getWidth() / 2, bounds2D.getY() );
+    private Vector2D.Double getTopCenter( Rectangle2D bounds2D ) {
+        return new Vector2D.Double( bounds2D.getX() + bounds2D.getWidth() / 2, bounds2D.getY() );
     }
 
     public void recompute() {
@@ -65,9 +68,9 @@ public class EnergyTextGraphic extends TransformGraphic {
         trf.rotate( -Math.PI / 2 );
         trfShape = trf.createTransformedShape( outline );
 
-        PhetVector topPoint = getTopCenter( trfShape.getBounds2D() );
+        AbstractVector2D topPoint = getTopCenter( trfShape.getBounds2D() );
         topPoint = topPoint.getSubtractedInstance( 0, 40 );
-        PhetVector tipLocation = topPoint.getAddedInstance( 0, -200 );
+        AbstractVector2D tipLocation = topPoint.getAddedInstance( 0, -200 );
         arrowShape = new ArrowShape( topPoint, tipLocation, 50, 50, 20 ).getArrowShape();
 
         highShape = smallFont.createGlyphVector( graphics2D.getFontRenderContext(), SemiconductorResources.getString( "EnergyTextGraphic.HighText" ) ).getOutline( (float) tipLocation.getX() - 20, (float) tipLocation.getY() - 20 );

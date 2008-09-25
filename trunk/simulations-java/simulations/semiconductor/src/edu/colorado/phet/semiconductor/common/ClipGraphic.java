@@ -4,7 +4,8 @@ package edu.colorado.phet.semiconductor.common;
 import java.awt.*;
 
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+
 
 /**
  * User: Sam Reid
@@ -26,7 +27,7 @@ public class ClipGraphic extends TransformGraphic {
     }
 
     public void update() {
-        viewClip = transform.toAffineTransform().createTransformedShape( modelClip );
+        viewClip = transform.getAffineTransform().createTransformedShape( modelClip );
     }
 
     protected void finalize() throws Throwable {

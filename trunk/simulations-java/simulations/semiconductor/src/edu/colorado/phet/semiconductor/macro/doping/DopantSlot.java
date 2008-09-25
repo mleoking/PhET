@@ -3,10 +3,13 @@ package edu.colorado.phet.semiconductor.macro.doping;
 import java.awt.*;
 import java.io.IOException;
 
-import edu.colorado.phet.semiconductor.util.math.PhetVector;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.TransformListener;
+
+
+
 import edu.colorado.phet.semiconductor.util.RectangleUtils;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 public class DopantSlot implements TransformListener {
     DopantType dopant;
@@ -39,8 +42,8 @@ public class DopantSlot implements TransformListener {
         return dopant;
     }
 
-    public PhetVector getModelCenter() {
-        PhetVector center = RectangleUtils.getCenter( modelShape.getBounds2D() );
+    public Vector2D.Double getModelCenter() {
+        Vector2D.Double center = RectangleUtils.getCenter( modelShape.getBounds2D() );
         return center;
     }
 
@@ -51,7 +54,7 @@ public class DopantSlot implements TransformListener {
     }
 
     public void transformChanged( ModelViewTransform2D mvt ) {
-        viewShape = transform.toAffineTransform().createTransformedShape( modelShape );
+        viewShape = transform.getAffineTransform().createTransformedShape( modelShape );
         graphic.setShape( viewShape );
     }
 }

@@ -7,7 +7,8 @@ import edu.colorado.phet.semiconductor.macro.energy.bands.BandParticle;
 import edu.colorado.phet.semiconductor.macro.energy.bands.BandParticleState;
 import edu.colorado.phet.semiconductor.macro.energy.bands.EnergyCell;
 import edu.colorado.phet.semiconductor.macro.energy.states.ExitRightState;
-import edu.colorado.phet.semiconductor.util.math.PhetVector;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+
 
 /**
  * User: Sam Reid
@@ -31,7 +32,7 @@ public class ExitRightFrom extends StateTransition {
 
             double targetX = energySection.getRightBand().getX() + energySection.getRightBand().getWidth();
             double targetY = particle.getY();
-            PhetVector dest = new PhetVector( targetX, targetY );
+            Vector2D.Double dest = new Vector2D.Double( targetX, targetY );
             ExitRightState ers = new ExitRightState( dest, energySection.getSpeed(), energySection );
             particle.setState( ers );
         }

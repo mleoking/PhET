@@ -1,6 +1,7 @@
 package edu.colorado.phet.semiconductor.macro.energyprobe;
 
-import edu.colorado.phet.semiconductor.util.math.PhetVector;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+
 
 /**
  * User: Sam Reid
@@ -9,10 +10,10 @@ import edu.colorado.phet.semiconductor.util.math.PhetVector;
  */
 public class Cable {
     Lead lead;
-    private PhetVector attachmentPoint;
+    private Vector2D.Double attachmentPoint;
 
 
-    public Cable( Lead lead, PhetVector attachmentPoint ) {
+    public Cable( Lead lead, Vector2D.Double attachmentPoint ) {
         this.lead = lead;
         this.attachmentPoint = attachmentPoint;
     }
@@ -21,7 +22,7 @@ public class Cable {
         return lead;
     }
 
-    public PhetVector getAttachmentPoint() {
+    public Vector2D.Double getAttachmentPoint() {
         return attachmentPoint;
     }
 }

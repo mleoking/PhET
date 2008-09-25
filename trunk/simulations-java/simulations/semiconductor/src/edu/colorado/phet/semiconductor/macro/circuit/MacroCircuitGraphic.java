@@ -9,12 +9,15 @@ import java.util.ArrayList;
 import edu.colorado.phet.semiconductor.common.StretchedBufferedImage;
 import edu.colorado.phet.semiconductor.macro.circuit.battery.Battery;
 import edu.colorado.phet.semiconductor.macro.circuit.battery.BatteryListener;
-import edu.colorado.phet.semiconductor.util.math.PhetVector;
+
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.ShapeGraphic;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.TransformListener;
+
+
 import edu.colorado.phet.semiconductor.phetcommon.view.util.graphics.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * User: Sam Reid
@@ -44,7 +47,7 @@ public class MacroCircuitGraphic implements Graphic, BatteryListener {
             final LinearBranch b = circuit.wireAt( i );
             if ( b instanceof Wire ) {
                 Shape sh = new Line2D.Double( b.getStartPosition().toPoint2D(), b.getEndPosition().toPoint2D() );
-//            sh=transform.toAffineTransform().createTransformedShape(sh);
+//            sh=transform.getAffineTransform().createTransformedShape(sh);
                 Color wireColor = MacroCircuitGraphic.COPPER;
                 final ShapeGraphic sg = new ShapeGraphic( sh, wireColor, new BasicStroke( getParticleImage().getWidth() + 4 ) );
                 wireGraphics.add( sg );
@@ -53,7 +56,7 @@ public class MacroCircuitGraphic implements Graphic, BatteryListener {
                     public void transformChanged( ModelViewTransform2D modelViewTransform2D ) {
                         //To change body of implemented methods use Options | File Templates.
 //                    System.out.println("sh1 = " + sh1);
-                        Shape trf = transform.toAffineTransform().createTransformedShape( sh1 );
+                        Shape trf = transform.getAffineTransform().createTransformedShape( sh1 );
                         sg.setShape( trf );
                     }
                 } );
@@ -64,7 +67,7 @@ public class MacroCircuitGraphic implements Graphic, BatteryListener {
                 int viewWidth = transform.modelToViewY( circuit.getResistor().getHeight() );
                 Stroke stroke = new BasicStroke( viewWidth );
 //                final Shape square=stroke.createStrokedShape(sh);
-//            sh=transform.toAffineTransform().createTransformedShape(sh);
+//            sh=transform.getAffineTransform().createTransformedShape(sh);
                 this.resistorGraphic = new ShapeGraphic( sh, Color.yellow, stroke );
 
 //                final Shape sh1 = sh;
@@ -72,7 +75,7 @@ public class MacroCircuitGraphic implements Graphic, BatteryListener {
                     public void transformChanged( ModelViewTransform2D modelViewTransform2D ) {
                         //To change body of implemented methods use Options | File Templates.
 //                    System.out.println("sh1 = " + sh1);
-                        Shape trf = transform.toAffineTransform().createTransformedShape( sh );
+                        Shape trf = transform.getAffineTransform().createTransformedShape( sh );
                         resistorGraphic.setShape( trf );
                     }
                 } );
@@ -84,8 +87,8 @@ public class MacroCircuitGraphic implements Graphic, BatteryListener {
                 transform.addTransformListener( new TransformListener() {
                     public void transformChanged( ModelViewTransform2D modelViewTransform2D ) {
                         //To change body of implemented methods use Options | File Templates.
-                        PhetVector start = b.getEndPosition();
-                        PhetVector end = b.getStartPosition();
+                        Vector2D.Double start = b.getEndPosition();
+                        Vector2D.Double end = b.getStartPosition();
                         int height = batteryImage.getHeight();
                         int x = transform.modelToViewX( start.getX() );
                         int width = ( transform.modelToViewX( end.getX() ) - x );

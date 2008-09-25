@@ -3,7 +3,8 @@ package edu.colorado.phet.semiconductor.macro;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.semiconductor.util.math.PhetVector;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+
 
 /**
  * User: Sam Reid
@@ -30,7 +31,7 @@ public class Magnet {
         return new Rectangle2D.Double( bounds.x + x, bounds.y + y, bounds.width, bounds.height );
     }
 
-    public PhetVector getPlusSide() {
-        return new PhetVector( bounds.x, bounds.y );
+    public Vector2D.Double getPlusSide() {
+        return new Vector2D.Double( bounds.x, bounds.y );
     }
 }

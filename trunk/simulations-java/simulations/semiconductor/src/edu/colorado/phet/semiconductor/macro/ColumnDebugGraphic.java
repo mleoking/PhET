@@ -4,10 +4,12 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
-import edu.colorado.phet.semiconductor.util.math.PhetVector;
+
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+
 import edu.colorado.phet.semiconductor.util.RectangleUtils;
 
 /**
@@ -38,7 +40,7 @@ public class ColumnDebugGraphic implements Graphic {
                 Shape s = trf.createTransformedShape( r );
 //            g.draw(s );
                 int charge = energySection.getColumnCharge( i );
-                PhetVector ctr = RectangleUtils.getCenter( r );
+                Vector2D.Double ctr = RectangleUtils.getCenter( r );
                 Point pt = trf.modelToView( ctr );
                 g.drawString( "ch=" + charge, pt.x, pt.y );
             }

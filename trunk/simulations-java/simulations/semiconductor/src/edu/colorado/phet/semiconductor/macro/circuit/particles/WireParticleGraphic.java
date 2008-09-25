@@ -5,9 +5,12 @@ import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.semiconductor.common.SimpleBufferedImageGraphic;
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
-import edu.colorado.phet.semiconductor.util.math.PhetVector;
+
 import edu.colorado.phet.semiconductor.phetcommon.model.simpleobservable.SimpleObserver;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+
 
 /**
  * User: Sam Reid
@@ -30,13 +33,13 @@ public class WireParticleGraphic extends TransformGraphic {
     }
 
     public void update() {
-//        PhetVector modelLoc=particle.getPosition();
+//        Vector2D.Double modelLoc=particle.getPosition();
 //        Point pt=getTransform().modelToView(modelLoc);
 //        particle.
     }
 
     public void paint( Graphics2D graphics2D ) {
-        PhetVector modelLoc = particle.getPosition();
+        AbstractVector2D modelLoc = particle.getPosition();
         if ( modelLoc != null ) {
             Point pt = getTransform().modelToView( modelLoc );
             imageGraphic.setPosition( pt );

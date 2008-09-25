@@ -23,13 +23,16 @@ import edu.colorado.phet.semiconductor.macro.energy.statemodels.ExciteForConduct
 import edu.colorado.phet.semiconductor.macro.energy.statemodels.ModelCriteria;
 import edu.colorado.phet.semiconductor.macro.energy.states.MoveToCell;
 import edu.colorado.phet.semiconductor.macro.energy.states.Speed;
-import edu.colorado.phet.semiconductor.util.math.PhetVector;
+
 
 import edu.colorado.phet.semiconductor.phetcommon.model.simpleobservable.SimpleObserver;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+
 import edu.colorado.phet.semiconductor.util.RectangleUtils;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 
 /**
  * User: Sam Reid
@@ -73,7 +76,7 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
         this.plusImage = SemiconductorApplication.imageLoader.loadImage( "semiconductor/images/particle-red-plus.gif" );
         particleImage = MacroCircuitGraphic.getParticleImage();
         setupTwoRegions();
-        PhetVector textLocation = new PhetVector( .65, 1 );
+        Vector2D.Double textLocation = new Vector2D.Double( .65, 1 );
         energyTextGraphic = new EnergyTextGraphic( transform, textLocation );
         bucketSection = new BucketSection( transform, this, particleImage );
 //        stateModelSet = new StateModelSet( this );
@@ -396,17 +399,17 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
     }
 
     public void addEField( Rectangle2D.Double bandrect, Rectangle2D.Double bandrect2 ) {
-        PhetVector center = getCenter( bandrect, bandrect2 );
+        Vector2D.Double center = getCenter( bandrect, bandrect2 );
         ElectricFieldSection field = new ElectricFieldSection( center );
         ElectricFieldSectionGraphic fieldGraphic = new ElectricFieldSectionGraphic( field, transform );
         electricFields.add( field );
         electricFieldGraphics.add( fieldGraphic );
     }
 
-    public static PhetVector getCenter( Rectangle2D.Double a, Rectangle2D.Double b ) {
+    public static Vector2D.Double getCenter( Rectangle2D.Double a, Rectangle2D.Double b ) {
         Rectangle2D.Double ctrRect = new Rectangle2D.Double( a.x, a.y, a.width, a.height );
         ctrRect.add( b );
-        PhetVector center = RectangleUtils.getCenter( ctrRect );
+        Vector2D.Double center = RectangleUtils.getCenter( ctrRect );
         return center;
     }
 
@@ -852,7 +855,7 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
         double sum = 0;
         for ( int i = 0; i < particles.size(); i++ ) {
             BandParticle bandParticle = (BandParticle) particles.get( i );
-            PhetVector vel = bandParticle.getDX();
+            AbstractVector2D vel = bandParticle.getDX();
             double x = vel.getX();
             sum += x;
         }

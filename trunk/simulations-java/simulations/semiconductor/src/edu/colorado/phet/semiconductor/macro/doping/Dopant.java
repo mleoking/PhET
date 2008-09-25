@@ -1,8 +1,10 @@
 package edu.colorado.phet.semiconductor.macro.doping;
 
 import edu.colorado.phet.semiconductor.common.Particle;
-import edu.colorado.phet.semiconductor.util.math.PhetVector;
+
 import edu.colorado.phet.semiconductor.phetcommon.model.simpleobservable.SimpleObservable;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 
 /**
  * User: Sam Reid
@@ -13,12 +15,12 @@ public class Dopant extends SimpleObservable {
     private Particle particle;
     DopantType type;
 
-    public Dopant( PhetVector position, DopantType type ) {
+    public Dopant( AbstractVector2D position, DopantType type ) {
         this.type = type;
         this.particle = new Particle( position );
     }
 
-    public PhetVector getPosition() {
+    public AbstractVector2D getPosition() {
         return particle.getPosition();
     }
 
