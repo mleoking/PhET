@@ -38,10 +38,12 @@ public class StatesOfMatterApplication extends PiccoloPhetApplication implements
     private SolidLiquidGasModule m_solidLiquidGasModule;
     private PhaseChangesModule   m_phaseChangesModule;
     private InteractionPotentialModule   m_interactionPotentialModule;
+    /*
     // TODO: JPB TBD - These prototype modules are commented out for now, and
     // should be completely removed when they are no longer needed.
 //    private ExpSolidLiquidGasModule   _experimentalModule;
 //    private Exp2SolidLiquidGasModule   _experimentalModule2;
+    */
     private static TabbedModulePanePiccolo m_tabbedModulePane;
     
     //----------------------------------------------------------------------------
@@ -142,7 +144,7 @@ public class StatesOfMatterApplication extends PiccoloPhetApplication implements
     }
 
     public Color getControlPanelBackground() {
-        return ( (Module) getModule( 0 ) ).getControlPanel().getBackground();
+        return getModule( 0 ).getControlPanel().getBackground();
     }
     
     //----------------------------------------------------------------------------
