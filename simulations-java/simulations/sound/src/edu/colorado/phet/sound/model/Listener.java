@@ -6,10 +6,10 @@
  */
 package edu.colorado.phet.sound.model;
 
-import edu.colorado.phet.common_sound.model.ModelElement;
-import edu.colorado.phet.common_sound.util.SimpleObservable;
-
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
+import edu.colorado.phet.common_sound.model.ModelElement;
 
 /**
  * This is a placeholder class in the model for the person listening to the sound

@@ -6,10 +6,10 @@
  */
 package edu.colorado.phet.sound.model;
 
-import edu.colorado.phet.common_sound.util.SimpleObservable;
-import edu.colorado.phet.sound.SoundConfig;
-
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
+import edu.colorado.phet.sound.SoundConfig;
 
 public class Wavefront extends SimpleObservable /*implements ModelElement*/ {
 

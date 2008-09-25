@@ -10,17 +10,20 @@
  */
 package edu.colorado.phet.common_sound.view.phetgraphics;
 
-import edu.colorado.phet.common_sound.util.MultiMap;
-import edu.colorado.phet.common_sound.view.util.RectangleUtils;
-
-import javax.swing.event.MouseInputListener;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
+
+import javax.swing.event.MouseInputListener;
+
+import edu.colorado.phet.common.phetcommon.util.MultiMap;
+import edu.colorado.phet.common_sound.view.util.RectangleUtils;
 
 /**
  * GraphicLayerSet is a collection of PhetGraphics (referred to as "children").

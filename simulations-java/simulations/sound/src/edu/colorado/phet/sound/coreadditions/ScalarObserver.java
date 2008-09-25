@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.sound.coreadditions;
 
-import edu.colorado.phet.common_sound.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 public interface ScalarObserver extends SimpleObserver {
 }
