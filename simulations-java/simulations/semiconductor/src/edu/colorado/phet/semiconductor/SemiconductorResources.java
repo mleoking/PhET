@@ -8,4 +8,8 @@ public class SemiconductorResources {
     public static String getString( String key ) {
         return resources.getLocalizedString( key );
     }
+
+    public static PhetResources getResourceLoader() {
+        return resources;
+    }
 }

@@ -8,7 +8,6 @@ package edu.colorado.phet.semiconductor.phetcommon.application;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.semiconductor.phetcommon.model.clock.AbstractClock;
 import edu.colorado.phet.semiconductor.phetcommon.model.clock.ClockTickListener;
 
 /**
@@ -84,7 +83,7 @@ public class ModuleManager implements ClockTickListener {
     /**
      * Forwards clock ticks to the active module.
      */
-    public void clockTicked( AbstractClock c, double dt ) {
-        getActiveModule().getModel().clockTicked( c, dt );
+    public void clockTicked( double dt ) {
+        getActiveModule().getModel().clockTicked( dt );
     }
 }

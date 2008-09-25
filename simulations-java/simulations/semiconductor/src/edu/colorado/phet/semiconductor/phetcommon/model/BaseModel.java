@@ -30,7 +30,7 @@ public class BaseModel extends CompositeModelElement implements ClockTickListene
         super.stepInTime( dt );
     }
 
-    public void clockTicked( AbstractClock c, double dt ) {
+    public void clockTicked( double dt ) {
         stepInTime( dt );
     }
 }

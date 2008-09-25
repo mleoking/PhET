@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.semiconductor.SemiconductorResources;
 
 public class PhetFileMenu extends JMenu {
