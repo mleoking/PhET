@@ -2,7 +2,8 @@ package edu.colorado.phet.semiconductor.phetcommon.model;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.semiconductor.phetcommon.model.simpleobservable.SimpleObservable;
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
+
 
 /**
  * Created by IntelliJ IDEA.

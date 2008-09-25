@@ -1,4 +1,4 @@
-package edu.colorado.phet.semiconductor.phetcommon.view.graphics.mousecontrols;
+package edu.colorado.phet.semiconductor.oldphetgraphics.graphics.mousecontrols;
 
 /**
  * User: Sam Reid

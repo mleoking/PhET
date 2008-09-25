@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.semiconductor.SemiconductorApplication;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.Graphic;
 
 /**
  * User: Sam Reid

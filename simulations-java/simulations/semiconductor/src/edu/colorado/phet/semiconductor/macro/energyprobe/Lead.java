@@ -1,8 +1,9 @@
 package edu.colorado.phet.semiconductor.macro.energyprobe;
 
 
-import edu.colorado.phet.semiconductor.phetcommon.model.simpleobservable.SimpleObservable;
+
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 /**
  * User: Sam Reid
@@ -23,7 +24,7 @@ public class Lead extends SimpleObservable {
 
     public void translate( double x, int y ) {
         tip = new Vector2D.Double( tip.getX() + x, tip.getY() + y );
-        updateObservers();
+        notifyObservers();
     }
 
 }

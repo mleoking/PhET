@@ -2,9 +2,10 @@ package edu.colorado.phet.semiconductor.macro.doping;
 
 import edu.colorado.phet.semiconductor.common.Particle;
 
-import edu.colorado.phet.semiconductor.phetcommon.model.simpleobservable.SimpleObservable;
+
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 /**
  * User: Sam Reid
@@ -26,7 +27,7 @@ public class Dopant extends SimpleObservable {
 
     public void translate( double x, double y ) {
         particle.translate( x, y );
-        updateObservers();
+        notifyObservers();
     }
 
     public DopantType getType() {

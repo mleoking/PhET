@@ -1,5 +1,5 @@
 /*, 2003.*/
-package edu.colorado.phet.semiconductor.phetcommon.view.graphics.mousecontrols;
+package edu.colorado.phet.semiconductor.oldphetgraphics.graphics.mousecontrols;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;

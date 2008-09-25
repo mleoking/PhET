@@ -5,8 +5,8 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.bounds.Boundary;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.Graphic;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.bounds.Boundary;
 
 /**
  * User: Sam Reid

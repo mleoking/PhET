@@ -1,4 +1,4 @@
-package edu.colorado.phet.semiconductor.phetcommon.view.graphics;
+package edu.colorado.phet.semiconductor.oldphetgraphics.graphics;
 
 import java.awt.*;
 

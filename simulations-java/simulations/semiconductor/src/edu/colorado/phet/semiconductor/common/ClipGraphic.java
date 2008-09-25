@@ -3,7 +3,7 @@ package edu.colorado.phet.semiconductor.common;
 
 import java.awt.*;
 
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.Graphic;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 
 

@@ -1,11 +1,11 @@
-package edu.colorado.phet.semiconductor.phetcommon.view.graphics.mousecontrols;
+package edu.colorado.phet.semiconductor.oldphetgraphics.graphics.mousecontrols;
 
 import java.awt.event.MouseEvent;
 
 import javax.swing.event.MouseInputListener;
 
 import edu.colorado.phet.semiconductor.phetcommon.view.CompositeInteractiveGraphic;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.InteractiveGraphic;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.InteractiveGraphic;
 
 /**
  * User: Sam Reid

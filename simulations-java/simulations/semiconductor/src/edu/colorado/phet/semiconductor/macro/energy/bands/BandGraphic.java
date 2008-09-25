@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformLis
 import edu.colorado.phet.semiconductor.SemiconductorResources;
 import edu.colorado.phet.semiconductor.common.EnergySpaceRegion;
 import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.Graphic;
 
 
 

@@ -4,7 +4,7 @@ import java.awt.*;
 
 import javax.swing.border.Border;
 
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.Graphic;
 
 /**
  * User: Sam Reid

@@ -25,13 +25,13 @@ import edu.colorado.phet.semiconductor.common.TextGraphic;
 
 import edu.colorado.phet.semiconductor.phetcommon.view.ApparatusPanel;
 import edu.colorado.phet.semiconductor.phetcommon.view.CompositeInteractiveGraphic;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.DefaultInteractiveGraphic;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.InteractiveGraphic;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.ShapeGraphic;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.mousecontrols.DragToCreate;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.mousecontrols.InteractiveGraphicCreator;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.mousecontrols.Translatable;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.DefaultInteractiveGraphic;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.Graphic;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.InteractiveGraphic;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.ShapeGraphic;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.mousecontrols.DragToCreate;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.mousecontrols.InteractiveGraphicCreator;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.mousecontrols.Translatable;
 
 
 

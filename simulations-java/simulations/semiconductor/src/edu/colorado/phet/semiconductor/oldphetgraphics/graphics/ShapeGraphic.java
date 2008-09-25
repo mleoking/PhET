@@ -4,11 +4,11 @@
  * Author: Another Guy
  * Date: Dec 18, 2003
  */
-package edu.colorado.phet.semiconductor.phetcommon.view.graphics;
+package edu.colorado.phet.semiconductor.oldphetgraphics.graphics;
 
 import java.awt.*;
 
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.bounds.Boundary;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.bounds.Boundary;
 
 /**
  * Wrap an Area around your Shape to make it mutable.

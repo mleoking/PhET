@@ -14,10 +14,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import edu.colorado.phet.semiconductor.phetcommon.util.MultiMap;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.InteractiveGraphic;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.bounds.Boundary;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.mousecontrols.MouseManager;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.Graphic;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.InteractiveGraphic;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.bounds.Boundary;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.mousecontrols.MouseManager;
 
 public class CompositeInteractiveGraphic implements InteractiveGraphic {
 

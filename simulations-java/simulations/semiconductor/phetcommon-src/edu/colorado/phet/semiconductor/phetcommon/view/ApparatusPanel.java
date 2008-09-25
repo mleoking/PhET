@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.Graphic;
 
 /**
  * This is a base class for panels that contain graphic representations
@@ -24,7 +24,7 @@ import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
  * in which objects in a given level are drawn is undefined.
  * <p/>
  *
- * @see edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic
+ * @see edu.colorado.phet.semiconductor.oldphetgraphics.graphics.Graphic
  */
 public class ApparatusPanel extends JPanel {
 

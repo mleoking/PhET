@@ -22,7 +22,7 @@ import edu.colorado.phet.semiconductor.macro.doping.DopantSlot;
 import edu.colorado.phet.semiconductor.macro.energy.states.Speed;
 
 
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.Graphic;
 
 
 import edu.colorado.phet.semiconductor.util.RectangleUtils;
