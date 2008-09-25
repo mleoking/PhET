@@ -17,9 +17,6 @@ import edu.colorado.phet.semiconductor.SemiconductorResources;
 
 public class PhetFileMenu extends JMenu {
 
-    static {
-        SimStrings.setStrings( "localization/SemiConductorPCStrings" );
-    }
 
     public PhetFileMenu() {
         this( new JComponent[]{} );

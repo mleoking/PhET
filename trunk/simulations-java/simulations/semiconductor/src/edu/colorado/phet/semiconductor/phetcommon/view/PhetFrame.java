@@ -13,7 +13,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.semiconductor.SemiconductorResources;
 import edu.colorado.phet.semiconductor.phetcommon.application.PhetApplication;
 import edu.colorado.phet.semiconductor.phetcommon.view.components.menu.HelpMenu;
@@ -24,10 +23,6 @@ public class PhetFrame extends JFrame {
     private JMenu defaultFileMenu;
     PhetApplication app;
     private GraphicsSetup graphicsSetup = new BasicGraphicsSetup();
-
-    static {
-        SimStrings.setStrings( "localization/SemiConductorPCStrings" );
-    }
 
     public PhetFrame( PhetApplication app ) {
         super( app.getApplicationDescriptor().getWindowTitle() );

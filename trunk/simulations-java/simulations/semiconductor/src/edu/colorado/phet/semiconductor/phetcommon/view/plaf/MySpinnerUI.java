@@ -9,7 +9,6 @@ import java.awt.event.MouseListener;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicSpinnerUI;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.semiconductor.SemiconductorResources;
 
 /**
@@ -29,10 +28,6 @@ public class MySpinnerUI extends BasicSpinnerUI {
 //    static ImageIcon uppressed = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( "semiconductor/images/components/webt/up1-pressed.gif" ) ) );
 //    static ImageIcon down = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( "semiconductor/images/components/webt/down1-unpressed.gif" ) ) );
 //    static ImageIcon downpressed = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( "semiconductor/images/components/webt/down1-pressed.gif" ) ) );
-
-    static {
-        SimStrings.setStrings( "localization/SemiConductorPCStrings" );
-    }
 
     public MySpinnerUI() {
         super();

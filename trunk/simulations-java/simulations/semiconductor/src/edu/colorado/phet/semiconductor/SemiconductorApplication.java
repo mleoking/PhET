@@ -13,7 +13,6 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.semiconductor.macro.*;
 import edu.colorado.phet.semiconductor.macro.circuit.CircuitSection;
 import edu.colorado.phet.semiconductor.macro.circuit.MacroCircuitGraphic;
@@ -334,7 +333,6 @@ public class SemiconductorApplication extends Module implements Graphic {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 new PhetLookAndFeel().initLookAndFeel();
-                SimStrings.getInstance().init( args, localizedStringsPath );
 
 //        UIManager.setLookAndFeel(new SemiconductorLookAndFeel());
 //        FrameSetup fs = new MaxExtentFrameSetup( new FullScreen() );
