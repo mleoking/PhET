@@ -3,6 +3,8 @@
 package edu.colorado.phet.statesofmatter.view;
 
 import javax.swing.SwingUtilities;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
@@ -61,6 +63,15 @@ public class StoveNode extends PNode {
         });
         */
         m_stoveControlSlider = new StoveControlSlider();
+        m_stoveControlSlider.addChangeListener( new ChangeListener(){
+            public void stateChanged( ChangeEvent e ) {
+                m_heat = m_stoveControlSlider.getNormalizedValue();
+                update();
+                if (m_model != null){
+                    m_model.setHeatingCoolingAmount( m_heat );
+                }
+            }
+        });
         PSwing stoveControlPanelNode = new PSwing(m_stoveControlSlider);
         addChild(stoveControlPanelNode);
         stoveControlPanelNode.setOffset(m_stoveImage.getFullBoundsReference().getWidth() + 15, 0);
