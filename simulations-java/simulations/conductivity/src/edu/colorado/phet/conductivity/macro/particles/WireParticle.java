@@ -6,8 +6,8 @@ package edu.colorado.phet.conductivity.macro.particles;
 
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.conductivity.macro.circuit.Circuit;
 
 public class WireParticle extends SimpleObservable
