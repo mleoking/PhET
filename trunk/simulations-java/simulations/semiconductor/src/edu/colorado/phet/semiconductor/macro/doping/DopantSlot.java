@@ -3,7 +3,7 @@ package edu.colorado.phet.semiconductor.macro.doping;
 import java.awt.*;
 import java.io.IOException;
 
-import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
+import edu.colorado.phet.semiconductor.util.math.PhetVector;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.semiconductor.util.RectangleUtils;

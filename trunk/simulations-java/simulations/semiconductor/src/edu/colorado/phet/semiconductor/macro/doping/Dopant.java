@@ -1,7 +1,7 @@
 package edu.colorado.phet.semiconductor.macro.doping;
 
 import edu.colorado.phet.semiconductor.common.Particle;
-import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
+import edu.colorado.phet.semiconductor.util.math.PhetVector;
 import edu.colorado.phet.semiconductor.phetcommon.model.simpleobservable.SimpleObservable;
 
 /**

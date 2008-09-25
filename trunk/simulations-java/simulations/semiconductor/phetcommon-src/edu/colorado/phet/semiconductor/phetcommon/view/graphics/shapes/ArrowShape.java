@@ -3,7 +3,7 @@ package edu.colorado.phet.semiconductor.phetcommon.view.graphics.shapes;
 
 import java.awt.geom.GeneralPath;
 
-import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
+import edu.colorado.phet.semiconductor.util.math.PhetVector;
 import edu.colorado.phet.semiconductor.phetcommon.view.util.DoubleGeneralPath;
 
 /**

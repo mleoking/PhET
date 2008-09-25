@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.semiconductor.common.StretchedBufferedImage;
 import edu.colorado.phet.semiconductor.macro.circuit.battery.Battery;
 import edu.colorado.phet.semiconductor.macro.circuit.battery.BatteryListener;
-import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
+import edu.colorado.phet.semiconductor.util.math.PhetVector;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.Graphic;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.ShapeGraphic;
 import edu.colorado.phet.semiconductor.phetcommon.view.graphics.transforms.ModelViewTransform2D;

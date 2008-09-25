@@ -3,7 +3,7 @@ package edu.colorado.phet.semiconductor.macro.energy.states;
 
 import edu.colorado.phet.semiconductor.macro.energy.bands.BandParticle;
 import edu.colorado.phet.semiconductor.macro.energy.bands.BandParticleState;
-import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
+import edu.colorado.phet.semiconductor.util.math.PhetVector;
 
 /**
  * User: Sam Reid

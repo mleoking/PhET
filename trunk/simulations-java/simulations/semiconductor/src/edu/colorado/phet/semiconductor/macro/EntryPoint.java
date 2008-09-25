@@ -2,7 +2,7 @@
 package edu.colorado.phet.semiconductor.macro;
 
 import edu.colorado.phet.semiconductor.macro.energy.bands.EnergyCell;
-import edu.colorado.phet.semiconductor.phetcommon.math.PhetVector;
+import edu.colorado.phet.semiconductor.util.math.PhetVector;
 
 /**
  * User: Sam Reid
