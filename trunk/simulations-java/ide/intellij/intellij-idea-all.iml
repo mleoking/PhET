@@ -13,6 +13,7 @@
       <sourceFolder url="file://$MODULE_DIR$/../../common/charts/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../common/collision/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../common/controls/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../common/java-version-checker/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../common/jfreechart-phet/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../common/mechanics/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../common/motion/src" isTestSource="false" />
