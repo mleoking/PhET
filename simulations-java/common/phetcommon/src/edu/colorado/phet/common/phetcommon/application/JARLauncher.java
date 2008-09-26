@@ -1,5 +1,5 @@
 /* Copyright 2007, University of Colorado */
-package edu.colorado.phet.common.phetcommon.view.util;
+package edu.colorado.phet.common.phetcommon.application;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -16,6 +16,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
  * FlavorLauncher provides functionality for running PhET simulations from double-clickable JAR files.
@@ -33,7 +35,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
  * @author Sam Reid
  * @version $Revision$
  */
-public class FlavorLauncher extends JFrame {
+public class JARLauncher extends JFrame {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -53,7 +55,7 @@ public class FlavorLauncher extends JFrame {
      * @param args command line arguments
      * @param info
      */
-    public FlavorLauncher( String[] args, SimulationInfo[] info ) {
+    public JARLauncher( String[] args, SimulationInfo[] info ) {
         super();
         _args = args;
         this.info = info;
@@ -295,7 +297,7 @@ public class FlavorLauncher extends JFrame {
             info[0].launch();
         }
         else {
-            FlavorLauncher launcher = new FlavorLauncher( args, info );
+            JARLauncher launcher = new JARLauncher( args, info );
             SwingUtils.centerWindowOnScreen( launcher );
             launcher.setVisible( true );
         }
