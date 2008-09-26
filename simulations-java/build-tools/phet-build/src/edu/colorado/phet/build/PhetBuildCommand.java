@@ -67,6 +67,7 @@ public class PhetBuildCommand implements Command {
 
         Javac javac = new Javac();
         javac.setSource( JAVA_SOURCE_VERSION );
+        javac.setTarget( JAVA_SOURCE_VERSION );
         javac.setSrcdir( new Path( antTaskRunner.getProject(), toString( src ) ) );
         javac.setDestdir( project.getClassesDirectory() );
         javac.setClasspath( new Path( antTaskRunner.getProject(), toString( classpath ) ) );
@@ -92,6 +93,7 @@ public class PhetBuildCommand implements Command {
 
         Javac javac = new Javac();
         javac.setSource( "1.4" );
+        javac.setTarget( "1.4" );
         javac.setSrcdir( new Path( antTaskRunner.getProject(), "common/java-version-checker/src" ) );
         javac.setDestdir( project.getClassesDirectory() );
         javac.setDebugLevel( "lines,source" );
