@@ -89,7 +89,7 @@ public class ParticleNode extends PNode {
     }
     
     public ParticleNode( StatesOfMatterAtom particle, ModelViewTransform mvt ){
-        // If not explicitly specified, don't use the gradient, since it is
+        // If not explicitly specified, don't use the , since it is
         // more computationally expensive.
         this(particle, mvt, false);
     }
@@ -174,8 +174,8 @@ public class ParticleNode extends PNode {
 
         if (m_useGradient){
             double atomRadius = atom.getRadius();
-            return ( new RoundGradientPaint( atomRadius / 3, atomRadius / 3, Color.WHITE, 
-                    new Point2D.Double( atomRadius, atomRadius ), baseColor ) );
+            return ( new RoundGradientPaint( atomRadius, -atomRadius, Color.WHITE,
+                    new Point2D.Double( -atomRadius, atomRadius ), baseColor ) );
             
         }
         else{
