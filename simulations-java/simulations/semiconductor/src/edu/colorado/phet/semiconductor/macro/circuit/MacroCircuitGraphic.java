@@ -6,18 +6,15 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.semiconductor.common.StretchedBufferedImage;
 import edu.colorado.phet.semiconductor.macro.circuit.battery.Battery;
 import edu.colorado.phet.semiconductor.macro.circuit.battery.BatteryListener;
-
 import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.Graphic;
 import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.ShapeGraphic;
-
-
-import edu.colorado.phet.semiconductor.phetcommon.view.util.graphics.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * User: Sam Reid

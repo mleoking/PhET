@@ -9,7 +9,7 @@ import edu.colorado.phet.semiconductor.macro.energy.states.Speed;
 import edu.colorado.phet.semiconductor.macro.energy.transitions.ExitLeftFrom;
 import edu.colorado.phet.semiconductor.macro.energy.transitions.ExitRightFrom;
 import edu.colorado.phet.semiconductor.macro.energy.transitions.Move;
-import edu.colorado.phet.semiconductor.phetcommon.model.CompositeModelElement;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.CompositeModelElement;
 
 /**
  * User: Sam Reid

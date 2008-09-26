@@ -1,4 +1,4 @@
-package edu.colorado.phet.semiconductor.phetcommon.model;
+package edu.colorado.phet.semiconductor.oldphetgraphics.graphics;
 
 import java.util.ArrayList;
 
@@ -20,7 +20,7 @@ public class CompositeModelElement extends SimpleObservable implements edu.color
     }
 
     public edu.colorado.phet.common.phetcommon.model.ModelElement modelElementAt( int i ) {
-        return (edu.colorado.phet.common.phetcommon.model.ModelElement ) modelElements.get( i );
+        return (edu.colorado.phet.common.phetcommon.model.ModelElement) modelElements.get( i );
     }
 
     public int numModelElements() {

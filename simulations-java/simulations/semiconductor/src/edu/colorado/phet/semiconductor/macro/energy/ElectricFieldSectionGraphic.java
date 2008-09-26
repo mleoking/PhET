@@ -3,9 +3,9 @@ package edu.colorado.phet.semiconductor.macro.energy;
 
 import java.awt.*;
 
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.semiconductor.SemiconductorResources;
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 
 
 /**

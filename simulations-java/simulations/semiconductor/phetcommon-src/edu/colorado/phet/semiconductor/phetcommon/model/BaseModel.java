@@ -7,6 +7,7 @@ package edu.colorado.phet.semiconductor.phetcommon.model;
 import edu.colorado.phet.semiconductor.phetcommon.model.clock.AbstractClock;
 import edu.colorado.phet.semiconductor.phetcommon.model.clock.ClockTickListener;
 import edu.colorado.phet.semiconductor.phetcommon.model.command.CommandQueue;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.CompositeModelElement;
 
 /**
  * This class is encompasses all the model elements in a physical system. It provides

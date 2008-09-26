@@ -4,9 +4,9 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.semiconductor.common.TargetedImageGraphic2;
 import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.Graphic;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 
 
 /**

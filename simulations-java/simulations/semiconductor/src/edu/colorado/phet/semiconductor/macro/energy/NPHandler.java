@@ -1,5 +1,6 @@
 package edu.colorado.phet.semiconductor.macro.energy;
 
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.semiconductor.macro.doping.DopantType;
 import edu.colorado.phet.semiconductor.macro.energy.bands.*;
 import edu.colorado.phet.semiconductor.macro.energy.statemodels.Entrance;
@@ -8,7 +9,6 @@ import edu.colorado.phet.semiconductor.macro.energy.statemodels.ModelCriteria;
 import edu.colorado.phet.semiconductor.macro.energy.statemodels.TypeCriteria;
 import edu.colorado.phet.semiconductor.macro.energy.transitions.ExitRight;
 import edu.colorado.phet.semiconductor.macro.energy.transitions.Move;
-import edu.colorado.phet.common.phetcommon.model.ModelElement;
 
 
 /**

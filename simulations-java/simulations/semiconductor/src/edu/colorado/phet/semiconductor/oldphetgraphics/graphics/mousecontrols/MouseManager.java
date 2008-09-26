@@ -6,7 +6,7 @@ import java.util.Iterator;
 
 import javax.swing.event.MouseInputListener;
 
-import edu.colorado.phet.semiconductor.phetcommon.util.MultiMap;
+import edu.colorado.phet.common.phetcommon.util.MultiMap;
 import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.bounds.Boundary;
 
 /**

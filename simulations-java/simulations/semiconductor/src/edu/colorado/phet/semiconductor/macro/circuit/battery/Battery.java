@@ -2,8 +2,8 @@ package edu.colorado.phet.semiconductor.macro.circuit.battery;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.semiconductor.macro.circuit.LinearBranch;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.semiconductor.macro.circuit.LinearBranch;
 
 
 /**

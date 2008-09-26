@@ -9,7 +9,7 @@ package edu.colorado.phet.semiconductor.phetcommon.application;
 import javax.swing.*;
 
 import edu.colorado.phet.semiconductor.phetcommon.model.BaseModel;
-import edu.colorado.phet.semiconductor.phetcommon.view.ApparatusPanel;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.ApparatusPanel;
 import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.Graphic;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 

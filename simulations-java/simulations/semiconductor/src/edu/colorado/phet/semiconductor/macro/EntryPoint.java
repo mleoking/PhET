@@ -1,8 +1,8 @@
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.macro;
 
-import edu.colorado.phet.semiconductor.macro.energy.bands.EnergyCell;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.semiconductor.macro.energy.bands.EnergyCell;
 
 
 /**

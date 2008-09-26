@@ -4,13 +4,11 @@ package edu.colorado.phet.semiconductor.macro.energy;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
-import edu.colorado.phet.semiconductor.phetcommon.view.graphics.shapes.ArrowShape;
-
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.shapes.ArrowShape;
 
 /**
  * User: Sam Reid
