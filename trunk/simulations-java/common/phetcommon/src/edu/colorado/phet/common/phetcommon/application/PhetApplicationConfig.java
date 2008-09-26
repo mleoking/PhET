@@ -357,23 +357,23 @@ public class PhetApplicationConfig {
                 }else{
                     new RuntimeException( "No applicationconstructor specified").printStackTrace(  );
                 }
-                doTracking();
+//                doTracking();
             }
         } );
     }
 
-    private void doTracking() {
-        String URL = "http://phet.colorado.edu/tracking/phet-tracking.php?test=true&sim=" + resourceLoader.getProjectName() + "&version=" + getVersion();
-        try {
-            URL url = new URL( URL);
-            InputStream inputStream = url.openStream();
-            inputStream.close();
-        }
-        catch( MalformedURLException e ) {
-            e.printStackTrace();
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-    }
+//    private void doTracking() {
+//        String URL = "http://phet.colorado.edu/tracking/phet-tracking-url.php?test=true&sim=" + resourceLoader.getProjectName() + "&version=" + getVersion();
+//        try {
+//            URL url = new URL( URL);
+//            InputStream inputStream = url.openStream();
+//            inputStream.close();
+//        }
+//        catch( MalformedURLException e ) {
+//            e.printStackTrace();
+//        }
+//        catch( IOException e ) {
+//            e.printStackTrace();
+//        }
+//    }
 }
