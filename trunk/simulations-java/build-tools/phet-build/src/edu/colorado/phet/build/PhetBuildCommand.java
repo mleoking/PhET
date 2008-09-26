@@ -24,7 +24,7 @@ public class PhetBuildCommand implements Command {
     private final AntTaskRunner antTaskRunner;
     private final boolean shrink;
     private final File outputJar;
-    public static final String FLAVOR_LAUNCHER = "edu.colorado.phet.common.phetcommon.view.util.FlavorLauncher";
+    public static final String FLAVOR_LAUNCHER = "edu.colorado.phet.common.application.JARLauncher";
 
     public PhetBuildCommand( PhetProject project, AntTaskRunner taskRunner, boolean shrink, File outputJar ) {
         this.project = project;
