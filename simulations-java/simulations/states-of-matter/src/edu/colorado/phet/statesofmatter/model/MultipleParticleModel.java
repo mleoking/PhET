@@ -2559,6 +2559,8 @@ public class MultipleParticleModel {
      * vector.
      * 
      * @param position - Current position of the particle.
+     * @param containerWidth - Width of the container where particles are held.
+     * @param containerHeight - Height of the container where particles are held.
      * @param resultantForce - Vector in which the resulting force is returned.
      */
     private void calculateWallForce(Point2D position, double containerWidth, double containerHeight,
@@ -2584,33 +2586,38 @@ public class MultipleParticleModel {
 	        if (xPos < WALL_DISTANCE_THRESHOLD){
 	            // Close enough to the left wall to feel the force.
 	            if (xPos < minDistance){
-	                // Limit the distance, and thus the force, if we are really close.
-	                xPos = minDistance;
-	            }
+                    if ((xPos < 0) && (m_lidBlownOff)){
+                        // The particle is outside the container after the
+                        // container has exploded, so don't let the walls
+                        // exert any force.
+                        xPos = Double.POSITIVE_INFINITY;
+                    }
+                    else{
+                        // Limit the distance, and thus the force, if we are really close.
+                        xPos = minDistance;
+                    }
+                }
 	            resultantForce.setX( (48/(Math.pow(xPos, 13))) - (24/(Math.pow( xPos, 7))) );
 	            m_potentialEnergy += 4/(Math.pow(xPos, 12)) - 4/(Math.pow( xPos, 6)) + 1;
-	            
-	            if (xPos < 0) {
-	                // If particles are energetic enough to make it outside of the
-	                // side wall in a single iteration, explode the container.
-	                explode();
-	            }
 	        }
 	        else if (containerWidth - xPos < WALL_DISTANCE_THRESHOLD){
 	            // Close enough to the right wall to feel the force.
 	            distance = containerWidth - xPos;
 	            if (distance < minDistance){
-	                distance = minDistance;
-	            }
+                    if ((distance < 0) && (m_lidBlownOff)){
+                        // The particle is outside the container after the
+                        // container has exploded, so don't let the walls
+                        // exert any force.
+                        xPos = Double.POSITIVE_INFINITY;
+                    }
+                    else{
+                        distance = minDistance;
+                    }
+                }
 	            resultantForce.setX( -(48/(Math.pow(distance, 13))) + 
 	                    (24/(Math.pow( distance, 7))) );
 	            m_potentialEnergy += 4/(Math.pow(distance, 12)) - 
 	                    4/(Math.pow( distance, 6)) + 1;
-	            if (xPos > containerWidth) {
-	                // If particles are energetic enough to make it outside of the
-	                // side wall in a single iteration, explode the container.
-	                explode();
-	            }
 	        }
         }
         
@@ -2618,10 +2625,19 @@ public class MultipleParticleModel {
         if (yPos < WALL_DISTANCE_THRESHOLD){
             // Close enough to the bottom wall to feel the force.
             if (yPos < minDistance){
+                if ((yPos < 0) && (!m_lidBlownOff)){
+                    // The particles are energetic enough to end up outside
+                    // the container, so consider it to be exploded.
+                    m_lidBlownOff = true;
+                }
                 yPos = minDistance;
             }
-            resultantForce.setY( 48/(Math.pow(yPos, 13)) - (24/(Math.pow( yPos, 7))) );
-            m_potentialEnergy += 4/(Math.pow(yPos, 12)) - 4/(Math.pow( yPos, 6)) + 1;
+            if (!m_lidBlownOff || ((xPos > 0) && (xPos < containerWidth))){
+                // Only calculate the force if the particle is inside the
+                // container.
+                resultantForce.setY( 48/(Math.pow(yPos, 13)) - (24/(Math.pow( yPos, 7))) );
+                m_potentialEnergy += 4/(Math.pow(yPos, 12)) - 4/(Math.pow( yPos, 6)) + 1;
+            }
         }
         else if ( ( containerHeight - yPos < WALL_DISTANCE_THRESHOLD ) && !m_lidBlownOff ){
             // Close enough to the top to feel the force.
@@ -2647,7 +2663,6 @@ public class MultipleParticleModel {
         if (m_lidBlownOff == false) {
             
             m_lidBlownOff = true;
-            m_gravitationalAcceleration = 0;  // If we don't do this, the particles come back after a while.
             notifyContainerExploded();
         }
     }
@@ -2657,7 +2672,6 @@ public class MultipleParticleModel {
      * is dependent on the type of molecule selected.  The values and ranges
      * used in this method were derived from information provided by Paul
      * Beale.
-     * 
      */
     private double convertInternalTemperatureToKelvin(){
         
@@ -2690,7 +2704,12 @@ public class MultipleParticleModel {
             break;
 
         case StatesOfMatterConstants.WATER:
-            temperatureInKelvin = m_temperatureSetPoint * 1000;
+            if (m_temperatureSetPoint <= 0.275){
+                temperatureInKelvin = m_temperatureSetPoint * 1000;
+            }
+            else{
+                temperatureInKelvin = m_temperatureSetPoint * 426.2 + 157.8;
+            }
             break;
             
         case StatesOfMatterConstants.DIATOMIC_OXYGEN:
