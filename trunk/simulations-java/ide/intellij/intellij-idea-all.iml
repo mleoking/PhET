@@ -37,7 +37,6 @@
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/bound-states/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/circuit-construction-kit/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/color-vision/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/conductivity/phetcommon/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/conductivity/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/discharge-lamps/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/distance-ladder/phetcommon/src" isTestSource="false" />
@@ -77,6 +76,7 @@
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/rotation/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/rutherford-scattering/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/self-driven-particle-model/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations/semiconductor/phetcommon-src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/semiconductor/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/signal-circuit/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/sim-template/src" isTestSource="false" />
