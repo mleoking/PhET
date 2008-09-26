@@ -12,14 +12,16 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.BaseModel;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.model.BaseModel;
-import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.semiconductor.macro.*;
 import edu.colorado.phet.semiconductor.macro.circuit.CircuitSection;
 import edu.colorado.phet.semiconductor.macro.circuit.MacroCircuitGraphic;
@@ -38,23 +40,13 @@ import edu.colorado.phet.semiconductor.macro.energyprobe.Cable;
 import edu.colorado.phet.semiconductor.macro.energyprobe.CableGraphic;
 import edu.colorado.phet.semiconductor.macro.energyprobe.Lead;
 import edu.colorado.phet.semiconductor.macro.energyprobe.LeadGraphic;
-import edu.colorado.phet.semiconductor.util.math.DoubleSeries;
-
-
-
-import edu.colorado.phet.semiconductor.phetcommon.model.clock.ClockTickListener;
-import edu.colorado.phet.semiconductor.phetcommon.model.clock.SwingTimerClock;
-import edu.colorado.phet.semiconductor.phetcommon.view.ApparatusPanel;
-import edu.colorado.phet.semiconductor.phetcommon.view.BasicGraphicsSetup;
-import edu.colorado.phet.semiconductor.phetcommon.view.CompositeInteractiveGraphic;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.ApparatusPanel;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.CompositeInteractiveGraphic;
 import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.Graphic;
 import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.bounds.Boundary;
 import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.mousecontrols.Translatable;
-
-import edu.colorado.phet.semiconductor.phetcommon.view.util.framesetup.FrameSetup;
-import edu.colorado.phet.semiconductor.phetcommon.view.util.graphics.HashedImageLoader;
-import edu.colorado.phet.semiconductor.phetcommon.view.util.graphics.ImageLoader;
+import edu.colorado.phet.semiconductor.util.math.DoubleSeries;
 
 /**
  * User: Sam Reid
@@ -70,7 +62,7 @@ public class SemiconductorApplication implements Graphic {
     EnergySection energySection;
     ModelViewTransform2D transform;
     private BufferedImage particleImage;
-    public static final HashedImageLoader imageLoader = new HashedImageLoader();
+    public static final ImageLoader imageLoader = new ImageLoader();
     private DopantPanel dopantPanel;
     private ArrayList cableGraphics = new ArrayList();
     private Magnet magnet;
@@ -80,15 +72,14 @@ public class SemiconductorApplication implements Graphic {
     private DiodeControlPanel dcp;
 
 
-    public SemiconductorApplication( SwingTimerClock clock ) throws IOException {
+    public SemiconductorApplication( IClock clock ) throws IOException {
         transform = new ModelViewTransform2D( new Rectangle2D.Double( 0, 0, 10, 10 ), new Rectangle( 0, 0, 1, 1 ) );
 
 
         ApparatusPanel ap = new ApparatusPanel();
         setApparatusPanel( ap );
         getApparatusPanel().setBackground( new Color( 230, 220, 255 ) );
-        getApparatusPanel().addGraphicsSetup( new BasicGraphicsSetup() );
-        BaseModel bm = new BaseModel( );
+        BaseModel bm = new BaseModel();
         setModel( bm );
         int NUM_REGIONS = 2;
         circuitSection = new CircuitSection( this, transform, 6, 5, 3.5, 4, NUM_REGIONS );
@@ -132,8 +123,8 @@ public class SemiconductorApplication implements Graphic {
 
         getApparatusPanel().addGraphic( dopantPanel, 2 );
 
-        clock.addClockTickListener( new ClockTickListener() {
-            public void clockTicked( double v ) {
+        clock.addClockListener( new ClockAdapter() {
+            public void clockTicked( ClockEvent clockEvent ) {
                 getApparatusPanel().repaint();
             }
         } );
@@ -166,7 +157,7 @@ public class SemiconductorApplication implements Graphic {
             public void translate( double dx, double dy ) {
                 Point2D out = transform.viewToModelDifferential( (int) dx, (int) dy );
                 Rectangle2D allowed = transform.getModelBounds();
-                Shape trans = magnet.getTranslatedShape( out.getX(), out.getY());
+                Shape trans = magnet.getTranslatedShape( out.getX(), out.getY() );
                 if ( allowed.contains( trans.getBounds2D() ) ) {
                     magnet.translate( out.getX(), out.getY() );
                     getApparatusPanel().repaint();
@@ -297,14 +288,6 @@ public class SemiconductorApplication implements Graphic {
 //        energySection.setParticleWidth( particleWidth );
     }
 
-    static class TopOfScreen implements FrameSetup {
-        public void initialize( JFrame frame ) {
-            frame.setLocation( 0, 0 );
-//            frame.setSize( Toolkit.getDefaultToolkit().getScreenSize().width - 300, Toolkit.getDefaultToolkit().getScreenSize().height - 300 );
-            frame.setSize( 944, 706 );
-        }
-    }
-
     public void removeDopantGraphic( DopantGraphic dopant ) {
         dopantPanel.removeDopant( dopant );
     }
@@ -375,7 +358,7 @@ public class SemiconductorApplication implements Graphic {
         public SemiconductorModule( PhetApplicationConfig config ) {
             super( "name", new ConstantDtClock( 30, 1 ) );
             try {
-                final SemiconductorApplication ca = new SemiconductorApplication( new SwingTimerClock( 1, 45, true ) );
+                final SemiconductorApplication ca = new SemiconductorApplication( new ConstantDtClock( 45, 1 ) );
                 setSimulationPanel( ca.getApparatusPanel() );
                 setControlPanel( ca.dcp );
                 getClock().addClockListener( new ClockAdapter() {
@@ -393,7 +376,7 @@ public class SemiconductorApplication implements Graphic {
     }
 
     private void clockTicked( ClockEvent clockEvent ) {
-        bm.update(clockEvent );
+        bm.update( clockEvent );
     }
 
     public static void main( final String[] args ) throws IOException, UnsupportedLookAndFeelException {

@@ -6,13 +6,12 @@ import java.awt.geom.Area;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
 
-
-import edu.colorado.phet.semiconductor.phetcommon.view.util.DoubleGeneralPath;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 
 /**
  * User: Sam Reid
@@ -40,14 +39,14 @@ public class JaggedSplitBandGraphic extends BandSetGraphic {
         rightTear = new VerticalTearLine( rightSrc, rightDst, bandRect.getWidth() / 10, tearCount );
         leftTear = new VerticalTearLine( leftSrc, leftDst, bandRect.getWidth() / 10, tearCount );
 
-        DoubleGeneralPath leftApp = new DoubleGeneralPath( leftDst.getX(), leftDst.getY());//leftTear.getPath().getGeneralPath());
+        DoubleGeneralPath leftApp = new DoubleGeneralPath( leftDst.getX(), leftDst.getY() );//leftTear.getPath().getGeneralPath());
         leftApp.lineTo( bandRect.getX(), bandRect.getY() + bandRect.getHeight() );
         leftApp.lineTo( bandRect.getX(), bandRect.getY() );
         leftApp.lineTo( leftSrc );
         leftPath = leftApp.getGeneralPath();
         leftPath.append( leftTear.getPath().getGeneralPath(), false );
 
-        DoubleGeneralPath rightApp = new DoubleGeneralPath( rightDst.getX(), rightDst.getY());
+        DoubleGeneralPath rightApp = new DoubleGeneralPath( rightDst.getX(), rightDst.getY() );
         rightApp.lineTo( bandRect.getX() + bandRect.getWidth(), bandRect.getY() + bandRect.getHeight() );
         rightApp.lineTo( bandRect.getX() + bandRect.getWidth(), bandRect.getY() );
         rightApp.lineTo( rightSrc );

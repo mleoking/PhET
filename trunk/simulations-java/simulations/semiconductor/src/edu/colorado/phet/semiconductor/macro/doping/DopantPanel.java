@@ -13,26 +13,19 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.event.MouseInputAdapter;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.semiconductor.SemiconductorResources;
 import edu.colorado.phet.semiconductor.common.BorderGraphic;
 import edu.colorado.phet.semiconductor.common.ModelLocation;
 import edu.colorado.phet.semiconductor.common.TextGraphic;
-
-import edu.colorado.phet.semiconductor.phetcommon.view.ApparatusPanel;
-import edu.colorado.phet.semiconductor.phetcommon.view.CompositeInteractiveGraphic;
-import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.DefaultInteractiveGraphic;
-import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.Graphic;
-import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.InteractiveGraphic;
-import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.ShapeGraphic;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.*;
 import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.mousecontrols.DragToCreate;
 import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.mousecontrols.InteractiveGraphicCreator;
 import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.mousecontrols.Translatable;
-
 
 
 /**
@@ -139,8 +132,8 @@ public class DopantPanel extends CompositeInteractiveGraphic {
             Translatable t = new Translatable() {
                 public void translate( double dx, double dy ) {
                     Point2D trf = transform.viewToModelDifferential( (int) dx, (int) dy );
-                    trf.setLocation( trf.getX()+dragDopantGraphic.getDopant().getPosition().getX(),
-                                     trf.getY()+dragDopantGraphic.getDopant().getPosition().getY());
+                    trf.setLocation( trf.getX() + dragDopantGraphic.getDopant().getPosition().getX(),
+                                     trf.getY() + dragDopantGraphic.getDopant().getPosition().getY() );
 //                    trf.x += dragDopantGraphic.getDopant().getPosition().getX();
 //                    trf.y += dragDopantGraphic.getDopant().getPosition().getY();
                     if ( trf.getX() < 5.7 ) {

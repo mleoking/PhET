@@ -1,8 +1,8 @@
 package edu.colorado.phet.semiconductor.macro.circuit;
 
-import edu.colorado.phet.semiconductor.macro.circuit.battery.Battery;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.semiconductor.macro.circuit.battery.Battery;
 
 
 /**

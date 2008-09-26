@@ -10,7 +10,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.semiconductor.phetcommon.application.Module;
 import edu.colorado.phet.semiconductor.phetcommon.application.ModuleManager;
-import edu.colorado.phet.semiconductor.phetcommon.view.ApparatusPanel;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.ApparatusPanel;
 import edu.colorado.phet.semiconductor.phetcommon.view.util.AspectRatioLayout;
 
 /**

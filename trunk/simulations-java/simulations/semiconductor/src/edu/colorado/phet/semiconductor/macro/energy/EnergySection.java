@@ -6,8 +6,12 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.semiconductor.SemiconductorApplication;
-import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.Graphic;
 import edu.colorado.phet.semiconductor.common.EnergySpaceRegion;
 import edu.colorado.phet.semiconductor.macro.BucketSection;
 import edu.colorado.phet.semiconductor.macro.EntryPoint;
@@ -24,16 +28,8 @@ import edu.colorado.phet.semiconductor.macro.energy.statemodels.ExciteForConduct
 import edu.colorado.phet.semiconductor.macro.energy.statemodels.ModelCriteria;
 import edu.colorado.phet.semiconductor.macro.energy.states.MoveToCell;
 import edu.colorado.phet.semiconductor.macro.energy.states.Speed;
-
-
-
-
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.Graphic;
 import edu.colorado.phet.semiconductor.util.RectangleUtils;
-import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * User: Sam Reid

@@ -1,11 +1,11 @@
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.macro.energy.states;
 
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.semiconductor.macro.energy.bands.BandParticle;
 import edu.colorado.phet.semiconductor.macro.energy.bands.BandParticleState;
 import edu.colorado.phet.semiconductor.macro.energy.bands.EnergyCell;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 
 
 /**
@@ -51,7 +51,7 @@ public class MoveToCell implements BandParticleState {
         else {
             AbstractVector2D dir = dx.getInstanceOfMagnitude( distPerStep );
             AbstractVector2D newLoc = myLoc.getAddedInstance( dir );
-            particle.setPosition( new Vector2D.Double( newLoc.getX(),newLoc.getY()) );
+            particle.setPosition( new Vector2D.Double( newLoc.getX(), newLoc.getY() ) );
             return false;
         }
     }

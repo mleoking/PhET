@@ -5,14 +5,12 @@
  * Created by: Ron LeMaster
  * Date: Nov 6, 2002
  */
-package edu.colorado.phet.semiconductor.phetcommon.view;
+package edu.colorado.phet.semiconductor.oldphetgraphics.graphics;
 
 import java.awt.*;
 import java.util.ArrayList;
 
 import javax.swing.*;
-
-import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.Graphic;
 
 /**
  * This is a base class for panels that contain graphic representations
@@ -57,10 +55,6 @@ public class ApparatusPanel extends JPanel {
         addGraphic( borderGraphic, Double.POSITIVE_INFINITY );
     }
 
-    public void addGraphicsSetup( GraphicsSetup setup ) {
-        graphicsSetups.add( setup );
-    }
-
     /**
      * Draws all the Graphic objects in the ApparatusPanel
      *
@@ -69,10 +63,6 @@ public class ApparatusPanel extends JPanel {
     protected void paintComponent( Graphics graphics ) {
         Graphics2D g2 = (Graphics2D) graphics;
         super.paintComponent( g2 );
-        for ( int i = 0; i < graphicsSetups.size(); i++ ) {
-            GraphicsSetup graphicsSetup = (GraphicsSetup) graphicsSetups.get( i );
-            graphicsSetup.setup( g2 );
-        }
         graphic.paint( g2 );
     }
 

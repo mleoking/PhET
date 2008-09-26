@@ -1,12 +1,11 @@
 /*, 2003.*/
-package edu.colorado.phet.semiconductor.phetcommon.view.graphics.shapes;
+package edu.colorado.phet.semiconductor.oldphetgraphics.graphics.shapes;
 
 import java.awt.geom.GeneralPath;
 
-
-import edu.colorado.phet.semiconductor.phetcommon.view.util.DoubleGeneralPath;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+
 
 /**
  * User: Sam Reid
@@ -33,7 +32,7 @@ public class ArrowShape {
         AbstractVector2D leftPin = getPoint( -1 * headHeight, tailWidth / 2 );
         AbstractVector2D rightTail = getPoint( -1 * dist, -tailWidth / 2 );
         AbstractVector2D leftTail = getPoint( -1 * dist, tailWidth / 2 );
-        DoubleGeneralPath path = new DoubleGeneralPath( tipLocation.getX(), tipLocation.getY());
+        DoubleGeneralPath path = new DoubleGeneralPath( tipLocation.getX(), tipLocation.getY() );
         path.lineTo( rightFlap );
         path.lineTo( rightPin );
         path.lineTo( rightTail );
