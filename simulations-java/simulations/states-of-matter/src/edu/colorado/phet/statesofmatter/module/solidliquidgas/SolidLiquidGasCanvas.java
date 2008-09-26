@@ -32,8 +32,8 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
     private final double CANVAS_HEIGHT = CANVAS_WIDTH * (3.0d/4.0d);
     
     // Translation factors, used to set origin of canvas area.
-    private final double WIDTH_TRANSLATION_FACTOR = 3.0;
-    private final double HEIGHT_TRANSLATION_FACTOR = 1.35;
+    private final double WIDTH_TRANSLATION_FACTOR = 0.3;  // 0 to 1, 0 is left and 1 is right.
+    private final double HEIGHT_TRANSLATION_FACTOR = 0.72; // 0 to 1, 0 is up and 1 is down.
     
     // Sizes, in terms of overall canvas size, of the nodes on the canvas.
     private final double BURNER_NODE_WIDTH = CANVAS_WIDTH / 2.5;
@@ -64,8 +64,8 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
         setWorldTransformStrategy( new RenderingSizeStrategy(this, 
                 new PDimension(CANVAS_WIDTH, CANVAS_HEIGHT) ){
             protected AffineTransform getPreprocessedTransform(){
-                return AffineTransform.getTranslateInstance( getWidth()/WIDTH_TRANSLATION_FACTOR, 
-                        getHeight()/HEIGHT_TRANSLATION_FACTOR );
+                return AffineTransform.getTranslateInstance( getWidth() * WIDTH_TRANSLATION_FACTOR,
+                        getHeight() * HEIGHT_TRANSLATION_FACTOR );
             }
         });
         
