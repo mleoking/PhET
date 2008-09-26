@@ -24,8 +24,18 @@ public class PhetBuildCommand implements Command {
     private final AntTaskRunner antTaskRunner;
     private final boolean shrink;
     private final File outputJar;
-    public static final String FLAVOR_LAUNCHER = "edu.colorado.phet.common.phetcommon.application.JARLauncher";
 
+    //select whether you want to use the java version checker for launching JAR files
+    private static boolean useJavaVersionChecker = false;
+    private static String JAVA_SOURCE_VERSION ="1.4";//used for sims, not for bootstrap
+
+    public static final String JAR_LAUNCHER = useJavaVersionChecker ?
+                                              "edu.colorado.phet.javaversionchecker.JavaVersionChecker" :
+                                              "edu.colorado.phet.common.phetcommon.application.JARLauncher";
+
+    public static String getMainLauncherClassName() {
+        return JAR_LAUNCHER;
+    }
 
     public PhetBuildCommand( PhetProject project, AntTaskRunner taskRunner, boolean shrink, File outputJar ) {
         this.project = project;
@@ -46,13 +56,17 @@ public class PhetBuildCommand implements Command {
     }
 
     private void compile() {
+        if ( useJavaVersionChecker ) {
+            compileJavaVersionChecker();
+        }
+
         File[] src = project.getAllSourceRoots();
         File[] classpath = project.getAllJarFiles();
 
         PhetBuildUtils.antEcho( antTaskRunner, "Compiling " + project.getName() + ".", getClass() );
 
         Javac javac = new Javac();
-        javac.setSource( "1.4" );
+        javac.setSource( JAVA_SOURCE_VERSION );
         javac.setSrcdir( new Path( antTaskRunner.getProject(), toString( src ) ) );
         javac.setDestdir( project.getClassesDirectory() );
         javac.setClasspath( new Path( antTaskRunner.getProject(), toString( classpath ) ) );
@@ -65,6 +79,21 @@ public class PhetBuildCommand implements Command {
 //        javac.setDebugLevel( "lines,vars,source" );
 //        javac.setDebugLevel( "lines" );
         //"lines,source" appears to be necessary to get line number debug info
+        javac.setDebugLevel( "lines,source" );
+        javac.setDebug( true );
+
+        antTaskRunner.runTask( javac );
+
+        PhetBuildUtils.antEcho( antTaskRunner, "Finished compiling " + project.getName() + ".", getClass() );
+    }
+
+    private void compileJavaVersionChecker() {
+        PhetBuildUtils.antEcho( antTaskRunner, "Compiling " + project.getName() + ".", getClass() );
+
+        Javac javac = new Javac();
+        javac.setSource( "1.4" );
+        javac.setSrcdir( new Path( antTaskRunner.getProject(), "common/java-version-checker/src" ) );
+        javac.setDestdir( project.getClassesDirectory() );
         javac.setDebugLevel( "lines,source" );
         javac.setDebug( true );
 
@@ -92,7 +121,7 @@ public class PhetBuildCommand implements Command {
 
         attribute.setName( "Main-Class" );
         //todo: support a main-class chooser & launcher
-        attribute.setValue( FLAVOR_LAUNCHER );
+        attribute.setValue( JAR_LAUNCHER );
 
         File flavorsProp = createProjectPropertiesFile();
 
@@ -110,7 +139,7 @@ public class PhetBuildCommand implements Command {
      * Creates a properties file that describes things about the project.
      */
     private File createProjectPropertiesFile() {
-        
+
         // create the various properties
         Properties properties = new Properties();
         properties.setProperty( "project.name", project.getName() );
@@ -125,7 +154,7 @@ public class PhetBuildCommand implements Command {
             }
             properties.setProperty( "project.flavor." + flavor.getFlavorName() + ".args", args.trim() );
         }
-        
+
         // write the properties to a file
         File file = new File( project.getAntOutputDir(), "project.properties" );
         file.getParentFile().mkdirs();
@@ -135,7 +164,7 @@ public class PhetBuildCommand implements Command {
         catch( IOException e ) {
             e.printStackTrace();
         }
-        
+
         // return the file
         return file;
     }

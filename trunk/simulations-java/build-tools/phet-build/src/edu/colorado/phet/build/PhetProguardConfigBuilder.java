@@ -34,7 +34,7 @@ public class PhetProguardConfigBuilder {
 
     private String[] getAllMainClasses( PhetProject project ) {
         ArrayList list = new ArrayList( Arrays.asList( project.getAllMainClasses() ) );
-        list.add( PhetBuildCommand.FLAVOR_LAUNCHER );
+        list.add( PhetBuildCommand.getMainLauncherClassName() );
         return (String[]) list.toArray( new String[0] );
     }
 
