@@ -18,6 +18,7 @@ import javax.swing.border.EmptyBorder;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
 /**
  * FlavorLauncher provides functionality for running PhET simulations from double-clickable JAR files.
@@ -35,7 +36,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  * @author Sam Reid
  * @version $Revision$
  */
-public class JARLauncher extends JFrame {
+public class JARLauncher extends JFrame implements IProguardKeepClass {
 
     //----------------------------------------------------------------------------
     // Instance data
