@@ -908,6 +908,7 @@ public class MultipleParticleModel {
             }
         }
         syncParticlePositions();
+        System.out.println("Temp = " + m_temperatureSetPoint);
         
         if (!USE_NEW_PRESSURE_CALC_METHOD){
             if (m_pressure != m_pressureCalculator.getPressure()){
@@ -2680,26 +2681,23 @@ public class MultipleParticleModel {
         switch (m_currentMolecule){
         
         case StatesOfMatterConstants.NEON:
-            if (m_temperatureSetPoint <= 0.4){
-                temperatureInKelvin = m_temperatureSetPoint * 61.375;
+            if (m_temperatureSetPoint <= 0.25){
+                temperatureInKelvin = m_temperatureSetPoint * 60;
             }
             else if (m_temperatureSetPoint <= 0.5){
-                temperatureInKelvin = m_temperatureSetPoint * 198 - 54.65;
+                temperatureInKelvin = m_temperatureSetPoint * 55 + 1.25;
             }
             else {
-                temperatureInKelvin = m_temperatureSetPoint * 88.7;
+                temperatureInKelvin = m_temperatureSetPoint * 62.5 - 2.5;
             }
             break;
             
         case StatesOfMatterConstants.ARGON:
-            if (m_temperatureSetPoint <= 0.4){
-                temperatureInKelvin = m_temperatureSetPoint * 210;
-            }
-            else if (m_temperatureSetPoint <= 0.5){
-                temperatureInKelvin = m_temperatureSetPoint * 670 - 184;
+            if (m_temperatureSetPoint <= 0.25){
+                temperatureInKelvin = m_temperatureSetPoint * 213;
             }
             else {
-                temperatureInKelvin = m_temperatureSetPoint * 302;
+                temperatureInKelvin = m_temperatureSetPoint * 163.8 + 12.3;
             }
             break;
 
@@ -2708,7 +2706,7 @@ public class MultipleParticleModel {
                 temperatureInKelvin = m_temperatureSetPoint * 1000;
             }
             else{
-                temperatureInKelvin = m_temperatureSetPoint * 426.2 + 157.8;
+                temperatureInKelvin = m_temperatureSetPoint * 440 + 154;
             }
             break;
             
