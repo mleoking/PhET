@@ -125,7 +125,7 @@ public class MultipleParticleModel {
     private double m_minAllowableContainerHeight;
     private final List m_particles = new ArrayList();
     private double m_totalEnergy;
-    private boolean m_lidBlownOff;
+    private boolean m_lidBlownOff = false;
     private EngineFacade m_engineFacade;
     IClock m_clock;
     private ArrayList _listeners = new ArrayList();
@@ -183,7 +183,6 @@ public class MultipleParticleModel {
         m_clock = clock;
         m_pressureCalculator = new PressureCalculator();
         m_heightChangeCounter = 0;
-        m_lidBlownOff = false;
         setThermostatType( ADAPTIVE_THERMOSTAT );
         
         // Register as a clock listener.
@@ -2629,6 +2628,7 @@ public class MultipleParticleModel {
                     // The particles are energetic enough to end up outside
                     // the container, so consider it to be exploded.
                     m_lidBlownOff = true;
+                    notifyContainerExploded();
                 }
                 yPos = minDistance;
             }
