@@ -48,8 +48,8 @@ public class InteractionPotentialDiagramNode extends PNode {
     private static final float POTENTIAL_ENERGY_LINE_WIDTH = 1.5f;
     private static final Stroke POTENTIAL_ENERGY_LINE_STROKE = new BasicStroke(POTENTIAL_ENERGY_LINE_WIDTH);
     private static final Color POTENTIAL_ENERGY_LINE_COLOR = Color.red;
-    private static final int NUM_HORIZ_TICK_MARKS = 4;
-    private static final int NUM_VERT_TICK_MARKS = 3;
+    private static final int NUM_HORIZ_TICK_MARKS = 0;
+    private static final int NUM_VERT_TICK_MARKS = 0;
     private static final double TICK_MARK_LENGTH = 2;
     private static final float TICK_MARK_WIDTH = 1;
     private static final Stroke TICK_MARK_STROKE = new BasicStroke(TICK_MARK_WIDTH);
