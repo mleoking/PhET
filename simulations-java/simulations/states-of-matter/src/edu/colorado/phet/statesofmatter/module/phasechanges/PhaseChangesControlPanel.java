@@ -58,7 +58,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
     /**
      * Constructor.
      * 
-     * @param alphaRadiationModule
+     * @param phaseChangesModule
      * @param parentFrame parent frame, for creating dialogs
      */
     public PhaseChangesControlPanel( PhaseChangesModule phaseChangesModule, Frame parentFrame ) {
@@ -262,8 +262,8 @@ public class PhaseChangesControlPanel extends ControlPanel {
     // create the correct behavior.
     private static final int ASSYMTOTIC_MAPPING_ALGORITHM = 0;
     private static final int LINEAR_MAPPING_ALGORITHM = 1;
-    private static final int SIGMOID_MAPPING_ALGORITHM = 2;
-    private static final int MAPPING_ALGORITHM = SIGMOID_MAPPING_ALGORITHM; 
+    private static final int SIGMOID_LOGARITHMIC_MAPPING_ALGORITHM = 2;
+    private static final int MAPPING_ALGORITHM = SIGMOID_LOGARITHMIC_MAPPING_ALGORITHM;
     
     private static final double TEMPERATURE_SCALE_FACTOR_LINEAR = 0.6;
     private static final double PRESSURE_SCALE_FACTOR_LINEAR = 2;
@@ -305,13 +305,14 @@ public class PhaseChangesControlPanel extends ControlPanel {
                 normalizedPressure = 1.0;
             }
         }
-        else if (MAPPING_ALGORITHM == SIGMOID_MAPPING_ALGORITHM) {
+        else if (MAPPING_ALGORITHM == SIGMOID_LOGARITHMIC_MAPPING_ALGORITHM) {
             normalizedTemperature = 1 / (1 + (Math.exp((-modelTemperature + TEMPERATURE_SHIFT_FACTOR_SIGMOID ) * 
                     TEMPERATURE_SCALE_FACTOR_SIGMOID)));
-            normalizedPressure = -1 / ((modelPressure * PRESSURE_SCALE_FACTOR_ASSYMTOTIC) + 1) + 1;
+            normalizedPressure = Math.log((modelPressure * 5) + 1);
             if (normalizedPressure > 1.0) {
                 normalizedPressure = 1.0;
             }
+            System.out.println("modelPressure = " + modelPressure + ", normalizedPressure = " + normalizedPressure);
         }
         m_phaseDiagram.setStateMarkerPos( normalizedTemperature, normalizedPressure );
     }
