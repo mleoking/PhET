@@ -76,7 +76,6 @@
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/rotation/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/rutherford-scattering/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/self-driven-particle-model/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/semiconductor/phetcommon-src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/semiconductor/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/signal-circuit/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/sim-template/src" isTestSource="false" />
