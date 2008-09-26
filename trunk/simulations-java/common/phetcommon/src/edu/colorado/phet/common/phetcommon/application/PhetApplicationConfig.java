@@ -4,6 +4,9 @@ package edu.colorado.phet.common.phetcommon.application;
 
 import java.util.Properties;
 import java.util.Locale;
+import java.net.*;
+import java.io.IOException;
+import java.io.InputStream;
 
 import javax.swing.*;
 
@@ -11,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersionInfo;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 
 /**
  * PhetApplicationConfig encapsulates the information required to configure
@@ -353,7 +357,23 @@ public class PhetApplicationConfig {
                 }else{
                     new RuntimeException( "No applicationconstructor specified").printStackTrace(  );
                 }
+                doTracking();
             }
         } );
+    }
+
+    private void doTracking() {
+        String URL = "http://phet.colorado.edu/tracking/phet-tracking.php?test=true&sim=" + resourceLoader.getProjectName() + "&version=" + getVersion();
+        try {
+            URL url = new URL( URL);
+            InputStream inputStream = url.openStream();
+            inputStream.close();
+        }
+        catch( MalformedURLException e ) {
+            e.printStackTrace();
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
     }
 }
