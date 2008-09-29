@@ -1,3 +1,6 @@
+1.20.08 (9-29-2008)
+Removed speed control slider
+
 8-30-2007: Slider wiggle me is hidden when user enters text in a text box.
 7-26-2007: Workaround for font bounds problem in some locales that caused tearing in the time readout
 
