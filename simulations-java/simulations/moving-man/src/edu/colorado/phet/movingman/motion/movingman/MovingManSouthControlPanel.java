@@ -15,7 +15,9 @@ class MovingManSouthControlPanel extends HorizontalLayoutPanel {
 
     public MovingManSouthControlPanel( MovingManMotionModule movingManMotionModule, MovingManMotionModule seriesModel, TimeSeriesModel timeSeriesModel, double min, double max ) {
         this.movingManMotionModule = movingManMotionModule;
-        add( new TimeSeriesControlPanel( timeSeriesModel, min, max ) );
+        TimeSeriesControlPanel panel = new TimeSeriesControlPanel( timeSeriesModel, min, max );
+        panel.setSpeedControlVisible(false);
+        add( panel );
         add( new ArrowPanel( movingManMotionModule ) );
         add( new SoundCheckBox( seriesModel ) );
     }
