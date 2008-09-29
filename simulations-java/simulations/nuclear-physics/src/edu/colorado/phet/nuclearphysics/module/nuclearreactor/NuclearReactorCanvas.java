@@ -77,8 +77,8 @@ public class NuclearReactorCanvas extends PhetPCanvas{
         _fireNeutronsButtonNode = new GradientButtonNode(NuclearPhysicsStrings.FIRE_NEUTRONS_BUTTON_LABEL, 16, 
                 new Color(0xff9900));
         addWorldChild( _fireNeutronsButtonNode );
-        _fireNeutronsButtonNode.setOffset( _nuclearReactorNode.getFullBounds().getMaxX() - 
-                _fireNeutronsButtonNode.getFullBounds().width, _nuclearReactorNode.getFullBounds().getMinY() -
+        _fireNeutronsButtonNode.setOffset( _nuclearReactorNode.getFullBounds().getCenterX() - 
+                _fireNeutronsButtonNode.getFullBounds().width / 2, _nuclearReactorNode.getFullBounds().getMinY() -
                 _fireNeutronsButtonNode.getFullBounds().height);
         
         _fireNeutronsButtonNode.addActionListener( new ActionListener() {
