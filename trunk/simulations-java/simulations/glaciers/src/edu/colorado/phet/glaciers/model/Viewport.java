@@ -45,7 +45,6 @@ public class Viewport {
     public void setBounds( double x, double y, double w, double h ) {
         if ( x != _bounds.getX() || y != _bounds.getY() || w != _bounds.getWidth() || h != _bounds.getHeight() ) {
             _bounds.setRect( x, y, w, h );
-//            System.out.println( "Viewport.setBounds id=" + _id + " bounds=" + _bounds.toString() );//XXX
             notifyBoundsChanged();
         }
     }
