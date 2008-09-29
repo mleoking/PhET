@@ -15,7 +15,6 @@ MEDIUM PRIORITY:
 - [731] change label on steady state button
 
 LOW PRIORITY:
-- get rid of scale calls in BoreholeDrillNode, resize images
 - [724] make borehole drill fire every N years
 - [735] improve smoothness of DistanceAxisNode (x-axis for coordinates feature)
 - [558] edges of thermometer & ice thickness tool icons are clipped
@@ -68,6 +67,7 @@ CLEANUP:
 
 
 DONE:
+9/29/08 - get rid of scale calls in BoreholeDrillNode, resize image files
 9/29/08 - [750] make borehole drill draggable by fire button
 9/29/08 - set hgap and vgap to zero for control panel FlowLayouts
 9/29/08 - [730] change default snowfall to 0.93m (was 0.95m) so that entire default glacier fits in zoomed viewport at new x-axis scale
