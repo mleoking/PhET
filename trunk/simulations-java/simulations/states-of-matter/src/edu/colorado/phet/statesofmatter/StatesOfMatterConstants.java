@@ -130,7 +130,7 @@ public class StatesOfMatterConstants {
     // calculations.  These are used in places were non-normalized LJ
     // calculations are made, graphed, and otherwise controlled.
     public static final double MAX_SIGMA = 500;      // In picometers.
-    public static final double MIN_SIGMA = 50;       // In picometers.
+    public static final double MIN_SIGMA = 75;       // In picometers.
     public static final double MAX_EPSILON = 220;    // Epsilon/k-Boltzmann is in Kelvin.
     public static final double MIN_EPSILON = 30;     // Epsilon/k-Boltzmann is in Kelvin.
 
