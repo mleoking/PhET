@@ -38,11 +38,9 @@ public class BoreholeDrillNode extends AbstractToolNode {
         super( boreholeDrill, mvt, trashCan );
         
         PNode drillNode = new DrillNode();
-        drillNode.scale( 0.75 ); //XXX
         addChild( drillNode );
         
         ButtonNode buttonNode = new ButtonNode();
-        buttonNode.scale( 0.7 ); //XXX compute this based on image width
         addChild( buttonNode );
         
         /*
@@ -96,9 +94,9 @@ public class BoreholeDrillNode extends AbstractToolNode {
     //----------------------------------------------------------------------------
     
     public static Image createImage() {
+        // NOTE: icon does not show button on drill
         PImage imageNode = new PImage( GlaciersImages.BOREHOLE_DRILL );
-        imageNode.scale( 0.5 );
-        //TODO add button
+        imageNode.scale( 0.65 );
         return imageNode.toImage();
     }
 }
