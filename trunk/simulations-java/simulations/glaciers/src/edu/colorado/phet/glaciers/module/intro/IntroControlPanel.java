@@ -89,7 +89,7 @@ public class IntroControlPanel extends JPanel {
         layout.addAnchoredComponent( topPanel, row++, column, GridBagConstraints.CENTER );
         layout.addAnchoredComponent( bottomPanel, row++, column, GridBagConstraints.CENTER );
         
-        setLayout( new FlowLayout() );
+        setLayout( new FlowLayout( FlowLayout.CENTER, 0, 0 ) );
         add( p );
         
         Class[] excludedClasses = { ViewControlPanel.class, ClimateControlPanel.class, GraphsControlPanel.class, JTextComponent.class };
