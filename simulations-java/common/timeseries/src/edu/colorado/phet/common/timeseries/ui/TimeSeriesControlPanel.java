@@ -177,6 +177,10 @@ public class TimeSeriesControlPanel extends JPanel {
         return JOptionPane.showConfirmDialog( this, TimeseriesResources.getString("Common.confirm.clear.graphs" ) )== JOptionPane.YES_OPTION;
     }
 
+    public void setSpeedControlVisible( boolean b ) {
+        timeSpeedSlider.setVisible( b );
+    }
+
     public static interface Listener {
         void recordButtonPressed();
     }
