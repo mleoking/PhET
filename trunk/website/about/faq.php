@@ -27,7 +27,7 @@ class FAQPage extends SitePage {
 
             <h3 id="q1" >Where can I get the source code for the PhET simulations?</h3>
 
-            <p>The source code for all PhET simulations is hosted at <a href="http://sourceforge.net/projects/phet/">SourceForge</a>. The latest version can always be found there. To access the source code, you will need a Subversion client such as <a href="http://tortoisesvn.tigris.org/">TortoiseSVN</a> (Windows-only) or <a href="http://www.syntevo.com/smartsvn/download.jsp">SmartSVN</a> (all platforms).</p>
+            <p>The source code for all PhET simulations is hosted at <a href="https://phet.unfuddle.com/projects/9404/repositories/23262/browse/head/trunk">Unfuddle</a> (login with username: guest and password: guest). The latest version can always be found there. To checkout the source code, you will need a Subversion client such as <a href="http://tortoisesvn.tigris.org/">TortoiseSVN</a> (Windows-only) or <a href="http://www.syntevo.com/smartsvn/download.jsp">SmartSVN</a> (all platforms), or a command-line client. To checkout the source code for all of PhET's Java simulations using a command-line client, use the following command:<br><br>svn checkout https://phet.unfuddle.com/svn/phet_svn/trunk/simulations-java simulations-java --username guest --password guest<br><br>To checkout the source code for all of PhET's Flash simulations, replace "simulations-java" with "simulations-flash" in the above command.
 
 EOT;
     }
