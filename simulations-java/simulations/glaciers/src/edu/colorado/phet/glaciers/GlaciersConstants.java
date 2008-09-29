@@ -74,7 +74,7 @@ public class GlaciersConstants {
     
     // Climate
     public static final DoubleRange TEMPERATURE_RANGE = new DoubleRange( 13, 20, 19 );  // temperature at sea level (degrees C)
-    public static final DoubleRange SNOWFALL_RANGE = new DoubleRange( 0, 1.5, 0.95 ); // average snow accumulation (meters/year)
+    public static final DoubleRange SNOWFALL_RANGE = new DoubleRange( 0, 1.5, 0.93 ); // average snow accumulation (meters/year)
     
     //----------------------------------------------------------------------------
     // View
@@ -84,7 +84,7 @@ public class GlaciersConstants {
     public static final double Y_AXIS_SCALE_IN_IMAGE = 2.0;
     
     // model-view transform (MVT) parameters
-    public static final double MVT_X_SCALE = 0.062; // scale x by this amount when going from model to view
+    public static final double MVT_X_SCALE = 0.1; // scale x by this amount when going from model to view
     public static final double MVT_Y_SCALE = 0.1 * Y_AXIS_SCALE_IN_IMAGE; // scale y by this amount when going from model to view
     public static final double MVT_X_OFFSET = 0; // translate x by this amount when going from model to view
     public static final double MVT_Y_OFFSET = 0; // translate y by this amount when going from model to view
