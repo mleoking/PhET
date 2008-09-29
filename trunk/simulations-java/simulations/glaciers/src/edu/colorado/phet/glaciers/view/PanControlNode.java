@@ -160,12 +160,10 @@ public class PanControlNode extends PImage {
         if ( imageHeight > desiredHeight ) {
             // scale the image down
             yScale = 1 - ( ( imageHeight - desiredHeight ) / imageHeight );
-//            System.out.println( "PaneControlNode.updateScale, scaling down, yScale=" + yScale + " ih=" + imageHeight + " dh=" + desiredHeight );//XXX
         }
         else {
             // scale the image up
             yScale = 1 + ( ( desiredHeight - imageHeight ) / desiredHeight );
-//            System.out.println( "PaneControlNode.updateScale, scaling up, yScale=" + yScale + " ih=" + imageHeight + " dh=" + desiredHeight );//XXX
         }
         setScale( yScale );
     }
