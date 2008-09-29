@@ -571,9 +571,9 @@
      </target>
 
     <target name="test-ssh">
-        <maverick-ssh host="${ssh-host}" username="${deploy.username}" password="${deploy.password}" version="2">
-            <sftp action="put" remotedir="${sim.deploy.dir}" verbose="true">
-                <fileset dir="simulations/${sim.name}/deploy"/>
+        <maverick-ssh host="tigercat.colorado.edu" username="reids" password="${mypassword}" version="2">
+            <sftp action="put" remotedir="/home/tigercat/phet/reids" verbose="true">
+                <fileset dir="doc"/>
             </sftp>
         </maverick-ssh>
     </target>
