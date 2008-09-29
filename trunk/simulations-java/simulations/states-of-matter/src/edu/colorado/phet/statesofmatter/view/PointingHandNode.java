@@ -27,13 +27,13 @@ public class PointingHandNode extends PNode {
     
     // Width of the finger node as a proportion of the width of the particle
     // container.
-    private static final double NODE_WIDTH_PROPORTION = 0.65;
+    private static final double NODE_WIDTH_PROPORTION = 0.55;
     
     // Horizontal position of the node as function of the container width.
-    private static final double NODE_X_POS_PROPORTION = 0.20;
+    private static final double NODE_X_POS_PROPORTION = 0.30;
     
     // File name of the primary image.
-    public static final String PRIMARY_IMAGE = "finger-2.png";
+    public static final String PRIMARY_IMAGE = "finger-4.png";
     
     //----------------------------------------------------------------------------
     // Instance Data
