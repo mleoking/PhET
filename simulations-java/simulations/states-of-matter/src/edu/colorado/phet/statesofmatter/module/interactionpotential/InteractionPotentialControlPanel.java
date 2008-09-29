@@ -291,7 +291,6 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             m_atomDiameterControl.setValue(m_model.getSigma());
             add(m_atomDiameterControl);
 
-            
             // Register as a listener with the model for relevant events.
             m_model.addListener( new DualParticleModel.Adapter(){
                 public void particleDiameterChanged(){

@@ -318,8 +318,10 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         updatePositionMarkerOnDiagram();
         
         // Add the push pin last so that it is on top of the fixed atom.
+        // Note that the particulars of how this is positioned will need to
+        // change if a different image is used.
         addWorldChild( m_pushPinNode );
-        m_pushPinNode.setOffset(  particle.getRadius() * 0.3, particle.getRadius() * 0.3);
+        m_pushPinNode.setOffset( m_fixedParticle.getRadius() * 0.25, m_fixedParticle.getRadius() * 0.1);
     }
     
     private void handleFixedParticleRemoved(StatesOfMatterAtom particle){
