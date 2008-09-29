@@ -24,7 +24,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class CompositeThermometerNode extends PNode {
 
     private static final double THERMOMETER_WIDTH_PROPORTION = 0.3;
-    private static final double LIQUID_THERMOMETER_SCALE_FACTOR = 10;
+    private static final double LIQUID_THERMOMETER_SCALE_FACTOR = 20;
     
     private LiquidExpansionThermometerNode m_liquidThermometer;
     private double m_maxTemp;
