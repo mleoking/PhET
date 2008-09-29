@@ -5,7 +5,6 @@ Change history for glaciers
 HIGHEST PRIORITY:
 
 HIGH PRIORITY:
-- [730] birds-eye view should half the slope of zoomed view so that 80km is at far right
 - [727] glacier growth from zero length still takes a long time, and then speeds up
 - [726] flags and debris on glacier surface stop advancing when glacier is retreating
 
@@ -68,6 +67,8 @@ CLEANUP:
 
 
 DONE:
+9/29/08 - [730] change default snowfall to 0.93m (was 0.95m) so that entire default glacier fits in zoomed viewport at new x-axis scale
+9/29/08 - [730] change x-axis scale from 0.062 to 0.1 so that 80km fills most of the birds-eye view
 9/29/08 - [733] glacial budget meter snap to valley floor and show values for x<0 ,like it does for x>=0
 9/29/08 - [733] make glacial budget meter snap to glacier surface (or valley surface) when released, ala tracer flags
 9/29/08 - [732] change glacier picture button to use text "Show glacier picture"
