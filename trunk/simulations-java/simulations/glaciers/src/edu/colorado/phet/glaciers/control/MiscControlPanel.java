@@ -9,13 +9,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.dialog.GlacierPictureDialog;
 import edu.colorado.phet.glaciers.model.Glacier;
@@ -60,7 +62,7 @@ public class MiscControlPanel extends JPanel {
             }
         } );
         
-        _pictureButton = new JButton( new ImageIcon( GlaciersImages.GLACIER_THUMBNAIL ) );
+        _pictureButton = new JButton( GlaciersStrings.BUTTON_GLACIER_PICTURE );
         _pictureButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 handlePictureButton();
