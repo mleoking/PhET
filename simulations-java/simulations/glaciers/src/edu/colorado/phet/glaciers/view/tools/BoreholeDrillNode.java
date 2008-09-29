@@ -24,6 +24,13 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class BoreholeDrillNode extends AbstractToolNode {
 
     //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    // can the drill be dragged while its button is pressed?
+    private static final boolean ALLOW_DRAGGING_WHILE_BUTTON_IS_PRESSED = true;
+    
+    //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
@@ -50,15 +57,20 @@ public class BoreholeDrillNode extends AbstractToolNode {
                 boreholeDrill.drill();
             }
         });
-        buttonNode.addInputEventListener( new PBasicInputEventHandler() {
+        
+        if ( !ALLOW_DRAGGING_WHILE_BUTTON_IS_PRESSED ) {
             // disable dragging while the button is pressed
-            public void mousePressed( PInputEvent event ) {
-                setDraggingEnabled( false );
-            }
-            public void mouseReleased( PInputEvent event ) {
-                setDraggingEnabled( true );
-            }
-        } );
+            buttonNode.addInputEventListener( new PBasicInputEventHandler() {
+
+                public void mousePressed( PInputEvent event ) {
+                    setDraggingEnabled( false );
+                }
+
+                public void mouseReleased( PInputEvent event ) {
+                    setDraggingEnabled( true );
+                }
+            } );
+        }
     }
     
     //----------------------------------------------------------------------------
