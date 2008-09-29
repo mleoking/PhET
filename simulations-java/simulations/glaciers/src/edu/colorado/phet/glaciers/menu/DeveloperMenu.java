@@ -56,7 +56,7 @@ public class DeveloperMenu extends JMenu {
                 JFrame frame = new TestViewport.TestFrame();
                 frame.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
                 frame.setSize( new Dimension( 640, 480 ) );
-                frame.show();
+                frame.setVisible( true );
             }
         } );
     }
@@ -69,7 +69,7 @@ public class DeveloperMenu extends JMenu {
         if ( _developerControlsItem.isSelected() ) {
             Frame owner = PhetApplication.instance().getPhetFrame();
             _developerControlsDialog = new DeveloperControlsDialog( owner, _app );
-            _developerControlsDialog.show();
+            _developerControlsDialog.setVisible( true );
             _developerControlsDialog.addWindowListener( new WindowAdapter() {
 
                 public void windowClosed( WindowEvent e ) {
