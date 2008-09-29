@@ -250,7 +250,7 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
      */
     private void update() {
         double glacierSurfaceY = _glacier.getSurfaceElevation( _glacialBudgetMeter.getX() );
-        if ( _glacialBudgetMeter.getX() >= _glacier.getHeadwallX() && _glacialBudgetMeter.getY() == glacierSurfaceY ) {
+        if ( _glacialBudgetMeter.getY() == glacierSurfaceY ) {
             _valueNode.setValues( 
                 _glacialBudgetMeter.getPosition().getY(),
                 _glacialBudgetMeter.getAccumulation(),

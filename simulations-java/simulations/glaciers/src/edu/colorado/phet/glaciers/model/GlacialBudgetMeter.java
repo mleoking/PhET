@@ -132,13 +132,33 @@ public class GlacialBudgetMeter extends AbstractTool {
      */
     public void setPosition( double x, double y ) {
         double surfaceElevation = _glacier.getSurfaceElevation( x );
-        if ( x >= _glacier.getHeadwallX() && Math.abs( y - surfaceElevation ) < SNAP_TO_SURFACE_THRESHOLD ) {
+        if ( Math.abs( y - surfaceElevation ) < SNAP_TO_SURFACE_THRESHOLD ) {
             _onSurface = true;
             super.setPosition( x, surfaceElevation );
         }
         else {
             _onSurface = false;
             super.setPosition( x, y );
+        }
+    }
+    
+    /*
+     * If the tool is above or below the ice, snap it to the ice.
+     * If there is no ice, the tool will snap to the valley floor.
+     */
+    protected void constrainDrop() {
+        
+        double x = getX();
+        
+        final double surfaceElevation = _glacier.getSurfaceElevation( x );
+        final double valleyElevation = _glacier.getValley().getElevation( x );
+        if ( surfaceElevation > valleyElevation ) {
+            // snap to the ice surface
+            setPosition( x, surfaceElevation );
+        }
+        else {
+            // snap to the valley floor
+            setPosition( x, valleyElevation );
         }
     }
     
