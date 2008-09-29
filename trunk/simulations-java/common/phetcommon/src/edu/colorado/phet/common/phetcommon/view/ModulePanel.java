@@ -4,6 +4,9 @@ package edu.colorado.phet.common.phetcommon.view;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
+
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
@@ -168,7 +171,7 @@ public class ModulePanel extends JPanel {
      *
      * @param panel, possibly null
      */
-    public void setClockControlPanel( JComponent panel ) {
+    public void setClockControlPanel( final JComponent panel ) {
         if ( clockControlPanel != null ) {
             leftPanel.remove( clockControlPanelContainer );
         }
@@ -179,6 +182,14 @@ public class ModulePanel extends JPanel {
             // part of the module panel instead of the control panel itself.
             clockControlPanelContainer = new JPanel();
             clockControlPanelContainer.add( panel );
+
+            //trial workaround for keeping background color consistent
+            panel.addPropertyChangeListener( "background",new PropertyChangeListener() {
+                public void propertyChange( PropertyChangeEvent evt ) {
+                    clockControlPanelContainer.setBackground( panel.getBackground() );
+                }
+            } );
+            clockControlPanelContainer.setBackground(  panel.getBackground() );
             leftPanel.add( clockControlPanelContainer, BorderLayout.SOUTH );
         }
     }
