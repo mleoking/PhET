@@ -24,6 +24,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class CompositeThermometerNode extends PNode {
 
     private static final double THERMOMETER_WIDTH_PROPORTION = 0.3;
+    private static final double LIQUID_THERMOMETER_SCALE_FACTOR = 10;
     
     private LiquidExpansionThermometerNode m_liquidThermometer;
     private double m_maxTemp;
@@ -37,11 +38,18 @@ public class CompositeThermometerNode extends PNode {
 
         m_maxTemp = maxTemp;
         
-        m_liquidThermometer = 
-            new LiquidExpansionThermometerNode(new PDimension(width * THERMOMETER_WIDTH_PROPORTION, height));
-        m_liquidThermometer.setTicks( m_liquidThermometer.getFullBoundsReference().height / 12, Color.BLACK, 4 );
+        // Add the thermometer.  !! NOTE !! - The thermometer is added initially as much smaller than
+        // it needs to be and then is scaled up.  This is a workaround for an issue where the
+        // thermometer was distorted on Mac OS 10.4.  This fixes the problem, though we're not entirely
+        // sure why.  It has something to do with clipping regions.  See Unfuddle ticket #656.
+        m_liquidThermometer = new LiquidExpansionThermometerNode( new PDimension(
+        		width * THERMOMETER_WIDTH_PROPORTION / LIQUID_THERMOMETER_SCALE_FACTOR, 
+        		height / LIQUID_THERMOMETER_SCALE_FACTOR) );
+        m_liquidThermometer.setTicks(height / 10 / LIQUID_THERMOMETER_SCALE_FACTOR, Color.BLACK, (float)height / 3500);
+        m_liquidThermometer.scale( LIQUID_THERMOMETER_SCALE_FACTOR );
         addChild(m_liquidThermometer);
         
+        // Add the digital readout.
         m_kelvinReadout = new DigitalReadoutNode( width * (1 - THERMOMETER_WIDTH_PROPORTION), "\u212A" );
         m_kelvinReadout.setOffset( -m_kelvinReadout.getFullBounds().width, 
                 m_liquidThermometer.getFullBoundsReference().height * 0.2 );
