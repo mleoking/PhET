@@ -570,6 +570,14 @@
          </exec>
      </target>
 
+    <target name="test-ssh">
+        <maverick-ssh host="${ssh-host}" username="${deploy.username}" password="${deploy.password}" version="2">
+            <sftp action="put" remotedir="${sim.deploy.dir}" verbose="true">
+                <fileset dir="simulations/${sim.name}/deploy"/>
+            </sftp>
+        </maverick-ssh>
+    </target>
+
     <!-- This task builds and deploys; assumes all required properties have been previously defined -->
 	<target name="_build-and-deploy" depends="_build-jar, build-jnlp, _build-all-flavor-jars-for-sim, _deploy" />
 
