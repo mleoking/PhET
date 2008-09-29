@@ -67,6 +67,7 @@ CLEANUP:
 
 
 DONE:
+9/29/08 - set hgap and vgap to zero for control panel FlowLayouts
 9/29/08 - [730] change default snowfall to 0.93m (was 0.95m) so that entire default glacier fits in zoomed viewport at new x-axis scale
 9/29/08 - [730] change x-axis scale from 0.062 to 0.1 so that 80km fills most of the birds-eye view
 9/29/08 - [733] glacial budget meter snap to valley floor and show values for x<0 ,like it does for x>=0
