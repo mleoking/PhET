@@ -18,6 +18,7 @@ public class GlaciersStrings {
     // Simulation-specific strings
     //----------------------------------------------------------------------------
 
+    public static final String BUTTON_GLACIER_PICTURE = GlaciersResources.getString( "button.glacierPicture" );
     public static final String BUTTON_STEADY_STATE = GlaciersResources.getString( "button.steadyState" );
     
     public static final String AXIS_ELEVATION_METRIC = GlaciersResources.getString( "axis.elevation.metric" );
