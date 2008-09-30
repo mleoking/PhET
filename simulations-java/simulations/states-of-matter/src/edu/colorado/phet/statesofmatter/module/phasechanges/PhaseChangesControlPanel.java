@@ -312,7 +312,6 @@ public class PhaseChangesControlPanel extends ControlPanel {
             if (mappedPressure > 1.0) {
                 mappedPressure = 1.0;
             }
-            System.out.println("modelPressure = " + modelPressure + ", normalizedPressure = " + mappedPressure);
         }
         m_phaseDiagram.setStateMarkerPos( mappedTemperature, mappedPressure );
     }
