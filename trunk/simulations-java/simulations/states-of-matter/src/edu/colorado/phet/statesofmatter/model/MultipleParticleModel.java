@@ -908,7 +908,6 @@ public class MultipleParticleModel {
             }
         }
         syncParticlePositions();
-        System.out.println("Temp = " + m_temperatureSetPoint);
         
         if (!USE_NEW_PRESSURE_CALC_METHOD){
             if (m_pressure != m_pressureCalculator.getPressure()){
@@ -1458,11 +1457,6 @@ public class MultipleParticleModel {
                     m_atomPositions[atomsPlaced++].setLocation( xPos, yPos );
                     break;
                 }
-                else{
-                    // TODO: JPB TBD - This is just here to see how much it happens,
-                    // and should eventually be deleted.
-                    System.err.println("Warning: Position rejected: " + xPos + ", " + yPos);
-                }
             }
         }
 
@@ -1550,11 +1544,6 @@ public class MultipleParticleModel {
                     m_moleculeRotationAngles[moleculesPlaced] = angle + Math.PI / 2;
                     moleculesPlaced++;
                     break;
-                }
-                else{
-                    // TODO: JPB TBD - This is just here to see how much it happens,
-                    // and should eventually be deleted.
-                    System.err.println("Warning: Position rejected: " + xPos + ", " + yPos);
                 }
             }
         }
