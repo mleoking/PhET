@@ -135,7 +135,6 @@ public class GrabbableParticleNode extends ParticleForceNode {
         else if (newPosX < m_minX) {
             newPosX = m_minX;
         }
-        System.out.println("newPosX = " + newPosX);
         
         // Move the particle based on the amount of mouse movement.
         m_particle.setPosition( newPosX, m_particle.getY() );
