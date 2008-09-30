@@ -214,16 +214,6 @@
 		<foreach list="${sim.flavors}" target="_build-jnlp" param="sim.flavor" inheritall="true" inheritrefs="true" />
 	</target>
 
-	<!-- TODO: make local files (build-local.properties, open_cmd.bat, etc) start with '.' for filtering in this task.-->
-	<!-- TODO: PLEASE DOCUMENT ME -->
-	<target name="build-source-distribution" depends="_init,_fail-if-working-copy-is-not-synchronized,_clean-all">
-		<zip destfile="${phet.src.distribution}" basedir="${basedir}" excludes="build-local.properties, open_cmd.bat, build-old.xml, **/deploy/*.jar, **/deploy/*.jnlp, ant_output/, deploy/,
-	                **/ant-contrib/docs/, **/antform/doc/, **/apache-ant/docs/, **/junit/doc/, **/junit/javadoc/,
-	                **/proguard/docs, **/retroweaver-2.0/, **/retroweaver-test/, **/JSci/documentation/, **/JSci/examples/,
-	                **/liquidlnf-2.9.1-src/, **/oyoaha/">
-		</zip>
-	</target>
-
 	<!-- =================================================================== -->
 	<!-- Internal targets, do NOT call directly                              -->
 	<!-- =================================================================== -->
