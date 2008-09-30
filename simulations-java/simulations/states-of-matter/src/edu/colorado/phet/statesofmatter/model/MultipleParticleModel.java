@@ -881,6 +881,9 @@ public class MultipleParticleModel {
                 m_particleContainerHeight += MAX_PER_TICK_CONTAINER_EXPANSION;
                 notifyContainerSizeChanged();
             }
+            
+            // Decrease the pressure quickly as the particles escape.
+            m_pressure2 = m_pressure2 * 0.95;
         }
         
         // Execute the Verlet algorithm.
