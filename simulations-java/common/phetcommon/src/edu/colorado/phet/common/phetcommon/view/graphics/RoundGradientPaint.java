@@ -69,14 +69,15 @@ public class RoundGradientPaint implements Paint {
         return ( ( ( a1 & a2 ) == 0xff ) ? OPAQUE : TRANSLUCENT );
     }
 
+    private Point2D _point;
+    private Point2D _radius;
+    private Color _color1, _color2;
+    private WritableRaster raster;
+    private static int rasterCount = 0;
     /**
      * RoundGradientContext is the PaintContext used by a RoundGradientPaint.
      */
-    private static class RoundGradientContext implements PaintContext {
-
-        private Point2D _point;
-        private Point2D _radius;
-        private Color _color1, _color2;
+    private class RoundGradientContext implements PaintContext {
 
         public RoundGradientContext( Point2D p, Color color1, Point2D r, Color color2 ) {
             _point = p;
@@ -93,8 +94,21 @@ public class RoundGradientPaint implements Paint {
         }
 
         public Raster getRaster( int x, int y, int w, int h ) {
-            WritableRaster raster = getColorModel().createCompatibleWritableRaster( w, h );
+            if ( raster != null && raster.getWidth() >= w && raster.getHeight() >= h ) {
+                //raster is good to go
+            }
+            else {
+                raster = getColorModel().createCompatibleWritableRaster( w, h );
+                rasterCount++;
+//                System.out.println( "Allocated "+rasterCount+"th raster: "+w+"x"+h );
+            }
 
+            paint( x, y, w, h, raster );
+
+            return raster;
+        }
+
+        private void paint( int x, int y, int w, int h, WritableRaster raster ) {
             int[] data = new int[w * h * 4];
             for ( int j = 0; j < h; j++ ) {
                 for ( int i = 0; i < w; i++ ) {
@@ -113,8 +127,6 @@ public class RoundGradientPaint implements Paint {
                 }
             }
             raster.setPixels( 0, 0, w, h, data );
-
-            return raster;
         }
     }
 }
