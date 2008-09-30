@@ -84,7 +84,6 @@
 	<property name="phet-build-all-sim-jar-classname" value="edu.colorado.phet.build.PhetBuildAllSimJarTask"/>
 	<property name="phet-file-exists-classname"       value="edu.colorado.phet.build.util.FileExistsCondition"/>
 	<property name="create-installer-build-file-classname"       value="edu.colorado.phet.build.installer.InstallerBuildfileCreatorTask"/>
-	<property name="build-intellij-idea-file-classname"          value="edu.colorado.phet.build.GenerateIntelliJProjectFile" />
 	<property name="check-translations-classname"          value="edu.colorado.phet.build.translate.CheckTranslationsTask" />
     <property name="deploy-latest-classname"          value="edu.colorado.phet.build.DeployLatest" />
 
@@ -225,11 +224,6 @@
 		</zip>
 	</target>
 
-	<!-- builds the IntelliJ IDEA project file from a correct checkout of the SVN repository -->
-	<target name="build-intellij-idea" depends="_init">
-		<build-intellij-idea-file/>
-	</target>
-
 	<!-- =================================================================== -->
 	<!-- Internal targets, do NOT call directly                              -->
 	<!-- =================================================================== -->
@@ -333,10 +327,6 @@
 
 		<taskdef name="create-installer-build-file"
                  classname="${create-installer-build-file-classname}"
-                 classpath="${phetbuild-classpath}"/>
-
-		<taskdef name="build-intellij-idea-file"
-                 classname="${build-intellij-idea-file-classname}"
                  classpath="${phetbuild-classpath}"/>
 
 		<taskdef name="check-translations"
