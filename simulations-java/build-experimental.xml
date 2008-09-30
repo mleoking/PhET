@@ -136,5 +136,14 @@
 		<phet-list-locales property="locale-list" project="balloons"/>
 		<echo message="locales: ${locale-list}"/>
 	</target>
+	
+	<!-- something that Sam Reid wrote to test John Blanco's problem with deploying to tigercat -->
+    <target name="test-ssh">
+        <maverick-ssh host="tigercat.colorado.edu" username="reids" password="${mypassword}" version="2">
+            <sftp action="put" remotedir="/home/tigercat/phet/reids" verbose="true">
+                <fileset dir="doc"/>
+            </sftp>
+        </maverick-ssh>
+    </target>
 
 </project>
