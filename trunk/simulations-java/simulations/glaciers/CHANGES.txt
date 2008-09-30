@@ -67,6 +67,7 @@ CLEANUP:
 
 
 DONE:
+******* 1.00.07 (?)
 9/29/08 - get rid of scale calls in BoreholeDrillNode, resize image files
 9/29/08 - [750] make borehole drill draggable by fire button
 9/29/08 - set hgap and vgap to zero for control panel FlowLayouts
