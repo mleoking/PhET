@@ -1744,7 +1744,7 @@ public class MultipleParticleModel {
         
         // Calculate the forces exerted on the particles by the container
         // walls and by gravity.
-        double totalTopForce = 0;
+        double pressureZoneWallForce = 0;
         boolean interactionOccurredWithTop = false;
         for (int i = 0; i < m_numberOfAtoms; i++){
             
@@ -1759,9 +1759,15 @@ public class MultipleParticleModel {
             // exerted on the walls of the container.
             m_pressureCalculator.accumulatePressureValue( m_nextAtomForces[i] );
             if (m_nextAtomForces[i].getY() < 0){
-                totalTopForce += -m_nextAtomForces[i].getY();
+                pressureZoneWallForce += -m_nextAtomForces[i].getY();
                 interactionOccurredWithTop = true;
             }
+            else if (m_atomPositions[i].getY() > m_normalizedContainerHeight / 2){
+            	// If the particle bounced on one of the walls above the midpoint, add
+            	// in that value to the pressure.
+            	pressureZoneWallForce += Math.abs( m_nextAtomForces[i].getX() );
+            }
+            
             
             // Add in the effect of gravity.
             m_nextAtomForces[i].setY( m_nextAtomForces[i].getY() - m_gravitationalAcceleration );
@@ -1770,7 +1776,7 @@ public class MultipleParticleModel {
         // Update the pressure calculation.
         // TODO: JPB TBD - Clean this up if we end up using it.
         double pressureCalcWeighting = 0.9995;
-        m_pressure2 = (1 - pressureCalcWeighting) * (totalTopForce / m_normalizedContainerWidth) + 
+        m_pressure2 = (1 - pressureCalcWeighting) * (pressureZoneWallForce / (m_normalizedContainerWidth + m_normalizedContainerHeight)) + 
                 pressureCalcWeighting * m_pressure2;
         
         // Advance the moving average window of the pressure calculator.
