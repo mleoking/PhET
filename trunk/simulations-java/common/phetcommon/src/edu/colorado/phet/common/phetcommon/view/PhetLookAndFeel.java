@@ -64,9 +64,15 @@ public class PhetLookAndFeel {
             "OptionPane", "Panel",
             "RadioButton", "RadioButtonMenuItem",
             "Slider", "Spinner",
-            "TabbedPane", "TextArea", "TextField", "TextPane", "FormattedTextField",
+            "TabbedPane",
+            "TextArea",
+            "TextField",
+            "TextPane",
+            "FormattedTextField",
             "ScrollBar", "Viewport"
     };
+
+    private ArrayList ignoreBackgroundList=new ArrayList( Arrays.asList( new String[]{"TextArea","TextField","TextPane","FormattedTextField"} ));
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -230,7 +236,7 @@ public class PhetLookAndFeel {
             if ( foregroundResource != null ) {
                 list.add( type, "foreground", foregroundResource );
             }
-            if ( backgroundResource != null ) {
+            if ( backgroundResource != null &&!ignoreBackgroundList.contains(type)) {
                 list.add( type, "background", backgroundResource );
             }
             if ( insetsResource != null ) {
