@@ -16,6 +16,7 @@ import edu.colorado.phet.statesofmatter.model.particle.OxygenAtom;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.colorado.phet.statesofmatter.model.particle.UserDefinedAtom;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * This class is a Piccolo PNode extension that represents a particle in the view.
@@ -79,7 +80,14 @@ public class ParticleNode extends PNode {
 
         // Create the image that will represent this particle.
         m_sphere = new SphericalNode( particle.getRadius() * 2, choosePaint( particle ), false );
-        addChild( m_sphere );
+        if (!useGradient){
+            addChild( m_sphere );
+        }
+        else{
+        	// Since the gradient is so computationally intensive to draw, use
+        	// an image.
+        	addChild( new PImage(m_sphere.toImage()));
+        }
 
         // Set ourself to be non-pickable so that we don't get mouse events.
         setPickable( false );
