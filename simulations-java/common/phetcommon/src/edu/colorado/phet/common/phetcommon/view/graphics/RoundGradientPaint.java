@@ -24,10 +24,10 @@ import java.awt.image.WritableRaster;
  */
 public class RoundGradientPaint implements Paint {
 
-    private Point2D point;
-    private Point2D radius;
-    private Color pointColor;
-    private Color backgroundColor;
+    private final Point2D point;
+    private final Point2D radius;
+    private final Color pointColor;
+    private final Color backgroundColor;
 
     /**
      * Constructor accepts a point and a color that describe the center of
@@ -35,11 +35,11 @@ public class RoundGradientPaint implements Paint {
      * color from the center point to the background color over the length
      * of the radius.
      *
-     * @param x
-     * @param y
-     * @param pointColor
-     * @param radius
-     * @param backgroundColor
+     * @param x center of the gradient
+     * @param y center of the gradient
+     * @param pointColor color at the center of the gradient
+     * @param radius radius of the gradient blend
+     * @param backgroundColor color at the outer edges of the gradient
      */
     public RoundGradientPaint( double x, double y, Color pointColor, Point2D radius, Color backgroundColor ) {
         if ( radius.distance( 0, 0 ) <= 0 ) {
@@ -69,16 +69,16 @@ public class RoundGradientPaint implements Paint {
         return ( ( ( a1 & a2 ) == 0xff ) ? OPAQUE : TRANSLUCENT );
     }
 
-    private Point2D _point;
-    private Point2D _radius;
-    private Color _color1, _color2;
-    private WritableRaster raster;
-    private static int rasterCount = 0;
     /**
      * RoundGradientContext is the PaintContext used by a RoundGradientPaint.
      */
     private class RoundGradientContext implements PaintContext {
 
+        private final Point2D _point;
+        private final Point2D _radius;
+        private final Color _color1, _color2;
+        private WritableRaster _raster;
+        
         public RoundGradientContext( Point2D p, Color color1, Point2D r, Color color2 ) {
             _point = p;
             _color1 = color1;
@@ -94,18 +94,12 @@ public class RoundGradientPaint implements Paint {
         }
 
         public Raster getRaster( int x, int y, int w, int h ) {
-            if ( raster != null && raster.getWidth() >= w && raster.getHeight() >= h ) {
-                //raster is good to go
+            // allocate raster on demand, or if we need a bigger raster
+            if ( _raster == null || w > _raster.getWidth() || h > _raster.getHeight()  ) {
+                _raster = getColorModel().createCompatibleWritableRaster( w, h );
             }
-            else {
-                raster = getColorModel().createCompatibleWritableRaster( w, h );
-                rasterCount++;
-//                System.out.println( "Allocated "+rasterCount+"th raster: "+w+"x"+h );
-            }
-
-            paint( x, y, w, h, raster );
-
-            return raster;
+            paint( x, y, w, h, _raster );
+            return _raster;
         }
 
         private void paint( int x, int y, int w, int h, WritableRaster raster ) {
