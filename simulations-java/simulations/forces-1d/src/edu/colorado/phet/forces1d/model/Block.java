@@ -117,9 +117,9 @@ public class Block {
 
     public void userSetStaticFriction( double value ) {
         setStaticFriction( value );
-        if ( getKineticFriction() > getStaticFriction() ) {
-            setKineticFriction( value );
-        }
+//        if ( getKineticFriction() > getStaticFriction() ) {
+//            setKineticFriction( value );
+//        }
     }
 
     static class Sign {

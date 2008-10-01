@@ -38,7 +38,7 @@ public class Forces1DControlPanel extends IForceControl {
     private LinearValueControl kineticFriction;
     private Force1DModel model;
     private FrictionControl frictionControl;
-    
+
     static final Stroke stroke = new BasicStroke( 1 );
     private static final double MAX_GRAV = 30;
     public static final double MAX_KINETIC_FRICTION = 2.0;
@@ -126,24 +126,30 @@ public class Forces1DControlPanel extends IForceControl {
 
         staticFriction = createControl( model.getBlock().getStaticFriction(), 0, MAX_KINETIC_FRICTION, Force1DResources.get( "Force1dControlPanel.staticFriction" ), "", new SpinnerHandler() {
             public void changed( double value ) {
-                model.getBlock().userSetStaticFriction( value );
+                if ( staticFriction == null || staticFriction.getSlider().hasFocus()||staticFriction.getTextField().hasFocus()) {
+                    model.getBlock().userSetStaticFriction( value );
+                }
             }
         } );
         staticFriction.getSlider().addMouseListener( new MouseAdapter() {
             public void mouseReleased( MouseEvent e ) {
                 //todo: this hack only works if the static and kinetic friction sliders have the same range
                 if ( staticFriction.getSlider().getValue() <= kineticFriction.getSlider().getValue() ) {
-                    //todo: this hack seems to be necessary to get the slider value to snap to (since the slider somehow has a value different than the location of its thumb icon)
-                    staticFriction.getSlider().setValue( kineticFriction.getSlider().getValue() + 1 );
-                    staticFriction.getSlider().setValue( kineticFriction.getSlider().getValue() );
+                    model.getBlock().userSetStaticFriction( model.getBlock().getKineticFriction() );
+//                    //todo: this hack seems to be necessary to get the slider value to snap to (since the slider somehow has a value different than the location of its thumb icon)
+//                    staticFriction.getSlider().setValue( kineticFriction.getSlider().getValue() + 1 );
+//                    staticFriction.getSlider().setValue( kineticFriction.getSlider().getValue() );
                 }
             }
         } );
         kineticFriction = createControl( model.getBlock().getKineticFriction(), 0, MAX_KINETIC_FRICTION, Force1DResources.get( "Force1dControlPanel.kineticFriction" ), "", new SpinnerHandler() {
             public void changed( double value ) {
-                model.getBlock().userSetKineticFriction( value );
+                if ( kineticFriction == null || kineticFriction.getSlider().hasFocus() ||kineticFriction.getTextField().hasFocus()) {
+                    model.getBlock().userSetKineticFriction( value );
+                }
             }
         } );
+//        kineticFriction.
 
         model.getBlock().addListener( new Block.Listener() {
             public void positionChanged() {
