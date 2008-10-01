@@ -68,7 +68,7 @@ public class Force1DPanel extends ApparatusPanel2 implements OffsetManager {
         addGraphicsSetup( new BasicGraphicsSetup() );
         walkwayTransform = new Function.LinearFunction( -12, 12, 0, 400 );
         walkwayGraphic = new WalkwayGraphic( this, module, 21, walkwayTransform, this );
-        blockGraphic = new BlockGraphic( this, module.getForceModel().getBlock(), model, walkwayTransform, module.imageElementAt( 0 ), this );
+        blockGraphic = new BlockGraphic( this, module.getForceModel().getBlock(), model, walkwayTransform, module.getObject( 0 ), this );
         arrowSetGraphic = new ArrowSetGraphic( this, blockGraphic, model, transform2D, this );
         leanerGraphic = new LeanerGraphic( this, blockGraphic, this );
         backgroundGraphic.addGraphic( walkwayGraphic );

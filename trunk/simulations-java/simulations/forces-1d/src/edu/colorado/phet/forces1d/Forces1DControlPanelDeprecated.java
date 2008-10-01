@@ -44,13 +44,13 @@ public class Forces1DControlPanelDeprecated extends IForceControl {
         addControl( new ShowComponentForcesCheckBox( module ) );
         addControl( new ShowTotalForceCheckBox( module ) );
 
-        comboBox = new ObjectComboBox( module, module.getImageElements(), this );
+        comboBox = new ObjectComboBox( module, module.getForce1dObjects(), this );
         addControl( comboBox );
 
 
         barriers = new BarrierCheckBox( module );
 
-        module.setObject( module.imageElementAt( 0 ) );
+        module.setObject( module.getObject( 0 ) );
         super.setHelpPanelEnabled( true );
         if ( Toolkit.getDefaultToolkit().getScreenSize().width >= 1280 ) {
 

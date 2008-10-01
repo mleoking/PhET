@@ -20,7 +20,7 @@ public class Force1DModel implements ModelElement {
     private static final double EARTH_GRAVITY = 9.8;
     private double gravity = EARTH_GRAVITY;
     private double appliedForce;
-    public double frictionForce;
+    private double frictionForce;
     private double netForce;
     private double wallForce = 0.0;
 
