@@ -103,19 +103,15 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         m_showTotalForces = false;
         m_wiggleMeShown = false;
         
-        /*
-         * TODO JPB TBD - This used to prevent gradients from being used
-         * on a Mac, but some code has been added that may make it safe to
-         * use them, so this is commented out be left here until we find out
-         * whether or not the changes work.
-        if (PhetUtilities.getOperatingSystem() == PhetUtilities.OS_MACINTOSH){
-            // We have been having trouble with gradients causing Macs to
-            // crash and/or run very slowly, so we don't use them when running
-            // there.
-            m_useGradient = false;
-        }
-         */
-
+        // Set the transform strategy so that the the origin (i.e. point x=0,
+        // y = 0) is in a reasonable place.
+        setWorldTransformStrategy( new RenderingSizeStrategy(this, new PDimension(CANVAS_WIDTH, CANVAS_HEIGHT) ){
+            protected AffineTransform getPreprocessedTransform(){
+                return AffineTransform.getTranslateInstance( getWidth() * WIDTH_TRANSLATION_FACTOR, 
+                        getHeight() * HEIGHT_TRANSLATION_FACTOR );
+            }
+        });
+        
         // Register for notifications of important events from the model.
         m_model.addListener( new DualParticleModel.Adapter(){
             public void fixedParticleAdded(StatesOfMatterAtom particle){
@@ -136,15 +132,6 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
 
         });
 
-        // Set the transform strategy so that the the origin (i.e. point x=0,
-        // y = 0) is in a reasonable place.
-        setWorldTransformStrategy( new RenderingSizeStrategy(this, new PDimension(CANVAS_WIDTH, CANVAS_HEIGHT) ){
-            protected AffineTransform getPreprocessedTransform(){
-                return AffineTransform.getTranslateInstance( getWidth() * WIDTH_TRANSLATION_FACTOR, 
-                        getHeight() * HEIGHT_TRANSLATION_FACTOR );
-            }
-        });
-        
         // Set the background color.
         setBackground( StatesOfMatterConstants.CANVAS_BACKGROUND );
         
@@ -156,7 +143,9 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
             public void positionChanged(){
                 updatePositionMarkerOnDiagram();
                 updateForceVectors();
-                if ( m_model.getMovableParticleRef().getX() > (1 - WIDTH_TRANSLATION_FACTOR) * getWorldSize().getWidth()) {
+                
+                if ( ( getWorldSize().getWidth() > 0 ) &&
+                     ( m_model.getMovableParticleRef().getX() > (1 - WIDTH_TRANSLATION_FACTOR) * getWorldSize().getWidth())) {
                     if ( !m_retrieveAtomButtonNode.isVisible() ) {
                         // The particle is off the canvas and the button is not
                         // yet shown, so show it.
