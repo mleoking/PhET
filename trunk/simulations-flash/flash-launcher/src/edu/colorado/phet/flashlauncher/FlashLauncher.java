@@ -22,6 +22,7 @@ import edu.colorado.phet.flashlauncher.util.FileUtils;
  * It is bundled into a JAR file as the mainclass.
  * An args file in the JAR identifies the simulation name and language code,
  * which are used to fill in an HTML template.
+ * The JAR file is unzipped to a temporary directory.
  * A web browser is launched, and pointed at the HTML.
  * 
  * @author Sam Reid
@@ -80,15 +81,15 @@ public class FlashLauncher {
     private void start() throws IOException {
         
         println( "FlashLauncher.start" );
-        println( "System.getProperty( \"user.dir\" ) = " + System.getProperty( "user.dir" ) );
-        File currentDir = new File( System.getProperty( "user.dir" ) );
-        File tempDir = new File( currentDir, "temp-"+sim+"-phet" );
+        String unzipDirName = System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.separator" ) + "phet-" + sim;
+        println( "unzipping to directory = " + unzipDirName );
+        File unzipDir = new File( unzipDirName );
         
         // unzip the JAR into temp directory
         File jarfile = getJARFile();
         println( "jarfile = " + jarfile );
-        println( "Starting unzip jarfile=" + jarfile + ", tempDir=" + tempDir );
-        FileUtils.unzip( jarfile, tempDir );
+        println( "Starting unzip jarfile=" + jarfile + ", unzipDir=" + unzipDir );
+        FileUtils.unzip( jarfile, unzipDir );
         println( "Finished unzip" );
         
         // read the properties file
@@ -102,7 +103,7 @@ public class FlashLauncher {
         
         // dynamically generate an HTML file
         String html = generateHTML( sim, language, version, bgcolor );
-        File htmlFile = new File( tempDir, sim + "_" + language + ".html" );
+        File htmlFile = new File( unzipDir, sim + "_" + language + ".html" );
         FileOutputStream outputStream = new FileOutputStream( htmlFile );
         outputStream.write( html.getBytes() );
         outputStream.close();
