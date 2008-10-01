@@ -82,7 +82,6 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     private GrabbableParticleNode m_movableParticleNode;
     private InteractionPotentialDiagramNode m_diagram;
     private StatesOfMatterAtom.Listener m_atomListener;
-    private boolean m_useGradient;
     private boolean m_showAttractiveForces;
     private boolean m_showRepulsiveForces;
     private boolean m_showTotalForces;
@@ -104,8 +103,6 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         m_showTotalForces = false;
         m_wiggleMeShown = false;
         
-        // Decide whether to use gradients when drawing the particles.
-        m_useGradient = true;
         /*
          * TODO JPB TBD - This used to prevent gradients from being used
          * on a Mac, but some code has been added that may make it safe to
@@ -212,6 +209,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         // Add the button for retrieving the atom to the canvas. 
         m_retrieveAtomButtonNode = new GradientButtonNode(StatesOfMatterStrings.RETRIEVE_ATOM, 16, new Color(0xffcc66));
         m_retrieveAtomButtonNode.scale( BUTTON_HEIGHT / m_retrieveAtomButtonNode.getFullBoundsReference().height );
+        m_retrieveAtomButtonNode.setVisible( false );
         addWorldChild( m_retrieveAtomButtonNode );
         m_retrieveAtomButtonNode.setOffset( 
                 m_diagram.getFullBoundsReference().getMaxX() - m_retrieveAtomButtonNode.getFullBoundsReference().width,
@@ -307,7 +305,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     private void handleFixedParticleAdded(StatesOfMatterAtom particle){
         
         m_fixedParticle = particle;
-        m_fixedParticleNode = new ParticleForceNode(particle, m_mvt, m_useGradient);
+        m_fixedParticleNode = new ParticleForceNode(particle, m_mvt);
         m_fixedParticleNode.setShowAttractiveForces( m_showAttractiveForces );
         m_fixedParticleNode.setShowRepulsiveForces( m_showRepulsiveForces );
         m_fixedParticleNode.setShowTotalForces( m_showTotalForces );
@@ -345,8 +343,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     private void handleMovableParticleAdded(StatesOfMatterAtom particle){
         // Add an atom node for this guy.
         m_movableParticle = particle;
-        m_movableParticleNode = new GrabbableParticleNode(m_model, particle, m_mvt, m_useGradient, 0,
-                Double.POSITIVE_INFINITY);
+        m_movableParticleNode = new GrabbableParticleNode(m_model, particle, m_mvt, 0, Double.POSITIVE_INFINITY);
         m_movableParticleNode.setShowAttractiveForces( m_showAttractiveForces );
         m_movableParticleNode.setShowRepulsiveForces( m_showRepulsiveForces );
         m_movableParticleNode.setShowTotalForces( m_showTotalForces );

@@ -38,17 +38,15 @@ public class GrabbableParticleNode extends ParticleForceNode {
     
     /**
      * Constructor.
-     * 
      * @param particle - The particle within the model.
      * @param mvt - Model-view transform.
-     * @param useGradient - A boolean that controls whether to use a gradient.
      * @param minX - Minimum value in the X direction to which the particle can be moved.
      * @param maxX - Maximum value in the X direction to which the particle can be moved.
      */
     public GrabbableParticleNode( DualParticleModel model, StatesOfMatterAtom particle, ModelViewTransform mvt, 
-            boolean useGradient, double minX, double maxX ) {
+            double minX, double maxX ) {
         
-        super( particle, mvt, useGradient );
+        super( particle, mvt );
 
         m_model = model;
         m_minX = minX;
@@ -85,7 +83,7 @@ public class GrabbableParticleNode extends ParticleForceNode {
     public GrabbableParticleNode( DualParticleModel model, StatesOfMatterAtom particle, ModelViewTransform mvt, 
             boolean useGradient ) {
 
-        this(model, particle, mvt, useGradient, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+        this(model, particle, mvt, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
     }
     
     //----------------------------------------------------------------------------

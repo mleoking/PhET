@@ -48,7 +48,7 @@ public class ParticleForceNode extends BufferedParticleNode {
     // Constructor(s)
     //-----------------------------------------------------------------------------
 
-    public ParticleForceNode( StatesOfMatterAtom particle, ModelViewTransform mvt, boolean useGradient ) {
+    public ParticleForceNode( StatesOfMatterAtom particle, ModelViewTransform mvt ) {
         super( particle, mvt );
         
         m_attractiveForce = 0;
@@ -82,10 +82,6 @@ public class ParticleForceNode extends BufferedParticleNode {
         m_totalForceVectorNode.setVisible( false );
     }
 
-    public ParticleForceNode( StatesOfMatterAtom particle, ModelViewTransform mvt ) {
-        this( particle, mvt, false );
-    }
-    
     //-----------------------------------------------------------------------------
     // Accessor Methods
     //-----------------------------------------------------------------------------
