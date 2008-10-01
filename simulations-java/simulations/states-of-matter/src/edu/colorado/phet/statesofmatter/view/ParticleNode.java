@@ -39,18 +39,17 @@ public class ParticleNode extends PNode {
     private final StatesOfMatterAtom.Listener m_particleListener;
     private ModelViewTransform m_mvt;
     private Point2D.Double m_position;
-    private boolean m_useGradient;
     private SphericalNode m_sphere;
+    private PImage m_sphereImage;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
-    public ParticleNode( StatesOfMatterAtom particle, ModelViewTransform mvt, boolean useGradient ) {
+    public ParticleNode( StatesOfMatterAtom particle, ModelViewTransform mvt ) {
 
         m_particle = particle;
         m_mvt = mvt;
-        m_useGradient = useGradient;
 
         // Local initialization.
         m_position = new Point2D.Double();
@@ -80,15 +79,8 @@ public class ParticleNode extends PNode {
 
         // Create the image that will represent this particle.
         m_sphere = new SphericalNode( particle.getRadius() * 2, choosePaint( particle ), false );
-        if (!useGradient){
-            addChild( m_sphere );
-        }
-        else{
-        	// Since the gradient is so computationally intensive to draw, use
-        	// an image.
-        	addChild( new PImage(m_sphere.toImage()));
-        }
-
+        initGraphics();
+        
         // Set ourself to be non-pickable so that we don't get mouse events.
         setPickable( false );
         setChildrenPickable( false );
@@ -96,13 +88,6 @@ public class ParticleNode extends PNode {
         updatePosition();
     }
     
-    public ParticleNode( StatesOfMatterAtom particle, ModelViewTransform mvt ){
-        // If not explicitly specified, don't use the , since it is
-        // more computationally expensive.
-        this(particle, mvt, false);
-    }
-
-
     //----------------------------------------------------------------------------
     // Public Methods
     //----------------------------------------------------------------------------
@@ -116,6 +101,10 @@ public class ParticleNode extends PNode {
             m_mvt.modelToView( m_particle.getPositionReference(), m_position );
             setOffset( m_position );
         }
+    }
+    
+    protected void initGraphics(){
+        addChild( m_sphere );
     }
     
     /**
@@ -145,7 +134,7 @@ public class ParticleNode extends PNode {
      * If the radius of the particle changes, we need to redraw ourself to
      * correspond.
      */
-    private void handleParticleRadiusChanged(){
+    protected void handleParticleRadiusChanged(){
         m_sphere.setDiameter( m_particle.getRadius() * 2 );
     }
 
@@ -154,8 +143,12 @@ public class ParticleNode extends PNode {
      * 
      * @return Color to use for this particle.
      */
-    Paint choosePaint( StatesOfMatterAtom atom ) {
+    protected Paint choosePaint( StatesOfMatterAtom atom ) {
 
+    	return chooseColor( atom );
+    }
+    
+    protected Color chooseColor ( StatesOfMatterAtom atom ){
         Color baseColor;
 
         if ( atom instanceof ArgonAtom ) {
@@ -180,14 +173,22 @@ public class ParticleNode extends PNode {
             baseColor = Color.WHITE;
         }
 
-        if (m_useGradient){
-            double atomRadius = atom.getRadius();
-            return ( new RoundGradientPaint( atomRadius, -atomRadius, Color.WHITE,
-                    new Point2D.Double( -atomRadius, atomRadius ), baseColor ) );
-            
-        }
-        else{
-            return baseColor;
-        }
+        return baseColor;
     }
+
+	protected StatesOfMatterAtom getParticle() {
+		return m_particle;
+	}
+
+	protected void setParticle(StatesOfMatterAtom m_particle) {
+		this.m_particle = m_particle;
+	}
+
+	protected SphericalNode getSphere() {
+		return m_sphere;
+	}
+
+	protected void setSphere(SphericalNode m_sphere) {
+		this.m_sphere = m_sphere;
+	}
 }
