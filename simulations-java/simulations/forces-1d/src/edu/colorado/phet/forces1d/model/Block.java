@@ -100,6 +100,28 @@ public class Block {
         }
     }
 
+    public void setStaticAndKineticFriction( double staticFriction, double kineticFriction ) {
+        setStaticFriction( staticFriction );
+        setKineticFriction( kineticFriction );
+        if ( getStaticFriction() < getKineticFriction() ) {
+            setStaticFriction( getKineticFriction() );
+        }
+    }
+
+    public void userSetKineticFriction( double value ) {
+        setKineticFriction( value );
+        if ( getStaticFriction() < getKineticFriction() ) {
+            setStaticFriction( getKineticFriction() );
+        }
+    }
+
+    public void userSetStaticFriction( double value ) {
+        setStaticFriction( value );
+        if ( getKineticFriction() > getStaticFriction() ) {
+            setKineticFriction( value );
+        }
+    }
+
     static class Sign {
         static final Sign POSITIVE = new Sign( "+" );
         static final Sign NEGATIVE = new Sign( "-" );

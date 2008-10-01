@@ -86,7 +86,7 @@ public class Forces1DControlPanel extends IForceControl {
                 setChangesEnabled( true );
             }
         } );
-        ObjectSelectionPanel osp = new ObjectSelectionPanel( module.getImageElements(), this );
+        ObjectSelectionPanel osp = new ObjectSelectionPanel( module.getForce1dObjects(), this );
         addControl( osp );
 
         AdvancedPanel advancedPanel = new AdvancedPanel( Force1DResources.get( "SimpleControlPanel.moreControls" ), Force1DResources.get( "Force1dControlPanel.lessControls" ) );
@@ -126,7 +126,7 @@ public class Forces1DControlPanel extends IForceControl {
 
         staticFriction = createControl( model.getBlock().getStaticFriction(), 0, MAX_KINETIC_FRICTION, Force1DResources.get( "Force1dControlPanel.staticFriction" ), "", new SpinnerHandler() {
             public void changed( double value ) {
-                model.getBlock().setStaticFriction( value );
+                model.getBlock().userSetStaticFriction( value );
             }
         } );
         staticFriction.getSlider().addMouseListener( new MouseAdapter() {
@@ -141,7 +141,7 @@ public class Forces1DControlPanel extends IForceControl {
         } );
         kineticFriction = createControl( model.getBlock().getKineticFriction(), 0, MAX_KINETIC_FRICTION, Force1DResources.get( "Force1dControlPanel.kineticFriction" ), "", new SpinnerHandler() {
             public void changed( double value ) {
-                model.getBlock().setKineticFriction( value );
+                model.getBlock().userSetKineticFriction( value );
             }
         } );
 
@@ -157,19 +157,19 @@ public class Forces1DControlPanel extends IForceControl {
             }
         } );
 
-        model.getBlock().addListener( new Block.Listener() {
-            public void positionChanged() {
-            }
-
-            public void propertyChanged() {
-                //make sure static>=kinetic.
-                double s = model.getBlock().getStaticFriction();
-                double k = model.getBlock().getKineticFriction();
-                if ( s < k ) {
-                    staticFriction.setValue( k );
-                }
-            }
-        } );
+//        model.getBlock().addListener( new Block.Listener() {
+//            public void positionChanged() {
+//            }
+//
+//            public void propertyChanged() {
+//                //make sure static>=kinetic.
+//                double s = model.getBlock().getStaticFriction();
+//                double k = model.getBlock().getKineticFriction();
+//                if ( s < k ) {
+//                    staticFriction.setValue( k );
+//                }
+//            }
+//        } );
         model.getBlock().addListener( new Block.Listener() {
             public void positionChanged() {
             }
@@ -278,8 +278,8 @@ public class Forces1DControlPanel extends IForceControl {
         fbdSuite.reset();
     }
 
-    public void setup( Force1dObject imageElement ) {
-        module.setObject( imageElement );
+    public void setup( Force1dObject object ) {
+        module.setObject( object );
     }
 
     public void handleUserInput() {

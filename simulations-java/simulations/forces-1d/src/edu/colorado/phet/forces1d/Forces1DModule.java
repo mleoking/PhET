@@ -31,7 +31,7 @@ public class Forces1DModule extends Module {
     private Force1DModel forceModel;
     private Force1DPanel forcePanel;
     private Forces1DControlPanel simpleControlPanel;
-    private Force1dObject[] imageElements;
+    private Force1dObject[] force1dObjects;
     private DefaultPlaybackPanel playbackPanel;
     private PhetFrame phetFrame;
     private Force1DLookAndFeel force1DLookAndFeel = new Force1DLookAndFeel();
@@ -48,7 +48,7 @@ public class Forces1DModule extends Module {
 
         forceModel = new Force1DModel( this );
         setModel( new BaseModel() );
-        imageElements = new Force1dObject[]{
+        force1dObjects = new Force1dObject[]{
                 new Force1dObject( "forces-1d/images/cabinet.gif", Force1DResources.get( "Force1DModule.fileCabinet" ), 0.8, 200, 0.3, 0.2 ),
                 new Force1dObject( "forces-1d/images/fridge.gif", Force1DResources.get( "Force1DModule.refrigerator" ), 0.35, 400, 0.7, 0.5 ),
                 new Force1dObject( "forces-1d/images/phetbook.gif", Force1DResources.get( "Force1DModule.textbook" ), 0.8, 10, 0.3, 0.25 ),
@@ -149,12 +149,12 @@ public class Forces1DModule extends Module {
         p.paintImmediately( 0, 0, p.getWidth(), p.getHeight() );
     }
 
-    public Force1dObject imageElementAt( int i ) {
-        return imageElements[i];
+    public Force1dObject getObject( int i ) {
+        return force1dObjects[i];
     }
 
-    public Force1dObject[] getImageElements() {
-        return imageElements;
+    public Force1dObject[] getForce1dObjects() {
+        return force1dObjects;
     }
 
     public PhetFrame getPhetFrame() {
@@ -166,7 +166,7 @@ public class Forces1DModule extends Module {
     }
 
     public void setObject( Force1dObject force1dObject ) {
-        objectIndex = Arrays.asList( imageElements ).indexOf( force1dObject );
+        objectIndex = Arrays.asList( force1dObjects ).indexOf( force1dObject );
         try {
             getForcePanel().getBlockGraphic().setImage( force1dObject.getImage() );
         }
@@ -174,8 +174,9 @@ public class Forces1DModule extends Module {
             e.printStackTrace();
         }
         forceModel.getBlock().setMass( force1dObject.getMass() );
-        forceModel.getBlock().setStaticFriction( force1dObject.getStaticFriction() );
-        forceModel.getBlock().setKineticFriction( force1dObject.getKineticFriction() );
+        forceModel.getBlock().setStaticAndKineticFriction(force1dObject.getStaticFriction(),force1dObject.getKineticFriction() );
+//        forceModel.getBlock().setStaticFriction( force1dObject.getStaticFriction() );
+//        forceModel.getBlock().setKineticFriction( force1dObject.getKineticFriction() );
     }
 
     public void clearData() {
@@ -192,7 +193,7 @@ public class Forces1DModule extends Module {
 
     public void setImageIndex( int imageIndex ) {
         try {
-            getForcePanel().getBlockGraphic().setImage( imageElements[imageIndex].getImage() );
+            getForcePanel().getBlockGraphic().setImage( force1dObjects[imageIndex].getImage() );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -204,7 +205,7 @@ public class Forces1DModule extends Module {
     }
 
     public void restoreDefaults() {
-        setObject( imageElements[objectIndex] );
+        setObject( force1dObjects[objectIndex] );
         getForceModel().setGravity( 9.8 );
     }
 
