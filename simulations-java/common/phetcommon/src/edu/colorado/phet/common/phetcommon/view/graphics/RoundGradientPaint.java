@@ -72,7 +72,7 @@ public class RoundGradientPaint implements Paint {
     /**
      * RoundGradientContext is the PaintContext used by a RoundGradientPaint.
      */
-    private class RoundGradientContext implements PaintContext {
+    private static class RoundGradientContext implements PaintContext {
 
         private final Point2D _point;
         private final Point2D _radius;
