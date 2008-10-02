@@ -1,4 +1,6 @@
-New in 1.18.03 (10-2-2008)
+New in 1.18.05
+
+New in 1.18.04 (10-2-2008)
 Text boxes accept values when losing focus.
 
 New in 1.18.02 (9-30-2008)
