@@ -1,0 +1,48 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: September 25 - October 1, 2008 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  glaciers:
+  - fixes and change requests [730,732,733,750]
+  - publish version 1.00.07
+  
+  density:
+  - review and feedback on added panel
+  
+  common:
+  - meeting about "update" and "usage" features [741]
+  - complete work on thermometer for states-of-matter [656]
+  - discuss Java version checker
+  - update to Unfuddle SVN on my Mac OS 10.4 machine
+  - test JAR signing, acquire digital certificate
+  - document what I found out about JAR signing
+  - work on RoundGradient with Sam & John
+  - fixes to FlashLauncher [723]
+  
+  misc:
+  - finished port of radio-waves to phetcommon trunk [562]
+  - started port of sound to phetcommon trunk [562]
+  - review Faraday bugs with Kathy & Mike [721,744]
+  - create Unfuddle notebook "essential bug report info"
+  - identify inconsistent Java requirements on PhET site [753]
+  - various development discussions via email & phone
+  
+WHAT'S NEXT:
+    
+  - continue work on glaciers (see Unfuddle tickets)
+  - work on faraday bugs [744,721]
+  - port sims to phetcommon trunk [562]
+  - start on density sim when design is ready
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+  October 18-26
+  
+--
