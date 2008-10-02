@@ -14,7 +14,7 @@ import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
  *
  * @author John Blanco
  */
-public class ParticleForceNode extends BufferedParticleNode {
+public class ParticleForceNode extends ParticleNode {
 
     //-----------------------------------------------------------------------------
     // Class Data
@@ -49,7 +49,7 @@ public class ParticleForceNode extends BufferedParticleNode {
     //-----------------------------------------------------------------------------
 
     public ParticleForceNode( StatesOfMatterAtom particle, ModelViewTransform mvt ) {
-        super( particle, mvt );
+        super( particle, mvt, true );
         
         m_attractiveForce = 0;
         m_repulsiveForce = 0;
