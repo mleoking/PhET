@@ -1,3 +1,6 @@
+New in 1.18.03 (10-2-2008)
+Text boxes accept values when losing focus.
+
 New in 1.18.02 (9-30-2008)
 Fixed a bug that set incorrect values for static and kinetic friction.
 

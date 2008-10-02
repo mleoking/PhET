@@ -996,19 +996,25 @@ public class PlotDevice extends GraphicLayerSet {
             } );
             this.addKeyListener( new KeyListener() {
                 public void keyTyped( KeyEvent e ) {
-                    System.out.println( "e = " + e );
                 }
 
                 public void keyPressed( KeyEvent e ) {
-                    System.out.println( "e = " + e );
                 }
 
                 public void keyReleased( KeyEvent e ) {
                     changedByUser = true;
                     if ( e.getKeyCode() == KeyEvent.VK_ENTER ) {
-                        System.out.println( "pressed enter." );
                         parseAndSetValue();
                     }
+                }
+            } );
+            addFocusListener( new FocusListener() {
+                public void focusGained( FocusEvent e ) {
+                }
+
+                public void focusLost( FocusEvent e ) {
+                    changedByUser=true;
+                    parseAndSetValue();
                 }
             } );
 
