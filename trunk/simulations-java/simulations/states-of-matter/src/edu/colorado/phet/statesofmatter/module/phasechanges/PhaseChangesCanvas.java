@@ -141,7 +141,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         
         // Add a burner that the user can use to add or remove heat from the
         // particle container.
-        StoveNode stoveNode = new StoveNode( m_model );
+        StoveNode stoveNode = new StoveNode( m_model, this.getBackground() );
         stoveNode.setScale( BURNER_NODE_WIDTH / stoveNode.getFullBoundsReference().width );
         stoveNode.setOffset(containerRect.getX() + containerRect.getWidth() * 0.3,
                 containerRect.getY() + containerRect.getHeight() * 0.1);

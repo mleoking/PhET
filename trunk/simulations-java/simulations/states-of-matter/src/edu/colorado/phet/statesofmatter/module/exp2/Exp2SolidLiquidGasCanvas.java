@@ -76,7 +76,7 @@ public class Exp2SolidLiquidGasCanvas extends PhetPCanvas{
         
         // Add a burner that the user can use to add or remove heat from the
         // particle container.
-        StoveNode stoveNode = new StoveNode( m_model );
+        StoveNode stoveNode = new StoveNode( m_model, this.getBackground() );
         stoveNode.setScale( BURNER_NODE_WIDTH / stoveNode.getFullBoundsReference().width );
         stoveNode.setOffset(m_particleContainer.getFullBoundsReference().getMinX() + 
                 m_particleContainer.getFullBoundsReference().width/3,

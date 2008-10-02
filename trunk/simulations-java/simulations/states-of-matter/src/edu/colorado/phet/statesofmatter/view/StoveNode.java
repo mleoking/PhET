@@ -2,6 +2,9 @@
 
 package edu.colorado.phet.statesofmatter.view;
 
+import java.awt.Color;
+import java.awt.Paint;
+
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -11,6 +14,7 @@ import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 
@@ -30,24 +34,35 @@ public class StoveNode extends PNode {
     private PImage m_stoveImage;
     private StoveControlSlider m_stoveControlSlider;
     private MultipleParticleModel m_model;
-
-    public StoveNode(MultipleParticleModel model) {
+    
+    public StoveNode(MultipleParticleModel model, Paint backgroundPaint ) {
 
         m_model = model;
         
         m_fireImage = StatesOfMatterResources.getImageNode("flames.gif");
         m_fireImage.setOffset( 0, BURNER_Y_OFFSET );
         m_fireImage.setScale( INITIAL_STOVE_SCALING );
-        addChild(m_fireImage);
-
+        
         m_iceImage = StatesOfMatterResources.getImageNode("ice.gif");
         m_iceImage.setOffset( 0, BURNER_Y_OFFSET );
         m_iceImage.setScale( INITIAL_STOVE_SCALING );
-        addChild(m_iceImage);
 
-        m_stoveImage = StatesOfMatterResources.getImageNode("stove.png");
+        m_stoveImage = StatesOfMatterResources.getImageNode( "stove.png" );
         m_stoveImage.setOffset( 0, BURNER_Y_OFFSET );
         m_stoveImage.setScale( INITIAL_STOVE_SCALING );
+
+        /*
+         * Put a background between the ice/fire and the stove, so we don't 
+         * see them poking out below the top of the stove.  The background
+         * color should match the color of whatever this node is placed on.
+         */
+        PPath backgroundNode = new PPath( m_stoveImage.getFullBoundsReference() );
+        backgroundNode.setPaint( backgroundPaint );
+        backgroundNode.setStroke( null );
+
+        addChild( m_fireImage);
+        addChild(m_iceImage);
+        addChild( backgroundNode );
         addChild(m_stoveImage);
 
         /*
@@ -99,7 +114,7 @@ public class StoveNode extends PNode {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 PiccoloTestFrame testFrame = new PiccoloTestFrame("Stove Node Test");
-                StoveNode stoveNode = new StoveNode(null);
+                StoveNode stoveNode = new StoveNode(null,Color.WHITE);
                 stoveNode.setOffset(100, 200);
                 testFrame.addNode(stoveNode);
                 testFrame.setVisible(true);
