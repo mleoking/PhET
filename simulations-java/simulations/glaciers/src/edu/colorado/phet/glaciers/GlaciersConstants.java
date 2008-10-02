@@ -104,6 +104,9 @@ public class GlaciersConstants {
     // offset of upper-left corner of birds-eye viewport from top of headwall
     public static final Point2D BIRDS_EYE_VIEWPORT_OFFSET = new Point2D.Double( -4400, +1000 ); // meters
     
+    // default x location of the zoomed viewport
+    public static final double DEFAULT_ZOOMED_VIEWPORT_X = -3400;
+    
     // where the glacier intersects the right edge of the zoomed viewport, percentage of zoomed viewport height
     public static final double ALIGNMENT_FACTOR_FOR_GLACIER_IN_ZOOMED_VIEWPORT = 0.25; // percent
     

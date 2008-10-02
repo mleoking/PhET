@@ -67,6 +67,7 @@ CLEANUP:
 
 
 DONE:
+10/2/08 - move default left edge of zoomed view to -3400, so that there is more space to right of default terminus
 ******* 1.00.07 (24829)
 9/29/08 - get rid of scale calls in BoreholeDrillNode, resize image files
 9/29/08 - [750] make borehole drill draggable by fire button

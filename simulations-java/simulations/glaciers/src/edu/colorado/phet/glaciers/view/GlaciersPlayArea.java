@@ -288,7 +288,8 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
     //----------------------------------------------------------------------------
     
     public void resetZoomedViewport() {
-        _zoomedViewport.setPosition( _birdsEyeViewport.getX(), _birdsEyeViewport.getY() ); // upper-left of birds-eye viewport
+        double x = Math.max( GlaciersConstants.DEFAULT_ZOOMED_VIEWPORT_X, _birdsEyeViewport.getX() );
+        _zoomedViewport.setPosition( x, _birdsEyeViewport.getY() );
     }
     
     public void setZoomedViewportPosition( Point2D p ) {
