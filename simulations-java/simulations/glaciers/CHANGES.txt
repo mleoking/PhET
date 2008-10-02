@@ -10,12 +10,10 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - [728] change color of glacier cross-section
-- [729] "steady state" feature needs to fill glacier with debris and surface ripples
 - [725] finalize Help items
 - [731] change label on steady state button
 
 LOW PRIORITY:
-- [724] make borehole drill fire every N years
 - [735] improve smoothness of DistanceAxisNode (x-axis for coordinates feature)
 - [558] edges of thermometer & ice thickness tool icons are clipped
 - [734] dragging out and immediately into the toolbox doesn't delete tool
@@ -31,6 +29,8 @@ DEFERRED FOR INTERVIEWS:
 - do we want to show values or relative ranges (temperature=cold-to-hot,snowfall=none-to-lots) for Intro climate controls?
 
 DEFERRED FOR FUTURE VERSION:
+- [724] make borehole drill fire every N years
+- [729] "steady state" feature needs to fill glacier with debris and surface ripples
 - "steady state" feature needs to advance clock to the time at which the glacier would reach its steady state
 - "steady state" feature needs to fill in missing data in time-dependent graphs
 - climate experiments interface (start with a time estimate)
