@@ -16,7 +16,6 @@ import edu.colorado.phet.statesofmatter.model.particle.OxygenAtom;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.colorado.phet.statesofmatter.model.particle.UserDefinedAtom;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * This class is a Piccolo PNode extension that represents a particle in the view.
@@ -40,16 +39,17 @@ public class ParticleNode extends PNode {
     private ModelViewTransform m_mvt;
     private Point2D.Double m_position;
     private SphericalNode m_sphere;
-    private PImage m_sphereImage;
+    private boolean m_useGradient = false;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
-    public ParticleNode( StatesOfMatterAtom particle, ModelViewTransform mvt ) {
+    public ParticleNode( StatesOfMatterAtom particle, ModelViewTransform mvt, boolean useGradient ) {
 
         m_particle = particle;
         m_mvt = mvt;
+        m_useGradient = useGradient;
 
         // Local initialization.
         m_position = new Point2D.Double();
@@ -77,15 +77,21 @@ public class ParticleNode extends PNode {
         };
         particle.addListener( m_particleListener );
 
-        // Create the image that will represent this particle.
-        m_sphere = new SphericalNode( particle.getRadius() * 2, choosePaint( particle ), false );
-        initGraphics();
+        // Create the node that will represent this particle.  If we are
+        // using a gradient, specify that an image should be used, since it
+        // will be less computationally intensive to move it around.
+        m_sphere = new SphericalNode( particle.getRadius() * 2, choosePaint( particle ), useGradient );
+        addChild( m_sphere );
         
         // Set ourself to be non-pickable so that we don't get mouse events.
         setPickable( false );
         setChildrenPickable( false );
 
         updatePosition();
+    }
+    
+    public ParticleNode( StatesOfMatterAtom particle, ModelViewTransform mvt ) {
+    	this( particle, mvt, false ); // If the user doesn't specify, the gradient is not used.
     }
     
     //----------------------------------------------------------------------------
@@ -96,15 +102,11 @@ public class ParticleNode extends PNode {
     // Private Methods
     //----------------------------------------------------------------------------
 
-    protected void updatePosition() {
+    private void updatePosition() {
         if ( m_particle != null ) {
             m_mvt.modelToView( m_particle.getPositionReference(), m_position );
             setOffset( m_position );
         }
-    }
-    
-    protected void initGraphics(){
-        addChild( m_sphere );
     }
     
     /**
@@ -135,6 +137,11 @@ public class ParticleNode extends PNode {
      * correspond.
      */
     protected void handleParticleRadiusChanged(){
+    	
+    	if (m_useGradient){
+    		// If the size changes, the gradient must also change to match.
+    		m_sphere.setPaint( choosePaint(m_particle) );
+    	}
         m_sphere.setDiameter( m_particle.getRadius() * 2 );
     }
 
@@ -145,9 +152,25 @@ public class ParticleNode extends PNode {
      */
     protected Paint choosePaint( StatesOfMatterAtom atom ) {
 
-    	return chooseColor( atom );
+    	Color baseColor = chooseColor( atom );
+    	
+    	if (m_useGradient){
+    		double atomRadius = atom.getRadius();
+        
+    		return ( new RoundGradientPaint( atomRadius, -atomRadius, Color.WHITE,
+                new Point2D.Double( -atomRadius, atomRadius ), baseColor ) );
+    	}
+    	else{
+    		return baseColor;
+    	}
     }
     
+    /**
+     * Choose the base color for the node based on the type of atom.
+     * 
+     * @param atom
+     * @return
+     */
     protected Color chooseColor ( StatesOfMatterAtom atom ){
         Color baseColor;
 
@@ -175,20 +198,4 @@ public class ParticleNode extends PNode {
 
         return baseColor;
     }
-
-	protected StatesOfMatterAtom getParticle() {
-		return m_particle;
-	}
-
-	protected void setParticle(StatesOfMatterAtom m_particle) {
-		this.m_particle = m_particle;
-	}
-
-	protected SphericalNode getSphere() {
-		return m_sphere;
-	}
-
-	protected void setSphere(SphericalNode m_sphere) {
-		this.m_sphere = m_sphere;
-	}
 }
