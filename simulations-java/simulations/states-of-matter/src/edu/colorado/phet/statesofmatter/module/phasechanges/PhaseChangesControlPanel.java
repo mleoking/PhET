@@ -353,7 +353,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
     	return Math.min(mappedTemperature, 1);
     }
     
-    private static final double PRESSURE_FACTOR = 5;
+    private static final double PRESSURE_FACTOR = 35;
     
     private double mapModelTempAndPressureToPhaseDiagramPressure(double modelPressure, double modelTemperature){
     	double mappedTemperature = mapModelTemperatureToPhaseDiagramTemperature(modelTemperature);
