@@ -80,6 +80,9 @@ public class PhaseChangesControlPanel extends ControlPanel {
             public void pressureChanged(){
                 updatePhaseDiagram();
             }
+            public void containerExploded(){
+            	updatePhaseDiagram();
+            }
         });
         
         // Set the control panel's minimum width.
@@ -279,11 +282,19 @@ public class PhaseChangesControlPanel extends ControlPanel {
      * temperature and pressure values within the model.
      */
     private void updatePhaseDiagram(){
-        
-        double modelTemperature = m_model.getModelTemperature();
-        double modelPressure = m_model.getModelPressure();
-        double mappedTemperature = mapModelTemperatureToPhaseDiagramTemperature(modelTemperature);
-        double mappedPressure = mapModelTempAndPressureToPhaseDiagramPressure(modelPressure, modelTemperature);
+    	
+    	// If the container has exploded, don't bother showing the dot.
+    	if ( m_model.getContainerExploded() ){
+    		m_phaseDiagram.setStateMarkerVisible(false);
+    	}
+    	else{
+    		m_phaseDiagram.setStateMarkerVisible(true);
+	        double modelTemperature = m_model.getModelTemperature();
+	        double modelPressure = m_model.getModelPressure();
+	        double mappedTemperature = mapModelTemperatureToPhaseDiagramTemperature(modelTemperature);
+	        double mappedPressure = mapModelTempAndPressureToPhaseDiagramPressure(modelPressure, modelTemperature);
+	        m_phaseDiagram.setStateMarkerPos( mappedTemperature, mappedPressure );
+    	}
         
         /*
         if (MAPPING_ALGORITHM == LINEAR_MAPPING_ALGORITHM) {
@@ -315,11 +326,10 @@ public class PhaseChangesControlPanel extends ControlPanel {
             }
         }
         */
-        m_phaseDiagram.setStateMarkerPos( mappedTemperature, mappedPressure );
     }
     
     private static double TRIPLE_POINT_TEMPERATURE_IN_MODEL = 0.427;
-    private static double TRIPLE_POINT_TEMPERATURE_ON_DIAGRAM = 0.40;
+    private static double TRIPLE_POINT_TEMPERATURE_ON_DIAGRAM = 0.375;
     private static double CRITICAL_POINT_TEMPERATURE_IN_MODEL = 0.8;
     private static double CRITICAL_POINT_TEMPERATURE_ON_DIAGRAM = 0.8;
     private static double SLOPE_IN_1ST_REGION = TRIPLE_POINT_TEMPERATURE_ON_DIAGRAM / TRIPLE_POINT_TEMPERATURE_IN_MODEL;
@@ -343,7 +353,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
     	return Math.min(mappedTemperature, 1);
     }
     
-    private static final double PRESSURE_FACTOR = 0.5;
+    private static final double PRESSURE_FACTOR = 5;
     
     private double mapModelTempAndPressureToPhaseDiagramPressure(double modelPressure, double modelTemperature){
     	double mappedTemperature = mapModelTemperatureToPhaseDiagramTemperature(modelTemperature);
@@ -352,7 +362,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
     		mappedPressure = 1.4 * (Math.pow(mappedTemperature, 2)) + PRESSURE_FACTOR * Math.pow(modelPressure, 2);
     	}
     	else if (modelTemperature < CRITICAL_POINT_TEMPERATURE_IN_MODEL){
-            mappedPressure = 0.2 + 1.2 * (Math.pow(mappedTemperature - TRIPLE_POINT_TEMPERATURE_ON_DIAGRAM, 2)) + 
+            mappedPressure = 0.19 + 1.2 * (Math.pow(mappedTemperature - TRIPLE_POINT_TEMPERATURE_ON_DIAGRAM, 2)) + 
             	PRESSURE_FACTOR * Math.pow(modelPressure, 2);    		
     	}
     	else{

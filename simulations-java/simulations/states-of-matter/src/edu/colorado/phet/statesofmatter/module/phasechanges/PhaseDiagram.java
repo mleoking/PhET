@@ -348,6 +348,15 @@ public class PhaseDiagram extends PhetPCanvas {
     }
     
     /**
+     * Set the visibility of the state marker.
+     * 
+     * @param isVisible
+     */
+    public void setStateMarkerVisible( boolean isVisible ){
+    	m_currentStateMarker.setVisible(isVisible);
+    }
+    
+    /**
      * Set the phase diagram to be shaped such that it looks like water, which
      * is to say that the solid-liquid line leans to the left rather than to
      * the right, as it does for most substances.  Note that this is a very
