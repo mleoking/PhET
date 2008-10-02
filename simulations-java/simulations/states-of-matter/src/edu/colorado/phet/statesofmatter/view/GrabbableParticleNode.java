@@ -143,6 +143,4 @@ public class GrabbableParticleNode extends ParticleForceNode {
         // even if the motion was paused by some other means.
         m_model.setParticleMotionPaused( false );
     }
-
-    
 }
