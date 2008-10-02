@@ -115,6 +115,19 @@ public class MultipleParticleModel {
     
     // TODO: JPB TBD - Temp for debug, remove eventually.
     private static final boolean USE_NEW_PRESSURE_CALC_METHOD = true;
+    
+    // Values used for converting from model temperature to the temperature
+    // for a given particle.
+    private static final double TRIPLE_POINT_MODEL_TEMPERATURE = 0.4;    // Empirically determined.
+    private static final double CRITICAL_POINT_MODEL_TEMPERATURE = 0.8;  // Empirically determined.
+    private static final double NEON_TRIPLE_POINT_IN_KELVIN = 25;
+    private static final double NEON_CRITICAL_POINT_IN_KELVIN = 44;
+    private static final double ARGON_TRIPLE_POINT_IN_KELVIN = 84;
+    private static final double ARGON_CRITICAL_POINT_IN_KELVIN = 151;
+    private static final double O2_TRIPLE_POINT_IN_KELVIN = 54;
+    private static final double O2_CRITICAL_POINT_IN_KELVIN = 155;
+    private static final double WATER_TRIPLE_POINT_IN_KELVIN = 273;
+    private static final double WATER_CRITICAL_POINT_IN_KELVIN = 647;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -2676,48 +2689,46 @@ public class MultipleParticleModel {
     private double convertInternalTemperatureToKelvin(){
         
         double temperatureInKelvin = 0;
+        double triplePoint = 0;
+        double criticalPoint = 0;
         
         switch (m_currentMolecule){
         
         case StatesOfMatterConstants.NEON:
-            if (m_temperatureSetPoint <= 0.25){
-                temperatureInKelvin = m_temperatureSetPoint * 60;
-            }
-            else if (m_temperatureSetPoint <= 0.5){
-                temperatureInKelvin = m_temperatureSetPoint * 55 + 1.25;
-            }
-            else {
-                temperatureInKelvin = m_temperatureSetPoint * 62.5 - 2.5;
-            }
+        	triplePoint = NEON_TRIPLE_POINT_IN_KELVIN;
+        	criticalPoint = NEON_CRITICAL_POINT_IN_KELVIN;
             break;
             
         case StatesOfMatterConstants.ARGON:
-            if (m_temperatureSetPoint <= 0.25){
-                temperatureInKelvin = m_temperatureSetPoint * 213;
-            }
-            else {
-                temperatureInKelvin = m_temperatureSetPoint * 163.8 + 12.3;
-            }
+        	triplePoint = ARGON_TRIPLE_POINT_IN_KELVIN;
+        	criticalPoint = ARGON_CRITICAL_POINT_IN_KELVIN;
             break;
 
         case StatesOfMatterConstants.WATER:
-            if (m_temperatureSetPoint <= 0.275){
-                temperatureInKelvin = m_temperatureSetPoint * 1000;
-            }
-            else{
-                temperatureInKelvin = m_temperatureSetPoint * 440 + 154;
-            }
+        	triplePoint = WATER_TRIPLE_POINT_IN_KELVIN;
+        	criticalPoint = WATER_CRITICAL_POINT_IN_KELVIN;
             break;
             
         case StatesOfMatterConstants.DIATOMIC_OXYGEN:
-            temperatureInKelvin = m_temperatureSetPoint * 180;
+        	triplePoint = O2_TRIPLE_POINT_IN_KELVIN;
+        	criticalPoint = O2_CRITICAL_POINT_IN_KELVIN;
             break;
             
         default:
-            temperatureInKelvin = 0;
             break;
         }
-        
+
+        if (m_temperatureSetPoint < TRIPLE_POINT_MODEL_TEMPERATURE){
+        	temperatureInKelvin = m_temperatureSetPoint * triplePoint / TRIPLE_POINT_MODEL_TEMPERATURE;
+        }
+        else if (m_temperatureSetPoint < CRITICAL_POINT_MODEL_TEMPERATURE){
+        	double slope = (criticalPoint - triplePoint) / (CRITICAL_POINT_MODEL_TEMPERATURE - TRIPLE_POINT_MODEL_TEMPERATURE);
+        	double offset = triplePoint - (slope * TRIPLE_POINT_MODEL_TEMPERATURE);
+        	temperatureInKelvin = m_temperatureSetPoint * slope + offset;
+        }
+        else {
+        	temperatureInKelvin = m_temperatureSetPoint * criticalPoint / CRITICAL_POINT_MODEL_TEMPERATURE;
+        }
         return temperatureInKelvin;
     }
     
