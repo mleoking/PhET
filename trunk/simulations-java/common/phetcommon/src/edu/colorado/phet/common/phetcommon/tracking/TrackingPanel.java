@@ -1,7 +1,9 @@
 package edu.colorado.phet.common.phetcommon.tracking;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.*;
 
@@ -24,6 +26,9 @@ public class TrackingPanel extends JPanel {
             }
 
             public void trackingInfoChanged( TrackingInfo trackingInformation ) {
+            }
+
+            public void trackingFailed( IOException trackingException ) {
             }
         } );
         moreButton.addActionListener( new ActionListener() {

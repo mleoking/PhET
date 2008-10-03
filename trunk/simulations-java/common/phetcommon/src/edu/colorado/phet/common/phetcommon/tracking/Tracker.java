@@ -1,5 +1,6 @@
 package edu.colorado.phet.common.phetcommon.tracking;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
@@ -7,6 +8,7 @@ import javax.swing.*;
 
 public class Tracker {
     private TrackingInfo trackingInformation;
+    private IOException trackingException;
     private State[] states = new State[]{
             new State( "waiting for application to start                 " ),
             new State( "gathering tracking information", new Runnable() {
@@ -34,7 +36,15 @@ public class Tracker {
                 public void run() {
                     Thread t = new Thread( new Runnable() {
                         public void run() {
-                            new TrackingSystem().postTrackingInfo( trackingInformation );
+                            try {
+                                new TrackingSystem().postTrackingInfo( trackingInformation );
+                            }
+                            catch( IOException e ) {
+                                trackingException = e;
+                                for ( int i = 0; i < listeners.size(); i++ ) {
+                                    ( (Listener) listeners.get( i ) ).trackingFailed( trackingException);
+                                }
+                            }
                         }
                     } );
                     t.start();
@@ -141,5 +151,7 @@ public class Tracker {
         public void stateChanged( Tracker tracker, State oldState, State newState );
 
         void trackingInfoChanged( TrackingInfo trackingInformation );
+
+        void trackingFailed( IOException trackingException );
     }
 }
