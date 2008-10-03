@@ -4,17 +4,17 @@ package edu.colorado.phet.common.phetcommon.application;
 
 import java.util.Arrays;
 import java.util.Properties;
-import java.io.IOException;
 
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersionInfo;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
+import edu.colorado.phet.common.phetcommon.tracking.Trackable;
+import edu.colorado.phet.common.phetcommon.tracking.Tracker;
+import edu.colorado.phet.common.phetcommon.tracking.TrackingInfo;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.phetcommon.tracking.TrackingSystem;
-import edu.colorado.phet.common.phetcommon.tracking.TrackingInfo;
 
 /**
  * PhetApplicationConfig encapsulates the information required to configure
@@ -80,6 +80,7 @@ public class PhetApplicationConfig {
     private PhetResources resourceLoader;
     private final String flavor;
     private volatile PhetVersionInfo version;
+    private Tracker tracker;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -318,6 +319,10 @@ public class PhetApplicationConfig {
         return resourceLoader.getProjectName();
     }
 
+    public Tracker getTracker() {
+        return tracker;
+    }
+
     public static interface ApplicationConstructor {
         PhetApplication getApplication( PhetApplicationConfig config );
     }
@@ -365,12 +370,12 @@ public class PhetApplicationConfig {
                     new RuntimeException( "No applicationconstructor specified" ).printStackTrace();
                 }
                 if ( isTrackingEnabled() ) {
-                    try {
-                        new TrackingSystem().postTrackingInfo( new TrackingInfo( PhetApplicationConfig.this ) );
-                    }
-                    catch( IOException e ) {
-                        e.printStackTrace();
-                    }
+                    tracker = new Tracker( new Trackable() {
+                        public TrackingInfo getTrackingInformation() {
+                            return new TrackingInfo( PhetApplicationConfig.this );
+                        }
+                    } );
+                    tracker.applicationStarted();
                 }
             }
         } );
