@@ -6,28 +6,30 @@ import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.geom.GeneralPath;
+import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.JComponent;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
+import edu.colorado.phet.common.phetcommon.tracking.Tracker;
+import edu.colorado.phet.common.phetcommon.tracking.TrackingInfo;
 import edu.colorado.phet.common.phetcommon.view.LogoPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.ToolTipHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * The PhetTabbedPane is a Piccolo implementation of a tabbed pane.  In general, the interface resembles JTabbedPane.
@@ -203,6 +205,10 @@ public class PhetTabbedPane extends JPanel {
      */
     public Color getSelectedTabColor() {
         return selectedTabColor;
+    }
+
+    public void addTracker( Tracker tracker ) {
+        tabPane.addTracker( tracker );
     }
 
     /**
@@ -629,7 +635,7 @@ public class PhetTabbedPane extends JPanel {
     /**
      * The TabPane is the Piccolo PCanvas container for AbstractTabNode PNodes.
      */
-    public static class TabPane extends PCanvas {
+    public static class TabPane extends PSwingCanvas {
         private ArrayList tabs = new ArrayList();
         private double distBetweenTabs = -6;
         private TabBase tabBase;
@@ -639,6 +645,7 @@ public class PhetTabbedPane extends JPanel {
         private static final int LEFT_TAB_INSET = 10;
         private boolean logoObscured = false;
         private boolean logoVisible = true;
+        private TrackingPNode trackingNode;
 
         public TabPane( Color selectedTabColor ) {
             Image image = PhetCommonResources.getInstance().getImage( IMAGE_PHET_LOGO );
@@ -730,6 +737,13 @@ public class PhetTabbedPane extends JPanel {
                     logoObscured = false;
                     updateLogoVisible();
                 }
+            }
+            relayoutTracker();
+        }
+
+        private void relayoutTracker() {
+            if ( trackingNode != null ) {
+                trackingNode.setOffset( logo.getFullBounds().getX() - trackingNode.getFullBounds().getWidth() - 4, logo.getY() - 2 );
             }
         }
 
@@ -848,6 +862,27 @@ public class PhetTabbedPane extends JPanel {
             logo.setVisible( logoVisible && !logoObscured );
         }
 
+        public void addTracker( Tracker tracker ) {
+            tracker.addListener( new Tracker.Listener() {
+                public void stateChanged( Tracker tracker, Tracker.State oldState, Tracker.State newState ) {
+                    SwingUtilities.invokeLater( new Runnable() {
+                        public void run() {
+                            relayoutTracker();
+                        }
+                    } );
+                }
+
+                public void trackingInfoChanged( TrackingInfo trackingInformation ) {
+                }
+
+                public void trackingFailed( IOException trackingException ) {
+                }
+            } );
+
+            trackingNode = new TrackingPNode( tracker );
+            getLayer().addChild( trackingNode );
+                    relayoutTracker();
+        }
     }
 
     /**
