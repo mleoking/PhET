@@ -1,6 +1,9 @@
 package edu.colorado.phet.common.phetcommon.tracking;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+
+import javax.swing.*;
 
 public class Tracker {
     private TrackingInfo trackingInformation;
@@ -9,14 +12,33 @@ public class Tracker {
             new State( "gathering tracking information", new Runnable() {
                 public void run() {
                     trackingInformation = trackable.getTrackingInformation();
-                    for ( int i = 0; i < listeners.size(); i++ ) {
-                                            ((Listener) listeners.get( i )).trackingInfoChanged(trackingInformation);
+                    try {
+                        SwingUtilities.invokeAndWait( new Runnable() {
+                            public void run() {
+                                for ( int i = 0; i < listeners.size(); i++ ) {
+                                    ( (Listener) listeners.get( i ) ).trackingInfoChanged( trackingInformation );
+                                }
+                            }
+                        } );
                     }
+                    catch( InterruptedException e ) {
+                        e.printStackTrace();
+                    }
+                    catch( InvocationTargetException e ) {
+                        e.printStackTrace();
+                    }
+
                 }
             } ),
             new State( "posting tracking information to PhET", new Runnable() {
                 public void run() {
-                    new TrackingSystem().postTrackingInfo( trackingInformation );
+                    Thread t = new Thread( new Runnable() {
+                        public void run() {
+                            new TrackingSystem().postTrackingInfo( trackingInformation );
+                        }
+                    } );
+                    t.start();
+
                 }
             } ),
             new State( "finished tracking" )
@@ -35,33 +57,56 @@ public class Tracker {
     }
 
     public void applicationStarted() {
-        for ( int i = 1; i < states.length; i++ ) {
-            setState( states[i] );
-        }
+        Thread t = new Thread( new Runnable() {
+            public void run() {
+                for ( int i = 1; i < states.length; i++ ) {
+                    setState( states[i] );
+                }
+            }
+        } );
+        t.start();
     }
 
-    private void setState( State newState ) {
-        State oldState = state;
+    private void setState( final State newState ) {
+        final State oldState = state;
         this.state = newState;
         oldState.finished();
+
         try {
+            notifyStateChanged( oldState, state );
             Thread.sleep( 2000 );
+            newState.start();
         }
         catch( InterruptedException e ) {
             e.printStackTrace();
         }
-        newState.start();
-        notifyStateChanged( oldState, state );
     }
 
-    private void notifyStateChanged( State oldState, State newState ) {
-        for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener) listeners.get( i ) ).stateChanged( this, oldState, newState );
+    private void notifyStateChanged( final State oldState, final State newState ) {
+        try {
+            SwingUtilities.invokeAndWait( new Runnable() {
+                public void run() {
+                    for ( int i = 0; i < listeners.size(); i++ ) {
+                        ( (Listener) listeners.get( i ) ).stateChanged( Tracker.this, oldState, newState );
+                    }
+                }
+            } );
         }
+        catch( InterruptedException e ) {
+            e.printStackTrace();
+        }
+        catch( InvocationTargetException e ) {
+            e.printStackTrace();
+        }
+
     }
 
     public void addListener( Listener listener ) {
         listeners.add( listener );
+    }
+
+    public TrackingInfo getTrackingInformation() {
+        return trackingInformation;
     }
 
     public class State {
