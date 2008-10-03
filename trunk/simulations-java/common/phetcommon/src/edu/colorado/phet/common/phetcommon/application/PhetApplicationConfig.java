@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetVersionInfo;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.tracking.TrackingSystem;
 
 /**
  * PhetApplicationConfig encapsulates the information required to configure
