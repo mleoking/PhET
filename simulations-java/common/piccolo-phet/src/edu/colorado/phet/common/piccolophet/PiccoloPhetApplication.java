@@ -50,37 +50,6 @@ public class PiccoloPhetApplication extends PhetApplication {
         super( config, PHET_TABBED_PANE );
     }
 
-    public PiccoloPhetApplication( PhetApplicationConfig config, TabbedPaneType tabbedPaneType ) {
-        super( config, tabbedPaneType );
-    }
-
-    /**
-     * @param args
-     * @param title
-     * @param description
-     * @param version
-     * @deprecated
-     */
-    public PiccoloPhetApplication( String[] args, String title, String description, String version ) {
-        super( args, title, description, version );
-        super.setTabbedPaneType( PHET_TABBED_PANE );
-    }
-
-    /**
-     * Allows for the specification of the type of tabbed panes to be used.
-     *
-     * @param args
-     * @param title
-     * @param description
-     * @param version
-     * @param tabbedPaneType The type of tabbed panes to be used
-     * @deprecated
-     */
-    public PiccoloPhetApplication( String[] args, String title, String description, String version, TabbedPaneType tabbedPaneType ) {
-        super( args, title, description, version );
-        super.setTabbedPaneType( tabbedPaneType );
-    }
-
     /**
      * @param args
      * @param title
@@ -92,21 +61,6 @@ public class PiccoloPhetApplication extends PhetApplication {
     public PiccoloPhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup ) {
         super( args, title, description, version, frameSetup );
         super.setTabbedPaneType( PHET_TABBED_PANE );
-    }
-
-    /**
-     * Allows for the specification of the type of tabbed panes to be used.
-     *
-     * @param args
-     * @param title
-     * @param description
-     * @param version
-     * @param frameSetup
-     * @param tabbedPaneType
-     * @deprecated
-     */
-    public PiccoloPhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup, TabbedPaneType tabbedPaneType ) {
-        super( args, title, description, version, frameSetup, tabbedPaneType );
     }
 
 }
