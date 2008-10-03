@@ -17,6 +17,7 @@ public class TrackingInfo {
                 new TrackingEntry( "sim", config.getFlavor() ),
                 new TrackingEntry( "sim-locale", PhetResources.readLocale().toString() ),
                 new TrackingEntry( "version", config.getVersion().toString() ),
+                new TrackingEntry( "dev", config.isDev() + "" ),
 
                 //Then general to specific information about machine config
                 new TrackingEntry.SystemProperty( "os.name" ),
@@ -57,7 +58,7 @@ public class TrackingInfo {
             if ( i > 0 ) {
                 text += "\n";
             }
-            text+=entries[i].toHumanReadable();
+            text += entries[i].toHumanReadable();
         }
         return text;
     }

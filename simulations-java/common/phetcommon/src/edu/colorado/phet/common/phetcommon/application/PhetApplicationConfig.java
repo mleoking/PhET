@@ -384,6 +384,10 @@ public class PhetApplicationConfig {
         } );
     }
 
+    public boolean isDev() {
+        return Arrays.asList( commandLineArgs ).contains( PhetApplication.DEVELOPER_CONTROLS_COMMAND_LINE_ARG );
+    }
+
     private boolean isTrackingEnabled() {
         return Arrays.asList( commandLineArgs ).contains( "-tracking" ) && !PhetServiceManager.isJavaWebStart();
     }
