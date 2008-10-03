@@ -34,7 +34,7 @@ public class PhetApplication {
     //----------------------------------------------------------------
 
     /** Command line argument to enable developer-only features. */
-    private static final String DEVELOPER_CONTROLS_COMMAND_LINE_ARG = "-dev";
+    public static final String DEVELOPER_CONTROLS_COMMAND_LINE_ARG = "-dev";
     
     /**
      * Mechanism for determining which graphics subsystem we're using
