@@ -3,6 +3,7 @@ package edu.colorado.phet.common.phetcommon.tracking;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
@@ -49,13 +50,17 @@ public class TrackingDialog extends JDialog {
         if ( tracker.getTrackingInformation() != null ) {
             jt.setText( tracker.getTrackingInformation().toHumanReadable() );
         }
-        jt.setBorder( BorderFactory.createTitledBorder( "Anonymous Report" ) );
+        jt.setBorder( BorderFactory.createTitledBorder( "Report" ) );
         tracker.addListener( new Tracker.Listener() {
             public void stateChanged( Tracker tracker, Tracker.State oldState, Tracker.State newState ) {
             }
 
             public void trackingInfoChanged( TrackingInfo trackingInformation ) {
                 jt.setText( trackingInformation.toHumanReadable() );
+            }
+
+            public void trackingFailed( IOException trackingException ) {
+                jt.setText( trackingException.toString() );
             }
         } );
         jt.setPreferredSize( new Dimension( 300, 250 ) );
@@ -70,6 +75,9 @@ public class TrackingDialog extends JDialog {
             }
 
             public void trackingInfoChanged( TrackingInfo trackingInformation ) {
+            }
+
+            public void trackingFailed( IOException trackingException ) {
             }
         } );
         return jLabel;

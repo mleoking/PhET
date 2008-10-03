@@ -15,14 +15,11 @@ public class TrackingSystem {
     private String trackingPath = "tracking";
     private String trackingScript = "phet-tracking.php";
 
-    public void postTrackingInfo( TrackingInfo trackingInfo ) {
+    public void postTrackingInfo( TrackingInfo trackingInfo ) throws IOException {
         try {
             new URL( getTrackingURL( trackingInfo ) ).openStream().close();
         }
         catch( MalformedURLException e ) {
-            e.printStackTrace();
-        }
-        catch( IOException e ) {
             e.printStackTrace();
         }
     }
@@ -31,7 +28,7 @@ public class TrackingSystem {
         return phetURL + "/" + trackingPath + "/" + trackingScript + "?" + info.toPHP();
     }
 
-    public static void main( String[] args ) {
+    public static void main( String[] args ) throws IOException {
         Properties p = System.getProperties();
         Enumeration keys = p.keys();
         while ( keys.hasMoreElements() ) {
