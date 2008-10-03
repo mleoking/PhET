@@ -29,6 +29,10 @@ public class TrackingEntry {
         }
     }
 
+    public String toHumanReadable() {
+        return key + " = " + value;
+    }
+
     public static class SystemProperty extends TrackingEntry {
         public SystemProperty( String s ) {
             super( s, System.getProperty( s ) );

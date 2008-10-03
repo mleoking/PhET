@@ -43,7 +43,7 @@ public class TrackingInfo {
     public String toPHP() {
         String php = "";
         for ( int i = 0; i < entries.length; i++ ) {
-            if ( php.length() > 0 ) {
+            if ( i > 0 ) {
                 php += "&";
             }
             php += entries[i].toPHP();
@@ -51,4 +51,14 @@ public class TrackingInfo {
         return php;
     }
 
+    public String toHumanReadable() {
+        String text = "";
+        for ( int i = 0; i < entries.length; i++ ) {
+            if ( i > 0 ) {
+                text += "\n";
+            }
+            text+=entries[i].toHumanReadable();
+        }
+        return text;
+    }
 }
