@@ -65,7 +65,7 @@ public class TrackingDialog extends JDialog {
                 jt.setText( trackingException.toString() );
             }
         } );
-        jt.setPreferredSize( new Dimension( 300, 250 ) );
+        jt.setPreferredSize( new Dimension( 300, 300 ) );
         return jt;
     }
 

@@ -12,6 +12,8 @@ public class TrackingInfo {
     public TrackingInfo( PhetApplicationConfig config ) {
         initTimeZone();
         entries = new TrackingEntry[]{
+                new TrackingEntry( "type", "sim-launched"),
+                
                 //Sim info first
                 new TrackingEntry( "project", config.getProjectName() ),
                 new TrackingEntry( "sim", config.getFlavor() ),
