@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingSystem;
+import edu.colorado.phet.common.phetcommon.tracking.TrackingInfo;
 
 /**
  * PhetApplicationConfig encapsulates the information required to configure
@@ -363,7 +364,7 @@ public class PhetApplicationConfig {
                     new RuntimeException( "No applicationconstructor specified" ).printStackTrace();
                 }
                 if ( isTrackingEnabled() ) {
-                    new TrackingSystem().postTrackingInfo( new TrackingSystem.TrackingInfo( PhetApplicationConfig.this ) );
+                    new TrackingSystem().postTrackingInfo( new TrackingInfo( PhetApplicationConfig.this ) );
                 }
             }
         } );
