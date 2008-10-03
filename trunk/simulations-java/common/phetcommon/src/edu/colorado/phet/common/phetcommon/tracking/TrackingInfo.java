@@ -12,11 +12,13 @@ public class TrackingInfo {
 
     public TrackingInfo( PhetApplicationConfig config ) {
         entries = new TrackingEntry[]{
+                //Sim info first
                 new TrackingEntry( "version", config.getVersion().toString() ),
                 new TrackingEntry( "project", config.getProjectName() ),
                 new TrackingEntry( "sim", config.getFlavor() ),
                 new TrackingEntry( "sim-locale", PhetResources.readLocale().toString() ),
 
+                //Then general to specific information about machine config
                 new TrackingEntry.SystemProperty( "os.name" ),
                 new TrackingEntry.SystemProperty( "os.version" ),
                 new TrackingEntry.SystemProperty( "os.arch" ),
