@@ -3,8 +3,8 @@ package edu.colorado.phet.common.phetcommon.tracking;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
 public class TrackingPanel extends JPanel {
     private JLabel statusLabel = new JLabel();
@@ -30,7 +30,7 @@ public class TrackingPanel extends JPanel {
     public static void main( String[] args ) throws InterruptedException {
         JFrame frame = new JFrame();
         final PhetApplicationConfig config = new PhetApplicationConfig( args, new FrameSetup.CenteredWithSize( 1024, 768 ), new PhetResources( "nuclear-physics" ), "alpha-radiation" );
-        Tracker tracker = new Tracker(new Trackable() {
+        Tracker tracker = new Tracker( new Trackable() {
             public TrackingInfo getTrackingInformation() {
                 return new TrackingInfo( config );
             }
@@ -40,7 +40,7 @@ public class TrackingPanel extends JPanel {
         frame.pack();
         frame.setVisible( true );
 
-        Thread.sleep(2000);
+        Thread.sleep( 2000 );
         tracker.applicationStarted();
     }
 }
