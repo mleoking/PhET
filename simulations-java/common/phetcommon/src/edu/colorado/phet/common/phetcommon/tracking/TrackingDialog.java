@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 public class TrackingDialog extends JDialog {
     private Tracker tracker;
@@ -43,6 +44,7 @@ public class TrackingDialog extends JDialog {
         contentPane.add( Box.createRigidArea( new Dimension( 20, 20 ) ), constraints );
         contentPane.add( createReportPanel(), constraints );
         pack();
+        SwingUtils.centerWindowOnScreen( this );
     }
 
     private JComponent createReportPanel() {
