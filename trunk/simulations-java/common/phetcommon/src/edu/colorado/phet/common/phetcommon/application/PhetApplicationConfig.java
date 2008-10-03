@@ -3,18 +3,13 @@
 package edu.colorado.phet.common.phetcommon.application;
 
 import java.util.Properties;
-import java.util.Locale;
-import java.net.*;
-import java.io.IOException;
-import java.io.InputStream;
 
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersionInfo;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
 /**
  * PhetApplicationConfig encapsulates the information required to configure
@@ -191,15 +186,16 @@ public class PhetApplicationConfig {
     /**
      * Returns the locale credits for a simulation; this is an optional string specified in the simulation properties file
      * that is to be displayed only when using a particular locale.
+     *
      * @return the locale credits text
      */
-    public String getLocaleCredits(){
+    public String getLocaleCredits() {
         final String localeCreditsKey = PROPERTY_CREDITS + "." + PhetResources.readLocale();
 //        System.out.println( "localeCreditsKey = " + localeCreditsKey );
         String localizedCredits = getProjectProperty( localeCreditsKey );
 //        System.out.println( "localizedCredits = " + localizedCredits );
 
-        return ( localizedCredits != null ? localizedCredits : ""  );
+        return ( localizedCredits != null ? localizedCredits : "" );
     }
 
     /**
@@ -311,7 +307,7 @@ public class PhetApplicationConfig {
     *  This implementation uses ApplicationConstructor instead of reflection to ensure compile-time checking (at the expense of slightly more complicated subclass implementations).
     */
     private ApplicationConstructor applicationConstructor;//used to create the PhetApplication
-    private PhetLookAndFeel phetLookAndFeel=new PhetLookAndFeel();//the specified look and feel to be inited in launchSim
+    private PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();//the specified look and feel to be inited in launchSim
 
     public static interface ApplicationConstructor {
         PhetApplication getApplication( PhetApplicationConfig config );
@@ -347,15 +343,17 @@ public class PhetApplicationConfig {
                 PhetLookAndFeel lookAndFeel = getPhetLookAndFeel();
                 if ( lookAndFeel != null ) {
                     lookAndFeel.initLookAndFeel();
-                }else{
-                    new RuntimeException("No Phetlookandfeel specified" ).printStackTrace(  );
+                }
+                else {
+                    new RuntimeException( "No Phetlookandfeel specified" ).printStackTrace();
                 }
                 ApplicationConstructor applicationConstructor = getApplicationConstructor();
                 if ( applicationConstructor != null ) {
                     PhetApplication app = applicationConstructor.getApplication( PhetApplicationConfig.this );
                     app.startApplication();
-                }else{
-                    new RuntimeException( "No applicationconstructor specified").printStackTrace(  );
+                }
+                else {
+                    new RuntimeException( "No applicationconstructor specified" ).printStackTrace();
                 }
 //                doTracking();
             }
