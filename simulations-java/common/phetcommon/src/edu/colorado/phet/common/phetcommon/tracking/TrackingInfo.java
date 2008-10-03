@@ -1,6 +1,5 @@
 package edu.colorado.phet.common.phetcommon.tracking;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
@@ -11,6 +10,7 @@ public class TrackingInfo {
     private TrackingEntry[] entries;
 
     public TrackingInfo( PhetApplicationConfig config ) {
+        initTimeZone();
         entries = new TrackingEntry[]{
                 //Sim info first
                 new TrackingEntry( "project", config.getProjectName() ),
@@ -31,9 +31,13 @@ public class TrackingInfo {
                 new TrackingEntry.SystemProperty( "user.timezone" ),
                 new TrackingEntry( "default-locale", Locale.getDefault().toString() ),
 
-                //for some reason, user.timezone only appears if the next line is used (otherwise user.timezone is empty or null)
-                new TrackingEntry( "time", new SimpleDateFormat( "yyyy-MM-dd_HH:mm:ss" ).format( new Date() ) )
+//                new TrackingEntry( "time", new SimpleDateFormat( "yyyy-MM-dd_HH:mm:ss" ).format( new Date() ) )
         };
+    }
+
+    private void initTimeZone() {
+        //for some reason, user.timezone only appears if the next line is used (otherwise user.timezone is empty or null)
+        new Date().toString();
     }
 
     public String toPHP() {

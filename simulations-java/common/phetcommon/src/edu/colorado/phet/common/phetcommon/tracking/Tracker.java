@@ -1,6 +1,7 @@
 package edu.colorado.phet.common.phetcommon.tracking;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Tracker {
     private TrackingInfo trackingInformation;
@@ -41,6 +42,12 @@ public class Tracker {
         State oldState = state;
         this.state = newState;
         oldState.finished();
+        try {
+            Thread.sleep( 2000 );
+        }
+        catch( InterruptedException e ) {
+            e.printStackTrace();
+        }
         newState.start();
         notifyStateChanged( oldState, state );
     }
