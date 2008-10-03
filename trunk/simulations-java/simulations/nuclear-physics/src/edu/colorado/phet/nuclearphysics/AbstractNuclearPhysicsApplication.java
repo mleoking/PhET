@@ -99,11 +99,7 @@ public class AbstractNuclearPhysicsApplication extends PiccoloPhetApplication {
     }
 
     public Color getControlPanelBackground() {
-        return ( (Module) getModule( 0 ) ).getControlPanel().getBackground();
-    }
-
-    public AbstractNuclearPhysicsApplication( PhetApplicationConfig config, TabbedPaneType tabbedPaneType ) {
-        super( config, tabbedPaneType );
+        return getModule( 0 ).getControlPanel().getBackground();
     }
 
 }
