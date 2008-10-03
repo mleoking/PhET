@@ -1,4 +1,4 @@
-New in 1.18.05
+New in 1.18.05 (10-3-2008)
 Added trial fix for impulse from wall during collision.
 
 New in 1.18.04 (10-2-2008)
