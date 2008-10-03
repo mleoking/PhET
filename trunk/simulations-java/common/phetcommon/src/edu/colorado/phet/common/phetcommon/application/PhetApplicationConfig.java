@@ -4,6 +4,7 @@ package edu.colorado.phet.common.phetcommon.application;
 
 import java.util.Arrays;
 import java.util.Properties;
+import java.io.IOException;
 
 import javax.swing.*;
 
@@ -364,7 +365,12 @@ public class PhetApplicationConfig {
                     new RuntimeException( "No applicationconstructor specified" ).printStackTrace();
                 }
                 if ( isTrackingEnabled() ) {
-                    new TrackingSystem().postTrackingInfo( new TrackingInfo( PhetApplicationConfig.this ) );
+                    try {
+                        new TrackingSystem().postTrackingInfo( new TrackingInfo( PhetApplicationConfig.this ) );
+                    }
+                    catch( IOException e ) {
+                        e.printStackTrace();
+                    }
                 }
             }
         } );

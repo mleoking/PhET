@@ -110,15 +110,15 @@ new EnergySkateParkFrameSetup() );
     public static void main( final String[] args ) throws InvocationTargetException, InterruptedException {
         SwingUtilities.invokeAndWait( new Runnable() {
             public void run() {
-                JFrameLogger logger = new JFrameLogger( "Localization Log" );
-                logger.log( "log started at "+new Date() );
-                PhetResources.setLogger( logger );
+//                JFrameLogger logger = new JFrameLogger( "Localization Log" );
+//                logger.log( "log started at "+new Date() );
+//                PhetResources.setLogger( logger );
 
                 EnergySkateParkOptions skateParkOptions = parseOptions( args );
 
                 main( args,skateParkOptions );
 
-                logger.setVisible( true );
+//                logger.setVisible( true );
 
             }
         } );
