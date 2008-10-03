@@ -23,7 +23,7 @@ public class TrackingEntry {
             // http://forums.digitalpoint.com/showthread.php?s=1e314cbd77a6b11d904f186a60d388af&t=13647
             //regadring espace characters for php
 
-            String str = value.replace( " ", "%20" );
+            String str = value.replaceAll( " ", "%20" );
 //            str = str.replace( ".", "&#46;" );
             return str;
         }
