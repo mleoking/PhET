@@ -37,7 +37,7 @@ public class TrackingDialog extends JDialog {
         setContentPane( contentPane );
 
         contentPane.add( createLogoPanel(), constraints );
-        contentPane.add( Box.createRigidArea( new Dimension( 20, 20 ) ), constraints );
+        contentPane.add( Box.createRigidArea( new Dimension( 5, 5 ) ), constraints );
         contentPane.add( createInfoPanel(), constraints );
         contentPane.add( Box.createRigidArea( new Dimension( 20, 20 ) ), constraints );
         contentPane.add( createReportPanel(), constraints );
@@ -46,6 +46,9 @@ public class TrackingDialog extends JDialog {
 
     private JComponent createReportPanel() {
         final JTextArea jt = new JTextArea( "" );
+        if ( tracker.getTrackingInformation() != null ) {
+            jt.setText( tracker.getTrackingInformation().toHumanReadable() );
+        }
         jt.setBorder( BorderFactory.createTitledBorder( "Anonymous Report" ) );
         tracker.addListener( new Tracker.Listener() {
             public void stateChanged( Tracker tracker, Tracker.State oldState, Tracker.State newState ) {
