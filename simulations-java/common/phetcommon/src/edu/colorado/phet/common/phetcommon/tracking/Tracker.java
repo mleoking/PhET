@@ -1,15 +1,17 @@
 package edu.colorado.phet.common.phetcommon.tracking;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Tracker {
     private TrackingInfo trackingInformation;
     private State[] states = new State[]{
-            new State( "waiting for application to start" ),
+            new State( "waiting for application to start                 " ),
             new State( "gathering tracking information", new Runnable() {
                 public void run() {
                     trackingInformation = trackable.getTrackingInformation();
+                    for ( int i = 0; i < listeners.size(); i++ ) {
+                                            ((Listener) listeners.get( i )).trackingInfoChanged(trackingInformation);
+                    }
                 }
             } ),
             new State( "posting tracking information to PhET", new Runnable() {
@@ -92,5 +94,7 @@ public class Tracker {
 
     public static interface Listener {
         public void stateChanged( Tracker tracker, State oldState, State newState );
+
+        void trackingInfoChanged( TrackingInfo trackingInformation );
     }
 }

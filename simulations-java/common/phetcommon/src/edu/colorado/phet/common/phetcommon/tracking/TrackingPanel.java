@@ -1,5 +1,8 @@
 package edu.colorado.phet.common.phetcommon.tracking;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
@@ -19,6 +22,14 @@ public class TrackingPanel extends JPanel {
             public void stateChanged( Tracker tracker, Tracker.State oldState, Tracker.State newState ) {
                 updateStatusLabel();
             }
+
+            public void trackingInfoChanged( TrackingInfo trackingInformation ) {
+            }
+        } );
+        moreButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                new TrackingDialog( TrackingPanel.this.tracker ).setVisible( true );
+            }
         } );
         updateStatusLabel();
     }
@@ -29,12 +40,7 @@ public class TrackingPanel extends JPanel {
 
     public static void main( String[] args ) throws InterruptedException {
         JFrame frame = new JFrame();
-        final PhetApplicationConfig config = new PhetApplicationConfig( args, new FrameSetup.CenteredWithSize( 1024, 768 ), new PhetResources( "nuclear-physics" ), "alpha-radiation" );
-        Tracker tracker = new Tracker( new Trackable() {
-            public TrackingInfo getTrackingInformation() {
-                return new TrackingInfo( config );
-            }
-        } );
+        Tracker tracker = createTestTracker( args );
         frame.setContentPane( new TrackingPanel( tracker ) );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.pack();
@@ -42,5 +48,14 @@ public class TrackingPanel extends JPanel {
 
         Thread.sleep( 2000 );
         tracker.applicationStarted();
+    }
+
+    public static Tracker createTestTracker( String[] args ) {
+        final PhetApplicationConfig config = new PhetApplicationConfig( args, new FrameSetup.CenteredWithSize( 1024, 768 ), new PhetResources( "nuclear-physics" ), "alpha-radiation" );
+        return new Tracker( new Trackable() {
+            public TrackingInfo getTrackingInformation() {
+                return new TrackingInfo( config );
+            }
+        } );
     }
 }
