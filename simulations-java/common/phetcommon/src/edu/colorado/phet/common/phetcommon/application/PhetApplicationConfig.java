@@ -2,12 +2,14 @@
 
 package edu.colorado.phet.common.phetcommon.application;
 
+import java.util.Arrays;
 import java.util.Properties;
 
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersionInfo;
+import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
@@ -309,6 +311,10 @@ public class PhetApplicationConfig {
     private ApplicationConstructor applicationConstructor;//used to create the PhetApplication
     private PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();//the specified look and feel to be inited in launchSim
 
+    public String getProjectName() {
+        return resourceLoader.getProjectName();
+    }
+
     public static interface ApplicationConstructor {
         PhetApplication getApplication( PhetApplicationConfig config );
     }
@@ -355,23 +361,15 @@ public class PhetApplicationConfig {
                 else {
                     new RuntimeException( "No applicationconstructor specified" ).printStackTrace();
                 }
-//                doTracking();
+                if ( isTrackingEnabled() ) {
+                    new TrackingSystem().postTrackingInfo( new TrackingSystem.TrackingInfo( PhetApplicationConfig.this ) );
+                }
             }
         } );
     }
 
-//    private void doTracking() {
-//        String URL = "http://phet.colorado.edu/tracking/phet-tracking-url.php?test=true&sim=" + resourceLoader.getProjectName() + "&version=" + getVersion();
-//        try {
-//            URL url = new URL( URL);
-//            InputStream inputStream = url.openStream();
-//            inputStream.close();
-//        }
-//        catch( MalformedURLException e ) {
-//            e.printStackTrace();
-//        }
-//        catch( IOException e ) {
-//            e.printStackTrace();
-//        }
-//    }
+    private boolean isTrackingEnabled() {
+        return Arrays.asList( commandLineArgs ).contains( "-tracking" ) && PhetServiceManager.isJavaWebStart();
+    }
+
 }
