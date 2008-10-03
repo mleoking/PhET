@@ -2,6 +2,10 @@ package edu.colorado.phet.common.phetcommon.tracking;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+
 public class TrackingPanel extends JPanel {
     private JLabel statusLabel = new JLabel();
     private JButton moreButton = new JButton( "More..." );
@@ -25,7 +29,12 @@ public class TrackingPanel extends JPanel {
 
     public static void main( String[] args ) throws InterruptedException {
         JFrame frame = new JFrame();
-        Tracker tracker = new Tracker();
+        final PhetApplicationConfig config = new PhetApplicationConfig( args, new FrameSetup.CenteredWithSize( 1024, 768 ), new PhetResources( "nuclear-physics" ), "alpha-radiation" );
+        Tracker tracker = new Tracker(new Trackable() {
+            public TrackingInfo getTrackingInformation() {
+                return new TrackingInfo( config );
+            }
+        } );
         frame.setContentPane( new TrackingPanel( tracker ) );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.pack();
