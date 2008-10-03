@@ -150,7 +150,10 @@ public class Force1DModel implements ModelElement {
         updateBlockAcceleration();
 
         block.stepInTime( dt );
-        boundaryCondition.apply();
+        double wallCollisionForce=boundaryCondition.apply();
+        if (wallCollisionForce!=0){
+            netForce=block.getMass()*block.getAcceleration();
+        }
 
         netForceDataSeries.addPoint( netForce );
         frictionForceDataSeries.addPoint( frictionForce );
