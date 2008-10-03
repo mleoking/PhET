@@ -117,6 +117,13 @@ public class PhetApplicationConfig {
         this.frameSetup = frameSetup;
         this.resourceLoader = resourceLoader;
         this.flavor = flavor;
+        if ( isTrackingEnabled() ) {
+            tracker = new Tracker( new Trackable() {
+                public TrackingInfo getTrackingInformation() {
+                    return new TrackingInfo( PhetApplicationConfig.this );
+                }
+            } );
+        }
     }
 
     //----------------------------------------------------------------------------
@@ -370,11 +377,7 @@ public class PhetApplicationConfig {
                     new RuntimeException( "No applicationconstructor specified" ).printStackTrace();
                 }
                 if ( isTrackingEnabled() ) {
-                    tracker = new Tracker( new Trackable() {
-                        public TrackingInfo getTrackingInformation() {
-                            return new TrackingInfo( PhetApplicationConfig.this );
-                        }
-                    } );
+
                     tracker.applicationStarted();
                 }
             }
@@ -382,7 +385,7 @@ public class PhetApplicationConfig {
     }
 
     private boolean isTrackingEnabled() {
-        return Arrays.asList( commandLineArgs ).contains( "-tracking" ) && PhetServiceManager.isJavaWebStart();
+        return Arrays.asList( commandLineArgs ).contains( "-tracking" ) && !PhetServiceManager.isJavaWebStart();
     }
 
 }
