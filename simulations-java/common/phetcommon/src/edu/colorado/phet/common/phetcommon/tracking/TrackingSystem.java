@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.phetcommon.application;
+package edu.colorado.phet.common.phetcommon.tracking;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,6 +11,7 @@ import java.util.Properties;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 
 public class TrackingSystem {
     private String phetURL = "http://phet.colorado.edu";
