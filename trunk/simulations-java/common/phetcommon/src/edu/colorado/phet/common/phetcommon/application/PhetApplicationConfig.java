@@ -8,7 +8,7 @@ import java.util.Properties;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
-import edu.colorado.phet.common.phetcommon.resources.PhetVersionInfo;
+import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.tracking.Trackable;
 import edu.colorado.phet.common.phetcommon.tracking.Tracker;
@@ -79,7 +79,7 @@ public class PhetApplicationConfig {
     private FrameSetup frameSetup;
     private PhetResources resourceLoader;
     private final String flavor;
-    private volatile PhetVersionInfo version;
+    private volatile PhetVersion version;
     private Tracker tracker;
 
     //----------------------------------------------------------------------------
@@ -185,13 +185,13 @@ public class PhetApplicationConfig {
      *
      * @return PhetProjectVersion
      */
-    public PhetVersionInfo getVersion() {
+    public PhetVersion getVersion() {
         if ( version == null ) {
             String major = getProjectProperty( PROPERTY_VERSION_MAJOR ),
                     minor = getProjectProperty( PROPERTY_VERSION_MINOR ),
                     dev = getProjectProperty( PROPERTY_VERSION_DEV ),
                     rev = getProjectProperty( PROPERTY_VERSION_REVISION );
-            version = new PhetVersionInfo( major, minor, dev, rev );
+            version = new PhetVersion( major, minor, dev, rev );
         }
         return version;
     }
@@ -293,7 +293,7 @@ public class PhetApplicationConfig {
      * @return the version info.
      * @deprecated Simulations should use PhetApplicationConfig properly.
      */
-    public static PhetVersionInfo getVersion( String simName ) {
+    public static PhetVersion getVersion( String simName ) {
         return new PhetApplicationConfig( new String[0], new FrameSetup.NoOp(), new PhetResources( simName ) ).getVersion();
     }
 

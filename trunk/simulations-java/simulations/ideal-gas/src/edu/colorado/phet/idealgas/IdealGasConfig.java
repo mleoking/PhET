@@ -12,7 +12,7 @@ package edu.colorado.phet.idealgas;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
-import edu.colorado.phet.common.phetcommon.resources.PhetVersionInfo;
+import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.idealgas.view.ColorScheme;
 
@@ -109,7 +109,7 @@ public class IdealGasConfig {
     public static final double READOUT_LAYER = 100;
     public static final double MOLECULE_LAYER = 10;
 
-    public static PhetVersionInfo getVersion() {
+    public static PhetVersion getVersion() {
         return new PhetApplicationConfig( new String[0], new FrameSetup.NoOp(), new PhetResources( "ideal-gas" ) ).getVersion();
     }
 }

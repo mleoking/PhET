@@ -7,7 +7,7 @@ import java.text.MessageFormat;
 /**
  * PhetVersionInfo encapsulates a simulation's version information.
  */
-public class PhetVersionInfo {
+public class PhetVersion {
 
     // title bar format for public releases, major.minor
     private static final String TITLEBAR_FORMAT_PUBLIC = "{0}.{1}";
@@ -18,7 +18,7 @@ public class PhetVersionInfo {
 
     private final String major, minor, dev, revision;
 
-    public PhetVersionInfo( String major, String minor, String dev, String revision ) {
+    public PhetVersion( String major, String minor, String dev, String revision ) {
         this.major = cleanup( major );
         this.minor = cleanup( minor );
         this.dev = cleanup( dev );
@@ -94,7 +94,7 @@ public class PhetVersionInfo {
             return false;
         }
 
-        PhetVersionInfo that = (PhetVersionInfo) o;
+        PhetVersion that = (PhetVersion) o;
 
         return dev.equals( that.dev ) && major.equals( that.major ) &&
                minor.equals( that.minor ) && revision.equals( that.revision );
@@ -128,7 +128,7 @@ public class PhetVersionInfo {
         return i;
     }
 
-    public boolean isGreaterThan( PhetVersionInfo version ) {
+    public boolean isGreaterThan( PhetVersion version ) {
         //todo: should this use major/minor/dev to determine ordering?
         return getRevisionAsInt()>version.getRevisionAsInt();
     }
