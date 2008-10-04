@@ -551,7 +551,16 @@
      </target>
 
     <!-- This task builds and deploys; assumes all required properties have been previously defined -->
-	<target name="_build-and-deploy" depends="_build-jar, build-jnlp, _build-all-flavor-jars-for-sim, _deploy" />
+    <target name="_copy-version">
+        <property name="copy_file" value="simulations/${sim.name}/data/${sim.name}/${sim.name}.properties"/>
+        <property name="to_file" value="simulations/${sim.name}/deploy/${sim.name}.properties"/>
+        <copy file="${copy_file}"
+              tofile="${to_file}"/>
+        <echo message="copied ${copy_file} to ${to_file}"/>
+
+    </target>
+
+    <target name="_build-and-deploy" depends="_build-jar, build-jnlp, _build-all-flavor-jars-for-sim, _copy-version,_deploy" />
 
     <!-- generates the SVN revision number in the project properties file -->
     <target name="_generate-svn-revision-number"
