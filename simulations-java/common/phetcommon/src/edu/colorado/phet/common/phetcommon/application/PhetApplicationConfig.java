@@ -13,6 +13,8 @@ import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.tracking.Trackable;
 import edu.colorado.phet.common.phetcommon.tracking.Tracker;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingInfo;
+import edu.colorado.phet.common.phetcommon.updates.ConsoleViewForUpdates;
+import edu.colorado.phet.common.phetcommon.updates.UpdateManager;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
@@ -81,6 +83,7 @@ public class PhetApplicationConfig {
     private final String flavor;
     private volatile PhetVersion version;
     private Tracker tracker;
+    private UpdateManager updateManager;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -123,6 +126,12 @@ public class PhetApplicationConfig {
                     return new TrackingInfo( PhetApplicationConfig.this );
                 }
             } );
+        }
+        if ( isUpdatesEnabled() ) {
+            updateManager = new UpdateManager( getProjectName(), getVersion() );
+
+            //for debugging only
+            updateManager.addListener( new ConsoleViewForUpdates() );
         }
     }
 
@@ -377,8 +386,10 @@ public class PhetApplicationConfig {
                     new RuntimeException( "No applicationconstructor specified" ).printStackTrace();
                 }
                 if ( isTrackingEnabled() ) {
-
-                    tracker.applicationStarted();
+                    tracker.startTracking();
+                }
+                if ( isUpdatesEnabled() ) {
+                    updateManager.checkForUpdates();
                 }
             }
         } );
@@ -390,6 +401,10 @@ public class PhetApplicationConfig {
 
     private boolean isTrackingEnabled() {
         return Arrays.asList( commandLineArgs ).contains( "-tracking" ) && !PhetServiceManager.isJavaWebStart();
+    }
+
+    private boolean isUpdatesEnabled() {
+        return Arrays.asList( commandLineArgs ).contains( "-updates" ) && !PhetServiceManager.isJavaWebStart();
     }
 
 }

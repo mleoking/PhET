@@ -66,7 +66,7 @@ public class Tracker {
         this.trackable = trackable;
     }
 
-    public void applicationStarted() {
+    public void startTracking() {
         Thread t = new Thread( new Runnable() {
             public void run() {
                 for ( int i = 1; i < states.length; i++ ) {
