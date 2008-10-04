@@ -8,10 +8,10 @@ import java.net.URL;
 import java.util.Properties;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.resources.PhetVersionInfo;
+import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 
 public class DefaultVersionChecker implements IVersionChecker {
-    public PhetVersionInfo getVersion( String project ) throws IOException {
+    public PhetVersion getVersion( String project ) throws IOException {
         String read = readURL( "http://phet.colorado.edu/sims/" + project + "/" + project + ".properties" );
         Properties properties = new Properties();
         properties.load( new ByteArrayInputStream( read.getBytes() ) );
@@ -21,7 +21,7 @@ public class DefaultVersionChecker implements IVersionChecker {
         String dev = properties.getProperty( PhetApplicationConfig.PROPERTY_VERSION_DEV );
         String rev = properties.getProperty( PhetApplicationConfig.PROPERTY_VERSION_REVISION );
 
-        return new PhetVersionInfo( major, minor, dev, rev );
+        return new PhetVersion( major, minor, dev, rev );
     }
 
     private String readURL( String urlLocation ) throws IOException {
@@ -42,7 +42,7 @@ public class DefaultVersionChecker implements IVersionChecker {
 
     public static void main( String[] args ) throws IOException {
         System.out.println( "UpdateManager.main" );
-        PhetVersionInfo phetVersionInfo = new DefaultVersionChecker().getVersion( "balloons" );
+        PhetVersion phetVersionInfo = new DefaultVersionChecker().getVersion( "balloons" );
         System.out.println( "phetVersionInfo = " + phetVersionInfo );
     }
 }

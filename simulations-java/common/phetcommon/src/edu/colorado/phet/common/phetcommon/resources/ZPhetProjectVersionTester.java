@@ -8,8 +8,8 @@ import junit.framework.TestCase;
  */
 public class ZPhetProjectVersionTester extends TestCase {
 
-    private static final PhetVersionInfo VERSION_PUBLIC = new PhetVersionInfo( "1", "02", "00", "1234" );
-    private static final PhetVersionInfo VERSION_DEV = new PhetVersionInfo( "1", "02", "03", "1234" );
+    private static final PhetVersion VERSION_PUBLIC = new PhetVersion( "1", "02", "00", "1234" );
+    private static final PhetVersion VERSION_DEV = new PhetVersion( "1", "02", "03", "1234" );
 
     public void testFormatForTitleBar() {
         assertEquals( "1.02", VERSION_PUBLIC.formatForTitleBar() );
@@ -34,7 +34,7 @@ public class ZPhetProjectVersionTester extends TestCase {
     }
 
     public void testStringNeverNull() {
-        PhetVersionInfo version = new PhetVersionInfo( null, null, null, null );
+        PhetVersion version = new PhetVersion( null, null, null, null );
         assertNotNull( version.toString() );
     }
 }
