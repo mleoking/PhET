@@ -1,1 +1,0 @@
-The current gate implementation is wrong in many physical ways.

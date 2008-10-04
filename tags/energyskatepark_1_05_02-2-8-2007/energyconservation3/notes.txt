@@ -1,8 +1,0 @@
-Added a test that shows jade fails for the energyskatepark type problem, see travoltage project
-
-Ideas for energy conservation in the dynamics of this simulation.
-    1. Try saving total energy, not frame to frame.  FreeSplineMode is not single instance, can't store there.
-    2. If any 1 step destroys the total energy too much, roll it back.
-    3. Redistribute the energy after each step
-    4. Different number of segments in the cubic spline
-    5. Smaller time steps

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<java version="1.5.0_06" class="java.beans.XMLDecoder">
-    <object class="com.pixelzoom.MyJavaBean">
-        <void property="name">
-            <string>Jack</string>
-        </void>
-    </object>
-</java> 

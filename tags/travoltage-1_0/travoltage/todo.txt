@@ -1,7 +1,0 @@
-########################################
-# Remaining Work
-########################
-1. Electrons should stay in the body.
-2. Bring the simulation up to date with respect to look and feel.
-3. Touch a person, charge should balance out evenly.
-4. Touch a pointy object (show the difference there).

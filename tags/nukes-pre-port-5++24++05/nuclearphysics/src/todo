@@ -1,9 +1,0 @@
-- Make NucleusGraphic a PhetImageGraphic for performance?
-- Spinner for placing nuclei doesn't increment even after some nuclei are placed.
-- percent fisioned text field isn't right while nuclei are being added
-- kabooms need to be on a layer above the containment vessel
-- use NuclearBody interface and leaveSystem() instead of lists of graphics mapped to model elements.
-- counters on multiple nucleus panel aren't right
-- listeners and leaveSystem() implementations are spread around in odd places
-- graphics don't scale
-- is more than one kaboom being made per fission?

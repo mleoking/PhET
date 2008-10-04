@@ -1,4 +1,0 @@
-Got the GraphicMap to persist, at least for a simple PhetShapeGraphic.
-
-Model is not saving or restoring properly. It looks like it's choking on setLocation( Point ). Failing test is trying to
-save state on module A.

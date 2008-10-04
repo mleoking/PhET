@@ -1,6 +1,0 @@
-See http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6369517 for "obsolete interface" error
-
-Add setSimulationTimeChange() and other mutators to IClock
-
-See if we need DeveloperControlPanel (or whatever it's called) and the ModelSlider
-that's in coreadditions

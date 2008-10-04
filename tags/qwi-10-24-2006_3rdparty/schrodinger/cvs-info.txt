@@ -1,7 +1,0 @@
-qwi-4-21-2006
-
-10-24-2006: removed yalabik's propagator code, directory name ="absorption-src" at root.
-10-24-2006: removed benfold code, directory name="benfold" at root.
-10-24-2006: removed c++ code for schrodinger propagator, directory ="cpp" at root.
-
-10-24-2006: tag "qwi-10-24-2006_3rdparty" includes several 3rd party tests, after this tag, some will be removed.

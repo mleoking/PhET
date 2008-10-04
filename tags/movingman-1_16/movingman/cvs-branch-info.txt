@@ -1,4 +1,0 @@
-Moving Man is built on an old version of charts and phetcommon.  Use this tag for checkout (no current support for branch):
-mm-tag-6-30-2006-i
-movingman-9-3-2006
-movingman-1_16

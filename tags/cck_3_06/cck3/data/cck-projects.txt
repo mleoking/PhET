@@ -1,6 +1,0 @@
-CCK is built using open source programs:
-Piccolo     http://www.cs.umd.edu/hcil/jazz/
-JFreeChart  http://www.jfree.org/jfreechart/
-JCommon http://www.jfree.org/jcommon
-
-PhET would like to thank all who contributed to this simulation.

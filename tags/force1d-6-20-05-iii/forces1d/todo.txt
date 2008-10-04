@@ -1,4 +1,0 @@
-Force1D Known Bugs (in order of severity):
-•	Chris says force1d doesn’t run on a Mac.
-•	Wall force doesn’t appear during playback.
-•	Adding barriers during a recording session has the wrong behavior on playback.

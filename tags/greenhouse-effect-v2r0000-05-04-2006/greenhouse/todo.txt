@@ -1,7 +1,0 @@
-To Do List for Greenhouse Effect
-================================
-
-
-Finish functionality of reset button, and add one to the glass pane panel.
-Make a decision on how to implement the response to clicking on the concentration slider.
-Incorporate newer control panel infrastructure.

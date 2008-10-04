@@ -1,5 +1,0 @@
-11/15
-=====
-Extracted LRUCache class, for general use
-Eliminated delay in recentering of receiver in manual mode
-Reorganized and renamed controls.

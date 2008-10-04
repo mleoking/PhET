@@ -1,3 +1,0 @@
-Sequencing of MriModule constructor is critical because of the GraphicManager class. Try to loosen up the coupling.
-
-Electromagnet should be a composition of two coils, rather than having two electromagnets for the fading magnet.

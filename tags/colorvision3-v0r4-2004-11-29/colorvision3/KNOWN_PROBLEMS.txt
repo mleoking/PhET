@@ -1,7 +1,0 @@
-This is a summary of known and reported problems for the Color Vision simulation.
-
-KNOWN PROBLEMS:
-
-  
---
-end

@@ -1,2 +1,0 @@
-new in 3.49 (posted on 4-17-2006)
-* fixed build script, posted 3.49 with improved look and feel (mac support, windows support).

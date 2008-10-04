@@ -1,8 +1,0 @@
-Issues Address in Migration
-===========================
-
-Main ApparatusPanel was covering mouse events, and they weren't getting through to the ApparatusPanel2 instances
-that were on top of it.
-
-ContainmentGraphic was a PhetShapeGraphic, but wasn't defining a fill and stroke, so it wasn't ever returning
-true for contains().
