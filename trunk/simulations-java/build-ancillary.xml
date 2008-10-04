@@ -554,10 +554,9 @@
     <target name="_copy-version">
         <property name="copy_file" value="simulations/${sim.name}/data/${sim.name}/${sim.name}.properties"/>
         <property name="to_file" value="simulations/${sim.name}/deploy/${sim.name}.properties"/>
-        <copy file="${copy_file}"
-              tofile="${to_file}"/>
+        <copy file="${copy_file}" tofile="${to_file}"/>
         <echo message="copied ${copy_file} to ${to_file}"/>
-
+        <echo message="added file to svn.ignore, output=${svn.output}" />
     </target>
 
     <target name="_build-and-deploy" depends="_build-jar, build-jnlp, _build-all-flavor-jars-for-sim, _copy-version,_deploy" />
