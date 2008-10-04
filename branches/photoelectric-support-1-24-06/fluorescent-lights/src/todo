@@ -1,6 +1,0 @@
-- cache photons at angles. lots of time spent creating rotated images
-- Turn off photon/atom collisions
-- Atom hot spot is not correct
-- Memory leak
-- Figure out why energy levels panel needs a dialog around it to paint properly
-- DischargeLampAtom should have configurable likelihood of dropping from a state to some other state

@@ -1,1 +1,0 @@
-C:\j2sdk1.4.2_04\bin\jar -cf jnlpmod.jar -C classes .

@@ -1,5 +1,0 @@
-- Handle situation where cockpit is at same location as a star. The isVisible test needs to handle this.
-
-- Make fixed star distance much larger, and debug the problems with this.
-
-- Prevent stars from being too close together
