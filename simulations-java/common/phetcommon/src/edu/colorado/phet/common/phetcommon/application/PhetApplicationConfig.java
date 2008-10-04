@@ -64,11 +64,11 @@ public class PhetApplicationConfig {
     private static final String PROPERTY_DESCRIPTION = "description";
 
     // Standard non-localized properties:
-    private static final String PROPERTY_VERSION_MAJOR = "version.major";
-    private static final String PROPERTY_VERSION_MINOR = "version.minor";
-    private static final String PROPERTY_VERSION_DEV = "version.dev";
-    private static final String PROPERTY_VERSION_REVISION = "version.revision";
-    private static final String PROPERTY_CREDITS = "about.credits";
+    public static final String PROPERTY_VERSION_MAJOR = "version.major";
+    public static final String PROPERTY_VERSION_MINOR = "version.minor";
+    public static final String PROPERTY_VERSION_DEV = "version.dev";
+    public static final String PROPERTY_VERSION_REVISION = "version.revision";
+    public static final String PROPERTY_CREDITS = "about.credits";
 
     //----------------------------------------------------------------------------
     // Instance data
