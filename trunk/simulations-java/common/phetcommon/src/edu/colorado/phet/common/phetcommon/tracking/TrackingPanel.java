@@ -1,6 +1,5 @@
 package edu.colorado.phet.common.phetcommon.tracking;
 
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -52,7 +51,7 @@ public class TrackingPanel extends JPanel {
         frame.setVisible( true );
 
         Thread.sleep( 2000 );
-        tracker.applicationStarted();
+        tracker.startTracking();
     }
 
     public static Tracker createTestTracker( String[] args ) {

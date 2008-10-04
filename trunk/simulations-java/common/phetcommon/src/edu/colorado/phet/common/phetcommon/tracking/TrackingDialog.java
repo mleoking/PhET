@@ -118,7 +118,7 @@ public class TrackingDialog extends JDialog {
         TrackingDialog dialog = new TrackingDialog( testTracker );
         dialog.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
         dialog.setVisible( true );
-        testTracker.applicationStarted();
+        testTracker.startTracking();
     }
 
     private String getLocalizedString( String propertyName ) {
