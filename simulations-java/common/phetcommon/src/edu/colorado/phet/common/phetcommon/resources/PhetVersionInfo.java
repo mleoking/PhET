@@ -127,4 +127,9 @@ public class PhetVersionInfo {
         }
         return i;
     }
+
+    public boolean isGreaterThan( PhetVersionInfo version ) {
+        //todo: should this use major/minor/dev to determine ordering?
+        return getRevisionAsInt()>version.getRevisionAsInt();
+    }
 }
