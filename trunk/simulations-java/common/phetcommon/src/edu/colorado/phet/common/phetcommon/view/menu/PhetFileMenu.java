@@ -28,16 +28,8 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 public class PhetFileMenu extends JMenu {
 
     public PhetFileMenu() {
-        this( new JComponent[]{} );
-    }
-
-    public PhetFileMenu( JComponent[] menuStuff ) {
         super( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.Title" ) );
         setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.TitleMnemonic" ).charAt( 0 ) );
-        for ( int i = 0; i < menuStuff.length; i++ ) {
-            Component component = menuStuff[i];
-            this.add( component );
-        }
 
         JMenuItem preferencesMenuItem = new JMenuItem( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.Preferences" ) );
         preferencesMenuItem.addActionListener( new ActionListener() {
