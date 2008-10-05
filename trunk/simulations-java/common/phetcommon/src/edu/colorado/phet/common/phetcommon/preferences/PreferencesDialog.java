@@ -12,17 +12,21 @@ import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 public class PreferencesDialog extends JDialog {
-    public PreferencesDialog( Frame owner, ITrackingInfo tracker, IManuallyCheckForUpdates iCheckForUpdates ) {
+    public PreferencesDialog( Frame owner, ITrackingInfo tracker, IManuallyCheckForUpdates iCheckForUpdates, IPreferences updatePreferences, IPreferences trackingPreferences ) {
         super( owner, "Preferences", true );
-        setContentPane( new PreferencesPanel( iCheckForUpdates, tracker ) );
+        setContentPane( new PreferencesPanel( iCheckForUpdates, tracker, updatePreferences, trackingPreferences ) );
         pack();
-        SwingUtils.centerDialogInParent( this );
+        if ( owner != null ) {
+            SwingUtils.centerDialogInParent( this );
+        }
+        else {
+            SwingUtils.centerWindowOnScreen( this );
+        }
     }
 
     public static void main( String[] args ) {
-//        PhetApplicationConfig config = new PhetApplicationConfig( args, new FrameSetup.CenteredWithSize( 1024, 768 ), new PhetResources( "nuclear-physics" ), "alpha-radiation" );
         final PhetApplicationConfig config = new PhetApplicationConfig( args, new FrameSetup.CenteredWithSize( 1024, 768 ), new PhetResources( "balloons" ), "balloons" );
-        PreferencesDialog preferencesDialog = new PreferencesDialog( null, config, new ApplicationConfigManualCheckForUpdates( null, config ) );
+        PreferencesDialog preferencesDialog = new PreferencesDialog( null, config, new ApplicationConfigManualCheckForUpdates( null, config ), new DummyPreferences(), new DummyPreferences() );
         preferencesDialog.addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
                 System.exit( 0 );

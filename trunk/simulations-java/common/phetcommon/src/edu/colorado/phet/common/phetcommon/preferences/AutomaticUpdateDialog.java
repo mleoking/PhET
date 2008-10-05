@@ -45,7 +45,7 @@ public class AutomaticUpdateDialog extends UpdateResultDialog {
         JButton preferencesButton = new JButton( "Preferences" );
         preferencesButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                new PreferencesDialog( parent, trackingInfo, iManuallyCheckForUpdates ).setVisible( true );
+                new PreferencesDialog( parent, trackingInfo, iManuallyCheckForUpdates, null, null ).setVisible( true );
             }
         } );
         buttonStrip.add( preferencesButton );

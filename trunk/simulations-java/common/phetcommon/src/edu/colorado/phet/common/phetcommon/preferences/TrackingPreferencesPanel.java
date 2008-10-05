@@ -17,9 +17,11 @@ public class TrackingPreferencesPanel extends JPanel {
             "<b><a href=http://phet.colorado.edu>PhET</a></b> " +
             "is made possible by grants that require us to report anonymous usage statistics.</html>";
     private ITrackingInfo tracker;
+    private IPreferences iTrackingPreferences;
 
-    public TrackingPreferencesPanel( ITrackingInfo tracker ) {
+    public TrackingPreferencesPanel( ITrackingInfo tracker, IPreferences iTrackingPreferences ) {
         this.tracker = tracker;
+        this.iTrackingPreferences = iTrackingPreferences;
         setLayout( new GridBagLayout() );
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.gridy = GridBagConstraints.RELATIVE;
@@ -30,10 +32,9 @@ public class TrackingPreferencesPanel extends JPanel {
         add( Box.createRigidArea( new Dimension( 5, 2 ) ), constraints );
         add( new TrackingCheckBox(), constraints );
         add( Box.createRigidArea( new Dimension( 5, 10 ) ), constraints );
-        add( new PreferencesScopePanel(), constraints );
+        add( new PreferencesScopePanel(iTrackingPreferences), constraints );
         add( Box.createRigidArea( new Dimension( 5, 10 ) ), constraints );
         add( new DetailsButton(), constraints );
-//        add( createReportPanel(), constraints );
     }
 
     /*
@@ -47,7 +48,6 @@ public class TrackingPreferencesPanel extends JPanel {
 
         HorizontalLayoutPanel logoPanel = new HorizontalLayoutPanel();
         logoPanel.setInsets( new Insets( 10, 10, 10, 10 ) ); // top,left,bottom,right
-//        logoPanel.add( logoLabel );
         logoPanel.add( copyrightLabel );
 
         return logoPanel;
@@ -55,7 +55,7 @@ public class TrackingPreferencesPanel extends JPanel {
 
     private class TrackingCheckBox extends JCheckBox {
         private TrackingCheckBox() {
-            super( "Send tracking info to PhET", true );
+            super( "Send tracking info to PhET", iTrackingPreferences.isEnabledForSim() );
         }
     }
 
