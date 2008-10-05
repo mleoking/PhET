@@ -46,7 +46,8 @@ public class UpdateResultDialog extends JDialog {
     public void addOKButton() {
         contentPane.add( new OKButton(), constraints );
     }
-    public JComponent createOKButton(){
+
+    public JComponent createOKButton() {
         return new OKButton();
     }
 
