@@ -1,6 +1,8 @@
 package edu.colorado.phet.common.phetcommon.preferences;
 
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.*;
 
@@ -20,6 +22,12 @@ public class PreferencesDialog extends JDialog {
         PhetApplicationConfig config = new PhetApplicationConfig( args, new FrameSetup.CenteredWithSize( 1024, 768 ), new PhetResources( "nuclear-physics" ), "alpha-radiation" );
         Tracker tracker = config.getTracker();
         tracker.startTracking();
-        new PreferencesDialog( null, tracker ).setVisible( true );
+        PreferencesDialog preferencesDialog = new PreferencesDialog( null, tracker );
+        preferencesDialog.addWindowListener( new WindowAdapter() {
+            public void windowClosing( WindowEvent e ) {
+                System.exit( 0 );
+            }
+        } );
+        preferencesDialog.setVisible( true );
     }
 }
