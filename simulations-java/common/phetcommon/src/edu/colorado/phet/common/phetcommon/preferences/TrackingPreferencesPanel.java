@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.tracking.Tracker;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -35,7 +34,7 @@ public class TrackingPreferencesPanel extends JPanel {
         add( Box.createRigidArea( new Dimension( 5, 2 ) ), constraints );
         add( new TrackingCheckBox(), constraints );
         add( Box.createRigidArea( new Dimension( 5, 10 ) ), constraints );
-        add( new RadioButtonPanel(), constraints );
+        add( new PreferencesScopePanel(), constraints );
         add( Box.createRigidArea( new Dimension( 5, 10 ) ), constraints );
         add( new DetailsButton(), constraints );
 //        add( createReportPanel(), constraints );
@@ -75,29 +74,16 @@ public class TrackingPreferencesPanel extends JPanel {
         }
     }
 
-    private class RadioButtonPanel extends JPanel {
-        private RadioButtonPanel() {
-            setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-            add( new JLabel( "Make my preferences apply to:" ) );
-            ButtonGroup buttonGroup = new ButtonGroup();
-            JRadioButton thisOnly = new JRadioButton( "this simulation only", true );
-            JRadioButton all = new JRadioButton( "all PhET simulations" );
-            buttonGroup.add( thisOnly );
-            buttonGroup.add( all );
-            add( thisOnly );
-            add( all );
-        }
-    }
-
     private class DetailsButton extends JButton {
         private DetailsButton() {
             super( "Details..." );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     Window window = SwingUtilities.getWindowAncestor( DetailsButton.this );
-                    if (window instanceof Frame){
-                    new FullTrackingInfoDialog( (Frame) window, tracker ).setVisible( true );
-                    }else if (window instanceof Dialog){
+                    if ( window instanceof Frame ) {
+                        new FullTrackingInfoDialog( (Frame) window, tracker ).setVisible( true );
+                    }
+                    else if ( window instanceof Dialog ) {
                         new FullTrackingInfoDialog( (Dialog) window, tracker ).setVisible( true );
                     }
                 }
