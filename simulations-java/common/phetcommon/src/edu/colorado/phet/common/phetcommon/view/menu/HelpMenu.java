@@ -19,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
 import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.preferences.IManuallyCheckForUpdates;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 
 /**
@@ -29,9 +30,11 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
  */
 public class HelpMenu extends JMenu implements ModuleObserver {
     private JMenuItem onscreenHelp;
+    private IManuallyCheckForUpdates iManuallyCheckForUpdates;
 
-    public HelpMenu( final PhetApplication phetApplication ) {
+    public HelpMenu( final PhetApplication phetApplication, IManuallyCheckForUpdates iManuallyCheckForUpdates ) {
         super( PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.Title" ) );
+        this.iManuallyCheckForUpdates = iManuallyCheckForUpdates;
         this.setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.TitleMnemonic" ).charAt( 0 ) );
         phetApplication.addModuleObserver( this );
 
@@ -127,6 +130,11 @@ public class HelpMenu extends JMenu implements ModuleObserver {
         private CheckForUpdatesMenuItem() {
             super( PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.CheckForUpdates" ) );
             setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.CheckForUpdates" ).charAt( 0 ) );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    iManuallyCheckForUpdates.checkForUpdates();
+                }
+            } );
         }
     }
 }

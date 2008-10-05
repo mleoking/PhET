@@ -22,7 +22,7 @@ public class PreferencesDialog extends JDialog {
     public static void main( String[] args ) {
 //        PhetApplicationConfig config = new PhetApplicationConfig( args, new FrameSetup.CenteredWithSize( 1024, 768 ), new PhetResources( "nuclear-physics" ), "alpha-radiation" );
         final PhetApplicationConfig config = new PhetApplicationConfig( args, new FrameSetup.CenteredWithSize( 1024, 768 ), new PhetResources( "balloons" ), "balloons" );
-        PreferencesDialog preferencesDialog = new PreferencesDialog( null, config, new DefaultManualCheckForUpdates( config.getProjectName(), config.getVersion(), config.getName() ) );
+        PreferencesDialog preferencesDialog = new PreferencesDialog( null, config, new ApplicationConfigManualCheckForUpdates( config ) );
         preferencesDialog.addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
                 System.exit( 0 );

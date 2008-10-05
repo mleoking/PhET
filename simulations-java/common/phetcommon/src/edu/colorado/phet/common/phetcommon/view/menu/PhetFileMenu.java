@@ -18,6 +18,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.preferences.DefaultManualCheckForUpdates;
 import edu.colorado.phet.common.phetcommon.preferences.PreferencesDialog;
+import edu.colorado.phet.common.phetcommon.preferences.ApplicationConfigManualCheckForUpdates;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 
@@ -36,7 +37,7 @@ public class PhetFileMenu extends JMenu {
         JMenuItem preferencesMenuItem = new JMenuItem( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.Preferences" ) );
         preferencesMenuItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                new PreferencesDialog( phetFrame, phetApplicationConfig, new DefaultManualCheckForUpdates( phetApplicationConfig.getProjectName(), phetApplicationConfig.getVersion(), phetApplicationConfig.getName() ) ).setVisible( true );
+                new PreferencesDialog( phetFrame, phetApplicationConfig, new ApplicationConfigManualCheckForUpdates( phetApplicationConfig) ).setVisible( true );
             }
         } );
         preferencesMenuItem.setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.PreferencesMnemonic" ).charAt( 0 ) );
