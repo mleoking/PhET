@@ -37,6 +37,7 @@ public class DefaultManualCheckForUpdates implements IManuallyCheckForUpdates {
                               "A web browser is being opened to the PhET website, where you can get the new version.<html>";
                 UpdateResultDialog dialog = UpdateResultDialog.createDialog( window, title, text );
                 dialog.addOKButton();
+                dialog.pack();
                 dialog.setVisible( true );
             }
 
