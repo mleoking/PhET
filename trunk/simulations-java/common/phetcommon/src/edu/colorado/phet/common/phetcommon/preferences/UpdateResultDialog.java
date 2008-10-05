@@ -14,15 +14,18 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 public class UpdateResultDialog extends JDialog {
     private JPanel contentPane;
     private GridBagConstraints constraints;
+    private Window window;
 
     public UpdateResultDialog( Frame parent, String title, String html ) {
         super( parent, title, true );
         init( html );
+        this.window = parent;
     }
 
     public UpdateResultDialog( Dialog parent, String title, String html ) {
         super( parent, title, true );
         init( html );
+        this.window = parent;
     }
 
     private void init( String html ) {
@@ -34,10 +37,26 @@ public class UpdateResultDialog extends JDialog {
         constraints.gridwidth = 1;
         contentPane.add( createLogoPanel( html ), constraints );
         contentPane.add( Box.createRigidArea( new Dimension( 10, 10 ) ), constraints );
-        contentPane.add( new OKButton(), constraints );
         setContentPane( contentPane );
         pack();
-        SwingUtils.centerDialogInParent( this );
+
+        center();
+    }
+
+    public void addOKButton() {
+        contentPane.add( new OKButton(), constraints );
+    }
+    public JComponent createOKButton(){
+        return new OKButton();
+    }
+
+    protected void center() {
+        if ( window == null ) {
+            SwingUtils.centerWindowOnScreen( this );
+        }
+        else {
+            SwingUtils.centerDialogInParent( this );
+        }
     }
 
     private JPanel createLogoPanel( String html ) {

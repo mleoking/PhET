@@ -19,16 +19,16 @@ public class UpdateManager {
 
     public void checkForUpdates() {
         try {
-            throw new IOException( "test error" );
-//            remoteVersion = versionChecker.getVersion( project );
-//            notifyDiscoveredRemoteVersion( remoteVersion );
-//
-//            if ( remoteVersion.isGreaterThan( currentVersion ) ) {
-//                notifyUpdateAvailable( currentVersion, remoteVersion );
-//            }
-//            else {
-//                notifyNoUpdateAvailable( currentVersion, remoteVersion );
-//            }
+//            throw new IOException( "test error" );
+            remoteVersion = versionChecker.getVersion( project );
+            notifyDiscoveredRemoteVersion( remoteVersion );
+
+            if ( remoteVersion.isGreaterThan( currentVersion ) ) {
+                notifyUpdateAvailable( currentVersion, remoteVersion );
+            }
+            else {
+                notifyNoUpdateAvailable( currentVersion, remoteVersion );
+            }
         }
         catch( IOException e ) {
             e.printStackTrace();
