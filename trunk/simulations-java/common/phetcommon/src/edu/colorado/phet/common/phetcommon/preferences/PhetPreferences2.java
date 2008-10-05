@@ -12,18 +12,18 @@ import java.util.Properties;
 
 //todo: only create preferences file when user changes from default?
 //todo: sync file on frame activitation?
-public class PhetPreferences {
+public class PhetPreferences2 {
     private Properties properties = new Properties();
     private static final String UPDATE_PREFERENCE_KEY = "updates";
     private static final String TRACKING_PREFERENCE_KEY = "tracking";
-    private static PhetPreferences preferences;
+    private static PhetPreferences2 preferences;
 
-    private PhetPreferences() {
+    private PhetPreferences2() {
     }
 
-    public static PhetPreferences getPreferences() {
+    public static PhetPreferences2 getPreferences() {
         if ( preferences == null ) {
-            preferences = new PhetPreferences();
+            preferences = new PhetPreferences2();
             preferences.load();
         }
         return preferences;
@@ -107,7 +107,7 @@ public class PhetPreferences {
     }
 
     public static void main( String[] args ) {
-        PhetPreferences p = getPreferences();
+        PhetPreferences2 p = getPreferences();
         System.out.println( "p=" + p );
         p.storePreferences();
     }
