@@ -19,15 +19,16 @@ public class UpdateManager {
 
     public void checkForUpdates() {
         try {
-            remoteVersion = versionChecker.getVersion( project );
-            notifyDiscoveredRemoteVersion( remoteVersion );
-
-            if ( remoteVersion.isGreaterThan( currentVersion ) ) {
-                notifyUpdateAvailable( currentVersion, remoteVersion );
-            }
-            else{
-                notifyNoUpdateAvailable(currentVersion,remoteVersion);
-            }
+            throw new IOException( "test error" );
+//            remoteVersion = versionChecker.getVersion( project );
+//            notifyDiscoveredRemoteVersion( remoteVersion );
+//
+//            if ( remoteVersion.isGreaterThan( currentVersion ) ) {
+//                notifyUpdateAvailable( currentVersion, remoteVersion );
+//            }
+//            else {
+//                notifyNoUpdateAvailable( currentVersion, remoteVersion );
+//            }
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -41,14 +42,16 @@ public class UpdateManager {
             ( (Listener) listeners.get( i ) ).exceptionInUpdateCheck( e );
         }
     }
+
     private void notifyNoUpdateAvailable( PhetVersion currentVersion, PhetVersion remoteVersion ) {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener) listeners.get( i ) ).noNewVersionAvailable(currentVersion,remoteVersion);
+            ( (Listener) listeners.get( i ) ).noNewVersionAvailable( currentVersion, remoteVersion );
         }
     }
+
     private void notifyUpdateAvailable( PhetVersion currentVersion, PhetVersion remoteVersion ) {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener) listeners.get( i ) ).newVersionAvailable(currentVersion,remoteVersion);
+            ( (Listener) listeners.get( i ) ).newVersionAvailable( currentVersion, remoteVersion );
         }
     }
 
