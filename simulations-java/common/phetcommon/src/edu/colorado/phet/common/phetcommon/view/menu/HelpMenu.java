@@ -79,6 +79,7 @@ public class HelpMenu extends JMenu implements ModuleObserver {
         //----------------------------------------------------------------------
         // Separator
         addSeparator();
+        add( new CheckForUpdatesMenuItem() );
 
         //----------------------------------------------------------------------
         // "About" menu item
@@ -120,5 +121,12 @@ public class HelpMenu extends JMenu implements ModuleObserver {
 
     public void moduleRemoved( ModuleEvent event ) {
         //noop
+    }
+
+    private class CheckForUpdatesMenuItem extends JMenuItem {
+        private CheckForUpdatesMenuItem() {
+            super( PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.CheckForUpdates" ) );
+            setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.CheckForUpdates" ).charAt( 0 ) );
+        }
     }
 }
