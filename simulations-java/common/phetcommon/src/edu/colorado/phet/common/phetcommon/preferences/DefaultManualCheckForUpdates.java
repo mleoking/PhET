@@ -35,7 +35,9 @@ public class DefaultManualCheckForUpdates implements IManuallyCheckForUpdates {
                 String title = "New version available";
                 String text = "<html>Your current version of " + humanReadableSimName + " is " + currentVersion.formatForTitleBar() + ".  A newer version (" + remoteVersion.formatForTitleBar() + ") is available.<br>" +
                               "A web browser is being opened to the PhET website, where you can get the new version.<html>";
-                UpdateResultDialog.showDialog( window, title, text );
+                UpdateResultDialog dialog = UpdateResultDialog.createDialog( window, title, text );
+                dialog.addOKButton();
+                dialog.setVisible( true );
             }
 
             public void exceptionInUpdateCheck( final IOException e ) {
@@ -51,6 +53,9 @@ public class DefaultManualCheckForUpdates implements IManuallyCheckForUpdates {
                     }
                 } );
                 UpdateResultDialog updateResultDialog = UpdateResultDialog.createDialog( window, title, text );
+                JPanel buttonPanel = new JPanel();
+                buttonPanel.add( updateResultDialog.createOKButton() );
+                buttonPanel.add( details );
                 updateResultDialog.addComponent( details );
                 updateResultDialog.pack();
                 updateResultDialog.setVisible( true );
