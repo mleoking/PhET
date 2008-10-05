@@ -14,7 +14,17 @@ public class AutomaticUpdateDialog extends UpdateResultDialog {
     public AutomaticUpdateDialog( final Frame parent, String html, final ITrackingInfo trackingInfo, final IManuallyCheckForUpdates iManuallyCheckForUpdates ) {
         super( parent, "New Update Available", html );
         JPanel buttonStrip = new JPanel();
-        buttonStrip.add( new JButton( "Update Now" ) );//todo: implement
+        JButton updateNowButton = new JButton( "Update Now" );
+        updateNowButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                UpdateResultDialog updateResultDialog = new UpdateResultDialog( parent, "Instructions on Updating", "<html>A web browser will be opened to PhET website, where you can get the new version.<br>" +
+                                                                                                                    "    If the web browser fails to open, please visit this URL: <a href=\"http://phet.colorado.edu/simulations/sims.php?sim=Glaciers\">http://phet.colorado.edu/simulations/sims.php?sim=Glaciers</a></html>" );
+                updateResultDialog.addOKButton();
+                updateResultDialog.pack();
+                updateResultDialog.setVisible( true );
+            }
+        } );
+        buttonStrip.add( updateNowButton );
 
         JButton askMeLater = new JButton( "Ask me later" );
         askMeLater.addActionListener( new ActionListener() {
