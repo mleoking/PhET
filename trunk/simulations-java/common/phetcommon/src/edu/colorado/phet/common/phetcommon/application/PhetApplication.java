@@ -66,15 +66,11 @@ public class PhetApplication {
     //----------------------------------------------------------------
     
     protected PhetApplication( PhetApplicationConfig config ) {
-        this( config.getCommandLineArgs(), config.getName(), config.getDescription(), config.getVersion().formatForTitleBar(), config.getFrameSetup() );
-
-        this.applicationConfig = config;
+        this( config.getCommandLineArgs(), config.getName(), config.getDescription(), config.getVersion().formatForTitleBar(), config.getFrameSetup() ,JTABBED_PANE_TYPE,config);
     }
 
     protected PhetApplication( PhetApplicationConfig config, TabbedPaneType tabbedPaneType ) {
-        this( config.getCommandLineArgs(), config.getName(), config.getDescription(), config.getVersion().formatForTitleBar(), config.getFrameSetup(), tabbedPaneType );
-
-        this.applicationConfig = config;
+        this( config.getCommandLineArgs(), config.getName(), config.getDescription(), config.getVersion().formatForTitleBar(), config.getFrameSetup(), tabbedPaneType ,config );
     }
 
     /**
@@ -86,8 +82,7 @@ public class PhetApplication {
      * @param version     Appears in the About dialog
      * @deprecated
      */
-    public PhetApplication( String[] args, String title, String description, String version
-    ) {
+    public PhetApplication( String[] args, String title, String description, String version) {
         this( args, title, description, version, new FrameSetup.CenteredWithSize( getScreenSize().width, getScreenSize().height - 150 ) );
     }
 
@@ -109,7 +104,13 @@ public class PhetApplication {
      * @deprecated
      */
     public PhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup, TabbedPaneType tabbedPaneType ) {
-        
+        this( args, title, description, version, frameSetup, tabbedPaneType, null );
+    }
+    /**
+     * @deprecated
+     */
+    public PhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup, TabbedPaneType tabbedPaneType ,PhetApplicationConfig config) {
+        this.applicationConfig=config;
         this.developerControlsEnabled = CommandLineUtils.contains( args, DEVELOPER_CONTROLS_COMMAND_LINE_ARG );
                 
         // Put up a dialog that lets the user know that the simulation is starting up
