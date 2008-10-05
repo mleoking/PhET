@@ -41,17 +41,6 @@ public class TrackingPreferencesPanel extends JPanel {
     * Creates the panel that contains the logo and general copyright info.
     */
     private JPanel createLogoPanel() {
-
-//        BufferedImage image = PhetCommonResources.getInstance().getImage( PhetLookAndFeel.PHET_LOGO_120x50 );
-//        JLabel logoLabel = new JLabel( new ImageIcon( image ) );
-//        logoLabel.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
-//        logoLabel.setToolTipText( getLocalizedString( "Common.About.WebLink" ) );
-//        logoLabel.addMouseListener( new MouseInputAdapter() {
-//            public void mouseReleased( MouseEvent e ) {
-//                PhetServiceManager.showPhetPage();
-//            }
-//        } );
-
         String html = INFO;
         html = html.replaceAll( "@FONT_SIZE@", new PhetFont().getSize() + "pt" );
         html = html.replaceAll( "@FONT_FAMILY@", new PhetFont().getFamily() );

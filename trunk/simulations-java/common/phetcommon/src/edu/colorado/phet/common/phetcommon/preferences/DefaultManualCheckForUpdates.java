@@ -1,5 +1,6 @@
 package edu.colorado.phet.common.phetcommon.preferences;
 
+import java.awt.*;
 import java.io.IOException;
 
 import javax.swing.*;
@@ -10,9 +11,11 @@ import edu.colorado.phet.common.phetcommon.updates.UpdateManager;
 public class DefaultManualCheckForUpdates implements IManuallyCheckForUpdates {
     private PhetVersion currentVersion;
     private String humanReadableSimName;
+    private Window window;
     private String projectName;
 
-    public DefaultManualCheckForUpdates( String projectName, PhetVersion currentVersion, String humanReadableSimName ) {
+    public DefaultManualCheckForUpdates( Window window, String projectName, PhetVersion currentVersion, String humanReadableSimName ) {
+        this.window = window;
         this.projectName = projectName;
         this.currentVersion = currentVersion;
         this.humanReadableSimName = humanReadableSimName;
@@ -25,8 +28,15 @@ public class DefaultManualCheckForUpdates implements IManuallyCheckForUpdates {
             }
 
             public void newVersionAvailable( PhetVersion currentVersion, PhetVersion remoteVersion ) {
-                JOptionPane.showMessageDialog( null, "Your current version of " + humanReadableSimName + " is " + currentVersion.formatForTitleBar() + ".  A newer version (" + remoteVersion.formatForTitleBar() + ") is available.\n" +
-                                                     "A web browser is being opened to the PhET website, where you can get the new version." );
+                String title = "New version available";
+                String text = "<html>Your current version of " + humanReadableSimName + " is " + currentVersion.formatForTitleBar() + ".  A newer version (" + remoteVersion.formatForTitleBar() + ") is available.<br>" +
+                              "A web browser is being opened to the PhET website, where you can get the new version.<html>";
+                if ( window instanceof Frame || window == null ) {
+                    new UpdateResultDialog( (Frame) window, title, text ).setVisible( true );
+                }
+                else if ( window instanceof Dialog ) {
+                    new UpdateResultDialog( (Dialog) window, title, text ).setVisible( true );
+                }
             }
 
             public void exceptionInUpdateCheck( IOException e ) {
