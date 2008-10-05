@@ -1,11 +1,16 @@
 package edu.colorado.phet.common.phetcommon.preferences;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+
 public class UpdatesPreferencesPanel extends JPanel {
-    public UpdatesPreferencesPanel() {
+
+    public UpdatesPreferencesPanel( final IManuallyCheckForUpdates iCheckForUpdates ) {
         setLayout( new GridBagLayout() );
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.gridy = GridBagConstraints.RELATIVE;
@@ -18,6 +23,13 @@ public class UpdatesPreferencesPanel extends JPanel {
         add( Box.createRigidArea( new Dimension( 50, 10 ) ), constraints );
         add( new PreferencesScopePanel(), constraints );
         add( Box.createRigidArea( new Dimension( 50, 10 ) ), constraints );
-        add( new JButton( "Check for update..." ), constraints );
+        JButton button = new JButton( PhetCommonResources.getString( "Common.HelpMenu.CheckForUpdates" ) );
+        button.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                iCheckForUpdates.checkForUpdates();
+            }
+        } );
+        add( button, constraints );
     }
+
 }

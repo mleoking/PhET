@@ -42,7 +42,7 @@ public class PhetFileMenu extends JMenu {
         JMenuItem preferencesMenuItem = new JMenuItem( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.Preferences" ) );
         preferencesMenuItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                new PreferencesDialog( null, null ).setVisible( true );
+                new PreferencesDialog( null, null, null ).setVisible( true );
             }
         } );
         preferencesMenuItem.setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.PreferencesMnemonic" ).charAt( 0 ) );
