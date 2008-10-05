@@ -30,10 +30,13 @@ public class DefaultManualCheckForUpdates implements IManuallyCheckForUpdates {
             }
 
             public void exceptionInUpdateCheck( IOException e ) {
+                JOptionPane.showMessageDialog( null, "An error was encountered while trying to access the PhET website. \n" +
+                                                     "Please try again later, or visit http://phet.colorado.edu. \n" +
+                                                     "If the problem persists, please contact phethelp@colorado.edu." );
             }
 
             public void noNewVersionAvailable( PhetVersion currentVersion, PhetVersion remoteVersion ) {
-                JOptionPane.showMessageDialog( null, "You have the current version of " + humanReadableSimName + " " + currentVersion.formatForTitleBar() );
+                JOptionPane.showMessageDialog( null, "You have the current version (" + currentVersion.formatForTitleBar() + ") of " + humanReadableSimName + "." );
             }
         };
         updateManager.addListener( listener );

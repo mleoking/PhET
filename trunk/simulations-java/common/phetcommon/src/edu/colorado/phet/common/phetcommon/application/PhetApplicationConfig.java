@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.updates.ConsoleViewForUpdates;
 import edu.colorado.phet.common.phetcommon.updates.UpdateManager;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.preferences.ITrackingInfo;
 
 /**
  * PhetApplicationConfig encapsulates the information required to configure
@@ -55,7 +56,7 @@ import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
  *
  * @author John De Goes / Chris Malley
  */
-public class PhetApplicationConfig {
+public class PhetApplicationConfig implements Trackable, ITrackingInfo {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -337,6 +338,14 @@ public class PhetApplicationConfig {
 
     public Tracker getTracker() {
         return tracker;
+    }
+
+    public TrackingInfo getTrackingInformation() {
+        return new TrackingInfo( this );
+    }
+
+    public String getHumanReadableTrackingInformation() {
+        return getTrackingInformation().toHumanReadable();
     }
 
     public static interface ApplicationConstructor {

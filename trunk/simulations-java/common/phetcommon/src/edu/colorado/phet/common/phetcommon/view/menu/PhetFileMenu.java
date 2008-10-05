@@ -10,14 +10,16 @@
  */
 package edu.colorado.phet.common.phetcommon.view.menu;
 
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.preferences.DefaultManualCheckForUpdates;
 import edu.colorado.phet.common.phetcommon.preferences.PreferencesDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 
 /**
  * PhetFileMenu
@@ -27,14 +29,14 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
  */
 public class PhetFileMenu extends JMenu {
 
-    public PhetFileMenu() {
+    public PhetFileMenu( final PhetFrame phetFrame, final PhetApplicationConfig phetApplicationConfig ) {
         super( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.Title" ) );
         setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.TitleMnemonic" ).charAt( 0 ) );
 
         JMenuItem preferencesMenuItem = new JMenuItem( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.Preferences" ) );
         preferencesMenuItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                new PreferencesDialog( null, null, null ).setVisible( true );
+                new PreferencesDialog( phetFrame, phetApplicationConfig, new DefaultManualCheckForUpdates( phetApplicationConfig.getProjectName(), phetApplicationConfig.getVersion(), phetApplicationConfig.getName() ) ).setVisible( true );
             }
         } );
         preferencesMenuItem.setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.PreferencesMnemonic" ).charAt( 0 ) );

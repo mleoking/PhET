@@ -3,7 +3,6 @@ package edu.colorado.phet.common.phetcommon.preferences;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
@@ -11,27 +10,26 @@ import javax.swing.event.MouseInputAdapter;
 import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
-import edu.colorado.phet.common.phetcommon.tracking.Tracker;
-import edu.colorado.phet.common.phetcommon.tracking.TrackingInfo;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 public class FullTrackingInfoDialog extends JDialog {
-    private Tracker tracker;
+    private ITrackingInfo iTrackingInfo;
 
-    public FullTrackingInfoDialog( Dialog owner, Tracker tracker ) {
+    public FullTrackingInfoDialog( Dialog owner, ITrackingInfo iTrackingInfo ) {
         super( owner );
-        init( tracker );
+        init( iTrackingInfo );
     }
 
-    public FullTrackingInfoDialog( Frame owner, Tracker tracker ) {
+    public FullTrackingInfoDialog( Frame owner, ITrackingInfo iTrackingInfo ) {
         super( owner );
-        init( tracker );
+        init( iTrackingInfo );
     }
 
-    private void init( Tracker tracker ) {
-        this.tracker = tracker;
+    private void init( ITrackingInfo tracker ) {
+        this.iTrackingInfo = tracker;
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.gridy = GridBagConstraints.RELATIVE;
         constraints.gridx = 0;
@@ -40,25 +38,14 @@ public class FullTrackingInfoDialog extends JDialog {
         getContentPane().add( createLogoPanel(), constraints );
         getContentPane().add( createReportPanel(), constraints );
         pack();
+        SwingUtils.centerDialogInParent( this );
     }
 
     private JComponent createReportPanel() {
         final JTextArea jt = new JTextArea( "" );
-        if ( tracker.getTrackingInformation() != null ) {
-            jt.setText( tracker.getTrackingInformation().toHumanReadable() );
+        if ( iTrackingInfo.getHumanReadableTrackingInformation() != null ) {
+            jt.setText( iTrackingInfo.getHumanReadableTrackingInformation() );
         }
-        tracker.addListener( new Tracker.Listener() {
-            public void stateChanged( Tracker tracker, Tracker.State oldState, Tracker.State newState ) {
-            }
-
-            public void trackingInfoChanged( TrackingInfo trackingInformation ) {
-                jt.setText( tracker.getTrackingInformation().toHumanReadable() );
-                pack();
-            }
-
-            public void trackingFailed( IOException trackingException ) {
-            }
-        } );
         jt.setBorder( BorderFactory.createTitledBorder( "Report" ) );
         jt.setEditable( false );
         return jt;
