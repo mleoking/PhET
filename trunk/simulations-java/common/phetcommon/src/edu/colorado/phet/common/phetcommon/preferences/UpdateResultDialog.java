@@ -12,6 +12,9 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 public class UpdateResultDialog extends JDialog {
+    private JPanel contentPane;
+    private GridBagConstraints constraints;
+
     public UpdateResultDialog( Frame parent, String title, String html ) {
         super( parent, title, true );
         init( html );
@@ -23,9 +26,9 @@ public class UpdateResultDialog extends JDialog {
     }
 
     private void init( String html ) {
-        JPanel contentPane = new JPanel();
+        contentPane = new JPanel();
         contentPane.setLayout( new GridBagLayout() );
-        GridBagConstraints constraints = new GridBagConstraints();
+        constraints = new GridBagConstraints();
         constraints.gridy = GridBagConstraints.RELATIVE;
         constraints.gridx = 0;
         constraints.gridwidth = 1;
@@ -47,6 +50,26 @@ public class UpdateResultDialog extends JDialog {
         logoPanel.add( copyrightLabel );
 
         return logoPanel;
+    }
+
+    public static UpdateResultDialog createDialog( Window window, String title, String text ) {
+        if ( window instanceof Frame || window == null ) {
+            return new UpdateResultDialog( (Frame) window, title, text );
+        }
+        else if ( window instanceof Dialog ) {
+            return new UpdateResultDialog( (Dialog) window, title, text );
+        }
+        else {
+            throw new RuntimeException( "Illegal window type: " + window.getClass() );
+        }
+    }
+
+    public static void showDialog( Window window, String title, String text ) {
+        createDialog( window, title, text ).setVisible( true );
+    }
+
+    public void addComponent( JComponent component ) {
+        contentPane.add( component, constraints );
     }
 
     private class OKButton extends JButton {
