@@ -17,12 +17,9 @@ public class TrackingPreferencesPanel extends JPanel {
             "<html><head><style type=\"text/css\">body { font-size: @FONT_SIZE@; font-family: @FONT_FAMILY@ }</style></head>" +
             "<b><a href=http://phet.colorado.edu>PhET</a></b> " +
             "is made possible by grants that require us to report anonymous usage statistics.</html>";
-    //    +
-    //            "Please visit the PhET website for more information: <a href=http://phet.colorado.edu>http://phet.colorado.edu</a>" +
-    //            "</html>";
-    private Tracker tracker;
+    private ITrackingInfo tracker;
 
-    public TrackingPreferencesPanel( Tracker tracker ) {
+    public TrackingPreferencesPanel( ITrackingInfo tracker ) {
         this.tracker = tracker;
         setLayout( new GridBagLayout() );
         GridBagConstraints constraints = new GridBagConstraints();
