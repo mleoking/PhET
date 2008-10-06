@@ -9,15 +9,32 @@ public class DefaultTrackingPreferences implements IPreferences {
         this.phetApplicationConfig = phetApplicationConfig;
     }
 
-    public boolean isEnabledForSim() {
-        return PhetPreferences.getInstance().isTrackingEnabled( phetApplicationConfig.getProjectName(), phetApplicationConfig.getFlavor() );
+    public boolean isApplyToAllSimulations() {
+        return PhetPreferences.getInstance().isTrackingApplyToAll();
     }
 
-    public boolean isForAllSimulations() {
-        return PhetPreferences.getInstance().isTrackingEnabledForAll();
-    }
-
-    public void setForAllSimulations( boolean selected ) {
+    public void setApplyToAllSimulations( boolean selected ) {
+        //store value and apply to new selection
+        boolean enabledForSelection = isEnabledForSelection();
         PhetPreferences.getInstance().setApplyTrackingToAll( selected );
+        setEnabledForSelection( enabledForSelection );
+    }
+
+    public void setEnabledForSelection( boolean selected ) {
+        if ( isApplyToAllSimulations() ) {
+            PhetPreferences.getInstance().setTrackingEnabledForAll( selected );
+        }
+        else {
+            PhetPreferences.getInstance().setTrackingEnabled( phetApplicationConfig.getProjectName(), phetApplicationConfig.getFlavor(), selected );
+        }
+    }
+
+    public boolean isEnabledForSelection() {
+        if ( isApplyToAllSimulations() ) {
+            return PhetPreferences.getInstance().isTrackingEnabledForAll();
+        }
+        else {
+            return PhetPreferences.getInstance().isTrackingEnabled( phetApplicationConfig.getProjectName(), phetApplicationConfig.getFlavor() );
+        }
     }
 }

@@ -32,7 +32,7 @@ public class TrackingPreferencesPanel extends JPanel {
         add( Box.createRigidArea( new Dimension( 5, 2 ) ), constraints );
         add( new TrackingCheckBox(), constraints );
         add( Box.createRigidArea( new Dimension( 5, 10 ) ), constraints );
-        add( new PreferencesScopePanel(iTrackingPreferences), constraints );
+        add( new PreferencesScopePanel( iTrackingPreferences ), constraints );
         add( Box.createRigidArea( new Dimension( 5, 10 ) ), constraints );
         add( new DetailsButton(), constraints );
     }
@@ -55,7 +55,12 @@ public class TrackingPreferencesPanel extends JPanel {
 
     private class TrackingCheckBox extends JCheckBox {
         private TrackingCheckBox() {
-            super( "Send tracking info to PhET", iTrackingPreferences.isEnabledForSim() );
+            super( "Send tracking info to PhET", iTrackingPreferences.isEnabledForSelection() );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    iTrackingPreferences.setEnabledForSelection( isSelected() );
+                }
+            } );
         }
     }
 
