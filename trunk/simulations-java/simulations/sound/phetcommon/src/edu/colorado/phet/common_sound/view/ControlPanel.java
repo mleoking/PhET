@@ -10,12 +10,6 @@
  */
 package edu.colorado.phet.common_sound.view;
 
-import edu.colorado.phet.common_sound.application.Module;
-import edu.colorado.phet.common_sound.view.components.VerticalLayoutPanel;
-import edu.colorado.phet.common_sound.view.help.HelpPanel;
-
-import javax.swing.*;
-import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -23,6 +17,13 @@ import java.awt.event.ContainerAdapter;
 import java.awt.event.ContainerEvent;
 import java.net.URL;
 import java.util.Arrays;
+
+import javax.swing.*;
+import javax.swing.border.EtchedBorder;
+
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common_sound.application.Module;
+import edu.colorado.phet.common_sound.view.help.HelpPanel;
 
 /**
  * ControlPanel
