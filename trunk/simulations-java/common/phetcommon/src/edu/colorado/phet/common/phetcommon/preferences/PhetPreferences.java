@@ -21,7 +21,7 @@ public class PhetPreferences {
     private static final File PREFERENCES_FILE = new File( System.getProperty( "user.home" ) + SEPARATOR + ".phet" + SEPARATOR + "preferences.properties" );
     private static final String TRACKING_APPLY_TO_ALL = ALL_SIMS + DOT + TRACKING + DOT + APPLY_ALL;
     private static final String UPDATES_APPLY_TO_ALL = ALL_SIMS + DOT + UPDATES + DOT + APPLY_ALL;
-    private static final String LAST_ASK_ME_LATER_TIME = "last-time-ask-me-later-pressed.system-time-millis";
+    private static final String LAST_ASK_ME_LATER_TIME = "updates.last-time-ask-me-later-pressed.system-time-millis";
 
     private PhetPreferences() {
         if ( !PREFERENCES_FILE.exists() ) {
