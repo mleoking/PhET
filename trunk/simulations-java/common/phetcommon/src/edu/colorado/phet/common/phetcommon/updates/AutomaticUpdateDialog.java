@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.phetcommon.preferences;
+package edu.colorado.phet.common.phetcommon.updates;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,6 +12,7 @@ import edu.colorado.phet.balloons.BalloonsApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
+import edu.colorado.phet.common.phetcommon.preferences.*;
 
 public class AutomaticUpdateDialog extends UpdateResultDialog {
     private PhetApplicationConfig config;

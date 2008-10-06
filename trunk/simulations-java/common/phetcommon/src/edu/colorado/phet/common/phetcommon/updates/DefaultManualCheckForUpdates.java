@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.phetcommon.preferences;
+package edu.colorado.phet.common.phetcommon.updates;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,6 +11,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.updates.UpdateManager;
+import edu.colorado.phet.common.phetcommon.preferences.IManuallyCheckForUpdates;
 
 public class DefaultManualCheckForUpdates implements IManuallyCheckForUpdates {
     private PhetVersion currentVersion;

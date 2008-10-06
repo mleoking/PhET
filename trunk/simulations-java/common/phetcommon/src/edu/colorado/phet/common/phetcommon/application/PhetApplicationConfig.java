@@ -8,7 +8,7 @@ import java.util.Properties;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.preferences.AutomaticUpdateDialog;
+import edu.colorado.phet.common.phetcommon.updates.AutomaticUpdateDialog;
 import edu.colorado.phet.common.phetcommon.preferences.ITrackingInfo;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
