@@ -73,6 +73,7 @@ public class AutomaticUpdateDialog extends UpdateResultDialog {
         preferences.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
         preferences.addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
+                dispose();
                 new PreferencesDialog( parent, trackingInfo, iManuallyCheckForUpdates, new DefaultUpdatePreferences( config ), new DefaultTrackingPreferences( config ) ).setVisible( true );
             }
         } );
