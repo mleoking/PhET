@@ -1,9 +1,12 @@
 package edu.colorado.phet.common.phetcommon.preferences;
 
 public interface IPreferences {
-    boolean isEnabledForSim();
 
-    boolean isForAllSimulations();
+    boolean isApplyToAllSimulations();
 
-    void setForAllSimulations( boolean selected );
+    void setApplyToAllSimulations( boolean selected );
+
+    void setEnabledForSelection( boolean selected );
+
+    boolean isEnabledForSelection();
 }

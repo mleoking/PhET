@@ -61,10 +61,9 @@ public class PhetPreferences {
         storePreferences();
     }
 
-
-    private boolean isTrackingApplyToAll() {
+    public boolean isTrackingApplyToAll() {
         String s = properties.getProperty( TRACKING_APPLY_TO_ALL, "true" );
-        return Boolean.getBoolean( s );
+        return Boolean.valueOf( s ).booleanValue();
     }
 
     public void setApplyUpdatesToAll( boolean applyAll ) {
@@ -72,8 +71,9 @@ public class PhetPreferences {
         storePreferences();
     }
 
-    private boolean isUpdatesApplyToAll() {
-        return Boolean.getBoolean( properties.getProperty( UPDATES_APPLY_TO_ALL, "true" ) );
+    public boolean isUpdatesApplyToAll() {
+        String updatesApplyAll = properties.getProperty( UPDATES_APPLY_TO_ALL, "true" );
+        return Boolean.valueOf( updatesApplyAll ).booleanValue();
     }
 
     public void setTrackingEnabledForAll( boolean b ) {
@@ -89,8 +89,7 @@ public class PhetPreferences {
             return isTrackingEnabledForAll();
         }
         else {
-
-            return getBoolean( project, sim, TRACKING,
+            return getBooleanEnabled( project, sim, TRACKING,
                                //if on a simulation by simulation basis, and no value specified, use the last value specified for all-sims
                                isTrackingEnabledForAll() );
         }
@@ -102,18 +101,18 @@ public class PhetPreferences {
         }
         else {
 
-            return getBoolean( project, sim, UPDATES,
+            return getBooleanEnabled( project, sim, UPDATES,
                                //if on a simulation by simulation basis, and no value specified, use the last value specified for all-sims
                                isUpdatesEnabledForAll() );
         }
     }
 
     public boolean isTrackingEnabledForAll() {
-        return getBoolean( ALL_SIMS, TRACKING, true );
+        return getBooleanEnabled( ALL_SIMS, TRACKING, true );
     }
 
     public boolean isUpdatesEnabledForAll() {
-        return getBoolean( ALL_SIMS, UPDATES, true );
+        return getBooleanEnabled( ALL_SIMS, UPDATES, true );
     }
 
     public void setTrackingEnabled( String project, String sim, boolean trackingEnabled ) {
@@ -124,12 +123,12 @@ public class PhetPreferences {
         setBoolean( project, sim, UPDATES, updatesEnabled );
     }
 
-    private boolean getBoolean( String project, String sim, String type, boolean defaultValue ) {
-        return getBoolean( project + DOT + sim, type, defaultValue );
+    private boolean getBooleanEnabled( String project, String sim, String type, boolean defaultValue ) {
+        return getBooleanEnabled( project + DOT + sim, type, defaultValue );
     }
 
-    private boolean getBoolean( String project, String type, boolean defaultValue ) {
-        return Boolean.getBoolean( properties.getProperty( project + DOT + type, "" + defaultValue ) );
+    private boolean getBooleanEnabled( String project, String type, boolean defaultValue ) {
+        return Boolean.valueOf( properties.getProperty( project + DOT + type + DOT + "enabled", "" + defaultValue ) ).booleanValue();
     }
 
     private void setBoolean( String project, String sim, String type, boolean value ) {
@@ -137,7 +136,7 @@ public class PhetPreferences {
     }
 
     private void setBooleanEnabled( String project, String type, boolean value ) {
-        properties.setProperty( project + DOT + type + ".enabled", "" + value );
+        properties.setProperty( project + DOT + type + DOT+"enabled", "" + value );
         storePreferences();
     }
 

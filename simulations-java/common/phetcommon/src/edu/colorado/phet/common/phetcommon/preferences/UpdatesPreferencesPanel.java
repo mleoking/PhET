@@ -17,10 +17,10 @@ public class UpdatesPreferencesPanel extends JPanel {
         constraints.gridx = 0;
         constraints.gridwidth = 1;
 
-        final JCheckBox autoCheck = new JCheckBox( "Automatically check for updates", preferences.isForAllSimulations() );
+        final JCheckBox autoCheck = new JCheckBox( "Automatically check for updates", preferences.isEnabledForSelection() );
         autoCheck.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                preferences.setForAllSimulations( autoCheck.isSelected() );
+                preferences.setEnabledForSelection(autoCheck.isSelected());
             }
         } );
         add( Box.createRigidArea( new Dimension( 50, 20 ) ), constraints );

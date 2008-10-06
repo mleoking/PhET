@@ -5,10 +5,17 @@ public class DummyPreferences implements IPreferences {
         return true;
     }
 
-    public boolean isForAllSimulations() {
+    public boolean isApplyToAllSimulations() {
         return true;
     }
 
-    public void setForAllSimulations( boolean selected ) {
+    public void setApplyToAllSimulations( boolean selected ) {
+    }
+
+    public void setEnabledForSelection( boolean selected ) {
+    }
+
+    public boolean isEnabledForSelection() {
+        return false;
     }
 }

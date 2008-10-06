@@ -9,15 +9,31 @@ public class DefaultUpdatePreferences implements IPreferences {
         this.phetApplicationConfig = phetApplicationConfig;
     }
 
-    public boolean isEnabledForSim() {
-        return PhetPreferences.getInstance().isUpdatesEnabled( phetApplicationConfig.getProjectName(), phetApplicationConfig.getFlavor() );
+    public boolean isApplyToAllSimulations() {
+        return PhetPreferences.getInstance().isUpdatesApplyToAll();
     }
 
-    public boolean isForAllSimulations() {
-        return PhetPreferences.getInstance().isUpdatesEnabledForAll();
+    public void setApplyToAllSimulations( boolean selected ) {
+        boolean enabledForSelection = isEnabledForSelection();
+        PhetPreferences.getInstance().setApplyUpdatesToAll( selected );
+        setEnabledForSelection( enabledForSelection );
     }
 
-    public void setForAllSimulations( boolean selected ) {
-        PhetPreferences.getInstance().setUpdatesEnabledForAll( selected );
+    public void setEnabledForSelection( boolean selected ) {
+        if ( isApplyToAllSimulations() ) {
+            PhetPreferences.getInstance().setUpdatesEnabledForAll( selected );
+        }
+        else {
+            PhetPreferences.getInstance().setUpdatesEnabled( phetApplicationConfig.getProjectName(), phetApplicationConfig.getFlavor(), selected );
+        }
+    }
+
+    public boolean isEnabledForSelection() {
+        if ( isApplyToAllSimulations() ) {
+            return PhetPreferences.getInstance().isUpdatesEnabledForAll();
+        }
+        else {
+            return PhetPreferences.getInstance().isUpdatesEnabled( phetApplicationConfig.getProjectName(), phetApplicationConfig.getFlavor() );
+        }
     }
 }
