@@ -403,12 +403,18 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
             }
 
             public void newVersionAvailable( PhetVersion currentVersion, final PhetVersion remoteVersion ) {
+                int remoteVersionSVN = remoteVersion.getRevisionAsInt();
+                int requestedSkipSVN = PhetPreferences.getInstance().getSkip( getProjectName(), getFlavor() );
+//                System.out.println( "remoteVersionSVN = " + remoteVersionSVN + ", requestedSkipSVN=" + requestedSkipSVN );
+                if ( remoteVersionSVN > requestedSkipSVN )
                 //show UI in swing thread after new thread has found a new version
-                SwingUtilities.invokeLater( new Runnable() {
-                    public void run() {
-                        new AutomaticUpdateDialog( app, remoteVersion ).setVisible( true );
-                    }
-                } );
+                {
+                    SwingUtilities.invokeLater( new Runnable() {
+                        public void run() {
+                            new AutomaticUpdateDialog( app, remoteVersion ).setVisible( true );
+                        }
+                    } );
+                }
             }
 
             public void exceptionInUpdateCheck( IOException e ) {

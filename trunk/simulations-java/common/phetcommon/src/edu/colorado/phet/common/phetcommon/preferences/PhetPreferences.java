@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
+
 public class PhetPreferences {
     private Properties properties = new Properties();
 
@@ -157,5 +159,14 @@ public class PhetPreferences {
 
     public long getLastAskMeLaterTime() {
         return Long.parseLong( properties.getProperty( LAST_ASK_ME_LATER_TIME, "0" ) );
+    }
+
+    public void skipThisVersion( String project, String sim, PhetVersion version ) {
+        properties.setProperty( project + "." + sim + ".skip", version.getRevisionAsInt()+"" );//todo: i'd prefer to save the major.minor here, but don't have a parser handy
+        storePreferences();
+    }
+
+    public int getSkip( String project, String sim ) {
+        return Integer.parseInt( properties.getProperty( project + "." + sim + ".skip", "0" ) );
     }
 }
