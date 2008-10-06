@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.phetcommon.updates.ApplicationConfigManualCheckForUpdates;
 
 public class PreferencesDialog extends JDialog {
     public PreferencesDialog( Frame owner, ITrackingInfo tracker, IManuallyCheckForUpdates iCheckForUpdates, IPreferences updatePreferences, IPreferences trackingPreferences ) {

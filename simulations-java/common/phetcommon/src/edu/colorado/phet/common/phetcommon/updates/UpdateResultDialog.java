@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.phetcommon.preferences;
+package edu.colorado.phet.common.phetcommon.updates;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;

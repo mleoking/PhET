@@ -16,7 +16,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.preferences.ApplicationConfigManualCheckForUpdates;
+import edu.colorado.phet.common.phetcommon.updates.ApplicationConfigManualCheckForUpdates;
 import edu.colorado.phet.common.phetcommon.preferences.DefaultTrackingPreferences;
 import edu.colorado.phet.common.phetcommon.preferences.DefaultUpdatePreferences;
 import edu.colorado.phet.common.phetcommon.preferences.PreferencesDialog;
