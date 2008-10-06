@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.common_sound.view.components;
+package edu.colorado.phet.sound.coreadditions;
 
 import javax.swing.*;
 
