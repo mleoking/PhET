@@ -25,7 +25,7 @@ public class AutomaticUpdateDialog extends UpdateResultDialog {
         return "<html>Your current version of Glaciers is " + application.getApplicationConfig().getVersion() + ".<br>A newer version (" + newVersion.formatForTitleBar() + ") is available.</html>";
     }
 
-    public AutomaticUpdateDialog( final Frame parent, String html, final ITrackingInfo trackingInfo, final IManuallyCheckForUpdates iManuallyCheckForUpdates, PhetVersion newVersion, final PhetApplicationConfig config ) {
+    public AutomaticUpdateDialog( final Frame parent, String html, final ITrackingInfo trackingInfo, final IManualUpdateChecker iManuallyCheckForUpdates, PhetVersion newVersion, final PhetApplicationConfig config ) {
         super( parent, "New Update Available", html );
         this.config = config;
         JPanel buttonStrip = new JPanel();

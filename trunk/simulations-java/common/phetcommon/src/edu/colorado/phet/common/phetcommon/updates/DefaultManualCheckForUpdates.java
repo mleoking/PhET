@@ -11,9 +11,9 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.updates.UpdateManager;
-import edu.colorado.phet.common.phetcommon.preferences.IManuallyCheckForUpdates;
+import edu.colorado.phet.common.phetcommon.preferences.IManualUpdateChecker;
 
-public class DefaultManualCheckForUpdates implements IManuallyCheckForUpdates {
+public class DefaultManualCheckForUpdates implements IManualUpdateChecker {
     private PhetVersion currentVersion;
     private String humanReadableSimName;
     private Window window;
