@@ -15,7 +15,7 @@ public class TrackingPreferencesPanel extends JPanel {
     private static final String INFO =
             "<html><head><style type=\"text/css\">body { font-size: @FONT_SIZE@; font-family: @FONT_FAMILY@ }</style></head>" +
             "<b><a href=http://phet.colorado.edu>PhET</a></b> " +
-            "is made possible by grants that require us to report anonymous usage statistics.</html>";
+            "is made possible by grants that require us to track anonymous usage statistics.</html>";
     private ITrackingInfo tracker;
     private IPreferences iTrackingPreferences;
 
