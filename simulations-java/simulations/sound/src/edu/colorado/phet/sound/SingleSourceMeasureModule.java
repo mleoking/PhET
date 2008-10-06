@@ -14,12 +14,12 @@ import java.io.IOException;
 import javax.swing.JDialog;
 import javax.swing.JRootPane;
 
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetgraphics.view.help.HelpItem;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common_sound.application.PhetApplication;
-import edu.colorado.phet.common_sound.model.clock.AbstractClock;
 import edu.colorado.phet.sound.view.ClockPanelLarge;
 import edu.colorado.phet.sound.view.MeasureControlPanel;
 import edu.colorado.phet.sound.view.MeterStickGraphic;
@@ -32,7 +32,7 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
 
     private static final int s_guidelineBaseX = 70;
     private JDialog stopwatchDlg;
-    private AbstractClock clock;
+    private IClock clock;
     private boolean closkWasPausedOnActivate;
 
     /**
@@ -100,7 +100,7 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
         super.activate( app );
         closkWasPausedOnActivate = clock.isPaused();
         if( !closkWasPausedOnActivate ) {
-            clock.setPaused( true );
+            clock.pause();
         }
         stopwatchDlg.setVisible( true );
     }
@@ -109,7 +109,12 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
         super.deactivate( app );
         setStopwatchVisible( false );
         if( clock.isPaused() != closkWasPausedOnActivate ) {
-            clock.setPaused( closkWasPausedOnActivate );
+            if ( closkWasPausedOnActivate ) {
+                clock.pause();
+            }
+            else {
+                clock.start();
+            }
         }
     }
 
@@ -131,21 +136,21 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
             if( event.isReset() ) {
                 module.resetWaveMediumGraphic();
                 if( !clock.isPaused() ) {
-                    clock.setPaused( true );
+                    clock.pause();
                 }
-                clock.tickOnce();
+                clock.stepClockWhilePaused();
 
                 //this temporary workaround is to resolve a bug reported just before 7-19-2007
                 //On the Measure tab. the Reset on the Stopwatch doesn't clear unless you click twice.
-                clock.tickOnce();
+                clock.stepClockWhilePaused();
 
             }
             else {
                 if( event.isRunning() && clock.isPaused() ) {
-                    SingleSourceMeasureModule.this.clock.setPaused( false );
+                    SingleSourceMeasureModule.this.clock.start();
                 }
                 else if( !clock.isPaused() ) {
-                    SingleSourceMeasureModule.this.clock.setPaused( true );
+                    SingleSourceMeasureModule.this.clock.pause();
                 }
             }
         }

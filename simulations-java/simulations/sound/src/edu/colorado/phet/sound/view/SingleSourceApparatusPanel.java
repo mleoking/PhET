@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.sound.view;
 
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common_sound.model.clock.AbstractClock;
 import edu.colorado.phet.sound.SoundConfig;
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.model.WaveMedium;
@@ -20,7 +20,7 @@ public class SingleSourceApparatusPanel extends SoundApparatusPanel {
     /**
      * @param model
      */
-    public SingleSourceApparatusPanel( SoundModel model, AbstractClock clock ) {
+    public SingleSourceApparatusPanel( SoundModel model, IClock clock ) {
         super( model, clock );
         this.setBackground( SoundConfig.MIDDLE_GRAY );
 

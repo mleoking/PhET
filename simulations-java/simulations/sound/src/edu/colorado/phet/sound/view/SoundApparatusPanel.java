@@ -6,11 +6,11 @@
  */
 package edu.colorado.phet.sound.view;
 
-import edu.colorado.phet.common_sound.model.clock.AbstractClock;
+import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common_sound.view.ApparatusPanel2;
 import edu.colorado.phet.sound.model.SoundModel;
-
-import java.awt.geom.Point2D;
 
 public class SoundApparatusPanel extends ApparatusPanel2 {
     private int audioSource = SPEAKER_SOURCE;
@@ -30,7 +30,7 @@ public class SoundApparatusPanel extends ApparatusPanel2 {
 
     private SoundModel model;
 
-    public SoundApparatusPanel( SoundModel model, AbstractClock clock ) {
+    public SoundApparatusPanel( SoundModel model, IClock clock ) {
         super( model, clock );
     }
 }

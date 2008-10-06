@@ -23,6 +23,9 @@ import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputListener;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
@@ -30,9 +33,6 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphics2D;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
 import edu.colorado.phet.common.phetgraphics.view.util.TransformManager;
 import edu.colorado.phet.common_sound.model.BaseModel;
-import edu.colorado.phet.common_sound.model.clock.AbstractClock;
-import edu.colorado.phet.common_sound.model.clock.ClockTickEvent;
-import edu.colorado.phet.common_sound.model.clock.ClockTickListener;
 
 /**
  * This is a base class for panels that contain graphic representations
@@ -54,7 +54,7 @@ import edu.colorado.phet.common_sound.model.clock.ClockTickListener;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class ApparatusPanel2 extends ApparatusPanel implements ClockTickListener {
+public class ApparatusPanel2 extends ApparatusPanel {
 
     //----------------------------------------------------------------
     // Class data
@@ -80,21 +80,11 @@ public class ApparatusPanel2 extends ApparatusPanel implements ClockTickListener
     private ScaledComponentLayout scaledComponentLayout;
     private PanelResizeHandler panelResizeHandler;
     private MouseProcessor mouseProcessor;
-    private AbstractClock clock;
+    private IClock clock;
 
     //----------------------------------------------------------------
     // Constructors and initilization
     //----------------------------------------------------------------
-
-    /**
-     * Creates a new ApparatusPanel2, observing the specified clock for paused-ness.
-     *
-     * @param clock
-     */
-    public ApparatusPanel2( AbstractClock clock ) {
-        super( null );
-        init( clock );
-    }
 
     /**
      * This constructor adds a feature that allows PhetGraphics to get mouse events
@@ -104,25 +94,19 @@ public class ApparatusPanel2 extends ApparatusPanel implements ClockTickListener
      * @param clock
      * @deprecated No longer requires a BaseModel.
      */
-    public ApparatusPanel2( BaseModel model, AbstractClock clock ) {
+    public ApparatusPanel2( BaseModel model, IClock clock ) {
         super( null );
         init( clock );
     }
 
-    /**
-     * @param model
-     * @deprecated
-     */
-    public ApparatusPanel2( BaseModel model ) {
-        super( null );
-        init( null );
-        throw new RuntimeException( "Don't work no more!" );
-    }
-
-    protected void init( AbstractClock clock ) {
+    protected void init( IClock clock ) {
         // Attach ourself to the clock
         this.clock = clock;
-        clock.addClockTickListener( this );
+        clock.addClockListener( new ClockAdapter() {
+            public void clockTicked( ClockEvent clockEvent ) {
+                paint();
+            }
+        });
 
         // The following lines use a mouse processor in the model loop
         mouseProcessor = new MouseProcessor( getGraphic(), clock );
@@ -466,7 +450,7 @@ public class ApparatusPanel2 extends ApparatusPanel implements ClockTickListener
      */
     private class MouseProcessor implements MouseInputListener {
         private LinkedList mouseEventList;
-        private AbstractClock clock;
+        private IClock clock;
         private GraphicLayerSet handler;
 
         // The following Runnable is used to process mouse events when the model clock is paused
@@ -477,7 +461,7 @@ public class ApparatusPanel2 extends ApparatusPanel implements ClockTickListener
             }
         };
 
-        public MouseProcessor( GraphicLayerSet mouseDelegator, final AbstractClock clock ) {
+        public MouseProcessor( GraphicLayerSet mouseDelegator, final IClock clock ) {
             this.clock = clock;
             mouseEventList = new LinkedList();
             this.handler = mouseDelegator;
@@ -572,14 +556,6 @@ public class ApparatusPanel2 extends ApparatusPanel implements ClockTickListener
         public void mouseMoved( MouseEvent e ) {
             this.addMouseEvent( e );
         }
-    }
-
-    //----------------------------------------------------------------
-    // Implementation of ClockTickListener
-    //----------------------------------------------------------------
-
-    public void clockTicked( ClockTickEvent event ) {
-        paint();
     }
 
     //-----------------------------------------------------------------

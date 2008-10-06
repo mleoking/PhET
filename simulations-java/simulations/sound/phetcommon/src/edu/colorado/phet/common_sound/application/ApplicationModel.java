@@ -11,9 +11,9 @@
 
 package edu.colorado.phet.common_sound.application;
 
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common_sound.model.clock.AbstractClock;
 
 /**
  * This class is essentially a data structure that contains specifications for the top-level
@@ -30,7 +30,7 @@ public class ApplicationModel {
     private FrameSetup frameSetup;
     private Module[] modules;
     private Module initialModule;
-    private AbstractClock clock;
+    private IClock clock;
     boolean useClockControlPanel = true;
 
     public ApplicationModel( String windowTitle, String description, String version ) {
@@ -46,14 +46,14 @@ public class ApplicationModel {
         SimStrings.setStrings( "localization/CommonStrings" );
     }
 
-    public ApplicationModel( String windowTitle, String description, String version, FrameSetup frameSetup, Module[] m, AbstractClock clock ) {
+    public ApplicationModel( String windowTitle, String description, String version, FrameSetup frameSetup, Module[] m, IClock clock ) {
         this( windowTitle, description, version, frameSetup );
         setClock( clock );
         setModules( m );
         setInitialModule( m[0] );
     }
 
-    public ApplicationModel( String windowTitle, String description, String version, FrameSetup frameSetup, Module m, AbstractClock clock ) {
+    public ApplicationModel( String windowTitle, String description, String version, FrameSetup frameSetup, Module m, IClock clock ) {
         this( windowTitle, description, version, frameSetup );
         setClock( clock );
         setModule( m );
@@ -122,11 +122,11 @@ public class ApplicationModel {
         return initialModule;
     }
 
-    public AbstractClock getClock() {
+    public IClock getClock() {
         return clock;
     }
 
-    public void setClock( AbstractClock clock ) {
+    public void setClock( IClock clock ) {
         this.clock = clock;
     }
 
