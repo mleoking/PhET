@@ -10,18 +10,6 @@
  */
 package edu.colorado.phet.common_sound.view;
 
-import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
-import edu.colorado.phet.common_sound.model.BaseModel;
-import edu.colorado.phet.common_sound.model.clock.AbstractClock;
-import edu.colorado.phet.common_sound.model.clock.ClockTickEvent;
-import edu.colorado.phet.common_sound.model.clock.ClockTickListener;
-import edu.colorado.phet.common_sound.util.EventChannel;
-import edu.colorado.phet.common_sound.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common_sound.view.phetgraphics.PhetGraphics2D;
-import edu.colorado.phet.common_sound.view.util.RectangleUtils;
-
-import javax.swing.*;
-import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -30,6 +18,20 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.*;
+
+import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
+import javax.swing.event.MouseInputListener;
+
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
+import edu.colorado.phet.common_sound.model.BaseModel;
+import edu.colorado.phet.common_sound.model.clock.AbstractClock;
+import edu.colorado.phet.common_sound.model.clock.ClockTickEvent;
+import edu.colorado.phet.common_sound.model.clock.ClockTickListener;
+import edu.colorado.phet.common_sound.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common_sound.view.phetgraphics.PhetGraphics2D;
+import edu.colorado.phet.common_sound.view.util.RectangleUtils;
 
 /**
  * This is a base class for panels that contain graphic representations

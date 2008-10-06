@@ -7,15 +7,6 @@
  */
 package edu.colorado.phet.sound.view;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common_sound.model.BaseModel;
-import edu.colorado.phet.common_sound.model.ModelElement;
-import edu.colorado.phet.common_sound.model.clock.AbstractClock;
-import edu.colorado.phet.common_sound.util.EventChannel;
-import edu.colorado.phet.sound.SoundConfig;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,6 +14,16 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.EventListener;
 import java.util.EventObject;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common_sound.model.BaseModel;
+import edu.colorado.phet.common_sound.model.ModelElement;
+import edu.colorado.phet.common_sound.model.clock.AbstractClock;
+import edu.colorado.phet.sound.SoundConfig;
 
 public class ClockPanelLarge extends JPanel {
 
