@@ -17,6 +17,8 @@ public class PhetPreferences {
     private static final String UPDATES = "updates";
     private static final String SEPARATOR = System.getProperty( "file.separator" );
     private static final File PREFERENCES_FILE = new File( System.getProperty( "user.home" ) + SEPARATOR + ".phet" + SEPARATOR + "preferences.properties" );
+    private static final String TRACKING_APPLY_TO_ALL = ALL_SIMS + DOT + TRACKING + DOT + APPLY_ALL;
+    private static final String UPDATES_APPLY_TO_ALL = ALL_SIMS + DOT + UPDATES + DOT + APPLY_ALL;
 
     private PhetPreferences() {
         if ( !PREFERENCES_FILE.exists() ) {
@@ -27,7 +29,6 @@ public class PhetPreferences {
 
             setTrackingEnabledForAll( true );
             setApplyTrackingToAll( true );
-
 
             storePreferences();
         }
@@ -56,13 +57,23 @@ public class PhetPreferences {
     }
 
     public void setApplyTrackingToAll( boolean applyAll ) {
-        properties.setProperty( ALL_SIMS + DOT + TRACKING + DOT + APPLY_ALL, Boolean.toString( applyAll ) );
+        properties.setProperty( TRACKING_APPLY_TO_ALL, Boolean.toString( applyAll ) );
         storePreferences();
     }
 
+
+    private boolean isTrackingApplyToAll() {
+        String s = properties.getProperty( TRACKING_APPLY_TO_ALL, "true" );
+        return Boolean.getBoolean( s );
+    }
+
     public void setApplyUpdatesToAll( boolean applyAll ) {
-        properties.setProperty( ALL_SIMS + DOT + UPDATES + DOT + APPLY_ALL, Boolean.toString( applyAll ) );
+        properties.setProperty( UPDATES_APPLY_TO_ALL, Boolean.toString( applyAll ) );
         storePreferences();
+    }
+
+    private boolean isUpdatesApplyToAll() {
+        return Boolean.getBoolean( properties.getProperty( UPDATES_APPLY_TO_ALL, "true" ) );
     }
 
     public void setTrackingEnabledForAll( boolean b ) {
@@ -74,11 +85,27 @@ public class PhetPreferences {
     }
 
     public boolean isTrackingEnabled( String project, String sim ) {
-        return isTrackingEnabledForAll() || getBoolean( project, sim, TRACKING, true );
+        if ( isTrackingApplyToAll() ) {
+            return isTrackingEnabledForAll();
+        }
+        else {
+
+            return getBoolean( project, sim, TRACKING,
+                               //if on a simulation by simulation basis, and no value specified, use the last value specified for all-sims
+                               isTrackingEnabledForAll() );
+        }
     }
 
     public boolean isUpdatesEnabled( String project, String sim ) {
-        return isUpdatesEnabledForAll() || getBoolean( project, sim, UPDATES, true );
+        if ( isUpdatesApplyToAll() ) {
+            return isUpdatesEnabledForAll();
+        }
+        else {
+
+            return getBoolean( project, sim, UPDATES,
+                               //if on a simulation by simulation basis, and no value specified, use the last value specified for all-sims
+                               isUpdatesEnabledForAll() );
+        }
     }
 
     public boolean isTrackingEnabledForAll() {
