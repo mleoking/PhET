@@ -35,7 +35,7 @@ public class DefaultManualCheckForUpdates implements IManualUpdateChecker {
             public void newVersionAvailable( PhetVersion currentVersion, PhetVersion remoteVersion ) {
                 String title = "New version available";
                 String html = "<html>" + PhetAboutDialog.HTML_CUSTOM_STYLE + "Your current version of " + humanReadableSimName + " is " + currentVersion.formatForTitleBar() + ".  A newer version (" + remoteVersion.formatForTitleBar() + ") is available.<br>" +
-                              "A web browser will be opened to the PhET website, where you can get the new version.<html>";
+                              AutomaticUpdateDialog.getUpdateInstructions( remoteVersion ) + "</html>";
                 UpdateResultDialog dialog = UpdateResultDialog.createDialog( window, title, html );
                 dialog.addOKButton();
                 dialog.addListener( new UpdateResultDialog.Listener() {
@@ -49,7 +49,7 @@ public class DefaultManualCheckForUpdates implements IManualUpdateChecker {
 
             public void exceptionInUpdateCheck( final IOException e ) {
                 String title = "Error during update check";
-                String html = "<html>" + PhetAboutDialog.HTML_CUSTOM_STYLE+"An error was encountered while trying to access the PhET website.<br>Please try again later, or visit <a href=\"http://phet.colorado.edu\">http://phet.colorado.edu</a>.<br>If the problem persists, please contact <a href=\"mailto:phethelp@colorado.edu\">phethelp@colorado.edu</a>." + "<html>";
+                String html = "<html>" + PhetAboutDialog.HTML_CUSTOM_STYLE + "An error was encountered while trying to access the PhET website.<br>Please try again later, or visit <a href=\"http://phet.colorado.edu\">http://phet.colorado.edu</a>.<br>If the problem persists, please contact <a href=\"mailto:phethelp@colorado.edu\">phethelp@colorado.edu</a>." + "<html>";
                 final JButton details = new JButton( "Details..." );
                 details.addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent event ) {
@@ -69,7 +69,7 @@ public class DefaultManualCheckForUpdates implements IManualUpdateChecker {
             }
 
             public void noNewVersionAvailable( PhetVersion currentVersion, PhetVersion remoteVersion ) {
-                UpdateResultDialog.showDialog( window, "Up to date", "<html>" + PhetAboutDialog.HTML_CUSTOM_STYLE+"You have the current version (" + currentVersion.formatForTitleBar() + ") of " + humanReadableSimName + "." + "<html>" );
+                UpdateResultDialog.showDialog( window, "Up to date", "<html>" + PhetAboutDialog.HTML_CUSTOM_STYLE + "You have the current version (" + currentVersion.formatForTitleBar() + ") of " + humanReadableSimName + "." + "<html>" );
             }
         };
         updateManager.addListener( listener );
