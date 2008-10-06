@@ -81,7 +81,7 @@ public class FullTrackingInfoDialog extends JDialog {
     }
 
     private static final String INFO =
-            "<html><head><style type=\"text/css\">body { font-size: @FONT_SIZE@; font-family: @FONT_FAMILY@ }</style></head>" +
+            "<html>" + PhetAboutDialog.HTML_CUSTOM_STYLE +
             "<b><a href=http://phet.colorado.edu>PhET</a></b> " +
             "is made possible by grants that require us to track anonymous usage statistics.<br>No personal or private data is sent; you can see the full report sent to PhET below.<br><br>"
             +
