@@ -57,7 +57,7 @@ public class AutomaticUpdateDialog extends UpdateResultDialog {
         } );
         buttonStrip.add( skipThisVersion );
 
-        JButton preferencesButton = new JButton( "Preferences" );
+        JButton preferencesButton = new JButton( "Preferences..." );
         preferencesButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 new PreferencesDialog( parent, trackingInfo, iManuallyCheckForUpdates, new DefaultUpdatePreferences( config ), new DefaultTrackingPreferences( config ) ).setVisible( true );

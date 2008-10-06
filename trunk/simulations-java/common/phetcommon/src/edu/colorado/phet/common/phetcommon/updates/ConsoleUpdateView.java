@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 
-public class ConsoleViewForUpdates implements UpdateManager.Listener {
+public class ConsoleUpdateView implements UpdateManager.Listener {
     public void discoveredRemoteVersion( PhetVersion remoteVersion ) {
         System.out.println( "ConsoleViewForUpdates.discoveredRemoteVersion: " + remoteVersion );
     }
