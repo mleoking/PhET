@@ -2,22 +2,23 @@
 
 package edu.colorado.phet.common.phetcommon.application;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Properties;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.preferences.AutomaticUpdateDialog;
+import edu.colorado.phet.common.phetcommon.preferences.ITrackingInfo;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.tracking.Trackable;
 import edu.colorado.phet.common.phetcommon.tracking.Tracker;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingInfo;
-import edu.colorado.phet.common.phetcommon.updates.ConsoleViewForUpdates;
 import edu.colorado.phet.common.phetcommon.updates.UpdateManager;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.phetcommon.preferences.ITrackingInfo;
 
 /**
  * PhetApplicationConfig encapsulates the information required to configure
@@ -84,7 +85,6 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
     private final String flavor;
     private volatile PhetVersion version;
     private Tracker tracker;
-    private UpdateManager updateManager;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -127,12 +127,6 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
                     return new TrackingInfo( PhetApplicationConfig.this );
                 }
             } );
-        }
-        if ( isUpdatesEnabled() ) {
-            updateManager = new UpdateManager( getProjectName(), getVersion() );
-
-            //for debugging only
-            updateManager.addListener( new ConsoleViewForUpdates() );
         }
     }
 
@@ -390,18 +384,38 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
                 if ( applicationConstructor != null ) {
                     PhetApplication app = applicationConstructor.getApplication( PhetApplicationConfig.this );
                     app.startApplication();
+                    if ( isTrackingEnabled() ) {
+                        tracker.startTracking();
+                    }
+                    if ( isUpdatesEnabled() ) {
+                        autoCheckForUpdates( app );
+                    }
                 }
                 else {
                     new RuntimeException( "No applicationconstructor specified" ).printStackTrace();
                 }
-                if ( isTrackingEnabled() ) {
-                    tracker.startTracking();
-                }
-                if ( isUpdatesEnabled() ) {
-                    updateManager.checkForUpdates();
-                }
             }
         } );
+    }
+
+    private void autoCheckForUpdates( final PhetApplication app ) {
+        UpdateManager updateManager = new UpdateManager( getProjectName(), getVersion() );
+        updateManager.addListener( new UpdateManager.Listener() {
+            public void discoveredRemoteVersion( PhetVersion remoteVersion ) {
+            }
+
+            public void newVersionAvailable( PhetVersion currentVersion, PhetVersion remoteVersion ) {
+                new AutomaticUpdateDialog( app, remoteVersion ).setVisible( true );
+            }
+
+            public void exceptionInUpdateCheck( IOException e ) {
+            }
+
+            public void noNewVersionAvailable( PhetVersion currentVersion, PhetVersion remoteVersion ) {
+            }
+        } );
+        updateManager.checkForUpdates();
+
     }
 
     public boolean isDev() {
