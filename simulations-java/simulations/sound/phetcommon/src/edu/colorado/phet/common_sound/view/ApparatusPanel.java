@@ -10,18 +10,20 @@
  */
 package edu.colorado.phet.common_sound.view;
 
-import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
-import edu.colorado.phet.common_sound.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common_sound.view.phetgraphics.PhetGraphic;
-
-import javax.swing.*;
-import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import javax.swing.JPanel;
+import javax.swing.event.MouseInputListener;
+
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsSetup;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
+import edu.colorado.phet.common_sound.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common_sound.view.phetgraphics.PhetGraphic;
 
 /**
  * This is a base class for panels that contain graphic representations

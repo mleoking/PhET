@@ -10,16 +10,6 @@
  */
 package edu.colorado.phet.common_sound.view.phetgraphics;
 
-import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
-import edu.colorado.phet.common_sound.view.graphics.mousecontrols.CompositeMouseInputListener;
-import edu.colorado.phet.common_sound.view.graphics.mousecontrols.CursorControl;
-import edu.colorado.phet.common_sound.view.graphics.mousecontrols.TranslationHandler;
-import edu.colorado.phet.common_sound.view.graphics.mousecontrols.TranslationListener;
-import edu.colorado.phet.common_sound.view.util.RectangleUtils;
-
-import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
-import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -28,6 +18,18 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Stack;
+
+import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
+import javax.swing.event.MouseInputAdapter;
+import javax.swing.event.MouseInputListener;
+
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
+import edu.colorado.phet.common_sound.view.graphics.mousecontrols.CompositeMouseInputListener;
+import edu.colorado.phet.common_sound.view.graphics.mousecontrols.CursorControl;
+import edu.colorado.phet.common_sound.view.graphics.mousecontrols.TranslationHandler;
+import edu.colorado.phet.common_sound.view.graphics.mousecontrols.TranslationListener;
 
 /**
  * PhetGraphic is the base class for all PhET graphics.

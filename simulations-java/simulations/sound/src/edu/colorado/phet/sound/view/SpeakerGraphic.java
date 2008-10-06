@@ -12,10 +12,10 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common_sound.view.ApparatusPanel;
 import edu.colorado.phet.common_sound.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common_sound.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common_sound.view.util.ImageLoader;
 import edu.colorado.phet.sound.SoundConfig;
 import edu.colorado.phet.sound.model.WaveMedium;
 
