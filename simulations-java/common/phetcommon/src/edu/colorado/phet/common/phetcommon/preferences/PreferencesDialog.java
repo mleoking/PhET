@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.phetcommon.updates.ApplicationConfigManualCheckForUpdates;
 
 public class PreferencesDialog extends JDialog {
-    public PreferencesDialog( Frame owner, ITrackingInfo tracker, IManuallyCheckForUpdates iCheckForUpdates, IPreferences updatePreferences, IPreferences trackingPreferences ) {
+    public PreferencesDialog( Frame owner, ITrackingInfo tracker, IManualUpdateChecker iCheckForUpdates, IPreferences updatePreferences, IPreferences trackingPreferences ) {
         super( owner, "Preferences", true );
         setContentPane( new PreferencesPanel( iCheckForUpdates, tracker, updatePreferences, trackingPreferences ) );
         pack();

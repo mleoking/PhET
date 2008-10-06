@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 
 public class UpdatesPreferencesPanel extends JPanel {
 
-    public UpdatesPreferencesPanel( final IManuallyCheckForUpdates iCheckForUpdates, final IPreferences preferences ) {
+    public UpdatesPreferencesPanel( final IManualUpdateChecker iCheckForUpdates, final IPreferences preferences ) {
         setLayout( new GridBagLayout() );
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.gridy = GridBagConstraints.RELATIVE;
