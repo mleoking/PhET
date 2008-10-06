@@ -52,7 +52,7 @@ public class MultipleParticleModel {
     public static final double TIME_STEP = 0.020;  // Time per simulation clock tick, in seconds.
     public static final double INITIAL_TEMPERATURE = 0.2;
     public static final double MAX_TEMPERATURE = 100.0;
-    public static final double MIN_TEMPERATURE = 0.01;
+    public static final double LOW_TEMPERATURE = 0.01;  // Below this, temperature decreases asymtotically.
     public static final double TEMPERATURE_STEP = -0.1;
     private static final double WALL_DISTANCE_THRESHOLD = 1.122462048309373017;
     private static final double PARTICLE_INTERACTION_DISTANCE_THRESH_SQRD = 6.25;
@@ -258,8 +258,8 @@ public class MultipleParticleModel {
         if (newTemperature > MAX_TEMPERATURE) {
             m_temperatureSetPoint = MAX_TEMPERATURE;
         }
-        else if (newTemperature < MIN_TEMPERATURE){
-            m_temperatureSetPoint = MIN_TEMPERATURE;
+        else if (newTemperature < LOW_TEMPERATURE){
+            m_temperatureSetPoint = LOW_TEMPERATURE;
         }
         else{
             m_temperatureSetPoint = newTemperature;
@@ -892,8 +892,9 @@ public class MultipleParticleModel {
             if (m_temperatureSetPoint >= MAX_TEMPERATURE){
                 m_temperatureSetPoint = MAX_TEMPERATURE;
             }
-            else if (m_temperatureSetPoint <= MIN_TEMPERATURE){
-                m_temperatureSetPoint = MIN_TEMPERATURE;
+            else if (m_temperatureSetPoint <= LOW_TEMPERATURE){
+                m_temperatureSetPoint = (m_temperatureSetPoint - m_heatingCoolingAmount) * 0.99;
+                System.out.println(m_temperatureSetPoint);
             }
             notifyTemperatureChanged();
         }
