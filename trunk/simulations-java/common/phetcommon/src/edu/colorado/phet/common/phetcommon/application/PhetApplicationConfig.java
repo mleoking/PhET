@@ -453,11 +453,11 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
         return Arrays.asList( commandLineArgs ).contains( PhetApplication.DEVELOPER_CONTROLS_COMMAND_LINE_ARG );
     }
 
-    private boolean isTrackingEnabled() {
+    public boolean isTrackingEnabled() {
         return Arrays.asList( commandLineArgs ).contains( "-tracking" ) && !PhetServiceManager.isJavaWebStart();
     }
 
-    private boolean isUpdatesEnabled() {
+    public  boolean isUpdatesEnabled() {
         return Arrays.asList( commandLineArgs ).contains( "-updates" ) && !PhetServiceManager.isJavaWebStart();
     }
 
