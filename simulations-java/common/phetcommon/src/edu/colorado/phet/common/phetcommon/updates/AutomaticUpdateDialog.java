@@ -30,8 +30,11 @@ public class AutomaticUpdateDialog extends UpdateResultDialog {
         JButton updateNowButton = new JButton( "Update Now" );
         updateNowButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                UpdateResultDialog updateResultDialog = new UpdateResultDialog( parent, "Instructions on Updating", "<html>" + PhetAboutDialog.HTML_CUSTOM_STYLE + "When you press OK, a web browser will be opened to PhET website, where you can get the new version (" + newVersion.formatForTitleBar() + ").<br>" +
-                                                                                                                    "If the web browser fails to open, please visit this URL: <a href=\"http://phet.colorado.edu/\">http://phet.colorado.edu</a></html>" );
+                UpdateResultDialog updateResultDialog = new UpdateResultDialog(
+                        parent, "Instructions on Updating",
+                        "<html>" +
+                        PhetAboutDialog.HTML_CUSTOM_STYLE + getUpdateInstructions( newVersion ) +
+                        "</html>" );
                 updateResultDialog.addOKButton();
                 updateResultDialog.addListener( new UpdateResultDialog.Listener() {
                     public void dialogFinished() {
@@ -84,6 +87,11 @@ public class AutomaticUpdateDialog extends UpdateResultDialog {
 
         pack();
         center();
+    }
+
+    public static String getUpdateInstructions( PhetVersion newVersion ) {
+        return "When you press OK, a web browser will be opened to PhET website, where you can get the new version (" + newVersion.formatForTitleBar() + ").<br><br>" +
+               "<font size=-2>If the web browser fails to open, please visit this URL: <a href=\"http://phet.colorado.edu/\">http://phet.colorado.edu</a></font>";
     }
 
     public static void main( String[] args ) {
