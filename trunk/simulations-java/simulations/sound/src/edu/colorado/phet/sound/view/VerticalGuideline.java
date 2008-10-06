@@ -6,13 +6,16 @@
  */
 package edu.colorado.phet.sound.view;
 
-import edu.colorado.phet.common_sound.view.graphics.mousecontrols.TranslationEvent;
-import edu.colorado.phet.common_sound.view.graphics.mousecontrols.TranslationListener;
-import edu.colorado.phet.common_sound.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common_sound.view.phetgraphics.PhetShapeGraphic;
-
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
+
+import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
+import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 
 public class VerticalGuideline extends CompositePhetGraphic {
     private int xLocation;

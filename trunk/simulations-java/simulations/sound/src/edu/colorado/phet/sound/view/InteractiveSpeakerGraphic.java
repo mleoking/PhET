@@ -14,9 +14,9 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
-import edu.colorado.phet.common_sound.view.graphics.mousecontrols.TranslationEvent;
-import edu.colorado.phet.common_sound.view.graphics.mousecontrols.TranslationListener;
-import edu.colorado.phet.common_sound.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
+import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.sound.SoundConfig;
 
 public class InteractiveSpeakerGraphic extends CompositePhetGraphic {

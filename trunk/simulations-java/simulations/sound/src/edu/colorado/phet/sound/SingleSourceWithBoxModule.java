@@ -6,8 +6,22 @@
  */
 package edu.colorado.phet.sound;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common_sound.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.sound.coreadditions.ScalarObservable;
 import edu.colorado.phet.sound.model.AttenuationFunction;
 import edu.colorado.phet.sound.model.SoundModel;
@@ -15,17 +29,6 @@ import edu.colorado.phet.sound.model.WaveMedium;
 import edu.colorado.phet.sound.view.DialGauge;
 import edu.colorado.phet.sound.view.SoundApparatusPanel;
 import edu.colorado.phet.sound.view.SoundControlPanel;
-
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 public class SingleSourceWithBoxModule extends SingleSourceListenModule {
     private AirBoxGraphic boxInteriorGraphic;

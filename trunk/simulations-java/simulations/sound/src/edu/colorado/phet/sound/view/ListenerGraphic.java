@@ -6,20 +6,21 @@
  */
 package edu.colorado.phet.sound.view;
 
-import edu.colorado.phet.common_sound.view.graphics.mousecontrols.TranslationEvent;
-import edu.colorado.phet.common_sound.view.graphics.mousecontrols.TranslationListener;
-import edu.colorado.phet.common_sound.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common_sound.view.phetgraphics.PhetImageGraphic;
+import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
+import java.util.LinkedList;
+
+import javax.swing.SwingUtilities;
+
+import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
+import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.sound.SoundConfig;
 import edu.colorado.phet.sound.SoundModule;
 import edu.colorado.phet.sound.model.Listener;
 import edu.colorado.phet.sound.model.SoundModel;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Point2D;
-import java.util.LinkedList;
 
 public class ListenerGraphic extends CompositePhetGraphic {
 //public class ListenerGraphic extends DefaultInteractiveGraphic {

@@ -20,10 +20,10 @@ import java.util.Iterator;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsSetup;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
-import edu.colorado.phet.common_sound.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common_sound.view.phetgraphics.PhetGraphic;
 
 /**
  * This is a base class for panels that contain graphic representations

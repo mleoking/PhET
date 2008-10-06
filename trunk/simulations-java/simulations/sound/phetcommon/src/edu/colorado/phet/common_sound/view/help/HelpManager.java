@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.common_sound.view.help;
 
-import edu.colorado.phet.common_sound.view.ApparatusPanel;
-import edu.colorado.phet.common_sound.view.phetgraphics.GraphicLayerSet;
+import java.awt.Component;
 
-import java.awt.*;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common_sound.view.ApparatusPanel;
 
 /**
  * HelpManager

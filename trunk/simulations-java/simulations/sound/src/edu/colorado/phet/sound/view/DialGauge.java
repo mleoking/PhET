@@ -14,9 +14,9 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
-import edu.colorado.phet.common_sound.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common_sound.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.sound.coreadditions.ScalarObservable;
 import edu.colorado.phet.sound.coreadditions.ScalarObserver;
 
