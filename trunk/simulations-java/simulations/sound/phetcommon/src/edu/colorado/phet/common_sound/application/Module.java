@@ -14,10 +14,10 @@ package edu.colorado.phet.common_sound.application;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common_sound.model.BaseModel;
-import edu.colorado.phet.common_sound.model.ModelElement;
 import edu.colorado.phet.common_sound.model.clock.AbstractClock;
 import edu.colorado.phet.common_sound.model.clock.ClockTickEvent;
 import edu.colorado.phet.common_sound.model.clock.ClockTickListener;

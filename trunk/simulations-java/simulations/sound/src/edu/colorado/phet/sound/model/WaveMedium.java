@@ -9,8 +9,8 @@ package edu.colorado.phet.sound.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
-import edu.colorado.phet.common_sound.model.ModelElement;
 
 public class WaveMedium extends SimpleObservable implements ModelElement {
 

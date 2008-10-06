@@ -12,6 +12,7 @@ package edu.colorado.phet.common_sound.model;
 
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 /**
