@@ -66,6 +66,8 @@ public class EmfModule extends Module {
     private WaveMediumGraphic waveMediumGraphicB;
     private WaveMediumGraphic waveMediumGraphicA;
     private int fieldSense = EmfConfig.SHOW_FORCE_ON_ELECTRON;
+    
+    private final HelpItem helpItem;
 
 
     public EmfModule( IClock clock ) {
@@ -142,12 +144,27 @@ public class EmfModule extends Module {
         createScalarRepresentations();
 
         // Create some help items
-        HelpItem helpItem1 = new HelpItem( RadioWavesResources.getString( "EmfModule.help1" ), origin.getX() + 15, origin.getY() + 10, HelpItem.RIGHT, HelpItem.BELOW );
-        helpItem1.setForegroundColor( Color.black );
-        helpItem1.setShadowColor( Color.gray );
-        apparatusPanel.addGraphic( helpItem1, HELP_LAYER_NUMBER );
+        helpItem = new HelpItem( RadioWavesResources.getString( "EmfModule.help1" ), origin.getX() + 15, origin.getY() + 10, HelpItem.RIGHT, HelpItem.BELOW );
+        helpItem.setForegroundColor( Color.black );
+        helpItem.setShadowColor( Color.gray );
+        if ( isHelpEnabled() ) {
+            apparatusPanel.addGraphic( helpItem, HELP_LAYER_NUMBER );
+        }
+    }
+    
+    public boolean hasHelp() {
+        return true;
     }
 
+    public void setHelpEnabled( boolean enabled ) {
+        super.setHelpEnabled( enabled );
+        if ( enabled ) {
+            apparatusPanel.addGraphic( helpItem, HELP_LAYER_NUMBER );
+        }
+        else {
+            apparatusPanel.removeGraphic( helpItem );
+        }
+    }
     private void createScalarRepresentations() {
         waveMediumGraphicA = new WaveMediumGraphic( electron, apparatusPanel, electronLoc, 800, WaveMediumGraphic.TO_RIGHT );
         waveMediumGraphicB = new WaveMediumGraphic( electron, apparatusPanel, electronLoc, 200, WaveMediumGraphic.TO_LEFT );
@@ -361,17 +378,6 @@ public class EmfModule extends Module {
         }
     }
 
-
-    public static void main( String[] args ) {
-        ModelViewTransform2D tx = new ModelViewTransform2D( new Rectangle2D.Double( -100, 50, 100, -100 ), new Rectangle( 0, 0, 100, 100 ) );
-        Point p = new Point();
-        tx.getAffineTransform().transform( new Point( 0, 0 ), p );
-        System.out.println( "p = " + p );
-
-        ModelViewTransform2D tx2 = create( new Point2D.Double( -125, 300 ), new Point2D.Double( 875, -400 ), new Point( 0, 0 ), new Point( 1000, 700 ) );
-        tx2.getAffineTransform().transform( new Point2D.Double( 0, 400 ), p );
-        System.out.println( "p = " + p );
-    }
 
     static ModelViewTransform2D create( Point2D.Double mp1, Point2D.Double mp2, Point vp1, Point vp2 ) {
         Rectangle2D.Double mr = new Rectangle2D.Double( mp1.getX(), mp1.getY(), mp2.getX() - mp1.getX(), mp2.getY() - mp1.getY() );
