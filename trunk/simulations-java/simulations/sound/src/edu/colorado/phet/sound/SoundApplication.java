@@ -10,12 +10,12 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_sound.application.Module;
 import edu.colorado.phet.common_sound.application.PhetApplication;
-import edu.colorado.phet.sound.model.SoundClock;
 
 
 public class SoundApplication extends PhetApplication {
@@ -26,7 +26,7 @@ public class SoundApplication extends PhetApplication {
         super( args, SimStrings.get( "SoundApplication.title" ),
                SimStrings.get( "SoundApplication.description" ),
                SoundConfig.VERSION,
-               new SoundClock( SoundConfig.s_timeStep, SoundConfig.s_waitTime ),
+               new ConstantDtClock( SoundConfig.s_waitTime, SoundConfig.s_timeStep ),
                true,
                new FrameSetup.CenteredWithSize( 900, 750 ) );
 

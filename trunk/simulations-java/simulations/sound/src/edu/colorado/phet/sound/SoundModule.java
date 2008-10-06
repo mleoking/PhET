@@ -6,15 +6,20 @@
  */
 package edu.colorado.phet.sound;
 
-import edu.colorado.phet.common_sound.application.Module;
-import edu.colorado.phet.common_sound.application.PhetApplication;
-import edu.colorado.phet.common_sound.model.clock.AbstractClock;
-import edu.colorado.phet.sound.model.*;
-import edu.colorado.phet.sound.view.RgbReporter;
-import edu.colorado.phet.sound.view.WavefrontOscillator;
-
 import java.awt.geom.Point2D;
 import java.util.Random;
+
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common_sound.application.Module;
+import edu.colorado.phet.common_sound.application.PhetApplication;
+import edu.colorado.phet.sound.model.Listener;
+import edu.colorado.phet.sound.model.SineWaveFunction;
+import edu.colorado.phet.sound.model.SoundModel;
+import edu.colorado.phet.sound.model.Wavefront;
+import edu.colorado.phet.sound.view.RgbReporter;
+import edu.colorado.phet.sound.view.WavefrontOscillator;
 
 /**
  * Base module for the Sound simulations
@@ -44,7 +49,7 @@ public class SoundModule extends Module implements RgbReporter {
     private Listener currentListener;
     private Boolean saveAudioEnabledState;
     private boolean isActive;
-    private AbstractClock clock;
+    private IClock clock;
 
     /**
      * @param application
@@ -63,8 +68,14 @@ public class SoundModule extends Module implements RgbReporter {
 
         // Add a listener to the clock that will turn the audio off and on when the clock
         // is paused and unpaused
-        ( (SoundClock)clock ).addPauseListener( new SoundClock.PauseListener() {
-            public void stateChanged( boolean isPaused ) {
+        clock.addClockListener( new ClockAdapter() {
+            public void clockStarted( ClockEvent clockEvent ) {
+                stateChanged( clockEvent.getClock().isPaused() );
+            }
+            public void clockPaused( ClockEvent clockEvent ) {
+                stateChanged( clockEvent.getClock().isPaused() );
+            }
+            private void stateChanged( boolean isPaused ) {
                 if( isActive ) {
                     if( isPaused ) {
                         saveAudioEnabledState = new Boolean( audioEnabled );

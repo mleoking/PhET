@@ -15,12 +15,12 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common_sound.model.BaseModel;
-import edu.colorado.phet.common_sound.model.clock.AbstractClock;
-import edu.colorado.phet.common_sound.model.clock.ClockTickEvent;
-import edu.colorado.phet.common_sound.model.clock.ClockTickListener;
 import edu.colorado.phet.common_sound.view.ApparatusPanel;
 import edu.colorado.phet.common_sound.view.ControlPanel;
 import edu.colorado.phet.common_sound.view.help.HelpManager;
@@ -34,14 +34,14 @@ import edu.colorado.phet.common_sound.view.help.HelpManager;
  * @author ?
  * @version $Revision$
  */
-public class Module implements ClockTickListener {
+public class Module extends ClockAdapter {
 
     BaseModel model;
     ApparatusPanel apparatusPanel;
     JPanel controlPanel;
     JPanel monitorPanel;
     String name;
-    private AbstractClock clock;
+    private IClock clock;
     HelpManager helpManager;
     private boolean helpEnabled;
     private boolean isActive;
@@ -50,7 +50,7 @@ public class Module implements ClockTickListener {
      * @param name
      * @param clock
      */
-    protected Module( String name, AbstractClock clock ) {
+    protected Module( String name, IClock clock ) {
         this.name = name;
         this.clock = clock;
         SimStrings.getInstance().addStrings( "sound/localization/phetcommon-strings" );
@@ -80,7 +80,7 @@ public class Module implements ClockTickListener {
     // Setters and getters
     //-----------------------------------------------------------------
 
-    public AbstractClock getClock() {
+    public IClock getClock() {
         return clock;
     }
 
@@ -152,7 +152,7 @@ public class Module implements ClockTickListener {
         }
         app.getPhetFrame().getBasicPhetPanel().setControlPanel( this.getControlPanel() );
         app.getPhetFrame().getBasicPhetPanel().setMonitorPanel( this.getMonitorPanel() );
-        app.addClockTickListener( this );
+        app.addClockListener( this );
         isActive = true;
     }
 
@@ -163,7 +163,7 @@ public class Module implements ClockTickListener {
      * @param app
      */
     public void deactivate( PhetApplication app ) {
-        app.removeClockTickListener( this );
+        app.removeClockListener( this );
         isActive = false;
     }
 
@@ -272,7 +272,7 @@ public class Module implements ClockTickListener {
      *
      * @param event
      */
-    public void updateGraphics( ClockTickEvent event ) {
+    public void updateGraphics( ClockEvent event ) {
         // noop
 //        PhetJComponent.getRepaintManager().updateGraphics();
     }
@@ -293,7 +293,7 @@ public class Module implements ClockTickListener {
     // Main loop
     //----------------------------------------------------------------
 
-    public void clockTicked( ClockTickEvent event ) {
+    public void simulationTimeChanged( ClockEvent event ) {
         handleUserInput();
         model.clockTicked( event );
         updateGraphics( event );

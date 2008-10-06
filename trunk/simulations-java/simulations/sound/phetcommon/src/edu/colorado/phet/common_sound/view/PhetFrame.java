@@ -18,13 +18,13 @@ import java.io.IOException;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common_sound.application.ApplicationModel;
 import edu.colorado.phet.common_sound.application.Module;
 import edu.colorado.phet.common_sound.application.ModuleManager;
 import edu.colorado.phet.common_sound.application.PhetApplication;
-import edu.colorado.phet.common_sound.model.clock.AbstractClock;
 import edu.colorado.phet.common_sound.view.components.menu.HelpMenu;
 import edu.colorado.phet.common_sound.view.components.menu.PhetFileMenu;
 
@@ -52,7 +52,7 @@ public class PhetFrame extends JFrame {
      * @param useClockControlPanel
      * @throws HeadlessException
      */
-    public PhetFrame( PhetApplication application, String title, final AbstractClock clock, FrameSetup frameSetup,
+    public PhetFrame( PhetApplication application, String title, final IClock clock, FrameSetup frameSetup,
                       boolean useClockControlPanel, ModuleManager moduleManager,
                       String description, String version ) throws HeadlessException {
         super( title + " (" + version + ")" );
@@ -67,7 +67,7 @@ public class PhetFrame extends JFrame {
                 super.windowIconified( e );
                 paused = clock.isPaused(); // save clock state
                 if( !paused ) {
-                    clock.setPaused( true );
+                    clock.pause();
                 }
             }
 
@@ -75,7 +75,7 @@ public class PhetFrame extends JFrame {
             public void windowDeiconified( WindowEvent e ) {
                 super.windowDeiconified( e );
                 if( !paused ) {
-                    clock.setPaused( false );
+                    clock.start();
                 }
             }
         } );
@@ -117,7 +117,7 @@ public class PhetFrame extends JFrame {
                 super.windowIconified( e );
                 paused = model.getClock().isPaused(); // save clock state
                 if( !paused ) {
-                    model.getClock().setPaused( true );
+                    model.getClock().pause();
                 }
             }
 
@@ -125,7 +125,7 @@ public class PhetFrame extends JFrame {
             public void windowDeiconified( WindowEvent e ) {
                 super.windowDeiconified( e );
                 if( !paused ) {
-                    model.getClock().setPaused( false );
+                    model.getClock().start();
                 }
             }
         } );

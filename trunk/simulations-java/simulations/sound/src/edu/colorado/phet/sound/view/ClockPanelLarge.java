@@ -18,11 +18,11 @@ import java.util.EventObject;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_sound.model.BaseModel;
-import edu.colorado.phet.common_sound.model.clock.AbstractClock;
 import edu.colorado.phet.sound.SoundConfig;
 
 public class ClockPanelLarge extends JPanel {
@@ -120,8 +120,8 @@ public class ClockPanelLarge extends JPanel {
         clockPanelListenerProxy.clockPaneEventOccurred( event );
     }
 
-    public void clockTicked( AbstractClock c, double dt ) {
-        String s = clockFormat.format( c.getRunningTime() * SoundConfig.CLOCK_SCALE_FACTOR );
+    public void clockTicked( IClock c, double dt ) {
+        String s = clockFormat.format( c.getSimulationTime() * SoundConfig.CLOCK_SCALE_FACTOR );
         clockTF.setText( s );
     }
 

@@ -6,13 +6,10 @@
  */
 package edu.colorado.phet.sound;
 
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common_sound.model.clock.AbstractClock;
-import edu.colorado.phet.sound.model.SoundModel;
-import edu.colorado.phet.sound.view.BufferedWaveMediumGraphic;
-import edu.colorado.phet.sound.view.ReflectingWallGraphic;
-import edu.colorado.phet.sound.view.SoundControlPanel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -20,10 +17,14 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.sound.model.SoundModel;
+import edu.colorado.phet.sound.view.BufferedWaveMediumGraphic;
+import edu.colorado.phet.sound.view.ReflectingWallGraphic;
+import edu.colorado.phet.sound.view.SoundControlPanel;
 
 public class WallInterferenceModule extends SingleSourceModule {
 
@@ -43,7 +44,7 @@ public class WallInterferenceModule extends SingleSourceModule {
     private BufferedWaveMediumGraphic interferringWavefrontGraphic;
     private Point2D.Double p;
     private Point2D.Double pp;
-    private AbstractClock clock;
+    private IClock clock;
 
     public WallInterferenceModule( SoundApplication application ) {
         super( application, SimStrings.get( "ModuleTitle.WallInterference" ) );
@@ -300,10 +301,10 @@ public class WallInterferenceModule extends SingleSourceModule {
             Runnable pulser = new Runnable() {
                 public void run() {
                     soundModel.getPrimaryWavefront().setMaxAmplitude( savedAmplitude.doubleValue() );
-                    double startTime = clock.getRunningTime();
+                    double startTime = clock.getSimulationTime();
                     double cycleTime = 6 * 1 / soundModel.getPrimaryWavefront().getFrequency();
                     soundModel.getPrimaryWavefront().getAmplitude();
-                    while( clock.getRunningTime() - startTime < cycleTime ) {
+                    while( clock.getSimulationTime() - startTime < cycleTime ) {
                         // wait loop
                         try {
                             Thread.sleep( 10 );

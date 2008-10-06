@@ -20,11 +20,11 @@ import java.text.MessageFormat;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common_sound.model.clock.AbstractClock;
-import edu.colorado.phet.common_sound.model.clock.ClockTickListener;
 import edu.colorado.phet.common_sound.view.ApparatusPanel;
 import edu.colorado.phet.common_sound.view.ApparatusPanel2;
 import edu.colorado.phet.common_sound.view.PhetFrame;
@@ -73,7 +73,7 @@ public class PhetApplication {
     private ModuleManager moduleManager;
     private String title;
     private Module initialModule;
-    private AbstractClock clock;
+    private IClock clock;
     private String description;
     private String version;
     private boolean useClockControlPanel;
@@ -88,7 +88,7 @@ public class PhetApplication {
      * @param useClockControlPanel Whether clock control panel appears at bottom of window
      * @param frameSetup           Defines the size and location of the frame
      */
-    public PhetApplication( String[] args, String title, String description, String version, AbstractClock clock,
+    public PhetApplication( String[] args, String title, String description, String version, IClock clock,
                             boolean useClockControlPanel, FrameSetup frameSetup ) {
 
 
@@ -109,60 +109,6 @@ public class PhetApplication {
         parseArgs( args );
     }
 
-    /**
-     * @param args                 Command line args
-     * @param title                Title that appears in the frame and the About dialog
-     * @param description          Appears in the About dialog
-     * @param version              Appears in the About dialog
-     * @param clock                Simulation clock
-     * @param useClockControlPanel Whether clock control panel appears at bottom of window
-     */
-    public PhetApplication( String[] args, String title, String description, String version, AbstractClock clock,
-                            boolean useClockControlPanel ) {
-        this( args, title, description, version, clock, useClockControlPanel, null );
-    }
-
-    /**
-     * @param descriptor
-     * @deprecated, clients should pass in their String[] args.
-     * @deprecated
-     */
-    public PhetApplication( ApplicationModel descriptor ) {
-        this( descriptor, new String[0] );
-    }
-
-    /**
-     * @param descriptor
-     * @param args
-     * @deprecated
-     */
-    public PhetApplication( ApplicationModel descriptor, String args[] ) {
-        moduleManager = new ModuleManager( this );
-        clock = descriptor.getClock();
-
-        if( descriptor.getModules() == null ) {
-            throw new RuntimeException( "Module(s) not specified in ApplicationModel" );
-        }
-        if( descriptor.getClock() == null ) {
-            throw new RuntimeException( "Clock not specified in ApplicationModel" );
-        }
-        this.applicationModel = descriptor;
-        try {
-            phetFrame = new PhetFrame( this );
-        }
-        catch( IOException e ) {
-            throw new RuntimeException( "IOException on PhetFrame create.", e );
-        }
-        moduleManager.addAllModules( descriptor.getModules() );
-        setInitialModule( descriptor.getInitialModule() );
-
-        s_instance = this;
-
-//        PhetJComponent.init( phetFrame );
-
-        // Handle command line arguments
-        parseArgs( args );
-    }
 
     /**
      * Processes command line arguments. May be extended by subclasses.
@@ -241,16 +187,16 @@ public class PhetApplication {
         return phetFrame;
     }
 
-    public AbstractClock getClock() {
+    public IClock getClock() {
         return clock;
     }
 
-    public void addClockTickListener( ClockTickListener clockTickListener ) {
-        clock.addClockTickListener( clockTickListener );
+    public void addClockListener( ClockListener listener ) {
+        clock.addClockListener( listener );
     }
 
-    public void removeClockTickListener( ClockTickListener clockTickListener ) {
-        clock.removeClockTickListener( clockTickListener );
+    public void removeClockListener( ClockListener listener ) {
+        clock.removeClockListener( listener );
     }
 
     //----------------------------------------------------------------

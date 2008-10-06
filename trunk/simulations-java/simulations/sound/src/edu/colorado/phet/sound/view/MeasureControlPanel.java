@@ -6,19 +6,20 @@
  */
 package edu.colorado.phet.sound.view;
 
-import edu.colorado.phet.common_sound.model.clock.AbstractClock;
-import edu.colorado.phet.sound.SingleSourceMeasureModule;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.sound.SingleSourceMeasureModule;
 
 public class MeasureControlPanel extends SoundControlPanel {
 
     private String[] buttonLabels = new String[2];
     private SingleSourceMeasureModule measureModule;
 
-    public MeasureControlPanel( SingleSourceMeasureModule module, AbstractClock clock ) {
+    public MeasureControlPanel( SingleSourceMeasureModule module, IClock clock ) {
         super( module );
 
 //        this.measureModule = module;

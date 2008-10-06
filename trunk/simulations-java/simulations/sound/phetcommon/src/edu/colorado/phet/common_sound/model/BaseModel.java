@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.common_sound.model;
 
-import edu.colorado.phet.common_sound.model.clock.ClockTickEvent;
-import edu.colorado.phet.common_sound.model.clock.ClockTickListener;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 
 /**
  * This class is encompasses all the model elements in a physical system. It provides
@@ -24,7 +24,7 @@ import edu.colorado.phet.common_sound.model.clock.ClockTickListener;
  * @author ?
  * @version $Revision$
  */
-public class BaseModel extends CompositeModelElement implements ClockTickListener {
+public class BaseModel extends CompositeModelElement implements ClockListener {
 
 
     //Not allowed to mess with the way we call our abstract method.
@@ -32,7 +32,15 @@ public class BaseModel extends CompositeModelElement implements ClockTickListene
         super.stepInTime( dt );
     }
 
-    public void clockTicked( ClockTickEvent event ) {
-        stepInTime( event.getDt() );
+    public void clockPaused( ClockEvent clockEvent ) {}
+
+    public void clockStarted( ClockEvent clockEvent ) {}
+
+    public void clockTicked( ClockEvent clockEvent ) {
+        stepInTime( clockEvent.getSimulationTimeChange() );
     }
+
+    public void simulationTimeChanged( ClockEvent clockEvent ) {}
+
+    public void simulationTimeReset( ClockEvent clockEvent ) {}
 }
