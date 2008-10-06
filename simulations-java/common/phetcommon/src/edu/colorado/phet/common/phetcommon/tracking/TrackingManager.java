@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
-public class TrackingSystem {
+public class TrackingManager {
     private String phetURL = "http://phet.colorado.edu";
     private String trackingPath = "tracking";
     private String trackingScript = "phet-tracking.php";
@@ -36,9 +36,9 @@ public class TrackingSystem {
             System.out.println( o + " = " + p.getProperty( o ) );
         }
         PhetApplicationConfig config = new PhetApplicationConfig( args, new FrameSetup.CenteredWithSize( 1024, 768 ), new PhetResources( "nuclear-physics" ), "alpha-radiation" );
-        String s = new TrackingSystem().getTrackingURL( new TrackingInfo( config ) );
+        String s = new TrackingManager().getTrackingURL( new TrackingInfo( config ) );
         System.out.println( "s = " + s );
-        new TrackingSystem().postTrackingInfo( new TrackingInfo( config ) );
+        new TrackingManager().postTrackingInfo( new TrackingInfo( config ) );
     }
 
 }

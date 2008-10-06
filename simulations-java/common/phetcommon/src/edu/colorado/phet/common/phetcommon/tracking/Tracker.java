@@ -16,7 +16,7 @@ public class Tracker {
             public void run() {
                 trackingInformation = trackable.getTrackingInformation();
                 try {
-                    new TrackingSystem().postTrackingInfo( trackingInformation );
+                    new TrackingManager().postTrackingInfo( trackingInformation );
                 }
                 catch( IOException e ) {
                     e.printStackTrace();
