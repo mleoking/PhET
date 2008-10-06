@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.common_sound.view.phetgraphics;
 
-import edu.colorado.phet.common_sound.view.util.RectangleUtils;
-
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 
 /**
  * PhetShadowTextGraphic

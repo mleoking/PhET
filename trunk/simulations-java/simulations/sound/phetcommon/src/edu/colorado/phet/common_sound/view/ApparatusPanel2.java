@@ -24,6 +24,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputListener;
 
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
 import edu.colorado.phet.common_sound.model.BaseModel;
 import edu.colorado.phet.common_sound.model.clock.AbstractClock;
@@ -31,7 +32,6 @@ import edu.colorado.phet.common_sound.model.clock.ClockTickEvent;
 import edu.colorado.phet.common_sound.model.clock.ClockTickListener;
 import edu.colorado.phet.common_sound.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common_sound.view.phetgraphics.PhetGraphics2D;
-import edu.colorado.phet.common_sound.view.util.RectangleUtils;
 
 /**
  * This is a base class for panels that contain graphic representations

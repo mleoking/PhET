@@ -10,7 +10,10 @@
  */
 package edu.colorado.phet.common_sound.view;
 
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsSetup;
 
 /**
  * Convenience class for common rendering options.

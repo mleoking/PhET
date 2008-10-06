@@ -21,13 +21,13 @@ import java.text.MessageFormat;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_sound.model.clock.AbstractClock;
 import edu.colorado.phet.common_sound.model.clock.ClockTickListener;
 import edu.colorado.phet.common_sound.view.ApparatusPanel;
 import edu.colorado.phet.common_sound.view.ApparatusPanel2;
 import edu.colorado.phet.common_sound.view.PhetFrame;
-import edu.colorado.phet.common_sound.view.util.ImageLoader;
 
 /**
  * The top-level class for all PhET applications.

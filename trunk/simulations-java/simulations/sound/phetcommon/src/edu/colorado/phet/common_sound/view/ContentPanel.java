@@ -10,14 +10,18 @@
  */
 package edu.colorado.phet.common_sound.view;
 
+import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ContainerEvent;
+import java.awt.event.ContainerListener;
+
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_sound.application.PhetApplication;
-import edu.colorado.phet.common_sound.view.util.ImageLoader;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.io.IOException;
 
 /**
  * ContentPanel

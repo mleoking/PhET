@@ -23,7 +23,7 @@ import java.util.Iterator;
 import javax.swing.event.MouseInputListener;
 
 import edu.colorado.phet.common.phetcommon.util.MultiMap;
-import edu.colorado.phet.common_sound.view.util.RectangleUtils;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 
 /**
  * GraphicLayerSet is a collection of PhetGraphics (referred to as "children").

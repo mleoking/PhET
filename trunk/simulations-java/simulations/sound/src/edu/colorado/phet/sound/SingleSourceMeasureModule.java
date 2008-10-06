@@ -6,22 +6,24 @@
  */
 package edu.colorado.phet.sound;
 
+import java.awt.Color;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.swing.JDialog;
+import javax.swing.JRootPane;
+
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_sound.application.PhetApplication;
 import edu.colorado.phet.common_sound.model.clock.AbstractClock;
 import edu.colorado.phet.common_sound.view.help.HelpItem;
 import edu.colorado.phet.common_sound.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common_sound.view.util.ImageLoader;
 import edu.colorado.phet.sound.view.ClockPanelLarge;
 import edu.colorado.phet.sound.view.MeasureControlPanel;
 import edu.colorado.phet.sound.view.MeterStickGraphic;
 import edu.colorado.phet.sound.view.VerticalGuideline;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 /**
  * Provides a single speaker and instruments for making measurements on waves.
