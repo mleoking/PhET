@@ -8,6 +8,8 @@ import java.util.Properties;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.preferences.DefaultTrackingPreferences;
+import edu.colorado.phet.common.phetcommon.preferences.DefaultUpdatePreferences;
 import edu.colorado.phet.common.phetcommon.preferences.ITrackingInfo;
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
@@ -373,10 +375,10 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
                 if ( applicationConstructor != null ) {
                     PhetApplication app = applicationConstructor.getApplication( PhetApplicationConfig.this );
                     app.startApplication();
-                    if ( isTrackingEnabled() ) {
+                    if ( isTrackingEnabled() && isTrackingAllowed() ) {
                         new Tracker( PhetApplicationConfig.this ).startTracking();
                     }
-                    if ( isUpdatesEnabled() && hasEnoughTimePassedSinceAskMeLater() ) {
+                    if ( isUpdatesEnabled() && isUpdatesAllowed() && hasEnoughTimePassedSinceAskMeLater() ) {
                         autoCheckForUpdates( app );
                     }
                 }
@@ -385,6 +387,20 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
                 }
             }
         } );
+    }
+
+    private boolean isUpdatesAllowed() {
+        //todo: perhaps we should use PhetPreferences.isUpdatesEnabled(String,String)
+        boolean enabledForSelection = new DefaultUpdatePreferences( this ).isEnabledForSelection();
+//        System.out.println( "updates allowed = " + enabledForSelection );
+        return enabledForSelection;
+    }
+
+    private boolean isTrackingAllowed() {
+        //todo: perhaps we should use PhetPreferences.isTrackingEnabled(String,String)
+        boolean trackingAllowed = new DefaultTrackingPreferences( this ).isEnabledForSelection();
+//        System.out.println( "trackingAllowed = " + trackingAllowed );
+        return trackingAllowed;
     }
 
     private boolean hasEnoughTimePassedSinceAskMeLater() {
