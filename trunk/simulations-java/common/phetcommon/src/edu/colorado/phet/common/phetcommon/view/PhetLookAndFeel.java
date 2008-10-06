@@ -315,7 +315,6 @@ public class PhetLookAndFeel {
         textValues.add( "ColorChooser", "rgbRedText", getCommonString( "ColorChooser.rgbRedText" ) );
         textValues.add( "ColorChooser", "rgbGreenText", getCommonString( "ColorChooser.rgbGreenText" ) );
         textValues.add( "ColorChooser", "rgbBlueText", getCommonString( "ColorChooser.rgbBlueText" ) );
-        textValues.add( "ColorChooser", "hsbBlueText", getCommonString( "ColorChooser.hsbBlueText" ) );
         textValues.add( "ColorChooser", "sampleText", getCommonString( "ColorChooser.sampleText" ) );
 
         return textValues;
