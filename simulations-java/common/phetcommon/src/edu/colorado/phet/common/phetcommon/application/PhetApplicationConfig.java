@@ -84,7 +84,6 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
     private PhetResources resourceLoader;
     private final String flavor;
     private volatile PhetVersion version;
-    private Tracker tracker;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -121,13 +120,6 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
         this.frameSetup = frameSetup;
         this.resourceLoader = resourceLoader;
         this.flavor = flavor;
-        if ( isTrackingEnabled() ) {
-            tracker = new Tracker( new Trackable() {
-                public TrackingInfo getTrackingInformation() {
-                    return new TrackingInfo( PhetApplicationConfig.this );
-                }
-            } );
-        }
     }
 
     //----------------------------------------------------------------------------
@@ -330,10 +322,6 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
         return resourceLoader.getProjectName();
     }
 
-    public Tracker getTracker() {
-        return tracker;
-    }
-
     public TrackingInfo getTrackingInformation() {
         return new TrackingInfo( this );
     }
@@ -385,7 +373,7 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
                     PhetApplication app = applicationConstructor.getApplication( PhetApplicationConfig.this );
                     app.startApplication();
                     if ( isTrackingEnabled() ) {
-                        tracker.startTracking();
+                        startTracking();
                     }
                     if ( isUpdatesEnabled() ) {
                         autoCheckForUpdates( app );
@@ -396,6 +384,14 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
                 }
             }
         } );
+    }
+
+    private void startTracking() {
+        new Tracker( new Trackable() {
+            public TrackingInfo getTrackingInformation() {
+                return new TrackingInfo( PhetApplicationConfig.this );
+            }
+        } ).startTracking();
     }
 
     private void autoCheckForUpdates( final PhetApplication app ) {
