@@ -10,16 +10,16 @@
  */
 package edu.colorado.phet.common_sound.view.help;
 
-import edu.colorado.phet.common_sound.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common_sound.view.phetgraphics.PhetShadowTextGraphic;
-import edu.colorado.phet.common_sound.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common_sound.view.util.GraphicsUtil;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
+import edu.colorado.phet.common_sound.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common_sound.view.phetgraphics.PhetShadowTextGraphic;
+import edu.colorado.phet.common_sound.view.phetgraphics.PhetShapeGraphic;
 
 /**
  * HelpItem

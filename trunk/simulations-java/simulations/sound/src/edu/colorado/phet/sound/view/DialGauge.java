@@ -7,18 +7,18 @@
  */
 package edu.colorado.phet.sound.view;
 
-import edu.colorado.phet.common_sound.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common_sound.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common_sound.view.util.GraphicsUtil;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.sound.coreadditions.ScalarObservable;
-import edu.colorado.phet.sound.coreadditions.ScalarObserver;
-
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
+import edu.colorado.phet.common_sound.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common_sound.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.sound.coreadditions.ScalarObservable;
+import edu.colorado.phet.sound.coreadditions.ScalarObserver;
 
 // todo: add min and max lines and legends on face
 // todo: add min and max limits to needle
