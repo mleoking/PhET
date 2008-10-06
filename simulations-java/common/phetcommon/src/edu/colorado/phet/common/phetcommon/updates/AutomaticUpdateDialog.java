@@ -1,10 +1,7 @@
 package edu.colorado.phet.common.phetcommon.updates;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 
 import javax.swing.*;
 
@@ -66,14 +63,23 @@ public class AutomaticUpdateDialog extends UpdateResultDialog {
         } );
         buttonStrip.add( skipThisVersion );
 
-        JButton preferencesButton = new JButton( "Preferences..." );
-        preferencesButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
+        String htmlText =
+                "<html>" +
+                "<font size=\"2\"><u>" +
+                "Edit preferences...</u></font></html>";
+
+        JLabel preferences = new JLabel( htmlText );
+        preferences.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+        preferences.addMouseListener( new MouseAdapter() {
+            public void mousePressed( MouseEvent e ) {
                 new PreferencesDialog( parent, trackingInfo, iManuallyCheckForUpdates, new DefaultUpdatePreferences( config ), new DefaultTrackingPreferences( config ) ).setVisible( true );
             }
         } );
-        buttonStrip.add( preferencesButton );
+        preferences.setForeground( Color.blue );
+        buttonStrip.add( preferences );
+
         addComponent( buttonStrip );
+
         pack();
         center();
     }
