@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.common_sound.model.clock;
 
-import edu.colorado.phet.common_sound.util.EventChannel;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
 
 /**
  * AbstractClock

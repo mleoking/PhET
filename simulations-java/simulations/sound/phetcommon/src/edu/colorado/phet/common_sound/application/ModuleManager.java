@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.common_sound.application;
 
-import edu.colorado.phet.common_sound.util.EventChannel;
-
 import java.beans.XMLEncoder;
 import java.io.File;
 import java.util.ArrayList;
+
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
 
 /**
  * ModuleManager
