@@ -19,6 +19,7 @@ public class PhetPreferences {
     private static final File PREFERENCES_FILE = new File( System.getProperty( "user.home" ) + SEPARATOR + ".phet" + SEPARATOR + "preferences.properties" );
     private static final String TRACKING_APPLY_TO_ALL = ALL_SIMS + DOT + TRACKING + DOT + APPLY_ALL;
     private static final String UPDATES_APPLY_TO_ALL = ALL_SIMS + DOT + UPDATES + DOT + APPLY_ALL;
+    private static final String LAST_ASK_ME_LATER_TIME = "last-time-ask-me-later-pressed.system-time-millis";
 
     private PhetPreferences() {
         if ( !PREFERENCES_FILE.exists() ) {
@@ -90,8 +91,8 @@ public class PhetPreferences {
         }
         else {
             return getBooleanEnabled( project, sim, TRACKING,
-                               //if on a simulation by simulation basis, and no value specified, use the last value specified for all-sims
-                               isTrackingEnabledForAll() );
+                                      //if on a simulation by simulation basis, and no value specified, use the last value specified for all-sims
+                                      isTrackingEnabledForAll() );
         }
     }
 
@@ -102,8 +103,8 @@ public class PhetPreferences {
         else {
 
             return getBooleanEnabled( project, sim, UPDATES,
-                               //if on a simulation by simulation basis, and no value specified, use the last value specified for all-sims
-                               isUpdatesEnabledForAll() );
+                                      //if on a simulation by simulation basis, and no value specified, use the last value specified for all-sims
+                                      isUpdatesEnabledForAll() );
         }
     }
 
@@ -136,7 +137,7 @@ public class PhetPreferences {
     }
 
     private void setBooleanEnabled( String project, String type, boolean value ) {
-        properties.setProperty( project + DOT + type + DOT+"enabled", "" + value );
+        properties.setProperty( project + DOT + type + DOT + "enabled", "" + value );
         storePreferences();
     }
 
@@ -147,5 +148,14 @@ public class PhetPreferences {
     public static void main( String[] args ) throws IOException {
         PhetPreferences phetPreferences = new PhetPreferences();
         System.out.println( "phetPreferences = " + phetPreferences );
+    }
+
+    public void setLastAskMeLaterTime( long time ) {
+        properties.setProperty( LAST_ASK_ME_LATER_TIME, "" + time );
+        storePreferences();
+    }
+
+    public long getLastAskMeLaterTime() {
+        return Long.parseLong( properties.getProperty( LAST_ASK_ME_LATER_TIME, "0" ) );
     }
 }
