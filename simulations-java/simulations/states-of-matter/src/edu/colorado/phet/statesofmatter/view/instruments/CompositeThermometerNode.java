@@ -69,13 +69,17 @@ public class CompositeThermometerNode extends PNode {
      * This class represents a node that will numerically display a value and
      * units.
      */
-    public class DigitalReadoutNode extends PNode {
+    private class DigitalReadoutNode extends PNode {
         
         private final Color BACKGROUND_COLOR = Color.YELLOW;
         private final Color FOREGROUND_COLOR = Color.WHITE;
         private static final double WIDTH_TO_HEIGHT_RATIO = 2;
         private static final double INSET_WIDTH_RATIO = 0.95;
-        private final DecimalFormat NUMBER_FORMATTER = new DecimalFormat( "##0" );
+        
+        private final DecimalFormat highNumberFormatter = new DecimalFormat( "##0" );
+        private final DecimalFormat lowNumberFormatter = new DecimalFormat( "#.0" );
+        private final DecimalFormat lowerNumberFormatter = new DecimalFormat( "#.00" );
+        private final DecimalFormat lowestNumberFormatter = new DecimalFormat( "0.#E0" );
         
         private PText m_text;
         private String m_units;
@@ -112,7 +116,21 @@ public class CompositeThermometerNode extends PNode {
         }
         
         public void setValue(double value){
-            String valueString = new String(NUMBER_FORMATTER.format( value ));
+        	String valueString;
+        	
+        	if (value < 0.01){
+                valueString = new String(lowestNumberFormatter.format( value ));
+        	}
+        	else if (value < 1){
+                valueString = new String(lowerNumberFormatter.format( value ));
+        	}
+        	else if (value < 10){
+                valueString = new String(lowNumberFormatter.format( value ));
+        	}
+        	else{
+                valueString = new String(highNumberFormatter.format( value ));
+        	}
+        	
             if (m_units != null){
                 valueString += " ";
                 valueString += m_units;
