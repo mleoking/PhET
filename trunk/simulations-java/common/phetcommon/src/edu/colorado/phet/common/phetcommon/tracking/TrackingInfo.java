@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
 public class TrackingInfo {
@@ -12,8 +13,8 @@ public class TrackingInfo {
     public TrackingInfo( PhetApplicationConfig config ) {
         initTimeZone();
         entries = new TrackingEntry[]{
-                new TrackingEntry( "type", "sim-launched"),
-                
+                new TrackingEntry( "type", "sim-launched" ),
+
                 //Sim info first
                 new TrackingEntry( "project", config.getProjectName() ),
                 new TrackingEntry( "sim", config.getFlavor() ),
@@ -32,7 +33,8 @@ public class TrackingInfo {
 
                 new TrackingEntry.SystemProperty( "user.country" ),
                 new TrackingEntry.SystemProperty( "user.timezone" ),
-                new TrackingEntry( "default-locale", Locale.getDefault().toString() ),
+                new TrackingEntry( "locale-default", Locale.getDefault().toString() ),
+                new TrackingEntry( "preferences-file.creation-time-millis", PhetPreferences.getInstance().getPreferencesFileCreatedAtMillis() + "" ),
 
 //                new TrackingEntry( "time", new SimpleDateFormat( "yyyy-MM-dd_HH:mm:ss" ).format( new Date() ) )
         };

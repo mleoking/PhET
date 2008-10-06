@@ -22,6 +22,7 @@ public class PhetPreferences {
     private static final String TRACKING_APPLY_TO_ALL = ALL_SIMS + DOT + TRACKING + DOT + APPLY_ALL;
     private static final String UPDATES_APPLY_TO_ALL = ALL_SIMS + DOT + UPDATES + DOT + APPLY_ALL;
     private static final String LAST_ASK_ME_LATER_TIME = "updates.last-time-ask-me-later-pressed.system-time-millis";
+    private static final String PREFERENCES_FILE_CREATED_AT = "preferences.file.created.at";
 
     private PhetPreferences() {
         if ( !PREFERENCES_FILE.exists() ) {
@@ -33,6 +34,8 @@ public class PhetPreferences {
             setTrackingEnabledForAll( true );
             setApplyTrackingToAll( true );
 
+            setPreferencesFileCreationTimeNow();
+
             storePreferences();
         }
         try {
@@ -41,6 +44,18 @@ public class PhetPreferences {
         catch( IOException e ) {
             e.printStackTrace();
         }
+    }
+
+    private void setPreferencesFileCreationTimeNow() {
+        properties.setProperty( PREFERENCES_FILE_CREATED_AT, "" + System.currentTimeMillis() );
+        storePreferences();
+    }
+
+    public long getPreferencesFileCreatedAtMillis() {
+        if ( properties.getProperty( PREFERENCES_FILE_CREATED_AT ) == null ) {
+            setPreferencesFileCreationTimeNow();
+        }
+        return Long.parseLong( properties.getProperty( PREFERENCES_FILE_CREATED_AT ) );
     }
 
     private void storePreferences() {
@@ -162,7 +177,7 @@ public class PhetPreferences {
     }
 
     public void skipThisVersion( String project, String sim, PhetVersion version ) {
-        properties.setProperty( project + "." + sim + ".skip", version.getRevisionAsInt()+"" );//todo: i'd prefer to save the major.minor here, but don't have a parser handy
+        properties.setProperty( project + "." + sim + ".skip", version.getRevisionAsInt() + "" );//todo: i'd prefer to save the major.minor here, but don't have a parser handy
         storePreferences();
     }
 
