@@ -6,6 +6,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import edu.colorado.phet.balloons.BalloonsApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.preferences.*;
@@ -19,7 +20,7 @@ public class AutomaticUpdateDialog extends UpdateResultDialog {
     }
 
     private static String getHTML( PhetApplication application, PhetVersion newVersion ) {
-        return "<html>Your current version of " + application.getApplicationConfig().getName() + " is " + application.getApplicationConfig().getVersion().formatForTitleBar() + ".<br>A newer version (" + newVersion.formatForTitleBar() + ") is available.</html>";
+        return "<html>" + PhetAboutDialog.HTML_CUSTOM_STYLE + "Your current version of " + application.getApplicationConfig().getName() + " is " + application.getApplicationConfig().getVersion().formatForTitleBar() + ".<br>A newer version (" + newVersion.formatForTitleBar() + ") is available.</html>";
     }
 
     public AutomaticUpdateDialog( final Frame parent, String html, final ITrackingInfo trackingInfo, final IManualUpdateChecker iManuallyCheckForUpdates, final PhetVersion newVersion, final PhetApplicationConfig config, final IUpdateTimer updateTimer, final IVersionSkipper versionSkipper ) {
@@ -29,7 +30,7 @@ public class AutomaticUpdateDialog extends UpdateResultDialog {
         JButton updateNowButton = new JButton( "Update Now" );
         updateNowButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                UpdateResultDialog updateResultDialog = new UpdateResultDialog( parent, "Instructions on Updating", "<html>When you press OK, a web browser will be opened to PhET website, where you can get the new version (" + newVersion.formatForTitleBar() + ").<br>" +
+                UpdateResultDialog updateResultDialog = new UpdateResultDialog( parent, "Instructions on Updating", "<html>" + PhetAboutDialog.HTML_CUSTOM_STYLE + "When you press OK, a web browser will be opened to PhET website, where you can get the new version (" + newVersion.formatForTitleBar() + ").<br>" +
                                                                                                                     "If the web browser fails to open, please visit this URL: <a href=\"http://phet.colorado.edu/\">http://phet.colorado.edu</a></html>" );
                 updateResultDialog.addOKButton();
                 updateResultDialog.addListener( new UpdateResultDialog.Listener() {

@@ -44,10 +44,10 @@ public class PhetAboutDialog extends JDialog {
 
     // Resource (file) that contains the PhET license, in plain text format.
     private static final String LICENSE_RESOURCE = "phet-license.txt";
-
+    public static final String HTML_CUSTOM_STYLE = "<head><style type=\"text/css\">body { font-size: @FONT_SIZE@; font-family: @FONT_FAMILY@ }</style></head>";
     // Copyright notice, not translated so no one messes with it, and so that we can easily change the date.
     private static final String COPYRIGHT =
-            "<html><head><style type=\"text/css\">body { font-size: @FONT_SIZE@; font-family: @FONT_FAMILY@ }</style></head>" +
+            "<html>" +HTML_CUSTOM_STYLE+
             "<b>Physics Education Technology project</b><br>" +
             "Copyright &copy; 2004-2008 University of Colorado.<br>" +
 //        "All rights reserved.<br>" +

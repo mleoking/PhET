@@ -81,20 +81,20 @@ public class UpdateResultDialog extends JDialog {
         return logoPanel;
     }
 
-    public static UpdateResultDialog createDialog( Window window, String title, String text ) {
+    public static UpdateResultDialog createDialog( Window window, String title, String html ) {
         if ( window instanceof Frame || window == null ) {
-            return new UpdateResultDialog( (Frame) window, title, text );
+            return new UpdateResultDialog( (Frame) window, title, html );
         }
         else if ( window instanceof Dialog ) {
-            return new UpdateResultDialog( (Dialog) window, title, text );
+            return new UpdateResultDialog( (Dialog) window, title, html );
         }
         else {
             throw new RuntimeException( "Illegal window type: " + window.getClass() );
         }
     }
 
-    public static void showDialog( Window window, String title, String text ) {
-        createDialog( window, title, text ).setVisible( true );
+    public static void showDialog( Window window, String title, String html ) {
+        createDialog( window, title, html ).setVisible( true );
     }
 
     public void addComponent( JComponent component ) {
