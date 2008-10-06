@@ -6,11 +6,11 @@
  */
 package edu.colorado.phet.sound.model;
 
+import java.util.Iterator;
+
 import edu.colorado.phet.common_sound.model.BaseModel;
 import edu.colorado.phet.common_sound.model.clock.AbstractClock;
 import edu.colorado.phet.sound.SoundConfig;
-
-import java.util.Iterator;
 
 public class SoundModel extends BaseModel {
 

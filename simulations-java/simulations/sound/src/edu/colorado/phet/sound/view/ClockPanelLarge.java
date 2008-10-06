@@ -17,11 +17,11 @@ import java.util.EventObject;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_sound.model.BaseModel;
-import edu.colorado.phet.common_sound.model.ModelElement;
 import edu.colorado.phet.common_sound.model.clock.AbstractClock;
 import edu.colorado.phet.sound.SoundConfig;
 
