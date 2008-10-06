@@ -373,7 +373,7 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
                     PhetApplication app = applicationConstructor.getApplication( PhetApplicationConfig.this );
                     app.startApplication();
                     if ( isTrackingEnabled() ) {
-                        startTracking();
+                        new Tracker( PhetApplicationConfig.this ).startTracking();
                     }
                     if ( isUpdatesEnabled() ) {
                         autoCheckForUpdates( app );
@@ -384,14 +384,6 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
                 }
             }
         } );
-    }
-
-    private void startTracking() {
-        new Tracker( new Trackable() {
-            public TrackingInfo getTrackingInformation() {
-                return new TrackingInfo( PhetApplicationConfig.this );
-            }
-        } ).startTracking();
     }
 
     private void autoCheckForUpdates( final PhetApplication app ) {
