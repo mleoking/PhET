@@ -18,14 +18,14 @@ public class AutomaticUpdateDialog extends UpdateResultDialog {
     private PhetApplicationConfig config;
 
     public AutomaticUpdateDialog( PhetApplication application, PhetVersion newVersion ) {
-        this( application.getPhetFrame(), getHTML( application, newVersion ), application.getApplicationConfig(), new ApplicationConfigManualCheckForUpdates( application.getPhetFrame(), application.getApplicationConfig() ), newVersion, application.getApplicationConfig(), new DefaultUpdateTimer() );
+        this( application.getPhetFrame(), getHTML( application, newVersion ), application.getApplicationConfig(), new ApplicationConfigManualCheckForUpdates( application.getPhetFrame(), application.getApplicationConfig() ), newVersion, application.getApplicationConfig(), new DefaultUpdateTimer(), new DefaultVersionSkipper() );
     }
 
     private static String getHTML( PhetApplication application, PhetVersion newVersion ) {
         return "<html>Your current version of " + application.getApplicationConfig().getName() + " is " + application.getApplicationConfig().getVersion().formatForTitleBar() + ".<br>A newer version (" + newVersion.formatForTitleBar() + ") is available.</html>";
     }
 
-    public AutomaticUpdateDialog( final Frame parent, String html, final ITrackingInfo trackingInfo, final IManualUpdateChecker iManuallyCheckForUpdates, final PhetVersion newVersion, final PhetApplicationConfig config, final IUpdateTimer updateTimer ) {
+    public AutomaticUpdateDialog( final Frame parent, String html, final ITrackingInfo trackingInfo, final IManualUpdateChecker iManuallyCheckForUpdates, final PhetVersion newVersion, final PhetApplicationConfig config, final IUpdateTimer updateTimer, final IVersionSkipper versionSkipper ) {
         super( parent, "New Update Available", html );
         this.config = config;
         JPanel buttonStrip = new JPanel();
@@ -60,6 +60,7 @@ public class AutomaticUpdateDialog extends UpdateResultDialog {
         JButton skipThisVersion = new JButton( "Skip this version" );
         skipThisVersion.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+                versionSkipper.skipThisVersion( config.getProjectName(), config.getFlavor(), newVersion );
                 dispose();
             }
         } );
@@ -79,7 +80,7 @@ public class AutomaticUpdateDialog extends UpdateResultDialog {
 
     public static void main( String[] args ) {
         BalloonsApplication.BalloonsApplicationConfig config = new BalloonsApplication.BalloonsApplicationConfig( args );
-        AutomaticUpdateDialog dialog = new AutomaticUpdateDialog( null, "<html>Your current version of Glaciers is 1.01.<br>A newer version (1.02) is available.</html>", config, new ApplicationConfigManualCheckForUpdates( null, config ), new PhetVersion( "1", "2", "3", "43243" ), new BalloonsApplication.BalloonsApplicationConfig( args ), new DefaultUpdateTimer() );
+        AutomaticUpdateDialog dialog = new AutomaticUpdateDialog( null, "<html>Your current version of Glaciers is 1.01.<br>A newer version (1.02) is available.</html>", config, new ApplicationConfigManualCheckForUpdates( null, config ), new PhetVersion( "1", "2", "3", "43243" ), new BalloonsApplication.BalloonsApplicationConfig( args ), new DefaultUpdateTimer(), new DefaultVersionSkipper() );
         dialog.setVisible( true );
         dialog.addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
