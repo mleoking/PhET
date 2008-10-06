@@ -9,6 +9,7 @@ import java.util.Properties;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.preferences.ITrackingInfo;
+import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
@@ -375,7 +376,7 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
                     if ( isTrackingEnabled() ) {
                         new Tracker( PhetApplicationConfig.this ).startTracking();
                     }
-                    if ( isUpdatesEnabled() ) {
+                    if ( isUpdatesEnabled() && hasEnoughTimePassedSinceAskMeLater() ) {
                         autoCheckForUpdates( app );
                     }
                 }
@@ -384,6 +385,15 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
                 }
             }
         } );
+    }
+
+    private boolean hasEnoughTimePassedSinceAskMeLater() {
+        long lastTimeUserPressedAskMeLaterForAnySim = PhetPreferences.getInstance().getLastAskMeLaterTime();
+        long currentTime = System.currentTimeMillis();
+        long elapsedTime = currentTime - lastTimeUserPressedAskMeLaterForAnySim;
+        int millisecondsDelayBeforeAskingAgain = 1000 * 60 * 60 * 24;
+//        System.out.println( "elapsedTime/1000.0 = " + elapsedTime / 1000.0+" sec" );
+        return elapsedTime > millisecondsDelayBeforeAskingAgain || lastTimeUserPressedAskMeLaterForAnySim == 0;
     }
 
     private void autoCheckForUpdates( final PhetApplication app ) {

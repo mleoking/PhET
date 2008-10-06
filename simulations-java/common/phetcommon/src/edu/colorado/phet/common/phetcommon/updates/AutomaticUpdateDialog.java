@@ -18,21 +18,21 @@ public class AutomaticUpdateDialog extends UpdateResultDialog {
     private PhetApplicationConfig config;
 
     public AutomaticUpdateDialog( PhetApplication application, PhetVersion newVersion ) {
-        this( application.getPhetFrame(), getHTML( application, newVersion ), application.getApplicationConfig(), new ApplicationConfigManualCheckForUpdates( application.getPhetFrame(), application.getApplicationConfig() ), newVersion, application.getApplicationConfig() );
+        this( application.getPhetFrame(), getHTML( application, newVersion ), application.getApplicationConfig(), new ApplicationConfigManualCheckForUpdates( application.getPhetFrame(), application.getApplicationConfig() ), newVersion, application.getApplicationConfig(), new DefaultUpdateTimer() );
     }
 
     private static String getHTML( PhetApplication application, PhetVersion newVersion ) {
         return "<html>Your current version of " + application.getApplicationConfig().getName() + " is " + application.getApplicationConfig().getVersion().formatForTitleBar() + ".<br>A newer version (" + newVersion.formatForTitleBar() + ") is available.</html>";
     }
 
-    public AutomaticUpdateDialog( final Frame parent, String html, final ITrackingInfo trackingInfo, final IManualUpdateChecker iManuallyCheckForUpdates, PhetVersion newVersion, final PhetApplicationConfig config ) {
+    public AutomaticUpdateDialog( final Frame parent, String html, final ITrackingInfo trackingInfo, final IManualUpdateChecker iManuallyCheckForUpdates, final PhetVersion newVersion, final PhetApplicationConfig config, final IUpdateTimer updateTimer ) {
         super( parent, "New Update Available", html );
         this.config = config;
         JPanel buttonStrip = new JPanel();
         JButton updateNowButton = new JButton( "Update Now" );
         updateNowButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                UpdateResultDialog updateResultDialog = new UpdateResultDialog( parent, "Instructions on Updating", "<html>A web browser will be opened to PhET website, where you can get the new version.<br>" +
+                UpdateResultDialog updateResultDialog = new UpdateResultDialog( parent, "Instructions on Updating", "<html>When you press OK, a web browser will be opened to PhET website, where you can get the new version (" + newVersion.formatForTitleBar() + ").<br>" +
                                                                                                                     "If the web browser fails to open, please visit this URL: <a href=\"http://phet.colorado.edu/\">http://phet.colorado.edu</a></html>" );
                 updateResultDialog.addOKButton();
                 updateResultDialog.addListener( new UpdateResultDialog.Listener() {
@@ -51,6 +51,7 @@ public class AutomaticUpdateDialog extends UpdateResultDialog {
         JButton askMeLater = new JButton( "Ask me later" );
         askMeLater.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+                updateTimer.setLastAskMeLaterTime( System.currentTimeMillis() );
                 dispose();
             }
         } );
@@ -78,7 +79,7 @@ public class AutomaticUpdateDialog extends UpdateResultDialog {
 
     public static void main( String[] args ) {
         BalloonsApplication.BalloonsApplicationConfig config = new BalloonsApplication.BalloonsApplicationConfig( args );
-        AutomaticUpdateDialog dialog = new AutomaticUpdateDialog( null, "<html>Your current version of Glaciers is 1.01.<br>A newer version (1.02) is available.</html>", config, new ApplicationConfigManualCheckForUpdates( null, config ), new PhetVersion( "1", "2", "3", "43243" ), new BalloonsApplication.BalloonsApplicationConfig( args ) );
+        AutomaticUpdateDialog dialog = new AutomaticUpdateDialog( null, "<html>Your current version of Glaciers is 1.01.<br>A newer version (1.02) is available.</html>", config, new ApplicationConfigManualCheckForUpdates( null, config ), new PhetVersion( "1", "2", "3", "43243" ), new BalloonsApplication.BalloonsApplicationConfig( args ), new DefaultUpdateTimer() );
         dialog.setVisible( true );
         dialog.addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
