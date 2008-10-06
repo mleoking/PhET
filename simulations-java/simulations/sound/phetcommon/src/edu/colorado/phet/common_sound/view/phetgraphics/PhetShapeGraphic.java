@@ -10,13 +10,13 @@
  */
 package edu.colorado.phet.common_sound.view.phetgraphics;
 
-import edu.colorado.phet.common_sound.view.ApparatusPanel2;
-import edu.colorado.phet.common_sound.view.util.GraphicsUtil;
-
 import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
+
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
+import edu.colorado.phet.common_sound.view.ApparatusPanel2;
 
 /**
  * PhetShapeGraphic
