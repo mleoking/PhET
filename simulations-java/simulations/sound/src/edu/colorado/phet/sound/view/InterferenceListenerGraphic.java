@@ -6,18 +6,19 @@
  */
 package edu.colorado.phet.sound.view;
 
-import edu.colorado.phet.common_sound.view.graphics.mousecontrols.TranslationEvent;
-import edu.colorado.phet.common_sound.view.graphics.mousecontrols.TranslationListener;
-import edu.colorado.phet.common_sound.view.phetgraphics.PhetImageGraphic;
+import java.awt.Graphics2D;
+import java.awt.geom.Point2D;
+
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
+import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.sound.TwoSpeakerInterferenceModule;
 import edu.colorado.phet.sound.model.Listener;
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.model.Wavefront;
-
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.geom.Point2D;
 
 public class InterferenceListenerGraphic extends ListenerGraphic {
 

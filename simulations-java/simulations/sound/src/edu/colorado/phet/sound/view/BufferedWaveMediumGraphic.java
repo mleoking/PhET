@@ -14,7 +14,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common_sound.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.sound.SoundConfig;
 import edu.colorado.phet.sound.model.WaveMedium;
 import edu.colorado.phet.sound.model.Wavefront;

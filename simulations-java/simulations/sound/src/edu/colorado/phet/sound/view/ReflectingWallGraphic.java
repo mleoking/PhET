@@ -6,11 +6,11 @@
  */
 package edu.colorado.phet.sound.view;
 
-import edu.colorado.phet.common_sound.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.sound.SoundConfig;
-
 import java.awt.*;
 import java.awt.geom.*;
+
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.sound.SoundConfig;
 
 public class ReflectingWallGraphic extends PhetShapeGraphic {
 

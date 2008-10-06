@@ -9,13 +9,13 @@ package edu.colorado.phet.sound.view;
 //import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 //import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 
-import edu.colorado.phet.common_sound.view.graphics.mousecontrols.TranslationEvent;
-import edu.colorado.phet.common_sound.view.graphics.mousecontrols.TranslationListener;
-import edu.colorado.phet.common_sound.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common_sound.view.phetgraphics.PhetImageGraphic;
-
-import java.awt.*;
+import java.awt.Component;
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
+import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 
 public class MeterStickGraphic extends CompositePhetGraphic {
     private Component component;
