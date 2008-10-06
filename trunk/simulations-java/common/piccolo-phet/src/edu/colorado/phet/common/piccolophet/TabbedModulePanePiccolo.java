@@ -58,9 +58,6 @@ public class TabbedModulePanePiccolo extends PhetTabbedPane implements ITabbedMo
             Module module = modules[i];
             addTab( module );
         }
-        if ( application.getApplicationConfig().getTracker() != null ) {
-            addTracker( application.getApplicationConfig().getTracker() );
-        }
         setOpaque( true );
     }
 
