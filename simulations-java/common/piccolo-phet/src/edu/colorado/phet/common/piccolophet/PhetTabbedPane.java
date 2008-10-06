@@ -207,10 +207,6 @@ public class PhetTabbedPane extends JPanel {
         return selectedTabColor;
     }
 
-    public void addTracker( Tracker tracker ) {
-        tabPane.addTracker( tracker );
-    }
-
     /**
      * Adds the text or HTML label as a tab for the specified component.  If this is the first tab, it becomes selected.
      *
@@ -645,7 +641,6 @@ public class PhetTabbedPane extends JPanel {
         private static final int LEFT_TAB_INSET = 10;
         private boolean logoObscured = false;
         private boolean logoVisible = true;
-        private TrackingPNode trackingNode;
 
         public TabPane( Color selectedTabColor ) {
             Image image = PhetCommonResources.getInstance().getImage( IMAGE_PHET_LOGO );
@@ -737,13 +732,6 @@ public class PhetTabbedPane extends JPanel {
                     logoObscured = false;
                     updateLogoVisible();
                 }
-            }
-            relayoutTracker();
-        }
-
-        private void relayoutTracker() {
-            if ( trackingNode != null ) {
-                trackingNode.setOffset( logo.getFullBounds().getX() - trackingNode.getFullBounds().getWidth() - 4, logo.getY() - 2 );
             }
         }
 
@@ -862,27 +850,6 @@ public class PhetTabbedPane extends JPanel {
             logo.setVisible( logoVisible && !logoObscured );
         }
 
-        public void addTracker( Tracker tracker ) {
-            tracker.addListener( new Tracker.Listener() {
-                public void stateChanged( Tracker tracker, Tracker.State oldState, Tracker.State newState ) {
-                    SwingUtilities.invokeLater( new Runnable() {
-                        public void run() {
-                            relayoutTracker();
-                        }
-                    } );
-                }
-
-                public void trackingInfoChanged( TrackingInfo trackingInformation ) {
-                }
-
-                public void trackingFailed( IOException trackingException ) {
-                }
-            } );
-
-            trackingNode = new TrackingPNode( tracker );
-            getLayer().addChild( trackingNode );
-                    relayoutTracker();
-        }
     }
 
     /**
