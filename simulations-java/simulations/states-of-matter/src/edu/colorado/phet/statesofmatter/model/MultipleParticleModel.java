@@ -570,57 +570,6 @@ public class MultipleParticleModel {
         calculateMinAllowableContainerHeight();
         
         /*
-        // Calculate the number of particles to create and simulate.
-        int numInitialLayers = 0;
-        switch (m_currentMolecule){
-        case StatesOfMatterParticleType.OXYGEN:
-            numInitialLayers = NUMBER_OF_LAYERS_IN_INITIAL_OXYGEN_CRYSTAL;
-            break;
-        case StatesOfMatterParticleType.NEON:
-            numInitialLayers = NUMBER_OF_LAYERS_IN_INITIAL_NEON_CRYSTAL;
-            break;
-        case StatesOfMatterParticleType.ARGON:
-            numInitialLayers = NUMBER_OF_LAYERS_IN_INITIAL_ARGON_CRYSTAL;
-            break;
-        default:
-            System.err.println("Error: Unrecognized particle type, using default number of layers.");
-            break;
-        }
-        m_numberOfAtoms = (2 * numInitialLayers) * (numInitialLayers - 1);
-
-        // Initialize the vectors that define the normalized particle attributes.
-        m_atomPositions  = new Point2D [MAX_NUM_ATOMS];
-        m_atomVelocities = new Vector2D [MAX_NUM_ATOMS];
-        m_atomForces     = new Vector2D [MAX_NUM_ATOMS];
-        m_nextAtomForces = new Vector2D [MAX_NUM_ATOMS];
-        
-        for (int i = 0; i < m_numberOfAtoms; i++){
-            
-            // Add particle and its velocity and forces to normalized set.
-            m_atomPositions[i] = new Point2D.Double();
-            m_atomVelocities[i] = new Vector2D.Double();
-            m_atomForces[i] = new Vector2D.Double();
-            m_nextAtomForces[i] = new Vector2D.Double();
-            
-            // Add particle to model set.
-            StatesOfMatterAtom particle = new StatesOfMatterAtom(0, 0, m_particleDiameter/2, 10);
-            m_particles.add( particle );
-            notifyParticleAdded( particle );
-        }
-        
-        // Initialize the particle positions.
-        solidifyParticles();
-        
-        // Initialize particle velocities.
-        for (int i = 0; i < m_numberOfAtoms; i++){
-            double temperatureSqrt = Math.sqrt( m_temperature );
-            m_atomVelocities[i].setComponents( temperatureSqrt * m_rand.nextGaussian() , 
-                    temperatureSqrt * m_rand.nextGaussian() );
-        }
-        syncParticlePositions();
-        */
-        
-        /*
          * TODO: JPB TBD - This is the original code that John De Goes had written, which
          * is being kept for now as a reference, but should ultimately be deleted.
         ParticleCreationStrategy strategy = 
@@ -1818,7 +1767,6 @@ public class MultipleParticleModel {
                     // This pair of particles is close enough to one another
                     // that we need to calculate their interaction forces.
                     if (distanceSqrd < MIN_DISTANCE_SQUARED){
-                        System.out.println("Spacing less than min distance: " + Math.sqrt( distanceSqrd ));
                         distanceSqrd = MIN_DISTANCE_SQUARED;
                     }
                     double r2inv = 1 / distanceSqrd;
@@ -2000,7 +1948,6 @@ public class MultipleParticleModel {
                         if (distanceSquared < PARTICLE_INTERACTION_DISTANCE_THRESH_SQRD){
                         	
                             if (distanceSquared < MIN_DISTANCE_SQUARED){
-                                System.out.println("Spacing less than min distance: " + Math.sqrt( distanceSquared ));
                                 distanceSquared = MIN_DISTANCE_SQUARED;
                             }
 
@@ -2008,11 +1955,6 @@ public class MultipleParticleModel {
                             double r2inv = 1 / distanceSquared;
                             double r6inv = r2inv * r2inv * r2inv;
                             double forceScaler = 48 * r2inv * r6inv * (r6inv - 0.5);
-                            if (forceScaler > 1000){
-                                // TODO: JPB TBD - This is here to help track down when things
-                                // get crazy, and should be removed eventually.
-                                System.err.println("Big force, forceScaler = " + forceScaler);
-                            }
                             double fx = dx * forceScaler;
                             double fy = dy * forceScaler;
                             force.setComponents( fx, fy );
@@ -2258,7 +2200,6 @@ public class MultipleParticleModel {
                     // Calculate the Lennard-Jones interaction forces.
                 	
                     if (distanceSquared < MIN_DISTANCE_SQUARED){
-                        System.out.println("Spacing less than min distance: " + Math.sqrt( distanceSquared ));
                         distanceSquared = MIN_DISTANCE_SQUARED;
                     }
 
@@ -2289,11 +2230,6 @@ public class MultipleParticleModel {
                         scalingFactor = maxScalingFactor - (temperatureFactor * (maxScalingFactor - 1));
                     }
                     double forceScaler = 48 * r2inv * r6inv * ((r6inv * scalingFactor) - 0.5);
-                    if (forceScaler > 1000){
-                        // TODO: JPB TBD - This is here to help track down when things
-                        // get crazy, and should be removed eventually.
-                        System.err.println("Big force, forceScaler = " + forceScaler);
-                    }
                     force.setX( dx * forceScaler );
                     force.setY( dy * forceScaler );
                     m_nextMoleculeForces[i].add( force );
@@ -2358,7 +2294,6 @@ public class MultipleParticleModel {
             m_moleculeForces[i].setComponents( m_nextMoleculeForces[i].getX(), m_nextMoleculeForces[i].getY());
             m_moleculeTorques[i] = m_nextMoleculeTorques[i];
         }
-//        System.out.println("kecm/n = " + kecm/numberOfMolecules + ", kerot/n = " + kerot/numberOfMolecules);
         
         double calculatedTemperature = (kecm + kerot) / numberOfMolecules / 1.5;
         boolean temperatureIsChanging = false;
@@ -2660,11 +2595,6 @@ public class MultipleParticleModel {
             }
             resultantForce.setY( -48/(Math.pow(distance, 13)) + (24/(Math.pow( distance, 7))) );
             m_potentialEnergy += 4/(Math.pow(distance, 12)) - 4/(Math.pow( distance, 6)) + 1;
-        }
-        if ((resultantForce.getX() > 1000) || (resultantForce.getY() > 1000)){
-            // TODO: JPB TBD - Here to help track down when things get crazy,
-            // remove eventually.
-            System.err.println("Big wall force, = " + resultantForce);
         }
     }
     
