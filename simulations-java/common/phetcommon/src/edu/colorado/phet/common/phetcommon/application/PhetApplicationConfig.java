@@ -8,7 +8,6 @@ import java.util.Properties;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.updates.AutomaticUpdateDialog;
 import edu.colorado.phet.common.phetcommon.preferences.ITrackingInfo;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
@@ -16,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.tracking.Trackable;
 import edu.colorado.phet.common.phetcommon.tracking.Tracker;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingInfo;
+import edu.colorado.phet.common.phetcommon.updates.AutomaticUpdateDialog;
 import edu.colorado.phet.common.phetcommon.updates.UpdateManager;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
@@ -399,13 +399,18 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
     }
 
     private void autoCheckForUpdates( final PhetApplication app ) {
-        UpdateManager updateManager = new UpdateManager( getProjectName(), getVersion() );
+        final UpdateManager updateManager = new UpdateManager( getProjectName(), getVersion() );
         updateManager.addListener( new UpdateManager.Listener() {
             public void discoveredRemoteVersion( PhetVersion remoteVersion ) {
             }
 
-            public void newVersionAvailable( PhetVersion currentVersion, PhetVersion remoteVersion ) {
-                new AutomaticUpdateDialog( app, remoteVersion ).setVisible( true );
+            public void newVersionAvailable( PhetVersion currentVersion, final PhetVersion remoteVersion ) {
+                //show UI in swing thread after new thread has found a new version
+                SwingUtilities.invokeLater( new Runnable() {
+                    public void run() {
+                        new AutomaticUpdateDialog( app, remoteVersion ).setVisible( true );
+                    }
+                } );
             }
 
             public void exceptionInUpdateCheck( IOException e ) {
@@ -414,8 +419,14 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
             public void noNewVersionAvailable( PhetVersion currentVersion, PhetVersion remoteVersion ) {
             }
         } );
-        updateManager.checkForUpdates();
 
+        //do check in new thread
+        Thread t = new Thread( new Runnable() {
+            public void run() {
+                updateManager.checkForUpdates();
+            }
+        } );
+        t.start();
     }
 
     public boolean isDev() {
