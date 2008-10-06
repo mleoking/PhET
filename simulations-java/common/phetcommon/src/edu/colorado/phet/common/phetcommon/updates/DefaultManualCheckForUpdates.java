@@ -9,9 +9,8 @@ import java.io.StringWriter;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
-import edu.colorado.phet.common.phetcommon.updates.UpdateManager;
 import edu.colorado.phet.common.phetcommon.preferences.IManualUpdateChecker;
+import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 
 public class DefaultManualCheckForUpdates implements IManualUpdateChecker {
     private PhetVersion currentVersion;
@@ -35,9 +34,14 @@ public class DefaultManualCheckForUpdates implements IManualUpdateChecker {
             public void newVersionAvailable( PhetVersion currentVersion, PhetVersion remoteVersion ) {
                 String title = "New version available";
                 String text = "<html>Your current version of " + humanReadableSimName + " is " + currentVersion.formatForTitleBar() + ".  A newer version (" + remoteVersion.formatForTitleBar() + ") is available.<br>" +
-                              "A web browser is being opened to the PhET website, where you can get the new version.<html>";
+                              "A web browser will be opened to the PhET website, where you can get the new version.<html>";
                 UpdateResultDialog dialog = UpdateResultDialog.createDialog( window, title, text );
                 dialog.addOKButton();
+                dialog.addListener( new UpdateResultDialog.Listener() {
+                    public void dialogFinished() {
+                        OpenWebPageToNewVersion.openWebPageToNewVersion();
+                    }
+                } );
                 dialog.pack();
                 dialog.setVisible( true );
             }

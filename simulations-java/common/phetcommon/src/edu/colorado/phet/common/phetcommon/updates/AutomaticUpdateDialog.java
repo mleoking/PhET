@@ -11,8 +11,8 @@ import javax.swing.*;
 import edu.colorado.phet.balloons.BalloonsApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.preferences.*;
+import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 
 public class AutomaticUpdateDialog extends UpdateResultDialog {
     private PhetApplicationConfig config;
@@ -22,7 +22,7 @@ public class AutomaticUpdateDialog extends UpdateResultDialog {
     }
 
     private static String getHTML( PhetApplication application, PhetVersion newVersion ) {
-        return "<html>Your current version of Glaciers is " + application.getApplicationConfig().getVersion() + ".<br>A newer version (" + newVersion.formatForTitleBar() + ") is available.</html>";
+        return "<html>Your current version of " + application.getApplicationConfig().getName() + " is " + application.getApplicationConfig().getVersion().formatForTitleBar() + ".<br>A newer version (" + newVersion.formatForTitleBar() + ") is available.</html>";
     }
 
     public AutomaticUpdateDialog( final Frame parent, String html, final ITrackingInfo trackingInfo, final IManualUpdateChecker iManuallyCheckForUpdates, PhetVersion newVersion, final PhetApplicationConfig config ) {
@@ -33,9 +33,16 @@ public class AutomaticUpdateDialog extends UpdateResultDialog {
         updateNowButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 UpdateResultDialog updateResultDialog = new UpdateResultDialog( parent, "Instructions on Updating", "<html>A web browser will be opened to PhET website, where you can get the new version.<br>" +
-                                                                                                                    "    If the web browser fails to open, please visit this URL: <a href=\"http://phet.colorado.edu/simulations/sims.php?sim=Glaciers\">http://phet.colorado.edu/simulations/sims.php?sim=Glaciers</a></html>" );
+                                                                                                                    "If the web browser fails to open, please visit this URL: <a href=\"http://phet.colorado.edu/\">http://phet.colorado.edu</a></html>" );
                 updateResultDialog.addOKButton();
+                updateResultDialog.addListener( new UpdateResultDialog.Listener() {
+                    public void dialogFinished() {
+                        OpenWebPageToNewVersion.openWebPageToNewVersion();
+                    }
+                } );
+
                 updateResultDialog.pack();
+                AutomaticUpdateDialog.this.dispose();
                 updateResultDialog.setVisible( true );
             }
         } );

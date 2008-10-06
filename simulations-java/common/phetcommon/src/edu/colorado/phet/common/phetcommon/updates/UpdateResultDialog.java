@@ -3,6 +3,9 @@ package edu.colorado.phet.common.phetcommon.updates;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -15,7 +18,8 @@ public class UpdateResultDialog extends JDialog {
     private JPanel contentPane;
     private GridBagConstraints constraints;
     private Window window;
-
+    private ArrayList listeners = new ArrayList();
+    
     public UpdateResultDialog( Frame parent, String title, String html ) {
         super( parent, title, true );
         init( html );
@@ -41,13 +45,18 @@ public class UpdateResultDialog extends JDialog {
         pack();
 
         center();
+        addWindowListener( new WindowAdapter() {
+            public void windowClosing( WindowEvent e ) {
+                notifyListeners();//close by X is different than close by OK button, unify here
+            }
+        } );
     }
 
     public void addOKButton() {
         contentPane.add( new OKButton(), constraints );
     }
 
-    public JComponent createOKButton() {
+    public OKButton createOKButton() {
         return new OKButton();
     }
 
@@ -92,14 +101,33 @@ public class UpdateResultDialog extends JDialog {
         contentPane.add( component, constraints );
     }
 
-    private class OKButton extends JButton {
+    public class OKButton extends JButton {
         private OKButton() {
             super( "OK" );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     dispose();
+                    notifyListeners();
                 }
             } );
         }
+    }
+
+    public static interface Listener {
+        public void dialogFinished();
+    }
+
+    public void notifyListeners() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).dialogFinished();
+        }
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void removeListener( Listener listener ) {
+        listeners.remove( listener );
     }
 }
