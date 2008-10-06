@@ -298,8 +298,8 @@ public class PhetLookAndFeel {
     
     private PropertyList getColorChooserStrings() {
         PropertyList textValues = new PropertyList();
-        textValues.add( "ColorChooser", "cancelButtonText", getCommonString( "Common.choice.cancel" ) );
-        textValues.add( "ColorChooser", "okButtonText", getCommonString( "Common.choice.ok" ) );
+        textValues.add( "ColorChooser", "cancelText", getCommonString( "Common.choice.cancel" ) );
+        textValues.add( "ColorChooser", "okText", getCommonString( "Common.choice.ok" ) );
         textValues.add( "ColorChooser", "resetText", getCommonString( "ColorChooser.resetText" ) );
         textValues.add( "ColorChooser", "swatchesNameText", getCommonString( "ColorChooser.swatchesNameText" ) );
         textValues.add( "ColorChooser", "previewText", getCommonString( "ColorChooser.previewText" ) );
@@ -321,7 +321,7 @@ public class PhetLookAndFeel {
     }
 
     private Object getCommonString( String s ) {
-        return PhetCommonResources.getInstance().getLocalizedString( s );
+        return PhetCommonResources.getInstance().getLocalizedString( s )+"blah";
     }
 
     public void initLookAndFeel() {
