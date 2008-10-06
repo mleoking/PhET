@@ -321,7 +321,7 @@ public class PhetLookAndFeel {
     }
 
     private Object getCommonString( String s ) {
-        return PhetCommonResources.getInstance().getLocalizedString( s )+"blah";
+        return PhetCommonResources.getInstance().getLocalizedString( s );
     }
 
     public void initLookAndFeel() {
