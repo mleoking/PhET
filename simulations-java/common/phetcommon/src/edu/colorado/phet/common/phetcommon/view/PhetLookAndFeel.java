@@ -270,6 +270,7 @@ public class PhetLookAndFeel {
         PropertyList textValues = new PropertyList();
         textValues.addAll( getOptionPaneStrings() );
         textValues.addAll( getFileDialogStrings() );
+        textValues.addAll( getColorChooserStrings() );
         return textValues;
     }
 
@@ -292,6 +293,31 @@ public class PhetLookAndFeel {
         textValues.add( "OptionPane", "noButtonText", getCommonString( "Common.choice.no" ) );
         textValues.add( "OptionPane", "yesButtonText", getCommonString( "Common.choice.yes" ));
         textValues.add( "OptionPane", "okButtonText", getCommonString( "Common.choice.ok" ) );
+        return textValues;
+    }
+    
+    private PropertyList getColorChooserStrings() {
+        PropertyList textValues = new PropertyList();
+        textValues.add( "ColorChooser", "cancelButtonText", getCommonString( "Common.choice.cancel" ) );
+        textValues.add( "ColorChooser", "okButtonText", getCommonString( "Common.choice.ok" ) );
+        textValues.add( "ColorChooser", "resetText", getCommonString( "ColorChooser.resetText" ) );
+        textValues.add( "ColorChooser", "swatchesNameText", getCommonString( "ColorChooser.swatchesNameText" ) );
+        textValues.add( "ColorChooser", "previewText", getCommonString( "ColorChooser.previewText" ) );
+        textValues.add( "ColorChooser", "swatchesRecentText", getCommonString( "ColorChooser.swatchesRecentText" ) );
+        textValues.add( "ColorChooser", "hsbNameText", getCommonString( "ColorChooser.hsbNameText" ) );
+        textValues.add( "ColorChooser", "hsbHueText", getCommonString( "ColorChooser.hsbHueText" ) );
+        textValues.add( "ColorChooser", "hsbSaturationText", getCommonString( "ColorChooser.hsbSaturationText" ) );
+        textValues.add( "ColorChooser", "hsbBrightnessText", getCommonString( "ColorChooser.hsbBrightnessText" ) );
+        textValues.add( "ColorChooser", "hsbRedText", getCommonString( "ColorChooser.hsbRedText" ) );
+        textValues.add( "ColorChooser", "hsbGreenText", getCommonString( "ColorChooser.hsbGreenText" ) );
+        textValues.add( "ColorChooser", "hsbBlueText", getCommonString( "ColorChooser.hsbBlueText" ) );
+        textValues.add( "ColorChooser", "rgbNameText", getCommonString( "ColorChooser.rgbNameText" ) );
+        textValues.add( "ColorChooser", "rgbRedText", getCommonString( "ColorChooser.rgbRedText" ) );
+        textValues.add( "ColorChooser", "rgbGreenText", getCommonString( "ColorChooser.rgbGreenText" ) );
+        textValues.add( "ColorChooser", "rgbBlueText", getCommonString( "ColorChooser.rgbBlueText" ) );
+        textValues.add( "ColorChooser", "hsbBlueText", getCommonString( "ColorChooser.hsbBlueText" ) );
+        textValues.add( "ColorChooser", "sampleText", getCommonString( "ColorChooser.sampleText" ) );
+
         return textValues;
     }
 
