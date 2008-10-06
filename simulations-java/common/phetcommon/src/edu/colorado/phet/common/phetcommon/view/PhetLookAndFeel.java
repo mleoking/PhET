@@ -284,6 +284,14 @@ public class PhetLookAndFeel {
         textValues.add( "FileChooser", "saveInLabelText", getCommonString( "FileChooser.saveInLabelText" ) );
         textValues.add( "FileChooser", "fileNameLabelText", getCommonString( "FileChooser.fileNameLabelText" ) );
         textValues.add( "FileChooser", "filesOfTypeLabelText", getCommonString( "FileChooser.filesOfTypeLabelText" ) );
+        textValues.add( "FileChooser", "cancelButtonText", getCommonString( "FileChooser.cancelButtonText" ) );
+        textValues.add( "FileChooser", "saveButtonText", getCommonString( "FileChooser.saveButtonText" ) );
+        textValues.add( "FileChooser", "openButtonText", getCommonString( "FileChooser.openButtonText" ) );
+        textValues.add( "FileChooser", "fileDescriptionText", getCommonString( "FileChooser.fileDescriptionText" ) );
+        textValues.add( "FileChooser", "newFolderErrorText", getCommonString( "FileChooser.newFolderErrorText" ) );
+        textValues.add( "FileChooser", "newFolderErrorSeparator", getCommonString( "FileChooser.newFolderErrorSeparator" ) );
+        textValues.add( "FileChooser", "acceptAllFileFilterText", getCommonString( "FileChooser.acceptAllFileFilterText" ) );
+
         return textValues;
     }
 
