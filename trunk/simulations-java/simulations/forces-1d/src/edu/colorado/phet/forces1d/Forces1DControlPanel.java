@@ -88,17 +88,6 @@ public class Forces1DControlPanel extends IForceControl {
         ObjectSelectionPanel osp = new ObjectSelectionPanel( module.getForce1dObjects(), this );
         addControl( osp );
 
-        AdvancedPanel advancedPanel = new AdvancedPanel( Force1DResources.get( "SimpleControlPanel.moreControls" ), Force1DResources.get( "Force1dControlPanel.lessControls" ) );
-        addControl( advancedPanel );
-
-
-        JButton restore = new JButton( Force1DResources.get( "Force1dControlPanel.restoreDefaults" ) );
-        restore.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.restoreDefaults();
-            }
-        } );
-
         final LinearValueControl setPositionControl = createControl( 0, -10, 10, "Position", "m", new SpinnerHandler() {
             public void changed( double value, boolean onFocusLost ) {
                 model.getBlock().setPosition( value );
@@ -110,6 +99,18 @@ public class Forces1DControlPanel extends IForceControl {
             }
 
             public void propertyChanged() {
+            }
+        } );
+        addControl( setPositionControl );
+
+        AdvancedPanel advancedPanel = new AdvancedPanel( Force1DResources.get( "SimpleControlPanel.moreControls" ), Force1DResources.get( "Force1dControlPanel.lessControls" ) );
+        addControl( advancedPanel );
+
+
+        JButton restore = new JButton( Force1DResources.get( "Force1dControlPanel.restoreDefaults" ) );
+        restore.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.restoreDefaults();
             }
         } );
 
@@ -228,7 +229,7 @@ public class Forces1DControlPanel extends IForceControl {
         } );
 
 
-        advancedPanel.addControl( setPositionControl );
+//        advancedPanel.addControl( setPositionControl );
         advancedPanel.addControl( gravity );
         advancedPanel.addControl( mass );
         advancedPanel.addControl( staticFriction );

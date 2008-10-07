@@ -1,3 +1,6 @@
+New in 1.18.07 (10-7-2008)
+Moved position control above advanced control panel
+
 New in 1.18.06 (10-7-2008)
 Barriers off as a default
 Control the initial position without having time start going by (in the advanced controls)
