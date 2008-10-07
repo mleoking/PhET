@@ -1,3 +1,8 @@
+New in 1.18.06 (10-7-2008)
+Barriers off as a default
+Control the initial position without having time start going by (in the advanced controls)
+Starting with the free-body diagram showing as a default
+
 New in 1.18.05 (10-3-2008)
 Added trial fix for impulse from wall during collision.
 

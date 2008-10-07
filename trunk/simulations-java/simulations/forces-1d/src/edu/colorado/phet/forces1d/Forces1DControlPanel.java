@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.view.AdvancedPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -50,6 +51,7 @@ public class Forces1DControlPanel extends IForceControl {
 
         fbdSuite = new FreeBodyDiagramSuite( module );
         fbdSuite.setControlPanel( this );
+        fbdSuite.setPanelVisible( true );
 
 
         addControl( new FBDButton( fbdSuite ) );
@@ -97,15 +99,30 @@ public class Forces1DControlPanel extends IForceControl {
             }
         } );
 
+        final LinearValueControl setPositionControl = createControl( 0, -10, 10, "Position", "m", new SpinnerHandler() {
+            public void changed( double value, boolean onFocusLost ) {
+                model.getBlock().setPosition( value );
+            }
+        } );
+        model.getBlock().addListener( new Block.Listener() {
+            public void positionChanged() {
+                setPositionControl.setValue( MathUtil.clamp( -10, model.getBlock().getPosition(), 10 ) );
+            }
+
+            public void propertyChanged() {
+            }
+        } );
+
+
         mass = createControl( model.getBlock().getMass(), 0.1, 1000, Force1DResources.get( "Force1dControlPanel.mass" ), Force1DResources.get( "Force1dControlPanel.kg" ), new SpinnerHandler() {
-            public void changed( double value ,boolean onFocusLost) {
+            public void changed( double value, boolean onFocusLost ) {
                 model.getBlock().setMass( value );
             }
         } );
         mass.setMajorTickSpacing( ( mass.getMaximum() - mass.getMinimum() ) / 2.0 );
         mass.getTextField().setColumns( 5 );
         gravity = createControl( model.getGravity(), 0, MAX_GRAV, Force1DResources.get( "Force1dControlPanel.gravity" ), Force1DResources.get( "Force1dControlPanel.gravityUnits" ), new SpinnerHandler() {
-            public void changed( double value,boolean onFocusLost ) {
+            public void changed( double value, boolean onFocusLost ) {
                 model.setGravity( value );
             }
         } );
@@ -122,8 +139,8 @@ public class Forces1DControlPanel extends IForceControl {
         } );
 
         staticFriction = createControl( model.getBlock().getStaticFriction(), 0, MAX_KINETIC_FRICTION, Force1DResources.get( "Force1dControlPanel.staticFriction" ), "", new SpinnerHandler() {
-            public void changed( double value,boolean onFocusLost ) {
-                if ( staticFriction == null || staticFriction.getSlider().hasFocus() || staticFriction.getTextField().hasFocus() ||onFocusLost) {
+            public void changed( double value, boolean onFocusLost ) {
+                if ( staticFriction == null || staticFriction.getSlider().hasFocus() || staticFriction.getTextField().hasFocus() || onFocusLost ) {
                     model.getBlock().userSetStaticFriction( value );
                 }
             }
@@ -140,8 +157,8 @@ public class Forces1DControlPanel extends IForceControl {
             }
         } );
         kineticFriction = createControl( model.getBlock().getKineticFriction(), 0, MAX_KINETIC_FRICTION, Force1DResources.get( "Force1dControlPanel.kineticFriction" ), "", new SpinnerHandler() {
-            public void changed( double value,boolean onFocusLost ) {
-                if ( onFocusLost||kineticFriction == null || kineticFriction.getSlider().hasFocus() || kineticFriction.getTextField().hasFocus() ) {
+            public void changed( double value, boolean onFocusLost ) {
+                if ( onFocusLost || kineticFriction == null || kineticFriction.getSlider().hasFocus() || kineticFriction.getTextField().hasFocus() ) {
                     model.getBlock().userSetKineticFriction( value );
                 }
             }
@@ -211,6 +228,7 @@ public class Forces1DControlPanel extends IForceControl {
         } );
 
 
+        advancedPanel.addControl( setPositionControl );
         advancedPanel.addControl( gravity );
         advancedPanel.addControl( mass );
         advancedPanel.addControl( staticFriction );
@@ -265,16 +283,16 @@ public class Forces1DControlPanel extends IForceControl {
             }
 
             public void focusLost( FocusEvent e ) {
-                handler.changed( linearValueControl.getValue(),true );
+                handler.changed( linearValueControl.getValue(), true );
             }
         } );
         linearValueControl.setValue( value );
         linearValueControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                handler.changed( linearValueControl.getValue(),false );
+                handler.changed( linearValueControl.getValue(), false );
             }
         } );
-        handler.changed( linearValueControl.getValue(),false );
+        handler.changed( linearValueControl.getValue(), false );
         linearValueControl.setMinorTicksVisible( false );
         linearValueControl.setMajorTickSpacing( ( max - min ) / 5 );
         linearValueControl.setBorder( BorderFactory.createEtchedBorder() );
@@ -302,6 +320,6 @@ public class Forces1DControlPanel extends IForceControl {
     }
 
     interface SpinnerHandler {
-        void changed( double value,boolean onFocusLost );
+        void changed( double value, boolean onFocusLost );
     }
 }

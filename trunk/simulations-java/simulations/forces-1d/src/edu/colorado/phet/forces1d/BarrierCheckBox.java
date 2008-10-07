@@ -15,7 +15,7 @@ import edu.colorado.phet.forces1d.model.BoundaryCondition;
 
 public class BarrierCheckBox extends JCheckBox {
     public BarrierCheckBox( final Forces1DModule module ) {
-        super( Force1DResources.get( "BarrierCheckBox.barriers" ), true );
+        super( Force1DResources.get( "BarrierCheckBox.barriers" ), module.getForceModel().isBoundsWalled() );
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 if ( !isSelected() ) {
