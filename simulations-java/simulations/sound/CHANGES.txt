@@ -2,7 +2,7 @@
 Changes for sound 
 ===============================================================================
 
-********* version 2.08.02 (?)
+********* version 2.08.02 (25032)
 10/6/08 - subclass PiccoloPhetApplication to get new-style tabs
 10/6/08 - [562] complete port to trunk versions of phetcommon and phetgraphics
 9/25/08 - [562] begin port to trunk versions of phetcommon and phetgraphics
