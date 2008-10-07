@@ -21,7 +21,7 @@ public class TestDraggableBlocks extends RenderApplet {
 
         world.add().cube().setMaterial( red );    // GOLD BALL
         world.add().cube().setMaterial( gold );    // GOLD BALL
-        world.child[1].getMatrix().translate( 1.5, 0, 0 );
+        world.child[1].getMatrix().translate( 2.5, 0, 0 );
 
         addLight( 1, 1, -1, .5, .4, .5 ); // USE MULTI-TINTED SOFT LIGHTING
         addLight( 1, -1, 1, .6, .4, .4 );
