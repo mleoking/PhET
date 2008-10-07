@@ -1,1 +1,0 @@
-7-19-2007: Fixed: On the Measure tab. the Reset on the Stopwatch doesn't clear unless you click twice. (workaround)

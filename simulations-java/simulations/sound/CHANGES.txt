@@ -9,5 +9,6 @@ Changes for sound
 9/25/08 - begin tracking changes in this CHANGES.txt file
 <note: unknown changes may have occurred between version 2.08.01 and 9/25/08>
 ********* version 2.08.01
+7/19/07 - fix: On the Measure tab. the Reset on the Stopwatch doesn't clear unless you click twice. (workaround)
 
 ===============================================================================
