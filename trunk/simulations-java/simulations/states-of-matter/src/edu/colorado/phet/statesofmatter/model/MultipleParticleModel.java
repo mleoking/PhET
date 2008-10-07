@@ -52,7 +52,7 @@ public class MultipleParticleModel {
     public static final double TIME_STEP = 0.020;  // Time per simulation clock tick, in seconds.
     public static final double INITIAL_TEMPERATURE = 0.2;
     public static final double MAX_TEMPERATURE = 100.0;
-    public static final double LOW_TEMPERATURE = 0.01;  // Below this, temperature decreases asymtotically.
+    public static final double MIN_TEMPERATURE = 0.01;
     public static final double TEMPERATURE_STEP = -0.1;
     private static final double WALL_DISTANCE_THRESHOLD = 1.122462048309373017;
     private static final double PARTICLE_INTERACTION_DISTANCE_THRESH_SQRD = 6.25;
@@ -258,8 +258,8 @@ public class MultipleParticleModel {
         if (newTemperature > MAX_TEMPERATURE) {
             m_temperatureSetPoint = MAX_TEMPERATURE;
         }
-        else if (newTemperature < LOW_TEMPERATURE){
-            m_temperatureSetPoint = LOW_TEMPERATURE;
+        else if (newTemperature < MIN_TEMPERATURE){
+            m_temperatureSetPoint = MIN_TEMPERATURE;
         }
         else{
             m_temperatureSetPoint = newTemperature;
@@ -873,6 +873,9 @@ public class MultipleParticleModel {
                 }
             }
         }
+        
+        // Sync up the positions of the normalized particles with the
+        // particles being monitored by the view.
         syncParticlePositions();
         
         if (!USE_NEW_PRESSURE_CALC_METHOD){
@@ -884,19 +887,35 @@ public class MultipleParticleModel {
             }
         }
         
-        // Adjust the temperature.
+        // Adjust the temperature if needed.
         m_tempAdjustTickCounter++;
         if ((m_tempAdjustTickCounter > TICKS_PER_TEMP_ADJUSTEMENT) && m_heatingCoolingAmount != 0){
             m_tempAdjustTickCounter = 0;
-            m_temperatureSetPoint += m_heatingCoolingAmount;
-            if (m_temperatureSetPoint >= MAX_TEMPERATURE){
-                m_temperatureSetPoint = MAX_TEMPERATURE;
+            double newTemperature = m_temperatureSetPoint + m_heatingCoolingAmount;
+            if (newTemperature >= MAX_TEMPERATURE){
+                newTemperature = MAX_TEMPERATURE;
             }
+            else if ((newTemperature <= SOLID_TEMPERATURE * 0.9) && (m_heatingCoolingAmount < 0)){
+            	// The temperature goes down more slowly as we begin to
+            	// approach absolute zero.
+            	newTemperature = m_temperatureSetPoint * 0.97;  // Multiplier determined empirically.
+            }
+            else if (newTemperature <= MIN_TEMPERATURE){
+                newTemperature = MIN_TEMPERATURE;
+            }
+            m_temperatureSetPoint = newTemperature;
+            /*
+             * TODO JPB TBD - This code causes temperature to decrease towards but
+             * not reach absolute zero.  A decision was made on 10/7/2008 to
+             * allow decreasing all the way to zero, so this is being removed.
+             * It should be taken out permanently after a couple of months if
+             * the decision stands.
             else if (m_temperatureSetPoint <= LOW_TEMPERATURE){
             	// Below a certain threshold temperature decreases assymtotically
             	// towards absolute zero without actually reaching it.
                 m_temperatureSetPoint = (m_temperatureSetPoint - m_heatingCoolingAmount) * 0.95;
             }
+            */
             notifyTemperatureChanged();
         }
         
@@ -1812,10 +1831,11 @@ public class MultipleParticleModel {
         if ((m_heightChangeCounter == 0 || !interactionOccurredWithTop) && !m_lidBlownOff){
             if ((m_thermostatType == ISOKINETIC_THERMOSTAT) ||
                 (m_thermostatType == ADAPTIVE_THERMOSTAT && temperatureIsChanging)){
+            	
                 // Isokinetic thermostat
                 
                 double temperatureScaleFactor;
-                if (m_temperatureSetPoint == 0){
+                if (m_temperatureSetPoint <= MIN_TEMPERATURE){
                     temperatureScaleFactor = 0;
                 }
                 else{
@@ -1834,10 +1854,19 @@ public class MultipleParticleModel {
                 // Modified Andersen Thermostat to maintain fixed temperature
                 // modification to reduce abruptness of heat bath interactions.
                 // For bare Andersen, set gamma=0.0d0.
+            	
                 double gamma = 0.9999;
+                double temperature = m_temperatureSetPoint;
+                if (m_temperatureSetPoint <= MIN_TEMPERATURE){
+                	// Use a values that will cause the molecules to stop
+                	// moving if we are below the minimum temperature, since
+                	// we want to create the appearance of absolute zero.
+                	gamma = 0.992;
+                	temperature = 0;
+                }
                 for (int i = 0; i < m_numberOfAtoms; i++){
-                    double xVel = m_atomVelocities[i].getX() * gamma + m_rand.nextGaussian() * Math.sqrt(  m_temperatureSetPoint * (1 - Math.pow(gamma, 2)) );
-                    double yVel = m_atomVelocities[i].getY() * gamma + m_rand.nextGaussian() * Math.sqrt(  m_temperatureSetPoint * (1 - Math.pow(gamma, 2)) );
+                    double xVel = m_atomVelocities[i].getX() * gamma + m_rand.nextGaussian() * Math.sqrt(  temperature * (1 - Math.pow(gamma, 2)) );
+                    double yVel = m_atomVelocities[i].getY() * gamma + m_rand.nextGaussian() * Math.sqrt(  temperature * (1 - Math.pow(gamma, 2)) );
                     m_atomVelocities[i].setComponents( xVel, yVel );
                 }
             }
@@ -2023,7 +2052,7 @@ public class MultipleParticleModel {
                 // Isokinetic thermostat
                 
                 double temperatureScaleFactor;
-                if (m_temperatureSetPoint == 0){
+                if (m_temperatureSetPoint <= MIN_TEMPERATURE){
                     temperatureScaleFactor = 0;
                 }
                 else{
@@ -2044,8 +2073,16 @@ public class MultipleParticleModel {
                 // modification to reduce abruptness of heat bath interactions.
                 // For bare Andersen, set gamma=0.0d0.
                 double gamma = 0.9999;
-                double velocityScalingFactor = Math.sqrt( m_temperatureSetPoint * massInverse * (1 - Math.pow( gamma, 2)));
-                double rotationScalingFactor = Math.sqrt( m_temperatureSetPoint * inertiaInverse * (1 - Math.pow( gamma, 2)));
+                double temperature = m_temperatureSetPoint;
+                if (m_temperatureSetPoint <= MIN_TEMPERATURE){
+                	// Use a values that will cause the molecules to stop
+                	// moving if we are below the minimum temperature, since
+                	// we want to create the appearance of absolute zero.
+                	gamma = 0.992;
+                	temperature = 0;
+                }
+                double velocityScalingFactor = Math.sqrt( temperature * massInverse * (1 - Math.pow( gamma, 2)));
+                double rotationScalingFactor = Math.sqrt( temperature * inertiaInverse * (1 - Math.pow( gamma, 2)));
                 
                 for (int i = 0; i < numberOfMolecules; i++){
                     double xVel = m_moleculeVelocities[i].getX() * gamma + m_rand.nextGaussian() * velocityScalingFactor;
@@ -2319,7 +2356,7 @@ public class MultipleParticleModel {
                 // Isokinetic thermostat
                 
                 double temperatureScaleFactor;
-                if (m_temperatureSetPoint == 0){
+                if (m_temperatureSetPoint <= MIN_TEMPERATURE){
                     temperatureScaleFactor = 0;
                 }
                 else{
@@ -2340,8 +2377,16 @@ public class MultipleParticleModel {
                 // modification to reduce abruptness of heat bath interactions.
                 // For bare Andersen, set gamma=0.0d0.
                 double gamma = 0.9999;
-                double velocityScalingFactor = Math.sqrt( m_temperatureSetPoint * massInverse * (1 - Math.pow( gamma, 2)));
-                double rotationScalingFactor = Math.sqrt( m_temperatureSetPoint * inertiaInverse * (1 - Math.pow( gamma, 2)));
+                double temperature = m_temperatureSetPoint;
+                if (m_temperatureSetPoint <= MIN_TEMPERATURE){
+                	// Use a values that will cause the molecules to stop
+                	// moving if we are below the minimum temperature, since
+                	// we want to create the appearance of absolute zero.
+                	gamma = 0.992;
+                	temperature = 0;
+                }
+                double velocityScalingFactor = Math.sqrt( temperature * massInverse * (1 - Math.pow( gamma, 2)));
+                double rotationScalingFactor = Math.sqrt( temperature * inertiaInverse * (1 - Math.pow( gamma, 2)));
                 
                 for (int i = 0; i < numberOfMolecules; i++){
                     double xVel = m_moleculeVelocities[i].getX() * gamma + m_rand.nextGaussian() * velocityScalingFactor;
@@ -2650,8 +2695,18 @@ public class MultipleParticleModel {
             break;
         }
 
-        if (m_temperatureSetPoint < TRIPLE_POINT_MODEL_TEMPERATURE){
+        if (m_temperatureSetPoint <= MIN_TEMPERATURE){
+        	// We treat anything below the minimum temperature as absolute zero.
+        	temperatureInKelvin = 0;
+        }
+        else if (m_temperatureSetPoint < TRIPLE_POINT_MODEL_TEMPERATURE){
         	temperatureInKelvin = m_temperatureSetPoint * triplePoint / TRIPLE_POINT_MODEL_TEMPERATURE;
+        	
+        	if ( temperatureInKelvin < 0.5){
+        		// Don't return zero - or anything that would round to it - as
+        		// a value until we actually reach the minimum internal temperature.
+        		temperatureInKelvin = 0.5;
+        	}
         }
         else if (m_temperatureSetPoint < CRITICAL_POINT_MODEL_TEMPERATURE){
         	double slope = (criticalPoint - triplePoint) / (CRITICAL_POINT_MODEL_TEMPERATURE - TRIPLE_POINT_MODEL_TEMPERATURE);

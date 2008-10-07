@@ -158,7 +158,7 @@ public class DeveloperControlsDialog extends JDialog {
         ThermostatSelectionPanel thermostatSelectionPanel = new ThermostatSelectionPanel();
         
         // Temperature control.
-        m_temperatureControl = new LinearValueControl( MultipleParticleModel.LOW_TEMPERATURE, 
+        m_temperatureControl = new LinearValueControl( MultipleParticleModel.MIN_TEMPERATURE, 
                 MultipleParticleModel.MAX_TEMPERATURE, "Temperature", "#.###", "Control" );
         m_temperatureControl.setUpDownArrowDelta( 0.05 );
         m_temperatureControl.setTextFieldEditable( true );

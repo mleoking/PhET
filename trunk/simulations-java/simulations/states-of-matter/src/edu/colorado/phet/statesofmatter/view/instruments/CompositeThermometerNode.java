@@ -118,6 +118,13 @@ public class CompositeThermometerNode extends PNode {
         public void setValue(double value){
         	String valueString;
         	
+        	/*
+        	 * TODO JPB TBD - The following code adjusts the resolution as
+        	 * the temperature descreases towards absolute zero.  A decision
+        	 * was made on 10/8/2008 not to use this, and to just allow the
+        	 * user to decrease all the way to absolute zero, so this was
+        	 * commented out.  Leave this here for a couple of months and,
+        	 * if the decision stands, remove it permanently.
         	if (value < 0.01){
                 valueString = new String(lowestNumberFormatter.format( value ));
         	}
@@ -130,6 +137,8 @@ public class CompositeThermometerNode extends PNode {
         	else{
                 valueString = new String(highNumberFormatter.format( value ));
         	}
+        	 */
+            valueString = new String(highNumberFormatter.format( Math.round( value ) ) );
         	
             if (m_units != null){
                 valueString += " ";
