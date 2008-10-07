@@ -131,8 +131,6 @@
 	<classpathentry kind="src" path="simulations/soluble-salts/data"/>
 	<classpathentry kind="src" path="simulations/sound/src"/>
 	<classpathentry kind="src" path="simulations/sound/data"/>
-	<classpathentry kind="src" path="simulations/sound/phetcommon/src"/>
-	<classpathentry kind="src" path="simulations/sound/phetcommon/data"/>
 	<classpathentry kind="src" path="simulations/states-of-matter/src"/>
 	<classpathentry kind="src" path="simulations/states-of-matter/data"/>
 	<classpathentry kind="src" path="simulations/the-ramp/src"/>
