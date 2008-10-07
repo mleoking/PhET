@@ -1,0 +1,248 @@
+<html>
+<head>
+</head>
+<title>
+
+</title>
+<body bgcolor=#FFFFFF text=#000000 link=#666666 alink=#666666 vlink=#666666>
+<table width=100%>
+<tr><td valign=top><font face="verdana,arial,helvetica" size=2 color=#000000>
+
+
+
+<font size=2 color=#666666><b>[idx3d::Release notes]<br>
+<font size=5 color=#666666>Release notes
+</b><font size=2 color=#000000><p>
+
+The idx3dIII project is a work in progress. This list shows up which parts have changed/added
+in the different releases. The list is sorted with descending date, so the topmost entry is the latest.<p>
+
+<b>Subscribe to the <a href="mailto:proxima@active.ch?subject=SUBSCRIBE::idx3d/Mailinglist">
+Mailing List</a> to get informed on new releases of idx3d.</b>
+<p>
+
+<table  border=1 bordercolor=#666666 cellspacing=0 cellpadding=2>
+
+<tr>
+	<td bgcolor=#990033><font face="verdana,arial,helvetica" size=2 color=#FFFFFF>
+		Version: <b>3.1.001</b>
+	</td>
+	<td bgcolor=#330099><font face="verdana,arial,helvetica" size=2 color=#FFFFFF>
+		Build: <b>[29.05.2000]</b>
+	</td>
+	<td bgcolor=#999999><font face="verdana,arial,helvetica" size=2>
+		<b>Improvement</b>
+	</td>
+<tr><td colspan=3 bgcolor=#EEEEEE><font face="verdana,arial,helvetica" size=2>
+
+
+	Whew, it's finally done, idx3d can now handle transparency.<p>
+	The rendermodes have been replaced by a new field "material" in idx3d_Object.
+	The material is an instance of <b>idx3d_Material</b> and describes how the new
+	<b>idx3d_Rasterizer</b> should render the object. Detailed information can be obtained
+	in the <a href=docu/object.html>idx3d_Object referece</a> and the
+	<a href=docu/material.html>idx3d_Material reference</a>.<p>
+	The <a href=materiallab.html><b>Material Lab</b></a> helps you
+	create materials, which can be saved and imported into any idx3d_Scene.<p>
+
+	The demos have been converted to version 3.1.x, so you may take a look at their
+	<a href=source.html>source code</a> to see how they work with the materials
+	instead of the rendermodes and textures.<p>
+	
+	idx3d can now handle multiple cameras (check data structures and rendering in the
+	<a href=docu/scene.html>idx3d_Scene reference</a>).
+	<p>
+
+	idx3d has a new package idx3d.debug containing the <a href=inspector.html>
+	idx3d.debug.Inspector</a> which helps you inspect instances of your idx3d objects.
+	<p>
+
+<tr>
+	<td bgcolor=#990033><font face="verdana,arial,helvetica" size=2 color=#FFFFFF>
+		Version: <b>3.006</b>
+	</td>
+	<td bgcolor=#330099><font face="verdana,arial,helvetica" size=2 color=#FFFFFF>
+		Build: <b>[09.05.2000]</b>
+	</td>
+	<td bgcolor=#999999><font face="verdana,arial,helvetica" size=2>
+		<b>Improvement</b>
+	</td>
+<tr><td colspan=3 bgcolor=#EEEEEE><font face="verdana,arial,helvetica" size=2>
+
+
+	The vertex normals are now more accurate since calculated with respect to both
+	normal and (new!) size of the neighboring triangles. <br>
+	Surfaces now look even smoother.<p>
+	
+	The TextureLab can now show a 3d preview of the texture, projected onto a trefoil.
+	<p></td>
+
+<tr>
+	<td bgcolor=#990033><font face="verdana,arial,helvetica" size=2 color=#FFFFFF>
+		Version: <b>3.005</b>
+	</td>
+	<td bgcolor=#330099><font face="verdana,arial,helvetica" size=2 color=#FFFFFF>
+		Build: <b>[07.05.2000]</b>
+	</td>
+	<td bgcolor=#999999><font face="verdana,arial,helvetica" size=2>
+		<b>Extension</b>
+	</td>
+<tr><td colspan=3 bgcolor=#EEEEEE><font face="verdana,arial,helvetica" size=2>
+
+
+	idx3d can now generate textures !<br>
+	The new class idx3d_TextureFactory generates textures based on perlin noise,
+	so you no longer have to fetch Images over the net. An example of generated
+	textures is showed in <a href=demo11.html>Demo 11</a>.<br>
+	To make it easier for you to generate textures, the <a href=texturelab.html>
+	TextureLab applet</a> can be used to experiment with the various parameters.<p>
+
+	There's also a new Rendermode: idx3d_T_Renderer renders unshaded textures, such as
+	the skybox in <a href=demo11.html>Demo 11</a>.<p>
+	
+	idx3d_Color has a new function <i>makeGradient(int[] colors, int steps)</i>, which
+	creates gradient palettes based on the colors passed as arguments. The palettes are
+	used in idx3d_TextureFactory.
+	<p></td>
+
+<tr>
+	<td bgcolor=#990033><font face="verdana,arial,helvetica" size=2 color=#FFFFFF>
+		Version: <b>3.004</b>
+	</td>
+	<td bgcolor=#330099><font face="verdana,arial,helvetica" size=2 color=#FFFFFF>
+		Build: <b>[20.04.2000]</b>
+	</td>
+	<td bgcolor=#999999><font face="verdana,arial,helvetica" size=2>
+		<b>Bugfix / Extension</b>
+	</td>
+<tr><td colspan=3 bgcolor=#EEEEEE><font face="verdana,arial,helvetica" size=2>
+
+
+	The matrix of idx3d_Camera had a serious bug, as one of three vectors building this matrix
+	(the vector indicating the "right" direction) was inversed. The entire space conversion
+	(object space -&gt; world space -&gt; camera space) should now work correctly, same for the
+	texture mapping orientation. You may have to check your applications for weirdnesses, mainly
+	for mouse dragging problems (refer to the mouseDrag(...) methods in the updated sources of the demos).<br>
+	Again thanks to Wilfred L. Guerin for reporting this bug !<p>
+
+	idx3d_Object contains a new method <i>idx3d_Object getClone()</i> which clones
+	objects by returning a deep copy.
+	<p></td>
+
+<tr>
+	<td bgcolor=#990033><font face="verdana,arial,helvetica" size=2 color=#FFFFFF>
+		Version: <b>3.003</b>
+	</td>
+	<td bgcolor=#330099><font face="verdana,arial,helvetica" size=2 color=#FFFFFF>
+		Build: <b>[18.04.2000]</b>
+	</td>
+	<td bgcolor=#999999><font face="verdana,arial,helvetica" size=2>
+		<b>Extension</b>
+	</td>
+<tr><td colspan=3 bgcolor=#EEEEEE><font face="verdana,arial,helvetica" size=2>
+
+
+	<a href=docu/idx3d_ObjectFactory.html>idx3d_ObjectFactory</a> contains now methods to create
+	primitives such as cubes, boxes, spheres, cones and cylinders, all with correct u/v mapping.
+	<p></td>
+
+<tr>
+	<td bgcolor=#990033><font face="verdana,arial,helvetica" size=2 color=#FFFFFF>
+		Version: <b>3.002</b>
+	</td>
+	<td bgcolor=#330099><font face="verdana,arial,helvetica" size=2 color=#FFFFFF>
+		Build: <b>[06.04.2000]</b>
+	</td>
+	<td bgcolor=#999999><font face="verdana,arial,helvetica" size=2>
+		<b>Bugfix</b>
+	</td>
+<tr><td colspan=3 bgcolor=#EEEEEE><font face="verdana,arial,helvetica" size=2>
+
+
+	The dirty handling in idx3d_Object had a bug which forced rebuilding the data
+	structures on every render() call, and the idx3d_CoreObject had a wrong implementation
+	of the rotate(...) function. Both bugs are fixed now, resulting in a smart speedup ! :)
+	<p></td>
+
+<tr>
+	<td bgcolor=#990033><font face="verdana,arial,helvetica" size=2 color=#FFFFFF>
+		Version: <b>3.001</b>
+	</td>
+	<td bgcolor=#330099><font face="verdana,arial,helvetica" size=2 color=#FFFFFF>
+		Build: <b>[04.04.2000]</b>
+	</td>
+	<td bgcolor=#999999><font face="verdana,arial,helvetica" size=2>
+		<b>Bugfix</b>
+	</td>
+<tr><td colspan=3 bgcolor=#EEEEEE><font face="verdana,arial,helvetica" size=2>
+
+
+	Wilfred L. Guerin has found a bug in idx3d_Camera. The world matrix has been transformed
+	by the camera matrix instead of the inverse camera matrix, which caused serious trouble.
+	The bug is now fixed in this release, and idx3d_Matrix has a new method to calculate
+	the inverse matrix (Optimized with Maple).
+	<p></td>
+
+<tr>
+	<td bgcolor=#990033><font face="verdana,arial,helvetica" size=2 color=#FFFFFF>
+		Version: <b>3.000</b>
+	</td>
+	<td bgcolor=#330099><font face="verdana,arial,helvetica" size=2 color=#FFFFFF>
+		Build: <b>[21.03.2000]</b>
+	</td>
+	<td bgcolor=#999999><font face="verdana,arial,helvetica" size=2>
+		<b>First release</b>
+	</td>
+<tr><td colspan=3 bgcolor=#EEEEEE><font face="verdana,arial,helvetica" size=2>
+
+
+	First release of idx3dIII
+	<p></td>
+
+
+</table>
+
+
+			<td width=200 valign=top>
+			<table width=200 border=2 bordercolor=#000000 cellspacing=0 cellpadding=4><tr>
+			<td bgcolor=#003399><font face="verdana,arial,helvetica" size=4 color=#ffffff><b>
+idx3d
+			</b></td><td bgcolor=#990033><font face="verdana,arial,helvetica" size=4 color=#ffffff><b>
+SubPages
+			</b></table>
+			<table width=200 border=1 bordercolor=#999999 cellspacing=0 cellpadding=4><tr>
+			<td bgcolor=#cccccc><font face="verdana,arial,helvetica" size=2 color=#000000>
+
+<a href="_idx3d.html">Demos</a><br>
+<a href="download.html">Download</a><br>
+<a href="release.html">Releases</a><br>
+<a href="features.html">Feature list</a><br>
+<a href="docu.html">Documentation</a><br>
+<a href="api.html">API [Interface]</a><br>
+<a href="source.html">Source Code</a><br>
+<a href="diagrams.html">Class Diagrams</a><br>
+<a href="links.html">Links</a><br>
+<br>
+<a href="materiallab.html">Material Lab</a><br>
+<a href="inspector.html">idx3d.debug.Inspector</a><br>
+
+</table><table width=100%><tr><td bgcolor=#EEEEEE><br><font face="verdana,arial,helvetica" size=2 color=#000000>
+
+</table>
+</table>
+<p></font></b>
+<table width=100% border=0 bordercolor=#999999 cellspacing=0 cellpadding=4><tr><td bgcolor=eeeeee>
+<font face=verdana,arial,helvetica size=1 color=#999999>
+<b>
+&copy; 2000 by Peter Walser  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+<a href="mailto:proxima@active.ch?subject=HomePage Feedback">proxima@active.ch</a>   &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+<a href=http://www2.active.ch/~proxima target=_top>http://www2.active.ch/~proxima</a>
+</table>
+</font></b>
+</body>
+</html>
+
+
+
+
+

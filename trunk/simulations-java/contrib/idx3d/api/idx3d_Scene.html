@@ -1,0 +1,327 @@
+<html>
+<head>
+</head>
+<title>
+
+</title>
+<body bgcolor=#FFFFFF text=#000000 link=#666666 alink=#666666 vlink=#666666>
+<table width=100%>
+<tr><td valign=top><font face="verdana,arial,helvetica" size=2 color=#000000>
+
+
+<font size=2 color=#666666><b>[idx3d::API]<br>
+<font size=5 color=#666666>idx3d_Scene.java
+</b><font size=2 color=#000000><p>
+
+<b><font color=330066>
+package
+<font color=660033>
+idx3d
+<font color=000000>;</b><br>
+
+<b><font color=330066>
+import
+<font color=660033>
+java.util.Hashtable
+<font color=000000>;</b><br>
+
+<b><font color=330066>
+import
+<font color=660033>
+java.util.Enumeration
+<font color=000000>;</b><br>
+
+<b><font color=330066>
+import
+<font color=660033>
+java.awt.Image
+<font color=000000>;</b><br>
+
+<p><b><font color=000066>public final class idx3d_Scene extends idx3d_CoreObject<font color=000000></b><p>
+
+
+<p>
+public final static String version=<br>
+
+public final static String release=<br>
+
+public idx3d_RenderPipeline renderPipeline;<br>
+
+public int width,height;<br>
+
+public idx3d_Environment environment=new idx3d_Environment();<br>
+
+public idx3d_Camera defaultCamera=idx3d_Camera.FRONT();<br>
+
+public idx3d_Object object[];<br>
+
+public idx3d_Light light[];<br>
+
+public int objects=0;<br>
+
+public int lights=0;<br>
+
+public idx3d_Vector normalizedOffset=new idx3d_Vector(0f,0f,0f);<br>
+
+public float normalizedScale=1f;<br>
+
+public Hashtable objectData=new Hashtable();<br>
+
+public Hashtable lightData=new Hashtable();<br>
+
+public Hashtable materialData=new Hashtable();<br>
+
+public Hashtable cameraData=new Hashtable();<br>
+
+<p><li>public
+<b><font color=330066>
+<font color=660033>
+idx3d_Scene
+<font color=000000>(int w, int h)</b><br>
+
+<li>public
+<b><font color=330066>void
+<font color=660033>
+showInfo
+<font color=000000>()</b><br>
+
+<li>public
+<b><font color=330066>void
+<font color=660033>
+removeAllObjects
+<font color=000000>()</b><br>
+
+<li>public
+<b><font color=330066>void
+<font color=660033>
+rebuild
+<font color=000000>()</b><br>
+
+<li>public
+<b><font color=330066>idx3d_Object
+<font color=660033>
+object
+<font color=000000>(String key)</b><br>
+
+<li>public
+<b><font color=330066>idx3d_Light
+<font color=660033>
+light
+<font color=000000>(String key)</b><br>
+
+<li>public
+<b><font color=330066>idx3d_Material
+<font color=660033>
+material
+<font color=000000>(String key)</b><br>
+
+<li>public
+<b><font color=330066>idx3d_Camera
+<font color=660033>
+camera
+<font color=000000>(String key)</b><br>
+
+<li>public
+<b><font color=330066>void
+<font color=660033>
+addObject
+<font color=000000>(String key, idx3d_Object obj)</b><br>
+
+<li>public
+<b><font color=330066>void
+<font color=660033>
+removeObject
+<font color=000000>(String key)</b><br>
+
+<li>public
+<b><font color=330066>void
+<font color=660033>
+addLight
+<font color=000000>(String key, idx3d_Light l)</b><br>
+
+<li>public
+<b><font color=330066>void
+<font color=660033>
+removeLight
+<font color=000000>(String key)</b><br>
+
+<li>public
+<b><font color=330066>void
+<font color=660033>
+addMaterial
+<font color=000000>(String key, idx3d_Material m)</b><br>
+
+<li>public
+<b><font color=330066>void
+<font color=660033>
+removeMaterial
+<font color=000000>(String key)</b><br>
+
+<li>public
+<b><font color=330066>void
+<font color=660033>
+addCamera
+<font color=000000>(String key, idx3d_Camera c)</b><br>
+
+<li>public
+<b><font color=330066>void
+<font color=660033>
+removeCamera
+<font color=000000>(String key)</b><br>
+
+<li>public
+<b><font color=330066>void
+<font color=660033>
+printSceneInfo
+<font color=000000>()</b><br>
+
+<li>public final
+<b><font color=330066>void
+<font color=660033>
+render
+<font color=000000>(idx3d_Camera cam)</b><br>
+
+<li>public final
+<b><font color=330066>void
+<font color=660033>
+render
+<font color=000000>()</b><br>
+
+<li>public final
+<b><font color=330066>Image
+<font color=660033>
+getImage
+<font color=000000>()</b><br>
+
+<li>public final
+<b><font color=330066>void
+<font color=660033>
+setAntialias
+<font color=000000>(boolean antialias)</b><br>
+
+<li>public final
+<b><font color=330066>boolean
+<font color=660033>
+antialias
+<font color=000000>()</b><br>
+
+<li>public
+<b><font color=330066>float
+<font color=660033>
+getFPS
+<font color=000000>()</b><br>
+
+<li>public
+<b><font color=330066>void
+<font color=660033>
+useIdBuffer
+<font color=000000>(boolean useIdBuffer)</b><br>
+
+<li>public
+<b><font color=330066>idx3d_Triangle
+<font color=660033>
+identifyTriangleAt
+<font color=000000>(int xpos, int ypos)</b><br>
+
+<li>public
+<b><font color=330066>idx3d_Object
+<font color=660033>
+identifyObjectAt
+<font color=000000>(int xpos, int ypos)</b><br>
+
+<li>public
+<b><font color=330066>java.awt.Dimension
+<font color=660033>
+size
+<font color=000000>()</b><br>
+
+<li>public
+<b><font color=330066>void
+<font color=660033>
+resize
+<font color=000000>(int w, int h)</b><br>
+
+<li>public
+<b><font color=330066>void
+<font color=660033>
+setBackgroundColor
+<font color=000000>(int bgcolor)</b><br>
+
+<li>public
+<b><font color=330066>void
+<font color=660033>
+setBackground
+<font color=000000>(idx3d_Texture t)</b><br>
+
+<li>public
+<b><font color=330066>void
+<font color=660033>
+setAmbient
+<font color=000000>(int ambientcolor)</b><br>
+
+<li>public
+<b><font color=330066>int
+<font color=660033>
+countVertices
+<font color=000000>()</b><br>
+
+<li>public
+<b><font color=330066>int
+<font color=660033>
+countTriangles
+<font color=000000>()</b><br>
+
+<li>public
+<b><font color=330066>String
+<font color=660033>
+toString
+<font color=000000>()</b><br>
+
+<li>public
+<b><font color=330066>void
+<font color=660033>
+normalize
+<font color=000000>()</b><br>
+
+			<td width=200 valign=top>
+			<table width=200 border=2 bordercolor=#000000 cellspacing=0 cellpadding=4><tr>
+			<td bgcolor=#003399><font face="verdana,arial,helvetica" size=4 color=#ffffff><b>
+idx3d
+			</b></td><td bgcolor=#990033><font face="verdana,arial,helvetica" size=4 color=#ffffff><b>
+SubPages
+			</b></table>
+			<table width=200 border=1 bordercolor=#999999 cellspacing=0 cellpadding=4><tr>
+			<td bgcolor=#cccccc><font face="verdana,arial,helvetica" size=2 color=#000000>
+
+<a href="../_idx3d.html">Demos</a><br>
+<a href="../download.html">Download</a><br>
+<a href="../release.html">Releases</a><br>
+<a href="../features.html">Feature list</a><br>
+<a href="../docu.html">Documentation</a><br>
+<a href="../api.html">API [Interface]</a><br>
+<a href="../source.html">Source Code</a><br>
+<a href="../diagrams.html">Class Diagrams</a><br>
+<a href="../links.html">Links</a><br>
+
+<br>
+<a href="../materiallab.html">Material Lab</a><br>
+<a href="../inspector.html">idx3d.debug.Inspector</a><br>
+
+</table><table width=100%><tr><td bgcolor=#EEEEEE><br><font face="verdana,arial,helvetica" size=2 color=#000000>
+
+</table>
+</table>
+<p></font></b>
+<table width=100% border=0 bordercolor=#999999 cellspacing=0 cellpadding=4><tr><td bgcolor=eeeeee>
+<font face=verdana,arial,helvetica size=1 color=#999999>
+<b>
+&copy; 2000 by Peter Walser  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+<a href="mailto:proxima@active.ch?subject=HomePage Feedback">proxima@active.ch</a>   &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+<a href=http://www2.active.ch/~proxima target=_top>http://www2.active.ch/~proxima</a>
+</table>
+</font></b>
+</body>
+</html>
+
+
+

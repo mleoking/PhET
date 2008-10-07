@@ -1,0 +1,216 @@
+<html>
+<head>
+</head>
+<title>
+
+</title>
+<body bgcolor=#FFFFFF text=#000000 link=#666666 alink=#666666 vlink=#666666>
+<table width=100%>
+<tr><td valign=top><font face="verdana,arial,helvetica" size=2 color=#000000>
+
+
+
+<font size=2 color=#666666><b>[idx3d::Docu1]<br>
+<font size=5 color=#666666>Example of using idx3d
+</b><font size=2 color=#000000><p>
+
+In this tutorial, we create step by step a little example Applet
+with the phong shaded textured Trefoil you are seeing below.<br>
+
+<p>
+<a href=../example.html target=_new><img src=example.jpg border=0></a>
+<p>
+
+<table width=100% cellspacing=0 cellpadding=2>
+<tr><td width=20 bgcolor=#000000><font face="verdana,arial,helvetica" size=2 color=#FFFFFF>
+	<b>1.</b>
+	<td bgcolor=#AAAAAA><font face="verdana,arial,helvetica" size=2 color=#000000>
+	<b>Preparing the scene</b>
+<tr><td><td><font face="verdana,arial,helvetica" size=2 color=#000000><br>
+
+We prepare the scene in the init() method.<p>
+First, we need to create a new instance of idx_Scene we will work with.<br>
+We set it the same size as the applet.<br>
+
+<b>idx3d_Scene scene=new idx3d_Scene(this.size().width,this.size().height);</b><p>
+
+Then, we import a material from a file called "marble.material" (generated with the material lab)
+and register it in the scene: <br>
+
+<b>idx3d_Material marble=new idx3d_Material(getDocumentBase(),"marble.material");</b><br>
+<b>scene.addMaterial("Marble",marble);</b><br>
+<br>
+And we also need some light sources, else we won't see our object:<br>
+<b>scene.addLight("Light1",new idx3d_Light(new idx3d_Vector(0.2f,0.2f,1f),0xFFFFFF,320,120));</b><br>	
+<b>scene.addLight("Light2",new idx3d_Light(new idx3d_Vector(-1f,-1f,1f),0xFFCC99,160,200));</b><p>
+
+</table>
+<table width=100% cellspacing=0 cellpadding=2>
+<tr><td width=20 bgcolor=#000000><font face="verdana,arial,helvetica" size=2 color=#FFFFFF>
+	<b>2.</b>
+	<td bgcolor=#AAAAAA><font face="verdana,arial,helvetica" size=2 color=#000000>
+	<b>Adding a new 3d object</b>
+<tr><td><td><font face="verdana,arial,helvetica" size=2 color=#000000><br>
+
+We create a new Trefoil with the idx3d_ObjectFactory. The Trefoil is a [2,3]-Torusknot.
+We choose following parameters: <i>Tube radius=0.4, Torus outer radius=1.2, Torus inner radius=0.48, Torus height=1.2,
+Tesselation segment=120, Tesselation steps=8</i>.<br>
+<b>scene.addObject("Trefoil",idx3d_ObjectFactory.TORUSKNOT(2f,3f,0.4f,1.2f,0.48f,1.2f,120,8));</b><p>
+
+Just for fun, we rotate and scale the object:<br>
+<b>scene.object("Trefoil").rotate(0.2f,3.5f,-0.5f);</b><br>
+<b>scene.object("Trefoil").scale(0.4f);</b><p>
+
+We assign our material to the object:<br>
+<b>scene.object("Trefoil").setMaterial(scene.material("Marble"));</b><p>
+
+Finally we use idx3d_TextureProjector to project the texture on top of the trefoil:<br>
+<b>idx3d_TextureProjector.projectTop(scene.object("Trefoil"));</b><p>
+		
+</table>
+<table width=100% cellspacing=0 cellpadding=2>
+<tr><td width=20 bgcolor=#000000><font face="verdana,arial,helvetica" size=2 color=#FFFFFF>
+	<b>3.</b>
+	<td bgcolor=#AAAAAA><font face="verdana,arial,helvetica" size=2 color=#000000>
+	<b>Rendering the scene</b>
+<tr><td><td><font face="verdana,arial,helvetica" size=2 color=#000000><br>
+
+To avoid flickering, we overwrite the paint(Graphics) method and draw the rendered Image 
+in the update(Graphics) method instead:<p>
+<b>
+public void paint(Graphics g)<br>
+{<br>
+ &nbsp; repaint();<br>
+}<br>
+<br>
+public void update(Graphics g)<br>
+{<br>
+ &nbsp; scene.render();<br>
+ &nbsp; g.drawImage(scene.getImage(),0,0,this);<br>
+}
+</b><p>
+
+Very easy to use, isn't it?
+</table>
+<table width=100% cellspacing=0 cellpadding=2>
+<tr><td width=20 bgcolor=#000000><font face="verdana,arial,helvetica" size=2 color=#FFFFFF>
+	<b>4.</b>
+	<td bgcolor=#AAAAAA><font face="verdana,arial,helvetica" size=2 color=#000000>
+	<b>User interaction</b>
+<tr><td><td><font face="verdana,arial,helvetica" size=2 color=#000000><br>
+
+When the user drags the mouse, the scene should be rotated. We store the last mouse position in global variables <b>int oldx,oldy.</b><p>
+
+<b>
+public boolean mouseDown(Event evt,int x,int y)<br>
+{<br>
+ &nbsp; oldx=x;<br>
+ &nbsp; oldy=y;<br>
+ &nbsp; return true;<br>
+}<br>
+<br>
+public boolean mouseDrag(Event evt,int x,int y)<br>
+{<br>
+ &nbsp; float dx=(float)(oldy-y)/50;<br>
+ &nbsp; float dy=(float)(x-oldx)/50;<br>
+ &nbsp; scene.rotate(dx,dy,0);<br>
+ &nbsp; oldx=x;<br>
+ &nbsp; oldy=y;<br>
+ &nbsp; repaint();<br>
+ &nbsp; return true;<br>
+}<br>
+</b>
+
+</table>
+<table width=100% cellspacing=0 cellpadding=2>
+<tr><td width=20 bgcolor=#000000><font face="verdana,arial,helvetica" size=2 color=#FFFFFF>
+	<b>5.</b>
+	<td bgcolor=#AAAAAA><font face="verdana,arial,helvetica" size=2 color=#000000>
+	<b>Further improvements</b>
+<tr><td><td><font face="verdana,arial,helvetica" size=2 color=#000000><br>
+
+When the scene is not rotated by the user, it could be displayed antialiased, which looks a little nicer. 
+When we create the scene, we can use <b>scene.setAntialias(true);</b> to enable antialiasing.<p>
+Antialiasing should be disabled when the user is attempting to rotate, so we deactivate it in
+the <b>public boolean mouseDown(Event evt, int x, int y)</b> method.<br>
+To enable antialiasing when the user stops dragging, we reactivate it
+the <b>public boolean mouseUp(Event evt, int x, int y)</b> method.
+<p>
+
+</table>
+<table width=100% cellspacing=0 cellpadding=2>
+<tr><td width=20 bgcolor=#000000><font face="verdana,arial,helvetica" size=2 color=#FFFFFF>
+	<b>6.</b>
+	<td bgcolor=#AAAAAA><font face="verdana,arial,helvetica" size=2 color=#000000>
+	<b>Things that change if you write in as a java application instead of an applet</b>
+<tr><td><td><font face="verdana,arial,helvetica" size=2 color=#000000><br>
+
+If you decide to write the same thing as an application, you simply subclass java.awt.component directly instead of
+java.applet.Applet. You then add this component to a new frame you have to open. You may even make the thing scaleable
+by adding <b>scene.resize(this.size().width,this.size().height);</b> to the components <b>reshape(...)</b> method.<p>
+
+</table>
+<table width=100% cellspacing=0 cellpadding=2>
+<tr><td width=20 bgcolor=#000000><font face="verdana,arial,helvetica" size=2 color=#FFFFFF>
+	<b>7.</b>
+	<td bgcolor=#AAAAAA><font face="verdana,arial,helvetica" size=2 color=#000000>
+	<b>View the running example</b>
+<tr><td><td><font face="verdana,arial,helvetica" size=2 color=#000000><br>
+<a href=../example.html target=_new>Run the example !</b></a>
+
+<p>
+</table>
+<table width=100% cellspacing=0 cellpadding=2>
+<tr><td width=20 bgcolor=#000000><font face="verdana,arial,helvetica" size=2 color=#FFFFFF>
+	<b>8.</b>
+	<td bgcolor=#AAAAAA><font face="verdana,arial,helvetica" size=2 color=#000000>
+	<b>View the entire source code of this example</b>
+<tr><td><td><font face="verdana,arial,helvetica" size=2 color=#000000><br>
+
+<a href=../source/tutorial1.java><b>tutorial1.java</b></a>
+</table>
+
+			<td width=200 valign=top>
+			<table width=200 border=2 bordercolor=#000000 cellspacing=0 cellpadding=4><tr>
+			<td bgcolor=#003399><font face="verdana,arial,helvetica" size=4 color=#ffffff><b>
+idx3d
+			</b></td><td bgcolor=#990033><font face="verdana,arial,helvetica" size=4 color=#ffffff><b>
+SubPages
+			</b></table>
+			<table width=200 border=1 bordercolor=#999999 cellspacing=0 cellpadding=4><tr>
+			<td bgcolor=#cccccc><font face="verdana,arial,helvetica" size=2 color=#000000>
+
+<a href="../_idx3d.html">Demos</a><br>
+<a href="../download.html">Download</a><br>
+<a href="../release.html">Releases</a><br>
+<a href="../features.html">Feature list</a><br>
+<a href="../docu.html">Documentation</a><br>
+<a href="../api.html">API [Interface]</a><br>
+<a href="../source.html">Source Code</a><br>
+<a href="../diagrams.html">Class Diagrams</a><br>
+<a href="../links.html">Links</a><br>
+
+<br>
+<a href="../materiallab.html">Material Lab</a><br>
+<a href="../inspector.html">idx3d.debug.Inspector</a><br>
+
+</table><table width=100%><tr><td bgcolor=#EEEEEE><br><font face="verdana,arial,helvetica" size=2 color=#000000>
+
+</table>
+</table>
+<p></font></b>
+<table width=100% border=0 bordercolor=#999999 cellspacing=0 cellpadding=4><tr><td bgcolor=eeeeee>
+<font face=verdana,arial,helvetica size=1 color=#999999>
+<b>
+&copy; 2000 by Peter Walser  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+<a href="mailto:proxima@active.ch?subject=HomePage Feedback">proxima@active.ch</a>   &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+<a href=http://www2.active.ch/~proxima target=_top>http://www2.active.ch/~proxima</a>
+</table>
+</font></b>
+</body>
+</html>
+
+
+
+
+
