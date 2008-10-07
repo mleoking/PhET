@@ -201,9 +201,15 @@ public class PiccoloModule extends Module {
         }
     }
 
-    //Enable PiccoloClockControlPanel by default, toggle these lines to use the previous swing ClockControlPanel
     protected JComponent createClockControlPanel( IClock clock ) {
-//        return new PiccoloClockControlPanel(clock);
-        return super.createClockControlPanel( clock );
+        JComponent clockControlPanel;
+        //XXX use new clock controls for development versions only, pending acceptance
+        if ( PhetApplication.instance().isDeveloperControlsEnabled() ) {
+            clockControlPanel = new PiccoloClockControlPanel( clock );
+        }
+        else {
+            clockControlPanel = super.createClockControlPanel( clock );
+        }
+        return clockControlPanel;
     }
 }
