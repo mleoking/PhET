@@ -61,9 +61,12 @@ public class TestIDX3D {
         crystal.setReflectivity( 255 );
         scene.addMaterial( "Crystal", crystal );
         scene.addObject( "myobj", box );
+        scene.addObject( "box2", idx3d_ObjectFactory.BOX( 0.6f,0.6f,0.6f ) );
         scene.object( "myobj" ).setMaterial( scene.material( "Crystal" ) );
 
         scene.object( "myobj" ).shift( -0.5f, 0f, 0f );
+        scene.object( "box2" ).shift( +0.5f, 0f, 0f );
+        scene.object( "box2" ).setMaterial( scene.material( "Crystal" ) );
 
 
         frame.setSize( 800, 600 );
