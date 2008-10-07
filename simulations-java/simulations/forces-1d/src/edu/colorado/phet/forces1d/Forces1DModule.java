@@ -70,7 +70,8 @@ public class Forces1DModule extends Module {
 
         playbackPanel = new DefaultPlaybackPanel( getForceModel().getPlotDeviceModel() );
 
-        getForceModel().setBoundsWalled();
+        getForceModel().setBoundsOpen();
+//        getForceModel().setBoundsWalled();
 
         CrashAudioPlayer crashAudioPlayer = new CrashAudioPlayer();
         getForceModel().addCollisionListener( crashAudioPlayer );

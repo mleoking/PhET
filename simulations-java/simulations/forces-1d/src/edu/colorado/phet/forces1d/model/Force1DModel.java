@@ -102,6 +102,9 @@ public class Force1DModel implements ModelElement {
             ( (BoundaryCondition.Listener) boundaryConditionListeners.get( i ) ).boundaryConditionWalls();
         }
     }
+    public boolean isBoundsWalled(){
+        return boundaryCondition==walls;
+    }
 
     public void setPlaybackIndex( int index ) {
         int numDataPoints = netForceDataSeries.numSmoothedPoints();
