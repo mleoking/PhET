@@ -37,8 +37,6 @@ public class MultipleParticleModel {
     // Class Data
     //----------------------------------------------------------------------------
     
-    public static final double MIN_TEMPERATURE = 0;//XXX added this missing constant so things would compile
-    
     // Minimum container height fraction.
     public static final double MIN_CONTAINER_HEIGHT_FRACTION = 0.1;
 
@@ -895,8 +893,9 @@ public class MultipleParticleModel {
                 m_temperatureSetPoint = MAX_TEMPERATURE;
             }
             else if (m_temperatureSetPoint <= LOW_TEMPERATURE){
+            	// Below a certain threshold temperature decreases assymtotically
+            	// towards absolute zero without actually reaching it.
                 m_temperatureSetPoint = (m_temperatureSetPoint - m_heatingCoolingAmount) * 0.95;
-                System.out.println(m_temperatureSetPoint);
             }
             notifyTemperatureChanged();
         }
