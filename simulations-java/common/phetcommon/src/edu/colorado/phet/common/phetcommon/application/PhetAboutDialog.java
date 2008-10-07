@@ -99,6 +99,10 @@ public class PhetAboutDialog extends JDialog {
 
         titleString = config.getName();
         descriptionString = config.getDescription();
+        if (descriptionString==null){
+            new Exception("Null description string, continuing").printStackTrace(  );
+            descriptionString="";
+        }
         versionString = config.getVersionForAboutDialog();
         creditsString = config.getCredits();
 
