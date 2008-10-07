@@ -1298,7 +1298,6 @@ public class MultipleParticleModel {
                 }
                 else if (j == MAX_PLACEMENT_ATTEMPTS - 1){
                     // This is the last attempt, so use this position anyway.
-                    System.err.println("WARNING: Unable to locate usable atom position randomly, proceeding anyway.");
                     m_atomPositions[i].setLocation( newPosX, newPosY );
                 }
             }
@@ -1359,14 +1358,9 @@ public class MultipleParticleModel {
                 }
                 else if (j == MAX_PLACEMENT_ATTEMPTS - 1){
                     // This is the last attempt, so use this position anyway.
-                    System.err.println("Warning: Unable to locate usable molecule position randomly.");
                     Point2D openPoint = findOpenMoleculeLocation();
                     if (openPoint != null){
-                        System.err.println("Warning: Linear search returned point " + openPoint);
                         m_moleculeCenterOfMassPositions[i].setLocation( openPoint );
-                    }
-                    else{
-                        System.err.println("Warning: Linear also unable to find usable position.");
                     }
                 }
             }
