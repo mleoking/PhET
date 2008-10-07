@@ -37,6 +37,8 @@ public class MultipleParticleModel {
     // Class Data
     //----------------------------------------------------------------------------
     
+    public static final double MIN_TEMPERATURE = 0;//XXX added this missing constant so things would compile
+    
     // Minimum container height fraction.
     public static final double MIN_CONTAINER_HEIGHT_FRACTION = 0.1;
 
