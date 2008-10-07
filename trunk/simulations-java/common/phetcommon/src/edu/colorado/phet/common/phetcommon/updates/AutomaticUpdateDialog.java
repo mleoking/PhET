@@ -1,7 +1,10 @@
 package edu.colorado.phet.common.phetcommon.updates;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 
@@ -15,14 +18,18 @@ public class AutomaticUpdateDialog extends UpdateResultDialog {
     private PhetApplicationConfig config;
 
     public AutomaticUpdateDialog( PhetApplication application, PhetVersion newVersion ) {
-        this( application.getPhetFrame(), getHTML( application, newVersion ), application.getApplicationConfig(), new ApplicationConfigManualCheckForUpdates( application.getPhetFrame(), application.getApplicationConfig() ), newVersion, application.getApplicationConfig(), new DefaultUpdateTimer(), new DefaultVersionSkipper() );
+        this( application.getApplicationConfig().getProjectName(), application.getApplicationConfig().getFlavor(),
+              application.getPhetFrame(), getHTML( application, newVersion ),
+              application.getApplicationConfig(),
+              new ApplicationConfigManualCheckForUpdates( application.getPhetFrame(), application.getApplicationConfig() ),
+              newVersion, application.getApplicationConfig(), new DefaultUpdateTimer(), new DefaultVersionSkipper() );
     }
 
     private static String getHTML( PhetApplication application, PhetVersion newVersion ) {
         return "<html>" + PhetAboutDialog.HTML_CUSTOM_STYLE + "Your current version of " + application.getApplicationConfig().getName() + " is " + application.getApplicationConfig().getVersion().formatForTitleBar() + ".<br>A newer version (" + newVersion.formatForTitleBar() + ") is available.</html>";
     }
 
-    public AutomaticUpdateDialog( final Frame parent, String html, final ITrackingInfo trackingInfo, final IManualUpdateChecker iManuallyCheckForUpdates, final PhetVersion newVersion, final PhetApplicationConfig config, final IUpdateTimer updateTimer, final IVersionSkipper versionSkipper ) {
+    public AutomaticUpdateDialog( final String project, final String sim, final Frame parent, String html, final ITrackingInfo trackingInfo, final IManualUpdateChecker iManuallyCheckForUpdates, final PhetVersion newVersion, final PhetApplicationConfig config, final IUpdateTimer updateTimer, final IVersionSkipper versionSkipper ) {
         super( parent, "New Update Available", html );
         this.config = config;
         JPanel buttonStrip = new JPanel();
@@ -32,12 +39,12 @@ public class AutomaticUpdateDialog extends UpdateResultDialog {
                 UpdateResultDialog updateResultDialog = new UpdateResultDialog(
                         parent, "Instructions on Updating",
                         "<html>" +
-                        PhetAboutDialog.HTML_CUSTOM_STYLE + getUpdateInstructions( newVersion ) +
+                        PhetAboutDialog.HTML_CUSTOM_STYLE + getUpdateInstructions( project, sim, newVersion ) +
                         "</html>" );
                 updateResultDialog.addOKButton();
                 updateResultDialog.addListener( new UpdateResultDialog.Listener() {
                     public void dialogFinished() {
-                        OpenWebPageToNewVersion.openWebPageToNewVersion();
+                        OpenWebPageToNewVersion.openWebPageToNewVersion(project, sim );
                     }
                 } );
 
@@ -88,9 +95,15 @@ public class AutomaticUpdateDialog extends UpdateResultDialog {
         center();
     }
 
-    public static String getUpdateInstructions( PhetVersion newVersion ) {
+    public static String getUpdateInstructions( String project, String sim, PhetVersion newVersion ) {
+        String url = getSimURL( project, sim );
         return "When you press OK, a web browser will be opened to PhET website, where you can get the new version (" + newVersion.formatForTitleBar() + ").<br><br>" +
-               "<font size=-2>If the web browser fails to open, please visit this URL: <a href=\"http://phet.colorado.edu/\">http://phet.colorado.edu</a></font>";
+               "<font size=-2>If the web browser fails to open, please visit this URL: " +
+               "<a href=\"" + url + "\">" + url + "</a></font>";
+    }
+
+    public static String getSimURL( String project, String sim ) {
+        return "http://phet.colorado.edu/simulations/sim-redirect.php?project=" + project + "&sim=" + sim;
     }
 
 //    public static void main( String[] args ) {

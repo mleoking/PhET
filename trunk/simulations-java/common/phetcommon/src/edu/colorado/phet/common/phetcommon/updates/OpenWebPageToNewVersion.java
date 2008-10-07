@@ -8,10 +8,9 @@ import javax.jnlp.UnavailableServiceException;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 
 public class OpenWebPageToNewVersion {
-    public static void openWebPageToNewVersion() {
+    public static void openWebPageToNewVersion( String project, String sim ) {
         try {
-            //todo: look up the correct URL for the simulation, should probably be a redirect from sim.flavor to Human Readable
-            PhetServiceManager.getBasicService().showDocument( new URL( "http://phet.colorado.edu" ) );
+            PhetServiceManager.getBasicService().showDocument( new URL( AutomaticUpdateDialog.getSimURL( project, sim ) ) );
         }
         catch( UnavailableServiceException e1 ) {
             e1.printStackTrace();

@@ -14,14 +14,16 @@ import edu.colorado.phet.common.phetcommon.preferences.IManualUpdateChecker;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 
 public class DefaultManualCheckForUpdates implements IManualUpdateChecker {
+    private String flavor;
     private PhetVersion currentVersion;
     private String humanReadableSimName;
     private Window window;
     private String projectName;
 
-    public DefaultManualCheckForUpdates( Window window, String projectName, PhetVersion currentVersion, String humanReadableSimName ) {
+    public DefaultManualCheckForUpdates( Window window, String projectName, String flavor,PhetVersion currentVersion, String humanReadableSimName ) {
         this.window = window;
         this.projectName = projectName;
+        this.flavor = flavor;
         this.currentVersion = currentVersion;
         this.humanReadableSimName = humanReadableSimName;
     }
@@ -35,12 +37,12 @@ public class DefaultManualCheckForUpdates implements IManualUpdateChecker {
             public void newVersionAvailable( PhetVersion currentVersion, PhetVersion remoteVersion ) {
                 String title = "New version available";
                 String html = "<html>" + PhetAboutDialog.HTML_CUSTOM_STYLE + "Your current version of " + humanReadableSimName + " is " + currentVersion.formatForTitleBar() + ".  A newer version (" + remoteVersion.formatForTitleBar() + ") is available.<br>" +
-                              AutomaticUpdateDialog.getUpdateInstructions( remoteVersion ) + "</html>";
+                              AutomaticUpdateDialog.getUpdateInstructions( projectName, flavor, remoteVersion ) + "</html>";
                 UpdateResultDialog dialog = UpdateResultDialog.createDialog( window, title, html );
                 dialog.addOKButton();
                 dialog.addListener( new UpdateResultDialog.Listener() {
                     public void dialogFinished() {
-                        OpenWebPageToNewVersion.openWebPageToNewVersion();
+                        OpenWebPageToNewVersion.openWebPageToNewVersion(projectName, flavor );
                     }
                 } );
                 dialog.pack();
