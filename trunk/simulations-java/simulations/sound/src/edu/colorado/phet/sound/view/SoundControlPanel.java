@@ -6,23 +6,26 @@
  */
 package edu.colorado.phet.sound.view;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common_sound.application.Module;
-import edu.colorado.phet.common_sound.view.ControlPanel;
-import edu.colorado.phet.sound.SoundConfig;
-import edu.colorado.phet.sound.SoundModule;
-import edu.colorado.phet.sound.model.SoundModel;
-
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import javax.swing.JCheckBox;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.JTextField;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import edu.colorado.phet.common.phetcommon.view.ControlPanel;
+import edu.colorado.phet.sound.SoundConfig;
+import edu.colorado.phet.sound.SoundModule;
+import edu.colorado.phet.sound.SoundResources;
+import edu.colorado.phet.sound.model.SoundModel;
 
 //public class SoundControlPanel extends JPanel {
 
@@ -30,9 +33,11 @@ public class SoundControlPanel extends ControlPanel {
     private MyControlPanel soundControlPanel;
     private int rowIdx = 0;
     private AmplitudeControlPanel amplitudeControlPanel;
-
-    public SoundControlPanel( Module module ) {
+    private final SoundModule module;
+    
+    public SoundControlPanel( SoundModule module ) {
         super( module );
+        this.module = module;
         soundControlPanel = new MyControlPanel( module );
         addControl( soundControlPanel );
     }
@@ -56,7 +61,7 @@ public class SoundControlPanel extends ControlPanel {
     //
     private class MyControlPanel extends JPanel {
 
-        MyControlPanel( Module module ) {
+        MyControlPanel( SoundModule module ) {
             //            final JCheckBox drawTestCB = new JCheckBox( "Wave drawing test" );
             //            drawTestCB.addActionListener( new ActionListener() {
             //                public void actionPerformed( ActionEvent e ) {
@@ -65,16 +70,13 @@ public class SoundControlPanel extends ControlPanel {
             //            } );
 
             this.setLayout( new GridBagLayout() );
-            if( !( module.getModel() instanceof SoundModel ) ) {
-                throw new RuntimeException( "Type of parameter is invalid" );
-            }
             GridBagConstraints gbc = new GridBagConstraints( 0, rowIdx++, 1, 1, 1, 1,
                                                              GridBagConstraints.CENTER,
                                                              GridBagConstraints.HORIZONTAL,
                                                              new Insets( 0, 0, 0, 0 ), 0, 0 );
-            add( new FrequencyControlPanel( (SoundModel)module.getModel() ), gbc );
+            add( new FrequencyControlPanel( module.getSoundModel() ), gbc );
             gbc.gridy = rowIdx++;
-            amplitudeControlPanel = new AmplitudeControlPanel( (SoundModel)module.getModel() );
+            amplitudeControlPanel = new AmplitudeControlPanel( module.getSoundModel() );
             add( amplitudeControlPanel, gbc );
         }
     }
@@ -82,7 +84,7 @@ public class SoundControlPanel extends ControlPanel {
     private static class FrequencyControlPanel extends JPanel {
         private JTextField frequencyTF;
         private JSlider frequencySlider;
-        private String Hertz = SimStrings.get( "SoundControlPanel.Hertz" );
+        private String Hertz = SoundResources.getString( "SoundControlPanel.Hertz" );
 
         FrequencyControlPanel( final SoundModel model ) {
             this.setLayout( new GridLayout( 2, 1 ) );
@@ -119,7 +121,7 @@ public class SoundControlPanel extends ControlPanel {
             this.add( frequencyReadoutPanel );
             this.add( frequencySlider );
 
-            Border frequencyBorder = new TitledBorder( SimStrings.get( "SoundControlPanel.BorderTitle" ) );
+            Border frequencyBorder = new TitledBorder( SoundResources.getString( "SoundControlPanel.BorderTitle" ) );
             this.setBorder( frequencyBorder );
         }
 
@@ -164,7 +166,7 @@ public class SoundControlPanel extends ControlPanel {
             } );
             setModelAmplitude( amplitudeSlider.getValue() );
             this.add( amplitudeSlider );
-            Border amplitudeBorder = new TitledBorder( SimStrings.get( "SoundControlPanel.Amplitude" ) );
+            Border amplitudeBorder = new TitledBorder( SoundResources.getString( "SoundControlPanel.Amplitude" ) );
             this.setBorder( amplitudeBorder );
         }
 
@@ -188,7 +190,7 @@ public class SoundControlPanel extends ControlPanel {
         private JSlider octaveAmplitudeSlider;
 
         OctaveControlPanel( final SoundModule module ) {
-            this.model = (SoundModel)module.getModel();
+            this.model = module.getSoundModel();
             this.setLayout( new GridLayout( 2, 1 ) );
             this.setPreferredSize( new Dimension( 125, 80 ) );
 
@@ -206,10 +208,10 @@ public class SoundControlPanel extends ControlPanel {
                 }
             } );
 
-            Border amplitudeBorder = new TitledBorder( SimStrings.get( "SoundControlPanel.Octave" ) );
+            Border amplitudeBorder = new TitledBorder( SoundResources.getString( "SoundControlPanel.Octave" ) );
             this.setBorder( amplitudeBorder );
 
-            final JCheckBox enabledCB = new JCheckBox( SimStrings.get( "SoundControlPanel.Enabled" ) );
+            final JCheckBox enabledCB = new JCheckBox( SoundResources.getString( "SoundControlPanel.Enabled" ) );
             enabledCB.addItemListener( new ItemListener() {
                 public void itemStateChanged( ItemEvent e ) {
                     model.setOctaveEnabled( enabledCB.isSelected() );

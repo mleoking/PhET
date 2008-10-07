@@ -20,7 +20,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.view.BufferedWaveMediumGraphic;
 import edu.colorado.phet.sound.view.ReflectingWallGraphic;
@@ -44,27 +44,28 @@ public class WallInterferenceModule extends SingleSourceModule {
     private BufferedWaveMediumGraphic interferringWavefrontGraphic;
     private Point2D.Double p;
     private Point2D.Double pp;
-    private IClock clock;
+    private final IClock clock;
 
-    public WallInterferenceModule( SoundApplication application ) {
-        super( application, SimStrings.get( "ModuleTitle.WallInterference" ) );
+    public WallInterferenceModule() {
+        super( SoundResources.getString( "ModuleTitle.WallInterference" ) );
 
-        soundModel = (SoundModel)getModel();
-        clock = application.getClock();
+        soundModel = getSoundModel();
+        this.clock = getClock();
+        
+        ApparatusPanel apparatusPanel = (ApparatusPanel)getSimulationPanel();
 
         // Set up the wall
-        wallGraphic = new ReflectingWallGraphic( getApparatusPanel(), Color.blue,
+        wallGraphic = new ReflectingWallGraphic( getSimulationPanel(), Color.blue,
                                                  SoundConfig.s_wavefrontBaseX + s_wallOffsetX,
                                                  SoundConfig.s_wavefrontBaseY + s_wallOffsetY,
                                                  s_wallThickness,
                                                  s_wallHeight,
                                                  s_initialWallAngle );
-        addGraphic( wallGraphic, 8 );
+        apparatusPanel.addGraphic( wallGraphic, 8 );
 
         // Set up the interferring wavefront graphic
-        interferringWavefrontGraphic = new BufferedWaveMediumGraphic( soundModel.getWaveMedium(),
-                                                                      getApparatusPanel() );
-        this.addGraphic( interferringWavefrontGraphic, 7 );
+        interferringWavefrontGraphic = new BufferedWaveMediumGraphic( soundModel.getWaveMedium(), apparatusPanel );
+        apparatusPanel.addGraphic( interferringWavefrontGraphic, 7 );
         positionInterferingWavefront();
 
         // Create a control panel element for the wall
@@ -76,8 +77,8 @@ public class WallInterferenceModule extends SingleSourceModule {
         ( (SoundControlPanel)getControlPanel() ).setAmplitude( 1.0 );
         ( (SoundControlPanel)getControlPanel() ).addPanel( new PulsePanel() );
 
-        getApparatusPanel().invalidate();
-        getApparatusPanel().repaint();
+        apparatusPanel.invalidate();
+        apparatusPanel.repaint();
     }
 
     /**
@@ -173,7 +174,7 @@ public class WallInterferenceModule extends SingleSourceModule {
 
             add( wallAngleSlider );
 
-            Border amplitudeBorder = new TitledBorder( SimStrings.get( "WallInterferenceModule.Angle" ) );
+            Border amplitudeBorder = new TitledBorder( SoundResources.getString( "WallInterferenceModule.Angle" ) );
             setBorder( amplitudeBorder );
         }
     }
@@ -200,7 +201,7 @@ public class WallInterferenceModule extends SingleSourceModule {
 
             add( wallTranslationSlider );
 
-            Border amplitudeBorder = new TitledBorder( SimStrings.get( "WallInterferenceModule.Position" ) );
+            Border amplitudeBorder = new TitledBorder( SoundResources.getString( "WallInterferenceModule.Position" ) );
             setBorder( amplitudeBorder );
         }
     }
@@ -226,17 +227,17 @@ public class WallInterferenceModule extends SingleSourceModule {
             super( new GridBagLayout() );
 
             setBorder( BorderFactory.createTitledBorder( new EtchedBorder(),
-                                                         SimStrings.get( "WallInterferenceMode.modeCtrlTitle" ) ) );
+                                                         SoundResources.getString( "WallInterferenceMode.modeCtrlTitle" ) ) );
 
             ButtonGroup btnGrp = new ButtonGroup();
-            final JRadioButton continuousModeBtn = new JRadioButton( SimStrings.get( "WallInterferenceMode.continuous" ) );
-            final JRadioButton pulseModeBtn = new JRadioButton( SimStrings.get( "WallInterferenceMode.pulse" ) );
+            final JRadioButton continuousModeBtn = new JRadioButton( SoundResources.getString( "WallInterferenceMode.continuous" ) );
+            final JRadioButton pulseModeBtn = new JRadioButton( SoundResources.getString( "WallInterferenceMode.pulse" ) );
             btnGrp.add( continuousModeBtn );
             btnGrp.add( pulseModeBtn );
 
             JPanel buttonPanel = new JPanel( new GridBagLayout() );
             buttonPanel.setBorder( BorderFactory.createTitledBorder( new EtchedBorder(),
-                                                                     SimStrings.get( "WallInterferenceMode.modeTitle" ) ) );
+                                                                     SoundResources.getString( "WallInterferenceMode.modeTitle" ) ) );
             GridBagConstraints gbc = new GridBagConstraints();
             gbc.anchor = GridBagConstraints.WEST;
             gbc.insets = new Insets( 0, 20, 0, 20 );
@@ -244,7 +245,7 @@ public class WallInterferenceModule extends SingleSourceModule {
             gbc.gridx++;
             buttonPanel.add( pulseModeBtn, gbc );
 
-            pulseBtn = new JButton( SimStrings.get( "WallInterferenceMode.fire" ) );
+            pulseBtn = new JButton( SoundResources.getString( "WallInterferenceMode.fire" ) );
             pulseBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     producePulse();

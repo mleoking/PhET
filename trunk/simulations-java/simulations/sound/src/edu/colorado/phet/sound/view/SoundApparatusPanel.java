@@ -9,7 +9,7 @@ package edu.colorado.phet.sound.view;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common_sound.view.ApparatusPanel2;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.sound.model.SoundModel;
 
 public class SoundApparatusPanel extends ApparatusPanel2 {

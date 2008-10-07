@@ -14,12 +14,12 @@ import java.io.IOException;
 import javax.swing.JDialog;
 import javax.swing.JRootPane;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.help.HelpItem;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common_sound.application.PhetApplication;
 import edu.colorado.phet.sound.view.ClockPanelLarge;
 import edu.colorado.phet.sound.view.MeasureControlPanel;
 import edu.colorado.phet.sound.view.MeterStickGraphic;
@@ -32,39 +32,40 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
 
     private static final int s_guidelineBaseX = 70;
     private JDialog stopwatchDlg;
-    private IClock clock;
-    private boolean closkWasPausedOnActivate;
+    private final IClock clock;
 
     /**
      * @param application
      */
-    protected SingleSourceMeasureModule( SoundApplication application ) {
-        super( application, SimStrings.get( "ModuleTitle.SingleSourceMeasure" ) );
+    protected SingleSourceMeasureModule( PhetApplication application ) {
+        super( SoundResources.getString( "ModuleTitle.SingleSourceMeasure" ) );
 
-        clock = application.getClock();
+        this.clock = getClock();
+        
+        ApparatusPanel apparatusPanel = (ApparatusPanel)getSimulationPanel();
 
         // Add the ruler
         try {
             BufferedImage bi = ImageLoader.loadBufferedImage( SoundConfig.METER_STICK_IMAGE_FILE );
-            PhetImageGraphic ruler = new PhetImageGraphic( getApparatusPanel(), bi );
+            PhetImageGraphic ruler = new PhetImageGraphic( apparatusPanel, bi );
             ruler.setLocation( SoundConfig.s_meterStickBaseX, SoundConfig.s_meterStickBaseY );
-            MeterStickGraphic meterStickGraphic = new MeterStickGraphic( getApparatusPanel(),
+            MeterStickGraphic meterStickGraphic = new MeterStickGraphic( apparatusPanel,
                                                                          ruler,
                                                                          new Point2D.Double( SoundConfig.s_meterStickBaseX,
                                                                                              SoundConfig.s_meterStickBaseY ) );
-            this.addGraphic( meterStickGraphic, 9 );
+            apparatusPanel.addGraphic( meterStickGraphic, 9 );
 
             // Add help items
-            HelpItem help1 = new HelpItem( getApparatusPanel(),
-                                           SimStrings.get( "SingleSourceMeasureModule.Help1" ),
+            HelpItem help1 = new HelpItem( apparatusPanel,
+                                           SoundResources.getString( "SingleSourceMeasureModule.Help1" ),
                                            SoundConfig.s_meterStickBaseX,
                                            SoundConfig.s_meterStickBaseY + ruler.getImage().getHeight(),
                                            HelpItem.RIGHT, HelpItem.BELOW );
             help1.setForegroundColor( Color.white );
             addHelpItem( help1 );
 
-            HelpItem help2 = new HelpItem( getApparatusPanel(),
-                                           SimStrings.get( "SingleSourceMeasureModule.Help2" ),
+            HelpItem help2 = new HelpItem( apparatusPanel,
+                                           SoundResources.getString( "SingleSourceMeasureModule.Help2" ),
                                            s_guidelineBaseX + 30, 70,
                                            HelpItem.RIGHT, HelpItem.ABOVE );
             help2.setForegroundColor( Color.white );
@@ -74,17 +75,17 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
             e.printStackTrace();
 
         }
-        VerticalGuideline guideline1 = new VerticalGuideline( getApparatusPanel(), Color.blue, s_guidelineBaseX );
-        this.addGraphic( guideline1, 10 );
-        VerticalGuideline guideline2 = new VerticalGuideline( getApparatusPanel(), Color.blue, s_guidelineBaseX + 20 );
-        this.addGraphic( guideline2, 10 );
+        VerticalGuideline guideline1 = new VerticalGuideline( apparatusPanel, Color.blue, s_guidelineBaseX );
+        apparatusPanel.addGraphic( guideline1, 10 );
+        VerticalGuideline guideline2 = new VerticalGuideline( apparatusPanel, Color.blue, s_guidelineBaseX + 20 );
+        apparatusPanel.addGraphic( guideline2, 10 );
 
         // Control Panel
-        setControlPanel( new MeasureControlPanel( this, application.getClock() ) );
+        setControlPanel( new MeasureControlPanel( this, clock ) );
 
         // Stopwatch window
         stopwatchDlg = new JDialog( application.getPhetFrame(), "Stopwatch", false );
-        ClockPanelLarge clockPanel = new ClockPanelLarge( getModel() );
+        ClockPanelLarge clockPanel = new ClockPanelLarge( getSoundModel() );
         clockPanel.addListener( new StopwatchListener( this ) );
         stopwatchDlg.setContentPane( clockPanel );
         stopwatchDlg.setLocation( 0, 0 );
@@ -96,26 +97,18 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
         stopwatchDlg.setDefaultCloseOperation( JDialog.DO_NOTHING_ON_CLOSE );
     }
 
-    public void activate( PhetApplication app ) {
-        super.activate( app );
-        closkWasPausedOnActivate = clock.isPaused();
-        if( !closkWasPausedOnActivate ) {
-            clock.pause();
-        }
+    public boolean hasHelp() {
+        return true;
+    }
+    
+    public void activate() {
+        super.activate();
         stopwatchDlg.setVisible( true );
     }
 
-    public void deactivate( PhetApplication app ) {
-        super.deactivate( app );
+    public void deactivate() {
+        super.deactivate();
         setStopwatchVisible( false );
-        if( clock.isPaused() != closkWasPausedOnActivate ) {
-            if ( closkWasPausedOnActivate ) {
-                clock.pause();
-            }
-            else {
-                clock.start();
-            }
-        }
     }
 
     public void setStopwatchVisible( boolean isVisible ) {

@@ -20,7 +20,6 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.sound.coreadditions.ScalarObservable;
 import edu.colorado.phet.sound.model.AttenuationFunction;
@@ -38,8 +37,8 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
     private DialGauge pressureGauge;
     final int maxDensity = 200;
 
-    protected SingleSourceWithBoxModule( SoundApplication application ) {
-        super( application, SimStrings.get( "ModuleTitle.SingelSourceWithBox" ) );
+    protected SingleSourceWithBoxModule() {
+        super( SoundResources.getString( "ModuleTitle.SingelSourceWithBox" ) );
         init();
     }
 
@@ -60,14 +59,14 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
         double y = 80;
         double diam = 100;
         pressureGauge = new DialGauge( airDensityObservable, getApparatusPanel(), x, y, diam, 0, 1,
-                                       SimStrings.get( "SingleSourceWithBoxModule.Pressure" ),
-                                       SimStrings.get( "SingleSourceWithBoxModule.ATM" ) );
+                                       SoundResources.getString( "SingleSourceWithBoxModule.Pressure" ),
+                                       SoundResources.getString( "SingleSourceWithBoxModule.ATM" ) );
         Rectangle2D.Double gaugeStem = new Rectangle2D.Double( x - 5, y + diam / 2, 10, 20 );
 
         // todo: updated 1/21/06
-        pressureGauge.addGraphic( new PhetShapeGraphic( getApparatusPanel(), gaugeStem, Color.black ), 6 );
+        pressureGauge.addGraphic( new PhetShapeGraphic( getSimulationPanel(), gaugeStem, Color.black ), 6 );
 
-        SoundModel soundModel = (SoundModel)getModel();
+        SoundModel soundModel = getSoundModel();
         WaveMedium waveMedium = soundModel.getWaveMedium();
 
         Shape box = createBox();
@@ -75,7 +74,7 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
         VariableWaveMediumAttenuationFunction attenuationFunction = new VariableWaveMediumAttenuationFunction();
         attenuationFunction.setVariableRegion( box );
         waveMedium.setAttenuationFunction( attenuationFunction );
-        boxGraphic = new PhetShapeGraphic( getApparatusPanel(), box, new BasicStroke( 8f ), new Color( 124, 80, 10 ) );
+        boxGraphic = new PhetShapeGraphic( getSimulationPanel(), box, new BasicStroke( 8f ), new Color( 124, 80, 10 ) );
         boxInteriorGraphic = new AirBoxGraphic( getApparatusPanel(), box );
 
         getApparatusPanel().addGraphic( boxGraphic, 8 );
@@ -179,8 +178,8 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
 
     private class BoxAirDensityControlPanel extends JPanel {
         VariableWaveMediumAttenuationFunction attenuationFunction;
-        String evacuateLabel = SimStrings.get( "SingleSourceWithBoxModule.RemoveAir" );
-        String addLabel = SimStrings.get( "SingleSourceWithBoxModule.AddAir" );
+        String evacuateLabel = SoundResources.getString( "SingleSourceWithBoxModule.RemoveAir" );
+        String addLabel = SoundResources.getString( "SingleSourceWithBoxModule.AddAir" );
         boolean evacuateToggle = true;
         private JButton airButton;
         private JSlider densitySlider;
@@ -210,7 +209,7 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
             setAirDensity( densitySlider, maxValue, attenuationFunction );
             densitySlider.setEnabled( false );
 
-            JButton resetBtn = new JButton( SimStrings.get( "ClockPanelLarge.Reset" ) );
+            JButton resetBtn = new JButton( SoundResources.getString( "ClockPanelLarge.Reset" ) );
             resetBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if( boxEvacuator != null ) {
@@ -236,7 +235,7 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
             gbc.gridy++;
             gbc.fill = GridBagConstraints.NONE;
             add( resetBtn, gbc );
-            this.setBorder( new TitledBorder( SimStrings.get( "SingleSourceWithBoxModule.BorderTitle" ) ) );
+            this.setBorder( new TitledBorder( SoundResources.getString( "SingleSourceWithBoxModule.BorderTitle" ) ) );
             this.setPreferredSize( new Dimension( 120, 120 ) );
         }
 

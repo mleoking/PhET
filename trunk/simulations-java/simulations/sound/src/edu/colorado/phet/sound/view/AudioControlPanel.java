@@ -6,14 +6,15 @@
  */
 package edu.colorado.phet.sound.view;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.sound.SoundModule;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
+import edu.colorado.phet.sound.SoundModule;
+import edu.colorado.phet.sound.SoundResources;
 
 public class AudioControlPanel extends JPanel {
     private JCheckBox audioOnOffCB;
@@ -24,11 +25,11 @@ public class AudioControlPanel extends JPanel {
     public AudioControlPanel( final SoundModule module ) {
         this.module = module;
         this.setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-        this.setPreferredSize( new Dimension( 125, 100 ) );
+        this.setPreferredSize( new Dimension( 150, 100 ) );
 
         // On/off check box
         JPanel audioOnOffPanel = new JPanel();
-        audioOnOffCB = new JCheckBox( SimStrings.get( "AudioControlPanel.Enabled" ) );
+        audioOnOffCB = new JCheckBox( SoundResources.getString( "AudioControlPanel.Enabled" ) );
         audioOnOffPanel.add( audioOnOffCB );
         audioOnOffCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
@@ -41,8 +42,8 @@ public class AudioControlPanel extends JPanel {
         // Radio buttons to specify where the audio is take from
         JPanel audioSourcePanel = new JPanel();
         audioSourcePanel.setLayout( new BoxLayout( audioSourcePanel, BoxLayout.Y_AXIS ) );
-        speakerRB = new JRadioButton( SimStrings.get( "AudioControlPanel.Speaker" ) );
-        listenerRB = new JRadioButton( SimStrings.get( "AudioControlPanel.Listener" ) );
+        speakerRB = new JRadioButton( SoundResources.getString( "AudioControlPanel.Speaker" ) );
+        listenerRB = new JRadioButton( SoundResources.getString( "AudioControlPanel.Listener" ) );
         ButtonGroup audioSourceBG = new ButtonGroup();
         audioSourceBG.add( speakerRB );
         audioSourceBG.add( listenerRB );
@@ -69,7 +70,7 @@ public class AudioControlPanel extends JPanel {
             }
         } );
 
-        this.setBorder( new TitledBorder( SimStrings.get( "AudioControlPanel.BorderTitle" ) ) );
+        this.setBorder( new TitledBorder( SoundResources.getString( "AudioControlPanel.BorderTitle" ) ) );
 
         // Set Speaker as the default
         speakerRB.setSelected( true );
