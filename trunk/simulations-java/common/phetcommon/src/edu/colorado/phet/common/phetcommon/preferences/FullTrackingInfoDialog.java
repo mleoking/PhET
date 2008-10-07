@@ -29,18 +29,22 @@ public class FullTrackingInfoDialog extends JDialog {
     }
 
     private void init( ITrackingInfo tracker ) {
+        setResizable( false );
         this.iTrackingInfo = tracker;
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.gridy = GridBagConstraints.RELATIVE;
         constraints.gridx = 0;
         constraints.gridwidth = 1;
-        getContentPane().setLayout( new GridBagLayout() );
-        getContentPane().add( createLogoPanel(), constraints );
-        getContentPane().add( createReportPanel(), constraints );
+        JPanel panel = new JPanel( new GridBagLayout() );
+        panel.setBorder( BorderFactory.createEmptyBorder( 8, 2, 8, 2 ) );
+        panel.add( createLogoPanel(), constraints );
+        panel.add( createReportPanel(), constraints );
+        getContentPane().add( panel );
         pack();
         SwingUtils.centerDialogInParent( this );
     }
 
+    //TODO report should be in a JScrollPane to handle future reports that may be longer
     private JComponent createReportPanel() {
         final JTextArea jt = new JTextArea( "" );
         if ( iTrackingInfo.getHumanReadableTrackingInformation() != null ) {

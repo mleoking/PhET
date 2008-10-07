@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.updates.ApplicationConfigManualCheckF
 public class PreferencesDialog extends JDialog {
     public PreferencesDialog( Frame owner, ITrackingInfo tracker, IManualUpdateChecker iCheckForUpdates, IPreferences updatePreferences, IPreferences trackingPreferences ) {
         super( owner, "Preferences", true );
+        setResizable( false );
         setContentPane( new PreferencesPanel( iCheckForUpdates, tracker, updatePreferences, trackingPreferences ) );
         pack();
         if ( owner != null ) {

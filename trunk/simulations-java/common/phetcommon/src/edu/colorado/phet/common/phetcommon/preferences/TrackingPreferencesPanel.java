@@ -15,7 +15,7 @@ public class TrackingPreferencesPanel extends JPanel {
     private static final String INFO =
             "<html>" + PhetAboutDialog.HTML_CUSTOM_STYLE +
             "<b><a href=http://phet.colorado.edu>PhET</a></b> " +
-            "is made possible by grants<br>that require us to track anonymous usage statistics.</html>";
+            "is made possible by grants that require<br>us to track anonymous usage statistics.</html>";
     private ITrackingInfo tracker;
     private IPreferences iTrackingPreferences;
 
