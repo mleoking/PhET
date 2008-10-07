@@ -5,7 +5,6 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-import edu.colorado.phet.balloons.BalloonsApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
@@ -94,14 +93,14 @@ public class AutomaticUpdateDialog extends UpdateResultDialog {
                "<font size=-2>If the web browser fails to open, please visit this URL: <a href=\"http://phet.colorado.edu/\">http://phet.colorado.edu</a></font>";
     }
 
-    public static void main( String[] args ) {
-        BalloonsApplication.BalloonsApplicationConfig config = new BalloonsApplication.BalloonsApplicationConfig( args );
-        AutomaticUpdateDialog dialog = new AutomaticUpdateDialog( null, "<html>Your current version of Glaciers is 1.01.<br>A newer version (1.02) is available.</html>", config, new ApplicationConfigManualCheckForUpdates( null, config ), new PhetVersion( "1", "2", "3", "43243" ), new BalloonsApplication.BalloonsApplicationConfig( args ), new DefaultUpdateTimer(), new DefaultVersionSkipper() );
-        dialog.setVisible( true );
-        dialog.addWindowListener( new WindowAdapter() {
-            public void windowClosing( WindowEvent e ) {
-                System.exit( 0 );
-            }
-        } );
-    }
+//    public static void main( String[] args ) {
+//        BalloonsApplication.BalloonsApplicationConfig config = new BalloonsApplication.BalloonsApplicationConfig( args );
+//        AutomaticUpdateDialog dialog = new AutomaticUpdateDialog( null, "<html>Your current version of Glaciers is 1.01.<br>A newer version (1.02) is available.</html>", config, new ApplicationConfigManualCheckForUpdates( null, config ), new PhetVersion( "1", "2", "3", "43243" ), new BalloonsApplication.BalloonsApplicationConfig( args ), new DefaultUpdateTimer(), new DefaultVersionSkipper() );
+//        dialog.setVisible( true );
+//        dialog.addWindowListener( new WindowAdapter() {
+//            public void windowClosing( WindowEvent e ) {
+//                System.exit( 0 );
+//            }
+//        } );
+//    }
 }
