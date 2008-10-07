@@ -51,8 +51,8 @@ public class MultipleParticleModel {
     public static final double DIATOMIC_FORCE_CONSTANT = 100; // For calculating force between diatomic pairs.
     public static final double TIME_STEP = 0.020;  // Time per simulation clock tick, in seconds.
     public static final double INITIAL_TEMPERATURE = 0.2;
-    public static final double MAX_TEMPERATURE = 100.0;
-    public static final double MIN_TEMPERATURE = 0.01;
+    public static final double MAX_TEMPERATURE = 50.0;
+    public static final double MIN_TEMPERATURE = 0.0001;
     public static final double TEMPERATURE_STEP = -0.1;
     private static final double WALL_DISTANCE_THRESHOLD = 1.122462048309373017;
     private static final double PARTICLE_INTERACTION_DISTANCE_THRESH_SQRD = 6.25;
@@ -186,6 +186,7 @@ public class MultipleParticleModel {
     private PressureCalculator m_pressureCalculator;
     private int     m_thermostatType;
     private int     m_heightChangeCounter;
+    private double  m_minModelTemperature;
     
     //----------------------------------------------------------------------------
     // Constructor
@@ -351,19 +352,22 @@ public class MultipleParticleModel {
         
         m_currentMolecule = moleculeID;
         
-        // Set the diameter and atoms/molecule based on the molecule type.
+        // Set the model parameters that are dependent upon the model type.
         switch (m_currentMolecule){
         case StatesOfMatterConstants.DIATOMIC_OXYGEN:
             m_particleDiameter = OxygenAtom.RADIUS * 2;
             m_atomsPerMolecule = 2;
+            m_minModelTemperature = 0.5 * TRIPLE_POINT_MODEL_TEMPERATURE / O2_TRIPLE_POINT_IN_KELVIN;
             break;
         case StatesOfMatterConstants.NEON:
             m_particleDiameter = NeonAtom.RADIUS * 2;
             m_atomsPerMolecule = 1;
+            m_minModelTemperature = 0.5 * TRIPLE_POINT_MODEL_TEMPERATURE / NEON_TRIPLE_POINT_IN_KELVIN;
             break;
         case StatesOfMatterConstants.ARGON:
             m_particleDiameter = ArgonAtom.RADIUS * 2;
             m_atomsPerMolecule = 1;
+            m_minModelTemperature = 0.5 * TRIPLE_POINT_MODEL_TEMPERATURE / ARGON_TRIPLE_POINT_IN_KELVIN;
             break;
         case StatesOfMatterConstants.WATER:
             // Use a radius value that is artificially large, because the
@@ -372,6 +376,7 @@ public class MultipleParticleModel {
             // solid form will look larger (since water expands when frozen).
             m_particleDiameter = OxygenAtom.RADIUS * 2.9;
             m_atomsPerMolecule = 3;
+            m_minModelTemperature = 0.5 * TRIPLE_POINT_MODEL_TEMPERATURE / WATER_TRIPLE_POINT_IN_KELVIN;
             break;
         }
 
@@ -898,10 +903,10 @@ public class MultipleParticleModel {
             else if ((newTemperature <= SOLID_TEMPERATURE * 0.9) && (m_heatingCoolingAmount < 0)){
             	// The temperature goes down more slowly as we begin to
             	// approach absolute zero.
-            	newTemperature = m_temperatureSetPoint * 0.97;  // Multiplier determined empirically.
+            	newTemperature = m_temperatureSetPoint * 0.95;  // Multiplier determined empirically.
             }
-            else if (newTemperature <= MIN_TEMPERATURE){
-                newTemperature = MIN_TEMPERATURE;
+            else if (newTemperature <= m_minModelTemperature){
+                newTemperature = m_minModelTemperature;
             }
             m_temperatureSetPoint = newTemperature;
             /*
@@ -1829,7 +1834,7 @@ public class MultipleParticleModel {
                 // Isokinetic thermostat
                 
                 double temperatureScaleFactor;
-                if (m_temperatureSetPoint <= MIN_TEMPERATURE){
+                if (m_temperatureSetPoint <= m_minModelTemperature){
                     temperatureScaleFactor = 0;
                 }
                 else{
@@ -1851,7 +1856,7 @@ public class MultipleParticleModel {
             	
                 double gamma = 0.9999;
                 double temperature = m_temperatureSetPoint;
-                if (m_temperatureSetPoint <= MIN_TEMPERATURE){
+                if (m_temperatureSetPoint <= m_minModelTemperature){
                 	// Use a values that will cause the molecules to stop
                 	// moving if we are below the minimum temperature, since
                 	// we want to create the appearance of absolute zero.
@@ -2046,7 +2051,7 @@ public class MultipleParticleModel {
                 // Isokinetic thermostat
                 
                 double temperatureScaleFactor;
-                if (m_temperatureSetPoint <= MIN_TEMPERATURE){
+                if (m_temperatureSetPoint <= m_minModelTemperature){
                     temperatureScaleFactor = 0;
                 }
                 else{
@@ -2068,7 +2073,7 @@ public class MultipleParticleModel {
                 // For bare Andersen, set gamma=0.0d0.
                 double gamma = 0.9999;
                 double temperature = m_temperatureSetPoint;
-                if (m_temperatureSetPoint <= MIN_TEMPERATURE){
+                if (m_temperatureSetPoint <= m_minModelTemperature){
                 	// Use a values that will cause the molecules to stop
                 	// moving if we are below the minimum temperature, since
                 	// we want to create the appearance of absolute zero.
@@ -2350,7 +2355,7 @@ public class MultipleParticleModel {
                 // Isokinetic thermostat
                 
                 double temperatureScaleFactor;
-                if (m_temperatureSetPoint <= MIN_TEMPERATURE){
+                if (m_temperatureSetPoint <= m_minModelTemperature){
                     temperatureScaleFactor = 0;
                 }
                 else{
@@ -2372,7 +2377,7 @@ public class MultipleParticleModel {
                 // For bare Andersen, set gamma=0.0d0.
                 double gamma = 0.9999;
                 double temperature = m_temperatureSetPoint;
-                if (m_temperatureSetPoint <= MIN_TEMPERATURE){
+                if (m_temperatureSetPoint <= m_minModelTemperature){
                 	// Use a values that will cause the molecules to stop
                 	// moving if we are below the minimum temperature, since
                 	// we want to create the appearance of absolute zero.
@@ -2689,7 +2694,7 @@ public class MultipleParticleModel {
             break;
         }
 
-        if (m_temperatureSetPoint <= MIN_TEMPERATURE){
+        if (m_temperatureSetPoint <= m_minModelTemperature){
         	// We treat anything below the minimum temperature as absolute zero.
         	temperatureInKelvin = 0;
         }
