@@ -1,0 +1,12 @@
+===============================================================================
+Changes for radio-waves 
+===============================================================================
+
+********* version 1.05.03 (25043)
+9/25/08 - [562] complete port to trunk version of phetcommon
+9/18/08 - [562] begin port to trunk version of phetcommon
+9/18/08 - begin tracking changes in this CHANGES.txt file
+<note: unknown changes may have occurred between version 1.05.02 and 9/19/08>
+********* version 1.05.02
+
+===============================================================================
