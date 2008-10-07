@@ -37,7 +37,7 @@ public class TimeControlPanel extends JPanel {
     private JLabel unitsLabel;
     private JPanel buttonPanel;
     private JPanel timeDisplayPanel;
-    private AnimatedClockJComponent animatedClockIcon;
+//    private AnimatedClockJComponent animatedClockIcon;
 
     private NumberFormat timeFormat;
     private double time;
@@ -92,7 +92,7 @@ public class TimeControlPanel extends JPanel {
         timeDisplayPanel.add( unitsLabel );
 
         // Animated clock icon
-        animatedClockIcon = new AnimatedClockJComponent();
+//        animatedClockIcon = new AnimatedClockJComponent();
 
         // User panel, for stuff between the time display and buttons
         userPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
@@ -155,14 +155,14 @@ public class TimeControlPanel extends JPanel {
      * Advances the animated clock icon by one step.
      */
     public void advanceAnimatedClockIcon() {
-        animatedClockIcon.advance();
+//        animatedClockIcon.advance();
     }
 
     /**
      * Resets the animated clock icon to its initial state.
      */
     public void resetAnimatedClockIcon() {
-        animatedClockIcon.reset();
+//        animatedClockIcon.reset();
     }
 
     /**

@@ -17,7 +17,7 @@ import javax.swing.text.JTextComponent;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.view.AnimatedClockJComponent;
+//import edu.colorado.phet.common.phetcommon.view.AnimatedClockJComponent;
 import edu.colorado.phet.common.phetcommon.view.TimeControlPanel;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -40,7 +40,7 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
     private JButton restartButton;
     private JTextField timeTextField;
     private JLabel unitsLabel;
-    private AnimatedClockJComponent animatedClockIcon;
+//    private AnimatedClockJComponent animatedClockIcon;
 
     private NumberFormat timeFormat;
     private double time;
@@ -109,7 +109,7 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
         setOpaque( timeDisplayPanel, false );
 
         // Animated clock icon
-        animatedClockIcon = new AnimatedClockJComponent();
+//        animatedClockIcon = new AnimatedClockJComponent();
 
         // User panel, for stuff between the time display and buttons
         userPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
@@ -122,9 +122,9 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
 
         // Layout the button panel
         setLayout( new FlowLayout( FlowLayout.CENTER ) );
-        if ( false && PhetApplication.instance().isDeveloperControlsEnabled() ) { //TODO: only in dev versions until we finish this feature
-            add( animatedClockIcon );
-        }
+//        if ( false && PhetApplication.instance().isDeveloperControlsEnabled() ) { //TODO: only in dev versions until we finish this feature
+//            add( animatedClockIcon );
+//        }
 
         //TODO: the next two lines make the shape of the panel asymmetric, even if the time display panel and userpanel are invisible
         add( timeDisplayPanel );
@@ -193,7 +193,7 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
      * Advances the animated clock icon by one step.
      */
     public void advanceAnimatedClockIcon() {
-        animatedClockIcon.advance();
+//        animatedClockIcon.advance();
 //        mediaPlaybackBarNode.setProgress( mediaPlaybackBarNode.getProgress() + 0.001 );
     }
 
@@ -201,7 +201,7 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
      * Resets the animated clock icon to its initial state.
      */
     public void resetAnimatedClockIcon() {
-        animatedClockIcon.reset();
+//        animatedClockIcon.reset();
     }
 
     /**
