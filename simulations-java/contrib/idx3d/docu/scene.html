@@ -1,0 +1,177 @@
+<html>
+<head>
+</head>
+<title>
+
+</title>
+<body bgcolor=#FFFFFF text=#000000 link=#666666 alink=#666666 vlink=#666666>
+<table width=100%>
+<tr><td valign=top><font face="verdana,arial,helvetica" size=2 color=#000000>
+
+
+
+<font size=2 color=#666666><b>[idx3d::Docu2]<br>
+<font size=5 color=#666666>Working with idx3d_Scene
+</b><font size=2 color=#000000><p>
+
+In order to work with 3d scenes, you need to have an instance of idx3d_Scene.<br>
+Its constructor is <b>idx3d_Scene(int width, int height)</b>. You pass it a width and heigth
+as arguments to specify which dimension it should have when you render it.
+The size can be changed with <b>resize(int width, int height)</b>.<br>
+The scene contains 3d objects, lights, cameras and materials.<p>
+
+
+<table width=100% cellspacing=0 cellpadding=2>
+<tr><td width=20 bgcolor=#000000><font face="verdana,arial,helvetica" size=2 color=#FFFFFF>
+	<b>1.</b>
+	<td bgcolor=#AAAAAA><font face="verdana,arial,helvetica" size=2 color=#000000>
+	<b>Data structures</b>
+<tr><td><td><font face="verdana,arial,helvetica" size=2 color=#000000><br>
+idx3d_Scene manages the data for you. It does so by using Hashtables, so you can
+access your instances more comfortablely.<p>
+
+<b>Objects [idx3d_Object]</b><ul>
+<li><b>Add:</b> void addObject(String name, idx3d_Object yourObject)<br>
+<li><b>Remove:</b> void removeObject(String name)<br>
+<li><b>Retrieve:</b> idx3d_Object object(String name)<br>
+<br>
+If you need very quick access to an object, you can access it over the temporary
+static data structures by its index. Rebuild the static data structures with <b>rebuild()</b>
+and access an instance with <b>idx3d_Object object[index]</b>. The total number of objects
+is stored in member <b>int objects</b>.
+</ul>
+
+<p>
+<b>Lights [idx3d_Light]</b><ul>
+<li><b>Add:</b> void addLight(String name, idx3d_Light yourLight)<br>
+<li><b>Remove:</b> void removeLight(String name)<br>
+<li><b>Retrieve:</b> idx3d_Light light(String name)<br>
+</ul>
+
+<p>
+<b>Materials [idx3d_Material]</b><ul>
+<li><b>Add:</b> void addMaterial(String name, idx3d_Material yourMaterial)<br>
+<li><b>Remove:</b> void removeMaterial(String name)<br>
+<li><b>Retrieve:</b> idx3d_Material light(String name)<br>
+</ul>
+
+<p>
+<b>Cameras [idx3d_Camera]</b><ul>
+<li><b>Add:</b> void addCamera(String name, idx3d_Camera yourCamera)<br>
+<li><b>Remove:</b> void removeCamera(String name)<br>
+<li><b>Retrieve:</b> idx3d_Camera light(String name)<br>
+</ul>
+
+
+
+</table>
+
+<table width=100% cellspacing=0 cellpadding=2>
+<tr><td width=20 bgcolor=#000000><font face="verdana,arial,helvetica" size=2 color=#FFFFFF>
+	<b>2.</b>
+	<td bgcolor=#AAAAAA><font face="verdana,arial,helvetica" size=2 color=#000000>
+	<b>Rendering</b>
+<tr><td><td><font face="verdana,arial,helvetica" size=2 color=#000000><br>
+If you've properly defined objects, lights, cameras and materials, your scene is ready to
+be rendered. To render it, just call <b>void render()</b> to render from the default camera view.<br>
+If you want to render from a specific camera view, call <b>render(idx3d_Camera yourCamera)</b>.<p>
+
+Once the scene is rendered, you can apply post render effects to it, for example a lens flare.<br>
+You can aquire a <b>java.awt.Image</b> from the rendered scene with <b>Image getImage()</b>.
+<p>
+</table>
+
+<table width=100% cellspacing=0 cellpadding=2>
+<tr><td width=20 bgcolor=#000000><font face="verdana,arial,helvetica" size=2 color=#FFFFFF>
+	<b>3.</b>
+	<td bgcolor=#AAAAAA><font face="verdana,arial,helvetica" size=2 color=#000000>
+	<b>Manipulation</b>
+<tr><td><td><font face="verdana,arial,helvetica" size=2 color=#000000><br>
+idx3d_Scene inherits 3d manipulation methods from idx3d_CoreObject.<br>
+For detailed information please refer to the object tutorial <a href=object.html>[Tutorial 3 : Working with 3d Objects]</a>
+<p>
+</table>
+
+
+<table width=100% cellspacing=0 cellpadding=2>
+<tr><td width=20 bgcolor=#000000><font face="verdana,arial,helvetica" size=2 color=#FFFFFF>
+	<b>4.</b>
+	<td bgcolor=#AAAAAA><font face="verdana,arial,helvetica" size=2 color=#000000>
+	<b>Identifying objects and Triangles</b>
+<tr><td><td><font face="verdana,arial,helvetica" size=2 color=#000000><br>
+idx3d_Scene contains a useful mechanism to identify objects at screen coordinates.<p>
+To activate/deactivate it, call <b>useIdBuffer(boolean active)</b>.<br>
+You can reterieve instances of the identified objects using the following methods:<p>
+<li><b>idx3d_Object identifyObjectAt(int xpos, int ypos)</b> and<br>
+<li><b>idx3d_Triangle identifyTriangleAt(int xpos, int ypos)</b><br>
+<br>
+If no object has been identified, both methods return <b>null</b>.
+<p>
+
+</table>
+
+
+<table width=100% cellspacing=0 cellpadding=2>
+<tr><td width=20 bgcolor=#000000><font face="verdana,arial,helvetica" size=2 color=#FFFFFF>
+	<b>5.</b>
+	<td bgcolor=#AAAAAA><font face="verdana,arial,helvetica" size=2 color=#000000>
+	<b>Other useful methods</b>
+<tr><td><td><font face="verdana,arial,helvetica" size=2 color=#000000><br>
+Activate/deactivate antialiasing:<br>
+<li><b>setAntialias(boolean antialias)</b><p>
+
+Get current speed in frames per second (FPS):<br>
+<li><b>float getFPS()</b><p>
+
+Center objects and fit them to screen size:<br>
+<li><b>normalize()</b><br>
+This method is useful after importing object, as you don't know where in world space the are.<p>
+
+
+</table>
+
+
+			<td width=200 valign=top>
+			<table width=200 border=2 bordercolor=#000000 cellspacing=0 cellpadding=4><tr>
+			<td bgcolor=#003399><font face="verdana,arial,helvetica" size=4 color=#ffffff><b>
+idx3d
+			</b></td><td bgcolor=#990033><font face="verdana,arial,helvetica" size=4 color=#ffffff><b>
+SubPages
+			</b></table>
+			<table width=200 border=1 bordercolor=#999999 cellspacing=0 cellpadding=4><tr>
+			<td bgcolor=#cccccc><font face="verdana,arial,helvetica" size=2 color=#000000>
+
+<a href="../_idx3d.html">Demos</a><br>
+<a href="../download.html">Download</a><br>
+<a href="../release.html">Releases</a><br>
+<a href="../features.html">Feature list</a><br>
+<a href="../docu.html">Documentation</a><br>
+<a href="../api.html">API [Interface]</a><br>
+<a href="../source.html">Source Code</a><br>
+<a href="../diagrams.html">Class Diagrams</a><br>
+<a href="../links.html">Links</a><br>
+
+<br>
+<a href="../materiallab.html">Material Lab</a><br>
+<a href="../inspector.html">idx3d.debug.Inspector</a><br>
+
+</table><table width=100%><tr><td bgcolor=#EEEEEE><br><font face="verdana,arial,helvetica" size=2 color=#000000>
+
+</table>
+</table>
+<p></font></b>
+<table width=100% border=0 bordercolor=#999999 cellspacing=0 cellpadding=4><tr><td bgcolor=eeeeee>
+<font face=verdana,arial,helvetica size=1 color=#999999>
+<b>
+&copy; 2000 by Peter Walser  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+<a href="mailto:proxima@active.ch?subject=HomePage Feedback">proxima@active.ch</a>   &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+<a href=http://www2.active.ch/~proxima target=_top>http://www2.active.ch/~proxima</a>
+</table>
+</font></b>
+</body>
+</html>
+
+
+
+
+

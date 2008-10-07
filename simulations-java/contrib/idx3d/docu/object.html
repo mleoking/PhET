@@ -1,0 +1,194 @@
+<html>
+<head>
+</head>
+<title>
+
+</title>
+<body bgcolor=#FFFFFF text=#000000 link=#666666 alink=#666666 vlink=#666666>
+<table width=100%>
+<tr><td valign=top><font face="verdana,arial,helvetica" size=2 color=#000000>
+
+
+
+<font size=2 color=#666666><b>[idx3d::Docu3]<br>
+<font size=5 color=#666666>Working with 3d objects
+</b><font size=2 color=#000000><p>
+
+Instances of idx3d_Object represent mesh objects. An idx3d_Object contains <b>vertices</b>
+and <b>triangles</b>. Each triangle is linked to three vertices, and each vertex has references
+to the triangles which use it as an anchor in 3d space.<br>
+idx3d_Object contains dynamic data structures and temporary static data structures. To manually
+update the static structures, call <b>rebuild()</b>.<br>
+If you assign an idx3d_Material to an object, it can be rendered.<br>
+idx3d_Object also contains a member <b>Object userData</b>, where you can attach additional
+information.
+<p>
+
+<table width=100% cellspacing=0 cellpadding=2>
+<tr><td width=20 bgcolor=#000000><font face="verdana,arial,helvetica" size=2 color=#FFFFFF>
+	<b>1.</b>
+	<td bgcolor=#AAAAAA><font face="verdana,arial,helvetica" size=2 color=#000000>
+	<b>Data structures</b>
+<tr><td><td><font face="verdana,arial,helvetica" size=2 color=#000000><br>
+<b>Vertices [idx3d_Vertex]</b><ul>
+<li><b>Add:</b> void addVertex(idx3d_vertex newVertex)<br>
+<li><b>Remove:</b> void removeVertex(idx3d_Vertex v) <b> or </b>void removeVertexAt(int pos)<br>
+<li><b>Retrieve:</b> idx3d_Vertex vertex(int pos)<br>
+<br>
+If you need very quick access to a vertex (for example if you want to iterate through the 
+vertex list), you can access it over the temporary static data structures by its index. 
+Rebuild the static data structures with <b>rebuild()</b>
+and access an instance with <b>idx3d_Vertex vertex[index]</b>. The total number of vertices
+is stored in member <b>int vertices</b>.
+</ul>
+<p>
+
+<b>Triangle [idx3d_Triangle]</b><ul>
+<li><b>Add:</b> void addTriangle(idx3d_triangle newTriangle) <b>or</b> void addTriangle(int vertexId1, int vertexId2, int vertexId3)<br>
+<li><b>Remove:</b> void removeTriangle(idx3d_Triangle v) <b>or</b> void removeTriangleAt(int pos)<br>
+<li><b>Retrieve:</b> idx3d_Triangle triangle(int pos)<br>
+<br>
+If you need very quick access to a triangle (for example if you want to iterate through the 
+triangle list), you can access it over the temporary static data structures by its index. 
+Rebuild the static data structures with <b>rebuild()</b>
+and access an instance with <b>idx3d_Triangle triangle[index]</b>. The total number of vertices
+is stored in member <b>int vertices</b>.
+</ul>
+
+<p>
+</table>
+
+<table width=100% cellspacing=0 cellpadding=2>
+<tr><td width=20 bgcolor=#000000><font face="verdana,arial,helvetica" size=2 color=#FFFFFF>
+	<b>2.</b>
+	<td bgcolor=#AAAAAA><font face="verdana,arial,helvetica" size=2 color=#000000>
+	<b>Assigning materials to 3d objects</b>
+<tr><td><td><font face="verdana,arial,helvetica" size=2 color=#000000><br>
+You assign an instance of idx3d_Material to an idx3d_Object with:<br>
+<b>setMaterial(idx3d_Material material)</b>.<br>
+The idx3d_Rasterizer then knows how to render it correctly.
+
+<p>
+</table>
+
+<table width=100% cellspacing=0 cellpadding=2>
+<tr><td width=20 bgcolor=#000000><font face="verdana,arial,helvetica" size=2 color=#FFFFFF>
+	<b>3.</b>
+	<td bgcolor=#AAAAAA><font face="verdana,arial,helvetica" size=2 color=#000000>
+	<b>Importing objects from 3ds (3d Studio Max) mesh files</b>
+<tr><td><td><font face="verdana,arial,helvetica" size=2 color=#000000><br>
+You can import entire scenes form 3ds files using the <b>idx3d_3ds_Importer</b>.<br>
+Create a new instance of idx3d_3ds_Importer and use one of the following methods:<p>
+
+<li><b>importFromURL(URL urlOf3dsFile, idx3d_Scene scene)</b><br>
+to import from an URL into a scene<p>
+<li><b>importFromStream(InputStream in, idx3d_Scene scene)</b><br>
+to import from an InputStream, for example with <b>new FileInputStream(new File(filename))</b>
+from an application.
+<p>
+</table>
+
+<table width=100% cellspacing=0 cellpadding=2>
+<tr><td width=20 bgcolor=#000000><font face="verdana,arial,helvetica" size=2 color=#FFFFFF>
+	<b>4.</b>
+	<td bgcolor=#AAAAAA><font face="verdana,arial,helvetica" size=2 color=#000000>
+	<b>3d Manipulations [inherited from idx3d_CoreObject]</b>
+<tr><td><td><font face="verdana,arial,helvetica" size=2 color=#000000><br>
+
+<li><b>public final void transform(idx3d_Matrix m)</b><br>
+Transforms this objects my the matrix m<p>
+<li><b>public final void shift(float dx, float dy, float dz)</b><br>
+Shifts the object<p>
+<li><b>public final void shift(idx3d_Vector v)</b><br>
+Shifts the object<p>
+<li><b>public final void scale(float d)</b><br>
+Scales the object relative to the world (scene)<p>
+<li><b>public final void scale(float dx, float dy, float dz)</b><br>
+Scales the object relative to the world (scene)<p>
+<li><b>public final void scaleSelf(float dx, float dy, float dz)</b><br>
+Scales the object relative to its own<p>
+<li><b>public final void rotate(float dx, float dy, float dz)</b><br>
+Rotates the object relative to the world (scene)<p>
+<li><b>public final void rotateSelf(float dx, float dy, float dz)</b><br>
+Rotates the object relative to its own<p>
+<li><b>public final void setPos(float x, float y, float z)</b><br>
+Sets the position of the object<p>
+<li><b>public final void setPos(idx3d_Vector v)</b><br>
+Sets the position of the object<p>
+<li><b>public final idx3d_Vector getPos()</b><br>
+Gets the position of the object<p>
+
+<p>
+</table>
+
+<table width=100% cellspacing=0 cellpadding=2>
+<tr><td width=20 bgcolor=#000000><font face="verdana,arial,helvetica" size=2 color=#FFFFFF>
+	<b>5.</b>
+	<td bgcolor=#AAAAAA><font face="verdana,arial,helvetica" size=2 color=#000000>
+	<b>Other methods / members</b>
+<tr><td><td><font face="verdana,arial,helvetica" size=2 color=#000000><br>
+
+<li><b>public idx3d_Vector center()</b><br>
+Returns the center of this object<p>
+<li><b>public idx3d_Vector dimension()</b><br>
+Returns the dimension of this object (width,height,depth)<p>
+<li><b>public void detach()</b><br>
+Centers the object in its own coordinate system and applies the correction to its matrix.<p>
+<li><b>public void matrixMeltdown()</b><br>
+Applies the transformations of the object matrix to its vertices and resets the matrix.<p>
+<li><b>public idx3d_Object getClone()</b><br>
+Returns a deep copy of this object (recursive cloning)<p>
+<li><b>public idx3d_Object removeDuplicateVertices()</b><br>
+Removes duplicate vertices and reconnects the triangles<p>
+<li><b>public idx3d_Object removeDegeneratedTriangles()</b><br>
+Removes degenerated triangles (triangles with less than 3 different vertices)<p>
+<li><b>public idx3d_Object meshSmooth()</b><br>
+Applies mesh smoothing to this object. Each triangle will be split into 4 parts.<p>
+
+<p>
+</table>
+
+			<td width=200 valign=top>
+			<table width=200 border=2 bordercolor=#000000 cellspacing=0 cellpadding=4><tr>
+			<td bgcolor=#003399><font face="verdana,arial,helvetica" size=4 color=#ffffff><b>
+idx3d
+			</b></td><td bgcolor=#990033><font face="verdana,arial,helvetica" size=4 color=#ffffff><b>
+SubPages
+			</b></table>
+			<table width=200 border=1 bordercolor=#999999 cellspacing=0 cellpadding=4><tr>
+			<td bgcolor=#cccccc><font face="verdana,arial,helvetica" size=2 color=#000000>
+
+<a href="../_idx3d.html">Demos</a><br>
+<a href="../download.html">Download</a><br>
+<a href="../release.html">Releases</a><br>
+<a href="../features.html">Feature list</a><br>
+<a href="../docu.html">Documentation</a><br>
+<a href="../api.html">API [Interface]</a><br>
+<a href="../source.html">Source Code</a><br>
+<a href="../diagrams.html">Class Diagrams</a><br>
+<a href="../links.html">Links</a><br>
+
+<br>
+<a href="../materiallab.html">Material Lab</a><br>
+<a href="../inspector.html">idx3d.debug.Inspector</a><br>
+
+</table><table width=100%><tr><td bgcolor=#EEEEEE><br><font face="verdana,arial,helvetica" size=2 color=#000000>
+
+</table>
+</table>
+<p></font></b>
+<table width=100% border=0 bordercolor=#999999 cellspacing=0 cellpadding=4><tr><td bgcolor=eeeeee>
+<font face=verdana,arial,helvetica size=1 color=#999999>
+<b>
+&copy; 2000 by Peter Walser  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+<a href="mailto:proxima@active.ch?subject=HomePage Feedback">proxima@active.ch</a>   &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+<a href=http://www2.active.ch/~proxima target=_top>http://www2.active.ch/~proxima</a>
+</table>
+</font></b>
+</body>
+</html>
+
+
+
+
+
