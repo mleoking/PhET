@@ -80,7 +80,7 @@ public class MultipleParticleModel {
     public static final int PHASE_LIQUID = 2;
     public static final int PHASE_GAS = 3;
     private static final double SOLID_TEMPERATURE = 0.15;
-    private static final double LIQUID_TEMPERATURE = 0.45;
+    private static final double LIQUID_TEMPERATURE = 0.42;
     private static final double GAS_TEMPERATURE = 1.0;
     private static final double MIN_INITIAL_INTER_PARTICLE_DISTANCE = 1.2;
     private static final double MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE = 2.5;
@@ -895,7 +895,7 @@ public class MultipleParticleModel {
                 m_temperatureSetPoint = MAX_TEMPERATURE;
             }
             else if (m_temperatureSetPoint <= LOW_TEMPERATURE){
-                m_temperatureSetPoint = (m_temperatureSetPoint - m_heatingCoolingAmount) * 0.99;
+                m_temperatureSetPoint = (m_temperatureSetPoint - m_heatingCoolingAmount) * 0.95;
                 System.out.println(m_temperatureSetPoint);
             }
             notifyTemperatureChanged();
