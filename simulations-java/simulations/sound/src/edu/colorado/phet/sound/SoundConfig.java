@@ -6,31 +6,15 @@
  */
 package edu.colorado.phet.sound;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import java.awt.Color;
+
 import edu.colorado.phet.sound.view.SoundApparatusPanel;
 
-import java.awt.*;
-
 public class SoundConfig {
-
-    public String getTitle() {
-        return SimStrings.get( "SoundApplication.title" );
-    }
-
-    public double getTimeStep() {
-        return s_timeStep;
-    }
-
-    public int getWaitTime() {
-        return s_waitTime;
-    }
-
-    // Version
-    public static final String VERSION = PhetApplicationConfig.getVersion( "sound" ).formatForTitleBar();
-
-    // Localization
-    public static final String localizedStringsPath = "sound/localization/sound-strings";
+    
+    public static final String PROJECT_NAME = "sound";
+    
+    public static final double HELP_LAYER_NUMBER = Double.POSITIVE_INFINITY;
 
     // Physical constants
     // The time step is set so that the waves look reasonable on the screen. It is NOT set so that

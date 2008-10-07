@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 /**
  * This is a placeholder class in the model for the person listening to the sound
  */
-public class Listener extends SimpleObservable implements ModelElement {
+public class SoundListener extends SimpleObservable implements ModelElement {
     private Point2D.Double location = new Point2D.Double();
     private Point2D.Double origin;
     private SoundModel model;
@@ -22,7 +22,7 @@ public class Listener extends SimpleObservable implements ModelElement {
     private double amplitudeHeard;
     private double octaveAmplitudeHeard;
 
-    public Listener( SoundModel model, Point2D.Double soundOrigin ) {
+    public SoundListener( SoundModel model, Point2D.Double soundOrigin ) {
         this.model = model;
         model.addModelElement( this );
         this.origin = soundOrigin;

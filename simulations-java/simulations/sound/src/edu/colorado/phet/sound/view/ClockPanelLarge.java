@@ -17,13 +17,13 @@ import java.util.EventObject;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common_sound.model.BaseModel;
 import edu.colorado.phet.sound.SoundConfig;
+import edu.colorado.phet.sound.SoundResources;
 
 public class ClockPanelLarge extends JPanel {
 
@@ -88,7 +88,7 @@ public class ClockPanelLarge extends JPanel {
         gbc = new GridBagConstraints( 0, rowIdx, 2, 1, 1, 1,
                                       GridBagConstraints.CENTER, GridBagConstraints.NONE,
                                       insets, padX, padY );
-        this.add( new JLabel( SimStrings.get( "ClockPanelLarge.SimulationTime" ) ), gbc );
+        this.add( new JLabel( SoundResources.getString( "ClockPanelLarge.SimulationTime" ) ), gbc );
         rowIdx++;
         gbc = new GridBagConstraints( 0, rowIdx, 1, 1, 1, 1,
                                       GridBagConstraints.EAST, GridBagConstraints.NONE,
@@ -97,7 +97,7 @@ public class ClockPanelLarge extends JPanel {
         gbc = new GridBagConstraints( 1, rowIdx, 1, 1, 1, 1,
                                       GridBagConstraints.WEST, GridBagConstraints.NONE,
                                       insets, padX, padY );
-        this.add( new JLabel( SimStrings.get( "ClockPanelLarge.Seconds" ) ), gbc );
+        this.add( new JLabel( SoundResources.getString( "ClockPanelLarge.Seconds" ) ), gbc );
         rowIdx++;
         gbc = new GridBagConstraints( 0, rowIdx, 2, 1, 1, 1,
                                       GridBagConstraints.CENTER, GridBagConstraints.NONE,

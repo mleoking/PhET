@@ -12,14 +12,14 @@ import javasound.SrrOscillatorPlayer;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.sound.SoundConfig;
-import edu.colorado.phet.sound.model.Listener;
+import edu.colorado.phet.sound.model.SoundListener;
 
 public class WavefrontOscillator extends SrrOscillatorPlayer implements SimpleObserver {
 
     private boolean isEnabled = false;
     private double amplitude;
     // The model element that we are providing a view of
-    private Listener listener;
+    private SoundListener listener;
     // Whatever multiplication factor is applied frequency the listener in the model reports
     // to us
     private double harmonicFactor = 1;
@@ -102,7 +102,7 @@ public class WavefrontOscillator extends SrrOscillatorPlayer implements SimpleOb
         setAmplitude( amplitude );
     }
 
-    public void setListener( Listener listener ) {
+    public void setListener( SoundListener listener ) {
         if( this.listener != null ) {
             this.listener.removeObserver( this );
         }

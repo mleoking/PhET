@@ -15,35 +15,33 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetgraphics.view.help.HelpItem;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common_sound.application.PhetApplication;
-import edu.colorado.phet.sound.model.Listener;
+import edu.colorado.phet.sound.model.SoundListener;
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.model.WaveMedium;
 import edu.colorado.phet.sound.view.*;
 
 public class TwoSpeakerInterferenceModule extends SoundModule {
 
-    private Listener speakerListener;
-    private Listener headListener;
+    private SoundListener speakerListener;
+    private SoundListener headListener;
     private Point2D.Double audioSourceA;
     private Point2D.Double audioSourceB;
     private SoundModel soundModel;
     private boolean saveInterferenceOverideEnabled = false;
+    private final SoundApparatusPanel apparatusPanel;
 
-    protected TwoSpeakerInterferenceModule( SoundApplication application ) {
-        super( application, SimStrings.get( "ModuleTitle.TwoSpeakerIntererence" ) );
-        soundModel = (SoundModel)getModel();
-        speakerListener = new Listener( (SoundModel)getModel(),
-                                        new Point2D.Double() );
+    protected TwoSpeakerInterferenceModule() {
+        super( SoundResources.getString( "ModuleTitle.TwoSpeakerIntererence" ) );
+        soundModel = getSoundModel();
+        speakerListener = new SoundListener( soundModel, new Point2D.Double() );
         speakerListener.setLocation( new Point2D.Double() );
         setListener( speakerListener );
-        headListener = new Listener( (SoundModel)getModel(),
-                                     new Point2D.Double() );
+        headListener = new SoundListener( soundModel, new Point2D.Double() );
 
-        setApparatusPanel( new SoundApparatusPanel( soundModel, application.getClock() ) );
+        apparatusPanel = new SoundApparatusPanel( soundModel, getClock() );
+        setApparatusPanel( apparatusPanel );
         initApparatusPanel();
         initControlPanel();
     }
@@ -65,15 +63,15 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
 
         // Create the upper wave and speaker
         WaveMedium wm = getSoundModel().getWaveMedium();
-        BufferedWaveMediumGraphic wgA = new BufferedWaveMediumGraphic( wm, getApparatusPanel() );
+        BufferedWaveMediumGraphic wgA = new BufferedWaveMediumGraphic( wm, apparatusPanel );
         wm.addObserver( wgA );
-        this.addGraphic( wgA, 5 );
+        apparatusPanel.addGraphic( wgA, 5 );
         wgA.initLayout( audioSourceA,
                         SoundConfig.s_wavefrontHeight,
                         SoundConfig.s_wavefrontRadius );
 //        wgA.setOpacity( 0.5f );
         wgA.setOpacity( 1.0f );
-        SpeakerGraphic speakerGraphicA = new SpeakerGraphic( getApparatusPanel(), wm );
+        SpeakerGraphic speakerGraphicA = new SpeakerGraphic( apparatusPanel, wm );
         speakerGraphicA.setLocation( SoundConfig.s_speakerBaseX, (int)audioSourceA.getY() );
         InteractiveSpeakerGraphic iSpeakerGraphicA = new InteractiveSpeakerGraphic( speakerGraphicA, wgA );
 
@@ -84,19 +82,19 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
             }
         } );
 
-        getApparatusPanel().addGraphic( iSpeakerGraphicA, 8 );
+        apparatusPanel.addGraphic( iSpeakerGraphicA, 8 );
 
         // Add the lower wave and speaker
-        BufferedWaveMediumGraphic wgB = new BufferedWaveMediumGraphic( wm, getApparatusPanel() );
+        BufferedWaveMediumGraphic wgB = new BufferedWaveMediumGraphic( wm, apparatusPanel );
         wm.addObserver( wgB );
-        this.addGraphic( wgB, 5 );
+        apparatusPanel.addGraphic( wgB, 5 );
         wgB.initLayout( audioSourceB,
                         SoundConfig.s_wavefrontHeight,
                         SoundConfig.s_wavefrontRadius );
 //        wgB.setOpacity( 1f );
         wgB.setOpacity( 0.5f );
-        SpeakerGraphic speakerGraphicB = new SpeakerGraphic( getApparatusPanel(), wm );
-        getApparatusPanel().addGraphic( speakerGraphicB, 8 );
+        SpeakerGraphic speakerGraphicB = new SpeakerGraphic( apparatusPanel, wm );
+        apparatusPanel.addGraphic( speakerGraphicB, 8 );
         speakerGraphicB.setLocation( SoundConfig.s_speakerBaseX, (int)audioSourceB.getY() );
 
         // Set up the listener
@@ -105,7 +103,7 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
             int headImageIdx = randomGenerator.nextInt( SoundConfig.HEAD_IMAGE_FILES.length );
             headImg = ImageLoader.loadBufferedImage( SoundConfig.HEAD_IMAGE_FILES[headImageIdx] );
             headImg = ImageLoader.loadBufferedImage( SoundConfig.HEAD_IMAGE_FILE );
-            PhetImageGraphic head = new PhetImageGraphic( getApparatusPanel(), headImg );
+            PhetImageGraphic head = new PhetImageGraphic( apparatusPanel, headImg );
             head.setLocation( SoundConfig.s_headBaseX, SoundConfig.s_headBaseY );
             ListenerGraphic listenerGraphic = new InterferenceListenerGraphic( this, headListener, head,
                                                                                (double)SoundConfig.s_headBaseX, (double)SoundConfig.s_headBaseY,
@@ -115,19 +113,19 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
                                                                                audioSourceB,
                                                                                soundModel.getPrimaryWavefront(),
                                                                                iSpeakerGraphicA );
-            this.addGraphic( listenerGraphic, 9 );
+            apparatusPanel.addGraphic( listenerGraphic, 9 );
 
             // Add help items
-            HelpItem help1 = new HelpItem( getApparatusPanel(),
-                                           SimStrings.get( "TwoSpeakerInterferenceModule.Help1" ),
+            HelpItem help1 = new HelpItem( apparatusPanel,
+                                           SoundResources.getString( "TwoSpeakerInterferenceModule.Help1" ),
                                            SoundConfig.s_headBaseX,
                                            SoundConfig.s_headBaseY - 20,
                                            HelpItem.RIGHT, HelpItem.ABOVE );
             help1.setForegroundColor( Color.white );
             addHelpItem( help1 );
 
-            HelpItem help2 = new HelpItem( getApparatusPanel(),
-                                           SimStrings.get( "TwoSpeakerInterferenceModule.Help2" ),
+            HelpItem help2 = new HelpItem( apparatusPanel,
+                                           SoundResources.getString( "TwoSpeakerInterferenceModule.Help2" ),
                                            SoundConfig.s_speakerBaseX, (int)audioSourceA.getY() - 120,
                                            HelpItem.RIGHT, HelpItem.ABOVE );
             help2.setForegroundColor( Color.white );
@@ -136,6 +134,10 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
         catch( IOException e ) {
             e.printStackTrace();
         }
+    }
+    
+    public boolean hasHelp() {
+        return true;
     }
 
     public void setAudioSource( int source ) {
@@ -151,13 +153,13 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
         }
     }
 
-    public void activate( PhetApplication app ) {
-        super.activate( app );
+    public void activate() {
+        super.activate();
         getPrimaryOscillator().setInterferenceOverideEnabled( saveInterferenceOverideEnabled );
     }
 
-    public void deactivate( PhetApplication app ) {
-        super.deactivate( app );
+    public void deactivate() {
+        super.deactivate();
         saveInterferenceOverideEnabled = getPrimaryOscillator().getInterferenceOverideEnabled();
     }
 

@@ -8,8 +8,7 @@ package edu.colorado.phet.sound.model;
 
 import java.util.Iterator;
 
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common_sound.model.BaseModel;
+import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.sound.SoundConfig;
 
 public class SoundModel extends BaseModel {
@@ -17,7 +16,6 @@ public class SoundModel extends BaseModel {
     private WavefrontType wavefrontType;
 
     private WaveMedium waveMedium = new WaveMedium();
-    private IClock clock;
 
     private Wavefront primaryWavefront;
     private Wavefront octaveWavefront;
@@ -26,11 +24,11 @@ public class SoundModel extends BaseModel {
     /**
      * @param clock
      */
-    public SoundModel( IClock clock ) {
-        this.clock = clock;
+    public SoundModel() {
+        super();
         setWaveMedium( waveMedium );
     }
-
+    
     /**
      *
      */

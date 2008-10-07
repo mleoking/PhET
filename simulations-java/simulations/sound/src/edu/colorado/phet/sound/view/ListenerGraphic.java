@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGrap
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.sound.SoundConfig;
 import edu.colorado.phet.sound.SoundModule;
-import edu.colorado.phet.sound.model.Listener;
+import edu.colorado.phet.sound.model.SoundListener;
 import edu.colorado.phet.sound.model.SoundModel;
 
 public class ListenerGraphic extends CompositePhetGraphic {
@@ -36,7 +36,7 @@ public class ListenerGraphic extends CompositePhetGraphic {
     private long lastEventTime;
     private double clockScaleFactor;
     private double nonDopplerFrequency;
-    private Listener listener;
+    private SoundListener listener;
     private SoundModel model;
     private Point2D.Double location;
     private PhetImageGraphic image;
@@ -47,15 +47,15 @@ public class ListenerGraphic extends CompositePhetGraphic {
     /**
      *
      */
-    public ListenerGraphic( SoundModule module, Listener listener, PhetImageGraphic image,
+    public ListenerGraphic( SoundModule module, SoundListener listener, PhetImageGraphic image,
                             double x, double y,
                             double minX, double minY,
                             double maxX, double maxY ) {
-        super( module.getApparatusPanel() );
+        super( module.getSimulationPanel() );
         addGraphic( image );
         this.location = new Point2D.Double( x, y );
         this.module = module;
-        this.model = (SoundModel)module.getModel();
+        this.model = module.getSoundModel();
         this.image = image;
         this.listener = listener;
 
@@ -203,7 +203,7 @@ public class ListenerGraphic extends CompositePhetGraphic {
         }
     }
 
-    protected Listener getListener() {
+    protected SoundListener getListener() {
         return listener;
     }
 

@@ -11,11 +11,11 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common_sound.application.Module;
-import edu.colorado.phet.common_sound.application.PhetApplication;
-import edu.colorado.phet.sound.model.Listener;
+import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.sound.model.SineWaveFunction;
+import edu.colorado.phet.sound.model.SoundListener;
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.model.Wavefront;
 import edu.colorado.phet.sound.view.RgbReporter;
@@ -24,14 +24,14 @@ import edu.colorado.phet.sound.view.WavefrontOscillator;
 /**
  * Base module for the Sound simulations
  */
-public class SoundModule extends Module implements RgbReporter {
+public abstract class SoundModule extends PhetGraphicsModule implements RgbReporter {
 
     //------------------------------------------------------------------------------
     // Class fields and methods
     //------------------------------------------------------------------------------
     private static WavefrontOscillator primaryOscillator = new WavefrontOscillator();
     private static WavefrontOscillator octaveOscillator = new WavefrontOscillator();
-    private Listener speakerListener;
+    private SoundListener speakerListener;
     protected final static Random randomGenerator = new Random();
 
     static {
@@ -41,29 +41,28 @@ public class SoundModule extends Module implements RgbReporter {
     }
 
     //------------------------------------------------------------------------------
-    // Instance fielda and methods
+    // Instance fields and methods
     //------------------------------------------------------------------------------
+    
     private boolean audioEnabled = false;
     private Wavefront primaryWavefront;
     private Wavefront octaveWavefront;
-    private Listener currentListener;
+    private SoundListener currentListener;
     private Boolean saveAudioEnabledState;
-    private boolean isActive;
-    private IClock clock;
+    private final IClock clock;
+    private final SoundModel model;
 
     /**
      * @param application
      * @param name
      */
-    public SoundModule( SoundApplication application, String name ) {
-//    public SoundModule( ApplicationModel appModel, String name ) {
-        super( name );
-        clock = application.getClock();
-//        clock = appModel.getClock();
-        this.setModel( new SoundModel( clock ) );
+    public SoundModule( String name ) {
+        super( name, new ConstantDtClock( SoundConfig.s_waitTime, SoundConfig.s_timeStep ) );
+        clock = getClock();
+        model = new SoundModel();
         initModel();
-        speakerListener = new Listener( (SoundModel)getModel(),
-                                        new Point2D.Double() );
+        setModel( model );
+        speakerListener = new SoundListener( model, new Point2D.Double() );
         setListener( speakerListener );
 
         // Add a listener to the clock that will turn the audio off and on when the clock
@@ -76,7 +75,7 @@ public class SoundModule extends Module implements RgbReporter {
                 stateChanged( clockEvent.getClock().isPaused() );
             }
             private void stateChanged( boolean isPaused ) {
-                if( isActive ) {
+                if( isActive() ) {
                     if( isPaused ) {
                         saveAudioEnabledState = new Boolean( audioEnabled );
                         primaryOscillator.setEnabled( false );
@@ -99,24 +98,23 @@ public class SoundModule extends Module implements RgbReporter {
         } );
     }
 
-    protected SoundModel getSoundModel() {
-        return (SoundModel)getModel();
+    public SoundModel getSoundModel() {
+        return model;
     }
 
-    public void activate( PhetApplication app ) {
-        super.activate( app );
+    public void activate() {
+        super.activate();
         if( !clock.isPaused() ) {
             setAudioEnabled( audioEnabled );
         }
         if( currentListener != null ) {
             setListener( currentListener );
         }
-        isActive = true;
     }
 
-    public void deactivate( PhetApplication phetApplication ) {
-        super.deactivate( phetApplication );
-        isActive = false;
+    public void deactivate() {
+        super.deactivate();
+        setAudioEnabled( false );
     }
 
     public void setAudioEnabled( boolean enabled ) {
@@ -169,13 +167,13 @@ public class SoundModule extends Module implements RgbReporter {
         return octaveOscillator;
     }
 
-    public void setListener( Listener listener ) {
+    public void setListener( SoundListener listener ) {
         currentListener = listener;
         primaryOscillator.setListener( listener );
         octaveOscillator.setListener( listener );
     }
 
-    public Listener getCurrentListener() {
+    public SoundListener getCurrentListener() {
         return currentListener;
     }
 

@@ -16,7 +16,7 @@ import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.transla
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.sound.TwoSpeakerInterferenceModule;
-import edu.colorado.phet.sound.model.Listener;
+import edu.colorado.phet.sound.model.SoundListener;
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.model.Wavefront;
 
@@ -32,7 +32,7 @@ public class InterferenceListenerGraphic extends ListenerGraphic {
     /**
      *
      */
-    public InterferenceListenerGraphic( TwoSpeakerInterferenceModule module, Listener listener,
+    public InterferenceListenerGraphic( TwoSpeakerInterferenceModule module, SoundListener listener,
                                         PhetImageGraphic image, double x, double y,
                                         double minX, double minY,
                                         double maxX, double maxY,
@@ -42,7 +42,7 @@ public class InterferenceListenerGraphic extends ListenerGraphic {
                                         InteractiveSpeakerGraphic moveableSpeaker ) {
         super( module, listener, image, x, y, minX, minY, maxX, maxY );
         this.soundModule = module;
-        this.soundModel = (SoundModel)module.getModel();
+        this.soundModel = module.getSoundModel();
         this.audioSourceA = audioSourceA;
         this.audioSourceB = audioSourceB;
         this.interferringWavefront = interferringWavefront;
