@@ -11,11 +11,12 @@ public class Block {
     private double kineticFriction = 1.0;
     private double staticFriction = 2.0;
     private double mass = 1.0;
-    private double position = 0.0;
+    private double position = DEFAULT_POSITION;
     private double velocity = 0.0;
     private double acceleration = 0.0;
     private ArrayList listeners = new ArrayList();
     private Force1DModel model;
+    public static final double DEFAULT_POSITION = -7.0;
 
     public Block( Force1DModel model ) {
         this.model = model;

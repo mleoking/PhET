@@ -1,3 +1,7 @@
+New in 1.18.09 (10-7-2008)
+Changed position slider to "initial position", becomes disabled after simulation starts
+Made defalut initial position -7m
+
 New in 1.18.08 (10-7-2008)
 Removed logo
 Fixed control panel layout to get all controls to fit onscreen on startup
