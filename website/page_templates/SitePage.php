@@ -111,26 +111,55 @@ class SitePage extends BasePage {
     function close_xhtml_head() {
         $site_root = SITE_ROOT;
 
-        if ($_SERVER['SERVER_NAME'] != 'localhost') {
+        // TODO: clean this up
+        // $ga_source: 0 = GA, 1 = local, 2 = disabled, undefined = GA
+        $ga_source = 0;
+        if (isset($GLOBALS["OVERRIDE_GOOGLE_ANALYTICS"])) {
+            if ($GLOBALS["OVERRIDE_GOOGLE_ANALYTICS"] == "GA_YES") {
+                $ga_source = 0;
+            }
+            else if ($GLOBALS["OVERRIDE_GOOGLE_ANALYTICS"] == "GA_LOCAL") {
+                $ga_source = 1;
+            }
+            else if ($GLOBALS["OVERRIDE_GOOGLE_ANALYTICS"] == "GA_NO") {
+                $ga_source = 2;
+            }
+        }
+
+        if ($ga_source == 0) {
             print <<<EOT
     <script type="text/javascript">
         var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
         document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
     </script>
 
+EOT;
+        }
+        else if ($ga_source == 1) {
+                print <<<EOT
+    <script type="text/javascript" src="{$site_root}js/local_ga.js"></script>
+
+EOT;
+        }
+
+        print <<<EOT
     <script type="text/javascript" src="{$site_root}js/autoTracking_phet.js"></script>
 
+EOT;
+
+        if ($ga_source != 2) {
+            print <<<EOT
     <script type="text/javascript">
         var benchmarkTracker = _gat._getTracker("UA-5033201-1");
         benchmarkTracker._setDomainName('phet.colorado.edu');
         benchmarkTracker._initData();
         benchmarkTracker._trackPageview();
-        
+
         var overallTracker = _gat._getTracker("UA-5033010-1");
         overallTracker._setDomainName('phet.colorado.edu');
         overallTracker._initData();
         overallTracker._trackPageview();
-    </script>        
+    </script>
 
 EOT;
         }
