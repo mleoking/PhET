@@ -20,6 +20,7 @@ public class StatesOfMatterStrings {
 
     public static final String PRESSURE_GAUGE_TITLE = StatesOfMatterResources.getString( "PressureGauge.Title" );
     public static final String PRESSURE_GAUGE_UNITS = StatesOfMatterResources.getString( "PressureGauge.Units" );
+    public static final String PRESSURE_GAUGE_OVERLOAD = StatesOfMatterResources.getString("PressureGauge.Overload");
 
     public static final String TITLE_SOLID_LIQUID_GAS_MODULE = StatesOfMatterResources.getString( "ModuleTitle.SolidLiquidGasModule" );
     public static final String TITLE_PHASE_CHANGES_MODULE = StatesOfMatterResources.getString( "ModuleTitle.PhaseChangesModule" );
