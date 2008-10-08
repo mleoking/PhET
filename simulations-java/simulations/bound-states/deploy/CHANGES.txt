@@ -1,16 +1,11 @@
-===============================================================================
-Change history for bound-states project
-===============================================================================
-
-DONE:
 9/5/08 - remove uses of DialogUtils, use JOptionPane directly
 5/20/08 - replace Font with PhetFont throughout
-********* version 1.04.00 (21058)
-********* version 1.03.03 (21046)
+# 1.04.00 (21058)
+# 1.03.03 (21046)
 4/28/08 - reduce vertical spacing between sub-control panels to zero
-********* version 1.03.02 (21022)
+# 1.03.02 (21022)
 4/28/08 - pick up fix to PhetDefaultFont so we use "Ludica Sans" plain 12pt on all platforms
-********* version 1.03.01 (21013)
+# 1.03.01 (21013)
 4/28/08 - pick up fix to PhetDefaultFont so that preferred fonts are derived properly
 4/28/08 - pick up fix to PhetDefaultFont so we use JPanel.getFont on all platforms
 4/28/08 - republish dev version to confirm that this fixes translations [#534]
@@ -25,7 +20,7 @@ DONE:
 8/27/07 - replace "Lucida Sans" with PhetDefaultFont.getDefaultFontName()
 8/16/07 - convert persistence code to use IProguardKeepInterface instead of BSSerializable
 8/16/07 - bugfix: after loading a config, drag handles are no longer attached to well shapes
-********* version 1.03.00 (17033)
+# 1.03.00 (17033)
 7/27/07 - new version published as part of new website deployment
 7/10/07 - fix load/save so that it doesn't change the clock's run state unless it's for the active module
 7/10/07 - fix modules so that they don't explicty start the clock
@@ -55,12 +50,12 @@ DONE:
 3/14/07 - rename SimStrings files to have basename boundstates_strings
 3/14/07 - move images to data/boundstates/images to avoid namespace collisions
 3/14/07 - get version and credits from properties file
-********* version 1.02.00...
+# 1.02.00...
 (12/11/06) - change electric field range to [-1,+1]
 (11/29/06) - add workaround for selecting all text when a DoubleSpinner gains focus
 (10/20/06) - add data/credits.html
 (8/24/06) - remove unused args from BSAbstractApplication.initModules
-********* version 1.01.03...
+# 1.01.03...
 (8/10/06) - bugfix: add number of wells to persistence
 (8/10/06) - fix control panel to support APD persistence
 (8/10/06) - if band index is out of range, select the lowest band of eigenstates
@@ -83,7 +78,7 @@ DONE:
 (8/9/06) - add "Average Probability Density of Band" display choice to control panel
 (8/9/06) - add BSBottomPlotMode.AVERAGE_PROBABILITY_DENSITY
 (8/9/06) - begin work on APD (Average Probability Density) feature
-********* version 1.01.02...
+# 1.01.02...
 (8/9/06) - don't update while dragging sliders in Config dialogs
 (8/9/06) - change zoom ranges for Square in "Many" panel
 (8/9/06) - add "V/nm" units to field strength
@@ -101,7 +96,7 @@ DONE:
 (8/1/06) - add persistence for field constant
 (8/1/06) - add field constant control to control panel
 (8/1/06) - add field constant to potential energy model, use in getEnergyAt
-********* version 1.01.01...
+# 1.01.01...
 (7/31/06) - pause the clock while dragging sliders in Config dialogs
 (7/31/06) - pause the clock while dragging the mass slider
 (7/31/06) - bugfix: set default cursor when mouse exits the energy chart
@@ -113,7 +108,7 @@ DONE:
 (7/27/06) - javadoc all source files
 1.01.00...
 (7/14/06) - change minor version # for publishing to PhET website
-********* version 1.00.02...
+# 1.00.02...
 (7/14/06) - restore value of SchmidtLeeSolver.MAX_TRIES to 100, changing this caused big problems (roll into 1.00.02)
 (7/14/06) - bugfix: width drag handle for >1 square wells can't be dragged to min/max (roll into 1.00.02)
 (7/13/06) - simplify nasty width calculation in BSSquareWidthHandle.updateModel
@@ -126,7 +121,7 @@ DONE:
 (7/13/06) - reduce updates to BSHilitedEquation, watch for changes to hilited eigenstate
 (7/13/06) - use a boolean constant to switch between analytic and Schmidt-Lee eigenstate solvers for HO
 (7/13/06) - remove unreachable code that was causing compiler warnings
-********* version 1.00.01...
+# 1.00.01...
 (7/13/06) - bugfix: BSBottomPlot.update should only call updateAllSeries when arg==null
 (7/13/06) - replace vertical spacers with JSeparators in Color dialog, add section titles to shorten labels
 (7/13/06) - bugfix: cancel button in Color dialog didn't restore the color scheme that was pass in the constructor
@@ -176,7 +171,7 @@ DONE:
 (7/6/06) - fix width handle on square potential
 (7/6/06) - add getHelpNode to drag handle manager classes, create IHandleManager interface
 (7/6/06) - fix angular freq handle on harmonic oscillator potential
-********* version 1.00.00...
+# 1.00.00
 (7/6/06) - change Spanish titles, roll into 1.00.00
 (7/6/06) - publish 1.00 in time for AAPT
 (7/6/06) - temporarily disable drag handles
@@ -198,7 +193,7 @@ DONE:
 (7/3/06) - bugfix: exception when potential height=0 and there are no eigenstates
 (7/3/06) - set colors in color scheme constructors in the same order that they appear in the dialog for configuring colors
 (7/3/06) - change white color scheme colors
-0.00.11...
+# 0.00.11
 (6/30/06) - rename potential model classes (eg, BSSquareWells -> BSSquarePotential)
 (6/30/06) - work on making plot antialiasing look better on Windows, no progress
 (6/30/06) - remove workaround for forcing repaint when help state changes, no longer needed
@@ -215,7 +210,7 @@ DONE:
 (6/28/06) - bugfix: magnifying glass doesn't update when zoom buttons are pressed
 (6/28/06) - add additional zoom levels for Coulomb in "Two" and "Many" panels
 (6/28/06) - add help items
-0.0.10...
+# 0.0.10
 (6/27/06) - save/load active module state
 (6/27/06) - fix bugs in BSAbstractModule.load
 (6/27/06) - bail on serializing model, use lightweight JavaBeans to XML encode the state of model components
@@ -242,7 +237,7 @@ DONE:
 (6/13/06) - replace "infinity" potential values with Double.MAX_VALUE, didn't fix the "bad path" exception
 (6/12/06) - wrap body of main in try/catch, post error dialog and exit if an Exception occurs
 (6/12/06) - move PhetLookAndFeel to main
-0.00.09...
+# 0.00.09
 (6/9/06) - disable Save/Load menu items until those features are working
 (6/9/06) - implement Save/Load of clock speed setting
 (6/9/06) - replace "Play Fast" checkbox with a clock speed sider (1,10,100,1000x, normal-fast labels, snap to ticks)
@@ -280,7 +275,7 @@ DONE:
 (6/2/06) - piccolo-phet: fix broken PiccoloPhetApplication, something wasn't renamed
 (6/2/06) - phetcommon: fixes/changes to AWTSplashWindow
 (6/2/06) - sync with piccolo, phetcommon, piccolo-phet
-0.00.08...
+# 0.00.08
 (6/1/06) - temporarily change some ranges so that Sam M can test superposition
 (6/1/06) - ignore eigenstates with zero coefficients when computing time dependent wave function
 (6/1/06) - fix superposition normalization, should be sum of squares = 1
@@ -327,7 +322,7 @@ DONE:
 (5/18/06) - add 10x to magnifying glass control
 (5/18/06) - tweak zoom button images, scale the zoom control
 (5/18/06) - remove setMargin calls on zoom buttons, causing problems
-0.00.07...
+# 0.00.07...
 (5/18/06) - fix mass normalization of Coulomb analytic wave function solver, 1D only, sqrt (roll into 0.00.07)
 (5/18/06) - change default Coulomb spacing to 0.7 (roll into 0.00.07)
 (5/17/06) - make Fireworks versions of zoom buttons, increase size
@@ -352,7 +347,7 @@ DONE:
 (5/16/06) - hide tick labels on bottom graph, show tick marks
 (5/16/06) - change prob density y-axis range to [0,+1]
 (5/16/06) - change wave function y-axis range to [-1,+1]
-0.00.06...
+# 0.00.06...
 (5/15/06) - add an "axis spec" for the energy axis for each potential type
 (5/15/06) - update bottom plot correctly when clock is paused
 (5/15/06) - add data to a time-dependent series only when that series is visible
@@ -385,7 +380,7 @@ DONE:
 (5/4/06) - reset stopwatch when "Reset All" is done
 (5/4/06) - add particle to BSModel for completeness
 (5/4/06) - use a "module spec" object for each module to encapsulate the every-growing ranges, flags, etc.
-0.00.05...
+# 0.00.05...
 (5/3/06) - change tick spacing on energy chart to 5eV
 (5/3/06) - change Wave Function y-axis range to [-1.5,+1.5], tick spacing 0.5
 (5/3/06) - change Prob Density y-axis range to [0,+1.5], tick spacing 0.5
@@ -410,7 +405,7 @@ DONE:
 (5/2/06) - remove superposition button from "Many" panel
 (5/2/06) - change "Coulomb" to "Coulomb 1D"
 (5/2/06) - change equation for selected eigenstate to Psi(x,t)
-0.00.04...
+# 0.00.04...
 (5/1/06) - depth order of eigenstates should be (back to front) unselected, selected, hilited
 (5/1/06) - bugfix: choices in BSWellComboBox shouldn't be static!
 (5/1/06) - default to Probability Density
@@ -422,7 +417,7 @@ DONE:
 (5/1/06) - move all common stuff out of "many" module and into BSAbstractModule
 (5/1/06) - rename module classes
 (5/1/06) - change command line args to -one, -two, -many
-0.00.03...
+# 0.00.03...
 (4/28/06) - bugfix: reset superposition coefficients only when we're losing non-zero coefficients
 (4/28/06) - bugfix: subscript on equations is wrong when switch potential type
 (4/27/06) - disable Normalize and Apply buttons when all coefficients are zero
@@ -440,7 +435,7 @@ DONE:
 (4/27/06) - for Coulomb skip every other group of N eigenstates, where N is the # of wells
 (4/26/06) - document changes made to Schmidt-Lee code
 (4/26/06) - install Schmidt-Lee applet and sample files in spot:dev/bound-states/schmidt-lee
-0.00.02...
+# 0.00.02...
 (4/26/06) - move subscript into eigenstate model so that they are labeled properly in all cases
 (4/26/06) - Coulomb potential disappears when #wells=1, eigenstates still visible (other changes fixed this)
 (4/26/06) - move dynamic dx out of model and into view (BSEnergyPlot)
@@ -459,7 +454,7 @@ DONE:
 (4/21/06) - hand cursor when an eigenstate is hilited
 (4/21/06) - Spanish translations
 (4/21/06) - command line options (-single, -double, -many) for choosing which modules to display
-0.00.01...
+# 0.00.01...
 (4/21/06) - change "Configure Energy" button to "Configure Potential"
 (4/21/06) - eigenstates may be close together, so make sure selected and hilited eigenstate nodes are always "on top"
 (4/21/06) - tweak presentation of eigenstate energy value display
@@ -576,67 +571,3 @@ DONE:
 (2/21/06) - set up eclipse .jardesc file
 (2/21/06) - set up simulation framework, based on design draft
 (2/20/06) - review design draft #1
-^^^^^^^^^^^^^^^^^^^^^^ DEVELOPMENT BEGINS ^^^^^^^^^^^^^^^^^^^^^^
-
-
-REJECTED:
-(12/11/06) - document the "Average Probability Density" feature and add to doc/ folder (didn't do it, developed amnesia)
-(8/1/06) - at fastest clock speed, wave appears to move slower for some configurations; eg, E1 for 1D Coulomb in "Two Wells" (ok as is)
-(8/1/06) - parameterize Schmidt-Lee to take variable value for MAX_TRIES (already responsive enough, not worth effort)
-(8/1/06) - provide user with feedback when they attempt to drag a handle past its min/max (not necessary)
-(8/1/06) - selecting "phase" view causes a big slow down because SCHMIDT_LEE_SAMPLE_POINTS=1350 (not important)
-(7/31/06) - wiggle me animation is jerky on some slower machines (seems to be OK now)
-(7/31/06) - make plots in bottom chart look smoother on Windows (already as good as it gets)
-(7/14/06) - drag handles that use the Schmidt-Lee eigenstate solver are less responsive than analytic solver (nothing I can do about this)
-(7/13/06) - get rid of BSModel (impossible at this point, complicated and hugely destabilizing)
-(7/13/06) - 2 columns for color scheme dialog (1 skinny column is easier to move out of the way)
-(7/12/06) - if exception occurs in drag handle's updateModel method, need to addObserver (not necessary, exception was a bug that was fixed)
-(7/12/06) - if exception occurs in drag handle's updateView method, need to addPropertyChangeListener (not necessary, exception was a bug that was fixed)
-(7/11/06) - plots and chart edges don't always line up with center of mag glass lens, worse as mag power increases (no one has ever noticed this, hard to fix)
-(7/11/06) - make offset drag handles looks "different" (not necessary)
-(7/11/06) - some drag handle values get clipped by the chart (OK as is)
-(7/3/06) - redraw problem when dragging mag glass in "Many" panel with 1D Coulomb and Help enabled (occurs only on Windows with Java 1.5.0_6)
-(6/28/06) - generate images for clock and zoom buttons, delete image files (not worth the effort, would only save 3K)
-(6/28/06) - wave function cache could be smarter about saving stuff until the potential or particle have changed (too much work, not enough payoff)
-(6/28/06) - used lazy module init to reduce startup time (too much work, no one is complaining about startup time)
-(6/28/06) - use a common interface for Schmidt-Lee and analytic solvers, apply strategy pattern to pick one (they are sufficiently different to make this very difficult)
-(6/28/06) - move wave function cache out of BSBottomPlot and into BSModel (too big a change, cache needs to know about position range)
-(6/28/06) - add BSModel.PROPERTY_POTENTIAL_TYPE to indicate that we're switching potential types (too big a change, no real payoff, would break things at this point)
-(6/28/06) - cache wave functions for hilited eigenstate (payoff won't be perceptible)
-(6/28/06) - Carl reports a slow down after running the sim for awhile (cannot reproduce, not enough info, lots of changes since this was reported, may have fixed itself)
-(6/22/06) - wave function curves look segmented when screen resolution is decreased after sim is started (user must restart sim, no way to detect resolution change)
-(6/21/06) - pause clock by default (requirement changed, should be running by default)
-(6/21/06) - switch back to FastPathRenderer for curves (doesn't seem to be any faster, stick with StandardXYItemRenderer)
-(6/21/06) - rename BSEigenstatesNode to BSEigenstatesManipulatorNode (would lose CVS history)
-(6/21/06) - scale position axis to fit excited portion of wavefunction (not necessary)
-(6/9/06) - restore WAVE_FUNCTION_RANGE and PROBABILITY_DENSITY_RANGE (Sam likes the new ranges)
-(6/7/06) - method of scaling time-dependent wave function doesn't always result in max amplitude=1 over time (we can't solve this)
-(6/7/06) - update while sliders are dragging (fine as is, no one has complained)
-(6/7/06) - how does the user know the mass in the Two and Many panels? there is no mass control (not intended to be quantitative)
-(6/7/06) - different method of solving when multi-wells are spaced far apart? (we don't have this problem)
-(6/6/06) - "superposition state presets" feature (difficult to specify, difficult to implement, not essential to learning goals)
-(6/6/06) - help items (can't think of any they want)
-(6/2/06) - comment out block of normalization code in SchmidtLeeSolver (values got huge, way off the bottom plot scale)
-(6/2/06) - scale the magnifying glass when the canvas size changes (not necessary, difficult, see note in BSAbstractModule.layoutCanvas)
-(6/2/06) - set initial mag glass osition, centered on lowest "band" of eigenstates shown in Energy chart (hard code it to most likely position)
-(5/17/06) - can't hilite or select lower 1D Coulomb eigenstates when zoomed out (cannot reproduce)
-(5/17/06) - bug: Coulomb potential curve disappears when coming back to "One Well" module from another module (cannot reproduce)
-(5/17/06) - for square & asymmetric wells with height=0, there are no eigenstates; should lower bound of height be non-zero? (no, this is desirable)
-(5/16/06) - use 1D Coulomb wave function to display prob density for 3D Coulomb (vetoed by Carl, too much work)
-(5/9/06) - stop looking for Coulomb eigenstates when energy > max visible potential (stop after first 10 eigenstates)
-(5/9/06) - represent closely-spaced eigenstates as a thicker line (decided on magnifying glass solution)
-(5/9/06) - display values of all closely-spaced eigenstates at the same time (decided on magnifying glass solution)
-(5/9/06) - investigate overview interface for energy chart (use more/less zoom instead)
-(5/9/06) - magnify width of lines thru magnifying glass (makes eigenstates overlap)
-(5/9/06) - show chart ticks & gridlines thru magnifying glass (too damn hard, not necessary)
-(5/1/06) - disable the superposition button if no eigenstates are found (we should always find states, and superposition dialog works OK if we don't)
-(4/26/06) - change superposition equation for Coulomb to include only even eigenstates? (no)
-(4/26/06) - make SchmidtLee.getWaveFunction return Point2D[] instead of double[] (wrapped by BSAbstractPotential.getWaveFunctionPoints)
-(4/26/06) - square & asymm wells don't have square sides when dx gets larger, override getPotentialPoints for square & asymm (set pixels-per-sample appropriately)
-(4/24/06) - don't construct DecimalFormat, use NumberFormat.getInstance (doesn't do what I need)
-(4/21/06) - change semantics of spacing (only works for Square wells, where would we put drag handles?)
-(4/17/06) - +5 label on Energy y-axis is clipped (fixed itself when I added a bit to range)
-(4/14/06) - eigenstate combo box was dropped from the control panel when we decided to show coefficients for all eigenstates
-
-===============================================================================
-end of file
