@@ -355,7 +355,7 @@ EOT;
 // This function needs to be outside the class so that it can be called
 // from HierarchicalCategories::walk(), which is a different function in
 // a different class in a different file.  Static class functions don't work.
-function get_sim_categories_for_navbar_callback($user_var, $category, $depth) {
+function get_sim_categories_for_navbar_callback($user_var, $category, $depth, $has_children) {
     $cat_id   = $category['cat_id'];
     $cat_name = $category['cat_name'];
 

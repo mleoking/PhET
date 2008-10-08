@@ -65,6 +65,9 @@ class OrganizeCategoriesPage extends SitePage {
             }
 
             cache_clear_simulations();
+
+            // Get the categories again to account for the changes
+            $this->master_hier = new HierarchicalCategories();
         }
     }
 
@@ -169,7 +172,7 @@ EOT;
 // This function needs to be outside the class so that it can be called
 // from HierarchicalCategories::walk(), which is a different function in
 // a different class in a different file.  Static class functions don't work.
-function print_hier_cat_form($user_var, $data, $depth) {
+function print_hier_cat_form($user_var, $data, $depth, $has_children) {
     $cat_id    = $data['cat_id'];
     $cat_name  = format_string_for_html($data['cat_name']);
     $cat_order = $data['cat_order'];
@@ -185,7 +188,7 @@ function print_hier_cat_form($user_var, $data, $depth) {
     //$this->get_possible_parent_names($possible_parents, $base_hier_cats, $cat_id);
     // onchange="alert('hello ::' + this.parentNode.childNodes[3].value + '::' + this.parentNode.childNodes[3].name + '::' + this.parentNode.childNodes['action'] + '::');
     $html_parent_list = <<<EOT
-            <select name="froggie" style="width: 120px;" onchange="this.parentNode.childNodes[3].value='new_parent';submit();">
+            <select name="froggie" style="width: 120px;" onchange="this.parentNode.getElementsByTagName('input')[1].value='new_parent';submit();">
                 <option value="-2">Select new parent</option>
                 <option value="-1">* Move to base level *</option>
 
@@ -196,6 +199,14 @@ EOT;
         $html_parent_list .= "<option value=\"{$parent[0]}\">".format_string_for_html($parent[1])."</option>\n";
     }
     $html_parent_list .= "</select>\n";
+
+    // Don't delete parents
+    if ($has_children) {
+        $del = "<a href=\"#\" onclick=\"alert('Cannot delete a parent, please remove all children first');\" style=\"color: black;background-color: #dddddd;\">Del</a>";
+    }
+    else {
+        $del = "<a href=\"organize-cats.php?action=delete&amp;cat_id={$cat_id}\">Del</a>";
+    }
 
     print <<<EOT
                 <form action="organize-cats.php" method="post">
@@ -208,7 +219,7 @@ EOT;
                             <a href="organize-cats.php?action=move_up&amp;cat_id={$cat_id}&amp;cat_order={$cat_order}">Up</a>
                             <a href="organize-cats.php?action=move_down&amp;cat_id={$cat_id}&amp;cat_order={$cat_order}">Down</a>
 
-                            <a href="organize-cats.php?action=delete&amp;cat_id={$cat_id}">Del</a>
+                            {$del}
                             {$html_parent_list}
                             <input type="submit" value="rename" />
                         </p>
