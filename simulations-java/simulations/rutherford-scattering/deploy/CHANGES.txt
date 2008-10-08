@@ -1,10 +1,7 @@
-===============================================================================
-Change history for rutherford-scattering
-===============================================================================
-
-DONE:
+10/8/08 - moved list of rejected features to Unfuddle 807
 9/5/08 - remove bogus imports of DialogUtils
 6/24/08 - move SphericalNode to piccolo-phet
+> improve fonts
 5/20/08 - call new PhetFont explicitly to create fonts
 11/9/07 - move about.credits property to localization file
 10/9/07 - migrate "Reset All" and "set minimum width" features to phetcommon ControlPanel
@@ -128,10 +125,3 @@ DONE:
 3/1/07 - cannibalize and simplify code from hydrogen-atom sim
 3/1/07 - hook up basic services
 3/1/07 - set up application framework
-
-REJECTED:
-3/7/07 - make ModelViewTransform an instance, not a singleton (problematic with ModelViewManager architecture)
-3/5/07 - create atom views via ModelViewManager (not necessary, each module has only 1 atom)
-
-===============================================================================
-end of file

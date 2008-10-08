@@ -1,12 +1,8 @@
-===============================================================================
-Change history for color-vision
-===============================================================================
-
-DONE:
 5/20/08 - replace "Sans Serif" fonts with PhetFont, use explicit calls to new PhetFont throughout
 5/15/08 - load all localized strings statically in ColorVisionStrings
 5/15/08 - move slider labels up 10 pixels, they were a bit crowded
 5/15/08 - add phetgraphics and piccolo-phet dependencies to build file
+> use fancier tabs for switching panels
 5/15/08 - upgrade to Piccolo tabs
 5/15/08 - add About dialog credits
 5/15/08 - add hand cursor to sliders in RGB panel
@@ -16,7 +12,7 @@ DONE:
 8/28/07 - fix bugs introduced in About dialog
 8/28/07 - replace stuff in copy of phetcommon with actual phetcommon (Sam Reid)
 8/28/07 - remove unused files from copy of phetcommon (Sam Reid)
-********* version 1.01.00 (17033)
+# 1.01.00 (17033)
 7/27/07 - new version published as part of new website deployment
 7/5/07 - fixed repaint problem in ApparatusPanel2
 7/2/07 - wrap the body of main in invokeLater
@@ -38,6 +34,3 @@ DONE:
 7/27/06 - remove acute accents from Spanish JNLP file, causes problems with PhET installer and launcher
 9/27/05 - change JNLP files to assume that everything is in colorvision3.jar
 9/27/05 - migrate Spanish translations from "localization" project, fix language code (es, not sp)
-
-===============================================================================
-end of file

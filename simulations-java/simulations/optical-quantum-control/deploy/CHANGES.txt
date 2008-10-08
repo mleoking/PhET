@@ -1,15 +1,12 @@
-===============================================================================
-Change history for optical-quantum-control
-===============================================================================
-
-DONE:
+10/8/08 - moved list of rejected features to Unfuddle 804
 9/8/08 - localize x-axis labels on graphs
+> improve fonts
 5/20/08 - replace Font with PhetFont
 4/28/08 - add PhetLookAndFeel to main
 1/7/08 - replace "Lucida Sans" with PhetDefaultFont
 11/9/07 - move about.credits property to localization file
 8/27/07 - replace "Lucida Sans" with PhetDefaultFont.getDefaultFontName()
-********* version 1.01.00 (17033)
+# 1.01.00 (17033)
 7/27/07 - new version published as part of new website deployment
 7/2/07 - wrap the body of main in invokeLater
 6/15/07 - convert description properties to well-formed HTML
@@ -32,16 +29,16 @@ DONE:
 (1/2/06) - changes to support new ModulePanel layout
 (12/27/05) - changes to support phetcommon's new Module and Clock architecture
 (12/14/05) - minor changes to support separation of phetcommon and phetgraphics into separate CVS projects
-1.0 ...
+# 1.00.00
 (11/8/05) - change Explanation image file from PNG to JPG format to reduce JAR size
 (11/8/05) - change x-axis titles from "t (ms)" to "t (ns)" on input & output graphs
-0.0.8 ...
+# 0.00.08
 (11/6/05) - relocate the "Mask" bubble in Explanation dialog
 (11/6/05) - change "Congratulations!" back to "Match!"
 (11/6/05) - add real Explanation dialog, localized
-0.0.7 ...
+# 0.00.07
 (11/4/05) - change "match" dialog to make it look less like an error dialog
-0.0.6 ...
+# 0.00.06
 (11/1/05) - change match threshold to 95%
 (11/1/05) - change closeness calculation
 (11/1/05) - normalize all the output pulse amplitudes, so that absolute value of largest amplitude is 1
@@ -56,7 +53,7 @@ DONE:
 (11/1/05) - scale all displayed Fourier series (input, output, user) by 0.13
 (11/1/05) - initialize user's Fourier series to be the same as the input pulse
 (11/1/05) - show input pulse as a Fourier series with 7 harmonics, all with amplitude 1.0
-0.0.5 ...
+# 0.00.05
 (10/31/05) - make handle on magnifying glass slightly larger
 (10/31/05) - change closeness range from 0...1 to -1...+1
 (10/31/05) - make the amplitude sliders 200 pixels tall so that there is one pixel for each possible value
@@ -68,7 +65,7 @@ DONE:
 (10/31/05) - Spanish translations
 (10/31/05) - move PulseChart to shaper.charts
 (10/31/05) - document all code
-0.0.4 ...
+# 0.00.04
 (10/28/05) - remove unused entries in SimStrings file
 (10/28/05) - add wait cursors to "Reset" and "New Output Pulse" buttons
 (10/28/05) - absorb GameManager code into MoleculeAnimation, a bit easier to understand
@@ -78,7 +75,7 @@ DONE:
 (10/28/05) - add some help items
 (10/28/05) - totally rewrote, expanded and generalized HelpBubble
 (10/28/05) - put a magnifying glass on the spot where the molecule is
-0.0.3 ...
+# 0.00.03
 (10/27/05) - hide the cheat panel whenever a new game is started
 (10/27/05) - left-justify instructions for less potential i18n issues
 (10/27/05) - make kaboom larger, fix its registration point and location
@@ -104,7 +101,7 @@ DONE:
 (10/25/05) - put "New output pulse" button on output pulse view
 (10/25/05) - change alpha of light beam to match amplitudes
 (10/25/05) - change title to "Optical Quantum Control", per Carl
-0.0.2 ...
+# 0.00.02
 (10/24/05) - setIgnoreMouse(true) where ever possible
 (10/24/05) - physically connect molecule animation to output pulse view
 (10/24/05) - molecule animation
@@ -112,7 +109,7 @@ DONE:
 (10/21/05) - phetcommon: create PhetTextGraphic2 to fix serious registration problems
 (10/21/05) - sync all views before the GameManager tells us we've won
 (10/21/05) - make graph backgrounds wider so that x-axis label isn't clipped on Windows
-0.0.1 ...
+# 0.00.01
 (10/20/05) - don't test for a match while an amplitude slider is being dragged
 (10/20/05) - replace CheatDialog with a PhetGraphic that is positioned above amplitude sliders
 (10/20/05) - bugfix in EasyGridBagLayout.setInsets
@@ -137,11 +134,3 @@ DONE:
 (10/18/05) - add entires in CVSROOT/loginfo and modules files
 (10/18/05) - checked into CVS as project "shaper"
 (10/18/05) - set up the application framework
-
-
-REJECTED:
-(10/28/05) - make diffraction gradients smaller (not necessary)
-(10/27/05) - put labels on diffraction gratings (no room, i18n problems)
-
-===============================================================================
-end of file

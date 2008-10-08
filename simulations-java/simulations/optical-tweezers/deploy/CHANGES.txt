@@ -1,24 +1,21 @@
--===============================================================================
-Change history for optical-tweezers
-================================================================================
-
-DONE:
+10/8/08 - moved list of rejected features to Unfuddle 805
 9/5/08 - remove uses of DialogUtils, use JOptionPane directly
 6/24/08 - move SphericalNode to piccolo-phet
+> improve fonts
 5/20/08 - replace Font with PhetFont
-********* version 2.01.00 (21029)
+# 2.01.00 (21029)
 4/28/08 - add PhetLookAndFeel to main
 4/28/08 - pick up fix to PhetDefaultFont so that preferred fonts are derived properly
 4/28/08 - pick up change to PhetDefaultFont so that default font is "Lucida Sans" plain 12pt on all platforms
 4/28/08 - redeploy production version to fix translations (Unfuddle #141)
-********* version 2.00.01 (20988)
+# 2.00.01 (20988)
 4/28/08 - publish dev version to test translations (Unfuddle #141)
 4/4/08 - remove clock icon from OTClockControlPanel, animated icon was added to phetcommon
 1/4/08 - delete OTLauncher, obsolete
-********* version 2.00.00 (18753)
+# 2.00.00 (18753)
 11/14/07 - organize imports
 11/9/07 - move about.credits property to localization file
-********* version 1.00.16 (18421)
+# 1.00.16 (18421)
 10/31/07 - update screenshots, create screenshots for new flavors
 10/31/07 - use constant stall force strategy, 6pN for EnzymeA, 7pN for EnzymeB
 10/30/07 - flavorize:"Optical Tweezers and Applications", "Stretching DNA", "Molecular Motors"
@@ -40,7 +37,7 @@ DONE:
 10/8/07 - use persistence manager from phetcommon (XMLPersistenceManager)
 10/8/07 - change LaserBeamNode implementation to create entire gradient, to remove visible seams on Macintosh
 10/8/07 - fix conversion of fluid speed between nm and um, manifested as "beep" when switching to vaccum
-********* version 1.00.15 (18097)
+# 1.00.15 (18097)
 10/2/07 - improve performance of e-field display via optimizations to phetcommon's Arrow
 10/2/07 - optimize updates to ElectricFieldVectorNode to reduce creation of Arrow objects
 10/2/07 - make BeadNode and LaserNode remove/addPropertyChangeListener before they adjust the view to match the model
@@ -53,7 +50,7 @@ DONE:
 10/1/07 - setPickable(false) on non-interactive nodes
 10/1/07 - factor responsibility for moving laser out of DNAStrand and into LaserPositionController
 10/1/07 - DNAStrand.initialize should call evolve with max clock dt
-********* version 1.00.14 (18049)
+# 1.00.14 (18049)
 9/27/07 - remove duplicate notifications that were occurring in LaserControlPanel
 9/27/07 - change laser on/off button from JButton to 2 PNodes so we don't see white halo
 9/27/07 - use hydrogen atom's gun on/off button for laser on/off control
@@ -65,7 +62,7 @@ DONE:
 9/27/07 - add/modify class-level javadoc
 9/27/07 - package-level javadoc
 9/27/07 - always use fastest dt to evolve strand when user drags bead with clock paused
-********* version 1.00.13 (17999)
+# 1.00.13 (17999)
 9/26/07 - use Tom's new model for speed with which enzyme pulls DNA
 9/26/07 - organize imports
 9/26/07 - implement Tom's new model for speed with which enzyme pulls DNA (untested)
@@ -73,26 +70,26 @@ DONE:
 9/26/07 - change implementation of DNA speed to use Strategy pattern, so we can switch between Kathy's and Tom's models
 9/26/07 - increase invisible bead diameter to 50% of visible bead diameter to reduce curling
 9/26/07 - remove partial-implementation of dynamic bead diameter
-********* version 1.00.12 (17974)
+# 1.00.12 (17974)
 9/25/07 - fix AbstractValue.getTextFieldValue to work for all locales
 9/25/07 - Spanish translations (Google translate)
 9/25/07 - removed unused strings from localization files
-********* version 1.00.11 (17970)
+# 1.00.11 (17970)
 9/25/07 - implement "keep trap force constant" model in DNAStrand
 9/25/07 - uncheck "keep trap force constant" if bead or laser is dragged, or if laser power is changed
 9/24/07 - BeadDragHandler.mousePressed should call super.mousePressed
-********* version 1.00.10 (17956)
+# 1.00.10 (17956)
 9/24/07 - reduce invisible bead diameter to 20% of visible bead diameter
 9/24/07 - change fluid mobility model so that constant is a function of bead diameter
 9/24/07 - fix bug in calculation of fluid mobility constant (was 6E5, should have been 6E6)
 9/21/07 - reduce insets throughout Fluid controls dialog
 9/21/07 - add support for insets to value control's DefaultLayoutStrategy
 9/21/07 - remove "Return Bead" feature from Molecular Motors panel so we don't exceed DNA contour length
-********* version 1.00.09 (17942)
+# 1.00.09 (17942)
 9/21/07 - prevent DNA force from going to infinity when strand is composed of 1 spring
 9/20/07 - make enzyme tick mark thicker and white
 9/20/07 - change orange enzyme to purple
-********* version 1.00.08 (17928)
+# 1.00.08 (17928)
 9/20/07 - notifyObservers(PROPERTY_FORCE) when DNA strand's contour length is changed
 9/19/07 - fix method of computing contour length delta (delta = speed * dt)
 9/19/07 - move enzyme node in front of DNA strands so that single spring between pin and bead isn't so obvious
@@ -135,7 +132,7 @@ DONE:
 9/14/07 - add evolution model to NewDNAStrand (untested)
 9/14/07 - rename variables in DNAExtensionNode to support new terminology for Molecular Motors
 9/14/07 - calculate springMotionScale only once per call to DNAStrand.evolve
-********* version 1.00.07 (17815)
+# 1.00.07 (17815)
 9/12/07 - throw an exception if DNA pin point is too far from bead (extension > contour length)
 9/12/07 - create DNA pivot points starting at pin point, working towards bead position
 9/12/07 - first pass at NewDNAStrand, incomplete
@@ -150,7 +147,7 @@ DONE:
 9/11/07 - save/load clock's run state in active and inactive modules
 9/11/07 - save/load state of dialogs in active and inactive modules
 9/11/07 - rename AbstractCanvas, AbstractControlPanel, AbstractModule (add OT prefix)
-********* version 1.00.06 (17653)
+# 1.00.06 (17653)
 8/29/07 - restore dialogs when main frame is minimized/maximized
 8/29/07 - fluid control selected by default in Motors panel
 8/29/07 - restore visibility of dialogs (fluid controls, position histogram) when switching modules
@@ -181,7 +178,7 @@ DONE:
 8/23/07 - replace 'A' and 'B' with icons in "Molecular motor" control
 8/23/07 - check in revised design doc that includes Molecular Motors panel
 8/23/07 - add icon for laser beam view
-********* version 1.00.05 (17458)
+# 1.00.05 (17458)
 8/22/07 - add control for choosing enzyme type (no icons yet, not wired)
 8/22/07 - place PushpinNode at DNA tail location in DNA module, at enzyme location in Motors module
 8/22/07 - extract pushpin into its own node
@@ -205,7 +202,7 @@ DONE:
 8/20/07 - change terminology to "reference clock step" in DNA strand evolution model
 8/20/07 - bugfix: handle entry of bogus numbers into sim speed textfield
 8/20/07 - show Motors module
-********* version 1.00.04 (17352)
+# 1.00.04 (17352)
 8/20/07 - hide Motors module for publishing
 8/20/07 - for DNA and Motors modules, change dt.fast.max=4E-4, dt subdivisions=1000, kick=60
 8/20/07 - make GlobalDefaults package private, add constants to module-specific default classes
@@ -219,7 +216,7 @@ DONE:
 8/16/07 - convert persistence code to use IProguardKeepInterface instead of OTSerializable
 8/16/07 = add -keep option proguard-template.pro for IProguardKeepClass
 8/16/07 - add IProguardKeepClass marker interface to phetcommon
-********* version 1.00.03 (17289)
+# 1.00.03 (17289)
 8/15/07 - migrate Vector2DNode to piccolo-phet
 8/15/07 - merge ColorIntensitySlider into phetcommon's IntensitySlider, delete ColorIntensitySlider
 8/15/07 - delete ColorUtils, rewrite 1 case where addAlpha was used
@@ -233,7 +230,7 @@ DONE:
 8/14/07 - loading should restore clock's run state only if module is active
 8/14/07 - implement Save/Load feature for "Physics" and "DNA" modules
 8/10/07 - remove controls related to "horizontal trap force", feature has been dropped
-********* version 1.00.02 (17205)
+# 1.00.02 (17205)
 8/10/07 - make "charge motion scale" dev control work for "Reset All"
 8/10/07 - add developer control for "charge motion scale", set default scale to 50%
 8/10/07 - layout charges on rect grid, clip to bead shape
@@ -242,7 +239,7 @@ DONE:
 8/10/07 - reverse behavior of +- charges
 8/10/07 - disable alpha channel modulation in e-field display
 8/10/07 - rename LaserElectricFieldNode to ElectricFieldNode
-********* version 1.00.01 (17165)
+# 1.00.01 (17165)
 8/8/07 - implement "charge distribution" view, temporary layout of charges
 8/8/07 - bugfix: very small scaling values cause problems in ChargeExcessNode, treat those values as zero
 8/8/07 - use a butt cap for "excess charge" stroke, increase stroke thickness
@@ -254,34 +251,34 @@ DONE:
 8/8/07 - remove "Return Bead" test code that allowed you to drag bead off play area
 8/8/07 - pull out common canvas functionality into AbstractCanvas
 8/8/07 - remove unused wiggleMe init code from canvas classes
-********* version 1.00.00 (17033)
+# 1.00.00 (17033)
 7/27/07 - new version published as part of new website deployment
-********* version 0.00.32 (17024)
+# 0.00.32 (17024)
 7/26/07 - adjust defaults for "really fast" bead in vaccum motion (threshold=1E-3, dt=1E-5, power=100)
-********* version 0.00.31 (16998)
+# 0.00.31 (16998)
 7/26/07 - set background of vacuumFastThresholdControl to green when threshold is exceeded
 7/26/07 - add developer controls for "really fast" bead-in-vacuum motion (threshold, dt, power)
 7/26/07 - group together all instance data related to developer controls 
 7/26/07 - move *Defaults classes back into defaults package, easier to manage
-********* version 0.00.30 (16962)
+# 0.00.30 (16962)
 7/25/07 - fix: fake bead-in-vacuum motion needs to use power=500mW when calculating trap force
-********* version 0.00.29 (16939)
+# 0.00.29 (16939)
 7/24/07 - for bead-in-vacuum, when (laserPower * dt >= 240e-5), fake bead motion to look "really fast"
 7/24/07 - add help items ("Movable bead", "Movable laser", "Movable ruler")
 7/24/07 - make fast e-field behavior use dt=4E-5 to protect against changes to dt.fast.max
 7/24/07 - change lower threshold on viscosity to 5e-4
 7/24/07 - change bottom end of "fast speed" to 1.0e-7 (8 times slower)
 7/24/07 - change description as requested
-********* version 0.00.28 (16736)
+# 0.00.28 (16736)
 7/14/07 - add description to About dialog
-********* version 0.00.27 (16704)
+# 0.00.27 (16704)
 7/13/07 - change defaults: Verlet scale to 4E-3, Verlet dt subdivisions to 10
 7/13/07 - bugfix: Brownian motion checkbox does not get reset properly with Reset All
-********* version 0.00.26 (16699)
+# 0.00.26 (16699)
 7/13/07 - rename Laser.getElectricFieldScale to getElectricFieldComponent to prevent confusion with _electricFieldScale
 7/13/07 - when dt changes, make E-field continue propogation from where it's at, rather than resetting
 7/13/07 - change screenshots to reflect new color scheme
-********* version 0.00.25 (16687)
+# 0.00.25 (16687)
 7/13/07 - click on ruler icon to toggle state of ruler check box in control panel
 7/13/07 - change trap force vector back to red
 7/13/07 - change trap force vector color to HSB=(41,100,100)
@@ -294,7 +291,7 @@ DONE:
 7/13/07 - revert dt fast.max to 4E-5, DNA strand evolves too slowly at 4E-5 when fast.max is 4E-4
 7/13/07 - fixed "slow mode" trap force bug introduced when refactoring Laser.getElectricFieldScale on 7/12
 7/12/07 - create preliminiary screenshots
-********* version 0.00.24 (16647)
+# 0.00.24 (16647)
 7/12/07 - fixed machine epsilon problem in Laser.stepInTime's accumulation of time
 7/12/07 - add subpackages for each module
 7/12/07 - move defaults into package with modules, since they are default for modules
@@ -303,11 +300,11 @@ DONE:
 7/12/07 - refactor common model default values into GlobalDefaults
 7/12/07 - fix OTClockControlPanel to add columns to time display
 7/12/07 - increase number of columns in time display to 10
-********* version 0.00.23 (16616)
+# 0.00.23 (16616)
 7/12/07 - increase fastest dt to 4E-4
 7/12/07 - increase dt subdivisions for bead motion model to 1000
 7/12/07 - refactor common code into Laser.getElectricFieldScale
-********* version 0.00.22 (16594)
+# 0.00.22 (16594)
 7/11/07 - developer controls for setting all vector colors
 7/11/07 - developer control for setting the background color of the control panel & clock panel
 7/11/07 - developer control for setting the color of Piccolo tabs
@@ -317,7 +314,7 @@ DONE:
 7/11/07 - bugfix: fluid temperature control not initialized to fluid's temperature
 7/11/07 - change default fluid temperature to 298
 7/11/07 - change default Brownian motion scale to 1.3
-********* version 0.00.21 (16565)
+# 0.00.21 (16565)
 7/10/07 - simplify implementation of PositionHistogramPlot.setPositionRange
 7/10/07 - histogram: workaround renderer bug by not adding observations to a series unless they're in the series range
 7/10/07 - update Vector2DNode value display only if it's visible
@@ -344,7 +341,7 @@ DONE:
 7/9/07 - make play area ruler translucent
 7/9/07 - add PhetFrameWorkaround to address AWT thread priority problem
 7/9/07 - change trap force model in slow mode, shrink & grow with E-field
-********* version 0.00.20 (16480)
+# 0.00.20 (16480)
 7/9/07 - histogram: change bin widths per Kathy's specification
 7/9/07 - histogram: let client set dialog's location
 7/9/07 - histogram: fix exception thrown when changing modules
@@ -353,7 +350,7 @@ DONE:
 7/9/07 - histogram: add ruler to snapshot
 7/9/07 - histogram: make ruler translucent
 7/9/07 - when dt > slow.max, run E-field model using dt=fast.max
-********* version 0.00.19 (16448)
+# 0.00.19 (16448)
 7/9/07 - histogram: javadoc
 7/9/07 - histogram: set zoom ranges a little bigger than desired so min/max tick labels are visible (again)
 7/9/07 - histogram: tweak ruler's major/minor ticks for each zoom level
@@ -367,7 +364,7 @@ DONE:
 7/9/07 - histogram: initial position of main dialog and snapshots
 7/8/07 - histogram: add snapshot feature
 7/8/07 - histogram: set zoom ranges a little bigger than desired so min/max tick labels are visible
-********* version 0.00.18 (16414)
+# 0.00.18 (16414)
 7/6/07 - show vertical dashed line through laser bead origin when histogram is open
 7/6/07 - histogram: add vertical marker (dashed line) at origin
 7/6/07 - histogram: display bin width
@@ -383,7 +380,7 @@ DONE:
 7/5/07 - first pass at constraining bead drag to prevent over-stretching DNA strand (not correct)
 7/5/07 - don't change clock's dt while dragging in "between" zone of simulation speed slider
 7/5/07 - reduce width of "between" zone in simulation speed slide, change alignment of slow.max and fast.min tick labels
-********* version 0.00.17 (16349)
+# 0.00.17 (16349)
 7/3/07 - change fast clock range: 8E-7 to 4E-5
 7/3/07 - change slow clock range: 4E-18 to 5E-16
 7/3/07 - removed references to PhysicsDefaults in DNACanvas
@@ -398,7 +395,7 @@ DONE:
 7/3/07 - fix error in model that causes e-field to propogate in wrong direction
 7/3/07 - change laser e-field color to dark red (rgb=230,57,5)
 7/2/07 - when "Return bead" button is pressed, set bead's velocity to zero
-********* version 0.00.16 (16305)
+# 0.00.16 (16305)
 7/2/07 - adjust clock time display format when dt is changed
 7/2/07 - reset the clock time whenever dt is changed
 7/2/07 - make the non-interactive labels in LaserPowerControl draggable
@@ -408,7 +405,7 @@ DONE:
 6/29/07 - workaround for horizontal alignment problem with ruler
 6/29/07 - verified that none of the controls visible for AAPT version needed to be disabled based on clock speed
 6/28/07 - write ConstantDtClock, use in OTClock, test, migrate to phetcommon
-********* version 0.00.15 (16200)
+# 0.00.15 (16200)
 6/27/07 - add editable textfield for simulation speed
 6/27/07 - add read-only value display to SimulationSpeedControlPanel
 6/27/07 - wire SimulationSpeedSlider into simulation control panels
@@ -418,7 +415,7 @@ DONE:
 6/27/07 - add drag handler to knob in simulation speed slider
 6/27/07 - resolve roundoff problems in simulation speed slider by using integer precision for layout
 6/27/07 - first pass at custom slider for simulation speed, layout only
-********* version 0.00.14 (16084)
+# 0.00.14 (16084)
 6/25/07 - update E-field vectors when scale, power or run state of laser changes
 6/25/07 - only show value for E-field vector at center of trap
 6/25/07 - complete layout of sample points and vectors for E-field representation of laser
@@ -439,7 +436,7 @@ DONE:
 6/20/07 - wire up stub view for E-field, connect to radio button controls for setting visibility
 6/20/07 - extract laser outline display as a separate node
 6/20/07 - improved look of laser beam so that seams in quadrants are not so obvious
-********* version 0.00.13 (16028)
+# 0.00.13 (16028)
 6/20/07 - set default trap force ratio to 0.179
 6/19/07 - hide File>Save and Load menu items for AAPT
 6/19/07 - hide any unimplemented (red) controls for AAPT
@@ -466,13 +463,13 @@ DONE:
 6/18/07 - add MicroscopeSlide to model, in preparation for switching between fluid and vacuum
 6/18/07 - fix centering of fluid speed vectors in microscope slide
 6/18/07 - remove "Enable Brownian motion" from DNA module
-********* version 0.00.12 (15901)
+# 0.00.12 (15901)
 6/14/07 - set Save/Load menu items foreground=red to indicate that they aren't implemented
 6/14/07 - fix bead motion model so that DNA force is computed using intermediate bead position
 6/14/07 - add ability to ask for DNA force at any arbitrary point
 6/12/07 - add dev control for Fz:Fx ratio in trap force model
 6/12/07 - rename panels that contain developer controls
-********* version 0.00.11 (15814)
+# 0.00.11 (15814)
 6/11/07 - first pass at new on/off button for laser
 6/11/07 - change laser button to big ON/OFF (temporary solution)
 6/11/07 - developer controls to show vector components and values
@@ -480,7 +477,7 @@ DONE:
 6/11/07 - implement new model for trap force Fz
 6/11/07 - make the objective supports look more substantial, as if they are holding the lens
 6/11/07 - change objective view, make it an on-edge view of the lens
-********* version 0.00.10 (15790)
+# 0.00.10 (15790)
 6/10/07 - fix Vector2DNode so that small magnitudes scale properly
 6/10/07 - add fluid drag force to acceleration in DNA strand evolution model
 6/10/07 - add fluid drag coefficient to DNA model and developer controls
@@ -496,7 +493,7 @@ DONE:
 6/7/07 - rescale range/values for DNA strand parameters by 100x
 6/5/07 - improve algorithm for positioning the value in Vector2DNode
 6/5/07 - remove OTRuler alignment hack, it wasn't working in all cases
-********* version 0.00.09 (15620)
+# 0.00.09 (15620)
 6/5/07 - make strand follow bead when clock is paused
 6/5/07 - disable tooltips on developer controls, they're annoying
 6/5/07 - add tooltips to all developer controls
@@ -521,7 +518,7 @@ DONE:
 6/1/07 - refactor developer control panel into its own class
 6/1/07 - disable "Show Brownian force" feature, don't have a model for this yet
 6/1/07 - fix terminology in bead model, we are computing Brownian displacement, not force
-********* version 0.00.08 (15481)
+# 0.00.08 (15481)
 5/30/07 - choose better colors for vector nodes, disable display of xy component vectors
 5/30/07 - first (incorrect) stab at DNA strand path initialization
 5/30/07 - show extension as a dashed line in DNAStrandNode for debugging
@@ -552,7 +549,7 @@ DONE:
 5/26/07 - hide "Show change in momentum model" control for now
 5/18/07 - use Vector2DNode in FluidNode, scale arrow heads/tails
 5/18/07 - scale arrow heads/tails on vectors for trap/drag/Brownian forces
-********* version 0.00.07 (15214)
+# 0.00.07 (15214)
 5/18/07 - precompute Brownian force so that displayed vector is accurate when no dt subdivision is applied
 5/17/07 - bug fix in Fluid.getVelocity, should create vector using polar coordinates
 5/17/07 - added Vector2D.Cartesian and Vector2D.Polar to prevent errors in construction
@@ -584,7 +581,7 @@ DONE:
 5/14/07 - create ClockControlPanelWithTimeDisplay in phetcommon
 5/10/07 - remove flash activity on "Return Bead" button node
 5/10/07 - upgrade jfreechart from 1.0.0 to 1.0.5
-********* version 0.00.06 (15001)
+# 0.00.06 (15001)
 5/9/07 - integrate PhetHistogramDataset into PositionHistogramPlot
 5/9/07 - write PhetHistogramDataset, mutable version of JFreeChart's HistogramDataset
 5/8/07 - remove ChangeListener interface on charts, add PropertyListener that watches visibility
@@ -595,7 +592,7 @@ DONE:
 5/2/07 - generalize new velocity computation in Bead.move to work with any fluid velocity direction
 5/2/07 - generalize Fluid.getDragForce to work with any fluid velocity direction
 5/2/07 - add Fluid.getVelocity and setVelocity
-********* version 0.00.05 (14935)
+# 0.00.05 (14935)
 5/1/07 - increase nubmer of subdivisions range to 1-1000 for bead motion algorithm
 4/30/07 - change viscosity range to 1E-4 to 1E-2
 4/30/07 - set reasonal defaults and ranges for bead motion dt subdivision parameters
@@ -611,7 +608,7 @@ DONE:
 4/30/07 - reduce complexity of PhysicsModule
 4/30/07 - move all node creation into PhysicsCanvas
 4/30/07 - move all nodes into package view.nodes
-********* version 0.00.04 (14904)
+# 0.00.04 (14904)
 4/27/07 - change model for bead motion, Mike Dubson's 4/26/07 model
 4/27/07 - add water viscosity constant and normalization method to Fluid
 4/27/07 - adjust clock dt so that fastest speed is 1E-3 realtime
@@ -652,7 +649,7 @@ DONE:
 4/12/07 - simplify Laser.getIntensity and getTrapForce
 4/12/07 - change fluid speed model units to nm/sec (was microns/sec), range becomes [0,1000000]
 4/12/07 - merge test-src into src
-********* version 0.00.03 (14322)
+# 0.00.03 (14322)
 4/11/07 - add Brownian motion to bead, including collision detection with top & bottom edges of microscope slide
 4/11/07 - change clock dt range to [0.01,1]
 4/11/07 - encapsulate model creation for "Physics of Tweezers" panel in PhysicsModel
@@ -674,7 +671,7 @@ DONE:
 4/5/07 - convert from SimStrings to PhetProjectConfig
 4/5/07 - consolidate all strings in OTStrings
 4/5/07 - consolidate all images in OTConstants
-********* version 0.00.02 (14202)
+# 0.00.02 (14202)
 4/4/07 - optimize gradient view of laser power intensity using a BufferedImageOp that adjusts alpha channel
 4/4/07 - reduce size of gradient image by only drawing one quadrant, then scaling it to the view
 4/4/07 - make BeamInNode and BeamOutNode handle their own visibility based on Laser state
@@ -716,7 +713,7 @@ DONE:
 3/22/07 - increase font size for controls on the play area (14->16)
 3/22/07 - show whichever chart was selected last, close the other one
 3/22/07 - add 9 minor-ticks between each major tick on ruler
-********* version 0.00.01 (13958)
+# 0.00.01 (13958)
 3/21/07 - if laser is outside the canvas bounds, move it to the center
 3/21/07 - flash the "Return Bead" button when it's visible
 3/21/07 - center "Return Bead" button on the canvas
@@ -830,52 +827,3 @@ DONE:
 1/29/07 - create JNLP files
 1/29/07 - set up basic application framework (modules, control panels, clock controls, persistence, etc)
 1/29/07 - set up project in CVS
-
-REJECTED:
-10/29/07 - remove ModelViewTransform to improve performance, handle scaling by setting canvas size (huge increase in memory needed for laser gradient, OutOfMemoryError)
-10/10/07 - use phetcommon's Vector2D (my implementation has performance advantages, renamed to OTVector2D)
-10/8/07 - improve startup performance (OK as is)
-10/8/07 - some Swing controls aren't PropertyChangeListeners for the nodes that they control (ok for now, since they are the only control)
-10/1/07 - when subdividing dt in bead motion algorithm, and stepping clock, bead motion will be different than displayed vectors (consequence of using dt subdivision)
-10/1/07 - get different values for 2nd enzyme for Kathy's model of DNA speed (not needed, we're using Tom's model)
-10/1/07 - should it be possible to drag bead and make DNA strand more straight? (fine as is, with stretchiness=0.95)
-9/27/07 - "keep trap force constant" feature slows things down (nothing we can do about this, graphics intensive)
-9/27/07 - free end of DNA doesn't evolve when bead is dragged with clock paused (this is OK)
-9/26/07 - OutOfMemoryError in Motors module (could not reproduce after 30 minutes)
-9/26/07 - reduce laser jitter but using an average for "keep trap force constant" (tried this, no improvement, some new problems)
-9/21/07 - make "Return Bead" move the bead to the laser's origin (laser's origin can be off screen)
-9/11/07 - save/load properties of position histogram: running, zoom index, ruler (feature not needed)
-9/11/07 - vertical laser toggle button, like http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg (tried to create and failed)
-8/20/07 - stall force for enzyme (not needed)
-8/15/07 - save/load developer controls (feature not desired)
-8/14/07 - use TrigCache to improve performance (performance is OK without it)
-8/14/07 - reduce vertical spacing of control panels (not necessary, some controls were dropped)
-8/10/07 - enable/disable controls based on clock speed (no longer necessary)
-8/10/07 - horizontal trap force features (features dropped)
-8/10/07 - hide bead crosshair when showing charge (not necessary)
-8/10/07 - click on simulation speed slider track to make knob jump to that position (no one asked for this, nontrivial because it's Piccolo)
-8/10/07 - disable "charge on bead" feature in fast mode (looks OK, see what happens in interviews)
-8/8/07 - add "charge on bead" features to DNA panel (not part of learning goals for that panel)
-7/26/07 - spec for "Show change in momentum model" feature (feature is dropped)
-7/25/07 - check _running in Laser.getIntensityOnRadius, getTrapForceAtOffset (no, not the right thing to do)
-7/9/07 - histogram should make an observation every N seconds, not every clock tick (every clock tick is correct behavior)
-7/9/07 - histogram: ask JFreeChart to put 4 minor ticks between each major tick (JFreeChart does not support minor ticks)
-7/2/07 - show DNA strand as a double helix (no one has asked for this)
-7/2/07 - DNA strand looks too straight initially, evolve a few times before displaying (no one has noticed this)
-7/2/07 - put wheels on laser control panel, make it slide horizontally on train tracks (made entire control panel draggable, added left-right cursor)
-6/29/07 - are there any cases where DNA strand's extension length exceeds contour length? (no, not after constraining drag)
-6/28/07 - make "beam" the only laser display option in fast mode (better to just let it look like it's running crazy fast)
-6/22/07 - show E-field as a blur above some simulation time setting (only show beam view in "fast" mode)
-6/21/07 - why don't XY components of Vector2DNode ever have a negative sign? (because Vector2DNode always displays a magnitude)
-6/10/07 - instead of scaling termPrevious and termNext, investigate scaling _springConstant in DNAStrand.evolve (doesn't work right)
-6/7/07 - get model for Brownian force (delete "Show Brownian force" feature)
-6/5/07 - add close button to ruler (inappropriate, ugly, etc)
-6/5/07 - why is fluid.getDragForce not used directly in Bead.move (it appears in the model indirectly)
-5/31/07 - make DNA tail draggable (feature not needed)
-5/17/07 - improve collision detection in Bead.move (not necessary, only Brownian force causes collisions)
-4/24/07 - add AbstractValueControl.setInverted (makes things unnecessarily complex)
-3/26/07 - change diameter to radius for bead and laser properties (using diameter makes layout clearer)
-3/12/07 - generalize LaserPowerControl (probably not generally useful)
-
-===============================================================================
-end of file

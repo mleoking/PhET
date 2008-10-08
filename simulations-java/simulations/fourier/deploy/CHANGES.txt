@@ -1,9 +1,6 @@
-===============================================================================
-Change history for fourier
-===============================================================================
-
-DONE:
+10/8/08 - moved list of rejected features to Unfuddle 795
 9/5/08 - remove use of DialogUtils, use JOptionPane directly
+> use fancier tabs to switch panels
 5/20/08 - add new-style Piccolo tabs
 5/20/08 - replace Font with PhetFont throughout
 4/28/08 - add PhetLookAndFeel to main
@@ -14,7 +11,7 @@ DONE:
 9/11/07 - rename FourierModule and FourierControlPanel to have "Abstract" in their names, consistent with other sims
 8/27/07 - replace "Lucida Sans" with PhetDefaultFont.getDefaultFontName()
 8/16/07 - convert persistence code to use IProguardKeepInterface instead of FourierSerializable
-********* version 3.02.00 (17033)
+# 3.02.00 (17033)
 7/27/07 - new version published as part of new website deployment
 7/2/07 - wrap the body of main in invokeLater
 6/15/07 - convert description properties to well-formed HTML
@@ -33,55 +30,55 @@ DONE:
 (2/19/07) - add FourierSerializable marker interface so that ProGuard doesn't strip out persistence code
 (2/19/07) - change "Reset" to "Reset All"
 (11/29/06) - add missing description in SimStrings file, format for new About dialog
-3.01.00
+# 3.01.00
 (2/2/06) - wait to initialize sound until user clicks Sound checkbox, because some users have hosed audio drivers
 (2/2/06) - handle all Exception types in DiscreteControlPanel.initSound, not just expected audio exceptions
 (1/2/06) - changes to support new ModulePanel layout
 (12/27/05)  changes to support phetcommon's new Module and Clock architecture
 (12/14/05) - minor changes to support separation of phetcommon and phetgraphics into separate CVS projects
-3.0 ...
+# 3.00.00
 (11/8) - replace "cheat" panel with hints panel that gradually reveals the answer
 (11/7) - change WiggleMeGraphic to use HTMLGraphic instead of PhetTextGraphic
-2.1.10 ...
+# 2.01.10
 (11/6) - change "Congratulations!" back to "Winner!"
-2.1.9 ...
+# 2.01.09
 (11/4) - use Noah's instructions for game
 (11/4) - change "you won" dialog to make it look less like an error dialog
-2.1.8 ...
+# 2.01.08
 (11/2) - simplify the game instructions even more
 (11/2) - bugfix: use same precision (2 decimal places) in matching algorthm and display of amplitude values
 (11/2) - simplify the game instructions
-2.1.7 ...
+# 2.01.07
 (11/1) - display an instructions dialog the first time we visit the game module
 (11/1) - don't calculate game match until user releases slider (not responsive enough otherwise)
-2.1.6 ...
+# 2.01.06
 (11/1) - sync with phetcommon
 (11/1) - change location of help items in Discrete module so that they point to A1 slider and textfield
 (11/1) - in game, check for a match while the user is dragging an amplitude slider, don't wait for slider release
 (10/28) - replaced FourierHelpItem with HelpBubble (total rewrite)
 (10/24) - fix display of amplitude values so that they use the same precision as GameManager.isMatch
 (10/21) - better workaround for syncing all views before starting a new game
-2.1.5 ...
+# 2.01.05
 (10/19) - bugfix: use only 2 significant decimal places when determining if the game has been won
 (10/18) - bugfix: exception occurred when playing game with level=Preset
 (10/18) - all generated amplitudes in game should have an absoltue value >= 0.1
 (10/18) - bugfix: update all game views before starting a new game after you've won
 (10/18) - bugfix: "cheat" panel doesn't update after you've won a game and started a new game
-2.1.4 ...
+# 2.01.04
 (10/17) - use absolute values (0.03, 0.09) instead of percents (3%, 9%) for "win" calculations
 (10/17) - don't calculate closeness while the user is dragging an amplitude slider
 (10/17) - calculate when the game has been won, inform the user
 (10/17) - implement new game levels, rewrite game generation code to be more general
 (10/17) - delete RandomFourierSeries, move all random generation into GameManager
 (10/17) - move game code into GameManager
-2.1.3 ...
+# 2.01.03
 (10/14) - remember the last directory where you did a load/save when running under JNLP
 (10/14) - store individual components of harmonic colors to work around a bug with XMLEncoder under JNLP
 (10/14) - report only first exception encountered in XML encoding/decoding
 (10/14) - consolidate error display code in ConfigManager
 (10/14) - add state of views (minimized/maximized) to config
 (10/13) - rewrite save/load to work with both JNLP and load applications (not tested fully)
-2.1.2 ...
+# 2.01.02
 (10/12) - add program version & build info to config file
 (10/12) - "pink waveform" to "pink function" in game
 (10/12) - autoscale the game's Sum view based only on the random waveform
@@ -94,7 +91,7 @@ DONE:
 (10/10) - javadoc code for Game module
 (10/10) - get fundamental sound frequency from Fourier series
 (10/7) - magenta -> pink in Game (roll into 2.1.1)
-2.1.1 ...
+# 2.01.01
 (10/6) - improve random generation of amplitudes
 (10/6) - when game preset is "sine/cosine", pick a random harmonic for the sine/cosine
 (10/6) - add instructions above Sum view in Game
@@ -109,7 +106,7 @@ DONE:
 (10/6) - add Ampltiudes view to Game
 (10/6) - started fleshing out apparatus panel for Game module
 (10/6) - set up control panel for Game module
-2.1.0 ...
+# 2.01.00
 (10/5) - bugfix: measurement tools sometimes disappear when you click on them (Ron fixed ApparatusPanel)
 (10/5) - bugfix: measurement tools don't drag properly after you resize the application's frame (Ron fixed ApparatusPanel)
 (10/4) - bugfix: manage clipping based on FourierConfig.MAX_HARMONICS, not the # harmonics in the Fourier series
@@ -119,20 +116,20 @@ DONE:
 (10/4) - add a volume control for sound
 (10/4) - when generating audio data, normalize the amplitudes of the harmonics to a -1...+1 scale
 (10/4) - fix sound so that audio samples don't exceed the sample size
-2.0.1 ...
+# 2.00.01
 (10/3) - implement sound feature in Discrete module
 (9/30) - make a separate manifest file for each project, which includes Main-Class attribute
 (9/30) - reorganize 'cmalley' CVS project, add Java stuff (including sound test program)
 (9/30) - create a Swing-based test app using Oscillator from jsresource.org
 (9/30) - work on sound, use a SourceDataLine instead of a Clip
 (9/29) - work on sound, try to play waveform data as a Clip
-2.0.0 ..
+# 2.00.00
 (9/28) - re-tag and re-publish 2.0.0
 (9/28) - redo Spanish JNLP file
 (9/28) - redo Spanish translations
 (9/28) - move Spanish translations into fourier/data/localization
 (9/28) - phetcommon: move Spanish translations into phetcommon/data/localization, add missing stuff, fix bugs
-1.0.17 ...
+# 1.00.17
 (9/23) - bugfix: minimize then maximize Discrete harmonics graph, sum vertical zoom control isn't positioned correctly (sometimes)
 (9/22) - phetcommon: rendering hints should be appended, not replaced, by PhetGraphic
 (9/22) - bugfix: set infinite sine waveform waveType when it's made visible
@@ -146,7 +143,7 @@ DONE:
 (9/21) - increase autoscale factor in D2C sum graph so that width indictor is not clipped when x-width is min
 (9/21) - use red to stroke bounds in FourierModule.drawBounds
 (9/21) - make BoundsDebugger ignore the mouse, so that interface is still usable
-1.0.16 ...
+# 1.00.16
 (9/20) - tweak alignment of measurement tool combo boxes
 (9/20) - keep registration point of Discrete harmonics and sum graphs at (0,0)
 (9/20) - bugfix: align vertical zoom & autoscale controls with bottom of Discrete Sum graph
@@ -164,21 +161,21 @@ DONE:
 (9/20) - remove verb from all control panel labels (eg, "Show math form" -> "Math form")
 (9/20) - change font style of titles in titled panels to Lucida Sans italic
 (9/20) - change "look" of titled panels, create a subclass that encapsulates this
-1.0.15 ...
+# 1.00.15
 (9/20) - increase autoscale factor in D2C sum graph so that width indictor and x-envelope are not clipped
 (9/19) - "sine/cosine" -> "sin/cos"
 (9/19) - "Play sound" -> "Sound"
 (9/19) - left justify all controls except top 3 subpanels in D2C
 (9/19) - add arrows to "width" graphics in D2C, point inward or outward depending on width
 (9/19) - convert width indicators to DataSetGraphics that are placed on a Chart and specified in model coordinates
-1.0.14 ...
+# 1.00.14
 (9/14) - phetcommon: fix bug in PhetApplication with old constructors
 (9/14) - sync with Ron's changes to ApparatusPanel and ApparatusPanel2's mouse/key handling
 (9/14) - phetcommon: internationalize PhetApplication.StartupDialog
 (9/14) - convert to PhetApplication.StartupDialog
 (9/14) - decrease vertical space above Reset buttons
 (9/14) - reorganize D2C control panel per Sam M's specification
-1.0.13 ...
+# 1.00.13
 (9/13) - add MegaHelp button to see how it impacts layout of control panels
 (9/13) - change wave type controls from combo boxes to radio buttons
 (9/13) - reorganized all control panels the way I think they should be organized
@@ -194,7 +191,7 @@ DONE:
 (9/13) - phetcommon: add PhetStartupWindow for displaying startup progress
 (9/13) - enable correct Discrete measurement tool controls based on the default domain
 (9/13) - add sound button to Discrete control panel so we can see what the space issues are
-1.0.12 ...
+# 1.00.12
 (9/13) - fixed vertical height of "x-space width" graphic in D2C 
 (9/12) - remove help from D2C width tools
 (9/12) - fix SimStrings keys to match renamed classes throughout
@@ -218,7 +215,7 @@ DONE:
 (9/12) - change default math form to "Frequency" in time domain
 (9/12) - phetcommon: move ClockPausedHandler to phetcommon, integrate into Module
 (9/12) - rewrite ClockPausedHandler to use javax.swing.Timer, to avoid sync problems
-1.0.11 ...
+# 1.00.11
 (9/9) - change dk to sigma-sub-k, dx to sigma-sub-x, dw to sigma-sub-w, and dt to sigma-sub-t
 (9/9) - bugfix: D2C harmonics y-axis range if Reset while minimized
 (9/9) - use verbose labels for math mode options in space-&-time, put label above combobox
@@ -238,7 +235,7 @@ DONE:
 (9/7) - set default height of Discrete views close to what they'll actually be so that resizing is less obvious
 (9/7) - phetcommon: fix ApparatusPanel2 so that its scale isn't set to a negative number
 (9/7) - phetcommon: fix a problem introduced into ApparatusPanel that duplicates all MouseEvents
-1.0.10 ...
+# 1.00.10
 (9/7) - delete disabled zoom button images that were made irrelevant on 7/26
 (9/7) - fix javadoc for renamed classes
 (9/7) - rename Chart subclasses to indicate which module they go with, put them under fourier.view instead of fourier.charts
@@ -253,9 +250,9 @@ DONE:
 (9/2) - add wait cursor to graph maximize buttons
 (9/2) - add wait cursor to zoom control buttons
 (9/2) - add missing call to super(component) in ZoomControl constructor
-1.0.9 ...
+# 1.00.09
 (8/31) - change order of presets in Discrete module per Sam M's request
-1.0.8 ...
+# 1.00.08
 (8/30) - bugfix: infinite sines/cosines waveform in Discrete Sum graph doesn't display wave type cosines
 (8/30) - change all equations to "cos" when switching to "cosines"
 (8/30) - equation above D2CAmplitudesGraph should be An for all cases in which k1!=0
@@ -264,7 +261,7 @@ DONE:
 (8/30) - remove dead code in MeasurementTool
 (8/30) - preserve the Math Form selection for each domain
 (8/30) - change the default selections for Math Form in Discrete panel to "Wavelength" and "Period"
-1.0.7 ...
+# 1.00.07
 (8/30) - change "look" of measurement tools so that ends don't overlap label
 (8/30) - 'e' in "Drag me" wiggle me doesn't move with it (hack: add a space on end)
 (8/29) - call cleanup on any DataSetGraphics before releasing their references
@@ -273,7 +270,7 @@ DONE:
 (8/29) - complete the implementation of ClosedPathPlot
 (8/29) - fix memory leak with HarmonicPlot in D2CHarmonicsGraph
 (8/29) - always scale D2C amplitudes graph based on max amplitude of continuous waveform
-1.0.6 ...
+# 1.00.06
 (8/26) - update D2CHarmonicsGraph when it becomes visible only if model has changed
 (8/26) - flatten Amplitudes chart in Discrete module
 (8/26) - flatten all charts in D2C module
@@ -286,7 +283,7 @@ DONE:
 (8/24) - phetcommon: fix PhetGraphic.rebuildBounds
 (8/24) - add wait cursor to Reset buttons
 (8/24) - setIgnoreMouse for all non-interactive graphics in D2C module
-1.0.5 ...
+# 1.00.05
 (8/23) - add a message to D2C components graph "Minimize this graph to improve performance".
 (8/23) - remove help item from D2C components graph minimize button
 (8/23) - constrain dragging of x-space tools to Components and Sum graphs
@@ -296,7 +293,7 @@ DONE:
 (8/23) - modify GaussianWavePacket model so that center point can be changed
 (8/23) - reorganize D2C control panel so that everything still fits without scrolling
 (8/23) - add k0 control to D2C control panel, nto connected to model
-1.0.4 ...
+# 1.00.04
 (8/22) - charts: add Chart.addDataSetGraphic(DataSetGraphic graphic, double layer)
 (8/22) - set proper registration points for all axis labels in all modules
 (8/22) - fix x axis title (as set via Chart.setXAxisTitle) so that it stays aligned with x axis
@@ -305,14 +302,14 @@ DONE:
 (8/22) - bugfix: autoscale y axis on D2C Sum graph when switching between sines and cosines wave types
 (8/22) - add GaussianWavePacketPlot to D2C Sum graph
 (8/22) - implement GaussianWavePacketPlot for plotting a continuos gaussian wave packet
-1.0.3 ...
+# 1.00.03
 (8/18) - when k1 = 0, change equation to an integral above D2CSumGraph
 (8/18) - when k1 != 0 show sum equation from +-infinity above D2CSumGraph 
 (8/18) - make the x axis in D2C harmonics and sum zoomable from 0.5-8
 (8/18) - set period for D2C harmonics and sum as 2pi/k1
 (8/18) - add 2dx and lamda1 measurement tools
 (8/18) - used symbolic constants for all symbols in measurement tools
-1.0.2 ...
+# 1.00.02
 (8/17) - implement k=0 in D2CAmplitudes graph (fill the area under continuous curve with gradient)
 (8/17) - implement D2C "Show continuous" checkbox
 (8/17) - refactored fourier.tools classes so that there are symmetrical abstract base classes
@@ -324,16 +321,14 @@ DONE:
 (8/17) - make bar disappear when measurement tool width is 0
 (8/17) - change D2C measurement tools to yellow, black stroke, black text, translucent white background
 (8/17) - add optional background to measurement tool labels
-sandbox...
 (8/16) - use a lighter stroke for the axes in D2C charts
 (8/16) - change measurement tools in D2C to bold font, green fill, white stroke
 (8/16) - enable autoscaling of D2C Sum graph
 (8/16) - multiple amplitudes by k1 in D2C Sum graph
-sandbox...
 (8/16) - implement Sum waveform in D2C
 (8/16) - implement sine/cosine control in D2C
 (8/16) - implement horizontal zoom controls in D2C
-1.0.1 ...
+# 1.00.01
 (8/15) - make new subclasses for the D2C module's Harmonics and Sum charts, too many differences with Discrete module
 (8/15) - add wait cursor to D2C control panel
 (8/15) - compute and display the D2C harmonics
@@ -345,7 +340,6 @@ sandbox...
 (8/15) - make MeasurementTool use an HTMLGraphic for its label, add setLabel method
 (8/15) - refactor measurement tools into separate classes that encapsulate the "look" of the tool
 (8/12) - set color of D2C measurement tools to a dark red
-sandbox...
 (8/12) - first pass at adding k1 and deltak measurement tools to D2C
 (8/12) - more drawing of measurement tools into a more generic class (MeasurementTool)
 (8/12) - autoscale the D2C amplitudes graph
@@ -621,34 +615,4 @@ sandbox-2005-05-10...
 (5/9) - models for Harmonic and HarmonicSeries
 (5/9) - ********* DEVELOPMENT BEGINS *********
 (4/26) - add fourier to CVS loginfo and modules files
-(3/30) - set up basic application framework
-2005 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-REJECTED:
-(2/14/07) - bug report by fcasparx@web.de: infinite loop of "value out of range" dialogs when entering amplitude values in first panel (could not reproduce, no response to info request)
-(11/1/05) - get rid of Vector2D if it continues to be used only by WiggleMeGraphic (not worth the trouble)
-(11/1/05) - optimize allocation of AnimationCycleEvents (it's not causing any problems as is)
-(11/1/05) - add presets for musical instruments to Discrete panel (can't make convincing instrument sounds)
-(10/19/05) - "Sound & Music" panel
-(10/18/05) - add hints to game (use "cheat" panel instead)
-(9/22/05) - set anti-aliasing on leaf graphics instead of container (fixed rendering hints in PhetGraphic)
-(9/22/05) - restore state of anti-aliasing hint in FourierTitlePanel.paintComponent (not necessary, argument is a copy of Graphics)
-(9/22/05) - wiggle me isn't hidden when user clicks in the control panel (click in apparatus panel & model changes is enough)
-(9/19/05) - break up control panels into reusable subpanels (not practical, since they keep changing)
-(9/13/05) - add equations for Gaussian wave packet above D2C amplitudes graph (voted down by design team)
-(9/13/05) - make Discrete amplitude sliders 50% narrower (not needed)
-(9/13/05) - Discrete x-axis ticks and labeling should be consistent with D2C (zoom levels and symbolic labeling are different)
-(9/13/05) - add ability to show multiple wavelength/period tools in Discrete module (voted down)
-(9/8/05) - smaller font for equation subscripts (fine as is, HTML tags to do this don't work)
-(8/30/05) - display at full-screen resolution on start up? (per Carl as status meeting)
-(8/30/05) - refactor chart config out of HarmonicsChart, SumChart and AmplitudesChart (each chart is different)
-(8/29/05) - with a single module, Fourier starts up with the module's apparatus panel magnified (sim will not be single module)
-(7/26/05) - rewrite ZoomControl to use static shapes instead of images (waste of time)
-(7/14/05) - restructure things so that all Harmonics and HarmonicPlots are preallocated, but only relevant ones are used (diminishing returns)
-(7/8/05) - FourierSeries model should not have a preset and waveType properties (this is OK)
-(6/21/05) - make graph titles prettier (no one asked for this)
-(6/20/05) - investigate Jex for rendering equations (no doc, uses OpenOffice for rendering, install Windows only)
-(6/14/05) - highlight component when mouse moves over it in Harmonics graph (dropped this feature)
-(5/20/05) - use multi-line choices in Math Form menu (doesn't work on Mac)
-
-===============================================================================
+(3/30/05) - set up basic application framework
