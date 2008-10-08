@@ -40,12 +40,12 @@ import edu.colorado.phet.forces1d.phetcommon.view.help.HelpPanel;
 public class ControlPanel extends JPanel {
 
     private ControlPanel.ContentPanel controlPane = new ContentPanel();
-    private ImageIcon imageIcon;
-    private JLabel titleLabel;
+//    private ImageIcon imageIcon;
+//    private JLabel titleLabel;
     private JScrollPane verticalScrollPane;
     private HelpPanel helpPanel;
     private JPanel northPanel;
-    private int paddingDY = 5;
+    private int paddingDY = 0;
     private JScrollPane horizontalScrollPane;
 
     public ContentPanel getControlPane() {
@@ -57,10 +57,10 @@ public class ControlPanel extends JPanel {
         // The panel with the logo
 //        URL resource = getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.gif" );
 //        URL resource = ;
-        imageIcon = new ImageIcon( PhetCommonResources.getInstance().getImage( "logos/phet-logo-120x50.jpg" ) );
-        titleLabel = ( new JLabel( imageIcon ) );
+//        imageIcon = new ImageIcon( PhetCommonResources.getInstance().getImage( "logos/phet-logo.jpg" ) );
+//        titleLabel = ( new JLabel( imageIcon ) );
         northPanel = new JPanel();
-        northPanel.add( titleLabel );
+//        northPanel.add( titleLabel );
         addToPanel( northPanel );
 
         // The panel where the simulation-specific controls go
@@ -72,7 +72,7 @@ public class ControlPanel extends JPanel {
 
         // The panel for the help button
         helpPanel = new HelpPanel( module );
-        addToPanel( helpPanel );
+//        addToPanel( helpPanel );
         setHelpPanelEnabled( module.hasHelp() );
 
         addComponentListener( new ComponentAdapter() {
@@ -135,7 +135,7 @@ public class ControlPanel extends JPanel {
      * Removes the logo from the control panel
      */
     public void removeTitle() {
-        northPanel.remove( titleLabel );
+//        northPanel.remove( titleLabel );
     }
 
     /**
@@ -208,8 +208,9 @@ public class ControlPanel extends JPanel {
          * @param parent
          */
         public void layoutContainer( Container parent ) {
+//            northPanel.setBounds( getPositionToCenter( northPanel ), 0, northPanel.getPreferredSize().width, northPanel.getPreferredSize().height );
             northPanel.setBounds( getPositionToCenter( northPanel ), 0, northPanel.getPreferredSize().width, northPanel.getPreferredSize().height );
-            helpPanel.setBounds( getPositionToCenter( helpPanel ), getHeight() - helpPanel.getPreferredSize().height, helpPanel.getPreferredSize().width, helpPanel.getPreferredSize().height );
+//            helpPanel.setBounds( getPositionToCenter( helpPanel ), getHeight() - helpPanel.getPreferredSize().height, helpPanel.getPreferredSize().width, helpPanel.getPreferredSize().height );
 
             remove( verticalScrollPane );
             remove( horizontalScrollPane );
@@ -340,12 +341,13 @@ public class ControlPanel extends JPanel {
          * @return
          */
         private int getLogoBottom() {
-            if ( northPanel.isVisible() && containsComponent( northPanel ) ) {
-                return northPanel.getY() + northPanel.getHeight();
-            }
-            else {
-                return 0;
-            }
+            return 0;
+//            if ( northPanel.isVisible() && containsComponent( northPanel ) ) {
+//                return northPanel.getY() + northPanel.getHeight();
+//            }
+//            else {
+//                return 0;
+//            }
         }
 
         /**

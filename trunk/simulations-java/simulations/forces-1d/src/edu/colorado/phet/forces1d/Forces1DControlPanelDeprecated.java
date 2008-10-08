@@ -52,12 +52,12 @@ public class Forces1DControlPanelDeprecated extends IForceControl {
 
         module.setObject( module.getObject( 0 ) );
         super.setHelpPanelEnabled( true );
-        if ( Toolkit.getDefaultToolkit().getScreenSize().width >= 1280 ) {
-
-        }
-        else {
-            super.removeTitle();
-        }
+//        if ( Toolkit.getDefaultToolkit().getScreenSize().width >= 1280 ) {
+//
+//        }
+//        else {
+//            super.removeTitle();
+//        }
 
 
         JPanel smallPanel = new JPanel();

@@ -1,3 +1,7 @@
+New in 1.18.08 (10-7-2008)
+Removed logo
+Fixed control panel layout to get all controls to fit onscreen on startup
+
 New in 1.18.07 (10-7-2008)
 Moved position control above advanced control panel
 

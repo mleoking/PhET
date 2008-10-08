@@ -17,6 +17,7 @@ import edu.colorado.phet.forces1d.model.Block;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 import edu.colorado.phet.forces1d.model.Force1dObject;
 import edu.colorado.phet.forces1d.phetcommon.view.util.GraphicsState;
+import edu.colorado.phet.forces1d.phetcommon.view.help.HelpPanel;
 import edu.colorado.phet.forces1d.view.FreeBodyDiagramSuite;
 
 /**
@@ -57,9 +58,9 @@ public class Forces1DControlPanel extends IForceControl {
         addControl( new FBDButton( fbdSuite ) );
         addControl( fbdSuite.getFreeBodyDiagramPanel() );
 
-        if ( Toolkit.getDefaultToolkit().getScreenSize().width < 1200 ) {
-            super.removeTitle();
-        }
+//        if ( Toolkit.getDefaultToolkit().getScreenSize().width < 1200 ) {
+//            super.removeTitle();
+//        }
 
         addFullWidth( new ShowComponentForcesCheckBox( module ) );
         addFullWidth( new ShowTotalForceCheckBox( module ) );
@@ -236,6 +237,7 @@ public class Forces1DControlPanel extends IForceControl {
         advancedPanel.addControl( kineticFriction );
         advancedPanel.addControl( restore );
 
+        addControl( new HelpPanel(module ) );
     }
 
 
