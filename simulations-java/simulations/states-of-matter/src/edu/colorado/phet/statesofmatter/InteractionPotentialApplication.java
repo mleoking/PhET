@@ -137,7 +137,7 @@ public class InteractionPotentialApplication extends PiccoloPhetApplication impl
 
                 PhetApplicationConfig config = 
                     new PhetApplicationConfig( args, StatesOfMatterConstants.FRAME_SETUP, 
-                            StatesOfMatterResources.getResourceLoader() );
+                            StatesOfMatterResources.getResourceLoader(), "interaction-potential" );
                 
                 PhetLookAndFeel p = new PhetLookAndFeel();
                 p.setBackgroundColor( StatesOfMatterConstants.CONTROL_PANEL_COLOR );
