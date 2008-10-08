@@ -449,7 +449,7 @@ EOT;
                         </div>
 
                         <div id="footer">
-                            <p>&copy; 2008 University of Colorado. <a href="http://phet.colorado.edu/about/licensing.php ">Some rights reserved.</a></p>
+                            <p>&copy; 2008 University of Colorado. <a href="{$this->prefix}about/licensing.php ">Some rights reserved.</a></p>
                         </div>
                     </div>
                 </div>
