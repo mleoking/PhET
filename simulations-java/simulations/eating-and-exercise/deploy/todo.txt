@@ -2,9 +2,6 @@
 ###	Todo Sam	####
 ############################
 
-There seems to be a bug where you can't enter values for height when set to metric values. You can't change the values with the slider either (you can move the slider but it does not change the value.)
-Also, when you switch back to English it makes a red arrow on the weight slider. You should be able to reproduce this by setting to metric, move the weight slider, set back to English.
- 
 ############################
 ###	Todo Noah P	####
 ############################
