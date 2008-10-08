@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.event.MouseInputAdapter;
+import javax.swing.*;
 
 public class RenderPanel extends Panel implements RenderablePanel {
 

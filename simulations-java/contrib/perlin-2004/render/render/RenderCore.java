@@ -735,12 +735,12 @@ public class RenderCore implements Runnable {
 			return true;
 		}
 
-		if (Renderer.isDragging()) {
-			theta += .03 * (double) (x - mx); // HORIZONTAL VIEW ROTATION
-			phi += .03 * (double) (y - my); // VERTICAL VIEW ROTATION
-			mx = x;
-			my = y;
-		}
+//		if (Renderer.isDragging()) {
+//			theta += .03 * (double) (x - mx); // HORIZONTAL VIEW ROTATION
+//			phi += .03 * (double) (y - my); // VERTICAL VIEW ROTATION
+//			mx = x;
+//			my = y;
+//		}
 		if (frameRate < 10 && renderer.lod < 4)
 			if (enableLod)
 				renderer.lod++;
