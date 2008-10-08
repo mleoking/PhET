@@ -2,7 +2,9 @@
 
 package edu.colorado.phet.common.phetcommon.view;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -12,7 +14,6 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
@@ -37,7 +38,6 @@ public class TimeControlPanel extends JPanel {
     private JLabel unitsLabel;
     private JPanel buttonPanel;
     private JPanel timeDisplayPanel;
-//    private AnimatedClockJComponent animatedClockIcon;
 
     private NumberFormat timeFormat;
     private double time;
@@ -91,9 +91,6 @@ public class TimeControlPanel extends JPanel {
         timeDisplayPanel.add( timeTextField );
         timeDisplayPanel.add( unitsLabel );
 
-        // Animated clock icon
-//        animatedClockIcon = new AnimatedClockJComponent();
-
         // User panel, for stuff between the time display and buttons
         userPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
 
@@ -108,9 +105,6 @@ public class TimeControlPanel extends JPanel {
 
         // Layout the button panel
         setLayout( new FlowLayout( FlowLayout.CENTER ) );
-//        if ( PhetApplication.instance().isDeveloperControlsEnabled() ) { //TODO: only in dev versions until we finish this feature
-//            add( animatedClockIcon );
-//        }
         add( timeDisplayPanel );
         add( userPanel );
         add( buttonPanel );
@@ -149,20 +143,6 @@ public class TimeControlPanel extends JPanel {
      */
     public void setStepButtonText( String text ) {
         stepButton.setText( text );
-    }
-
-    /**
-     * Advances the animated clock icon by one step.
-     */
-    public void advanceAnimatedClockIcon() {
-//        animatedClockIcon.advance();
-    }
-
-    /**
-     * Resets the animated clock icon to its initial state.
-     */
-    public void resetAnimatedClockIcon() {
-//        animatedClockIcon.reset();
     }
 
     /**

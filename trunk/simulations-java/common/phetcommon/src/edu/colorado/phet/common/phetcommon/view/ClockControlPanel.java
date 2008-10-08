@@ -60,11 +60,6 @@ public class ClockControlPanel extends TimeControlPanel {
 
             public void simulationTimeChanged( ClockEvent clockEvent ) {
                 setTimeDisplay( clock.getSimulationTime() );
-                advanceAnimatedClockIcon();
-            }
-
-            public void simulationTimeReset( ClockEvent clockEvent ) {
-                resetAnimatedClockIcon();
             }
         };
         clock.addClockListener( clockListener );
