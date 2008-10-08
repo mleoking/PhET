@@ -52,6 +52,4 @@ if [ "$NUMBER_OF_BACKUP_DIRS" -gt "$MAX_BACKUP_DIRS" ]; then
       fi
       let "NUMBER_OF_BACKUP_DIRS -= 1"
    done
-else
-   echo "Not deleting any backup directories."
 fi
