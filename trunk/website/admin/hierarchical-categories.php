@@ -145,7 +145,14 @@ class HierarchicalCategories {
             if (!empty($stuff)) {
                 if (isset($stuff['data'])) {
                     $data = $stuff['data'];
-                    $user_fn($user_var, $data, $depth);
+
+                    // Determine if there are children
+                    $has_child = false;
+                    if (count($stuff) > 1) {
+                        $has_child = true;
+                    }
+
+                    $user_fn($user_var, $data, $depth, $has_child);
                 }
             }
             $this->walk($user_fn, $user_var, $stuff, $depth + 1);
