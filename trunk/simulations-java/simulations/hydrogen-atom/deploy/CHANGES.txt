@@ -1,27 +1,23 @@
-===============================================================================
-Change history for hydrogen-atom
-===============================================================================
-
-DONE:
+10/8/08 - moved list of rejected features to Unfuddle 802
 6/24/08 - move SphericalNode to piccolo-phet
 5/20/08 - replace Font with PhetFont
-***** 1.07.00 (21248)
-***** 1.06.01 (21223)
+# 1.07.00 (21248)
+# 1.06.01 (21223)
 5/7/08 - pickup PhetDefaultFont support for Japanese preferred fonts [543]
 4/4/08 - remove clock icon from HAClockControlPanel, animated icon was added to phetcommon
 1/7/08 - replace "Lucida Sans" with PhetDefaultFont in test code
-***** 1.06.00 (18580)
+# 1.06.00 (18580)
 11/16/07 - Experiment atom was getting stuck in (2,0,0), needed to attached a MetastableHander to it (similar to Schrodinger)
 11/9/07 - move about.credits property to localization file
 8/29/07 - replace HAWiggleMe with piccolo-phet DefaultWiggleMe
 8/29/07 - replace JLabel().getFont() with PhetDefaultFont
 8/27/07 - migrated photon image creation and caching to piccolo-phet (PhotonImageFactory)
-***** 1.05.00 (17033)
+# 1.05.00 (17033)
 7/27/07 - new version published as part of new website deployment
 7/24/07 - PhotonImageGenerator utility added by Sam Reid
 7/10/07 - use -dev commandline arg to enable developer controls instead of javaws.phet.developer property
 6/15/07 - convert description properties to well-formed HTML
-***** 1.04.00 (15867)
+# 1.04.00 (15867)
 6/13/07 - use property javaws.phet.developer to enable developer controls
 6/13/07 - remove ARTS implementation (GPL) of associated Legendre polynomials, remove from credits
 6/13/07 - integrate Sam Reid's solver for associated Legendre polynomials
@@ -32,7 +28,7 @@ DONE:
 4/6/07 - set locale in Spanish JNLP file via javaws.phet.locale property
 4/6/07 - encapsulate loading of strings and images in HAResources
 4/6/07 - convert from SimStrings to PhetProjectConfig
-***** 1.03.00 (14208)
+# 1.03.00 (14208)
 4/5/07 - change SolarSystemEnergyDiagram.MIN_RADIUS so electron's last position will be at bottom of chart for all clock speeds
 4/4/07 - add energy model to Solar System energy diagram
 4/3/07 - make Solar System energy diagram work correctly with variable clock speed
@@ -42,7 +38,7 @@ DONE:
 3/20/07 - move ArgUtils to phet.common.util.CommandLineUtils
 3/15/07 - move ModelViewManager framework to its own package
 3/15/07 - eliminate dependency of BoxOfHydrogenNode on AnimationBoxNode, reimplement tiny box
-***** 1.02.00 (13772)
+# 1.02.00 (13772)
 3/14/07 - rename SimStrings files to have basename hydrogenatom_strings
 3/14/07 - move images to data/hydrogenatom/images to avoid namespace collisions
 3/14/07 - get version and credits from properties file
@@ -51,7 +47,7 @@ DONE:
 3/12/07 - move RoundGradientPaint to phetcommon
 3/12/07 - used PhetPCanvas.getWorldSize
 3/12/07 - bug fix in MovingObject.setSpeed
-***** CVS tag: hydrogenatom-1-01-00-2007-02-16
+CVS tag: hydrogenatom-1-01-00-2007-02-16
 (2/16/07) - add "Light controls" label at top of GunControlPanel
 (2/16/07) - hide alpha particles features in gun control panel (GunControlPanel.SHOW_ALPHA_PARTICLE_CONTROLS = false)
 (2/16/07) - hide dt value shown in clock control panel (HAClockControlPanel.DEBUG_SHOW_DT = false)
@@ -59,19 +55,19 @@ DONE:
 (2/16/07) - change MetastableHandler.MAX_STUCK_SIM_TIME to 100
 (2/16/07) - change BohrModel.MIN_TIME_IN_STATE to 50
 (2/7/07) - very brief package level javadoc
-***** CVS tag: hydrogenatom-1-00-03-2007-02-05
+CVS tag: hydrogenatom-1-00-03-2007-02-05
 (2/5/07) - AbstractHydrogenAtom.COLLISION_CLOSENESS should have double precision
 (2/5/07) - include electron radius in calculation of "collision closeness" threshold
 (2/5/07) - restore the wavelength cursor, make it white so it doesn't interfere with absorption wavelength marks
 (2/2/07) - change first column of Transitions dialog to "n transition"
-***** CVS tag: hydrogenatom-1-00-02-2007-02-02
+CVS tag: hydrogenatom-1-00-02-2007-02-02
 (2/2/07) - bugfix: visibility of "Show absorption wavelength" checkbox is not correct
 (2/2/07) - use ActionListener for checkboxs in Gun control panel to prevent duplicate events 
 (2/2/07) - make "Show absorption wavelengths" control visible only for relevant models
 (2/2/07) - fix alignment of wavelength knob & cursor, move origin to knob's tip and cursor's top-center
 (2/2/07) - mark ground state absorption wavelengths in wavelength control, use vertical black lines in track
 (2/2/07) - add interfaces to WavelengthControl to support adding marks to track
-***** CVS tag: hydrogenatom-1-00-01-2007-02-01
+CVS tag: hydrogenatom-1-00-01-2007-02-01
 (2/2/07) - use sim time for time stuck in metastable state before firing a photon, add dev control (rollup)
 (2/1/07) - add "Show absorption wavelengths" checkbox below wavelength slider (not wired up)
 (2/1/07) - in deBroglie radial view, wave functions for all states should have same max amplitude
@@ -94,10 +90,10 @@ DONE:
 (1/29/07) - change order of deBroglie views to: radial, 3D, brightness
 (1/29/07) - set default deBroglie view to radial
 (1/29/07) - add 2 faster clock speeds
-***** CVS tag hydrogenatom-1-00-00-2007-01-17
+CVS tag hydrogenatom-1-00-00-2007-01-17
 (1/17/07) - publish 1.0 to PhET website
 (1/17/07) - fix and test JNLP files in deploy/
-***** CVS tag hydrogenatom-0-00-22-2007-01-16
+CVS tag hydrogenatom-0-00-22-2007-01-16
 (1/16/07) - create final thumbnail image, based on snapshot from Sam McKagan
 (1/16/07) - add description (abstract) to SimStrings file, translate to Spanish
 (1/16/07) - make period of energy squiggle a function of wavelength
@@ -125,7 +121,7 @@ DONE:
 (1/10/07) - change HAModel and Model to use to use toArray for iterating over non-empty collections that may change
 (1/10/07) - reuse transform in EnergySquiggle
 (1/9/07) - make a new thumbnail image
-***** CVS tag hydrogenatom-0-00-21-2007-01-09
+CVS tag hydrogenatom-0-00-21-2007-01-09
 (1/9/07) - set probability of absorption and stimulated emission to 100% in Bohr/deBroglie/Schrodinger
 (1/9/07) - test Spanish translations
 (1/9/07) - run Schrodinger for 3.5 hours with white light, no problems
@@ -142,7 +138,7 @@ DONE:
 (1/8/07) - remove SwitchAnimatorNode, it introduced new problems and looked odd
 (1/8/07) - wire SwitchAnimatorNode into HAModule
 (1/8/07) - write SwitchAnimatorNode for sliding atomic model selector panel up/down
-***** CVS tag hydrogenatom-0-00-20-2007-01-05
+CVS tag hydrogenatom-0-00-20-2007-01-05
 (1/6/07) - bugfix: gun is initialized to white light, but intensity slider shows a color
 (1/5/07) - position spectrometer snapshot based on position of most-recently created snapshot
 (1/5/07) - bugfix: gun defaults to white light but shows monochromatic controls
@@ -179,7 +175,7 @@ DONE:
 (1/3/07) - make spectrometer cover its "show" checkbox
 (1/3/07) - use CloseButtonNode in spectrometer and its snapshots
 (1/3/07) - refactor close button code into CloseButtonNode
-***** CVS tag hydrogenatom-0-00-19-2007-01-02
+CVS tag hydrogenatom-0-00-19-2007-01-02
 (1/2/07) - add separate layers for state indicators and squiggles in energy diagrams
 (1/2/07) - implement Schrodinger energy diagram with no squiggles, no m=
 (1/2/07) - move common code for node creation and energy value calculation to AbstractEnergyDiagram
@@ -211,7 +207,7 @@ DONE:
 (12/26/06) - add unit test program for SchrodingerNode, populates cache for all possible states
 (12/26/06) - bugfix: bad array initialization in SchrodingerNode.BrightnessCache constructor
 (12/26/06) - make tick labels on spectrometer larger and bold font
-***** CVS tag hydrogenatom-0-00-18-2006-12-21
+CVS tag hydrogenatom-0-00-18-2006-12-21
 (12/21/06) - bugfix: ArrayOutOfBoundsException in SchrodingerModel.chooseLowerElectronState, introduced in 0.00.16
 (12/21/06) - in SchrodingerModel.chooseLowerElectronState, (n,0,0)->(1,0,0) is forbidden for all value of n
 (12/21/06) - make spectrometer "running" by default
@@ -235,11 +231,11 @@ DONE:
 (12/21/06) - make size of SpectrometerNode variable
 (12/21/06) - change Spectrometer image files, draw display area using Java2D
 (12/21/06) - change Schrodinger button to show ground state
-***** CVS tag hydrogenatom-0-00-17-2006-12-20
+CVS tag hydrogenatom-0-00-17-2006-12-20
 (12/20/06) - add "show traces" feature for alpha particles
 (12/20/06) - modify ModelViewManager to support multiple views of a ModelElement
 (12/20/06) - update images on atomic model selector buttons using screen snapshots
-***** CVS tag hydrogenatom-0-00-16-2006-12-19
+CVS tag hydrogenatom-0-00-16-2006-12-19
 (12/19/06) - javadoc for SchrodingerModel
 (12/19/06) - bugfix: HTML arrows don't work on Windows, replace with "->" and "<->"
 (12/19/06) - implement special cases for Schrodinger (2,0,0) state
@@ -255,7 +251,7 @@ DONE:
 (12/15/06) - show Schrodinger proton if brightness at center is less than some threshold
 (12/14/06) - increase default clock speed
 (12/14/06) - change gun's min wavelength to 92nm so that atom can't be ionized (ionization feature was dropped)
-***** CVS tag hydrogenatom-0-00-15-2006-12-13
+CVS tag hydrogenatom-0-00-15-2006-12-13
 (12/14/06) - turn off debug graphics on deBroglie 3D view (roll into 0.00.15)
 (12/14/06) - remove seams between quadrants of grid in SchrodingerNode (roll into 0.00.15)
 (12/13/06) - add proton to center of Schrodinger atom
@@ -278,7 +274,7 @@ DONE:
 (12/8/06) - improve performance of deBroglie 3D view "rotate into place" animation, don't flatten orbits to image
 (12/7/06) - implement collision detection with deBroglie 3D orbits
 (12/7/06) - emit photons along deBroglie 3D orbits
-***** CVS tag hydrogenatom-0-00-14-2006-12-06
+CVS tag hydrogenatom-0-00-14-2006-12-06
 (12/6/06) - reduce probability of stimulated emission
 (12/6/06) - verified that emission is not favoring state=1 (looks like this because stimualted emission happens often!)
 (12/6/06) - add up/down arrow support in WavelengthControl textfield
@@ -306,7 +302,7 @@ DONE:
 (11/30/06) - use a separate instance of Random for each task in Gun model
 (11/30/06) - rename SpectralLineTableDialog to TransitionsDialog, label "Transitions"
 (11/30/06) - change white light to be 60% random visible wavelengths, 40% transition wavelengths for state=1
-***** CVS tag hydrogenatom-0-00-13-2006-11-29
+CVS tag hydrogenatom-0-00-13-2006-11-29
 (11/29/06) - add temp hack for deBroglie 3D bounds paint problem
 (11/29/06) - big reorg of DeBroglieHeight3DNode in order to optimize memory usage
 (11/29/06) - make Wireframe3D and Wireframe3DNode mutable, reuse where possible
@@ -329,9 +325,9 @@ DONE:
 (11/28/06) - first pass at 3D deBroglie view using Sun's Wireframe code
 (11/27/06) - setPickable(false) on all non-interactive nodes
 (11/27/06) - move OrbitNodeFactory to its own file
-***** CVS tag hydrogenatom-0-00-12-2006-11-22
+CVS tag hydrogenatom-0-00-12-2006-11-22
 (11/22/06) - remove n-dependence of oscillation frequency from deBroglie (make all levels oscillate at same frequency as n=1)
-***** CVS tag hydrogenatom-0-00-11-2006-11-21
+CVS tag hydrogenatom-0-00-11-2006-11-21
 (11/21/06) - fix DeBroglieModel to use COLLISION_CLOSENESS in its collision detection
 (11/21/06) - rename AbstractHydrogenAtom.ABSORPTION_CLOSENESS to COLLISION_CLOSENESS
 (11/21/06) - clean up Developer Controls dialog to make it clearer
@@ -345,7 +341,7 @@ DONE:
 (11/20/06) - 1st pass at DeBroglie "brightness" and "brightness magnitude" representations (approx a ring using circles)
 (11/20/06) - implement DeBroglie "radial distance" representation
 (11/20/06) - remove temporary Schrodinger atom image, replace with "not implemented" text
-***** CVS tag hydrogenatom-0-00-10-2006-11-18
+CVS tag hydrogenatom-0-00-10-2006-11-18
 (11/18/06) - bugfix: Legend & Spectral Line Table dialogs can't be reopened if closed via window dressing
 (11/18/06) - create hierarchy of "view strategies" for use in DeBroglieNode
 (11/18/06) - hook up "deBrogile view" menu to DeBroglieNode via DeBroglieModel
@@ -370,7 +366,7 @@ DONE:
 (11/13/06) - change default "max particles" to 20, default intensity to 50%
 (11/13/06) - specify gun firing rate as "max particles in box"
 (11/12/06) - ExperimentModel extends SchrodingerModel
-***** CVS tag hydrogenatom-0-00-09-2006-11-12
+CVS tag hydrogenatom-0-00-09-2006-11-12
 (11/12/06) - sync with phetcommon
 (11/12/06) - cache photon images
 (11/12/06) - tested Bohr state transitions, fixed bugs
@@ -396,7 +392,7 @@ DONE:
 (11/9/06) - fix "closeness" deflection workaround on left side of plum pudding atom
 (11/8/06) - add adhoc state change to Bohr absorb/emit, for testing electron motion
 (11/8/06) - add electron motion to Bohr model
-***** CVS tag hydrogenatom-0-00-08-2006-11-08
+CVS tag hydrogenatom-0-00-08-2006-11-08
 (11/8/06) - add Rutherford scattering to Schrodinger model
 (11/8/06) - add workaround for alpha particles that get stuck in center of plum pudding
 (11/8/06) - move all code related to D out of atom models and into RutherfordScattering class
@@ -420,9 +416,9 @@ DONE:
 (11/6/06) - make photons and alpha particles subclasses of MovingObject (mutable postion, orientation, speed)
 (11/6/06) - make Gun and atoms subclasses of FixedObject (immutable position and orientation)
 (11/4/06) - switchable between 3 different "looks" for UV/IR photons
-***** CVS tag hydrogenatom-0-00-07-2006-11-04
+CVS tag hydrogenatom-0-00-07-2006-11-04
 (11/4/06) - remove UV/IR labels from photons, use colored crosshairs
-***** CVS tag hydrogenatom-0-00-06-2006-11-03
+CVS tag hydrogenatom-0-00-06-2006-11-03
 (11/4/06) - make UV/IR photons switchable in legend (roll in)
 (11/4/06) - make photon representations for UV/IR switchable (roll in)
 (11/3/06) - increase probability of photon emission in plum pudding
@@ -457,7 +453,7 @@ DONE:
 (10/31/06) - when SolarSystem atom is destroyed, replace proton & electron with "kaboom" image
 (10/26/06) - implement SolarSystemModel
 (10/26/06) - sync with phetcommon
-***** CVS tag hydrogenatom-0-00-05-2006-10-25
+CVS tag hydrogenatom-0-00-05-2006-10-25
 (10/25/06) - javadoc
 (10/25/06) - change BilliardBallNode to use shape instead of image file
 (10/25/06) - implement collision detection and handling for BilliardBallModel
@@ -483,7 +479,7 @@ DONE:
 (10/19/06) - change sim title to "Models of the Hydrogen Atom"
 (10/5/06) - set default clock speed index = 2
 (10/5/06) - attach wiggleme to gun's on/off button, remove wiggleme position from SimStrings
-***** CVS tag hydrogenatom-0-00-04-2006-10-04
+CVS tag hydrogenatom-0-00-04-2006-10-04
 (10/4/06) - center align icons in Legend
 (10/4/06) - don't reset the clock when sim speed is changed
 (10/4/06) - add very kludgy ModelViewTransform, photons & alpha particles animating in atom box
@@ -517,10 +513,10 @@ DONE:
 (9/27/06) - add StationaryObject, MovingObject, Photon, AlphaParticle, PhotonGun to model
 (9/27/06) - delete photon image and asset files
 (9/27/06) - revise photon look based on feedback
-***** CVS tag hydrogenatom-0-00-03-2006-09-27
+CVS tag hydrogenatom-0-00-03-2006-09-27
 (9/27/06) - convert some shape-based nodes to images for performance
 (9/27/06) - write "orb of light" photon in Java 2D
-***** CVS tag hydrogenatom-0-00-02-2006-09-26
+CVS tag hydrogenatom-0-00-02-2006-09-26
 (9/26/06) - try using new photon image
 (9/26/06) - add an electron to the energy diagrams
 (9/26/06) - encapsulate "Drawings are not to scale" in its own class
@@ -543,9 +539,9 @@ DONE:
 (9/22/06) - add separate resources for ModeSwitch big and small font size
 (9/22/06) - vertically center labels in AtomicModelSelector's continuum subpanel
 (9/22/06) - PSwing changes with Sam Reid to resolve problem with drawing transparent JComponents
-***** CVS tag hydrogenatom-0-00-01-2006-09-21
+CVS tag hydrogenatom-0-00-01-2006-09-21
 (9/21/06) - Sam McKagan requested that I start publishing dev versions
-***** CVS tag hydrogenatom-sandbox-2006-09-20
+CVS tag hydrogenatom-sandbox-2006-09-20
 (9/20/06) - bugfix: couldn't drag spectrometer snapshots (pickable was set to false)
 (9/20/06) - make all font sizes configurable via SimStrings file
 (9/20/06) - configure animation region size in SimStrings file
@@ -558,7 +554,7 @@ DONE:
 (9/19/06) - set pickable flag = false for all non-interactive nodes and their children
 (9/19/06) - combine gun on/off control into GunNode
 (9/19/06) - make gun nozzle smaller
-***** CVS tag hydrogenatom-sandbox-2006-09-19
+CVS tag hydrogenatom-sandbox-2006-09-19
 (9/19/06) - bugfix: beam should be white when "white" light type is selected
 (9/19/06) - make beam straight, no fan-out
 (9/18/06) - show a zoomed-in view of a little section of the box of hydrogen
@@ -570,7 +566,7 @@ DONE:
 (9/18/06) - change UV and IR label on wavelength control, center them in their area (SM request)
 (9/14/06) - change canvas background to black
 (9/14/06) - move spectrometer checkbox above right of spectrometer
-***** CVS tag hydrogenatom-sandbox-2006-09-14
+CVS tag hydrogenatom-sandbox-2006-09-14
 (9/14/06) - translate to Spanish and test layout
 (9/14/06) - change size and color of spectrometer image so it doesn't look the control panels
 (9/14/06) - separate gun control panel out of GunNode
@@ -645,67 +641,3 @@ DONE:
 (8/10/06) - set up CVS commit notification
 (8/10/06) - create JNLP and SimStrings files
 (8/10/06) - set up project in CVS
-
-REJECTED:
-(2/2/07) - alpha particles scale problem, option #1: new views for each atomic model (vetoed by Carl)
-(2/2/07) - alpha particles scale problem, option #2: change Solar System view to have electron spiral in slowly, smaller field of influence for other views (vetoed by Carl)
-(2/2/07) - alpha particles scale problem, option #3: separate panel (vetoed by Carl)
-(2/1/07) - make "Show absorption wavelengths" check box open a dialog that shows absorption transitions (overruled by Wendy and Kathy)
-(2/1/07) - change secondary state 'l' to a curly italic 'l' (couldn't quickly find this char, killed at design meeting)
-(2/1/07) - make UV/IR photons different shades of purple/red (killed at design meeting)
-(2/1/07) - add energy squiggle for gun wavelength (killed at design meeting)
-(2/1/07) - label deBroglie view combo box with "Electron wave function representation" (killed at design meeting)
-(2/1/07) - add a checkbox to open/close Legend window (killed at design meeting)
-(2/1/07) - add a checkbox to open/close Transitions window (killed at design meeting)
-(2/1/07) - put energy level diagram in a moveable window (killed at design meeting)
-(2/1/07) - add traces feature for photons (killed at design meeting)
-(1/29/07) - does the user need help getting out of Schrodinger state (2,0,0) with monochromatic light? (no, will address with wrapper)
-(1/29/07) - are help items needed? (no, based on 4 interviews)
-(1/29/07) - should the spectrometer show each UV/IR transition wavelength at a distinct horizontal position? (no, based on 4 interviews)
-(1/16/07) - reduce size of panel image files  (tried, no significant reduction without affecting image quality)
-(1/16/07) - bug: problem with updating drag bounds of ConstrainedDragHandler (piccolo-phet program, documented the problem, worked around it in WavelengthControl)
-(1/16/07) - bug: ArrayIndexOutOfBoundsException in CursorHandler when you drag the cursor outside the play area, then back inside (happens rarely, nonfatal, problem in piccolo-phet)
-(1/12/07) - if clock is paused, deBroglie 3D view doesn't immediately animate into place (OK as is)
-(1/12/07) - improve performance of Schrodinger, faster Leguerre Polynomial algorithm? (current performance is acceptable)
-(1/12/07) - improve performance of deBroglie brightness views for higher states (current performance is acceptable)
-(1/10/07) - draw DeBroglieBrightNode's ring using one custom PNode, rather than a lot of PPaths (implemented this and it ran much slower)
-(1/10/07) - animation gets a little jerky when you touch wavelength control (Mac only, barely noticeable)
-(1/10/07) - make deBroglie 3D view rotate into place when clock is paused (too hard)
-(1/10/07) - SchodingerModel.chooseLowerElectronState creates ProbabilisticChooser & Entries (not a problem, lightweight)
-(1/10/07) - make EnergySquiggle mutable (no performance benefit, unduly complicates code)
-(1/10/07) - improve performance of deBroglie 3D representation (already fast enough, optimized awhile ago)
-(1/10/07) - rewrite AtomicModelSelector to use inner classes, or layout node (works as is, no need to change)
-(1/10/07) - create layout nodes for creating Piccolo-based control panels (future addition to piccolo-phet project)
-(1/9/07) - show min time that electron is in a state be in wall time? (no, it should be [and is] in sim time) 
-(1/8/07) - verify that ModelViewTransform is used everywhere that it should be (testing reveals it isn't, but the transform will never be anything but 1:1, not worth the effort to debug)
-(1/8/07) - flatten static parts of energy diagram to an image (unlikely to result in perceptible performance improvement)
-(1/8/07) - make AtomicModelSelector panel slide up/down (gratuitous animation, tried it and it caused new problems)
-(1/8/07) - generalize creating a "panel" node to fit under a collection of nodes (PImageFactory.create(String,Dimension) does this)
-(1/8/07) - spontaneously emit 2 photons to get Schrodinger out of state (2,0,0) (dubious, too confusing)
-(12/28/06) - generate 1 image for entire Spectrometer colorKey (UV and IR range must be compressed)
-(12/26/06) - cache Colors (not necessary, little or no payoff)
-(12/26/06) - encapsulate common "look" code in SpectrometerNode and SpectrometerSnapshotNode (there is a very small amout of it, would complicate code)
-(12/20/06) - handle model-view transform differently? (current approach works, changing it would be destabilizing)
-(12/19/06) - SchrodingerNode needs a ViewModelTransform, inverse of ModelViewTransform (document and assume 1:1)
-(12/17/06) - cache Schrodinger brightness in the JAR file (too big, 382K uncompressed, 325K compressed)
-(12/15/06) - cells should be centered on Schrodinger axes (no can do, wavefunction solution undefined for (x,y,z)=(0,0,0) )
-(12/14/06) - "atom destroyed" message with reset button for Solar System model (feature dropped)
-(12/14/06) - "atom ionized" feature for Plum Pudding, Bohr, deBroglie, Schrodinger models (feature dropped)
-(12/8/06) - make panel spacing and canvas spacing configurable via SimStrings file (waste of time)
-(12/8/06) - white light sometimes gets in a state where UV photons are fired only at -x values (cannot reproduce)
-(12/6/06) - design code to accommodate zoom controls on animation region (didn't do it, and will not have this feature)
-(11/30/06) - generate white light photons based on electron's state? (just use transition wavelengths for state=1)
-(11/16/06) - make electron a brighter blue (any light will be indistinguishable from neutron gray)
-(11/16/06) - add "H emission spectrum" option to "white" and "monochrome" options for gun (weighted white light instead)
-(11/7/06) - change global coordinate system so that atom is centered at the origin (not necessary, too destabilizing, code would not be general)
-(11/6/06) - handle AlphaParticle orientation in AlphaParticleNode (not supported by Rutherford Scattering algorith, and Sam McKagan says not necessary)
-(11/1/06) - use constructive geometry to create plum pudding shape that matches image file (approximate as an ellipse)
-(10/5/06) - add zoom buttons to atom box so that it's supported (complicates implementation, unlikely feature)
-(9/14/06) - design a gun control that shoots either one-shot or continuous (intensity controls do this)
-(9/14/06) - delete intensity controls for gun (keep them)
-(9/14/06) - configurable gun nozzle size, make it match height of black box (interface was changed)
-(9/13/06) - bug: toggle buttons in atomic model selector get selected on mouseover, Windows, JDK 1.5.0_08 (got rid of toggle buttons)
-(8/30/06) - port wavelength control from Photoelectric Effect sim (easier to rewrite)
-
-===============================================================================
-end of file

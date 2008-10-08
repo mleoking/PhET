@@ -1,81 +1,16 @@
-================================================================================
-Change history for glaciers
-================================================================================
-
-HIGHEST PRIORITY:
-
-HIGH PRIORITY:
-- [727] glacier growth from zero length still takes a long time, and then speeds up
-- [726] flags and debris on glacier surface stop advancing when glacier is retreating
-
-MEDIUM PRIORITY:
-- [728] change color of glacier cross-section
-- [725] finalize Help items
-- [731] change label on steady state button
-
-LOW PRIORITY:
-- [735] improve smoothness of DistanceAxisNode (x-axis for coordinates feature)
-- [558] edges of thermometer & ice thickness tool icons are clipped
-- [734] dragging out and immediately into the toolbox doesn't delete tool
-- [736] ticks & labels on sliders should be white, code to set their color is not working (Mac OS 10.4 only?)
-- [735] Spanish translation
-- [738] crop SVG mountains image to prevent OutOfMemoryException
-- YAW_X_OFFSET should be computed as a function of YAW_ROTATION and PITCH_Y_OFFSET
-- remove registration points from background image in any versions published to PhET website
-- make sure everything works properly when clock is paused
-
-DEFERRED FOR INTERVIEWS:
-- behavior of glacial budget meter (snap-to-ice) is hard to discover
-- do we want to show values or relative ranges (temperature=cold-to-hot,snowfall=none-to-lots) for Intro climate controls?
-
-DEFERRED FOR FUTURE VERSION:
-- [724] make borehole drill fire every N years
-- [729] "steady state" feature needs to fill glacier with debris and surface ripples
-- "steady state" feature needs to advance clock to the time at which the glacier would reach its steady state
-- "steady state" feature needs to fill in missing data in time-dependent graphs
-- climate experiments interface (start with a time estimate)
-- Experiments module
-- always collect data for time-based graphs, keep "latest" & "historical" data points, compress historical, limit historical size
-- add zoom in/out button for time-based graphs; show scrolling "latest" data or complete "historical"
-
-REFACTOR:
-- eliminate code duplication in modules
-- GlaciersModel is too big
-- PlayArea is too big
-- generalize all charts, there's too much duplicated code
-- PlayArea.verticallyAlignZoomedViewport makes a change to viewport and results in itself being called again (it works, but not very elegant)
-- delete trash can code & image file if we're sure we'll never need it
-
-PERFORMANCE OPTIMIZATIONS:
-- Valley.getX uses divide-and-conquer
-- Climate.updateELA uses divide-and-conquer
-- Glacier.findSurfaceAtELA does divide-and-conquer
-- Glacier.getIceSpeed(x,z) doesn't reuse speed at x values
-- Valley.getElevationLeftOfHeadwall does lookup and interpolation
-
-MIGRATE TO PHETCOMMON:
-- DoubleSpinner
-- SliderOnlyLayoutStrategy
-- HorizontalLayoutStrategy
-
-CLEANUP:
-- setPickable(false) on non-interactive nodes
-- rescale image files to minimize file size
-- disable all debug output
-- optimize memory management by reusing mutable objects
-- remove unused images
-
-
-DONE:
+10/8/08 - moved list of rejected features to Unfuddle 796
 10/2/08 - move default left edge of zoomed view to -3400, so that there is more space to right of default terminus
 ******* 1.00.07 (24829)
 9/29/08 - get rid of scale calls in BoreholeDrillNode, resize image files
 9/29/08 - [750] make borehole drill draggable by fire button
 9/29/08 - set hgap and vgap to zero for control panel FlowLayouts
+> change default snowfall to 0.93m (was 0.95m)
 9/29/08 - [730] change default snowfall to 0.93m (was 0.95m) so that entire default glacier fits in zoomed viewport at new x-axis scale
 9/29/08 - [730] change x-axis scale from 0.062 to 0.1 so that 80km fills most of the birds-eye view
+> make Glacial Budget Meter tool snap to surface of ice or valley when it is released
 9/29/08 - [733] glacial budget meter snap to valley floor and show values for x<0 ,like it does for x>=0
 9/29/08 - [733] make glacial budget meter snap to glacier surface (or valley surface) when released, ala tracer flags
+> replace "Show glacier picture" check box with "Show glacier picture" button
 9/29/08 - [732] change glacier picture button to use text "Show glacier picture"
 9/20/08 - reposition sample help items so they don't overlap any controls
 9/20/08 - increase glacial budget meter snap threshold to 1.5x what it is now (150 meters)
@@ -106,6 +41,7 @@ DONE:
 9/9/08 - convert existing data in time-based charts when switching units
 9/9/08 - switch charts between English & metric units, any existing charts are closed and time-based data is lost
 9/9/08 - change string keys for chart axes to accommodate switching between English and metric
+> add ability to switch between English and metric units
 9/9/08 - completed: switch coordinates view between English & metric units
 9/9/08 - add CoordinatesNode, parent node for distance and elevation axes
 9/9/08 - rewrite ElevationAxisNode to handle English/metric switching
@@ -120,12 +56,16 @@ DONE:
 9/8/08 - bugfix: snowfall gradient doesn't draw properly and crashes on Mac OS 10.4 (see Unfuddle #553)
 9/8/08 - update snowfall shape based on bounds of both birds-eye and zoomed viewports, so that sky doesn't above snow in zoomed view on large monitors
 9/8/08 - simplify shape of snowfall, don't use constructive area geometry
+> add File>Save and File>Load menu items
 9/4/08 - implement Save/Load feature
 9/4/08 - replace "glacier picture" check box with a button (icon on button, to left of steady state button)
-9/4/08 - strip chart implementation for "ELA versus time" chart
+> add "Equilibrium Line Altitude vs Time" graph
+9/4/08 - strip chart implementation for "ELA versus time" graph
+> show both ablation and negative ablabtion on "Glacial Budget vs Elevation" chart
 9/4/08 - show both ablation (solid green) & negative ablation (dashed green) on "glacial budget vs elevation" chart
 9/4/08 - revert change to names of time-based graphs made on 8/28/08
 8/28/08 - rename time-based graph classes and labels, should be "time vs ...", not "... vs time"
+> add "Glaciers Length vs Time" graph
 8/28/08 - make "glacier length vs time" graph a strip chart that keeps 1000 years worth of data
 8/28/08 - draw valley floor for x<0 using Java 2D, to clean up snow/valley interface
 ******* 1.00.01 (23914)
@@ -746,40 +686,3 @@ DONE:
 10/1/07 - add example model element, node, and control panel for demonstration
 10/1/07 - package and class javadoc for skeleton
 9/27/07 - set up simulation skeleton, check in to SVN
-
-REJECTED:
-9/9/09 - add headwallX to new ice thickness model in model.txt, which assumes headwallX=0 (too much work for Archie, assert headwallX==0 in model code)
-8/28/08 - make zoomed viewport follow terminus (defer until we decide whether this is really needed)
-8/28/08 - add rocks falling off mountains onto glacier surface?
-8/28/08 - more "cartoonish" view for Basic panel?
-7/22/08 - constrain tools to dragging in birds-eye bounds (no, too much work, tools are cheap)
-7/22/08 - cleanup duplicate boilerplate code in ToolboxNode constructor (OK as is, very readable)
-7/22/08 - refactor model listener class hierarchy (too destabilizing, not clear that it would result in a better design)
-7/22/08 - change color of ice flow vectors so that they are different than debris color? (no, Wendy says OK as is)
-6/4/08 - move trash can out of toolbox (hide trash can instead)
-5/22/08 - support very long experiment times (use the "steady state" button to jump to end of long experiments)
-5/22/08 - make fastest speed faster, vary dt instead of framerate (both approaches have problems, use steady state button for long experiements)
-5/19/08 - extruded portion of ice jiggles at headwall while it's evolving (problem disappeared)
-5/19/08 - developer controls for ice velocity "look"? (it's a lot of work, no one has asked for it)
-5/15/08 - Archie reports flags behaving strangely, similar positions moving at different rates, occurs when dropped close to valley floor? 
-(could not reproduce)
-5/12/08 - move "dragging" property out of tool model (necessary and consistent with model of tools)
-5/9/08 - change cursor to universal "no" symbol when tools are at an illegal drop location (not necessary, expensive)
-5/9/08 - when a tool is dragged from the toolbox and dropped illegally, snap it back to the toolbox (snap to closest legal position)
-5/9/08 - when a tool is dragged in the world and dropped illegally, snap it back to its location at the start of the drag (snap to closest legal position)
-5/9/08 - in model hierarchy, make inner listeners extend other listeners of superclasses (bad idea)
-5/8/08 - animate textures to show ice motion (no can do, different points in ice have different velocities)
-5/8/08 - replace Glacier._surfaceAtSteadyStateELA with something cleaner? (it's fine)
-5/8/08 - divide ice into separate shapes for above and below the ELA (OK to have one shape for entire surface, with overlaid shape of below ELA)
-4/21/08 - optimize ice flow vectors, use same 1D grid as ice thickness (no, we need better precision)
-4/15/08 - why does ablation curve back towards zero when elevation < 1000m? (problem went away)
-4/15/08 - Climate model is very sensitive at "warm" end of scale, huge ELA jumps (Archie says this is accurate)
-4/15/08 - add view of valley floor with rivers (this is part of the mountains.svg image file)
-4/14/08 - my ELA values don't match those in Archie's python plots because he's using a grid, which is less accurate
-2/28/08 - what happens when we hit "ice sheet" condition? (we'll set ranges so this can't happen)
-2/27/08 - redesign advanced climate controls (feature was dropped)
-2/27/08 - "Mass Balance" climate controls were dropped
-2/27/08 - "age of ice" feature was dropped
-
-===============================================================================
-end of file

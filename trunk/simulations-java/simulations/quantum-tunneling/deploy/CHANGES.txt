@@ -1,13 +1,10 @@
-===============================================================================
-Change history for quantum-tunneling
-===============================================================================
-
-DONE:
+10/8/08 - moved list of rejected features to Unfuddle 807
 9/5/08 - remove uses of DialogUtils, use JOptionPane directly
 5/20/08 - reduce vertical spacing in control panel to remove Mac scrollbars
+> improve fonts
 5/20/08 - call new PhetFont explicitly to create fonts
 4/28/08 - add PhetLookAndFeel to main
-********* version 1.09.00 (18718)
+# 1.09.00 (18718)
 11/29/07 - change name to "Quantum Tunneling and Wave Packets"
 11/9/07 - move about.credits property to localization file
 10/9/07 - migrate "Reset All" and "set minimum width" features to phetcommon ControlPanel
@@ -15,7 +12,7 @@ DONE:
 9/11/07 - rename AbstractModule and AbstractControlPanel, add QT prefix
 8/27/07 - replace "Lucida Sans" with PhetDefaultFont.getDefaultFontName()
 8/16/07 - convert persistence code to use IProguardKeepInterface instead of QTSerializable
-********* version 1.08.00 (17033)
+# 1.08.00 (17033)
 7/27/07 - new version published as part of new website deployment
 7/10/07 - fix load/save so that it doesn't change the clock's run state unless it's for the active module
 7/10/07 - fix modules so that they don't explicty start the clock
@@ -36,7 +33,7 @@ DONE:
 3/14/07 - get version and credits from properties file
 (11/29/06) - add workaround for selecting all text when a DoubleSpinner gains focus
 (10/20/06) - add data/credits.html
-1.07.00...
+# 1.07.00
 (10/4/06) - published new version to PhET web site
 (10/4/06) - fix bug in barrier solvers: when k2 or k4 is zero, set it to 0.00001, so that plane wave doesn't disapper when E=V
 (10/4/06) - increase hbar precision to 0.658212
@@ -60,37 +57,37 @@ DONE:
 (9/28/06) - add RTP support to Reset All feature
 (9/28/06) - add RTP checkbox to control panel
 (9/28/06) - start work on RTP (reflection and transmission probabilities) feature
-1.06.01...
+# 1.06.01
 (9/27/06) - change position range to [-8,12] nm
 (8/24/06) - remove AbstractModule.setHelpEnabled override, problem was fixed by PhetFrameWorkaround
 (7/27/06) - remove special chars from Spanish JNLP file, causes JDOM SAX parser to throw exception
 (7/12/06) - change codebase tag in JNLP files to work with PhET installer
-1.06.00...
+# 1.06.00
 (7/8/06) - change Spanish translation of description in Help>About
 (6/29/06) - bugfix: bounds of drag handles is computed differently when value is visible
 (6/29/06) - move Swing/AWT paint workaround to PhetFrameWorkaround
 (6/29/06) - incorporate workaround for Swing/AWT paint priority problem, see QTApplication.createPhetFrame
-1.05.00...
+# 1.05.00
 (6/21/06) - change: when making a quantum measurement for a plane wave, set the wave function to zero everywhere
-1.04.00...
+# 1.04.00
 (6/13/06) - change zoom levels again
 (6/12/06) - change zoom levels again
 (6/12/06) - add one zoom level for debugging that shows entire curve
 (6/12/06) - add additional zoom levels for Wave Function and Prob Density charts
-1.03.00...
+# 1.03.00
 (5/21/06) - add 0-2PI range to phase label
 (5/21/06) - add a thin dark line to center of total energy gradient
 (5/21/06) - change "Total Energy" to "Average Total Energy" in Configure dialog
 (5/21/06) - change "initial center" to "initial position"
-1.02.00... 
+# 1.02.00
 (5/5/06) - bugfix: zero thresholding of wave function should be based on absolute value
-1.01.00...
+# 1.01.00
 (5/3/06) - bugfix: potential combo box contains duplicate choices, one for each color scheme
 (4/21/06) - fix in Spanish translations, Colors -> Colores
-1.00.00...
+# 1.00.00
 (4/12/06) - use clock control images from phetcommon, delete images from data/images/
 (4/12/06) - phetcommon: add constants for clock button images in ClockControlPanel
-0.00.24...
+# 0.00.24
 (4/10/06) - change dashed line stroke width to 1 when E0 < top of well
 (4/10/06) - change eigenstate line with from 1 -> 2 (roll into 0.00.24)
 (4/10/06) - completed new representation of total energy when wave packet is in a well
@@ -105,7 +102,7 @@ DONE:
 (4/6/06) - fix behavior when we measure in a region where E<V, set E=V+0.1
 (4/6/06) - change all labels "incident" -> "incoming"
 (4/5/06) - prototype using Schmidt-Lee algorithm to calculate eigenstates
-0.00.23...
+# 0.00.23
 (4/5/06) - increase real/img/mag/probDensity line widths to 2 pixels, potential to 3 pixels
 (4/5/06) - change default color scheme to black
 (4/4/06) - make canvas background slightly darker to improve contrast with white charts
@@ -120,7 +117,7 @@ DONE:
 (3/27/06) - add a command line arg (-dev) to enable Developer menu
 (3/27/06) - fix new warnings that eclipse 3.1.2 found
 (3/26/06) - upgrade to Eclipse 3.1.2, JProfiler 4.1.3
-0.00.22...
+# 0.00.22
 (3/24/06) - set Richardson psi[] to all zero when all values are below some threshold
 (3/24/06) - in Richardson, add samples between visible samples and damped samples
 (3/24/06) - set interpolation to "nearest neighbor" in JFreeChartNode to improve JDK 1.5 performance
@@ -130,7 +127,7 @@ DONE:
 (3/24/06) - use a GeneralPath in TotalEnergyRenderer so that it is pixel-accurate with QTPathRender
 (3/24/06) - do least expensive checks first in TotalEnergyRenderer.drawItem
 (3/24/06) - replace all StandardXYItemRenderers with my own QTPathRenderer, big optimization!
-0.00.21...
+# 0.00.21...
 (3/23/06) - move Richardson controls into a Developer menu (fold into 0.00.21)
 (3/23/06) - make sum/separate radio buttons visible only when wave type = plane wave (fold into 0.00.21)
 (3/23/06) - make wave packet properties visible when wave type = wave packet, delete associated expand/collapse button (fold into 0.00.21)
@@ -152,18 +149,18 @@ DONE:
 (3/21/06) - add separate resolution controls (pixels-per-sample) for wave packet and plane wave
 (3/21/06) - change position range to -4...8
 (3/21/06) - increase precision of PhaseRenderer (use GeneralPath instead of Polygon)
-0.00.20...
+# 0.00.20
 (3/10/06) - hide Richardson controls
 (3/10/06) - make time display and units fonts "significantly larger" (12->22 pt)
 (3/10/06) - remove help item for measure button
 (3/10/06) - change measure button label to "Make Quantum Measurement"
-0.00.19...
+# 0.00.19
 (3/7/06) - change color scheme to black plot background
 (3/7/06) - bugfix: total energy band needs to have a 1-pixel overlap at center
 (3/6/06) - RichardsonSolver: add a developer control for dx, show developer controls
-0.00.18...
+# 0.00.18
 (3/6/06) - change RichardsonSolver: dt=0.0025, steps=40, hide controls (Sam M request)
-0.00.17...
+# 0.00.17
 (3/3/06) - fix PotentialEnergyDragHandle and RegionBoundaryDragHandle that I screwed up on 2/20, need to recompute drag bounds more frequently (roll into 0.00.17)
 (3/3/06) - change x-axis tick spacing to 1, add vertical grid lines (roll into 0.00.17)
 (3/3/06) - change range of mass and hbar controls (roll into 0.00.17)
@@ -180,7 +177,7 @@ DONE:
 (2/28/06) - make WavePacket the only client of RichardsonSolver
 (2/28/06) - make total energy line dashed when E<V
 (2/28/06) - use a Line2D in TotalEnergyRenderer so that it matches StandardXYItemRenderer used for plane waves
-0.00.16...
+# 0.00.16
 (2/26/06) - change default potential energy for constant potential to 0
 (2/24/06) - draw region markers with QTMarkerNode instead of QTCombinedChart
 (2/24/06) - add a "region marker manager" instead of having QTCombinedChart manage markers
@@ -193,7 +190,7 @@ DONE:
 (2/22/06) - EnergyPlot should not be an observer of the plane wave
 (2/22/06) - fix bug in RichardsonSolver.isSolutionZero; should be zero based on wave packet center
 (2/21/06) - fix title comment in SimStrings file, remove redundant control panel width specification
-0.00.15...
+# 0.00.15
 (2/20/06) - move color legends closer to their checkboxes in control panel
 (2/20/06) - check Spanish translations, adjust help layout
 (2/20/06) - phetcommon: fix Spanish strings in About dialog
@@ -211,19 +208,19 @@ DONE:
 (2/19/06) - make EPSILON a constant in RichardsonSolver
 (2/19/06) - try to tweak Richardson, no luck
 (2/17/06) - add application description to SimStrings files
-0.00.14...
+# 0.00.14
 (2/17/06) - test all features after applying ProGuard
 (2/16/06) - fix Load feature after ProGuard is applied (remove gnujaxp.jar from input jars)
 (2/16/06) - add QTSerializable marker interface to all persistence classes so that ProGuard keeps them
 (2/16/06) - catch all types of Exception when loading or saving configuration
 (2/16/06) - add clock state to persistence
 (2/15/06) - work on Proguard, missing classes with Save/Load feature
-0.00.13...
+# 0.00.13
 (2/10/06) - move #steps loop inside RichardsonSolver propogate to reduce method calls
 (2/10/06) - rewrite RichardsonSolver so that no classes are involved in doing complex math
 (2/10/06) - replace method calls with duplicate code in RichardsonSolver.propagate to improve performance
 (2/10/06) - use a lightweight complex number implementation in RichardsonSolver to reduce method calls
-0.00.12...
+# 0.00.12
 (2/10/06) - verified that antialiasing is on for XYPlotNodes
 (2/10/06) - remove space below zero on Prob Density plot
 (2/9/06) - update interactively while dragging wave packet width & center sliders
@@ -239,7 +236,7 @@ DONE:
 (2/8/06) - write XYPlotNode for drawing XYPlot outside of JFreeChart framework
 (2/8/06) - cleanup XYPlot subclasses so that they can be wrapped in a custom PNode
 (2/8/06) - piccolo-phet: add chart buffering to JFreeChartNode
-0.00.11...
+# 0.00.11
 (2/7/06) - PNode cursor change problem with help on (fixed by Sam Reid)
 (2/7/06) - create PotentialFactory to encapsulate instanceof operations on AbstractPotentials and PotentialTypes
 (2/7/06) - add icons in Potential combo box to indicate potential shapes
@@ -282,13 +279,13 @@ DONE:
 (1/26/06) - piccolo-phet: help items point at locations
 (1/25/06) - piccolo-phet: create a glass pane that maps getCursor to contentPane, redispatches MouseEvents to contentPane or menuBar
 (1/24/06) - bugfix: wave packet is not always shown with width=0.1nm when Measure button is pressed
-0.0.10 ...
+# 0.00.10 
 (1/23/06) - implement weighted algorithm for choosing wave packet position when "Measure" button is pressed
 (1/23/06) - wrote UtilClock that uses java.util.Timer
 (1/23/06) - phetcommon: issues identified, too much stuff in event-dispatch thread!
 (1/23/06) - phetcommon: test program to show that startup repaint problems are not specific to QT
 (1/20/06) - look for redundant method calls in for loops (didn't find any)
-0.0.9 ...
+# 0.00.09
 (1/20/06) - remove OptionsMenu
 (1/20/06) - move "Show values" from Options menu to control panel
 (1/20/06) - remove code for "Measure" from QTControlPanel, they like it in play area
@@ -319,7 +316,7 @@ DONE:
 (1/17/06) - default to clock running
 (1/17/06) - create localized versions of JOptionPane dialogs that I was using
 (1/17/06) - change "Reset" button to "Reset All", add confirmation dialog
-0.0.8 ...
+# 0.00.08 
 (1/16/06) - wave packet width should be temporarily 0.1 while measuring
 (1/16/06) - bugfix: wave packet center is wrong when switching from packet to plane to packet
 (1/16/06) - change default wave packet center to -2
@@ -328,7 +325,7 @@ DONE:
 (1/16/06) - change position range to -8...12nm
 (1/16/06) - remove unnecessary visibility methods from custom chart renderers
 (1/15/06) - put sampling frequency in QTConstants
-0.0.7 ...
+# 0.00.07 
 (1/15/06) - compute more points than are visible so that damping effects aren't seen
 (1/15/06) - change behavior of AbstractPotential -- first & last region effectively go on forever wrt position
 (1/15/06) - explicitly set legend background to white
@@ -360,7 +357,7 @@ DONE:
 (1/10/06) - move # steps out of SchrodingerSolver and into WavePacket model
 (1/10/06) - simplify the SchrodingerSolver code
 (1/5/06) - sync with new piccolo which contains pswing, fix imports in QT
-0.0.6 ...
+# 0.00.06 
 (1/5/06) - multiply Psi[] values by normalization constant at initialization
 (1/5/06) - damp Richardson algorithm to prevent periodic boundary conditions (SamR's solution)
 (1/5/06) - temporarily speed up Richardson algorithm by reducing # of sample points
@@ -368,7 +365,7 @@ DONE:
 (1/4/06) - reorganize internals of QTClock
 (1/4/06) - set clock dt=0.1 and get rid of time scaling elsewhere
 (1/4/06) - change my clock control panel to accommodate more IClock changes
-0.0.5 ...
+# 0.00.05 
 (1/2/06) - first attempt at integration Richardson algorithm, doesn't work
 (1/2/06) - changes to support new ModulePanel layout
 (12/27/05) - piccolo-phet: change CursorHandler to use pushCursor and popCursor
@@ -397,7 +394,7 @@ DONE:
 (12/20/05) - remove calls to jfree.chart.ChartRenderingInfo.getPlotArea, method was removed!
 (12/20/05) - sync with jfreechart_1.0.0
 (12/19/05) - phetcommon: in StartupDialog, replace metal window decoration with a black border
-0.0.4 ...
+# 0.00.04 
 (12/19/05) - add all configurable items to QTConfig
 (12/19/05) - add accessors for all settings in control panel
 (12/19/05) - fix sign of denominator in D coefficient for double barriers
@@ -407,7 +404,7 @@ DONE:
 (12/17/05) - fix bugs in SingleBarrierSolver
 (12/17/05) - sync with piccolo
 (12/17/05) - remove piccolo config files from CVS repository
-0.0.3 ...
+# 0.00.03 
 (12/15/05) - temporarily disable the Loop button
 (12/15/05) - automatically restart clock when energies, direction, wave function form or wave packet properties change
 (12/15/05) - add width and center properties to WavePacket model, connect to controls
@@ -443,7 +440,7 @@ DONE:
 (12/6/05) - hooked up Save & Load features (still need to fill in the config objects)
 (12/6/05) - make total energy band look more like an expotential distribution
 (12/6/05) - change min region width to 0.1
-0.0.2 ...
+# 0.00.02 
 (12/5/05) - add custom renderer for wave packet total energy band
 (12/5/05) - create custom arrow cursor using shapes instead of images
 (12/5/05) - make drag handles support 2 looks: control point, double arrow
@@ -457,7 +454,7 @@ DONE:
 (12/3/05) - add tick mark/label color to QTConstants
 (12/3/05) - make all axes show integer tick marks
 (12/3/05) - hide vertical gridlines on all graphs
-0.0.1 ...
+# 0.00.01 
 (12/2/05) - add Options>ShowValues
 (12/2/05) - add stubs for File>Save and File>Load
 (12/2/05) - optionally show values on drag handles
@@ -535,36 +532,3 @@ DONE:
 (11/11/05) - implement general SliderControl
 (11/10/05) - check new project into CVS
 (11/10/05) - set up application framework
-^^^^^^^^^^^^^^^^^^^^^^ DEVELOPMENT BEGINS ^^^^^^^^^^^^^^^^^^^^^^
-
-
-REJECTED:
-(4/4/06) - top edge of +1 tick label on Energy plot y axis is clipped (problem fixed itself)
-(4/4/06) - zoom buttons sometimes aren't drawn or look transparent (problem fixed itself when performance was improved)
-(4/4/06) - add a control to vary mass (vetoed by Carl, no pedagogical reason to use anything but constant electron mass)
-(3/24/06) - possibly add sum/separate feature for wave packet if we replace Richardson (we're using Richardson, other approaches are worse)
-(3/24/06) - try using SwingUtilities.invokeLater on WaveFunctionPlot.update to solve the Swing repaint problem (didn't do anything, not the problem)
-(2/22/06) - cache the total energy gradient as an image, update only when necessary (there would be negligible benfit; the times it needs to change are when we're things are sluggish)
-(2/22/06) - improve "About" dialog, add build number and logo (phetcommon, no one has asked for this)
-(2/22/06) - Y axis labels move when zooming causes range to change (JFreeChart behavior, no one has complained)
-(2/20/06) - Wiggle Me (none requested)
-(2/20/06 ) - select entire spinner value when it gets focus in Configure dialog (see bugs.sun.com, Bug ID 4699955)
-(2/16/06) - disable chart gridlines to improve drag handle responsiveness (no longer an issue, entire chart is an image)
-(2/6/06) - restore "phase" veiw state when switching between sum and separate views (confusing)
-(2/6/06) - restore sum/separate state when switching between plane and wave packet (confusing)
-(1/31/06) - move non-Swing stuff out of event-dispatch thread (lots of work, and doesn't affect performance problems)
-(1/25/06) - abandon specialization of CursorHandler to set top-level component cursor, wrong approach
-(1/20/06) - try native L&F on all platforms (WindowLookAndFeel looks worse than SmoothMetal for this sim)
-(1/20/06) - change time to ns when the time values grows too large to display fs (not worth worrying about)
-(1/20/06) - make Configure dialog smarter about enabling Apply button, compare with original model values (not worth it)
-(1/19/06) - use XYPlot.zoom* methods for zooming? (we don't have consistent zoom factors)
-(1/11/06) - implement Loop button for clock controls (no one asked for this, and it's very hard)
-(12/6/05) - will it be possible to drag multiple drag handles at the same time since events aren't marked as handled? (not an issue)
-(12/6/05) - how to keep markers behind data (using Layers?) (hasn't been an issue)
-(12/3/05) - use JFreeChart legend feature, use setFixedLegendItems to control what's in the legend (my legend is fine)
-(11/15/05) - is it OK that barrier width value is not displayed anywhere? (add Configure dialog)
-(11/15/05) - do we need to show value as drag handles are moved? (no, add Configure dialog)
-(11/15/05) - do we need a way to relocate barriers without moving each edge individually? (yes, in Configure dialog)
-
-===============================================================================
-end of file

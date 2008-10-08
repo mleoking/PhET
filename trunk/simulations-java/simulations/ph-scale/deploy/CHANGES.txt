@@ -1,25 +1,11 @@
-================================================================================
-Change history for ph-scale
-================================================================================
-
-HIGH PRIORITY:
-
-MEDIUM PRIORITY:
-- make zoom buttons more fun looking, maybe using GradientButtonNode?
-
-LOW PRIORITY:
-- hand cursors don't work on PSwing check boxes and radio buttons [Unfuddle #653]
-- selection in PTextFieldNode doesn't behave properly [Unfuddle #660]
-
-
-DONE:
+10/8/08 - moved list of rejected features to Unfuddle 806
 8/11/08 - change screenshot, use hand soap as the liquid
-******* version 1.00.00 (23294)
+# 1.00.00 (23294)
 7/17/08 - confirm that all dev controls disappear when -dev commandline arg is not supplied
 7/17/08 - organize imports
-******* version 0.00.21 (23274)
+# 0.00.21 (23274)
 7/17/08 - reimplement PrecisionDecimal, previous implementation using BigDecimal only worked for English
-******* version 0.00.20 (23265)
+# 0.00.20 (23265)
 7/16/08 - tweak clock framerate and faucet fill rates, tradeoff of animation smoothness and titration precision
 7/16/08 - move clock constants into PHScaleConstants
 7/16/08 - VolumeValue in model, limited to 2 decimals of precision
@@ -40,20 +26,20 @@ DONE:
 7/19/08 - maximum beaker volume of 1.2L
 7/16/08 - use RGB=[193, 222, 227] for water liquid & graph bar
 7/16/08 - move all H3O/OH/H2O color specifications to PHScaleConstants
-******* version 0.00.19 (23240)
+# 0.00.19 (23240)
 7/15/08 - change type of Liquid's pH property from Double to PHValue
 7/15/08 - implement PHValue as an extension of PrecisionDecimal, with 2 significant decimal places
 7/15/08 - write PrecisionDecimal for constraining doubles to some number of decimal places
 7/15/08 - revert PHTextFieldNode workaround for Unfuddle #660, caused value entry problems
 7/14/08 - update model documentation to correct mistakes
-******* version 0.00.18 (23214)
+# 0.00.18 (23214)
 7/14/08 - move switch to custom liquid into Liquid.setPH, so that you can't set the pH unless it's a Custom liquid
 7/14/08 - fix: hide drag handle for linear scale when bar height is zero
 7/14/08 - rewrite portions of fill/drain model, simplify
 7/14/08 - change model for combining liquids, I was given an incorrect model
 7/14/08 - decouple MoleculeCountAlternateNode from the rest of the code base so that it's easy to delete
 7/14/08 - workaround: clicking twice in PHTextFieldNode causes liquid to change to Custom [Unfuddle #660]
-******* version 0.00.17 (23184)
+# 0.00.17 (23184)
 7/14/08 - changing a bar sets liquid to Custom
 7/14/08 - modify Custom liquid pH when Liquid.setPH is called
 7/14/08 - setPickable(false) on non-interactive nodes
@@ -87,17 +73,17 @@ DONE:
 7/12/08 - add stubs to determine bar heights from model and graph settings
 7/12/08 - add all view code to create bars and position drag handles
 7/12/08 - make bar graph drag handles visible
-******* version 0.00.16 (23133)
+# 0.00.16 (23133)
 7/12/08 - hide bar graph drag handles
 7/12/08 - make alternate Molecule Count view the primary view
-******* version 0.00.15 (23115)
+# 0.00.15 (23115)
 7/11/08 - remove dependency on jfreechart
 7/11/08 - add bar drag handles, they don't do anything yet
 7/11/08 - make chart a big shorter so that Linear radio button has some space below it on WinXP
 7/11/08 - line up pH slider ticks with bar graph ticks, using TickAlignmentNode
 7/11/08 - implement Rest All for all controls
 7/11/08 - refactor linear and log y-axes into separate classes
-******* version 0.00.14 (23105)
+# 0.00.14 (23105)
 7/11/08 - when switching from log to linear scale, reset y-axis range so that it's zoomed all the way out
 7/11/08 - add y-axis label to bar graph, remove units from upper-left corner of graph interior
 7/11/08 - handle 10^1 display differently, for example display 9x10 as 90
@@ -106,13 +92,13 @@ DONE:
 7/11/08 - change liquid colors
 7/11/08 - replace cola with lime soda
 7/11/08 - use bold font for molecule counts and bar values
-******* version 0.00.13 (23096)
+# 0.00.13 (23096)
 7/11/08 - do a quick approximation of lining up pH slider ticks with bar graph ticks
 7/11/08 - fix layout of everything
 7/11/08 - increase height of graph
 7/11/08 - increase size of beaker
 7/10/08 - molecule count check box off by default
-******* version 0.00.12 (23089)
+# 0.00.12 (23089)
 7/10/08 - fix: resolve Laurie's problem by replacing ScaleAlphaImageOpARGB with image files for big, transparent molecules
 7/10/08 - remove scaling of small molecule images, scale the image files
 7/10/08 - change sim description
@@ -120,7 +106,7 @@ DONE:
 7/10/08 - organize imports
 7/10/08 - fix: hand cursor should be on faucet slider knob only, not on track
 7/10/08 - fix: select some liquid (eg, blood), change pH, selecting blood again doesn't do anything
-******* version 0.00.11 (23070)
+# 0.00.11 (23070)
 7/9/08 - organize imports
 7/9/08 - make icons in molecule view transparent
 7/9/08 - add BufferedImageUtils.scaleAlpha
@@ -137,7 +123,7 @@ DONE:
 7/9/08 - add log tick marks to bar graph
 7/9/08 - change color of pH probe tip to black (Trish request)
 7/9/08 - change default liquid to milk (Trish request)
-******* version 0.00.10 (23045)
+# 0.00.10 (23045)
 7/9/08 - reset Custom pH to 7 when user explicitly selects it
 7/9/08 - add LiquidDescriptorListener.pHChanged
 7/9/08 - subclass CustomLiquidDescriptor so that base class pH values can't be changed
@@ -152,14 +138,14 @@ DONE:
 7/7/08 - add Custom to liquid choices, last choice in combo box
 7/7/08 - disable confirmation dialog when switching liquids, by request for "Custom liquid" feature
 7/7/08 - replace JSliders on faucets with a Piccolo-based slider, for predictable look & layout
-******* version 0.00.09 (22992)
+# 0.00.09 (22992)
 7/3/08 - change water color to [193, 222, 227, 127]
 7/3/08 - display RGBA values in LiquidColorDialog
 7/3/08 - set color of liquid in beaker by changing alpha channel of liquid based on % water
 7/3/08 - add water shape to liquid faucet, drain faucet, and liquid node so that colors will match what appears in beaker
 7/3/08 - draw liquid color in beaker on top of a rectangle that is set to water color
 7/3/08 - keep track of how much water is in the beaker, for adjusting color
-******* version 0.00.08 (22958)
+# 0.00.08 (22958)
 7/2/08 - add listener interface so that liquid in beaker changes immediately when LiquidDescriptor color is changed by dev control
 7/2/08 - sort liquid colors in dev controls in by descending pH
 7/2/08 - fix: water liquid column is too long
@@ -171,7 +157,7 @@ DONE:
 7/2/08 - make liquid instances private, add getters
 7/2/08 - sort liquids by decreasing pH in liquid combo box
 7/2/08 - use on color for all of the liquids that don't have an assigned color
-******* version 0.00.07 (22914)
+# 0.00.07 (22914)
 7/2/08 - add water to list of liquids
 7/2/08 - flesh out the list of liquids
 7/2/08 - setOpaque(false) for PSwing JComponents
@@ -182,7 +168,7 @@ DONE:
 7/1/08 - adjust layout of molecules legend
 7/1/08 - javadoc everything done up to this point
 7/1/08 - put a translucent background behind molecule counts
-******* version 0.00.06 (22824)
+# 0.00.06 (22824)
 6/30/08 - add developer only display of particle counts, in lower left of beaker
 6/30/08 - add property for min # particles of minority species, with developer control
 6/30/08 - add developer control for # particles at pH=7
@@ -190,7 +176,7 @@ DONE:
 6/30/08 - use separate transparency for majority and minority species of particles
 6/30/08 - use my algorithm for linear # particles to create outside pH range 6-8
 6/30/08 - use Laurie's algorithm for # particles to create in pH range 6-8
-******* version 0.00.05 (22811)
+# 0.00.05 (22811)
 6/30/08 - connect particle developer control panel to ParticlesNode
 6/30/08 - fix: liquid and water sliders are stuck "on" when beaker is full
 6/30/08 - hook up Ratio check box
@@ -273,30 +259,15 @@ DONE:
 6/9/08 - BeakerViewControlPanel
 6/5/08 - create ProbeNode for pH probe
 6/5/08 - add all strings to localization file & PHScaleStrings
-******* version 0.00.04 (21953)
+# 0.00.04 (21953)
 6/3/08 - create TestParticleViews: combine "beaker view" and "microscope view" into 1 prototype
 6/3/08 - create TestBeakerView prototype for "beaker view" of H3O and OH concentrations in variable liquid volume
-******* version 0.00.03 (21915)
+# 0.00.03 (21915)
 6/2/08 - TestMicroscopeView: fix distribution of particles in circle, previous versions denser towards enter (missing sqrt)
 6/2/08 - TestMicroscopeView: set default particle size to 4
 6/2/08 - TestMicroscopeView: set default transparency to 0.5
-******* version 0.00.02 (21898)
+# 0.00.02 (21898)
 6/1/08 - TestMicroscopeView: add color controls
-******* version 0.00.01 (21895)
+# 0.00.01 (21895)
 5/31/08 - create TestMicroscopeView prototype for "microscope view" of H3O and OH concentrations
 5/20/08 - set up simulation skeleton, check in to SVN
-
-REJECTED:
-7/14/08  - break up Liquid into a few smaller classes (fine as is) 
-7/14/08 - generalize alignment of baselines for text and numbers drawn using HTMLNode (not possible)
-7/11/08 - disable liquid and water sliders when beaker is full? (ok as is)
-7/11/08 - replace molecule image files with SphericalNode subclasses? (no, can't partially embed small spheres inside big sphere) 
-7/10/08 - vary flow rate of faucets depending on how far slider is dragged? (no one asked for this, on/off seems enough)
-7/5/08 - is H2O bar draggable? (no, per Kathy)
-7/2/08 - add plumbing to liquid and water faucets (not needed, per 7/2 status meeting)
-6/30/08 - make LiquidListener more specific about what changed so that ParticlesNode doesn't have to save and compare pH (complicates model, only affects ParticlesNode)
-6/25/08 - change color of liquid in beaker when pH slider or graph bars are changed (no, don't change color)
-
-
-===============================================================================
-end of file
