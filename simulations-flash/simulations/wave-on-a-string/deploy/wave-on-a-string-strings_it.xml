@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<SimStrings>
+<string key="manual" value="Manuale"/>
+<string key="resetTimer" value="Azzera"/>
+<string key="damping" value="Smorzamento"/>
+<string key="showHelp" value="Mostra Help"/>
+<string key="pulse" value="Impulso"/>
+<string key="amplitude" value="Ampiezza"/>
+<string key="pausePlay" value="Pausa/Vai"/>
+<string key="step" value="step"/>
+<string key="tension" value="Tensione"/>
+<string key="startTimer" value="avvio/pausa"/>
+<string key="pulseWidth" value="Durata impulso"/>
+<string key="rulerHelp" value="righello mobile"/>
+<string key="high" value="alta"/>
+<string key="wiggleWrench" value="fai muovere la morsa"/>
+<string key="timer" value="Timer"/>
+<string key="oscillate" value="Oscillazione"/>
+<string key="rulers" value="Righelli"/>
+<string key="frequency" value="Frequenza"/>
+<string key="wrenchHelp" value="morsa mobile"/>
+<string key="fixedEnd" value="Estremità fissa"/>
+<string key="refLineHelp" value="linea di riferimento mobile"/>
+<string key="hideHelp" value="Nascondi Help"/>
+<string key="timerHelp" value="timer mobile"/>
+<string key="looseEnd" value="Estremità libera"/>
+<string key="noEnd" value="Corda infinita"/>
+<string key="paused" value="In pausa"/>
+<string key="reset" value="Reset"/>
+<string key="pulse2" value="Impulso"/>
+<string key="low" value="bassa"/>
+</SimStrings>
