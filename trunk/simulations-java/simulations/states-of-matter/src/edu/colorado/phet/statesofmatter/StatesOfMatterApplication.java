@@ -166,7 +166,7 @@ public class StatesOfMatterApplication extends PiccoloPhetApplication implements
 
                 PhetApplicationConfig config = 
                     new PhetApplicationConfig( args, StatesOfMatterConstants.FRAME_SETUP, 
-                            StatesOfMatterResources.getResourceLoader() );
+                            StatesOfMatterResources.getResourceLoader(), "states-of-matter" );
                 
                 PhetLookAndFeel p = new PhetLookAndFeel();
                 p.setBackgroundColor( StatesOfMatterConstants.CONTROL_PANEL_COLOR );
