@@ -22,8 +22,7 @@ import javax.swing.*;
 
 public class Demo2 extends JFrame implements Renderable {
 
-    //the renderer
-    RenderablePanel render;
+    RenderPanel render;
 
     public Demo2() {
         super( "simple example" );
@@ -37,12 +36,12 @@ public class Demo2 extends JFrame implements Renderable {
 
         this.setBounds( 0, 0, 600, 600 );
         this.getContentPane().setBounds( 0, 0, 600, 600 );
-        this.getContentPane().add( (Panel) render );
-
+        this.getContentPane().add(  render ); 
         setVisible( true );
     }
 
     public void initialize() {
+        render.addLight( 1, 0, 1, 0, 0, 1 ); // LIGHTS
         render.addLight( 1, 1, 1, 1, 1, 1 ); // LIGHTS
         render.addLight( 0, 1, 0, 1, 1, 1 );
         render.setBgColor( .2, .2, .8 ); // BACKGROUND COLOR
@@ -52,8 +51,11 @@ public class Demo2 extends JFrame implements Renderable {
         Material red = new Material();
         red.setDiffuse( 1, 0, 0 );
 
+        Material blue= new Material();
+        blue.setDiffuse( 0, 0, 1 );
+
         render.getWorld().add().cube().setMaterial( red );    // GOLD BALL
-        render.getWorld().add().cube().setMaterial( red );    // GOLD BALL
+        render.getWorld().add().cube().setMaterial( blue );    // GOLD BALL
         render.getWorld().child[1].getMatrix().translate( 2.5, 0, 0 );
 
         render.addMouseMotionListener( new MouseMotionListener() {
