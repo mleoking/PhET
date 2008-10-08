@@ -19,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
+import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -197,10 +198,18 @@ public class DialGaugeNode extends PNode {
      * Set the value of the pressure gauge.  The value must be within the
      * bounds set when the gauge was created.
      */
-    public void setValue(double value){
-        
-        // Validate the input.
-        assert ((value >= m_minValue) && (value <= m_maxValue));
+    public void setValue( double value ){
+
+    	boolean overload = false;
+    	
+        // Limit the value.
+        if (value < m_minValue){
+        	value = m_minValue;
+        }
+        else if (value > m_maxValue){
+        	value = m_maxValue;
+        	overload = true;
+        }
 
         // Set the needle position.
         double normalizedValue = value / (m_maxValue - m_minValue);
@@ -210,10 +219,20 @@ public class DialGaugeNode extends PNode {
         m_needleAngle = targetNeedleAngle;
         
         // Set the textual readout.
-        m_textualReadout.setText( new String (NUMBER_FORMATTER.format(value) + " " + m_unitsLabel ) );
-        m_textualReadout.setOffset( 
-                m_textualReadoutBoxShape.getWidth() / 2 - m_textualReadout.getFullBoundsReference().width / 2, 
-                m_textualReadoutBoxShape.getHeight() / 2 - m_textualReadout.getFullBoundsReference().height / 2  );
+        if ( !overload ){
+	        m_textualReadout.setText( new String (NUMBER_FORMATTER.format(value) + " " + m_unitsLabel ) );
+	        m_textualReadout.setTextPaint( Color.BLACK );
+	        m_textualReadout.setOffset( 
+	                m_textualReadoutBoxShape.getWidth() / 2 - m_textualReadout.getFullBoundsReference().width / 2, 
+	                m_textualReadoutBoxShape.getHeight() / 2 - m_textualReadout.getFullBoundsReference().height / 2  );
+        }
+        else{
+	        m_textualReadout.setText( StatesOfMatterStrings.PRESSURE_GAUGE_OVERLOAD );
+	        m_textualReadout.setTextPaint( Color.RED );
+	        m_textualReadout.setOffset( 
+	                m_textualReadoutBoxShape.getWidth() / 2 - m_textualReadout.getFullBoundsReference().width / 2, 
+	                m_textualReadoutBoxShape.getHeight() / 2 - m_textualReadout.getFullBoundsReference().height / 2  );
+        }
     }
     
     public static void main(String[] args) {
