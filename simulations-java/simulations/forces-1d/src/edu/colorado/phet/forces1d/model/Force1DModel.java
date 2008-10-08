@@ -194,7 +194,7 @@ public class Force1DModel implements ModelElement {
 //        plotDeviceModel.doReset();//this reinits the model with initial parameters of the graph.
         frictionForce = 0;//so we must clear them afterwards.
         netForce = 0;
-        block.setPosition( 0.0 );
+        block.setPosition( Block.DEFAULT_POSITION);
         block.setVelocity( 0.0 );
         setAppliedForce( 0.0 );//to inform listeners.
 

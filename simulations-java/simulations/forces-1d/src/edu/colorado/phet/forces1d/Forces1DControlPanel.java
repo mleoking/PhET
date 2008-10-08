@@ -8,7 +8,6 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.view.AdvancedPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -16,8 +15,8 @@ import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
 import edu.colorado.phet.forces1d.model.Block;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 import edu.colorado.phet.forces1d.model.Force1dObject;
-import edu.colorado.phet.forces1d.phetcommon.view.util.GraphicsState;
 import edu.colorado.phet.forces1d.phetcommon.view.help.HelpPanel;
+import edu.colorado.phet.forces1d.phetcommon.view.util.GraphicsState;
 import edu.colorado.phet.forces1d.view.FreeBodyDiagramSuite;
 
 /**
@@ -41,6 +40,7 @@ public class Forces1DControlPanel extends IForceControl {
     static final Stroke stroke = new BasicStroke( 1 );
     private static final double MAX_GRAV = 30;
     public static final double MAX_KINETIC_FRICTION = 2.0;
+    private LinearValueControl setPositionControl;
 
     public Forces1DControlPanel( final Forces1DModule module ) {
         super( module );
@@ -72,6 +72,7 @@ public class Forces1DControlPanel extends IForceControl {
         module.getForceModel().getPlotDeviceModel().addListener( new PlotDeviceModel.ListenerAdapter() {
             public void recordingStarted() {
                 setChangesEnabled( true );
+                setPositionControl.setEnabled( false );
             }
 
             public void playbackStarted() {
@@ -89,19 +90,19 @@ public class Forces1DControlPanel extends IForceControl {
         ObjectSelectionPanel osp = new ObjectSelectionPanel( module.getForce1dObjects(), this );
         addControl( osp );
 
-        final LinearValueControl setPositionControl = createControl( 0, -10, 10, "Position", "m", new SpinnerHandler() {
+        setPositionControl = createControl( model.getBlock().getPosition(), -10, 10, "Initial Position", "m", new SpinnerHandler() {
             public void changed( double value, boolean onFocusLost ) {
                 model.getBlock().setPosition( value );
             }
         } );
-        model.getBlock().addListener( new Block.Listener() {
-            public void positionChanged() {
-                setPositionControl.setValue( MathUtil.clamp( -10, model.getBlock().getPosition(), 10 ) );
-            }
-
-            public void propertyChanged() {
-            }
-        } );
+//        model.getBlock().addListener( new Block.Listener() {
+//            public void positionChanged() {
+//                setPositionControl.setValue( MathUtil.clamp( -10, model.getBlock().getPosition(), 10 ) );
+//            }
+//
+//            public void propertyChanged() {
+//            }
+//        } );
         addControl( setPositionControl );
 
         AdvancedPanel advancedPanel = new AdvancedPanel( Force1DResources.get( "SimpleControlPanel.moreControls" ), Force1DResources.get( "Force1dControlPanel.lessControls" ) );
@@ -229,7 +230,6 @@ public class Forces1DControlPanel extends IForceControl {
             }
         } );
 
-
 //        advancedPanel.addControl( setPositionControl );
         advancedPanel.addControl( gravity );
         advancedPanel.addControl( mass );
@@ -237,7 +237,7 @@ public class Forces1DControlPanel extends IForceControl {
         advancedPanel.addControl( kineticFriction );
         advancedPanel.addControl( restore );
 
-        addControl( new HelpPanel(module ) );
+        addControl( new HelpPanel( module ) );
     }
 
 
@@ -308,6 +308,8 @@ public class Forces1DControlPanel extends IForceControl {
 
     public void reset() {
         fbdSuite.reset();
+        setPositionControl.setEnabled( true );
+        setPositionControl.setValue( model.getBlock().getPosition() );
     }
 
     public void setup( Force1dObject object ) {
