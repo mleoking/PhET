@@ -38,8 +38,8 @@ public class Forces1DApplication {
         feel.initLookAndFeel();
 
         AbstractClock clock = new SwingTimerClock( 1, 30 );
-//        FrameSetup frameSetup = ( new FrameSetup.CenteredWithInsets( 200, 200 ) );
-        FrameSetup frameSetup = ( new FrameSetup.CenteredWithSize( 1024,748) ); //todo: testing only
+        FrameSetup frameSetup = ( new FrameSetup.CenteredWithInsets( 200, 200 ) );
+//        FrameSetup frameSetup = ( new FrameSetup.CenteredWithSize( 1024,748) ); //todo: testing only
 
         String version = VERSION;
         final PhetApplication phetApplication = new PhetApplication( args, Force1DResources.get( "Force1DModule.title" ) + " (" + version + ")",
