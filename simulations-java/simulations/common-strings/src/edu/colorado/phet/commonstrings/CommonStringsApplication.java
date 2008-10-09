@@ -4,9 +4,7 @@ package edu.colorado.phet.commonstrings;
 
 import javax.swing.JOptionPane;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
 /**
  * To translate common strings, we bundle phetcommon-strings*.properties into a JAR, along with this main.
@@ -17,9 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
  */
 public class CommonStringsApplication {
     
-    private static final PhetResources RESOURCES = new PhetResources( "common-strings" );
-    private static final PhetApplicationConfig CONFIG = new PhetApplicationConfig( null /* args */, new FrameSetup.NoOp(), RESOURCES );
-    private static final String VERSION_ID = CONFIG.getVersion().formatForAboutDialog();
+    private static final String VERSION_ID = new PhetResources( "common-strings" ).getVersion().formatForAboutDialog();
     
     private CommonStringsApplication() {}
 
