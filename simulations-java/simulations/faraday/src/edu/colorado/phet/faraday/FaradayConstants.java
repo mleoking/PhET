@@ -5,8 +5,6 @@ package edu.colorado.phet.faraday;
 import java.awt.Color;
 import java.awt.Dimension;
 
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-
 
 /**
  * FaradayConstants contains global configuration values.
@@ -21,12 +19,11 @@ public class FaradayConstants {
     //----------------------------------------------------------------------------
     
     public static final String PROJECT_NAME = "faraday";
+    
     public static final String FLAVOR_FARADAY = "faraday";
     public static final String FLAVOR_MAGNET_AND_COMPASS = "magnet-and-compass";
     public static final String FLAVOR_MAGNETS_AND_ELECTROMAGNETS = "magnets-and-electromagnets";
     public static final String FLAVOR_GENERATOR = "generator";
-    
-    public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
     
     //----------------------------------------------------------------------------
     // Clock parameters
