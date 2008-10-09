@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 
 public class MalleyTest extends JFrame {
     
-    private static final String GEOMETRY_FILENAME = "/tmp/cube.xml";
+    private static final String GEOMETRY_FILENAME = "cube.xml";
     
     public MalleyTest() {
         super( "Malley Test" );
@@ -17,7 +17,7 @@ public class MalleyTest extends JFrame {
         setSize( 640, 480 );
         
         JGVPanel jgvPanel = new JGVPanel( this );
-        add( jgvPanel );
+        add( jgvPanel.cameraCanvas );
        
         jgvPanel.addXMLFile( GEOMETRY_FILENAME );
 //        jgvPanel.addGeom( readFile( GEOMETRY_FILENAME ) );
