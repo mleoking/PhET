@@ -1,3 +1,4 @@
+10/8/08 - use PhetApplicationConfig.launchSim
 10/8/08 - moved list of rejected features to Unfuddle 793
 9/5/08 - remove uses of DialogUtils, use JOptionPane directly
 5/20/08 - replace Font with PhetFont throughout
