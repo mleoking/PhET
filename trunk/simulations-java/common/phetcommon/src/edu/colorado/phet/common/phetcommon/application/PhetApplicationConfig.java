@@ -93,17 +93,6 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
         this.frameSetup = DEFAULT_FRAME_SETUP;
         this.phetLookAndFeel = new PhetLookAndFeel();
     }
-    
-    /**
-     * Constructor where the flavor defaults to the project name associated with the resource loader.
-     *
-     * @param commandLineArgs
-     * @param resourceLoader
-     * @deprecated this constructor creates an object that isn't fully initialized
-     */
-    public PhetApplicationConfig( String[] commandLineArgs, FrameSetup frameSetup, PhetResources resourceLoader ) {
-        this( commandLineArgs, frameSetup, resourceLoader, resourceLoader.getProjectName() );
-    }
 
     /**
      * Constructor where a flavor is specified.
