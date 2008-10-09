@@ -45,10 +45,6 @@ public class ZStatesOfMatterParticleTester extends TestCase {
         TestingUtils.testEqualityAndHashCode(p1, p2, p3);
     }
 
-    public void testClone() {
-        TestingUtils.testClone(P, NOT_EQUAL_TO_P);
-    }
-
     public void testGetInverseMass() {
         StatesOfMatterAtom p = new StatesOfMatterAtom(0, 0, 1, 2);
 

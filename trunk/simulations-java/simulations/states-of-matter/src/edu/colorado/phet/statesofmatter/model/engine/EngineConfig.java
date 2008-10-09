@@ -1,11 +1,10 @@
 package edu.colorado.phet.statesofmatter.model.engine;
 
-import edu.colorado.phet.common.phetcommon.patterns.PubliclyCloneable;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.container.ParticleContainer;
 import edu.colorado.phet.statesofmatter.model.container.RectangularParticleContainer;
 
-public class EngineConfig implements PubliclyCloneable {
+public class EngineConfig implements Cloneable {
     public static final EngineConfig TEST = new EngineConfig(
         StatesOfMatterConstants.GRAVITY,
         new RectangularParticleContainer(StatesOfMatterConstants.CONTAINER_BOUNDS),

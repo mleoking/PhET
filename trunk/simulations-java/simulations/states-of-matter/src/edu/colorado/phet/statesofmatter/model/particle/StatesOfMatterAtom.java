@@ -6,7 +6,6 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.patterns.PubliclyCloneable;
 
 /**
  * This class represents a particle in the model portion of the States of
@@ -16,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.patterns.PubliclyCloneable;
  */
 // TODO: JPB TBD - It may make sense to make this into an abstract class once
 // all of De Goes old code is removed.
-public class StatesOfMatterAtom implements PubliclyCloneable {
+public class StatesOfMatterAtom implements Cloneable {
     
     //----------------------------------------------------------------------------
     // Class Data
