@@ -10,6 +10,11 @@
  */
 package edu.colorado.phet.reactionsandrates;
 
+import java.lang.reflect.InvocationTargetException;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
@@ -18,11 +23,7 @@ import edu.colorado.phet.reactionsandrates.modules.ComplexModule;
 import edu.colorado.phet.reactionsandrates.modules.RateExperimentsModule;
 import edu.colorado.phet.reactionsandrates.modules.SimpleModule;
 
-import javax.swing.*;
-import java.lang.reflect.InvocationTargetException;
-
 /**
- *
  * @author Ron LeMaster
  * @version $Revision$
  */
@@ -44,14 +45,22 @@ public class ReactionsAndRatesApplication extends PiccoloPhetApplication {
                 PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
                 phetLookAndFeel.setFont( MRConfig.CONTROL_FONT );
                 phetLookAndFeel.setTitledBorderFont( MRConfig.CONTROL_FONT );
-                phetLookAndFeel.initLookAndFeel();
 
-                FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1000, 700 );
-                PhetApplicationConfig config = new PhetApplicationConfig( args, frameSetup, MRConfig.RESOURCES );
-                ReactionsAndRatesApplication application = new ReactionsAndRatesApplication( config );
 
-                // Let 'er rip
-                application.startApplication();
+//                PhetApplicationConfig config = new PhetApplicationConfig( args, frameSetup, MRConfig.RESOURCES );
+                PhetApplicationConfig config = new PhetApplicationConfig( args, new PhetApplicationConfig.ApplicationConstructor() {
+                    public PhetApplication getApplication( PhetApplicationConfig config ) {
+
+                        ReactionsAndRatesApplication application = new ReactionsAndRatesApplication( config );
+
+                        // Let 'er rip
+                        application.startApplication();
+                        return application;
+                    }
+                }, "reactions-and-rates" );
+                config.setFrameSetup( new FrameSetup.CenteredWithSize( 1000, 700 ) );
+                config.setLookAndFeel( phetLookAndFeel );
+                config.launchSim();
             }
         } );
 
