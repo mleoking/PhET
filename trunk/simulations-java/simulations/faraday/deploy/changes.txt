@@ -1,3 +1,4 @@
+10/8/08 - use PhetApplicationConfig.launchSim
 10/8/08 - moved list of rejected features to Unfuddle 794
 # 2.01.01 (24585)
 9/18/08 - update compass while clock is paused (Unfuddle #711)
