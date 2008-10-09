@@ -1,3 +1,4 @@
+10/8/08 - use PhetApplicationConfig.launchSim
 10/8/08 - add project name constant
 10/8/08 - moved list of rejected features to Unfuddle 796
 10/2/08 - move default left edge of zoomed view to -3400, so that there is more space to right of default terminus
