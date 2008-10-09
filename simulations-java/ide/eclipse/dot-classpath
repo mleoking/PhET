@@ -46,10 +46,6 @@
 	<classpathentry kind="src" path="simulations/conductivity/data"/>
 	<classpathentry kind="src" path="simulations/discharge-lamps/src"/>
 	<classpathentry kind="src" path="simulations/discharge-lamps/data"/>
-	<classpathentry kind="src" path="simulations/distance-ladder/src"/>
-	<classpathentry kind="src" path="simulations/distance-ladder/data"/>
-	<classpathentry kind="src" path="simulations/distance-ladder/phetcommon/src"/>
-	<classpathentry kind="src" path="simulations/distance-ladder/phetcommon/data"/>
 	<classpathentry kind="src" path="simulations/eating-and-exercise/src"/>
 	<classpathentry kind="src" path="simulations/eating-and-exercise/data"/>
 	<classpathentry kind="src" path="simulations/efield/src"/>
