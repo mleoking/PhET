@@ -6,13 +6,13 @@
 9/29/08 - get rid of scale calls in BoreholeDrillNode, resize image files
 9/29/08 - [750] make borehole drill draggable by fire button
 9/29/08 - set hgap and vgap to zero for control panel FlowLayouts
-> change default snowfall to 0.93m (was 0.95m)
+> changed default snowfall to 0.93m (was 0.95m)
 9/29/08 - [730] change default snowfall to 0.93m (was 0.95m) so that entire default glacier fits in zoomed viewport at new x-axis scale
 9/29/08 - [730] change x-axis scale from 0.062 to 0.1 so that 80km fills most of the birds-eye view
 > make Glacial Budget Meter tool snap to surface of ice or valley when it is released
 9/29/08 - [733] glacial budget meter snap to valley floor and show values for x<0 ,like it does for x>=0
 9/29/08 - [733] make glacial budget meter snap to glacier surface (or valley surface) when released, ala tracer flags
-> replace "Show glacier picture" check box with "Show glacier picture" button
+> replaced "Show glacier picture" check box with "Show glacier picture" button
 9/29/08 - [732] change glacier picture button to use text "Show glacier picture"
 9/20/08 - reposition sample help items so they don't overlap any controls
 9/20/08 - increase glacial budget meter snap threshold to 1.5x what it is now (150 meters)
@@ -43,7 +43,7 @@
 9/9/08 - convert existing data in time-based charts when switching units
 9/9/08 - switch charts between English & metric units, any existing charts are closed and time-based data is lost
 9/9/08 - change string keys for chart axes to accommodate switching between English and metric
-> add ability to switch between English and metric units
+> added ability to switch between English and metric units
 9/9/08 - completed: switch coordinates view between English & metric units
 9/9/08 - add CoordinatesNode, parent node for distance and elevation axes
 9/9/08 - rewrite ElevationAxisNode to handle English/metric switching
@@ -58,16 +58,16 @@
 9/8/08 - bugfix: snowfall gradient doesn't draw properly and crashes on Mac OS 10.4 (see Unfuddle #553)
 9/8/08 - update snowfall shape based on bounds of both birds-eye and zoomed viewports, so that sky doesn't above snow in zoomed view on large monitors
 9/8/08 - simplify shape of snowfall, don't use constructive area geometry
-> add File>Save and File>Load menu items
+> added File>Save and File>Load menu items
 9/4/08 - implement Save/Load feature
 9/4/08 - replace "glacier picture" check box with a button (icon on button, to left of steady state button)
-> add "Equilibrium Line Altitude vs Time" graph
+> added "Equilibrium Line Altitude vs Time" graph
 9/4/08 - strip chart implementation for "ELA versus time" graph
 > show both ablation and negative ablabtion on "Glacial Budget vs Elevation" chart
 9/4/08 - show both ablation (solid green) & negative ablation (dashed green) on "glacial budget vs elevation" chart
 9/4/08 - revert change to names of time-based graphs made on 8/28/08
 8/28/08 - rename time-based graph classes and labels, should be "time vs ...", not "... vs time"
-> add "Glaciers Length vs Time" graph
+> added "Glaciers Length vs Time" graph
 8/28/08 - make "glacier length vs time" graph a strip chart that keeps 1000 years worth of data
 8/28/08 - draw valley floor for x<0 using Java 2D, to clean up snow/valley interface
 ******* 1.00.01 (23914)
