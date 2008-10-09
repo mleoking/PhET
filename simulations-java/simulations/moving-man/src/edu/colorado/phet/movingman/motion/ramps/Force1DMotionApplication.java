@@ -47,6 +47,7 @@ public class Force1DMotionApplication extends PiccoloPhetApplication {
     
     public static void main( final String[] args ) {
         
+        //TODO: why is init called twices?!?  This sequence was copied from the original main.
         SimStrings.getInstance().init( args, "forces-1d/localization/forces-1d-strings" );//todo: replace with resource loader
         SimStrings.getInstance().init( args, "the-ramp/localization/the-ramp-strings" );//todo: replace with resource loader
         SimStrings.getInstance().addStrings( MovingManApplicationORIG.localizedStringsPath );
