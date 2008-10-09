@@ -13,18 +13,16 @@ package edu.colorado.phet.quantumtunneling;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
-import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
 import edu.colorado.phet.quantumtunneling.color.BlackColorScheme;
 import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
@@ -213,44 +211,16 @@ public class QuantumTunnelingApplication extends PhetApplication {
     //----------------------------------------------------------------------------
     // main
     //----------------------------------------------------------------------------
-
-    /**
-     * Main entry point.
-     * <p>
-     * Supported command line arguments:
-     * <ul>
-     * <li>-dev : enabled developer controls
-     * </ul>
-     *
-     * @param args command line arguments
-     */
-    public static void main( final String[] args ) throws IOException {
-
-        /*
-         * Wrap the body of main in invokeLater, so that all initialization occurs
-         * in the event dispatch thread. Sun now recommends doing all Swing init in
-         * the event dispatch thread. And the Piccolo-based tabs in TabbedModulePanePiccolo
-         * seem to cause startup deadlock problems if they aren't initialized in the
-         * event dispatch thread. Since we don't have an easy way to separate Swing and
-         * non-Swing init, we're stuck doing everything in invokeLater.
-         */
-        SwingUtilities.invokeLater( new Runnable() {
-
-            public void run() {
-
-                // Initialize look-and-feel
-                PhetLookAndFeel laf = new PhetLookAndFeel();
-                laf.initLookAndFeel();
-                
-                // Config
-                PhetApplicationConfig config = new PhetApplicationConfig( args, QTConstants.FRAME_SETUP,  QTResources.getResourceLoader() );
-
-                // Create the application.
-                QuantumTunnelingApplication app = new QuantumTunnelingApplication( config );
-
-                // Start the application.
-                app.startApplication();
+    
+    public static void main( final String[] args ) {
+        
+        ApplicationConstructor appConstructor = new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new QuantumTunnelingApplication( config );
             }
-        } );
+        };
+        
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, QTConstants.PROJECT_NAME );
+        appConfig.launchSim();
     }
 }
