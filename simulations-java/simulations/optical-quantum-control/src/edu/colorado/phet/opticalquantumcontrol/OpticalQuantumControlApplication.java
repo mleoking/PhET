@@ -13,15 +13,13 @@ package edu.colorado.phet.opticalquantumcontrol;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 import javax.swing.JDialog;
 import javax.swing.JMenuItem;
-import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
 import edu.colorado.phet.opticalquantumcontrol.help.ExplanationDialog;
 import edu.colorado.phet.opticalquantumcontrol.module.OQCModule;
@@ -89,7 +87,7 @@ public class OpticalQuantumControlApplication extends PhetApplication {
 
                 public void actionPerformed( ActionEvent e ) {
                     _explanationDialog = new ExplanationDialog( getPhetFrame() );
-                    _explanationDialog.show();
+                    _explanationDialog.setVisible( true );
                 }
             } );
             helpMenu.add( explanationItem );
@@ -111,37 +109,16 @@ public class OpticalQuantumControlApplication extends PhetApplication {
     // main
     //----------------------------------------------------------------------------
 
-    /**
-     * Main entry point.
-     *
-     * @param args command line arguments
-     */
-    public static void main( final String[] args ) throws IOException {
-
-        /*
-         * Wrap the body of main in invokeLater, so that all initialization occurs
-         * in the event dispatch thread. Sun now recommends doing all Swing init in
-         * the event dispatch thread. And the Piccolo-based tabs in TabbedModulePanePiccolo
-         * seem to cause startup deadlock problems if they aren't initialized in the
-         * event dispatch thread. Since we don't have an easy way to separate Swing and
-         * non-Swing init, we're stuck doing everything in invokeLater.
-         */
-        SwingUtilities.invokeLater( new Runnable() {
-
-            public void run() {
-                
-                // Initialize look-and-feel
-                PhetLookAndFeel laf = new PhetLookAndFeel();
-                laf.initLookAndFeel();
-
-                PhetApplicationConfig config = new PhetApplicationConfig( args, OQCConstants.FRAME_SETUP, OQCResources.getResourceLoader() );
-
-                // Create the application.
-                OpticalQuantumControlApplication app = new OpticalQuantumControlApplication( config );
-
-                // Start the application.
-                app.startApplication();
+    public static void main( final String[] args ) {
+        
+        ApplicationConstructor appConstructor = new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new OpticalQuantumControlApplication( config );
             }
-        } );
+        };
+        
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, OQCConstants.PROJECT_NAME );
+        appConfig.setFrameSetup( OQCConstants.FRAME_SETUP ); // MoleculeAnimation requires knowledge of the FrameSetup
+        appConfig.launchSim();
     }
 }

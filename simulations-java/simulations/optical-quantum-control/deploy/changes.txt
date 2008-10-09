@@ -1,3 +1,4 @@
+10/8/08 - use PhetApplicationConfig.launchSim
 10/8/08 - moved list of rejected features to Unfuddle 804
 9/8/08 - localize x-axis labels on graphs
 > improve fonts
