@@ -8,8 +8,9 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.SwingUtilities;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication.TabbedPaneType;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.nuclearphysics.module.alpharadiation.AlphaRadiationModule;
@@ -30,38 +31,24 @@ public class AlphaRadiationApplication extends AbstractNuclearPhysicsApplication
     
     /**
      * Main entry point.
-     *
+     * 
      * @param args command line arguments
-     * @throws InvocationTargetException
-     * @throws InterruptedException
      */
     public static void main( final String[] args ) {
-        final QuickProfiler profiler=new QuickProfiler( "Nuclear Physics 2 Startup Time");
-        /*
-         * Wrap the body of main in invokeLater, so that all initialization occurs
-         * in the event dispatch thread. Sun now recommends doing all Swing init in
-         * the event dispatch thread. And the Piccolo-based tabs in TabbedModulePanePiccolo
-         * seem to cause startup deadlock problems if they aren't initialized in the
-         * event dispatch thread. Since we don't have an easy way to separate Swing and
-         * non-Swing init, we're stuck doing everything in invokeLater.
-         */
-        SwingUtilities.invokeLater( new Runnable() {
-    
-            public void run() {
-    
-                PhetApplicationConfig config = new PhetApplicationConfig( args, NuclearPhysicsConstants.FRAME_SETUP, NuclearPhysicsResources.getResourceLoader(), "alpha-radiation" );
-                
-                PhetLookAndFeel p = new PhetLookAndFeel();
-                p.setBackgroundColor( new Color( 227, 239, 214 ) );
-                p.initLookAndFeel();
-    
-                // Create the application.
-                AlphaRadiationApplication app = new AlphaRadiationApplication( config );
-    
-                // Start the application.
-                app.startApplication();
-                System.out.println( "profiler = " + profiler );
+        
+        ApplicationConstructor appConstructor = new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new AlphaRadiationApplication( config );
             }
-        } );
+        };
+        
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, 
+        		NuclearPhysicsConstants.PROJECT_NAME, NuclearPhysicsConstants.FLAVOR_NAME_ALPHA_DECAY );
+        
+        PhetLookAndFeel p = new PhetLookAndFeel();
+        p.setBackgroundColor( NuclearPhysicsConstants.ALPHA_DECAY_CONTROL_PANEL_COLOR );
+        appConfig.setLookAndFeel( p );
+
+        appConfig.launchSim();
     }
 }

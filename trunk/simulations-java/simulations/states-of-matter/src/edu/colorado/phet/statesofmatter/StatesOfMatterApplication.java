@@ -19,6 +19,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.GlaciersConstants;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.statesofmatter.developer.DeveloperMenu;
 import edu.colorado.phet.statesofmatter.module.interactionpotential.InteractionPotentialModule;
 import edu.colorado.phet.statesofmatter.module.phasechanges.PhaseChangesModule;
@@ -170,6 +171,11 @@ public class StatesOfMatterApplication extends PiccoloPhetApplication implements
         
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, 
         		StatesOfMatterConstants.PROJECT_NAME, StatesOfMatterConstants.FLAVOR_STATES_OF_MATTER );
+
+        PhetLookAndFeel p = new PhetLookAndFeel();
+        p.setBackgroundColor( StatesOfMatterConstants.CONTROL_PANEL_COLOR );
+        appConfig.setLookAndFeel( p );
+
         appConfig.launchSim();
     }
 }

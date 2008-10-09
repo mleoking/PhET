@@ -142,7 +142,7 @@ public class NuclearReactorEnergyGraphPanel extends JPanel {
         
         JFreeChart chart = ChartFactory.createBarChart(null, null, NuclearPhysicsStrings.POWER_GRAPH_UNITS, 
                 _energyPerSecondDataSet, PlotOrientation.VERTICAL, false, false, false);
-        chart.setBackgroundPaint( NuclearPhysicsConstants.CONTROL_PANEL_COLOR );
+        chart.setBackgroundPaint( NuclearPhysicsConstants.NUCLEAR_FISSION_CONTROL_PANEL_COLOR );
         CategoryPlot plot = (CategoryPlot)chart.getPlot();
         plot.setBackgroundPaint( Color.darkGray );
         plot.setRangeGridlinePaint(Color.white);
@@ -188,7 +188,7 @@ public class NuclearReactorEnergyGraphPanel extends JPanel {
         JFreeChart chart = ChartFactory.createBarChart(NuclearPhysicsStrings.ENERGY_GRAPH_LABEL, null, 
                 NuclearPhysicsStrings.ENERGY_GRAPH_UNITS, _totalEnergyDataSet, PlotOrientation.VERTICAL, false, false,
                 false);
-        chart.setBackgroundPaint( NuclearPhysicsConstants.CONTROL_PANEL_COLOR );
+        chart.setBackgroundPaint( NuclearPhysicsConstants.NUCLEAR_FISSION_CONTROL_PANEL_COLOR );
         CategoryPlot plot = (CategoryPlot)chart.getPlot();
         plot.setBackgroundPaint( Color.DARK_GRAY );
         plot.setRangeGridlinePaint(Color.white);
