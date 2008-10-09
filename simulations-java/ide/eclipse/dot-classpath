@@ -34,9 +34,6 @@
 	<classpathentry kind="src" path="simulations/balloons/data"/>
 	<classpathentry kind="src" path="simulations/battery-voltage/src"/>
 	<classpathentry kind="src" path="simulations/battery-voltage/data"/>
-	<classpathentry kind="src" path="simulations/bernoulli/src"/>
-	<classpathentry kind="src" path="simulations/bernoulli/data"/>
-	<classpathentry kind="src" path="simulations/bernoulli/phetcommon/src"/>
 	<classpathentry kind="src" path="simulations/bound-states/src"/>
 	<classpathentry kind="src" path="simulations/bound-states/data"/>
 	<classpathentry kind="src" path="simulations/circuit-construction-kit/src"/>
