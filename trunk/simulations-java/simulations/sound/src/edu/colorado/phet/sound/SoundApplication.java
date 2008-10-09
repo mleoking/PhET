@@ -9,6 +9,7 @@ package edu.colorado.phet.sound;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
@@ -34,18 +35,16 @@ public class SoundApplication extends PiccoloPhetApplication {
         addModule( evacuatedBoxModule );
     }
     
-    public static class SoundApplicationConfig extends PhetApplicationConfig {
-        public SoundApplicationConfig( String[] commandLineArgs ) {
-            super( commandLineArgs, new FrameSetup.CenteredWithSize( 900, 750 ), SoundResources.getResourceLoader() );
-            super.setApplicationConstructor( new ApplicationConstructor() {
-                public PhetApplication getApplication( PhetApplicationConfig config ) {
-                    return new SoundApplication( config );
-                }
-            } );
-        }
-    }
-    
-    public static void main( String[] args ) {
-        new SoundApplicationConfig( args ).launchSim();
+    public static void main( final String[] args ) {
+        
+        ApplicationConstructor appConstructor = new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new SoundApplication( config );
+            }
+        };
+        
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, SoundConfig.PROJECT_NAME );
+        appConfig.setFrameSetup( new FrameSetup.CenteredWithSize( 900, 750 ) );
+        appConfig.launchSim();
     }
 }
