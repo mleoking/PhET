@@ -9,11 +9,12 @@ package edu.colorado.phet.idealgas;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-import javax.swing.*;
-
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.idealgas.controller.IdealGasModule;
@@ -22,12 +23,13 @@ import edu.colorado.phet.idealgas.view.WiggleMeGraphic;
 
 public class GasPropertiesApplication extends PhetApplication {
 
-    public GasPropertiesApplication( String[] args ) {
-        super( args,
-               IdealGasResources.getString( "gas-properties.name" ),
-               IdealGasResources.getString( "gas-properties.description" ),
-               IdealGasConfig.getVersion().formatForTitleBar(),
-               IdealGasConfig.FRAME_SETUP );
+    public GasPropertiesApplication( PhetApplicationConfig config) {
+        super(config);
+//        super( args,
+//               IdealGasResources.getString( "gas-properties.name" ),
+//               IdealGasResources.getString( "gas-properties.description" ),
+//               IdealGasConfig.getVersion().formatForTitleBar(),
+//               IdealGasConfig.FRAME_SETUP );
 
         SimulationClock clock = new SimulationClock( IdealGasConfig.WAIT_TIME, IdealGasConfig.TIME_STEP );
 
@@ -74,11 +76,18 @@ public class GasPropertiesApplication extends PhetApplication {
     }
 
     public static void main( final String[] args ) {
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                new IdealGasLookAndFeel().initLookAndFeel();
-                new GasPropertiesApplication( args );
-            }
-        } );
+        new GasPropertiesConfig( args, IdealGasConfig.FRAME_SETUP, new PhetResources( "ideal-gas" ), "gas-properties" ).launchSim();
+    }
+
+    private static class GasPropertiesConfig extends PhetApplicationConfig {
+        public GasPropertiesConfig( String[] commandLineArgs, FrameSetup frameSetup, PhetResources resourceLoader, String flavor ) {
+            super( commandLineArgs, frameSetup, resourceLoader, flavor );
+            setApplicationConstructor( new ApplicationConstructor() {
+                public PhetApplication getApplication( PhetApplicationConfig config ) {
+                    new IdealGasLookAndFeel().initLookAndFeel();
+                    return new GasPropertiesApplication( config);
+                }
+            } );
+        }
     }
 }
