@@ -13,8 +13,8 @@ import javax.swing.JMenu;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.radiowaves.view.WaveMediumGraphic;
 
 public class RadioWavesApplication extends PhetApplication {
@@ -42,19 +42,15 @@ public class RadioWavesApplication extends PhetApplication {
         //XXX this is not actually added to the menu bar, if added in the future it requires i18n
     }
 
-    public static class RadioWavesApplicationConfig extends PhetApplicationConfig {
-        public RadioWavesApplicationConfig( String[] commandLineArgs ) {
-            super( commandLineArgs, new FrameSetup.CenteredWithSize( 1024, 768 ), RadioWavesResources.getResourceLoader() );
-            super.setApplicationConstructor( new ApplicationConstructor() {
-                public PhetApplication getApplication( PhetApplicationConfig config ) {
-                    return new RadioWavesApplication( config );
-                }
-            } );
-        }
-    }
-    
     public static void main( String[] args ) {
-        new RadioWavesApplicationConfig( args ).launchSim();
+        ApplicationConstructor appConstructor = new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new RadioWavesApplication( config );
+            }
+        };
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, RadioWavesConstants.PROJECT_NAME );
+        appConfig.setResourceLoader( RadioWavesResources.getResourceLoader() );
+        appConfig.launchSim();
     }
 
 }
