@@ -1,3 +1,4 @@
+10/8/08 - use PhetApplicationConfig.launchSim
 10/8/08 - moved list of rejected features to Unfuddle 806
 8/11/08 - change screenshot, use hand soap as the liquid
 # 1.00.00 (23294)
