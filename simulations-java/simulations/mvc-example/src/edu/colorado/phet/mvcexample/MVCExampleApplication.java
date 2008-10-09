@@ -3,14 +3,11 @@
 package edu.colorado.phet.mvcexample;
 
 import java.awt.Frame;
-import java.lang.reflect.InvocationTargetException;
 
-import javax.swing.SwingUtilities;
-
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 /**
@@ -20,7 +17,8 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
  */
 public class MVCExampleApplication extends PiccoloPhetApplication {
 
-    public static final PhetResources RESOURCE_LOADER = new PhetResources( "mvc-example" );
+    private static final String PROJECT_NAME = "mvc-example";
+    public static final PhetResources RESOURCE_LOADER = new PhetResources( PROJECT_NAME );
     
     /**
      * Sole constructor.
@@ -34,38 +32,16 @@ public class MVCExampleApplication extends PiccoloPhetApplication {
         MVCModule module = new MVCModule( parentFrame );
         addModule( module );
     }
-
-    /**
-     * Main entry point.
-     *
-     * @param args command line arguments
-     * @throws InvocationTargetException
-     * @throws InterruptedException
-     */
+    
     public static void main( final String[] args ) {
         
-        /*
-         * Wrap the body of main in invokeLater, so that all initialization occurs
-         * in the event dispatch thread. Sun now recommends doing all Swing init in
-         * the event dispatch thread. And the Piccolo-based tabs in TabbedModulePanePiccolo
-         * seem to cause startup deadlock problems if they aren't initialized in the
-         * event dispatch thread. Since we don't have an easy way to separate Swing and
-         * non-Swing init, we're stuck doing everything in invokeLater.
-         */
-        SwingUtilities.invokeLater( new Runnable() {
-
-            public void run() {
-                new PhetLookAndFeel().initLookAndFeel();
-                FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
-
-                PhetApplicationConfig config = new PhetApplicationConfig( args, FRAME_SETUP, RESOURCE_LOADER );
-
-                // Create the application.
-                MVCExampleApplication app = new MVCExampleApplication( config );
-
-                // Start the application.
-                app.startApplication();
+        ApplicationConstructor appConstructor = new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new MVCExampleApplication( config );
             }
-        } );
+        };
+        
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, PROJECT_NAME );
+        appConfig.launchSim();
     }
 }
