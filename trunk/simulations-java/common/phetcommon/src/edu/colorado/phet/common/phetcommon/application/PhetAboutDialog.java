@@ -140,9 +140,7 @@ public class PhetAboutDialog extends JDialog {
             }
         } );
 
-        String html = COPYRIGHT;
-        html = html.replaceAll( "@FONT_SIZE@", new PhetFont().getSize() + "pt" );
-        html = html.replaceAll( "@FONT_FAMILY@", new PhetFont().getFamily() );
+        String html = setFont( COPYRIGHT );
         HTMLPane copyrightLabel = new HTMLPane( html );
 
         HorizontalLayoutPanel logoPanel = new HorizontalLayoutPanel();
@@ -151,6 +149,13 @@ public class PhetAboutDialog extends JDialog {
         logoPanel.add( copyrightLabel );
 
         return logoPanel;
+    }
+
+    /*Replace dummy variables in html CSS to specify font size and family, see HTML_CUSTOM_STYLE above*/
+    private String setFont( String html ) {
+        html = html.replaceAll( "@FONT_SIZE@", new PhetFont().getSize() + "pt" );
+        html = html.replaceAll( "@FONT_FAMILY@", new PhetFont().getFamily() );
+        return html;
     }
 
     public static class HTMLPane extends JEditorPane {
@@ -270,13 +275,15 @@ public class PhetAboutDialog extends JDialog {
      * Displays license information in a message dialog.
      */
     protected void showLicenseInfo() {
-        String phetLicenseString = readFile( LICENSE_RESOURCE );
+        String phetLicenseString = setFont( readFile( LICENSE_RESOURCE ) );
 
         HTMLPane htmlPane = new HTMLPane( phetLicenseString );
         final JDialog dialog = new JDialog( this, getLocalizedString( "Common.About.LicenseDialog.Title" ), true );
         BorderLayout borderLayout = new BorderLayout();
         dialog.getContentPane().setLayout( borderLayout );
-        dialog.getContentPane().add( new JScrollPane( htmlPane ), BorderLayout.CENTER );
+        JScrollPane comp = new JScrollPane( htmlPane );
+        comp.setBorder( BorderFactory.createEmptyBorder( 10,10,10,10 ) );
+        dialog.getContentPane().add( comp, BorderLayout.CENTER );
 
         JPanel buttonPanel = new JPanel();
         JButton okButton = new JButton( getLocalizedString( "Common.About.OKButton" ) );
