@@ -82,16 +82,29 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
     //----------------------------------------------------------------------------
 
     // Instance data
-    private String[] commandLineArgs;
+    private final String[] commandLineArgs;
     private FrameSetup frameSetup;
     private PhetResources resourceLoader;
     private final String flavor;
     private volatile PhetVersion version;
+    private ApplicationConstructor applicationConstructor; // used to create the PhetApplication
+    private PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel(); // the look and feel to be initialized in launchSim
 
+    //----------------------------------------------------------------------------
+    // Instances
+    //----------------------------------------------------------------------------
+    
+    /**
+     * We need one of these to start the simulation.
+     */
+    public static interface ApplicationConstructor {
+        PhetApplication getApplication( PhetApplicationConfig config );
+    }
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-
+    
     /**
      * Constructor where the flavor defaults to the project name associated with the resource loader.
      *
@@ -126,7 +139,7 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
     }
 
     //----------------------------------------------------------------------------
-    // Accessors
+    // Setters and getters
     //----------------------------------------------------------------------------
 
     /**
@@ -155,6 +168,22 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
      */
     public String getFlavor() {
         return flavor;
+    }
+    
+    public void setApplicationConstructor( ApplicationConstructor applicationConstructor ) {
+        this.applicationConstructor = applicationConstructor;
+    }
+
+    public ApplicationConstructor getApplicationConstructor() {
+        return applicationConstructor;
+    }
+    
+    public void setLookAndFeel( PhetLookAndFeel phetLookAndFeel ) {
+        this.phetLookAndFeel = phetLookAndFeel;
+    }
+
+    public PhetLookAndFeel getPhetLookAndFeel() {
+        return phetLookAndFeel;
     }
 
     //----------------------------------------------------------------------------
@@ -308,51 +337,19 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
         return new PhetApplicationConfig( new String[0], new FrameSetup.NoOp(), new PhetResources( simName ) ).getCredits();
     }
 
-
-    /*
-    * The following class fields & methods are to solve the following problems:
-    * 1. Consolidate (instead of duplicate) launch code
-    * 2. Make sure that all PhetSimulations launch in the Swing Event Thread
-    *        Note: The application main class should not invoke any unsafe Swing operations outside of the Swing thread.
-    * 3. Make sure all PhetSimulations instantiate and use a PhetLookAndFeel, which is necessary to enable font support for many laungages.
-    *
-    *  This implementation uses ApplicationConstructor instead of reflection to ensure compile-time checking (at the expense of slightly more complicated subclass implementations).
-    */
-    private ApplicationConstructor applicationConstructor;//used to create the PhetApplication
-    private PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();//the specified look and feel to be inited in launchSim
-
     public String getProjectName() {
         return resourceLoader.getProjectName();
     }
 
-    public TrackingInfo getTrackingInformation() {
-        return new TrackingInfo( this );
-    }
-
-    public String getHumanReadableTrackingInformation() {
-        return getTrackingInformation().toHumanReadable();
-    }
-
-    public static interface ApplicationConstructor {
-        PhetApplication getApplication( PhetApplicationConfig config );
-    }
-
-    public void setApplicationConstructor( ApplicationConstructor applicationConstructor ) {
-        this.applicationConstructor = applicationConstructor;
-    }
-
-    public void setLookAndFeel( PhetLookAndFeel phetLookAndFeel ) {
-        this.phetLookAndFeel = phetLookAndFeel;
-    }
-
-    public ApplicationConstructor getApplicationConstructor() {
-        return applicationConstructor;
-    }
-
-    public PhetLookAndFeel getPhetLookAndFeel() {
-        return phetLookAndFeel;
-    }
-
+    /*
+     * This method solves the following problems:
+     * 1. Consolidate (instead of duplicate) launch code
+     * 2. Make sure that all PhetSimulations launch in the Swing Event Thread
+     *    Note: The application main class should not invoke any unsafe Swing operations outside of the Swing thread.
+     * 3. Make sure all PhetSimulations instantiate and use a PhetLookAndFeel, which is necessary to enable font support for many laungages.
+     *
+     *  This implementation uses ApplicationConstructor instead of reflection to ensure compile-time checking (at the expense of slightly more complicated subclass implementations).
+     */
     public void launchSim() {
         /*
          * Wrap the body of main in invokeLater, so that all initialization occurs
@@ -388,7 +385,19 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
             }
         } );
     }
+    
+    //----------------------------------------------------------------------------
+    // Updates and Tracking stuff
+    //----------------------------------------------------------------------------
 
+    public TrackingInfo getTrackingInformation() {
+        return new TrackingInfo( this );
+    }
+
+    public String getHumanReadableTrackingInformation() {
+        return getTrackingInformation().toHumanReadable();
+    }
+    
     private boolean isUpdatesAllowed() {
         //todo: perhaps we should use PhetPreferences.isUpdatesEnabled(String,String)
         boolean enabledForSelection = new DefaultUpdatePreferences( this ).isEnabledForSelection();
