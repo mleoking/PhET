@@ -1,3 +1,4 @@
+10-8-2008: convert to new PhetApplicationConfig usage
 10-8-2008: Posted versions with tracking and updates for testing.
 
 7-7-2007: Fixed: Show no charges checked and charges remain visible on the balloons
