@@ -16,7 +16,7 @@ public class OQCResources {
     /* not intended for instantiation */
     private OQCResources() {}
     
-    private static PhetResources RESOURCES = new PhetResources( "optical-quantum-control" );
+    private static PhetResources RESOURCES = new PhetResources( OQCConstants.PROJECT_NAME );
     
     public static PhetResources getResourceLoader() {
         return RESOURCES;

@@ -41,10 +41,12 @@ public class OQCConstants {
     // Application
     //----------------------------------------------------------------------------
     
+    public static final String PROJECT_NAME = "optical-quantum-control";
+    
     public static final int FRAME_WIDTH = 1024;
     public static final int FRAME_HEIGHT = 768;
     public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( FRAME_WIDTH, FRAME_HEIGHT );
-    
+        
     public static final TrigCache TRIG_CACHE = new TrigCache( 360 );
     
     //----------------------------------------------------------------------------
