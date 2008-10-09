@@ -1,37 +1,29 @@
-/* Copyright 2003-2004, University of Colorado */
+/* Copyright 2003-2008, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.dischargelamps;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
-import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.view.AtomGraphic;
-import edu.colorado.phet.lasers.view.EnergyLevelGraphic;
 
 /**
  * DischargeLampsApp
@@ -40,16 +32,14 @@ import edu.colorado.phet.lasers.view.EnergyLevelGraphic;
  * @version $Revision$
  */
 public class DischargeLampsApplication extends PiccoloPhetApplication {
-    static private FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 768 );
 
     /**
      * @param args
      */
-    public DischargeLampsApplication( String[] args ) {
-        super( args, SimStrings.getInstance().getString( "DischargeLampsApplication.title" ),
-               SimStrings.getInstance().getString( "DischargeLampsApplication.title" ),
-               new PhetApplicationConfig( new String[0], new FrameSetup.NoOp(), new PhetResources( "discharge-lamps" ) ).getVersion().formatForTitleBar(),
-               frameSetup );
+    public DischargeLampsApplication( PhetApplicationConfig config ) {
+        super( config );
+        
+        getPhetFrame().setResizable( false );
 
         // Determine the resolution of the screen
         DischargeLampModule singleAtomModule = new SingleAtomModule( SimStrings.getInstance().getString( "ModuleTitle.SingleAtomModule" ),
@@ -98,26 +88,20 @@ public class DischargeLampsApplication extends PiccoloPhetApplication {
         getPhetFrame().addMenu( optionsMenu );
     }
 
-    /**
-     * @param args
-     */
     public static void main( final String[] args ) {
-        EnergyLevelGraphic.showLifetimeLabelText = false;//see Unfuddle #431
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-
-                PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
-                phetLookAndFeel.initLookAndFeel();
-                // Tell SimStrings where the simulations-specific strings are
-                SimStrings.getInstance().init( args, DischargeLampsConfig.localizedStringsPath );
-                SimStrings.getInstance().addStrings( LaserConfig.localizedStringsPath );
-
-                DischargeLampsApplication application = new DischargeLampsApplication( args );
-
-                application.getPhetFrame().setResizable( false );
-                application.startApplication();
+        
+        // Tell SimStrings where the simulations-specific strings are
+        SimStrings.getInstance().init( args, DischargeLampsConfig.localizedStringsPath );
+        SimStrings.getInstance().addStrings( LaserConfig.localizedStringsPath );
+        
+        ApplicationConstructor appConstructor = new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new DischargeLampsApplication( config );
             }
-        } );
+        };
+        
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, "discharge-lamps" );
+        appConfig.launchSim();
     }
 
 }

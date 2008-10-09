@@ -1,0 +1,2 @@
+10-9-2008: convert to use PhetApplicationConfig.launchSim
+10-9-2008: create change log file
