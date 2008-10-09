@@ -2,6 +2,7 @@
 Changes for radio-waves 
 ===============================================================================
 
+10/8/08 - change to use new PhetApplicationConfig constructor
 ********* version 1.05.03 (25043)
 9/25/08 - [562] complete port to trunk version of phetcommon
 9/18/08 - [562] begin port to trunk version of phetcommon

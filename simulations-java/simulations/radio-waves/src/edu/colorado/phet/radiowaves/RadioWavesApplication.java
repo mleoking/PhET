@@ -49,7 +49,6 @@ public class RadioWavesApplication extends PhetApplication {
             }
         };
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, RadioWavesConstants.PROJECT_NAME );
-        appConfig.setResourceLoader( RadioWavesResources.getResourceLoader() );
         appConfig.launchSim();
     }
 
