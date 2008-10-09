@@ -1,0 +1,328 @@
+ 
+/*
+Copyright (c) 2008, Yahoo! Inc. All rights reserved.
+Code licensed under the BSD License:
+http://developer.yahoo.net/yui/license.txt
+version: 2.5.1
+*/
+html{color:#000;background:#FFF;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0;}table{border-collapse:collapse;border-spacing:0;}fieldset,img{border:0;}address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}li{list-style:none;}caption,th{text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}q:before,q:after{content:'';}abbr,acronym {border:0;font-variant:normal;}sup {vertical-align:text-top;}sub {vertical-align:text-bottom;}input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit;}input,textarea,select{*font-size:100%;}legend{color:#000;}body {font:13px/1.231 arial,helvetica,clean,sans-serif;*font-size:small;*font:x-small;}table {font-size:inherit;font:100%;}pre,code,kbd,samp,tt{font-family:monospace;*font-size:108%;line-height:100%;}
+body{text-align:center;}#ft{clear:both;}#doc,#doc2,#doc3,#doc4,.yui-t1,.yui-t2,.yui-t3,.yui-t4,.yui-t5,.yui-t6,.yui-t7{margin:auto;text-align:left;width:57.69em;*width:56.25em;min-width:750px;}#doc2{width:73.076em;*width:71.25em;}#doc3{margin:auto 10px;width:auto;}#doc4{width:74.923em;*width:73.05em;}.yui-b{position:relative;}.yui-b{_position:static;}#yui-main .yui-b{position:static;}#yui-main{width:100%;}.yui-t1 #yui-main,.yui-t2 #yui-main,.yui-t3 #yui-main{float:right;margin-left:-25em;}.yui-t4 #yui-main,.yui-t5 #yui-main,.yui-t6 #yui-main{float:left;margin-right:-25em;}.yui-t1 .yui-b{float:left;width:12.30769em;*width:12.00em;}.yui-t1 #yui-main .yui-b{margin-left:13.30769em;*margin-left:13.05em;}.yui-t2 .yui-b{float:left;width:13.8461em;*width:13.50em;}.yui-t2 #yui-main .yui-b{margin-left:14.8461em;*margin-left:14.55em;}.yui-t3 .yui-b{float:left;width:23.0769em;*width:22.50em;}.yui-t3 #yui-main .yui-b{margin-left:24.0769em;*margin-left:23.62em;}.yui-t4 .yui-b{float:right;width:13.8456em;*width:13.50em;}.yui-t4 #yui-main .yui-b{margin-right:14.8456em;*margin-right:14.55em;}.yui-t5 .yui-b{float:right;width:18.4615em;*width:18.00em;}.yui-t5 #yui-main .yui-b{margin-right:19.4615em;*margin-right:19.125em;}.yui-t6 .yui-b{float:right;width:23.0769em;*width:22.50em;}.yui-t6 #yui-main .yui-b{margin-right:24.0769em;*margin-right:23.62em;}.yui-t7 #yui-main .yui-b{display:block;margin:0 0 1em 0;}#yui-main .yui-b{float:none;width:auto;}.yui-gb .yui-u,.yui-g .yui-gb .yui-u,.yui-gb .yui-g,.yui-gb .yui-gb,.yui-gb .yui-gc,.yui-gb .yui-gd,.yui-gb .yui-ge,.yui-gb .yui-gf,.yui-gc .yui-u,.yui-gc .yui-g,.yui-gd .yui-u{float:left;}.yui-g .yui-u,.yui-g .yui-g,.yui-g .yui-gb,.yui-g .yui-gc,.yui-g .yui-gd,.yui-g .yui-ge,.yui-g .yui-gf,.yui-gc .yui-u,.yui-gd .yui-g,.yui-g .yui-gc .yui-u,.yui-ge .yui-u,.yui-ge .yui-g,.yui-gf .yui-g,.yui-gf .yui-u{float:right;}.yui-g div.first,.yui-gb div.first,.yui-gc div.first,.yui-gd div.first,.yui-ge div.first,.yui-gf div.first,.yui-g .yui-gc div.first,.yui-g .yui-ge div.first,.yui-gc div.first div.first{float:left;}.yui-g .yui-u,.yui-g .yui-g,.yui-g .yui-gb,.yui-g .yui-gc,.yui-g .yui-gd,.yui-g .yui-ge,.yui-g .yui-gf{width:49.1%;}.yui-gb .yui-u,.yui-g .yui-gb .yui-u,.yui-gb .yui-g,.yui-gb .yui-gb,.yui-gb .yui-gc,.yui-gb .yui-gd,.yui-gb .yui-ge,.yui-gb .yui-gf,.yui-gc .yui-u,.yui-gc .yui-g,.yui-gd .yui-u{width:32%;margin-left:1.99%;}.yui-gb .yui-u{*margin-left:1.9%;*width:31.9%;}.yui-gc div.first,.yui-gd .yui-u{width:66%;}.yui-gd div.first{width:32%;}.yui-ge div.first,.yui-gf .yui-u{width:74.2%;}.yui-ge .yui-u,.yui-gf div.first{width:24%;}.yui-g .yui-gb div.first,.yui-gb div.first,.yui-gc div.first,.yui-gd div.first{margin-left:0;}.yui-g .yui-g .yui-u,.yui-gb .yui-g .yui-u,.yui-gc .yui-g .yui-u,.yui-gd .yui-g .yui-u,.yui-ge .yui-g .yui-u,.yui-gf .yui-g .yui-u{width:49%;*width:48.1%;*margin-left:0;}.yui-g .yui-gb div.first,.yui-gb .yui-gb div.first{*margin-right:0;*width:32%;_width:31.7%;}.yui-g .yui-gc div.first,.yui-gd .yui-g{width:66%;}.yui-gb .yui-g div.first{*margin-right:4%;_margin-right:1.3%;}.yui-gb .yui-gc div.first,.yui-gb .yui-gd div.first{*margin-right:0;}.yui-gb .yui-gb .yui-u,.yui-gb .yui-gc .yui-u{*margin-left:1.8%;_margin-left:4%;}.yui-g .yui-gb .yui-u{_margin-left:1.0%;}.yui-gb .yui-gd .yui-u{*width:66%;_width:61.2%;}.yui-gb .yui-gd div.first{*width:31%;_width:29.5%;}.yui-g .yui-gc .yui-u,.yui-gb .yui-gc .yui-u{width:32%;_float:right;margin-right:0;_margin-left:0;}.yui-gb .yui-gc div.first{width:66%;*float:left;*margin-left:0;}.yui-gb .yui-ge .yui-u,.yui-gb .yui-gf .yui-u{margin:0;}.yui-gb .yui-gb .yui-u{_margin-left:.7%;}.yui-gb .yui-g div.first,.yui-gb .yui-gb div.first{*margin-left:0;}.yui-gc .yui-g .yui-u,.yui-gd .yui-g .yui-u{*width:48.1%;*margin-left:0;}s .yui-gb .yui-gd div.first{width:32%;}.yui-g .yui-gd div.first{_width:29.9%;}.yui-ge .yui-g{width:24%;}.yui-gf .yui-g{width:74.2%;}.yui-gb .yui-ge div.yui-u,.yui-gb .yui-gf div.yui-u{float:right;}.yui-gb .yui-ge div.first,.yui-gb .yui-gf div.first{float:left;}.yui-gb .yui-ge .yui-u,.yui-gb .yui-gf div.first{*width:24%;_width:20%;}.yui-gb .yui-ge div.first,.yui-gb .yui-gf .yui-u{*width:73.5%;_width:65.5%;}.yui-ge div.first .yui-gd .yui-u{width:65%;}.yui-ge div.first .yui-gd div.first{width:32%;}#bd:after,.yui-g:after,.yui-gb:after,.yui-gc:after,.yui-gd:after,.yui-ge:after,.yui-gf:after{content:".";display:block;height:0;clear:both;visibility:hidden;}#bd,.yui-g,.yui-gb,.yui-gc,.yui-gd,.yui-ge,.yui-gf{zoom:1;}
+
+/*
+Copyright (c) 2008, Yahoo! Inc. All rights reserved.
+Code licensed under the BSD License:
+http://developer.yahoo.net/yui/license.txt
+version: 2.5.1
+*/
+h1{font-size:138.5%;}h2{font-size:123.1%;}h3{font-size:108%;}h1,h2,h3{margin:1em 0;}h1,h2,h3,h4,h5,h6,strong{font-weight:bold;}abbr,acronym{border-bottom:1px dotted #000;cursor:help;} em{font-style:italic;}blockquote,ul,ol,dl{margin:1em;}ol,ul,dl{margin-left:2em;}ol li{list-style:decimal outside;}ul li{list-style:disc outside;}dl dd{margin-left:1em;}th,td{border:1px solid #000;padding:.5em;}th{font-weight:bold;text-align:center;}caption{margin-bottom:.5em;text-align:center;}p,fieldset,table,pre{margin-bottom:1em;}input[type=text],input[type=password],textarea{width:12.25em;*width:11.9em;}
+
+/* General */
+
+body {font-family: verdana, sans-serif; background: #fff url("http://c.fsdn.com/sf/images//phoneix/sf_dawn_h.png") repeat-x; color: #000; padding: 0; margin: 0;}
+#yui-main {clear: both;}
+#doc3 {margin: auto}
+.yui-t6 #yui-main .yui-b { margin-right:27.0769em; }
+
+a, .link {color: #03c; text-decoration: underline;}
+
+a:visited {color: #039;}
+
+a:hover, .link:hover {text-decoration: none; color: #36f;}
+
+.selected {font-weight: bold;}
+
+.jump li {
+    list-style-image:none;
+    list-style-position:outside;
+    list-style-type:none;
+    position:absolute;
+    text-indent:-7000em;
+    z-index: 0;
+}
+
+p, pre {padding: .5em 1em; line-height: 150%; font-size: 93%;}
+td p {font-size: 100%}
+legend, .projectsearch label {display:none;}
+
+#bd {padding: 1em 2em; background: #fff url("http://c.fsdn.com/sf/images/phoneix/grad_dark_50_dwn.png") repeat-x 0px 6px }
+
+
+/* Titlebars */
+#TB_title, #bd .titlebar, .titlebar, .downloadbar, .servicebar, .box {font-size: 93%; color: #555; padding: .5em 1em; margin: 0 0 .5em 0; position: relative; border: 1px solid #ccc; background: #fff url("http://c.fsdn.com/sf/images/phoneix/gloss_sm.png") repeat-x; }
+#bd .titlebar small, .titlebar small, small.rss
+{
+        padding: 10px;
+        position: absolute;
+        right: .5em;
+        top: .5em;
+}
+#bd .titlebar small a, .titlebar small a, small.rss a {text-indent: -7000em; position: absolute; right: 0; top: 0; padding: 0 0 1px 20px;}
+.box .divider {margin: 1em 0; border: none; border-bottom: 1px solid #fff; border-top: 1px solid #ddd; clear: both; display: block;}
+
+
+
+/* Masthead */
+#hd {background: url("http://c.fsdn.com/sf/images/phoneix/curl.png") no-repeat 50% -10px;}
+#hd h1
+{
+	margin: .5em 0 0 .5em;
+    width: 250px;
+}
+#hd .yui-u.first h1
+{
+    background: url("http://c.fsdn.com/sf/images/phoneix/sf_phoneix.png") no-repeat;
+}
+
+#hd h1 a
+{
+    text-indent: -700em;
+    text-decoration: none;
+	display: block;
+	position: relative;
+	z-index: 1;
+	height: 40px;
+}
+
+#hd h1 a:hover, #masthead h1 a:hover { text-decoration: none !important; }
+
+h2 {margin: 0; font-size: 123.1%}
+
+/* Search and user account */
+#hd .yui-u {color: #300; padding: .5em 0 0; text-align: right;}
+#hd .yui-u input {margin: .5em 0 0;}
+#hd .yui-u.first {padding: 0; text-align: left}
+#hd .yui-u  a {font: size: 93%; padding: 0 1em 0 0; text-decoration: underline; color: #300}
+#hd .yui-u  a:hover {color: #930}
+#hd .yui-u form {display: inline; margin-right: 1em; white-space: nowrap}
+
+/* Breadcrumbs */
+/*#breadcrumb {padding: 0; margin: 0 1em; font-size: 77%; color: #ccc;}
+#breadcrumb li
+{
+	display: inline;
+	padding: 0;
+	margin: 0;
+	color: #ccc !important;
+	list-style: none;
+}
+
+#breadcrumb li a { color: #999; }
+#breadcrumb li:before {content: ' / '; padding: 0 .2em}
+#breadcrumb li:first-child:before {content: ''; padding: 0 .2em 0 0}
+#breadcrumb li a:hover, #breadcrumb li.selected a:hover {color: #555;}
+#breadcrumb li.selected a {color: #777}
+*/
+
+
+/* Messaging */
+.info, .pending, .error, .warning, .message { color: #000 !important;}
+.info small, .pending small, .error small, .warning small, .message small {font-weight: normal; font-size: 93%}
+#bd .error
+{
+	background: #fdd url("http://c.fsdn.com/sf/images/phoneix/icons/tango/face-sad.png") no-repeat 10px .4em;
+	border: 1px solid #fbb;
+	padding: .5em 1em .5em 40px;
+	margin: .5em 0 2em 0;
+	position: relative;
+}
+#bd .warning, .pending, .WikiBanner, .WikiNotice {background: #ffd url("http://c.fsdn.com/sf/images/phoneix/icons/tango/face-surprise.png") no-repeat 10px .4em; border: 1px solid #fe6; padding: .5em 1em .5em 40px; margin: .5em 0 2em 0; position: relative; }
+
+#bd .message
+{
+	background: #dfd url("http://c.fsdn.com/sf/images/phoneix/icons/tango/face-grin.png") no-repeat 10px .4em;
+	border: 1px solid #bfb;
+    padding: .5em 1em .5em 40px;
+    margin: .5em 0 2em 0;
+	position: relative;
+}
+#bd .pending {background: #ffd url("http://c.fsdn.com/sf/images/ajax-loader.gif") no-repeat 10px .4em;}
+
+#bd .info
+{
+	background: #def url("http://c.fsdn.com/sf/images/phoneix/icons/tango/face-smile.png") no-repeat 10px .4em;
+	border: 1px solid #9cf;
+    padding: .5em 1em .5em 40px;
+    margin: .5em 0 2em 0;
+	position: relative;
+}
+
+
+/* buttons */
+.bblack {background: #222; padding: .4em 0; margin: 0; width: 5em; position: relative; border: 1px solid 000;}
+.bblack input {color: #fff; margin: 0; padding: 0 .8em;}
+.bblack.hover {background: #444}
+.bblack.click {background: #000}
+
+input.baccount { font-size: 100%}
+.bblue {background: #2951a6; padding: .4em 0; margin: 0; width: 5em; position: relative; border: 1px solid 000;}
+.bblue input {color: #fff; margin: 0; padding: 0 .8em;}
+.bblue.hover {background: #36c}
+.bblue.click {background: #036}
+
+/* widget */
+.vertical_widget {margin: 0; padding: 0; border: 1px solid #ccc; background: #fff; height: 16em; overflow: hidden;}
+.vertical_widget .inner, .vertical_widget .vertical_widget_content {padding: .5em; font-size: 93%;  background: url("http://c.fsdn.com/sf/images//phoneix/grad_dark_50_dwn.png") repeat-x; overflow: auto; height: 14em; }
+.vertical_widget h4 {font-weight: normal; display: block; font-size: 123.1%; color: #444; padding: .2em .6em .3em; position: relative; background: url("http://c.fsdn.com/sf/images//phoneix/gloss_sm.png") repeat-x scroll 50%; }
+.vertical_widget .inner ul li, .vertical_widget .inner ul {float: none !important; padding: 0; margin: 0 0 .5em;}
+.vertical_widget .inner ul li {padding: .5em 0 0 .5em; width: 100% !important;}
+.vertical_widget .inner ul.tab {float: left !important}
+.vertical_widget .inner ul.tab li {width: auto; float: left !important}
+
+#bd .vertical_widget h4 {margin: 0; border-bottom: solid 1px #ccc;}
+.vertical_widget h4 small, small.rss
+{
+    position: absolute;
+    font-size: 77%;
+    right: .8em;
+    top: .5em;
+    font-weight: bold;
+}
+.vertical_widget h4 small a {color: #444; text-decoration: none;}
+.vertical_widget h4 small a:hover, .vertical_widget .ui-tabs-nav a:hover {color: #aaa !important}
+.vertical_widget .ui-tabs-nav {padding: 0; margin-bottom: .5em}
+.vertical_widget .ui-tabs-nav span a {float: left; margin-top: 0;}
+.vertical_widget .ui-tabs-nav li, .vertical_widget .ui-tabs-selected li {padding-right: 1em; width: auto !important;}
+.vertical_widget .ui-tabs-nav a {font-weight: normal; border: none; text-decoration: underline; background: none !important; color: #666 !important}
+.vertical_widget .ui-tabs-selected a  {font-weight: bold; text-decoration: none; color: #444 !important; position: static !important;}
+.vertical_widget .ui-tabs-panel {border: none; padding: 1em 0 0; margin: 0;}
+.vertical_widget .ui-tabs-panel li {padding: .5em 0 .5em .5em; margin: 0; font-size: 77%; list-style: none}
+.vertical_widget .ui-tabs-panel ul {margin-left: 0;}
+.vertical_widget p {margin: 0; padding: 0 0 .5em .5em}
+
+.horizontal_widget {margin: 0 auto 1em; padding: 0; border: 1px solid #ccc; background: #fff; overflow: auto; position: relative;}
+.horizontal_widget .inner {padding: .5em; margin: .3em; height: 27em; background: #fff url("http://c.fsdn.com/sf/images//phoneix/grad_dark_50_dwn.png") repeat-x }
+.horizontal_widget .inner small {font-size: 85%}
+.horizontal_widget h4 { font-weight: normal; display: block; font-size: 123.1%; color: #555; padding: .2em .6em; position: relative; background: url("http://c.fsdn.com/sf/images//phoneix/gloss_sm.png") repeat-x scroll 50%; }
+#bd .horizontal_widget h4 {margin: 0}
+.horizontal_widget h4 small, small.rss
+{
+    position: absolute;
+    font-size: 77%;
+    right: .8em;
+    top: .5em;
+    font-weight: bold;
+}
+.horizontal_widget h4 small a {color: #555; text-decoration: none;}
+.horizontal_widget h4 small a:hover {color: #777}
+.horizontal_widget .ui-tabs-selected a span  {background: #fff}
+.horizontal_widget .ui-tabs-nav a span {background: #aaa}
+.horizontal_widget .inner {padding-top: 1.5em;}
+.horizontal_widget .ui-tabs-panel { position: relative; }
+.horizontal_widget .ui-tabs-panel li {padding: .5em 0; font-size: 93%; margin: 0; list-style: none}
+.horizontal_widget .ui-tabs-panel ul {margin-left: 0;}
+
+
+/* login */
+span.login, .openid, .openid_url_input {
+    background: #fff url("http://c.fsdn.com/sf/images//openid/openid_small_logo.png") no-repeat 0 50%;
+    padding-left: 18px !important;
+    padding-top: .2em !important;
+}
+
+.openid_url_input {
+    width: 18em !important;
+}
+.idp_button {
+    height: 20px;
+    width: 20px;
+}
+/* login page */
+.openid_splash { background: url("http://c.fsdn.com/sf/images//icons/silk/information.png") no-repeat 10px 3px; border: 1px solid #9cf; padding: .2em 40px; margin: .5em 0 1em 0; width: 25em; text-align: center; }
+
+#sf_login_text {}
+
+#openid_logo_text {background: url("http://c.fsdn.com/sf/images//openid/openid_logo_text.png") no-repeat scroll right top; padding-left: 60px;}
+#openid_title_graphic{background: url("http://c.fsdn.com/sf/images//openid/openid_small_logo.png") no-repeat 0 50%; padding-left: 18px !important; padding-top: .2em !important; width: 18em !important;}
+
+#login_box {width: 49%; float: left; border-right: #eee solid 1px; text-align: center; margin-bottom: 3em; }
+#login_box fieldset, #openid_box fieldset{ font-size: 82.3%; line-height: 130%; }
+
+.login_credentials{ height: 6em; }
+.login_left { text-align: right; width: 6em; float: left; clear: left; margin-right: .2em; }
+
+#openid_box { float: left; width: 49%; text-align: center; margin-bottom: 3em; }
+
+
+/* Icons */
+.rss {background: url("http://c.fsdn.com/sf/images/phoneix/icons/silk/feed.png") no-repeat scroll 0 50%; padding: 1px 0 2px 20px;}
+.accept {background: url("http://c.fsdn.com/sf/images/phoneix/icons/check.png") no-repeat scroll 0 50%; padding: 1px 0 2px 20px;}
+.uparw {background: url("http://c.fsdn.com/sf/images/phoneix/icons/up.png") no-repeat scroll 0 50%; padding: 1px 0 2px 20px;}
+.dwnarw {background: url("http://c.fsdn.com/sf/images/phoneix/icons/down.png") no-repeat scroll 0 50%; padding: 1px 0 2px 20px;}
+.leftarw {background: url("http://c.fsdn.com/sf/images/phoneix/icons/left.png") no-repeat scroll 0 50%; padding: 1px 0 2px 20px;}
+.rightarw {background: url("http://c.fsdn.com/sf/images/phoneix/icons/right.png") no-repeat scroll 0 50%; padding: 1px 0 2px 20px;}
+.close {background: url("http://c.fsdn.com/sf/images/phoneix/icons/close.png") no-repeat scroll 0 50%; padding: 1px 0 2px 20px;}
+.arwd, .add, .add_menu {background: url("http://c.fsdn.com/sf/images/phoneix/icons/plus.png") no-repeat scroll 0 50%; padding: 1px 0 2px 20px;}
+.arwu, .delete {background: url("http://c.fsdn.com/sf/images/phoneix/icons/minus.png") no-repeat scroll 0 50%; padding: 1px 0 2px 20px;}
+.add_menu:hover, .delete:hover, .add:hover {opacity: .7}
+.options {background: url("http://c.fsdn.com/sf/images/phoneix/icons/tango/emblem-system.png") no-repeat scroll 0 50%; padding: 1px 0 2px 20px;}
+.mirrors {background: url("http://c.fsdn.com/sf/images/phoneix/icons/tango/preferences-system-windows.png") no-repeat scroll 0 50%; display: inline; position: relative; padding:  1px 16px 1px 0; margin: 0 .5em}
+.notes {background: url("http://c.fsdn.com/sf/images/phoneix/icons/tango/edit-paste.png") no-repeat scroll 0 50%; display: inline; position: relative; padding: 1px 16px 1px 0; margin: 0 .5em}
+.share {background: url("http://c.fsdn.com/sf/images/phoneix/icons/tango/mail-attachment.png") no-repeat scroll 0 50%; padding: 1px 0 2px 20px;}
+.filters {background: url("http://c.fsdn.com/sf/images/phoneix/icons/tango/edit-find.png") no-repeat scroll 0 50%; padding: 1px 0 2px 20px;}
+.download a {background: url("http://c.fsdn.com/sf/images/phoneix/icons/tango/go-down.png") no-repeat right; padding: 5px 30px 5px 0px}
+.notes a, .mirrors a {text-indent: -700em; display: inline-block; padding: 2px 8px; margin: 0; font-size: 0%;}
+span.notext {overflow: hidden; text-indent: -700em; display: block;}
+.sortd, .dwn {background: url("http://c.fsdn.com/sf/images/phoneix/icons/down.png") no-repeat scroll 0 50%; padding: 1px 0 2px 20px;}
+.sortu, .up {background: url("http://c.fsdn.com/sf/images/phoneix/icons/up.png") no-repeat scroll 0 50%; padding: 1px 0 2px 20px;}
+.blank {background: url("http://c.fsdn.com/sf/images/phoneix/icons/blank.png") no-repeat scroll 0 50%; padding: 1px 0 2px 20px;}
+
+/* Shadow */
+.sc {
+    position: relative;
+    left: 4px;
+    top: 4px;
+    margin-right: 4px;
+    margin-bottom: 4px;
+}
+.welcome .sc {margin: 0 auto 1em; width: 90%;}
+.sc div.l1, .sc div.l2, .sc div.l3, .sc div.l4  {
+    position: relative;
+    left: -1px;
+    top: -1px;
+    background: #f5f5f5;
+}
+.sc div.l2 { background: #eee; }
+.sc div.l3 { background: #ddd; }
+.sc div.l4 { background: #ccc; }
+
+
+#bd h4 {margin-left: 1em}
+
+#feeds a.feed, #stats a.stat {display: none}
+
+.box, code {background: #eee; border: 1px solid #ddd}
+code {
+display:block;
+margin:1em;
+padding:1em;
+}
+
+/* footer */
+#ft { color: #555; padding: 0 3em; position: relative;}
+#ft strong a {color: #333}
+#ft li { display: inline; list-style: none; padding: 0 1em; }
+#ft .yui-g.hide {padding: 0 1em}
+#ft .yui-u {text-align: left; padding: 3em 0 1em; font-size: 85%; line-height: 150%}
+#ft .togbar {border: 1px solid #ddd; height: 6px; position: relative; z-index: 0;}
+#ft .tog {background: #fff url("http://c.fsdn.com/sf/images/phoneix/gloss_sm.png") repeat-x scroll 50%; position: relative; margin: 0 auto -1px; display: block; height: 2.5em; width: 3em; text-align: center; z-index: 1; border: 1px #ddd solid; border-bottom: none; z-index: 1}
+#ft .tog img {margin-top: .4em}
+#ft .divider .yui-u {text-align: right; font-size: 85%; padding-top: 2em;}
+#ft .divider .yui-u a {border-left: 1px solid #fff; border-right: 1px solid #ddd; padding: 0 1em 0 1em;}
+#ft .divider .yui-u a:first-child {border-left: none}
+#ft .divider .yui-u a:last-child {border-right: none}
+#ft .divider .yui-u.first {text-align: left}
+#ft .divider .yui-u.first a {padding: 0;}
+#ft .tog #gloss {position: absolute; top: 0; left: 0; width: 100%; z-index: 0; height: 2.4em; padding: 0; margin: 0;}
+
+/* mirror picker */
+#dynimo ul li ul {display: none; margin-bottom: 0 !important; margin-top: 0 !important;}
+#dynimo ul li ul.show {display: block; margin-bottom: 0 !important; margin-top: 0 !important;}
+#dynimo {font-size: 90%}
+.dynimo, .dynimo ul, .dynimo li {list-style: none; line-height: 130% !important;}
+.dynimo ul .current {font-weight: bold;}
+.dynimo {padding: 0; margin: 0;}
+.dynimo span, .dynimo b {padding: .2em 20px; line-height: 130% !important;}
+.dynimo span {background: url("http://c.fsdn.com/sf/images//icons/icon_expand.gif") no-repeat left top;}
+.dynimo b, .dynimo ul li span {background: url("http://c.fsdn.com/sf/images//icons/icon_expand.gif") no-repeat left top}
+.high {background: url("http://c.fsdn.com/sf/images//icons/icon_contract.gif") no-repeat left top !important;}
+b.high {background: url("http://c.fsdn.com/sf/images//icons/icon_contract.gif") no-repeat left top !important;}

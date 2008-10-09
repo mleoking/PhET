@@ -1,0 +1,15 @@
+.yui-t4 #yui-main, .yui-t5 #yui-main, .yui-t6 #yui-main { margin-right:-26em; }
+.yui-t6 .yui-b {width: 336px;}
+.downloadbar {margin-top: 0; padding: .3em; background: #fff; line-height: 150%}
+.downloadbar a {color: #fff}
+.downloadbar span {position: relative; z-index: 1;}
+.downloadbar img {position: absolute; top: -17px; right: 10px; z-index: 0;}
+.downloadbar small {margin-top: 1em; font-size: 77%; color: #fff; font-weight: normal; opacity: .7;}
+.downloadbar h3 {background: #63A624 url("http://c.fsdn.com/sf/images/phoneix/grad_dark_30.png") repeat-x bottom; padding: 1em; margin: 0; font-size: 116%; font-weight: normal}
+#bd {margin-top: 3.6em}
+.yui-gf.title {margin-top: -3.3em}
+.yui-gf.title .yui-u.first h2 { padding: .3em .5em .5em; background: #fff url("http://c.fsdn.com/sf/images/phoneix/gloss_sm.png") repeat-x;}
+.yui-gf.title .yui-u.first h2 a {font-weight: normal; color: #555; text-decoration: none;}
+.nav li.advanced {display: none}
+.yui-g.ads .yui-u {width: 36%; margin: 0 4em; text-align: center;}
+
