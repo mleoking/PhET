@@ -17,6 +17,7 @@ import java.awt.*;
 import java.awt.image.*;
 import java.io.*;
 import java.lang.*;
+import java.text.AttributedCharacterIterator;
 import java.util.*;
 
 public class PSGr extends java.awt.Graphics {
@@ -1584,6 +1585,10 @@ public class PSGr extends java.awt.Graphics {
             xyScale = 1;
 
         emitThis (xyScale+" "+xyScale+" scale");
+    }
+
+    public void drawString( AttributedCharacterIterator iterator, int x, int y ) {
+        // TODO Auto-generated method stub
     }
 
     // public void drawString(java.text.AttributedCharacterIterator aci, int x, int y) {}
