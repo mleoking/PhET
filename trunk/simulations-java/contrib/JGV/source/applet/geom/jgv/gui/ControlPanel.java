@@ -24,6 +24,7 @@ import geom.jgv.controller.DragConstants;
 import geom.jgv.controller.JGVController;
 import geom.jgv.gui.LoadGeomFrame;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -54,7 +55,7 @@ public class ControlPanel
     public ControlPanel(JGVPanel parent, JGVApplet applet) {
       this.parent = parent;
 
-      Image logoImage = applet.getImageNow("logo.gif");
+      Image logoImage = applet!=null?applet.getImageNow("logo.gif"):new BufferedImage( 5,5,BufferedImage.TYPE_INT_RGB);
       logo = new ImageLabel(logoImage);
       loadButton = new Button("Load Object");
       loadButton.addActionListener(this);
