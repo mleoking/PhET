@@ -1,11 +1,9 @@
 package edu.colorado.phet.movingman;
 
-import javax.swing.*;
-
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.movingman.motion.MotionProjectLookAndFeel;
@@ -21,8 +19,8 @@ public class MovingManApplication extends PiccoloPhetApplication {
     public static final double FRAME_DELAY_SEC = 1.0 / FRAME_RATE_HZ;//DT
     public static final double FRAME_DELAY_MILLIS = 1000 * FRAME_DELAY_SEC;
 
-    public MovingManApplication( String[] args ) {
-        super( new PhetApplicationConfig( args, new FrameSetup.TopCenter( 1024, 768 ), new PhetResources( "moving-man" ), "moving-man" ) );
+    public MovingManApplication( PhetApplicationConfig config ) {
+        super( config );
         MovingManMotionModule m = new MovingManMotionModule( new ConstantDtClock( (int) FRAME_DELAY_MILLIS, FRAME_DELAY_SEC ) );
         addModule( m );
 
@@ -30,12 +28,17 @@ public class MovingManApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) {
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                MotionProjectLookAndFeel.init();
-                SimStrings.getInstance().addStrings( MovingManApplicationORIG.localizedStringsPath );
-                new MovingManApplication( args ).startApplication();
+        
+        SimStrings.getInstance().addStrings( MovingManApplicationORIG.localizedStringsPath );
+        
+        ApplicationConstructor appConstructor = new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new MovingManApplication( config );
             }
-        } );
+        };
+        
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, "moving-man" );
+        appConfig.setLookAndFeel( new MotionProjectLookAndFeel() );
+        appConfig.launchSim();
     }
 }

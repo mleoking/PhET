@@ -1,3 +1,5 @@
+10-08-2008: use PhetApplicationConfig.launchSim
+
 1.20.08 (9-29-2008)
 Removed speed control slider
 
