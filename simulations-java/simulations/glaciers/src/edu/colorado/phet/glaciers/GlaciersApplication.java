@@ -5,7 +5,6 @@ package edu.colorado.phet.glaciers;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
