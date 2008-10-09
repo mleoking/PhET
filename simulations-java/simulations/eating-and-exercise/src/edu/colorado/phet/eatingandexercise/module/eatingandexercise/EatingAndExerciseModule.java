@@ -5,9 +5,11 @@ package edu.colorado.phet.eatingandexercise.module.eatingandexercise;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.Box;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -19,7 +21,6 @@ import edu.colorado.phet.common.piccolophet.help.DefaultWiggleMe;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
 import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseApplication;
-import edu.colorado.phet.eatingandexercise.EatingAndExerciseConstants;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
 import edu.colorado.phet.eatingandexercise.control.CaloricItem;
@@ -199,22 +200,6 @@ public class EatingAndExerciseModule extends PiccoloModule {
 
     public Human getHuman() {
         return _model.getHuman();
-    }
-
-    public static void main( final String[] args ) {
-        SwingUtilities.invokeLater( new Runnable() {
-
-            public void run() {
-
-                PhetApplicationConfig config = new PhetApplicationConfig( args, EatingAndExerciseConstants.FRAME_SETUP, EatingAndExerciseResources.getResourceLoader() );
-
-                // Create the application.
-                EatingAndExerciseApplication app = new EatingAndExerciseApplication( config );
-
-                // Start the application.
-                app.startApplication();
-            }
-        } );
     }
 
     public void applicationStarted() {

@@ -27,8 +27,8 @@ public class EatingAndExerciseConstants {
     //----------------------------------------------------------------------------
     // Application
     //----------------------------------------------------------------------------
-
-    public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
+    
+    public static final String PROJECT_NAME = "eating-and-exercise";
 
     //----------------------------------------------------------------------------
     // Strokes
