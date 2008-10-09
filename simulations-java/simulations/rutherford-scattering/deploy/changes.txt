@@ -1,3 +1,4 @@
+10/8/08 - use PhetApplicationConfig.launchSim
 10/8/08 - moved list of rejected features to Unfuddle 807
 9/5/08 - remove bogus imports of DialogUtils
 6/24/08 - move SphericalNode to piccolo-phet

@@ -12,7 +12,7 @@ public class RSResources {
     /* not intended for instantiation */
     private RSResources() {}
     
-    private static final PhetResources RESOURCES = new PhetResources( "rutherford-scattering" );
+    private static final PhetResources RESOURCES = new PhetResources( RSConstants.PROJECT_NAME );
     
     public static PhetResources getResourceLoader() {
         return RESOURCES;
