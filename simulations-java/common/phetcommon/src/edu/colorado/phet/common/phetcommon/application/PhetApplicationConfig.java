@@ -234,7 +234,7 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
      * @deprecated Simulations should use PhetApplicationConfig properly.
      */
     public static String getCredits( String simName ) {
-        return new PhetApplicationConfig( new String[0], new FrameSetup.NoOp(), new PhetResources( simName ) ).getCredits();
+        return new PhetResources( simName ).getCredits();
     }
 
     //----------------------------------------------------------------------------
