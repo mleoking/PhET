@@ -21,7 +21,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
  */
 public class GlaciersResources {
     
-    private static final PhetResources RESOURCES = new PhetResources( "glaciers" );
+    private static final PhetResources RESOURCES = new PhetResources( GlaciersConstants.PROJECT_NAME );
     
     /* not intended for instantiation */
     private GlaciersResources() {}
