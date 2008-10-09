@@ -59,6 +59,8 @@ public class GlaciersConstants {
     // Application
     //----------------------------------------------------------------------------
     
+    public static final String PROJECT_NAME = "glaciers";
+    
     public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
     
     //----------------------------------------------------------------------------
