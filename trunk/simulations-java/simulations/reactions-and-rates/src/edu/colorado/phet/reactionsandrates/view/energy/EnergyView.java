@@ -268,37 +268,4 @@ public class EnergyView extends PNode implements Resetable {
         return upperPaneContent;
     }
 
-    public static void main( String[] args ) {
-        FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1000, 700 );
-        PhetApplicationConfig config = new PhetApplicationConfig( args, frameSetup, MRConfig.RESOURCES );
-        ReactionsAndRatesApplication mr = new ReactionsAndRatesApplication( config );
-
-        mr.startApplication();
-
-        MRModule module = (MRModule)mr.getModule( 0 );
-
-        EnergyView ev = new EnergyView();
-
-        ev.initialize( module, new Dimension( 400, 400 ) );
-
-        PSwingCanvas canvas = new PSwingCanvas();
-
-        //canvas.getLayer().addChild( ev.moleculeSeparationPane );
-
-        JFrame frame = new JFrame();
-
-        frame.setContentPane( canvas );
-
-        frame.setSize( 400, 400 );
-
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-
-        frame.setVisible( true );
-
-        canvas.getLayer().addChild(
-                ev.moleculeSeparationPane.getChild( 0 ).getChild( 0 )
-        );
-
-
-    }
 }
