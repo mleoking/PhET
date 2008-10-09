@@ -19,13 +19,11 @@ public class SignalCircuitApplication extends PiccoloPhetApplication {
 
     public static class SignalCircuitApplicationConfig extends PhetApplicationConfig {
         public SignalCircuitApplicationConfig( String[] commandLineArgs ) {
-            super( commandLineArgs, new FrameSetup.CenteredWithSize( 800, 435 ), new PhetResources( "signal-circuit" ) );
-            super.setApplicationConstructor( new ApplicationConstructor() {
+            super(commandLineArgs, new ApplicationConstructor() {
                 public PhetApplication getApplication( PhetApplicationConfig config ) {
                     return new SignalCircuitApplication( config );
                 }
-            } );
-            super.setLookAndFeel( new PhetLookAndFeel() );
+            },"signal-circuit");
         }
     }
 
