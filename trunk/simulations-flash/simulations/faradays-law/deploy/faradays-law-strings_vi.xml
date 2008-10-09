@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SimStrings>
+<string key="twoCoils" value="2 cuộn dây"/>
+<string key="n" value="N"/>
+<string key="noSound" value="Tắt âm thanh"/>
+<string key="showFieldLines" value="Hiển thị đường sức từ"/>
+<string key="voltage" value="Điện kế"/>
+<string key="flipMagnet" value="Đảo cực nam châm"/>
+<string key="oneCoil" value="1 cuộn dây"/>
+<string key="moveMe" value="Hãy di chuyển nam châm!"/>
+<string key="s" value="S"/>
+</SimStrings>
