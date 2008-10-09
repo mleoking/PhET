@@ -6,15 +6,14 @@
  */
 package edu.colorado.phet.idealgas;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.idealgas.controller.IdealGasModule;
@@ -74,20 +73,18 @@ public class GasPropertiesApplication extends PhetApplication {
             }
         }
     }
-
+    
     public static void main( final String[] args ) {
-        new GasPropertiesConfig( args, IdealGasConfig.FRAME_SETUP, new PhetResources( "ideal-gas" ), "gas-properties" ).launchSim();
-    }
-
-    private static class GasPropertiesConfig extends PhetApplicationConfig {
-        public GasPropertiesConfig( String[] commandLineArgs, FrameSetup frameSetup, PhetResources resourceLoader, String flavor ) {
-            super( commandLineArgs, frameSetup, resourceLoader, flavor );
-            setApplicationConstructor( new ApplicationConstructor() {
-                public PhetApplication getApplication( PhetApplicationConfig config ) {
-                    new IdealGasLookAndFeel().initLookAndFeel();
-                    return new GasPropertiesApplication( config);
-                }
-            } );
-        }
+        
+        ApplicationConstructor appConstructor = new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new GasPropertiesApplication( config );
+            }
+        };
+        
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, IdealGasConfig.PROJECT_NAME, IdealGasConfig.FLAVOR_GAS_PROPERTIES );
+        appConfig.setLookAndFeel( new IdealGasLookAndFeel() );
+        appConfig.setFrameSetup( IdealGasConfig.FRAME_SETUP );
+        appConfig.launchSim();
     }
 }

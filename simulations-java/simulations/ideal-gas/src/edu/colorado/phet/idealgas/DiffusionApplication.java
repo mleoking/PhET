@@ -6,14 +6,12 @@
  */
 package edu.colorado.phet.idealgas;
 
-import java.awt.*;
-
-import javax.swing.*;
+import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.idealgas.controller.DiffusionModule;
@@ -45,20 +43,17 @@ public class DiffusionApplication extends PhetApplication {
         }
     }
 
-    public static class DiffusionConfig extends PhetApplicationConfig {
-
-        public DiffusionConfig( String[] commandLineArgs ) {
-            super( commandLineArgs, IdealGasConfig.FRAME_SETUP, new PhetResources( "ideal-gas" ), "diffusion" );
-            setApplicationConstructor( new ApplicationConstructor() {
-                public PhetApplication getApplication( PhetApplicationConfig config ) {
-                    new IdealGasLookAndFeel().initLookAndFeel();
-                return new DiffusionApplication( config);
-                }
-            } );
-        }
-    }
-
     public static void main( final String[] args ) {
-        new DiffusionConfig( args ).launchSim();
+        
+        ApplicationConstructor appConstructor = new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new DiffusionApplication( config );
+            }
+        };
+        
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, IdealGasConfig.PROJECT_NAME, IdealGasConfig.FLAVOR_DIFFUSION );
+        appConfig.setLookAndFeel( new IdealGasLookAndFeel() );
+        appConfig.setFrameSetup( IdealGasConfig.FRAME_SETUP );
+        appConfig.launchSim();
     }
 }

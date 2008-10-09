@@ -6,13 +6,13 @@
  */
 package edu.colorado.phet.idealgas;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
@@ -80,20 +80,18 @@ public class BalloonsAndBuoyancyApplication extends PhetApplication {
             }
         }
     }
-
+    
     public static void main( final String[] args ) {
-        new BalloonsAndBuoyancyConfig( args ).launchSim();
-    }
-
-    private static class BalloonsAndBuoyancyConfig extends PhetApplicationConfig {
-        public BalloonsAndBuoyancyConfig( String[] commandLineArgs ) {
-            super( commandLineArgs, IdealGasConfig.FRAME_SETUP, new PhetResources( "ideal-gas" ), "balloons-and-buoyancy" );
-            setApplicationConstructor( new ApplicationConstructor() {
-                public PhetApplication getApplication( PhetApplicationConfig config ) {
-                    new IdealGasLookAndFeel().initLookAndFeel();
-                    return new BalloonsAndBuoyancyApplication( config );
-                }
-            } );
-        }
+        
+        ApplicationConstructor appConstructor = new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new BalloonsAndBuoyancyApplication( config );
+            }
+        };
+        
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, IdealGasConfig.PROJECT_NAME, IdealGasConfig.FLAVOR_BALLOONS_AND_BUOYANCY );
+        appConfig.setLookAndFeel( new IdealGasLookAndFeel() );
+        appConfig.setFrameSetup( IdealGasConfig.FRAME_SETUP );
+        appConfig.launchSim();
     }
 }
