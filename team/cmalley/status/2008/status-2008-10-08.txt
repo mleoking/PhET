@@ -1,0 +1,49 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: October 2-8, 2008 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  glaciers:
+  - move default left-edge of zoomed viewport to -3400m
+  
+  density:
+  - review and feedback on revised design
+  - discussion with Sam about 3D
+  
+  common:
+  - updates & tracking design meeting
+  - specified user interface for updates & tracking
+  - minor code tweaks to updates & tracking
+  - development discussions about various aspects of updates & tracking
+  - reviewed and prioritized Unfuddle reports in preparation for redeploying all sims
+  - design and standardization of change logs [792]
+  - revise PhetApplicationConfig [815]
+  
+  misc:
+  - fixed stove in states-of-matter so you don't see ice/fire below the top of the stove
+  - finished port of sound to phetcommon trunk [562]
+  - port all of my sims, sound and radio-waves to new PhetApplicationConfig [762]
+  - create Unfuddle tickets for many new issues
+  - move documentation of rejected features to Unfuddle for all of my sims
+  - verify various Unfuddle resolutions for Sam and John
+  - various development discussions via email & phone
+  
+WHAT'S NEXT:
+    
+  - continue work on glaciers (see Unfuddle)
+  - work on faraday bugs [744,721]
+  - work on common code tickets (see Unfuddle)
+  - port sims to phetcommon trunk [562]
+  - start on density sim when design is ready
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+  October 18-26
+  
+--
