@@ -32,8 +32,8 @@ public class TrackingPreferencesPanel extends JPanel {
         add( Box.createRigidArea( new Dimension( 5, 10 ) ), constraints );
         add( new TrackingCheckBox(), constraints );
         add( Box.createRigidArea( new Dimension( 5, 10 ) ), constraints );
-        add( new PreferencesScopePanel( iTrackingPreferences ), constraints );
-        add( Box.createRigidArea( new Dimension( 5, 10 ) ), constraints );
+//        add( new PreferencesScopePanel( iTrackingPreferences ), constraints );
+//        add( Box.createRigidArea( new Dimension( 5, 10 ) ), constraints );
         add( new DetailsButton(), constraints );
     }
 

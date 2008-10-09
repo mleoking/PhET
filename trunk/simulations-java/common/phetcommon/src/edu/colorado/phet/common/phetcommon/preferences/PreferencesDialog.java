@@ -22,7 +22,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 public class PreferencesDialog extends JDialog {
     public PreferencesDialog( Frame owner, ITrackingInfo tracker, IManualUpdateChecker iCheckForUpdates, IPreferences updatePreferences, IPreferences trackingPreferences ) {
-        super( owner, "Preferences", true );
+        super( owner, "Preferences", false /* modal */ );
         setResizable( false );
         JPanel userInputPanel = new PreferencesPanel( iCheckForUpdates, tracker, updatePreferences, trackingPreferences );
         JButton okButton = new JButton( PhetCommonResources.getString( "Common.choice.ok" ) );
@@ -31,8 +31,15 @@ public class PreferencesDialog extends JDialog {
                 dispose();
             }
         } );
+        JButton cancelButton = new JButton( PhetCommonResources.getString( "Common.choice.cancel" ) );
+        cancelButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                dispose();
+            }
+        } );
         JPanel buttonPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
         buttonPanel.add( okButton );
+        buttonPanel.add( cancelButton );
         JPanel panel = new JPanel();
         EasyGridBagLayout layout = new EasyGridBagLayout( panel );
         panel.setLayout( layout );
