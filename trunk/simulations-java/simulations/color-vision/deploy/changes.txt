@@ -1,3 +1,4 @@
+10/8/08 - use PhetApplicationConfig.launchSim
 5/20/08 - replace "Sans Serif" fonts with PhetFont, use explicit calls to new PhetFont throughout
 5/15/08 - load all localized strings statically in ColorVisionStrings
 5/15/08 - move slider labels up 10 pixels, they were a bit crowded
