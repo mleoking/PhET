@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<geom>
+  <geom-inst node="4cubes">
+    <transform>
+       .5   0   0  0
+        0  .5   0  0
+        0   0  .5  0
+       .5  .5   0  1
+    </transform>
+    <transform>
+       .5   0   0  0
+        0  .5   0  0
+        0   0  .5  0
+       .5  -.5   0  1
+    </transform>
+    <transform>
+       .5   0   0  0
+        0  .5   0  0
+        0   0  .5  0
+       -.5  .5   0  1
+    </transform>
+    <transform>
+       .5   0   0  0
+        0  .5   0  0
+        0   0  .5  0
+       -.5  -.5   0  1
+    </transform>
+  <geom-off vertices="8" faces="6" edges="12">
+    <vertices>
+      <vertex index="0" x="-0.5" y="-0.5" z="-0.5"/>
+      <vertex index="1" x="0.5" y="-0.5" z="-0.5"/>
+      <vertex index="2" x="0.5" y="0.5" z="-0.5"/>
+      <vertex index="3" x="-0.5" y="0.5" z="-0.5"/>
+      <vertex index="4" x="-0.5" y="-0.5" z="0.5"/>
+      <vertex index="5" x="0.5" y="-0.5" z="0.5"/>
+      <vertex index="6" x="0.5" y="0.5" z="0.5"/>
+      <vertex index="7" x="-0.5" y="0.5" z="0.5"/>
+    </vertices>
+    <faces>
+      <face>
+        <vertices>3 2 1 0</vertices>
+	<color r="0.800" g="0.098" b="0.098"/>
+      </face>
+      <face>
+        <vertices>4 5 6 7</vertices>
+	<color r="0.098" g="0.647" b="0.400"/>
+      </face>
+      <face>
+        <vertices>2 3 7 6</vertices>
+	<color r="0.098" g="0.098" b="0.800"/>
+      </face>
+      <face>
+        <vertices>0 1 5 4</vertices>
+	<color r="0.898" g="0.600" b="0.000"/>
+      </face>
+      <face>
+        <vertices>0 4 7 3</vertices>
+	<color r="0.000" g="0.600" b="0.800"/>
+      </face>
+      <face>
+        <vertices>1 2 6 5</vertices>
+	<color r="0.498" g="0.000" b="0.898"/>
+      </face>
+    </faces>
+  </geom-off>
+  </geom-inst>
+  <geom-inst node="1cube">
+    <pickable>
+      <action type="URL">http://www.msnbc.com/</action>
+    </pickable>
+    <transform>
+       .3   0   0  0
+        0  .3   0  0
+        0   0  .3  0
+        0   0  -1  1
+    </transform>
+  <geom-off vertices="8" faces="6" edges="12">
+    <vertices>
+      <vertex index="0" x="-0.5" y="-0.5" z="-0.5"/>
+      <vertex index="1" x="0.5" y="-0.5" z="-0.5"/>
+      <vertex index="2" x="0.5" y="0.5" z="-0.5"/>
+      <vertex index="3" x="-0.5" y="0.5" z="-0.5"/>
+      <vertex index="4" x="-0.5" y="-0.5" z="0.5"/>
+      <vertex index="5" x="0.5" y="-0.5" z="0.5"/>
+      <vertex index="6" x="0.5" y="0.5" z="0.5"/>
+      <vertex index="7" x="-0.5" y="0.5" z="0.5"/>
+    </vertices>
+    <faces>
+      <face>
+        <vertices>3 2 1 0</vertices>
+	<color r="0.800" g="0.098" b="0.098"/>
+      </face>
+      <face>
+        <vertices>4 5 6 7</vertices>
+	<color r="0.098" g="0.647" b="0.400"/>
+      </face>
+      <face>
+        <vertices>2 3 7 6</vertices>
+	<color r="0.098" g="0.098" b="0.800"/>
+      </face>
+      <face>
+        <vertices>0 1 5 4</vertices>
+	<color r="0.898" g="0.600" b="0.000"/>
+      </face>
+      <face>
+        <vertices>0 4 7 3</vertices>
+	<color r="0.000" g="0.600" b="0.800"/>
+      </face>
+      <face>
+        <vertices>1 2 6 5</vertices>
+	<color r="0.498" g="0.000" b="0.898"/>
+      </face>
+    </faces>
+  </geom-off>
+  </geom-inst>
+  <geom-annotation on="cube" x=".5" y="0.7" z=".3" r="1" g="1" b="1">
+    <note>All paths lead to GOOGLE</note>
+    <pickable>
+      <action type="URL">http://www.google.com/</action>
+    </pickable>
+  </geom-annotation>
+  <geom-annotation on="cube" x="-.5" y="-0.7" z=".3" r="1" g="1" b="0" node="annotation1">
+    <note>Menu of things to do</note>
+    <pickable>
+      <action type="menu">
+        <item index="0" label="Goto MSNBC">
+          <action type="URL">http://www.msnbc.com/</action>
+        </item>
+        <item index="1" label="Goto Daeron.com">
+          <action type="URL">http://www.daeron.com/</action>
+        </item>
+        <item index="2" label="Load Car">
+          <action type="load-geom">car-outline.xml</action>
+        </item>
+        <item index="3" label="Hide Cube Faces">
+          <action type="appearance" on="4cubes">
+            <drawface>false</drawface>
+          </action>
+        </item>
+        <item index="4" label="Show Cube Faces">
+          <action type="appearance" on="4cubes">
+            <drawface>true</drawface>
+          </action>
+        </item>
+        <item index="5" label="Hide Cubes Edges">
+          <action type="appearance" on="4cubes">
+            <drawedge>false</drawedge>
+          </action>
+        </item>
+        <item index="6" label="Show Cubes Edges">
+          <action type="appearance" on="4cubes">
+            <drawedge>true</drawedge>
+          </action>
+        </item>
+        <item index="7" label="Get Info">
+          <action type="server" label="Get Info" p="abc"/>
+        </item>
+      </action>
+    </pickable>
+  </geom-annotation>
+</geom>

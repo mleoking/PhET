@@ -1,0 +1,260 @@
+<?xml version="1.0" ?>
+<!--
+    ===========================================================================
+    JGV Build File
+    ===========================================================================
+-->
+<project name="jgv" default="usage" basedir="..">
+  <!-- ==================================================================== -->
+  <!--   Global properties                                                  -->
+  <!-- ==================================================================== -->
+  <property name="env" value="local" />
+  <property environment="envvar" />
+
+  <!-- ==================================================================== -->
+  <!--   Path Definitions                                                   -->
+  <!-- ==================================================================== -->
+
+  <path id="project.classpath">
+    <fileset dir="lib">
+      <include name="**/*.jar" />
+    </fileset>
+  </path>
+
+  <path id="full.classpath">
+    <path refid="project.classpath" />
+  </path>
+  
+  <!-- ==================================================================== -->
+  <!--   Usage                                                              -->
+  <!-- ==================================================================== -->
+  <target name="usage">
+    <echo message=""/>
+    <echo message="${ant.project.name} build file" />
+    <echo message="---------------------------------------------------------" />
+    <echo message="" />
+    <echo message="" />
+    <echo message="available targets are:" />
+    <echo message="  dist        --> generates the application distribution" />
+    <echo message="  main        --> builds everything" />
+    <echo message="  clean       --> cleans up any generated files" />
+    <echo message="" />
+    <echo message="available modules are:" />
+    <echo message="  applet --> Compile Applet Source" />
+    <echo message="  server --> Compile Server Source" />
+    <echo message="  web    --> Build (Server) Web Application" />
+    <echo message="" />
+  </target>
+
+  <!-- ==================================================================== -->
+  <!--   Initialization                                                     -->
+  <!-- ==================================================================== -->
+
+  <target name="init">
+    <tstamp />
+    <!-- Ant/javac properties -->
+    <property name="build.compiler" value="classic" />
+    <property name="javac.debug" value="on" />
+    <property name="javac.deprecation" value="on" />
+
+    <!-- Directory/Distribution properties -->
+    <property name="assemble.dir" value="assemble" />
+    <property name="dist.dir" value="${assemble.dir}/dist" />
+  </target>
+  
+  <!-- ==================================================================== -->
+  <!--   All                                                                -->
+  <!-- ==================================================================== -->
+  <target name="all">
+    <antcall target="dist" />
+  </target>
+  
+  <target name="all-assert"
+          depends="init" />
+  
+  <target name="all-clean"
+          depends="init,applet-clean,server-clean,web-clean">
+    <delete dir="${assemble.dir}" />
+    <delete dir="${dist.dir}" />
+  </target>        
+
+  <!-- ==================================================================== -->
+  <!--   Main                                                               -->
+  <!-- ==================================================================== -->
+  
+  <target name="main"
+          depends="web" />
+
+  <!-- ==================================================================== -->
+  <!--   Dist(ribution)                                                     -->
+  <!-- ==================================================================== -->
+  
+  <target name="dist-init">
+    <property name="dist.assemble"         value="${assemble.dir}/dist" />
+    <property name="dist.assemble.build"   value="${dist.assemble}/build" />
+    <property name="dist.zip"              value="${dist.assemble}/JGV.zip" />
+  </target>
+
+  <target name="dist-clean"
+          depends="dist-init">
+    <delete dir="${dist.assemble.build}" />
+    <delete dir="${dist.assemble}" />
+  </target>
+
+  <target name="dist-prepare"
+          depends="dist-init">
+    <mkdir dir="${dist.assemble}" />
+    <mkdir dir="${dist.assemble.build}" />
+  </target>
+
+  <target name="dist-package"
+          depends="dist-prepare">
+    <copy todir="${dist.assemble.build}/build"><fileset dir="build"/></copy>
+
+    <copy todir="${dist.assemble.build}"><fileset dir="docs" includes="README.txt"/></copy>
+    <copy todir="${dist.assemble.build}/docs"><fileset dir="docs" includes="tech-spec.txt,NOTES-orig.txt"/></copy>
+    <copy todir="${dist.assemble.build}/source/applet"><fileset dir="source/applet" excludes="CVS/**"/></copy>
+    <copy todir="${dist.assemble.build}/source/server"><fileset dir="source/server" excludes="CVS/**"/></copy>
+    <copy todir="${dist.assemble.build}/source/web"><fileset dir="${web.assemble.build}"/></copy>
+    <copy todir="${dist.assemble.build}/example" file="${web.war}"/>
+    <copy todir="${dist.assemble.build}/applet" file="${applet.jar}"/>
+
+    <zip destfile="${dist.zip}" basedir="${dist.assemble.build}" />
+  </target>
+
+  <target name="dist"
+          depends="main,dist-package">
+  </target>
+  
+  <!-- ==================================================================== -->
+  <!--   Applet Module                                                        -->
+  <!-- ==================================================================== -->
+          
+  <target name="applet-init"
+          depends="init">
+    <property name="applet.assemble"         value="${assemble.dir}/applet" />
+    <property name="applet.assemble.classes" value="${applet.assemble}/classes" />
+    <property name="applet.jar"              value="${applet.assemble}/JGV.jar" />
+  </target>
+
+  <target name="applet-clean"
+          depends="applet-init">
+    <delete dir="${applet.assemble.classes}" />
+    <delete dir="${applet.assemble}" />
+  </target>
+
+  <target name="applet-prepare"
+          depends="applet-init">
+    <mkdir dir="${applet.assemble}" />
+    <mkdir dir="${applet.assemble.classes}" />
+  </target>
+
+  <target name="applet-compile"
+          depends="applet-prepare">
+    <javac srcdir="source/applet"
+           compiler="javac1.1"
+           fork="yes"
+           executable="C:\jdk1.1.8\bin\javac"
+           classpath="C:\jdk1.1.8\lib\classes.zip"
+           destdir="${applet.assemble.classes}"
+           deprecation="${javac.deprecation}"
+           debug="${javac.debug}">
+    </javac>
+  </target>
+
+  <target name="applet-package"
+          depends="applet-compile">
+    <jar destfile="${applet.jar}" basedir="${applet.assemble.classes}" />
+  </target>
+
+  <target name="applet"
+          depends="applet-package" />
+
+  <!-- ==================================================================== -->
+  <!--   Server Module                                                        -->
+  <!-- ==================================================================== -->
+          
+  <target name="server-init"
+          depends="init">
+    <property name="server.assemble"         value="${assemble.dir}/server" />
+    <property name="server.assemble.classes" value="${server.assemble}/classes" />
+  </target>
+
+  <target name="server-clean"
+          depends="server-init">
+    <delete dir="${server.assemble.classes}" />
+    <delete dir="${server.assemble}" />
+  </target>
+
+  <target name="server-prepare"
+          depends="server-init">
+    <mkdir dir="${server.assemble}" />
+    <mkdir dir="${server.assemble.classes}" />
+  </target>
+
+  <target name="server-compile"
+          depends="server-prepare">
+    <javac srcdir="source/server"
+           destdir="${server.assemble.classes}"
+           deprecation="${javac.deprecation}"
+           debug="${javac.debug}"
+           compiler="modern">
+      <classpath refid="full.classpath" />
+    </javac>
+  </target>
+
+  <target name="server"
+          depends="server-compile">
+  </target>
+
+  <!-- ==================================================================== -->
+  <!--   Web Module                                                         -->
+  <!-- ==================================================================== -->
+
+  <target name="web-init"
+          depends="init">
+    <property name="web.assemble"          value="${assemble.dir}/web" />
+    <property name="web.assemble.build"    value="${assemble.dir}/web/build" />
+    <property name="web.war"               value="${web.assemble}/viewerserver.war" />
+  </target>
+  
+  <target name="web-clean"
+          depends="web-init">
+    <delete dir="${web.assemble.build}" />
+    <delete dir="${web.assemble}" />
+  </target>
+
+  <target name="web-prepare"
+          depends="web-init,applet,server">
+    <mkdir dir="${web.assemble}" />
+    <mkdir dir="${web.assemble.build}" />
+    <mkdir dir="${web.assemble.build}/WEB-INF" />
+    <mkdir dir="${web.assemble.build}/WEB-INF/classes" />
+    <mkdir dir="${web.assemble.build}/WEB-INF/lib" />
+
+    <copy todir="${web.assemble.build}">
+      <fileset dir="source/web" includes="**.xml,**.html,**.gif"/>
+    </copy>
+
+    <!-- Copy over the JGV applet jar -->
+    <copy todir="${web.assemble.build}" file="${applet.jar}"/>
+
+    <copy todir="${web.assemble.build}/WEB-INF" file="source/web/WEB-INF/web.xml">
+    </copy>
+
+    <copy todir="${web.assemble.build}/WEB-INF/classes">
+      <fileset dir="${server.assemble.classes}" />
+    </copy>
+
+  </target>
+  
+  <target name="web-package"
+          depends="web-prepare">
+    <jar basedir="${web.assemble.build}"
+         jarfile="${web.war}"/>
+  </target>
+    
+  <target name="web"
+          depends="web-package" />
+  
+</project>

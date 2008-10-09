@@ -1,0 +1,394 @@
+3D Viewer Technical Specification
+
+Table of Contents
+------------------------------------------------------------
+1. 3D Viewer Architecture
+2. Key Functionality
+3. Viewer XML file format
+4. Server Messaging Protocol
+------------------------------------------------------------
+
+------------------------------------------------------------
+1. 3D Viewer Architecture
+------------------------------------------------------------
+
+  The 3D Viewer will consist of two components, an applet
+conforming to the Java 1.1 API to support the maximum
+number of browser platforms and a server/web-application
+that can be written against more recent versions of the
+SDK and J2EE APIs and run in a common container such as
+Tomcat or WebLogic.
+
+  All communication between the client and server will
+occur via HTTP protocol to minimize the possible impact
+of firewalls between the applet and the server.
+
+------------------------------------------------------------
+2. Key Functionality 
+------------------------------------------------------------
+
+  The applet will be responsible for rendering arbitrary
+3-D objects as specified in the viewer XML file format
+and will allow the user to rotate, scale and translate
+the object on-screen. In addition it will allow a greater
+degree of interactivity by supporting pickable objects.
+When the user clicks on an object that is pickable, an
+action will occur.
+
+  Supported actions will include loading a new web page
+in the browser, loading a different object into the viewer
+or transmitting an event to the web-application for
+server-side processing. Also, the applet will support
+transmitting a user-initiated "print" action that
+contains the current orientation (matrix transform) of
+the object in the viewer.
+
+  The web-app component will be responsible for serving up
+the object data to the applet for rendering and will also
+handle server-side processing of actions triggered by user
+clicks.
+
+------------------------------------------------------------
+3. Viewer XML file format:
+------------------------------------------------------------
+
+  The viewer will be be capable of rendering objects in the
+OOGL-XML file format. This file format is derived from a
+subset of the OOGL (non-XML) file format as described in this
+tutorial:
+
+http://www.geom.uiuc.edu/software/geomview/docs/oogltour.html
+
+The original OOGL spec is located here:
+http://www.geom.uiuc.edu/software/geomview/docs/ooglman.html
+
+  The viewer will support the following tags (a DTD will be
+provided along with the viewer that documents the format
+more thoroughly):
+
+<geom>:
+  Outer tag required for any 3-D geometric data file. May
+contain a list of one or more "geom" prefixed tags defining
+each sub-component of the object.
+
+<geom-*>
+  Valid "geom" prefixed tags are <geom-off>, <geom-list>,
+  <geom-inst> and <geom-annotation>. Each of these tags
+  contains the definition of a sub-component geom/node
+  in the scene graph.
+
+  Every "geom" prefixed tag may optionally have a "node"
+  parameter set to a string value in order to assign a
+  unique name to that sub-object for later reference.
+  Also, every "geom" prefixed tag may optionally contain
+  the <pickable> and <appearance> tags which will be
+  defined later in this document.
+
+<geom-off>:
+  Outer tag for a "polylist" object defined by a set of
+  indexed vertices and a set of faces composed of these
+  vertices.
+  
+  Contains
+    a "vertices" parameter (number of vertices),
+    a "faces" parameter (number of faces),
+    an optional "edge" parameter (number of edges).
+
+  Contains the tag <vertices> which in turn nests a list of
+  one or more <vertex> tags. Each <vertex> tag represents
+  a single indexed vertex/point that is part of the object.
+  The vertex tag contains an "index" parameter to number
+  the specific vertex. It also contains "x", "y" and "z"
+  parameters which are double precision numeric
+  3D coordinates.
+
+  Contains the tag <faces> which contains one or more
+  <face> tags. Each <face> tag contains a <vertices> tag
+  that contains a list of vertex indices to define
+  that face. If a face has only two vertex indices it
+  is actually a line/vector. Wireframe models can be
+  constructed this way.
+
+  The <face> tag can also optionally contain a <color>
+  tag with "r", "g" and "b" parameters to specify the
+  red/green/blue composite color of that face. Each
+  color parameter can range from 0 to 1.
+
+<geom-list>:
+  Outer tag for a list of one or more "geom" prefixed tags.
+
+<geom-inst>:
+  Outer tag for an object composed of multiple instances
+  of the same object, each with a different transform
+  applied.
+
+  Contains a single "geom" prefixed tag defining the
+  object being instanced. <geom-off>, <geom-list> and
+  <geom-inst> are all valid "geom" prefixed tags.
+
+  Contains one or more <transform> tags defining the
+  4x4 transform to be applied to each instance of the
+  sub geom/node.
+
+<geom-annotation>
+  Outer tag for an annotation. This is a piece of text
+  which stays oriented parallel to the camera plane but
+  is associated with a point in space.
+
+  Contains An "on" parameter defining which geom/node the
+  annotation is associated with; "X", "y", "z" parameters
+  which are double precision numeric 3D coordinates
+  defining the point in space on which the text will be
+  centered; Optionally, "r", "g", "b" parameters to
+  specify the red/green/blue composite color of the text.
+
+  Contains the <note> tag which holds the actual text
+  for the annotation.
+
+<transform>:
+  This tag is used to contain a list of 16 double precision
+  numeric values representing a 4x4 Matrix Transform.
+
+  This is a fairly conventional 3D matrix that can
+  transform sets of 3D points.
+
+		| T0  T1  T2  T3  |
+    (x y z w) *	| T4  T5  T6  T7  |
+		| T8  T9  T10 T11 |
+		| T12 T13 T14 T15 |
+
+  For example, the "identity" matrix can be represented as:
+
+  <transform> 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 </transform>
+
+  which in matrix notation would be:
+
+		|  1   0   0   0  |
+		|  0   1   0   0  |
+		|  0   0   1   0  |
+		|  0   0   0   1  |
+
+<appearance>:
+  This tag defines general appearance parameters for an
+  associated geom/node. Currently only the <drawface>
+  sub-tag is supported and may be "true" or "false" to
+  define whether the associated geom/node is visible
+  or invisible. More sub-tags may be supported in the future.
+
+<pickable>:
+  This tag is the basis for interaction with objects in the
+  viewer. Once this tag is added to a node in the scene
+  graph (defined by a "geom" prefixed tag), that node can
+  then be picked/selected by the user. When the user selects
+  the pickable node/geom an action is triggered. The action
+  taken is defined by an <action> tag contained within the
+  <pickable> tag.
+
+  Example:
+  <pickable>
+    <action type="url">
+      http://www.somewhere.com/door-detail.html
+    </action>
+  </pickable>
+
+  An end-user viewing an object containing this pickable
+  tag should be able to select the pickable object (by
+  clicking on the object with the right mouse button).
+  Once the object is selected the action will be triggered.
+  In this case, the viewer applet would cause the web
+  browser to open a new window to the specified URL.
+
+<action>
+  The action tag appears inside the <pickable> tag to define
+  what action will occur when the user selects the pickable
+  object.
+
+  Contains a "type" parameter defining what type of action
+  will occur. Following is a list of the supported types:
+
+  "url"
+    Load a new URL in the Web Browser.
+
+    Example:
+    <action type="url">http://www.news.com/</action>
+
+  "load-geom"
+    Load a new object from the server, relative to
+    to the base url of the applet.
+
+    Example:
+    <action type="load-geom">object.xml</action>
+
+  "appearance"
+    Change the appearance of some geom/node in the
+    scene graph.
+
+    Example:
+    <action type="appearance" on="door">
+      <drawface>false</drawface>
+    </action>
+
+    This example would make the geom/node "door"
+    invisible.
+
+  "server"
+    Send a message to the server component. The server
+    component can then send a response to this message
+    telling the viewer what action to take.
+ 
+    Example:
+    <action type="server" param1="value1" ... />
+
+    Server would then send back a response with the real
+    action to present to the user.
+
+  "menu"
+    Pops up a menu of actions for the user to choose
+    from.
+
+    Example:
+    <action type="menu"/>
+      <item index="0" label="Hide Wheel">
+        <action type="appearance" on="left-wheel">
+          <drawface>false</drawface>
+        </action>
+      </item>
+      <item index="1" label="Show Wheel">
+        <action type="appearance" on="left-wheel">
+          <drawface>true</drawface>
+        </action>
+      </item>
+      <item index="2" label="Show Different Object">
+        <action type="load-geom">diff-object.xml</action>
+      </item>
+      <item index="3" label="Ask Server What to Do">
+        <action type="server"/>
+      </item>
+    </action>
+
+
+
+Here is a sample file in OOGL-XML for the car outline:
+
+<geom>
+  <geom-off vertices="55" faces="53">
+    <vertices>
+     <vertex index=0 x="1248" y="-754.2800" z="923.9600">
+     <vertex index=1 x="1248" y="754.2800" z="923.9600">
+     <vertex index=2 x="1559" y="-784.6699" z="986.9500">
+     <vertex index=3 x="1559" y="784.6699" z="986.9500">
+      .
+      .
+      .
+    </vertices>
+    <faces>
+      <face>
+        <vertices>44 32</vertices>
+        <color r="0.0" g="0.0" b="0.0">
+      </face>
+      <face>
+        <vertices>1 0</vertices>
+        <color r="0.0" g="0.0" b="0.0">
+      </face>
+      <face>
+        <vertices>0 2</vertices>
+        <color r="0.0" g="0.0" b="0.0">
+      </face>
+      .
+      .
+      .
+    </faces>
+  </geom-off>
+</geom>
+
+------------------------------------------------------------
+4.  Server Messaging Protocol
+------------------------------------------------------------
+
+  Messaging between the applet and the server will occur
+via HTTP Protocol. In particular, when the applet needs to
+send a message to the server component it will open a URL
+Connection and HTTP-POST the message as a request to the
+server. Due to applet security constraints, the server will
+need to reside on the same server (hostname or IP) that
+the applet is loaded from.
+
+  To configure the applet to talk to the server, a "server"
+parameter needs to be set on the applet. Here is an example
+configuration of the applet:
+
+<applet code="geom.jgv.JGVApplet"
+        archive="JGV.jar"
+	width=400 height=400>
+<param name="xmlfile" value="object.xml">
+<param name="server" value="http://my.server.com/myservlet">
+</applet>
+
+  With this configuration, Whenever the applet needs to
+send a message, it will open a connection to the specified
+URL and HTTP-POST the message. The message will be passed
+as two parameters, "msgType" and "content".
+
+  "msgType" contains the type of message being sent.
+  "content" contains the XML message itself
+
+The following message types are defined:
+
+"hello":
+  This message is sent to the server when the applet
+  has fully initialized itself.
+
+  Content:
+  <hello></hello>
+
+"print":
+  This message is sent to the server when the user tells
+  the applet to generate a postscript representation
+  of the current view.
+
+  Content:
+  <print>
+    <transform> (current matrix transform) </transform>
+    <postscript>
+      ( postscript representation of scene )
+    </postscript>
+  </print>
+
+"annotation":
+  When the user creates an annotation on a geom/node,
+  this message is sent to the server.
+
+  Content:
+  <annotation>
+    <geom-annotation on="(geom name)"
+                     x="?" y="?" z="?"
+                     r="?" g="?" b="?">
+      <note> Annotation Text Goes Here </note> 
+    </geom-annotation>
+  </annotation>
+
+"action":
+  This message is sent to the server when a pickable
+  geom/node containing a "server" action is selected by
+  the user. The server must respond by sending back an
+  XML message defining what action to take.
+
+  Content:
+  <action>
+    <params param1="" ... />
+    <on> (geom/node name) </on>
+    <pickpoint x="?" y="?" z="?">
+    <transform> (current matrix transform) </transform>
+  </action>
+
+  Server should then send back a reply to the HTTP request
+  of the format:
+
+  <action type="(type)">
+    ...
+  </action>
+
+  The reply action type can be anything but "server" to
+  avoid endless loops between the applet and server. That
+  is, only one round trip can be initiated by a server
+  action.

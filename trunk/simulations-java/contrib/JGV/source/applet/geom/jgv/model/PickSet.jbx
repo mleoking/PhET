@@ -1,0 +1,17 @@
+[PropertyInfo]
+annotationPoint,Point,false,false, , ,true,<default>
+aPointList,Vector,false,false, , ,false,<default>
+faceList,Vector,false,false, , ,false,<default>
+mouseover,boolean,false,false, , ,false,<default>
+pickedFace,Face,false,false, , ,true,<default>
+pickedGeom,Geom,false,false, , ,true,<default>
+pickedPoint,Point,false,false, , ,true,<default>
+pointList,Vector,false,false, , ,false,<default>
+screenCoordinates,Point,false,false, , ,true,<default>
+screenCoords,Point,false,false, , ,false,<default>
+worldTransform,geom.jgv.util.HMatrix3D,false,false, , ,false, 
+[IconNames]
+
+
+
+
