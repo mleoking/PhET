@@ -1,4 +1,4 @@
-<HTML>
+<HTML><head><style type="text/css">body { font-size: @FONT_SIZE@; font-family: @FONT_FAMILY@ }</style></head>
 The PhET
 project provides a suite of interactive educational simulations.
 <BR>
