@@ -200,8 +200,6 @@ public class GlaciersApplication extends PiccoloPhetApplication {
      * Main entry point.
      *
      * @param args command line arguments
-     * @throws InvocationTargetException
-     * @throws InterruptedException
      */
     public static void main( final String[] args ) {
         
