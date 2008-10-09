@@ -11,7 +11,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 public class BSResources {
     
-    private static PhetResources RESOURCES = new PhetResources( "bound-states" );
+    private static PhetResources RESOURCES = new PhetResources( BSConstants.PROJECT_NAME );
     
     /* not intended for instantiation */
     private BSResources() {}

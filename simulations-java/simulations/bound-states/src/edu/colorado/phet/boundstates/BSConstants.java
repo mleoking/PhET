@@ -9,7 +9,6 @@ import org.jfree.data.Range;
 
 import edu.colorado.phet.boundstates.color.BSBlackColorScheme;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 
@@ -27,11 +26,11 @@ public class BSConstants {
     // Application
     //----------------------------------------------------------------------------
     
+    public static final String PROJECT_NAME = "bound-states";
+    
     public static final String FLAVOR_BOUND_STATES = "bound-states";
     public static final String FLAVOR_COVALENT_BONDS = "covalent-bonds";
     public static final String FLAVOR_BAND_STRUCTURE = "band-structure";
-    
-    public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
     
     //----------------------------------------------------------------------------
     // Clock
