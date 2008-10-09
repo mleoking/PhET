@@ -4,14 +4,11 @@ package edu.colorado.phet.colorvision;
 
 import java.awt.Color;
 
-import javax.swing.SwingUtilities;
-
 import edu.colorado.phet.colorvision.view.BoundsOutliner;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 /**
@@ -43,36 +40,17 @@ public class ColorVisionApplication extends PiccoloPhetApplication {
         getPhetFrame().setBackground( BACKGROUND );
     }
 
-    /**
-     * Main entry point for the PhET Color Vision application.
-     * 
-     * @param args command line arguments
-     */
     public static void main( final String[] args ) {
-
-        /* 
-         * Wrap the body of main in invokeLater, so that all initialization occurs 
-         * in the event dispatch thread. Sun now recommends doing all Swing init in
-         * the event dispatch thread. And the Piccolo-based tabs in TabbedModulePanePiccolo
-         * seem to cause startup deadlock problems if they aren't initialized in the 
-         * event dispatch thread. Since we don't have an easy way to separate Swing and 
-         * non-Swing init, we're stuck doing everything in invokeLater.
-         */
-        SwingUtilities.invokeLater( new Runnable() {
-
-            public void run() {
-                BoundsOutliner.setEnabled( BOUNDS_OUTLINE_ENABLED ); // DEBUG
-                
-                // Initialize look-and-feel
-                PhetLookAndFeel laf = new PhetLookAndFeel();
-                laf.initLookAndFeel();
-                
-                FrameSetup frameSetup = new FrameSetup.CenteredWithSize(  ColorVisionConstants.APP_FRAME_WIDTH,  ColorVisionConstants.APP_FRAME_HEIGHT );
-                PhetApplicationConfig config = new PhetApplicationConfig( args, frameSetup, ColorVisionResources.getResourceLoader() );
-
-                PhetApplication app = new ColorVisionApplication( config );
-                app.startApplication();
+        
+        BoundsOutliner.setEnabled( BOUNDS_OUTLINE_ENABLED ); // DEBUG
+        
+        ApplicationConstructor appConstructor = new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new ColorVisionApplication( config );
             }
-        } );
+        };
+        
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, ColorVisionConstants.PROJECT_NAME );
+        appConfig.launchSim();
     }
 }
