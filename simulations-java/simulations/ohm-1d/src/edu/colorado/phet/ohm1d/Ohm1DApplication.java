@@ -22,13 +22,13 @@ public class Ohm1DApplication extends PhetApplication {
 
     public static class Ohm1DApplicationConfig extends PhetApplicationConfig {
         public Ohm1DApplicationConfig( String[] commandLineArgs ) {
-            super( commandLineArgs, new FrameSetup.CenteredWithSize( Ohm1DSimulationPanel.BASE_FRAME_WIDTH, 660 ), new PhetResources( "ohm-1d" ) );
-            super.setApplicationConstructor( new ApplicationConstructor() {
+            super( commandLineArgs, new ApplicationConstructor() {
                 public PhetApplication getApplication( PhetApplicationConfig config ) {
                     return new Ohm1DApplication( config );
                 }
-            } );
+            },"ohm-1d");
             super.setLookAndFeel( new PhetLookAndFeel() );
+            setFrameSetup( new FrameSetup.CenteredWithSize( Ohm1DSimulationPanel.BASE_FRAME_WIDTH, 660 ) );
         }
     }
 
