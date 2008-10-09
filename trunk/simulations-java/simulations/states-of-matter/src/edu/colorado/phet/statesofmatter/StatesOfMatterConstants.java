@@ -92,8 +92,9 @@ public class StatesOfMatterConstants {
     
     // TODO: JPB TBD - Many of these constants will no longer be used once the
     // sim has been cleaned up, so remember to remove them.
-    private static final String PROJECT_NAME = "states-of-matter";
-    public static final PhetResources RESOURCES = new PhetResources(PROJECT_NAME);
+    public static final String PROJECT_NAME = "states-of-matter";
+    public static final String FLAVOR_STATES_OF_MATTER = "states-of-matter";
+    public static final String FLAVOR_INTERACTION_POTENTIAL = "interaction-potential";
     
     public static final int INITIAL_MAX_PARTICLE_COUNT = 600;
     public static final Rectangle2D.Double ICE_CUBE_BOUNDS  = new Rectangle2D.Double(-1.5, 1, 3, 3);
