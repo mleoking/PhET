@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  */
 public class OTResources {
     
-    private static final PhetResources RESOURCES = new PhetResources( "optical-tweezers" );
+    private static final PhetResources RESOURCES = new PhetResources( OTConstants.PROJECT_NAME );
     
     /* not intended for instantiation */
     private OTResources() {}

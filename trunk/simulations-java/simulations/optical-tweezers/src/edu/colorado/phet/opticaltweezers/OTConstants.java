@@ -32,11 +32,11 @@ public class OTConstants {
     // Application
     //----------------------------------------------------------------------------
     
+    public static final String PROJECT_NAME = "optical-tweezers";
+    
     public static final String FLAVOR_OPTICAL_TWEEZERS = "optical-tweezers";
     public static final String FLAVOR_STRETCHING_DNA = "stretching-dna";
     public static final String FLAVOR_MOLECULAR_MOTORS = "molecular-motors";
-    
-    public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
     
     //----------------------------------------------------------------------------
     // Fonts
