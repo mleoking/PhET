@@ -1,3 +1,4 @@
+10/8/08 - use PhetApplicationConfig.launchSim
 10/8/08 - moved list of rejected features to Unfuddle 802
 6/24/08 - move SphericalNode to piccolo-phet
 5/20/08 - replace Font with PhetFont

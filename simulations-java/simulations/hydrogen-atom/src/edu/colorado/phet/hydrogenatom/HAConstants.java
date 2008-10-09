@@ -16,8 +16,6 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 
 
@@ -42,7 +40,7 @@ public class HAConstants {
     // Application
     //----------------------------------------------------------------------------
     
-    public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
+    public static final String PROJECT_NAME = "hydrogen-atom";
     
     //----------------------------------------------------------------------------
     // Dimensions
