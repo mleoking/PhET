@@ -7,7 +7,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Stroke;
 
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 
@@ -34,9 +33,7 @@ public class SimTemplateConstants {
     //----------------------------------------------------------------------------
     
     public static final String PROJECT_NAME = "sim-template";
-    
-    public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
-    
+
     //----------------------------------------------------------------------------
     // Fonts
     //----------------------------------------------------------------------------
