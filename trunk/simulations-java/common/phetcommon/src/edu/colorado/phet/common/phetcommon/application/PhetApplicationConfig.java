@@ -71,6 +71,17 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
         PhetApplication getApplication( PhetApplicationConfig config );
     }
     
+    /**
+     * Returns a null application, for use in test programs.
+     * Use this if you never intend to call launchSim.
+     * @deprecated This should go away after we finish refactoring.
+     */
+    public static class NullApplicationConstructor implements ApplicationConstructor {
+        public PhetApplication getApplication( PhetApplicationConfig config ) {
+            return null;
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -92,30 +103,6 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
         this.applicationConstructor = applicationConstructor;
         this.frameSetup = DEFAULT_FRAME_SETUP;
         this.phetLookAndFeel = new PhetLookAndFeel();
-    }
-
-    /**
-     * Constructor where a flavor is specified.
-     *
-     * @param commandLineArgs
-     * @param resourceLoader
-     * @param flavor
-     * @deprecated this constructor creates an object that isn't fully initialized
-     */
-    public PhetApplicationConfig( String[] commandLineArgs, FrameSetup frameSetup, PhetResources resourceLoader, String flavor ) {
-        if ( frameSetup == null ) {
-            throw new NullPointerException( "frameSetup is null" );
-        }
-        if ( resourceLoader == null ) {
-            throw new NullPointerException( "resourceLoader is null" );
-        }
-        if ( flavor == null ) {
-            throw new NullPointerException( "flavor is null" );
-        }
-        this.commandLineArgs = commandLineArgs;
-        this.frameSetup = frameSetup;
-        this.resourceLoader = resourceLoader;
-        this.flavor = flavor;
     }
 
     //----------------------------------------------------------------------------
