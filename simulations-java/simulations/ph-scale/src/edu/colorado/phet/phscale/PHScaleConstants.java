@@ -37,8 +37,6 @@ public class PHScaleConstants {
     
     public static final String PROJECT_NAME = "ph-scale";
     
-    public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
-    
     //----------------------------------------------------------------------------
     // Model
     //----------------------------------------------------------------------------
