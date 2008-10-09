@@ -8,13 +8,17 @@ import java.awt.Frame;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
+import edu.colorado.phet.glaciers.GlaciersApplication;
+import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.statesofmatter.developer.DeveloperMenu;
 import edu.colorado.phet.statesofmatter.module.interactionpotential.InteractionPotentialModule;
 import edu.colorado.phet.statesofmatter.module.phasechanges.PhaseChangesModule;
@@ -151,33 +155,21 @@ public class StatesOfMatterApplication extends PiccoloPhetApplication implements
     // main
     //----------------------------------------------------------------------------
 
-    public static void main(final String[] args) {
-        /*
-         * Wrap the body of main in invokeLater, so that all initialization occurs
-         * in the event dispatch thread. Sun now recommends doing all Swing init in
-         * the event dispatch thread. And the Piccolo-based tabs in TabbedModulePanePiccolo
-         * seem to cause startup deadlock problems if they aren't initialized in the
-         * event dispatch thread. Since we don't have an easy way to separate Swing and
-         * non-Swing init, we're stuck doing everything in invokeLater.
-         */
-        SwingUtilities.invokeLater( new Runnable() {
-
-            public void run() {
-
-                PhetApplicationConfig config = 
-                    new PhetApplicationConfig( args, StatesOfMatterConstants.FRAME_SETUP, 
-                            StatesOfMatterResources.getResourceLoader(), "states-of-matter" );
-                
-                PhetLookAndFeel p = new PhetLookAndFeel();
-                p.setBackgroundColor( StatesOfMatterConstants.CONTROL_PANEL_COLOR );
-                p.initLookAndFeel();
-
-                // Create the application.
-                StatesOfMatterApplication app = new StatesOfMatterApplication( config );
-
-                // Start the application.
-                app.startApplication();
+    /**
+     * Main entry point.
+     *
+     * @param args command line arguments
+     */
+    public static void main( final String[] args ) {
+        
+        ApplicationConstructor appConstructor = new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new StatesOfMatterApplication( config );
             }
-        } );
+        };
+        
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, 
+        		StatesOfMatterConstants.PROJECT_NAME, StatesOfMatterConstants.FLAVOR_STATES_OF_MATTER );
+        appConfig.launchSim();
     }
 }

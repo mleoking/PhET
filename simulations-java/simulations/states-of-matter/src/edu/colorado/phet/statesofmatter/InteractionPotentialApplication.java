@@ -124,17 +124,19 @@ public class InteractionPotentialApplication extends PiccoloPhetApplication impl
     //----------------------------------------------------------------------------
 
     public static void main(final String[] args ) {
+    	
         PhetApplicationConfig config = new PhetApplicationConfig( args, new PhetApplicationConfig.ApplicationConstructor() {
                     public PhetApplication getApplication( PhetApplicationConfig config ) {
 
-                        // Creakte the application.
+                        // Create the application.
                         InteractionPotentialApplication app = new InteractionPotentialApplication( config );
 
                         // Start the application.
                         app.startApplication();
                         return app;
                     }
-                }, "states-of-matter", "interaction-potential" );
+                }, StatesOfMatterConstants.PROJECT_NAME, StatesOfMatterConstants.FLAVOR_INTERACTION_POTENTIAL );
+        
         config.setFrameSetup( StatesOfMatterConstants.FRAME_SETUP );
 
         PhetLookAndFeel p = new PhetLookAndFeel();
