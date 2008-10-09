@@ -333,15 +333,14 @@ public class SemiconductorApplication implements Graphic {
     public static class SemiconductorApplicationConfig extends PhetApplicationConfig {
 
         public SemiconductorApplicationConfig( String[] commandLineArgs ) {
-            super( commandLineArgs, new edu.colorado.phet.common.phetcommon.view.util.FrameSetup.CenteredWithInsets( 100, 100 ), SemiconductorResources.getResourceLoader() );
-            PhetLookAndFeel feel = new PhetLookAndFeel();
-            feel.setBackgroundColor( new Color( 245, 245, 255 ) );
-            setLookAndFeel( feel );
-            setApplicationConstructor( new ApplicationConstructor() {
+            super(commandLineArgs, new ApplicationConstructor() {
                 public edu.colorado.phet.common.phetcommon.application.PhetApplication getApplication( PhetApplicationConfig config ) {
                     return new SemiconductorPhetApplication( config );
                 }
-            } );
+            },"semiconductor");
+            PhetLookAndFeel feel = new PhetLookAndFeel();
+            feel.setBackgroundColor( new Color( 245, 245, 255 ) );
+            setLookAndFeel( feel );
         }
 
     }
