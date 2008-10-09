@@ -24,6 +24,7 @@ public class IdealGasConfig {
     public static final String FLAVOR_BALLOONS_AND_BUOYANCY = "balloons-and-buoyancy";
     public static final String FLAVOR_DIFFUSION = "diffusion";
     public static final String FLAVOR_GAS_PROPERTIES = "gas-properties";
+    public static final String FLAVOR_REVERSIBLE_REACTIONS = "reversible-reactions";
 
     // Title, description and version number
     public static final String TITLE = "Ideal Gas Law";
