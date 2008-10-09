@@ -214,8 +214,6 @@ public class GlaciersApplication extends PiccoloPhetApplication {
         };
         
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, GlaciersConstants.PROJECT_NAME );
-        appConfig.setResourceLoader( GlaciersResources.getResourceLoader() );
-        
         appConfig.launchSim();
     }
 }

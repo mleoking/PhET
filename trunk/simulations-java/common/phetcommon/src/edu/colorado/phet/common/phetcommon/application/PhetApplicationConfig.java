@@ -1,12 +1,11 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2007-2008, University of Colorado */
 
 package edu.colorado.phet.common.phetcommon.application;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Properties;
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.preferences.DefaultTrackingPreferences;
 import edu.colorado.phet.common.phetcommon.preferences.DefaultUpdatePreferences;
@@ -26,7 +25,7 @@ import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 /**
  * PhetApplicationConfig encapsulates the information required to configure
  * a PhetApplication, including transparent access to the project's
- * properties file.
+ * properties file. It is also responsible for launching an application.
  * <p/>
  * Some terminology:
  * <ul>
@@ -35,27 +34,6 @@ import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
  * from the project's source code, and use the project's resources.
  * Each of these simulations is referred to as a flavor.
  * <li>If a flavor name is not specified, it defaults to the project name.
- * <li>A project has project properties that contains non-localized properties.
- * <li>A project has localization properties that contains localized properties.
- * <li>Properties may be flavored or unflavored. Flavored properties allow
- * identical properties to coexist for multiple flavors.
- * </ul>
- * <p/>
- * Some standard property names are described below.
- * <p/>
- * Property names for standard localized strings:
- * <ul>
- * <li>[flavor].name : simulation name (required)
- * <li>[flavor].description : simulation description (required)
- * </ul>
- * <p/>
- * Property names for standard non-localized strings:
- * <ul>
- * <li>version.major : major version number (required)
- * <li>version.minor : minor version number (required)
- * <li>version.dev : development version number (required)
- * <li>version.revision : repository revision number (required)
- * <li>about.credits : development team credits (optional)
  * </ul>
  *
  * @author John De Goes / Chris Malley
@@ -67,17 +45,6 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
     //----------------------------------------------------------------------------
 
     public static final FrameSetup DEFAULT_FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
-    
-    // Standard localized properties:
-    private static final String PROPERTY_NAME = "name";
-    private static final String PROPERTY_DESCRIPTION = "description";
-
-    // Standard non-localized properties:
-    public static final String PROPERTY_VERSION_MAJOR = "version.major";
-    public static final String PROPERTY_VERSION_MINOR = "version.minor";
-    public static final String PROPERTY_VERSION_DEV = "version.dev";
-    public static final String PROPERTY_VERSION_REVISION = "version.revision";
-    public static final String PROPERTY_CREDITS = "about.credits";
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -86,18 +53,15 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
     // immutable
     private final String[] commandLineArgs;
     private final String flavor;
+    private PhetResources resourceLoader;
     
     // mutable
     private ApplicationConstructor applicationConstructor;
-    private PhetResources resourceLoader;
     private FrameSetup frameSetup;
     private PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel(); // the look and feel to be initialized in launchSim
 
-    // initialized on demand
-    private volatile PhetVersion version;
-    
     //----------------------------------------------------------------------------
-    // Instances
+    // Interfaces
     //----------------------------------------------------------------------------
     
     /**
@@ -124,8 +88,8 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
     public PhetApplicationConfig( String[] commandLineArgs, ApplicationConstructor applicationConstructor, String project, String flavor ) {
         this.commandLineArgs = commandLineArgs;
         this.flavor = flavor;
-        this.applicationConstructor = applicationConstructor;
         this.resourceLoader = new PhetResources( project );
+        this.applicationConstructor = applicationConstructor;
         this.frameSetup = DEFAULT_FRAME_SETUP;
         this.phetLookAndFeel = new PhetLookAndFeel();
     }
@@ -169,11 +133,6 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
     // Setters and getters
     //----------------------------------------------------------------------------
 
-    /**
-     * Gets the command line args.
-     *
-     * @return String[], possibly null or empty
-     */
     public String[] getCommandLineArgs() {
         return commandLineArgs;
     }
@@ -182,21 +141,10 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
         this.frameSetup = frameSetup;
     }
 
-    /**
-     * Gets the FrameSetup, used to size and position the application's main frame.
-     *
-     * @return FrameSetup
-     */
     public FrameSetup getFrameSetup() {
         return frameSetup;
     }
 
-    /**
-     * Gets the flavor for this configuration.
-     * If a flavor was not specified in the constructor, the flavor default to the project name.
-     *
-     * @return flavor, always non-null.
-     */
     public String getFlavor() {
         return flavor;
     }
@@ -217,14 +165,14 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
         return phetLookAndFeel;
     }
     
-    public void setResourceLoader( PhetResources resourceLoader ) {
-        this.resourceLoader = resourceLoader;
-    }
-    
-    public PhetResources getResourceLoade() {
+    public PhetResources getResourceLoader() {
         return resourceLoader;
     }
 
+    public String getProjectName() {
+        return resourceLoader.getProjectName();
+    }
+    
     //----------------------------------------------------------------------------
     // Standard properties
     //----------------------------------------------------------------------------
@@ -235,7 +183,7 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
      * @return name
      */
     public String getName() {
-        return getFlavoredLocalizedProperty( PROPERTY_NAME );
+        return resourceLoader.getName( flavor );
     }
 
     /**
@@ -244,112 +192,25 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
      * @return description
      */
     public String getDescription() {
-        return getFlavoredLocalizedProperty( PROPERTY_DESCRIPTION );
+        return resourceLoader.getDescription( flavor );
     }
 
+    /**
+     * Gets the simulation credits.
+     *
+     * @return credits, possibly null
+     */
+    public String getCredits() {
+        return resourceLoader.getCredits();
+    }
+    
     /**
      * Retrieves the object that encapsulates the project's version information.
      *
      * @return PhetProjectVersion
      */
     public PhetVersion getVersion() {
-        if ( version == null ) {
-            String major = getProjectProperty( PROPERTY_VERSION_MAJOR ),
-                    minor = getProjectProperty( PROPERTY_VERSION_MINOR ),
-                    dev = getProjectProperty( PROPERTY_VERSION_DEV ),
-                    rev = getProjectProperty( PROPERTY_VERSION_REVISION );
-            version = new PhetVersion( major, minor, dev, rev );
-        }
-        return version;
-    }
-
-    /**
-     * Returns the locale credits for a simulation; this is an optional string specified in the simulation properties file
-     * that is to be displayed only when using a particular locale.
-     *
-     * @return the locale credits text
-     */
-    public String getLocaleCredits() {
-        final String localeCreditsKey = PROPERTY_CREDITS + "." + PhetResources.readLocale();
-//        System.out.println( "localeCreditsKey = " + localeCreditsKey );
-        String localizedCredits = getProjectProperty( localeCreditsKey );
-//        System.out.println( "localizedCredits = " + localizedCredits );
-
-        return ( localizedCredits != null ? localizedCredits : "" );
-    }
-
-    /**
-     * Gets the simulation credits.
-     * Credits are not localized because of the translation effort involved.
-     * Credits are not flavored because the same team typically works on all
-     * flavors of a simulation.
-     *
-     * @return credits, possibly null
-     */
-    public String getCredits() {
-        return getLocalizedProperty( PROPERTY_CREDITS );
-    }
-
-    //----------------------------------------------------------------------------
-    // Flavored and unflavored properties
-    //----------------------------------------------------------------------------
-
-    /**
-     * Gets an unflavored property from the project properties.
-     *
-     * @param propertyName
-     * @return String, null if the property doesn't exist
-     */
-    public String getProjectProperty( String propertyName ) {
-        return resourceLoader.getProjectProperties().getProperty( propertyName );
-    }
-
-    /**
-     * Gets an unflavored property from the localized properties.
-     *
-     * @param propertyName
-     * @return String, null if the property doesn't exist
-     */
-    public String getLocalizedProperty( String propertyName ) {
-        return resourceLoader.getLocalizedProperties().getProperty( propertyName );
-    }
-
-    /**
-     * Gets a flavored property from the project properties.
-     * The specified propertyName will be internally converted to
-     * the proper key required to access the flavored propery.
-     *
-     * @param propertyName
-     * @return String, null if the property doesn't exist
-     */
-    public String getFlavoredProjectProperty( String propertyName ) {
-        return getFlavoredProperty( resourceLoader.getProjectProperties(), propertyName, flavor );
-    }
-
-    /**
-     * Gets a flavored property from the localized properties.
-     * The specified propertyName will be internally converted to
-     * the proper key required to access the flavored propery.
-     *
-     * @param propertyName
-     * @return String, null if the property doesn't exist
-     */
-    public String getFlavoredLocalizedProperty( String propertyName ) {
-        return getFlavoredProperty( resourceLoader.getLocalizedProperties(), propertyName, flavor );
-    }
-
-    /*
-    * Gets a flavored property.
-    * This method encapsulates the syntax of a flavored property.
-    * Subclasses can use this to get flavored properties out of a simulation-specific Properties.
-    *
-    * @param properties
-    * @param propertyName
-    * @param flavor
-    */
-    protected static String getFlavoredProperty( Properties properties, String propertyName, String flavor ) {
-        String key = flavor + "." + propertyName;
-        return properties.getProperty( key );
+        return resourceLoader.getVersion();
     }
 
     /**
@@ -376,10 +237,10 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
         return new PhetApplicationConfig( new String[0], new FrameSetup.NoOp(), new PhetResources( simName ) ).getCredits();
     }
 
-    public String getProjectName() {
-        return resourceLoader.getProjectName();
-    }
-
+    //----------------------------------------------------------------------------
+    // Launcher
+    //----------------------------------------------------------------------------
+    
     /*
      * This method solves the following problems:
      * 1. Consolidate (instead of duplicate) launch code

@@ -30,13 +30,25 @@ import edu.colorado.phet.common.phetcommon.util.logging.NullLogger;
  * The project's properties file and string localization file are loaded
  * when this object is instantiated.
  *
- * @author John De Goes / Chris Malley
+ * @author Chris Malley
+ * @author John De Goes
  */
 public class PhetResources {
 
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
+    
+    // Standard localized properties:
+    private static final String PROPERTY_NAME = "name";
+    private static final String PROPERTY_DESCRIPTION = "description";
+
+    // Standard non-localized properties:
+    public static final String PROPERTY_VERSION_MAJOR = "version.major";
+    public static final String PROPERTY_VERSION_MINOR = "version.minor";
+    public static final String PROPERTY_VERSION_DEV = "version.dev";
+    public static final String PROPERTY_VERSION_REVISION = "version.revision";
+    public static final String PROPERTY_CREDITS = "about.credits";
 
     private static final String AUDIO_DIR = "audio";
     private static final String IMAGES_DIR = "images";
@@ -62,13 +74,13 @@ public class PhetResources {
     private final PhetProperties projectProperties;
     private final IResourceLoader resourceLoader;
     private final String rootDirectoryName;
+    private volatile PhetVersion version;
 
     private static ILogger _logger=new NullLogger();//logger to help debug localization issues
 
     public static void setLogger(ILogger logger){
         _logger=logger;
     }
-    
 
     //----------------------------------------------------------------------------
     // Constructors & initializers
@@ -260,6 +272,46 @@ public class PhetResources {
 
     public double getLocalizedDouble( String key, double defaultValue ) {
         return localizedProperties.getDouble( key, defaultValue );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Properties that are common to all sims
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Gets the localized name of the sim (required property).
+     */
+    public String getName( String flavor ) {
+        return localizedProperties.getProperty( flavor + "." + PROPERTY_NAME );
+    }
+    
+    /**
+     * Gets the localized description of the sim (required property).
+     */
+    public String getDescription( String flavor ) {
+        return localizedProperties.getProperty( flavor + "." + PROPERTY_DESCRIPTION );
+    }
+    
+    /**
+     * Gets the localized credits for the sim (optional property).
+     */
+    public String getCredits() {
+        return localizedProperties.getProperty( PROPERTY_CREDITS );
+    }
+    
+    /**
+     * Gets the object that encapsulates the project's version information.
+     * Involves using a number of required project properties.
+     */
+    public PhetVersion getVersion() {
+        if ( version == null ) {
+            String major = getProjectProperty( PROPERTY_VERSION_MAJOR ),
+                    minor = getProjectProperty( PROPERTY_VERSION_MINOR ),
+                    dev = getProjectProperty( PROPERTY_VERSION_DEV ),
+                    rev = getProjectProperty( PROPERTY_VERSION_REVISION );
+            version = new PhetVersion( major, minor, dev, rev );
+        }
+        return version;
     }
 
 }

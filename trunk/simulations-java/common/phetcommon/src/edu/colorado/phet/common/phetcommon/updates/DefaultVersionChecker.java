@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Properties;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 
 public class DefaultVersionChecker implements IVersionChecker {
@@ -16,10 +16,10 @@ public class DefaultVersionChecker implements IVersionChecker {
         Properties properties = new Properties();
         properties.load( new ByteArrayInputStream( read.getBytes() ) );
 
-        String major = properties.getProperty( PhetApplicationConfig.PROPERTY_VERSION_MAJOR );
-        String minor = properties.getProperty( PhetApplicationConfig.PROPERTY_VERSION_MINOR );
-        String dev = properties.getProperty( PhetApplicationConfig.PROPERTY_VERSION_DEV );
-        String rev = properties.getProperty( PhetApplicationConfig.PROPERTY_VERSION_REVISION );
+        String major = properties.getProperty( PhetResources.PROPERTY_VERSION_MAJOR );
+        String minor = properties.getProperty( PhetResources.PROPERTY_VERSION_MINOR );
+        String dev = properties.getProperty( PhetResources.PROPERTY_VERSION_DEV );
+        String rev = properties.getProperty( PhetResources.PROPERTY_VERSION_REVISION );
 
         return new PhetVersion( major, minor, dev, rev );
     }
