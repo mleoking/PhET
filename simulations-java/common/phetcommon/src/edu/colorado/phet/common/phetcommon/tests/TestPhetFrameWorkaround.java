@@ -33,8 +33,8 @@ public class TestPhetFrameWorkaround {
     private static final boolean USE_WORKAROUND = true;
 
     public static void main( final String[] args ) {
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
+        PhetApplicationConfig config=new PhetApplicationConfig( args, new PhetApplicationConfig.ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
                 final PhetApplication phetApplication = new PhetApplication( new PhetApplicationConfig( args, new FrameSetup.CenteredWithSize( 800, 600 ), new PhetResources( "phetcommon" ) ) ) {
                     protected PhetFrame createPhetFrame() {
                         if ( USE_WORKAROUND ) {
@@ -75,8 +75,12 @@ public class TestPhetFrameWorkaround {
                         dialog.setVisible( true );
                     }
                 } );
+
+                return phetApplication;
             }
-        } );
+        }, "phetcommon");
+        config.setFrameSetup(  new FrameSetup.CenteredWithSize( 800, 600 ));
+        config.launchSim();
 
     }
 
