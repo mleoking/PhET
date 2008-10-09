@@ -22,12 +22,12 @@ public class EFieldApplication extends PhetApplication {
 
     public static class EFieldApplicationConfig extends PhetApplicationConfig {
         public EFieldApplicationConfig( String[] commandLineArgs ) {
-            super( commandLineArgs, new FrameSetup.CenteredWithSize( 600, 600 ), new PhetResources( "efield" ) );
-            super.setApplicationConstructor( new ApplicationConstructor() {
+            super( commandLineArgs, new ApplicationConstructor() {
                 public PhetApplication getApplication( PhetApplicationConfig config ) {
                     return new EFieldApplication( config );
                 }
-            } );
+            }, "efield" );
+            setFrameSetup( new FrameSetup.CenteredWithSize( 600, 600 ) );
             super.setLookAndFeel( new PhetLookAndFeel() );
         }
     }
