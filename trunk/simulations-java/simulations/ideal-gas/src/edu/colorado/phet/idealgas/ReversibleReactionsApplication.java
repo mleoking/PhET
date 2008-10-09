@@ -8,27 +8,24 @@ package edu.colorado.phet.idealgas;
 
 //import edu.colorado.phet.common.application.ApplicationModel;
 
+import java.awt.*;
+
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.idealgas.controller.MovableWallsModule;
 import edu.colorado.phet.idealgas.model.SimulationClock;
 
-import javax.swing.*;
-import java.awt.*;
-
 public class ReversibleReactionsApplication extends PhetApplication {
     private MovableWallsModule wallsModule;
 
 
-    public ReversibleReactionsApplication( String[] args ) {
-        super( args, IdealGasResources.getString( "reversible-reactions.name" ),
-               IdealGasResources.getString( "reversible-reactions.description" ),
-               IdealGasConfig.getVersion().formatForTitleBar(),
-//               new SwingClock( IdealGasConfig.TIME_STEP, IdealGasConfig.WAIT_TIME, true ),
-//               true,
-IdealGasConfig.FRAME_SETUP );
+    public ReversibleReactionsApplication( PhetApplicationConfig config) {
+        super(config);
 
         SimulationClock clock = new SimulationClock( IdealGasConfig.WAIT_TIME, IdealGasConfig.TIME_STEP );
 
@@ -41,11 +38,11 @@ IdealGasConfig.FRAME_SETUP );
     protected void parseArgs( String[] args ) {
         super.parseArgs( args );
 
-        for( int i = 0; i < args.length; i++ ) {
+        for ( int i = 0; i < args.length; i++ ) {
             String arg = args[i];
-            if( arg.startsWith( "-B" ) ) {
-                PhetGraphicsModule[] modules = (PhetGraphicsModule[])this.getModules();
-                for( int j = 0; j < modules.length; j++ ) {
+            if ( arg.startsWith( "-B" ) ) {
+                PhetGraphicsModule[] modules = (PhetGraphicsModule[]) this.getModules();
+                for ( int j = 0; j < modules.length; j++ ) {
                     ApparatusPanel ap = modules[j].getApparatusPanel();
                     ap.setBackground( Color.black );
                     ap.paintImmediately( ap.getBounds() );
@@ -54,13 +51,20 @@ IdealGasConfig.FRAME_SETUP );
         }
     }
 
+    public static class ReversibleReactionsApplicationConfig extends PhetApplicationConfig {
+
+        public ReversibleReactionsApplicationConfig( String[] commandLineArgs, FrameSetup frameSetup, PhetResources resourceLoader, String flavor ) {
+            super( commandLineArgs, frameSetup, resourceLoader, flavor );
+            setApplicationConstructor( new ApplicationConstructor() {
+                public PhetApplication getApplication( PhetApplicationConfig config ) {
+                    new IdealGasLookAndFeel().initLookAndFeel();
+                    return new ReversibleReactionsApplication( config);
+                }
+            } );
+        }
+    }
+
     public static void main( final String[] args ) {
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                new IdealGasLookAndFeel().initLookAndFeel();
-                ReversibleReactionsApplication reversibleReactionsApplication = new ReversibleReactionsApplication( args );
-                reversibleReactionsApplication.startApplication();
-            }
-        } );
+        new ReversibleReactionsApplicationConfig( args, IdealGasConfig.FRAME_SETUP, new PhetResources( "ideal-gas" ), "reversible-reactions" ).launchSim();
     }
 }
