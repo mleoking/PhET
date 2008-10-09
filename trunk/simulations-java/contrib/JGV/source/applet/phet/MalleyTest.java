@@ -17,7 +17,7 @@ public class MalleyTest extends JFrame {
         setSize( 640, 480 );
         
         JGVPanel jgvPanel = new JGVPanel( this );
-        add( jgvPanel.cameraCanvas );
+        setContentPane( jgvPanel.cameraCanvas );
        
         jgvPanel.addXMLFile( GEOMETRY_FILENAME );
 //        jgvPanel.addGeom( readFile( GEOMETRY_FILENAME ) );
