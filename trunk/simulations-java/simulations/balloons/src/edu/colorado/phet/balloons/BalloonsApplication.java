@@ -1,17 +1,17 @@
 package edu.colorado.phet.balloons;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.HeadlessException;
 import java.io.IOException;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
-import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
@@ -61,20 +61,6 @@ public class BalloonsApplication extends PiccoloPhetApplication {
         }
     }
 
-    public static class BalloonsApplicationConfig extends PhetApplicationConfig {
-        public BalloonsApplicationConfig( String[] commandLineArgs ) {
-            super( commandLineArgs, new FrameSetup.NoOp(), new PhetResources( "balloons" ) );
-            super.setApplicationConstructor( new ApplicationConstructor() {
-                public PhetApplication getApplication( PhetApplicationConfig config ) {
-                    return new BalloonsApplication( config );
-                }
-            } );
-            PhetLookAndFeel laf = new PhetLookAndFeel();
-            laf.setBackgroundColor( new Color( 200, 240, 200 ) );
-            super.setLookAndFeel( laf );
-        }
-    }
-
     public class BalloonsModule extends Module {
         private BalloonsSimulationPanel balloonsSimulationPanel;
 
@@ -117,7 +103,17 @@ public class BalloonsApplication extends PiccoloPhetApplication {
         }
     }
 
-    public static void main( String[] args ) {
-        new BalloonsApplicationConfig( args ).launchSim();
+    public static void main( final String[] args ) {
+        
+        ApplicationConstructor appConstructor = new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new BalloonsApplication( config );
+            }
+        };
+        
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, "balloons" );
+        appConfig.setFrameSetup( new FrameSetup.NoOp() ); //TODO: is this needed?...
+        appConfig.getLookAndFeel().setBackgroundColor( new Color( 200, 240, 200 ) );
+        appConfig.launchSim();
     }
 }
