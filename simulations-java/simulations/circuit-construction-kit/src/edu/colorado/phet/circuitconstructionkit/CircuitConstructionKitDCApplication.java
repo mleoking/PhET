@@ -1,21 +1,17 @@
 package edu.colorado.phet.circuitconstructionkit;
 
-import java.awt.*;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
-import javax.swing.*;
-
 import edu.colorado.phet.circuitconstructionkit.controls.OptionsMenu;
-import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.util.CCKUtil;
 import edu.colorado.phet.circuitconstructionkit.view.CCKPhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
@@ -32,16 +28,16 @@ public class CircuitConstructionKitDCApplication extends PiccoloPhetApplication 
     private CCKModule cckPiccoloModule;
     public static final String AC_OPTION = "-dynamics";
 
-    public CircuitConstructionKitDCApplication( String[] args ) throws IOException {
-        super( new PhetApplicationConfig( args, createFrameSetup(), new PhetResources( "circuit-construction-kit" ), isDynamic( args ) ? "circuit-construction-kit-ac" : "circuit-construction-kit-dc" ) );
+    public CircuitConstructionKitDCApplication( PhetApplicationConfig config ) {
+        super( config );
 
         boolean debugMode = false;
-        if ( Arrays.asList( args ).contains( "debug" ) ) {
+        if ( Arrays.asList( config.getCommandLineArgs() ).contains( "debug" ) ) {
             debugMode = true;
             System.out.println( "debugMode = " + debugMode );
         }
 
-        cckPiccoloModule = new CCKModule( args );
+        cckPiccoloModule = new CCKModule( config.getCommandLineArgs() );
         cckPiccoloModule.getCckSimulationPanel().addKeyListener( new KeyListener() {
             public void keyPressed( KeyEvent e ) {
             }
@@ -87,19 +83,20 @@ public class CircuitConstructionKitDCApplication extends PiccoloPhetApplication 
         cckPiccoloModule.applicationStarted();
     }
 
-    public static void main( final String[] args ) throws InvocationTargetException, InterruptedException {
+    public static void main( final String[] args ) {
+        
         CCKUtil.setupLanguagesForSwingComponents();
-
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                new CCKPhetLookAndFeel().initLookAndFeel();
-                try {
-                    new CircuitConstructionKitDCApplication( args ).startApplication();
-                }
-                catch( IOException e ) {
-                    e.printStackTrace();
-                }
+        
+        ApplicationConstructor appConstructor = new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new CircuitConstructionKitDCApplication( config );
             }
-        } );
+        };
+        
+        String flavor = isDynamic( args ) ? "circuit-construction-kit-ac" : "circuit-construction-kit-dc";
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, "circuit-construction-kit", flavor );
+        appConfig.setLookAndFeel( new CCKPhetLookAndFeel() );
+        appConfig.setFrameSetup( createFrameSetup() );
+        appConfig.launchSim();
     }
 }
