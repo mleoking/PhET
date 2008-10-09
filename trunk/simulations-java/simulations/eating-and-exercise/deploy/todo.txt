@@ -16,6 +16,10 @@ From Wendy 10/7/08:
 
 ·         Stop time after 2 years
 
+From NP 10/9/08
+
+-make male/female not reset unless it is the first thing that is done
+
 
 ############################
 ###	Todo Noah P	####
@@ -28,21 +32,13 @@ WA 10/7/08
 
 
 
--make male/female not reset unless it is the first thing that is done
 
--make %fat slider bounce back when at limits of BMI (upper limit is 36 now)
 
 -make muscle gained balance out based on average exercise
 
--make neck as wide as torso
+-make neck less wide than torso
 
--taller person should have bigger head
 
--make arm muscles scale properly with height
-
--make stomach scale properly with height
-
->>NP: the appearance of muscles and stomach seems to be affected by the overall body size. The overall body thickness does not scale with height it seems.
 
 -add/subtract foods and exercises from WA:
 
