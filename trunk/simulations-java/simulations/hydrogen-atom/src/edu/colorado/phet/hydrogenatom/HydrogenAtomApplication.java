@@ -15,16 +15,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JDialog;
 import javax.swing.JMenuItem;
-import javax.swing.SwingUtilities;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
-import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.hydrogenatom.dialog.TransitionsDialog;
@@ -144,7 +142,7 @@ public class HydrogenAtomApplication extends PiccoloPhetApplication {
                     _legendDialog = null;
                 }
             } );
-            _legendDialog.show();
+            _legendDialog.setVisible( true );
         }
     }
 
@@ -168,7 +166,7 @@ public class HydrogenAtomApplication extends PiccoloPhetApplication {
                     _transitionsDialog = null;
                 }
             } );
-            _transitionsDialog.show();
+            _transitionsDialog.setVisible( true );
         }
     }
 
@@ -176,39 +174,15 @@ public class HydrogenAtomApplication extends PiccoloPhetApplication {
     // main
     //----------------------------------------------------------------------------
 
-    /**
-     * Main entry point.
-     *
-     * @param args command line arguments
-     * @throws InvocationTargetException
-     * @throws InterruptedException
-     */
     public static void main( final String[] args ) {
-
-        /*
-         * Wrap the body of main in invokeLater, so that all initialization occurs
-         * in the event dispatch thread. Sun now recommends doing all Swing init in
-         * the event dispatch thread. And the Piccolo-based tabs in TabbedModulePanePiccolo
-         * seem to cause startup deadlock problems if they aren't initialized in the
-         * event dispatch thread. Since we don't have an easy way to separate Swing and
-         * non-Swing init, we're stuck doing everything in invokeLater.
-         */
-        SwingUtilities.invokeLater( new Runnable() {
-
-            public void run() {
-
-                // Initialize look-and-feel
-                PhetLookAndFeel laf = new PhetLookAndFeel();
-                laf.initLookAndFeel();
-
-                PhetApplicationConfig config = new PhetApplicationConfig( args, HAConstants.FRAME_SETUP, HAResources.getResourceLoader() );
-
-                // Create the application.
-                HydrogenAtomApplication app = new HydrogenAtomApplication( config );
-
-                // Start the application.
-                app.startApplication();
+        
+        ApplicationConstructor appConstructor = new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new HydrogenAtomApplication( config );
             }
-        } );
+        };
+        
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, HAConstants.PROJECT_NAME );
+        appConfig.launchSim();
     }
 }
