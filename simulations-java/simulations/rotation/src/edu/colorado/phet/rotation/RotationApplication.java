@@ -5,27 +5,25 @@ import java.awt.event.WindowFocusListener;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.motion.model.DefaultTimeSeries;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.rotation.controls.RotationDevMenu;
 import edu.colorado.phet.rotation.view.RotationFrameSetup;
 import edu.colorado.phet.rotation.view.RotationLookAndFeel;
-import edu.umd.cs.piccolox.pswing.PSwingRepaintManager;
 
 /**
  * PhET's Rotation simulation.
  *
  * @author Sam Reid
- * test comment
+ *         test comment
  */
 
 public class RotationApplication extends PiccoloPhetApplication {
     private RotationModule rotationModule;
 
-    public RotationApplication( String[] args ) {
-        super( new PhetApplicationConfig( args, new RotationFrameSetup(), RotationResources.getInstance() ) );
+    public RotationApplication( PhetApplicationConfig config ) {
+        super( config );
 
         RotationIntroModule introRotationModule = new RotationIntroModule( getPhetFrame() );
         addModule( introRotationModule );
@@ -58,22 +56,30 @@ public class RotationApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) {
-        SwingUtilities.invokeLater( new Runnable() {
-            /** @noinspection HardCodedStringLiteral*/
-            public void run() {
-                MyRepaintManager synchronizedPSwingRepaintManager = new MyRepaintManager();
-                synchronizedPSwingRepaintManager.setDoMyCoalesce( true );
-                RepaintManager.setCurrentManager( synchronizedPSwingRepaintManager );
-
-                QuickProfiler appStartTime = new QuickProfiler();
-                new RotationLookAndFeel().initLookAndFeel();
-                new RotationApplication( args ).startApplication();
-                System.out.println( "Rotation Application started in = " + appStartTime );
-            }
-        } );
+        new RotationApplicationConfig( args ).launchSim();
     }
 
     public RotationModule getRotationModule() {
         return rotationModule;
+    }
+
+    private static class RotationApplicationConfig extends PhetApplicationConfig {
+        public RotationApplicationConfig( final String[] args ) {
+            super( args, new ApplicationConstructor() {
+                public PhetApplication getApplication( PhetApplicationConfig config ) {
+                    MyRepaintManager synchronizedPSwingRepaintManager = new MyRepaintManager();
+                    synchronizedPSwingRepaintManager.setDoMyCoalesce( true );
+                    RepaintManager.setCurrentManager( synchronizedPSwingRepaintManager );
+
+                    QuickProfiler appStartTime = new QuickProfiler();
+                    new RotationLookAndFeel().initLookAndFeel();
+                    RotationApplication rotationApplication = new RotationApplication( config );
+                    rotationApplication.startApplication();
+                    System.out.println( "Rotation Application started in = " + appStartTime );
+                    return rotationApplication;
+                }
+            }, "rotation" );
+            setFrameSetup( new RotationFrameSetup() );
+        }
     }
 }
