@@ -4,7 +4,10 @@
 
 package edu.colorado.phet.conductivity;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.GeneralPath;
@@ -13,15 +16,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-import javax.swing.*;
-
-
-
-
-
+import javax.swing.JSpinner;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
@@ -30,14 +30,10 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.conductivity.oldphetgraphics.ApparatusPanel;
-import edu.colorado.phet.conductivity.oldphetgraphics.Graphic;
-import edu.colorado.phet.conductivity.oldphetgraphics.ShapeGraphic;
 import edu.colorado.phet.conductivity.macro.BandSetGraphic;
 import edu.colorado.phet.conductivity.macro.EnergyTextGraphic;
 import edu.colorado.phet.conductivity.macro.MacroControlPanel;
@@ -48,6 +44,9 @@ import edu.colorado.phet.conductivity.macro.circuit.MacroCircuit;
 import edu.colorado.phet.conductivity.macro.circuit.MacroCircuitGraphic;
 import edu.colorado.phet.conductivity.macro.particles.WireParticle;
 import edu.colorado.phet.conductivity.macro.particles.WireParticleGraphic;
+import edu.colorado.phet.conductivity.oldphetgraphics.ApparatusPanel;
+import edu.colorado.phet.conductivity.oldphetgraphics.Graphic;
+import edu.colorado.phet.conductivity.oldphetgraphics.ShapeGraphic;
 
 // Referenced classes of package edu.colorado.phet.semiconductor.macro:
 //            MacroControlPanel, MacroSystem, EnergyTextGraphic, BandSetGraphic
@@ -382,22 +381,6 @@ public class ConductivityApplication {
         clock.start();
     }
 
-    public static class ConductivityApplicationConfig extends PhetApplicationConfig {
-
-        public ConductivityApplicationConfig( String[] commandLineArgs ) {
-            super( commandLineArgs, new FrameSetup.CenteredWithInsets( 100, 100 ), ConductivityResources.getResourceLoader() );
-            PhetLookAndFeel feel = new PhetLookAndFeel();
-            feel.setBackgroundColor( new Color( 245, 245, 255 ) );
-            setLookAndFeel( feel );
-            setApplicationConstructor( new ApplicationConstructor() {
-                public edu.colorado.phet.common.phetcommon.application.PhetApplication getApplication( PhetApplicationConfig config ) {
-                    return new ConductivityPhetApplication( config );
-                }
-            } );
-        }
-
-    }
-
     private static class ConductivityPhetApplication extends edu.colorado.phet.common.phetcommon.application.PhetApplication {
         protected ConductivityPhetApplication( PhetApplicationConfig config ) {
             super( config );
@@ -426,8 +409,18 @@ public class ConductivityApplication {
         }
     }
 
-    public static void main( final String args[] ) throws IOException {
-        new ConductivityApplicationConfig( args ).launchSim();
+    public static void main( final String[] args ) {
+        
+        ApplicationConstructor appConstructor = new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new ConductivityPhetApplication( config );
+            }
+        };
+        
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, "conductivity" );
+        appConfig.setFrameSetup( new FrameSetup.CenteredWithInsets( 100, 100 ) );
+        appConfig.getLookAndFeel().setBackgroundColor( new Color( 245, 245, 255 ) );
+        appConfig.launchSim();
     }
 
 }

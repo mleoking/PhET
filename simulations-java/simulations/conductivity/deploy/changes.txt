@@ -1,3 +1,4 @@
+10-9-2008: use new PhetApplicationConfig constructor
 10-16-2007: Fixed text box to correctly revert after error case
 10-16-2007: Model updates while typing in text-box (instead of waiting for user to press Enter)
 
