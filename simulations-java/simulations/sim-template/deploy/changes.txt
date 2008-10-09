@@ -1,0 +1,2 @@
+10/8/08 - use PhetApplicationConfig.launchSim
+10/8/08 - changes log file created

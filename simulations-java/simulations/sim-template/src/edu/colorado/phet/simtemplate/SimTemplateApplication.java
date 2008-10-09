@@ -9,14 +9,14 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
-import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.simtemplate.developer.DeveloperMenu;
@@ -219,37 +219,15 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
     // main
     //----------------------------------------------------------------------------
 
-    /**
-     * Main entry point.
-     *
-     * @param args command line arguments
-     */
     public static void main( final String[] args ) {
-
-        /*
-         * Wrap the body of main in invokeLater, so that all initialization occurs
-         * in the event dispatch thread. Sun now recommends doing all Swing init in
-         * the event dispatch thread. And the Piccolo-based tabs in TabbedModulePanePiccolo
-         * seem to cause startup deadlock problems if they aren't initialized in the
-         * event dispatch thread. Since we don't have an easy way to separate Swing and
-         * non-Swing init, we're stuck doing everything in invokeLater.
-         */
-        SwingUtilities.invokeLater( new Runnable() {
-
-            public void run() {
-                
-                // Initialize look-and-feel
-                PhetLookAndFeel laf = new PhetLookAndFeel();
-                laf.initLookAndFeel();
-
-                PhetApplicationConfig config = new PhetApplicationConfig( args, SimTemplateConstants.FRAME_SETUP, SimTemplateResources.getResourceLoader() );
-
-                // Create the application.
-                SimTemplateApplication app = new SimTemplateApplication( config );
-
-                // Start the application.
-                app.startApplication();
+        
+        ApplicationConstructor appConstructor = new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new SimTemplateApplication( config );
             }
-        } );
+        };
+        
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, SimTemplateConstants.PROJECT_NAME );
+        appConfig.launchSim();
     }
 }
