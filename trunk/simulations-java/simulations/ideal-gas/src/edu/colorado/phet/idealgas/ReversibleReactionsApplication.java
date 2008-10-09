@@ -24,12 +24,16 @@ public class ReversibleReactionsApplication extends PhetApplication {
     private MovableWallsModule wallsModule;
 
 
-    public ReversibleReactionsApplication( PhetApplicationConfig config) {
-        super(config);
+    public ReversibleReactionsApplication( PhetApplicationConfig config ) {
+        super( config );
 
         SimulationClock clock = new SimulationClock( IdealGasConfig.WAIT_TIME, IdealGasConfig.TIME_STEP );
 
-        wallsModule = new MovableWallsModule( clock );
+        wallsModule = new MovableWallsModule( clock ) {
+            protected void addHelp() {
+                addStoveHelp();//stove help only
+            }
+        };
         setModules( new Module[]{wallsModule} );
 //        setModules( new Module[] { new MovableWallsModule( getClock() ) } );
 
@@ -58,7 +62,7 @@ public class ReversibleReactionsApplication extends PhetApplication {
             setApplicationConstructor( new ApplicationConstructor() {
                 public PhetApplication getApplication( PhetApplicationConfig config ) {
                     new IdealGasLookAndFeel().initLookAndFeel();
-                    return new ReversibleReactionsApplication( config);
+                    return new ReversibleReactionsApplication( config );
                 }
             } );
         }
