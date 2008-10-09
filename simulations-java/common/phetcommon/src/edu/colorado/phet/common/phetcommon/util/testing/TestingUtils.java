@@ -2,8 +2,6 @@ package edu.colorado.phet.common.phetcommon.util.testing;
 
 import junit.framework.TestCase;
 
-import edu.colorado.phet.common.phetcommon.patterns.PubliclyCloneable;
-
 public class TestingUtils {
     public static void testEquality( Object x, Object equalToX, Object notEqualToX ) {
         TestCase.assertEquals( x, equalToX );
@@ -48,9 +46,4 @@ public class TestingUtils {
         testToString( x, equalToX, notEqualToX );
     }
 
-    public static void testClone( PubliclyCloneable x, PubliclyCloneable notEqualToX ) {
-        Object equalToX = x.clone();
-
-        testEquality( x, equalToX, notEqualToX );
-    }
 }
