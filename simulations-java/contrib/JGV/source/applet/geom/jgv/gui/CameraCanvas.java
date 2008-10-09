@@ -30,7 +30,9 @@ import java.awt.event.*;
 import geom.geometry.Plane;
 import geom.geometry.Point;
 
-public class CameraCanvas extends Canvas implements DragConstants {
+import javax.swing.*;
+
+public class CameraCanvas extends JComponent implements DragConstants {
 
   public BSPTree tree;
   public Camera3D camera;
@@ -184,5 +186,10 @@ public class CameraCanvas extends Canvas implements DragConstants {
 	                this);
     }
   }
+
+    protected void paintComponent( Graphics g ) {
+        super.paintComponent( g );
+        paint( g );
+    }
 }
 
