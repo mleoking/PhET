@@ -1,3 +1,6 @@
+New in 3.08.06 (10-8-2008)
+>Removed unnecessary help items from reversible reactions sim 
+
 7-19-2007: converted particle count spinners to value based instead of difference based
 
 3.05.07 (6-8-2007)
