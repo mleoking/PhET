@@ -8,7 +8,6 @@ import java.awt.Font;
 import java.awt.Stroke;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.util.PDimension;
 

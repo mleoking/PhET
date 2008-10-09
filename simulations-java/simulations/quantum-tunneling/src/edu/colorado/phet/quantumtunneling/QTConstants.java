@@ -19,7 +19,6 @@ import java.text.DecimalFormat;
 
 import org.jfree.data.Range;
 
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
 import edu.colorado.phet.quantumtunneling.color.WhiteColorScheme;
