@@ -10,18 +10,20 @@
  */
 package edu.colorado.phet.idealgas;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
-import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
+import java.awt.Color;
+
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.idealgas.view.ColorScheme;
-
-import java.awt.*;
 
 /**
  * Configuration parameters for the simulation.
  */
 public class IdealGasConfig {
+    
+    public static final String PROJECT_NAME = "ideal-gas";
+    public static final String FLAVOR_BALLOONS_AND_BUOYANCY = "balloons-and-buoyancy";
+    public static final String FLAVOR_DIFFUSION = "diffusion";
+    public static final String FLAVOR_GAS_PROPERTIES = "gas-properties";
 
     // Title, description and version number
     public static final String TITLE = "Ideal Gas Law";

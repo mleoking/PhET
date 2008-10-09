@@ -1,3 +1,5 @@
+10-8-2008: convert to new PhetApplicationConfig framework
+
 New in 3.08.06 (10-8-2008)
 >Removed unnecessary help items from reversible reactions sim 
 
