@@ -20,13 +20,12 @@ public class Motion2DApplication extends PiccoloPhetApplication {
 
     public static class Motion2DApplicationConfig extends PhetApplicationConfig {
         public Motion2DApplicationConfig( String[] commandLineArgs ) {
-            super( commandLineArgs, new FrameSetup.CenteredWithSize( 850, 600 ), Motion2DResources.getResourceLoader() );
-            super.setApplicationConstructor( new ApplicationConstructor() {
+            super( commandLineArgs, new ApplicationConstructor() {
                 public PhetApplication getApplication( PhetApplicationConfig config ) {
                     return new Motion2DApplication( config );
                 }
-            } );
-            super.setLookAndFeel( new PhetLookAndFeel() );
+            },"motion-2d");
+            setFrameSetup( new FrameSetup.CenteredWithSize( 850, 600 ) );
         }
     }
 
