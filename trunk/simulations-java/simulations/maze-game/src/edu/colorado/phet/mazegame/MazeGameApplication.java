@@ -27,13 +27,12 @@ public class MazeGameApplication extends PiccoloPhetApplication {
 
     public static class MazeGameApplicationConfig extends PhetApplicationConfig {
         public MazeGameApplicationConfig( String[] commandLineArgs ) {
-            super( commandLineArgs, new FrameSetup.CenteredWithSize( 700, 600 ), new PhetResources( "maze-game" ) );
-            super.setApplicationConstructor( new ApplicationConstructor() {
+            super( commandLineArgs, new ApplicationConstructor() {
                 public PhetApplication getApplication( PhetApplicationConfig config ) {
                     return new MazeGameApplication( config );
                 }
-            } );
-            super.setLookAndFeel( new PhetLookAndFeel() );
+            }, "maze-game"  );
+            setFrameSetup( new FrameSetup.CenteredWithSize( 700, 600 ) );
         }
     }
 
