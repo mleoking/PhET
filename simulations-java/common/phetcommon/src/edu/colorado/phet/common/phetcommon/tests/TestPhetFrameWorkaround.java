@@ -35,7 +35,7 @@ public class TestPhetFrameWorkaround {
     public static void main( final String[] args ) {
         PhetApplicationConfig config=new PhetApplicationConfig( args, new PhetApplicationConfig.ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
-                final PhetApplication phetApplication = new PhetApplication( new PhetApplicationConfig( args, new FrameSetup.CenteredWithSize( 800, 600 ), new PhetResources( "phetcommon" ) ) ) {
+                final PhetApplication phetApplication = new PhetApplication( config ) {
                     protected PhetFrame createPhetFrame() {
                         if ( USE_WORKAROUND ) {
                             return new PhetFrameWorkaround( this );
