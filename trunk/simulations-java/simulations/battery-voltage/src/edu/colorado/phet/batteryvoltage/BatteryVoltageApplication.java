@@ -3,8 +3,8 @@ package edu.colorado.phet.batteryvoltage;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
@@ -14,18 +14,6 @@ public class BatteryVoltageApplication extends PiccoloPhetApplication {
         super( config );
         BatteryVoltageModule module = new BatteryVoltageModule( config );
         addModule( module );
-    }
-
-    public static class BatteryVoltageApplicationConfig extends PhetApplicationConfig {
-        public BatteryVoltageApplicationConfig( String[] commandLineArgs ) {
-            super( commandLineArgs, new FrameSetup.CenteredWithSize( 850, 525 ), BatteryVoltageResources.getResourceLoader() );
-            super.setApplicationConstructor( new ApplicationConstructor() {
-                public PhetApplication getApplication( PhetApplicationConfig config ) {
-                    return new BatteryVoltageApplication( config );
-                }
-            } );
-            super.setLookAndFeel( new PhetLookAndFeel() );
-        }
     }
 
     private class BatteryVoltageModule extends Module {
@@ -40,7 +28,16 @@ public class BatteryVoltageApplication extends PiccoloPhetApplication {
 
     }
 
-    public static void main( String[] args ) {
-        new BatteryVoltageApplicationConfig( args ).launchSim();
+    public static void main( final String[] args ) {
+        
+        ApplicationConstructor appConstructor = new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new BatteryVoltageApplication( config );
+            }
+        };
+        
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, "battery-voltage" );
+        appConfig.setFrameSetup( new FrameSetup.CenteredWithSize( 850, 525 ) );
+        appConfig.launchSim();
     }
 }
