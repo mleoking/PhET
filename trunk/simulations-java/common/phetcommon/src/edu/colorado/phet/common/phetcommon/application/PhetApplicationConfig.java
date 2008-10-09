@@ -66,6 +66,8 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
     // Class data
     //----------------------------------------------------------------------------
 
+    public static final FrameSetup DEFAULT_FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
+    
     // Standard localized properties:
     private static final String PROPERTY_NAME = "name";
     private static final String PROPERTY_DESCRIPTION = "description";
@@ -81,15 +83,19 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
     // Instance data
     //----------------------------------------------------------------------------
 
-    // Instance data
+    // immutable
     private final String[] commandLineArgs;
-    private FrameSetup frameSetup;
-    private PhetResources resourceLoader;
     private final String flavor;
-    private volatile PhetVersion version;
-    private ApplicationConstructor applicationConstructor; // used to create the PhetApplication
+    
+    // mutable
+    private ApplicationConstructor applicationConstructor;
+    private PhetResources resourceLoader;
+    private FrameSetup frameSetup;
     private PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel(); // the look and feel to be initialized in launchSim
 
+    // initialized on demand
+    private volatile PhetVersion version;
+    
     //----------------------------------------------------------------------------
     // Instances
     //----------------------------------------------------------------------------
@@ -106,10 +112,30 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
     //----------------------------------------------------------------------------
     
     /**
+     * Constructor with smallest number of args for the case where project & flavor names are identical.
+     */
+    public PhetApplicationConfig( String[] commandLineArgs, ApplicationConstructor applicationConstructor, String project ) {
+        this( commandLineArgs, applicationConstructor, project, project );
+    }
+    
+    /**
+     * Constructor with smallest number of args for a flavor.
+     */
+    public PhetApplicationConfig( String[] commandLineArgs, ApplicationConstructor applicationConstructor, String project, String flavor ) {
+        this.commandLineArgs = commandLineArgs;
+        this.flavor = flavor;
+        this.applicationConstructor = applicationConstructor;
+        this.resourceLoader = new PhetResources( project );
+        this.frameSetup = DEFAULT_FRAME_SETUP;
+        this.phetLookAndFeel = new PhetLookAndFeel();
+    }
+    
+    /**
      * Constructor where the flavor defaults to the project name associated with the resource loader.
      *
      * @param commandLineArgs
      * @param resourceLoader
+     * @deprecated this constructor creates an object that isn't fully initialized
      */
     public PhetApplicationConfig( String[] commandLineArgs, FrameSetup frameSetup, PhetResources resourceLoader ) {
         this( commandLineArgs, frameSetup, resourceLoader, resourceLoader.getProjectName() );
@@ -121,6 +147,7 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
      * @param commandLineArgs
      * @param resourceLoader
      * @param flavor
+     * @deprecated this constructor creates an object that isn't fully initialized
      */
     public PhetApplicationConfig( String[] commandLineArgs, FrameSetup frameSetup, PhetResources resourceLoader, String flavor ) {
         if ( frameSetup == null ) {
@@ -149,6 +176,10 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
      */
     public String[] getCommandLineArgs() {
         return commandLineArgs;
+    }
+    
+    public void setFrameSetup( FrameSetup frameSetup ) {
+        this.frameSetup = frameSetup;
     }
 
     /**
@@ -184,6 +215,14 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
 
     public PhetLookAndFeel getPhetLookAndFeel() {
         return phetLookAndFeel;
+    }
+    
+    public void setResourceLoader( PhetResources resourceLoader ) {
+        this.resourceLoader = resourceLoader;
+    }
+    
+    public PhetResources getResourceLoade() {
+        return resourceLoader;
     }
 
     //----------------------------------------------------------------------------
