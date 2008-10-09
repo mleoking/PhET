@@ -64,7 +64,7 @@ public class AutomaticUpdateDialog extends UpdateResultDialog {
         } );
         buttonStrip.add( askMeLater );
 
-        JButton skipThisVersion = new JButton( "Skip this version" );
+        JButton skipThisVersion = new JButton( "Skip this update" );
         skipThisVersion.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 versionSkipper.skipThisVersion( config.getProjectName(), config.getFlavor(), newVersion );
@@ -75,8 +75,8 @@ public class AutomaticUpdateDialog extends UpdateResultDialog {
 
         String htmlText =
                 "<html>" +
-                "<font size=\"2\"><u>" +
-                "Edit preferences...</u></font></html>";
+                "<font size=\"4\"><u>" +
+                "Advanced...</u></font></html>";
 
         JLabel preferences = new JLabel( htmlText );
         preferences.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
@@ -98,7 +98,7 @@ public class AutomaticUpdateDialog extends UpdateResultDialog {
     public static String getUpdateInstructions( String project, String sim, PhetVersion newVersion ) {
         String url = getSimURL( project, sim );
         return "When you press OK, a web browser will be opened to PhET website, where you can get the new version (" + newVersion.formatForTitleBar() + ").<br><br>" +
-               "<font size=-2>If the web browser fails to open, please visit this URL: " +
+               "<font size=-2>If the web browser fails to open, please visit this URL:<br>" +
                "<a href=\"" + url + "\">" + url + "</a></font>";
     }
 

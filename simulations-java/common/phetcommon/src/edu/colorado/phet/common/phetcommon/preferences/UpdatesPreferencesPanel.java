@@ -26,8 +26,8 @@ public class UpdatesPreferencesPanel extends JPanel {
         add( Box.createRigidArea( new Dimension( 50, 20 ) ), constraints );
         add( autoCheck, constraints );
         add( Box.createRigidArea( new Dimension( 50, 10 ) ), constraints );
-        add( new PreferencesScopePanel( preferences ), constraints );
-        add( Box.createRigidArea( new Dimension( 50, 10 ) ), constraints );
+//        add( new PreferencesScopePanel( preferences ), constraints );
+//        add( Box.createRigidArea( new Dimension( 50, 10 ) ), constraints );
         JButton button = new JButton( PhetCommonResources.getString( "Common.HelpMenu.CheckForUpdates" ) );
         button.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
