@@ -11,10 +11,10 @@
 
 package edu.colorado.phet.common.phetgraphics.application;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -25,7 +25,6 @@ import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.help.HelpManager;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 
 /**
@@ -221,14 +220,6 @@ public class PhetGraphicsModule extends Module {
     }
 
     protected JComponent createClockControlPanel( IClock clock ) {
-        JComponent clockControlPanel;
-        //XXX use new clock controls for development versions only, pending acceptance
-        if ( PhetApplication.instance().isDeveloperControlsEnabled() ) {
-            clockControlPanel = new PiccoloClockControlPanel( clock );
-        }
-        else {
-            clockControlPanel = super.createClockControlPanel( clock );
-        }
-        return clockControlPanel;
+        return new PiccoloClockControlPanel( clock );
     }
 }

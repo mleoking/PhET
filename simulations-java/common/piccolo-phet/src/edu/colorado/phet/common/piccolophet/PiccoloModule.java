@@ -10,15 +10,15 @@
  */
 package edu.colorado.phet.common.piccolophet;
 
-import java.awt.*;
+import java.awt.Component;
 
-import javax.swing.*;
+import javax.swing.JComponent;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 
 /**
  * PiccoloModule is a module specialized for use with Piccolo.
@@ -202,14 +202,6 @@ public class PiccoloModule extends Module {
     }
 
     protected JComponent createClockControlPanel( IClock clock ) {
-        JComponent clockControlPanel;
-        //XXX use new clock controls for development versions only, pending acceptance
-        if ( PhetApplication.instance().isDeveloperControlsEnabled() ) {
-            clockControlPanel = new PiccoloClockControlPanel( clock );
-        }
-        else {
-            clockControlPanel = super.createClockControlPanel( clock );
-        }
-        return clockControlPanel;
+        return new PiccoloClockControlPanel( clock );
     }
 }
