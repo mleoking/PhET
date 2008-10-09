@@ -9,10 +9,8 @@ import java.util.Properties;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
 /**
  * This is a convenience wrapper around PhetResources and PhetApplicationConfig that provides 
@@ -23,7 +21,6 @@ import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 public class TUResources {
     
     private static final PhetResources RESOURCES = new PhetResources( "translation-utility" );
-    private static final PhetApplicationConfig CONFIG = new PhetApplicationConfig( null /* args */, new FrameSetup.NoOp(), RESOURCES );
     private static final Properties LANGUAGE_CODES = RESOURCES.getProperties( "language-codes.properties" );
     private static final Properties COMMON_PROJECTS = RESOURCES.getProperties( "common-projects.properties" );
 
@@ -62,7 +59,7 @@ public class TUResources {
      * @return
      */
     public static String getVersion() {
-        return CONFIG.getVersion().formatForAboutDialog();
+        return RESOURCES.getVersion().formatForAboutDialog();
     }
     
     /**
@@ -85,7 +82,7 @@ public class TUResources {
      * @return
      */
     public static String getProjectProperty( String key ) {
-        return CONFIG.getProjectProperty( key );
+        return RESOURCES.getProjectProperty( key );
     }
 
     /**
