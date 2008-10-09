@@ -1,0 +1,107 @@
+These notes are included from the original version of JGV:
+
+JGVApplet
+	The applet class.  Parses <param> tags and creates
+	a JGVPanel object.
+
+JGVPanel
+	This is the class that actually corresponds to the panel that
+	JGV displays.  It currently is only used by the JGVApplet
+	class, but in the future it could be referenced by a
+	standalone application, or other applets.  The JGVPanel
+	contains a thin horizontal ControlPanel at the top, and a
+	large CameraCanvas underneath it.
+
+	The JGVPanel object also serves as the main controller for JGV
+	--- it sets up the camera, loads the data, builds the BSPTree,
+	etc.
+
+ControlPanel
+	The thin horizontal panel at the top of the JGVPanel.
+	Contains control widgets --- currently just single
+	Choice widget for selecting the mouse motion mode.
+
+CameraCanvas
+	The large drawing area.
+
+
+KeyCommandHandler
+	The object which translates keystroke events into actions.
+	This could probably just be part of the JGVPanel object, but
+	it's in a separate object just for modularity sake.
+
+Drag3D
+Drag3DOrbit
+Drag3DRotate
+Drag3DScale
+Drag3DTranslate
+DragConstants
+	These objects handle mouse dragging events in the CameraCanvas
+	window.  See the comments in Drag3D.java for details.
+
+HMatrix3D
+	4x4 matrix object and operations.	
+
+Camera3D
+	This is the "math" part of the camera --- does projections,
+	etc.  Also, note that in the current version of JGV, the
+	"object-to-world" (O2W) transform is actually stored in the
+	Camera3D object, for convenience sake (so that the Drag3D
+	objects can operate on it in the same way that they operate on
+	camera transforms), although it's something that's really
+	associated with the Geom, not the Camera.
+
+Face
+BSPTree
+PolyConstants
+	These are the classes needed for doing the BSPTree construction.
+
+Geom
+  Inst
+  List
+  Off
+  Vect
+Appearance
+RGB
+	These are the classes that represent OOGL objects.	
+
+TurboTokenizer
+	This is my customized version of the java.io.StreamTokenizer
+	object.  It's souped up a bit, hence the "Turbo".
+
+ParseException
+	Exception class for parsing.
+
+========================================================================
+
+TODO:
+
+1. Write a better Tokenizer object.
+
+2. Modify parser(s) so that they accept appearances in OOGL files.  At
+   first, they can just ignore the actual appearance data.
+   Eventually, they should actually interpret it, to the extent
+   possible.
+
+3. Implement MESH object.
+
+4. Add image logo.
+
+5. Add correct edge drawing.  Currently, when drawing edges, JGV
+   draws the edges of the faces in the BSPTree, many of which
+   don't correspond to actual edges in the original data.
+   The program should be fixed so that it somehow marks which
+   edges correspond to "actual" edges, and only draws those.
+
+6. Implement picking.
+
+7. Move the O2W transform out of the Camera3D object and into the
+   JGVPanel, and modify the drag/action code so that it can operate
+   on any transform in the Geom tree.  Set up some mechanism for
+   specifying which transform it operates on.
+
+8. Write some sample customization applets, such as a 3D cube button, etc.
+
+9. Add motion inertia.  Probably should use a separate thread for this.
+
+10.  Add a "fast" render mode in which just edges are drawn.

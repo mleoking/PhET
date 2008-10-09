@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<geom>
+  <geom-off vertices="55" faces="53" node="carframe">
+    <vertices>
+      <vertex index="0" x="1248" y="-754.280029" z="923.960022"/>
+      <vertex index="1" x="1248" y="754.280029" z="923.960022"/>
+      <vertex index="2" x="1559" y="-784.669983" z="986.950012"/>
+      <vertex index="3" x="1559" y="784.669983" z="986.950012"/>
+      <vertex index="4" x="2199.97998" y="-814.619995" z="927.25"/>
+      <vertex index="5" x="2199.80005" y="814.619995" z="927.25"/>
+      <vertex index="6" x="2180" y="-823.840027" z="620.02002"/>
+      <vertex index="7" x="2180" y="823.840027" z="620.02002"/>
+      <vertex index="8" x="2516" y="-775.299988" z="361"/>
+      <vertex index="9" x="2516" y="775.299988" z="361"/>
+      <vertex index="10" x="3375" y="-847.299988" z="620"/>
+      <vertex index="11" x="3375" y="847.299988" z="620"/>
+      <vertex index="12" x="3375" y="-838.23999" z="940"/>
+      <vertex index="13" x="3375" y="838.23999" z="940"/>
+      <vertex index="14" x="3996" y="-824.900024" z="412"/>
+      <vertex index="15" x="3996" y="824.900024" z="412"/>
+      <vertex index="16" x="5053" y="-758.210022" z="658"/>
+      <vertex index="17" x="5053" y="758.210022" z="658"/>
+      <vertex index="18" x="5396" y="-805" z="921"/>
+      <vertex index="19" x="5396.1001" y="805" z="921"/>
+      <vertex index="20" x="5340" y="-660.369995" z="1190"/>
+      <vertex index="21" x="5340" y="660.369995" z="1190"/>
+      <vertex index="22" x="5025" y="-685.710022" z="1207.09998"/>
+      <vertex index="23" x="5025" y="685.710022" z="1207.09998"/>
+      <vertex index="24" x="3860" y="-581.099976" z="1521"/>
+      <vertex index="25" x="3860" y="581.099976" z="1521"/>
+      <vertex index="26" x="3100" y="-582" z="1506"/>
+      <vertex index="27" x="3100" y="582.27002" z="1506"/>
+      <vertex index="28" x="5489.7998" y="-600" z="915"/>
+      <vertex index="29" x="5489.7998" y="600" z="915"/>
+      <vertex index="30" x="4235.6001" y="0" z="1539.09998"/>
+      <vertex index="31" x="5021.3999" y="-375" z="1188.80005"/>
+      <vertex index="32" x="5021.3999" y="375" z="1188.80005"/>
+      <vertex index="33" x="5514.7002" y="575" z="770"/>
+      <vertex index="34" x="5514.7002" y="-575" z="770"/>
+      <vertex index="35" x="5365" y="-847.77002" z="782.330017"/>
+      <vertex index="36" x="5365" y="847.77002" z="782.330017"/>
+      <vertex index="37" x="3860" y="582.549988" z="1566.59998"/>
+      <vertex index="38" x="3860" y="-582.549988" z="1566.59998"/>
+      <vertex index="39" x="3100" y="-583.039978" z="1541.69995"/>
+      <vertex index="40" x="3100" y="583.039978" z="1541.69995"/>
+      <vertex index="41" x="4725.6001" y="-585" z="1193.59998"/>
+      <vertex index="42" x="4725.6001" y="585" z="1193.59998"/>
+      <vertex index="43" x="1851.35999" y="-558" z="1032.27002"/>
+      <vertex index="44" x="1851.35999" y="558" z="1032.27002"/>
+      <vertex index="45" x="4156.02002" y="-664" z="1444"/>
+      <vertex index="46" x="4156.02002" y="664" z="1444"/>
+      <vertex index="47" x="5539.93018" y="-649" z="1153"/>
+      <vertex index="48" x="5539.93018" y="649" z="1153"/>
+      <vertex index="49" x="5552.18018" y="-625.98999" z="1050"/>
+      <vertex index="50" x="5552.18018" y="625.98999" z="1050"/>
+      <vertex index="51" x="5536.37012" y="-641.5" z="1158"/>
+      <vertex index="52" x="5536.37012" y="641.5" z="1158"/>
+      <vertex index="53" x="5540.56982" y="-620.619995" z="1047"/>
+      <vertex index="54" x="5540.56982" y="620.619995" z="1047"/>
+    </vertices>
+    <faces>
+      <face>
+        <vertices>44 43</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>1 0</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>0 2</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>1 3</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>3 5</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>2 4</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>4 6</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>6 8</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>8 14</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>14 16</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>16 35</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>5 7</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>7 9</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>9 15</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>15 17</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>17 36</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>11 13</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>10 12</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>40 37</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>39 38</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>26 24</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>27 25</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>25 46</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>24 45</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>37 30</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>30 38</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>27 5</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>26 4</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>27 26</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>46 42</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>42 41</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>23 32</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>32 31</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>31 22</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>22 20</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>20 47</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>47 49</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>35 18</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>18 28</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>28 29</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>29 19</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>19 36</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>42 23</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>23 21</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>21 48</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>48 50</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>50 29</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>29 33</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>33 34</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>49 28</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>4 5</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>45 41</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+      <face>
+        <vertices>22 41</vertices>
+        <color r="1" g="1" b="1"/>
+      </face>
+    </faces>
+  </geom-off>
+  <geom-annotation on="carframe" x="1200" y="0" z="1000" r="1" g="1" b="0">
+    <note>Car Hood</note>
+    <pickable>
+      <action type="URL">http://www.air-brushart.com/specialty_items/index_specialty_carhoods.html</action>
+    </pickable>
+  </geom-annotation>
+  <geom-annotation on="carframe" x="5700" y="0" z="1000" r="1" g="1" b="0">
+    <note>Trunk</note>
+  </geom-annotation>
+  <geom-annotation on="carframe" x="3500" y="900" z="800" r="1" g="1" b="0">
+    <note>Classic Car</note>
+    <pickable>
+      <action type="URL">http://www.vintagegavel.com/images/1966%20Chevrolet%20Impala%20Two%20Door%20Hardtop.jpg</action>
+    </pickable>
+  </geom-annotation>
+</geom>

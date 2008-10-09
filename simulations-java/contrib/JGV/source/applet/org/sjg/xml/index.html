@@ -1,0 +1,83 @@
+<html>
+<title>
+A Small XML-parser for Java 1.1
+</title>
+<body bgcolor="white">
+
+<p><b>A Small XML-parser for Java 1.1</b></p>
+
+<p><b>The sjg.xml package</b></p>
+
+<p>The sjg.xml package is less than 10 KB. It is fairly fast: I think it can process around 1-2 MB/sec on my 300 Pentium II.</p>
+
+<p>The package consists of the following classes:</p>
+<ul>
+<li>Document: Represents an XML-document. You will want to access the root element via the getRoot() method.</li>
+<li>Element: Represents an XML-element. Use elements() or elements(name) to iterate thru the contents of the element and use getAttribute(name) to read an attribute.</li>
+<li>Comment: Represents an XML-comment.</li>
+<li>ProcessingInstruction: Represents an XML processing instruction.</li>
+<li>Data: Represents a XML-data.</li>
+<li>Attribute: Represents an XML-attribute. Get its value as string, int or double using getValue(), getIntValue() or getDoubleValue().</li>
+<li>Parser: Responsible for parsing a textual representation of an xml-document. Use parse(URL) or parse(text).</li>
+<li>Tokenizer: Splits an xml-text into tokens parsed by the parser.</li>
+</ul>
+
+<p><b>Tasks</b></p>
+
+<p>Parsing an xml-document:</p>
+
+<p><i>From a string:</i></p>
+
+<pre>
+  Document document = Parser.parse("&lt;?xml version=\"1.0\" standalone=\"yes\"&gt;&lt;aloha-xml/&gt;");
+</pre>
+
+<p><i>From an input stream of the server an applet is served from:</i></p>
+
+<pre>
+  Document document = Parser.parse(new URL(getDocumentBase(), "SomeServlet"));
+</pre>
+
+<p><i>Deserializing objects from sjg.xml.Document</i> - we have some stocks in an XML-file like this:</p>
+
+<pre>
+&lt;market&gt;
+  &lt;stock name="microsoft" value="42" volume="1000"&gt;
+  ...
+&lt;/market&gt;
+</pre>
+
+<p>We want to parse that into some stock objects:</p>
+
+<pre>
+  Element market = document.getRoot();
+  Hashtable stocks = new Hashtable();
+  if (market.getName().equals("market"))
+    for (Enumeration e = market.elements("stock"); e.hasMoreElements(); ) {
+      Element element = (Element)e.nextElement();
+      stocks.put(element.getAttribute("name").getValue(), 
+        new Stock(element.getAttribute("price").getIntValue()),
+          element.getAttribute("volume").getIntValue());
+    }	
+</pre>
+
+<p><i>Getting the textual representation of an element or a document</i> - just use toString():</p>
+
+<pre>
+  Document document = new Document(myElement);
+  System.out.println(document.toString());
+</pre>
+
+<p><b>What is missing?</b></p>
+
+<p>A lot: Schema validation, processing instructions etc. For this you would want to use e.g. <a href="http://www.jdom.org">jdom</a>. This parser will never be able to these things.</p>
+
+<p><b>Demonstrations</b></p>
+
+<p>The link graph on my wiki uses the parser to make remote procedure calls between the wiki server and the downloaded link graph applet. The games on <a href="http://vredungmand.dk">vredungmand.dk</a> uses the parser to read the configuration file that contains the levels, mazes and scripts.</p>
+
+<p><b>Download</b></p>
+
+<p>A <a href="sjg_xml.zip">zip</a> is here.</p>
+
+<p>-- <a href="mailto:chvid@acm.org">Christian</a></p>
