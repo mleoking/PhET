@@ -3,15 +3,11 @@ package edu.colorado.phet.rotation;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.rotation.RotationResources;
 import edu.colorado.phet.rotation.torque.*;
-import edu.colorado.phet.rotation.controls.RotationDevMenu;
-import edu.colorado.phet.rotation.controls.RotationTestMenu;
-import edu.colorado.phet.rotation.view.RotationFrameSetup;
 import edu.colorado.phet.rotation.view.RotationLookAndFeel;
-import edu.umd.cs.piccolox.pswing.PSwingRepaintManager;
 
 /**
  * Author: Sam Reid
@@ -23,8 +19,8 @@ public class TorqueApplication extends PiccoloPhetApplication {
     private MomentOfInertiaModule momentModule;
     private AngularMomentumModule angMomModule;
 
-    public TorqueApplication( String[] args ) {
-        super( new PhetApplicationConfig( args, new RotationFrameSetup(), RotationResources.getInstance(), "torque" ) );
+    public TorqueApplication( PhetApplicationConfig torqueApplicationConfig ) {
+        super( torqueApplicationConfig );
         introModule = new TorqueIntroModule( getPhetFrame() );
         torqueModule = new TorqueModule( getPhetFrame() );
         momentModule = new MomentOfInertiaModule( getPhetFrame() );
@@ -44,15 +40,23 @@ public class TorqueApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) {
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                MyRepaintManager synchronizedPSwingRepaintManager = new MyRepaintManager();
-                synchronizedPSwingRepaintManager.setDoMyCoalesce( true );
-                RepaintManager.setCurrentManager( synchronizedPSwingRepaintManager );
-                new RotationLookAndFeel().initLookAndFeel();
-                final TorqueApplication torqueApplication = new TorqueApplication( args );
-                torqueApplication.startApplication();
-            }
-        } );
+        new TorqueApplicationConfig( args ).launchSim();
+    }
+
+    private static class TorqueApplicationConfig extends PhetApplicationConfig {
+        public TorqueApplicationConfig( String[] commandLineArgs ) {
+            super( commandLineArgs, new ApplicationConstructor() {
+                public PhetApplication getApplication( PhetApplicationConfig config ) {
+
+                    MyRepaintManager synchronizedPSwingRepaintManager = new MyRepaintManager();
+                    synchronizedPSwingRepaintManager.setDoMyCoalesce( true );
+                    RepaintManager.setCurrentManager( synchronizedPSwingRepaintManager );
+                    new RotationLookAndFeel().initLookAndFeel();
+                    final TorqueApplication torqueApplication = new TorqueApplication( config );
+                    torqueApplication.startApplication();
+                    return torqueApplication;
+                }
+            }, "rotation", "torque" );
+        }
     }
 }
