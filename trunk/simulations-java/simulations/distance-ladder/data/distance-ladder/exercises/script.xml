@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
-<script>
-	<message path="exercises/intro.xml" />
-	<exercise path="exercises/vogon-question-1.xml">
-		<after-correct-answer path="exercises/end.xml"/>
-		<after-incorrect-answer path="exercises/dummy.xml"/>
-	</exercise>
-</script>
