@@ -16,6 +16,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
@@ -37,8 +38,8 @@ import edu.colorado.phet.solublesalts.view.IonGraphic;
 public class SolubleSaltsApplication extends PiccoloPhetApplication {
     private boolean showOptions = true;
 
-    public SolubleSaltsApplication( String[] args ) {
-        super( new PhetApplicationConfig( args, new FrameSetup.CenteredWithSize( 1000, 740 ), new PhetResources( "soluble-salts" ) ) );
+    public SolubleSaltsApplication( PhetApplicationConfig config) {
+        super( config );
 
         Module moduleA = new RealSaltsModule( new SolubleSaltsClock() );
         Module moduleB = new ConfigurableSaltModule( new SolubleSaltsClock() );
@@ -61,13 +62,9 @@ public class SolubleSaltsApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) {
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                
-                // Initialize look-and-feel
-                PhetLookAndFeel laf = new PhetLookAndFeel();
-                laf.initLookAndFeel();
-                
+        PhetApplicationConfig p=new PhetApplicationConfig(args, new PhetApplicationConfig.ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+
                 for ( int i = 0; i < args.length; i++ ) {
                     String arg = args[i];
                     if ( arg.equals( "-b" ) ) {
@@ -101,11 +98,11 @@ public class SolubleSaltsApplication extends PiccoloPhetApplication {
                 UIManager.put( "TabbedPane.background", blueBackground );
                 UIManager.put( "TabbedPane.selected", blueBackground );
 
-                PiccoloPhetApplication app = new SolubleSaltsApplication( args );
+                PiccoloPhetApplication app = new SolubleSaltsApplication( config );
 
-                app.startApplication();
-
+                return app;
             }
-        } );
+        }, "soluble-salts");
+        p.launchSim();
     }
 }
