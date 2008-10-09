@@ -14,16 +14,15 @@ package edu.colorado.phet.fourier;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
-import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.fourier.control.OptionsMenu;
 import edu.colorado.phet.fourier.module.D2CModule;
@@ -206,38 +205,16 @@ public class FourierApplication extends PiccoloPhetApplication {
     //----------------------------------------------------------------------------
     // main
     //----------------------------------------------------------------------------
-
-    /**
-     * Main entry point for the PhET Fourier application.
-     *
-     * @param args command line arguments
-     */
-    public static void main( final String[] args ) throws IOException {
-
-        /*
-         * Wrap the body of main in invokeLater, so that all initialization occurs
-         * in the event dispatch thread. Sun now recommends doing all Swing init in
-         * the event dispatch thread. And the Piccolo-based tabs in TabbedModulePanePiccolo
-         * seem to cause startup deadlock problems if they aren't initialized in the
-         * event dispatch thread. Since we don't have an easy way to separate Swing and
-         * non-Swing init, we're stuck doing everything in invokeLater.
-         */
-        SwingUtilities.invokeLater( new Runnable() {
-
-            public void run() {
-                
-                // Initialize look-and-feel
-                PhetLookAndFeel laf = new PhetLookAndFeel();
-                laf.initLookAndFeel();
-                
-                PhetApplicationConfig config = new PhetApplicationConfig( args, FourierConstants.FRAME_SETUP, FourierResources.getResourceLoader() );
-
-                // Create the application.
-                FourierApplication app = new FourierApplication( config );
-
-                // Start the application.
-                app.startApplication();
+    
+    public static void main( final String[] args ) {
+        
+        ApplicationConstructor appConstructor = new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new FourierApplication( config );
             }
-        } );
+        };
+        
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, FourierConstants.PROJECT_NAME );
+        appConfig.launchSim();
     }
 }

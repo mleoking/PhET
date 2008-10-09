@@ -41,7 +41,7 @@ public class FourierConstants {
     // Application
     //----------------------------------------------------------------------------
     
-    public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
+    public static final String PROJECT_NAME = "fourier";
     
     public static final TrigCache TRIG_CACHE = new TrigCache( 360 );
     
