@@ -6,7 +6,6 @@ import java.awt.*;
 
 import javax.swing.JPanel;
 
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 
