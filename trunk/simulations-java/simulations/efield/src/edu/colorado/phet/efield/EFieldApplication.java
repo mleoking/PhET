@@ -1,13 +1,12 @@
 package edu.colorado.phet.efield;
 
-import javax.swing.*;
+import javax.swing.JMenu;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
-import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
 public class EFieldApplication extends PhetApplication {
@@ -18,18 +17,6 @@ public class EFieldApplication extends PhetApplication {
         module = new EFieldModule( config );
         addModule( module );
         getPhetFrame().addMenu( module.getMenu() );
-    }
-
-    public static class EFieldApplicationConfig extends PhetApplicationConfig {
-        public EFieldApplicationConfig( String[] commandLineArgs ) {
-            super( commandLineArgs, new ApplicationConstructor() {
-                public PhetApplication getApplication( PhetApplicationConfig config ) {
-                    return new EFieldApplication( config );
-                }
-            }, "efield" );
-            setFrameSetup( new FrameSetup.CenteredWithSize( 600, 600 ) );
-            super.setLookAndFeel( new PhetLookAndFeel() );
-        }
     }
 
     private class EFieldModule extends Module {
@@ -48,7 +35,16 @@ public class EFieldApplication extends PhetApplication {
         }
     }
 
-    public static void main( String[] args ) {
-        new EFieldApplicationConfig( args ).launchSim();
+    public static void main( final String[] args ) {
+        
+        ApplicationConstructor appConstructor = new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new EFieldApplication( config );
+            }
+        };
+        
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, "efield" );
+        appConfig.setFrameSetup( new FrameSetup.CenteredWithSize( 600, 600 ) );
+        appConfig.launchSim();
     }
 }
