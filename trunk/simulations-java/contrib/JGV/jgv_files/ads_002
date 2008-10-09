@@ -1,0 +1,39 @@
+{ 
+ 
+var google_ads = new Array(); 
+var google_ad; 
+var google_radlinks = new Array(); 
+var google_radlink; 
+var google_info = new Object(); 
+google_ad = new Object(); 
+google_ad.n = 1; 
+google_ad.type = "text"; 
+google_ad.bidtype = "CPC"; 
+google_ad.targeting_type = "contextual"; 
+google_ad.url = "http://pagead2.googlesyndication.com/pagead/iclk?sa=l&amp;ai=B5Qd-N17uSIDaNKi8zAWNyu3RD-7N_0TwpfmKCMCNtwGg2UAQARgBIOHmmwIoAjgAUL6r-mRgyY6Hh8yjwBegAa788vwDsgEPc291cmNlZm9yZ2UubmV0ugEKMzAweDI1MF9qc8gBAdoBJGh0dHA6Ly9zb3VyY2Vmb3JnZS5uZXQvcHJvamVjdHMvamd2L4ACAagDAegDIOgDGOgDuQLoAx_1AwAEAAD1AwQAAACIBAGQBAGYBAA&amp;num=1&amp;adurl=http://sketchup.google.com/3dwarehouse/%23utm_campaign=en&amp;utm_source=en-ha-na-us-ct&amp;utm_medium=ha&amp;utm_term=3d%20modeling&amp;client=ca-ostg_js"; 
+google_ad.visible_url = "sketchup.google.com"; 
+google_ad.line1 = "Google 3D Warehouse"; 
+google_ad.line2 = "Search, share, and store 3D models."; 
+google_ad.line3 = "Download or submit your own models!"; 
+google_ad.regionname = ""; 
+google_ads[0] = google_ad; 
+google_ad = new Object(); 
+google_ad.n = 2; 
+google_ad.type = "text"; 
+google_ad.bidtype = "CPC"; 
+google_ad.targeting_type = "contextual"; 
+google_ad.url = "http://pagead2.googlesyndication.com/pagead/iclk?sa=l&amp;ai=BEnPaN17uSIDaNKi8zAWNyu3RD66qtFK-tN7pBcCNtwGAxWYQAhgCIOHmmwIoAjgAUJeFwcgBYMmOh4fMo8AXoAHqpLD_A7IBD3NvdXJjZWZvcmdlLm5ldLoBCjMwMHgyNTBfanPIAQHaASRodHRwOi8vc291cmNlZm9yZ2UubmV0L3Byb2plY3RzL2pndi-AAgHIAuyK0QGoAwHoAyDoAxjoA7kC6AMf9QMABAAA9QMEAAAAiAQBkAQBmAQA&amp;num=2&amp;adurl=http://www.nyfa.com/film_school/programs/animation/index.php&amp;client=ca-ostg_js"; 
+google_ad.visible_url = "www.NYFA.com"; 
+google_ad.line1 = "Become a 3D Animator"; 
+google_ad.line2 = "Learn 3D Animation on Maya Software"; 
+google_ad.line3 = "With Professional Animators."; 
+google_ad.regionname = ""; 
+google_ads[1] = google_ad; 
+google_info.feedback_url = "http://services.google.com/feedback/abg?url=http://sourceforge.net/projects/jgv/&amp;hl=en&amp;client=ca-ostg_js&amp;adU=sketchup.google.com&amp;adT=Google+3D+Warehouse&amp;adU=www.NYFA.com&amp;adT=Become+a+3D+Animator&amp;done=1"; 
+if (window.google_ad_request_done) { 
+google_ad_request_done(google_ads); 
+} 
+if (window.google_radlink_request_done) { 
+google_radlink_request_done(google_radlinks); 
+} 
+}

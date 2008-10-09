@@ -1,0 +1,39 @@
+{ 
+ 
+var google_ads = new Array(); 
+var google_ad; 
+var google_radlinks = new Array(); 
+var google_radlink; 
+var google_info = new Object(); 
+google_ad = new Object(); 
+google_ad.n = 1; 
+google_ad.type = "text"; 
+google_ad.bidtype = "CPC"; 
+google_ad.targeting_type = "contextual"; 
+google_ad.url = "http://pagead2.googlesyndication.com/pagead/iclk?sa=l&amp;ai=B-ioNOF7uSKCZHqPSzQXa6cDODr2LtIcB--3RpwrAjbcBgONcEAEYAyDh5psCKAI4AFD966Lu-_____8BYMmOh4fMo8AXoAG_3qDvA7IBD3NvdXJjZWZvcmdlLm5ldLoBCjMwMHgyNTBfanPIAQHaASNodHRwOi8vc291cmNlZm9yZ2UubmV0L3Byb2plY3RzL2pndoACAagDAegDtAPoA_ED6AMf9QMABAAA9QMEAAAAiAQBkAQBmAQA&amp;num=3&amp;adurl=http://seek.autodesk.com/%23query=search%5Enew%5Equery%253Dwindows+3d%253Bcategory%253D%253BsortKey%253D%253BsortDir%253Dasc%253BstartAt%253D0%253BmaxResults%253D20%253BviewMode%253D0&amp;client=ca-ostg_js"; 
+google_ad.visible_url = "Autodesk.com/Windows_3D_Files"; 
+google_ad.line1 = "Windows 3D Files"; 
+google_ad.line2 = "Searchable AutoCAD Building Product"; 
+google_ad.line3 = "Files and Product Specifications"; 
+google_ad.regionname = ""; 
+google_ads[0] = google_ad; 
+google_ad = new Object(); 
+google_ad.n = 2; 
+google_ad.type = "text"; 
+google_ad.bidtype = "CPC"; 
+google_ad.targeting_type = "contextual"; 
+google_ad.url = "http://pagead2.googlesyndication.com/pagead/iclk?sa=l&amp;ai=Bqsw6OF7uSKCZHqPSzQXa6cDODuHhsYUBsYPiigqvmLSrA5CqiQEQAhgEIOHmmwIoAjgAUNHD-6gBYMmOh4fMo8AXoAGB35P8A7IBD3NvdXJjZWZvcmdlLm5ldLoBCjMwMHgyNTBfanPIAQHaASNodHRwOi8vc291cmNlZm9yZ2UubmV0L3Byb2plY3RzL2pndoACAcACAagDAegDtAPoA_ED6AMf9QMABAAA9QMEAAAAiAQBkAQBmAQA&amp;num=4&amp;adurl=https://www.voteforchange.com%3Fstate%3DCO%26source%3Dsem-fo-ev-google-co&amp;client=ca-ostg_js"; 
+google_ad.visible_url = "CO.VoteForChange.com"; 
+google_ad.line1 = "Vote by Mail in Colorado"; 
+google_ad.line2 = "Support Barack Obama for President:"; 
+google_ad.line3 = "Get Your Mail-in Ballot Today!"; 
+google_ad.regionname = ""; 
+google_ads[1] = google_ad; 
+google_info.feedback_url = "http://services.google.com/feedback/abg?url=http://sourceforge.net/projects/jgv&amp;hl=en&amp;client=ca-ostg_js&amp;adU=Autodesk.com/Windows_3D_Files&amp;adT=Windows+3D+Files&amp;adU=CO.VoteForChange.com&amp;adT=Vote+by+Mail+in+Colorado&amp;done=1"; 
+if (window.google_ad_request_done) { 
+google_ad_request_done(google_ads); 
+} 
+if (window.google_radlink_request_done) { 
+google_radlink_request_done(google_radlinks); 
+} 
+}

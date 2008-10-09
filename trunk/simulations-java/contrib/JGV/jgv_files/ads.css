@@ -1,0 +1,139 @@
+ 
+/* Ad Sizes and positioning */
+#fad1p
+{
+	width: 728px;
+	height: 90px;
+	margin-bottom: 2em;
+}
+
+#fad2p
+{
+	float: right;
+	text-align: center;
+	width: 20%;
+}
+
+#fad36p
+{
+	height: 90px;
+	width: 300px;
+}
+
+#fad6p
+{
+	height: 300px;
+}
+
+#fad24p
+{
+	height: 12em;
+	z-index: 0;
+	position: relative;
+}
+
+#fadbtmp
+{
+	height: 23em;
+	clear: both;
+}
+
+/* Ads */
+#fad1
+{
+	position: absolute;
+	top: 7.5em;
+	left: 0;
+	overflow: hidden;
+	width: 100%;
+	z-index: 1 !important;
+	display: block;
+}
+.pville #fad1 {top: 11.5em}
+#fad1 div
+{
+	width: 728px;
+	margin-left: auto;
+	margin-right: auto;
+	overflow: hidden;
+}
+
+#fad1 div div
+{
+	width: 100%;
+	margin: 0;
+	text-align: left;
+}
+
+#fad2sm { z-index: 1; }
+.search #fad2 {position: absolute; right: 1em; top: 17em; width: 160px;}
+#fad36
+{
+	position: absolute;
+	top: 200px;
+        z-index: 1 !important;
+	right: 2em !important;
+	width: 300px;
+}
+
+
+#fad6
+{
+	display: block;
+	position: absolute;
+	width: 328px;
+	top: 200px;
+	right: 2em !important;
+	z-index: 0 !important;
+	margin: 0 auto;
+	margin-top: 100px;
+}
+
+/* Project pages */
+.files #fad36, .files #fad6,
+.project_summary #fad36, .project_summary #fad6 {top: 310px}
+
+#fad7 {text-align: left}
+#ad34
+{
+	width: 300px;
+	float: left;
+	position: relative;
+	z-index: 0 !important;
+}
+
+.dual { margin: 0 0 0 300px; }
+
+#ad7,#ostgservices
+{
+	float: left;
+	width: 48%;
+	margin: 0 0 0 2%;
+}
+.project_search #fad19, #fad24
+{
+	position: absolute;
+	margin: -48em 2em 0 0 !important;
+	left: 2.5em;
+	width: 74.5%;
+	font-size: 85%;
+	z-index: 0;
+}
+
+#fadbtm
+{
+	position: absolute;
+	left: 2em;
+	width: auto;
+	height: auto;
+	margin: -28em 0 0 0;
+}
+#fad50 {margin: 1em; text-align: center; border: #e1e1e1 solid 2px; padding: .5em; background: #eee;}
+#adpowerbar {margin: 0 auto; width: 300px;}
+#adpowerbar #pow {background: transparent; border: none;}
+#fadbar {padding: 0 1em 1em;}
+#fadbar small {color: #aaa}
+#fadbar div {text-align: left; font-size: 93%; line-height: 150%}
+
+.ads.tier2 {color: #aaa; font-size: 93%}
+
