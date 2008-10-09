@@ -5,13 +5,10 @@ package edu.colorado.phet.nuclearphysics;
 
 
 import java.awt.Frame;
-import java.lang.reflect.InvocationTargetException;
 
-import javax.swing.SwingUtilities;
-
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.nuclearphysics.module.chainreaction.ChainReactionModule;
 import edu.colorado.phet.nuclearphysics.module.fissiononenucleus.FissionOneNucleusModule;
@@ -62,17 +59,20 @@ public class NuclearFissionApplication extends AbstractNuclearPhysicsApplication
      * @param args command line arguments
      */
     public static void main( final String[] args ) {
-        PhetApplicationConfig config = new PhetApplicationConfig( args, NuclearPhysicsConstants.FRAME_SETUP,
-                                                                  NuclearPhysicsResources.getResourceLoader(), "nuclear-fission" );
-        config.setApplicationConstructor( new PhetApplicationConfig.ApplicationConstructor() {
+        
+        ApplicationConstructor appConstructor = new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 return new NuclearFissionApplication( config );
             }
-        } );
+        };
+        
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, 
+        		NuclearPhysicsConstants.PROJECT_NAME, NuclearPhysicsConstants.FLAVOR_NAME_NUCLEAR_FISSION );
+        
         PhetLookAndFeel p = new PhetLookAndFeel();
-        p.setBackgroundColor( NuclearPhysicsConstants.CONTROL_PANEL_COLOR );
-        p.initLookAndFeel();
-        config.setLookAndFeel( p );
-        config.launchSim();
+        p.setBackgroundColor( NuclearPhysicsConstants.NUCLEAR_FISSION_CONTROL_PANEL_COLOR );
+        appConfig.setLookAndFeel( p );
+
+        appConfig.launchSim();
     }
 }
