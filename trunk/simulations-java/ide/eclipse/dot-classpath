@@ -25,6 +25,7 @@
 	<classpathentry kind="src" path="contrib/idx3d/source"/>
 	<classpathentry kind="src" path="contrib/jade/src"/>
 	<classpathentry kind="src" path="contrib/Jama/src"/>
+	<classpathentry kind="src" path="contrib/JGV/source/applet"/>
 	<classpathentry kind="src" path="contrib/perlin-3d/src"/>
 	<classpathentry kind="src" path="contrib/piccolo2d/core/src/main/java"/>
 	<classpathentry kind="src" path="contrib/piccolo2d/core/src/test/java"/>
