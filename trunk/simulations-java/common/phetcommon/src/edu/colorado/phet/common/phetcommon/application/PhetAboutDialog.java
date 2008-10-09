@@ -275,16 +275,13 @@ public class PhetAboutDialog extends JDialog {
      * Displays license information in a message dialog.
      */
     protected void showLicenseInfo() {
-        String phetLicenseString = setFont( readFile( LICENSE_RESOURCE ) );
 
-        HTMLPane htmlPane = new HTMLPane( phetLicenseString );
         final JDialog dialog = new JDialog( this, getLocalizedString( "Common.About.LicenseDialog.Title" ), true );
-        BorderLayout borderLayout = new BorderLayout();
-        dialog.getContentPane().setLayout( borderLayout );
-        JScrollPane comp = new JScrollPane( htmlPane );
-        comp.setBorder( BorderFactory.createEmptyBorder( 10,10,10,10 ) );
-        dialog.getContentPane().add( comp, BorderLayout.CENTER );
-
+        
+        String phetLicenseString = setFont( readFile( LICENSE_RESOURCE ) );
+        HTMLPane htmlPane = new HTMLPane( phetLicenseString );
+        JScrollPane scrollPane = new JScrollPane( htmlPane );
+        
         JPanel buttonPanel = new JPanel();
         JButton okButton = new JButton( getLocalizedString( "Common.About.OKButton" ) );
         okButton.addActionListener( new ActionListener() {
@@ -294,8 +291,13 @@ public class PhetAboutDialog extends JDialog {
             }
         } );
         buttonPanel.add( okButton );
-
-        dialog.getContentPane().add( buttonPanel, BorderLayout.SOUTH );
+        
+        JPanel panel = new JPanel( new BorderLayout() );
+        panel.setBorder( BorderFactory.createEmptyBorder( 10, 10, 10, 10 ) );
+        panel.add( scrollPane, BorderLayout.CENTER );
+        panel.add( buttonPanel, BorderLayout.SOUTH );
+        
+        dialog.setContentPane( panel );
         dialog.setSize( 440,400 );//todo: this shouldn't be hard coded, but I had trouble getting Swing to do something reasonable
         SwingUtils.centerDialogInParent( dialog );
         dialog.setVisible( true );
