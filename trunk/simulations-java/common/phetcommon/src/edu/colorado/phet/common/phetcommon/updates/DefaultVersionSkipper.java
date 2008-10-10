@@ -5,6 +5,6 @@ import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 
 public class DefaultVersionSkipper implements IVersionSkipper {
     public void skipThisVersion( String projectName, String flavor, PhetVersion newVersion ) {
-        PhetPreferences.getInstance().skipThisVersion( projectName, flavor, newVersion );
+        PhetPreferences.getInstance().setSkipUpdate( projectName, flavor, newVersion );
     }
 }
