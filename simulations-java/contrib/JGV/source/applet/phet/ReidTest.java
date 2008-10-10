@@ -164,50 +164,5 @@ public class ReidTest extends JFrame {
                      "    </faces>\n" +
                      "  </geom-off>\n" +
                      "  </geom-inst>\n" +
-                     "  <geom-annotation on=\"cube\" x=\".5\" y=\"0.7\" z=\".3\" r=\"1\" g=\"1\" b=\"1\">\n" +
-                     "    <note>All paths lead to GOOGLE</note>\n" +
-                     "    <pickable>\n" +
-                     "      <action type=\"URL\">http://www.google.com/</action>\n" +
-                     "    </pickable>\n" +
-                     "  </geom-annotation>\n" +
-                     "  <geom-annotation on=\"cube\" x=\"-.5\" y=\"-0.7\" z=\".3\" r=\"1\" g=\"1\" b=\"0\" node=\"annotation1\">\n" +
-                     "    <note>Menu of things to do</note>\n" +
-                     "    <pickable>\n" +
-                     "      <action type=\"menu\">\n" +
-                     "        <item index=\"0\" label=\"Goto MSNBC\">\n" +
-                     "          <action type=\"URL\">http://www.msnbc.com/</action>\n" +
-                     "        </item>\n" +
-                     "        <item index=\"1\" label=\"Goto Daeron.com\">\n" +
-                     "          <action type=\"URL\">http://www.daeron.com/</action>\n" +
-                     "        </item>\n" +
-                     "        <item index=\"2\" label=\"Load Car\">\n" +
-                     "          <action type=\"load-geom\">car-outline.xml</action>\n" +
-                     "        </item>\n" +
-                     "        <item index=\"3\" label=\"Hide Cube Faces\">\n" +
-                     "          <action type=\"appearance\" on=\"4cubes\">\n" +
-                     "            <drawface>false</drawface>\n" +
-                     "          </action>\n" +
-                     "        </item>\n" +
-                     "        <item index=\"4\" label=\"Show Cube Faces\">\n" +
-                     "          <action type=\"appearance\" on=\"4cubes\">\n" +
-                     "            <drawface>true</drawface>\n" +
-                     "          </action>\n" +
-                     "        </item>\n" +
-                     "        <item index=\"5\" label=\"Hide Cubes Edges\">\n" +
-                     "          <action type=\"appearance\" on=\"4cubes\">\n" +
-                     "            <drawedge>false</drawedge>\n" +
-                     "          </action>\n" +
-                     "        </item>\n" +
-                     "        <item index=\"6\" label=\"Show Cubes Edges\">\n" +
-                     "          <action type=\"appearance\" on=\"4cubes\">\n" +
-                     "            <drawedge>true</drawedge>\n" +
-                     "          </action>\n" +
-                     "        </item>\n" +
-                     "        <item index=\"7\" label=\"Get Info\">\n" +
-                     "          <action type=\"server\" label=\"Get Info\" p=\"abc\"/>\n" +
-                     "        </item>\n" +
-                     "      </action>\n" +
-                     "    </pickable>\n" +
-                     "  </geom-annotation>\n" +
                      "</geom>";
 }
