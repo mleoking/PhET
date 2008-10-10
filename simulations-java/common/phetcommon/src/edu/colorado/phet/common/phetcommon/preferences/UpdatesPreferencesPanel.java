@@ -10,6 +10,8 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 
 public class UpdatesPreferencesPanel extends JPanel {
 
+    final JCheckBox autoCheck;
+    
     public UpdatesPreferencesPanel( final IManualUpdateChecker iCheckForUpdates, final IUpdatesPreferences preferences ) {
         setLayout( new GridBagLayout() );
         GridBagConstraints constraints = new GridBagConstraints();
@@ -17,7 +19,7 @@ public class UpdatesPreferencesPanel extends JPanel {
         constraints.gridx = 0;
         constraints.gridwidth = 1;
 
-        final JCheckBox autoCheck = new JCheckBox( "Check for updates when simulations start", preferences.isEnabled() );
+        autoCheck = new JCheckBox( "Automatically check for updates", preferences.isEnabled() );
         autoCheck.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 preferences.setEnabled(autoCheck.isSelected());
@@ -34,5 +36,4 @@ public class UpdatesPreferencesPanel extends JPanel {
         } );
         add( button, constraints );
     }
-
 }
