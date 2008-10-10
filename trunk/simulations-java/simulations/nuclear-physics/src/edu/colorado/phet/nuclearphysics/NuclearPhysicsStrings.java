@@ -66,7 +66,7 @@ public class NuclearPhysicsStrings {
     
     public static final String PERCENT_FISSIONED_LABEL = NuclearPhysicsResources.getString( "MultipleNucleusFissionControlPanel.FissionPercentLabel" );
     public static final String CONTAINMENT_VESSEL_CHECK_BOX = NuclearPhysicsResources.getString( "MultipleNucleusFissionControlPanel.ContainmentCheckBox" );
-    public static final String CONTROLS_BORDER = NuclearPhysicsResources.getString( "MultipleNucleusFissionControlPanel.ControlBorder" );
+    public static final String MULTI_NUCLEUS_CONTROLS_BORDER = NuclearPhysicsResources.getString( "MultipleNucleusFissionControlPanel.ControlBorder" );
     public static final String RESET_BUTTON_LABEL = NuclearPhysicsResources.getString( "MultipleNucleusFissionControlPanel.ResetButton" );
     public static final String EXPLOSION_LABEL = NuclearPhysicsResources.getString( "MultipleNucleusFissionControlPanel.ExplosionLabel" );
 
@@ -77,7 +77,7 @@ public class NuclearPhysicsStrings {
     public static final String ENERGY_GRAPH_UNITS = NuclearPhysicsResources.getString( "ControlledFissionControlPanel.EnergyGraphUnits" );
     public static final String POWER_GRAPH_LABEL = NuclearPhysicsResources.getString( "ControlledFissionControlPanel.PowerGraphLabel" );
     public static final String POWER_GRAPH_UNITS = NuclearPhysicsResources.getString( "ControlledFissionControlPanel.PowerGraphUnits" );
-    
+    public static final String REACTOR_CONTROLS_BORDER = NuclearPhysicsResources.getString( "ControlledFissionControlPanel.ControlBorder" );
     
     public static final String POTENTIAL_PROFILE_Y_AXIS_LABEL_1 = NuclearPhysicsResources.getString( "PotentialProfilePanel.YAxisLabel1" );
     public static final String POTENTIAL_PROFILE_Y_AXIS_LABEL_2 = NuclearPhysicsResources.getString( "PotentialProfilePanel.YAxisLabel2" );

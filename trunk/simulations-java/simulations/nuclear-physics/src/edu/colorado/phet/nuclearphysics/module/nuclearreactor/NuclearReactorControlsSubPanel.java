@@ -56,7 +56,7 @@ public class NuclearReactorControlsSubPanel extends VerticalLayoutPanel {
         // Add the border around the sub panel.
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
         TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
-                NuclearPhysicsStrings.CONTROLS_BORDER,
+                NuclearPhysicsStrings.REACTOR_CONTROLS_BORDER,
                 TitledBorder.LEFT,
                 TitledBorder.TOP,
                 new PhetFont( Font.BOLD, 14 ),
