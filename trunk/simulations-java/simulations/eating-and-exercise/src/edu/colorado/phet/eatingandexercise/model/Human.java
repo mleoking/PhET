@@ -461,14 +461,14 @@ public class Human {
 //        System.out.println( "averageExercise = " + averageExercise );
         double averageActivity = activity.estimateAverage( getAge() - EatingAndExerciseUnits.daysToSeconds( 30 ), getAge() );
         //NP 9-2-08 Changed activityToCount back to use a reduced fraction of averageActivity
-        double activityToCount = Math.max( ( averageActivity - 200 ) * 0.1, 0 );
+        double activityToCount = Math.max( ( averageActivity - 200 ) * 0.2, 0 );
         if (activityToCount > 100){
             activityToCount = 100;  //maximum activity calories that contribute to heart strength
         }
 //        System.out.println( "avgExercise=" + averageExercise + ", averageActivity=" + averageActivity + ", counting activity: " + activityToCount );
 
         double caloriesToConsiderForHeartStrength = averageExercise + activityToCount;
-        double exercise_cal_max = 3000.0;
+        double exercise_cal_max = 1750.0;
         double heartStrength = log10( 1 + 100 * caloriesToConsiderForHeartStrength / exercise_cal_max ) / log10( 101 );
 //        System.out.println( "unclamped heartStrength = " + heartStrength );
         setHeartStrength( MathUtil.clamp( 0, heartStrength, 1.0 ) );
@@ -698,8 +698,8 @@ public class Human {
     }
 
     public static class Gender {
-        public static Gender MALE = new Gender( EatingAndExerciseResources.getString( "gender.male" ).toLowerCase(), 0, 100, 4, 25, 1.15, 4, 30, 4, 6, 25, 4.0, 1/4.0 );
-        public static Gender FEMALE = new Gender( EatingAndExerciseResources.getString( "gender.female" ).toLowerCase(), 0, 100, 8, 32, 1.22, 6, 26, 9, 16, 31, 2.25, 1/2.25 );
+        public static Gender MALE = new Gender( EatingAndExerciseResources.getString( "gender.male" ).toLowerCase(), 0, 100, 4, 25, 1.15, 4, 27, 4, 6, 25, 4.0, 1/4.0 );
+        public static Gender FEMALE = new Gender( EatingAndExerciseResources.getString( "gender.female" ).toLowerCase(), 0, 100, 8, 32, 1.22, 6, 23, 9, 16, 31, 2.25, 1/2.25 );
         private String name;
         private double minFatMassPercent;
         private double maxFatMassPercent;
