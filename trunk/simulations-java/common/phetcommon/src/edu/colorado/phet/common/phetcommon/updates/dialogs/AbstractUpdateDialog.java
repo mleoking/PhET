@@ -12,8 +12,9 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
- * Functionality and HTML shared by dialogs related to the update feature.
- * This class also handles complex string translations that involve argument replacement.
+ * Base class for all dialogs related to the Updates feature.
+ * Contains shared functionality, and localization of reusable "chucks" of HTML.
+ * Handles localization that involves MessageFormat syntax (pattern replacement).
  */
 public abstract class AbstractUpdateDialog extends JDialog {
     
