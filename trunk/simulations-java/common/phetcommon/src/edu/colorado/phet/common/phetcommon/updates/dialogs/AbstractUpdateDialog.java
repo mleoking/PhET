@@ -18,8 +18,8 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  */
 public abstract class AbstractUpdateDialog extends JDialog {
     
-    public static final String PHET_HOME_URL = "http://phet.colorado.edu";
-    private static final String PHET_EMAIL = "phethelp@colorado.edu";
+    public static final String PHET_HOME_URL = "http://phet.colorado.edu"; //TODO: this should live somewhere more general
+    private static final String PHET_EMAIL = "phethelp@colorado.edu"; //TODO: this should live somewhere more general
     
     private static final String PATTERN_YOU_HAVE_CURRENT = PhetCommonResources.getString( "Common.updates.youHaveCurrent" );
     private static final String PATTERN_ERROR_MESSAGE = PhetCommonResources.getString( "Common.updates.errorMessage" );
