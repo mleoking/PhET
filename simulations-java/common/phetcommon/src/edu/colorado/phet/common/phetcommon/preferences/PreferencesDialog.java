@@ -22,14 +22,21 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 public class PreferencesDialog extends JDialog {
     
+    private static final String TITLE = "Preferences";
+    private static final String UPDATES_TAB = "Updates";
+    private static final String TRACKING_TAB = "Tracking";
+    private static final String OK_BUTTON = PhetCommonResources.getString( "Common.choice.ok" );
+    private static final String CANCEL_BUTTON = PhetCommonResources.getString( "Common.choice.cancel" );
+    
     private final IUpdatesPreferences updatePreferences;
     private final ITrackingPreferences trackingPreferences;
     private final UpdatesPreferencesPanel updatesPreferencesPanel;
     private final TrackingPreferencesPanel trackingPreferencesPanel;
     
     public PreferencesDialog( Frame owner, ITrackingInfo tracker, IManualUpdateChecker iCheckForUpdates, IUpdatesPreferences updatePreferences, ITrackingPreferences trackingPreferences ) {
-        super( owner, "Preferences", false /* modal */ );
+        super( owner, TITLE );
         setResizable( false );
+        setModal( false );
         
         this.updatePreferences = updatePreferences;
         this.trackingPreferences = trackingPreferences;
@@ -38,11 +45,11 @@ public class PreferencesDialog extends JDialog {
         JTabbedPane jTabbedPane = new JTabbedPane();
         userInputPanel.add( jTabbedPane );
         updatesPreferencesPanel = new UpdatesPreferencesPanel( iCheckForUpdates, updatePreferences.isEnabled() );
-        jTabbedPane.addTab( "Updates", updatesPreferencesPanel );
+        jTabbedPane.addTab( UPDATES_TAB, updatesPreferencesPanel );
         trackingPreferencesPanel = new TrackingPreferencesPanel( tracker, trackingPreferences.isEnabled() );
-        jTabbedPane.addTab( "Tracking", trackingPreferencesPanel );
+        jTabbedPane.addTab( TRACKING_TAB, trackingPreferencesPanel );
 
-        JButton okButton = new JButton( PhetCommonResources.getString( "Common.choice.ok" ) );
+        JButton okButton = new JButton( OK_BUTTON );
         okButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 savePreferences();
@@ -50,7 +57,7 @@ public class PreferencesDialog extends JDialog {
             }
         } );
         
-        JButton cancelButton = new JButton( PhetCommonResources.getString( "Common.choice.cancel" ) );
+        JButton cancelButton = new JButton( CANCEL_BUTTON );
         cancelButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 dispose();
@@ -77,7 +84,6 @@ public class PreferencesDialog extends JDialog {
     }
 
     private void savePreferences() {
-        System.out.println( "PreferencesDialog.savePreferences" );//XXX
         updatePreferences.setEnabled( updatesPreferencesPanel.isUpdatesEnabled() );
         trackingPreferences.setEnabled( trackingPreferencesPanel.isTrackingEnabled() );
     }
