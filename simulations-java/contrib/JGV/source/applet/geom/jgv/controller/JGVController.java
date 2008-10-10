@@ -163,7 +163,7 @@ public class JGVController implements DragConstants, KeyListener, MouseMotionLis
         mousehandler[dragmode].mouseDown(e, e.getX(), e.getY());
 
       }
-      parent.getParent().requestFocus();
+//      parent.getParent().requestFocus();
 
   }
 

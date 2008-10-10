@@ -1,23 +1,48 @@
 package phet;
 
-import geom.jgv.gui.JGVPanel;
+import geom.jgv.controller.JGVController;
+import geom.jgv.gui.CameraCanvas;
+import geom.jgv.model.Geom;
+import geom.jgv.view.BSPTree;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
 
 import javax.swing.*;
 
+import org.sjg.xml.Document;
+import org.sjg.xml.Parser;
+
 
 public class ReidTest extends JFrame {
+    private CameraCanvas cameraCanvas;
 
     public ReidTest() throws Exception {
         super( "Reid Test" );
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         setSize( 640, 480 );
 
-        JGVPanel jgvPanel = new JGVPanel( this );
-        setContentPane( jgvPanel.cameraCanvas );
+        cameraCanvas = new CameraCanvas();
+//        JGVPanel jgvPanel = new JGVPanel( this );
+        setContentPane( cameraCanvas );
 
-        jgvPanel.addXMLFile( new ByteArrayInputStream( cubeXML.getBytes() ) );
+        Document dom = Parser.parse( new ByteArrayInputStream( cubeXML.getBytes() ) );
+        world = Geom.parse( dom );
+        if ( world != null ) {
+            recalcWorld();
+        }
+        JGVController jgvController = new JGVController( null );
+        jgvController.setCamera( cameraCanvas );
+    }
+
+    Geom world = new Geom();
+    public boolean debug = false;
+
+    public void recalcWorld() {
+        BSPTree bsp = new BSPTree();
+        bsp.debug = this.debug;
+        bsp.build( world );
+        cameraCanvas.setTree( bsp );
+        cameraCanvas.repaint();
     }
 
     public static void main( String[] args ) throws Exception {
