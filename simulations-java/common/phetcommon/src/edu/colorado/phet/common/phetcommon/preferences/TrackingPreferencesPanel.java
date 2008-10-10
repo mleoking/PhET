@@ -17,22 +17,29 @@ public class TrackingPreferencesPanel extends JPanel {
             "<b><a href=http://phet.colorado.edu>PhET</a></b> " +
             "is made possible by grants that require<br>us to track anonymous usage statistics.</html>";
     private ITrackingInfo tracker;
-    private ITrackingPreferences iTrackingPreferences;
 
-    public TrackingPreferencesPanel( ITrackingInfo tracker, ITrackingPreferences iTrackingPreferences ) {
+    private JCheckBox trackingEnabledCheckBox;
+    
+    public TrackingPreferencesPanel( ITrackingInfo tracker, boolean trackingEnabled ) {
         this.tracker = tracker;
-        this.iTrackingPreferences = iTrackingPreferences;
+        
         setLayout( new GridBagLayout() );
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.gridy = GridBagConstraints.RELATIVE;
         constraints.gridx = 0;
         constraints.gridwidth = 1;
+        
+        trackingEnabledCheckBox = new JCheckBox( "Send tracking info to PhET", trackingEnabled );
 
         add( createLogoPanel(), constraints );
         add( Box.createRigidArea( new Dimension( 5, 10 ) ), constraints );
-        add( new TrackingCheckBox(), constraints );
+        add( trackingEnabledCheckBox, constraints );
         add( Box.createRigidArea( new Dimension( 5, 10 ) ), constraints );
         add( new DetailsButton(), constraints );
+    }
+    
+    public boolean isTrackingEnabled() {
+        return trackingEnabledCheckBox.isSelected();
     }
 
     /*
@@ -49,17 +56,6 @@ public class TrackingPreferencesPanel extends JPanel {
         logoPanel.add( copyrightLabel );
 
         return logoPanel;
-    }
-
-    private class TrackingCheckBox extends JCheckBox {
-        private TrackingCheckBox() {
-            super( "Send tracking info to PhET", iTrackingPreferences.isEnabled() );
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    iTrackingPreferences.setEnabled( isSelected() );
-                }
-            } );
-        }
     }
 
     private class DetailsButton extends JButton {
