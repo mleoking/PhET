@@ -15,9 +15,11 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.HandleNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
+import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.model.particle.HydrogenAtom;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
+import edu.colorado.phet.statesofmatter.view.instruments.DialGaugeNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -74,6 +76,10 @@ public class ParticleContainerNode extends PhetPNode {
     
     // Constant(s) that affect the appearance of both depictions of the container.
     private static final double ELLIPSE_HEIGHT_PROPORTION = 0.15;  // Height of ellipses as a function of overall height.
+    private static final double PRESSURE_GAUGE_WIDTH_PROPORTION = 0.44;
+    
+    // Maximum value expected for pressure, in atmospheres.
+    private final double MAX_PRESSURE = 100;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -91,12 +97,15 @@ public class ParticleContainerNode extends PhetPNode {
     private PPath m_tempContainerRect;
     private Random m_rand;
     private double m_rotationAmount;
+    private DialGaugeNode m_pressureMeter;
+    private double m_pressureMeterElbowOffset;
 
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
     
-    public ParticleContainerNode(MultipleParticleModel model, ModelViewTransform mvt, boolean volumeControlEnabled) {
+    public ParticleContainerNode(MultipleParticleModel model, ModelViewTransform mvt, boolean volumeControlEnabled, 
+    		boolean pressureGaugeEnabled) {
         
         super();
 
@@ -105,27 +114,6 @@ public class ParticleContainerNode extends PhetPNode {
         m_containmentAreaWidth  = StatesOfMatterConstants.CONTAINER_BOUNDS.getWidth();
         m_containmentAreaHeight = StatesOfMatterConstants.CONTAINER_BOUNDS.getHeight();
         m_rand = new Random();
-        
-        // Set ourself up as a listener to the model.
-        m_model.addListener( new MultipleParticleModel.Adapter(){
-            public void particleAdded(StatesOfMatterAtom particle){
-                if (particle instanceof HydrogenAtom){
-                    m_lowerParticleLayer.addChild( new ParticleNode(particle, m_mvt));
-                }
-                else{
-                    m_upperParticleLayer.addChild( new ParticleNode(particle, m_mvt));
-                }
-            }
-            public void containerSizeChanged(){
-                handleContainerSizeChanged();
-            }
-            public void containerExploded(){
-            	m_rotationAmount = Math.PI/100 + (m_rand.nextDouble() * Math.PI/50);
-            	if (m_rand.nextBoolean()){
-            		m_rotationAmount = -m_rotationAmount;
-            	}
-            }
-        });
         
         // Create the "layer" nodes in the appropriate order so that the
         // various components of this node can be added appropriately.
@@ -175,7 +163,21 @@ public class ParticleContainerNode extends PhetPNode {
             handleNode.rotate( Math.PI / 2 );
             handleNode.setOffset( (m_containerLid.getWidth() / 2) + (handleNode.getFullBoundsReference().width / 2), 0 );
             m_containerLid.addChild( handleNode );
-
+        }
+        
+        if (pressureGaugeEnabled){
+            // Add the pressure meter.
+        	Rectangle2D containerRect = m_model.getParticleContainerRect();
+            m_pressureMeter = new DialGaugeNode(PRESSURE_GAUGE_WIDTH_PROPORTION * m_containmentAreaWidth, 
+            		StatesOfMatterStrings.PRESSURE_GAUGE_TITLE, 0, MAX_PRESSURE, 
+            		StatesOfMatterStrings.PRESSURE_GAUGE_UNITS);
+            m_pressureMeter.setOffset( -m_pressureMeter.getFullBoundsReference().width, 
+            		-m_pressureMeter.getFullBoundsReference().height * 0.65 );
+            m_pressureMeter.setElbowEnabled(true);
+            m_middleContainerLayer.addChild( m_pressureMeter );
+            m_pressureMeterElbowOffset =  -m_pressureMeter.getFullBoundsReference().getCenterY() - 
+                m_containerLid.getFullBoundsReference().getCenterY();
+            m_pressureMeter.setElbowHeight(m_pressureMeterElbowOffset);
         }
         
         // TODO: JPB TBD - This is temporary for debugging and should
@@ -197,7 +199,31 @@ public class ParticleContainerNode extends PhetPNode {
         // Set ourself to be non-pickable so that we don't get mouse events.
         setPickable( false );
 
-        update();
+        // Set ourself up as a listener to the model.
+        m_model.addListener( new MultipleParticleModel.Adapter(){
+            public void particleAdded(StatesOfMatterAtom particle){
+                if (particle instanceof HydrogenAtom){
+                    m_lowerParticleLayer.addChild( new ParticleNode(particle, m_mvt));
+                }
+                else{
+                    m_upperParticleLayer.addChild( new ParticleNode(particle, m_mvt));
+                }
+            }
+            public void containerSizeChanged(){
+                handleContainerSizeChanged();
+            }
+            public void pressureChanged(){
+            	if (m_pressureMeter != null){
+            		m_pressureMeter.setValue(m_model.getPressureInAtmospheres());
+            	}
+            }
+            public void containerExploded(){
+            	m_rotationAmount = Math.PI/100 + (m_rand.nextDouble() * Math.PI/50);
+            	if (m_rand.nextBoolean()){
+            		m_rotationAmount = -m_rotationAmount;
+            	}
+            }
+        });
     }
 
     //----------------------------------------------------------------------------
@@ -211,10 +237,6 @@ public class ParticleContainerNode extends PhetPNode {
     //----------------------------------------------------------------------------
     // Private Methods
     //----------------------------------------------------------------------------
-    
-    // TODO: JPB TBD - Is this needed?
-    private void update() {
-    }
     
     /**
      * Handle a notification that the container size has changed.
@@ -249,6 +271,8 @@ public class ParticleContainerNode extends PhetPNode {
         	}
         	m_containerLid.setOffset(newPosX , newPosY);
         }
+        
+        updatePressureGauge();
         
         // TODO: JPB TBD temp code.
         if (SHOW_RECTANGLE){
@@ -290,7 +314,7 @@ public class ParticleContainerNode extends PhetPNode {
         PPath containerTop = new PPath( new Ellipse2D.Double(0, 0, m_containmentAreaWidth, ellipseHeight) );
         containerTop.setStroke( CONTAINER_EDGE_STROKE );
         containerTop.setStrokePaint( CONTAINER_EDGE_COLOR );
-        HandleNode containerTopHandle = new HandleNode(m_containmentAreaWidth * 0.2, m_containmentAreaHeight * 0.05, Color.RED);
+        HandleNode containerTopHandle = new HandleNode(m_containmentAreaWidth * 0.18, m_containmentAreaHeight * 0.05, Color.RED);
         m_containerLid = new PNode();
         m_containerLid.setPickable( false );
         m_containerLid.setChildrenPickable( false );
@@ -401,7 +425,29 @@ public class ParticleContainerNode extends PhetPNode {
             // Add the image to the bottom layer node.
             m_bottomContainerLayer.addChild(containerTopBackImageNode);
             containerTopBackImageNode.setOffset( 0, -(m_model.getParticleContainerHeight() * ELLIPSE_HEIGHT_PROPORTION / 2) );
-            
         }
+    }
+    
+    /**
+     * Update the position and other aspects of the gauge so that it stays
+     * connected to the lid or moves as it should when the container
+     * explodes.
+     */
+    private void updatePressureGauge(){
+    	if (m_pressureMeter != null){
+	        Rectangle2D containerRect = m_model.getParticleContainerRect();
+	
+	        if (!m_model.getContainerExploded()){
+	            if (m_pressureMeter.getRotation() != 0){
+	            	m_pressureMeter.setRotation(0);
+	            }
+	            m_pressureMeter.setElbowHeight(m_pressureMeterElbowOffset + 
+	            		StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT - containerRect.getHeight());
+	        }
+	        else{
+	        	// The container is exploding, so spin and move the gauge.
+	        	m_pressureMeter.rotateInPlace(Math.PI / 10);
+	        }
+    	}
     }
 }

@@ -177,9 +177,7 @@ public class DialGaugeNode extends PNode {
         // behind everything else.  A PhetPPath is used because it allows us
         // to use a gradient without crashing any Macs.
         m_connector = new PhetPPath();
-        m_connectorPaint = new GradientPaint((float)(diameter / 2), 0, Color.LIGHT_GRAY, (float)(diameter / 2), 
-                    (float)(CONNECTOR_WIDTH_PROPORATION * diameter), Color.BLUE);
-        m_connector.setPaint( m_connectorPaint );
+        m_connector.setPaint( Color.BLUE );
         m_connectorPath = new GeneralPath();
         updateConnector();
         addChild(m_connector);
@@ -250,16 +248,18 @@ public class DialGaugeNode extends PNode {
     	m_elbowEnabled = elbowEnabled;
     	
     	// Create a different gradient if the elbow is enabled.
+    	/*
     	float width = (float)(CONNECTOR_WIDTH_PROPORATION * m_diameter);
     	float length = (float)(CONNECTOR_LENGTH_PROPORATION * m_diameter);
     	if (m_elbowEnabled){
-            m_connectorPaint = new GradientPaint(length, width/2, Color.BLUE, length, length + width, Color.GRAY);
+            m_connectorPaint = new GradientPaint(length, width/2, Color.LIGHT_GRAY, length + 2 * width, width/2, Color.BLUE);
     	}
     	else{
             m_connectorPaint = new GradientPaint((float)(m_diameter / 2), 0, Color.LIGHT_GRAY, (float)(m_diameter / 2), 
                     (float)(CONNECTOR_WIDTH_PROPORATION * m_diameter), Color.BLUE);
     	}
         m_connector.setPaint(m_connectorPaint);
+        */
         
     	updateConnector();
     }

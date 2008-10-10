@@ -44,13 +44,9 @@ public class PhaseChangesCanvas extends PhetPCanvas {
     
     // Sizes, in terms of overall canvas size, of the nodes on the canvas.
     private final double BURNER_NODE_WIDTH = CANVAS_WIDTH / 2.5;
-    private final double PRESSURE_GAUGE_WIDTH = CANVAS_WIDTH / 5.5;
     private final double PUMP_HEIGHT = CANVAS_HEIGHT / 2;
     private final double PUMP_WIDTH = CANVAS_WIDTH / 4;
     
-    // Maximum value expected for pressure, in atmospheres.
-    private final double MAX_PRESSURE = 100;
-
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -58,8 +54,6 @@ public class PhaseChangesCanvas extends PhetPCanvas {
     private MultipleParticleModel m_model;
     private ParticleContainerNode m_particleContainer;
     private ModelViewTransform m_mvt;
-    private DialGaugeNode m_pressureMeter;
-    private double m_pressureMeterElbowOffset;
     private CompositeThermometerNode m_thermometerNode;
     private Random m_rand;
     private double m_rotationAngle;
@@ -89,15 +83,11 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         
         // Set ourself up as a listener to the model.
         m_model.addListener( new MultipleParticleModel.Adapter(){
-            public void pressureChanged(){
-                m_pressureMeter.setValue(m_model.getPressureInAtmospheres());
-            }
             public void temperatureChanged(){
                 updateThermometerTemperature();
             }
             public void containerSizeChanged(){
                 updateThermometerPosition();
-                updateGaugePosition();
             }
             public void containerExploded() {
                 m_rotationAngle = -(Math.PI/100 + (m_rand.nextDouble() * Math.PI/50));
@@ -108,23 +98,13 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         setBackground( StatesOfMatterConstants.CANVAS_BACKGROUND );
         
         // Create the particle container.
-        m_particleContainer = new ParticleContainerNode(m_model, m_mvt, true);
+        m_particleContainer = new ParticleContainerNode(m_model, m_mvt, true, true);
 
         // Get the rectangle that describes the position of the particle
         // container within the model, since the various nodes below will
         // all be positioned relative to it.
         Rectangle2D containerRect = m_model.getParticleContainerRect();
 
-        // Add the pressure meter.
-        m_pressureMeter = new DialGaugeNode(PRESSURE_GAUGE_WIDTH, StatesOfMatterStrings.PRESSURE_GAUGE_TITLE, 0, 
-                MAX_PRESSURE, StatesOfMatterStrings.PRESSURE_GAUGE_UNITS);
-        m_pressureMeter.setOffset( containerRect.getX() - m_pressureMeter.getFullBoundsReference().width, 
-	        containerRect.getY() - containerRect.getHeight() - (m_pressureMeter.getFullBoundsReference().getHeight() * 0.7));
-        m_pressureMeter.setElbowEnabled(true);
-        addWorldChild( m_pressureMeter );
-        m_pressureMeterElbowOffset =  -m_pressureMeter.getFullBoundsReference().getCenterY() - containerRect.getMaxY();
-        m_pressureMeter.setElbowHeight(m_pressureMeterElbowOffset);
-        
         // Add the pump.
         BicyclePumpNode pump = new BicyclePumpNode(PUMP_WIDTH, PUMP_HEIGHT, m_model);
         pump.setOffset( containerRect.getX() + containerRect.getWidth(), 
@@ -137,9 +117,8 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         addWorldChild(m_particleContainer);
         
         // Add a thermometer for displaying temperature.
-        m_thermometerNode = new CompositeThermometerNode(containerRect.getX() + containerRect.getWidth() * 0.25, 
-                containerRect.getY() + containerRect.getHeight() * 0.35,
-                StatesOfMatterConstants.MAX_DISPLAYED_TEMPERATURE);
+        m_thermometerNode = new CompositeThermometerNode(containerRect.getWidth() * 0.25, 
+        		containerRect.getHeight() * 0.35, StatesOfMatterConstants.MAX_DISPLAYED_TEMPERATURE);
         addWorldChild(m_thermometerNode);
         updateThermometerTemperature();
         updateThermometerPosition();
@@ -200,27 +179,8 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         }
         
         m_thermometerNode.setOffset( 
-                containerRect.getX() + containerRect.getWidth() * 0.3, 
+                containerRect.getX() + containerRect.getWidth() * 0.31, 
                 containerRect.getY() - containerRect.getHeight() - 
                 (m_thermometerNode.getFullBoundsReference().height * 0.5) );
-    }
-
-    /**
-     * Update the position of the gauge so that it stays connected to the lid.
-     */
-    private void updateGaugePosition(){
-        Rectangle2D containerRect = m_model.getParticleContainerRect();
-
-        if (!m_model.getContainerExploded()){
-            if (m_pressureMeter.getRotation() != 0){
-            	m_pressureMeter.setRotation(0);
-            }
-            m_pressureMeter.setElbowHeight(m_pressureMeterElbowOffset + 
-            		StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT - containerRect.getHeight());
-        }
-        else{
-        	// The container is exploding, so spin and move the gauge.
-        	m_pressureMeter.rotateInPlace(m_rotationAngle / 2);
-        }
     }
 }
