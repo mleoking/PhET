@@ -18,8 +18,8 @@ public class TrackingInfo {
                 //Sim info first
                 new TrackingEntry( "project", config.getProjectName() ),
                 new TrackingEntry( "sim", config.getFlavor() ),
+                new TrackingEntry( "sim-version", config.getVersion().toString() ),
                 new TrackingEntry( "sim-locale", PhetResources.readLocale().toString() ),
-                new TrackingEntry( "version", config.getVersion().toString() ),
                 new TrackingEntry( "dev", config.isDev() + "" ),
 
                 //Then general to specific information about machine config
@@ -34,7 +34,7 @@ public class TrackingInfo {
                 new TrackingEntry.SystemProperty( "user.country" ),
                 new TrackingEntry.SystemProperty( "user.timezone" ),
                 new TrackingEntry( "locale-default", Locale.getDefault().toString() ),
-                new TrackingEntry( "preferences-file.creation-time-millis", PhetPreferences.getInstance().getPreferencesFileCreatedAtMillis() + "" ),
+                new TrackingEntry( PhetPreferences.KEY_PREFERENCES_FILE_CREATION_TIME, PhetPreferences.getInstance().getPreferencesFileCreatedAtMillis() + "" ),
 
 //                new TrackingEntry( "time", new SimpleDateFormat( "yyyy-MM-dd_HH:mm:ss" ).format( new Date() ) )
         };

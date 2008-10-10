@@ -18,7 +18,7 @@ public class PhetPreferences {
     
     private static final String KEY_UPDATES_ENABLED = "all-sims.updates.enabled";
     private static final String KEY_TRACKING_ENABLED = "all-sims.tracking.enabled";
-    private static final String KEY_PREFERENCES_FILE_CREATED_AT = "preferences-file-created-at.milliseconds";
+    public static final String KEY_PREFERENCES_FILE_CREATION_TIME = "preferences-file-creation-time.milliseconds";
     private static final String PATTERN_KEY_ASK_ME_LATER = "{0}.{1}.updates.ask-me-later-pressed.milliseconds";
     private static final String PATTERN_KEY_SKIP_UPDATE = "{0}.{1}.updates.skip.version"; // project.sim.updates.skip-version
         
@@ -132,7 +132,7 @@ public class PhetPreferences {
      * We use this as an ad hoc means of anonymously identifying unique users.
      */
     private void setPreferencesFileCreationTimeNow() {
-        setStringProperty( KEY_PREFERENCES_FILE_CREATED_AT, String.valueOf( System.currentTimeMillis() ) );
+        setStringProperty( KEY_PREFERENCES_FILE_CREATION_TIME, String.valueOf( System.currentTimeMillis() ) );
     }
 
     /**
@@ -141,12 +141,12 @@ public class PhetPreferences {
      * If the file doesn't exist, it is created as a side effect.
      */
     public long getPreferencesFileCreatedAtMillis() {
-        if ( properties.getProperty( KEY_PREFERENCES_FILE_CREATED_AT ) == null ) {
+        if ( properties.getProperty( KEY_PREFERENCES_FILE_CREATION_TIME ) == null ) {
             setPreferencesFileCreationTimeNow();
         }
         long timeStamp = -1;
         try {
-            timeStamp = Long.parseLong( properties.getProperty( KEY_PREFERENCES_FILE_CREATED_AT ) );
+            timeStamp = Long.parseLong( properties.getProperty( KEY_PREFERENCES_FILE_CREATION_TIME ) );
         }
         catch ( NumberFormatException e ) {
             e.printStackTrace();
