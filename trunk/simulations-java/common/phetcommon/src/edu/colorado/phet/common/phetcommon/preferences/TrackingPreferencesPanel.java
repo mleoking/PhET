@@ -3,17 +3,19 @@ package edu.colorado.phet.common.phetcommon.preferences;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.MessageFormat;
 
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.updates.dialogs.AbstractUpdateDialog;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 public class TrackingPreferencesPanel extends JPanel {
 
-    private static final String INFO = PhetCommonResources.getString( "Common.tracking.info" );
+    private static final String ONE_LINER_PATTERN = PhetCommonResources.getString( "Common.tracking.oneLiner" );
     private static final String TRACKING_ENABLED = PhetCommonResources.getString( "Common.tracking.sendToPhET" );
     private static final String DETAILS = PhetCommonResources.getString( "Common.tracking.detailsButton" );
     
@@ -47,7 +49,10 @@ public class TrackingPreferencesPanel extends JPanel {
     * Creates the panel that contains the logo and general copyright info.
     */
     private JPanel createLogoPanel() {
-        String html = INFO;
+        
+        Object[] args = { AbstractUpdateDialog.PHET_HOME_URL };
+        String s = MessageFormat.format( ONE_LINER_PATTERN, args );
+        String html = "<html>" + PhetAboutDialog.HTML_CUSTOM_STYLE + s + "</html>";
         html = html.replaceAll( "@FONT_SIZE@", new PhetFont().getSize() + "pt" );
         html = html.replaceAll( "@FONT_FAMILY@", new PhetFont().getFamily() );
         PhetAboutDialog.HTMLPane copyrightLabel = new PhetAboutDialog.HTMLPane( html );
