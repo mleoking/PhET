@@ -7,7 +7,9 @@ import javax.swing.JDialog;
 
 import edu.colorado.phet.common.phetcommon.preferences.IManualUpdateChecker;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
-import edu.colorado.phet.common.phetcommon.updates.UpdateInstructionsDialog.ManualUpdateInstructionsDialog;
+import edu.colorado.phet.common.phetcommon.updates.dialogs.NoUpdateDialog;
+import edu.colorado.phet.common.phetcommon.updates.dialogs.UpdateErrorDialog;
+import edu.colorado.phet.common.phetcommon.updates.dialogs.UpdateInstructionsDialog.ManualUpdateInstructionsDialog;
 
 public class DefaultManualCheckForUpdates implements IManualUpdateChecker {
     private String sim;

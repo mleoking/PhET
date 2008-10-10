@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.phetcommon.updates;
+package edu.colorado.phet.common.phetcommon.updates.dialogs;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -15,7 +15,8 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.preferences.*;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
-import edu.colorado.phet.common.phetcommon.updates.UpdateInstructionsDialog.AutomaticUpdateInstructionsDialog;
+import edu.colorado.phet.common.phetcommon.updates.*;
+import edu.colorado.phet.common.phetcommon.updates.dialogs.UpdateInstructionsDialog.AutomaticUpdateInstructionsDialog;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 /**

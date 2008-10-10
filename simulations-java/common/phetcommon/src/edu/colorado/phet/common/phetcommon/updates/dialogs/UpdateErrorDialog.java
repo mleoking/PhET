@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.phetcommon.updates;
+package edu.colorado.phet.common.phetcommon.updates.dialogs;
 
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
@@ -6,6 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import javax.swing.*;
 
@@ -14,15 +17,15 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 
-public class NoUpdateDialog extends AbstractUpdateDialog {
-    
-    public NoUpdateDialog( Frame owner, String currentVersion, String simName ) {
-        super( owner, "Up to date" );
+public class UpdateErrorDialog extends AbstractUpdateDialog {
+
+    public UpdateErrorDialog( Frame owner, final Exception exception ) {
+        super( owner, "Update error" );
         setModal( true );
         setResizable( false );
         
-        // notification that there is no need to update
-        JComponent htmlPane = createHTMLPaneWithLinks( getUpToDateHTML( currentVersion, simName ) );
+        // notification that an error occurred
+        JComponent htmlPane = createHTMLPaneWithLinks( getErrorMessageHTML() );
         JPanel messagePanel = new JPanel();
         messagePanel.setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
         messagePanel.add( htmlPane );
@@ -35,8 +38,21 @@ public class NoUpdateDialog extends AbstractUpdateDialog {
             }
         } );
         
+        // shows the stack trace
+        //TODO: make it easy to copy-&-paste this, for emailing to phethelp
+        final JButton detailsButton = new JButton( "Details..." );
+        detailsButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                final StringWriter result = new StringWriter();
+                final PrintWriter printWriter = new PrintWriter( result );
+                exception.printStackTrace( printWriter );
+                JOptionPane.showMessageDialog( detailsButton, result.getBuffer(), "Error details", JOptionPane.INFORMATION_MESSAGE );
+            }
+        } );
+        
         JPanel buttonPanel = new JPanel();
         buttonPanel.add( okButton );
+        buttonPanel.add( detailsButton );
         
         // main panel layout
         JPanel panel = new JPanel();
@@ -59,7 +75,7 @@ public class NoUpdateDialog extends AbstractUpdateDialog {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         SwingUtils.centerWindowOnScreen( frame );
         frame.setVisible( true );
-        JDialog dialog = new NoUpdateDialog( frame, "1.01", "Glaciers" );
+        JDialog dialog = new UpdateErrorDialog( frame, new IOException() );
         dialog.addWindowListener( new WindowAdapter() {
             public void windowClosed( WindowEvent e ) {
                 System.exit( 0 );
@@ -67,5 +83,4 @@ public class NoUpdateDialog extends AbstractUpdateDialog {
         } );
         dialog.setVisible( true );
     }
-
 }
