@@ -1835,7 +1835,7 @@ public class MultipleParticleModel {
                 
                 double temperatureScaleFactor;
                 if (m_temperatureSetPoint <= m_minModelTemperature){
-                    temperatureScaleFactor = 0;
+                    temperatureScaleFactor = 0.5;
                 }
                 else{
                     temperatureScaleFactor = Math.sqrt( m_temperatureSetPoint * m_numberOfAtoms / kineticEnergy );
@@ -1854,18 +1854,21 @@ public class MultipleParticleModel {
                 // modification to reduce abruptness of heat bath interactions.
                 // For bare Andersen, set gamma=0.0d0.
             	
-                double gamma = 0.9999;
+                double gammaX = 0.9999;
+                double gammaY = gammaX;
                 double temperature = m_temperatureSetPoint;
                 if (m_temperatureSetPoint <= m_minModelTemperature){
                 	// Use a values that will cause the molecules to stop
                 	// moving if we are below the minimum temperature, since
                 	// we want to create the appearance of absolute zero.
-                	gamma = 0.992;
+                	gammaX = 0.992;
+                	gammaY = 0.999;   // Scale a little differently in Y direction so particles don't
+                	                  // stop falling when absolute zero is reached.
                 	temperature = 0;
                 }
                 for (int i = 0; i < m_numberOfAtoms; i++){
-                    double xVel = m_atomVelocities[i].getX() * gamma + m_rand.nextGaussian() * Math.sqrt(  temperature * (1 - Math.pow(gamma, 2)) );
-                    double yVel = m_atomVelocities[i].getY() * gamma + m_rand.nextGaussian() * Math.sqrt(  temperature * (1 - Math.pow(gamma, 2)) );
+                    double xVel = m_atomVelocities[i].getX() * gammaX + m_rand.nextGaussian() * Math.sqrt(  temperature * (1 - Math.pow(gammaX, 2)) );
+                    double yVel = m_atomVelocities[i].getY() * gammaY + m_rand.nextGaussian() * Math.sqrt(  temperature * (1 - Math.pow(gammaX, 2)) );
                     m_atomVelocities[i].setComponents( xVel, yVel );
                 }
             }

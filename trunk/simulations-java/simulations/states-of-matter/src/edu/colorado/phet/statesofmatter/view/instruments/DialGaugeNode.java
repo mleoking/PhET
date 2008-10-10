@@ -6,8 +6,10 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Paint;
+import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
@@ -55,16 +57,18 @@ public class DialGaugeNode extends PNode {
     private static double       GAUGE_END_ANGLE = Math.PI * 0.15;    // In radians.
     private static double       GAUGE_ANGLE_RANGE = GAUGE_END_ANGLE - GAUGE_START_ANGLE;
     private static double       NEEDLE_SHIFT_PROPORTION = 0.75;      // Proportion of needle used as pointer.
-    private static double       CONNECTOR_HEIGHT_PROPORATION = 0.15; // Height of connector wrt overall diameter.
-    private static double       CONNECTOR_WIDTH_PROPORATION = 0.30;  // Width of connector wrt overall diameter.
+    private static double       CONNECTOR_LENGTH_PROPORATION = 0.30; // Length of non-elbowed connector wrt overall diameter.
+    private static double       CONNECTOR_WIDTH_PROPORATION = 0.15;  // Width of connector wrt overall diameter.
     private static DecimalFormat NUMBER_FORMATTER = new DecimalFormat( "##0.00" );
     
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
-    
+
+    private double m_diameter;
     private PPath m_needle;
     private double m_needleAngle;
+    private PhetPPath m_connector;
     private double m_needleLength;
     private PText m_gaugeTitle;
     private PText m_textualReadout;
@@ -72,6 +76,11 @@ public class DialGaugeNode extends PNode {
     private double m_maxValue;
     private String m_unitsLabel;
     private RoundRectangle2D m_textualReadoutBoxShape;
+    private GeneralPath m_connectorPath;
+    private boolean m_elbowEnabled;
+    private double m_elbowHeight;
+    private Paint m_connectorPaint;
+	private PNode m_dialComponentsNode;
 
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -82,23 +91,22 @@ public class DialGaugeNode extends PNode {
         m_minValue = minValue;
         m_maxValue = maxValue;
         m_unitsLabel = new String(unitsLabel);
+        m_elbowEnabled = false;
+        m_diameter = diameter;
         
         // Scale various aspects of the size of this dial based on the overall
         // diameter.
         double borderWidth = diameter * BORDER_SCALE_FACTOR;
-        double connectorWidth = diameter * CONNECTOR_WIDTH_PROPORATION;
         
-        // Create a node that will contain the bulk of the dial nodes so that
-        // they can be easily offset as a group.
-        PNode dialComponentsNode = new PNode();
-        dialComponentsNode.setOffset( 0, 0 );
+        m_dialComponentsNode = new PNode();
+        m_dialComponentsNode.setOffset( 0, 0 );
         
         // Create the node that will represent the face of the dial.
         PPath dialFace = new PPath(new Ellipse2D.Double(0, 0, diameter, diameter));
         dialFace.setPaint( BACKGROUND_COLOR );
         dialFace.setStrokePaint( BORDER_COLOR );
         dialFace.setStroke( new BasicStroke( (float)borderWidth) );
-        dialComponentsNode.addChild( dialFace );
+        m_dialComponentsNode.addChild( dialFace );
         
         // Add the tick marks.
         double tickSpace = ( Math.PI * 6 / 4 ) / ( NUM_TICKMARKS );
@@ -109,17 +117,17 @@ public class DialGaugeNode extends PNode {
             tickMark.rotate( theta );
             tickMark.setOffset( (diameter / 2) + (diameter * 0.44) * Math.cos(theta), 
                     (diameter / 2) + (diameter * 0.44) * Math.sin(theta) );
-            dialComponentsNode.addChild(tickMark);
+            m_dialComponentsNode.addChild(tickMark);
         }
         
         // Add the title.
         m_gaugeTitle = new PText();
         m_gaugeTitle.setText( title );
         m_gaugeTitle.setFont(new PhetFont(12));
-        m_gaugeTitle.scale( (dialComponentsNode.getFullBoundsReference().width * 0.6)/m_gaugeTitle.getFullBoundsReference().width );
+        m_gaugeTitle.scale( (m_dialComponentsNode.getFullBoundsReference().width * 0.6)/m_gaugeTitle.getFullBoundsReference().width );
         m_gaugeTitle.setOffset(diameter / 2 - m_gaugeTitle.getFullBoundsReference().width / 2,
                 diameter / 4);
-        dialComponentsNode.addChild( m_gaugeTitle );
+        m_dialComponentsNode.addChild( m_gaugeTitle );
         
         // Add the textual readout display.
         m_textualReadoutBoxShape = new RoundRectangle2D.Double(0, 0, 
@@ -133,7 +141,7 @@ public class DialGaugeNode extends PNode {
         textualReadoutHighlight.setPaint( Color.WHITE );
         textualReadoutHighlight.setOffset( diameter / 2 - textualReadoutHighlight.getWidth() / 2 + highlightStrokeWidth / 2, 
                 diameter * 0.70 );
-        dialComponentsNode.addChild( textualReadoutHighlight );
+        m_dialComponentsNode.addChild( textualReadoutHighlight );
         
         PPath textualReadoutBox = new PPath(m_textualReadoutBoxShape);
         float textBoxStrokeWidth = (float)(diameter * TEXTUAL_READOUT_STROKE_SCALE_FACTOR);
@@ -141,7 +149,7 @@ public class DialGaugeNode extends PNode {
         textualReadoutBox.setStrokePaint( Color.DARK_GRAY );
         textualReadoutBox.setOffset( diameter / 2 - textualReadoutBox.getWidth() / 2 + textBoxStrokeWidth / 2,
                 diameter * 0.70 );
-        dialComponentsNode.addChild( textualReadoutBox );
+        m_dialComponentsNode.addChild( textualReadoutBox );
         m_textualReadout = new PText(" ");
         m_textualReadout.setFont( new PhetFont(12) );
         m_textualReadout.scale( textualReadoutBox.getHeight() * 0.8 / m_textualReadout.getFullBoundsReference().height );
@@ -156,31 +164,28 @@ public class DialGaugeNode extends PNode {
                 diameter/2 );
         m_needleAngle = GAUGE_START_ANGLE;
         m_needle.rotateAboutPoint( m_needleAngle, (m_needleLength * (1 - NEEDLE_SHIFT_PROPORTION)), 0 );
-        dialComponentsNode.addChild( m_needle );
+        m_dialComponentsNode.addChild( m_needle );
         
         // Add a little pin in the center where the needle attaches to the face.
         double pinDiameter = PIN_DIAMETER_SCALE_FACTOR * diameter;
         PPath pin = new PPath(new Ellipse2D.Double( 0, 0, pinDiameter, pinDiameter ) ); 
         pin.setPaint( Color.BLACK );
         pin.setOffset( diameter/2 -  pinDiameter/2, diameter/2 - pinDiameter/2);
-        dialComponentsNode.addChild( pin );
+        m_dialComponentsNode.addChild( pin );
 
         // Create the connector.  It is placed first because then it can be
         // behind everything else.  A PhetPPath is used because it allows us
         // to use a gradient without crashing any Macs.
-        PhetPPath connector = new PhetPPath(new Rectangle2D.Double(0, 0, connectorWidth, 
-                CONNECTOR_HEIGHT_PROPORATION * diameter));
-        
-        Paint paint = new GradientPaint((float)(diameter / 2), 0, Color.LIGHT_GRAY, (float)(diameter / 2), 
-                    (float)(CONNECTOR_HEIGHT_PROPORATION * diameter), Color.BLUE);
-
-        connector.setPaint( paint );
-        connector.setOffset( dialComponentsNode.getFullBoundsReference().width * 0.9, 
-                diameter / 2 - connector.getHeight() / 2 );
-        addChild(connector);
+        m_connector = new PhetPPath();
+        m_connectorPaint = new GradientPaint((float)(diameter / 2), 0, Color.LIGHT_GRAY, (float)(diameter / 2), 
+                    (float)(CONNECTOR_WIDTH_PROPORATION * diameter), Color.BLUE);
+        m_connector.setPaint( m_connectorPaint );
+        m_connectorPath = new GeneralPath();
+        updateConnector();
+        addChild(m_connector);
         
         // Now add the dial as a child of the main node.
-        addChild(dialComponentsNode);
+        addChild(m_dialComponentsNode);
         
         // Set the initial value.
         setValue( m_minValue );
@@ -235,15 +240,62 @@ public class DialGaugeNode extends PNode {
         }
     }
     
+    /**
+     * This turns on/off the "elbow" portion of the connector, which allows
+     * the pressure gauge to connect to something above or below it.
+     * 
+     * @param elbowEnabled
+     */
+    public void setElbowEnabled(boolean elbowEnabled){
+    	m_elbowEnabled = elbowEnabled;
+    	
+    	// Create a different gradient if the elbow is enabled.
+    	float width = (float)(CONNECTOR_WIDTH_PROPORATION * m_diameter);
+    	float length = (float)(CONNECTOR_LENGTH_PROPORATION * m_diameter);
+    	if (m_elbowEnabled){
+            m_connectorPaint = new GradientPaint(length, width/2, Color.BLUE, length, length + width, Color.GRAY);
+    	}
+    	else{
+            m_connectorPaint = new GradientPaint((float)(m_diameter / 2), 0, Color.LIGHT_GRAY, (float)(m_diameter / 2), 
+                    (float)(CONNECTOR_WIDTH_PROPORATION * m_diameter), Color.BLUE);
+    	}
+        m_connector.setPaint(m_connectorPaint);
+        
+    	updateConnector();
+    }
+    
+    /**
+     * Set the height of the elbow.  Height is specified with respect to the
+     * vertical center of the node.
+     */
+    public void setElbowHeight(double height){
+    	m_elbowHeight = height;
+    	updateConnector();
+    }
+    
+    /**
+     * Test harness.
+     * 
+     * @param args
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 PiccoloTestFrame testFrame = new PiccoloTestFrame("Dial Gauge Test");
-                DialGaugeNode dialGaugeNode = new DialGaugeNode(200, "Pressure", 0, 1, "Atm");
-                dialGaugeNode.setOffset(50, 50);
-                testFrame.addNode(dialGaugeNode);
+
+                DialGaugeNode dialGaugeNode1 = new DialGaugeNode(200, "Pressure", 0, 1, "Atm");
+                dialGaugeNode1.setOffset(50, 20);
+                dialGaugeNode1.setValue( 0.75 );
+                testFrame.addNode(dialGaugeNode1);
+                
+                DialGaugeNode dialGaugeNode2 = new DialGaugeNode(200, "Temperature", 0, 1, "Deg");
+                dialGaugeNode2.setOffset(300, 220);
+                dialGaugeNode2.setValue( 0.0 );
+                dialGaugeNode2.setElbowEnabled(true);
+                dialGaugeNode2.setElbowHeight(-200);
+                testFrame.addNode(dialGaugeNode2);
+
                 testFrame.setVisible(true);
-                dialGaugeNode.setValue( 0.75 );
             }
         });
     }
@@ -251,4 +303,54 @@ public class DialGaugeNode extends PNode {
     //------------------------------------------------------------------------
     // Private Methods
     //------------------------------------------------------------------------
+    
+    private void updateConnector(){
+    	
+    	double width = CONNECTOR_WIDTH_PROPORATION * m_diameter;
+    	double length = CONNECTOR_LENGTH_PROPORATION * m_diameter;
+    	
+    	if (!m_elbowEnabled){
+    		Shape connectorShape = new Rectangle2D.Double(0, 0, length, width );
+            m_connector.setPathTo(connectorShape);
+        	m_connector.setOffset( m_dialComponentsNode.getFullBoundsReference().width * 0.9, 
+                    m_diameter / 2 - width / 2 );
+    	}
+    	else{
+    		m_connectorPath.reset();
+    		m_connectorPath.moveTo(0f, 0f);
+    		if (Math.abs(m_elbowHeight) < width / 2){
+    			// The height of the elbow is less than the width of the
+    			// connector, so just draw the connector at its basic
+    			// width.
+        		m_connectorPath.lineTo( (float)(length + width * 2), 0);
+        		m_connectorPath.lineTo( (float)(length + width * 2), (float)width);
+        		m_connectorPath.lineTo( 0, (float)width);
+        		m_connectorPath.closePath();
+                m_connector.setPathTo(m_connectorPath);
+            	m_connector.setOffset( m_dialComponentsNode.getFullBoundsReference().width * 0.9, 
+                        m_diameter / 2 - width / 2 );
+    		}
+    		else if (m_elbowHeight < 0){
+    			// Connector is pointing upwards.
+        		m_connectorPath.lineTo( (float)(length + width), 0);
+        		m_connectorPath.lineTo( (float)(length + width), (float)(m_elbowHeight + width / 2));
+        		m_connectorPath.lineTo( (float)(length + width * 2), (float)(m_elbowHeight + width / 2));
+        		m_connectorPath.lineTo( (float)(length + width * 2), (float)width);
+        		m_connectorPath.lineTo( 0, (float)width);
+        		m_connectorPath.closePath();
+                m_connector.setPathTo(m_connectorPath);
+    		}
+    		else{
+    			// Connector is pointing downwards.
+        		m_connectorPath.lineTo( (float)(length + width * 2), 0);
+        		m_connectorPath.lineTo( (float)(length + width * 2), (float)(m_elbowHeight + width / 2));
+        		m_connectorPath.lineTo( (float)(length + width), (float)(m_elbowHeight + width / 2));
+        		m_connectorPath.lineTo( (float)(length + width), (float)width);
+        		m_connectorPath.lineTo( 0, (float)width);
+        		m_connectorPath.closePath();
+                m_connector.setPathTo(m_connectorPath);
+    		}
+    	}
+
+    }
 }
