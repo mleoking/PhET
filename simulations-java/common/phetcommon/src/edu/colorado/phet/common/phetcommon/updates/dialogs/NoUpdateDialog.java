@@ -16,8 +16,11 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 public class NoUpdateDialog extends AbstractUpdateDialog {
     
+    private static final String TITLE = PhetCommonResources.getString( "Common.updates.updateToDate");
+    private static final String OK_BUTTON = PhetCommonResources.getString( "Common.choice.ok" );
+    
     public NoUpdateDialog( Frame owner, String currentVersion, String simName ) {
-        super( owner, "Up to date" );
+        super( owner, TITLE );
         setModal( true );
         setResizable( false );
         
@@ -28,7 +31,7 @@ public class NoUpdateDialog extends AbstractUpdateDialog {
         messagePanel.add( htmlPane );
         
         // closes the dialog
-        JButton okButton = new JButton( PhetCommonResources.getString( "Common.choice.ok" ) );
+        JButton okButton = new JButton( OK_BUTTON );
         okButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 dispose();

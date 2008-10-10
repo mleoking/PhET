@@ -1,19 +1,30 @@
 package edu.colorado.phet.common.phetcommon.updates.dialogs;
 
 import java.awt.Frame;
+import java.text.MessageFormat;
 
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 
 import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
  * Functionality and HTML shared by dialogs related to the update feature.
+ * This class also handles complex string translations that involve argument replacement.
  */
 public abstract class AbstractUpdateDialog extends JDialog {
     
+    public static final String PHET_HOME_URL = "http://phet.colorado.edu";
+    private static final String PHET_EMAIL = "phethelp@colorado.edu";
+    
+    private static final String PATTERN_YOU_HAVE_CURRENT = PhetCommonResources.getString( "Common.updates.youHaveCurrent" );
+    private static final String PATTERN_ERROR_MESSAGE = PhetCommonResources.getString( "Common.updates.errorMessage" );
+    private static final String PATTERN_INSTRUCTIONS = PhetCommonResources.getString( "Common.updates.instructions" );
+    private static final String PATTERN_VERSION_COMPARISON = PhetCommonResources.getString( "Common.updates.versionComparison" );
+
     protected AbstractUpdateDialog( Frame owner, String title ) {
         super( owner, title );
     }
@@ -48,31 +59,37 @@ public abstract class AbstractUpdateDialog extends JDialog {
     }
     
     protected static String getUpToDateHTML( String currentVersion, String simName ) {
-        return "<html>" + PhetAboutDialog.HTML_CUSTOM_STYLE + 
-            "You have the most current version (" + currentVersion + ") of " + simName + "." + 
-            "<html>";
+        Object[] args = { currentVersion, simName };
+        String s = MessageFormat.format( PATTERN_YOU_HAVE_CURRENT, args );
+        return "<html>" + PhetAboutDialog.HTML_CUSTOM_STYLE + s + "</hmtl>";
     }
     
     protected static String getErrorMessageHTML() {
-        return "<html>" + PhetAboutDialog.HTML_CUSTOM_STYLE +
-            "An error was encountered while trying to access the PhET website.<br>" + 
-            "Please try again later, or visit <a href=\"http://phet.colorado.edu\">http://phet.colorado.edu</a>.<br>" +
-            "If the problem persists, please contact <a href=\"mailto:phethelp@colorado.edu\">phethelp@colorado.edu</a>." + 
-            "</html>";
+        Object[] args = { PHET_HOME_URL, PHET_EMAIL };
+        String s = MessageFormat.format( PATTERN_ERROR_MESSAGE, args );
+        return "<html>" + PhetAboutDialog.HTML_CUSTOM_STYLE + s + "</hmtl>";
     }
 
     private static String getVersionComparisonHTMLFragment( String simName, String currentVersion, String newVersion ) {
-        return "Your current version of " + simName + " is " + currentVersion + ".<br>A newer version (" + newVersion + ") is available.";
+        Object[] args = { simName, currentVersion, newVersion };
+        return MessageFormat.format( PATTERN_VERSION_COMPARISON, args );
     }
     
     private static String getUpdateInstructionsHTMLFragment( String project, String sim, String newVersion ) {
         String url = getSimURL( project, sim );
-        return "When you press OK, a web browser will be opened to the PhET website,<br>where you can get the new version (" + newVersion + ").<br><br>" +
-               "<font size=-2>If the web browser fails to open, please visit this URL:<br>" +
-               "<a href=\"" + url + "\">" + url + "</a></font>";
+        Object[] args = { newVersion, url };
+        return MessageFormat.format( PATTERN_INSTRUCTIONS, args );
     }
     
     public static String getSimURL( String project, String sim ) {
-        return "http://phet.colorado.edu/simulations/sim-redirect.php?project=" + project + "&sim=" + sim;
+        return PHET_HOME_URL + "/simulations/sim-redirect.php?project=" + project + "&sim=" + sim;
+    }
+    
+    // test the more complicate methods that involve MessageFormat
+    public static void main( String[] args ) {
+        System.out.println( getUpToDateHTML("1.0","glaciers") );
+        System.out.println( getErrorMessageHTML() );
+        System.out.println( getUpdateInstructionsHTMLFragment( "foo", "bar", "2.00" ) );
+        System.out.println( getVersionComparisonHTMLFragment( "Glaciers", "1.00", "2.00" ) );
     }
 }

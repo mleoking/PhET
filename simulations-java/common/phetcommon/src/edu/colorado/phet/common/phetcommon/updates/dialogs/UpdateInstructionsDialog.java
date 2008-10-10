@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
  */
 public abstract class UpdateInstructionsDialog extends AbstractUpdateDialog {
     
-    private static final String TITLE = "How To Update";
+    private static final String TITLE = PhetCommonResources.getString( "Common.updates.howToUpdate" );
     private static final String OK_BUTTON = PhetCommonResources.getString( "Common.choice.ok" );
     private static final String CANCEL_BUTTON = PhetCommonResources.getString( "Common.choice.cancel" );
     
