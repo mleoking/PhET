@@ -20,7 +20,7 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 public class PreferencesDialog extends JDialog {
-    public PreferencesDialog( Frame owner, ITrackingInfo tracker, IManualUpdateChecker iCheckForUpdates, IPreferences updatePreferences, IPreferences trackingPreferences ) {
+    public PreferencesDialog( Frame owner, ITrackingInfo tracker, IManualUpdateChecker iCheckForUpdates, IUpdatesPreferences updatePreferences, ITrackingPreferences trackingPreferences ) {
         super( owner, "Preferences", false /* modal */ );
         setResizable( false );
         JPanel userInputPanel = new PreferencesPanel( iCheckForUpdates, tracker, updatePreferences, trackingPreferences );
@@ -55,8 +55,22 @@ public class PreferencesDialog extends JDialog {
     }
 
     public static void main( String[] args ) {
+        IUpdatesPreferences updatesPreferences = new IUpdatesPreferences() {
+            public boolean isEnabled() {
+                return true;
+            }
+            public void setEnabled( boolean selected ) {
+            }
+        };
+        ITrackingPreferences trackingPreferences = new ITrackingPreferences() {
+            public boolean isEnabled() {
+                return true;
+            }
+            public void setEnabled( boolean selected ) {
+            }
+        };
         final PhetApplicationConfig config = new PhetApplicationConfig( args, new NullApplicationConstructor(), "balloons" );
-        PreferencesDialog preferencesDialog = new PreferencesDialog( null, config, new ApplicationConfigManualCheckForUpdates( null, config ), new DummyPreferences(), new DummyPreferences() );
+        PreferencesDialog preferencesDialog = new PreferencesDialog( null, config, new ApplicationConfigManualCheckForUpdates( null, config ), updatesPreferences, trackingPreferences );
         preferencesDialog.addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
                 System.exit( 0 );

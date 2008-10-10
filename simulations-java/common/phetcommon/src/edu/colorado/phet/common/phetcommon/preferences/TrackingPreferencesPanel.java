@@ -17,9 +17,9 @@ public class TrackingPreferencesPanel extends JPanel {
             "<b><a href=http://phet.colorado.edu>PhET</a></b> " +
             "is made possible by grants that require<br>us to track anonymous usage statistics.</html>";
     private ITrackingInfo tracker;
-    private IPreferences iTrackingPreferences;
+    private ITrackingPreferences iTrackingPreferences;
 
-    public TrackingPreferencesPanel( ITrackingInfo tracker, IPreferences iTrackingPreferences ) {
+    public TrackingPreferencesPanel( ITrackingInfo tracker, ITrackingPreferences iTrackingPreferences ) {
         this.tracker = tracker;
         this.iTrackingPreferences = iTrackingPreferences;
         setLayout( new GridBagLayout() );
@@ -32,8 +32,6 @@ public class TrackingPreferencesPanel extends JPanel {
         add( Box.createRigidArea( new Dimension( 5, 10 ) ), constraints );
         add( new TrackingCheckBox(), constraints );
         add( Box.createRigidArea( new Dimension( 5, 10 ) ), constraints );
-//        add( new PreferencesScopePanel( iTrackingPreferences ), constraints );
-//        add( Box.createRigidArea( new Dimension( 5, 10 ) ), constraints );
         add( new DetailsButton(), constraints );
     }
 
@@ -55,10 +53,10 @@ public class TrackingPreferencesPanel extends JPanel {
 
     private class TrackingCheckBox extends JCheckBox {
         private TrackingCheckBox() {
-            super( "Send tracking info to PhET", iTrackingPreferences.isEnabledForSelection() );
+            super( "Send tracking info to PhET", iTrackingPreferences.isEnabled() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    iTrackingPreferences.setEnabledForSelection( isSelected() );
+                    iTrackingPreferences.setEnabled( isSelected() );
                 }
             } );
         }

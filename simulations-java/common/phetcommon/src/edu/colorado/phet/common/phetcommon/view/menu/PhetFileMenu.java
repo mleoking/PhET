@@ -41,8 +41,8 @@ public class PhetFileMenu extends JMenu {
                 public void actionPerformed( ActionEvent e ) {
                     new PreferencesDialog( phetFrame, phetApplicationConfig,
                                            new ApplicationConfigManualCheckForUpdates( phetFrame, phetApplicationConfig ),
-                                           new DefaultUpdatePreferences( phetApplicationConfig ),
-                                           new DefaultTrackingPreferences( phetApplicationConfig ) ).setVisible( true );
+                                           new DefaultUpdatePreferences(),
+                                           new DefaultTrackingPreferences() ).setVisible( true );
                 }
             } );
             preferencesMenuItem.setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.PreferencesMnemonic" ).charAt( 0 ) );

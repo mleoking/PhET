@@ -1,41 +1,37 @@
+/* Copyright 2008, University of Colorado */
+
 package edu.colorado.phet.common.phetcommon.preferences;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.Properties;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 
 public class PhetPreferences {
-    private Properties properties = new Properties();
 
-    private static PhetPreferences instance;
-    private static final String ALL_SIMS = "all-sims";
-    private static final String TRACKING = "tracking";
-    private static final String APPLY_ALL = "applyToAll";
-    private static final String DOT = ".";
-    private static final String UPDATES = "updates";
     private static final String SEPARATOR = System.getProperty( "file.separator" );
     private static final File PREFERENCES_FILE = new File( System.getProperty( "user.home" ) + SEPARATOR + ".phet" + SEPARATOR + "preferences.properties" );
-    private static final String TRACKING_APPLY_TO_ALL = ALL_SIMS + DOT + TRACKING + DOT + APPLY_ALL;
-    private static final String UPDATES_APPLY_TO_ALL = ALL_SIMS + DOT + UPDATES + DOT + APPLY_ALL;
-    private static final String LAST_ASK_ME_LATER_TIME = "updates.last-time-ask-me-later-pressed.system-time-millis";
-    private static final String PREFERENCES_FILE_CREATED_AT = "preferences.file.created.at";
-
+    
+    private static final String KEY_UPDATES_ENABLED = "all-sims.updates.enabled";
+    private static final String KEY_TRACKING_ENABLED = "all-sims.tracking.enabled";
+    private static final String KEY_PREFERENCES_FILE_CREATED_AT = "preferences-file-created-at.milliseconds";
+    private static final String PATTERN_KEY_ASK_ME_LATER = "{0}.{1}.updates.ask-me-later-pressed.milliseconds";
+    private static final String PATTERN_KEY_SKIP_UPDATE = "{0}.{1}.updates.skip.version"; // project.sim.updates.skip-version
+        
+    private static PhetPreferences instance;
+    
+    private final Properties properties = new Properties();
+    
     private PhetPreferences() {
         if ( !PREFERENCES_FILE.exists() ) {
             PREFERENCES_FILE.getParentFile().mkdirs();
-
-            setUpdatesEnabledForAll( true );
-            setApplyUpdatesToAll( true );
-
-            setTrackingEnabledForAll( true );
-            setApplyTrackingToAll( true );
-
             setPreferencesFileCreationTimeNow();
-
+            setUpdatesEnabled( true );
+            setTrackingEnabled( true );
             storePreferences();
         }
         try {
@@ -45,19 +41,136 @@ public class PhetPreferences {
             e.printStackTrace();
         }
     }
-
-    private void setPreferencesFileCreationTimeNow() {
-        properties.setProperty( PREFERENCES_FILE_CREATED_AT, "" + System.currentTimeMillis() );
-        storePreferences();
+    
+    public static PhetPreferences getInstance() {
+        if ( instance == null ) {
+            instance = new PhetPreferences();
+        }
+        return instance;
     }
 
+    public void setTrackingEnabled( boolean b ) {
+        setBooleanProperty( KEY_TRACKING_ENABLED, b );
+    }
+
+    public boolean isTrackingEnabled() {
+        return getBooleanProperty( KEY_TRACKING_ENABLED );
+    }
+    
+    public void setUpdatesEnabled( boolean b ) {
+        setBooleanProperty( KEY_UPDATES_ENABLED, b );
+    }
+    
+    public boolean isUpdatesEnabled() {
+        return getBooleanProperty( KEY_UPDATES_ENABLED );
+    }
+    
+    /**
+     * Sets the time in milliseconds since Epoch at which the user requested to be asked later.
+     * This is specific to a simulation.
+     */
+    public void setAskMeLater( String project, String sim, long time ) {
+        setStringProperty( getAskMeLaterKey( project, sim ), String.valueOf( time ) );
+    }
+
+    /**
+     * Gets the time in milliseconds since Epoch at which the user requested to be asked later.
+     * This is specific to a simulation.
+     */
+    public long getAskMeLater( String project, String sim ) {
+        long timestamp = 0;
+        try {
+            String s = getStringProperty( getAskMeLaterKey( project, sim ) );
+            if ( s != null ) {
+                timestamp = Long.parseLong( s );
+            }
+        }
+        catch ( NumberFormatException e ) {
+            e.printStackTrace();
+        }
+        return timestamp;
+    }
+    
+    private static String getAskMeLaterKey( String project, String sim ) {
+        Object[] args = { project, sim };
+        return MessageFormat.format( PATTERN_KEY_ASK_ME_LATER, args );
+    }
+
+    /**
+     * Sets the most recent version that the user asked to skip.
+     * This is specific to a simulation.
+     */
+    public void setSkipUpdate( String project, String sim, PhetVersion version ) {
+        setStringProperty( getSkipUpdateKey( project, sim ), String.valueOf( version.getRevisionAsInt() ) );
+    }
+
+    /**
+     * Gets the most recent version that the user asked to skip.
+     * This is specific to a simulation.
+     */
+    public int getSkipUpdate( String project, String sim ) {
+        int version = 0;
+        try {
+            String s = getStringProperty( getSkipUpdateKey( project, sim ) );
+            if ( s != null ) {
+                version = Integer.parseInt( s );
+            }
+        }
+        catch ( NumberFormatException e ) {
+            e.printStackTrace();
+        }
+        return version;
+    }
+    
+    private static String getSkipUpdateKey( String project, String sim ) {
+        Object[] args = { project, sim };
+        return MessageFormat.format( PATTERN_KEY_SKIP_UPDATE, args );
+    }
+    
+    /**
+     * Sets the time in milliseconds since Epoch that the preferences file was created.
+     * We use this as an ad hoc means of anonymously identifying unique users.
+     */
+    private void setPreferencesFileCreationTimeNow() {
+        setStringProperty( KEY_PREFERENCES_FILE_CREATED_AT, String.valueOf( System.currentTimeMillis() ) );
+    }
+
+    /**
+     * Gets the time in milliseconds since Epoch that the preferences file was created.
+     * We use this as an ad hoc means of anonymously identifying unique users.
+     * If the file doesn't exist, it is created as a side effect.
+     */
     public long getPreferencesFileCreatedAtMillis() {
-        if ( properties.getProperty( PREFERENCES_FILE_CREATED_AT ) == null ) {
+        if ( properties.getProperty( KEY_PREFERENCES_FILE_CREATED_AT ) == null ) {
             setPreferencesFileCreationTimeNow();
         }
-        return Long.parseLong( properties.getProperty( PREFERENCES_FILE_CREATED_AT ) );
+        long timeStamp = -1;
+        try {
+            timeStamp = Long.parseLong( properties.getProperty( KEY_PREFERENCES_FILE_CREATED_AT ) );
+        }
+        catch ( NumberFormatException e ) {
+            e.printStackTrace();
+        }
+        return timeStamp;
     }
-
+    
+    private void setBooleanProperty( String key, boolean b ) {
+        setStringProperty( key, String.valueOf( b ) );
+    }
+    
+    private boolean getBooleanProperty( String key ) {
+        return Boolean.valueOf( getStringProperty( key ) ).booleanValue(); // any value other than "true" is false
+    }
+    
+    private void setStringProperty( String key, String value ) {
+        properties.setProperty( key, value );
+        storePreferences();
+    }
+    
+    private String getStringProperty( String key ) {
+        return properties.getProperty( key );
+    }
+    
     private void storePreferences() {
         try {
             properties.store( new FileOutputStream( PREFERENCES_FILE ), "Preferences for PhET, see http://phet.colorado.edu" );
@@ -67,97 +180,6 @@ public class PhetPreferences {
         }
     }
 
-    public static PhetPreferences getInstance() {
-        if ( instance == null ) {
-            instance = new PhetPreferences();
-        }
-        return instance;
-    }
-
-    public void setApplyTrackingToAll( boolean applyAll ) {
-        properties.setProperty( TRACKING_APPLY_TO_ALL, Boolean.toString( applyAll ) );
-        storePreferences();
-    }
-
-    public boolean isTrackingApplyToAll() {
-        String s = properties.getProperty( TRACKING_APPLY_TO_ALL, "true" );
-        return Boolean.valueOf( s ).booleanValue();
-    }
-
-    public void setApplyUpdatesToAll( boolean applyAll ) {
-        properties.setProperty( UPDATES_APPLY_TO_ALL, Boolean.toString( applyAll ) );
-        storePreferences();
-    }
-
-    public boolean isUpdatesApplyToAll() {
-        String updatesApplyAll = properties.getProperty( UPDATES_APPLY_TO_ALL, "true" );
-        return Boolean.valueOf( updatesApplyAll ).booleanValue();
-    }
-
-    public void setTrackingEnabledForAll( boolean b ) {
-        setBooleanEnabled( ALL_SIMS, TRACKING, b );
-    }
-
-    public void setUpdatesEnabledForAll( boolean b ) {
-        setBooleanEnabled( ALL_SIMS, UPDATES, b );
-    }
-
-    public boolean isTrackingEnabled( String project, String sim ) {
-        if ( isTrackingApplyToAll() ) {
-            return isTrackingEnabledForAll();
-        }
-        else {
-            return getBooleanEnabled( project, sim, TRACKING,
-                                      //if on a simulation by simulation basis, and no value specified, use the last value specified for all-sims
-                                      isTrackingEnabledForAll() );
-        }
-    }
-
-    public boolean isUpdatesEnabled( String project, String sim ) {
-        if ( isUpdatesApplyToAll() ) {
-            return isUpdatesEnabledForAll();
-        }
-        else {
-
-            return getBooleanEnabled( project, sim, UPDATES,
-                                      //if on a simulation by simulation basis, and no value specified, use the last value specified for all-sims
-                                      isUpdatesEnabledForAll() );
-        }
-    }
-
-    public boolean isTrackingEnabledForAll() {
-        return getBooleanEnabled( ALL_SIMS, TRACKING, true );
-    }
-
-    public boolean isUpdatesEnabledForAll() {
-        return getBooleanEnabled( ALL_SIMS, UPDATES, true );
-    }
-
-    public void setTrackingEnabled( String project, String sim, boolean trackingEnabled ) {
-        setBoolean( project, sim, TRACKING, trackingEnabled );
-    }
-
-    public void setUpdatesEnabled( String project, String sim, boolean updatesEnabled ) {
-        setBoolean( project, sim, UPDATES, updatesEnabled );
-    }
-
-    private boolean getBooleanEnabled( String project, String sim, String type, boolean defaultValue ) {
-        return getBooleanEnabled( project + DOT + sim, type, defaultValue );
-    }
-
-    private boolean getBooleanEnabled( String project, String type, boolean defaultValue ) {
-        return Boolean.valueOf( properties.getProperty( project + DOT + type + DOT + "enabled", "" + defaultValue ) ).booleanValue();
-    }
-
-    private void setBoolean( String project, String sim, String type, boolean value ) {
-        setBooleanEnabled( project + DOT + sim, type, value );
-    }
-
-    private void setBooleanEnabled( String project, String type, boolean value ) {
-        properties.setProperty( project + DOT + type + DOT + "enabled", "" + value );
-        storePreferences();
-    }
-
     public String toString() {
         return properties.toString();
     }
@@ -165,23 +187,5 @@ public class PhetPreferences {
     public static void main( String[] args ) throws IOException {
         PhetPreferences phetPreferences = new PhetPreferences();
         System.out.println( "phetPreferences = " + phetPreferences );
-    }
-
-    public void setLastAskMeLaterTime( long time ) {
-        properties.setProperty( LAST_ASK_ME_LATER_TIME, "" + time );
-        storePreferences();
-    }
-
-    public long getLastAskMeLaterTime() {
-        return Long.parseLong( properties.getProperty( LAST_ASK_ME_LATER_TIME, "0" ) );
-    }
-
-    public void skipThisVersion( String project, String sim, PhetVersion version ) {
-        properties.setProperty( project + "." + sim + ".skip", version.getRevisionAsInt() + "" );//todo: i'd prefer to save the major.minor here, but don't have a parser handy
-        storePreferences();
-    }
-
-    public int getSkip( String project, String sim ) {
-        return Integer.parseInt( properties.getProperty( project + "." + sim + ".skip", "0" ) );
     }
 }

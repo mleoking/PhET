@@ -270,20 +270,20 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
     
     private boolean isUpdatesAllowed() {
         //todo: perhaps we should use PhetPreferences.isUpdatesEnabled(String,String)
-        boolean enabledForSelection = new DefaultUpdatePreferences( this ).isEnabledForSelection();
+        boolean enabledForSelection = new DefaultUpdatePreferences().isEnabled();
 //        System.out.println( "updates allowed = " + enabledForSelection );
         return enabledForSelection;
     }
 
     private boolean isTrackingAllowed() {
         //todo: perhaps we should use PhetPreferences.isTrackingEnabled(String,String)
-        boolean trackingAllowed = new DefaultTrackingPreferences( this ).isEnabledForSelection();
+        boolean trackingAllowed = new DefaultTrackingPreferences().isEnabled();
 //        System.out.println( "trackingAllowed = " + trackingAllowed );
         return trackingAllowed;
     }
 
     private boolean hasEnoughTimePassedSinceAskMeLater() {
-        long lastTimeUserPressedAskMeLaterForAnySim = PhetPreferences.getInstance().getLastAskMeLaterTime();
+        long lastTimeUserPressedAskMeLaterForAnySim = PhetPreferences.getInstance().getAskMeLater( getProjectName(), getFlavor() );
         long currentTime = System.currentTimeMillis();
         long elapsedTime = currentTime - lastTimeUserPressedAskMeLaterForAnySim;
         int millisecondsDelayBeforeAskingAgain = 1000 * 60 * 60 * 24;
@@ -299,7 +299,7 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
 
             public void newVersionAvailable( PhetVersion currentVersion, final PhetVersion remoteVersion ) {
                 int remoteVersionSVN = remoteVersion.getRevisionAsInt();
-                int requestedSkipSVN = PhetPreferences.getInstance().getSkip( getProjectName(), getFlavor() );
+                int requestedSkipSVN = PhetPreferences.getInstance().getSkipUpdate( getProjectName(), getFlavor() );
 //                System.out.println( "remoteVersionSVN = " + remoteVersionSVN + ", requestedSkipSVN=" + requestedSkipSVN );
                 if ( remoteVersionSVN > requestedSkipSVN )
                 //show UI in swing thread after new thread has found a new version

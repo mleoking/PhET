@@ -15,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.preferences.*;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 
 public class AutomaticUpdateDialog extends UpdateResultDialog {
-    private PhetApplicationConfig config;
 
     public AutomaticUpdateDialog( PhetApplication application, PhetVersion newVersion ) {
         this( application.getApplicationConfig().getProjectName(), application.getApplicationConfig().getFlavor(),
@@ -31,7 +30,6 @@ public class AutomaticUpdateDialog extends UpdateResultDialog {
 
     public AutomaticUpdateDialog( final String project, final String sim, final Frame parent, String html, final ITrackingInfo trackingInfo, final IManualUpdateChecker iManuallyCheckForUpdates, final PhetVersion newVersion, final PhetApplicationConfig config, final IUpdateTimer updateTimer, final IVersionSkipper versionSkipper ) {
         super( parent, "New Update Available", html );
-        this.config = config;
         JPanel buttonStrip = new JPanel();
         JButton updateNowButton = new JButton( "Update Now" );
         updateNowButton.addActionListener( new ActionListener() {
@@ -58,7 +56,7 @@ public class AutomaticUpdateDialog extends UpdateResultDialog {
         JButton askMeLater = new JButton( "Ask me later" );
         askMeLater.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                updateTimer.setLastAskMeLaterTime( System.currentTimeMillis() );
+                updateTimer.setLastAskMeLaterTime( project, sim, System.currentTimeMillis() );
                 dispose();
             }
         } );
@@ -83,7 +81,7 @@ public class AutomaticUpdateDialog extends UpdateResultDialog {
         preferences.addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
                 dispose();
-                new PreferencesDialog( parent, trackingInfo, iManuallyCheckForUpdates, new DefaultUpdatePreferences( config ), new DefaultTrackingPreferences( config ) ).setVisible( true );
+                new PreferencesDialog( parent, trackingInfo, iManuallyCheckForUpdates, new DefaultUpdatePreferences(), new DefaultTrackingPreferences() ).setVisible( true );
             }
         } );
         preferences.setForeground( Color.blue );
