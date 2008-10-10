@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.phetcommon.updates;
+package edu.colorado.phet.common.phetcommon.updates.dialogs;
 
 import java.awt.Frame;
 

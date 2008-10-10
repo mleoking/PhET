@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.phetcommon.updates;
+package edu.colorado.phet.common.phetcommon.updates.dialogs;
 
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.updates.OpenWebPageToNewVersion;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 /**

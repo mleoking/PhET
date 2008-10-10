@@ -6,6 +6,7 @@ import java.net.URL;
 import javax.jnlp.UnavailableServiceException;
 
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
+import edu.colorado.phet.common.phetcommon.updates.dialogs.AbstractUpdateDialog;
 
 public class OpenWebPageToNewVersion {
     public static void openWebPageToNewVersion( String project, String sim ) {

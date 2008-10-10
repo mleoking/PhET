@@ -17,8 +17,8 @@ import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.tracking.Trackable;
 import edu.colorado.phet.common.phetcommon.tracking.Tracker;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingInfo;
-import edu.colorado.phet.common.phetcommon.updates.AutomaticUpdateDialog;
 import edu.colorado.phet.common.phetcommon.updates.UpdateManager;
+import edu.colorado.phet.common.phetcommon.updates.dialogs.AutomaticUpdateDialog;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
