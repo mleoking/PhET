@@ -100,6 +100,16 @@ public class JGVPanel extends Panel implements DragConstants {
     }
   }
 
+    public void addXMLFile(InputStream is) throws Exception {
+        if (is != null) {
+        Document dom = Parser.parse(is);
+        world = Geom.parse(dom);
+        if (world != null) {
+          recalcWorld();
+        }
+      }
+    }
+
   public void addXMLFile(String filename) {
     try {
       InputStream is = null;
@@ -110,13 +120,7 @@ public class JGVPanel extends Panel implements DragConstants {
 	URL url = new URL(my_applet.getDocumentBase(), filename);
         is = url.openStream();
       }
-      if (is != null) {
-        Document dom = Parser.parse(is);
-        world = Geom.parse(dom);
-        if (world != null) {
-          recalcWorld();
-        }
-      }
+      addXMLFile( is );
     } catch (Exception e) {
       System.out.println(e);
     }
