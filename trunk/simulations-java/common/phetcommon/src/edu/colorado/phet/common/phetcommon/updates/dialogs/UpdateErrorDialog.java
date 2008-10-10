@@ -18,9 +18,14 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 
 public class UpdateErrorDialog extends AbstractUpdateDialog {
+    
+    private static final String TITLE = PhetCommonResources.getString( "Common.updates.error.title" );
+    private static final String OK_BUTTON = PhetCommonResources.getString( "Common.choice.ok" );
+    private static final String DETAILS_BUTTON = PhetCommonResources.getString( "Common.updates.error.detailsButton" );
+    private static final String DETAILS_TITLE = PhetCommonResources.getString( "Common.updates.error.detailsTitle" );
 
     public UpdateErrorDialog( Frame owner, final Exception exception ) {
-        super( owner, "Update error" );
+        super( owner, TITLE );
         setModal( true );
         setResizable( false );
         
@@ -31,7 +36,7 @@ public class UpdateErrorDialog extends AbstractUpdateDialog {
         messagePanel.add( htmlPane );
         
         // closes the dialog
-        JButton okButton = new JButton( PhetCommonResources.getString( "Common.choice.ok" ) );
+        JButton okButton = new JButton( OK_BUTTON );
         okButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 dispose();
@@ -40,13 +45,13 @@ public class UpdateErrorDialog extends AbstractUpdateDialog {
         
         // shows the stack trace
         //TODO: make it easy to copy-&-paste this, for emailing to phethelp
-        final JButton detailsButton = new JButton( "Details..." );
+        final JButton detailsButton = new JButton( DETAILS_BUTTON );
         detailsButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 final StringWriter result = new StringWriter();
                 final PrintWriter printWriter = new PrintWriter( result );
                 exception.printStackTrace( printWriter );
-                JOptionPane.showMessageDialog( detailsButton, result.getBuffer(), "Error details", JOptionPane.INFORMATION_MESSAGE );
+                JOptionPane.showMessageDialog( detailsButton, result.getBuffer(), DETAILS_TITLE, JOptionPane.INFORMATION_MESSAGE );
             }
         } );
         

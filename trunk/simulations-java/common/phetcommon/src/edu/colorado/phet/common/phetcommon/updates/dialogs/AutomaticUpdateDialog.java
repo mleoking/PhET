@@ -14,6 +14,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.preferences.*;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.updates.*;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.UpdateInstructionsDialog.AutomaticUpdateInstructionsDialog;
@@ -24,11 +25,11 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
  */
 public class AutomaticUpdateDialog extends AbstractUpdateDialog {
     
-    private static final String TITLE = "Update Available";
-    private static final String UPDATE_NOW_BUTTON = "Update Now";
-    private static final String ASK_ME_LATER_BUTTON = "Ask me later";
-    private static final String SKIP_UPDATE_BUTTON = "Skip this update";
-    private static final String EDIT_PREFERENCES_LINK = "<html><font size=\"3\"><u>Advanced...</u></font></html>";
+    private static final String TITLE = PhetCommonResources.getString( "Common.updates.updateAvailable" );
+    private static final String UPDATE_NOW_BUTTON = PhetCommonResources.getString( "Common.updates.updateNow" );
+    private static final String ASK_ME_LATER_BUTTON = PhetCommonResources.getString( "Common.updates.askMeLater" );
+    private static final String SKIP_UPDATE_BUTTON = PhetCommonResources.getString( "Common.updates.skipThisUpdate" );
+    private static final String EDIT_PREFERENCES_LINK = PhetCommonResources.getString( "Common.updates.editPreferences" );
     
     public AutomaticUpdateDialog( PhetApplication application, PhetVersion newVersion ) {
         this( application.getPhetFrame(), 

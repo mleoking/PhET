@@ -7,17 +7,15 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 public class TrackingPreferencesPanel extends JPanel {
 
-    private static final String INFO =
-            "<html>" + PhetAboutDialog.HTML_CUSTOM_STYLE +
-            "<b><a href=http://phet.colorado.edu>PhET</a></b> " +
-            "is made possible by grants that require<br>us to track anonymous usage statistics.</html>";
-    private static final String TRACKING_ENABLED = "Send tracking info to PhET";
-    private static final String DETAILS = "Details...";
+    private static final String INFO = PhetCommonResources.getString( "Common.tracking.info" );
+    private static final String TRACKING_ENABLED = PhetCommonResources.getString( "Common.tracking.sendToPhET" );
+    private static final String DETAILS = PhetCommonResources.getString( "Common.tracking.detailsButton" );
     
     private ITrackingInfo tracker;
 

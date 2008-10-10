@@ -22,9 +22,9 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 public class PreferencesDialog extends JDialog {
     
-    private static final String TITLE = "Preferences";
-    private static final String UPDATES_TAB = "Updates";
-    private static final String TRACKING_TAB = "Tracking";
+    private static final String TITLE = PhetCommonResources.getString( "Common.preferences.title" );
+    private static final String UPDATES_TAB = PhetCommonResources.getString( "Common.preferences.updates" );
+    private static final String TRACKING_TAB = PhetCommonResources.getString( "Common.preferences.tracking" );
     private static final String OK_BUTTON = PhetCommonResources.getString( "Common.choice.ok" );
     private static final String CANCEL_BUTTON = PhetCommonResources.getString( "Common.choice.cancel" );
     

@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 
 public class UpdatesPreferencesPanel extends JPanel {
     
-    private static final String UPDATES_ENABLED = "Automatically check for updates";
+    private static final String UPDATES_ENABLED = PhetCommonResources.getString( "Common.updates.automaticallyCheck" );
     private static final String CHECK_FOR_UPDATES = PhetCommonResources.getString( "Common.HelpMenu.CheckForUpdates" );
     
     final JCheckBox updatesEnabledCheckBox;
