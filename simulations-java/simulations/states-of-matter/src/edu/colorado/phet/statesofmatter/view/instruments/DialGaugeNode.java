@@ -51,8 +51,8 @@ public class DialGaugeNode extends PNode {
     private static final double TEXTUAL_READOUT_WIDTH_SCALE_FACTOR = 0.6;     // Width of textual readout box wrt overall diameter. 
     private static final double TEXTUAL_READOUT_STROKE_SCALE_FACTOR = 0.010;  // Stroke width textual readout box wrt overall diameter. 
     private static final int    NUM_TICKMARKS = 19;
-    private static double       GAUGE_START_ANGLE = -Math.PI * 5 / 4; // In radians.
-    private static double       GAUGE_END_ANGLE = Math.PI / 4;        // In radians.
+    private static double       GAUGE_START_ANGLE = -Math.PI * 1.15; // In radians.
+    private static double       GAUGE_END_ANGLE = Math.PI * 0.15;    // In radians.
     private static double       GAUGE_ANGLE_RANGE = GAUGE_END_ANGLE - GAUGE_START_ANGLE;
     private static double       NEEDLE_SHIFT_PROPORTION = 0.75;      // Proportion of needle used as pointer.
     private static double       CONNECTOR_HEIGHT_PROPORATION = 0.15; // Height of connector wrt overall diameter.
@@ -132,15 +132,15 @@ public class DialGaugeNode extends PNode {
         textualReadoutHighlight.setStrokePaint( Color.YELLOW );
         textualReadoutHighlight.setPaint( Color.WHITE );
         textualReadoutHighlight.setOffset( diameter / 2 - textualReadoutHighlight.getWidth() / 2 + highlightStrokeWidth / 2, 
-                diameter * 0.60 );
+                diameter * 0.70 );
         dialComponentsNode.addChild( textualReadoutHighlight );
         
         PPath textualReadoutBox = new PPath(m_textualReadoutBoxShape);
         float textBoxStrokeWidth = (float)(diameter * TEXTUAL_READOUT_STROKE_SCALE_FACTOR);
         textualReadoutBox.setStroke( new BasicStroke( textBoxStrokeWidth ) );
         textualReadoutBox.setStrokePaint( Color.DARK_GRAY );
-        textualReadoutBox.setOffset( diameter / 2 - textualReadoutHighlight.getWidth() / 2 + textBoxStrokeWidth / 2,
-                diameter * 0.60 );
+        textualReadoutBox.setOffset( diameter / 2 - textualReadoutBox.getWidth() / 2 + textBoxStrokeWidth / 2,
+                diameter * 0.70 );
         dialComponentsNode.addChild( textualReadoutBox );
         m_textualReadout = new PText(" ");
         m_textualReadout.setFont( new PhetFont(12) );
