@@ -65,10 +65,10 @@ public class TrackingPreferencesPanel extends JPanel {
                 public void actionPerformed( ActionEvent e ) {
                     Window window = SwingUtilities.getWindowAncestor( DetailsButton.this );
                     if ( window instanceof Frame ) {
-                        new FullTrackingInfoDialog( (Frame) window, tracker ).setVisible( true );
+                        new TrackingDetailsDialog( (Frame) window, tracker ).setVisible( true );
                     }
                     else if ( window instanceof Dialog ) {
-                        new FullTrackingInfoDialog( (Dialog) window, tracker ).setVisible( true );
+                        new TrackingDetailsDialog( (Dialog) window, tracker ).setVisible( true );
                     }
                 }
             } );
