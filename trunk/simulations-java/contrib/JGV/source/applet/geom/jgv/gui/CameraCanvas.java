@@ -65,35 +65,6 @@ public class CameraCanvas extends JComponent implements DragConstants {
     this.add(popup);
   }
 
-  public void paint(Graphics g) {
-    if (tree == null) return;
-
-    int width = getSize().width;
-    int height = getSize().height;
-    camera.setSize(width, height);
-    camera.preView();
-
-    double EyeO[] = camera.getEyeObj();
-    eye = new Point(EyeO[0], EyeO[1], EyeO[2]);
-    gr = g;
-
-    if (tree == null) {
-      System.out.println("No BSP tree set for this CameraCanvas");
-      return;
-    }
-    else tree.renderBSP(eye, gr, camera);
-
-    g.setFont(copyrightFont);
-    g.setColor(copyrightColor);
-    g.drawString(copyright,
-                 (width-copyrightLength)/2,
-                 height-fontDescent-3);
-    g.drawString(version,
-                 3,
-                 fontAscent+3);
-    g.drawRect(0, 0, width-1, height-1);
-  }
-
   public final void setTree(BSPTree t) {
     tree = t;
     camera.normalize(t);
@@ -140,56 +111,36 @@ public class CameraCanvas extends JComponent implements DragConstants {
     return val;
   }
 
-  // This update method should be pluggable into anything that's a Component
-  // (e.g. a subclass of Panel.)
-  // We assume two instance variables declared above:
-  //	 Image offscreen;		// Scratch space
-  //	 boolean doublebuffered;	// If true, do double-buffering
-  // With luck this may be all you need.
-  public void update(Graphics screeng){
-    Rectangle area = screeng.getClipBounds(); //getClipRect();
-    Graphics g;
-
-    if (doublebuffered) {
-      /* If we're double-buffering, we need an (off-screen) image to
-       * draw into.  Keep one lying around in "offscreen".
-       * If that hasn't yet been initialized, or if our size has
-       * changed since then, then create a new one.
-       */
-      if(offscreen == null ||
-         offscreen.getWidth(null) != area.width ||
-	 offscreen.getHeight(null) != area.height) {
-	offscreen = createImage(area.width, area.height);
-      }
-      /* We'll render into the off-screen image's graphics area.
-       * Start by clearing it to the background color.
-       */
-      g = offscreen.getGraphics();
-    }
-    else {
-      /* Otherwise, we're single-buffered; render directly to the screen.  */
-      g = screeng;
-    }
-
-    g.setColor(getBackground());
-    g.fillRect(0, 0, area.width, area.height);
-    g.setColor(getForeground());
-    paint(g);
-
-    /*
-     * If we were double-buffering, finish by copying the image we just
-     * drew into the relevant piece of the screen.
-     */
-    if (doublebuffered) {
-      screeng.drawImage(offscreen,
-	                area.x, area.y, area.width, area.height,
-	                this);
-    }
-  }
-
     protected void paintComponent( Graphics g ) {
         super.paintComponent( g );
-        paint( g );
+        g.setColor( Color.blue );
+        g.fillRect( 0,0,getWidth(), getHeight() );
+        if (tree == null) return;
+
+    int width = getSize().width;
+    int height = getSize().height;
+    camera.setSize(width, height);
+    camera.preView();
+
+    double EyeO[] = camera.getEyeObj();
+    eye = new Point(EyeO[0], EyeO[1], EyeO[2]);
+    gr = g;
+
+    if (tree == null) {
+      System.out.println("No BSP tree set for this CameraCanvas");
+      return;
+    }
+    else tree.renderBSP(eye, gr, camera);
+
+    g.setFont(copyrightFont);
+    g.setColor(copyrightColor);
+    g.drawString(copyright,
+                 (width-copyrightLength)/2,
+                 height-fontDescent-3);
+    g.drawString(version,
+                 3,
+                 fontAscent+3);
+    g.drawRect(0, 0, width-1, height-1);
     }
 }
 
