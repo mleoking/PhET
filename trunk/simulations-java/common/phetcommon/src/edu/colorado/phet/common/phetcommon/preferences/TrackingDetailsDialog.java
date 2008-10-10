@@ -21,10 +21,16 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  * Dialog that appears when you press the "Details" button in the Tracking preferences panel.
  */
 public class TrackingDetailsDialog extends JDialog {
+    
+    private static final String TITLE = "Tracking Details";
+    private static final String REPORT_LABEL = "Report";
+    private static final String WEB_LINK_TOOLTIP = PhetCommonResources.getString( "Common.About.WebLink" );
+    private static final String OK_BUTTON = PhetCommonResources.getString( "Common.choice.ok" );
+    
     private ITrackingInfo iTrackingInfo;
 
     public TrackingDetailsDialog( Dialog owner, ITrackingInfo iTrackingInfo ) {
-        super( owner, "Tracking Details" );
+        super( owner, TITLE );
         init( iTrackingInfo );
     }
 
@@ -56,7 +62,7 @@ public class TrackingDetailsDialog extends JDialog {
         if ( iTrackingInfo.getHumanReadableTrackingInformation() != null ) {
             jt.setText( iTrackingInfo.getHumanReadableTrackingInformation() );
         }
-        jt.setBorder( BorderFactory.createTitledBorder( "Report" ) );
+        jt.setBorder( BorderFactory.createTitledBorder( REPORT_LABEL ) );
         jt.setEditable( false );
         return jt;
     }
@@ -66,7 +72,7 @@ public class TrackingDetailsDialog extends JDialog {
         BufferedImage image = PhetCommonResources.getInstance().getImage( PhetLookAndFeel.PHET_LOGO_120x50 );
         JLabel logoLabel = new JLabel( new ImageIcon( image ) );
         logoLabel.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
-        logoLabel.setToolTipText( getLocalizedString( "Common.About.WebLink" ) );
+        logoLabel.setToolTipText( WEB_LINK_TOOLTIP );
         logoLabel.addMouseListener( new MouseInputAdapter() {
             public void mouseReleased( MouseEvent e ) {
                 PhetServiceManager.showPhetPage();
@@ -88,7 +94,7 @@ public class TrackingDetailsDialog extends JDialog {
     
     private JPanel createButtonPanel() {
         JPanel panel = new JPanel();
-        JButton okButton = new JButton( getLocalizedString( "Common.choice.ok" ) );
+        JButton okButton = new JButton( OK_BUTTON );
         okButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 dispose();
@@ -96,10 +102,6 @@ public class TrackingDetailsDialog extends JDialog {
         });
         panel.add( okButton );
         return panel;
-    }
-
-    private String getLocalizedString( String propertyName ) {
-        return PhetCommonResources.getInstance().getLocalizedString( propertyName );
     }
 
     private static final String INFO =

@@ -16,6 +16,9 @@ public class TrackingPreferencesPanel extends JPanel {
             "<html>" + PhetAboutDialog.HTML_CUSTOM_STYLE +
             "<b><a href=http://phet.colorado.edu>PhET</a></b> " +
             "is made possible by grants that require<br>us to track anonymous usage statistics.</html>";
+    private static final String TRACKING_ENABLED = "Send tracking info to PhET";
+    private static final String DETAILS = "Details...";
+    
     private ITrackingInfo tracker;
 
     private JCheckBox trackingEnabledCheckBox;
@@ -29,7 +32,7 @@ public class TrackingPreferencesPanel extends JPanel {
         constraints.gridx = 0;
         constraints.gridwidth = 1;
         
-        trackingEnabledCheckBox = new JCheckBox( "Send tracking info to PhET", trackingEnabled );
+        trackingEnabledCheckBox = new JCheckBox( TRACKING_ENABLED, trackingEnabled );
 
         add( createLogoPanel(), constraints );
         add( Box.createRigidArea( new Dimension( 5, 10 ) ), constraints );
@@ -60,7 +63,7 @@ public class TrackingPreferencesPanel extends JPanel {
 
     private class DetailsButton extends JButton {
         private DetailsButton() {
-            super( "Details..." );
+            super( DETAILS );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     Window window = SwingUtilities.getWindowAncestor( DetailsButton.this );

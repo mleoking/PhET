@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 public class OpenWebPageToNewVersion {
     public static void openWebPageToNewVersion( String project, String sim ) {
         try {
-            PhetServiceManager.getBasicService().showDocument( new URL( AutomaticUpdateDialog.getSimURL( project, sim ) ) );
+            PhetServiceManager.getBasicService().showDocument( new URL( AbstractUpdateDialog.getSimURL( project, sim ) ) );
         }
         catch( UnavailableServiceException e1 ) {
             e1.printStackTrace();

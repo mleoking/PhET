@@ -1,6 +1,9 @@
 package edu.colorado.phet.common.phetcommon.updates;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -8,110 +11,112 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.preferences.*;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
+import edu.colorado.phet.common.phetcommon.updates.UpdateInstructionsDialog.AutomaticUpdateInstructionsDialog;
+import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
-public class AutomaticUpdateDialog extends UpdateResultDialog {
-
+/**
+ * The dialog that used to automatically notify the user that an update is available.
+ */
+public class AutomaticUpdateDialog extends AbstractUpdateDialog {
+    
+    private static final String TITLE = "Update Available";
+    private static final String UPDATE_NOW_BUTTON = "Update Now";
+    private static final String ASK_ME_LATER_BUTTON = "Ask me later";
+    private static final String SKIP_UPDATE_BUTTON = "Skip this update";
+    private static final String EDIT_PREFERENCES_LINK = "<html><font size=\"3\"><u>Advanced...</u></font></html>";
+    
     public AutomaticUpdateDialog( PhetApplication application, PhetVersion newVersion ) {
-        this( application.getApplicationConfig().getProjectName(), application.getApplicationConfig().getFlavor(),
-              application.getPhetFrame(), getHTML( application, newVersion ),
+        this( application.getPhetFrame(), 
+              application.getApplicationConfig().getProjectName(), 
+              application.getApplicationConfig().getFlavor(),
+              application.getApplicationConfig().getName(),
+              application.getApplicationConfig().getVersion(),
+              newVersion,
               application.getApplicationConfig(),
               new ApplicationConfigManualCheckForUpdates( application.getPhetFrame(), application.getApplicationConfig() ),
-              newVersion, application.getApplicationConfig(), new DefaultUpdateTimer(), new DefaultVersionSkipper() );
+              application.getApplicationConfig(), 
+              new DefaultUpdateTimer(), 
+              new DefaultVersionSkipper() );
     }
 
-    private static String getHTML( PhetApplication application, PhetVersion newVersion ) {
-        return "<html>" + PhetAboutDialog.HTML_CUSTOM_STYLE + "Your current version of " + application.getApplicationConfig().getName() + " is " + application.getApplicationConfig().getVersion().formatForTitleBar() + ".<br>A newer version (" + newVersion.formatForTitleBar() + ") is available.</html>";
-    }
-
-    public AutomaticUpdateDialog( final String project, final String sim, final Frame parent, String html, final ITrackingInfo trackingInfo, final IManualUpdateChecker iManuallyCheckForUpdates, final PhetVersion newVersion, final PhetApplicationConfig config, final IUpdateTimer updateTimer, final IVersionSkipper versionSkipper ) {
-        super( parent, "New Update Available", html );
-        JPanel buttonStrip = new JPanel();
-        JButton updateNowButton = new JButton( "Update Now" );
+    private AutomaticUpdateDialog( final Frame owner, 
+            final String project, final String sim, final String simName, 
+            final PhetVersion currentVersion, final PhetVersion newVersion,
+            final ITrackingInfo trackingInfo, final IManualUpdateChecker iManuallyCheckForUpdates, 
+            final PhetApplicationConfig config, 
+            final IUpdateTimer updateTimer, final IVersionSkipper versionSkipper ) {
+        super( owner, TITLE );
+        setResizable( false );
+        setModal( true );
+        
+        // information about the update that was found
+        String html = getAutomaticUpdateMessageHTML( simName, currentVersion.formatForTitleBar(), newVersion.formatForTitleBar() );
+        JComponent htmlPane = createHTMLPaneWithLinks( html );
+        JPanel messagePanel = new JPanel();
+        messagePanel.setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
+        messagePanel.add( htmlPane );
+        
+        // opens a web browser to the sim's web page
+        JButton updateNowButton = new JButton( UPDATE_NOW_BUTTON );
         updateNowButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                UpdateResultDialog updateResultDialog = new UpdateResultDialog(
-                        parent, "Instructions on Updating",
-                        "<html>" +
-                        PhetAboutDialog.HTML_CUSTOM_STYLE + getUpdateInstructions( project, sim, newVersion ) +
-                        "</html>" );
-                updateResultDialog.addOKButton();
-                updateResultDialog.addListener( new UpdateResultDialog.Listener() {
-                    public void dialogFinished() {
-                        OpenWebPageToNewVersion.openWebPageToNewVersion(project, sim );
-                    }
-                } );
-
-                updateResultDialog.pack();
-                AutomaticUpdateDialog.this.dispose();
-                updateResultDialog.setVisible( true );
+                dispose();
+                JDialog dialog = new AutomaticUpdateInstructionsDialog( owner, project, sim, simName, currentVersion.formatForTitleBar(), newVersion.formatForTitleBar() );
+                dialog.setVisible( true );
             }
         } );
-        buttonStrip.add( updateNowButton );
 
-        JButton askMeLater = new JButton( "Ask me later" );
+        // ignores this update until a later time
+        JButton askMeLater = new JButton( ASK_ME_LATER_BUTTON );
         askMeLater.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 updateTimer.setLastAskMeLaterTime( project, sim, System.currentTimeMillis() );
                 dispose();
             }
         } );
-        buttonStrip.add( askMeLater );
 
-        JButton skipThisVersion = new JButton( "Skip this update" );
+        // ignores this version altogether
+        JButton skipThisVersion = new JButton( SKIP_UPDATE_BUTTON );
         skipThisVersion.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 versionSkipper.skipThisVersion( config.getProjectName(), config.getFlavor(), newVersion );
                 dispose();
             }
         } );
-        buttonStrip.add( skipThisVersion );
+        
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add( updateNowButton );
+        buttonPanel.add( askMeLater );
+        buttonPanel.add( skipThisVersion );
 
-        String htmlText =
-                "<html>" +
-                "<font size=\"4\"><u>" +
-                "Advanced...</u></font></html>";
-
-        JLabel preferences = new JLabel( htmlText );
-        preferences.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
-        preferences.addMouseListener( new MouseAdapter() {
+        // link to the Preferences dialog
+        JLabel preferencesLink = new JLabel( EDIT_PREFERENCES_LINK );
+        preferencesLink.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+        preferencesLink.addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
                 dispose();
-                new PreferencesDialog( parent, trackingInfo, iManuallyCheckForUpdates, new DefaultUpdatePreferences(), new DefaultTrackingPreferences() ).setVisible( true );
+                new PreferencesDialog( owner, trackingInfo, iManuallyCheckForUpdates, new DefaultUpdatePreferences(), new DefaultTrackingPreferences() ).setVisible( true );
             }
         } );
-        preferences.setForeground( Color.blue );
-        buttonStrip.add( preferences );
+        preferencesLink.setForeground( Color.blue );
+        buttonPanel.add( preferencesLink );
 
-        addComponent( buttonStrip );
+        // main panel layout
+        JPanel panel = new JPanel();
+        EasyGridBagLayout layout = new EasyGridBagLayout( panel );
+        panel.setLayout( layout );
+        int row = 0;
+        int column = 0;
+        layout.addComponent( messagePanel, row++, column );
+        layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
+        layout.addComponent( buttonPanel, row++, column );
 
+        setContentPane( panel );
         pack();
         center();
     }
-
-    public static String getUpdateInstructions( String project, String sim, PhetVersion newVersion ) {
-        String url = getSimURL( project, sim );
-        return "When you press OK, a web browser will be opened to PhET website, where you can get the new version (" + newVersion.formatForTitleBar() + ").<br><br>" +
-               "<font size=-2>If the web browser fails to open, please visit this URL:<br>" +
-               "<a href=\"" + url + "\">" + url + "</a></font>";
-    }
-
-    public static String getSimURL( String project, String sim ) {
-        return "http://phet.colorado.edu/simulations/sim-redirect.php?project=" + project + "&sim=" + sim;
-    }
-
-//    public static void main( String[] args ) {
-//        BalloonsApplication.BalloonsApplicationConfig config = new BalloonsApplication.BalloonsApplicationConfig( args );
-//        AutomaticUpdateDialog dialog = new AutomaticUpdateDialog( null, "<html>Your current version of Glaciers is 1.01.<br>A newer version (1.02) is available.</html>", config, new ApplicationConfigManualCheckForUpdates( null, config ), new PhetVersion( "1", "2", "3", "43243" ), new BalloonsApplication.BalloonsApplicationConfig( args ), new DefaultUpdateTimer(), new DefaultVersionSkipper() );
-//        dialog.setVisible( true );
-//        dialog.addWindowListener( new WindowAdapter() {
-//            public void windowClosing( WindowEvent e ) {
-//                System.exit( 0 );
-//            }
-//        } );
-//    }
 }

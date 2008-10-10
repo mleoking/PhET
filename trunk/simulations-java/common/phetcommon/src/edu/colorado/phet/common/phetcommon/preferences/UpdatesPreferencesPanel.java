@@ -14,7 +14,10 @@ import javax.swing.JPanel;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 
 public class UpdatesPreferencesPanel extends JPanel {
-
+    
+    private static final String UPDATES_ENABLED = "Automatically check for updates";
+    private static final String CHECK_FOR_UPDATES = PhetCommonResources.getString( "Common.HelpMenu.CheckForUpdates" );
+    
     final JCheckBox updatesEnabledCheckBox;
     
     public UpdatesPreferencesPanel( final IManualUpdateChecker iCheckForUpdates, boolean updatesEnabled ) {
@@ -24,11 +27,11 @@ public class UpdatesPreferencesPanel extends JPanel {
         constraints.gridx = 0;
         constraints.gridwidth = 1;
 
-        updatesEnabledCheckBox = new JCheckBox( "Automatically check for updates", updatesEnabled );
+        updatesEnabledCheckBox = new JCheckBox( UPDATES_ENABLED, updatesEnabled );
         add( Box.createRigidArea( new Dimension( 50, 20 ) ), constraints );
         add( updatesEnabledCheckBox, constraints );
         add( Box.createRigidArea( new Dimension( 50, 10 ) ), constraints );
-        JButton checkForUpdatesButton = new JButton( PhetCommonResources.getString( "Common.HelpMenu.CheckForUpdates" ) );
+        JButton checkForUpdatesButton = new JButton( CHECK_FOR_UPDATES );
         checkForUpdatesButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 iCheckForUpdates.checkForUpdates();
