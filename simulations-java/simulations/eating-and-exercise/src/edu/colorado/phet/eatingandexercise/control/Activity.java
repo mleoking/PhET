@@ -23,8 +23,8 @@ public class Activity {
      */
 
     public static final Activity[] DEFAULT_ACTIVITY_LEVELS = {
-            new Activity( EatingAndExerciseResources.getString( "activity.very-sedentary" ), 0.1, 18.5 ),
-            new Activity( EatingAndExerciseResources.getString( "activity.sedentary" ), 0.25, 20 ),
+            new Activity( EatingAndExerciseResources.getString( "activity.very-sedentary" ), 0.05, 18.5 ),
+            new Activity( EatingAndExerciseResources.getString( "activity.sedentary" ), 0.15, 20 ),
             DEFAULT_ACTIVITY_LEVEL,
             new Activity( EatingAndExerciseResources.getString( "activity.active" ), 0.75, 25 ),
     };
