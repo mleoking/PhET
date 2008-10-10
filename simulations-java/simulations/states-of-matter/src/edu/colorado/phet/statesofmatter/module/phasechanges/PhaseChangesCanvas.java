@@ -8,8 +8,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
@@ -35,12 +33,14 @@ public class PhaseChangesCanvas extends PhetPCanvas {
 
     // Canvas size in pico meters, since this is a reasonable scale at which
     // to display molecules.  Assumes a 4:3 aspect ratio.
-    private final double CANVAS_WIDTH = 23000;
+    private final double CANVAS_WIDTH = 24000;
     private final double CANVAS_HEIGHT = CANVAS_WIDTH * (3.0d/4.0d);
     
     // Translation factors, used to set origin of canvas area.
-    private final double WIDTH_TRANSLATION_FACTOR = 4.0;
-    private final double HEIGHT_TRANSLATION_FACTOR = 1.4;
+    private static final double WIDTH_TRANSLATION_FACTOR = 0.29;  // 0 puts the vertical origin all the way left, 1
+                                                                  // is all the way to the right.
+    private static final double HEIGHT_TRANSLATION_FACTOR = 0.74; // 0 puts the horizontal origin at the top of the 
+                                                                  // window, 1 puts it at the bottom.
     
     // Sizes, in terms of overall canvas size, of the nodes on the canvas.
     private final double BURNER_NODE_WIDTH = CANVAS_WIDTH / 2.5;
@@ -59,6 +59,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
     private ParticleContainerNode m_particleContainer;
     private ModelViewTransform m_mvt;
     private DialGaugeNode m_pressureMeter;
+    private double m_pressureMeterElbowOffset;
     private CompositeThermometerNode m_thermometerNode;
     private Random m_rand;
     private double m_rotationAngle;
@@ -81,8 +82,8 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         setWorldTransformStrategy( new RenderingSizeStrategy(this, 
                 new PDimension(CANVAS_WIDTH, CANVAS_HEIGHT) ){
             protected AffineTransform getPreprocessedTransform(){
-                return AffineTransform.getTranslateInstance( getWidth()/WIDTH_TRANSLATION_FACTOR, 
-                        getHeight()/HEIGHT_TRANSLATION_FACTOR );
+                return AffineTransform.getTranslateInstance( getWidth() * WIDTH_TRANSLATION_FACTOR, 
+                        getHeight() * HEIGHT_TRANSLATION_FACTOR );
             }
         });
         
@@ -96,6 +97,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
             }
             public void containerSizeChanged(){
                 updateThermometerPosition();
+                updateGaugePosition();
             }
             public void containerExploded() {
                 m_rotationAngle = -(Math.PI/100 + (m_rand.nextDouble() * Math.PI/50));
@@ -117,8 +119,11 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         m_pressureMeter = new DialGaugeNode(PRESSURE_GAUGE_WIDTH, StatesOfMatterStrings.PRESSURE_GAUGE_TITLE, 0, 
                 MAX_PRESSURE, StatesOfMatterStrings.PRESSURE_GAUGE_UNITS);
         m_pressureMeter.setOffset( containerRect.getX() - m_pressureMeter.getFullBoundsReference().width, 
-                containerRect.getY() - m_pressureMeter.getFullBoundsReference().height * 0.75 );
+	        containerRect.getY() - containerRect.getHeight() - (m_pressureMeter.getFullBoundsReference().getHeight() * 0.7));
+        m_pressureMeter.setElbowEnabled(true);
         addWorldChild( m_pressureMeter );
+        m_pressureMeterElbowOffset =  -m_pressureMeter.getFullBoundsReference().getCenterY() - containerRect.getMaxY();
+        m_pressureMeter.setElbowHeight(m_pressureMeterElbowOffset);
         
         // Add the pump.
         BicyclePumpNode pump = new BicyclePumpNode(PUMP_WIDTH, PUMP_HEIGHT, m_model);
@@ -195,8 +200,27 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         }
         
         m_thermometerNode.setOffset( 
-                containerRect.getX() + containerRect.getWidth() * 0.23, 
+                containerRect.getX() + containerRect.getWidth() * 0.3, 
                 containerRect.getY() - containerRect.getHeight() - 
                 (m_thermometerNode.getFullBoundsReference().height * 0.5) );
+    }
+
+    /**
+     * Update the position of the gauge so that it stays connected to the lid.
+     */
+    private void updateGaugePosition(){
+        Rectangle2D containerRect = m_model.getParticleContainerRect();
+
+        if (!m_model.getContainerExploded()){
+            if (m_pressureMeter.getRotation() != 0){
+            	m_pressureMeter.setRotation(0);
+            }
+            m_pressureMeter.setElbowHeight(m_pressureMeterElbowOffset + 
+            		StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT - containerRect.getHeight());
+        }
+        else{
+        	// The container is exploding, so spin and move the gauge.
+        	m_pressureMeter.rotateInPlace(m_rotationAngle / 2);
+        }
     }
 }
