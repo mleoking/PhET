@@ -80,7 +80,7 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
         setBackground( StatesOfMatterConstants.CANVAS_BACKGROUND );
         
         // Create and add the particle container.
-        m_particleContainer = new ParticleContainerNode(m_model, m_mvt, false);
+        m_particleContainer = new ParticleContainerNode(m_model, m_mvt, false, false);
         addWorldChild(m_particleContainer);
         
         // Add a thermometer for displaying temperature.
