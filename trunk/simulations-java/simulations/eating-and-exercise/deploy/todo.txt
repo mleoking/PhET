@@ -1,5 +1,5 @@
 ############################
-###	Todo Sam	####
+###	Todo Sam		####
 ############################
 
 From Wendy 10/7/08:
@@ -22,7 +22,7 @@ From NP 10/9/08
 
 
 ############################
-###	Todo Noah P	####
+###	Todo Noah P		####
 ############################
 
 WA 10/7/08
@@ -32,29 +32,8 @@ WA 10/7/08
 
 
 
-
-
--make muscle gained balance out based on average exercise
-
--make neck less wide than torso
-
-
-
--add/subtract foods and exercises from WA:
-
-Food:
-
--find metal container for large milkshake
--make frappuccino cup look like cold drink
--make slow running slower
--
-
-Exercise: finish adding pictures for new exercises
-
-
-
 ############################
-###	To Discuss	####
+###	To Discuss		####
 ############################
 
 -Consider making different weight bearing activities have different multipliers (e.g., rock climbing more weight dependent than backpacking, etc.)
