@@ -5,8 +5,6 @@ package edu.colorado.phet.statesofmatter;
 import java.awt.Color;
 import java.awt.Frame;
 
-import javax.swing.SwingUtilities;
-
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
@@ -17,9 +15,6 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
-import edu.colorado.phet.glaciers.GlaciersApplication;
-import edu.colorado.phet.glaciers.GlaciersConstants;
-import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.statesofmatter.developer.DeveloperMenu;
 import edu.colorado.phet.statesofmatter.module.interactionpotential.InteractionPotentialModule;
 import edu.colorado.phet.statesofmatter.module.phasechanges.PhaseChangesModule;
