@@ -27,17 +27,27 @@ public class HTMLUtils {
     
     /**
      * Creates an \<a\> tag with an href attribute.
-     * @param href the URL to be loaded when the hyperlinked object is activated.
+     * The link is displayed.
+     * @param url the URL to be loaded when the hyperlinked object is activated.
+     * @return
+     */
+    public static String getHref( String url ) {
+        return getHref( url, url );
+    }
+    
+    /**
+     * Creates an \<a\> tag with an href attribute.
+     * @param url the URL to be loaded when the hyperlinked object is activated.
      * @param text the text to be displayed
      * @return
      */
-    public static String getHref( String href, String text ) {
-        return "<a href=" + href + ">" + text + "</a>";
+    public static String getHref( String url, String text ) {
+        return "<a href=" + url + ">" + text + "</a>";
     }
     
     /**
      * Creates an \<a\> tag that contains an href link to the PhET homepage.
-     * By default, the homepage URL is displayed.
+     * The link is displayed.
      * @return
      */
     public static String getPhetHomeHref() {
@@ -55,7 +65,7 @@ public class HTMLUtils {
     
     /**
      * Creates an \<a\> tag that contains a mailto link to the PhET help email address.
-     * By default, the email address is displayed.
+     * The email address is displayed.
      * @return
      */
     public static String getPhetMailtoHref() {
