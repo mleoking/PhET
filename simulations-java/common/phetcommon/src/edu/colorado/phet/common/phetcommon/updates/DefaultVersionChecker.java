@@ -9,10 +9,11 @@ import java.util.Properties;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
 public class DefaultVersionChecker implements IVersionChecker {
     public PhetVersion getVersion( String project ) throws IOException {
-        String read = readURL( "http://phet.colorado.edu/sims/" + project + "/" + project + ".properties" );
+        String read = readURL( HTMLUtils.getProjectPropertiesURL( project ) );
         Properties properties = new Properties();
         properties.load( new ByteArrayInputStream( read.getBytes() ) );
 

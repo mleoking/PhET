@@ -10,6 +10,7 @@ import java.text.MessageFormat;
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
+import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.AbstractUpdateDialog;
@@ -79,7 +80,7 @@ public class TrackingDetailsDialog extends JDialog {
     
     private JComponent createDescriptionPanel() {
         // fill in the PhET URL in the About HTML fragment, then add CSS and <html> tags
-        Object[] args = { AbstractUpdateDialog.PHET_LABEL_LINK, AbstractUpdateDialog.PHET_HOME_LINK };
+        Object[] args = { HTMLUtils.getPhetHomeHref( PhetCommonConstants.PHET_NAME ), HTMLUtils.getPhetHomeHref() };
         String fragment = MessageFormat.format( ABOUT_PATTERN, args );
         String html = HTMLUtils.createStyledHTMLFromFragment( fragment );
         InteractiveHTMLPane copyrightLabel = new InteractiveHTMLPane( html );

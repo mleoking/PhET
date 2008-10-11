@@ -5,7 +5,6 @@ import java.text.MessageFormat;
 
 import javax.swing.JDialog;
 
-import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -16,11 +15,6 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  * Handles localization that involves MessageFormat syntax (pattern replacement).
  */
 public abstract class AbstractUpdateDialog extends JDialog {
-    
-    public static final String PHET_HOME_LINK = "<a href=" + PhetCommonConstants.PHET_HOME_URL +">" + PhetCommonConstants.PHET_HOME_URL + "</a>";
-    public static final String PHET_LABEL_LINK = "<b><a href=" + PhetCommonConstants.PHET_HOME_URL + ">PhET</a></b>";
-    
-    private static final String PHET_EMAIL_LINK = "<a href=mailto:" + PhetCommonConstants.PHET_EMAIL + ">" + PhetCommonConstants.PHET_EMAIL + "</a>";
     
     private static final String PATTERN_SIM_LINK = "<a href=\"{0}\">{0}</a>";
     private static final String PATTERN_YOU_HAVE_CURRENT = PhetCommonResources.getString( "Common.updates.youHaveCurrent" );
@@ -60,7 +54,7 @@ public abstract class AbstractUpdateDialog extends JDialog {
     }
     
     protected static String getErrorMessageHTML() {
-        Object[] args = { PHET_HOME_LINK, PHET_EMAIL_LINK };
+        Object[] args = { HTMLUtils.getPhetHomeHref(), HTMLUtils.getPhetMailtoHref() };
         String htmlFragment = MessageFormat.format( PATTERN_ERROR_MESSAGE, args );
         return HTMLUtils.createStyledHTMLFromFragment( htmlFragment );
     }

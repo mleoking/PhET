@@ -21,6 +21,7 @@ import java.net.URL;
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
+import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
@@ -45,8 +46,8 @@ public class PhetAboutDialog extends JDialog {
     private static final String COPYRIGHT_HTML_FRAGMENT =
             "<b>Physics Education Technology project</b><br>" +
             "Copyright &copy; 2004-2008 University of Colorado.<br>" +
-            "<a href=http://phet.colorado.edu/about/licensing.php>Some rights reserved.</a><br>" +
-            "Visit <a href=http://phet.colorado.edu>http://phet.colorado.edu</a>";
+            "<a href=" + PhetCommonConstants.PHET_HOME_URL + "/about/licensing.php>Some rights reserved.</a><br>" +
+            "Visit " + HTMLUtils.getPhetHomeHref();
 
     private JPanel logoPanel;
     private String titleString, descriptionString, versionString, creditsString;
