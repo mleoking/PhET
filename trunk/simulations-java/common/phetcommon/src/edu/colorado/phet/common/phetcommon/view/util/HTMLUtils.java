@@ -25,20 +25,50 @@ public class HTMLUtils {
     /* not intended for instantiation */
     private HTMLUtils() {}
     
+    /**
+     * Creates an \<a\> tag with an href attribute.
+     * @param href the URL to be loaded when the hyperlinked object is activated.
+     * @param text the text to be displayed
+     * @return
+     */
+    public static String getHref( String href, String text ) {
+        return "<a href=" + href + ">" + text + "</a>";
+    }
+    
+    /**
+     * Creates an \<a\> tag that contains an href link to the PhET homepage.
+     * By default, the homepage URL is displayed.
+     * @return
+     */
     public static String getPhetHomeHref() {
         return getPhetHomeHref( PhetCommonConstants.PHET_HOME_URL );
     }
     
-    public static String getPhetHomeHref( String userVisibleString ) {
-        return "<a href=" + PhetCommonConstants.PHET_HOME_URL + ">" + userVisibleString + "</a>";
+    /**
+     * Creates an \<a\> tag that contains an href link to the PhET homepage.
+     * @param text the text to be displayed
+     * @return
+     */
+    public static String getPhetHomeHref( String text ) {
+        return getHref( PhetCommonConstants.PHET_HOME_URL, text );
     }
     
+    /**
+     * Creates an \<a\> tag that contains a mailto link to the PhET help email address.
+     * By default, the email address is displayed.
+     * @return
+     */
     public static String getPhetMailtoHref() {
         return getPhetMailtoHref( PhetCommonConstants.PHET_EMAIL );
     }
     
-    public static String getPhetMailtoHref( String userVisibleString ) {
-        return "<a href=mailto:" + PhetCommonConstants.PHET_EMAIL + ">" + userVisibleString + "</a>";
+    /**
+     * Creates an \<a\> tag that contains a mailto link to the PhET help email address.
+     * @param text the text to be displayed
+     * @return
+     */
+    public static String getPhetMailtoHref( String text ) {
+        return getHref( "mailto:" + PhetCommonConstants.PHET_EMAIL, text );
     }
     
     /**
