@@ -42,7 +42,7 @@ public class HTMLUtils {
     }
     
     /**
-     * Gets the URL for simulations web page on the PhET site.
+     * Gets the URL for a simulation's web page on the PhET site.
      * @param project
      * @param sim
      * @return
