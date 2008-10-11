@@ -58,7 +58,7 @@ public class HTMLUtils {
      * @return
      */
     public static String getProjectPropertiesURL( String project ) {
-        return getPhetHomeHref() + "/sims/" + project + "/" + project + ".properties";
+        return PhetCommonConstants.PHET_HOME_URL + "/sims/" + project + "/" + project + ".properties";
     }
     
     public static String createStyledHTMLFromFragment( String htmlFragment ) {
