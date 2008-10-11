@@ -12,6 +12,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPane;
 
 
 public class NoUpdateDialog extends AbstractUpdateDialog {
@@ -25,7 +26,8 @@ public class NoUpdateDialog extends AbstractUpdateDialog {
         setResizable( false );
         
         // notification that there is no need to update
-        JComponent htmlPane = createHTMLPaneWithLinks( getUpToDateHTML( currentVersion, simName ) );
+        String html = getUpToDateHTML( currentVersion, simName );
+        JComponent htmlPane = new InteractiveHTMLPane( html );
         JPanel messagePanel = new JPanel();
         messagePanel.setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
         messagePanel.add( htmlPane );

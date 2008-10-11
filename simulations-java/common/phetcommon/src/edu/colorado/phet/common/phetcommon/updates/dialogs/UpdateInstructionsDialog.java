@@ -10,6 +10,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.updates.OpenWebPageToNewVersion;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPane;
 
 /**
  * Dialog that provides instructions on how to update.
@@ -47,7 +48,7 @@ public abstract class UpdateInstructionsDialog extends AbstractUpdateDialog {
         setModal( true  );
         
         // instructions on how to update
-        JComponent htmlPane = createHTMLPaneWithLinks( htmlInstructions );
+        JComponent htmlPane = new InteractiveHTMLPane( htmlInstructions );
         JPanel messagePanel = new JPanel();
         messagePanel.setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
         messagePanel.add( htmlPane );

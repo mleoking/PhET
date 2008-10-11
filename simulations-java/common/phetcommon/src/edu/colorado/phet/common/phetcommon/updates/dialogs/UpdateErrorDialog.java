@@ -15,6 +15,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPane;
 
 
 public class UpdateErrorDialog extends AbstractUpdateDialog {
@@ -30,7 +31,8 @@ public class UpdateErrorDialog extends AbstractUpdateDialog {
         setResizable( false );
         
         // notification that an error occurred
-        JComponent htmlPane = createHTMLPaneWithLinks( getErrorMessageHTML() );
+        String html = getErrorMessageHTML();
+        JComponent htmlPane = new InteractiveHTMLPane( html );
         JPanel messagePanel = new JPanel();
         messagePanel.setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
         messagePanel.add( htmlPane );
