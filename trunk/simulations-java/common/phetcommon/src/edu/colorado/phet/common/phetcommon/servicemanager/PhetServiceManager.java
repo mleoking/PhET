@@ -10,11 +10,13 @@
  */
 package edu.colorado.phet.common.phetcommon.servicemanager;
 
-import java.awt.*;
+import java.awt.Component;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.jnlp.*;
+
+import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 
 /**
  * Provides the functionality of ServiceManager for both JNLP and local runtimes.
@@ -63,7 +65,7 @@ public class PhetServiceManager {
      * Opens a browser window to show the PHET homepage.
      */
     public static void showPhetPage() {
-        showWebPage( "http://phet.colorado.edu" );
+        showWebPage( PhetCommonConstants.PHET_HOME_URL );
     }
     
     public static void showWebPage( String url ) {

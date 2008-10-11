@@ -6,11 +6,11 @@ import java.net.URL;
 import java.util.Enumeration;
 import java.util.Properties;
 
+import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.NullApplicationConstructor;
 
 public class TrackingManager {
-    private String phetURL = "http://phet.colorado.edu";
     private String trackingPath = "tracking";
     private String trackingScript = "phet-tracking.php";
 
@@ -24,7 +24,7 @@ public class TrackingManager {
     }
 
     private String getTrackingURL( TrackingInfo info ) {
-        return phetURL + "/" + trackingPath + "/" + trackingScript + "?" + info.toPHP();
+        return PhetCommonConstants.PHET_HOME_URL + "/" + trackingPath + "/" + trackingScript + "?" + info.toPHP();
     }
 
     public static void main( String[] args ) throws IOException {

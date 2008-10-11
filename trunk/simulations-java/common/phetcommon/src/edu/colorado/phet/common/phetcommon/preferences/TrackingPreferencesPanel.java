@@ -7,12 +7,9 @@ import java.text.MessageFormat;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
+import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.updates.dialogs.AbstractUpdateDialog;
-import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPane;
 
 public class TrackingPreferencesPanel extends JPanel {
@@ -36,7 +33,7 @@ public class TrackingPreferencesPanel extends JPanel {
         
         trackingEnabledCheckBox = new JCheckBox( TRACKING_ENABLED, trackingEnabled );
 
-        add( createLogoPanel(), constraints );
+        add( createOneLiner(), constraints );
         add( Box.createRigidArea( new Dimension( 5, 10 ) ), constraints );
         add( trackingEnabledCheckBox, constraints );
         add( Box.createRigidArea( new Dimension( 5, 10 ) ), constraints );
@@ -47,21 +44,14 @@ public class TrackingPreferencesPanel extends JPanel {
         return trackingEnabledCheckBox.isSelected();
     }
 
-    /*
-    * Creates the panel that contains the logo and general copyright info.
-    */
-    private JPanel createLogoPanel() {
-        
-        Object[] args = { AbstractUpdateDialog.PHET_LABEL_LINK };
+    /* One-line description of tracking */
+    private JComponent createOneLiner() {
+        Object[] args = { HTMLUtils.getPhetHomeHref( PhetCommonConstants.PHET_NAME ) };
         String s = MessageFormat.format( ONE_LINER_PATTERN, args );
         String html = HTMLUtils.createStyledHTMLFromFragment( s );
-        InteractiveHTMLPane copyrightPane = new InteractiveHTMLPane( html );
-
-        HorizontalLayoutPanel logoPanel = new HorizontalLayoutPanel();
-        logoPanel.setInsets( new Insets( 10, 10, 10, 10 ) ); // top,left,bottom,right
-        logoPanel.add( copyrightPane );
-
-        return logoPanel;
+        InteractiveHTMLPane pane = new InteractiveHTMLPane( html );
+        pane.setMargin( new Insets( 10, 10, 10, 10 ) ); // top,left,bottom,right
+        return pane;
     }
 
     private class DetailsButton extends JButton {

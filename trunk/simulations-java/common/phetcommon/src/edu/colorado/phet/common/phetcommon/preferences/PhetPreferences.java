@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Properties;
 
+import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 
 public class PhetPreferences {
@@ -173,7 +174,7 @@ public class PhetPreferences {
     
     private void storePreferences() {
         try {
-            properties.store( new FileOutputStream( PREFERENCES_FILE ), "Preferences for PhET, see http://phet.colorado.edu" );
+            properties.store( new FileOutputStream( PREFERENCES_FILE ), "Preferences for PhET, see " + PhetCommonConstants.PHET_HOME_URL );
         }
         catch( IOException e ) {
             e.printStackTrace();

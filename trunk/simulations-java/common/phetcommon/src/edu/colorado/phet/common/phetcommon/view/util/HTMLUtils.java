@@ -25,6 +25,22 @@ public class HTMLUtils {
     /* not intended for instantiation */
     private HTMLUtils() {}
     
+    public static String getPhetHomeHref() {
+        return getPhetHomeHref( PhetCommonConstants.PHET_HOME_URL );
+    }
+    
+    public static String getPhetHomeHref( String userVisibleString ) {
+        return "<a href=" + PhetCommonConstants.PHET_HOME_URL + ">" + userVisibleString + "</a>";
+    }
+    
+    public static String getPhetMailtoHref() {
+        return getPhetMailtoHref( PhetCommonConstants.PHET_EMAIL );
+    }
+    
+    public static String getPhetMailtoHref( String userVisibleString ) {
+        return "<a href=mailto:" + PhetCommonConstants.PHET_EMAIL + ">" + userVisibleString + "</a>";
+    }
+    
     /**
      * Gets the URL for simulations web page on the PhET site.
      * @param project
@@ -33,6 +49,16 @@ public class HTMLUtils {
      */
     public static String getSimURL( String project, String sim ) {
         return PhetCommonConstants.PHET_HOME_URL + "/simulations/sim-redirect.php?project=" + project + "&sim=" + sim;
+    }
+    
+    /**
+     * Gets the URL for a project's properties file, where version information is found.
+     * @param project
+     * @param sim
+     * @return
+     */
+    public static String getProjectPropertiesURL( String project ) {
+        return getPhetHomeHref() + "/sims/" + project + "/" + project + ".properties";
     }
     
     public static String createStyledHTMLFromFragment( String htmlFragment ) {
