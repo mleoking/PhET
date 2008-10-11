@@ -19,8 +19,13 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 public abstract class AbstractUpdateDialog extends JDialog {
     
     public static final String PHET_HOME_URL = "http://phet.colorado.edu"; //TODO: this should live somewhere more general
-    private static final String PHET_EMAIL = "phethelp@colorado.edu"; //TODO: this should live somewhere more general
+    public static final String PHET_HOME_LINK = "<a href=" + PHET_HOME_URL +">" + PHET_HOME_URL + "</a>";
+    public static final String PHET_LABEL_LINK = "<b><a href=" + PHET_HOME_URL + ">PhET</a></b>";
     
+    private static final String PHET_EMAIL = "phethelp@colorado.edu"; //TODO: this should live somewhere more general
+    private static final String PHET_EMAIL_LINK = "<a href=mailto:" + PHET_EMAIL + ">" + PHET_EMAIL + "</a>";
+    
+    private static final String PATTERN_SIM_LINK = "<a href=\"{0}\">{0}</a>";
     private static final String PATTERN_YOU_HAVE_CURRENT = PhetCommonResources.getString( "Common.updates.youHaveCurrent" );
     private static final String PATTERN_ERROR_MESSAGE = PhetCommonResources.getString( "Common.updates.errorMessage" );
     private static final String PATTERN_INSTRUCTIONS = PhetCommonResources.getString( "Common.updates.instructions" );
@@ -66,7 +71,7 @@ public abstract class AbstractUpdateDialog extends JDialog {
     }
     
     protected static String getErrorMessageHTML() {
-        Object[] args = { PHET_HOME_URL, PHET_EMAIL };
+        Object[] args = { PHET_HOME_LINK, PHET_EMAIL_LINK };
         String s = MessageFormat.format( PATTERN_ERROR_MESSAGE, args );
         return "<html>" + PhetAboutDialog.HTML_CUSTOM_STYLE + s + "</hmtl>";
     }
@@ -78,7 +83,9 @@ public abstract class AbstractUpdateDialog extends JDialog {
     
     private static String getUpdateInstructionsHTMLFragment( String project, String sim, String newVersion ) {
         String url = getSimURL( project, sim );
-        Object[] args = { newVersion, url };
+        Object[] linkArgs = { url };
+        String link = MessageFormat.format( PATTERN_SIM_LINK, linkArgs );
+        Object[] args = { newVersion, link };
         return MessageFormat.format( PATTERN_INSTRUCTIONS, args );
     }
     

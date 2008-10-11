@@ -50,7 +50,7 @@ public class TrackingPreferencesPanel extends JPanel {
     */
     private JPanel createLogoPanel() {
         
-        Object[] args = { AbstractUpdateDialog.PHET_HOME_URL };
+        Object[] args = { AbstractUpdateDialog.PHET_LABEL_LINK };
         String s = MessageFormat.format( ONE_LINER_PATTERN, args );
         String html = "<html>" + PhetAboutDialog.HTML_CUSTOM_STYLE + s + "</html>";
         html = html.replaceAll( "@FONT_SIZE@", new PhetFont().getSize() + "pt" );
