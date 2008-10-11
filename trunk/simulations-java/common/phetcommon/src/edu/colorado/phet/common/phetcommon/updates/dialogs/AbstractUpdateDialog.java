@@ -4,12 +4,10 @@ import java.awt.Frame;
 import java.text.MessageFormat;
 
 import javax.swing.JDialog;
-import javax.swing.JEditorPane;
 
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
-import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
@@ -38,41 +36,33 @@ public abstract class AbstractUpdateDialog extends JDialog {
         SwingUtils.centerDialogInParent( this );
     }
 
-    protected JEditorPane createHTMLPaneWithLinks( String html ) {
-        html = html.replaceAll( "@FONT_SIZE@", new PhetFont().getSize() + "pt" );
-        html = html.replaceAll( "@FONT_FAMILY@", new PhetFont().getFamily() );
-        return new PhetAboutDialog.HTMLPane( html );
-    }
-    
     protected static String getAutomaticUpdateMessageHTML( String simName, String currentVersion, String newVersion ) {
-        return "<html>" + PhetAboutDialog.HTML_CUSTOM_STYLE + 
-            getVersionComparisonHTMLFragment( simName, currentVersion, newVersion ) + 
-            "</html>";
+        String htmlFragment = getVersionComparisonHTMLFragment( simName, currentVersion, newVersion );
+        return HTMLUtils.createStyledHTMLFromFragment( htmlFragment );
     }
     
     protected static String getAutomaticUpdateInstructionsHTML( String project, String sim, String newVersion ) {
-        return "<html>" + PhetAboutDialog.HTML_CUSTOM_STYLE + 
-            getUpdateInstructionsHTMLFragment( project, sim, newVersion ) +
-            "</html>";
+        String htmlFragment = getUpdateInstructionsHTMLFragment( project, sim, newVersion );
+        return HTMLUtils.createStyledHTMLFromFragment( htmlFragment );
     }
     
     protected static String getManualUpdateInstructionsHTML( String project, String sim, String simName, String currentVersion, String newVersion ) {
-        return "<html>" + PhetAboutDialog.HTML_CUSTOM_STYLE + 
+        String htmlFragment = 
             getVersionComparisonHTMLFragment( simName, currentVersion, newVersion ) + "<br><br>" + 
-            getUpdateInstructionsHTMLFragment( project, sim, newVersion ) +
-            "</html>";
+            getUpdateInstructionsHTMLFragment( project, sim, newVersion );
+        return HTMLUtils.createStyledHTMLFromFragment( htmlFragment );
     }
     
     protected static String getUpToDateHTML( String currentVersion, String simName ) {
         Object[] args = { currentVersion, simName };
-        String s = MessageFormat.format( PATTERN_YOU_HAVE_CURRENT, args );
-        return "<html>" + PhetAboutDialog.HTML_CUSTOM_STYLE + s + "</hmtl>";
+        String htmlFragment = MessageFormat.format( PATTERN_YOU_HAVE_CURRENT, args );
+        return HTMLUtils.createStyledHTMLFromFragment( htmlFragment );
     }
     
     protected static String getErrorMessageHTML() {
         Object[] args = { PHET_HOME_LINK, PHET_EMAIL_LINK };
-        String s = MessageFormat.format( PATTERN_ERROR_MESSAGE, args );
-        return "<html>" + PhetAboutDialog.HTML_CUSTOM_STYLE + s + "</hmtl>";
+        String htmlFragment = MessageFormat.format( PATTERN_ERROR_MESSAGE, args );
+        return HTMLUtils.createStyledHTMLFromFragment( htmlFragment );
     }
 
     private static String getVersionComparisonHTMLFragment( String simName, String currentVersion, String newVersion ) {
@@ -81,15 +71,11 @@ public abstract class AbstractUpdateDialog extends JDialog {
     }
     
     private static String getUpdateInstructionsHTMLFragment( String project, String sim, String newVersion ) {
-        String url = getSimURL( project, sim );
+        String url = HTMLUtils.getSimURL( project, sim );
         Object[] linkArgs = { url };
         String link = MessageFormat.format( PATTERN_SIM_LINK, linkArgs );
         Object[] args = { newVersion, link };
         return MessageFormat.format( PATTERN_INSTRUCTIONS, args );
-    }
-    
-    public static String getSimURL( String project, String sim ) {
-        return PhetCommonConstants.PHET_HOME_URL + "/simulations/sim-redirect.php?project=" + project + "&sim=" + sim;
     }
     
     // test the more complicate methods that involve MessageFormat

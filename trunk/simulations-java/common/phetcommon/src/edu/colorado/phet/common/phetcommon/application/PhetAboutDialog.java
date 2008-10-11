@@ -19,20 +19,17 @@ import java.io.*;
 import java.net.URL;
 
 import javax.swing.*;
-import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
 import javax.swing.event.MouseInputAdapter;
-import javax.swing.text.html.HTMLEditorKit;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPane;
 
 /**
  * PhetAboutDialog shows information about PhET, the simulation, copyright, and license.
@@ -44,16 +41,12 @@ public class PhetAboutDialog extends JDialog {
 
     // Resource (file) that contains the PhET license, in plain text format.
     private static final String LICENSE_RESOURCE = "phet-license.txt";
-    public static final String HTML_CUSTOM_STYLE = "<head><style type=\"text/css\">body { font-size: @FONT_SIZE@; font-family: @FONT_FAMILY@ }</style></head>";
     // Copyright notice, not translated so no one messes with it, and so that we can easily change the date.
-    private static final String COPYRIGHT =
-            "<html>" +HTML_CUSTOM_STYLE+
+    private static final String COPYRIGHT_HTML_FRAGMENT =
             "<b>Physics Education Technology project</b><br>" +
             "Copyright &copy; 2004-2008 University of Colorado.<br>" +
-//        "All rights reserved.<br>" +
-"<a href=http://phet.colorado.edu/about/licensing.php>Some rights reserved.</a><br>" +
-"Visit <a href=http://phet.colorado.edu>http://phet.colorado.edu</a>" +
-"</html>";
+            "<a href=http://phet.colorado.edu/about/licensing.php>Some rights reserved.</a><br>" +
+            "Visit <a href=http://phet.colorado.edu>http://phet.colorado.edu</a>";
 
     private JPanel logoPanel;
     private String titleString, descriptionString, versionString, creditsString;
@@ -145,40 +138,15 @@ public class PhetAboutDialog extends JDialog {
             }
         } );
 
-        String html = setFont( COPYRIGHT );
-        HTMLPane copyrightLabel = new HTMLPane( html );
+        String html = HTMLUtils.createStyledHTMLFromFragment( COPYRIGHT_HTML_FRAGMENT );
+        InteractiveHTMLPane pane = new InteractiveHTMLPane( html );
 
         HorizontalLayoutPanel logoPanel = new HorizontalLayoutPanel();
         logoPanel.setInsets( new Insets( 10, 10, 10, 10 ) ); // top,left,bottom,right
         logoPanel.add( logoLabel );
-        logoPanel.add( copyrightLabel );
+        logoPanel.add( pane );
 
         return logoPanel;
-    }
-
-    /*Replace dummy variables in html CSS to specify font size and family, see HTML_CUSTOM_STYLE above*/
-    private String setFont( String html ) {
-        html = html.replaceAll( "@FONT_SIZE@", new PhetFont().getSize() + "pt" );
-        html = html.replaceAll( "@FONT_FAMILY@", new PhetFont().getFamily() );
-        return html;
-    }
-
-    public static class HTMLPane extends JEditorPane {
-        public HTMLPane( String html ) {
-            setEditorKit( new HTMLEditorKit() );
-            setText( html );
-
-            setEditable( false );
-            setBackground( new JLabel().getBackground() );
-            setFont( new PhetFont( Font.BOLD, 24 ) );
-            addHyperlinkListener( new HyperlinkListener() {
-                public void hyperlinkUpdate( HyperlinkEvent e ) {
-                    if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED ) {
-                        PhetServiceManager.showWebPage( e.getURL() );
-                    }
-                }
-            } );
-        }
     }
 
     /*
@@ -283,8 +251,8 @@ public class PhetAboutDialog extends JDialog {
 
         final JDialog dialog = new JDialog( this, getLocalizedString( "Common.About.LicenseDialog.Title" ), true );
         
-        String phetLicenseString = setFont( readFile( LICENSE_RESOURCE ) );
-        HTMLPane htmlPane = new HTMLPane( phetLicenseString );
+        String phetLicenseString = HTMLUtils.setFontInStyledHTML( readFile( LICENSE_RESOURCE ), new PhetFont() );
+        InteractiveHTMLPane htmlPane = new InteractiveHTMLPane( phetLicenseString );
         JScrollPane scrollPane = new JScrollPane( htmlPane );
         
         JPanel buttonPanel = new JPanel();

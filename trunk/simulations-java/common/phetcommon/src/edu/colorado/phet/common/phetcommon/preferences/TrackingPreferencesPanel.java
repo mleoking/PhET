@@ -11,7 +11,9 @@ import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.AbstractUpdateDialog;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPane;
 
 public class TrackingPreferencesPanel extends JPanel {
 
@@ -52,14 +54,12 @@ public class TrackingPreferencesPanel extends JPanel {
         
         Object[] args = { AbstractUpdateDialog.PHET_LABEL_LINK };
         String s = MessageFormat.format( ONE_LINER_PATTERN, args );
-        String html = "<html>" + PhetAboutDialog.HTML_CUSTOM_STYLE + s + "</html>";
-        html = html.replaceAll( "@FONT_SIZE@", new PhetFont().getSize() + "pt" );
-        html = html.replaceAll( "@FONT_FAMILY@", new PhetFont().getFamily() );
-        PhetAboutDialog.HTMLPane copyrightLabel = new PhetAboutDialog.HTMLPane( html );
+        String html = HTMLUtils.createStyledHTMLFromFragment( s );
+        InteractiveHTMLPane copyrightPane = new InteractiveHTMLPane( html );
 
         HorizontalLayoutPanel logoPanel = new HorizontalLayoutPanel();
         logoPanel.setInsets( new Insets( 10, 10, 10, 10 ) ); // top,left,bottom,right
-        logoPanel.add( copyrightLabel );
+        logoPanel.add( copyrightPane );
 
         return logoPanel;
     }

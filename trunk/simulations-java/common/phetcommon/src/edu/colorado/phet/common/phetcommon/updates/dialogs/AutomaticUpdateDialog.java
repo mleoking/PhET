@@ -19,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.updates.*;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.UpdateInstructionsDialog.AutomaticUpdateInstructionsDialog;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPane;
 
 /**
  * The dialog that used to automatically notify the user that an update is available.
@@ -57,7 +58,7 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
         
         // information about the update that was found
         String html = getAutomaticUpdateMessageHTML( simName, currentVersion.formatForTitleBar(), newVersion.formatForTitleBar() );
-        JComponent htmlPane = createHTMLPaneWithLinks( html );
+        JComponent htmlPane = new InteractiveHTMLPane( html );
         JPanel messagePanel = new JPanel();
         messagePanel.setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
         messagePanel.add( htmlPane );
