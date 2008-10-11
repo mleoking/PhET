@@ -6,6 +6,7 @@ import java.text.MessageFormat;
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 
+import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -18,12 +19,10 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  */
 public abstract class AbstractUpdateDialog extends JDialog {
     
-    public static final String PHET_HOME_URL = "http://phet.colorado.edu"; //TODO: this should live somewhere more general
-    public static final String PHET_HOME_LINK = "<a href=" + PHET_HOME_URL +">" + PHET_HOME_URL + "</a>";
-    public static final String PHET_LABEL_LINK = "<b><a href=" + PHET_HOME_URL + ">PhET</a></b>";
+    public static final String PHET_HOME_LINK = "<a href=" + PhetCommonConstants.PHET_HOME_URL +">" + PhetCommonConstants.PHET_HOME_URL + "</a>";
+    public static final String PHET_LABEL_LINK = "<b><a href=" + PhetCommonConstants.PHET_HOME_URL + ">PhET</a></b>";
     
-    private static final String PHET_EMAIL = "phethelp@colorado.edu"; //TODO: this should live somewhere more general
-    private static final String PHET_EMAIL_LINK = "<a href=mailto:" + PHET_EMAIL + ">" + PHET_EMAIL + "</a>";
+    private static final String PHET_EMAIL_LINK = "<a href=mailto:" + PhetCommonConstants.PHET_EMAIL + ">" + PhetCommonConstants.PHET_EMAIL + "</a>";
     
     private static final String PATTERN_SIM_LINK = "<a href=\"{0}\">{0}</a>";
     private static final String PATTERN_YOU_HAVE_CURRENT = PhetCommonResources.getString( "Common.updates.youHaveCurrent" );
@@ -90,7 +89,7 @@ public abstract class AbstractUpdateDialog extends JDialog {
     }
     
     public static String getSimURL( String project, String sim ) {
-        return PHET_HOME_URL + "/simulations/sim-redirect.php?project=" + project + "&sim=" + sim;
+        return PhetCommonConstants.PHET_HOME_URL + "/simulations/sim-redirect.php?project=" + project + "&sim=" + sim;
     }
     
     // test the more complicate methods that involve MessageFormat
