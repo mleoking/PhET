@@ -83,7 +83,7 @@ public class TrackingDetailsDialog extends JDialog {
         } );
 
         // fill in the PhET URL in the About HTML fragment, then add CSS and <html> tags
-        Object[] args = { AbstractUpdateDialog.PHET_HOME_URL };
+        Object[] args = { AbstractUpdateDialog.PHET_LABEL_LINK, AbstractUpdateDialog.PHET_HOME_LINK };
         String html = "<html>" + PhetAboutDialog.HTML_CUSTOM_STYLE + MessageFormat.format( ABOUT_PATTERN, args ) + "</html>";
         html = html.replaceAll( "@FONT_SIZE@", new PhetFont().getSize() + "pt" );
         html = html.replaceAll( "@FONT_FAMILY@", new PhetFont().getFamily() );
