@@ -92,6 +92,29 @@ public class HTMLUtils {
     }
     
     /**
+     * Creates an \<a\> tag that contains a link to a specific sim's web page.
+     * The url is displayed.
+     * @param project
+     * @param sim
+     * @return
+     */
+    public static String getSimHref( String project, String sim ) {
+        String url = getSimURL( project, sim );
+        return getHref( url, url );
+    }
+    
+    /**
+     * Creates an \<a\> tag that contains a link to a specific sim's web page.
+     * @param project
+     * @param sim
+     * @param userVisibleSimName the text to be displayed
+     * @return
+     */
+    public static String getSimHref( String project, String sim, String userVisibleSimName ) {
+        return getHref( getSimURL( project, sim ), userVisibleSimName );
+    }
+    
+    /**
      * Gets the URL for a project's properties file, where version information is found.
      * @param project
      * @param sim
