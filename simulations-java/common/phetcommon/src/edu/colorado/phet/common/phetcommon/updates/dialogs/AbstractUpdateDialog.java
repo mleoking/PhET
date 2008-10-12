@@ -16,10 +16,10 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  */
 public abstract class AbstractUpdateDialog extends JDialog {
     
-    private static final String PATTERN_SIM_LINK = "<a href=\"{0}\">{0}</a>";
     private static final String PATTERN_YOU_HAVE_CURRENT = PhetCommonResources.getString( "Common.updates.youHaveCurrent" );
     private static final String PATTERN_ERROR_MESSAGE = PhetCommonResources.getString( "Common.updates.errorMessage" );
-    private static final String PATTERN_INSTRUCTIONS = PhetCommonResources.getString( "Common.updates.instructions" );
+    private static final String PATTERN_BROWSER_WILL_OPEN = PhetCommonResources.getString( "Common.updates.browserWillOpen" );
+    private static final String PATTERN_BROWSER_FAILS_TO_OPEN = PhetCommonResources.getString( "Common.updates.browserFailsToOpen" );
     private static final String PATTERN_VERSION_COMPARISON = PhetCommonResources.getString( "Common.updates.versionComparison" );
 
     protected AbstractUpdateDialog( Frame owner, String title ) {
@@ -59,17 +59,19 @@ public abstract class AbstractUpdateDialog extends JDialog {
         return HTMLUtils.createStyledHTMLFromFragment( htmlFragment );
     }
 
-    private static String getVersionComparisonHTMLFragment( String simName, String currentVersion, String newVersion ) {
+    /* fragment used by more than one dialog */
+    protected static String getVersionComparisonHTMLFragment( String simName, String currentVersion, String newVersion ) {
         Object[] args = { simName, currentVersion, newVersion };
         return MessageFormat.format( PATTERN_VERSION_COMPARISON, args );
     }
     
+    /* fragment used by more than one dialog */
     private static String getUpdateInstructionsHTMLFragment( String project, String sim, String newVersion ) {
-        String url = HTMLUtils.getSimURL( project, sim );
-        Object[] linkArgs = { url };
-        String link = MessageFormat.format( PATTERN_SIM_LINK, linkArgs );
-        Object[] args = { newVersion, link };
-        return MessageFormat.format( PATTERN_INSTRUCTIONS, args );
+        Object[] args = { newVersion };
+        String browserWillOpen = MessageFormat.format( PATTERN_BROWSER_WILL_OPEN, args );
+        Object[] args2 = { HTMLUtils.getSimHref( project, sim ) };
+        String browserFailsToOpen = MessageFormat.format( PATTERN_BROWSER_FAILS_TO_OPEN, args2 );
+        return browserWillOpen + "<br><br><font size=-2>" + browserFailsToOpen + "</font>";
     }
     
     // test the more complicate methods that involve MessageFormat
