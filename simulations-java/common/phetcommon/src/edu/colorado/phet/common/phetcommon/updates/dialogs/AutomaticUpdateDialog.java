@@ -97,7 +97,8 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
         buttonPanel.add( skipThisVersion );
 
         // link to the Preferences dialog
-        JLabel preferencesLink = new JLabel( EDIT_PREFERENCES_LINK );
+        String preferencesHTML = "<html><font size=\"3\"><u>" + EDIT_PREFERENCES_LINK + "</u></font></html>";
+        JLabel preferencesLink = new JLabel( preferencesHTML );
         preferencesLink.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
         preferencesLink.addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
