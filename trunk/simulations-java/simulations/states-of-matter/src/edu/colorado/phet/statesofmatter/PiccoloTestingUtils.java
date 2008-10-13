@@ -14,7 +14,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PAffineTransform;
 import edu.umd.cs.piccolo.util.PBounds;
 
-//test comment
 public class PiccoloTestingUtils {
     private static final double SMALL_SIZE  = 1.0 / 3.0;
     private static final double MEDIUM_SIZE = SMALL_SIZE * 2;
