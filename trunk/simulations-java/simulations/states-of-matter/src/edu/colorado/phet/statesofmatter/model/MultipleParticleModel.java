@@ -56,7 +56,7 @@ public class MultipleParticleModel {
     public static final double TEMPERATURE_STEP = -0.1;
     private static final double WALL_DISTANCE_THRESHOLD = 1.122462048309373017;
     private static final double PARTICLE_INTERACTION_DISTANCE_THRESH_SQRD = 6.25;
-    private static final double INITIAL_GRAVITATIONAL_ACCEL = 0.02;
+    private static final double INITIAL_GRAVITATIONAL_ACCEL = 0.045;
     public static final double MAX_GRAVITATIONAL_ACCEL = 0.4;
     private static final double MAX_TEMPERATURE_CHANGE_PER_ADJUSTMENT = 0.025;
     private static final int    TICKS_PER_TEMP_ADJUSTEMENT = 10; // JPB TBD - I'm not sure if this is a reasonable
@@ -112,6 +112,13 @@ public class MultipleParticleModel {
     private static final double WATER_FULLY_MELTED_ELECTROSTATIC_FORCE = 1.0;
     private static final double WATER_FULLY_FROZEN_TEMPERATURE = 0.22;
     private static final double WATER_FULLY_FROZEN_ELECTROSTATIC_FORCE = 4.0;
+    
+    // Parameters that control the increasing of gravity as the temperature
+    // approaches zero.  This is done to counteract the tendency of the
+    // thermostat to slow falling molecules noticably at low temps.  This is
+    // a "hollywooding" thing.
+    private static final double TEMPERATURE_BELOW_WHICH_GRAVITY_INCREASES = 0.10;
+    private static final double LOW_TEMPERATURE_GRAVITY_INCREASE_RATE = 50;
     
     // TODO: JPB TBD - Temp for debug, remove eventually.
     private static final boolean USE_NEW_PRESSURE_CALC_METHOD = true;
@@ -1743,9 +1750,16 @@ public class MultipleParticleModel {
             	pressureZoneWallForce += Math.abs( m_nextAtomForces[i].getX() );
             }
             
-            
             // Add in the effect of gravity.
-            m_nextAtomForces[i].setY( m_nextAtomForces[i].getY() - m_gravitationalAcceleration );
+            double gravitationalAcceleration = m_gravitationalAcceleration;
+            if (m_temperatureSetPoint < TEMPERATURE_BELOW_WHICH_GRAVITY_INCREASES){
+            	// Below a certain temperature, gravity is increased to counteract some odd-looking behavior
+            	// caused by the thermostat.
+            	gravitationalAcceleration = gravitationalAcceleration * 
+            	    ((TEMPERATURE_BELOW_WHICH_GRAVITY_INCREASES - m_temperatureSetPoint) * 
+                    LOW_TEMPERATURE_GRAVITY_INCREASE_RATE + 1);
+            }
+            m_nextAtomForces[i].setY( m_nextAtomForces[i].getY() - gravitationalAcceleration );
         }
         
         // Update the pressure calculation.
@@ -1947,7 +1961,15 @@ public class MultipleParticleModel {
             }
             
             // Add in the effect of gravity.
-            m_nextMoleculeForces[i].setY( m_nextMoleculeForces[i].getY() - m_gravitationalAcceleration );
+            double gravitationalAcceleration = m_gravitationalAcceleration;
+            if (m_temperatureSetPoint < TEMPERATURE_BELOW_WHICH_GRAVITY_INCREASES){
+            	// Below a certain temperature, gravity is increased to counteract some odd-looking behavior
+            	// caused by the thermostat.
+            	gravitationalAcceleration = gravitationalAcceleration * 
+            	    ((TEMPERATURE_BELOW_WHICH_GRAVITY_INCREASES - m_temperatureSetPoint) * 
+                    LOW_TEMPERATURE_GRAVITY_INCREASE_RATE + 1);
+            }
+            m_nextMoleculeForces[i].setY( m_nextMoleculeForces[i].getY() - gravitationalAcceleration );
         }
         
         // Update the pressure calculation.
@@ -2188,7 +2210,15 @@ public class MultipleParticleModel {
             }
             
             // Add in the effect of gravity.
-            m_nextMoleculeForces[i].setY( m_nextMoleculeForces[i].getY() - m_gravitationalAcceleration );
+            double gravitationalAcceleration = m_gravitationalAcceleration;
+            if (m_temperatureSetPoint < TEMPERATURE_BELOW_WHICH_GRAVITY_INCREASES){
+            	// Below a certain temperature, gravity is increased to counteract some odd-looking behavior
+            	// caused by the thermostat.
+            	gravitationalAcceleration = gravitationalAcceleration * 
+            	    ((TEMPERATURE_BELOW_WHICH_GRAVITY_INCREASES - m_temperatureSetPoint) * 
+                    LOW_TEMPERATURE_GRAVITY_INCREASE_RATE + 1);
+            }
+            m_nextMoleculeForces[i].setY( m_nextMoleculeForces[i].getY() - gravitationalAcceleration );
         }
         
         // Update the pressure calculation.
