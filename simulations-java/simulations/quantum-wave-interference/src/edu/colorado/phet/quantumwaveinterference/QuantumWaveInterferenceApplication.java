@@ -1,7 +1,7 @@
 /*  */
 package edu.colorado.phet.quantumwaveinterference;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -9,10 +9,12 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 import javax.jnlp.UnavailableServiceException;
-import javax.swing.*;
+import javax.swing.JMenuItem;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
@@ -25,6 +27,7 @@ import edu.colorado.phet.quantumwaveinterference.modules.mandel.MandelModule;
 import edu.colorado.phet.quantumwaveinterference.modules.single.SingleParticleModule;
 import edu.colorado.phet.quantumwaveinterference.persistence.PersistenceManager;
 import edu.colorado.phet.quantumwaveinterference.persistence.QWIState;
+import edu.colorado.phet.quantumwaveinterference.view.QWIPanel;
 
 /**
  * User: Sam Reid
@@ -35,12 +38,11 @@ import edu.colorado.phet.quantumwaveinterference.persistence.QWIState;
 public class QuantumWaveInterferenceApplication extends PiccoloPhetApplication {
     //    public static String VERSION = "1.05";
     private IntensityModule intensityModule;
-    public SingleParticleModule singleParticleModule;
-    public MandelModule mandelModule;
+    private SingleParticleModule singleParticleModule;
+    private MandelModule mandelModule;
 
-    public QuantumWaveInterferenceApplication( String[] args ) {
-        super( args, QWIStrings.getString( "quantum-wave-interference.name" ), QWIStrings.getString( "quantum-wave-interference.description" ),
-               getQWIVersion(), new QWIFrameSetup() );
+    public QuantumWaveInterferenceApplication( PhetApplicationConfig config ) {
+        super( config );
         setTabbedPaneType( new TabbedPaneType() {
             public ITabbedModulePane createTabbedPane() {
                 return new TabbedModulePanePiccolo() {
@@ -91,6 +93,13 @@ public class QuantumWaveInterferenceApplication extends PiccoloPhetApplication {
         getPhetFrame().addFileMenuSeparator();
 
     }
+    
+    public void startApplications() {
+        super.startApplication();
+        if ( intensityModule != null ) {
+            addWiggleMe();
+        }
+    }
 
     public static String getQWIVersion() {
         return PhetApplicationConfig.getVersion( "quantum-wave-interference" ).formatForTitleBar();
@@ -116,18 +125,20 @@ public class QuantumWaveInterferenceApplication extends PiccoloPhetApplication {
         return mandelModule;
     }
 
-    private static void addWiggleMe( final QuantumWaveInterferenceApplication QWIApplication ) {
-        final MotionHelpBalloon helpBalloon = new MotionHelpBalloon( QWIApplication.intensityModule.getSchrodingerPanel(), QWIStrings.getString( "qwi.invitation" ) );
+    private void addWiggleMe() {
+        QWIPanel schrodingerPanel = intensityModule.getSchrodingerPanel();
+        
+        final MotionHelpBalloon helpBalloon = new MotionHelpBalloon( schrodingerPanel, QWIStrings.getString( "qwi.invitation" ) );
         helpBalloon.setTextColor( Color.white );
         helpBalloon.setShadowTextColor( Color.gray );
         helpBalloon.setShadowTextOffset( 1 );
         helpBalloon.setBalloonVisible( true );
         helpBalloon.setBalloonFillPaint( new Color( 128, 128, 128, 200 ) );
 
-        QWIApplication.intensityModule.getSchrodingerPanel().getSchrodingerScreenNode().addChild( helpBalloon );
-        helpBalloon.animateTo( QWIApplication.intensityModule.getSchrodingerPanel().getSchrodingerScreenNode().getGunGraphic() );
+        schrodingerPanel.getSchrodingerScreenNode().addChild( helpBalloon );
+        helpBalloon.animateTo( schrodingerPanel.getSchrodingerScreenNode().getGunGraphic() );
 
-        QWIApplication.intensityModule.getSchrodingerPanel().addMouseListener( new MouseAdapter() {
+        schrodingerPanel.addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
                 helpBalloon.setVisible( false );
             }
@@ -135,17 +146,16 @@ public class QuantumWaveInterferenceApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) {
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                QWIStrings.init( args );
-                new QWIPhetLookAndFeel().initLookAndFeel();
-                final QuantumWaveInterferenceApplication QWIApplication = new QuantumWaveInterferenceApplication( args );
-                QWIApplication.startApplication();
-                if ( QWIApplication.intensityModule != null ) {
-                    addWiggleMe( QWIApplication );
-                }
-                System.out.println( "UIManager.getLookAndFeel() = " + UIManager.getLookAndFeel() );
+        
+        ApplicationConstructor appConstructor = new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new QuantumWaveInterferenceApplication( config );
             }
-        } );
+        };
+        
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, QWIConstants.PROJECT_NAME, QWIConstants.FLAVOR_QUANTUM_WAVE_INTERFERENCE );
+        appConfig.setLookAndFeel( new QWIPhetLookAndFeel() );
+        appConfig.setFrameSetup( new QWIFrameSetup() );
+        appConfig.launchSim();
     }
 }

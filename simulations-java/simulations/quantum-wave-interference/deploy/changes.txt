@@ -1,3 +1,5 @@
+10-13-2008: replace SimString with PhetResources
+10-13-2008: use PhetApplicationConfig launchSim
 8-20-2007: qwi: converted to use IProguardKeepClass
 
 (7-5-2007)
