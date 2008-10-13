@@ -33,6 +33,12 @@ public class PhetImageGraphic extends PhetGraphic {
         this( component, null, 0, 0 );
     }
 
+    /**
+     * 
+     * @param component
+     * @param imageResourceName
+     * @deprecated use one of the constructors that takes a BufferedImage, sims should load the image using PhetResourceLoader to keep the image pathname transparent
+     */
     public PhetImageGraphic( Component component, String imageResourceName ) {
         this( component, (BufferedImage) null );
         this.imageResourceName = imageResourceName;
