@@ -93,15 +93,12 @@ public class QuantumWaveInterferenceApplication extends PiccoloPhetApplication {
 
     }
     
-    public void startApplications() {
+    public void startApplication() {
         super.startApplication();
+        // add wiggle me after the app starts so that we see it move
         if ( intensityModule != null ) {
             addWiggleMe();
         }
-    }
-
-    public static String getQWIVersion() {
-        return PhetApplicationConfig.getVersion( "quantum-wave-interference" ).formatForTitleBar();
     }
 
     private QWIModule getActiveSchrodingerModule() {
