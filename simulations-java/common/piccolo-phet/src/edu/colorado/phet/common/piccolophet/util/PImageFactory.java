@@ -28,6 +28,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  *
  * @author Ron LeMaster
  * @version $Revision$
+ * @deprecated this class should not be used, the imageName args require knowledge of where the image resources live in the JAR file, use PhetResources instead
  */
 public class PImageFactory {
 
