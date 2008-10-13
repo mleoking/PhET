@@ -2,11 +2,12 @@
 
 package edu.colorado.phet.phetgraphicsdemo.view;
 
+import java.awt.Component;
+
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.phetgraphicsdemo.PhetGraphicsDemoResources;
 import edu.colorado.phet.phetgraphicsdemo.model.CarModelElement;
-
-import java.awt.*;
 
 /**
  * CarGraphic is the graphical representation of a car that moves horizontally.
@@ -21,7 +22,7 @@ public class CarGraphic extends PhetImageGraphic implements SimpleObserver {
     private double _previousDirection;
      
     public CarGraphic( Component component, CarModelElement carModelElement ) {
-        super( component, "images/car.png" );
+        super( component, PhetGraphicsDemoResources.getImage( "car.png" ) );
         _carModelElement = carModelElement;
         _carModelElement.addObserver( this );
         

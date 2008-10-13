@@ -29,7 +29,6 @@ public class CarOnRoadGraphic extends CompositePhetGraphic {
             // Road
             int width = (int) carModelElement.getRange() + _carGraphic.getWidth();
             RoadGraphic roadGraphic = new RoadGraphic( component, width );
-            int x = -_carGraphic.getImage().getWidth() / 2;
             roadGraphic.setLocation( 0, 0 );
 
             addGraphic( roadGraphic );
