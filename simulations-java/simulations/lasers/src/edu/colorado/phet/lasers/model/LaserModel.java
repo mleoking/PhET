@@ -26,7 +26,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.quantum.QuantumConfig;
 import edu.colorado.phet.common.quantum.model.*;
-import edu.colorado.phet.lasers.controller.LasersConfig;
+import edu.colorado.phet.lasers.LasersConfig;
 import edu.colorado.phet.lasers.model.atom.LaserElementProperties;
 import edu.colorado.phet.lasers.model.atom.ThreeLevelElementProperties;
 import edu.colorado.phet.lasers.model.atom.TwoLevelElementProperties;

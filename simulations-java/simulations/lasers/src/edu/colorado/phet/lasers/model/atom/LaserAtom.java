@@ -4,7 +4,7 @@ import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.quantum.model.ElementProperties;
 import edu.colorado.phet.common.quantum.model.Photon;
 import edu.colorado.phet.common.quantum.model.PropertiesBasedAtom;
-import edu.colorado.phet.lasers.controller.LasersConfig;
+import edu.colorado.phet.lasers.LasersConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
 
 /**

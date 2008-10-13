@@ -20,6 +20,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.lasers.LasersConfig;
 import edu.colorado.phet.lasers.LasersResources;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
 

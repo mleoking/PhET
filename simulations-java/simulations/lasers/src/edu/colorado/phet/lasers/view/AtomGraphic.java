@@ -30,8 +30,8 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
 import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.common.quantum.model.AtomicState;
+import edu.colorado.phet.lasers.LasersConfig;
 import edu.colorado.phet.lasers.LasersResources;
-import edu.colorado.phet.lasers.controller.LasersConfig;
 
 /**
  * Represents an atom with an image of a sphere, surrounded by a "halo" that represents its energy state. The halo
