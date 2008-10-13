@@ -32,7 +32,7 @@ import edu.colorado.phet.common.quantum.QuantumConfig;
 import edu.colorado.phet.common.quantum.model.*;
 import edu.colorado.phet.lasers.ShowActualButton;
 import edu.colorado.phet.lasers.controller.Kaboom;
-import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.controller.LasersConfig;
 import edu.colorado.phet.lasers.controller.RightMirrorReflectivityControlPanel;
 import edu.colorado.phet.lasers.help.EnergyLevelPanelHelp;
 import edu.colorado.phet.lasers.model.LaserModel;
@@ -48,7 +48,7 @@ import edu.colorado.phet.lasers.view.monitors.PowerMeterGraphic;
  */
 public class BaseLaserModule extends PhetGraphicsModule {
 
-    static protected final Point2D s_origin = LaserConfig.ORIGIN;
+    static protected final Point2D s_origin = LasersConfig.ORIGIN;
     static protected final double s_boxHeight = 120;
     static protected final double s_boxWidth = 300;
     static protected final double s_laserOffsetX = 50;
@@ -81,8 +81,8 @@ public class BaseLaserModule extends PhetGraphicsModule {
     private boolean mirrorsEnabled;
 
     //    See Unfuddle #444
-    private double middleStateMeanLifetime = LaserConfig.MAXIMUM_STATE_LIFETIME;
-    private double highStateMeanLifetime = LaserConfig.MAXIMUM_STATE_LIFETIME / 4;
+    private double middleStateMeanLifetime = LasersConfig.MAXIMUM_STATE_LIFETIME;
+    private double highStateMeanLifetime = LasersConfig.MAXIMUM_STATE_LIFETIME / 4;
     private HelpManager energyLevelsPanelHelpManager;
     private Kaboom kaboom;
     private PhetFrame frame;
@@ -183,7 +183,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
         cavity = new Tube( laserOrigin, s_boxWidth, s_boxHeight );
         getModel().addModelElement( cavity );
         TubeGraphic cavityCavityGraphic = new TubeGraphic( getApparatusPanel(), cavity );
-        addGraphic( cavityCavityGraphic, LaserConfig.CAVITY_LAYER );
+        addGraphic( cavityCavityGraphic, LasersConfig.CAVITY_LAYER );
     }
 
     /**
@@ -195,8 +195,8 @@ public class BaseLaserModule extends PhetGraphicsModule {
                              s_boxWidth + s_laserOffsetX * 2,
                              s_boxHeight - Photon.RADIUS,
                              new Vector2D.Double( 1, 0 ),
-                             LaserConfig.MAXIMUM_SEED_PHOTON_RATE,
-                             LaserConfig.SEED_BEAM_FANOUT, getPhotonSpeed() );
+                             LasersConfig.MAXIMUM_SEED_PHOTON_RATE,
+                             LasersConfig.SEED_BEAM_FANOUT, getPhotonSpeed() );
         seedBeam.addPhotonEmittedListener( new InternalPhotonEmittedListener() );
         seedBeam.setEnabled( true );
         getLaserModel().setStimulatingBeam( seedBeam );
@@ -206,8 +206,8 @@ public class BaseLaserModule extends PhetGraphicsModule {
                                 1000,
                                 cavity.getWidth(),
                                 new Vector2D.Double( 0, 1 ),
-                                LaserConfig.MAXIMUM_SEED_PHOTON_RATE,
-                                LaserConfig.PUMPING_BEAM_FANOUT, getPhotonSpeed() );
+                                LasersConfig.MAXIMUM_SEED_PHOTON_RATE,
+                                LasersConfig.PUMPING_BEAM_FANOUT, getPhotonSpeed() );
         pumpingBeam.addPhotonEmittedListener( new InternalPhotonEmittedListener() );
         pumpingBeam.setEnabled( true );
         getLaserModel().setPumpingBeam( pumpingBeam );
@@ -270,9 +270,9 @@ public class BaseLaserModule extends PhetGraphicsModule {
         final double externalLaserCurtainOpacity = .7;
         Rectangle cavityBounds = new Rectangle( (int) cavity.getBounds().getX(), (int) cavity.getBounds().getY(),
                                                 (int) cavity.getBounds().getWidth(), (int) cavity.getBounds().getHeight() );
-        Shape mirrorFace = new Ellipse2D.Double( cavityBounds.getMaxX() - LaserConfig.MIRROR_THICKNESS / 2,
+        Shape mirrorFace = new Ellipse2D.Double( cavityBounds.getMaxX() - LasersConfig.MIRROR_THICKNESS / 2,
                                                  cavityBounds.getMinY(),
-                                                 LaserConfig.MIRROR_THICKNESS,
+                                                 LasersConfig.MIRROR_THICKNESS,
                                                  cavity.getBounds().getHeight() );
         Area a = new Area( cavityBounds );
         a.add( new Area( mirrorFace ) );
@@ -284,7 +284,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
                                                                                    },
                                                                                    internalLaserCurtainOpacity );
         laserModel.addLaserListener( internalLaserCurtainGraphic );
-        addGraphic( internalLaserCurtainGraphic, LaserConfig.LEFT_MIRROR_LAYER - 1 );
+        addGraphic( internalLaserCurtainGraphic, LasersConfig.LEFT_MIRROR_LAYER - 1 );
 
         // TODO: put this on a listener that responds to apparatus panel resizings, rather than using a hard-coded number
         Rectangle externalBounds = new Rectangle( (int) cavity.getBounds().getMaxX(), (int) cavity.getBounds().getY(),
@@ -298,7 +298,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
                                                                                          },
                                                                                          externalLaserCurtainOpacity );
         laserModel.addLaserListener( externalLaserCurtainGraphic );
-        addGraphic( externalLaserCurtainGraphic, LaserConfig.RIGHT_MIRROR_LAYER - 1 );
+        addGraphic( externalLaserCurtainGraphic, LasersConfig.RIGHT_MIRROR_LAYER - 1 );
 
         // Create a listener that will adjust the maximum alpha of the external beam based on the reflectivity
         // of the right-hand mirror
@@ -468,8 +468,8 @@ public class BaseLaserModule extends PhetGraphicsModule {
         if ( mirrorsEnabled ) {
             getModel().addModelElement( leftMirror );
             getModel().addModelElement( rightMirror );
-            getApparatusPanel().addGraphic( leftMirrorGraphic, LaserConfig.LEFT_MIRROR_LAYER );
-            getApparatusPanel().addGraphic( rightMirrorGraphic, LaserConfig.RIGHT_MIRROR_LAYER );
+            getApparatusPanel().addGraphic( leftMirrorGraphic, LasersConfig.LEFT_MIRROR_LAYER );
+            getApparatusPanel().addGraphic( rightMirrorGraphic, LasersConfig.RIGHT_MIRROR_LAYER );
             getApparatusPanel().revalidate();
         }
         seedBeam.setEnabled( !mirrorsEnabled );
@@ -488,7 +488,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
     protected AtomGraphic addAtom( Atom atom ) {
         getModel().addModelElement( atom );
         AtomGraphic atomGraphic = new AnnotatedAtomGraphic( getApparatusPanel(), atom );
-        addGraphic( atomGraphic, LaserConfig.ATOM_LAYER );
+        addGraphic( atomGraphic, LasersConfig.ATOM_LAYER );
 
         // Add a listener to the atom that will create a photon graphic if the atom
         // emits a photon, and another to deal with an atom leaving the system
@@ -593,7 +593,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
 //            final PhotonGraphic pg = PhotonGraphic.getInstance( getApparatusPanel(), photon );
             final PhotonGraphic pg = PhotonGraphic.getInstance( getApparatusPanel(), photon );
             pg.setVisible( isPhotonGraphicVisible );
-            addGraphic( pg, LaserConfig.PHOTON_LAYER );
+            addGraphic( pg, LasersConfig.PHOTON_LAYER );
             photon.addLeftSystemListener( new PhotonLeftSystemListener( photon, pg ) );
         }
     }

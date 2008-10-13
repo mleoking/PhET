@@ -17,7 +17,7 @@ import java.awt.geom.RoundRectangle2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
 import edu.colorado.phet.lasers.LasersResources;
-import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.controller.LasersConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
 
@@ -32,7 +32,7 @@ public class PowerMeterGraphic extends GraphicLayerSet {
     public PowerMeterGraphic( Component component, LaserModel model, final PartialMirror rightMirror ) throws HeadlessException {
         super( component );
 
-        PhetImageGraphic bezelImageGraphic = new PhetImageGraphic( component, LasersResources.getImage( LaserConfig.POWER_METER_IMAGE ) );
+        PhetImageGraphic bezelImageGraphic = new PhetImageGraphic( component, LasersResources.getImage( LasersConfig.POWER_METER_IMAGE ) );
         addGraphic( bezelImageGraphic );
 
         int leftInset = 70;
@@ -84,7 +84,7 @@ public class PowerMeterGraphic extends GraphicLayerSet {
         Paint aboveLasingPaint = Color.red;
         int segmentWidth = 3;
         int interSegmentSpace = 1;
-        double dangerThreshold = LaserConfig.KABOOM_THRESHOLD * 0.75;
+        double dangerThreshold = LasersConfig.KABOOM_THRESHOLD * 0.75;
         double scale;
 
         public Meter( Component component, Dimension size, Object orientation ) {
@@ -112,7 +112,7 @@ public class PowerMeterGraphic extends GraphicLayerSet {
             addGraphic( backgroundGraphic );
 
             // Determine the scale
-            scale = LaserConfig.KABOOM_THRESHOLD / background.getWidth();
+            scale = LasersConfig.KABOOM_THRESHOLD / background.getWidth();
 
             // Create the segments
             int numSegments = (int) ( background.getWidth() / ( segmentWidth + interSegmentSpace ) );
@@ -164,10 +164,10 @@ public class PowerMeterGraphic extends GraphicLayerSet {
             for ( int i = 0; i < segments.length; i++ ) {
                 double segmentValue = i * ( segmentWidth + interSegmentSpace ) * scale;
                 Paint paint = null;
-                if ( segmentValue < LaserConfig.LASING_THRESHOLD ) {
+                if ( segmentValue < LasersConfig.LASING_THRESHOLD ) {
                     paint = belowLasingPaint;
                 }
-                else if ( segmentValue >= LaserConfig.LASING_THRESHOLD
+                else if ( segmentValue >= LasersConfig.LASING_THRESHOLD
                           && segmentValue < dangerThreshold ) {
                     paint = lasingPaint;
                 }
@@ -181,7 +181,7 @@ public class PowerMeterGraphic extends GraphicLayerSet {
             }
 
             // Add threshold lines to the bezel
-            int lasingThresholdLocX = (int) ( LaserConfig.LASING_THRESHOLD / scale );
+            int lasingThresholdLocX = (int) ( LasersConfig.LASING_THRESHOLD / scale );
             Rectangle2D.Double rect = new Rectangle2D.Double( 0, background.getHeight(), 2, 15 );
             PhetShapeGraphic lasingThresholdIndicator = new PhetShapeGraphic( component,
                                                                               rect,

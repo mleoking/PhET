@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
 import edu.colorado.phet.common.quantum.model.AtomicState;
-import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.controller.LasersConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
 
 /**
@@ -71,8 +71,8 @@ public class LaserCurtainGraphic extends PhetShapeGraphic implements AtomicState
 
     private void update() {
         // Determine the proper opacity of the shape's fill color
-        level = numLasingPhotons > LaserConfig.LASING_THRESHOLD ? numLasingPhotons : 0;
-        alpha = ( level / LaserConfig.KABOOM_THRESHOLD ) * maxAlpha;
+        level = numLasingPhotons > LasersConfig.LASING_THRESHOLD ? numLasingPhotons : 0;
+        alpha = ( level / LasersConfig.KABOOM_THRESHOLD ) * maxAlpha;
 
         double de = atomicStates[1].getEnergyLevel() - atomicStates[0].getEnergyLevel();
         Color color = VisibleColor.wavelengthToColor( PhysicsUtil.energyToWavelength( de ) );

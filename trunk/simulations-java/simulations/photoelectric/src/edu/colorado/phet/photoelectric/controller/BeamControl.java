@@ -34,7 +34,7 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic2;
 import edu.colorado.phet.common.quantum.model.Beam;
 import edu.colorado.phet.common.quantum.model.PhotonSource;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
-import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.controller.LasersConfig;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 import edu.colorado.phet.photoelectric.PhotoelectricResources;
 import edu.colorado.phet.photoelectric.model.util.PhotoelectricModelUtil;
@@ -264,9 +264,9 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
         if( sliderTitle != null ) {
             removeGraphic( sliderTitle );
         }
-        Font font = new Font( LaserConfig.DEFAULT_CONTROL_FONT.getName(),
-                              LaserConfig.DEFAULT_CONTROL_FONT.getStyle(),
-                              LaserConfig.DEFAULT_CONTROL_FONT.getSize() + 4 );
+        Font font = new Font( LasersConfig.DEFAULT_CONTROL_FONT.getName(),
+                              LasersConfig.DEFAULT_CONTROL_FONT.getStyle(),
+                              LasersConfig.DEFAULT_CONTROL_FONT.getSize() + 4 );
         String text = (String)MODE_TO_SLIDER_TITLE.get( mode );
         sliderTitle = new PhetTextGraphic2( apparatusPanel, font, text, Color.white );
 

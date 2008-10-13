@@ -26,7 +26,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.quantum.QuantumConfig;
 import edu.colorado.phet.common.quantum.model.*;
-import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.controller.LasersConfig;
 import edu.colorado.phet.lasers.model.atom.LaserElementProperties;
 import edu.colorado.phet.lasers.model.atom.ThreeLevelElementProperties;
 import edu.colorado.phet.lasers.model.atom.TwoLevelElementProperties;
@@ -45,8 +45,8 @@ public class LaserModel extends QuantumModel {
     static public Point2D ORIGIN = new Point2D.Double( 100, 300 );
     static private int width = 800;
     static private int height = 800;
-    static private int minX = (int) LaserConfig.ORIGIN.getX() - 50;
-    static private int minY = (int) LaserConfig.ORIGIN.getY() - height / 2;
+    static private int minX = (int) LasersConfig.ORIGIN.getX() - 50;
+    static private int minY = (int) LasersConfig.ORIGIN.getY() - height / 2;
 
     //----------------------------------------------------------------
     // Instance fields and methods
@@ -65,7 +65,7 @@ public class LaserModel extends QuantumModel {
     private ArrayList mirrors = new ArrayList();
     private CollisionMechanism collisionMechanism;
     private HashSet lasingPhotons = new HashSet();
-    private double angleWindow = LaserConfig.PHOTON_CHEAT_ANGLE;
+    private double angleWindow = LasersConfig.PHOTON_CHEAT_ANGLE;
 
     private int numPhotons;
 

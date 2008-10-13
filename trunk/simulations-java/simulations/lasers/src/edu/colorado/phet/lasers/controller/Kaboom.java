@@ -89,7 +89,7 @@ public class Kaboom implements ModelElement {
     }
 
     public void stepInTime( double dt ) {
-        if ( model.getNumLasingPhotons() > LaserConfig.KABOOM_THRESHOLD && !kaboomed ) {
+        if ( model.getNumLasingPhotons() > LasersConfig.KABOOM_THRESHOLD && !kaboomed ) {
 //        if ( model.getNumLasingPhotons() > LaserConfig.KABOOM_THRESHOLD / 8 && !kaboomed ) {//debugging
             model.reset();
             kaboom();

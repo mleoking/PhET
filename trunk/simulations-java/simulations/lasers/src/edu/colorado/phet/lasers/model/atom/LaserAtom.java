@@ -4,7 +4,7 @@ import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.quantum.model.ElementProperties;
 import edu.colorado.phet.common.quantum.model.Photon;
 import edu.colorado.phet.common.quantum.model.PropertiesBasedAtom;
-import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.controller.LasersConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
 
 /**
@@ -64,7 +64,7 @@ public class LaserAtom extends PropertiesBasedAtom {
      * Agent that flips the flag that controls the time that an atom must remain in the ground state
      */
     private class MinLifetimeTimer extends Thread {
-        long minLifetime = LaserConfig.MINIMUM_GROUND_STATE_LIFETIME;
+        long minLifetime = LasersConfig.MINIMUM_GROUND_STATE_LIFETIME;
 
         public void run() {
             synchronized( canCollideInGroundState ) {

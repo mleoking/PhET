@@ -43,8 +43,8 @@ public class RightMirrorReflectivityControlPanel extends JPanel implements Simpl
         reflectivityTF.setHorizontalAlignment( JTextField.RIGHT );
         Font clockFont = reflectivityTF.getFont();
         reflectivityTF.setFont( new Font( clockFont.getName(),
-                                          LaserConfig.CONTROL_FONT_STYLE,
-                                          LaserConfig.CONTROL_FONT_SIZE ) );
+                                          LasersConfig.CONTROL_FONT_STYLE,
+                                          LasersConfig.CONTROL_FONT_SIZE ) );
         reflectivityTF.setText( Double.toString( 10 ) );
 
         reflectivitySlider = new JSlider( JSlider.VERTICAL,

@@ -82,12 +82,12 @@ public class LaserControlPanel extends ControlPanel {
             dlg.setUndecorated( true );
             dlg.getRootPane().setWindowDecorationStyle( JRootPane.PLAIN_DIALOG );
 
-            final ModelSlider cheatSlider = new ModelSlider( "Cheat angle", "deg", 0, 20, LaserConfig.PHOTON_CHEAT_ANGLE );
+            final ModelSlider cheatSlider = new ModelSlider( "Cheat angle", "deg", 0, 20, LasersConfig.PHOTON_CHEAT_ANGLE );
             cheatSlider.setPaintTicks( false );
             cheatSlider.setPaintLabels( false );
             cheatSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    LaserConfig.PHOTON_CHEAT_ANGLE = cheatSlider.getValue();
+                    LasersConfig.PHOTON_CHEAT_ANGLE = cheatSlider.getValue();
                 }
             } );
             panel.add( cheatSlider, gbc );
@@ -120,12 +120,12 @@ public class LaserControlPanel extends ControlPanel {
             } );
             panel.add( cavityWidthSlider, gbc );
 
-            final ModelSlider lasingThresholdSlider = new ModelSlider( "Lasing threshold", "", 0, 300, LaserConfig.LASING_THRESHOLD );
+            final ModelSlider lasingThresholdSlider = new ModelSlider( "Lasing threshold", "", 0, 300, LasersConfig.LASING_THRESHOLD );
             lasingThresholdSlider.setPaintLabels( false );
             lasingThresholdSlider.setPaintTicks( false );
             lasingThresholdSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    LaserConfig.LASING_THRESHOLD = (int) lasingThresholdSlider.getValue();
+                    LasersConfig.LASING_THRESHOLD = (int) lasingThresholdSlider.getValue();
                 }
             } );
             panel.add( lasingThresholdSlider, gbc );
@@ -151,10 +151,10 @@ public class LaserControlPanel extends ControlPanel {
             aveSlider.setValue( module.getEnerglyLevelsAveragingPeriod() );
             panel.add( aveSlider, gbc );
 
-            final ModelSlider kaboomThresholdSlider = new ModelSlider( "Meltdown threshold", "Photons", 0, 500, LaserConfig.KABOOM_THRESHOLD );
+            final ModelSlider kaboomThresholdSlider = new ModelSlider( "Meltdown threshold", "Photons", 0, 500, LasersConfig.KABOOM_THRESHOLD );
             kaboomThresholdSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    LaserConfig.KABOOM_THRESHOLD = (int) kaboomThresholdSlider.getValue();
+                    LasersConfig.KABOOM_THRESHOLD = (int) kaboomThresholdSlider.getValue();
                 }
             } );
             panel.add( kaboomThresholdSlider, gbc );
