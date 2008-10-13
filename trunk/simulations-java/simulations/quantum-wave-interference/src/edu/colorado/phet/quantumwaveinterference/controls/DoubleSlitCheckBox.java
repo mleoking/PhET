@@ -1,7 +1,7 @@
 /*  */
 package edu.colorado.phet.quantumwaveinterference.controls;
 
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.quantumwaveinterference.model.QWIModel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
@@ -20,7 +20,7 @@ public class DoubleSlitCheckBox extends JCheckBox {
     private QWIModel QWIModel;
 
     public DoubleSlitCheckBox( final QWIModel QWIModel ) {
-        super( QWIStrings.getString( "double.slit" ), QWIModel.isDoubleSlitEnabled() );
+        super( QWIResources.getString( "double.slit" ), QWIModel.isDoubleSlitEnabled() );
         setFont( new PhetFont( Font.BOLD, 22 ) );
 
         this.QWIModel = QWIModel;

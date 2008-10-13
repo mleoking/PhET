@@ -1,5 +1,6 @@
 package edu.colorado.phet.quantumwaveinterference.davissongermer;
 
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.quantumwaveinterference.view.QWIPanel;
 import edu.colorado.phet.quantumwaveinterference.view.gun.GunControlPanel;
 
@@ -12,7 +13,7 @@ import edu.colorado.phet.quantumwaveinterference.view.gun.GunControlPanel;
 public class DGGunControlPanel extends GunControlPanel {
     public DGGunControlPanel( QWIPanel schrodingerPanel ) {
         super( schrodingerPanel );
-        getTitleLabel().setText( QWIStrings.getString( "gun.title" ) );
+        getTitleLabel().setText( QWIResources.getString( "gun.title" ) );
     }
 
 //    public double getVelocityRealUnits() {

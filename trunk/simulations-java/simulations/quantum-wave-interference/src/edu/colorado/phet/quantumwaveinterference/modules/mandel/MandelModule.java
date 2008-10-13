@@ -4,9 +4,9 @@ package edu.colorado.phet.quantumwaveinterference.modules.mandel;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.quantumwaveinterference.QuantumWaveInterferenceApplication;
 import edu.colorado.phet.quantumwaveinterference.QWIModule;
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
 import edu.colorado.phet.quantumwaveinterference.model.WaveModel;
 import edu.colorado.phet.quantumwaveinterference.view.colormaps.ColorData;
 
@@ -26,7 +26,7 @@ public class MandelModule extends QWIModule {
     private ArrayList listeners = new ArrayList();
 
     public MandelModule( QuantumWaveInterferenceApplication app, IClock clock ) {
-        super( QWIStrings.getString( "module.lasers" ), app, clock );
+        super( QWIResources.getString( "module.lasers" ), app, clock );
         splitModel = new MandelModel();
         setQWIModel( splitModel );
         mandelSchrodingerPanel = new MandelSchrodingerPanel( this );

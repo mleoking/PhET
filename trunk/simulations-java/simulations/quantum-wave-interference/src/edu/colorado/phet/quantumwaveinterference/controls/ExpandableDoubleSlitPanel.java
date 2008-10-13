@@ -3,7 +3,7 @@ package edu.colorado.phet.quantumwaveinterference.controls;
 
 import edu.colorado.phet.common.phetcommon.view.AdvancedPanel;
 import edu.colorado.phet.quantumwaveinterference.QWIModule;
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.quantumwaveinterference.model.QWIModel;
 
 /**
@@ -16,7 +16,7 @@ public class ExpandableDoubleSlitPanel extends AdvancedPanel {
     private QWIModule module;
 
     public ExpandableDoubleSlitPanel( final QWIModule module ) {
-        super( QWIStrings.getString( "controls.slits.show" ), QWIStrings.getString( "controls.slits.hide" ) );
+        super( QWIResources.getString( "controls.slits.show" ), QWIResources.getString( "controls.slits.hide" ) );
         this.module = module;
         addControlFullWidth( new DoubleSlitControlPanel( module.getQWIModel(), module ) );
         addListener( new Listener() {

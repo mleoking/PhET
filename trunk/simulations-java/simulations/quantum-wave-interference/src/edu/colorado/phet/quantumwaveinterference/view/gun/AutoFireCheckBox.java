@@ -1,7 +1,7 @@
 /*  */
 package edu.colorado.phet.quantumwaveinterference.view.gun;
 
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 import javax.swing.*;
@@ -17,7 +17,7 @@ import java.awt.*;
 
 public class AutoFireCheckBox extends JCheckBox {
     public AutoFireCheckBox( final AutoFire autoFire ) {
-        super( QWIStrings.getString( "gun.auto-repeat" ) );
+        super( QWIResources.getString( "gun.auto-repeat" ) );
         setFont( new PhetFont( Font.BOLD, 12 ) );
         setForeground( Color.white );
         addChangeListener( new ChangeListener() {

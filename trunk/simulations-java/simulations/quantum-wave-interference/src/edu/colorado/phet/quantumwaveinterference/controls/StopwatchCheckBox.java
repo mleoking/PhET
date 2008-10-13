@@ -2,7 +2,7 @@
 package edu.colorado.phet.quantumwaveinterference.controls;
 
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.quantumwaveinterference.view.QWIPanel;
 
 import javax.swing.*;
@@ -22,7 +22,7 @@ public class StopwatchCheckBox extends HorizontalLayoutPanel {
 
     public StopwatchCheckBox( QWIPanel QWIPanel ) {
         super();
-        final JCheckBox checkBox = new JCheckBox( QWIStrings.getString( "controls.stopwatch" ) );
+        final JCheckBox checkBox = new JCheckBox( QWIResources.getString( "controls.stopwatch" ) );
         this.QWIPanel = QWIPanel;
 
 //        final JCheckBox stopwatchCheckBox = new JCheckBox( "Stopwatch" );

@@ -5,7 +5,7 @@ import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.quantumwaveinterference.QWIModule;
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.quantumwaveinterference.view.QWIPanel;
 import edu.umd.cs.piccolo.PNode;
 
@@ -30,7 +30,7 @@ public class FireButton extends JButton {
 
     public FireButton( FireParticle fireParticle ) {
 
-        super( QWIStrings.getString( "gun.fire" ) );
+        super( QWIResources.getString( "gun.fire" ) );
         this.fireParticle = fireParticle;
         setFont( new PhetFont( Font.BOLD, 18 ) );
         setForeground( Color.red );

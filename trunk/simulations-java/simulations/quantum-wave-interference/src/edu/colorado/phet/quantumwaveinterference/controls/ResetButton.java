@@ -2,7 +2,7 @@
 package edu.colorado.phet.quantumwaveinterference.controls;
 
 import edu.colorado.phet.quantumwaveinterference.QWIModule;
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -16,7 +16,7 @@ import java.awt.event.ActionListener;
 
 public class ResetButton extends JButton {
     public ResetButton( final QWIModule module ) {
-        super( QWIStrings.getString( "controls.reset" ) );
+        super( QWIResources.getString( "controls.reset" ) );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 boolean confirm = module.confirmReset();

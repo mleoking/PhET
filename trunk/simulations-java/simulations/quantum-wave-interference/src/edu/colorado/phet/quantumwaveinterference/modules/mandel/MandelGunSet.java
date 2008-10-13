@@ -1,7 +1,7 @@
 /*  */
 package edu.colorado.phet.quantumwaveinterference.modules.mandel;
 
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.quantumwaveinterference.phetcommon.ImagePComboBox;
 import edu.colorado.phet.quantumwaveinterference.view.gun.IntensityBeam;
 import edu.colorado.phet.quantumwaveinterference.view.gun.IntensityGunNode;
@@ -102,7 +102,7 @@ public class MandelGunSet extends IntensityGunNode {
     }
 
     protected ImagePComboBox initComboBox() {
-        photon = new Photon( this, QWIStrings.getString( "particles.photons" ), "quantum-wave-interference/images/photon-thumb.jpg" );
+        photon = new Photon( this, QWIResources.getString( "particles.photons" ), "quantum-wave-interference/images/photon-thumb.jpg" );
         photonMandelBeam = new PhotonMandelBeam( this, photon );
 
         final IntensityBeam[] beams = new IntensityBeam[]{photonMandelBeam};

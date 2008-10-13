@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.quantumwaveinterference.QWIModule;
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.quantumwaveinterference.view.QWIPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -38,7 +38,7 @@ public class PlainFireButton extends PNode {
         this.gun = gun;
         this.fireParticle = fireParticle;
         icon = new PImage();
-        text = new ShadowPText( QWIStrings.getString( "gun.FIRE" ) );
+        text = new ShadowPText( QWIResources.getString( "gun.FIRE" ) );
         text.setShadowOffset( 1, 1 );
         text.setShadowColor( Color.black );
         text.setFont( new PhetFont( Font.BOLD, 12 ) );

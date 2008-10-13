@@ -2,6 +2,7 @@ package edu.colorado.phet.quantumwaveinterference.davissongermer;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -106,7 +107,7 @@ public abstract class ConstrainedSliderControl extends VerticalLayoutPanel {
         slider.setValue( (int)Math.round( transform( getModelValue(), modelFrame, sliderFrame ) ) );
         String text = "" + format.format( transform( getModelValue(), modelFrame, viewFrame ) );
 //        textReadout.setText( text + " nm" );
-        titleLabel.setText( MessageFormat.format( QWIStrings.getString( "0.1.nm" ), new Object[]{title, text} ) );
+        titleLabel.setText( MessageFormat.format( QWIResources.getString( "0.1.nm" ), new Object[]{title, text} ) );
     }
 
 //    private static class TextReadout extends HorizontalLayoutPanel {

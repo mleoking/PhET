@@ -1,6 +1,7 @@
 /*  */
 package edu.colorado.phet.quantumwaveinterference.davissongermer;
 
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.quantumwaveinterference.view.gun.AbstractGunNode;
 import edu.colorado.phet.quantumwaveinterference.view.gun.DefaultGunParticle;
 
@@ -15,7 +16,7 @@ public class DGParticle extends DefaultGunParticle {
     private double startYFraction = 0.75;
 
     public DGParticle( AbstractGunNode gunNode ) {
-        super( gunNode, QWIStrings.getString( "particles.electrons" ), "quantum-wave-interference/images/electron-thumb.png", new DGParticleUnits() );
+        super( gunNode, QWIResources.getString( "particles.electrons" ), "quantum-wave-interference/images/electron-thumb.png", new DGParticleUnits() );
     }
 
     protected double getStartDxLattice() {

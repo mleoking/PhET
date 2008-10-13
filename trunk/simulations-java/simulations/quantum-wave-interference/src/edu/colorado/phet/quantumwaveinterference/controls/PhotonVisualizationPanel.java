@@ -2,7 +2,7 @@
 package edu.colorado.phet.quantumwaveinterference.controls;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.quantumwaveinterference.view.QWIPanel;
 import edu.colorado.phet.quantumwaveinterference.view.colormaps.WaveValueAccessor;
 import edu.colorado.phet.quantumwaveinterference.view.complexcolormaps.ComplexColorMap;
@@ -30,13 +30,13 @@ public class PhotonVisualizationPanel extends VerticalLayoutPanel implements IVi
     public PhotonVisualizationPanel( QWIPanel QWIPanel ) {
         this.QWIPanel = QWIPanel;
 
-        setBorder( BorderFactory.createTitledBorder( QWIStrings.getString( "controls.em-wave-display" ) ) );
+        setBorder( BorderFactory.createTitledBorder( QWIResources.getString( "controls.em-wave-display" ) ) );
         ButtonGroup buttonGroup = new ButtonGroup();
 
-        grayMag = createVisualizationButton( QWIStrings.getString( "controls.em-wave-display.intensity" ), new MagnitudeColorMap(), new WaveValueAccessor.Magnitude(), true, buttonGroup );
+        grayMag = createVisualizationButton( QWIResources.getString( "controls.em-wave-display.intensity" ), new MagnitudeColorMap(), new WaveValueAccessor.Magnitude(), true, buttonGroup );
         addFullWidth( grayMag );
 
-        realGray = createVisualizationButton( QWIStrings.getString( "controls.em-wave-display.e-field" ), new GrayscaleColorMap.Real(), new WaveValueAccessor.Real(), false, buttonGroup );
+        realGray = createVisualizationButton( QWIResources.getString( "controls.em-wave-display.e-field" ), new GrayscaleColorMap.Real(), new WaveValueAccessor.Real(), false, buttonGroup );
         addFullWidth( realGray );
 
 //        JRadioButton complexGray = createVisualizationButton( "Imaginary Part        ", new GrayscaleColorMap.Imaginary(), new WaveValueAccessor.Imag(), false, buttonGroup );

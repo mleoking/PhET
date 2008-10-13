@@ -1,7 +1,7 @@
 /*  */
 package edu.colorado.phet.quantumwaveinterference.controls;
 
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.quantumwaveinterference.view.QWIPanel;
 
 import javax.swing.*;
@@ -18,7 +18,7 @@ public class InverseSlitsCheckbox extends JCheckBox {
     private QWIPanel QWIPanel;
 
     public InverseSlitsCheckbox( final QWIPanel QWIPanel ) {
-        super( QWIStrings.getString( "controls.slits.anti-slits" ) );
+        super( QWIResources.getString( "controls.slits.anti-slits" ) );
         this.QWIPanel = QWIPanel;
         setSelected( QWIPanel.isInverseSlits() );
         addActionListener( new ActionListener() {

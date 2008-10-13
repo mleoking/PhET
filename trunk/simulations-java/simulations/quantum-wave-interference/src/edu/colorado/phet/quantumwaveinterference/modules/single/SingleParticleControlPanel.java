@@ -5,8 +5,8 @@ import edu.colorado.phet.common.phetcommon.view.AdvancedPanel;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.quantumwaveinterference.QWIModule;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.quantumwaveinterference.controls.*;
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
 import edu.colorado.phet.quantumwaveinterference.model.Detector;
 
 import javax.swing.*;
@@ -31,19 +31,19 @@ public class SingleParticleControlPanel extends QWIControlPanel {
     public SingleParticleControlPanel( final SingleParticleModule singleParticleModule ) {
         super( singleParticleModule );
         this.singleParticleModule = singleParticleModule;
-        AdvancedPanel potentialPanel = new AdvancedPanel( QWIStrings.getString( "controls.barriers.show" ), QWIStrings.getString( "controls.barriers.hide" ) );
+        AdvancedPanel potentialPanel = new AdvancedPanel( QWIResources.getString( "controls.barriers.show" ), QWIResources.getString( "controls.barriers.hide" ) );
         potentialPanel.addControlFullWidth( new PotentialPanel( singleParticleModule ) );
-        AdvancedPanel detectorPanel = new AdvancedPanel( QWIStrings.getString( "controls.detectors.show" ), QWIStrings.getString( "controls.detectors.hide" ) );
+        AdvancedPanel detectorPanel = new AdvancedPanel( QWIResources.getString( "controls.detectors.show" ), QWIResources.getString( "controls.detectors.hide" ) );
         detectorPanel.addControlFullWidth( new DetectorPanel( singleParticleModule ) );
 
-        JButton createDetectorArray = new JButton( QWIStrings.getString( "create.detector.array" ) );
+        JButton createDetectorArray = new JButton( QWIResources.getString( "create.detector.array" ) );
         createDetectorArray.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 createDetectorArray();
             }
         } );
 
-        final ModelSlider modelSlider = new ModelSlider( QWIStrings.getString( "dectector.prob.scale" ), "", 0, 100, Detector.getProbabilityScaleFudgeFactor() );
+        final ModelSlider modelSlider = new ModelSlider( QWIResources.getString( "dectector.prob.scale" ), "", 0, 100, Detector.getProbabilityScaleFudgeFactor() );
         modelSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 Detector.setProbabilityScaleFudgeFactor( modelSlider.getValue() );

@@ -14,7 +14,7 @@ package edu.colorado.phet.quantumwaveinterference.persistence;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 
 import javax.jnlp.*;
 import javax.swing.*;
@@ -118,7 +118,7 @@ public class PersistenceManager implements IProguardKeepClass {
 
         // Choose the file to save.
         JFileChooser fileChooser = new JFileChooser( _directoryName );
-        fileChooser.setDialogTitle( QWIStrings.getString( "save" ) );
+        fileChooser.setDialogTitle( QWIResources.getString( "save" ) );
         int rval = fileChooser.showSaveDialog( frame );
         _directoryName = fileChooser.getCurrentDirectory().getAbsolutePath();
         File selectedFile = fileChooser.getSelectedFile();
@@ -130,8 +130,8 @@ public class PersistenceManager implements IProguardKeepClass {
 
         // If the file exists, confirm overwrite.
         if( selectedFile.exists() ) {
-            String title = QWIStrings.getString( "confirm" );
-            String message = QWIStrings.getString( "confirm.save" );
+            String title = QWIResources.getString( "confirm" );
+            String message = QWIResources.getString( "confirm.save" );
             int reply = JOptionPane.showConfirmDialog( frame, message, title, JOptionPane.YES_NO_OPTION );
             if( reply != JOptionPane.YES_OPTION ) {
                 return;
@@ -318,7 +318,7 @@ public class PersistenceManager implements IProguardKeepClass {
      */
     public void showError( String format, String errorMessage ) {
         Window frame = getFrame();
-        String title = QWIStrings.getString( "error" );
+        String title = QWIResources.getString( "error" );
         Object[] args = {errorMessage};
         String message = MessageFormat.format( format, args );
         JOptionPane.showMessageDialog( frame, message, title, JOptionPane.ERROR_MESSAGE );

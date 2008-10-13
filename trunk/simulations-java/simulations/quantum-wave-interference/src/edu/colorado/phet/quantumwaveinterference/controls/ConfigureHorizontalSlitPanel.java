@@ -2,7 +2,7 @@
 package edu.colorado.phet.quantumwaveinterference.controls;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.quantumwaveinterference.model.potentials.HorizontalDoubleSlit;
 
 import javax.swing.*;
@@ -33,7 +33,7 @@ public class ConfigureHorizontalSlitPanel extends VerticalLayoutPanel {
     private void addControls( final HorizontalDoubleSlit slit ) {
         double pow = slit.getPotential();
         if( showPotentialValue ) {
-            SlitSpinner potentialSpinner = new SlitSpinner( QWIStrings.getString( "controls.barriers.title" ),
+            SlitSpinner potentialSpinner = new SlitSpinner( QWIResources.getString( "controls.barriers.title" ),
                                                             new SpinnerNumberModel( pow, 0, Double.POSITIVE_INFINITY, pow / 10 ),
                                                             new ChangeHandler() {
                                                                 public void valueChanged( Number value ) {
@@ -42,28 +42,28 @@ public class ConfigureHorizontalSlitPanel extends VerticalLayoutPanel {
                                                             } );
             addFullWidth( potentialSpinner );
         }
-        SlitSpinner sizeSpinner = new SlitSpinner( QWIStrings.getString( "size" ), new SpinnerNumberModel( slit.getSlitWidth(), 0, slit.getGridWidth() / 2, 1 ), new ChangeHandler() {
+        SlitSpinner sizeSpinner = new SlitSpinner( QWIResources.getString( "size" ), new SpinnerNumberModel( slit.getSlitWidth(), 0, slit.getGridWidth() / 2, 1 ), new ChangeHandler() {
             public void valueChanged( Number value ) {
                 slit.setSlitWidth( value.intValue() );
             }
         } );
         addFullWidth( sizeSpinner );
 
-        SlitSpinner sepSpinner = new SlitSpinner( QWIStrings.getString( "separation" ), new SpinnerNumberModel( slit.getNumCellsBetweenSlits(), 0, slit.getGridHeight(), 1 ), new ChangeHandler() {
+        SlitSpinner sepSpinner = new SlitSpinner( QWIResources.getString( "separation" ), new SpinnerNumberModel( slit.getNumCellsBetweenSlits(), 0, slit.getGridHeight(), 1 ), new ChangeHandler() {
             public void valueChanged( Number value ) {
                 slit.setNumCellsBetweenSlits( value.intValue() );
             }
         } );
         addFullWidth( sepSpinner );
 
-        SlitSpinner depth = new SlitSpinner( QWIStrings.getString( "depth" ), new SpinnerNumberModel( slit.getHeight(), 0, slit.getGridHeight(), 1 ), new ChangeHandler() {
+        SlitSpinner depth = new SlitSpinner( QWIResources.getString( "depth" ), new SpinnerNumberModel( slit.getHeight(), 0, slit.getGridHeight(), 1 ), new ChangeHandler() {
             public void valueChanged( Number value ) {
                 slit.setHeight( value.intValue() );
             }
         } );
         addFullWidth( depth );
 
-        SlitSpinner yval = new SlitSpinner( QWIStrings.getString( "y1" ), new SpinnerNumberModel( slit.getY(), 0, slit.getGridHeight(), 1 ), new ChangeHandler() {
+        SlitSpinner yval = new SlitSpinner( QWIResources.getString( "y1" ), new SpinnerNumberModel( slit.getY(), 0, slit.getGridHeight(), 1 ), new ChangeHandler() {
             public void valueChanged( Number value ) {
                 slit.setY( value.intValue() );
             }

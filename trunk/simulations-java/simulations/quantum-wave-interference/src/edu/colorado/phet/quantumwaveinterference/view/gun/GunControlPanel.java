@@ -3,7 +3,7 @@ package edu.colorado.phet.quantumwaveinterference.view.gun;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.quantumwaveinterference.phetcommon.ShinyPanel;
 import edu.colorado.phet.quantumwaveinterference.view.QWIPanel;
 import edu.umd.cs.piccolo.PNode;
@@ -28,7 +28,7 @@ public class GunControlPanel extends VerticalLayoutPanel {
         setOpaque( false );
         shinyPanel = new ShinyGunControlPanel( this );
         gunControlPSwing = new PSwing( shinyPanel );
-        titleLabel = new JLabel( QWIStrings.getString( "gun.controls" ) ) {
+        titleLabel = new JLabel( QWIResources.getString( "gun.controls" ) ) {
             protected void paintComponent( Graphics g ) {
                 Graphics2D g2 = (Graphics2D)g;
                 g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );

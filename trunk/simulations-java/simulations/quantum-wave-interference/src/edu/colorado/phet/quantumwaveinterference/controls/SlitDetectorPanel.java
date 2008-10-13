@@ -2,7 +2,7 @@
 package edu.colorado.phet.quantumwaveinterference.controls;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.quantumwaveinterference.model.QWIModel;
 import edu.colorado.phet.quantumwaveinterference.modules.intensity.IntensityBeamPanel;
 import edu.colorado.phet.quantumwaveinterference.modules.intensity.IntensityModule;
@@ -25,7 +25,7 @@ public class SlitDetectorPanel extends VerticalLayoutPanel {
 
     public SlitDetectorPanel( final IntensityModule intensityModule ) {
         this.intensityModule = intensityModule;
-        leftSlit = new JCheckBox( QWIStrings.getString( "controls.slits.left-detector" ) );
+        leftSlit = new JCheckBox( QWIResources.getString( "controls.slits.left-detector" ) );
         leftSlit.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 intensityModule.setLeftDetectorEnabled( leftSlit.isSelected() );
@@ -33,7 +33,7 @@ public class SlitDetectorPanel extends VerticalLayoutPanel {
         } );
         add( leftSlit );
 
-        rightSlit = new JCheckBox( QWIStrings.getString( "controls.slits.right-detector" ) );
+        rightSlit = new JCheckBox( QWIResources.getString( "controls.slits.right-detector" ) );
         rightSlit.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 intensityModule.setRightDetectorEnabled( rightSlit.isSelected() );

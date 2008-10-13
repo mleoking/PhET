@@ -1,7 +1,7 @@
 /*  */
 package edu.colorado.phet.quantumwaveinterference.model;
 
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.quantumwaveinterference.model.math.Complex;
 
 import java.awt.*;
@@ -188,7 +188,7 @@ public class Wavefunction {
         double diff = 1.0 - postProb;
         double err = Math.abs( diff );
         if( err > 0.0001 && debug ) {
-            System.out.println( MessageFormat.format( QWIStrings.getString( "error.in.probability.normalization.norm.0.err.1" ), new Object[]{new Double( postProb ), new Double( err )} ) );
+            System.out.println( MessageFormat.format( QWIResources.getString( "error.in.probability.normalization.norm.0.err.1" ), new Object[]{new Double( postProb ), new Double( err )} ) );
 //            new Exception("Error in probability normalization, norm=" + postProb  ).printStackTrace( );
 //            throw new RuntimeException( "Error in probability normalization." );
         }

@@ -2,7 +2,7 @@
 package edu.colorado.phet.quantumwaveinterference.view.piccolo;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.umd.cs.piccolo.PNode;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -44,8 +44,8 @@ public class StripChartJFCNode extends PNode {
 
         JFreeChart chart = ChartFactory.createTimeSeriesChart(
                 "",  // title
-                QWIStrings.getString( "x.axis" ),             // x-axis label
-                QWIStrings.getString( "y.axis" ),   // y-axis label
+                QWIResources.getString( "x.axis" ),             // x-axis label
+                QWIResources.getString( "y.axis" ),   // y-axis label
                 dataset,            // data
                 false,               // create legend?
                 false,               // generate tooltips?

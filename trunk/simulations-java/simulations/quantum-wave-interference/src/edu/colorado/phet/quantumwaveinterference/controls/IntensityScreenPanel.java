@@ -4,7 +4,7 @@ package edu.colorado.phet.quantumwaveinterference.controls;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.quantumwaveinterference.view.piccolo.detectorscreen.DetectorSheetPNode;
 import edu.colorado.phet.quantumwaveinterference.view.piccolo.detectorscreen.IntensityManager;
 
@@ -23,7 +23,7 @@ public class IntensityScreenPanel extends VerticalLayoutPanel {
 
     public IntensityScreenPanel( QWIControlPanel qwiControlPanel ) {
         this.qwiControlPanel = qwiControlPanel;
-        setBorder( BorderFactory.createTitledBorder( QWIStrings.getString( "intensity.screen" ) ) );
+        setBorder( BorderFactory.createTitledBorder( QWIResources.getString( "intensity.screen" ) ) );
 
         final IntensityManager intensityManager = qwiControlPanel.getModule().getIntensityDisplay();
         JPanel inflationPanel = new HorizontalLayoutPanel();
@@ -34,12 +34,12 @@ public class IntensityScreenPanel extends VerticalLayoutPanel {
                 intensityManager.setProbabilityScaleFudgeFactor( val );
             }
         } );
-        inflationPanel.add( new JLabel( QWIStrings.getString( "probability.inflation" ) ) );
+        inflationPanel.add( new JLabel( QWIResources.getString( "probability.inflation" ) ) );
         inflationPanel.add( probabilityInflation );
         super.addFullWidth( inflationPanel );
 
         JPanel pan = new HorizontalLayoutPanel();
-        pan.add( new JLabel( QWIStrings.getString( "waveform.decrement" ) ) );
+        pan.add( new JLabel( QWIResources.getString( "waveform.decrement" ) ) );
         final JSpinner waveformDec = new JSpinner( new SpinnerNumberModel( intensityManager.getNormDecrement(), 0, 1.0, 0.1 ) );
 //        waveformDec.setBorder( BorderFactory.createTitledBorder( "Waveform Decrement" ) );
         waveformDec.addChangeListener( new ChangeListener() {
@@ -52,7 +52,7 @@ public class IntensityScreenPanel extends VerticalLayoutPanel {
         super.addFullWidth( pan );
 
         JPanel p3 = new HorizontalLayoutPanel();
-        p3.add( new JLabel( QWIStrings.getString( "multiplier" ) ) );
+        p3.add( new JLabel( QWIResources.getString( "multiplier" ) ) );
         final JSpinner mult = new JSpinner( new SpinnerNumberModel( intensityManager.getMultiplier(), 0, 1000, 5 ) );
         mult.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -63,7 +63,7 @@ public class IntensityScreenPanel extends VerticalLayoutPanel {
         super.addFullWidth( p3 );
 
         JPanel p4 = new HorizontalLayoutPanel();
-        p4.add( new JLabel( QWIStrings.getString( "opacity" ) ) );
+        p4.add( new JLabel( QWIResources.getString( "opacity" ) ) );
         int opacity = getDetectorSheetPNode().getOpacity();
 
         opacity=Math.max( opacity, 0);

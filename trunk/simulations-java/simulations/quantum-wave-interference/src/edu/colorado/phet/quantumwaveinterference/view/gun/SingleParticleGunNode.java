@@ -1,7 +1,7 @@
 /*  */
 package edu.colorado.phet.quantumwaveinterference.view.gun;
 
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.quantumwaveinterference.phetcommon.ImagePComboBox;
 import edu.colorado.phet.quantumwaveinterference.view.QWIPanel;
 
@@ -117,9 +117,9 @@ public class SingleParticleGunNode extends AbstractGunNode implements FirePartic
     }
 
     protected ImagePComboBox initComboBox() {
-        Photon photon = new Photon( this, QWIStrings.getString( "particles.photons" ), "quantum-wave-interference/images/photon-thumb.jpg" );
+        Photon photon = new Photon( this, QWIResources.getString( "particles.photons" ), "quantum-wave-interference/images/photon-thumb.jpg" );
         PhotonBeam photonBeam = new PhotonBeam( this, photon );
-        photonBeamParticle = new PhotonBeamParticle( this, QWIStrings.getString( "particles.photons" ), photonBeam );
+        photonBeamParticle = new PhotonBeamParticle( this, QWIResources.getString( "particles.photons" ), photonBeam );
 
         gunParticles = new GunParticle[]{
                 photonBeamParticle,

@@ -1,7 +1,7 @@
 /*  */
 package edu.colorado.phet.quantumwaveinterference.view.piccolo.detectorscreen;
 
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 
 import java.text.MessageFormat;
 
@@ -29,8 +29,8 @@ public class DetectionRateDebugger {
     private void printout() {
         double elapsedSeconds = ( System.currentTimeMillis() - startTime ) / 1000.0;
         double intensity = numCounts / elapsedSeconds;
-        System.out.println( MessageFormat.format( QWIStrings.getString( "counts.0.time.1" ), new Object[]{new Integer( numCounts ), new Double( elapsedSeconds )} ) );
-        System.out.println( MessageFormat.format( QWIStrings.getString( "total.average.intensity.0.particles.second" ), new Object[]{new Double( intensity )} ) );
+        System.out.println( MessageFormat.format( QWIResources.getString( "counts.0.time.1" ), new Object[]{new Integer( numCounts ), new Double( elapsedSeconds )} ) );
+        System.out.println( MessageFormat.format( QWIResources.getString( "total.average.intensity.0.particles.second" ), new Object[]{new Double( intensity )} ) );
     }
 
 }

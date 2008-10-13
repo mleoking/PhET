@@ -1,8 +1,8 @@
 package edu.colorado.phet.quantumwaveinterference.persistence;
 
 import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.quantumwaveinterference.QuantumWaveInterferenceApplication;
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
 import junit.framework.TestCase;
 
 /**

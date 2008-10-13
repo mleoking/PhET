@@ -1,10 +1,9 @@
-package edu.colorado.phet.quantumwaveinterference.davissongermer;
+package edu.colorado.phet.quantumwaveinterference;
 
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
-import edu.colorado.phet.quantumwaveinterference.QWIConstants;
 
 /**
  * User: Sam Reid
@@ -12,12 +11,12 @@ import edu.colorado.phet.quantumwaveinterference.QWIConstants;
  * Time: 1:16:01 PM
  */
 
-public class QWIStrings {
+public class QWIResources {
     
     private static final PhetResources RESOURCES = new PhetResources( QWIConstants.PROJECT_NAME );
 
     /* not intended for instantiation */
-    private QWIStrings() {}
+    private QWIResources() {}
 
     public static final PhetResources getResourceLoader() {
         return RESOURCES;

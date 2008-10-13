@@ -4,6 +4,7 @@ package edu.colorado.phet.quantumwaveinterference.davissongermer;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.quantumwaveinterference.QWIOptionsMenu;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.quantumwaveinterference.model.QWIModel;
 import edu.colorado.phet.quantumwaveinterference.model.potentials.RectangularPotential;
 import edu.colorado.phet.quantumwaveinterference.modules.intensity.IntensityBeamPanel;
@@ -35,7 +36,7 @@ public class DGModule extends IntensityModule {
      * @param schrodingerApplication
      */
     public DGModule( PhetApplication schrodingerApplication, IClock clock ) {
-        super( QWIStrings.getString( "davisson-germer.name" ), schrodingerApplication, clock );
+        super( QWIResources.getString( "davisson-germer.name" ), schrodingerApplication, clock );
         dgPlotFrame = new DGPlotFrame( getPhetFrame(), this );
         dgModel.addListener( new DGModel.Listener() {
             public void potentialChanged() {

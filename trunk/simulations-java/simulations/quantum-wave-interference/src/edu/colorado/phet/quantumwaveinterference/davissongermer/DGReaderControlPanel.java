@@ -2,6 +2,7 @@
 package edu.colorado.phet.quantumwaveinterference.davissongermer;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -18,9 +19,9 @@ public class DGReaderControlPanel extends VerticalLayoutPanel {
 
     public DGReaderControlPanel( final DGModule dgModule ) {
         this.dgModule = dgModule;
-        setBorder( BorderFactory.createTitledBorder( QWIStrings.getString( "intensity.reader.testing.only" ) ) );
-        JRadioButton edge = new JRadioButton( QWIStrings.getString( "edge" ), dgModule.getPlotPanel().isIntensityReaderEdge() );
-        JRadioButton circ = new JRadioButton( QWIStrings.getString( "radial" ), dgModule.getPlotPanel().isIntensityReaderRadial() );
+        setBorder( BorderFactory.createTitledBorder( QWIResources.getString( "intensity.reader.testing.only" ) ) );
+        JRadioButton edge = new JRadioButton( QWIResources.getString( "edge" ), dgModule.getPlotPanel().isIntensityReaderEdge() );
+        JRadioButton circ = new JRadioButton( QWIResources.getString( "radial" ), dgModule.getPlotPanel().isIntensityReaderRadial() );
         add( edge );
         add( circ );
         edge.addActionListener( new ActionListener() {

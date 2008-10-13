@@ -2,7 +2,7 @@
 package edu.colorado.phet.quantumwaveinterference.model;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.quantumwaveinterference.model.math.Complex;
 import edu.colorado.phet.quantumwaveinterference.model.potentials.CompositePotential;
 import edu.colorado.phet.quantumwaveinterference.model.potentials.HorizontalDoubleSlit;
@@ -79,14 +79,14 @@ public class QWIModel implements ModelElement {
         fractionalDoubleSlit = createFractionalDoubleSlit();
 
         if( DEBUG_WAVES ) {
-            final WaveDebugger sourceWaveDebugger = new WaveDebugger( QWIStrings.getString( "source.wave" ), getSourceWave() );
+            final WaveDebugger sourceWaveDebugger = new WaveDebugger( QWIResources.getString( "source.wave" ), getSourceWave() );
             sourceWaveDebugger.setVisible( true );
             addListener( new Adapter() {
                 public void finishedTimeStep( QWIModel model ) {
                     sourceWaveDebugger.update();
                 }
             } );
-            final WaveDebugger waveDebugger = new WaveDebugger( QWIStrings.getString( "main.wave" ), getWavefunction() );
+            final WaveDebugger waveDebugger = new WaveDebugger( QWIResources.getString( "main.wave" ), getWavefunction() );
             waveDebugger.setVisible( true );
             addListener( new Adapter() {
                 public void finishedTimeStep( QWIModel model ) {
