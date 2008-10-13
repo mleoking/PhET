@@ -1,3 +1,7 @@
+10-13-2008: rename TheRampStrings to TheRampResources, move to top-level package, consistent with other sims
+10-13-2008: replace SimString with PhetResources
+10-13-2008: use PhetApplicationConfig launchSim
+10-13-2008: fix incorrectly named string file for language=et
 7-16-2007: Each module is given its own clock instead of sharing a reference.
 
 New in 0.00.25 (8-18-2006)
