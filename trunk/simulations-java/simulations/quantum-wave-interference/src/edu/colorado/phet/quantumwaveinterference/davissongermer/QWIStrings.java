@@ -1,6 +1,10 @@
 package edu.colorado.phet.quantumwaveinterference.davissongermer;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import java.awt.image.BufferedImage;
+
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.quantumwaveinterference.QWIConstants;
 
 /**
  * User: Sam Reid
@@ -9,13 +13,29 @@ import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
  */
 
 public class QWIStrings {
-    private static String bundleName = "quantum-wave-interference/localization/quantum-wave-interference-strings";
+    
+    private static final PhetResources RESOURCES = new PhetResources( QWIConstants.PROJECT_NAME );
 
-    public static String getString( String s ) {
-        return SimStrings.getInstance().getString( s );
+    /* not intended for instantiation */
+    private QWIStrings() {}
+
+    public static final PhetResources getResourceLoader() {
+        return RESOURCES;
     }
 
-    public static void init( String[] args ) {
-        SimStrings.getInstance().init( args, bundleName );
+    public static final String getString( String name ) {
+        return RESOURCES.getLocalizedString( name );
+    }
+
+    public static final BufferedImage getImage( String name ) {
+        return RESOURCES.getImage( name );
+    }
+
+    public static final String getCommonString( String name ) {
+        return PhetCommonResources.getInstance().getLocalizedString( name );
+    }
+
+    public static final BufferedImage getCommonImage( String name ) {
+        return PhetCommonResources.getInstance().getImage( name );
     }
 }

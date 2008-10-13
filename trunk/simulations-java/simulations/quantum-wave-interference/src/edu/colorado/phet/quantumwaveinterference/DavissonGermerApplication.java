@@ -1,18 +1,15 @@
 /*  */
 package edu.colorado.phet.quantumwaveinterference;
 
-import java.text.MessageFormat;
-
-import javax.swing.*;
-
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.quantumwaveinterference.davissongermer.DGModule;
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
 
 /**
  * User: Sam Reid
@@ -21,15 +18,9 @@ import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
  */
 
 public class DavissonGermerApplication extends PiccoloPhetApplication {
-    static {
-        QWIStrings.init( new String[]{} );
-    }
 
-    public static String TITLE = QWIStrings.getString( "davisson.germer.electron.diffraction" );
-    public static String DESCRIPTION = MessageFormat.format( QWIStrings.getString( "davisson-germer.description" ), new Object[0] );
-
-    public DavissonGermerApplication( String[] args ) {
-        super( args, TITLE, DESCRIPTION, QuantumWaveInterferenceApplication.getQWIVersion(), new QWIFrameSetup() );
+    public DavissonGermerApplication( PhetApplicationConfig config ) {
+        super( config );
         addModule( new DGModule( this, createClock() ) );
     }
 
@@ -42,12 +33,16 @@ public class DavissonGermerApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) {
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                new QWIPhetLookAndFeel().initLookAndFeel();
-                DavissonGermerApplication schrodingerApplication = new DavissonGermerApplication( args );
-                schrodingerApplication.startApplication();
+        
+        ApplicationConstructor appConstructor = new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new DavissonGermerApplication( config );
             }
-        } );
+        };
+        
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, QWIConstants.PROJECT_NAME, QWIConstants.FLAVOR_DAVISSON_GERMER );
+        appConfig.setLookAndFeel( new QWIPhetLookAndFeel() );
+        appConfig.setFrameSetup( new QWIFrameSetup() );
+        appConfig.launchSim();
     }
 }

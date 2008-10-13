@@ -1,7 +1,11 @@
 package edu.colorado.phet.quantumwaveinterference.persistence;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
+import edu.colorado.phet.quantumwaveinterference.QWIConstants;
 import edu.colorado.phet.quantumwaveinterference.QuantumWaveInterferenceApplication;
 import edu.colorado.phet.quantumwaveinterference.QWIModule;
 import edu.colorado.phet.quantumwaveinterference.model.Detector;
@@ -255,7 +259,13 @@ public class QWIState implements Serializable, IProguardKeepClass {
     }
 
     public static void main( String[] args ) throws Exception {
-        QuantumWaveInterferenceApplication app = new QuantumWaveInterferenceApplication( args );
+        ApplicationConstructor appConstructor = new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new QuantumWaveInterferenceApplication( config );
+            }
+        };
+        PhetApplicationConfig config = new PhetApplicationConfig( args, appConstructor, QWIConstants.PROJECT_NAME, QWIConstants.FLAVOR_QUANTUM_WAVE_INTERFERENCE );
+        QuantumWaveInterferenceApplication app = (QuantumWaveInterferenceApplication) appConstructor.getApplication( config );
         PersistenceManager persistenceManager = new PersistenceManager( new JButton() );
         QWIModule qwiModule = new SingleParticleModule( app, new SwingClock( 30, 1 ) );
 //        schrodingerModule
