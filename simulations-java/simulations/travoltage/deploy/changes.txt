@@ -1,3 +1,9 @@
+10-13-2008: hide clock controls, they don't have any value for this sim
+10-13-2008: use framework support for PhetAboutDialog
+10-13-2008: remove obsolete entries from strings files
+10-13-2008: replace SimStrings with PhetResources
+10-13-2008: use PhetApplicationConfig
+
 1.03.01 (8-26-2006) Posted on main site as 1.04 
 Bugfix for some startup exceptions (init in main thread)
 
