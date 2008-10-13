@@ -10,20 +10,18 @@
  */
 package edu.colorado.phet.mri.view;
 
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.piccolophet.nodes.RegisterablePNode;
-import edu.colorado.phet.mri.MriConfig;
-import edu.colorado.phet.mri.model.Dipole;
-import edu.colorado.phet.mri.model.SampleMaterial;
-import edu.umd.cs.piccolo.nodes.PImage;
-
-import java.awt.*;
+import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
+
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.piccolophet.nodes.RegisterablePNode;
+import edu.colorado.phet.mri.MriResources;
+import edu.colorado.phet.mri.model.Dipole;
+import edu.colorado.phet.mri.model.SampleMaterial;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * DipoleGraphic
@@ -34,36 +32,29 @@ import java.io.IOException;
 public class DipoleGraphic extends RegisterablePNode implements SimpleObserver {
 
     public static BufferedImage getDipoleImage( SampleMaterial sampleMaterial ) {
-        BufferedImage bImg = null;
         String imageName = null;
         if( sampleMaterial == SampleMaterial.HYDROGEN ) {
-            imageName = MriConfig.IMAGE_PATH + "dipole-5-hydrogen.gif";
+            imageName = "dipole-5-hydrogen.gif";
         }
-        if( sampleMaterial == SampleMaterial.NITROGEN ) {
-            imageName = MriConfig.IMAGE_PATH + "dipole-5-nitrogen.gif";
+        else if( sampleMaterial == SampleMaterial.NITROGEN ) {
+            imageName = "dipole-5-nitrogen.gif";
         }
-        if( sampleMaterial == SampleMaterial.SODIUM ) {
-            imageName = MriConfig.IMAGE_PATH + "dipole-5-sodium.gif";
+        else if( sampleMaterial == SampleMaterial.SODIUM ) {
+            imageName = "dipole-5-sodium.gif";
         }
-        if( sampleMaterial == SampleMaterial.CARBON_13 ) {
-            imageName = MriConfig.IMAGE_PATH + "dipole-5-carbon.gif";
+        else if( sampleMaterial == SampleMaterial.CARBON_13 ) {
+            imageName = "dipole-5-carbon.gif";
         }
-        if( sampleMaterial == SampleMaterial.OXYGEN ) {
-            imageName = MriConfig.IMAGE_PATH + "dipole-5-oxygen.gif";
+        else if( sampleMaterial == SampleMaterial.OXYGEN ) {
+            imageName = "dipole-5-oxygen.gif";
         }
-        if( sampleMaterial == SampleMaterial.SULFUR ) {
-            imageName = MriConfig.IMAGE_PATH + "dipole-5-sulfur.gif";
+        else if( sampleMaterial == SampleMaterial.SULFUR ) {
+            imageName = "dipole-5-sulfur.gif";
         }
-        if( sampleMaterial == SampleMaterial.UNKNOWN ) {
-            imageName = MriConfig.IMAGE_PATH + "dipole-5-unknown.gif";
+        else if( sampleMaterial == SampleMaterial.UNKNOWN ) {
+            imageName = "dipole-5-unknown.gif";
         }
-        try {
-            bImg = ImageLoader.loadBufferedImage( imageName );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-        return bImg;
+        return MriResources.getImage( imageName );
     }
 
 

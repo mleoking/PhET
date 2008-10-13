@@ -10,18 +10,19 @@
  */
 package edu.colorado.phet.mri.view;
 
+import java.awt.Dimension;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+
 import edu.colorado.phet.common.piccolophet.nodes.RegisterablePNode;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.colorado.phet.mri.MriConfig;
+import edu.colorado.phet.mri.MriResources;
 import edu.colorado.phet.mri.model.Electromagnet;
 import edu.colorado.phet.mri.model.GradientElectromagnet;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-
-import java.awt.*;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 /**
  * GradientMagnetGraphic
@@ -127,11 +128,11 @@ public class GradientMagnetGraphic extends RegisterablePNode implements Electrom
             PNode coilGraphic = null;
             double xLoc = i * coilWidth;
             if( magnet.getOrientation() == GradientElectromagnet.HORIZONTAL ) {
-                coilGraphic = PImageFactory.create( MriConfig.COIL_IMAGE, new Dimension( (int)coilWidth, (int)bounds.getHeight() ) );
+                coilGraphic = PImageFactory.create( MriResources.getImage( MriConfig.COIL_IMAGE ), new Dimension( (int)coilWidth, (int)bounds.getHeight() ) );
                 coilGraphic.setOffset( xLoc, 0 );
             }
             else {
-                coilGraphic = PImageFactory.create( MriConfig.COIL_IMAGE, new Dimension( (int)coilWidth, (int)bounds.getWidth() ) );
+                coilGraphic = PImageFactory.create( MriResources.getImage( MriConfig.COIL_IMAGE ), new Dimension( (int)coilWidth, (int)bounds.getWidth() ) );
                 coilGraphic.rotate( Math.PI / 2 );
                 coilGraphic.translate( xLoc, -bounds.getWidth() );
             }

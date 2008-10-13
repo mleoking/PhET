@@ -1,6 +1,8 @@
-8-24-2007: Added snap-to for magnetic field maniulation
+10-13-2008: replace SimStrings and ImageLoader with PhetResources
+10-13-2008: switch to PhetApplicationConfig and launchSim
+8-24-2007: Added snap-to for magnetic field manipulation
 8-24-2007: Added flashing gray energy level line for matching transition
-8-24-2007: Added snap-to for frequency maniulation
+8-24-2007: Added snap-to for frequency manipulation
 8-20-2007: Increased the threshold window for an absorption by a factor of 4.
 8-20-2007: Switched indication of matching transition wavelength from "flashes 5 times" to solid red.
 8-20-2007: Changed legend text for Field to Magnetic Field.

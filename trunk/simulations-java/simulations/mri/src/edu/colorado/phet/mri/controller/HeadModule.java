@@ -10,18 +10,18 @@
  */
 package edu.colorado.phet.mri.controller;
 
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.mri.MriConfig;
+import edu.colorado.phet.mri.MriResources;
 import edu.colorado.phet.mri.model.*;
 import edu.colorado.phet.mri.view.BFieldIndicatorB;
 import edu.colorado.phet.mri.view.DipoleGraphic;
 import edu.colorado.phet.mri.view.HeadGraphic;
 import edu.umd.cs.piccolo.PNode;
-
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 /**
  * HeadModule
@@ -35,7 +35,7 @@ public class HeadModule extends AbstractMriModule {
     // Class fields and methods
     //----------------------------------------------------------------
 
-    private static String name = SimStrings.getInstance().getString( "Module.MriTitle" );
+    private static String name = MriResources.getString( "Module.MriTitle" );
 
     //----------------------------------------------------------------
     // Instance methods and fields

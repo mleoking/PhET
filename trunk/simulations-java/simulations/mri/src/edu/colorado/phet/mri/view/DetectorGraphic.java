@@ -10,21 +10,25 @@
  */
 package edu.colorado.phet.mri.view;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Paint;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
+
+import javax.swing.JLabel;
+
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.RegisterablePNode;
+import edu.colorado.phet.mri.MriResources;
 import edu.colorado.phet.mri.model.Detector;
 import edu.colorado.phet.mri.util.RoundGradientPaint;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.RoundRectangle2D;
 
 /**
  * DetectorGraphic
@@ -62,7 +66,7 @@ public class DetectorGraphic extends PNode implements SimpleObserver {
         bezelPNode.setStroke( new BasicStroke( 3 ) );
         bezelPNode.setPaint( new Color( 150, 150, 150 ) );
 
-        PText label = new PText( SimStrings.getInstance().getString( "Misc.Detector" ) );
+        PText label = new PText( MriResources.getString( "Misc.Detector" ) );
         label.setFont( font );
         label.setTextPaint( Color.white );
         label.rotate( -Math.PI / 2 );

@@ -10,18 +10,19 @@
  */
 package edu.colorado.phet.mri.controller;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
 import edu.colorado.phet.common.quantum.model.PhotonSource;
 import edu.colorado.phet.mri.MriConfig;
+import edu.colorado.phet.mri.MriResources;
 import edu.colorado.phet.mri.model.MriModel;
 import edu.colorado.phet.mri.model.RadiowaveSource;
 import edu.colorado.phet.mri.model.SampleChamber;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 /**
  * MriModuleA
@@ -35,7 +36,7 @@ public class NmrModule extends AbstractMriModule {
     // Class fields and methods
     //----------------------------------------------------------------
 
-    private static String name = SimStrings.getInstance().getString( "Module.NmrTitle" );
+    private static String name = MriResources.getString( "Module.NmrTitle" );
 
     //----------------------------------------------------------------
     // Instance methods and fields
@@ -79,7 +80,7 @@ public class NmrModule extends AbstractMriModule {
 //        final WiggleMe wiggleMe = new WiggleMe( SimStrings.get( "Application.WiggleMe" ),
 //                                                (int)radiowaveSourceLocation.getX() - 100,
 //                                                (int)radiowaveSourceLocation.getY() );
-        final MotionHelpBalloon wiggleMe = new MotionHelpBalloon( getPhetPCanvas(), SimStrings.getInstance().getString( "Application.WiggleMe" ) );
+        final MotionHelpBalloon wiggleMe = new MotionHelpBalloon( getPhetPCanvas(), MriResources.getString( "Application.WiggleMe" ) );
         wiggleMe.setOffset( 50, 100 );
         wiggleMe.setBalloonFillPaint( new Color( 255, 255, 100 ) );
         wiggleMe.setBalloonVisible( true );
