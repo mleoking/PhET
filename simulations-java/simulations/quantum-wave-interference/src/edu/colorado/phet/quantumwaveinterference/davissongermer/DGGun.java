@@ -1,6 +1,7 @@
 /*  */
 package edu.colorado.phet.quantumwaveinterference.davissongermer;
 
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.quantumwaveinterference.phetcommon.ImagePComboBox;
 import edu.colorado.phet.quantumwaveinterference.view.QWIPanel;
 import edu.colorado.phet.quantumwaveinterference.view.gun.*;
@@ -35,7 +36,7 @@ public class DGGun extends IntensityGunNode implements FireParticle {
         };
         setBeams( mybeams );
         final ImagePComboBox imageComboBox = new ImagePComboBox( mybeams );
-        imageComboBox.setBorder( BorderFactory.createTitledBorder( QWIStrings.getString( "gun.type" ) ) );
+        imageComboBox.setBorder( BorderFactory.createTitledBorder( QWIResources.getString( "gun.type" ) ) );
         imageComboBox.addItemListener( new ItemListener() {
             public void itemStateChanged( ItemEvent e ) {
                 int index = imageComboBox.getSelectedIndex();

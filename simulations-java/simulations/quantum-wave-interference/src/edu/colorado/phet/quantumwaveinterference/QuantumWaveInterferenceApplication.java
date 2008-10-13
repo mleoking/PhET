@@ -21,7 +21,6 @@ import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
 import edu.colorado.phet.quantumwaveinterference.modules.intensity.IntensityModule;
 import edu.colorado.phet.quantumwaveinterference.modules.mandel.MandelModule;
 import edu.colorado.phet.quantumwaveinterference.modules.single.SingleParticleModule;
@@ -64,7 +63,7 @@ public class QuantumWaveInterferenceApplication extends PiccoloPhetApplication {
         mandelModule = new MandelModule( this, createClock() );
         addModule( mandelModule );
 
-        JMenuItem save = new JMenuItem( QWIStrings.getString( "menus.save" ) );
+        JMenuItem save = new JMenuItem( QWIResources.getString( "menus.save" ) );
         save.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 QWIModule qwiModule = getActiveSchrodingerModule();
@@ -73,7 +72,7 @@ public class QuantumWaveInterferenceApplication extends PiccoloPhetApplication {
         } );
         getPhetFrame().addFileMenuItem( save );
 
-        JMenuItem load = new JMenuItem( QWIStrings.getString( "menus.load" ) );
+        JMenuItem load = new JMenuItem( QWIResources.getString( "menus.load" ) );
         load.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {
@@ -128,7 +127,7 @@ public class QuantumWaveInterferenceApplication extends PiccoloPhetApplication {
     private void addWiggleMe() {
         QWIPanel schrodingerPanel = intensityModule.getSchrodingerPanel();
         
-        final MotionHelpBalloon helpBalloon = new MotionHelpBalloon( schrodingerPanel, QWIStrings.getString( "qwi.invitation" ) );
+        final MotionHelpBalloon helpBalloon = new MotionHelpBalloon( schrodingerPanel, QWIResources.getString( "qwi.invitation" ) );
         helpBalloon.setTextColor( Color.white );
         helpBalloon.setShadowTextColor( Color.gray );
         helpBalloon.setShadowTextOffset( 1 );

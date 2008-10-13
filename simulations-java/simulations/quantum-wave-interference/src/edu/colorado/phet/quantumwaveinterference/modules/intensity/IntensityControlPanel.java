@@ -3,8 +3,8 @@ package edu.colorado.phet.quantumwaveinterference.modules.intensity;
 
 import edu.colorado.phet.common.phetcommon.view.AdvancedPanel;
 import edu.colorado.phet.quantumwaveinterference.QWIModule;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.quantumwaveinterference.controls.*;
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
 import edu.colorado.phet.quantumwaveinterference.util.ComponentCenterer;
 
 import java.awt.*;
@@ -70,7 +70,7 @@ public class IntensityControlPanel extends QWIControlPanel {
         setPreferredWidth( expandableDoubleSlitPanel.getControls().getPreferredSize().width + 10 );
 
         addControl( expandableDoubleSlitPanel );
-        AdvancedPanel advancedPanel = new AdvancedPanel( QWIStrings.getString( "controls.barriers.show" ), QWIStrings.getString( "controls.barriers.hide" ) );
+        AdvancedPanel advancedPanel = new AdvancedPanel( QWIResources.getString( "controls.barriers.show" ), QWIResources.getString( "controls.barriers.hide" ) );
         advancedPanel.addControlFullWidth( new PotentialPanel( getModule() ) );
         addControl( advancedPanel );
 

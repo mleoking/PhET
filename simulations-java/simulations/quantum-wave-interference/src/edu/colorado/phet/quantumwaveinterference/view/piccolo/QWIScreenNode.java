@@ -7,8 +7,8 @@ import edu.colorado.phet.common.piccolophet.nodes.BoundNode;
 import edu.colorado.phet.common.piccolophet.nodes.ConnectorNode;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.colorado.phet.quantumwaveinterference.QWIModule;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.quantumwaveinterference.controls.ResolutionControl;
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
 import edu.colorado.phet.quantumwaveinterference.model.Detector;
 import edu.colorado.phet.quantumwaveinterference.model.ParticleUnits;
 import edu.colorado.phet.quantumwaveinterference.model.QWIModel;
@@ -74,13 +74,13 @@ public class QWIScreenNode extends PNode {
     private PNode gunControlPanelPSwing;
     //    private String slowdownText = "Slowing down the simulation to observe faster phenomenon...";
     //    private String speedupText = "Speeding up the simulation to observe slower phenomenon...";
-    private String slowdownText = QWIStrings.getString( "scale.slowing-down-time" );
-    private String speedupText = QWIStrings.getString( "scale.speeding-up-time" );
+    private String slowdownText = QWIResources.getString( "scale.slowing-down-time" );
+    private String speedupText = QWIResources.getString( "scale.speeding-up-time" );
     private boolean rescaleWaveGraphic = false;
     private int cellSize = 8;
     private static final boolean FIXED_SIZE_WAVE = false;
-    private String zoomoutText = QWIStrings.getString( "scale.zooming-out" );
-    private String zoominText = QWIStrings.getString( "scale.zooming-in" );
+    private String zoomoutText = QWIResources.getString( "scale.zooming-out" );
+    private String zoominText = QWIResources.getString( "scale.zooming-in" );
     private PNode detectorScreenGraphics;
     private PNode potentialNode = new PNode();
 
@@ -100,7 +100,7 @@ public class QWIScreenNode extends PNode {
         for( int i = 0; i < digits.length; i++ ) {
             digits[i] = new String( i + "" );
         }
-        RulerGraphic rg = new RulerGraphic( digits, QWIStrings.getString( "units" ), 500, 60 );
+        RulerGraphic rg = new RulerGraphic( digits, QWIResources.getString( "units" ), 500, 60 );
         rulerGraphic = new SchrodingerRulerGraphic( getDiscreteModel(), QWIPanel, rg );
 
         getDiscreteModel().addListener( new QWIModel.Adapter() {
@@ -141,7 +141,7 @@ public class QWIScreenNode extends PNode {
         } );
 
         layoutChildren();
-        stopwatchPanel = new StopwatchPanel( QWIPanel.getSchrodingerModule().getClock(), QWIStrings.getString( "ps" ), 1.0, new DecimalFormat( "0.00" ) );
+        stopwatchPanel = new StopwatchPanel( QWIPanel.getSchrodingerModule().getClock(), QWIResources.getString( "ps" ), 1.0, new DecimalFormat( "0.00" ) );
         getDiscreteModel().addListener( new QWIModel.Adapter() {
             public void sizeChanged() {
                 stopwatchPanel.reset();
@@ -424,7 +424,7 @@ resolution, and a quarter as many times for high resolution.*/
         stopwatchPanel.setTimeFormat( new DecimalFormat( "0.000" ) );
         stopwatchPanel.reset();
         String newTimeUnits = particleUnits.getDt().getUnits();
-        String[] times = new String[]{QWIStrings.getString( "ns" ), QWIStrings.getString( "ps" ), QWIStrings.getString( "fs" )};
+        String[] times = new String[]{QWIResources.getString( "ns" ), QWIResources.getString( "ps" ), QWIResources.getString( "fs" )};
         ArrayList list = new ArrayList( Arrays.asList( times ) );
 
         int change = list.indexOf( newTimeUnits ) - list.indexOf( origTimeUnits );

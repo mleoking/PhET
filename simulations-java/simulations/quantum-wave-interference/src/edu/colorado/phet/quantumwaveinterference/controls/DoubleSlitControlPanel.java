@@ -6,7 +6,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.quantumwaveinterference.QWIModule;
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.quantumwaveinterference.model.FractionalDoubleSlit;
 import edu.colorado.phet.quantumwaveinterference.model.QWIModel;
 import edu.colorado.phet.quantumwaveinterference.model.potentials.HorizontalDoubleSlit;
@@ -39,7 +39,7 @@ public class DoubleSlitControlPanel extends VerticalLayoutPanel {
         this.module = qwiModule;
         this.horizontalDoubleSlit = QWIModel.getDoubleSlitPotential();
         this.fractionalSlit = QWIModel.getFractionalDoubleSlit();
-        verticalPosition = createComponent( QWIStrings.getString( "controls.slits.vertical-position" ), new Setter() {
+        verticalPosition = createComponent( QWIResources.getString( "controls.slits.vertical-position" ), new Setter() {
             double insetY = 10 / 60.0;
 
             public void valueChanged( double val ) {
@@ -64,7 +64,7 @@ public class DoubleSlitControlPanel extends VerticalLayoutPanel {
         } );
 
 
-        slitSize = createComponent( QWIStrings.getString( "controls.slits.width" ), new Setter() {
+        slitSize = createComponent( QWIResources.getString( "controls.slits.width" ), new Setter() {
             public void valueChanged( double val ) {
                 fractionalSlit.setSlitSize( val );
             }
@@ -86,7 +86,7 @@ public class DoubleSlitControlPanel extends VerticalLayoutPanel {
             }
         } );
 
-        slitSeparation = createComponent( QWIStrings.getString( "controls.slits.separation" ), new Setter() {
+        slitSeparation = createComponent( QWIResources.getString( "controls.slits.separation" ), new Setter() {
             public void valueChanged( double val ) {
                 fractionalSlit.setSlitSeparation( val );
             }
@@ -108,7 +108,7 @@ public class DoubleSlitControlPanel extends VerticalLayoutPanel {
             }
         } );
 
-        final JCheckBox absorbtiveSlit = new JCheckBox( QWIStrings.getString( "controls.slits.absorbing-barriers" ), getDiscreteModel().isBarrierAbsorptive() );
+        final JCheckBox absorbtiveSlit = new JCheckBox( QWIResources.getString( "controls.slits.absorbing-barriers" ), getDiscreteModel().isBarrierAbsorptive() );
         absorbtiveSlit.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getDiscreteModel().setBarrierAbsorptive( absorbtiveSlit.isSelected() );

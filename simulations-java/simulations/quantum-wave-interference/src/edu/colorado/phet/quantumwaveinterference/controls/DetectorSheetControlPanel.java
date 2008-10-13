@@ -4,7 +4,7 @@ package edu.colorado.phet.quantumwaveinterference.controls;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.quantumwaveinterference.modules.intensity.IntensityBeamPanel;
 import edu.colorado.phet.quantumwaveinterference.view.QWIPanel;
 import edu.colorado.phet.quantumwaveinterference.view.piccolo.detectorscreen.DetectorSheetPNode;
@@ -36,14 +36,14 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
 //        setBorder( BorderFactory.createBevelBorder( BevelBorder.RAISED ) );
 //        setBorder( BorderFactory.createCompoundBorder( BorderFactory.createBevelBorder( BevelBorder.RAISED ), BorderFactory.createBevelBorder( BevelBorder.RAISED ) ) );
         this.detectorSheetPNode = detectorSheetPNode;
-        clearButton = new JButton( QWIStrings.getString( "screen.clear" ) );
+        clearButton = new JButton( QWIResources.getString( "screen.clear" ) );
         clearButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 detectorSheetPNode.reset();
             }
         } );
 
-        saveScreenJButton = new JButton( QWIStrings.getString( "screen.copy" ) );
+        saveScreenJButton = new JButton( QWIResources.getString( "screen.copy" ) );
         saveScreenJButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 BufferedImage image = detectorSheetPNode.copyScreen();
@@ -53,7 +53,7 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
             }
         } );
 
-        brightnessModelSlider = new ModelSlider( QWIStrings.getString( "screen.brightness" ), "", 0, 1.0, getBrightess(), new DecimalFormat( "0.0" ) );
+        brightnessModelSlider = new ModelSlider( QWIResources.getString( "screen.brightness" ), "", 0, 1.0, getBrightess(), new DecimalFormat( "0.0" ) );
         detectorSheetPNode.addListener( new DetectorSheetPNode.Listener() {
             public void brightnessChanged() {
                 brightnessModelSlider.setValue( getBrightess() );
@@ -69,7 +69,7 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
         } );
         setBrightness();
 
-        fadeCheckbox = new JCheckBox( QWIStrings.getString( "screen.fade" ), getSchrodingerPanel().isFadeEnabled() );
+        fadeCheckbox = new JCheckBox( QWIResources.getString( "screen.fade" ), getSchrodingerPanel().isFadeEnabled() );
         fadeCheckbox.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 getSchrodingerPanel().setFadeEnabled( fadeCheckbox.isSelected() );
@@ -82,11 +82,11 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
         } );
 
         displayPanel = new HorizontalLayoutPanel();
-        displayPanel.setBorder( BorderFactory.createTitledBorder( QWIStrings.getString( "screen.display" ) ) );
+        displayPanel.setBorder( BorderFactory.createTitledBorder( QWIResources.getString( "screen.display" ) ) );
 
         ButtonGroup buttonGroup = new ButtonGroup();
-        JRadioButton showHits = new JRadioButton( QWIStrings.getString( "screen.hits" ), !IntensityBeamPanel.CONTINUOUS_MODE_DEFAULT );
-        JRadioButton showAverage = new JRadioButton( QWIStrings.getString( "screen.intensity" ), IntensityBeamPanel.CONTINUOUS_MODE_DEFAULT );
+        JRadioButton showHits = new JRadioButton( QWIResources.getString( "screen.hits" ), !IntensityBeamPanel.CONTINUOUS_MODE_DEFAULT );
+        JRadioButton showAverage = new JRadioButton( QWIResources.getString( "screen.intensity" ), IntensityBeamPanel.CONTINUOUS_MODE_DEFAULT );
 
         buttonGroup.add( showAverage );
         buttonGroup.add( showHits );
@@ -106,7 +106,7 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
         displayPanel.add( showHits );
 
         HorizontalLayoutPanel screenPanel = new HorizontalLayoutPanel();
-        screenPanel.setBorder( BorderFactory.createTitledBorder( QWIStrings.getString( "screen.title" ) ) );
+        screenPanel.setBorder( BorderFactory.createTitledBorder( QWIResources.getString( "screen.title" ) ) );
         screenPanel.add( fadeCheckbox );
         screenPanel.add( clearButton );
         screenPanel.add( saveScreenJButton );

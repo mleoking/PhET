@@ -3,6 +3,7 @@ package edu.colorado.phet.quantumwaveinterference.davissongermer;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.quantumwaveinterference.model.Wavefunction;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
@@ -43,10 +44,10 @@ public class DGPlotPanel extends PSwingCanvas {
         this.dgModule = dgModule;
 //        intensityReader = new RadialIntensityReader( dgModule.getDGModel() );
         intensityReader = new EdgeIntensityReader( dgModule.getDGModel() );
-        series = new XYSeries( QWIStrings.getString( "live.data" ) );
+        series = new XYSeries( QWIResources.getString( "live.data" ) );
         dataset = new XYSeriesCollection( series );
 
-        chart = ChartFactory.createScatterPlot( QWIStrings.getString( "intensity.plot" ), QWIStrings.getString( "angle.degrees" ), QWIStrings.getString( "intensity" ), dataset, PlotOrientation.VERTICAL, true, false, false );
+        chart = ChartFactory.createScatterPlot( QWIResources.getString( "intensity.plot" ), QWIResources.getString( "angle.degrees" ), QWIResources.getString( "intensity" ), dataset, PlotOrientation.VERTICAL, true, false, false );
         chart.getXYPlot().getDomainAxis().setRange( 0, 90 );
         chart.getXYPlot().getRangeAxis().setRange( 0, 0.1 );
         chart.getXYPlot().getRangeAxis().setTickLabelsVisible( false );

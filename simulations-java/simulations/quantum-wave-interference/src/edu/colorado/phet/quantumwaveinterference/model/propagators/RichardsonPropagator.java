@@ -1,7 +1,7 @@
 package edu.colorado.phet.quantumwaveinterference.model.propagators;
 
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.quantumwaveinterference.model.Potential;
 import edu.colorado.phet.quantumwaveinterference.model.Propagator;
 import edu.colorado.phet.quantumwaveinterference.model.Wavefunction;
@@ -65,7 +65,7 @@ public class RichardsonPropagator extends Propagator {
 
     public void showControlDialog() {
         JFrame frame = new JFrame();
-        final ModelSlider modelSlider = new ModelSlider( "dt", QWIStrings.getString( "unitless" ), 0, 2, getDeltaTime(), new DecimalFormat( "0.000" ) );
+        final ModelSlider modelSlider = new ModelSlider( "dt", QWIResources.getString( "unitless" ), 0, 2, getDeltaTime(), new DecimalFormat( "0.000" ) );
         modelSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 setDeltaTime( modelSlider.getValue() );

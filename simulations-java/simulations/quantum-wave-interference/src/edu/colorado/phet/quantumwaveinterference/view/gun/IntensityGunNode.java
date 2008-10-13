@@ -5,8 +5,8 @@ import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.quantumwaveinterference.controls.IntensitySlider;
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
 import edu.colorado.phet.quantumwaveinterference.phetcommon.ImagePComboBox;
 import edu.colorado.phet.quantumwaveinterference.view.QWIPanel;
 import edu.colorado.phet.quantumwaveinterference.view.colormaps.ColorData;
@@ -37,7 +37,7 @@ public class IntensityGunNode extends AbstractGunNode implements OnOffItem {
     private static final double MAX_INTENSITY_READOUT = 40;
     private GunControlPanel gunControlPanel;
     private PSwing onPswing;
-    private PText onOffTextNode = new PText( QWIStrings.getString( "gun.off" ) );
+    private PText onOffTextNode = new PText( QWIResources.getString( "gun.off" ) );
 
     protected IntensitySlider getIntensitySlider() {
         return intensitySlider;
@@ -127,7 +127,7 @@ public class IntensityGunNode extends AbstractGunNode implements OnOffItem {
     }
 
     protected ImagePComboBox initComboBox() {
-        photon = new Photon( this, QWIStrings.getString( "particles.photons" ), "quantum-wave-interference/images/photon-thumb.jpg" );
+        photon = new Photon( this, QWIResources.getString( "particles.photons" ), "quantum-wave-interference/images/photon-thumb.jpg" );
         IntensityBeam[] mybeams = new IntensityBeam[]{
                 new PhotonBeam( this, photon ),
                 new ParticleBeam( DefaultGunParticle.createElectron( this ) ),
@@ -198,7 +198,7 @@ public class IntensityGunNode extends AbstractGunNode implements OnOffItem {
         if( currentBeam != null ) {
             currentBeam.setHighIntensityModeOn( on );
         }
-        onOffTextNode.setText( on ? QWIStrings.getString( "gun.on" ) : QWIStrings.getString( "gun.off" ) );
+        onOffTextNode.setText( on ? QWIResources.getString( "gun.on" ) : QWIResources.getString( "gun.off" ) );
         onOffTextNode.setTextPaint( on ? Color.red : Color.black );
     }
 

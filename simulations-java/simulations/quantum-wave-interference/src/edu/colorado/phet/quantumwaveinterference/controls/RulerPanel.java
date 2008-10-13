@@ -3,7 +3,7 @@ package edu.colorado.phet.quantumwaveinterference.controls;
 
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.quantumwaveinterference.view.QWIPanel;
 
 import javax.swing.*;
@@ -25,7 +25,7 @@ public class RulerPanel extends HorizontalLayoutPanel {
 
         final HorizontalLayoutPanel rulerPanel = this;
 
-        final JCheckBox ruler = new JCheckBox( QWIStrings.getString( "controls.ruler" ) );
+        final JCheckBox ruler = new JCheckBox( QWIResources.getString( "controls.ruler" ) );
         ImageIcon icon = new ImageIcon( ImageLoader.loadBufferedImage( "quantum-wave-interference/images/ruler3.png" ) );
         rulerPanel.add( ruler );
         rulerPanel.add( new JLabel( icon ) );

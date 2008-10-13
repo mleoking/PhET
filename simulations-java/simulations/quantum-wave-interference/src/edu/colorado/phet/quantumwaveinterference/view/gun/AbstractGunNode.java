@@ -3,7 +3,7 @@ package edu.colorado.phet.quantumwaveinterference.view.gun;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.quantumwaveinterference.QWIModule;
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.quantumwaveinterference.model.Potential;
 import edu.colorado.phet.quantumwaveinterference.model.QWIModel;
 import edu.colorado.phet.quantumwaveinterference.phetcommon.ImagePComboBox;
@@ -49,7 +49,7 @@ public abstract class AbstractGunNode extends PNode {
         }
 
         addChild( gunImageGraphic );
-        onGunGraphic = new PSwing( new JButton( QWIStrings.getString( "gun.fire" ) ) );
+        onGunGraphic = new PSwing( new JButton( QWIResources.getString( "gun.fire" ) ) );
         addChild( onGunGraphic );
         this.comboBox = initComboBox();
         updateGunLocation();

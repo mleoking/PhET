@@ -4,7 +4,7 @@ package edu.colorado.phet.quantumwaveinterference.view.piccolo;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.quantumwaveinterference.model.math.Complex;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -59,7 +59,7 @@ public class IntensityReader extends PComposite {
         addInputEventListener( new PDragEventHandler() );
         addChild( crosshairs );
 
-        readout = new PText( QWIStrings.getString( "value" ) );
+        readout = new PText( QWIResources.getString( "value" ) );
         readout.setFont( new PhetFont( Font.BOLD, 14 ) );
         readout.setTextPaint( Color.blue );
         addChild( readout );
@@ -106,11 +106,11 @@ public class IntensityReader extends PComposite {
         if( simpleWavefunctionGraphic.getWavefunction().containsLocation( cellLocation.x, cellLocation.y ) ) {
             Complex value = simpleWavefunctionGraphic.getWavefunction().valueAt( cellLocation.x, cellLocation.y );
 //        readout.setText( "Location=" + location + ", bounds=" + simpleWavefunctionGraphic.getFullBounds() );
-            readout.setText( MessageFormat.format( QWIStrings.getString( "magnitude.0" ), new Object[]{new DecimalFormat( "0.00" ).format( value.abs() )} ) );
+            readout.setText( MessageFormat.format( QWIResources.getString( "magnitude.0" ), new Object[]{new DecimalFormat( "0.00" ).format( value.abs() )} ) );
             stripChartJFCNode.addValue( time++, value.abs() );
         }
         else {
-            readout.setText( MessageFormat.format( QWIStrings.getString( "location.0" ), new Object[]{cellLocation} ) );
+            readout.setText( MessageFormat.format( QWIResources.getString( "location.0" ), new Object[]{cellLocation} ) );
         }
 
 //        textBackground.setPathTo( new Rectangle2D.Double( 0,0,readout.getFullBounds().getWidth(), readout.getFullBounds().getHeight() ) );

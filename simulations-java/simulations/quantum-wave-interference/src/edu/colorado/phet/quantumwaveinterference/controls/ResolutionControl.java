@@ -3,7 +3,7 @@ package edu.colorado.phet.quantumwaveinterference.controls;
 
 import edu.colorado.phet.common.phetcommon.view.AdvancedPanel;
 import edu.colorado.phet.quantumwaveinterference.QWIModule;
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.quantumwaveinterference.view.piccolo.QWIScreenNode;
 
 import javax.swing.*;
@@ -55,7 +55,7 @@ public class ResolutionControl extends AdvancedPanel {
     }
 
     public ResolutionControl( final QWIModule qwiModule ) {
-        super( QWIStrings.getString( "resolution1" ), QWIStrings.getString( "resolution2" ) );
+        super( QWIResources.getString( "resolution1" ), QWIResources.getString( "resolution2" ) );
         this.qwiModule = qwiModule;
 
 //        JLabel screenSizeLabel = new JLabel( "Grid Resolution" );
@@ -78,7 +78,7 @@ public class ResolutionControl extends AdvancedPanel {
         final JComboBox jComboBox = new JComboBox( QWIModule.getResolutionSetups() );
         jComboBox.setSelectedItem( new Integer( qwiModule.getSchrodingerPanel().getSchrodingerScreenNode().getCellSize() ) );
 //        addControl( new JLabel( "Pixels per lattice cell." ) );
-        addControl( new JLabel( QWIStrings.getString( "menus.resolution" ) ) );
+        addControl( new JLabel( QWIResources.getString( "menus.resolution" ) ) );
         addControl( jComboBox );
         jComboBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -93,7 +93,7 @@ public class ResolutionControl extends AdvancedPanel {
                                            qwiModule.getSchrodingerPanel().getSchrodingerScreenNode().getCellSize();
         getSchrodingerModule().setWaveSize( INIT_WAVE_SIZE );
 
-        JLabel numSkip = new JLabel( QWIStrings.getString( "menus.time-step" ) );
+        JLabel numSkip = new JLabel( QWIResources.getString( "menus.time-step" ) );
         addControl( numSkip );
         final JSpinner frameSkip = new JSpinner( new SpinnerNumberModel( QWIScreenNode.numIterationsBetwenScreenUpdate, 1, 20, 1 ) );
         frameSkip.addChangeListener( new ChangeListener() {

@@ -1,3 +1,4 @@
+10-13-2008: rename QWIStrings to QWIResources, move to top-level package, consistent with other sims
 10-13-2008: replace SimString with PhetResources
 10-13-2008: use PhetApplicationConfig launchSim
 8-20-2007: qwi: converted to use IProguardKeepClass

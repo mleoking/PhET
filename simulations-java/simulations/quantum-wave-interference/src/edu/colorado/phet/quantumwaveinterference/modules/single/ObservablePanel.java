@@ -2,7 +2,7 @@
 package edu.colorado.phet.quantumwaveinterference.modules.single;
 
 import edu.colorado.phet.common.phetcommon.view.AdvancedPanel;
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.quantumwaveinterference.view.QWIPanel;
 
 import javax.swing.*;
@@ -19,11 +19,11 @@ public class ObservablePanel extends AdvancedPanel {
     private QWIPanel QWIPanel;
 
     public ObservablePanel( QWIPanel QWIPanel ) {
-        super( QWIStrings.getString( "observables" ), QWIStrings.getString( "hide.observables" ) );
+        super( QWIResources.getString( "observables" ), QWIResources.getString( "hide.observables" ) );
         this.QWIPanel = QWIPanel;
 //        VerticalLayoutPanel lay = this;
 //        setBorder( BorderFactory.createTitledBorder( "Observables" ) );
-        final JCheckBox x = new JCheckBox( QWIStrings.getString( "x" ) );
+        final JCheckBox x = new JCheckBox( QWIResources.getString( "x" ) );
         x.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getSchrodingerPanel().getWavefunctionGraphic().setDisplayXExpectation( x.isSelected() );
@@ -31,7 +31,7 @@ public class ObservablePanel extends AdvancedPanel {
         } );
         addControl( x );
 
-        final JCheckBox y = new JCheckBox( QWIStrings.getString( "y" ) );
+        final JCheckBox y = new JCheckBox( QWIResources.getString( "y" ) );
         y.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getSchrodingerPanel().getWavefunctionGraphic().setDisplayYExpectation( y.isSelected() );

@@ -2,6 +2,8 @@ package edu.colorado.phet.quantumwaveinterference.davissongermer;
 
 import java.text.DecimalFormat;
 
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
+
 /**
  * User: Sam Reid
  * Date: Jul 18, 2006
@@ -42,7 +44,7 @@ public class RadiusControl extends ConstrainedSliderControl {
 
     public RadiusControl( DGModel dgModel ) {
         this.dgModel = dgModel;
-        init( QWIStrings.getString( "atom.radius" ), new DecimalFormat( "0.00" ),
+        init( QWIResources.getString( "atom.radius" ), new DecimalFormat( "0.00" ),
               dgModel.getRadiusModelFrame(),
               dgModel.getRadiusViewFrame(),
               new CoordinateFrame( 0, getNumSliderValues( dgModel.getRadiusViewFrame() ) - 1 ) );

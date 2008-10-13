@@ -2,6 +2,8 @@ package edu.colorado.phet.quantumwaveinterference.davissongermer;
 
 import java.text.DecimalFormat;
 
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
+
 /**
  * User: Sam Reid
  * Date: Jul 18, 2006
@@ -30,7 +32,7 @@ public class SpacingControl extends ConstrainedSliderControl {
 
     public SpacingControl( DGModel dgModel ) {
         this.dgModel = dgModel;
-        init( QWIStrings.getString( "atom.separation.d" ), new DecimalFormat( "0.0" ),
+        init( QWIResources.getString( "atom.separation.d" ), new DecimalFormat( "0.0" ),
               dgModel.getSpacingModelFrame(),
               dgModel.getSpacingViewFrame(),
               new CoordinateFrame( 0, getNumSliderValues( dgModel.getSpacingViewFrame() ) - 1 ) );

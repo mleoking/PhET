@@ -1,7 +1,7 @@
 /*  */
 package edu.colorado.phet.quantumwaveinterference.controls;
 
-import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.quantumwaveinterference.view.QWIPanel;
 
 import javax.swing.*;
@@ -16,7 +16,7 @@ import java.awt.event.ActionListener;
 
 public class ClearButton extends JButton {
     public ClearButton( final QWIPanel qwiPanel ) {
-        super( QWIStrings.getString( "controls.clear-wave" ) );
+        super( QWIResources.getString( "controls.clear-wave" ) );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 qwiPanel.clearWavefunction();
