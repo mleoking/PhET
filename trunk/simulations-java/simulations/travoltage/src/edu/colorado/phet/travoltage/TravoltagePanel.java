@@ -1,17 +1,16 @@
 /*  */
 package edu.colorado.phet.travoltage;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
-import edu.umd.cs.piccolo.util.PPaintContext;
-
-import java.awt.*;
+import java.awt.Font;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
 /**
  * User: Sam Reid
@@ -33,7 +32,7 @@ public class TravoltagePanel extends PhetPCanvas {
         addScreenChild( travoltageRootNode );
 
 //        setCreateTrajectories();
-        motionHelpBalloon = new MotionHelpBalloon( this, SimStrings.getInstance().getString( "html.rub.the.foot.br.on.the.carpet.html" ) );
+        motionHelpBalloon = new MotionHelpBalloon( this, TravoltageResources.getString( "html.rub.the.foot.br.on.the.carpet.html" ) );
 //        motionHelpBalloon = new MotionHelpBalloon( this, "<html>Move the leg<br>and arm.</html>" );
         motionHelpBalloon.setBalloonVisible( true );
         motionHelpBalloon.setFont( new PhetFont( Font.BOLD, 14 ) );
