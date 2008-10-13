@@ -28,7 +28,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  *
  * @author Ron LeMaster
  * @version $Revision$
- * @deprecated this class should not be used, the imageName args require knowledge of where the image resources live in the JAR file, use PhetResources instead
+ * @deprecated this class should not be used
  */
 public class PImageFactory {
 
@@ -37,6 +37,7 @@ public class PImageFactory {
      *
      * @param imageName
      * @return
+     * @deprecated the imageName arg require knowledge of where the image resources live in the JAR file, use PImage(PhetResources.getImage(filename))
      */
     public static PImage create( String imageName ) {
         return new PImage( loadImage( imageName ) );
@@ -49,9 +50,22 @@ public class PImageFactory {
      * @param imageName
      * @param size
      * @return a buffered image
+     * @deprecated the imageName arg require knowledge of where the image resources live in the JAR file, use create(PhetResources.getImage(filename),size)
      */
     public static PImage create( String imageName, Dimension size ) {
         BufferedImage image = loadImage( imageName );
+        return create( image, size );
+    }
+    
+    /*
+     * TODO:
+     * The transform part of this method should be moved to utils.
+     * Then code that calls this method (or any of the others) should be replaced with something like:
+     * BufferedImage image = new PhetResources(projectName).getImage(imageName);
+     * image = SomeUtil.scaleImage( image, size );
+     * PImage node = new PImage( image );
+     */
+    public static PImage create( BufferedImage image, Dimension size ) {
         double scaleX = size.getWidth() / image.getWidth();
         double scaleY = size.getHeight() / image.getHeight();
         AffineTransform atx = AffineTransform.getScaleInstance( scaleX, scaleY );
