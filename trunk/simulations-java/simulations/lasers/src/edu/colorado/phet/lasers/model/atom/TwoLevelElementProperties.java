@@ -15,7 +15,7 @@ import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.quantum.model.EnergyEmissionStrategy;
 import edu.colorado.phet.common.quantum.model.Photon;
-import edu.colorado.phet.lasers.controller.LasersConfig;
+import edu.colorado.phet.lasers.LasersConfig;
 
 /**
  * TwoLevelElementProperties

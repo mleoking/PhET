@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.lasers.controller;
+package edu.colorado.phet.lasers;
 
 import java.awt.Font;
 import java.awt.geom.Point2D;

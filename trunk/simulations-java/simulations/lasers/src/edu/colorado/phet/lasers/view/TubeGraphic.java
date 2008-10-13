@@ -13,7 +13,7 @@ import java.awt.geom.Line2D;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.quantum.model.Tube;
-import edu.colorado.phet.lasers.controller.LasersConfig;
+import edu.colorado.phet.lasers.LasersConfig;
 
 public class TubeGraphic extends CompositePhetGraphic implements Tube.ChangeListener {
 

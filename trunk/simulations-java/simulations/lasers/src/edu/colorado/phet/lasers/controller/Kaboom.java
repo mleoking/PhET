@@ -35,6 +35,7 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.quantum.model.PhotonSource;
 import edu.colorado.phet.common.quantum.model.Tube;
+import edu.colorado.phet.lasers.LasersConfig;
 import edu.colorado.phet.lasers.LasersResources;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.LaserModel;

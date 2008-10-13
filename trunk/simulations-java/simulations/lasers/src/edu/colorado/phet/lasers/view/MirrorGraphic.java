@@ -20,7 +20,7 @@ import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
-import edu.colorado.phet.lasers.controller.LasersConfig;
+import edu.colorado.phet.lasers.LasersConfig;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
 
 public class MirrorGraphic extends PhetGraphic implements PartialMirror.Listener {

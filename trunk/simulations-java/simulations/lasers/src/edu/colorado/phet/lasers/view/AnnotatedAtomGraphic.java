@@ -19,8 +19,8 @@ import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.quantum.model.Atom;
+import edu.colorado.phet.lasers.LasersConfig;
 import edu.colorado.phet.lasers.LasersResources;
-import edu.colorado.phet.lasers.controller.LasersConfig;
 
 /**
  * AnnotatedAtomGraphic
