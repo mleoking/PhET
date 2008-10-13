@@ -33,7 +33,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class ParticleContainerNode extends PhetPNode {
     
-    //----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
     // Class Data
     //----------------------------------------------------------------------------
     
@@ -79,7 +79,8 @@ public class ParticleContainerNode extends PhetPNode {
     private static final double PRESSURE_GAUGE_WIDTH_PROPORTION = 0.44;
     
     // Constants the control the positioning of non-container portions of this node.
-    private static final double PRESSURE_GUAGE_Y_OFFSET = -3000;
+    private static final double PRESSURE_METER_Y_OFFSET = -3000;
+    private static final double PRESSURE_METER_X_OFFSET_PROPORTION = 0.80;
     
     // Maximum value expected for pressure, in atmospheres.
     private final double MAX_PRESSURE = 100;
@@ -441,16 +442,18 @@ public class ParticleContainerNode extends PhetPNode {
 	            if (m_pressureMeter.getRotation() != 0){
 	            	m_pressureMeter.setRotation(0);
 	            }
-	            m_pressureMeter.setOffset(-m_pressureMeter.getFullBoundsReference().width * 0.80, 
-	            		PRESSURE_GUAGE_Y_OFFSET);
+	            m_pressureMeter.setOffset(-m_pressureMeter.getFullBoundsReference().width * PRESSURE_METER_X_OFFSET_PROPORTION,
+	            		PRESSURE_METER_Y_OFFSET);
 	            m_pressureMeter.setElbowHeight(StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT - 
 	            		containerRect.getHeight() - m_pressureMeterElbowOffset);
 	        }
 	        else{
 	        	// The container is exploding, so spin and move the gauge.
 	        	m_pressureMeter.rotateInPlace(-Math.PI / 20);
-	            m_pressureMeter.setOffset(-m_pressureMeter.getFullBoundsReference().width * 0.80, 
-	            		PRESSURE_GUAGE_Y_OFFSET - m_model.getParticleContainerHeight() + m_containerHeightAtExplosion);
+	            m_pressureMeter.setOffset(
+	            		-m_pressureMeter.getFullBoundsReference().width * PRESSURE_METER_X_OFFSET_PROPORTION, 
+	            		PRESSURE_METER_Y_OFFSET + m_containerHeightAtExplosion + 
+	            		( ( m_containerHeightAtExplosion - m_model.getParticleContainerHeight() ) * 1.5 ) ); 
 	        }
     	}
     }

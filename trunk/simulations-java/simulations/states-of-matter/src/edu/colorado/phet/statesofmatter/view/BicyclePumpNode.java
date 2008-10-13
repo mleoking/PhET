@@ -161,8 +161,8 @@ public class BicyclePumpNode extends PNode {
         double pumpBodyWidth = width * PUMP_BODY_WIDTH_PROPORTION;
         double pumpBodyHeight = height * PUMP_BODY_HEIGHT_PROPORTION;
         PPath pumpBody = new PhetPPath( new Rectangle2D.Double( 0, 0, pumpBodyWidth, pumpBodyHeight ) );
-        GradientPaint pumpBodyPaint = new GradientPaint(0, (float)pumpBodyHeight/2, new Color(0x808080), (float)pumpBodyWidth, (float)pumpBodyHeight/2,
-        		PUMP_BODY_COLOR);
+        GradientPaint pumpBodyPaint = new GradientPaint(0, (float)pumpBodyHeight/2, PUMP_BODY_COLOR, 
+        		(float)pumpBodyWidth, (float)pumpBodyHeight/2, Color.LIGHT_GRAY);
         
         pumpBody.setPaint( pumpBodyPaint );
         pumpBody.setOffset( width * PUMP_HORIZ_POSITION_PROPORTION - ( pumpBodyWidth / 2 ), height - pumpBodyHeight - pumpBaseHeight );

@@ -17,7 +17,6 @@ import java.text.DecimalFormat;
 
 import javax.swing.SwingUtilities;
 
-import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
@@ -248,18 +247,17 @@ public class DialGaugeNode extends PNode {
     	m_elbowEnabled = elbowEnabled;
     	
     	// Create a different gradient if the elbow is enabled.
-    	/*
     	float width = (float)(CONNECTOR_WIDTH_PROPORATION * m_diameter);
     	float length = (float)(CONNECTOR_LENGTH_PROPORATION * m_diameter);
     	if (m_elbowEnabled){
-            m_connectorPaint = new GradientPaint(length, width/2, Color.LIGHT_GRAY, length + 2 * width, width/2, Color.BLUE);
+            m_connectorPaint = new GradientPaint(length, width/2, Color.BLUE, length + width, width/2, 
+            		Color.LIGHT_GRAY);
     	}
     	else{
             m_connectorPaint = new GradientPaint((float)(m_diameter / 2), 0, Color.LIGHT_GRAY, (float)(m_diameter / 2), 
                     (float)(CONNECTOR_WIDTH_PROPORATION * m_diameter), Color.BLUE);
     	}
         m_connector.setPaint(m_connectorPaint);
-        */
         
     	updateConnector();
     }
@@ -292,7 +290,7 @@ public class DialGaugeNode extends PNode {
                 dialGaugeNode2.setOffset(300, 220);
                 dialGaugeNode2.setValue( 0.0 );
                 dialGaugeNode2.setElbowEnabled(true);
-                dialGaugeNode2.setElbowHeight(-200);
+                dialGaugeNode2.setElbowHeight(200);
                 testFrame.addNode(dialGaugeNode2);
 
                 testFrame.setVisible(true);
@@ -306,8 +304,8 @@ public class DialGaugeNode extends PNode {
     
     private void updateConnector(){
     	
-    	double width = CONNECTOR_WIDTH_PROPORATION * m_diameter;
-    	double length = CONNECTOR_LENGTH_PROPORATION * m_diameter;
+    	float width = (float)(CONNECTOR_WIDTH_PROPORATION * m_diameter);
+    	float length = (float)(CONNECTOR_LENGTH_PROPORATION * m_diameter);
     	
     	if (!m_elbowEnabled){
     		Shape connectorShape = new Rectangle2D.Double(0, 0, length, width );
@@ -317,38 +315,38 @@ public class DialGaugeNode extends PNode {
     	}
     	else{
     		m_connectorPath.reset();
-    		m_connectorPath.moveTo(0f, 0f);
+    		m_connectorPath.moveTo( 0, 0 );
     		if (Math.abs(m_elbowHeight) < width / 2){
     			// The height of the elbow is less than the width of the
     			// connector, so just draw the connector at its basic
     			// width.
-        		m_connectorPath.lineTo( (float)(length + width * 2), 0);
-        		m_connectorPath.lineTo( (float)(length + width * 2), (float)width);
-        		m_connectorPath.lineTo( 0, (float)width);
+        		m_connectorPath.lineTo( length + width, 0 );
+        		m_connectorPath.lineTo( (length + width), width );
+        		m_connectorPath.lineTo( 0, width);
         		m_connectorPath.closePath();
-                m_connector.setPathTo(m_connectorPath);
-            	m_connector.setOffset( m_dialComponentsNode.getFullBoundsReference().width * 0.9, 
-                        m_diameter / 2 - width / 2 );
+                m_connector.setPathTo( m_connectorPath );
     		}
     		else if (m_elbowHeight < 0){
     			// Connector is pointing upwards.
-        		m_connectorPath.lineTo( (float)(length + width), 0);
-        		m_connectorPath.lineTo( (float)(length + width), (float)(m_elbowHeight + width / 2));
-        		m_connectorPath.lineTo( (float)(length + width * 2), (float)(m_elbowHeight + width / 2));
-        		m_connectorPath.lineTo( (float)(length + width * 2), (float)width);
-        		m_connectorPath.lineTo( 0, (float)width);
+        		m_connectorPath.lineTo( length, 0);
+        		m_connectorPath.lineTo( length, (float)(m_elbowHeight + width / 2));
+        		m_connectorPath.lineTo( (length + width), (float)(m_elbowHeight + width / 2));
+        		m_connectorPath.lineTo( (length + width), width / 2);
+        		m_connectorPath.quadTo( length + width, width, (length + ( width / 2 ) ), width );
+        		m_connectorPath.lineTo( 0, width);
         		m_connectorPath.closePath();
-                m_connector.setPathTo(m_connectorPath);
+                m_connector.setPathTo( m_connectorPath );
     		}
     		else{
     			// Connector is pointing downwards.
-        		m_connectorPath.lineTo( (float)(length + width * 2), 0);
-        		m_connectorPath.lineTo( (float)(length + width * 2), (float)(m_elbowHeight + width / 2));
-        		m_connectorPath.lineTo( (float)(length + width), (float)(m_elbowHeight + width / 2));
-        		m_connectorPath.lineTo( (float)(length + width), (float)width);
-        		m_connectorPath.lineTo( 0, (float)width);
+        		m_connectorPath.lineTo( (length + ( width / 2) ), 0 );
+        		m_connectorPath.quadTo( length + width, 0, (length + width ), width / 2 );
+        		m_connectorPath.lineTo( (length + width), (float)(m_elbowHeight + width / 2) );
+        		m_connectorPath.lineTo( length, (float)(m_elbowHeight + width / 2) );
+        		m_connectorPath.lineTo( length, width );
+        		m_connectorPath.lineTo( 0, width );
         		m_connectorPath.closePath();
-                m_connector.setPathTo(m_connectorPath);
+                m_connector.setPathTo( m_connectorPath );
     		}
     	}
 
