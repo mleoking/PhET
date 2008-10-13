@@ -1,3 +1,4 @@
+10-13-2008: [811] use PhetApplicationConfig
 1.05.02
 Trial version with particles in every cell
 

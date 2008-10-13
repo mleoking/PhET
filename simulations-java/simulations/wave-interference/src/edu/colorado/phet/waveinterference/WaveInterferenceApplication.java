@@ -1,13 +1,11 @@
 /*  */
 package edu.colorado.phet.waveinterference;
 
-import javax.swing.*;
-
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.waveinterference.util.WIStrings;
 
 /**
  * User: Sam Reid
@@ -16,11 +14,9 @@ import edu.colorado.phet.waveinterference.util.WIStrings;
  */
 
 public class WaveInterferenceApplication extends PiccoloPhetApplication {
-    private static String VERSION = PhetApplicationConfig.getVersion( "wave-interference" ).formatForTitleBar();
-    private static final String LOCALIZATION_BUNDLE_BASENAME = "wave-interference/localization/wave-interference-strings";
-
-    public WaveInterferenceApplication( String[] args ) {
-        super( args, WIStrings.getString( "wave-interference.name" ), WIStrings.getString( "wave-interference.description" ), VERSION, new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( 50, 50 ) ) );
+    
+    public WaveInterferenceApplication( PhetApplicationConfig config ) {
+        super( config );
         WaveInterferenceMenu menu = new WaveInterferenceMenu();
         addModule( new WaterModule() );
         addModule( new SoundModule() );
@@ -36,13 +32,18 @@ public class WaveInterferenceApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) {
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                SimStrings.getInstance().init( args, LOCALIZATION_BUNDLE_BASENAME );
-                new WaveIntereferenceLookAndFeel().initLookAndFeel();
-                new WaveInterferenceApplication( args ).startApplication();
+        
+        SimStrings.getInstance().init( args, "wave-interference/localization/wave-interference-strings" ); //TODO use PhetResources for strings
+        
+        ApplicationConstructor appConstructor = new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new WaveInterferenceApplication( config );
             }
-        } );
+        };
+        
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, WaveInterferenceConstants.PROJECT_NAME );
+        appConfig.setFrameSetup( WaveInterferenceConstants.FRAME_SETUP );
+        appConfig.launchSim();
     }
 
 }
