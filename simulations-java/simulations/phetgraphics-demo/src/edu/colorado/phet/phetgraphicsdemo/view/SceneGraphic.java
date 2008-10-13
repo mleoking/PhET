@@ -2,15 +2,17 @@
 
 package edu.colorado.phet.phetgraphicsdemo.view;
 
+import java.awt.Component;
+import java.awt.image.BufferedImage;
+
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.phetgraphicsdemo.PhetGraphicsDemoResources;
 import edu.colorado.phet.phetgraphicsdemo.model.CarModelElement;
 import edu.colorado.phet.phetgraphicsdemo.model.WindmillModelElement;
 
-import java.awt.*;
-
 /**
- * SceneGraphic demostrates creation of a complex scene involving 
+ * SceneGraphic demonstrates creation of a complex scene involving 
  * composite and non-composite graphics. The scene's origin is at
  * the upper left corner of the background image.
  *
@@ -22,7 +24,8 @@ public class SceneGraphic extends CompositePhetGraphic {
         super( component );
 
         // Graphics components
-        PhetImageGraphic background = new PhetImageGraphic( component, "images/landscape.png" );
+        BufferedImage image = PhetGraphicsDemoResources.getImage( "landscape.png" );
+        PhetImageGraphic background = new PhetImageGraphic( component, image );
         WindmillGraphic windmill = new WindmillGraphic( component, windmillModelElement );
         CarOnRoadGraphic carOnRoad = new CarOnRoadGraphic( component, carModelElement );
         

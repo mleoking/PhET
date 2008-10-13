@@ -2,11 +2,9 @@
 
 package edu.colorado.phet.phetgraphicsdemo;
 
-import java.io.IOException;
-
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
 
 /**
  * PhetgraphicsDemoApplication demonstrates how registration point, location
@@ -17,20 +15,21 @@ import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
  */
 public class PhetgraphicsDemoApplication extends PhetApplication {
 
-    public PhetgraphicsDemoApplication( String[] args, String title, String description, String version, FrameSetup frameSetup ) throws IOException {
-        super( args, title, description, version, frameSetup );
+    public PhetgraphicsDemoApplication( PhetApplicationConfig config ) {
+        super( config );
         TestModule module = new TestModule();
         addModule( module );
     }
 
-    public static void main( String[] args ) throws IOException {
-        new PhetLookAndFeel().initLookAndFeel();
-        String title = "Phetgraphics Demo Application";
-        String description = "demonstrates semantics of location and registration point";
-        String version = "0.00.01";
-        FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 768 );
-
-        PhetApplication app = new PhetgraphicsDemoApplication( args, title, description, version, frameSetup );
-        app.startApplication();
+    public static void main( final String[] args ) {
+        
+        ApplicationConstructor appConstructor = new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new PhetgraphicsDemoApplication( config );
+            }
+        };
+        
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, PhetGraphicsDemoConstants.PROJECT_NAME );
+        appConfig.launchSim();
     }
 }

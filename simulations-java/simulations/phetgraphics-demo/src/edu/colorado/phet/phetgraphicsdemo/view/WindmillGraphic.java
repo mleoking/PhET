@@ -2,14 +2,18 @@
 
 package edu.colorado.phet.phetgraphicsdemo.view;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.RenderingHints;
+import java.awt.geom.GeneralPath;
+import java.awt.image.BufferedImage;
+
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.phetgraphicsdemo.PhetGraphicsDemoResources;
 import edu.colorado.phet.phetgraphicsdemo.model.WindmillModelElement;
-
-import java.awt.*;
-import java.awt.geom.GeneralPath;
 
 /**
  * WindmillGraphic is the graphic representation of a windmill.
@@ -25,7 +29,8 @@ public class WindmillGraphic extends CompositePhetGraphic {
         super( component );
 
         // Graphics components
-        PhetImageGraphic house = new PhetImageGraphic( component, "images/house.png" );
+        BufferedImage image = PhetGraphicsDemoResources.getImage( "house.png" );
+        PhetImageGraphic house = new PhetImageGraphic( component, image );
         house.setLocation( -65, -40 );
         WindmillBladesGraphic blades = new WindmillBladesGraphic( component, windmillModelElement );
         blades.setLocation( 0, 0 );
