@@ -43,8 +43,8 @@ public class SimulationRateControlPanel extends JPanel {
         simulationRateTF.setHorizontalAlignment( JTextField.RIGHT );
         Font clockFont = simulationRateTF.getFont();
         simulationRateTF.setFont( new Font( clockFont.getName(),
-                                            LaserConfig.CONTROL_FONT_STYLE,
-                                            LaserConfig.CONTROL_FONT_SIZE ) );
+                                            LasersConfig.CONTROL_FONT_STYLE,
+                                            LasersConfig.CONTROL_FONT_SIZE ) );
         simulationRateTF.setText( Double.toString( 10 ) );
 
         simulationRateSlider = new JSlider( JSlider.VERTICAL,

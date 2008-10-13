@@ -27,7 +27,7 @@ import edu.colorado.phet.common.quantum.model.*;
 import edu.colorado.phet.lasers.LasersApplication;
 import edu.colorado.phet.lasers.LasersResources;
 import edu.colorado.phet.lasers.controller.BeamControl;
-import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.controller.LasersConfig;
 import edu.colorado.phet.lasers.controller.UniversalLaserControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.LaserAtom;
@@ -70,10 +70,10 @@ public class MultipleAtomModule extends BaseLaserModule {
                                                         getCavity().getBounds().getY() - 100 );
         pumpingBeam.setPosition( pumpingBeamOrigin );
         pumpingBeam.setBeamWidth( cavityBounds.getWidth() );
-        pumpingBeam.setFanout( LaserConfig.PUMPING_BEAM_FANOUT );
+        pumpingBeam.setFanout( LasersConfig.PUMPING_BEAM_FANOUT );
 
         // Set the max pumping rate
-        pumpingBeam.setMaxPhotonsPerSecond( LaserConfig.MAXIMUM_PUMPING_PHOTON_RATE );
+        pumpingBeam.setMaxPhotonsPerSecond( LasersConfig.MAXIMUM_PUMPING_PHOTON_RATE );
         // Start with the beam turned all the way down
         pumpingBeam.setPhotonsPerSecond( 0 );
 
@@ -82,7 +82,7 @@ public class MultipleAtomModule extends BaseLaserModule {
         pumpingBeam.setEnabled( true );
 
         // Set up the graphics
-        BufferedImage gunBI = LasersResources.getImage( LaserConfig.RAY_GUN_IMAGE_FILE );
+        BufferedImage gunBI = LasersResources.getImage( LasersConfig.RAY_GUN_IMAGE_FILE );
 
         // Pumping beam lamps. Note that the images start out horizontal, and then are rotated. This accounts for
         // some funny looking code
@@ -100,11 +100,11 @@ public class MultipleAtomModule extends BaseLaserModule {
             BufferedImage img = new AffineTransformOp( new AffineTransform(), AffineTransformOp.TYPE_BILINEAR ).filter( pumpBeamImage, null );
             LampGraphic pumpLampGraphic = new LampGraphic( pumpingBeam, getApparatusPanel(), img, tx );
             setPumpLampGraphic( pumpLampGraphic );
-            addGraphic( pumpLampGraphic, LaserConfig.PHOTON_LAYER + 1 );
+            addGraphic( pumpLampGraphic, LasersConfig.PHOTON_LAYER + 1 );
         }
 
         // Add the beam control
-        PhetImageGraphic wireGraphic = new PhetImageGraphic( getApparatusPanel(), LasersResources.getImage( LaserConfig.WIRE_IMAGE ) );
+        PhetImageGraphic wireGraphic = new PhetImageGraphic( getApparatusPanel(), LasersResources.getImage( LasersConfig.WIRE_IMAGE ) );
         AffineTransform atx = AffineTransform.getScaleInstance( 4, 1 );
         AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
         wireGraphic.setImage( atxOp.filter( wireGraphic.getImage(), null ) );
@@ -117,7 +117,7 @@ public class MultipleAtomModule extends BaseLaserModule {
                                            pumpingBeam,
                                            QuantumConfig.MIN_WAVELENGTH,
                                            QuantumConfig.MAX_WAVELENGTH,
-                                           LasersResources.getImage( LaserConfig.BEAM_CONTROL_IMAGE ) );
+                                           LasersResources.getImage( LasersConfig.BEAM_CONTROL_IMAGE ) );
         getApparatusPanel().addGraphic( pumpBeamControl );
 
         // Add some atoms
@@ -125,7 +125,7 @@ public class MultipleAtomModule extends BaseLaserModule {
 
         // Set initial conditions
         setThreeEnergyLevels( true );
-        setEnergyLevelsAveragingPeriod( LaserConfig.ENERGY_LEVEL_MONITOR_AVERAGING_PERIOD );
+        setEnergyLevelsAveragingPeriod( LasersConfig.ENERGY_LEVEL_MONITOR_AVERAGING_PERIOD );
 
         // Set the control panel
         laserControlPanel = new UniversalLaserControlPanel( this, SHOW_LEGEND );
@@ -137,7 +137,7 @@ public class MultipleAtomModule extends BaseLaserModule {
         super.reset();
         deactivate();
         setThreeEnergyLevels( true );
-        setEnergyLevelsAveragingPeriod( LaserConfig.ENERGY_LEVEL_MONITOR_AVERAGING_PERIOD );
+        setEnergyLevelsAveragingPeriod( LasersConfig.ENERGY_LEVEL_MONITOR_AVERAGING_PERIOD );
         laserControlPanel = new UniversalLaserControlPanel( this, SHOW_LEGEND );
         setControlPanel( laserControlPanel );
         laserControlPanel.setUpperTransitionView( BaseLaserModule.PHOTON_CURTAIN );

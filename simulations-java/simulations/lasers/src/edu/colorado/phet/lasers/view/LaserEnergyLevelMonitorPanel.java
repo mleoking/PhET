@@ -43,7 +43,7 @@ import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.quantum.model.Beam;
 import edu.colorado.phet.lasers.LasersResources;
-import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.controller.LasersConfig;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
 import edu.colorado.phet.lasers.model.LaserModel;
@@ -190,7 +190,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
                 int minLifetime = (int) clock.getSimulationTimeChange() * 2;
 
                 // See Unfuddle #444
-                int maxLifetime = i == 1 ? LaserConfig.MAXIMUM_STATE_LIFETIME : LaserConfig.MAXIMUM_STATE_LIFETIME / 4;
+                int maxLifetime = i == 1 ? LasersConfig.MAXIMUM_STATE_LIFETIME : LasersConfig.MAXIMUM_STATE_LIFETIME / 4;
 //                int maxLifetime = LaserConfig.MAXIMUM_STATE_LIFETIME;
                 state.setMeanLifetime( maxLifetime );
 

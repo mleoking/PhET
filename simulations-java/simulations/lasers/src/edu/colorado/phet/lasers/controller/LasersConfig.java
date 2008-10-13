@@ -16,7 +16,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
-public class LaserConfig {
+public class LasersConfig {
     
     public static final String PROJECT_NAME = "lasers";
     

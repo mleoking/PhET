@@ -20,12 +20,12 @@ import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
-import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.controller.LasersConfig;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
 
 public class MirrorGraphic extends PhetGraphic implements PartialMirror.Listener {
 
-    private final static double thickness = LaserConfig.MIRROR_THICKNESS;
+    private final static double thickness = LasersConfig.MIRROR_THICKNESS;
     public final static int LEFT_FACING = 1;
     public final static int RIGHT_FACING = 2;
 

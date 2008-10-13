@@ -90,7 +90,7 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
         wavelengthSlider.setTransmissionWidth( 1.0 ); // default is 0.0
         wavelengthSlider.setKnobSize( new Dimension( 15, 12 ) ); // default is (20,30)
         wavelengthSlider.setSpectrumSize( spectrumSize ); // default is (200,25)
-        addGraphic( wavelengthSlider, LaserConfig.CONTROL_LAYER );
+        addGraphic( wavelengthSlider, LasersConfig.CONTROL_LAYER );
         wavelengthSlider.setValue( (int) ( beam.getWavelength() ) );
         wavelengthSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

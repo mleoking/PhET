@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.quantum.model.Tube;
-import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.controller.LasersConfig;
 
 /**
  * WaveGraphic
@@ -164,6 +164,6 @@ public abstract class WaveGraphic extends PhetGraphic implements ModelElement {
     }
 
     private double getMaxInternalAmplitude() {
-        return LaserConfig.LASING_THRESHOLD;
+        return LasersConfig.LASING_THRESHOLD;
     }
 }

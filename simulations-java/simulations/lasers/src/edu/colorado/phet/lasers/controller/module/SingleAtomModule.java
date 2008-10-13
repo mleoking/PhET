@@ -31,7 +31,7 @@ import edu.colorado.phet.common.quantum.model.Photon;
 import edu.colorado.phet.lasers.LasersApplication;
 import edu.colorado.phet.lasers.LasersResources;
 import edu.colorado.phet.lasers.controller.BeamControl;
-import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.controller.LasersConfig;
 import edu.colorado.phet.lasers.controller.UniversalLaserControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.LaserAtom;
@@ -92,7 +92,7 @@ public class SingleAtomModule extends BaseLaserModule {
         seedBeam.setPosition( beamOrigin );
         seedBeam.setBeamWidth( 0.5 );
         seedBeam.setDirection( new Vector2D.Double( 1, 0 ) );
-        seedBeam.setFanout( LaserConfig.SEED_BEAM_FANOUT );
+        seedBeam.setFanout( LasersConfig.SEED_BEAM_FANOUT );
 
         // Start the beam with a very slow rate
         seedBeam.setPhotonsPerSecond( 1 );
@@ -103,7 +103,7 @@ public class SingleAtomModule extends BaseLaserModule {
                                                         getCavity().getBounds().getY() - 100 );
         pumpingBeam.setDirection( new Vector2D.Double( 0, 1 ) );
         pumpingBeam.setPosition( pumpingBeamOrigin );
-        pumpingBeam.setFanout( Math.toRadians( LaserConfig.SEED_BEAM_FANOUT * 2 ) * 1000 );
+        pumpingBeam.setFanout( Math.toRadians( LasersConfig.SEED_BEAM_FANOUT * 2 ) * 1000 );
         pumpingBeam.setBeamWidth( seedBeam.getBeamWidth() * 100 );
 
         // Start with the pumping beam turned down all the way
@@ -118,7 +118,7 @@ public class SingleAtomModule extends BaseLaserModule {
         Rectangle2D allocatedBounds = new Rectangle2D.Double( (int) seedBeam.getPosition().getX() - 55,
                                                               (int) ( seedBeam.getPosition().getY() + seedBeam.getBeamWidth() / 2 - 25 ),
                                                               100, 50 );
-        BufferedImage gunBI = LasersResources.getImage( LaserConfig.RAY_GUN_IMAGE_FILE );
+        BufferedImage gunBI = LasersResources.getImage( LasersConfig.RAY_GUN_IMAGE_FILE );
 
         // Seed beam lamp graphic
         double scaleX = allocatedBounds.getWidth() / gunBI.getWidth();
@@ -129,12 +129,12 @@ public class SingleAtomModule extends BaseLaserModule {
             AffineTransform atx = new AffineTransform();
             atx.translate( allocatedBounds.getX(), allocatedBounds.getY() );
             LampGraphic stimulatingBeamGraphic = new LampGraphic( seedBeam, getApparatusPanel(), beamImage, atx );
-            addGraphic( stimulatingBeamGraphic, LaserConfig.PHOTON_LAYER + 1 );
+            addGraphic( stimulatingBeamGraphic, LasersConfig.PHOTON_LAYER + 1 );
         }
 
         // Add controls for the seed beam
         {
-            PhetImageGraphic wireGraphic = new PhetImageGraphic( getApparatusPanel(), LasersResources.getImage( LaserConfig.WIRE_IMAGE ) );
+            PhetImageGraphic wireGraphic = new PhetImageGraphic( getApparatusPanel(), LasersResources.getImage( LasersConfig.WIRE_IMAGE ) );
             wireGraphic.setImage( BufferedImageUtils.getRotatedImage( wireGraphic.getImage(), -Math.PI / 2 ) );
             wireGraphic.setLocation( 50, 250 );
             getApparatusPanel().addGraphic( wireGraphic );
@@ -146,7 +146,7 @@ public class SingleAtomModule extends BaseLaserModule {
                                                seedBeam,
                                                QuantumConfig.MIN_WAVELENGTH,
                                                QuantumConfig.MAX_WAVELENGTH,
-                                               LasersResources.getImage( LaserConfig.BEAM_CONTROL_IMAGE ) );
+                                               LasersResources.getImage( LasersConfig.BEAM_CONTROL_IMAGE ) );
             getApparatusPanel().addGraphic( seedBeamControl );
         }
 
@@ -158,11 +158,11 @@ public class SingleAtomModule extends BaseLaserModule {
         pumpingLampGraphic = new LampGraphic( pumpingBeam, getApparatusPanel(), pumpingBeamLamp, pumpingBeamTx );
         setPumpLampGraphic( pumpingLampGraphic );
         pumpingLampGraphic.setVisible( false );
-        addGraphic( pumpingLampGraphic, LaserConfig.PHOTON_LAYER + 1 );
+        addGraphic( pumpingLampGraphic, LasersConfig.PHOTON_LAYER + 1 );
 
         // Add the beam control
         {
-            PhetImageGraphic wireGraphic = new PhetImageGraphic( getApparatusPanel(), LasersResources.getImage( LaserConfig.WIRE_IMAGE ) );
+            PhetImageGraphic wireGraphic = new PhetImageGraphic( getApparatusPanel(), LasersResources.getImage( LasersConfig.WIRE_IMAGE ) );
             AffineTransform atx = AffineTransform.getScaleInstance( 0.6, 1 );
             AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
             wireGraphic.setImage( atxOp.filter( wireGraphic.getImage(), null ) );
@@ -176,7 +176,7 @@ public class SingleAtomModule extends BaseLaserModule {
                                                pumpingBeam,
                                                QuantumConfig.MIN_WAVELENGTH,
                                                QuantumConfig.MAX_WAVELENGTH,
-                                               LasersResources.getImage( LaserConfig.BEAM_CONTROL_IMAGE ) );
+                                               LasersResources.getImage( LasersConfig.BEAM_CONTROL_IMAGE ) );
             wireGraphic.setLocation( -170, 40 );
             pumpBeamControl.addGraphic( wireGraphic );
             getApparatusPanel().addGraphic( pumpBeamControl );

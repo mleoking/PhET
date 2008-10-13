@@ -31,7 +31,7 @@ import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
 import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.lasers.LasersResources;
-import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.controller.LasersConfig;
 
 /**
  * Represents an atom with an image of a sphere, surrounded by a "halo" that represents its energy state. The halo
@@ -94,7 +94,7 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
         this.setIgnoreMouse( true );
         atom.addChangeListener( this );
 
-        BufferedImage image = LasersResources.getImage( LaserConfig.ATOM_IMAGE_FILE );
+        BufferedImage image = LasersResources.getImage( LasersConfig.ATOM_IMAGE_FILE );
         double scale = ( 2 * atom.getRadius() ) / image.getHeight();
         AffineTransform atx = AffineTransform.getScaleInstance( scale, scale );
         AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );

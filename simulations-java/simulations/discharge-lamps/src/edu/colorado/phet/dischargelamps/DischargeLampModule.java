@@ -41,7 +41,7 @@ import edu.colorado.phet.dischargelamps.quantum.model.ElectronSource;
 import edu.colorado.phet.dischargelamps.quantum.model.Plate;
 import edu.colorado.phet.dischargelamps.quantum.view.PlateGraphic;
 import edu.colorado.phet.dischargelamps.view.*;
-import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.controller.LasersConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.view.AnnotatedAtomGraphic;
 import edu.colorado.phet.lasers.view.AtomGraphic;
@@ -524,7 +524,7 @@ public class DischargeLampModule extends PhetGraphicsModule {
             // photon goes away. Set it's visibility based on the state of the simulation
             final PhotonGraphic pg = PhotonGraphic.getInstance( getApparatusPanel(), photon );
             pg.setVisible( true );
-            addGraphic( pg, LaserConfig.PHOTON_LAYER );
+            addGraphic( pg, LasersConfig.PHOTON_LAYER );
             photon.addLeftSystemListener( new PhotonGraphicManager( photon, pg ) );
         }
     }

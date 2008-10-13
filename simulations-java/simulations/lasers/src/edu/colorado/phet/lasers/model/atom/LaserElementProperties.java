@@ -13,7 +13,7 @@ package edu.colorado.phet.lasers.model.atom;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.quantum.model.ElementProperties;
 import edu.colorado.phet.common.quantum.model.EnergyEmissionStrategy;
-import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.controller.LasersConfig;
 
 /**
  * LaserElementProperties
@@ -32,7 +32,7 @@ public abstract class LaserElementProperties extends ElementProperties {
         AtomicState[] states = getStates();
         for ( int i = 1; i < states.length; i++ ) {
             AtomicState state = states[i];
-            state.setMeanLifetime( LaserConfig.MAXIMUM_STATE_LIFETIME / 2 );
+            state.setMeanLifetime( LasersConfig.MAXIMUM_STATE_LIFETIME / 2 );
         }
 
     }

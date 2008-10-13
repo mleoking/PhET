@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.quantum.model.Tube;
-import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.controller.LasersConfig;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
@@ -91,10 +91,10 @@ public class LaserWaveGraphic implements LaserModel.ChangeListener {
             nonLasingExternalWaveGraphics[i] = waveGraphic;
         }
 
-        apparatusPanel.addGraphic( internalStandingWaveGraphic, LaserConfig.LEFT_MIRROR_LAYER - 1 );
-        apparatusPanel.addGraphic( externalTravelingWaveGraphic, LaserConfig.RIGHT_MIRROR_LAYER - 1 );
+        apparatusPanel.addGraphic( internalStandingWaveGraphic, LasersConfig.LEFT_MIRROR_LAYER - 1 );
+        apparatusPanel.addGraphic( externalTravelingWaveGraphic, LasersConfig.RIGHT_MIRROR_LAYER - 1 );
         for ( int i = 0; i < nonLasingExternalWaveGraphics.length; i++ ) {
-            apparatusPanel.addGraphic( nonLasingExternalWaveGraphics[i], LaserConfig.RIGHT_MIRROR_LAYER - 1 );
+            apparatusPanel.addGraphic( nonLasingExternalWaveGraphics[i], LasersConfig.RIGHT_MIRROR_LAYER - 1 );
         }
 
         atomicStates[1].addListener( new AtomicState.Listener() {
@@ -165,7 +165,7 @@ public class LaserWaveGraphic implements LaserModel.ChangeListener {
     }
 
     private double getInternalAmplitude() {
-        double n = 4 * Math.sqrt( Math.max( 0, getNumLasingPhotons() - LaserConfig.LASING_THRESHOLD ) );
+        double n = 4 * Math.sqrt( Math.max( 0, getNumLasingPhotons() - LasersConfig.LASING_THRESHOLD ) );
 //        double n = scaleFactor * Math.sqrt( getNumLasingPhotons() < LaserConfig.LASING_THRESHOLD ? 0 : (double)getNumLasingPhotons() );
 
         return n;
@@ -186,7 +186,7 @@ public class LaserWaveGraphic implements LaserModel.ChangeListener {
         // Update the non-lasing wave graphics. Reduce the amplitude by a large factor
         for ( int i = 0; i < nonLasingExternalWaveGraphics.length; i++ ) {
             WaveGraphic waveGraphic = nonLasingExternalWaveGraphics[i];
-            int amp = getNumLasingPhotons() > LaserConfig.LASING_THRESHOLD ? 0 : ( getNumLasingPhotons() / 6 );
+            int amp = getNumLasingPhotons() > LasersConfig.LASING_THRESHOLD ? 0 : ( getNumLasingPhotons() / 6 );
             waveGraphic.setAmplitude( amp );
         }
     }

@@ -13,7 +13,7 @@ import java.awt.geom.Line2D;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.quantum.model.Tube;
-import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.controller.LasersConfig;
 
 public class TubeGraphic extends CompositePhetGraphic implements Tube.ChangeListener {
 
@@ -44,7 +44,7 @@ public class TubeGraphic extends CompositePhetGraphic implements Tube.ChangeList
     }
 
     public void update() {
-        double mirrorPerspecitveWidth = LaserConfig.MIRROR_THICKNESS;
+        double mirrorPerspecitveWidth = LasersConfig.MIRROR_THICKNESS;
         top.setLine( cavity.getMinX(), cavity.getMinY(), cavity.getMinX() + cavity.getWidth(), cavity.getMinY() );
         bottom.setLine( cavity.getMinX(), cavity.getMaxY(), cavity.getMinX() + cavity.getWidth(), cavity.getMaxY() );
         end1.setFrame( cavity.getMinX() - mirrorPerspecitveWidth / 2, cavity.getMinY(),

@@ -18,7 +18,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.quantum.model.AtomicState;
-import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.controller.LasersConfig;
 import edu.colorado.phet.lasers.view.util.DefaultGridBagConstraints;
 
 /**
@@ -47,7 +47,7 @@ public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listene
         setMinimum( minLifetime );
         setMaximum( maxLifetime );
         int sliderWidthPadding = 20;
-        sliderWidth = (int) ( (double) ( maxSliderWidth - sliderWidthPadding ) * ( (double) getMaximum() / LaserConfig.MAXIMUM_STATE_LIFETIME ) ) + sliderWidthPadding;
+        sliderWidth = (int) ( (double) ( maxSliderWidth - sliderWidthPadding ) * ( (double) getMaximum() / LasersConfig.MAXIMUM_STATE_LIFETIME ) ) + sliderWidthPadding;
         sliderWidth = Math.min( sliderWidth, maxSliderWidth );
         setValue( maxLifetime / 2 );
         setMajorTickSpacing( maxLifetime );

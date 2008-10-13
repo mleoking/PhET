@@ -32,7 +32,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.quantum.model.AtomicState;
-import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.controller.LasersConfig;
 import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
 import edu.colorado.phet.lasers.controller.module.SingleAtomModule;
 import edu.colorado.phet.lasers.view.AtomGraphic;
@@ -64,8 +64,8 @@ public class LasersApplication extends PiccoloPhetApplication {
         // Set the default representation strategy for energy levels
         AtomGraphic.setEnergyRepColorStrategy( new AtomGraphic.VisibleColorStrategy() );
 
-        singleAtomModule = new SingleAtomModule( getPhetFrame(), new ConstantDtClock( 1000 / LaserConfig.FPS, LaserConfig.DT ) );
-        multipleAtomModule = new MultipleAtomModule( getPhetFrame(), new ConstantDtClock( 1000 / LaserConfig.FPS, LaserConfig.DT ) );
+        singleAtomModule = new SingleAtomModule( getPhetFrame(), new ConstantDtClock( 1000 / LasersConfig.FPS, LasersConfig.DT ) );
+        multipleAtomModule = new MultipleAtomModule( getPhetFrame(), new ConstantDtClock( 1000 / LasersConfig.FPS, LasersConfig.DT ) );
         Module[] modules = new Module[]{
                 singleAtomModule,
                 multipleAtomModule
@@ -111,7 +111,7 @@ public class LasersApplication extends PiccoloPhetApplication {
         final JCheckBoxMenuItem cbMI = new JCheckBoxMenuItem( LasersResources.getString( "options.show-emissions" ));
         cbMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                LaserConfig.ENABLE_ALL_STIMULATED_EMISSIONS = cbMI.isSelected();
+                LasersConfig.ENABLE_ALL_STIMULATED_EMISSIONS = cbMI.isSelected();
             }
         } );
         cbMI.setSelected( true );
@@ -217,9 +217,9 @@ public class LasersApplication extends PiccoloPhetApplication {
             }
         };
         
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, LaserConfig.PROJECT_NAME );
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, LasersConfig.PROJECT_NAME );
         appConfig.setLookAndFeel( new LasersLookAndFeel() );     
-        appConfig.setFrameSetup( LaserConfig.FRAME_SETUP );
+        appConfig.setFrameSetup( LasersConfig.FRAME_SETUP );
         appConfig.launchSim();
     }
 

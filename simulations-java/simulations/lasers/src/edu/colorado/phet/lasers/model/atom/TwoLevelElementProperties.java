@@ -15,7 +15,7 @@ import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.quantum.model.EnergyEmissionStrategy;
 import edu.colorado.phet.common.quantum.model.Photon;
-import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.controller.LasersConfig;
 
 /**
  * TwoLevelElementProperties
@@ -29,7 +29,7 @@ public class TwoLevelElementProperties extends LaserElementProperties {
 
     // The time that an atom spends in any one state before dropping to a lower one (except for
     // the ground state)
-    public static final double DEFAULT_STATE_LIFETIME = ( LaserConfig.DT / LaserConfig.FPS ) * 100;
+    public static final double DEFAULT_STATE_LIFETIME = ( LasersConfig.DT / LasersConfig.FPS ) * 100;
 
     private static double groundStateEnergy = -13.6;
     private static double[] energyLevels = {
