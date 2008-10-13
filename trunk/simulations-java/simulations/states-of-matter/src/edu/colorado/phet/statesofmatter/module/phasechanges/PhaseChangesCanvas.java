@@ -179,7 +179,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         }
         
         m_thermometerNode.setOffset( 
-                containerRect.getX() + containerRect.getWidth() * 0.31, 
+                containerRect.getX() + containerRect.getWidth() * 0.32, 
                 containerRect.getY() - containerRect.getHeight() - 
                 (m_thermometerNode.getFullBoundsReference().height * 0.5) );
     }
