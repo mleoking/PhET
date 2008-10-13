@@ -12,16 +12,15 @@ package edu.colorado.phet.photoelectric;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Locale;
 
-import javax.swing.*;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JMenu;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
-import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.photoelectric.controller.BeamControl;
 import edu.colorado.phet.photoelectric.module.PhotoelectricModule;
 
@@ -49,24 +48,20 @@ public class PhotoelectricApplication extends PhetApplication {
     //----------------------------------------------------------------
 
 
-    public PhotoelectricApplication( String[] args ) {
-        super( args,
-               SimStrings.getInstance().getString( "photoelectric.name" ),
-               SimStrings.getInstance().getString( "photoelectric.description" ),
-               PhotoelectricConfig.VERSION,
-               FRAME_SETUP );
+    public PhotoelectricApplication( PhetApplicationConfig config ) {
+        super( config );
 
         // Make the frame non-resizable until we make the intensity slider a graphic
         getPhetFrame().setResizable( false );
 
         // Get a reference to the Options menu. The module will need it
-        optionsMenu = new JMenu( SimStrings.getInstance().getString( "Menu.Options" ) );
+        optionsMenu = new JMenu( PhotoelectricResources.getString( "Menu.Options" ) );
 
         final PhotoelectricModule photoelectricModule = new PhotoelectricModule( getPhetFrame(), this );
         setModules( new Module[]{photoelectricModule} );
 
         // Add an option to show photons
-        final JCheckBoxMenuItem photonMI = new JCheckBoxMenuItem( SimStrings.getInstance().getString( "Menu.PhotonView" ) );
+        final JCheckBoxMenuItem photonMI = new JCheckBoxMenuItem( PhotoelectricResources.getString( "Menu.PhotonView" ) );
         photonMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 photoelectricModule.setPhotonViewEnabled( photonMI.isSelected() );
@@ -74,7 +69,7 @@ public class PhotoelectricApplication extends PhetApplication {
         } );
         optionsMenu.add( photonMI );
 
-        final JCheckBoxMenuItem beamRateMI = new JCheckBoxMenuItem( SimStrings.getInstance().getString( "Options.photonsPerSecond" ) );
+        final JCheckBoxMenuItem beamRateMI = new JCheckBoxMenuItem( PhotoelectricResources.getString( "Options.photonsPerSecond" ) );
         beamRateMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( beamRateMI.isSelected() ) {
@@ -94,14 +89,16 @@ public class PhotoelectricApplication extends PhetApplication {
         return optionsMenu;
     }
 
-
     public static void main( final String[] args ) {
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                new PhetLookAndFeel().initLookAndFeel();
-                SimStrings.getInstance().init( args, PhotoelectricConfig.LOCALIZATION_RESOURCE_NAME );
-                new PhotoelectricApplication( args ).startApplication();
+        
+        ApplicationConstructor appConstructor = new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new PhotoelectricApplication( config );
             }
-        } );
+        };
+        
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, PhotoelectricConfig.PROJECT_NAME );
+        appConfig.setFrameSetup( FRAME_SETUP );
+        appConfig.launchSim();
     }
 }

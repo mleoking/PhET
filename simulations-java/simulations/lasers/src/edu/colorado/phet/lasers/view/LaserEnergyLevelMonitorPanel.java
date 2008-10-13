@@ -24,7 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import javax.swing.*;
+import javax.swing.JLabel;
 
 import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -35,7 +35,6 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.MakeDuotoneImageOp;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
@@ -43,6 +42,7 @@ import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
 import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.quantum.model.Beam;
+import edu.colorado.phet.lasers.LasersResources;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
@@ -129,10 +129,10 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         Font font = dummyLabel.getFont();
         String header = null;
         if ( module instanceof MultipleAtomModule ) {
-            header = SimStrings.getInstance().getString( "EnergyMonitorPanel.header.plural" );
+            header = LasersResources.getString( "EnergyMonitorPanel.header.plural" );
         }
         else {
-            header = SimStrings.getInstance().getString( "EnergyMonitorPanel.header.singular" );
+            header = LasersResources.getString( "EnergyMonitorPanel.header.singular" );
         }
         PhetTextGraphic headingText = new PhetTextGraphic( this, font,
                                                            header,

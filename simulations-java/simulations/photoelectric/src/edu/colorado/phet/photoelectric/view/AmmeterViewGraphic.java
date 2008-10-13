@@ -10,16 +10,16 @@
  */
 package edu.colorado.phet.photoelectric.view;
 
+import java.awt.*;
+import java.text.DecimalFormat;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.photoelectric.PhotoelectricResources;
 import edu.colorado.phet.photoelectric.model.Ammeter;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
-
-import java.awt.*;
-import java.text.DecimalFormat;
 
 /**
  * AmmeterView
@@ -48,7 +48,7 @@ public class AmmeterViewGraphic extends CompositePhetGraphic {
                                             new BasicStroke( 1f ),
                                             Color.black );
         background2.setRegistrationPoint( 5, 5 );
-        currentLabel = new PhetTextGraphic( component, font, SimStrings.getInstance().getString( "GraphLabel.Current" )+": ", Color.black );
+        currentLabel = new PhetTextGraphic( component, font, PhotoelectricResources.getString( "GraphLabel.Current" )+": ", Color.black );
         currentLabel.setLocation( 5, 5 );
         currentTF = new PhetTextGraphic( component, font, "0.000", Color.black );
         currentTF.setLocation( 75, 5 );

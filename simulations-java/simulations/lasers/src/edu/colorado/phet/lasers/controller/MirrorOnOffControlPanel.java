@@ -10,13 +10,16 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import java.awt.*;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.JCheckBox;
+import javax.swing.JPanel;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.lasers.LasersResources;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 
 /**
@@ -31,7 +34,7 @@ public class MirrorOnOffControlPanel extends JPanel {
 
     public MirrorOnOffControlPanel( final BaseLaserModule module ) {
 
-        final String addMirrorsStr = SimStrings.getInstance().getString( "LaserControlPanel.AddMirrorsCheckBox" );
+        final String addMirrorsStr = LasersResources.getString( "LaserControlPanel.AddMirrorsCheckBox" );
         final JCheckBox mirrorCB = new JCheckBox( addMirrorsStr );
         mirrorCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

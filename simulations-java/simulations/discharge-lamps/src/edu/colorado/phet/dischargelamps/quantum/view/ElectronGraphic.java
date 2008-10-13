@@ -10,14 +10,13 @@
  */
 package edu.colorado.phet.dischargelamps.quantum.view;
 
-import java.awt.*;
+import java.awt.Component;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
+import edu.colorado.phet.dischargelamps.DischargeLampsResources;
 import edu.colorado.phet.dischargelamps.quantum.model.Electron;
 
 /**
@@ -31,17 +30,8 @@ public class ElectronGraphic extends PhetImageGraphic implements SimpleObserver 
     //----------------------------------------------------------------
     // Class attributes and methods
     //----------------------------------------------------------------
-    private static BufferedImage IMAGE;
+    private static final BufferedImage IMAGE = DischargeLampsResources.getImage( DischargeLampsConfig.ELECTRON_IMAGE_FILE_NAME );
     private Electron electron;
-
-    static {
-        try {
-            IMAGE = ImageLoader.loadBufferedImage( DischargeLampsConfig.ELECTRON_IMAGE_FILE_NAME );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * @param component

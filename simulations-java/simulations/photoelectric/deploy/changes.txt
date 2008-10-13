@@ -1,0 +1,4 @@
+10-13-2008: fix all string files to use photoelectric.name and photoelectric.description
+10-13-2008: replace SimStrings and ImageLoader with PhetResources
+10-13-2008: switch to PhetApplication and launchSim
+10-13-08: created change log file

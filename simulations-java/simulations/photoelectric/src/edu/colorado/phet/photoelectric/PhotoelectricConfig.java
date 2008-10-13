@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.photoelectric;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
-
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Point;
 import java.text.DecimalFormat;
+
+import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 
 /**
  * PhotoelectricConfig
@@ -26,21 +26,14 @@ public class PhotoelectricConfig {
 
     public static final String PROJECT_NAME = "photoelectric";
 
-    // Version
-    //    public static final String VERSION = "1.05.00, 15065";
-    public static final String VERSION = PhetApplicationConfig.getVersion( "photoelectric" ).formatForTitleBar();
-
-    public static final String LOCALIZATION_RESOURCE_NAME = PROJECT_NAME + "/localization/" + PROJECT_NAME + "-strings";
-
     // Images
-    public static final String IMAGE_DIRECTORY = PROJECT_NAME + "/images/";
-    public static final String LAMP_IMAGE_FILE = "lasers/images/flashlight.png";
-    public static final String BEAM_CONTROL_PANEL_IMAGE = IMAGE_DIRECTORY + "photoelectric-beam-control.png";
-    public static final String SNAPSHOT_BUTTON_IMAGE = IMAGE_DIRECTORY + "camera.png";
-    public static final String ZOOM_IN_BUTTON_IMAGE = IMAGE_DIRECTORY + "zoomIn.gif";
-    public static final String ZOOM_OUT_BUTTON_IMAGE = IMAGE_DIRECTORY + "zoomOut.gif";
-    public static final String CIRCUIT_A_IMAGE = IMAGE_DIRECTORY + "circuit-A.png";
-    public static final String CIRCUIT_B_IMAGE = IMAGE_DIRECTORY + "circuit-B.png";
+    public static final String LAMP_IMAGE_FILE = "flashlight.png";
+    public static final String BEAM_CONTROL_PANEL_IMAGE = "photoelectric-beam-control.png";
+    public static final String SNAPSHOT_BUTTON_IMAGE = "camera.png";
+    public static final String ZOOM_IN_BUTTON_IMAGE = "zoomIn.gif";
+    public static final String ZOOM_OUT_BUTTON_IMAGE = "zoomOut.gif";
+    public static final String CIRCUIT_A_IMAGE = "circuit-A.png";
+    public static final String CIRCUIT_B_IMAGE = "circuit-B.png";
 
     // View parameters
     public static final int GRAPH_DOT_RADIUS = 5;

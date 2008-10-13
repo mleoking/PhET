@@ -1,3 +1,6 @@
+10-13-2008: fix all string files to use lasers.name and lasers.description
+10-13-2008: replace SimStrings and ImageLoader with PhetResources
+10-13-2008: switch to PhetApplicationConfig
 9-12-2007: Simulation model is paused when laser blows up, model restarts when the user changes the intensity of a beam or resets the entire simulation
 9-12-2007: Fixed: "Laser blew up" message erroneously stays in front.  Simulation is reset when the user changes a beam rate.
 8-24-2007: Centered transition on middle of energy level graphic, not bottom.

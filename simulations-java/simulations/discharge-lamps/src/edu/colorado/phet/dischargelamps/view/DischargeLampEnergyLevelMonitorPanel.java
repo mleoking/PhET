@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -46,6 +46,7 @@ import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.quantum.model.GroundState;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
+import edu.colorado.phet.dischargelamps.DischargeLampsResources;
 import edu.colorado.phet.dischargelamps.model.ConfigurableElementProperties;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.dischargelamps.model.HydrogenProperties;
@@ -361,7 +362,7 @@ levelLineOriginX + levelLineLength + 20, false );
         energyYTx = new ModelViewTransform1D( maxEnergy, groundStateEnergy,
                                               (int) bounds.getBounds().getMinY() + headingOffsetY,
                                               (int) bounds.getBounds().getMaxY() - footerOffsetY );
-        System.out.println( "energyYTx = " + energyYTx );
+//        System.out.println( "energyYTx = " + energyYTx );
         for ( int i = 0; levelGraphics != null && i < levelGraphics.length; i++ ) {
             levelGraphics[i].setTransform( energyYTx );
             if ( i == 0 && groundStateTextGraphic != null ) {
@@ -567,7 +568,7 @@ levelLineOriginX + levelLineLength + 20, false );
 
         public ElectronGraphicManager( Electron electron ) {
             electronGraphic = new PhetImageGraphic( DischargeLampEnergyLevelMonitorPanel.this,
-                                                    DischargeLampsConfig.ELECTRON_IMAGE_FILE_NAME );
+                    DischargeLampsResources.getImage( DischargeLampsConfig.ELECTRON_IMAGE_FILE_NAME ) );
             // The -10 is a hack to get the electron to be even with everything else on the panel. I can't figure
             // out why I need it
             int yLoc = (int) energyYTx.modelToView( electron.getEnergy() + groundStateEnergy );

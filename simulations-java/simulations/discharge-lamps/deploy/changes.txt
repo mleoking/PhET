@@ -1,2 +1,5 @@
+10-13-2008: fix all string files to use discharge-lamps.name and discharge-lamps.description
+10-13-2008: replace ImageLoader with PhetResources
+10-13-2008: switch to PhetApplication constructor that takes a PhetApplicationConfig
 10-9-2008: convert to use PhetApplicationConfig.launchSim
 10-9-2008: create change log file

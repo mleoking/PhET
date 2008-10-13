@@ -10,25 +10,30 @@
  */
 package edu.colorado.phet.photoelectric.controller;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
+
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.model.DischargeLampElementProperties;
 import edu.colorado.phet.dischargelamps.model.EnergyAbsorptionStrategy;
+import edu.colorado.phet.photoelectric.PhotoelectricResources;
 import edu.colorado.phet.photoelectric.model.MetalEnergyAbsorptionStrategy;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 import edu.colorado.phet.photoelectric.model.PhotoelectricTarget;
 import edu.colorado.phet.photoelectric.model.SimpleEnergyAbsorptionStrategy;
 import edu.colorado.phet.photoelectric.module.PhotoelectricModule;
 import edu.colorado.phet.photoelectric.view.CompositeGraphPanel;
-
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 
 /**
  * PhotoelectricControlPanel
@@ -52,7 +57,7 @@ public class PhotoelectricControlPanel {
         //----------------------------------------------------------------
         {
             JPanel targetControlPnl = new JPanel( new GridBagLayout() );
-            targetControlPnl.setBorder( new TitledBorder( SimStrings.getInstance().getString( "Target" ) ) );
+            targetControlPnl.setBorder( new TitledBorder( PhotoelectricResources.getString( "Target" ) ) );
             controlPanel.addFullWidth( targetControlPnl );
 
             // Put the targetMaterials in the desired order. Sodium should be at the top, and the "mystery material",
@@ -93,7 +98,7 @@ public class PhotoelectricControlPanel {
                                                              GridBagConstraints.NONE,
                                                              new Insets( 0, 0, 0, 0 ), 0, 0 );
 
-            final JCheckBox electronModelCB = new JCheckBox( SimStrings.getInstance().getString( "ControlPanel.SimpleMode" ) );
+            final JCheckBox electronModelCB = new JCheckBox( PhotoelectricResources.getString( "ControlPanel.SimpleMode" ) );
             electronModelCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if( electronModelCB.isSelected() ) {

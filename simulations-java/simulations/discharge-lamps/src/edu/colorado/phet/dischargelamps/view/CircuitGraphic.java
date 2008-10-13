@@ -18,6 +18,7 @@ import java.io.IOException;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
+import edu.colorado.phet.dischargelamps.DischargeLampsResources;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 
 /**
@@ -33,13 +34,8 @@ public class CircuitGraphic extends PhetImageGraphic implements DischargeLampMod
 
     public CircuitGraphic( Component component, AffineTransformOp scalingOp ) {
         super( component );
-        try {
-            positiveVoltageImage = ImageLoader.loadBufferedImage( DischargeLampsConfig.POSITIVE_CIRCUIT_IMAGE_FILE_NAME );
-            negativeVoltageImage = ImageLoader.loadBufferedImage( DischargeLampsConfig.NEGATIVE_CIRCUIT_IMAGE_FILE_NAME );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        positiveVoltageImage = DischargeLampsResources.getImage( DischargeLampsConfig.POSITIVE_CIRCUIT_IMAGE_FILE_NAME );
+        negativeVoltageImage = DischargeLampsResources.getImage( DischargeLampsConfig.NEGATIVE_CIRCUIT_IMAGE_FILE_NAME );
         positiveVoltageImage = scalingOp.filter( positiveVoltageImage, null );
         negativeVoltageImage = scalingOp.filter( negativeVoltageImage, null );
 

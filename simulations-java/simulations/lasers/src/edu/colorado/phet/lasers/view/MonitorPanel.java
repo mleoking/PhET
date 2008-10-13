@@ -11,10 +11,10 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
+import edu.colorado.phet.lasers.LasersResources;
 
 public class MonitorPanel extends ApparatusPanel {
 
@@ -32,7 +32,7 @@ public class MonitorPanel extends ApparatusPanel {
     protected int numGroundLevel;
     protected int numMiddleLevel;
     protected int numHighLevel;
-    private String yAxisLabel = SimStrings.getInstance().getString( "MonitorPanel.YAxislabel" );
+    private String yAxisLabel = LasersResources.getString( "MonitorPanel.YAxislabel" );
 
 
     protected MonitorPanel() {

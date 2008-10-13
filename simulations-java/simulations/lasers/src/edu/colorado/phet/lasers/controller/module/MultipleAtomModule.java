@@ -10,24 +10,22 @@
  */
 package edu.colorado.phet.lasers.controller.module;
 
-import java.awt.*;
+import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.quantum.QuantumConfig;
 import edu.colorado.phet.common.quantum.model.*;
 import edu.colorado.phet.lasers.LasersApplication;
+import edu.colorado.phet.lasers.LasersResources;
 import edu.colorado.phet.lasers.controller.BeamControl;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.UniversalLaserControlPanel;
@@ -51,7 +49,7 @@ public class MultipleAtomModule extends BaseLaserModule {
     private static final boolean SHOW_LEGEND = false;
 
     public MultipleAtomModule( PhetFrame frame, IClock clock ) {
-        super( frame, SimStrings.getInstance().getString( "ModuleTitle.MultipleAtomModule" ), clock, Photon.DEFAULT_SPEED * LasersApplication.MULTI_ATOM_MODULE_SPEED );
+        super( frame, LasersResources.getString( "ModuleTitle.MultipleAtomModule" ), clock, Photon.DEFAULT_SPEED * LasersApplication.MULTI_ATOM_MODULE_SPEED );
 
         // Set the size of the cavity
         Tube cavity = getCavity();
@@ -84,13 +82,7 @@ public class MultipleAtomModule extends BaseLaserModule {
         pumpingBeam.setEnabled( true );
 
         // Set up the graphics
-        BufferedImage gunBI = null;
-        try {
-            gunBI = ImageLoader.loadBufferedImage( LaserConfig.RAY_GUN_IMAGE_FILE );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        BufferedImage gunBI = LasersResources.getImage( LaserConfig.RAY_GUN_IMAGE_FILE );
 
         // Pumping beam lamps. Note that the images start out horizontal, and then are rotated. This accounts for
         // some funny looking code
@@ -112,7 +104,7 @@ public class MultipleAtomModule extends BaseLaserModule {
         }
 
         // Add the beam control
-        PhetImageGraphic wireGraphic = new PhetImageGraphic( getApparatusPanel(), LaserConfig.WIRE_IMAGE );
+        PhetImageGraphic wireGraphic = new PhetImageGraphic( getApparatusPanel(), LasersResources.getImage( LaserConfig.WIRE_IMAGE ) );
         AffineTransform atx = AffineTransform.getScaleInstance( 4, 1 );
         AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
         wireGraphic.setImage( atxOp.filter( wireGraphic.getImage(), null ) );
@@ -125,7 +117,7 @@ public class MultipleAtomModule extends BaseLaserModule {
                                            pumpingBeam,
                                            QuantumConfig.MIN_WAVELENGTH,
                                            QuantumConfig.MAX_WAVELENGTH,
-                                           LaserConfig.BEAM_CONTROL_IMAGE );
+                                           LasersResources.getImage( LaserConfig.BEAM_CONTROL_IMAGE ) );
         getApparatusPanel().addGraphic( pumpBeamControl );
 
         // Add some atoms

@@ -22,7 +22,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.view.AtomGraphic;
 
 /**
@@ -42,14 +41,14 @@ public class DischargeLampsApplication extends PiccoloPhetApplication {
         getPhetFrame().setResizable( false );
 
         // Determine the resolution of the screen
-        DischargeLampModule singleAtomModule = new SingleAtomModule( SimStrings.getInstance().getString( "ModuleTitle.SingleAtomModule" ),
+        DischargeLampModule singleAtomModule = new SingleAtomModule( DischargeLampsResources.getString( "ModuleTitle.SingleAtomModule" ),
                                                                      new SwingClock( 1000 / DischargeLampsConfig.FPS, DischargeLampsConfig.DT ) );
 
         // Set the energy rep strategy for the AtomGraphics
         AtomGraphic.setEnergyRepColorStrategy( new AtomGraphic.GrayScaleStrategy() );
 
         double maxSpeed = 0.1;
-        DischargeLampModule multipleAtomModule = new MultipleAtomModule( SimStrings.getInstance().getString( "ModuleTitle.MultipleAtomModule" ),
+        DischargeLampModule multipleAtomModule = new MultipleAtomModule( DischargeLampsResources.getString( "ModuleTitle.MultipleAtomModule" ),
                                                                          new SwingClock( 1000 / DischargeLampsConfig.FPS, DischargeLampsConfig.DT ),
                                                                          30,
                                                                          maxSpeed );
@@ -90,9 +89,9 @@ public class DischargeLampsApplication extends PiccoloPhetApplication {
 
     public static void main( final String[] args ) {
         
-        // Tell SimStrings where the simulations-specific strings are
-        SimStrings.getInstance().init( args, DischargeLampsConfig.localizedStringsPath );
-        SimStrings.getInstance().addStrings( LaserConfig.localizedStringsPath );
+        //TODO get rid of SimStrings in this sim
+        SimStrings.getInstance().init( args, "discharge-lamps/localization/discharge-lamps-strings" );
+        SimStrings.getInstance().addStrings( "lasers/localization/lasers-strings" );
         
         ApplicationConstructor appConstructor = new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
@@ -100,7 +99,7 @@ public class DischargeLampsApplication extends PiccoloPhetApplication {
             }
         };
         
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, "discharge-lamps" );
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, DischargeLampsConfig.PROJECT_NAME );
         appConfig.launchSim();
     }
 

@@ -6,20 +6,21 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
@@ -29,6 +30,7 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
 import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.common.quantum.model.AtomicState;
+import edu.colorado.phet.lasers.LasersResources;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 
 /**
@@ -43,7 +45,6 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
     //----------------------------------------------------------------
 
     private static final boolean DEBUG = false;
-    private static String s_imageName = LaserConfig.ATOM_IMAGE_FILE;
     private static EnergyRepColorStrategy energyRepColorStrategy = new GrayScaleStrategy();
     //    private static EnergyRepColorStrategy energyRepColorStrategy = new VisibleColorStrategy();
     private static ArrayList changeListenerList = new ArrayList();
@@ -93,13 +94,7 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
         this.setIgnoreMouse( true );
         atom.addChangeListener( this );
 
-        BufferedImage image = null;
-        try {
-            image = ImageLoader.loadBufferedImage( s_imageName );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        BufferedImage image = LasersResources.getImage( LaserConfig.ATOM_IMAGE_FILE );
         double scale = ( 2 * atom.getRadius() ) / image.getHeight();
         AffineTransform atx = AffineTransform.getScaleInstance( scale, scale );
         AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );

@@ -15,8 +15,8 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
+import edu.colorado.phet.lasers.LasersResources;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
@@ -32,7 +32,7 @@ public class PowerMeterGraphic extends GraphicLayerSet {
     public PowerMeterGraphic( Component component, LaserModel model, final PartialMirror rightMirror ) throws HeadlessException {
         super( component );
 
-        PhetImageGraphic bezelImageGraphic = new PhetImageGraphic( component, LaserConfig.POWER_METER_IMAGE );
+        PhetImageGraphic bezelImageGraphic = new PhetImageGraphic( component, LasersResources.getImage( LaserConfig.POWER_METER_IMAGE ) );
         addGraphic( bezelImageGraphic );
 
         int leftInset = 70;
@@ -197,7 +197,7 @@ public class PowerMeterGraphic extends GraphicLayerSet {
             addGraphic( dangerThresholdIndicator );
 
             // Text annotations
-            String lasingStr = SimStrings.getInstance().getString( "PowerMeter.Lasing" );
+            String lasingStr = LasersResources.getString( "PowerMeter.Lasing" );
             Font font = new PhetFont( Font.BOLD, 12 );
             PhetTextGraphic lasingAnnotation = new PhetTextGraphic();
             lasingAnnotation.setComponent( component );
@@ -209,7 +209,7 @@ public class PowerMeterGraphic extends GraphicLayerSet {
                                           (int) background.getHeight() + 15 );
             addGraphic( lasingAnnotation );
 
-            String dangerStr = SimStrings.getInstance().getString( "PowerMeter.Danger" );
+            String dangerStr = LasersResources.getString( "PowerMeter.Danger" );
             PhetTextGraphic dangerAnnotation = new PhetTextGraphic();
             dangerAnnotation.setComponent( component );
             dangerAnnotation.setFont( font );

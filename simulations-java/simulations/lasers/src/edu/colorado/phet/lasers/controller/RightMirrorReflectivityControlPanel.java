@@ -12,12 +12,15 @@ package edu.colorado.phet.lasers.controller;
 
 import java.awt.*;
 
-import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.lasers.LasersResources;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
 
 /**
@@ -63,7 +66,7 @@ public class RightMirrorReflectivityControlPanel extends JPanel implements Simpl
                                                          GridBagConstraints.NONE,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
         this.setLayout( new GridBagLayout() );
-        JLabel title = new JLabel( SimStrings.getInstance().getString( "RightMirrorReflectivityControlPanel.BorderTitle" ) );
+        JLabel title = new JLabel( LasersResources.getString( "RightMirrorReflectivityControlPanel.BorderTitle" ) );
         gbc.gridwidth = 2;
         this.add( title, gbc );
         gbc.gridwidth = 1;

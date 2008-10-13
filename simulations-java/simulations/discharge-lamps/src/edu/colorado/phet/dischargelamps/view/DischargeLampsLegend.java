@@ -1,10 +1,9 @@
 package edu.colorado.phet.dischargelamps.view;
 
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
+import edu.colorado.phet.dischargelamps.DischargeLampsResources;
 import edu.colorado.phet.lasers.view.AbstractLegend;
 
 /**
@@ -19,13 +18,6 @@ public class DischargeLampsLegend extends AbstractLegend {
     }
 
     protected BufferedImage getElectronImage() {
-        BufferedImage electronImage = null;
-        try {
-            electronImage = ImageLoader.loadBufferedImage( DischargeLampsConfig.ELECTRON_IMAGE_FILE_NAME );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-        return electronImage;
+        return DischargeLampsResources.getImage( DischargeLampsConfig.ELECTRON_IMAGE_FILE_NAME );
     }
 }
