@@ -10,22 +10,10 @@
  */
 package edu.colorado.phet.mri.view;
 
-import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.quantum.QuantumConfig;
-import edu.colorado.phet.common.quantum.model.PhotonSource;
-import edu.colorado.phet.mri.MriConfig;
-import edu.colorado.phet.mri.model.*;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Paint;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -38,6 +26,22 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.swing.Timer;
+
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.quantum.QuantumConfig;
+import edu.colorado.phet.common.quantum.model.PhotonSource;
+import edu.colorado.phet.mri.MriConfig;
+import edu.colorado.phet.mri.MriResources;
+import edu.colorado.phet.mri.model.*;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * MonitorPanel
@@ -177,7 +181,7 @@ public class MonitorPanel extends PhetPCanvas {
 
     private class EnergyAxis extends PNode {
         public EnergyAxis() {
-            PText axisLabel = new PText( SimStrings.getInstance().getString( "Misc.Energy" ) );
+            PText axisLabel = new PText( MriResources.getString( "Misc.Energy" ) );
             axisLabel.rotate( -Math.PI / 2 );
             addChild( axisLabel );
             Arrow arrow = new Arrow( new Point2D.Double( 10, 40 ),

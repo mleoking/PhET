@@ -10,16 +10,14 @@
  */
 package edu.colorado.phet.mri;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.mri.model.DipoleOrientationAgent;
 import edu.colorado.phet.mri.model.SampleMaterial;
 import edu.colorado.phet.mri.view.MonitorPanel;
-
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 /**
  * Calibration
@@ -29,13 +27,7 @@ import java.awt.geom.Rectangle2D;
  */
 public class MriConfig {
 
-    // Location of strings
-    public static final String STRINGS_BUNDLE_NAME = "mri/localization/mri-strings";
-
-    // Descriptive information
-    public static final String TITLE = SimStrings.getInstance().getString( "mri.name" );
-    public static final String DESCRIPTION = SimStrings.getInstance().getString( "mri.description" );
-    public static final String VERSION = PhetApplicationConfig.getVersion( "mri" ).formatForTitleBar();
+    public static final String PROJECT_NAME = "mri";
 
     public final static double scale = 1;
 
@@ -44,13 +36,11 @@ public class MriConfig {
     public static int FPS = 25;
 
     // Images
-    public static final String IMAGE_PATH = "mri/images/";
-    public static final String DIPOLE_IMAGE = IMAGE_PATH + "dipole-4.gif";
-    public static final String DIPOLE_ARROW_IMAGE = IMAGE_PATH + "dipole-5-arrow.gif";
-    public static final String DIPOLE_DONUT_IMAGE = IMAGE_PATH + "dipole-5-donut.gif";
-    //    public static final String DIPOLE_IMAGE = IMAGE_PATH + "dipole.gif";
-    public static final String HEAD_IMAGE = IMAGE_PATH + "head-1A.png";
-    public static final String COIL_IMAGE = IMAGE_PATH + "coil-1.png";
+    public static final String DIPOLE_IMAGE = "dipole-4.gif";
+//    public static final String DIPOLE_ARROW_IMAGE = "dipole-5-arrow.gif";
+//    public static final String DIPOLE_DONUT_IMAGE = "dipole-5-donut.gif";
+    public static final String HEAD_IMAGE = "head-1A.png";
+    public static final String COIL_IMAGE = "coil-1.png";
 
     // Physical parameters
     public static final double MIN_FEQUENCY = 10;

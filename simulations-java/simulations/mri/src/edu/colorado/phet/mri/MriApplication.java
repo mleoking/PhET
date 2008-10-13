@@ -12,17 +12,15 @@ package edu.colorado.phet.mri;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.mri.controller.HeadModule;
 import edu.colorado.phet.mri.controller.NmrModule;
 import edu.colorado.phet.mri.controller.OptionMenu;
-
-import javax.swing.*;
 
 /**
  * MriApplication
@@ -31,11 +29,6 @@ import javax.swing.*;
  * @version $Revision$
  */
 public class MriApplication extends PiccoloPhetApplication {
-
-    //--------------------------------------------------------------------------------------------------
-    // Class fields and methods
-    //--------------------------------------------------------------------------------------------------
-    private static FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 768 );
 
     //--------------------------------------------------------------------------------------------------
     // Instance fields and methods
@@ -54,11 +47,8 @@ public class MriApplication extends PiccoloPhetApplication {
 
     private Module[] modules = fullAppModules;
 
-    public MriApplication( String[] args ) {
-        super( args, SimStrings.getInstance().getString( "mri.name" ),
-               SimStrings.getInstance().getString( "mri.description" ),
-               MriConfig.VERSION,
-               frameSetup );
+    public MriApplication( PhetApplicationConfig config ) {
+        super( config );
 //        PhetTabbedPane.setLogoVisible( false );
         setModules( modules );
     }
@@ -77,20 +67,23 @@ public class MriApplication extends PiccoloPhetApplication {
         }
     }
 
-
+    private static class MriLookAndFeel extends PhetLookAndFeel {
+        public MriLookAndFeel() {
+            setFont( new PhetFont( new PhetFont( ).getSize(),true) );
+            setTitledBorderFont( new PhetFont( new PhetFont( ).getSize(),true) );
+            initLookAndFeel();
+        }
+    }
     public static void main( final String[] args ) {
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                SimStrings.getInstance().init( args, MriConfig.STRINGS_BUNDLE_NAME );
-
-                PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
-                phetLookAndFeel.setFont( new PhetFont( new PhetFont( ).getSize(),true) );
-                phetLookAndFeel.setTitledBorderFont( new PhetFont( new PhetFont( ).getSize(),true) );
-                phetLookAndFeel.initLookAndFeel();
-
-                PhetApplication app = new MriApplication( args );
-                app.startApplication();
+        
+        ApplicationConstructor appConstructor = new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new MriApplication( config );
             }
-        } );
+        };
+        
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, MriConfig.PROJECT_NAME );
+        appConfig.setLookAndFeel( new MriLookAndFeel() );
+        appConfig.launchSim();
     }
 }

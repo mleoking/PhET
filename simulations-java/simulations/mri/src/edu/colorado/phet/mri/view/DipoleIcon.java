@@ -10,9 +10,10 @@
  */
 package edu.colorado.phet.mri.view;
 
-import edu.colorado.phet.mri.MriConfig;
+import javax.swing.ImageIcon;
 
-import javax.swing.*;
+import edu.colorado.phet.mri.MriConfig;
+import edu.colorado.phet.mri.MriResources;
 
 /**
  * DipoleIcon
@@ -23,6 +24,6 @@ import javax.swing.*;
 public class DipoleIcon extends ImageIcon {
 
     public DipoleIcon() {
-        super( MriConfig.DIPOLE_IMAGE );
+        super( MriResources.getImage( MriConfig.DIPOLE_IMAGE ) );
     }
 }

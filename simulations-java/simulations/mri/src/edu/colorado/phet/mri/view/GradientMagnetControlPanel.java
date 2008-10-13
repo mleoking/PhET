@@ -10,13 +10,14 @@
  */
 package edu.colorado.phet.mri.view;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import java.awt.GridLayout;
+
+import javax.swing.JPanel;
+
+import edu.colorado.phet.mri.MriResources;
 import edu.colorado.phet.mri.controller.GradientMagnetControl;
 import edu.colorado.phet.mri.model.GradientElectromagnet;
 import edu.colorado.phet.mri.util.ControlBorderFactory;
-
-import javax.swing.*;
-import java.awt.*;
 
 /**
  * GradientMagnetControlPanel
@@ -28,13 +29,13 @@ public class GradientMagnetControlPanel extends JPanel {
 
     public GradientMagnetControlPanel( GradientElectromagnet horizontalMagnet, GradientElectromagnet verticalMagnet ) {
         super( new GridLayout( 2, 1 ) );
-        setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.getInstance().getString( "ControlPanel.GradientMagnets" ) ) );
+        setBorder( ControlBorderFactory.createPrimaryBorder( MriResources.getString( "ControlPanel.GradientMagnets" ) ) );
 //        setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(),
 //                                                     SimStrings.get( "ControlPanel.GradientMagnets" ) ) );
         GradientMagnetControl horizontalControl = new GradientMagnetControl( horizontalMagnet,
-                                                                             SimStrings.getInstance().getString( "ControlPanel.Horizontal" ) );
+                                                                             MriResources.getString( "ControlPanel.Horizontal" ) );
         GradientMagnetControl verticalControl = new GradientMagnetControl( verticalMagnet,
-                                                                           SimStrings.getInstance().getString( "ControlPanel.Vertical" ) );
+                                                                           MriResources.getString( "ControlPanel.Vertical" ) );
         add( horizontalControl );
         add( verticalControl );
     }

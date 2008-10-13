@@ -10,15 +10,16 @@
  */
 package edu.colorado.phet.mri.view;
 
-import edu.colorado.phet.common.phetcommon.model.BaseModel;
-import edu.colorado.phet.common.phetcommon.view.MultiStateButton;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.mri.model.Head;
-import edu.colorado.phet.mri.model.Tumor;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.JPanel;
+
+import edu.colorado.phet.common.phetcommon.model.BaseModel;
+import edu.colorado.phet.common.phetcommon.view.MultiStateButton;
+import edu.colorado.phet.mri.MriResources;
+import edu.colorado.phet.mri.model.Head;
+import edu.colorado.phet.mri.model.Tumor;
 
 /**
  * TumorSelector
@@ -29,8 +30,8 @@ import java.awt.event.ActionListener;
  * @version $Revision$
  */
 public class TumorSelector extends JPanel {
-    private static String unselectedStr = SimStrings.getInstance().getString( "ControlPanel.AddTumor" );
-    private static String selectedStr = SimStrings.getInstance().getString( "ControlPanel.RemoveTumor" );
+    private static String unselectedStr = MriResources.getString( "ControlPanel.AddTumor" );
+    private static String selectedStr = MriResources.getString( "ControlPanel.RemoveTumor" );
 
     private Tumor tumor;
 

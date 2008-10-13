@@ -10,12 +10,18 @@
  */
 package edu.colorado.phet.mri.controller;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+
+import edu.colorado.phet.mri.MriResources;
 
 /**
  * EmRepSelector
@@ -30,14 +36,14 @@ public class EmRepSelector extends JPanel {
         setBorder( BorderFactory.createEtchedBorder() );
 //        setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "EMW Representation" ) );
 
-        JRadioButton photonViewButton = new JRadioButton( SimStrings.getInstance().getString( "ControlPanel.PhotonView" ) );
+        JRadioButton photonViewButton = new JRadioButton( MriResources.getString( "ControlPanel.PhotonView" ) );
         photonViewButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setEmRep( NmrModule.PHOTON_VIEW );
             }
         } );
 
-        JRadioButton waveViewButton = new JRadioButton( SimStrings.getInstance().getString( "ControlPanel.WaveView" ) );
+        JRadioButton waveViewButton = new JRadioButton( MriResources.getString( "ControlPanel.WaveView" ) );
         waveViewButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setEmRep( NmrModule.WAVE_VIEW );

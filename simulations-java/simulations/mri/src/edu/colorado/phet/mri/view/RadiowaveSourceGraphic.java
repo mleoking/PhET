@@ -10,13 +10,26 @@
  */
 package edu.colorado.phet.mri.view;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Insets;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Rectangle2D;
+import java.text.DecimalFormat;
+
+import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.MouseInputAdapter;
+
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.colorado.phet.common.quantum.model.PhotonSource;
 import edu.colorado.phet.mri.MriConfig;
+import edu.colorado.phet.mri.MriResources;
 import edu.colorado.phet.mri.controller.AbstractMriModule;
 import edu.colorado.phet.mri.controller.EmRepSelector;
 import edu.colorado.phet.mri.model.MriModel;
@@ -27,15 +40,6 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.MouseInputAdapter;
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Rectangle2D;
-import java.text.DecimalFormat;
 
 /**
  * RadiowaveSourceGraphic
@@ -85,8 +89,8 @@ public class RadiowaveSourceGraphic extends PNode {
 
         // Frequency control
         Insets controlInsets = new Insets( 5, 5, 5, 5 );
-        frequencySlider = new ModelSlider( SimStrings.getInstance().getString( "Misc.Frequency" ),
-                                           SimStrings.getInstance().getString( "Misc.Frequency.Units" ),
+        frequencySlider = new ModelSlider( MriResources.getString( "Misc.Frequency" ),
+                                           MriResources.getString( "Misc.Frequency.Units" ),
                                            MriConfig.MIN_FEQUENCY,
                                            MriConfig.MAX_FEQUENCY,
                                            MriConfig.MIN_FEQUENCY + ( MriConfig.MAX_FEQUENCY - MriConfig.MIN_FEQUENCY ) / 2,
@@ -132,8 +136,8 @@ public class RadiowaveSourceGraphic extends PNode {
         }
 
         // Power control
-        final ModelSlider powerCtrl = new ModelSlider( SimStrings.getInstance().getString( "Misc.Power" ),
-                                                       SimStrings.getInstance().getString( "percent" ),
+        final ModelSlider powerCtrl = new ModelSlider( MriResources.getString( "Misc.Power" ),
+                                                       MriResources.getString( "percent" ),
                                                        0,
                                                        MriConfig.MAX_POWER,
                                                        0,
@@ -163,7 +167,7 @@ public class RadiowaveSourceGraphic extends PNode {
         addChild( emRepPSwing );
 
         // Label
-        PText title = new PText( SimStrings.getInstance().getString( "Misc.RadiowaveSourceLabel" ) );
+        PText title = new PText( MriResources.getString( "Misc.RadiowaveSourceLabel" ) );
         title.setPaint( new Color( 0, 0, 0, 0 ) );
         title.setTextPaint( Color.white );
         title.setFont( font );

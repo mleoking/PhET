@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.mri.view;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import javax.swing.JPanel;
+
+import edu.colorado.phet.mri.MriResources;
 import edu.colorado.phet.mri.model.MriModel;
 import edu.colorado.phet.mri.util.ControlBorderFactory;
-
-import javax.swing.*;
 
 /**
  * BFieldGraphicPanel
@@ -28,7 +28,7 @@ public class BFieldGraphicPanel extends JPanel {
 
     public BFieldGraphicPanel( MriModel model ) {
         final BFieldArrowGraphic fieldGraphic = new BFieldArrowGraphic( model, 0 );
-        setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.getInstance().getString( "ControlPanel.FieldArrowTitle" ) ) );
+        setBorder( ControlBorderFactory.createPrimaryBorder( MriResources.getString( "ControlPanel.FieldArrowTitle" ) ) );
         add( fieldGraphic );
     }
 }
