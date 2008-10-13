@@ -18,11 +18,9 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
@@ -65,13 +63,7 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
 
         spectrometer.addChangeListener( this );
 
-        BufferedImage spectrometerImage = null;
-        try {
-            spectrometerImage = ImageLoader.loadBufferedImage( DischargeLampsConfig.SPECTROMETER_IMAGE_FILE_NAME );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        BufferedImage spectrometerImage = DischargeLampsResources.getImage( DischargeLampsConfig.SPECTROMETER_IMAGE_FILE_NAME );
 
         // Scale the bezel image so it is the width we want it to be on the screen
         double scaleX = (double) displayWidth / imageDisplayWidth;

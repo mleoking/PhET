@@ -25,6 +25,7 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetMultiLineText
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
+import edu.colorado.phet.dischargelamps.DischargeLampsResources;
 import edu.colorado.phet.dischargelamps.SingleAtomModule;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
@@ -71,7 +72,7 @@ public class CollisionEnergyIndicator extends CompositePhetGraphic {
         addGraphic( arrowGraphic );
 
         // Create the electron graphic
-        PhetImageGraphic electronGraphic = new PhetImageGraphic( elmp, DischargeLampsConfig.ELECTRON_IMAGE_FILE_NAME );
+        PhetImageGraphic electronGraphic = new PhetImageGraphic( elmp, DischargeLampsResources.getImage( DischargeLampsConfig.ELECTRON_IMAGE_FILE_NAME ) );
         electronGraphic.setLocation( (int) line.getBounds().getMaxX() + 5, -3 );
         addGraphic( electronGraphic );
 

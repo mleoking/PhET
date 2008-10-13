@@ -13,7 +13,9 @@ package edu.colorado.phet.lasers.controller;
 
 import java.awt.*;
 
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
@@ -22,7 +24,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.lasers.LasersResources;
 
 /**
  * A panel that provides control over the clock rate
@@ -71,7 +73,7 @@ public class SimulationRateControlPanel extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         this.add( simulationRateTF, gbc );
 
-        Border border = new TitledBorder( SimStrings.getInstance().getString( "SimulationRateControlPanel.BorderTitle" ) );
+        Border border = new TitledBorder( LasersResources.getString( "SimulationRateControlPanel.BorderTitle" ) );
         this.setBorder( border );
     }
 

@@ -10,7 +10,8 @@
  */
 package edu.colorado.phet.dischargelamps.view;
 
-import java.awt.*;
+import java.awt.Component;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.ConvolveOp;
@@ -18,9 +19,9 @@ import java.awt.image.Kernel;
 import java.io.IOException;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
+import edu.colorado.phet.dischargelamps.DischargeLampsResources;
 import edu.colorado.phet.dischargelamps.model.HeatingElement;
 
 /**
@@ -35,17 +36,12 @@ public class HeatingElementGraphic extends PhetImageGraphic implements HeatingEl
     public HeatingElementGraphic( Component component, boolean isRightFacing ) {
         super( component );
 
-        try {
-            baseImage = ImageLoader.loadBufferedImage( DischargeLampsConfig.HEATING_ELEMENT_FILE_NAME );
-            baseImage = BufferedImageUtils.flipY( baseImage );
-            if ( isRightFacing ) {
-                baseImage = BufferedImageUtils.flipX( baseImage );
-            }
-            setImage( baseImage );
+        baseImage = DischargeLampsResources.getImage( DischargeLampsConfig.HEATING_ELEMENT_FILE_NAME );
+        baseImage = BufferedImageUtils.flipY( baseImage );
+        if ( isRightFacing ) {
+            baseImage = BufferedImageUtils.flipX( baseImage );
         }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        setImage( baseImage );
     }
 
     //-----------------------------------------------------------------

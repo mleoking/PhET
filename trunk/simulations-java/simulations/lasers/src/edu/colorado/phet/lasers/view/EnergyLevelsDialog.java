@@ -8,18 +8,20 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import java.awt.*;
+import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.*;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.JRootPane;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.lasers.LasersResources;
 
 public class EnergyLevelsDialog extends JDialog {
 
     public EnergyLevelsDialog( Frame parent, JPanel energyLevelsPanel ) {
-        super( parent, SimStrings.getInstance().getString( "EnergyLevelsDialog.Title" ) );
+        super( parent, LasersResources.getString( "EnergyLevelsDialog.Title" ) );
 
         // Make the window plain, with no way to close it
         this.setUndecorated( true );

@@ -10,24 +10,29 @@
  */
 package edu.colorado.phet.photoelectric.controller;
 
-import edu.colorado.phet.common.controls.SpectrumSliderWithSquareCursor;
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
-import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.quantum.model.Beam;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.text.DecimalFormat;
+
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import edu.colorado.phet.common.controls.SpectrumSliderWithSquareCursor;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
+import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.quantum.model.Beam;
+import edu.colorado.phet.photoelectric.PhotoelectricResources;
 
 /**
  * SpectrumSliderWithReadout
@@ -137,7 +142,7 @@ public class SpectrumSliderWithReadout extends SpectrumSliderWithSquareCursor {
             }
             catch( NumberFormatException e1 ) {
                 JOptionPane.showMessageDialog( SwingUtilities.getRoot( component ),
-                                               SimStrings.getInstance().getString( "Wavelength.message" ) );
+                        PhotoelectricResources.getString( "Wavelength.message" ) );
                 setText( beam.getWavelength() );
             }
         }
@@ -153,7 +158,7 @@ public class SpectrumSliderWithReadout extends SpectrumSliderWithSquareCursor {
 
         private void setText( double wavelength ) {
             DecimalFormat voltageFormat = new DecimalFormat( "000" );
-            readout.setText( voltageFormat.format( wavelength ) + " "+SimStrings.getInstance().getString( "units.nm" ) );
+            readout.setText( voltageFormat.format( wavelength ) + " "+PhotoelectricResources.getString( "units.nm" ) );
         }
 
         void setValue( double wavelength ) {

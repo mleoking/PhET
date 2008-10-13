@@ -10,8 +10,10 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -57,13 +59,13 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
                         Beam beam,
                         double minWavelength,
                         double maxWavelength,
-                        String imageFile ) {
+                        BufferedImage image ) {
         this.apparatusPanel = apparatusPanel;
         this.baseLaserModule = baseLaserModule;
         this.beam = beam;
         this.setLocation( location );
 
-        PhetImageGraphic backgroundPanel = new PhetImageGraphic( apparatusPanel, imageFile );
+        PhetImageGraphic backgroundPanel = new PhetImageGraphic( apparatusPanel, image );
         backgroundPanel.setRegistrationPoint( 100, 0 );
         addGraphic( backgroundPanel );
         backgroundPanel.setLocation( 0, 0 );

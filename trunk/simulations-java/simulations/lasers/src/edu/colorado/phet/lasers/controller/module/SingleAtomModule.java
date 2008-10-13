@@ -11,20 +11,17 @@
 
 package edu.colorado.phet.lasers.controller.module;
 
-import java.awt.*;
+import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.quantum.QuantumConfig;
 import edu.colorado.phet.common.quantum.model.Atom;
@@ -32,6 +29,7 @@ import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.quantum.model.Beam;
 import edu.colorado.phet.common.quantum.model.Photon;
 import edu.colorado.phet.lasers.LasersApplication;
+import edu.colorado.phet.lasers.LasersResources;
 import edu.colorado.phet.lasers.controller.BeamControl;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.UniversalLaserControlPanel;
@@ -57,7 +55,7 @@ public class SingleAtomModule extends BaseLaserModule {
     public SingleAtomModule( PhetFrame frame, IClock clock ) {
 //        super( SimStrings.getInstance().getString( "ModuleTitle.SingleAtomModule" ), clock , Photon.DEFAULT_SPEED*0.65 );
 //        super( SimStrings.getInstance().getString( "ModuleTitle.SingleAtomModule" ), clock, Photon.DEFAULT_SPEED * 0.5 );
-        super( frame, SimStrings.getInstance().getString( "ModuleTitle.SingleAtomModule" ), clock, Photon.DEFAULT_SPEED * LasersApplication.ONE_ATOM_MODULE_SPEED );
+        super( frame, LasersResources.getString( "ModuleTitle.SingleAtomModule" ), clock, Photon.DEFAULT_SPEED * LasersApplication.ONE_ATOM_MODULE_SPEED );
         init();
     }
 
@@ -120,13 +118,7 @@ public class SingleAtomModule extends BaseLaserModule {
         Rectangle2D allocatedBounds = new Rectangle2D.Double( (int) seedBeam.getPosition().getX() - 55,
                                                               (int) ( seedBeam.getPosition().getY() + seedBeam.getBeamWidth() / 2 - 25 ),
                                                               100, 50 );
-        BufferedImage gunBI = null;
-        try {
-            gunBI = ImageLoader.loadBufferedImage( LaserConfig.RAY_GUN_IMAGE_FILE );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        BufferedImage gunBI = LasersResources.getImage( LaserConfig.RAY_GUN_IMAGE_FILE );
 
         // Seed beam lamp graphic
         double scaleX = allocatedBounds.getWidth() / gunBI.getWidth();
@@ -142,7 +134,7 @@ public class SingleAtomModule extends BaseLaserModule {
 
         // Add controls for the seed beam
         {
-            PhetImageGraphic wireGraphic = new PhetImageGraphic( getApparatusPanel(), LaserConfig.WIRE_IMAGE );
+            PhetImageGraphic wireGraphic = new PhetImageGraphic( getApparatusPanel(), LasersResources.getImage( LaserConfig.WIRE_IMAGE ) );
             wireGraphic.setImage( BufferedImageUtils.getRotatedImage( wireGraphic.getImage(), -Math.PI / 2 ) );
             wireGraphic.setLocation( 50, 250 );
             getApparatusPanel().addGraphic( wireGraphic );
@@ -154,7 +146,7 @@ public class SingleAtomModule extends BaseLaserModule {
                                                seedBeam,
                                                QuantumConfig.MIN_WAVELENGTH,
                                                QuantumConfig.MAX_WAVELENGTH,
-                                               LaserConfig.BEAM_CONTROL_IMAGE );
+                                               LasersResources.getImage( LaserConfig.BEAM_CONTROL_IMAGE ) );
             getApparatusPanel().addGraphic( seedBeamControl );
         }
 
@@ -170,7 +162,7 @@ public class SingleAtomModule extends BaseLaserModule {
 
         // Add the beam control
         {
-            PhetImageGraphic wireGraphic = new PhetImageGraphic( getApparatusPanel(), LaserConfig.WIRE_IMAGE );
+            PhetImageGraphic wireGraphic = new PhetImageGraphic( getApparatusPanel(), LasersResources.getImage( LaserConfig.WIRE_IMAGE ) );
             AffineTransform atx = AffineTransform.getScaleInstance( 0.6, 1 );
             AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
             wireGraphic.setImage( atxOp.filter( wireGraphic.getImage(), null ) );
@@ -184,7 +176,7 @@ public class SingleAtomModule extends BaseLaserModule {
                                                pumpingBeam,
                                                QuantumConfig.MIN_WAVELENGTH,
                                                QuantumConfig.MAX_WAVELENGTH,
-                                               LaserConfig.BEAM_CONTROL_IMAGE );
+                                               LasersResources.getImage( LaserConfig.BEAM_CONTROL_IMAGE ) );
             wireGraphic.setLocation( -170, 40 );
             pumpBeamControl.addGraphic( wireGraphic );
             getApparatusPanel().addGraphic( pumpBeamControl );

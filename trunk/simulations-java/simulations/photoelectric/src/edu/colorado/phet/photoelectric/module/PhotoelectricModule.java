@@ -10,15 +10,25 @@
  */
 package edu.colorado.phet.photoelectric.module;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.*;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.HashMap;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
+import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
-import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
@@ -28,30 +38,20 @@ import edu.colorado.phet.common.quantum.model.*;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.control.BatterySlider;
 import edu.colorado.phet.dischargelamps.model.Battery;
+import edu.colorado.phet.dischargelamps.quantum.view.PlateGraphic;
 import edu.colorado.phet.dischargelamps.view.BatteryReadout;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.view.BeamCurtainGraphic;
 import edu.colorado.phet.lasers.view.LampGraphic;
 import edu.colorado.phet.lasers.view.TubeGraphic;
-import edu.colorado.phet.lasers.ShowActualButton;
 import edu.colorado.phet.photoelectric.PhotoelectricApplication;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
+import edu.colorado.phet.photoelectric.PhotoelectricResources;
 import edu.colorado.phet.photoelectric.controller.BeamControl;
 import edu.colorado.phet.photoelectric.controller.PhotoelectricControlPanel;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 import edu.colorado.phet.photoelectric.model.PhotoelectricTarget;
 import edu.colorado.phet.photoelectric.view.*;
-import edu.colorado.phet.dischargelamps.quantum.view.PlateGraphic;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.geom.*;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.HashMap;
 
 /**
  * PhotoelectricModule
@@ -110,7 +110,7 @@ public class PhotoelectricModule extends BaseLaserModule {
      * @param application
      */
     public PhotoelectricModule( PhetFrame frame,PhotoelectricApplication application ) {
-        super( frame, SimStrings.getInstance().getString( "ModuleTitle.PhotoelectricEfect" ),
+        super( frame, PhotoelectricResources.getString( "ModuleTitle.PhotoelectricEfect" ),
                new SwingClock( 1000 / PhotoelectricApplication.FPS,
                                PhotoelectricApplication.DT ) ,Photon.DEFAULT_SPEED );
 
@@ -288,36 +288,25 @@ public class PhotoelectricModule extends BaseLaserModule {
      * @param beam
      */
     private void addBeamGraphic( Beam beam ) {
-        try {
-            BufferedImage lampImg = ImageLoader.loadBufferedImage( PhotoelectricConfig.LAMP_IMAGE_FILE );
-            // Make the lens on the lamp the same size as the beam
-            AffineTransform scaleTx = AffineTransform.getScaleInstance( 100.0 / lampImg.getWidth(),
-                                                                        beam.getBeamWidth() / lampImg.getHeight() );
-            AffineTransformOp scaleTxOp = new AffineTransformOp( scaleTx, AffineTransformOp.TYPE_BILINEAR );
-            lampImg = scaleTxOp.filter( lampImg, null );
-            AffineTransform atx = AffineTransform.getRotateInstance( beam.getDirection(),
-                                                                     beam.getPosition().getX(),
-                                                                     beam.getPosition().getY() );
-            atx.concatenate( AffineTransform.getTranslateInstance( beam.getPosition().getX() - lampImg.getWidth(),
-                                                                   beam.getPosition().getY() - lampImg.getHeight() / 2 ) );
+        BufferedImage lampImg = PhotoelectricResources.getImage( PhotoelectricConfig.LAMP_IMAGE_FILE );
+        // Make the lens on the lamp the same size as the beam
+        AffineTransform scaleTx = AffineTransform.getScaleInstance( 100.0 / lampImg.getWidth(), beam.getBeamWidth() / lampImg.getHeight() );
+        AffineTransformOp scaleTxOp = new AffineTransformOp( scaleTx, AffineTransformOp.TYPE_BILINEAR );
+        lampImg = scaleTxOp.filter( lampImg, null );
+        AffineTransform atx = AffineTransform.getRotateInstance( beam.getDirection(), beam.getPosition().getX(), beam.getPosition().getY() );
+        atx.concatenate( AffineTransform.getTranslateInstance( beam.getPosition().getX() - lampImg.getWidth(), beam.getPosition().getY() - lampImg.getHeight() / 2 ) );
 
-            LampGraphic lampGraphic = new LampGraphic( beam, getApparatusPanel(), lampImg, atx );
-            getApparatusPanel().addGraphic( lampGraphic, PhotoelectricConfig.LAMP_LAYER );
+        LampGraphic lampGraphic = new LampGraphic( beam, getApparatusPanel(), lampImg, atx );
+        getApparatusPanel().addGraphic( lampGraphic, PhotoelectricConfig.LAMP_LAYER );
 
-            // Put a mask behind the lamp graphic to hide the beam or photons that start behind it
-            Rectangle mask = new Rectangle( 0, 0, lampImg.getWidth(), lampImg.getHeight() );
-            PhetShapeGraphic maskGraphic = new PhetShapeGraphic( getApparatusPanel(),
-                                                                 mask,
-                                                                 getApparatusPanel().getBackground() );
-            maskGraphic.setTransform( atx );
-            maskGraphic.setLocation( lampGraphic.getLocation() );
-            getApparatusPanel().addGraphic( maskGraphic, PhotoelectricConfig.BEAM_LAYER + .5 );
-            beamGraphic = new BeamCurtainGraphic( getApparatusPanel(), beam );
-            getApparatusPanel().addGraphic( beamGraphic, PhotoelectricConfig.BEAM_LAYER );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        // Put a mask behind the lamp graphic to hide the beam or photons that start behind it
+        Rectangle mask = new Rectangle( 0, 0, lampImg.getWidth(), lampImg.getHeight() );
+        PhetShapeGraphic maskGraphic = new PhetShapeGraphic( getApparatusPanel(), mask, getApparatusPanel().getBackground() );
+        maskGraphic.setTransform( atx );
+        maskGraphic.setLocation( lampGraphic.getLocation() );
+        getApparatusPanel().addGraphic( maskGraphic, PhotoelectricConfig.BEAM_LAYER + .5 );
+        beamGraphic = new BeamCurtainGraphic( getApparatusPanel(), beam );
+        getApparatusPanel().addGraphic( beamGraphic, PhotoelectricConfig.BEAM_LAYER );
     }
 
     /**
@@ -351,18 +340,14 @@ public class PhotoelectricModule extends BaseLaserModule {
      * @param apparatusPanel
      */
     private void addCircuitGraphic( ApparatusPanel apparatusPanel ) {
-        try {
-            circuitImageA = ImageLoader.loadBufferedImage( PhotoelectricConfig.CIRCUIT_A_IMAGE );
-            circuitImageB = ImageLoader.loadBufferedImage( PhotoelectricConfig.CIRCUIT_B_IMAGE );
-            circuitImageA = scaleImage( circuitImageA );
-            circuitImageB = scaleImage( circuitImageB );
+        circuitImageA = PhotoelectricResources.getImage( PhotoelectricConfig.CIRCUIT_A_IMAGE );
+        circuitImageB = PhotoelectricResources.getImage( PhotoelectricConfig.CIRCUIT_B_IMAGE );
+        circuitImageA = scaleImage( circuitImageA );
+        circuitImageB = scaleImage( circuitImageB );
 
-            circuitGraphic = new PhetImageGraphic( getApparatusPanel() );
-            circuitGraphic.setImage( circuitImageA );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        circuitGraphic = new PhetImageGraphic( getApparatusPanel() );
+        circuitGraphic.setImage( circuitImageA );
+            
         circuitGraphic.setRegistrationPoint( (int)( 124 * externalGraphicsScale ),
                                              (int)( 110 * externalGraphicsScale ) );
         circuitGraphic.setLocation( DischargeLampsConfig.CATHODE_LOCATION );

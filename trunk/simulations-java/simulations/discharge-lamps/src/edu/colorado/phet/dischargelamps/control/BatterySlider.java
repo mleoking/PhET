@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
+import edu.colorado.phet.dischargelamps.DischargeLampsResources;
 import edu.colorado.phet.dischargelamps.model.Battery;
 
 
@@ -86,12 +87,12 @@ public class BatterySlider extends GraphicSlider {
         setTrack( track );
 
         // Knob
-        PhetGraphic knob = new PhetImageGraphic( component, DischargeLampsConfig.SLIDER_KNOB_IMAGE );
+        PhetGraphic knob = new PhetImageGraphic( component, DischargeLampsResources.getImage( DischargeLampsConfig.SLIDER_KNOB_IMAGE ) );
         knob.centerRegistrationPoint();
         setKnob( knob );
 
         // Knob Highlight
-        PhetGraphic knobHighlight = new PhetImageGraphic( component, DischargeLampsConfig.SLIDER_KNOB_HIGHLIGHT_IMAGE );
+        PhetGraphic knobHighlight = new PhetImageGraphic( component, DischargeLampsResources.getImage( DischargeLampsConfig.SLIDER_KNOB_HIGHLIGHT_IMAGE ) );
         knobHighlight.centerRegistrationPoint();
         setKnobHighlight( knobHighlight );
 

@@ -10,12 +10,14 @@
  */
 package edu.colorado.phet.lasers.help;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetgraphics.view.help.HelpItem;
 import edu.colorado.phet.common.phetgraphics.view.help.HelpManager;
+import edu.colorado.phet.lasers.LasersResources;
 
 /**
  * SingleAtomModuleHelp
@@ -32,7 +34,7 @@ public class EnergyLevelPanelHelp {
 
         Point2D energyLevelHILoc = new Point2D.Double( 50, 100 );
         HelpItem energyLevelHI = new HelpItem( component,
-                                               SimStrings.getInstance().getString( "Help.energyLevel" ),
+                                               LasersResources.getString( "Help.energyLevel" ),
                                                energyLevelHILoc.getX(),
                                                energyLevelHILoc.getY() - 20,
                                                HelpItem.RIGHT, HelpItem.ABOVE );
@@ -42,7 +44,7 @@ public class EnergyLevelPanelHelp {
         energyLevelHI.setFont( font );
 
         HelpItem lifetimeSliderHI = new HelpItem( component,
-                                                  SimStrings.getInstance().getString( "Help.lifetimeSlider" ),
+                                                  LasersResources.getString( "Help.lifetimeSlider" ),
                                                   energyLevelHILoc,
                                                   HelpItem.RIGHT, HelpItem.BELOW );
         lifetimeSliderHI.setForegroundColor( helpColor );

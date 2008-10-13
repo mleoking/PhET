@@ -10,12 +10,13 @@
  */
 package edu.colorado.phet.dischargelamps;
 
-import java.awt.*;
+import java.awt.Font;
+import java.awt.Insets;
+import java.awt.Point;
 import java.awt.geom.Line2D;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 /**
  * FluorescentLightsConfig
@@ -25,9 +26,8 @@ import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
  */
 public class DischargeLampsConfig {
 
-    // Localization
-    public static final String localizedStringsPath = "discharge-lamps/localization/discharge-lamps-strings";
-
+    public static final String PROJECT_NAME = "discharge-lamps";
+    
     public static final int NUM_ENERGY_LEVELS = 2;
     public static final int MAX_NUM_ENERGY_LEVELS = 6;
     // Max energy is 0, in all cases (requested by Sam M., 10/24/06
@@ -57,15 +57,14 @@ public class DischargeLampsConfig {
                                                                   195 );
 
     // Images
-    public static final String IMAGE_FILE_DIRECTORY = "discharge-lamps/images/";
-    public static final String ELECTRON_IMAGE_FILE_NAME = IMAGE_FILE_DIRECTORY + "electron.gif";
-    public static final String HEATING_ELEMENT_FILE_NAME = IMAGE_FILE_DIRECTORY + "coil-2b.png";
-    public static final String POSITIVE_CIRCUIT_IMAGE_FILE_NAME = IMAGE_FILE_DIRECTORY + "battery-w-wires-2.png";
-    public static final String NEGATIVE_CIRCUIT_IMAGE_FILE_NAME = IMAGE_FILE_DIRECTORY + "battery-w-wires-2a.png";
-    public static final String SPECTROMETER_IMAGE_FILE_NAME = IMAGE_FILE_DIRECTORY + "spectrometer-panel.png";
-    public static final String BATTERY_IMAGE = IMAGE_FILE_DIRECTORY + "battery.png";
-    public static final String SLIDER_KNOB_IMAGE = IMAGE_FILE_DIRECTORY + "sliderKnob.png";
-    public static final String SLIDER_KNOB_HIGHLIGHT_IMAGE = IMAGE_FILE_DIRECTORY + "sliderKnobHighlight.png";
+    public static final String ELECTRON_IMAGE_FILE_NAME = "electron.gif";
+    public static final String HEATING_ELEMENT_FILE_NAME = "coil-2b.png";
+    public static final String POSITIVE_CIRCUIT_IMAGE_FILE_NAME = "battery-w-wires-2.png";
+    public static final String NEGATIVE_CIRCUIT_IMAGE_FILE_NAME = "battery-w-wires-2a.png";
+    public static final String SPECTROMETER_IMAGE_FILE_NAME = "spectrometer-panel.png";
+//    public static final String BATTERY_IMAGE = "battery.png";
+    public static final String SLIDER_KNOB_IMAGE = "sliderKnob.png";
+    public static final String SLIDER_KNOB_HIGHLIGHT_IMAGE = "sliderKnobHighlight.png";
 
     // Assigned graphic layers
     public static final double TUBE_LAYER = 110;
@@ -90,7 +89,7 @@ public class DischargeLampsConfig {
     public static final double ELECTRON_ACCELERATION_CALIBRATION_FACTOR = 1 / 5.55;
 
     // Misc
-    public static final DecimalFormat VOLTAGE_FORMAT = new DecimalFormat( "#0.00 "+ SimStrings.getInstance().getString( "voltage.abbreviation" ));
+    public static final DecimalFormat VOLTAGE_FORMAT = new DecimalFormat( "#0.00 "+ DischargeLampsResources.getString( "voltage.abbreviation" ));
     // Simulation time for which EnergySquiggles remain on the screen
     public static final double ENERGY_SQUIGGLE_PERSISTENCE = 50;
 }

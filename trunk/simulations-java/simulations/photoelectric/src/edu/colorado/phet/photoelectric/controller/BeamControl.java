@@ -10,13 +10,22 @@
  */
 package edu.colorado.phet.photoelectric.controller;
 
+import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.geom.AffineTransform;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.controls.SpectrumSliderWithSquareCursor;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.util.SwingThreadModelListener;
 import edu.colorado.phet.common.phetcommon.view.controls.IntensitySlider;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
@@ -27,16 +36,8 @@ import edu.colorado.phet.common.quantum.model.PhotonSource;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
+import edu.colorado.phet.photoelectric.PhotoelectricResources;
 import edu.colorado.phet.photoelectric.model.util.PhotoelectricModelUtil;
-
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.geom.AffineTransform;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * BeamControl
@@ -76,8 +77,8 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
     private static Map MODE_TO_SLIDER_TITLE = new HashMap();
 
     static {
-        MODE_TO_SLIDER_TITLE.put( INTENSITY, SimStrings.getInstance().getString( "BeamControl.intensity" ) );
-        MODE_TO_SLIDER_TITLE.put( RATE, SimStrings.getInstance().getString( "BeamControl.photonRate" ) );
+        MODE_TO_SLIDER_TITLE.put( INTENSITY, PhotoelectricResources.getString( "BeamControl.intensity" ) );
+        MODE_TO_SLIDER_TITLE.put( RATE, PhotoelectricResources.getString( "BeamControl.photonRate" ) );
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -120,7 +121,7 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
 
         // The background panel
         PhetImageGraphic panelGraphic = new PhetImageGraphic( apparatusPanel,
-                                                              PhotoelectricConfig.BEAM_CONTROL_PANEL_IMAGE );
+                                                              PhotoelectricResources.getImage( PhotoelectricConfig.BEAM_CONTROL_PANEL_IMAGE ) );
         panelGraphic.setRegistrationPoint( 100, 0 );
         addGraphic( panelGraphic );
         panelGraphic.setLocation( 0, 0 );

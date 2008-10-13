@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.lasers;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
@@ -21,15 +21,15 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
-import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.*;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.util.*;
+import edu.colorado.phet.common.phetcommon.view.util.ClockProfiler;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.lasers.controller.LaserConfig;
@@ -40,11 +40,12 @@ import edu.colorado.phet.lasers.view.EnergyLevelGraphic;
 import edu.colorado.phet.lasers.view.PhotonGraphic;
 
 public class LasersApplication extends PiccoloPhetApplication {
+    
+    public static double ONE_ATOM_MODULE_SPEED = 0.5;
+    public static double MULTI_ATOM_MODULE_SPEED = 0.5;
 
     private SingleAtomModule singleAtomModule;
     private MultipleAtomModule multipleAtomModule;
-
-    private static final String VERSION = PhetApplicationConfig.getVersion( "lasers" ).formatForTitleBar();
 
     public SingleAtomModule getSingleAtomModule() {
         return singleAtomModule;
@@ -54,12 +55,8 @@ public class LasersApplication extends PiccoloPhetApplication {
         return multipleAtomModule;
     }
 
-    public LasersApplication( String[] args ) {
-        super( args,
-               SimStrings.getInstance().getString( "LasersApplication.title" ),
-               SimStrings.getInstance().getString( "LasersApplication.description" ),
-               VERSION,
-               new FrameSetup.CenteredWithSize( 1024, 750 ) );
+    public LasersApplication( PhetApplicationConfig config ) {
+        super( config );
 
         // Because we have JComponents on the apparatus panel, don't let the user resize the frame
         this.getPhetFrame().setResizable( false );
@@ -102,7 +99,7 @@ public class LasersApplication extends PiccoloPhetApplication {
         dialog.setContentPane( pane );
         dialog.pack();
         SwingUtils.centerDialogInParent( dialog );
-        dialog.show();
+        dialog.setVisible( true );
     }
 
     private void addMenuItems() {
@@ -195,36 +192,35 @@ public class LasersApplication extends PiccoloPhetApplication {
         return PhotonGraphic.getPhotonSize();
     }
 
-    //----------------------------------------------------------------
-    // Definition of look and feel
-    //----------------------------------------------------------------
-
-    public static double ONE_ATOM_MODULE_SPEED = 0.5;
-    public static double MULTI_ATOM_MODULE_SPEED = 0.5;
-
+    private static class LasersLookAndFeel extends PhetLookAndFeel {
+        public LasersLookAndFeel() {
+            setFont( new PhetFont( PhetFont.getDefaultFontSize(), true ) );
+            setTitledBorderFont( new PhetFont( PhetFont.getDefaultFontSize(), true ) );
+            setBackgroundColor( new Color( 138, 156, 148 ) );
+            setButtonBackgroundColor( new Color( 255, 255, 214 ) );
+        }
+    }
+    
     public static void main( final String[] args ) {
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                PhetLookAndFeel feel = new PhetLookAndFeel();
-                feel.setFont( new PhetFont( PhetFont.getDefaultFontSize(), true ) );
-                feel.setTitledBorderFont( new PhetFont( PhetFont.getDefaultFontSize(), true ) );
-                feel.setBackgroundColor( new Color( 138, 156, 148 ) );
-                feel.setButtonBackgroundColor( new Color( 255, 255, 214 ) );
-                feel.initLookAndFeel();
-                SimStrings.getInstance().init( args, LaserConfig.localizedStringsPath );
-
-                if ( Arrays.asList( args ).indexOf( "-selectspeed" ) >= 0 ) {
-                    String str = JOptionPane.showInputDialog( "Enter the speed for the 1st and 2nd panel, separated by whitespace", ONE_ATOM_MODULE_SPEED + " " + MULTI_ATOM_MODULE_SPEED );
-                    StringTokenizer st = new StringTokenizer( str );
-                    ONE_ATOM_MODULE_SPEED = Double.parseDouble( st.nextToken() );
-                    MULTI_ATOM_MODULE_SPEED = Double.parseDouble( st.nextToken() );
-                }
-
-                LasersApplication application = new LasersApplication( args );
-                application.startApplication();
-//                application.setActiveModule( application.getMultipleAtomModule() );
+        
+        //XXX this is poorly designed code, global variables!
+        if ( Arrays.asList( args ).indexOf( "-selectspeed" ) >= 0 ) {
+            String str = JOptionPane.showInputDialog( "Enter the speed for the 1st and 2nd panel, separated by whitespace", ONE_ATOM_MODULE_SPEED + " " + MULTI_ATOM_MODULE_SPEED );
+            StringTokenizer st = new StringTokenizer( str );
+            ONE_ATOM_MODULE_SPEED = Double.parseDouble( st.nextToken() );
+            MULTI_ATOM_MODULE_SPEED = Double.parseDouble( st.nextToken() );
+        }
+        
+        ApplicationConstructor appConstructor = new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new LasersApplication( config );
             }
-        } );
+        };
+        
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, LaserConfig.PROJECT_NAME );
+        appConfig.setLookAndFeel( new LasersLookAndFeel() );     
+        appConfig.setFrameSetup( LaserConfig.FRAME_SETUP );
+        appConfig.launchSim();
     }
 
 }

@@ -10,13 +10,14 @@
  */
 package edu.colorado.phet.lasers.help;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.help.HelpItem;
 import edu.colorado.phet.common.phetgraphics.view.help.HelpManager;
+import edu.colorado.phet.lasers.LasersResources;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 
 /**
@@ -36,7 +37,7 @@ public class ApparatusPanelHelp extends HelpManager {
 
         Point2D reflectivityHILoc = new Point2D.Double( 300, 300 );
         reflectivityHI = new HelpItem( component,
-                                       SimStrings.getInstance().getString( "Help.reflectivitySlider" ),
+                                       LasersResources.getString( "Help.reflectivitySlider" ),
                                        reflectivityHILoc );
         reflectivityHI.setForegroundColor( helpColor );
 

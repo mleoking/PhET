@@ -10,15 +10,17 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import java.awt.*;
+import java.awt.Font;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 public class LaserConfig {
-
-    // Localization
-    public static final String localizedStringsPath = "lasers/localization/lasers-strings";
+    
+    public static final String PROJECT_NAME = "lasers";
+    
+    public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 750 );
 
     // Clock parameters
     public static double DT = 12;
@@ -68,17 +70,18 @@ public class LaserConfig {
     // Graphic configuration
     //----------------------------------------------------------------
 
-    // Graphics things
+    // Fonts
     public static final int CONTROL_FONT_SIZE = 12;
     public static final int CONTROL_FONT_STYLE = Font.BOLD;
-    public static final String IMAGE_DIRECTORY = "lasers/images/";
-    public static final String ATOM_IMAGE_FILE = IMAGE_DIRECTORY + "particle-gray-med.gif";
-    public static final String RAY_GUN_IMAGE_FILE = IMAGE_DIRECTORY + "flashlight.png";
-    public static final String SEED_BEAM_CONTROL_PANEL_IMAGE = IMAGE_DIRECTORY + "beam-control-lower.png";
-    public static final String PUMP_BEAM_CONTROL_PANEL_IMAGE = IMAGE_DIRECTORY + "beam-control-upper.png";
-    public static final String BEAM_CONTROL_IMAGE = IMAGE_DIRECTORY + "beam-control.png";
-    public static final String WIRE_IMAGE = IMAGE_DIRECTORY + "wire.png";
-    public static final String POWER_METER_IMAGE = IMAGE_DIRECTORY + "power-meter.png";
+    
+    // Images
+    public static final String ATOM_IMAGE_FILE = "particle-gray-med.gif";
+    public static final String RAY_GUN_IMAGE_FILE = "flashlight.png";
+    public static final String SEED_BEAM_CONTROL_PANEL_IMAGE = "beam-control-lower.png";
+    public static final String PUMP_BEAM_CONTROL_PANEL_IMAGE = "beam-control-upper.png";
+    public static final String BEAM_CONTROL_IMAGE = "beam-control.png";
+    public static final String WIRE_IMAGE = "wire.png";
+    public static final String POWER_METER_IMAGE = "power-meter.png";
 
     // Graphics layers
     public static final double CAVITY_LAYER = 10;

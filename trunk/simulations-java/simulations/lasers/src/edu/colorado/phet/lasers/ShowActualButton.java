@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.lasers.controller.PhotoWindow;
 
@@ -18,7 +17,7 @@ public class ShowActualButton extends JButton {
     private JDialog photoDlg;
 
     public ShowActualButton() {
-        super( SimStrings.getInstance().getString( "LaserPhotoButtonLabel" ) );
+        super( LasersResources.getString( "LaserPhotoButtonLabel" ) );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( photoDlg == null ) {

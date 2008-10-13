@@ -10,21 +10,6 @@
  */
 package edu.colorado.phet.photoelectric.view;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
-import edu.colorado.phet.common.phetcommon.view.ControlPanel;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
-import edu.colorado.phet.photoelectric.PhotoelectricConfig;
-import edu.colorado.phet.photoelectric.controller.BeamControl;
-import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
-import edu.colorado.phet.photoelectric.model.util.PhotoelectricModelUtil;
-import edu.colorado.phet.photoelectric.module.PhotoelectricModule;
-import edu.colorado.phet.photoelectric.view.util.RotatedTextLabel;
-
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,6 +19,22 @@ import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
+
+import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+import edu.colorado.phet.common.phetcommon.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
+import edu.colorado.phet.photoelectric.PhotoelectricConfig;
+import edu.colorado.phet.photoelectric.PhotoelectricResources;
+import edu.colorado.phet.photoelectric.controller.BeamControl;
+import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
+import edu.colorado.phet.photoelectric.model.util.PhotoelectricModelUtil;
+import edu.colorado.phet.photoelectric.module.PhotoelectricModule;
+import edu.colorado.phet.photoelectric.view.util.RotatedTextLabel;
 
 /**
  * CompositeGraphPanel
@@ -68,26 +69,19 @@ public class CompositeGraphPanel extends JPanel {
                                                                        GridBagConstraints.NONE,
                                                                        new Insets( 0, 0, 0, 0 ), 0, 0 ) );
 
-        try {
-            BufferedImageOp snapshotBtnRescaleOp = new AffineTransformOp( AffineTransform.getScaleInstance( 0.7, 0.7 ),
-                                                                          AffineTransformOp.TYPE_BILINEAR );
-            BufferedImage snapshotBtnImage = ImageLoader.loadBufferedImage( PhotoelectricConfig.SNAPSHOT_BUTTON_IMAGE );
-            snapshotBtnImage = snapshotBtnRescaleOp.filter( snapshotBtnImage, null );
-            BufferedImageOp zoomBtnRescaleOp = new AffineTransformOp( AffineTransform.getScaleInstance( 0.9, 0.9 ),
-                                                                      AffineTransformOp.TYPE_BILINEAR );
-            snapshotIcon = new ImageIcon( snapshotBtnImage );
-            BufferedImage zoomInImage = ImageLoader.loadBufferedImage( PhotoelectricConfig.ZOOM_IN_BUTTON_IMAGE );
-            zoomInImage = zoomBtnRescaleOp.filter( zoomInImage, null );
-            zoomInIcon = new ImageIcon( zoomInImage );
-            BufferedImage zoomOutImage = ImageLoader.loadBufferedImage( PhotoelectricConfig.ZOOM_OUT_BUTTON_IMAGE );
-            zoomOutImage = zoomBtnRescaleOp.filter( zoomOutImage, null );
-            zoomOutIcon = new ImageIcon( zoomOutImage );
+        BufferedImageOp snapshotBtnRescaleOp = new AffineTransformOp( AffineTransform.getScaleInstance( 0.7, 0.7 ), AffineTransformOp.TYPE_BILINEAR );
+        BufferedImage snapshotBtnImage = PhotoelectricResources.getImage( PhotoelectricConfig.SNAPSHOT_BUTTON_IMAGE );
+        snapshotBtnImage = snapshotBtnRescaleOp.filter( snapshotBtnImage, null );
+        BufferedImageOp zoomBtnRescaleOp = new AffineTransformOp( AffineTransform.getScaleInstance( 0.9, 0.9 ), AffineTransformOp.TYPE_BILINEAR );
+        snapshotIcon = new ImageIcon( snapshotBtnImage );
+        BufferedImage zoomInImage = PhotoelectricResources.getImage( PhotoelectricConfig.ZOOM_IN_BUTTON_IMAGE );
+        zoomInImage = zoomBtnRescaleOp.filter( zoomInImage, null );
+        zoomInIcon = new ImageIcon( zoomInImage );
+        BufferedImage zoomOutImage = PhotoelectricResources.getImage( PhotoelectricConfig.ZOOM_OUT_BUTTON_IMAGE );
+        zoomOutImage = zoomBtnRescaleOp.filter( zoomOutImage, null );
+        zoomOutIcon = new ImageIcon( zoomOutImage );
 
-            btnSize = new Dimension( snapshotIcon.getIconWidth() + 8, snapshotIcon.getIconHeight() + 8 );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        btnSize = new Dimension( snapshotIcon.getIconWidth() + 8, snapshotIcon.getIconHeight() + 8 );
 
         PhotoelectricModel model = (PhotoelectricModel)module.getModel();
         controlPanel = module.getControlPanel();
@@ -107,26 +101,26 @@ public class CompositeGraphPanel extends JPanel {
         // Add the graph panels themselves
         GraphPanel currentVsVoltagePanel = new GraphPanel( module.getClock() );
         currentVsVoltagePanel.setGraph( new CurrentVsVoltageGraph( currentVsVoltagePanel, model ), graphInsets );
-        addGraph( SimStrings.getInstance().getString( "GraphTitle.CurrentVsVoltage" ),
+        addGraph( PhotoelectricResources.getString( "GraphTitle.CurrentVsVoltage" ),
                   currentVsVoltagePanel,
-                  SimStrings.getInstance().getString( "Voltage" ),
-                  SimStrings.getInstance().getString( "Current" ) );
+                  PhotoelectricResources.getString( "Voltage" ),
+                  PhotoelectricResources.getString( "Current" ) );
 
         GraphPanel currentVsIntensityPanel = new GraphPanel( module.getClock() );
         currentVsIntensityPanel.setGraph( new CurrentVsIntensityGraph( currentVsIntensityPanel, model ), graphInsets );
-        addGraph( SimStrings.getInstance().getString( "GraphTitle.CurrentVsIntensity" ),
+        addGraph( PhotoelectricResources.getString( "GraphTitle.CurrentVsIntensity" ),
                   currentVsIntensityPanel,
-                  SimStrings.getInstance().getString( "GraphLabel.Intensity" ),
-                  SimStrings.getInstance().getString( "GraphLabel.Current" ) );
+                  PhotoelectricResources.getString( "GraphLabel.Intensity" ),
+                  PhotoelectricResources.getString( "GraphLabel.Current" ) );
 
         GraphPanel energyVsFreqPanel = new GraphPanel( module.getClock() );
         energyVsFreqPanel.setGraph( new EnergyVsFrequencyGraph( currentVsIntensityPanel, model ), graphInsets );
-        addGraph( SimStrings.getInstance().getString( "GraphTitle.EnergyVsFrequency" ),
+        addGraph( PhotoelectricResources.getString( "GraphTitle.EnergyVsFrequency" ),
                   energyVsFreqPanel,
-                  SimStrings.getInstance().getString( "GraphLabel.Frequency" ),
-                  SimStrings.getInstance().getString( "GraphLabel.Energy" ) );
+                  PhotoelectricResources.getString( "GraphLabel.Frequency" ),
+                  PhotoelectricResources.getString( "GraphLabel.Energy" ) );
 
-        setBorder( new TitledBorder( SimStrings.getInstance().getString( "Graphs" ) ) );
+        setBorder( new TitledBorder( PhotoelectricResources.getString( "Graphs" ) ) );
     }
 
     private void setLogoVisibility( final ControlPanel controlPanel ) {

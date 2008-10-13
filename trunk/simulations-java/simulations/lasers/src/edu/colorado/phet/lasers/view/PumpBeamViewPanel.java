@@ -10,15 +10,20 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import java.awt.*;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.border.Border;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.lasers.LasersResources;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 
 /**
@@ -44,11 +49,11 @@ public class PumpBeamViewPanel extends JPanel {
         this.module = module;
         JPanel pumpViewPanel = this;
         Border pumpPanelBorder = BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(),
-                                                                   SimStrings.getInstance().getString( "WaveViewControlPanel.pumpPanelTitle" ) );
+                                                                   LasersResources.getString( "WaveViewControlPanel.pumpPanelTitle" ) );
         pumpViewPanel.setBorder( pumpPanelBorder );
         pumpPhotonBG = new ButtonGroup();
-        pumpPhotonViewRB = new JRadioButton( SimStrings.getInstance().getString( "WaveViewControlPanel.photonView" ) );
-        pumpCurtainViewRB = new JRadioButton( SimStrings.getInstance().getString( "WaveViewControlPanel.curtainView" ) );
+        pumpPhotonViewRB = new JRadioButton( LasersResources.getString( "WaveViewControlPanel.photonView" ) );
+        pumpCurtainViewRB = new JRadioButton( LasersResources.getString( "WaveViewControlPanel.curtainView" ) );
         pumpPhotonBG.add( pumpPhotonViewRB );
         pumpPhotonBG.add( pumpCurtainViewRB );
 

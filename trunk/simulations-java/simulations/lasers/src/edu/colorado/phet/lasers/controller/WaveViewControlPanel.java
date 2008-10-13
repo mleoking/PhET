@@ -10,15 +10,19 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import java.awt.*;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.ButtonGroup;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.lasers.LasersResources;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.view.PhotonGraphic;
 import edu.colorado.phet.lasers.view.util.ViewUtils;
@@ -41,10 +45,10 @@ public class WaveViewControlPanel extends JPanel {
 
         // Controls to set view of lasing photons
         JPanel lasingViewPanel = new JPanel( new GridBagLayout() );
-        ViewUtils.setBorder( lasingViewPanel, SimStrings.getInstance().getString( "WaveViewControlPanel.lasingPanelTitle" ) );
+        ViewUtils.setBorder( lasingViewPanel, LasersResources.getString( "WaveViewControlPanel.lasingPanelTitle" ) );
         lasingPhotonBG = new ButtonGroup();
-        lasingPhotonViewRB = new JRadioButton( SimStrings.getInstance().getString( "WaveViewControlPanel.photonView" ) );
-        lasingWaveViewRB = new JRadioButton( SimStrings.getInstance().getString( "WaveViewControlPanel.waveView" ) );
+        lasingPhotonViewRB = new JRadioButton( LasersResources.getString( "WaveViewControlPanel.photonView" ) );
+        lasingWaveViewRB = new JRadioButton( LasersResources.getString( "WaveViewControlPanel.waveView" ) );
         lasingPhotonBG.add( lasingPhotonViewRB );
         lasingPhotonBG.add( lasingWaveViewRB );
         GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,

@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.photoelectric.model;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.quantum.model.EnergyEmissionStrategy;
 import edu.colorado.phet.dischargelamps.model.DefaultEnergyEmissionStrategy;
 import edu.colorado.phet.dischargelamps.model.DischargeLampElementProperties;
 import edu.colorado.phet.dischargelamps.model.EnergyAbsorptionStrategy;
+import edu.colorado.phet.photoelectric.PhotoelectricResources;
 
 /**
  * Platinum
@@ -23,7 +23,7 @@ import edu.colorado.phet.dischargelamps.model.EnergyAbsorptionStrategy;
  * @version $Revision$
  */
 public class Platinum extends DischargeLampElementProperties {
-    private static final String NAME = SimStrings.getInstance().getString( "Element.Platinum" );
+    private static final String NAME = PhotoelectricResources.getString( "Element.Platinum" );
     private static final double[] ENERGY_LEVELS = new double[]{-13.6};
     private static final EnergyEmissionStrategy ENERGY_EMISSION_STRATEGY = new DefaultEnergyEmissionStrategy();
     private static final double WORK_FUNCTION = 6.3;

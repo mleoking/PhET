@@ -15,14 +15,16 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.quantum.model.Photon;
+import edu.colorado.phet.lasers.LasersResources;
 import edu.colorado.phet.lasers.model.LaserModel;
 
 /*
@@ -45,7 +47,7 @@ public class AbstractLegend extends JPanel {
 
     public AbstractLegend() {
         super( new GridBagLayout() );
-        setBorder( new TitledBorder( SimStrings.getInstance().getString( "Legend.title" ) ) );
+        setBorder( new TitledBorder( LasersResources.getString( "Legend.title" ) ) );
     }
 
     protected BufferedImage getPhotonImage( double wavelength ) {
@@ -54,7 +56,7 @@ public class AbstractLegend extends JPanel {
     }
 
     public void addForKey( Image image, String key ) {
-        String text = SimStrings.getInstance().getString( key );
+        String text = LasersResources.getString( key );
         addLegendItem( image, text );
     }
 
@@ -64,11 +66,11 @@ public class AbstractLegend extends JPanel {
     }
 
     public void add3PhotonLegendItems() {
-//        addLegendItem( getPhotonImage( 680 ), SimStrings.getInstance().getString( "Legend.photon" ) + " (" + SimStrings.getInstance().getString( "Color.red" ) + ")" );
-//        addLegendItem( getPhotonImage( 470 ), SimStrings.getInstance().getString( "Legend.photon" ) + " (" + SimStrings.getInstance().getString( "Color.blue" ) + ")" );
-//        addLegendItem( getPhotonImage( 800 ), SimStrings.getInstance().getString( "Legend.photon" ) + " (" + SimStrings.getInstance().getString( "Color.ir" ) + ")" );
+//        addLegendItem( getPhotonImage( 680 ), LasersResources.getString( "Legend.photon" ) + " (" + LasersResources.getString( "Color.red" ) + ")" );
+//        addLegendItem( getPhotonImage( 470 ), LasersResources.getString( "Legend.photon" ) + " (" + LasersResources.getString( "Color.blue" ) + ")" );
+//        addLegendItem( getPhotonImage( 800 ), LasersResources.getString( "Legend.photon" ) + " (" + LasersResources.getString( "Color.ir" ) + ")" );
 
-        addLegendItem( append( new BufferedImage[]{getPhotonImage( 680 ), getPhotonImage( 470 ), getPhotonImage( 800 )} ), SimStrings.getInstance().getString( "Legend.photon" ) );
+        addLegendItem( append( new BufferedImage[]{getPhotonImage( 680 ), getPhotonImage( 470 ), getPhotonImage( 800 )} ), LasersResources.getString( "Legend.photon" ) );
     }
 
     private BufferedImage append( BufferedImage[] images ) {

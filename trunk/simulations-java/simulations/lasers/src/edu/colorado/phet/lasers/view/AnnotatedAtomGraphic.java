@@ -10,13 +10,16 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.quantum.model.Atom;
+import edu.colorado.phet.lasers.LasersResources;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 
 /**
@@ -39,16 +42,16 @@ public class AnnotatedAtomGraphic extends AtomGraphic implements Atom.ChangeList
     static {
         try {
             characters = new BufferedImage[]{
-                    ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "1.png" ),
-                    ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "2.png" ),
-                    ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "3.png" ),
-                    ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "4.png" ),
-                    ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "5.png" ),
-                    ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "6.png" ),
-                    ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "7.png" ),
-                    ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "8.png" ),
-                    ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "9.png" ),
-                    ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "10.png" )
+                    LasersResources.getImage( "1.png" ),
+                    LasersResources.getImage( "2.png" ),
+                    LasersResources.getImage( "3.png" ),
+                    LasersResources.getImage( "4.png" ),
+                    LasersResources.getImage( "5.png" ),
+                    LasersResources.getImage( "6.png" ),
+                    LasersResources.getImage( "7.png" ),
+                    LasersResources.getImage( "8.png" ),
+                    LasersResources.getImage( "9.png" ),
+                    LasersResources.getImage( "10.png" )
             };
         }
         catch( Exception e ) {
