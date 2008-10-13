@@ -433,9 +433,6 @@ public class ParticleContainerNode extends PhetPNode {
      * connected to the lid or moves as it should when the container
      * explodes.
      */
-    /**
-     * 
-     */
     private void updatePressureGauge(){
     	
     	if (m_pressureMeter != null){
