@@ -103,8 +103,8 @@ public class CompositeThermometerNode extends PNode {
             m_foregroundNode.setOffset( borderWidth, borderWidth );
             
             m_text = new PText("0");
-            m_text.setFont( new PhetFont(14, true) );
-            m_text.scale( m_foregroundNode.getFullBoundsReference().height * 0.7 / m_text.getFullBoundsReference().height );
+            m_text.setFont( new PhetFont(12, true) );
+            m_text.scale( m_foregroundNode.getFullBoundsReference().height * 0.8 / m_text.getFullBoundsReference().height );
             addChild( m_text );
             
             setValue( 0 );
