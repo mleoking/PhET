@@ -8,6 +8,7 @@ import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.*;
 
@@ -77,6 +78,8 @@ public class CalorieNode extends PNode {
             public void nodeDropped( final CalorieDragStrip.DragNode node ) {
                 if ( shouldDispose( node ) ) {
                     dispose( node );
+                }else if (shouldMoveToTarget(node)){
+                    moveToDropTarget(node);
                 }
             }
 
@@ -120,6 +123,18 @@ public class CalorieNode extends PNode {
         } );
         updatePlusNodeVisible();
         relayout();
+    }
+Random random=new Random( );
+    private void moveToDropTarget( CalorieDragStrip.DragNode node ) {
+//        node.getPNode().animateToPositionScaleRotation( 0,0,1,0,2000 );
+        node.getPNode().animateToPositionScaleRotation( dropTarget.getFullBounds().getX()+random.nextDouble()*dropTarget.getFullBounds().getWidth()*0.5,
+                                                        dropTarget.getFullBounds().getY()+random.nextDouble()*dropTarget.getFullBounds().getHeight()*0.5, 
+                1,0,750 );
+//        node.getPNode().animateT
+    }
+
+    private boolean shouldMoveToTarget( CalorieDragStrip.DragNode node ) {
+        return nodeOverlapsOtherTarget( node );
     }
 
     private void notifyNodePressed() {
