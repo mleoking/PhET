@@ -23,7 +23,7 @@ public class PiccoloClockControlPanel extends PiccoloTimeControlPanel{
         this.clock = clock;
 
         // Update the clock in response to control panel events
-        addTimeControlListener( new TimeControlPanel.TimeControlAdapter() {
+        addTimeControlListener( new TimeControlPanel.TimeControlPanelAdapter() {
             public void stepPressed() {
                 clock.stepClockWhilePaused();
             }

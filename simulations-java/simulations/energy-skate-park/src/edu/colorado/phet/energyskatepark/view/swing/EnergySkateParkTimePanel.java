@@ -31,7 +31,7 @@ public class EnergySkateParkTimePanel extends JPanel {
 //        add( new JLabel( new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_CLOCK ) ) ) );
         add( timeSpeedSlider );
         ClockControlPanel controlPanel = new ClockControlPanel( clock );
-        controlPanel.addTimeControlListener( new TimeControlPanel.TimeControlAdapter() {
+        controlPanel.addTimeControlListener( new TimeControlPanel.TimeControlPanelAdapter() {
             public void stepPressed() {
                 module.setRecordOrLiveMode();
             }
