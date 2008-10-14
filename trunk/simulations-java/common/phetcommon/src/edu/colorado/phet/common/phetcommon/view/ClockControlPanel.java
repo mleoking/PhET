@@ -21,6 +21,7 @@ public class ClockControlPanel extends TimeControlPanel {
      * Constructs a ClockControlPanel
      *
      * @param clock must be non-null
+     * @deprecated
      */
     public ClockControlPanel( final IClock clock ) {
         if ( clock == null ) {
