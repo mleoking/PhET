@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.common.piccolophet.help.DefaultWiggleMe;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
 import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
@@ -33,7 +34,7 @@ public class EatingAndExerciseModule extends PiccoloModule {
 
     private EatingAndExerciseModel _model;
     private EatingAndExerciseCanvas _canvas;
-    private ClockControlPanel _clockControlPanel;
+    private PiccoloClockControlPanel _clockControlPanel;
     private JFrame parentFrame;
     private boolean inited = false;
     private boolean everStarted = false;
@@ -107,7 +108,7 @@ public class EatingAndExerciseModule extends PiccoloModule {
         setLogoPanelVisible( false );
 
         // Clock controls
-        _clockControlPanel = new ClockControlPanel( getClock() ) {
+        _clockControlPanel = new PiccoloClockControlPanel( getClock() ) {
             public void setTimeDisplay( double time ) {
                 super.setTimeDisplay( EatingAndExerciseUnits.secondsToYears( time ) );
             }
@@ -117,7 +118,8 @@ public class EatingAndExerciseModule extends PiccoloModule {
         _clockControlPanel.setUnits( EatingAndExerciseStrings.UNITS_TIME );
         _clockControlPanel.setTimeColumns( 10 );
         _clockControlPanel.setRestartButtonVisible( false );
-        _clockControlPanel.setStepButtonText( EatingAndExerciseResources.getString( "time.next-month" ) );
+        _clockControlPanel.setStepButtonTooltip(EatingAndExerciseResources.getString( "time.next-month" ));
+//        _clockControlPanel.setStepButtonText( EatingAndExerciseResources.getString( "time.next-month" ) );
         _clockControlPanel.setTimeFormat( "0.0" );
 
         ResetAllButton resetButton = new ResetAllButton( new Resettable() {
