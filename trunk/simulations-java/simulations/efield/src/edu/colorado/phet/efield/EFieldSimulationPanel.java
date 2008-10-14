@@ -1,6 +1,8 @@
 package edu.colorado.phet.efield;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.Vector;
 
@@ -11,8 +13,8 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.efield.core.ParticleContainer;
 import edu.colorado.phet.efield.core.RandomSystemFactory;
 import edu.colorado.phet.efield.electricField.*;
@@ -92,7 +94,7 @@ public class EFieldSimulationPanel extends JPanel {
         add( particlePanel, BorderLayout.CENTER );
         validate();
 
-        ClockControlPanel clockControlPanel = new ClockControlPanel( clock );
+        PiccoloClockControlPanel clockControlPanel = new PiccoloClockControlPanel( clock );
         ResetAllButton resetAllButton = new ResetAllButton( new Resettable() {
             public void reset() {
                 doReset();
