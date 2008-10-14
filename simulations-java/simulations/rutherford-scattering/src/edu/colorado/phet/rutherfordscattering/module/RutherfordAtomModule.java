@@ -7,10 +7,10 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.help.DefaultWiggleMe;
 import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.rutherfordscattering.RSConstants;
 import edu.colorado.phet.rutherfordscattering.RSResources;
 import edu.colorado.phet.rutherfordscattering.control.RutherfordAtomControlPanel;
@@ -55,7 +55,7 @@ public class RutherfordAtomModule extends RSAbstractModule {
     private RutherfordAtomNode _atomNode;
     
     // Control panels
-    private ClockControlPanel _clockControlPanel;
+    private PiccoloClockControlPanel _clockControlPanel;
     private RutherfordAtomControlPanel _controlPanel;
     
     // Help
@@ -176,7 +176,7 @@ public class RutherfordAtomModule extends RSAbstractModule {
         //----------------------------------------------------------------------------
 
         // Clock controls
-        _clockControlPanel = new ClockControlPanel( (RSClock) getClock() );
+        _clockControlPanel = new PiccoloClockControlPanel( (RSClock) getClock() );
         setClockControlPanel( _clockControlPanel );
         
         // Control panel
