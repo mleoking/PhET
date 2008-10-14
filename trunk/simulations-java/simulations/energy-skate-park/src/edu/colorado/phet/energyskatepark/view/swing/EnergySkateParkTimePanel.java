@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
-import edu.colorado.phet.common.phetcommon.view.TimeControlPanelListener.TimeControlPanelAdapter;
+import edu.colorado.phet.common.phetcommon.view.TimeControlListener.TimeControlAdapter;
 import edu.colorado.phet.common.timeseries.ui.TimeSpeedSlider;
 import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
@@ -31,7 +31,7 @@ public class EnergySkateParkTimePanel extends JPanel {
 //        add( new JLabel( new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_CLOCK ) ) ) );
         add( timeSpeedSlider );
         ClockControlPanel controlPanel = new ClockControlPanel( clock );
-        controlPanel.addTimeControlListener( new TimeControlPanelAdapter() {
+        controlPanel.addTimeControlListener( new TimeControlAdapter() {
             public void stepPressed() {
                 module.setRecordOrLiveMode();
             }

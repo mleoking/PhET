@@ -1,9 +1,9 @@
 package edu.colorado.phet.common.phetcommon.view;
 
 /**
- * Listener interface for receiving events from time controls.
+ * Listener interface for receiving events from anything that controls time.
  */
-public interface TimeControlPanelListener {
+public interface TimeControlListener {
     
     void stepPressed();
 
@@ -13,7 +13,7 @@ public interface TimeControlPanelListener {
 
     void restartPressed();
     
-    public static class TimeControlPanelAdapter implements TimeControlPanelListener {
+    public static class TimeControlAdapter implements TimeControlListener {
 
         public void stepPressed() {}
 
