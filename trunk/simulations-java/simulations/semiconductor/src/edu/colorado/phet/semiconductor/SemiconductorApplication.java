@@ -1,6 +1,9 @@
 package edu.colorado.phet.semiconductor;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Point2D;
@@ -9,7 +12,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
@@ -54,8 +58,6 @@ import edu.colorado.phet.semiconductor.util.math.DoubleSeries;
  * Time: 7:11:36 PM
  */
 public class SemiconductorApplication implements Graphic {
-    // Localization
-    public static final String localizedStringsPath = "semiconductor/localization/semiconductor-strings";
 
     CircuitSection circuitSection;
     EnergySection energySection;
