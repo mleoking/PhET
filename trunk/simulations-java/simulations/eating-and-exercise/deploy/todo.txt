@@ -12,6 +12,9 @@ From Wendy 10/7/08:
 
 		NP says: Wendy saw this, but I was not able to reproduce. Will check with her to get more details.
 
+String not found on startup:
+WARNING: requested property not found: serving-cream-filled-cookies
+
 Exception when dragging food items on/off plate:
 Exception in thread "AWT-EventQueue-0" java.lang.IllegalStateException: node has no root
 	at edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon.animateTo(MotionHelpBalloon.java:133)
