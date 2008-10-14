@@ -19,7 +19,7 @@ public class VerletForceEngine implements ForceEngine {
 
         LennardJonesForce ljf = new LennardJonesForce(descriptor.epsilon, descriptor.rMin);
 
-        EngineForceCalculator calculator = new EngineForceCalculator(descriptor.gravity, ljf, particles, descriptor.container.getAllWalls());
+        EngineForceCalculator calculator = new EngineForceCalculator(descriptor.gravity, ljf, particles /* , descriptor.container.getAllWalls()*/, particles);
 
         double[] forces = new double[2];
 
