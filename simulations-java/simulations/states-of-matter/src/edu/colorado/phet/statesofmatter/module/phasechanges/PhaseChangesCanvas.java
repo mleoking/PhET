@@ -117,8 +117,8 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         addWorldChild(m_particleContainer);
         
         // Add a thermometer for displaying temperature.
-        m_thermometerNode = new CompositeThermometerNode(containerRect.getWidth() * 0.25, 
-        		containerRect.getHeight() * 0.35, StatesOfMatterConstants.MAX_DISPLAYED_TEMPERATURE);
+        m_thermometerNode = new CompositeThermometerNode(containerRect.getWidth() * 0.18, 
+        		containerRect.getHeight() * 0.30, StatesOfMatterConstants.MAX_DISPLAYED_TEMPERATURE);
         addWorldChild(m_thermometerNode);
         updateThermometerTemperature();
         updateThermometerPosition();
@@ -179,7 +179,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         }
         
         m_thermometerNode.setOffset( 
-                containerRect.getX() + containerRect.getWidth() * 0.32, 
+                containerRect.getX() + containerRect.getWidth() * 0.24, 
                 containerRect.getY() - containerRect.getHeight() - 
                 (m_thermometerNode.getFullBoundsReference().height * 0.5) );
     }
