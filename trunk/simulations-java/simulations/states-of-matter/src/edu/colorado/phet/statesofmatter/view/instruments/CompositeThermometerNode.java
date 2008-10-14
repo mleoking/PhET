@@ -23,7 +23,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class CompositeThermometerNode extends PNode {
 
-    private static final double THERMOMETER_WIDTH_PROPORTION = 0.3;
+    private static final double THERMOMETER_WIDTH_PROPORTION = 0.38;
     private static final double LIQUID_THERMOMETER_SCALE_FACTOR = 20;
     
     private LiquidExpansionThermometerNode m_liquidThermometer;
@@ -38,6 +38,10 @@ public class CompositeThermometerNode extends PNode {
 
         m_maxTemp = maxTemp;
         
+        // Add the digital readout.
+        m_kelvinReadout = new DigitalReadoutNode( width, "\u212A" );
+        addChild(m_kelvinReadout);
+        
         // Add the thermometer.  !! NOTE !! - The thermometer is added initially as much smaller than
         // it needs to be and then is scaled up.  This is a workaround for an issue where the
         // thermometer was distorted on Mac OS 10.4.  This fixes the problem, though we're not entirely
@@ -47,13 +51,8 @@ public class CompositeThermometerNode extends PNode {
         		height / LIQUID_THERMOMETER_SCALE_FACTOR) );
         m_liquidThermometer.setTicks(height / 10 / LIQUID_THERMOMETER_SCALE_FACTOR, Color.BLACK, (float)height / 3500);
         m_liquidThermometer.scale( LIQUID_THERMOMETER_SCALE_FACTOR );
+        m_liquidThermometer.setOffset(0, m_kelvinReadout.getFullBoundsReference().height * 1.1);
         addChild(m_liquidThermometer);
-        
-        // Add the digital readout.
-        m_kelvinReadout = new DigitalReadoutNode( width * (1 - THERMOMETER_WIDTH_PROPORTION), "\u212A" );
-        m_kelvinReadout.setOffset( -m_kelvinReadout.getFullBounds().width, 
-                m_liquidThermometer.getFullBoundsReference().height * 0.2 );
-        addChild(m_kelvinReadout);
     }
     
     public void setTemperatureInDegreesKelvin(double degrees){
@@ -73,7 +72,7 @@ public class CompositeThermometerNode extends PNode {
         
         private final Color BACKGROUND_COLOR = Color.YELLOW;
         private final Color FOREGROUND_COLOR = Color.WHITE;
-        private static final double WIDTH_TO_HEIGHT_RATIO = 2;
+        private static final double WIDTH_TO_HEIGHT_RATIO = 2.2;
         private static final double INSET_WIDTH_RATIO = 0.95;
         
         private final DecimalFormat highNumberFormatter = new DecimalFormat( "##0" );
@@ -104,7 +103,7 @@ public class CompositeThermometerNode extends PNode {
             m_foregroundNode.setOffset( borderWidth, borderWidth );
             
             m_text = new PText("0");
-            m_text.setFont( new PhetFont(12, true) );
+            m_text.setFont( new PhetFont(14, true) );
             m_text.scale( m_foregroundNode.getFullBoundsReference().height * 0.7 / m_text.getFullBoundsReference().height );
             addChild( m_text );
             
