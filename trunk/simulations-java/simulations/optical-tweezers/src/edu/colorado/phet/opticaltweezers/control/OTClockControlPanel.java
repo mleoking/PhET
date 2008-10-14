@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantDtClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantDtClockEvent;
-import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.opticaltweezers.OTResources;
 
 /**
@@ -26,7 +26,7 @@ import edu.colorado.phet.opticaltweezers.OTResources;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class OTClockControlPanel extends ClockControlPanel {
+public class OTClockControlPanel extends PiccoloClockControlPanel {
 
     //----------------------------------------------------------------------------
     // Instance data

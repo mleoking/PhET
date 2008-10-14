@@ -62,10 +62,6 @@ public class MVCModule extends Module {
         _controlPanel = new MVCControlPanel( this, _model, parentFrame );
         setControlPanel( _controlPanel );
 
-        // Clock controls
-        _clockControlPanel = new ClockControlPanel( getClock() );
-        setClockControlPanel( _clockControlPanel );
-        
         // Connect MVC components for BModelElement
         BModelElement bModelElement = _model.getBModelElement();
         BNode bNode = _canvas.getBNode();

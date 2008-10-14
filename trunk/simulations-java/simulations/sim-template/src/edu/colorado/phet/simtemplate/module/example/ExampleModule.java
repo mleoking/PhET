@@ -6,6 +6,7 @@ import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.simtemplate.SimTemplateApplication;
 import edu.colorado.phet.simtemplate.SimTemplateStrings;
 import edu.colorado.phet.simtemplate.defaults.ExampleDefaults;
@@ -28,7 +29,7 @@ public class ExampleModule extends PiccoloModule {
     private ExampleModel _model;
     private ExampleCanvas _canvas;
     private ExampleControlPanel _controlPanel;
-    private ClockControlPanel _clockControlPanel;
+    private PiccoloClockControlPanel _clockControlPanel;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -50,7 +51,7 @@ public class ExampleModule extends PiccoloModule {
         setControlPanel( _controlPanel );
         
         // Clock controls
-        _clockControlPanel = new ClockControlPanel( getClock() );
+        _clockControlPanel = new PiccoloClockControlPanel( getClock() );
         _clockControlPanel.setRestartButtonVisible( true );
         _clockControlPanel.setTimeDisplayVisible( true );
         _clockControlPanel.setUnits( SimTemplateStrings.UNITS_TIME );
