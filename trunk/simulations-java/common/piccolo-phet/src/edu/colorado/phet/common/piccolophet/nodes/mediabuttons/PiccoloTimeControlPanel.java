@@ -308,6 +308,10 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
         }
     }
     
+    public void setStepButtonTooltip( String tooltip ) {
+        stepTooltipHandler.setText( tooltip );
+    }
+    
     //------------------------------------------------------------------------
     // Adding components
     //------------------------------------------------------------------------
@@ -462,10 +466,6 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
                     , Math.min( orig.getGreen() + dgreen, 255 )
                     , Math.min( orig.getBlue() + dblue, 255 ) );
         }
-    }
-
-    public void setStepButtonTooltip( String tooltip ) {
-        stepTooltipHandler.setText( tooltip );
     }
     
     public static void main( String[] args ) {
