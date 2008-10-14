@@ -18,20 +18,29 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 
 public class AbstractMediaButton extends PNode {
-
+    
     private PImage buttonImageNode;
     private int buttonHeight;
     private boolean enabled = true;
     private boolean mousePressed = false;
     private boolean mouseEntered = false;
+    
+    private final Image disabledImage;
+    private final Image mouseEnteredImage;
+    private final Image armedImage;
 
     public AbstractMediaButton( int buttonHeight ) {
+        
         this.buttonHeight = buttonHeight;
         BufferedImage image = getImage();
         image = BufferedImageUtils.multiScaleToHeight( image, buttonHeight );
         buttonImageNode = new PImage( image );
         addChild( buttonImageNode );
 
+        disabledImage = new MyRescaleOp( 0.5, -100 ).filter( getImage(), null );
+        mouseEnteredImage = new MyRescaleOp( 1.2, 0 ).filter( getImage(), null );
+        armedImage = new MyRescaleOp( 0.9, 0 ).filter( getImage(), null );
+        
         //TODO why are we not using CursorHandler here?
         addInputEventListener( new PBasicInputEventHandler() {
 
@@ -88,17 +97,17 @@ public class AbstractMediaButton extends PNode {
 
     protected void updateImage() {
         if ( !enabled ) {
-            buttonImageNode.setImage( new MyRescaleOp( 0.5, -100 ).filter( getImage(), null ) );
+            buttonImageNode.setImage( disabledImage );
         }
         else if ( !mouseEntered ) {
             buttonImageNode.setImage( getImage() );
         }
         else {
             if ( mousePressed ) {
-                buttonImageNode.setImage( new MyRescaleOp( 0.9, 0 ).filter( getImage(), null ) );
+                buttonImageNode.setImage( armedImage );
             }
             else {
-                buttonImageNode.setImage( new MyRescaleOp( 1.2, 0 ).filter( getImage(), null ) );
+                buttonImageNode.setImage( mouseEnteredImage );
             }
         }
     }
