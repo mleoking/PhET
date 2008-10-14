@@ -74,6 +74,7 @@ public class CaloriePanel extends PNode {
                 return new ExerciseSelectionPanel( model.getHuman(), getAvailable(), getCalorieSet(), getAvailableTitle(), getSelectedTitle() );
             }
         };
+        exerciseNode.addOverlapTarget( exerciseBars );
         addChild( exerciseNode );
 
         addChild( foodNode.getTooltipLayer() );
