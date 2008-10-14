@@ -97,25 +97,19 @@ public class PhetApplication {
      * @deprecated
      */
     public PhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup ) {
-        this( args, title, description, version, frameSetup, JTABBED_PANE_TYPE );
+        this( args, title, description, version, frameSetup, JTABBED_PANE_TYPE, null );
     }
 
     /**
      * @deprecated
      */
-    public PhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup, TabbedPaneType tabbedPaneType ) {
-        this( args, title, description, version, frameSetup, tabbedPaneType, null );
-    }
-    /**
-     * @deprecated
-     */
-    public PhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup, TabbedPaneType tabbedPaneType ,PhetApplicationConfig config) {
+    private PhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup, TabbedPaneType tabbedPaneType ,PhetApplicationConfig config) {
         this.applicationConfig=config;
         this.developerControlsEnabled = CommandLineUtils.contains( args, DEVELOPER_CONTROLS_COMMAND_LINE_ARG );
                 
         // Put up a dialog that lets the user know that the simulation is starting up
         showSplashWindow( title );
-        this.tabbedPaneType = tabbedPaneType;
+        this.tabbedPaneType = JTABBED_PANE_TYPE;
         latestInstance = this;
         phetApplications.add( this );
 
