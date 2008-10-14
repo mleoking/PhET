@@ -17,6 +17,7 @@ import java.util.Enumeration;
 
 import javax.swing.*;
 import javax.swing.plaf.metal.MetalLookAndFeel;
+import javax.swing.text.JTextComponent;
 
 
 /**
@@ -328,6 +329,22 @@ public class SwingUtils {
             if ( children != null ) {
                 for ( int i = 0; i < children.length; i++ ) {
                     setForegroundOrBackgroundDeep( doForeground, children[i], color, excludedClasses, processContentsOfExcludedContainers );
+                }
+            }
+        }
+    }
+    
+    /**
+     * Sets opacity of a component and all of its children.
+     * Excludes JTextComponent.
+     */
+    public static void setOpaqueDeep( JComponent component, boolean opaque ) {
+        if ( !( component instanceof JTextComponent ) ) {
+            component.setOpaque( opaque );
+            for ( int i = 0; i < component.getComponentCount(); i++ ) {
+                Component c = component.getComponent( i );
+                if ( c instanceof JComponent ) {
+                    setOpaqueDeep( (JComponent) c, opaque );
                 }
             }
         }
