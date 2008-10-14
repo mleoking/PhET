@@ -6,15 +6,20 @@ From Wendy 10/7/08:
 
 ·         Reset all doesn’t work well when I make my guy really fat
 
+		NP says: I have seen it make the body disappear on reset, but I have not been able to reproduce this report from Wendy.
+
 ·         Hit next month, then choose more sedentary activity level and the person gets a bigger belly. Time is paused so there should be no change. This only happens the first time you adjust activity level after pausing (hitting next month).
+
+		NP says: Wendy saw this, but I was not able to reproduce. Will check with her to get more details.
+
 
 ·         Make it so that if a person drags food to the bar chart for food it settles onto the plate and if they drag exercise onto the cal burned bar chart it settles into the book.
 
-·         If you chose next month instead of play to first start, the wiggle me does not go away.
+·         If you chose next month instead of play to first start, the wiggle me does not go away. Make the wiggle-me go away on either play or next month.
 
 ·         The vertical zoom buttons for bar charts are not equal in size.
 
-·         Stop time after 2 years
+·         Make the time charts go to 2 years. Stop time at the end of the chart (2 year maximum duration of simulation).
 
 From NP 10/9/08
 
