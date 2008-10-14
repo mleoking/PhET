@@ -309,23 +309,6 @@ public class TimeControlPanel extends JPanel {
         restartButton.setEnabled( isEnabled() );
     }
 
-    /**
-     * Convenience adapter class for TimeControlListener
-     */
-    public static class TimeControlPanelAdapter implements TimeControlPanelListener {
-        public void stepPressed() {
-        }
-
-        public void playPressed() {
-        }
-
-        public void pausePressed() {
-        }
-
-        public void restartPressed() {
-        }
-    }
-
     public void addTimeControlListener( TimeControlPanelListener listener ) {
         listeners.add( listener );
     }

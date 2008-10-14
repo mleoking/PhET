@@ -3,7 +3,7 @@ package edu.colorado.phet.common.piccolophet.nodes.mediabuttons;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.view.TimeControlPanel;
+import edu.colorado.phet.common.phetcommon.view.TimeControlPanelListener;
 
 
 //todo: this duplicates code with ClockControlPanel
@@ -23,7 +23,7 @@ public class PiccoloClockControlPanel extends PiccoloTimeControlPanel{
         this.clock = clock;
 
         // Update the clock in response to control panel events
-        addTimeControlListener( new TimeControlPanel.TimeControlPanelAdapter() {
+        addTimeControlListener( new TimeControlPanelListener() {
             public void stepPressed() {
                 clock.stepClockWhilePaused();
             }
