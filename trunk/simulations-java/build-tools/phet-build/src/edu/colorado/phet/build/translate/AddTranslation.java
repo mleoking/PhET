@@ -19,7 +19,7 @@ import com.jcraft.jsch.JSchException;
  */
 public class AddTranslation {
 
-    private static final boolean DEPLOY_ENABLED = true; // can be turned off for local debugging
+    private static final boolean DEPLOY_ENABLED = false; // can be turned off for local debugging
 
     public static File TRANSLATIONS_TEMP_DIR = new File( FileUtils.getTmpDir(), "phet-translations-temp" );
 
@@ -157,11 +157,13 @@ public class AddTranslation {
             //download JNLP from main site and use as template in case any changes in main-class
             final File localFile = new File( TRANSLATIONS_TEMP_DIR, "template-" + project.getName() + ".jnlp" );
             localFile.deleteOnExit();
+            String url = "http://phet.colorado.edu/sims/" + project.getName() + "/" + project.getFlavors()[i].getFlavorName() + ".jnlp";
             try {
-                FileUtils.download( "http://phet.colorado.edu/sims/" + project.getName() + "/" + project.getName() + ".jnlp", localFile );
+                FileUtils.download( url, localFile );
             }
             catch( FileNotFoundException e ) {//not all sims have a flavor name equal to project name
-                FileUtils.download( "http://phet.colorado.edu/sims/" + project.getName() + "/" + project.getFlavors()[0].getFlavorName() + ".jnlp", localFile );
+                JOptionPane.showMessageDialog( null,"Could not find path: "+url+", need to resolve this, need to redeploy sim." );
+//                FileUtils.download( "http://phet.colorado.edu/sims/" + project.getName() + "/" + project.getName() + ".jnlp", localFile );
             }
             String desiredMainClass = getMainClass( localFile );
 
