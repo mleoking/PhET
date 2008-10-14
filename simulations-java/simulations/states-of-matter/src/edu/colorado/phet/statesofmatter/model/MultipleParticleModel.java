@@ -37,7 +37,7 @@ public class MultipleParticleModel {
     // Class Data
     //----------------------------------------------------------------------------
     
-    // Minimum container height fraction.
+	// Minimum container height fraction.
     public static final double MIN_CONTAINER_HEIGHT_FRACTION = 0.1;
 
     // TODO: JPB TBD - These constants are here as a result of the first attempt
@@ -72,7 +72,9 @@ public class MultipleParticleModel {
     private static final int MAX_PLACEMENT_ATTEMPTS = 500; // For random placement when creating gas or liquid.
     private static final double SAFE_INTER_MOLECULE_DISTANCE = 2.0;
     public static final int DEFAULT_MOLECULE = StatesOfMatterConstants.NEON;
-    
+    private static final double PRESSURE_DECAY_CALCULATION_WEIGHTING = 0.999;
+    private static final int VERLET_CALCULATIONS_PER_CLOCK_TICK = 8;
+
     // Constants used for setting the phase directly.
     public static final int PHASE_SOLID = 1;
     public static final int PHASE_LIQUID = 2;
@@ -119,9 +121,6 @@ public class MultipleParticleModel {
     // a "hollywooding" thing.
     private static final double TEMPERATURE_BELOW_WHICH_GRAVITY_INCREASES = 0.10;
     private static final double LOW_TEMPERATURE_GRAVITY_INCREASE_RATE = 50;
-    
-    // TODO: JPB TBD - Temp for debug, remove eventually.
-    private static final boolean USE_NEW_PRESSURE_CALC_METHOD = true;
     
     // Values used for converting from model temperature to the temperature
     // for a given particle.
@@ -188,9 +187,7 @@ public class MultipleParticleModel {
     private int     m_tempAdjustTickCounter;
     private int     m_currentMolecule;
     private double  m_particleDiameter;
-    private double  m_pressure;
-    private double  m_pressure2;
-    private PressureCalculator m_pressureCalculator;
+    private double m_pressure;
     private int     m_thermostatType;
     private int     m_heightChangeCounter;
     private double  m_minModelTemperature;
@@ -202,7 +199,6 @@ public class MultipleParticleModel {
     public MultipleParticleModel(IClock clock) {
         
         m_clock = clock;
-        m_pressureCalculator = new PressureCalculator();
         m_heightChangeCounter = 0;
         setThermostatType( ADAPTIVE_THERMOSTAT );
         
@@ -323,12 +319,7 @@ public class MultipleParticleModel {
      * @return
      */
     public double getModelPressure(){
-        if (USE_NEW_PRESSURE_CALC_METHOD){
-            return m_pressure2;
-        }
-        else{
-            return m_pressure;
-        }
+        return m_pressure;
     }
     
     public int getMoleculeType(){
@@ -551,8 +542,7 @@ public class MultipleParticleModel {
         }
         
         // Clear out the pressure calculation.
-        m_pressureCalculator.clear();
-        m_pressure2 = 0;
+        m_pressure = 0;
         
         // Set the initial size of the container.
         m_particleContainerHeight = StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT;
@@ -831,31 +821,22 @@ public class MultipleParticleModel {
             }
             
             // Decrease the pressure quickly as the particles escape.
-            m_pressure2 = m_pressure2 * 0.95;
+            m_pressure = m_pressure * 0.85;
         }
         
-        // Execute the Verlet algorithm.
-        for (int i = 0; i < 8; i++ ){
+        // Record the pressure to see if it changes.
+        double pressureBeforeVerlet = getModelPressure();
+
+        // Execute the Verlet algorithm.  The algorithm may be run several times for each time step.
+        for (int i = 0; i < VERLET_CALCULATIONS_PER_CLOCK_TICK; i++ ){
             if (m_atomsPerMolecule == 1){
                 verletMonatomic();
-                if (USE_NEW_PRESSURE_CALC_METHOD){
-                    notifyPressureChanged(); // TODO: JPB TBD - This is temporary until the approach for
-                                             // actually detecting pressure changes is worked out.
-                }
             }
             else if (m_atomsPerMolecule == 2){
                 verletDiatomic();
-                if (USE_NEW_PRESSURE_CALC_METHOD){
-                    notifyPressureChanged(); // TODO: JPB TBD - This is temporary until the approach for
-                                             // actually detecting pressure changes is worked out.
-                }
             }
             else if (m_atomsPerMolecule == 3){
                 verletTriatomic();
-                if (USE_NEW_PRESSURE_CALC_METHOD){
-                    notifyPressureChanged(); // TODO: JPB TBD - This is temporary until the approach for
-                                             // actually detecting pressure changes is worked out.
-                }
             }
         }
         
@@ -863,13 +844,9 @@ public class MultipleParticleModel {
         // particles being monitored by the view.
         syncParticlePositions();
         
-        if (!USE_NEW_PRESSURE_CALC_METHOD){
-            if (m_pressure != m_pressureCalculator.getPressure()){
-                // The pressure has changed.  Send out notifications and update
-                // the current value.
-                m_pressure = m_pressureCalculator.getPressure();
-                notifyPressureChanged();
-            }
+        // If the pressure changed, notify the listeners.
+        if ( getModelPressure() != pressureBeforeVerlet ){
+        	notifyPressureChanged();
         }
         
         // Adjust the temperature if needed.
@@ -1695,7 +1672,6 @@ public class MultipleParticleModel {
             
             // Accumulate this force value as part of the pressure being
             // exerted on the walls of the container.
-            m_pressureCalculator.accumulatePressureValue( m_nextAtomForces[i] );
             if (m_nextAtomForces[i].getY() < 0){
                 pressureZoneWallForce += -m_nextAtomForces[i].getY();
                 interactionOccurredWithTop = true;
@@ -1721,11 +1697,8 @@ public class MultipleParticleModel {
         // Update the pressure calculation.
         // TODO: JPB TBD - Clean this up if we end up using it.
         double pressureCalcWeighting = 0.9995;
-        m_pressure2 = (1 - pressureCalcWeighting) * (pressureZoneWallForce / (m_normalizedContainerWidth + m_normalizedContainerHeight)) + 
-                pressureCalcWeighting * m_pressure2;
-        
-        // Advance the moving average window of the pressure calculator.
-        m_pressureCalculator.advanceWindow();
+        m_pressure = (1 - pressureCalcWeighting) * (pressureZoneWallForce / (m_normalizedContainerWidth + m_normalizedContainerHeight)) + 
+                pressureCalcWeighting * m_pressure;
         
         // If there are any atoms that are currently designated as "unsafe",
         // check them to see if they can be moved into the "safe" category.
@@ -1910,7 +1883,6 @@ public class MultipleParticleModel {
             
             // Accumulate this force value as part of the pressure being
             // exerted on the walls of the container.
-            m_pressureCalculator.accumulatePressureValue( m_nextMoleculeForces[i] );
             if (m_nextMoleculeForces[i].getY() < 0){
                 totalTopForce += -m_nextMoleculeForces[i].getY();
                 interactionOccurredWithTop = true;
@@ -1929,13 +1901,7 @@ public class MultipleParticleModel {
         }
         
         // Update the pressure calculation.
-        // TODO: JPB TBD - Clean this up if we end up using it.
-        double pressureCalcGammaWeighting = 0.999;
-        m_pressure2 = (1 - pressureCalcGammaWeighting) * (totalTopForce / m_normalizedContainerWidth) + 
-                pressureCalcGammaWeighting * m_pressure2;
-        
-        // Advance the moving average window of the pressure calculator.
-        m_pressureCalculator.advanceWindow();
+        updatePressure(totalTopForce);
         
         // If there are any atoms that are currently designated as "unsafe",
         // check them to see if they can be moved into the "safe" category.
@@ -2081,6 +2047,11 @@ public class MultipleParticleModel {
             setTemperature( calculateTemperatureFromKineticEnergy() );
         }
     }
+
+	private void updatePressure( double totalTopForce ) {
+        m_pressure = (1 - PRESSURE_DECAY_CALCULATION_WEIGHTING) * (totalTopForce / m_normalizedContainerWidth) + 
+        	PRESSURE_DECAY_CALCULATION_WEIGHTING * m_pressure;
+	}
     
     /**
      * Runs one iteration of the Verlet implementation of the Lennard-Jones
@@ -2159,7 +2130,6 @@ public class MultipleParticleModel {
             
             // Accumulate this force value as part of the pressure being
             // exerted on the walls of the container.
-            m_pressureCalculator.accumulatePressureValue( m_nextMoleculeForces[i] );
             if (m_nextMoleculeForces[i].getY() < 0){
                 totalTopForce += -m_nextMoleculeForces[i].getY();
                 interactionOccurredWithTop = true;
@@ -2180,11 +2150,8 @@ public class MultipleParticleModel {
         // Update the pressure calculation.
         // TODO: JPB TBD - Clean this up if we end up using it.
         double pressureCalcWeighting = 0.9995;
-        m_pressure2 = (1 - pressureCalcWeighting) * (totalTopForce / m_normalizedContainerWidth) + 
-                pressureCalcWeighting * m_pressure2;
-        
-        // Advance the moving average window of the pressure calculator.
-        m_pressureCalculator.advanceWindow();
+        m_pressure = (1 - pressureCalcWeighting) * (totalTopForce / m_normalizedContainerWidth) + 
+                pressureCalcWeighting * m_pressure;
         
         // If there are any atoms that are currently designated as "unsafe",
         // check them to see if they can be moved into the "safe" category.
@@ -2634,18 +2601,6 @@ public class MultipleParticleModel {
     }
     
     /**
-     * Take the steps necessary to start the "explosion" of the container.
-     */
-    private void explode() {
-        
-        if (m_lidBlownOff == false) {
-            
-            m_lidBlownOff = true;
-            notifyContainerExploded();
-        }
-    }
-    
-    /**
      * Take the internal temperature value and convert it to Kelvin.  This
      * is dependent on the type of molecule selected.  The values and ranges
      * used in this method were derived from information provided by Paul
@@ -2866,70 +2821,5 @@ public class MultipleParticleModel {
         }
         
         return null;
-    }
-    
-    /**
-     * This class enables the user to calculate a moving average of the
-     * pressure within the container.
-     *
-     * @author John Blanco
-     */
-    private class PressureCalculator{
-        
-        private final static int WINDOW_SIZE = 1000;
-        
-        private double [] m_pressueSamples;
-        private int       m_accumulationPosition;
-        private int       m_numSamples;
-        
-        public PressureCalculator(){
-            m_pressueSamples = new double[WINDOW_SIZE];
-            m_accumulationPosition = 0;
-            m_numSamples = 0;
-        }
-        
-        public void accumulatePressureValue(Vector2D forceVector){
-            if (forceVector.getY() > 0){
-                // Add this value, since it corresponds to the force on the
-                // bottom of the container, which is what we use for
-                // calculating the pressure.
-                m_pressueSamples[m_accumulationPosition] += forceVector.getY() / m_normalizedContainerWidth;
-            }
-            
-            // JPB TBD - This is the old pressure calculation, which uses
-            // the force from the two walls.  Keep for a while until we
-            // determine that using the bottom is acceptable.  Aug 15, 2008.
-//            m_pressueSamples[m_accumulationPosition] += Math.abs(  forceVector.getX() ) / (m_normalizedContainerHeight * 2);
-        }
-        
-        public double getPressure(){
-            
-            if (m_numSamples == 0){
-                // Prevent divide by 0 issues.
-                return 0;
-            }
-            
-            // Calculate the pressure as the moving average of all accumulated
-            // pressure samples.
-            double accumulatedPressure = 0;
-            for (int i = 0; i < m_numSamples; i++){
-                accumulatedPressure += m_pressueSamples[i];
-            }
-            return accumulatedPressure/m_numSamples;
-        }
-        
-        public void advanceWindow(){
-            m_accumulationPosition = (m_accumulationPosition + 1) % WINDOW_SIZE;
-            m_pressueSamples[m_accumulationPosition] = 0;
-            m_numSamples = m_numSamples >= WINDOW_SIZE ? m_numSamples : m_numSamples + 1; 
-        }
-        
-        public void clear(){
-            m_accumulationPosition = 0;
-            m_numSamples = 0;
-            for (int i = 0; i < WINDOW_SIZE; i++){
-                m_pressueSamples[i] = 0;
-            }
-        }
     }
 }
