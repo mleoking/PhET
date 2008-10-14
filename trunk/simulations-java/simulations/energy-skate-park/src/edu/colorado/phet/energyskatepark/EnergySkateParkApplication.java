@@ -32,17 +32,14 @@ package edu.colorado.phet.energyskatepark;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Date;
 
-import javax.swing.*;
+import javax.swing.JMenuItem;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.util.logging.JFrameLogger;
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.energyskatepark.serialization.EnergySkateParkIO;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkFrameSetup;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel;
@@ -50,19 +47,16 @@ import edu.colorado.phet.energyskatepark.view.swing.EnergySkateParkTestMenu;
 import edu.colorado.phet.energyskatepark.view.swing.EnergySkateParkTrackMenu;
 
 public class EnergySkateParkApplication extends PhetApplication {
+    
     private EnergySkateParkModule module;
     public static double SIMULATION_TIME_DT = 0.03;
     public static final boolean IGNORE_THERMAL_DEFAULT = false;
 
-    public EnergySkateParkApplication( String[] args ) {
-        this( args, new EnergySkateParkOptions() );
-    }
-
-    public EnergySkateParkApplication( String[] args, EnergySkateParkOptions options ) {
-        super( args, EnergySkateParkStrings.getString( "energy-skate-park.name" ), EnergySkateParkStrings.getString( "energy-skate-park.description" ),
-               PhetApplicationConfig.getVersion( "energy-skate-park" ).formatForTitleBar(),
-//               new EnergySkateParkDebugFrameSetup() );
-new EnergySkateParkFrameSetup() );
+    public EnergySkateParkApplication( PhetApplicationConfig config ) {
+        super( config );
+        
+        EnergySkateParkOptions options = parseOptions( config.getCommandLineArgs() );
+        
         module = new EnergySkateParkModule( "Module", new ConstantDtClock( 30, SIMULATION_TIME_DT ), getPhetFrame(), options );
         setModules( new Module[]{module} );
         getPhetFrame().addMenu( new EnergySkateParkOptionsMenu( module ) );
@@ -102,38 +96,28 @@ new EnergySkateParkFrameSetup() );
         return module;
     }
 
-    private void start() {
+    public void startApplication() {
         super.startApplication();
         module.getPhetPCanvas().requestFocus();
-    }
-
-    public static void main( final String[] args ) throws InvocationTargetException, InterruptedException {
-        SwingUtilities.invokeAndWait( new Runnable() {
-            public void run() {
-//                JFrameLogger logger = new JFrameLogger( "Localization Log" );
-//                logger.log( "log started at "+new Date() );
-//                PhetResources.setLogger( logger );
-
-                EnergySkateParkOptions skateParkOptions = parseOptions( args );
-
-                main( args,skateParkOptions );
-
-//                logger.setVisible( true );
-
-            }
-        } );
-
-
-    }
-
-    public static void main(String[] args, EnergySkateParkOptions skateParkOptions ) {
-        new EnergySkateParkLookAndFeel().initLookAndFeel();
-        new EnergySkateParkApplication( args, skateParkOptions ).start();
     }
 
     private static EnergySkateParkOptions parseOptions( String[] args ) {
         //todo: not yet implemented
         return new EnergySkateParkOptions();
+    }
+    
+    public static void main( final String[] args ) {
+        
+        ApplicationConstructor appConstructor = new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new EnergySkateParkApplication( config );
+            }
+        };
+        
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, EnergySkateParkConstants.PROJECT_NAME );
+        appConfig.setLookAndFeel( new EnergySkateParkLookAndFeel() );
+        appConfig.setFrameSetup( new EnergySkateParkFrameSetup() );
+        appConfig.launchSim();
     }
 
 }

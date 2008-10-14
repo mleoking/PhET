@@ -1,3 +1,5 @@
+10-13-2008: disable some ancillary and test code that is using obsolete PhetApplication constructors
+10-13-2008: [811] use PhetApplicationConfig
 8-20-2007: energy-skate-park: converted to use IProguardKeep
 
 2.03.01 (8-7-2007)
