@@ -1,64 +1,13 @@
-###########################
-###    Todo John B      ###
-###########################
+#=============================================================================
+# TODO list for States of Matter
+# =============================================================================
 
-Forces in potential tab
+HIGHEST PRIORITY
 
-- add vanderwalls and coulomb (attractive and repulsive) forces as option
+HIGH PRIORITY
+- Conduct interviews to determine if it is ready to deploy.
 
-- 3 options as radio buttons:
-	>Show separate forces
-	>Show total force
-	>Show none
+MEDIUM PRIORITY
 
-- make adjustments grabbable on graph, with some indicator that you can grab them. Look at other sims for this.
+LOW PRIORITY
 
-- make adjustment sliders appear only  when "Adjustable Attraction" is selected
-
-- add thumbtack to pin down left atom
-
-- remove "Stop Atom" button
-
-- add "Return Atom" box for when atom disappears off of the screen
-
-- change reset to "Reset All"
-
-- add little icons for molecules (just little blue, green, or violet spheres)
-
-- ???
-
-
-
-###########################
-###     Todo Noah P     ###
-###########################
-
-- icons for solid, liquid, gas
-
-- think of a better phrase for "separate forces"
-
-- redraw graph background
-
-- ???
-
-###########################
-###     To Discuss      ###
-###########################
-
-From Trish 9/4/08
-
-     First tab: One thing I thought would be interesting was to change the state to liquid and toggle between the substances. I realized that when I change substance the phase goes back to solid, but there is no indicator. When you select a phase, the button is outlined but not if you change substance.
-
-    Second Tab: I miss having a particle counter and also get tired of pumping. It seems like a control like there is in the other chemistry sims would be helpful (Gas Properties, Salt, and Reactions all have particle number controls and counters). Also, I would like to repeat my thought that the Gravity control should be demoted to below the other diagrams.
-
->>>NP: Particle counter seems like a good idea.
-	 Need to have a look at gravity slider.
-
-   Third tab: I like the new sizes. I am not sure how the STOP ATOM button is supposed to work, why wouldn't a user just press PAUSE? Right now, it seems that once I hit it I cannot get the ball to move again unless I drag it.
-
->>> NP: We decided to remove the Stop Atom button.
-
-
-###########################
-###     Done	      ###
-###########################
