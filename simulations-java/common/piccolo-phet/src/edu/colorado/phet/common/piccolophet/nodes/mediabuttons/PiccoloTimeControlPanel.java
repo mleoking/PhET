@@ -60,6 +60,7 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
     private double time;
     private boolean paused;
     private ArrayList listeners = new ArrayList();
+    private ToolTipHandler stepTooltipHandler;
 
     //------------------------------------------------------------------------
     // Constructors
@@ -127,7 +128,8 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
         add( buttonPanel );
         
         // tool tips on piccolo buttons
-        stepButton.addInputEventListener( new ToolTipHandler( STEP_TOOLTIP, buttonPCanvas ) );
+        stepTooltipHandler = new ToolTipHandler( STEP_TOOLTIP, buttonPCanvas );
+        stepButton.addInputEventListener( stepTooltipHandler );
         playPauseTooltipHandler = new ToolTipHandler( PAUSE_TOOLTIP, buttonPCanvas );
         playPauseButton.addInputEventListener( playPauseTooltipHandler );
 
@@ -461,10 +463,15 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
                     , Math.min( orig.getBlue() + dblue, 255 ) );
         }
     }
+
+    public void setStepButtonTooltip( String tooltip ) {
+        stepTooltipHandler.setText( tooltip );
+    }
     
     public static void main( String[] args ) {
         JFrame frame = new JFrame();
         PiccoloTimeControlPanel pane = new PiccoloTimeControlPanel();
+        pane.setStepButtonTooltip( "step forward the simulation" );
 //        pane.setRestartButtonVisible( true );
         pane.addTimeControlListener( new TimeControlListener() {
             public void stepPressed() {
