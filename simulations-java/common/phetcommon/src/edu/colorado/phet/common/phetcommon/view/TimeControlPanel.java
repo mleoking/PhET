@@ -309,35 +309,35 @@ public class TimeControlPanel extends JPanel {
         restartButton.setEnabled( isEnabled() );
     }
 
-    public void addTimeControlListener( TimeControlPanelListener listener ) {
+    public void addTimeControlListener( TimeControlListener listener ) {
         listeners.add( listener );
     }
 
-    public void removeTimeControlListener( TimeControlPanelListener listener ) {
+    public void removeTimeControlListener( TimeControlListener listener ) {
         listeners.remove( listener );
     }
 
     private void notifyStepPressed() {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (TimeControlPanelListener) listeners.get( i ) ).stepPressed();
+            ( (TimeControlListener) listeners.get( i ) ).stepPressed();
         }
     }
 
     private void notifyPlayPressed() {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (TimeControlPanelListener) listeners.get( i ) ).playPressed();
+            ( (TimeControlListener) listeners.get( i ) ).playPressed();
         }
     }
 
     private void notifyPausePressed() {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (TimeControlPanelListener) listeners.get( i ) ).pausePressed();
+            ( (TimeControlListener) listeners.get( i ) ).pausePressed();
         }
     }
 
     private void notifyRestartPressed() {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (TimeControlPanelListener) listeners.get( i ) ).restartPressed();
+            ( (TimeControlListener) listeners.get( i ) ).restartPressed();
         }
     }
 
@@ -354,7 +354,7 @@ public class TimeControlPanel extends JPanel {
         JFrame frame = new JFrame();
         TimeControlPanel pane = new TimeControlPanel();
         pane.setRestartButtonVisible( true );
-        pane.addTimeControlListener( new TimeControlPanelListener() {
+        pane.addTimeControlListener( new TimeControlListener() {
             public void stepPressed() {
                 System.out.println( "TimeControlPanel.stepPressed" );
             }
