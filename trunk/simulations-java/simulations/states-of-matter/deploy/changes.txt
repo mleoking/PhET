@@ -1,1 +1,2 @@
+10/14/2008 - Changed the composite thermometer node to have the digital readout on top rather than on the side in order to make room for more things on the top of the container.
 ******* 0.00.57 (25266) 
