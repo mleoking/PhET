@@ -10,14 +10,12 @@ import java.util.Random;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
-import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.view.BicyclePumpNode;
 import edu.colorado.phet.statesofmatter.view.ModelViewTransform;
 import edu.colorado.phet.statesofmatter.view.ParticleContainerNode;
 import edu.colorado.phet.statesofmatter.view.StoveNode;
 import edu.colorado.phet.statesofmatter.view.instruments.CompositeThermometerNode;
-import edu.colorado.phet.statesofmatter.view.instruments.DialGaugeNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**

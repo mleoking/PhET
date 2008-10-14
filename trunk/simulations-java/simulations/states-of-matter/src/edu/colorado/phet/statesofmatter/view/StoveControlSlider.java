@@ -6,17 +6,13 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.Hashtable;
 
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
@@ -35,7 +31,6 @@ public class StoveControlSlider extends JSlider {
     private static final int MAX_SLIDER_VALULE = 50;
     private static final int MIN_SLIDER_VALULE = -50;
     private static final Color CONTROL_COLOR = new Color(240, 230, 255);
-    private ArrayList m_listeners = new ArrayList();
 
     public StoveControlSlider() {
     	

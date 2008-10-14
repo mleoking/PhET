@@ -22,9 +22,6 @@ public class LjPotentialCalculator {
     private static final double DEFAULT_SIGMA = 300;
     private static final double DEFAULT_EPSLON = 100;
     
-    // Boundary for binary searches.
-    private static final int BINARY_SEARCH_AMOUNT = 32;
-
     //-----------------------------------------------------------------------------
     // Instance Data
     //-----------------------------------------------------------------------------

@@ -35,6 +35,18 @@ public class PhaseChangesControlPanel extends ControlPanel {
     private static final Font BUTTON_LABEL_FONT = new PhetFont(14);
     private static final int INTERACTION_POTENTIAL_DIAGRAM_WIDTH = 200;
     private static final int INTERACTION_POTENTIAL_DIAGRAM_HEIGHT = (int)(INTERACTION_POTENTIAL_DIAGRAM_WIDTH * 0.8);
+
+    // Constants used when mapping the model pressure and temperature to the phase diagram.
+    private static double TRIPLE_POINT_TEMPERATURE_IN_MODEL = 0.427;
+    private static double TRIPLE_POINT_TEMPERATURE_ON_DIAGRAM = 0.375;
+    private static double CRITICAL_POINT_TEMPERATURE_IN_MODEL = 0.8;
+    private static double CRITICAL_POINT_TEMPERATURE_ON_DIAGRAM = 0.8;
+    private static double SLOPE_IN_1ST_REGION = TRIPLE_POINT_TEMPERATURE_ON_DIAGRAM / TRIPLE_POINT_TEMPERATURE_IN_MODEL;
+    private static double SLOPE_IN_2ND_REGION = 
+    	(CRITICAL_POINT_TEMPERATURE_ON_DIAGRAM - TRIPLE_POINT_TEMPERATURE_ON_DIAGRAM) /
+        (CRITICAL_POINT_TEMPERATURE_IN_MODEL - TRIPLE_POINT_TEMPERATURE_IN_MODEL);
+    private static double OFFSET_IN_2ND_REGION = TRIPLE_POINT_TEMPERATURE_ON_DIAGRAM - 
+         (SLOPE_IN_2ND_REGION * TRIPLE_POINT_TEMPERATURE_IN_MODEL);
     
     //----------------------------------------------------------------------------
     // Instance Data
@@ -259,24 +271,6 @@ public class PhaseChangesControlPanel extends ControlPanel {
         }
     }
     
-    // Constants used to control the way in which pressure and temperature
-    // data from the model are mapped to the phase diagram.  These values are
-    // empirically determined and can and should be tweaked as necessary to
-    // create the correct behavior.
-    private static final int ASSYMTOTIC_MAPPING_ALGORITHM = 0;
-    private static final int LINEAR_MAPPING_ALGORITHM = 1;
-    private static final int SIGMOID_ASSYMTOTIC_MAPPING_ALGORITHM = 2;
-    private static final int MAPPING_ALGORITHM = SIGMOID_ASSYMTOTIC_MAPPING_ALGORITHM;
-    
-    private static final double TEMPERATURE_SCALE_FACTOR_LINEAR = 0.6;
-    private static final double PRESSURE_SCALE_FACTOR_LINEAR = 2;
-    
-    private static final double TEMPERATURE_SCALE_FACTOR_ASSYMTOTIC = 10;
-    private static final double PRESSURE_SCALE_FACTOR_ASSYMTOTIC = 100;
-    
-    private static final double TEMPERATURE_SCALE_FACTOR_SIGMOID = 20;
-    private static final double TEMPERATURE_SHIFT_FACTOR_SIGMOID = 0.43;
-    
     /**
      * Update the position of the marker on the phase diagram based on the
      * temperature and pressure values within the model.
@@ -296,48 +290,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
 	        m_phaseDiagram.setStateMarkerPos( mappedTemperature, mappedPressure );
     	}
         
-        /*
-        if (MAPPING_ALGORITHM == LINEAR_MAPPING_ALGORITHM) {
-            mappedTemperature = modelTemperature * TEMPERATURE_SCALE_FACTOR_LINEAR;
-            if (mappedTemperature > 1.0) {
-                mappedTemperature = 1.0;
-            }
-            mappedPressure = modelPressure * PRESSURE_SCALE_FACTOR_LINEAR;
-            if (mappedPressure > 1.0) {
-                mappedPressure = 1.0;
-            }
-        }
-        else if (MAPPING_ALGORITHM == ASSYMTOTIC_MAPPING_ALGORITHM) {
-            mappedTemperature = -1 / ((modelTemperature * TEMPERATURE_SCALE_FACTOR_ASSYMTOTIC) + 1) + 1;
-            if (mappedTemperature > 1.0) {
-                mappedTemperature = 1.0;
-            }
-            mappedPressure = -1 / ((modelPressure * PRESSURE_SCALE_FACTOR_ASSYMTOTIC) + 1) + 1;
-            if (mappedPressure > 1.0) {
-                mappedPressure = 1.0;
-            }
-        }
-        else if (MAPPING_ALGORITHM == SIGMOID_ASSYMTOTIC_MAPPING_ALGORITHM) {
-            mappedTemperature = 1 / (1 + (Math.exp((-modelTemperature + TEMPERATURE_SHIFT_FACTOR_SIGMOID ) * 
-                    TEMPERATURE_SCALE_FACTOR_SIGMOID)));
-            mappedPressure = -1 / ((modelPressure * PRESSURE_SCALE_FACTOR_ASSYMTOTIC) + 1) + 1;
-            if (mappedPressure > 1.0) {
-                mappedPressure = 1.0;
-            }
-        }
-        */
     }
-    
-    private static double TRIPLE_POINT_TEMPERATURE_IN_MODEL = 0.427;
-    private static double TRIPLE_POINT_TEMPERATURE_ON_DIAGRAM = 0.375;
-    private static double CRITICAL_POINT_TEMPERATURE_IN_MODEL = 0.8;
-    private static double CRITICAL_POINT_TEMPERATURE_ON_DIAGRAM = 0.8;
-    private static double SLOPE_IN_1ST_REGION = TRIPLE_POINT_TEMPERATURE_ON_DIAGRAM / TRIPLE_POINT_TEMPERATURE_IN_MODEL;
-    private static double SLOPE_IN_2ND_REGION = 
-    	(CRITICAL_POINT_TEMPERATURE_ON_DIAGRAM - TRIPLE_POINT_TEMPERATURE_ON_DIAGRAM) /
-        (CRITICAL_POINT_TEMPERATURE_IN_MODEL - TRIPLE_POINT_TEMPERATURE_IN_MODEL);
-    private static double OFFSET_IN_2ND_REGION = TRIPLE_POINT_TEMPERATURE_ON_DIAGRAM - 
-         (SLOPE_IN_2ND_REGION * TRIPLE_POINT_TEMPERATURE_IN_MODEL);
     
     private double mapModelTemperatureToPhaseDiagramTemperature(double modelTemperature){
     	
