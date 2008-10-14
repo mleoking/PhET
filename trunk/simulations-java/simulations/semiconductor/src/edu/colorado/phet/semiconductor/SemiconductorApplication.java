@@ -56,7 +56,6 @@ import edu.colorado.phet.semiconductor.util.math.DoubleSeries;
 public class SemiconductorApplication implements Graphic {
     // Localization
     public static final String localizedStringsPath = "semiconductor/localization/semiconductor-strings";
-    private static final String VERSION = PhetApplicationConfig.getVersion( "semiconductor" ).formatForTitleBar();
 
     CircuitSection circuitSection;
     EnergySection energySection;
