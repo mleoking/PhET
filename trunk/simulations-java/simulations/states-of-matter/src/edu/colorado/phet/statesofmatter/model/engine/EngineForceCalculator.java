@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import edu.colorado.phet.statesofmatter.model.container.ParticleContainerWall;
 import edu.colorado.phet.statesofmatter.model.engine.gravity.GravityForceCalculator;
 import edu.colorado.phet.statesofmatter.model.engine.lj.LennardJonesForce;
 import edu.colorado.phet.statesofmatter.model.engine.lj.LennardJonesForceCalculator;
@@ -18,9 +17,9 @@ public class EngineForceCalculator extends CompositeCalculator {
         getCalculators().add(new LennardJonesForceCalculator(ljf, particles));
 
         for (Iterator iterator = walls.iterator(); iterator.hasNext();) {
-            ParticleContainerWall wall = (ParticleContainerWall)iterator.next();
+//            ParticleContainerWall wall = (ParticleContainerWall)iterator.next();
 
-            getCalculators().add(new LennardJonesWallForceCalculator(ljf, wall));
+//            getCalculators().add(new LennardJonesWallForceCalculator(ljf, wall));
         }
     }
 }
