@@ -37,7 +37,6 @@ import edu.colorado.phet.statesofmatter.StatesOfMatterApplication;
 import edu.colorado.phet.statesofmatter.control.GravityControlPanel;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
-import edu.colorado.phet.statesofmatter.module.experimental.ExpSolidLiquidGasModule;
 import edu.colorado.phet.statesofmatter.module.phasechanges.PhaseChangesModule;
 import edu.colorado.phet.statesofmatter.module.solidliquidgas.SolidLiquidGasModule;
 
@@ -83,9 +82,6 @@ public class DeveloperControlsDialog extends JDialog {
         }
         else if (activeModule instanceof PhaseChangesModule){
             m_model = ((PhaseChangesModule)activeModule).getMultiParticleModel();
-        }
-        else if (activeModule instanceof ExpSolidLiquidGasModule){
-            m_model = ((ExpSolidLiquidGasModule)activeModule).getMultiParticleModel();
         }
         
         // Register with the application for module change events.
