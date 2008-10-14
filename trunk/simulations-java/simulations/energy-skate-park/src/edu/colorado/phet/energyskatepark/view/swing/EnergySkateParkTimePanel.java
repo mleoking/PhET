@@ -1,17 +1,17 @@
 package edu.colorado.phet.energyskatepark.view.swing;
 
+import javax.swing.JPanel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
-import edu.colorado.phet.common.phetcommon.view.TimeControlPanel;
+import edu.colorado.phet.common.phetcommon.view.TimeControlPanelListener.TimeControlPanelAdapter;
 import edu.colorado.phet.common.timeseries.ui.TimeSpeedSlider;
 import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 /**
  * Author: Sam Reid
@@ -31,7 +31,7 @@ public class EnergySkateParkTimePanel extends JPanel {
 //        add( new JLabel( new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_CLOCK ) ) ) );
         add( timeSpeedSlider );
         ClockControlPanel controlPanel = new ClockControlPanel( clock );
-        controlPanel.addTimeControlListener( new TimeControlPanel.TimeControlPanelAdapter() {
+        controlPanel.addTimeControlListener( new TimeControlPanelAdapter() {
             public void stepPressed() {
                 module.setRecordOrLiveMode();
             }
