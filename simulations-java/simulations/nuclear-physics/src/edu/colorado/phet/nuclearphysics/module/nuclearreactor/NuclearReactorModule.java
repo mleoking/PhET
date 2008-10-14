@@ -4,9 +4,9 @@ package edu.colorado.phet.nuclearphysics.module.nuclearreactor;
 
 import java.awt.Frame;
 
-import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.control.NuclearPhysicsClockControlPanel;
 import edu.colorado.phet.nuclearphysics.defaults.ChainReactionDefaults;
 import edu.colorado.phet.nuclearphysics.defaults.NuclearReactorDefaults;
 import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsClock;
@@ -27,7 +27,7 @@ public class NuclearReactorModule extends PiccoloModule {
     private NuclearReactorModel _model;
     private NuclearReactorCanvas _canvas;
     private NuclearReactorControlPanel _controlPanel;
-    private ClockControlPanel _clockControlPanel;
+    private NuclearPhysicsClockControlPanel _clockControlPanel;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -50,7 +50,7 @@ public class NuclearReactorModule extends PiccoloModule {
         setControlPanel( _controlPanel );
         
         // Clock controls
-        _clockControlPanel = new ClockControlPanel( getClock() );
+        _clockControlPanel = new NuclearPhysicsClockControlPanel( getClock() );
         setClockControlPanel( _clockControlPanel );
         
         // Help

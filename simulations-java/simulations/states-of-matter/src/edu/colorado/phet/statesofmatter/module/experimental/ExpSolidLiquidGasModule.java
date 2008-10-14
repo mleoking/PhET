@@ -6,8 +6,8 @@ import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
+import edu.colorado.phet.statesofmatter.control.StatesOfMatterClockControlPanel;
 import edu.colorado.phet.statesofmatter.defaults.SolidLiquidGasDefaults;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
@@ -45,7 +45,7 @@ public class ExpSolidLiquidGasModule extends Module {
         setControlPanel( new ExpSolidLiquidGasControlPanel( this, parentFrame ) );
         
         // Clock controls
-        setClockControlPanel( new ClockControlPanel( getClock() ) );
+        setClockControlPanel( new StatesOfMatterClockControlPanel( getClock() ) );
         
         // Help
         if ( hasHelp() ) {

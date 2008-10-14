@@ -1,26 +1,30 @@
 package edu.colorado.phet.energyskatepark.model.physics;
 
+import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.Rectangle2D;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
-import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.energyskatepark.model.TraversalState;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.geom.Rectangle2D;
 
 public class TestPhysics1D extends JFrame {
     private JFrame controlFrame;
@@ -86,7 +90,7 @@ public class TestPhysics1D extends JFrame {
 
 
         ccpFrame = new JFrame( "Clock Controls" );
-        ccpFrame.setContentPane( new ClockControlPanel( clock ) );
+        ccpFrame.setContentPane( new PiccoloClockControlPanel( clock ) );
         ccpFrame.pack();
         ccpFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         ccpFrame.setLocation( getX(), getY() + getHeight() );

@@ -27,10 +27,10 @@ import edu.colorado.phet.common.jfreechartphet.piccolo.XYPlotNode;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.QTResources;
 import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
@@ -122,7 +122,7 @@ public class QTModule extends QTAbstractModule implements Observer {
     private PotentialEnergyControls _potentialEnergyControls;
     private PSwing _waveFunctionZoomControl;
     private PSwing _probabilityDensityZoomControl;
-    private ClockControlPanel _clockControls;
+    private PiccoloClockControlPanel _clockControls;
     private JDialog _richardsonDialog;
     
     // Colors 
@@ -281,7 +281,7 @@ public class QTModule extends QTAbstractModule implements Observer {
         
         // Clock Controls
         {
-            _clockControls = new ClockControlPanel( getClock() );
+            _clockControls = new PiccoloClockControlPanel( getClock() );
             _clockControls.setRestartButtonVisible( true );
             _clockControls.setTimeDisplayVisible( true );
             _clockControls.setTimeFormat( QTConstants.TIME_FORMAT_PATTERN );
