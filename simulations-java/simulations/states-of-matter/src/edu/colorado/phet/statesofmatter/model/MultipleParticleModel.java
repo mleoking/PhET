@@ -125,8 +125,8 @@ public class MultipleParticleModel {
     
     // Values used for converting from model temperature to the temperature
     // for a given particle.
-    private static final double TRIPLE_POINT_MODEL_TEMPERATURE = 0.4;    // Empirically determined.
-    private static final double CRITICAL_POINT_MODEL_TEMPERATURE = 0.8;  // Empirically determined.
+    public static final double TRIPLE_POINT_MODEL_TEMPERATURE = 0.4;    // Empirically determined.
+    public static final double CRITICAL_POINT_MODEL_TEMPERATURE = 0.8;  // Empirically determined.
     private static final double NEON_TRIPLE_POINT_IN_KELVIN = 25;
     private static final double NEON_CRITICAL_POINT_IN_KELVIN = 44;
     private static final double ARGON_TRIPLE_POINT_IN_KELVIN = 84;
