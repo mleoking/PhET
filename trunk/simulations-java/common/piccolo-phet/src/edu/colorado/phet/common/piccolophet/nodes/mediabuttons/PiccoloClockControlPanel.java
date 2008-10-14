@@ -54,11 +54,10 @@ public class PiccoloClockControlPanel extends PiccoloTimeControlPanel{
 
             public void simulationTimeChanged( ClockEvent clockEvent ) {
                 setTimeDisplay( clock.getSimulationTime() );
-                advanceAnimatedClockIcon();
             }
 
             public void simulationTimeReset( ClockEvent clockEvent ) {
-                resetAnimatedClockIcon();
+                // do nothing
             }
         };
         clock.addClockListener( clockListener );
