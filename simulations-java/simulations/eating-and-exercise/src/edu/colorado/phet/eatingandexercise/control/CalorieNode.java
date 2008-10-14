@@ -36,6 +36,7 @@ public class CalorieNode extends PNode {
     private CalorieDragStrip calorieDragStrip;
     private static final double SPACING_BETWEEN_PLATE_AND_TOOLBOX = 20;
     private ArrayList itemPressedListeners = new ArrayList();
+    private ArrayList overlapTargets = new ArrayList();
 
     public CalorieNode( Frame parentFrame, String editButtonText, Color editButtonColor, final CalorieSet available, final CalorieSet calorieSet, String availableTitle, String selectedTitle, String dropTargetIcon ) {
         this.parentFrame = parentFrame;
@@ -136,7 +137,20 @@ public class CalorieNode extends PNode {
     }
 
     private boolean nodeOverlapsDropTarget( CalorieDragStrip.DragNode node ) {
-        return dropTarget.getGlobalFullBounds().contains( node.getPNodeIcon().getGlobalFullBounds().getCenter2D() );
+        boolean nodeOverlapsPlate = dropTarget.getGlobalFullBounds().contains( node.getPNodeIcon().getGlobalFullBounds().getCenter2D() );
+
+        boolean nodeOverlapsOtherTarget = nodeOverlapsOtherTarget( node );
+        return nodeOverlapsPlate || nodeOverlapsOtherTarget;
+    }
+
+    private boolean nodeOverlapsOtherTarget( CalorieDragStrip.DragNode node ) {
+        boolean overlaps = false;
+        for ( int i = 0; i < overlapTargets.size(); i++ ) {
+            PNode pNode = (PNode) overlapTargets.get( i );
+            overlaps = overlaps || pNode.getGlobalFullBounds().contains( node.getPNodeIcon().getGlobalFullBounds().getCenter2D() );
+        }
+        return overlaps;
+
     }
 
     private void addPreExistingItems() {
@@ -256,5 +270,9 @@ public class CalorieNode extends PNode {
 
     public void addItemPressedListener( ActionListener actionListener ) {
         itemPressedListeners.add( actionListener );
+    }
+
+    public void addOverlapTarget( PNode overlapTarget ) {
+        overlapTargets.add( overlapTarget );
     }
 }
