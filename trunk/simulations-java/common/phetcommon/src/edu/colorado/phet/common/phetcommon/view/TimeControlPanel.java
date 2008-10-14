@@ -313,7 +313,7 @@ public class TimeControlPanel extends JPanel {
      * Listener interface for receiving events from TimeControlPanel
      * This interface may be revised to pass a TimeControlEvent.
      */
-    public static interface TimeControlListener {
+    public static interface TimeControlPanelListener {
         void stepPressed();
 
         void playPressed();
@@ -326,7 +326,7 @@ public class TimeControlPanel extends JPanel {
     /**
      * Convenience adapter class for TimeControlListener
      */
-    public static class TimeControlAdapter implements TimeControlListener {
+    public static class TimeControlPanelAdapter implements TimeControlPanelListener {
         public void stepPressed() {
         }
 
@@ -340,35 +340,35 @@ public class TimeControlPanel extends JPanel {
         }
     }
 
-    public void addTimeControlListener( TimeControlListener listener ) {
+    public void addTimeControlListener( TimeControlPanelListener listener ) {
         listeners.add( listener );
     }
 
-    public void removeTimeControlListener( TimeControlListener listener ) {
+    public void removeTimeControlListener( TimeControlPanelListener listener ) {
         listeners.remove( listener );
     }
 
     private void notifyStepPressed() {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (TimeControlListener) listeners.get( i ) ).stepPressed();
+            ( (TimeControlPanelListener) listeners.get( i ) ).stepPressed();
         }
     }
 
     private void notifyPlayPressed() {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (TimeControlListener) listeners.get( i ) ).playPressed();
+            ( (TimeControlPanelListener) listeners.get( i ) ).playPressed();
         }
     }
 
     private void notifyPausePressed() {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (TimeControlListener) listeners.get( i ) ).pausePressed();
+            ( (TimeControlPanelListener) listeners.get( i ) ).pausePressed();
         }
     }
 
     private void notifyRestartPressed() {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (TimeControlListener) listeners.get( i ) ).restartPressed();
+            ( (TimeControlPanelListener) listeners.get( i ) ).restartPressed();
         }
     }
 
@@ -385,7 +385,7 @@ public class TimeControlPanel extends JPanel {
         JFrame frame = new JFrame();
         TimeControlPanel pane = new TimeControlPanel();
         pane.setRestartButtonVisible( true );
-        pane.addTimeControlListener( new TimeControlListener() {
+        pane.addTimeControlListener( new TimeControlPanelListener() {
             public void stepPressed() {
                 System.out.println( "TimeControlPanel.stepPressed" );
             }
