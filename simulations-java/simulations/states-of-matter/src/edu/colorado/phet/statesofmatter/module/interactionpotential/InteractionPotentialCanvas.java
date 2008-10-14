@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 
-import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.help.DefaultWiggleMe;
 import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
@@ -262,7 +261,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         
         if ((!m_wiggleMeShown) && (ENABLE_WIGGLE_ME)){
             // The wiggle me has not yet been shown, so show it.
-            m_wiggleMe = new DefaultWiggleMe( this, "Move atom and release." );  // TODO JBP TBD - Make this a string.
+            m_wiggleMe = new DefaultWiggleMe( this, "Move atom and release." );  // Note: Make this a string if the wiggle-me is ever added back in.
             m_wiggleMe.setArrowTailPosition( MotionHelpBalloon.BOTTOM_CENTER );
             double wiggleMeScale = WIGGLE_ME_HEIGHT / m_wiggleMe.getFullBoundsReference().height;
             m_wiggleMe.scale( wiggleMeScale );

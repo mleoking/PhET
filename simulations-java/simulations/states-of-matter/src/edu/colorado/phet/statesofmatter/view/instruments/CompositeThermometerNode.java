@@ -32,7 +32,9 @@ public class CompositeThermometerNode extends PNode {
     
     /**
      * Constructor.
-     * @param maxTemp TODO
+     * @param width - Width on the canvas of this node.
+     * @param height - Height on the canvas of this node.
+     * @param maxTemp - The maximum temperature in Kelvin that the thermometer can display. 
      */
     public CompositeThermometerNode(double width, double height, double maxTemp){
 
@@ -76,9 +78,17 @@ public class CompositeThermometerNode extends PNode {
         private static final double INSET_WIDTH_RATIO = 0.95;
         
         private final DecimalFormat highNumberFormatter = new DecimalFormat( "##0" );
+        
+        /*
+         * The formats below were created when the model was designed to creep ever
+         * closer to absolute zero without actually reaching it.  A decision was
+         * made in October 2008 to allow the model to reach absolute zero, so this
+         * is being commented out.  Delete this if, after several months, the decision
+         * still stands.
         private final DecimalFormat lowNumberFormatter = new DecimalFormat( "#.0" );
         private final DecimalFormat lowerNumberFormatter = new DecimalFormat( "#.00" );
         private final DecimalFormat lowestNumberFormatter = new DecimalFormat( "0.#E0" );
+         */
         
         private PText m_text;
         private String m_units;

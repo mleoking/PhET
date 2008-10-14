@@ -7,7 +7,6 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -30,7 +29,11 @@ import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
-
+/**
+ * Control panel for the Solid, Liquid, and Gas module.
+ * 
+ * @author John Blanco
+ */
 public class SolidLiquidGasControlPanel extends ControlPanel {
     
     //----------------------------------------------------------------------------
