@@ -63,8 +63,8 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
         timeFormat = DEFAULT_TIME_FORMAT;
 
         // Restart
-        String restartString = PhetCommonResources.getInstance().getLocalizedString( PhetCommonResources.STRING_CLOCK_RESTART );
-        BufferedImage restartImage = PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_RESTART );
+        String restartString = PhetCommonResources.getString( PhetCommonResources.STRING_CLOCK_RESTART );
+        BufferedImage restartImage = PhetCommonResources.getImage( PhetCommonResources.IMAGE_RESTART );
         ImageIcon restartIcon = new ImageIcon( restartImage );
         restartButton = new JButton( restartString, restartIcon );
 
@@ -166,11 +166,11 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
     }
 
     private String getPauseString() {
-        return PhetCommonResources.getInstance().getLocalizedString( PhetCommonResources.STRING_CLOCK_PAUSE );
+        return PhetCommonResources.getString( PhetCommonResources.STRING_CLOCK_PAUSE );
     }
 
     private String getPlayString() {
-        return PhetCommonResources.getInstance().getLocalizedString( PhetCommonResources.STRING_CLOCK_PLAY );
+        return PhetCommonResources.getString( PhetCommonResources.STRING_CLOCK_PLAY );
     }
 
     private void updateShape() {
@@ -383,7 +383,7 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
     }
 
     private String getStepString() {
-        return PhetCommonResources.getInstance().getLocalizedString( PhetCommonResources.STRING_CLOCK_STEP );
+        return PhetCommonResources.getString( PhetCommonResources.STRING_CLOCK_STEP );
     }
 
     public void addTimeControlListener( TimeControlPanel.TimeControlListener listener ) {

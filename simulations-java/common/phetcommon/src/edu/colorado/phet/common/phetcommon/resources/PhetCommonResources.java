@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.common.phetcommon.resources;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -75,5 +76,15 @@ public class PhetCommonResources {
      */
     public static String getString( String key ) {
         return INSTANCE.getLocalizedString( key );
+    }
+    
+    /**
+     * Convenience method for accessing an image file from phetcommon.
+     *
+     * @param name the name of the image
+     * @return BufferedImage
+     */
+    public static BufferedImage getImage( String name ) {
+        return INSTANCE.getImage( name );
     }
 }
