@@ -32,6 +32,7 @@ public class AbstractMediaButton extends PNode {
         buttonImageNode = new PImage( image );
         addChild( buttonImageNode );
 
+        //TODO why are we not using CursorHandler here?
         addInputEventListener( new PBasicInputEventHandler() {
 
             public void mouseEntered( PInputEvent event ) {
@@ -89,20 +90,16 @@ public class AbstractMediaButton extends PNode {
         if ( !enabled ) {
             buttonImageNode.setImage( new MyRescaleOp( 0.5, -100 ).filter( getImage(), null ) );
         }
-        else if ( mouseEntered && mousePressed ) {
-            buttonImageNode.setImage( new MyRescaleOp( 0.9, 0 ).filter( getImage(), null ) );
-        }
-        else if ( !mouseEntered && mousePressed ) {
-            buttonImageNode.setImage( new MyRescaleOp( 1.0, -50 ).filter( getImage(), null ) );
-        }
-        else if ( mouseEntered ) {
-            buttonImageNode.setImage( new MyRescaleOp( 1.2, 0 ).filter( getImage(), null ) );
-        }
-        else if ( mousePressed ) {
-            buttonImageNode.setImage( new MyRescaleOp( 0.9, 0 ).filter( getImage(), null ) );
+        else if ( !mouseEntered ) {
+            buttonImageNode.setImage( getImage() );
         }
         else {
-            buttonImageNode.setImage( getImage() );
+            if ( mousePressed ) {
+                buttonImageNode.setImage( new MyRescaleOp( 0.9, 0 ).filter( getImage(), null ) );
+            }
+            else {
+                buttonImageNode.setImage( new MyRescaleOp( 1.2, 0 ).filter( getImage(), null ) );
+            }
         }
     }
 

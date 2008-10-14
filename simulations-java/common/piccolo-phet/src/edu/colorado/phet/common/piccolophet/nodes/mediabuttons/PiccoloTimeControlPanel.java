@@ -24,11 +24,11 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Feasibility test class for piccolo-based media control buttons.
+ * Piccolo-based time controls.
  *
- * @author Sam Reid, Chris Malley
+ * @author Sam Reid
+ * @author Chris Malley
  */
-//todo: this duplicates code with TimeControlPanel
 public class PiccoloTimeControlPanel extends PhetPCanvas {
 
     //------------------------------------------------------------------------
@@ -131,6 +131,7 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
         playPauseTooltipHandler = new ToolTipHandler( PAUSE_TOOLTIP, buttonPCanvas );
         playPauseButton.addInputEventListener( playPauseTooltipHandler );
 
+        // listeners
         playPauseButton.addListener( new PlayPauseButton.Listener() {
             public void playbackStateChanged() {
                 paused = !playPauseButton.isPlaying();
@@ -143,11 +144,13 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
                 }
             }
         } );
+        
         stepButton.addListener( new StepButton.Listener() {
             public void buttonPressed() {
                 notifyStepPressed();
             }
         } );
+        
         restartButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 notifyRestartPressed();
