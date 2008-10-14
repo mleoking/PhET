@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.common.piccolophet;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 
 /**
  * DeferredInitializationModule
@@ -57,7 +57,7 @@ public abstract class DeferredInitializationModule extends PiccoloModule {
         // properly initialized
         setSimulationPanel( new JPanel() );
         setControlPanel( new ControlPanel() );
-        setClockControlPanel( new ClockControlPanel( clock ) );
+        setClockControlPanel( new PiccoloClockControlPanel( clock ) );
     }
 
     /**
