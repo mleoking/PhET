@@ -580,33 +580,6 @@ public class MultipleParticleModel {
         }
         
         calculateMinAllowableContainerHeight();
-        
-        /*
-         * TODO: JPB TBD - This is the original code that John De Goes had written, which
-         * is being kept for now as a reference, but should ultimately be deleted.
-        ParticleCreationStrategy strategy = 
-            new PackedHexagonalParticleCreationStrategy(StatesOfMatterConstants.ICE_CUBE_BOUNDS, 
-                    StatesOfMatterConstants.PARTICLE_MASS, 
-                    StatesOfMatterConstants.PARTICLE_RADIUS, 
-                    StatesOfMatterConstants.PARTICLE_CREATION_CUSHION, 
-                    StatesOfMatterConstants.ICE_CUBE_DIST_FROM_FLOOR);
-
-        m_particles.clear();
-
-        strategy.createParticles(m_particles, StatesOfMatterConstants.INITIAL_MAX_PARTICLE_COUNT);
-
-        m_engineFacade = new EngineFacade(m_particles, EngineConfig.TEST);
-
-        double targetKineticEnergy = 
-            StatesOfMatterConstants.INITIAL_TOTAL_ENERGY_PER_PARTICLE * getNumParticles() - 
-            m_engineFacade.measurePotentialEnergy();
-
-        KineticEnergyAdjuster adjuster = new KineticEnergyAdjuster();
-
-        adjuster.adjust(m_particles, targetKineticEnergy);
-
-        m_totalEnergy = m_engineFacade.measureKineticEnergy() + m_engineFacade.measurePotentialEnergy();
-        */
 
         // Let any listeners know that things have changed.
         notifyContainerSizeChanged();
@@ -930,23 +903,6 @@ public class MultipleParticleModel {
             */
             notifyTemperatureChanged();
         }
-        
-        /*
-         * TODO: JPB TBD - This is the original code that John De Goes had written, which
-         * is being kept for now as a reference, but should ultimately be deleted.
-
-        for (int i = 0; i < StatesOfMatterConstants.COMPUTATIONS_PER_RENDER; i++) {
-            ForceComputation computation = m_engineFacade.step(clockEvent.getSimulationTimeChange());
-
-            computation.apply(m_particles);
-
-            // Cap the kinetic energy:
-            capKineticEnergy();
-        }
-
-        // Readjust to conserve total energy:
-        conserveTotalEnergy();
-        */
     }
     
     /**
