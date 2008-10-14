@@ -310,20 +310,6 @@ public class TimeControlPanel extends JPanel {
     }
 
     /**
-     * Listener interface for receiving events from TimeControlPanel
-     * This interface may be revised to pass a TimeControlEvent.
-     */
-    public static interface TimeControlPanelListener {
-        void stepPressed();
-
-        void playPressed();
-
-        void pausePressed();
-
-        void restartPressed();
-    }
-
-    /**
      * Convenience adapter class for TimeControlListener
      */
     public static class TimeControlPanelAdapter implements TimeControlPanelListener {

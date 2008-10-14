@@ -16,7 +16,7 @@ import javax.swing.*;
 import javax.swing.text.JTextComponent;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.view.TimeControlPanel;
+import edu.colorado.phet.common.phetcommon.view.TimeControlPanelListener;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -384,35 +384,35 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
         return PhetCommonResources.getString( PhetCommonResources.STRING_CLOCK_STEP );
     }
 
-    public void addTimeControlListener( TimeControlPanel.TimeControlPanelListener listener ) {
+    public void addTimeControlListener( TimeControlPanelListener listener ) {
         listeners.add( listener );
     }
 
-    public void removeTimeControlListener( TimeControlPanel.TimeControlPanelListener listener ) {
+    public void removeTimeControlListener( TimeControlPanelListener listener ) {
         listeners.remove( listener );
     }
 
     private void notifyStepPressed() {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (TimeControlPanel.TimeControlPanelListener) listeners.get( i ) ).stepPressed();
+            ( (TimeControlPanelListener) listeners.get( i ) ).stepPressed();
         }
     }
 
     private void notifyPlayPressed() {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (TimeControlPanel.TimeControlPanelListener) listeners.get( i ) ).playPressed();
+            ( (TimeControlPanelListener) listeners.get( i ) ).playPressed();
         }
     }
 
     private void notifyPausePressed() {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (TimeControlPanel.TimeControlPanelListener) listeners.get( i ) ).pausePressed();
+            ( (TimeControlPanelListener) listeners.get( i ) ).pausePressed();
         }
     }
 
     private void notifyRestartPressed() {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (TimeControlPanel.TimeControlPanelListener) listeners.get( i ) ).restartPressed();
+            ( (TimeControlPanelListener) listeners.get( i ) ).restartPressed();
         }
     }
 
@@ -429,7 +429,7 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
         JFrame frame = new JFrame();
         PiccoloTimeControlPanel pane = new PiccoloTimeControlPanel();
 //        pane.setRestartButtonVisible( true );
-        pane.addTimeControlListener( new TimeControlPanel.TimeControlPanelListener() {
+        pane.addTimeControlListener( new TimeControlPanelListener() {
             public void stepPressed() {
                 System.out.println( "TimeControlPanel.stepPressed" );
             }
