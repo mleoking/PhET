@@ -169,7 +169,7 @@ public class AddTranslation {
 
             File newJNLPFile = new File( project.getDefaultDeployDir(), "" + project.getName() + "_" + language + ".jnlp" );
             if (!newJNLPFile.exists()){//not all sims have a flavor name equal to project name
-                newJNLPFile=new File( project.getDefaultDeployDir(), "" + project.getFlavors()[0].getFlavorName() + "_" + language + ".jnlp" );
+                newJNLPFile=new File( project.getDefaultDeployDir(), "" + project.getFlavors()[i].getFlavorName() + "_" + language + ".jnlp" );
             }
             String repositoryMainClass = getMainClass( newJNLPFile );
             if ( !repositoryMainClass.equals( desiredMainClass ) ) {
