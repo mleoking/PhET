@@ -6,22 +6,24 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
 
 public class TestModelRecord {
     public static void main( String[] args ) {
-        EnergySkateParkApplication app = new EnergySkateParkApplication( args );
-
-        app.startApplication();
-
-        TimeSeriesModel model = app.getModule().getTimeSeriesModel();
-
-        model.setRecordMode();
-
-        try {
-            Thread.sleep( 1000 );
-        }
-        catch( InterruptedException e ) {
-        }
-
-        model.rewind();
-        model.setRecordMode();
-        model.setLiveMode();
+    
+        //TODO: port this to new EnergySkateParkApplication constructor if it's valuable
+//        EnergySkateParkApplication app = new EnergySkateParkApplication( args );
+//
+//        app.startApplication();
+//
+//        TimeSeriesModel model = app.getModule().getTimeSeriesModel();
+//
+//        model.setRecordMode();
+//
+//        try {
+//            Thread.sleep( 1000 );
+//        }
+//        catch( InterruptedException e ) {
+//        }
+//
+//        model.rewind();
+//        model.setRecordMode();
+//        model.setLiveMode();
     }
 }

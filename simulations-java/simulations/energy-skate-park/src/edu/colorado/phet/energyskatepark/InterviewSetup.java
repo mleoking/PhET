@@ -1,13 +1,14 @@
 package edu.colorado.phet.energyskatepark;
 
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.energyskatepark.view.swing.LocationControlPanel;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Author: Sam Reid
@@ -42,7 +43,9 @@ public class InterviewSetup {
                 public void actionPerformed( ActionEvent e ) {
                     EnergySkateParkOptions options = new EnergySkateParkOptions( oneColumn.isSelected() ? (LocationControlPanel.PlanetButtonLayout)new LocationControlPanel.VerticalPlanetButtonLayout() : new LocationControlPanel.TwoColumnLayout(),
                                                                                  centered.isSelected() );
-                    EnergySkateParkApplication.main( args, options );
+                    //TODO: port this to new EnergySkateParkApplication constructor if it's valuable
+//                    EnergySkateParkApplication.main( args, options );
+                    JOptionPane.showMessageDialog( null, "this feature is currently disabled" );//XXX
                 }
             } );
 
