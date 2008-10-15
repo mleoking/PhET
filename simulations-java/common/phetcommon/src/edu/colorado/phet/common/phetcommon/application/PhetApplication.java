@@ -306,6 +306,15 @@ public class PhetApplication implements ISimInfo{
             addModule( m[i] );
         }
     }
+
+    /**
+     * Returns all the Modules registered with this PhetApplication.
+     *
+     * @return all the Modules registered with this PhetApplication.
+     */
+    public Module[] getModules() {
+        return moduleManager.getModules();
+    }
     
     /**
      * Get the title for this PhetApplication.
@@ -358,15 +367,6 @@ public class PhetApplication implements ISimInfo{
      */
     public void resume() {
         getActiveModule().activate();
-    }
-
-    /**
-     * Returns all the Modules registered with this PhetApplication.
-     *
-     * @return all the Modules registered with this PhetApplication.
-     */
-    public Module[] getModules() {
-        return moduleManager.getModules();
     }
 
     /**
