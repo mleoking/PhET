@@ -61,8 +61,8 @@ public class GradientButtonNode extends PhetPNode {
     //------------------------------------------------------------------------
     
     private ArrayList _actionListeners;
-    private PBounds textBounds;
     private Color _buttonColor;
+    private PNode _icon;
 
     //------------------------------------------------------------------------
     // Constructors
@@ -77,19 +77,18 @@ public class GradientButtonNode extends PhetPNode {
      * be created.
      */
     public GradientButtonNode(String label, int fontSize, Color buttonColor){
+        this( createTextIcon( label, fontSize ), buttonColor );
+    }
+
+    //Assumes the PNode has an offset of (0,0)
+    public GradientButtonNode(PNode icon,Color buttonColor){
+        this._icon=icon;
         this._buttonColor=buttonColor;
 
         // Initialize local data.
         _actionListeners = new ArrayList();
-        
-        // Create the label node first, since its size will be the basis for
-        // the other components of this button.
-        final HTMLNode _buttonText = new HTMLNode(label);        
-        _buttonText.setFont(new PhetFont(Font.BOLD, fontSize));
-        _buttonText.setOffset(HORIZONTAL_PADDING, VERTICAL_PADDING);
-        _buttonText.setPickable( false );
 
-        textBounds = _buttonText.getFullBoundsReference();
+
 
         // Gradient for when the mouse is not over the button.
         final Paint mouseNotOverGradient = getMouseNotOverGradient();
@@ -99,11 +98,11 @@ public class GradientButtonNode extends PhetPNode {
         final Paint armedGradient = getArmedGradient();
 
         // Create the button node.
-        RoundRectangle2D buttonShape = new RoundRectangle2D.Double(0, 0, 
-                textBounds.width + 2 * HORIZONTAL_PADDING,
-                textBounds.height + 2 * VERTICAL_PADDING,
+        RoundRectangle2D buttonShape = new RoundRectangle2D.Double(0, 0,
+                getIconWidth() + 2 * HORIZONTAL_PADDING,
+                getIconHeight() + 2 * VERTICAL_PADDING,
                 BUTTON_CORNER_ROUNDEDNESS, BUTTON_CORNER_ROUNDEDNESS);
-                
+
         final PPath button = new PPath(buttonShape);
         button.setPaint( mouseNotOverGradient );
         button.addInputEventListener( new CursorHandler() ); // Does the finger pointer cursor thing.
@@ -114,13 +113,13 @@ public class GradientButtonNode extends PhetPNode {
         buttonShadow.setPickable( false );
         buttonShadow.setTransparency( SHADOW_TRANSPARENCY );
         buttonShadow.setOffset( SHADOW_OFFSET, SHADOW_OFFSET );
-        
+
         // Add the children to the node in the appropriate order so that they
         // appear as desired.
         addChild( buttonShadow );
         addChild( button );
-        button.addChild( _buttonText ); // text is a child of the button so we don't have to move it separately
-        
+        button.addChild( _icon ); // icon is a child of the button so we don't have to move it separately
+
         // Register a handler to watch for button state changes.
         ButtonEventHandler handler = new ButtonEventHandler();
         button.addInputEventListener( handler );
@@ -149,10 +148,28 @@ public class GradientButtonNode extends PhetPNode {
         } );
     }
 
+    private static PNode createTextIcon( String label, int fontSize ) {
+        // Create the label node first, since its size will be the basis for
+        // the other components of this button.
+        final HTMLNode _buttonText = new HTMLNode(label);
+        _buttonText.setFont(new PhetFont(Font.BOLD, fontSize));
+        _buttonText.setOffset(HORIZONTAL_PADDING, VERTICAL_PADDING);
+        _buttonText.setPickable( false );
+        return _buttonText;
+    }
+
+    private double getIconWidth() {
+        return _icon.getFullBounds().getWidth();
+    }
+
+    private double getIconHeight() {
+        return _icon.getFullBounds().getHeight();
+    }
+
     private Paint getArmedGradient() {
         return useGradient() ?
-               new GradientPaint( (float) textBounds.width / 2, 0f, _buttonColor,
-                                  (float) textBounds.width * 0.5f, (float) textBounds.height,
+               new GradientPaint( (float) getIconWidth() / 2, 0f, _buttonColor,
+                                  (float) getIconWidth() * 0.5f, (float) getIconHeight(),
                                   getBrighterColor( _buttonColor ) )
                :
                (Paint) getBrighterColor( getBrighterColor( _buttonColor ) );
@@ -166,17 +183,17 @@ public class GradientButtonNode extends PhetPNode {
     }
 
     private Paint getMouseOverGradient() {
-        return useGradient()?new GradientPaint((float) textBounds.width / 2, 0f,
+        return useGradient()?new GradientPaint((float) getIconWidth() / 2, 0f,
                 getBrighterColor(getBrighterColor( _buttonColor )),
-                (float) textBounds.width * 0.5f, (float) textBounds.height,
+                (float) getIconWidth() * 0.5f, (float) getIconHeight(),
                 getBrighterColor( _buttonColor ))
                :(Paint) getBrighterColor( _buttonColor );
     }
 
     private Paint getMouseNotOverGradient() {
-        return useGradient()?new GradientPaint((float) textBounds.width / 2, 0f,
+        return useGradient()?new GradientPaint((float) getIconWidth() / 2, 0f,
                 getBrighterColor( _buttonColor ),
-                (float) textBounds.width * 0.5f, (float) textBounds.height,
+                (float) getIconWidth() * 0.5f, (float) getIconHeight(),
                 _buttonColor)
                :(Paint)_buttonColor;
     }
