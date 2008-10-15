@@ -9,6 +9,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.forces1d.phetcommon.application.Module;
 import edu.colorado.phet.forces1d.phetcommon.application.PhetApplication;
 import edu.colorado.phet.forces1d.phetcommon.model.clock.AbstractClock;
@@ -16,7 +17,8 @@ import edu.colorado.phet.forces1d.phetcommon.model.clock.SwingTimerClock;
 import edu.colorado.phet.forces1d.phetcommon.view.util.FrameSetup;
 
 public class Forces1DApplication {
-    static final String VERSION = PhetApplicationConfig.getVersion( "forces-1d" ).formatForTitleBar();
+    //todo: convert to proper use of PhetApplicationConfig for getting version
+    static final String VERSION = new PhetResources( "forces-1d" ).getVersion().formatForTitleBar();
     public static Color FORCES_1D_BACKGROUND_COLOR = new Color( 200, 240, 200 );
 
     public static void main( final String[] args ) throws IOException {
