@@ -23,7 +23,6 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
 import edu.colorado.phet.common_microwaves.application.Module;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
-import edu.colorado.phet.common_microwaves.view.FlipperAffineTransformFactory;
 import edu.colorado.phet.common_microwaves.view.graphics.Graphic;
 import edu.colorado.phet.common_microwaves.view.graphics.ModelViewTransform2D;
 import edu.colorado.phet.microwaves.coreadditions.BufferedApparatusPanel;
@@ -33,10 +32,7 @@ import edu.colorado.phet.microwaves.model.Microwave;
 import edu.colorado.phet.microwaves.model.MicrowaveModel;
 import edu.colorado.phet.microwaves.model.WaterMolecule;
 import edu.colorado.phet.microwaves.model.waves.WaveMedium;
-import edu.colorado.phet.microwaves.view.FieldLatticeView;
-import edu.colorado.phet.microwaves.view.FieldVector;
-import edu.colorado.phet.microwaves.view.MicrowaveControlPanel;
-import edu.colorado.phet.microwaves.view.OvenGraphic;
+import edu.colorado.phet.microwaves.view.*;
 
 public abstract class MicrowaveModule extends Module {
     protected Microwave muWave;
