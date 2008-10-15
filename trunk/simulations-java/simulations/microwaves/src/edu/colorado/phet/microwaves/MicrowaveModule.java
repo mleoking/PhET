@@ -19,11 +19,11 @@ import edu.colorado.phet.microwaves.coreadditions.collision.Box2D;
 import edu.colorado.phet.microwaves.model.Microwave;
 import edu.colorado.phet.microwaves.model.MicrowaveModel;
 import edu.colorado.phet.microwaves.model.WaterMolecule;
+import edu.colorado.phet.microwaves.model.waves.WaveMedium;
 import edu.colorado.phet.microwaves.view.FieldLatticeView;
 import edu.colorado.phet.microwaves.view.FieldVector;
 import edu.colorado.phet.microwaves.view.MicrowaveControlPanel;
 import edu.colorado.phet.microwaves.view.OvenGraphic;
-import edu.colorado.phet.waves.model.WaveMedium;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

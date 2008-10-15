@@ -5,7 +5,7 @@
  * Date: Sep 17, 2003
  * Time: 8:08:49 AM
  */
-package edu.colorado.phet.waves.model;
+package edu.colorado.phet.microwaves.model.waves;
 
 import edu.colorado.phet.common_microwaves.math.Vector2D;
 
