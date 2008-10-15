@@ -29,7 +29,7 @@ public class MovingManApplication extends PiccoloPhetApplication {
 
     public static void main( final String[] args ) {
         
-        SimStrings.getInstance().addStrings( MovingManApplicationORIG.localizedStringsPath );
+        SimStrings.getInstance().addStrings( "moving-man/localization/moving-man-strings" );
         
         ApplicationConstructor appConstructor = new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
