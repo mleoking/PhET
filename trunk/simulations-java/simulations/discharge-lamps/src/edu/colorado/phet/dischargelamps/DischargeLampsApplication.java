@@ -23,6 +23,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.lasers.view.AtomGraphic;
+import edu.colorado.phet.lasers.view.EnergyLifetimeSlider;
+import edu.colorado.phet.lasers.view.EnergyLevelGraphic;
 
 /**
  * DischargeLampsApp
@@ -88,7 +90,9 @@ public class DischargeLampsApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) {
-        
+
+        EnergyLevelGraphic.showLifetimeLabelText=false;//workaround for #832
+
         //TODO get rid of SimStrings in this sim
         SimStrings.getInstance().init( args, "discharge-lamps/localization/discharge-lamps-strings" );
         SimStrings.getInstance().addStrings( "lasers/localization/lasers-strings" );
