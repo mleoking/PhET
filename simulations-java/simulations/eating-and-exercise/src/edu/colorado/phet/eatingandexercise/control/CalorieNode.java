@@ -78,8 +78,9 @@ public class CalorieNode extends PNode {
             public void nodeDropped( final CalorieDragStrip.DragNode node ) {
                 if ( shouldDispose( node ) ) {
                     dispose( node );
-                }else if (shouldMoveToTarget(node)){
-                    moveToDropTarget(node);
+                }
+                else if ( shouldMoveToTarget( node ) ) {
+                    moveToDropTarget( node );
                 }
             }
 
@@ -124,13 +125,21 @@ public class CalorieNode extends PNode {
         updatePlusNodeVisible();
         relayout();
     }
-Random random=new Random( );
+
+    Random random = new Random();
+
     private void moveToDropTarget( CalorieDragStrip.DragNode node ) {
-//        node.getPNode().animateToPositionScaleRotation( 0,0,1,0,2000 );
-        node.getPNode().animateToPositionScaleRotation( dropTarget.getFullBounds().getX()+random.nextDouble()*dropTarget.getFullBounds().getWidth()*0.5,
-                                                        dropTarget.getFullBounds().getY()+random.nextDouble()*dropTarget.getFullBounds().getHeight()*0.5, 
-                1,0,750 );
-//        node.getPNode().animateT
+        double targetX = dropTarget.getFullBounds().getX() + random.nextDouble() * dropTarget.getFullBounds().getWidth() * 0.5;
+        double targetY = dropTarget.getFullBounds().getY() + random.nextDouble() * dropTarget.getFullBounds().getHeight() * 0.5;
+        node.getPNode().animateToPositionScaleRotation( targetX, targetY, 1, 0, 750 );
+
+        //todo: why doesn't this work?
+//        PDimension delta=new PDimension( node.getPNode().getGlobalFullBounds().getCenter2D(),dropTarget.getGlobalFullBounds().getCenter2D());
+//        System.out.println( "global delta = " + delta );
+//        node.getPNode().globalToLocal( delta );
+//        System.out.println( "local delta = " + delta );
+//        node.getPNode().animateToPositionScaleRotation( node.getPNode().getTransform().getTranslateX()+delta.getWidth(),
+//                                                        node.getPNode().getTransform().getTranslateY()+delta.getHeight(), 1, 0, 750 );
     }
 
     private boolean shouldMoveToTarget( CalorieDragStrip.DragNode node ) {

@@ -171,7 +171,11 @@ public class EatingAndExerciseModule extends PiccoloModule {
             } );
             motionHelpBalloon.setArrowTailPosition( MotionHelpBalloon.BOTTOM_CENTER );
             motionHelpBalloon.setOffset( 800, 0 );
+            try{
             motionHelpBalloon.animateTo( _clockControlPanel.getPlayPauseButton(), 15 );
+            }catch (IllegalStateException ise){
+                ise.printStackTrace(  );
+            }
             getDefaultHelpPane().add( motionHelpBalloon );
             inited = true;
         }
