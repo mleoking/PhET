@@ -7,19 +7,20 @@
 package edu.colorado.phet.microwaves;
 
 
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.common_microwaves.view.graphics.Graphic;
-import edu.colorado.phet.common_microwaves.view.util.graphics.ImageLoader;
 import edu.colorado.phet.coreadditions_microwaves.graphics.ImageGraphic;
 import edu.colorado.phet.microwaves.coreadditions.collision.Box2D;
 import edu.colorado.phet.microwaves.model.MicrowaveModel;
 import edu.colorado.phet.microwaves.model.WaterMolecule;
 import edu.colorado.phet.microwaves.view.CoffeeControlPanel;
 import edu.colorado.phet.microwaves.view.WaterMoleculeGraphic;
-
-import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
 
 public class CoffeeModule extends MicrowaveModule {
     private Box2D mug;
@@ -37,9 +38,14 @@ public class CoffeeModule extends MicrowaveModule {
         super.init();
 
         // Put the coffee mug on the screen
-        BufferedImage mugBI = ImageLoader.fetchBufferedImage( "microwaves/images/coffee-cup-2.gif" );
-        Graphic mugGraphic = new ImageGraphic( mugBI, new Point2D.Double( 150, 120 ) );
-        getApparatusPanel().addGraphic( mugGraphic, 10 );
+        try {
+            BufferedImage mugBI = ImageLoader.loadBufferedImage( "microwaves/images/coffee-cup-2.gif" );
+            Graphic mugGraphic = new ImageGraphic( mugBI, new Point2D.Double( 150, 120 ) );
+            getApparatusPanel().addGraphic( mugGraphic, 10 );
+        }
+        catch ( IOException e ) {
+            e.printStackTrace();
+        }
 
         mug = new Box2D( new Point2D.Double( 230, 150 ),
                          new Point2D.Double( 380, 320 ) );

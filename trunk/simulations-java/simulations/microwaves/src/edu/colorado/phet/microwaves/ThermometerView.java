@@ -6,17 +6,21 @@
  */
 package edu.colorado.phet.microwaves;
 
-import edu.colorado.phet.common_microwaves.view.graphics.Graphic;
-import edu.colorado.phet.common_microwaves.view.util.graphics.ImageLoader;
-import edu.colorado.phet.coreadditions_microwaves.graphics.ImageGraphic;
-
-import java.awt.*;
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
+
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common_microwaves.view.graphics.Graphic;
+import edu.colorado.phet.coreadditions_microwaves.graphics.ImageGraphic;
 
 public class ThermometerView implements Graphic, ImageObserver, Observer {
 
@@ -33,10 +37,15 @@ public class ThermometerView implements Graphic, ImageObserver, Observer {
     public ThermometerView( Thermometer thermometer ) {
         super();
         thermometer.addObserver( this );
-        thermometerBody = ImageLoader.fetchBufferedImage( "microwaves/images/thermometer.png" );
-        bodyGraphic = new ImageGraphic( thermometerBody, modelLocation );
-        thermometerBackground = ImageLoader.fetchBufferedImage( "microwaves/images/thermometer-background.png" );
-        backgroundGraphic = new ImageGraphic( thermometerBackground, modelLocation );
+        try {
+            thermometerBody = ImageLoader.loadBufferedImage( "microwaves/images/thermometer.png" );
+            bodyGraphic = new ImageGraphic( thermometerBody, modelLocation );
+            thermometerBackground = ImageLoader.loadBufferedImage( "microwaves/images/thermometer-background.png" );
+            backgroundGraphic = new ImageGraphic( thermometerBackground, modelLocation );
+        }
+        catch ( IOException e ) {
+            e.printStackTrace();
+        }
     }
 
     public boolean imageUpdate( Image img, int infoflags,
