@@ -147,8 +147,7 @@ public class PhetApplication implements ISimInfo{
 
     private void initializeModuleReferenceSizes() {
         for ( int i = 0; i < moduleManager.numModules(); i++ ) {
-            Module module = moduleManager.moduleAt( i );
-            module.setReferenceSize();
+            (moduleManager.moduleAt( i )).setReferenceSize();
         }
     }
 
