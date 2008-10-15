@@ -117,7 +117,6 @@ public class HTMLUtils {
     /**
      * Gets the URL for a project's properties file, where version information is found.
      * @param project
-     * @param sim
      * @return
      */
     public static String getProjectPropertiesURL( String project ) {
