@@ -12,17 +12,10 @@ From Wendy 10/7/08:
 
 		NP says: Wendy saw this, but I was not able to reproduce. Will check with her to get more details.
 
-String not found on startup:
-WARNING: requested property not found: serving-cream-filled-cookies
-
 Exception when dragging food items on/off plate:
 Exception in thread "AWT-EventQueue-0" java.lang.IllegalStateException: node has no root
 	at edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon.animateTo(MotionHelpBalloon.java:133)
 	at edu.colorado.phet.eatingandexercise.module.eatingandexercise.EatingAndExerciseModule.activateStartButtonWiggleMe(EatingAndExerciseModule.java:174)
-
-·         Make it so that if a person drags food to the bar chart for food
-            it settles onto the plate and if they drag exercise onto the cal
-            burned bar chart it settles into the book.
 
 ·         If you chose next month instead of play to first start, the wiggle me does not go away.
             Make the wiggle-me go away on either play or next month.
