@@ -74,19 +74,6 @@ public class PhetApplication {
     }
 
     /**
-     * Initialize a PhetApplication with a default FrameSetup.
-     *
-     * @param args        Command line args
-     * @param title       Title that appears in the frame and the About dialog
-     * @param description Appears in the About dialog
-     * @param version     Appears in the About dialog
-     * @deprecated
-     */
-    public PhetApplication( String[] args, String title, String description, String version) {
-        this( args, title, description, version, new FrameSetup.CenteredWithSize( getScreenSize().width, getScreenSize().height - 150 ) );
-    }
-
-    /**
      * Constructor
      *
      * @param args        Command line args
