@@ -118,6 +118,7 @@ public class GlassPaneCanvas extends PCanvas {
 
         _componentList = new ArrayList();
         _canvasList = new ArrayList();
+        setOpaque( false );
     }
 
     //----------------------------------------------------------------------------
