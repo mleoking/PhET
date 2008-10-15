@@ -11,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.JTabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
 /**
  * The base class for PhET applications.
@@ -91,15 +90,6 @@ public class PhetApplication {
     }
 
     /**
-     * Get all created PhetApplications.
-     *
-     * @return all created PhetApplications.
-     */
-    public static PhetApplication[] instances() {
-        return (PhetApplication[]) phetApplications.toArray( new PhetApplication[0] );
-    }
-    
-    /**
      * Creates the PhetFrame for the application
      * <p/>
      * Concrete subclasses implement this
@@ -166,9 +156,7 @@ public class PhetApplication {
         moduleManager.setActiveModule( getStartModule() );
         phetFrame.setVisible( true );
 
-
         updateLogoVisibility();
-//        started = true;
     }
 
     /**
@@ -376,11 +364,7 @@ public class PhetApplication {
      * @deprecated use getProjectConfig
      */
     public String getCredits() {
-        String credits = null;
-        if ( getApplicationConfig() != null ) {
-            credits = getApplicationConfig().getCredits();
-        }
-        return credits;
+            return getApplicationConfig().getCredits();
     }
 
     /**
@@ -390,8 +374,7 @@ public class PhetApplication {
      */
     public void addModules( Module[] m ) {
         for ( int i = 0; i < m.length; i++ ) {
-            Module module = m[i];
-            addModule( module );
+            addModule( m[i] );
         }
     }
 
