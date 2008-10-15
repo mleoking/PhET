@@ -1,4 +1,4 @@
-package edu.colorado.phet.common_1200.view;
+package edu.colorado.phet.radiowaves.common_1200.graphics;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;

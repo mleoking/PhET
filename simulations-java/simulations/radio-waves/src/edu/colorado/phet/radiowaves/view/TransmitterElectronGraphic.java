@@ -18,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common_1200.view.*;
 import edu.colorado.phet.radiowaves.EmfConfig;
 import edu.colorado.phet.radiowaves.EmfModule;
+import edu.colorado.phet.radiowaves.common_1200.graphics.*;
 import edu.colorado.phet.radiowaves.model.Electron;
 
 public class TransmitterElectronGraphic extends DefaultInteractiveGraphic implements BoundedGraphic, Translatable, TransformListener {
