@@ -33,7 +33,7 @@ public class PhetApplication implements ISimInfo{
 
     private PhetFrame phetFrame;
     private ModuleManager moduleManager;
-    private PhetAboutDialog aboutDialog; // not null only when About dialog is visible
+    private PhetAboutDialog aboutDialog; // not null only when About dialog is shown for the first time
 
     //----------------------------------------------------------------
     // Constructors
