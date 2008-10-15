@@ -30,7 +30,6 @@ public class PhetApplication {
     
     private TabbedPaneType tabbedPaneType;
     private PhetApplicationConfig phetApplicationConfig;
-    private boolean developerControlsEnabled;
 
     private PhetFrame phetFrame;
     private ModuleManager moduleManager;
@@ -50,7 +49,6 @@ public class PhetApplication {
         this.phetApplicationConfig = config;
         this.tabbedPaneType = tabbedPaneType;
 
-        this.developerControlsEnabled = CommandLineUtils.contains( config.getCommandLineArgs(), DEVELOPER_CONTROLS_COMMAND_LINE_ARG );
         showSplashWindow( config.getName() );// Put up a dialog that lets the user know that the simulation is starting up
 
         phetApplications.add( this );
@@ -73,7 +71,7 @@ public class PhetApplication {
      * @return true or false
      */
     public boolean isDeveloperControlsEnabled() {
-        return developerControlsEnabled;
+        return CommandLineUtils.contains( phetApplicationConfig.getCommandLineArgs(), DEVELOPER_CONTROLS_COMMAND_LINE_ARG );
     }
     
     public PhetApplicationConfig getPhetApplicationConfig() {
