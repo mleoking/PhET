@@ -23,16 +23,8 @@ public class CompositeTransformListener implements TransformListener {
         }
     }
 
-    public TransformListener transformListenerAt( int i ) {
-        return (TransformListener)listeners.get( i );
-    }
-
     public void removeTransformListener( TransformListener tl ) {
         listeners.remove( tl );
-    }
-
-    public int numTransformListeners( TransformListener tl ) {
-        return listeners.size();
     }
 
     public void addTransformListener( TransformListener tl ) {
