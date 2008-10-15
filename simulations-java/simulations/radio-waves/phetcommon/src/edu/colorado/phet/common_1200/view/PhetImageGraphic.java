@@ -8,7 +8,7 @@
  *      $Name$
  *      $Revision$
  */
-package edu.colorado.phet.common_1200.view.graphics;
+package edu.colorado.phet.common_1200.view;
 
 import java.awt.Component;
 import java.awt.Graphics2D;

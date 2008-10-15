@@ -15,7 +15,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common_1200.view.graphics.PhetImageGraphic;
+import edu.colorado.phet.common_1200.view.PhetImageGraphic;
 import edu.colorado.phet.radiowaves.EmfConfig;
 import edu.colorado.phet.radiowaves.model.Electron;
 

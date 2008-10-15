@@ -16,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common_1200.view.ApparatusPanel;
-import edu.colorado.phet.common_1200.view.graphics.BufferedImageGraphic;
+import edu.colorado.phet.common_1200.view.BufferedImageGraphic;
 import edu.colorado.phet.radiowaves.EmfConfig;
 import edu.colorado.phet.radiowaves.model.Electron;
 

@@ -1,4 +1,4 @@
-package edu.colorado.phet.common_1200.view.graphics;
+package edu.colorado.phet.common_1200.view;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -12,8 +12,6 @@ import javax.swing.event.MouseInputListener;
 import edu.colorado.phet.common.phetgraphics.view.util.CompositeMouseInputListener;
 import edu.colorado.phet.common.phetgraphics.view.util.CursorControl;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
-import edu.colorado.phet.common_1200.view.graphics.mousecontrols.Translatable;
-import edu.colorado.phet.common_1200.view.graphics.mousecontrols.TranslationControl;
 
 /**
  * This graphic class auto-magically repaints itself in the appropriate bounds,

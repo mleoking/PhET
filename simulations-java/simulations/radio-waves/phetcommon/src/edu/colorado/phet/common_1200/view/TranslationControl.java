@@ -1,5 +1,5 @@
 /*, 2003.*/
-package edu.colorado.phet.common_1200.view.graphics.mousecontrols;
+package edu.colorado.phet.common_1200.view;
 
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
