@@ -27,6 +27,7 @@ import edu.colorado.phet.common.phetcommon.util.SwingThreadModelListener;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.common.phetgraphics.test.DeprecatedPhetApplicationLauncher;
 
 /**
  * TestThreadSeparation
@@ -154,7 +155,7 @@ public class TestThreadSeparation {
      */
     public static void main( String[] args ) {
 
-        PhetApplication app = new PhetApplication( args, "Thread Separation Test", "", "",
+        DeprecatedPhetApplicationLauncher app = new DeprecatedPhetApplicationLauncher( args, "Thread Separation Test", "", "",
                                                                        new FrameSetup.CenteredWithSize( 600, 500 ) );
         app.addModule( new TestModule() );
         app.startApplication();

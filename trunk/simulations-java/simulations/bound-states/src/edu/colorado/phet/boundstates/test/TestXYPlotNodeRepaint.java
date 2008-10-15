@@ -38,6 +38,7 @@ import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.phetgraphics.test.DeprecatedPhetApplicationLauncher;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -59,7 +60,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class TestXYPlotNodeRepaint extends PhetApplication {
+public class TestXYPlotNodeRepaint extends DeprecatedPhetApplicationLauncher {
 
     private static final int CLOCK_RATE = 25; // wall time: frames per second
     private static final double MODEL_RATE = 1; // model time: dt per clock tick
