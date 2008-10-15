@@ -47,6 +47,7 @@ import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
@@ -86,18 +87,24 @@ public class TestGlassPaneCanvas extends PhetApplication {
 
     /* Test harness */
     public static void main( final String[] args ) {
-        try {
-            TestGlassPaneCanvas app = new TestGlassPaneCanvas( args );
-            app.startApplication();
-        }
-        catch( Exception e ) {
-            e.printStackTrace();
-        }
+        new PhetApplicationConfig( args, new PhetApplicationConfig.ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+
+                try {
+                    TestGlassPaneCanvas app = new TestGlassPaneCanvas( config );
+                    return app;
+                }
+                catch( Exception e ) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+        }, "piccolo-phet" ).launchSim();
     }
 
     /* Application */
-    public TestGlassPaneCanvas( String[] args ) throws InterruptedException {
-        super( args, "TestGlassPaneCanvas", "test of GlassPaneCanvas", "0.1", new FrameSetup.CenteredWithSize( 1024, 768 ) );
+    public TestGlassPaneCanvas( PhetApplicationConfig c ) throws InterruptedException {
+        super( c);
 
         Module module1 = new TestModule( "Module 1", new Color( 255, 208, 252 ) /* canvasColor */ );
         addModule( module1 );
