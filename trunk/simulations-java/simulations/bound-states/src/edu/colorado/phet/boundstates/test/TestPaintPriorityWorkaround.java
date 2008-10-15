@@ -21,6 +21,8 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.*;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
@@ -126,14 +128,23 @@ public class TestPaintPriorityWorkaround {
     private static final double MAX_Y = 100;
 
     public static void main( final String[] args ) throws InterruptedException {
-        TestApplication app = new TestApplication( args );
-        app.startApplication();
+        new PhetApplicationConfig(args, new PhetApplicationConfig.ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                try {
+                    return new TestApplication( config );
+                }
+                catch( InterruptedException e ) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+        }, "bound-states").launchSim();
     }
 
     private static class TestApplication extends PiccoloPhetApplication {
 
-        public TestApplication( String[] args ) throws InterruptedException {
-            super( args, "TestHelpRepaint2", "description", "0.1", new FrameSetup.CenteredWithSize( 1024, 768 ) );
+        public TestApplication( PhetApplicationConfig config ) throws InterruptedException {
+            super( config);
 
             // Clock
             IClock clock = new SwingClock( 1000 / TestPaintPriorityWorkaround.CLOCK_RATE, new TimingStrategy.Constant( TestPaintPriorityWorkaround.MODEL_RATE ) );
