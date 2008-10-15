@@ -49,7 +49,7 @@ public class BarChartNodeAxisTitleLabelNode extends PNode {
         updateLayout();
         updateLayout();
 
-        backgroundCoverup = new PhetPPath( text.getFullBounds(), EatingAndExerciseConstants.CHART_AREA_BACKGROUND );
+        backgroundCoverup = new PhetPPath( text.getFullBounds(), EatingAndExerciseConstants.BACKGROUND );
         addChild( backgroundCoverup );
         addChild( text );
     }

@@ -73,7 +73,7 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
 
         _model = model;
 
-        setBackground( EatingAndExerciseConstants.CHART_AREA_BACKGROUND );
+        setBackground( EatingAndExerciseConstants.BACKGROUND );
         if ( showColorChooser ) {
             showColorChooser( parentFrame );
         }

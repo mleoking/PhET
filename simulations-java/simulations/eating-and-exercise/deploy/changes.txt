@@ -6,6 +6,7 @@ Fixed: Exception when dragging food items on/off plate
 Fixed: Initial help item does not point to start button
 Fixed: Made the wiggle-me go away on either play or next month.
 Fixed: The vertical zoom buttons for bar charts are not equal in size.
+Time charts go to 2 years instead of 1.
 
 New in 0.00.83
 Trial version for usage tracking.

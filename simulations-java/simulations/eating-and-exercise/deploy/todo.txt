@@ -10,7 +10,7 @@ Reset all doesn’t work well when I make my guy really fat
 Hit next month, then choose more sedentary activity level and the person gets a bigger belly. Time is paused so there should be no change. This only happens the first time you adjust activity level after pausing (hitting next month).
     >>NP says: Wendy saw this, but I was not able to reproduce. Will check with her to get more details.
 
-Make the time charts go to 2 years. Stop time at the end of the chart (2 year maximum duration of simulation).
+Stop time at the end of the chart (2 year maximum duration of simulation).
 
 From NP 10/9/08
 

@@ -41,7 +41,7 @@ public class EatingAndExerciseConstants {
     // Paints
     //----------------------------------------------------------------------------
 
-    public static final Color CHART_AREA_BACKGROUND = new Color( 156, 178, 223 );
+    public static final Color BACKGROUND = new Color( 156, 178, 223 );
 
     // Color of labels placed directly on the play area
     public static final Color CANVAS_LABELS_COLOR = Color.BLACK;
