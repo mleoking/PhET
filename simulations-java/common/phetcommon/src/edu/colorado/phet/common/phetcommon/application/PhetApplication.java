@@ -330,7 +330,6 @@ public class PhetApplication implements ISimInfo{
      * Get the description for this PhetApplication.
      *
      * @return the description.
-     * @deprecated Use getProjectConfig()
      */
     public String getDescription() {
         return getPhetApplicationConfig().getDescription();
@@ -343,8 +342,7 @@ public class PhetApplication implements ISimInfo{
     /**
      * Gets the credits for the simulations.
      *
-     * @return
-     * @deprecated use getProjectConfig
+     * @return the credits for this simulation.
      */
     public String getCredits() {
         return getPhetApplicationConfig().getCredits();
