@@ -26,14 +26,11 @@ public class CursorHandler2 extends PBasicInputEventHandler {
     public static final Cursor DEFAULT = Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR );
     public static final Cursor HAND = Cursor.getPredefinedCursor( Cursor.HAND_CURSOR );
 
-    //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-
-    private Cursor cursor;  // cursor to change to
-
+    private static final CursorManager manager = new CursorManager();
+    
     //todo: should make 1 manager per JComponent?
     private static class CursorManager {
+        
         private Cursor lastEntered;
         boolean pressed = false;
 
@@ -72,8 +69,12 @@ public class CursorHandler2 extends PBasicInputEventHandler {
         }
     }
 
-    private static CursorManager manager = new CursorManager();
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
 
+    private Cursor cursor;  // cursor to change to
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
