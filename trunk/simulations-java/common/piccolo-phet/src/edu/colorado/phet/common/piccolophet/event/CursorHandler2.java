@@ -2,16 +2,12 @@
 
 package edu.colorado.phet.common.piccolophet.event;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.event.InputEvent;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.JComponent;
-import javax.swing.JFrame;
+import javax.swing.*;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.umd.cs.piccolo.PComponent;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -35,8 +31,48 @@ public class CursorHandler2 extends PBasicInputEventHandler {
     //----------------------------------------------------------------------------
 
     private Cursor cursor;  // cursor to change to
-    private boolean mousePressed = false;
-    private boolean mouseEntered = false;
+
+    //todo: should make 1 manager per JComponent?
+    private static class CursorManager {
+        private Cursor lastEntered;
+        boolean pressed = false;
+
+        private CursorManager() {
+        }
+
+        public void mouseEntered( JComponent component, Cursor cursor ) {
+            if ( !pressed ) {
+                component.setCursor( cursor );
+            }
+            else {
+                lastEntered = cursor;
+            }
+        }
+
+        public void mousePressed() {
+            pressed = true;
+            lastEntered = null;
+        }
+
+        public void mouseReleased( JComponent component ) {
+            if ( lastEntered != null ) {
+                component.setCursor( lastEntered );
+            }else{
+                component.setCursor( Cursor.getDefaultCursor() );
+            }
+
+            pressed = false;
+        }
+
+        public void mouseExited( JComponent component ) {
+            if ( !pressed ) {
+                component.setCursor( Cursor.getDefaultCursor() );
+            }
+            lastEntered = null;
+        }
+    }
+
+    private static CursorManager manager = new CursorManager();
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -72,100 +108,41 @@ public class CursorHandler2 extends PBasicInputEventHandler {
     //----------------------------------------------------------------------------
 
     public void mouseEntered( PInputEvent event ) {
-        this.mouseEntered = true;
-        updateComponent( event.getComponent() );
+        manager.mouseEntered( (JComponent) event.getComponent(), cursor );
     }
 
     public void mousePressed( PInputEvent event ) {
-        this.mousePressed = true;
-        updateComponent( event.getComponent() );
+        manager.mousePressed();
     }
 
     public void mouseReleased( PInputEvent event ) {
-        this.mousePressed = false;
-        updateComponent( event.getComponent() );
+        manager.mouseReleased( (JComponent) event.getComponent() );
     }
 
     public void mouseExited( PInputEvent event ) {
-        this.mouseEntered = false;
-        updateComponent( event.getComponent() );
+        manager.mouseExited( (JComponent) event.getComponent() );
     }
 
-    private void updateComponent( PComponent component ) {
-        if ( component instanceof JComponent ) {
-            JComponent jc = (JComponent) component;
-            jc.setCursor( getCursorState() );
-        }
-        else {
-            throw new RuntimeException( "Only supported for Swing components");
-        }
-    }
-
-    private Cursor getCursorState() {
-        if ( !mouseEntered && !mousePressed ) {
-            return DEFAULT;
-        }
-        else if ( mouseEntered && !mousePressed ) {
-            return cursor;
-        }
-        else if ( !mouseEntered && mousePressed ) {
-            return cursor;
-        }
-        else {//if ( mouseEntered && mousePressed ) {
-            return cursor;
-        }
-    }
-    
-    //----------------------------------------------------------------------------
-    // Utilities for examining PInputEvent
-    //----------------------------------------------------------------------------
-    
-    private static boolean isAnyButtonDown( PInputEvent event ) {
-        return isButton1Down( event ) || isButton2Down( event ) || isButton3Down( event );
-    }
-    
-    private static boolean isButton1Down( PInputEvent event ) {
-        return  hasModifier( event, InputEvent.BUTTON1_DOWN_MASK );
-    }
-    
-    private static boolean isButton2Down( PInputEvent event ) {
-        return hasModifier( event, InputEvent.BUTTON2_DOWN_MASK );
-    }
-    
-    private static boolean isButton3Down( PInputEvent event ) {
-        return hasModifier( event, InputEvent.BUTTON3_DOWN_MASK );
-    }
-    
-    /*
-     * Checks to see if event has the specified modifier as part of its extended modifier mask.
-     * 
-     * @param event
-     * @param modifier one of the modifier constants documented in java.awt.event.InputEvent
-     */
-    private static boolean hasModifier( PInputEvent event, int modifier ) {
-        return ( event.getModifiersEx() & modifier ) != 0;
-    }
-    
     //----------------------------------------------------------------------------
     // test
     //----------------------------------------------------------------------------
-    
+
     public static void main( String[] args ) {
-        
+
         PhetPCanvas canvas = new PhetPCanvas();
-        
+
         PPath redNode = new PPath( new Rectangle2D.Double( 0, 0, 100, 100 ) );
         redNode.setPaint( Color.RED );
         redNode.setOffset( 50, 50 );
         redNode.addInputEventListener( new CursorHandler2( CROSSHAIR ) );
         canvas.getLayer().addChild( redNode );
-        
+
         PPath greenNode = new PPath( new Rectangle2D.Double( 0, 0, 100, 100 ) );
         greenNode.setPaint( Color.GREEN );
         greenNode.setOffset( redNode.getFullBoundsReference().getMaxX() + 50, redNode.getFullBoundsReference().getY() );
         greenNode.addInputEventListener( new CursorHandler2( HAND ) );
         canvas.getLayer().addChild( greenNode );
-        
+
         JFrame frame = new JFrame();
         frame.setContentPane( canvas );
         frame.setSize( 500, 300 );
