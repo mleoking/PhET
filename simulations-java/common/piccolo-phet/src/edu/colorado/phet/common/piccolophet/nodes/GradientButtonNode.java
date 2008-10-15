@@ -83,6 +83,7 @@ public class GradientButtonNode extends PhetPNode {
     //Assumes the PNode has an offset of (0,0)
     public GradientButtonNode(PNode icon,Color buttonColor){
         this._icon=icon;
+        _icon.setOffset(HORIZONTAL_PADDING, VERTICAL_PADDING);
         this._buttonColor=buttonColor;
 
         // Initialize local data.
@@ -153,7 +154,6 @@ public class GradientButtonNode extends PhetPNode {
         // the other components of this button.
         final HTMLNode _buttonText = new HTMLNode(label);
         _buttonText.setFont(new PhetFont(Font.BOLD, fontSize));
-        _buttonText.setOffset(HORIZONTAL_PADDING, VERTICAL_PADDING);
         _buttonText.setPickable( false );
         return _buttonText;
     }
