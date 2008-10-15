@@ -2,9 +2,9 @@
 
 package edu.colorado.phet.common.phetcommon.application;
 
+import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
-import java.awt.*;
 
 import javax.swing.*;
 
@@ -53,6 +53,10 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo, ISimInfo
     private ApplicationConstructor applicationConstructor;
     private FrameSetup frameSetup;
     private PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel(); // the look and feel to be initialized in launchSim
+
+    //for splash window
+    private AWTSplashWindow splashWindow;
+    private Frame splashWindowOwner;
 
     //----------------------------------------------------------------------------
     // Interfaces
@@ -202,7 +206,7 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo, ISimInfo
                         PhetApplication app = applicationConstructor.getApplication( PhetApplicationConfig.this );
                         app.startApplication();
                         disposeSplashWindow();
-                        
+
                         new TrackingApplicationManager( PhetApplicationConfig.this ).applicationStarted( app );
                         new UpdateApplicationManager( PhetApplicationConfig.this ).applicationStarted( app );
                     }
@@ -220,27 +224,24 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo, ISimInfo
         }
     }
 
-    private AWTSplashWindow splashWindow;
-    private Frame splashWindowOwner;
-        private void showSplashWindow( String title ) {
-            if ( splashWindow == null ) {
-                // PhetFrame doesn't exist when this is called, so create and manage the window's owner.
-                splashWindowOwner = new Frame();
-                splashWindow = new AWTSplashWindow( splashWindowOwner, title );
-                splashWindow.show();
-            }
+    private void showSplashWindow( String title ) {
+        if ( splashWindow == null ) {
+            // PhetFrame doesn't exist when this is called, so create and manage the window's owner.
+            splashWindowOwner = new Frame();
+            splashWindow = new AWTSplashWindow( splashWindowOwner, title );
+            splashWindow.show();
         }
+    }
 
-        private void disposeSplashWindow() {
-            if ( splashWindow != null ) {
-                splashWindow.dispose();
-                splashWindow = null;
-                // Clean up the window's owner that we created in showSplashWindow.
-                splashWindowOwner.dispose();
-                splashWindowOwner = null;
-            }
+    private void disposeSplashWindow() {
+        if ( splashWindow != null ) {
+            splashWindow.dispose();
+            splashWindow = null;
+            // Clean up the window's owner that we created in showSplashWindow.
+            splashWindowOwner.dispose();
+            splashWindowOwner = null;
         }
-
+    }
 
     //----------------------------------------------------------------------------
     // Updates and Tracking stuff
