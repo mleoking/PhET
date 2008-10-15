@@ -23,7 +23,7 @@ public class EFieldApplication extends PhetApplication {
         private EFieldSimulationPanel simulationPanel = new EFieldSimulationPanel( getClock() );
 
         public EFieldModule( PhetApplicationConfig config ) {
-            super( config.getName(), new ConstantDtClock( 35, 0.15 ) );
+            super( config.getTitle(), new ConstantDtClock( 35, 0.15 ) );
             simulationPanel.init();
             setSimulationPanel( simulationPanel );
             setClockControlPanel( null );
