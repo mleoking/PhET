@@ -6,12 +6,12 @@
  */
 package edu.colorado.phet.microwaves;
 
-import edu.colorado.phet.common_microwaves.math.MedianFilter;
+import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.phetcommon.math.MedianFilter;
 import edu.colorado.phet.common_microwaves.model.ModelElement;
 import edu.colorado.phet.microwaves.model.MicrowaveModel;
 import edu.colorado.phet.microwaves.model.WaterMolecule;
-
-import java.awt.geom.Point2D;
 
 public class Thermometer extends ModelElement {
     private MicrowaveModel model;
