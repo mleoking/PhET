@@ -2,24 +2,16 @@
 
 package edu.colorado.phet.common.phetcommon.application;
 
-import java.io.IOException;
-import java.util.Arrays;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.preferences.DefaultTrackingPreferences;
-import edu.colorado.phet.common.phetcommon.preferences.DefaultUpdatePreferences;
 import edu.colorado.phet.common.phetcommon.preferences.ITrackingInfo;
-import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
-import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.tracking.Trackable;
-import edu.colorado.phet.common.phetcommon.tracking.Tracker;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingInfo;
-import edu.colorado.phet.common.phetcommon.updates.UpdateManager;
-import edu.colorado.phet.common.phetcommon.updates.dialogs.AutomaticUpdateDialog;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
@@ -75,6 +67,7 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
     /**
      * Returns a null application, for use in test programs.
      * Use this if you never intend to call launchSim.
+     *
      * @deprecated This should go away after we finish refactoring.
      */
     public static class NullApplicationConstructor implements ApplicationConstructor {
@@ -215,6 +208,7 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
      *
      *  This implementation uses ApplicationConstructor instead of reflection to ensure compile-time checking (at the expense of slightly more complicated subclass implementations).
      */
+
     public void launchSim() {
         /*
          * Wrap the body of main in invokeLater, so that all initialization occurs
@@ -232,8 +226,8 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
                     if ( applicationConstructor != null ) {
                         PhetApplication app = applicationConstructor.getApplication( PhetApplicationConfig.this );
                         app.startApplication();
-                        new TrackingApplicationManager(PhetApplicationConfig.this ).applicationStarted(app);
-                        new UpdateApplicationManager(PhetApplicationConfig.this).applicationStarted(app);
+                        new TrackingApplicationManager( PhetApplicationConfig.this ).applicationStarted( app );
+                        new UpdateApplicationManager( PhetApplicationConfig.this ).applicationStarted( app );
                     }
                     else {
                         new RuntimeException( "No applicationconstructor specified" ).printStackTrace();
@@ -270,6 +264,6 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
     }
 
     public boolean isTrackingEnabled() {
-        return new TrackingApplicationManager(this ).isTrackingEnabled();
+        return new TrackingApplicationManager( this ).isTrackingEnabled();
     }
 }
