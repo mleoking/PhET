@@ -1,13 +1,10 @@
 /*, 2003.*/
 package edu.colorado.phet.coreadditions_microwaves.components;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common_microwaves.view.util.graphics.ImageLoader;
+import java.awt.BorderLayout;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 /**
  * A panel for the apparatus, large and in the left side.  A north panel for display, an east panel for controls, and a south panel for other controls.

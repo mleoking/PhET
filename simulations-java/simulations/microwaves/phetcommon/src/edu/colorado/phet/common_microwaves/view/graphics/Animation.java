@@ -8,9 +8,10 @@
  */
 package edu.colorado.phet.common_microwaves.view.graphics;
 
-import edu.colorado.phet.common_microwaves.view.util.graphics.ImageLoader;
+import java.awt.Image;
+import java.io.IOException;
 
-import java.awt.*;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 
 /**
  * A utility class that supports animation of a set of images read from disk.
@@ -95,11 +96,14 @@ public class Animation {
      */
     private static Image[] loadAnimation( String filePrefix, int numFrames ) {
         Image[] frames = new Image[numFrames];
-        ImageLoader animationLoader = new ImageLoader();
-        for( int i = 1; i <= numFrames; i++ ) {
-            String fileName = Animation.genAnimationFileName( filePrefix, i );
-            frames[i - 1] = animationLoader.loadBufferedImage( fileName );
-//            frames[i - 1] = animationLoader.loadImage(fileName);
+        try {
+            for ( int i = 1; i <= numFrames; i++ ) {
+                String fileName = Animation.genAnimationFileName( filePrefix, i );
+                frames[i - 1] = ImageLoader.loadBufferedImage( fileName );
+            }
+        }
+        catch ( IOException e ) {
+            e.printStackTrace();
         }
         return frames;
     }

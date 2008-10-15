@@ -6,14 +6,16 @@
  */
 package edu.colorado.phet.coreadditions_microwaves.graphics;
 
-import edu.colorado.phet.common_microwaves.view.graphics.Graphic;
-import edu.colorado.phet.common_microwaves.view.util.graphics.ImageLoader;
-
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
+import java.io.IOException;
+
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common_microwaves.view.graphics.Graphic;
 
 public class ImageGraphic implements Graphic, ImageObserver{
 
@@ -23,8 +25,8 @@ public class ImageGraphic implements Graphic, ImageObserver{
     private AffineTransform imageTx;
     private AffineTransform orgTx;
 
-    public ImageGraphic( String imageFileLocation, Point2D.Double modelLocation ) {
-        this( ImageLoader.fetchBufferedImage( imageFileLocation ), modelLocation );
+    public ImageGraphic( String imageFileLocation, Point2D.Double modelLocation ) throws IOException {
+        this( ImageLoader.loadBufferedImage( imageFileLocation ), modelLocation );
     }
 
     public ImageGraphic( BufferedImage image, Point2D.Double modelLocation ) {
