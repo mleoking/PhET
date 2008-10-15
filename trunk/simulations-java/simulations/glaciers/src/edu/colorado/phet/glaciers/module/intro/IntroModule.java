@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.glaciers.module.intro;
 
-import java.awt.Color;
 import java.awt.Frame;
 
 import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
@@ -95,7 +94,7 @@ public class IntroModule extends GlaciersModule {
      * @return true or false
      */
     public boolean hasHelp() {
-        return true;
+        return false; // disabled until Unfuddle 725 is addressed
     }
     
     /**

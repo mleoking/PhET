@@ -95,7 +95,7 @@ public class AdvancedModule extends GlaciersModule {
      * @return true or false
      */
     public boolean hasHelp() {
-        return true;
+        return false;  // disabled until Unfuddle 725 is addressed
     }
     
     /**

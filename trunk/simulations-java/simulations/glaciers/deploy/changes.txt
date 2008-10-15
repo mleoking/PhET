@@ -1,3 +1,4 @@
+10/15/08 - disable Help feature until [725] is addressed
 10/8/08 - use PhetApplicationConfig.launchSim
 10/8/08 - add project name constant
 10/8/08 - moved list of rejected features to Unfuddle 796
