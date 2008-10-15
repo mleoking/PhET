@@ -6,18 +6,22 @@
  */
 package edu.colorado.phet.microwaves.view;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common_microwaves.application.PhetApplication;
-import edu.colorado.phet.common_microwaves.view.util.GraphicsUtil;
-import edu.colorado.phet.microwaves.CoffeeModule;
-import edu.colorado.phet.microwaves.MicrowaveModule;
-import edu.colorado.phet.microwaves.model.MicrowaveModel;
+import java.awt.AWTException;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common_microwaves.application.PhetApplication;
+import edu.colorado.phet.microwaves.CoffeeModule;
+import edu.colorado.phet.microwaves.MicrowaveModule;
+import edu.colorado.phet.microwaves.model.MicrowaveModel;
 
 public class CoffeeControlPanel extends JPanel {
     static private double DEFAULT_FREQUENCY = 0.002;
@@ -75,13 +79,13 @@ public class CoffeeControlPanel extends JPanel {
         JPanel powerBtnPane = new JPanel( new GridBagLayout() );
         int rowIdx3 = 0;
         try {
-            GraphicsUtil.addGridBagComponent( powerBtnPane, pct100RB, 0, rowIdx3++, 1, 1,
+            SwingUtils.addGridBagComponent( powerBtnPane, pct100RB, 0, rowIdx3++, 1, 1,
                                               GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( powerBtnPane, pct75RB, 0, rowIdx3++, 1, 1,
+            SwingUtils.addGridBagComponent( powerBtnPane, pct75RB, 0, rowIdx3++, 1, 1,
                                               GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( powerBtnPane, pct50RB, 0, rowIdx3++, 1, 1,
+            SwingUtils.addGridBagComponent( powerBtnPane, pct50RB, 0, rowIdx3++, 1, 1,
                                               GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( powerBtnPane, pct25RB, 0, rowIdx3++, 1, 1,
+            SwingUtils.addGridBagComponent( powerBtnPane, pct25RB, 0, rowIdx3++, 1, 1,
                                               GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
         }
         catch( AWTException e ) {
@@ -109,13 +113,13 @@ public class CoffeeControlPanel extends JPanel {
         JPanel fieldViewRBPane = new JPanel( new GridBagLayout() );
         int rowIdx2 = 0;
         try {
-            GraphicsUtil.addGridBagComponent( fieldViewRBPane, splineViewRB, 0, rowIdx2++, 1, 1,
+            SwingUtils.addGridBagComponent( fieldViewRBPane, splineViewRB, 0, rowIdx2++, 1, 1,
                                               GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( fieldViewRBPane, singleViewRB, 0, rowIdx2++, 1, 1,
+            SwingUtils.addGridBagComponent( fieldViewRBPane, singleViewRB, 0, rowIdx2++, 1, 1,
                                               GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( fieldViewRBPane, fullViewRB, 0, rowIdx2++, 1, 1,
+            SwingUtils.addGridBagComponent( fieldViewRBPane, fullViewRB, 0, rowIdx2++, 1, 1,
                                               GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( fieldViewRBPane, noFieldViewRB, 0, rowIdx2++, 1, 1,
+            SwingUtils.addGridBagComponent( fieldViewRBPane, noFieldViewRB, 0, rowIdx2++, 1, 1,
                                               GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
         }
         catch( AWTException e ) {
@@ -139,19 +143,19 @@ public class CoffeeControlPanel extends JPanel {
         this.setLayout( new GridBagLayout() );
         int rowIdx = 0;
         try {
-            GraphicsUtil.addGridBagComponent( this, onOffBtn,
+            SwingUtils.addGridBagComponent( this, onOffBtn,
                                               0, rowIdx++, 1, 1,
                                               GridBagConstraints.NONE,
                                               GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, powerBtnPane,
+            SwingUtils.addGridBagComponent( this, powerBtnPane,
                                               0, rowIdx++, 1, 1,
                                               GridBagConstraints.HORIZONTAL,
                                               GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, fieldViewRBPane,
+            SwingUtils.addGridBagComponent( this, fieldViewRBPane,
                                               0, rowIdx++, 1, 1,
                                               GridBagConstraints.HORIZONTAL,
                                               GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, resetBtn,
+            SwingUtils.addGridBagComponent( this, resetBtn,
                                               0, rowIdx++, 1, 1,
                                               GridBagConstraints.NONE,
                                               GridBagConstraints.CENTER );
@@ -174,7 +178,7 @@ public class CoffeeControlPanel extends JPanel {
     };
 
     private void setFieldView() {
-        JRadioButton selection = GraphicsUtil.getSelection( fieldViewBtnGrp );
+        JRadioButton selection = SwingUtils.getSelection( fieldViewBtnGrp );
         if( selection == noFieldViewRB ) {
             module.setFieldViewOff();
         }
@@ -198,7 +202,7 @@ public class CoffeeControlPanel extends JPanel {
 
     private void setPowerLevel() {
 
-        JRadioButton selection = GraphicsUtil.getSelection( powerBtnGrp );
+        JRadioButton selection = SwingUtils.getSelection( powerBtnGrp );
         if( selection == pct100RB ) {
             ( (CoffeeModule)module ).setPowerLevel( 1.0 );
         }

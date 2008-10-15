@@ -6,18 +6,20 @@
  */
 package edu.colorado.phet.microwaves.coreadditions;
 
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
+
+import javax.swing.JDialog;
+import javax.swing.JTextField;
+import javax.swing.event.MouseInputAdapter;
+
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.common_microwaves.view.ApparatusPanel;
 import edu.colorado.phet.common_microwaves.view.graphics.Graphic;
 import edu.colorado.phet.common_microwaves.view.graphics.ModelViewTransform2D;
-import edu.colorado.phet.common_microwaves.view.util.GraphicsUtil;
-
-import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Point2D;
 
 public class MeasuringTool extends MouseInputAdapter {
 
@@ -45,42 +47,42 @@ public class MeasuringTool extends MouseInputAdapter {
         contentPane.setLayout( new GridBagLayout() );
         try {
             int rowIdx = 0;
-//            GraphicsUtil.addGridBagComponent( contentPane, new JLabel( "x" ),
+//            SwingUtils.addGridBagComponent( contentPane, new JLabel( "x" ),
 //                                              0, rowIdx,
 //                                              1, 1,
 //                                              GridBagConstraints.NONE,
 //                                              GridBagConstraints.EAST );
-//            GraphicsUtil.addGridBagComponent( contentPane, xTF,
+//            SwingUtils.addGridBagComponent( contentPane, xTF,
 //                                              1, rowIdx++,
 //                                              1, 1,
 //                                              GridBagConstraints.NONE,
 //                                              GridBagConstraints.WEST );
-//            GraphicsUtil.addGridBagComponent( contentPane, new JLabel( "y" ),
+//            SwingUtils.addGridBagComponent( contentPane, new JLabel( "y" ),
 //                                              0, rowIdx,
 //                                              1, 1,
 //                                              GridBagConstraints.NONE,
 //                                              GridBagConstraints.EAST );
-//            GraphicsUtil.addGridBagComponent( contentPane, yTF,
+//            SwingUtils.addGridBagComponent( contentPane, yTF,
 //                                              1, rowIdx++,
 //                                              1, 1,
 //                                              GridBagConstraints.NONE,
 //                                              GridBagConstraints.WEST );
-//            GraphicsUtil.addGridBagComponent( contentPane, new JTextField( "r" ),
+//            SwingUtils.addGridBagComponent( contentPane, new JTextField( "r" ),
 //                                              0, rowIdx,
 //                                              1, 1,
 //                                              GridBagConstraints.NONE,
 //                                              GridBagConstraints.EAST );
-            GraphicsUtil.addGridBagComponent( contentPane, rTF,
+            SwingUtils.addGridBagComponent( contentPane, rTF,
                                               1, rowIdx++,
                                               1, 1,
                                               GridBagConstraints.NONE,
                                               GridBagConstraints.WEST );
-//            GraphicsUtil.addGridBagComponent( contentPane, new JLabel( "theta" ),
+//            SwingUtils.addGridBagComponent( contentPane, new JLabel( "theta" ),
 //                                              0, rowIdx,
 //                                              1, 1,
 //                                              GridBagConstraints.NONE,
 //                                              GridBagConstraints.EAST );
-//            GraphicsUtil.addGridBagComponent( contentPane, thetaTF,
+//            SwingUtils.addGridBagComponent( contentPane, thetaTF,
 //                                              1, rowIdx++,
 //                                              1, 1,
 //                                              GridBagConstraints.NONE,

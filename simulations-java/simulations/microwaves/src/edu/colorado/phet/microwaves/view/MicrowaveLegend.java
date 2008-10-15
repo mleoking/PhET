@@ -6,15 +6,16 @@
  */
 package edu.colorado.phet.microwaves.view;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common_microwaves.view.graphics.ModelViewTransform2D;
-import edu.colorado.phet.common_microwaves.view.util.GraphicsUtil;
-import edu.colorado.phet.microwaves.model.WaterMolecule;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common_microwaves.view.graphics.ModelViewTransform2D;
+import edu.colorado.phet.microwaves.model.WaterMolecule;
 
 public class MicrowaveLegend extends JPanel {
 
@@ -38,7 +39,7 @@ public class MicrowaveLegend extends JPanel {
         this.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "MicrowaveLegend.BorderTitle" ) ) );
         int rowIdx = 0;
         try {
-            GraphicsUtil.addGridBagComponent( this, new JLabel(
+            SwingUtils.addGridBagComponent( this, new JLabel(
                     SimStrings.get( "MicrowaveLegend.WaterMoleculeLabel" ),
                     icon, SwingConstants.LEFT ), 0, rowIdx++, 1, 1,
                                                  GridBagConstraints.HORIZONTAL, GridBagConstraints.WEST );

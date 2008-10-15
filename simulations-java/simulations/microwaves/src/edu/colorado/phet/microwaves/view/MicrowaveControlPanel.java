@@ -6,24 +6,27 @@
  */
 package edu.colorado.phet.microwaves.view;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common_microwaves.application.PhetApplication;
-import edu.colorado.phet.common_microwaves.view.util.GraphicsUtil;
-import edu.colorado.phet.microwaves.MicrowaveConfig;
-import edu.colorado.phet.microwaves.MicrowaveModule;
-import edu.colorado.phet.microwaves.coreadditions.MeasuringTape;
-import edu.colorado.phet.microwaves.coreadditions.ModelViewTx1D;
-import edu.colorado.phet.microwaves.model.MicrowaveModel;
+import java.awt.AWTException;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
+
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common_microwaves.application.PhetApplication;
+import edu.colorado.phet.microwaves.MicrowaveConfig;
+import edu.colorado.phet.microwaves.MicrowaveModule;
+import edu.colorado.phet.microwaves.coreadditions.MeasuringTape;
+import edu.colorado.phet.microwaves.coreadditions.ModelViewTx1D;
+import edu.colorado.phet.microwaves.model.MicrowaveModel;
 
 public class MicrowaveControlPanel extends JPanel {
 
@@ -109,13 +112,13 @@ public class MicrowaveControlPanel extends JPanel {
         JPanel fieldViewRBPane = new JPanel( new GridBagLayout() );
         int rowIdx2 = 0;
         try {
-            GraphicsUtil.addGridBagComponent( fieldViewRBPane, splineViewRB, 0, rowIdx2++, 1, 1,
+            SwingUtils.addGridBagComponent( fieldViewRBPane, splineViewRB, 0, rowIdx2++, 1, 1,
                                               GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( fieldViewRBPane, singleViewRB, 0, rowIdx2++, 1, 1,
+            SwingUtils.addGridBagComponent( fieldViewRBPane, singleViewRB, 0, rowIdx2++, 1, 1,
                                               GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( fieldViewRBPane, fullViewRB, 0, rowIdx2++, 1, 1,
+            SwingUtils.addGridBagComponent( fieldViewRBPane, fullViewRB, 0, rowIdx2++, 1, 1,
                                               GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( fieldViewRBPane, noFieldViewRB, 0, rowIdx2++, 1, 1,
+            SwingUtils.addGridBagComponent( fieldViewRBPane, noFieldViewRB, 0, rowIdx2++, 1, 1,
                                               GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
         }
         catch( AWTException e ) {
@@ -154,46 +157,46 @@ public class MicrowaveControlPanel extends JPanel {
         this.setLayout( new GridBagLayout() );
         int rowIdx = 0;
         try {
-            GraphicsUtil.addGridBagComponent( this, new MicrowaveLegend(), 0, rowIdx++, 1, 1,
+            SwingUtils.addGridBagComponent( this, new MicrowaveLegend(), 0, rowIdx++, 1, 1,
                                               GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, button,
+            SwingUtils.addGridBagComponent( this, button,
                                               0, rowIdx++, 1, 1,
                                               GridBagConstraints.NONE,
                                               GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, new JLabel( SimStrings.get( "MicrowaveControlPanel.FrequencyLabel" ) ),
+            SwingUtils.addGridBagComponent( this, new JLabel( SimStrings.get( "MicrowaveControlPanel.FrequencyLabel" ) ),
                                               0, rowIdx++, 1, 1,
                                               GridBagConstraints.NONE,
                                               GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, freqSlider,
+            SwingUtils.addGridBagComponent( this, freqSlider,
                                               0, rowIdx++, 1, 1,
                                               GridBagConstraints.NONE,
                                               GridBagConstraints.CENTER );
             freqTF = new JTextField();
             displayFrequency( freqSliderTx.viewToModel( freqSlider.getValue() ) );
-            GraphicsUtil.addGridBagComponent( this, freqTF,
+            SwingUtils.addGridBagComponent( this, freqTF,
                                               0, rowIdx++, 1, 1,
                                               GridBagConstraints.NONE,
                                               GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, new JLabel( SimStrings.get( "MicrowaveControlPanel.AmplitudeLabel" ) ),
+            SwingUtils.addGridBagComponent( this, new JLabel( SimStrings.get( "MicrowaveControlPanel.AmplitudeLabel" ) ),
                                               0, rowIdx++, 1, 1,
                                               GridBagConstraints.NONE,
                                               GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, ampSlider,
+            SwingUtils.addGridBagComponent( this, ampSlider,
                                               0, rowIdx++, 1, 1,
                                               GridBagConstraints.HORIZONTAL,
                                               GridBagConstraints.CENTER );
             ampTF = new JTextField();
             displayAmplitude( ampSliderTx.viewToModel( ampSlider.getValue() ) );
 //            ampTF = new JTextField( Double.toString( ampSliderTx.viewToModel( ampSlider.getValue() ) ), 10 );
-            GraphicsUtil.addGridBagComponent( this, ampTF,
+            SwingUtils.addGridBagComponent( this, ampTF,
                                               0, rowIdx++, 1, 1,
                                               GridBagConstraints.NONE,
                                               GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, fieldViewRBPane,
+            SwingUtils.addGridBagComponent( this, fieldViewRBPane,
                                               0, rowIdx++, 1, 1,
                                               GridBagConstraints.HORIZONTAL,
                                               GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, resetBtn,
+            SwingUtils.addGridBagComponent( this, resetBtn,
                                               0, rowIdx++, 1, 1,
                                               GridBagConstraints.NONE,
                                               GridBagConstraints.CENTER );
@@ -222,7 +225,7 @@ public class MicrowaveControlPanel extends JPanel {
 
     private ActionListener fieldViewActionListener = new ActionListener() {
         public void actionPerformed( ActionEvent e ) {
-            JRadioButton selection = GraphicsUtil.getSelection( fieldViewBtnGrp );
+            JRadioButton selection = SwingUtils.getSelection( fieldViewBtnGrp );
             if( selection == noFieldViewRB ) {
                 module.setFieldViewOff();
             }
