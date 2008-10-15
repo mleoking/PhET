@@ -10,8 +10,6 @@ Reset all doesn’t work well when I make my guy really fat
 Hit next month, then choose more sedentary activity level and the person gets a bigger belly. Time is paused so there should be no change. This only happens the first time you adjust activity level after pausing (hitting next month).
     >>NP says: Wendy saw this, but I was not able to reproduce. Will check with her to get more details.
 
-Stop time at the end of the chart (2 year maximum duration of simulation).
-
 From NP 10/9/08
 
 -make male/female not reset unless it is the first thing that is done
@@ -25,7 +23,9 @@ WA 10/7/08
 
 ·         Heart strength reaction to activity level
 
-
+After making this change:
+    >>Stop time at the end of the chart (2 year maximum duration of simulation).
+What should be the new behavior of the horizontal zoom buttons?  We used to only allow zooming out on horizontal axis.  Should we remove horizontal zoom buttons?  Allow zooming in?
 
 
 ############################

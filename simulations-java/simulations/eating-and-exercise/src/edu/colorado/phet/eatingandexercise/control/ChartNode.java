@@ -49,9 +49,10 @@ public class ChartNode extends PNode {
     private DefaultTemporalVariable calIntakeVar = new DefaultTemporalVariable();
     private DefaultTemporalVariable calBurnVar = new DefaultTemporalVariable();
     private EatingAndExerciseModel model;
-    private ControlGraph weightGraph;
-    private ControlGraph calorieGraph;
+    private EatingAndExerciseControlGraph weightGraph;
+    private EatingAndExerciseControlGraph calorieGraph;
     private static final double DEFAULT_RANGE_YEARS = 2;
+//    private static final double DEFAULT_RANGE_YEARS = 2/10.0;//for testing
     private EatingAndExerciseModel.Units previousUnits;
 
     public ChartNode( final EatingAndExerciseModel model, PhetPCanvas phetPCanvas ) {
@@ -64,6 +65,9 @@ public class ChartNode extends PNode {
         model.addListener( new EatingAndExerciseModel.Adapter() {
             public void simulationTimeChanged() {
                 updateVars();
+                if (getAgeYears()>weightGraph.getLowerBound()+DEFAULT_RANGE_YEARS){
+                    model.getClock().pause();
+                }
             }
         } );
         updateVars();
@@ -313,13 +317,17 @@ public class ChartNode extends PNode {
         }
 
         protected void zoomHorizontal( double v ) {
-            double min = getJFreeChartNode().getChart().getXYPlot().getDomainAxis().getLowerBound();
+            double min = getLowerBound();
             double max = getJFreeChartNode().getChart().getXYPlot().getDomainAxis().getUpperBound();
             double currentRange = max - min;
             double newRange = Math.max( DEFAULT_RANGE_YEARS, currentRange * v );
 
             setDomain( min, min + newRange );
             forceUpdateAll();
+        }
+
+        private double getLowerBound() {
+            return getJFreeChartNode().getChart().getXYPlot().getDomainAxis().getLowerBound();
         }
 
         public void setDomain( double minDomainValue, double maxDomainValue ) {
