@@ -23,7 +23,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.lasers.view.AtomGraphic;
-import edu.colorado.phet.lasers.view.EnergyLifetimeSlider;
 import edu.colorado.phet.lasers.view.EnergyLevelGraphic;
 
 /**
