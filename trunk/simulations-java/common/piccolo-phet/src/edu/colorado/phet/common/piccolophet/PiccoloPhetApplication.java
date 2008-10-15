@@ -51,17 +51,4 @@ public class PiccoloPhetApplication extends PhetApplication {
         super( config, PHET_TABBED_PANE );
     }
 
-    /**
-     * @param args
-     * @param title
-     * @param description
-     * @param version
-     * @param frameSetup
-     * @deprecated
-     */
-    public PiccoloPhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup ) {
-        super( args, title, description, version, frameSetup );
-        super.setTabbedPaneType( PHET_TABBED_PANE );
-    }
-
 }
