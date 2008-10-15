@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: May 24, 2004
  */
-package edu.colorado.phet.common_1200.view;
+package edu.colorado.phet.radiowaves.common_1200.graphics;
 
 import java.awt.Color;
 import java.awt.Font;

@@ -1,5 +1,5 @@
 /* Copyright University of Colorado, 2003 */
-package edu.colorado.phet.common_1200.view;
+package edu.colorado.phet.radiowaves.common_1200.graphics;
 
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;

@@ -5,7 +5,7 @@
  * Created by: Ron LeMaster
  * Date: Nov 6, 2002
  */
-package edu.colorado.phet.common_1200.view;
+package edu.colorado.phet.radiowaves.common_1200.graphics;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
  * Test Comment.
  * <p/>
  *
- * @see edu.colorado.phet.common_1200.view.Graphic
+ * @see edu.colorado.phet.radiowaves.common_1200.graphics.Graphic
  */
 public class ApparatusPanel extends JPanel {
 

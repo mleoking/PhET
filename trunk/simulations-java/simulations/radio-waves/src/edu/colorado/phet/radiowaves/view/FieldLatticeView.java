@@ -18,8 +18,8 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
-import edu.colorado.phet.common_1200.view.Graphic;
 import edu.colorado.phet.radiowaves.EmfConfig;
+import edu.colorado.phet.radiowaves.common_1200.graphics.Graphic;
 import edu.colorado.phet.radiowaves.model.Electron;
 import edu.colorado.phet.radiowaves.view.graphics.splines.CubicSpline;
 

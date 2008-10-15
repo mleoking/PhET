@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Dec 18, 2003
  */
-package edu.colorado.phet.common_1200.view;
+package edu.colorado.phet.radiowaves.common_1200.graphics;
 
 /**
  * A Boundary represents the area within which a graphic is controllable.

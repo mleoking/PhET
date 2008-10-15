@@ -10,8 +10,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common_1200.view.ApparatusPanel;
 import edu.colorado.phet.radiowaves.EmfConfig;
+import edu.colorado.phet.radiowaves.common_1200.graphics.ApparatusPanel;
 import edu.colorado.phet.radiowaves.model.Electron;
 
 public class ReceivingElectronGraphic extends ElectronGraphic {

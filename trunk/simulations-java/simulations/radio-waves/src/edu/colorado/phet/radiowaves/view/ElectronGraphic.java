@@ -15,9 +15,9 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common_1200.view.ApparatusPanel;
-import edu.colorado.phet.common_1200.view.BufferedImageGraphic;
 import edu.colorado.phet.radiowaves.EmfConfig;
+import edu.colorado.phet.radiowaves.common_1200.graphics.ApparatusPanel;
+import edu.colorado.phet.radiowaves.common_1200.graphics.BufferedImageGraphic;
 import edu.colorado.phet.radiowaves.model.Electron;
 
 public class ElectronGraphic extends BufferedImageGraphic implements SimpleObserver, TransformListener {

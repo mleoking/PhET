@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Jun 18, 2004
  */
-package edu.colorado.phet.common_1200.view;
+package edu.colorado.phet.radiowaves.common_1200.graphics;
 
 
 import javax.swing.event.MouseInputListener;

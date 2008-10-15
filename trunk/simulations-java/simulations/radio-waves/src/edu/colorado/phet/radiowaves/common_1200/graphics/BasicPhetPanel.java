@@ -1,5 +1,5 @@
 /* Copyright University of Colorado, 2003 */
-package edu.colorado.phet.common_1200.view;
+package edu.colorado.phet.radiowaves.common_1200.graphics;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;

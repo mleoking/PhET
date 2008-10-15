@@ -5,7 +5,7 @@
  * Author: Another Guy
  * Date: Dec 19, 2003
  */
-package edu.colorado.phet.common_1200.view;
+package edu.colorado.phet.radiowaves.common_1200.graphics;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
