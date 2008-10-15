@@ -47,14 +47,14 @@ public class PhetApplication {
         this.phetApplicationConfig = config;
         this.tabbedPaneType = tabbedPaneType;
 
-        phetApplications.add( this );
-
         this.moduleManager = new ModuleManager( this );
         phetFrame = createPhetFrame();
         config.getFrameSetup().initialize( phetFrame );
 
         // Handle command line arguments
         parseArgs( config.getCommandLineArgs() );
+
+        phetApplications.add( this );
     }
 
     //----------------------------------------------------------------
