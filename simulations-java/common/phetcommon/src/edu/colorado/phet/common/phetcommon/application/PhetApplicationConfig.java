@@ -32,7 +32,7 @@ import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
  *
  * @author John De Goes / Chris Malley
  */
-public class PhetApplicationConfig implements Trackable, ITrackingInfo {
+public class PhetApplicationConfig implements Trackable, ITrackingInfo, ISimInfo {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -156,6 +156,10 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
      */
     public String getDescription() {
         return resourceLoader.getDescription( flavor );
+    }
+
+    public String getVersionForTitleBar() {
+        return getVersion().formatForTitleBar();
     }
 
     /**

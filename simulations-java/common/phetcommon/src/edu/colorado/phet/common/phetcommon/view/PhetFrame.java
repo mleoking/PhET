@@ -44,7 +44,7 @@ public class PhetFrame extends JFrame {
      * @param application the application that own the PhetFrame
      */
     public PhetFrame( final PhetApplication application ) throws HeadlessException {
-        super( application.getTitle() + " (" + application.getVersion() + ")" );
+        super( application.getTitle() + " (" + application.getVersion().formatForTitleBar() + ")" );
         this.application = application;
 
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
