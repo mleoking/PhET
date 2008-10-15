@@ -154,10 +154,6 @@ public class PhetApplication {
         }
     }
 
-    private static Dimension getScreenSize() {
-        return Toolkit.getDefaultToolkit().getScreenSize();
-    }
-
     /**
      * Processes command line arguments. May be extended by subclasses.
      *
@@ -473,18 +469,6 @@ public class PhetApplication {
 
     public void setTabbedPaneType( TabbedPaneType tabbedPaneType ) {
         this.tabbedPaneType = tabbedPaneType;
-    }
-
-    /**
-     * Close this PhetApplication cleanly without exiting the JVM;
-     * Deactivates all modules and disposes of the associated PhetFrame for this PhetApplication.
-     * TODO: verify there are no memory leaks
-     */
-    public void closeApplication() {
-        for ( int i = 0; i < numModules(); i++ ) {
-            moduleAt( i ).deactivate();
-        }
-        getPhetFrame().dispose();
     }
 
     /**
