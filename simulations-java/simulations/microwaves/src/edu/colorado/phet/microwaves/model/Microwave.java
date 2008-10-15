@@ -6,9 +6,9 @@
  */
 package edu.colorado.phet.microwaves.model;
 
-import edu.colorado.phet.waves.model.PlaneWavefront;
-import edu.colorado.phet.waves.model.SineFunction;
-import edu.colorado.phet.waves.model.Wave;
+import edu.colorado.phet.microwaves.model.waves.PlaneWavefront;
+import edu.colorado.phet.microwaves.model.waves.SineFunction;
+import edu.colorado.phet.microwaves.model.waves.Wave;
 
 public class Microwave extends Wave {
 

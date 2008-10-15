@@ -5,7 +5,7 @@
  * Time: 10:01:06 AM
  * To change this template use Options | File Templates.
  */
-package edu.colorado.phet.waves.model;
+package edu.colorado.phet.microwaves.model.waves;
 
 public class SphericalWavefront implements WavefrontType {
 

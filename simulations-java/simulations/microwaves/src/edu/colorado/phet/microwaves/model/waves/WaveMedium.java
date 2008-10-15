@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: May 23, 2003
  */
-package edu.colorado.phet.waves.model;
+package edu.colorado.phet.microwaves.model.waves;
 
 import edu.colorado.phet.common_microwaves.math.Vector2D;
 import edu.colorado.phet.common_microwaves.model.ModelElement;

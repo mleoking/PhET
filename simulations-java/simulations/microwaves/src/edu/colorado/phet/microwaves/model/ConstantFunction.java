@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.microwaves.model;
 
-import edu.colorado.phet.waves.model.PeriodicFunction;
+import edu.colorado.phet.microwaves.model.waves.PeriodicFunction;
 
 public class ConstantFunction implements PeriodicFunction {
 

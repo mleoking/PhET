@@ -10,8 +10,8 @@ import edu.colorado.phet.common_microwaves.math.Vector2D;
 import edu.colorado.phet.common_microwaves.model.BaseModel;
 import edu.colorado.phet.common_microwaves.model.IClock;
 import edu.colorado.phet.microwaves.coreadditions.collision.Box2D;
-import edu.colorado.phet.waves.model.FiniteWaveMedium;
-import edu.colorado.phet.waves.model.WaveMedium;
+import edu.colorado.phet.microwaves.model.waves.FiniteWaveMedium;
+import edu.colorado.phet.microwaves.model.waves.WaveMedium;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
