@@ -33,8 +33,6 @@ public class PhetApplication {
 
     private PhetFrame phetFrame;
     private ModuleManager moduleManager;
-    private AWTSplashWindow splashWindow;
-    private Frame splashWindowOwner;
     private PhetAboutDialog aboutDialog; // not null only when About dialog is visible
 
     //----------------------------------------------------------------
@@ -48,8 +46,6 @@ public class PhetApplication {
     protected PhetApplication( PhetApplicationConfig config, TabbedPaneType tabbedPaneType ) {
         this.phetApplicationConfig = config;
         this.tabbedPaneType = tabbedPaneType;
-
-        showSplashWindow( config.getName() );// Put up a dialog that lets the user know that the simulation is starting up
 
         phetApplications.add( this );
 
@@ -98,25 +94,6 @@ public class PhetApplication {
         return new PhetFrame( this );
     }
 
-    private void showSplashWindow( String title ) {
-        if ( splashWindow == null ) {
-            // PhetFrame doesn't exist when this is called, so create and manage the window's owner.
-            splashWindowOwner = new Frame();
-            splashWindow = new AWTSplashWindow( splashWindowOwner, title );
-            splashWindow.show();
-        }
-    }
-
-    private void disposeSplashWindow() {
-        if ( splashWindow != null ) {
-            splashWindow.dispose();
-            splashWindow = null;
-            // Clean up the window's owner that we created in showSplashWindow.
-            splashWindowOwner.dispose();
-            splashWindowOwner = null;
-        }
-    }
-
     /**
      * Processes command line arguments. May be extended by subclasses.
      *
@@ -141,7 +118,6 @@ public class PhetApplication {
         // at the proper size, but the ApparatusPanel2 has not yet gotten its resize event.
         phetFrame.addWindowFocusListener( new WindowAdapter() {
             public void windowGainedFocus( WindowEvent e ) {
-                disposeSplashWindow();
                 initializeModuleReferenceSizes();
                 phetFrame.removeWindowFocusListener( this );
             }
