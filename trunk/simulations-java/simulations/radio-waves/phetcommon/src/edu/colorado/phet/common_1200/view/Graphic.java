@@ -1,4 +1,4 @@
-package edu.colorado.phet.common_1200.view.graphics;
+package edu.colorado.phet.common_1200.view;
 
 import java.awt.*;
 

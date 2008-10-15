@@ -12,9 +12,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import edu.colorado.phet.common.phetcommon.util.MultiMap;
-import edu.colorado.phet.common_1200.view.graphics.Boundary;
-import edu.colorado.phet.common_1200.view.graphics.BoundedGraphic;
-import edu.colorado.phet.common_1200.view.graphics.Graphic;
 
 public class CompositeGraphic implements BoundedGraphic {
 

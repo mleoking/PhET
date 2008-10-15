@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Dec 18, 2003
  */
-package edu.colorado.phet.common_1200.view.graphics;
+package edu.colorado.phet.common_1200.view;
 
 /**
  * A Boundary represents the area within which a graphic is controllable.

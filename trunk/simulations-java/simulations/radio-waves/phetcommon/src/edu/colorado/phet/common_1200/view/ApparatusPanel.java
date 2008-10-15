@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
-import edu.colorado.phet.common_1200.view.graphics.Graphic;
-import edu.colorado.phet.common_1200.view.graphics.PhetGraphic;
 
 /**
  * This is a base class for panels that contain graphic representations
@@ -27,7 +25,7 @@ import edu.colorado.phet.common_1200.view.graphics.PhetGraphic;
  * Test Comment.
  * <p/>
  *
- * @see edu.colorado.phet.common_1200.view.graphics.Graphic
+ * @see edu.colorado.phet.common_1200.view.Graphic
  */
 public class ApparatusPanel extends JPanel {
 

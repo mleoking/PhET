@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: May 11, 2004
  */
-package edu.colorado.phet.common_1200.view.graphics;
+package edu.colorado.phet.common_1200.view;
 
 import java.awt.*;
 import java.awt.font.FontRenderContext;

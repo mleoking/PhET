@@ -1,4 +1,4 @@
-package edu.colorado.phet.common_1200.view.graphics.mousecontrols;
+package edu.colorado.phet.common_1200.view;
 
 /**
  * User: Sam Reid

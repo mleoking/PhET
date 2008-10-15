@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: May 21, 2003
  */
-package edu.colorado.phet.common_1200.view.graphics;
+package edu.colorado.phet.common_1200.view;
 
 import java.awt.Cursor;
 import java.awt.Graphics2D;
@@ -17,8 +17,6 @@ import javax.swing.event.MouseInputListener;
 
 import edu.colorado.phet.common.phetgraphics.view.util.CompositeMouseInputListener;
 import edu.colorado.phet.common.phetgraphics.view.util.CursorControl;
-import edu.colorado.phet.common_1200.view.graphics.mousecontrols.Translatable;
-import edu.colorado.phet.common_1200.view.graphics.mousecontrols.TranslationControl;
 
 /**
  * This class facilitates adding behaviors to an interactive graphic.
