@@ -59,16 +59,7 @@ public class PhetAboutDialog extends JDialog {
      * @throws HeadlessException
      */
     public PhetAboutDialog( PhetApplication phetApplication ) {
-        this( phetApplication.getPhetFrame(), getDialogConfig( phetApplication ) );
-    }
-
-    private static DialogConfig getDialogConfig( PhetApplication phetApplication ) {
-        if ( phetApplication.getPhetApplicationConfig() != null ) {
-            return new PhetApplicationConfigDialogConfig( phetApplication.getPhetApplicationConfig() );
-        }
-        else {
-            return new SimpleDialogConfig( phetApplication.getTitle(), phetApplication.getDescription(), phetApplication.getVersion(), phetApplication.getCredits() );
-        }
+        this( phetApplication.getPhetFrame(), phetApplication );
     }
 
     /**
@@ -79,11 +70,11 @@ public class PhetAboutDialog extends JDialog {
      * @deprecated use the constructor that takes as PhetApplicationConfig
      */
     public PhetAboutDialog( Frame ownwer, String simulationShortName ) {
-        this( ownwer, new PhetAboutDialog.PhetApplicationConfigDialogConfig( new PhetApplicationConfig( new String[0], new PhetApplicationConfig.ApplicationConstructor() {
+        this( ownwer,  new PhetApplicationConfig( new String[0], new PhetApplicationConfig.ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 return null;
             }
-        },  simulationShortName  ) ) );
+        },  simulationShortName  )  );
     }
 
     /**
@@ -92,17 +83,17 @@ public class PhetAboutDialog extends JDialog {
      * @param config
      * @param owner
      */
-    public PhetAboutDialog( Frame owner, DialogConfig config ) {
+    public PhetAboutDialog( Frame owner, ISimInfo config ) {
         super( owner );
         setResizable( false );
 
-        titleString = config.getName();
+        titleString = config.getTitle();
         descriptionString = config.getDescription();
         if (descriptionString==null){
             new Exception("Null description string, continuing").printStackTrace(  );
             descriptionString="";
         }
-        versionString = config.getVersionForAboutDialog();
+        versionString = config.getVersion().formatForAboutDialog();
         creditsString = config.getCredits();
 
         setTitle( getLocalizedString( "Common.HelpMenu.AboutTitle" ) + " " + titleString );
@@ -251,11 +242,11 @@ public class PhetAboutDialog extends JDialog {
     protected void showLicenseInfo() {
 
         final JDialog dialog = new JDialog( this, getLocalizedString( "Common.About.LicenseDialog.Title" ), true );
-        
+
         String phetLicenseString = HTMLUtils.setFontInStyledHTML( readFile( LICENSE_RESOURCE ), new PhetFont() );
         InteractiveHTMLPane htmlPane = new InteractiveHTMLPane( phetLicenseString );
         JScrollPane scrollPane = new JScrollPane( htmlPane );
-        
+
         JPanel buttonPanel = new JPanel();
         JButton okButton = new JButton( getLocalizedString( "Common.About.OKButton" ) );
         okButton.addActionListener( new ActionListener() {
@@ -265,12 +256,12 @@ public class PhetAboutDialog extends JDialog {
             }
         } );
         buttonPanel.add( okButton );
-        
+
         JPanel panel = new JPanel( new BorderLayout() );
         panel.setBorder( BorderFactory.createEmptyBorder( 10, 10, 10, 10 ) );
         panel.add( scrollPane, BorderLayout.CENTER );
         panel.add( buttonPanel, BorderLayout.SOUTH );
-        
+
         dialog.setContentPane( panel );
         dialog.setSize( 440,400 );//todo: this shouldn't be hard coded, but I had trouble getting Swing to do something reasonable
         SwingUtils.centerDialogInParent( dialog );
@@ -345,82 +336,6 @@ public class PhetAboutDialog extends JDialog {
             e.printStackTrace();
         }
         return text;
-    }
-
-    /**
-     * A DialogConfig is the minimum amount of information necessary to construct a PhetAboutDialog.
-     */
-    public static interface DialogConfig {
-        String getName();
-
-        String getDescription();
-
-        String getVersionForAboutDialog();
-
-        String getCredits();
-    }
-
-    /**
-     * A PhetApplicationConfigDialogConfig is an adapter class for using PhetApplicationConfig as DialogConfig.
-     * We may prefer to make PhetApplicationConfig implement DialogConfig interface.
-     */
-    public static class PhetApplicationConfigDialogConfig implements DialogConfig {
-        private PhetApplicationConfig applicationConfig;
-
-        public PhetApplicationConfigDialogConfig( PhetApplicationConfig applicationConfig ) {
-            this.applicationConfig = applicationConfig;
-        }
-
-        public String getName() {
-            return applicationConfig.getTitle();
-        }
-
-        public String getDescription() {
-            return applicationConfig.getDescription();
-        }
-
-        public String getVersionForAboutDialog() {
-            return applicationConfig.getVersion().formatForAboutDialog();
-        }
-
-        public String getCredits() {
-            return applicationConfig.getCredits();
-        }
-    }
-
-    /**
-     * This dialog config allows simulations to directly specify information for the about dialog; it is
-     * provided mostly for backward compatibility with older simulations.
-     */
-    public static class SimpleDialogConfig implements DialogConfig {
-        private String name;
-        private String description;
-        private String versionString;
-        private String credits;
-
-        public SimpleDialogConfig( String name, String description, String versionString, String credits ) {
-            this.name = name;
-            this.description = description;
-            this.versionString = versionString;
-            this.credits = credits;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public String getVersionForAboutDialog() {
-            return versionString;
-        }
-
-        public String getCredits() {
-            return credits;
-        }
-
     }
 
 }

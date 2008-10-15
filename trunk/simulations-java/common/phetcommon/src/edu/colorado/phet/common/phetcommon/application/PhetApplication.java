@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.JTabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 
 /**
  * The base class for PhET applications.
@@ -335,14 +336,8 @@ public class PhetApplication implements ISimInfo{
         return getPhetApplicationConfig().getDescription();
     }
 
-    /**
-     * Get the version string for this PhetApplication.
-     *
-     * @return the version string.
-     * @deprecated Use getProjectConfig()
-     */
-    public String getVersion() {
-        return getPhetApplicationConfig().getVersion().formatForTitleBar();
+    public PhetVersion getVersion() {
+        return getPhetApplicationConfig().getVersion();
     }
 
     /**
