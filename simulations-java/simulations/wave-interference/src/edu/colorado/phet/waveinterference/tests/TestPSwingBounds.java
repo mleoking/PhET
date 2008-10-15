@@ -6,12 +6,12 @@ import java.awt.*;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetgraphics.test.DeprecatedPhetApplicationLauncher;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
@@ -52,12 +52,14 @@ public class TestPSwingBounds extends Module {
         phetLookAndFeel.setFont( new PhetFont( Font.BOLD, 13 ) );
         phetLookAndFeel.initLookAndFeel();
 //        ModuleApplication moduleApplication = new ModuleApplication();
-        PhetApplication phetApplication = new PhetApplication( args, "", "", "" );
+        DeprecatedPhetApplicationLauncher phetApplication = new DeprecatedPhetApplicationLauncher( args, "", "", "" );
         phetApplication.addModule( module );
 
-        SwingUtilities.updateComponentTreeUI( phetApplication.getPhetFrame() );
+
         phetApplication.startApplication();
         module.fix();
+
+        SwingUtilities.updateComponentTreeUI( phetApplication.getPhetFrame() );
     }
 
     private void fix() {

@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.io.IOException;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
@@ -13,6 +12,7 @@ import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.phetgraphics.test.DeprecatedPhetApplicationLauncher;
 
 /**
  * TestOffscreenBufferAlpha tests support for alpha blending in the
@@ -42,7 +42,7 @@ public class TestOffscreenBufferAlpha {
         PhetGraphicsModule module = new TestModule( clock );
 
         // Create and start the application.
-        PhetApplication app = new PhetApplication( args, "title", "desc", "version" );
+        DeprecatedPhetApplicationLauncher app = new DeprecatedPhetApplicationLauncher( args, "title", "desc", "version" );
         app.addModule( module );
         app.startApplication();
     }

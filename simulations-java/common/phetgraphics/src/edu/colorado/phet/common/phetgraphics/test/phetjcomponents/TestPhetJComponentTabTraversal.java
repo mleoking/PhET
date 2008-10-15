@@ -6,7 +6,6 @@ import java.io.IOException;
 
 import javax.swing.JTextField;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
@@ -16,6 +15,7 @@ import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.phetgraphics.test.DeprecatedPhetApplicationLauncher;
 
 /**
  * Tests tab traversal of Swing components that are wrapped by PhetJComponent.
@@ -34,7 +34,7 @@ public class TestPhetJComponentTabTraversal {
         String title = "TestPhetJComponentTabTraversal";
         IClock clock = new SwingClock( 40, 1 );
 
-        PhetApplication app = new PhetApplication( args, "title", "desc", "version" );
+        DeprecatedPhetApplicationLauncher app = new DeprecatedPhetApplicationLauncher( args, "title", "desc", "version" );
 
         // Add modules.
         PhetGraphicsModule module = new TestModule( clock );

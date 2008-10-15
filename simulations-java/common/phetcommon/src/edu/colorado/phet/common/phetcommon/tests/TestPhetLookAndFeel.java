@@ -7,10 +7,10 @@ import java.awt.Font;
 import javax.swing.JLabel;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetgraphics.test.DeprecatedPhetApplicationLauncher;
 
 /**
  * User: Sam Reid
@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
  * Time: 7:32:47 PM
  */
 
-public class TestPhetLookAndFeel extends PhetApplication {
+public class TestPhetLookAndFeel extends DeprecatedPhetApplicationLauncher {
     public TestPhetLookAndFeel( String[] args ) {
         super( args, TestPhetLookAndFeel.class.getName(), "description", "version" );
         addModule( new TestPhetLookAndFeelModule( "Module A" ) );

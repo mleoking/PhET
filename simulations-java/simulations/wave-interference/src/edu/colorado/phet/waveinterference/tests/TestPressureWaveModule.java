@@ -5,8 +5,8 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
+import edu.colorado.phet.common.phetgraphics.test.DeprecatedPhetApplicationLauncher;
 import edu.colorado.phet.waveinterference.model.SlitPotential;
 import edu.colorado.phet.waveinterference.view.IndexColorMap;
 import edu.colorado.phet.waveinterference.view.PressureWaveGraphic;
@@ -86,7 +86,7 @@ public class TestPressureWaveModule extends BasicWaveTestModule {
     }
 
     public static void main( String[] args ) {
-        PhetApplication app = new PhetApplication( args, "Feasibility Test", "Test", "0.01" );
+        DeprecatedPhetApplicationLauncher app = new DeprecatedPhetApplicationLauncher( args, "Feasibility Test", "Test", "0.01" );
         app.addModule( new TestPressureWaveModule() );
         app.startApplication();
     }

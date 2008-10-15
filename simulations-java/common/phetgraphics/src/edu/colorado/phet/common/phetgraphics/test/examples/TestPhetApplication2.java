@@ -23,7 +23,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -38,9 +37,10 @@ import edu.colorado.phet.common.phetgraphics.view.help.HelpItem;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.phetgraphics.test.DeprecatedPhetApplicationLauncher;
 
 public class TestPhetApplication2 {
-    private static PhetApplication app;
+    private static DeprecatedPhetApplicationLauncher app;
 
     static class TestApparatusPanel extends ApparatusPanel {
         public TestApparatusPanel() {
@@ -214,7 +214,7 @@ public class TestPhetApplication2 {
         MyModule3 module4 = new MyModule3( clock );
         PhetGraphicsModule[] m = new PhetGraphicsModule[]{module, module2, module3, module4};
 
-        app = new PhetApplication( args, "title", "desc", "version" );
+        app = new DeprecatedPhetApplicationLauncher( args, "title", "desc", "version" );
         app.setModules( m );
         app.startApplication();
 

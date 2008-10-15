@@ -65,7 +65,7 @@ public class PhetApplication {
     // Constructors
     //----------------------------------------------------------------
     
-    protected PhetApplication( PhetApplicationConfig config ) {
+    public PhetApplication( PhetApplicationConfig config ) {
         this( config.getCommandLineArgs(), config.getName(), config.getDescription(), config.getVersion().formatForTitleBar(), config.getFrameSetup() ,JTABBED_PANE_TYPE,config);
     }
 
