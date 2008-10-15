@@ -15,7 +15,6 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.Command;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -24,6 +23,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common_1200.view.graphics.Graphic;
 import edu.colorado.phet.common_1200.view.graphics.HelpItem;
 import edu.colorado.phet.radiowaves.command.AddTransmittingElectronCmd;
@@ -40,7 +40,7 @@ import edu.colorado.phet.radiowaves.model.movement.SinusoidalMovement;
 import edu.colorado.phet.radiowaves.util.StripChart;
 import edu.colorado.phet.radiowaves.view.*;
 
-public class EmfModule extends Module {
+public class EmfModule extends PiccoloModule {
     
     final double HELP_LAYER_NUMBER = Double.POSITIVE_INFINITY;
     final double WIGGLE_ME_LAYER_NUMBER = 5;
