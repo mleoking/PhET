@@ -51,9 +51,6 @@ public class PhetApplication {
     private volatile PhetApplicationConfig applicationConfig;
     private final boolean developerControlsEnabled;
 
-    private String title;
-    private String description;
-    private String version;
     private PhetFrame phetFrame;
     private ModuleManager moduleManager;
     private AWTSplashWindow splashWindow;
@@ -64,38 +61,27 @@ public class PhetApplication {
     //----------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------
-    
+
     public PhetApplication( PhetApplicationConfig config ) {
-        this( config.getCommandLineArgs(), config.getName(), config.getDescription(), config.getVersion().formatForTitleBar(), config.getFrameSetup() ,JTABBED_PANE_TYPE,config);
+        this( config, JTABBED_PANE_TYPE );
     }
 
     protected PhetApplication( PhetApplicationConfig config, TabbedPaneType tabbedPaneType ) {
-        this( config.getCommandLineArgs(), config.getName(), config.getDescription(), config.getVersion().formatForTitleBar(), config.getFrameSetup(), tabbedPaneType ,config );
-    }
+        this.applicationConfig = config;
+        this.developerControlsEnabled = CommandLineUtils.contains( config.getCommandLineArgs(), DEVELOPER_CONTROLS_COMMAND_LINE_ARG );
 
-    /**
-     * @deprecated
-     */
-    private PhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup, TabbedPaneType tabbedPaneType ,PhetApplicationConfig config) {
-        this.applicationConfig=config;
-        this.developerControlsEnabled = CommandLineUtils.contains( args, DEVELOPER_CONTROLS_COMMAND_LINE_ARG );
-                
         // Put up a dialog that lets the user know that the simulation is starting up
-        showSplashWindow( title );
-        this.tabbedPaneType = JTABBED_PANE_TYPE;
+        showSplashWindow( config.getName() );
+        this.tabbedPaneType = tabbedPaneType;
         latestInstance = this;
         phetApplications.add( this );
 
-        this.title = title;
-        this.description = description;
-        this.version = version;
-
         this.moduleManager = new ModuleManager( this );
         phetFrame = createPhetFrame();
-        frameSetup.initialize( phetFrame );
+        config.getFrameSetup().initialize( phetFrame );
 
         // Handle command line arguments
-        parseArgs( args );
+        parseArgs( config.getCommandLineArgs() );
         instances++;
     }
 
@@ -392,10 +378,7 @@ public class PhetApplication {
      * @deprecated Use getProjectConfig()
      */
     public String getTitle() {
-        if ( getApplicationConfig() != null ) {
             return getApplicationConfig().getName();
-        }
-        return title;
     }
 
     /**
@@ -405,10 +388,7 @@ public class PhetApplication {
      * @deprecated Use getProjectConfig()
      */
     public String getDescription() {
-        if ( getApplicationConfig() != null ) {
             return getApplicationConfig().getDescription();
-        }
-        return description;
     }
 
     /**
@@ -418,10 +398,7 @@ public class PhetApplication {
      * @deprecated Use getProjectConfig()
      */
     public String getVersion() {
-        if ( getApplicationConfig() != null ) {
             return getApplicationConfig().getVersion().formatForTitleBar();
-        }
-        return version;
     }
 
     /**
