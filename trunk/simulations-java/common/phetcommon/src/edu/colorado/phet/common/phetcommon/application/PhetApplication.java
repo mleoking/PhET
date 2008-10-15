@@ -40,7 +40,6 @@ public class PhetApplication {
      * Mechanism for determining which graphics subsystem we're using
      */
     private static final String DEBUG_MENU_COMMAND_LINE_ARG = "-d";
-    private static PhetApplication latestInstance = null;
     private static ArrayList phetApplications = new ArrayList();
     
     //----------------------------------------------------------------
@@ -73,7 +72,6 @@ public class PhetApplication {
         // Put up a dialog that lets the user know that the simulation is starting up
         showSplashWindow( config.getName() );
         this.tabbedPaneType = tabbedPaneType;
-        latestInstance = this;
         phetApplications.add( this );
 
         this.moduleManager = new ModuleManager( this );
@@ -108,7 +106,7 @@ public class PhetApplication {
      * @return last created PhetApplication.
      */
     public static PhetApplication instance() {
-        return latestInstance;
+        return (PhetApplication) phetApplications.get(phetApplications.size()-1);
     }
 
     /**
