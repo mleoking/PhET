@@ -145,9 +145,6 @@ public class MultipleParticleModel {
     // to integrate Paul Beale's IDL implementation of the Verlet algorithm.
     // Eventually some or all of them will be refactored to other objects.
     private Point2D [] m_atomPositions;
-    private Vector2D [] m_atomVelocities;
-    private Vector2D [] m_atomForces;
-    private Vector2D [] m_nextAtomForces;
     private int m_numberOfAtoms;
     private int m_numberOfSafeAtoms;
     private int m_atomsPerMolecule;
@@ -651,6 +648,7 @@ public class MultipleParticleModel {
         double injectionPointY = StatesOfMatterConstants.CONTAINER_BOUNDS.height / m_particleDiameter *
                 INJECTION_POINT_VERT_PROPORTION;
 
+        // Make sure that it is okay to inject a new molecule.
         if (( m_numberOfAtoms + m_atomsPerMolecule <= MAX_NUM_ATOMS ) &&
             ( m_normalizedContainerHeight > injectionPointY * 1.05) &&
             (!m_lidBlownOff)){
@@ -661,20 +659,17 @@ public class MultipleParticleModel {
             double xVel = Math.cos( angle ) * velocity;
             double yVel = Math.sin( angle ) * velocity;
             if (m_atomsPerMolecule == 1){
-                // Add particle and its velocity and forces to normalized set.
+                // Add atom and its velocity and forces to normalized set.
                 m_atomPositions[m_numberOfAtoms] = 
                     new Point2D.Double( injectionPointX, injectionPointY );
-                m_atomVelocities[m_numberOfAtoms] = new Vector2D.Double( xVel, yVel );
-                m_atomForces[m_numberOfAtoms] = new Vector2D.Double();
-                m_nextAtomForces[m_numberOfAtoms] = new Vector2D.Double();
+                m_moleculeVelocities[m_numberOfAtoms] = new Vector2D.Double( xVel, yVel );
+                m_moleculeForces[m_numberOfAtoms] = new Vector2D.Double();
+                m_nextMoleculeForces[m_numberOfAtoms] = new Vector2D.Double();
                 m_numberOfAtoms++;
                 
                 // Add particle to model set.
                 StatesOfMatterAtom particle;
                 switch (m_currentMolecule){
-                case StatesOfMatterConstants.MONATOMIC_OXYGEN:
-                    particle = new OxygenAtom(0, 0);
-                    break;
                 case StatesOfMatterConstants.ARGON:
                     particle = new ArgonAtom(0, 0);
                     break;
@@ -912,19 +907,19 @@ public class MultipleParticleModel {
         m_numberOfSafeAtoms = m_numberOfAtoms;
         
         // Initialize the vectors that define the normalized particle attributes.
-        m_atomPositions  = new Point2D [MAX_NUM_ATOMS];
-        m_atomVelocities = new Vector2D [MAX_NUM_ATOMS];
-        m_atomForces     = new Vector2D [MAX_NUM_ATOMS];
-        m_nextAtomForces = new Vector2D [MAX_NUM_ATOMS];
+        m_atomPositions      = new Point2D [MAX_NUM_ATOMS];
+        m_moleculeVelocities = new Vector2D [MAX_NUM_ATOMS];
+        m_moleculeForces     = new Vector2D [MAX_NUM_ATOMS];
+        m_nextMoleculeForces = new Vector2D [MAX_NUM_ATOMS];
         m_atomsPerMolecule = 1;
         
         for (int i = 0; i < m_numberOfAtoms; i++){
             
             // Add particle and its velocity and forces to normalized set.
-            m_atomPositions[i] = new Point2D.Double();
-            m_atomVelocities[i] = new Vector2D.Double();
-            m_atomForces[i] = new Vector2D.Double();
-            m_nextAtomForces[i] = new Vector2D.Double();
+            m_atomPositions[i]      = new Point2D.Double();
+            m_moleculeVelocities[i] = new Vector2D.Double();
+            m_moleculeForces[i]     = new Vector2D.Double();
+            m_nextMoleculeForces[i] = new Vector2D.Double();
             
             // Add particle to model set.
             StatesOfMatterAtom atom;
@@ -969,17 +964,17 @@ public class MultipleParticleModel {
         // Initialize the arrays that define the normalized attributes for
         // each individual atom.
         m_atomPositions  = new Point2D [MAX_NUM_ATOMS];
-        m_atomVelocities = new Vector2D [MAX_NUM_ATOMS];
-        m_atomForces     = new Vector2D [MAX_NUM_ATOMS];
-        m_nextAtomForces = new Vector2D [MAX_NUM_ATOMS];
+        m_moleculeVelocities = new Vector2D [MAX_NUM_ATOMS];
+        m_moleculeForces     = new Vector2D [MAX_NUM_ATOMS];
+        m_nextMoleculeForces = new Vector2D [MAX_NUM_ATOMS];
         
         for (int i = 0; i < m_numberOfAtoms; i++){
             
             // Add particle and its velocity and forces to normalized set.
             m_atomPositions[i] = new Point2D.Double();
-            m_atomVelocities[i] = new Vector2D.Double();
-            m_atomForces[i] = new Vector2D.Double();
-            m_nextAtomForces[i] = new Vector2D.Double();
+            m_moleculeVelocities[i] = new Vector2D.Double();
+            m_moleculeForces[i] = new Vector2D.Double();
+            m_nextMoleculeForces[i] = new Vector2D.Double();
             
             // Add particle to model set.
             StatesOfMatterAtom atom;
@@ -1055,17 +1050,17 @@ public class MultipleParticleModel {
         // Initialize the arrays that define the normalized attributes for
         // each individual atom.
         m_atomPositions  = new Point2D [MAX_NUM_ATOMS];
-        m_atomVelocities = new Vector2D [MAX_NUM_ATOMS];
-        m_atomForces     = new Vector2D [MAX_NUM_ATOMS];
-        m_nextAtomForces = new Vector2D [MAX_NUM_ATOMS];
+        m_moleculeVelocities = new Vector2D [MAX_NUM_ATOMS];
+        m_moleculeForces     = new Vector2D [MAX_NUM_ATOMS];
+        m_nextMoleculeForces = new Vector2D [MAX_NUM_ATOMS];
         
         for (int i = 0; i < m_numberOfAtoms; i++){
             
             // Add particle and its velocity and forces to normalized set.
             m_atomPositions[i] = new Point2D.Double();
-            m_atomVelocities[i] = new Vector2D.Double();
-            m_atomForces[i] = new Vector2D.Double();
-            m_nextAtomForces[i] = new Vector2D.Double();
+            m_moleculeVelocities[i] = new Vector2D.Double();
+            m_moleculeForces[i] = new Vector2D.Double();
+            m_nextMoleculeForces[i] = new Vector2D.Double();
             
             // Add particle to model set.
             StatesOfMatterAtom atom;
@@ -1205,7 +1200,7 @@ public class MultipleParticleModel {
             m_atomPositions[i].setLocation( 0, 0 );
             
             // Assign each particle an initial velocity.
-            m_atomVelocities[i].setComponents( temperatureSqrt * rand.nextGaussian(), 
+            m_moleculeVelocities[i].setComponents( temperatureSqrt * rand.nextGaussian(), 
                     temperatureSqrt * rand.nextGaussian() );
         }
         
@@ -1329,7 +1324,7 @@ public class MultipleParticleModel {
 
         for (int i = 0; i < m_numberOfAtoms; i++){
             // Assign each particle an initial velocity.
-            m_atomVelocities[i].setComponents( temperatureSqrt * m_rand.nextGaussian(), 
+            m_moleculeVelocities[i].setComponents( temperatureSqrt * m_rand.nextGaussian(), 
                     temperatureSqrt * m_rand.nextGaussian() );
         }
         
@@ -1514,7 +1509,7 @@ public class MultipleParticleModel {
                 particlesPlaced++;
 
                 // Assign each particle an initial velocity.
-                m_atomVelocities[(i * particlesPerLayer) + j].setComponents( temperatureSqrt * rand.nextGaussian(), 
+                m_moleculeVelocities[(i * particlesPerLayer) + j].setComponents( temperatureSqrt * rand.nextGaussian(), 
                         temperatureSqrt * rand.nextGaussian() );
             }
         }
@@ -1639,10 +1634,10 @@ public class MultipleParticleModel {
         // Update the positions of all particles based on their current
         // velocities and the forces acting on them.
         for (int i = 0; i < m_numberOfAtoms; i++){
-            double xPos = m_atomPositions[i].getX() + (TIME_STEP * m_atomVelocities[i].getX()) + 
-                    (timeStepSqrHalf * m_atomForces[i].getX());
-            double yPos = m_atomPositions[i].getY() + (TIME_STEP * m_atomVelocities[i].getY()) + 
-                    (timeStepSqrHalf * m_atomForces[i].getY());
+            double xPos = m_atomPositions[i].getX() + (TIME_STEP * m_moleculeVelocities[i].getX()) + 
+                    (timeStepSqrHalf * m_moleculeForces[i].getX());
+            double yPos = m_atomPositions[i].getY() + (TIME_STEP * m_moleculeVelocities[i].getY()) + 
+                    (timeStepSqrHalf * m_moleculeForces[i].getY());
             m_atomPositions[i].setLocation( xPos, yPos );
         }
         
@@ -1656,22 +1651,22 @@ public class MultipleParticleModel {
         for (int i = 0; i < m_numberOfAtoms; i++){
             
             // Clear the previous calculation's particle forces.
-            m_nextAtomForces[i].setComponents( 0, 0 );
+            m_nextMoleculeForces[i].setComponents( 0, 0 );
             
             // Get the force values caused by the container walls.
             calculateWallForce(m_atomPositions[i], m_normalizedContainerWidth, m_normalizedContainerHeight, 
-                    m_nextAtomForces[i]);
+                    m_nextMoleculeForces[i]);
             
             // Accumulate this force value as part of the pressure being
             // exerted on the walls of the container.
-            if (m_nextAtomForces[i].getY() < 0){
-                pressureZoneWallForce += -m_nextAtomForces[i].getY();
+            if (m_nextMoleculeForces[i].getY() < 0){
+                pressureZoneWallForce += -m_nextMoleculeForces[i].getY();
                 interactionOccurredWithTop = true;
             }
             else if (m_atomPositions[i].getY() > m_normalizedContainerHeight / 2){
             	// If the particle bounced on one of the walls above the midpoint, add
             	// in that value to the pressure.
-            	pressureZoneWallForce += Math.abs( m_nextAtomForces[i].getX() );
+            	pressureZoneWallForce += Math.abs( m_nextMoleculeForces[i].getX() );
             }
             
             // Add in the effect of gravity.
@@ -1683,7 +1678,7 @@ public class MultipleParticleModel {
             	    ((TEMPERATURE_BELOW_WHICH_GRAVITY_INCREASES - m_temperatureSetPoint) * 
                     LOW_TEMPERATURE_GRAVITY_INCREASE_RATE + 1);
             }
-            m_nextAtomForces[i].setY( m_nextAtomForces[i].getY() - gravitationalAcceleration );
+            m_nextMoleculeForces[i].setY( m_nextMoleculeForces[i].getY() - gravitationalAcceleration );
         }
         
         // Update the pressure calculation.
@@ -1729,8 +1724,8 @@ public class MultipleParticleModel {
                     double forceScaler = 48 * r2inv * r6inv * (r6inv - 0.5);
                     force.setX( dx * forceScaler );
                     force.setY( dy * forceScaler );
-                    m_nextAtomForces[i].add( force );
-                    m_nextAtomForces[j].subtract( force );
+                    m_nextMoleculeForces[i].add( force );
+                    m_nextMoleculeForces[j].subtract( force );
                     m_potentialEnergy += 4*r6inv*(r6inv-1) + 0.016316891136;
                 }
             }
@@ -1740,11 +1735,11 @@ public class MultipleParticleModel {
         // that are acting on the particle.
         Vector2D.Double velocityIncrement = new Vector2D.Double();
         for (int i = 0; i < m_numberOfAtoms; i++){
-            velocityIncrement.setX( timeStepHalf * (m_atomForces[i].getX() + m_nextAtomForces[i].getX()));
-            velocityIncrement.setY( timeStepHalf * (m_atomForces[i].getY() + m_nextAtomForces[i].getY()));
-            m_atomVelocities[i].add( velocityIncrement );
-            kineticEnergy += ((m_atomVelocities[i].getX() * m_atomVelocities[i].getX()) + 
-                    (m_atomVelocities[i].getY() * m_atomVelocities[i].getY())) / 2;
+            velocityIncrement.setX( timeStepHalf * (m_moleculeForces[i].getX() + m_nextMoleculeForces[i].getX()));
+            velocityIncrement.setY( timeStepHalf * (m_moleculeForces[i].getY() + m_nextMoleculeForces[i].getY()));
+            m_moleculeVelocities[i].add( velocityIncrement );
+            kineticEnergy += ((m_moleculeVelocities[i].getX() * m_moleculeVelocities[i].getX()) + 
+                    (m_moleculeVelocities[i].getY() * m_moleculeVelocities[i].getY())) / 2;
         }
         
         double calculatedTemperature = kineticEnergy / m_numberOfAtoms;
@@ -1777,10 +1772,10 @@ public class MultipleParticleModel {
                 }
                 kineticEnergy = 0;
                 for (int i = 0; i < m_numberOfAtoms; i++){
-                    m_atomVelocities[i].setComponents( m_atomVelocities[i].getX() * temperatureScaleFactor, 
-                            m_atomVelocities[i].getY() * temperatureScaleFactor );
-                    kineticEnergy += ((m_atomVelocities[i].getX() * m_atomVelocities[i].getX()) + 
-                            (m_atomVelocities[i].getY() * m_atomVelocities[i].getY())) / 2;
+                    m_moleculeVelocities[i].setComponents( m_moleculeVelocities[i].getX() * temperatureScaleFactor, 
+                            m_moleculeVelocities[i].getY() * temperatureScaleFactor );
+                    kineticEnergy += ((m_moleculeVelocities[i].getX() * m_moleculeVelocities[i].getX()) + 
+                            (m_moleculeVelocities[i].getY() * m_moleculeVelocities[i].getY())) / 2;
                 }
             }
             else if ((m_thermostatType == ANDERSEN_THERMOSTAT) ||
@@ -1802,9 +1797,9 @@ public class MultipleParticleModel {
                 	temperature = 0;
                 }
                 for (int i = 0; i < m_numberOfAtoms; i++){
-                    double xVel = m_atomVelocities[i].getX() * gammaX + m_rand.nextGaussian() * Math.sqrt(  temperature * (1 - Math.pow(gammaX, 2)) );
-                    double yVel = m_atomVelocities[i].getY() * gammaY + m_rand.nextGaussian() * Math.sqrt(  temperature * (1 - Math.pow(gammaX, 2)) );
-                    m_atomVelocities[i].setComponents( xVel, yVel );
+                    double xVel = m_moleculeVelocities[i].getX() * gammaX + m_rand.nextGaussian() * Math.sqrt(  temperature * (1 - Math.pow(gammaX, 2)) );
+                    double yVel = m_moleculeVelocities[i].getY() * gammaY + m_rand.nextGaussian() * Math.sqrt(  temperature * (1 - Math.pow(gammaX, 2)) );
+                    m_moleculeVelocities[i].setComponents( xVel, yVel );
                 }
             }
         }
@@ -1818,7 +1813,7 @@ public class MultipleParticleModel {
         
         // Replace the new forces with the old ones.
         for (int i = 0; i < m_numberOfAtoms; i++){
-            m_atomForces[i].setComponents( m_nextAtomForces[i].getX(), m_nextAtomForces[i].getY() );
+            m_moleculeForces[i].setComponents( m_nextMoleculeForces[i].getX(), m_nextMoleculeForces[i].getY() );
         }
     }
 
@@ -2415,7 +2410,7 @@ public class MultipleParticleModel {
             boolean moleculeIsUnsafe = false;
 
             // Find out if this molecule is still to close to all the "safe"
-            // molecules.
+            // molecules to become safe itself.
             if (m_atomsPerMolecule == 1){
                 for (int j = 0; j < m_numberOfSafeAtoms; j++){
                     if ( m_atomPositions[i].distance( m_atomPositions[j] ) < SAFE_INTER_MOLECULE_DISTANCE ){
@@ -2437,57 +2432,49 @@ public class MultipleParticleModel {
                 // The molecule just tested was safe, so adjust the arrays
                 // accordingly.
                 if (i != m_numberOfSafeAtoms){
-                    // There is at least one unsafe atom in front of this one
-                    // in the arrays, so some swapping must be done before the
-                    // number of safe atoms can be incremented.
-                    // TODO: JPB TBD - This is ugly, and should be radically
-                    // improved when the refactoring of the model takes place.
+                    // There is at least one unsafe atom/molecule in front of
+                    // this one in the arrays, so some swapping must be done
+                	// before the number of safe atoms can be incremented.
                     
-                    // Swap the safe atom with the first unsafe one.
+                    // Swap the safe atom(s) with the first unsafe one.
                     Point2D tempAtomPosition;
-                    Vector2D tempAtomVelocity;
-                    Vector2D tempAtomForce;
                     
                     for (int j = 0; j < m_atomsPerMolecule; j++){
                         tempAtomPosition = m_atomPositions[m_numberOfSafeAtoms + j];
-                        tempAtomVelocity = m_atomVelocities[m_numberOfSafeAtoms + j];
-                        tempAtomForce = m_atomForces[m_numberOfSafeAtoms + j];
                         m_atomPositions[m_numberOfSafeAtoms + j] = m_atomPositions[i + j];
-                        m_atomVelocities[m_numberOfSafeAtoms + j] = m_atomVelocities[i + j];
-                        m_atomForces[m_numberOfSafeAtoms + j] = m_atomForces[i + j];
                         m_atomPositions[i + j] = tempAtomPosition;
-                        m_atomVelocities[i + j] = tempAtomVelocity;
-                        m_atomForces[i + j] = tempAtomForce;
                     }
                     
-                    // Now swap the molecule.  Note that we don't worry about
-                    // torque here because there shouldn't be any until the
-                    // molecule is deemed safe.
-                    Point2D tempMoleculeCenterOfMassPosition;
                     Vector2D tempMoleculeVelocity;
                     Vector2D tempMoleculeForce;
-                    double tempMoleculeRotationAngle;
-                    double tempMoleculeRotationRate;
                     
-                    if (m_atomsPerMolecule > 1){
-                        int firstUnsafeMoleculeIndex = m_numberOfSafeAtoms / m_atomsPerMolecule;
-                        int safeMoleculeIndex = i / m_atomsPerMolecule;
+                    int firstUnsafeMoleculeIndex = m_numberOfSafeAtoms / m_atomsPerMolecule;
+                    int safeMoleculeIndex = i / m_atomsPerMolecule;
+                    tempMoleculeVelocity = m_moleculeVelocities[firstUnsafeMoleculeIndex];
+                    tempMoleculeForce = m_moleculeForces[firstUnsafeMoleculeIndex];
+                    m_moleculeVelocities[firstUnsafeMoleculeIndex] = m_moleculeVelocities[safeMoleculeIndex];
+                    m_moleculeForces[firstUnsafeMoleculeIndex] = m_moleculeForces[safeMoleculeIndex];
+                    m_moleculeVelocities[safeMoleculeIndex] = tempMoleculeVelocity;
+                    m_moleculeForces[safeMoleculeIndex] = tempMoleculeForce;
+                    
+                    if ( m_atomsPerMolecule > 1 ){
+                    	// Swap the molecular parameters that are only used for composite molecules.
+
+                    	Point2D tempMoleculeCenterOfMassPosition;
+                        double tempMoleculeRotationAngle;
+                        double tempMoleculeRotationRate;
+
                         tempMoleculeCenterOfMassPosition = m_moleculeCenterOfMassPositions[firstUnsafeMoleculeIndex];
-                        tempMoleculeVelocity = m_moleculeVelocities[firstUnsafeMoleculeIndex];
-                        tempMoleculeForce = m_moleculeForces[firstUnsafeMoleculeIndex];
                         tempMoleculeRotationAngle = m_moleculeRotationAngles[firstUnsafeMoleculeIndex];
                         tempMoleculeRotationRate = m_moleculeRotationRates[firstUnsafeMoleculeIndex];
                         m_moleculeCenterOfMassPositions[firstUnsafeMoleculeIndex] = m_moleculeCenterOfMassPositions[safeMoleculeIndex];
-                        m_moleculeVelocities[firstUnsafeMoleculeIndex] = m_moleculeVelocities[safeMoleculeIndex];
-                        m_moleculeForces[firstUnsafeMoleculeIndex] = m_moleculeForces[safeMoleculeIndex];
                         m_moleculeRotationAngles[firstUnsafeMoleculeIndex] = m_moleculeRotationAngles[safeMoleculeIndex];
                         m_moleculeRotationRates[firstUnsafeMoleculeIndex] = m_moleculeRotationRates[safeMoleculeIndex];
                         m_moleculeCenterOfMassPositions[safeMoleculeIndex] = tempMoleculeCenterOfMassPosition;
-                        m_moleculeVelocities[safeMoleculeIndex] = tempMoleculeVelocity;
-                        m_moleculeForces[safeMoleculeIndex] = tempMoleculeForce;
                         m_moleculeRotationAngles[safeMoleculeIndex] = tempMoleculeRotationAngle;
                         m_moleculeRotationRates[safeMoleculeIndex] = tempMoleculeRotationRate;
                     }
+                    // Note: Don't worry about torque, since there isn't any until the molecules become "safe".
                 }
                 m_numberOfSafeAtoms += m_atomsPerMolecule;
             }
@@ -2707,8 +2694,8 @@ public class MultipleParticleModel {
         
         if (m_atomsPerMolecule == 1){
             for (int i = 0; i < m_numberOfAtoms; i++){
-                translationalKineticEnergy += ((m_atomVelocities[i].getX() * m_atomVelocities[i].getX()) + 
-                        (m_atomVelocities[i].getY() * m_atomVelocities[i].getY())) / 2;
+                translationalKineticEnergy += ((m_moleculeVelocities[i].getX() * m_moleculeVelocities[i].getX()) + 
+                        (m_moleculeVelocities[i].getY() * m_moleculeVelocities[i].getY())) / 2;
             }
             kineticEnergyPerMolecule = translationalKineticEnergy / m_numberOfAtoms;
         }
