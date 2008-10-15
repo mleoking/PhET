@@ -89,7 +89,7 @@ class IndividualSimulationPage extends SitePage {
                         <strong>PhET is upgrading to Java 1.5!</strong>
                     </p>
                     <p>
-                        Effective <strong>September 1st</strong>, to run the Java-based simulations you will need to upgrade to Java version 1.5 or higher.
+                        Effective <strong>September 1st, 2008</strong>, to run the Java-based simulations you will need to upgrade to Java version 1.5 or higher.
                         <a href="http://www.java.com/">Upgrade now!</a>
                     </p>
                     <p>
@@ -495,40 +495,46 @@ EOT;
                     <tr>
                         <td>
                             Microsoft Windows 98SE/2000/XP/Vista<br/>
+
 EOT;
 
                                 if ($sim_type == '0') {
-                                    print "Sun Java ".JAVA_MIN_VERSION." or later<br/>";
+                                    print JAVA_MIN_VERSION_WIN_FULL." or later<br/>";
                                 }
                                 else if ($sim_type == '1') {
-                                    print "Macromedia Flash ".FLASH_MIN_VERSION." or later<br/>";
+                                    print FLASH_MIN_VERSION_FULL." or later<br/>";
                                 }
 
+                            $os_min_version_osx = OS_MIN_VERSION_OSX;
                             print <<<EOT
                         </td>
 
 
                         <td>
-                            OS 10.3.9 or later<br/>
+                            OS {$os_min_version_osx} or later<br/>
+
 EOT;
 
                             if ($sim_type == '0') {
-                                print "Apple Java ".JAVA_MIN_VERSION." or later<br/>";
+                                print JAVA_MIN_VERSION_OSX_FULL." or later<br/>";
                             }
                             else if ($sim_type == '1') {
-                                print "Macromedia Flash ".FLASH_MIN_VERSION." or later<br/>";
+                                print FLASH_MIN_VERSION_FULL." or later<br/>";
                             }
 
                             print <<<EOT
                         </td>
 
+
                         <td>
+
 EOT;
+
                             if ($sim_type == '0') {
-                                print "Sun Java ".JAVA_MIN_VERSION." or later<br/>";
+                                print JAVA_MIN_VERSION_LIN_FULL." or later<br/>";
                             }
                             else if ($sim_type == '1') {
-                                print "Macromedia Flash ".FLASH_MIN_VERSION." or later<br/>";
+                                print FLASH_MIN_VERSION_FULL." or later<br/>";
                             }
 
                             print <<<EOT

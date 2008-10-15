@@ -14,7 +14,7 @@ class JavaSupportPage extends SitePage {
 
         $phet_help_email = PHET_HELP_EMAIL;
 
-        $java_min_version = JAVA_MIN_VERSION;
+        $java_min_version_generic = JAVA_MIN_VERSION_GENERIC;
 
         print <<<EOT
             <p>PhET's Java-based simulations use Sun Microsystems' Java Web Start technology to launch the simulations. This page will help you ensure that you have Java installed properly, and address some of the problems people might have running our programs. If you can't solve your problem here, please notify us by email at the following address: <a href="mailto:{$phet_help_email}"><span class="red">{$phet_help_email}</span></a>.</p>
@@ -42,7 +42,7 @@ class JavaSupportPage extends SitePage {
 
             <h3 id="q1" >How do I get Java?</h3>
 
-            <p>To run the Java-based simulations you must have Java version {$java_min_version} or higher installed on your computer. You can obtain the free downloads by clicking on the button below:<br />
+            <p>To run the Java-based simulations you must have Java version {$java_min_version_generic} or higher installed on your computer. You can obtain the free downloads by clicking on the button below:<br />
             <a href="http://www.java.com/en/index.jsp"><img src="{$this->prefix}images/java-jump.gif" alt="Java Jump" /></a></p>
 
             <p><strong>Note for Netscape Users</strong></p>
