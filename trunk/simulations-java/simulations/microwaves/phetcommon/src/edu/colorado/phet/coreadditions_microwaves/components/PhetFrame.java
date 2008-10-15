@@ -6,14 +6,15 @@
  */
 package edu.colorado.phet.coreadditions_microwaves.components;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.common_microwaves.view.components.menu.HelpMenu;
 import edu.colorado.phet.common_microwaves.view.components.menu.PhetFileMenu;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class PhetFrame extends JFrame {
     HelpMenu helpMenu;
@@ -46,7 +47,7 @@ public class PhetFrame extends JFrame {
      * @param menu
      */
     public void addMenu( JMenu menu ) {
-        edu.colorado.phet.common_microwaves.view.util.GraphicsUtil.addMenuAt( menu, getJMenuBar(), getJMenuBar().getComponentCount() - 1 );
+        SwingUtils.addMenuAt( menu, getJMenuBar(), getJMenuBar().getComponentCount() - 1 );
     }
 
     public void addFileMenuSeparator() {

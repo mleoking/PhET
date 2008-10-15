@@ -1,11 +1,14 @@
 /*, 2003.*/
 package edu.colorado.phet.common_microwaves.view.util.graphics;
 
-import edu.colorado.phet.common_microwaves.view.util.GraphicsUtil;
-
-import java.awt.*;
+import java.awt.Container;
+import java.awt.Image;
+import java.awt.MediaTracker;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.net.URL;
+
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 
 /**
  * User: Sam Reid
@@ -29,7 +32,7 @@ public class ImageLoader {
     }
 
     public BufferedImage loadBufferedImage( String name ) {
-        return GraphicsUtil.toBufferedImage( loadImage( name ) );
+        return BufferedImageUtils.toBufferedImage( loadImage( name ) );
     }
 
     public static Image fetchImage( String name ) {
@@ -45,7 +48,7 @@ public class ImageLoader {
     }
 
     public static BufferedImage fetchBufferedImage( String name ) {
-        return GraphicsUtil.toBufferedImage( fetchImage( name ) );
+        return BufferedImageUtils.toBufferedImage( fetchImage( name ) );
     }
 
 

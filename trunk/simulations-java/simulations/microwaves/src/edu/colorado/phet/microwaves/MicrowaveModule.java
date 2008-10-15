@@ -6,13 +6,26 @@
  */
 package edu.colorado.phet.microwaves;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
 import edu.colorado.phet.common_microwaves.application.Module;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.common_microwaves.view.FlipperAffineTransformFactory;
 import edu.colorado.phet.common_microwaves.view.graphics.Graphic;
 import edu.colorado.phet.common_microwaves.view.graphics.ModelViewTransform2D;
-import edu.colorado.phet.common_microwaves.view.util.GraphicsUtil;
 import edu.colorado.phet.microwaves.coreadditions.BufferedApparatusPanel;
 import edu.colorado.phet.microwaves.coreadditions.ModelViewTx1D;
 import edu.colorado.phet.microwaves.coreadditions.collision.Box2D;
@@ -24,17 +37,6 @@ import edu.colorado.phet.microwaves.view.FieldLatticeView;
 import edu.colorado.phet.microwaves.view.FieldVector;
 import edu.colorado.phet.microwaves.view.MicrowaveControlPanel;
 import edu.colorado.phet.microwaves.view.OvenGraphic;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 public abstract class MicrowaveModule extends Module {
     protected Microwave muWave;
@@ -235,7 +237,7 @@ public abstract class MicrowaveModule extends Module {
 
         PhysicalParamsDlg() {
             super( PhetApplication.instance().getApplicationView().getPhetFrame() );
-            GraphicsUtil.centerDialogInParent( this );
+            SwingUtils.centerDialogInParent( this );
 
             // Parameter controls for testing
             final JSlider cSlider = new JSlider( SwingConstants.HORIZONTAL, 0,
@@ -265,29 +267,29 @@ public abstract class MicrowaveModule extends Module {
             getContentPane().setLayout( new GridBagLayout() );
             int rowIdx = 0;
             try {
-                GraphicsUtil.addGridBagComponent( getContentPane(), new JLabel( SimStrings.get( "MicrowaveModule.PolarSesitivityLabel" ) ),
+                SwingUtils.addGridBagComponent( getContentPane(), new JLabel( SimStrings.get( "MicrowaveModule.PolarSesitivityLabel" ) ),
                                                   0, rowIdx++, 1, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.CENTER );
-                GraphicsUtil.addGridBagComponent( getContentPane(), cSlider,
+                SwingUtils.addGridBagComponent( getContentPane(), cSlider,
                                                   0, rowIdx++, 1, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.CENTER );
                 cTF = new JTextField( Double.toString( cSliderTx.viewToModel( cSlider.getValue() ) ), 10 );
-                GraphicsUtil.addGridBagComponent( getContentPane(), cTF,
+                SwingUtils.addGridBagComponent( getContentPane(), cTF,
                                                   0, rowIdx++, 1, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.CENTER );
-                GraphicsUtil.addGridBagComponent( getContentPane(), new JLabel( SimStrings.get( "MicrowaveModule.DampingLabel" ) ),
+                SwingUtils.addGridBagComponent( getContentPane(), new JLabel( SimStrings.get( "MicrowaveModule.DampingLabel" ) ),
                                                   0, rowIdx++, 1, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.CENTER );
-                GraphicsUtil.addGridBagComponent( getContentPane(), dampingSlider,
+                SwingUtils.addGridBagComponent( getContentPane(), dampingSlider,
                                                   0, rowIdx++, 1, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.CENTER );
                 dTF = new JTextField( Double.toString( dSliderTx.viewToModel( dampingSlider.getValue() ) ), 10 );
-                GraphicsUtil.addGridBagComponent( getContentPane(), dTF,
+                SwingUtils.addGridBagComponent( getContentPane(), dTF,
                                                   0, rowIdx++, 1, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.CENTER );
