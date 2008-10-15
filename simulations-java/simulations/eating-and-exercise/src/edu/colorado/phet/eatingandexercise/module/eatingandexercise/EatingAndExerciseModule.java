@@ -5,22 +5,18 @@ package edu.colorado.phet.eatingandexercise.module.eatingandexercise;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.Box;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
-import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.common.piccolophet.help.DefaultWiggleMe;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
 import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseApplication;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
@@ -118,7 +114,7 @@ public class EatingAndExerciseModule extends PiccoloModule {
         _clockControlPanel.setUnits( EatingAndExerciseStrings.UNITS_TIME );
         _clockControlPanel.setTimeColumns( 10 );
         _clockControlPanel.setRestartButtonVisible( false );
-        _clockControlPanel.setStepButtonTooltip(EatingAndExerciseResources.getString( "time.next-month" ));
+        _clockControlPanel.setStepButtonTooltip( EatingAndExerciseResources.getString( "time.next-month" ) );
 //        _clockControlPanel.setStepButtonText( EatingAndExerciseResources.getString( "time.next-month" ) );
         _clockControlPanel.setTimeFormat( "0.0" );
 
@@ -164,20 +160,25 @@ public class EatingAndExerciseModule extends PiccoloModule {
             final MotionHelpBalloon motionHelpBalloon = new DefaultWiggleMe( _canvas, EatingAndExerciseResources.getString( "time.start" ) );
             eatingAndExerciseClock.addClockListener( new ClockAdapter() {
                 public void clockStarted( ClockEvent clockEvent ) {
-                    if ( getDefaultHelpPane().getLayer().indexOfChild( motionHelpBalloon ) >= 0 ) {
-                        getDefaultHelpPane().remove( motionHelpBalloon );
-                    }
+                    hideWiggleMe( motionHelpBalloon );
+                }
+
+                public void simulationTimeChanged( ClockEvent clockEvent ) {
+                    hideWiggleMe( motionHelpBalloon );
                 }
             } );
             motionHelpBalloon.setArrowTailPosition( MotionHelpBalloon.BOTTOM_CENTER );
             motionHelpBalloon.setOffset( 800, 0 );
-            try{
-            motionHelpBalloon.animateTo( _clockControlPanel.getPlayPauseButton(), 15 );
-            }catch (IllegalStateException ise){
-                ise.printStackTrace(  );
-            }
             getDefaultHelpPane().add( motionHelpBalloon );
+            motionHelpBalloon.animateTo( _clockControlPanel.getButtonCanvas(), 15 );
+
             inited = true;
+        }
+    }
+
+    private void hideWiggleMe( MotionHelpBalloon motionHelpBalloon ) {
+        if ( getDefaultHelpPane().getLayer().indexOfChild( motionHelpBalloon ) >= 0 ) {
+            getDefaultHelpPane().remove( motionHelpBalloon );
         }
     }
 

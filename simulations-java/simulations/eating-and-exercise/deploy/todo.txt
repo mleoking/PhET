@@ -4,25 +4,15 @@
 
 From Wendy 10/7/08:
 
-·         Reset all doesn’t work well when I make my guy really fat
+Reset all doesn’t work well when I make my guy really fat
+    >>NP says: I have seen it make the body disappear on reset, but I have not been able to reproduce this report from Wendy.
 
-		NP says: I have seen it make the body disappear on reset, but I have not been able to reproduce this report from Wendy.
+Hit next month, then choose more sedentary activity level and the person gets a bigger belly. Time is paused so there should be no change. This only happens the first time you adjust activity level after pausing (hitting next month).
+    >>NP says: Wendy saw this, but I was not able to reproduce. Will check with her to get more details.
 
-·         Hit next month, then choose more sedentary activity level and the person gets a bigger belly. Time is paused so there should be no change. This only happens the first time you adjust activity level after pausing (hitting next month).
+The vertical zoom buttons for bar charts are not equal in size.
 
-		NP says: Wendy saw this, but I was not able to reproduce. Will check with her to get more details.
-
-Exception when dragging food items on/off plate:
-Exception in thread "AWT-EventQueue-0" java.lang.IllegalStateException: node has no root
-	at edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon.animateTo(MotionHelpBalloon.java:133)
-	at edu.colorado.phet.eatingandexercise.module.eatingandexercise.EatingAndExerciseModule.activateStartButtonWiggleMe(EatingAndExerciseModule.java:174)
-
-·         If you chose next month instead of play to first start, the wiggle me does not go away.
-            Make the wiggle-me go away on either play or next month.
-
-·         The vertical zoom buttons for bar charts are not equal in size.
-
-·         Make the time charts go to 2 years. Stop time at the end of the chart (2 year maximum duration of simulation).
+Make the time charts go to 2 years. Stop time at the end of the chart (2 year maximum duration of simulation).
 
 From NP 10/9/08
 
