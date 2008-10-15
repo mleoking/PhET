@@ -74,20 +74,6 @@ public class PhetApplication {
     }
 
     /**
-     * Constructor
-     *
-     * @param args        Command line args
-     * @param title       Title that appears in the frame and the About dialog
-     * @param description Appears in the About dialog
-     * @param version     Appears in the About dialog
-     * @param frameSetup  Defines the size and location of the frame
-     * @deprecated
-     */
-    public PhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup ) {
-        this( args, title, description, version, frameSetup, JTABBED_PANE_TYPE, null );
-    }
-
-    /**
      * @deprecated
      */
     private PhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup, TabbedPaneType tabbedPaneType ,PhetApplicationConfig config) {
