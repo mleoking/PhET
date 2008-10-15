@@ -1,5 +1,5 @@
 /*  */
-package edu.colorado.phet.waveinterference.tests;
+package edu.colorado.phet.waveinterference;
 
 import javax.swing.*;
 

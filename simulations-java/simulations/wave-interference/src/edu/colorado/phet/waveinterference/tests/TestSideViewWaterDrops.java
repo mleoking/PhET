@@ -3,6 +3,7 @@ package edu.colorado.phet.waveinterference.tests;
 
 import edu.colorado.phet.waveinterference.view.FaucetGraphic;
 import edu.colorado.phet.waveinterference.view.WaveSideViewFull;
+import edu.colorado.phet.waveinterference.ModuleApplication;
 
 /**
  * User: Sam Reid
