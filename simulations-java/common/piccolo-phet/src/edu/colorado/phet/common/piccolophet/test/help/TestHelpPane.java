@@ -20,6 +20,7 @@ import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
@@ -63,18 +64,25 @@ public class TestHelpPane extends PhetApplication {
 
     /* Test harness */
     public static void main( final String[] args ) {
-        try {
-            TestHelpPane app = new TestHelpPane( args );
-            app.startApplication();
-        }
-        catch( Exception e ) {
-            e.printStackTrace();
-        }
+        PhetApplicationConfig phetApplicationConfig = new PhetApplicationConfig( args, new PhetApplicationConfig.ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+
+                try {
+                    TestHelpPane app = new TestHelpPane( config );
+                    return app;
+                }
+                catch( Exception e ) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+        }, "piccolo-phet" );
+        phetApplicationConfig.launchSim();
     }
 
     /* Application */
-    public TestHelpPane( String[] args ) throws InterruptedException {
-        super( args, "TestHelpPane", "test of piccolo-compatible Help", "0.1", new FrameSetup.CenteredWithSize( 1024, 768 ) );
+    public TestHelpPane( PhetApplicationConfig config) throws InterruptedException {
+        super( config);
 
         Module module1 = new TestModule( "Module 1", CANVAS_COLOR_1, SCREEN_COLOR_1, WORLD_COLOR_1 );
         addModule( module1 );
