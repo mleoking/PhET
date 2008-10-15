@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.greenhouse.coreadditions.MessageFormatter;
 import edu.colorado.phet.greenhouse.coreadditions.clock.StaticClockModel;
 import edu.colorado.phet.greenhouse.coreadditions.clock.SwingTimerClock;
@@ -40,7 +41,9 @@ public class GreenhouseApplication extends PhetApplication {
 
     private static PhetApplication s_application;
     private static SwingTimerClock clock;
-    private static final String VERSION = PhetApplicationConfig.getVersion( "greenhouse" ).formatForTitleBar();
+
+    //todo: convert to proper use of PhetApplicationConfig for getting version
+    private static final String VERSION = new PhetResources("greenhouse" ).getVersion().formatForTitleBar();
 
     public static SwingTimerClock getClock() {
         return clock;

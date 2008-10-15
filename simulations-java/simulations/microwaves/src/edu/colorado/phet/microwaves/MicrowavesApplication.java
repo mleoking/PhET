@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common_microwaves.application.Module;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.common_microwaves.view.ApplicationDescriptor;
@@ -33,7 +34,8 @@ public class MicrowavesApplication {
 
     // Localization
     public static final String localizedStringsPath = "microwaves/localization/microwaves-strings";
-    private static final String VERSION = PhetApplicationConfig.getVersion( "microwaves" ).formatForTitleBar();
+    //todo: convert to proper use of PhetApplicationConfig for getting version
+    private static final String VERSION = new PhetResources( "microwaves" ).getVersion().formatForTitleBar();
 
     public static void main( final String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {

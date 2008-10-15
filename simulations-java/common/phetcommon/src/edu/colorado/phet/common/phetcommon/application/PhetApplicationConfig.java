@@ -175,18 +175,6 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
         return resourceLoader.getVersion();
     }
 
-    /**
-     * This method is provided to facilitate older simulations reading the version property for this simulation.
-     * When all simulations properly use PhetApplicationConfig, this method will be deleted.
-     *
-     * @param simName the simulation to get the version for.
-     * @return the version info.
-     * @deprecated Simulations should use PhetApplicationConfig properly.
-     */
-    public static PhetVersion getVersion( String simName ) {
-        return new PhetResources( simName ).getVersion();
-    }
-
     //----------------------------------------------------------------------------
     // Launcher
     //----------------------------------------------------------------------------
