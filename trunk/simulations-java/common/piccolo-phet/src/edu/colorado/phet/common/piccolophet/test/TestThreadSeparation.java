@@ -19,7 +19,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.DeprecatedPhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.clock.*;
 import edu.colorado.phet.common.phetcommon.util.ModelEventChannel;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
@@ -27,7 +27,6 @@ import edu.colorado.phet.common.phetcommon.util.SwingThreadModelListener;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
-import edu.colorado.phet.common.phetgraphics.test.DeprecatedPhetApplicationLauncher;
 
 /**
  * TestThreadSeparation

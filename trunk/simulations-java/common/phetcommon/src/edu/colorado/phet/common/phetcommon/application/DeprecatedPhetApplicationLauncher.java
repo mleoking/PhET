@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.phetgraphics.test;
+package edu.colorado.phet.common.phetcommon.application;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,7 +8,6 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 
 /**
  * @deprecated use phetapplication and phetapplicationconfig
@@ -59,9 +58,4 @@ public class DeprecatedPhetApplicationLauncher {
         return PhetApplication.instance().getPhetFrame();
     }
 
-    public void addModules( PhetGraphicsModule[] m ) {
-        for ( int i = 0; i < m.length; i++ ) {
-            addModule( m[i] );
-        }
-    }
 }
