@@ -1,7 +1,7 @@
 /*  */
 package edu.colorado.phet.waveinterference.tests;
 
-import edu.colorado.phet.common.phetgraphics.test.DeprecatedPhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.application.DeprecatedPhetApplicationLauncher;
 import edu.colorado.phet.waveinterference.model.Oscillator;
 
 /**

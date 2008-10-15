@@ -25,7 +25,7 @@ import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.help.HelpItem;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.phetgraphics.test.DeprecatedPhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.application.DeprecatedPhetApplicationLauncher;
 
 public class TestPhetApplication {
     static class MyModule extends PhetGraphicsModule {
@@ -169,7 +169,9 @@ public class TestPhetApplication {
         PhetGraphicsModule[] m = new PhetGraphicsModule[]{module, module2, module3, modulePhotons};
 
         DeprecatedPhetApplicationLauncher app = new DeprecatedPhetApplicationLauncher( args, "title", "description", "version" );
-        app.addModules( m );
+        for ( int i = 0; i < m.length; i++ ) {
+            app.addModule( m[i] );
+        }
         app.startApplication();
     }
 

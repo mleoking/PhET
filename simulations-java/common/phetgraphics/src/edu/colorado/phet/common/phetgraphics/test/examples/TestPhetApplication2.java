@@ -37,7 +37,7 @@ import edu.colorado.phet.common.phetgraphics.view.help.HelpItem;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.phetgraphics.test.DeprecatedPhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.application.DeprecatedPhetApplicationLauncher;
 
 public class TestPhetApplication2 {
     private static DeprecatedPhetApplicationLauncher app;
