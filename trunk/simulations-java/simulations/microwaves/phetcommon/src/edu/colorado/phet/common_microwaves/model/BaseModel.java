@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.common_microwaves.model;
 
-import edu.colorado.phet.common_microwaves.model.command.Command;
-import edu.colorado.phet.common_microwaves.model.command.CommandQueue;
+import edu.colorado.phet.common.phetcommon.model.Command;
+import edu.colorado.phet.common.phetcommon.model.CommandQueue;
 
 /**
  * This class is encompasses all the model elements in a physical system. It provides
