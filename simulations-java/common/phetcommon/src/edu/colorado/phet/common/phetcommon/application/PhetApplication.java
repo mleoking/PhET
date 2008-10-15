@@ -426,6 +426,10 @@ public class PhetApplication {
         this.tabbedPaneType = tabbedPaneType;
     }
 
+    public boolean isUpdatesEnabled() {
+        return applicationConfig.isUpdatesEnabled();
+    }
+
     /**
      * Enumeration class used to specify the type of tabbed panes the application is to use in
      * its Module instances

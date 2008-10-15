@@ -55,7 +55,7 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
     private final String[] commandLineArgs;
     private final String flavor;
     private PhetResources resourceLoader;
-    
+
     // mutable
     private ApplicationConstructor applicationConstructor;
     private FrameSetup frameSetup;
@@ -64,14 +64,14 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
     //----------------------------------------------------------------------------
     // Interfaces
     //----------------------------------------------------------------------------
-    
+
     /**
      * We need one of these to start the simulation.
      */
     public static interface ApplicationConstructor {
         PhetApplication getApplication( PhetApplicationConfig config );
     }
-    
+
     /**
      * Returns a null application, for use in test programs.
      * Use this if you never intend to call launchSim.
@@ -82,18 +82,18 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
             return null;
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Constructor with smallest number of args for the case where project & flavor names are identical.
      */
     public PhetApplicationConfig( String[] commandLineArgs, ApplicationConstructor applicationConstructor, String project ) {
         this( commandLineArgs, applicationConstructor, project, project );
     }
-    
+
     /**
      * Constructor with smallest number of args for a flavor.
      */
@@ -113,7 +113,7 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
     public String[] getCommandLineArgs() {
         return commandLineArgs;
     }
-    
+
     public void setFrameSetup( FrameSetup frameSetup ) {
         this.frameSetup = frameSetup;
     }
@@ -125,7 +125,7 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
     public String getFlavor() {
         return flavor;
     }
-    
+
     public void setApplicationConstructor( ApplicationConstructor applicationConstructor ) {
         this.applicationConstructor = applicationConstructor;
     }
@@ -133,7 +133,7 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
     public ApplicationConstructor getApplicationConstructor() {
         return applicationConstructor;
     }
-    
+
     public void setLookAndFeel( PhetLookAndFeel phetLookAndFeel ) {
         this.phetLookAndFeel = phetLookAndFeel;
     }
@@ -141,7 +141,7 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
     public PhetLookAndFeel getLookAndFeel() {
         return phetLookAndFeel;
     }
-    
+
     public PhetResources getResourceLoader() {
         return resourceLoader;
     }
@@ -149,7 +149,7 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
     public String getProjectName() {
         return resourceLoader.getProjectName();
     }
-    
+
     //----------------------------------------------------------------------------
     // Standard properties
     //----------------------------------------------------------------------------
@@ -180,7 +180,7 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
     public String getCredits() {
         return resourceLoader.getCredits();
     }
-    
+
     /**
      * Retrieves the object that encapsulates the project's version information.
      *
@@ -205,7 +205,7 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
     //----------------------------------------------------------------------------
     // Launcher
     //----------------------------------------------------------------------------
-    
+
     /*
      * This method solves the following problems:
      * 1. Consolidate (instead of duplicate) launch code
@@ -232,12 +232,8 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
                     if ( applicationConstructor != null ) {
                         PhetApplication app = applicationConstructor.getApplication( PhetApplicationConfig.this );
                         app.startApplication();
-                        if ( isTrackingEnabled() && isTrackingAllowed() ) {
-                            new Tracker( PhetApplicationConfig.this ).startTracking();
-                        }
-                        if ( isUpdatesEnabled() && isUpdatesAllowed() && hasEnoughTimePassedSinceAskMeLater() ) {
-                            autoCheckForUpdates( app );
-                        }
+                        new TrackingApplicationManager(PhetApplicationConfig.this ).applicationStarted(app);
+                        new UpdateApplicationManager(PhetApplicationConfig.this).applicationStarted(app);
                     }
                     else {
                         new RuntimeException( "No applicationconstructor specified" ).printStackTrace();
@@ -252,7 +248,7 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
             e.printStackTrace();
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // Updates and Tracking stuff
     //----------------------------------------------------------------------------
@@ -264,77 +260,16 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
     public String getHumanReadableTrackingInformation() {
         return getTrackingInformation().toHumanReadable();
     }
-    
-    private boolean isUpdatesAllowed() {
-        //todo: perhaps we should use PhetPreferences.isUpdatesEnabled(String,String)
-        boolean enabledForSelection = new DefaultUpdatePreferences().isEnabled();
-//        System.out.println( "updates allowed = " + enabledForSelection );
-        return enabledForSelection;
-    }
-
-    private boolean isTrackingAllowed() {
-        //todo: perhaps we should use PhetPreferences.isTrackingEnabled(String,String)
-        boolean trackingAllowed = new DefaultTrackingPreferences().isEnabled();
-//        System.out.println( "trackingAllowed = " + trackingAllowed );
-        return trackingAllowed;
-    }
-
-    private boolean hasEnoughTimePassedSinceAskMeLater() {
-        long lastTimeUserPressedAskMeLaterForAnySim = PhetPreferences.getInstance().getAskMeLater( getProjectName(), getFlavor() );
-        long currentTime = System.currentTimeMillis();
-        long elapsedTime = currentTime - lastTimeUserPressedAskMeLaterForAnySim;
-        int millisecondsDelayBeforeAskingAgain = 1000 * 60 * 60 * 24;
-//        System.out.println( "elapsedTime/1000.0 = " + elapsedTime / 1000.0+" sec" );
-        return elapsedTime > millisecondsDelayBeforeAskingAgain || lastTimeUserPressedAskMeLaterForAnySim == 0;
-    }
-
-    private void autoCheckForUpdates( final PhetApplication app ) {
-        final UpdateManager updateManager = new UpdateManager( getProjectName(), getVersion() );
-        updateManager.addListener( new UpdateManager.Listener() {
-            public void discoveredRemoteVersion( PhetVersion remoteVersion ) {
-            }
-
-            public void newVersionAvailable( PhetVersion currentVersion, final PhetVersion remoteVersion ) {
-                int remoteVersionSVN = remoteVersion.getRevisionAsInt();
-                int requestedSkipSVN = PhetPreferences.getInstance().getSkipUpdate( getProjectName(), getFlavor() );
-//                System.out.println( "remoteVersionSVN = " + remoteVersionSVN + ", requestedSkipSVN=" + requestedSkipSVN );
-                if ( remoteVersionSVN > requestedSkipSVN )
-                //show UI in swing thread after new thread has found a new version
-                {
-                    SwingUtilities.invokeLater( new Runnable() {
-                        public void run() {
-                            new AutomaticUpdateDialog( app, remoteVersion ).setVisible( true );
-                        }
-                    } );
-                }
-            }
-
-            public void exceptionInUpdateCheck( IOException e ) {
-            }
-
-            public void noNewVersionAvailable( PhetVersion currentVersion, PhetVersion remoteVersion ) {
-            }
-        } );
-
-        //do check in new thread
-        Thread t = new Thread( new Runnable() {
-            public void run() {
-                updateManager.checkForUpdates();
-            }
-        } );
-        t.start();
-    }
 
     public boolean isDev() {
         return Arrays.asList( commandLineArgs ).contains( PhetApplication.DEVELOPER_CONTROLS_COMMAND_LINE_ARG );
     }
 
+    public boolean isUpdatesEnabled() {
+        return new UpdateApplicationManager( this ).isUpdatesEnabled();
+    }
+
     public boolean isTrackingEnabled() {
-        return Arrays.asList( commandLineArgs ).contains( "-tracking" ) && !PhetServiceManager.isJavaWebStart();
+        return new TrackingApplicationManager(this ).isTrackingEnabled();
     }
-
-    public  boolean isUpdatesEnabled() {
-        return Arrays.asList( commandLineArgs ).contains( "-updates" ) && !PhetServiceManager.isJavaWebStart();
-    }
-
 }
