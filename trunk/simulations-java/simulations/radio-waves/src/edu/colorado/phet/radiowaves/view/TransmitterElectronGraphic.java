@@ -15,7 +15,6 @@ import java.io.IOException;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common_1200.view.*;
 import edu.colorado.phet.radiowaves.EmfConfig;
 import edu.colorado.phet.radiowaves.EmfModule;
 import edu.colorado.phet.radiowaves.common_1200.graphics.*;
