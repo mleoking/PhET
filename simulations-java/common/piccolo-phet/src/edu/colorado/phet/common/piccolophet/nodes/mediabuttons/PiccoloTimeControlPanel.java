@@ -22,6 +22,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.ToolTipHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
 /**
  * Piccolo-based time controls.
@@ -29,7 +30,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  * @author Chris Malley
  */
-public class PiccoloTimeControlPanel extends PhetPCanvas {
+public class PiccoloTimeControlPanel extends JPanel{
 
     //------------------------------------------------------------------------
     // Class Data
@@ -121,7 +122,6 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
 
         // Layout of this canvas
         setLayout( new FlowLayout( FlowLayout.CENTER ) );
-        addScreenChild( backgroundNode );
         //TODO: the next two lines make the shape of the panel asymmetric, even if the time display panel and userpanel are invisible
         add( timeDisplayPanel );
         add( userPanel );
@@ -174,6 +174,10 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
         updateSize();
     }
 
+    protected void paintComponent( Graphics g ) {
+        super.paintComponent( g );
+        backgroundNode.fullPaint( new PPaintContext( (Graphics2D) g ) );
+    }
     //------------------------------------------------------------------------
     // Setters & getters
     //------------------------------------------------------------------------
@@ -418,6 +422,11 @@ public class PiccoloTimeControlPanel extends PhetPCanvas {
         private BackgroundNode() {
             addChild( backgroundNode );
             addChild( tabNode );
+        }
+
+        public void fullPaint( PPaintContext paintContext ) {
+            super.fullPaint( paintContext );
+
         }
 
         public void setSize( int width, int height ) {
