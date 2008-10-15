@@ -43,37 +43,29 @@ public class MultipleParticleModel {
     // TODO: JPB TBD - These constants are here as a result of the first attempt
     // to integrate Paul Beale's IDL implementation of the Verlet algorithm.
     // Eventually some or all of them will be moved.
-    public static final int NUMBER_OF_LAYERS_IN_INITIAL_ARGON_CRYSTAL = 7;
-    public static final int NUMBER_OF_LAYERS_IN_INITIAL_OXYGEN_CRYSTAL = 9;
-    public static final int NUMBER_OF_LAYERS_IN_INITIAL_NEON_CRYSTAL = 9;
-    public static final double DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL = 0.3;  // In particle diameters.
-    public static final double DISTANCE_BETWEEN_DIATOMIC_PAIRS = 0.8;  // In particle diameters.
-    public static final double DIATOMIC_FORCE_CONSTANT = 100; // For calculating force between diatomic pairs.
-    public static final double TIME_STEP = 0.020;  // Time per simulation clock tick, in seconds.
-    public static final double INITIAL_TEMPERATURE = 0.2;
-    public static final double MAX_TEMPERATURE = 50.0;
-    public static final double MIN_TEMPERATURE = 0.0001;
-    public static final double TEMPERATURE_STEP = -0.1;
+    public static final int     DEFAULT_MOLECULE = StatesOfMatterConstants.NEON;
+    private static final double DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL = 0.3;  // In particle diameters.
+    private static final double DISTANCE_BETWEEN_DIATOMIC_PAIRS = 0.8;  // In particle diameters.
+    private static final double TIME_STEP = 0.020;  // Time per simulation clock tick, in seconds.
+    private static final double INITIAL_TEMPERATURE = 0.2;
+    public static final double  MAX_TEMPERATURE = 50.0;
+    public static final double  MIN_TEMPERATURE = 0.0001;
     private static final double WALL_DISTANCE_THRESHOLD = 1.122462048309373017;
     private static final double PARTICLE_INTERACTION_DISTANCE_THRESH_SQRD = 6.25;
     private static final double INITIAL_GRAVITATIONAL_ACCEL = 0.045;
-    public static final double MAX_GRAVITATIONAL_ACCEL = 0.4;
+    public static final double  MAX_GRAVITATIONAL_ACCEL = 0.4;
     private static final double MAX_TEMPERATURE_CHANGE_PER_ADJUSTMENT = 0.025;
-    private static final int    TICKS_PER_TEMP_ADJUSTEMENT = 10; // JPB TBD - I'm not sure if this is a reasonable
-                                                                 // way to do this (i.e. that it is based on the
-                                                                 // number of ticks).  Should it instead be based on
-                                                                 // the time step defined above?
-    private static final int MAX_NUM_ATOMS = 500;
+    private static final int    TICKS_PER_TEMP_ADJUSTEMENT = 10;
+    private static final int    MAX_NUM_ATOMS = 500;
     private static final double MIN_INJECTED_MOLECULE_VELOCITY = 0.5;
     private static final double MAX_INJECTED_MOLECULE_VELOCITY = 2.0;
     private static final double MAX_INJECTED_MOLECULE_ANGLE = Math.PI * 0.8;
     private static final double INJECTION_POINT_HORIZ_PROPORTION = 0.95;
     private static final double INJECTION_POINT_VERT_PROPORTION = 0.5;
-    private static final int MAX_PLACEMENT_ATTEMPTS = 500; // For random placement when creating gas or liquid.
+    private static final int    MAX_PLACEMENT_ATTEMPTS = 500; // For random placement when creating gas or liquid.
     private static final double SAFE_INTER_MOLECULE_DISTANCE = 2.0;
-    public static final int DEFAULT_MOLECULE = StatesOfMatterConstants.NEON;
     private static final double PRESSURE_DECAY_CALCULATION_WEIGHTING = 0.999;
-    private static final int VERLET_CALCULATIONS_PER_CLOCK_TICK = 8;
+    private static final int    VERLET_CALCULATIONS_PER_CLOCK_TICK = 8;
 
     // Constants used for setting the phase directly.
     public static final int PHASE_SOLID = 1;
