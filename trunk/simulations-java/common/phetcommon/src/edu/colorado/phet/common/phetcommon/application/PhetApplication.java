@@ -297,6 +297,17 @@ public class PhetApplication implements ISimInfo{
     }
 
     /**
+     * Adds modules.
+     *
+     * @param m the array of modules to add
+     */
+    public void addModules( Module[] m ) {
+        for ( int i = 0; i < m.length; i++ ) {
+            addModule( m[i] );
+        }
+    }
+    
+    /**
      * Get the title for this PhetApplication.
      *
      * @return the title.
@@ -333,17 +344,6 @@ public class PhetApplication implements ISimInfo{
      */
     public String getCredits() {
         return getPhetApplicationConfig().getCredits();
-    }
-
-    /**
-     * Adds modules.
-     *
-     * @param m the array of modules to add
-     */
-    public void addModules( Module[] m ) {
-        for ( int i = 0; i < m.length; i++ ) {
-            addModule( m[i] );
-        }
     }
 
     /**
