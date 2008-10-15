@@ -31,6 +31,7 @@ import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.phetgraphics.test.DeprecatedPhetApplicationLauncher;
 
 /**
  * Tests the performance of charts by drawing lots of SinePlots (sine waves).
@@ -97,7 +98,7 @@ public class TestSinePlotPerformance {
         boolean useClockControlPanel = false;
         FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 768 );
 
-        PhetApplication app = new PhetApplication( args,
+        DeprecatedPhetApplicationLauncher app = new DeprecatedPhetApplicationLauncher( args,
                                                                        title, "", "", frameSetup );
 
         Module module = new TestModule( clock );
@@ -116,7 +117,6 @@ public class TestSinePlotPerformance {
                 _zoomOutButton;
         private int _zoomLevel;
         private Cursor _saveCursor;
-        private PhetFrame _phetFrame;
         private JRadioButton _colorButton,
                 _grayscaleButton;
         private boolean _colorEnabled;
@@ -127,8 +127,6 @@ public class TestSinePlotPerformance {
             _zoomLevel = 0;
             _colorEnabled = false;
 
-            _phetFrame = PhetApplication.instance().getPhetFrame();
-            _saveCursor = _phetFrame.getCursor();
 
             // Model
             BaseModel model = new BaseModel();
@@ -447,10 +445,10 @@ public class TestSinePlotPerformance {
          */
         private void setWaitCursorEnabled( boolean enabled ) {
             if ( enabled ) {
-                _phetFrame.setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
+                PhetApplication.instance().getPhetFrame().setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
             }
             else {
-                _phetFrame.setCursor( _saveCursor );
+                PhetApplication.instance().getPhetFrame().setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
             }
         }
     }

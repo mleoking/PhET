@@ -24,6 +24,7 @@ import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic2;
+import edu.colorado.phet.common.phetgraphics.test.DeprecatedPhetApplicationLauncher;
 
 /**
  * TestPhetTextGraphic2 test the bounds, justifications, and registration point
@@ -53,7 +54,7 @@ public class TestPhetTextGraphic2 {
         boolean useClockControlPanel = false;
         FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 768 );
 
-        PhetApplication app = new PhetApplication( args,
+        DeprecatedPhetApplicationLauncher app = new DeprecatedPhetApplicationLauncher( args,
                                                                        title, description, version, frameSetup );
 
         PhetGraphicsModule module = new TestModule( clock );

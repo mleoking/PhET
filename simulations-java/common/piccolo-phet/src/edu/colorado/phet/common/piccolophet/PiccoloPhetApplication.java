@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.phetgraphics.test.DeprecatedPhetApplicationLauncher;
 
 /**
  * PiccoloPhetApplication
@@ -36,7 +37,7 @@ public class PiccoloPhetApplication extends PhetApplication {
     //--------------------------------------------------------------------------------------------------
 
     // Graphical PhetTabbedPanes
-    public static final TabbedPaneType PHET_TABBED_PANE = new TabbedPaneType() {
+    public static final PhetApplication.TabbedPaneType PHET_TABBED_PANE = new PhetApplication.TabbedPaneType() {
         public ITabbedModulePane createTabbedPane() {
             return new TabbedModulePanePiccolo();
         }
