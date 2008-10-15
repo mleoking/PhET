@@ -4,6 +4,7 @@ package edu.colorado.phet.common.phetcommon.application;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.SwingUtilities;
 
@@ -223,25 +224,33 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
          * event dispatch thread. Since we don't have an easy way to separate Swing and
          * non-Swing init, we're stuck doing everything in invokeLater.
          */
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                getLookAndFeel().initLookAndFeel();
-                ApplicationConstructor applicationConstructor = getApplicationConstructor();
-                if ( applicationConstructor != null ) {
-                    PhetApplication app = applicationConstructor.getApplication( PhetApplicationConfig.this );
-                    app.startApplication();
-                    if ( isTrackingEnabled() && isTrackingAllowed() ) {
-                        new Tracker( PhetApplicationConfig.this ).startTracking();
+        try {
+            SwingUtilities.invokeAndWait( new Runnable() {
+                public void run() {
+                    getLookAndFeel().initLookAndFeel();
+                    ApplicationConstructor applicationConstructor = getApplicationConstructor();
+                    if ( applicationConstructor != null ) {
+                        PhetApplication app = applicationConstructor.getApplication( PhetApplicationConfig.this );
+                        app.startApplication();
+                        if ( isTrackingEnabled() && isTrackingAllowed() ) {
+                            new Tracker( PhetApplicationConfig.this ).startTracking();
+                        }
+                        if ( isUpdatesEnabled() && isUpdatesAllowed() && hasEnoughTimePassedSinceAskMeLater() ) {
+                            autoCheckForUpdates( app );
+                        }
                     }
-                    if ( isUpdatesEnabled() && isUpdatesAllowed() && hasEnoughTimePassedSinceAskMeLater() ) {
-                        autoCheckForUpdates( app );
+                    else {
+                        new RuntimeException( "No applicationconstructor specified" ).printStackTrace();
                     }
                 }
-                else {
-                    new RuntimeException( "No applicationconstructor specified" ).printStackTrace();
-                }
-            }
-        } );
+            } );
+        }
+        catch( InterruptedException e ) {
+            e.printStackTrace();
+        }
+        catch( InvocationTargetException e ) {
+            e.printStackTrace();
+        }
     }
     
     //----------------------------------------------------------------------------

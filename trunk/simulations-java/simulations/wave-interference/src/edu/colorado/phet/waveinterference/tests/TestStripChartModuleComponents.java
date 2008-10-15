@@ -9,8 +9,8 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
+import edu.colorado.phet.common.phetgraphics.test.DeprecatedPhetApplicationLauncher;
 import edu.colorado.phet.waveinterference.view.IndexColorMap;
 import edu.colorado.phet.waveinterference.view.IntensityReaderDecorator;
 import edu.colorado.phet.waveinterference.view.WaveModelGraphic;
@@ -73,7 +73,7 @@ public class TestStripChartModuleComponents extends BasicWaveTestModule {
     }
 
     public static void main( String[] args ) {
-        PhetApplication phetApplication = new PhetApplication( args, "Test Strip Chart", "", "" );
+        DeprecatedPhetApplicationLauncher phetApplication = new DeprecatedPhetApplicationLauncher( args, "Test Strip Chart", "", "" );
         phetApplication.addModule( new TestStripChartModuleComponents() );
         phetApplication.startApplication();
     }

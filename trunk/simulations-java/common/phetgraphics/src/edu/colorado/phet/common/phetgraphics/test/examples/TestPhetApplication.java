@@ -13,7 +13,6 @@ import java.util.Random;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -26,6 +25,7 @@ import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.help.HelpItem;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.phetgraphics.test.DeprecatedPhetApplicationLauncher;
 
 public class TestPhetApplication {
     static class MyModule extends PhetGraphicsModule {
@@ -168,7 +168,7 @@ public class TestPhetApplication {
         MyModule3 modulePhotons = new MyModule3( clock );
         PhetGraphicsModule[] m = new PhetGraphicsModule[]{module, module2, module3, modulePhotons};
 
-        PhetApplication app = new PhetApplication( args, "title", "description", "version" );
+        DeprecatedPhetApplicationLauncher app = new DeprecatedPhetApplicationLauncher( args, "title", "description", "version" );
         app.addModules( m );
         app.startApplication();
     }
