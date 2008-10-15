@@ -33,12 +33,7 @@ public class PhetApplication {
     // Class data
     //----------------------------------------------------------------
 
-    /** Command line argument to enable developer-only features. */
-    public static final String DEVELOPER_CONTROLS_COMMAND_LINE_ARG = "-dev";
-    
-    /**
-     * Mechanism for determining which graphics subsystem we're using
-     */
+    public static final String DEVELOPER_CONTROLS_COMMAND_LINE_ARG = "-dev";//Command line argument to enable developer-only features
     private static ArrayList phetApplications = new ArrayList();
     
     //----------------------------------------------------------------
@@ -46,8 +41,8 @@ public class PhetApplication {
     //----------------------------------------------------------------
     
     private TabbedPaneType tabbedPaneType;
-    private volatile PhetApplicationConfig applicationConfig;
-    private final boolean developerControlsEnabled;
+    private PhetApplicationConfig applicationConfig;
+    private boolean developerControlsEnabled;
 
     private PhetFrame phetFrame;
     private ModuleManager moduleManager;
