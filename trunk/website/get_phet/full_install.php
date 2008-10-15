@@ -35,6 +35,8 @@ class FullInstallPage extends SitePage {
         $cd_url = urlencode($cd_file);
         $cd_size = (file_exists($cd_file)) ? (int) (filesize($cd_file) / (1024 * 1024)) : "&lt;unknown&gt;";
 
+        $java_min_version_generic = JAVA_MIN_VERSION_GENERIC;
+        $flash_min_version = FLASH_MIN_VERSION;
         print <<<EOT
             <p>
                 The full PhET installation package installs a copy of the PhET website onto your computer. Once installed, you do not need to be connected to the Internet
@@ -67,7 +69,7 @@ class FullInstallPage extends SitePage {
 
             <h2>Support Software</h2>
 
-            <p>Our simulations require Java 1.4 or newer and Flash 8 or newer, both of which are available at no cost. If you don't have them on your computer or aren't sure about your versions, <a href="{$this->prefix}tech_support/index.php">click here</a>.</p>
+            <p>Our simulations require Java {$java_min_version_generic} or newer and Flash {$flash_min_version} or newer, both of which are available at no cost. If you don't have them on your computer or aren't sure about your versions, <a href="{$this->prefix}tech_support/index.php">click here</a>.</p>
 
             <h2>Creating an Installation CD-ROM</h2>
 

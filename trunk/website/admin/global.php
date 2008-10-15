@@ -36,8 +36,18 @@
     define("PHET_HELP_EMAIL", "phethelp@colorado.edu");
 
     // Latest versions of flash and java
-    define("JAVA_MIN_VERSION", "1.4.2_17");
+    define("OS_MIN_VERSION_OSX", "10.4");
+
+    define("JAVA_MIN_VERSION_GENERIC", "1.5");
+    define("JAVA_MIN_VERSION_WIN", "1.5.0_15");
+    define("JAVA_MIN_VERSION_OSX", "1.5.0_16");
+    define("JAVA_MIN_VERSION_LIN", "1.5.0_15");
+    define("JAVA_MIN_VERSION_GENERIC_FULL", JAVA_MIN_VERSION_GENERIC."1.5");
+    define("JAVA_MIN_VERSION_WIN_FULL", "Sun Java ".JAVA_MIN_VERSION_WIN);
+    define("JAVA_MIN_VERSION_OSX_FULL", "Apple Java ".JAVA_MIN_VERSION_OSX);
+    define("JAVA_MIN_VERSION_LIN_FULL", "Sun Java ".JAVA_MIN_VERSION_LIN);
     define("FLASH_MIN_VERSION", "8");
+    define("FLASH_MIN_VERSION_FULL", "Macrmedia Flash 8");
 
     /**
      * This constant is used so that included scripts can reference the files 
