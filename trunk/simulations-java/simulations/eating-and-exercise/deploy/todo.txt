@@ -4,13 +4,11 @@
 
 From NP 10/15/08:
 
--Current reset behavior is OK for gender.
-
-- When dragging to the charts, it is fairly easy to set a food item (like pizza) so that it is only slightly on the plate. For instance, if you set a pizza centered on the knife/spoon, it is only about 10% on the plate but remains there. Maybe make it so that the center of the item has to be on the plate when it is dropped?
-
 - With the new play/pause/step buttons, it is not at all clear that the step is a "next month". Can you put a label next to it that says "Next Month" as there was before?
+>>This has a tooltip; is that sufficient?
 
 - The wiggle me points in the general direction of the play/pause/step buttons, but still not directly at the play button. Can it be made closer to the play button? Or at least to the left so it is directly above the play button.
+>>This will be difficult and/or messy
 
 - The time does not stop at 2 years. The play/pause/step buttons should be disabled when you reach the 2 year mark.
 
@@ -18,9 +16,12 @@ From NP 10/15/08:
 
 - The new chart zoom buttons look better, but it would be more consistent if they looked like the vertical zoom buttons on the charts. This is low priority, especially if it is very time consuming.
 
-- Reset all does not reset the calorie axis for the bar charts. Also, when calories drop back down, the zoom buttons go away but the axis does not rescale, so you can end up with a rescaled axis that you can not get back to the standard view (unless you add lots of calories to make the zoom buttons return).
+- Reset all does not reset the calorie axis for the bar charts. Also, when calories drop back down,
+    the zoom buttons go away but the axis does not rescale, so you can end up with a rescaled axis
+    that you can not get back to the standard view (unless you add lots of calories to make the zoom buttons return).
 
-
+- When dragging to the charts, it is fairly easy to set a food item (like pizza) so that it is only slightly on the plate. For instance, if you set a pizza centered on the knife/spoon, it is only about 10% on the plate but remains there. Maybe make it so that the center of the item has to be on the plate when it is dropped?
+>>This will be difficult; I'll ask Chris if he can help solve this.
 
 From Wendy 10/7/08:
 
