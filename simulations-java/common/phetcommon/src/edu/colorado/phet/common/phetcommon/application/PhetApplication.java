@@ -55,7 +55,6 @@ public class PhetApplication {
     private AWTSplashWindow splashWindow;
     private Frame splashWindowOwner;
     private PhetAboutDialog aboutDialog; // not null only when About dialog is visible
-    public static int instances=0;
 
     //----------------------------------------------------------------
     // Constructors
@@ -80,7 +79,6 @@ public class PhetApplication {
 
         // Handle command line arguments
         parseArgs( config.getCommandLineArgs() );
-        instances++;
     }
 
     //----------------------------------------------------------------
