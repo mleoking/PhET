@@ -34,14 +34,14 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
     
     public AutomaticUpdateDialog( PhetApplication application, PhetVersion newVersion ) {
         this( application.getPhetFrame(), 
-              application.getApplicationConfig().getProjectName(), 
-              application.getApplicationConfig().getFlavor(),
-              application.getApplicationConfig().getName(),
-              application.getApplicationConfig().getVersion(),
+              application.getPhetApplicationConfig().getProjectName(),
+              application.getPhetApplicationConfig().getFlavor(),
+              application.getPhetApplicationConfig().getName(),
+              application.getPhetApplicationConfig().getVersion(),
               newVersion,
-              application.getApplicationConfig(),
-              new ApplicationConfigManualCheckForUpdates( application.getPhetFrame(), application.getApplicationConfig() ),
-              application.getApplicationConfig(), 
+              application.getPhetApplicationConfig(),
+              new ApplicationConfigManualCheckForUpdates( application.getPhetFrame(), application.getPhetApplicationConfig() ),
+              application.getPhetApplicationConfig(),
               new DefaultUpdateTimer(), 
               new DefaultVersionSkipper() );
     }

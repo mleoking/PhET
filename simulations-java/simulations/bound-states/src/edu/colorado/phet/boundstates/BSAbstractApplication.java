@@ -210,7 +210,7 @@ public abstract class BSAbstractApplication extends PiccoloPhetApplication {
             BSGlobalConfig globalConfig = new BSGlobalConfig();
             appConfig.setGlobalConfig( globalConfig );
             globalConfig.setApplicationClassName( this.getClass().getName() );
-            globalConfig.setVersionNumber( getApplicationConfig().getVersion().toString() );
+            globalConfig.setVersionNumber( getPhetApplicationConfig().getVersion().toString() );
             globalConfig.setColorSchemeName( _colorsMenu.getColorSchemeName() );
             globalConfig.setColorScheme( _colorsMenu.getColorScheme() );
 

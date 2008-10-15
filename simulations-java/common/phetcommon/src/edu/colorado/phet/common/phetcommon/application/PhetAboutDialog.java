@@ -63,8 +63,8 @@ public class PhetAboutDialog extends JDialog {
     }
 
     private static DialogConfig getDialogConfig( PhetApplication phetApplication ) {
-        if ( phetApplication.getApplicationConfig() != null ) {
-            return new PhetApplicationConfigDialogConfig( phetApplication.getApplicationConfig() );
+        if ( phetApplication.getPhetApplicationConfig() != null ) {
+            return new PhetApplicationConfigDialogConfig( phetApplication.getPhetApplicationConfig() );
         }
         else {
             return new SimpleDialogConfig( phetApplication.getTitle(), phetApplication.getDescription(), phetApplication.getVersion(), phetApplication.getCredits() );
