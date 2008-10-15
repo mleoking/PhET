@@ -22,6 +22,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.ToolTipHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
 /**
@@ -62,6 +63,7 @@ public class PiccoloTimeControlPanel extends JPanel{
     private boolean paused;
     private ArrayList listeners = new ArrayList();
     private ToolTipHandler stepTooltipHandler;
+    private PhetPCanvas buttonPCanvas;
 
     //------------------------------------------------------------------------
     // Constructors
@@ -106,7 +108,7 @@ public class PiccoloTimeControlPanel extends JPanel{
         userPanel.setOpaque( false );
 
         // Layout piccolo buttons on a canvas
-        PhetPCanvas buttonPCanvas = new PhetPCanvas();
+        buttonPCanvas = new PhetPCanvas();
         buttonPCanvas.setOpaque( false );
         buttonPCanvas.setBorder( null );
         buttonPCanvas.addScreenChild( playPauseButton );
@@ -177,6 +179,10 @@ public class PiccoloTimeControlPanel extends JPanel{
     protected void paintComponent( Graphics g ) {
         super.paintComponent( g );
         backgroundNode.fullPaint( new PPaintContext( (Graphics2D) g ) );
+    }
+
+    public PCanvas getButtonCanvas(){
+        return buttonPCanvas;
     }
     //------------------------------------------------------------------------
     // Setters & getters

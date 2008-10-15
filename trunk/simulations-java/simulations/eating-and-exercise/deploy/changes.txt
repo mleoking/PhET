@@ -2,6 +2,9 @@ New in 0.00.84
 Fixed: String not found on startup: serving-cream-filled-cookies
 Converted to use new PhetApplicationConfig constructor
 If a person drags food to the bar chart for food  it settles onto the plate and if they drag exercise onto the cal burned bar chart it settles into the book.
+Fixed: Exception when dragging food items on/off plate
+Fixed: Initial help item does not point to start button
+Fixed: Made the wiggle-me go away on either play or next month.
 
 New in 0.00.83
 Trial version for usage tracking.
