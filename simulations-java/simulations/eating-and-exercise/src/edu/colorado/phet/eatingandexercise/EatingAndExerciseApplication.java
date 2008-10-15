@@ -21,8 +21,6 @@ import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.eatingandexercise.developer.DeveloperFrame;
 import edu.colorado.phet.eatingandexercise.developer.DeveloperMenu;
 import edu.colorado.phet.eatingandexercise.module.eatingandexercise.EatingAndExerciseModule;
-import edu.colorado.phet.simtemplate.SimTemplateApplication;
-import edu.colorado.phet.simtemplate.SimTemplateConstants;
 
 public class EatingAndExerciseApplication extends PiccoloPhetApplication {
 
@@ -44,7 +42,8 @@ public class EatingAndExerciseApplication extends PiccoloPhetApplication {
     public EatingAndExerciseApplication( PhetApplicationConfig config ) {
         super( config );
         initTabbedPane();
-        initModules();
+        eatingAndExerciseModule = new EatingAndExerciseModule( getPhetFrame() );
+        addModule( eatingAndExerciseModule );
         initMenubar( config.getCommandLineArgs() );
     }
 
@@ -71,14 +70,6 @@ public class EatingAndExerciseApplication extends PiccoloPhetApplication {
             }
         };
         setTabbedPaneType( tabbedPaneType );
-    }
-
-    /*
-    * Initializes the modules.
-    */
-    private void initModules() {
-        eatingAndExerciseModule = new EatingAndExerciseModule( getPhetFrame() );
-        addModule( eatingAndExerciseModule );
     }
 
     /*
@@ -144,13 +135,12 @@ public class EatingAndExerciseApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) {
-        
         ApplicationConstructor appConstructor = new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 return new EatingAndExerciseApplication( config );
             }
         };
-        
+
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, EatingAndExerciseConstants.PROJECT_NAME );
         appConfig.launchSim();
     }
