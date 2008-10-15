@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 /**
  * The base class for PhET applications.
  */
-public class PhetApplication {
+public class PhetApplication implements ISimInfo{
 
     //----------------------------------------------------------------
     // Class data
@@ -302,7 +302,7 @@ public class PhetApplication {
      * @return the title.
      */
     public String getTitle() {
-        return getPhetApplicationConfig().getName();
+        return getPhetApplicationConfig().getTitle();
     }
 
     /**

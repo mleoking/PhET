@@ -9,6 +9,6 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
  */
 public class ApplicationConfigManualCheckForUpdates extends DefaultManualCheckForUpdates {
     public ApplicationConfigManualCheckForUpdates( Frame frame, PhetApplicationConfig phetApplicationConfig ) {
-        super( frame, phetApplicationConfig.getProjectName(), phetApplicationConfig.getFlavor(), phetApplicationConfig.getVersion(), phetApplicationConfig.getName() );
+        super( frame, phetApplicationConfig.getProjectName(), phetApplicationConfig.getFlavor(), phetApplicationConfig.getVersion(), phetApplicationConfig.getTitle() );
     }
 }

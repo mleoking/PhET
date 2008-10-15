@@ -7,7 +7,6 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
@@ -34,7 +33,7 @@ public class Ohm1DApplication extends PhetApplication {
 
     private class Ohm1DModule extends Module {
         public Ohm1DModule( PhetApplicationConfig config ) {
-            super( config.getName(), new ConstantDtClock( 30, 1 ) );
+            super( config.getTitle(), new ConstantDtClock( 30, 1 ) );
             Ohm1DSimulationPanel simulationPanel = new Ohm1DSimulationPanel( getClock() );
             try {
                 simulationPanel.startApplication();

@@ -4,9 +4,6 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
-import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 public class SignalCircuitApplication extends PiccoloPhetApplication {
@@ -30,7 +27,7 @@ public class SignalCircuitApplication extends PiccoloPhetApplication {
     private class SignalCircuitModule extends Module {
 
         public SignalCircuitModule( PhetApplicationConfig config ) {
-            super( config.getName(), new ConstantDtClock( 22, 0.0216) );
+            super( config.getTitle(), new ConstantDtClock( 22, 0.0216) );
             SignalCircuitSimulationPanel simulationPanel = new SignalCircuitSimulationPanel( getClock() );
             setSimulationPanel( simulationPanel );
             setClockControlPanel( null );

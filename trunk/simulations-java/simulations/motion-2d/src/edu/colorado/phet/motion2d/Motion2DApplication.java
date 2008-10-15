@@ -6,7 +6,6 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
@@ -32,7 +31,7 @@ public class Motion2DApplication extends PiccoloPhetApplication {
     private class Motion2DModule extends Module {
 
         public Motion2DModule( PhetApplicationConfig config ) {
-            super( config.getName(), new ConstantDtClock( 20, 0.021 ) );
+            super( config.getTitle(), new ConstantDtClock( 20, 0.021 ) );
             Motion2DSimulationPanel simulationPanel = new Motion2DSimulationPanel( (ConstantDtClock) getClock() );
             try {
                 simulationPanel.init();

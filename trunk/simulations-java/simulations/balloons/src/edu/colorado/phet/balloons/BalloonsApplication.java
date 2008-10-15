@@ -65,7 +65,7 @@ public class BalloonsApplication extends PiccoloPhetApplication {
         private BalloonsSimulationPanel balloonsSimulationPanel;
 
         public BalloonsModule( PhetApplicationConfig config ) {
-            super( config.getName(), new ConstantDtClock( 30, DT ) );
+            super( config.getTitle(), new ConstantDtClock( 30, DT ) );
             balloonsSimulationPanel = new BalloonsSimulationPanel();
             try {
                 balloonsSimulationPanel.init( this );

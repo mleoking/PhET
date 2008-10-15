@@ -372,7 +372,7 @@ public class PhetAboutDialog extends JDialog {
         }
 
         public String getName() {
-            return applicationConfig.getName();
+            return applicationConfig.getTitle();
         }
 
         public String getDescription() {

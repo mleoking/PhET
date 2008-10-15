@@ -36,7 +36,7 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
         this( application.getPhetFrame(), 
               application.getPhetApplicationConfig().getProjectName(),
               application.getPhetApplicationConfig().getFlavor(),
-              application.getPhetApplicationConfig().getName(),
+              application.getPhetApplicationConfig().getTitle(),
               application.getPhetApplicationConfig().getVersion(),
               newVersion,
               application.getPhetApplicationConfig(),
