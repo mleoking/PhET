@@ -39,7 +39,6 @@ public class PhetApplication {
     /**
      * Mechanism for determining which graphics subsystem we're using
      */
-    private static final String DEBUG_MENU_COMMAND_LINE_ARG = "-d";
     private static ArrayList phetApplications = new ArrayList();
     
     //----------------------------------------------------------------
@@ -156,13 +155,6 @@ public class PhetApplication {
      * @param args
      */
     protected void parseArgs( String[] args ) {
-        for ( int i = 0; args != null && i < args.length; i++ ) {
-            String arg = args[i];
-            if ( arg.equals( DEBUG_MENU_COMMAND_LINE_ARG ) ) {
-//                phetFrame.addDebugMenu();
-                //todo generalize debug menu
-            }
-        }
     }
 
     /**
