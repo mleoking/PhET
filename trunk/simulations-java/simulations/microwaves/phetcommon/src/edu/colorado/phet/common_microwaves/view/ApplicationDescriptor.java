@@ -1,9 +1,7 @@
 /*, 2003.*/
 package edu.colorado.phet.common_microwaves.view;
 
-import edu.colorado.phet.common_microwaves.view.util.framesetup.AbsoluteFrameSetup;
-import edu.colorado.phet.common_microwaves.view.util.framesetup.FrameCenterer;
-import edu.colorado.phet.common_microwaves.view.util.framesetup.FrameSetup;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
 /**
  * User: Sam Reid
@@ -15,23 +13,6 @@ public class ApplicationDescriptor {
     String description;
     String version;
     FrameSetup frameSetup;
-
-    public ApplicationDescriptor( String windowTitle, String description, String version, int width, int height ) {
-        this( windowTitle, description, version, width, height, false );
-    }
-
-    public ApplicationDescriptor( String windowTitle, String description, String version, int x, int y, boolean isInsetSpecified ) {
-        this( windowTitle, description, version, getFrameSetup( isInsetSpecified, x, y ) );
-    }
-
-    private static FrameSetup getFrameSetup( boolean inset, int x, int y ) {
-        if( inset ) {
-            return new FrameCenterer( x, y );
-        }
-        else {
-            return new AbsoluteFrameSetup( x, y );
-        }
-    }
 
     public ApplicationDescriptor( String windowTitle, String description, String version, FrameSetup frameSetup ) {
         this.windowTitle = windowTitle;

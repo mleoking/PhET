@@ -7,11 +7,12 @@
 package edu.colorado.phet.microwaves;
 
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_microwaves.application.Module;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.common_microwaves.view.ApplicationDescriptor;
@@ -62,7 +63,7 @@ public class MicrowavesApplication {
                 + VERSION
                 + ")",
                 MessageFormatter.format( SimStrings.get( "MicrowavesApplication.description" ) ),
-                VERSION, 1024, 768 );
+                VERSION, new FrameSetup.CenteredWithSize( 1024, 768 ) );
         s_application = new PhetApplication( appDescriptor, modules,
                                              new SwingTimerClock( new DynamicClockModel( 20, 50 ) ) );
         PhetFrame frame = s_application.getApplicationView().getPhetFrame();
