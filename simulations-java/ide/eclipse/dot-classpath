@@ -108,7 +108,6 @@
 	<classpathentry kind="src" path="simulations/radio-waves/src"/>
 	<classpathentry kind="src" path="simulations/radio-waves/data"/>
 	<classpathentry kind="src" path="simulations/radio-waves/phetcommon/src"/>
-	<classpathentry kind="src" path="simulations/radio-waves/phetcommon/data"/>
 	<classpathentry kind="src" path="simulations/reactions-and-rates/src"/>
 	<classpathentry kind="src" path="simulations/reactions-and-rates/data"/>
 	<classpathentry kind="src" path="simulations/rotation/src"/>

@@ -2,6 +2,8 @@
 Changes for radio-waves 
 ===============================================================================
 
+10/14/08 - extend PiccoloModule so we get new-style clock controls, add piccolo-phet build dependency
+10/14/08 - delete vestigial data directory for local copy of phetcommon
 10/8/08 - change to use new PhetApplicationConfig constructor
 ********* version 1.05.03 (25043)
 9/25/08 - [562] complete port to trunk version of phetcommon
