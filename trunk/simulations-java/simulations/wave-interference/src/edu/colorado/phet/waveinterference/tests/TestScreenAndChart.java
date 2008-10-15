@@ -8,6 +8,7 @@ import edu.colorado.phet.waveinterference.view.MutableColor;
 import edu.colorado.phet.waveinterference.view.ScreenChartGraphic;
 import edu.colorado.phet.waveinterference.view.ScreenControlPanel;
 import edu.colorado.phet.waveinterference.view.ScreenNode;
+import edu.colorado.phet.waveinterference.ModuleApplication;
 
 /**
  * User: Sam Reid

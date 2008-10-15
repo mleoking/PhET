@@ -6,6 +6,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.waveinterference.EBFieldGraphic;
+import edu.colorado.phet.waveinterference.ModuleApplication;
 import edu.colorado.phet.waveinterference.view.ExplicitCoordinates;
 import edu.colorado.phet.waveinterference.view.WaveSideView;
 

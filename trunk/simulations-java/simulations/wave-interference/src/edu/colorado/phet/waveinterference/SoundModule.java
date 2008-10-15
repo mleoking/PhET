@@ -5,10 +5,9 @@ import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.colorado.phet.waveinterference.model.SlitPotential;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.model.CompositePotential;
-import edu.colorado.phet.waveinterference.tests.ModuleApplication;
+import edu.colorado.phet.waveinterference.ModuleApplication;
 import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.colorado.phet.waveinterference.view.*;
-import edu.umd.cs.piccolo.PNode;
 
 /**
  * User: Sam Reid

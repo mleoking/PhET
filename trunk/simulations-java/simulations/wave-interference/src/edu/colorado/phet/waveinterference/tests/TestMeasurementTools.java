@@ -3,6 +3,7 @@ package edu.colorado.phet.waveinterference.tests;
 
 import edu.colorado.phet.waveinterference.view.MeasurementControlPanel;
 import edu.colorado.phet.waveinterference.view.MeasurementToolSet;
+import edu.colorado.phet.waveinterference.ModuleApplication;
 
 /**
  * User: Sam Reid

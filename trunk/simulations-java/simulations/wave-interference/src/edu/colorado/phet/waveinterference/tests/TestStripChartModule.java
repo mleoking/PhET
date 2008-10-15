@@ -9,6 +9,7 @@ import edu.colorado.phet.waveinterference.view.DetectorSetControlPanel;
 import edu.colorado.phet.waveinterference.view.IndexColorMap;
 import edu.colorado.phet.waveinterference.view.IntensityReaderSet;
 import edu.colorado.phet.waveinterference.view.WaveModelGraphic;
+import edu.colorado.phet.waveinterference.ModuleApplication;
 
 /**
  * User: Sam Reid
