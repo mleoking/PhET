@@ -12,8 +12,8 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.Observable;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
-import edu.colorado.phet.common_microwaves.math.MathUtil;
 import edu.colorado.phet.common_microwaves.math.Vector2D;
 import edu.colorado.phet.common_microwaves.view.ApparatusPanel;
 import edu.colorado.phet.common_microwaves.view.graphics.ModelViewTransform2D;
