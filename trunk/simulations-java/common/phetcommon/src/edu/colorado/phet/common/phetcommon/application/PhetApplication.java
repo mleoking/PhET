@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.common.phetcommon.application;
 
-import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -23,11 +22,11 @@ public class PhetApplication {
 
     public static final String DEVELOPER_CONTROLS_COMMAND_LINE_ARG = "-dev";//Command line argument to enable developer-only features
     private static ArrayList phetApplications = new ArrayList();
-    
+
     //----------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------
-    
+
     private TabbedPaneType tabbedPaneType;
     private PhetApplicationConfig phetApplicationConfig;
 
@@ -60,16 +59,16 @@ public class PhetApplication {
     //----------------------------------------------------------------
     // 
     //----------------------------------------------------------------
-    
+
     /**
      * Are developer controls enabled?
-     * 
+     *
      * @return true or false
      */
     public boolean isDeveloperControlsEnabled() {
         return CommandLineUtils.contains( phetApplicationConfig.getCommandLineArgs(), DEVELOPER_CONTROLS_COMMAND_LINE_ARG );
     }
-    
+
     public PhetApplicationConfig getPhetApplicationConfig() {
         return phetApplicationConfig;
     }
@@ -80,7 +79,7 @@ public class PhetApplication {
      * @return last created PhetApplication.
      */
     public static PhetApplication instance() {
-        return (PhetApplication) phetApplications.get(phetApplications.size()-1);
+        return (PhetApplication) phetApplications.get( phetApplications.size() - 1 );
     }
 
     /**
@@ -239,21 +238,21 @@ public class PhetApplication {
     public void setActiveModule( int i ) {
         moduleManager.setActiveModule( i );
     }
-    
+
     /**
      * Gets the module that will be activated on startup.
      * By default, this is the first module added.
      * To change the default, call setStartupModule.
-     * 
+     *
      * @return Module
      */
     public Module getStartModule() {
         return moduleManager.getStartModule();
     }
-    
+
     /**
      * Sets the module that will be activated on startup.
-     * 
+     *
      * @param module
      */
     public void setStartModule( Module module ) {
@@ -301,10 +300,9 @@ public class PhetApplication {
      * Get the title for this PhetApplication.
      *
      * @return the title.
-     * @deprecated Use getProjectConfig()
      */
     public String getTitle() {
-            return getPhetApplicationConfig().getName();
+        return getPhetApplicationConfig().getName();
     }
 
     /**
@@ -314,7 +312,7 @@ public class PhetApplication {
      * @deprecated Use getProjectConfig()
      */
     public String getDescription() {
-            return getPhetApplicationConfig().getDescription();
+        return getPhetApplicationConfig().getDescription();
     }
 
     /**
@@ -324,7 +322,7 @@ public class PhetApplication {
      * @deprecated Use getProjectConfig()
      */
     public String getVersion() {
-            return getPhetApplicationConfig().getVersion().formatForTitleBar();
+        return getPhetApplicationConfig().getVersion().formatForTitleBar();
     }
 
     /**
@@ -334,7 +332,7 @@ public class PhetApplication {
      * @deprecated use getProjectConfig
      */
     public String getCredits() {
-            return getPhetApplicationConfig().getCredits();
+        return getPhetApplicationConfig().getCredits();
     }
 
     /**
