@@ -1,11 +1,10 @@
 /*  */
 package edu.colorado.phet.waveinterference;
 
+import edu.colorado.phet.waveinterference.model.CompositePotential;
 import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.colorado.phet.waveinterference.model.SlitPotential;
 import edu.colorado.phet.waveinterference.model.WaveModel;
-import edu.colorado.phet.waveinterference.model.CompositePotential;
-import edu.colorado.phet.waveinterference.ModuleApplication;
 import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.colorado.phet.waveinterference.view.*;
 
@@ -103,10 +102,6 @@ public class SoundModule extends WaveInterferenceModule {
         return soundSimulationPanel.getLatticeScreenCoordinates();
     }
 
-    public static void main( String[] args ) {
-        new ModuleApplication().startApplication( args, new SoundModule() );
-    }
-
     public SoundWaveGraphic getSoundWaveGraphic() {
         return soundSimulationPanel.getSoundWaveGraphic();
     }
@@ -130,4 +125,7 @@ public class SoundModule extends WaveInterferenceModule {
         soundModuleAudio.reset();
     }
 
+    public static void main( String[] args ) {
+        new ModuleApplication().startApplication( args, new SoundModule() );
+    }
 }
