@@ -65,18 +65,6 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo, ISimInfo
         PhetApplication getApplication( PhetApplicationConfig config );
     }
 
-    /**
-     * Returns a null application, for use in test programs.
-     * Use this if you never intend to call launchSim.
-     *
-     * @deprecated This should go away after we finish refactoring.
-     */
-    public static class NullApplicationConstructor implements ApplicationConstructor {
-        public PhetApplication getApplication( PhetApplicationConfig config ) {
-            return null;
-        }
-    }
-
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
