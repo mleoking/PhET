@@ -300,7 +300,7 @@
         return $cleaned;
     }
 
-    function db_delete_row($table_name, $array) {
+    function db_delete_row($table_name, $delete_criteria) {
         // Get the database connection, start it if if this is the first call
         global $connection;
         if (!isset($connection)) {
@@ -312,7 +312,7 @@
 
         $is_first = true;
 
-        foreach($array as $key => $value) {
+        foreach($delete_criteria as $key => $value) {
             if ($is_first) {
                 $is_first = false;
             }
