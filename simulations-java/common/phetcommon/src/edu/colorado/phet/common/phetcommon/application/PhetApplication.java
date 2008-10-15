@@ -15,17 +15,6 @@ import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
 /**
  * The base class for PhET applications.
- * <p/>
- * The prefered method of creating and starting an application is shown here:
- * <code>
- * <br>
- * PhetApplication myApp = new PhetApplication( args, "Title", "Description", "Version, frameSetup );<br>
- * myApp.addModule(module1);<br>
- * myApp.addModule(module2);<br>
- * myApp.addModule(module3);<br>
- * myApp.startApplication();<br>
- * </code>
- * <p/>
  */
 public class PhetApplication {
 
