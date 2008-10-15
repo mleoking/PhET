@@ -31,9 +31,9 @@ public class TestPhetApplicationUsage {
             public void run() {
                 try {
                     Thread.sleep( 5000 );//todo: sleep until the main frame is available
-                    int count = PhetApplication.instances;
-                    System.out.println( "count = " + count );
-                    log( "project=" + phetProject.getName() + ", sim=" + flavor.getFlavorName() + ", phetAppCount=" + count + "\n" );
+                    PhetApplication app = PhetApplication.instance();
+                    System.out.println( "count = " + app );
+                    log( "project=" + phetProject.getName() + ", sim=" + flavor.getFlavorName() + ", phetAppCount=" + app + "\n" );
                 }
                 catch( InterruptedException e ) {
                     e.printStackTrace();
