@@ -119,14 +119,6 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
         return flavor;
     }
 
-    public void setApplicationConstructor( ApplicationConstructor applicationConstructor ) {
-        this.applicationConstructor = applicationConstructor;
-    }
-
-    public ApplicationConstructor getApplicationConstructor() {
-        return applicationConstructor;
-    }
-
     public void setLookAndFeel( PhetLookAndFeel phetLookAndFeel ) {
         this.phetLookAndFeel = phetLookAndFeel;
     }
@@ -222,7 +214,6 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo {
             SwingUtilities.invokeAndWait( new Runnable() {
                 public void run() {
                     getLookAndFeel().initLookAndFeel();
-                    ApplicationConstructor applicationConstructor = getApplicationConstructor();
                     if ( applicationConstructor != null ) {
                         PhetApplication app = applicationConstructor.getApplication( PhetApplicationConfig.this );
                         app.startApplication();
