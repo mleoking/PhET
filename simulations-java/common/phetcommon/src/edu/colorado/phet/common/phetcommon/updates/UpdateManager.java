@@ -31,7 +31,8 @@ public class UpdateManager {
             }
         }
         catch( IOException e ) {
-            e.printStackTrace();
+            System.err.println( "ERROR: UpdateManager.checkForUpdates: " + e.toString() );
+//            e.printStackTrace();
             notifyExceptionInUpdateCheck( e );
         }
 
