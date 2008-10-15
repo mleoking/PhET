@@ -1,5 +1,5 @@
 /*, 2003.*/
-package edu.colorado.phet.common_microwaves.model.observation;
+package edu.colorado.phet.microwaves.model.observation;
 
 import edu.colorado.phet.common_microwaves.model.ModelElement;
 
