@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Oct 9, 2003
  */
-package edu.colorado.phet.common_microwaves.view;
+package edu.colorado.phet.microwaves.view;
 
 import edu.colorado.phet.coreadditions_microwaves.graphics.AffineTransformFactory;
 
