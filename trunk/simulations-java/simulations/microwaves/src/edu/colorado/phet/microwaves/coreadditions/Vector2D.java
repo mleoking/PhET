@@ -5,7 +5,8 @@
  * Date: Oct 18, 2002
  * Time: 3:50:24 PM
  */
-package edu.colorado.phet.common_microwaves.math;
+package edu.colorado.phet.microwaves.coreadditions;
+
 
 
 /**

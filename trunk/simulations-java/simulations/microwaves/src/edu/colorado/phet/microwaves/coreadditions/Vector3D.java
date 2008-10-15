@@ -6,8 +6,6 @@
  */
 package edu.colorado.phet.microwaves.coreadditions;
 
-import edu.colorado.phet.common_microwaves.math.PhysicalVector;
-import edu.colorado.phet.common_microwaves.math.Vector2D;
 
 public class Vector3D extends PhysicalVector {
 
