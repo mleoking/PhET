@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Aug 8, 2003
  */
-package edu.colorado.phet.util_microwaves;
+package edu.colorado.phet.microwaves.coreadditions.chart;
 
 import edu.colorado.phet.common_microwaves.model.ClockTickListener;
 import edu.colorado.phet.common_microwaves.model.IClock;

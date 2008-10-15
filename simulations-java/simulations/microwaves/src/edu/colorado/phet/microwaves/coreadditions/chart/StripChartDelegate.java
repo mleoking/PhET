@@ -6,7 +6,6 @@
  */
 package edu.colorado.phet.microwaves.coreadditions.chart;
 
-import edu.colorado.phet.util_microwaves.StripChart;
 
 import java.util.Observable;
 import java.util.Observer;
