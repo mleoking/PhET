@@ -10,11 +10,14 @@ import java.beans.PropertyChangeListener;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Created by: Sam
@@ -44,7 +47,26 @@ public class StackedBarChartNode extends PNode {
         axisNode = new SparseStackedBarChartAxisNode( title, function, minorTickSpacing, majorTickSpacing, maxYValue );
         addChild( axisNode );
 
-        zoomOut = new GradientButtonNode( "-", 14, Color.green );
+
+        PText plusText = new PText( "+" );
+        PhetFont phetFont = new PhetFont( 18, true );
+        plusText.setFont( phetFont );
+        PhetPPath plusIcon = new PhetPPath( plusText.getFullBounds() );
+        plusIcon.setPaint( null );
+        plusIcon.setStrokePaint( null );
+        plusIcon.addChild( plusText );
+
+        PText minusText = new PText( "-" );
+        minusText.setFont( phetFont );
+        PhetPPath minusIcon = new PhetPPath( plusText.getFullBounds() );
+        minusIcon.setPaint( null );
+        minusIcon.setStrokePaint( null );
+        minusIcon.addChild( minusText );
+        minusText.setOffset( minusIcon.getFullBounds().getWidth() / 2 - minusText.getFullBounds().getWidth() / 2,
+                             minusIcon.getFullBounds().getHeight() / 2 - minusText.getFullBounds().getHeight() / 2 );
+
+
+        zoomOut = new GradientButtonNode( minusIcon, Color.green );
         zoomOut.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( StackedBarChartNode.this.function instanceof Function.LinearFunction ) {
@@ -56,7 +78,7 @@ public class StackedBarChartNode extends PNode {
         } );
 
 
-        zoomIn = new GradientButtonNode( "+", 14, Color.green );
+        zoomIn = new GradientButtonNode( plusIcon, Color.green );
         zoomIn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( StackedBarChartNode.this.function instanceof Function.LinearFunction ) {
@@ -73,7 +95,7 @@ public class StackedBarChartNode extends PNode {
         updateLayout();
     }
 
-    public PNode getAxisNode(){
+    public PNode getAxisNode() {
         return axisNode;
     }
 
