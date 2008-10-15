@@ -51,8 +51,7 @@ public class PhetApplication {
         this.tabbedPaneType = tabbedPaneType;
 
         this.developerControlsEnabled = CommandLineUtils.contains( config.getCommandLineArgs(), DEVELOPER_CONTROLS_COMMAND_LINE_ARG );
-        // Put up a dialog that lets the user know that the simulation is starting up
-        showSplashWindow( config.getName() );
+        showSplashWindow( config.getName() );// Put up a dialog that lets the user know that the simulation is starting up
 
         phetApplications.add( this );
 
@@ -108,10 +107,6 @@ public class PhetApplication {
             splashWindow = new AWTSplashWindow( splashWindowOwner, title );
             splashWindow.show();
         }
-    }
-
-    public AWTSplashWindow getSplashWindow() {
-        return splashWindow;
     }
 
     private void disposeSplashWindow() {
@@ -425,10 +420,6 @@ public class PhetApplication {
 
     public void setTabbedPaneType( TabbedPaneType tabbedPaneType ) {
         this.tabbedPaneType = tabbedPaneType;
-    }
-
-    public boolean isUpdatesEnabled() {
-        return phetApplicationConfig.isUpdatesEnabled();
     }
 
     /**
