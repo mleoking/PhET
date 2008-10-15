@@ -24,8 +24,11 @@ WA 10/7/08
 ·         Heart strength reaction to activity level
 
 After making this change:
-    >>Stop time at the end of the chart (2 year maximum duration of simulation).
+    Stop time at the end of the chart (2 year maximum duration of simulation).
 What should be the new behavior of the horizontal zoom buttons?  We used to only allow zooming out on horizontal axis.  Should we remove horizontal zoom buttons?  Allow zooming in?
+
+-make male/female not reset unless it is the first thing that is done
+    >>This seems backwards to me; if it is the first thing that is changed, shouldn't we keep the user specified value on reset?
 
 
 ############################
