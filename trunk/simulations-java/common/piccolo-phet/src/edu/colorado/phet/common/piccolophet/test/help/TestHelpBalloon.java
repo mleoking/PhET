@@ -36,6 +36,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
@@ -78,18 +79,23 @@ public class TestHelpBalloon extends PhetApplication {
 
     /* Test harness */
     public static void main( final String[] args ) {
-        try {
-            TestHelpBalloon app = new TestHelpBalloon( args );
-            app.startApplication();
-        }
-        catch( Exception e ) {
-            e.printStackTrace();
-        }
+        new PhetApplicationConfig( args, new PhetApplicationConfig.ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                try {
+                    TestHelpBalloon app = new TestHelpBalloon( config );
+                    return app;
+                }
+                catch( Exception e ) {
+                    return null;
+                }
+            }
+        }, "piccolo-phet" ).launchSim();
+
     }
 
     /* Application */
-    public TestHelpBalloon( String[] args ) throws InterruptedException {
-        super( args, TITLE, DESCRIPTION, VERSION, new FrameSetup.CenteredWithSize( 1024, 768 ) );
+    public TestHelpBalloon( PhetApplicationConfig c) throws InterruptedException {
+        super(c);
 
         Module module1 = new TestModule( "Module 1" );
         addModule( module1 );
