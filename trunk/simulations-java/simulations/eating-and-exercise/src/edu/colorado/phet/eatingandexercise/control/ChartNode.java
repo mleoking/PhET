@@ -51,7 +51,7 @@ public class ChartNode extends PNode {
     private EatingAndExerciseModel model;
     private ControlGraph weightGraph;
     private ControlGraph calorieGraph;
-    private static final double DEFAULT_RANGE_YEARS = 1;
+    private static final double DEFAULT_RANGE_YEARS = 2;
     private EatingAndExerciseModel.Units previousUnits;
 
     public ChartNode( final EatingAndExerciseModel model, PhetPCanvas phetPCanvas ) {
@@ -279,7 +279,7 @@ public class ChartNode extends PNode {
 
             NumberAxis numberAxis = (NumberAxis) getJFreeChartNode().getChart().getXYPlot().getDomainAxis();
 
-            numberAxis.setTickUnit( new NumberTickUnit( 2.0/12.0) );
+            numberAxis.setTickUnit( new NumberTickUnit( 2.0*DEFAULT_RANGE_YEARS/12.0) );
 //            TickUnitSource source = new TickUnitSource() {
 //                public TickUnit getLargerTickUnit( TickUnit unit ) {
 //                    return new NumberTickUnit( unit.getSize() + 1.0 / 12.0 );
@@ -316,7 +316,7 @@ public class ChartNode extends PNode {
             double min = getJFreeChartNode().getChart().getXYPlot().getDomainAxis().getLowerBound();
             double max = getJFreeChartNode().getChart().getXYPlot().getDomainAxis().getUpperBound();
             double currentRange = max - min;
-            double newRange = Math.max( 1, currentRange * v );
+            double newRange = Math.max( DEFAULT_RANGE_YEARS, currentRange * v );
 
             setDomain( min, min + newRange );
             forceUpdateAll();
@@ -325,7 +325,7 @@ public class ChartNode extends PNode {
         public void setDomain( double minDomainValue, double maxDomainValue ) {
             super.setDomain( minDomainValue, maxDomainValue );
             if ( getZoomControl() != null ) {
-                getZoomControl().setHorizontalZoomInEnabled( maxDomainValue - minDomainValue > 1 );
+                getZoomControl().setHorizontalZoomInEnabled( maxDomainValue - minDomainValue > DEFAULT_RANGE_YEARS );
             }
             syncMassVar();//todo: remove the need for this workaround
         }
