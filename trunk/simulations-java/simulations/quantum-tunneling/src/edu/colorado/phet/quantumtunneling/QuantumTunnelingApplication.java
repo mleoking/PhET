@@ -168,7 +168,7 @@ public class QuantumTunnelingApplication extends PhetApplication {
         // Global config
         QTGlobalConfig globalConfig = new QTGlobalConfig();
         appConfig.setGlobalConfig( globalConfig );
-        globalConfig.setVersionNumber( getApplicationConfig().getVersion().toString() );
+        globalConfig.setVersionNumber( getPhetApplicationConfig().getVersion().toString() );
         globalConfig.setColorSchemeName( _colorSchemeMenu.getColorSchemeName() );
         globalConfig.setColorScheme( _colorSchemeMenu.getColorScheme() );
 

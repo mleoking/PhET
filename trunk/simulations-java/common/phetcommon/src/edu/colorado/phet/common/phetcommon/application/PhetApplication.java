@@ -29,7 +29,7 @@ public class PhetApplication {
     //----------------------------------------------------------------
     
     private TabbedPaneType tabbedPaneType;
-    private PhetApplicationConfig applicationConfig;
+    private PhetApplicationConfig phetApplicationConfig;
     private boolean developerControlsEnabled;
 
     private PhetFrame phetFrame;
@@ -47,12 +47,13 @@ public class PhetApplication {
     }
 
     protected PhetApplication( PhetApplicationConfig config, TabbedPaneType tabbedPaneType ) {
-        this.applicationConfig = config;
-        this.developerControlsEnabled = CommandLineUtils.contains( config.getCommandLineArgs(), DEVELOPER_CONTROLS_COMMAND_LINE_ARG );
+        this.phetApplicationConfig = config;
+        this.tabbedPaneType = tabbedPaneType;
 
+        this.developerControlsEnabled = CommandLineUtils.contains( config.getCommandLineArgs(), DEVELOPER_CONTROLS_COMMAND_LINE_ARG );
         // Put up a dialog that lets the user know that the simulation is starting up
         showSplashWindow( config.getName() );
-        this.tabbedPaneType = tabbedPaneType;
+
         phetApplications.add( this );
 
         this.moduleManager = new ModuleManager( this );
@@ -76,8 +77,8 @@ public class PhetApplication {
         return developerControlsEnabled;
     }
     
-    public PhetApplicationConfig getApplicationConfig() {
-        return applicationConfig;
+    public PhetApplicationConfig getPhetApplicationConfig() {
+        return phetApplicationConfig;
     }
 
     /**
@@ -334,7 +335,7 @@ public class PhetApplication {
      * @deprecated Use getProjectConfig()
      */
     public String getTitle() {
-            return getApplicationConfig().getName();
+            return getPhetApplicationConfig().getName();
     }
 
     /**
@@ -344,7 +345,7 @@ public class PhetApplication {
      * @deprecated Use getProjectConfig()
      */
     public String getDescription() {
-            return getApplicationConfig().getDescription();
+            return getPhetApplicationConfig().getDescription();
     }
 
     /**
@@ -354,7 +355,7 @@ public class PhetApplication {
      * @deprecated Use getProjectConfig()
      */
     public String getVersion() {
-            return getApplicationConfig().getVersion().formatForTitleBar();
+            return getPhetApplicationConfig().getVersion().formatForTitleBar();
     }
 
     /**
@@ -364,7 +365,7 @@ public class PhetApplication {
      * @deprecated use getProjectConfig
      */
     public String getCredits() {
-            return getApplicationConfig().getCredits();
+            return getPhetApplicationConfig().getCredits();
     }
 
     /**
@@ -427,7 +428,7 @@ public class PhetApplication {
     }
 
     public boolean isUpdatesEnabled() {
-        return applicationConfig.isUpdatesEnabled();
+        return phetApplicationConfig.isUpdatesEnabled();
     }
 
     /**

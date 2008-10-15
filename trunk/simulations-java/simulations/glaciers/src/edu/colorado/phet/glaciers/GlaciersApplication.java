@@ -153,11 +153,11 @@ public class GlaciersApplication extends PiccoloPhetApplication {
         
         GlaciersConfig appConfig = new GlaciersConfig();
         
-        appConfig.setVersionString( getApplicationConfig().getVersion().toString() );
-        appConfig.setVersionMajor( getApplicationConfig().getVersion().getMajor() );
-        appConfig.setVersionMinor( getApplicationConfig().getVersion().getMinor() );
-        appConfig.setVersionDev( getApplicationConfig().getVersion().getDev() );
-        appConfig.setVersionRevision( getApplicationConfig().getVersion().getRevision() );
+        appConfig.setVersionString( getPhetApplicationConfig().getVersion().toString() );
+        appConfig.setVersionMajor( getPhetApplicationConfig().getVersion().getMajor() );
+        appConfig.setVersionMinor( getPhetApplicationConfig().getVersion().getMinor() );
+        appConfig.setVersionDev( getPhetApplicationConfig().getVersion().getDev() );
+        appConfig.setVersionRevision( getPhetApplicationConfig().getVersion().getRevision() );
         
         IntroConfig basicConfig = _introModule.save();
         appConfig.setBasicConfig( basicConfig );
