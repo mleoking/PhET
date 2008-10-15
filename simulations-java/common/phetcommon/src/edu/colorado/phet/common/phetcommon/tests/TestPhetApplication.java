@@ -12,26 +12,33 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 
 public class TestPhetApplication {
-    private final PhetApplication app;
+    private PhetApplicationConfig config;
 
     public TestPhetApplication() {
-        app = new PhetApplication( new String[0], "Title", "Description", "1.0" );
+        config = new PhetApplicationConfig( new String[0], new PhetApplicationConfig.ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                PhetApplication app = new PhetApplication( config );
 
-        MyModule module = new MyModule();
+                MyModule module = new MyModule();
 
-        module.setModel( new BaseModel() );
+                module.setModel( new BaseModel() );
 
-        module.setSimulationPanel( new JLabel() );
+                module.setSimulationPanel( new JLabel() );
 
-        app.addModule( module );
+                app.addModule( module );
+                return app;
+            }
+        }, "phetcommon" );
+
     }
 
     public void start() {
-        app.startApplication();
+        config.launchSim();
     }
 
     public static void main( String[] args ) {
