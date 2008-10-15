@@ -95,10 +95,6 @@ public class WaterModule extends WaveInterferenceModule {
         return waterSimulationPanel.getLatticeScreenCoordinates();
     }
 
-    public static void main( String[] args ) {
-        new ModuleApplication().startApplication( args, new WaterModule() );
-    }
-
     public WaveInterferenceModel getWaveInterferenceModel() {
         return waveInterferenceModel;
     }
@@ -107,5 +103,9 @@ public class WaterModule extends WaveInterferenceModule {
         super.resetAll();
         getWaveInterferenceModel().reset();
         waterSimulationPanel.reset();
+    }
+
+    public static void main( String[] args ) {
+        new ModuleApplication().startApplication( args, new WaterModule() );
     }
 }

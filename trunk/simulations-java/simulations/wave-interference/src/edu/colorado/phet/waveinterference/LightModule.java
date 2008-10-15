@@ -1,11 +1,10 @@
 /*  */
 package edu.colorado.phet.waveinterference;
 
+import edu.colorado.phet.waveinterference.model.CompositePotential;
 import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.colorado.phet.waveinterference.model.SlitPotential;
 import edu.colorado.phet.waveinterference.model.WaveModel;
-import edu.colorado.phet.waveinterference.model.CompositePotential;
-import edu.colorado.phet.waveinterference.ModuleApplication;
 import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.colorado.phet.waveinterference.view.*;
 
@@ -115,10 +114,6 @@ public class LightModule extends WaveInterferenceModule {
         return lightSimulationPanel.getLatticeScreenCoordinates();
     }
 
-    public static void main( String[] args ) {
-        new ModuleApplication().startApplication( args, new LightModule() );
-    }
-
     public MultiOscillator getMultiOscillator() {
         return lightSimulationPanel.getMultiOscillator();
     }
@@ -135,5 +130,9 @@ public class LightModule extends WaveInterferenceModule {
         super.resetAll();
         getWaveInterferenceModel().reset();
         lightSimulationPanel.reset();
+    }
+
+    public static void main( String[] args ) {
+        new ModuleApplication().startApplication( args, new LightModule() );
     }
 }
