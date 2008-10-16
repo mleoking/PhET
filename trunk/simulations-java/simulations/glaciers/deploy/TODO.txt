@@ -7,6 +7,8 @@ HIGHEST PRIORITY:
 HIGH PRIORITY:
 - [727] glacier growth from zero length still takes a long time, and then speeds up
 - [766] add snow to valley floor above ELA
+- [850] flags can be put in the cross-section of the ice
+- [851] flags can't be dragged from valley floor to ice surface while glacier is moving
 
 MEDIUM PRIORITY:
 
