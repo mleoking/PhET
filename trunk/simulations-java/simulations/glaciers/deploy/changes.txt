@@ -1,3 +1,4 @@
+10/15/08 - organize imports
 10/15/08 - compute MountainsAndValleyNode.F_70000 in terms of F_0, so that image alignment can be shifted by changing only F_0
 10/15/08 - fix alignment of new SVG mountains image, Archie gave me a slightly smaller image
 10/15/08 - [738] crop SVG mountains image to prevent OutOfMemoryException
