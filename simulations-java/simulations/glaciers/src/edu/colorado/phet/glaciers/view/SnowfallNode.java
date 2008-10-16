@@ -155,7 +155,7 @@ public class SnowfallNode extends PhetPNode {
             final double dx = IceNode.getDx();
             final double minX = _worldBounds.getMinX() - dx; // go one sample further than we really need to
             final double maxX = _worldBounds.getMaxX() + dx; // go one sample further than we really need to
-            final double maxY = _worldBounds.getY();
+            final double maxY = _worldBounds.getY() + 20; // +20 to address Unfuddle 849, unclear why a sliver of blue sky appears above the snowfall ceiling
 
             _path.reset();
             
