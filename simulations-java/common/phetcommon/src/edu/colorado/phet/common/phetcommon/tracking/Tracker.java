@@ -4,7 +4,7 @@ import java.io.IOException;
 
 
 public class Tracker {
-    private TrackingInfo trackingInformation;
+    private AbstractTrackingInfo trackingInformation;
     private Trackable trackable;
 
     public Tracker( Trackable trackable ) {
@@ -26,7 +26,7 @@ public class Tracker {
         t.start();
     }
 
-    public TrackingInfo getTrackingInformation() {
+    public AbstractTrackingInfo getTrackingInformation() {
         return trackingInformation;
     }
 }

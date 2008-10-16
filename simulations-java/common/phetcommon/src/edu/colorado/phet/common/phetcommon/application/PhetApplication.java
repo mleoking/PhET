@@ -29,7 +29,7 @@ public class PhetApplication implements ISimInfo{
     //----------------------------------------------------------------
 
     private TabbedPaneType tabbedPaneType;
-    private PhetApplicationConfig phetApplicationConfig;
+    private ISimInfoWithFrameSetup phetApplicationConfig;
 
     private PhetFrame phetFrame;
     private ModuleManager moduleManager;
@@ -39,11 +39,11 @@ public class PhetApplication implements ISimInfo{
     // Constructors
     //----------------------------------------------------------------
 
-    public PhetApplication( PhetApplicationConfig config ) {
+    public PhetApplication( ISimInfoWithFrameSetup config ) {
         this( config, JTABBED_PANE_TYPE );
     }
 
-    protected PhetApplication( PhetApplicationConfig config, TabbedPaneType tabbedPaneType ) {
+    protected PhetApplication( ISimInfoWithFrameSetup config, TabbedPaneType tabbedPaneType ) {
         this.phetApplicationConfig = config;
         this.tabbedPaneType = tabbedPaneType;
 
@@ -70,7 +70,7 @@ public class PhetApplication implements ISimInfo{
         return CommandLineUtils.contains( phetApplicationConfig.getCommandLineArgs(), DEVELOPER_CONTROLS_COMMAND_LINE_ARG );
     }
 
-    public PhetApplicationConfig getPhetApplicationConfig() {
+    public ISimInfo getPhetApplicationConfig() {
         return phetApplicationConfig;
     }
 
@@ -347,6 +347,34 @@ public class PhetApplication implements ISimInfo{
         return getPhetApplicationConfig().getCredits();
     }
 
+    public boolean isUpdatesEnabled() {
+        return phetApplicationConfig.isUpdatesEnabled();
+    }
+
+    public boolean isTrackingEnabled() {
+        return phetApplicationConfig.isTrackingEnabled();
+    }
+
+    public String getProjectName() {
+        return phetApplicationConfig.getProjectName();
+    }
+
+    public String getFlavor() {
+        return phetApplicationConfig.getFlavor();
+    }
+
+    public String[] getCommandLineArgs() {
+        return phetApplicationConfig.getCommandLineArgs();
+    }
+
+    public boolean isDev() {
+        return phetApplicationConfig.isDev();
+    }
+
+    public long getSimStartTimeMillis() {
+        return phetApplicationConfig.getSimStartTimeMillis();
+    }
+
     /**
      * Pauses the PhetApplication (including any Modules that are active).
      */
@@ -384,6 +412,10 @@ public class PhetApplication implements ISimInfo{
 
     public void setTabbedPaneType( TabbedPaneType tabbedPaneType ) {
         this.tabbedPaneType = tabbedPaneType;
+    }
+
+    public String getHumanReadableTrackingInformation() {
+        return phetApplicationConfig.getHumanReadableTrackingInformation();
     }
 
     /**
