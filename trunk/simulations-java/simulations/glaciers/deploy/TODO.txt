@@ -10,7 +10,6 @@ HIGH PRIORITY:
 - [766] add snow to valley floor above ELA
 
 MEDIUM PRIORITY:
-- [738] crop SVG mountains image to prevent OutOfMemoryException
 
 LOW PRIORITY:
 - [725] finalize Help items
