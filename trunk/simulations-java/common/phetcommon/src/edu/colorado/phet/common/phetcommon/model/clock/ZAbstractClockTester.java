@@ -11,6 +11,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 public class ZAbstractClockTester extends TestCase {
+
+    public static interface ClockFactory{
+        Clock createInstance(int defaultDelay, double v);
+    }
     private static final int DEFAULT_DELAY = 10;
     
     private volatile Clock threadClock;
