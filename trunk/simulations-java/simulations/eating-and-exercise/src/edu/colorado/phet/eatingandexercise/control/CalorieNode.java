@@ -1,6 +1,7 @@
 package edu.colorado.phet.eatingandexercise.control;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -17,6 +18,7 @@ import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.model.CalorieSet;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
@@ -129,9 +131,16 @@ public class CalorieNode extends PNode {
     Random random = new Random();
 
     private void moveToDropTarget( CalorieDragStrip.DragNode node ) {
-        double targetX = dropTarget.getFullBounds().getX() + random.nextDouble() * dropTarget.getFullBounds().getWidth() * 0.5;
-        double targetY = dropTarget.getFullBounds().getY() + random.nextDouble() * dropTarget.getFullBounds().getHeight() * 0.5;
-        node.getPNode().animateToPositionScaleRotation( targetX, targetY, 1, 0, 750 );
+        Point2D target=dropTarget.getGlobalFullBounds().getCenter2D();
+        node.getPNodeIcon().globalToLocal( target );
+        PDimension d=new PDimension( node.getPNodeIcon().getGlobalFullBounds().width/2,node.getPNodeIcon().getGlobalFullBounds().height/2);
+        node.getPNodeIcon().globalToLocal( d );
+
+//        PDimension d=new PDimension( node.getPNodeIcon().getWidth()/2,
+//                                     node.getPNodeIcon().getWidth()/2);
+//        double targetX = dropTarget.getFullBounds().getX() + random.nextDouble() * dropTarget.getFullBounds().getWidth() * 0.5;
+//        double targetY = dropTarget.getFullBounds().getY() + random.nextDouble() * dropTarget.getFullBounds().getHeight() * 0.5;
+        node.getPNodeIcon().animateToPositionScaleRotation( target.getX()-d.width, target.getY()-d.height, 1, 0, 750 );
 
         //todo: why doesn't this work?
 //        PDimension delta=new PDimension( node.getPNode().getGlobalFullBounds().getCenter2D(),dropTarget.getGlobalFullBounds().getCenter2D());
