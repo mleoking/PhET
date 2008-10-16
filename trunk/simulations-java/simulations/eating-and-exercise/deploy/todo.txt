@@ -2,13 +2,35 @@
 ###	Todo Sam		####
 ############################
 
+From WA 10/15/08:
+
+-I think the green behind the guy and the controls is probably better but I don’t feel strongly either way. I did notice that in the grey version a lot of the text is no longer bold that was in the green version. This stands out to me more than the background color.  I’m also seeing in the information boxes like the disclaimer and help that the font is a very thin hard to read font now.  Doesn’t have to be thick and bold but it should be stronger than it is now.
+
+NP says: The new look on the play/pause area looks good. However, feedback on the control area indicates the all green background is better. Please put the green background back behind the controls and restore the text that was bold (control readouts, etc.).
+
+
+-I wondered if there was a plan to move the help items into the sim rather than in a window as they are now.
+
+   NP says: I think we decided to leave the help in a window.
+
+
+-When I was playing the step button was grey for the first couple of years and then it became visible. It did still work?
+
+
+
 From NP 10/15/08:
 
 - With the new play/pause/step buttons, it is not at all clear that the step is a "next month". Can you put a label next to it that says "Next Month" as there was before?
 >>This has a tooltip; is that sufficient?
 
+NP says: Not sure. Let's just wait and see what turns out to be necessary on this.
+
+
 - The wiggle me points in the general direction of the play/pause/step buttons, but still not directly at the play button. Can it be made closer to the play button? Or at least to the left so it is directly above the play button.
 >>This will be difficult and/or messy
+
+NP says: OK, it is fine the way it is.
+
 
 - The time does not stop at 2 years. The play/pause/step buttons should be disabled when you reach the 2 year mark.
 
@@ -22,6 +44,11 @@ From NP 10/15/08:
 
 - When dragging to the charts, it is fairly easy to set a food item (like pizza) so that it is only slightly on the plate. For instance, if you set a pizza centered on the knife/spoon, it is only about 10% on the plate but remains there. Maybe make it so that the center of the item has to be on the plate when it is dropped?
 >>This will be difficult; I'll ask Chris if he can help solve this.
+
+WA says: I really like the larger area for placing food and exercises!  It’s very useful for clueless users such as myselfJ
+
+NP says: Don't worry about it in this case. We can see if it is really an issue in interviews.
+
 
 From Wendy 10/7/08:
 
