@@ -99,8 +99,15 @@ public class TracerFlag extends AbstractTool {
         
         if ( !isDragging() && !_onValleyFloor ) {
             
+            // if the flag was on the surface, make sure it's still on the surface
+            double currentY = getElevation();
+            final double currentSurfaceElevation = _glacier.getSurfaceElevation( getX() );
+            if ( currentY > currentSurfaceElevation) {
+                currentY = currentSurfaceElevation;
+            }
+            
             // distance = velocity * dt
-            Vector2D velocity = _glacier.getIceVelocity( getX(), getElevation() );
+            Vector2D velocity = _glacier.getIceVelocity( getX(), currentY );
             final double dt = clockEvent.getSimulationTimeChange();
             double newX = getX() + ( velocity.getX() * dt );
             double newY = getY() + ( velocity.getY() * dt );

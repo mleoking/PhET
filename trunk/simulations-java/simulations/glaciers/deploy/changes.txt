@@ -1,3 +1,4 @@
+10/16/08 - [726] flags and debris on glacier surface stop advancing when glacier is retreating
 10/15/08 - [849] workaround for sliver of blue sky that appears above snowfall ceiling (search for "Unfuddle 849" comment)
 10/15/08 - organize imports
 10/15/08 - compute MountainsAndValleyNode.F_70000 in terms of F_0, so that image alignment can be shifted by changing only F_0

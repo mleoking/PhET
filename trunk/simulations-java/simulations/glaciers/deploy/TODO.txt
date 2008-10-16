@@ -6,7 +6,6 @@ HIGHEST PRIORITY:
 
 HIGH PRIORITY:
 - [727] glacier growth from zero length still takes a long time, and then speeds up
-- [726] flags and debris on glacier surface stop advancing when glacier is retreating
 - [766] add snow to valley floor above ELA
 
 MEDIUM PRIORITY:
