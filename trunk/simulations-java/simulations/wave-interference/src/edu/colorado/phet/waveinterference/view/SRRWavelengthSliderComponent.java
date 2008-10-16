@@ -33,7 +33,9 @@ public class SRRWavelengthSliderComponent extends PCanvas {
 
     public void setOpaque( boolean isOpaque ) {
         super.setOpaque( isOpaque );
-        wavelengthSliderGraphic.setOpaque( isOpaque );
+        if ( wavelengthSliderGraphic != null ) {
+            wavelengthSliderGraphic.setOpaque( isOpaque );
+        }
     }
 
     public void addChangeListener( ChangeListener changeListener ) {
