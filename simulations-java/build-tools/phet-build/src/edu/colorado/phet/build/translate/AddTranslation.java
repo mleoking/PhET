@@ -19,7 +19,7 @@ import com.jcraft.jsch.JSchException;
  */
 public class AddTranslation {
 
-    private static final boolean DEPLOY_ENABLED = false; // can be turned off for local debugging
+    private static final boolean DEPLOY_ENABLED = true; // can be turned off for local debugging
 
     public static File TRANSLATIONS_TEMP_DIR = new File( FileUtils.getTmpDir(), "phet-translations-temp" );
 
