@@ -13,7 +13,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
- * Feasibility test for improved cursor handling
+ * Piccolo event handler that shows a different Cursor when entering a PNode
  */
 public class CursorHandler2 extends PBasicInputEventHandler {
 
@@ -29,6 +29,17 @@ public class CursorHandler2 extends PBasicInputEventHandler {
     private static final CursorManager manager = new CursorManager();
     
     //todo: should make 1 manager per JComponent?
+    //the current implementation assumes state is global across all JPanels, may not work properly when moving from one JComponent to another
+    /**
+     * This class manages global state for the cursor.  Consider the following scenario:
+     * 1. The cursor enters Node A
+     *      >The cursor becomes a hand
+     * 2. The cursor is pressed and dragged out of Node A into Node B
+     *      >The cursor should remain a hand
+     *
+     * This is difficult (or impossible) to do without maintaining global state about which
+     * nodes have been entered and dragged.
+     */
     private static class CursorManager {
         
         private Cursor lastEntered;
