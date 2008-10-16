@@ -32,8 +32,8 @@ import edu.umd.cs.piccolo.util.PAffineTransform;
 public class MountainsAndValleyNode extends PImage {
 
     // These are absolute x,y coordinates of the markers in the image file
-    private static final Point2D F_0 = new Point2D.Double( 313, 142 );   // marker at x=0, y=F(0)
-    private static final Point2D F_70000 = new Point2D.Double( 5253, 343 ); // marker at x=70000, y=F(70000)
+    private static final Point2D F_0 = new Point2D.Double( 313, 138 );   // marker at x=0, y=F(0)
+    private static final Point2D F_70000 = new Point2D.Double( F_0.getX() + 4940, F_0.getY() + 201 ); // marker at x=70000, y=F(70000)
     
     public MountainsAndValleyNode( Valley valley, ModelViewTransform mvt ) {
         super( GlaciersImages.MOUNTAINS );
