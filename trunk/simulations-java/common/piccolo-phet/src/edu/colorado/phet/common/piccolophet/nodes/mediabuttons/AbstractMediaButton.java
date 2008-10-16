@@ -6,10 +6,12 @@ import java.awt.image.BufferedImage;
 import java.awt.image.LookupOp;
 import java.awt.image.LookupTable;
 import java.awt.*;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -28,6 +30,7 @@ public class AbstractMediaButton extends PNode {
     private final Image disabledImage;
     private final Image mouseEnteredImage;
     private final Image armedImage;
+    private CursorHandler cursorHandler;
 
     public AbstractMediaButton( int buttonHeight ) {
         
@@ -45,23 +48,11 @@ public class AbstractMediaButton extends PNode {
         addInputEventListener( new PBasicInputEventHandler() {
 
             public void mouseEntered( PInputEvent event ) {
-                if (isEnabled()){
-                    event.getComponent().pushCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ));
-                }
                 mouseEntered = true;
                 updateImage();
             }
 
             public void mouseExited( PInputEvent event ) {
-                if (isEnabled()){
-                    try {
-                        event.getComponent().popCursor();
-                    }
-                    catch( ArrayIndexOutOfBoundsException e ) {
-                        // this is a well-known (but benign) problem, so don't print the stack trace
-                        System.err.println( getClass().getName() + ".popCursor attempted to pop an empty cursor stack" );
-                    }
-                }
                 mouseEntered = false;
                 updateImage();
             }
@@ -76,6 +67,21 @@ public class AbstractMediaButton extends PNode {
                 updateImage();
             }
         } );
+        cursorHandler = new CursorHandler();
+        addInputEventListener( cursorHandler );
+        addListener(new Listener(){
+            public void enabledChanged() {
+                if (isEnabled() ){
+                    addInputEventListener( cursorHandler );
+                }else{
+                    removeInputEventListener( cursorHandler );
+                }
+            }
+        });
+    }
+
+    private void addListener( Listener listener ) {
+        listeners.add( listener );
     }
 
     public boolean isEnabled() {
@@ -91,8 +97,21 @@ public class AbstractMediaButton extends PNode {
     }
 
     public void setEnabled( boolean b ) {
+        if (this.enabled!=b){
         this.enabled = b;
         updateImage();
+            notifyEnabledChanged();
+        }
+    }
+    private ArrayList listeners=new ArrayList( );
+    private void notifyEnabledChanged() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener o = (Listener) listeners.get( i );
+            o.enabledChanged();
+        }
+    }
+    public static interface Listener{
+        void enabledChanged();
     }
 
     protected void updateImage() {

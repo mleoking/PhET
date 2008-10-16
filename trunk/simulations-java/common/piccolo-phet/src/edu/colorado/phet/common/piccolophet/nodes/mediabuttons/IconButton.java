@@ -14,6 +14,7 @@ public class IconButton extends AbstractMediaButton {
     public IconButton( int buttonHeight ) {
         super( buttonHeight );
         iconNode = new PhetPPath( Color.BLACK, new BasicStroke( 1 ), Color.LIGHT_GRAY );
+        iconNode.setPickable( false );//let events fall through to parent
         addChild( iconNode );
     }
 
