@@ -81,14 +81,14 @@ public class TestThreadSeparation {
      */
     static class TestModule extends PiccoloModule {
         public TestModule() {
-            super( "Module A", new ModelClock( 40, 10 ) );
+            super( "Module A", new ConstantDtClock( 40, 10 ) );
 
             TestModel model = new TestModel( getClock() );
 
             TestCanvas canvas = new TestCanvas( model );
             setSimulationPanel( canvas );
 
-            setControlPanel( new ControlPanel( model, (ModelClock) getClock() ) );
+            setControlPanel( new ControlPanel( model, getClock() ) );
         }
     }
 
@@ -96,7 +96,7 @@ public class TestThreadSeparation {
      * A panel with a JSlider that controls the radius of the model's orbiter
      */
     static class ControlPanel extends JPanel {
-        public ControlPanel( final TestModel model, final ModelClock clock ) {
+        public ControlPanel( final TestModel model, final IClock clock ) {
             final JSlider radiusSlider = new JSlider( 20, 100, 50 );
             radiusSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
