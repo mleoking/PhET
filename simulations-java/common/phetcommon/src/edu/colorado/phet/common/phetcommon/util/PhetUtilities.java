@@ -17,7 +17,6 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.model.clock.ModelClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 
@@ -52,11 +51,7 @@ public class PhetUtilities {
             IClock clock = activeModule.getClock();
             for ( int i = 0; i < pendingRunnables.size(); i++ ) {
                 Runnable target = (Runnable) pendingRunnables.get( i );
-                if ( clock instanceof ModelClock ) {
-                    ModelClock modelClock = (ModelClock) clock;
-                    modelClock.invokeLater( target );
-                }
-                else if ( clock instanceof SwingClock ) {
+                if ( clock instanceof SwingClock ) {
                     SwingUtilities.invokeLater( target );
                 }
                 else {
