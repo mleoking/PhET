@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.preferences.ITrackingInfo;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.tracking.Trackable;
-import edu.colorado.phet.common.phetcommon.tracking.TrackingInfo;
+import edu.colorado.phet.common.phetcommon.tracking.AbstractTrackingInfo;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
@@ -32,7 +32,7 @@ import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
  *
  * @author John De Goes / Chris Malley
  */
-public class PhetApplicationConfig implements Trackable, ITrackingInfo, ISimInfo {
+public class PhetApplicationConfig implements Trackable, ITrackingInfo, ISimInfoWithFrameSetup {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -57,6 +57,8 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo, ISimInfo
     //for splash window
     private AWTSplashWindow splashWindow;
     private Frame splashWindowOwner;
+    private long simStartTimeMillis=System.currentTimeMillis();//System time is recorded on startup to facilitate tracking of multiple messages from the same sim run
+    private long applicationLaunchFinishedAt;//this value is determined after launch is complete
 
     //----------------------------------------------------------------------------
     // Interfaces
@@ -206,7 +208,8 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo, ISimInfo
                         PhetApplication app = applicationConstructor.getApplication( PhetApplicationConfig.this );
                         app.startApplication();
                         disposeSplashWindow();
-
+                        applicationLaunchFinishedAt=System.currentTimeMillis();//has to be recorded before tracking posted
+                        
                         new TrackingApplicationManager( PhetApplicationConfig.this ).applicationStarted( app );
                         new UpdateApplicationManager( PhetApplicationConfig.this ).applicationStarted( app );
                     }
@@ -222,6 +225,14 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo, ISimInfo
         catch( InvocationTargetException e ) {
             e.printStackTrace();
         }
+    }
+
+    public long getApplicationLaunchFinishedAt() {
+        return applicationLaunchFinishedAt;
+    }
+
+    public long getElapsedStartupTime(){
+        return getApplicationLaunchFinishedAt()-getSimStartTimeMillis();
     }
 
     private void showSplashWindow( String title ) {
@@ -247,8 +258,8 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo, ISimInfo
     // Updates and Tracking stuff
     //----------------------------------------------------------------------------
 
-    public TrackingInfo getTrackingInformation() {
-        return new TrackingInfo( this );
+    public AbstractTrackingInfo getTrackingInformation() {
+        return new AbstractTrackingInfo( this );
     }
 
     public String getHumanReadableTrackingInformation() {
@@ -257,6 +268,10 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo, ISimInfo
 
     public boolean isDev() {
         return Arrays.asList( commandLineArgs ).contains( PhetApplication.DEVELOPER_CONTROLS_COMMAND_LINE_ARG );
+    }
+
+    public long getSimStartTimeMillis() {
+        return simStartTimeMillis;
     }
 
     public boolean isUpdatesEnabled() {

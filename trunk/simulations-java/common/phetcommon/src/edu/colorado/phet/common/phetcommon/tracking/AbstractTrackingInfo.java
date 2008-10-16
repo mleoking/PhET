@@ -1,5 +1,8 @@
 package edu.colorado.phet.common.phetcommon.tracking;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 
@@ -7,12 +10,14 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
-public class TrackingInfo {
-    private TrackingEntry[] entries;
+public class AbstractTrackingInfo {
+    private ArrayList entries=new ArrayList( );
+    private static final String TRACKING_INFO_VERSION = "0.00.01";
 
-    public TrackingInfo( PhetApplicationConfig config ) {
+    public AbstractTrackingInfo( PhetApplicationConfig config ) {
         initTimeZone();
-        entries = new TrackingEntry[]{
+        TrackingEntry[] entriesArray = new TrackingEntry[]{
+                new TrackingEntry( "tracker-version", TRACKING_INFO_VERSION ),
                 new TrackingEntry( "type", "sim-launched" ),
 
                 //Sim info first
@@ -35,9 +40,12 @@ public class TrackingInfo {
                 new TrackingEntry.SystemProperty( "user.timezone" ),
                 new TrackingEntry( "locale-default", Locale.getDefault().toString() ),
                 new TrackingEntry( PhetPreferences.KEY_PREFERENCES_FILE_CREATION_TIME, PhetPreferences.getInstance().getPreferencesFileCreatedAtMillis() + "" ),
+                new TrackingEntry( "sim-started-at", config.getSimStartTimeMillis() + "" ),
+                new TrackingEntry( "sim-startup-time", config.getElapsedStartupTime() + "" ),
 
-//                new TrackingEntry( "time", new SimpleDateFormat( "yyyy-MM-dd_HH:mm:ss" ).format( new Date() ) )
+                new TrackingEntry( "time", new SimpleDateFormat( "yyyy-MM-dd_HH:mm:ss" ).format( new Date() ) )
         };
+        entries.addAll( Arrays.asList( entriesArray ) );
     }
 
     private void initTimeZone() {
@@ -47,22 +55,30 @@ public class TrackingInfo {
 
     public String toPHP() {
         String php = "";
-        for ( int i = 0; i < entries.length; i++ ) {
+        for ( int i = 0; i < getEntryCount(); i++ ) {
             if ( i > 0 ) {
                 php += "&";
             }
-            php += entries[i].toPHP();
+            php += getEntry( i ).toPHP();
         }
         return php;
     }
 
+    private TrackingEntry getEntry( int i ) {
+        return (TrackingEntry) entries.get( i );
+    }
+
+    public int getEntryCount() {
+        return entries.size();
+    }
+
     public String toHumanReadable() {
         String text = "";
-        for ( int i = 0; i < entries.length; i++ ) {
+        for ( int i = 0; i < getEntryCount(); i++ ) {
             if ( i > 0 ) {
                 text += "\n";
             }
-            text += entries[i].toHumanReadable();
+            text += getEntry( i ).toHumanReadable();
         }
         return text;
     }

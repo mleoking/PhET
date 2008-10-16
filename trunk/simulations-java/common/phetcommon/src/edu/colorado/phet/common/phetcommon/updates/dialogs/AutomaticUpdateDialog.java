@@ -13,6 +13,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.preferences.*;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
@@ -50,7 +51,7 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
             final String project, final String sim, final String simName, 
             final PhetVersion currentVersion, final PhetVersion newVersion,
             final ITrackingInfo trackingInfo, final IManualUpdateChecker iManuallyCheckForUpdates, 
-            final PhetApplicationConfig config, 
+            final ISimInfo config, 
             final IUpdateTimer updateTimer, final IVersionSkipper versionSkipper ) {
         super( owner, TITLE );
         setResizable( false );
