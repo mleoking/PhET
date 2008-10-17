@@ -12,7 +12,6 @@ import java.awt.event.MouseEvent;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.preferences.*;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
@@ -37,7 +36,7 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
         this( application.getPhetFrame(), 
               application.getPhetApplicationConfig().getProjectName(),
               application.getPhetApplicationConfig().getFlavor(),
-              application.getPhetApplicationConfig().getTitle(),
+              application.getPhetApplicationConfig().getName(),
               application.getPhetApplicationConfig().getVersion(),
               newVersion,
               application.getPhetApplicationConfig(),

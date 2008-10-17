@@ -139,7 +139,7 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo, ISimInfo
      *
      * @return name
      */
-    public String getTitle() {
+    public String getName() {
         return resourceLoader.getName( flavor );
     }
 
@@ -204,7 +204,7 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo, ISimInfo
                     getLookAndFeel().initLookAndFeel();
                     if ( applicationConstructor != null ) {
 
-                        showSplashWindow( getTitle() );
+                        showSplashWindow( getName() );
                         PhetApplication app = applicationConstructor.getApplication( PhetApplicationConfig.this );
                         app.startApplication();
                         disposeSplashWindow();

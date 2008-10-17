@@ -2,7 +2,6 @@ package edu.colorado.phet.common.phetcommon.updates;
 
 import java.awt.*;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 
 /**
@@ -10,6 +9,6 @@ import edu.colorado.phet.common.phetcommon.application.ISimInfo;
  */
 public class ApplicationConfigManualCheckForUpdates extends DefaultManualCheckForUpdates {
     public ApplicationConfigManualCheckForUpdates( Frame frame, ISimInfo phetApplicationConfig ) {
-        super( frame, phetApplicationConfig.getProjectName(), phetApplicationConfig.getFlavor(), phetApplicationConfig.getVersion(), phetApplicationConfig.getTitle() );
+        super( frame, phetApplicationConfig.getProjectName(), phetApplicationConfig.getFlavor(), phetApplicationConfig.getVersion(), phetApplicationConfig.getName() );
     }
 }

@@ -4,7 +4,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.preferences.ITrackingInfo;
 
 public interface ISimInfo extends ITrackingInfo {
-    String getTitle();
+    String getName();
     String getDescription();
     PhetVersion getVersion();
     String getCredits();

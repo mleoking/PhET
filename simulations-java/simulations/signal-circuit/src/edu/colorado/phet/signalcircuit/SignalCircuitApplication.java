@@ -27,7 +27,7 @@ public class SignalCircuitApplication extends PiccoloPhetApplication {
     private class SignalCircuitModule extends Module {
 
         public SignalCircuitModule( PhetApplicationConfig config ) {
-            super( config.getTitle(), new ConstantDtClock( 22, 0.0216) );
+            super( config.getName(), new ConstantDtClock( 22, 0.0216) );
             SignalCircuitSimulationPanel simulationPanel = new SignalCircuitSimulationPanel( getClock() );
             setSimulationPanel( simulationPanel );
             setClockControlPanel( null );

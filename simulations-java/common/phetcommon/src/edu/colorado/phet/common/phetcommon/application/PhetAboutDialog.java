@@ -87,7 +87,7 @@ public class PhetAboutDialog extends JDialog {
         super( owner );
         setResizable( false );
 
-        titleString = config.getTitle();
+        titleString = config.getName();
         descriptionString = config.getDescription();
         if (descriptionString==null){
             new Exception("Null description string, continuing").printStackTrace(  );

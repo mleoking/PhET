@@ -30,7 +30,7 @@ public class ElectricHockeyApplication extends PhetApplication {
 
     private class ElectricHockeyModule extends Module {
         public ElectricHockeyModule( PhetApplicationConfig config ) {
-            super( config.getTitle(), new ConstantDtClock( 30, 1 ) );
+            super( config.getName(), new ConstantDtClock( 30, 1 ) );
             ElectricHockeySimulationPanel balloonsSimulationPanel = new ElectricHockeySimulationPanel();
             balloonsSimulationPanel.init();
             setSimulationPanel( balloonsSimulationPanel );
