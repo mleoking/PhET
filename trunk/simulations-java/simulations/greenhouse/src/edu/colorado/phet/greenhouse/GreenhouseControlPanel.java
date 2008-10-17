@@ -24,8 +24,8 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.greenhouse.coreadditions.ModelViewTx1D;
-import edu.colorado.phet.greenhouse.phetcommon.view.util.GraphicsUtil;
 import edu.colorado.phet.greenhouse.phetcommon.view.util.graphics.ImageLoader;
 
 
@@ -529,9 +529,9 @@ public class GreenhouseControlPanel extends JPanel {
             slider.setPaintLabels( true );
             int rowIdx = 0;
             try {
-                GraphicsUtil.addGridBagComponent( this, new JLabel( title ), 0, rowIdx++, 1, 1,
+                SwingUtils.addGridBagComponent( this, new JLabel( title ), 0, rowIdx++, 1, 1,
                                                   GridBagConstraints.NONE, GridBagConstraints.CENTER );
-                GraphicsUtil.addGridBagComponent( this, slider, 0, rowIdx++, 1, 1,
+                SwingUtils.addGridBagComponent( this, slider, 0, rowIdx++, 1, 1,
                                                   GridBagConstraints.NONE, GridBagConstraints.CENTER );
             }
             catch( AWTException e ) {
@@ -639,11 +639,11 @@ public class GreenhouseControlPanel extends JPanel {
 
             int rowIdx = 0;
             try {
-                GraphicsUtil.addGridBagComponent( this, new JLabel( title ), 0, rowIdx++, 1, 1,
+                SwingUtils.addGridBagComponent( this, new JLabel( title ), 0, rowIdx++, 1, 1,
                                                   GridBagConstraints.NONE, GridBagConstraints.CENTER );
-                GraphicsUtil.addGridBagComponent( this, slider, 0, rowIdx++, 1, 1,
+                SwingUtils.addGridBagComponent( this, slider, 0, rowIdx++, 1, 1,
                                                   GridBagConstraints.NONE, GridBagConstraints.CENTER );
-                GraphicsUtil.addGridBagComponent( this, modelValueTF, 0, rowIdx++, 1, 1,
+                SwingUtils.addGridBagComponent( this, modelValueTF, 0, rowIdx++, 1, 1,
                                                   GridBagConstraints.NONE, GridBagConstraints.CENTER );
             }
             catch( AWTException e ) {
