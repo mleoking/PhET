@@ -169,30 +169,30 @@ public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
     }
 
     // Attempt to get things to draw properly by delaying this to the end of the Swing thread cycle.
-    private class Drawer implements Runnable {
-        private Graphics2D g2;
-        private BufferedImage background;
-        private Shape var;
-        private BufferedImage body;
-        private AffineTransform tx;
-        private ImageObserver io;
-
-        Drawer( Graphics2D g2, BufferedImage background, Shape var, BufferedImage body, AffineTransform tx, ImageObserver io ) {
-
-            this.g2 = g2;
-            this.background = background;
-            this.var = var;
-            this.body = body;
-            this.tx = tx;
-            this.io = io;
-        }
-
-        public void run() {
-            g2.drawImage( background, tx, io );
-            g2.fill( tx.createTransformedShape( var ) );
-            g2.drawImage( body, tx, io );
-        }
-    }
+//    private class Drawer implements Runnable {
+//        private Graphics2D g2;
+//        private BufferedImage background;
+//        private Shape var;
+//        private BufferedImage body;
+//        private AffineTransform tx;
+//        private ImageObserver io;
+//
+//        Drawer( Graphics2D g2, BufferedImage background, Shape var, BufferedImage body, AffineTransform tx, ImageObserver io ) {
+//
+//            this.g2 = g2;
+//            this.background = background;
+//            this.var = var;
+//            this.body = body;
+//            this.tx = tx;
+//            this.io = io;
+//        }
+//
+//        public void run() {
+//            g2.drawImage( background, tx, io );
+//            g2.fill( tx.createTransformedShape( var ) );
+//            g2.drawImage( body, tx, io );
+//        }
+//    }
 
     public void update( Observable o, Object arg ) {
         if ( o instanceof Thermometer ) {

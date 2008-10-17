@@ -38,8 +38,6 @@ public class GreenhouseControlPanel extends JPanel {
     //    private static Color todayColor = new Color( 60, 200, 255 );
     private static Color todayColor = new Color( 11, 142, 0 );
     //    private static Color todayColor = Color.yellow;
-    private static Color venusColor = Color.cyan;
-    private static Color panelBackground = new Color( 110, 110, 110 );
     private static Color panelForeground = Color.black;
 //    private static Color panelForeground = Color.white;
 

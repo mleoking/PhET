@@ -27,10 +27,10 @@ public class ApplicationView {
 
     private BasicPhetPanel basicPhetPanel;
 //    private ApparatusPanelContainerFactory containerStrategy;
-    private PhetApplication application;
+//    private PhetApplication application;
 
     public ApplicationView( PhetApplication application ) {
-        this.application = application;
+//        this.application = application;
 //        ApparatusPanelContainer appPnlContainer;
         appPnlContainer = application.getContainerStrategy().createApparatusPanelContainer( application.getModuleManager() );
         controlPanel = new ApplicationModelControlPanel( application.getApplicationModel() );

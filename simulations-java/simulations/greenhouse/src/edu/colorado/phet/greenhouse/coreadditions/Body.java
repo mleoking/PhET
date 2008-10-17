@@ -116,8 +116,8 @@ public abstract class Body extends ModelElement {
         setLocation( xNew, yNew );
 
         // velocity prime
-        double vxPrime = velocity.getX() + dt * acceleration.getX();
-        double vyPrime = velocity.getY() + dt * acceleration.getY();
+//        double vxPrime = velocity.getX() + dt * acceleration.getX();
+//        double vyPrime = velocity.getY() + dt * acceleration.getY();
 
         // New acceleration
 

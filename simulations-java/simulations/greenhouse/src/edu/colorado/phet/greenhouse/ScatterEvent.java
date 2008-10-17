@@ -13,7 +13,6 @@ import edu.colorado.phet.greenhouse.phetcommon.model.ModelElement;
 public class ScatterEvent extends ModelElement {
     Point2D.Double location;
     private double radius;
-    private double radiusShrinkSpeed = .1;
     private BaseGreenhouseModule module;
 
     public ScatterEvent( Photon photon, BaseGreenhouseModule module ) {

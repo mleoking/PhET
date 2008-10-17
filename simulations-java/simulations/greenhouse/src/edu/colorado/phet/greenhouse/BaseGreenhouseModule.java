@@ -16,7 +16,6 @@ import java.util.Iterator;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
-import edu.colorado.phet.greenhouse.filter.BandpassFilter;
 import edu.colorado.phet.greenhouse.filter.Filter1D;
 import edu.colorado.phet.greenhouse.instrumentation.Thermometer;
 import edu.colorado.phet.greenhouse.instrumentation.ThermometerGraphic;
@@ -310,9 +309,7 @@ public abstract class BaseGreenhouseModule extends Module {
      */
     protected class PhotonAbsorberListener implements PhotonAbsorber.Listener {
         public void photonAbsorbed( Photon photon ) {
-            Filter1D irPassFilter = new BandpassFilter( 800E-9, 1500E-9 );
             PhotonGraphic photonView = (PhotonGraphic) photonToGraphicsMap.get( photon );
-//            getApparatusPanel().removeGraphic( photonView );
             drawingCanvas.removeGraphic( photonView );
             photonToGraphicsMap.remove( photon );
         }

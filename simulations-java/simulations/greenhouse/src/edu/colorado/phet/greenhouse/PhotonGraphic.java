@@ -6,20 +6,17 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.greenhouse.coreadditions.graphics.BufferedImageUtils;
-import edu.colorado.phet.greenhouse.coreadditions.graphics.DuotoneImageOp;
 import edu.colorado.phet.greenhouse.coreadditions.graphics.ImageGraphic;
 import edu.colorado.phet.greenhouse.phetcommon.view.CompositeGraphic;
 
@@ -29,10 +26,6 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
     // Class fields and methods
     //----------------------------------------------------------------
 
-    private static final String IMAGE_PATH = "greenhouse/images/photon-comet.png";
-    private static final String IMAGE_PATH_RED = "greenhouse/images/photon-660.png";
-
-    private static final String IMAGE_PATH_YELLOW = "greenhouse/images/thin2.png";
     private static BufferedImage baseImage;
     private static HashMap colorLUT = new HashMap();
 
@@ -42,15 +35,10 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
 
     // get the base image
     static {
-        try {
-            baseImage = ImageLoader.loadBufferedImage( IMAGE_PATH );
-            double photonScale = 0.8 * 0.7;
-            redImage = BufferedImageUtils.rescaleFractional( ImageLoader.loadBufferedImage( IMAGE_PATH_RED ), photonScale, photonScale );
-            yellowImage = BufferedImageUtils.rescaleFractional( ImageLoader.loadBufferedImage( IMAGE_PATH_YELLOW ), photonScale, photonScale );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        baseImage = GreenhouseResources.getImage( "photon-comet.png" );
+        double photonScale = 0.8 * 0.7;
+        redImage = BufferedImageUtils.rescaleFractional( GreenhouseResources.getImage( "photon-660.png" ), photonScale, photonScale );
+        yellowImage = BufferedImageUtils.rescaleFractional( GreenhouseResources.getImage( "thin2.png" ), photonScale, photonScale );
         AffineTransform scaleTx = AffineTransform.getScaleInstance( 0.4, 0.4 );
         AffineTransformOp scaleOp = new AffineTransformOp( scaleTx, AffineTransformOp.TYPE_BILINEAR );
         baseImage = scaleOp.filter( baseImage, null );
@@ -63,15 +51,7 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
         colorLUT.put( new Double( GreenhouseConfig.debug_wavelength ), Color.green );
     }
 
-    private static Color genColor( double wavelength ) {
-        return (Color) colorLUT.get( new Double( wavelength ) );
-    }
-
     // A cache for phton graphic
-
-    private static AffineTransform scaleTx = new AffineTransform();
-    private static boolean init;
-    private static Rectangle2D origBounds;
 
     //----------------------------------------------------------------
     // Instance fields and methods
@@ -85,7 +65,6 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
     private static boolean scaleChanged = false;
 
     public PhotonGraphic( Photon photon ) {
-        DuotoneImageOp duotoneImageOp = new DuotoneImageOp( genColor( photon.getWavelength() ) );
         this.photon = photon;
         photon.addObserver( this );
         isVisible = true;
