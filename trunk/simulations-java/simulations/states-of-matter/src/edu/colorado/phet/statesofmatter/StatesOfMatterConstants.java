@@ -80,7 +80,10 @@ public class StatesOfMatterConstants {
     //----------------------------------------------------------------------------
     // Simulation Control
     //----------------------------------------------------------------------------
-    
+
+    // Maximum number of atoms that can be simulated.
+    public static final int    MAX_NUM_ATOMS = 500;
+
     // Dimensions of the container in which the particles will reside, in picometers.
     public static double PARTICLE_CONTAINER_WIDTH = 10000;
     public static double PARTICLE_CONTAINER_INITIAL_HEIGHT = PARTICLE_CONTAINER_WIDTH * 1.00;
@@ -134,7 +137,7 @@ public class StatesOfMatterConstants {
     public static final double MIN_SIGMA = 75;       // In picometers.
     public static final double MAX_EPSILON = 220;    // Epsilon/k-Boltzmann is in Kelvin.
     public static final double MIN_EPSILON = 30;     // Epsilon/k-Boltzmann is in Kelvin.
-
+    
     //----------------------------------------------------------------------------
     // Physical Constants
     //----------------------------------------------------------------------------

@@ -15,7 +15,10 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
+import edu.colorado.phet.statesofmatter.model.engine.AtomPositionUpdater;
 import edu.colorado.phet.statesofmatter.model.engine.EngineFacade;
+import edu.colorado.phet.statesofmatter.model.engine.MoleculeForceAndMotionCalculator;
+import edu.colorado.phet.statesofmatter.model.engine.PhaseStateChanger;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyAdjuster;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyCapper;
 import edu.colorado.phet.statesofmatter.model.particle.ArgonAtom;
@@ -27,11 +30,21 @@ import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 
 /**
  * This is the main class for the model portion of the "States of Matter"
- * simulation.
+ * simulation.  It maintains a set of data that represents a normalized model
+ * in which all atoms are assumed to have a diameter of 1, since this allows
+ * for very quick calculations, and also a set of data for particles that have
+ * the actual diameter of the particles being simulated (e.g. Argon).
+ * Throughout the comments and in the variable naming, I've tried to use the
+ * terminology of "molecule data set" for the former and "model data set" for
+ * the latter.  When the simulation is running, the molecule data set is
+ * updated first, since that is where the hardcore calculations are performed,
+ * and then the model data set is synchronized with the molecule data.  It is
+ * the model data set that is monitored by the view components that actually
+ * displays the molecule positions to the user. 
  *
  * @author John Blanco
  */
-public class MultipleParticleModel {
+public class MultipleParticleModel2 {
     
 	//----------------------------------------------------------------------------
     // Class Data
@@ -56,12 +69,9 @@ public class MultipleParticleModel {
     public static final double  MAX_GRAVITATIONAL_ACCEL = 0.4;
     private static final double MAX_TEMPERATURE_CHANGE_PER_ADJUSTMENT = 0.025;
     private static final int    TICKS_PER_TEMP_ADJUSTEMENT = 10;
-    private static final int    MAX_NUM_ATOMS = 500;
     private static final double MIN_INJECTED_MOLECULE_VELOCITY = 0.5;
     private static final double MAX_INJECTED_MOLECULE_VELOCITY = 2.0;
     private static final double MAX_INJECTED_MOLECULE_ANGLE = Math.PI * 0.8;
-    private static final double INJECTION_POINT_HORIZ_PROPORTION = 0.95;
-    private static final double INJECTION_POINT_VERT_PROPORTION = 0.5;
     private static final int    MAX_PLACEMENT_ATTEMPTS = 500; // For random placement when creating gas or liquid.
     private static final double SAFE_INTER_MOLECULE_DISTANCE = 2.0;
     private static final double PRESSURE_DECAY_CALCULATION_WEIGHTING = 0.999;
@@ -76,7 +86,9 @@ public class MultipleParticleModel {
     private static final double GAS_TEMPERATURE = 1.0;
     private static final double MIN_INITIAL_INTER_PARTICLE_DISTANCE = 1.2;
     private static final double MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE = 2.5;
-    
+    private static final double INJECTION_POINT_HORIZ_PROPORTION = 0.95;
+    private static final double INJECTION_POINT_VERT_PROPORTION = 0.5;
+	
     // Possible thermostat settings.
     public static final int NO_THERMOSTAT = 0;
     public static final int ISOKINETIC_THERMOSTAT = 1;
@@ -131,6 +143,13 @@ public class MultipleParticleModel {
     // Instance Data
     //----------------------------------------------------------------------------
     
+    // Strategy patterns that are applied to the data set in order to create
+    // the overall behavior of the simulation.
+    private AtomPositionUpdater m_atomPositionUpdater;
+    private MoleculeForceAndMotionCalculator m_moleculeForceAndMotionCalculator;
+    private PhaseStateChanger m_phaseStateChanger;
+    
+    // Attributes of the container and simulation as a whole.
     private double m_particleContainerHeight;
     private double m_targetContainerHeight;
     private double m_minAllowableContainerHeight;
@@ -141,30 +160,8 @@ public class MultipleParticleModel {
     IClock m_clock;
     private ArrayList _listeners = new ArrayList();
     
-    // TODO: JPB TBD - These variables are here as a result of the first attempt
-    // to integrate Paul Beale's IDL implementation of the Verlet algorithm.
-    // Eventually some or all of them will be refactored to other objects.
-    private Point2D [] m_atomPositions;
-    private int m_numberOfAtoms;
-    private int m_numberOfSafeAtoms;
-    private int m_atomsPerMolecule;
-    
-    // JPB TBD - Important note to myself about refactoring: I think I can
-    // consolidate a lot of the molecular arrays with the atomic arrays, like
-    // the ones for the forces, and generalize them such that they are used
-    // when the molecule and atom are the same thing.
-    private Point2D [] m_moleculeCenterOfMassPositions;
-    private Vector2D [] m_moleculeVelocities;
-    private Vector2D [] m_moleculeForces;
-    private Vector2D [] m_nextMoleculeForces;
-    private double [] m_moleculeRotationAngles;
-    private double [] m_moleculeRotationRates;
-    private double [] m_moleculeTorques;
-    private double [] m_nextMoleculeTorques;
-    private double m_moleculeMass;
-    private double m_moleculeRotationalInertia;
-    double [] m_x0 = new double [3];
-    double [] m_y0 = new double [3];
+    // Data set containing the atom and molecule position, motion, and force information.
+    private MoleculeForceAndMotionDataSet m_moleculeDataSet;
 
     private double  m_normalizedContainerWidth;
     private double  m_normalizedContainerHeight;
@@ -185,7 +182,7 @@ public class MultipleParticleModel {
     // Constructor
     //----------------------------------------------------------------------------
     
-    public MultipleParticleModel(IClock clock) {
+    public MultipleParticleModel2(IClock clock) {
         
         m_clock = clock;
         m_heightChangeCounter = 0;
@@ -220,7 +217,7 @@ public class MultipleParticleModel {
     }
 
     public int getNumMolecules() {
-        return m_particles.size() / m_atomsPerMolecule;
+        return m_particles.size() / m_moleculeDataSet.getAtomsPerMolecule();
     }
 
     public StatesOfMatterAtom getParticle(int i) {
@@ -308,7 +305,7 @@ public class MultipleParticleModel {
      * @return
      */
     public double getModelPressure(){
-        return m_pressure;
+        return m_moleculeForceAndMotionCalculator.getPressure();
     }
     
     public int getMoleculeType(){
@@ -340,20 +337,21 @@ public class MultipleParticleModel {
         m_currentMolecule = moleculeID;
         
         // Set the model parameters that are dependent upon the model type.
+        int atomsPerMolecule;
         switch (m_currentMolecule){
         case StatesOfMatterConstants.DIATOMIC_OXYGEN:
             m_particleDiameter = OxygenAtom.RADIUS * 2;
-            m_atomsPerMolecule = 2;
+            atomsPerMolecule = 2;
             m_minModelTemperature = 0.5 * TRIPLE_POINT_MODEL_TEMPERATURE / O2_TRIPLE_POINT_IN_KELVIN;
             break;
         case StatesOfMatterConstants.NEON:
             m_particleDiameter = NeonAtom.RADIUS * 2;
-            m_atomsPerMolecule = 1;
+            atomsPerMolecule = 1;
             m_minModelTemperature = 0.5 * TRIPLE_POINT_MODEL_TEMPERATURE / NEON_TRIPLE_POINT_IN_KELVIN;
             break;
         case StatesOfMatterConstants.ARGON:
             m_particleDiameter = ArgonAtom.RADIUS * 2;
-            m_atomsPerMolecule = 1;
+            atomsPerMolecule = 1;
             m_minModelTemperature = 0.5 * TRIPLE_POINT_MODEL_TEMPERATURE / ARGON_TRIPLE_POINT_IN_KELVIN;
             break;
         case StatesOfMatterConstants.WATER:
@@ -362,12 +360,18 @@ public class MultipleParticleModel {
             // users can see the crystal structure better, and so that the
             // solid form will look larger (since water expands when frozen).
             m_particleDiameter = OxygenAtom.RADIUS * 2.9;
-            m_atomsPerMolecule = 3;
+            atomsPerMolecule = 3;
             m_minModelTemperature = 0.5 * TRIPLE_POINT_MODEL_TEMPERATURE / WATER_TRIPLE_POINT_IN_KELVIN;
             break;
+        default:
+        	assert false; // Should never happen, so it should be debugged if it does.
+        	atomsPerMolecule = 1;
         }
 
-        // This causes a reset and puts the particles into predetermined
+        // Create the data set that will represent the motion and forces for the molecules.
+        m_moleculeDataSet = new MoleculeForceAndMotionDataSet( atomsPerMolecule );
+        
+        // Initiate a reset in order to get the particles into predetermined
         // locations and energy levels.
         reset();
         
@@ -574,8 +578,8 @@ public class MultipleParticleModel {
      * number of particles.
      */
     private void calculateMinAllowableContainerHeight() {
-        m_minAllowableContainerHeight = m_particleDiameter * m_particleDiameter * m_numberOfAtoms / m_atomsPerMolecule / 
-                StatesOfMatterConstants.PARTICLE_CONTAINER_WIDTH * 2;
+        m_minAllowableContainerHeight = m_particleDiameter * m_particleDiameter * 
+            m_moleculeDataSet.getNumberOfMolecules() / StatesOfMatterConstants.PARTICLE_CONTAINER_WIDTH * 2;
     }
     
     
@@ -585,7 +589,10 @@ public class MultipleParticleModel {
      * @param state
      */
     public void setPhase(int state){
-        
+    	
+    	// TODO: JPB TBD - This routine is stubbed while refactoring happens, and will be filled in as part of it.
+
+    	/*
         switch (state){
         case PHASE_SOLID:
             if (m_atomsPerMolecule == 1){
@@ -623,6 +630,7 @@ public class MultipleParticleModel {
             solidifyMonatomicMolecules();
             break;
         }
+        */
     }
     
     /**
@@ -644,12 +652,12 @@ public class MultipleParticleModel {
     public void injectMolecule(){
         
         double injectionPointX = StatesOfMatterConstants.CONTAINER_BOUNDS.width / m_particleDiameter * 
-                INJECTION_POINT_HORIZ_PROPORTION;
+        	INJECTION_POINT_HORIZ_PROPORTION;
         double injectionPointY = StatesOfMatterConstants.CONTAINER_BOUNDS.height / m_particleDiameter *
-                INJECTION_POINT_VERT_PROPORTION;
+        	INJECTION_POINT_VERT_PROPORTION;
 
         // Make sure that it is okay to inject a new molecule.
-        if (( m_numberOfAtoms + m_atomsPerMolecule <= MAX_NUM_ATOMS ) &&
+        if (( m_moleculeDataSet.getNumberOfRemainingSlots() > 1 ) &&
             ( m_normalizedContainerHeight > injectionPointY * 1.05) &&
             (!m_lidBlownOff)){
 
@@ -658,16 +666,32 @@ public class MultipleParticleModel {
                     (MAX_INJECTED_MOLECULE_VELOCITY - MIN_INJECTED_MOLECULE_VELOCITY));
             double xVel = Math.cos( angle ) * velocity;
             double yVel = Math.sin( angle ) * velocity;
-            if (m_atomsPerMolecule == 1){
-                // Add atom and its velocity and forces to normalized set.
-                m_atomPositions[m_numberOfAtoms] = 
-                    new Point2D.Double( injectionPointX, injectionPointY );
-                m_moleculeVelocities[m_numberOfAtoms] = new Vector2D.Double( xVel, yVel );
-                m_moleculeForces[m_numberOfAtoms] = new Vector2D.Double();
-                m_nextMoleculeForces[m_numberOfAtoms] = new Vector2D.Double();
-                m_numberOfAtoms++;
+            int atomsPerMolecule = m_moleculeDataSet.getAtomsPerMolecule();
+        	Point2D moleculeCenterOfMassPosition = new Point2D.Double();
+        	Vector2D.Double moleculeVelocity = new Vector2D.Double( xVel, yVel );
+        	double moleculeRotationRate = 0;
+        	Point2D [] atomPositions = new Point2D[atomsPerMolecule];
+        	for (int i = 0; i < atomsPerMolecule; i++){
+        		atomPositions[i] = new Point2D.Double();
+        	}
+
+        	// Create the attributes of the molecule.
+            moleculeCenterOfMassPosition = new Point2D.Double( injectionPointX, injectionPointY );
+            moleculeVelocity = new Vector2D.Double( xVel, yVel );
+            moleculeRotationRate = (m_rand.nextDouble() - 0.5) * (Math.PI / 2);
+            
+            // Position the atom positions.
+            m_atomPositionUpdater.updateAtomPositions();
+
+            // Add the newly created molecule to the data set.
+        	m_moleculeDataSet.addMolecule(atomPositions, atomPositions[0], moleculeVelocity, moleculeRotationRate);
+        	
+            if (m_moleculeDataSet.getAtomsPerMolecule() == 1){
                 
                 // Add particle to model set.
+            	// TODO: JPB TBD - Consider making this part of the process of syncing particles, i.e. if the
+            	// number of particles in the data set don't match those in the model set, just add or delete
+            	// the appropriate number to/from the model set.
                 StatesOfMatterAtom particle;
                 switch (m_currentMolecule){
                 case StatesOfMatterConstants.ARGON:
@@ -684,33 +708,20 @@ public class MultipleParticleModel {
                 syncParticlePositions();
                 notifyParticleAdded( particle );
             }
-            else if (m_atomsPerMolecule == 2){
+            else if (m_moleculeDataSet.getAtomsPerMolecule() == 2){
 
                 assert m_currentMolecule == StatesOfMatterConstants.DIATOMIC_OXYGEN;
                 
                 // Add particles to model set.
-                for (int i = 0; i < m_atomsPerMolecule; i++){
+                for (int i = 0; i < atomsPerMolecule; i++){
                     StatesOfMatterAtom atom;
                     atom = new OxygenAtom(0, 0);
                     m_particles.add( atom );
                     notifyParticleAdded( atom );
-                    m_atomPositions[m_numberOfAtoms + i] = new Point2D.Double(); 
+                    atomPositions[i] = new Point2D.Double(); 
                 }
-                
-                m_numberOfAtoms += 2;
-                int numberOfMolecules = m_numberOfAtoms / 2;
-                
-                m_moleculeCenterOfMassPositions[numberOfMolecules - 1] = 
-                    new Point2D.Double( injectionPointX, injectionPointY );
-                m_moleculeVelocities[numberOfMolecules - 1] = new Vector2D.Double( xVel, yVel );
-                m_moleculeForces[numberOfMolecules - 1] = new Vector2D.Double();
-                m_nextMoleculeForces[numberOfMolecules - 1] = new Vector2D.Double();
-                m_moleculeRotationRates[numberOfMolecules - 1] = (m_rand.nextDouble() - 0.5) * (Math.PI / 2);
-                
-                updateDiatomicAtomPositions();
-                syncParticlePositions();
             }
-            else if (m_atomsPerMolecule == 3){
+            else if (atomsPerMolecule == 3){
 
                 assert m_currentMolecule == StatesOfMatterConstants.WATER;
                 
@@ -719,30 +730,21 @@ public class MultipleParticleModel {
                 atom = new OxygenAtom(0, 0);
                 m_particles.add( atom );
                 notifyParticleAdded( atom );
-                m_atomPositions[m_numberOfAtoms] = new Point2D.Double(); 
+                atomPositions[0] = new Point2D.Double(); 
                 atom = new HydrogenAtom(0, 0);
                 m_particles.add( atom );
                 notifyParticleAdded( atom );
-                m_atomPositions[m_numberOfAtoms + 1] = new Point2D.Double(); 
+                atomPositions[1] = new Point2D.Double(); 
                 atom = new HydrogenAtom(0, 0);
                 m_particles.add( atom );
                 notifyParticleAdded( atom );
-                m_atomPositions[m_numberOfAtoms + 2] = new Point2D.Double(); 
-                
-                m_numberOfAtoms += 3;
-                int numberOfMolecules = m_numberOfAtoms / 3;
-                
-                m_moleculeCenterOfMassPositions[numberOfMolecules - 1] = 
-                    new Point2D.Double( injectionPointX, injectionPointY );
-                m_moleculeVelocities[numberOfMolecules - 1] = new Vector2D.Double( xVel, yVel );
-                m_moleculeForces[numberOfMolecules - 1] = new Vector2D.Double();
-                m_nextMoleculeForces[numberOfMolecules - 1] = new Vector2D.Double();
-                
-                updateTriatomicAtomPositions();
-                syncParticlePositions();
+                atomPositions[2] = new Point2D.Double(); 
             }
+            
+            syncParticlePositions();
         }
-        
+
+        // Recalculate the minimum allowable container size, since it depends on the number of particles.
         calculateMinAllowableContainerHeight();
     }
     
@@ -765,6 +767,9 @@ public class MultipleParticleModel {
     // Private Methods
     //----------------------------------------------------------------------------
     
+    /**
+     * @param clockEvent
+     */
     private void handleClockTicked(ClockEvent clockEvent) {
         
         // Adjust the particle container height if needed.
@@ -812,27 +817,21 @@ public class MultipleParticleModel {
         }
         
         // Record the pressure to see if it changes.
-        double pressureBeforeVerlet = getModelPressure();
+        double pressureBeforeAlgorithm = getModelPressure();
 
-        // Execute the Verlet algorithm.  The algorithm may be run several times for each time step.
+        // Execute the Verlet algorithm.  The algorithm may be run several times
+        // for each time step.
         for (int i = 0; i < VERLET_CALCULATIONS_PER_CLOCK_TICK; i++ ){
-            if (m_atomsPerMolecule == 1){
-                verletMonatomic();
-            }
-            else if (m_atomsPerMolecule == 2){
-                verletDiatomic();
-            }
-            else if (m_atomsPerMolecule == 3){
-                verletTriatomic();
-            }
+        	m_moleculeForceAndMotionCalculator.updateForcesAndMotion();
         }
         
-        // Sync up the positions of the normalized particles with the
-        // particles being monitored by the view.
+        // Sync up the positions of the normalized particles (the molecule data
+        // set) with the particles being monitored by the view (the model data
+        // set);
         syncParticlePositions();
         
         // If the pressure changed, notify the listeners.
-        if ( getModelPressure() != pressureBeforeVerlet ){
+        if ( getModelPressure() != pressureBeforeAlgorithm ){
         	notifyPressureChanged();
         }
         
@@ -869,6 +868,7 @@ public class MultipleParticleModel {
         }
     }
     
+    // TODO: JPB TBD - At end of refactoring effort, evaluation whether it makes more sense to have initializer classes.
     /**
      * Initialize the various model components to handle a simulation in which
      * all the molecules are single atoms.
@@ -877,15 +877,14 @@ public class MultipleParticleModel {
      */
     private void initializeMonotomic(int moleculeID){
         
-        // TODO: JPB TBD - Decide whether to remove support for monatomic oxygen at some point.
         // Verify that a valid molecule ID was provided.
         assert (moleculeID == StatesOfMatterConstants.NEON) || 
-               (moleculeID == StatesOfMatterConstants.ARGON) || 
-               (moleculeID == StatesOfMatterConstants.MONATOMIC_OXYGEN);
+               (moleculeID == StatesOfMatterConstants.ARGON);
         
-        // Determine the number of molecules to create.  This will be a cube
+        // Determine the number of atoms/molecules to create.  This will be a cube
         // (really a square, since it's 2D, but you get the idea) that takes
-        // up a fixed amount of the bottom of the container.
+        // up a fixed amount of the bottom of the container, so the number of
+        // molecules that can fit depends on the size of the individual.
         double particleDiameter;
         if (moleculeID == StatesOfMatterConstants.NEON){
             particleDiameter = NeonAtom.RADIUS * 2;
@@ -902,25 +901,29 @@ public class MultipleParticleModel {
             particleDiameter = NeonAtom.RADIUS * 2;
         }
         
-        m_numberOfAtoms = (int)Math.pow( StatesOfMatterConstants.CONTAINER_BOUNDS.width / 
+        int numberOfAtoms = (int)Math.pow( StatesOfMatterConstants.CONTAINER_BOUNDS.width / 
                 (( particleDiameter + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL ) * 3), 2);
-        m_numberOfSafeAtoms = m_numberOfAtoms;
+        int numberOfSafeAtoms = numberOfAtoms;
         
-        // Initialize the vectors that define the normalized particle attributes.
-        m_atomPositions      = new Point2D [MAX_NUM_ATOMS];
-        m_moleculeVelocities = new Vector2D [MAX_NUM_ATOMS];
-        m_moleculeForces     = new Vector2D [MAX_NUM_ATOMS];
-        m_nextMoleculeForces = new Vector2D [MAX_NUM_ATOMS];
-        m_atomsPerMolecule = 1;
+        // Create the normalized data set for the one-atom-per-molecule case.
+        m_moleculeDataSet = new MoleculeForceAndMotionDataSet( 1 );
         
-        for (int i = 0; i < m_numberOfAtoms; i++){
+        // Create the strategies that will work on this data set.
+        // TODO: JPB TBD - Add all the strategy pattern creation here.
+        
+        // Create the individual atoms and add them to the data set.
+        for (int i = 0; i < numberOfAtoms; i++){
             
-            // Add particle and its velocity and forces to normalized set.
-            m_atomPositions[i]      = new Point2D.Double();
-            m_moleculeVelocities[i] = new Vector2D.Double();
-            m_moleculeForces[i]     = new Vector2D.Double();
-            m_nextMoleculeForces[i] = new Vector2D.Double();
-            
+            // Create the atom.
+        	Point2D moleculeCenterOfMassPosition = new Point2D.Double();
+        	Vector2D.Double moleculeVelocity = new Vector2D.Double();
+        	Point2D [] atomPositions = new Point2D[1];
+    		atomPositions[0] = new Point2D.Double();
+    		
+    		// Add the atom to the data set.
+    		m_moleculeDataSet.addMolecule(atomPositions, moleculeCenterOfMassPosition, moleculeVelocity, 0);
+    		m_atomPositionUpdater.updateAtomPositions();
+
             // Add particle to model set.
             StatesOfMatterAtom atom;
             if (moleculeID == StatesOfMatterConstants.NEON){
@@ -937,7 +940,7 @@ public class MultipleParticleModel {
         }
         
         // Initialize the particle positions.
-        solidifyMonatomicMolecules();
+        m_phaseStateChanger.setPhase( PhaseStateChanger.PHASE_SOLID );
         syncParticlePositions();
     }
 
@@ -951,6 +954,9 @@ public class MultipleParticleModel {
         
         // Verify that a valid molecule ID was provided.
         assert (moleculeID == StatesOfMatterConstants.DIATOMIC_OXYGEN);
+        
+        /*
+         * TODO: JPB TBD - Commented out for this portion of the refactoring effort.
         
         // Determine the number of molecules to create.  This will be a cube
         // (really a square, since it's 2D, but you get the idea) that takes
@@ -1020,6 +1026,7 @@ public class MultipleParticleModel {
         // Initialize the particle positions.
         solidifyDiatomicMolecules();
         syncParticlePositions();
+         */
     }
 
     /**
@@ -1032,7 +1039,10 @@ public class MultipleParticleModel {
         
         // Verify that a valid molecule ID was provided.
         assert (moleculeID == StatesOfMatterConstants.WATER); // Only water is supported so far.
-        
+
+        /*
+         * TODO: JPB TBD - Commented out for this portion of the refactoring effort.
+
         // Determine the number of molecules to create.  This will be a cube
         // (really a square, since it's 2D, but you get the idea) that takes
         // up a fixed amount of the bottom of the container.
@@ -1126,6 +1136,8 @@ public class MultipleParticleModel {
         // Initialize the particle positions.
         solidifyTriatomicMolecules();
         syncParticlePositions();
+        
+        */
     }
     
     private void notifyResetOccurred(){
@@ -1192,6 +1204,10 @@ public class MultipleParticleModel {
      * them velocity equivalent to that of a gas.
      */
     private void gasifyMonatomicMolecules(){
+    	
+        /*
+         * TODO: JPB TBD - This functionality should be moved into the PhaseStateChanger objects.
+    	
         setTemperature( GAS_TEMPERATURE );
         Random rand = new Random();
         double temperatureSqrt = Math.sqrt( m_temperatureSetPoint );
@@ -1235,6 +1251,7 @@ public class MultipleParticleModel {
             }
         }
         syncParticlePositions();
+        */
     }
     
     /**
@@ -1243,6 +1260,9 @@ public class MultipleParticleModel {
      */
     private void gasifyMultiAtomicMolecules(){
         
+        /*
+         * TODO: JPB TBD - This functionality should be moved into the PhaseStateChanger objects.
+
         setTemperature( GAS_TEMPERATURE );
         Random rand = new Random();
         double temperatureSqrt = Math.sqrt( m_temperatureSetPoint );
@@ -1309,6 +1329,8 @@ public class MultipleParticleModel {
         
         // Sync up with the model-view interaction particles.
         syncParticlePositions();
+        
+        */
     }
 
     /**
@@ -1316,7 +1338,11 @@ public class MultipleParticleModel {
      */
     private void liquifyMonatomicMolecules(){
         
-        setTemperature( LIQUID_TEMPERATURE );
+        /*
+         * TODO: JPB TBD - This functionality should be moved into the PhaseStateChanger objects.
+
+    	
+    	setTemperature( LIQUID_TEMPERATURE );
         double temperatureSqrt = Math.sqrt( m_temperatureSetPoint );
         
         // Set the initial velocity for each of the atoms based on the new
@@ -1376,6 +1402,8 @@ public class MultipleParticleModel {
         // Synchronize the normalized particles with the particles monitored
         // by the model.
         syncParticlePositions();
+        
+        */
     }
 
     /**
@@ -1384,7 +1412,10 @@ public class MultipleParticleModel {
      * a blob.  This method works for di- and tri-atomic molecules.
      */
     private void liquifyMultiAtomicMolecules(){
-        
+     
+        /*
+         * TODO: JPB TBD - This functionality should be moved into the PhaseStateChanger objects.
+
         setTemperature( LIQUID_TEMPERATURE );
         double temperatureSqrt = Math.sqrt( m_temperatureSetPoint );
         int numberOfMolecules = m_numberOfAtoms / m_atomsPerMolecule;
@@ -1473,6 +1504,8 @@ public class MultipleParticleModel {
         // Synchronize the normalized particles with the particles monitored
         // by the model.
         syncParticlePositions();
+        
+        */
     }
 
     /**
@@ -1481,6 +1514,9 @@ public class MultipleParticleModel {
      * of 1.0 for the diameter of the particles.
      */
     private void solidifyMonatomicMolecules(){
+
+        /*
+         * TODO: JPB TBD - This functionality should be moved into the PhaseStateChanger objects.
 
         setTemperature( SOLID_TEMPERATURE );
         Random rand = new Random();
@@ -1513,6 +1549,8 @@ public class MultipleParticleModel {
                         temperatureSqrt * rand.nextGaussian() );
             }
         }
+        
+        */
     }
     
     /**
@@ -1520,6 +1558,9 @@ public class MultipleParticleModel {
      * such as diatomic oxygen (i.e. O2).
      */
     private void solidifyDiatomicMolecules(){
+
+        /*
+         * TODO: JPB TBD - This functionality should be moved into the PhaseStateChanger objects.
 
         // Make sure we are really running in diatomic mode.
         assert m_atomsPerMolecule == 2;
@@ -1558,6 +1599,8 @@ public class MultipleParticleModel {
         }
         
         updateDiatomicAtomPositions();
+        
+        */
     }
     
     /**
@@ -1565,6 +1608,9 @@ public class MultipleParticleModel {
      * such as water.
      */
     private void solidifyTriatomicMolecules(){
+
+        /*
+         * TODO: JPB TBD - This functionality should be moved into the PhaseStateChanger objects.
 
         // Make sure we are really running in triatomic mode.
         assert m_atomsPerMolecule == 3;
@@ -1603,6 +1649,8 @@ public class MultipleParticleModel {
         }
         
         updateTriatomicAtomPositions();
+        
+        */
     }
 
     /**
@@ -1613,10 +1661,10 @@ public class MultipleParticleModel {
         // TODO: JPB TBD - This way of un-normalizing needs to be worked out,
         // and setting it as done below is a temporary thing.
         double positionMultiplier = m_particleDiameter;
-        for (int i = 0; i < m_numberOfAtoms; i++){
-            ((StatesOfMatterAtom)m_particles.get( i )).setPosition( 
-                    m_atomPositions[i].getX() * positionMultiplier, 
-                    m_atomPositions[i].getY() * positionMultiplier);
+        Point2D [] atomPositions = m_moleculeDataSet.getAtomPositions();
+        for (int i = 0; i < atomPositions.length; i++){
+            ((StatesOfMatterAtom)m_particles.get( i )).setPosition( atomPositions[i].getX() * positionMultiplier,
+                    atomPositions[i].getY() * positionMultiplier);
         }
     }
     
@@ -1625,7 +1673,10 @@ public class MultipleParticleModel {
      * force calculation on a set of particles.
      */
     private void verletMonatomic(){
-        
+
+    	/*
+         * TODO: JPB TBD - This functionality should be moved into the MoleculeForceAndMotionCalculator objects.
+
         double kineticEnergy = 0;
         
         double timeStepSqrHalf = TIME_STEP * TIME_STEP * 0.5;
@@ -1815,6 +1866,7 @@ public class MultipleParticleModel {
         for (int i = 0; i < m_numberOfAtoms; i++){
             m_moleculeForces[i].setComponents( m_nextMoleculeForces[i].getX(), m_nextMoleculeForces[i].getY() );
         }
+        */
     }
 
     /**
@@ -1823,6 +1875,9 @@ public class MultipleParticleModel {
      */
     private void verletDiatomic(){
         
+    	/*
+         * TODO: JPB TBD - This functionality should be moved into the MoleculeForceAndMotionCalculator objects.
+
         assert m_atomsPerMolecule == 2;
         
         int numberOfMolecules = m_numberOfAtoms / 2;
@@ -2033,6 +2088,7 @@ public class MultipleParticleModel {
             // size change.
             setTemperature( calculateTemperatureFromKineticEnergy() );
         }
+        */
     }
 
 	private void updatePressure( double totalTopForce ) {
@@ -2046,6 +2102,9 @@ public class MultipleParticleModel {
      */
     private void verletTriatomic(){
         
+    	/*
+         * TODO: JPB TBD - This functionality should be moved into the MoleculeForceAndMotionCalculator objects.
+
         assert m_atomsPerMolecule == 3;
         
         int numberOfMolecules = m_numberOfAtoms / 3;
@@ -2346,6 +2405,8 @@ public class MultipleParticleModel {
             // size change.
             setTemperature( calculatedTemperature );
         }
+        
+        */
     }
     
     /**
@@ -2357,6 +2418,9 @@ public class MultipleParticleModel {
      */
     private void updateDiatomicAtomPositions(){
       
+    	/*
+         * TODO: JPB TBD - This functionality should be moved into the AtomPositionUpdater objects.
+
         assert m_atomsPerMolecule == 2;
 
         double xPos, yPos;
@@ -2370,6 +2434,7 @@ public class MultipleParticleModel {
                 m_atomPositions[i * 2 + j].setLocation( xPos, yPos );
             }
         }
+        */
     }
 
     /**
@@ -2379,7 +2444,10 @@ public class MultipleParticleModel {
      * water molecule will be Oxygen followed by two Hydrogens.
      */
     private void updateTriatomicAtomPositions(){
-      
+     
+    	/*
+         * TODO: JPB TBD - This functionality should be moved into the AtomPositionUpdater objects.
+
         assert m_atomsPerMolecule == 3;
 
         double xPos, yPos;
@@ -2393,6 +2461,7 @@ public class MultipleParticleModel {
                 m_atomPositions[i * 3 + j].setLocation( xPos, yPos );
             }
         }
+        */
     }
     
     /**
@@ -2404,7 +2473,10 @@ public class MultipleParticleModel {
      * end up launching it out of the container.
      */
     private void updateMoleculeSafety(){
-        
+     
+    	/*
+         * TODO: JPB TBD - This functionality should be moved into the MoleculeForceAndMotionCalculator objects.
+
         for (int i = m_numberOfSafeAtoms; i < m_numberOfAtoms; i += m_atomsPerMolecule){
             
             boolean moleculeIsUnsafe = false;
@@ -2479,6 +2551,7 @@ public class MultipleParticleModel {
                 m_numberOfSafeAtoms += m_atomsPerMolecule;
             }
         }
+        */
     }
     
     /**
@@ -2687,6 +2760,9 @@ public class MultipleParticleModel {
      */
     private double calculateTemperatureFromKineticEnergy(){
         
+    	/*
+         * TODO: JPB TBD - This functionality should be moved into the molecule data set objects (I think).
+
         double translationalKineticEnergy = 0;
         double rotationalKineticEnergy = 0;
         double numberOfMolecules = m_numberOfAtoms / m_atomsPerMolecule;
@@ -2710,6 +2786,8 @@ public class MultipleParticleModel {
         }
             
         return kineticEnergyPerMolecule;
+        */
+    	return 0;
     }
     
     //------------------------------------------------------------------------
@@ -2775,6 +2853,10 @@ public class MultipleParticleModel {
      * @return
      */
     private Point2D findOpenMoleculeLocation(){
+
+    	/*
+         * TODO: JPB TBD - This functionality should be moved into the phaseStateChanger.
+
         
         double posX, posY;
         double rangeX = m_normalizedContainerWidth - (2 * MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE);
@@ -2798,6 +2880,7 @@ public class MultipleParticleModel {
                 }
             }
         }
+    */
         return null;
     }
 }
