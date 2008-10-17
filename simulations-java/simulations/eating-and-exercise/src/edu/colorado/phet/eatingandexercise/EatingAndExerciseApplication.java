@@ -8,7 +8,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.application.*;
+import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
@@ -132,13 +134,6 @@ public class EatingAndExerciseApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) {
-        ApplicationConstructor appConstructor = new ApplicationConstructor() {
-            public PhetApplication getApplication( PhetApplicationConfig config ) {
-                return new EatingAndExerciseApplication( config );
-            }
-        };
-
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, EatingAndExerciseConstants.PROJECT_NAME );
-        new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
+        new PhetApplicationLauncher().launchSim( args, EatingAndExerciseConstants.PROJECT_NAME, EatingAndExerciseApplication.class );
     }
 }
