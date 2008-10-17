@@ -321,8 +321,8 @@ public class PhetApplication implements ISimInfo{
      *
      * @return the title.
      */
-    public String getTitle() {
-        return getPhetApplicationConfig().getTitle();
+    public String getName() {
+        return getPhetApplicationConfig().getName();
     }
 
     /**

@@ -19,7 +19,7 @@ public class BatteryVoltageApplication extends PiccoloPhetApplication {
     private class BatteryVoltageModule extends Module {
 
         public BatteryVoltageModule( PhetApplicationConfig config ) {
-            super( config.getTitle(), new ConstantDtClock( 20, 0.021 ) );
+            super( config.getName(), new ConstantDtClock( 20, 0.021 ) );
             BatteryVoltageSimulationPanel simulationPanel = new BatteryVoltageSimulationPanel( getClock() );
             setSimulationPanel( simulationPanel );
             setClockControlPanel( null );

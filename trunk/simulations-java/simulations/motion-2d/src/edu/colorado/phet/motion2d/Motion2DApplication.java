@@ -31,7 +31,7 @@ public class Motion2DApplication extends PiccoloPhetApplication {
     private class Motion2DModule extends Module {
 
         public Motion2DModule( PhetApplicationConfig config ) {
-            super( config.getTitle(), new ConstantDtClock( 20, 0.021 ) );
+            super( config.getName(), new ConstantDtClock( 20, 0.021 ) );
             Motion2DSimulationPanel simulationPanel = new Motion2DSimulationPanel( (ConstantDtClock) getClock() );
             try {
                 simulationPanel.init();

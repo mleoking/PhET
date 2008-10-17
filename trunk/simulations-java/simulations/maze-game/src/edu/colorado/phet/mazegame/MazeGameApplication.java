@@ -38,7 +38,7 @@ public class MazeGameApplication extends PiccoloPhetApplication {
         private MazeGameSimulationPanel simulationPanel = new MazeGameSimulationPanel();
 
         public MazeGameModule( PhetApplicationConfig config ) {
-            super( config.getTitle(), new ConstantDtClock( 35, 0.15 ) );
+            super( config.getName(), new ConstantDtClock( 35, 0.15 ) );
             simulationPanel.init();
             setSimulationPanel( simulationPanel );
             setClockControlPanel( null );
