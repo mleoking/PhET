@@ -11,10 +11,7 @@ import java.io.IOException;
 import javax.jnlp.UnavailableServiceException;
 import javax.swing.JMenuItem;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.*;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
@@ -152,6 +149,6 @@ public class QuantumWaveInterferenceApplication extends PiccoloPhetApplication {
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, QWIConstants.PROJECT_NAME, QWIConstants.FLAVOR_QUANTUM_WAVE_INTERFERENCE );
         appConfig.setLookAndFeel( new QWIPhetLookAndFeel() );
         appConfig.setFrameSetup( new QWIFrameSetup() );
-        appConfig.launchSim();
+        new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 }

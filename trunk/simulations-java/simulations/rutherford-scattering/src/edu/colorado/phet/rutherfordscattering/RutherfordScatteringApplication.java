@@ -5,6 +5,7 @@ package edu.colorado.phet.rutherfordscattering;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.rutherfordscattering.module.PlumPuddingAtomModule;
 import edu.colorado.phet.rutherfordscattering.module.RutherfordAtomModule;
@@ -61,6 +62,6 @@ public class RutherfordScatteringApplication extends PiccoloPhetApplication {
         };
         
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, RSConstants.PROJECT_NAME );
-        appConfig.launchSim();
+        new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 }

@@ -37,17 +37,19 @@ public class DeprecatedPhetApplicationLauncher {
     }
 
     public void startApplication() {
-        PhetApplicationConfig config = new PhetApplicationConfig( args, new ApplicationConstructor() {
+        ApplicationConstructor applicationConstructor = new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
-                PhetApplication phetApplication = new PhetApplication( config ){};
+                PhetApplication phetApplication = new PhetApplication( config ) {
+                };
                 phetApplication.setModules( (Module[]) modules.toArray( new Module[modules.size()] ) );
                 return phetApplication;
             }
-        }, "phetcommon" );
+        };
+        PhetApplicationConfig config = new PhetApplicationConfig( args, applicationConstructor, "phetcommon" );
         if ( frameSetup != null ) {
             config.setFrameSetup( frameSetup );
         }
-        config.launchSim();
+        new PhetApplicationLauncher().launchSim( config, applicationConstructor );
     }
 
     public void setModules( Module[] m ) {

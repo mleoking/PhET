@@ -6,10 +6,7 @@
  */
 package edu.colorado.phet.sound;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.*;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
@@ -45,6 +42,6 @@ public class SoundApplication extends PiccoloPhetApplication {
         
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, SoundConfig.PROJECT_NAME );
         appConfig.setFrameSetup( new FrameSetup.CenteredWithSize( 900, 750 ) );
-        appConfig.launchSim();
+        new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 }

@@ -1,10 +1,7 @@
 /*  */
 package edu.colorado.phet.theramp;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.*;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
@@ -47,7 +44,7 @@ public class TheRampApplication extends PiccoloPhetApplication {
         
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, TheRampConstants.PROJECT_NAME );
         appConfig.setFrameSetup( TheRampConstants.FRAME_SETUP );
-        appConfig.launchSim();
+        new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 
 }

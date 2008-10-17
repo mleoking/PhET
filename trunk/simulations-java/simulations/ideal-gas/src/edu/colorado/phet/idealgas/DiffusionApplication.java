@@ -8,10 +8,7 @@ package edu.colorado.phet.idealgas;
 
 import java.awt.Color;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.*;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.idealgas.controller.DiffusionModule;
@@ -54,6 +51,6 @@ public class DiffusionApplication extends PhetApplication {
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, IdealGasConfig.PROJECT_NAME, IdealGasConfig.FLAVOR_DIFFUSION );
         appConfig.setLookAndFeel( new IdealGasLookAndFeel() );
         appConfig.setFrameSetup( IdealGasConfig.FRAME_SETUP );
-        appConfig.launchSim();
+        new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 }

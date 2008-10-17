@@ -9,10 +9,7 @@ package edu.colorado.phet.idealgas;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.*;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
@@ -85,6 +82,6 @@ public class GasPropertiesApplication extends PhetApplication {
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, IdealGasConfig.PROJECT_NAME, IdealGasConfig.FLAVOR_GAS_PROPERTIES );
         appConfig.setLookAndFeel( new IdealGasLookAndFeel() );
         appConfig.setFrameSetup( IdealGasConfig.FRAME_SETUP );
-        appConfig.launchSim();
+        new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 }

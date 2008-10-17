@@ -4,6 +4,7 @@ package edu.colorado.phet.quantumwaveinterference;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
@@ -43,6 +44,6 @@ public class DavissonGermerApplication extends PiccoloPhetApplication {
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, QWIConstants.PROJECT_NAME, QWIConstants.FLAVOR_DAVISSON_GERMER );
         appConfig.setLookAndFeel( new QWIPhetLookAndFeel() );
         appConfig.setFrameSetup( new QWIFrameSetup() );
-        appConfig.launchSim();
+        new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 }
