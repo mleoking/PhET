@@ -6,18 +6,21 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import java.awt.*;
+import java.awt.Container;
+import java.awt.Font;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.AWTSplashWindow;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.greenhouse.coreadditions.MessageFormatter;
 import edu.colorado.phet.greenhouse.coreadditions.clock.StaticClockModel;
 import edu.colorado.phet.greenhouse.coreadditions.clock.SwingTimerClock;
@@ -87,13 +90,10 @@ public class GreenhouseApplication extends PhetApplication {
                         greenhouseModule2
                 };
                 ApplicationDescriptor appDescriptor = new ApplicationDescriptor(
-                        new String( SimStrings.get( "greenhouse.name" )
-                                    + " ("
-                                    + VERSION
-                                    + ")" ),
+                        new String( SimStrings.get( "greenhouse.name" ) + " (" + VERSION + ")" ),
                         MessageFormatter.format( SimStrings.get( "greenhouse.description" ) ),
                         VERSION,
-                        1024, 768 );
+                        new FrameSetup.CenteredWithSize( 1024, 768 ) );
 //                clock = new SwingTimerClock( new StaticClockModel( 10, 20 ) );
                 clock = new SwingTimerClock( new StaticClockModel( 10, 30 ) );
                 s_application = new PhetApplication( appDescriptor, modules, clock );
