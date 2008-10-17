@@ -14,8 +14,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.greenhouse.phetcommon.application.PhetApplication;
 import edu.colorado.phet.greenhouse.phetcommon.view.components.menu.HelpMenu;
 import edu.colorado.phet.greenhouse.phetcommon.view.components.menu.PhetFileMenu;
@@ -33,8 +33,8 @@ public class PhetFrame extends JFrame {
         this.helpMenu = ( new HelpMenu( this,app.getApplicationDescriptor().getWindowTitle(),
                                         app.getApplicationDescriptor().getDescription(),
                                         app.getApplicationDescriptor().getVersion() ) );
-        JMenu controlMenu = new JMenu( SimStrings.get( "PhetFrame.ControlMenuTitle" ) );
-        JMenuItem showClockDialog = new JMenuItem( SimStrings.get( "PhetFrame.FixedClockMenuItem" ) );
+        JMenu controlMenu = new JMenu( GreenhouseResources.getString( "PhetFrame.ControlMenuTitle" ) );
+        JMenuItem showClockDialog = new JMenuItem( GreenhouseResources.getString( "PhetFrame.FixedClockMenuItem" ) );
         showClockDialog.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
 //                clockDialog.setVisible(true);

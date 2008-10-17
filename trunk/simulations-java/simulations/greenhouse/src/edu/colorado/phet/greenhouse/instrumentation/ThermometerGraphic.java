@@ -20,7 +20,6 @@ import java.text.NumberFormat;
 import java.util.Observable;
 import java.util.Observer;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.greenhouse.phetcommon.view.graphics.Graphic;
@@ -115,7 +114,7 @@ public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
 
         // Temperatures
         gbi.setFont( temperatureFont );
-        String s = formatter.format( thermometer.getTemperature() ) + SimStrings.get( "ThermometerGraphic.KelvinUnits" );
+        String s = formatter.format( thermometer.getTemperature() ) + GreenhouseResources.getString( "ThermometerGraphic.KelvinUnits" );
         FontMetrics fontMetrics = gbi.getFontMetrics();
         int width = thermometerBI.getWidth() - 25;
         int height = fontMetrics.getHeight();
@@ -137,11 +136,11 @@ public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
         String units = "";
         if ( GreenhouseConfig.TEMPERATURE_UNITS == GreenhouseConfig.FAHRENHEIT ) {
             nonKelvinTemperature = kelvinToFahrenheit( thermometer.getTemperature() );
-            units = SimStrings.get( "ThermometerGraphic.FahrenheitUnits" );
+            units = GreenhouseResources.getString( "ThermometerGraphic.FahrenheitUnits" );
         }
         else if ( GreenhouseConfig.TEMPERATURE_UNITS == GreenhouseConfig.CELSIUS ) {
             nonKelvinTemperature = kelvinToCelcius( thermometer.getTemperature() );
-            units = SimStrings.get( "ThermometerGraphic.CelsiusUnits" );
+            units = GreenhouseResources.getString( "ThermometerGraphic.CelsiusUnits" );
         }
         s = formatter.format( nonKelvinTemperature ) + units;
         up -= height;

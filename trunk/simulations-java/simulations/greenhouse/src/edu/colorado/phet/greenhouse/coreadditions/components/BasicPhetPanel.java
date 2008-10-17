@@ -1,11 +1,14 @@
 /*, 2003.*/
 package edu.colorado.phet.greenhouse.coreadditions.components;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Rectangle;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.greenhouse.GreenhouseResources;
 
 /**
  * A panel for the apparatus, large and in the left side.  A north panel for display, an east panel for controls, and a south panel for other controls.
@@ -80,7 +83,7 @@ public class BasicPhetPanel extends JPanel {
             }
 
             final JDialog buttonDlg = new JDialog();
-            buttonDlg.setTitle( SimStrings.get( "BasicPhetPanel.ReturnTitle" ) );
+            buttonDlg.setTitle( GreenhouseResources.getString( "BasicPhetPanel.ReturnTitle" ) );
             buttonDlg.setDefaultCloseOperation( JDialog.DO_NOTHING_ON_CLOSE );
             Rectangle thisBounds = this.getBounds();
             buttonDlg.pack();

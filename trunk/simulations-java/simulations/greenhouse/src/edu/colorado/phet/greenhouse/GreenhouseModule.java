@@ -13,7 +13,6 @@ import java.util.Iterator;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.greenhouse.phetcommon.application.PhetApplication;
 import edu.colorado.phet.greenhouse.phetcommon.view.ApparatusPanel;
 import edu.colorado.phet.greenhouse.phetcommon.view.graphics.Graphic;
@@ -26,7 +25,7 @@ public class GreenhouseModule extends BaseGreenhouseModule {
 
 
     public GreenhouseModule() {
-        super( SimStrings.get( "ModuleTitle.GreenHouseModule" ) );
+        super( GreenhouseResources.getString( "ModuleTitle.GreenHouseModule" ) );
 
         // Add some clouds
         createCloud( getEarth().getLocation().getX() + 1,
