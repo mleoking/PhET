@@ -77,7 +77,7 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
         earthLoc.setLocation( earthLoc.getX() - earth.getRadius() / 2,
                               earthLoc.getY() + earth.getRadius() / 2 );
         this.earthTx = AffineTransform.getScaleInstance( gifToModelScale, -gifToModelScale );
-        System.out.println( "gifToModelScale=" + gifToModelScale );
+//        System.out.println( "gifToModelScale=" + gifToModelScale );
         earthTx.translate( -this.gif.getWidth() / 2, 0 );
         apparatusPanel.addGraphic( this, GreenhouseConfig.EARTH_BASE_LAYER + 1 );
 
