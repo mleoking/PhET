@@ -2,8 +2,8 @@
 
 package edu.colorado.phet.statesofmatter.view;
 
-import edu.colorado.phet.common.piccolophet.event.CursorHandler2;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
@@ -93,7 +93,7 @@ public class BicyclePumpNode extends PNode {
         m_pumpHandle.setPaint( PUMP_HANDLE_COLOR );
         m_pumpHandle.setOffset( width * PUMP_HORIZ_POSITION_PROPORTION - ( pumpHandleWidth / 2 ), height - ( height * PUMP_HANDLE_INIT_VERT_POS_PROPORTION ) - pumpHandleHeight );
         m_pumpHandle.setPickable( true );
-        m_pumpHandle.addInputEventListener( new CursorHandler2( Cursor.N_RESIZE_CURSOR ) );
+        m_pumpHandle.addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
         m_currentHandleOffset = 0;
         m_maxHandleOffset = -PUMP_SHAFT_HEIGHT_PROPORTION * height / 2;
         addChild( m_pumpHandle );

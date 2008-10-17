@@ -5,8 +5,8 @@ package edu.colorado.phet.statesofmatter.view;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.piccolophet.event.CursorHandler2;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -46,7 +46,7 @@ public class ResizeArrowNode extends PNode{
 
         // Add the handler that will change the cursor when the user moves
         // the mouse over this node.
-        m_adjusterArrow.addInputEventListener( new CursorHandler2() );
+        m_adjusterArrow.addInputEventListener( new CursorHandler() );
         
         // Add the handler that will highlight the node when the user moves
         // the mouse over.
