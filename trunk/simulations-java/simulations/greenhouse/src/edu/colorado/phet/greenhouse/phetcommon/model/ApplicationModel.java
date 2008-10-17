@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.greenhouse.phetcommon.model;
 
-import edu.colorado.phet.greenhouse.phetcommon.model.command.Command;
-import edu.colorado.phet.greenhouse.phetcommon.model.command.CommandQueue;
+import edu.colorado.phet.common.phetcommon.model.Command;
+import edu.colorado.phet.common.phetcommon.model.CommandQueue;
 
 /**
  * There should be only one of these per PhetApplication. It contains at any time a single
