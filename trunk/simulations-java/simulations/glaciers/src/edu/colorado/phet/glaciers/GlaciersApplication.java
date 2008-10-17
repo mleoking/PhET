@@ -9,9 +9,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
@@ -201,14 +200,6 @@ public class GlaciersApplication extends PiccoloPhetApplication {
      * @param args command line arguments
      */
     public static void main( final String[] args ) {
-        
-        ApplicationConstructor appConstructor = new ApplicationConstructor() {
-            public PhetApplication getApplication( PhetApplicationConfig config ) {
-                return new GlaciersApplication( config );
-            }
-        };
-        
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, GlaciersConstants.PROJECT_NAME );
-        appConfig.launchSim();
+        new PhetApplicationLauncher().launchSim( args, GlaciersConstants.PROJECT_NAME, GlaciersApplication.class );
     }
 }
