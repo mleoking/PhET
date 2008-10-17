@@ -8,10 +8,7 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.*;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -33,7 +30,7 @@ public class TestPhetFrameWorkaround {
     private static final boolean USE_WORKAROUND = true;
 
     public static void main( final String[] args ) {
-        PhetApplicationConfig config=new PhetApplicationConfig( args, new ApplicationConstructor() {
+        ApplicationConstructor applicationConstructor = new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 final PhetApplication phetApplication = new PhetApplication( config ) {
                     protected PhetFrame createPhetFrame() {
@@ -78,9 +75,10 @@ public class TestPhetFrameWorkaround {
 
                 return phetApplication;
             }
-        }, "phetcommon");
+        };
+        PhetApplicationConfig config=new PhetApplicationConfig( args, applicationConstructor, "phetcommon");
         config.setFrameSetup(  new FrameSetup.CenteredWithSize( 800, 600 ));
-        config.launchSim();
+        new PhetApplicationLauncher().launchSim( config,applicationConstructor );
 
     }
 

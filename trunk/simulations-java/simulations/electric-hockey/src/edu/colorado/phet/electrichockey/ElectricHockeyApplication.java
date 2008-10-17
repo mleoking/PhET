@@ -1,9 +1,6 @@
 package edu.colorado.phet.electrichockey;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.*;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
@@ -19,11 +16,7 @@ public class ElectricHockeyApplication extends PhetApplication {
 
     public static class ElectricHockeyApplicationConfig extends PhetApplicationConfig {
         public ElectricHockeyApplicationConfig( String[] commandLineArgs ) {
-            super( commandLineArgs, new ApplicationConstructor() {
-                public PhetApplication getApplication( PhetApplicationConfig config ) {
-                    return new ElectricHockeyApplication( config );
-                }
-            }, "electric-hockey" );
+            super( commandLineArgs, null, "electric-hockey" );
             setFrameSetup( new FrameSetup.CenteredWithSize( 800, 750 ) );
             super.setLookAndFeel( new PhetLookAndFeel() );
         }
@@ -41,6 +34,10 @@ public class ElectricHockeyApplication extends PhetApplication {
     }
 
     public static void main( String[] args ) {
-        new ElectricHockeyApplicationConfig( args ).launchSim();
+        new PhetApplicationLauncher().launchSim( new ElectricHockeyApplicationConfig( args ), new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new ElectricHockeyApplication( config );
+            }
+        } );
     }
 }

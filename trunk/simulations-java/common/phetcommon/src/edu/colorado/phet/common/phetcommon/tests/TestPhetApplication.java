@@ -10,18 +10,18 @@ package edu.colorado.phet.common.phetcommon.tests;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.*;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 
 public class TestPhetApplication {
-    private PhetApplicationConfig config;
 
     public TestPhetApplication() {
-        config = new PhetApplicationConfig( new String[0], new ApplicationConstructor() {
+
+    }
+
+    public static void main( String[] args ) {
+        new PhetApplicationLauncher().launchSim( new PhetApplicationConfig( new String[0], null, "phetcommon" ), new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 PhetApplication app = new PhetApplication( config );
 
@@ -34,16 +34,7 @@ public class TestPhetApplication {
                 app.addModule( module );
                 return app;
             }
-        }, "phetcommon" );
-
-    }
-
-    public void start() {
-        config.launchSim();
-    }
-
-    public static void main( String[] args ) {
-        ( new TestPhetApplication() ).start();
+        } );
     }
 
     private static class MyModule extends Module {

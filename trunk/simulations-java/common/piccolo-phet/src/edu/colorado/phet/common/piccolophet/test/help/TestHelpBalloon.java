@@ -11,33 +11,19 @@
 
 package edu.colorado.phet.common.piccolophet.test.help;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.text.MessageFormat;
 
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JColorChooser;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSlider;
+import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.*;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
@@ -79,7 +65,7 @@ public class TestHelpBalloon extends PhetApplication {
 
     /* Test harness */
     public static void main( final String[] args ) {
-        new PhetApplicationConfig( args, new ApplicationConstructor() {
+        ApplicationConstructor applicationConstructor = new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 try {
                     TestHelpBalloon app = new TestHelpBalloon( config );
@@ -89,13 +75,14 @@ public class TestHelpBalloon extends PhetApplication {
                     return null;
                 }
             }
-        }, "piccolo-phet" ).launchSim();
-
+        };
+        PhetApplicationConfig phetApplicationConfig = new PhetApplicationConfig( args, applicationConstructor, "piccolo-phet" );
+        new PhetApplicationLauncher().launchSim( phetApplicationConfig, applicationConstructor );
     }
 
     /* Application */
-    public TestHelpBalloon( PhetApplicationConfig c) throws InterruptedException {
-        super(c);
+    public TestHelpBalloon( PhetApplicationConfig c ) throws InterruptedException {
+        super( c );
 
         Module module1 = new TestModule( "Module 1" );
         addModule( module1 );

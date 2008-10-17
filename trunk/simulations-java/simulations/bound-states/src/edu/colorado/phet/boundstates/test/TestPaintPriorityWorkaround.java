@@ -20,10 +20,7 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
-import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.*;
 import edu.colorado.phet.common.phetcommon.model.clock.*;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
@@ -128,7 +125,7 @@ public class TestPaintPriorityWorkaround {
     private static final double MAX_Y = 100;
 
     public static void main( final String[] args ) throws InterruptedException {
-        new PhetApplicationConfig(args, new ApplicationConstructor() {
+        new PhetApplicationLauncher().launchSim(  new PhetApplicationConfig(args,null , "bound-states"),new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 try {
                     return new TestApplication( config );
@@ -138,7 +135,7 @@ public class TestPaintPriorityWorkaround {
                     return null;
                 }
             }
-        }, "bound-states").launchSim();
+        });
     }
 
     private static class TestApplication extends PiccoloPhetApplication {

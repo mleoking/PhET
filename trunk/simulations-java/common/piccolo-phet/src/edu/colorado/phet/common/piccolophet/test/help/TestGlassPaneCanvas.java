@@ -45,10 +45,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.MouseInputAdapter;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.*;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
@@ -87,19 +84,19 @@ public class TestGlassPaneCanvas extends PhetApplication {
 
     /* Test harness */
     public static void main( final String[] args ) {
-        new PhetApplicationConfig( args, new ApplicationConstructor() {
+        ApplicationConstructor applicationConstructor = new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
-
                 try {
-                    TestGlassPaneCanvas app = new TestGlassPaneCanvas( config );
-                    return app;
+                    return new TestGlassPaneCanvas( config );
                 }
                 catch( Exception e ) {
                     e.printStackTrace();
                     return null;
                 }
             }
-        }, "piccolo-phet" ).launchSim();
+        };
+        PhetApplicationConfig applicationConfig = new PhetApplicationConfig( args, applicationConstructor, "piccolo-phet" );
+        new PhetApplicationLauncher().launchSim( applicationConfig, applicationConstructor );
     }
 
     /* Application */
