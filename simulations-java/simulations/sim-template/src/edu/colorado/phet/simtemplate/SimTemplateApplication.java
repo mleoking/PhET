@@ -11,9 +11,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
@@ -220,14 +219,7 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
     //----------------------------------------------------------------------------
 
     public static void main( final String[] args ) {
-        
-        ApplicationConstructor appConstructor = new ApplicationConstructor() {
-            public PhetApplication getApplication( PhetApplicationConfig config ) {
-                return new SimTemplateApplication( config );
-            }
-        };
-        
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, SimTemplateConstants.PROJECT_NAME );
-        appConfig.launchSim();
+        // if you want to customize your application, create your own PhetApplicationConfig use one of the other launchSim methods
+        new PhetApplicationLauncher().launchSim( args, SimTemplateConstants.PROJECT_NAME, SimTemplateApplication.class );
     }
 }
