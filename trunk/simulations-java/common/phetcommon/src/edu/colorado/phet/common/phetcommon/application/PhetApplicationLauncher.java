@@ -39,34 +39,30 @@ public class PhetApplicationLauncher {
         }
     }
 
-    public void launchSim( String[] commandLineArgs, String project, final Class applicationClass ) {
-        launchSim( commandLineArgs, project, new ApplicationConstructor() {
-            public PhetApplication getApplication( PhetApplicationConfig config ) {
-                try {
-                    return createApplication( config, applicationClass );
-                }
-                catch( Exception e ) {
-                    throw new RuntimeException( e );
-                }
-            }
-        } );
+    public void launchSim( String[] commandLineArgs, String project, final Class phetApplicationClass ) {
+        launchSim( commandLineArgs, project, new ReflectionApplicationConstructor( phetApplicationClass ) );
     }
 
-    public void launchSim( String[] commandLineArgs, String project, String flavor, final Class applicationClass ) {
-        launchSim( commandLineArgs, project, flavor, new ApplicationConstructor() {
-            public PhetApplication getApplication( PhetApplicationConfig config ) {
-                try {
-                    return createApplication( config, applicationClass );
-                }
-                catch( Exception e ) {
-                    throw new RuntimeException( e );
-                }
+    public static class ReflectionApplicationConstructor implements ApplicationConstructor {
+        private Class phetApplicationClass;
+
+        public ReflectionApplicationConstructor( Class phetApplicationClass ) {
+            this.phetApplicationClass = phetApplicationClass;
+        }
+
+        public PhetApplication getApplication( PhetApplicationConfig config ) {
+            try {
+                return (PhetApplication) phetApplicationClass.getConstructor( new Class[]{config.getClass()} ).newInstance( new Object[]{config} );
             }
-        } );
+            catch( Exception e ) {
+                throw new RuntimeException( e );
+            }
+        }
+
     }
 
-    private PhetApplication createApplication( PhetApplicationConfig config, Class applicationClass ) throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-        return (PhetApplication) applicationClass.getConstructor( new Class[]{config.getClass()} ).newInstance( new Object[]{config} );
+    public void launchSim( String[] commandLineArgs, String project, String flavor, final Class phetApplicationClass ) {
+        launchSim( commandLineArgs, project, flavor, new ReflectionApplicationConstructor( phetApplicationClass ) );
     }
 
     public void launchSim( String[] commandLineArgs, String project, ApplicationConstructor applicationConstructor ) {
@@ -75,6 +71,10 @@ public class PhetApplicationLauncher {
 
     public void launchSim( String[] commandLineArgs, String project, String flavor, ApplicationConstructor applicationConstructor ) {
         launchSim( new PhetApplicationConfig( commandLineArgs, project, flavor ), applicationConstructor );
+    }
+
+    public void launchSim( final PhetApplicationConfig config, final Class phetApplicationClass ) {
+        launchSim( config, new ReflectionApplicationConstructor( phetApplicationClass ) );
     }
 
     public void launchSim( final PhetApplicationConfig config, final ApplicationConstructor applicationConstructor ) {
