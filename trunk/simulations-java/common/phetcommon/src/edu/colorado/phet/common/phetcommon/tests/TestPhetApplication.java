@@ -13,6 +13,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 
@@ -20,7 +21,7 @@ public class TestPhetApplication {
     private PhetApplicationConfig config;
 
     public TestPhetApplication() {
-        config = new PhetApplicationConfig( new String[0], new PhetApplicationConfig.ApplicationConstructor() {
+        config = new PhetApplicationConfig( new String[0], new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 PhetApplication app = new PhetApplication( config );
 

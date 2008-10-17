@@ -19,7 +19,7 @@ import javax.swing.JMenuItem;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
 import edu.colorado.phet.opticalquantumcontrol.help.ExplanationDialog;
 import edu.colorado.phet.opticalquantumcontrol.module.OQCModule;

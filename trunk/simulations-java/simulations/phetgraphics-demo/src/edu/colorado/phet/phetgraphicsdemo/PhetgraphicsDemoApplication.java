@@ -4,7 +4,7 @@ package edu.colorado.phet.phetgraphicsdemo;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 
 /**
  * PhetgraphicsDemoApplication demonstrates how registration point, location

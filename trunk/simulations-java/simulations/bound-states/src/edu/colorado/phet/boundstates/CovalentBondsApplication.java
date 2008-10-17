@@ -13,7 +13,7 @@ package edu.colorado.phet.boundstates;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 
 /**
  * BSCovalentBondsApplication is the simulation titled "Double Wells and Covalent Bonds".

@@ -20,7 +20,8 @@ import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
@@ -207,14 +208,10 @@ public class FourierApplication extends PiccoloPhetApplication {
     //----------------------------------------------------------------------------
     
     public static void main( final String[] args ) {
-        
-        ApplicationConstructor appConstructor = new ApplicationConstructor() {
+        new PhetApplicationLauncher().launchSim( args, FourierConstants.PROJECT_NAME, new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 return new FourierApplication( config );
             }
-        };
-        
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, FourierConstants.PROJECT_NAME );
-        appConfig.launchSim();
+        } );
     }
 }

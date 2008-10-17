@@ -11,11 +11,11 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
@@ -33,7 +33,7 @@ public class TestPhetFrameWorkaround {
     private static final boolean USE_WORKAROUND = true;
 
     public static void main( final String[] args ) {
-        PhetApplicationConfig config=new PhetApplicationConfig( args, new PhetApplicationConfig.ApplicationConstructor() {
+        PhetApplicationConfig config=new PhetApplicationConfig( args, new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 final PhetApplication phetApplication = new PhetApplication( config ) {
                     protected PhetFrame createPhetFrame() {

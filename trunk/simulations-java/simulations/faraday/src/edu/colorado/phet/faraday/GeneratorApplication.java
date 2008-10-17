@@ -2,14 +2,9 @@
 
 package edu.colorado.phet.faraday;
 
-import java.io.IOException;
-
-import javax.swing.SwingUtilities;
-
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
-import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.faraday.control.menu.OptionsMenu;
 import edu.colorado.phet.faraday.module.*;

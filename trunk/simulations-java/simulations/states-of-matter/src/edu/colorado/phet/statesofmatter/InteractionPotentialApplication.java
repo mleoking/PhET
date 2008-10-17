@@ -5,21 +5,16 @@ package edu.colorado.phet.statesofmatter;
 import java.awt.Color;
 import java.awt.Frame;
 
-import javax.swing.SwingUtilities;
-
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
-import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
-import edu.colorado.phet.statesofmatter.developer.DeveloperMenu;
 import edu.colorado.phet.statesofmatter.module.interactionpotential.InteractionPotentialModule;
-import edu.colorado.phet.statesofmatter.module.phasechanges.PhaseChangesModule;
-import edu.colorado.phet.statesofmatter.module.solidliquidgas.SolidLiquidGasModule;
 
 /**
  * Main application class for the Interaction Potential simulation flavor.
@@ -125,7 +120,7 @@ public class InteractionPotentialApplication extends PiccoloPhetApplication impl
 
     public static void main(final String[] args ) {
     	
-        PhetApplicationConfig config = new PhetApplicationConfig( args, new PhetApplicationConfig.ApplicationConstructor() {
+        PhetApplicationConfig config = new PhetApplicationConfig( args, new ApplicationConstructor() {
                     public PhetApplication getApplication( PhetApplicationConfig config ) {
 
                         // Create the application.

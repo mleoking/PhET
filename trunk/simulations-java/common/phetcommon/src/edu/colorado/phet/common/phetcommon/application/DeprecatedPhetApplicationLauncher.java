@@ -37,7 +37,7 @@ public class DeprecatedPhetApplicationLauncher {
     }
 
     public void startApplication() {
-        PhetApplicationConfig config = new PhetApplicationConfig( args, new PhetApplicationConfig.ApplicationConstructor() {
+        PhetApplicationConfig config = new PhetApplicationConfig( args, new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 PhetApplication phetApplication = new PhetApplication( config ){};
                 phetApplication.setModules( (Module[]) modules.toArray( new Module[modules.size()] ) );

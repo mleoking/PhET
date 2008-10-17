@@ -2,16 +2,11 @@
 
 package edu.colorado.phet.nuclearphysics;
 
-import java.awt.Color;
 import java.awt.Frame;
-import java.lang.reflect.InvocationTargetException;
-
-import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
-import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
+import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.nuclearphysics.module.alpharadiation.AlphaRadiationModule;
 
