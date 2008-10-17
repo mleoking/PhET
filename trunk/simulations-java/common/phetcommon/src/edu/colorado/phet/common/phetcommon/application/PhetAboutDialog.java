@@ -59,7 +59,7 @@ public class PhetAboutDialog extends JDialog {
      * @throws HeadlessException
      */
     public PhetAboutDialog( PhetApplication phetApplication ) {
-        this( phetApplication.getPhetFrame(), phetApplication );
+        this( phetApplication.getPhetFrame(), phetApplication.getSimInfo() );
     }
 
     /**

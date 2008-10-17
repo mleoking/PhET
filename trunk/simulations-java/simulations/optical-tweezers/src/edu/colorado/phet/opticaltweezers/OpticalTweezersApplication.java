@@ -80,11 +80,11 @@ public class OpticalTweezersApplication extends OTAbstractApplication {
         OpticalTweezersConfig appConfig = new OpticalTweezersConfig();
         
         GlobalConfig globalConfig = appConfig.getGlobalConfig();
-        globalConfig.setVersionString( getPhetApplicationConfig().getVersion().toString() );
-        globalConfig.setVersionMajor( getPhetApplicationConfig().getVersion().getMajor() );
-        globalConfig.setVersionMinor( getPhetApplicationConfig().getVersion().getMinor() );
-        globalConfig.setVersionDev( getPhetApplicationConfig().getVersion().getDev() );
-        globalConfig.setVersionRevision( getPhetApplicationConfig().getVersion().getRevision() );
+        globalConfig.setVersionString( getSimInfo().getVersion().toString() );
+        globalConfig.setVersionMajor( getSimInfo().getVersion().getMajor() );
+        globalConfig.setVersionMinor( getSimInfo().getVersion().getMinor() );
+        globalConfig.setVersionDev( getSimInfo().getVersion().getDev() );
+        globalConfig.setVersionRevision( getSimInfo().getVersion().getRevision() );
         
         PhysicsConfig physicsConfig = _physicsModule.save();
         appConfig.setPhysicsConfig( physicsConfig );

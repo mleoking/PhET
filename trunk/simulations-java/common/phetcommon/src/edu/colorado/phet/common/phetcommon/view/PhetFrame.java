@@ -44,7 +44,7 @@ public class PhetFrame extends JFrame {
      * @param application the application that own the PhetFrame
      */
     public PhetFrame( final PhetApplication application ) throws HeadlessException {
-        super( application.getName() + " (" + application.getVersion().formatForTitleBar() + ")" );
+        super( application.getSimInfo().getName() + " (" + application.getSimInfo().getVersion().formatForTitleBar() + ")" );
         this.application = application;
 
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -62,8 +62,8 @@ public class PhetFrame extends JFrame {
         } );
 
         JMenuBar menuBar = new JMenuBar();
-        this.helpMenu = new HelpMenu( application, new ApplicationConfigManualCheckForUpdates( this, application.getPhetApplicationConfig() ) );
-        defaultFileMenu = new PhetFileMenu( this, application.getPhetApplicationConfig() );
+        this.helpMenu = new HelpMenu( application, new ApplicationConfigManualCheckForUpdates( this, application.getSimInfo() ) );
+        defaultFileMenu = new PhetFileMenu( this, application.getSimInfo() );
         menuBar.add( defaultFileMenu );
         menuBar.add( helpMenu );
         setJMenuBar( menuBar );

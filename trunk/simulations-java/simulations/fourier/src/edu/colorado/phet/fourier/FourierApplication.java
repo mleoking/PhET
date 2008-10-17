@@ -143,7 +143,7 @@ public class FourierApplication extends PiccoloPhetApplication {
             appConfig.setGlobalConfig( globalConfig );
 
             // Version & build info
-            globalConfig.setVersionNumber( getVersion().formatForTitleBar());
+            globalConfig.setVersionNumber( getSimInfo().getVersion().formatForTitleBar());
 
             // Harmonic colors
             int[] r = new int[HarmonicColors.getInstance().getNumberOfColors()];
