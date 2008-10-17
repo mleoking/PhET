@@ -219,7 +219,10 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
     //----------------------------------------------------------------------------
 
     public static void main( final String[] args ) {
-        // if you want to customize your application, create your own PhetApplicationConfig use one of the other launchSim methods
+        /* 
+         * If you want to customize your application (look-&-feel, window size, etc) 
+         * create your own PhetApplicationConfig and use one of the other launchSim methods
+         */
         new PhetApplicationLauncher().launchSim( args, SimTemplateConstants.PROJECT_NAME, SimTemplateApplication.class );
     }
 }
