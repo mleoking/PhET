@@ -208,10 +208,6 @@ public class FourierApplication extends PiccoloPhetApplication {
     //----------------------------------------------------------------------------
     
     public static void main( final String[] args ) {
-        new PhetApplicationLauncher().launchSim( args, FourierConstants.PROJECT_NAME, new ApplicationConstructor() {
-            public PhetApplication getApplication( PhetApplicationConfig config ) {
-                return new FourierApplication( config );
-            }
-        } );
+        new PhetApplicationLauncher().launchSim( args, FourierConstants.PROJECT_NAME, FourierApplication.class);
     }
 }
