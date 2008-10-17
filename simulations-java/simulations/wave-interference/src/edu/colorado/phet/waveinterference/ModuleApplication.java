@@ -1,10 +1,7 @@
 /*  */
 package edu.colorado.phet.waveinterference;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.*;
 
 /**
  * User: Sam Reid
@@ -15,15 +12,15 @@ import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 public class ModuleApplication {
 
     public void startApplication( String[] args, final Module module ) {
-        PhetApplicationConfig applicationConfig1 = new PhetApplicationConfig( args, new ApplicationConstructor() {
+        PhetApplicationConfig applicationConfig1 = new PhetApplicationConfig( args, null, "wave-interference" );
+        applicationConfig1.setLookAndFeel( new WaveIntereferenceLookAndFeel() );
+        new PhetApplicationLauncher().launchSim( applicationConfig1, new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 PhetApplication moduleApplication = new ModulePhetApplication( config );
                 moduleApplication.addModule( module );
                 return moduleApplication;
             }
-        }, "wave-interference" );
-        applicationConfig1.setLookAndFeel( new WaveIntereferenceLookAndFeel() );
-        applicationConfig1.launchSim();
+        } );
     }
 
     private class ModulePhetApplication extends PhetApplication {

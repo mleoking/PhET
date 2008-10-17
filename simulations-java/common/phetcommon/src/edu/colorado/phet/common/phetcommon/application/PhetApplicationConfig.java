@@ -200,12 +200,4 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo, ISimInfo
         this.applicationLaunchFinishedAt = applicationLaunchFinishedAt;
     }
 
-    /**
-     * Launches the simulation with this specification and application constructor
-     *
-     * @deprecated use PhetApplicationLauncher instead
-     */
-    public void launchSim() {
-        new PhetApplicationLauncher().launchSim( this, applicationConstructor );
-    }
 }

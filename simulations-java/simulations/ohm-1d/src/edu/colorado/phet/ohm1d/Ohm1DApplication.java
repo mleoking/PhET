@@ -3,10 +3,7 @@ package edu.colorado.phet.ohm1d;
 import java.awt.*;
 import java.io.IOException;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.*;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
@@ -22,11 +19,7 @@ public class Ohm1DApplication extends PhetApplication {
 
     public static class Ohm1DApplicationConfig extends PhetApplicationConfig {
         public Ohm1DApplicationConfig( String[] commandLineArgs ) {
-            super( commandLineArgs, new ApplicationConstructor() {
-                public PhetApplication getApplication( PhetApplicationConfig config ) {
-                    return new Ohm1DApplication( config );
-                }
-            },"ohm-1d");
+            super( commandLineArgs, null, "ohm-1d" );
             super.setLookAndFeel( new PhetLookAndFeel() );
             setFrameSetup( new FrameSetup.CenteredWithSize( Ohm1DSimulationPanel.BASE_FRAME_WIDTH, 660 ) );
         }
@@ -52,6 +45,12 @@ public class Ohm1DApplication extends PhetApplication {
     }
 
     public static void main( String[] args ) {
-        new Ohm1DApplicationConfig( args ).launchSim();
+
+        Ohm1DApplicationConfig dApplicationConfig = new Ohm1DApplicationConfig( args );
+        new PhetApplicationLauncher().launchSim( dApplicationConfig, new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new Ohm1DApplication( config );
+            }
+        } );
     }
 }

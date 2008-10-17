@@ -5,9 +5,10 @@ import java.awt.event.WindowFocusListener;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.rotation.view.RotationFrameSetup;
@@ -57,7 +58,21 @@ public class RotationApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) {
-        new RotationApplicationConfig( args ).launchSim();
+        RotationApplicationConfig rotationApplicationConfig = new RotationApplicationConfig( args );
+        new PhetApplicationLauncher().launchSim( rotationApplicationConfig, new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                MyRepaintManager synchronizedPSwingRepaintManager = new MyRepaintManager();
+                synchronizedPSwingRepaintManager.setDoMyCoalesce( true );
+                RepaintManager.setCurrentManager( synchronizedPSwingRepaintManager );
+
+                QuickProfiler appStartTime = new QuickProfiler();
+                new RotationLookAndFeel().initLookAndFeel();
+                RotationApplication rotationApplication = new RotationApplication( config );
+                rotationApplication.startApplication();
+                System.out.println( "Rotation Application started in = " + appStartTime );
+                return rotationApplication;
+            }
+        } );
     }
 
     public RotationModule getRotationModule() {
@@ -66,20 +81,7 @@ public class RotationApplication extends PiccoloPhetApplication {
 
     private static class RotationApplicationConfig extends PhetApplicationConfig {
         public RotationApplicationConfig( final String[] args ) {
-            super( args, new ApplicationConstructor() {
-                public PhetApplication getApplication( PhetApplicationConfig config ) {
-                    MyRepaintManager synchronizedPSwingRepaintManager = new MyRepaintManager();
-                    synchronizedPSwingRepaintManager.setDoMyCoalesce( true );
-                    RepaintManager.setCurrentManager( synchronizedPSwingRepaintManager );
-
-                    QuickProfiler appStartTime = new QuickProfiler();
-                    new RotationLookAndFeel().initLookAndFeel();
-                    RotationApplication rotationApplication = new RotationApplication( config );
-                    rotationApplication.startApplication();
-                    System.out.println( "Rotation Application started in = " + appStartTime );
-                    return rotationApplication;
-                }
-            }, "rotation" );
+            super( args, null, "rotation" );
             setFrameSetup( new RotationFrameSetup() );
         }
     }
