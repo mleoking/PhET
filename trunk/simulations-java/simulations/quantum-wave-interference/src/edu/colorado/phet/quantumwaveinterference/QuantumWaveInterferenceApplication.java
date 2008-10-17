@@ -146,7 +146,7 @@ public class QuantumWaveInterferenceApplication extends PiccoloPhetApplication {
             }
         };
         
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, QWIConstants.PROJECT_NAME, QWIConstants.FLAVOR_QUANTUM_WAVE_INTERFERENCE );
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, QWIConstants.PROJECT_NAME, QWIConstants.FLAVOR_QUANTUM_WAVE_INTERFERENCE );
         appConfig.setLookAndFeel( new QWIPhetLookAndFeel() );
         appConfig.setFrameSetup( new QWIFrameSetup() );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );

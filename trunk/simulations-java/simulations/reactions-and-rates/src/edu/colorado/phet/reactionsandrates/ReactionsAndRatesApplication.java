@@ -60,7 +60,7 @@ public class ReactionsAndRatesApplication extends PiccoloPhetApplication {
                         return application;
                     }
                 };
-                PhetApplicationConfig config = new PhetApplicationConfig( args, applicationConstructor, "reactions-and-rates" );
+                PhetApplicationConfig config = new PhetApplicationConfig( args, "reactions-and-rates" );
                 config.setFrameSetup( new FrameSetup.CenteredWithSize( 1000, 700 ) );
                 config.setLookAndFeel( phetLookAndFeel );
                 new PhetApplicationLauncher().launchSim( config, applicationConstructor );

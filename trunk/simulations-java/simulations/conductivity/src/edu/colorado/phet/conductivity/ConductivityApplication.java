@@ -414,7 +414,7 @@ public class ConductivityApplication {
             }
         };
         
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, "conductivity" );
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, "conductivity" );
         appConfig.setFrameSetup( new FrameSetup.CenteredWithInsets( 100, 100 ) );
         appConfig.getLookAndFeel().setBackgroundColor( new Color( 245, 245, 255 ) );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );

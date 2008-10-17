@@ -49,7 +49,7 @@ public class RadioWavesApplication extends PhetApplication {
                 return new RadioWavesApplication( config );
             }
         };
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, RadioWavesConstants.PROJECT_NAME );
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, RadioWavesConstants.PROJECT_NAME );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 

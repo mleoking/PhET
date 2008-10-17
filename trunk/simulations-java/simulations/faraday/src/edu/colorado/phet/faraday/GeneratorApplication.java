@@ -73,7 +73,7 @@ public class GeneratorApplication extends PiccoloPhetApplication {
             }
         };
 
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, FaradayConstants.PROJECT_NAME, FaradayConstants.FLAVOR_GENERATOR );
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, FaradayConstants.PROJECT_NAME, FaradayConstants.FLAVOR_GENERATOR );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 }

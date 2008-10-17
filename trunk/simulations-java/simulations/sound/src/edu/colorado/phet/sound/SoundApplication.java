@@ -40,7 +40,7 @@ public class SoundApplication extends PiccoloPhetApplication {
             }
         };
         
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, SoundConfig.PROJECT_NAME );
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, SoundConfig.PROJECT_NAME );
         appConfig.setFrameSetup( new FrameSetup.CenteredWithSize( 900, 750 ) );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }

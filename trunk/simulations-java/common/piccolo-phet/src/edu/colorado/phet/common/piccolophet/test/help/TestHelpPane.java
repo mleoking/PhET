@@ -74,7 +74,7 @@ public class TestHelpPane extends PhetApplication {
                 }
             }
         };
-        PhetApplicationConfig phetApplicationConfig = new PhetApplicationConfig( args, applicationConstructor, "piccolo-phet" );
+        PhetApplicationConfig phetApplicationConfig = new PhetApplicationConfig( args, "piccolo-phet" );
         new PhetApplicationLauncher().launchSim( phetApplicationConfig, applicationConstructor );
     }
 

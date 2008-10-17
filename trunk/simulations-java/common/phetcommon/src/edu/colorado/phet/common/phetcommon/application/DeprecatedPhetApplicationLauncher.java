@@ -45,7 +45,7 @@ public class DeprecatedPhetApplicationLauncher {
                 return phetApplication;
             }
         };
-        PhetApplicationConfig config = new PhetApplicationConfig( args, applicationConstructor, "phetcommon" );
+        PhetApplicationConfig config = new PhetApplicationConfig( args, "phetcommon" );
         if ( frameSetup != null ) {
             config.setFrameSetup( frameSetup );
         }

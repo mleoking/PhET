@@ -138,7 +138,7 @@ public class EatingAndExerciseApplication extends PiccoloPhetApplication {
             }
         };
 
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, EatingAndExerciseConstants.PROJECT_NAME );
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, EatingAndExerciseConstants.PROJECT_NAME );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 }

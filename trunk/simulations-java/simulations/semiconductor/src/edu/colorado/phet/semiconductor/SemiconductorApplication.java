@@ -332,7 +332,7 @@ public class SemiconductorApplication implements Graphic {
     public static class SemiconductorApplicationConfig extends PhetApplicationConfig {
 
         public SemiconductorApplicationConfig( String[] commandLineArgs ) {
-            super( commandLineArgs, null, "semiconductor" );
+            super( commandLineArgs, "semiconductor" );
             setFrameSetup( new edu.colorado.phet.common.phetcommon.view.util.FrameSetup.CenteredWithInsets( 100, 100 ) );
             PhetLookAndFeel feel = new PhetLookAndFeel();
             feel.setBackgroundColor( new Color( 245, 245, 255 ) );

@@ -123,7 +123,7 @@ public class StretchingDNAApplication extends OTAbstractApplication {
             }
         };
         
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, OTConstants.PROJECT_NAME, OTConstants.FLAVOR_STRETCHING_DNA );
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, OTConstants.PROJECT_NAME, OTConstants.FLAVOR_STRETCHING_DNA );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 }

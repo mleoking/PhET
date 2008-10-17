@@ -19,7 +19,7 @@ public class Ohm1DApplication extends PhetApplication {
 
     public static class Ohm1DApplicationConfig extends PhetApplicationConfig {
         public Ohm1DApplicationConfig( String[] commandLineArgs ) {
-            super( commandLineArgs, null, "ohm-1d" );
+            super( commandLineArgs, "ohm-1d" );
             super.setLookAndFeel( new PhetLookAndFeel() );
             setFrameSetup( new FrameSetup.CenteredWithSize( Ohm1DSimulationPanel.BASE_FRAME_WIDTH, 660 ) );
         }

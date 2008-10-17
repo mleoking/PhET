@@ -33,7 +33,7 @@ public class BatteryVoltageApplication extends PiccoloPhetApplication {
             }
         };
 
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, "battery-voltage" );
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, "battery-voltage" );
         appConfig.setFrameSetup( new FrameSetup.CenteredWithSize( 850, 525 ) );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }

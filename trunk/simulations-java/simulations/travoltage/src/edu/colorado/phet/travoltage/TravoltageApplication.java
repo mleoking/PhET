@@ -36,7 +36,7 @@ public class TravoltageApplication extends PhetApplication {
             }
         };
         
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, TravoltageConstants.PROJECT_NAME );
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, TravoltageConstants.PROJECT_NAME );
         appConfig.setFrameSetup( new TravoltageFrameSetup() );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }

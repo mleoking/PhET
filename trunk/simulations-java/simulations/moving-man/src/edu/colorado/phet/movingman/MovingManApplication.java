@@ -38,7 +38,7 @@ public class MovingManApplication extends PiccoloPhetApplication {
             }
         };
         
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, "moving-man" );
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, "moving-man" );
         appConfig.setLookAndFeel( new MotionProjectLookAndFeel() );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }

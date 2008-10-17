@@ -38,8 +38,8 @@ public class AlphaRadiationApplication extends AbstractNuclearPhysicsApplication
             }
         };
         
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, 
-        		NuclearPhysicsConstants.PROJECT_NAME, NuclearPhysicsConstants.FLAVOR_NAME_ALPHA_DECAY );
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args,
+                                                                     NuclearPhysicsConstants.PROJECT_NAME, NuclearPhysicsConstants.FLAVOR_NAME_ALPHA_DECAY );
         
         PhetLookAndFeel p = new PhetLookAndFeel();
         p.setBackgroundColor( NuclearPhysicsConstants.ALPHA_DECAY_CONTROL_PANEL_COLOR );

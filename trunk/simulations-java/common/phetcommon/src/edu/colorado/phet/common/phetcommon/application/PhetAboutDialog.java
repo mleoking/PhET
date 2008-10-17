@@ -70,11 +70,7 @@ public class PhetAboutDialog extends JDialog {
      * @deprecated use the constructor that takes as PhetApplicationConfig
      */
     public PhetAboutDialog( Frame ownwer, String simulationShortName ) {
-        this( ownwer,  new PhetApplicationConfig( new String[0], new ApplicationConstructor() {
-            public PhetApplication getApplication( PhetApplicationConfig config ) {
-                return null;
-            }
-        },  simulationShortName  )  );
+        this( ownwer,  new PhetApplicationConfig( new String[0], simulationShortName  )  );
     }
 
     /**

@@ -58,7 +58,7 @@ public class BandStructureApplication extends BSAbstractApplication {
             }
         };
         
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, BSConstants.PROJECT_NAME, BSConstants.FLAVOR_BAND_STRUCTURE );
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, BSConstants.PROJECT_NAME, BSConstants.FLAVOR_BAND_STRUCTURE );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 }

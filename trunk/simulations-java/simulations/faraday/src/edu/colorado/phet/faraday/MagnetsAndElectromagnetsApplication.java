@@ -62,7 +62,7 @@ public class MagnetsAndElectromagnetsApplication extends PiccoloPhetApplication 
             }
         };
 
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, FaradayConstants.PROJECT_NAME, FaradayConstants.FLAVOR_MAGNETS_AND_ELECTROMAGNETS );
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, FaradayConstants.PROJECT_NAME, FaradayConstants.FLAVOR_MAGNETS_AND_ELECTROMAGNETS );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 }

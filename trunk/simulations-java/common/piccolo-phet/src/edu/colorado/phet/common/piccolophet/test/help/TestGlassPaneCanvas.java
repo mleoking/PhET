@@ -95,7 +95,7 @@ public class TestGlassPaneCanvas extends PhetApplication {
                 }
             }
         };
-        PhetApplicationConfig applicationConfig = new PhetApplicationConfig( args, applicationConstructor, "piccolo-phet" );
+        PhetApplicationConfig applicationConfig = new PhetApplicationConfig( args, "piccolo-phet" );
         new PhetApplicationLauncher().launchSim( applicationConfig, applicationConstructor );
     }
 

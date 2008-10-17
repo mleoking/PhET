@@ -14,7 +14,7 @@ public class SignalCircuitApplication extends PiccoloPhetApplication {
 
     public static class SignalCircuitApplicationConfig extends PhetApplicationConfig {
         public SignalCircuitApplicationConfig( String[] commandLineArgs ) {
-            super( commandLineArgs, null, "signal-circuit" );
+            super( commandLineArgs, "signal-circuit" );
         }
     }
 

@@ -8,8 +8,6 @@ import java.util.Properties;
 
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 
 public class TrackingManager {
     private String trackingPath = "tracking";
@@ -35,11 +33,7 @@ public class TrackingManager {
             String o = keys.nextElement().toString();
             System.out.println( o + " = " + p.getProperty( o ) );
         }
-        PhetApplicationConfig config = new PhetApplicationConfig( args, new ApplicationConstructor() {
-            public PhetApplication getApplication( PhetApplicationConfig config ) {
-                return null;
-            }
-        }, "nuclear-physics", "alpha-radiation" );
+        PhetApplicationConfig config = new PhetApplicationConfig( args, "nuclear-physics", "alpha-radiation" );
         String s = new TrackingManager().getTrackingURL( new AbstractTrackingInfo( config ) );
         System.out.println( "s = " + s );
         new TrackingManager().postTrackingInfo( new AbstractTrackingInfo( config ) );

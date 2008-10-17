@@ -58,7 +58,7 @@ public class MagnetAndCompassApplication extends PiccoloPhetApplication {
             }
         };
 
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, FaradayConstants.PROJECT_NAME, FaradayConstants.FLAVOR_MAGNET_AND_COMPASS );
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, FaradayConstants.PROJECT_NAME, FaradayConstants.FLAVOR_MAGNET_AND_COMPASS );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 }

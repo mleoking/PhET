@@ -139,7 +139,7 @@ public class OpticalTweezersApplication extends OTAbstractApplication {
             }
         };
         
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, OTConstants.PROJECT_NAME, OTConstants.FLAVOR_OPTICAL_TWEEZERS );
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, OTConstants.PROJECT_NAME, OTConstants.FLAVOR_OPTICAL_TWEEZERS );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 }

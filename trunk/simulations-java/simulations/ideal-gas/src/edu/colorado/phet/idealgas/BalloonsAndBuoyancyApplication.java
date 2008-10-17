@@ -86,7 +86,7 @@ public class BalloonsAndBuoyancyApplication extends PhetApplication {
             }
         };
         
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, IdealGasConfig.PROJECT_NAME, IdealGasConfig.FLAVOR_BALLOONS_AND_BUOYANCY );
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, IdealGasConfig.PROJECT_NAME, IdealGasConfig.FLAVOR_BALLOONS_AND_BUOYANCY );
         appConfig.setLookAndFeel( new IdealGasLookAndFeel() );
         appConfig.setFrameSetup( IdealGasConfig.FRAME_SETUP );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );

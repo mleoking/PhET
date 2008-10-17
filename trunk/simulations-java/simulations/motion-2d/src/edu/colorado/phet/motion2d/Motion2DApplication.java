@@ -17,7 +17,7 @@ public class Motion2DApplication extends PiccoloPhetApplication {
 
     public static class Motion2DApplicationConfig extends PhetApplicationConfig {
         public Motion2DApplicationConfig( String[] commandLineArgs ) {
-            super( commandLineArgs, null, "motion-2d" );
+            super( commandLineArgs, "motion-2d" );
             setFrameSetup( new FrameSetup.CenteredWithSize( 850, 600 ) );
         }
     }

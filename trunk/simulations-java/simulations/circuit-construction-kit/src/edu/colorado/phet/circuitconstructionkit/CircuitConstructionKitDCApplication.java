@@ -91,7 +91,7 @@ public class CircuitConstructionKitDCApplication extends PiccoloPhetApplication 
         };
         
         String flavor = isDynamic( args ) ? "circuit-construction-kit-ac" : "circuit-construction-kit-dc";
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, "circuit-construction-kit", flavor );
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, "circuit-construction-kit", flavor );
         appConfig.setLookAndFeel( new CCKPhetLookAndFeel() );
         appConfig.setFrameSetup( createFrameSetup() );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
