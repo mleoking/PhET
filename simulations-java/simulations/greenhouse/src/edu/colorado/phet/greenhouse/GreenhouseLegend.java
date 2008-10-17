@@ -6,13 +6,16 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import java.awt.*;
+import java.awt.AWTException;
+import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.image.BufferedImage;
 
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.greenhouse.phetcommon.view.util.GraphicsUtil;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 public class GreenhouseLegend extends JPanel {
 
@@ -52,14 +55,14 @@ public class GreenhouseLegend extends JPanel {
         try {
             JLabel sunlightLegend = new JLabel( SimStrings.get( "GreenhouseLegend.SunlightPhotonLabel" ),
                                                 sunlightPhotonIcon, SwingConstants.LEFT );
-            GraphicsUtil.addGridBagComponent( this, sunlightLegend,
+            SwingUtils.addGridBagComponent( this, sunlightLegend,
                                               0, rowIdx++,
                                               1, 1,
                                               GridBagConstraints.HORIZONTAL,
                                               GridBagConstraints.WEST );
             JLabel irLegend = new JLabel( SimStrings.get( "GreenhouseLegend.InfraredPhotonLabel" ),
                                           irPhotonIcon, SwingConstants.LEFT );
-            GraphicsUtil.addGridBagComponent( this, irLegend,
+            SwingUtils.addGridBagComponent( this, irLegend,
                                               0, rowIdx++,
                                               1, 1,
                                               GridBagConstraints.HORIZONTAL,
