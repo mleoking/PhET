@@ -1,15 +1,11 @@
 package edu.colorado.phet.balloons;
 
-import java.awt.Color;
-import java.awt.HeadlessException;
+import java.awt.*;
 import java.io.IOException;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.*;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
@@ -104,16 +100,13 @@ public class BalloonsApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) {
-        
-        ApplicationConstructor appConstructor = new ApplicationConstructor() {
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, null, "balloons" );
+        appConfig.getLookAndFeel().setBackgroundColor( new Color( 200, 240, 200 ) );
+
+        new PhetApplicationLauncher().launchSim( appConfig, new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 return new BalloonsApplication( config );
             }
-        };
-        
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, "balloons" );
-        appConfig.setFrameSetup( new FrameSetup.NoOp() ); //TODO: is this needed?...
-        appConfig.getLookAndFeel().setBackgroundColor( new Color( 200, 240, 200 ) );
-        appConfig.launchSim();
+        } );
     }
 }
