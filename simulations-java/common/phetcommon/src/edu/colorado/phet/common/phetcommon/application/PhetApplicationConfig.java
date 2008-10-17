@@ -28,7 +28,7 @@ import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
  *
  * @author John De Goes / Chris Malley
  */
-public class PhetApplicationConfig implements Trackable, ITrackingInfo, ISimInfoWithFrameSetup {
+public class PhetApplicationConfig implements Trackable, ITrackingInfo, ISimInfo {
 
     //----------------------------------------------------------------------------
     // Class data

@@ -10,7 +10,6 @@ import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.JTabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
-import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 
 /**
  * The base class for PhET applications.
@@ -29,7 +28,7 @@ public class PhetApplication {
     //----------------------------------------------------------------
 
     private TabbedPaneType tabbedPaneType;
-    private ISimInfoWithFrameSetup simInfo;
+    private PhetApplicationConfig phetApplicationConfig;
 
     private PhetFrame phetFrame;
     private ModuleManager moduleManager;
@@ -39,20 +38,20 @@ public class PhetApplication {
     // Constructors
     //----------------------------------------------------------------
 
-    public PhetApplication( ISimInfoWithFrameSetup config ) {
+    public PhetApplication( PhetApplicationConfig config ) {
         this( config, JTABBED_PANE_TYPE );
     }
 
-    protected PhetApplication( ISimInfoWithFrameSetup config, TabbedPaneType tabbedPaneType ) {
-        this.simInfo = config;
+    protected PhetApplication( PhetApplicationConfig phetApplicationConfig, TabbedPaneType tabbedPaneType ) {
+        this.phetApplicationConfig = phetApplicationConfig;
         this.tabbedPaneType = tabbedPaneType;
 
         this.moduleManager = new ModuleManager( this );
         phetFrame = createPhetFrame();
-        config.getFrameSetup().initialize( phetFrame );
+        phetApplicationConfig.getFrameSetup().initialize( phetFrame );
 
         // Handle command line arguments
-        parseArgs( config.getCommandLineArgs() );
+        parseArgs( phetApplicationConfig.getCommandLineArgs() );
 
         phetApplications.add( this );
     }
@@ -67,11 +66,11 @@ public class PhetApplication {
      * @return true or false
      */
     public boolean isDeveloperControlsEnabled() {
-        return CommandLineUtils.contains( simInfo.getCommandLineArgs(), DEVELOPER_CONTROLS_COMMAND_LINE_ARG );
+        return CommandLineUtils.contains( phetApplicationConfig.getCommandLineArgs(), DEVELOPER_CONTROLS_COMMAND_LINE_ARG );
     }
 
     public ISimInfo getSimInfo() {
-        return simInfo;
+        return phetApplicationConfig;
     }
 
     /**
@@ -356,7 +355,7 @@ public class PhetApplication {
     }
 
     public String getHumanReadableTrackingInformation() {
-        return simInfo.getHumanReadableTrackingInformation();
+        return phetApplicationConfig.getHumanReadableTrackingInformation();
     }
 
     /**
