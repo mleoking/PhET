@@ -3,6 +3,7 @@ package edu.colorado.phet.movingman;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
@@ -39,6 +40,6 @@ public class MovingManApplication extends PiccoloPhetApplication {
         
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, "moving-man" );
         appConfig.setLookAndFeel( new MotionProjectLookAndFeel() );
-        appConfig.launchSim();
+        new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 }

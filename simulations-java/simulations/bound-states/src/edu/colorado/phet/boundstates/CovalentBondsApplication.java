@@ -14,6 +14,7 @@ package edu.colorado.phet.boundstates;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 
 /**
  * BSCovalentBondsApplication is the simulation titled "Double Wells and Covalent Bonds".
@@ -57,6 +58,6 @@ public class CovalentBondsApplication extends BSAbstractApplication {
         };
         
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, BSConstants.PROJECT_NAME, BSConstants.FLAVOR_COVALENT_BONDS );
-        appConfig.launchSim();
+        new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 }

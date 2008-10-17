@@ -219,7 +219,7 @@ public class LasersApplication extends PiccoloPhetApplication {
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, LasersConfig.PROJECT_NAME );
         appConfig.setLookAndFeel( new LasersLookAndFeel() );     
         appConfig.setFrameSetup( LasersConfig.FRAME_SETUP );
-        appConfig.launchSim();
+        new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 
 }

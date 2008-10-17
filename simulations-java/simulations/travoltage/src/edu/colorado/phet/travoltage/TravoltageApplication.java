@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
 /**
@@ -37,6 +38,6 @@ public class TravoltageApplication extends PhetApplication {
         
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, TravoltageConstants.PROJECT_NAME );
         appConfig.setFrameSetup( new TravoltageFrameSetup() );
-        appConfig.launchSim();
+        new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 }

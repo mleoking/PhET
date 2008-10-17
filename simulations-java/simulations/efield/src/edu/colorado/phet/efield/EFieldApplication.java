@@ -2,10 +2,7 @@ package edu.colorado.phet.efield;
 
 import javax.swing.JMenu;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.*;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
@@ -45,6 +42,6 @@ public class EFieldApplication extends PhetApplication {
         
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, "efield" );
         appConfig.setFrameSetup( new FrameSetup.CenteredWithSize( 600, 600 ) );
-        appConfig.launchSim();
+        new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 }

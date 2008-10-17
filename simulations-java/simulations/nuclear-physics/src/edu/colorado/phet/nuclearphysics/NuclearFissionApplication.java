@@ -9,6 +9,7 @@ import java.awt.Frame;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.nuclearphysics.module.chainreaction.ChainReactionModule;
 import edu.colorado.phet.nuclearphysics.module.fissiononenucleus.FissionOneNucleusModule;
@@ -73,6 +74,6 @@ public class NuclearFissionApplication extends AbstractNuclearPhysicsApplication
         p.setBackgroundColor( NuclearPhysicsConstants.NUCLEAR_FISSION_CONTROL_PANEL_COLOR );
         appConfig.setLookAndFeel( p );
 
-        appConfig.launchSim();
+        new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 }

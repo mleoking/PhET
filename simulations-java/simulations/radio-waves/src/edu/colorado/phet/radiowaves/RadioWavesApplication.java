@@ -14,6 +14,7 @@ import javax.swing.JMenu;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.radiowaves.view.WaveMediumGraphic;
 
@@ -49,7 +50,7 @@ public class RadioWavesApplication extends PhetApplication {
             }
         };
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, RadioWavesConstants.PROJECT_NAME );
-        appConfig.launchSim();
+        new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 
 }

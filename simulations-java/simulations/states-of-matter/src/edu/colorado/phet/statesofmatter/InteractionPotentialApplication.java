@@ -5,10 +5,7 @@ package edu.colorado.phet.statesofmatter;
 import java.awt.Color;
 import java.awt.Frame;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.*;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
@@ -119,25 +116,26 @@ public class InteractionPotentialApplication extends PiccoloPhetApplication impl
     //----------------------------------------------------------------------------
 
     public static void main(final String[] args ) {
-    	
-        PhetApplicationConfig config = new PhetApplicationConfig( args, new ApplicationConstructor() {
-                    public PhetApplication getApplication( PhetApplicationConfig config ) {
 
-                        // Create the application.
-                        InteractionPotentialApplication app = new InteractionPotentialApplication( config );
+        ApplicationConstructor applicationConstructor = new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
 
-                        // Start the application.
-                        app.startApplication();
-                        return app;
-                    }
-                }, StatesOfMatterConstants.PROJECT_NAME, StatesOfMatterConstants.FLAVOR_INTERACTION_POTENTIAL );
+                // Create the application.
+                InteractionPotentialApplication app = new InteractionPotentialApplication( config );
+
+                // Start the application.
+                app.startApplication();
+                return app;
+            }
+        };
+        PhetApplicationConfig config = new PhetApplicationConfig( args, applicationConstructor, StatesOfMatterConstants.PROJECT_NAME, StatesOfMatterConstants.FLAVOR_INTERACTION_POTENTIAL );
         
         config.setFrameSetup( StatesOfMatterConstants.FRAME_SETUP );
 
         PhetLookAndFeel p = new PhetLookAndFeel();
         p.setBackgroundColor( StatesOfMatterConstants.CONTROL_PANEL_COLOR );
         config.setLookAndFeel( p );
-        config.launchSim();
+        new PhetApplicationLauncher().launchSim( config, applicationConstructor );
 
     }
 }

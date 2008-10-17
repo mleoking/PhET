@@ -5,6 +5,7 @@ package edu.colorado.phet.phetgraphicsdemo;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 
 /**
  * PhetgraphicsDemoApplication demonstrates how registration point, location
@@ -30,6 +31,6 @@ public class PhetgraphicsDemoApplication extends PhetApplication {
         };
         
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, PhetGraphicsDemoConstants.PROJECT_NAME );
-        appConfig.launchSim();
+        new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 }

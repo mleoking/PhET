@@ -35,10 +35,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JMenuItem;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.*;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.energyskatepark.serialization.EnergySkateParkIO;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkFrameSetup;
@@ -117,7 +114,7 @@ public class EnergySkateParkApplication extends PhetApplication {
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, EnergySkateParkConstants.PROJECT_NAME );
         appConfig.setLookAndFeel( new EnergySkateParkLookAndFeel() );
         appConfig.setFrameSetup( new EnergySkateParkFrameSetup() );
-        appConfig.launchSim();
+        new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 
 }
