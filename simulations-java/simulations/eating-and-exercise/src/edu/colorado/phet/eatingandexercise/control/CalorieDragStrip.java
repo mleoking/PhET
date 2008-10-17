@@ -390,6 +390,7 @@ public class CalorieDragStrip extends PNode {
     }
 
     public static interface DragNode {
+        //todo: clear up the difference between getPNode and getPNodeIcon
         PNode getPNode();
 
         CaloricItem getItem();

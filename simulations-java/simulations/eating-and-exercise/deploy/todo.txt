@@ -42,9 +42,6 @@ NP says: OK, it is fine the way it is.
     the zoom buttons go away but the axis does not rescale, so you can end up with a rescaled axis
     that you can not get back to the standard view (unless you add lots of calories to make the zoom buttons return).
 
-- When dragging to the charts, it is fairly easy to set a food item (like pizza) so that it is only slightly on the plate. For instance, if you set a pizza centered on the knife/spoon, it is only about 10% on the plate but remains there. Maybe make it so that the center of the item has to be on the plate when it is dropped?
->>This will be difficult; I'll ask Chris if he can help solve this.
-
 WA says: I really like the larger area for placing food and exercises!  It’s very useful for clueless users such as myselfJ
 
 NP says: Don't worry about it in this case. We can see if it is really an issue in interviews.

@@ -1,11 +1,11 @@
 package edu.colorado.phet.eatingandexercise.control;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -18,8 +18,8 @@ import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.model.CalorieSet;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Created by: Sam
@@ -131,24 +131,21 @@ public class CalorieNode extends PNode {
     Random random = new Random();
 
     private void moveToDropTarget( CalorieDragStrip.DragNode node ) {
-        Point2D target=dropTarget.getGlobalFullBounds().getCenter2D();
+        Point2D target = dropTarget.getGlobalFullBounds().getCenter2D();
         node.getPNodeIcon().globalToLocal( target );
-        PDimension d=new PDimension( node.getPNodeIcon().getGlobalFullBounds().width/2,node.getPNodeIcon().getGlobalFullBounds().height/2);
+
+        PDimension targetBounds = new PDimension( dropTarget.getGlobalFullBounds().getWidth() / 2,
+                                                  dropTarget.getGlobalFullBounds().getHeight() / 2 );
+        node.getPNodeIcon().globalToLocal( targetBounds );
+
+        PDimension d = new PDimension( node.getPNodeIcon().getGlobalFullBounds().width / 2, node.getPNodeIcon().getGlobalFullBounds().height / 2 );
         node.getPNodeIcon().globalToLocal( d );
 
-//        PDimension d=new PDimension( node.getPNodeIcon().getWidth()/2,
-//                                     node.getPNodeIcon().getWidth()/2);
-//        double targetX = dropTarget.getFullBounds().getX() + random.nextDouble() * dropTarget.getFullBounds().getWidth() * 0.5;
-//        double targetY = dropTarget.getFullBounds().getY() + random.nextDouble() * dropTarget.getFullBounds().getHeight() * 0.5;
-        node.getPNodeIcon().animateToPositionScaleRotation( target.getX()-d.width, target.getY()-d.height, 1, 0, 750 );
-
-        //todo: why doesn't this work?
-//        PDimension delta=new PDimension( node.getPNode().getGlobalFullBounds().getCenter2D(),dropTarget.getGlobalFullBounds().getCenter2D());
-//        System.out.println( "global delta = " + delta );
-//        node.getPNode().globalToLocal( delta );
-//        System.out.println( "local delta = " + delta );
-//        node.getPNode().animateToPositionScaleRotation( node.getPNode().getTransform().getTranslateX()+delta.getWidth(),
-//                                                        node.getPNode().getTransform().getTranslateY()+delta.getHeight(), 1, 0, 750 );
+        double offsetW = 2 * ( random.nextDouble() - 0.5 ) * targetBounds.width * 0.75;
+        double offsetH = 2 * ( random.nextDouble() - 0.5 ) * targetBounds.height * 0.75;
+        node.getPNodeIcon().animateToPositionScaleRotation( target.getX() - d.width + offsetW,
+                                                            target.getY() - d.height + offsetH,
+                                                            1, 0, 750 );
     }
 
     private boolean shouldMoveToTarget( CalorieDragStrip.DragNode node ) {
