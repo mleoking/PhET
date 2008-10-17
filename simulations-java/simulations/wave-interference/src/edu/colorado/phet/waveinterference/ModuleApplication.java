@@ -4,6 +4,7 @@ package edu.colorado.phet.waveinterference;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 
 /**
  * User: Sam Reid
@@ -14,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 public class ModuleApplication {
 
     public void startApplication( String[] args, final Module module ) {
-        PhetApplicationConfig applicationConfig1 = new PhetApplicationConfig( args, new PhetApplicationConfig.ApplicationConstructor() {
+        PhetApplicationConfig applicationConfig1 = new PhetApplicationConfig( args, new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 PhetApplication moduleApplication = new ModulePhetApplication( config );
                 moduleApplication.addModule( module );

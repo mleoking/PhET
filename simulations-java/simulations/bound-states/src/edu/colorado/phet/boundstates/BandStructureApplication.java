@@ -13,7 +13,7 @@ package edu.colorado.phet.boundstates;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 
 /**
  * BSBandStructureApplication is the simulation titled "Band Structure".

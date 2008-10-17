@@ -9,6 +9,7 @@ import java.util.Properties;
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 
 public class TrackingManager {
     private String trackingPath = "tracking";
@@ -34,7 +35,7 @@ public class TrackingManager {
             String o = keys.nextElement().toString();
             System.out.println( o + " = " + p.getProperty( o ) );
         }
-        PhetApplicationConfig config = new PhetApplicationConfig( args, new PhetApplicationConfig.ApplicationConstructor() {
+        PhetApplicationConfig config = new PhetApplicationConfig( args, new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 return null;
             }

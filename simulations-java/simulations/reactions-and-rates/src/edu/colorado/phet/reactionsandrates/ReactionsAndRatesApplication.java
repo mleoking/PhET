@@ -16,6 +16,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
@@ -48,7 +49,7 @@ public class ReactionsAndRatesApplication extends PiccoloPhetApplication {
 
 
 //                PhetApplicationConfig config = new PhetApplicationConfig( args, frameSetup, MRConfig.RESOURCES );
-                PhetApplicationConfig config = new PhetApplicationConfig( args, new PhetApplicationConfig.ApplicationConstructor() {
+                PhetApplicationConfig config = new PhetApplicationConfig( args, new ApplicationConstructor() {
                     public PhetApplication getApplication( PhetApplicationConfig config ) {
 
                         ReactionsAndRatesApplication application = new ReactionsAndRatesApplication( config );

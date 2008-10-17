@@ -48,10 +48,10 @@ import javax.swing.event.MouseInputAdapter;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
@@ -87,7 +87,7 @@ public class TestGlassPaneCanvas extends PhetApplication {
 
     /* Test harness */
     public static void main( final String[] args ) {
-        new PhetApplicationConfig( args, new PhetApplicationConfig.ApplicationConstructor() {
+        new PhetApplicationConfig( args, new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
 
                 try {
