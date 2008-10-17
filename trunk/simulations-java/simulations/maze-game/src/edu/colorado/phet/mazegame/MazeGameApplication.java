@@ -1,12 +1,13 @@
 package edu.colorado.phet.mazegame;
 
+import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 /**
  * User: Sam Reid
@@ -26,11 +27,7 @@ public class MazeGameApplication extends PiccoloPhetApplication {
 
     public static class MazeGameApplicationConfig extends PhetApplicationConfig {
         public MazeGameApplicationConfig( String[] commandLineArgs ) {
-            super( commandLineArgs, new ApplicationConstructor() {
-                public PhetApplication getApplication( PhetApplicationConfig config ) {
-                    return new MazeGameApplication( config );
-                }
-            }, "maze-game"  );
+            super( commandLineArgs, null, "maze-game" );
             setFrameSetup( new FrameSetup.CenteredWithSize( 700, 600 ) );
         }
     }
@@ -48,7 +45,12 @@ public class MazeGameApplication extends PiccoloPhetApplication {
     }
 
     public static void main( String[] args ) {
-        new MazeGameApplicationConfig( args ).launchSim();
+        MazeGameApplicationConfig applicationConfig = new MazeGameApplicationConfig( args );
+        new PhetApplicationLauncher().launchSim( applicationConfig, new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new MazeGameApplication( config );
+            }
+        } );
     }
 
 }

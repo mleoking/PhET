@@ -14,10 +14,7 @@ import java.awt.*;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.*;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.solublesalts.control.OptionsMenu;
@@ -59,7 +56,8 @@ public class SolubleSaltsApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) {
-        PhetApplicationConfig p=new PhetApplicationConfig(args, new ApplicationConstructor() {
+        PhetApplicationConfig p=new PhetApplicationConfig(args, null, "soluble-salts");
+        new PhetApplicationLauncher().launchSim( p, new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
 
                 for ( int i = 0; i < args.length; i++ ) {
@@ -99,7 +97,6 @@ public class SolubleSaltsApplication extends PiccoloPhetApplication {
 
                 return app;
             }
-        }, "soluble-salts");
-        p.launchSim();
+        });
     }
 }

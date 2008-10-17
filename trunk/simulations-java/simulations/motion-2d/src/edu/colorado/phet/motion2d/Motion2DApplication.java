@@ -2,10 +2,7 @@ package edu.colorado.phet.motion2d;
 
 import java.io.IOException;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.*;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
@@ -20,11 +17,7 @@ public class Motion2DApplication extends PiccoloPhetApplication {
 
     public static class Motion2DApplicationConfig extends PhetApplicationConfig {
         public Motion2DApplicationConfig( String[] commandLineArgs ) {
-            super( commandLineArgs, new ApplicationConstructor() {
-                public PhetApplication getApplication( PhetApplicationConfig config ) {
-                    return new Motion2DApplication( config );
-                }
-            },"motion-2d");
+            super( commandLineArgs, null, "motion-2d" );
             setFrameSetup( new FrameSetup.CenteredWithSize( 850, 600 ) );
         }
     }
@@ -48,6 +41,11 @@ public class Motion2DApplication extends PiccoloPhetApplication {
     }
 
     public static void main( String[] args ) {
-        new Motion2DApplicationConfig( args ).launchSim();
+        Motion2DApplicationConfig dApplicationConfig = new Motion2DApplicationConfig( args );
+        new PhetApplicationLauncher().launchSim( dApplicationConfig, new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new Motion2DApplication( config );
+            }
+        } );
     }
 }

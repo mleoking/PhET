@@ -1,9 +1,6 @@
 package edu.colorado.phet.semiconductor;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Point2D;
@@ -12,11 +9,11 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.JButton;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
@@ -335,11 +332,7 @@ public class SemiconductorApplication implements Graphic {
     public static class SemiconductorApplicationConfig extends PhetApplicationConfig {
 
         public SemiconductorApplicationConfig( String[] commandLineArgs ) {
-            super(commandLineArgs, new ApplicationConstructor() {
-                public edu.colorado.phet.common.phetcommon.application.PhetApplication getApplication( PhetApplicationConfig config ) {
-                    return new SemiconductorPhetApplication( config );
-                }
-            },"semiconductor");
+            super( commandLineArgs, null, "semiconductor" );
             setFrameSetup( new edu.colorado.phet.common.phetcommon.view.util.FrameSetup.CenteredWithInsets( 100, 100 ) );
             PhetLookAndFeel feel = new PhetLookAndFeel();
             feel.setBackgroundColor( new Color( 245, 245, 255 ) );
@@ -382,7 +375,12 @@ public class SemiconductorApplication implements Graphic {
     }
 
     public static void main( final String[] args ) throws IOException, UnsupportedLookAndFeelException {
-        new SemiconductorApplicationConfig( args ).launchSim();
+        SemiconductorApplicationConfig semiconductorApplicationConfig = new SemiconductorApplicationConfig( args );
+        new PhetApplicationLauncher().launchSim( semiconductorApplicationConfig, new ApplicationConstructor() {
+            public edu.colorado.phet.common.phetcommon.application.PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new SemiconductorPhetApplication( config );
+            }
+        } );
     }
 
 }
