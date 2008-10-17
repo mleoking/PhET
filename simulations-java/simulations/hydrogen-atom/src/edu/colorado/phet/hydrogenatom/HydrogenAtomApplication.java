@@ -183,7 +183,7 @@ public class HydrogenAtomApplication extends PiccoloPhetApplication {
             }
         };
         
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, HAConstants.PROJECT_NAME );
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, HAConstants.PROJECT_NAME );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 }

@@ -71,7 +71,7 @@ public class TestHelpRepaint {
     private static final double MAX_Y = 100;
 
     public static void main( final String[] args ) {
-        new PhetApplicationLauncher().launchSim( new PhetApplicationConfig( args,null , "bound-states" ), new ApplicationConstructor() {
+        new PhetApplicationLauncher().launchSim( new PhetApplicationConfig( args, "bound-states" ), new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 try {
                     return new TestApplication( config );

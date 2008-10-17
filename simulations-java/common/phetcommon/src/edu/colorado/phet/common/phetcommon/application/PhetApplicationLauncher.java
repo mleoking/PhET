@@ -70,11 +70,11 @@ public class PhetApplicationLauncher {
     }
 
     public void launchSim( String[] commandLineArgs, String project, ApplicationConstructor applicationConstructor ) {
-        launchSim( new PhetApplicationConfig( commandLineArgs, null, project ), applicationConstructor );
+        launchSim( new PhetApplicationConfig( commandLineArgs, project ), applicationConstructor );
     }
 
     public void launchSim( String[] commandLineArgs, String project, String flavor, ApplicationConstructor applicationConstructor ) {
-        launchSim( new PhetApplicationConfig( commandLineArgs, null, project, flavor ), applicationConstructor );
+        launchSim( new PhetApplicationConfig( commandLineArgs, project, flavor ), applicationConstructor );
     }
 
     public void launchSim( final PhetApplicationConfig config, final ApplicationConstructor applicationConstructor ) {

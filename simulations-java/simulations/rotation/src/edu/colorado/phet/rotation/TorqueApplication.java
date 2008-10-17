@@ -55,7 +55,7 @@ public class TorqueApplication extends PiccoloPhetApplication {
 
     private static class TorqueApplicationConfig extends PhetApplicationConfig {
         public TorqueApplicationConfig( String[] commandLineArgs ) {
-            super( commandLineArgs, null, "rotation", "torque" );
+            super( commandLineArgs, "rotation", "torque" );
         }
     }
 }

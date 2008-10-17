@@ -42,7 +42,7 @@ public class TheRampApplication extends PiccoloPhetApplication {
             }
         };
         
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, TheRampConstants.PROJECT_NAME );
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, TheRampConstants.PROJECT_NAME );
         appConfig.setFrameSetup( TheRampConstants.FRAME_SETUP );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }

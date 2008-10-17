@@ -59,7 +59,7 @@ public class BoundStatesApplication extends BSAbstractApplication {
             }
         };
         
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, BSConstants.PROJECT_NAME, BSConstants.FLAVOR_BOUND_STATES );
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, BSConstants.PROJECT_NAME, BSConstants.FLAVOR_BOUND_STATES );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 }

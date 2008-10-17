@@ -79,7 +79,7 @@ public class MriApplication extends PiccoloPhetApplication {
             }
         };
         
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, MriConfig.PROJECT_NAME );
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, MriConfig.PROJECT_NAME );
         appConfig.setLookAndFeel( new MriLookAndFeel() );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }

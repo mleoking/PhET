@@ -94,7 +94,7 @@ public class PhotoelectricApplication extends PhetApplication {
             }
         };
         
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, PhotoelectricConfig.PROJECT_NAME );
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, PhotoelectricConfig.PROJECT_NAME );
         appConfig.setFrameSetup( FRAME_SETUP );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }

@@ -42,7 +42,7 @@ public class MVCExampleApplication extends PiccoloPhetApplication {
             }
         };
         
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, PROJECT_NAME );
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, PROJECT_NAME );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 }

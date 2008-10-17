@@ -21,7 +21,7 @@ public class TestPhetApplication {
     }
 
     public static void main( String[] args ) {
-        new PhetApplicationLauncher().launchSim( new PhetApplicationConfig( new String[0], null, "phetcommon" ), new ApplicationConstructor() {
+        new PhetApplicationLauncher().launchSim( new PhetApplicationConfig( new String[0], "phetcommon" ), new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 PhetApplication app = new PhetApplication( config );
 

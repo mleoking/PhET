@@ -27,7 +27,7 @@ public class MazeGameApplication extends PiccoloPhetApplication {
 
     public static class MazeGameApplicationConfig extends PhetApplicationConfig {
         public MazeGameApplicationConfig( String[] commandLineArgs ) {
-            super( commandLineArgs, null, "maze-game" );
+            super( commandLineArgs, "maze-game" );
             setFrameSetup( new FrameSetup.CenteredWithSize( 700, 600 ) );
         }
     }

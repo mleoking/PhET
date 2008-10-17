@@ -161,8 +161,8 @@ public class StatesOfMatterApplication extends PiccoloPhetApplication implements
             }
         };
         
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, 
-        		StatesOfMatterConstants.PROJECT_NAME, StatesOfMatterConstants.FLAVOR_STATES_OF_MATTER );
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args,
+                                                                     StatesOfMatterConstants.PROJECT_NAME, StatesOfMatterConstants.FLAVOR_STATES_OF_MATTER );
 
         PhetLookAndFeel p = new PhetLookAndFeel();
         p.setBackgroundColor( StatesOfMatterConstants.CONTROL_PANEL_COLOR );

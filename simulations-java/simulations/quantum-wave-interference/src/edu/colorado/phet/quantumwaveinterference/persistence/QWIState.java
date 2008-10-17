@@ -264,7 +264,7 @@ public class QWIState implements Serializable, IProguardKeepClass {
                 return new QuantumWaveInterferenceApplication( config );
             }
         };
-        PhetApplicationConfig config = new PhetApplicationConfig( args, appConstructor, QWIConstants.PROJECT_NAME, QWIConstants.FLAVOR_QUANTUM_WAVE_INTERFERENCE );
+        PhetApplicationConfig config = new PhetApplicationConfig( args, QWIConstants.PROJECT_NAME, QWIConstants.FLAVOR_QUANTUM_WAVE_INTERFERENCE );
         QuantumWaveInterferenceApplication app = (QuantumWaveInterferenceApplication) appConstructor.getApplication( config );
         PersistenceManager persistenceManager = new PersistenceManager( new JButton() );
         QWIModule qwiModule = new SingleParticleModule( app, new SwingClock( 30, 1 ) );

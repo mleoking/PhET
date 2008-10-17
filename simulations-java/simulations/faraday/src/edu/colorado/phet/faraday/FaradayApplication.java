@@ -71,7 +71,7 @@ public class FaradayApplication extends PiccoloPhetApplication {
             }
         };
         
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, FaradayConstants.PROJECT_NAME, FaradayConstants.FLAVOR_FARADAY );
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, FaradayConstants.PROJECT_NAME, FaradayConstants.FLAVOR_FARADAY );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 }

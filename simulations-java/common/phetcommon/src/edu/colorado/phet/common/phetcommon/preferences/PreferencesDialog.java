@@ -14,8 +14,6 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.updates.ApplicationConfigManualCheckForUpdates;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -93,11 +91,7 @@ public class PreferencesDialog extends JDialog {
      * Test, this edits the real preferences file!
      */
     public static void main( String[] args ) {
-        final PhetApplicationConfig config = new PhetApplicationConfig( args, new ApplicationConstructor() {
-            public PhetApplication getApplication( PhetApplicationConfig config ) {
-                return null;
-            }
-        }, "balloons" );
+        final PhetApplicationConfig config = new PhetApplicationConfig( args, "balloons" );
         PreferencesDialog preferencesDialog = new PreferencesDialog( null, config, new ApplicationConfigManualCheckForUpdates( null, config ), new DefaultUpdatePreferences(),
                 new DefaultTrackingPreferences() );
         preferencesDialog.addWindowListener( new WindowAdapter() {

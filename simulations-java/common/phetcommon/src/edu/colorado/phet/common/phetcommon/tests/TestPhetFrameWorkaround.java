@@ -76,7 +76,7 @@ public class TestPhetFrameWorkaround {
                 return phetApplication;
             }
         };
-        PhetApplicationConfig config=new PhetApplicationConfig( args, applicationConstructor, "phetcommon");
+        PhetApplicationConfig config=new PhetApplicationConfig( args, "phetcommon");
         config.setFrameSetup(  new FrameSetup.CenteredWithSize( 800, 600 ));
         new PhetApplicationLauncher().launchSim( config,applicationConstructor );
 

@@ -46,7 +46,6 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo, ISimInfo
     private PhetResources resourceLoader;
 
     // mutable
-    private ApplicationConstructor applicationConstructor;
     private FrameSetup frameSetup;
     private PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel(); // the look and feel to be initialized in launchSim
 
@@ -61,21 +60,20 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo, ISimInfo
     // Constructors
     //----------------------------------------------------------------------------
 
-    /**
+    /*
      * Constructor with smallest number of args for the case where project & flavor names are identical.
      */
-    public PhetApplicationConfig( String[] commandLineArgs, ApplicationConstructor applicationConstructor, String project ) {
-        this( commandLineArgs, applicationConstructor, project, project );
+    public PhetApplicationConfig( String[] commandLineArgs, String project ) {
+        this( commandLineArgs, project, project );
     }
 
-    /**
+    /*
      * Constructor with smallest number of args for a flavor.
      */
-    public PhetApplicationConfig( String[] commandLineArgs, ApplicationConstructor applicationConstructor, String project, String flavor ) {
+    public PhetApplicationConfig( String[] commandLineArgs, String project, String flavor ) {
         this.commandLineArgs = commandLineArgs;
         this.flavor = flavor;
         this.resourceLoader = new PhetResources( project );
-        this.applicationConstructor = applicationConstructor;
         this.frameSetup = DEFAULT_FRAME_SETUP;
         this.phetLookAndFeel = new PhetLookAndFeel();
     }

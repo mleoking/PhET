@@ -16,7 +16,7 @@ public class ElectricHockeyApplication extends PhetApplication {
 
     public static class ElectricHockeyApplicationConfig extends PhetApplicationConfig {
         public ElectricHockeyApplicationConfig( String[] commandLineArgs ) {
-            super( commandLineArgs, null, "electric-hockey" );
+            super( commandLineArgs, "electric-hockey" );
             setFrameSetup( new FrameSetup.CenteredWithSize( 800, 750 ) );
             super.setLookAndFeel( new PhetLookAndFeel() );
         }

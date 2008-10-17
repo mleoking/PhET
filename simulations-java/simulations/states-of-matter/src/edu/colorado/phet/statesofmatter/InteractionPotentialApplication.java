@@ -128,7 +128,7 @@ public class InteractionPotentialApplication extends PiccoloPhetApplication impl
                 return app;
             }
         };
-        PhetApplicationConfig config = new PhetApplicationConfig( args, applicationConstructor, StatesOfMatterConstants.PROJECT_NAME, StatesOfMatterConstants.FLAVOR_INTERACTION_POTENTIAL );
+        PhetApplicationConfig config = new PhetApplicationConfig( args, StatesOfMatterConstants.PROJECT_NAME, StatesOfMatterConstants.FLAVOR_INTERACTION_POTENTIAL );
         
         config.setFrameSetup( StatesOfMatterConstants.FRAME_SETUP );
 

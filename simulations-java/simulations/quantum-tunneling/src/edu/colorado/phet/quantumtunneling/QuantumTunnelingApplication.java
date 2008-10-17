@@ -221,7 +221,7 @@ public class QuantumTunnelingApplication extends PhetApplication {
             }
         };
         
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, QTConstants.PROJECT_NAME );
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, QTConstants.PROJECT_NAME );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 }

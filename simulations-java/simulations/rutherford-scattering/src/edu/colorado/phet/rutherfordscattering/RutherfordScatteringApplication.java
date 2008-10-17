@@ -61,7 +61,7 @@ public class RutherfordScatteringApplication extends PiccoloPhetApplication {
             }
         };
         
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, RSConstants.PROJECT_NAME );
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, RSConstants.PROJECT_NAME );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 }

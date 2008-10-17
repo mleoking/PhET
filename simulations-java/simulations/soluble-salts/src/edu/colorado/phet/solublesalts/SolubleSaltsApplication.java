@@ -56,7 +56,7 @@ public class SolubleSaltsApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) {
-        PhetApplicationConfig p=new PhetApplicationConfig(args, null, "soluble-salts");
+        PhetApplicationConfig p=new PhetApplicationConfig(args, "soluble-salts");
         new PhetApplicationLauncher().launchSim( p, new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
 

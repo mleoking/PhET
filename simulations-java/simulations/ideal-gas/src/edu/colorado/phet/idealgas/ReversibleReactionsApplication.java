@@ -59,7 +59,7 @@ public class ReversibleReactionsApplication extends PhetApplication {
             }
         };
         
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, IdealGasConfig.PROJECT_NAME, IdealGasConfig.FLAVOR_REVERSIBLE_REACTIONS );
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, IdealGasConfig.PROJECT_NAME, IdealGasConfig.FLAVOR_REVERSIBLE_REACTIONS );
         appConfig.setLookAndFeel( new IdealGasLookAndFeel() );
         appConfig.setFrameSetup( IdealGasConfig.FRAME_SETUP );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );

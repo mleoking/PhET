@@ -118,7 +118,7 @@ public class OpticalQuantumControlApplication extends PhetApplication {
             }
         };
         
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, OQCConstants.PROJECT_NAME );
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, OQCConstants.PROJECT_NAME );
         appConfig.setFrameSetup( OQCConstants.FRAME_SETUP ); // MoleculeAnimation requires knowledge of the FrameSetup
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }

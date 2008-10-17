@@ -123,7 +123,7 @@ public class MolecularMotorsApplication extends OTAbstractApplication {
             }
         };
         
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, OTConstants.PROJECT_NAME, OTConstants.FLAVOR_MOLECULAR_MOTORS );
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, OTConstants.PROJECT_NAME, OTConstants.FLAVOR_MOLECULAR_MOTORS );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 }

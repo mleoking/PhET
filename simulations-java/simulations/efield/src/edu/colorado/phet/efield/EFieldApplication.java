@@ -40,7 +40,7 @@ public class EFieldApplication extends PhetApplication {
             }
         };
         
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, appConstructor, "efield" );
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, "efield" );
         appConfig.setFrameSetup( new FrameSetup.CenteredWithSize( 600, 600 ) );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
