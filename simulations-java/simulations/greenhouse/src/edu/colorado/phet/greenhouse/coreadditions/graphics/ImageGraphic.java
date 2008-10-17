@@ -6,26 +6,26 @@
  */
 package edu.colorado.phet.greenhouse.coreadditions.graphics;
 
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 
+import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.greenhouse.phetcommon.view.graphics.Graphic;
-import edu.colorado.phet.greenhouse.phetcommon.view.util.graphics.ImageLoader;
 
 public class ImageGraphic implements Graphic, ImageObserver, ImageGraphicType {
 
     private BufferedImage image;
-    private Point2D.Double modeLocation;
     private Point2D.Double location = new Point2D.Double();
     private AffineTransform imageTx;
     private AffineTransform orgTx;
 
     public ImageGraphic( String imageFileLocation, Point2D.Double modelLocation ) {
-        this( ImageLoader.fetchBufferedImage( imageFileLocation ), modelLocation );
+        this( GreenhouseResources.getImage( imageFileLocation ), modelLocation );
     }
 
     public ImageGraphic( BufferedImage image, Point2D.Double modelLocation ) {

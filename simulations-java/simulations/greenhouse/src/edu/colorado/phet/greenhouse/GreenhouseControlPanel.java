@@ -26,7 +26,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.greenhouse.coreadditions.ModelViewTx1D;
-import edu.colorado.phet.greenhouse.phetcommon.view.util.graphics.ImageLoader;
 
 
 public class GreenhouseControlPanel extends JPanel {
@@ -98,7 +97,7 @@ public class GreenhouseControlPanel extends JPanel {
         //--------------------------------------------------------------------------------------------------
 
         // PhET logo
-        JLabel logo = new JLabel( ( new ImageIcon( new ImageLoader().loadImage( "greenhouse/images/Phet-Flatirons-logo-3-small.gif" ) ) ) );
+        JLabel logo = new JLabel( ( new ImageIcon( GreenhouseResources.getImage( "Phet-Flatirons-logo-3-small.gif" ) ) ) );
 
         // Incident photon's from the sun
         final SliderWithReadout sunRateControl = new SliderWithReadout( SimStrings.get( "GreenhouseControlPanel.SunRateSlider" ),
