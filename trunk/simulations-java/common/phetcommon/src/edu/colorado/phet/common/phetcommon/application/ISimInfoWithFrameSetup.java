@@ -1,7 +1,5 @@
 package edu.colorado.phet.common.phetcommon.application;
 
-import javax.security.auth.spi.LoginModule;
-
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
 /**
