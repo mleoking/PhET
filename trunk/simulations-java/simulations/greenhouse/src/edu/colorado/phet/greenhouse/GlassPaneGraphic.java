@@ -23,15 +23,12 @@ import edu.colorado.phet.greenhouse.phetcommon.view.graphics.Graphic;
  * and emerge again from it.
  */
 public class GlassPaneGraphic implements Graphic {
-    private GlassPane glassPane;
     private Rectangle2D.Double graphic;
-    private Paint basePaint = Color.white;
     private Paint glassPaint = Color.white;
     private float glassAlpha = 0.3f;
     private Stroke glassStroke = new BasicStroke( 0.01f );
 
     public GlassPaneGraphic( GlassPane glassPane, ImageGraphic backgroundGraphic, Rectangle2D modelBounds ) {
-        this.glassPane = glassPane;
         graphic = new Rectangle2D.Double( glassPane.getBounds().getMinX(),
                                           glassPane.getBounds().getMinY(),
                                           glassPane.getWidth(),

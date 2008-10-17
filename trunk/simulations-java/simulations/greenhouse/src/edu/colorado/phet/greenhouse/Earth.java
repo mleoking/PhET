@@ -57,7 +57,6 @@ public class Earth extends Disk implements TemperatureReporter, PhotonEmitter, P
     private void computeTemperature() {
         double thSum = 0;
         for ( int i = temperatureHistory.length - 2; i >= 0; i-- ) {
-            double t = temperatureHistory[i];
             thSum += temperatureHistory[i];
             temperatureHistory[i + 1] = temperatureHistory[i];
         }

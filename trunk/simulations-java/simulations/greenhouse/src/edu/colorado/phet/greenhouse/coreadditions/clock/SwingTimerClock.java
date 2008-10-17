@@ -28,7 +28,7 @@ public class SwingTimerClock extends AbstractClock {
                     parent.clockTicked();
 
                     long tickTime = System.currentTimeMillis();
-                    long actualWaitTime = tickTime - lastTickTime;
+//                    long actualWaitTime = tickTime - lastTickTime;
                     lastTickTime = tickTime;
                     if( isRunning() ) {
 //                        double actualDT = ( ( (double)actualWaitTime ) / getRequestedWaitTime() ) * getRequestedDT();

@@ -19,7 +19,6 @@ public class Atmosphere extends Annulus /*extends BasicPhotonAbsorber */ impleme
     public static final double stratosphereThickness = 30;
     public static final double thickness = troposphereThickness + stratosphereThickness;
     private Annulus troposphere;
-    private Annulus stratosphere;
     private double greenhouseGasConcentration = GreenhouseConfig.defaultGreenhouseGasConcentration;
     ArrayList listeners = new ArrayList();
 
@@ -30,8 +29,6 @@ public class Atmosphere extends Annulus /*extends BasicPhotonAbsorber */ impleme
         super( earth.getLocation(), Earth.radius * 2, ( Earth.radius + troposphereThickness + stratosphereThickness ) * 2 );
         troposphere = new Annulus( earth.getLocation(), Earth.radius * 2,
                                    ( Earth.radius + troposphereThickness ) * 2 );
-        stratosphere = new Annulus( earth.getLocation(), troposphere.getOuterDiameter(),
-                                    troposphere.getOuterDiameter() + stratosphereThickness * 2 );
     }
 
     public Annulus getTroposphere() {
