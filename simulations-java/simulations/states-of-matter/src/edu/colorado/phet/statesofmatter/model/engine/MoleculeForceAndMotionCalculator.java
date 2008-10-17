@@ -16,4 +16,11 @@ public interface MoleculeForceAndMotionCalculator {
 	 * Do the next set of calculations of force and motion.
 	 */
 	public void updateForcesAndMotion();
+	
+	/**
+	 * Get the system pressure in normalized model units.
+	 * 
+	 * @return - Internal system pressure.
+	 */
+	public double getPressure();
 }
