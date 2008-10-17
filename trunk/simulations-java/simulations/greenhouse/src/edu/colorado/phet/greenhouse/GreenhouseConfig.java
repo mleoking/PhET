@@ -12,6 +12,8 @@ import java.awt.*;
 import edu.colorado.phet.greenhouse.phetcommon.view.ApparatusPanel;
 
 public class GreenhouseConfig {
+    
+    public static final String PROJECT_NAME = "greenhouse";
 
     //
     // Static fields and methods

@@ -8,9 +8,9 @@
  */
 package edu.colorado.phet.greenhouse.phetcommon.view.graphics;
 
-import edu.colorado.phet.greenhouse.phetcommon.view.util.graphics.ImageLoader;
+import java.awt.Image;
 
-import java.awt.*;
+import edu.colorado.phet.greenhouse.GreenhouseResources;
 
 /**
  * A utility class that supports animation of a set of images read from disk.
@@ -95,11 +95,9 @@ public class Animation {
      */
     private static Image[] loadAnimation(String filePrefix, int numFrames) {
         Image[] frames = new Image[numFrames];
-        ImageLoader animationLoader = new ImageLoader();
         for (int i = 1; i <= numFrames; i++) {
             String fileName = Animation.genAnimationFileName(filePrefix, i);
-            frames[i - 1] = animationLoader.loadBufferedImage(fileName);
-//            frames[i - 1] = animationLoader.loadImage(fileName);
+            frames[i - 1] = GreenhouseResources.getImage(fileName);
         }
         return frames;
     }

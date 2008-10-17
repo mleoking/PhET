@@ -1,18 +1,21 @@
 /*, 2003.*/
 package edu.colorado.phet.greenhouse.coreadditions.components;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.greenhouse.phetcommon.model.ApplicationModel;
 import edu.colorado.phet.greenhouse.phetcommon.model.command.Command;
-import edu.colorado.phet.greenhouse.phetcommon.view.util.graphics.ImageLoader;
 
 /**
  * User: Sam Reid
@@ -37,12 +40,11 @@ public class ApplicationModelControlPanel extends JPanel {
 
     public ApplicationModelControlPanel( final ApplicationModel runner, final Resettable rh ) {
         this.model = runner;
-        ImageLoader cil = new ImageLoader();
 
-        String root = "greenhouse/images/icons/java/media/";
-        BufferedImage playU = cil.loadBufferedImage( root + "Play24.gif" );
-        BufferedImage pauseU = cil.loadBufferedImage( root + "Pause24.gif" );
-        BufferedImage stepU = cil.loadBufferedImage( root + "StepForward24.gif" );
+        String root = "icons/java/media/";
+        BufferedImage playU = GreenhouseResources.getImage( root + "Play24.gif" );
+        BufferedImage pauseU = GreenhouseResources.getImage( root + "Pause24.gif" );
+        BufferedImage stepU = GreenhouseResources.getImage( root + "StepForward24.gif" );
         ImageIcon playIcon = new ImageIcon( playU );
         ImageIcon pauseIcon = new ImageIcon( pauseU );
         ImageIcon stepIcon = new ImageIcon( stepU );
@@ -88,7 +90,7 @@ public class ApplicationModelControlPanel extends JPanel {
         this.add( buttonPanel, BorderLayout.CENTER );
 
 
-        BufferedImage resetU = cil.loadBufferedImage( root + "Stop24.gif" );
+        BufferedImage resetU = GreenhouseResources.getImage( root + "Stop24.gif" );
         ImageIcon resetIcon = new ImageIcon( resetU );
         resetButton = new JButton( SimStrings.get( "ApplicationModelControlPanel.ResetButton" ), resetIcon );
         resetButton.addActionListener( new ResetActionListener() );

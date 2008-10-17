@@ -6,7 +6,10 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import java.awt.*;
+import java.awt.AlphaComposite;
+import java.awt.Component;
+import java.awt.Composite;
+import java.awt.Graphics2D;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
@@ -21,7 +24,6 @@ import java.util.Observer;
 import edu.colorado.phet.greenhouse.coreadditions.graphics.ImageGraphic;
 import edu.colorado.phet.greenhouse.coreadditions.graphics.ShapeGraphicType;
 import edu.colorado.phet.greenhouse.phetcommon.view.CompositeGraphic;
-import edu.colorado.phet.greenhouse.phetcommon.view.util.graphics.ImageLoader;
 
 /**
  * An overlay graphic that is supposed to look like polluted air. It fades in and out depending on the
@@ -39,7 +41,7 @@ public class AtmosphereGraphic extends CompositeGraphic implements Observer, Sha
     public AtmosphereGraphic( Atmosphere atmosphere, final Rectangle2D modelBounds, Component containingComponent ) {
         this.atmosphere = atmosphere;
         atmosphere.addObserver( this );
-        BufferedImage atmosphereBI = new ImageLoader().loadBufferedImage( "greenhouse/images/pollution.gif" );
+        BufferedImage atmosphereBI = GreenhouseResources.getImage( "pollution.gif" );
         atmosphereImageGraphic = new ImageGraphic( atmosphereBI, new Point2D.Double( -modelBounds.getWidth() / 2, 0 ) );
 //        atmosphereImageGraphic = new ImageGraphic( atmosphereBI, new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
         addGraphic( atmosphereImageGraphic, 1 );

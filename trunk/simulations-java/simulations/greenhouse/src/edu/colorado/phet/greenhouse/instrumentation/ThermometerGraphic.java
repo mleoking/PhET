@@ -21,9 +21,9 @@ import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.greenhouse.phetcommon.view.graphics.Graphic;
-import edu.colorado.phet.greenhouse.phetcommon.view.util.graphics.ImageLoader;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
+import edu.colorado.phet.greenhouse.GreenhouseResources;
+import edu.colorado.phet.greenhouse.phetcommon.view.graphics.Graphic;
 
 public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
 
@@ -43,8 +43,8 @@ public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
     public ThermometerGraphic( Component component, Thermometer thermometer ) {
         thermometer.addObserver( this );
         this.thermometer = thermometer;
-        thermometerBody = ImageLoader.fetchBufferedImage( "greenhouse/images/thermometer-2.png" );
-        thermometerBackground = ImageLoader.fetchBufferedImage( "greenhouse/images/thermometer-background-2.png" );
+        thermometerBody = GreenhouseResources.getImage( "thermometer-2.png" );
+        thermometerBackground = GreenhouseResources.getImage( "thermometer-background-2.png" );
         thermometerBI = new BufferedImage( thermometerBody.getWidth(),
                                            thermometerBody.getHeight(),
                                            BufferedImage.TYPE_INT_ARGB );

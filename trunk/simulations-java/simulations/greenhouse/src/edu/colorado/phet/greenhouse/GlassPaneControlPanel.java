@@ -16,7 +16,6 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.greenhouse.coreadditions.MessageFormatter;
-import edu.colorado.phet.greenhouse.phetcommon.view.util.graphics.ImageLoader;
 
 
 public class GlassPaneControlPanel extends JPanel {
@@ -105,7 +104,7 @@ public class GlassPaneControlPanel extends JPanel {
                                                          GridBagConstraints.HORIZONTAL,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
         // PhET logo
-        JLabel logo = new JLabel( ( new ImageIcon( new ImageLoader().loadImage( "greenhouse/images/Phet-Flatirons-logo-3-small.gif" ) ) ) );
+        JLabel logo = new JLabel( ( new ImageIcon( GreenhouseResources.getImage( "Phet-Flatirons-logo-3-small.gif" ) ) ) );
         panel.add( logo, gbc );
 
         panel.add( new GreenhouseLegend(), gbc );

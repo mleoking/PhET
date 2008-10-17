@@ -39,7 +39,7 @@ public class GlassPaneModule extends BaseGreenhouseModule {
         super( SimStrings.get( "ModuleTitle.GlassLayerModule" ) );
 
         // Make the background graphic first. It will be needed by teh glass pane graphics
-        backgroundGraphic = new ImageGraphic( "greenhouse/images/glass-pane-background.gif",
+        backgroundGraphic = new ImageGraphic( "glass-pane-background.gif",
                                               new Point2D.Double(
                                                       ( (GreenhouseModel) getModel() ).getBounds().getX(),
                                                       ( (GreenhouseModel) getModel() ).getBounds().getY() ) );
