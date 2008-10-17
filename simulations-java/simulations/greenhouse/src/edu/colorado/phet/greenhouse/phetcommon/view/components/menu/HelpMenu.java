@@ -6,23 +6,24 @@
  */
 package edu.colorado.phet.greenhouse.phetcommon.view.components.menu;
 
-import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+
+import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 public class HelpMenu extends JMenu {
     private JFrame phetFrame;
 
     public HelpMenu(JFrame phetFrame, final String name, String description, String version) {
-        super(SimStrings.get("HelpMenu.MenuTitle"));
+        super(PhetCommonResources.getString("Common.HelpMenu.Title"));
         this.phetFrame = phetFrame;
-        final JMenuItem about = new JMenuItem(SimStrings.get("HelpMenu.AboutMenuItem"));
-        about.setMnemonic(SimStrings.get("HelpMenu.AboutMenuItemMnemonic").charAt(0));
-        this.setMnemonic(SimStrings.get("HelpMenu.MenuTitleMnemonic").charAt(0));
+        final JMenuItem about = new JMenuItem(PhetCommonResources.getString("Common.HelpMenu.About"));
         about.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 showAboutDialog();

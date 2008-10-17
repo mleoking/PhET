@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.greenhouse.coreadditions.graphics.ImageGraphic;
 import edu.colorado.phet.greenhouse.phetcommon.application.PhetApplication;
 import edu.colorado.phet.greenhouse.phetcommon.view.ApparatusPanel;
@@ -36,7 +35,7 @@ public class GlassPaneModule extends BaseGreenhouseModule {
 
 
     public GlassPaneModule() {
-        super( SimStrings.get( "ModuleTitle.GlassLayerModule" ) );
+        super( GreenhouseResources.getString( "ModuleTitle.GlassLayerModule" ) );
 
         // Make the background graphic first. It will be needed by teh glass pane graphics
         backgroundGraphic = new ImageGraphic( "glass-pane-background.gif",

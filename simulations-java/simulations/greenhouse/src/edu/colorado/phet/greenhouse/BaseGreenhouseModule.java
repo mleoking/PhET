@@ -6,15 +6,16 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import javax.swing.*;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.greenhouse.filter.BandpassFilter;
 import edu.colorado.phet.greenhouse.filter.Filter1D;
 import edu.colorado.phet.greenhouse.instrumentation.Thermometer;
@@ -357,9 +358,10 @@ public abstract class BaseGreenhouseModule extends Module {
                 }
 
                 // Put up a dialog prompting the user to kick things off
-                String[] options = new String[]{SimStrings.get( "BaseGreenhouseModule.FlyMeInText" ),
-                        SimStrings.get( "BaseGreenhouseModule.BeamMeDownText" )};
-                JOptionPane jop = new JOptionPane( SimStrings.get( "BaseGreenhouseModule.QuestionText" ), JOptionPane.QUESTION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, options, options[0] );
+                String[] options = new String[]{
+                        GreenhouseResources.getString( "BaseGreenhouseModule.FlyMeInText" ),
+                        GreenhouseResources.getString( "BaseGreenhouseModule.BeamMeDownText" )};
+                JOptionPane jop = new JOptionPane( GreenhouseResources.getString( "BaseGreenhouseModule.QuestionText" ), JOptionPane.QUESTION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, options, options[0] );
                 JDialog zoomDialog = jop.createDialog( PhetApplication.instance().getApplicationView().getPhetFrame(), "" );
                 Point p = PhetApplication.instance().getApplicationView().getPhetFrame().getLocation();
                 zoomDialog.setLocation( p.x + 50, p.y + 50 );

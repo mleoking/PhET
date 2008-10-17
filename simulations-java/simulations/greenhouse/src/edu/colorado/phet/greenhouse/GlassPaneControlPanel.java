@@ -14,7 +14,6 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.greenhouse.coreadditions.MessageFormatter;
 
 
@@ -55,10 +54,10 @@ public class GlassPaneControlPanel extends JPanel {
         tf.setEditable( false );
         tf.setBackground( Color.white );
         glassPanePanel.add( glassPaneSpinner );
-        glassPanePanel.add( new JLabel( MessageFormatter.format( SimStrings.get( "GlassPaneControlPanel.GlassPaneLabel" ) ) ) );
+        glassPanePanel.add( new JLabel( MessageFormatter.format( GreenhouseResources.getString( "GlassPaneControlPanel.GlassPaneLabel" ) ) ) );
 
         // Show/hide thermometer
-        thermometerCB = new JCheckBox( SimStrings.get( "GlassPaneControlPanel.ThermometerCheckbox" ) );
+        thermometerCB = new JCheckBox( GreenhouseResources.getString( "GlassPaneControlPanel.ThermometerCheckbox" ) );
         thermometerCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.thermometerEnabled( thermometerCB.isSelected() );
@@ -66,7 +65,7 @@ public class GlassPaneControlPanel extends JPanel {
         } );
 
         // Ratio of photons to see
-        allPhotonsCB = new JCheckBox( SimStrings.get( "GlassPaneControlPanel.ViewPhotonsCheckbox" ) );
+        allPhotonsCB = new JCheckBox( GreenhouseResources.getString( "GlassPaneControlPanel.ViewPhotonsCheckbox" ) );
         allPhotonsCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( allPhotonsCB.isSelected() ) {
@@ -82,7 +81,7 @@ public class GlassPaneControlPanel extends JPanel {
         setDefaultConditions();
 
         // Reset button
-        JButton resetBtn = new JButton( SimStrings.get( "GreenhouseControlPanel.Reset" ) );
+        JButton resetBtn = new JButton( GreenhouseResources.getString( "GreenhouseControlPanel.Reset" ) );
         resetBtn.setForeground( Color.black );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -112,7 +111,7 @@ public class GlassPaneControlPanel extends JPanel {
         // Options Panel
         JPanel optionsPanel = new JPanel( new GridBagLayout() );
         optionsPanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(),
-                                                                  SimStrings.get( "GreenhouseControlPanel.Options" ) ) );
+                GreenhouseResources.getString( "GreenhouseControlPanel.Options" ) ) );
         GridBagConstraints optsGbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1,
                                                              GridBagConstraints.WEST,
                                                              GridBagConstraints.NONE,

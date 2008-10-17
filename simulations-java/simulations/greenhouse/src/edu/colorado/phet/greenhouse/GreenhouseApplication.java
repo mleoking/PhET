@@ -16,11 +16,9 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.AWTSplashWindow;
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.greenhouse.coreadditions.MessageFormatter;
 import edu.colorado.phet.greenhouse.coreadditions.clock.StaticClockModel;
 import edu.colorado.phet.greenhouse.coreadditions.clock.SwingTimerClock;
@@ -39,14 +37,12 @@ import edu.colorado.phet.greenhouse.phetcommon.view.apparatuspanelcontainment.Ap
  * it is in the background image (in the view) and use that.
  */
 public class GreenhouseApplication extends PhetApplication {
-    // Localization
-    public static final String localizedStringsPath = "greenhouse/localization/greenhouse-strings";
 
     private static PhetApplication s_application;
     private static SwingTimerClock clock;
 
     //todo: convert to proper use of PhetApplicationConfig for getting version
-    private static final String VERSION = new PhetResources("greenhouse" ).getVersion().formatForTitleBar();
+    private static final String VERSION = GreenhouseResources.getResourceLoader().getVersion().formatForTitleBar();
 
     public static SwingTimerClock getClock() {
         return clock;
@@ -69,8 +65,6 @@ public class GreenhouseApplication extends PhetApplication {
     }
 
     public static void main( String[] args ) {
-        SimStrings.getInstance().init( args, localizedStringsPath );
-        SimStrings.getInstance().addStrings( "greenhouse/localization/phetcommon-strings" );
 
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
@@ -80,8 +74,8 @@ public class GreenhouseApplication extends PhetApplication {
                 phetLookAndFeel.initLookAndFeel();
 
                 JFrame window = new JFrame();
-                AWTSplashWindow splashWindow = new AWTSplashWindow( window, SimStrings.get( "greenhouse.name" ) );
-                splashWindow.show();
+                AWTSplashWindow splashWindow = new AWTSplashWindow( window, GreenhouseResources.getString( "greenhouse.name" ) );
+                splashWindow.setVisible( true );
 
                 BaseGreenhouseModule greenhouseModule = new GreenhouseModule();
                 BaseGreenhouseModule greenhouseModule2 = new GlassPaneModule();
@@ -90,11 +84,10 @@ public class GreenhouseApplication extends PhetApplication {
                         greenhouseModule2
                 };
                 ApplicationDescriptor appDescriptor = new ApplicationDescriptor(
-                        new String( SimStrings.get( "greenhouse.name" ) + " (" + VERSION + ")" ),
-                        MessageFormatter.format( SimStrings.get( "greenhouse.description" ) ),
+                        new String( GreenhouseResources.getString( "greenhouse.name" ) + " (" + VERSION + ")" ),
+                        MessageFormatter.format( GreenhouseResources.getString( "greenhouse.description" ) ),
                         VERSION,
                         new FrameSetup.CenteredWithSize( 1024, 768 ) );
-//                clock = new SwingTimerClock( new StaticClockModel( 10, 20 ) );
                 clock = new SwingTimerClock( new StaticClockModel( 10, 30 ) );
                 s_application = new PhetApplication( appDescriptor, modules, clock );
                 s_application.getApplicationView().getPhetFrame().setResizable( false );

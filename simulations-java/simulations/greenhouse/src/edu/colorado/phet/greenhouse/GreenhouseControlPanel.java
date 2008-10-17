@@ -23,7 +23,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.greenhouse.coreadditions.ModelViewTx1D;
 
@@ -47,21 +46,21 @@ public class GreenhouseControlPanel extends JPanel {
 
     private ModelSlider greenhouseGasConcentrationControl;
     String[] iceAgeConcentrations = new String[]{" ?",
-            "200 " + SimStrings.get( "GreenhouseControlPanel.PPMAbreviation" ),
+            "200 " + GreenhouseResources.getString( "GreenhouseControlPanel.PPMAbreviation" ),
             " ?",
             " ?"};
 
     String[] preIndRevConcentrations = new String[]{
-            "70% " + SimStrings.get( "GreenhouseControlPanel.RelativeHumidityAbbreviation" ),
-            "280 " + SimStrings.get( "GreenhouseControlPanel.PPMAbreviation" ),
-            "730 " + SimStrings.get( "GreenhouseControlPanel.PPBAbreviation" ),
-            "270 " + SimStrings.get( "GreenhouseControlPanel.PPBAbreviation" )};
+            "70% " + GreenhouseResources.getString( "GreenhouseControlPanel.RelativeHumidityAbbreviation" ),
+            "280 " + GreenhouseResources.getString( "GreenhouseControlPanel.PPMAbreviation" ),
+            "730 " + GreenhouseResources.getString( "GreenhouseControlPanel.PPBAbreviation" ),
+            "270 " + GreenhouseResources.getString( "GreenhouseControlPanel.PPBAbreviation" )};
 
     String[] todayConcentrations = new String[]{
-            "70% " + SimStrings.get( "GreenhouseControlPanel.RelativeHumidityAbbreviation" ),
-            "370 " + SimStrings.get( "GreenhouseControlPanel.PPMAbreviation" ),
-            "1843 " + SimStrings.get( "GreenhouseControlPanel.PPBAbreviation" ),
-            "317 " + SimStrings.get( "GreenhouseControlPanel.PPBAbreviation" )};
+            "70% " + GreenhouseResources.getString( "GreenhouseControlPanel.RelativeHumidityAbbreviation" ),
+            "370 " + GreenhouseResources.getString( "GreenhouseControlPanel.PPMAbreviation" ),
+            "1843 " + GreenhouseResources.getString( "GreenhouseControlPanel.PPBAbreviation" ),
+            "317 " + GreenhouseResources.getString( "GreenhouseControlPanel.PPBAbreviation" )};
 
     String[] venusConcentrations = new String[]{
             "",
@@ -100,7 +99,7 @@ public class GreenhouseControlPanel extends JPanel {
         JLabel logo = new JLabel( ( new ImageIcon( GreenhouseResources.getImage( "Phet-Flatirons-logo-3-small.gif" ) ) ) );
 
         // Incident photon's from the sun
-        final SliderWithReadout sunRateControl = new SliderWithReadout( SimStrings.get( "GreenhouseControlPanel.SunRateSlider" ),
+        final SliderWithReadout sunRateControl = new SliderWithReadout( GreenhouseResources.getString( "GreenhouseControlPanel.SunRateSlider" ),
                                                                         "", 0,
                                                                         GreenhouseConfig.maxIncomingRate,
                                                                         GreenhouseConfig.defaultSunPhotonProductionRate );
@@ -111,7 +110,7 @@ public class GreenhouseControlPanel extends JPanel {
         } );
 
         // Earth emissivity
-        final SliderWithReadout earthEmissivityControl = new SliderWithReadout( SimStrings.get( "GreenhouseControlPanel.EarthEmissivitySlider" ),
+        final SliderWithReadout earthEmissivityControl = new SliderWithReadout( GreenhouseResources.getString( "GreenhouseControlPanel.EarthEmissivitySlider" ),
                                                                                 "", 0,
                                                                                 GreenhouseConfig.maxEarthEmissivity,
                                                                                 GreenhouseConfig.defaultEarthEmissivity );
@@ -158,10 +157,10 @@ public class GreenhouseControlPanel extends JPanel {
         tf.setBackground( Color.white );
 
         cloudPanel.add( cloudsSpinner );
-        cloudPanel.add( new JLabel( SimStrings.get( "GreenhouseControlPanel.NumberOfCloudsLabel" ) ) );
+        cloudPanel.add( new JLabel( GreenhouseResources.getString( "GreenhouseControlPanel.NumberOfCloudsLabel" ) ) );
 
         // Show/hide thermometer
-        thermometerCB = new JCheckBox( SimStrings.get( "GreenhouseControlPanel.ThermometerCheckbox" ) );
+        thermometerCB = new JCheckBox( GreenhouseResources.getString( "GreenhouseControlPanel.ThermometerCheckbox" ) );
         thermometerCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.thermometerEnabled( thermometerCB.isSelected() );
@@ -172,8 +171,8 @@ public class GreenhouseControlPanel extends JPanel {
 
         // Set temperature readout to fahreheit or celsius
         ButtonGroup tempUnitsBG = new ButtonGroup();
-        fahrenheitRB = new JRadioButton( SimStrings.get( "GreenhouseControlPanel.Faherenheit" ) );
-        celsiusRB = new JRadioButton( SimStrings.get( "GreenhouseControlPanel.Celsius" ) );
+        fahrenheitRB = new JRadioButton( GreenhouseResources.getString( "GreenhouseControlPanel.Faherenheit" ) );
+        celsiusRB = new JRadioButton( GreenhouseResources.getString( "GreenhouseControlPanel.Celsius" ) );
         tempUnitsBG.add( fahrenheitRB );
         tempUnitsBG.add( celsiusRB );
         TemperatureUnitsSetter temperatureUnitsSetter = new TemperatureUnitsSetter();
@@ -182,7 +181,7 @@ public class GreenhouseControlPanel extends JPanel {
         fahrenheitRB.setSelected( true );
 
         // Ratio of photons to see
-        allPhotonsCB = new JCheckBox( SimStrings.get( "GreenhouseControlPanel.ViewPhotonsCheckbox" ) );
+        allPhotonsCB = new JCheckBox( GreenhouseResources.getString( "GreenhouseControlPanel.ViewPhotonsCheckbox" ) );
         allPhotonsCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( allPhotonsCB.isSelected() ) {
@@ -198,7 +197,7 @@ public class GreenhouseControlPanel extends JPanel {
         atmosphereSelectionPane = new AtmosphereSelectionPane();
 
         // Reset button
-        JButton resetBtn = new JButton( SimStrings.get( "GreenhouseControlPanel.Reset" ) );
+        JButton resetBtn = new JButton( GreenhouseResources.getString( "GreenhouseControlPanel.Reset" ) );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 reset();
@@ -222,14 +221,14 @@ public class GreenhouseControlPanel extends JPanel {
         // Greenhouse gas concentrations
         {
             JPanel panel = new JPanel();
-            panel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), SimStrings.get( "GreenhouseControlPanel.GasConcentrationSlider" ) ) );
+            panel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), GreenhouseResources.getString( "GreenhouseControlPanel.GasConcentrationSlider" ) ) );
             panel.add( greenhouseGasConcentrationControl );
             add( panel, gbc );
         }
 
         // Options panel
         JPanel optionsPanel = new JPanel( new GridBagLayout() );
-        optionsPanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), SimStrings.get( "GreenhouseControlPanel.Options" ) ) );
+        optionsPanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), GreenhouseResources.getString( "GreenhouseControlPanel.Options" ) ) );
         {
             Insets insetsA = new Insets( 0, 15, 0, 15 );
             Insets insetsB = new Insets( 0, 2, 0, 2 );
@@ -304,27 +303,27 @@ public class GreenhouseControlPanel extends JPanel {
 
             adjustableGGRB = new JRadioButton();
             adjustableGGRB.setAction( pickAdjustableGG );
-            adjustableGGRB.setText( SimStrings.get( "GreenhouseControlPanel.Adjustable" ) );
+            adjustableGGRB.setText( GreenhouseResources.getString( "GreenhouseControlPanel.Adjustable" ) );
             adjustableGGRB.setForeground( adjustableGGColor );
 
             JRadioButton iceAgeGGRB = new JRadioButton();
             iceAgeGGRB.setAction( pickIceAgeGG );
-            iceAgeGGRB.setText( SimStrings.get( "GreenhouseControlPanel.IceAgeLabel" ) );
+            iceAgeGGRB.setText( GreenhouseResources.getString( "GreenhouseControlPanel.IceAgeLabel" ) );
             iceAgeGGRB.setForeground( iceAgeColor );
 
             JRadioButton preIndRevGGRB = new JRadioButton();
             preIndRevGGRB.setAction( pickPreIndRevGG );
-            preIndRevGGRB.setText( SimStrings.get( "GreenhouseControlPanel.PreIndustrialLabel" ) );
+            preIndRevGGRB.setText( GreenhouseResources.getString( "GreenhouseControlPanel.PreIndustrialLabel" ) );
             preIndRevGGRB.setForeground( preIndRevColor );
 
             todayGGRB = new JRadioButton();
             todayGGRB.setAction( pickTodayGG );
-            todayGGRB.setText( SimStrings.get( "GreenhouseControlPanel.TodayLabel" ) );
+            todayGGRB.setText( GreenhouseResources.getString( "GreenhouseControlPanel.TodayLabel" ) );
             todayGGRB.setForeground( todayColor );
 
 //            JRadioButton venusGGRB = new JRadioButton();
 //            venusGGRB.setAction( pickVenusGG );
-//            venusGGRB.setText( SimStrings.get( "GreenhouseControlPanel.Venus" ) );
+//            venusGGRB.setText( GreenhouseResources.getString( "GreenhouseControlPanel.Venus" ) );
 //            venusGGRB.setForeground( venusColor );
 
             ButtonGroup ggBG = new ButtonGroup();
@@ -355,7 +354,7 @@ public class GreenhouseControlPanel extends JPanel {
             this.add( venusCompositionPane, gbc );
             this.add( adjustableCompositionPane, gbc );
 
-            TitledBorder titledBorder = BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), SimStrings.get( "GreenhouseControlPanel.TimePeriodBorderLabel" ) );
+            TitledBorder titledBorder = BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), GreenhouseResources.getString( "GreenhouseControlPanel.TimePeriodBorderLabel" ) );
             titledBorder.setTitleColor( panelForeground );
 //            titledBorder.setTitleJustification( TitledBorder.LEFT );
             this.setBorder( titledBorder );
@@ -460,10 +459,10 @@ public class GreenhouseControlPanel extends JPanel {
 
         GreenhouseCompositionPane() {
             String[] labels = new String[]{
-                    SimStrings.get( "GreenhouseControlPanel.H2OLabel" ),
-                    SimStrings.get( "GreenhouseControlPanel.CO2Label" ),
-                    SimStrings.get( "GreenhouseControlPanel.CH4Label" ),
-                    SimStrings.get( "GreenhouseControlPanel.N2OLabel" )
+                    GreenhouseResources.getString( "GreenhouseControlPanel.H2OLabel" ),
+                    GreenhouseResources.getString( "GreenhouseControlPanel.CO2Label" ),
+                    GreenhouseResources.getString( "GreenhouseControlPanel.CH4Label" ),
+                    GreenhouseResources.getString( "GreenhouseControlPanel.N2OLabel" )
             };
             JTextField[] concentrations = new JTextField[]{
                     h2oTF,
@@ -477,10 +476,10 @@ public class GreenhouseControlPanel extends JPanel {
             n2oTF.setEditable( false );
 
             this.setLayout( new GridBagLayout() );
-            TitledBorder titledBorder = BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), SimStrings.get( "GreenhouseControlPanel.GreenhouseGasBorderLabel" ) );
+            TitledBorder titledBorder = BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), GreenhouseResources.getString( "GreenhouseControlPanel.GreenhouseGasBorderLabel" ) );
             Font font = this.getFont();
             FontMetrics fontMetrics = getFontMetrics( font );
-            int width = fontMetrics.stringWidth( SimStrings.get( "GreenhouseControlPanel.GreenhouseGasBorderLabel" ) + "   " );
+            int width = fontMetrics.stringWidth( GreenhouseResources.getString( "GreenhouseControlPanel.GreenhouseGasBorderLabel" ) + "   " );
             Dimension concentrationsPanelDim = new Dimension( width, 120 );
             this.setPreferredSize( concentrationsPanelDim );
 
@@ -557,8 +556,8 @@ public class GreenhouseControlPanel extends JPanel {
             labelTable.put( new Integer( (int) tx.modelToView( GreenhouseConfig.greenhouseGasConcentration1750 ) ),
                             preIndRevTick );
 
-            JLabel noneTick = new JLabel( SimStrings.get( "GreenhouseControlPanel.None" ) );
-            JLabel lotsTick = new JLabel( SimStrings.get( "GreenhouseControlPanel.Lots" ) );
+            JLabel noneTick = new JLabel( GreenhouseResources.getString( "GreenhouseControlPanel.None" ) );
+            JLabel lotsTick = new JLabel( GreenhouseResources.getString( "GreenhouseControlPanel.Lots" ) );
             labelTable.put( new Integer( (int) tx.modelToView( maxModelValue ) ),
                             lotsTick );
             labelTable.put( new Integer( (int) tx.modelToView( minModelValue ) ),

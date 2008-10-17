@@ -13,7 +13,6 @@ import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.model.Command;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.greenhouse.phetcommon.model.ApplicationModel;
 
@@ -49,9 +48,9 @@ public class ApplicationModelControlPanel extends JPanel {
         ImageIcon pauseIcon = new ImageIcon( pauseU );
         ImageIcon stepIcon = new ImageIcon( stepU );
         this.rh = rh;
-        play = new JButton( SimStrings.get( "ApplicationModelControlPanel.PlayButton" ), playIcon );
-        pause = new JButton( SimStrings.get( "ApplicationModelControlPanel.PauseButton" ), pauseIcon );
-        step = new JButton( SimStrings.get( "ApplicationModelControlPanel.StepButton" ), stepIcon );
+        play = new JButton( GreenhouseResources.getString( "ApplicationModelControlPanel.PlayButton" ), playIcon );
+        pause = new JButton( GreenhouseResources.getString( "ApplicationModelControlPanel.PauseButton" ), pauseIcon );
+        step = new JButton( GreenhouseResources.getString( "ApplicationModelControlPanel.StepButton" ), stepIcon );
         step.setEnabled( false );
 
         play.addActionListener( new ActionListener() {
@@ -92,7 +91,7 @@ public class ApplicationModelControlPanel extends JPanel {
 
         BufferedImage resetU = GreenhouseResources.getImage( root + "Stop24.gif" );
         ImageIcon resetIcon = new ImageIcon( resetU );
-        resetButton = new JButton( SimStrings.get( "ApplicationModelControlPanel.ResetButton" ), resetIcon );
+        resetButton = new JButton( GreenhouseResources.getString( "ApplicationModelControlPanel.ResetButton" ), resetIcon );
         resetButton.addActionListener( new ResetActionListener() );
         if ( rh != null ) {
             add( resetButton );

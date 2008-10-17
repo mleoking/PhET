@@ -6,12 +6,15 @@
  */
 package edu.colorado.phet.greenhouse.phetcommon.view.components.menu;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.JComponent;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 
 public class PhetFileMenu extends JMenu {
 
@@ -20,12 +23,12 @@ public class PhetFileMenu extends JMenu {
     }
 
     public PhetFileMenu( JComponent[] menuStuff ) {
-        super( SimStrings.get( "PhetFileMenu.MenuTitle" ) );
+        super( PhetCommonResources.getString( "Common.FileMenu.Title" ) );
         for( int i = 0; i < menuStuff.length; i++ ) {
             Component component = menuStuff[i];
             this.add( component );
         }
-        JMenuItem exitMI = new JMenuItem( SimStrings.get( "PhetFileMenu.ExitMenuItem" ) );
+        JMenuItem exitMI = new JMenuItem( PhetCommonResources.getString( "Common.FileMenu.Exit" ) );
         exitMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 System.exit( 0 );
