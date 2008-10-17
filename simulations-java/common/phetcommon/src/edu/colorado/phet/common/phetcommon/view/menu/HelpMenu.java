@@ -82,7 +82,7 @@ public class HelpMenu extends JMenu implements ModuleObserver {
         //----------------------------------------------------------------------
         // Separator
         addSeparator();
-        if ( phetApplication.getPhetApplicationConfig().isUpdatesEnabled() ) {
+        if ( phetApplication.getSimInfo().isUpdatesEnabled() ) {
             add( new CheckForUpdatesMenuItem() );
         }
 

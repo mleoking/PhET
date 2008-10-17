@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 /**
  * The base class for PhET applications.
  */
-public class PhetApplication implements ISimInfo{
+public class PhetApplication {
 
     //----------------------------------------------------------------
     // Class data
@@ -29,7 +29,7 @@ public class PhetApplication implements ISimInfo{
     //----------------------------------------------------------------
 
     private TabbedPaneType tabbedPaneType;
-    private ISimInfoWithFrameSetup phetApplicationConfig;
+    private ISimInfoWithFrameSetup simInfo;
 
     private PhetFrame phetFrame;
     private ModuleManager moduleManager;
@@ -44,7 +44,7 @@ public class PhetApplication implements ISimInfo{
     }
 
     protected PhetApplication( ISimInfoWithFrameSetup config, TabbedPaneType tabbedPaneType ) {
-        this.phetApplicationConfig = config;
+        this.simInfo = config;
         this.tabbedPaneType = tabbedPaneType;
 
         this.moduleManager = new ModuleManager( this );
@@ -67,11 +67,11 @@ public class PhetApplication implements ISimInfo{
      * @return true or false
      */
     public boolean isDeveloperControlsEnabled() {
-        return CommandLineUtils.contains( phetApplicationConfig.getCommandLineArgs(), DEVELOPER_CONTROLS_COMMAND_LINE_ARG );
+        return CommandLineUtils.contains( simInfo.getCommandLineArgs(), DEVELOPER_CONTROLS_COMMAND_LINE_ARG );
     }
 
-    public ISimInfo getPhetApplicationConfig() {
-        return phetApplicationConfig;
+    public ISimInfo getSimInfo() {
+        return simInfo;
     }
 
     /**
@@ -315,65 +315,6 @@ public class PhetApplication implements ISimInfo{
     public Module[] getModules() {
         return moduleManager.getModules();
     }
-    
-    /**
-     * Get the title for this PhetApplication.
-     *
-     * @return the title.
-     */
-    public String getName() {
-        return getPhetApplicationConfig().getName();
-    }
-
-    /**
-     * Get the description for this PhetApplication.
-     *
-     * @return the description.
-     */
-    public String getDescription() {
-        return getPhetApplicationConfig().getDescription();
-    }
-
-    public PhetVersion getVersion() {
-        return getPhetApplicationConfig().getVersion();
-    }
-
-    /**
-     * Gets the credits for the simulations.
-     *
-     * @return the credits for this simulation.
-     */
-    public String getCredits() {
-        return getPhetApplicationConfig().getCredits();
-    }
-
-    public boolean isUpdatesEnabled() {
-        return phetApplicationConfig.isUpdatesEnabled();
-    }
-
-    public boolean isTrackingEnabled() {
-        return phetApplicationConfig.isTrackingEnabled();
-    }
-
-    public String getProjectName() {
-        return phetApplicationConfig.getProjectName();
-    }
-
-    public String getFlavor() {
-        return phetApplicationConfig.getFlavor();
-    }
-
-    public String[] getCommandLineArgs() {
-        return phetApplicationConfig.getCommandLineArgs();
-    }
-
-    public boolean isDev() {
-        return phetApplicationConfig.isDev();
-    }
-
-    public long getSimStartTimeMillis() {
-        return phetApplicationConfig.getSimStartTimeMillis();
-    }
 
     /**
      * Pauses the PhetApplication (including any Modules that are active).
@@ -415,7 +356,7 @@ public class PhetApplication implements ISimInfo{
     }
 
     public String getHumanReadableTrackingInformation() {
-        return phetApplicationConfig.getHumanReadableTrackingInformation();
+        return simInfo.getHumanReadableTrackingInformation();
     }
 
     /**
