@@ -1,0 +1,5 @@
+AuthUserFile /usr/local/apache/htdocs/admin/db-backup/.htpasswd
+AuthName "Please enter your email and password."
+AuthType Basic
+allow from colorado.edu
+require valid-user

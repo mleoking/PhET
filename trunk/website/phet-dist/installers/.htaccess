@@ -1,0 +1,4 @@
+Redirect temp /phet-dist/installers/PhET-1.0-windows-installer.exe http://phet.colorado.edu/phet-dist/installers/PhET-windows-installer.exe
+Redirect temp /phet-dist/installers/PhET-1.0-CD-ROM.zip http://phet.colorado.edu/phet-dist/installers/PhET-CD-ROM.zip 
+Redirect temp /phet-dist/installers/PhET-1.0-osx-installer.zip http://phet.colorado.edu/phet-dist/installers/PhET-osx-installer.zip
+Redirect temp /phet-dist/installers/PhET-1.0-linux-installer.bin http://phet.colorado.edu/phet-dist/installers/PhET-linux-installer.bin
