@@ -3,8 +3,8 @@
 package edu.colorado.phet.statesofmatter.view;
 
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.statesofmatter.model.AbstractMultipleParticleModel;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -58,7 +58,7 @@ public class BicyclePumpNode extends PNode {
     // Instance Data
     //------------------------------------------------------------------------
 
-    MultipleParticleModel m_model;
+    AbstractMultipleParticleModel m_model;
     PPath m_pumpHandle;
     double m_currentHandleOffset;
     double m_maxHandleOffset;
@@ -69,7 +69,7 @@ public class BicyclePumpNode extends PNode {
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
-    public BicyclePumpNode( double width, double height, MultipleParticleModel model ) {
+    public BicyclePumpNode( double width, double height, AbstractMultipleParticleModel model ) {
 
         // Initialize local variables.
         m_model = model;

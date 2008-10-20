@@ -7,7 +7,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
-import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
+import edu.colorado.phet.statesofmatter.model.AbstractMultipleParticleModel;
 import edu.colorado.phet.statesofmatter.view.ModelViewTransform;
 import edu.colorado.phet.statesofmatter.view.ParticleContainerNode;
 import edu.colorado.phet.statesofmatter.view.StoveNode;
@@ -42,7 +42,7 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
     // Instance Data
     //----------------------------------------------------------------------------
     
-    private MultipleParticleModel m_model;
+    private AbstractMultipleParticleModel m_model;
     private ParticleContainerNode m_particleContainer;
     private ModelViewTransform m_mvt;
     private CompositeThermometerNode m_thermometerNode;
@@ -51,7 +51,7 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
     // Constructor
     //----------------------------------------------------------------------------
     
-    public SolidLiquidGasCanvas(MultipleParticleModel multipleParticleModel) {
+    public SolidLiquidGasCanvas(AbstractMultipleParticleModel multipleParticleModel) {
         
         m_model = multipleParticleModel;
         
@@ -70,7 +70,7 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
         });
         
         // Set ourself up as a listener to the model.
-        m_model.addListener( new MultipleParticleModel.Adapter(){
+        m_model.addListener( new AbstractMultipleParticleModel.Adapter(){
             public void temperatureChanged(){
                 updateThermometerTemperature();
             }

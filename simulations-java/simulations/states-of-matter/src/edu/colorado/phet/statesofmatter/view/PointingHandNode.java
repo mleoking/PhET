@@ -7,7 +7,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
-import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
+import edu.colorado.phet.statesofmatter.model.AbstractMultipleParticleModel;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
@@ -40,7 +40,7 @@ public class PointingHandNode extends PNode {
     //----------------------------------------------------------------------------
     
     private PImage m_fingerImageNode;
-    private MultipleParticleModel m_model;
+    private AbstractMultipleParticleModel m_model;
     private double m_scale;
     private double m_mouseMovementAmount;
     private double m_containerSizeAtDragStart;
@@ -49,14 +49,14 @@ public class PointingHandNode extends PNode {
     // Constructor
     //----------------------------------------------------------------------------
 
-    public PointingHandNode(MultipleParticleModel model){
+    public PointingHandNode(AbstractMultipleParticleModel model){
 
         m_model = model;
         Rectangle2D containerRect = m_model.getParticleContainerRect();
         double desiredWidth = containerRect.getWidth() * NODE_WIDTH_PROPORTION;
         
         // Listen to the model for notifications of changes to the container size.
-        m_model.addListener( new MultipleParticleModel.Adapter(){
+        m_model.addListener( new AbstractMultipleParticleModel.Adapter(){
             public void containerSizeChanged(){
                 handleContainerSizeChanged();
             }

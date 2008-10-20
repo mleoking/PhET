@@ -8,7 +8,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.defaults.SolidLiquidGasDefaults;
-import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
+import edu.colorado.phet.statesofmatter.model.AbstractMultipleParticleModel;
+import edu.colorado.phet.statesofmatter.model.MultipleParticleModel1;
 
 /**
  * This class is where the model and view classes for the "Solid, Liquid, and
@@ -22,7 +23,7 @@ public class SolidLiquidGasModule extends PiccoloModule {
     // Instance Data
     //----------------------------------------------------------------------------
 
-    private MultipleParticleModel m_model;
+    private AbstractMultipleParticleModel m_model;
     private SolidLiquidGasCanvas  m_canvas;
 
     //----------------------------------------------------------------------------
@@ -35,7 +36,7 @@ public class SolidLiquidGasModule extends PiccoloModule {
                 new ConstantDtClock(SolidLiquidGasDefaults.CLOCK_FRAME_DELAY, SolidLiquidGasDefaults.CLOCK_DT));
 
         // Model
-        m_model = new MultipleParticleModel( getClock() );
+        m_model = new MultipleParticleModel1( getClock() );
 
         // Canvas
         m_canvas = new SolidLiquidGasCanvas( m_model );
@@ -56,7 +57,7 @@ public class SolidLiquidGasModule extends PiccoloModule {
     //----------------------------------------------------------------------------
     // Accessor Methods
     //----------------------------------------------------------------------------
-    public MultipleParticleModel getMultiParticleModel(){
+    public AbstractMultipleParticleModel getMultiParticleModel(){
         return m_model;
     }
     //----------------------------------------------------------------------------

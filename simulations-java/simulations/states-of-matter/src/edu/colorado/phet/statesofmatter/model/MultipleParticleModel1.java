@@ -31,7 +31,7 @@ import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
  *
  * @author John Blanco
  */
-public class MultipleParticleModel {
+public class MultipleParticleModel1 extends AbstractMultipleParticleModel {
     
 	//----------------------------------------------------------------------------
     // Class Data
@@ -185,7 +185,7 @@ public class MultipleParticleModel {
     // Constructor
     //----------------------------------------------------------------------------
     
-    public MultipleParticleModel(IClock clock) {
+    public MultipleParticleModel1(IClock clock) {
         
         m_clock = clock;
         m_heightChangeCounter = 0;
@@ -2716,45 +2716,48 @@ public class MultipleParticleModel {
     // Inner Interfaces and Classes
     //------------------------------------------------------------------------
     
-    public static interface Listener {
-        
-        /**
-         * Inform listeners that the model has been reset.
-         */
-        public void resetOccurred();
-        
-        /**
-         * Inform listeners that a new particle has been added to the model.
-         */
-        public void particleAdded(StatesOfMatterAtom particle);
-        
-        /**
-         * Inform listeners that the temperature of the system has changed.
-         */
-        public void temperatureChanged();
-        
-        /**
-         * Inform listeners that the pressure of the system has changed.
-         */
-        public void pressureChanged();
-
-        /**
-         * Inform listeners that the size of the container has changed.
-         */
-        public void containerSizeChanged();
-        
-        /**
-         * Inform listeners that the type of molecule being simulated has
-         * changed.
-         */
-        public void moleculeTypeChanged();
-
-        /**
-         * Inform listeners that the container has exploded.
-         */
-        public void containerExploded();
-
-    }
+    /* TODO: JPB TBD Commented out for abstract refactor thing 10/20/2008
+     * 
+     */
+//    public static interface Listener {
+//        
+//        /**
+//         * Inform listeners that the model has been reset.
+//         */
+//        public void resetOccurred();
+//        
+//        /**
+//         * Inform listeners that a new particle has been added to the model.
+//         */
+//        public void particleAdded(StatesOfMatterAtom particle);
+//        
+//        /**
+//         * Inform listeners that the temperature of the system has changed.
+//         */
+//        public void temperatureChanged();
+//        
+//        /**
+//         * Inform listeners that the pressure of the system has changed.
+//         */
+//        public void pressureChanged();
+//
+//        /**
+//         * Inform listeners that the size of the container has changed.
+//         */
+//        public void containerSizeChanged();
+//        
+//        /**
+//         * Inform listeners that the type of molecule being simulated has
+//         * changed.
+//         */
+//        public void moleculeTypeChanged();
+//
+//        /**
+//         * Inform listeners that the container has exploded.
+//         */
+//        public void containerExploded();
+//
+//    }
     
     public static class Adapter implements Listener {
         public void resetOccurred(){}

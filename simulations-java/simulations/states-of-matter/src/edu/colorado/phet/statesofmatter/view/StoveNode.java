@@ -11,7 +11,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
-import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
+import edu.colorado.phet.statesofmatter.model.AbstractMultipleParticleModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -33,9 +33,9 @@ public class StoveNode extends PNode {
     private PImage m_iceImage;
     private PImage m_stoveImage;
     private StoveControlSlider m_stoveControlSlider;
-    private MultipleParticleModel m_model;
+    private AbstractMultipleParticleModel m_model;
     
-    public StoveNode(MultipleParticleModel model, Paint backgroundPaint ) {
+    public StoveNode(AbstractMultipleParticleModel model, Paint backgroundPaint ) {
 
         m_model = model;
         
