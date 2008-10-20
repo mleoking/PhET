@@ -15,15 +15,16 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
+import edu.colorado.phet.statesofmatter.model.engine.AbstractPhaseStateChanger;
 import edu.colorado.phet.statesofmatter.model.engine.AtomPositionUpdater;
 import edu.colorado.phet.statesofmatter.model.engine.EngineFacade;
 import edu.colorado.phet.statesofmatter.model.engine.MoleculeForceAndMotionCalculator;
+import edu.colorado.phet.statesofmatter.model.engine.MonatomicPhaseStateChanger;
 import edu.colorado.phet.statesofmatter.model.engine.PhaseStateChanger;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyAdjuster;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyCapper;
 import edu.colorado.phet.statesofmatter.model.particle.ArgonAtom;
 import edu.colorado.phet.statesofmatter.model.particle.HydrogenAtom;
-import edu.colorado.phet.statesofmatter.model.particle.HydrogenAtom2;
 import edu.colorado.phet.statesofmatter.model.particle.NeonAtom;
 import edu.colorado.phet.statesofmatter.model.particle.OxygenAtom;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
@@ -35,12 +36,13 @@ import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
  * for very quick calculations, and also a set of data for particles that have
  * the actual diameter of the particles being simulated (e.g. Argon).
  * Throughout the comments and in the variable naming, I've tried to use the
- * terminology of "molecule data set" for the former and "model data set" for
- * the latter.  When the simulation is running, the molecule data set is
- * updated first, since that is where the hardcore calculations are performed,
- * and then the model data set is synchronized with the molecule data.  It is
- * the model data set that is monitored by the view components that actually
- * displays the molecule positions to the user. 
+ * terminology of "normalized data set" (or sometimes simply "normalized
+ * set" for the former and "model data set" for the latter.  When the
+ * simulation is running, the molecule data set is updated first, since that
+ * is where the hardcore calculations are performed, and then the model data
+ * set is synchronized with the molecule data.  It is the model data set that
+ * is monitored by the view components that actually displays the molecule
+ * positions to the user. 
  *
  * @author John Blanco
  */
@@ -57,7 +59,6 @@ public class MultipleParticleModel2 {
     // to integrate Paul Beale's IDL implementation of the Verlet algorithm.
     // Eventually some or all of them will be moved.
     public static final int     DEFAULT_MOLECULE = StatesOfMatterConstants.NEON;
-    private static final double DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL = 0.3;  // In particle diameters.
     private static final double DISTANCE_BETWEEN_DIATOMIC_PAIRS = 0.8;  // In particle diameters.
     private static final double TIME_STEP = 0.020;  // Time per simulation clock tick, in seconds.
     private static final double INITIAL_TEMPERATURE = 0.2;
@@ -81,9 +82,6 @@ public class MultipleParticleModel2 {
     public static final int PHASE_SOLID = 1;
     public static final int PHASE_LIQUID = 2;
     public static final int PHASE_GAS = 3;
-    private static final double SOLID_TEMPERATURE = 0.15;
-    private static final double LIQUID_TEMPERATURE = 0.42;
-    private static final double GAS_TEMPERATURE = 1.0;
     private static final double MIN_INITIAL_INTER_PARTICLE_DISTANCE = 1.2;
     private static final double MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE = 2.5;
     private static final double INJECTION_POINT_HORIZ_PROPORTION = 0.95;
@@ -263,6 +261,14 @@ public class MultipleParticleModel2 {
      * only meaningful to the model.
      */
     public double getModelTemperature(){
+        return m_temperatureSetPoint;
+    }
+    
+    /**
+     * Get the current temperature set point in model units.
+     * @return
+     */
+    public double getTemperatureSetPoint(){
         return m_temperatureSetPoint;
     }
     
@@ -505,6 +511,10 @@ public class MultipleParticleModel2 {
         
         return epsilon;
     }
+    
+    public MoleculeForceAndMotionDataSet getMoleculeDataSetRef(){
+    	return m_moleculeDataSet;
+    }
 
     //----------------------------------------------------------------------------
     // Other Public Methods
@@ -515,7 +525,7 @@ public class MultipleParticleModel2 {
      */
     public void reset() {
         
-        // Get rid of any existing particles.
+        // Get rid of any existing particles from the model set.
         for ( Iterator iter = m_particles.iterator(); iter.hasNext(); ) {
             StatesOfMatterAtom particle = (StatesOfMatterAtom) iter.next();
             // Tell the particle that it is being removed so that it can do
@@ -533,9 +543,6 @@ public class MultipleParticleModel2 {
             m_temperatureSetPoint = INITIAL_TEMPERATURE;
             notifyTemperatureChanged();
         }
-        
-        // Clear out the pressure calculation.
-        m_pressure = 0;
         
         // Set the initial size of the container.
         m_particleContainerHeight = StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT;
@@ -582,7 +589,6 @@ public class MultipleParticleModel2 {
             m_moleculeDataSet.getNumberOfMolecules() / StatesOfMatterConstants.PARTICLE_CONTAINER_WIDTH * 2;
     }
     
-    
     /**
      * Set the phase of the particles in the simulation.
      * 
@@ -590,47 +596,25 @@ public class MultipleParticleModel2 {
      */
     public void setPhase(int state){
     	
-    	// TODO: JPB TBD - This routine is stubbed while refactoring happens, and will be filled in as part of it.
-
-    	/*
         switch (state){
         case PHASE_SOLID:
-            if (m_atomsPerMolecule == 1){
-                solidifyMonatomicMolecules();
-            }
-            else if (m_atomsPerMolecule == 2){
-                solidifyDiatomicMolecules();
-            }
-            else if ( m_atomsPerMolecule == 3){
-                solidifyTriatomicMolecules();
-            }
+        	m_phaseStateChanger.setPhase(PhaseStateChanger.PHASE_SOLID);
             break;
             
         case PHASE_LIQUID:
-            if (m_atomsPerMolecule == 1){
-                liquifyMonatomicMolecules();
-            }
-            else{
-                liquifyMultiAtomicMolecules();
-            }
+        	m_phaseStateChanger.setPhase(PhaseStateChanger.PHASE_LIQUID);
             break;
             
         case PHASE_GAS:
-            if (m_atomsPerMolecule == 1){
-                gasifyMonatomicMolecules();
-            }
-            else{
-                gasifyMultiAtomicMolecules();
-            }
+        	m_phaseStateChanger.setPhase(PhaseStateChanger.PHASE_GAS);
             break;
             
         default:
             System.err.println("Error: Invalid state specified.");
             // Treat is as a solid.
-            solidifyMonatomicMolecules();
+        	m_phaseStateChanger.setPhase(PhaseStateChanger.PHASE_SOLID);
             break;
         }
-        */
     }
     
     /**
@@ -667,24 +651,19 @@ public class MultipleParticleModel2 {
             double xVel = Math.cos( angle ) * velocity;
             double yVel = Math.sin( angle ) * velocity;
             int atomsPerMolecule = m_moleculeDataSet.getAtomsPerMolecule();
-        	Point2D moleculeCenterOfMassPosition = new Point2D.Double();
+        	Point2D moleculeCenterOfMassPosition = new Point2D.Double( injectionPointX, injectionPointY );
         	Vector2D.Double moleculeVelocity = new Vector2D.Double( xVel, yVel );
-        	double moleculeRotationRate = 0;
+        	double moleculeRotationRate = (m_rand.nextDouble() - 0.5) * (Math.PI / 2);;
         	Point2D [] atomPositions = new Point2D[atomsPerMolecule];
         	for (int i = 0; i < atomsPerMolecule; i++){
         		atomPositions[i] = new Point2D.Double();
         	}
 
-        	// Create the attributes of the molecule.
-            moleculeCenterOfMassPosition = new Point2D.Double( injectionPointX, injectionPointY );
-            moleculeVelocity = new Vector2D.Double( xVel, yVel );
-            moleculeRotationRate = (m_rand.nextDouble() - 0.5) * (Math.PI / 2);
-            
             // Position the atom positions.
             m_atomPositionUpdater.updateAtomPositions();
 
             // Add the newly created molecule to the data set.
-        	m_moleculeDataSet.addMolecule(atomPositions, atomPositions[0], moleculeVelocity, moleculeRotationRate);
+        	m_moleculeDataSet.addMolecule(atomPositions, moleculeCenterOfMassPosition, moleculeVelocity, moleculeRotationRate);
         	
             if (m_moleculeDataSet.getAtomsPerMolecule() == 1){
                 
@@ -843,7 +822,7 @@ public class MultipleParticleModel2 {
             if (newTemperature >= MAX_TEMPERATURE){
                 newTemperature = MAX_TEMPERATURE;
             }
-            else if ((newTemperature <= SOLID_TEMPERATURE * 0.9) && (m_heatingCoolingAmount < 0)){
+            else if ((newTemperature <= AbstractPhaseStateChanger.SOLID_TEMPERATURE * 0.9) && (m_heatingCoolingAmount < 0)){
             	// The temperature goes down more slowly as we begin to
             	// approach absolute zero.
             	newTemperature = m_temperatureSetPoint * 0.95;  // Multiplier determined empirically.
@@ -901,15 +880,18 @@ public class MultipleParticleModel2 {
             particleDiameter = NeonAtom.RADIUS * 2;
         }
         
+        // Initialize the number of atoms assuming that the solid form, when
+        // made into a square, will consume about 1/3 the width of the
+        // container.
         int numberOfAtoms = (int)Math.pow( StatesOfMatterConstants.CONTAINER_BOUNDS.width / 
-                (( particleDiameter + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL ) * 3), 2);
-        int numberOfSafeAtoms = numberOfAtoms;
+                (( particleDiameter * 1.1 ) * 3), 2);
         
         // Create the normalized data set for the one-atom-per-molecule case.
         m_moleculeDataSet = new MoleculeForceAndMotionDataSet( 1 );
         
         // Create the strategies that will work on this data set.
         // TODO: JPB TBD - Add all the strategy pattern creation here.
+        m_phaseStateChanger = new MonatomicPhaseStateChanger( this );
         
         // Create the individual atoms and add them to the data set.
         for (int i = 0; i < numberOfAtoms; i++){

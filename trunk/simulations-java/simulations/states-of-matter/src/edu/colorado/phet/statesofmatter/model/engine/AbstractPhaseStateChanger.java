@@ -11,15 +11,33 @@ import edu.colorado.phet.statesofmatter.model.MultipleParticleModel2;
  * @author John Blanco
  *
  */
-public class AbstractPhaseStateChanger implements PhaseStateChanger {
+public abstract class AbstractPhaseStateChanger implements PhaseStateChanger {
 
+	//----------------------------------------------------------------------------
+    // Class Data
+    //----------------------------------------------------------------------------
+
+	public static final double SOLID_TEMPERATURE = 0.15;
+	public static final double LIQUID_TEMPERATURE = 0.42;
+	public static final double GAS_TEMPERATURE = 1.0;
+    protected static final double DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL = 0.3;  // In particle diameters.
+
+
+	//----------------------------------------------------------------------------
+    // Instance Data
+    //----------------------------------------------------------------------------
+	
+	protected MultipleParticleModel2 m_model;
+	
+	//----------------------------------------------------------------------------
+    // Constructor(s)
+    //----------------------------------------------------------------------------
 	
 	public AbstractPhaseStateChanger( MultipleParticleModel2 model ) {
-		// Get references to all the available
+		m_model = model;
 	}
 
 	public void setPhase(int phaseID) {
-		// 
-
+		// Stubbed in base class. 
 	}
 }
