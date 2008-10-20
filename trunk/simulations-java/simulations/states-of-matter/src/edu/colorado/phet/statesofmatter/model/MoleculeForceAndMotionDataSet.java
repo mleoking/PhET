@@ -61,13 +61,12 @@ public class MoleculeForceAndMotionDataSet {
         m_moleculeForces                = new Vector2D [StatesOfMatterConstants.MAX_NUM_ATOMS / m_atomsPerMolecule];
         m_nextMoleculeForces            = new Vector2D [StatesOfMatterConstants.MAX_NUM_ATOMS / m_atomsPerMolecule];
         
-        if ( m_atomsPerMolecule > 1 ){
-        	// This data is only applicable to multi-atomic cases.
-            m_moleculeRotationAngles = new double [StatesOfMatterConstants.MAX_NUM_ATOMS / m_atomsPerMolecule];
-            m_moleculeRotationRates  = new double [StatesOfMatterConstants.MAX_NUM_ATOMS / m_atomsPerMolecule];
-            m_moleculeTorques        = new double [StatesOfMatterConstants.MAX_NUM_ATOMS / m_atomsPerMolecule];
-            m_nextMoleculeTorques    = new double [StatesOfMatterConstants.MAX_NUM_ATOMS / m_atomsPerMolecule];
-        }
+    	// Note that some of the following are not used in the monatomic case,
+        // but need to be here for compatibility.
+        m_moleculeRotationAngles = new double [StatesOfMatterConstants.MAX_NUM_ATOMS / m_atomsPerMolecule];
+        m_moleculeRotationRates  = new double [StatesOfMatterConstants.MAX_NUM_ATOMS / m_atomsPerMolecule];
+        m_moleculeTorques        = new double [StatesOfMatterConstants.MAX_NUM_ATOMS / m_atomsPerMolecule];
+        m_nextMoleculeTorques    = new double [StatesOfMatterConstants.MAX_NUM_ATOMS / m_atomsPerMolecule];
 	}
 
     //----------------------------------------------------------------------------

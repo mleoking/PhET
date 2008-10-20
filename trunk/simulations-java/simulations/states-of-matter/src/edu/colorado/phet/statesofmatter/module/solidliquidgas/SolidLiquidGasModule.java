@@ -10,6 +10,7 @@ import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.defaults.SolidLiquidGasDefaults;
 import edu.colorado.phet.statesofmatter.model.AbstractMultipleParticleModel;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel1;
+import edu.colorado.phet.statesofmatter.model.MultipleParticleModel2;
 
 /**
  * This class is where the model and view classes for the "Solid, Liquid, and
