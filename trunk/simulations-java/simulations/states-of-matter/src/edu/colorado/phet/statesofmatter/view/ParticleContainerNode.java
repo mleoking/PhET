@@ -16,7 +16,7 @@ import edu.colorado.phet.common.piccolophet.nodes.HandleNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
-import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
+import edu.colorado.phet.statesofmatter.model.AbstractMultipleParticleModel;
 import edu.colorado.phet.statesofmatter.model.particle.HydrogenAtom;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.colorado.phet.statesofmatter.view.instruments.DialGaugeNode;
@@ -88,7 +88,7 @@ public class ParticleContainerNode extends PhetPNode {
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
-    private final MultipleParticleModel m_model;
+    private final AbstractMultipleParticleModel m_model;
     private ModelViewTransform m_mvt;
     private double m_containmentAreaWidth;
     private double m_containmentAreaHeight;
@@ -109,7 +109,7 @@ public class ParticleContainerNode extends PhetPNode {
     // Constructor
     //----------------------------------------------------------------------------
     
-    public ParticleContainerNode(MultipleParticleModel model, ModelViewTransform mvt, boolean volumeControlEnabled, 
+    public ParticleContainerNode(AbstractMultipleParticleModel model, ModelViewTransform mvt, boolean volumeControlEnabled, 
     		boolean pressureGaugeEnabled) {
         
         m_model = model;
@@ -119,7 +119,7 @@ public class ParticleContainerNode extends PhetPNode {
         m_rand = new Random();
         
         // Set ourself up as a listener to the model.
-        m_model.addListener( new MultipleParticleModel.Adapter(){
+        m_model.addListener( new AbstractMultipleParticleModel.Adapter(){
             public void particleAdded(StatesOfMatterAtom particle){
                 if (particle instanceof HydrogenAtom){
                     m_lowerParticleLayer.addChild( new ParticleNode(particle, m_mvt));

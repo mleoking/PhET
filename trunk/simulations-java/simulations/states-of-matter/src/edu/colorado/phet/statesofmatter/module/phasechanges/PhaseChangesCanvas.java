@@ -10,7 +10,7 @@ import java.util.Random;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
-import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
+import edu.colorado.phet.statesofmatter.model.AbstractMultipleParticleModel;
 import edu.colorado.phet.statesofmatter.view.BicyclePumpNode;
 import edu.colorado.phet.statesofmatter.view.ModelViewTransform;
 import edu.colorado.phet.statesofmatter.view.ParticleContainerNode;
@@ -49,7 +49,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
     // Instance Data
     //----------------------------------------------------------------------------
     
-    private MultipleParticleModel m_model;
+    private AbstractMultipleParticleModel m_model;
     private ParticleContainerNode m_particleContainer;
     private ModelViewTransform m_mvt;
     private CompositeThermometerNode m_thermometerNode;
@@ -60,7 +60,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
     // Constructor
     //----------------------------------------------------------------------------
     
-    public PhaseChangesCanvas(MultipleParticleModel multipleParticleModel) {
+    public PhaseChangesCanvas(AbstractMultipleParticleModel multipleParticleModel) {
         
         m_model = multipleParticleModel;
         m_rand = new Random();
@@ -80,7 +80,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         });
         
         // Set ourself up as a listener to the model.
-        m_model.addListener( new MultipleParticleModel.Adapter(){
+        m_model.addListener( new AbstractMultipleParticleModel.Adapter(){
             public void temperatureChanged(){
                 updateThermometerTemperature();
             }

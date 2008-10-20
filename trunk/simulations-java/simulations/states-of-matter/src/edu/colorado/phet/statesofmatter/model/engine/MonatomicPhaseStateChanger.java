@@ -7,7 +7,7 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.statesofmatter.model.MoleculeForceAndMotionDataSet;
-import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
+import edu.colorado.phet.statesofmatter.model.MultipleParticleModel1;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel2;
 
 /**

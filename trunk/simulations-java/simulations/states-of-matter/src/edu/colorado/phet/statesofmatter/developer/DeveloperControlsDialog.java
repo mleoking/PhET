@@ -35,7 +35,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.statesofmatter.StatesOfMatterApplication;
 import edu.colorado.phet.statesofmatter.control.GravityControlPanel;
-import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
+import edu.colorado.phet.statesofmatter.model.AbstractMultipleParticleModel;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.colorado.phet.statesofmatter.module.phasechanges.PhaseChangesModule;
 import edu.colorado.phet.statesofmatter.module.solidliquidgas.SolidLiquidGasModule;
@@ -58,7 +58,7 @@ public class DeveloperControlsDialog extends JDialog {
     //----------------------------------------------------------------------------
 
     private StatesOfMatterApplication m_app;
-    private MultipleParticleModel m_model;
+    private AbstractMultipleParticleModel m_model;
     private LinearValueControl m_temperatureControl;
     private JLabel m_containterWidthInfo;
     private JLabel m_containterHeightInfo;
@@ -101,7 +101,7 @@ public class DeveloperControlsDialog extends JDialog {
         });
         
         // Register with the model for various events.
-        m_model.addListener( new MultipleParticleModel.Adapter(){
+        m_model.addListener( new AbstractMultipleParticleModel.Adapter(){
             public void temperatureChanged(){
                 m_temperatureControl.setValue( m_model.getModelTemperature() );
             }
@@ -150,8 +150,8 @@ public class DeveloperControlsDialog extends JDialog {
         ThermostatSelectionPanel thermostatSelectionPanel = new ThermostatSelectionPanel();
         
         // Temperature control.
-        m_temperatureControl = new LinearValueControl( MultipleParticleModel.MIN_TEMPERATURE, 
-                MultipleParticleModel.MAX_TEMPERATURE, "Temperature", "#.###", "Control" );
+        m_temperatureControl = new LinearValueControl( AbstractMultipleParticleModel.MIN_TEMPERATURE, 
+                AbstractMultipleParticleModel.MAX_TEMPERATURE, "Temperature", "#.###", "Control" );
         m_temperatureControl.setUpDownArrowDelta( 0.05 );
         m_temperatureControl.setTextFieldEditable( true );
         m_temperatureControl.setFont( new PhetFont( Font.PLAIN, 14 ) );
@@ -240,21 +240,21 @@ public class DeveloperControlsDialog extends JDialog {
             m_andersenThermostatRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
             m_andersenThermostatRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    m_model.setThermostatType( MultipleParticleModel.ANDERSEN_THERMOSTAT );
+                    m_model.setThermostatType( AbstractMultipleParticleModel.ANDERSEN_THERMOSTAT );
                 }
             } );
             m_noThermostatRadioButton = new JRadioButton( "No Thermostat" );
             m_noThermostatRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
             m_noThermostatRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    m_model.setThermostatType( MultipleParticleModel.NO_THERMOSTAT );
+                    m_model.setThermostatType( AbstractMultipleParticleModel.NO_THERMOSTAT );
                 }
             } );
             m_isokineticThermostatRadioButton = new JRadioButton( "Isokinetic Thermostat" );
             m_isokineticThermostatRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
             m_isokineticThermostatRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    m_model.setThermostatType( MultipleParticleModel.ISOKINETIC_THERMOSTAT );
+                    m_model.setThermostatType( AbstractMultipleParticleModel.ISOKINETIC_THERMOSTAT );
                 }
             } );
             
@@ -264,13 +264,13 @@ public class DeveloperControlsDialog extends JDialog {
             buttonGroup.add( m_andersenThermostatRadioButton );
             
             switch (m_model.getThermostatType()){
-            case MultipleParticleModel.NO_THERMOSTAT:
+            case AbstractMultipleParticleModel.NO_THERMOSTAT:
                 m_noThermostatRadioButton.setSelected( true );
                 break;
-            case MultipleParticleModel.ANDERSEN_THERMOSTAT:
+            case AbstractMultipleParticleModel.ANDERSEN_THERMOSTAT:
                 m_andersenThermostatRadioButton.setSelected( true );
                 break;
-            case MultipleParticleModel.ISOKINETIC_THERMOSTAT:
+            case AbstractMultipleParticleModel.ISOKINETIC_THERMOSTAT:
                 m_isokineticThermostatRadioButton.setSelected( true );
                 break;
             default:
