@@ -19,6 +19,7 @@ import edu.colorado.phet.statesofmatter.model.engine.AbstractPhaseStateChanger;
 import edu.colorado.phet.statesofmatter.model.engine.AtomPositionUpdater;
 import edu.colorado.phet.statesofmatter.model.engine.EngineFacade;
 import edu.colorado.phet.statesofmatter.model.engine.MoleculeForceAndMotionCalculator;
+import edu.colorado.phet.statesofmatter.model.engine.MonatomicAtomPositionUpdater;
 import edu.colorado.phet.statesofmatter.model.engine.MonatomicPhaseStateChanger;
 import edu.colorado.phet.statesofmatter.model.engine.PhaseStateChanger;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyAdjuster;
@@ -660,7 +661,7 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
         	}
 
             // Position the atom positions.
-            m_atomPositionUpdater.updateAtomPositions();
+            m_atomPositionUpdater.updateAtomPositions(m_moleculeDataSet);
 
             // Add the newly created molecule to the data set.
         	m_moleculeDataSet.addMolecule(atomPositions, moleculeCenterOfMassPosition, moleculeVelocity, moleculeRotationRate);
@@ -892,6 +893,7 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
         // Create the strategies that will work on this data set.
         // TODO: JPB TBD - Add all the strategy pattern creation here.
         m_phaseStateChanger = new MonatomicPhaseStateChanger( this );
+        m_atomPositionUpdater = new MonatomicAtomPositionUpdater();
         
         // Create the individual atoms and add them to the data set.
         for (int i = 0; i < numberOfAtoms; i++){
@@ -904,7 +906,6 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
     		
     		// Add the atom to the data set.
     		m_moleculeDataSet.addMolecule(atomPositions, moleculeCenterOfMassPosition, moleculeVelocity, 0);
-    		m_atomPositionUpdater.updateAtomPositions();
 
             // Add particle to model set.
             StatesOfMatterAtom atom;
@@ -920,8 +921,8 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
             m_particles.add( atom );
             notifyParticleAdded( atom );
         }
-        
-        // Initialize the particle positions.
+
+        // Initialize the particle positions into a solid form.
         m_phaseStateChanger.setPhase( PhaseStateChanger.PHASE_SOLID );
         syncParticlePositions();
     }
@@ -1644,7 +1645,7 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
         // and setting it as done below is a temporary thing.
         double positionMultiplier = m_particleDiameter;
         Point2D [] atomPositions = m_moleculeDataSet.getAtomPositions();
-        for (int i = 0; i < atomPositions.length; i++){
+        for (int i = 0; i < m_moleculeDataSet.getNumberOfAtoms(); i++){
             ((StatesOfMatterAtom)m_particles.get( i )).setPosition( atomPositions[i].getX() * positionMultiplier,
                     atomPositions[i].getY() * positionMultiplier);
         }

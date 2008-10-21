@@ -19,6 +19,12 @@ import edu.colorado.phet.statesofmatter.model.MultipleParticleModel2;
 public class MonatomicPhaseStateChanger extends AbstractPhaseStateChanger {
 
 	//----------------------------------------------------------------------------
+    // Instance Data
+    //----------------------------------------------------------------------------
+	
+	private final MonatomicAtomPositionUpdater m_positionUpdater = new MonatomicAtomPositionUpdater();
+	
+	//----------------------------------------------------------------------------
     // Constructor(s)
     //----------------------------------------------------------------------------
 
@@ -53,7 +59,7 @@ public class MonatomicPhaseStateChanger extends AbstractPhaseStateChanger {
 		// Create the solid form, a.k.a a crystal.
 		
 		int numberOfAtoms = m_model.getMoleculeDataSetRef().getNumberOfAtoms();
-		Point2D [] atomPositions = m_model.getMoleculeDataSetRef().getAtomPositions();
+		Point2D [] moleculeCenterOfMassPositions = m_model.getMoleculeDataSetRef().getMoleculeCenterOfMassPositions();
 		Vector2D [] moleculeVelocities = m_model.getMoleculeDataSetRef().getMoleculeVelocities();
         Random rand = new Random();
         double temperatureSqrt = Math.sqrt( m_model.getTemperatureSetPoint() );
@@ -73,7 +79,7 @@ public class MonatomicPhaseStateChanger extends AbstractPhaseStateChanger {
                     xPos += (1 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL) / 2;
                 }
                 yPos = startingPosY + (double)i * (1 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL)* 0.7071;
-                atomPositions[(i * particlesPerLayer) + j].setLocation( xPos, yPos );
+                moleculeCenterOfMassPositions[(i * particlesPerLayer) + j].setLocation( xPos, yPos );
                 particlesPlaced++;
 
                 // Assign each particle an initial velocity.
@@ -81,5 +87,8 @@ public class MonatomicPhaseStateChanger extends AbstractPhaseStateChanger {
                         temperatureSqrt * rand.nextGaussian() );
             }
         }
+        
+        // Sync up the atom positions with the molecule positions.
+        m_positionUpdater.updateAtomPositions( m_model.getMoleculeDataSetRef() );
 	}
 }

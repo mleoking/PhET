@@ -197,7 +197,7 @@ public class MoleculeForceAndMotionDataSet {
 		}
 
 		// Add the information for this molecule to the data set.
-		for (int i = 0; i < m_numberOfAtoms; i++){
+		for (int i = 0; i < m_atomsPerMolecule; i++){
 			m_atomPositions[i + m_numberOfAtoms] = atomPositions[i];
 		}
 		
