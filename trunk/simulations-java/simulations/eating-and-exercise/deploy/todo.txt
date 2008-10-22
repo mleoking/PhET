@@ -4,11 +4,6 @@
 
 From WA 10/15/08:
 
--I wondered if there was a plan to move the help items into the sim rather than in a window as they are now.
-
-   NP says: I think we decided to leave the help in a window.
-
-
 -When I was playing the step button was grey for the first couple of years and then it became visible. It did still work?
 
 
