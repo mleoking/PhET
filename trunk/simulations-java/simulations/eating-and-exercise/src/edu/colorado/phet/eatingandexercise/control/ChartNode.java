@@ -327,7 +327,7 @@ public class ChartNode extends PNode {
             double min = getLowerBound();
             double max = getJFreeChartNode().getChart().getXYPlot().getDomainAxis().getUpperBound();
             double currentRange = max - min;
-            double newRange = Math.max( DEFAULT_RANGE_YEARS, currentRange * v );
+            double newRange = Math.min( DEFAULT_RANGE_YEARS, currentRange * v );
 
             setDomain( min, min + newRange );
             forceUpdateAll();
@@ -340,7 +340,9 @@ public class ChartNode extends PNode {
         public void setDomain( double minDomainValue, double maxDomainValue ) {
             super.setDomain( minDomainValue, maxDomainValue );
             if ( getZoomControl() != null ) {
-                getZoomControl().setHorizontalZoomInEnabled( maxDomainValue - minDomainValue > DEFAULT_RANGE_YEARS );
+                double currentRange = maxDomainValue - minDomainValue;
+                double MACHINE_EPSILON = 1E-6;
+                getZoomControl().setHorizontalZoomOutEnabled( currentRange <= DEFAULT_RANGE_YEARS - MACHINE_EPSILON );
             }
             syncMassVar();//todo: remove the need for this workaround
         }
