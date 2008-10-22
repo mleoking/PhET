@@ -92,7 +92,7 @@ public class SliderNode extends PNode {
     public void setRange( double min, double max ) {
         this.min = min;
         this.max = max;
-        updateThumbLocation();
+        updateThumb();
         //todo: check that the value appears in the range
     }
 
