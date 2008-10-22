@@ -12,7 +12,7 @@ Hit next month, then choose more sedentary activity level and the person gets a 
 
 Obtained stack overflow on reset all.
 
-
+Obtained stack overflow when going to zero mass under default conditions.
 
 ############################
 ###	Todo Noah P		####
