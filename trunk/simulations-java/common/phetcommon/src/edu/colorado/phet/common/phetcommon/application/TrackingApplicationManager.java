@@ -13,10 +13,14 @@ public class TrackingApplicationManager {
         this.config = config;
     }
 
-    public void applicationStarted( PhetApplication app ) {
-        if ( isTrackingEnabled() && isTrackingAllowed() ) {
-            new Tracker( config ).startTracking();
+    public void applicationStarted() {
+        if ( isTrackingEnabled() ) {
+            new Tracker().postMessage( config.getTrackingInformation() );
         }
+    }
+
+    private boolean isTrackingEnabled() {
+        return isTrackingCommandLineEnabled() && isTrackingAllowed();
     }
 
     private boolean isTrackingAllowed() {
@@ -26,7 +30,7 @@ public class TrackingApplicationManager {
         return trackingAllowed;
     }
 
-    public boolean isTrackingEnabled() {
+    public boolean isTrackingCommandLineEnabled() {
         return Arrays.asList( config.getCommandLineArgs() ).contains( "-tracking" ) && !PhetServiceManager.isJavaWebStart();
     }
 

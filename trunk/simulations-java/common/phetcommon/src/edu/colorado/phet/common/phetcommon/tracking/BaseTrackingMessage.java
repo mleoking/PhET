@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
-public class AbstractTrackingInfo {
+public class BaseTrackingMessage {
     private ArrayList entries = new ArrayList();
 
     //versioning the tracking system will allow us to analyze data across version changes
@@ -21,7 +21,7 @@ public class AbstractTrackingInfo {
     //versioning the messages allows us to manage data after changing message content 
     private static final String MESSAGE_VERSION = "0.00.01";
 
-    public AbstractTrackingInfo( PhetApplicationConfig config ) {
+    public BaseTrackingMessage( PhetApplicationConfig config ) {
         initTimeZone();
         TrackingEntry[] entriesArray = new TrackingEntry[]{
                 new TrackingEntry( "tracker-version", TRACKER_VERSION ),

@@ -13,7 +13,7 @@ public class TrackingManager {
     private String trackingPath = "tracking";
     private String trackingScript = "phet-tracking.php";
 
-    public void postTrackingInfo( AbstractTrackingInfo trackingInfo ) throws IOException {
+    public void postMessage( BaseTrackingMessage trackingInfo ) throws IOException {
         try {
             new URL( getTrackingURL( trackingInfo ) ).openStream().close();
         }
@@ -22,7 +22,7 @@ public class TrackingManager {
         }
     }
 
-    private String getTrackingURL( AbstractTrackingInfo info ) {
+    private String getTrackingURL( BaseTrackingMessage info ) {
         return PhetCommonConstants.PHET_HOME_URL + "/" + trackingPath + "/" + trackingScript + "?" + info.toPHP();
     }
 
@@ -34,9 +34,9 @@ public class TrackingManager {
             System.out.println( o + " = " + p.getProperty( o ) );
         }
         PhetApplicationConfig config = new PhetApplicationConfig( args, "nuclear-physics", "alpha-radiation" );
-        String s = new TrackingManager().getTrackingURL( new AbstractTrackingInfo( config ) );
+        String s = new TrackingManager().getTrackingURL( new BaseTrackingMessage( config ) );
         System.out.println( "s = " + s );
-        new TrackingManager().postTrackingInfo( new AbstractTrackingInfo( config ) );
+        new TrackingManager().postMessage( new BaseTrackingMessage( config ) );
     }
 
 }

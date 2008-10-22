@@ -7,7 +7,7 @@ import java.util.Arrays;
 import edu.colorado.phet.common.phetcommon.preferences.ITrackingInfo;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
-import edu.colorado.phet.common.phetcommon.tracking.AbstractTrackingInfo;
+import edu.colorado.phet.common.phetcommon.tracking.BaseTrackingMessage;
 import edu.colorado.phet.common.phetcommon.tracking.Trackable;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
@@ -170,8 +170,8 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo, ISimInfo
     // Updates and Tracking stuff
     //----------------------------------------------------------------------------
 
-    public AbstractTrackingInfo getTrackingInformation() {
-        return new AbstractTrackingInfo( this );
+    public BaseTrackingMessage getTrackingInformation() {
+        return new BaseTrackingMessage( this );
     }
 
     public String getHumanReadableTrackingInformation() {
@@ -191,7 +191,7 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo, ISimInfo
     }
 
     public boolean isTrackingEnabled() {
-        return new TrackingApplicationManager( this ).isTrackingEnabled();
+        return new TrackingApplicationManager( this ).isTrackingCommandLineEnabled();
     }
 
     public void setApplicationLaunchFinishedAt( long applicationLaunchFinishedAt ) {
