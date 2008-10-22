@@ -50,8 +50,8 @@ public class ChartNode extends PNode {
     private EatingAndExerciseModel model;
     private EatingAndExerciseControlGraph weightGraph;
     private EatingAndExerciseControlGraph calorieGraph;
-    //    private static final double DEFAULT_RANGE_YEARS = 2;
-    private static final double DEFAULT_RANGE_YEARS = 2 / 10.0;//for testing
+        private static final double DEFAULT_RANGE_YEARS = 2;
+//    private static final double DEFAULT_RANGE_YEARS = 2 / 10.0;//for testing
     private EatingAndExerciseModel.Units previousUnits;
     private ArrayList listeners = new ArrayList();
 

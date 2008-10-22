@@ -101,10 +101,14 @@ public class StackedBarChartNode extends PNode {
         if ( !anyBarTooLarge ) {
             if ( isAtDefaultZoom() ) {
                 zoomControlNode.setVisible( false );
+                zoomControlNode.setPickable( false );
+                zoomControlNode.setChildrenPickable( false );
             }
         }
         else {
-            zoomControlNode.setVisible( anyBarTooLarge );
+            zoomControlNode.setVisible( true );
+            zoomControlNode.setPickable( true );
+            zoomControlNode.setChildrenPickable( true );
         }
     }
 
@@ -131,9 +135,8 @@ public class StackedBarChartNode extends PNode {
     }
 
     public void resetAll() {
-        Function.LinearFunction linearFunction = StackedBarChartNode.this.function;
-        setFunction( new Function.LinearFunction( linearFunction.getMinInput(), defaultMaxInValue,
-                                                  linearFunction.getMinOutput(), defaultMaxOutValue ) );
+        setFunction( new Function.LinearFunction( function.getMinInput(), defaultMaxInValue,
+                                                  function.getMinOutput(), defaultMaxOutValue ) );
     }
 
     //todo: convert to layout strategy pattern
