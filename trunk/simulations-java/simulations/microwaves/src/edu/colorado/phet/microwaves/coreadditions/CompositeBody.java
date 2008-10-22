@@ -23,8 +23,8 @@ public class CompositeBody extends Body {
         double xSum = 0;
         double ySum = 0;
         double massSum = 0;
-        for( int i = 0; i < bodies.size(); i++ ) {
-            Body body = (Body)bodies.get( i );
+        for ( int i = 0; i < bodies.size(); i++ ) {
+            Body body = (Body) bodies.get( i );
             double mass = body.getMass();
             xSum += mass * body.getCM().getX();
             ySum += mass * body.getCM().getY();
@@ -37,8 +37,8 @@ public class CompositeBody extends Body {
     public double getMomentOfInertia() {
         double mOfI = 0;
         Point2D.Double cm = this.getCM();
-        for( int i = 0; i < bodies.size(); i++ ) {
-            Body body = (Body)bodies.get( i );
+        for ( int i = 0; i < bodies.size(); i++ ) {
+            Body body = (Body) bodies.get( i );
             double dist = cm.distance( body.getCM() );
             double mOfIComponent = body.getMomentOfInertia() + body.getMass()
                                                                * dist * dist;

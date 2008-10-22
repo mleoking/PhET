@@ -24,8 +24,8 @@ public class StripChartDelegate implements Observer {
     }
 
     public void update( Observable o, Object arg ) {
-        if( o instanceof StripChartSubject ) {
-            StripChartSubject subject = (StripChartSubject)o;
+        if ( o instanceof StripChartSubject ) {
+            StripChartSubject subject = (StripChartSubject) o;
             chart.addDatum( subject.getDatum(), 1 );
         }
     }

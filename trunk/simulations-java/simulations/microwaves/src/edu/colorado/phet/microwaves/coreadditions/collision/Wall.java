@@ -7,10 +7,10 @@
  */
 package edu.colorado.phet.microwaves.coreadditions.collision;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.microwaves.coreadditions.Body;
 import edu.colorado.phet.microwaves.coreadditions.Vector2D;
-
-import java.awt.geom.Point2D;
 
 /**
  *
@@ -63,8 +63,8 @@ public class Wall extends Body {
     }
 
     private void setLoaUnit() {
-        loaUnit = new Vector2D( (float)( end2.getY() - end1.getY() ),
-                                (float)( end2.getX() - end1.getX() ) ).normalize();
+        loaUnit = new Vector2D( (float) ( end2.getY() - end1.getY() ),
+                                (float) ( end2.getX() - end1.getX() ) ).normalize();
     }
 
     public Point2D.Double getCM() {

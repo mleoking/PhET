@@ -6,11 +6,11 @@
  */
 package edu.colorado.phet.microwaves.model;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.microwaves.coreadditions.Body;
 import edu.colorado.phet.microwaves.coreadditions.Vector2D;
 import edu.colorado.phet.microwaves.coreadditions.Vector3D;
-
-import java.awt.geom.Point2D;
 
 
 public class WaterMoleculeWaterMoleculeCollisionExpert {
@@ -33,14 +33,14 @@ public class WaterMoleculeWaterMoleculeCollisionExpert {
      */
     public static boolean areInContact( Body bodyA, Body bodyB ) {
 
-        WaterMolecule moleculeA = (WaterMolecule)bodyA;
-        WaterMolecule moleculeB = (WaterMolecule)bodyB;
+        WaterMolecule moleculeA = (WaterMolecule) bodyA;
+        WaterMolecule moleculeB = (WaterMolecule) bodyB;
 
-        if( moleculeA.isVisible() && moleculeB.isVisible()
-            || !moleculeA.isVisible() && !moleculeB.isVisible() ) {
+        if ( moleculeA.isVisible() && moleculeB.isVisible()
+             || !moleculeA.isVisible() && !moleculeB.isVisible() ) {
 
             CollisionSpec collisionSpec = getCollisionSpec( moleculeA, moleculeB );
-            if( collisionSpec != null ) {
+            if ( collisionSpec != null ) {
                 doCillision( moleculeA, moleculeB, collisionSpec.getLoa(), collisionSpec.getCollisionPt() );
             }
             return ( collisionSpec != null );
@@ -60,8 +60,8 @@ public class WaterMoleculeWaterMoleculeCollisionExpert {
      * @return
      */
     public static boolean areOverlapping( Body bodyA, Body bodyB ) {
-        WaterMolecule moleculeA = (WaterMolecule)bodyA;
-        WaterMolecule moleculeB = (WaterMolecule)bodyB;
+        WaterMolecule moleculeA = (WaterMolecule) bodyA;
+        WaterMolecule moleculeB = (WaterMolecule) bodyB;
         return getCollisionSpec( moleculeA, moleculeB ) != null;
     }
 
@@ -83,18 +83,18 @@ public class WaterMoleculeWaterMoleculeCollisionExpert {
         Lobe[] lobesA = moleculeA.getLobes();
         Lobe[] lobesB = moleculeB.getLobes();
         boolean inContact = false;
-        for( int i = 0;
-             boundingBoxesOverlap && !inContact && i < lobesA.length;
-             i++ ) {
-            for( int j = 0; !inContact && j < lobesB.length; j++ ) {
+        for ( int i = 0;
+              boundingBoxesOverlap && !inContact && i < lobesA.length;
+              i++ ) {
+            for ( int j = 0; !inContact && j < lobesB.length; j++ ) {
 
                 // Are lobes touching?
-                if( lobesA[i].getDistanceSq( lobesB[j] )
-                    <= ( lobesA[i].getRadius() + lobesB[j].getRadius() )
-                       * ( lobesA[i].getRadius() + lobesB[j].getRadius() ) ) {
+                if ( lobesA[i].getDistanceSq( lobesB[j] )
+                     <= ( lobesA[i].getRadius() + lobesB[j].getRadius() )
+                        * ( lobesA[i].getRadius() + lobesB[j].getRadius() ) ) {
                     inContact = true;
-                    loa.setComponents( (float)( lobesA[i].getCenterX() - lobesB[j].getCenterX() ),
-                                       (float)( lobesA[i].getCenterY() - lobesB[j].getCenterY() ) );
+                    loa.setComponents( (float) ( lobesA[i].getCenterX() - lobesB[j].getCenterX() ),
+                                       (float) ( lobesA[i].getCenterY() - lobesB[j].getCenterY() ) );
 
                     double xDiff = lobesB[j].getCenterX() - lobesA[i].getCenterX();
                     double yDiff = lobesB[j].getCenterY() - lobesA[i].getCenterY();
@@ -120,10 +120,10 @@ public class WaterMoleculeWaterMoleculeCollisionExpert {
         double totalEnergy0 = bodyA.getKineticEnergy() + bodyB.getKineticEnergy();
 
         // Get the vectors from the bodies' CMs to the point of contact
-        Vector2D r1 = new Vector2D( (float)( collisionPt.getX() - bodyA.getLocation().getX() ),
-                                    (float)( collisionPt.getY() - bodyA.getLocation().getY() ) );
-        Vector2D r2 = new Vector2D( (float)( collisionPt.getX() - bodyB.getLocation().getX() ),
-                                    (float)( collisionPt.getY() - bodyB.getLocation().getY() ) );
+        Vector2D r1 = new Vector2D( (float) ( collisionPt.getX() - bodyA.getLocation().getX() ),
+                                    (float) ( collisionPt.getY() - bodyA.getLocation().getY() ) );
+        Vector2D r2 = new Vector2D( (float) ( collisionPt.getX() - bodyB.getLocation().getX() ),
+                                    (float) ( collisionPt.getY() - bodyB.getLocation().getY() ) );
 
         // Get the unit vector along the line of action
         n.setComponents( loa ).normalize();
@@ -132,11 +132,11 @@ public class WaterMoleculeWaterMoleculeCollisionExpert {
         // This is a key check to solve otherwise sticky collision problems
         vRel.setComponents( bodyA.getVelocity().getX(), bodyA.getVelocity().getY() );
         vRel.subtract( bodyB.getVelocity() );
-        if( vRel.dot( n ) <= 0 ) {
+        if ( vRel.dot( n ) <= 0 ) {
 
             // Compute the relative velocities of the contact points
-            vAng1.setComponents( (float)( -bodyA.getOmega() * r1.getY() ), (float)( bodyA.getOmega() * r1.getX() ) );
-            vAng2.setComponents( (float)( -bodyB.getOmega() * r2.getY() ), (float)( bodyB.getOmega() * r2.getX() ) );
+            vAng1.setComponents( (float) ( -bodyA.getOmega() * r1.getY() ), (float) ( bodyA.getOmega() * r1.getX() ) );
+            vAng2.setComponents( (float) ( -bodyB.getOmega() * r2.getY() ), (float) ( bodyB.getOmega() * r2.getX() ) );
             angRel.setComponents( vAng1.getX(), vAng1.getY() );
             angRel.subtract( vAng2 );
             float vr = vRel.dot( n ) + angRel.dot( n );
@@ -149,19 +149,19 @@ public class WaterMoleculeWaterMoleculeCollisionExpert {
 
             Vector3D n3D = new Vector3D( n );
             Vector3D r13D = new Vector3D( r1 );
-            Vector3D t1 = r13D.crossProduct( n3D ).multiply( (float)( 1 / bodyA.getMomentOfInertia() ) );
+            Vector3D t1 = r13D.crossProduct( n3D ).multiply( (float) ( 1 / bodyA.getMomentOfInertia() ) );
             Vector3D t1A = t1.crossProduct( r13D );
             float t1B = n3D.dot( t1A );
             Vector3D r23D = new Vector3D( r2 );
-            Vector3D t2 = r23D.crossProduct( n3D ).multiply( (float)( 1 / bodyB.getMomentOfInertia() ) );
+            Vector3D t2 = r23D.crossProduct( n3D ).multiply( (float) ( 1 / bodyB.getMomentOfInertia() ) );
             Vector3D t2A = t2.crossProduct( r23D );
             float t2B = n3D.dot( t2A );
             double denominator = ( 1 / bodyA.getMass() + 1 / bodyB.getMass() ) + t1B + t2B;
             double j = numerator / denominator;
 
             // Compute the new linear and angular velocities, based on the impulse
-            bodyA.getVelocity().add( new Vector2D( n ).multiply( (float)( j / bodyA.getMass() ) ) );
-            bodyB.getVelocity().add( new Vector2D( n ).multiply( (float)( -j / bodyB.getMass() ) ) );
+            bodyA.getVelocity().add( new Vector2D( n ).multiply( (float) ( j / bodyA.getMass() ) ) );
+            bodyB.getVelocity().add( new Vector2D( n ).multiply( (float) ( -j / bodyB.getMass() ) ) );
 
             double dOmegaA = ( r1.getX() * n.getY() - r1.getY() * n.getX() ) * j / ( bodyA.getMomentOfInertia() );
             double dOmegaB = ( r2.getX() * n.getY() - r2.getY() * n.getX() ) * -j / ( bodyB.getMomentOfInertia() );

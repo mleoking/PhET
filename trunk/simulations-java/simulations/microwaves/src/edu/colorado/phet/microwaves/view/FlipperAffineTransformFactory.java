@@ -6,11 +6,11 @@
  */
 package edu.colorado.phet.microwaves.view;
 
-import edu.colorado.phet.coreadditions_microwaves.graphics.AffineTransformFactory;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
+
+import edu.colorado.phet.coreadditions_microwaves.graphics.AffineTransformFactory;
 
 /**
  * Produces affine transforms that map from model to view coordinates,

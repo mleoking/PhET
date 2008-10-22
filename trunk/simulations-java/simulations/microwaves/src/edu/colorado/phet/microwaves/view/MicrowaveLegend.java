@@ -23,7 +23,7 @@ public class MicrowaveLegend extends JPanel {
 
         // Draw a water molecule
         BufferedImage bImg = new BufferedImage( 30, 30, BufferedImage.TYPE_INT_ARGB );
-        Graphics2D g2 = (Graphics2D)bImg.getGraphics();
+        Graphics2D g2 = (Graphics2D) bImg.getGraphics();
         WaterMolecule molecule = new WaterMolecule();
         ModelViewTransform2D tx = new ModelViewTransform2D( new Rectangle2D.Double( 0, 0, 60, 60 ),
                                                             new Rectangle( 0, 0, bImg.getWidth(), bImg.getHeight() ) );

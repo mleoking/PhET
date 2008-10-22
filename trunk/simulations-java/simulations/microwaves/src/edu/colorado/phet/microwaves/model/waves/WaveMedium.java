@@ -6,11 +6,11 @@
  */
 package edu.colorado.phet.microwaves.model.waves;
 
-import edu.colorado.phet.common_microwaves.model.ModelElement;
-import edu.colorado.phet.microwaves.coreadditions.Vector2D;
-
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+
+import edu.colorado.phet.common_microwaves.model.ModelElement;
+import edu.colorado.phet.microwaves.coreadditions.Vector2D;
 
 /**
  * This class represents a medium through which an arbitrary number of
@@ -27,8 +27,8 @@ public class WaveMedium extends ModelElement {
     }
 
     public void stepInTime( double dt ) {
-        for( int i = 0; i < wavefronts.size(); i++ ) {
-            Wave wavefront = (Wave)wavefronts.get( i );
+        for ( int i = 0; i < wavefronts.size(); i++ ) {
+            Wave wavefront = (Wave) wavefronts.get( i );
             wavefront.stepInTime( dt );
         }
         setChanged();
@@ -50,8 +50,8 @@ public class WaveMedium extends ModelElement {
      */
     public int getMaxX() {
         int maxX = Integer.MAX_VALUE;
-        for( int i = 0; i < wavefronts.size(); i++ ) {
-            Wave wavefront = (Wave)wavefronts.get( i );
+        for ( int i = 0; i < wavefronts.size(); i++ ) {
+            Wave wavefront = (Wave) wavefronts.get( i );
             maxX = Math.min( maxX, wavefront.getAmplitude().length );
         }
         return maxX;
@@ -66,10 +66,10 @@ public class WaveMedium extends ModelElement {
      */
     public float getAmplitudeAt( float x, float y ) {
         float amplitude = 0;
-        for( int i = 0; i < wavefronts.size(); i++ ) {
-            Wave wavefront = (Wave)wavefronts.get( i );
-            if( wavefront.isEnabled() ) {
-                amplitude += wavefront.getAmplitude()[(int)x];
+        for ( int i = 0; i < wavefronts.size(); i++ ) {
+            Wave wavefront = (Wave) wavefronts.get( i );
+            if ( wavefront.isEnabled() ) {
+                amplitude += wavefront.getAmplitude()[(int) x];
             }
         }
         amplitude /= wavefronts.size();
@@ -82,9 +82,9 @@ public class WaveMedium extends ModelElement {
         tempVector2D.setX( 0 );
         tempVector2D.setY( 0 );
         float amplitude = 0;
-        for( int i = 0; i < wavefronts.size(); i++ ) {
-            Wave wave = (Wave)wavefronts.get( i );
-            amplitude += wave.getAmplitude()[(int)latticePtLocation.getX()];
+        for ( int i = 0; i < wavefronts.size(); i++ ) {
+            Wave wave = (Wave) wavefronts.get( i );
+            amplitude += wave.getAmplitude()[(int) latticePtLocation.getX()];
         }
         tempVector2D.setY( amplitude );
         return tempVector2D;

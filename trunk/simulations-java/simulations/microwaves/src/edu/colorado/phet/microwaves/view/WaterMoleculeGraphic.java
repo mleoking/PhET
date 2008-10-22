@@ -6,14 +6,14 @@
  */
 package edu.colorado.phet.microwaves.view;
 
-import edu.colorado.phet.common_microwaves.view.graphics.ModelViewTransform2D;
-import edu.colorado.phet.microwaves.coreadditions.TxObservingGraphic;
-import edu.colorado.phet.microwaves.model.WaterMolecule;
-
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.ImageObserver;
 import java.util.Observable;
+
+import edu.colorado.phet.common_microwaves.view.graphics.ModelViewTransform2D;
+import edu.colorado.phet.microwaves.coreadditions.TxObservingGraphic;
+import edu.colorado.phet.microwaves.model.WaterMolecule;
 
 /**
  * ObservingGraphic for WaterMolecules.
@@ -39,7 +39,7 @@ public class WaterMoleculeGraphic extends TxObservingGraphic implements ImageObs
     }
 
     public void paint( Graphics2D g ) {
-        if( hydrogenCenter1 != null ) {
+        if ( hydrogenCenter1 != null ) {
             drawAtom( g, hydrogenCenter1.x, hydrogenCenter1.y, WaterMolecule.s_hydrogenRadius, Color.red );
             drawAtom( g, hydrogenCenter2.x, hydrogenCenter2.y, WaterMolecule.s_hydrogenRadius, Color.red );
             drawAtom( g, oxygenCenter.x, oxygenCenter.y, WaterMolecule.s_oxygenRadius, Color.blue );
@@ -62,7 +62,7 @@ public class WaterMoleculeGraphic extends TxObservingGraphic implements ImageObs
     }
 
     public void update( Observable o, Object arg ) {
-        if( o instanceof WaterMolecule ) {
+        if ( o instanceof WaterMolecule ) {
             oxygenCenter.setLocation( molecule.getLobes()[0].getCenter() );
             hydrogenCenter1.setLocation( molecule.getLobes()[1].getCenter() );
             hydrogenCenter2.setLocation( molecule.getLobes()[2].getCenter() );

@@ -39,10 +39,10 @@ public class FieldVector {
 
     private static BufferedImage createBuffImg( double magnitude, double theta ) {
         BufferedImage buffImg = null;
-        if( length > 0 ) {
+        if ( length > 0 ) {
 
-            int dx = Math.max( (int)( length * Math.abs( Math.cos( theta ) ) ), 10 );
-            int dy = Math.max( (int)( length * Math.abs( Math.sin( theta ) ) ), 10 );
+            int dx = Math.max( (int) ( length * Math.abs( Math.cos( theta ) ) ), 10 );
+            int dy = Math.max( (int) ( length * Math.abs( Math.sin( theta ) ) ), 10 );
             buffImg = new BufferedImage( Math.max( dx, dy ) + 10,
                                          Math.max( dx, dy ) + 10,
                                          BufferedImage.TYPE_INT_ARGB );
@@ -52,21 +52,21 @@ public class FieldVector {
 
             Graphics2D g2d = buffImg.createGraphics();
             g2d.setColor( arrowColor );
-            float alpha = (float)magnitude / 100;
+            float alpha = (float) magnitude / 100;
             g2d.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, alpha ) );
 
             // draw the line
             g2d.setStroke( arrowStroke );
-            g2d.drawLine( xMid - (int)( length * Math.cos( theta ) / 2 ),
-                          yMid - (int)( length * Math.sin( theta ) / 2 ),
-                          xMid + (int)( length * Math.cos( theta ) / 2 ),
-                          yMid + (int)( length * Math.sin( theta ) / 2 ) );
+            g2d.drawLine( xMid - (int) ( length * Math.cos( theta ) / 2 ),
+                          yMid - (int) ( length * Math.sin( theta ) / 2 ),
+                          xMid + (int) ( length * Math.cos( theta ) / 2 ),
+                          yMid + (int) ( length * Math.sin( theta ) / 2 ) );
 
             // draw the arrowhead
-            double w = Math.min( (int)( length / headWidthToLengthRatio ), maxArrowHeadWidth );
+            double w = Math.min( (int) ( length / headWidthToLengthRatio ), maxArrowHeadWidth );
             arrowHead.reset();
-            int xa = xMid + (int)( ( ( length + w ) / headWidthToLengthRatio ) * Math.cos( theta ) );
-            int ya = yMid + (int)( ( ( length + w ) / headWidthToLengthRatio ) * Math.sin( theta ) );
+            int xa = xMid + (int) ( ( ( length + w ) / headWidthToLengthRatio ) * Math.cos( theta ) );
+            int ya = yMid + (int) ( ( ( length + w ) / headWidthToLengthRatio ) * Math.sin( theta ) );
             arrowHead.addPoint( xa, ya );
 
             double x3 = xa - w * Math.cos( theta );
@@ -75,8 +75,8 @@ public class FieldVector {
             double x5 = x3 - ( w / headWidthToLengthRatio ) * Math.sin( theta );
             double y4 = y3 - ( w / headWidthToLengthRatio ) * Math.cos( theta );
             double y5 = y3 + ( w / headWidthToLengthRatio ) * Math.cos( theta );
-            arrowHead.addPoint( (int)x4, (int)y4 );
-            arrowHead.addPoint( (int)x5, (int)y5 );
+            arrowHead.addPoint( (int) x4, (int) y4 );
+            arrowHead.addPoint( (int) x5, (int) y5 );
 
             g2d.setStroke( arrowHeadStroke );
             g2d.drawPolygon( arrowHead );
@@ -93,7 +93,7 @@ public class FieldVector {
         BufferedImage arrow = null;
 
         // If the arrow is longer than the max length, just draw it
-        if( (int)length > s_maxLengthCached - 1 ) {
+        if ( (int) length > s_maxLengthCached - 1 ) {
             arrow = createBuffImg( length, theta );
         }
         // If the arrow is within the range of lengths that we cache, then
@@ -103,11 +103,11 @@ public class FieldVector {
             theta %= Math.PI * 2;
             theta += Math.PI * 2;
             theta %= Math.PI * 2;
-            int thetaIdx = (int)( theta / ( Math.PI * 2 ) * s_numAnglesCached );
-            int lengthIdx = Math.min( (int)length, s_maxLengthCached - 1 );
+            int thetaIdx = (int) ( theta / ( Math.PI * 2 ) * s_numAnglesCached );
+            int lengthIdx = Math.min( (int) length, s_maxLengthCached - 1 );
             arrow = arrowsCached[lengthIdx][thetaIdx];
             // If we didn't find the arrow in the cache, then create one and cache it
-            if( length > 0 && arrow == null ) {
+            if ( length > 0 && arrow == null ) {
                 arrow = createBuffImg( length, theta );
                 arrowsCached[lengthIdx][thetaIdx] = arrow;
             }

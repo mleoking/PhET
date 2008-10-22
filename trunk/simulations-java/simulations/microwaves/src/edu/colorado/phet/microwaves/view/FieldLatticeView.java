@@ -61,11 +61,11 @@ public class FieldLatticeView extends TxObservingGraphic {
         this.latticeSpacingX = latticeSpacingX;
         this.latticeSpacingY = latticeSpacingY;
 //        this.panel = panel;
-        numLatticePtsX = (int)( 1 + ( width - 1 ) / latticeSpacingX );
-        numLatticePtsY = (int)( 1 + ( height - 1 ) / latticeSpacingY );
+        numLatticePtsX = (int) ( 1 + ( width - 1 ) / latticeSpacingX );
+        numLatticePtsY = (int) ( 1 + ( height - 1 ) / latticeSpacingY );
         latticePts = new Vector2D[numLatticePtsY][numLatticePtsX];
-        for( int i = 0; i < numLatticePtsY; i++ ) {
-            for( int j = 0; j < numLatticePtsX; j++ ) {
+        for ( int i = 0; i < numLatticePtsY; i++ ) {
+            for ( int j = 0; j < numLatticePtsX; j++ ) {
                 latticePts[i][j] = new Vector2D();
             }
         }
@@ -77,48 +77,48 @@ public class FieldLatticeView extends TxObservingGraphic {
 
     public synchronized void paint( Graphics2D g2 ) {
 
-        if( viewType != VIEW_NONE ) {
+        if ( viewType != VIEW_NONE ) {
             RenderingHints orgRH = g2.getRenderingHints();
             GraphicsUtil.setAntiAliasingOn( g2 );
             g2.setColor( Color.BLUE );
 
             float scaleFactor = 1.0f;
-            if( autoscaleEnabled ) {
+            if ( autoscaleEnabled ) {
                 scaleFactor = getAutoscaleFactor();
             }
 
             // Draw lattice points, field vectors and a spline curve
-            for( int i = 0; i < numLatticePtsY; i++ ) {
+            for ( int i = 0; i < numLatticePtsY; i++ ) {
 
                 boolean atXAxis = ( i == numLatticePtsX / 2 - 1 );
 
                 // If we are to display a spline on this row of the lattice, clear its data cache now
-                if( splineVisible && atXAxis ) {
+                if ( splineVisible && atXAxis ) {
                     spline.reset();
                 }
 
-                for( int j = 0; j < numLatticePtsX; j++ ) {
-                    if( viewType == VIEW_FULL || ( viewType == VIEW_SINGLE && atXAxis ) ) {
+                for ( int j = 0; j < numLatticePtsX; j++ ) {
+                    if ( viewType == VIEW_FULL || ( viewType == VIEW_SINGLE && atXAxis ) ) {
 
                         int x = originView.x + j * latticeViewSpacingX - 1;
                         int y = originView.y + i * latticeViewSpacingY - 1;
 
                         // Get the components of the arrow. Note that we flip the sign of the y component
                         // because we need to work to view coordinates
-                        int fx = (int)( latticePts[i][j].getX() * scaleFactor );
-                        int fy = -(int)( latticePts[i][j].getY() * scaleFactor );
+                        int fx = (int) ( latticePts[i][j].getX() * scaleFactor );
+                        int fy = -(int) ( latticePts[i][j].getY() * scaleFactor );
 
                         // This draws an arrow that pivots around the latice point
                         // Limit the length to the spacing between lattice points
                         double l = Math.sqrt( fx * fx + fy * fy );
                         l = Math.min( l, Math.min( this.latticeViewSpacingX, Math.abs( this.latticeViewSpacingY ) ) );
 
-                        if( viewType == VIEW_FULL ) {
+                        if ( viewType == VIEW_FULL ) {
                             int arrowWidthSave = arrowWidth;
                             int headWidthSave = arrowHeadWidth;
-                            arrowWidth = (int)( 4 * ( l / 20 ) );
-                            arrowHeadWidth = (int)( 8 * ( l / 20 ) );
-                            float alpha = (float)l / this.latticeViewSpacingY;
+                            arrowWidth = (int) ( 4 * ( l / 20 ) );
+                            arrowHeadWidth = (int) ( 8 * ( l / 20 ) );
+                            float alpha = (float) l / this.latticeViewSpacingY;
                             Composite orgComposite = g2.getComposite();
                             g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, alpha ) );
                             drawHollowArrow( g2, x, y - fy / 2, x, y + fy / 2 );
@@ -126,18 +126,18 @@ public class FieldLatticeView extends TxObservingGraphic {
                             arrowWidth = arrowWidthSave;
                             arrowHeadWidth = headWidthSave;
                         }
-                        if( viewType == VIEW_SINGLE ) {
+                        if ( viewType == VIEW_SINGLE ) {
                             drawHollowArrow( g2, x, y, x, y + fy );
                         }
 
-                        if( splineVisible && atXAxis ) {
+                        if ( splineVisible && atXAxis ) {
                             spline.addPoint( x, y + fy );
                         }
                     }
                 } // for( int i = 0; i < numLatticePtsY; i++ )
 
                 // Draw the spline curve
-                if( splineVisible && atXAxis ) {
+                if ( splineVisible && atXAxis ) {
                     g2.setColor( splineColor );
                     g2.setStroke( splineStroke );
                     spline.paint( g2 );
@@ -151,15 +151,15 @@ public class FieldLatticeView extends TxObservingGraphic {
 
         float maxMag = 0;
 
-        for( int i = 0; i < numLatticePtsY; i++ ) {
-            for( int j = 0; j < numLatticePtsX; j++ ) {
+        for ( int i = 0; i < numLatticePtsY; i++ ) {
+            for ( int j = 0; j < numLatticePtsX; j++ ) {
                 float m = Math.max( maxMag, Math.max( latticePts[i][j].getX(), latticePts[i][j].getY() ) );
-                if( !Float.isNaN( m ) ) {
+                if ( !Float.isNaN( m ) ) {
                     maxMag = m;
                 }
             }
         }
-        return (int)( latticeSpacingX / maxMag );
+        return (int) ( latticeSpacingX / maxMag );
     }
 
     /**
@@ -167,8 +167,8 @@ public class FieldLatticeView extends TxObservingGraphic {
      */
     public synchronized void update( Observable o, Object arg ) {
 
-        for( int i = 0; i < numLatticePtsY; i++ ) {
-            for( int j = 0; j < numLatticePtsX; j++ ) {
+        for ( int i = 0; i < numLatticePtsY; i++ ) {
+            for ( int j = 0; j < numLatticePtsX; j++ ) {
                 latticePtLocation.x = j * latticeSpacingX + origin.getX();
                 latticePtLocation.y = i * latticeSpacingY + origin.getY();
 
@@ -179,13 +179,13 @@ public class FieldLatticeView extends TxObservingGraphic {
         }
 
         // Update the latticeViewSpacing
-        latticeViewSpacingX = (int)latticeSpacingX;
-        latticeViewSpacingY = (int)latticeSpacingY;
+        latticeViewSpacingX = (int) latticeSpacingX;
+        latticeViewSpacingY = (int) latticeSpacingY;
         originView.setLocation( origin.x, origin.y );
     }
 
     private void drawHollowArrow( Graphics2D g2, int x1, int y1, int x2, int y2 ) {
-        if( x1 != x2 || y1 != y2 ) {
+        if ( x1 != x2 || y1 != y2 ) {
             g2.setColor( arrowColor );
 
             g2.setStroke( new BasicStroke( 1f ) );
@@ -234,7 +234,7 @@ public class FieldLatticeView extends TxObservingGraphic {
     private static int arrowWidth = 10;
     private static int arrowHeadWidth = 20;
     BasicStroke arrowStroke = new BasicStroke( 4 );
-    private static float s_scaleFactor = (float)( 50 / MicrowaveConfig.s_maxAmp );
+    private static float s_scaleFactor = (float) ( 50 / MicrowaveConfig.s_maxAmp );
     private static int s_latticePtDiam = 5;
     private static BufferedImage s_latticePtImg = new BufferedImage( s_latticePtDiam,
                                                                      s_latticePtDiam,

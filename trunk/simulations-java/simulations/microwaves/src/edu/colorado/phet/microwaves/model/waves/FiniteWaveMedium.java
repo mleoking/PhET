@@ -7,9 +7,9 @@
  */
 package edu.colorado.phet.microwaves.model.waves;
 
-import edu.colorado.phet.microwaves.coreadditions.Vector2D;
-
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.microwaves.coreadditions.Vector2D;
 
 public class FiniteWaveMedium extends WaveMedium {
 
@@ -29,7 +29,7 @@ public class FiniteWaveMedium extends WaveMedium {
     }
 
     public float getAmplitudeAt( float x, float y ) {
-        return super.getAmplitudeAt( x - (float)origin.getX(), y - (float)origin.getY() );
+        return super.getAmplitudeAt( x - (float) origin.getX(), y - (float) origin.getY() );
     }
 
     public Vector2D getFieldAtLocation( Point2D.Double latticePtLocation ) {

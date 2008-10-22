@@ -6,6 +6,10 @@
  */
 package edu.colorado.phet.microwaves;
 
+import java.awt.*;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.microwaves.coreadditions.MessageFormatter;
@@ -16,9 +20,6 @@ import edu.colorado.phet.microwaves.model.WaterMolecule;
 import edu.colorado.phet.microwaves.view.DipoleStripChartSubject;
 import edu.colorado.phet.microwaves.view.MicrowaveStripCharSubject;
 import edu.colorado.phet.microwaves.view.WaterMoleculeGraphic;
-
-import javax.swing.*;
-import java.awt.*;
 
 public class OneMoleculeModule extends MicrowaveModule {
 

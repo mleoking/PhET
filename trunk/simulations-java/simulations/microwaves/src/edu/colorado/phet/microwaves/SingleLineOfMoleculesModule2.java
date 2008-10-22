@@ -6,6 +6,10 @@
  */
 package edu.colorado.phet.microwaves;
 
+import java.awt.*;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.microwaves.coreadditions.MessageFormatter;
@@ -17,9 +21,6 @@ import edu.colorado.phet.microwaves.model.WaterMolecule;
 import edu.colorado.phet.microwaves.view.DipoleStripChartSubject;
 import edu.colorado.phet.microwaves.view.MicrowaveStripCharSubject;
 import edu.colorado.phet.microwaves.view.WaterMoleculeGraphic;
-
-import javax.swing.*;
-import java.awt.*;
 
 public class SingleLineOfMoleculesModule2 extends MicrowaveModule {
 
@@ -39,9 +40,9 @@ public class SingleLineOfMoleculesModule2 extends MicrowaveModule {
 
         // Put a line of water molecules across the middle of the screen
         Box2D oven = this.getMicrowaveModel().getOven();
-        for( int x = (int)( oven.getMinX() + WaterMolecule.s_oxygenRadius + WaterMolecule.s_hydrogenRadius * 2 );
-             x < (int)( oven.getMaxX() - WaterMolecule.s_oxygenRadius - WaterMolecule.s_hydrogenRadius * 2 );
-             x += WaterMolecule.s_oxygenRadius * 2 + WaterMolecule.s_hydrogenRadius ) {
+        for ( int x = (int) ( oven.getMinX() + WaterMolecule.s_oxygenRadius + WaterMolecule.s_hydrogenRadius * 2 );
+              x < (int) ( oven.getMaxX() - WaterMolecule.s_oxygenRadius - WaterMolecule.s_hydrogenRadius * 2 );
+              x += WaterMolecule.s_oxygenRadius * 2 + WaterMolecule.s_hydrogenRadius ) {
 
             molecule = new WaterMolecule();
             molecule.setLocation( x, 200 );

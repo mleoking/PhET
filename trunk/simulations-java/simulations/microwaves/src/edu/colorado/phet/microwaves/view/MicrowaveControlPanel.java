@@ -6,9 +6,7 @@
  */
 package edu.colorado.phet.microwaves.view;
 
-import java.awt.AWTException;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
@@ -113,13 +111,13 @@ public class MicrowaveControlPanel extends JPanel {
         int rowIdx2 = 0;
         try {
             SwingUtils.addGridBagComponent( fieldViewRBPane, splineViewRB, 0, rowIdx2++, 1, 1,
-                                              GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
+                                            GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
             SwingUtils.addGridBagComponent( fieldViewRBPane, singleViewRB, 0, rowIdx2++, 1, 1,
-                                              GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
+                                            GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
             SwingUtils.addGridBagComponent( fieldViewRBPane, fullViewRB, 0, rowIdx2++, 1, 1,
-                                              GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
+                                            GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
             SwingUtils.addGridBagComponent( fieldViewRBPane, noFieldViewRB, 0, rowIdx2++, 1, 1,
-                                              GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
+                                            GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
         }
         catch( AWTException e ) {
             e.printStackTrace();
@@ -152,54 +150,54 @@ public class MicrowaveControlPanel extends JPanel {
         } );
 
         // Lay out the controls
-        EmptyBorder emptyBorder = (EmptyBorder)BorderFactory.createEmptyBorder();
+        EmptyBorder emptyBorder = (EmptyBorder) BorderFactory.createEmptyBorder();
         this.setBorder( emptyBorder );
         this.setLayout( new GridBagLayout() );
         int rowIdx = 0;
         try {
             SwingUtils.addGridBagComponent( this, new MicrowaveLegend(), 0, rowIdx++, 1, 1,
-                                              GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
+                                            GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
             SwingUtils.addGridBagComponent( this, button,
-                                              0, rowIdx++, 1, 1,
-                                              GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER );
+                                            0, rowIdx++, 1, 1,
+                                            GridBagConstraints.NONE,
+                                            GridBagConstraints.CENTER );
             SwingUtils.addGridBagComponent( this, new JLabel( SimStrings.get( "MicrowaveControlPanel.FrequencyLabel" ) ),
-                                              0, rowIdx++, 1, 1,
-                                              GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER );
+                                            0, rowIdx++, 1, 1,
+                                            GridBagConstraints.NONE,
+                                            GridBagConstraints.CENTER );
             SwingUtils.addGridBagComponent( this, freqSlider,
-                                              0, rowIdx++, 1, 1,
-                                              GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER );
+                                            0, rowIdx++, 1, 1,
+                                            GridBagConstraints.NONE,
+                                            GridBagConstraints.CENTER );
             freqTF = new JTextField();
             displayFrequency( freqSliderTx.viewToModel( freqSlider.getValue() ) );
             SwingUtils.addGridBagComponent( this, freqTF,
-                                              0, rowIdx++, 1, 1,
-                                              GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER );
+                                            0, rowIdx++, 1, 1,
+                                            GridBagConstraints.NONE,
+                                            GridBagConstraints.CENTER );
             SwingUtils.addGridBagComponent( this, new JLabel( SimStrings.get( "MicrowaveControlPanel.AmplitudeLabel" ) ),
-                                              0, rowIdx++, 1, 1,
-                                              GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER );
+                                            0, rowIdx++, 1, 1,
+                                            GridBagConstraints.NONE,
+                                            GridBagConstraints.CENTER );
             SwingUtils.addGridBagComponent( this, ampSlider,
-                                              0, rowIdx++, 1, 1,
-                                              GridBagConstraints.HORIZONTAL,
-                                              GridBagConstraints.CENTER );
+                                            0, rowIdx++, 1, 1,
+                                            GridBagConstraints.HORIZONTAL,
+                                            GridBagConstraints.CENTER );
             ampTF = new JTextField();
             displayAmplitude( ampSliderTx.viewToModel( ampSlider.getValue() ) );
 //            ampTF = new JTextField( Double.toString( ampSliderTx.viewToModel( ampSlider.getValue() ) ), 10 );
             SwingUtils.addGridBagComponent( this, ampTF,
-                                              0, rowIdx++, 1, 1,
-                                              GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER );
+                                            0, rowIdx++, 1, 1,
+                                            GridBagConstraints.NONE,
+                                            GridBagConstraints.CENTER );
             SwingUtils.addGridBagComponent( this, fieldViewRBPane,
-                                              0, rowIdx++, 1, 1,
-                                              GridBagConstraints.HORIZONTAL,
-                                              GridBagConstraints.CENTER );
+                                            0, rowIdx++, 1, 1,
+                                            GridBagConstraints.HORIZONTAL,
+                                            GridBagConstraints.CENTER );
             SwingUtils.addGridBagComponent( this, resetBtn,
-                                              0, rowIdx++, 1, 1,
-                                              GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER );
+                                            0, rowIdx++, 1, 1,
+                                            GridBagConstraints.NONE,
+                                            GridBagConstraints.CENTER );
         }
         catch( AWTException e ) {
             e.printStackTrace();
@@ -226,16 +224,16 @@ public class MicrowaveControlPanel extends JPanel {
     private ActionListener fieldViewActionListener = new ActionListener() {
         public void actionPerformed( ActionEvent e ) {
             JRadioButton selection = SwingUtils.getSelection( fieldViewBtnGrp );
-            if( selection == noFieldViewRB ) {
+            if ( selection == noFieldViewRB ) {
                 module.setFieldViewOff();
             }
-            if( selection == fullViewRB ) {
+            if ( selection == fullViewRB ) {
                 module.setFieldViewFull();
             }
-            if( selection == singleViewRB ) {
+            if ( selection == singleViewRB ) {
                 module.setFieldViewSingle();
             }
-            if( selection == splineViewRB ) {
+            if ( selection == splineViewRB ) {
                 module.setFieldViewSingle();
                 module.setFiledViewSpline();
             }

@@ -6,13 +6,13 @@
  */
 package edu.colorado.phet.microwaves.view;
 
-import edu.colorado.phet.common_microwaves.view.graphics.ModelViewTransform2D;
-import edu.colorado.phet.microwaves.coreadditions.TxObservingGraphic;
-import edu.colorado.phet.microwaves.coreadditions.collision.Box2D;
-
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 import java.util.Observable;
+
+import edu.colorado.phet.common_microwaves.view.graphics.ModelViewTransform2D;
+import edu.colorado.phet.microwaves.coreadditions.TxObservingGraphic;
+import edu.colorado.phet.microwaves.coreadditions.collision.Box2D;
 
 public class OvenGraphic extends TxObservingGraphic {
     private Box2D box;
@@ -49,11 +49,11 @@ public class OvenGraphic extends TxObservingGraphic {
     }
 
     public void update( Observable o, Object arg ) {
-        int maxX = (int)Math.max( box.getMinX(), box.getMaxX() );
-        int minX = (int)Math.min( box.getMinX(), box.getMaxX() );
+        int maxX = (int) Math.max( box.getMinX(), box.getMaxX() );
+        int minX = (int) Math.min( box.getMinX(), box.getMaxX() );
 
-        int minY = (int)Math.min( box.getMinY(), box.getMaxY() );
-        int maxY = (int)Math.max( box.getMinY(), box.getMaxY() );
+        int minY = (int) Math.min( box.getMinY(), box.getMaxY() );
+        int maxY = (int) Math.max( box.getMinY(), box.getMaxY() );
         innerBox.setRoundRect( minX, minY,
                                Math.abs( maxX - minX ),
                                maxY - minY,

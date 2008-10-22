@@ -27,7 +27,7 @@ public class VerticalWall extends Wall {
      *
      */
     public void setLocation( float x1, float x2, float y1, float y2 ) {
-        if( x1 != x2 ) {
+        if ( x1 != x2 ) {
             throw new RuntimeException( "Non-vertical coordinates specified for vertical wall" );
         }
         super.setLocation( new Point2D.Float( x1, y1 ), new Point2D.Float( x2, y2 ) );

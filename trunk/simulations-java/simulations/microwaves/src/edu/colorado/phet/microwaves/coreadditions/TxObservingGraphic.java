@@ -6,15 +6,15 @@
  */
 package edu.colorado.phet.microwaves.coreadditions;
 
-import edu.colorado.phet.common_microwaves.view.graphics.ModelViewTransform2D;
-import edu.colorado.phet.common_microwaves.view.graphics.ObservingGraphic;
-import edu.colorado.phet.common_microwaves.view.graphics.TransformListener;
-
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+
+import edu.colorado.phet.common_microwaves.view.graphics.ModelViewTransform2D;
+import edu.colorado.phet.common_microwaves.view.graphics.ObservingGraphic;
+import edu.colorado.phet.common_microwaves.view.graphics.TransformListener;
 
 public abstract class TxObservingGraphic implements ObservingGraphic, TransformListener {
 
@@ -35,10 +35,10 @@ public abstract class TxObservingGraphic implements ObservingGraphic, TransformL
     }
 
     protected void setTxViewBounds( Dimension proposedSize ) {
-        modelViewTx.setViewBounds( new Rectangle( (int)modelViewTx.getViewBounds().getMinX(),
-                                                  (int)modelViewTx.getViewBounds().getMinY(),
-                                                  (int)proposedSize.getWidth(),
-                                                  (int)proposedSize.getHeight() ) );
+        modelViewTx.setViewBounds( new Rectangle( (int) modelViewTx.getViewBounds().getMinX(),
+                                                  (int) modelViewTx.getViewBounds().getMinY(),
+                                                  (int) proposedSize.getWidth(),
+                                                  (int) proposedSize.getHeight() ) );
     }
 
     protected int modelToViewX( double x ) {
@@ -81,13 +81,13 @@ public abstract class TxObservingGraphic implements ObservingGraphic, TransformL
         }
 
         public void componentResized( ComponentEvent e ) {
-            Component c = (Component)e.getSource();
+            Component c = (Component) e.getSource();
             Dimension newSize = c.getSize();
-            double newAspectRatio = (double)newSize.height / (double)newSize.width;
-            if( newAspectRatio < aspectRatio ) {
-                newSize.setSize( (int)( newSize.height / aspectRatio ), newSize.height );
+            double newAspectRatio = (double) newSize.height / (double) newSize.width;
+            if ( newAspectRatio < aspectRatio ) {
+                newSize.setSize( (int) ( newSize.height / aspectRatio ), newSize.height );
             }
-            else if( newAspectRatio > aspectRatio ) {
+            else if ( newAspectRatio > aspectRatio ) {
                 newSize.setSize( newSize.width, newSize.width * aspectRatio );
             }
             setTxViewBounds( newSize );

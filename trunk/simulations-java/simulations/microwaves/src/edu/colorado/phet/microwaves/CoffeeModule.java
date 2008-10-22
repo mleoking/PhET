@@ -43,34 +43,34 @@ public class CoffeeModule extends MicrowaveModule {
             Graphic mugGraphic = new ImageGraphic( mugBI, new Point2D.Double( 150, 120 ) );
             getApparatusPanel().addGraphic( mugGraphic, 10 );
         }
-        catch ( IOException e ) {
+        catch( IOException e ) {
             e.printStackTrace();
         }
 
         mug = new Box2D( new Point2D.Double( 230, 150 ),
                          new Point2D.Double( 380, 320 ) );
         getModel().addModelElement( mug );
-        ( (MicrowaveModel)getModel() ).setOven( mug );
+        ( (MicrowaveModel) getModel() ).setOven( mug );
 
         // Put a bunch of water molecules randomly on the screen. Make sure they don't overlap
         // so the collision mechanics stay sane
         WaterMolecule[] molecules = new WaterMolecule[MicrowaveConfig.s_numWaterMoleculesInCoffeeCup * 10];
         Box2D oven = getMicrowaveModel().getOven();
 
-        for( int i = 0; i < MicrowaveConfig.s_numWaterMoleculesInCoffeeCup; i++ ) {
+        for ( int i = 0; i < MicrowaveConfig.s_numWaterMoleculesInCoffeeCup; i++ ) {
             WaterMolecule molecule = new WaterMolecule();
             double x = -1;
-            while( x < oven.getMinX() + WaterMolecule.s_hydrogenOxygenDist + WaterMolecule.s_hydrogenRadius * 2
-                   || x > oven.getMaxX() - ( WaterMolecule.s_hydrogenOxygenDist + WaterMolecule.s_hydrogenRadius * 2 ) ) {
+            while ( x < oven.getMinX() + WaterMolecule.s_hydrogenOxygenDist + WaterMolecule.s_hydrogenRadius * 2
+                    || x > oven.getMaxX() - ( WaterMolecule.s_hydrogenOxygenDist + WaterMolecule.s_hydrogenRadius * 2 ) ) {
                 x = Math.random() * oven.getMaxX();
             }
             double y = -1;
-            while( y < oven.getMinY() + WaterMolecule.s_hydrogenOxygenDist + WaterMolecule.s_hydrogenRadius * 2
-                   || y > oven.getMaxY() - ( WaterMolecule.s_hydrogenOxygenDist + WaterMolecule.s_hydrogenRadius * 2 ) ) {
+            while ( y < oven.getMinY() + WaterMolecule.s_hydrogenOxygenDist + WaterMolecule.s_hydrogenRadius * 2
+                    || y > oven.getMaxY() - ( WaterMolecule.s_hydrogenOxygenDist + WaterMolecule.s_hydrogenRadius * 2 ) ) {
                 y = Math.random() * oven.getMaxY();
             }
             molecule.setLocation( x, y );
-            molecule.setVelocity( (float)Math.random() / 5, (float)Math.random() / 5 );
+            molecule.setVelocity( (float) Math.random() / 5, (float) Math.random() / 5 );
             molecules[i] = molecule;
 
             molecule.setDipoleOrientation( Math.random() * Math.PI * 2 );
@@ -81,7 +81,7 @@ public class CoffeeModule extends MicrowaveModule {
         }
 
         powerManager = new PowerManager( powerLevel );
-        if( coffeeControlPanel == null ) {
+        if ( coffeeControlPanel == null ) {
             coffeeControlPanel = new CoffeeControlPanel( this, getMicrowaveModel() );
         }
         setControlPanel( coffeeControlPanel );
@@ -144,14 +144,14 @@ public class CoffeeModule extends MicrowaveModule {
         }
 
         public void run() {
-            while( isRunning ) {
-                if( ovenOn ) {
+            while ( isRunning ) {
+                if ( ovenOn ) {
                     double now = System.currentTimeMillis();
                     double t = now % period;
-                    if( t < powerLevel * period ) {
+                    if ( t < powerLevel * period ) {
                         turnMicrowaveOn( 0.002, 0.33 );
                     }
-                    if( t > powerLevel * period ) {
+                    if ( t > powerLevel * period ) {
                         turnMicrowaveOff();
                     }
                 }
