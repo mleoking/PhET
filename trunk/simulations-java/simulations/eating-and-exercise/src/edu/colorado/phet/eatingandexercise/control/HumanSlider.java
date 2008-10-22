@@ -40,14 +40,6 @@ public class HumanSlider extends JPanel {
         linearValueControlNode.setValue( v );
     }
 
-    public JTextField getTextField() {
-        return new JTextField();
-    }
-
-    public JSlider getSlider() {
-        return new JSlider();
-    }
-
     public void setRange( double min, double max ) {
         linearValueControlNode.setSliderRange( min, max );
     }

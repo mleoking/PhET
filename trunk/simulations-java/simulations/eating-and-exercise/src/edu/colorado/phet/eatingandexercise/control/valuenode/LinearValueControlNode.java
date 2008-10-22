@@ -155,6 +155,8 @@ public class LinearValueControlNode extends PNode {
     }
 
     public void setSliderRange( double min, double max ) {
+        this.min=min;
+        this.max=max;
         sliderNode.setRange( min, max );
     }
 
