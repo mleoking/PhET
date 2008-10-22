@@ -468,29 +468,4 @@ public class StopwatchPanel extends JPanel {
         }
     }
 
-    //-----------------------------------------------------------------
-    // Deprecated
-    //-----------------------------------------------------------------
-
-    /**
-     * Sets visibility of the StopWatchPanel.
-     * This method is deprecated because its name is misleading
-     * and it adds no new functionality.
-     *
-     * @deprecated use setVisible
-     */
-    public void setClockPanelVisible( boolean isVisible ) {
-        setVisible( isVisible );
-    }
-
-    /**
-     * Determines if the StopWatchPanel is visible.
-     * This method is deprecated because its name is misleading
-     * and it adds no new functionality.
-     *
-     * @deprecated use isVisible
-     */
-    public boolean isClockPanelVisible() {
-        return isVisible();
-    }
 }
