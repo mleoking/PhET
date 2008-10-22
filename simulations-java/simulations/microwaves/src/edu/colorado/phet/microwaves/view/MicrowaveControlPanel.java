@@ -17,11 +17,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.microwaves.MicrowaveConfig;
 import edu.colorado.phet.microwaves.MicrowaveModule;
+import edu.colorado.phet.microwaves.MicrowavesResources;
 import edu.colorado.phet.microwaves.coreadditions.MeasuringTape;
 import edu.colorado.phet.microwaves.coreadditions.ModelViewTx1D;
 import edu.colorado.phet.microwaves.model.MicrowaveModel;
@@ -82,7 +82,7 @@ public class MicrowaveControlPanel extends JPanel {
         } );
 
         // Button to toggle the microwave
-        JButton button = new JButton( SimStrings.get( "MicrowaveControlPanel.MicrowaveOnOffButton" ) );
+        JButton button = new JButton( MicrowavesResources.getString( "MicrowaveControlPanel.MicrowaveOnOffButton" ) );
         button.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.toggleMicrowave();
@@ -90,13 +90,13 @@ public class MicrowaveControlPanel extends JPanel {
         } );
 
         // Button to set field display type
-        noFieldViewRB = new JRadioButton( SimStrings.get( "MicrowaveControlPanel.NoneRadioButton" ) );
+        noFieldViewRB = new JRadioButton( MicrowavesResources.getString( "MicrowaveControlPanel.NoneRadioButton" ) );
         noFieldViewRB.addActionListener( fieldViewActionListener );
-        fullViewRB = new JRadioButton( SimStrings.get( "MicrowaveControlPanel.FullFieldRadioButton" ) );
+        fullViewRB = new JRadioButton( MicrowavesResources.getString( "MicrowaveControlPanel.FullFieldRadioButton" ) );
         fullViewRB.addActionListener( fieldViewActionListener );
-        singleViewRB = new JRadioButton( SimStrings.get( "MicrowaveControlPanel.SingleLineRadioButton" ) );
+        singleViewRB = new JRadioButton( MicrowavesResources.getString( "MicrowaveControlPanel.SingleLineRadioButton" ) );
         singleViewRB.addActionListener( fieldViewActionListener );
-        splineViewRB = new JRadioButton( SimStrings.get( "MicrowaveControlPanel.CurveRadioButton" ) );
+        splineViewRB = new JRadioButton( MicrowavesResources.getString( "MicrowaveControlPanel.CurveRadioButton" ) );
         splineViewRB.addActionListener( fieldViewActionListener );
         fieldViewBtnGrp = new ButtonGroup();
         fieldViewBtnGrp.add( fullViewRB );
@@ -122,10 +122,10 @@ public class MicrowaveControlPanel extends JPanel {
         catch( AWTException e ) {
             e.printStackTrace();
         }
-        fieldViewRBPane.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "MicrowaveControlPanel.FieldViewBorderTitle" ) ) );
+        fieldViewRBPane.setBorder( BorderFactory.createTitledBorder( MicrowavesResources.getString( "MicrowaveControlPanel.FieldViewBorderTitle" ) ) );
 
         // Test button for measuring tool
-        final JToggleButton measureBtn = new JToggleButton( SimStrings.get( "MicrowaveControlPanel.MeasureToggleButton" ) );
+        final JToggleButton measureBtn = new JToggleButton( MicrowavesResources.getString( "MicrowaveControlPanel.MeasureToggleButton" ) );
         measureBtn.addActionListener( new ActionListener() {
             MeasuringTape mt = null;
 
@@ -141,7 +141,7 @@ public class MicrowaveControlPanel extends JPanel {
         } );
 
         // A Reset button
-        JButton resetBtn = new JButton( SimStrings.get( "MicrowaveControlPanel.ResetButton" ) );
+        JButton resetBtn = new JButton( MicrowavesResources.getString( "MicrowaveControlPanel.ResetButton" ) );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.reset();
@@ -161,7 +161,7 @@ public class MicrowaveControlPanel extends JPanel {
                                             0, rowIdx++, 1, 1,
                                             GridBagConstraints.NONE,
                                             GridBagConstraints.CENTER );
-            SwingUtils.addGridBagComponent( this, new JLabel( SimStrings.get( "MicrowaveControlPanel.FrequencyLabel" ) ),
+            SwingUtils.addGridBagComponent( this, new JLabel( MicrowavesResources.getString( "MicrowaveControlPanel.FrequencyLabel" ) ),
                                             0, rowIdx++, 1, 1,
                                             GridBagConstraints.NONE,
                                             GridBagConstraints.CENTER );
@@ -175,7 +175,7 @@ public class MicrowaveControlPanel extends JPanel {
                                             0, rowIdx++, 1, 1,
                                             GridBagConstraints.NONE,
                                             GridBagConstraints.CENTER );
-            SwingUtils.addGridBagComponent( this, new JLabel( SimStrings.get( "MicrowaveControlPanel.AmplitudeLabel" ) ),
+            SwingUtils.addGridBagComponent( this, new JLabel( MicrowavesResources.getString( "MicrowaveControlPanel.AmplitudeLabel" ) ),
                                             0, rowIdx++, 1, 1,
                                             GridBagConstraints.NONE,
                                             GridBagConstraints.CENTER );

@@ -12,9 +12,9 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common_microwaves.view.graphics.ModelViewTransform2D;
+import edu.colorado.phet.microwaves.MicrowavesResources;
 import edu.colorado.phet.microwaves.model.WaterMolecule;
 
 public class MicrowaveLegend extends JPanel {
@@ -36,11 +36,11 @@ public class MicrowaveLegend extends JPanel {
         ImageIcon icon = new ImageIcon( bImg );
 
         setLayout( new GridBagLayout() );
-        this.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "MicrowaveLegend.BorderTitle" ) ) );
+        this.setBorder( BorderFactory.createTitledBorder( MicrowavesResources.getString( "MicrowaveLegend.BorderTitle" ) ) );
         int rowIdx = 0;
         try {
             SwingUtils.addGridBagComponent( this, new JLabel(
-                    SimStrings.get( "MicrowaveLegend.WaterMoleculeLabel" ),
+                    MicrowavesResources.getString( "MicrowaveLegend.WaterMoleculeLabel" ),
                     icon, SwingConstants.LEFT ), 0, rowIdx++, 1, 1,
                                                  GridBagConstraints.HORIZONTAL, GridBagConstraints.WEST );
         }

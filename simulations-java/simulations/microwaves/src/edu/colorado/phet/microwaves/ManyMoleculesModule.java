@@ -8,7 +8,6 @@ package edu.colorado.phet.microwaves;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.microwaves.coreadditions.collision.Box2D;
 import edu.colorado.phet.microwaves.model.WaterMolecule;
@@ -17,7 +16,7 @@ import edu.colorado.phet.microwaves.view.WaterMoleculeGraphic;
 public class ManyMoleculesModule extends MicrowaveModule {
 
     public ManyMoleculesModule() {
-        super( SimStrings.get( "ModuleTitle.ManyMoleculesModule" ) );
+        super( MicrowavesResources.getString( "ModuleTitle.ManyMoleculesModule" ) );
     }
 
     protected void init() {

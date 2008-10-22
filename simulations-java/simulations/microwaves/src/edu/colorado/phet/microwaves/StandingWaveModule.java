@@ -7,7 +7,6 @@
  */
 package edu.colorado.phet.microwaves;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.microwaves.coreadditions.collision.Box2D;
 import edu.colorado.phet.microwaves.model.MicrowaveModel;
@@ -16,7 +15,7 @@ import edu.colorado.phet.microwaves.model.MicrowaveModel;
 public class StandingWaveModule extends MicrowaveModule {
 
     public StandingWaveModule() {
-        super( SimStrings.get( "ModuleTitle.StandingWaveModule" ) );
+        super( MicrowavesResources.getString( "ModuleTitle.StandingWaveModule" ) );
         MicrowaveModel model = getMicrowaveModel();
         Box2D oven = model.getOven();
         double freq = model.getFrequency();

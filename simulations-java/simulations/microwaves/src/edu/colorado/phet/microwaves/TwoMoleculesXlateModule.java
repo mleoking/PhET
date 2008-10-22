@@ -8,7 +8,6 @@ package edu.colorado.phet.microwaves;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.microwaves.coreadditions.MessageFormatter;
 import edu.colorado.phet.microwaves.model.Microwave;
@@ -25,7 +24,7 @@ public class TwoMoleculesXlateModule extends MicrowaveModule {
 
 
     public TwoMoleculesXlateModule() {
-        super( MessageFormatter.format( SimStrings.get( "ModuleTitle.TwoMoleculesXlateModule" ) ) );
+        super( MessageFormatter.format( MicrowavesResources.getString( "ModuleTitle.TwoMoleculesXlateModule" ) ) );
 
 //        getMicrowaveModel().removeAllModelElements();
 //        Box2D oven = new Box2D( new Point2D.Double( 100, 100 ),

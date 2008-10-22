@@ -13,12 +13,12 @@ import java.awt.geom.Point2D;
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.common_microwaves.view.ApparatusPanel;
 import edu.colorado.phet.common_microwaves.view.graphics.Graphic;
 import edu.colorado.phet.common_microwaves.view.graphics.ModelViewTransform2D;
+import edu.colorado.phet.microwaves.MicrowavesResources;
 
 public class MeasuringTape extends MouseInputAdapter {
 
@@ -41,7 +41,7 @@ public class MeasuringTape extends MouseInputAdapter {
 
         // Lay out the display
         Frame frame = PhetApplication.instance().getApplicationView().getPhetFrame();
-        dialog = new JDialog( frame, SimStrings.get( "MeasuringTape.DialogTitle" ) );
+        dialog = new JDialog( frame, MicrowavesResources.getString( "MeasuringTape.DialogTitle" ) );
         dialog.setUndecorated( true );
         Container contentPane = dialog.getContentPane();
         contentPane.setLayout( new GridBagLayout() );

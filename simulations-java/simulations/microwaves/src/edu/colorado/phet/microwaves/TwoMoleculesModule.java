@@ -6,7 +6,6 @@
  */
 package edu.colorado.phet.microwaves;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.microwaves.coreadditions.MessageFormatter;
 import edu.colorado.phet.microwaves.model.Microwave;
@@ -25,7 +24,7 @@ public class TwoMoleculesModule extends MicrowaveModule {
 
 
     public TwoMoleculesModule() {
-        super( MessageFormatter.format( SimStrings.get( "ModuleTitle.TwoMoleculesModule" ) ) );
+        super( MessageFormatter.format( MicrowavesResources.getString( "ModuleTitle.TwoMoleculesModule" ) ) );
 
         // Put a line of water molecules across the middle of the screen
         WaterMolecule[] ma = new WaterMolecule[10];
