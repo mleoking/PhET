@@ -39,7 +39,7 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
               application.getSimInfo().getName(),
               application.getSimInfo().getVersion(),
               newVersion,
-              application.getSimInfo(),
+              application.getTrackingInfo(), 
               new ApplicationConfigManualCheckForUpdates( application.getPhetFrame(), application.getSimInfo() ),
               application.getSimInfo(),
               new DefaultUpdateTimer(), 
