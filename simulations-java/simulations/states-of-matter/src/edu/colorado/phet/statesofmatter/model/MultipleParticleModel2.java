@@ -75,7 +75,6 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
     private static final double MIN_INJECTED_MOLECULE_VELOCITY = 0.5;
     private static final double MAX_INJECTED_MOLECULE_VELOCITY = 2.0;
     private static final double MAX_INJECTED_MOLECULE_ANGLE = Math.PI * 0.8;
-    private static final int    MAX_PLACEMENT_ATTEMPTS = 500; // For random placement when creating gas or liquid.
     private static final double SAFE_INTER_MOLECULE_DISTANCE = 2.0;
     private static final double PRESSURE_DECAY_CALCULATION_WEIGHTING = 0.999;
     private static final int    VERLET_CALCULATIONS_PER_CLOCK_TICK = 8;
@@ -84,8 +83,6 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
     public static final int PHASE_SOLID = 1;
     public static final int PHASE_LIQUID = 2;
     public static final int PHASE_GAS = 3;
-    private static final double MIN_INITIAL_INTER_PARTICLE_DISTANCE = 1.2;
-    private static final double MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE = 2.5;
     private static final double INJECTION_POINT_HORIZ_PROPORTION = 0.95;
     private static final double INJECTION_POINT_VERT_PROPORTION = 0.5;
 	
