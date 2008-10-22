@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManage
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.eatingandexercise.developer.DeveloperFrame;
@@ -134,6 +135,8 @@ public class EatingAndExerciseApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) {
-        new PhetApplicationLauncher().launchSim( args, EatingAndExerciseConstants.PROJECT_NAME, EatingAndExerciseApplication.class );
+        PhetApplicationConfig config=new PhetApplicationConfig( args, EatingAndExerciseConstants.PROJECT_NAME);
+        config.setLookAndFeel( new EatingAndExerciseLookAndFeel() );
+        new PhetApplicationLauncher().launchSim( config, EatingAndExerciseApplication.class );
     }
 }

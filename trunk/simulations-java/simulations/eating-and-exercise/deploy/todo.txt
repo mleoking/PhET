@@ -4,17 +4,6 @@
 
 From WA 10/15/08:
 
--I think the green behind the guy and the controls is probably better but I don’t feel strongly either way.
-I did notice that in the grey version a lot of the text is no longer bold that was in the green version.
-This stands out to me more than the background color.  I’m also seeing in the information boxes like the
-disclaimer and help that the font is a very thin hard to read font now.  Doesn’t have to be thick and bold
-but it should be stronger than it is now.
-
-NP says: The new look on the play/pause area looks good. However, feedback on the control area indicates
-the all green background is better. Please put the green background back behind the controls and restore the
-text that was bold (control readouts, etc.).
-
-
 -I wondered if there was a plan to move the help items into the sim rather than in a window as they are now.
 
    NP says: I think we decided to leave the help in a window.
