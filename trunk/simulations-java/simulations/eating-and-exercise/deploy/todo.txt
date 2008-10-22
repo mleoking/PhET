@@ -6,7 +6,8 @@
 
 - Horizontal zoom should allow you to zoom in from 2 years, and out to a maximum of 2 years.
 
-- The new chart zoom buttons look better, but it would be more consistent if they looked like the vertical zoom buttons on the charts. This is low priority, especially if it is very time consuming.
+- The new chart zoom buttons look better, but it would be more consistent
+if they looked like the vertical zoom buttons on the charts. This is low priority, especially if it is very time consuming.
 
 - Reset all does not reset the calorie axis for the bar charts. Also, when calories drop back down,
     the zoom buttons go away but the axis does not rescale, so you can end up with a rescaled axis
