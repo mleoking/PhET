@@ -17,6 +17,17 @@
         flushing_echo($result);
     }
 
+    // This function is primarily used for testing, and rips a subset of the
+    // web site instead of the whole thing.
+    function builder_rip_website_subset() {
+        flushing_echo("Ripping subset of website with ".RIPPER_EXE." ".RIPPER_ARGS);
+
+        $result = exec(RIPPER_EXE." ".RIPPER_ARGS);
+        $result = exec(RIPPER_EXE." ".'"'.PHET_WEBSITE_URL."/index.php".'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_RIPPER_FILTER.' -j %q0 -%e0');
+
+        flushing_echo($result);
+    }
+
     function builder_download_java_rsrcs() {
         // Download needed Java resources that can't be obtained by ripping
         // the main web site (because there are no direct links to them).
@@ -250,6 +261,7 @@
     function print_help() {
         flushing_echo("Usage: build-install [--full]\n".
                       "                     [--rip-website]\n".
+                      "                     [--rip-website-subset]\n".
                       "                     [--download-sims]\n".
                       "                     [--download-installer-webpages]\n".
                       "                     [--perform-macro-substitutions]\n".
@@ -278,6 +290,9 @@
             if (file_lock("install-builder")) {
                 if (is_checked('rip-website'))
                     builder_rip_website();
+
+                if (is_checked('rip-website-subset'))
+                    builder_rip_website_subset();
 
                 if (is_checked('download-sims'))
                     builder_download_sims();
