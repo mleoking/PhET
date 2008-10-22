@@ -21,9 +21,7 @@ echo " Ripping subset of web site on: "
 date
 echo "================================================================"
 
-echo "Ripping the home page of the web site..."
-
-/usr/local/php/bin/php build-install.php --rip-website-subset
+/usr/local/php/bin/php build-install.php --rip-subset-of-website
 
 if [ "$?" -ne "0" ]; then
   echo "Error ripping web site."
