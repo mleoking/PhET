@@ -1,9 +1,8 @@
 package edu.colorado.phet.common.phetcommon.application;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
-import edu.colorado.phet.common.phetcommon.preferences.ITrackingInfo;
 
-public interface ISimInfo extends ITrackingInfo {
+public interface ISimInfo {
     String getName();
     String getDescription();
     PhetVersion getVersion();

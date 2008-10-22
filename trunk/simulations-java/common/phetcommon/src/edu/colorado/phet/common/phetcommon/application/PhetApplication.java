@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.JTabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.preferences.ITrackingInfo;
 
 /**
  * The base class for PhET applications.
@@ -352,6 +353,10 @@ public class PhetApplication {
 
     public void setTabbedPaneType( TabbedPaneType tabbedPaneType ) {
         this.tabbedPaneType = tabbedPaneType;
+    }
+
+    public ITrackingInfo getTrackingInfo() {
+        return phetApplicationConfig;
     }
 
     /**
