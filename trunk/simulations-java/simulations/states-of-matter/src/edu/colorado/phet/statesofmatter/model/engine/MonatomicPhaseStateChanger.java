@@ -19,10 +19,19 @@ import edu.colorado.phet.statesofmatter.model.MultipleParticleModel2;
 public class MonatomicPhaseStateChanger extends AbstractPhaseStateChanger {
 
 	//----------------------------------------------------------------------------
+    // Class Data
+    //----------------------------------------------------------------------------
+	
+	private static final int    MAX_PLACEMENT_ATTEMPTS = 500; // For random placement when creating gas or liquid.
+    private static final double MIN_INITIAL_INTER_PARTICLE_DISTANCE = 1.2;
+    private static final double MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE = 2.5;
+
+	//----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
 	
-	private final MonatomicAtomPositionUpdater m_positionUpdater = new MonatomicAtomPositionUpdater();
+	private final MonatomicAtomPositionUpdater m_positionUpdater = 
+		new MonatomicAtomPositionUpdater();
 	
 	//----------------------------------------------------------------------------
     // Constructor(s)
@@ -42,8 +51,10 @@ public class MonatomicPhaseStateChanger extends AbstractPhaseStateChanger {
 			setPhaseSolid();
 			break;
 		case PhaseStateChanger.PHASE_LIQUID:
+			setPhaseLiquid();
 			break;
 		case PhaseStateChanger.PHASE_GAS:
+			setPhaseGas();
 			break;
 		}
 	}
@@ -88,6 +99,135 @@ public class MonatomicPhaseStateChanger extends AbstractPhaseStateChanger {
             }
         }
         
+        // Sync up the atom positions with the molecule positions.
+        m_positionUpdater.updateAtomPositions( m_model.getMoleculeDataSetRef() );
+	}
+	
+	/**
+	 * Set the phase to the liquid state.
+	 */
+	private void setPhaseLiquid(){
+
+		m_model.setTemperature( LIQUID_TEMPERATURE );
+        double temperatureSqrt = Math.sqrt( LIQUID_TEMPERATURE );
+        
+        // Set the initial velocity for each of the atoms based on the new
+        // temperature.
+
+		int numberOfAtoms = m_model.getMoleculeDataSetRef().getNumberOfAtoms();
+		Point2D [] moleculeCenterOfMassPositions = m_model.getMoleculeDataSetRef().getMoleculeCenterOfMassPositions();
+		Vector2D [] moleculeVelocities = m_model.getMoleculeDataSetRef().getMoleculeVelocities();
+        Random rand = new Random();
+		for (int i = 0; i < numberOfAtoms; i++){
+            // Assign each particle an initial velocity.
+			moleculeVelocities[i].setComponents( temperatureSqrt * rand.nextGaussian(), 
+                    temperatureSqrt * rand.nextGaussian() );
+        }
+        
+        // Assign each atom to a position centered on its blob.
+        
+        int atomsPlaced = 0;
+        
+        Point2D centerPoint = new Point2D.Double(m_model.getNormalizedContainerWidth() / 2, 
+        		m_model.getNormalizedContainerHeight() / 4);
+        int currentLayer = 0;
+        int particlesOnCurrentLayer = 0;
+        int particlesThatWillFitOnCurrentLayer = 1;
+        
+        for (int j = 0; j < numberOfAtoms; j++){
+            
+            for (int k = 0; k < MAX_PLACEMENT_ATTEMPTS; k++){
+                
+                double distanceFromCenter = currentLayer * MIN_INITIAL_INTER_PARTICLE_DISTANCE;
+                double angle = ((double)particlesOnCurrentLayer / (double)particlesThatWillFitOnCurrentLayer * 2 * Math.PI) +
+                        ((double)particlesThatWillFitOnCurrentLayer / (4 * Math.PI));
+                double xPos = centerPoint.getX() + (distanceFromCenter * Math.cos( angle ));
+                double yPos = centerPoint.getY() + (distanceFromCenter * Math.sin( angle ));
+                particlesOnCurrentLayer++;  // Consider this spot used even if we don't actually put the
+                                            // particle there.
+                if (particlesOnCurrentLayer >= particlesThatWillFitOnCurrentLayer){
+                    
+                    // This layer is full - move to the next one.
+                    currentLayer++;
+                    particlesThatWillFitOnCurrentLayer = 
+                        (int)( currentLayer * 2 * Math.PI / MIN_INITIAL_INTER_PARTICLE_DISTANCE );
+                    particlesOnCurrentLayer = 0;
+                }
+
+                // Check if the position is too close to the wall.  Note
+                // that we don't check inter-particle distances here - we
+                // rely on the placement algorithm to make sure that we don't
+                // run into problems with this.
+                if ((xPos > MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE) &&
+                    (xPos < m_model.getNormalizedContainerWidth() - MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE) &&
+                    (yPos > MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE) &&
+                    (xPos < m_model.getNormalizedContainerHeight() - MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE)){
+                    
+                    // This is an acceptable position.
+                    moleculeCenterOfMassPositions[atomsPlaced++].setLocation( xPos, yPos );
+                    break;
+                }
+            }
+        }
+        
+        // Sync up the atom positions with the molecule positions.
+        m_positionUpdater.updateAtomPositions( m_model.getMoleculeDataSetRef() );
+	}
+	
+	/**
+	 * Set the phase to the gaseous state.
+	 */
+	private void setPhaseGas(){
+
+		// Set the temperature for the new state.
+		m_model.setTemperature( GAS_TEMPERATURE );
+        double temperatureSqrt = Math.sqrt( GAS_TEMPERATURE );
+        
+		int numberOfAtoms = m_model.getMoleculeDataSetRef().getNumberOfAtoms();
+		Point2D [] moleculeCenterOfMassPositions = m_model.getMoleculeDataSetRef().getMoleculeCenterOfMassPositions();
+		Vector2D [] moleculeVelocities = m_model.getMoleculeDataSetRef().getMoleculeVelocities();
+        Random rand = new Random();
+        
+        for (int i = 0; i < numberOfAtoms; i++){
+            // Temporarily position the particles at (0,0).
+            moleculeCenterOfMassPositions[i].setLocation( 0, 0 );
+            
+            // Assign each particle an initial velocity.
+            moleculeVelocities[i].setComponents( temperatureSqrt * rand.nextGaussian(), 
+                    temperatureSqrt * rand.nextGaussian() );
+        }
+        
+        // Redistribute the particles randomly around the container, but make
+        // sure that they are not too close together or they end up with a
+        // disproportionate amount of kinetic energy.
+        double newPosX, newPosY;
+        double rangeX = m_model.getNormalizedContainerWidth() - (2 * MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE);
+        double rangeY = m_model.getNormalizedContainerHeight() - (2 * MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE);
+        for (int i = 0; i < numberOfAtoms; i++){
+            for (int j = 0; j < MAX_PLACEMENT_ATTEMPTS; j++){
+                // Pick a random position.
+                newPosX = MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE + (rand.nextDouble() * rangeX);
+                newPosY = MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE + (rand.nextDouble() * rangeY);
+                boolean positionAvailable = true;
+                // See if this position is available.
+                for (int k = 0; k < i; k++){
+                    if (moleculeCenterOfMassPositions[k].distance( newPosX, newPosY ) < MIN_INITIAL_INTER_PARTICLE_DISTANCE){
+                        positionAvailable = false;
+                        break;
+                    }
+                }
+                if (positionAvailable){
+                    // We found an open position.
+                	moleculeCenterOfMassPositions[i].setLocation( newPosX, newPosY );
+                    break;
+                }
+                else if (j == MAX_PLACEMENT_ATTEMPTS - 1){
+                    // This is the last attempt, so use this position anyway.
+                	moleculeCenterOfMassPositions[i].setLocation( newPosX, newPosY );
+                }
+            }
+        }
+
         // Sync up the atom positions with the molecule positions.
         m_positionUpdater.updateAtomPositions( m_model.getMoleculeDataSetRef() );
 	}
