@@ -66,7 +66,6 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
     private static final double INITIAL_TEMPERATURE = 0.2;
     public static final double  MAX_TEMPERATURE = 50.0;
     public static final double  MIN_TEMPERATURE = 0.0001;
-    private static final double WALL_DISTANCE_THRESHOLD = 1.122462048309373017;
     private static final double PARTICLE_INTERACTION_DISTANCE_THRESH_SQRD = 6.25;
     private static final double INITIAL_GRAVITATIONAL_ACCEL = 0.045;
     public static final double  MAX_GRAVITATIONAL_ACCEL = 0.4;
@@ -75,7 +74,6 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
     private static final double MIN_INJECTED_MOLECULE_VELOCITY = 0.5;
     private static final double MAX_INJECTED_MOLECULE_VELOCITY = 2.0;
     private static final double MAX_INJECTED_MOLECULE_ANGLE = Math.PI * 0.8;
-    private static final double SAFE_INTER_MOLECULE_DISTANCE = 2.0;
     private static final double PRESSURE_DECAY_CALCULATION_WEIGHTING = 0.999;
     private static final int    VERLET_CALCULATIONS_PER_CLOCK_TICK = 8;
 
@@ -115,13 +113,6 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
     private static final double WATER_FULLY_MELTED_ELECTROSTATIC_FORCE = 1.0;
     private static final double WATER_FULLY_FROZEN_TEMPERATURE = 0.22;
     private static final double WATER_FULLY_FROZEN_ELECTROSTATIC_FORCE = 4.0;
-    
-    // Parameters that control the increasing of gravity as the temperature
-    // approaches zero.  This is done to counteract the tendency of the
-    // thermostat to slow falling molecules noticably at low temps.  This is
-    // a "hollywooding" thing.
-    private static final double TEMPERATURE_BELOW_WHICH_GRAVITY_INCREASES = 0.10;
-    private static final double LOW_TEMPERATURE_GRAVITY_INCREASE_RATE = 50;
     
     // Values used for converting from model temperature to the temperature
     // for a given particle.
@@ -322,6 +313,15 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
     }
     
     /**
+     * This method is used for an external entity to notify the model that it
+     * should explode.
+     */
+    public void setContainerExploded(){
+    	m_lidBlownOff = true;
+    	notifyContainerExploded();
+    }
+    
+    /**
      * Set the molecule type to be simulated.
      * 
      * @param moleculeID
@@ -430,7 +430,7 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
             m_targetContainerHeight = desiredContainerHeight;
         }
     }
-
+    
     /**
      * Get the sigma value, which is one of the two parameters that describes
      * the Lennard-Jones potential.
@@ -894,7 +894,7 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
         // TODO: JPB TBD - Add all the strategy pattern creation here.
         m_phaseStateChanger = new MonatomicPhaseStateChanger( this );
         m_atomPositionUpdater = new MonatomicAtomPositionUpdater();
-        m_moleculeForceAndMotionCalculator = new MonatomicVerletAlgorithm( m_moleculeDataSet );
+        m_moleculeForceAndMotionCalculator = new MonatomicVerletAlgorithm( this );
         
         // Create the individual atoms and add them to the data set.
         for (int i = 0; i < numberOfAtoms; i++){
@@ -1184,61 +1184,6 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
     }
     
     /**
-     * Randomize the positions of the particles within the container and give
-     * them velocity equivalent to that of a gas.
-     */
-    private void gasifyMonatomicMolecules(){
-    	
-        /*
-         * TODO: JPB TBD - This functionality should be moved into the PhaseStateChanger objects.
-    	
-        setTemperature( GAS_TEMPERATURE );
-        Random rand = new Random();
-        double temperatureSqrt = Math.sqrt( m_temperatureSetPoint );
-        for (int i = 0; i < m_numberOfAtoms; i++){
-            // Temporarily position the particles at (0,0).
-            m_atomPositions[i].setLocation( 0, 0 );
-            
-            // Assign each particle an initial velocity.
-            m_moleculeVelocities[i].setComponents( temperatureSqrt * rand.nextGaussian(), 
-                    temperatureSqrt * rand.nextGaussian() );
-        }
-        
-        // Redistribute the particles randomly around the container, but make
-        // sure that they are not too close together or they end up with a
-        // disproportionate amount of kinetic energy.
-        double newPosX, newPosY;
-        double rangeX = m_normalizedContainerWidth - (2 * MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE);
-        double rangeY = m_normalizedContainerHeight - (2 * MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE);
-        for (int i = 0; i < m_numberOfAtoms; i++){
-            for (int j = 0; j < MAX_PLACEMENT_ATTEMPTS; j++){
-                // Pick a random position.
-                newPosX = MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE + (rand.nextDouble() * rangeX);
-                newPosY = MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE + (rand.nextDouble() * rangeY);
-                boolean positionAvailable = true;
-                // See if this position is available.
-                for (int k = 0; k < i; k++){
-                    if (m_atomPositions[k].distance( newPosX, newPosY ) < MIN_INITIAL_INTER_PARTICLE_DISTANCE){
-                        positionAvailable = false;
-                        break;
-                    }
-                }
-                if (positionAvailable){
-                    // We found an open position.
-                    m_atomPositions[i].setLocation( newPosX, newPosY );
-                    break;
-                }
-                else if (j == MAX_PLACEMENT_ATTEMPTS - 1){
-                    // This is the last attempt, so use this position anyway.
-                    m_atomPositions[i].setLocation( newPosX, newPosY );
-                }
-            }
-        }
-        syncParticlePositions();
-        */
-    }
-    
-    /**
      * Randomize the positions of the molecules that comprise a gas.  This
      * works for diatomic and triatomic molecules.
      */
@@ -1312,79 +1257,6 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
         }
         
         // Sync up with the model-view interaction particles.
-        syncParticlePositions();
-        
-        */
-    }
-
-    /**
-     * Set the atoms to be in a liquid state.
-     */
-    private void liquifyMonatomicMolecules(){
-        
-        /*
-         * TODO: JPB TBD - This functionality should be moved into the PhaseStateChanger objects.
-
-    	
-    	setTemperature( LIQUID_TEMPERATURE );
-        double temperatureSqrt = Math.sqrt( m_temperatureSetPoint );
-        
-        // Set the initial velocity for each of the atoms based on the new
-        // temperature.
-
-        for (int i = 0; i < m_numberOfAtoms; i++){
-            // Assign each particle an initial velocity.
-            m_moleculeVelocities[i].setComponents( temperatureSqrt * m_rand.nextGaussian(), 
-                    temperatureSqrt * m_rand.nextGaussian() );
-        }
-        
-        // Assign each atom to a position centered on its blob.
-        
-        int atomsPlaced = 0;
-        
-        Point2D centerPoint = new Point2D.Double(m_normalizedContainerWidth / 2, m_normalizedContainerHeight / 4);
-        int currentLayer = 0;
-        int particlesOnCurrentLayer = 0;
-        int particlesThatWillFitOnCurrentLayer = 1;
-        
-        for (int j = 0; j < m_numberOfAtoms; j++){
-            
-            for (int k = 0; k < MAX_PLACEMENT_ATTEMPTS; k++){
-                
-                double distanceFromCenter = currentLayer * MIN_INITIAL_INTER_PARTICLE_DISTANCE;
-                double angle = ((double)particlesOnCurrentLayer / (double)particlesThatWillFitOnCurrentLayer * 2 * Math.PI) +
-                        ((double)particlesThatWillFitOnCurrentLayer / (4 * Math.PI));
-                double xPos = centerPoint.getX() + (distanceFromCenter * Math.cos( angle ));
-                double yPos = centerPoint.getY() + (distanceFromCenter * Math.sin( angle ));
-                particlesOnCurrentLayer++;  // Consider this spot used even if we don't actually put the
-                                            // particle there.
-                if (particlesOnCurrentLayer >= particlesThatWillFitOnCurrentLayer){
-                    
-                    // This layer is full - move to the next one.
-                    currentLayer++;
-                    particlesThatWillFitOnCurrentLayer = 
-                        (int)( currentLayer * 2 * Math.PI / MIN_INITIAL_INTER_PARTICLE_DISTANCE );
-                    particlesOnCurrentLayer = 0;
-                }
-
-                // Check if the position is too close to the wall.  Note
-                // that we don't check inter-particle distances here - we
-                // rely on the placement algorithm to make sure that we don't
-                // run into problems with this.
-                if ((xPos > MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE) &&
-                    (xPos < m_normalizedContainerWidth - MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE) &&
-                    (yPos > MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE) &&
-                    (xPos < m_normalizedContainerHeight - MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE)){
-                    
-                    // This is an acceptable position.
-                    m_atomPositions[atomsPlaced++].setLocation( xPos, yPos );
-                    break;
-                }
-            }
-        }
-
-        // Synchronize the normalized particles with the particles monitored
-        // by the model.
         syncParticlePositions();
         
         */
@@ -1488,51 +1360,6 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
         // Synchronize the normalized particles with the particles monitored
         // by the model.
         syncParticlePositions();
-        
-        */
-    }
-
-    /**
-     * Create positions corresponding to a hexagonal 2d "crystal" structure
-     * for a set of particles.  Note that this assumes a normalized value
-     * of 1.0 for the diameter of the particles.
-     */
-    private void solidifyMonatomicMolecules(){
-
-        /*
-         * TODO: JPB TBD - This functionality should be moved into the PhaseStateChanger objects.
-
-        setTemperature( SOLID_TEMPERATURE );
-        Random rand = new Random();
-        double temperatureSqrt = Math.sqrt( m_temperatureSetPoint );
-        int particlesPerLayer = (int)Math.round( Math.sqrt( m_numberOfAtoms ) );
-        if ((m_atomsPerMolecule == 2) && (particlesPerLayer % 2 != 0)){
-            // We must have an even number of particles per layer if the
-            // molecules need to be diatomic or we will run into problems.
-            particlesPerLayer++;
-        }
-        double startingPosX = (m_normalizedContainerWidth / 2) - (double)(particlesPerLayer / 2) - 
-                ((particlesPerLayer / 2) * DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL);
-        double startingPosY = 2.0 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL;
-        
-        int particlesPlaced = 0;
-        double xPos, yPos;
-        for (int i = 0; particlesPlaced < m_numberOfAtoms; i++){ // One iteration per layer.
-            for (int j = 0; (j < particlesPerLayer) && (particlesPlaced < m_numberOfAtoms); j++){
-                xPos = startingPosX + j + (j * DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL);
-                if (i % 2 != 0){
-                    // Every other row is shifted a bit to create hexagonal pattern.
-                    xPos += (1 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL) / 2;
-                }
-                yPos = startingPosY + (double)i * (1 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL)* 0.7071;
-                m_atomPositions[(i * particlesPerLayer) + j].setLocation( xPos, yPos );
-                particlesPlaced++;
-
-                // Assign each particle an initial velocity.
-                m_moleculeVelocities[(i * particlesPerLayer) + j].setComponents( temperatureSqrt * rand.nextGaussian(), 
-                        temperatureSqrt * rand.nextGaussian() );
-            }
-        }
         
         */
     }
@@ -2551,6 +2378,8 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
     private void calculateWallForce(Point2D position, double containerWidth, double containerHeight,
             Vector2D resultantForce){
         
+    	/*
+    	 * TODO: JPB TBD - This should be moved to the verlet strategies.
         // Debug stuff - make sure this is being used correctly.
         assert resultantForce != null;
         assert position != null;
@@ -2634,6 +2463,7 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
             resultantForce.setY( -48/(Math.pow(distance, 13)) + (24/(Math.pow( distance, 7))) );
             m_potentialEnergy += 4/(Math.pow(distance, 12)) - 4/(Math.pow( distance, 6)) + 1;
         }
+    	 */
     }
     
     /**
