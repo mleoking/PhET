@@ -40,8 +40,17 @@ public class BarChartElement {
     }
 
     public void setValue( double value ) {
-        this.value = value;
-        notifyListener();
+//        if ( new Exception().getStackTrace().length > 50 ) {//todo: remove this
+//            System.out.println( "big stack trace" );
+//        }
+        if ( !equals( this.value, value ) ) {
+            this.value = value;
+            notifyListener();
+        }
+    }
+
+    private boolean equals( double a, double b ) {
+        return a == b || ( Double.isNaN( a ) && Double.isNaN( b ) );
     }
 
     public String getName() {

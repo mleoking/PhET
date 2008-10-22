@@ -9,11 +9,7 @@ Reset all doesn’t work well when I make my guy really fat
 
 Hit next month, then choose more sedentary activity level and the person gets a bigger belly. Time is paused so there should be no change. This only happens the first time you adjust activity level after pausing (hitting next month).
     >>NP says: Wendy saw this, but I was not able to reproduce. Will check with her to get more details.
-
-Obtained stack overflow on reset all.
-
-Obtained stack overflow when going to zero mass under default conditions.
-
+    
 ############################
 ###	Todo Noah P		####
 ############################
