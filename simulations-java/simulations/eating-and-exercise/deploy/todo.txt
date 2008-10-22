@@ -2,14 +2,6 @@
 ###	Todo Sam		####
 ############################
 
-From NP 10/15/08:
-
-- The wiggle me points in the general direction of the play/pause/step buttons, but still not directly at the play button. Can it be made closer to the play button? Or at least to the left so it is directly above the play button.
->>This will be difficult and/or messy
-
-NP says: OK, it is fine the way it is.
-
-
 - The time does not stop at 2 years. The play/pause/step buttons should be disabled when you reach the 2 year mark.
 
 - Horizontal zoom should allow you to zoom in from 2 years, and out to a maximum of 2 years.
@@ -72,6 +64,13 @@ NP says: Not sure. Let's just wait and see what turns out to be necessary on thi
 ##################################
 
 -All have been resolved.
+
+From NP 10/15/08:
+
+- The wiggle me points in the general direction of the play/pause/step buttons, but still not directly at the play button. Can it be made closer to the play button? Or at least to the left so it is directly above the play button.
+>>This will be difficult and/or messy
+
+NP says: OK, it is fine the way it is.
 
 
 ############################
