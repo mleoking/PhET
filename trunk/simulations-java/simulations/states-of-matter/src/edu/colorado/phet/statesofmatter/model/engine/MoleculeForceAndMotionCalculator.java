@@ -18,9 +18,16 @@ public interface MoleculeForceAndMotionCalculator {
 	public void updateForcesAndMotion();
 	
 	/**
-	 * Get the system pressure in normalized model units.
+	 * Get the system pressure in model units.
 	 * 
 	 * @return - Internal system pressure.
 	 */
 	public double getPressure();
+	
+	/**
+	 * Get the system temperature in model units.
+	 * 
+	 * @return - Internal system temperature.
+	 */
+	public double getTemperature();
 }
