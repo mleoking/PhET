@@ -2,14 +2,6 @@
 ###	Todo Sam		####
 ############################
 
-From Wendy 10/7/08:
-
-Reset all doesn’t work well when I make my guy really fat
-    >>NP says: I have seen it make the body disappear on reset, but I have not been able to reproduce this report from Wendy.
-
-Hit next month, then choose more sedentary activity level and the person gets a bigger belly. Time is paused so there should be no change. This only happens the first time you adjust activity level after pausing (hitting next month).
-    >>NP says: Wendy saw this, but I was not able to reproduce. Will check with her to get more details.
-    
 ############################
 ###	Todo Noah P		####
 ############################
@@ -26,6 +18,15 @@ NP: see above.
 
 -When I was playing the step button was grey for the first couple of years and then it became visible. It did still work?
 SR: I can't reproduce this problem
+
+
+Reset all doesn’t work well when I make my guy really fat
+    >>NP says: I have seen it make the body disappear on reset, but I have not been able to reproduce this report from Wendy.
+    SR: these may have been fixed with the NaN fixes (see change notes)
+
+Hit next month, then choose more sedentary activity level and the person gets a bigger belly. Time is paused so there should be no change. This only happens the first time you adjust activity level after pausing (hitting next month).
+    >>NP says: Wendy saw this, but I was not able to reproduce. Will check with her to get more details.
+    SR: these may have been fixed with the NaN fixes (see change notes)
 
 ################################################
 ###	To Discuss   /  Awaiting User Feedback	####
