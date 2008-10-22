@@ -2,9 +2,6 @@
 ###	Todo Sam		####
 ############################
 
-- The new chart zoom buttons look better, but it would be more consistent
-if they looked like the vertical zoom buttons on the charts. This is low priority, especially if it is very time consuming.
-
 - Reset all does not reset the calorie axis for the bar charts. Also, when calories drop back down,
     the zoom buttons go away but the axis does not rescale, so you can end up with a rescaled axis
     that you can not get back to the standard view (unless you add lots of calories to make the zoom buttons return).
