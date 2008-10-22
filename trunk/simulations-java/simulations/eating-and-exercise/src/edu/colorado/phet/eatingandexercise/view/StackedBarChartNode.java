@@ -1,8 +1,5 @@
 package edu.colorado.phet.eatingandexercise.view;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -10,14 +7,11 @@ import java.beans.PropertyChangeListener;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Created by: Sam
@@ -32,8 +26,7 @@ public class StackedBarChartNode extends PNode {
     private double majorTickSpacing;
     private double maxYValue;
     private SparseStackedBarChartAxisNode axisNode;
-    private GradientButtonNode zoomOut;
-    private GradientButtonNode zoomIn;
+    private ZoomControlNode zoomControlNode = new ZoomControlNode( ZoomControlNode.VERTICAL );
 
     public StackedBarChartNode( Function function, String title, int horizontalInset, double minorTickSpacing, double majorTickSpacing, double maxYValue ) {
         this.function = function;
@@ -47,40 +40,16 @@ public class StackedBarChartNode extends PNode {
         axisNode = new SparseStackedBarChartAxisNode( title, function, minorTickSpacing, majorTickSpacing, maxYValue );
         addChild( axisNode );
 
-
-        PText plusText = new PText( "+" );
-        PhetFont phetFont = new PhetFont( 18, true );
-        plusText.setFont( phetFont );
-        PhetPPath plusIcon = new PhetPPath( plusText.getFullBounds() );
-        plusIcon.setPaint( null );
-        plusIcon.setStrokePaint( null );
-        plusIcon.addChild( plusText );
-
-        PText minusText = new PText( "-" );
-        minusText.setFont( phetFont );
-        PhetPPath minusIcon = new PhetPPath( plusText.getFullBounds() );
-        minusIcon.setPaint( null );
-        minusIcon.setStrokePaint( null );
-        minusIcon.addChild( minusText );
-        minusText.setOffset( minusIcon.getFullBounds().getWidth() / 2 - minusText.getFullBounds().getWidth() / 2,
-                             minusIcon.getFullBounds().getHeight() / 2 - minusText.getFullBounds().getHeight() / 2 );
-
-
-        zoomOut = new GradientButtonNode( minusIcon, Color.green );
-        zoomOut.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
+        zoomControlNode.addZoomListener( new ZoomControlNode.ZoomListener() {
+            public void zoomedOut() {
                 if ( StackedBarChartNode.this.function instanceof Function.LinearFunction ) {
                     Function.LinearFunction linearFunction = (Function.LinearFunction) StackedBarChartNode.this.function;
                     setFunction( new Function.LinearFunction( linearFunction.getMinInput(), linearFunction.getMaxInput(),
                                                               linearFunction.getMinOutput(), linearFunction.getMaxOutput() / 2 ) );
                 }
             }
-        } );
 
-
-        zoomIn = new GradientButtonNode( plusIcon, Color.green );
-        zoomIn.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
+            public void zoomedIn() {
                 if ( StackedBarChartNode.this.function instanceof Function.LinearFunction ) {
                     Function.LinearFunction linearFunction = (Function.LinearFunction) StackedBarChartNode.this.function;
                     setFunction( new Function.LinearFunction( linearFunction.getMinInput(), linearFunction.getMaxInput(),
@@ -89,8 +58,7 @@ public class StackedBarChartNode extends PNode {
             }
         } );
 
-        addChild( zoomOut );
-        addChild( zoomIn );
+        addChild( zoomControlNode );
 
         updateLayout();
     }
@@ -136,8 +104,8 @@ public class StackedBarChartNode extends PNode {
                 visible = visible || stackedBarNode.getTotal() >= 4000;
             }
         }
-        zoomOut.setVisible( visible );
-        zoomIn.setVisible( visible );
+
+        zoomControlNode.setVisible( visible );
     }
 
     //todo: convert to layout strategy pattern
@@ -147,8 +115,7 @@ public class StackedBarChartNode extends PNode {
             node.setOffset( 0, 0 );
             double dx = node.getFullBounds().getMaxX() - axisNode.getFullBounds().getX();
             axisNode.offset( dx + 2, 0 );
-            zoomOut.setOffset( axisNode.getFullBounds().getCenterX() + zoomOut.getFullBounds().getWidth() / 2, axisNode.getFullBounds().getMaxY() - zoomOut.getFullBounds().getHeight() * 2 );
-            zoomIn.setOffset( zoomOut.getFullBounds().getX(), zoomOut.getFullBounds().getMaxY() );
+            zoomControlNode.setOffset( axisNode.getFullBounds().getCenterX() + zoomControlNode.getFullBounds().getWidth() / 4, axisNode.getFullBounds().getMaxY() - zoomControlNode.getFullBounds().getHeight() * 1.1 );
 
             double xOffset = axisNode.getFullBounds().getMaxX() + 2;
             for ( int i = 1; i < barLayer.getChildrenCount(); i++ ) {
@@ -158,15 +125,6 @@ public class StackedBarChartNode extends PNode {
             }
         }
         updateZoomVisibility();
-    }
-
-    private void updateLayoutDefaultStrategy() {
-        double xOffset = 0;
-        for ( int i = 0; i < barLayer.getChildrenCount(); i++ ) {
-            StackedBarNode node = (StackedBarNode) barLayer.getChild( i );
-            node.setOffset( xOffset, 0 );
-            xOffset += node.getBarWidth() + spacing;
-        }
     }
 
     public static void main( String[] args ) {
