@@ -21,6 +21,7 @@ import edu.colorado.phet.statesofmatter.model.engine.EngineFacade;
 import edu.colorado.phet.statesofmatter.model.engine.MoleculeForceAndMotionCalculator;
 import edu.colorado.phet.statesofmatter.model.engine.MonatomicAtomPositionUpdater;
 import edu.colorado.phet.statesofmatter.model.engine.MonatomicPhaseStateChanger;
+import edu.colorado.phet.statesofmatter.model.engine.MonatomicVerletAlgorithm;
 import edu.colorado.phet.statesofmatter.model.engine.PhaseStateChanger;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyAdjuster;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyCapper;
@@ -380,7 +381,7 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
         
         // Initiate a reset in order to get the particles into predetermined
         // locations and energy levels.
-        reset();
+        resetParticles();
         
         // Notify listeners that the molecule type has changed.
         notifyMoleculeTypeChanged();
@@ -522,9 +523,11 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
     //----------------------------------------------------------------------------
     
     /**
-     * Reset the model.
+     * Reset the particles (be they atoms or molecules) by getting rid of all
+     * existing ones, creating the default number of the current type, and
+     * putting them in their initial positions.
      */
-    public void reset() {
+    private void resetParticles() {
         
         // Get rid of any existing particles from the model set.
         for ( Iterator iter = m_particles.iterator(); iter.hasNext(); ) {
@@ -566,7 +569,7 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
             initializeTriatomic(m_currentMolecule);
             break;
         default:
-            System.err.println("ERROR: Unrecognized particle type, using default number of layers.");
+            System.err.println("ERROR: Unrecognized particle type, using default.");
             break;
         }
         
@@ -752,8 +755,8 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
      */
     private void handleClockTicked(ClockEvent clockEvent) {
         
-        // Adjust the particle container height if needed.
         if (!m_lidBlownOff) {
+            // Adjust the particle container height if needed.
             if ( m_targetContainerHeight != m_particleContainerHeight ){
                 m_heightChangeCounter = CONTAINER_SIZE_CHANGE_RESET_COUNT;
                 double heightChange = m_targetContainerHeight - m_particleContainerHeight;
@@ -894,6 +897,7 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
         // TODO: JPB TBD - Add all the strategy pattern creation here.
         m_phaseStateChanger = new MonatomicPhaseStateChanger( this );
         m_atomPositionUpdater = new MonatomicAtomPositionUpdater();
+        m_moleculeForceAndMotionCalculator = new MonatomicVerletAlgorithm( m_moleculeDataSet );
         
         // Create the individual atoms and add them to the data set.
         for (int i = 0; i < numberOfAtoms; i++){
