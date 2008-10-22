@@ -8,6 +8,8 @@ New in 0.00.85
 >Fixed: Reset all does not reset the calorie axis for the bar charts.
 >Fixed: When calories drop back down, the zoom buttons go away but the axis does not rescale, so you can end up with a rescaled axis that you can not get back to the standard view (unless you add lots of calories to make the zoom buttons return).
 Fixed a problem with NaN during MuscleAndFatMassLoss2 that was causing stack overflow (due to inequality of NaN with each other)
+>Fixed: Can't edit values for height when in metric
+>Fixed: Red arrow appears on weight slider after changing units
 
 New in 0.00.84
 Fixed: String not found on startup: serving-cream-filled-cookies
