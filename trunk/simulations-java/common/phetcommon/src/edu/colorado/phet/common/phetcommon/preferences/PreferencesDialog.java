@@ -32,7 +32,7 @@ public class PreferencesDialog extends JDialog {
     private final UpdatesPreferencesPanel updatesPreferencesPanel;
     private final TrackingPreferencesPanel trackingPreferencesPanel;
     
-    public PreferencesDialog( Frame owner, ITrackingInfo tracker, IManualUpdateChecker iCheckForUpdates, IUpdatesPreferences updatePreferences, ITrackingPreferences trackingPreferences ) {
+    public PreferencesDialog( Frame owner, ITrackingInfo trackingInfo, IManualUpdateChecker iCheckForUpdates, IUpdatesPreferences updatePreferences, ITrackingPreferences trackingPreferences ) {
         super( owner, TITLE );
         setResizable( false );
         setModal( false );
@@ -45,7 +45,7 @@ public class PreferencesDialog extends JDialog {
         userInputPanel.add( jTabbedPane );
         updatesPreferencesPanel = new UpdatesPreferencesPanel( iCheckForUpdates, updatePreferences.isEnabled() );
         jTabbedPane.addTab( UPDATES_TAB, updatesPreferencesPanel );
-        trackingPreferencesPanel = new TrackingPreferencesPanel( tracker, trackingPreferences.isEnabled() );
+        trackingPreferencesPanel = new TrackingPreferencesPanel( trackingInfo, trackingPreferences.isEnabled() );
         jTabbedPane.addTab( TRACKING_TAB, trackingPreferencesPanel );
 
         JButton okButton = new JButton( OK_BUTTON );

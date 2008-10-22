@@ -18,12 +18,12 @@ public class TrackingPreferencesPanel extends JPanel {
     private static final String TRACKING_ENABLED = PhetCommonResources.getString( "Common.tracking.sendToPhET" );
     private static final String DETAILS = PhetCommonResources.getString( "Common.tracking.detailsButton" );
     
-    private ITrackingInfo tracker;
+    private ITrackingInfo trackingInfo;
 
     private JCheckBox trackingEnabledCheckBox;
     
-    public TrackingPreferencesPanel( ITrackingInfo tracker, boolean trackingEnabled ) {
-        this.tracker = tracker;
+    public TrackingPreferencesPanel( ITrackingInfo trackingInfo, boolean trackingEnabled ) {
+        this.trackingInfo = trackingInfo;
         
         setLayout( new GridBagLayout() );
         GridBagConstraints constraints = new GridBagConstraints();
@@ -61,10 +61,10 @@ public class TrackingPreferencesPanel extends JPanel {
                 public void actionPerformed( ActionEvent e ) {
                     Window window = SwingUtilities.getWindowAncestor( DetailsButton.this );
                     if ( window instanceof Frame ) {
-                        new TrackingDetailsDialog( (Frame) window, tracker ).setVisible( true );
+                        new TrackingDetailsDialog( (Frame) window, trackingInfo ).setVisible( true );
                     }
                     else if ( window instanceof Dialog ) {
-                        new TrackingDetailsDialog( (Dialog) window, tracker ).setVisible( true );
+                        new TrackingDetailsDialog( (Dialog) window, trackingInfo ).setVisible( true );
                     }
                 }
             } );
