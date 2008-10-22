@@ -11,13 +11,21 @@ import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
 public class AbstractTrackingInfo {
-    private ArrayList entries=new ArrayList( );
-    private static final String TRACKING_INFO_VERSION = "0.00.01";
+    private ArrayList entries = new ArrayList();
+
+    //versioning the tracking system will allow us to analyze data across version changes
+    //for example, we may stop tracking certain things in a newer version of the tracker
+    //having the version will allow us to know that those messages are gone by design
+    private static final String TRACKER_VERSION = "0.00.01";
+
+    //versioning the messages allows us to manage data after changing message content 
+    private static final String MESSAGE_VERSION = "0.00.01";
 
     public AbstractTrackingInfo( PhetApplicationConfig config ) {
         initTimeZone();
         TrackingEntry[] entriesArray = new TrackingEntry[]{
-                new TrackingEntry( "tracker-version", TRACKING_INFO_VERSION ),
+                new TrackingEntry( "tracker-version", TRACKER_VERSION ),
+                new TrackingEntry( "message-version", MESSAGE_VERSION ),
                 new TrackingEntry( "type", "sim-launched" ),
 
                 //Sim info first
