@@ -19,6 +19,7 @@ import edu.colorado.phet.eatingandexercise.EatingAndExerciseConstants;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.control.CaloriePanel;
 import edu.colorado.phet.eatingandexercise.control.HumanControlPanel;
+import edu.colorado.phet.eatingandexercise.control.ChartNode;
 import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.colorado.phet.eatingandexercise.view.EatingAndExerciseColorScheme;
 import edu.colorado.phet.eatingandexercise.view.HealthIndicator;
@@ -290,5 +291,9 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
 
     public PNode getDiaryNode() {
         return caloriePanel.getDiaryNode();
+    }
+
+    public ChartNode getChartNode(){
+        return caloriePanel.getChartNode();
     }
 }

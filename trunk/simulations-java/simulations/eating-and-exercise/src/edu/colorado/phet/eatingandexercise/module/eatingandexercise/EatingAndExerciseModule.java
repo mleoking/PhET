@@ -21,6 +21,7 @@ import edu.colorado.phet.eatingandexercise.EatingAndExerciseApplication;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
 import edu.colorado.phet.eatingandexercise.control.CaloricItem;
+import edu.colorado.phet.eatingandexercise.control.ChartNode;
 import edu.colorado.phet.eatingandexercise.model.CalorieSet;
 import edu.colorado.phet.eatingandexercise.model.EatingAndExerciseUnits;
 import edu.colorado.phet.eatingandexercise.model.Human;
@@ -38,6 +39,10 @@ public class EatingAndExerciseModule extends PiccoloModule {
 
     private int numAddedItems = 0;
     private boolean showedInitialDragWiggleMe = false;
+
+    private double getAgeYears() {
+        return EatingAndExerciseUnits.secondsToYears( _model.getHuman().getAge() );
+    }
 
     public EatingAndExerciseModule( final PhetFrame parentFrame ) {
         super( EatingAndExerciseStrings.TITLE_EATING_AND_EXERCISE_MODULE, new EatingAndExerciseClock(), EatingAndExerciseDefaults.STARTS_PAUSED );
@@ -60,6 +65,22 @@ public class EatingAndExerciseModule extends PiccoloModule {
 
         // Canvas
         _canvas = new EatingAndExerciseCanvas( _model, parentFrame );
+
+        _model.addListener( new EatingAndExerciseModel.Adapter() {
+            public void simulationTimeChanged() {
+                if ( getAgeYears() >= _canvas.getChartNode().getMaxChartTime() ) {
+                    _model.getClock().pause();
+                    getClockControlPanel().setEnabled( false );
+                }
+            }
+        } );
+        _canvas.getChartNode().addListener( new ChartNode.Listener() {
+            public void chartDataCleared() {
+                getClockControlPanel().setEnabled( true );
+            }
+        } );
+
+//        _canvas.getChartNode().add
         _canvas.addEditorClosedListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 activateStartButtonWiggleMe();
@@ -146,6 +167,7 @@ public class EatingAndExerciseModule extends PiccoloModule {
     public void resetAll() {
         _model.resetAll();
         _canvas.resetAll();
+        getClockControlPanel().setEnabled( true );
     }
 
     private void incrementAddedItems() {

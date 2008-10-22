@@ -99,6 +99,10 @@ public class CaloriePanel extends PNode {
         exerciseNode.resetAll();
     }
 
+    public ChartNode getChartNode() {
+        return chartNode;
+    }
+
     public PNode getEditDietButton() {
         return foodNode.getEditButton();
     }

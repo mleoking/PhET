@@ -2,6 +2,7 @@ New in 0.00.85
 >When dragging an item to the bar chart, it will move to a random position on the plate (or exercise log)
 >Converted control panel background to green
 >Made control panel fonts bold
+>The play/pause/step buttons are be disabled when you reach the 2 year mark, re-enabled on chart area clear or sim reset
 
 New in 0.00.84
 Fixed: String not found on startup: serving-cream-filled-cookies
