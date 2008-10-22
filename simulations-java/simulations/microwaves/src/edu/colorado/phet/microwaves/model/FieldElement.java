@@ -6,10 +6,10 @@
  */
 package edu.colorado.phet.microwaves.model;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common_microwaves.model.ModelElement;
 import edu.colorado.phet.microwaves.coreadditions.Vector2D;
-
-import java.awt.geom.Point2D;
 
 public class FieldElement extends ModelElement {
 

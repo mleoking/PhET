@@ -6,10 +6,10 @@
  */
 package edu.colorado.phet.microwaves.coreadditions;
 
-import edu.colorado.phet.microwaves.coreadditions.chart.StripChart;
-
 import java.util.Observable;
 import java.util.Observer;
+
+import edu.colorado.phet.microwaves.coreadditions.chart.StripChart;
 
 public class StripChartDelegate implements Observer {
 
@@ -25,8 +25,8 @@ public class StripChartDelegate implements Observer {
     }
 
     public void update( Observable o, Object arg ) {
-        if( o instanceof StripChartSubject ) {
-            StripChartSubject subject = (StripChartSubject)o;
+        if ( o instanceof StripChartSubject ) {
+            StripChartSubject subject = (StripChartSubject) o;
             chart.addDatum( subject.getDatum(), 1 );
         }
     }

@@ -13,7 +13,7 @@ import edu.colorado.phet.microwaves.model.WaterMoleculeWaterMoleculeCollisionExp
 public class WaterMoleculeWaterMolecuelContactExpertTest {
 
     public static void main( String[] args ) {
-        for( int i = 0; i < 2; i++ ) {
+        for ( int i = 0; i < 2; i++ ) {
             WaterMolecule molecule = new WaterMolecule();
             molecule.setLocation( 400 + ( i * 40 ), 250 + ( i * 20 ) );
             molecule.setDipoleOrientation( i * Math.PI / 2 );

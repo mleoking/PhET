@@ -20,7 +20,6 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
 import edu.colorado.phet.common_microwaves.application.Module;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.common_microwaves.view.graphics.Graphic;
@@ -39,8 +38,8 @@ public abstract class MicrowaveModule extends Module {
     private MicrowaveModel microwaveModel;
     private Rectangle2D.Double modelBounds;
     private Rectangle viewBounds;
-    private float savedFreq = (float)MicrowaveConfig.s_initFreq;
-    private float savedAmp = (float)MicrowaveConfig.s_initAmp;
+    private float savedFreq = (float) MicrowaveConfig.s_initFreq;
+    private float savedAmp = (float) MicrowaveConfig.s_initAmp;
     private ModelViewTransform2D modelViewTransform;
     private int latticeSpace = 40;
     private Box2D oven;
@@ -119,7 +118,7 @@ public abstract class MicrowaveModule extends Module {
         FieldVector.setLength( latticeSpace - 5 );
         // If we try to instantiate a new FieldLatticeView on every reset, we run out of memory. I haven't
         // debugged that, but this works.
-        if( fieldLattiveView == null ) {
+        if ( fieldLattiveView == null ) {
             fieldLattiveView = new FieldLatticeView( waveMedium,
                                                      new Point2D.Double( oven.getMinX() + latticeSpace,
                                                                          oven.getMinY() + latticeSpace ),
@@ -145,26 +144,26 @@ public abstract class MicrowaveModule extends Module {
     }
 
     public void setMicrowaveFrequency( double freq ) {
-        if( isMicrowaveOn ) {
+        if ( isMicrowaveOn ) {
             microwaveModel.setMicrowaveFrequency( freq );
         }
         else {
-            savedFreq = (float)freq;
+            savedFreq = (float) freq;
         }
     }
 
     public void setMicrowaveAmplitude( double amp ) {
-        if( isMicrowaveOn ) {
+        if ( isMicrowaveOn ) {
             microwaveModel.setMicrowaveAmplitude( amp );
         }
         else {
-            savedAmp = (float)amp;
+            savedAmp = (float) amp;
         }
     }
 
     public void toggleMicrowave() {
         isMicrowaveOn = !isMicrowaveOn;
-        if( isMicrowaveOn ) {
+        if ( isMicrowaveOn ) {
             turnMicrowaveOn( savedFreq, savedAmp );
         }
         else {
@@ -178,8 +177,8 @@ public abstract class MicrowaveModule extends Module {
     }
 
     public void turnMicrowaveOff() {
-        savedFreq = (float)microwaveModel.getFrequency();
-        savedAmp = (float)microwaveModel.getAmplitude();
+        savedFreq = (float) microwaveModel.getFrequency();
+        savedAmp = (float) microwaveModel.getAmplitude();
         microwaveModel.setMicrowaveFrequency( 0f );
         microwaveModel.setMicrowaveAmplitude( 0f );
         muWave.setFrequency( 0f );
@@ -264,31 +263,31 @@ public abstract class MicrowaveModule extends Module {
             int rowIdx = 0;
             try {
                 SwingUtils.addGridBagComponent( getContentPane(), new JLabel( SimStrings.get( "MicrowaveModule.PolarSesitivityLabel" ) ),
-                                                  0, rowIdx++, 1, 1,
-                                                  GridBagConstraints.NONE,
-                                                  GridBagConstraints.CENTER );
+                                                0, rowIdx++, 1, 1,
+                                                GridBagConstraints.NONE,
+                                                GridBagConstraints.CENTER );
                 SwingUtils.addGridBagComponent( getContentPane(), cSlider,
-                                                  0, rowIdx++, 1, 1,
-                                                  GridBagConstraints.NONE,
-                                                  GridBagConstraints.CENTER );
+                                                0, rowIdx++, 1, 1,
+                                                GridBagConstraints.NONE,
+                                                GridBagConstraints.CENTER );
                 cTF = new JTextField( Double.toString( cSliderTx.viewToModel( cSlider.getValue() ) ), 10 );
                 SwingUtils.addGridBagComponent( getContentPane(), cTF,
-                                                  0, rowIdx++, 1, 1,
-                                                  GridBagConstraints.NONE,
-                                                  GridBagConstraints.CENTER );
+                                                0, rowIdx++, 1, 1,
+                                                GridBagConstraints.NONE,
+                                                GridBagConstraints.CENTER );
                 SwingUtils.addGridBagComponent( getContentPane(), new JLabel( SimStrings.get( "MicrowaveModule.DampingLabel" ) ),
-                                                  0, rowIdx++, 1, 1,
-                                                  GridBagConstraints.NONE,
-                                                  GridBagConstraints.CENTER );
+                                                0, rowIdx++, 1, 1,
+                                                GridBagConstraints.NONE,
+                                                GridBagConstraints.CENTER );
                 SwingUtils.addGridBagComponent( getContentPane(), dampingSlider,
-                                                  0, rowIdx++, 1, 1,
-                                                  GridBagConstraints.NONE,
-                                                  GridBagConstraints.CENTER );
+                                                0, rowIdx++, 1, 1,
+                                                GridBagConstraints.NONE,
+                                                GridBagConstraints.CENTER );
                 dTF = new JTextField( Double.toString( dSliderTx.viewToModel( dampingSlider.getValue() ) ), 10 );
                 SwingUtils.addGridBagComponent( getContentPane(), dTF,
-                                                  0, rowIdx++, 1, 1,
-                                                  GridBagConstraints.NONE,
-                                                  GridBagConstraints.CENTER );
+                                                0, rowIdx++, 1, 1,
+                                                GridBagConstraints.NONE,
+                                                GridBagConstraints.CENTER );
             }
             catch( AWTException e ) {
                 e.printStackTrace();

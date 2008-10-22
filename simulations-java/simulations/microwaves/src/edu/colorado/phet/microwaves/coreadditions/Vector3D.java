@@ -26,12 +26,12 @@ public class Vector3D extends PhysicalVector {
         this.setX( x );
         this.setY( y );
         this.setZ( z );
-        if( Double.isNaN( x ) )
+        if ( Double.isNaN( x ) )
         //throw new RuntimeException( "x was NaN" );
         {
             System.out.println( "Vector2D constructor: x was NaN" );
         }
-        if( Double.isNaN( y ) )
+        if ( Double.isNaN( y ) )
         //throw new RuntimeException( "Y was NaN" );
         {
             System.out.println( "Vector2D constructor: y was NaN" );
@@ -87,19 +87,19 @@ public class Vector3D extends PhysicalVector {
     }
 
     public Vector3D add( Vector3D that ) {
-        return (Vector3D)super.add( that, this );
+        return (Vector3D) super.add( that, this );
     }
 
     public Vector3D normalize() {
-        return (Vector3D)super.generalNormalize();
+        return (Vector3D) super.generalNormalize();
     }
 
     public Vector3D multiply( float scale ) {
-        return (Vector3D)super.multiply( scale, this );
+        return (Vector3D) super.multiply( scale, this );
     }
 
     public Vector3D subtract( Vector3D that ) {
-        return (Vector3D)super.subtract( that, this );
+        return (Vector3D) super.subtract( that, this );
     }
 
     public Vector3D subtract( float x, float y, float z ) {
@@ -108,7 +108,7 @@ public class Vector3D extends PhysicalVector {
     }
 
     public Vector3D normalVector() {
-        if( true ) {
+        if ( true ) {
             throw new RuntimeException( "not implemented" );
         }
         return new Vector3D( this.getY(), -this.getX(), this.getZ() );

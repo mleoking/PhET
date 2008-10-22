@@ -10,8 +10,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 
-import javax.swing.JDialog;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
@@ -73,10 +72,10 @@ public class MeasuringTool extends MouseInputAdapter {
 //                                              GridBagConstraints.NONE,
 //                                              GridBagConstraints.EAST );
             SwingUtils.addGridBagComponent( contentPane, rTF,
-                                              1, rowIdx++,
-                                              1, 1,
-                                              GridBagConstraints.NONE,
-                                              GridBagConstraints.WEST );
+                                            1, rowIdx++,
+                                            1, 1,
+                                            GridBagConstraints.NONE,
+                                            GridBagConstraints.WEST );
 //            SwingUtils.addGridBagComponent( contentPane, new JLabel( "theta" ),
 //                                              0, rowIdx,
 //                                              1, 1,
@@ -97,10 +96,10 @@ public class MeasuringTool extends MouseInputAdapter {
     // implements java.awt.event.MouseListener
     public void mousePressed( MouseEvent e ) {
 //        tx = panel.getTx();
-        startPoint = tx.viewToModel( (int)e.getPoint().getX(), (int)e.getPoint().getY() );
-        endPoint = tx.viewToModel( (int)e.getPoint().getX(), (int)e.getPoint().getY() );
-        dialog.setLocation( (int)( panel.getLocationOnScreen().getX() + e.getPoint().getX() ),
-                            (int)( panel.getLocationOnScreen().getY() + e.getPoint().getY() + 10 ) );
+        startPoint = tx.viewToModel( (int) e.getPoint().getX(), (int) e.getPoint().getY() );
+        endPoint = tx.viewToModel( (int) e.getPoint().getX(), (int) e.getPoint().getY() );
+        dialog.setLocation( (int) ( panel.getLocationOnScreen().getX() + e.getPoint().getX() ),
+                            (int) ( panel.getLocationOnScreen().getY() + e.getPoint().getY() + 10 ) );
 
     }
 
@@ -117,20 +116,20 @@ public class MeasuringTool extends MouseInputAdapter {
     // implements java.awt.event.MouseMotionListener
     public void mouseDragged( MouseEvent e ) {
 
-        endPoint = tx.viewToModel( (int)e.getPoint().getX(), (int)e.getPoint().getY() );
+        endPoint = tx.viewToModel( (int) e.getPoint().getX(), (int) e.getPoint().getY() );
         double dx = endPoint.getX() - startPoint.getX();
         double dy = endPoint.getY() - startPoint.getY();
         double r = Math.sqrt( dx * dx + dy * dy );
         double theta = Math.toDegrees( Math.atan2( dy, dx ) );
-        xTF.setText( "x: " + Double.toString( (int)dx ) );
-        yTF.setText( "y: " + Double.toString( (int)dy ) );
-        rTF.setText( "r: " + Double.toString( (int)r ) );
-        thetaTF.setText( "theta: " + Double.toString( (int)theta ) );
+        xTF.setText( "x: " + Double.toString( (int) dx ) );
+        yTF.setText( "y: " + Double.toString( (int) dy ) );
+        rTF.setText( "r: " + Double.toString( (int) r ) );
+        thetaTF.setText( "theta: " + Double.toString( (int) theta ) );
     }
 
     public void setArmed( boolean armed ) {
         this.armed = armed;
-        if( armed ) {
+        if ( armed ) {
             panel.addMouseListener( this );
             panel.addMouseMotionListener( this );
             dialog.setVisible( true );
@@ -151,16 +150,16 @@ public class MeasuringTool extends MouseInputAdapter {
 
         public void paint( Graphics2D g2 ) {
             g2.setColor( Color.BLACK );
-            g2.drawLine( (int)startPoint.getX() - 10, (int)startPoint.getY(),
-                         (int)startPoint.getX() + 10, (int)startPoint.getY() );
-            g2.drawLine( (int)startPoint.getX(), (int)startPoint.getY() - 10,
-                         (int)startPoint.getX(), (int)startPoint.getY() + 10 );
-            g2.drawLine( (int)endPoint.getX() - 10, (int)endPoint.getY(),
-                         (int)endPoint.getX() + 10, (int)endPoint.getY() );
-            g2.drawLine( (int)endPoint.getX(), (int)endPoint.getY() - 10,
-                         (int)endPoint.getX(), (int)endPoint.getY() + 10 );
-            g2.drawLine( (int)startPoint.getX(), (int)startPoint.getY(),
-                         (int)endPoint.getX(), (int)endPoint.getY() );
+            g2.drawLine( (int) startPoint.getX() - 10, (int) startPoint.getY(),
+                         (int) startPoint.getX() + 10, (int) startPoint.getY() );
+            g2.drawLine( (int) startPoint.getX(), (int) startPoint.getY() - 10,
+                         (int) startPoint.getX(), (int) startPoint.getY() + 10 );
+            g2.drawLine( (int) endPoint.getX() - 10, (int) endPoint.getY(),
+                         (int) endPoint.getX() + 10, (int) endPoint.getY() );
+            g2.drawLine( (int) endPoint.getX(), (int) endPoint.getY() - 10,
+                         (int) endPoint.getX(), (int) endPoint.getY() + 10 );
+            g2.drawLine( (int) startPoint.getX(), (int) startPoint.getY(),
+                         (int) endPoint.getX(), (int) endPoint.getY() );
         }
     }
 }

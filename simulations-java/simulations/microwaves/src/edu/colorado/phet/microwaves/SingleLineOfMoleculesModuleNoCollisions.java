@@ -6,6 +6,12 @@
  */
 package edu.colorado.phet.microwaves;
 
+import java.awt.*;
+import java.util.Observable;
+import java.util.Observer;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.microwaves.coreadditions.MessageFormatter;
@@ -18,16 +24,11 @@ import edu.colorado.phet.microwaves.view.DipoleStripChartSubject;
 import edu.colorado.phet.microwaves.view.MicrowaveStripCharSubject;
 import edu.colorado.phet.microwaves.view.WaterMoleculeGraphic;
 
-import javax.swing.*;
-import java.awt.*;
-import java.util.Observable;
-import java.util.Observer;
-
 public class SingleLineOfMoleculesModuleNoCollisions extends MicrowaveModule {
 
     private int fieldWidth = 1000;
     private int fieldHeight = 700;
-//    private MicrowaveModel model;
+    //    private MicrowaveModel model;
     //    private Microwave muWave;
     private WaterMolecule molecule;
     private JDialog stripChartDlg;
@@ -42,9 +43,9 @@ public class SingleLineOfMoleculesModuleNoCollisions extends MicrowaveModule {
 
         // Put a line of water molecules across the middle of the screen
         Box2D oven = this.getMicrowaveModel().getOven();
-        for( int x = (int)( oven.getMinX() + WaterMolecule.s_oxygenRadius + WaterMolecule.s_hydrogenRadius * 2 );
-             x < (int)( oven.getMaxX() - WaterMolecule.s_oxygenRadius - WaterMolecule.s_hydrogenRadius * 2 );
-             x += WaterMolecule.s_oxygenRadius * 2 + WaterMolecule.s_hydrogenRadius * 3 ) {
+        for ( int x = (int) ( oven.getMinX() + WaterMolecule.s_oxygenRadius + WaterMolecule.s_hydrogenRadius * 2 );
+              x < (int) ( oven.getMaxX() - WaterMolecule.s_oxygenRadius - WaterMolecule.s_hydrogenRadius * 2 );
+              x += WaterMolecule.s_oxygenRadius * 2 + WaterMolecule.s_hydrogenRadius * 3 ) {
             molecule = new WaterMolecule();
             molecule.setLocation( x, 250 );
 
@@ -72,8 +73,8 @@ public class SingleLineOfMoleculesModuleNoCollisions extends MicrowaveModule {
                                                       1 );
         muWave.addObserver( new Observer() {
             public void update( Observable o, Object arg ) {
-                if( o instanceof Microwave ) {
-                    Microwave microwave = (Microwave)o;
+                if ( o instanceof Microwave ) {
+                    Microwave microwave = (Microwave) o;
                     stripChart.addDatum( microwave.getAmplitude()[0], 10 );
                 }
             }

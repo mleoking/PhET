@@ -6,10 +6,7 @@
  */
 package edu.colorado.phet.microwaves;
 
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -43,7 +40,7 @@ public class ThermometerView implements Graphic, ImageObserver, Observer {
             thermometerBackground = ImageLoader.loadBufferedImage( "microwaves/images/thermometer-background.png" );
             backgroundGraphic = new ImageGraphic( thermometerBackground, modelLocation );
         }
-        catch ( IOException e ) {
+        catch( IOException e ) {
             e.printStackTrace();
         }
     }
@@ -72,16 +69,16 @@ public class ThermometerView implements Graphic, ImageObserver, Observer {
     }
 
     public void update( Observable o, Object arg ) {
-        if( o instanceof Thermometer ) {
+        if ( o instanceof Thermometer ) {
             double totalKe = 0;
-            for( int i = keArray.length - 2; i >= 0; i-- ) {
+            for ( int i = keArray.length - 2; i >= 0; i-- ) {
                 double t = keArray[i];
                 totalKe += keArray[i];
                 keArray[i + 1] = keArray[i];
             }
 
             // 5 is a scaling factor
-            keArray[0] = ( (Double)arg ).doubleValue() * 5;
+            keArray[0] = ( (Double) arg ).doubleValue() * 5;
             totalKe += keArray[0];
             temperature = totalKe / keArraySize;
         }

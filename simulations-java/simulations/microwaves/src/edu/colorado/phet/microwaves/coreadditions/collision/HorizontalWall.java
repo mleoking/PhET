@@ -23,7 +23,7 @@ public class HorizontalWall extends Wall {
     }
 
     public void setLocation( float x1, float x2, float y1, float y2 ) {
-        if( y1 != y2 ) {
+        if ( y1 != y2 ) {
             throw new RuntimeException( "Non-horizontal coordinates specified for horizontal wall" );
         }
         super.setLocation( new Point2D.Float( x1, y1 ), new Point2D.Float( x2, y2 ) );

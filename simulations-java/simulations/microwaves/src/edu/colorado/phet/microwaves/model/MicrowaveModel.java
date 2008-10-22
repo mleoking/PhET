@@ -6,15 +6,15 @@
  */
 package edu.colorado.phet.microwaves.model;
 
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+
 import edu.colorado.phet.common_microwaves.model.BaseModel;
 import edu.colorado.phet.common_microwaves.model.IClock;
 import edu.colorado.phet.microwaves.coreadditions.Vector2D;
 import edu.colorado.phet.microwaves.coreadditions.collision.Box2D;
 import edu.colorado.phet.microwaves.model.waves.FiniteWaveMedium;
 import edu.colorado.phet.microwaves.model.waves.WaveMedium;
-
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 public class MicrowaveModel extends BaseModel {
 
@@ -55,24 +55,24 @@ public class MicrowaveModel extends BaseModel {
         // Make the clock static
         dt = c.getRequestedDT();
 
-        for( int i = 0; i < polarBodies.size(); i++ ) {
-            PolarBody polarBody = (PolarBody)polarBodies.get( i );
-            if( (int)polarBody.getLocation().getX() >= 0 && (int)polarBody.getLocation().getX() < mw.getAmplitude().length ) {
-                polarBody.respondToEmf( new Vector2D( 0, mw.getAmplitude()[(int)polarBody.getLocation().getX()] ), 0.1 );
+        for ( int i = 0; i < polarBodies.size(); i++ ) {
+            PolarBody polarBody = (PolarBody) polarBodies.get( i );
+            if ( (int) polarBody.getLocation().getX() >= 0 && (int) polarBody.getLocation().getX() < mw.getAmplitude().length ) {
+                polarBody.respondToEmf( new Vector2D( 0, mw.getAmplitude()[(int) polarBody.getLocation().getX()] ), 0.1 );
             }
         }
 
-        for( int i = 0; i < polarBodies.size() - 1; i++ ) {
-            for( int j = i + 1; j < polarBodies.size(); j++ ) {
-                WaterMolecule moleculeA = (WaterMolecule)polarBodies.get( i );
-                WaterMolecule moleculeB = (WaterMolecule)polarBodies.get( j );
+        for ( int i = 0; i < polarBodies.size() - 1; i++ ) {
+            for ( int j = i + 1; j < polarBodies.size(); j++ ) {
+                WaterMolecule moleculeA = (WaterMolecule) polarBodies.get( i );
+                WaterMolecule moleculeB = (WaterMolecule) polarBodies.get( j );
 
                 // The two bodies were the last ones to contact each other, don't consider
                 // that they might be colliding
-                if( !( moleculeA.getLastColidedBody() == moleculeB
-                       && moleculeB.getLastColidedBody() == moleculeA ) ) {
+                if ( !( moleculeA.getLastColidedBody() == moleculeB
+                        && moleculeB.getLastColidedBody() == moleculeA ) ) {
 
-                    if( WaterMoleculeWaterMoleculeCollisionExpert.areInContact(
+                    if ( WaterMoleculeWaterMoleculeCollisionExpert.areInContact(
                             moleculeA, moleculeB ) ) {
                         moleculeA.setLastColidedBody( moleculeB );
                         moleculeB.setLastColidedBody( moleculeA );
@@ -83,10 +83,10 @@ public class MicrowaveModel extends BaseModel {
 
         super.clockTicked( c, dt );
 
-        if( oven != null ) {
-            for( int i = 0; i < polarBodies.size(); i++ ) {
-                WaterMolecule waterMolecule = (WaterMolecule)polarBodies.get( i );
-                WaterMoleculeWallCollisionExpert.areInContact( (WaterMolecule)polarBodies.get( i ),
+        if ( oven != null ) {
+            for ( int i = 0; i < polarBodies.size(); i++ ) {
+                WaterMolecule waterMolecule = (WaterMolecule) polarBodies.get( i );
+                WaterMoleculeWallCollisionExpert.areInContact( (WaterMolecule) polarBodies.get( i ),
                                                                oven );
                 oven.setLastColidedBody( waterMolecule );
                 waterMolecule.setLastColidedBody( oven );
@@ -100,9 +100,9 @@ public class MicrowaveModel extends BaseModel {
 
     public void setMicrowaveFrequency( double freq ) {
         this.frequency = freq;
-        for( int i = 0; i < microwaves.size(); i++ ) {
-            Microwave microwave = (Microwave)microwaves.get( i );
-            microwave.setFrequency( (float)freq );
+        for ( int i = 0; i < microwaves.size(); i++ ) {
+            Microwave microwave = (Microwave) microwaves.get( i );
+            microwave.setFrequency( (float) freq );
         }
     }
 
@@ -112,9 +112,9 @@ public class MicrowaveModel extends BaseModel {
 
     public void setMicrowaveAmplitude( double amp ) {
         this.amplitude = amp;
-        for( int i = 0; i < microwaves.size(); i++ ) {
-            Microwave microwave = (Microwave)microwaves.get( i );
-            microwave.setMaxAmplitude( (float)amp );
+        for ( int i = 0; i < microwaves.size(); i++ ) {
+            Microwave microwave = (Microwave) microwaves.get( i );
+            microwave.setMaxAmplitude( (float) amp );
         }
     }
 

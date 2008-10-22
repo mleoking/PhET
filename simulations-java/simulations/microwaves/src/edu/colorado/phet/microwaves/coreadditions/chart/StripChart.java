@@ -6,14 +6,15 @@
  */
 package edu.colorado.phet.microwaves.coreadditions.chart;
 
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common_microwaves.model.ClockTickListener;
 import edu.colorado.phet.common_microwaves.model.IClock;
 import edu.colorado.phet.coreadditions_microwaves.clock.DynamicClockModel;
 import edu.colorado.phet.coreadditions_microwaves.clock.SwingTimerClock;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
 public class StripChart extends JPanel {
 
@@ -53,7 +54,7 @@ public class StripChart extends JPanel {
         data = new double[width];
 
         yScale = height / ( maxY - minY );
-        yOffset = (int)( minY * yScale );
+        yOffset = (int) ( minY * yScale );
         this.setLayout( null );
 
         plotAreaULC = new Point( 10, 10 );
@@ -70,7 +71,7 @@ public class StripChart extends JPanel {
 
         super.paintComponent( g );
 
-        Graphics2D g2 = (Graphics2D)g;
+        Graphics2D g2 = (Graphics2D) g;
         g2.setColor( plotBackground );
         g2.fill( plotArea );
         g2.setColor( Color.BLACK );
@@ -82,13 +83,13 @@ public class StripChart extends JPanel {
         g2.drawLine( plotAreaULC.x, plotAreaULC.y + ( height / 2 ),
                      plotAreaULC.x + width, plotAreaULC.y + ( height / 2 ) );
 
-        for( int i = 1; i < data.length; i++ ) {
+        for ( int i = 1; i < data.length; i++ ) {
 //        for( int i = 1; i < numData; i++ ) {
-            int d0 = (int)( data[i - 1] * yScale );
-            int d1 = (int)( data[i] * yScale );
+            int d0 = (int) ( data[i - 1] * yScale );
+            int d1 = (int) ( data[i] * yScale );
 
             // Draw vertical lines
-            if( ( i % tickSpace ) == tickLoc ) {
+            if ( ( i % tickSpace ) == tickLoc ) {
                 g2.setColor( tickColor );
                 g2.drawLine( i + plotAreaULC.x, plotAreaULC.y,
                              i + plotAreaULC.x, plotAreaULC.y + height );
@@ -115,12 +116,12 @@ public class StripChart extends JPanel {
         tickLoc = ( tickLoc + 1 ) % tickSpace;
 
         // Move all data one spot to the right
-        for( int i = data.length - 1; i > 0; i-- ) {
+        for ( int i = data.length - 1; i > 0; i-- ) {
             data[i] = data[i - 1];
         }
         data[0] = datum;
         numData = numData < data.length ? numData + 1 : numData;
-        this.repaint( (int)plotArea.getX(), (int)plotArea.getY(), (int)plotArea.getWidth(), (int)plotArea.getHeight() );
+        this.repaint( (int) plotArea.getX(), (int) plotArea.getY(), (int) plotArea.getWidth(), (int) plotArea.getHeight() );
     }
 
 

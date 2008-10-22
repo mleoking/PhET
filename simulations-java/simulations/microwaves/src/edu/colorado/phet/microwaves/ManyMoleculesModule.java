@@ -6,19 +6,13 @@
  */
 package edu.colorado.phet.microwaves;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
-import edu.colorado.phet.microwaves.coreadditions.chart.StripChart;
-import edu.colorado.phet.microwaves.coreadditions.chart.StripChartDelegate;
 import edu.colorado.phet.microwaves.coreadditions.collision.Box2D;
-import edu.colorado.phet.microwaves.model.Microwave;
 import edu.colorado.phet.microwaves.model.WaterMolecule;
-import edu.colorado.phet.microwaves.view.DipoleStripChartSubject;
-import edu.colorado.phet.microwaves.view.MicrowaveStripCharSubject;
 import edu.colorado.phet.microwaves.view.WaterMoleculeGraphic;
-
-import javax.swing.*;
-import java.awt.*;
 
 public class ManyMoleculesModule extends MicrowaveModule {
 
@@ -34,16 +28,16 @@ public class ManyMoleculesModule extends MicrowaveModule {
         WaterMolecule[] molecules = new WaterMolecule[MicrowaveConfig.s_numWaterMoleculesPlaceRandomly];
         Box2D oven = getMicrowaveModel().getOven();
 
-        for( int i = 0; i < MicrowaveConfig.s_numWaterMoleculesPlaceRandomly; i++ ) {
+        for ( int i = 0; i < MicrowaveConfig.s_numWaterMoleculesPlaceRandomly; i++ ) {
             WaterMolecule molecule = new WaterMolecule();
             double x = -1;
-            while( x < oven.getMinX() + WaterMolecule.s_hydrogenOxygenDist + WaterMolecule.s_hydrogenRadius * 2
-                   || x > oven.getMaxX() - ( WaterMolecule.s_hydrogenOxygenDist + WaterMolecule.s_hydrogenRadius * 2 ) ) {
+            while ( x < oven.getMinX() + WaterMolecule.s_hydrogenOxygenDist + WaterMolecule.s_hydrogenRadius * 2
+                    || x > oven.getMaxX() - ( WaterMolecule.s_hydrogenOxygenDist + WaterMolecule.s_hydrogenRadius * 2 ) ) {
                 x = Math.random() * oven.getMaxX();
             }
             double y = -1;
-            while( y < oven.getMinY() + WaterMolecule.s_hydrogenOxygenDist + WaterMolecule.s_hydrogenRadius * 2
-                   || y > oven.getMaxY() - ( WaterMolecule.s_hydrogenOxygenDist + WaterMolecule.s_hydrogenRadius * 2 ) ) {
+            while ( y < oven.getMinY() + WaterMolecule.s_hydrogenOxygenDist + WaterMolecule.s_hydrogenRadius * 2
+                    || y > oven.getMaxY() - ( WaterMolecule.s_hydrogenOxygenDist + WaterMolecule.s_hydrogenRadius * 2 ) ) {
                 y = Math.random() * oven.getMaxY();
             }
             molecule.setLocation( x, y );

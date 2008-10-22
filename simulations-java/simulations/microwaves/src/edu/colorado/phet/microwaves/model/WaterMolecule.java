@@ -6,11 +6,11 @@
  */
 package edu.colorado.phet.microwaves.model;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.microwaves.coreadditions.Body;
 import edu.colorado.phet.microwaves.coreadditions.Disk;
 import edu.colorado.phet.microwaves.coreadditions.Vector2D;
-
-import java.awt.geom.Point2D;
 
 /**
  * Represents a water molecule. Each atom is modeled as a circle of uniform density. The angular
@@ -77,7 +77,7 @@ public class WaterMolecule extends PolarBody {
 
         double emfMag = 0;
         double phi = 0;
-        if( emf != null && emf.getLength() != 0 ) {
+        if ( emf != null && emf.getLength() != 0 ) {
             double emfOrientation = Math.atan2( emf.getY(), emf.getX() );
             phi = emfOrientation - thetaOld;
             emfMag = emf.getLength();
@@ -92,7 +92,7 @@ public class WaterMolecule extends PolarBody {
         double omegaNewTemp = omegaOld + ( alpha * dt );
 
         // 3. Compute new angular acceleration
-        if( emf != null && emf.getLength() != 0 ) {
+        if ( emf != null && emf.getLength() != 0 ) {
             double emfOrientation = Math.atan2( emf.getY(), emf.getX() );
             phi = emfOrientation - thetaNew;
             emfMag = emf.getLength();
@@ -123,7 +123,7 @@ public class WaterMolecule extends PolarBody {
         double xSum = 0;
         double ySum = 0;
         double areaSum = 0;
-        for( int i = 0; i < lobes.length; i++ ) {
+        for ( int i = 0; i < lobes.length; i++ ) {
             double area = lobes[i].getRadius() * lobes[i].getRadius() * Math.PI;
             xSum += area * lobes[0].getCenterX();
             ySum += area * lobes[0].getCenterY();
@@ -168,7 +168,7 @@ public class WaterMolecule extends PolarBody {
         // Adjust the positiion of the lobes
         double dx = x - this.getLocation().getX();
         double dy = y - this.getLocation().getY();
-        for( int i = 0; i < lobes.length; i++ ) {
+        for ( int i = 0; i < lobes.length; i++ ) {
             lobes[i].setCenter( lobes[i].getCenterX() + dx,
                                 lobes[i].getCenterY() + dy );
         }

@@ -25,10 +25,10 @@ public class Thermometer extends ModelElement {
 
     public void stepInTime( double dt ) {
         double ke = 0;
-        for( int i = 0; i < model.numModelElements(); i++ ) {
+        for ( int i = 0; i < model.numModelElements(); i++ ) {
             ModelElement modelElement = model.modelElementAt( i );
-            if( modelElement instanceof WaterMolecule ) {
-                WaterMolecule waterMolecule = (WaterMolecule)modelElement;
+            if ( modelElement instanceof WaterMolecule ) {
+                WaterMolecule waterMolecule = (WaterMolecule) modelElement;
                 double vBar = waterMolecule.getVelocity().getLength();
                 ke += waterMolecule.getMass() * vBar * vBar / 2;
                 ke += waterMolecule.getMomentOfInertia() * waterMolecule.getOmega() * waterMolecule.getOmega() / 2;
@@ -39,7 +39,7 @@ public class Thermometer extends ModelElement {
         // Scale the reading. The 3 is an arbitrary factor
         ke /= 3;
 
-        for( int i = historySize - 1; i > 0; i-- ) {
+        for ( int i = historySize - 1; i > 0; i-- ) {
             history[i] = history[i - 1];
         }
         history[0] = ke;

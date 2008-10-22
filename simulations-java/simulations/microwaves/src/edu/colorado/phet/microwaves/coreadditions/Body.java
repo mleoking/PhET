@@ -6,9 +6,9 @@
  */
 package edu.colorado.phet.microwaves.coreadditions;
 
-import edu.colorado.phet.common_microwaves.model.ModelElement;
-
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common_microwaves.model.ModelElement;
 
 public abstract class Body extends ModelElement {
     private double omega;

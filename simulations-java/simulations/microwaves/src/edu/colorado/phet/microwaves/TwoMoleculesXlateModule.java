@@ -6,14 +6,14 @@
  */
 package edu.colorado.phet.microwaves;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.microwaves.coreadditions.MessageFormatter;
 import edu.colorado.phet.microwaves.model.Microwave;
 import edu.colorado.phet.microwaves.model.WaterMolecule;
 import edu.colorado.phet.microwaves.view.WaterMoleculeGraphic;
-
-import javax.swing.*;
 
 public class TwoMoleculesXlateModule extends MicrowaveModule {
 

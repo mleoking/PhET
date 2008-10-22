@@ -9,10 +9,10 @@ package edu.colorado.phet.microwaves.coreadditions.collision;
 //import edu.colorado.phet.physics.Vector2D;
 //import edu.colorado.phet.physics.body.Body;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.microwaves.coreadditions.CompositeBody;
 import edu.colorado.phet.microwaves.coreadditions.Vector2D;
-
-import java.awt.geom.Point2D;
 
 
 /**
@@ -67,32 +67,32 @@ public class Box2D extends CompositeBody {
 
         // Update the position of the door
         Vector2D[] opening = this.getOpening();
-        opening[0].setY( (float)minY );
-        opening[1].setY( (float)minY );
+        opening[0].setY( (float) minY );
+        opening[1].setY( (float) minY );
         this.setOpening( opening );
 
         // Left wall
-        if( walls[0] == null ) {
-            walls[0] = new VerticalWall( (float)minX, (float)minX, (float)minY, (float)maxY, VerticalWall.FACING_RIGHT );
+        if ( walls[0] == null ) {
+            walls[0] = new VerticalWall( (float) minX, (float) minX, (float) minY, (float) maxY, VerticalWall.FACING_RIGHT );
         }
         walls[0].setLocation( minX, minX, minY, maxY );
         leftWall = walls[0];
 
         // Right wall
-        if( walls[1] == null ) {
-            walls[1] = new VerticalWall( (float)maxX, (float)maxX, (float)minY, (float)maxY, VerticalWall.FACING_LEFT );
+        if ( walls[1] == null ) {
+            walls[1] = new VerticalWall( (float) maxX, (float) maxX, (float) minY, (float) maxY, VerticalWall.FACING_LEFT );
         }
         walls[1].setLocation( maxX, maxX, minY, maxY );
 
         // Top wall
-        if( walls[2] == null ) {
-            walls[2] = new HorizontalWall( (float)minX, (float)maxX, (float)minY, (float)minY, HorizontalWall.FACING_DOWN );
+        if ( walls[2] == null ) {
+            walls[2] = new HorizontalWall( (float) minX, (float) maxX, (float) minY, (float) minY, HorizontalWall.FACING_DOWN );
         }
         walls[2].setLocation( minX, maxX, minY, minY );
 
         // Bottom wall
-        if( walls[3] == null ) {
-            walls[3] = new HorizontalWall( (float)minX, (float)maxX, (float)maxY, (float)maxY, HorizontalWall.FACING_UP );
+        if ( walls[3] == null ) {
+            walls[3] = new HorizontalWall( (float) minX, (float) maxX, (float) maxY, (float) maxY, HorizontalWall.FACING_UP );
         }
         walls[3].setLocation( minX, maxX, maxY, maxY );
 
@@ -138,7 +138,7 @@ public class Box2D extends CompositeBody {
     public void stepInTime( float dt ) {
         super.stepInTime( dt );
         synchronized( leftWallMonitor ) {
-            leftWall.setVelocity( (float)leftWallVx, leftWall.getVelocity().getY() );
+            leftWall.setVelocity( (float) leftWallVx, leftWall.getVelocity().getY() );
         }
     }
 
@@ -242,8 +242,8 @@ public class Box2D extends CompositeBody {
 
         double y = Math.abs( point.getY() - minY ) < Math.abs( point.getY() - maxY )
                    ? minY : maxY;
-        closestCornerResult.setX( (float)x );
-        closestCornerResult.setY( (float)y );
+        closestCornerResult.setX( (float) x );
+        closestCornerResult.setY( (float) y );
         return closestCornerResult;
     }
 
@@ -258,19 +258,19 @@ public class Box2D extends CompositeBody {
 
     // TODO: change references so these methods don't have to be public.
     public float getCorner1X() {
-        return (float)corner1.getX();
+        return (float) corner1.getX();
     }
 
     public float getCorner1Y() {
-        return (float)corner1.getY();
+        return (float) corner1.getY();
     }
 
     public float getCorner2X() {
-        return (float)corner2.getX();
+        return (float) corner2.getX();
     }
 
     public float getCorner2Y() {
-        return (float)corner2.getY();
+        return (float) corner2.getY();
     }
 
     public Point2D getCenter() {

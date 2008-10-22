@@ -81,27 +81,27 @@ public class Wave extends ModelElement {
         int stepSize = propagationSpeed;
 
         // Move the existing elements of the wavefront up in the array of amplitudes
-        for( int i = s_length - 1; i > stepSize - 1; i-- ) {
+        for ( int i = s_length - 1; i > stepSize - 1; i-- ) {
 
             prevMaxAmplitudeAtTime[i] = maxAmplitudeAtTime[i];
             amplitude[i] = amplitude[i - stepSize];
 
             // Amplitude must be adjusted for distance from source
-            amplitude[i] = wavefrontType.computeAmplitudeAtDistance( this, amplitude[i], (float)i );
+            amplitude[i] = wavefrontType.computeAmplitudeAtDistance( this, amplitude[i], (float) i );
 
             prevFrequencyAtTime[i] = frequencyAtTime[i];
             frequencyAtTime[i] = frequencyAtTime[i - stepSize];
             maxAmplitudeAtTime[i] = maxAmplitudeAtTime[i - stepSize];
-            maxAmplitudeAtTime[i] = wavefrontType.computeAmplitudeAtDistance( this, maxAmplitudeAtTime[i], (float)i );
+            maxAmplitudeAtTime[i] = wavefrontType.computeAmplitudeAtDistance( this, maxAmplitudeAtTime[i], (float) i );
         }
 
         // Generate the new element(s) of the wavefront
-        for( int i = 0; i < stepSize; i++ ) {
+        for ( int i = 0; i < stepSize; i++ ) {
             amplitude[i] = waveFunction.valueAtTime( this.frequency, this.maxAmplitude, time );
-            if( frequencyAtTime[i] != frequency ) {
+            if ( frequencyAtTime[i] != frequency ) {
                 frequencyAtTime[i] = frequency;
             }
-            if( maxAmplitudeAtTime[i] != maxAmplitude ) {
+            if ( maxAmplitudeAtTime[i] != maxAmplitude ) {
                 maxAmplitudeAtTime[i] = maxAmplitude;
             }
         }
@@ -139,9 +139,9 @@ public class Wave extends ModelElement {
 
         // This computation attempts to keep things in phase when
         // the frequency changes,
-        if( newFrequency != 0 ) {
+        if ( newFrequency != 0 ) {
             double phi = time * ( ( frequency / newFrequency ) - 1 );
-            time += (float)phi;
+            time += (float) phi;
         }
         this.frequency = newFrequency;
         this.setChanged();
@@ -202,7 +202,7 @@ public class Wave extends ModelElement {
     }
 
     public void clear() {
-        for( int i = 0; i < s_length; i++ ) {
+        for ( int i = 0; i < s_length; i++ ) {
             this.amplitude[i] = 0;
             this.frequencyAtTime[i] = 0;
             this.maxAmplitudeAtTime[i] = 0;

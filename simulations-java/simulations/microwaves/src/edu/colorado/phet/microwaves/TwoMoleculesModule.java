@@ -29,22 +29,22 @@ public class TwoMoleculesModule extends MicrowaveModule {
 
         // Put a line of water molecules across the middle of the screen
         WaterMolecule[] ma = new WaterMolecule[10];
-        for( int i = 0; i < 2; i++ ) {
+        for ( int i = 0; i < 2; i++ ) {
             molecule = new WaterMolecule();
             boolean overlapping = false;
             do {
                 molecule.setLocation( 400 + ( i * 12 ), 250 + ( i * -15 ) );
 
                 molecule.setDipoleOrientation( i * Math.PI / 2 );
-                for( int j = 0; j < i; j++ ) {
-                    while( WaterMoleculeWaterMoleculeCollisionExpert.areOverlapping( molecule, ma[j] ) ) {
+                for ( int j = 0; j < i; j++ ) {
+                    while ( WaterMoleculeWaterMoleculeCollisionExpert.areOverlapping( molecule, ma[j] ) ) {
                         molecule.setLocation( molecule.getLocation().getX(), molecule.getLocation().getY() + 1 );
                     }
                 }
                 ma[i] = molecule;
                 molecule.setOmega( 0.001 * i );
                 molecule.setVelocity( -0.000f * i, 0f );
-            } while( overlapping );
+            } while ( overlapping );
             getMicrowaveModel().addPolarBody( molecule );
             WaterMoleculeGraphic moleculeGraphic = new WaterMoleculeGraphic( molecule, getModelViewTransform() );
             getApparatusPanel().addGraphic( moleculeGraphic, 5 );

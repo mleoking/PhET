@@ -17,8 +17,8 @@ public class SineFunction implements PeriodicFunction {
      */
     public float valueAtTime( float frequency, float maxAmplitude, float time ) {
         float amplitude = 0.0f;
-        if( frequency != 0 ) {
-            amplitude = (float)Math.sin( frequency * time * Math.PI * 2 ) * maxAmplitude;
+        if ( frequency != 0 ) {
+            amplitude = (float) Math.sin( frequency * time * Math.PI * 2 ) * maxAmplitude;
         }
         else {
             amplitude = 0;
