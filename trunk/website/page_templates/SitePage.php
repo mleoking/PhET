@@ -330,6 +330,18 @@ EOT;
 EOT;
     }
 
+    function open_xhtml() {
+        print '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">'."\n";
+        if ((isset($_COOKIE['PHET_INSTALLER_BUILDER_RIP']) && $_COOKIE["PHET_INSTALLER_BUILDER_RIP"])) {
+            // If this page is being ripped by the PhET installer builder,
+            // incorporate the Mark Of The Web (MOTW) comment tag in order
+            // to make the off-line version work better with Internet Explorer.
+            // See Unfuddle ticket #184 for more information.
+            print '<!-- saved from url=(0025)http://phet.colorado.edu/ -->'."\r\n";
+        }
+        print '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">'."\n";
+    }
+
     function open_xhtml_body() {
         parent::open_xhtml_body();
 
