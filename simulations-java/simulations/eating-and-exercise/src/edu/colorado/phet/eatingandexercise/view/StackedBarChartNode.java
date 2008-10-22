@@ -7,6 +7,7 @@ import java.beans.PropertyChangeListener;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
@@ -96,6 +97,18 @@ public class StackedBarChartNode extends PNode {
     }
 
     private void updateZoomVisibility() {
+        boolean anyBarTooLarge = anyBarTooLarge();
+        if ( !anyBarTooLarge ) {
+            if ( isAtDefaultZoom() ) {
+                zoomControlNode.setVisible( false );
+            }
+        }
+        else {
+            zoomControlNode.setVisible( anyBarTooLarge );
+        }
+    }
+
+    private boolean anyBarTooLarge() {
         boolean visible = false;
         for ( int i = 0; i < barLayer.getChildrenCount(); i++ ) {
             PNode node = barLayer.getChild( i );
@@ -104,8 +117,13 @@ public class StackedBarChartNode extends PNode {
                 visible = visible || stackedBarNode.getTotal() >= 4000;
             }
         }
+        return visible;
+    }
 
-        zoomControlNode.setVisible( visible );
+    private boolean isAtDefaultZoom() {
+        return MathUtil.isApproxEqual( defaultMaxInValue, function.getMaxInput(), 1E-6 )
+               &&
+               MathUtil.isApproxEqual( defaultMaxOutValue, function.getMaxOutput(), 1E-6 );
     }
 
     public String getTitle() {
@@ -113,11 +131,9 @@ public class StackedBarChartNode extends PNode {
     }
 
     public void resetAll() {
-        if ( StackedBarChartNode.this.function instanceof Function.LinearFunction ) {
-            Function.LinearFunction linearFunction = (Function.LinearFunction) StackedBarChartNode.this.function;
-            setFunction( new Function.LinearFunction( linearFunction.getMinInput(), defaultMaxInValue,
-                                                      linearFunction.getMinOutput(), defaultMaxOutValue ) );
-        }
+        Function.LinearFunction linearFunction = StackedBarChartNode.this.function;
+        setFunction( new Function.LinearFunction( linearFunction.getMinInput(), defaultMaxInValue,
+                                                  linearFunction.getMinOutput(), defaultMaxOutValue ) );
     }
 
     //todo: convert to layout strategy pattern

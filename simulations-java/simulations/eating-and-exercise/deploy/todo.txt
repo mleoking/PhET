@@ -2,10 +2,6 @@
 ###	Todo Sam		####
 ############################
 
--When calories drop back down,
-    the zoom buttons go away but the axis does not rescale, so you can end up with a rescaled axis
-    that you can not get back to the standard view (unless you add lots of calories to make the zoom buttons return).
-
 From Wendy 10/7/08:
 
 Reset all doesn’t work well when I make my guy really fat
