@@ -4,19 +4,12 @@ import java.io.IOException;
 
 
 public class Tracker {
-    private AbstractTrackingInfo trackingInformation;
-    private Trackable trackable;
 
-    public Tracker( Trackable trackable ) {
-        this.trackable = trackable;
-    }
-
-    public void startTracking() {
+    public void postMessage( final BaseTrackingMessage trackingInformation ) {
         Thread t = new Thread( new Runnable() {
             public void run() {
-                trackingInformation = trackable.getTrackingInformation();
                 try {
-                    new TrackingManager().postTrackingInfo( trackingInformation );
+                    new TrackingManager().postMessage( trackingInformation );
                 }
                 catch( IOException e ) {
                     e.printStackTrace();
@@ -26,7 +19,4 @@ public class Tracker {
         t.start();
     }
 
-    public AbstractTrackingInfo getTrackingInformation() {
-        return trackingInformation;
-    }
 }

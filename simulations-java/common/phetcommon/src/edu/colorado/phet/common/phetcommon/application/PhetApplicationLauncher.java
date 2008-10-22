@@ -100,7 +100,7 @@ public class PhetApplicationLauncher {
                         long applicationLaunchFinishedAt = System.currentTimeMillis();
                         config.setApplicationLaunchFinishedAt( applicationLaunchFinishedAt );
 
-                        new TrackingApplicationManager( config ).applicationStarted( app );
+                        new TrackingApplicationManager( config ).applicationStarted();
                         new UpdateApplicationManager( config ).applicationStarted( app );
                     }
                     else {
