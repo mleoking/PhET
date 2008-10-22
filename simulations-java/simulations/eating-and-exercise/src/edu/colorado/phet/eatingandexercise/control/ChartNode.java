@@ -7,8 +7,6 @@ import java.awt.geom.Point2D;
 
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.NumberTickUnit;
-import org.jfree.chart.axis.TickUnit;
-import org.jfree.chart.axis.TickUnitSource;
 import org.jfree.data.Range;
 
 import edu.colorado.phet.common.motion.graphs.ControlGraph;
@@ -52,7 +50,7 @@ public class ChartNode extends PNode {
     private EatingAndExerciseControlGraph weightGraph;
     private EatingAndExerciseControlGraph calorieGraph;
     private static final double DEFAULT_RANGE_YEARS = 2;
-//    private static final double DEFAULT_RANGE_YEARS = 2/10.0;//for testing
+    //    private static final double DEFAULT_RANGE_YEARS = 2/10.0;//for testing
     private EatingAndExerciseModel.Units previousUnits;
 
     public ChartNode( final EatingAndExerciseModel model, PhetPCanvas phetPCanvas ) {
@@ -65,7 +63,7 @@ public class ChartNode extends PNode {
         model.addListener( new EatingAndExerciseModel.Adapter() {
             public void simulationTimeChanged() {
                 updateVars();
-                if (getAgeYears()>weightGraph.getLowerBound()+DEFAULT_RANGE_YEARS){
+                if ( getAgeYears() > weightGraph.getLowerBound() + DEFAULT_RANGE_YEARS ) {
                     model.getClock().pause();
                 }
             }
@@ -283,7 +281,7 @@ public class ChartNode extends PNode {
 
             NumberAxis numberAxis = (NumberAxis) getJFreeChartNode().getChart().getXYPlot().getDomainAxis();
 
-            numberAxis.setTickUnit( new NumberTickUnit( 2.0*DEFAULT_RANGE_YEARS/12.0) );
+            numberAxis.setTickUnit( new NumberTickUnit( 2.0 * DEFAULT_RANGE_YEARS / 12.0 ) );
 //            TickUnitSource source = new TickUnitSource() {
 //                public TickUnit getLargerTickUnit( TickUnit unit ) {
 //                    return new NumberTickUnit( unit.getSize() + 1.0 / 12.0 );

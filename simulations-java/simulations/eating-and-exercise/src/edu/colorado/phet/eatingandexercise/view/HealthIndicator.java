@@ -3,8 +3,8 @@ package edu.colorado.phet.eatingandexercise.view;
 import java.awt.*;
 
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
-import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
+import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -37,7 +37,7 @@ public class HealthIndicator extends PNode {
         private Human human;
 
         public HeartStrengthIndicatorBar( final Human human ) {
-            super( "<html>"+ EatingAndExerciseResources.getString("heart.strength")+"</html>", 0, 1, 250 / 1000.0, 1000 / 1000.0, INDICATOR_BAR_HEIGHT, Color.red, Color.green );
+            super( "<html>" + EatingAndExerciseResources.getString( "heart.strength" ) + "</html>", 0, 1, 250 / 1000.0, 1000 / 1000.0, INDICATOR_BAR_HEIGHT, Color.red, Color.green );
             this.human = human;
             human.addListener( new Human.Adapter() {
                 public void heartStrengthChanged() {
@@ -56,7 +56,7 @@ public class HealthIndicator extends PNode {
         private Human human;
 
         public HeartStrainIndicatorBar( Human human ) {
-            super( "<html>"+ EatingAndExerciseResources.getString("heart.strain")+"</html>", 0, 1, 16 / 100.0, 31 / 100.0, INDICATOR_BAR_HEIGHT, Color.green, Color.red );
+            super( "<html>" + EatingAndExerciseResources.getString( "heart.strain" ) + "</html>", 0, 1, 16 / 100.0, 31 / 100.0, INDICATOR_BAR_HEIGHT, Color.green, Color.red );
             this.human = human;
             human.addListener( new Human.Adapter() {
                 public void heartStrainChanged() {

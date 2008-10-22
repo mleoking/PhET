@@ -2,7 +2,6 @@ package edu.colorado.phet.eatingandexercise.control;
 
 import java.awt.*;
 
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 

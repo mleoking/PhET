@@ -83,7 +83,7 @@ public class EatingAndExerciseFileParser {
             if ( st.hasMoreTokens() ) {
                 image = st.nextToken().trim();
             }
-            return new ExerciseItem( EatingAndExerciseResources.getString( "fifteen.minutes" )+" " + EatingAndExerciseResources.getString( key ), image, baseCalories, weightDependence, referenceWeightPounds, human );
+            return new ExerciseItem( EatingAndExerciseResources.getString( "fifteen.minutes" ) + " " + EatingAndExerciseResources.getString( key ), image, baseCalories, weightDependence, referenceWeightPounds, human );
         }
     }
 }

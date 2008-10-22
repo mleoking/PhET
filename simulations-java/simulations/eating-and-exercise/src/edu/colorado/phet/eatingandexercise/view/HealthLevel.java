@@ -28,8 +28,8 @@ public class HealthLevel extends PNode {
 
     private GeneralPath createPath() {
         DoubleGeneralPath path = new DoubleGeneralPath();
-        double leftX = 0-2;
-        double pinPoint = 4-2;
+        double leftX = 0 - 2;
+        double pinPoint = 4 - 2;
         double rightX = 20;
         double topY = 3;
         double bottomY = -topY;

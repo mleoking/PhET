@@ -37,7 +37,6 @@ public class MuscleAndFatMassLoss2 implements HumanUpdate {
         // If you gain weight just from taking in excess calories, it should all go to fat.
         // You should only be able to turn food and fat into muscle by exercising.
 
-
         //control for asymmetric fat percent handling when gaining weight
         if ( caloriesGained > 0 && allFatWhenGainingWeight ) {
             fractionFatLost = 1.0;
