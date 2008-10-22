@@ -37,7 +37,6 @@ public class CaloriePanel extends PNode {
         Function.LinearFunction transform = new Function.LinearFunction( 0, 3000, 0, 250 );
         stackedBarChart = new StackedBarChartNode( transform, EatingAndExerciseResources.getString( "units.cal-per-day" ), 10, 250, 1000, 8000 );
 
-
         StackedBarNode foodBars = new StackedBarNode( transform, 100 );
         Color labelColor = Color.black;
         foodBars.addElement( new BarChartElementAdapter( EatingAndExerciseStrings.FATS, EatingAndExerciseColorScheme.FATS, model.getHuman().getLipids(), "stick_butter.png", labelColor ), StackedBarNode.NONE );
@@ -97,6 +96,7 @@ public class CaloriePanel extends PNode {
         chartNode.resetAll();
         foodNode.resetAll();
         exerciseNode.resetAll();
+        stackedBarChart.resetAll();
     }
 
     public ChartNode getChartNode() {

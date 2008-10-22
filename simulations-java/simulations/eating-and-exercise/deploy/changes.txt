@@ -4,7 +4,8 @@ New in 0.00.85
 >Made control panel fonts bold
 >The play/pause/step buttons are be disabled when you reach the 2 year mark, re-enabled on chart area clear or sim reset
 >Horizontal zoom allows you to zoom in from 2 years, and out to a maximum of 2 years.
->Changed bar chart zoom buttons to look like graph zoom buttons 
+>Changed bar chart zoom buttons to look like graph zoom buttons
+>Fixed: Reset all does not reset the calorie axis for the bar charts.
 
 New in 0.00.84
 Fixed: String not found on startup: serving-cream-filled-cookies
