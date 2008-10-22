@@ -4,12 +4,6 @@
 
 From NP 10/15/08:
 
-- With the new play/pause/step buttons, it is not at all clear that the step is a "next month". Can you put a label next to it that says "Next Month" as there was before?
->>This has a tooltip; is that sufficient?
-
-NP says: Not sure. Let's just wait and see what turns out to be necessary on this.
-
-
 - The wiggle me points in the general direction of the play/pause/step buttons, but still not directly at the play button. Can it be made closer to the play button? Or at least to the left so it is directly above the play button.
 >>This will be difficult and/or messy
 
@@ -60,11 +54,17 @@ NP: see above.
 -When I was playing the step button was grey for the first couple of years and then it became visible. It did still work?
 SR: I can't reproduce this problem
 
-############################
-###	To Discuss		####
-############################
+################################################
+###	To Discuss   /  Awaiting User Feedback	####
+################################################
 
 -Consider making different weight bearing activities have different multipliers (e.g., rock climbing more weight dependent than backpacking, etc.)
+
+- With the new play/pause/step buttons, it is not at all clear that the step is a "next month".
+Can you put a label next to it that says "Next Month" as there was before?
+>>This has a tooltip; is that sufficient?
+
+NP says: Not sure. Let's just wait and see what turns out to be necessary on this.
 
 
 ##################################
