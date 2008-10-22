@@ -13,11 +13,6 @@ if they looked like the vertical zoom buttons on the charts. This is low priorit
     the zoom buttons go away but the axis does not rescale, so you can end up with a rescaled axis
     that you can not get back to the standard view (unless you add lots of calories to make the zoom buttons return).
 
-WA says: I really like the larger area for placing food and exercises!  It’s very useful for clueless users such as myselfJ
-
-NP says: Don't worry about it in this case. We can see if it is really an issue in interviews.
-
-
 From Wendy 10/7/08:
 
 Reset all doesn’t work well when I make my guy really fat
