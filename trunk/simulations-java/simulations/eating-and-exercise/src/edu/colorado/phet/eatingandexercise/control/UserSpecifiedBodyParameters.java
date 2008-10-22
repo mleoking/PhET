@@ -1,6 +1,5 @@
 package edu.colorado.phet.eatingandexercise.control;
 
-import edu.colorado.phet.eatingandexercise.model.EatingAndExerciseUnits;
 import edu.colorado.phet.eatingandexercise.model.Human;
 
 /**

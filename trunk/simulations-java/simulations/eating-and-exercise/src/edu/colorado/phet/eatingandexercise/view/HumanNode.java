@@ -17,8 +17,8 @@ import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
+import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -171,7 +171,7 @@ public class HumanNode extends PNode {
         //should be percentFat/12 for male, percentFat/18 for female
         double scaleFactor = human.getGender().equals( Human.Gender.MALE ) ? 13 : 20;
         double w = Math.max( ( percentFat / scaleFactor - 1 ) * 0.1, 0 );
-        
+
         return new Ellipse2D.Double( bounds.getX() - w / 2, bounds.getCenterY(), bounds.getWidth() + w, bounds.getHeight() / 2 );
     }
 

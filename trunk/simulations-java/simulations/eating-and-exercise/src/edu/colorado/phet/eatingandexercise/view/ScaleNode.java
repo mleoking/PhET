@@ -74,7 +74,7 @@ public class ScaleNode extends PNode {
 
         JPanel units = new VerticalLayoutPanel();
         units.setBorder( BorderFactory.createBevelBorder( BevelBorder.LOWERED ) );
-        ButtonGroup buttonGroup=new ButtonGroup();
+        ButtonGroup buttonGroup = new ButtonGroup();
         for ( int i = 0; i < EatingAndExerciseModel.availableUnits.length; i++ ) {
             final JRadioButton jRadioButton = new JRadioButton( EatingAndExerciseModel.availableUnits[i].getShortName(), EatingAndExerciseModel.availableUnits[i] == model.getUnits() );
             buttonGroup.add( jRadioButton );

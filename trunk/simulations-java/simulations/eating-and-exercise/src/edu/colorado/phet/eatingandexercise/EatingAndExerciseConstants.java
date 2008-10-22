@@ -4,8 +4,6 @@ package edu.colorado.phet.eatingandexercise;
 
 import java.awt.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-
 
 /**
  * TemplateConstants is a collection of constants that configure global properties.
@@ -27,7 +25,7 @@ public class EatingAndExerciseConstants {
     //----------------------------------------------------------------------------
     // Application
     //----------------------------------------------------------------------------
-    
+
     public static final String PROJECT_NAME = "eating-and-exercise";
 
     //----------------------------------------------------------------------------

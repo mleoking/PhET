@@ -23,7 +23,7 @@ public class ActivityLevelControlPanel extends JPanel {
             final int i1 = i;
             jRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    human.setActivityLevel( Activity.DEFAULT_ACTIVITY_LEVELS[i1]);
+                    human.setActivityLevel( Activity.DEFAULT_ACTIVITY_LEVELS[i1] );
                 }
             } );
             jRadioButton.setFont( new PhetFont( 13, true ) );

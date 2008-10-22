@@ -85,7 +85,7 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
         humanAreaNode = new HumanNode( model.getHuman() );
         humanAreaNode.addListener( new HumanNode.Listener() {
             public void infoButtonPressed() {
-                JOptionPane.showMessageDialog( EatingAndExerciseCanvas.this, EatingAndExerciseResources.getString( "heart.health.info" ));
+                JOptionPane.showMessageDialog( EatingAndExerciseCanvas.this, EatingAndExerciseResources.getString( "heart.health.info" ) );
             }
         } );
 

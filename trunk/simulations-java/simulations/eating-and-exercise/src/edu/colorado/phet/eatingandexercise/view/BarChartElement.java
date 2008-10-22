@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 /**
  * Created by: Sam
-* Aug 18, 2008 at 10:13:26 AM
-*/
+ * Aug 18, 2008 at 10:13:26 AM
+ */
 public class BarChartElement {
     private String name;
     private Paint paint;

@@ -54,7 +54,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         ageSlider = new HumanSlider( 0, 100, EatingAndExerciseUnits.secondsToYears( human.getAge() ),
                                      EatingAndExerciseResources.getString( "age" ), EatingAndExerciseStrings.AGE_FORMAT.toPattern(),
 //                                     EatingAndExerciseResources.getString( "units.years" )
-                                     "" 
+""
         );
         ageSlider.setTextFieldFormat( new YearMonthFormat() );
         sliders.add( ageSlider );
@@ -187,7 +187,6 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         } );
         add( bodyFatSlider );
         sliders.add( bodyFatSlider );
-
 
 
         p0Slider = new HumanSlider( Math.min( 0, Human.Gender.P0 ), Math.max( 1 / 100.0, Human.Gender.P0 ), Human.Gender.P0, "p0", "0.0000", "units" );

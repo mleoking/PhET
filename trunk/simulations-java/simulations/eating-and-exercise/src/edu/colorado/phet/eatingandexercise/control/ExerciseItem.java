@@ -42,7 +42,7 @@ public class ExerciseItem extends CaloricItem {
 
     private static double round( double newCalories ) {
         //round to nearest 10
-        return Math.round( newCalories/10 )*10;
+        return Math.round( newCalories / 10 ) * 10;
     }
 
     public Object clone() {
@@ -61,8 +61,8 @@ public class ExerciseItem extends CaloricItem {
     }
 
     public static void main( String[] args ) {
-        for (double d=0.0;d<=20.0;d+=0.023){
-            System.out.println( ""+d+": "+round(d) );
+        for ( double d = 0.0; d <= 20.0; d += 0.023 ) {
+            System.out.println( "" + d + ": " + round( d ) );
         }
     }
 }

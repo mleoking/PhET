@@ -13,7 +13,6 @@ import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
 import edu.colorado.phet.eatingandexercise.view.SliderNode;
 import edu.umd.cs.piccolo.PNode;
