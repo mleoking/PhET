@@ -19,7 +19,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class StackedBarChartNode extends PNode {
     private PNode barLayer = new PNode();
-    private Function function;
+    private Function.LinearFunction function;
     private String title;
     private int spacing;
     private double minorTickSpacing;
@@ -27,14 +27,18 @@ public class StackedBarChartNode extends PNode {
     private double maxYValue;
     private SparseStackedBarChartAxisNode axisNode;
     private ZoomControlNode zoomControlNode = new ZoomControlNode( ZoomControlNode.VERTICAL );
+    private double defaultMaxOutValue;
+    private double defaultMaxInValue;
 
-    public StackedBarChartNode( Function function, String title, int horizontalInset, double minorTickSpacing, double majorTickSpacing, double maxYValue ) {
+    public StackedBarChartNode( Function.LinearFunction function, String title, int horizontalInset, double minorTickSpacing, double majorTickSpacing, double maxYValue ) {
         this.function = function;
         this.title = title;
         this.spacing = horizontalInset;
         this.minorTickSpacing = minorTickSpacing;
         this.majorTickSpacing = majorTickSpacing;
         this.maxYValue = maxYValue;
+        this.defaultMaxInValue = function.getMaxInput();
+        this.defaultMaxOutValue = function.getMaxOutput();
         addChild( barLayer );
 
         axisNode = new SparseStackedBarChartAxisNode( title, function, minorTickSpacing, majorTickSpacing, maxYValue );
@@ -42,19 +46,15 @@ public class StackedBarChartNode extends PNode {
 
         zoomControlNode.addZoomListener( new ZoomControlNode.ZoomListener() {
             public void zoomedOut() {
-                if ( StackedBarChartNode.this.function instanceof Function.LinearFunction ) {
-                    Function.LinearFunction linearFunction = (Function.LinearFunction) StackedBarChartNode.this.function;
-                    setFunction( new Function.LinearFunction( linearFunction.getMinInput(), linearFunction.getMaxInput(),
-                                                              linearFunction.getMinOutput(), linearFunction.getMaxOutput() / 2 ) );
-                }
+                Function.LinearFunction linearFunction = StackedBarChartNode.this.function;
+                setFunction( new Function.LinearFunction( linearFunction.getMinInput(), linearFunction.getMaxInput(),
+                                                          linearFunction.getMinOutput(), linearFunction.getMaxOutput() / 2 ) );
             }
 
             public void zoomedIn() {
-                if ( StackedBarChartNode.this.function instanceof Function.LinearFunction ) {
-                    Function.LinearFunction linearFunction = (Function.LinearFunction) StackedBarChartNode.this.function;
-                    setFunction( new Function.LinearFunction( linearFunction.getMinInput(), linearFunction.getMaxInput(),
-                                                              linearFunction.getMinOutput(), linearFunction.getMaxOutput() * 2 ) );
-                }
+                Function.LinearFunction linearFunction = StackedBarChartNode.this.function;
+                setFunction( new Function.LinearFunction( linearFunction.getMinInput(), linearFunction.getMaxInput(),
+                                                          linearFunction.getMinOutput(), linearFunction.getMaxOutput() * 2 ) );
             }
         } );
 
@@ -67,7 +67,7 @@ public class StackedBarChartNode extends PNode {
         return axisNode;
     }
 
-    public void setFunction( Function function ) {
+    public void setFunction( Function.LinearFunction function ) {
         this.function = function;
         removeChild( axisNode );
 
@@ -108,6 +108,18 @@ public class StackedBarChartNode extends PNode {
         zoomControlNode.setVisible( visible );
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void resetAll() {
+        if ( StackedBarChartNode.this.function instanceof Function.LinearFunction ) {
+            Function.LinearFunction linearFunction = (Function.LinearFunction) StackedBarChartNode.this.function;
+            setFunction( new Function.LinearFunction( linearFunction.getMinInput(), defaultMaxInValue,
+                                                      linearFunction.getMinOutput(), defaultMaxOutValue ) );
+        }
+    }
+
     //todo: convert to layout strategy pattern
     private void updateLayout() {
         if ( barLayer.getChildrenCount() >= 1 ) {
@@ -134,7 +146,7 @@ public class StackedBarChartNode extends PNode {
         PhetPCanvas contentPane = new BufferedPhetPCanvas();
         frame.setContentPane( contentPane );
 
-        StackedBarChartNode stackedBarChart = new StackedBarChartNode( new Function.IdentityFunction(), "Calories/Day", 10, 10, 100, 300 );
+        StackedBarChartNode stackedBarChart = new StackedBarChartNode( new Function.LinearFunction( 0, 1 ), "Calories/Day", 10, 10, 100, 300 );
         StackedBarNode barNode = new StackedBarNode( 100 );
         barNode.addElement( new BarChartElement( "BMR", EatingAndExerciseColorScheme.BMR, 100, new BufferedImage( 50, 50, BufferedImage.TYPE_INT_RGB ) ) );
         barNode.addElement( new BarChartElement( "Activity", EatingAndExerciseColorScheme.ACTIVITY, 200 ) );
@@ -153,9 +165,5 @@ public class StackedBarChartNode extends PNode {
 
         frame.setVisible( true );
 //        System.out.println( "stackedBarChart.getFullBounds() = " + stackedBarChart.getFullBounds() );
-    }
-
-    public String getTitle() {
-        return title;
     }
 }
