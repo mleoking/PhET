@@ -5,6 +5,7 @@ import java.util.Arrays;
 import edu.colorado.phet.common.phetcommon.preferences.DefaultTrackingPreferences;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.tracking.Tracker;
+import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 
 public class TrackingApplicationManager {
     private PhetApplicationConfig config;
@@ -15,7 +16,7 @@ public class TrackingApplicationManager {
 
     public void applicationStarted() {
         if ( isTrackingEnabled() ) {
-            new Tracker().postMessage( config.getTrackingInformation() );
+            new Tracker().postMessage( new TrackingMessage( config, TrackingMessage.SIM_LAUNCHED ) );
         }
     }
 

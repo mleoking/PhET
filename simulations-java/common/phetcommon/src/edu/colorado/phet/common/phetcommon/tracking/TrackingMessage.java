@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
-public class BaseTrackingMessage {
+public class TrackingMessage {
     private ArrayList entries = new ArrayList();
 
     //versioning the tracking system will allow us to analyze data across version changes
@@ -19,14 +19,29 @@ public class BaseTrackingMessage {
     private static final String TRACKER_VERSION = "0.00.01";
 
     //versioning the messages allows us to manage data after changing message content 
-    private static final String MESSAGE_VERSION = "0.00.01";
+    public static final String MESSAGE_VERSION = "0.00.01";
 
-    public BaseTrackingMessage( PhetApplicationConfig config ) {
+    public static final class MessageType {//enum
+        private String name;
+
+        public MessageType( String name ) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
+    public static final MessageType SIM_LAUNCHED = new MessageType( "sim-launched" );
+    public static final MessageType UNKNOWN_TYPE = new MessageType( "unknown" );
+
+    public TrackingMessage( PhetApplicationConfig config, MessageType messageType ) {
         initTimeZone();
         TrackingEntry[] entriesArray = new TrackingEntry[]{
                 new TrackingEntry( "tracker-version", TRACKER_VERSION ),
                 new TrackingEntry( "message-version", MESSAGE_VERSION ),
-                new TrackingEntry( "type", "sim-launched" ),
+                new TrackingEntry( "type", messageType.getName() ),
 
                 //Sim info first
                 new TrackingEntry( "project", config.getProjectName() ),

@@ -5,7 +5,7 @@ import java.io.IOException;
 
 public class Tracker {
 
-    public void postMessage( final BaseTrackingMessage trackingInformation ) {
+    public void postMessage( final TrackingMessage trackingInformation ) {
         Thread t = new Thread( new Runnable() {
             public void run() {
                 try {
