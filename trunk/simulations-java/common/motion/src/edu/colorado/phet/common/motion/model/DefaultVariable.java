@@ -15,12 +15,20 @@ public class DefaultVariable implements IVariable {
     }
 
     public void setValue( double value ) {
-        if ( this.value != value ) {
+        if ( Double.isNaN( value ) ) {
+            throw new IllegalArgumentException( "NaN" );
+        }
+        if ( !equals( value, this.value ) ) {
             this.value = value;
             for ( int i = 0; i < listeners.size(); i++ ) {
                 ( (IVariable.Listener) listeners.get( i ) ).valueChanged();
             }
         }
+    }
+
+    //account for NaN
+    private boolean equals( double a, double b ) {
+        return a == b || ( Double.isNaN( a ) && Double.isNaN( b ) );
     }
 
     public void addListener( IVariable.Listener listener ) {

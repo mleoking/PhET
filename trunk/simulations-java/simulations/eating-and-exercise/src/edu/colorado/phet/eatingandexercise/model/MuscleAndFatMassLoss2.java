@@ -10,6 +10,7 @@ public class MuscleAndFatMassLoss2 implements HumanUpdate {
 
     public static double FRACTION_FAT_LOST = 0.5;
     public static boolean allFatWhenGainingWeight = true;
+    private static final double MIN_MASS = 1E-6;
 
     public void update( Human human, double dt ) {
 
@@ -47,14 +48,18 @@ public class MuscleAndFatMassLoss2 implements HumanUpdate {
         double totalKGLost = ( fractionFatLost / 9000 + ( 1 - fractionFatLost ) / 4000 ) * caloriesLost;
         double kgFatLost = totalKGLost * fractionFatLost;
         double newMass = human.getMass() - totalKGLost;
-        if ( newMass <= 0 ) {
-            newMass = 0;
+        if ( newMass <= MIN_MASS ) {
+            newMass = MIN_MASS;
         }
         double newFatMass = human.getFatMass() - kgFatLost;
-        if ( newFatMass <= 0 ) {//todo: better corner case handling
-            newFatMass = 0;
+        if ( newFatMass <= MIN_MASS ) {//todo: better corner case handling
+            newFatMass = MIN_MASS;
         }
         double newFatMassPercent = newFatMass / newMass * 100.0;
+
+        if ( newMass == MIN_MASS ) {
+            newFatMassPercent = fatMassPercent;//if hit zero mass, use same fat mass percent as before
+        }
         updateMass( human, newMass );
         human.setFatMassPercent( newFatMassPercent );
     }
