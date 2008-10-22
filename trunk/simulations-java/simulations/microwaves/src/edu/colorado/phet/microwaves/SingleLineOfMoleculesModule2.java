@@ -10,7 +10,6 @@ import java.awt.*;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.microwaves.coreadditions.MessageFormatter;
 import edu.colorado.phet.microwaves.coreadditions.chart.StripChart;
@@ -32,7 +31,7 @@ public class SingleLineOfMoleculesModule2 extends MicrowaveModule {
 
 
     public SingleLineOfMoleculesModule2() {
-        super( MessageFormatter.format( SimStrings.get( "ModuleTitle.SingleLineOfMoleculesModule2" ) ) );
+        super( MessageFormatter.format( MicrowavesResources.getString( "ModuleTitle.SingleLineOfMoleculesModule2" ) ) );
     }
 
     protected void init() {
@@ -101,7 +100,7 @@ public class SingleLineOfMoleculesModule2 extends MicrowaveModule {
 
         StripChartDialog( JFrame frame, Microwave muWave, WaterMolecule molecule ) {
             super( frame );
-            setTitle( SimStrings.get( "SingleLineOfMoleculesModule2.StripChartDialogTitle" ) );
+            setTitle( MicrowavesResources.getString( "SingleLineOfMoleculesModule2.StripChartDialogTitle" ) );
             StripChart waterChart = new StripChart( 200, 100, 0, 100, 0, Math.PI * 2, 0.01 );
 
             DipoleStripChartSubject dscs = new DipoleStripChartSubject( molecule );

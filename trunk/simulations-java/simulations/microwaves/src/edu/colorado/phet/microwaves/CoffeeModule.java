@@ -12,7 +12,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.common_microwaves.view.graphics.Graphic;
 import edu.colorado.phet.coreadditions_microwaves.graphics.ImageGraphic;
@@ -30,7 +29,7 @@ public class CoffeeModule extends MicrowaveModule {
     private CoffeeControlPanel coffeeControlPanel;
 
     public CoffeeModule() {
-        super( SimStrings.get( "ModuleTitle.CoffeeModule" ) );
+        super( MicrowavesResources.getString( "ModuleTitle.CoffeeModule" ) );
     }
 
     protected void init() {

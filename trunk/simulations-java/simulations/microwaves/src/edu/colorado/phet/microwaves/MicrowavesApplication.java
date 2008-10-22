@@ -12,7 +12,6 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_microwaves.application.Module;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.common_microwaves.view.ApplicationDescriptor;
@@ -46,7 +45,7 @@ public class MicrowavesApplication {
 
     private static void runApplication( String[] args ) {
         new PhetLookAndFeel().initLookAndFeel();
-        SimStrings.getInstance().init( args, localizedStringsPath );
+//        MicrowavesResources.getStringInstance().init( args, localizedStringsPath );
 
         Module oneMoleculesModule = new OneMoleculeModule();
         Module singleLineOfMoleculesModule2 = new SingleLineOfMoleculesModule2();
@@ -59,11 +58,11 @@ public class MicrowavesApplication {
                 coffeeModule
         };
         ApplicationDescriptor appDescriptor = new ApplicationDescriptor(
-                SimStrings.get( "MicrowavesApplication.title" )
+                MicrowavesResources.getString( "MicrowavesApplication.title" )
                 + " ("
                 + VERSION
                 + ")",
-                MessageFormatter.format( SimStrings.get( "MicrowavesApplication.description" ) ),
+                MessageFormatter.format( MicrowavesResources.getString( "MicrowavesApplication.description" ) ),
                 VERSION, new FrameSetup.CenteredWithSize( 1024, 768 ) );
         s_application = new PhetApplication( appDescriptor, modules,
                                              new SwingTimerClock( new DynamicClockModel( 20, 50 ) ) );
