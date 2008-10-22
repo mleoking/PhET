@@ -40,4 +40,22 @@ if [ "$?" -ne "0" ]; then
   exit 1
 fi
 
+echo "Downloading the sims..."
+
+/usr/local/php/bin/php build-install.php --download-sims
+
+if [ "$?" -ne "0" ]; then
+  echo "Error downloading sims"
+  exit 1
+fi
+
+echo "Performing macro substitutions..."
+
+/usr/local/php/bin/php build-install.php --perform-macro-substitutions"
+
+if [ "$?" -ne "0" ]; then
+  echo "Error performing macro substitutions"
+  exit 1
+fi
+
 echo "Done."

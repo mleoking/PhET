@@ -20,10 +20,10 @@
     // This function is primarily used for testing, and rips a subset of the
     // web site instead of the whole thing.
     function builder_rip_website_subset() {
-        flushing_echo("Ripping subset of website with ".RIPPER_EXE." ".RIPPER_ARGS);
+        define("SUBSET_RIPPER_ARGS", '"'.PHET_WEBSITE_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.'"+*'.PHET_ROOT_URL.'sims*"'.' -E30 -v %q0 -%e0'); 
+        flushing_echo("Ripping subset of website with ".RIPPER_EXE." ".SUBSET_RIPPER_ARGS);
 
-        $result = exec(RIPPER_EXE." ".RIPPER_ARGS);
-        $result = exec(RIPPER_EXE." ".'"'.PHET_WEBSITE_URL."/index.php".'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_RIPPER_FILTER.' -j %q0 -%e0');
+        $result = exec(RIPPER_EXE." ".SUBSET_RIPPER_ARGS);
 
         flushing_echo($result);
     }
@@ -261,7 +261,7 @@
     function print_help() {
         flushing_echo("Usage: build-install [--full]\n".
                       "                     [--rip-website]\n".
-                      "                     [--rip-website-subset]\n".
+                      "                     [--rip-subset-of-website]\n".
                       "                     [--download-sims]\n".
                       "                     [--download-installer-webpages]\n".
                       "                     [--perform-macro-substitutions]\n".
@@ -291,7 +291,7 @@
                 if (is_checked('rip-website'))
                     builder_rip_website();
 
-                if (is_checked('rip-website-subset'))
+                if (is_checked('rip-subset-of-website'))
                     builder_rip_website_subset();
 
                 if (is_checked('download-sims'))
