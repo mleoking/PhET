@@ -48,14 +48,10 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         add( new GenderControl( human ) );
         setFillHorizontal();
 
-//        add( new ActivityLevelControlPanel( human ) );
         add( new ActivityLevelControl( canvas, human ) );
 
         ageSlider = new HumanSlider( 0, 100, EatingAndExerciseUnits.secondsToYears( human.getAge() ),
-                                     EatingAndExerciseResources.getString( "age" ), EatingAndExerciseStrings.AGE_FORMAT.toPattern(),
-//                                     EatingAndExerciseResources.getString( "units.years" )
-""
-        );
+                                     EatingAndExerciseResources.getString( "age" ), EatingAndExerciseStrings.AGE_FORMAT.toPattern(), "" );
         ageSlider.setTextFieldFormat( new YearMonthFormat() );
         sliders.add( ageSlider );
         add( ageSlider );
@@ -158,16 +154,6 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         } );
         add( weightSlider );
         sliders.add( weightSlider );
-
-//        JButton autoBodyFat = new JButton( "<html>Estimate Body Fat %</html>" );
-//        autoBodyFat.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                human.setFatMassPercent( model.getUserSpecifiedBodyParameters().getPreferredFatMassPercent( human ) );
-//            }
-//        } );
-//        setFillNone();
-//        add( autoBodyFat );
-//        setFillHorizontal();
 
         bodyFatSlider = new HumanSlider( 0, 100, human.getFatMassPercent(), EatingAndExerciseResources.getString( "body.fat" ), "0.0", "%" );
         bodyFatSlider.addChangeListener( new ChangeListener() {
