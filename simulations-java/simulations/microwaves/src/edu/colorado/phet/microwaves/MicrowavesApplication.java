@@ -7,14 +7,11 @@
 package edu.colorado.phet.microwaves;
 
 
-import javax.swing.*;
-
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
-import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common_microwaves.application.Module;
 import edu.colorado.phet.common_microwaves.view.ApplicationDescriptor;
 import edu.colorado.phet.coreadditions_microwaves.clock.DynamicClockModel;
@@ -39,7 +36,7 @@ public class MicrowavesApplication extends PhetApplication {
 
     public MicrowavesApplication( PhetApplicationConfig config ) {
         super( config );
-        
+
         Module oneMoleculesModule = new OneMoleculeModule();
         Module singleLineOfMoleculesModule2 = new SingleLineOfMoleculesModule2();
         Module manyMoleculesModule = new ManyMoleculesModule();
@@ -72,6 +69,6 @@ public class MicrowavesApplication extends PhetApplication {
     }
 
     public static void main( String[] args ) {
-        new PhetApplicationLauncher().launchSim( args, "microwaves",MicrowavesApplication.class);
+        new PhetApplicationLauncher().launchSim( args, "microwaves", MicrowavesApplication.class );
     }
 }
