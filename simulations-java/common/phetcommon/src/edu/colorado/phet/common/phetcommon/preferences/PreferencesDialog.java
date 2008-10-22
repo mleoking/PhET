@@ -87,7 +87,7 @@ public class PreferencesDialog extends JDialog {
         trackingPreferences.setEnabled( trackingPreferencesPanel.isTrackingEnabled() );
     }
     
-    /**
+    /*
      * Test, this edits the real preferences file!
      */
     public static void main( String[] args ) {
