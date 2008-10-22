@@ -2,7 +2,9 @@
 ###	Todo Sam		####
 ############################
 
-- The time does not stop at 2 years. The play/pause/step buttons should be disabled when you reach the 2 year mark.
+- The time does not stop at 2 years.
+
+- The play/pause/step buttons should be disabled when you reach the 2 year mark.
 
 - Horizontal zoom should allow you to zoom in from 2 years, and out to a maximum of 2 years.
 
