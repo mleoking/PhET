@@ -13,6 +13,7 @@ import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
 import edu.colorado.phet.eatingandexercise.view.SliderNode;
 import edu.umd.cs.piccolo.PNode;
@@ -45,6 +46,7 @@ public class LinearValueControlNode extends PNode {
         this.numberFormat = numberFormat;
         this.value = value;
         labelNode = new PText( label );
+        labelNode.setFont( new JLabel().getFont() );
         addChild( labelNode );
 
         formattedTextField = new JFormattedTextField( numberFormat );
@@ -129,6 +131,7 @@ public class LinearValueControlNode extends PNode {
         addChild( readoutNode );
 
         unitsNode = new PText( units );
+        unitsNode.setFont( new JLabel().getFont() );//todo: why does PhetFont return the wrong thing here?
         addChild( unitsNode );
 
         sliderNode = new SliderNode( min, max, value );
