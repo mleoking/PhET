@@ -354,10 +354,6 @@ public class PhetApplication {
         this.tabbedPaneType = tabbedPaneType;
     }
 
-    public String getHumanReadableTrackingInformation() {
-        return phetApplicationConfig.getHumanReadableTrackingInformation();
-    }
-
     /**
      * Enumeration class used to specify the type of tabbed panes the application is to use in
      * its Module instances
