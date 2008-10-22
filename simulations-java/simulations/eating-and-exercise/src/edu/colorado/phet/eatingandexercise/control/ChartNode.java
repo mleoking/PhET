@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.NumberTickUnit;
@@ -49,9 +50,10 @@ public class ChartNode extends PNode {
     private EatingAndExerciseModel model;
     private EatingAndExerciseControlGraph weightGraph;
     private EatingAndExerciseControlGraph calorieGraph;
-    private static final double DEFAULT_RANGE_YEARS = 2;
-    //    private static final double DEFAULT_RANGE_YEARS = 2/10.0;//for testing
+    //    private static final double DEFAULT_RANGE_YEARS = 2;
+    private static final double DEFAULT_RANGE_YEARS = 2 / 10.0;//for testing
     private EatingAndExerciseModel.Units previousUnits;
+    private ArrayList listeners = new ArrayList();
 
     public ChartNode( final EatingAndExerciseModel model, PhetPCanvas phetPCanvas ) {
         this.model = model;
@@ -63,9 +65,6 @@ public class ChartNode extends PNode {
         model.addListener( new EatingAndExerciseModel.Adapter() {
             public void simulationTimeChanged() {
                 updateVars();
-                if ( getAgeYears() > weightGraph.getLowerBound() + DEFAULT_RANGE_YEARS ) {
-                    model.getClock().pause();
-                }
             }
         } );
         updateVars();
@@ -143,6 +142,10 @@ public class ChartNode extends PNode {
 
         resetChartVerticalRanges();
         syncVerticalRanges();
+    }
+
+    public double getMaxChartTime() {
+        return weightGraph.getLowerBound() + DEFAULT_RANGE_YEARS;
     }
 
     public void clearAndResetDomains() {
@@ -256,6 +259,26 @@ public class ChartNode extends PNode {
         model.getHuman().clearMassData();
         calBurnVar.clear();
         calIntakeVar.clear();
+
+        notifyChartDataCleared();
+    }
+
+    public static interface Listener {
+        public void chartDataCleared();
+    }
+
+    public void notifyChartDataCleared() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).chartDataCleared();
+        }
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void removeListener( Listener listener ) {
+        listeners.remove( listener );
     }
 
     private class EatingAndExerciseControlGraph extends ControlGraph {
@@ -282,20 +305,6 @@ public class ChartNode extends PNode {
             NumberAxis numberAxis = (NumberAxis) getJFreeChartNode().getChart().getXYPlot().getDomainAxis();
 
             numberAxis.setTickUnit( new NumberTickUnit( 2.0 * DEFAULT_RANGE_YEARS / 12.0 ) );
-//            TickUnitSource source = new TickUnitSource() {
-//                public TickUnit getLargerTickUnit( TickUnit unit ) {
-//                    return new NumberTickUnit( unit.getSize() + 1.0 / 12.0 );
-//                }
-//
-//                public TickUnit getCeilingTickUnit( TickUnit unit ) {
-//                    return getLargerTickUnit( unit );
-//                }
-//
-//                public TickUnit getCeilingTickUnit( double size ) {
-//                    return new NumberTickUnit( 100 );
-//                }
-//            };
-//            numberAxis.setStandardTickUnits( source );
             numberAxis.setNumberFormatOverride( new YearMonthFormat() );
 
             relayout();
