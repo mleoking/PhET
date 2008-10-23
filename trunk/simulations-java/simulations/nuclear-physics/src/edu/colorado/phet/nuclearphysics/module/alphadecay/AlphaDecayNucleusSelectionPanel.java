@@ -66,10 +66,20 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
         setBorder( titledBorder );
         
         // Set the layout.
-        setLayout( new GridLayout(2, 1) );
+        setLayout( new GridLayout(2, 3) );
+
+        // JPB TBD - Experiement - Create an icon.
+        PNode labeledPoloniumNucleus = new LabeledNucleusNode("Polonium Nucleus Small.png",
+                NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER, 
+                NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL, 
+                NuclearPhysicsConstants.POLONIUM_LABEL_COLOR );
+        
+        Image poloniumImage = labeledPoloniumNucleus.toImage();
+        ImageIcon poloniumIconImage = new ImageIcon(poloniumImage);
+
         
         // Create the radio buttons.
-        m_poloniumRadioButton = new JRadioButton("Polonium");
+        m_poloniumRadioButton = new JRadioButton();
         m_customNucleusRadioButton = new JRadioButton("Custom");
         
         // Group the buttons together and set initial state.
@@ -80,16 +90,8 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
         
         // Add the buttons to the panel.
         add( m_poloniumRadioButton );
+        add(new JLabel(poloniumIconImage));
+        add(new JLabel( NuclearPhysicsStrings.POLONIUM_LEGEND_LABEL ) );
         add( m_customNucleusRadioButton );
-    }
-    
-    /**
-     * This method adds simple legend items, i.e. those that only include an
-     * image and a label, to the legend.
-     */
-    private void addLegendItem( Image im, String label ) {
-        ImageIcon icon = new ImageIcon(im);
-        add(new JLabel(icon));
-        add(new JLabel( label ));
     }
 }
