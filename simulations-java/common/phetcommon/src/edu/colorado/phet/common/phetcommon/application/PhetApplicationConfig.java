@@ -7,7 +7,6 @@ import java.util.Arrays;
 import edu.colorado.phet.common.phetcommon.preferences.ITrackingInfo;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
-import edu.colorado.phet.common.phetcommon.tracking.Trackable;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
@@ -29,7 +28,7 @@ import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
  *
  * @author John De Goes / Chris Malley
  */
-public class PhetApplicationConfig implements Trackable, ITrackingInfo, ISimInfo {
+public class PhetApplicationConfig implements ITrackingInfo, ISimInfo {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -172,12 +171,8 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo, ISimInfo
     // Updates and Tracking stuff
     //----------------------------------------------------------------------------
 
-    public TrackingMessage getTrackingInformation() {
-        return new TrackingMessage( this, TrackingMessage.UNKNOWN_TYPE );
-    }
-
     public String getHumanReadableTrackingInformation() {
-        return getTrackingInformation().toHumanReadable();
+        return new TrackingMessage( this, TrackingMessage.UNKNOWN_TYPE ).toHumanReadable();
     }
 
     public boolean isDev() {
