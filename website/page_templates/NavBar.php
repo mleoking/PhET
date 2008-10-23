@@ -185,7 +185,7 @@ EOT;
         $teacher_ideas_subs['teacher_ideas/manage-contributions.php']   = 'My Activities';
         $teacher_ideas_subs['teacher_ideas/user-edit-profile.php']      = 'My Profile';
 
-        if ($this->page->authenticate_user_is_authorized()) {
+        if ($this->page->authenticate_get_level() > AUTHLEVEL_NONE) {
             $teacher_ideas_subs['teacher_ideas/user-logout.php'] = 'Logout';
         }
 
