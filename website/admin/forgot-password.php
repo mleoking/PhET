@@ -28,9 +28,9 @@ class ForgotPasswordPage extends SitePage {
 
     function email_password($email, $password) {
         $message = "Your password has been reset.\n";
-        $message .= "Your new password: {$password}\n\n";
+        $message .= "Heour new password: {$password}\n\n";
         $message .= wordwrap("You may use it to login.  You will probably want to ".
-            "change your password to something more memorable right away.  ".
+                "change your password to something more memorable right away.  ".
             "You can do so with this link:")."\n";
         $message .= "   http://".PHET_DOMAIN_NAME."/teacher_ideas/user-edit-profile.php\n\n";
         $message .= wordwrap("Login with this link and the above password, and then you ".
@@ -41,12 +41,11 @@ class ForgotPasswordPage extends SitePage {
         $message .= "The PhET Team\n";
 
         $headers =
-            "From: 'PhET Help' <".PHET_HELP_EMAL.">"."\n".
-            "Reply-To: 'PhET Help' <".PHET_HELP_EMAL.">";
+            "From: 'PhET Help' <".PHET_HELP_EMAIL.">"."\n".
+            "Reply-To: 'PhET Help' <".PHET_HELP_EMAIL.">";
 
         mail($email, "PhET: Your password has been reset", $message, $headers);
         return $message;
-        var_dump($message);
     }
 
     function update() {
@@ -75,9 +74,11 @@ class ForgotPasswordPage extends SitePage {
                     $phet_domain_name = PHET_DOMAIN_NAME;
                     $phet_help_email = PHET_HELP_EMAIL;
                     $this->message = <<<EOT
-                    <p>Your password {$new_password} has been reset and emailed to your email account.</p>
                     <p>
-                        You may use it to login.  You will probably want to 
+                        Your password has been reset and emailed to your email account.
+                        Check your email, and if it doesn't show up right away, check your junk mail filters.                    </p>
+                    <p>
+                        You may use your new password to login.  You will probably want to 
                         change your password to something more memorable right away.
                         You can do so by going to the 
                         <a href="http://{$phet_domain_name}/teacher_ideas/user-edit-profile.php">Edit User Profile page</a>
