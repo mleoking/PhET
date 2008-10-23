@@ -64,6 +64,9 @@ EOT;
             }
 */
 
+        // FIXME: Do not hardcode default dir
+        $default_sim_category = sim_get_encoded_default_category();
+
             print <<<EOT
                             <a href="about/news.php">What's New</a> |
                             <a href="about/index.php">About PhET</a>
@@ -83,8 +86,8 @@ EOT;
                 <p class="openingParagraph">Fun, interactive, <a href="research/index.php">research-based</a> simulations of physical phenomena from the Physics Education Technology project at the University of Colorado.</p>
 
                 <div id="hotlinks">
-                <p class="findOutMore" onclick="javascript:location.href='simulations/index.php?cat=Top_Simulations'">
-                    <a href="simulations/index.php?cat=Top_Simulations">
+                <p class="findOutMore" onclick="javascript:location.href='simulations/index.php?cat={$default_sim_category}'">
+                    <a href="simulations/index.php?cat={$default_sim_category}">
                         Play with sims... &gt;
                     </a>
                 </p>
