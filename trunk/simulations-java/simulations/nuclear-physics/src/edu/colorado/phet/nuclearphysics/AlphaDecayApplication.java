@@ -27,11 +27,11 @@ public class AlphaDecayApplication extends AbstractNuclearPhysicsApplication {
         
         Frame parentFrame = getPhetFrame();
     
-        _singleNucleusAlphaDecayModule = new SingleNucleusAlphaDecayModule( parentFrame );
-        addModule( _singleNucleusAlphaDecayModule );
-        
         _multiNucleusAlphaDecayModule = new MultiNucleusAlphaDecayModule( parentFrame );
         addModule( _multiNucleusAlphaDecayModule );
+
+        _singleNucleusAlphaDecayModule = new SingleNucleusAlphaDecayModule( parentFrame );
+        addModule( _singleNucleusAlphaDecayModule );
     }
     
     /**
