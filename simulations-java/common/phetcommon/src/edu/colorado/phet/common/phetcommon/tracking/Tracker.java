@@ -9,7 +9,7 @@ import java.util.Properties;
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 
-public class TrackingManager {
+public class Tracker {
     private String trackingPath = "tracking";
     private String trackingScript = "phet-tracking.php";
 
@@ -34,9 +34,9 @@ public class TrackingManager {
             System.out.println( o + " = " + p.getProperty( o ) );
         }
         PhetApplicationConfig config = new PhetApplicationConfig( args, "nuclear-physics", "alpha-radiation" );
-        String s = new TrackingManager().getTrackingURL( new TrackingMessage( config, TrackingMessage.SIM_LAUNCHED ) );
+        String s = new Tracker().getTrackingURL( new TrackingMessage( config, TrackingMessage.SIM_LAUNCHED ) );
         System.out.println( "s = " + s );
-        new TrackingManager().postMessage( new TrackingMessage( config, TrackingMessage.SIM_LAUNCHED ) );
+        new Tracker().postMessage( new TrackingMessage( config, TrackingMessage.SIM_LAUNCHED ) );
     }
 
 }
