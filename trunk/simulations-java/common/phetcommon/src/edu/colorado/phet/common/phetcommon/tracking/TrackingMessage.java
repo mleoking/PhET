@@ -34,6 +34,8 @@ public class TrackingMessage {
     }
 
     public static final MessageType SIM_LAUNCHED = new MessageType( "sim-launched" );
+    public static final MessageType PREFERENCES_DIALOG_SHOWN = new MessageType( "preferences-dialog-opened" );
+    public static final MessageType PREFERENCES_DIALOG_HIDDEN = new MessageType( "preferences-dialog-hidden" );
     public static final MessageType UNKNOWN_TYPE = new MessageType( "unknown" );
 
     public TrackingMessage( PhetApplicationConfig config, MessageType messageType ) {
