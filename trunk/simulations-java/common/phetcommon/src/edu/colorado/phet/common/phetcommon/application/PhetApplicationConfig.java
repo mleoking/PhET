@@ -192,7 +192,7 @@ public class PhetApplicationConfig implements Trackable, ITrackingInfo, ISimInfo
     }
 
     public boolean isTrackingEnabled() {
-        return new TrackingApplicationManager( this ).isTrackingCommandLineEnabled();
+        return new TrackingApplicationManager( this ).isTrackingCommandLineOptionSet();
     }
 
     public void setApplicationLaunchFinishedAt( long applicationLaunchFinishedAt ) {
