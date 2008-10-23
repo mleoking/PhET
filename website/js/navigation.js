@@ -1,6 +1,6 @@
 function select_current_navbar_category(request_uri) {
     $("li.subnav a").each(function(i) {
-        var re = /^.+(\.com|\.edu|\.net|\.org|(localhost:\d+))(\/.+)$/i;
+        var re = /^.+(\.com|\.edu|\.net|\.org|(localhost[:0-9]*))(\/.+)$/i;
 
         var result = re.exec(this.href);
 
