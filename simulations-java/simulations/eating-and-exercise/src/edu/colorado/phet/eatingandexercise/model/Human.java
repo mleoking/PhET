@@ -186,7 +186,7 @@ public class Human {
         //for heart strength will be higher, as if we used to exercise daily before the sim started
         //NP - changed exercise initial value to make heart strength about 1/2 way up to start
         for ( int i = 1; i < 100; i++ ) {
-            exercise.addValue( 300, getAge() - EatingAndExerciseUnits.daysToSeconds( i ) );
+            exercise.addValue( 150, getAge() - EatingAndExerciseUnits.daysToSeconds( i ) );
             fatMassFraction.addValue( fatMassFraction.getValue(), getAge() - EatingAndExerciseUnits.daysToSeconds( i ) );
         }
         exercise.addValue( 0, getAge() );
@@ -468,7 +468,7 @@ public class Human {
 //        System.out.println( "avgExercise=" + averageExercise + ", averageActivity=" + averageActivity + ", counting activity: " + activityToCount );
 
         double caloriesToConsiderForHeartStrength = averageExercise + activityToCount;
-        double exercise_cal_max = 1750.0;
+        double exercise_cal_max = 1100.0;
         double heartStrength = log10( 1 + 100 * caloriesToConsiderForHeartStrength / exercise_cal_max ) / log10( 101 );
 //        System.out.println( "unclamped heartStrength = " + heartStrength );
         setHeartStrength( MathUtil.clamp( 0, heartStrength, 1.0 ) );
