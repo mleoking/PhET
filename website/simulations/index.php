@@ -24,12 +24,12 @@ class SimulationsPage extends SitePage {
             $cat_id = sim_get_cat_id_by_cat_encoding($cat_encoding);
         }
         else {
-            $cat_encoding = 'Top_Simulations';
+            $cat_encoding = sim_get_encoded_default_category();
             $cat_id       = 1;
         }
 
         if (is_null($cat_id)) {
-            $cat_encoding = 'Top_Simulations';
+            $cat_encoding = sim_get_encoded_default_category();
             $cat_id       = 1;
         }
 

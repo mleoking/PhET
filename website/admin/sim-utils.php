@@ -433,6 +433,19 @@
         return "";
     }
 
+    function sim_get_encoded_default_category() {
+        $result = db_exec_query("SELECT * FROM `category` ");
+
+        while ($cat = mysql_fetch_assoc($result)) {
+            if (!$cat['cat_is_visible']) {
+                continue;
+            }
+
+            return web_encode_string($cat['cat_name']);
+        }
+        return '';
+    }
+
     function sim_get_categories() {
         $cats = array();
 

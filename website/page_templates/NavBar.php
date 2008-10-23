@@ -172,7 +172,7 @@ EOT;
         $this->print_navigation_element(
             $prefix,
             $selected_page,
-            "simulations/index.php?cat=Top_Simulations",
+            "simulations/index.php?cat=".sim_get_encoded_default_category(),
             "Simulations",
             $this->get_sim_categories_for_navbar($prefix)
         );
@@ -202,7 +202,7 @@ EOT;
             "get_phet/index.php",
             "Run our Simulations",
             array(
-                'simulations/index.php?cat=Top_Simulations' => 'On Line',
+                'simulations/index.php?cat='.sim_get_encoded_default_category() => 'On Line',
                 'get_phet/full_install.php' => 'Full Install',
                 'get_phet/simlauncher.php'  => 'One at a Time'
             )
