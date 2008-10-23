@@ -5,6 +5,8 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
+
 /**
  * This launcher solves the following problems:
  * 1. Consolidate (instead of duplicate) launch code
@@ -100,7 +102,8 @@ public class PhetApplicationLauncher {
                         long applicationLaunchFinishedAt = System.currentTimeMillis();
                         config.setApplicationLaunchFinishedAt( applicationLaunchFinishedAt );
 
-                        new TrackingApplicationManager( config ).applicationStarted();
+                        TrackingApplicationManager.initInstance( config );
+                        TrackingApplicationManager.postMessage( TrackingMessage.SIM_LAUNCHED );
                         new UpdateApplicationManager( config ).applicationStarted( app );
                     }
                     else {
