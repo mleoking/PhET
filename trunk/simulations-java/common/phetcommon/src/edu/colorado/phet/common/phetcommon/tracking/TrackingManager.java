@@ -1,19 +1,18 @@
-package edu.colorado.phet.common.phetcommon.application;
+package edu.colorado.phet.common.phetcommon.tracking;
 
 import java.io.IOException;
 import java.util.Arrays;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.preferences.DefaultTrackingPreferences;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
-import edu.colorado.phet.common.phetcommon.tracking.Tracker;
-import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 
-public class TrackingApplicationManager {
+public class TrackingManager {
     private PhetApplicationConfig config;
 
-    public static TrackingApplicationManager instance;
+    public static TrackingManager instance;
 
-    public TrackingApplicationManager( PhetApplicationConfig config ) {
+    public TrackingManager( PhetApplicationConfig config ) {
         this.config = config;
     }
 
@@ -21,7 +20,7 @@ public class TrackingApplicationManager {
         if ( instance != null ) {
             throw new RuntimeException( "TrackingApplicationManager already inited" );
         }
-        instance = new TrackingApplicationManager( config );
+        instance = new TrackingManager( config );
     }
 
     public static void postMessage( TrackingMessage trackingMessage ) {

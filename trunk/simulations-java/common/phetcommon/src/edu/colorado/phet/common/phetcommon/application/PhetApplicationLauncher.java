@@ -6,6 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
+import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
 
 /**
  * This launcher solves the following problems:
@@ -102,8 +103,8 @@ public class PhetApplicationLauncher {
                         long applicationLaunchFinishedAt = System.currentTimeMillis();
                         config.setApplicationLaunchFinishedAt( applicationLaunchFinishedAt );
 
-                        TrackingApplicationManager.initInstance( config );
-                        TrackingApplicationManager.postMessage( TrackingMessage.SIM_LAUNCHED );
+                        TrackingManager.initInstance( config );
+                        TrackingManager.postMessage( TrackingMessage.SIM_LAUNCHED );
                         new UpdateApplicationManager( config ).applicationStarted( app );
                     }
                     else {
