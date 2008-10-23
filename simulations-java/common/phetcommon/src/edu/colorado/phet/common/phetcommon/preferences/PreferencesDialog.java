@@ -18,6 +18,8 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.updates.ApplicationConfigManualCheckForUpdates;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
+import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 
 public class PreferencesDialog extends JDialog {
     
@@ -80,6 +82,11 @@ public class PreferencesDialog extends JDialog {
         else {
             SwingUtils.centerWindowOnScreen( this );
         }
+    }
+
+    public void setVisible( boolean b ) {
+        super.setVisible( b );
+        TrackingManager.postMessage( b ? TrackingMessage.PREFERENCES_DIALOG_SHOWN : TrackingMessage.PREFERENCES_DIALOG_HIDDEN );
     }
 
     private void savePreferences() {
