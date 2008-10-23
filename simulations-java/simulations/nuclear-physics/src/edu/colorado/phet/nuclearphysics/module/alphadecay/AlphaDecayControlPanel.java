@@ -22,6 +22,7 @@ public class AlphaDecayControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
     
     private AlphaDecayLegendPanel _legendPanel;
+    private AlphaDecayNucleusSelectionPanel _selectionPanel;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -44,9 +45,13 @@ public class AlphaDecayControlPanel extends ControlPanel {
         
         // Create sub-panels
         _legendPanel = new AlphaDecayLegendPanel();
+        _selectionPanel = new AlphaDecayNucleusSelectionPanel();
         
         // Add the legend panel.
         addControlFullWidth( _legendPanel );
+        
+        // Add the selection panel.
+        addControlFullWidth( _selectionPanel );
         
         // Add the Reset All button.
         addVerticalSpace( 10 );
