@@ -53,6 +53,10 @@ class SitePage extends BasePage {
         $this->valid_info = true;
 
         $this->cache_page = $cache_page;
+        // Force cache off if this is for the installer ripper
+        if ($this->is_installer_builder_rip()) {
+            $this->cache_page = false;
+        }
 
         // Authenticate the user
         $this->user = null;
@@ -106,6 +110,15 @@ class SitePage extends BasePage {
                 )
             );
 
+    }
+
+    function is_installer_builder_rip() {
+        if ((isset($_COOKIE['PHET_INSTALLER_BUILDER_RIP']) && $_COOKIE['PHET_INSTALLER_BUILDER_RIP'])) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     function close_xhtml_head() {
@@ -332,7 +345,7 @@ EOT;
 
     function open_xhtml() {
         print '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">'."\n";
-        if ((isset($_COOKIE['PHET_INSTALLER_BUILDER_RIP']) && $_COOKIE['PHET_INSTALLER_BUILDER_RIP'])) {
+        if ($this->is_installer_builder_rip()) {
             // If this page is being ripped by the PhET installer builder,
             // incorporate the Mark Of The Web (MOTW) comment tag in order
             // to make the off-line version work better with Internet Explorer.
