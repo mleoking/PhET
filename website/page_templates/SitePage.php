@@ -113,7 +113,10 @@ class SitePage extends BasePage {
     }
 
     function is_installer_builder_rip() {
-        if ((isset($_COOKIE['PHET_INSTALLER_BUILDER_RIP']) && $_COOKIE['PHET_INSTALLER_BUILDER_RIP'])) {
+        if ((isset($GLOBALS["DEBUG_FORCE_OFFLINE_BEHAVIOR"])) && $GLOBALS["DEBUG_FORCE_OFFLINE_BEHAVIOR"]) {
+            return true;
+        }
+        else if ((isset($_COOKIE['PHET_INSTALLER_BUILDER_RIP']) && $_COOKIE['PHET_INSTALLER_BUILDER_RIP'])) {
             return true;
         }
         else {
