@@ -1,47 +1,42 @@
 package edu.colorado.phet.common.phetcommon.preferences;
 
-import java.awt.FlowLayout;
-import java.awt.Frame;
-import java.awt.GridBagConstraints;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
+import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 import edu.colorado.phet.common.phetcommon.updates.ApplicationConfigManualCheckForUpdates;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
-import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 
 public class PreferencesDialog extends JDialog {
-    
+
     private static final String TITLE = PhetCommonResources.getString( "Common.preferences.title" );
     private static final String UPDATES_TAB = PhetCommonResources.getString( "Common.preferences.updates" );
     private static final String TRACKING_TAB = PhetCommonResources.getString( "Common.preferences.tracking" );
     private static final String OK_BUTTON = PhetCommonResources.getString( "Common.choice.ok" );
     private static final String CANCEL_BUTTON = PhetCommonResources.getString( "Common.choice.cancel" );
-    
+
     private final IUpdatesPreferences updatePreferences;
     private final ITrackingPreferences trackingPreferences;
     private final UpdatesPreferencesPanel updatesPreferencesPanel;
     private final TrackingPreferencesPanel trackingPreferencesPanel;
-    
+
     public PreferencesDialog( Frame owner, ITrackingInfo trackingInfo, IManualUpdateChecker iCheckForUpdates, IUpdatesPreferences updatePreferences, ITrackingPreferences trackingPreferences ) {
         super( owner, TITLE );
         setResizable( false );
         setModal( false );
-        
+
         this.updatePreferences = updatePreferences;
         this.trackingPreferences = trackingPreferences;
-        
+
         JPanel userInputPanel = new JPanel();
         JTabbedPane jTabbedPane = new JTabbedPane();
         userInputPanel.add( jTabbedPane );
@@ -57,18 +52,18 @@ public class PreferencesDialog extends JDialog {
                 dispose();
             }
         } );
-        
+
         JButton cancelButton = new JButton( CANCEL_BUTTON );
         cancelButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 dispose();
             }
         } );
-        
+
         JPanel buttonPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
         buttonPanel.add( okButton );
         buttonPanel.add( cancelButton );
-        
+
         JPanel panel = new JPanel();
         EasyGridBagLayout layout = new EasyGridBagLayout( panel );
         panel.setLayout( layout );
@@ -93,14 +88,14 @@ public class PreferencesDialog extends JDialog {
         updatePreferences.setEnabled( updatesPreferencesPanel.isUpdatesEnabled() );
         trackingPreferences.setEnabled( trackingPreferencesPanel.isTrackingEnabled() );
     }
-    
+
     /*
-     * Test, this edits the real preferences file!
-     */
+    * Test, this edits the real preferences file!
+    */
     public static void main( String[] args ) {
         final PhetApplicationConfig config = new PhetApplicationConfig( args, "balloons" );
         PreferencesDialog preferencesDialog = new PreferencesDialog( null, config, new ApplicationConfigManualCheckForUpdates( null, config ), new DefaultUpdatePreferences(),
-                new DefaultTrackingPreferences() );
+                                                                     new DefaultTrackingPreferences() );
         preferencesDialog.addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
                 System.exit( 0 );
