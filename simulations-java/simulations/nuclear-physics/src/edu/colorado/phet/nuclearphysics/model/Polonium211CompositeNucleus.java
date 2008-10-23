@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 
 /**
  * This class defines the behavior of the nucleus of Polonium 211, which
- * exhibits alpha radiation behavior.
+ * exhibits alpha decay behavior.
  *
  * @author John Blanco
  */
@@ -158,7 +158,7 @@ public class Polonium211CompositeNucleus extends CompositeAtomicNucleus {
         default:
             // If we reach this point in the code, there is a problem
             // somewhere that should be debugged.
-            System.err.println("Error: Unexpected atomic weight in alpha radiation nucleus.");
+            System.err.println("Error: Unexpected atomic weight in alpha decay nucleus.");
             assert(false);
         }        
     }
