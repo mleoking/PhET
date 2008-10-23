@@ -11,6 +11,8 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.updates.OpenWebPageToNewVersion;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPane;
+import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
+import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 
 /**
  * Dialog that provides instructions on how to update.
@@ -58,6 +60,7 @@ public abstract class UpdateInstructionsDialog extends AbstractUpdateDialog {
         okButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 dispose();
+                TrackingManager.postMessage( TrackingMessage.DIRECTED_TO_WEBSITE_FOR_UPDATE );
                 OpenWebPageToNewVersion.openWebPageToNewVersion( project, sim );
             }
         } );

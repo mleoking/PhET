@@ -13,6 +13,8 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.preferences.*;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
+import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
+import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 import edu.colorado.phet.common.phetcommon.updates.*;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.UpdateInstructionsDialog.AutomaticUpdateInstructionsDialog;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -76,7 +78,7 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
             public void actionPerformed( ActionEvent e ) {
                 updateTimer.setLastAskMeLaterTime( project, sim, System.currentTimeMillis() );
                 dispose();
-
+                TrackingManager.postMessage( TrackingMessage.ASK_ME_LATER_PRESSED );
             }
         } );
 
@@ -86,6 +88,7 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
             public void actionPerformed( ActionEvent e ) {
                 versionSkipper.skipThisVersion( config.getProjectName(), config.getFlavor(), newVersion );
                 dispose();
+                TrackingManager.postMessage( TrackingMessage.SKIP_UPDATE_PRESSED );
             }
         } );
 
