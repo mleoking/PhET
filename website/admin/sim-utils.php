@@ -382,8 +382,6 @@
 
         $translations = array();
 
-        $launch_file_base_dir = realpath(dirname(__FILE__)."/".PORTAL_ROOT."sims");
-
         foreach ($LANGUAGE_CODE_TO_LANGUAGE_NAME as $code => $language_name) {
             if ($code == "en") {
                 // Skip the English traslations, they are the default
