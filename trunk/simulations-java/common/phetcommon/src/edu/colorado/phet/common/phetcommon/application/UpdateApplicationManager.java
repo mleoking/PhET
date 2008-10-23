@@ -11,6 +11,8 @@ import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.updates.UpdateManager;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.AutomaticUpdateDialog;
+import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
+import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 
 public class UpdateApplicationManager {
     private PhetApplicationConfig config;
@@ -42,6 +44,7 @@ public class UpdateApplicationManager {
     }
 
     private void autoCheckForUpdates( final PhetApplication app ) {
+        TrackingManager.postMessage( TrackingMessage.AUTO_CHECK_FOR_UPDATES );
         final UpdateManager updateManager = new UpdateManager( config.getProjectName(), config.getVersion() );
         updateManager.addListener( new UpdateManager.Listener() {
             public void discoveredRemoteVersion( PhetVersion remoteVersion ) {

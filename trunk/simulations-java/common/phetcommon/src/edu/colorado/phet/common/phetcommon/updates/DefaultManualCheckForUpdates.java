@@ -10,6 +10,8 @@ import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.NoUpdateDialog;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.UpdateErrorDialog;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.UpdateInstructionsDialog.ManualUpdateInstructionsDialog;
+import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
+import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 
 public class DefaultManualCheckForUpdates implements IManualUpdateChecker {
     private String sim;
@@ -27,6 +29,7 @@ public class DefaultManualCheckForUpdates implements IManualUpdateChecker {
     }
 
     public void checkForUpdates() {
+        TrackingManager.postMessage( TrackingMessage.MANUAL_CHECK_FOR_UPDATES );
         UpdateManager updateManager = new UpdateManager( projectName, currentVersion );
         UpdateManager.Listener listener = new UpdateManager.Listener() {
             public void discoveredRemoteVersion( PhetVersion remoteVersion ) {
