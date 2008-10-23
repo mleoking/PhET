@@ -79,6 +79,11 @@ public class PreferencesDialog extends JDialog {
         }
     }
 
+    public void dispose() {
+        super.dispose();
+        TrackingManager.postMessage( TrackingMessage.PREFERENCES_DIALOG_HIDDEN );
+    }
+
     public void setVisible( boolean b ) {
         super.setVisible( b );
         TrackingManager.postMessage( b ? TrackingMessage.PREFERENCES_DIALOG_SHOWN : TrackingMessage.PREFERENCES_DIALOG_HIDDEN );
