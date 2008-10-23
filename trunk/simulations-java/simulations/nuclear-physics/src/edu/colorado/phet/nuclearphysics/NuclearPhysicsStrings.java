@@ -22,6 +22,7 @@ public class NuclearPhysicsStrings {
     public static final String MENU_OPTIONS = NuclearPhysicsResources.getString( "menu.options" );
 
     public static final String LEGEND_BORDER_LABEL = NuclearPhysicsResources.getString( "NuclearPhysicsControlPanel.LegendBorder" );
+    public static final String NUCLEUS_SELECTION_BORDER_LABEL = NuclearPhysicsResources.getString( "AlphaDecayControlPanel.NucleusSelectionBorder" );
 
     public static final String NEUTRON_LEGEND_LABEL = NuclearPhysicsResources.getString( "NuclearPhysicsControlPanel.NeutronLabel" );
     public static final String PROTON_LEGEND_LABEL = NuclearPhysicsResources.getString( "NuclearPhysicsControlPanel.ProtonLabel" );
