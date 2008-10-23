@@ -401,6 +401,40 @@
         return $translations;
     }
 
+    // Returns a string with the sim version, or empty string if it cannot be determined
+    function sim_get_version($simulation) {
+        $dirname     = $simulation['sim_dirname'];
+        $flavorname  = $simulation['sim_flavorname'];
+
+        $properties_filename = PORTAL_ROOT."sims/{$dirname}/{$flavorname}.properties";
+
+        $minor_version = -1;
+        $major_version = -1;
+
+        $handle = @fopen($properties_filename, "r");
+        if ($handle) {
+            while (!feof($handle)) {
+                $buffer = fgets($handle, 4096);
+                $regs = array();
+                if (ereg('version\.(minor|major) *= *([0-9]+)', $buffer, $regs)) {
+                    if ($regs[1] == 'minor') {
+                        $minor_version = $regs[2];
+                    }
+                    else if ($regs[1] == 'major') {
+                        $major_version = $regs[2];
+                    }
+                }
+            }
+            fclose($handle);
+        }
+
+        if (($minor_version != -1) && ($major_version != -1)) {
+            return $major_version.".".$minor_version;
+        }
+
+        return "";
+    }
+
     function sim_get_categories() {
         $cats = array();
 
