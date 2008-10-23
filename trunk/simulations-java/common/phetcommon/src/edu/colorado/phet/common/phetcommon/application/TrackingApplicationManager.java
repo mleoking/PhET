@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 import edu.colorado.phet.common.phetcommon.preferences.DefaultTrackingPreferences;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
-import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
+import edu.colorado.phet.common.phetcommon.tracking.Tracker;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 
 public class TrackingApplicationManager {
@@ -33,7 +33,7 @@ public class TrackingApplicationManager {
             Thread t = new Thread( new Runnable() {
                 public void run() {
                     try {
-                        new TrackingManager().postMessage( trackingInformation );
+                        new Tracker().postMessage( trackingInformation );
                     }
                     catch( IOException e ) {
                         e.printStackTrace();
