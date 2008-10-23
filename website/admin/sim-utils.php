@@ -741,7 +741,7 @@
 
         while($simulation = mysql_fetch_assoc($simulation_rows)) {
             $sim_id   = $simulation['sim_id'];
-            $sim_name = $simulation['sim_name'];
+            $sim_name = stripslashes($simulation['sim_name']);
 
             if (is_numeric($sim_id)) {
                 $simulations["sim_id_$sim_id"] = $sim_name;

@@ -1324,7 +1324,7 @@ EOT;
         // Do sims
         $sims = array();
         foreach ($all_contribution_info["simulations"] as $sim) {
-            $sims[] = sim_get_link_to_sim_page_by_name(format_string_for_html($sim["sim_name"]));
+            $sims[] = sim_get_link_to_sim_page_by_name(format_string_for_html(stripslashes($sim["sim_name"])));
         }
 
         if (count($sims) > 0) {
@@ -1399,7 +1399,7 @@ EOT;
 EOT;
 
         if ($contribution_from_phet == 1) {
-        $title_html = "${title_html} ".FROM_PHET_IMAGE_HTML;
+            $title_html = "${title_html} ".FROM_PHET_IMAGE_HTML;
         }
 
         $title_html .= $gold_star_html;
