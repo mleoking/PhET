@@ -9,8 +9,8 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.nuclearphysics.module.multinucleusalphadecay.MultiNucleusAlphaDecayModule;
-import edu.colorado.phet.nuclearphysics.module.singlenucleusalphadecay.SingleNucleusAlphaDecayModule;
+import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusAlphaDecayModule;
+import edu.colorado.phet.nuclearphysics.module.alphadecay.singlenucleus.SingleNucleusAlphaDecayModule;
 
 /**
  * Main application class for the Alpha Decay simulation.
