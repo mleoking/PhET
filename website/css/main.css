@@ -1003,12 +1003,21 @@ p.sim-abstract {
     height: 20px;
 }
 
-#simtoolbar span.size {
+#simtoolbar div.stats {
     float: left;
+}
+
+#simtoolbar span.version {
     font-family: "Courier New", "Times", "Arial";
     color: #000;
-    font-size: 15px;
-    position: relative;
+    font-size: 14px;
+    top: 4px;
+}
+
+#simtoolbar span.size {
+    font-family: "Courier New", "Times", "Arial";
+    color: #000;
+    font-size: 14px;
     top: 4px;
 }
 

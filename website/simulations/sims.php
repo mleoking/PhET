@@ -44,6 +44,10 @@ class IndividualSimulationPage extends SitePage {
         $this->sim_type_html   = $SIM_TYPE_TO_IMAGE_HTML[$this->sim_type];
         $this->sim_launch_url  = sim_get_launch_url($this->simulation);
         $this->sim_image_url   = sim_get_screenshot($this->simulation);
+        $this->sim_version     = sim_get_version($this->simulation);
+        if ($this->sim_version === false) {
+            $this->sim_version = "N/A";
+        }
 
         // Temp change while PhET team decides how to handle ratings; for now just
         // include under construction & classroom tested:
@@ -232,9 +236,15 @@ EOT;
                 </table>
 
                 <div id="simtoolbar">
-                    <span class="size">
-                        {$sim_size} KB
-                    </span>
+                    <div class="stats">
+                    <!--
+                        <span class="version">
+                            Version {$this->sim_version}
+                        </span><br />
+                    -->
+                        <span class="size">
+                            {$sim_size} KB
+                        </span>
 
 EOT;
 
@@ -251,6 +261,7 @@ EOT;
                         $stumble_link = "http://www.stumbleupon.com/submit?url={$url}&amp;title={$title}";
 
                         print <<<EOT
+                    </div>
                     <span class="promote" title="If you like this simulation, please consider sharing it with others by submitting it to Digg or StumbleUpon">
                             share sim:
 
