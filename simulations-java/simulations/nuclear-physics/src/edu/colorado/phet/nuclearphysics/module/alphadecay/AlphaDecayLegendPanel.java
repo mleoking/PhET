@@ -1,6 +1,6 @@
 /* Copyright 2008, University of Colorado */
 
-package edu.colorado.phet.nuclearphysics.module;
+package edu.colorado.phet.nuclearphysics.module.alphadecay;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -71,30 +71,6 @@ public class AlphaDecayLegendPanel extends JPanel {
         PNode alphaParticle = new AlphaParticleNode();
         alphaParticle.scale( PARTICLE_SCALE_FACTOR );
         addLegendItem( alphaParticle.toImage(), NuclearPhysicsStrings.ALPHA_PARTICLE_LEGEND_LABEL );
-        
-        // Add the Polonium nucleus to the legend.
-        
-        PNode labeledPoloniumNucleus = new LabeledNucleusNode("Polonium Nucleus Small.png",
-                NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER, 
-                NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL, 
-                NuclearPhysicsConstants.POLONIUM_LABEL_COLOR );
-        
-        Image poloniumImage = labeledPoloniumNucleus.toImage();
-        ImageIcon icon = new ImageIcon(poloniumImage);
-        add(new JLabel(icon));
-        add(new JLabel( NuclearPhysicsStrings.POLONIUM_LEGEND_LABEL ) );
-        
-        // Add the Lead nucleus to the legend.
-        
-        PNode labeledLeadNucleus = new LabeledNucleusNode("Lead Nucleus Small.png",
-                NuclearPhysicsStrings.LEAD_207_ISOTOPE_NUMBER, 
-                NuclearPhysicsStrings.LEAD_207_CHEMICAL_SYMBOL, 
-                NuclearPhysicsConstants.LEAD_LABEL_COLOR );
-        
-        Image leadImage = labeledLeadNucleus.toImage();
-        icon = new ImageIcon(leadImage);
-        add(new JLabel(icon));
-        add(new JLabel( NuclearPhysicsStrings.LEAD_LEGEND_LABEL ) );
     }
     
     /**
