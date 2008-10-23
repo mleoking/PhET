@@ -9,12 +9,18 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.nuclearphysics.module.alphadecay.SingleNucleusAlphaDecayModule;
+import edu.colorado.phet.nuclearphysics.module.multinucleusalphadecay.MultiNucleusAlphaDecayModule;
+import edu.colorado.phet.nuclearphysics.module.singlenucleusalphadecay.SingleNucleusAlphaDecayModule;
 
-
+/**
+ * Main application class for the Alpha Decay simulation.
+ * 
+ * @author John Blanco
+ */
 public class AlphaDecayApplication extends AbstractNuclearPhysicsApplication {
 
     private SingleNucleusAlphaDecayModule _singleNucleusAlphaDecayModule;
+    private MultiNucleusAlphaDecayModule  _multiNucleusAlphaDecayModule;
 
     public AlphaDecayApplication( PhetApplicationConfig config ) {
         super( config );
@@ -23,6 +29,9 @@ public class AlphaDecayApplication extends AbstractNuclearPhysicsApplication {
     
         _singleNucleusAlphaDecayModule = new SingleNucleusAlphaDecayModule( parentFrame );
         addModule( _singleNucleusAlphaDecayModule );
+        
+        _multiNucleusAlphaDecayModule = new MultiNucleusAlphaDecayModule( parentFrame );
+        addModule( _multiNucleusAlphaDecayModule );
     }
     
     /**
