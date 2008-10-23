@@ -52,9 +52,7 @@ public class TrackingManager {
 
     private boolean isTrackingAllowed() {
         //todo: perhaps we should use PhetPreferences.isTrackingEnabled(String,String)
-        boolean trackingAllowed = new DefaultTrackingPreferences().isEnabled();
-//        System.out.println( "trackingAllowed = " + trackingAllowed );
-        return trackingAllowed;
+        return new DefaultTrackingPreferences().isEnabled();
     }
 
     public boolean isTrackingCommandLineOptionSet() {
