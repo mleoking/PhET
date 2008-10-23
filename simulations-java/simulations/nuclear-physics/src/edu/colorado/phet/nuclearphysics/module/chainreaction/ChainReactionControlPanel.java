@@ -29,7 +29,7 @@ public class ChainReactionControlPanel extends ControlPanel {
     /**
      * Constructor.
      * 
-     * @param alphaRadiationModule
+     * @param chainReactionModule
      * @param parentFrame parent frame, for creating dialogs
      */
     public ChainReactionControlPanel( ChainReactionModule chainReactionModule, Frame parentFrame ) {

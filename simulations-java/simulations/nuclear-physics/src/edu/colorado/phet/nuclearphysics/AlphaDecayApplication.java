@@ -9,20 +9,20 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.nuclearphysics.module.alpharadiation.AlphaRadiationModule;
+import edu.colorado.phet.nuclearphysics.module.alphadecay.SingleNucleusAlphaDecayModule;
 
 
-public class AlphaRadiationApplication extends AbstractNuclearPhysicsApplication {
+public class AlphaDecayApplication extends AbstractNuclearPhysicsApplication {
 
-    private AlphaRadiationModule _alphaRadiationModule;
+    private SingleNucleusAlphaDecayModule _singleNucleusAlphaDecayModule;
 
-    public AlphaRadiationApplication( PhetApplicationConfig config ) {
+    public AlphaDecayApplication( PhetApplicationConfig config ) {
         super( config );
         
         Frame parentFrame = getPhetFrame();
     
-        _alphaRadiationModule = new AlphaRadiationModule( parentFrame );
-        addModule( _alphaRadiationModule );
+        _singleNucleusAlphaDecayModule = new SingleNucleusAlphaDecayModule( parentFrame );
+        addModule( _singleNucleusAlphaDecayModule );
     }
     
     /**
@@ -34,7 +34,7 @@ public class AlphaRadiationApplication extends AbstractNuclearPhysicsApplication
         
         ApplicationConstructor appConstructor = new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
-                return new AlphaRadiationApplication( config );
+                return new AlphaDecayApplication( config );
             }
         };
         

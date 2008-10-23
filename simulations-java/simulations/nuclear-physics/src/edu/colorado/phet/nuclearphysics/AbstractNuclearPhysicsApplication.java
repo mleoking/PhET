@@ -20,7 +20,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.nuclearphysics.developer.DeveloperMenu;
 import edu.colorado.phet.nuclearphysics.menu.OptionsMenu;
-import edu.colorado.phet.nuclearphysics.module.alpharadiation.AlphaRadiationModule;
+import edu.colorado.phet.nuclearphysics.module.alphadecay.SingleNucleusAlphaDecayModule;
 import edu.colorado.phet.nuclearphysics.module.chainreaction.ChainReactionModule;
 import edu.colorado.phet.nuclearphysics.module.fissiononenucleus.FissionOneNucleusModule;
 import edu.colorado.phet.nuclearphysics.module.nuclearreactor.NuclearReactorModule;
