@@ -5,14 +5,15 @@ package edu.colorado.phet.nuclearphysics.defaults;
 import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsClock;
 
 /**
- * This class contains the default settings for the Alpha Radiation Module.
+ * This class contains the default settings for the Single Nucleus Alpha
+ * Decay Module.
  *
  * @author John Blanco
  */
-public class AlphaRadiationDefaults {
+public class SingleNucleusAlphaDecayDefaults {
 
     /* Not intended for instantiation */
-    private AlphaRadiationDefaults() {}
+    private SingleNucleusAlphaDecayDefaults() {}
     
     // Clock
     public static final boolean CLOCK_RUNNING = GlobalDefaults.CLOCK_RUNNING;

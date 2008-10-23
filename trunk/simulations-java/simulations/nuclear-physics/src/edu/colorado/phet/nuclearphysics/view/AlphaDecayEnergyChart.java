@@ -20,7 +20,7 @@ import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
-import edu.colorado.phet.nuclearphysics.module.alpharadiation.AlphaRadiationModel;
+import edu.colorado.phet.nuclearphysics.module.alphadecay.SingleNucleusAlphaDecayModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -32,13 +32,13 @@ import edu.umd.cs.piccolox.nodes.PLine;
 
 
 /**
- * AlphaRadiationChart - This class displays the chart at the bottom of the
- * Alpha Radiation tab in this sim.  The chart shows the interaction between
- * the alpha particles and the energy barrier.
+ * AlphaDecayEnergyChart - This class displays a chart that depicts the
+ * interaction between the alpha particles and the energy barrier for a single
+ * atomic nucleus.
  *
  * @author John Blanco
  */
-public class AlphaRadiationEnergyChart extends PComposite implements AlphaParticle.Listener {
+public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.Listener {
 
     //------------------------------------------------------------------------
     // Class Data
@@ -85,7 +85,7 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
 
     // Reference to the model that this chart monitors in order to present its
     // information.
-    private AlphaRadiationModel _model;
+    private SingleNucleusAlphaDecayModel _model;
     
     // Reference to the canvas on which everything is being displayed.
     private PhetPCanvas _canvas;
@@ -136,7 +136,7 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
      * chart.  Note that it does not lay them out - it counts on calls to
      * the updateBounds routine to do that.
      */
-    public AlphaRadiationEnergyChart(AlphaRadiationModel model, PhetPCanvas canvas) {
+    public AlphaDecayEnergyChart(SingleNucleusAlphaDecayModel model, PhetPCanvas canvas) {
         
         setPickable( false );
         _model = model;

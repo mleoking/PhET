@@ -38,7 +38,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author John Blanco
  */
-public class AlphaRadiationTimeChart extends PNode {
+public class AlphaDecayTimeChart extends PNode {
 
     //------------------------------------------------------------------------
     // Class Data
@@ -166,7 +166,7 @@ public class AlphaRadiationTimeChart extends PNode {
     // Constructor
     //------------------------------------------------------------------------
 
-    public AlphaRadiationTimeChart( ConstantDtClock clock, Polonium211CompositeNucleus nucleus ) {
+    public AlphaDecayTimeChart( ConstantDtClock clock, Polonium211CompositeNucleus nucleus ) {
 
         _clock = clock;
         _nucleus = nucleus;
