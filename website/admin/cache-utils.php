@@ -294,7 +294,7 @@
         if (debug_is_on()) {
             // Change the css file
             $page_contents = preg_replace('/main.css/', 'main-cached.css', $page_contents);
-    
+
             // Add a timestamp
             $timestamp = date("F j, Y, g:i a");
             $page_contents = $page_contents . "<!-- {$timestamp} -->\n";
