@@ -90,7 +90,7 @@ public class NuclearPhysicsConstants {
     public static final Color LEAD_LABEL_COLOR = Color.BLACK;
     
     // Color for label used for the Custom nucleus (pre-decay).
-    public static final Color CUSTOM_NUCLEUS_LABEL_COLOR = Color.BLUE;
+    public static final Color CUSTOM_NUCLEUS_LABEL_COLOR = new Color (0x00CCFF);
     
     // Color for label used for the Decayed Custom nucleus.
     public static final Color DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR = Color.BLACK;
