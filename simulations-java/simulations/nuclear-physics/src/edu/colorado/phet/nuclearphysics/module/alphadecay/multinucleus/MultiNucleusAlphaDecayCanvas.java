@@ -61,7 +61,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     
     // Proportionate size of the bucket.
     private final double BUCKET_WIDTH = CANVAS_WIDTH * 0.2;
-    private final double BUCKET_HEIGHT = BUCKET_WIDTH * 0.5;
+    private final double BUCKET_HEIGHT = BUCKET_WIDTH * 0.7;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -109,7 +109,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
         // Add the bucket containing the atoms.
         BucketOfNucleiNode bucketNode = new BucketOfNucleiNode(BUCKET_WIDTH, BUCKET_HEIGHT);
         addWorldChild(bucketNode);
-        bucketNode.setOffset( CANVAS_WIDTH * 0.25, CANVAS_HEIGHT * 0.30 );
+        bucketNode.setOffset( CANVAS_WIDTH * 0.20, CANVAS_HEIGHT * 0.30 );
 
         // Add a listener for when the canvas is resized.
         addComponentListener( new ComponentAdapter() {
