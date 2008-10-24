@@ -40,6 +40,7 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
     
     // Amount to scale up the particle nodes to make them look reasonable.
     private static final double PARTICLE_SCALE_FACTOR = 8;
+    private static final Font LABEL_FONT = NuclearPhysicsConstants.CONTROL_PANEL_CONTROL_FONT;
     
     //------------------------------------------------------------------------
     // Instance Data
@@ -68,19 +69,9 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
         // Set the layout.
         setLayout( new GridLayout(2, 3) );
 
-        // JPB TBD - Experiement - Create an icon.
-        PNode labeledPoloniumNucleus = new LabeledNucleusNode("Polonium Nucleus Small.png",
-                NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER, 
-                NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL, 
-                NuclearPhysicsConstants.POLONIUM_LABEL_COLOR );
-        
-        Image poloniumImage = labeledPoloniumNucleus.toImage();
-        ImageIcon poloniumIconImage = new ImageIcon(poloniumImage);
-
-        
         // Create the radio buttons.
         m_poloniumRadioButton = new JRadioButton();
-        m_customNucleusRadioButton = new JRadioButton("Custom");
+        m_customNucleusRadioButton = new JRadioButton();
         
         // Group the buttons together and set initial state.
         ButtonGroup buttonGroup = new ButtonGroup();
@@ -88,10 +79,35 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
         buttonGroup.add( m_customNucleusRadioButton );
         m_poloniumRadioButton.setSelected( true );
         
-        // Add the buttons to the panel.
+        // Create an icon for the Polonium nucleus.
+        PNode labeledPoloniumNucleus = new LabeledNucleusNode("Polonium Nucleus Small.png",
+                NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER, 
+                NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL, 
+                NuclearPhysicsConstants.POLONIUM_LABEL_COLOR );
+        
+        Image poloniumImage = labeledPoloniumNucleus.toImage();
+        ImageIcon poloniumIconImage = new ImageIcon(poloniumImage);
+        
+        // Create the textual label for the Polonium nucleus.
+        JLabel poloniumLabel = new JLabel( NuclearPhysicsStrings.POLONIUM_LEGEND_LABEL ) ;
+        
+        // Create an icon for the custom nucleus.
+        PNode labeledCustomNucleus = new LabeledNucleusNode("Polonium Nucleus Small.png", "",
+                NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
+                NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR );
+        
+        Image customNucleusImage = labeledCustomNucleus.toImage();
+        ImageIcon customNucleusIconImage = new ImageIcon(customNucleusImage);
+        
+        // Create the textual label for the custom nucleus.
+        JLabel customNucleusLabel = new JLabel( NuclearPhysicsStrings.CUSTOM_NUCLEUS_LEGEND_LABEL ) ;
+        
+        // Add the various components to the panel.
         add( m_poloniumRadioButton );
         add(new JLabel(poloniumIconImage));
-        add(new JLabel( NuclearPhysicsStrings.POLONIUM_LEGEND_LABEL ) );
+        add(poloniumLabel);
         add( m_customNucleusRadioButton );
+        add(new JLabel(customNucleusIconImage));
+        add(customNucleusLabel);
     }
 }

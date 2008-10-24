@@ -84,10 +84,16 @@ public class NuclearPhysicsConstants {
     public static final Color SELECTED_TAB_COLOR = Color.ORANGE;
     
     // Color for the label used for the Polonium nucleus.
-    public static final Color POLONIUM_LABEL_COLOR = Color.MAGENTA;
+    public static final Color POLONIUM_LABEL_COLOR = Color.YELLOW;
     
     // Color for label used for the Lead nucleus.
     public static final Color LEAD_LABEL_COLOR = Color.BLACK;
+    
+    // Color for label used for the Custom nucleus (pre-decay).
+    public static final Color CUSTOM_NUCLEUS_LABEL_COLOR = Color.BLUE;
+    
+    // Color for label used for the Decayed Custom nucleus.
+    public static final Color DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR = Color.BLACK;
     
     // Color for label used for the Uranium 235 nucleus.
     public static final Color URANIUM_235_LABEL_COLOR = Color.GREEN;
