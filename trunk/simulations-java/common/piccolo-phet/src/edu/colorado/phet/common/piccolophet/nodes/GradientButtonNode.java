@@ -40,8 +40,8 @@ public class GradientButtonNode extends PhetPNode {
     
     // Constants that control the amount of padding (or space) around the text
     // on each side of the button.
-    private static final int VERTICAL_PADDING = 3;
-    private static final int HORIZONTAL_PADDING = 3;
+    private static final double VERTICAL_PADDING_FACTOR = 1.1;
+    private static final double HORIZONTAL_PADDING_FACTOR = 1.1;
     
     // Constant that controls where the shadow shows up and how far the button
     // translates when pushed.
@@ -83,7 +83,8 @@ public class GradientButtonNode extends PhetPNode {
     //Assumes the PNode has an offset of (0,0)
     public GradientButtonNode(PNode icon,Color buttonColor){
         this._icon=icon;
-        _icon.setOffset(HORIZONTAL_PADDING, VERTICAL_PADDING);
+        _icon.setOffset((getIconWidth() * HORIZONTAL_PADDING_FACTOR - getIconWidth()) / 2, 
+        		(getIconHeight() * VERTICAL_PADDING_FACTOR - getIconHeight()) / 2);
         this._buttonColor=buttonColor;
 
         // Initialize local data.
@@ -100,8 +101,8 @@ public class GradientButtonNode extends PhetPNode {
 
         // Create the button node.
         RoundRectangle2D buttonShape = new RoundRectangle2D.Double(0, 0,
-                getIconWidth() + 2 * HORIZONTAL_PADDING,
-                getIconHeight() + 2 * VERTICAL_PADDING,
+                getIconWidth() * HORIZONTAL_PADDING_FACTOR,
+                getIconHeight() * VERTICAL_PADDING_FACTOR,
                 BUTTON_CORNER_ROUNDEDNESS, BUTTON_CORNER_ROUNDEDNESS);
 
         final PPath button = new PPath(buttonShape);
