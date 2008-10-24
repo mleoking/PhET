@@ -52,6 +52,10 @@ public class NuclearPhysicsStrings {
     public static final String LEAD_207_ISOTOPE_NUMBER = NuclearPhysicsResources.getString( "Lead207Graphic.Number" );
     public static final String LEAD_LEGEND_LABEL = NuclearPhysicsResources.getString( "NuclearPhysicsControlPanel.Lead207Label" );
 
+    public static final String CUSTOM_NUCLEUS_CHEMICAL_SYMBOL = NuclearPhysicsResources.getString( "AlphaDecayControlPanel.CustomNucleusSymbol" );
+    public static final String CUSTOM_NUCLEUS_LEGEND_LABEL = NuclearPhysicsResources.getString( "AlphaDecayControlPanel.CustomNucleusLabel" );
+    public static final String DECAYED_CUSTOM_NUCLEUS_LEGEND_LABEL = NuclearPhysicsResources.getString( "AlphaDecayControlPanel.DecayedCustomNucleusLabel" );
+
     public static final String DAUGHTER_NUCLEI_LABEL = NuclearPhysicsResources.getString( "NuclearPhysicsControlPanel.DaughterNucleiLabel" );
 
     public static final String DECAY_TIME_CHART_X_AXIS_LABEL = NuclearPhysicsResources.getString( "DecayTimeChart.XAxisLabel" );
