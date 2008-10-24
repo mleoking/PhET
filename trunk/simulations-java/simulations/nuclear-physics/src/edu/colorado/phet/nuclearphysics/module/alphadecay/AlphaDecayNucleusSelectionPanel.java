@@ -91,10 +91,14 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
         // Add the various components to the panel.
         //--------------------------------------------------------------------
         
+        
         // Add the Polonium radio button.
+        constraints.anchor = GridBagConstraints.EAST;
         constraints.gridx = 0;
         constraints.gridy = 0;
+        constraints.ipadx = 25;
         add( m_poloniumRadioButton, constraints );
+        constraints.ipadx = 0; // Remove padding.
         
         // Create and add the Polonium image.
         PNode labeledPoloniumNucleus = new LabeledNucleusNode("Polonium Nucleus Small.png",
@@ -103,17 +107,20 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
                 NuclearPhysicsConstants.POLONIUM_LABEL_COLOR );
         Image poloniumImage = labeledPoloniumNucleus.toImage();
         ImageIcon poloniumIconImage = new ImageIcon(poloniumImage);
+        constraints.anchor = GridBagConstraints.WEST;
         constraints.gridx = 1;
         constraints.gridy = 0;
         add( new JLabel(poloniumIconImage), constraints );
         
         // Create and add the textual label for the Polonium nucleus.
         JLabel poloniumLabel = new JLabel( NuclearPhysicsStrings.POLONIUM_LEGEND_LABEL ) ;
+        constraints.anchor = GridBagConstraints.WEST;
         constraints.gridx = 2;
         constraints.gridy = 0;
         add( poloniumLabel, constraints );
         
         // Create and add the arrow that signifies decay.
+        constraints.anchor = GridBagConstraints.CENTER;
         constraints.gridx = 1;
         constraints.gridy = 1;
         add( new JLabel(createArrowIcon(Color.BLACK)), constraints );
@@ -125,12 +132,14 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
                 NuclearPhysicsConstants.LEAD_LABEL_COLOR );
         Image leadImage = labeledLeadNucleus.toImage();
         ImageIcon leadIconImage = new ImageIcon( leadImage );
+        constraints.anchor = GridBagConstraints.WEST;
         constraints.gridx = 1;
         constraints.gridy = 2;
         add( new JLabel(leadIconImage), constraints );
         
         // Create and add the textual label for the Lead nucleus.
         JLabel leadLabel = new JLabel( NuclearPhysicsStrings.LEAD_LEGEND_LABEL ) ;
+        constraints.anchor = GridBagConstraints.WEST;
         constraints.gridx = 2;
         constraints.gridy = 2;
         add( leadLabel, constraints );
@@ -141,6 +150,7 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
         add( createVerticalSpacingPanel( 20 ), constraints );
         
         // Add the custom nucleus radio button.
+        constraints.anchor = GridBagConstraints.WEST;
         constraints.gridx = 0;
         constraints.gridy = 4;
         add( m_customNucleusRadioButton, constraints  );
@@ -151,17 +161,20 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
                 NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR );
         Image customNucleusImage = labeledCustomNucleus.toImage();
         ImageIcon customNucleusIconImage = new ImageIcon(customNucleusImage);
+        constraints.anchor = GridBagConstraints.WEST;
         constraints.gridx = 1;
         constraints.gridy = 4;
         add( new JLabel(customNucleusIconImage), constraints );
         
         // Create and add the textual label for the non-decayed custom nucleus.
         JLabel customNucleusLabel = new JLabel( NuclearPhysicsStrings.CUSTOM_NUCLEUS_LEGEND_LABEL ) ;
+        constraints.anchor = GridBagConstraints.WEST;
         constraints.gridx = 2;
         constraints.gridy = 4;
         add( customNucleusLabel, constraints );
         
         // Create and add the arrow that signifies decay.
+        constraints.anchor = GridBagConstraints.CENTER;
         constraints.gridx = 1;
         constraints.gridy = 5;
         add( new JLabel(createArrowIcon(Color.BLACK)), constraints );
@@ -172,12 +185,14 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
                 NuclearPhysicsConstants.DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR );
         Image decayedCustomNucleusImage = labeledDecayedCustomNucleus.toImage();
         ImageIcon decayedCustomNucleusIconImage = new ImageIcon(decayedCustomNucleusImage);
+        constraints.anchor = GridBagConstraints.WEST;
         constraints.gridx = 1;
         constraints.gridy = 6;
         add( new JLabel(decayedCustomNucleusIconImage), constraints );
         
         // Create and add the textual label for the decayed custom nucleus.
         JLabel decayedCustomNucleusLabel = new JLabel( NuclearPhysicsStrings.DECAYED_CUSTOM_NUCLEUS_LEGEND_LABEL ) ;
+        constraints.anchor = GridBagConstraints.WEST;
         constraints.gridx = 2;
         constraints.gridy = 6;
         add( decayedCustomNucleusLabel, constraints );
