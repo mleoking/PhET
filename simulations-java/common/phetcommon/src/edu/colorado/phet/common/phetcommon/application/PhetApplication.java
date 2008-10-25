@@ -7,6 +7,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.JTabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
@@ -15,7 +16,9 @@ import edu.colorado.phet.common.phetcommon.preferences.ITrackingInfo;
 /**
  * The base class for PhET applications.
  */
-public class PhetApplication {
+public class PhetApplication
+    implements IProguardKeepClass //since we are using reflection to call this constructor from the launcher, must direct proguard to keep it
+{
 
     //----------------------------------------------------------------
     // Class data
