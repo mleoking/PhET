@@ -9,6 +9,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -60,16 +61,21 @@ public class DocumentAdapter {
      * Converts a Properties object to an XML Document, in the format required for Flash simulations.
      * 
      * @param properties
+     * @param header comment that describes the contents of the document
      * @return Document
      * @throws PropertiesFlashAdapterException
      */
-    private static final Document propertiesToDocument( Properties properties ) throws DocumentIOException {
+    private static final Document propertiesToDocument( Properties properties, String header ) throws DocumentIOException {
         Document document = null;
         try {
             // create a document
             DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 
             document = builder.newDocument();
+            
+            // Add the header as a comment
+            Comment comment = document.createComment( header );
+            document.appendChild( comment );
 
             // Insert the root element node
             Element rootElement = document.createElement( ROOT_ELEMENT );
@@ -108,12 +114,13 @@ public class DocumentAdapter {
      * Saves a Properties object to an XML file.
      * 
      * @param properties
+     * @param header comment that describes the contents of the XML file
      * @param fileName
      * @throws IOException
      * @throws DocumentIOException 
      */
-    public static final void writeProperties( Properties properties, OutputStream outputStream ) throws DocumentIOException {
-        Document document = propertiesToDocument( properties );
+    public static final void writeProperties( Properties properties, String header, OutputStream outputStream ) throws DocumentIOException {
+        Document document = propertiesToDocument( properties, header );
         DocumentIO.writeDocument( document, outputStream, ENCODING );
     }
     
@@ -128,8 +135,9 @@ public class DocumentAdapter {
 
         // Write the System properties to an XML file
         Properties properties = System.getProperties();
+        String header = "this comment describes the contents of this XML file";
         String filename = tmpDir + fileSeparator + "test.xml";
-        writeProperties( properties, new FileOutputStream( filename ) );
+        writeProperties( properties, header, new FileOutputStream( filename ) );
 
         // Read the XML file that we wrote above
         Properties inputProperties = readProperties( new FileInputStream( filename ) );

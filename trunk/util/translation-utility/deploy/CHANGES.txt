@@ -3,6 +3,8 @@ Change history for translation-utility
 ================================================================================
 
 DONE:
+10/27/08 - [864] Flash translation files are missing the header found in Java translation files
+10/27/08 - [865] add sim version number to header of translation files
 10/8/08 - eliminated need for PhetApplicationConfig, get everything needed from PhetResources
 9/22/08 - center Close button in ExceptionDialog
 ********* version 1.04.00 (24643)
