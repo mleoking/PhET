@@ -12,6 +12,8 @@ import java.awt.geom.QuadCurve2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.umd.cs.piccolo.PNode;
 
 public class BucketOfNucleiNode extends PNode {
@@ -25,6 +27,7 @@ public class BucketOfNucleiNode extends PNode {
 	public static final Color OUTER_COLOR_LIGHT = new Color (0xFF9933);
 	public static final Color INNER_COLOR_DARK = new Color (0xAA7700);
 	public static final Color INNER_COLOR_LIGHT = new Color (0xCC9933);
+	public static final double NUCLEUS_WIDTH_PROPORTION = 0.3;
 	
     //------------------------------------------------------------------------
     // Constructor
@@ -83,5 +86,13 @@ public class BucketOfNucleiNode extends PNode {
 				ellipseVerticalSpan * 2, width, ellipseVerticalSpan / 2) );
 		bucketHandle.setStroke( LINE_STROKE );
 		frontLayer.addChild(bucketHandle);
+		
+		// Add the particles that will fill the bucket.
+		PNode nucleusNode = new GrabbableLabeledNucleusNode("Polonium Nucleus Small.png",
+                NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER, 
+                NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL, 
+                NuclearPhysicsConstants.POLONIUM_LABEL_COLOR );
+		nucleusNode.scale( width * NUCLEUS_WIDTH_PROPORTION / nucleusNode.getFullBoundsReference().width);
+		middleLayer.addChild(nucleusNode);
 	}
 }
