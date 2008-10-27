@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SimStrings>
+<string key="ratioOfAreasIs" value="El ratio de área es"/>
+<string key="closeEnough" value="¡Bastante cerca! \nLa respuesta exacta es:"/>
+<string key="levelColon" value="Nivel:"/>
+<string key="score" value="Puntuación"/>
+<string key="EnterNumber" value="Introduzca Número"/>
+<string key="selectTrainingOrGame" value="Elija Entrenamiento o Juego:"/>
+<string key="percentUnderOver" value="porcentaje bajo/sobre:"/>
+<string key="estimation" value="Estimación"/>
+<string key="next" value="Siguiente"/>
+<string key="ratioOfLengths" value="ratio de longitudes para líneas \nratio de áreas para cuadrados y círculos \nratio de volumen para cubos y esferas"/>
+<string key="exactAnswer" value="respuesta exacta"/>
+<string key="level" value="Nivel"/>
+<string key="howMany" value="¿Cuántos pequeños \nen el grande?"/>
+<string key="noCreditIf" value="Sin crédito si"/>
+<string key="home" value="volver"/>
+<string key="whatIsRatioOfVolumes" value="¿Qué es el porcentaje de volúmenes?"/>
+<string key="tooFarOff" value="¡Demasiado alejado! \nLa respuesta exacta es:"/>
+<string key="scorePerTimeColon" value="puntuación/tiempo"/>
+<string key="PleasePickANumber" value="Por favor ponga un número entre 1 y 100000."/>
+<string key="answerIsOutside" value="la respuesta está fuera de límites."/>
+<string key="train" value="Entrenamiento"/>
+<string key="strategyHelp" value="Ayuda Estratégica"/>
+<string key="whatIsRatioOfAreas" value="¿Qué es el porcentaje de áreas?"/>
+<string key="scorePerTime" value="Puntuación/Tiempo"/>
+<string key="gameOver" value="Juego acabado"/>
+<string key="play" value="Jugar"/>
+<string key="fullCreditIf" value="Crédito total si"/>
+<string key="back" value="atrás"/>
+<string key="levelOneColon" value="Nivel 1: Líneas solo \nNivel 2: Líneas y objetos 2D \nNivel 3: Todos los objetos"/>
+<string key="yourAnswer" value="su respuesta"/>
+<string key="or" value="o 2"/>
+<string key="sound" value="Sonido"/>
+<string key="accuracyIsSmaller" value="La precisión es inferior a:"/>
+<string key="averageAccuracy" value="precisión media:"/>
+<string key="gameRules" value="Reglas del Juego"/>
+<string key="ratioOfVolumesIs" value="El ratio de volumen es"/>
+<string key="time" value="Tiempo (seg)"/>
+<string key="numberEstimates" value="número de estimaciones:"/>
+<string key="yourAnswerIs" value="su respuesta está dentro de \nel factor 1.3 para líneas, \nel factor 1.6 para objetos 2D, \nel factor 2.0 para objetos 3D."/>
+<string key="enter" value="Introducir"/>
+<string key="endGame" value="Finalizar juego"/>
+<string key="nextLowerCase" value="siguiente"/>
+</SimStrings>
