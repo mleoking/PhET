@@ -78,6 +78,7 @@ public class IsokineticThermostat implements Thermostat {
         }
         
         // Adjust the temperature.
+        System.out.println("Kinetic energy = " + centersOfMassKineticEnergy + rotationalKineticEnergy);
         adjustTemperature(centersOfMassKineticEnergy + rotationalKineticEnergy); 
 	}
 
@@ -90,10 +91,9 @@ public class IsokineticThermostat implements Thermostat {
             temperatureScaleFactor = 0;
         }
         else{
-            temperatureScaleFactor = Math.sqrt( 1.5 * m_targetTemperature * m_moleculeDataSet.getNumberOfMolecules() /
+            temperatureScaleFactor = Math.sqrt( m_targetTemperature * m_moleculeDataSet.getNumberOfMolecules() /
             		kineticEnergy );
         }
-        System.out.println(temperatureScaleFactor);
         
         // Adjust the temperature by scaling the velocity of each molecule
         // by the appropriate amount.
