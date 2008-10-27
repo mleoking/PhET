@@ -1,15 +1,14 @@
 <html>
 <p>
 <big><big><b>
-translation-utility 1.04.00
+translation-utility 1.05.00
 </b></big></big>
 <p>
 <b>What's new:</b>
 <p>
 <ul>
-<li>explicitly read and add manifest to phet-test-translation.jar for Java & Flash sims (Unfuddle 720)
-<li>ignore manifest file when copying jar entries, this causes problems on Mac (Unfuddle 720)
-<li>move shared instance data, interfaces, and utilities to AbstractSimulation
+<li>add sim version number to header in translation files (Unfuddle 865)
+<li>add header as a comment to Flash translation files (Unfuddle 864)
 </ul>
 <p>
 <b>Known problems:</b>
