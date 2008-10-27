@@ -32,6 +32,10 @@ public class LabeledNucleusNode extends PNode {
     private static final double FONT_SCALING_FACTOR = IMAGE_SCALING_FACTOR * 9;
 
     //------------------------------------------------------------------------
+    // Instance Data
+    //------------------------------------------------------------------------
+    
+    //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
 
@@ -49,9 +53,9 @@ public class LabeledNucleusNode extends PNode {
         BufferedImage im = NuclearPhysicsResources.getImage( imageName );
         
         // Create and add the image node.
-        PImage nucleus = new PImage(im);
-        nucleus.setScale( IMAGE_SCALING_FACTOR );
-        addChild(nucleus);
+        PImage nucleusImage = new PImage(im);
+        nucleusImage.setScale( IMAGE_SCALING_FACTOR );
+        addChild(nucleusImage);
         
         // Create and add the shadowed label.
         String labelText = "<html><sup><font size=-2>" + isotopeNumber +
@@ -61,12 +65,20 @@ public class LabeledNucleusNode extends PNode {
         label.setShadowColor( labelColor == Color.BLACK ? Color.WHITE : Color.BLACK );
         label.setScale(FONT_SCALING_FACTOR);
         label.setShadowOffset( 0.5, 0.5 );
-        if (nucleus.getWidth() < label.getWidth()){
+        if (nucleusImage.getWidth() < label.getWidth()){
             // Center the label over the nucleus.
-            label.setOffset((nucleus.getWidth() - label.getWidth()) / 2, 0);
+            label.setOffset((nucleusImage.getWidth() - label.getWidth()) / 2, 0);
         }
         addChild(label);
+        
+        // Make sure we aren't pickable since we don't handle any mouse events.
+        setPickable(false);
+        setChildrenPickable(false);
     }
+    
+    //------------------------------------------------------------------------
+    // Public Methods
+    //------------------------------------------------------------------------
     
     /**
      * This main function is used to provide stand-alone testing of the class.
