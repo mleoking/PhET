@@ -18,7 +18,7 @@ public class TrackingManager {
 
     public static void initInstance( PhetApplicationConfig config ) {
         if ( instance != null ) {
-            throw new RuntimeException( "TrackingApplicationManager already inited" );
+            throw new RuntimeException( "TrackingManager already initialized" );
         }
         instance = new TrackingManager( config );
     }
