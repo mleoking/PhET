@@ -67,6 +67,9 @@ public class MoleculeForceAndMotionDataSet {
         m_moleculeRotationRates  = new double [StatesOfMatterConstants.MAX_NUM_ATOMS / m_atomsPerMolecule];
         m_moleculeTorques        = new double [StatesOfMatterConstants.MAX_NUM_ATOMS / m_atomsPerMolecule];
         m_nextMoleculeTorques    = new double [StatesOfMatterConstants.MAX_NUM_ATOMS / m_atomsPerMolecule];
+        
+        // Set default values.
+        m_moleculeMass = 1;
 	}
 
     //----------------------------------------------------------------------------
