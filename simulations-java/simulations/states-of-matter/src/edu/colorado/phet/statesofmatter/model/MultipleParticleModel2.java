@@ -23,8 +23,10 @@ import edu.colorado.phet.statesofmatter.model.engine.MonatomicAtomPositionUpdate
 import edu.colorado.phet.statesofmatter.model.engine.MonatomicPhaseStateChanger;
 import edu.colorado.phet.statesofmatter.model.engine.MonatomicVerletAlgorithm;
 import edu.colorado.phet.statesofmatter.model.engine.PhaseStateChanger;
+import edu.colorado.phet.statesofmatter.model.engine.kinetic.IsokineticThermostat;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyAdjuster;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyCapper;
+import edu.colorado.phet.statesofmatter.model.engine.kinetic.Thermostat;
 import edu.colorado.phet.statesofmatter.model.particle.ArgonAtom;
 import edu.colorado.phet.statesofmatter.model.particle.HydrogenAtom;
 import edu.colorado.phet.statesofmatter.model.particle.NeonAtom;
@@ -63,7 +65,7 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
     public static final int     DEFAULT_MOLECULE = StatesOfMatterConstants.NEON;
     private static final double DISTANCE_BETWEEN_DIATOMIC_PAIRS = 0.8;  // In particle diameters.
     private static final double TIME_STEP = 0.020;  // Time per simulation clock tick, in seconds.
-    private static final double INITIAL_TEMPERATURE = 0.2;
+    public static final double INITIAL_TEMPERATURE = 0.2;
     public static final double  MAX_TEMPERATURE = 50.0;
     public static final double  MIN_TEMPERATURE = 0.0001;
     private static final double PARTICLE_INTERACTION_DISTANCE_THRESH_SQRD = 6.25;
@@ -136,6 +138,7 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
     private AtomPositionUpdater m_atomPositionUpdater;
     private MoleculeForceAndMotionCalculator m_moleculeForceAndMotionCalculator;
     private PhaseStateChanger m_phaseStateChanger;
+    private Thermostat m_isoKineticThermostat;
     
     // Attributes of the container and simulation as a whole.
     private double m_particleContainerHeight;
@@ -243,6 +246,10 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
             m_temperatureSetPoint = newTemperature;
         }
 
+        if ( m_isoKineticThermostat != null ){
+        	m_isoKineticThermostat.setTargetTemperature( newTemperature );
+        }
+        	
         notifyTemperatureChanged();
     }
 
@@ -540,10 +547,6 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
         m_gravitationalAcceleration = INITIAL_GRAVITATIONAL_ACCEL;
         m_heatingCoolingAmount = 0;
         m_tempAdjustTickCounter = 0;
-        if (m_temperatureSetPoint != INITIAL_TEMPERATURE){
-            m_temperatureSetPoint = INITIAL_TEMPERATURE;
-            notifyTemperatureChanged();
-        }
         
         // Set the initial size of the container.
         m_particleContainerHeight = StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT;
@@ -803,6 +806,7 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
         // for each time step.
         for (int i = 0; i < VERLET_CALCULATIONS_PER_CLOCK_TICK; i++ ){
         	m_moleculeForceAndMotionCalculator.updateForcesAndMotion();
+        	m_isoKineticThermostat.adjustTemperature();
         }
         
         // Sync up the positions of the normalized particles (the molecule data
@@ -832,6 +836,8 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
                 newTemperature = m_minModelTemperature;
             }
             m_temperatureSetPoint = newTemperature;
+            m_isoKineticThermostat.setTargetTemperature( m_temperatureSetPoint );
+            
             /*
              * TODO JPB TBD - This code causes temperature to decrease towards but
              * not reach absolute zero.  A decision was made on 10/7/2008 to
@@ -895,6 +901,7 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
         m_phaseStateChanger = new MonatomicPhaseStateChanger( this );
         m_atomPositionUpdater = new MonatomicAtomPositionUpdater();
         m_moleculeForceAndMotionCalculator = new MonatomicVerletAlgorithm( this );
+        m_isoKineticThermostat = new IsokineticThermostat( m_moleculeDataSet, m_minModelTemperature );
         
         // Create the individual atoms and add them to the data set.
         for (int i = 0; i < numberOfAtoms; i++){
