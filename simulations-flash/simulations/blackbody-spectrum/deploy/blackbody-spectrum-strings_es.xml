@@ -4,7 +4,7 @@
 <string key="zoomIn" value="acercar"/>
 <string key="intensity" value="intensidad"/>
 <string key="zoomOut" value="alejar"/>
-<string key="clear" value="Limpiar"/>
+<string key="clear" value="Borrar"/>
 <string key="g" value="V"/>
 <string key="sun" value="Sol"/>
 <string key="tempInK" value="T(K)"/>
@@ -14,5 +14,5 @@
 <string key="b" value="A"/>
 <string key="oven" value="horno"/>
 <string key="earth" value="tierra"/>
-<string key="lightBulb" value="lamparita"/>
+<string key="lightBulb" value="bombilla"/>
 </SimStrings>
