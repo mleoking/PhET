@@ -4,7 +4,6 @@ package edu.colorado.phet.translationutility.simulations;
 
 import java.io.*;
 import java.text.MessageFormat;
-import java.util.Date;
 import java.util.Properties;
 import java.util.jar.*;
 

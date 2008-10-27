@@ -5,8 +5,6 @@ package edu.colorado.phet.translationutility.util;
 import java.io.*;
 import java.util.Properties;
 
-import edu.colorado.phet.translationutility.TUResources;
-
 /**
  * PropertiesIO handles input/output of properties files.
  *
