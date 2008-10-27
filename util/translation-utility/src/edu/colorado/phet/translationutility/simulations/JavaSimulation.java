@@ -85,7 +85,10 @@ public class JavaSimulation extends AbstractSimulation {
 
     public void saveStrings( Properties properties, File file ) throws SimulationException {
         try {
-            PropertiesIO.write( properties, file );
+            String projectName = getProjectName();
+            String projectVersion = getProjectVersion( projectName + System.getProperty( "file.separator" ) + projectName + ".properties" ); // eg, faraday/faraday.properties
+            String header = getTranslationFileHeader( file.getName(), projectName, projectVersion );
+            PropertiesIO.write( properties, header, file );
         }
         catch ( PropertiesIOException e ) {
             throw new SimulationException( e );
@@ -241,69 +244,6 @@ public class JavaSimulation extends AbstractSimulation {
         }
         
         return projectName;
-    }
-    
-    /*
-     * Reads a properties file from the specified JAR file.
-     * 
-     * @param jarFileName
-     * @param propertiesFileName
-     * @return Properties
-     */
-    private static Properties readPropertiesFromJar( String jarFileName, String propertiesFileName ) throws SimulationException {
-        
-        InputStream inputStream = null;
-        try {
-            inputStream = new FileInputStream( jarFileName );
-        }
-        catch ( FileNotFoundException e ) {
-            e.printStackTrace();
-            throw new SimulationException( "jar file not found: " + jarFileName, e );
-        }
-        
-        JarInputStream jarInputStream = null;
-        boolean found = false;
-        try {
-            jarInputStream = new JarInputStream( inputStream );
-            
-            // look for the properties file
-            JarEntry jarEntry = jarInputStream.getNextJarEntry();
-            while ( jarEntry != null ) {
-                if ( jarEntry.getName().equals( propertiesFileName ) ) {
-                    found = true;
-                    break;
-                }
-                else {
-                    jarEntry = jarInputStream.getNextJarEntry();
-                }
-            }
-        }
-        catch ( IOException e ) {
-            e.printStackTrace();
-            throw new SimulationException( "error reading jar file: " + jarFileName, e );
-        }
-        
-        Properties properties = null;
-        if ( found ) {
-            properties = new Properties();
-            try {
-                properties.load( jarInputStream );
-            }
-            catch ( IOException e ) {
-                e.printStackTrace();
-                throw new SimulationException( "cannot read localized strings file from jar: " + propertiesFileName, e );
-            }
-        }
-        
-        try {
-            jarInputStream.close();
-        }
-        catch ( IOException e ) {
-            e.printStackTrace();
-            throw new SimulationException( "error closing jar file: " + jarFileName, e );
-        }
-    
-        return properties;
     }
     
     /*

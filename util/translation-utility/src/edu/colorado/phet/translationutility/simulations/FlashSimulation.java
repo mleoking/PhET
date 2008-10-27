@@ -4,6 +4,7 @@ package edu.colorado.phet.translationutility.simulations;
 
 import java.io.*;
 import java.text.MessageFormat;
+import java.util.Date;
 import java.util.Properties;
 import java.util.jar.*;
 
@@ -71,8 +72,11 @@ public class FlashSimulation extends AbstractSimulation {
 
     public void saveStrings( Properties properties, File file ) throws SimulationException {
         try {
+            String projectName = getProjectName();
+            String projectVersion = getProjectVersion( projectName + ".properties" ); // eg, curve-fitting.properties
+            String header = getTranslationFileHeader( file.getName(), projectName, projectVersion );
             OutputStream outputStream = new FileOutputStream( file );
-            DocumentAdapter.writeProperties( properties, outputStream );
+            DocumentAdapter.writeProperties( properties, header, outputStream );
         }
         catch ( FileNotFoundException e ) {
             throw new SimulationException( "file not found: " + file.getAbsolutePath(), e );
@@ -277,7 +281,7 @@ public class FlashSimulation extends AbstractSimulation {
             // add properties file to output
             jarEntry = new JarEntry( xmlFilename );
             testOutputStream.putNextEntry( jarEntry );
-            DocumentAdapter.writeProperties( properties, testOutputStream );
+            DocumentAdapter.writeProperties( properties, "" /* no header needed for testing */, testOutputStream );
             testOutputStream.closeEntry();
             
             // add args.txt file used by FlashLauncher

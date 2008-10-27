@@ -33,7 +33,7 @@ public interface ISimulation {
      * @return
      */
     public String getProjectName();
-
+    
     /**
      * Tests a set of localized strings by running the simulation.
      * 
