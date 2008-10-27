@@ -28,7 +28,7 @@ public class PhetApplicationLauncher {
             // PhetFrame doesn't exist when this is called, so create and manage the window's owner.
             splashWindowOwner = new Frame();
             splashWindow = new AWTSplashWindow( splashWindowOwner, title );
-            splashWindow.show();
+            splashWindow.setVisible( true );
         }
     }
 
@@ -82,12 +82,12 @@ public class PhetApplicationLauncher {
 
     public void launchSim( final PhetApplicationConfig config, final ApplicationConstructor applicationConstructor ) {
         /*
-         * Wrap the body of main in invokeLater, so that all initialization occurs
+         * Wrap the body of main in invokeAndWait, so that all initialization occurs
          * in the event dispatch thread. Sun now recommends doing all Swing init in
          * the event dispatch thread. And the Piccolo-based tabs in TabbedModulePanePiccolo
          * seem to cause startup deadlock problems if they aren't initialized in the
          * event dispatch thread. Since we don't have an easy way to separate Swing and
-         * non-Swing init, we're stuck doing everything in invokeLater.
+         * non-Swing init, we're stuck doing everything in invokeAndWait.
          */
         try {
             SwingUtilities.invokeAndWait( new Runnable() {
