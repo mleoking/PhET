@@ -3,6 +3,7 @@ Change history for translation-utility
 ================================================================================
 
 DONE:
+********* version 1.05.00 (25607)
 10/27/08 - [864] Flash translation files are missing the header found in Java translation files
 10/27/08 - [865] add sim version number to header of translation files
 10/8/08 - eliminated need for PhetApplicationConfig, get everything needed from PhetResources
