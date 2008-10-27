@@ -90,6 +90,11 @@ public class PhetApplicationLauncher {
          * non-Swing init, we're stuck doing everything in invokeAndWait.
          */
         try {
+
+            //Use invoke and wait since many older PhET simulations
+            //require the existence of a reference to the PhetApplication as soon as launchSim exits
+            //
+            //If/when these references have been changed/removed, we can change this to invokeLater()
             SwingUtilities.invokeAndWait( new Runnable() {
                 public void run() {
 
