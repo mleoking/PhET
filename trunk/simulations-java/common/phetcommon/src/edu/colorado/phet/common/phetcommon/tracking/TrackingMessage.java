@@ -14,29 +14,17 @@ public class TrackingMessage {
     //versioning the messages allows us to manage data after changing message content 
     public static final String MESSAGE_VERSION = "0.00.01";
 
-    public static final class MessageType {//enum
-        private String name;
-
-        public MessageType( String name ) {
-            this.name = name;
-        }
-
-        public String getName() {
-            return name;
-        }
-    }
-
-    public static final MessageType UNKNOWN_TYPE = new MessageType( "unknown" );
-
-    public static final MessageType SIM_LAUNCHED = new MessageType( "sim-launched" );
+    // names for actions and state changes
     public static final String PREFERENCES_DIALOG_VISIBLE = "preferences-dialog-visible";
     public static final String UPDATES_ENABLED = "updates-enabled";
     public static final String TRACKING_ENABLED = "tracking-enabled";
-    public static final MessageType MANUAL_CHECK_FOR_UPDATES = new MessageType( "manual-check-for-updates" );
-    public static final MessageType AUTO_CHECK_FOR_UPDATES = new MessageType( "auto-check-for-updates" );
-    public static final MessageType DIRECTED_TO_WEBSITE_FOR_UPDATE = new MessageType( "directed-to-website-for-update" );
-    public static final MessageType ASK_ME_LATER_PRESSED = new MessageType( "ask-me-later-pressed" );
-    public static final MessageType SKIP_UPDATE_PRESSED = new MessageType( "skip-update-pressed" );
+    public static final String MANUAL_CHECK_FOR_UPDATES = "manual-check-for-updates";
+    public static final String AUTO_CHECK_FOR_UPDATES = "auto-check-for-updates";
+    public static final String DIRECTED_TO_WEBSITE_FOR_UPDATE = "directed-to-website-for-update";
+    public static final String ASK_ME_LATER_PRESSED = "ask-me-later-update-pressed";
+    public static final String SKIP_UPDATE_PRESSED = "skip-update-pressed";
+    public static final String PHET_FRAME_CLOSING = "phet-frame-closing";
+    public static final String FILE_EXIT_SELECTED = "file-exit-selected";
 
     public TrackingMessage( SessionID sessionID, String messageType ) {
         addEntry( new TrackingEntry( "session-id", sessionID.toString() ) );

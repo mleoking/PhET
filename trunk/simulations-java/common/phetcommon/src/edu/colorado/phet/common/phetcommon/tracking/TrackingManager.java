@@ -92,8 +92,8 @@ public class TrackingManager {
         return Arrays.asList( config.getCommandLineArgs() ).contains( "-tracking" ) && !PhetServiceManager.isJavaWebStart();
     }
 
-    public static void postActionPerformedMessage( TrackingMessage.MessageType messageType ) {
-        postMessage( new ActionPerformedMessage( new SessionID( instance.config ), messageType.getName() ) );
+    public static void postActionPerformedMessage( String actionName ) {
+        postMessage( new ActionPerformedMessage( new SessionID( instance.config ), actionName ) );
     }
 
     public static void postStateChangedMessage( String name, boolean oldValue, boolean newValue ) {
@@ -102,5 +102,9 @@ public class TrackingManager {
 
     public static void postStateChangedMessage( String name, Object oldValue, Object newValue ) {
         postMessage( new StateChangedMessage( new SessionID( instance.config ), name, oldValue.toString(), newValue.toString() ) );
+    }
+    
+    public static void postSessionEndedMessage() {
+        postMessage( new SessionEndedMessage( new SessionID( instance.config ), System.currentTimeMillis() ) );
     }
 }
