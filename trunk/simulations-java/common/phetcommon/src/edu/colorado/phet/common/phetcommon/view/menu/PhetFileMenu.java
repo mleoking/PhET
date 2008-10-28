@@ -15,13 +15,14 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.preferences.DefaultTrackingPreferences;
 import edu.colorado.phet.common.phetcommon.preferences.DefaultUpdatePreferences;
-import edu.colorado.phet.common.phetcommon.preferences.PreferencesDialog;
 import edu.colorado.phet.common.phetcommon.preferences.ITrackingInfo;
+import edu.colorado.phet.common.phetcommon.preferences.PreferencesDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
+import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 import edu.colorado.phet.common.phetcommon.updates.ApplicationConfigManualCheckForUpdates;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 
@@ -33,7 +34,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
  */
 public class PhetFileMenu extends JMenu {
 
-    public PhetFileMenu( final PhetFrame phetFrame, final ISimInfo simInfo,final ITrackingInfo trackingInfo ) {
+    public PhetFileMenu( final PhetFrame phetFrame, final ISimInfo simInfo, final ITrackingInfo trackingInfo ) {
         super( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.Title" ) );
         setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.TitleMnemonic" ).charAt( 0 ) );
 
@@ -55,6 +56,7 @@ public class PhetFileMenu extends JMenu {
         JMenuItem exitMI = new JMenuItem( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.Exit" ) );
         exitMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+                TrackingManager.postActionPerformedMessage( new TrackingMessage.MessageType( "file.exit" ) );
                 System.exit( 0 );
             }
         } );
