@@ -48,6 +48,11 @@ public class TrackingMessage {
     public static final MessageType ASK_ME_LATER_PRESSED = new MessageType( "ask-me-later-pressed" );
     public static final MessageType SKIP_UPDATE_PRESSED = new MessageType( "skip-update-pressed" );
 
+    public TrackingMessage( SessionID sessionID ) {
+        addEntry( new TrackingEntry( "session-id", sessionID.toString() ) );
+        addEntry( new TrackingEntry( "timestamp", System.currentTimeMillis() + "" ) );
+    }
+
     public TrackingMessage( PhetApplicationConfig config, MessageType messageType ) {
         initTimeZone();
         TrackingEntry[] entriesArray = new TrackingEntry[]{
@@ -81,6 +86,10 @@ public class TrackingMessage {
                 new TrackingEntry( "time", new SimpleDateFormat( "yyyy-MM-dd_HH:mm:ss" ).format( new Date() ) )
         };
         entries.addAll( Arrays.asList( entriesArray ) );
+    }
+
+    public void addEntry( TrackingEntry entry ) {
+        entries.add( entry );
     }
 
     private void initTimeZone() {
