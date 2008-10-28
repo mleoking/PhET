@@ -80,13 +80,16 @@ public class PreferencesDialog extends JDialog {
     }
 
     public void dispose() {
+        boolean wasVisible = isVisible();
         super.dispose();
-        TrackingManager.postStateChangedMessage( TrackingMessage.PREFERENCES_DIALOG_VISIBLE, false );
+        //this is to simplify things in the report generation, since disposing the dialog doesn't call setVisible(false)
+        TrackingManager.postStateChangedMessage( TrackingMessage.PREFERENCES_DIALOG_VISIBLE, wasVisible, false );
     }
 
     public void setVisible( boolean b ) {
+        boolean wasVisible = isVisible();
         super.setVisible( b );
-        TrackingManager.postStateChangedMessage( TrackingMessage.PREFERENCES_DIALOG_VISIBLE, b );
+        TrackingManager.postStateChangedMessage( TrackingMessage.PREFERENCES_DIALOG_VISIBLE, wasVisible, b );
     }
 
     private void savePreferences() {
