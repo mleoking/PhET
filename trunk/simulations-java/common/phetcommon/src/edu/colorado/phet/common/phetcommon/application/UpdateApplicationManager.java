@@ -44,7 +44,7 @@ public class UpdateApplicationManager {
     }
 
     private void autoCheckForUpdates( final PhetApplication app ) {
-        TrackingManager.postMessage( TrackingMessage.AUTO_CHECK_FOR_UPDATES );
+        TrackingManager.postActionPerformedMessage( TrackingMessage.AUTO_CHECK_FOR_UPDATES );
         final UpdateManager updateManager = new UpdateManager( config.getProjectName(), config.getVersion() );
         updateManager.addListener( new UpdateManager.Listener() {
             public void discoveredRemoteVersion( PhetVersion remoteVersion ) {

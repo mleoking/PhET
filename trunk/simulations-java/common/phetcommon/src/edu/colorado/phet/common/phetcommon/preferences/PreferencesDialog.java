@@ -81,18 +81,18 @@ public class PreferencesDialog extends JDialog {
 
     public void dispose() {
         super.dispose();
-        TrackingManager.postMessage( TrackingMessage.PREFERENCES_DIALOG_HIDDEN );
+        TrackingManager.postActionPerformedMessage( TrackingMessage.PREFERENCES_DIALOG_HIDDEN );
     }
 
     public void setVisible( boolean b ) {
         super.setVisible( b );
-        TrackingManager.postMessage( b ? TrackingMessage.PREFERENCES_DIALOG_SHOWN : TrackingMessage.PREFERENCES_DIALOG_HIDDEN );
+        TrackingManager.postActionPerformedMessage( b ? TrackingMessage.PREFERENCES_DIALOG_SHOWN : TrackingMessage.PREFERENCES_DIALOG_HIDDEN );
     }
 
     private void savePreferences() {
         if ( updatePreferences.isEnabled() != updatesPreferencesPanel.isUpdatesEnabled() ) {
             updatePreferences.setEnabled( updatesPreferencesPanel.isUpdatesEnabled() );
-            TrackingManager.postMessage( updatesPreferencesPanel.isUpdatesEnabled() ?
+            TrackingManager.postActionPerformedMessage( updatesPreferencesPanel.isUpdatesEnabled() ?
                                          TrackingMessage.UPDATES_ENABLED : TrackingMessage.UPDATES_DISABLED );
         }
 
@@ -101,7 +101,7 @@ public class PreferencesDialog extends JDialog {
 
             //we should never see a tracking disabled message, since tracking should be disabled before we try to send that message.
             //can track number of people who disable tracking by checking whether their preferences dialog was opened and then we never hear from them again.
-            TrackingManager.postMessage( trackingPreferencesPanel.isTrackingEnabled() ?
+            TrackingManager.postActionPerformedMessage( trackingPreferencesPanel.isTrackingEnabled() ?
                                          TrackingMessage.TRACKING_ENABLED : TrackingMessage.TRACKING_DISABLED );
         }
 
