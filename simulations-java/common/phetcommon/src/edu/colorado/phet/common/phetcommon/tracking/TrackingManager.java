@@ -1,6 +1,7 @@
 package edu.colorado.phet.common.phetcommon.tracking;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
@@ -11,9 +12,13 @@ public class TrackingManager {
     private PhetApplicationConfig config;
 
     public static TrackingManager instance;
+    private ArrayList messageQueue = new ArrayList();
+    private TrackingThread trackingThread = new TrackingThread();
+    private static final Object monitor = new Object();
 
     public TrackingManager( PhetApplicationConfig config ) {
         this.config = config;
+        trackingThread.start();
     }
 
     public static void initInstance( PhetApplicationConfig config ) {
@@ -31,22 +36,52 @@ public class TrackingManager {
         }
     }
 
-    private void postMessageImpl( final TrackingMessage trackingInformation ) {
+    private void postMessageImpl( final TrackingMessage trackingMessage ) {
         if ( isTrackingEnabled() ) {
-            Thread t = new Thread( new Runnable() {
-                public void run() {
+            synchronized( this ) {
+                messageQueue.add( trackingMessage );
+                processQueue();
+            }
+        }
+    }
+
+    private void processQueue() {
+        synchronized( monitor ) {
+            monitor.notifyAll();
+        }
+    }
+
+    private class TrackingThread extends Thread {
+        private TrackingThread() {
+            super( new TrackingRunnable() );
+        }
+    }
+
+    public class TrackingRunnable implements Runnable {
+        public void run() {
+            while ( true ) {
+                postAllMessages();
+                synchronized( monitor ) {
                     try {
-                        new Tracker().postMessage( trackingInformation );
+                        monitor.wait();
                     }
-                    catch( IOException e ) {
+                    catch( InterruptedException e ) {
                         e.printStackTrace();
                     }
                 }
-            } );
-            t.start();
+            }
         }
-        else {
+    }
 
+    private void postAllMessages() {
+        try {
+            while ( TrackingManager.this.messageQueue.size() > 0 ) {
+                TrackingMessage m = (TrackingMessage) TrackingManager.this.messageQueue.remove( 0 );
+                new Tracker().postMessage( m );
+            }
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
         }
     }
 
@@ -64,11 +99,7 @@ public class TrackingManager {
     }
 
     public static void postActionPerformedMessage( TrackingMessage.MessageType messageType ) {
-        postMessage( new ActionPerformedMessage( createSessionID(), messageType.getName() ) );
-    }
-
-    private static SessionID createSessionID() {
-        return new SessionID( instance.config );
+        postMessage( new ActionPerformedMessage( new SessionID( instance.config ), messageType.getName() ) );
     }
 
     public static void postStateChangedMessage( String name, boolean oldValue, boolean newValue ) {
@@ -76,6 +107,6 @@ public class TrackingManager {
     }
 
     public static void postStateChangedMessage( String name, Object oldValue, Object newValue ) {
-        postMessage( new StateChangedMessage( createSessionID(), name, oldValue.toString(), newValue.toString() ) );
+        postMessage( new StateChangedMessage( new SessionID( instance.config ), name, oldValue.toString(), newValue.toString() ) );
     }
 }
