@@ -105,6 +105,6 @@ public class TrackingManager {
     }
     
     public static void postSessionEndedMessage() {
-        postMessage( new SessionEndedMessage( new SessionID( instance.config ), System.currentTimeMillis() ) );
+        postMessage( new SessionEndedMessage( new SessionID( instance.config ) ) );
     }
 }
