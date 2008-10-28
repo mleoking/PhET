@@ -1,14 +1,13 @@
 <html>
 <p>
 <big><big><b>
-translation-utility 1.05.00
+translation-utility 1.06.00
 </b></big></big>
 <p>
 <b>What's new:</b>
 <p>
 <ul>
-<li>add sim version number to header in translation files (Unfuddle 865)
-<li>add header as a comment to Flash translation files (Unfuddle 864)
+<li>fix translation of common strings, broken in 1.05.00 (Unfuddle 870)
 </ul>
 <p>
 <b>Known problems:</b>
