@@ -29,8 +29,7 @@ public class TrackingMessage {
     public static final MessageType UNKNOWN_TYPE = new MessageType( "unknown" );
 
     public static final MessageType SIM_LAUNCHED = new MessageType( "sim-launched" );
-    public static final MessageType PREFERENCES_DIALOG_SHOWN = new MessageType( "preferences-dialog-opened" );
-    public static final MessageType PREFERENCES_DIALOG_HIDDEN = new MessageType( "preferences-dialog-hidden" );
+    public static String PREFERENCES_DIALOG_VISIBLE = "preferences-dialog-visible";
     public static final MessageType UPDATES_ENABLED = new MessageType( "updates-enabled" );
     public static final MessageType UPDATES_DISABLED = new MessageType( "updates-disabled" );
     public static final MessageType TRACKING_ENABLED = new MessageType( "tracking-enabled" );

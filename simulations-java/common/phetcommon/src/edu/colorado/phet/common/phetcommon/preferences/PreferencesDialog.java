@@ -81,19 +81,19 @@ public class PreferencesDialog extends JDialog {
 
     public void dispose() {
         super.dispose();
-        TrackingManager.postActionPerformedMessage( TrackingMessage.PREFERENCES_DIALOG_HIDDEN );
+        TrackingManager.postStateChangedMessage( TrackingMessage.PREFERENCES_DIALOG_VISIBLE, false );
     }
 
     public void setVisible( boolean b ) {
         super.setVisible( b );
-        TrackingManager.postActionPerformedMessage( b ? TrackingMessage.PREFERENCES_DIALOG_SHOWN : TrackingMessage.PREFERENCES_DIALOG_HIDDEN );
+        TrackingManager.postStateChangedMessage( TrackingMessage.PREFERENCES_DIALOG_VISIBLE, b );
     }
 
     private void savePreferences() {
         if ( updatePreferences.isEnabled() != updatesPreferencesPanel.isUpdatesEnabled() ) {
             updatePreferences.setEnabled( updatesPreferencesPanel.isUpdatesEnabled() );
             TrackingManager.postActionPerformedMessage( updatesPreferencesPanel.isUpdatesEnabled() ?
-                                         TrackingMessage.UPDATES_ENABLED : TrackingMessage.UPDATES_DISABLED );
+                                                        TrackingMessage.UPDATES_ENABLED : TrackingMessage.UPDATES_DISABLED );
         }
 
         if ( trackingPreferences.isEnabled() != trackingPreferencesPanel.isTrackingEnabled() ) {
@@ -102,7 +102,7 @@ public class PreferencesDialog extends JDialog {
             //we should never see a tracking disabled message, since tracking should be disabled before we try to send that message.
             //can track number of people who disable tracking by checking whether their preferences dialog was opened and then we never hear from them again.
             TrackingManager.postActionPerformedMessage( trackingPreferencesPanel.isTrackingEnabled() ?
-                                         TrackingMessage.TRACKING_ENABLED : TrackingMessage.TRACKING_DISABLED );
+                                                        TrackingMessage.TRACKING_ENABLED : TrackingMessage.TRACKING_DISABLED );
         }
 
     }

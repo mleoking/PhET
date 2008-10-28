@@ -24,7 +24,11 @@ public class TrackingManager {
     }
 
     public static void postMessage( TrackingMessage trackingMessage ) {
-        instance.postMessageImpl( trackingMessage );
+        //check for tracking enabled before message construction
+        // because may construction may cause java.security.AccessControlException under web start.
+        if ( instance.isTrackingEnabled() ) {
+            instance.postMessageImpl( trackingMessage );
+        }
     }
 
     private void postMessageImpl( final TrackingMessage trackingInformation ) {
@@ -60,12 +64,18 @@ public class TrackingManager {
     }
 
     public static void postActionPerformedMessage( TrackingMessage.MessageType messageType ) {
-        if ( instance.isTrackingEnabled() ) {//check for tracking enabled before message construction because may construction may cause java.security.AccessControlException under web start. 
-            postMessage( new ActionPerformedMessage( createSessionID(), messageType.getName() ) );
-        }
+        postMessage( new ActionPerformedMessage( createSessionID(), messageType.getName() ) );
     }
 
     private static SessionID createSessionID() {
         return new SessionID( instance.config );
+    }
+
+    public static void postStateChangedMessage( String name, boolean newValue ) {
+        postStateChangedMessage( name, Boolean.valueOf( newValue ) );
+    }
+
+    public static void postStateChangedMessage( String name, Object newValue ) {
+        postMessage( new StateChangedMessage( createSessionID(), name, null, newValue.toString() ) );
     }
 }
