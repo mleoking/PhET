@@ -61,7 +61,11 @@ public class TrackingManager {
 
     public static void postMessage( TrackingMessage.MessageType messageType ) {
         if ( instance.isTrackingEnabled() ) {//check for tracking enabled before message construction because may construction may cause java.security.AccessControlException under web start. 
-            postMessage( new TrackingMessage( instance.config, messageType ) );
+            postMessage( new ActionPerformedMessage( createSessionID(), messageType.getName() ) );
         }
+    }
+
+    private static SessionID createSessionID() {
+        return new SessionID( instance.config );
     }
 }
