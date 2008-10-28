@@ -1,12 +1,12 @@
 /*  */
 package edu.colorado.phet.quantumwaveinterference.view.gun;
 
-import edu.colorado.phet.quantumwaveinterference.controls.SRRWavelengthSlider;
-import edu.umd.cs.piccolo.PCanvas;
-
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
+import edu.colorado.phet.quantumwaveinterference.controls.SRRWavelengthSlider;
+import edu.umd.cs.piccolo.PCanvas;
 
 /**
  * User: Sam Reid
@@ -21,7 +21,7 @@ public class SRRWavelengthSliderComponent extends PCanvas {
         this.wavelengthSliderGraphic = wavelengthSliderGraphic;
         getLayer().addChild( wavelengthSliderGraphic );
         setBounds( 0, 0, 400, 400 );
-        setPreferredSize( new Dimension( (int)wavelengthSliderGraphic.getFullBounds().getWidth(), (int)wavelengthSliderGraphic.getFullBounds().getHeight() ) );
+        setPreferredSize( new Dimension( (int) wavelengthSliderGraphic.getFullBounds().getWidth(), (int) wavelengthSliderGraphic.getFullBounds().getHeight() ) );
         setPanEventHandler( null );
         setZoomEventHandler( null );
         setOpaque( false );
@@ -47,7 +47,9 @@ public class SRRWavelengthSliderComponent extends PCanvas {
 
     public void setOpaque( boolean isOpaque ) {
         super.setOpaque( isOpaque );
-        wavelengthSliderGraphic.setOpaque( isOpaque );
+        if ( wavelengthSliderGraphic != null ) {
+            wavelengthSliderGraphic.setOpaque( isOpaque );
+        }
     }
 
 }
