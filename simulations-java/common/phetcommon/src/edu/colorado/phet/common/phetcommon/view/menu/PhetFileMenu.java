@@ -26,6 +26,7 @@ import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 import edu.colorado.phet.common.phetcommon.updates.ApplicationConfigManualCheckForUpdates;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.view.PhetExit;
 
 /**
  * PhetFileMenu
@@ -58,8 +59,7 @@ public class PhetFileMenu extends JMenu {
         exitMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 TrackingManager.postActionPerformedMessage( TrackingMessage.FILE_EXIT_SELECTED );
-                TrackingManager.postSessionEndedMessage();
-                System.exit( 0 );
+                PhetExit.exit();
             }
         } );
         exitMI.setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.ExitMnemonic" ).charAt( 0 ) );

@@ -36,6 +36,31 @@ public class TrackingManager {
         }
     }
 
+    /**
+     * Blocks until all queued messages have been sent, up to a maximum of maxWaitTime milliseconds.
+     */
+    public static void waitFor( long maxWaitTimeMillis ) {
+        instance._waitFor( maxWaitTimeMillis );
+    }
+
+    //Currently implemented with polling, should probably be converted to non-polling solution
+    private void _waitFor( long maxWaitTimeMillis ) {
+        long startTime = System.currentTimeMillis();
+        while ( true ) {
+            if ( messageQueue.isEmpty() || System.currentTimeMillis() - startTime >= maxWaitTimeMillis ) {
+                return;
+            }
+            else {
+                try {
+                    Thread.sleep( 10 );
+                }
+                catch( InterruptedException e ) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     private void postMessageImpl( final TrackingMessage trackingMessage ) {
         if ( isTrackingEnabled() ) {
             messageQueue.add( trackingMessage );
@@ -103,7 +128,7 @@ public class TrackingManager {
     public static void postStateChangedMessage( String name, Object oldValue, Object newValue ) {
         postMessage( new StateChangedMessage( new SessionID( instance.config ), name, oldValue.toString(), newValue.toString() ) );
     }
-    
+
     public static void postSessionEndedMessage() {
         postMessage( new SessionEndedMessage( new SessionID( instance.config ) ) );
     }

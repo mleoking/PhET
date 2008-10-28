@@ -50,11 +50,10 @@ public class PhetFrame extends JFrame {
         super( application.getSimInfo().getName() + " (" + application.getSimInfo().getVersion().formatForTitleBar() + ")" );
         this.application = application;
 
-        setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
                 TrackingManager.postActionPerformedMessage( TrackingMessage.PHET_FRAME_CLOSING );
-                TrackingManager.postSessionEndedMessage();
+                PhetExit.exit();
             }
         } );
         this.addWindowListener( new WindowAdapter() {
