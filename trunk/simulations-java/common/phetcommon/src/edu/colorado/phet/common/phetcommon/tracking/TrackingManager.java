@@ -71,11 +71,11 @@ public class TrackingManager {
         return new SessionID( instance.config );
     }
 
-    public static void postStateChangedMessage( String name, boolean newValue ) {
-        postStateChangedMessage( name, Boolean.valueOf( newValue ) );
+    public static void postStateChangedMessage( String name, boolean oldValue, boolean newValue ) {
+        postStateChangedMessage( name, Boolean.valueOf( oldValue ), Boolean.valueOf( newValue ) );
     }
 
-    public static void postStateChangedMessage( String name, Object newValue ) {
-        postMessage( new StateChangedMessage( createSessionID(), name, null, newValue.toString() ) );
+    public static void postStateChangedMessage( String name, Object oldValue, Object newValue ) {
+        postMessage( new StateChangedMessage( createSessionID(), name, oldValue.toString(), newValue.toString() ) );
     }
 }
