@@ -5,7 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
+import edu.colorado.phet.common.phetcommon.tracking.SessionStartedMessage;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
 
 /**
@@ -109,8 +109,8 @@ public class PhetApplicationLauncher {
                         config.setApplicationLaunchFinishedAt( applicationLaunchFinishedAt );
 
                         TrackingManager.initInstance( config );
-                        TrackingManager.postMessage( TrackingMessage.SIM_LAUNCHED );
-                        new UpdateApplicationManager( config ).applicationStarted( app );
+                        TrackingManager.postMessage( new SessionStartedMessage( config ) );
+                        new UpdateApplicationManager( config ).applicationStarted( app );//todo: due to threading, sometimes this event arrives at server first
                     }
                     else {
                         new RuntimeException( "No applicationconstructor specified" ).printStackTrace();
