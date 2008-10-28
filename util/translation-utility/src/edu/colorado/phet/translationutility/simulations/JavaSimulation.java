@@ -85,7 +85,7 @@ public class JavaSimulation extends AbstractSimulation {
 
     public void saveStrings( Properties properties, File file ) throws SimulationException {
         try {
-            String projectName = getProjectName();
+            String projectName = getActualProjectName( getJarFileName() );
             String projectVersion = getProjectVersion( projectName + System.getProperty( "file.separator" ) + projectName + ".properties" ); // eg, faraday/faraday.properties
             String header = getTranslationFileHeader( file.getName(), projectName, projectVersion );
             PropertiesIO.write( properties, header, file );
@@ -100,11 +100,29 @@ public class JavaSimulation extends AbstractSimulation {
     }
     
     /*
-     * Gets the project name for the simulation
+     * Gets the project name for the simulation, adjusted to handle common strings.
+     * <p>
+     * PhET common strings are bundled into their own JAR file for use with translation utility.
+     * Because the PhET build process is so inflexible, the JAR file must be built & deployed
+     * via a dummy sim named "common-strings", found in trunk/simulations-java/simulations.
+     * If the project name is "common-strings", we really want to load the common strings
+     * which are in files with basename "phetcommon-strings".  So we use "phetcommon" 
+     * as the project name.
+     */
+    protected String getProjectName( String jarFileName ) throws SimulationException {
+        String projectName = getActualProjectName( jarFileName );
+        if ( projectName.equals( "common-strings" ) ) {
+            projectName = "phetcommon";
+        }
+        return projectName;
+    }
+    
+    /*
+     * Gets the project name for the simulation.
      * 
      * @param jarFileName
      */
-    protected String getProjectName( String jarFileName ) throws SimulationException {
+    private String getActualProjectName( String jarFileName ) throws SimulationException {
         
         String projectName = null;
         
@@ -121,17 +139,6 @@ public class JavaSimulation extends AbstractSimulation {
         
         if ( projectName == null ) {
             throw new SimulationException( "could not determine this simulation's project name: " + jarFileName );
-        }
-        
-        // HACK:
-        // PhET common strings are bundled into their own JAR file for use with translation utility.
-        // Because the PhET build process is so inflexible, the JAR file must be built & deployed
-        // via a dummy sim named "common-strings", found in trunk/simulations-java/simulations.
-        // If the project name is "common-strings", we really want to load the common strings
-        // which are in files with basename "phetcommon-strings".  So we use "phetcommon" 
-        // as the project name.
-        if ( projectName.equals( "common-strings" ) ) {
-            projectName = "phetcommon";
         }
         
         return projectName;
