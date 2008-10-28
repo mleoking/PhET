@@ -3,7 +3,7 @@ Change history for translation-utility
 ================================================================================
 
 DONE:
-********* version 1.06.00 (?)
+********* version 1.06.00 (25624)
 10/28/08 - [870] translation utility broken for common strings by [865]
 ********* version 1.05.00 (25607)
 10/27/08 - [864] Flash translation files are missing the header found in Java translation files
