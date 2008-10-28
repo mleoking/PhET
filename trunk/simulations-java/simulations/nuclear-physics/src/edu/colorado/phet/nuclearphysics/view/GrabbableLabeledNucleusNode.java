@@ -111,6 +111,6 @@ public class GrabbableLabeledNucleusNode extends LabeledNucleusNode {
          * 
          * @param node - a reference to this node.
          */
-        public void nodeReleased(PNode node);
+        public void nodeReleased(GrabbableLabeledNucleusNode node);
     }
 }

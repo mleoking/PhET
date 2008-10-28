@@ -39,6 +39,10 @@ public class BucketOfNucleiNode extends PNode {
     //------------------------------------------------------------------------
 
     private ArrayList _listeners = new ArrayList();
+    private PNode _backLayer;
+    private PNode _middleLayer;
+    private PNode _frontLayer;
+    private GrabbableLabeledNucleusNode.Listener _grabbableNucleusListener;
 	
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -64,12 +68,12 @@ public class BucketOfNucleiNode extends PNode {
 		
 		// Create a layering effect using PNodes so that we can create the
 		// illusion of three dimensions.
-		PNode backLayer = new PNode();
-		addChild( backLayer );
-		PNode middleLayer = new PNode();
-		addChild( middleLayer );
-		PNode frontLayer = new PNode();
-		addChild( frontLayer );
+		_backLayer = new PNode();
+		addChild( _backLayer );
+		_middleLayer = new PNode();
+		addChild( _middleLayer );
+		_frontLayer = new PNode();
+		addChild( _frontLayer );
 		
 		double ellipseVerticalSpan = height * 0.4;
 		
@@ -77,7 +81,7 @@ public class BucketOfNucleiNode extends PNode {
 		PhetPPath ellipseInBackOfBucket = new PhetPPath(new Ellipse2D.Double( 0, 0, width, ellipseVerticalSpan ));
 		ellipseInBackOfBucket.setStroke( LINE_STROKE );
 		ellipseInBackOfBucket.setPaint(innerPaint);
-		backLayer.addChild(ellipseInBackOfBucket);
+		_backLayer.addChild(ellipseInBackOfBucket);
 
 		// Draw the outside of the bucket.
 		GeneralPath bucketBodyPath = new GeneralPath();
@@ -90,34 +94,42 @@ public class BucketOfNucleiNode extends PNode {
 		PhetPPath bucketBody = new PhetPPath( bucketBodyPath );
 		bucketBody.setStroke( LINE_STROKE );
 		bucketBody.setPaint(outerPaint);
-		frontLayer.addChild(bucketBody);
+		_frontLayer.addChild(bucketBody);
 		
 		// Draw the handle.
 		PhetPPath bucketHandle = new PhetPPath( new QuadCurve2D.Double(width/2, ellipseVerticalSpan, width * 1.6, 
 				ellipseVerticalSpan * 2, width, ellipseVerticalSpan / 2) );
 		bucketHandle.setStroke( LINE_STROKE );
-		frontLayer.addChild(bucketHandle);
+		_frontLayer.addChild(bucketHandle);
 		
-		// Add the particles that will fill the bucket.
-		GrabbableLabeledNucleusNode nucleusNode = new GrabbableLabeledNucleusNode("Polonium Nucleus Small.png",
-                NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER, 
-                NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL, 
-                NuclearPhysicsConstants.POLONIUM_LABEL_COLOR );
-		nucleusNode.scale( width * NUCLEUS_WIDTH_PROPORTION / nucleusNode.getFullBoundsReference().width);
-		middleLayer.addChild(nucleusNode);
-		nucleusNode.addListener(new GrabbableLabeledNucleusNode.Listener(){
-	        public void nodeReleased(PNode node){
+		// Create the listener object that will be registered with the
+		// grabbable nuclei.  We do this in a non-anonymous way so that we can
+		// unregister later.
+		_grabbableNucleusListener = new GrabbableLabeledNucleusNode.Listener(){
+	        public void nodeReleased(GrabbableLabeledNucleusNode node){
 	        	System.out.println("Bucket got the release notification. " + node.getFullBoundsReference().x + "---" +
 	        			node.getFullBoundsReference().y);
 	        	if ( !isNodeInBucket( node ) ){
-	        		System.out.println("Node does NOT intersect.");
+	        		// The nucleus has been dragged out of the bucket, so
+	        		// notify the listeners and then forget about him.  He is
+	        		// someone else's problem now.
+	        		System.out.println("Nucleus removed from bucket.");
 	        		notifyNucleusExtracted( node );
+	        		node.removeListener(_grabbableNucleusListener);
 	        	}
 	        	else{
 	        		System.out.println("Node DOES intersect");
 	        	}
 	        }
-		});
+		};
+		
+		GrabbableLabeledNucleusNode nucleusNode = new GrabbableLabeledNucleusNode("Polonium Nucleus Small.png",
+                NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER, 
+                NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL, 
+                NuclearPhysicsConstants.POLONIUM_LABEL_COLOR );
+		nucleusNode.scale( width * NUCLEUS_WIDTH_PROPORTION / nucleusNode.getFullBoundsReference().width);
+		_middleLayer.addChild(nucleusNode);
+		nucleusNode.addListener(_grabbableNucleusListener);
 	}
 	
     //------------------------------------------------------------------------
@@ -148,7 +160,8 @@ public class BucketOfNucleiNode extends PNode {
     }
 
 	private boolean isNodeInBucket( PNode node ) {
-		return getGlobalFullBounds().intersects(node.getGlobalFullBounds());
+		return (_frontLayer.getGlobalFullBounds().intersects(node.getGlobalFullBounds()) &&
+				_backLayer.getGlobalFullBounds().intersects(node.getGlobalFullBounds()));
 	}
 	
     //------------------------------------------------------------------------
@@ -160,7 +173,7 @@ public class BucketOfNucleiNode extends PNode {
          * This informs the listener that an atomic nucleus was pulled out
          * of the bucket and dropped in the play area.
          * 
-         * @param nucleusNode - nucleus that was moved into the play area.
+         * @param _nucleusNode - nucleus that was moved into the play area.
          */
         public void nucleusExtracted(PNode nucleus);
     }
