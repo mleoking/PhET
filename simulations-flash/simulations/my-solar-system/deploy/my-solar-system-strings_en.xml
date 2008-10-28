@@ -52,9 +52,4 @@
   <string key="help7" value="" />
   <string key="help8" value="Unlike Runge-Kutta, the Verlet algorithm conserves energy in oscillatory systems,  producing stable orbits. As with any fixed-timestep algorithm, Verlet produces unphysical results when bodies get too close and the resulting accelerations are too large. To prevent this, bodies that get too close are fused in a momentum-conserving collision. " />
   <string key="help9" value="Copyright Project PhET and the Univerisity of Colorado at Boulder." />
-  <string key="" value="" />
-  <string key="" value="" />
-
-
- 
 </SimStrings>
