@@ -29,7 +29,7 @@ public class DefaultManualCheckForUpdates implements IManualUpdateChecker {
     }
 
     public void checkForUpdates() {
-        TrackingManager.postMessage( TrackingMessage.MANUAL_CHECK_FOR_UPDATES );
+        TrackingManager.postActionPerformedMessage( TrackingMessage.MANUAL_CHECK_FOR_UPDATES );
         UpdateManager updateManager = new UpdateManager( projectName, currentVersion );
         UpdateManager.Listener listener = new UpdateManager.Listener() {
             public void discoveredRemoteVersion( PhetVersion remoteVersion ) {

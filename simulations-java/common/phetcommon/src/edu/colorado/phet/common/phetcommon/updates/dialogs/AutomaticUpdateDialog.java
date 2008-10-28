@@ -78,7 +78,7 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
             public void actionPerformed( ActionEvent e ) {
                 updateTimer.setLastAskMeLaterTime( project, sim, System.currentTimeMillis() );
                 dispose();
-                TrackingManager.postMessage( TrackingMessage.ASK_ME_LATER_PRESSED );
+                TrackingManager.postActionPerformedMessage( TrackingMessage.ASK_ME_LATER_PRESSED );
             }
         } );
 
@@ -88,7 +88,7 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
             public void actionPerformed( ActionEvent e ) {
                 versionSkipper.skipThisVersion( config.getProjectName(), config.getFlavor(), newVersion );
                 dispose();
-                TrackingManager.postMessage( TrackingMessage.SKIP_UPDATE_PRESSED );
+                TrackingManager.postActionPerformedMessage( TrackingMessage.SKIP_UPDATE_PRESSED );
             }
         } );
 

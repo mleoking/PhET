@@ -60,7 +60,7 @@ public abstract class UpdateInstructionsDialog extends AbstractUpdateDialog {
         okButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 dispose();
-                TrackingManager.postMessage( TrackingMessage.DIRECTED_TO_WEBSITE_FOR_UPDATE );
+                TrackingManager.postActionPerformedMessage( TrackingMessage.DIRECTED_TO_WEBSITE_FOR_UPDATE );
                 OpenWebPageToNewVersion.openWebPageToNewVersion( project, sim );
             }
         } );
