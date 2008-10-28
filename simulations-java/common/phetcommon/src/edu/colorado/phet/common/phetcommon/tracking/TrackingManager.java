@@ -1,8 +1,8 @@
 package edu.colorado.phet.common.phetcommon.tracking;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Vector;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.preferences.DefaultTrackingPreferences;
@@ -12,7 +12,7 @@ public class TrackingManager {
     private PhetApplicationConfig config;
 
     public static TrackingManager instance;
-    private ArrayList messageQueue = new ArrayList();
+    private Vector messageQueue = new Vector();
     private TrackingThread trackingThread = new TrackingThread();
     private static final Object monitor = new Object();
 
@@ -38,16 +38,10 @@ public class TrackingManager {
 
     private void postMessageImpl( final TrackingMessage trackingMessage ) {
         if ( isTrackingEnabled() ) {
-            synchronized( this ) {
-                messageQueue.add( trackingMessage );
-                processQueue();
+            messageQueue.add( trackingMessage );
+            synchronized( monitor ) {
+                monitor.notifyAll();
             }
-        }
-    }
-
-    private void processQueue() {
-        synchronized( monitor ) {
-            monitor.notifyAll();
         }
     }
 
