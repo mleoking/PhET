@@ -13,7 +13,8 @@ package edu.colorado.phet.common.phetcommon.view.menu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.preferences.DefaultTrackingPreferences;
@@ -56,7 +57,8 @@ public class PhetFileMenu extends JMenu {
         JMenuItem exitMI = new JMenuItem( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.Exit" ) );
         exitMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                TrackingManager.postActionPerformedMessage( new TrackingMessage.MessageType( "file.exit" ) );
+                TrackingManager.postActionPerformedMessage( TrackingMessage.FILE_EXIT_SELECTED );
+                TrackingManager.postSessionEndedMessage();
                 System.exit( 0 );
             }
         } );

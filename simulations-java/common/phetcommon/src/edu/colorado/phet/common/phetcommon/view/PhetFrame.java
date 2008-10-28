@@ -10,7 +10,8 @@
  */
 package edu.colorado.phet.common.phetcommon.view;
 
-import java.awt.*;
+import java.awt.Container;
+import java.awt.HeadlessException;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -20,12 +21,12 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
 import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
+import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 import edu.colorado.phet.common.phetcommon.updates.ApplicationConfigManualCheckForUpdates;
 import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
 import edu.colorado.phet.common.phetcommon.view.menu.PhetFileMenu;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
-import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 
 /**
  * The PhetFrame is the JFrame for the PhetApplication.
@@ -52,7 +53,8 @@ public class PhetFrame extends JFrame {
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
-                TrackingManager.postActionPerformedMessage( new TrackingMessage.MessageType( "phet-frame-closing") );
+                TrackingManager.postActionPerformedMessage( TrackingMessage.PHET_FRAME_CLOSING );
+                TrackingManager.postSessionEndedMessage();
             }
         } );
         this.addWindowListener( new WindowAdapter() {
