@@ -68,16 +68,19 @@ public abstract class AbstractSimulation implements ISimulation {
     /**
      * Gets version information from a properties file in the jar.
      * @param propertiesFileName
-     * @return
+     * @return version string, null if we couldn't get the version info
      * @throws SimulationException
      */
     protected String getProjectVersion( String propertiesFileName ) throws SimulationException {
         Properties projectProperties = readPropertiesFromJar( getJarFileName(), propertiesFileName );
+        if ( projectProperties == null ) {
+            throw new SimulationException( "cannot find the version info file: " + propertiesFileName );
+        }
         String major = projectProperties.getProperty( "version.major" );
         String minor = projectProperties.getProperty( "version.minor" );
         String dev = projectProperties.getProperty( "version.dev" );
         String revision = projectProperties.getProperty( "version.revision" );
-        Object[] args = {major, minor, dev, revision};
+        Object[] args = { major, minor, dev, revision };
         return MessageFormat.format( "{0}.{1}.{2} ({3})", args );
     }
     
