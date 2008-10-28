@@ -29,11 +29,9 @@ public class TrackingMessage {
     public static final MessageType UNKNOWN_TYPE = new MessageType( "unknown" );
 
     public static final MessageType SIM_LAUNCHED = new MessageType( "sim-launched" );
-    public static String PREFERENCES_DIALOG_VISIBLE = "preferences-dialog-visible";
-    public static final MessageType UPDATES_ENABLED = new MessageType( "updates-enabled" );
-    public static final MessageType UPDATES_DISABLED = new MessageType( "updates-disabled" );
-    public static final MessageType TRACKING_ENABLED = new MessageType( "tracking-enabled" );
-    public static final MessageType TRACKING_DISABLED = new MessageType( "tracking-disabled" );//we should never see this message
+    public static final String PREFERENCES_DIALOG_VISIBLE = "preferences-dialog-visible";
+    public static final String UPDATES_ENABLED = "updates-enabled";
+    public static final String TRACKING_ENABLED = "tracking-enabled";
     public static final MessageType MANUAL_CHECK_FOR_UPDATES = new MessageType( "manual-check-for-updates" );
     public static final MessageType AUTO_CHECK_FOR_UPDATES = new MessageType( "auto-check-for-updates" );
     public static final MessageType DIRECTED_TO_WEBSITE_FOR_UPDATE = new MessageType( "directed-to-website-for-update" );
