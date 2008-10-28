@@ -24,6 +24,8 @@ import edu.colorado.phet.common.phetcommon.updates.ApplicationConfigManualCheckF
 import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
 import edu.colorado.phet.common.phetcommon.view.menu.PhetFileMenu;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
+import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 
 /**
  * The PhetFrame is the JFrame for the PhetApplication.
@@ -48,6 +50,11 @@ public class PhetFrame extends JFrame {
         this.application = application;
 
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        addWindowListener( new WindowAdapter() {
+            public void windowClosing( WindowEvent e ) {
+                TrackingManager.postActionPerformedMessage( new TrackingMessage.MessageType( "phet-frame-closing") );
+            }
+        } );
         this.addWindowListener( new WindowAdapter() {
 
             // Pause the clock if the simulation window is iconified.
