@@ -10,11 +10,16 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.QuadCurve2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
+import edu.colorado.phet.nuclearphysics.module.alphadecay.singlenucleus.SingleNucleusAlphaDecayModel.Listener;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PBounds;
 
 public class BucketOfNucleiNode extends PNode {
 	
@@ -30,7 +35,13 @@ public class BucketOfNucleiNode extends PNode {
 	public static final double NUCLEUS_WIDTH_PROPORTION = 0.3;
 	
     //------------------------------------------------------------------------
-    // Constructor
+    // Instance Data
+    //------------------------------------------------------------------------
+
+    private ArrayList _listeners = new ArrayList();
+	
+    //------------------------------------------------------------------------
+    // Constructor(s)
     //------------------------------------------------------------------------
 	
 	/**
@@ -88,11 +99,69 @@ public class BucketOfNucleiNode extends PNode {
 		frontLayer.addChild(bucketHandle);
 		
 		// Add the particles that will fill the bucket.
-		PNode nucleusNode = new GrabbableLabeledNucleusNode("Polonium Nucleus Small.png",
+		GrabbableLabeledNucleusNode nucleusNode = new GrabbableLabeledNucleusNode("Polonium Nucleus Small.png",
                 NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER, 
                 NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL, 
                 NuclearPhysicsConstants.POLONIUM_LABEL_COLOR );
 		nucleusNode.scale( width * NUCLEUS_WIDTH_PROPORTION / nucleusNode.getFullBoundsReference().width);
 		middleLayer.addChild(nucleusNode);
+		nucleusNode.addListener(new GrabbableLabeledNucleusNode.Listener(){
+	        public void nodeReleased(PNode node){
+	        	System.out.println("Bucket got the release notification. " + node.getFullBoundsReference().x + "---" +
+	        			node.getFullBoundsReference().y);
+	        	if ( !isNodeInBucket( node ) ){
+	        		System.out.println("Node does NOT intersect.");
+	        		notifyNucleusExtracted( node );
+	        	}
+	        	else{
+	        		System.out.println("Node DOES intersect");
+	        	}
+	        }
+		});
 	}
+	
+    //------------------------------------------------------------------------
+    // Public Methods
+    //------------------------------------------------------------------------
+	
+    /**
+     * This method allows the caller to register for notifications from this
+     * object.
+     * 
+     * @param listener
+     */
+    public void addListener(Listener listener)
+    {
+        if ( !_listeners.contains( listener ) ){
+            _listeners.add( listener );
+        }
+    }
+
+    //------------------------------------------------------------------------
+    // Private Methods
+    //------------------------------------------------------------------------
+    
+    private void notifyNucleusExtracted(PNode nucleusNode){
+        for (int i = 0; i < _listeners.size(); i++){
+            ((Listener)_listeners.get( i )).nucleusExtracted(nucleusNode);
+        }        
+    }
+
+	private boolean isNodeInBucket( PNode node ) {
+		return getGlobalFullBounds().intersects(node.getGlobalFullBounds());
+	}
+	
+    //------------------------------------------------------------------------
+    // Inner interfaces
+    //------------------------------------------------------------------------
+    
+    public static interface Listener {
+        /**
+         * This informs the listener that an atomic nucleus was pulled out
+         * of the bucket and dropped in the play area.
+         * 
+         * @param nucleusNode - nucleus that was moved into the play area.
+         */
+        public void nucleusExtracted(PNode nucleus);
+    }
 }

@@ -4,8 +4,10 @@ package edu.colorado.phet.nuclearphysics.view;
 
 import java.awt.Color;
 import java.awt.Cursor;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.nuclearphysics.view.BucketOfNucleiNode.Listener;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -18,7 +20,13 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author John Blanco
  */
 public class GrabbableLabeledNucleusNode extends LabeledNucleusNode {
+	
+    //------------------------------------------------------------------------
+    // Instance Data
+    //------------------------------------------------------------------------
 
+    private ArrayList _listeners = new ArrayList();
+	
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
@@ -38,41 +46,71 @@ public class GrabbableLabeledNucleusNode extends LabeledNucleusNode {
         
         // Add a handle for mouse drag events.
         addInputEventListener( new PDragEventHandler(){
-            
+
             public void drag(PInputEvent event){
+            	super.drag(event);
                 handleMouseDragEvent( event );
             }
             
             public void endDrag( PInputEvent event ){
-                super.endDrag(event);     
+                super.endDrag(event);
+                System.out.println("end of drag");
                 handleMouseEndDragEvent( event );
             }
         });
 	}
 	
     //----------------------------------------------------------------------------
+    // Public Methods
+    //----------------------------------------------------------------------------
+
+	/**
+     * This method allows the caller to register for notifications from this
+     * object.
+     * 
+     * @param listener
+     */
+    public void addListener(Listener listener)
+    {
+        if ( !_listeners.contains( listener ) ){
+            _listeners.add( listener );
+        }
+    }
+    
+    public boolean removeListener(Listener listener){
+        return _listeners.remove( listener );
+    }
+    
+    //----------------------------------------------------------------------------
     // Private Methods
     //----------------------------------------------------------------------------
 
     private void handleMouseDragEvent(PInputEvent event){
-        
-    	/*
-        PNode draggedNode = event.getPickedNode();
-        PDimension d = event.getDeltaRelativeTo(draggedNode);
-        draggedNode.localToParent(d);
-
-        // Move the particle based on the amount of mouse movement.
-        setOffset( getFullBoundsReference().getX() + d.width, getFullBoundsReference().getY() + d.height );
-        System.out.println("x = " + (getFullBoundsReference().getX() + d.width) + ", y = " + (getFullBoundsReference().getY() + d.height));
-        */
-        PNode draggedNode = event.getPickedNode();
-        PDimension d = event.getDeltaRelativeTo(draggedNode);
-        draggedNode.localToParent(d);
-        offset(d.getWidth(), d.getHeight());
     }
     
     private void handleMouseEndDragEvent(PInputEvent event){
-    	// TODO: JPB TBD - This is where the particle will be added to the model,
-    	// but for now it is stubbed.
+    	
+    	// Notify listeners that the user released this node.
+    	notifyNodeReleased();
+    }
+    
+    private void notifyNodeReleased(){
+        for (int i = 0; i < _listeners.size(); i++){
+            ((Listener)_listeners.get( i )).nodeReleased(this);
+        }        
+    }
+    
+    //------------------------------------------------------------------------
+    // Inner interfaces
+    //------------------------------------------------------------------------
+    
+    public static interface Listener {
+        /**
+         * This informs the listener that this node was released after having
+         * been dragged.
+         * 
+         * @param node - a reference to this node.
+         */
+        public void nodeReleased(PNode node);
     }
 }

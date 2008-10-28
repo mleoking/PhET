@@ -14,6 +14,7 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 
 /**
@@ -22,7 +23,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * 
  * @author John Blanco
  */
-public class LabeledNucleusNode extends PNode {
+public class LabeledNucleusNode extends PComposite {
     
     //------------------------------------------------------------------------
     // Class Data
