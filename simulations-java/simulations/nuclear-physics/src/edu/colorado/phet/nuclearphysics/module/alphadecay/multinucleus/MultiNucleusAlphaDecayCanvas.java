@@ -11,6 +11,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,6 +69,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     private AlphaDecayTimeChart _alphaDecayTimeChart;
     private GradientButtonNode _resetButtonNode;
+    private Point2D _bucketNodeLocation;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -109,7 +111,16 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
         // Add the bucket containing the atoms.
         BucketOfNucleiNode bucketNode = new BucketOfNucleiNode(BUCKET_WIDTH, BUCKET_HEIGHT);
         addWorldChild(bucketNode);
-        bucketNode.setOffset( CANVAS_WIDTH * 0.20, CANVAS_HEIGHT * 0.30 );
+        _bucketNodeLocation = new Point2D.Double(CANVAS_WIDTH * 0.20, CANVAS_HEIGHT * 0.30);
+        bucketNode.setOffset( _bucketNodeLocation );
+        
+        // Register with the bucket for notifications of nuclei being pulled
+        // out and dropped on the canvas.
+        bucketNode.addListener(new BucketOfNucleiNode.Listener(){
+        	public void nucleusExtracted(PNode nucleusNode){
+        		addNucleusNodeFromBucket(nucleusNode);
+        	}
+        });
 
         // Add a listener for when the canvas is resized.
         addComponentListener( new ComponentAdapter() {
@@ -140,5 +151,23 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
      */
     public void reset(){
         _alphaDecayTimeChart.reset();
+    }
+    
+    /**
+     * Add a node to the canvas that was extracted from the bucket.  The
+     * tricky part about this is making sure that the location is correct.
+     * @param nucleusNode
+     */
+    private void addNucleusNodeFromBucket(PNode nucleusNode){
+    	/*
+    	Point2D originalPosition = nucleusNode.getOffset();
+    	Point2D globalPosition = nucleusNode.localToGlobal(originalPosition);
+    	Point2D convertedPosition = getRoot().globalToLocal(globalPosition);
+    	nucleusNode.setOffset(convertedPosition);
+    	*/
+    	Point2D nucleusPosition = nucleusNode.getOffset();
+    	nucleusNode.setOffset(nucleusPosition.getX() + _bucketNodeLocation.getX(), 
+    			nucleusPosition.getY() + _bucketNodeLocation.getY());
+    	addWorldChild(nucleusNode);
     }
 }
