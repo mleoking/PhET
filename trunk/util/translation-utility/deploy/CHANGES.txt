@@ -3,6 +3,8 @@ Change history for translation-utility
 ================================================================================
 
 DONE:
+********* version 1.07.00 (25632)
+10/28/08 - [864, comment 1]  fix this problem by using '/' as the path separator for JAR resources on all platforms, not System.getProperty("file.separator")
 ********* version 1.06.00 (25624)
 10/28/08 - [870] translation utility broken for common strings by [865]
 ********* version 1.05.00 (25607)

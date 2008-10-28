@@ -1,13 +1,13 @@
 <html>
 <p>
 <big><big><b>
-translation-utility 1.06.00
+translation-utility 1.07.00
 </b></big></big>
 <p>
 <b>What's new:</b>
 <p>
 <ul>
-<li>fix translation of common strings, broken in 1.05.00 (Unfuddle 870)
+<li>[Unfuddle 864, comment 1] fix this problem by using '/' as the path separator for JAR resources on all platforms, not System.getProperty("file.separator")
 </ul>
 <p>
 <b>Known problems:</b>
