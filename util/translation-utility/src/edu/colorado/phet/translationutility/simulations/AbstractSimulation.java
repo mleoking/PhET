@@ -14,6 +14,7 @@ import java.util.jar.JarFile;
 import java.util.jar.JarInputStream;
 import java.util.jar.Manifest;
 
+import edu.colorado.phet.translationutility.TUConstants;
 import edu.colorado.phet.translationutility.TUResources;
 
 /**
@@ -29,7 +30,7 @@ public abstract class AbstractSimulation implements ISimulation {
     //----------------------------------------------------------------------------
     
     // temporary JAR file used to test translations
-    protected static final String TEST_JAR = System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.separator" ) + "phet-test-translation.jar";
+    protected static final String TEST_JAR = System.getProperty( "java.io.tmpdir" ) + TUConstants.FILE_PATH_SEPARATOR + "phet-test-translation.jar";
     
     //----------------------------------------------------------------------------
     // Instance data

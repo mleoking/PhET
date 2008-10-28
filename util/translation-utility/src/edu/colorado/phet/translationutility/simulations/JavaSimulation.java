@@ -86,7 +86,7 @@ public class JavaSimulation extends AbstractSimulation {
     public void saveStrings( Properties properties, File file ) throws SimulationException {
         try {
             String projectName = getActualProjectName( getJarFileName() );
-            String projectVersion = getProjectVersion( projectName + System.getProperty( "file.separator" ) + projectName + ".properties" ); // eg, faraday/faraday.properties
+            String projectVersion = getProjectVersion( projectName + TUConstants.RESOURCE_PATH_SEPARATOR + projectName + ".properties" ); // eg, faraday/faraday.properties
             String header = getTranslationFileHeader( file.getName(), projectName, projectVersion );
             PropertiesIO.write( properties, header, file );
         }
@@ -163,7 +163,7 @@ public class JavaSimulation extends AbstractSimulation {
      */
     private static String getPropertiesResourceName( String projectName, String languageCode ) {
         String basename = getPropertiesResourceBasename( projectName, languageCode );
-        return projectName + "/localization/" + basename;
+        return projectName + TUConstants.RESOURCE_PATH_SEPARATOR + "localization" + TUConstants.RESOURCE_PATH_SEPARATOR + basename;
     }
     
     /*
