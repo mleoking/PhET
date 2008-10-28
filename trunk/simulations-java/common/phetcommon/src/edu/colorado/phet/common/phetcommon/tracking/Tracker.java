@@ -26,17 +26,4 @@ public class Tracker {
         return PhetCommonConstants.PHET_HOME_URL + "/" + trackingPath + "/" + trackingScript + "?" + info.toPHP();
     }
 
-    public static void main( String[] args ) throws IOException {
-        Properties p = System.getProperties();
-        Enumeration keys = p.keys();
-        while ( keys.hasMoreElements() ) {
-            String o = keys.nextElement().toString();
-            System.out.println( o + " = " + p.getProperty( o ) );
-        }
-        PhetApplicationConfig config = new PhetApplicationConfig( args, "nuclear-physics", "alpha-radiation" );
-        String s = new Tracker().getTrackingURL( new TrackingMessage( config, TrackingMessage.SIM_LAUNCHED ) );
-        System.out.println( "s = " + s );
-        new Tracker().postMessage( new TrackingMessage( config, TrackingMessage.SIM_LAUNCHED ) );
-    }
-
 }
