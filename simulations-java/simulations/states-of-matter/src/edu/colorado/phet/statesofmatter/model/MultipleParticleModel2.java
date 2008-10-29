@@ -1764,11 +1764,6 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
         */
     }
 
-	private void updatePressure( double totalTopForce ) {
-        m_pressure = (1 - PRESSURE_DECAY_CALCULATION_WEIGHTING) * (totalTopForce / m_normalizedContainerWidth) + 
-        	PRESSURE_DECAY_CALCULATION_WEIGHTING * m_pressure;
-	}
-    
     /**
      * Runs one iteration of the Verlet implementation of the Lennard-Jones
      * force calculation on a set of triatomic molecules.
@@ -2138,197 +2133,6 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
     }
     
     /**
-     * Update the safety status of any molecules that may have previously been
-     * designated as unsafe.  An "unsafe" molecule is one that was injected
-     * into the container and was found to be so close to one or more of the
-     * other molecules that if its interaction forces were calculated, it
-     * would be given a ridiculously large amount of kinetic energy that might
-     * end up launching it out of the container.
-     */
-    private void updateMoleculeSafety(){
-     
-    	/*
-         * TODO: JPB TBD - This functionality should be moved into the MoleculeForceAndMotionCalculator objects.
-
-        for (int i = m_numberOfSafeAtoms; i < m_numberOfAtoms; i += m_atomsPerMolecule){
-            
-            boolean moleculeIsUnsafe = false;
-
-            // Find out if this molecule is still to close to all the "safe"
-            // molecules to become safe itself.
-            if (m_atomsPerMolecule == 1){
-                for (int j = 0; j < m_numberOfSafeAtoms; j++){
-                    if ( m_atomPositions[i].distance( m_atomPositions[j] ) < SAFE_INTER_MOLECULE_DISTANCE ){
-                        moleculeIsUnsafe = true;
-                        break;
-                    }
-                }
-            }
-            else{
-                for (int j = 0; j < m_numberOfSafeAtoms; j += m_atomsPerMolecule){
-                    if ( m_moleculeCenterOfMassPositions[i / m_atomsPerMolecule].distance( m_moleculeCenterOfMassPositions[j / m_atomsPerMolecule] ) < SAFE_INTER_MOLECULE_DISTANCE ){
-                        moleculeIsUnsafe = true;
-                        break;
-                    }
-                }
-            }
-            
-            if (!moleculeIsUnsafe){
-                // The molecule just tested was safe, so adjust the arrays
-                // accordingly.
-                if (i != m_numberOfSafeAtoms){
-                    // There is at least one unsafe atom/molecule in front of
-                    // this one in the arrays, so some swapping must be done
-                	// before the number of safe atoms can be incremented.
-                    
-                    // Swap the safe atom(s) with the first unsafe one.
-                    Point2D tempAtomPosition;
-                    
-                    for (int j = 0; j < m_atomsPerMolecule; j++){
-                        tempAtomPosition = m_atomPositions[m_numberOfSafeAtoms + j];
-                        m_atomPositions[m_numberOfSafeAtoms + j] = m_atomPositions[i + j];
-                        m_atomPositions[i + j] = tempAtomPosition;
-                    }
-                    
-                    Vector2D tempMoleculeVelocity;
-                    Vector2D tempMoleculeForce;
-                    
-                    int firstUnsafeMoleculeIndex = m_numberOfSafeAtoms / m_atomsPerMolecule;
-                    int safeMoleculeIndex = i / m_atomsPerMolecule;
-                    tempMoleculeVelocity = m_moleculeVelocities[firstUnsafeMoleculeIndex];
-                    tempMoleculeForce = m_moleculeForces[firstUnsafeMoleculeIndex];
-                    m_moleculeVelocities[firstUnsafeMoleculeIndex] = m_moleculeVelocities[safeMoleculeIndex];
-                    m_moleculeForces[firstUnsafeMoleculeIndex] = m_moleculeForces[safeMoleculeIndex];
-                    m_moleculeVelocities[safeMoleculeIndex] = tempMoleculeVelocity;
-                    m_moleculeForces[safeMoleculeIndex] = tempMoleculeForce;
-                    
-                    if ( m_atomsPerMolecule > 1 ){
-                    	// Swap the molecular parameters that are only used for composite molecules.
-
-                    	Point2D tempMoleculeCenterOfMassPosition;
-                        double tempMoleculeRotationAngle;
-                        double tempMoleculeRotationRate;
-
-                        tempMoleculeCenterOfMassPosition = m_moleculeCenterOfMassPositions[firstUnsafeMoleculeIndex];
-                        tempMoleculeRotationAngle = m_moleculeRotationAngles[firstUnsafeMoleculeIndex];
-                        tempMoleculeRotationRate = m_moleculeRotationRates[firstUnsafeMoleculeIndex];
-                        m_moleculeCenterOfMassPositions[firstUnsafeMoleculeIndex] = m_moleculeCenterOfMassPositions[safeMoleculeIndex];
-                        m_moleculeRotationAngles[firstUnsafeMoleculeIndex] = m_moleculeRotationAngles[safeMoleculeIndex];
-                        m_moleculeRotationRates[firstUnsafeMoleculeIndex] = m_moleculeRotationRates[safeMoleculeIndex];
-                        m_moleculeCenterOfMassPositions[safeMoleculeIndex] = tempMoleculeCenterOfMassPosition;
-                        m_moleculeRotationAngles[safeMoleculeIndex] = tempMoleculeRotationAngle;
-                        m_moleculeRotationRates[safeMoleculeIndex] = tempMoleculeRotationRate;
-                    }
-                    // Note: Don't worry about torque, since there isn't any until the molecules become "safe".
-                }
-                m_numberOfSafeAtoms += m_atomsPerMolecule;
-            }
-        }
-        */
-    }
-    
-    /**
-     * Calculate the force exerted on a particle at the provided position by
-     * the walls of the container.  The result is returned in the provided
-     * vector.
-     * 
-     * @param position - Current position of the particle.
-     * @param containerWidth - Width of the container where particles are held.
-     * @param containerHeight - Height of the container where particles are held.
-     * @param resultantForce - Vector in which the resulting force is returned.
-     */
-    private void calculateWallForce(Point2D position, double containerWidth, double containerHeight,
-            Vector2D resultantForce){
-        
-    	/*
-    	 * TODO: JPB TBD - This should be moved to the verlet strategies.
-        // Debug stuff - make sure this is being used correctly.
-        assert resultantForce != null;
-        assert position != null;
-        
-        // Non-debug run time check.
-        if ((resultantForce == null) || (position == null)){
-            return;
-        }
-        
-        double xPos = position.getX();
-        double yPos = position.getY();
-        
-        double minDistance = WALL_DISTANCE_THRESHOLD * 0.8;
-        double distance;
-        
-        if (yPos < StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT / m_particleDiameter){  // This handles the case where particles have blown out the top.
-	        // Calculate the force in the X direction.
-	        if (xPos < WALL_DISTANCE_THRESHOLD){
-	            // Close enough to the left wall to feel the force.
-	            if (xPos < minDistance){
-                    if ((xPos < 0) && (m_lidBlownOff)){
-                        // The particle is outside the container after the
-                        // container has exploded, so don't let the walls
-                        // exert any force.
-                        xPos = Double.POSITIVE_INFINITY;
-                    }
-                    else{
-                        // Limit the distance, and thus the force, if we are really close.
-                        xPos = minDistance;
-                    }
-                }
-	            resultantForce.setX( (48/(Math.pow(xPos, 13))) - (24/(Math.pow( xPos, 7))) );
-	            m_potentialEnergy += 4/(Math.pow(xPos, 12)) - 4/(Math.pow( xPos, 6)) + 1;
-	        }
-	        else if (containerWidth - xPos < WALL_DISTANCE_THRESHOLD){
-	            // Close enough to the right wall to feel the force.
-	            distance = containerWidth - xPos;
-	            if (distance < minDistance){
-                    if ((distance < 0) && (m_lidBlownOff)){
-                        // The particle is outside the container after the
-                        // container has exploded, so don't let the walls
-                        // exert any force.
-                        xPos = Double.POSITIVE_INFINITY;
-                    }
-                    else{
-                        distance = minDistance;
-                    }
-                }
-	            resultantForce.setX( -(48/(Math.pow(distance, 13))) + 
-	                    (24/(Math.pow( distance, 7))) );
-	            m_potentialEnergy += 4/(Math.pow(distance, 12)) - 
-	                    4/(Math.pow( distance, 6)) + 1;
-	        }
-        }
-        
-        // Calculate the force in the Y direction.
-        if (yPos < WALL_DISTANCE_THRESHOLD){
-            // Close enough to the bottom wall to feel the force.
-            if (yPos < minDistance){
-                if ((yPos < 0) && (!m_lidBlownOff)){
-                    // The particles are energetic enough to end up outside
-                    // the container, so consider it to be exploded.
-                    m_lidBlownOff = true;
-                    notifyContainerExploded();
-                }
-                yPos = minDistance;
-            }
-            if (!m_lidBlownOff || ((xPos > 0) && (xPos < containerWidth))){
-                // Only calculate the force if the particle is inside the
-                // container.
-                resultantForce.setY( 48/(Math.pow(yPos, 13)) - (24/(Math.pow( yPos, 7))) );
-                m_potentialEnergy += 4/(Math.pow(yPos, 12)) - 4/(Math.pow( yPos, 6)) + 1;
-            }
-        }
-        else if ( ( containerHeight - yPos < WALL_DISTANCE_THRESHOLD ) && !m_lidBlownOff ){
-            // Close enough to the top to feel the force.
-            distance = containerHeight - yPos;
-            if (distance < minDistance){
-                distance = minDistance;
-            }
-            resultantForce.setY( -48/(Math.pow(distance, 13)) + (24/(Math.pow( distance, 7))) );
-            m_potentialEnergy += 4/(Math.pow(distance, 12)) - 4/(Math.pow( distance, 6)) + 1;
-        }
-    	 */
-    }
-    
-    /**
      * Take the internal temperature value and convert it to Kelvin.  This
      * is dependent on the type of molecule selected.  The values and ranges
      * used in this method were derived from information provided by Paul
@@ -2428,50 +2232,12 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
         return pressureInAtmospheres;
     }
 
-    /**
-     * Calculate the temperature by examining the kinetic energy of the
-     * molecules.
-     * 
-     * @return
-     */
-    private double calculateTemperatureFromKineticEnergy(){
-        
-    	/*
-         * TODO: JPB TBD - This functionality should be moved into the molecule data set objects (I think).
-
-        double translationalKineticEnergy = 0;
-        double rotationalKineticEnergy = 0;
-        double numberOfMolecules = m_numberOfAtoms / m_atomsPerMolecule;
-        double kineticEnergyPerMolecule;
-        
-        if (m_atomsPerMolecule == 1){
-            for (int i = 0; i < m_numberOfAtoms; i++){
-                translationalKineticEnergy += ((m_moleculeVelocities[i].getX() * m_moleculeVelocities[i].getX()) + 
-                        (m_moleculeVelocities[i].getY() * m_moleculeVelocities[i].getY())) / 2;
-            }
-            kineticEnergyPerMolecule = translationalKineticEnergy / m_numberOfAtoms;
-        }
-        else{
-            for (int i = 0; i < m_numberOfAtoms / m_atomsPerMolecule; i++){
-                translationalKineticEnergy += 0.5 * m_moleculeMass * 
-                        (Math.pow( m_moleculeVelocities[i].getX(), 2 ) + Math.pow( m_moleculeVelocities[i].getY(), 2 ));
-                rotationalKineticEnergy += 0.5 * m_moleculeRotationalInertia * Math.pow(m_moleculeRotationRates[i], 2);
-            }            
-            kineticEnergyPerMolecule = 
-                (translationalKineticEnergy + rotationalKineticEnergy) / numberOfMolecules / 1.5;
-        }
-            
-        return kineticEnergyPerMolecule;
-        */
-    	return 0;
-    }
-    
     //------------------------------------------------------------------------
     // Inner Interfaces and Classes
     //------------------------------------------------------------------------
     
-    /* TODO: JPB TBD Commented out for abstract refactor thing 10/20/2008
-     * 
+    /* TODO: JPB TBD Commented out for abstract refactor thing 10/20/2008.  May want to add back
+     * and get rid of base class, since it is primarily there for enabling testing.
      */
 //    public static interface Listener {
 //        
