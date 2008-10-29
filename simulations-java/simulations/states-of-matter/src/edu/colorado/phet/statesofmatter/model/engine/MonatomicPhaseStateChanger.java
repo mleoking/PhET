@@ -99,7 +99,7 @@ public class MonatomicPhaseStateChanger extends AbstractPhaseStateChanger {
         
         // Assume that we've done our job correctly and that all the atoms are
         // in safe positions.
-        m_model.getMoleculeDataSetRef().setNumberOfSafeAtoms( numberOfAtoms );
+        m_model.getMoleculeDataSetRef().setNumberOfSafeMolecules( numberOfAtoms );
         
         // Sync up the atom positions with the molecule positions.
         m_positionUpdater.updateAtomPositions( m_model.getMoleculeDataSetRef() );
@@ -174,7 +174,7 @@ public class MonatomicPhaseStateChanger extends AbstractPhaseStateChanger {
         
         // Assume that we've done our job correctly and that all the atoms are
         // in safe positions.
-        m_model.getMoleculeDataSetRef().setNumberOfSafeAtoms( numberOfAtoms );
+        m_model.getMoleculeDataSetRef().setNumberOfSafeMolecules( numberOfAtoms );
         
         // Sync up the atom positions with the molecule positions.
         m_positionUpdater.updateAtomPositions( m_model.getMoleculeDataSetRef() );
@@ -236,7 +236,7 @@ public class MonatomicPhaseStateChanger extends AbstractPhaseStateChanger {
 
         // Assume that we've done our job correctly and that all the atoms are
         // in safe positions.
-        m_model.getMoleculeDataSetRef().setNumberOfSafeAtoms( numberOfAtoms );
+        m_model.getMoleculeDataSetRef().setNumberOfSafeMolecules( numberOfAtoms );
         
         // Sync up the atom positions with the molecule positions.
         m_positionUpdater.updateAtomPositions( m_model.getMoleculeDataSetRef() );

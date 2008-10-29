@@ -180,10 +180,10 @@ public abstract class AbstractVerletAlgorithm implements MoleculeForceAndMotionC
     protected void updateMoleculeSafety(){
     	
     	MoleculeForceAndMotionDataSet moleculeDataSet = m_model.getMoleculeDataSetRef();
-    	int numberOfSafeAtoms = moleculeDataSet.getNumberOfSafeAtoms();
-    	int numberOfAtoms = moleculeDataSet.getNumberOfAtoms();
+    	int numberOfSafeMolecules = moleculeDataSet.getNumberOfSafeMolecules();
+    	int numberOfMolecules = moleculeDataSet.getNumberOfMolecules();
 
-    	if (numberOfAtoms == numberOfSafeAtoms){
+    	if (numberOfMolecules == numberOfSafeMolecules){
     		// Nothing to do, so quit now.
     		return;
     	}
@@ -196,14 +196,14 @@ public abstract class AbstractVerletAlgorithm implements MoleculeForceAndMotionC
 		double [] moleculeRotationRates = moleculeDataSet.getMoleculeRotationRates();
 		double [] moleculeRotationAngles = moleculeDataSet.getMoleculeRotationAngles();
     	
-        for (int i = numberOfSafeAtoms; i < numberOfAtoms; i += moleculeDataSet.getAtomsPerMolecule()){
+        for (int i = numberOfSafeMolecules; i < numberOfMolecules; i++){
             
             boolean moleculeIsUnsafe = false;
 
             // Find out if this molecule is still too close to all the "safe"
             // molecules to become safe itself.
-            for (int j = 0; j < numberOfSafeAtoms; j += atomsPerMolecule){
-                if ( moleculeCenterOfMassPositions[i / atomsPerMolecule].distance( moleculeCenterOfMassPositions[j / atomsPerMolecule] ) < SAFE_INTER_MOLECULE_DISTANCE ){
+            for (int j = 0; j < numberOfSafeMolecules; j++){
+                if ( moleculeCenterOfMassPositions[i].distance( moleculeCenterOfMassPositions[j] ) < SAFE_INTER_MOLECULE_DISTANCE ){
                     moleculeIsUnsafe = true;
                     break;
                 }
@@ -212,53 +212,53 @@ public abstract class AbstractVerletAlgorithm implements MoleculeForceAndMotionC
             if (!moleculeIsUnsafe){
                 // The molecule just tested was safe, so adjust the arrays
                 // accordingly.
-                if (i != numberOfSafeAtoms){
+                if (i != numberOfSafeMolecules){
                     // There is at least one unsafe atom/molecule in front of
                     // this one in the arrays, so some swapping must be done
                 	// before the number of safe atoms can be incremented.
                     
-                    // Swap the safe atom(s) with the first unsafe one.
+                    // Swap the atoms that comprise the safe molecules with the
+                	// first unsafe one.
                     Point2D tempAtomPosition;
-                    
                     for (int j = 0; j < atomsPerMolecule; j++){
-                        tempAtomPosition = atomPositions[numberOfSafeAtoms + j];
-                        atomPositions[numberOfSafeAtoms + j] = atomPositions[i + j];
-                        atomPositions[i + j] = tempAtomPosition;
+                        tempAtomPosition = atomPositions[(numberOfSafeMolecules * atomsPerMolecule) + j];
+                        atomPositions[(numberOfSafeMolecules * atomsPerMolecule) + j] = 
+                        	atomPositions[(atomsPerMolecule * i) + j];
+                        atomPositions[(atomsPerMolecule * i) + j] = tempAtomPosition;
                     }
                     
+                    int firstUnsafeMoleculeIndex = numberOfSafeMolecules;
+                    int safeMoleculeIndex = i;
+                    
+                	Point2D tempMoleculeCenterOfMassPosition;
+                    tempMoleculeCenterOfMassPosition = moleculeCenterOfMassPositions[firstUnsafeMoleculeIndex];
+                    moleculeCenterOfMassPositions[firstUnsafeMoleculeIndex] = moleculeCenterOfMassPositions[safeMoleculeIndex];
+                    moleculeCenterOfMassPositions[safeMoleculeIndex] = tempMoleculeCenterOfMassPosition;
+                	
                     Vector2D tempMoleculeVelocity;
-                    Vector2D tempMoleculeForce;
-                    
-                    int firstUnsafeMoleculeIndex = numberOfSafeAtoms / atomsPerMolecule;
-                    int safeMoleculeIndex = i / atomsPerMolecule;
                     tempMoleculeVelocity = moleculeVelocities[firstUnsafeMoleculeIndex];
-                    tempMoleculeForce = moleculeForces[firstUnsafeMoleculeIndex];
                     moleculeVelocities[firstUnsafeMoleculeIndex] = moleculeVelocities[safeMoleculeIndex];
-                    moleculeForces[firstUnsafeMoleculeIndex] = moleculeForces[safeMoleculeIndex];
                     moleculeVelocities[safeMoleculeIndex] = tempMoleculeVelocity;
+
+                    Vector2D tempMoleculeForce;
+                    tempMoleculeForce = moleculeForces[firstUnsafeMoleculeIndex];
+                    moleculeForces[firstUnsafeMoleculeIndex] = moleculeForces[safeMoleculeIndex];
                     moleculeForces[safeMoleculeIndex] = tempMoleculeForce;
+
+                    double tempMoleculeRotationAngle;
+                    tempMoleculeRotationAngle = moleculeRotationAngles[firstUnsafeMoleculeIndex];
+                    moleculeRotationAngles[firstUnsafeMoleculeIndex] = moleculeRotationAngles[safeMoleculeIndex];
+                    moleculeRotationAngles[safeMoleculeIndex] = tempMoleculeRotationAngle;
+
+                    double tempMoleculeRotationRate;
+                    tempMoleculeRotationRate = moleculeRotationRates[firstUnsafeMoleculeIndex];
+                    moleculeRotationRates[firstUnsafeMoleculeIndex] = moleculeRotationRates[safeMoleculeIndex];
+                    moleculeRotationRates[safeMoleculeIndex] = tempMoleculeRotationRate;
                     
-                    if ( atomsPerMolecule > 1 ){
-                    	// Swap the molecular parameters that are only used for composite molecules.
-
-                    	Point2D tempMoleculeCenterOfMassPosition;
-                        double tempMoleculeRotationAngle;
-                        double tempMoleculeRotationRate;
-
-                        tempMoleculeCenterOfMassPosition = moleculeCenterOfMassPositions[firstUnsafeMoleculeIndex];
-                        tempMoleculeRotationAngle = moleculeRotationAngles[firstUnsafeMoleculeIndex];
-                        tempMoleculeRotationRate = moleculeRotationRates[firstUnsafeMoleculeIndex];
-                        moleculeCenterOfMassPositions[firstUnsafeMoleculeIndex] = moleculeCenterOfMassPositions[safeMoleculeIndex];
-                        moleculeRotationAngles[firstUnsafeMoleculeIndex] = moleculeRotationAngles[safeMoleculeIndex];
-                        moleculeRotationRates[firstUnsafeMoleculeIndex] = moleculeRotationRates[safeMoleculeIndex];
-                        moleculeCenterOfMassPositions[safeMoleculeIndex] = tempMoleculeCenterOfMassPosition;
-                        moleculeRotationAngles[safeMoleculeIndex] = tempMoleculeRotationAngle;
-                        moleculeRotationRates[safeMoleculeIndex] = tempMoleculeRotationRate;
-                    }
                     // Note: Don't worry about torque, since there isn't any until the molecules become "safe".
                 }
-                numberOfSafeAtoms += atomsPerMolecule;
-                moleculeDataSet.setNumberOfSafeAtoms(numberOfSafeAtoms);
+                numberOfSafeMolecules++;
+                moleculeDataSet.setNumberOfSafeMolecules(numberOfSafeMolecules);
             }
         }
     }

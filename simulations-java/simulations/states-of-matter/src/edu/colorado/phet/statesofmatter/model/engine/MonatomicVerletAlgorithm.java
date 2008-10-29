@@ -127,11 +127,11 @@ public class MonatomicVerletAlgorithm extends AbstractVerletAlgorithm {
         
         // If there are any atoms that are currently designated as "unsafe",
         // check them to see if they can be moved into the "safe" category.
-        if (moleculeDataSet.getNumberOfSafeAtoms() < numberOfAtoms){
+        if (moleculeDataSet.getNumberOfSafeMolecules() < numberOfAtoms){
             updateMoleculeSafety();
         }
         
-        double numberOfSafeAtoms = moleculeDataSet.getNumberOfSafeAtoms();
+        double numberOfSafeAtoms = moleculeDataSet.getNumberOfSafeMolecules();
         
         // Calculate the forces created through interactions with other
         // particles.
