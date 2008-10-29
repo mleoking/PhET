@@ -52,14 +52,11 @@ public class CursorHandler extends PBasicInputEventHandler {
             if ( !pressed ) {
                 component.setCursor( cursor );
             }
-            else {
-                lastEntered = cursor;
-            }
+            lastEntered=cursor;
         }
 
         public void mousePressed() {
             pressed = true;
-            lastEntered = null;
         }
 
         public void mouseReleased( JComponent component ) {
