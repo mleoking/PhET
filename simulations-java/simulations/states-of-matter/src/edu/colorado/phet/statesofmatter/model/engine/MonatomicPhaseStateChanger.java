@@ -6,8 +6,6 @@ import java.awt.geom.Point2D;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.statesofmatter.model.MoleculeForceAndMotionDataSet;
-import edu.colorado.phet.statesofmatter.model.MultipleParticleModel1;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel2;
 
 /**
@@ -65,7 +63,7 @@ public class MonatomicPhaseStateChanger extends AbstractPhaseStateChanger {
 	private void setPhaseSolid(){
 
 		// Set the temperature in the model.
-		m_model.setTemperature(SOLID_TEMPERATURE);
+		m_model.setTemperature(MultipleParticleModel2.SOLID_TEMPERATURE);
     	
 		// Create the solid form, a.k.a a crystal.
 		
@@ -78,7 +76,7 @@ public class MonatomicPhaseStateChanger extends AbstractPhaseStateChanger {
 
         double startingPosX = (m_model.getNormalizedContainerWidth() / 2) - (double)(particlesPerLayer / 2) - 
                 ((particlesPerLayer / 2) * DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL);
-        double startingPosY = 2.0 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL;
+        double startingPosY = 1.0 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL;
         
         int particlesPlaced = 0;
         double xPos, yPos;
@@ -89,7 +87,7 @@ public class MonatomicPhaseStateChanger extends AbstractPhaseStateChanger {
                     // Every other row is shifted a bit to create hexagonal pattern.
                     xPos += (1 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL) / 2;
                 }
-                yPos = startingPosY + (double)i * (1 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL)* 0.7071;
+                yPos = startingPosY + (double)i * (1 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL)* 0.866;
                 moleculeCenterOfMassPositions[(i * particlesPerLayer) + j].setLocation( xPos, yPos );
                 particlesPlaced++;
 
@@ -112,8 +110,8 @@ public class MonatomicPhaseStateChanger extends AbstractPhaseStateChanger {
 	 */
 	private void setPhaseLiquid(){
 
-		m_model.setTemperature( LIQUID_TEMPERATURE );
-        double temperatureSqrt = Math.sqrt( LIQUID_TEMPERATURE );
+		m_model.setTemperature( MultipleParticleModel2.LIQUID_TEMPERATURE );
+        double temperatureSqrt = Math.sqrt( MultipleParticleModel2.LIQUID_TEMPERATURE );
         
         // Set the initial velocity for each of the atoms based on the new
         // temperature.
@@ -188,8 +186,8 @@ public class MonatomicPhaseStateChanger extends AbstractPhaseStateChanger {
 	private void setPhaseGas(){
 
 		// Set the temperature for the new state.
-		m_model.setTemperature( GAS_TEMPERATURE );
-        double temperatureSqrt = Math.sqrt( GAS_TEMPERATURE );
+		m_model.setTemperature( MultipleParticleModel2.GAS_TEMPERATURE );
+        double temperatureSqrt = Math.sqrt( MultipleParticleModel2.GAS_TEMPERATURE );
         
 		int numberOfAtoms = m_model.getMoleculeDataSetRef().getNumberOfAtoms();
 		Point2D [] moleculeCenterOfMassPositions = m_model.getMoleculeDataSetRef().getMoleculeCenterOfMassPositions();
