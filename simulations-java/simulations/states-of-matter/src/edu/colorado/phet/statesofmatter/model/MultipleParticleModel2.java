@@ -60,6 +60,11 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
 	// Minimum container height fraction.
     public static final double MIN_CONTAINER_HEIGHT_FRACTION = 0.1;
 
+    // The internal model temperature values for the various states.
+	public static final double SOLID_TEMPERATURE = 0.15;
+	public static final double LIQUID_TEMPERATURE = 0.42;
+	public static final double GAS_TEMPERATURE = 1.0;
+
     // TODO: JPB TBD - These constants are here as a result of the first attempt
     // to integrate Paul Beale's IDL implementation of the Verlet algorithm.
     // Eventually some or all of them will be moved.
@@ -812,7 +817,7 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
         // for each time step.
         for (int i = 0; i < VERLET_CALCULATIONS_PER_CLOCK_TICK; i++ ){
         	m_moleculeForceAndMotionCalculator.updateForcesAndMotion();
-        	m_isoKineticThermostat.adjustTemperature();
+        	runThermostat();
         }
         
         // Sync up the positions of the normalized particles (the molecule data
@@ -833,7 +838,7 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
             if (newTemperature >= MAX_TEMPERATURE){
                 newTemperature = MAX_TEMPERATURE;
             }
-            else if ((newTemperature <= AbstractPhaseStateChanger.SOLID_TEMPERATURE * 0.9) && (m_heatingCoolingAmount < 0)){
+            else if ((newTemperature <= SOLID_TEMPERATURE * 0.9) && (m_heatingCoolingAmount < 0)){
             	// The temperature goes down more slowly as we begin to
             	// approach absolute zero.
             	newTemperature = m_temperatureSetPoint * 0.95;  // Multiplier determined empirically.
@@ -859,6 +864,19 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
             */
             notifyTemperatureChanged();
         }
+    }
+    
+    /**
+     * Run the appropriate thermostat based on the settings and the state of
+     * the simulation.
+     */
+    private void runThermostat(){
+    	if ((m_heatingCoolingAmount == 0) && (m_temperatureSetPoint < PhaseStateChanger.PHASE_LIQUID)) {
+    		m_andersenThermostat.adjustTemperature();
+    	}
+    	else{
+        	m_isoKineticThermostat.adjustTemperature();
+    	}
     }
     
     // TODO: JPB TBD - At end of refactoring effort, evaluation whether it makes more sense to have initializer classes.
@@ -897,8 +915,8 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
         // Initialize the number of atoms assuming that the solid form, when
         // made into a square, will consume about 1/3 the width of the
         // container.
-        int numberOfAtoms = (int)Math.pow( StatesOfMatterConstants.CONTAINER_BOUNDS.width / 
-                (( particleDiameter * 1.1 ) * 3), 2);
+        int numberOfAtoms = (int)Math.pow( Math.round(StatesOfMatterConstants.CONTAINER_BOUNDS.width / 
+                (( particleDiameter * 1.05 ) * 3)), 2);
         
         // Create the normalized data set for the one-atom-per-molecule case.
         m_moleculeDataSet = new MoleculeForceAndMotionDataSet( 1 );
