@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--vector-addition-strings_es.xml created Wed Oct 29 04:32:42 CET 2008 using: vector-addition 1.00.00 (22510), translation-utility 1.07.00 (25634)-->
+<SimStrings>
+<string key="showSum" value="Mostrar Suma"/>
+<string key="grabOne" value="Saca uno"/>
+<string key="clearAll" value="Borrar Todo"/>
+<string key="componentDisplay" value="Mostrar Componentes"/>
+<string key="y" value="y"/>
+<string key="style3" value="Estilo 3"/>
+<string key="none" value="Ningún"/>
+<string key="style2" value="Estilo 2"/>
+<string key="showGrid" value="Cuadrícula"/>
+<string key="x" value="x"/>
+<string key="style1" value="Estilo 1"/>
+</SimStrings>
