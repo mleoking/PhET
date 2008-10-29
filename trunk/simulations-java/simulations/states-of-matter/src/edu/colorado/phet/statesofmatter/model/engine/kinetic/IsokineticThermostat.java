@@ -85,8 +85,7 @@ public class IsokineticThermostat implements Thermostat {
         }
         
         // Adjust the temperature.
-        System.out.println("Kinetic energy = " + centersOfMassKineticEnergy + rotationalKineticEnergy);
-        adjustTemperature(centersOfMassKineticEnergy + rotationalKineticEnergy); 
+        adjustTemperature(centersOfMassKineticEnergy + rotationalKineticEnergy);
 	}
 
 	public void adjustTemperature( double kineticEnergy ) {
