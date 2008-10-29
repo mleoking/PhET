@@ -15,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
-import edu.colorado.phet.statesofmatter.model.engine.AbstractPhaseStateChanger;
 import edu.colorado.phet.statesofmatter.model.engine.AtomPositionUpdater;
 import edu.colorado.phet.statesofmatter.model.engine.EngineFacade;
 import edu.colorado.phet.statesofmatter.model.engine.MoleculeForceAndMotionCalculator;
@@ -111,6 +110,10 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
     // Range for deciding if the temperature is near the current set point.
     // The units are internal model units.
     private static final double TEMPERATURE_CLOSENESS_RANGE = 0.15;
+    
+    // Constant for deciding if a particle should be considered near to the
+    // edges of the container.
+    private static final double PARTICLE_EDGE_PROXIMITRY_RANGE = 2.5;
 
     // Constant used to limit how close the atoms are allowed to get to one
     // another so that we don't end up getting crazy big forces.
@@ -871,15 +874,42 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
      * the simulation.
      */
     private void runThermostat(){
-    	if ((m_heatingCoolingAmount == 0) && (m_temperatureSetPoint < PhaseStateChanger.PHASE_LIQUID)) {
+    	
+    	if (m_lidBlownOff){
+    		// Don't bother to run any thermostat if the lid is blown off -
+    		// just let those little particles run free!
+    		return;
+    	}
+    	
+    	if ( m_heightChangeCounter != 0 && particlesNearTop() ){
+    		// The height of the container is currently changing and there
+    		// are particles close enough to the top that they may be
+    		// interacting with it.  Since this can end up adding or removing
+    		// kinetic energy (i.e. heat) from the system, no thermostat is
+    		// run in this case.  Instead, the temperature determined by
+    		// looking at the kinetic energy of the molecules and that value
+    		// is used to set the system temperature set point.
+    		setTemperature( m_moleculeDataSet.calculateTemperatureFromKineticEnergy() );
+    	}
+    	else if ((m_thermostatType == ANDERSEN_THERMOSTAT) ||
+    	    ((m_thermostatType == ADAPTIVE_THERMOSTAT) && 
+    	     ((m_heatingCoolingAmount == 0) && (m_temperatureSetPoint < PhaseStateChanger.PHASE_LIQUID)))) {
+    		// The temperature isn't changing and it is below a certain
+    		// threshold, so use the Andersen thermostat.  This is done for
+    		// purely visual reasons - it looks better than the isokinetic in
+    		// these circumstances.
     		m_andersenThermostat.adjustTemperature();
     	}
-    	else{
+    	else if ((m_thermostatType == ISOKINETIC_THERMOSTAT) || (m_thermostatType == ADAPTIVE_THERMOSTAT)){
+    		// Use the isokinetic thermostat.
         	m_isoKineticThermostat.adjustTemperature();
     	}
+    	
+    	// Note that there will be some circumstances in which no thermostat
+    	// is run.  This is intentional.
     }
     
-    // TODO: JPB TBD - At end of refactoring effort, evaluation whether it makes more sense to have initializer classes.
+    // TODO: JPB TBD - At end of refactoring effort, evaluate whether it makes more sense to have initializer classes.
     /**
      * Initialize the various model components to handle a simulation in which
      * all the molecules are single atoms.
@@ -2491,6 +2521,29 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
         public void containerSizeChanged(){}
         public void moleculeTypeChanged(){}
         public void containerExploded(){}
+    }
+    
+    /**
+     * Determine whether there are particles close to the top of the
+     * container.  This can be important for determining whether movement
+     * of the top is causing temperature changes.
+     * 
+     * @return - true if particles are close, false if not
+     */
+    private boolean particlesNearTop(){
+    	
+    	Point2D [] moleculesPositions = m_moleculeDataSet.getMoleculeCenterOfMassPositions();
+    	double threshold = m_normalizedContainerHeight - PARTICLE_EDGE_PROXIMITRY_RANGE;
+    	boolean particlesNearTop = false;
+    	
+    	for (int i = 0; i < m_moleculeDataSet.getNumberOfMolecules(); i++){
+    		if ( moleculesPositions[i].getY() > threshold ){
+    			particlesNearTop = true;
+    			break;
+    		}
+    	}
+    	
+    	return particlesNearTop;
     }
     
     /**
