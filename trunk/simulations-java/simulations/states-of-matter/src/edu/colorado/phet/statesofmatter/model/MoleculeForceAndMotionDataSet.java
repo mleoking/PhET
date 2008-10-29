@@ -20,7 +20,7 @@ public class MoleculeForceAndMotionDataSet {
 	
 	// Attributes that describe the data set as a whole.
 	private int m_numberOfAtoms;
-    private int m_numberOfSafeAtoms;
+    private int m_numberOfSafeMolecules;
 
     // Attributes that apply to all elements of the data set.
     private int m_atomsPerMolecule;
@@ -92,11 +92,11 @@ public class MoleculeForceAndMotionDataSet {
 		return m_numberOfAtoms / m_atomsPerMolecule;
 	}
 	
-	public int getNumberOfSafeAtoms() {
-		return m_numberOfSafeAtoms;
+	public int getNumberOfSafeMolecules() {
+		return m_numberOfSafeMolecules;
 	}
-	public void setNumberOfSafeAtoms(int ofSafeAtoms) {
-		m_numberOfSafeAtoms = ofSafeAtoms;
+	public void setNumberOfSafeMolecules(int numSafeMolecules) {
+		m_numberOfSafeMolecules = numSafeMolecules;
 	}
     public Point2D[] getMoleculeCenterOfMassPositions() {
 		return m_moleculeCenterOfMassPositions;
