@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
+<!--plinko-probability-strings_es.xml created Tue Oct 28 04:17:21 CET 2008 using: plinko-probability 1.00.00 (22498), translation-utility 1.05.00 (25607)-->
 <SimStrings>
 <string key="none" value="nada"/>
 <string key="number" value="número"/>
@@ -9,6 +10,7 @@
 <string key="rows" value="hileras"/>
 <string key="sEquals" value="s ="/>
 <string key="sound" value="Sonido"/>
+<string key="xAvgEquals" value="xMedio ="/>
 <string key="oneBall" value="1 pelota"/>
 <string key="path" value="camino"/>
 <string key="histogramDisplay" value="Histograma"/>
@@ -16,6 +18,7 @@
 <string key="stop" value="Parar"/>
 <string key="ball" value="pelota"/>
 <string key="help" value="Ayuda"/>
+<string key="sMeanEquals" value="sMedio ="/>
 <string key="reset" value="borrar"/>
 <string key="show" value="Muestra:"/>
 <string key="autoScale" value="auto-escala"/>
