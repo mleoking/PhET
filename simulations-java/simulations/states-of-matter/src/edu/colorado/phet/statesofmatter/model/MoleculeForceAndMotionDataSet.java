@@ -184,6 +184,39 @@ public class MoleculeForceAndMotionDataSet {
 	}
 	
 	/**
+	 * Calculate the temperature of the system based on the total kinetic
+	 * energy of the molecules.
+	 * 
+	 * @return - temperature in model units (as opposed to Kelvin, Celsius, or whatever)
+	 */
+	public double calculateTemperatureFromKineticEnergy(){
+		
+        double translationalKineticEnergy = 0;
+        double rotationalKineticEnergy = 0;
+        double numberOfMolecules = m_numberOfAtoms / m_atomsPerMolecule;
+        double kineticEnergyPerMolecule;
+        
+        if (m_atomsPerMolecule == 1){
+            for (int i = 0; i < m_numberOfAtoms; i++){
+                translationalKineticEnergy += ((m_moleculeVelocities[i].getX() * m_moleculeVelocities[i].getX()) + 
+                        (m_moleculeVelocities[i].getY() * m_moleculeVelocities[i].getY())) / 2;
+            }
+            kineticEnergyPerMolecule = translationalKineticEnergy / m_numberOfAtoms;
+        }
+        else{
+            for (int i = 0; i < m_numberOfAtoms / m_atomsPerMolecule; i++){
+                translationalKineticEnergy += 0.5 * m_moleculeMass * 
+                        (Math.pow( m_moleculeVelocities[i].getX(), 2 ) + Math.pow( m_moleculeVelocities[i].getY(), 2 ));
+                rotationalKineticEnergy += 0.5 * m_moleculeRotationalInertia * Math.pow(m_moleculeRotationRates[i], 2);
+            }            
+            kineticEnergyPerMolecule = 
+                (translationalKineticEnergy + rotationalKineticEnergy) / numberOfMolecules / 1.5;
+        }
+            
+        return kineticEnergyPerMolecule;
+	}
+	
+	/**
 	 * Add a new molecule to the model.  The molecule must have been created
 	 * and initialized before being added.  It is considered to be "unsafe",
 	 * meaning that it can't interact with other molecules, until an external
