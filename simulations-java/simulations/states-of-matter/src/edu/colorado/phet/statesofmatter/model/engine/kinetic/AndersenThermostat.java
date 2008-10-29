@@ -35,10 +35,19 @@ public class AndersenThermostat implements Thermostat {
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
+	
+	/**
+	 * Constructor for the Andersen thermostat.
+	 * 
+	 * @param moleculeDataSet - Data set on which operations will be performed.
+	 * @param minTemperature - The temperature that should be considered
+	 * considered absolute zero, below which motion should cease.
+	 */
 	public AndersenThermostat( MoleculeForceAndMotionDataSet moleculeDataSet, double minTemperature ){
 		
 		m_moleculeDataSet = moleculeDataSet;
 		m_targetTemperature = MultipleParticleModel2.INITIAL_TEMPERATURE;
+		m_minModelTemperature = minTemperature;
 		m_rand = new Random();
 		
 		// Set up references to the various arrays within the data set so that
