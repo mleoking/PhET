@@ -187,5 +187,11 @@ public class MonatomicVerletAlgorithm extends AbstractVerletAlgorithm {
         
         // Synchronize the molecule and atom positions.
         m_positionUpdater.updateAtomPositions( moleculeDataSet );
+        
+        // Replace the new forces with the old ones.
+        for (int i = 0; i < numberOfAtoms; i++){
+            moleculeForces[i].setComponents( nextMoleculeForces[i].getX(), nextMoleculeForces[i].getY() );
+        }
+
 	}
 }
