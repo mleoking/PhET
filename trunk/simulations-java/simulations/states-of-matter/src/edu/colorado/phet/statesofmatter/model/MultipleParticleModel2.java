@@ -23,6 +23,7 @@ import edu.colorado.phet.statesofmatter.model.engine.MonatomicAtomPositionUpdate
 import edu.colorado.phet.statesofmatter.model.engine.MonatomicPhaseStateChanger;
 import edu.colorado.phet.statesofmatter.model.engine.MonatomicVerletAlgorithm;
 import edu.colorado.phet.statesofmatter.model.engine.PhaseStateChanger;
+import edu.colorado.phet.statesofmatter.model.engine.kinetic.AndersenThermostat;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.IsokineticThermostat;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyAdjuster;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyCapper;
@@ -139,6 +140,7 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
     private MoleculeForceAndMotionCalculator m_moleculeForceAndMotionCalculator;
     private PhaseStateChanger m_phaseStateChanger;
     private Thermostat m_isoKineticThermostat;
+    private Thermostat m_andersenThermostat;
     
     // Attributes of the container and simulation as a whole.
     private double m_particleContainerHeight;
@@ -248,6 +250,10 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
 
         if ( m_isoKineticThermostat != null ){
         	m_isoKineticThermostat.setTargetTemperature( newTemperature );
+        }
+        
+        if ( m_andersenThermostat != null ){
+        	m_andersenThermostat.setTargetTemperature( newTemperature );
         }
         	
         notifyTemperatureChanged();
@@ -837,6 +843,7 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
             }
             m_temperatureSetPoint = newTemperature;
             m_isoKineticThermostat.setTargetTemperature( m_temperatureSetPoint );
+            m_andersenThermostat.setTargetTemperature( m_temperatureSetPoint );
             
             /*
              * TODO JPB TBD - This code causes temperature to decrease towards but
@@ -902,6 +909,7 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
         m_atomPositionUpdater = new MonatomicAtomPositionUpdater();
         m_moleculeForceAndMotionCalculator = new MonatomicVerletAlgorithm( this );
         m_isoKineticThermostat = new IsokineticThermostat( m_moleculeDataSet, m_minModelTemperature );
+        m_andersenThermostat = new AndersenThermostat( m_moleculeDataSet, m_minModelTemperature );
         
         // Create the individual atoms and add them to the data set.
         for (int i = 0; i < numberOfAtoms; i++){
