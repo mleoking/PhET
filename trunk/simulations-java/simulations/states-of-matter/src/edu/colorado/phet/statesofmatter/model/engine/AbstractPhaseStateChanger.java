@@ -17,7 +17,7 @@ public abstract class AbstractPhaseStateChanger implements PhaseStateChanger {
     // Class Data
     //----------------------------------------------------------------------------
 
-    protected static final double DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL = 0.15;  // In particle diameters.
+    protected static final double DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL = 0.12;  // In particle diameters.
 
 	//----------------------------------------------------------------------------
     // Instance Data
