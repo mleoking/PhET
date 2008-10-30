@@ -1,10 +1,7 @@
 package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
@@ -40,6 +37,7 @@ public class CCKSimulationPanel extends PhetPCanvas {
     private ChartSetNode chartSetNode;
     private TimeScaleNode timeScaleNode;
     private PSwing grabBagPSwing;
+    private RightClickHelpNode rightClickHelpNode;
 
     public CCKSimulationPanel( CCKModel model, final CCKModule module, IClock clock ) {
         super( new Dimension( 10, 10 ) );
@@ -66,6 +64,9 @@ public class CCKSimulationPanel extends PhetPCanvas {
 
         cckHelpSuite = new CCKHelpSuite( this, module );
         addScreenChild( cckHelpSuite );
+
+        rightClickHelpNode = new RightClickHelpNode( this, module );
+        addScreenChild( rightClickHelpNode );
 
         addKeyListener( new SimpleKeyEvent( KeyEvent.VK_SPACE ) {
             public void invoke() {

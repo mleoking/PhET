@@ -14,7 +14,7 @@ public class CCKStrings {
         return CCKResources.getString( s );
     }
 
-    public static String toHTML( String key ) {
+    public static String getHTML( String key ) {
         String text = getString( key );
         return "<html>" + text.replaceAll( "\n", "<br>" ) + "</html>";
     }
