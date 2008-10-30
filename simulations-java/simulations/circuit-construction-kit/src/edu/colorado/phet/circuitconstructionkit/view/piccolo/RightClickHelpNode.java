@@ -20,8 +20,9 @@ public class RightClickHelpNode extends PhetPNode {
     private CCKSimulationPanel cckSimulationPanel;
     private JunctionHelpNode junctionHelpNode;
     private boolean dragging = false;
+    private boolean everBeenMoreThanOneWire = false;
 
-    public RightClickHelpNode( CCKSimulationPanel cckSimulationPanel, CCKModule module ) {
+    public RightClickHelpNode( CCKSimulationPanel cckSimulationPanel, final CCKModule module ) {
         this.module = module;
         this.cckSimulationPanel = cckSimulationPanel;
         String text = PhetUtilities.isMacintosh() ? CCKStrings.getString( "CCKHelp.right-click-help-mac" ) : CCKStrings.getString( "CCKHelp.right-click-help" );
@@ -57,17 +58,21 @@ public class RightClickHelpNode extends PhetPNode {
                 dragging = false;
                 update();
             }
-        } );                                   
+        } );
         module.getCircuit().addCircuitListener( new CircuitListenerAdapter() {
             public void selectionChanged() {
                 update();
+            }
+
+            public void branchAdded( Branch branch ) {
+                everBeenMoreThanOneWire = everBeenMoreThanOneWire || module.getCircuit().getBranches().length >= 2 || ( module.getCircuit().getBranches().length == 1 && !( branch instanceof Wire ) );
             }
         } );
         update();
     }
 
     private void update() {
-        boolean branchHelpVisible = !userRightClicked && isNonWireSelected() && !dragging;
+        boolean branchHelpVisible = !userRightClicked && isNonWireSelected() && !dragging && hasThereEverBeenMoreThanOneWire();
         branchHelpNode.setVisible( branchHelpVisible );
         PNode follow = getFirstSelectedBranch();
         if ( follow != null ) {
@@ -80,6 +85,10 @@ public class RightClickHelpNode extends PhetPNode {
         if ( followJunction != null ) {
             junctionHelpNode.setFollowedNode( followJunction );
         }
+    }
+
+    private boolean hasThereEverBeenMoreThanOneWire() {
+        return everBeenMoreThanOneWire;
     }
 
     private PNode getFirstSelectedJunction() {
@@ -110,7 +119,7 @@ public class RightClickHelpNode extends PhetPNode {
         Branch[] b = module.getCircuit().getSelectedBranches();
         for ( int i = 0; i < b.length; i++ ) {
             Branch branch = b[i];
-            if ( !( branch instanceof Wire ) ||true) {
+            if ( !( branch instanceof Wire ) || true ) {
                 return true;
             }
         }
