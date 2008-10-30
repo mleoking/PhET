@@ -10,9 +10,10 @@ import java.text.MessageFormat;
 import java.util.Properties;
 
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 
-public class PhetPreferences {
+public class PhetPreferences implements IProguardKeepClass{
 
     private static final String SEPARATOR = System.getProperty( "file.separator" );
     private static final File PREFERENCES_FILE = new File( System.getProperty( "user.home" ) + SEPARATOR + ".phet" + SEPARATOR + "preferences.properties" );
