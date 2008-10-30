@@ -1,0 +1,42 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: October 27-29, 2008 (Mon-Wed)
+
+ACCOMPLISHMENTS:
+
+  common code:
+  - work on tracking and updates features with Sam
+    
+  translations:
+  - identified bad translations that are being checked in
+  - add sim version # to string files created by translation utility
+  - deployed new versions of translation-utility
+  - fix bogus entries in Flash translation files
+  - identified problem with resistance-in-a-wire (translations not checked in)
+  - fix Spanish translation of faraday
+  
+  misc:
+  - misc email discussions
+  - created several new Unfuddle tickets
+  - verified and closed Unfuddle tickets for Sam
+  
+WHAT'S NEXT:
+    
+  - work on high-priority common code tickets (see Unfuddle)
+  - port microwaves and greenhouse to phetcommon trunk [562]
+  - work on faraday bugs [744,721]
+  - finish glaciers 2.00 (see Unfuddle high-priority tickets)
+  - start on density sim prototyping
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+  November 25-28
+  January 9-12
+  
+  
+--
