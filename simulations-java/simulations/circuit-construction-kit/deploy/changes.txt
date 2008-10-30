@@ -1,3 +1,6 @@
+New in 3.14.01
+Added right click help message
+
 10-8-2008: use PhetApplicationConfig.launchSim
 
 New in 3.13.24
