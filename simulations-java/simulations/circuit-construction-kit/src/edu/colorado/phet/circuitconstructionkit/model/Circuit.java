@@ -181,6 +181,24 @@ public class Circuit {
         this.allowUserEdits = allowUserEdits;
     }
 
+    public Branch[] getNeighbors( Branch branch ) {
+        Branch[] n0 = getAdjacentBranches( branch.getStartJunction() );
+        Branch[] n1 = getAdjacentBranches( branch.getEndJunction() );
+        ArrayList n = new ArrayList();
+        for ( int i = 0; i < n0.length; i++ ) {
+            if ( n0[i] != branch) {
+                n.add( n0[i] );
+            }
+        }
+        for ( int i = 0; i < n1.length; i++ ) {
+            if ( n1[i] != branch) {
+                n.add( n1[i] );
+            }
+        }
+
+        return (Branch[]) n.toArray( new Branch[n.size()] );
+    }
+
     class EditingObserver implements SimpleObserver {
         public void update() {
             notifyEditingChanged();
