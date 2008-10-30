@@ -18,7 +18,7 @@ public class RightClickHelpNode extends PhetPNode {
     private CCKModule module;
     private TrackingHelpNode branchHelpNode;
     private CCKSimulationPanel cckSimulationPanel;
-    private JunctionHelpNode junctionHelpNode;
+    private TrackingHelpNode junctionHelpNode;
     private boolean dragging = false;
     private boolean everBeenMoreThanOneWire = false;
 
@@ -30,7 +30,7 @@ public class RightClickHelpNode extends PhetPNode {
         branchHelpNode = new TrackingHelpNode( cckSimulationPanel, module, text, TrackingHelpNode.BOTTOM_CENTER );
         addChild( branchHelpNode );
 
-        junctionHelpNode = new JunctionHelpNode( cckSimulationPanel, module, text );
+        junctionHelpNode = new TrackingHelpNode( cckSimulationPanel, module, text ,TrackingHelpNode.RIGHT_BOTTOM );
         addChild( junctionHelpNode );
 
         cckSimulationPanel.addMouseListener( new MouseAdapter() {
