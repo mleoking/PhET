@@ -2,7 +2,6 @@ package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.CCKStrings;
@@ -11,7 +10,6 @@ import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.model.components.Wire;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.umd.cs.piccolo.PNode;
 
 public class RightClickHelpNode extends PhetPNode {
     private boolean userRightClicked = false;
@@ -20,7 +18,7 @@ public class RightClickHelpNode extends PhetPNode {
     private CCKSimulationPanel cckSimulationPanel;
     private TrackingHelpNode junctionHelpNode;
     private boolean dragging = false;
-    private boolean everBeenMoreThanOneWire = false;
+//    private boolean everBeenMoreThanOneWire = false;
 
     public RightClickHelpNode( CCKSimulationPanel cckSimulationPanel, final CCKModule module ) {
         this.module = module;
@@ -30,15 +28,15 @@ public class RightClickHelpNode extends PhetPNode {
         branchHelpNode = new TrackingHelpNode( cckSimulationPanel, module, text, TrackingHelpNode.BOTTOM_CENTER );
         addChild( branchHelpNode );
 
-        junctionHelpNode = new TrackingHelpNode( cckSimulationPanel, module, text ,TrackingHelpNode.RIGHT_BOTTOM );
+        junctionHelpNode = new TrackingHelpNode( cckSimulationPanel, module, text, TrackingHelpNode.RIGHT_BOTTOM );
         addChild( junctionHelpNode );
 
         cckSimulationPanel.addMouseListener( new MouseAdapter() {
-            public void mouseReleased( MouseEvent e ) {
-                dragging = false;
-                update();
-
-            }
+//            public void mouseReleased( MouseEvent e ) {
+//                dragging = false;
+//                update();
+//
+//            }
 
             public void mousePressed( MouseEvent e ) {
                 if ( e.isMetaDown() ) {//check for right click
@@ -48,50 +46,64 @@ public class RightClickHelpNode extends PhetPNode {
                 }
             }
         } );
-        cckSimulationPanel.addMouseMotionListener( new MouseMotionListener() {
-            public void mouseDragged( MouseEvent e ) {
-                dragging = true;
-                update();
-            }
-
-            public void mouseMoved( MouseEvent e ) {
-                dragging = false;
-                update();
-            }
-        } );
+//        cckSimulationPanel.addMouseMotionListener( new MouseMotionListener() {
+//            public void mouseDragged( MouseEvent e ) {
+//                dragging = true;
+//                update();
+//            }
+//
+//            public void mouseMoved( MouseEvent e ) {
+//                dragging = false;
+//                update();
+//            }
+//        } );
         module.getCircuit().addCircuitListener( new CircuitListenerAdapter() {
             public void selectionChanged() {
                 update();
             }
 
-            public void branchAdded( Branch branch ) {
-                everBeenMoreThanOneWire = everBeenMoreThanOneWire || module.getCircuit().getBranches().length >= 2 || ( module.getCircuit().getBranches().length == 1 && !( branch instanceof Wire ) );
-            }
+//            public void branchAdded( Branch branch ) {
+//                everBeenMoreThanOneWire = everBeenMoreThanOneWire || module.getCircuit().getBranches().length >= 2 || ( module.getCircuit().getBranches().length == 1 && !( branch instanceof Wire ) );
+//            }
         } );
         update();
     }
 
     private void update() {
-        boolean branchHelpVisible = !userRightClicked && isNonWireSelected() && !dragging && hasThereEverBeenMoreThanOneWire();
-        branchHelpNode.setVisible( branchHelpVisible );
-        PNode follow = getFirstSelectedBranch();
+        BranchNode follow = getFirstSelectedBranch();
         if ( follow != null ) {
+            boolean branchHelpVisible = !userRightClicked && isConnectedToSomething( follow ) && isNonWireSelected() && !dragging;
+            branchHelpNode.setVisible( branchHelpVisible );
             branchHelpNode.setFollowedNode( follow );
         }
+        else {
+            branchHelpNode.setVisible( false );
+        }
 
-        boolean junctionHelpVisible = !userRightClicked && isJunctionSelected() && !dragging;
-        junctionHelpNode.setVisible( junctionHelpVisible );
-        PNode followJunction = getFirstSelectedJunction();
+        JunctionNode followJunction = getFirstSelectedJunction();
         if ( followJunction != null ) {
+            boolean junctionHelpVisible = !userRightClicked && isConnectedToTwoThings( followJunction ) & isJunctionSelected() && !dragging;
+            junctionHelpNode.setVisible( junctionHelpVisible );
             junctionHelpNode.setFollowedNode( followJunction );
+        }
+        else {
+            junctionHelpNode.setVisible( false );
         }
     }
 
-    private boolean hasThereEverBeenMoreThanOneWire() {
-        return everBeenMoreThanOneWire;
+    private boolean isConnectedToTwoThings( JunctionNode followJunction ) {
+        return module.getCircuit().getAdjacentBranches( followJunction.getJunction() ).length >= 2;
     }
 
-    private PNode getFirstSelectedJunction() {
+    private boolean isConnectedToSomething( BranchNode follow ) {
+        return module.getCircuit().getNeighbors( follow.getBranch() ).length > 0;
+    }
+
+//    private boolean hasThereEverBeenMoreThanOneWire() {
+//        return everBeenMoreThanOneWire;
+//    }
+
+    private JunctionNode getFirstSelectedJunction() {
         for ( int i = 0; i < cckSimulationPanel.getCircuitNode().getNumJunctionNodes(); i++ ) {
             JunctionNode node = cckSimulationPanel.getCircuitNode().getJunctionNode( i );
             if ( node.getJunction().isSelected() ) {
@@ -101,7 +113,7 @@ public class RightClickHelpNode extends PhetPNode {
         return null;
     }
 
-    private PNode getFirstSelectedBranch() {
+    private BranchNode getFirstSelectedBranch() {
         for ( int i = 0; i < cckSimulationPanel.getCircuitNode().getNumBranchNodes(); i++ ) {
             BranchNode branchNode = cckSimulationPanel.getCircuitNode().getBranchNode( i );
             if ( branchNode.getBranch().isSelected() ) {
