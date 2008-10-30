@@ -29,8 +29,8 @@ public class TrackingManager {
     }
 
     public static void postMessage( TrackingMessage trackingMessage ) {
-        //check for tracking enabled before message construction
-        // because may construction may cause java.security.AccessControlException under web start.
+        // check for tracking enabled before message construction
+        // because construction may cause java.security.AccessControlException under web start.
         if ( instance.isTrackingEnabled() ) {
             instance.postMessageImpl( trackingMessage );
         }
@@ -94,9 +94,10 @@ public class TrackingManager {
 
     private void postAllMessages() {
         try {
-            while ( TrackingManager.this.messageQueue.size() > 0 ) {
-                TrackingMessage m = (TrackingMessage) TrackingManager.this.messageQueue.remove( 0 );
+            while ( messageQueue.size() > 0 ) {
+                TrackingMessage m = (TrackingMessage) messageQueue.get( 0 );
                 new Tracker().postMessage( m );
+                messageQueue.remove( m ); // remove message from queue after it has been sent, so that messageQueue won't be considered empty prematurely
             }
         }
         catch( IOException e ) {
