@@ -2,6 +2,7 @@ package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.CCKStrings;
@@ -18,6 +19,7 @@ public class RightClickHelpNode extends PhetPNode {
     private TrackingHelpNode branchHelpNode;
     private CCKSimulationPanel cckSimulationPanel;
     private JunctionHelpNode junctionHelpNode;
+    private boolean dragging = false;
 
     public RightClickHelpNode( CCKSimulationPanel cckSimulationPanel, CCKModule module ) {
         this.module = module;
@@ -32,16 +34,30 @@ public class RightClickHelpNode extends PhetPNode {
 
         cckSimulationPanel.addMouseListener( new MouseAdapter() {
             public void mouseReleased( MouseEvent e ) {
+                dragging = false;
                 update();
+
             }
 
             public void mousePressed( MouseEvent e ) {
                 if ( e.isMetaDown() ) {//check for right click
                     userRightClicked = true;
+                    dragging = true;
                     update();
                 }
             }
         } );
+        cckSimulationPanel.addMouseMotionListener( new MouseMotionListener() {
+            public void mouseDragged( MouseEvent e ) {
+                dragging = true;
+                update();
+            }
+
+            public void mouseMoved( MouseEvent e ) {
+                dragging = false;
+                update();
+            }
+        } );                                   
         module.getCircuit().addCircuitListener( new CircuitListenerAdapter() {
             public void selectionChanged() {
                 update();
@@ -51,14 +67,14 @@ public class RightClickHelpNode extends PhetPNode {
     }
 
     private void update() {
-        boolean branchHelpVisible = !userRightClicked && isNonWireSelected();
+        boolean branchHelpVisible = !userRightClicked && isNonWireSelected() && !dragging;
         branchHelpNode.setVisible( branchHelpVisible );
         PNode follow = getFirstSelectedBranch();
         if ( follow != null ) {
             branchHelpNode.setFollowedNode( follow );
         }
 
-        boolean junctionHelpVisible = !userRightClicked && isJunctionSelected();
+        boolean junctionHelpVisible = !userRightClicked && isJunctionSelected() && !dragging;
         junctionHelpNode.setVisible( junctionHelpVisible );
         PNode followJunction = getFirstSelectedJunction();
         if ( followJunction != null ) {
@@ -94,7 +110,7 @@ public class RightClickHelpNode extends PhetPNode {
         Branch[] b = module.getCircuit().getSelectedBranches();
         for ( int i = 0; i < b.length; i++ ) {
             Branch branch = b[i];
-            if ( !( branch instanceof Wire ) ) {
+            if ( !( branch instanceof Wire ) ||true) {
                 return true;
             }
         }
