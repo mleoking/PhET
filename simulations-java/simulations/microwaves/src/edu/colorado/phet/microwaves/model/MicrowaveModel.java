@@ -9,8 +9,8 @@ package edu.colorado.phet.microwaves.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common_microwaves.model.BaseModel;
-import edu.colorado.phet.common_microwaves.model.IClock;
 import edu.colorado.phet.microwaves.coreadditions.Vector2D;
 import edu.colorado.phet.microwaves.coreadditions.collision.Box2D;
 import edu.colorado.phet.microwaves.model.waves.FiniteWaveMedium;
@@ -50,10 +50,7 @@ public class MicrowaveModel extends BaseModel {
                               oven.getMaxY() - oven.getMinY() );
     }
 
-    public void clockTicked( IClock c, double dt ) {
-
-        // Make the clock static
-        dt = c.getRequestedDT();
+    public void clockTicked( ClockEvent event ) {
 
         for ( int i = 0; i < polarBodies.size(); i++ ) {
             PolarBody polarBody = (PolarBody) polarBodies.get( i );
@@ -81,7 +78,7 @@ public class MicrowaveModel extends BaseModel {
             }
         }
 
-        super.clockTicked( c, dt );
+        super.clockTicked( event );
 
         if ( oven != null ) {
             for ( int i = 0; i < polarBodies.size(); i++ ) {

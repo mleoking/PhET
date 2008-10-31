@@ -9,12 +9,13 @@ package edu.colorado.phet.microwaves.coreadditions.chart;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
-import edu.colorado.phet.common_microwaves.model.ClockTickListener;
-import edu.colorado.phet.common_microwaves.model.IClock;
-import edu.colorado.phet.coreadditions_microwaves.clock.DynamicClockModel;
-import edu.colorado.phet.coreadditions_microwaves.clock.SwingTimerClock;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 
 public class StripChart extends JPanel {
 
@@ -141,12 +142,11 @@ public class StripChart extends JPanel {
         frame.pack();
         frame.setVisible( true );
 
-        SwingTimerClock clock = new SwingTimerClock( new DynamicClockModel( 1, 20 ) );
+        IClock clock = new ConstantDtClock( 20, 1 );
         clock.start();
-        clock.addClockTickListener( new ClockTickListener() {
+        clock.addClockListener( new ClockAdapter() {
             double d = 0;
-
-            public void clockTicked( IClock iClock, double v ) {
+            public void clockTicked( ClockEvent clockEvent ) {
                 d = ( d + 0.1 ) % ( Math.PI * 2 );
                 sc.addDatum( Math.sin( d ), 1 );
             }

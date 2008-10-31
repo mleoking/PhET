@@ -10,12 +10,11 @@ package edu.colorado.phet.microwaves;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common_microwaves.application.Module;
 import edu.colorado.phet.common_microwaves.view.ApplicationDescriptor;
-import edu.colorado.phet.coreadditions_microwaves.clock.DynamicClockModel;
-import edu.colorado.phet.coreadditions_microwaves.clock.SwingTimerClock;
 import edu.colorado.phet.coreadditions_microwaves.components.PhetFrame;
 import edu.colorado.phet.microwaves.coreadditions.MessageFormatter;
 
@@ -54,7 +53,7 @@ public class MicrowavesApplication extends PhetApplication {
                 + ")",
                 MessageFormatter.format( MicrowavesResources.getString( "MicrowavesApplication.description" ) ),
                 VERSION, new FrameSetup.CenteredWithSize( 1024, 768 ) );
-        s_application = new edu.colorado.phet.common_microwaves.application.PhetApplication( appDescriptor, modules, new SwingTimerClock( new DynamicClockModel( 20, 50 ) ) );
+        s_application = new edu.colorado.phet.common_microwaves.application.PhetApplication( appDescriptor, modules, new ConstantDtClock( 50, 20 ) );
         PhetFrame frame = s_application.getApplicationView().getPhetFrame();
 //        frame.addMenu( new ViewMenu() );
         frame.addMenu( new MicrowaveModule.ControlMenu() );

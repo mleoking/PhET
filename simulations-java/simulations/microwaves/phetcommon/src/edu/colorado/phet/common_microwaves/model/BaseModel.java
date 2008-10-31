@@ -8,6 +8,8 @@ package edu.colorado.phet.common_microwaves.model;
 
 import edu.colorado.phet.common.phetcommon.model.Command;
 import edu.colorado.phet.common.phetcommon.model.CommandQueue;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 
 /**
  * This class is encompasses all the model elements in a physical system. It provides
@@ -17,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.model.CommandQueue;
  * class, or a subclass. The application's single ApplicationModel instance will
  * be told which BaseModel is active when Modules are activated.
  */
-public class BaseModel extends CompositeModelElement implements ClockTickListener {
+public class BaseModel extends CompositeModelElement implements ClockListener {
 
     // FixedClock owns the ModelElement it ticks to
     private CommandQueue commandList = new CommandQueue();
@@ -32,7 +34,27 @@ public class BaseModel extends CompositeModelElement implements ClockTickListene
         commandList.addCommand( mmc );
     }
 
-    public void clockTicked( IClock c, double dt ) {
-        stepInTime( dt );
+    public void clockPaused( ClockEvent clockEvent ) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    public void clockStarted( ClockEvent clockEvent ) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    public void clockTicked( ClockEvent clockEvent ) {
+        stepInTime( clockEvent.getSimulationTimeChange() );
+    }
+
+    public void simulationTimeChanged( ClockEvent clockEvent ) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    public void simulationTimeReset( ClockEvent clockEvent ) {
+        // TODO Auto-generated method stub
+        
     }
 }
