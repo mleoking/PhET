@@ -15,7 +15,11 @@
 
     <target name="dist" depends="compile">
         <mkdir dir="${dist}"/>
-        <jar jarfile="${dist}/updater.jar" basedir="${build}"/>
+        <jar jarfile="${dist}/updater.jar" basedir="${build}">
+            <manifest>
+                <attribute name="Main-Class" value="edu.colorado.phet.updater.Updater"/>
+            </manifest>
+        </jar>
     </target>
 
     <target name="clean">
