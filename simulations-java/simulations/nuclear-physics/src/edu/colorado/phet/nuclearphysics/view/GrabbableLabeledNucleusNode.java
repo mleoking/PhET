@@ -14,8 +14,8 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * This class extends the LabeledNucleusNode to add the ability to grab and
- * move the node.
+ * This class extends the LabeledNucleusNode to add the ability to pick up the
+ * node with the mouse (i.e. grab it), move it around, and release it.
  * 
  * @author John Blanco
  */
@@ -34,7 +34,6 @@ public class GrabbableLabeledNucleusNode extends LabeledNucleusNode {
 	public GrabbableLabeledNucleusNode(String imageName, String isotopeNumber, String chemicalSymbol, 
 			Color labelColor) {
 		
-		// TODO: JPB TBD - Figure out if this is needed or if it is called automatically.
 		super(imageName, isotopeNumber, chemicalSymbol, labelColor);
 		
 		// Set the nucleus node to be "pickable", meaning that it can be grabbed with the mouse.
@@ -96,6 +95,7 @@ public class GrabbableLabeledNucleusNode extends LabeledNucleusNode {
     }
     
     private void handleMouseDragEvent(PInputEvent event){
+    	// TODO: JPB TBD - Stubbed for now.  May or may not be needed.
     }
     
     private void handleMouseEndDragEvent(PInputEvent event){
