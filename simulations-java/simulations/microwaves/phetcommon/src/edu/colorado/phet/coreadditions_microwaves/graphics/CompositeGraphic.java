@@ -5,10 +5,8 @@
  * Created by: Ron LeMaster
  * Date: Nov 6, 2002
  */
-package edu.colorado.phet.common_microwaves.view;
+package edu.colorado.phet.coreadditions_microwaves.graphics;
 
-import edu.colorado.phet.common_microwaves.view.graphics.Graphic;
-import edu.colorado.phet.common_microwaves.view.graphics.InteractiveGraphic;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;

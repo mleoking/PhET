@@ -16,9 +16,9 @@ import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.common_microwaves.view.ApparatusPanel;
-import edu.colorado.phet.common_microwaves.view.graphics.Graphic;
-import edu.colorado.phet.common_microwaves.view.graphics.ModelViewTransform2D;
+import edu.colorado.phet.coreadditions_microwaves.graphics.ApparatusPanel;
+import edu.colorado.phet.coreadditions_microwaves.graphics.Graphic;
+import edu.colorado.phet.coreadditions_microwaves.graphics.ModelViewTransform2D;
 import edu.colorado.phet.microwaves.MicrowavesResources;
 
 public class MeasuringTape extends MouseInputAdapter {

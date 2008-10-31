@@ -1,4 +1,4 @@
-package edu.colorado.phet.common_microwaves.view.graphics;
+package edu.colorado.phet.coreadditions_microwaves.graphics;
 
 import java.awt.*;
 

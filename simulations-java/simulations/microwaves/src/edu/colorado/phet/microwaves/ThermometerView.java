@@ -16,7 +16,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common_microwaves.view.graphics.Graphic;
+import edu.colorado.phet.coreadditions_microwaves.graphics.Graphic;
 import edu.colorado.phet.coreadditions_microwaves.graphics.ImageGraphic;
 
 public class ThermometerView implements Graphic, ImageObserver, Observer {

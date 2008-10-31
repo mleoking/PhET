@@ -11,7 +11,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.image.ImageObserver;
 import java.util.Observable;
 
-import edu.colorado.phet.common_microwaves.view.graphics.ModelViewTransform2D;
+import edu.colorado.phet.coreadditions_microwaves.graphics.ModelViewTransform2D;
 import edu.colorado.phet.microwaves.coreadditions.TxObservingGraphic;
 import edu.colorado.phet.microwaves.model.WaterMolecule;
 
