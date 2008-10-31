@@ -24,6 +24,9 @@
     <!-- DO NOT change these -->
     <property name="rootDir" value="."/>
     <property name="flash-launcher-src" location="${rootDir}/flash-launcher/src"/>
+    <property name="simulations-java" location="${rootDir}/../simulations-java"/>
+    <property name="phetcommon" location="${simulations-java}/common/phetcommon"/>
+    <property name="contrib" location="${rootDir}/../simulations-java/contrib"/>
     <property name="build" location="${rootDir}/build"/>
     <property name="jar-inputs" location="${build}/jar-inputs"/>
     <property name="build-tools" location="${rootDir}/build-tools"/>
@@ -32,8 +35,11 @@
 	<property name="dev-rootdir" value="/htdocs/physics/phet/dev"/>
 	<property name="prod-rootdir" value="/web/htdocs/phet"/>
 	<property name="prod-flash-launcher-dir" value="/web/htdocs/phet/phet-dist/flash-launcher"/>
-		
-	<!-- deploys flash-launch to the production server -->
+
+    <taskdef resource="proguard/ant/task.properties"
+                 classpath="${simulations-java}/build-tools/proguard/lib/proguard.jar" />
+
+    <!-- deploys flash-launch to the production server -->
 	<target name="deploy-flash-launcher" depends="clean-build">
 
         <mkdir dir="${build}"/>
@@ -127,7 +133,7 @@
     	<mkdir dir="${jar-inputs}"/>
     	
     	<!-- create FlashLauncher class file -->
-        <javac srcdir="${flash-launcher-src}" destdir="${jar-inputs}"/>
+        <javac srcdir="${flash-launcher-src} : ${phetcommon}/src" destdir="${jar-inputs}" classpath="${contrib}/junit/junit.jar : ${contrib}/jmock/jmock.jar : ${contrib}/javaws/jnlp.jar" debug="true" debuglevel="lines,source"/>
     	
     	<!-- copy swf file -->
         <copy file="${rootDir}/simulations/${sim}/deploy/${sim}.swf" todir="${jar-inputs}"/>
@@ -145,15 +151,20 @@
     	
     	<!-- copy properties file -->
         <copy file="${rootDir}/simulations/${sim}/deploy/${sim}.properties" todir="${jar-inputs}"/>
-    	
-    	<!-- create jar -->
+
+        <copydir src="${phetcommon}/data" dest="${jar-inputs}"/>
+
+        <!-- create jar -->
         <jar jarfile="${build}/${sim}_${language}.jar" basedir="${jar-inputs}">
             <manifest>
                 <attribute name="Main-Class" value="edu.colorado.phet.flashlauncher.FlashLauncher"/>
             </manifest>
         </jar>
-    	
-    	<!-- delete the files that were added to the jar -->
+
+
+        <proguard configuration="proguard.pro"/>
+
+        <!-- delete the files that were added to the jar -->
     	<delete dir="${jar-inputs}"/>
                 	
     </target>

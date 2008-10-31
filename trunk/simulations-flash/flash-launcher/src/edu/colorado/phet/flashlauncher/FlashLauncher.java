@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.flashlauncher;
 
+import java.awt.*;
 import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -12,6 +13,10 @@ import java.util.StringTokenizer;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.UpdateApplicationManager;
+import edu.colorado.phet.common.phetcommon.tracking.SessionStartedMessage;
+import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
 import edu.colorado.phet.flashlauncher.util.BareBonesBrowserLaunch;
 import edu.colorado.phet.flashlauncher.util.FileUtils;
 
@@ -72,7 +77,7 @@ public class FlashLauncher {
      * Launches the simulation in a web browser.
      */
     private void start() throws IOException {
-
+        handleTrackingAndUpdates();
         println( "FlashLauncher.start" );
         String unzipDirName = System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.separator" ) + "phet-" + sim;
         println( "unzipping to directory = " + unzipDirName );
@@ -104,6 +109,20 @@ public class FlashLauncher {
         // open the browser, point it at the HTML file
         println( "Starting openurl" );
         BareBonesBrowserLaunch.openURL( "file://" + htmlFile.getAbsolutePath() );
+    }
+
+    private void handleTrackingAndUpdates() {
+        System.out.println( "FlashLauncher.handleTrackingAndUpdates" );
+        PhetApplicationConfig config = new PhetApplicationConfig( new String[]{"-tracking", "-updates"}, sim );
+        long applicationLaunchFinishedAt = System.currentTimeMillis();
+        config.setApplicationLaunchFinishedAt( applicationLaunchFinishedAt );
+
+        TrackingManager.initInstance( config );
+        TrackingManager.postMessage( new SessionStartedMessage( config ) );
+        Frame hiddenParent = new JFrame();
+        hiddenParent.setLocation( Toolkit.getDefaultToolkit().getScreenSize().width / 2,
+                                  Toolkit.getDefaultToolkit().getScreenSize().height / 2 );
+        new UpdateApplicationManager( config ).applicationStarted( hiddenParent, config, config );
     }
 
     private static Properties readProperties( String sim ) {
