@@ -2,6 +2,16 @@
 ###	Todo Sam		####
 ############################
 
+1.  There should be some sort of more obvious indicator that it stopped
+because 2 years went by. Instead it just stops and I didn't even notice at
+first. I thought the persons diet had balanced.
+2.  When it stops the play and pause buttons grey completely. It's weird and
+looks broken.
+3.  There's no way to restart after 2 years without resetting all. That's
+inconvenient.
+4.  Would like to be able to replay but I think Sam said this would be
+expensive. Just want to double check on that.
+
 ############################
 ###	Todo Noah P		####
 ############################
