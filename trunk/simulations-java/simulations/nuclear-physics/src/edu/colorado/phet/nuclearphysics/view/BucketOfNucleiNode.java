@@ -29,6 +29,13 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
+/**
+ * This class implements a user interface component that looks like a bucket
+ * filled with nuclei.  The user can grab nuclei from the bucket and drag then
+ * onto the canvas.
+ * 
+ * @author John Blanco
+ */
 public class BucketOfNucleiNode extends PNode {
 	
     //------------------------------------------------------------------------
@@ -68,13 +75,15 @@ public class BucketOfNucleiNode extends PNode {
     //------------------------------------------------------------------------
 	
 	/**
-	 * Constructor - This takes a width and height in world coordinates.
+	 * Constructor - This takes a width and height in world coordinates and
+	 * creates a bucket of corresponding size.
 	 */
 	public BucketOfNucleiNode(double width, double height){
 		
 		// Local allocation and initialization.
 		_bucketHeight = height;
 		_bucketWidth = width;
+		_ellipseVerticalSpan = height * 0.4; // Arbitrary sizing, can be changed to alter appearance.
 		
 		// Create the gradient paints that will be used to paint the bucket.
 		GradientPaint outerPaint = new GradientPaint(0, (float)height/2, OUTER_COLOR_DARK, 
@@ -84,10 +93,12 @@ public class BucketOfNucleiNode extends PNode {
         		(float)width, (float)height/2, INNER_COLOR_DARK);
 		
 		// TODO: JPB TBD - A basic rect for guidance, remove when this node is done.
+		/*
 		PhetPPath outerRect = new PhetPPath(new Rectangle2D.Double( 0, 0, width, height ));
 		outerRect.setStroke( new BasicStroke( 0.25f ) );
 		outerRect.setStrokePaint(Color.red);
 		addChild(outerRect);
+		*/
 		
 		// Create a layering effect using PNodes so that we can create the
 		// illusion of three dimensions.
@@ -101,8 +112,6 @@ public class BucketOfNucleiNode extends PNode {
 		addChild( _frontInteriorLayer );
 		_frontOfBucketLayer = new PNode();
 		addChild( _frontOfBucketLayer );
-		
-		_ellipseVerticalSpan = height * 0.4;
 		
 		// Draw the inside of the bucket.
 		PhetPPath ellipseInBackOfBucket = new PhetPPath(new Ellipse2D.Double( 0, 0, width, _ellipseVerticalSpan ));
@@ -240,10 +249,6 @@ public class BucketOfNucleiNode extends PNode {
 		positionNucleiInBucket();
 	}
 	
-	private void fillBucketWithNuclei2(){
-		_backInteriorLayer.addChild(createGrabbablePoloniumNode());
-	}
-
 	private void positionNucleiInBucket(){
 
 		double nucleusWidth = NUCLEUS_WIDTH_PROPORTION * _bucketWidth;
@@ -281,16 +286,6 @@ public class BucketOfNucleiNode extends PNode {
 		}
 	}
 
-	private LabeledNucleusNode createNonGrabbablePoloniumNode() {
-		LabeledNucleusNode nucleusNode = new LabeledNucleusNode("Polonium Nucleus Small.png",
-		        NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER, 
-		        NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL, 
-		        NuclearPhysicsConstants.POLONIUM_LABEL_COLOR );
-		nucleusNode.scale( _bucketWidth * NUCLEUS_WIDTH_PROPORTION / nucleusNode.getFullBoundsReference().width);
-		nucleusNode.setPickable(false);
-		return nucleusNode;
-	}
-	
 	private GrabbableLabeledNucleusNode createGrabbablePoloniumNode() {
 		GrabbableLabeledNucleusNode nucleusNode = new GrabbableLabeledNucleusNode("Polonium Nucleus Small.png",
 		        NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER, 
