@@ -111,7 +111,7 @@ public class GrabbableLabeledNucleusNode extends LabeledNucleusNode {
     
     private void notifyNodeGrabbed(){
         for (int i = 0; i < _listeners.size(); i++){
-            ((Listener)_listeners.get( i )).nodeReleased(this);
+            ((Listener)_listeners.get( i )).nodeGrabbed(this);
         }        
     }
     
