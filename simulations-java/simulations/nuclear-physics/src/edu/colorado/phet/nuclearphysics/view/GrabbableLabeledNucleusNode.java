@@ -47,6 +47,11 @@ public class GrabbableLabeledNucleusNode extends LabeledNucleusNode {
         // Add a handle for mouse drag events.
         addInputEventListener( new PDragEventHandler(){
 
+            public void startDrag(PInputEvent event){
+            	super.startDrag(event);
+                handleMouseStartDragEvent( event );
+            }
+
             public void drag(PInputEvent event){
             	super.drag(event);
                 handleMouseDragEvent( event );
@@ -85,11 +90,15 @@ public class GrabbableLabeledNucleusNode extends LabeledNucleusNode {
     // Private Methods
     //----------------------------------------------------------------------------
 
+    private void handleMouseStartDragEvent(PInputEvent event){
+    	// Notify listeners that the user grabbed this node.
+    	notifyNodeGrabbed();
+    }
+    
     private void handleMouseDragEvent(PInputEvent event){
     }
     
     private void handleMouseEndDragEvent(PInputEvent event){
-    	
     	// Notify listeners that the user released this node.
     	notifyNodeReleased();
     }
@@ -100,11 +109,24 @@ public class GrabbableLabeledNucleusNode extends LabeledNucleusNode {
         }        
     }
     
+    private void notifyNodeGrabbed(){
+        for (int i = 0; i < _listeners.size(); i++){
+            ((Listener)_listeners.get( i )).nodeReleased(this);
+        }        
+    }
+    
     //------------------------------------------------------------------------
     // Inner interfaces
     //------------------------------------------------------------------------
     
     public static interface Listener {
+        /**
+         * This informs the listener that this node was grabbed by the user.
+         * 
+         * @param node - a reference to this node.
+         */
+        public void nodeGrabbed(GrabbableLabeledNucleusNode node);
+        
         /**
          * This informs the listener that this node was released after having
          * been dragged.
