@@ -39,7 +39,6 @@ public class CCKBackground extends PNode {
         update();
         addInputEventListener( new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
-                System.out.println( "CCKBackground.mousePressed" );
                 model.clearSelection();
             }
         } );

@@ -477,6 +477,7 @@ public class Circuit {
             Junction junction = (Junction) junctions.get( i );
             junction.setSelected( false );
         }
+        notifySelectionChanged();
     }
 
     public Branch[] getSelectedBranches() {
