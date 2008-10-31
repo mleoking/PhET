@@ -110,7 +110,7 @@ public class PhetApplicationLauncher {
 
                         TrackingManager.initInstance( config );
                         TrackingManager.postMessage( new SessionStartedMessage( config ) );
-                        new UpdateApplicationManager( config ).applicationStarted( app );//todo: due to threading, sometimes this event arrives at server first
+                        new UpdateApplicationManager( config ).applicationStarted( app.getPhetFrame(), app.getSimInfo(), app.getTrackingInfo() );//todo: due to threading, sometimes this event arrives at server first
                     }
                     else {
                         new RuntimeException( "No applicationconstructor specified" ).printStackTrace();
