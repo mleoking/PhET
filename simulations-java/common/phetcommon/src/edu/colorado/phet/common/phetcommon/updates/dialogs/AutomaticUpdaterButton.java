@@ -11,6 +11,8 @@ import java.util.Arrays;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.updates.OpenWebPageToNewVersion;
+
 public class AutomaticUpdaterButton extends JButton {
 
 
@@ -34,6 +36,7 @@ public class AutomaticUpdaterButton extends JButton {
                     String[] cmd = new String[]{javaPath, "-jar", f.getAbsolutePath(), project, sim, "en", location.getAbsolutePath()};//todo support for locales
 
                     println( "Starting updater with command: \n" + Arrays.toString( cmd ) );
+                    OpenWebPageToNewVersion.openWebPageToNewVersion( project, sim );
                     Process p = Runtime.getRuntime().exec( cmd );
                     System.exit( 0 );
 
