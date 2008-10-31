@@ -68,7 +68,7 @@ public abstract class AbstractPhaseStateChanger implements PhaseStateChanger {
         	minInitialInterParticleDistance = 1.2;
         }
         else{
-        	minInitialInterParticleDistance = 2.0;
+        	minInitialInterParticleDistance = 1.5;
         }
         
         double rangeX = m_model.getNormalizedContainerWidth() - (2 * MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE);
@@ -92,6 +92,7 @@ public abstract class AbstractPhaseStateChanger implements PhaseStateChanger {
                 }
             }
         }
+        System.err.println("Error: No open positions available for molecule.");
         return null;
     }
 }
