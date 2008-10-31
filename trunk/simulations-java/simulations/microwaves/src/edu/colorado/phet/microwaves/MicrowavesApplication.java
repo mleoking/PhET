@@ -68,6 +68,6 @@ public class MicrowavesApplication extends PhetApplication {
     }
 
     public static void main( String[] args ) {
-        new PhetApplicationLauncher().launchSim( args, "microwaves", MicrowavesApplication.class );
+        new PhetApplicationLauncher().launchSim( args, MicrowavesConfig.PROJECT_NAME, MicrowavesApplication.class );
     }
 }

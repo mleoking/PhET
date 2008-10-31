@@ -19,7 +19,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
-import edu.colorado.phet.microwaves.MicrowaveConfig;
+import edu.colorado.phet.microwaves.MicrowavesConfig;
 import edu.colorado.phet.microwaves.MicrowaveModule;
 import edu.colorado.phet.microwaves.MicrowavesResources;
 import edu.colorado.phet.microwaves.coreadditions.MeasuringTape;
@@ -58,7 +58,7 @@ public class MicrowaveControlPanel extends JPanel {
         freqSlider = new JSlider( SwingConstants.HORIZONTAL, 0,
                                   100,
                                   50 );
-        freqSliderTx = new ModelViewTx1D( 0, MicrowaveConfig.s_maxFreq,
+        freqSliderTx = new ModelViewTx1D( 0, MicrowavesConfig.s_maxFreq,
                                           0, 100 );
         freqSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -71,7 +71,7 @@ public class MicrowaveControlPanel extends JPanel {
         // Slider to control amplitude
         ampSlider = new JSlider( SwingConstants.HORIZONTAL, 0,
                                  100, 50 );
-        final ModelViewTx1D ampSliderTx = new ModelViewTx1D( 0, MicrowaveConfig.s_maxAmp,
+        final ModelViewTx1D ampSliderTx = new ModelViewTx1D( 0, MicrowavesConfig.s_maxAmp,
                                                              0, 100 );
         ampSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

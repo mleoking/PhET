@@ -24,10 +24,10 @@ public class ManyMoleculesModule extends MicrowaveModule {
 
         // Put a bunch of water molecules randomly on the screen. Make sure they don't overlap
         // so the collision mechanics stay sane
-        WaterMolecule[] molecules = new WaterMolecule[MicrowaveConfig.s_numWaterMoleculesPlaceRandomly];
+        WaterMolecule[] molecules = new WaterMolecule[MicrowavesConfig.s_numWaterMoleculesPlaceRandomly];
         Box2D oven = getMicrowaveModel().getOven();
 
-        for ( int i = 0; i < MicrowaveConfig.s_numWaterMoleculesPlaceRandomly; i++ ) {
+        for ( int i = 0; i < MicrowavesConfig.s_numWaterMoleculesPlaceRandomly; i++ ) {
             WaterMolecule molecule = new WaterMolecule();
             double x = -1;
             while ( x < oven.getMinX() + WaterMolecule.s_hydrogenOxygenDist + WaterMolecule.s_hydrogenRadius * 2

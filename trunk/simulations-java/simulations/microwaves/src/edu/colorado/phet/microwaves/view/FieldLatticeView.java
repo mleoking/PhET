@@ -16,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
 import edu.colorado.phet.common_microwaves.view.ApparatusPanel;
 import edu.colorado.phet.common_microwaves.view.graphics.ModelViewTransform2D;
-import edu.colorado.phet.microwaves.MicrowaveConfig;
+import edu.colorado.phet.microwaves.MicrowavesConfig;
 import edu.colorado.phet.microwaves.coreadditions.TxObservingGraphic;
 import edu.colorado.phet.microwaves.coreadditions.Vector2D;
 import edu.colorado.phet.microwaves.model.waves.WaveMedium;
@@ -234,7 +234,7 @@ public class FieldLatticeView extends TxObservingGraphic {
     private static int arrowWidth = 10;
     private static int arrowHeadWidth = 20;
     BasicStroke arrowStroke = new BasicStroke( 4 );
-    private static float s_scaleFactor = (float) ( 50 / MicrowaveConfig.s_maxAmp );
+    private static float s_scaleFactor = (float) ( 50 / MicrowavesConfig.s_maxAmp );
     private static int s_latticePtDiam = 5;
     private static BufferedImage s_latticePtImg = new BufferedImage( s_latticePtDiam,
                                                                      s_latticePtDiam,
