@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.common_microwaves.application;
 
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common_microwaves.model.ApplicationModel;
-import edu.colorado.phet.common_microwaves.model.IClock;
 import edu.colorado.phet.common_microwaves.view.ApplicationDescriptor;
 import edu.colorado.phet.common_microwaves.view.ApplicationView;
 import edu.colorado.phet.common_microwaves.view.apparatuspanelcontainment.ApparatusPanelContainerFactory;

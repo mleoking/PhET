@@ -8,6 +8,7 @@ package edu.colorado.phet.common_microwaves.model;
 
 import edu.colorado.phet.common.phetcommon.model.Command;
 import edu.colorado.phet.common.phetcommon.model.CommandQueue;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 
 /**
  * There should be only one of these per PhetApplication. It contains at any time a single
@@ -23,7 +24,6 @@ public class ApplicationModel {
 
     public ApplicationModel( IClock clock ) {
         this.clock = clock;
-        clock.setParent( this );
     }
 
     public BaseModel getBaseModel() {
@@ -34,9 +34,9 @@ public class ApplicationModel {
 
         if( this.currentBaseModel != model ) {
             if( this.currentBaseModel != null ) {
-                clock.removeClockTickListener( this.currentBaseModel );
+                clock.removeClockListener( this.currentBaseModel );
             }
-            clock.addClockTickListener( model );
+            clock.addClockListener( model );
             this.currentBaseModel = model;
         }
     }
@@ -46,7 +46,12 @@ public class ApplicationModel {
     }
 
     public void setRunning( boolean b ) {
-        clock.setRunning( b );
+        if ( b ) {
+            clock.start();
+        }
+        else {
+            clock.pause();
+        }
     }
 
     public void start() {
@@ -62,14 +67,6 @@ public class ApplicationModel {
     }
 
     public void tickOnce() {
-        clock.tickOnce( clock.getRequestedDT() );
-    }
-
-    public double getRequestedDT() {
-        return clock.getRequestedDT();
-    }
-
-    public void setRequestedDT( double dt ) {
-        clock.setRequestedDT( dt );
+        clock.stepClockWhilePaused();
     }
 }

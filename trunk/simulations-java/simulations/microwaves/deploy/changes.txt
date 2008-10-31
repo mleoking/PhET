@@ -1,0 +1,4 @@
+10/31/08: [562] change clock to ConstantDtClock
+10/?/08: [562] use a bunch of ancillary classes from phetcommon trunk, delete local copies
+# 1.02.01 (17033)
+10/14/08: [562] publish 1.02.01 before starting port to phetcommon trunk

@@ -1,0 +1,50 @@
+edu.colorado.phet.updater.Updater> started updater, project=balloons, sim=balloons, locale=en, targetlocation=/Users/cmalley/Downloads/balloons.jar
+edu.colorado.phet.updater.Updater> finished download
+edu.colorado.phet.updater.Updater> exec'ing command="/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home/bin/java" -jar "/Users/cmalley/Downloads/balloons.jar"
+edu.colorado.phet.updater.Updater> java.io.IOException: "/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home/bin/java": not found
+edu.colorado.phet.updater.Updater> finished launch
+edu.colorado.phet.updater.Updater> started updater, project=balloons, sim=balloons, locale=en, targetlocation=/Users/cmalley/Downloads/balloons.jar
+edu.colorado.phet.updater.Updater> finished download
+edu.colorado.phet.updater.Updater> exec'ing command="/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home/bin/java" -jar "/Users/cmalley/Downloads/balloons.jar"
+edu.colorado.phet.updater.Updater> java.io.IOException: "/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home/bin/java": not found
+edu.colorado.phet.updater.Updater> finished launch
+edu.colorado.phet.common.phetcommon.updates.dialogs.AutomaticUpdaterButton> downloaded updater to: 
+/tmp/updater47975.jar
+edu.colorado.phet.common.phetcommon.updates.dialogs.AutomaticUpdaterButton> Not running from a jar
+edu.colorado.phet.common.phetcommon.updates.dialogs.AutomaticUpdaterButton> CHanged download location to: /tmp/balloons47976.jar
+edu.colorado.phet.common.phetcommon.updates.dialogs.AutomaticUpdaterButton> Starting updater with command: 
+[/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home/bin/java, -jar, /tmp/updater47975.jar, balloons, balloons, en, /tmp/balloons47976.jar]
+edu.colorado.phet.updater.Updater> started updater, project=balloons, sim=balloons, locale=en, targetlocation=/tmp/balloons47976.jar
+edu.colorado.phet.updater.Updater> finished download
+edu.colorado.phet.updater.Updater> exec'ing command=[/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home/bin/java, -jar, /tmp/balloons47976.jar]
+edu.colorado.phet.updater.Updater> finished launch
+edu.colorado.phet.common.phetcommon.updates.dialogs.AutomaticUpdaterButton> downloaded updater to: 
+/tmp/updater6481.jar
+edu.colorado.phet.common.phetcommon.updates.dialogs.AutomaticUpdaterButton> Not running from a jar
+edu.colorado.phet.common.phetcommon.updates.dialogs.AutomaticUpdaterButton> CHanged download location to: /tmp/balloons6482.jar
+edu.colorado.phet.common.phetcommon.updates.dialogs.AutomaticUpdaterButton> Starting updater with command: 
+[/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home/bin/java, -jar, /tmp/updater6481.jar, balloons, balloons, en, /tmp/balloons6482.jar]
+edu.colorado.phet.updater.Updater> started updater, project=balloons, sim=balloons, locale=en, targetlocation=/tmp/balloons6482.jar
+edu.colorado.phet.updater.Updater> finished download
+edu.colorado.phet.updater.Updater> exec'ing command=[/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home/bin/java, -jar, /tmp/balloons6482.jar]
+edu.colorado.phet.updater.Updater> finished launch
+edu.colorado.phet.common.phetcommon.updates.dialogs.AutomaticUpdaterButton> downloaded updater to: 
+/tmp/updater6071.jar
+edu.colorado.phet.common.phetcommon.updates.dialogs.AutomaticUpdaterButton> Not running from a jar
+edu.colorado.phet.common.phetcommon.updates.dialogs.AutomaticUpdaterButton> CHanged download location to: /tmp/balloons6072.jar
+edu.colorado.phet.common.phetcommon.updates.dialogs.AutomaticUpdaterButton> Starting updater with command: 
+[/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home/bin/java, -jar, /tmp/updater6071.jar, balloons, balloons, en, /tmp/balloons6072.jar]
+edu.colorado.phet.updater.Updater> started updater, project=balloons, sim=balloons, locale=en, targetlocation=/tmp/balloons6072.jar
+edu.colorado.phet.updater.Updater> finished download
+edu.colorado.phet.updater.Updater> exec'ing command=[/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home/bin/java, -jar, /tmp/balloons6072.jar]
+edu.colorado.phet.updater.Updater> finished launch
+edu.colorado.phet.common.phetcommon.updates.dialogs.AutomaticUpdaterButton> downloaded updater to: 
+/tmp/updater50630.jar
+edu.colorado.phet.common.phetcommon.updates.dialogs.AutomaticUpdaterButton> Not running from a jar
+edu.colorado.phet.common.phetcommon.updates.dialogs.AutomaticUpdaterButton> CHanged download location to: /tmp/balloons50631.jar
+edu.colorado.phet.common.phetcommon.updates.dialogs.AutomaticUpdaterButton> Starting updater with command: 
+[/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home/bin/java, -jar, /tmp/updater50630.jar, balloons, balloons, en, /tmp/balloons50631.jar]
+edu.colorado.phet.updater.Updater> started updater, project=balloons, sim=balloons, locale=en, targetlocation=/tmp/balloons50631.jar
+edu.colorado.phet.updater.Updater> finished download
+edu.colorado.phet.updater.Updater> exec'ing command=[/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home/bin/java, -jar, /tmp/balloons50631.jar]
+edu.colorado.phet.updater.Updater> finished launch
