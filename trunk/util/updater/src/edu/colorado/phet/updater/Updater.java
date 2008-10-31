@@ -6,21 +6,32 @@ import java.io.IOException;
 
 public class Updater {
 
-    private void update( String project, String sim, String locale, File targetLocation ) throws FileNotFoundException {
+    private void update( String project, String sim, String locale, File targetLocation ) {
         // Download the new, updated version of the sim.
-        download( project, sim, targetLocation );
+        try {
+            download( project, sim, targetLocation );
+        }
+        catch( FileNotFoundException e ) {
+            e.printStackTrace();
+            println( e.toString() );
+        }
+        println( "finished download" );
 
         // Execute the newly downloaded sim.
         launchSimulation( locale, targetLocation );
+        println( "finished launch" );
     }
 
     private void launchSimulation( String locale, File targetLocation ) {
-        String javaPath = "\"" + System.getProperty( "java.home" ) + "\"" + System.getProperty( "file.separator" ) + "bin" + System.getProperty( "file.separator" ) + "java";
+        String javaPath = "\"" + System.getProperty( "java.home" ) + System.getProperty( "file.separator" ) + "bin" + System.getProperty( "file.separator" ) + "java" + "\"";
         try {
-            Process p = Runtime.getRuntime().exec( javaPath + " -jar \"" + targetLocation.getAbsolutePath() + "\"" );
+            String command = javaPath + " -jar \"" + targetLocation.getAbsolutePath() + "\"";
+            println( "exec'ing command=" + command );
+            Process p = Runtime.getRuntime().exec( command );
         }
         catch( IOException e ) {
             e.printStackTrace();
+            println( e.toString() );
         }
 
     }
@@ -29,12 +40,17 @@ public class Updater {
         Util.download( "http://phet.colorado.edu/sims/" + project + "/" + flavor + ".jar", targetLocation );
     }
 
-    public static void main( String[] args ) throws FileNotFoundException {
+    public static void main( String[] args ) {
         String project = args[0];
         String sim = args[1];
         String locale = args[2];
         File targetLocation = new File( args[3] );
 
+        println( "started updater, project=" + project + ", sim=" + sim + ", locale=" + locale + ", targetlocation=" + targetLocation );
         new Updater().update( project, sim, locale, targetLocation );
+    }
+
+    private static void println( String ms ) {
+        DebugLogger.println( Updater.class.getName() + "> " + ms );
     }
 }

@@ -11,6 +11,8 @@ import java.net.URLConnection;
 import javax.swing.*;
 
 public class AutomaticUpdaterButton extends JButton {
+
+
     public AutomaticUpdaterButton( final String project, final String sim ) {
         super( "auto" );
         addActionListener( new ActionListener() {
@@ -19,18 +21,18 @@ public class AutomaticUpdaterButton extends JButton {
                 try {
                     File f = File.createTempFile( "updater", ".jar" );
                     download( "http://www.colorado.edu/physics/phet/dev/temp/updater.jar", f );
-                    System.out.println( "downloaded updater to: \n" + f.getAbsolutePath() );
+                    println( "downloaded updater to: \n" + f.getAbsolutePath() );
 
-                    String javaPath =  System.getProperty( "java.home" ) +  System.getProperty( "file.separator" ) + "bin" + System.getProperty( "file.separator" ) + "java";
+                    String javaPath = System.getProperty( "java.home" ) + System.getProperty( "file.separator" ) + "bin" + System.getProperty( "file.separator" ) + "java";
                     File location = getCodeSource();
                     if ( !location.getName().toLowerCase().endsWith( ".jar" ) ) {
-                        System.out.println( "Not running from a jar" );
+                        println( "Not running from a jar" );
                         location = File.createTempFile( "" + sim, ".jar" );
-                        System.out.println( "CHanged download location to: " + location );
+                        println( "CHanged download location to: " + location );
                     }
                     String args = "" + project + " " + sim + " en " + "\"" + location.getAbsolutePath() + "\"";//todo support for locales
                     String command = "\"" + javaPath + "\"" + " -jar \"" + f.getAbsolutePath() + "\" " + args;
-                    System.out.println( "Starting updater with command: \n" + command );
+                    println( "Starting updater with command: \n" + command );
                     Process p = Runtime.getRuntime().exec( command );
                     System.exit( 0 );
 
@@ -68,7 +70,7 @@ public class AutomaticUpdaterButton extends JButton {
                 out.write( buffer, 0, numRead );
                 numWritten += numRead;
             }
-//            System.out.println( localFileName + "\t" + numWritten );
+//            println( localFileName + "\t" + numWritten );
         }
         catch( FileNotFoundException f ) {
             throw f;
@@ -100,9 +102,14 @@ public class AutomaticUpdaterButton extends JButton {
             return new File( uri.getPath() );
         }
         catch( URISyntaxException e ) {
-            System.out.println( e.getMessage() );
+            println( e.getMessage() );
             e.printStackTrace();
             throw new RuntimeException( e );
         }
     }
+
+    private void println( String message ) {
+        DebugLogger.println( getClass().getName() + "> " + message );
+    }
+
 }
