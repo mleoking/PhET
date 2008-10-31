@@ -208,7 +208,7 @@ public class DiatomicPhaseStateChanger extends AbstractPhaseStateChanger {
 	private void setPhaseGas(){
 
 		// Set the model temperature for this phase.
-		m_model.setTemperature( MultipleParticleModel2.LIQUID_TEMPERATURE );
+		m_model.setTemperature( MultipleParticleModel2.GAS_TEMPERATURE );
 
         // Get references to the various elements of the data set.
         MoleculeForceAndMotionDataSet moleculeDataSet = m_model.getMoleculeDataSetRef();
