@@ -112,4 +112,8 @@ public class AutomaticUpdaterButton extends JButton {
         DebugLogger.println( getClass().getName() + "> " + message );
     }
 
+    public static void main( String[] args ) throws IOException {
+        Runtime.getRuntime().exec( new String[]{"java", "-jar", "updater.jar", "balloons", "balloons", "pathtojar"} );
+    }
+
 }
