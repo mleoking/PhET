@@ -6,15 +6,18 @@
  */
 package edu.colorado.phet.microwaves.view;
 
-import java.awt.*;
+import java.awt.AWTException;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.microwaves.CoffeeModule;
 import edu.colorado.phet.microwaves.MicrowaveModule;
 import edu.colorado.phet.microwaves.MicrowavesResources;
@@ -22,7 +25,6 @@ import edu.colorado.phet.microwaves.model.MicrowaveModel;
 
 public class CoffeeControlPanel extends JPanel {
     static private double DEFAULT_FREQUENCY = 0.002;
-    ;
     static private double DEFAULT_AMPLITUDE = 0.33;
 
     MicrowaveModel model;

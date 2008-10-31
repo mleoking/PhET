@@ -7,5 +7,4 @@ public class MicrowavesClock extends ConstantDtClock {
     public MicrowavesClock() {
         super( 50, 20 );
     }
-
 }

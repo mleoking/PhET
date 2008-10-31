@@ -7,11 +7,12 @@
 package edu.colorado.phet.microwaves.model;
 
 import java.awt.geom.Point2D;
+import java.util.Observable;
 
-import edu.colorado.phet.common_microwaves.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.microwaves.coreadditions.Vector2D;
 
-public class FieldElement extends ModelElement {
+public class FieldElement extends Observable implements ModelElement {
 
     private Point2D.Double location = new Point2D.Double();
     private Vector2D velocity;
@@ -32,9 +33,10 @@ public class FieldElement extends ModelElement {
 
     private void setLocation( double x, double y ) {
         location.setLocation( x, y );
-        super.updateObservers();
+        super.setChanged();
+        super.notifyObservers();
     }
-
+    
     public Point2D.Double getLocation() {
         return location;
     }

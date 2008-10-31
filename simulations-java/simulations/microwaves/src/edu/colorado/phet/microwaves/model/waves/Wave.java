@@ -6,13 +6,15 @@
  */
 package edu.colorado.phet.microwaves.model.waves;
 
-import edu.colorado.phet.common_microwaves.model.ModelElement;
+import java.util.Observable;
+
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 
 /**
  * <p/>
  * TODO: Make this 2D. It is currently pnly 1D
  */
-public class Wave extends ModelElement {
+public class Wave extends Observable implements ModelElement {
 
     private PeriodicFunction waveFunction;
     private WavefrontType wavefrontType;

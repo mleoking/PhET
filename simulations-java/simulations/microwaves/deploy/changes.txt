@@ -1,3 +1,5 @@
+10/31/08: [562] move application, modules & model to phetcommon trunk
+10/31/08: [562] delete any unused classes, including obsolete modules
 10/31/08: [562] change clock to ConstantDtClock
 10/?/08: [562] use a bunch of ancillary classes from phetcommon trunk, delete local copies
 # 1.02.01 (17033)
