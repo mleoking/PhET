@@ -7,16 +7,14 @@ import java.io.IOException;
 public class Updater {
 
     private void update( String project, String sim, String locale, File targetLocation ) throws FileNotFoundException {
-
         // Download the new, updated version of the sim.
         download( project, sim, targetLocation );
 
         // Execute the newly downloaded sim.
-        launchSimulation( sim, locale, targetLocation );
-
+        launchSimulation( locale, targetLocation );
     }
 
-    private void launchSimulation( String sim, String locale, File targetLocation ) {
+    private void launchSimulation( String locale, File targetLocation ) {
         String sep = System.getProperty( "file.separator" );
         String javaPath = System.getProperty( "java.home" ) + sep + "bin" + sep + "java";
         try {
