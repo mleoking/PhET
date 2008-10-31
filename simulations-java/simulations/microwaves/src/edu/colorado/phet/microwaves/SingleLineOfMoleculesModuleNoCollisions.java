@@ -67,8 +67,8 @@ public class SingleLineOfMoleculesModuleNoCollisions extends MicrowaveModule {
         stripChartDlg = new JDialog( frame );
         stripChartDlg.getContentPane();
         final StripChart stripChart = new StripChart( 200, 100, 0, 100,
-                                                      -MicrowaveConfig.s_maxAmp,
-                                                      MicrowaveConfig.s_maxAmp,
+                                                      -MicrowavesConfig.s_maxAmp,
+                                                      MicrowavesConfig.s_maxAmp,
                                                       1 );
         muWave.addObserver( new Observer() {
             public void update( Observable o, Object arg ) {

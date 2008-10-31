@@ -6,7 +6,9 @@
  */
 package edu.colorado.phet.microwaves;
 
-public class MicrowaveConfig {
+public class MicrowavesConfig {
+    
+    public static final String PROJECT_NAME = "microwaves";
 
     public static int s_numWaterMoleculesInSingleLine = 4;
     public static int s_numWaterMoleculesPlaceRandomly = 20;

@@ -37,8 +37,8 @@ public abstract class MicrowaveModule extends Module {
     private MicrowaveModel microwaveModel;
     private Rectangle2D.Double modelBounds;
     private Rectangle viewBounds;
-    private float savedFreq = (float) MicrowaveConfig.s_initFreq;
-    private float savedAmp = (float) MicrowaveConfig.s_initAmp;
+    private float savedFreq = (float) MicrowavesConfig.s_initFreq;
+    private float savedAmp = (float) MicrowavesConfig.s_initAmp;
     private ModelViewTransform2D modelViewTransform;
     private int latticeSpace = 40;
     private Box2D oven;
