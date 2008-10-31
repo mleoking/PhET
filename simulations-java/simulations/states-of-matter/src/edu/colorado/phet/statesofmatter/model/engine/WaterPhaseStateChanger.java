@@ -12,37 +12,39 @@ import edu.colorado.phet.statesofmatter.model.MultipleParticleModel2;
 
 /**
  * This class is used to change the phase state (i.e. solid, liquid, or gas)
- * for a set of multi-atomic (i.e. more than one atom/molecule) molecules.
+ * for a set of water molecules.  It only works for water and would need to be
+ * generalized to handle other triatomic molecules.
+ * 
  * @author John Blanco
  */
-public class DiatomicPhaseStateChanger extends AbstractPhaseStateChanger {
+public class WaterPhaseStateChanger extends AbstractPhaseStateChanger {
 	
 	//----------------------------------------------------------------------------
     // Class Data
     //----------------------------------------------------------------------------
 	
-	private static final double MIN_INITIAL_DIAMETER_DISTANCE = 2.0;
-	
+	private static final double MIN_INITIAL_DIAMETER_DISTANCE = 1.4;
+    
 	// The following constants can be adjusted to make the the corresponding
 	// phase more or less dense.
-	private static final double LIQUID_SPACING_FACTOR = 0.7;
+	private static final double LIQUID_SPACING_FACTOR = 0.8;
 	private static final double GAS_SPACING_FACTOR = 1.0;
 	
 	//----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
 	
-	private final AtomPositionUpdater m_positionUpdater = new DiatomicAtomPositionUpdater();
+	private final AtomPositionUpdater m_positionUpdater = new WaterAtomPositionUpdater();
 	
 	//----------------------------------------------------------------------------
     // Constructor(s)
     //----------------------------------------------------------------------------
 
-	public DiatomicPhaseStateChanger(MultipleParticleModel2 model) {
+	public WaterPhaseStateChanger(MultipleParticleModel2 model) {
 		super(model);
 		
 		// Make sure this is not being used on an inappropriate data set.
-		assert m_model.getMoleculeDataSetRef().getAtomsPerMolecule() == 2;
+		assert m_model.getMoleculeDataSetRef().getAtomsPerMolecule() == 3;
 	}
 	
 	//----------------------------------------------------------------------------
@@ -81,15 +83,15 @@ public class DiatomicPhaseStateChanger extends AbstractPhaseStateChanger {
 		// Create and initialize other variables needed to do the job.
         Random rand = new Random();
         double temperatureSqrt = Math.sqrt( m_model.getTemperatureSetPoint() );
-        int moleculesPerLayer = (int)(Math.round( Math.sqrt( numberOfMolecules * 2 ) ) / 2);
+        int moleculesPerLayer = (int)(Math.round( Math.sqrt( numberOfMolecules * 3 ) ) / 2);
 
         // Establish the starting position, which will be the lower left corner
         // of the "cube".  The molecules will all be rotated so that they are
         // lying down.
-        double crystalWidth = moleculesPerLayer * (2.0 - 0.3); // Final term is a fudge factor that can be adjusted
-                                                               // to center the cube.
+        double crystalWidth = moleculesPerLayer * 0.8; // 2nd term can be adjusted in order to center crystal.
+        
         double startingPosX = (m_model.getNormalizedContainerWidth() / 2) - (crystalWidth / 2);
-        double startingPosY = 1.0 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL;
+        double startingPosY = MIN_INITIAL_DIAMETER_DISTANCE;
         
         // Place the molecules by placing their centers of mass.
         
@@ -100,11 +102,11 @@ public class DiatomicPhaseStateChanger extends AbstractPhaseStateChanger {
                 xPos = startingPosX + (j * MIN_INITIAL_DIAMETER_DISTANCE);
                 if (i % 2 != 0){
                     // Every other row is shifted a bit to create hexagonal pattern.
-                    xPos += (1 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL) / 2;
+                    xPos += MIN_INITIAL_DIAMETER_DISTANCE / 2;
                 }
-                yPos = startingPosY + ((double)i * MIN_INITIAL_DIAMETER_DISTANCE * 0.5);
+                yPos = startingPosY + ((double)i * MIN_INITIAL_DIAMETER_DISTANCE * 0.866);
                 moleculeCenterOfMassPositions[(i * moleculesPerLayer) + j].setLocation( xPos, yPos );
-                moleculeRotationAngles[(i * moleculesPerLayer) + j] = 0;
+                moleculeRotationAngles[(i * moleculesPerLayer) + j] = rand.nextDouble() * 2 * Math.PI;
                 
                 moleculesPlaced++;
 
@@ -251,9 +253,7 @@ public class DiatomicPhaseStateChanger extends AbstractPhaseStateChanger {
                 boolean positionAvailable = true;
                 // See if this position is available.
                 for (int k = 0; k < i; k++){
-                    if (moleculeCenterOfMassPositions[k].distance( newPosX, newPosY ) < 
-                        MIN_INITIAL_DIAMETER_DISTANCE * GAS_SPACING_FACTOR){
-                    	
+                    if (moleculeCenterOfMassPositions[k].distance( newPosX, newPosY ) < MIN_INITIAL_DIAMETER_DISTANCE * GAS_SPACING_FACTOR){
                         positionAvailable = false;
                         break;
                     }
@@ -264,7 +264,8 @@ public class DiatomicPhaseStateChanger extends AbstractPhaseStateChanger {
                     break;
                 }
                 else if (j == MAX_PLACEMENT_ATTEMPTS - 1){
-                    // This is the last attempt, so use this position anyway.
+                    // This is the last attempt, so do a linear search for a
+                	// usable spot.
                     Point2D openPoint = findOpenMoleculeLocation();
                     if (openPoint != null){
                         moleculeCenterOfMassPositions[i].setLocation( openPoint );

@@ -24,6 +24,8 @@ import edu.colorado.phet.statesofmatter.model.engine.MonatomicAtomPositionUpdate
 import edu.colorado.phet.statesofmatter.model.engine.MonatomicPhaseStateChanger;
 import edu.colorado.phet.statesofmatter.model.engine.MonatomicVerletAlgorithm;
 import edu.colorado.phet.statesofmatter.model.engine.PhaseStateChanger;
+import edu.colorado.phet.statesofmatter.model.engine.WaterAtomPositionUpdater;
+import edu.colorado.phet.statesofmatter.model.engine.WaterPhaseStateChanger;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.AndersenThermostat;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.IsokineticThermostat;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyAdjuster;
@@ -31,6 +33,7 @@ import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyCapper
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.Thermostat;
 import edu.colorado.phet.statesofmatter.model.particle.ArgonAtom;
 import edu.colorado.phet.statesofmatter.model.particle.HydrogenAtom;
+import edu.colorado.phet.statesofmatter.model.particle.HydrogenAtom2;
 import edu.colorado.phet.statesofmatter.model.particle.NeonAtom;
 import edu.colorado.phet.statesofmatter.model.particle.OxygenAtom;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
@@ -1004,8 +1007,6 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
         // (really a square, since it's 2D, but you get the idea) that takes
         // up a fixed amount of the bottom of the container, so the number of
         // molecules that can fit depends on the size of the individual atom.
-        // For the square to have the right number of atoms, it needs to be
-        // and even square, hence the convoluted calculation.
         int numberOfAtoms = (int)Math.pow( Math.round(StatesOfMatterConstants.CONTAINER_BOUNDS.width / 
                 (( OxygenAtom.RADIUS * 2.1 ) * 3)), 2);
         if (numberOfAtoms % 2 != 0){
@@ -1048,6 +1049,8 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
 
         // Initialize the particle positions into a solid form.
         m_phaseStateChanger.setPhase( PhaseStateChanger.PHASE_SOLID );
+        
+        // Synchronize the model set with the normalized data set.
         syncParticlePositions();
         
         /*
@@ -1135,6 +1138,72 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
         // Verify that a valid molecule ID was provided.
         assert (moleculeID == StatesOfMatterConstants.WATER); // Only water is supported so far.
 
+        // Determine the number of atoms/molecules to create.  This will be a cube
+        // (really a square, since it's 2D, but you get the idea) that takes
+        // up a fixed amount of the bottom of the container, so the number of
+        // molecules that can fit depends on the size of the individual atom.
+        double waterMoleculeDiameter = OxygenAtom.RADIUS * 2.1;
+        int numberOfAtoms = (int)Math.pow( Math.round(StatesOfMatterConstants.CONTAINER_BOUNDS.width / 
+                (waterMoleculeDiameter * 2.5)), 2);
+        if (numberOfAtoms % 3 != 0){
+        	numberOfAtoms = (numberOfAtoms / 3) * 3;
+        }
+        int numberOfMolecules = numberOfAtoms / 3;
+        
+        // Create the normalized data set for the one-atom-per-molecule case.
+        m_moleculeDataSet = new MoleculeForceAndMotionDataSet( 3 );
+        
+        // Create the strategies that will work on this data set.
+        m_phaseStateChanger = new WaterPhaseStateChanger( this );
+        m_atomPositionUpdater = new WaterAtomPositionUpdater();
+//        m_moleculeForceAndMotionCalculator = new MonatomicVerletAlgorithm( this ); TODO: JPB TBD - put in the real one.
+        m_isoKineticThermostat = new IsokineticThermostat( m_moleculeDataSet, m_minModelTemperature );
+        m_andersenThermostat = new AndersenThermostat( m_moleculeDataSet, m_minModelTemperature );
+        
+        // Create the individual atoms and add them to the data set.
+        for (int i = 0; i < numberOfMolecules; i++){
+            
+            // Create the molecule.
+        	Point2D moleculeCenterOfMassPosition = new Point2D.Double();
+        	Vector2D.Double moleculeVelocity = new Vector2D.Double();
+        	Point2D [] atomPositions = new Point2D[3];
+    		atomPositions[0] = new Point2D.Double();
+    		atomPositions[1] = new Point2D.Double();
+    		atomPositions[2] = new Point2D.Double();
+    		
+    		// Add the atom to the data set.
+    		m_moleculeDataSet.addMolecule(atomPositions, moleculeCenterOfMassPosition, moleculeVelocity, 0);
+
+            // Add atoms to model set.
+            StatesOfMatterAtom atom;
+            atom = new OxygenAtom(0, 0);
+            m_particles.add( atom );
+            notifyParticleAdded( atom );
+            atom = new HydrogenAtom(0, 0);
+            m_particles.add( atom );
+            notifyParticleAdded( atom );
+            
+            // For the sake of making water actually crystallize, we have a
+            // proportion of the hydrogen atoms be of a different type.  There
+            // is more on this in the algorithm implementation for water.
+            if (i % 2 == 0){
+	            atom = new HydrogenAtom(0, 0);
+	            m_particles.add( atom );
+	            notifyParticleAdded( atom );
+            }
+            else{
+	            atom = new HydrogenAtom2(0, 0);
+	            m_particles.add( atom );
+	            notifyParticleAdded( atom );
+            }
+        }
+
+        // Initialize the particle positions into a solid form.
+        m_phaseStateChanger.setPhase( PhaseStateChanger.PHASE_SOLID );
+        
+        // Synchronize the model set with the normalized data set.
+        syncParticlePositions();
+        
         /*
          * TODO: JPB TBD - Commented out for this portion of the refactoring effort.
 
