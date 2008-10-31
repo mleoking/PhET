@@ -31,16 +31,16 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
     private static final String SKIP_UPDATE_BUTTON = PhetCommonResources.getString( "Common.updates.skipThisUpdate" );
     private static final String EDIT_PREFERENCES_LINK = PhetCommonResources.getString( "Common.updates.editPreferences" );
 
-    public AutomaticUpdateDialog( PhetApplication application, PhetVersion newVersion ) {
-        this( application.getPhetFrame(),
-              application.getSimInfo().getProjectName(),
-              application.getSimInfo().getFlavor(),
-              application.getSimInfo().getName(),
-              application.getSimInfo().getVersion(),
+    public AutomaticUpdateDialog( Frame frame,ISimInfo info, ITrackingInfo trackingInfo, PhetVersion newVersion ) {
+        this( frame,
+              info.getProjectName(),
+              info.getFlavor(),
+              info.getName(),
+              info.getVersion(),
               newVersion,
-              application.getTrackingInfo(),
-              new ApplicationConfigManualCheckForUpdates( application.getPhetFrame(), application.getSimInfo() ),
-              application.getSimInfo(),
+              trackingInfo, 
+              new ApplicationConfigManualCheckForUpdates( frame, info ),
+              info, 
               new DefaultUpdateTimer(),
               new DefaultVersionSkipper() );
     }

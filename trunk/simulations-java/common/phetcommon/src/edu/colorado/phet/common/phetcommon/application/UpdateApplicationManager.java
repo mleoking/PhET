@@ -2,17 +2,19 @@ package edu.colorado.phet.common.phetcommon.application;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.awt.*;
 
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.preferences.DefaultUpdatePreferences;
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
+import edu.colorado.phet.common.phetcommon.preferences.ITrackingInfo;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
-import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.updates.UpdateManager;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.AutomaticUpdateDialog;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
+import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 
 public class UpdateApplicationManager {
     private PhetApplicationConfig config;
@@ -28,9 +30,9 @@ public class UpdateApplicationManager {
         return enabledForSelection;
     }
 
-    public void applicationStarted( PhetApplication app ) {
+    public void applicationStarted( Frame frame,ISimInfo simInfo,ITrackingInfo trackingInfo) {
         if ( isUpdatesEnabled() && isUpdatesAllowed() && hasEnoughTimePassedSinceAskMeLater() ) {
-            autoCheckForUpdates( app );
+            autoCheckForUpdates( frame, simInfo, trackingInfo );
         }
     }
 
@@ -43,7 +45,7 @@ public class UpdateApplicationManager {
         return elapsedTime > millisecondsDelayBeforeAskingAgain || lastTimeUserPressedAskMeLaterForAnySim == 0;
     }
 
-    private void autoCheckForUpdates( final PhetApplication app ) {
+    private void autoCheckForUpdates( final Frame frame, final ISimInfo simInfo, final ITrackingInfo trackingInfo ) {
         TrackingManager.postActionPerformedMessage( TrackingMessage.AUTO_CHECK_FOR_UPDATES );
         final UpdateManager updateManager = new UpdateManager( config.getProjectName(), config.getVersion() );
         updateManager.addListener( new UpdateManager.Listener() {
@@ -59,7 +61,7 @@ public class UpdateApplicationManager {
                 {
                     SwingUtilities.invokeLater( new Runnable() {
                         public void run() {
-                            new AutomaticUpdateDialog( app, remoteVersion ).setVisible( true );
+                            new AutomaticUpdateDialog( frame, simInfo, trackingInfo, remoteVersion ).setVisible( true );
                         }
                     } );
                 }
