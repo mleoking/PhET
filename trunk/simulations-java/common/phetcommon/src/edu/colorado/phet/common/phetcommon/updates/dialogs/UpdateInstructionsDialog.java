@@ -54,7 +54,8 @@ public abstract class UpdateInstructionsDialog extends AbstractUpdateDialog {
         JPanel messagePanel = new JPanel();
         messagePanel.setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
         messagePanel.add( htmlPane );
-        
+
+
         // opens a web browser to the sim's webpage
         JButton okButton = new JButton( OK_BUTTON );
         okButton.addActionListener( new ActionListener() {
@@ -74,6 +75,7 @@ public abstract class UpdateInstructionsDialog extends AbstractUpdateDialog {
         } );
         
         JPanel buttonPanel = new JPanel();
+        //buttonPanel.add(new AutomaticUpdaterButton(project,sim));//todo: this line is a prototype test for an auto-updater; should be left commented out until out of prototyping phase
         buttonPanel.add( okButton );
         buttonPanel.add( cancelButton );
         
