@@ -37,6 +37,13 @@ public class AutomaticUpdaterButton extends JButton {
 
                     println( "Starting updater with command: \n" + Arrays.toString( cmd ) );
                     OpenWebPageToNewVersion.openWebPageToNewVersion( project, sim );
+                    try {
+                        Thread.sleep( 10000 );
+                    }
+                    catch ( InterruptedException e1 ) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
                     Process p = Runtime.getRuntime().exec( cmd );
                     System.exit( 0 );
 
