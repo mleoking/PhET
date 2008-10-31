@@ -1,0 +1,25 @@
+<project name="Updater" default="dist" basedir=".">
+
+    <property name="src" location="src"/>
+    <property name="build" location="build"/>
+    <property name="dist" location="dist"/>
+
+    <target name="init">
+        <tstamp/>
+    </target>
+
+    <target name="compile" depends="init">
+        <mkdir dir="${build}"/>
+        <javac srcdir="${src}" destdir="${build}"/>
+    </target>
+
+    <target name="dist" depends="compile">
+        <mkdir dir="${dist}"/>
+        <jar jarfile="${dist}/updater.jar" basedir="${build}"/>
+    </target>
+
+    <target name="clean">
+        <delete dir="${build}/**.*"/>
+        <delete dir="${dist}/**.*"/>
+    </target>
+</project>
