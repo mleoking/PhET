@@ -16,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
  * This class is a collection of constants that configure global properties.
  * If you change something here, it will change *everywhere* in this simulation.
  *
- * @author John De Goes, John Blanco
+ * @author John Blanco
  */
 public class StatesOfMatterConstants {
     
@@ -137,6 +137,12 @@ public class StatesOfMatterConstants {
     public static final double MIN_SIGMA = 75;       // In picometers.
     public static final double MAX_EPSILON = 220;    // Epsilon/k-Boltzmann is in Kelvin.
     public static final double MIN_EPSILON = 30;     // Epsilon/k-Boltzmann is in Kelvin.
+    
+    // Angle of the atoms that make up the water molecule, H-O-H.
+    public static final double THETA_HOH = 120*Math.PI/180;  // This is not quite the real value for a water
+                                                             // molecule, but it is close and worked better in
+                                                             // the simulation.
+
     
     //----------------------------------------------------------------------------
     // Physical Constants
