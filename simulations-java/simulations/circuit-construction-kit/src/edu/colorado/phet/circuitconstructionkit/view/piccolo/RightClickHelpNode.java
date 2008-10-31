@@ -71,6 +71,7 @@ public class RightClickHelpNode extends PhetPNode {
 
     private void update() {
         BranchNode follow = getFirstSelectedBranch();
+        branchHelpNode.setVisible( false );
         if ( follow != null ) {
             boolean branchHelpVisible = !userRightClicked && isConnectedToSomething( follow ) && isNonWireSelected() && !dragging;
             branchHelpNode.setVisible( branchHelpVisible );
@@ -81,6 +82,7 @@ public class RightClickHelpNode extends PhetPNode {
         }
 
         JunctionNode followJunction = getFirstSelectedJunction();
+        junctionHelpNode.setVisible( false );
         if ( followJunction != null ) {
             boolean junctionHelpVisible = !userRightClicked && isConnectedToTwoThings( followJunction ) & isJunctionSelected() && !dragging;
             junctionHelpNode.setVisible( junctionHelpVisible );
