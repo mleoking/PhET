@@ -7,13 +7,14 @@
 package edu.colorado.phet.microwaves;
 
 import java.awt.geom.Point2D;
+import java.util.Observable;
 
 import edu.colorado.phet.common.phetcommon.math.MedianFilter;
-import edu.colorado.phet.common_microwaves.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.microwaves.model.MicrowaveModel;
 import edu.colorado.phet.microwaves.model.WaterMolecule;
 
-public class Thermometer extends ModelElement {
+public class Thermometer extends Observable implements ModelElement {
     private MicrowaveModel model;
     private Point2D.Double location = new Point2D.Double();
     private static final int historySize = 5;

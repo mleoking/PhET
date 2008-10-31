@@ -10,11 +10,12 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 
-import javax.swing.*;
+import javax.swing.JDialog;
+import javax.swing.JTextField;
 import javax.swing.event.MouseInputAdapter;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.common_microwaves.view.ApparatusPanel;
 import edu.colorado.phet.common_microwaves.view.graphics.Graphic;
 import edu.colorado.phet.common_microwaves.view.graphics.ModelViewTransform2D;
@@ -40,7 +41,7 @@ public class MeasuringTape extends MouseInputAdapter {
         this.panel = panel;
 
         // Lay out the display
-        Frame frame = PhetApplication.instance().getApplicationView().getPhetFrame();
+        Frame frame = PhetApplication.instance().getPhetFrame();
         dialog = new JDialog( frame, MicrowavesResources.getString( "MeasuringTape.DialogTitle" ) );
         dialog.setUndecorated( true );
         Container contentPane = dialog.getContentPane();

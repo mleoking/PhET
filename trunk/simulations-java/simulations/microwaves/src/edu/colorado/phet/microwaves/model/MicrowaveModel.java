@@ -9,8 +9,8 @@ package edu.colorado.phet.microwaves.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common_microwaves.model.BaseModel;
 import edu.colorado.phet.microwaves.coreadditions.Vector2D;
 import edu.colorado.phet.microwaves.coreadditions.collision.Box2D;
 import edu.colorado.phet.microwaves.model.waves.FiniteWaveMedium;
@@ -25,13 +25,14 @@ public class MicrowaveModel extends BaseModel {
     private double amplitude;
     private Box2D oven;
     private Microwave mw;
+    private final String name;
 
-
-    public MicrowaveModel() {
-        this.addModelElement( waveMedium );
+    public MicrowaveModel( String name ) {
+        this.name = name;
+        addModelElement( waveMedium );
         new WaterMoleculeWaterMoleculeCollisionExpert();
     }
-
+    
     public void addMicrowave( Microwave microwave ) {
         waveMedium.addWavefront( microwave );
         microwaves.add( microwave );
@@ -44,13 +45,17 @@ public class MicrowaveModel extends BaseModel {
     }
 
     public void setOven( Box2D oven ) {
+        if ( this.oven != null ) {
+            removeModelElement( this.oven );
+        }
         this.oven = oven;
         waveMedium.setBounds( new Point2D.Double( oven.getMinX(), oven.getMinY() ),
                               oven.getMaxX() - oven.getMinX(),
                               oven.getMaxY() - oven.getMinY() );
+        addModelElement( oven );
     }
 
-    public void clockTicked( ClockEvent event ) {
+    public void update( ClockEvent event ) {
 
         for ( int i = 0; i < polarBodies.size(); i++ ) {
             PolarBody polarBody = (PolarBody) polarBodies.get( i );
@@ -78,7 +83,7 @@ public class MicrowaveModel extends BaseModel {
             }
         }
 
-        super.clockTicked( event );
+        super.update( event );
 
         if ( oven != null ) {
             for ( int i = 0; i < polarBodies.size(); i++ ) {

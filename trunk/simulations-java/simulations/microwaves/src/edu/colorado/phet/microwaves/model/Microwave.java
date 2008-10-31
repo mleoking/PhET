@@ -12,8 +12,6 @@ import edu.colorado.phet.microwaves.model.waves.Wave;
 
 public class Microwave extends Wave {
 
-    private double t;
-
     public Microwave( float freq, float amp ) {
         super( new PlaneWavefront(), new SineFunction(),
                freq, amp );

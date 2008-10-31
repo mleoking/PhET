@@ -6,9 +6,6 @@
  */
 package edu.colorado.phet.microwaves;
 
-import javax.swing.*;
-
-import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.microwaves.coreadditions.collision.Box2D;
 import edu.colorado.phet.microwaves.model.WaterMolecule;
 import edu.colorado.phet.microwaves.view.WaterMoleculeGraphic;
@@ -17,10 +14,6 @@ public class ManyMoleculesModule extends MicrowaveModule {
 
     public ManyMoleculesModule() {
         super( MicrowavesResources.getString( "ModuleTitle.ManyMoleculesModule" ) );
-    }
-
-    protected void init() {
-        super.init();
 
         // Put a bunch of water molecules randomly on the screen. Make sure they don't overlap
         // so the collision mechanics stay sane
@@ -48,23 +41,4 @@ public class ManyMoleculesModule extends MicrowaveModule {
             getApparatusPanel().addGraphic( moleculeGraphic, 5 );
         }
     }
-
-    public void activate( PhetApplication app ) {
-
-        // Create and display a dialog with strip charts for the microwave intensity
-        // and the orientation of the water molecule
-        JFrame frame = app.getApplicationView().getPhetFrame();
-
-//        StripChartDialog stripChartDialog = new StripChartDialog( frame, muWave, molecule );
-//        GraphicsUtil.centerDialogInParent( stripChartDialog );
-//        stripChartDialog.show();
-    }
-
-    public void deactivate( PhetApplication app ) {
-    }
-
-    //
-    // Inner classes
-    //
-
 }

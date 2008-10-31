@@ -8,8 +8,9 @@ package edu.colorado.phet.microwaves.model.waves;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Observable;
 
-import edu.colorado.phet.common_microwaves.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.microwaves.coreadditions.Vector2D;
 
 /**
@@ -18,7 +19,7 @@ import edu.colorado.phet.microwaves.coreadditions.Vector2D;
  * <p/>
  * TODO: Make this 2D. It is currently pnly 1D
  */
-public class WaveMedium extends ModelElement {
+public class WaveMedium extends Observable implements ModelElement {
 
     private ArrayList wavefronts = new ArrayList();
 

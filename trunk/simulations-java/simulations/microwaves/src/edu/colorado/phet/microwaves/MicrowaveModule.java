@@ -18,9 +18,11 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.common_microwaves.application.Module;
-import edu.colorado.phet.common_microwaves.application.PhetApplication;
+import edu.colorado.phet.common_microwaves.view.ApparatusPanel;
 import edu.colorado.phet.common_microwaves.view.graphics.Graphic;
 import edu.colorado.phet.common_microwaves.view.graphics.ModelViewTransform2D;
 import edu.colorado.phet.microwaves.coreadditions.BufferedApparatusPanel;
@@ -28,6 +30,7 @@ import edu.colorado.phet.microwaves.coreadditions.ModelViewTx1D;
 import edu.colorado.phet.microwaves.coreadditions.collision.Box2D;
 import edu.colorado.phet.microwaves.model.Microwave;
 import edu.colorado.phet.microwaves.model.MicrowaveModel;
+import edu.colorado.phet.microwaves.model.MicrowavesClock;
 import edu.colorado.phet.microwaves.model.WaterMolecule;
 import edu.colorado.phet.microwaves.model.waves.WaveMedium;
 import edu.colorado.phet.microwaves.view.*;
@@ -44,23 +47,28 @@ public abstract class MicrowaveModule extends Module {
     private Box2D oven;
     private FieldLatticeView fieldLattiveView;
     private boolean isMicrowaveOn = false;
+    private ApparatusPanel apparatusPanel;
 
     public MicrowaveModule( String name ) {
-        super( name );
-        microwaveModel = new MicrowaveModel();
-        super.setModel( microwaveModel );
+        super( name, new MicrowavesClock() );
+        microwaveModel = new MicrowaveModel( name );
+        setModel( microwaveModel );
         createApparatusPanel();
         init();
     }
-
-    protected void init() {
+    
+    protected ApparatusPanel getApparatusPanel() {
+        return apparatusPanel;
+    }
+    
+    private void init() {
 
         // Put a microwave in the microwaveModel
         muWave = new Microwave( 0f, 0f );
         microwaveModel.addMicrowave( muWave );
 
         // Set up appatatus panel
-        getApparatusPanel().setBackground( new Color( 250, 250, 220 ) );
+        apparatusPanel.setBackground( new Color( 250, 250, 220 ) );
 
         // Put a box in the model, for the walls of the microwave
         createOven();
@@ -73,28 +81,33 @@ public abstract class MicrowaveModule extends Module {
         thermometer.setLocation( new Point2D.Double( 50, 50 ) );
         microwaveModel.addModelElement( thermometer );
         Graphic thermometerGraphic = new ThermometerView( thermometer );
-        getApparatusPanel().addGraphic( thermometerGraphic, 100.0 );
+        apparatusPanel.addGraphic( thermometerGraphic, 100.0 );
 
         super.setControlPanel( new MicrowaveControlPanel( this, microwaveModel ) );
 
-//        PressureMeasurementTool t = new PressureMeasurementTool( getApparatusPanel() );
+//        PressureMeasurementTool t = new PressureMeasurementTool( apparatusPanel );
 //        t.setArmed( true );
 //
     }
 
     public void reset() {
         microwaveModel.clear();
-        getApparatusPanel().removeAllGraphics();
+        apparatusPanel.removeAllGraphics();
         isMicrowaveOn = false;
         init();
+    }
+    
+    public void updateGraphics( ClockEvent event ) {
+        apparatusPanel.update( null, null );// force a repaint
     }
 
     private void createApparatusPanel() {
         modelBounds = new Rectangle2D.Double( 0, 0, 600, 500 );
         viewBounds = new Rectangle( 0, 0, 600, 500 );
         modelViewTransform = new ModelViewTransform2D( modelBounds, viewBounds );
-        setApparatusPanel( new BufferedApparatusPanel( new FlipperAffineTransformFactory( modelBounds ) ) );
-        getApparatusPanel().addComponentListener( new ComponentAdapter() {
+        apparatusPanel = new BufferedApparatusPanel( new FlipperAffineTransformFactory( modelBounds ) );
+        setSimulationPanel( apparatusPanel );
+        apparatusPanel.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
             }
         } );
@@ -109,7 +122,7 @@ public abstract class MicrowaveModule extends Module {
         OvenGraphic ovenGraphic = new OvenGraphic( oven, modelViewTransform );
         ovenGraphic.update( null, null );
         double d = 1;
-        getApparatusPanel().addGraphic( ovenGraphic, d );
+        apparatusPanel.addGraphic( ovenGraphic, d );
     }
 
     private void createFieldView() {
@@ -124,10 +137,10 @@ public abstract class MicrowaveModule extends Module {
                                                      oven.getMaxX() - oven.getMinX() - latticeSpace,
                                                      oven.getMaxY() - oven.getMinY() - latticeSpace,
                                                      latticeSpace, latticeSpace,
-                                                     getApparatusPanel(),
+                                                     apparatusPanel,
                                                      getModelViewTransform() );
         }
-        getApparatusPanel().addGraphic( fieldLattiveView, 5.0 );
+        apparatusPanel.addGraphic( fieldLattiveView, 5.0 );
     }
 
     public MicrowaveModel getMicrowaveModel() {
@@ -188,9 +201,6 @@ public abstract class MicrowaveModule extends Module {
         return modelViewTransform;
     }
 
-    public void activate( PhetApplication phetApplication ) {
-    }
-
     public void setFieldViewOff() {
         fieldLattiveView.setViewOff();
     }
@@ -230,7 +240,7 @@ public abstract class MicrowaveModule extends Module {
         private JTextField dTF;
 
         PhysicalParamsDlg() {
-            super( PhetApplication.instance().getApplicationView().getPhetFrame() );
+            super( PhetApplication.instance().getPhetFrame() );
             SwingUtils.centerDialogInParent( this );
 
             // Parameter controls for testing

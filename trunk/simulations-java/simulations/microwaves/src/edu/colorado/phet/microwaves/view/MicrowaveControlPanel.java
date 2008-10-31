@@ -6,7 +6,9 @@
  */
 package edu.colorado.phet.microwaves.view;
 
-import java.awt.*;
+import java.awt.AWTException;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
@@ -17,10 +19,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.common_microwaves.application.PhetApplication;
-import edu.colorado.phet.microwaves.MicrowavesConfig;
 import edu.colorado.phet.microwaves.MicrowaveModule;
+import edu.colorado.phet.microwaves.MicrowavesConfig;
 import edu.colorado.phet.microwaves.MicrowavesResources;
 import edu.colorado.phet.microwaves.coreadditions.MeasuringTape;
 import edu.colorado.phet.microwaves.coreadditions.ModelViewTx1D;

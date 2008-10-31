@@ -12,7 +12,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.common_microwaves.view.graphics.Graphic;
 import edu.colorado.phet.coreadditions_microwaves.graphics.ImageGraphic;
 import edu.colorado.phet.microwaves.coreadditions.collision.Box2D;
@@ -30,11 +29,6 @@ public class CoffeeModule extends MicrowaveModule {
 
     public CoffeeModule() {
         super( MicrowavesResources.getString( "ModuleTitle.CoffeeModule" ) );
-    }
-
-    protected void init() {
-
-        super.init();
 
         // Put the coffee mug on the screen
         try {
@@ -48,7 +42,6 @@ public class CoffeeModule extends MicrowaveModule {
 
         mug = new Box2D( new Point2D.Double( 230, 150 ),
                          new Point2D.Double( 380, 320 ) );
-        getModel().addModelElement( mug );
         ( (MicrowaveModel) getModel() ).setOven( mug );
 
         // Put a bunch of water molecules randomly on the screen. Make sure they don't overlap
@@ -89,8 +82,8 @@ public class CoffeeModule extends MicrowaveModule {
         ovenOn = false;
     }
 
-    public void activate( PhetApplication phetApplication ) {
-        super.activate( phetApplication );
+    public void activate() {
+        super.activate();
         powerManager = new PowerManager( powerLevel );
         powerManager.isAlive();
         powerManager.start();
@@ -100,7 +93,8 @@ public class CoffeeModule extends MicrowaveModule {
 //        WaterMolecule.s_b = 0.0012;
     }
 
-    public void deactivate( PhetApplication app ) {
+    public void deactivate() {
+        super.deactivate();
         powerManager.setRunning( false );
 //        WaterMolecule.s_b = dampingSave;
     }
