@@ -234,7 +234,7 @@ public class FieldLatticeView extends TxObservingGraphic {
     private static int arrowWidth = 10;
     private static int arrowHeadWidth = 20;
     BasicStroke arrowStroke = new BasicStroke( 4 );
-    private static float s_scaleFactor = (float) ( 50 / MicrowavesConfig.s_maxAmp );
+    private static float s_scaleFactor = (float) ( 50 / MicrowavesConfig.MAX_AMPLITUDE );
     private static int s_latticePtDiam = 5;
     private static BufferedImage s_latticePtImg = new BufferedImage( s_latticePtDiam,
                                                                      s_latticePtDiam,

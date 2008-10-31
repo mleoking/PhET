@@ -58,7 +58,7 @@ public class MicrowaveControlPanel extends JPanel {
         freqSlider = new JSlider( SwingConstants.HORIZONTAL, 0,
                                   100,
                                   50 );
-        freqSliderTx = new ModelViewTx1D( 0, MicrowavesConfig.s_maxFreq,
+        freqSliderTx = new ModelViewTx1D( 0, MicrowavesConfig.MAX_FREQUENCY,
                                           0, 100 );
         freqSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -71,7 +71,7 @@ public class MicrowaveControlPanel extends JPanel {
         // Slider to control amplitude
         ampSlider = new JSlider( SwingConstants.HORIZONTAL, 0,
                                  100, 50 );
-        final ModelViewTx1D ampSliderTx = new ModelViewTx1D( 0, MicrowavesConfig.s_maxAmp,
+        final ModelViewTx1D ampSliderTx = new ModelViewTx1D( 0, MicrowavesConfig.MAX_AMPLITUDE,
                                                              0, 100 );
         ampSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

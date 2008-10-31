@@ -10,15 +10,15 @@ public class MicrowavesConfig {
     
     public static final String PROJECT_NAME = "microwaves";
 
-    public static int s_numWaterMoleculesInSingleLine = 4;
-    public static int s_numWaterMoleculesPlaceRandomly = 20;
-    public static int s_numWaterMoleculesInCoffeeCup = 6;
+    public static final int NUM_WATER_MOLECULES_IN_SINGLE_LINE = 4;
+    public static final int NUM_WATER_MOLECULES_PLACED_RANDOMLY = 20;
+    public static final int NUM_WATER_MOLECULES_IN_COFFEE_CUP = 6;
 
-    public static double s_maxFreq = 3E-3;
-    public static double s_initFreq = s_maxFreq / 2;
-    public static double s_sliderFreqScale = 100 / s_maxFreq;
+    public static final double MAX_FREQUENCY = 3E-3;
+    public static final double INIT_FREQUENCY = MAX_FREQUENCY / 2;
+    public static final double SLIDER_FREQUENCY_SCALE = 100 / MAX_FREQUENCY;
 
-    public static double s_maxAmp = .5;
-    public static double s_initAmp = s_maxAmp / 2;
-    public static double s_sliderAmpScale = 100 / s_maxAmp;
+    public static final double MAX_AMPLITUDE = .5;
+    public static final double INIT_AMPLITUDE = MAX_AMPLITUDE / 2;
+    public static final double SLIDER_AMPLITUDE_SCALE = 100 / MAX_AMPLITUDE;
 }
