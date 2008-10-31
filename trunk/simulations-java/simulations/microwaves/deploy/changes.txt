@@ -1,5 +1,7 @@
+10/31/08: [562] remove separate dirs for local copy of common code
+10/31/08: [562] move all common graphics code to edu.colorado.phet.microwaves.common.graphics
 10/31/08: [562] move application, modules & model to phetcommon trunk
-10/31/08: [562] convert to Piccolo-style tabs
+10/31/08: [562] convert to Piccolo-style tabs, add piccolo-phet dependency to build properties
 10/31/08: [562] delete any unused classes, including obsolete modules
 10/31/08: [562] change clock to ConstantDtClock
 10/?/08: [562] use a bunch of ancillary classes from phetcommon trunk, delete local copies
