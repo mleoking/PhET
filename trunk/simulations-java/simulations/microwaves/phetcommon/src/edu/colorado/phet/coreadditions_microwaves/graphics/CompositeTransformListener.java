@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Aug 29, 2003
  */
-package edu.colorado.phet.common_microwaves.view.graphics;
+package edu.colorado.phet.coreadditions_microwaves.graphics;
 
 import java.util.ArrayList;
 

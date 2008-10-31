@@ -5,7 +5,7 @@
  * Created by: Ron LeMaster
  * Date: Nov 6, 2002
  */
-package edu.colorado.phet.common_microwaves.view;
+package edu.colorado.phet.coreadditions_microwaves.graphics;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -20,8 +20,6 @@ import java.util.Observer;
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
-import edu.colorado.phet.common_microwaves.view.graphics.Graphic;
-import edu.colorado.phet.coreadditions_microwaves.graphics.AffineTransformFactory;
 
 /**
  * This is a base class for panels that contain graphic representations
@@ -43,7 +41,7 @@ import edu.colorado.phet.coreadditions_microwaves.graphics.AffineTransformFactor
  * <p/>
  * Instances of this class are Observers of the application's PhysicalSystem
  *
- * @see edu.colorado.phet.common_microwaves.view.graphics.Graphic
+ * @see edu.colorado.phet.coreadditions_microwaves.graphics.Graphic
  */
 public class ApparatusPanel extends JPanel implements Observer {
 

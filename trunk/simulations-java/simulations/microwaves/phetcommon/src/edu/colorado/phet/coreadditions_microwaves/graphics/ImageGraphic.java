@@ -15,7 +15,6 @@ import java.awt.image.ImageObserver;
 import java.io.IOException;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common_microwaves.view.graphics.Graphic;
 
 public class ImageGraphic implements Graphic, ImageObserver{
 
