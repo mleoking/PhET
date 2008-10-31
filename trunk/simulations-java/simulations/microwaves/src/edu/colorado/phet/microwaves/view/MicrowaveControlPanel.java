@@ -26,11 +26,11 @@ import edu.colorado.phet.microwaves.MicrowavesConfig;
 import edu.colorado.phet.microwaves.MicrowavesResources;
 import edu.colorado.phet.microwaves.coreadditions.MeasuringTape;
 import edu.colorado.phet.microwaves.coreadditions.ModelViewTx1D;
-import edu.colorado.phet.microwaves.model.MicrowaveModel;
+import edu.colorado.phet.microwaves.model.MicrowavesModel;
 
 public class MicrowaveControlPanel extends JPanel {
 
-    MicrowaveModel model;
+    MicrowavesModel model;
     MicrowaveModule module;
     PhetApplication application;
     private JSlider freqSlider;
@@ -46,7 +46,7 @@ public class MicrowaveControlPanel extends JPanel {
     NumberFormat amplitudeFormatter = new DecimalFormat( ".00" );
     private ModelViewTx1D freqSliderTx;
 
-    public MicrowaveControlPanel( MicrowaveModule module, MicrowaveModel model ) {
+    public MicrowaveControlPanel( MicrowaveModule module, MicrowavesModel model ) {
         this.module = module;
         this.model = model;
         layoutPanel();

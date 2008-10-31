@@ -29,7 +29,7 @@ import edu.colorado.phet.microwaves.coreadditions.BufferedApparatusPanel;
 import edu.colorado.phet.microwaves.coreadditions.ModelViewTx1D;
 import edu.colorado.phet.microwaves.coreadditions.collision.Box2D;
 import edu.colorado.phet.microwaves.model.Microwave;
-import edu.colorado.phet.microwaves.model.MicrowaveModel;
+import edu.colorado.phet.microwaves.model.MicrowavesModel;
 import edu.colorado.phet.microwaves.model.MicrowavesClock;
 import edu.colorado.phet.microwaves.model.WaterMolecule;
 import edu.colorado.phet.microwaves.model.waves.WaveMedium;
@@ -37,7 +37,7 @@ import edu.colorado.phet.microwaves.view.*;
 
 public abstract class MicrowaveModule extends Module {
     protected Microwave muWave;
-    private MicrowaveModel microwaveModel;
+    private MicrowavesModel microwaveModel;
     private Rectangle2D.Double modelBounds;
     private Rectangle viewBounds;
     private float savedFreq = (float) MicrowavesConfig.INIT_FREQUENCY;
@@ -51,7 +51,7 @@ public abstract class MicrowaveModule extends Module {
 
     public MicrowaveModule( String name ) {
         super( name, new MicrowavesClock() );
-        microwaveModel = new MicrowaveModel( name );
+        microwaveModel = new MicrowavesModel( name );
         setModel( microwaveModel );
         createApparatusPanel();
         init();
@@ -143,7 +143,7 @@ public abstract class MicrowaveModule extends Module {
         apparatusPanel.addGraphic( fieldLattiveView, 5.0 );
     }
 
-    public MicrowaveModel getMicrowaveModel() {
+    public MicrowavesModel getMicrowaveModel() {
         return microwaveModel;
     }
 

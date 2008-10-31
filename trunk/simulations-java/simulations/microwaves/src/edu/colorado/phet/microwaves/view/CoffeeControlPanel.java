@@ -21,13 +21,13 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.microwaves.CoffeeModule;
 import edu.colorado.phet.microwaves.MicrowaveModule;
 import edu.colorado.phet.microwaves.MicrowavesResources;
-import edu.colorado.phet.microwaves.model.MicrowaveModel;
+import edu.colorado.phet.microwaves.model.MicrowavesModel;
 
 public class CoffeeControlPanel extends JPanel {
     static private double DEFAULT_FREQUENCY = 0.002;
     static private double DEFAULT_AMPLITUDE = 0.33;
 
-    MicrowaveModel model;
+    MicrowavesModel model;
     MicrowaveModule module;
     PhetApplication application;
     private JRadioButton noFieldViewRB;
@@ -41,7 +41,7 @@ public class CoffeeControlPanel extends JPanel {
     private JRadioButton pct25RB;
     private ButtonGroup powerBtnGrp;
 
-    public CoffeeControlPanel( MicrowaveModule module, MicrowaveModel model ) {
+    public CoffeeControlPanel( MicrowaveModule module, MicrowavesModel model ) {
         this.module = module;
         this.model = model;
         layoutPanel();
