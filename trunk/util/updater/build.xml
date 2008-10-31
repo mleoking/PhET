@@ -4,7 +4,7 @@
     <property name="build" location="build"/>
     <property name="dist" location="dist"/>
 
-    <target name="init">
+    <target name="init" depends="clean">
         <tstamp/>
     </target>
 
