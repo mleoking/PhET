@@ -21,12 +21,12 @@ public class AutomaticUpdaterButton extends JButton {
                     download( "http://www.colorado.edu/physics/phet/dev/temp/updater.jar", f );
                     System.out.println( "downloaded updater to: \n" + f.getAbsolutePath() );
 
-                    String javaPath = System.getProperty( "java.home" ) + System.getProperty( "file.separator" ) + "bin" + System.getProperty( "file.separator" ) + "java";
+                    String javaPath = "\"" + System.getProperty( "java.home" ) + "\"" + System.getProperty( "file.separator" ) + "bin" + System.getProperty( "file.separator" ) + "java";
                     File location = getCodeSource();
                     if ( !location.getName().toLowerCase().endsWith( ".jar" ) ) {
                         System.out.println( "Not running from a jar" );
                         location = File.createTempFile( "" + sim, ".jar" );
-                        System.out.println( "CHanged download location to: "+location );
+                        System.out.println( "CHanged download location to: " + location );
                     }
                     String args = "" + project + " " + sim + " en " + "\"" + location.getAbsolutePath() + "\"";//todo support for locales
                     String command = "\"" + javaPath + "\"" + " -jar \"" + f.getAbsolutePath() + "\" " + args;
