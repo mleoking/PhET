@@ -4,6 +4,10 @@ package edu.colorado.phet.common.phetcommon.updates.dialogs;
  *  http://www.javaworld.com/javaworld/jw-12-2000/jw-1229-traps.html
  *  When Runtime.exec() won't: Navigate yourself around pitfalls related to the Runtime.exec() method
  *  @author Michael Daconta
+ *
+ * sample usage:
+ * new StreamGobbler( proc.getErrorStream(), "ERR" ).start();
+ * new StreamGobbler( proc.getInputStream(), "OUT" ).start();
  */
 import java.io.*;
 
