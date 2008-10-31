@@ -31,7 +31,7 @@ public class PhaseChangesModule extends PiccoloModule {
                 new ConstantDtClock(PhaseChangesDefaults.CLOCK_FRAME_DELAY, PhaseChangesDefaults.CLOCK_DT));
 
         // Model
-        m_model = new MultipleParticleModel2( getClock() );
+        m_model = new MultipleParticleModel1( getClock() );
 
         // Canvas
         m_canvas = new PhaseChangesCanvas( m_model );
