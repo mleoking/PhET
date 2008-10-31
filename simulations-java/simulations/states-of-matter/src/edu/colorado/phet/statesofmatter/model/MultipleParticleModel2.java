@@ -16,6 +16,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.engine.AtomPositionUpdater;
+import edu.colorado.phet.statesofmatter.model.engine.DiatomicAtomPositionUpdater;
+import edu.colorado.phet.statesofmatter.model.engine.DiatomicPhaseStateChanger;
 import edu.colorado.phet.statesofmatter.model.engine.EngineFacade;
 import edu.colorado.phet.statesofmatter.model.engine.MoleculeForceAndMotionCalculator;
 import edu.colorado.phet.statesofmatter.model.engine.MonatomicAtomPositionUpdater;
@@ -819,8 +821,8 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
         // Execute the Verlet algorithm.  The algorithm may be run several times
         // for each time step.
         for (int i = 0; i < VERLET_CALCULATIONS_PER_CLOCK_TICK; i++ ){
-        	m_moleculeForceAndMotionCalculator.updateForcesAndMotion();
-        	runThermostat();
+//        	m_moleculeForceAndMotionCalculator.updateForcesAndMotion();
+//        	runThermostat();
         }
         
         // Sync up the positions of the normalized particles (the molecule data
@@ -933,9 +935,6 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
         else if (moleculeID == StatesOfMatterConstants.ARGON){
             particleDiameter = ArgonAtom.RADIUS * 2;
         }
-        else if (moleculeID == StatesOfMatterConstants.MONATOMIC_OXYGEN){
-            particleDiameter = OxygenAtom.RADIUS * 2;
-        }
         else{
             // Force it to neon.
             moleculeID = StatesOfMatterConstants.NEON;
@@ -952,7 +951,6 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
         m_moleculeDataSet = new MoleculeForceAndMotionDataSet( 1 );
         
         // Create the strategies that will work on this data set.
-        // TODO: JPB TBD - Add all the strategy pattern creation here.
         m_phaseStateChanger = new MonatomicPhaseStateChanger( this );
         m_atomPositionUpdater = new MonatomicAtomPositionUpdater();
         m_moleculeForceAndMotionCalculator = new MonatomicVerletAlgorithm( this );
@@ -980,7 +978,7 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
                 atom = new ArgonAtom(0, 0);
             }
             else{
-                atom = new OxygenAtom(0, 0);
+                atom = new NeonAtom(0, 0);
             }
             m_particles.add( atom );
             notifyParticleAdded( atom );
@@ -1001,6 +999,56 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
         
         // Verify that a valid molecule ID was provided.
         assert (moleculeID == StatesOfMatterConstants.DIATOMIC_OXYGEN);
+        
+        // Determine the number of atoms/molecules to create.  This will be a cube
+        // (really a square, since it's 2D, but you get the idea) that takes
+        // up a fixed amount of the bottom of the container, so the number of
+        // molecules that can fit depends on the size of the individual atom.
+        // For the square to have the right number of atoms, it needs to be
+        // and even square, hence the convoluted calculation.
+        int numberOfAtoms = (int)Math.pow( Math.round(StatesOfMatterConstants.CONTAINER_BOUNDS.width / 
+                (( OxygenAtom.RADIUS * 2.1 ) * 3)), 2);
+        if (numberOfAtoms % 2 != 0){
+        	numberOfAtoms--;
+        }
+        int numberOfMolecules = numberOfAtoms / 2;
+        
+        // Create the normalized data set for the one-atom-per-molecule case.
+        m_moleculeDataSet = new MoleculeForceAndMotionDataSet( 2 );
+        
+        // Create the strategies that will work on this data set.
+        m_phaseStateChanger = new DiatomicPhaseStateChanger( this );
+        m_atomPositionUpdater = new DiatomicAtomPositionUpdater();
+//        m_moleculeForceAndMotionCalculator = new MonatomicVerletAlgorithm( this ); TODO: JPB TBD - put in the real one.
+        m_isoKineticThermostat = new IsokineticThermostat( m_moleculeDataSet, m_minModelTemperature );
+        m_andersenThermostat = new AndersenThermostat( m_moleculeDataSet, m_minModelTemperature );
+        
+        // Create the individual atoms and add them to the data set.
+        for (int i = 0; i < numberOfMolecules; i++){
+            
+            // Create the molecule.
+        	Point2D moleculeCenterOfMassPosition = new Point2D.Double();
+        	Vector2D.Double moleculeVelocity = new Vector2D.Double();
+        	Point2D [] atomPositions = new Point2D[2];
+    		atomPositions[0] = new Point2D.Double();
+    		atomPositions[1] = new Point2D.Double();
+    		
+    		// Add the atom to the data set.
+    		m_moleculeDataSet.addMolecule(atomPositions, moleculeCenterOfMassPosition, moleculeVelocity, 0);
+
+            // Add atoms to model set.
+            StatesOfMatterAtom atom;
+            atom = new OxygenAtom(0, 0);
+            m_particles.add( atom );
+            notifyParticleAdded( atom );
+            atom = new OxygenAtom(0, 0);
+            m_particles.add( atom );
+            notifyParticleAdded( atom );
+        }
+
+        // Initialize the particle positions into a solid form.
+        m_phaseStateChanger.setPhase( PhaseStateChanger.PHASE_SOLID );
+        syncParticlePositions();
         
         /*
          * TODO: JPB TBD - Commented out for this portion of the refactoring effort.
