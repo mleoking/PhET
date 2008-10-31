@@ -15,9 +15,9 @@ public class Updater {
     }
 
     private void launchSimulation( String locale, File targetLocation ) {
-        String javaPath = System.getProperty( "java.home" ) + System.getProperty( "file.separator" ) + "bin" + System.getProperty( "file.separator" ) + "java";
+        String javaPath = "\"" + System.getProperty( "java.home" ) + "\"" + System.getProperty( "file.separator" ) + "bin" + System.getProperty( "file.separator" ) + "java";
         try {
-            Process p = Runtime.getRuntime().exec( javaPath + " -jar " + targetLocation.getAbsolutePath() );
+            Process p = Runtime.getRuntime().exec( javaPath + " -jar \"" + targetLocation.getAbsolutePath() + "\"" );
         }
         catch( IOException e ) {
             e.printStackTrace();
