@@ -7,6 +7,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Arrays;
 
 import javax.swing.*;
 
@@ -30,10 +31,10 @@ public class AutomaticUpdaterButton extends JButton {
                         location = File.createTempFile( "" + sim, ".jar" );
                         println( "CHanged download location to: " + location );
                     }
-                    String args = "" + project + " " + sim + " en " + "\"" + location.getAbsolutePath() + "\"";//todo support for locales
-                    String command = "\"" + javaPath + "\"" + " -jar \"" + f.getAbsolutePath() + "\" " + args;
-                    println( "Starting updater with command: \n" + command );
-                    Process p = Runtime.getRuntime().exec( command );
+                    String[] cmd = new String[]{javaPath, "-jar", f.getAbsolutePath(), project, sim, "en", location.getAbsolutePath()};//todo support for locales
+
+                    println( "Starting updater with command: \n" + Arrays.toString( cmd ) );
+                    Process p = Runtime.getRuntime().exec( cmd );
                     System.exit( 0 );
 
                     //todo: updater should allow 5 seconds or so for this to exit
@@ -118,7 +119,7 @@ public class AutomaticUpdaterButton extends JButton {
         // This one works fine on Mac.
         Process p = Runtime.getRuntime().exec( new String[]{"/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home/bin/java", "-jar", "/tmp/updater17775.jar", "balloons", "balloons", "en", "/Users/cmalley/Downloads/balloons.jar"} );
         new StreamGobbler( p.getErrorStream(), "ERR" ).start();
-        new StreamGobbler( p.getInputStream(), "OUT" ).start(); 
+        new StreamGobbler( p.getInputStream(), "OUT" ).start();
         try {
             p.waitFor();
         }

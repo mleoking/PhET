@@ -3,6 +3,7 @@ package edu.colorado.phet.updater;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class Updater {
 
@@ -23,11 +24,11 @@ public class Updater {
     }
 
     private void launchSimulation( String locale, File targetLocation ) {
-        String javaPath = "\"" + System.getProperty( "java.home" ) + System.getProperty( "file.separator" ) + "bin" + System.getProperty( "file.separator" ) + "java" + "\"";
+        String javaPath = System.getProperty( "java.home" ) + System.getProperty( "file.separator" ) + "bin" + System.getProperty( "file.separator" ) + "java";
         try {
-            String command = javaPath + " -jar \"" + targetLocation.getAbsolutePath() + "\"";
-            println( "exec'ing command=" + command );
-            Process p = Runtime.getRuntime().exec( command );
+            String[] cmd = new String[]{javaPath, "-jar", targetLocation.getAbsolutePath()};
+            println( "exec'ing command=" + Arrays.asList( cmd ) );
+            Process p = Runtime.getRuntime().exec( cmd );
         }
         catch( IOException e ) {
             e.printStackTrace();
