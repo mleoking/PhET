@@ -31,7 +31,7 @@ public abstract class UpdateInstructionsDialog extends AbstractUpdateDialog {
      */
     public static class AutomaticUpdateInstructionsDialog extends UpdateInstructionsDialog {
         public AutomaticUpdateInstructionsDialog( Frame owner, String project, String sim, String simName, String currentVersion, String newVersion ) {
-            super( owner, project, sim, getAutomaticUpdateInstructionsHTML( simName, currentVersion, newVersion ) );
+            super( owner, project, sim, getAutomaticUpdateInstructionsHTML( project, sim, newVersion ) );
         }
     }
   
@@ -75,7 +75,7 @@ public abstract class UpdateInstructionsDialog extends AbstractUpdateDialog {
         } );
         
         JPanel buttonPanel = new JPanel();
-        //buttonPanel.add(new AutomaticUpdaterButton(project,sim));//todo: this line is a prototype test for an auto-updater; should be left commented out until out of prototyping phase
+        buttonPanel.add(new AutomaticUpdaterButton(project,sim));//todo: this line is a prototype test for an auto-updater; should be left commented out until out of prototyping phase
         buttonPanel.add( okButton );
         buttonPanel.add( cancelButton );
         

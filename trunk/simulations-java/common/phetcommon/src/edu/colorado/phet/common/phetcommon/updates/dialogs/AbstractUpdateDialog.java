@@ -69,7 +69,7 @@ public abstract class AbstractUpdateDialog extends JDialog {
     private static String getUpdateInstructionsHTMLFragment( String project, String sim, String newVersion ) {
         Object[] args = { newVersion };
         String browserWillOpen = MessageFormat.format( PATTERN_BROWSER_WILL_OPEN, args );
-        Object[] args2 = { HTMLUtils.getSimHref( project, sim ) };
+        Object[] args2 = { HTMLUtils.getSimHref( project, sim,"&amp;" ) };
         String browserFailsToOpen = MessageFormat.format( PATTERN_BROWSER_FAILS_TO_OPEN, args2 );
         return browserWillOpen + "<br><br><font size=-2>" + browserFailsToOpen + "</font>";
     }

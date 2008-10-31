@@ -87,8 +87,8 @@ public class HTMLUtils {
      * @param sim
      * @return
      */
-    public static String getSimURL( String project, String sim ) {
-        return PhetCommonConstants.PHET_HOME_URL + "/simulations/sim-redirect.php?project=" + project + "&sim=" + sim;
+    public static String getSimURL( String project, String sim,String ampersand ) {
+        return PhetCommonConstants.PHET_HOME_URL + "/simulations/sim-redirect.php?project=" + project + ampersand+"sim=" + sim;
     }
     
     /**
@@ -98,8 +98,8 @@ public class HTMLUtils {
      * @param sim
      * @return
      */
-    public static String getSimHref( String project, String sim ) {
-        String url = getSimURL( project, sim );
+    public static String getSimHref( String project, String sim,String ampersand ) {
+        String url = getSimURL( project, sim,ampersand );
         return getHref( url, url );
     }
     
@@ -110,8 +110,8 @@ public class HTMLUtils {
      * @param userVisibleSimName the text to be displayed
      * @return
      */
-    public static String getSimHref( String project, String sim, String userVisibleSimName ) {
-        return getHref( getSimURL( project, sim ), userVisibleSimName );
+    public static String getSimHref( String project, String sim, String userVisibleSimName,String ampersand ) {
+        return getHref( getSimURL( project, sim,ampersand ), userVisibleSimName );
     }
     
     /**
