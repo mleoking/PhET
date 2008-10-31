@@ -11,16 +11,16 @@ import java.util.Observable;
 
 import edu.colorado.phet.common.phetcommon.math.MedianFilter;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.microwaves.model.MicrowaveModel;
+import edu.colorado.phet.microwaves.model.MicrowavesModel;
 import edu.colorado.phet.microwaves.model.WaterMolecule;
 
 public class Thermometer extends Observable implements ModelElement {
-    private MicrowaveModel model;
+    private MicrowavesModel model;
     private Point2D.Double location = new Point2D.Double();
     private static final int historySize = 5;
     private double[] history = new double[historySize];
 
-    public Thermometer( MicrowaveModel model ) {
+    public Thermometer( MicrowavesModel model ) {
         this.model = model;
     }
 

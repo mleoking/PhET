@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common_microwaves.view.graphics.Graphic;
 import edu.colorado.phet.coreadditions_microwaves.graphics.ImageGraphic;
 import edu.colorado.phet.microwaves.coreadditions.collision.Box2D;
-import edu.colorado.phet.microwaves.model.MicrowaveModel;
+import edu.colorado.phet.microwaves.model.MicrowavesModel;
 import edu.colorado.phet.microwaves.model.WaterMolecule;
 import edu.colorado.phet.microwaves.view.CoffeeControlPanel;
 import edu.colorado.phet.microwaves.view.WaterMoleculeGraphic;
@@ -42,7 +42,7 @@ public class CoffeeModule extends MicrowaveModule {
 
         mug = new Box2D( new Point2D.Double( 230, 150 ),
                          new Point2D.Double( 380, 320 ) );
-        ( (MicrowaveModel) getModel() ).setOven( mug );
+        ( (MicrowavesModel) getModel() ).setOven( mug );
 
         // Put a bunch of water molecules randomly on the screen. Make sure they don't overlap
         // so the collision mechanics stay sane

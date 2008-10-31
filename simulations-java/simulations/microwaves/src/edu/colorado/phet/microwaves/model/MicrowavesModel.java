@@ -16,7 +16,7 @@ import edu.colorado.phet.microwaves.coreadditions.collision.Box2D;
 import edu.colorado.phet.microwaves.model.waves.FiniteWaveMedium;
 import edu.colorado.phet.microwaves.model.waves.WaveMedium;
 
-public class MicrowaveModel extends BaseModel {
+public class MicrowavesModel extends BaseModel {
 
     private ArrayList polarBodies = new ArrayList();
     private FiniteWaveMedium waveMedium = new FiniteWaveMedium( new Point2D.Double( 100, 100 ), 500, 400 );
@@ -27,7 +27,7 @@ public class MicrowaveModel extends BaseModel {
     private Microwave mw;
     private final String name;
 
-    public MicrowaveModel( String name ) {
+    public MicrowavesModel( String name ) {
         this.name = name;
         addModelElement( waveMedium );
         new WaterMoleculeWaterMoleculeCollisionExpert();
