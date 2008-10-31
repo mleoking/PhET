@@ -23,7 +23,11 @@
     </target>
 
     <target name="clean">
-        <delete dir="${build}/**.*"/>
-        <delete dir="${dist}/**.*"/>
+        <delete>
+          <fileset dir="${dist}" includes="**/*"/>
+        </delete>
+        <delete>
+          <fileset dir="${build}" includes="**/*"/>
+        </delete>
     </target>
 </project>
