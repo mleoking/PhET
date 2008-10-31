@@ -20,15 +20,8 @@ public class MonatomicPhaseStateChanger extends AbstractPhaseStateChanger {
     // Class Data
     //----------------------------------------------------------------------------
 	
-	private static final int    MAX_PLACEMENT_ATTEMPTS = 500; // For random placement when creating gas or liquid.
-    private static final double MIN_INITIAL_INTER_PARTICLE_DISTANCE = 1.2;
-    private static final double MIN_INITIAL_PARTICLE_TO_WALL_DISTANCE = 2.5;
-
-	//----------------------------------------------------------------------------
-    // Instance Data
-    //----------------------------------------------------------------------------
-	
-	private final MonatomicAtomPositionUpdater m_positionUpdater = 
+	private static final double MIN_INITIAL_INTER_PARTICLE_DISTANCE = 1.2;
+    private final MonatomicAtomPositionUpdater m_positionUpdater = 
 		new MonatomicAtomPositionUpdater();
 	
 	//----------------------------------------------------------------------------
