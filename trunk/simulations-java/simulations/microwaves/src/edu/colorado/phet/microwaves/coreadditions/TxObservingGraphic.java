@@ -16,9 +16,9 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Observer;
 
-import edu.colorado.phet.coreadditions_microwaves.graphics.Graphic;
-import edu.colorado.phet.coreadditions_microwaves.graphics.ModelViewTransform2D;
-import edu.colorado.phet.coreadditions_microwaves.graphics.TransformListener;
+import edu.colorado.phet.microwaves.common.graphics.Graphic;
+import edu.colorado.phet.microwaves.common.graphics.ModelViewTransform2D;
+import edu.colorado.phet.microwaves.common.graphics.TransformListener;
 
 public abstract class TxObservingGraphic implements Graphic, Observer, TransformListener {
 
@@ -31,7 +31,7 @@ public abstract class TxObservingGraphic implements Graphic, Observer, Transform
 
     protected void setBoundsMapping( Rectangle2D.Double modelBounds,
                                      Rectangle viewBounds,
-                                     edu.colorado.phet.coreadditions_microwaves.graphics.ApparatusPanel apparatusPanel ) {
+                                     edu.colorado.phet.microwaves.common.graphics.ApparatusPanel apparatusPanel ) {
         modelViewTx = new ModelViewTransform2D( modelBounds, viewBounds );
 //        modelViewTx = new ModelViewTransform2D( modelBounds, viewBounds );
         ApparatusPanelModelViewTxAdapter adapter = new ApparatusPanelModelViewTxAdapter( modelViewTx, apparatusPanel );
@@ -79,7 +79,7 @@ public abstract class TxObservingGraphic implements Graphic, Observer, Transform
     class ApparatusPanelModelViewTxAdapter extends ComponentAdapter {
         private double aspectRatio;
 
-        ApparatusPanelModelViewTxAdapter( ModelViewTransform2D tx, edu.colorado.phet.coreadditions_microwaves.graphics.ApparatusPanel apparatusPanel ) {
+        ApparatusPanelModelViewTxAdapter( ModelViewTransform2D tx, edu.colorado.phet.microwaves.common.graphics.ApparatusPanel apparatusPanel ) {
             aspectRatio = tx.getModelBounds().height / tx.getModelBounds().width;
             apparatusPanel.addComponentListener( this );
         }

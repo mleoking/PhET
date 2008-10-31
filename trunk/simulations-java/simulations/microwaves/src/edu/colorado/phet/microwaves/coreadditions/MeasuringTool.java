@@ -16,10 +16,10 @@ import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.coreadditions_microwaves.graphics.ApparatusPanel;
-import edu.colorado.phet.coreadditions_microwaves.graphics.Graphic;
-import edu.colorado.phet.coreadditions_microwaves.graphics.ModelViewTransform2D;
 import edu.colorado.phet.microwaves.MicrowavesResources;
+import edu.colorado.phet.microwaves.common.graphics.ApparatusPanel;
+import edu.colorado.phet.microwaves.common.graphics.Graphic;
+import edu.colorado.phet.microwaves.common.graphics.ModelViewTransform2D;
 
 public class MeasuringTool extends MouseInputAdapter {
 

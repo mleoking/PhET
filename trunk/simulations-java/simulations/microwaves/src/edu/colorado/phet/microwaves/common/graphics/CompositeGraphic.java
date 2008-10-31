@@ -5,7 +5,7 @@
  * Created by: Ron LeMaster
  * Date: Nov 6, 2002
  */
-package edu.colorado.phet.coreadditions_microwaves.graphics;
+package edu.colorado.phet.microwaves.common.graphics;
 
 
 import java.awt.*;

@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Oct 9, 2003
  */
-package edu.colorado.phet.coreadditions_microwaves.graphics;
+package edu.colorado.phet.microwaves.common.graphics;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Aug 29, 2003
  */
-package edu.colorado.phet.coreadditions_microwaves.graphics;
+package edu.colorado.phet.microwaves.common.graphics;
 
 /**
  * Listens for changes in the model or view viewport.

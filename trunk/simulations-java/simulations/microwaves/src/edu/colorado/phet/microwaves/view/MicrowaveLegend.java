@@ -13,8 +13,8 @@ import java.awt.image.BufferedImage;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.coreadditions_microwaves.graphics.ModelViewTransform2D;
 import edu.colorado.phet.microwaves.MicrowavesResources;
+import edu.colorado.phet.microwaves.common.graphics.ModelViewTransform2D;
 import edu.colorado.phet.microwaves.model.WaterMolecule;
 
 public class MicrowaveLegend extends JPanel {

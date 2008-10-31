@@ -10,8 +10,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 
-import edu.colorado.phet.coreadditions_microwaves.graphics.AffineTransformFactory;
-import edu.colorado.phet.coreadditions_microwaves.graphics.ApparatusPanel;
+import edu.colorado.phet.microwaves.common.graphics.AffineTransformFactory;
+import edu.colorado.phet.microwaves.common.graphics.ApparatusPanel;
 
 public class BufferedApparatusPanel extends ApparatusPanel {
     private BufferedImage bImg;
