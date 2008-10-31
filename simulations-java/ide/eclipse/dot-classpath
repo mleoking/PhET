@@ -75,8 +75,6 @@
 	<classpathentry kind="src" path="simulations/maze-game/data"/>
 	<classpathentry kind="src" path="simulations/microwaves/src"/>
 	<classpathentry kind="src" path="simulations/microwaves/data"/>
-	<classpathentry kind="src" path="simulations/microwaves/phetcommon/src"/>
-	<classpathentry kind="src" path="simulations/microwaves/phetcommon/data"/>
 	<classpathentry kind="src" path="simulations/motion-2d/src"/>
 	<classpathentry kind="src" path="simulations/motion-2d/data"/>
 	<classpathentry kind="src" path="simulations/moving-man/src"/>
