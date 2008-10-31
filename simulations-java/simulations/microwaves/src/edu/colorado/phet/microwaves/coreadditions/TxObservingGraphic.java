@@ -6,17 +6,21 @@
  */
 package edu.colorado.phet.microwaves.coreadditions;
 
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.Observer;
 
+import edu.colorado.phet.common_microwaves.view.graphics.Graphic;
 import edu.colorado.phet.common_microwaves.view.graphics.ModelViewTransform2D;
-import edu.colorado.phet.common_microwaves.view.graphics.ObservingGraphic;
 import edu.colorado.phet.common_microwaves.view.graphics.TransformListener;
 
-public abstract class TxObservingGraphic implements ObservingGraphic, TransformListener {
+public abstract class TxObservingGraphic implements Graphic, Observer, TransformListener {
 
     private ModelViewTransform2D modelViewTx;
 
