@@ -5,7 +5,7 @@
  * Created by: Ron LeMaster
  * Date: Nov 6, 2002
  */
-package edu.colorado.phet.coreadditions_microwaves.graphics;
+package edu.colorado.phet.microwaves.common.graphics;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -41,7 +41,7 @@ import javax.swing.event.MouseInputAdapter;
  * <p/>
  * Instances of this class are Observers of the application's PhysicalSystem
  *
- * @see edu.colorado.phet.coreadditions_microwaves.graphics.Graphic
+ * @see edu.colorado.phet.microwaves.common.graphics.Graphic
  */
 public class ApparatusPanel extends JPanel implements Observer {
 

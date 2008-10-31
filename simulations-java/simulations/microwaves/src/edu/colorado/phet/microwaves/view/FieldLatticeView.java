@@ -14,9 +14,9 @@ import java.util.Observable;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
-import edu.colorado.phet.coreadditions_microwaves.graphics.ApparatusPanel;
-import edu.colorado.phet.coreadditions_microwaves.graphics.ModelViewTransform2D;
 import edu.colorado.phet.microwaves.MicrowavesConfig;
+import edu.colorado.phet.microwaves.common.graphics.ApparatusPanel;
+import edu.colorado.phet.microwaves.common.graphics.ModelViewTransform2D;
 import edu.colorado.phet.microwaves.coreadditions.TxObservingGraphic;
 import edu.colorado.phet.microwaves.coreadditions.Vector2D;
 import edu.colorado.phet.microwaves.model.waves.WaveMedium;

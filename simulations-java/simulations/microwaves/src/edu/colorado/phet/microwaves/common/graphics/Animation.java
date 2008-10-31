@@ -6,7 +6,7 @@
  * Time: 5:55:14 PM
  * To change this template use Options | File Templates.
  */
-package edu.colorado.phet.coreadditions_microwaves.graphics;
+package edu.colorado.phet.microwaves.common.graphics;
 
 import java.awt.Image;
 import java.io.IOException;

@@ -12,8 +12,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.coreadditions_microwaves.graphics.Graphic;
-import edu.colorado.phet.coreadditions_microwaves.graphics.ImageGraphic;
+import edu.colorado.phet.microwaves.common.graphics.Graphic;
+import edu.colorado.phet.microwaves.common.graphics.ImageGraphic;
 import edu.colorado.phet.microwaves.coreadditions.collision.Box2D;
 import edu.colorado.phet.microwaves.model.MicrowavesModel;
 import edu.colorado.phet.microwaves.model.WaterMolecule;

@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Oct 19, 2003
  */
-package edu.colorado.phet.coreadditions_microwaves.graphics;
+package edu.colorado.phet.microwaves.common.graphics;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
