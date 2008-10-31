@@ -337,6 +337,7 @@ public class MultipleParticleModel1 extends AbstractMultipleParticleModel {
             moleculeID = StatesOfMatterConstants.NEON;
         }
         
+        // Remember the requested setting.
         m_currentMolecule = moleculeID;
         
         // Set the model parameters that are dependent upon the model type.
@@ -366,10 +367,18 @@ public class MultipleParticleModel1 extends AbstractMultipleParticleModel {
             m_minModelTemperature = 0.5 * TRIPLE_POINT_MODEL_TEMPERATURE / WATER_TRIPLE_POINT_IN_KELVIN;
             break;
         }
+        
+        // Retain the current phase to use after the reset.
+        int phase = mapTemperatureToPhase();
 
         // This causes a reset and puts the particles into predetermined
         // locations and energy levels.
         reset();
+        
+        // Set the phase
+        // TODO: JPB TBD - This way of retaining and then setting the phase is a
+        // bit of a hack and should be cleaned up with the refactoring.
+        setPhase(phase);
         
         // Notify listeners that the molecule type has changed.
         notifyMoleculeTypeChanged();
@@ -2677,6 +2686,27 @@ public class MultipleParticleModel1 extends AbstractMultipleParticleModel {
         }
         
         return pressureInAtmospheres;
+    }
+    
+    /**
+     * Return a phase value based on the current temperature.
+     * @return
+     */
+    private int mapTemperatureToPhase(){
+    	
+    	int phase;
+    	if (m_temperatureSetPoint < SOLID_TEMPERATURE + ((LIQUID_TEMPERATURE - SOLID_TEMPERATURE) / 2)){
+    		phase = PHASE_SOLID;
+    	}
+    	else if (m_temperatureSetPoint < LIQUID_TEMPERATURE + ((GAS_TEMPERATURE - LIQUID_TEMPERATURE) / 2)){
+    		phase = PHASE_LIQUID;
+    		
+    	}
+    	else{
+    		phase = PHASE_GAS;
+    	}
+    	
+    	return phase;
     }
 
     /**
