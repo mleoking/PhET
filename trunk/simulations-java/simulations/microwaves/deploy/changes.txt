@@ -1,3 +1,4 @@
+10/31/08: [562] completed port to phetcommon trunk
 10/31/08: [562] remove separate dirs for local copy of common code
 10/31/08: [562] move all common graphics code to edu.colorado.phet.microwaves.common.graphics
 10/31/08: [562] move application, modules & model to phetcommon trunk
