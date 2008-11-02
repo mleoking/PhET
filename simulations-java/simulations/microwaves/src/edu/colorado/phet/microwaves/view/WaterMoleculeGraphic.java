@@ -35,7 +35,7 @@ public class WaterMoleculeGraphic extends TxObservingGraphic implements ImageObs
         super( tx );
         this.molecule = molecule;
         molecule.addObserver( this );
-        update( null, null );
+        update( molecule, null );
     }
 
     public void paint( Graphics2D g ) {
