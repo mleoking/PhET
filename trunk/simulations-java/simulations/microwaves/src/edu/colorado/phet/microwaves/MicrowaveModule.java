@@ -28,10 +28,7 @@ import edu.colorado.phet.microwaves.common.graphics.ModelViewTransform2D;
 import edu.colorado.phet.microwaves.coreadditions.BufferedApparatusPanel;
 import edu.colorado.phet.microwaves.coreadditions.ModelViewTx1D;
 import edu.colorado.phet.microwaves.coreadditions.collision.Box2D;
-import edu.colorado.phet.microwaves.model.Microwave;
-import edu.colorado.phet.microwaves.model.MicrowavesModel;
-import edu.colorado.phet.microwaves.model.MicrowavesClock;
-import edu.colorado.phet.microwaves.model.WaterMolecule;
+import edu.colorado.phet.microwaves.model.*;
 import edu.colorado.phet.microwaves.model.waves.WaveMedium;
 import edu.colorado.phet.microwaves.view.*;
 

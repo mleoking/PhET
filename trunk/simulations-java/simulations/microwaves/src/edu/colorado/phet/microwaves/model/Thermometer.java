@@ -4,15 +4,13 @@
  * Author: Another Guy
  * Date: Sep 30, 2003
  */
-package edu.colorado.phet.microwaves;
+package edu.colorado.phet.microwaves.model;
 
 import java.awt.geom.Point2D;
 import java.util.Observable;
 
 import edu.colorado.phet.common.phetcommon.math.MedianFilter;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.microwaves.model.MicrowavesModel;
-import edu.colorado.phet.microwaves.model.WaterMolecule;
 
 public class Thermometer extends Observable implements ModelElement {
     private MicrowavesModel model;

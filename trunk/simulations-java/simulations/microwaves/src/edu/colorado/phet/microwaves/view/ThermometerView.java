@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Sep 30, 2003
  */
-package edu.colorado.phet.microwaves;
+package edu.colorado.phet.microwaves.view;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -18,6 +18,7 @@ import java.util.Observer;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.microwaves.common.graphics.Graphic;
 import edu.colorado.phet.microwaves.common.graphics.ImageGraphic;
+import edu.colorado.phet.microwaves.model.Thermometer;
 
 public class ThermometerView implements Graphic, ImageObserver, Observer {
 
