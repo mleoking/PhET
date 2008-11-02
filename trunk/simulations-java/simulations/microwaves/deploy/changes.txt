@@ -1,3 +1,4 @@
+11/2/08: #888, water molecules appear briefly in lower-left corner of play area
 11/2/08: [562] remove more unused code
 10/31/08: [562] completed port to phetcommon trunk
 10/31/08: [562] remove separate dirs for local copy of common code
