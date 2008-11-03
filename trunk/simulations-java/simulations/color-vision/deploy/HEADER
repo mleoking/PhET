@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-color-vision 1.01.00
+color-vision 1.01.01
 </b></big></big>
 <p>
 Click to run English version:
@@ -12,12 +12,7 @@ Click to run English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>
+<li>published this version after working on Unfuddle #562 (port to phetcommon trunk), so we can confirm whether 
+new bug reports were in this version, or the result of subsequent work
 </ul>
-<p>
-<b>Known problems:</b>
-<ul>
-<li>none
-</ul>
-<p>
 </html>
