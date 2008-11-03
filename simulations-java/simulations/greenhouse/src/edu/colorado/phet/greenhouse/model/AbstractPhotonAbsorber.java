@@ -7,10 +7,11 @@
 package edu.colorado.phet.greenhouse.model;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
-import edu.colorado.phet.greenhouse.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 
-public abstract class AbstractPhotonAbsorber extends ModelElement implements PhotonAbsorber {
+public abstract class AbstractPhotonAbsorber extends Observable implements ModelElement, PhotonAbsorber {
 
     private ArrayList listeners = new ArrayList();
 

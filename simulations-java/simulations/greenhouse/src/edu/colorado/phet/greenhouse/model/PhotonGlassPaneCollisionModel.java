@@ -9,16 +9,16 @@ package edu.colorado.phet.greenhouse.model;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.greenhouse.GreenhouseApplication;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.greenhouse.filter.IrFilter;
 
 public class PhotonGlassPaneCollisionModel {
     private static IrFilter irPassFilter = new IrFilter();
 
-    public static void handle( Photon photon, GlassPane glassPane ) {
+    public static void handle( Photon photon, GlassPane glassPane, IClock clock ) {
 
         if ( irPassFilter.absorbs( photon.getWavelength() ) ) {
-            double dt = GreenhouseApplication.getClock().getRequestedDT();
+            double dt = clock.getSimulationTimeChange();
 
             Point2D p0 = new Point2D.Double( photon.getLocation().getX() - photon.getVelocity().getX() * dt,
                                              photon.getLocation().getY() - photon.getVelocity().getY() * dt );

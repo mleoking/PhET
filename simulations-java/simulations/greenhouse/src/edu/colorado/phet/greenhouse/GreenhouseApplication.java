@@ -12,21 +12,14 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 
 import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 
-import edu.colorado.phet.common.phetcommon.application.AWTSplashWindow;
+import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.greenhouse.coreadditions.MessageFormatter;
-import edu.colorado.phet.greenhouse.coreadditions.clock.StaticClockModel;
-import edu.colorado.phet.greenhouse.coreadditions.clock.SwingTimerClock;
-import edu.colorado.phet.greenhouse.phetcommon.application.Module;
-import edu.colorado.phet.greenhouse.phetcommon.application.PhetApplication;
-import edu.colorado.phet.greenhouse.phetcommon.model.IClock;
-import edu.colorado.phet.greenhouse.phetcommon.view.ApplicationDescriptor;
-import edu.colorado.phet.greenhouse.phetcommon.view.apparatuspanelcontainment.ApparatusPanelContainerFactory;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 /**
  * General comments, issues:
@@ -36,73 +29,49 @@ import edu.colorado.phet.greenhouse.phetcommon.view.apparatuspanelcontainment.Ap
  * The snow in the ice age reflects photons, but is not really in the model. Instead I do a rough estimate of where
  * it is in the background image (in the view) and use that.
  */
-public class GreenhouseApplication extends PhetApplication {
+public class GreenhouseApplication extends PiccoloPhetApplication {
 
-    private static PhetApplication s_application;
-    private static SwingTimerClock clock;
+    public GreenhouseApplication( PhetApplicationConfig config ) {
+        super( config );
+        
+        // modules
+        addModule( new GreenhouseModule() );
+        addModule( new GlassPaneModule() );
+        
+        paintContentImmediately();
+        getPhetFrame().addWindowFocusListener( new WindowFocusListener() {
+            public void windowGainedFocus( WindowEvent e ) {
+                paintContentImmediately();
+            }
 
-    //todo: convert to proper use of PhetApplicationConfig for getting version
-    private static final String VERSION = GreenhouseResources.getResourceLoader().getVersion().formatForTitleBar();
-
-    public static SwingTimerClock getClock() {
-        return clock;
-    }
-
-    public GreenhouseApplication( ApplicationDescriptor applicationDescriptor, Module[] modules, IClock iClock ) {
-        super( applicationDescriptor, modules, iClock );
-    }
-
-    public GreenhouseApplication( ApplicationDescriptor applicationDescriptor, ApparatusPanelContainerFactory apparatusPanelContainerFactory, Module[] modules, IClock iClock ) {
-        super( applicationDescriptor, apparatusPanelContainerFactory, modules, iClock );
+            public void windowLostFocus( WindowEvent e ) {
+            }
+        } );
     }
 
     public static void paintContentImmediately() {
-        Container contentPane = s_application.getApplicationView().getPhetFrame().getContentPane();
+        Container contentPane = PhetApplication.instance().getPhetFrame().getContentPane();
         if ( contentPane instanceof JComponent ) {
             JComponent jComponent = (JComponent) contentPane;
             jComponent.paintImmediately( 0, 0, jComponent.getWidth(), jComponent.getHeight() );
         }
     }
-
+    
+    private static class GreenhouseLookAndFeel extends PhetLookAndFeel {
+        public GreenhouseLookAndFeel() {
+            setBackgroundColor( GreenhouseConfig.PANEL_BACKGROUND_COLOR );
+            setTitledBorderFont( new PhetFont( Font.PLAIN, 12 ) );
+        }
+    }
+    
     public static void main( String[] args ) {
-
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
-                phetLookAndFeel.setBackgroundColor( GreenhouseConfig.PANEL_BACKGROUND_COLOR );
-                phetLookAndFeel.setTitledBorderFont( new PhetFont( Font.PLAIN, 12 ) );
-                phetLookAndFeel.initLookAndFeel();
-
-                JFrame window = new JFrame();
-                AWTSplashWindow splashWindow = new AWTSplashWindow( window, GreenhouseResources.getString( "greenhouse.name" ) );
-                splashWindow.setVisible( true );
-
-                BaseGreenhouseModule greenhouseModule = new GreenhouseModule();
-                BaseGreenhouseModule glassPaneModule = new GlassPaneModule();
-                Module[] modules = new Module[]{
-                        greenhouseModule,
-                        glassPaneModule
-                };
-                ApplicationDescriptor appDescriptor = new ApplicationDescriptor(
-                        new String( GreenhouseResources.getString( "greenhouse.name" ) + " (" + VERSION + ")" ),
-                        MessageFormatter.format( GreenhouseResources.getString( "greenhouse.description" ) ),
-                        VERSION,
-                        new FrameSetup.CenteredWithSize( 1024, 768 ) );
-                clock = new SwingTimerClock( new StaticClockModel( 10, 30 ) );
-                s_application = new PhetApplication( appDescriptor, modules, clock );
-                s_application.getApplicationView().getPhetFrame().setResizable( false );
-                s_application.startApplication( greenhouseModule );
-                splashWindow.setVisible( false );
-                paintContentImmediately();
-                s_application.getApplicationView().getPhetFrame().addWindowFocusListener( new WindowFocusListener() {
-                    public void windowGainedFocus( WindowEvent e ) {
-                        paintContentImmediately();
-                    }
-
-                    public void windowLostFocus( WindowEvent e ) {
-                    }
-                } );
+        ApplicationConstructor appConstructor = new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new GreenhouseApplication( config );
             }
-        } );
+        };
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, GreenhouseConfig.PROJECT_NAME );
+        appConfig.setLookAndFeel( new GreenhouseLookAndFeel() );
+        new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 }

@@ -9,10 +9,9 @@ package edu.colorado.phet.greenhouse.model;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.greenhouse.model.*;
-import edu.colorado.phet.greenhouse.phetcommon.model.BaseModel;
-import edu.colorado.phet.greenhouse.phetcommon.model.IClock;
-import edu.colorado.phet.greenhouse.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.BaseModel;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 
 public class GreenhouseModel extends BaseModel implements PhotonEmitter.Listener, PhotonAbsorber.Listener {
     private Star sun;
@@ -39,10 +38,9 @@ public class GreenhouseModel extends BaseModel implements PhotonEmitter.Listener
         return earth;
     }
 
+    public void update( ClockEvent event ) {
 
-    public void clockTicked( IClock iClock, double dt ) {
-
-        super.clockTicked( iClock, dt );
+        super.update( event );
 
         // Check for interactions between photons and other elements
         // in the model
@@ -57,7 +55,7 @@ public class GreenhouseModel extends BaseModel implements PhotonEmitter.Listener
 
             for ( int j = 0; j < glassPanes.size(); j++ ) {
                 GlassPane glassPane = (GlassPane) glassPanes.get( j );
-                PhotonGlassPaneCollisionModel.handle( photon, glassPane );
+                PhotonGlassPaneCollisionModel.handle( photon, glassPane, event.getClock() );
             }
             atmosphere.interactWithPhoton( photon );
         }

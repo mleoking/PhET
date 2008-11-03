@@ -18,6 +18,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
+import java.awt.image.RasterFormatException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;

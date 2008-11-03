@@ -12,10 +12,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import edu.colorado.phet.greenhouse.model.GlassPane;
-import edu.colorado.phet.greenhouse.model.GreenhouseModel;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorber;
 import edu.colorado.phet.greenhouse.model.PhotonEmitter;
-import edu.colorado.phet.greenhouse.phetcommon.application.PhetApplication;
 import edu.colorado.phet.greenhouse.phetcommon.view.graphics.ApparatusPanel;
 import edu.colorado.phet.greenhouse.phetcommon.view.graphics.Graphic;
 import edu.colorado.phet.greenhouse.phetcommon.view.graphics.ImageGraphic;
@@ -45,8 +43,8 @@ public class GlassPaneModule extends BaseGreenhouseModule {
         // Make the background graphic first. It will be needed by teh glass pane graphics
         backgroundGraphic = new ImageGraphic( "glass-pane-background.gif",
                                               new Point2D.Double(
-                                                      ( (GreenhouseModel) getModel() ).getBounds().getX(),
-                                                      ( (GreenhouseModel) getModel() ).getBounds().getY() ) );
+                                                      getGreenhouseModel().getBounds().getX(),
+                                                      getGreenhouseModel().getBounds().getY() ) );
         drawingCanvas.addGraphic( backgroundGraphic, ApparatusPanel.LAYER_DEFAULT - 1.5 );
 
         // Create glass panes
@@ -89,18 +87,8 @@ public class GlassPaneModule extends BaseGreenhouseModule {
         getEarth().setJimmyArray( jimmyArray );
     }
 
-    public GreenhouseModel getGreenhouseModel() {
-        return (GreenhouseModel) getModel();
-    }
-
     public void reset() {
         super.reset();
-    }
-
-    public void activate( PhetApplication phetApplication ) {
-    }
-
-    public void deactivate( PhetApplication phetApplication ) {
     }
 
     public void numGlassPanesEnabled( int numClouds ) {
