@@ -6,7 +6,7 @@
  * Time: 5:55:14 PM
  * To change this template use Options | File Templates.
  */
-package edu.colorado.phet.greenhouse.phetcommon.view.graphics;
+package edu.colorado.phet.greenhouse.common.graphics;
 
 import java.awt.Image;
 

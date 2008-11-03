@@ -11,9 +11,9 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 
+import edu.colorado.phet.greenhouse.common.graphics.Graphic;
+import edu.colorado.phet.greenhouse.common.graphics.ImageGraphic;
 import edu.colorado.phet.greenhouse.model.GlassPane;
-import edu.colorado.phet.greenhouse.phetcommon.view.graphics.Graphic;
-import edu.colorado.phet.greenhouse.phetcommon.view.graphics.ImageGraphic;
 
 /**
  * GlassPaneGraphic

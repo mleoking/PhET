@@ -12,8 +12,8 @@ import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
 
+import edu.colorado.phet.greenhouse.common.graphics.Graphic;
 import edu.colorado.phet.greenhouse.model.ScatterEvent;
-import edu.colorado.phet.greenhouse.phetcommon.view.graphics.Graphic;
 
 public class ScatterEventGraphic implements Graphic {
     private ScatterEvent se;

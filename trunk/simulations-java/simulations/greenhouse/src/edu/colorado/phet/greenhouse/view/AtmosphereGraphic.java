@@ -23,9 +23,9 @@ import java.util.Observer;
 
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
+import edu.colorado.phet.greenhouse.common.graphics.CompositeGraphic;
+import edu.colorado.phet.greenhouse.common.graphics.ImageGraphic;
 import edu.colorado.phet.greenhouse.model.Atmosphere;
-import edu.colorado.phet.greenhouse.phetcommon.view.graphics.CompositeGraphic;
-import edu.colorado.phet.greenhouse.phetcommon.view.graphics.ImageGraphic;
 
 /**
  * An overlay graphic that is supposed to look like polluted air. It fades in and out depending on the

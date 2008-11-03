@@ -5,7 +5,7 @@
  * Created by: Ron LeMaster
  * Date: Nov 6, 2002
  */
-package edu.colorado.phet.greenhouse.phetcommon.view.graphics;
+package edu.colorado.phet.greenhouse.common.graphics;
 
 
 import java.awt.*;
