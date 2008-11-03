@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.greenhouse.coreadditions.graphics;
+package edu.colorado.phet.greenhouse.util;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
