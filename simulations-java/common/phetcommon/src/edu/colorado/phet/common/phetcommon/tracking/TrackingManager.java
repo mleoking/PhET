@@ -31,7 +31,7 @@ public class TrackingManager {
     public static void postMessage( TrackingMessage trackingMessage ) {
         // check for tracking enabled before message construction
         // because construction may cause java.security.AccessControlException under web start.
-        if ( instance.isTrackingEnabled() ) {
+        if ( isTrackingEnabled() ) {
             instance.postMessageImpl( trackingMessage );
         }
     }
@@ -105,8 +105,8 @@ public class TrackingManager {
         }
     }
 
-    private boolean isTrackingEnabled() {
-        return isTrackingCommandLineOptionSet() && isTrackingAllowed();
+    public static boolean isTrackingEnabled() {
+        return instance.isTrackingCommandLineOptionSet() && instance.isTrackingAllowed();
     }
 
     private boolean isTrackingAllowed() {
