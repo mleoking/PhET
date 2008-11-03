@@ -31,13 +31,12 @@ import edu.colorado.phet.greenhouse.phetcommon.view.ApparatusPanel;
 import edu.colorado.phet.greenhouse.phetcommon.view.graphics.Animation;
 import edu.colorado.phet.greenhouse.phetcommon.view.graphics.Graphic;
 import edu.colorado.phet.greenhouse.phetcommon.view.graphics.ImageGraphic;
-import edu.colorado.phet.greenhouse.phetcommon.view.graphics.ShapeGraphicType;
 
 /**
  * Quirks:
  * Adds itself to the apparatusPanel
  */
-public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphicType {
+public class EarthGraphic implements Graphic, ReflectivityAssessor {
 
     private ApparatusPanel apparatusPanel;
     Earth earth;

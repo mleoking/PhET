@@ -7,15 +7,17 @@
  */
 package edu.colorado.phet.greenhouse.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Paint;
+import java.awt.RenderingHints;
 import java.awt.geom.Ellipse2D;
 import java.util.Random;
 
 import edu.colorado.phet.greenhouse.model.Cloud;
 import edu.colorado.phet.greenhouse.phetcommon.view.graphics.Graphic;
-import edu.colorado.phet.greenhouse.phetcommon.view.graphics.ShapeGraphicType;
 
-public class CloudGraphic implements Graphic, ShapeGraphicType {
+public class CloudGraphic implements Graphic {
 
     static Random random = new Random();
 
