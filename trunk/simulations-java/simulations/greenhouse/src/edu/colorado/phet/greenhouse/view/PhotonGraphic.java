@@ -16,11 +16,11 @@ import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.greenhouse.common.graphics.CompositeGraphic;
 import edu.colorado.phet.greenhouse.common.graphics.ImageGraphic;
-import edu.colorado.phet.greenhouse.coreadditions.graphics.BufferedImageUtils;
 import edu.colorado.phet.greenhouse.model.Photon;
 
 public class PhotonGraphic extends CompositeGraphic implements Observer {
