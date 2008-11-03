@@ -5,7 +5,7 @@
  * Date: Oct 14, 2003
  * Time: 9:08:35 PM
  */
-package edu.colorado.phet.greenhouse.instrumentation;
+package edu.colorado.phet.greenhouse.model;
 
 public interface TemperatureReporter {
 

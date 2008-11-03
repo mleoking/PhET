@@ -18,8 +18,6 @@ import javax.swing.JOptionPane;
 
 import edu.colorado.phet.greenhouse.filter.Filter1D;
 import edu.colorado.phet.greenhouse.filter.IrFilter;
-import edu.colorado.phet.greenhouse.instrumentation.Thermometer;
-import edu.colorado.phet.greenhouse.instrumentation.ThermometerGraphic;
 import edu.colorado.phet.greenhouse.model.*;
 import edu.colorado.phet.greenhouse.phetcommon.application.Module;
 import edu.colorado.phet.greenhouse.phetcommon.application.PhetApplication;
