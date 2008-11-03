@@ -1,13 +1,13 @@
 <html>
 <p>
 <big><big><b>
-microwaves 1.02.01
+microwaves 1.02.02
 </b></big></big>
 <p>
 <b>What's new:</b>
 <p>
 <ul>
-<li>published this version before working on Unfuddle #562, so we can confirm whether 
-new bug reports were in this version, or the result of porting to phetcommon trunk
+<li>published this version immediately after working on Unfuddle #562 (port to phetcommon trunk), so we can confirm whether 
+new bug reports were in this version, or the result of subsequent work
 </ul>
 </html>
