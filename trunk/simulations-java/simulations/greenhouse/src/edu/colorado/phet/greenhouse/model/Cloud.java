@@ -5,7 +5,7 @@
  * Date: Oct 10, 2003
  * Time: 11:36:26 PM
  */
-package edu.colorado.phet.greenhouse;
+package edu.colorado.phet.greenhouse.model;
 
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;

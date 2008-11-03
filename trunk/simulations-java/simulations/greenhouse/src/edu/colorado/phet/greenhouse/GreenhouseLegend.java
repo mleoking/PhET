@@ -15,6 +15,8 @@ import java.awt.image.BufferedImage;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.greenhouse.model.Photon;
+import edu.colorado.phet.greenhouse.view.PhotonGraphic;
 
 public class GreenhouseLegend extends JPanel {
 

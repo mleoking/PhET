@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Nov 26, 2003
  */
-package edu.colorado.phet.greenhouse;
+package edu.colorado.phet.greenhouse.view;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
@@ -15,6 +15,7 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import edu.colorado.phet.greenhouse.coreadditions.Disk;
+import edu.colorado.phet.greenhouse.model.Star;
 
 public class StarGraphic extends DiskGraphic {
     private Star star;

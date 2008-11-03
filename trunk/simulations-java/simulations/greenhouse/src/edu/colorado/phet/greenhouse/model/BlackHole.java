@@ -4,10 +4,11 @@
  * Author: Another Guy
  * Date: Oct 13, 2003
  */
-package edu.colorado.phet.greenhouse;
+package edu.colorado.phet.greenhouse.model;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+
 
 public class BlackHole extends BasicPhotonAbsorber {
 

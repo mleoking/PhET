@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Oct 10, 2003
  */
-package edu.colorado.phet.greenhouse;
+package edu.colorado.phet.greenhouse.model;
 
 import edu.colorado.phet.greenhouse.phetcommon.math.Vector2D;
 

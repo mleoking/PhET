@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Oct 9, 2003
  */
-package edu.colorado.phet.greenhouse;
+package edu.colorado.phet.greenhouse.view;
 
 import java.awt.Color;
 import java.awt.Image;
@@ -16,8 +16,11 @@ import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
+import edu.colorado.phet.greenhouse.GreenhouseConfig;
+import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.greenhouse.coreadditions.graphics.BufferedImageUtils;
 import edu.colorado.phet.greenhouse.coreadditions.graphics.ImageGraphic;
+import edu.colorado.phet.greenhouse.model.Photon;
 import edu.colorado.phet.greenhouse.phetcommon.view.CompositeGraphic;
 
 public class PhotonGraphic extends CompositeGraphic implements Observer {

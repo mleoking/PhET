@@ -8,9 +8,8 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.greenhouse;
+package edu.colorado.phet.greenhouse.filter;
 
-import edu.colorado.phet.greenhouse.filter.Filter1D;
 
 /**
  * IrPassFilter

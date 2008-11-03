@@ -5,13 +5,14 @@
  * Date: Oct 12, 2003
  * Time: 4:59:46 PM
  */
-package edu.colorado.phet.greenhouse;
+package edu.colorado.phet.greenhouse.view;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.util.Random;
 
 import edu.colorado.phet.greenhouse.coreadditions.graphics.ShapeGraphicType;
+import edu.colorado.phet.greenhouse.model.Cloud;
 import edu.colorado.phet.greenhouse.phetcommon.view.graphics.Graphic;
 
 public class CloudGraphic implements Graphic, ShapeGraphicType {

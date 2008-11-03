@@ -17,8 +17,10 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import edu.colorado.phet.greenhouse.filter.Filter1D;
+import edu.colorado.phet.greenhouse.filter.IrFilter;
 import edu.colorado.phet.greenhouse.instrumentation.Thermometer;
 import edu.colorado.phet.greenhouse.instrumentation.ThermometerGraphic;
+import edu.colorado.phet.greenhouse.model.*;
 import edu.colorado.phet.greenhouse.phetcommon.application.Module;
 import edu.colorado.phet.greenhouse.phetcommon.application.PhetApplication;
 import edu.colorado.phet.greenhouse.phetcommon.model.IClock;
@@ -26,6 +28,7 @@ import edu.colorado.phet.greenhouse.phetcommon.model.ModelElement;
 import edu.colorado.phet.greenhouse.phetcommon.view.ApparatusPanel;
 import edu.colorado.phet.greenhouse.phetcommon.view.CompositeGraphic;
 import edu.colorado.phet.greenhouse.phetcommon.view.FlipperAffineTransformFactory;
+import edu.colorado.phet.greenhouse.view.*;
 
 
 public abstract class BaseGreenhouseModule extends Module {

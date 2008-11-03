@@ -4,9 +4,10 @@
  * Author: Another Guy
  * Date: Oct 24, 2003
  */
-package edu.colorado.phet.greenhouse;
+package edu.colorado.phet.greenhouse.model;
 
 import java.awt.geom.Rectangle2D;
+
 
 public class GlassPane extends PhotonFactory {
     private Rectangle2D.Double bounds;

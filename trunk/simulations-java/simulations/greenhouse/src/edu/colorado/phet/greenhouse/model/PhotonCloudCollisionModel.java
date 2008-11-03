@@ -5,7 +5,7 @@
  * Date: Oct 12, 2003
  * Time: 5:14:53 PM
  */
-package edu.colorado.phet.greenhouse;
+package edu.colorado.phet.greenhouse.model;
 
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
@@ -14,6 +14,7 @@ import edu.colorado.phet.greenhouse.coreadditions.Body;
 import edu.colorado.phet.greenhouse.coreadditions.Vector3D;
 import edu.colorado.phet.greenhouse.filter.BandpassFilter;
 import edu.colorado.phet.greenhouse.filter.Filter1D;
+import edu.colorado.phet.greenhouse.filter.IrFilter;
 import edu.colorado.phet.greenhouse.filter.ProbablisticPassFilter;
 import edu.colorado.phet.greenhouse.phetcommon.math.Vector2D;
 

@@ -4,9 +4,10 @@
  * Author: Another Guy
  * Date: Oct 10, 2003
  */
-package edu.colorado.phet.greenhouse;
+package edu.colorado.phet.greenhouse.model;
 
 import java.awt.geom.Rectangle2D;
+
 
 public class HorizontalPhotonEmitter extends AbstractPhotonEmitter {
 

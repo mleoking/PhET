@@ -5,7 +5,7 @@
  * Date: Oct 10, 2003
  * Time: 11:09:24 PM
  */
-package edu.colorado.phet.greenhouse;
+package edu.colorado.phet.greenhouse.view;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -22,8 +22,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import edu.colorado.phet.greenhouse.GreenhouseConfig;
+import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.greenhouse.coreadditions.graphics.ImageGraphic;
 import edu.colorado.phet.greenhouse.coreadditions.graphics.ShapeGraphicType;
+import edu.colorado.phet.greenhouse.model.Earth;
+import edu.colorado.phet.greenhouse.model.Photon;
+import edu.colorado.phet.greenhouse.model.ReflectivityAssessor;
 import edu.colorado.phet.greenhouse.phetcommon.view.ApparatusPanel;
 import edu.colorado.phet.greenhouse.phetcommon.view.graphics.Animation;
 import edu.colorado.phet.greenhouse.phetcommon.view.graphics.Graphic;
