@@ -3,6 +3,7 @@
 package edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -13,6 +14,7 @@ import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.model.Polonium211CompositeNucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.AlphaDecayNucleusTypeControl;
+import edu.colorado.phet.nuclearphysics.module.chainreaction.ChainReactionModel.Listener;
 
 /**
  * This class contains the Model portion of the Model-View-Controller 
@@ -26,15 +28,30 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
     //------------------------------------------------------------------------
     // Class data
     //------------------------------------------------------------------------
+	
+	private static final int MAX_NUCLEI = 2;  // Maximum number of nuclei that model will simulate.
+	
+	// Size and position of the bucket of nuclei which the user uses to add
+	// nuclei to the simulation.
+	private static final double BUCKET_ORIGIN_X = 24;
+	private static final double BUCKET_ORIGIN_Y = 24;
+	private static final double BUCKET_WIDTH = 18;
+	private static final double BUCKET_HEIGHT = BUCKET_WIDTH * 0.8;
+	private static final Rectangle2D BUCKET_RECT = new Rectangle2D.Double(BUCKET_ORIGIN_X, BUCKET_ORIGIN_Y, 
+			BUCKET_WIDTH, BUCKET_HEIGHT);
+	
+	// Possible values for the type of nucleus to be simulated.
+	private static final int NUCLEUS_TYPE_POLONIUM = 1;
+	private static final int NUCLEUS_TYPE_CUSTOM = 2;
     
     //------------------------------------------------------------------------
     // Instance data
     //------------------------------------------------------------------------
     
-    private Polonium211CompositeNucleus _atomicNucleus;
-    private AlphaParticle _tunneledAlpha;
     private ConstantDtClock _clock;
     private ArrayList _listeners = new ArrayList();
+    private AtomicNucleus [] _atomicNuclei;
+    private int _nucleusType;
     
     //------------------------------------------------------------------------
     // Constructor
@@ -43,6 +60,8 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
     public MultiNucleusAlphaDecayModel(NuclearPhysicsClock clock)
     {
         _clock = clock;
+        _atomicNuclei = new AtomicNucleus[MAX_NUCLEI];
+        _nucleusType = NUCLEUS_TYPE_POLONIUM;
 
         // Register as a listener to the clock.
         clock.addClockListener( new ClockAdapter(){
@@ -56,43 +75,8 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
             }
             
             public void simulationTimeReset(ClockEvent clockEvent){
-                // Reset the nucleus, including passing the alpha particle
-                // back to it.
-                _atomicNucleus.reset( _tunneledAlpha );
-                _tunneledAlpha = null;
-            }
-        });
-
-        // Create the nucleus that will demonstrate alpha decay.
-        _atomicNucleus = new Polonium211CompositeNucleus(clock, new Point2D.Double(0, 0));
-        
-        // Register as a listener for the nucleus so we can handle the
-        // particles thrown off by alpha decay.
-        
-        _atomicNucleus.addListener( new AtomicNucleus.Adapter(){
-            
-            public void atomicWeightChanged(AtomicNucleus nucleus, int numProtons, int numNeutrons, 
-                    ArrayList byProducts){
-                
-                if (byProducts != null){
-                    // There are some byproducts of this event that need to be
-                    // managed by this object.
-                    for (int i = 0; i < byProducts.size(); i++){
-                        Object byProduct = byProducts.get( i );
-                        if (byProduct instanceof AlphaParticle){
-                            _tunneledAlpha = (AlphaParticle)byProduct;
-                        }
-                        else {
-                            // We should never get here, debug it if it does.
-                            System.err.println("Error: Unexpected byproduct of decay event.");
-                            assert false;
-                        }
-                    }
-                }
-            }
-            
-            public void positionChanged(){
-                // Ignore this event here.
+                // Reset the model.
+            	reset();
             }
         });
     }
@@ -101,17 +85,6 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
     // Accessor Methods
     //------------------------------------------------------------------------
 
-    /**
-     * Get a reference to the nucleus, of which there is only one in this
-     * model.
-     * 
-     * @return - Reference to the nucleus model element.
-     */
-    public Polonium211CompositeNucleus getAtomNucleus()
-    {
-        return _atomicNucleus;
-    }
-    
     public ConstantDtClock getClock(){
         return _clock;
     }
@@ -121,9 +94,16 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
 		return false;
 	}
 
-	public void setNucleusType(int nucleusId) {
-		// TODO Auto-generated method stub
-		
+	public void setNucleusType(int nucleusType) {
+		_nucleusType = nucleusType;
+	}
+	
+	public int getNucleusType() {
+		return _nucleusType;
+	}
+	
+	public Rectangle2D getBucketRectRef(){
+		return BUCKET_RECT;
 	}
 
     //------------------------------------------------------------------------
@@ -148,13 +128,46 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
     //------------------------------------------------------------------------
     
     private void handleClockTicked(ClockEvent clockEvent){
-        if (_tunneledAlpha != null){
-            // We have a particle that has tunneled and needs to be moved.
-            _tunneledAlpha.moveOut();
+    	// TODO: JPB TBD - Will eventually implement a vibration of the nodes here (I think).
+    }
+    
+	private void reset() {
+
+		// Remove any existing nuclei and let the listeners know of their demise.
+		for (int i = 0; i < _atomicNuclei.length; i++){
+			if (_atomicNuclei[i] != null){
+				notifyModelElementRemoved( _atomicNuclei[i] );
+				_atomicNuclei[i] = null;
+			}
+		}
+		
+		// Create a new set of nuclei.
+		// TODO: JPB TBD.
+		
+	}
+	
+    /**
+     * Notify listeners about the removal of an element from the model.
+     * 
+     * @param removedElement
+     */
+    private void notifyModelElementRemoved (Object removedElement){
+        for (int i = 0; i < _listeners.size(); i++){
+            ((Listener)_listeners.get(i)).modelElementRemoved( removedElement );
         }
     }
     
-    //------------------------------------------------------------------------
+    /**
+     * Notify listeners about the addition of an element to the model.
+     * @param addedElement
+     */
+    private void notifyModelElementAdded (Object addedElement){
+        for (int i = 0; i < _listeners.size(); i++){
+            ((Listener)_listeners.get(i)).modelElementAdded( addedElement );
+        }
+    }
+
+	//------------------------------------------------------------------------
     // Inner interfaces
     //------------------------------------------------------------------------
     
@@ -165,18 +178,18 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
      */
     public static interface Listener {
         /**
-         * This informs the listener that an alpha particle has been added
+         * This informs the listener that some new element has been added
          * to the model.
          * 
-         * @param alphaParticle - Reference to the newly added particle.
+         * @param modelElement - Element that was added to the model.
          */
-        public void particleAdded(AlphaParticle alphaParticle);
+        public void modelElementAdded(Object modelElement);
         
         /**
-         * This is invoked when a particle is removed from the model.
+         * This informs the listener that a model element was removed.
          * 
-         * @param alphaParticle - Reference to the particle that was removed.
+         * @param modelElement - Element that was removed from the model.
          */
-        public void particleRemoved(AlphaParticle alphaParticle);
+        public void modelElementRemoved(Object modelElement);
     }
 }
