@@ -109,7 +109,9 @@ public class PhetApplicationLauncher {
                         config.setApplicationLaunchFinishedAt( applicationLaunchFinishedAt );
 
                         TrackingManager.initInstance( config );
-                        TrackingManager.postMessage( new SessionStartedMessage( config ) );
+                        if ( TrackingManager.isTrackingEnabled() ) {
+                            TrackingManager.postMessage( new SessionStartedMessage( config ) );
+                        }
                         new UpdateApplicationManager( config ).applicationStarted( app.getPhetFrame(), app.getSimInfo(), app.getTrackingInfo() );//todo: due to threading, sometimes this event arrives at server first
                     }
                     else {
