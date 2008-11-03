@@ -48,6 +48,7 @@ public class PreferencesDialog extends JDialog {
         JButton okButton = new JButton( OK_BUTTON );
         okButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+                TrackingManager.postActionPerformedMessage( TrackingMessage.PREFERENCES_OK_PRESSED );
                 savePreferences();
                 dispose();
             }
@@ -56,6 +57,7 @@ public class PreferencesDialog extends JDialog {
         JButton cancelButton = new JButton( CANCEL_BUTTON );
         cancelButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+                TrackingManager.postActionPerformedMessage( TrackingMessage.PREFERENCES_CANCEL_PRESSED );
                 dispose();
             }
         } );

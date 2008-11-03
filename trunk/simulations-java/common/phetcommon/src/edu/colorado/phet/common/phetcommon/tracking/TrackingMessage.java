@@ -25,6 +25,8 @@ public class TrackingMessage {
     public static final String SKIP_UPDATE_PRESSED = "skip-update-pressed";
     public static final String PHET_FRAME_CLOSING = "phet-frame-closing";
     public static final String FILE_EXIT_SELECTED = "file-exit-selected";
+    public static final String PREFERENCES_OK_PRESSED = "preferences-ok-pressed";
+    public static final String PREFERENCES_CANCEL_PRESSED = "preferences-cancel-pressed";
 
     public TrackingMessage( SessionID sessionID, String messageType ) {
         addEntry( new TrackingEntry( "session-id", sessionID.toString() ) );
