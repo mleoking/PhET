@@ -69,14 +69,17 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     private AlphaDecayTimeChart _alphaDecayTimeChart;
     private GradientButtonNode _resetButtonNode;
-    private Point2D _bucketNodeLocation;
+    private MultiNucleusAlphaDecayModel _model;
+	private Rectangle2D _bucketRect;
 
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
     
     public MultiNucleusAlphaDecayCanvas(MultiNucleusAlphaDecayModel multiNucleusAlphaDecayModel) {
-        
+
+    	_model = multiNucleusAlphaDecayModel;
+    	
         // Set the transform strategy in such a way that the center of the
         // visible canvas will be at 0,0.
         setWorldTransformStrategy( new RenderingSizeStrategy(this, 
@@ -90,7 +93,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
         // Set the background color.
         setBackground( NuclearPhysicsConstants.CANVAS_BACKGROUND );
         
-        // Add the button for resetting the nucleus to the canvas.
+        // Add the button for resetting the nuclei to the canvas.
         _resetButtonNode = new GradientButtonNode(NuclearPhysicsStrings.RESET_ALL_NUCLEI, 22, new Color(0xff9900));
         addScreenChild(_resetButtonNode);
         
@@ -108,11 +111,10 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
         		singleNucleusAlphaDecayModel.getAtomNucleus());
         addScreenChild( _alphaDecayTimeChart );
         
-        // Add the bucket containing the atoms.
-        BucketOfNucleiNode bucketNode = new BucketOfNucleiNode(BUCKET_WIDTH, BUCKET_HEIGHT);
+        _bucketRect = _model.getBucketRectRef();
+        BucketOfNucleiNode bucketNode = new BucketOfNucleiNode( _bucketRect.getWidth(), _bucketRect.getHeight() );
         addWorldChild(bucketNode);
-        _bucketNodeLocation = new Point2D.Double(CANVAS_WIDTH * 0.20, CANVAS_HEIGHT * 0.30);
-        bucketNode.setOffset( _bucketNodeLocation );
+        bucketNode.setOffset( _bucketRect.getX(), _bucketRect.getY() );
         
         // Register with the bucket for notifications of nuclei being pulled
         // out and dropped on the canvas.
@@ -166,8 +168,8 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     	nucleusNode.setOffset(convertedPosition);
     	*/
     	Point2D nucleusPosition = nucleusNode.getOffset();
-    	nucleusNode.setOffset(nucleusPosition.getX() + _bucketNodeLocation.getX(), 
-    			nucleusPosition.getY() + _bucketNodeLocation.getY());
+    	nucleusNode.setOffset(nucleusPosition.getX() + _bucketRect.getX(), 
+    			nucleusPosition.getY() + _bucketRect.getY());
     	addWorldChild(nucleusNode);
     }
 }
