@@ -5,7 +5,7 @@
  * Date: Nov 5, 2003
  * Time: 8:06:48 AM
  */
-package edu.colorado.phet.greenhouse.coreadditions.graphics;
+package edu.colorado.phet.greenhouse.phetcommon.view.graphics;
 
 public interface ShapeGraphicType {
 }

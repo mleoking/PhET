@@ -10,8 +10,8 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
 import edu.colorado.phet.greenhouse.coreadditions.Disk;
-import edu.colorado.phet.greenhouse.coreadditions.graphics.ShapeGraphicType;
 import edu.colorado.phet.greenhouse.phetcommon.view.graphics.Graphic;
+import edu.colorado.phet.greenhouse.phetcommon.view.graphics.ShapeGraphicType;
 
 public class DiskGraphic implements Graphic, ShapeGraphicType {
     private Disk disk;

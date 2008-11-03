@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Oct 19, 2003
  */
-package edu.colorado.phet.greenhouse.coreadditions.graphics;
+package edu.colorado.phet.greenhouse.phetcommon.view.graphics;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -15,7 +15,6 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 
 import edu.colorado.phet.greenhouse.GreenhouseResources;
-import edu.colorado.phet.greenhouse.phetcommon.view.graphics.Graphic;
 
 public class ImageGraphic implements Graphic, ImageObserver, ImageGraphicType {
 

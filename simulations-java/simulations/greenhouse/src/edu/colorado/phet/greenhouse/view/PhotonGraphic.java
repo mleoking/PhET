@@ -19,9 +19,9 @@ import java.util.Observer;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.greenhouse.coreadditions.graphics.BufferedImageUtils;
-import edu.colorado.phet.greenhouse.coreadditions.graphics.ImageGraphic;
 import edu.colorado.phet.greenhouse.model.Photon;
 import edu.colorado.phet.greenhouse.phetcommon.view.CompositeGraphic;
+import edu.colorado.phet.greenhouse.phetcommon.view.graphics.ImageGraphic;
 
 public class PhotonGraphic extends CompositeGraphic implements Observer {
 
