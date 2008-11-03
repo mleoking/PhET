@@ -4,10 +4,11 @@
  * Author: Another Guy
  * Date: Oct 30, 2003
  */
-package edu.colorado.phet.greenhouse;
+package edu.colorado.phet.greenhouse.model;
 
 import java.util.HashSet;
 import java.util.Iterator;
+
 
 public class PhotonFactory implements PhotonEmitter, PhotonAbsorber {
 

@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Oct 9, 2003
  */
-package edu.colorado.phet.greenhouse;
+package edu.colorado.phet.greenhouse.view;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;

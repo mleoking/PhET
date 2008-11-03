@@ -4,11 +4,12 @@
  * Author: Another Guy
  * Date: Oct 9, 2003
  */
-package edu.colorado.phet.greenhouse;
+package edu.colorado.phet.greenhouse.model;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.greenhouse.model.*;
 import edu.colorado.phet.greenhouse.phetcommon.model.BaseModel;
 import edu.colorado.phet.greenhouse.phetcommon.model.IClock;
 import edu.colorado.phet.greenhouse.phetcommon.model.ModelElement;

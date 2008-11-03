@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Oct 13, 2003
  */
-package edu.colorado.phet.greenhouse;
+package edu.colorado.phet.greenhouse.view;
 
 import java.awt.AlphaComposite;
 import java.awt.Component;
@@ -21,8 +21,11 @@ import java.awt.image.ImagingOpException;
 import java.util.Observable;
 import java.util.Observer;
 
+import edu.colorado.phet.greenhouse.GreenhouseConfig;
+import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.greenhouse.coreadditions.graphics.ImageGraphic;
 import edu.colorado.phet.greenhouse.coreadditions.graphics.ShapeGraphicType;
+import edu.colorado.phet.greenhouse.model.Atmosphere;
 import edu.colorado.phet.greenhouse.phetcommon.view.CompositeGraphic;
 
 /**

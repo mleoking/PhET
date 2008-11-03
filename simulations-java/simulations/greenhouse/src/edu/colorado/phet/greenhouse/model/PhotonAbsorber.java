@@ -5,7 +5,8 @@
  * Date: Oct 12, 2003
  * Time: 9:13:53 AM
  */
-package edu.colorado.phet.greenhouse;
+package edu.colorado.phet.greenhouse.model;
+
 
 public interface PhotonAbsorber {
 

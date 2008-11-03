@@ -1,3 +1,6 @@
+11-2-2008: #562, too much stuff in top-level package, separate into model and view packages
+# 2.04.01 (25456)
+10-16/2008: #562, publish 2.04.01 before starting port to phetcommon trunk
 10-16-2007: Attempted to fix a memory leak that bogs down the application while zoomed out (seeing the sun)
 8-21-2007: Fixed a bug that prevented the splash window from appearing.
 8-21-2007: Added Japanese translation

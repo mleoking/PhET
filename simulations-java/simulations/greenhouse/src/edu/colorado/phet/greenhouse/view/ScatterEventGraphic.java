@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Oct 17, 2003
  */
-package edu.colorado.phet.greenhouse;
+package edu.colorado.phet.greenhouse.view;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
@@ -12,6 +12,7 @@ import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
 
+import edu.colorado.phet.greenhouse.ScatterEvent;
 import edu.colorado.phet.greenhouse.phetcommon.view.graphics.Graphic;
 
 public class ScatterEventGraphic implements Graphic {

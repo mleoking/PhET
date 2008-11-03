@@ -4,10 +4,13 @@
  * Author: Another Guy
  * Date: Oct 30, 2003
  */
-package edu.colorado.phet.greenhouse;
+package edu.colorado.phet.greenhouse.model;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.greenhouse.GreenhouseApplication;
+import edu.colorado.phet.greenhouse.filter.IrFilter;
 
 public class PhotonGlassPaneCollisionModel {
     private static IrFilter irPassFilter = new IrFilter();

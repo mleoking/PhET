@@ -4,12 +4,13 @@
  * Author: Another Guy
  * Date: Oct 9, 2003
  */
-package edu.colorado.phet.greenhouse;
+package edu.colorado.phet.greenhouse.model;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.colorado.phet.greenhouse.coreadditions.Annulus;
 import edu.colorado.phet.greenhouse.filter.BandpassFilter;
 

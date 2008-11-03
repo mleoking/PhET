@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Oct 30, 2003
  */
-package edu.colorado.phet.greenhouse;
+package edu.colorado.phet.greenhouse.view;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -12,6 +12,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 
 import edu.colorado.phet.greenhouse.coreadditions.graphics.ImageGraphic;
+import edu.colorado.phet.greenhouse.model.GlassPane;
 import edu.colorado.phet.greenhouse.phetcommon.view.graphics.Graphic;
 
 /**

@@ -8,6 +8,7 @@ package edu.colorado.phet.greenhouse;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.greenhouse.model.Photon;
 import edu.colorado.phet.greenhouse.phetcommon.model.ModelElement;
 
 public class ScatterEvent extends ModelElement {
