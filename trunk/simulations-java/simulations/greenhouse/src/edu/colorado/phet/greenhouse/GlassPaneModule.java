@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import edu.colorado.phet.greenhouse.coreadditions.graphics.ImageGraphic;
 import edu.colorado.phet.greenhouse.model.GlassPane;
 import edu.colorado.phet.greenhouse.model.GreenhouseModel;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorber;
@@ -19,6 +18,7 @@ import edu.colorado.phet.greenhouse.model.PhotonEmitter;
 import edu.colorado.phet.greenhouse.phetcommon.application.PhetApplication;
 import edu.colorado.phet.greenhouse.phetcommon.view.ApparatusPanel;
 import edu.colorado.phet.greenhouse.phetcommon.view.graphics.Graphic;
+import edu.colorado.phet.greenhouse.phetcommon.view.graphics.ImageGraphic;
 import edu.colorado.phet.greenhouse.view.GlassPaneGraphic;
 
 public class GlassPaneModule extends BaseGreenhouseModule {
