@@ -1,3 +1,4 @@
+11-3-2008: #562, use Piccolo-style tabs, add build dependency on piccolo-phet
 11-3-2008: #562, delete local copy of phetcommon classes and image files
 11-3-2008: #562, port to phetcommon trunk version of application, model, clock
 11-2-2008: #562, too much stuff in top-level package, separate into model and view packages
