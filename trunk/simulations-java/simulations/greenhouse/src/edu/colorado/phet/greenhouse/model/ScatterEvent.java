@@ -4,14 +4,16 @@
  * Author: Another Guy
  * Date: Oct 17, 2003
  */
-package edu.colorado.phet.greenhouse;
+package edu.colorado.phet.greenhouse.model;
 
 import java.awt.geom.Point2D;
+import java.util.Observable;
 
-import edu.colorado.phet.greenhouse.model.Photon;
-import edu.colorado.phet.greenhouse.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.greenhouse.BaseGreenhouseModule;
+import edu.colorado.phet.greenhouse.GreenhouseConfig;
 
-public class ScatterEvent extends ModelElement {
+public class ScatterEvent extends Observable implements ModelElement {
     Point2D.Double location;
     private double radius;
     private BaseGreenhouseModule module;
@@ -35,6 +37,7 @@ public class ScatterEvent extends ModelElement {
         if ( radius <= 0 ) {
             module.removeScatterEvent( this );
         }
-        updateObservers();
+        setChanged();
+        notifyObservers();
     }
 }

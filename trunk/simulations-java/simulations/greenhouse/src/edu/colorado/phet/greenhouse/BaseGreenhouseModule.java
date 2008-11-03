@@ -16,13 +16,13 @@ import java.util.Iterator;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
+import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.greenhouse.filter.Filter1D;
 import edu.colorado.phet.greenhouse.filter.IrFilter;
 import edu.colorado.phet.greenhouse.model.*;
-import edu.colorado.phet.greenhouse.phetcommon.application.Module;
-import edu.colorado.phet.greenhouse.phetcommon.application.PhetApplication;
-import edu.colorado.phet.greenhouse.phetcommon.model.IClock;
-import edu.colorado.phet.greenhouse.phetcommon.model.ModelElement;
 import edu.colorado.phet.greenhouse.phetcommon.view.graphics.ApparatusPanel;
 import edu.colorado.phet.greenhouse.phetcommon.view.graphics.CompositeGraphic;
 import edu.colorado.phet.greenhouse.view.*;
@@ -50,6 +50,8 @@ public abstract class BaseGreenhouseModule extends Module {
     private static final double SUN_EARTH_DIST = SUN_DIAM * 5;
     private Star sun;
     private StarGraphic sunGraphic;
+    private ApparatusPanel apparatusPanel;
+    private GreenhouseModel model;
 
     //
     private static boolean s_zoomed;
@@ -57,7 +59,7 @@ public abstract class BaseGreenhouseModule extends Module {
     private AtmosphereGraphic atmosphereGraphic;
 
     protected BaseGreenhouseModule( String s ) {
-        super( s );
+        super( s, new GreenhouseClock() );
         init();
     }
 
@@ -75,11 +77,11 @@ public abstract class BaseGreenhouseModule extends Module {
                                                    modelHeight );
 
 
-        GreenhouseModel model = new GreenhouseModel( finalModelBounds );
+        model = new GreenhouseModel( finalModelBounds );
         this.setModel( model );
 
-        ApparatusPanel apparatusPanel = new TestApparatusPanel( 4 / 3, new FlipperAffineTransformFactory( initialModelBounds ) );
-        this.setApparatusPanel( apparatusPanel );
+        apparatusPanel = new TestApparatusPanel( 4 / 3, new FlipperAffineTransformFactory( initialModelBounds ) );
+        this.setSimulationPanel( apparatusPanel );
         apparatusPanel.setBackground( Color.black );
 
         drawingCanvas = apparatusPanel.getCompositeGraphic();
@@ -164,28 +166,38 @@ public abstract class BaseGreenhouseModule extends Module {
             sun.setProductionRate( GreenhouseConfig.defaultSunPhotonProductionRate );
         }
     }
+    
+    public GreenhouseModel getGreenhouseModel() {
+        return model;
+    }
+    
+    protected ApparatusPanel getApparatusPanel() {
+        return apparatusPanel;
+    }
+    
+    public void updateGraphics( ClockEvent event ) {
+        super.updateGraphics( event );
+        apparatusPanel.update( null, null );// force a repaint
+    }
 
     protected HashMap getPhotonToGraphicsMap() {
         return photonToGraphicsMap;
     }
 
-    public void addClock( IClock clock ) {
-        clock.addClockTickListener( getModel() );
-    }
-
     public void reset() {
+        
         earth.getPhotonSource().setProductionRate( 1E-2 );
         earth.reset();
         sun.setProductionRate( GreenhouseConfig.defaultSunPhotonProductionRate );
 
-        java.util.List photons = ( (GreenhouseModel) getModel() ).getPhotons();
+        java.util.List photons = model.getPhotons();
         for ( int i = 0; i < photons.size(); i++ ) {
             Photon photon = (Photon) photons.get( i );
-            ( (GreenhouseModel) getModel() ).photonAbsorbed( photon );
+            model.photonAbsorbed( photon );
         }
 
-        photons = ( (GreenhouseModel) getModel() ).getPhotons();
-        ( (GreenhouseModel) getModel() ).getPhotons().clear();
+        photons = model.getPhotons();
+        model.getPhotons().clear();
         sun.setProductionRate( GreenhouseConfig.defaultSunPhotonProductionRate );
 
         Iterator keyIt = photonToGraphicsMap.keySet().iterator();
@@ -195,10 +207,6 @@ public abstract class BaseGreenhouseModule extends Module {
             getApparatusPanel().removeGraphic( pg );
         }
         photonToGraphicsMap.clear();
-    }
-
-    public GreenhouseModel getGreenhouseModel() {
-        return (GreenhouseModel) getModel();
     }
 
     public Earth getEarth() {
@@ -243,7 +251,7 @@ public abstract class BaseGreenhouseModule extends Module {
     }
 
     public void removeScatterEvent( ScatterEvent event ) {
-        getModel().removeModelElement( event );
+        model.removeModelElement( event );
         ScatterEventGraphic seg = (ScatterEventGraphic) scatterToGraphicMap.get( event );
         getApparatusPanel().removeGraphic( seg );
         scatterToGraphicMap.remove( event );
@@ -319,7 +327,7 @@ public abstract class BaseGreenhouseModule extends Module {
         public void photonScatered( Photon photon ) {
             if ( photonToGraphicsMap.get( photon ) != null ) {
                 ScatterEvent se = new ScatterEvent( photon, BaseGreenhouseModule.this );
-                getModel().addModelElement( se );
+                model.addModelElement( se );
                 if ( ( (PhotonGraphic) photonToGraphicsMap.get( photon ) ).isVisible() ) {
                     ScatterEventGraphic seg = new ScatterEventGraphic( se );
                     getApparatusPanel().addGraphic( seg, GreenhouseConfig.SUNLIGHT_PHOTON_GRAPHIC_LAYER - 1 );
@@ -359,8 +367,8 @@ public abstract class BaseGreenhouseModule extends Module {
                         GreenhouseResources.getString( "BaseGreenhouseModule.FlyMeInText" ),
                         GreenhouseResources.getString( "BaseGreenhouseModule.BeamMeDownText" )};
                 JOptionPane jop = new JOptionPane( GreenhouseResources.getString( "BaseGreenhouseModule.QuestionText" ), JOptionPane.QUESTION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, options, options[0] );
-                JDialog zoomDialog = jop.createDialog( PhetApplication.instance().getApplicationView().getPhetFrame(), "" );
-                Point p = PhetApplication.instance().getApplicationView().getPhetFrame().getLocation();
+                JDialog zoomDialog = jop.createDialog( PhetApplication.instance().getPhetFrame(), "" );
+                Point p = PhetApplication.instance().getPhetFrame().getLocation();
                 zoomDialog.setLocation( p.x + 50, p.y + 50 );
                 zoomDialog.setVisible( true );
                 boolean doZoom = false;

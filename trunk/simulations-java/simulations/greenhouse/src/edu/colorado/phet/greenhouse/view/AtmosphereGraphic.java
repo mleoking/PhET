@@ -56,7 +56,7 @@ public class AtmosphereGraphic extends CompositeGraphic implements Observer {
                 Rectangle2D newBounds = component.getBounds();
                 if ( atmosphereImageGraphic != null ) {
                     BufferedImage bi = atmosphereImageGraphic.getBufferedImage();
-                    if ( newBounds.getWidth() != 0 && newBounds.getHeight() != 0 && bi.getWidth() != 0 && bi.getHeight() != 0 ) {
+                    if ( newBounds.getWidth() > 0 && newBounds.getHeight() > 0 && bi.getWidth() > 0 && bi.getHeight() > 0 ) {
                         double scaleWidth = newBounds.getWidth() / bi.getWidth();
                         double scaleHeight = newBounds.getHeight() / bi.getHeight();
 

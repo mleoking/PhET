@@ -1,3 +1,5 @@
+11-3-2008: #562, delete local copy of phetcommon classes and image files
+11-3-2008: #562, port to phetcommon trunk version of application, model, clock
 11-2-2008: #562, too much stuff in top-level package, separate into model and view packages
 # 2.04.01 (25456)
 10-16/2008: #562, publish 2.04.01 before starting port to phetcommon trunk
@@ -10,5 +12,4 @@
 7-19-2007: Added dynamic version loading and display
 7-19-2007: Reduced photon size by 30%
 7-19-2007: Added photon graphics from hydrogen atom simulation
-7-16-2007
-o improved performance of application inner loop
+7-16-2007: improved performance of application inner loop

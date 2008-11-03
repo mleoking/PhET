@@ -11,11 +11,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 
 import edu.colorado.phet.greenhouse.model.Cloud;
 import edu.colorado.phet.greenhouse.model.Earth;
-import edu.colorado.phet.greenhouse.phetcommon.application.PhetApplication;
 import edu.colorado.phet.greenhouse.phetcommon.view.graphics.ApparatusPanel;
 import edu.colorado.phet.greenhouse.phetcommon.view.graphics.Graphic;
 import edu.colorado.phet.greenhouse.view.CloudGraphic;
@@ -52,13 +51,6 @@ public class GreenhouseModule extends BaseGreenhouseModule {
         // Tell the Earth not to jimmy the temperature
         getEarth().setJimmyArray( null );
     }
-
-    public void activate( PhetApplication phetApplication ) {
-    }
-
-    public void deactivate( PhetApplication phetApplication ) {
-    }
-
 
     public void reset() {
         super.reset();

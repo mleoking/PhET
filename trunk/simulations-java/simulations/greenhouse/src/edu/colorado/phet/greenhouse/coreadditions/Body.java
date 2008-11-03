@@ -7,11 +7,12 @@
 package edu.colorado.phet.greenhouse.coreadditions;
 
 import java.awt.geom.Point2D;
+import java.util.Observable;
 
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.greenhouse.phetcommon.math.Vector2D;
-import edu.colorado.phet.greenhouse.phetcommon.model.ModelElement;
 
-public abstract class Body extends ModelElement {
+public abstract class Body extends Observable implements ModelElement {
     private double omega;
     private double alpha;
     private double mass;
@@ -124,7 +125,7 @@ public abstract class Body extends ModelElement {
         // New velocity
 
         setChanged();
-        updateObservers();
+        notifyObservers();
     }
 
     public abstract Point2D.Double getCM();

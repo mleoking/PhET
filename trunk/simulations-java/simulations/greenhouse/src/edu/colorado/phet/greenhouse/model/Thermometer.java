@@ -7,10 +7,11 @@
 package edu.colorado.phet.greenhouse.model;
 
 import java.awt.geom.Point2D;
+import java.util.Observable;
 
-import edu.colorado.phet.greenhouse.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 
-public class Thermometer extends ModelElement {
+public class Thermometer extends Observable implements ModelElement {
     private TemperatureReporter temperatureReporter;
     private Point2D.Double location = new Point2D.Double();
     private double temperature;

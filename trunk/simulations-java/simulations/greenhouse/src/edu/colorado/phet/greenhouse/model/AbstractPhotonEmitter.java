@@ -8,10 +8,12 @@ package edu.colorado.phet.greenhouse.model;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Observable;
 
-import edu.colorado.phet.greenhouse.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 
-public abstract class AbstractPhotonEmitter extends ModelElement implements PhotonEmitter {
+public abstract class AbstractPhotonEmitter extends Observable implements ModelElement, PhotonEmitter {
+    
     private double productionRate;
     private double timeSincePhotonsProduced;
     private HashSet listeners = new HashSet();
