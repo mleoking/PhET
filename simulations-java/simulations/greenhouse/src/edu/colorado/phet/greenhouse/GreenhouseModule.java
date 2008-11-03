@@ -13,10 +13,10 @@ import java.util.Iterator;
 
 import javax.swing.JPanel;
 
+import edu.colorado.phet.greenhouse.common.graphics.ApparatusPanel;
+import edu.colorado.phet.greenhouse.common.graphics.Graphic;
 import edu.colorado.phet.greenhouse.model.Cloud;
 import edu.colorado.phet.greenhouse.model.Earth;
-import edu.colorado.phet.greenhouse.phetcommon.view.graphics.ApparatusPanel;
-import edu.colorado.phet.greenhouse.phetcommon.view.graphics.Graphic;
 import edu.colorado.phet.greenhouse.view.CloudGraphic;
 
 public class GreenhouseModule extends BaseGreenhouseModule {

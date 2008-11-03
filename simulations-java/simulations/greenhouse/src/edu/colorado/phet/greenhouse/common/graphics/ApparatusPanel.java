@@ -5,7 +5,7 @@
  * Created by: Ron LeMaster
  * Date: Nov 6, 2002
  */
-package edu.colorado.phet.greenhouse.phetcommon.view.graphics;
+package edu.colorado.phet.greenhouse.common.graphics;
 
 
 import javax.swing.*;
@@ -40,7 +40,7 @@ import java.util.Observer;
  * <p>
  * Instances of this class are Observers of the application's PhysicalSystem
  *
- * @see edu.colorado.phet.greenhouse.phetcommon.view.graphics.Graphic
+ * @see edu.colorado.phet.greenhouse.common.graphics.Graphic
  */
 public class ApparatusPanel extends JPanel implements Observer {
 

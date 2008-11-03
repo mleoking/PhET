@@ -8,7 +8,7 @@ package edu.colorado.phet.greenhouse.view;
 
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.greenhouse.phetcommon.view.graphics.ApparatusPanel;
+import edu.colorado.phet.greenhouse.common.graphics.ApparatusPanel;
 
 public class TestApparatusPanel extends ApparatusPanel {
 

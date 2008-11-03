@@ -11,8 +11,8 @@ import java.awt.Paint;
 import java.awt.RenderingHints;
 import java.awt.geom.Ellipse2D;
 
+import edu.colorado.phet.greenhouse.common.graphics.Graphic;
 import edu.colorado.phet.greenhouse.model.Disk;
-import edu.colorado.phet.greenhouse.phetcommon.view.graphics.Graphic;
 
 public class DiskGraphic implements Graphic {
     private Disk disk;

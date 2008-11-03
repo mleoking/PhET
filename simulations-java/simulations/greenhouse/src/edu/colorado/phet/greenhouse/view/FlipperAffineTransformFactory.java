@@ -11,7 +11,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.*;
 
-import edu.colorado.phet.greenhouse.phetcommon.view.graphics.AffineTransformFactory;
+import edu.colorado.phet.greenhouse.common.graphics.AffineTransformFactory;
 
 /**
  * Produces affine transforms that map from model to view coordinates,

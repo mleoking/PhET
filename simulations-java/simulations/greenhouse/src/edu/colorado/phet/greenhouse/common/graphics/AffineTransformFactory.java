@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Oct 9, 2003
  */
-package edu.colorado.phet.greenhouse.phetcommon.view.graphics;
+package edu.colorado.phet.greenhouse.common.graphics;
 
 import java.awt.geom.AffineTransform;
 import java.awt.*;

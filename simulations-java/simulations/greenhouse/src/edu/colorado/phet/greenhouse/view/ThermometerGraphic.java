@@ -22,8 +22,8 @@ import java.util.Observer;
 
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
+import edu.colorado.phet.greenhouse.common.graphics.Graphic;
 import edu.colorado.phet.greenhouse.model.Thermometer;
-import edu.colorado.phet.greenhouse.phetcommon.view.graphics.Graphic;
 
 public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
 
