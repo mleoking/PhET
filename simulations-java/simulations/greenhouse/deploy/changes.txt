@@ -1,4 +1,4 @@
-# 2.04.02 (?)
+# 2.04.02 (25777)
 11-3-2008: #562 is complete, publish dev version
 11-3-2008: #562, move all remaining common graphics files to edu.colorado.phet.greenhouse.common.graphics
 11-3-2008: #562, use Piccolo-style tabs, add build dependency on piccolo-phet
