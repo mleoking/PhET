@@ -6,14 +6,15 @@
  */
 package edu.colorado.phet.greenhouse.view;
 
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Paint;
+import java.awt.RenderingHints;
 import java.awt.geom.Ellipse2D;
 
 import edu.colorado.phet.greenhouse.coreadditions.Disk;
 import edu.colorado.phet.greenhouse.phetcommon.view.graphics.Graphic;
-import edu.colorado.phet.greenhouse.phetcommon.view.graphics.ShapeGraphicType;
 
-public class DiskGraphic implements Graphic, ShapeGraphicType {
+public class DiskGraphic implements Graphic {
     private Disk disk;
     private Paint paint;
     private Ellipse2D.Double circle = new Ellipse2D.Double();

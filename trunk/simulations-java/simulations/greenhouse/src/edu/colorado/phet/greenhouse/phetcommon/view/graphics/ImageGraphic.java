@@ -16,7 +16,7 @@ import java.awt.image.ImageObserver;
 
 import edu.colorado.phet.greenhouse.GreenhouseResources;
 
-public class ImageGraphic implements Graphic, ImageObserver, ImageGraphicType {
+public class ImageGraphic implements Graphic, ImageObserver {
 
     private BufferedImage image;
     private Point2D.Double location = new Point2D.Double();

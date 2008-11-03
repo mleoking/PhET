@@ -26,13 +26,12 @@ import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.greenhouse.model.Atmosphere;
 import edu.colorado.phet.greenhouse.phetcommon.view.CompositeGraphic;
 import edu.colorado.phet.greenhouse.phetcommon.view.graphics.ImageGraphic;
-import edu.colorado.phet.greenhouse.phetcommon.view.graphics.ShapeGraphicType;
 
 /**
  * An overlay graphic that is supposed to look like polluted air. It fades in and out depending on the
  * amount of junk in the atmosphere.
  */
-public class AtmosphereGraphic extends CompositeGraphic implements Observer, ShapeGraphicType {
+public class AtmosphereGraphic extends CompositeGraphic implements Observer {
 
     private Atmosphere atmosphere;
     private float greenhouseAlpha;
