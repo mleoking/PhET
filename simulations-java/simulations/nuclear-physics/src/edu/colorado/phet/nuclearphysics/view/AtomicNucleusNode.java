@@ -161,6 +161,14 @@ public class AtomicNucleusNode extends PNode {
     //------------------------------------------------------------------------
     
     /**
+     * Get a reference to the nucleus within the model that is being monitored
+     * by this node.
+     */
+    public AtomicNucleus getNucleusRef(){
+    	return _atomicNucleus;
+    }
+    
+    /**
      * Perform any cleanup necessary before being garbage collected.
      */
     public void cleanup(){
