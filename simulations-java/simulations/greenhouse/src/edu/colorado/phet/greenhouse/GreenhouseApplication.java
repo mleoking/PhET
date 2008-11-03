@@ -78,10 +78,10 @@ public class GreenhouseApplication extends PhetApplication {
                 splashWindow.setVisible( true );
 
                 BaseGreenhouseModule greenhouseModule = new GreenhouseModule();
-                BaseGreenhouseModule greenhouseModule2 = new GlassPaneModule();
+                BaseGreenhouseModule glassPaneModule = new GlassPaneModule();
                 Module[] modules = new Module[]{
                         greenhouseModule,
-                        greenhouseModule2
+                        glassPaneModule
                 };
                 ApplicationDescriptor appDescriptor = new ApplicationDescriptor(
                         new String( GreenhouseResources.getString( "greenhouse.name" ) + " (" + VERSION + ")" ),
