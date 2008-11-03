@@ -12,6 +12,8 @@ import java.awt.geom.QuadCurve2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import org.apache.commons.collections.functors.PrototypeFactory;
+
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
@@ -47,7 +49,7 @@ public class BucketOfNucleiNode extends PNode {
 	public static final Color OUTER_COLOR_LIGHT = new Color (0xFF9933);
 	public static final Color INNER_COLOR_DARK = new Color (0xAA7700);
 	public static final Color INNER_COLOR_LIGHT = new Color (0xCC9933);
-	public static final double NUCLEUS_WIDTH_PROPORTION = 0.25;
+	public static final double PROTOTYPICAL_NUCLEUS_WIDTH = 5;
 	
     //------------------------------------------------------------------------
     // Instance Data
@@ -61,12 +63,12 @@ public class BucketOfNucleiNode extends PNode {
     private PNode _frontOfBucketLayer;
     private HTMLNode _bucketLabel;
     private GrabbableLabeledNucleusNode.Listener _grabbableNucleusListener;
-    private PNode [] _nucleusNodes;
+    private PNode [] _visibleNucleusNodes;
     private double _bucketHeight;
     private double _bucketWidth;
     private double _ellipseVerticalSpan;
-    int _numNucleiInMiddleLayer;
-    int _numNucleiInOuterLayers;
+    int _numVisibleNucleiInMiddleLayer;
+    int _numVisibleNucleiInOuterLayers;
     PNode _nodeBeingDragged;
     
 	
@@ -152,15 +154,12 @@ public class BucketOfNucleiNode extends PNode {
 			public void nodeGrabbed(GrabbableLabeledNucleusNode node){
 				System.out.println("Bucket got the grab notification.");
 				_nodeBeingDragged = node;
-				for (int i=0; i<_nucleusNodes.length; i++){
-					if (node == _nucleusNodes[i]){
+				for (int i=0; i<_visibleNucleusNodes.length; i++){
+					if (node == _visibleNucleusNodes[i]){
 						// Remove this node.
-						_nucleusNodes[i] = null;
+						_visibleNucleusNodes[i] = null;
 					}
 				}
-				
-				// Fill the newly created slot in the bucket.
-				fillBucketWithNuclei();
 			}
 			
 	        public void nodeReleased(GrabbableLabeledNucleusNode node){
@@ -185,16 +184,47 @@ public class BucketOfNucleiNode extends PNode {
 
 		// Set up some values that will be used when filling the bucket with
 		// nuclei.
-		_numNucleiInMiddleLayer = (int)Math.floor(1 / NUCLEUS_WIDTH_PROPORTION);
-		_numNucleiInOuterLayers = (int)((double)_numNucleiInMiddleLayer * 0.75);
-		_nucleusNodes = new PNode[((2 * _numNucleiInOuterLayers) + _numNucleiInMiddleLayer)];
-
-		fillBucketWithNuclei();
+		_numVisibleNucleiInMiddleLayer = (int)(_bucketWidth / PROTOTYPICAL_NUCLEUS_WIDTH);
+		_numVisibleNucleiInOuterLayers = (int)((double)_numVisibleNucleiInMiddleLayer * 0.75);
+		_visibleNucleusNodes = new PNode[((2 * _numVisibleNucleiInOuterLayers) + _numVisibleNucleiInMiddleLayer)];
 	}
 	
     //------------------------------------------------------------------------
     // Public Methods
     //------------------------------------------------------------------------
+	
+	/**
+	 * Add a nucleus node to the bucket.  Note that the nucleus will be moved
+	 * to an appropriate location and the node may be hidden if the bucket is
+	 * already looking like it is full.
+	 */
+	public void addNucleus( AtomicNucleusNode nucleusNode ){
+		
+		// See if there are any slots open in the list of visible nuclei.
+		int i;
+		boolean nucleasNodeIsVisible = false;
+		for (i = 0; i < (2 * _numVisibleNucleiInOuterLayers + _numVisibleNucleiInMiddleLayer); i++){
+			if (_visibleNucleusNodes[i] == null){
+				// This spot is available, so add this nucleus.
+				nucleusNode.setVisible(true);
+				_visibleNucleusNodes[i] = nucleusNode;
+				addAndPositionVisibleNucleus(i);
+				nucleasNodeIsVisible = true;
+				break;
+			}
+		}
+		
+		if (!nucleasNodeIsVisible){
+			// Move the node to be in the center of the bucket.
+			nucleusNode.getNucleusRef().setPosition(_bucketWidth / 2, _bucketHeight / 2);
+			
+			// Invisible nuclei are kept as children of the main node.
+			addChild(nucleusNode);
+			
+			// And finally, make sure the node is invisible.
+			nucleusNode.setVisible(false);
+		}
+	}
 	
     /**
      * This method allows the caller to register for notifications from this
@@ -225,73 +255,44 @@ public class BucketOfNucleiNode extends PNode {
 	}
 	
 	/**
-	 * Add the nuclei to any open positions in the bucket, but only if the
-	 * total extractable capacity has not yet been exceeded.
+	 * Position one of the visible nuclei based on its position with the array
+	 * of all visible nuclei.
+	 * 
+	 * @param nucleusIndex
 	 */
-	private void fillBucketWithNuclei(){
-		
-		// Add a nucleus to any empty spots.
-		for (int i = 0; i < _nucleusNodes.length; i++){
-			if ( _nucleusNodes[i] == null){
-				_nucleusNodes[i] = createGrabbablePoloniumNode();
-				if (i < _numNucleiInOuterLayers){
-					_backInteriorLayer.addChild(_nucleusNodes[i]);
-				}
-				else if (i < _numNucleiInOuterLayers + _numNucleiInMiddleLayer){
-					_middleInteriorLayer.addChild(_nucleusNodes[i]);
-				}
-				else {
-					_frontInteriorLayer.addChild(_nucleusNodes[i]);
-				}
-			}
-		}
+	private void addAndPositionVisibleNucleus(int nucleusIndex){
 
-		positionNucleiInBucket();
-	}
-	
-	private void positionNucleiInBucket(){
-
-		double nucleusWidth = NUCLEUS_WIDTH_PROPORTION * _bucketWidth;
-		double nucleusOffsetX = nucleusWidth * 0.5;
-		double nucleusOffsetY = -(_ellipseVerticalSpan * 0.3);
-
-		// Add nuclei to back layer.
-		for (int i = 0; i < _numNucleiInOuterLayers; i++){
-			if (_nucleusNodes[i] != null){
-				_nucleusNodes[i].setOffset(nucleusOffsetX, nucleusOffsetY);
-			}
-			nucleusOffsetX += nucleusWidth * 1.05;
+		double xPos, yPos;
+		
+		if (nucleusIndex < _numVisibleNucleiInOuterLayers){
+			// This nucleus is in the back row.
+			_backInteriorLayer.addChild(_visibleNucleusNodes[nucleusIndex]);
+			xPos = PROTOTYPICAL_NUCLEUS_WIDTH * 0.5 + PROTOTYPICAL_NUCLEUS_WIDTH * nucleusIndex * 1.1;
+			yPos = -(_ellipseVerticalSpan * 0.3);
+		}
+		else if (nucleusIndex < _numVisibleNucleiInMiddleLayer + _numVisibleNucleiInOuterLayers){
+			// This nucleus is in the middle row.
+			_middleInteriorLayer.addChild(_visibleNucleusNodes[nucleusIndex]);
+			xPos = PROTOTYPICAL_NUCLEUS_WIDTH * 0.1 + PROTOTYPICAL_NUCLEUS_WIDTH * nucleusIndex * 1.1;
+			yPos = _ellipseVerticalSpan * 0.1;
+		}
+		else{
+			// This nucleus is in the front row.
+			_frontInteriorLayer.addChild(_visibleNucleusNodes[nucleusIndex]);
+			xPos = PROTOTYPICAL_NUCLEUS_WIDTH * 0.5 + PROTOTYPICAL_NUCLEUS_WIDTH * nucleusIndex * 1.1;
+			yPos = _ellipseVerticalSpan * 0.5;
 		}
 		
-		nucleusOffsetX = nucleusWidth * 0.1;
-		nucleusOffsetY = _ellipseVerticalSpan * 0.1;
-		
-		// Add nuclei to middle layer.
-		for (int i = _numNucleiInOuterLayers; i < _numNucleiInOuterLayers + _numNucleiInMiddleLayer; i++){
-			if (_nucleusNodes[i] != null){
-				_nucleusNodes[i].setOffset(nucleusOffsetX, nucleusOffsetY);
-			}
-			nucleusOffsetX += nucleusWidth * 1.05;
-		}
-		
-		nucleusOffsetX = nucleusWidth * 0.5;
-		nucleusOffsetY = _ellipseVerticalSpan * 0.4;
-		
-		// Add nuclei to front layer.
-		for (int i = _numNucleiInOuterLayers + _numNucleiInMiddleLayer; i < 2 * _numNucleiInOuterLayers + _numNucleiInMiddleLayer; i++){
-			if (_nucleusNodes[i] != null){
-				_nucleusNodes[i].setOffset(nucleusOffsetX, nucleusOffsetY);
-			}
-			nucleusOffsetX += nucleusWidth * 1.05;
-		}
+		_visibleNucleusNodes[nucleusIndex].setOffset(xPos, yPos);
 	}
 
+	// TODO: JPB TBD - This should probably go.
 	private GrabbableLabeledNucleusNode createGrabbablePoloniumNode() {
 		GrabbableLabeledNucleusNode nucleusNode = new GrabbableLabeledNucleusNode("Polonium Nucleus Small.png",
 		        NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER, 
 		        NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL, 
 		        NuclearPhysicsConstants.POLONIUM_LABEL_COLOR );
-		nucleusNode.scale( _bucketWidth * NUCLEUS_WIDTH_PROPORTION / nucleusNode.getFullBoundsReference().width);
+		nucleusNode.scale( _bucketWidth * PROTOTYPICAL_NUCLEUS_WIDTH / nucleusNode.getFullBoundsReference().width);
 		nucleusNode.setPickable(true);
 		nucleusNode.addListener(_grabbableNucleusListener);
 		nucleusNode.addInputEventListener(new CursorHandler());
