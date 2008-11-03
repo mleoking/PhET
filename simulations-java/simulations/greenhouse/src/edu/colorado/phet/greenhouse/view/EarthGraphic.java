@@ -27,8 +27,8 @@ import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.greenhouse.model.Earth;
 import edu.colorado.phet.greenhouse.model.Photon;
 import edu.colorado.phet.greenhouse.model.ReflectivityAssessor;
-import edu.colorado.phet.greenhouse.phetcommon.view.ApparatusPanel;
 import edu.colorado.phet.greenhouse.phetcommon.view.graphics.Animation;
+import edu.colorado.phet.greenhouse.phetcommon.view.graphics.ApparatusPanel;
 import edu.colorado.phet.greenhouse.phetcommon.view.graphics.Graphic;
 import edu.colorado.phet.greenhouse.phetcommon.view.graphics.ImageGraphic;
 

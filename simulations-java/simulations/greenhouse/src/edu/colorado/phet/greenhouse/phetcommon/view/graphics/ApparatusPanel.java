@@ -5,9 +5,8 @@
  * Created by: Ron LeMaster
  * Date: Nov 6, 2002
  */
-package edu.colorado.phet.greenhouse.phetcommon.view;
+package edu.colorado.phet.greenhouse.phetcommon.view.graphics;
 
-import edu.colorado.phet.greenhouse.phetcommon.view.graphics.Graphic;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;

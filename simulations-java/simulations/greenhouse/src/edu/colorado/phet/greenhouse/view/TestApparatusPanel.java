@@ -4,12 +4,11 @@
  * Author: Another Guy
  * Date: Dec 8, 2003
  */
-package edu.colorado.phet.greenhouse;
+package edu.colorado.phet.greenhouse.view;
 
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.greenhouse.phetcommon.view.ApparatusPanel;
-import edu.colorado.phet.greenhouse.phetcommon.view.FlipperAffineTransformFactory;
+import edu.colorado.phet.greenhouse.phetcommon.view.graphics.ApparatusPanel;
 
 public class TestApparatusPanel extends ApparatusPanel {
 

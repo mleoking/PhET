@@ -4,12 +4,14 @@
  * Author: Another Guy
  * Date: Oct 9, 2003
  */
-package edu.colorado.phet.greenhouse.phetcommon.view;
+package edu.colorado.phet.greenhouse.view;
 
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.*;
+
+import edu.colorado.phet.greenhouse.phetcommon.view.graphics.AffineTransformFactory;
 
 /**
  * Produces affine transforms that map from model to view coordinates,

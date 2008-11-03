@@ -23,9 +23,8 @@ import edu.colorado.phet.greenhouse.phetcommon.application.Module;
 import edu.colorado.phet.greenhouse.phetcommon.application.PhetApplication;
 import edu.colorado.phet.greenhouse.phetcommon.model.IClock;
 import edu.colorado.phet.greenhouse.phetcommon.model.ModelElement;
-import edu.colorado.phet.greenhouse.phetcommon.view.ApparatusPanel;
-import edu.colorado.phet.greenhouse.phetcommon.view.CompositeGraphic;
-import edu.colorado.phet.greenhouse.phetcommon.view.FlipperAffineTransformFactory;
+import edu.colorado.phet.greenhouse.phetcommon.view.graphics.ApparatusPanel;
+import edu.colorado.phet.greenhouse.phetcommon.view.graphics.CompositeGraphic;
 import edu.colorado.phet.greenhouse.view.*;
 
 

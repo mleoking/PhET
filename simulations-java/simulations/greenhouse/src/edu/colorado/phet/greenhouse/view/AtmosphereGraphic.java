@@ -24,7 +24,7 @@ import java.util.Observer;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.greenhouse.model.Atmosphere;
-import edu.colorado.phet.greenhouse.phetcommon.view.CompositeGraphic;
+import edu.colorado.phet.greenhouse.phetcommon.view.graphics.CompositeGraphic;
 import edu.colorado.phet.greenhouse.phetcommon.view.graphics.ImageGraphic;
 
 /**

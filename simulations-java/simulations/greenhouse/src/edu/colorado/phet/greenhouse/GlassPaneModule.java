@@ -16,7 +16,7 @@ import edu.colorado.phet.greenhouse.model.GreenhouseModel;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorber;
 import edu.colorado.phet.greenhouse.model.PhotonEmitter;
 import edu.colorado.phet.greenhouse.phetcommon.application.PhetApplication;
-import edu.colorado.phet.greenhouse.phetcommon.view.ApparatusPanel;
+import edu.colorado.phet.greenhouse.phetcommon.view.graphics.ApparatusPanel;
 import edu.colorado.phet.greenhouse.phetcommon.view.graphics.Graphic;
 import edu.colorado.phet.greenhouse.phetcommon.view.graphics.ImageGraphic;
 import edu.colorado.phet.greenhouse.view.GlassPaneGraphic;
