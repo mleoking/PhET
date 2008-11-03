@@ -7,7 +7,6 @@
  */
 package edu.colorado.phet.greenhouse.phetcommon.view;
 
-import edu.colorado.phet.greenhouse.coreadditions.graphics.AffineTransformFactory;
 import edu.colorado.phet.greenhouse.phetcommon.view.graphics.Graphic;
 
 import javax.swing.*;
