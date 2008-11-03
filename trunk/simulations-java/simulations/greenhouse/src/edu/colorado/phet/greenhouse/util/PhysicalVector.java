@@ -5,13 +5,13 @@
  * Date: Oct 18, 2002
  * Time: 3:50:24 PM
  */
-package edu.colorado.phet.greenhouse.phetcommon.math;
+package edu.colorado.phet.greenhouse.util;
 
 /**
  * This class represents mathmatical vectors. It has package visibility,
  * and is intended to be subclassed to represent vectors of specific
  * dimensionalities.
- * @see edu.colorado.phet.greenhouse.phetcommon.math.Vector2D
+ * @see edu.colorado.phet.greenhouse.util.Vector2D
  */
 public class PhysicalVector {
 

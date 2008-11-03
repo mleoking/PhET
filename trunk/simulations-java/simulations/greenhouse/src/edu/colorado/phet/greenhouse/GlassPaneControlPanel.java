@@ -14,7 +14,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.greenhouse.coreadditions.MessageFormatter;
+import edu.colorado.phet.greenhouse.util.MessageFormatter;
 
 
 public class GlassPaneControlPanel extends JPanel {

@@ -5,7 +5,7 @@
  * Date: Oct 18, 2002
  * Time: 3:50:24 PM
  */
-package edu.colorado.phet.greenhouse.phetcommon.math;
+package edu.colorado.phet.greenhouse.util;
 
 
 /**

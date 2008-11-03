@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Random;
 
-import edu.colorado.phet.greenhouse.coreadditions.Disk;
+import edu.colorado.phet.greenhouse.model.Disk;
 import edu.colorado.phet.greenhouse.model.Star;
 
 public class StarGraphic extends DiskGraphic {
