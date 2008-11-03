@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Sep 30, 2003
  */
-package edu.colorado.phet.greenhouse.instrumentation;
+package edu.colorado.phet.greenhouse.view;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -22,6 +22,7 @@ import java.util.Observer;
 
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
+import edu.colorado.phet.greenhouse.model.Thermometer;
 import edu.colorado.phet.greenhouse.phetcommon.view.graphics.Graphic;
 
 public class ThermometerGraphic implements Graphic, ImageObserver, Observer {

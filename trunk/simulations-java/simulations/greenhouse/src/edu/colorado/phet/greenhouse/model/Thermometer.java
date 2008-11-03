@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Sep 30, 2003
  */
-package edu.colorado.phet.greenhouse.instrumentation;
+package edu.colorado.phet.greenhouse.model;
 
 import java.awt.geom.Point2D;
 
