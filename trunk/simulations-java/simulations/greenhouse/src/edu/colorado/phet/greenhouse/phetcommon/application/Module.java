@@ -8,7 +8,7 @@ package edu.colorado.phet.greenhouse.phetcommon.application;
 
 import edu.colorado.phet.greenhouse.phetcommon.model.BaseModel;
 import edu.colorado.phet.greenhouse.phetcommon.model.ModelElement;
-import edu.colorado.phet.greenhouse.phetcommon.view.ApparatusPanel;
+import edu.colorado.phet.greenhouse.phetcommon.view.graphics.ApparatusPanel;
 import edu.colorado.phet.greenhouse.phetcommon.view.graphics.Graphic;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 
