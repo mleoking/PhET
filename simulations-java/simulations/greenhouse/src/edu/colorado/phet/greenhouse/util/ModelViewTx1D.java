@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Sep 12, 2003
  */
-package edu.colorado.phet.greenhouse.coreadditions;
+package edu.colorado.phet.greenhouse.util;
 
 /**
  * A class that performs linear tranforms between model and view values.

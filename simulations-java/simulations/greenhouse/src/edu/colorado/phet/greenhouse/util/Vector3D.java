@@ -4,10 +4,8 @@
  * Author: Another Guy
  * Date: Oct 2, 2003
  */
-package edu.colorado.phet.greenhouse.coreadditions;
+package edu.colorado.phet.greenhouse.util;
 
-import edu.colorado.phet.greenhouse.phetcommon.math.PhysicalVector;
-import edu.colorado.phet.greenhouse.phetcommon.math.Vector2D;
 
 public class Vector3D extends PhysicalVector {
 

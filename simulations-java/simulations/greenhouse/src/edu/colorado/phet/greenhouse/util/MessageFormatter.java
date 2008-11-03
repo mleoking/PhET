@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Aug 21, 2003
  */
-package edu.colorado.phet.greenhouse.coreadditions;
+package edu.colorado.phet.greenhouse.util;
 
 /**
  * This class has a single static method that turns Java

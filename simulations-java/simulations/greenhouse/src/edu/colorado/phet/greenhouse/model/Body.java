@@ -4,13 +4,13 @@
  * Author: Another Guy
  * Date: Aug 22, 2003
  */
-package edu.colorado.phet.greenhouse.coreadditions;
+package edu.colorado.phet.greenhouse.model;
 
 import java.awt.geom.Point2D;
 import java.util.Observable;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.greenhouse.phetcommon.math.Vector2D;
+import edu.colorado.phet.greenhouse.util.Vector2D;
 
 public abstract class Body extends Observable implements ModelElement {
     private double omega;
