@@ -6,7 +6,6 @@
  */
 package edu.colorado.phet.greenhouse.phetcommon.view;
 
-import edu.colorado.phet.greenhouse.coreadditions.graphics.AffineTransformFactory;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
