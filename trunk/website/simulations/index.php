@@ -67,7 +67,7 @@ class SimulationsPage extends SitePage {
             $view_type = $_REQUEST['view_type'];
         }
         else {
-            if ($cat_encoding == "All_Sims") {
+            if (($cat_encoding == "All_Sims") && (!isset($_REQUEST['st']))) {
                 $view_type = "index";
             }
             else {
@@ -76,7 +76,12 @@ class SimulationsPage extends SitePage {
         }
 
         // This statement selects for all sims in the category, and orders by the sim sorting name:
-        $simulations = ($view_type == 'thumbs') ? sim_get_sims_by_cat_id($cat_id) : sim_get_sims_by_cat_id_alphabetically($cat_id);
+        if (($view_type == "index") || ($cat_encoding == "All_Sims")) {
+            $simulations = sim_get_sims_by_cat_id_alphabetically($cat_id);
+        }
+        else {
+            $simulations = sim_get_sims_by_cat_id($cat_id);
+        }
 
         $num_sims_in_category = count($simulations);
 
