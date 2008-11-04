@@ -395,6 +395,7 @@ public class ConductivityApplication {
                 setControlPanel( ca.controlPanel );
                 getClock().addClockListener( new ClockAdapter() {
                     public void clockTicked( ClockEvent clockEvent ) {
+                        getSimulationPanel().validate(); // workaround for #562 (battery spinner is not visible on Mac)
                         getSimulationPanel().repaint();
                     }
                 } );
