@@ -24,9 +24,9 @@ class WorkshopsPage extends SitePage {
 
         <h2>Upcoming Workshops</h2>
         <ul>
-        <li>Teacher and Researcher: Designing Research Studies around PhET's Interactive Simulations; AAPT Summer 2009 Meeting, Ann Arbor, MI</li>
-        <li>Using the Updated PhET Motion Simulations in HS Physics: Moving Man, Forces in 1 Dimension, Ramps, Ladybug Revolution, Torque; APS HS Teacher Day May 5, 2009, Denver</li>
-        <li>Using PhET for Physical Science in Middle School;  Colorado Science Convention, Nov 21, 2008, Denver (<a href="{$workshop_materials_location}MS_CSC_2008.pdf">PDF flyer</a>)</li>
+        <li><em>Using PhET for Physical Science in Middle School</em>; Colorado Science Convention, Denver, CO, <strong>Nov 21, 2008</strong> (<a href="{$workshop_materials_location}MS_CSC_2008.pdf">PDF flyer</a>)</li>
+        <li><em>Using the Updated PhET Motion Simulations in HS Physics: Moving Man, Forces in 1 Dimension, Ramps, Ladybug Revolution, Torque</em>; APS HS Teacher Day, Sheraton Denver Hotel, Denver, CO, <strong>May 5, 2009</strong></li>
+        <li><em>Teacher and Researcher: Designing Research Studies around PhET's Interactive Simulations</em>; AAPT Summer 2009 Meeting, Ann Arbor, MI, <strong>July 25-29</strong></li>
         </ul>
 
         <h2>Workshop Materials:</h2>
