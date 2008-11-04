@@ -173,15 +173,11 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     		// node for it and add it to the nucleus-to-node map.
     		GrabbableNucleusImageNode poloniumNucleusNode = new GrabbableNucleusImageNode((Polonium211Nucleus)modelElement);
     		
-    		((Polonium211Nucleus)modelElement).setPosition(45, 0);
-    		addWorldChild(poloniumNucleusNode);
-    		/*
     		// If the node's position indicates that it is in the bucket then
     		// add it to the bucket node.
     		if (isNucleusInBucket((AtomicNucleus)modelElement)){
     			_bucketNode.addNucleus(poloniumNucleusNode);
     		}
-    		*/
     		
             // Map the nucleus to the node so that we can find it it later.
             _mapAlphaParticlesToNodes.put( modelElement, poloniumNucleusNode );
