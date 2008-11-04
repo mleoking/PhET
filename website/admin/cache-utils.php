@@ -5,7 +5,7 @@
     include_once(SITE_ROOT."admin/sys-utils.php");
 
     define("WEBPAGES_CACHE",             "webpages");
-    define("HOURS_TO_CACHE_WEBPAGES",     1);
+    define("HOURS_TO_CACHE_WEBPAGES",     48);
 
     // FIXME: Caching uses the $_SESSION variable to generate a name.  We are now doing a
     // session_start and session_write_close() to keep the session open for as short a
