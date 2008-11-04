@@ -21,15 +21,19 @@ import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
+import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.CompositeAtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.Neutron;
 import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsClock;
+import edu.colorado.phet.nuclearphysics.model.Polonium211Nucleus;
 import edu.colorado.phet.nuclearphysics.model.Proton;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.singlenucleus.SingleNucleusAlphaDecayModel;
 import edu.colorado.phet.nuclearphysics.view.AlphaDecayTimeChart;
 import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
+import edu.colorado.phet.nuclearphysics.view.AtomicNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.view.BucketOfNucleiNode;
+import edu.colorado.phet.nuclearphysics.view.GrabbableNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.view.NeutronModelNode;
 import edu.colorado.phet.nuclearphysics.view.ProtonModelNode;
 import edu.umd.cs.piccolo.PNode;
@@ -50,7 +54,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
 
     // Canvas size in femto meters.  Assumes a 4:3 aspect ratio.
-    private final double CANVAS_WIDTH = 100;
+    private final double CANVAS_WIDTH = 200;
     private final double CANVAS_HEIGHT = CANVAS_WIDTH * (3.0d/4.0d);
     
     // Translation factors, used to set origin of canvas area.
@@ -71,6 +75,9 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     private GradientButtonNode _resetButtonNode;
     private MultiNucleusAlphaDecayModel _model;
 	private Rectangle2D _bucketRect;
+	private BucketOfNucleiNode _bucketNode;
+    private HashMap _mapAlphaParticlesToNodes = new HashMap();
+    private HashMap _mapNucleiToNodes = new HashMap();
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -93,6 +100,17 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
         // Set the background color.
         setBackground( NuclearPhysicsConstants.CANVAS_BACKGROUND );
         
+        // Register with the model for notifications of nuclei coming and going.
+        _model.addListener( new MultiNucleusAlphaDecayModel.Listener(){
+            public void modelElementAdded(Object modelElement){
+            	handleModelElementAdded(modelElement);
+            };
+
+            public void modelElementRemoved(Object modelElement){
+            	// TODO: JPB TBD
+            };
+        });
+        
         // Add the button for resetting the nuclei to the canvas.
         _resetButtonNode = new GradientButtonNode(NuclearPhysicsStrings.RESET_ALL_NUCLEI, 22, new Color(0xff9900));
         addScreenChild(_resetButtonNode);
@@ -112,13 +130,13 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
         addScreenChild( _alphaDecayTimeChart );
         
         _bucketRect = _model.getBucketRectRef();
-        BucketOfNucleiNode bucketNode = new BucketOfNucleiNode( _bucketRect.getWidth(), _bucketRect.getHeight() );
-        addWorldChild(bucketNode);
-        bucketNode.setOffset( _bucketRect.getX(), _bucketRect.getY() );
+        _bucketNode = new BucketOfNucleiNode( _bucketRect.getWidth(), _bucketRect.getHeight() );
+        addWorldChild(_bucketNode);
+        _bucketNode.setOffset( _bucketRect.getX(), _bucketRect.getY() );
         
         // Register with the bucket for notifications of nuclei being pulled
         // out and dropped on the canvas.
-        bucketNode.addListener(new BucketOfNucleiNode.Listener(){
+        _bucketNode.addListener(new BucketOfNucleiNode.Listener(){
         	public void nucleusExtracted(PNode nucleusNode){
         		addNucleusNodeFromBucket(nucleusNode);
         	}
@@ -148,11 +166,38 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
         } );
     }
     
-    /**
+    protected void handleModelElementAdded(Object modelElement) {
+
+    	if (modelElement instanceof Polonium211Nucleus){
+    		// A new polonium nucleus has been added to the model.  Create a
+    		// node for it and add it to the nucleus-to-node map.
+    		GrabbableNucleusImageNode poloniumNucleusNode = new GrabbableNucleusImageNode((Polonium211Nucleus)modelElement);
+    		
+    		((Polonium211Nucleus)modelElement).setPosition(45, 0);
+    		addWorldChild(poloniumNucleusNode);
+    		/*
+    		// If the node's position indicates that it is in the bucket then
+    		// add it to the bucket node.
+    		if (isNucleusInBucket((AtomicNucleus)modelElement)){
+    			_bucketNode.addNucleus(poloniumNucleusNode);
+    		}
+    		*/
+    		
+            // Map the nucleus to the node so that we can find it it later.
+            _mapAlphaParticlesToNodes.put( modelElement, poloniumNucleusNode );
+    	}
+	}
+
+	/**
      * Sets the view back to the original state when sim was first started.
      */
     public void reset(){
         _alphaDecayTimeChart.reset();
+    }
+    
+    private boolean isNucleusInBucket(AtomicNucleus nucleus){
+    	
+    	return _bucketRect.contains(nucleus.getPositionReference());
     }
     
     /**

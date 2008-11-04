@@ -6,7 +6,14 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.JFrame;
+
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.view.AtomicNucleusNode;
+import edu.colorado.phet.nuclearphysics.view.LabeledNucleusNode;
 
 /**
  * This class represents a non-composite Polonium 211 nucleus.  In other words,
@@ -39,9 +46,14 @@ public class Polonium211Nucleus extends AtomicNucleus {
     // Constructor(s)
     //------------------------------------------------------------------------
     
-    public Polonium211Nucleus(NuclearPhysicsClock clock, Point2D position, double fissionInterval){
+    public Polonium211Nucleus(NuclearPhysicsClock clock, Point2D position){
 
         super(clock, position, ORIGINAL_NUM_PROTONS, ORIGINAL_NUM_NEUTRONS);
+    }
+    
+    public Polonium211Nucleus(NuclearPhysicsClock clock){
+
+        this(clock, new Point2D.Double(0, 0));
     }
     
     //------------------------------------------------------------------------
@@ -111,5 +123,23 @@ public class Polonium211Nucleus extends AtomicNucleus {
             // should not occur again.
             _decayTime = 0;
         }
+    }
+    
+    /**
+     * This main function is used to provide stand-alone testing of the class.
+     * 
+     * @param args - Unused.
+     */
+    public static void main(String [] args){
+        Polonium211Nucleus nucleus = new Polonium211Nucleus(new NuclearPhysicsClock(24, 10));
+        AtomicNucleusNode nucleusNode = new AtomicNucleusNode(nucleus);
+        nucleus.setPosition(400, 300);
+        
+        JFrame frame = new JFrame();
+        PhetPCanvas canvas = new PhetPCanvas();
+        frame.setContentPane( canvas );
+        canvas.addWorldChild( nucleusNode );
+        frame.setSize( 800, 600 );
+        frame.setVisible( true );
     }
 }
