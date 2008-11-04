@@ -45,7 +45,7 @@ class LicensingPage extends SitePage {
 
             <h1>Source Code</h1>
 
-            <p>The source code for all PhET simulations is hosted at <a href="http://sourceforge.net/projects/phet/">SourceForge</a>. The latest version can always be found there. To access the source code, you will need a Subversion client such as <a href="http://tortoisesvn.tigris.org/">TortoiseSVN</a> (Windows-only) or <a href="http://www.syntevo.com/smartsvn/download.jsp">SmartSVN</a> (all platforms).</p>
+            <p>For information on accessing PhET source code, please see <a href="http://phet.colorado.edu/about/faq.php#q1">here</a>.</p>
 
 EOT;
     }
