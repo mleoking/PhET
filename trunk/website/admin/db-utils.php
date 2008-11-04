@@ -127,6 +127,10 @@
         if (!isset($connection)) {
             connect_to_db();
         }
+        if (!isset($connection)) {
+            // Still didn't work, don't query
+            return;
+        }
 
         if (!is_array($condition)) return array();
 

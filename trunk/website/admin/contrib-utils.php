@@ -27,6 +27,10 @@
         if (!isset($connection)) {
             connect_to_db();
         }
+        if (!isset($connection)) {
+            // Still didn't work, skip
+            return false;
+        }
 
         $comments = array();
 
