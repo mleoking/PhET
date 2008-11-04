@@ -94,11 +94,13 @@ public class BucketOfNucleiNode extends PNode {
 		GradientPaint innerPaint = new GradientPaint(0, (float)height/2, INNER_COLOR_LIGHT, 
         		(float)width, (float)height/2, INNER_COLOR_DARK);
 		
+		/*
 		// TODO: JPB TBD - A basic rect for guidance, remove when this node is done.
 		PhetPPath outerRect = new PhetPPath(new Rectangle2D.Double( 0, 0, width, height ));
 		outerRect.setStroke( new BasicStroke( 0.25f ) );
 		outerRect.setStrokePaint(Color.red);
 		addChild(outerRect);
+		*/
 		
 		// Create a layering effect using PNodes so that we can create the
 		// illusion of three dimensions.
