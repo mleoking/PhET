@@ -13,6 +13,7 @@ import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.model.Polonium211CompositeNucleus;
+import edu.colorado.phet.nuclearphysics.model.Polonium211Nucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.AlphaDecayNucleusTypeControl;
 import edu.colorado.phet.nuclearphysics.module.chainreaction.ChainReactionModel.Listener;
 
@@ -29,14 +30,14 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
     // Class data
     //------------------------------------------------------------------------
 	
-	private static final int MAX_NUCLEI = 2;  // Maximum number of nuclei that model will simulate.
+	private static final int MAX_NUCLEI = 10;  // Maximum number of nuclei that model will simulate.
 	
 	// Size and position of the bucket of nuclei which the user uses to add
 	// nuclei to the simulation.
-	private static final double BUCKET_ORIGIN_X = 24;
-	private static final double BUCKET_ORIGIN_Y = 24;
-	private static final double BUCKET_WIDTH = 18;
-	private static final double BUCKET_HEIGHT = BUCKET_WIDTH * 0.8;
+	private static final double BUCKET_ORIGIN_X = 43;
+	private static final double BUCKET_ORIGIN_Y = 50;
+	private static final double BUCKET_WIDTH = 45;
+	private static final double BUCKET_HEIGHT = BUCKET_WIDTH * 0.65;
 	private static final Rectangle2D BUCKET_RECT = new Rectangle2D.Double(BUCKET_ORIGIN_X, BUCKET_ORIGIN_Y, 
 			BUCKET_WIDTH, BUCKET_HEIGHT);
 	
@@ -48,7 +49,7 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
     // Instance data
     //------------------------------------------------------------------------
     
-    private ConstantDtClock _clock;
+    private NuclearPhysicsClock _clock;
     private ArrayList _listeners = new ArrayList();
     private AtomicNucleus [] _atomicNuclei;
     private int _nucleusType;
@@ -141,9 +142,18 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
 			}
 		}
 		
-		// Create a new set of nuclei.
-		// TODO: JPB TBD.
-		
+		// Create a new set of nuclei, positioning each to be in the nuclei
+		// bucket.
+		double inBucketPosX = BUCKET_ORIGIN_X + BUCKET_WIDTH / 2;
+		double inBucketPosY = BUCKET_ORIGIN_Y + BUCKET_HEIGHT / 2;
+		if (_nucleusType == NUCLEUS_TYPE_POLONIUM){
+			for (int i = 0; i < MAX_NUCLEI; i++){
+				AtomicNucleus newNucleus = new Polonium211Nucleus(_clock);
+				_atomicNuclei[i] = newNucleus;
+				newNucleus.setPosition(inBucketPosX, inBucketPosY);
+				notifyModelElementAdded(newNucleus);
+			}
+		}
 	}
 	
     /**

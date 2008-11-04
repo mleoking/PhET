@@ -42,6 +42,9 @@ public class AtomicNucleusImageNode extends AtomicNucleusNode {
         update();
     }
     
+    /**
+     * Update this node's position on the canvas.
+     */
     protected void update(){
         
         super.update();

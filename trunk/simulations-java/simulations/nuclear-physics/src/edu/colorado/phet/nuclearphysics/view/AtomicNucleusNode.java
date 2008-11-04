@@ -15,6 +15,7 @@ import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * This class represents the view of an Atomic Nucleus from the model.  Note

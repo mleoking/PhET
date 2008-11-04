@@ -11,6 +11,7 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.QuadCurve2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.commons.collections.functors.PrototypeFactory;
 
@@ -49,7 +50,7 @@ public class BucketOfNucleiNode extends PNode {
 	public static final Color OUTER_COLOR_LIGHT = new Color (0xFF9933);
 	public static final Color INNER_COLOR_DARK = new Color (0xAA7700);
 	public static final Color INNER_COLOR_LIGHT = new Color (0xCC9933);
-	public static final double PROTOTYPICAL_NUCLEUS_WIDTH = 5;
+	public static final double PROTOTYPICAL_NUCLEUS_WIDTH = 10;
 	
     //------------------------------------------------------------------------
     // Instance Data
@@ -63,14 +64,13 @@ public class BucketOfNucleiNode extends PNode {
     private PNode _frontOfBucketLayer;
     private HTMLNode _bucketLabel;
     private GrabbableLabeledNucleusNode.Listener _grabbableNucleusListener;
-    private PNode [] _visibleNucleusNodes;
+    private AtomicNucleusNode [] _visibleNucleusNodes;
     private double _bucketHeight;
     private double _bucketWidth;
     private double _ellipseVerticalSpan;
     int _numVisibleNucleiInMiddleLayer;
     int _numVisibleNucleiInOuterLayers;
     PNode _nodeBeingDragged;
-    
 	
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -95,12 +95,10 @@ public class BucketOfNucleiNode extends PNode {
         		(float)width, (float)height/2, INNER_COLOR_DARK);
 		
 		// TODO: JPB TBD - A basic rect for guidance, remove when this node is done.
-		/*
 		PhetPPath outerRect = new PhetPPath(new Rectangle2D.Double( 0, 0, width, height ));
 		outerRect.setStroke( new BasicStroke( 0.25f ) );
 		outerRect.setStrokePaint(Color.red);
 		addChild(outerRect);
-		*/
 		
 		// Create a layering effect using PNodes so that we can create the
 		// illusion of three dimensions.
@@ -153,13 +151,6 @@ public class BucketOfNucleiNode extends PNode {
 			
 			public void nodeGrabbed(GrabbableLabeledNucleusNode node){
 				System.out.println("Bucket got the grab notification.");
-				_nodeBeingDragged = node;
-				for (int i=0; i<_visibleNucleusNodes.length; i++){
-					if (node == _visibleNucleusNodes[i]){
-						// Remove this node.
-						_visibleNucleusNodes[i] = null;
-					}
-				}
 			}
 			
 	        public void nodeReleased(GrabbableLabeledNucleusNode node){
@@ -186,7 +177,7 @@ public class BucketOfNucleiNode extends PNode {
 		// nuclei.
 		_numVisibleNucleiInMiddleLayer = (int)(_bucketWidth / PROTOTYPICAL_NUCLEUS_WIDTH);
 		_numVisibleNucleiInOuterLayers = (int)((double)_numVisibleNucleiInMiddleLayer * 0.75);
-		_visibleNucleusNodes = new PNode[((2 * _numVisibleNucleiInOuterLayers) + _numVisibleNucleiInMiddleLayer)];
+		_visibleNucleusNodes = new AtomicNucleusNode[((2 * _numVisibleNucleiInOuterLayers) + _numVisibleNucleiInMiddleLayer)];
 	}
 	
     //------------------------------------------------------------------------
@@ -267,26 +258,30 @@ public class BucketOfNucleiNode extends PNode {
 		if (nucleusIndex < _numVisibleNucleiInOuterLayers){
 			// This nucleus is in the back row.
 			_backInteriorLayer.addChild(_visibleNucleusNodes[nucleusIndex]);
-			xPos = PROTOTYPICAL_NUCLEUS_WIDTH * 0.5 + PROTOTYPICAL_NUCLEUS_WIDTH * nucleusIndex * 1.1;
-			yPos = -(_ellipseVerticalSpan * 0.3);
+			xPos = PROTOTYPICAL_NUCLEUS_WIDTH + PROTOTYPICAL_NUCLEUS_WIDTH * nucleusIndex * 1.1;
+			yPos = _ellipseVerticalSpan * 0.25;
 		}
 		else if (nucleusIndex < _numVisibleNucleiInMiddleLayer + _numVisibleNucleiInOuterLayers){
 			// This nucleus is in the middle row.
 			_middleInteriorLayer.addChild(_visibleNucleusNodes[nucleusIndex]);
-			xPos = PROTOTYPICAL_NUCLEUS_WIDTH * 0.1 + PROTOTYPICAL_NUCLEUS_WIDTH * nucleusIndex * 1.1;
-			yPos = _ellipseVerticalSpan * 0.1;
+			xPos = PROTOTYPICAL_NUCLEUS_WIDTH * 0.6 + 
+			    PROTOTYPICAL_NUCLEUS_WIDTH * (nucleusIndex - _numVisibleNucleiInOuterLayers);
+			yPos = _ellipseVerticalSpan * 0.65;
 		}
 		else{
 			// This nucleus is in the front row.
 			_frontInteriorLayer.addChild(_visibleNucleusNodes[nucleusIndex]);
-			xPos = PROTOTYPICAL_NUCLEUS_WIDTH * 0.5 + PROTOTYPICAL_NUCLEUS_WIDTH * nucleusIndex * 1.1;
-			yPos = _ellipseVerticalSpan * 0.5;
+			xPos = PROTOTYPICAL_NUCLEUS_WIDTH + 
+			    PROTOTYPICAL_NUCLEUS_WIDTH * (nucleusIndex - _numVisibleNucleiInOuterLayers - _numVisibleNucleiInMiddleLayer) * 1.1;
+			yPos = _ellipseVerticalSpan * 1.1;
 		}
 		
-		_visibleNucleusNodes[nucleusIndex].setOffset(xPos, yPos);
+		// Position the nucleus within the model, which will then be sent as
+		// a position change event to the node.
+		_visibleNucleusNodes[nucleusIndex].getNucleusRef().setPosition(xPos, yPos);
 	}
 
-	// TODO: JPB TBD - This should probably go.
+	// TODO: JPB TBD - This should probably be removed.
 	private GrabbableLabeledNucleusNode createGrabbablePoloniumNode() {
 		GrabbableLabeledNucleusNode nucleusNode = new GrabbableLabeledNucleusNode("Polonium Nucleus Small.png",
 		        NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER, 
