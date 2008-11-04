@@ -30,6 +30,15 @@ public interface IResourceLoader {
      */
     public InputStream getResourceAsStream( String resourceName ) throws IOException;
 
+    
+    /**
+     * Returns the contents of a resource as a String.
+     *  
+     * @param resourceName
+     * @return String
+     */
+    public String getResourceAsString( String resourceName ) throws IOException;
+    
     /**
      * Gets a byte array for the specified resource.
      *

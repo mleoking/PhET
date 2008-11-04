@@ -238,6 +238,22 @@ public class PhetResources {
     public InputStream getResourceAsStream( String resourceName ) throws IOException {
         return resourceLoader.getResourceAsStream( rootDirectoryName + PATH_SEPARATOR + resourceName );
     }
+    
+    /**
+     * Returns the contents of a resource as a String.
+     *  
+     * @param resourceName
+     * @return String
+     */
+    public String getResourceAsString( String resourceName ) throws IOException {
+        InputStream in = getResourceAsStream( resourceName );
+        StringBuffer out = new StringBuffer();
+        byte[] b = new byte[4096];
+        for ( int n; ( n = in.read( b ) ) != -1; ) {
+            out.append( new String( b, 0, n ) );
+        }
+        return out.toString();
+    }
 
     /**
      * Gets a properties resource.

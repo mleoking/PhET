@@ -107,6 +107,22 @@ abstract class AbstractResourceLoader implements IResourceLoader {
         }
         return stream;
     }
+    
+    /**
+     * Returns the contents of a resource as a String.
+     *  
+     * @param resourceName
+     * @return String
+     */
+    public String getResourceAsString( String resourceName ) throws IOException {
+        InputStream in = getResourceAsStream( resourceName );
+        StringBuffer out = new StringBuffer();
+        byte[] b = new byte[4096];
+        for ( int n; ( n = in.read( b ) ) != -1; ) {
+            out.append( new String( b, 0, n ) );
+        }
+        return out.toString();
+    }
 
     /**
      * Gets a byte array for the specified resource.
