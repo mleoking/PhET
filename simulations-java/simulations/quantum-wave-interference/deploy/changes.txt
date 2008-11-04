@@ -1,4 +1,7 @@
-New in 1.01.07 (10-28-2008)
+New in 1.08.01 (11-4-2008)
+Redeploy version equal to 1.08 on main site
+
+New in 1.07.01 (10-28-2008)
 Fixed a bug that prevented certain non-English languages from launching
 Fixed a bug that caused a null pointer exception crash in setOpaque
 
