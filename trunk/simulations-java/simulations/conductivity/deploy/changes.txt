@@ -1,4 +1,4 @@
-# 1.02.01 (?)
+# 1.02.01 (25795)
 11-4-2008: see #817, battery spinner is not visible on Mac
 10-9-2008: use new PhetApplicationConfig constructor
 10-16-2007: Fixed text box to correctly revert after error case
