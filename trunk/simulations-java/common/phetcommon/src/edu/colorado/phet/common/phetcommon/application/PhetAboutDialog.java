@@ -43,6 +43,9 @@ public class PhetAboutDialog extends JDialog {
     private static final String SIM_VERSION = PhetCommonResources.getString( "Common.About.Version" );
     private static final String JAVA_VERSION = PhetCommonResources.getString( "Common.About.JavaVersion" );
     private static final String OS_VERSION = PhetCommonResources.getString( "Common.About.OSVersion" );
+    private static final String LICENSE_BUTTON = PhetCommonResources.getString( "Common.About.LicenseButton" );
+    private static final String CREDITS_BUTTON = PhetCommonResources.getString( "Common.About.CreditsButton" );
+    private static final String OK_BUTTON = PhetCommonResources.getString( "Common.About.OKButton" );
 
     private String titleString, descriptionString, versionString, creditsString;
 
@@ -195,7 +198,7 @@ public class PhetAboutDialog extends JDialog {
     private JPanel createButtonPanel() {
 
         // License
-        JButton licenseButton = new JButton( PhetCommonResources.getString( "Common.About.LicenseButton" ) );
+        JButton licenseButton = new JButton( LICENSE_BUTTON );
         licenseButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {
@@ -208,7 +211,7 @@ public class PhetAboutDialog extends JDialog {
         } );
 
         // Credits
-        JButton creditsButton = new JButton( PhetCommonResources.getString( "Common.About.CreditsButton" ) );
+        JButton creditsButton = new JButton( CREDITS_BUTTON );
         creditsButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 showCredits();
@@ -216,7 +219,7 @@ public class PhetAboutDialog extends JDialog {
         } );
 
         // OK
-        JButton okButton = new JButton( PhetCommonResources.getString( "Common.About.OKButton" ) );
+        JButton okButton = new JButton( OK_BUTTON );
         getRootPane().setDefaultButton( okButton );
         okButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
