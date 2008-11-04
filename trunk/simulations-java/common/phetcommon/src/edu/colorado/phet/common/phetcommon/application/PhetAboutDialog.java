@@ -1,13 +1,5 @@
-/* Copyright 2006, University of Colorado */
+/* Copyright 2006-2008, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.common.phetcommon.application;
 
 import java.awt.*;
@@ -15,8 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.io.*;
-import java.net.URL;
+import java.io.IOException;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
@@ -28,7 +19,6 @@ import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPane;
 
@@ -36,20 +26,24 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPa
  * PhetAboutDialog shows information about PhET, the simulation, copyright, and license.
  *
  * @author Sam Reid
- * @version $Revision$
+ * @author Chris Malley
  */
 public class PhetAboutDialog extends JDialog {
 
-    // Resource (file) that contains the PhET license, in plain text format.
-    private static final String LICENSE_RESOURCE = "phet-license.txt";
     // Copyright notice, not translated so no one messes with it, and so that we can easily change the date.
     private static final String COPYRIGHT_HTML_FRAGMENT =
             "<b>Physics Education Technology project</b><br>" +
             "Copyright &copy; 2004-2008 University of Colorado.<br>" +
             "<a href=" + PhetCommonConstants.PHET_HOME_URL + "/about/licensing.php>Some rights reserved.</a><br>" +
             "Visit " + HTMLUtils.getPhetHomeHref();
+    
+    // translated strings
+    private static final String TITLE = PhetCommonResources.getString( "Common.HelpMenu.AboutTitle" );
+    private static final String LOGO_TOOLTIP = PhetCommonResources.getString( "Common.About.WebLink" );
+    private static final String SIM_VERSION = PhetCommonResources.getString( "Common.About.Version" );
+    private static final String JAVA_VERSION = PhetCommonResources.getString( "Common.About.JavaVersion" );
+    private static final String OS_VERSION = PhetCommonResources.getString( "Common.About.OSVersion" );
 
-    private JPanel logoPanel;
     private String titleString, descriptionString, versionString, creditsString;
 
     /**
@@ -67,7 +61,7 @@ public class PhetAboutDialog extends JDialog {
      *
      * @param ownwer
      * @param simulationShortName
-     * @deprecated use the constructor that takes as PhetApplicationConfig
+     * @deprecated use the constructor that takes as PhetApplication
      */
     public PhetAboutDialog( Frame ownwer, String simulationShortName ) {
         this( ownwer,  new PhetApplicationConfig( new String[0], simulationShortName  )  );
@@ -79,22 +73,22 @@ public class PhetAboutDialog extends JDialog {
      * @param config
      * @param owner
      */
-    public PhetAboutDialog( Frame owner, ISimInfo config ) {
+    protected PhetAboutDialog( Frame owner, ISimInfo config ) {
         super( owner );
         setResizable( false );
 
         titleString = config.getName();
         descriptionString = config.getDescription();
-        if (descriptionString==null){
-            new Exception("Null description string, continuing").printStackTrace(  );
-            descriptionString="";
+        if ( descriptionString == null ) {
+            new Exception( "null description string, continuing" ).printStackTrace();
+            descriptionString = "";
         }
         versionString = config.getVersion().formatForAboutDialog();
         creditsString = config.getCredits();
 
-        setTitle( getLocalizedString( "Common.HelpMenu.AboutTitle" ) + " " + titleString );
+        setTitle( TITLE + " " + titleString );
 
-        logoPanel = createLogoPanel();
+        JPanel logoPanel = createLogoPanel();
         JPanel infoPanel = createInfoPanel();
         JPanel buttonPanel = createButtonPanel();
 
@@ -119,7 +113,7 @@ public class PhetAboutDialog extends JDialog {
         BufferedImage image = PhetCommonResources.getInstance().getImage( PhetLookAndFeel.PHET_LOGO_120x50 );
         JLabel logoLabel = new JLabel( new ImageIcon( image ) );
         logoLabel.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
-        logoLabel.setToolTipText( getLocalizedString( "Common.About.WebLink" ) );
+        logoLabel.setToolTipText( LOGO_TOOLTIP );
         logoLabel.addMouseListener( new MouseInputAdapter() {
             public void mouseReleased( MouseEvent e ) {
                 PhetServiceManager.showPhetPage();
@@ -154,6 +148,7 @@ public class PhetAboutDialog extends JDialog {
         FontMetrics fontMetrics = descriptionTextArea.getFontMetrics( descriptionTextArea.getFont() );
         final int columns = 35;
         descriptionTextArea.setColumns( columns );
+        
         // Swing's notion of a text "column" is weakly defined. Short of implementing our own word wrapping,
         // using FontMetrics provides the closest approximation to the number of rows that we need.
         // Since we want a bit of space between the description and the stuff below it, having an
@@ -166,17 +161,17 @@ public class PhetAboutDialog extends JDialog {
         descriptionTextArea.setWrapStyleWord( true );
 
         // Simulation version
-        String versionHeader = getLocalizedString( "Common.About.Version" ) + " ";
-        JLabel versionLabel = new JLabel( versionHeader + versionString );
+        JLabel versionLabel = new JLabel( SIM_VERSION + " " + versionString );
 
         // Java runtime version
-        String javaVersionString = getLocalizedString( "Common.About.JavaVersion" ) + " " + System.getProperty( "java.version" );
+        String javaVersionString = JAVA_VERSION + " " + System.getProperty( "java.version" );
         JLabel javaVersionLabel = new JLabel( javaVersionString );
 
         // OS version
-        String osVersion = getLocalizedString( "Common.About.OSVersion" ) + " " + System.getProperty( "os.name" ) + " " + System.getProperty( "os.version" );
+        String osVersion = OS_VERSION + " " + System.getProperty( "os.name" ) + " " + System.getProperty( "os.version" );
         JLabel osVersionLabel = new JLabel( osVersion );
 
+        // layout
         int xMargin = 10;
         int ySpacing = 10;
         infoPanel.setInsets( new Insets( 0, xMargin, 0, xMargin ) ); // top,left,bottom,right
@@ -199,21 +194,29 @@ public class PhetAboutDialog extends JDialog {
     */
     private JPanel createButtonPanel() {
 
-        JButton licenseButton = new JButton( getLocalizedString( "Common.About.LicenseButton" ) );
+        // License
+        JButton licenseButton = new JButton( PhetCommonResources.getString( "Common.About.LicenseButton" ) );
         licenseButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                showLicenseInfo();
+                try {
+                    showLicense();
+                }
+                catch ( IOException ioe ) {
+                    ioe.printStackTrace();
+                }
             }
         } );
 
-        JButton creditsButton = new JButton( getLocalizedString( "Common.About.CreditsButton" ) );
+        // Credits
+        JButton creditsButton = new JButton( PhetCommonResources.getString( "Common.About.CreditsButton" ) );
         creditsButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 showCredits();
             }
         } );
 
-        JButton okButton = new JButton( getLocalizedString( "Common.About.OKButton" ) );
+        // OK
+        JButton okButton = new JButton( PhetCommonResources.getString( "Common.About.OKButton" ) );
         getRootPane().setDefaultButton( okButton );
         okButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -221,6 +224,7 @@ public class PhetAboutDialog extends JDialog {
             }
         } );
 
+        // layout
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout( new FlowLayout() );
         buttonPanel.add( licenseButton );
@@ -235,103 +239,14 @@ public class PhetAboutDialog extends JDialog {
     /*
      * Displays license information in a message dialog.
      */
-    protected void showLicenseInfo() {
-
-        final JDialog dialog = new JDialog( this, getLocalizedString( "Common.About.LicenseDialog.Title" ), true );
-
-        String phetLicenseString = HTMLUtils.setFontInStyledHTML( readFile( LICENSE_RESOURCE ), new PhetFont() );
-        InteractiveHTMLPane htmlPane = new InteractiveHTMLPane( phetLicenseString );
-        JScrollPane scrollPane = new JScrollPane( htmlPane );
-
-        JPanel buttonPanel = new JPanel();
-        JButton okButton = new JButton( getLocalizedString( "Common.About.OKButton" ) );
-        okButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                dialog.setVisible( false );
-                dialog.dispose();
-            }
-        } );
-        buttonPanel.add( okButton );
-
-        JPanel panel = new JPanel( new BorderLayout() );
-        panel.setBorder( BorderFactory.createEmptyBorder( 10, 10, 10, 10 ) );
-        panel.add( scrollPane, BorderLayout.CENTER );
-        panel.add( buttonPanel, BorderLayout.SOUTH );
-
-        dialog.setContentPane( panel );
-        dialog.setSize( 440,400 );//todo: this shouldn't be hard coded, but I had trouble getting Swing to do something reasonable
-        SwingUtils.centerDialogInParent( dialog );
-        dialog.setVisible( true );
-
-//        JTextArea phetLicense = new JTextArea( phetLicenseString );
-//        phetLicense.setColumns( 45 );
-//        phetLicense.setLineWrap( true );
-//        phetLicense.setWrapStyleWord( true );
-//        phetLicense.setEditable( false );
-//        phetLicense.setOpaque( false );
-//        showMessageDialog( phetLicense, getLocalizedString( "Common.About.LicenseDialog.Title" ) );
+    protected void showLicense() throws IOException {
+        new PhetLicenseDialog( this ).setVisible( true );
     }
 
     /*
      * Displays credits in a message dialog.
      */
     protected void showCredits() {
-        JLabel creditsLabel = new JLabel( creditsString );
-        showMessageDialog( creditsLabel, getLocalizedString( "Common.About.CreditsDialog.Title" ) );
+        new CreditsDialog( this, creditsString ).setVisible( true );
     }
-
-    private String getLocalizedString( String propertyName ) {
-        return PhetCommonResources.getInstance().getLocalizedString( propertyName );
-    }
-
-    /*
-    * Displays a message dialog.
-    */
-    protected void showMessageDialog( Component component, String title ) {
-        // This line fails due to this known bug: http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4545951
-//      JOptionPane.showMessageDialog( getOwner(), jTextArea, "License Information", JOptionPane.INFORMATION_MESSAGE );
-        // ...so we use Sun's recommended workaround.
-        JOptionPane optionPane = new JOptionPane( component, JOptionPane.INFORMATION_MESSAGE );
-        JDialog dialog = optionPane.createDialog( null, title );
-
-        // This forces correct resizing.
-        component.invalidate();
-        dialog.pack();
-
-        dialog.show();
-    }
-
-    /*
-     * Reads the text from the specified file as a String object.
-     * @param textFilename the filename for the File from which to read the String
-     * @return the text from the specified file as a String object.
-     */
-    private static String readFile( String fileResourceName ) {
-        String text = new String();
-        try {
-            URL url = Thread.currentThread().getContextClassLoader().getResource( fileResourceName );
-            if ( url == null ) {//TODO improve error handling
-                new FileNotFoundException( fileResourceName ).printStackTrace();
-                return "";
-            }
-            InputStream inputStream = url.openStream();
-            BufferedReader bufferedReader = new BufferedReader( new InputStreamReader( inputStream ) );
-            String line = bufferedReader.readLine();
-            while ( line != null ) {
-                text += line;
-                line = bufferedReader.readLine();
-                if ( line != null ) {
-                    text += System.getProperty( "line.separator" );
-                }
-            }
-        }
-        catch( FileNotFoundException e ) {
-            e.printStackTrace();
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-        return text;
-    }
-
 }
