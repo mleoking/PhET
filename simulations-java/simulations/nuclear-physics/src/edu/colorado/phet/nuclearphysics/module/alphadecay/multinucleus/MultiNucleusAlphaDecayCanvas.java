@@ -185,6 +185,12 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
             // Register for notifications from this node.
             poloniumNucleusNode.addListener(_grabbableNodeListener);
     	}
+    	else if ( modelElement instanceof AlphaParticle ){
+    		// An alpha particle has been added to the model, probably as a
+    		// result of a decay event.  Add a node for it.
+    		AlphaParticleModelNode alphaParticleNode = new AlphaParticleModelNode((AlphaParticle)modelElement);
+    		addWorldChild(alphaParticleNode);
+    	}
 	}
 
 	/**
