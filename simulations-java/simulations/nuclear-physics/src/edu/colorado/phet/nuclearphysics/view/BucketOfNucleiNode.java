@@ -146,35 +146,6 @@ public class BucketOfNucleiNode extends PNode {
 		bucketHandle.setStroke( LINE_STROKE );
 		_frontOfBucketLayer.addChild(bucketHandle);
 		
-		// Create the listener object that will be registered with the
-		// grabbable nuclei.  We do this in a non-anonymous way so that we can
-		// unregister later.
-		_grabbableNucleusListener = new GrabbableLabeledNucleusNode.Listener(){
-			
-			public void nodeGrabbed(GrabbableLabeledNucleusNode node){
-				System.out.println("Bucket got the grab notification.");
-			}
-			
-	        public void nodeReleased(GrabbableLabeledNucleusNode node){
-	        	System.out.println("Bucket got the release notification. " + node.getFullBoundsReference().x + "---" +
-	        			node.getFullBoundsReference().y);
-	        	if (node != _nodeBeingDragged){
-	        		System.err.println("Error: Unexpected notification from grabbable node.");
-	        	}
-	        	if ( !isNodeInBucket( node ) ){
-	        		// The nucleus has been dragged out of the bucket, so
-	        		// notify the listeners and then forget about him.  He is
-	        		// someone else's problem now.
-	        		System.out.println("Nucleus removed from bucket.");
-	        		notifyNucleusExtracted( node );
-	        		node.removeListener(_grabbableNucleusListener);
-	        	}
-	        	else{
-	        		System.out.println("Node released in bucket.");
-	        	}
-	        }
-		};
-
 		// Set up some values that will be used when filling the bucket with
 		// nuclei.
 		_numVisibleNucleiInMiddleLayer = (int)(_bucketWidth / PROTOTYPICAL_NUCLEUS_WIDTH);
@@ -196,7 +167,7 @@ public class BucketOfNucleiNode extends PNode {
 		// See if there are any slots open in the list of visible nuclei.
 		int i;
 		boolean nucleasNodeIsVisible = false;
-		for (i = 0; i < (2 * _numVisibleNucleiInOuterLayers + _numVisibleNucleiInMiddleLayer); i++){
+		for (i = 0; i < _visibleNucleusNodes.length; i++){
 			if (_visibleNucleusNodes[i] == null){
 				// This spot is available, so add this nucleus.
 				nucleusNode.setVisible(true);
@@ -217,6 +188,51 @@ public class BucketOfNucleiNode extends PNode {
 			// And finally, make sure the node is invisible.
 			nucleusNode.setVisible(false);
 		}
+	}
+	
+	/**
+	 * Remove a nucleus node from the bucket.
+	 */
+	public void removeNucleus( AtomicNucleusNode nucleusNode ){
+		
+		// See if it is in the list of visible nuclei and remove it if so.
+		boolean nucleusWasVisible = false;
+		for (int i = 0; i < _visibleNucleusNodes.length; i++){
+			if (_visibleNucleusNodes[i] == nucleusNode){
+				nucleusWasVisible = true;
+				_visibleNucleusNodes[i] = null;
+				if (_backInteriorLayer.isAncestorOf(nucleusNode) ){
+					_backInteriorLayer.removeChild(nucleusNode);
+				}
+				else if (_middleInteriorLayer.isAncestorOf(nucleusNode)){
+					_middleInteriorLayer.removeChild(nucleusNode);
+				}
+				else if (_frontInteriorLayer.isAncestorOf(nucleusNode)){
+					_frontInteriorLayer.removeChild(nucleusNode);
+				}
+				break;
+			}
+		}
+		
+		if (nucleusWasVisible){
+			fillEmptyVisibleSlots();
+		}
+		else{
+			// Remove this node as a child of the main node.
+			if (removeChild( nucleusNode ) == null){
+				System.err.println("ERROR: Requested node is not in the bucket.");
+			}
+		}
+	}
+	
+	/**
+	 * Returns a boolean value indicating whether the specified node is "in
+	 * the bucket", meaning that it is a child (in the PNode sense) of this
+	 * node.
+	 */
+	public boolean isNodeInBucket( PNode node ){
+		
+		return isAncestorOf(node);
 	}
 	
     /**
@@ -242,14 +258,9 @@ public class BucketOfNucleiNode extends PNode {
         }        
     }
 
-	private boolean isNodeInBucket( PNode node ) {
-		return (_frontOfBucketLayer.getGlobalFullBounds().intersects(node.getGlobalFullBounds()) &&
-				_backOfBucketLayer.getGlobalFullBounds().intersects(node.getGlobalFullBounds()));
-	}
-	
 	/**
 	 * Position one of the visible nuclei based on its position with the array
-	 * of all visible nuclei.
+	 * of all visible nuclei and add it as a child of the appropriate node.
 	 * 
 	 * @param nucleusIndex
 	 */
@@ -282,20 +293,29 @@ public class BucketOfNucleiNode extends PNode {
 		// a position change event to the node.
 		_visibleNucleusNodes[nucleusIndex].getNucleusRef().setPosition(xPos, yPos);
 	}
-
-	// TODO: JPB TBD - This should probably be removed.
-	private GrabbableLabeledNucleusNode createGrabbablePoloniumNode() {
-		GrabbableLabeledNucleusNode nucleusNode = new GrabbableLabeledNucleusNode("Polonium Nucleus Small.png",
-		        NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER, 
-		        NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL, 
-		        NuclearPhysicsConstants.POLONIUM_LABEL_COLOR );
-		nucleusNode.scale( _bucketWidth * PROTOTYPICAL_NUCLEUS_WIDTH / nucleusNode.getFullBoundsReference().width);
-		nucleusNode.setPickable(true);
-		nucleusNode.addListener(_grabbableNucleusListener);
-		nucleusNode.addInputEventListener(new CursorHandler());
-		return nucleusNode;
-	}
 	
+	/**
+	 * Go through the list of visible nuclei and fill any unoccupied slots
+	 * with invisible nuclei and make them visible.
+	 */
+	private void fillEmptyVisibleSlots(){
+		for (int i = 0; i < _visibleNucleusNodes.length; i++){
+			if (_visibleNucleusNodes[i] == null){
+				// Fill this slot.
+				for (int j = 0; j < getChildrenCount(); j++){
+					PNode childNode = getChild(j);
+					if (childNode instanceof AtomicNucleusNode){
+						// Add this to the list of visible nuclei.
+						childNode.setVisible(true);
+						_visibleNucleusNodes[i] = (AtomicNucleusNode)childNode;
+						addAndPositionVisibleNucleus(i);
+						break;
+					}
+				}
+			}
+		}
+	}
+
 	private void updateLabelText(){
 		
 		// TODO: JPB TBD - Not at all done yet.  Needs to use string resources, handle different atoms.
