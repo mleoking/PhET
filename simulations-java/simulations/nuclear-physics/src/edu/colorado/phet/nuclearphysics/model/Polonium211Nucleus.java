@@ -96,8 +96,16 @@ public class Polonium211Nucleus extends AtomicNucleus {
         notifyPositionChanged();
     }
     
+    /**
+     * Activate the nucleus, meaning that it will now decay after some amount
+     * of time.
+     */
     public void activate(){
-    	_decayTime = calcPolonium211DecayTime();
+    	
+    	// Only allow activation if the nucleus hasn't already decayed.
+    	if (_numNeutrons == ORIGINAL_NUM_NEUTRONS){
+    		_decayTime = calcPolonium211DecayTime();
+    	}
     }
     
     //------------------------------------------------------------------------
