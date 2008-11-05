@@ -10,7 +10,7 @@ import edu.colorado.phet.theramp.RampPlotSet;
 import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.theramp.model.RampObject;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
-import edu.colorado.phet.theramp.timeseries_ramp.TimeSeriesModel;
+import edu.colorado.phet.theramp.timeseries.TimeSeriesModel;
 import edu.colorado.phet.theramp.view.bars.BarGraphSuite;
 import edu.colorado.phet.theramp.view.plot.TimeSeriesPNode;
 import edu.umd.cs.piccolo.PNode;

@@ -3,7 +3,7 @@ package edu.colorado.phet.theramp.model;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.theramp.RampModule;
-import edu.colorado.phet.theramp.timeseries_ramp.TimeSeriesModel;
+import edu.colorado.phet.theramp.timeseries.TimeSeriesModel;
 
 /**
  * User: Sam Reid

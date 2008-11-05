@@ -12,8 +12,8 @@ import edu.colorado.phet.theramp.model.Block;
 import edu.colorado.phet.theramp.model.RampModel;
 import edu.colorado.phet.theramp.model.RampObject;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
-import edu.colorado.phet.theramp.timeseries_ramp.TimeSeriesModel;
-import edu.colorado.phet.theramp.timeseries_ramp.TimeSeriesPlaybackPanel;
+import edu.colorado.phet.theramp.timeseries.TimeSeriesModel;
+import edu.colorado.phet.theramp.timeseries.TimeSeriesPlaybackPanel;
 import edu.colorado.phet.theramp.view.FireDog;
 import edu.colorado.phet.theramp.view.RampPanel;
 
@@ -22,8 +22,6 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 
 /**
  * User: Sam Reid

@@ -7,8 +7,8 @@ import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.model.ValueAccessor;
-import edu.colorado.phet.theramp.timeseries_ramp.TimePoint;
-import edu.colorado.phet.theramp.timeseries_ramp.TimeSeries;
+import edu.colorado.phet.theramp.timeseries.TimePoint;
+import edu.colorado.phet.theramp.timeseries.TimeSeries;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
