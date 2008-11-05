@@ -96,6 +96,10 @@ public class Polonium211Nucleus extends AtomicNucleus {
         notifyPositionChanged();
     }
     
+    public void activate(){
+    	_decayTime = calcPolonium211DecayTime();
+    }
+    
     //------------------------------------------------------------------------
     // Private and Protected Methods
     //------------------------------------------------------------------------
@@ -123,6 +127,24 @@ public class Polonium211Nucleus extends AtomicNucleus {
             // should not occur again.
             _decayTime = 0;
         }
+    }
+    
+    /**
+     * This method generates a value indicating the number of milliseconds for
+     * a Polonium 211 nucleus to decay.  This calculation is based on the 
+     * exponential decay formula and uses the decay constant for Polonium 211.
+     * 
+     * @return
+     */
+    private double calcPolonium211DecayTime(){
+        double randomValue = RAND.nextDouble();
+        if (randomValue > 0.999){
+            // Limit the maximum time for decay so that the user isn't waiting
+            // around forever.
+            randomValue = 0.999;
+        }
+        double tunnelOutMilliseconds = (-(Math.log( 1 - randomValue ) / 1.343)) * 1000;
+        return tunnelOutMilliseconds;
     }
     
     /**
