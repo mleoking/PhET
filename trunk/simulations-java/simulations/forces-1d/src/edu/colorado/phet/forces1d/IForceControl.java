@@ -1,7 +1,7 @@
 package edu.colorado.phet.forces1d;
 
 import edu.colorado.phet.forces1d.phetcommon.application.Module;
-import edu.colorado.phet.forces1d.phetcommon.view.ControlPanel;
+import edu.colorado.phet.forces1d.common.ControlPanel;
 
 /**
  * User: Sam Reid
