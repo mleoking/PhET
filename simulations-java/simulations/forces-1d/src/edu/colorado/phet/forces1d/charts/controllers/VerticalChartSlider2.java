@@ -10,8 +10,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.forces1d.charts.Chart;
-import edu.colorado.phet.forces1d.phetcommon.util.EventChannel;
 import edu.colorado.phet.forces1d.phetcommon.view.ApparatusPanel;
 import edu.colorado.phet.forces1d.phetcommon.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.GraphicLayerSet;
