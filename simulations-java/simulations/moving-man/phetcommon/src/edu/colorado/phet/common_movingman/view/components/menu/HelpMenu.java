@@ -10,20 +10,21 @@
  */
 package edu.colorado.phet.common_movingman.view.components.menu;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_movingman.application.ModuleEvent;
 import edu.colorado.phet.common_movingman.application.ModuleManager;
 import edu.colorado.phet.common_movingman.application.ModuleObserver;
 import edu.colorado.phet.common_movingman.application.PhetApplication;
 import edu.colorado.phet.common_movingman.view.PhetFrame;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * HelpMenu
@@ -66,7 +67,7 @@ public class HelpMenu extends JMenu implements ModuleObserver {
         megaHelpItem.setMnemonic( SimStrings.get( "Common.HelpMenu.MegaHelpMnemonic" ).charAt( 0 ) );
         megaHelpItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                if( moduleManager.getActiveModule().hasMegaHelp() ) {
+                if ( moduleManager.getActiveModule().hasMegaHelp() ) {
                     moduleManager.getActiveModule().showMegaHelp();
                 }
                 else {
@@ -99,12 +100,17 @@ public class HelpMenu extends JMenu implements ModuleObserver {
         about.setMnemonic( SimStrings.get( "Common.HelpMenu.AboutMnemonic" ).charAt( 0 ) );
         about.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                new PhetAboutDialog( frame, "moving-man" ).show();
+                new PhetAboutDialogAdapter( frame, new PhetApplicationConfig( new String[0], "moving-man" ) ).show();
             }
         } );
         add( about );
     }
 
+    static class PhetAboutDialogAdapter extends PhetAboutDialog {
+        public PhetAboutDialogAdapter( Frame owner, ISimInfo config ) {
+            super( owner, config );
+        }
+    }
 
     //----------------------------------------------------------------
     // ModuleObserver implementation

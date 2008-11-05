@@ -2,6 +2,8 @@
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial;
 
 import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
+import edu.colorado.phet.common.phetcommon.application.ISimInfo;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.selfdrivenparticlemodel.SelfDrivenParticleModelApplication;
@@ -71,7 +73,7 @@ public class TitleScreen extends PSwingCanvas {
             aboutButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
 //                    new PhetAboutDialog( tutorialApplication.getTutorialFrame(), new PhetAboutDialog.SimpleDialogConfig("Self-Driven Particle Model", "",PhetApplicationConfig.getVersion( simName ).formatForAboutDialog(),PhetApplicationConfig.getCredits( simName )) ).show();
-                    new PhetAboutDialog( tutorialApplication.getTutorialFrame(), "self-driven-particle-model").show();
+                    new PhetAboutDialogAdapter( tutorialApplication.getTutorialFrame(), new PhetApplicationConfig( new String[0], "self-driven-particle-model") ).show();
                 }
             } );
             aboutSwing = new PSwing( aboutButton );
@@ -99,6 +101,12 @@ public class TitleScreen extends PSwingCanvas {
 
         } );
         relayoutChildren();
+    }
+
+    static class PhetAboutDialogAdapter extends PhetAboutDialog {
+        public PhetAboutDialogAdapter( Frame owner, ISimInfo config ) {
+            super( owner, config );
+        }
     }
 
     private void relayoutChildren() {
