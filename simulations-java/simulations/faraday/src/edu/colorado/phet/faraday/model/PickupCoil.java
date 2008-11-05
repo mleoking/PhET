@@ -34,6 +34,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
     // Determines how the magnetic field decreases with the distance from the magnet.
     private final double _distanceExponent;
     
+    private double _averageBx; // in Gauss
     private double _flux; // in webers
     private double _deltaFlux; // in webers
     private double _emf; // in volts
@@ -83,6 +84,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
         _samplePoints = null;
         _fudgeFactor = 1.0;
         
+        _averageBx = 0.0;
         _flux = 0.0;
         _deltaFlux = 0.0;
         _emf = 0.0;
@@ -127,6 +129,15 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
      */
     public double getDeltaFlux() {
         return _deltaFlux;
+    }
+    
+    /**
+     * Gets the average Bx of the pickup coil's sample points.
+     * 
+     * @return
+     */
+    public double getAverageBx() {
+        return _averageBx;
     }
     
     /**
@@ -375,11 +386,11 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
         }
         
         // Average the B-field sample points.
-        double averageBx = sumBx / _samplePoints.length;
+        _averageBx = sumBx / _samplePoints.length;
         
         // Flux in one loop.
         double A = getLoopArea(); // scaling factor to account for variable loop area 
-        double loopFlux = A * averageBx; 
+        double loopFlux = A * _averageBx; 
         
         // Flux in the coil.
         double flux = getNumberOfLoops() * loopFlux;

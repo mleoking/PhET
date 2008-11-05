@@ -26,6 +26,7 @@ public class FluxDisplayGraphic extends GraphicLayerSet implements SimpleObserve
     // Class data
     //----------------------------------------------------------------------------
     
+    private static final String AVERAGE_BX = "avg Bx";
     private static final String PHI = "\u03a6";
     private static final String DELTA = "\u0394";
     private static final Font FONT = new PhetFont( 15 );
@@ -36,7 +37,7 @@ public class FluxDisplayGraphic extends GraphicLayerSet implements SimpleObserve
     //----------------------------------------------------------------------------
     
     private PickupCoil _pickupCoilModel;
-    private PhetTextGraphic2 _fluxValue, _deltaFluxValue, _emfValue;
+    private PhetTextGraphic2 _averageBxValue, _fluxValue, _deltaFluxValue, _emfValue;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -53,10 +54,12 @@ public class FluxDisplayGraphic extends GraphicLayerSet implements SimpleObserve
         _pickupCoilModel = pickupCoilModel;
         _pickupCoilModel.addObserver( this );
         
+        _averageBxValue = new PhetTextGraphic2( component, FONT, "?", Color.YELLOW, 0, -50 );
         _fluxValue = new PhetTextGraphic2( component, FONT, "?", Color.YELLOW, 0, -25 );
         _deltaFluxValue = new PhetTextGraphic2( component, FONT, "?", Color.YELLOW, 0, 0 );
         _emfValue = new PhetTextGraphic2( component, FONT, "?", Color.YELLOW, 0, 25 );
         
+        addGraphic( _averageBxValue );
         addGraphic( _fluxValue );
         addGraphic( _deltaFluxValue );
         addGraphic( _emfValue );
@@ -89,10 +92,12 @@ public class FluxDisplayGraphic extends GraphicLayerSet implements SimpleObserve
      */
     public void update() {
         if ( isVisible() ) {
+            double averageBx = _pickupCoilModel.getAverageBx();
             double flux = _pickupCoilModel.getFlux();
             double deltaFlux = _pickupCoilModel.getDeltaFlux();
             double emf = _pickupCoilModel.getEmf();
 
+            _averageBxValue.setText( AVERAGE_BX + " = " + FORMAT.format( averageBx ) + "G" );
             _fluxValue.setText( PHI + " = " + FORMAT.format( flux ) + " W" );
             _deltaFluxValue.setText( DELTA + PHI + " = " + FORMAT.format( deltaFlux ) + " W" );
             _emfValue.setText( "EMF = " + FORMAT.format( emf ) + " V" );
