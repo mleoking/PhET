@@ -1,7 +1,7 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.forces1d.model;
 
-import edu.colorado.phet.forces1d.phetcommon.math.Average;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 
 /**
  * User: Sam Reid
@@ -23,14 +23,14 @@ public class SmoothDataSeries {
     }
 
     private void updateSmoothedSeries() {
-        Average avg = new Average();
+        MathUtil.Average avg = new MathUtil.Average();
 
         int numPtsToAvg = windowSize;
         numPtsToAvg = Math.min( numPtsToAvg, data.size() );
         for ( int i = 0; i < numPtsToAvg; i++ ) {
-            avg.update( data.lastPointAt( i ) );
+            avg.addValue( data.lastPointAt( i ) );
         }
-        double value = avg.value();
+        double value = avg.getAverage();
         if ( Double.isNaN( value ) ) {
             value = 0;
         }
