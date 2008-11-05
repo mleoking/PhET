@@ -15,8 +15,9 @@ import edu.colorado.phet.forces1d.phetcommon.view.graphics.transforms.ModelViewT
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.forces1d.phetcommon.view.util.RectangleUtils;
+
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 
 public class Chart extends PhetGraphic {
     private Component component;

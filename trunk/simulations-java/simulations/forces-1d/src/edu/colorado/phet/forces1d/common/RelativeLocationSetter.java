@@ -9,7 +9,8 @@ import javax.swing.*;
 import edu.colorado.phet.forces1d.phetcommon.view.ApparatusPanel;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetGraphicListener;
-import edu.colorado.phet.forces1d.phetcommon.view.util.RectangleUtils;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
+
 
 /**
  * User: Sam Reid
