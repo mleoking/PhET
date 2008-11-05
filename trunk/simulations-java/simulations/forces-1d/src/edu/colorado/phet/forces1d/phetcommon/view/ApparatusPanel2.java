@@ -703,10 +703,8 @@ public class ApparatusPanel2 extends ApparatusPanel {
         }
 
         public void render( Graphics2D g2, AffineTransform graphicTx ) {
-//            QuickTimer renderTime=new QuickTimer();
             g2.transform( graphicTx );
             apparatusPanel2.getGraphic().paint( g2 );
-//            System.out.println( "renderTime = " + renderTime );
         }
 
         public void componentResized() {

@@ -15,10 +15,10 @@ import edu.colorado.phet.forces1d.phetcommon.application.PhetApplication;
 import edu.colorado.phet.forces1d.phetcommon.model.BaseModel;
 import edu.colorado.phet.forces1d.phetcommon.model.clock.AbstractClock;
 import edu.colorado.phet.forces1d.phetcommon.model.clock.ClockTickEvent;
-import edu.colorado.phet.forces1d.phetcommon.util.QuickTimer;
 import edu.colorado.phet.forces1d.phetcommon.view.PhetFrame;
 import edu.colorado.phet.forces1d.view.Force1DLookAndFeel;
 import edu.colorado.phet.forces1d.view.Force1DPanel;
+import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
 
 /**
  * User: Sam Reid
@@ -211,26 +211,26 @@ public class Forces1DModule extends Module {
     }
 
     public void clockTicked( ClockTickEvent event ) {
-        QuickTimer totalTime = new QuickTimer();
+        QuickProfiler totalTime = new QuickProfiler();
 
-        QuickTimer userInputTime = new QuickTimer();
+        QuickProfiler userInputTime = new QuickProfiler();
         handleControlUserInputs();
         getApparatusPanel().handleUserInput();
         debug( "userInputTime = " + userInputTime );
 
-        QuickTimer modelTime = new QuickTimer();
+        QuickProfiler modelTime = new QuickProfiler();
         getModel().clockTicked( event );
         debug( "modelTime = " + modelTime );
 
-        QuickTimer updateControlPanelTime = new QuickTimer();
+        QuickProfiler updateControlPanelTime = new QuickProfiler();
         updateControlPanelGraphics();
         debug( "updateControlPanelTime = " + updateControlPanelTime );
 
-        QuickTimer updateGraphicsTime = new QuickTimer();
+        QuickProfiler updateGraphicsTime = new QuickProfiler();
         updateGraphics( event );
         debug( "updateGraphicsTime = " + updateGraphicsTime );
 
-        QuickTimer paintTime = new QuickTimer();
+        QuickProfiler paintTime = new QuickProfiler();
         getApparatusPanel().paint();
         debug( "paintTime = " + paintTime );
 
