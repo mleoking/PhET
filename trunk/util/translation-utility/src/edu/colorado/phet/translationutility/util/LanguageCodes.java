@@ -7,8 +7,9 @@ import java.util.TreeMap;
 import edu.colorado.phet.translationutility.TUResources;
 
 /**
- * LanguageCodes is a collection of ISO 639-1 language codes and their English names.
- * The language codes are read from a resource file.
+ * LanguageCodes is a collection of language codes and their English names.
+ * The language codes are read from a resource file, and include both 
+ * ISO-standard codes and PhET-assigned codes.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -27,26 +28,41 @@ public class LanguageCodes {
     }
     
     private LanguageCodes() {
-        
         _nameMap = new TreeMap();
         _codeMap = new TreeMap();
-
-        String[] codes = TUResources.getLanguageCodes();
-        for ( int i = 0; i < codes.length; i++ ) {
-            String code = codes[i];
-            String name = TUResources.getLanguageName( code );
-            if ( name == null ) {
-                System.err.println( "missing name for language=" + code );
+        loadCodes();
+    }
+    
+    private void loadCodes() {
+        
+        // ISO-standard codes
+        String[] isoCodes = TUResources.getISOLanguageCodes();
+        for ( int i = 0; i < isoCodes.length; i++ ) {
+            addEntry( isoCodes[i] );
+        }
+        
+        // PhET-assigned codes
+        String[] phetCodes = TUResources.getPhETLanguageCodes();
+        for ( int i = 0; i < phetCodes.length; i++ ) {
+            String code = phetCodes[i];
+            if ( getName( code ) != null ) {
+                System.err.println( "LanguageCodes.loadCodes: ignoring PhET-assigned language code " + code + ", it is already used by ISO standard" );
             }
             else {
-                addEntry( name, code );
+                addEntry( code );
             }
         }
     }
     
-    private void addEntry( String name, String code ) {
-        _nameMap.put( name, code );
-        _codeMap.put( code, name );
+    private void addEntry( String code ) {
+        String name = TUResources.getLanguageName( code );
+        if ( name == null ) {
+            System.err.println( "LanguageCodes.addEntry: missing name for language code " + code );
+        }
+        else {
+            _nameMap.put( name, code );
+            _codeMap.put( code, name );
+        }
     }
     
     public String getName( final String code ) {
