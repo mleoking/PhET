@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphicListener;
@@ -29,7 +30,7 @@ import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceView;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 import edu.colorado.phet.forces1d.phetcommon.view.ApparatusPanel2;
-import edu.colorado.phet.forces1d.phetcommon.view.phetcomponents.PhetJComponent;
+
 
 /**
  * User: Sam Reid
@@ -419,7 +420,7 @@ public class Force1DPanel extends ApparatusPanel2 implements OffsetManager {
     }
 
     private void repaintGoPauseClear() {
-        PhetJComponent.doScheduleRepaint( goPauseClearGraphic );
+        goPauseClearGraphic.repaint();
     }
 
     private PhetGraphic getGoButtonGraphic() {
