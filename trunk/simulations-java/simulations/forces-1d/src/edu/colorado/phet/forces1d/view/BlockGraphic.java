@@ -8,11 +8,11 @@ import java.awt.image.BufferedImage;
 import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.forces1d.model.Block;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 import edu.colorado.phet.forces1d.model.Force1dObject;
-import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetImageGraphic;
 
 /**
  * User: Sam Reid

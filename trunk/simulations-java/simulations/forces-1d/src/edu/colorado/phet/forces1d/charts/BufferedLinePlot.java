@@ -13,7 +13,7 @@ import java.awt.geom.Point2D;
 
 import javax.swing.*;
 
-import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.BufferedPhetGraphic;
+import edu.colorado.phet.forces1d.view.BufferedPhetGraphic;
 
 public class BufferedLinePlot implements DataSet.Observer {
     private boolean visible = true;

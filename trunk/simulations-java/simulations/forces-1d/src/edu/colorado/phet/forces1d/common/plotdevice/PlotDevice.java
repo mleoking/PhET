@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
 import edu.colorado.phet.forces1d.Force1DResources;
 import edu.colorado.phet.forces1d.charts.BufferedLinePlot;
 import edu.colorado.phet.forces1d.charts.Chart;
@@ -29,9 +30,9 @@ import edu.colorado.phet.forces1d.model.PhetTimer;
 import edu.colorado.phet.forces1d.phetcommon.view.ApparatusPanel;
 import edu.colorado.phet.forces1d.phetcommon.view.ApparatusPanel2;
 import edu.colorado.phet.forces1d.phetcommon.view.phetcomponents.PhetJComponent;
-import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.*;
 import edu.colorado.phet.forces1d.view.OffsetManager;
 import edu.colorado.phet.forces1d.view.PlotDeviceFontManager;
+import edu.colorado.phet.forces1d.view.BufferedPhetGraphic;
 
 /**
  * User: Sam Reid
@@ -637,7 +638,8 @@ public class PlotDevice extends GraphicLayerSet {
                 panel.addGraphic( readout, 10000 );
                 readoutValue = new PhetTextGraphic( panel, readoutFont, "0.0 ", color, 100, 100 );
                 if ( units.startsWith( "<html>" ) ) {
-                    readoutUnits = new HTMLGraphic( panel, readoutFont, units, color );
+                    readoutUnits = new
+                            HTMLGraphic( panel, readoutFont, units, color );
                 }
                 else {
                     readoutUnits = new PhetTextGraphic( panel, readoutFont, units, color, 0, 0 );

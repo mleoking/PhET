@@ -13,7 +13,7 @@ package edu.colorado.phet.forces1d.phetcommon.view.help;
 import java.awt.*;
 
 import edu.colorado.phet.forces1d.phetcommon.view.ApparatusPanel;
-import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 
 /**
  * HelpManager

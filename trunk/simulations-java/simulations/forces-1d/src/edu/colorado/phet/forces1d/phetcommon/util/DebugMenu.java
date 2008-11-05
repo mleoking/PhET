@@ -25,9 +25,9 @@ import edu.colorado.phet.forces1d.phetcommon.model.clock.ClockTickEvent;
 import edu.colorado.phet.forces1d.phetcommon.model.clock.ClockTickListener;
 import edu.colorado.phet.forces1d.phetcommon.view.ApparatusPanel;
 import edu.colorado.phet.forces1d.phetcommon.view.ApparatusPanel2;
-import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.forces1d.phetcommon.view.util.LineGrid;
 import edu.colorado.phet.forces1d.phetcommon.view.util.MouseTracker;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 
 /**
  * DebugMenu

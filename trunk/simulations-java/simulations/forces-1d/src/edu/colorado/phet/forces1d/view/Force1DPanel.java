@@ -14,6 +14,9 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphicListener;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.forces1d.Force1DResources;
 import edu.colorado.phet.forces1d.Force1DUtil;
 import edu.colorado.phet.forces1d.Forces1DModule;
@@ -26,8 +29,8 @@ import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceView;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 import edu.colorado.phet.forces1d.phetcommon.view.ApparatusPanel2;
 import edu.colorado.phet.forces1d.phetcommon.view.BasicGraphicsSetup;
+import edu.colorado.phet.forces1d.view.BufferedPhetGraphic;
 import edu.colorado.phet.forces1d.phetcommon.view.phetcomponents.PhetJComponent;
-import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.*;
 
 /**
  * User: Sam Reid
@@ -45,7 +48,7 @@ public class Force1DPanel extends ApparatusPanel2 implements OffsetManager {
     private WalkwayGraphic walkwayGraphic;
     private LeanerGraphic leanerGraphic;
     private Force1DModel model;
-    private RepaintDebugGraphic repaintDebugGraphic;
+//    private RepaintDebugGraphic repaintDebugGraphic;
     private Force1DLookAndFeel lookAndFeel = new Force1DLookAndFeel();
     private BufferedPhetGraphic backgroundGraphic;
     private PlotDevice accelPlotDevice;
@@ -253,28 +256,28 @@ public class Force1DPanel extends ApparatusPanel2 implements OffsetManager {
                 requestFocus();
             }
         } );
-        addKeyListener( new KeyListener() {
-            public void keyTyped( KeyEvent e ) {
-            }
-
-            public void keyPressed( KeyEvent e ) {
-            }
-
-            public void keyReleased( KeyEvent e ) {
-                if ( e.getKeyCode() == KeyEvent.VK_SPACE ) {
-                    if ( repaintDebugGraphic.isActive() ) {
-                        removeGraphic( repaintDebugGraphic );
-                    }
-                    else {
-                        addGraphic( repaintDebugGraphic, Double.POSITIVE_INFINITY );
-                    }
-                    repaintDebugGraphic.setActive( !repaintDebugGraphic.isActive() );
-                }
-            }
-        } );
-        repaintDebugGraphic = new RepaintDebugGraphic( Force1DPanel.this, module.getClock() );
-        repaintDebugGraphic.setTransparency( 128 );
-        repaintDebugGraphic.setActive( false );
+//        addKeyListener( new KeyListener() {
+//            public void keyTyped( KeyEvent e ) {
+//            }
+//
+//            public void keyPressed( KeyEvent e ) {
+//            }
+//
+//            public void keyReleased( KeyEvent e ) {
+//                if ( e.getKeyCode() == KeyEvent.VK_SPACE ) {
+//                    if ( repaintDebugGraphic.isActive() ) {
+//                        removeGraphic( repaintDebugGraphic );
+//                    }
+//                    else {
+//                        addGraphic( repaintDebugGraphic, Double.POSITIVE_INFINITY );
+//                    }
+//                    repaintDebugGraphic.setActive( !repaintDebugGraphic.isActive() );
+//                }
+//            }
+//        } );
+//        repaintDebugGraphic = new RepaintDebugGraphic( Force1DPanel.this, module.getClock() );
+//        repaintDebugGraphic.setTransparency( 128 );
+//        repaintDebugGraphic.setActive( false );
 
         OffscreenPointerGraphic offscreenPointerGraphic = new OffscreenPointerGraphic( this, blockGraphic, walkwayGraphic );
         addGraphic( offscreenPointerGraphic, 1000 );

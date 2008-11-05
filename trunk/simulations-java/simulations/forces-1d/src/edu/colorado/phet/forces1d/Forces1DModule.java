@@ -57,7 +57,7 @@ public class Forces1DModule extends Module {
         };
 
         forcePanel = new Force1DPanel( this );
-        forcePanel.addRepaintDebugGraphic( clock );
+//        forcePanel.addRepaintDebugGraphic( clock );
         setApparatusPanel( forcePanel );
 
         //ensure model values are correct before creating controls
