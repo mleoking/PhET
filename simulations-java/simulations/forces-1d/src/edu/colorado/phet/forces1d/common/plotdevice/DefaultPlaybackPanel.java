@@ -7,8 +7,8 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-import edu.colorado.phet.forces1d.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.forces1d.Force1DResources;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 
 /**
  * Created by IntelliJ IDEA.

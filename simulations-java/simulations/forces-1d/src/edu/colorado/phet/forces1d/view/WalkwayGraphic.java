@@ -8,6 +8,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.forces1d.Force1DResources;
 import edu.colorado.phet.forces1d.Forces1DModule;
 import edu.colorado.phet.forces1d.model.BoundaryCondition;
@@ -17,7 +18,6 @@ import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.CompositePhetGrap
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.forces1d.phetcommon.view.util.ImageLoader;
 
 /**
  * Created by IntelliJ IDEA.
