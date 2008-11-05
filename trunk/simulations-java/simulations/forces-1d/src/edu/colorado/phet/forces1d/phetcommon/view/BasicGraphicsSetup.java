@@ -12,6 +12,8 @@ package edu.colorado.phet.forces1d.phetcommon.view;
 
 import java.awt.*;
 
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsSetup;
+
 /**
  * Convenience class for common rendering options.
  *
