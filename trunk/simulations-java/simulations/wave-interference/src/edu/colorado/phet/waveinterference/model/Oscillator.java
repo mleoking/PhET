@@ -53,6 +53,7 @@ public class Oscillator {
         }
         if ( pulseEnabled && getCosArg() + phase >= Math.PI * 2 ) {
             pulseEnabled = false;
+            phase = 0;
             setEnabled( false );
         }
     }
