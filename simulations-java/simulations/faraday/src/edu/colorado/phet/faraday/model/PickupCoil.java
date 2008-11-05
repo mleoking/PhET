@@ -339,7 +339,6 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
     /**
      * Handles ticks of the simulation clock.
      * Calculates the induced emf using Faraday's Law.
-     * Performs median smoothing of data if isSmoothingEnabled.
      * 
      * @param dt time delta
      */
@@ -350,40 +349,12 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
     }
     
     /**
-     * Updates the induced emf, using Faraday's Law.
+     * Updates the induced emf (and other related instance data), using Faraday's Law.
      */
     private void updateEmf( double dt ) {
         
-        final double magnetStrength = _magnetModel.getStrength();
-        
         // Sum the B-field sample points.
-        double sumBx = 0;
-        for ( int i = 0; i < _samplePoints.length; i++ ) {
-            
-            _samplePoint.setLocation( getX() + _samplePoints[i].getX(), getY() + _samplePoints[i].getY() );
-            if ( getDirection() != 0 ) {
-                // Adjust for rotation.
-                _someTransform.setToIdentity();
-                _someTransform.rotate( getDirection(), getX(), getY() );
-                _someTransform.transform( _samplePoint, _samplePoint /* output */);
-            }
-            
-            // Find the B field vector at that point.
-            _magnetModel.getStrength( _samplePoint, _sampleVector /* output */, _distanceExponent  );
-            
-            /*
-             * If the B-field x component is equal to the magnet strength, then our B-field sample
-             * was inside the magnet. Use the fudge factor to scale the sample so that the transitions
-             * between inside and outside are not abrupt.
-             */ 
-            double Bx = _sampleVector.getX();
-            if ( Bx == magnetStrength ) {
-                Bx *= _fudgeFactor;
-            }
-            
-            // Accumulate a sum of the sample points.
-            sumBx += Bx;
-        }
+        double sumBx = getSumBx();
         
         // Average the B-field sample points.
         _averageBx = sumBx / _samplePoints.length;
@@ -418,5 +389,44 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
                 System.out.println( "PickupCoil.updateEmf: biggestEmf=" + _biggestEmf );
             }
         }
+    }
+    
+    /*
+     * Gets the sum of Bx at the coil's sample points.
+     */
+    private double getSumBx() {
+        
+        final double magnetStrength = _magnetModel.getStrength();
+        
+        // Sum the B-field sample points.
+        double sumBx = 0;
+        for ( int i = 0; i < _samplePoints.length; i++ ) {
+            
+            _samplePoint.setLocation( getX() + _samplePoints[i].getX(), getY() + _samplePoints[i].getY() );
+            if ( getDirection() != 0 ) {
+                // Adjust for rotation.
+                _someTransform.setToIdentity();
+                _someTransform.rotate( getDirection(), getX(), getY() );
+                _someTransform.transform( _samplePoint, _samplePoint /* output */);
+            }
+            
+            // Find the B field vector at that point.
+            _magnetModel.getStrength( _samplePoint, _sampleVector /* output */, _distanceExponent  );
+            
+            /*
+             * If the B-field x component is equal to the magnet strength, then our B-field sample
+             * was inside the magnet. Use the fudge factor to scale the sample so that the transitions
+             * between inside and outside are not abrupt. See Unfuddle #248.
+             */ 
+            double Bx = _sampleVector.getX();
+            if ( Bx == magnetStrength ) {
+                Bx *= _fudgeFactor;
+            }
+            
+            // Accumulate a sum of the sample points.
+            sumBx += Bx;
+        }
+        
+        return sumBx;
     }
 }
