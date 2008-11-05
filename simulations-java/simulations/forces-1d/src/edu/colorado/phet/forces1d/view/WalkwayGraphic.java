@@ -7,13 +7,12 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.math.Function;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.forces1d.Force1DResources;
 import edu.colorado.phet.forces1d.Forces1DModule;
 import edu.colorado.phet.forces1d.model.BoundaryCondition;
-
 import edu.colorado.phet.forces1d.phetcommon.view.ApparatusPanel;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetImageGraphic;
@@ -42,11 +41,11 @@ public class WalkwayGraphic extends CompositePhetGraphic {
     private PhetImageGraphic leftWallGraphic;
     private PhetImageGraphic rightWallGraphic;
 
-    public WalkwayGraphic( ApparatusPanel panel, Forces1DModule module, int numTickMarks, Function.LinearFunction transform ,OffsetManager offsetManager) throws IOException {
-        this( panel, module, numTickMarks, -10, 10, transform ,offsetManager);
+    public WalkwayGraphic( ApparatusPanel panel, Forces1DModule module, int numTickMarks, Function.LinearFunction transform, OffsetManager offsetManager ) throws IOException {
+        this( panel, module, numTickMarks, -10, 10, transform, offsetManager );
     }
 
-    public WalkwayGraphic( ApparatusPanel panel, final Forces1DModule module, int numTickMarks, double treex, double housex, Function.LinearFunction transform,OffsetManager offsetManager ) throws IOException {
+    public WalkwayGraphic( ApparatusPanel panel, final Forces1DModule module, int numTickMarks, double treex, double housex, Function.LinearFunction transform, OffsetManager offsetManager ) throws IOException {
         super( panel );
         offsetManager.addListener( new OffsetManager.Listener() {
             public void offsetChanged() {
@@ -231,7 +230,7 @@ public class WalkwayGraphic extends CompositePhetGraphic {
         leftWallGraphic.setTransform( new AffineTransform() );
         leftWallGraphic.scale( ( transform.evaluate( treex ) - bounds.x ) / leftWallGraphic.getImage().getWidth(), bounds.getHeight() / leftWallGraphic.getImage().getHeight() );
 
-        rightWallGraphic.setLocation( (int) transform.evaluate( housex ), (int) (0+offsetManager.getOffset()) );
+        rightWallGraphic.setLocation( (int) transform.evaluate( housex ), (int) ( 0 + offsetManager.getOffset() ) );
         rightWallGraphic.setTransform( new AffineTransform() );
         double newWidth = bounds.x + bounds.width - transform.evaluate( housex );
         rightWallGraphic.scale( newWidth / rightWallGraphic.getImage().getWidth(), bounds.getHeight() / rightWallGraphic.getImage().getHeight() );

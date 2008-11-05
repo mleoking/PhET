@@ -13,8 +13,6 @@ package edu.colorado.phet.forces1d.view;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
-
-
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 

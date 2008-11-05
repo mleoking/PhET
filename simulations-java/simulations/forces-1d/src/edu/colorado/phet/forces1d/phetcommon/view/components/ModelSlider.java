@@ -24,9 +24,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.forces1d.Force1DResources;
 import edu.colorado.phet.forces1d.phetcommon.math.ModelViewTransform1D;
 import edu.colorado.phet.forces1d.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.forces1d.Force1DResources;
 
 /**
  * ModelSlider combines title, slider, and textfield, with units for normal usage.

@@ -5,18 +5,16 @@ import java.awt.geom.Point2D;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-
-
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.forces1d.phetcommon.model.clock.AbstractClock;
 import edu.colorado.phet.forces1d.phetcommon.model.clock.ClockTickEvent;
 import edu.colorado.phet.forces1d.phetcommon.model.clock.ClockTickListener;
-import edu.colorado.phet.forces1d.view.Arrow;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.forces1d.view.Arrow;
 
 /**
  * Created by IntelliJ IDEA.
@@ -94,7 +92,7 @@ public class WiggleMe extends CompositePhetGraphic {
                 clock.removeClockTickListener( tickListener );
             }
         }
-        t0=System.currentTimeMillis();
+        t0 = System.currentTimeMillis();
     }
 
     public void setAmplitude( double amplitude ) {
@@ -112,8 +110,8 @@ public class WiggleMe extends CompositePhetGraphic {
 
     private void tick() {
         double time = ( System.currentTimeMillis() - t0 ) / 1000.0;
-        double period=2*Math.PI/frequency;
-        if ( isVisible() && getComponent().isShowing() &&time<3*period) {
+        double period = 2 * Math.PI / frequency;
+        if ( isVisible() && getComponent().isShowing() && time < 3 * period ) {
 
             Point targetLoc = target.getLocation();
 

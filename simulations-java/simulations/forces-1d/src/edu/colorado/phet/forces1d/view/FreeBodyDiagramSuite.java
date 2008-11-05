@@ -12,12 +12,11 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.forces1d.Force1DResources;
 import edu.colorado.phet.forces1d.Forces1DModule;
 import edu.colorado.phet.forces1d.phetcommon.view.ControlPanel;
-
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -87,7 +86,7 @@ public class FreeBodyDiagramSuite {
         updateButtonLocations();
 
         setPanelVisible( false );
-        freeBodyDiagramPanel.addIgnoreArea(buttonPanelPSwing);
+        freeBodyDiagramPanel.addIgnoreArea( buttonPanelPSwing );
     }
 
     public FreeBodyDiagramPanel getFreeBodyDiagramPanel() {

@@ -4,15 +4,14 @@ package edu.colorado.phet.forces1d.view;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.forces1d.Forces1DModule;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetGraphicListener;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetImageGraphic;
-
 import edu.colorado.phet.forces1d.phetcommon.view.util.FrameSequence;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 
 /**
  * User: Sam Reid
@@ -125,7 +124,7 @@ public class LeanerGraphic extends PhetImageGraphic {
 //            frame = flippedAnimation.getFrame( index );
         }
         if ( app != 0 || forceLocation ) {
-            setLocation( x, (int) (y +offsetManager.getOffset()) ) ;
+            setLocation( x, (int) ( y + offsetManager.getOffset() ) );
         }
 //        }
         setImage( frame );

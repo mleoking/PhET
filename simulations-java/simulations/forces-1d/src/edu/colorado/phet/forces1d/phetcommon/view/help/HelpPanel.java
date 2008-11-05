@@ -16,9 +16,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import edu.colorado.phet.forces1d.Force1DResources;
 import edu.colorado.phet.forces1d.phetcommon.application.Module;
 import edu.colorado.phet.forces1d.phetcommon.application.PhetApplication;
-import edu.colorado.phet.forces1d.Force1DResources;
 
 /**
  * HelpPanel

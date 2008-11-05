@@ -3,13 +3,11 @@ package edu.colorado.phet.forces1d.view;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.forces1d.Force1DResources;
 import edu.colorado.phet.forces1d.Force1DUtil;
 import edu.colorado.phet.forces1d.model.Force1DModel;
-
-import edu.colorado.phet.forces1d.view.Arrow;
 import edu.colorado.phet.forces1d.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetShadowTextGraphic;

@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
 import edu.colorado.phet.forces1d.common.ColorDialog;
 import edu.colorado.phet.forces1d.common.plotdevice.DefaultPlaybackPanel;
 import edu.colorado.phet.forces1d.model.Force1DModel;
@@ -18,7 +19,6 @@ import edu.colorado.phet.forces1d.phetcommon.model.clock.ClockTickEvent;
 import edu.colorado.phet.forces1d.phetcommon.view.PhetFrame;
 import edu.colorado.phet.forces1d.view.Force1DLookAndFeel;
 import edu.colorado.phet.forces1d.view.Force1DPanel;
-import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
 
 /**
  * User: Sam Reid
@@ -175,7 +175,7 @@ public class Forces1DModule extends Module {
             e.printStackTrace();
         }
         forceModel.getBlock().setMass( force1dObject.getMass() );
-        forceModel.getBlock().setStaticAndKineticFriction(force1dObject.getStaticFriction(),force1dObject.getKineticFriction() );
+        forceModel.getBlock().setStaticAndKineticFriction( force1dObject.getStaticFriction(), force1dObject.getKineticFriction() );
 //        forceModel.getBlock().setStaticFriction( force1dObject.getStaticFriction() );
 //        forceModel.getBlock().setKineticFriction( force1dObject.getKineticFriction() );
     }
@@ -188,7 +188,7 @@ public class Forces1DModule extends Module {
         getForceModel().setFrictionEnabled( useFriction );
     }
 
-    public boolean isFrictionEnabled(){
+    public boolean isFrictionEnabled() {
         return getForceModel().isFrictionEnabled();
     }
 

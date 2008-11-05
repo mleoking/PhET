@@ -102,8 +102,9 @@ public class Force1DModel implements ModelElement {
             ( (BoundaryCondition.Listener) boundaryConditionListeners.get( i ) ).boundaryConditionWalls();
         }
     }
-    public boolean isBoundsWalled(){
-        return boundaryCondition==walls;
+
+    public boolean isBoundsWalled() {
+        return boundaryCondition == walls;
     }
 
     public void setPlaybackIndex( int index ) {
@@ -153,9 +154,9 @@ public class Force1DModel implements ModelElement {
         updateBlockAcceleration();
 
         block.stepInTime( dt );
-        double wallCollisionForce=boundaryCondition.apply();
-        if (wallCollisionForce!=0){
-            netForce=block.getMass()*block.getAcceleration();
+        double wallCollisionForce = boundaryCondition.apply();
+        if ( wallCollisionForce != 0 ) {
+            netForce = block.getMass() * block.getAcceleration();
         }
 
         netForceDataSeries.addPoint( netForce );
@@ -194,7 +195,7 @@ public class Force1DModel implements ModelElement {
 //        plotDeviceModel.doReset();//this reinits the model with initial parameters of the graph.
         frictionForce = 0;//so we must clear them afterwards.
         netForce = 0;
-        block.setPosition( Block.DEFAULT_POSITION);
+        block.setPosition( Block.DEFAULT_POSITION );
         block.setVelocity( 0.0 );
         setAppliedForce( 0.0 );//to inform listeners.
 

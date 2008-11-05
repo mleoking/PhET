@@ -20,7 +20,6 @@ import java.util.Arrays;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.forces1d.phetcommon.application.Module;
 import edu.colorado.phet.forces1d.phetcommon.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.forces1d.phetcommon.view.help.HelpPanel;
@@ -41,7 +40,7 @@ public class ControlPanel extends JPanel {
 
     private ControlPanel.ContentPanel controlPane = new ContentPanel();
 //    private ImageIcon imageIcon;
-//    private JLabel titleLabel;
+    //    private JLabel titleLabel;
     private JScrollPane verticalScrollPane;
     private HelpPanel helpPanel;
     private JPanel northPanel;
