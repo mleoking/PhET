@@ -124,4 +124,5 @@ public interface IClock {
      */
     void stepClockWhilePaused();
 
+    boolean containsClockListener( ClockListener clockListener );
 }

@@ -40,7 +40,9 @@ public class TrackingManager {
      * Blocks until all queued messages have been sent, up to a maximum of maxWaitTime milliseconds.
      */
     public static void waitFor( long maxWaitTimeMillis ) {
-        instance._waitFor( maxWaitTimeMillis );
+        if ( isTrackingEnabled() ) {
+            instance._waitFor( maxWaitTimeMillis );
+        }
     }
 
     //Currently implemented with polling, should probably be converted to non-polling solution
@@ -106,7 +108,7 @@ public class TrackingManager {
     }
 
     public static boolean isTrackingEnabled() {
-        return instance.isTrackingCommandLineOptionSet() && instance.isTrackingAllowed();
+        return instance!=null&&instance.isTrackingCommandLineOptionSet() && instance.isTrackingAllowed();
     }
 
     private boolean isTrackingAllowed() {
@@ -119,18 +121,26 @@ public class TrackingManager {
     }
 
     public static void postActionPerformedMessage( String actionName ) {
-        postMessage( new ActionPerformedMessage( new SessionID( instance.config ), actionName ) );
+        if ( isTrackingEnabled() ) {
+            postMessage( new ActionPerformedMessage( new SessionID( instance.config ), actionName ) );
+        }
     }
 
     public static void postStateChangedMessage( String name, boolean oldValue, boolean newValue ) {
-        postStateChangedMessage( name, Boolean.valueOf( oldValue ), Boolean.valueOf( newValue ) );
+        if ( isTrackingEnabled() ) {
+            postStateChangedMessage( name, Boolean.valueOf( oldValue ), Boolean.valueOf( newValue ) );
+        }
     }
 
     public static void postStateChangedMessage( String name, Object oldValue, Object newValue ) {
-        postMessage( new StateChangedMessage( new SessionID( instance.config ), name, oldValue.toString(), newValue.toString() ) );
+        if ( isTrackingEnabled() ) {
+            postMessage( new StateChangedMessage( new SessionID( instance.config ), name, oldValue.toString(), newValue.toString() ) );
+        }
     }
 
     public static void postSessionEndedMessage() {
-        postMessage( new SessionEndedMessage( new SessionID( instance.config ) ) );
+        if ( isTrackingEnabled() ) {
+            postMessage( new SessionEndedMessage( new SessionID( instance.config ) ) );
+        }
     }
 }

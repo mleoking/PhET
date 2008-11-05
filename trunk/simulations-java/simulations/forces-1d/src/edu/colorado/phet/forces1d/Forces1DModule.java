@@ -6,17 +6,16 @@ import java.util.Arrays;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.model.BaseModel;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
+import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.forces1d.common.ColorDialog;
 import edu.colorado.phet.forces1d.common.plotdevice.DefaultPlaybackPanel;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 import edu.colorado.phet.forces1d.model.Force1dObject;
-import edu.colorado.phet.forces1d.phetcommon.application.Module;
-import edu.colorado.phet.forces1d.phetcommon.application.PhetApplication;
-import edu.colorado.phet.forces1d.phetcommon.model.BaseModel;
-import edu.colorado.phet.forces1d.phetcommon.model.clock.AbstractClock;
-import edu.colorado.phet.forces1d.phetcommon.model.clock.ClockTickEvent;
-import edu.colorado.phet.forces1d.phetcommon.view.PhetFrame;
 import edu.colorado.phet.forces1d.view.Force1DLookAndFeel;
 import edu.colorado.phet.forces1d.view.Force1DPanel;
 
@@ -25,7 +24,7 @@ import edu.colorado.phet.forces1d.view.Force1DPanel;
  * Date: Nov 12, 2004
  * Time: 10:06:43 PM
  */
-public class Forces1DModule extends Module {
+public class Forces1DModule extends PhetGraphicsModule {
     public static final String LOCALIZATION_BUNDLE_BASENAME = "forces-1d/localization/forces-1d-strings";
     private Color backgroundColor;
     private Force1DModel forceModel;
@@ -38,11 +37,11 @@ public class Forces1DModule extends Module {
     private int objectIndex;
     private IForceControl currentControlPanel;
 
-    public Forces1DModule( AbstractClock clock, Color backgroundColor ) throws IOException {
+    public Forces1DModule( IClock clock, Color backgroundColor ) throws IOException {
         this( clock, Force1DResources.get( "Force1DModule.moduleName" ), backgroundColor );
     }
 
-    public Forces1DModule( AbstractClock clock, String name, Color backgroundColor ) throws IOException {
+    public Forces1DModule( IClock clock, String name, Color backgroundColor ) throws IOException {
         super( name, clock );
         this.backgroundColor = backgroundColor;
 
@@ -77,9 +76,10 @@ public class Forces1DModule extends Module {
         getForceModel().addCollisionListener( crashAudioPlayer );
     }
 
-    public void updateGraphics( ClockTickEvent event ) {
+    public void updateGraphics( ClockEvent event ) {
         super.updateGraphics( event );
         forcePanel.updateGraphics();
+        simpleControlPanel.updateGraphics();
     }
 
     public void setHelpEnabled( boolean h ) {
@@ -132,10 +132,16 @@ public class Forces1DModule extends Module {
         } );
     }
 
-    public void activate( PhetApplication app ) {
-        super.activate( app );
-        app.getPhetFrame().getBasicPhetPanel().setAppControlPanel( playbackPanel );
+    public void activate() {
+        super.activate();
+        setClockControlPanel( playbackPanel );
+//        app.getPhetFrame().getBasicPhetPanel().setAppControlPanel( playbackPanel );
     }
+
+//    public void activate( PhetApplication app ) {
+//        super.activate( app );
+//        app.getPhetFrame().getBasicPhetPanel().setAppControlPanel( playbackPanel );
+//    }
 
     private void setChartBackground( Color color ) {
         forcePanel.setChartBackground( color );
@@ -210,7 +216,7 @@ public class Forces1DModule extends Module {
         getForceModel().setGravity( 9.8 );
     }
 
-    public void clockTicked( ClockTickEvent event ) {
+    public void clockTicked( ClockEvent event ) {
         QuickProfiler totalTime = new QuickProfiler();
 
         QuickProfiler userInputTime = new QuickProfiler();
@@ -219,7 +225,8 @@ public class Forces1DModule extends Module {
         debug( "userInputTime = " + userInputTime );
 
         QuickProfiler modelTime = new QuickProfiler();
-        getModel().clockTicked( event );
+        getModel().update( event );
+//        getModel().clockTicked( event );
         debug( "modelTime = " + modelTime );
 
         QuickProfiler updateControlPanelTime = new QuickProfiler();
@@ -267,12 +274,12 @@ public class Forces1DModule extends Module {
     public void setControlPanel( IForceControl controlPanel ) {
         this.currentControlPanel = controlPanel;
         super.setControlPanel( controlPanel );
-        if ( phetFrame != null ) {
-            phetFrame.getBasicPhetPanel().setControlPanel( controlPanel );
-            phetFrame.getBasicPhetPanel().invalidate();
-            phetFrame.getBasicPhetPanel().validate();
-            phetFrame.getBasicPhetPanel().doLayout();
-        }
+//        if ( phetFrame != null ) {
+//            phetFrame.getBasicPhetPanel().setControlPanel( controlPanel );
+//            phetFrame.getBasicPhetPanel().invalidate();
+//            phetFrame.getBasicPhetPanel().validate();
+//            phetFrame.getBasicPhetPanel().doLayout();
+//        }
         Window window = SwingUtilities.getWindowAncestor( controlPanel );
         if ( window instanceof JFrame ) {
             JFrame frame = (JFrame) window;

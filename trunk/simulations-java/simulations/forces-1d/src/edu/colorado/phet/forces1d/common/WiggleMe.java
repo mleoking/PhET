@@ -7,13 +7,14 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.forces1d.phetcommon.model.clock.AbstractClock;
-import edu.colorado.phet.forces1d.phetcommon.model.clock.ClockTickEvent;
-import edu.colorado.phet.forces1d.phetcommon.model.clock.ClockTickListener;
 import edu.colorado.phet.forces1d.view.Arrow;
 
 /**
@@ -32,18 +33,18 @@ public class WiggleMe extends CompositePhetGraphic {
     private Target target;
     private PhetShapeGraphic phetShapeGraphic;
     private ShadowHTMLGraphic textGraphic;
-    private ClockTickListener tickListener;
-    private AbstractClock clock;
+    private ClockListener tickListener;
+    private IClock clock;
 
-    public WiggleMe( Component component, AbstractClock clock, String text, PhetGraphic phetGraphic ) {
+    public WiggleMe( Component component, IClock clock, String text, PhetGraphic phetGraphic ) {
         this( component, clock, text, new PhetGraphicTarget( phetGraphic ) );
     }
 
-    public WiggleMe( final Component component, AbstractClock clock, String text, Target t ) {
+    public WiggleMe( final Component component, IClock clock, String text, Target t ) {
         this( component, clock, text, t, new Font( PhetFont.getDefaultFontName(), Font.BOLD, 20 ), 1, 1 );
     }
 
-    public WiggleMe( final Component component, AbstractClock clock, String text, Target t, Font font, int dx, int dy ) {
+    public WiggleMe( final Component component, IClock clock, String text, Target t, Font font, int dx, int dy ) {
         super( component );
         this.target = t;
         this.clock = clock;
@@ -54,13 +55,13 @@ public class WiggleMe extends CompositePhetGraphic {
         addGraphic( textGraphic );
 
         textGraphic.setLocation( 0, 0 );
-        tickListener = new ClockTickListener() {
-            public void clockTicked( ClockTickEvent event ) {
+        tickListener = new ClockAdapter() {
+            public void clockTicked( ClockEvent event ) {
                 tick();
             }
         };
         setVisible( true );//attaches as a clock tick listener.
-//        clock.addClockTickListener( tickListener );
+//        clock.addClockListener( tickListener );
         Arrow arrow = new Arrow( new Point2D.Double( 0, 0 ), new Point2D.Double( 50, 0 ), 20, 20, 10 );
         phetShapeGraphic = new PhetShapeGraphic( component, arrow.getShape(), Color.blue, new BasicStroke( 2 ), Color.black );
 
@@ -83,13 +84,13 @@ public class WiggleMe extends CompositePhetGraphic {
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
         if ( visible ) {
-            if ( !clock.containsClockTickListener( tickListener ) ) {
-                clock.addClockTickListener( tickListener );
+            if ( !clock.containsClockListener( tickListener ) ) {
+                clock.addClockListener( tickListener );
             }
         }
         else {
-            while ( clock.containsClockTickListener( tickListener ) ) {
-                clock.removeClockTickListener( tickListener );
+            while ( clock.containsClockListener( tickListener ) ) {
+                clock.removeClockListener( tickListener );
             }
         }
         t0 = System.currentTimeMillis();
