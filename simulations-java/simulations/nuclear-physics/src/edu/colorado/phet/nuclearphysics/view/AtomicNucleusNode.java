@@ -347,6 +347,7 @@ public class AtomicNucleusNode extends PNode {
             _explosionCounter = EXPLOSION_COUNTER_RESET_VAL;
             _explosion.setOffset( _atomicNucleus.getPositionReference() );
             _explosion.setVisible( true );
+            _explosion.setPickable(false);
         }
         
         // Save the new weight.
