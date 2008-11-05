@@ -6,12 +6,12 @@ import java.io.IOException;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSequence;
 import edu.colorado.phet.forces1d.Forces1DModule;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetGraphicListener;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.forces1d.phetcommon.view.util.FrameSequence;
 
 /**
  * User: Sam Reid
