@@ -1,3 +1,6 @@
+# 1.18.10 (11-5-2008)
+Deploy to dev before starting refactor to trunk phetcommon
+
 New in 1.18.09 (10-7-2008)
 Changed position slider to "initial position", becomes disabled after simulation starts
 Made default initial position -7m
