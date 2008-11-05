@@ -17,6 +17,8 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
+import edu.colorado.phet.common.phetcommon.application.ISimInfo;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.forces1d.phetcommon.application.ModuleEvent;
 import edu.colorado.phet.forces1d.phetcommon.application.ModuleManager;
@@ -97,12 +99,17 @@ public class HelpMenu extends JMenu implements ModuleObserver {
         final JMenuItem about = new JMenuItem( Force1DResources.getCommonString( "Common.HelpMenu.About" ) );
         about.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                PhetAboutDialog phetAboutDialog = new PhetAboutDialog( parent, "forces-1d" );
+                PhetAboutDialog phetAboutDialog = new PhetAboutDialogAdapter( parent, new PhetApplicationConfig( new String[0],"forces-1d"  ) );
                 SwingUtils.centerWindowOnScreen( phetAboutDialog );//not sure why the default centering fails for this application
                 phetAboutDialog.show();
             }
         } );
         add( about );
+    }
+    static class PhetAboutDialogAdapter extends PhetAboutDialog {
+        public PhetAboutDialogAdapter( Frame owner, ISimInfo config ) {
+            super( owner, config );
+        }
     }
 
     /**

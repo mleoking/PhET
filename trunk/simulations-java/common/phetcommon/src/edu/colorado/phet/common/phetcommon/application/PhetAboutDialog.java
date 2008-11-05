@@ -60,17 +60,6 @@ public class PhetAboutDialog extends JDialog {
     }
 
     /**
-     * Constructs a PhetAboutDialog given the short-name of a simulation, e.g. "moving-man"
-     *
-     * @param ownwer
-     * @param simulationShortName
-     * @deprecated use the constructor that takes as PhetApplication
-     */
-    public PhetAboutDialog( Frame ownwer, String simulationShortName ) {
-        this( ownwer,  new PhetApplicationConfig( new String[0], simulationShortName  )  );
-    }
-
-    /**
      * Constructs a dialog.
      *
      * @param config
