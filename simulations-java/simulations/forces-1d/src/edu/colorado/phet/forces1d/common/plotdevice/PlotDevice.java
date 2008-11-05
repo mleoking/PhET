@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
+import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
 import edu.colorado.phet.forces1d.Force1DResources;
 import edu.colorado.phet.forces1d.charts.BufferedLinePlot;
@@ -29,7 +30,6 @@ import edu.colorado.phet.forces1d.model.DataSeries;
 import edu.colorado.phet.forces1d.model.PhetTimer;
 import edu.colorado.phet.forces1d.phetcommon.view.ApparatusPanel;
 import edu.colorado.phet.forces1d.phetcommon.view.ApparatusPanel2;
-import edu.colorado.phet.forces1d.phetcommon.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.forces1d.view.BufferedPhetGraphic;
 import edu.colorado.phet.forces1d.view.OffsetManager;
 import edu.colorado.phet.forces1d.view.PlotDeviceFontManager;
@@ -141,11 +141,11 @@ public class PlotDevice extends GraphicLayerSet {
         textFieldGraphic = PhetJComponent.newInstance( panel, textBox.textField );
         addListener( new Listener() {
             public void readoutChanged( double value ) {
-                PhetJComponent.doScheduleRepaint( textFieldGraphic );
+                textFieldGraphic.repaint();
             }
 
             public void valueChanged( double value ) {
-                PhetJComponent.doScheduleRepaint( textFieldGraphic );
+                textFieldGraphic.repaint();
             }
         } );
 

@@ -14,6 +14,7 @@ package edu.colorado.phet.forces1d.phetcommon.application;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.forces1d.Force1DResources;
 import edu.colorado.phet.forces1d.phetcommon.model.BaseModel;
@@ -23,7 +24,7 @@ import edu.colorado.phet.forces1d.phetcommon.model.clock.ClockTickListener;
 import edu.colorado.phet.forces1d.phetcommon.view.ApparatusPanel;
 import edu.colorado.phet.forces1d.phetcommon.view.ControlPanel;
 import edu.colorado.phet.forces1d.phetcommon.view.help.HelpManager;
-import edu.colorado.phet.forces1d.phetcommon.view.phetcomponents.PhetJComponent;
+
 
 /**
  * This class encapsulates the parts of an application that make up

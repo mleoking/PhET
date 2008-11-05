@@ -16,12 +16,12 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.forces1d.phetcommon.model.clock.AbstractClock;
 import edu.colorado.phet.forces1d.phetcommon.model.clock.ClockTickListener;
 import edu.colorado.phet.forces1d.phetcommon.view.ApparatusPanel;
 import edu.colorado.phet.forces1d.phetcommon.view.ApparatusPanel2;
 import edu.colorado.phet.forces1d.phetcommon.view.PhetFrame;
-import edu.colorado.phet.forces1d.phetcommon.view.phetcomponents.PhetJComponent;
 
 
 /**
