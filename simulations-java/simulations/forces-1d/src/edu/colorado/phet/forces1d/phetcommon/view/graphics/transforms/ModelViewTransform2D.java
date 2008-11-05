@@ -16,7 +16,8 @@ import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.forces1d.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+
 
 /**
  * ModelViewTransform2D

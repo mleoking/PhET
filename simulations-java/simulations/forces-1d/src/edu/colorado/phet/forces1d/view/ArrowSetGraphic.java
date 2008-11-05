@@ -4,10 +4,11 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.forces1d.Force1DResources;
 import edu.colorado.phet.forces1d.Force1DUtil;
 import edu.colorado.phet.forces1d.model.Force1DModel;
-import edu.colorado.phet.forces1d.phetcommon.math.Vector2D;
+
 import edu.colorado.phet.forces1d.phetcommon.view.graphics.shapes.Arrow;
 import edu.colorado.phet.forces1d.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.CompositePhetGraphic;
