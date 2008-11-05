@@ -64,11 +64,15 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     // Constants that control where the charts are placed.
     private final double TIME_CHART_FRACTION = 0.2;   // Fraction of canvas for time chart.
     
+    // Base color for the buttons on the canvas.
+    private final static Color CANVAS_BUTTON_COLOR = new Color(255, 100, 0);
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     private AlphaDecayTimeChart _alphaDecayTimeChart;
     private GradientButtonNode _resetButtonNode;
+    private GradientButtonNode _addTenButtonNode;
     private MultiNucleusAlphaDecayModel _model;
 	private Rectangle2D _bucketRect;
 	private BucketOfNucleiNode _bucketNode;
@@ -109,7 +113,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
         });
         
         // Add the button for resetting the nuclei to the canvas.
-        _resetButtonNode = new GradientButtonNode(NuclearPhysicsStrings.RESET_ALL_NUCLEI, 22, new Color(0xff9900));
+        _resetButtonNode = new GradientButtonNode(NuclearPhysicsStrings.RESET_ALL_NUCLEI, 22, CANVAS_BUTTON_COLOR);
         addScreenChild(_resetButtonNode);
         
         // Register to receive button pushes.
@@ -125,12 +129,24 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
         _alphaDecayTimeChart = new AlphaDecayTimeChart(singleNucleusAlphaDecayModel.getClock(), 
         		singleNucleusAlphaDecayModel.getAtomNucleus());
         addScreenChild( _alphaDecayTimeChart );
-        
+
+        // Create and add the node the represents the bucket from which nuclei
+        // can be extracted and added to the play area.
         _bucketRect = _model.getBucketRectRef();
         _bucketNode = new BucketOfNucleiNode( _bucketRect.getWidth(), _bucketRect.getHeight() );
         addWorldChild(_bucketNode);
         _bucketNode.setOffset( _bucketRect.getX(), _bucketRect.getY() );
         
+        // Add the button that allows the user to add multiple nuclei at once.
+        // Position it just under the bucket and scale it so that its size is
+        // proportionate to the bucket.
+        _addTenButtonNode = new GradientButtonNode(NuclearPhysicsStrings.ADD_TEN, 12, CANVAS_BUTTON_COLOR);
+        double addTenButtonScale = (_bucketRect.getWidth() / _addTenButtonNode.getFullBoundsReference().width) * 0.4;
+        _addTenButtonNode.scale(addTenButtonScale);
+        _addTenButtonNode.setOffset(_bucketRect.getCenterX() - _addTenButtonNode.getFullBoundsReference().width / 2, 
+        		_bucketRect.getMaxY());
+        addWorldChild(_addTenButtonNode);
+
         // Add a listener for when the canvas is resized.
         addComponentListener( new ComponentAdapter() {
             
