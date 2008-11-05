@@ -6,8 +6,6 @@
  */
 package edu.colorado.phet.forces1d.charts;
 
-//import edu.colorado.phet.common.view.graphics.Graphic;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
@@ -17,8 +15,8 @@ import edu.colorado.phet.forces1d.phetcommon.view.graphics.transforms.ModelViewT
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.forces1d.phetcommon.view.util.GraphicsState;
 import edu.colorado.phet.forces1d.phetcommon.view.util.RectangleUtils;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
 
 public class Chart extends PhetGraphic {
     private Component component;
