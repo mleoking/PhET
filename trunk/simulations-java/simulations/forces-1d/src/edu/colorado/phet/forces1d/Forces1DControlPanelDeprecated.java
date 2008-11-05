@@ -1,6 +1,5 @@
 package edu.colorado.phet.forces1d;
 
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 

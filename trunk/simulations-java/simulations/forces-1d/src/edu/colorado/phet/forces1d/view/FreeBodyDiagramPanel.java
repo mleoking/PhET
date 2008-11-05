@@ -9,15 +9,14 @@ import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.MouseInputListener;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.forces1d.Force1DResources;
 import edu.colorado.phet.forces1d.Forces1DModule;
 import edu.colorado.phet.forces1d.common.WiggleMe;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDevice;
 import edu.colorado.phet.forces1d.model.Force1DModel;
-
 import edu.colorado.phet.forces1d.phetcommon.model.clock.SwingTimerClock;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetGraphic;
 import edu.umd.cs.piccolo.PNode;

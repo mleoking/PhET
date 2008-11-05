@@ -17,6 +17,7 @@ import java.io.IOException;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.forces1d.phetcommon.application.ApplicationModel;
 import edu.colorado.phet.forces1d.phetcommon.application.Module;
 import edu.colorado.phet.forces1d.phetcommon.application.ModuleManager;
@@ -26,7 +27,6 @@ import edu.colorado.phet.forces1d.phetcommon.util.DebugMenu;
 import edu.colorado.phet.forces1d.phetcommon.view.components.menu.HelpMenu;
 import edu.colorado.phet.forces1d.phetcommon.view.components.menu.PhetFileMenu;
 import edu.colorado.phet.forces1d.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 
 /**

@@ -15,8 +15,8 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-import edu.colorado.phet.forces1d.phetcommon.application.PhetApplication;
 import edu.colorado.phet.forces1d.Force1DResources;
+import edu.colorado.phet.forces1d.phetcommon.application.PhetApplication;
 
 /**
  * ContentPanel

@@ -7,9 +7,8 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.forces1d.phetcommon.application.Module;
 import edu.colorado.phet.forces1d.phetcommon.application.PhetApplication;
 import edu.colorado.phet.forces1d.phetcommon.model.clock.AbstractClock;

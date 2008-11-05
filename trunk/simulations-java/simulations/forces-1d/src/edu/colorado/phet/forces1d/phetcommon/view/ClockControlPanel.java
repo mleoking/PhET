@@ -18,11 +18,11 @@ import java.io.IOException;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.forces1d.Force1DResources;
 import edu.colorado.phet.forces1d.phetcommon.model.clock.AbstractClock;
 import edu.colorado.phet.forces1d.phetcommon.model.clock.ClockStateEvent;
 import edu.colorado.phet.forces1d.phetcommon.model.clock.ClockStateListener;
-import edu.colorado.phet.forces1d.Force1DResources;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 
 /**
  * ClockControlPanel
