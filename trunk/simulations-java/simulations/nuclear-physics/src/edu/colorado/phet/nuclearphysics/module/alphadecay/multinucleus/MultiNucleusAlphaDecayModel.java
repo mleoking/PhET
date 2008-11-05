@@ -35,7 +35,7 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
 	// Size and position of the bucket of nuclei which the user uses to add
 	// nuclei to the simulation.
 	private static final double BUCKET_ORIGIN_X = 43;
-	private static final double BUCKET_ORIGIN_Y = 50;
+	private static final double BUCKET_ORIGIN_Y = 45;
 	private static final double BUCKET_WIDTH = 45;
 	private static final double BUCKET_HEIGHT = BUCKET_WIDTH * 0.65;
 	private static final Rectangle2D BUCKET_RECT = new Rectangle2D.Double(BUCKET_ORIGIN_X, BUCKET_ORIGIN_Y, 
