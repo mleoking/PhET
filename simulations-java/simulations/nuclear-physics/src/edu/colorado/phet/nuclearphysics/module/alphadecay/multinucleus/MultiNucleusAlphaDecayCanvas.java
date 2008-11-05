@@ -64,10 +64,6 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     // Constants that control where the charts are placed.
     private final double TIME_CHART_FRACTION = 0.2;   // Fraction of canvas for time chart.
     
-    // Proportionate size of the bucket.
-    private final double BUCKET_WIDTH = CANVAS_WIDTH * 0.2;
-    private final double BUCKET_HEIGHT = BUCKET_WIDTH * 0.7;
-    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -164,7 +160,9 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
             public void nodeGrabbed(GrabbableNucleusImageNode node){
             	handleNodeGrabbed(node);
             };
-            public void nodeReleased(GrabbableNucleusImageNode node){};
+            public void nodeReleased(GrabbableNucleusImageNode node){
+            	handleNodeReleased(node);
+            };
         };
     }
     
@@ -227,6 +225,22 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     		
     		// Add this nucleus node as a child.
     		addWorldChild(grabbedNode);
+    	}
+    }
+
+    /**
+     * Handle a notification that indicates that one of the nucleus nodes was
+     * released by the user.
+     * 
+     * @param releasedNode
+     */
+    private void handleNodeReleased(GrabbableNucleusImageNode releasedNode){
+
+    	// JPB TBD - Need to handle case where nucleus is added back to bucket.
+    	AtomicNucleus nucleus = releasedNode.getNucleusRef();
+    	if (nucleus instanceof Polonium211Nucleus){
+    		// Cause this node to start moving towards fissioning.
+    		((Polonium211Nucleus)nucleus).activate();
     	}
     }
 }

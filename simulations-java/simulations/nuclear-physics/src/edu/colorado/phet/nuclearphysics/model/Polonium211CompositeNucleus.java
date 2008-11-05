@@ -165,7 +165,7 @@ public class Polonium211CompositeNucleus extends CompositeAtomicNucleus {
     
     /**
      * This method generates a value indicating the number of milliseconds for
-     *  a Polonium 211 nucleus to decay.  This calculation is based on the 
+     * a Polonium 211 nucleus to decay.  This calculation is based on the 
      * exponential decay formula and uses the decay constant for Polonium 211.
      * 
      * @return
