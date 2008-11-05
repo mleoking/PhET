@@ -116,9 +116,28 @@ public class TUResources {
         return PhetCommonResources.getPreferredFontNames( languageCode );
     }
     
-    public static String[] getLanguageCodes() {
+    /**
+     * Gets ISO standard language codes.
+     * 
+     * @return
+     */
+    public static String[] getISOLanguageCodes() {
         String[] codes = null;
-        String allNames = LANGUAGE_CODES.getProperty( "language.codes" );
+        String allNames = LANGUAGE_CODES.getProperty( "iso.language.codes" );
+        if ( allNames != null ) {
+            codes = allNames.split( LANGUAGE_CODES_SEPARATOR );
+        }
+        return codes;
+    }
+    
+    /**
+     * Gets additional language codes assigned by PhET.
+     * 
+     * @return
+     */
+    public static String[] getPhETLanguageCodes() {
+        String[] codes = null;
+        String allNames = LANGUAGE_CODES.getProperty( "phet.language.codes" );
         if ( allNames != null ) {
             codes = allNames.split( LANGUAGE_CODES_SEPARATOR );
         }
