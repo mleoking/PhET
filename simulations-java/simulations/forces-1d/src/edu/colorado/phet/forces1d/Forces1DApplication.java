@@ -7,13 +7,14 @@ import java.io.IOException;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.forces1d.phetcommon.application.Module;
-import edu.colorado.phet.forces1d.phetcommon.application.PhetApplication;
-import edu.colorado.phet.forces1d.phetcommon.model.clock.AbstractClock;
-import edu.colorado.phet.forces1d.phetcommon.model.clock.SwingTimerClock;
 
 
 public class Forces1DApplication {
@@ -39,13 +40,15 @@ public class Forces1DApplication {
         feel.setBackgroundColor( FORCES_1D_BACKGROUND_COLOR );
         feel.initLookAndFeel();
 
-        AbstractClock clock = new SwingTimerClock( 1, 30 );
+//        IClock clock = new SwingTimerClock( 1, 30 );
+        IClock clock = new ConstantDtClock( 30, 1 );
         FrameSetup frameSetup = ( new FrameSetup.CenteredWithInsets( 200, 200 ) );
 //        FrameSetup frameSetup = ( new FrameSetup.CenteredWithSize( 1024,748) ); //todo: testing only
 
         String version = VERSION;
-        final PhetApplication phetApplication = new PhetApplication( args, Force1DResources.get( "Force1DModule.title" ) + " (" + version + ")",
-                                                                     Force1DResources.get( "Force1DModule.description" ), version, clock, false, frameSetup );
+//        final PhetApplication phetApplication = new PhetApplication( args, Force1DResources.get( "Force1DModule.title" ) + " (" + version + ")",
+//                                                                     Force1DResources.get( "Force1DModule.description" ), version, clock, false, frameSetup );
+        final PhetApplication phetApplication = new PhetApplication( new PhetApplicationConfig( args, "forces-1d" ) );
 
         final Forces1DModule module = new Forces1DModule( clock, FORCES_1D_BACKGROUND_COLOR );
         Module[] m = new Module[]{module};

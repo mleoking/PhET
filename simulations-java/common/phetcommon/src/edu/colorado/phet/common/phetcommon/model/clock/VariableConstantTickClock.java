@@ -143,4 +143,8 @@ public class VariableConstantTickClock implements IClock, ClockListener {
     public void stepClockWhilePaused() {
         wrappedClock.stepClockWhilePaused();
     }
+
+    public boolean containsClockListener( ClockListener clockListener ) {
+        return wrappedClock.containsClockListener( clockListener );
+    }
 }

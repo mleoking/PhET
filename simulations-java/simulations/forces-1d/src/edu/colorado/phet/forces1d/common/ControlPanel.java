@@ -20,9 +20,9 @@ import java.util.Arrays;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 
+import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.view.HelpPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.forces1d.phetcommon.application.Module;
-import edu.colorado.phet.forces1d.phetcommon.view.help.HelpPanel;
 
 /**
  * ControlPanel

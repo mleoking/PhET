@@ -227,4 +227,8 @@ public abstract class Clock implements IClock {
     public void stop() {
         this.pause();
     }
+
+    public boolean containsClockListener( ClockListener clockListener ) {
+        return listeners.contains( clockListener );
+    }
 }

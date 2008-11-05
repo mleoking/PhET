@@ -2,23 +2,20 @@ package edu.colorado.phet.forces1d.view;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.MouseInputListener;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.forces1d.Force1DResources;
 import edu.colorado.phet.forces1d.Forces1DModule;
 import edu.colorado.phet.forces1d.common.WiggleMe;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDevice;
 import edu.colorado.phet.forces1d.model.Force1DModel;
-import edu.colorado.phet.forces1d.phetcommon.model.clock.SwingTimerClock;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -27,7 +24,7 @@ import edu.umd.cs.piccolo.PNode;
  * Time: 8:11:43 PM
  */
 
-public class FreeBodyDiagramPanel extends BufferedPhetPCanvas {
+public class FreeBodyDiagramPanel extends PhetPCanvas {
 
     private FreeBodyDiagramNode freeBodyDiagram;
     private WiggleMe fbdWiggleMe;
@@ -148,15 +145,6 @@ public class FreeBodyDiagramPanel extends BufferedPhetPCanvas {
     }
 
     public void handleUserInput() {
-    }
-
-    public static void main( String[] args ) throws IOException {
-        FreeBodyDiagramPanel a = new FreeBodyDiagramPanel( new Forces1DModule( new SwingTimerClock( 1, 30 ), Color.green ) );
-        JFrame frame = new JFrame();
-        frame.setContentPane( a );
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.setSize( 400, 400 );
-        frame.setVisible( true );
     }
 
     public void addIgnoreArea( PNode ignoreArea ) {
