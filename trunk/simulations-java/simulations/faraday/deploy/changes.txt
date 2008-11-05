@@ -1,3 +1,4 @@
+11/5/08 - see #744, add display of "average Bx" to developer control in FluxDisplayGraphic
 10/8/08 - use PhetApplicationConfig.launchSim
 10/8/08 - moved list of rejected features to Unfuddle 794
 # 2.01.01 (24585)
