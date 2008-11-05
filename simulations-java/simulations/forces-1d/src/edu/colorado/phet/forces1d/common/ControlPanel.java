@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.forces1d.phetcommon.view;
+package edu.colorado.phet.forces1d.common;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
