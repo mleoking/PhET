@@ -11,12 +11,12 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.view.AdvancedPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
 import edu.colorado.phet.forces1d.model.Block;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 import edu.colorado.phet.forces1d.model.Force1dObject;
 import edu.colorado.phet.forces1d.phetcommon.view.help.HelpPanel;
-import edu.colorado.phet.forces1d.phetcommon.view.util.GraphicsState;
 import edu.colorado.phet.forces1d.view.FreeBodyDiagramSuite;
 
 /**
