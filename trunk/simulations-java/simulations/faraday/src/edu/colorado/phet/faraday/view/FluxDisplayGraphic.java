@@ -54,10 +54,10 @@ public class FluxDisplayGraphic extends GraphicLayerSet implements SimpleObserve
         _pickupCoilModel = pickupCoilModel;
         _pickupCoilModel.addObserver( this );
         
-        _averageBxValue = new PhetTextGraphic2( component, FONT, "?", Color.YELLOW, 0, -50 );
-        _fluxValue = new PhetTextGraphic2( component, FONT, "?", Color.YELLOW, 0, -25 );
-        _deltaFluxValue = new PhetTextGraphic2( component, FONT, "?", Color.YELLOW, 0, 0 );
-        _emfValue = new PhetTextGraphic2( component, FONT, "?", Color.YELLOW, 0, 25 );
+        _averageBxValue = new PhetTextGraphic2( component, FONT, "?", Color.YELLOW, 0, 0 );
+        _fluxValue = new PhetTextGraphic2( component, FONT, "?", Color.YELLOW, 0, 25 );
+        _deltaFluxValue = new PhetTextGraphic2( component, FONT, "?", Color.YELLOW, 0, 50 );
+        _emfValue = new PhetTextGraphic2( component, FONT, "?", Color.YELLOW, 0, 75 );
         
         addGraphic( _averageBxValue );
         addGraphic( _fluxValue );

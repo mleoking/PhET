@@ -110,7 +110,7 @@ public class PickupCoilGraphic extends GraphicLayerSet
         // Area & flux display
         _fluxDisplayGraphic = new FluxDisplayGraphic( component, pickupCoilModel );
         _fluxDisplayGraphic.setVisible( false );
-        _fluxDisplayGraphic.setLocation( 50, 0 );
+        _fluxDisplayGraphic.setLocation( 75, -50 );
         _foreground.addGraphic( _fluxDisplayGraphic );
         
         update();
