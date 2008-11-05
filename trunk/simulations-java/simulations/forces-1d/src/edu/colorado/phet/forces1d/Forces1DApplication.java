@@ -9,11 +9,12 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.forces1d.phetcommon.application.Module;
 import edu.colorado.phet.forces1d.phetcommon.application.PhetApplication;
 import edu.colorado.phet.forces1d.phetcommon.model.clock.AbstractClock;
 import edu.colorado.phet.forces1d.phetcommon.model.clock.SwingTimerClock;
-import edu.colorado.phet.forces1d.phetcommon.view.util.FrameSetup;
+
 
 public class Forces1DApplication {
     //todo: convert to proper use of PhetApplicationConfig for getting version
