@@ -13,8 +13,10 @@ package edu.colorado.phet.forces1d.phetcommon.view.graphics.shapes;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.forces1d.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.forces1d.phetcommon.math.ImmutableVector2D;
+
+
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
 /**
  * Arrow
@@ -87,8 +89,8 @@ public class Arrow {
             return;
         }
 
-        AbstractVector2D.Double tailPt = new ImmutableVector2D.Double( tailLocation );
-        AbstractVector2D.Double tipPt = new ImmutableVector2D.Double( tipLocation );
+        AbstractVector2D tailPt = new ImmutableVector2D.Double( tailLocation );
+        AbstractVector2D tipPt = new ImmutableVector2D.Double( tipLocation );
         direction = tipPt.getSubtractedInstance( tailPt ).getNormalizedInstance();
         double dist = tipLocation.distance( tailLocation );
         double tempHeadHeight = headHeight;
@@ -137,7 +139,7 @@ public class Arrow {
         lineTo( tailShape, rightPin );
     }
 
-    private void lineTo( GeneralPath path, AbstractVector2D.Double loc ) {
+    private void lineTo( GeneralPath path, AbstractVector2D loc ) {
         path.lineTo( (float) loc.getX(), (float) loc.getY() );
     }
 

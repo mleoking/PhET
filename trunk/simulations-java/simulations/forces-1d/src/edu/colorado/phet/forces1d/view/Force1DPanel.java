@@ -10,6 +10,7 @@ import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.forces1d.Force1DResources;
 import edu.colorado.phet.forces1d.Force1DUtil;
 import edu.colorado.phet.forces1d.Forces1DModule;
@@ -21,7 +22,7 @@ import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceView;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 import edu.colorado.phet.forces1d.phetcommon.math.Function;
-import edu.colorado.phet.forces1d.phetcommon.math.Vector2D;
+
 import edu.colorado.phet.forces1d.phetcommon.view.ApparatusPanel2;
 import edu.colorado.phet.forces1d.phetcommon.view.BasicGraphicsSetup;
 import edu.colorado.phet.forces1d.phetcommon.view.components.VerticalLayoutPanel;
