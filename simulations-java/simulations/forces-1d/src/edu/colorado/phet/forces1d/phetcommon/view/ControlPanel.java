@@ -39,7 +39,7 @@ import edu.colorado.phet.forces1d.phetcommon.view.help.HelpPanel;
 public class ControlPanel extends JPanel {
 
     private ControlPanel.ContentPanel controlPane = new ContentPanel();
-//    private ImageIcon imageIcon;
+    //    private ImageIcon imageIcon;
     //    private JLabel titleLabel;
     private JScrollPane verticalScrollPane;
     private HelpPanel helpPanel;
