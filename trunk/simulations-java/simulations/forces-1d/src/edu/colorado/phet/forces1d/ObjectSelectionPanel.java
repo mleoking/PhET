@@ -10,8 +10,8 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.forces1d.model.Force1dObject;
-import edu.colorado.phet.forces1d.phetcommon.view.util.ImageLoader;
 
 /**
  * User: Sam Reid

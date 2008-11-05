@@ -11,7 +11,7 @@ import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetGraphicListen
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.forces1d.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.forces1d.phetcommon.view.util.FrameSequence;
-import edu.colorado.phet.forces1d.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 
 /**
  * User: Sam Reid
