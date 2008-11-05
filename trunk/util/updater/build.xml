@@ -10,7 +10,7 @@
 
     <target name="compile" depends="init">
         <mkdir dir="${build}"/>
-        <javac srcdir="${src}" destdir="${build}" source="1.4" target="1.4"/>
+        <javac srcdir="${src}" destdir="${build}" source="1.4" target="1.4" debug="true" debuglevel="lines, vars, source"/>
     </target>
 
     <target name="dist" depends="compile">
