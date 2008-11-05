@@ -78,6 +78,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
 	private BucketOfNucleiNode _bucketNode;
     private HashMap _mapAlphaParticlesToNodes = new HashMap();
     private HashMap _mapNucleiToNodes = new HashMap();
+    private GrabbableNucleusImageNode.Listener _grabbableNodeListener;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -134,14 +135,6 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
         addWorldChild(_bucketNode);
         _bucketNode.setOffset( _bucketRect.getX(), _bucketRect.getY() );
         
-        // Register with the bucket for notifications of nuclei being pulled
-        // out and dropped on the canvas.
-        _bucketNode.addListener(new BucketOfNucleiNode.Listener(){
-        	public void nucleusExtracted(PNode nucleusNode){
-        		addNucleusNodeFromBucket(nucleusNode);
-        	}
-        });
-
         // Add a listener for when the canvas is resized.
         addComponentListener( new ComponentAdapter() {
             
@@ -164,9 +157,18 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
                         0.30 * getHeight() );
             }
         } );
+        
+        // Create the listener that will be used to listen for user
+        // interaction with the nucleus nodes.
+        _grabbableNodeListener = new GrabbableNucleusImageNode.Listener(){
+            public void nodeGrabbed(GrabbableNucleusImageNode node){
+            	handleNodeGrabbed(node);
+            };
+            public void nodeReleased(GrabbableNucleusImageNode node){};
+        };
     }
     
-    protected void handleModelElementAdded(Object modelElement) {
+    private void handleModelElementAdded(Object modelElement) {
 
     	if (modelElement instanceof Polonium211Nucleus){
     		// A new polonium nucleus has been added to the model.  Create a
@@ -175,12 +177,15 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     		
     		// If the node's position indicates that it is in the bucket then
     		// add it to the bucket node.
-    		if (isNucleusInBucket((AtomicNucleus)modelElement)){
+    		if (isNucleusPosInBucketRectangle((AtomicNucleus)modelElement)){
     			_bucketNode.addNucleus(poloniumNucleusNode);
     		}
     		
             // Map the nucleus to the node so that we can find it it later.
             _mapAlphaParticlesToNodes.put( modelElement, poloniumNucleusNode );
+            
+            // Register for notifications from this node.
+            poloniumNucleusNode.addListener(_grabbableNodeListener);
     	}
 	}
 
@@ -191,26 +196,37 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
         _alphaDecayTimeChart.reset();
     }
     
-    private boolean isNucleusInBucket(AtomicNucleus nucleus){
+    /**
+     * Returns true if the position of the nucleus is within the bucket
+     * rectangle and false if not.  This does NOT indicate whether or not the
+     * node is currently a child of the bucket node.
+     */
+    private boolean isNucleusPosInBucketRectangle(AtomicNucleus nucleus){
     	
     	return _bucketRect.contains(nucleus.getPositionReference());
     }
     
     /**
-     * Add a node to the canvas that was extracted from the bucket.  The
-     * tricky part about this is making sure that the location is correct.
-     * @param nucleusNode
+     * Handle a notification that indicates that one of the nucleus nodes was
+     * grabbed by the user.
+     * 
+     * @param grabbedNode
      */
-    private void addNucleusNodeFromBucket(PNode nucleusNode){
-    	/*
-    	Point2D originalPosition = nucleusNode.getOffset();
-    	Point2D globalPosition = nucleusNode.localToGlobal(originalPosition);
-    	Point2D convertedPosition = getRoot().globalToLocal(globalPosition);
-    	nucleusNode.setOffset(convertedPosition);
-    	*/
-    	Point2D nucleusPosition = nucleusNode.getOffset();
-    	nucleusNode.setOffset(nucleusPosition.getX() + _bucketRect.getX(), 
-    			nucleusPosition.getY() + _bucketRect.getY());
-    	addWorldChild(nucleusNode);
+    private void handleNodeGrabbed(GrabbableNucleusImageNode grabbedNode){
+    	
+    	if ( _bucketNode.isNodeInBucket( grabbedNode ) ){
+    		// This node is currently in the bucket, so it should be removed
+    		// and subsequently added as a child of this node.
+    		_bucketNode.removeNucleus(grabbedNode);
+    		
+    		// Adjust the node's position to account for the fact that it was
+    		// in the bucket.
+    		Point2D position = grabbedNode.getNucleusRef().getPositionReference();
+    		grabbedNode.getNucleusRef().setPosition(position.getX() + _bucketRect.getX(), 
+    				position.getY() + _bucketRect.getY());
+    		
+    		// Add this nucleus node as a child.
+    		addWorldChild(grabbedNode);
+    	}
     }
 }
