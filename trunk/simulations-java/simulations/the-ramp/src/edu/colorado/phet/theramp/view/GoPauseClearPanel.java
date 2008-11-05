@@ -5,8 +5,8 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.theramp.model.RampTimeSeriesModel;
-import edu.colorado.phet.theramp.timeseries_ramp.TimeSeriesModel;
-import edu.colorado.phet.theramp.timeseries_ramp.TimeSeriesModelListenerAdapter;
+import edu.colorado.phet.theramp.timeseries.TimeSeriesModel;
+import edu.colorado.phet.theramp.timeseries.TimeSeriesModelListenerAdapter;
 
 import javax.swing.*;
 import java.awt.*;

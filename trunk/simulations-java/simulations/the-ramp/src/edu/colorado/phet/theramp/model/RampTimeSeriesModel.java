@@ -4,9 +4,9 @@ package edu.colorado.phet.theramp.model;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.TheRampStrings;
-import edu.colorado.phet.theramp.timeseries_ramp.ObjectTimePoint;
-import edu.colorado.phet.theramp.timeseries_ramp.ObjectTimeSeries;
-import edu.colorado.phet.theramp.timeseries_ramp.TimeSeriesModel;
+import edu.colorado.phet.theramp.timeseries.ObjectTimePoint;
+import edu.colorado.phet.theramp.timeseries.ObjectTimeSeries;
+import edu.colorado.phet.theramp.timeseries.TimeSeriesModel;
 
 import javax.swing.*;
 
