@@ -12,8 +12,8 @@ package edu.colorado.phet.forces1d.phetcommon.view.util;
 
 import java.awt.*;
 
-import edu.colorado.phet.forces1d.phetcommon.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.forces1d.phetcommon.view.ApparatusPanel2;
 
 /**
  * A PhetGraphic that draws a grid of regularly spaced lines. Intended for use during program

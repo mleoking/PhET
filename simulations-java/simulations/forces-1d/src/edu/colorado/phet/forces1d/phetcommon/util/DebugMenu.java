@@ -17,6 +17,7 @@ import java.util.HashMap;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.forces1d.phetcommon.application.Module;
 import edu.colorado.phet.forces1d.phetcommon.application.ModuleManager;
 import edu.colorado.phet.forces1d.phetcommon.application.PhetApplication;
@@ -27,7 +28,6 @@ import edu.colorado.phet.forces1d.phetcommon.view.ApparatusPanel;
 import edu.colorado.phet.forces1d.phetcommon.view.ApparatusPanel2;
 import edu.colorado.phet.forces1d.phetcommon.view.util.LineGrid;
 import edu.colorado.phet.forces1d.phetcommon.view.util.MouseTracker;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 
 /**
  * DebugMenu

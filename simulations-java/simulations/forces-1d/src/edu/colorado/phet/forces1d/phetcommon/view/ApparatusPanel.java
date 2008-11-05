@@ -11,7 +11,9 @@
 package edu.colorado.phet.forces1d.phetcommon.view;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -19,8 +21,8 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsSetup;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
 
 /**
  * This is a base class for panels that contain graphic representations

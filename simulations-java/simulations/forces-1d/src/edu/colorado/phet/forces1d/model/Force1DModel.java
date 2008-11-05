@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.forces1d.Forces1DModule;
 import edu.colorado.phet.forces1d.common.EventChannel;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
-import edu.colorado.phet.common.phetcommon.model.ModelElement;
 
 
 /**
