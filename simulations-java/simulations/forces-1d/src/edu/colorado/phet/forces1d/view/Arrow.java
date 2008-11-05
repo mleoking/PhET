@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.forces1d.phetcommon.view.graphics.shapes;
+package edu.colorado.phet.forces1d.view;
 
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
@@ -19,6 +19,8 @@ import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
 /**
+ * This version of Arrow is incompatible with the Arrow in phetcommon trunk HEAD, since it has
+ * references to tail or head shape explicitly.
  * Arrow
  *
  * @author ?

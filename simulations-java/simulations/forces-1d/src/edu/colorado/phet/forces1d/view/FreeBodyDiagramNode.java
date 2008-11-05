@@ -5,7 +5,6 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
@@ -20,7 +19,7 @@ import edu.colorado.phet.forces1d.Forces1DModule;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 
 
-import edu.colorado.phet.forces1d.phetcommon.view.graphics.shapes.Arrow;
+import edu.colorado.phet.forces1d.view.Arrow;
 
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
