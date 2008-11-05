@@ -10,67 +10,67 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
 
-public class Forces1DApplication {
+public class Forces1DApplication extends PhetApplication {
     //todo: convert to proper use of PhetApplicationConfig for getting version
     static final String VERSION = new PhetResources( "forces-1d" ).getVersion().formatForTitleBar();
     public static Color FORCES_1D_BACKGROUND_COLOR = new Color( 200, 240, 200 );
 
-    public static void main( final String[] args ) throws IOException {
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                try {
-                    runMain( args );
+    public Forces1DApplication( Forces1DPhetApplicationConfig config ) {
+        super( config );
+
+        IClock clock = new ConstantDtClock( 30, 1 );
+
+        final Forces1DModule module;
+        try {
+            module = new Forces1DModule( clock, FORCES_1D_BACKGROUND_COLOR );
+
+            Module[] m = new Module[]{module};
+            setModules( m );
+
+            JMenu options = new JMenu( Force1DResources.get( "Force1DModule.options" ) );
+            JMenuItem item = new JMenuItem( Force1DResources.get( "Force1DModule.backgroundColor" ) );
+            item.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    module.showColorDialog();
                 }
-                catch( IOException e ) {
-                    e.printStackTrace();
-                }
+            } );
+            options.add( item );
+
+            getPhetFrame().addMenu( options );
+            startApplication();
+
+            if ( PhetUtilities.isMacintosh() ) {//max extent fails on mac + java 1.4
+                new FrameSetup.CenteredWithInsets( 50, 50 ).initialize( getPhetFrame() );
             }
-        } );
+            module.setPhetFrame( getPhetFrame() );
+            Forces1DModule.setup( module );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
     }
 
-    private static void runMain( String[] args ) throws IOException {
-        edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel feel = new edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel();
-        feel.setBackgroundColor( FORCES_1D_BACKGROUND_COLOR );
-        feel.initLookAndFeel();
+    public static void main( final String[] args ) throws IOException {
+        new PhetApplicationLauncher().launchSim( new Forces1DPhetApplicationConfig( args ), Forces1DApplication.class );
+    }
 
-//        IClock clock = new SwingTimerClock( 1, 30 );
-        IClock clock = new ConstantDtClock( 30, 1 );
-        FrameSetup frameSetup = ( new FrameSetup.CenteredWithInsets( 200, 200 ) );
-//        FrameSetup frameSetup = ( new FrameSetup.CenteredWithSize( 1024,748) ); //todo: testing only
+    private static class Forces1DPhetApplicationConfig extends PhetApplicationConfig {
+        public Forces1DPhetApplicationConfig( String[] args ) {
+            super( args, "forces-1d" );
+            setFrameSetup( new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( 200, 200 ) ) );
 
-        String version = VERSION;
-//        final PhetApplication phetApplication = new PhetApplication( args, Force1DResources.get( "Force1DModule.title" ) + " (" + version + ")",
-//                                                                     Force1DResources.get( "Force1DModule.description" ), version, clock, false, frameSetup );
-        final PhetApplication phetApplication = new PhetApplication( new PhetApplicationConfig( args, "forces-1d" ) );
-
-        final Forces1DModule module = new Forces1DModule( clock, FORCES_1D_BACKGROUND_COLOR );
-        Module[] m = new Module[]{module};
-        phetApplication.setModules( m );
-
-        JMenu options = new JMenu( Force1DResources.get( "Force1DModule.options" ) );
-        JMenuItem item = new JMenuItem( Force1DResources.get( "Force1DModule.backgroundColor" ) );
-        item.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.showColorDialog();
-            }
-        } );
-        options.add( item );
-
-        phetApplication.getPhetFrame().addMenu( options );
-        phetApplication.startApplication();
-
-        new FrameSetup.MaxExtent().initialize( phetApplication.getPhetFrame() );
-        if ( PhetUtilities.isMacintosh() ) {//max extent fails on mac + java 1.4
-            new FrameSetup.CenteredWithInsets( 50, 50 ).initialize( phetApplication.getPhetFrame() );
+            PhetLookAndFeel lookAndFeel = new PhetLookAndFeel();
+            lookAndFeel.setBackgroundColor( FORCES_1D_BACKGROUND_COLOR );
+            setLookAndFeel( lookAndFeel );
         }
-        module.setPhetFrame( phetApplication.getPhetFrame() );
-        Forces1DModule.setup( module );
     }
 }
