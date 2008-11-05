@@ -12,9 +12,9 @@
 package edu.colorado.phet.forces1d.phetcommon.application;
 
 
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.forces1d.Force1DResources;
 import edu.colorado.phet.forces1d.phetcommon.model.clock.AbstractClock;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
 
 /**

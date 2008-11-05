@@ -20,7 +20,7 @@ import java.util.List;
 
 /**
  * This is similar to a version in phetcommon trunk HEAD.
- *
+ * <p/>
  * EventChannel
  * <p/>
  * A proxy that broadcasts method calls to registered objects that implement

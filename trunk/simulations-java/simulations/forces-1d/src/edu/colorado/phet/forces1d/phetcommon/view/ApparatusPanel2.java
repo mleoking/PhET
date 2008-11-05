@@ -22,9 +22,9 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 
+import edu.colorado.phet.forces1d.common.EventChannel;
 import edu.colorado.phet.forces1d.phetcommon.model.BaseModel;
 import edu.colorado.phet.forces1d.phetcommon.model.clock.AbstractClock;
-import edu.colorado.phet.forces1d.common.EventChannel;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetGraphics2D;
 import edu.colorado.phet.forces1d.phetcommon.view.util.GraphicsState;
