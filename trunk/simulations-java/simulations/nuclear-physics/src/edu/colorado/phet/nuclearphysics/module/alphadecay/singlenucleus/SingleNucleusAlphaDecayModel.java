@@ -90,10 +90,6 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
                     }
                 }
             }
-            
-            public void positionChanged(){
-                // Ignore this event here.
-            }
         });
     }
     
