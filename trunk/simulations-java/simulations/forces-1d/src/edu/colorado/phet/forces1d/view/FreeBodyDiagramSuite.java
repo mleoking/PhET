@@ -15,8 +15,9 @@ import javax.swing.*;
 import edu.colorado.phet.forces1d.Force1DResources;
 import edu.colorado.phet.forces1d.Forces1DModule;
 import edu.colorado.phet.forces1d.phetcommon.view.ControlPanel;
-import edu.colorado.phet.forces1d.phetcommon.view.util.BufferedImageUtils;
+
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -55,8 +56,8 @@ public class FreeBodyDiagramSuite {
             e.printStackTrace();
         }
 
-        JButton tearButton = new JButton( new ImageIcon( BufferedImageUtils.rescaleYMaintainAspectRatio( buttonPanel, tearImage, 14 ) ) );
-        JButton closeButton = new JButton( new ImageIcon( BufferedImageUtils.rescaleYMaintainAspectRatio( buttonPanel, xImage, 14 ) ) );
+        JButton tearButton = new JButton( new ImageIcon( BufferedImageUtils.rescaleYMaintainAspectRatio( tearImage, 14 ) ) );
+        JButton closeButton = new JButton( new ImageIcon( BufferedImageUtils.rescaleYMaintainAspectRatio( xImage, 14 ) ) );
 
         tearButton.setMargin( new Insets( 2, 2, 2, 2 ) );
         closeButton.setMargin( new Insets( 2, 2, 2, 2 ) );//todo will look bad on mac
