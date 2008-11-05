@@ -13,6 +13,7 @@ package edu.colorado.phet.forces1d.phetcommon.model;
 import java.util.ArrayList;
 
 import edu.colorado.phet.forces1d.phetcommon.util.SimpleObservable;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 
 /**
  * CompositeModelElement
