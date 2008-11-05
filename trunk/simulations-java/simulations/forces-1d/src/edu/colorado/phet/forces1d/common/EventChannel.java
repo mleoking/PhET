@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.forces1d.phetcommon.util;
+package edu.colorado.phet.forces1d.common;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
@@ -19,6 +19,8 @@ import java.util.EventListener;
 import java.util.List;
 
 /**
+ * This is similar to a version in phetcommon trunk HEAD.
+ *
  * EventChannel
  * <p/>
  * A proxy that broadcasts method calls to registered objects that implement

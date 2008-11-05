@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.forces1d.phetcommon.model.clock;
 
-import edu.colorado.phet.forces1d.phetcommon.util.EventChannel;
+import edu.colorado.phet.forces1d.common.EventChannel;
 
 /**
  * AbstractClock

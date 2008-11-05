@@ -14,7 +14,7 @@ import java.beans.XMLEncoder;
 import java.io.File;
 import java.util.ArrayList;
 
-import edu.colorado.phet.forces1d.phetcommon.util.EventChannel;
+import edu.colorado.phet.forces1d.common.EventChannel;
 
 /**
  * ModuleManager
