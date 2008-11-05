@@ -9,10 +9,11 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.forces1d.Force1DResources;
 import edu.colorado.phet.forces1d.Forces1DModule;
 import edu.colorado.phet.forces1d.model.BoundaryCondition;
-import edu.colorado.phet.forces1d.phetcommon.math.Function;
+
 import edu.colorado.phet.forces1d.phetcommon.view.ApparatusPanel;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetImageGraphic;
