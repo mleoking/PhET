@@ -11,7 +11,8 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.forces1d.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+
 import edu.colorado.phet.forces1d.model.Force1dObject;
 
 /**
@@ -47,7 +48,7 @@ public class ObjectComboBox extends JComboBox {
         for ( int i = 0; i < lab.length; i++ ) {
             try {
                 BufferedImage image = ImageLoader.loadBufferedImage( imageElements[i].getLocation() );
-                image = BufferedImageUtils.rescaleYMaintainAspectRatio( component, image, 35 );
+                image = BufferedImageUtils.rescaleYMaintainAspectRatio( image, 35 );
                 ImageIcon icon = new ImageIcon( image );
 //                icon.setDescription( imageElements[i].getName() );
 //                icon.setDescription( imageElements[i].getName() );
