@@ -12,9 +12,10 @@ import java.util.Hashtable;
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
-import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetGraphics2D;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphics2D;
+
 
 /**
  * User: Sam Reid

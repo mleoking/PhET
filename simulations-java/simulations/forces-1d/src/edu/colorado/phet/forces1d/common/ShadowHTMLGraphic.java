@@ -2,8 +2,8 @@ package edu.colorado.phet.forces1d.common;
 
 import java.awt.*;
 
-import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.HTMLGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.HTMLGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 
 /**
  * Class for rendering HTML Text.

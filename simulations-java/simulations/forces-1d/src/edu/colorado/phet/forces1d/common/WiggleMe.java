@@ -8,12 +8,12 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.forces1d.phetcommon.model.clock.AbstractClock;
 import edu.colorado.phet.forces1d.phetcommon.model.clock.ClockTickEvent;
 import edu.colorado.phet.forces1d.phetcommon.model.clock.ClockTickListener;
-import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.forces1d.view.Arrow;
 
 /**

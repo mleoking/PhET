@@ -18,10 +18,10 @@ import java.util.Iterator;
 import javax.swing.*;
 
 import edu.colorado.phet.forces1d.phetcommon.model.clock.AbstractClock;
-import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.forces1d.phetcommon.view.util.GraphicsState;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.RepaintDebugGraphic;
 
 /**
  * This is a base class for panels that contain graphic representations
@@ -36,7 +36,6 @@ import edu.colorado.phet.forces1d.phetcommon.view.util.GraphicsState;
  *
  * @author Ron LeMaster
  * @version $Revision$
- * @see edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetGraphic
  */
 public class ApparatusPanel extends JPanel {
 
@@ -119,34 +118,34 @@ public class ApparatusPanel extends JPanel {
         graphicsSetups.add( setup );
     }
 
-    public void addRepaintDebugGraphic( AbstractClock clock ) {
-
-        final RepaintDebugGraphic rdg = new RepaintDebugGraphic( this, clock );
-        addGraphic( rdg, Double.POSITIVE_INFINITY );
-
-        rdg.setActive( false );
-        rdg.setVisible( false );
-        addMouseListener( new MouseAdapter() {
-            public void mousePressed( MouseEvent e ) {
-                requestFocus();
-            }
-        } );
-        addKeyListener( new KeyListener() {
-            public void keyPressed( KeyEvent e ) {
-                if ( e.getKeyCode() == KeyEvent.VK_P ) {
-                    rdg.setActive( !rdg.isActive() );
-                    rdg.setVisible( rdg.isActive() );
-                }
-            }
-
-            public void keyReleased( KeyEvent e ) {
-            }
-
-            public void keyTyped( KeyEvent e ) {
-            }
-        } );
-        requestFocus();
-    }
+//    public void addRepaintDebugGraphic( AbstractClock clock ) {
+//
+//        final RepaintDebugGraphic rdg = new RepaintDebugGraphic( this, clock );
+//        addGraphic( rdg, Double.POSITIVE_INFINITY );
+//
+//        rdg.setActive( false );
+//        rdg.setVisible( false );
+//        addMouseListener( new MouseAdapter() {
+//            public void mousePressed( MouseEvent e ) {
+//                requestFocus();
+//            }
+//        } );
+//        addKeyListener( new KeyListener() {
+//            public void keyPressed( KeyEvent e ) {
+//                if ( e.getKeyCode() == KeyEvent.VK_P ) {
+//                    rdg.setActive( !rdg.isActive() );
+//                    rdg.setVisible( rdg.isActive() );
+//                }
+//            }
+//
+//            public void keyReleased( KeyEvent e ) {
+//            }
+//
+//            public void keyTyped( KeyEvent e ) {
+//            }
+//        } );
+//        requestFocus();
+//    }
 
     /**
      * Clears objects in the graphical context that are experiment-specific

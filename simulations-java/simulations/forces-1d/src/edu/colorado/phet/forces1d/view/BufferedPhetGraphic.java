@@ -8,13 +8,16 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.forces1d.phetcommon.view.phetgraphics;
+package edu.colorado.phet.forces1d.view;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.forces1d.phetcommon.view.BasicGraphicsSetup;
 import edu.colorado.phet.forces1d.phetcommon.view.GraphicsSetup;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 
 /**
  * BufferedPhetGraphic

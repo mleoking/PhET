@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.forces1d.charts.Chart;
-import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 
 /**
  * User: Sam Reid

@@ -13,7 +13,7 @@ package edu.colorado.phet.forces1d.phetcommon.view.util;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
-import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetGraphics2D;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphics2D;
 
 /**
  * A utilitye class for saving and restoring the state of Graphics2D objects

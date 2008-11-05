@@ -25,10 +25,10 @@ import javax.swing.event.MouseInputListener;
 import edu.colorado.phet.forces1d.common.EventChannel;
 import edu.colorado.phet.forces1d.phetcommon.model.BaseModel;
 import edu.colorado.phet.forces1d.phetcommon.model.clock.AbstractClock;
-import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetGraphics2D;
 import edu.colorado.phet.forces1d.phetcommon.view.util.GraphicsState;
 import edu.colorado.phet.forces1d.phetcommon.view.util.RectangleUtils;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphics2D;
 
 /**
  * This is a base class for panels that contain graphic representations
