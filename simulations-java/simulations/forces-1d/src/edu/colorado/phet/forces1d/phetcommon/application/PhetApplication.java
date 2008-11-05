@@ -21,7 +21,8 @@ import edu.colorado.phet.forces1d.phetcommon.view.ApparatusPanel;
 import edu.colorado.phet.forces1d.phetcommon.view.ApparatusPanel2;
 import edu.colorado.phet.forces1d.phetcommon.view.PhetFrame;
 import edu.colorado.phet.forces1d.phetcommon.view.phetcomponents.PhetJComponent;
-import edu.colorado.phet.forces1d.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+
 
 /**
  * The top-level class for all PhET applications.

@@ -11,8 +11,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetGraphic;
