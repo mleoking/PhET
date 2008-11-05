@@ -5,11 +5,11 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSequence;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphicListener;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.forces1d.Forces1DModule;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 

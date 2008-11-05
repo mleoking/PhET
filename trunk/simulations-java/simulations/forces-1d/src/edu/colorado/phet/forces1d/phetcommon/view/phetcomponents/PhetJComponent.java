@@ -12,8 +12,8 @@ import java.util.Hashtable;
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphics2D;
 
 

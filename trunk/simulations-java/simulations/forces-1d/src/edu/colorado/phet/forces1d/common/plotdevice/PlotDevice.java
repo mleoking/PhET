@@ -30,9 +30,9 @@ import edu.colorado.phet.forces1d.model.PhetTimer;
 import edu.colorado.phet.forces1d.phetcommon.view.ApparatusPanel;
 import edu.colorado.phet.forces1d.phetcommon.view.ApparatusPanel2;
 import edu.colorado.phet.forces1d.phetcommon.view.phetcomponents.PhetJComponent;
+import edu.colorado.phet.forces1d.view.BufferedPhetGraphic;
 import edu.colorado.phet.forces1d.view.OffsetManager;
 import edu.colorado.phet.forces1d.view.PlotDeviceFontManager;
-import edu.colorado.phet.forces1d.view.BufferedPhetGraphic;
 
 /**
  * User: Sam Reid

@@ -11,8 +11,8 @@ import javax.swing.event.MouseInputAdapter;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
 
 
 /**
