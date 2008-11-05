@@ -191,7 +191,7 @@ public class BucketOfNucleiNode extends PNode {
 	}
 	
 	/**
-	 * Remove a nucleus node from the bucket.
+	 * Remove a specific nucleus node from the bucket.
 	 */
 	public void removeNucleus( AtomicNucleusNode nucleusNode ){
 		
@@ -201,6 +201,10 @@ public class BucketOfNucleiNode extends PNode {
 			if (_visibleNucleusNodes[i] == nucleusNode){
 				nucleusWasVisible = true;
 				_visibleNucleusNodes[i] = null;
+				// TODO: JPB TBD - I think it is not actually necessary to remove
+				// this node as a child of the interior nodes, since I believe
+				// Piccolo does the automatically.  So at some point, test and see
+				// if the following code can be removed.
 				if (_backInteriorLayer.isAncestorOf(nucleusNode) ){
 					_backInteriorLayer.removeChild(nucleusNode);
 				}
@@ -223,6 +227,34 @@ public class BucketOfNucleiNode extends PNode {
 				System.err.println("ERROR: Requested node is not in the bucket.");
 			}
 		}
+	}
+	
+	/**
+	 * Pick an available nucleus (any one will do) and return it to the caller.
+	 * 
+	 * @return - Reference to the nucleus, null if the bucket is empty.
+	 */
+	public AtomicNucleusNode extractNucleusFromBucket(){
+		
+		// Pull a nucleus off the list of visible nuclei.  By design, if this
+		// list is empty then the bucket is empty.
+		
+		AtomicNucleusNode extractedNode = null;
+		
+		for (int i = 0; i < _visibleNucleusNodes.length; i++){
+			if (_visibleNucleusNodes[i] != null){
+				extractedNode = _visibleNucleusNodes[i];
+				_visibleNucleusNodes[i] = null;
+				break;
+			}
+		}
+		
+		if (extractedNode != null){
+			// Fill the vacated visible slot.
+			fillEmptyVisibleSlots();
+		}
+		
+		return extractedNode;
 	}
 	
 	/**

@@ -2,19 +2,16 @@
 
 package edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
@@ -22,23 +19,14 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
-import edu.colorado.phet.nuclearphysics.model.CompositeAtomicNucleus;
-import edu.colorado.phet.nuclearphysics.model.Neutron;
 import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.model.Polonium211Nucleus;
-import edu.colorado.phet.nuclearphysics.model.Proton;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.singlenucleus.SingleNucleusAlphaDecayModel;
 import edu.colorado.phet.nuclearphysics.view.AlphaDecayTimeChart;
 import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
-import edu.colorado.phet.nuclearphysics.view.AtomicNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.view.BucketOfNucleiNode;
 import edu.colorado.phet.nuclearphysics.view.GrabbableNucleusImageNode;
-import edu.colorado.phet.nuclearphysics.view.NeutronModelNode;
-import edu.colorado.phet.nuclearphysics.view.ProtonModelNode;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -67,6 +55,12 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     // Base color for the buttons on the canvas.
     private final static Color CANVAS_BUTTON_COLOR = new Color(255, 100, 0);
     
+    // Number of tries for finding open nucleus location.
+    private final static int MAX_PLACEMENT_ATTEMPTS = 100;
+    
+    // Preferred distance between nuclei when placing them on the canvas.
+    private static final double PREFERRED_INTER_NUCLEUS_DISTANCE = 15;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -79,6 +73,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     private HashMap _mapAlphaParticlesToNodes = new HashMap();
     private HashMap _mapNucleiToNodes = new HashMap();
     private GrabbableNucleusImageNode.Listener _grabbableNodeListener;
+    private Random _rand = new Random();
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -146,6 +141,13 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
         _addTenButtonNode.setOffset(_bucketRect.getCenterX() - _addTenButtonNode.getFullBoundsReference().width / 2, 
         		_bucketRect.getMaxY());
         addWorldChild(_addTenButtonNode);
+
+        // Register to receive button pushes.
+        _addTenButtonNode.addActionListener( new ActionListener(){
+            public void actionPerformed(ActionEvent event){
+            	addMultipleNucleiFromBucket( 10 );
+            }
+        });
 
         // Add a listener for when the canvas is resized.
         addComponentListener( new ComponentAdapter() {
@@ -236,19 +238,23 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     	
     	if ( _bucketNode.isNodeInBucket( grabbedNode ) ){
     		// This node is currently in the bucket, so it should be removed
-    		// and subsequently added as a child of this node.
+    		// and subsequently transferred to the canvas.
     		_bucketNode.removeNucleus(grabbedNode);
     		
-    		// Adjust the node's position to account for the fact that it was
-    		// in the bucket.
-    		Point2D position = grabbedNode.getNucleusRef().getPositionReference();
-    		grabbedNode.getNucleusRef().setPosition(position.getX() + _bucketRect.getX(), 
-    				position.getY() + _bucketRect.getY());
-    		
-    		// Add this nucleus node as a child.
-    		addWorldChild(grabbedNode);
+    		transferNodeFromBucketToCanvas( grabbedNode );
     	}
     }
+
+	private void transferNodeFromBucketToCanvas( AtomicNucleusNode node ) {
+		// Adjust the node's position to account for the fact that it was
+		// in the bucket.
+		Point2D position = node.getNucleusRef().getPositionReference();
+		node.getNucleusRef().setPosition(position.getX() + _bucketRect.getX(), 
+				position.getY() + _bucketRect.getY());
+		
+		// Add this nucleus node as a child.
+		addWorldChild(node);
+	}
 
     /**
      * Handle a notification that indicates that one of the nucleus nodes was
@@ -264,5 +270,54 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     		// Cause this node to start moving towards fissioning.
     		((Polonium211Nucleus)nucleus).activate();
     	}
+    }
+    
+    /**
+     * Find a location on the canvas where a nucleus can be placed that isn't
+     * to close to an existing one.
+     * @return
+     */
+    private Point2D findOpenSpotForNucleus(){
+
+    	// TODO: JPB TBD - Need to see if this is actually open instead of just generating a random spot.
+    	double height = CANVAS_HEIGHT - (TIME_CHART_FRACTION * CANVAS_HEIGHT);
+    	double width = CANVAS_WIDTH * 0.8;
+    	double xPos = (_rand.nextDouble() * width) - (width * WIDTH_TRANSLATION_FACTOR);
+    	double yPos = (_rand.nextDouble() * height) - (CANVAS_HEIGHT / 2 - (TIME_CHART_FRACTION * CANVAS_HEIGHT));
+    	return new Point2D.Double(xPos, yPos);
+    }
+    
+    /**
+     * Extract the specified number of nuclei from the bucket and place them
+     * on the canvas.  If there aren't enough in the bucket, add as many as
+     * possible.
+     * 
+     * @param numNucleiToAdd - Number of nuclei to add.
+     * @return - Number of nuclei actually added.
+     */
+    private int addMultipleNucleiFromBucket(int numNucleiToAdd){
+    	
+    	int numberOfNucleiObtained;
+    	for (numberOfNucleiObtained = 0; numberOfNucleiObtained < numNucleiToAdd; numberOfNucleiObtained++){
+    		AtomicNucleusNode nucleusNode = _bucketNode.extractNucleusFromBucket();
+    		if (nucleusNode == null){
+    			// The bucket must be empty, so there is nothing more to do.
+    			break;
+    		}
+    		else{
+    			transferNodeFromBucketToCanvas(nucleusNode);
+    			
+    			// Move the nucleus to a safe location.
+    			nucleusNode.getNucleusRef().setPosition(findOpenSpotForNucleus());
+    			
+    			// Activate the nucleus so that it will decay.
+    			AtomicNucleus nucleus = nucleusNode.getNucleusRef();
+    			if (nucleus instanceof Polonium211Nucleus){
+    				((Polonium211Nucleus)nucleus).activate();
+    			}
+    		}
+    	}
+    	
+    	return numberOfNucleiObtained;
     }
 }
