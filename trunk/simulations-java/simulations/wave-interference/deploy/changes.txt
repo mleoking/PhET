@@ -1,4 +1,4 @@
-New in 1.06 (11-5-2008)
+# 1.06 11-5-2008
 >Waves are now in phase after using a single pulse
 
 10-13-2008: [811] use PhetApplicationConfig
