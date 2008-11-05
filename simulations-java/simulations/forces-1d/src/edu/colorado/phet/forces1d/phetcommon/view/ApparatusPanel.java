@@ -17,11 +17,10 @@ import java.util.Iterator;
 
 import javax.swing.*;
 
-import edu.colorado.phet.forces1d.phetcommon.model.clock.AbstractClock;
-import edu.colorado.phet.forces1d.phetcommon.view.util.GraphicsState;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.RepaintDebugGraphic;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsSetup;
 
 /**
  * This is a base class for panels that contain graphic representations
