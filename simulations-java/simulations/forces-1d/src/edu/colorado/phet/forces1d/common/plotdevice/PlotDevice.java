@@ -15,6 +15,7 @@ import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.forces1d.Force1DResources;
 import edu.colorado.phet.forces1d.charts.BufferedLinePlot;
 import edu.colorado.phet.forces1d.charts.Chart;
@@ -29,7 +30,7 @@ import edu.colorado.phet.forces1d.phetcommon.view.ApparatusPanel2;
 import edu.colorado.phet.forces1d.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.forces1d.phetcommon.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.*;
-import edu.colorado.phet.forces1d.phetcommon.view.util.RectangleUtils;
+
 import edu.colorado.phet.forces1d.view.OffsetManager;
 import edu.colorado.phet.forces1d.view.PlotDeviceFontManager;
 

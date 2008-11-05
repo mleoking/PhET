@@ -5,11 +5,12 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.forces1d.phetcommon.view.graphics.shapes.Arrow;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.forces1d.phetcommon.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.forces1d.phetcommon.view.util.RectangleUtils;
+
 
 /**
  * User: Sam Reid
