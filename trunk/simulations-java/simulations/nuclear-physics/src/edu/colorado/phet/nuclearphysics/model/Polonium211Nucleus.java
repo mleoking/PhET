@@ -78,11 +78,6 @@ public class Polonium211Nucleus extends AtomicNucleus {
         // until something changes.
         _decayTime = 0;
 
-        // Set acceleration, velocity, and position back to 0.
-        setPosition( new Point2D.Double(0, 0) );
-        setVelocity( 0, 0 );
-        setAcceleration( 0, 0 );
-        
         if ((_numNeutrons != ORIGINAL_NUM_NEUTRONS) || (_numProtons != ORIGINAL_NUM_PROTONS)){
             // Decay has occurred.
             _numNeutrons = ORIGINAL_NUM_NEUTRONS;
@@ -104,7 +99,7 @@ public class Polonium211Nucleus extends AtomicNucleus {
     	
     	// Only allow activation if the nucleus hasn't already decayed.
     	if (_numNeutrons == ORIGINAL_NUM_NEUTRONS){
-    		_decayTime = calcPolonium211DecayTime();
+    		_decayTime = _clock.getSimulationTime() + calcPolonium211DecayTime();
     	}
     }
     

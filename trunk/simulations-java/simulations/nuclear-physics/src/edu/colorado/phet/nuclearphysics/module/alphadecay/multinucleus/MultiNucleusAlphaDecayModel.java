@@ -30,7 +30,7 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
     // Class data
     //------------------------------------------------------------------------
 	
-	private static final int MAX_NUCLEI = 10;  // Maximum number of nuclei that model will simulate.
+	private static final int MAX_NUCLEI = 100;  // Maximum number of nuclei that model will simulate.
 	
 	// Size and position of the bucket of nuclei which the user uses to add
 	// nuclei to the simulation.

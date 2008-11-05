@@ -160,7 +160,7 @@ public class ChainReactionCanvas extends PhetPCanvas {
             
             if (modelElement instanceof AtomicNucleus){
                 // Remove the nucleus node.
-                _nucleusLayer.removeChild( (PNode )nucleusNode );
+                _nucleusLayer.removeChild( (PNode)nucleusNode );
                 _modelElementToNodeMap.remove( modelElement );
             }
             else {

@@ -11,7 +11,10 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
@@ -27,6 +30,7 @@ import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
 import edu.colorado.phet.nuclearphysics.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.view.BucketOfNucleiNode;
 import edu.colorado.phet.nuclearphysics.view.GrabbableNucleusImageNode;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -103,7 +107,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
             };
 
             public void modelElementRemoved(Object modelElement){
-            	// TODO: JPB TBD
+            	handleModelElementRemoved(modelElement);
             };
         });
         
@@ -114,6 +118,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
         // Register to receive button pushes.
         _resetButtonNode.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent event){
+            	resetAllNuclei();
             }
         });
 
@@ -184,12 +189,16 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
         };
     }
     
-    private void handleModelElementAdded(Object modelElement) {
+	private void handleModelElementAdded(Object modelElement) {
 
     	if (modelElement instanceof Polonium211Nucleus){
     		// A new polonium nucleus has been added to the model.  Create a
     		// node for it and add it to the nucleus-to-node map.
-    		GrabbableNucleusImageNode poloniumNucleusNode = new GrabbableNucleusImageNode((Polonium211Nucleus)modelElement);
+    		GrabbableNucleusImageNode poloniumNucleusNode = 
+    			new GrabbableNucleusImageNode((Polonium211Nucleus)modelElement);
+    		
+    		// Map this node and nucleus together.
+    		_mapNucleiToNodes.put(modelElement, poloniumNucleusNode);
     		
     		// If the node's position indicates that it is in the bucket then
     		// add it to the bucket node.
@@ -208,8 +217,61 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     		// result of a decay event.  Add a node for it.
     		AlphaParticleModelNode alphaParticleNode = new AlphaParticleModelNode((AlphaParticle)modelElement);
     		addWorldChild(alphaParticleNode);
+    		
+    		// Map this alpha particle to its node.
+    		_mapAlphaParticlesToNodes.put(modelElement, alphaParticleNode);
     	}
 	}
+
+	/**
+	 * Handle a notification from the model that indicates that an element
+	 * (e.g. a nucleus) was removed.  This generally means that the
+	 * corresponding view elements should also go away.
+	 * 
+	 * @param modelElement
+	 */
+    private void handleModelElementRemoved(Object modelElement) {
+    	
+    	if (modelElement instanceof Polonium211Nucleus){
+    		AtomicNucleusNode nucleusNode = (AtomicNucleusNode)_mapNucleiToNodes.get(modelElement);
+    		if (nucleusNode == null){
+    			System.err.println("Error: Could not find node for removed model element.");
+    		}
+    		else if (_bucketNode.isNodeInBucket( nucleusNode )){
+    			_bucketNode.removeNucleus( nucleusNode );
+    		}
+    		else{
+    			removeWorldChild( nucleusNode );
+    		}
+    		_mapNucleiToNodes.remove( modelElement );
+    	}
+    	else if (modelElement instanceof AlphaParticleModelNode){
+    		AlphaParticleModelNode alphaNode = (AlphaParticleModelNode)_mapAlphaParticlesToNodes.get(modelElement);
+    		if (alphaNode == null){
+    			System.err.println("Error: Could not find node for removed alpha particle.");
+    		}
+    		else{
+    			removeWorldChild( alphaNode );
+    		}
+    		_mapAlphaParticlesToNodes.remove( modelElement );
+    	}
+	}
+    
+    /**
+     * Reset all the nuclei back to their pre-decay state.
+     */
+    private void resetAllNuclei(){
+        Set entries = _mapNucleiToNodes.entrySet();
+        Iterator iterator = entries.iterator();
+        while (iterator.hasNext()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            Polonium211Nucleus nucleus = (Polonium211Nucleus)entry.getKey();
+            nucleus.reset();
+            if (!_bucketNode.isNodeInBucket((AtomicNucleusNode)_mapNucleiToNodes.get(nucleus))){
+                nucleus.activate();
+            }
+        }
+    }
 
 	/**
      * Sets the view back to the original state when sim was first started.
