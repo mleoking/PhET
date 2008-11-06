@@ -1,6 +1,9 @@
 package edu.colorado.phet.common.phetcommon.updates.dialogs;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -9,16 +12,15 @@ import java.awt.event.MouseEvent;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.preferences.*;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 import edu.colorado.phet.common.phetcommon.updates.*;
-import edu.colorado.phet.common.phetcommon.updates.dialogs.UpdateInstructionsDialog.AutomaticUpdateInstructionsDialog;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPane;
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
 /**
  * The dialog that used to automatically notify the user that an update is available.
@@ -26,10 +28,10 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPa
 public class AutomaticUpdateDialog extends AbstractUpdateDialog {
 
     private static final String TITLE = PhetCommonResources.getString( "Common.updates.updateAvailable" );
-    private static final String UPDATE_NOW_BUTTON = PhetCommonResources.getString( "Common.updates.updateNow" );
     private static final String ASK_ME_LATER_BUTTON = PhetCommonResources.getString( "Common.updates.askMeLater" );
     private static final String SKIP_UPDATE_BUTTON = PhetCommonResources.getString( "Common.updates.skipThisUpdate" );
-    private static final String EDIT_PREFERENCES_LINK = PhetCommonResources.getString( "Common.updates.editPreferences" );
+    private static final String ADVANCED_LINK = PhetCommonResources.getString( "Common.updates.advanced" );
+    private static final String TRY_IT_LINK = PhetCommonResources.getString( "Common.updates.tryIt" );
 
     public AutomaticUpdateDialog( Frame frame,ISimInfo info, ITrackingInfo trackingInfo, PhetVersion newVersion ) {
         this( frame,
@@ -56,21 +58,10 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
         setModal( true );
 
         // information about the update that was found
-        String html = getAutomaticUpdateMessageHTML( simName, currentVersion.formatForTitleBar(), newVersion.formatForTitleBar() );
-        JComponent htmlPane = new InteractiveHTMLPane( html );
-        JPanel messagePanel = new JPanel();
-        messagePanel.setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
-        messagePanel.add( htmlPane );
+        JLabel versionComparisonLabel = new JLabel( getVersionComparisonHTML( simName, currentVersion.formatForTitleBar(), newVersion.formatForTitleBar() ) );
 
-        // opens a web browser to the sim's web page
-        JButton updateNowButton = new JButton( UPDATE_NOW_BUTTON );
-        updateNowButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                dispose();
-                JDialog dialog = new AutomaticUpdateInstructionsDialog( owner, project, sim, simName, currentVersion.formatForTitleBar(), newVersion.formatForTitleBar() );
-                dialog.setVisible( true );
-            }
-        } );
+        // does the update
+        JButton updateNowButton = new UpdateButton( project, sim );
 
         // ignores this update until a later time
         JButton askMeLater = new JButton( ASK_ME_LATER_BUTTON );
@@ -91,25 +82,44 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
                 TrackingManager.postActionPerformedMessage( TrackingMessage.SKIP_UPDATE_PRESSED );
             }
         } );
-
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.add( updateNowButton );
-        buttonPanel.add( askMeLater );
-        buttonPanel.add( skipThisVersion );
-
-        // link to the Preferences dialog
-        String preferencesHTML = "<html><font size=\"3\"><u>" + EDIT_PREFERENCES_LINK + "</u></font></html>";
-        JLabel preferencesLink = new JLabel( preferencesHTML );
-        preferencesLink.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
-        preferencesLink.addMouseListener( new MouseAdapter() {
+        
+        // Advanced link, opens the Preferences dialog
+        String advancedHTML = "<html><font size=\"3\"><u>" + ADVANCED_LINK + "</u></font></html>";
+        JLabel advancedLink = new JLabel( advancedHTML );
+        advancedLink.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+        advancedLink.addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
+                TrackingManager.postActionPerformedMessage( TrackingMessage.UPDATES_ADVANCED_PRESSED );
                 dispose();
                 new PreferencesDialog( owner, trackingInfo, iManuallyCheckForUpdates, new DefaultUpdatePreferences(), new DefaultTrackingPreferences() ).setVisible( true );
             }
         } );
-        preferencesLink.setForeground( Color.blue );
-        buttonPanel.add( preferencesLink );
-
+        advancedLink.setForeground( Color.blue );
+        
+        // link to sim's webpage
+        String tryItHtml = "<html><u>" + TRY_IT_LINK + "</u></html>";
+        JLabel tryItLink = new JLabel( tryItHtml );
+        tryItLink.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+        tryItLink.addMouseListener( new MouseAdapter() {
+            public void mousePressed( MouseEvent e ) {
+                TrackingManager.postActionPerformedMessage( TrackingMessage.UPDATES_TRY_IT_PRESSED );
+                OpenWebPageToNewVersion.openWebPageToNewVersion( project, sim );
+            }
+        } );
+        tryItLink.setForeground( Color.blue );
+        
+        JPanel messagePanel = new VerticalLayoutPanel();
+        messagePanel.setBorder( BorderFactory.createEmptyBorder( 10, 10, 5, 10 ) );
+        messagePanel.add( versionComparisonLabel );
+        messagePanel.add( Box.createVerticalStrut( 5 ) );
+        messagePanel.add( tryItLink );
+        
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add( updateNowButton );
+        buttonPanel.add( askMeLater );
+        buttonPanel.add( skipThisVersion );
+        buttonPanel.add( advancedLink );
+        
         // main panel layout
         JPanel panel = new JPanel();
         EasyGridBagLayout layout = new EasyGridBagLayout( panel );
@@ -118,7 +128,7 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
         int column = 0;
         layout.addComponent( messagePanel, row++, column );
         layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
-        layout.addComponent( buttonPanel, row++, column );
+        layout.addAnchoredComponent( buttonPanel, row++, column, GridBagConstraints.CENTER );
 
         setContentPane( panel );
         pack();

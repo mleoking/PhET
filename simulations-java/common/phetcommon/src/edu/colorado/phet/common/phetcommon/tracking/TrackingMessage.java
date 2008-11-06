@@ -20,13 +20,15 @@ public class TrackingMessage {
     public static final String TRACKING_ENABLED = "tracking-enabled";
     public static final String MANUAL_CHECK_FOR_UPDATES = "manual-check-for-updates";
     public static final String AUTO_CHECK_FOR_UPDATES = "auto-check-for-updates";
-    public static final String DIRECTED_TO_WEBSITE_FOR_UPDATE = "directed-to-website-for-update";
     public static final String ASK_ME_LATER_PRESSED = "ask-me-later-update-pressed";
     public static final String SKIP_UPDATE_PRESSED = "skip-update-pressed";
     public static final String PHET_FRAME_CLOSING = "phet-frame-closing";
     public static final String FILE_EXIT_SELECTED = "file-exit-selected";
     public static final String PREFERENCES_OK_PRESSED = "preferences-ok-pressed";
     public static final String PREFERENCES_CANCEL_PRESSED = "preferences-cancel-pressed";
+    public static final String UPDATES_TRY_IT_PRESSED = "updates-try-it-pressed";
+    public static final String UPDATES_ADVANCED_PRESSED = "updates-advanced-pressed";
+    public static final String UPDATES_CANCEL_PRESSED = "updates-cancel-pressed";
 
     public TrackingMessage( SessionID sessionID, String messageType ) {
         addEntry( new TrackingEntry( "session-id", sessionID.toString() ) );

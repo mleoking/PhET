@@ -7,11 +7,11 @@ import javax.swing.JDialog;
 
 import edu.colorado.phet.common.phetcommon.preferences.IManualUpdateChecker;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
-import edu.colorado.phet.common.phetcommon.updates.dialogs.NoUpdateDialog;
-import edu.colorado.phet.common.phetcommon.updates.dialogs.UpdateErrorDialog;
-import edu.colorado.phet.common.phetcommon.updates.dialogs.UpdateInstructionsDialog.ManualUpdateInstructionsDialog;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
+import edu.colorado.phet.common.phetcommon.updates.dialogs.ManualUpdateDialog;
+import edu.colorado.phet.common.phetcommon.updates.dialogs.NoUpdateDialog;
+import edu.colorado.phet.common.phetcommon.updates.dialogs.UpdateErrorDialog;
 
 public class DefaultManualCheckForUpdates implements IManualUpdateChecker {
     private String sim;
@@ -36,7 +36,7 @@ public class DefaultManualCheckForUpdates implements IManualUpdateChecker {
             }
 
             public void newVersionAvailable( PhetVersion currentVersion, PhetVersion remoteVersion ) {
-                JDialog dialog = new ManualUpdateInstructionsDialog( frame, projectName, sim, humanReadableSimName, currentVersion.formatForTitleBar(), remoteVersion.formatForTitleBar() );
+                JDialog dialog = new ManualUpdateDialog( frame, projectName, sim, humanReadableSimName, currentVersion, remoteVersion );
                 dialog.setVisible( true );
             }
 
