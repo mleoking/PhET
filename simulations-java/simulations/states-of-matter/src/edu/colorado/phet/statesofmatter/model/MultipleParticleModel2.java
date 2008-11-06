@@ -18,6 +18,7 @@ import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.engine.AtomPositionUpdater;
 import edu.colorado.phet.statesofmatter.model.engine.DiatomicAtomPositionUpdater;
 import edu.colorado.phet.statesofmatter.model.engine.DiatomicPhaseStateChanger;
+import edu.colorado.phet.statesofmatter.model.engine.DiatomicVerletAlgorithm;
 import edu.colorado.phet.statesofmatter.model.engine.EngineFacade;
 import edu.colorado.phet.statesofmatter.model.engine.MoleculeForceAndMotionCalculator;
 import edu.colorado.phet.statesofmatter.model.engine.MonatomicAtomPositionUpdater;
@@ -824,8 +825,8 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
         // Execute the Verlet algorithm.  The algorithm may be run several times
         // for each time step.
         for (int i = 0; i < VERLET_CALCULATIONS_PER_CLOCK_TICK; i++ ){
-//        	m_moleculeForceAndMotionCalculator.updateForcesAndMotion();
-//        	runThermostat();
+        	m_moleculeForceAndMotionCalculator.updateForcesAndMotion();
+        	runThermostat();
         }
         
         // Sync up the positions of the normalized particles (the molecule data
@@ -1020,7 +1021,7 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
         // Create the strategies that will work on this data set.
         m_phaseStateChanger = new DiatomicPhaseStateChanger( this );
         m_atomPositionUpdater = new DiatomicAtomPositionUpdater();
-//        m_moleculeForceAndMotionCalculator = new MonatomicVerletAlgorithm( this ); TODO: JPB TBD - put in the real one.
+        m_moleculeForceAndMotionCalculator = new DiatomicVerletAlgorithm( this );
         m_isoKineticThermostat = new IsokineticThermostat( m_moleculeDataSet, m_minModelTemperature );
         m_andersenThermostat = new AndersenThermostat( m_moleculeDataSet, m_minModelTemperature );
         

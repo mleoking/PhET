@@ -69,7 +69,13 @@ public class MoleculeForceAndMotionDataSet {
         m_nextMoleculeTorques    = new double [StatesOfMatterConstants.MAX_NUM_ATOMS / m_atomsPerMolecule];
         
         // Set default values.
-        m_moleculeMass = 1;
+        if (atomsPerMolecule == 1){
+            m_moleculeMass = 1;
+        }
+        else if (atomsPerMolecule == 2){
+        	m_moleculeMass = 2; // Two molecules, assumed to be the same.
+        	m_moleculeRotationalInertia = Math.pow( StatesOfMatterConstants.DIATOMIC_PARTICLE_DISTANCE, 2 ) / 2;
+        }
 	}
 
     //----------------------------------------------------------------------------
@@ -79,15 +85,19 @@ public class MoleculeForceAndMotionDataSet {
 	public int getAtomsPerMolecule() {
 		return m_atomsPerMolecule;
 	}
+	
 	public Point2D[] getAtomPositions() {
 		return m_atomPositions;
 	}
+	
 	public void setAtomPositions(Point2D[] positions) {
 		m_atomPositions = positions;
 	}
+	
 	public int getNumberOfAtoms() {
 		return m_numberOfAtoms;
 	}
+	
 	public int getNumberOfMolecules() {
 		return m_numberOfAtoms / m_atomsPerMolecule;
 	}
@@ -95,79 +105,104 @@ public class MoleculeForceAndMotionDataSet {
 	public int getNumberOfSafeMolecules() {
 		return m_numberOfSafeMolecules;
 	}
+	
 	public void setNumberOfSafeMolecules(int numSafeMolecules) {
 		m_numberOfSafeMolecules = numSafeMolecules;
 	}
+	
     public Point2D[] getMoleculeCenterOfMassPositions() {
 		return m_moleculeCenterOfMassPositions;
 	}
+    
 	public void setMoleculeCenterOfMassPositions(
 			Point2D[] centerOfMassPositions) {
 		m_moleculeCenterOfMassPositions = centerOfMassPositions;
 	}
+	
 	public Vector2D[] getMoleculeVelocities() {
 		return m_moleculeVelocities;
 	}
+	
 	public void setMoleculeVelocities(Vector2D[] velocities) {
 		m_moleculeVelocities = velocities;
 	}
+	
 	public Vector2D[] getMoleculeForces() {
 		return m_moleculeForces;
 	}
+	
 	public void setMoleculeForces(Vector2D[] forces) {
 		m_moleculeForces = forces;
 	}
+	
 	public Vector2D[] getNextMoleculeForces() {
 		return m_nextMoleculeForces;
 	}
+	
 	public void setNextMoleculeForces(Vector2D[] moleculeForces) {
 		m_nextMoleculeForces = moleculeForces;
 	}
+	
 	public double[] getMoleculeRotationAngles() {
 		return m_moleculeRotationAngles;
 	}
+	
 	public void setMoleculeRotationAngles(double[] rotationAngles) {
 		m_moleculeRotationAngles = rotationAngles;
 	}
+	
 	public double[] getMoleculeRotationRates() {
 		return m_moleculeRotationRates;
 	}
+	
 	public void setMoleculeRotationRates(double[] rotationRates) {
 		m_moleculeRotationRates = rotationRates;
 	}
+	
 	public double[] getMoleculeTorques() {
 		return m_moleculeTorques;
 	}
+	
 	public void setMoleculeTorques(double[] torques) {
 		m_moleculeTorques = torques;
 	}
+	
 	public double[] getNextMoleculeTorques() {
 		return m_nextMoleculeTorques;
 	}
+	
 	public void setNextMoleculeTorques(double[] moleculeTorques) {
 		m_nextMoleculeTorques = moleculeTorques;
 	}
+	
 	public double getMoleculeMass() {
 		return m_moleculeMass;
 	}
+	
 	public void setMoleculeMass(double mass) {
 		m_moleculeMass = mass;
 	}
+	
 	public double getMoleculeRotationalInertia() {
 		return m_moleculeRotationalInertia;
 	}
+	
 	public void setMoleculeRotationalInertia(double rotationalInertia) {
 		m_moleculeRotationalInertia = rotationalInertia;
 	}
+	
 	public double[] getX0() {
 		return m_x0;
 	}
+	
 	public void setX0(double[] m_x0) {
 		this.m_x0 = m_x0;
 	}
+	
 	public double[] getY0() {
 		return m_y0;
 	}
+	
 	public void setY0(double[] m_y0) {
 		this.m_y0 = m_y0;
 	}

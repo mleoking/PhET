@@ -96,6 +96,7 @@ public class AndersenThermostat implements Thermostat {
         double gammaX = 0.9999;
         double gammaY = gammaX;
         double temperature = m_targetTemperature;
+
         if (temperature <= m_minModelTemperature){
         	// Use a values that will cause the molecules to stop
         	// moving if we are below the minimum temperature, since
@@ -105,10 +106,18 @@ public class AndersenThermostat implements Thermostat {
         	                  // stop falling when absolute zero is reached.
         	temperature = 0;
         }
+
+        double massInverse = 1 / m_moleculeDataSet.getMoleculeMass();
+        double inertiaInverse = 1 / m_moleculeDataSet.getMoleculeRotationalInertia();
+        double velocityScalingFactor = Math.sqrt( temperature * massInverse * (1 - Math.pow( gammaX, 2)));
+        double rotationScalingFactor = Math.sqrt( temperature * inertiaInverse * (1 - Math.pow( gammaX, 2)));
+
         for (int i = 0; i < m_moleculeDataSet.getNumberOfMolecules(); i++){
-            double xVel = m_moleculeVelocities[i].getX() * gammaX + m_rand.nextGaussian() * Math.sqrt(  temperature * (1 - Math.pow(gammaX, 2)) );
-            double yVel = m_moleculeVelocities[i].getY() * gammaY + m_rand.nextGaussian() * Math.sqrt(  temperature * (1 - Math.pow(gammaX, 2)) );
+            double xVel = m_moleculeVelocities[i].getX() * gammaX + m_rand.nextGaussian() * velocityScalingFactor;
+            double yVel = m_moleculeVelocities[i].getY() * gammaY + m_rand.nextGaussian() * velocityScalingFactor;
             m_moleculeVelocities[i].setComponents( xVel, yVel );
+            m_moleculeRotationRates[i] = gammaX * m_moleculeRotationRates[i] + m_rand.nextGaussian() * 
+                rotationScalingFactor;
         }
 	}
 

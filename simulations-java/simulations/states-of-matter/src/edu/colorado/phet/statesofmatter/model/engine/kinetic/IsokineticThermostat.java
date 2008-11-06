@@ -115,6 +115,7 @@ public class IsokineticThermostat implements Thermostat {
         for (int i = 0; i < m_moleculeDataSet.getNumberOfMolecules(); i++){
             m_moleculeVelocities[i].setComponents( m_moleculeVelocities[i].getX() * temperatureScaleFactor, 
                     m_moleculeVelocities[i].getY() * temperatureScaleFactor );
+            m_moleculeRotationRates[i] *= temperatureScaleFactor; // Doesn't hurt anything in the monatomic case.
         }
 	}
 }

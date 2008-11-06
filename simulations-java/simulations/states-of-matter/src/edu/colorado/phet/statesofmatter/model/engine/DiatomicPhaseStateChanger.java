@@ -114,7 +114,11 @@ public class DiatomicPhaseStateChanger extends AbstractPhaseStateChanger {
                 moleculeVelocities[(i * moleculesPerLayer) + j].setComponents( xVel, yVel ); 
             }
         }
-
+        
+        // Assume that we've done our job correctly and that all the atoms are
+        // in safe positions.
+        m_model.getMoleculeDataSetRef().setNumberOfSafeMolecules( numberOfMolecules );
+        
         // Update the atom positions to match.
         m_positionUpdater.updateAtomPositions( moleculeDataSet );
 	}
@@ -198,6 +202,10 @@ public class DiatomicPhaseStateChanger extends AbstractPhaseStateChanger {
             }
         }
     
+        // Assume that we've done our job correctly and that all the atoms are
+        // in safe positions.
+        m_model.getMoleculeDataSetRef().setNumberOfSafeMolecules( numberOfMolecules );
+        
         // Sync up the atom positions with the molecule positions.
         m_positionUpdater.updateAtomPositions( moleculeDataSet );
 	}
@@ -272,6 +280,10 @@ public class DiatomicPhaseStateChanger extends AbstractPhaseStateChanger {
                 }
             }
         }
+        
+        // Assume that we've done our job correctly and that all the atoms are
+        // in safe positions.
+        m_model.getMoleculeDataSetRef().setNumberOfSafeMolecules( numberOfMolecules );
         
         // Sync up the atom positions with the molecule positions.
         m_positionUpdater.updateAtomPositions( moleculeDataSet );

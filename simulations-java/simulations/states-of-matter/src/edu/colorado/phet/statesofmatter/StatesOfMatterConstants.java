@@ -20,7 +20,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
  */
 public class StatesOfMatterConstants {
     
-    /* Not intended for instantiation. */
+	/* Not intended for instantiation. */
     private StatesOfMatterConstants() {}
     
     //----------------------------------------------------------------------------
@@ -142,6 +142,10 @@ public class StatesOfMatterConstants {
     public static final double THETA_HOH = 120*Math.PI/180;  // This is not quite the real value for a water
                                                              // molecule, but it is close and worked better in
                                                              // the simulation.
+
+    // Distance between diatomic pairs.
+    public static final double DIATOMIC_PARTICLE_DISTANCE = 0.9;  // In particle diameters.
+
 
     
     //----------------------------------------------------------------------------

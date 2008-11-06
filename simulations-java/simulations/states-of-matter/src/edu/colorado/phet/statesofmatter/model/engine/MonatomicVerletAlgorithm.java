@@ -10,7 +10,7 @@ import edu.colorado.phet.statesofmatter.model.MultipleParticleModel2;
 
 /**
  * Implementation of the Verlet algorithm for simulating molecular interaction
- * based on the Lennard-Jones potential - monatomic (i.e. on atom per
+ * based on the Lennard-Jones potential - monatomic (i.e. one atom per
  * molecule) version.
  * 
  * @author John Blanco
@@ -192,6 +192,5 @@ public class MonatomicVerletAlgorithm extends AbstractVerletAlgorithm {
         for (int i = 0; i < numberOfAtoms; i++){
             moleculeForces[i].setComponents( nextMoleculeForces[i].getX(), nextMoleculeForces[i].getY() );
         }
-
 	}
 }
