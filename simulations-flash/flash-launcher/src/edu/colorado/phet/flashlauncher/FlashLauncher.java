@@ -72,7 +72,6 @@ public class FlashLauncher {
      * Launches the simulation in a web browser.
      */
     private void start() throws IOException {
-//        handleTrackingAndUpdates();
         println( "FlashLauncher.start" );
         String unzipDirName = System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.separator" ) + "phet-" + sim;
         println( "unzipping to directory = " + unzipDirName );
@@ -105,20 +104,6 @@ public class FlashLauncher {
         println( "Starting openurl" );
         BareBonesBrowserLaunch.openURL( "file://" + htmlFile.getAbsolutePath() );
     }
-
-//    private void handleTrackingAndUpdates() {
-//        System.out.println( "FlashLauncher.handleTrackingAndUpdates" );
-//        PhetApplicationConfig config = new PhetApplicationConfig( new String[]{"-tracking", "-updates"}, sim );
-//        long applicationLaunchFinishedAt = System.currentTimeMillis();
-//        config.setApplicationLaunchFinishedAt( applicationLaunchFinishedAt );
-//
-//        TrackingManager.initInstance( config );
-//        TrackingManager.postMessage( new SessionStartedMessage( config ) );
-//        Frame hiddenParent = new JFrame();
-//        hiddenParent.setLocation( Toolkit.getDefaultToolkit().getScreenSize().width / 2,
-//                                  Toolkit.getDefaultToolkit().getScreenSize().height / 2 );
-//        new UpdateApplicationManager( config ).applicationStarted( hiddenParent, config, config );
-//    }
 
     private static Properties readProperties( String sim ) {
         String propertiesFileName = sim + ".properties";
