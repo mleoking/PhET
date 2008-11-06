@@ -59,7 +59,7 @@ public class TUResources {
      * @return
      */
     public static String getVersion() {
-        return RESOURCES.getVersion().formatForAboutDialog();
+        return RESOURCES.getVersion().formatMajorMinorDevRevision();
     }
     
     /**
