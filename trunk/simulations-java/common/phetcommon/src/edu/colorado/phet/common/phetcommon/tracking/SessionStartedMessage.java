@@ -19,6 +19,7 @@ public class SessionStartedMessage extends TrackingMessage {
                 //Sim info first
                 new TrackingEntry( "project", config.getProjectName() ),
                 new TrackingEntry( "sim", config.getFlavor() ),
+                new TrackingEntry( "sim-type", "java" ), // to easily distinguish between Java and Flash sims
                 new TrackingEntry( "sim-version", config.getVersion().toString() ),
                 new TrackingEntry( "sim-locale", PhetResources.readLocale().toString() ),
                 new TrackingEntry( "dev", config.isDev() + "" ),
