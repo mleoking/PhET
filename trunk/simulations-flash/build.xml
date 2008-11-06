@@ -40,7 +40,7 @@
     	<mkdir dir="${jar-inputs}"/>
 
     	<!-- create FlashLauncher class files -->
-        <javac srcdir="${flash-launcher-src}" destdir="${jar-inputs}"/>
+		<javac srcdir="${flash-launcher-src}" destdir="${jar-inputs}" source="1.4" target="1.4" debug="true" debuglevel="lines, vars, source"/>
 
     	<!--copy the html template -->
         <copy file="${rootDir}/flash-launcher/data/flash-launcher-template.html" todir="${jar-inputs}"/>
