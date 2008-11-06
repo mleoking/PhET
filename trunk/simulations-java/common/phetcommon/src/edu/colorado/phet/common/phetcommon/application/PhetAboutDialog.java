@@ -75,7 +75,7 @@ public class PhetAboutDialog extends JDialog {
             new Exception( "null description string, continuing" ).printStackTrace();
             descriptionString = "";
         }
-        versionString = config.getVersion().formatForAboutDialog();
+        versionString = config.getVersion().formatMajorMinorDevRevision();
         creditsString = config.getCredits();
 
         setTitle( TITLE + " " + titleString );

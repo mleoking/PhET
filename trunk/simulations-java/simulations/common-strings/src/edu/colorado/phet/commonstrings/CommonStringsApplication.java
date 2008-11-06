@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
  */
 public class CommonStringsApplication {
     
-    private static final String VERSION_ID = new PhetResources( "common-strings" ).getVersion().formatForAboutDialog();
+    private static final String VERSION_ID = new PhetResources( "common-strings" ).getVersion().formatMajorMinorDevRevision();
     
     private CommonStringsApplication() {}
 

@@ -17,8 +17,8 @@ public class ZPhetProjectVersionTester extends TestCase {
     }
 
     public void testFormatForAboutDialog() {
-        assertEquals( "1.02.00 (1234)", VERSION_PUBLIC.formatForAboutDialog() );
-        assertEquals( "1.02.03 (1234)", VERSION_DEV.formatForAboutDialog() );
+        assertEquals( "1.02.00 (1234)", VERSION_PUBLIC.formatMajorMinorDevRevision() );
+        assertEquals( "1.02.03 (1234)", VERSION_DEV.formatMajorMinorDevRevision() );
     }
 
     public void testToString() {
