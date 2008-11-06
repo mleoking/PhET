@@ -32,6 +32,7 @@ import edu.colorado.phet.nuclearphysics.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.view.BucketOfNucleiNode;
 import edu.colorado.phet.nuclearphysics.view.GrabbableNucleusImageNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -85,10 +86,10 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     
     // The following rectangles are used to define the locations where
     // randomly placed nuclei can and cannot be put.
-    private Rectangle2D _nucleusPlacementAreaRect;
-    private Rectangle2D _paddedBucketRect;
-    private Rectangle2D _paddedResetButtonRect;
-    private Rectangle2D _paddedAddButtonRect;
+    private Rectangle2D _nucleusPlacementAreaRect = new Rectangle2D.Double();
+    private Rectangle2D _paddedBucketRect = new Rectangle2D.Double();
+    private Rectangle2D _paddedResetButtonRect = new Rectangle2D.Double();
+    private Rectangle2D _paddedAddButtonRect = new Rectangle2D.Double();
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -217,8 +218,32 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
         double y = -worldSize.getHeight() * HEIGHT_TRANSLATION_FACTOR + chartSize.getHeight()
       		+ MIN_NUCLEUS_TO_OBSTACLE_DISTANCE;
         double height = worldSize.getHeight() - chartSize.getHeight() - (MIN_NUCLEUS_TO_OBSTACLE_DISTANCE * 2);
-        _nucleusPlacementAreaRect = new Rectangle2D.Double(x, y, width, height);
-        System.out.println("Placement rectangle size = " + _nucleusPlacementAreaRect);
+        _nucleusPlacementAreaRect.setRect(x, y, width, height);
+        
+        // Update the rectangle that is used to prevent nuclei from being
+        // placed where the reset button resides.
+        Dimension2D resetButtonSize = new PDimension(_resetButtonNode.getFullBoundsReference().width,
+        		_resetButtonNode.getFullBoundsReference().height);
+        getPhetRootNode().screenToWorld(resetButtonSize);
+        Point2D resetButtonLocation = _resetButtonNode.getOffset();
+        getPhetRootNode().screenToWorld(resetButtonLocation);
+        
+        x = resetButtonLocation.getX() - MIN_NUCLEUS_TO_OBSTACLE_DISTANCE;
+        width = resetButtonSize.getWidth() + (MIN_NUCLEUS_TO_OBSTACLE_DISTANCE * 2);
+        y = resetButtonLocation.getY() - MIN_NUCLEUS_TO_OBSTACLE_DISTANCE;
+        height = resetButtonSize.getHeight() + (MIN_NUCLEUS_TO_OBSTACLE_DISTANCE * 2);
+        _paddedResetButtonRect.setRect(x, y, width, height);
+        
+        // Update the rectangle that is used to prevent nuclei from being
+        // placed where the bucket resides.  NOTE: Since the bucket is a
+        // world child, this could actually be done in the constructor and
+        // never updated, but it is done here for consistency.
+        x = _bucketRect.getX() - MIN_NUCLEUS_TO_OBSTACLE_DISTANCE;
+        width = _bucketRect.getWidth() + (MIN_NUCLEUS_TO_OBSTACLE_DISTANCE * 2);
+        y = _bucketRect.getY() - MIN_NUCLEUS_TO_OBSTACLE_DISTANCE;
+        height = _bucketRect.getHeight() + (MIN_NUCLEUS_TO_OBSTACLE_DISTANCE * 3); // Add a little extra to account for
+                                                                                   // the button below the bucket.
+        _paddedBucketRect.setRect(x, y, width, height);
 	}
 
 	private void handleModelElementAdded(Object modelElement) {
@@ -371,12 +396,64 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
      * to close to an existing one.
      * @return
      */
-    private Point2D findOpenSpotForNucleus(){
+    private Point2D findOpenSpotForNucleus(AtomicNucleusNode nucleusNode){
 
-    	// TODO: JPB TBD - Need to see if this is actually open instead of just generating a random spot.
-    	double xPos = _nucleusPlacementAreaRect.getX() + (_rand.nextDouble() * _nucleusPlacementAreaRect.getWidth());
-    	double yPos = _nucleusPlacementAreaRect.getY() + (_rand.nextDouble() * _nucleusPlacementAreaRect.getHeight());
-    	return new Point2D.Double(xPos, yPos);
+    	double xPos, yPos;
+    	boolean openSpotFound = false;
+    	Point2D openLocation = new Point2D.Double();
+    	
+    	for (int i = 0; i < 3 && !openSpotFound; i++){
+    		
+    		double minInterNucleusDistance = PREFERRED_INTER_NUCLEUS_DISTANCE;
+    		
+    		if (i == 1){
+    			// Lower our standards.
+    			minInterNucleusDistance = PREFERRED_INTER_NUCLEUS_DISTANCE / 2;
+    		}
+    		else if (i == 3){
+    			// Anything goes - nuclei may end up on top of each other.
+    			minInterNucleusDistance = 0;
+        		System.err.println("WARNING: Allowing nucleus to overlap with others.");
+    		}
+    		
+        	for (int j = 0; j < MAX_PLACEMENT_ATTEMPTS & !openSpotFound; j++){
+        		// Generate a candidate location.
+            	xPos = _nucleusPlacementAreaRect.getX() + (_rand.nextDouble() * _nucleusPlacementAreaRect.getWidth());
+            	yPos = _nucleusPlacementAreaRect.getY() + (_rand.nextDouble() * _nucleusPlacementAreaRect.getHeight());
+            	openLocation.setLocation(xPos, yPos);
+            	
+            	// Innocent until proven guilty.
+            	openSpotFound = true;
+            	
+            	if (_paddedResetButtonRect.contains(openLocation)){
+            		openSpotFound = false;
+            		continue;
+            	}
+            	if (_paddedBucketRect.contains(openLocation)){
+            		openSpotFound = false;
+            		continue;
+            	}
+
+            	// Check the position against all other nuclei and make sure that
+            	// it is not too close.
+            	AtomicNucleus thisNucleus = nucleusNode.getNucleusRef();
+                Set entries = _mapNucleiToNodes.entrySet();
+                Iterator iterator = entries.iterator();
+                while (iterator.hasNext() && openSpotFound == true) {
+                    Map.Entry entry = (Map.Entry)iterator.next();
+                    AtomicNucleus nucleus = (AtomicNucleus)entry.getKey();
+                    if (!_bucketNode.isNodeInBucket((AtomicNucleusNode)_mapNucleiToNodes.get(nucleus))){
+                        if ((thisNucleus != nucleus) &&
+                        	(openLocation.distance(nucleus.getPositionReference()) < minInterNucleusDistance)){
+                        	openSpotFound = false;
+                        	break;
+                        }
+                    }
+                }
+        	}
+    	}
+    	
+    	return openLocation;
     }
     
     /**
@@ -400,7 +477,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     			transferNodeFromBucketToCanvas(nucleusNode);
     			
     			// Move the nucleus to a safe location.
-    			nucleusNode.getNucleusRef().setPosition(findOpenSpotForNucleus());
+    			nucleusNode.getNucleusRef().setPosition(findOpenSpotForNucleus(nucleusNode));
     			
     			// Activate the nucleus so that it will decay.
     			AtomicNucleus nucleus = nucleusNode.getNucleusRef();
