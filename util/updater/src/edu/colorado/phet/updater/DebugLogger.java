@@ -5,7 +5,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class DebugLogger {
-    public static File logFile = new File( "phet-logfile.txt" );
+    
+    public static File logFile = new File( System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.separator" ) + "updater-log.txt" );
     private static FileWriter fileWriter;
 
     static {
