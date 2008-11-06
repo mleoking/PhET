@@ -10,11 +10,11 @@ import java.text.MessageFormat;
 public class PhetVersion {
 
     // title bar format for public releases, major.minor
-    private static final String TITLEBAR_FORMAT_PUBLIC = "{0}.{1}";
+    private static final String FORMAT_MAJOR_MINOR = "{0}.{1}";
     // title bar format for development releases, major.minor.dev
-    private static final String TITLEBAR_FORMAT_DEV = "{0}.{1}.{2}";
+    private static final String FORMAT_MAJOR_MINOR_DEV = "{0}.{1}.{2}";
     // About dialog format, major.minor.dev (revision)
-    private static final String ABOUT_DIALOG_FORMAT = "{0}.{1}.{2} ({3})";
+    private static final String FORMAT_MAJOR_MINOR_DEV_REVISION = "{0}.{1}.{2} ({3})";
 
     private final String major, minor, dev, revision;
 
@@ -56,6 +56,13 @@ public class PhetVersion {
     public int getRevisionAsInt() {
         return getAsInt( getRevision() );
     }
+    
+    /*
+     * A development version has a non-zero dev number.
+     */
+    private boolean isDevVersion() {
+        return getDevAsInt() != 0;
+    }
 
     /**
      * Formats the version information for use in the application's title bar.
@@ -66,24 +73,26 @@ public class PhetVersion {
      * @return String
      */
     public String formatForTitleBar() {
-        Object[] args = {major, minor, dev};
-        String pattern = ( getDevAsInt() == 0 ) ? TITLEBAR_FORMAT_PUBLIC : TITLEBAR_FORMAT_DEV;
-        return MessageFormat.format( pattern, args );
+        return isDevVersion() ? formatMajorMinorDev() : formatMajorMinor();
     }
 
-    /**
-     * Formats the version information for use in the Help>About dialog.
-     * This format shows the complete version information in all circumstances.
-     *
-     * @return String
-     */
-    public String formatForAboutDialog() {
+    public String formatMajorMinorDevRevision() {
         Object[] args = {major, minor, dev, revision};
-        return MessageFormat.format( ABOUT_DIALOG_FORMAT, args );
+        return MessageFormat.format( FORMAT_MAJOR_MINOR_DEV_REVISION, args );
+    }
+    
+    public String formatMajorMinorDev() {
+        Object[] args = {major, minor, dev};
+        return MessageFormat.format( FORMAT_MAJOR_MINOR_DEV, args );
+    }
+    
+    public String formatMajorMinor() {
+        Object[] args = {major, minor};
+        return MessageFormat.format( FORMAT_MAJOR_MINOR, args );
     }
 
     public String toString() {
-        return formatForAboutDialog();
+        return formatMajorMinorDevRevision();
     }
 
     public boolean equals( Object o ) {
@@ -123,6 +132,7 @@ public class PhetVersion {
             i = Integer.parseInt( number );
         }
         catch( NumberFormatException e ) {
+            e.printStackTrace();
             i = -1;
         }
         return i;
@@ -130,6 +140,6 @@ public class PhetVersion {
 
     public boolean isGreaterThan( PhetVersion version ) {
         //todo: should this use major/minor/dev to determine ordering?
-        return getRevisionAsInt()>version.getRevisionAsInt();
+        return getRevisionAsInt() > version.getRevisionAsInt();
     }
 }
