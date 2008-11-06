@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
@@ -62,8 +63,11 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     // Number of tries for finding open nucleus location.
     private final static int MAX_PLACEMENT_ATTEMPTS = 100;
     
-    // Preferred distance between nuclei when placing them on the canvas.
-    private static final double PREFERRED_INTER_NUCLEUS_DISTANCE = 15;
+    // Preferred distance between nucleus centers when placing them on the canvas.
+    private static final double PREFERRED_INTER_NUCLEUS_DISTANCE = 15;  // In femtometers.
+    
+    // Minimum distance between the center of a nucleus and a wall or other obstacle.
+    private static final double MIN_NUCLEUS_TO_OBSTACLE_DISTANCE = 10;  // In femtometers.
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -78,6 +82,13 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     private HashMap _mapNucleiToNodes = new HashMap();
     private GrabbableNucleusImageNode.Listener _grabbableNodeListener;
     private Random _rand = new Random();
+    
+    // The following rectangles are used to define the locations where
+    // randomly placed nuclei can and cannot be put.
+    private Rectangle2D _nucleusPlacementAreaRect;
+    private Rectangle2D _paddedBucketRect;
+    private Rectangle2D _paddedResetButtonRect;
+    private Rectangle2D _paddedAddButtonRect;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -129,7 +140,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
         _alphaDecayTimeChart = new AlphaDecayTimeChart(singleNucleusAlphaDecayModel.getClock(), 
         		singleNucleusAlphaDecayModel.getAtomNucleus());
         addScreenChild( _alphaDecayTimeChart );
-
+        
         // Create and add the node the represents the bucket from which nuclei
         // can be extracted and added to the play area.
         _bucketRect = _model.getBucketRectRef();
@@ -163,17 +174,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
              * aware of it.
              */
             public void componentResized( ComponentEvent e ) {
-                
-                // Redraw the time chart.
-                _alphaDecayTimeChart.componentResized( new Rectangle2D.Double( 0, 0, getWidth(),
-                        getHeight() * TIME_CHART_FRACTION));
-                
-                // Position the time chart.
-                _alphaDecayTimeChart.setOffset( 0, 0 );
-                
-                // Position the reset button.
-                _resetButtonNode.setOffset( (0.82 * getWidth()) - (_resetButtonNode.getFullBoundsReference().width / 2),
-                        0.30 * getHeight() );
+                update();
             }
         } );
         
@@ -189,6 +190,37 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
         };
     }
     
+	public void update() {
+		
+		super.update();
+		
+		// Redraw the time chart.
+        _alphaDecayTimeChart.componentResized( new Rectangle2D.Double( 0, 0, getWidth(),
+                getHeight() * TIME_CHART_FRACTION));
+        
+        // Position the time chart.
+        _alphaDecayTimeChart.setOffset( 0, 0 );
+        
+        // Position the reset button.
+        _resetButtonNode.setOffset( (0.82 * getWidth()) - (_resetButtonNode.getFullBoundsReference().width / 2),
+                0.30 * getHeight() );
+        
+        // Update the rectangle that defines the outer boundary where
+        // randomly placed nuclei can be put.
+        Dimension2D chartSize = new PDimension(_alphaDecayTimeChart.getFullBoundsReference().width,
+        		_alphaDecayTimeChart.getFullBoundsReference().height);
+        getPhetRootNode().screenToWorld(chartSize);
+        
+        Dimension2D worldSize = getWorldSize();
+        double x = -worldSize.getWidth() * WIDTH_TRANSLATION_FACTOR + MIN_NUCLEUS_TO_OBSTACLE_DISTANCE;
+        double width = worldSize.getWidth() - (MIN_NUCLEUS_TO_OBSTACLE_DISTANCE * 2);
+        double y = -worldSize.getHeight() * HEIGHT_TRANSLATION_FACTOR + chartSize.getHeight()
+      		+ MIN_NUCLEUS_TO_OBSTACLE_DISTANCE;
+        double height = worldSize.getHeight() - chartSize.getHeight() - (MIN_NUCLEUS_TO_OBSTACLE_DISTANCE * 2);
+        _nucleusPlacementAreaRect = new Rectangle2D.Double(x, y, width, height);
+        System.out.println("Placement rectangle size = " + _nucleusPlacementAreaRect);
+	}
+
 	private void handleModelElementAdded(Object modelElement) {
 
     	if (modelElement instanceof Polonium211Nucleus){
@@ -342,10 +374,8 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     private Point2D findOpenSpotForNucleus(){
 
     	// TODO: JPB TBD - Need to see if this is actually open instead of just generating a random spot.
-    	double height = CANVAS_HEIGHT - (TIME_CHART_FRACTION * CANVAS_HEIGHT);
-    	double width = CANVAS_WIDTH * 0.8;
-    	double xPos = (_rand.nextDouble() * width) - (width * WIDTH_TRANSLATION_FACTOR);
-    	double yPos = (_rand.nextDouble() * height) - (CANVAS_HEIGHT / 2 - (TIME_CHART_FRACTION * CANVAS_HEIGHT));
+    	double xPos = _nucleusPlacementAreaRect.getX() + (_rand.nextDouble() * _nucleusPlacementAreaRect.getWidth());
+    	double yPos = _nucleusPlacementAreaRect.getY() + (_rand.nextDouble() * _nucleusPlacementAreaRect.getHeight());
     	return new Point2D.Double(xPos, yPos);
     }
     
