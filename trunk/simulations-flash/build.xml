@@ -24,9 +24,6 @@
     <!-- DO NOT change these -->
     <property name="rootDir" value="."/>
     <property name="flash-launcher-src" location="${rootDir}/flash-launcher/src"/>
-    <property name="simulations-java" location="${rootDir}/../simulations-java"/>
-    <property name="phetcommon" location="${simulations-java}/common/phetcommon"/>
-    <property name="contrib" location="${rootDir}/../simulations-java/contrib"/>
     <property name="build" location="${rootDir}/build"/>
     <property name="jar-inputs" location="${build}/jar-inputs"/>
     <property name="build-tools" location="${rootDir}/build-tools"/>
@@ -36,42 +33,39 @@
 	<property name="prod-rootdir" value="/web/htdocs/phet"/>
 	<property name="prod-flash-launcher-dir" value="/web/htdocs/phet/phet-dist/flash-launcher"/>
 
-    <taskdef resource="proguard/ant/task.properties"
-                 classpath="${simulations-java}/build-tools/proguard/lib/proguard.jar" />
-
-    <!-- deploys flash-launch to the production server -->
+	<!-- deploys flash-launch to the production server -->
 	<target name="deploy-flash-launcher" depends="clean-build">
 
         <mkdir dir="${build}"/>
     	<mkdir dir="${jar-inputs}"/>
-    	
+
     	<!-- create FlashLauncher class files -->
-        <javac srcdir="${flash-launcher-src}" destdir="${jar-inputs}" source="1.4" target="1.4" debug="true" debuglevel="lines, vars, source"/>
-		
+        <javac srcdir="${flash-launcher-src}" destdir="${jar-inputs}"/>
+
     	<!--copy the html template -->
         <copy file="${rootDir}/flash-launcher/data/flash-launcher-template.html" todir="${jar-inputs}"/>
-        
+
 	    <!-- create a jar so we have a manifest -->
         <jar jarfile="${build}/flash-launcher.jar" basedir="${jar-inputs}">
             <manifest>
                 <attribute name="Main-Class" value="edu.colorado.phet.flashlauncher.FlashLauncher"/>
             </manifest>
         </jar>
-                	
+
 	    <!-- unpack the jar -->
 		<unjar src="${build}/flash-launcher.jar" dest="${build}"/>
-		
+
 		<!-- delete what we don't need -->
 		<delete dir="${jar-inputs}"/>
 		<delete file="${build}/flash-launcher.jar"/>
-		
+
 	    <!-- scp the files to the production server -->
 		<scp sftp="true" todir="${prod-username}:${prod-password}@${prod-server}:${prod-flash-launcher-dir}">
 		    <fileset dir="${build}"/>
 		</scp>
-		
+
 	</target>
-	
+
 	<!-- deploys a sim to the dev server -->
 	<target name="deploy-to-dev" depends="clean-build">
 		<!-- increment version.dev -->
@@ -79,7 +73,7 @@
 		<!-- check in ${sim}/deploy/${sim}.properties -->
 	    <!-- scp all files to sim dir on dev server -->
 	</target>
-	
+
 	<!-- deploys a sim to the production and dev servers -->
 	<target name="deploy-to-prod" depends="clean-build">
 		<!-- set version.dev to 0 -->
@@ -89,7 +83,7 @@
 	    <!-- scp all files to sim dir on dev server -->
 	    <!-- scp all files to sim dir on production server -->
 	</target>
-	
+
 	<!-- creates the version number for a new major release -->
 	<target name="create-major-version-number">
 		<!-- read sim's properties file -->
@@ -97,7 +91,7 @@
 		<!-- write to sim's properties file -->
 		<!-- check in to svn -->
 	</target>
-	
+
 	<!-- creates the version number for a new minor release -->
 	<target name="create-minor-version-number">
 		<!-- read sim's properties file -->
@@ -105,7 +99,7 @@
 		<!-- write to sim's properties file -->
 		<!-- check in to svn -->
 	</target>
-		
+
     <!-- creates the version number for a new dev release -->
     <target name="create-dev-version-number">
 		<!-- read sim's properties file -->
@@ -113,58 +107,53 @@
 		<!-- write to sim's properties file -->
 		<!-- check in to svn -->
 	</target>
-	
+
 	<target name="rebuild-all-html-files">
 		<!-- for every xml file, create html file -->
 		<!-- check html files into svn -->
 	</target>
-	
+
 	<target name="integrate-translations">
 		<!-- for each xml file... -->
 		<!-- generate html file -->
 		<!-- check in xml and html files -->
 		<!-- scp xml and html files to production server -->
 	</target>
-	
+
 	<!-- creates a runnable JAR file for testing a Flash sim, puts it in build directory -->
     <target name="create-test-jar" depends="clean-build">
-    	
+
         <mkdir dir="${build}"/>
     	<mkdir dir="${jar-inputs}"/>
-    	
+
     	<!-- create FlashLauncher class file -->
-        <javac srcdir="${flash-launcher-src} : ${phetcommon}/src" destdir="${jar-inputs}" classpath="${contrib}/junit/junit.jar : ${contrib}/jmock/jmock.jar : ${contrib}/javaws/jnlp.jar" debug="true" debuglevel="lines,source"/>
-    	
+        <javac srcdir="${flash-launcher-src}" destdir="${jar-inputs}"/>
+
     	<!-- copy swf file -->
         <copy file="${rootDir}/simulations/${sim}/deploy/${sim}.swf" todir="${jar-inputs}"/>
-    	
+
         <!-- copy xml files -->
         <copy todir="${jar-inputs}">
             <fileset dir="${rootDir}/simulations/${sim}/deploy/" includes="${sim}-strings_*"/>
         </copy>
-    	
+
     	<!--copy the html template -->
         <copy file="${rootDir}/flash-launcher/data/flash-launcher-template.html" todir="${jar-inputs}"/>
-    	
+
     	<!-- create args file -->
         <echo file="${jar-inputs}/flash-launcher-args.txt" message="${sim} ${language} ${flash-launcher-extra-args}"/>
-    	
+
     	<!-- copy properties file -->
         <copy file="${rootDir}/simulations/${sim}/deploy/${sim}.properties" todir="${jar-inputs}"/>
 
-        <copydir src="${phetcommon}/data" dest="${jar-inputs}"/>
-
-        <!-- create jar -->
+    	<!-- create jar -->
         <jar jarfile="${build}/${sim}_${language}.jar" basedir="${jar-inputs}">
             <manifest>
                 <attribute name="Main-Class" value="edu.colorado.phet.flashlauncher.FlashLauncher"/>
             </manifest>
         </jar>
 
-
-        <proguard configuration="proguard.pro"/>
-
-        <!-- delete the files that were added to the jar -->
+    	<!-- delete the files that were added to the jar -->
     	<delete dir="${jar-inputs}"/>
                 	
     </target>
