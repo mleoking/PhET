@@ -3,6 +3,7 @@ Change history for translation-utility
 ================================================================================
 
 DONE:
+11/6/08 - see #912, generate Java 1.4 bytecode when creating translation-utility JAR
 # 1.08.00 (25822)
 > add PhET-assigned language code for Brazilian Portuguese
 11/5/08 - #893, assign a language code for Brazilian Portuguese
