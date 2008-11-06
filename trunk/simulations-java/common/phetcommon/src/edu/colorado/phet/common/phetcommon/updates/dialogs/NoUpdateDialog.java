@@ -6,16 +6,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.MessageFormat;
 
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPane;
 
 
-public class NoUpdateDialog extends AbstractUpdateDialog {
+public class NoUpdateDialog extends JDialog {
     
     private static final String TITLE = PhetCommonResources.getString( "Common.updates.updateToDate");
     private static final String OK_BUTTON = PhetCommonResources.getString( "Common.choice.ok" );
@@ -55,7 +57,13 @@ public class NoUpdateDialog extends AbstractUpdateDialog {
         
         setContentPane( panel );
         pack();
-        center();
+        SwingUtils.centerDialogInParent( this );
+    }
+    
+    private static String getUpToDateHTML( String currentVersion, String simName ) {
+        Object[] args = { currentVersion, simName };
+        String htmlFragment = MessageFormat.format( PhetCommonResources.getString( "Common.updates.youHaveCurrent" ), args );
+        return HTMLUtils.createStyledHTMLFromFragment( htmlFragment );
     }
     
     public static void main( String[] args ) {

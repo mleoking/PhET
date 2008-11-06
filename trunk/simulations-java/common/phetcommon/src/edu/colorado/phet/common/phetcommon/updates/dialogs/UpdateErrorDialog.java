@@ -9,16 +9,18 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.text.MessageFormat;
 
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPane;
 
 
-public class UpdateErrorDialog extends AbstractUpdateDialog {
+public class UpdateErrorDialog extends JDialog {
     
     private static final String TITLE = PhetCommonResources.getString( "Common.updates.error.title" );
     private static final String OK_BUTTON = PhetCommonResources.getString( "Common.choice.ok" );
@@ -73,7 +75,13 @@ public class UpdateErrorDialog extends AbstractUpdateDialog {
         
         setContentPane( panel );
         pack();
-        center();
+        SwingUtils.centerDialogInParent( this );
+    }
+    
+    protected static String getErrorMessageHTML() {
+        Object[] args = { HTMLUtils.getPhetHomeHref(), HTMLUtils.getPhetMailtoHref() };
+        String htmlFragment = MessageFormat.format( PhetCommonResources.getString( "Common.updates.errorMessage" ), args );
+        return HTMLUtils.createStyledHTMLFromFragment( htmlFragment );
     }
     
     public static void main( String[] args ) {

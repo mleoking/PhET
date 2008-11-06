@@ -11,13 +11,20 @@ import java.util.Arrays;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.updates.OpenWebPageToNewVersion;
 
-public class AutomaticUpdaterButton extends JButton {
+/**
+ * Updates the simulations by running the PhET "updater", which downloads the new version
+ * of the sim, replaces the running version, and restarts the new version.
+ *
+ * @author Sam Reid
+ */
+public class UpdateButton extends JButton {
 
 
-    public AutomaticUpdaterButton( final String project, final String sim ) {
-        super( "auto" );
+    public UpdateButton( final String project, final String sim ) {
+        super( PhetCommonResources.getString( "Common.updates.updateNow" ) );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 //download the updater
@@ -36,7 +43,8 @@ public class AutomaticUpdaterButton extends JButton {
                     String[] cmd = new String[]{javaPath, "-jar", f.getAbsolutePath(), project, sim, "en", location.getAbsolutePath()};//todo support for locales
 
                     println( "Starting updater with command: \n" + Arrays.toString( cmd ) );
-                    OpenWebPageToNewVersion.openWebPageToNewVersion( project, sim );
+                    //disable opening a webpage unless someone asks for this feature
+//                    OpenWebPageToNewVersion.openWebPageToNewVersion( project, sim );
                     try {
                         Thread.sleep( 10000 );
                     }
@@ -107,7 +115,7 @@ public class AutomaticUpdaterButton extends JButton {
     * Gets the JAR file that this class was launched from.
     */
     private File getCodeSource() {
-        URL url = AutomaticUpdaterButton.class.getProtectionDomain().getCodeSource().getLocation();
+        URL url = UpdateButton.class.getProtectionDomain().getCodeSource().getLocation();
         try {
             URI uri = new URI( url.toString() );
             return new File( uri.getPath() );
