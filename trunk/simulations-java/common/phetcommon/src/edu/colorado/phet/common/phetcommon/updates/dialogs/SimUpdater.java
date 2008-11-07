@@ -8,44 +8,60 @@ import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 import edu.colorado.phet.common.phetcommon.util.NetworkUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+import edu.colorado.phet.common.phetcommon.util.logging.DebugLogger;
 
 public class SimUpdater {
 
+    //todo: move to tigercat
+    private String UPDATER_ADDRESS = "http://www.colorado.edu/physics/phet/dev/temp/updater.jar";
+
     public void updateSim( String project, String sim, String locale ) {
         TrackingManager.postActionPerformedMessage( TrackingMessage.UPDATE_NOW_PRESSED );
-        //download the updater
         try {
-            File f = File.createTempFile( "updater", ".jar" );
-            NetworkUtils.download( "http://www.colorado.edu/physics/phet/dev/temp/updater.jar", f );
-            println( "downloaded updater to: \n" + f.getAbsolutePath() );
+            File updaterJAR = downloadUpdaterJAR();
 
-            String javaPath = System.getProperty( "java.home" ) + System.getProperty( "file.separator" ) + "bin" + System.getProperty( "file.separator" ) + "java";
-            File location = PhetUtilities.getCodeSource();
-            if ( !location.getName().toLowerCase().endsWith( ".jar" ) ) {
-                println( "Not running from a jar" );
-                location = File.createTempFile( "" + sim, ".jar" );
-                println( "CHanged download location to: " + location );
-            }
-            String[] cmd = new String[]{javaPath, "-jar", f.getAbsolutePath(), project, sim, locale, location.getAbsolutePath()};//todo support for locales
+            File simJAR = getSimJAR( sim );
 
-            println( "Starting updater with command: \n" + Arrays.toString( cmd ) );
             //TODO: disable opening a webpage unless someone asks for this feature
-//                    OpenWebPageToNewVersion.openWebPageToNewVersion( project, sim );
-            try {
-                Thread.sleep( 10000 );
-            }
-            catch( InterruptedException e1 ) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }
-            Process p = Runtime.getRuntime().exec( cmd );
+            //OpenWebPageToNewVersion.openWebPageToNewVersion( project, sim );
+
+            startUpdaterProcess( project, sim, locale, updaterJAR, simJAR );
+
             System.exit( 0 );
 
-            //todo: updater should allow 5 seconds or so for this to exit
+            //todo: updater should allow 5 seconds or so for this to exit,
+            //todo: since this JAR presumably must be exited before it can be overwritten
         }
         catch( IOException e1 ) {
             e1.printStackTrace();
         }
+    }
+
+    private void startUpdaterProcess( String project, String sim, String locale, File updaterJAR, File location ) throws IOException {
+        String[] cmd = new String[]{getJavaPath(), "-jar", updaterJAR.getAbsolutePath(), project, sim, locale, location.getAbsolutePath()};//todo support for locales
+        println( "Starting updater with command: \n" + Arrays.toString( cmd ) );
+        Process p = Runtime.getRuntime().exec( cmd );
+        //todo: read output from process in case helpful debug information is there in case of problem
+    }
+
+    private File getSimJAR( String sim ) throws IOException {
+        File location = PhetUtilities.getCodeSource();
+        if ( !location.getName().toLowerCase().endsWith( ".jar" ) ) {
+            location = File.createTempFile( "" + sim, ".jar" );
+            println( "Not running from a jar, downloading to: " + location );
+        }
+        return location;
+    }
+
+    private File downloadUpdaterJAR() throws IOException {
+        File updaterJAR = File.createTempFile( "updater", ".jar" );
+        NetworkUtils.download( UPDATER_ADDRESS, updaterJAR );
+        println( "downloaded updater to: \n" + updaterJAR.getAbsolutePath() );
+        return updaterJAR;
+    }
+
+    private String getJavaPath() {
+        return System.getProperty( "java.home" ) + System.getProperty( "file.separator" ) + "bin" + System.getProperty( "file.separator" ) + "java";
     }
 
     private void println( String message ) {
