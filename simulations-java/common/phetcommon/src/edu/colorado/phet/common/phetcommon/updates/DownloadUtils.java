@@ -5,7 +5,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 //copied from phet-build
-public class Util {
+public class DownloadUtils {
     /*
     * Download data from URLs and save
     * it to local files. Run like this:
