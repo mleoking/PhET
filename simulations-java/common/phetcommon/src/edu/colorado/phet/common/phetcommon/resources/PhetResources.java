@@ -58,7 +58,7 @@ public class PhetResources {
     // Property used to set the locale from JNLP files.
     // For an untrusted application, system properties set in the JNLP file will 
     // only be set by Java Web Start if property name begins with "jnlp." or "javaws.".
-    private static final String PROPERTY_JAVAWS_PHET_LOCALE = "javaws.phet.locale";
+    public static final String PROPERTY_JAVAWS_PHET_LOCALE = "javaws.phet.locale";
 
     private static final char PATH_SEPARATOR = '/';
 
