@@ -11,6 +11,8 @@ public class Updater {
      * Downloads and launches the jar for the specified simulation.
      */
     private void update( String project, String sim, String locale, File targetLocation ) {
+        //todo: updater may need to wait explicitly, since the original JAR presumably must be exited before it can be overwritten
+
         // Download the new, updated version of the sim.
         try {
             download( project, sim, targetLocation );
