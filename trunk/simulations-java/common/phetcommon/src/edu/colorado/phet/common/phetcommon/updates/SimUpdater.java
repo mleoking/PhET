@@ -47,7 +47,7 @@ public class SimUpdater {
     private void download( String project, String flavor, String locale, File targetLocation ) throws FileNotFoundException {
         String localeSuffix = locale.equals( "en" ) ? "" : "_" + locale;
         println( "Downloading " + "http://phet.colorado.edu/sims/" + project + "/" + flavor + localeSuffix + ".jar" + " to " + targetLocation.getAbsolutePath() );
-        Util.download( "http://phet.colorado.edu/sims/" + project + "/" + flavor + localeSuffix + ".jar", targetLocation );
+        DownloadUtils.download( "http://phet.colorado.edu/sims/" + project + "/" + flavor + localeSuffix + ".jar", targetLocation );
     }
 
     private void startBootstrap( File bootstrapUpdater, File src, File dst ) throws IOException {
