@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 import edu.colorado.phet.common.phetcommon.util.NetworkUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.util.logging.DebugLogger;
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
 /**
  * Updates the simulations by running the PhET "updater", which downloads the new version
@@ -45,9 +46,13 @@ public class SimUpdater {
     * Downloads the JAR for the specified simulation to the specified location.
     */
     private void download( String project, String flavor, String locale, File targetLocation ) throws FileNotFoundException {
-        String localeSuffix = locale.equals( "en" ) ? "" : "_" + locale;
-        println( "Downloading " + "http://phet.colorado.edu/sims/" + project + "/" + flavor + localeSuffix + ".jar" + " to " + targetLocation.getAbsolutePath() );
-        DownloadUtils.download( "http://phet.colorado.edu/sims/" + project + "/" + flavor + localeSuffix + ".jar", targetLocation );
+//        String localeSuffix = locale.equals( "en" ) ? "" : "_" + locale;
+//        println( "Downloading " + "http://phet.colorado.edu/sims/" + project + "/" + flavor + localeSuffix + ".jar" + " to " + targetLocation.getAbsolutePath() );
+//        DownloadUtils.download( "http://phet.colorado.edu/sims/" + project + "/" + flavor + localeSuffix + ".jar", targetLocation );
+//
+        String jarURL = HTMLUtils.getSimJarURL( project, flavor, "&", locale );
+        println( "Downloading " + jarURL );
+        DownloadUtils.download( jarURL, targetLocation );
     }
 
     private void startBootstrap( File bootstrapUpdater, File src, File dst ) throws IOException {
