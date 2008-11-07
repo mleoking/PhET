@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.util.logging.DebugLogger;
 public class SimUpdater {
 
     //todo: move to tigercat
-    private String UPDATER_ADDRESS = "http://www.colorado.edu/physics/phet/dev/temp/updater.jar";
+    private String UPDATER_ADDRESS = "http://phet.colorado.edu/phet-dist/updater/updater.jar";
 
     public void updateSim( String project, String sim, String locale ) {
         TrackingManager.postActionPerformedMessage( TrackingMessage.UPDATE_NOW_PRESSED );
