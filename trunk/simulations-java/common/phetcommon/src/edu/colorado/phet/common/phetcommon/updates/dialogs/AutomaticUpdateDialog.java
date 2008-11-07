@@ -8,10 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.preferences.*;
@@ -77,6 +74,7 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
         // panel
         JPanel buttonPanel = new JPanel();
         buttonPanel.add( updateNowButton );
+        buttonPanel.add( Box.createHorizontalStrut( 30 ) );
         buttonPanel.add( askMeLater );
         buttonPanel.add( skipThisVersion );
         
