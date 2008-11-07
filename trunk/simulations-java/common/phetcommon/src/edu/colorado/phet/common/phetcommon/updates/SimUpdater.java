@@ -1,6 +1,7 @@
 package edu.colorado.phet.common.phetcommon.updates;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -25,11 +26,14 @@ public class SimUpdater {
         try {
             File updaterJAR = downloadUpdaterJAR();
             File simJAR = getSimJAR( sim );
+            File tempJARLocation = File.createTempFile( simJAR.getName(), "_.jar" );
 
             //TODO: disable opening a webpage unless someone asks for this feature
             //OpenWebPageToNewVersion.openWebPageToNewVersion( project, sim );
 
-            startUpdaterProcess( project, sim, locale, updaterJAR, simJAR );
+            download( project, sim, locale, tempJARLocation );
+
+            startBootstrap( updaterJAR, tempJARLocation, simJAR );
             System.exit( 0 );//presumably, jar must exit before it can be overwritten
         }
         catch( IOException e1 ) {
@@ -37,8 +41,17 @@ public class SimUpdater {
         }
     }
 
-    private void startUpdaterProcess( String project, String sim, String locale, File updaterJAR, File location ) throws IOException {
-        String[] cmd = new String[]{getJavaPath(), "-jar", updaterJAR.getAbsolutePath(), project, sim, locale, location.getAbsolutePath()};//todo support for locales
+    /*
+    * Downloads the JAR for the specified simulation to the specified location.
+    */
+    private void download( String project, String flavor, String locale, File targetLocation ) throws FileNotFoundException {
+        String localeSuffix = locale.equals( "en" ) ? "" : "_" + locale;
+        println( "Downloading " + "http://phet.colorado.edu/sims/" + project + "/" + flavor + localeSuffix + ".jar" + " to " + targetLocation.getAbsolutePath() );
+        Util.download( "http://phet.colorado.edu/sims/" + project + "/" + flavor + localeSuffix + ".jar", targetLocation );
+    }
+
+    private void startBootstrap( File bootstrapUpdater, File src, File dst ) throws IOException {
+        String[] cmd = new String[]{getJavaPath(), "-jar", bootstrapUpdater.getAbsolutePath(), src.getAbsolutePath(), dst.getAbsolutePath()};//todo support for locales
         println( "Starting updater with command: \n" + Arrays.toString( cmd ) );
         Process p = Runtime.getRuntime().exec( cmd );
         //todo: read output from process in case helpful debug information is there in case of problem

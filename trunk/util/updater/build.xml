@@ -29,7 +29,7 @@
         <mkdir dir="${dist}"/>
         <jar jarfile="${distjar}" basedir="${build}">
             <manifest>
-                <attribute name="Main-Class" value="edu.colorado.phet.updater.Updater"/>
+                <attribute name="Main-Class" value="edu.colorado.phet.updater.UpdaterBootstrap"/>
             </manifest>
         </jar>
     </target>
