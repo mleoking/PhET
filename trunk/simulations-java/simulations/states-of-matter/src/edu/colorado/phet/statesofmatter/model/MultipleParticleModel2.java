@@ -27,6 +27,7 @@ import edu.colorado.phet.statesofmatter.model.engine.MonatomicVerletAlgorithm;
 import edu.colorado.phet.statesofmatter.model.engine.PhaseStateChanger;
 import edu.colorado.phet.statesofmatter.model.engine.WaterAtomPositionUpdater;
 import edu.colorado.phet.statesofmatter.model.engine.WaterPhaseStateChanger;
+import edu.colorado.phet.statesofmatter.model.engine.WaterVerletAlgorithm;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.AndersenThermostat;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.IsokineticThermostat;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyAdjuster;
@@ -1016,7 +1017,7 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
         int numberOfMolecules = numberOfAtoms / 2;
         
         // Create the normalized data set for the one-atom-per-molecule case.
-        m_moleculeDataSet = new MoleculeForceAndMotionDataSet( 2 );
+        m_moleculeDataSet = new MoleculeForceAndMotionDataSet( numberOfMolecules );
         
         // Create the strategies that will work on this data set.
         m_phaseStateChanger = new DiatomicPhaseStateChanger( this );
@@ -1084,7 +1085,7 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
         // Create the strategies that will work on this data set.
         m_phaseStateChanger = new WaterPhaseStateChanger( this );
         m_atomPositionUpdater = new WaterAtomPositionUpdater();
-//        m_moleculeForceAndMotionCalculator = new MonatomicVerletAlgorithm( this ); TODO: JPB TBD - put in the real one.
+        m_moleculeForceAndMotionCalculator = new WaterVerletAlgorithm( this );
         m_isoKineticThermostat = new IsokineticThermostat( m_moleculeDataSet, m_minModelTemperature );
         m_andersenThermostat = new AndersenThermostat( m_moleculeDataSet, m_minModelTemperature );
         

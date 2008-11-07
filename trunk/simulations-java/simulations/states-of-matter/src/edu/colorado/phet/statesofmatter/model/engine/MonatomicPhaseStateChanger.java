@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.statesofmatter.model.MoleculeForceAndMotionDataSet;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel2;
 
 /**
@@ -48,6 +49,15 @@ public class MonatomicPhaseStateChanger extends AbstractPhaseStateChanger {
 			setPhaseGas();
 			break;
 		}
+
+		MoleculeForceAndMotionDataSet moleculeDataSet = m_model.getMoleculeDataSetRef();
+		
+        // Assume that we've done our job correctly and that all the atoms are
+        // in safe positions.
+        m_model.getMoleculeDataSetRef().setNumberOfSafeMolecules( moleculeDataSet.getNumberOfMolecules() );
+        
+        // Sync up the atom positions with the molecule positions.
+        m_positionUpdater.updateAtomPositions( moleculeDataSet );
 	}
 	
 	/**
@@ -89,13 +99,6 @@ public class MonatomicPhaseStateChanger extends AbstractPhaseStateChanger {
                         temperatureSqrt * rand.nextGaussian() );
             }
         }
-        
-        // Assume that we've done our job correctly and that all the atoms are
-        // in safe positions.
-        m_model.getMoleculeDataSetRef().setNumberOfSafeMolecules( numberOfAtoms );
-        
-        // Sync up the atom positions with the molecule positions.
-        m_positionUpdater.updateAtomPositions( m_model.getMoleculeDataSetRef() );
 	}
 	
 	/**
@@ -164,13 +167,6 @@ public class MonatomicPhaseStateChanger extends AbstractPhaseStateChanger {
                 }
             }
         }
-        
-        // Assume that we've done our job correctly and that all the atoms are
-        // in safe positions.
-        m_model.getMoleculeDataSetRef().setNumberOfSafeMolecules( numberOfAtoms );
-        
-        // Sync up the atom positions with the molecule positions.
-        m_positionUpdater.updateAtomPositions( m_model.getMoleculeDataSetRef() );
 	}
 	
 	/**
@@ -226,12 +222,5 @@ public class MonatomicPhaseStateChanger extends AbstractPhaseStateChanger {
                 }
             }
         }
-
-        // Assume that we've done our job correctly and that all the atoms are
-        // in safe positions.
-        m_model.getMoleculeDataSetRef().setNumberOfSafeMolecules( numberOfAtoms );
-        
-        // Sync up the atom positions with the molecule positions.
-        m_positionUpdater.updateAtomPositions( m_model.getMoleculeDataSetRef() );
 	}
 }

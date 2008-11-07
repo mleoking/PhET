@@ -3,6 +3,7 @@
 package edu.colorado.phet.statesofmatter.model;
 
 import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 
@@ -75,6 +76,18 @@ public class MoleculeForceAndMotionDataSet {
         else if (atomsPerMolecule == 2){
         	m_moleculeMass = 2; // Two molecules, assumed to be the same.
         	m_moleculeRotationalInertia = Math.pow( StatesOfMatterConstants.DIATOMIC_PARTICLE_DISTANCE, 2 ) / 2;
+        }
+        else if (atomsPerMolecule == 3){
+        	// NOTE: These settings only work for water, since that is the
+        	// only supported triatomic molecule at the time of this writing
+        	// (Nov 2008).  If other 3-atom molecules are added, this will
+        	// need to be changed.
+        	m_moleculeMass = 1.5; // Two molecules, assumed to be the same.
+        	m_moleculeRotationalInertia = Math.pow( StatesOfMatterConstants.DIATOMIC_PARTICLE_DISTANCE, 2 ) / 2;
+            m_moleculeRotationalInertia = 0.25 * (Math.pow(StatesOfMatterConstants.H2O_MOLECULE_STRUCTURE_X[1], 2)
+            		+ Math.pow(StatesOfMatterConstants.H2O_MOLECULE_STRUCTURE_Y[1], 2))
+            		+ 0.25 * (Math.pow(StatesOfMatterConstants.H2O_MOLECULE_STRUCTURE_X[2], 2)
+            	    + Math.pow(StatesOfMatterConstants.H2O_MOLECULE_STRUCTURE_Y[2], 2));
         }
 	}
 
