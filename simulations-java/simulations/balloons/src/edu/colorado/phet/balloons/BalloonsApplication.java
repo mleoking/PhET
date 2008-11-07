@@ -100,6 +100,8 @@ public class BalloonsApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) {
+        //testing web start permissions
+        System.setProperty( "javaws.phet.locale","el" );
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, "balloons" );
         appConfig.getLookAndFeel().setBackgroundColor( new Color( 200, 240, 200 ) );
 
