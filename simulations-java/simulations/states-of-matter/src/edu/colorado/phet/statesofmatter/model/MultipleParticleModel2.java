@@ -1017,7 +1017,7 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
         int numberOfMolecules = numberOfAtoms / 2;
         
         // Create the normalized data set for the one-atom-per-molecule case.
-        m_moleculeDataSet = new MoleculeForceAndMotionDataSet( numberOfMolecules );
+        m_moleculeDataSet = new MoleculeForceAndMotionDataSet( 2 );
         
         // Create the strategies that will work on this data set.
         m_phaseStateChanger = new DiatomicPhaseStateChanger( this );
