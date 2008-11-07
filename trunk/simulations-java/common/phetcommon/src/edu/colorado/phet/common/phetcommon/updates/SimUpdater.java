@@ -10,9 +10,14 @@ import edu.colorado.phet.common.phetcommon.util.NetworkUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.util.logging.DebugLogger;
 
+/**
+ * Updates the simulations by running the PhET "updater", which downloads the new version
+ * of the sim, replaces the running version, and restarts the new version.
+ *
+ * @author Sam Reid
+ */
 public class SimUpdater {
 
-    //todo: move to tigercat
     private String UPDATER_ADDRESS = "http://phet.colorado.edu/phet-dist/updater/updater.jar";
 
     public void updateSim( String project, String sim, String locale ) {
