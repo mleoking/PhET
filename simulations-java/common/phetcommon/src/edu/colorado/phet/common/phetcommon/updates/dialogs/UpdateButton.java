@@ -23,7 +23,6 @@ import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
  */
 public class UpdateButton extends JButton {
 
-
     public UpdateButton( final String project, final String sim ) {
         super( PhetCommonResources.getString( "Common.updates.updateNow" ) );
         addActionListener( new ActionListener() {
@@ -50,7 +49,7 @@ public class UpdateButton extends JButton {
                     try {
                         Thread.sleep( 10000 );
                     }
-                    catch ( InterruptedException e1 ) {
+                    catch( InterruptedException e1 ) {
                         // TODO Auto-generated catch block
                         e1.printStackTrace();
                     }
@@ -143,7 +142,7 @@ public class UpdateButton extends JButton {
         try {
             p.waitFor();
         }
-        catch ( InterruptedException e ) {
+        catch( InterruptedException e ) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
