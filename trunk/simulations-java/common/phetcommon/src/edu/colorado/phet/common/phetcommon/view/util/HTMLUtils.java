@@ -90,6 +90,18 @@ public class HTMLUtils {
     public static String getSimURL( String project, String sim,String ampersand ) {
         return PhetCommonConstants.PHET_HOME_URL + "/simulations/sim-redirect.php?project=" + project + ampersand+"sim=" + sim;
     }
+
+
+    /**
+     * Gets the URL for a simulation's web page on the PhET site.
+     *
+     * @param project
+     * @param sim
+     * @return
+     */
+    public static String getSimJarURL( String project, String sim, String ampersand, String locale ) {
+        return PhetCommonConstants.PHET_HOME_URL + "/simulations/sim-jar-redirect.php?project=" + project + ampersand + "sim=" + sim + ampersand+"locale="+locale;
+    }
     
     /**
      * Creates an \<a\> tag that contains a link to a specific sim's web page.
