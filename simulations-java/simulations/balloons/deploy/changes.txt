@@ -1,3 +1,6 @@
+#1.06.07 11-6-2008
+Deploy version for testing tracking/updates
+
 10-8-2008: convert to new PhetApplicationConfig usage
 10-8-2008: Posted versions with tracking and updates for testing.
 
