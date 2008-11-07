@@ -26,14 +26,14 @@ public abstract class AbstractUpdateDialog extends JDialog {
     
     private static final String TRY_IT_LINK = PhetCommonResources.getString( "Common.updates.tryIt" );
     
-    protected AbstractUpdateDialog( Frame owner, String title, final String project, final String sim, final String simName, final PhetVersion currentVersion, final PhetVersion newVersion ) {
+    protected AbstractUpdateDialog( Frame owner, String title, final String project, final String sim, final String simName, final PhetVersion currentVersion, final PhetVersion newVersion ,String locale) {
         super( owner, title );
         setResizable( false );
         setModal( true );
         
         // subpanels
         JPanel messagePanel = createMessagePanel( project, sim, simName, currentVersion, newVersion );
-        JPanel buttonPanel = createButtonPanel( project, sim, simName, currentVersion, newVersion );
+        JPanel buttonPanel = createButtonPanel( project, sim, simName, currentVersion, newVersion,locale );
         
         // main panel
         JPanel panel = new JPanel();
@@ -84,7 +84,7 @@ public abstract class AbstractUpdateDialog extends JDialog {
     /*
      * Subclasses provide their own actions via a button panel.
      */
-    protected abstract JPanel createButtonPanel( final String project, final String sim, final String simName, final PhetVersion currentVersion, final PhetVersion newVersion );
+    protected abstract JPanel createButtonPanel( final String project, final String sim, final String simName, final PhetVersion currentVersion, final PhetVersion newVersion,String locale );
     
     /*
      * Gets the message that compares the current version and new version.

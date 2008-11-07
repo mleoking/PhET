@@ -17,15 +17,17 @@ public class DefaultManualCheckForUpdates implements IManualUpdateChecker {
     private String sim;
     private PhetVersion currentVersion;
     private String humanReadableSimName;
+    private String locale;
     private Frame frame;
     private String projectName;
 
-    public DefaultManualCheckForUpdates( Frame frame, String projectName, String sim, PhetVersion currentVersion, String humanReadableSimName ) {
+    public DefaultManualCheckForUpdates( Frame frame, String projectName, String sim, PhetVersion currentVersion, String humanReadableSimName,String locale ) {
         this.frame = frame;
         this.projectName = projectName;
         this.sim = sim;
         this.currentVersion = currentVersion;
         this.humanReadableSimName = humanReadableSimName;
+        this.locale = locale;
     }
 
     public void checkForUpdates() {
@@ -35,7 +37,7 @@ public class DefaultManualCheckForUpdates implements IManualUpdateChecker {
             }
 
             public void newVersionAvailable( PhetVersion currentVersion, PhetVersion remoteVersion ) {
-                JDialog dialog = new ManualUpdateDialog( frame, projectName, sim, humanReadableSimName, currentVersion, remoteVersion );
+                JDialog dialog = new ManualUpdateDialog( frame, projectName, sim, humanReadableSimName, currentVersion, remoteVersion ,locale);
                 dialog.setVisible( true );
             }
 
