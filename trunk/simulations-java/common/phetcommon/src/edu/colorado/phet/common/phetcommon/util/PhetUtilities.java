@@ -11,6 +11,10 @@
 package edu.colorado.phet.common.phetcommon.util;
 
 import java.util.ArrayList;
+import java.io.File;
+import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.swing.*;
 
@@ -19,6 +23,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.updates.dialogs.UpdateButton;
 
 /**
  * PhetModelUtilities
@@ -150,5 +155,21 @@ public class PhetUtilities {
             }
         }
         return rval;
+    }
+
+    /*//todo consolidate with copy from FlashLauncher
+    * Gets the JAR file that this class was launched from.
+    */
+    public static File getCodeSource() {
+        URL url = UpdateButton.class.getProtectionDomain().getCodeSource().getLocation();
+        try {
+            URI uri = new URI( url.toString() );
+            return new File( uri.getPath() );
+        }
+        catch( URISyntaxException e ) {
+            System.out.println( e.getMessage() );
+            e.printStackTrace();
+            throw new RuntimeException( e );
+        }
     }
 }
