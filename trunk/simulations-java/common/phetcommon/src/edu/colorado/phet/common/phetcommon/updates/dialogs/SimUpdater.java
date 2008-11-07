@@ -19,18 +19,13 @@ public class SimUpdater {
         TrackingManager.postActionPerformedMessage( TrackingMessage.UPDATE_NOW_PRESSED );
         try {
             File updaterJAR = downloadUpdaterJAR();
-
             File simJAR = getSimJAR( sim );
 
             //TODO: disable opening a webpage unless someone asks for this feature
             //OpenWebPageToNewVersion.openWebPageToNewVersion( project, sim );
 
             startUpdaterProcess( project, sim, locale, updaterJAR, simJAR );
-
-            System.exit( 0 );
-
-            //todo: updater should allow 5 seconds or so for this to exit,
-            //todo: since this JAR presumably must be exited before it can be overwritten
+            System.exit( 0 );//presumably, jar must exit before it can be overwritten
         }
         catch( IOException e1 ) {
             e1.printStackTrace();
