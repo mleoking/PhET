@@ -35,6 +35,8 @@
     </target>
 
     <target name="clean">
+        <mkdir dir="${dist}"/>
+        <mkdir dir="${build}"/>
         <delete>
             <fileset dir="${dist}" includes="**/*"/>
         </delete>
@@ -45,8 +47,8 @@
 
     <target name="deploy-to-prod" depends="dist">
         <!-- scp the files to the production server -->
-        <scp sftp="true" todir="${deploy.prod.username}:${deploy.prod.password}@${prod-server}:${prod-updater-dir}">
-            <fileset dir="${build}"/>
+        <scp sftp="true" todir="${deploy.prod.username}:${deploy.prod.password}@${prod-server}:${prod-updater-dir}" trust="true">
+            <fileset file="${distjar}"/>
         </scp>
     </target>
 </project>
