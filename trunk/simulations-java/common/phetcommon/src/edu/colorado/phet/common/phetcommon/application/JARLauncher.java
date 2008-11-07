@@ -16,9 +16,9 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
 /**
  * FlavorLauncher provides functionality for running PhET simulations from double-clickable JAR files.
@@ -284,6 +284,9 @@ public class JARLauncher extends JFrame implements IProguardKeepClass {
             throw new RuntimeException( "No flavors found." );
         }
 
+        handleLanguageForOfflineJARs();
+
+
         URL mainURL = Thread.currentThread().getContextClassLoader().getResource( "main-flavor.properties" );
         if ( mainURL != null ) {
             Properties flavorProperties = new Properties();
@@ -301,6 +304,23 @@ public class JARLauncher extends JFrame implements IProguardKeepClass {
             JARLauncher launcher = new JARLauncher( args, info );
             SwingUtils.centerWindowOnScreen( launcher );
             launcher.setVisible( true );
+        }
+    }
+
+    //feasibility test for translated offline jars
+    private static void handleLanguageForOfflineJARs() {
+        URL optionsURL = Thread.currentThread().getContextClassLoader().getResource( "options.properties" );
+        if ( optionsURL != null ) {
+            Properties optionsProperties = new Properties();
+            try {
+                optionsProperties.load( optionsURL.openStream() );
+                String locale = optionsProperties.getProperty( "locale" );
+                System.out.println( "Overriding locale: " + locale );
+                System.setProperty( PhetResources.PROPERTY_JAVAWS_PHET_LOCALE, locale );
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
         }
     }
 
