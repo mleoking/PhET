@@ -23,25 +23,29 @@
       <sourceFolder url="file://$MODULE_DIR$/../../common/quantum/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../common/testing/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../common/timeseries/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../contrib/JGV/source/applet" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../contrib/JGV/source/server" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../contrib/JGV/source/web" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/Jama/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/beanshell/asm/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/beanshell/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../contrib/idx3d/source" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../contrib/j3d/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/jade/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../contrib/jmol-11.6/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../contrib/perlin-2004/render" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/piccolo2d/core/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/piccolo2d/core/src/test/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/piccolo2d/examples/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/piccolo2d/extras/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/balloons/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/battery-voltage/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/bernoulli/phetcommon/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/bernoulli/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/bound-states/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/circuit-construction-kit/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/color-vision/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations/common-strings/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/conductivity/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/discharge-lamps/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/distance-ladder/phetcommon/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/distance-ladder/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/eating-and-exercise/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/efield/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/electric-hockey/src" isTestSource="false" />
@@ -71,7 +75,6 @@
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/photoelectric/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/quantum-tunneling/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/quantum-wave-interference/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/radio-waves/phetcommon/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/radio-waves/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/reactions-and-rates/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/rotation/src" isTestSource="false" />
@@ -81,12 +84,15 @@
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/signal-circuit/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/sim-template/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/soluble-salts/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/sound/phetcommon/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/sound/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/states-of-matter/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/the-ramp/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/travoltage/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/wave-interference/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/../../contrib/jgl/jgl/Example" />
+      <excludeFolder url="file://$MODULE_DIR$/../../contrib/jgl/jgl/Example-app" />
+      <excludeFolder url="file://$MODULE_DIR$/../../contrib/jgl/jgl/Example-gle" />
+      <excludeFolder url="file://$MODULE_DIR$/../../contrib/jgl/jgl/Example-glut" />
     </content>
     <content url="file://$MODULE_DIR$/../../../team/reids">
       <sourceFolder url="file://$MODULE_DIR$/../../../team/reids/admin/src" isTestSource="false" />
@@ -96,6 +102,9 @@
     </content>
     <content url="file://$MODULE_DIR$/../../../util/translation-utility">
       <sourceFolder url="file://$MODULE_DIR$/../../../util/translation-utility/src" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../../util/updater">
+      <sourceFolder url="file://$MODULE_DIR$/../../../util/updater/src" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/../../../website" />
     <orderEntry type="inheritedJdk" />
@@ -249,15 +258,6 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../simulations/distance-ladder/data" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="file://$MODULE_DIR$/../../simulations/optical-tweezers/data" />
         </CLASSES>
         <JAVADOC />
@@ -402,15 +402,6 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../simulations/distance-ladder/phetcommon/data" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="file://$MODULE_DIR$/../../simulations/travoltage/data" />
         </CLASSES>
         <JAVADOC />
@@ -438,34 +429,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../simulations/sound/phetcommon/data" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/../../simulations/bernoulli/data" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="file://$MODULE_DIR$/../../simulations/quantum-tunneling/data" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/../../simulations/conductivity/phetcommon/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1263,7 +1227,24 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntryProperties />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../contrib/jmol-11.6/jars/vecmath1.2-1.14.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../contrib/jmol-11.6/jars/commons-cli-1.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
 
