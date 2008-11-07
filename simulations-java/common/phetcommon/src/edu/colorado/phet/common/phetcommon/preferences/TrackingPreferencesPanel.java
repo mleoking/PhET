@@ -9,6 +9,8 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
+import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPane;
 
@@ -59,6 +61,7 @@ public class TrackingPreferencesPanel extends JPanel {
             super( DETAILS );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
+                    TrackingManager.postActionPerformedMessage( TrackingMessage.TRACKING_DETAILS_PRESSED );
                     Window window = SwingUtilities.getWindowAncestor( DetailsButton.this );
                     if ( window instanceof Frame ) {
                         new TrackingDetailsDialog( (Frame) window, trackingInfo ).setVisible( true );

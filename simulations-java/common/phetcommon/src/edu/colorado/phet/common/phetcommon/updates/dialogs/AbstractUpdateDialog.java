@@ -1,30 +1,95 @@
 package edu.colorado.phet.common.phetcommon.updates.dialogs;
 
+import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.MessageFormat;
 
-import javax.swing.JDialog;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
+import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
+import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
+import edu.colorado.phet.common.phetcommon.updates.OpenWebPageToNewVersion;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
- * Base class for all dialogs related to the Updates feature.
- * Contains shared functionality, and localization of reusable "chucks" of HTML.
- * Handles localization that involves MessageFormat syntax (pattern replacement).
+ * Base class for update dialogs.
  */
 public abstract class AbstractUpdateDialog extends JDialog {
     
-    protected AbstractUpdateDialog( Frame owner, String title ) {
-        super( owner, title );
-    }
+    private static final String TRY_IT_LINK = PhetCommonResources.getString( "Common.updates.tryIt" );
     
-    protected void center() {
+    protected AbstractUpdateDialog( Frame owner, String title, final String project, final String sim, final String simName, final PhetVersion currentVersion, final PhetVersion newVersion ) {
+        super( owner, title );
+        setResizable( false );
+        setModal( true );
+        
+        // subpanels
+        JPanel messagePanel = createMessagePanel( project, sim, simName, currentVersion, newVersion );
+        JPanel buttonPanel = createButtonPanel( project, sim, simName, currentVersion, newVersion );
+        
+        // main panel
+        JPanel panel = new JPanel();
+        EasyGridBagLayout layout = new EasyGridBagLayout( panel );
+        panel.setLayout( layout );
+        int row = 0;
+        int column = 0;
+        layout.addComponent( messagePanel, row++, column );
+        layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
+        layout.addAnchoredComponent( buttonPanel, row++, column, GridBagConstraints.CENTER );
+
+        setContentPane( panel );
+        pack();
         SwingUtils.centerDialogInParent( this );
     }
 
-    /* fragment used by multiple subclasses */
-    protected static String getVersionComparisonHTML( String simName, String currentVersion, String newVersion ) {
+    /*
+     * Message (top) panel, common to all update dialogs.
+     */
+    private JPanel createMessagePanel( final String project, final String sim, String simName, PhetVersion currentVersion, PhetVersion newVersion ) {
+        
+        // information about the update that was found
+        JLabel versionComparisonLabel = new JLabel( getVersionComparisonHTML( simName, currentVersion.formatForTitleBar(), newVersion.formatForTitleBar() ) );
+
+        // link to sim's web page
+        String tryItHtml = "<html><u>" + TRY_IT_LINK + "</u></html>";
+        JLabel tryItLink = new JLabel( tryItHtml );
+        tryItLink.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+        tryItLink.addMouseListener( new MouseAdapter() {
+
+            public void mousePressed( MouseEvent e ) {
+                TrackingManager.postActionPerformedMessage( TrackingMessage.UPDATES_TRY_IT_PRESSED );
+                OpenWebPageToNewVersion.openWebPageToNewVersion( project, sim );
+            }
+        } );
+        tryItLink.setForeground( Color.blue );
+
+        // layout
+        JPanel messagePanel = new VerticalLayoutPanel();
+        messagePanel.setBorder( BorderFactory.createEmptyBorder( 10, 10, 5, 10 ) );
+        messagePanel.add( versionComparisonLabel );
+        messagePanel.add( Box.createVerticalStrut( 5 ) );
+        messagePanel.add( tryItLink );
+
+        return messagePanel;
+    }
+    
+    /*
+     * Subclasses provide their own actions via a button panel.
+     */
+    protected abstract JPanel createButtonPanel( final String project, final String sim, final String simName, final PhetVersion currentVersion, final PhetVersion newVersion );
+    
+    /*
+     * Gets the message that compares the current version and new version.
+     */
+    private static String getVersionComparisonHTML( String simName, String currentVersion, String newVersion ) {
         String pattern = PhetCommonResources.getString( "Common.updates.versionComparison" );
         Object[] args = { simName, currentVersion, newVersion };
         return MessageFormat.format( pattern, args );

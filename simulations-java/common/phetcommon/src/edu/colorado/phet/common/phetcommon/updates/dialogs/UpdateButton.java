@@ -9,10 +9,11 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Arrays;
 
-import javax.swing.*;
+import javax.swing.JButton;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.updates.OpenWebPageToNewVersion;
+import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
+import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 
 /**
  * Updates the simulations by running the PhET "updater", which downloads the new version
@@ -27,6 +28,7 @@ public class UpdateButton extends JButton {
         super( PhetCommonResources.getString( "Common.updates.updateNow" ) );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+                TrackingManager.postActionPerformedMessage( TrackingMessage.UPDATE_NOW_PRESSED );
                 //download the updater
                 try {
                     File f = File.createTempFile( "updater", ".jar" );
@@ -43,7 +45,7 @@ public class UpdateButton extends JButton {
                     String[] cmd = new String[]{javaPath, "-jar", f.getAbsolutePath(), project, sim, "en", location.getAbsolutePath()};//todo support for locales
 
                     println( "Starting updater with command: \n" + Arrays.toString( cmd ) );
-                    //disable opening a webpage unless someone asks for this feature
+                    //TODO: disable opening a webpage unless someone asks for this feature
 //                    OpenWebPageToNewVersion.openWebPageToNewVersion( project, sim );
                     try {
                         Thread.sleep( 10000 );

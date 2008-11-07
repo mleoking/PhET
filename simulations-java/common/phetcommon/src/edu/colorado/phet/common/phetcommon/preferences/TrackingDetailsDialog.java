@@ -13,7 +13,6 @@ import javax.swing.event.MouseInputAdapter;
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
-import edu.colorado.phet.common.phetcommon.updates.dialogs.AbstractUpdateDialog;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -33,7 +32,7 @@ public class TrackingDetailsDialog extends JDialog {
     private ITrackingInfo iTrackingInfo;
 
     public TrackingDetailsDialog( Dialog owner, ITrackingInfo iTrackingInfo ) {
-        super( owner, TITLE );
+        super( owner, TITLE, true /* modal */ );
         init( iTrackingInfo );
     }
 
