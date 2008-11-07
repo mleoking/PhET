@@ -14,21 +14,29 @@ public class TrackingMessage {
     //versioning the messages allows us to manage data after changing message content 
     public static final String MESSAGE_VERSION = "0.00.01";
 
-    // names for actions and state changes
+    // messages for things in Preferences dialog
     public static final String PREFERENCES_DIALOG_VISIBLE = "preferences-dialog-visible";
-    public static final String UPDATES_ENABLED = "updates-enabled";
-    public static final String TRACKING_ENABLED = "tracking-enabled";
-    public static final String MANUAL_CHECK_FOR_UPDATES = "manual-check-for-updates";
-    public static final String AUTO_CHECK_FOR_UPDATES = "auto-check-for-updates";
-    public static final String ASK_ME_LATER_PRESSED = "ask-me-later-update-pressed";
-    public static final String SKIP_UPDATE_PRESSED = "skip-update-pressed";
-    public static final String PHET_FRAME_CLOSING = "phet-frame-closing";
-    public static final String FILE_EXIT_SELECTED = "file-exit-selected";
     public static final String PREFERENCES_OK_PRESSED = "preferences-ok-pressed";
     public static final String PREFERENCES_CANCEL_PRESSED = "preferences-cancel-pressed";
-    public static final String UPDATES_TRY_IT_PRESSED = "updates-try-it-pressed";
+    public static final String UPDATES_ENABLED = "updates-enabled";
+    public static final String TRACKING_ENABLED = "tracking-enabled";
+    public static final String CHECK_FOR_UPDATE_PRESSED = "check-for-update-pressed";
+    public static final String HELP_CHECK_FOR_UPDATE_SELETED = "help-check-for-update-selected";
+    public static final String TRACKING_DETAILS_PRESSED = "tracking-details-pressed";
+
+    // messages for things in update dialogs
+    public static final String AUTO_CHECK_FOR_UPDATES = "auto-check-for-updates"; 
+    public static final String UPDATE_NOW_PRESSED = "update-now-pressed";
+    public static final String ASK_ME_LATER_PRESSED = "ask-me-later-update-pressed";
+    public static final String SKIP_UPDATE_PRESSED = "skip-update-pressed";
     public static final String UPDATES_ADVANCED_PRESSED = "updates-advanced-pressed";
     public static final String UPDATES_CANCEL_PRESSED = "updates-cancel-pressed";
+    public static final String UPDATES_TRY_IT_PRESSED = "updates-try-it-pressed";
+    
+    // messages related to ending a session
+    public static final String PHET_FRAME_CLOSING = "phet-frame-closing";
+    public static final String FILE_EXIT_SELECTED = "file-exit-selected";
+
 
     public TrackingMessage( SessionID sessionID, String messageType ) {
         addEntry( new TrackingEntry( "session-id", sessionID.toString() ) );
