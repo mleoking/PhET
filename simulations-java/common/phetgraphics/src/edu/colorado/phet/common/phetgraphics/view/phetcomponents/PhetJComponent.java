@@ -16,6 +16,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -296,8 +298,45 @@ public class PhetJComponent extends PhetGraphic {
                 repaint();
             }
         } );
+        component.addPropertyChangeListener( "enabled", new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                fireRepaintBurst();
+            }
+        } );
+        component.addMouseListener( new MouseInputAdapter() {
+            public void mouseExited( MouseEvent e ) {
+                fireRepaintBurst();
+            }
+
+            public void mouseEntered( MouseEvent e ) {
+                fireRepaintBurst();
+            }
+        } );
         repaintManagerPhet.put( this );
         manager.phetJComponentCreated( this );
+    }
+
+    /**
+     * Simply repainting in SwingUtilities.invokeLater doesn't have the correct behavior, we have to schedule a
+     * repaint for much further out in time for some reason.
+     *
+     * This workaround schedules 10 repaints over a second, and appears to work properly without demanding significantly more from the system.
+     * See https://phet.unfuddle.com/projects/9404/tickets/by_number/906?cycle=true
+     */
+    private void fireRepaintBurst() {
+        final int[] count = new int[]{0};
+        final Timer[] t = new Timer[1];
+
+        t[0] = new Timer( 100, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                repaint();
+                count[0]++;
+                if ( count[0] > 10 ) {
+                    t[0].stop();
+                }
+            }
+        } );
+        t[0].start();
     }
 
     public static PhetJComponentManager getManager() {
