@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.phetcommon.updates.dialogs;
+package edu.colorado.phet.common.phetcommon.util.logging;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -10,7 +10,6 @@ import java.io.IOException;
 public class DebugLogger {
     private static File logFile = new File( System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.separator" ) + "update-phase-0-log.txt" );
     private static FileWriter fileWriter;
-
     static {
         System.out.println( "Inited data file: " + logFile.getAbsolutePath() );
         try {
