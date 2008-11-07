@@ -7,7 +7,7 @@ public class ActionPerformedMessage extends TrackingMessage {
 
     public ActionPerformedMessage( SessionID sessionID, String actionName, String response ) {
         super( sessionID, "action-performed" );
-        addEntry( new TrackingEntry( "name", actionName ) );
-        addEntry( new TrackingEntry( "system-response", response ) );
+        addField( new TrackingMessageField( "name", actionName ) );
+        addField( new TrackingMessageField( "system-response", response ) );
     }
 }

@@ -12,38 +12,38 @@ public class SessionStartedMessage extends TrackingMessage {
     public SessionStartedMessage( PhetApplicationConfig config ) {
         super( new SessionID( config ), "session-started" );
         initTimeZone();
-        TrackingEntry[] entriesArray = new TrackingEntry[]{
-                new TrackingEntry( "tracker-version", TRACKER_VERSION ),
-                new TrackingEntry( "message-version", MESSAGE_VERSION ),
+        TrackingMessageField[] entriesArray = new TrackingMessageField[]{
+                new TrackingMessageField( "tracker-version", TRACKER_VERSION ),
+                new TrackingMessageField( "message-version", MESSAGE_VERSION ),
 
                 //Sim info first
-                new TrackingEntry( "project", config.getProjectName() ),
-                new TrackingEntry( "sim", config.getFlavor() ),
-                new TrackingEntry( "sim-type", "java" ), // to easily distinguish between Java and Flash sims
-                new TrackingEntry( "sim-version", config.getVersion().formatMajorMinorDev() ),
-                new TrackingEntry( "svn-revision", config.getVersion().getRevision() ),
-                new TrackingEntry( "sim-locale", PhetResources.readLocale().toString() ),
-                new TrackingEntry( "dev", config.isDev() + "" ),
+                new TrackingMessageField( "project", config.getProjectName() ),
+                new TrackingMessageField( "sim", config.getFlavor() ),
+                new TrackingMessageField( "sim-type", "java" ), // to easily distinguish between Java and Flash sims
+                new TrackingMessageField( "sim-version", config.getVersion().formatMajorMinorDev() ),
+                new TrackingMessageField( "svn-revision", config.getVersion().getRevision() ),
+                new TrackingMessageField( "sim-locale", PhetResources.readLocale().toString() ),
+                new TrackingMessageField( "dev", config.isDev() + "" ),
 
                 //Then general to specific information about machine config
-                new TrackingEntry.SystemProperty( "os.name" ),
-                new TrackingEntry.SystemProperty( "os.version" ),
-                new TrackingEntry.SystemProperty( "os.arch" ),
+                new TrackingMessageField.SystemProperty( "os.name" ),
+                new TrackingMessageField.SystemProperty( "os.version" ),
+                new TrackingMessageField.SystemProperty( "os.arch" ),
 
-                new TrackingEntry.SystemProperty( "javawebstart.version" ),
-                new TrackingEntry.SystemProperty( "java.version" ),
-                new TrackingEntry.SystemProperty( "java.vendor" ),
+                new TrackingMessageField.SystemProperty( "javawebstart.version" ),
+                new TrackingMessageField.SystemProperty( "java.version" ),
+                new TrackingMessageField.SystemProperty( "java.vendor" ),
 
-                new TrackingEntry.SystemProperty( "user.country" ),
-                new TrackingEntry.SystemProperty( "user.timezone" ),
-                new TrackingEntry( "locale-default", Locale.getDefault().toString() ),
-                new TrackingEntry( PhetPreferences.KEY_PREFERENCES_FILE_CREATION_TIME, PhetPreferences.getInstance().getPreferencesFileCreatedAtMillis() + "" ),
-                new TrackingEntry( "sim-started-at", config.getSimStartTimeMillis() + "" ),
-                new TrackingEntry( "sim-startup-time", config.getElapsedStartupTime() + "" ),
+                new TrackingMessageField.SystemProperty( "user.country" ),
+                new TrackingMessageField.SystemProperty( "user.timezone" ),
+                new TrackingMessageField( "locale-default", Locale.getDefault().toString() ),
+                new TrackingMessageField( PhetPreferences.KEY_PREFERENCES_FILE_CREATION_TIME, PhetPreferences.getInstance().getPreferencesFileCreatedAtMillis() + "" ),
+                new TrackingMessageField( "sim-started-at", config.getSimStartTimeMillis() + "" ),
+                new TrackingMessageField( "sim-startup-time", config.getElapsedStartupTime() + "" ),
 
-                new TrackingEntry( "time", new SimpleDateFormat( "yyyy-MM-dd_HH:mm:ss" ).format( new Date() ) )
+                new TrackingMessageField( "time", new SimpleDateFormat( "yyyy-MM-dd_HH:mm:ss" ).format( new Date() ) )
         };
-        super.addAllEntries( entriesArray );
+        super.addFields( entriesArray );
     }
 
     private void initTimeZone() {

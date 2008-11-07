@@ -1,10 +1,10 @@
 package edu.colorado.phet.common.phetcommon.tracking;
 
-public class TrackingEntry {
+public class TrackingMessageField {
     private String key;
     private String value;
 
-    public TrackingEntry( String key, String value ) {
+    public TrackingMessageField( String key, String value ) {
         this.key = key;
         this.value = value;
     }
@@ -33,7 +33,7 @@ public class TrackingEntry {
         return key + " = " + value;
     }
 
-    public static class SystemProperty extends TrackingEntry {
+    public static class SystemProperty extends TrackingMessageField {
         public SystemProperty( String s ) {
             super( s, System.getProperty( s ) );
         }
