@@ -283,7 +283,7 @@ EOT;
                         <tr>
                             <td>
                                 <div class="rage_button_928365">
-                                    <a href="{$this->sim_run_offline_link}" title="Click here to download the simulation to your computer, to run when you do not have an Internet connection">Run Offline</a>
+                                    <a href="{$this->sim_run_offline_link}" title="Click here to download the simulation to your computer, to run when you do not have an Internet connection">Download</a>
                                 </div>
                             </td>
 
