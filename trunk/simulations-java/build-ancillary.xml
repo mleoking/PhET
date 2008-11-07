@@ -632,6 +632,35 @@
 		<delete file="${jar-all-file}"/>
 	</target>
 
+    <!--We are temporarily creating language JARs in the deploy task
+    At some point this should be rewritten in PHP,
+    see: https://phet.unfuddle.com/projects/9404/tickets/by_number/783?cycle=true
+    -->
+    <target name="_create-language-jars">
+        <foreach list="${sim.flavors}" target="_create-language-jars-for-flavor" param="sim.flavor" inheritall="true"/>
+    </target>
+
+    <target name="_create-language-jars-for-flavor">
+        <phet-list-locales property="sim.locales" project="${sim.name}"/>
+        <foreach list="${sim.locales}" target="_create-language-jar" param="sim.locale" inheritall="true" inheritrefs="true"/>
+    </target>
+
+    <target name="_create-language-jar">
+        <if>
+            <equals arg1="${sim.locale}" arg2="en"/>
+            <then/>
+            <else>
+                <echo message="!@#creating language jar: sim.flavor=${sim.flavor}, sim.locale=${sim.locale}"/>
+                <copy file="simulations/${sim.name}/deploy/${sim.flavor}.jar"
+                      tofile="simulations/${sim.name}/deploy/${sim.flavor}_${sim.locale}.jar"/>
+                <echo message="locale=${sim.locale}" file="options.properties"/>
+                <!--<jar file="simulations/${sim.name}/deploy/${sim.flavor}_${sim.locale}.jar" update="true" basedir="simulations/${sim.name}/deploy/" includes="options.properties"/> -->
+                <exec command="jar uf simulations/${sim.name}/deploy/${sim.flavor}_${sim.locale}.jar options.properties"/>
+            </else>
+        </if>
+
+    </target>
+
 	<!-- fails if the working copy is not synchronized with the SVN repository -->
 	<target name="_fail-if-working-copy-is-not-synchronized" depends="_init">
 		
