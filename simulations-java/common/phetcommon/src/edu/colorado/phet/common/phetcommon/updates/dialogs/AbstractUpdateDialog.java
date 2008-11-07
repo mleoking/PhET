@@ -15,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 import edu.colorado.phet.common.phetcommon.updates.OpenWebPageToNewVersion;
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
@@ -26,7 +25,7 @@ public abstract class AbstractUpdateDialog extends JDialog {
     
     private static final String TRY_IT_LINK = PhetCommonResources.getString( "Common.updates.tryIt" );
     
-    protected AbstractUpdateDialog( Frame owner, String title, final String project, final String sim, final String simName, final PhetVersion currentVersion, final PhetVersion newVersion ,String locale) {
+    protected AbstractUpdateDialog( Frame owner, String title, final String project, final String sim, final String simName, final PhetVersion currentVersion, final PhetVersion newVersion, String locale) {
         super( owner, title );
         setResizable( false );
         setModal( true );
@@ -71,14 +70,32 @@ public abstract class AbstractUpdateDialog extends JDialog {
         } );
         tryItLink.setForeground( Color.blue );
 
+        // Subclass-specific messages
+        JComponent additionlMessageComponent = createAdditionalMessageComponent();
+
         // layout
-        JPanel messagePanel = new VerticalLayoutPanel();
+        JPanel messagePanel = new JPanel();
         messagePanel.setBorder( BorderFactory.createEmptyBorder( 10, 10, 5, 10 ) );
-        messagePanel.add( versionComparisonLabel );
-        messagePanel.add( Box.createVerticalStrut( 5 ) );
-        messagePanel.add( tryItLink );
+        EasyGridBagLayout layout = new EasyGridBagLayout( messagePanel );
+        messagePanel.setLayout( layout );
+        int row = 0;
+        int col = 0;
+        layout.addComponent( versionComparisonLabel, row++, col );
+        layout.addComponent( Box.createVerticalStrut( 5 ), row++, col );
+        layout.addComponent( tryItLink, row++, col );
+        if ( additionlMessageComponent != null ) {
+            layout.addComponent( additionlMessageComponent, row++, col );
+        }
 
         return messagePanel;
+    }
+    
+    /*
+     * Subclasses can override this if they have additional things to add to the message area.
+     * Those things will be added below the standard message.
+     */
+    protected JComponent createAdditionalMessageComponent() {
+        return null;
     }
     
     /*
