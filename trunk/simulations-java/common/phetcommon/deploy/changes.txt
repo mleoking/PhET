@@ -1,3 +1,4 @@
+11-7-08: cleanup up the layout of AutomaticUpdateDialog to make it less overwhelming
 11-6-08: clean up formatting methods in PhetVersion, remove knowledge of About dialog
 11-6-08: #917, add sim type (java or flash) to SessionStartMessage
 10-31-2008: remove obsolete keys from English strings file

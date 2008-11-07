@@ -9,6 +9,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -48,7 +49,7 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
         this.versionSkipper = new DefaultVersionSkipper();
     }
     
-    protected JPanel createButtonPanel( final String project, final String sim, final String simName, final PhetVersion currentVersion, final PhetVersion newVersion,String locale ) {
+    protected JPanel createButtonPanel( final String project, final String sim, final String simName, final PhetVersion currentVersion, final PhetVersion newVersion, String locale ) {
         
         // does the update
         JButton updateNowButton = new UpdateButton( project, sim,locale );
@@ -73,8 +74,18 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
             }
         } );
         
+        // panel
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add( updateNowButton );
+        buttonPanel.add( askMeLater );
+        buttonPanel.add( skipThisVersion );
+        
+        return buttonPanel;
+    }
+    
+    protected JComponent createAdditionalMessageComponent() {
         // Advanced link, opens the Preferences dialog
-        String advancedHTML = "<html><font size=\"3\"><u>" + ADVANCED_LINK + "</u></font></html>";
+        String advancedHTML = "<html><font size=\"2\"><u>" + ADVANCED_LINK + "</u></font></html>";
         JLabel advancedLink = new JLabel( advancedHTML );
         advancedLink.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
         advancedLink.addMouseListener( new MouseAdapter() {
@@ -85,14 +96,7 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
             }
         } );
         advancedLink.setForeground( Color.blue );
-        
-        // panel
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.add( updateNowButton );
-        buttonPanel.add( askMeLater );
-        buttonPanel.add( skipThisVersion );
-        buttonPanel.add( advancedLink );
-        
-        return buttonPanel;
+        return advancedLink;
     }
+
 }
