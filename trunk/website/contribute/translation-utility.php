@@ -31,7 +31,7 @@ class TranslationInstructionsPage extends SitePage {
                 </li>
 
                 <li>
-                    Go to the PhET website and download the JAR file for the simulation that you want to translate (press the "Run Offline" button on a simulation page).
+                    Go to the PhET website and download the JAR file for the simulation that you want to translate (press the "Download" button on a simulation page).
                 </li>
 
                 <li>
@@ -85,7 +85,7 @@ class TranslationInstructionsPage extends SitePage {
                 </li>
 
                 <li>
-                    Go <a href="{$example_sim}" >here</a> and click the "Run Offline" button. This will download hydrogen-atom.jar.
+                    Go <a href="{$example_sim}" >here</a> and click the "Download" button. This will download hydrogen-atom.jar.
                 </li>
 
                 <li>
