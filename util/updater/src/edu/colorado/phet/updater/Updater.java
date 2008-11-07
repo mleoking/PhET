@@ -29,7 +29,7 @@ public class Updater {
         // Download the new, updated version of the sim.
         try {
             notifyDownloadStarted();
-            download( project, sim, targetLocation );
+            download( project, sim, locale, targetLocation );
             println( "finished download" );
             notifyDownloadFinished();
         }
@@ -96,8 +96,9 @@ public class Updater {
     /*
      * Downloads the JAR for the specified simulation to the specified location.
      */
-    private void download( String project, String flavor, File targetLocation ) throws FileNotFoundException {
-        Util.download( "http://phet.colorado.edu/sims/" + project + "/" + flavor + ".jar", targetLocation );
+    private void download( String project, String flavor, String locale, File targetLocation ) throws FileNotFoundException {
+        String localeSuffix = locale.equals( "en" ) ? "" : "_" + locale;
+        Util.download( "http://phet.colorado.edu/sims/" + project + "/" + flavor + localeSuffix + ".jar", targetLocation );
     }
 
     private static void println( String ms ) {
