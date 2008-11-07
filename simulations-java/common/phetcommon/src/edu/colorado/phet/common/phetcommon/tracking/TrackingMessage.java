@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class TrackingMessage {
-    private ArrayList entries = new ArrayList();
+    private ArrayList fields = new ArrayList();
 
     //versioning the tracking system will allow us to analyze data across version changes
     //for example, we may stop tracking certain things in a newer version of the tracker
@@ -39,45 +39,45 @@ public class TrackingMessage {
 
 
     public TrackingMessage( SessionID sessionID, String messageType ) {
-        addEntry( new TrackingEntry( "session-id", sessionID.toString() ) );
-        addEntry( new TrackingEntry( "timestamp", System.currentTimeMillis() + "" ) );
-        addEntry( new TrackingEntry( "message-type", messageType ) );
+        addField( new TrackingMessageField( "session-id", sessionID.toString() ) );
+        addField( new TrackingMessageField( "timestamp", System.currentTimeMillis() + "" ) );
+        addField( new TrackingMessageField( "message-type", messageType ) );
     }
 
-    public void addAllEntries( TrackingEntry[] list ) {
-        entries.addAll( Arrays.asList( list ) );
+    public void addFields( TrackingMessageField[] list ) {
+        fields.addAll( Arrays.asList( list ) );
     }
 
-    public void addEntry( TrackingEntry entry ) {
-        entries.add( entry );
+    public void addField( TrackingMessageField field ) {
+        fields.add( field );
     }
 
     public String toPHP() {
         String php = "";
-        for ( int i = 0; i < getEntryCount(); i++ ) {
+        for ( int i = 0; i < getFieldCount(); i++ ) {
             if ( i > 0 ) {
                 php += "&";
             }
-            php += getEntry( i ).toPHP();
+            php += getField( i ).toPHP();
         }
         return php;
     }
 
-    private TrackingEntry getEntry( int i ) {
-        return (TrackingEntry) entries.get( i );
+    private TrackingMessageField getField( int i ) {
+        return (TrackingMessageField) fields.get( i );
     }
 
-    public int getEntryCount() {
-        return entries.size();
+    public int getFieldCount() {
+        return fields.size();
     }
 
     public String toHumanReadable() {
         String text = "";
-        for ( int i = 0; i < getEntryCount(); i++ ) {
+        for ( int i = 0; i < getFieldCount(); i++ ) {
             if ( i > 0 ) {
                 text += "\n";
             }
-            text += getEntry( i ).toHumanReadable();
+            text += getField( i ).toHumanReadable();
         }
         return text;
     }
