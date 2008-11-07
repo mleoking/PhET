@@ -262,4 +262,10 @@ public abstract class AbstractVerletAlgorithm implements MoleculeForceAndMotionC
             }
         }
     }
+
+	protected void updatePressure(double pressureZoneWallForce) {
+		m_pressure = (1 - PRESSURE_CALC_WEIGHTING) * (pressureZoneWallForce / 
+	  		(m_model.getNormalizedContainerWidth() + m_model.getNormalizedContainerHeight())) + 
+	  		PRESSURE_CALC_WEIGHTING * m_pressure;
+	}
 }

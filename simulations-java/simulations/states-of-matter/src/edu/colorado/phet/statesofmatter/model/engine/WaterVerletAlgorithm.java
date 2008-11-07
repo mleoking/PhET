@@ -10,28 +10,34 @@ import edu.colorado.phet.statesofmatter.model.MultipleParticleModel2;
 
 /**
  * Implementation of the Verlet algorithm for simulating molecular interaction
- * based on the Lennard-Jones potential - diatomic (i.e. two atoms per
- * molecule) version.
+ * based on the Lennard-Jones potential.  This version is used specifically
+ * for simulating water, i.e. H2O.
  * 
  * @author John Blanco
  */
-public class DiatomicVerletAlgorithm extends AbstractVerletAlgorithm {
+public class WaterVerletAlgorithm extends AbstractVerletAlgorithm {
 
     //----------------------------------------------------------------------------
     // Class Data
     //----------------------------------------------------------------------------
 	
+    // Parameters used for "hollywooding" of the water crystal.
+    private static final double WATER_FULLY_MELTED_TEMPERATURE = 0.3;
+    private static final double WATER_FULLY_MELTED_ELECTROSTATIC_FORCE = 1.0;
+    private static final double WATER_FULLY_FROZEN_TEMPERATURE = 0.22;
+    private static final double WATER_FULLY_FROZEN_ELECTROSTATIC_FORCE = 4.0;
+    
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
 	
-	AtomPositionUpdater m_positionUpdater = new DiatomicAtomPositionUpdater();
+	AtomPositionUpdater m_positionUpdater = new WaterAtomPositionUpdater();
 
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
 
-	public DiatomicVerletAlgorithm( MultipleParticleModel2 model ){
+	public WaterVerletAlgorithm( MultipleParticleModel2 model ){
 		super( model );
 	}
 	
@@ -53,7 +59,7 @@ public class DiatomicVerletAlgorithm extends AbstractVerletAlgorithm {
 	 * Verlet algorithm is contained.
 	 */
 	public void updateForcesAndMotion() {
-		
+	
         // Obtain references to the model data and parameters so that we can
         // perform fast manipulations.
         MoleculeForceAndMotionDataSet moleculeDataSet = m_model.getMoleculeDataSetRef();
@@ -74,7 +80,35 @@ public class DiatomicVerletAlgorithm extends AbstractVerletAlgorithm {
 		double normalizedContainerHeight = m_model.getNormalizedContainerHeight();
 		double normalizedContainerWidth = m_model.getNormalizedContainerWidth();
 		double pressureZoneWallForce = 0;
+		double temperatureSetPoint = m_model.getTemperatureSetPoint();
 		
+		// Verify that this is being used on an appropriate data set.
+        assert moleculeDataSet.getAtomsPerMolecule() == 3;
+        
+        // Set up the values for the charges that will be used when
+        // calculating the coloumb interactions.
+        double q0;
+        if ( temperatureSetPoint < WATER_FULLY_FROZEN_TEMPERATURE ){
+            // Use stronger electrostatic forces in order to create more of
+            // a crystal structure.
+            q0 = WATER_FULLY_FROZEN_ELECTROSTATIC_FORCE;
+        }
+        else if ( temperatureSetPoint > WATER_FULLY_MELTED_TEMPERATURE ){
+            // Use weaker electrostatic forces in order to create more of an
+            // appearance of liquid.
+            q0 = WATER_FULLY_MELTED_ELECTROSTATIC_FORCE;
+        }
+        else {
+            // We are somewhere in between the temperature for being fully
+            // melted or frozen, so scale accordingly.
+            double temperatureFactor = (temperatureSetPoint - WATER_FULLY_FROZEN_TEMPERATURE)/
+                    (WATER_FULLY_MELTED_TEMPERATURE - WATER_FULLY_FROZEN_TEMPERATURE);
+            q0 = WATER_FULLY_FROZEN_ELECTROSTATIC_FORCE - 
+                (temperatureFactor * (WATER_FULLY_FROZEN_ELECTROSTATIC_FORCE - WATER_FULLY_MELTED_ELECTROSTATIC_FORCE));
+        }
+        double [] normalCharges = new double [] {-2*q0, q0, q0};
+        double [] alteredCharges = new double [] {-2*q0, 1.67*q0, 0.33*q0};
+        
         // Update center of mass positions and angles for the molecules.
         for (int i = 0; i < numberOfMolecules; i++){
             
@@ -93,10 +127,8 @@ public class DiatomicVerletAlgorithm extends AbstractVerletAlgorithm {
         
         // Calculate the force from the walls.  This force is assumed to act
         // on the center of mass, so there is no torque.
-        // Calculate the forces exerted on the particles by the container
-        // walls and by gravity.
         for (int i = 0; i < numberOfMolecules; i++){
-
+            
             // Clear the previous calculation's particle forces and torques.
             nextMoleculeForces[i].setComponents( 0, 0 );
             nextMoleculeTorques[i] = 0;
@@ -115,7 +147,7 @@ public class DiatomicVerletAlgorithm extends AbstractVerletAlgorithm {
             	// in that value to the pressure.
             	pressureZoneWallForce += Math.abs( nextMoleculeForces[i].getX() );
             }
-            
+
             // Add in the effect of gravity.
             double gravitationalAcceleration = m_model.getGravitationalAcceleration();
             if (m_model.getTemperatureSetPoint() < TEMPERATURE_BELOW_WHICH_GRAVITY_INCREASES){
@@ -140,38 +172,104 @@ public class DiatomicVerletAlgorithm extends AbstractVerletAlgorithm {
         // Calculate the force and torque due to inter-particle interactions.
         Vector2D force = new Vector2D.Double();
         for (int i = 0; i < moleculeDataSet.getNumberOfSafeMolecules(); i++){
+            
+            // Select which charges to use for this molecule.  This is part of
+            // the "hollywooding" to make the solid form appear more crystalline.
+            double [] chargesA;
+            if (i % 2 == 0){
+                chargesA = normalCharges;
+            }
+            else{
+                chargesA = alteredCharges;
+            }
+            
             for (int j = i + 1; j < moleculeDataSet.getNumberOfSafeMolecules(); j++){
-                for (int ii = 0; ii < 2; ii++){
-                    for (int jj = 0; jj < 2; jj++){
-                        // Calculate the distance between the potentially
-                        // interacting atoms.
-                        double dx = atomPositions[2 * i + ii].getX() - atomPositions[2 * j + jj].getX();
-                        double dy = atomPositions[2 * i + ii].getY() - atomPositions[2 * j + jj].getY();
-                        double distanceSquared = dx * dx + dy * dy;
-                        
-                        if (distanceSquared < PARTICLE_INTERACTION_DISTANCE_THRESH_SQRD){
-                        	
-                            if (distanceSquared < MIN_DISTANCE_SQUARED){
-                                distanceSquared = MIN_DISTANCE_SQUARED;
-                            }
+            
+                // Select charges for this molecule.
+                double [] chargesB;
+                if (j % 2 == 0){
+                    chargesB = normalCharges;
+                }
+                else{
+                    chargesB = alteredCharges;
+                }
+                
+                // Calculate Lennard-Jones potential between mass centers.
+                double dx = moleculeCenterOfMassPositions[i].getX() - moleculeCenterOfMassPositions[j].getX();
+                double dy = moleculeCenterOfMassPositions[i].getY() - moleculeCenterOfMassPositions[j].getY();
+                double distanceSquared = dx * dx + dy * dy;
+                
+                if (distanceSquared < PARTICLE_INTERACTION_DISTANCE_THRESH_SQRD){
+                    // Calculate the Lennard-Jones interaction forces.
+                	
+                    if (distanceSquared < MIN_DISTANCE_SQUARED){
+                        distanceSquared = MIN_DISTANCE_SQUARED;
+                    }
 
-                            // Calculate the Lennard-Jones interaction forces.
-                            double r2inv = 1 / distanceSquared;
-                            double r6inv = r2inv * r2inv * r2inv;
-                            double forceScaler = 48 * r2inv * r6inv * (r6inv - 0.5);
-                            double fx = dx * forceScaler;
-                            double fy = dy * forceScaler;
-                            force.setComponents( fx, fy );
+                    double r2inv = 1 / distanceSquared;
+                    double r6inv = r2inv * r2inv * r2inv;
+                    
+                    // A scaling factor is added here for the repulsive
+                    // portion of the Lennard-Jones force.  The idea is that
+                    // the force goes up at lower temperatures in order to
+                    // make the ice appear more spacious.  This is not real
+                    // physics, it is "hollywooding" in order to get the
+                    // crystalline behavior we need for ice.
+                    double repulsiveForceScalingFactor;
+                    double maxScalingFactor = 3;  // TODO: JPB TBD - Make a constant if kept.
+                    if (temperatureSetPoint > WATER_FULLY_MELTED_TEMPERATURE){
+                        // No scaling of the repulsive force.
+                        repulsiveForceScalingFactor = 1;
+                    }
+                    else if (temperatureSetPoint < WATER_FULLY_FROZEN_TEMPERATURE){
+                        // Scale by the max to force space in the crystal.
+                        repulsiveForceScalingFactor = maxScalingFactor;
+                    }
+                    else{
+                        // We are somewhere between fully frozen and fully
+                        // liquified, so adjust the scaling factor accordingly.
+                        double temperatureFactor = (temperatureSetPoint - WATER_FULLY_FROZEN_TEMPERATURE)/
+                                (WATER_FULLY_MELTED_TEMPERATURE - WATER_FULLY_FROZEN_TEMPERATURE);
+                        repulsiveForceScalingFactor = maxScalingFactor - (temperatureFactor * (maxScalingFactor - 1));
+                    }
+                    double forceScaler = 48 * r2inv * r6inv * ((r6inv * repulsiveForceScalingFactor) - 0.5);
+                    force.setX( dx * forceScaler );
+                    force.setY( dy * forceScaler );
+                    nextMoleculeForces[i].add( force );
+                    nextMoleculeForces[j].subtract( force );
+                    m_potentialEnergy += 4*r6inv*(r6inv-1) + 0.016316891136;
+                }
+
+                if (distanceSquared < PARTICLE_INTERACTION_DISTANCE_THRESH_SQRD){
+                    // Calculate coulomb-like interactions between atoms on
+                    // different water molecules.
+                    for (int ii = 0; ii < 3; ii++){
+                        for (int jj = 0; jj < 3; jj++){
+                            if (((3 * i + ii + 1) % 6 == 0) ||  ((3 * j + jj + 1) % 6 == 0)){
+                                // This is a hydrogen atom that is not going to be included
+                                // in the calculation in order to try to create a more
+                                // crystalline solid.  This is part of the "hollywooding"
+                                // that we do to create a better looking water crystal at
+                                // low temperatures.
+                                continue;
+                            }
+                            dx = atomPositions[3 * i + ii].getX() - atomPositions[3 * j + jj].getX();
+                            dy = atomPositions[3 * i + ii].getY() - atomPositions[3 * j + jj].getY();
+                            double r2inv = 1/(dx*dx + dy*dy);
+                            double forceScaler=chargesA[ii]*chargesB[jj]*r2inv*r2inv;
+                            force.setX( dx * forceScaler );
+                            force.setY( dy * forceScaler );
+                            
                             nextMoleculeForces[i].add( force );
                             nextMoleculeForces[j].subtract( force );
-                            nextMoleculeTorques[i] += 
-                                (atomPositions[2 * i + ii].getX() - moleculeCenterOfMassPositions[i].getX()) * fy -
-                                (atomPositions[2 * i + ii].getY() - moleculeCenterOfMassPositions[i].getY()) * fx;
-                            nextMoleculeTorques[j] -= 
-                                (atomPositions[2 * j + jj].getX() - moleculeCenterOfMassPositions[j].getX()) * fy -
-                                (atomPositions[2 * j + jj].getY() - moleculeCenterOfMassPositions[j].getY()) * fx;
-                            
-                            m_potentialEnergy += 4*r6inv*(r6inv-1) + 0.016316891136;
+                            nextMoleculeTorques[i] += (atomPositions[3 * i + ii].getX() - 
+                                    moleculeCenterOfMassPositions[i].getX()) * force.getY() -
+                                   (atomPositions[3 * i + ii].getY() - 
+                                    moleculeCenterOfMassPositions[i].getY()) * force.getX();
+                            nextMoleculeTorques[j] -= (atomPositions[3 * j + jj].getX() - 
+                            		moleculeCenterOfMassPositions[j].getX()) * force.getY() -
+                                    (atomPositions[3 * j + jj].getY() - moleculeCenterOfMassPositions[j].getY()) * 
+                                    force.getX();
                         }
                     }
                 }
@@ -187,14 +285,13 @@ public class DiatomicVerletAlgorithm extends AbstractVerletAlgorithm {
             double xVel = moleculeVelocities[i].getX() + 
                 TIME_STEP_HALF * (moleculeForces[i].getX() + nextMoleculeForces[i].getX()) * massInverse;
             double yVel = moleculeVelocities[i].getY() + 
-                TIME_STEP_HALF * (moleculeForces[i].getY() + nextMoleculeForces[i].getY()) * massInverse;
+            TIME_STEP_HALF * (moleculeForces[i].getY() + nextMoleculeForces[i].getY()) * massInverse;
             moleculeVelocities[i].setComponents( xVel, yVel );
             
-            moleculeRotationRates[i] += TIME_STEP_HALF * 
-                (moleculeTorques[i] + nextMoleculeTorques[i]) * inertiaInverse;
+            moleculeRotationRates[i] += TIME_STEP_HALF * (moleculeTorques[i] + nextMoleculeTorques[i]) * inertiaInverse;
             
             centersOfMassKineticEnergy += 0.5 * moleculeDataSet.getMoleculeMass() * 
-               (Math.pow( moleculeVelocities[i].getX(), 2 ) + Math.pow( moleculeVelocities[i].getY(), 2 ));
+                (Math.pow( moleculeVelocities[i].getX(), 2 ) + Math.pow( moleculeVelocities[i].getY(), 2 ));
             rotationalKineticEnergy += 0.5 * moleculeDataSet.getMoleculeRotationalInertia() * 
                 Math.pow(moleculeRotationRates[i], 2);
             
@@ -202,7 +299,7 @@ public class DiatomicVerletAlgorithm extends AbstractVerletAlgorithm {
             moleculeForces[i].setComponents( nextMoleculeForces[i].getX(), nextMoleculeForces[i].getY());
             moleculeTorques[i] = nextMoleculeTorques[i];
         }
-
+        
         // Record the calculated temperature.
         m_temperature = (centersOfMassKineticEnergy + rotationalKineticEnergy) / numberOfMolecules / 1.5;
         

@@ -63,6 +63,15 @@ public class WaterPhaseStateChanger extends AbstractPhaseStateChanger {
 			setPhaseGas();
 			break;
 		}
+		
+		MoleculeForceAndMotionDataSet moleculeDataSet = m_model.getMoleculeDataSetRef();
+		
+        // Assume that we've done our job correctly and that all the atoms are
+        // in safe positions.
+        m_model.getMoleculeDataSetRef().setNumberOfSafeMolecules( moleculeDataSet.getNumberOfMolecules() );
+        
+        // Sync up the atom positions with the molecule positions.
+        m_positionUpdater.updateAtomPositions( moleculeDataSet );
 	}
 	
 	/**
@@ -116,9 +125,6 @@ public class WaterPhaseStateChanger extends AbstractPhaseStateChanger {
                 moleculeVelocities[(i * moleculesPerLayer) + j].setComponents( xVel, yVel ); 
             }
         }
-
-        // Update the atom positions to match.
-        m_positionUpdater.updateAtomPositions( moleculeDataSet );
 	}
 	
 	/**
@@ -199,9 +205,6 @@ public class WaterPhaseStateChanger extends AbstractPhaseStateChanger {
                 }
             }
         }
-    
-        // Sync up the atom positions with the molecule positions.
-        m_positionUpdater.updateAtomPositions( moleculeDataSet );
 	}
 	
 	/**
@@ -273,8 +276,5 @@ public class WaterPhaseStateChanger extends AbstractPhaseStateChanger {
                 }
             }
         }
-        
-        // Sync up the atom positions with the molecule positions.
-        m_positionUpdater.updateAtomPositions( moleculeDataSet );
 	}
 }

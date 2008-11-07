@@ -21,14 +21,6 @@ public class WaterAtomPositionUpdater implements AtomPositionUpdater {
 
 	private static final double BONDED_PARTICLE_DISTANCE = 0.9;  // In particle diameters.
 	
-	// These constants describe the relationship from the centers of mass to the
-	// individual atoms.
-	private static final double DISTANCE_FROM_OXYGEN_TO_HYDROGEN = 1.0 / 3.12;  // Number supplied by Paul Beale.
-	private static final double [] COM_TO_ATOM_RELATIONSHIPS_X = {0, DISTANCE_FROM_OXYGEN_TO_HYDROGEN,
-		DISTANCE_FROM_OXYGEN_TO_HYDROGEN * Math.cos( StatesOfMatterConstants.THETA_HOH )};
-	private static final double [] COM_TO_ATOM_RELATIONSHIPS_Y = {0, 0,
-		DISTANCE_FROM_OXYGEN_TO_HYDROGEN * Math.sin( StatesOfMatterConstants.THETA_HOH )};
-	
 	//----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -64,10 +56,12 @@ public class WaterAtomPositionUpdater implements AtomPositionUpdater {
             cosineTheta = Math.cos( moleculeRotationAngles[i] );
             sineTheta = Math.sin( moleculeRotationAngles[i] );
             for (int j = 0; j < 3; j++){
-                xPos = moleculeCenterOfMassPositions[i].getX() + cosineTheta * COM_TO_ATOM_RELATIONSHIPS_X[j] - 
-                        sineTheta * COM_TO_ATOM_RELATIONSHIPS_Y[j];
-                yPos = moleculeCenterOfMassPositions[i].getY() + sineTheta * COM_TO_ATOM_RELATIONSHIPS_X[j] + 
-                        cosineTheta * COM_TO_ATOM_RELATIONSHIPS_Y[j];
+                xPos = moleculeCenterOfMassPositions[i].getX() + cosineTheta * 
+                        StatesOfMatterConstants.H2O_MOLECULE_STRUCTURE_X[j] - 
+                        sineTheta * StatesOfMatterConstants.H2O_MOLECULE_STRUCTURE_Y[j];
+                yPos = moleculeCenterOfMassPositions[i].getY() + sineTheta * 
+                StatesOfMatterConstants.H2O_MOLECULE_STRUCTURE_X[j] + 
+                        cosineTheta * StatesOfMatterConstants.H2O_MOLECULE_STRUCTURE_Y[j];
                 atomPositions[i * 3 + j].setLocation( xPos, yPos );
             }
         }

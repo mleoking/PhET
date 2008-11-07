@@ -79,9 +79,6 @@ public class MonatomicVerletAlgorithm extends AbstractVerletAlgorithm {
         // Calculate the forces exerted on the particles by the container
         // walls and by gravity.
         double pressureZoneWallForce = 0;
-        boolean interactionOccurredWithTop = false;  // TODO: JPB TBD - This was used for adjusting temp when
-                                                     // container was resized.  Not sure how I'll use it now, but
-                                                     // keeping it for now.
         for (int i = 0; i < numberOfAtoms; i++){
             
             // Clear the previous calculation's particle forces.
@@ -95,7 +92,6 @@ public class MonatomicVerletAlgorithm extends AbstractVerletAlgorithm {
             // exerted on the walls of the container.
             if (nextMoleculeForces[i].getY() < 0){
                 pressureZoneWallForce += -nextMoleculeForces[i].getY();
-                interactionOccurredWithTop = true;
             }
             else if (moleculeCenterOfMassPositions[i].getY() > m_model.getNormalizedContainerHeight() / 2){
             	// If the particle bounced on one of the walls above the midpoint, add
@@ -121,9 +117,7 @@ public class MonatomicVerletAlgorithm extends AbstractVerletAlgorithm {
         }
         
         // Update the pressure calculation.
-        m_pressure = (1 - PRESSURE_CALC_WEIGHTING) * (pressureZoneWallForce / 
-      		(m_model.getNormalizedContainerWidth() + m_model.getNormalizedContainerHeight())) + 
-      		PRESSURE_CALC_WEIGHTING * m_pressure;
+        updatePressure( pressureZoneWallForce );
         
         // If there are any atoms that are currently designated as "unsafe",
         // check them to see if they can be moved into the "safe" category.
