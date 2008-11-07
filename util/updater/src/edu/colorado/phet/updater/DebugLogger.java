@@ -8,7 +8,7 @@ import java.io.IOException;
  * This class is responsible for producing a log file to help debug issues with the update process.
  */
 public class DebugLogger {
-    private static File logFile = new File( System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.separator" ) + "updater-log.txt" );
+    private static File logFile = new File( System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.separator" ) + "phet-log.txt" );
     private static FileWriter fileWriter;
 
     static {
