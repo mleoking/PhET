@@ -38,7 +38,7 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
     private final IVersionSkipper versionSkipper;
     
     public AutomaticUpdateDialog( Frame owner, ISimInfo simInfo, ITrackingInfo trackingInfo, PhetVersion newVersion ) {
-        super( owner, TITLE, simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getName(), simInfo.getVersion(), newVersion );
+        super( owner, TITLE, simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getName(), simInfo.getVersion(), newVersion,simInfo.getLocaleString() );
         
         this.owner = owner;
         this.simInfo = simInfo;
@@ -48,10 +48,10 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
         this.versionSkipper = new DefaultVersionSkipper();
     }
     
-    protected JPanel createButtonPanel( final String project, final String sim, final String simName, final PhetVersion currentVersion, final PhetVersion newVersion ) {
+    protected JPanel createButtonPanel( final String project, final String sim, final String simName, final PhetVersion currentVersion, final PhetVersion newVersion,String locale ) {
         
         // does the update
-        JButton updateNowButton = new UpdateButton( project, sim );
+        JButton updateNowButton = new UpdateButton( project, sim,locale );
 
         // ignores this update until a later time
         JButton askMeLater = new JButton( ASK_ME_LATER_BUTTON );

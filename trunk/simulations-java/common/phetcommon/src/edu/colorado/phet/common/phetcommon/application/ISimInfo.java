@@ -14,4 +14,5 @@ public interface ISimInfo {
     String[] getCommandLineArgs();
     boolean isDev();
     long getSimStartTimeMillis();
+    String getLocaleString();
 }

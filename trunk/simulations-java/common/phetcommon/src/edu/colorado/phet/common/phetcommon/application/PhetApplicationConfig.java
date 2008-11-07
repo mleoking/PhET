@@ -183,6 +183,10 @@ public class PhetApplicationConfig implements ITrackingInfo, ISimInfo {
         return simStartTimeMillis;
     }
 
+    public String getLocaleString() {
+        return PhetResources.readLocale().getLanguage();
+    }
+
     public boolean isUpdatesEnabled() {
         return new UpdateApplicationManager( this ).isUpdatesEnabled();
     }

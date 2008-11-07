@@ -9,6 +9,6 @@ import edu.colorado.phet.common.phetcommon.application.ISimInfo;
  */
 public class ApplicationConfigManualCheckForUpdates extends DefaultManualCheckForUpdates {
     public ApplicationConfigManualCheckForUpdates( Frame frame, ISimInfo phetApplicationConfig ) {
-        super( frame, phetApplicationConfig.getProjectName(), phetApplicationConfig.getFlavor(), phetApplicationConfig.getVersion(), phetApplicationConfig.getName() );
+        super( frame, phetApplicationConfig.getProjectName(), phetApplicationConfig.getFlavor(), phetApplicationConfig.getVersion(), phetApplicationConfig.getName(),phetApplicationConfig.getLocaleString() );
     }
 }
