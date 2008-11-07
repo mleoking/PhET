@@ -1,4 +1,7 @@
 #1.06.08 11-7-2008
+Dummy version for testing offline jar languages, do not use this version
+
+#1.06.08 11-7-2008
 Dummy version for testing web start permissions, do not use this version
 
 #1.06.07 11-6-2008
