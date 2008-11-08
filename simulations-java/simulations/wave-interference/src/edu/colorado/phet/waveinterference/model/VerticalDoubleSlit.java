@@ -32,12 +32,12 @@ public class VerticalDoubleSlit extends VerticalBarrier {
 
         int topSlitCenter = round( gridHeight / 2.0 - slitSeparation / 2.0 );
         int bottomSlitCenter = round( gridHeight / 2.0 + slitSeparation / 2.0 );
-        int midBarSize = round( gridHeight / 2.0 - slitSeparation / 2.0 - slitSize / 2.0 );
+//        int midBarSize = round( gridHeight / 2.0 - slitSeparation / 2.0 - slitSize / 2.0 );
 
         topBar = new Rectangle( x, 0, thickness, round( topSlitCenter - slitSize / 2.0 ) );
         midBar = new Rectangle( x, round( topSlitCenter + slitSize / 2.0 ), thickness, slitSeparation - slitSize );
-        if ( midBar.getHeight() < 0 ) {
-            midBar.setSize( midBar.width, 0 );
+        if ( midBar.getHeight() < 1 ) { //make sure there is always a barrier between the slits, see #884 
+            midBar.setBounds( x, round( topSlitCenter + bottomSlitCenter ) / 2, thickness, 1 );
         }
 
         int bottomBarY = round( bottomSlitCenter + slitSize / 2.0 );
