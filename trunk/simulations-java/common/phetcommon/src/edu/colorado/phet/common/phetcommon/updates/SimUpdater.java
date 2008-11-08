@@ -52,7 +52,7 @@ public class SimUpdater {
 //
         String jarURL = HTMLUtils.getSimJarURL( project, flavor, "&", locale );
         println( "Downloading " + jarURL );
-        DownloadUtils.download( jarURL, targetLocation );
+        NetworkUtils.download( jarURL, targetLocation );
     }
 
     private void startBootstrap( File bootstrapUpdater, File src, File dst ) throws IOException {
