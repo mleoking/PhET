@@ -26,10 +26,10 @@
         $connection = mysql_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD);
 
         if (!$connection) {
-            //print("Database error: Could not connect to database.");
+            print("Database error: Could not connect to database.");
         }
         if (!mysql_select_db(DB_NAME, $connection)) {
-            //print("Database error: Could not select database.");
+            print("Database error: Could not select database.");
         }
     }
 

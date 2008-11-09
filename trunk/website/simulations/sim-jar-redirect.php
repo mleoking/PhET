@@ -10,7 +10,6 @@
 
     // Get the simulation id
     //$sim_id = $_REQUEST['sim_id'];
-    //todo: hard coded to always give english balloons,  needs to be fixed
     $sim_id = 81;
 
     // Get the language, if present
