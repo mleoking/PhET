@@ -1403,7 +1403,7 @@ EOT;
 EOT;
 
         if ($contribution_from_phet == 1) {
-            $title_html = "${title_html} ".FROM_PHET_IMAGE_HTML;
+        $title_html = "${title_html} ".FROM_PHET_IMAGE_HTML;
         }
 
         $title_html .= $gold_star_html;
