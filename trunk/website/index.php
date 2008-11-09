@@ -81,7 +81,7 @@ EOT;
                     <a href="simulations/index.php" title="Click here to view the simulations"><img width="320" height="240" src="random-thumbnail.php" alt="Random screenshot of a simulation"/></a>
                 </div>
 
-                <h1>Interactive Physics Simulations</h1>
+                <h1>Interactive Science Simulations</h1>
 
                 <p class="openingParagraph">Fun, interactive, <a href="research/index.php">research-based</a> simulations of physical phenomena from the PhET project at the University of Colorado.</p>
 
