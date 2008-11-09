@@ -52,6 +52,8 @@ href="{$this->prefix}tech_support/support-flash.php">Flash</a> and <a
 href="{$this->prefix}tech_support/support-java.php">Java</a> are
 installed. </p>
 
+<p>
+</p>
 EOT;
         return true;
     }
