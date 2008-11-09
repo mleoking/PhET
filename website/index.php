@@ -83,7 +83,7 @@ EOT;
 
                 <h1>Interactive Physics Simulations</h1>
 
-                <p class="openingParagraph">Fun, interactive, <a href="research/index.php">research-based</a> simulations of physical phenomena from the Physics Education Technology project at the University of Colorado.</p>
+                <p class="openingParagraph">Fun, interactive, <a href="research/index.php">research-based</a> simulations of physical phenomena from the PhET project at the University of Colorado.</p>
 
                 <div id="hotlinks">
                 <p class="findOutMore" onclick="javascript:location.href='simulations/index.php?cat={$default_sim_category}'">
