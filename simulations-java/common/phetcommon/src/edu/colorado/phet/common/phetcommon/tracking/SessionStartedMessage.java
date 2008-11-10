@@ -22,7 +22,8 @@ public class SessionStartedMessage extends TrackingMessage {
                 new TrackingMessageField( "sim-type", "java" ), // to easily distinguish between Java and Flash sims
                 new TrackingMessageField( "sim-version", config.getVersion().formatMajorMinorDev() ),
                 new TrackingMessageField( "svn-revision", config.getVersion().getRevision() ),
-                new TrackingMessageField( "sim-locale", PhetResources.readLocale().toString() ),
+                new TrackingMessageField( "locale-language", PhetResources.readLocale().getLanguage() ),
+                new TrackingMessageField( "locale-country", PhetResources.readLocale().getCountry() ),
                 new TrackingMessageField( "dev", config.isDev() + "" ),
 
                 //Then general to specific information about machine config
