@@ -1,3 +1,6 @@
+# 1.06.12
+test change to phetcommon #875, be able to detect how a sim was run
+
 #1.06.09 11-7-2008
 Dummy version for testing offline jar languages, do not use this version
 
