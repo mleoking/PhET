@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<SimStrings>
+<string key="resetStopwatch" value="nulovať"/>
+<string key="earth" value="Zem"/>
+<string key="showPhotoGateTimer" value="Automatické stopky"/>
+<string key="planetX" value="Planéta X"/>
+<string key="acceleration" value="zrýchlenie"/>
+<string key="showEnergyOf" value="Graf energie kyvadla:"/>
+<string key="PE" value="potenciálna"/>
+<string key="velocity" value="rýchlosť"/>
+<string key="realTime" value="skutočný čas"/>
+<string key="length" value="dĺžka"/>
+<string key="lots" value="veľké"/>
+<string key="friction" value="trenie"/>
+<string key="showSecondPendulum" value="Zobraziť 2. kyvadlo"/>
+<string key="start" value="Štart"/>
+<string key="mass_unit" value="kg"/>
+<string key="jupiter" value="Jupiter"/>
+<string key="moon" value="Mesiac"/>
+<string key="energyOf" value="energia "/>
+<string key="period" value="perióda:"/>
+<string key="noneFriction" value="žiadne"/>
+<string key="total" value="celková"/>
+<string key="mass2" value="hmotnosť 2:"/>
+<string key="pendulum" value="Kyvadlo:"/>
+<string key="startPauseStopwatch" value="štart/pauza"/>
+<string key="show" value="Zobraziť:"/>
+<string key="length2" value="dĺžka 2:"/>
+<string key="photoGateTimer" value="Automatické stopky"/>
+<string key="thermal" value="tepelná"/>
+<string key="pausePlay" value="pauza/štart"/>
+<string key="reset" value="Nulovať"/>
+<string key="mass" value="hmotnosť"/>
+<string key="quarterTime" value="1/4 času"/>
+<string key="KE" value="kinetická"/>
+<string key="gEqZero" value="g = 0"/>
+<string key="length_unit" value="m"/>
+<string key="noneEnergy" value="nezobraziť"/>
+<string key="otherTools" value="ďalšie nástroje"/>
+<string key="angleUnit" value=" °"/>
+<string key="paused" value="pauza"/>
+<string key="sixteenthTime" value="1/16 času"/>
+</SimStrings>
