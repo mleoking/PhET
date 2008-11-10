@@ -180,9 +180,16 @@ public class PhetUtilities {
      * @return true or false
      */
     public static boolean isPhetInstallation() {
+        boolean isPhetInstallation = false;
         File codeSource = getCodeSource();
-        File specialFile = new File( codeSource.getParent() + System.getProperty( "file.separator" ) + ".phet-installer" );
-//        System.out.println( "PhetUtilities.isPhetInstallation, looking for " + specialFile.getAbsolutePath() );
-        return specialFile.exists();
+        File parentDir = codeSource.getParentFile();
+        if ( parentDir != null ) {
+            File grandparentDir = parentDir.getParentFile();
+            if ( grandparentDir != null ) {
+                File specialFile = new File( grandparentDir.getAbsolutePath() + System.getProperty( "file.separator" ) + ".phet-installer" );
+                isPhetInstallation = specialFile.exists();
+            }
+        }
+        return isPhetInstallation;
     }
 }
