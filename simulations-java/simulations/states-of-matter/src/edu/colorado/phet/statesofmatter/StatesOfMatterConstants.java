@@ -138,15 +138,11 @@ public class StatesOfMatterConstants {
     public static final double MAX_EPSILON = 220;    // Epsilon/k-Boltzmann is in Kelvin.
     public static final double MIN_EPSILON = 30;     // Epsilon/k-Boltzmann is in Kelvin.
     
-    // Constants used to describe the the spacial relationship between 
+    // Constants used to describe the the spatial relationship between 
     public static final double THETA_HOH = 120*Math.PI/180;  // This is not quite the real value for a water
                                                              // molecule, but it is close and worked better in
                                                              // the simulation.
 	public static final double DISTANCE_FROM_OXYGEN_TO_HYDROGEN = 1.0 / 3.12;  // Number supplied by Paul Beale.
-	public static final double [] H2O_MOLECULE_STRUCTURE_X = {0, DISTANCE_FROM_OXYGEN_TO_HYDROGEN,
-		DISTANCE_FROM_OXYGEN_TO_HYDROGEN * Math.cos( StatesOfMatterConstants.THETA_HOH )};
-	public static final double [] H2O_MOLECULE_STRUCTURE_Y = {0, 0,
-		DISTANCE_FROM_OXYGEN_TO_HYDROGEN * Math.sin( StatesOfMatterConstants.THETA_HOH )};
 
     // Distance between diatomic pairs.
     public static final double DIATOMIC_PARTICLE_DISTANCE = 0.9;  // In particle diameters.

@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
+import edu.colorado.phet.statesofmatter.model.engine.WaterMoleculeStructure;
 
 /**
  * This class represents the bundle of data that represents the position,
@@ -38,10 +39,6 @@ public class MoleculeForceAndMotionDataSet {
     private double [] m_moleculeRotationRates;
     private double [] m_moleculeTorques;
     private double [] m_nextMoleculeTorques;
-
-    // TODO: JPB TBD - Don't know yet whether this belong here or in the water algorithm.  I suspect the latter.
-    double [] m_x0;
-    double [] m_y0;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -83,11 +80,7 @@ public class MoleculeForceAndMotionDataSet {
         	// (Nov 2008).  If other 3-atom molecules are added, this will
         	// need to be changed.
         	m_moleculeMass = 1.5; // Two molecules, assumed to be the same.
-        	m_moleculeRotationalInertia = Math.pow( StatesOfMatterConstants.DIATOMIC_PARTICLE_DISTANCE, 2 ) / 2;
-            m_moleculeRotationalInertia = 0.25 * (Math.pow(StatesOfMatterConstants.H2O_MOLECULE_STRUCTURE_X[1], 2)
-            		+ Math.pow(StatesOfMatterConstants.H2O_MOLECULE_STRUCTURE_Y[1], 2))
-            		+ 0.25 * (Math.pow(StatesOfMatterConstants.H2O_MOLECULE_STRUCTURE_X[2], 2)
-            	    + Math.pow(StatesOfMatterConstants.H2O_MOLECULE_STRUCTURE_Y[2], 2));
+            m_moleculeRotationalInertia = WaterMoleculeStructure.getInstance().getRotationalInertia();
         }
 	}
 
@@ -204,22 +197,6 @@ public class MoleculeForceAndMotionDataSet {
 		m_moleculeRotationalInertia = rotationalInertia;
 	}
 	
-	public double[] getX0() {
-		return m_x0;
-	}
-	
-	public void setX0(double[] m_x0) {
-		this.m_x0 = m_x0;
-	}
-	
-	public double[] getY0() {
-		return m_y0;
-	}
-	
-	public void setY0(double[] m_y0) {
-		this.m_y0 = m_y0;
-	}
-
     //----------------------------------------------------------------------------
     // Other public methods
     //----------------------------------------------------------------------------

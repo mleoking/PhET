@@ -88,16 +88,30 @@ public class WaterPhaseStateChanger extends AbstractPhaseStateChanger {
 		Point2D [] moleculeCenterOfMassPositions = moleculeDataSet.getMoleculeCenterOfMassPositions();
 		Vector2D [] moleculeVelocities = moleculeDataSet.getMoleculeVelocities();
 		double [] moleculeRotationAngles = moleculeDataSet.getMoleculeRotationAngles();
+		double [] moleculeRotationRates = moleculeDataSet.getMoleculeRotationRates();
 		
 		// Create and initialize other variables needed to do the job.
         Random rand = new Random();
         double temperatureSqrt = Math.sqrt( m_model.getTemperatureSetPoint() );
         int moleculesPerLayer = (int)(Math.round( Math.sqrt( numberOfMolecules * 3 ) ) / 2);
 
+        // Initialize the velocities and angles of the molecules.
+        for (int i = 0; i < numberOfMolecules; i++){
+
+            // Assign each molecule an initial velocity.
+//            moleculeVelocities[i].setComponents( temperatureSqrt * rand.nextGaussian(), 
+//                    temperatureSqrt * rand.nextGaussian() );
+            moleculeVelocities[i].setComponents( 0, 0 );
+            
+            // Assign each molecule an initial rotation rate.
+//            moleculeRotationRates[i] = rand.nextDouble() * temperatureSqrt * Math.PI * 2;
+            moleculeRotationRates[i] = 0;
+        }
+        
         // Establish the starting position, which will be the lower left corner
         // of the "cube".  The molecules will all be rotated so that they are
         // lying down.
-        double crystalWidth = moleculesPerLayer * 0.8; // 2nd term can be adjusted in order to center crystal.
+        double crystalWidth = moleculesPerLayer + (moleculesPerLayer - 1) * MIN_INITIAL_DIAMETER_DISTANCE;
         
         double startingPosX = (m_model.getNormalizedContainerWidth() / 2) - (crystalWidth / 2);
         double startingPosY = MIN_INITIAL_DIAMETER_DISTANCE;
@@ -118,11 +132,6 @@ public class WaterPhaseStateChanger extends AbstractPhaseStateChanger {
                 moleculeRotationAngles[(i * moleculesPerLayer) + j] = rand.nextDouble() * 2 * Math.PI;
                 
                 moleculesPlaced++;
-
-                // Assign each molecule an initial velocity.
-                double xVel = temperatureSqrt * rand.nextGaussian();
-                double yVel = temperatureSqrt * rand.nextGaussian();
-                moleculeVelocities[(i * moleculesPerLayer) + j].setComponents( xVel, yVel ); 
             }
         }
 	}

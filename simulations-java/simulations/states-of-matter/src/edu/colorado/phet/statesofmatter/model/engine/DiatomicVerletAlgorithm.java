@@ -205,10 +205,5 @@ public class DiatomicVerletAlgorithm extends AbstractVerletAlgorithm {
 
         // Record the calculated temperature.
         m_temperature = (centersOfMassKineticEnergy + rotationalKineticEnergy) / numberOfMolecules / 1.5;
-        
-        // Replace the new forces with the old ones.
-        for (int i = 0; i < numberOfMolecules; i++){
-            moleculeForces[i].setComponents( nextMoleculeForces[i].getX(), nextMoleculeForces[i].getY() );
-        }
 	}
 }

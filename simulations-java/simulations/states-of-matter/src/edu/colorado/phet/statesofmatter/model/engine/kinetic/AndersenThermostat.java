@@ -64,35 +64,6 @@ public class AndersenThermostat implements Thermostat {
     //------------------------------------------------------------------------
 
 	public void adjustTemperature() {
-		// Calculate the kinetic energy of the system.
-        double centersOfMassKineticEnergy = 0;
-        double rotationalKineticEnergy = 0;
-        if ( m_moleculeDataSet.getAtomsPerMolecule() > 1){
-        	// Include rotational inertia in the calculation.
-            for (int i = 0; i < m_moleculeDataSet.getNumberOfMolecules(); i++){
-                
-                centersOfMassKineticEnergy += 0.5 * m_moleculeDataSet.getMoleculeMass() * 
-                   (Math.pow( m_moleculeVelocities[i].getX(), 2 ) + Math.pow( m_moleculeVelocities[i].getY(), 2 ));
-                rotationalKineticEnergy += 0.5 * m_moleculeDataSet.getMoleculeRotationalInertia() * 
-                    Math.pow(m_moleculeRotationRates[i], 2);
-            }
-        }
-        else{
-            for (int i = 0; i < m_moleculeDataSet.getNumberOfMolecules(); i++){
-	        	// For single-atom molecules, exclude rotational inertia from the calculation.
-	            centersOfMassKineticEnergy += 0.5 * m_moleculeDataSet.getMoleculeMass() * 
-	                 (Math.pow( m_moleculeVelocities[i].getX(), 2 ) + Math.pow( m_moleculeVelocities[i].getY(), 2 ));
-            }
-        }
-        
-        // Adjust the temperature.
-        adjustTemperature(centersOfMassKineticEnergy + rotationalKineticEnergy); 
-	}
-
-	public void adjustTemperature(double kineticEnergy) {
-		
-		// TODO: JPB TBD - This only handles monatomic now.  Need to either expand it or
-		// create another class for the other cases.
         double gammaX = 0.9999;
         double gammaY = gammaX;
         double temperature = m_targetTemperature;
@@ -119,6 +90,10 @@ public class AndersenThermostat implements Thermostat {
             m_moleculeRotationRates[i] = gammaX * m_moleculeRotationRates[i] + m_rand.nextGaussian() * 
                 rotationScalingFactor;
         }
+	}
+
+	public void adjustTemperature(double kineticEnergy) {
+		adjustTemperature();
 	}
 
 	public void setTargetTemperature(double temperature) {
