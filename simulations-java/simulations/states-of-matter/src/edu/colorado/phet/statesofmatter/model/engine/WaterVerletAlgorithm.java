@@ -304,6 +304,5 @@ public class WaterVerletAlgorithm extends AbstractVerletAlgorithm {
         
         // Record the calculated temperature.
         m_temperature = (centersOfMassKineticEnergy + rotationalKineticEnergy) / numberOfMolecules / 1.5;
-        System.out.println("Calculated temperature = " + m_temperature);
 	}
 }
