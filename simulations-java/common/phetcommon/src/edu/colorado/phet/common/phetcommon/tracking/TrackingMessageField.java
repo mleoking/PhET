@@ -1,5 +1,10 @@
 package edu.colorado.phet.common.phetcommon.tracking;
 
+/**
+ * TrackingMessageField is a field in a tracking message, consisting of a name/value pair.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class TrackingMessageField {
     private String key;
     private String value;
