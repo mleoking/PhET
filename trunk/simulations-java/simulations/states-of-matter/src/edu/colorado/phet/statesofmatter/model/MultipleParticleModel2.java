@@ -888,6 +888,15 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
     		return;
     	}
     	
+        double calculatedTemperature = m_moleculeForceAndMotionCalculator.getTemperature();
+        boolean temperatureIsChanging = false;
+        
+        if ((m_heatingCoolingAmount != 0) ||
+            (m_temperatureSetPoint + TEMPERATURE_CLOSENESS_RANGE < calculatedTemperature) ||
+            (m_temperatureSetPoint - TEMPERATURE_CLOSENESS_RANGE > calculatedTemperature)) {
+            temperatureIsChanging = true;
+        }
+    	
     	if ( m_heightChangeCounter != 0 && particlesNearTop() ){
     		// The height of the container is currently changing and there
     		// are particles close enough to the top that they may be
@@ -898,18 +907,18 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
     		// is used to set the system temperature set point.
     		setTemperature( m_moleculeDataSet.calculateTemperatureFromKineticEnergy() );
     	}
-    	else if ((m_thermostatType == ANDERSEN_THERMOSTAT) ||
-    	    ((m_thermostatType == ADAPTIVE_THERMOSTAT) && 
-    	     ((m_heatingCoolingAmount == 0) && (m_temperatureSetPoint < PhaseStateChanger.PHASE_LIQUID)))) {
+    	else if ((m_thermostatType == ISOKINETIC_THERMOSTAT) ||
+                 (m_thermostatType == ADAPTIVE_THERMOSTAT && (temperatureIsChanging || m_temperatureSetPoint > LIQUID_TEMPERATURE))){
+            // Use the isokinetic thermostat.
+            m_isoKineticThermostat.adjustTemperature();
+   	    }
+        else if ((m_thermostatType == ANDERSEN_THERMOSTAT) ||
+                 (m_thermostatType == ADAPTIVE_THERMOSTAT && !temperatureIsChanging)){
     		// The temperature isn't changing and it is below a certain
     		// threshold, so use the Andersen thermostat.  This is done for
     		// purely visual reasons - it looks better than the isokinetic in
     		// these circumstances.
     		m_andersenThermostat.adjustTemperature();
-    	}
-    	else if ((m_thermostatType == ISOKINETIC_THERMOSTAT) || (m_thermostatType == ADAPTIVE_THERMOSTAT)){
-    		// Use the isokinetic thermostat.
-        	m_isoKineticThermostat.adjustTemperature();
     	}
     	
     	// Note that there will be some circumstances in which no thermostat
