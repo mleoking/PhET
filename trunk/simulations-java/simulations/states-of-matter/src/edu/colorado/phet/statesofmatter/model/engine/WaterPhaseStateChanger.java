@@ -92,7 +92,7 @@ public class WaterPhaseStateChanger extends AbstractPhaseStateChanger {
 		// Create and initialize other variables needed to do the job.
         Random rand = new Random();
         double temperatureSqrt = Math.sqrt( m_model.getTemperatureSetPoint() );
-        int moleculesPerLayer = (int)(Math.round( Math.sqrt( numberOfMolecules * 3 ) ) / 2);
+        int moleculesPerLayer = (int)Math.sqrt( numberOfMolecules );
 
         // Initialize the velocities and angles of the molecules.
         for (int i = 0; i < numberOfMolecules; i++){
