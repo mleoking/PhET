@@ -1081,12 +1081,9 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
         // up a fixed amount of the bottom of the container, so the number of
         // molecules that can fit depends on the size of the individual atom.
         double waterMoleculeDiameter = OxygenAtom.RADIUS * 2.1;
-        int numberOfAtoms = (int)Math.pow( Math.round(StatesOfMatterConstants.CONTAINER_BOUNDS.width / 
-                (waterMoleculeDiameter * 2.5)), 2);
-        if (numberOfAtoms % 3 != 0){
-        	numberOfAtoms = (numberOfAtoms / 3) * 3;
-        }
-        int numberOfMolecules = numberOfAtoms / 3;
+        int moleculesAcrossBottom = 
+        	(int)Math.round(StatesOfMatterConstants.CONTAINER_BOUNDS.width / (waterMoleculeDiameter * 1.2));
+        int numberOfMolecules = (int)Math.pow(moleculesAcrossBottom / 3, 2);
         
         // Create the normalized data set for the one-atom-per-molecule case.
         m_moleculeDataSet = new MoleculeForceAndMotionDataSet( 3 );
