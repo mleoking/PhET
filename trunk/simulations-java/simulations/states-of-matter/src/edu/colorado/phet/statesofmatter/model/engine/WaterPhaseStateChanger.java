@@ -6,7 +6,6 @@ import java.awt.geom.Point2D;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.MoleculeForceAndMotionDataSet;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel2;
 
@@ -99,13 +98,11 @@ public class WaterPhaseStateChanger extends AbstractPhaseStateChanger {
         for (int i = 0; i < numberOfMolecules; i++){
 
             // Assign each molecule an initial velocity.
-//            moleculeVelocities[i].setComponents( temperatureSqrt * rand.nextGaussian(), 
-//                    temperatureSqrt * rand.nextGaussian() );
-            moleculeVelocities[i].setComponents( 0, 0 );
+            moleculeVelocities[i].setComponents( temperatureSqrt * rand.nextGaussian(), 
+                    temperatureSqrt * rand.nextGaussian() );
             
             // Assign each molecule an initial rotation rate.
-//            moleculeRotationRates[i] = rand.nextDouble() * temperatureSqrt * Math.PI * 2;
-            moleculeRotationRates[i] = 0;
+            moleculeRotationRates[i] = rand.nextDouble() * temperatureSqrt * Math.PI * 2;
         }
         
         // Establish the starting position, which will be the lower left corner
