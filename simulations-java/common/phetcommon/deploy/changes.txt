@@ -1,3 +1,4 @@
+11-10-08: see #875, be able to detect how a sim was run
 11-10-08: see #935, encapsulate the use of PHP in tracking feature
 11-10-08: see #934, split sim-locale into 2 fields
 11-7-08: cleanup up the layout of AutomaticUpdateDialog to make it less overwhelming

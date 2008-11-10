@@ -7,6 +7,7 @@ import java.util.Locale;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 
 /**
  * Tracking message sent when the simulation starts, indicating the start of the session.
@@ -33,6 +34,7 @@ public class SessionStartedMessage extends TrackingMessage {
                 new TrackingMessageField( "locale-language", PhetResources.readLocale().getLanguage() ),
                 new TrackingMessageField( "locale-country", PhetResources.readLocale().getCountry() ),
                 new TrackingMessageField( "dev", config.isDev() + "" ),
+                new TrackingMessageField( "phet-installation", Boolean.toString( PhetUtilities.isPhetInstallation() ) ),
 
                 //Then general to specific information about machine config
                 new TrackingMessageField.SystemProperty( "os.name" ),
