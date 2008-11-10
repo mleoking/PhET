@@ -182,11 +182,11 @@ public class PhetUtilities {
     public static boolean isPhetInstallation() {
         boolean isPhetInstallation = false;
         File codeSource = getCodeSource();
-        File parentDir = codeSource.getParentFile();
-        if ( parentDir != null ) {
-            File grandparentDir = parentDir.getParentFile();
-            if ( grandparentDir != null ) {
-                File specialFile = new File( grandparentDir.getAbsolutePath() + System.getProperty( "file.separator" ) + ".phet-installer" );
+        File parent = codeSource.getParentFile();
+        if ( parent != null ) {
+            File grandparent = parent.getParentFile();
+            if ( grandparent != null ) {
+                File specialFile = new File( grandparent.getAbsolutePath() + System.getProperty( "file.separator" ) + ".phet-installer" );
                 isPhetInstallation = specialFile.exists();
             }
         }
