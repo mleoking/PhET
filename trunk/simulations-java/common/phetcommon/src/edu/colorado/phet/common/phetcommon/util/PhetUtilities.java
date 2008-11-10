@@ -172,4 +172,17 @@ public class PhetUtilities {
             throw new RuntimeException( e );
         }
     }
+    
+    /**
+     * Was this sim run as part of a PhET installation, created using the PhET installer?
+     * If it was, then a file named .phet-installer will live in the JAR's parent directory.
+     * 
+     * @return true or false
+     */
+    public static boolean isPhetInstallation() {
+        File codeSource = getCodeSource();
+        File specialFile = new File( codeSource.getParent() + System.getProperty( "file.separator" ) + ".phet-installer" );
+//        System.out.println( "PhetUtilities.isPhetInstallation, looking for " + specialFile.getAbsolutePath() );
+        return specialFile.exists();
+    }
 }
