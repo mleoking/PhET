@@ -23,6 +23,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.UpdateButton;
 
 /**
@@ -40,6 +41,8 @@ public class PhetUtilities {
     public static final int OS_OTHER = 2;
 
     private static ArrayList pendingRunnables = new ArrayList();
+    
+    private PhetUtilities() {}
 
     /**
      * Requests that a Runnable be executed by the model.
@@ -191,5 +194,21 @@ public class PhetUtilities {
             }
         }
         return isPhetInstallation;
+    }
+    
+    /**
+     * Is this sim running from a stand-alone JAR file on the user's local machine?
+     * @return
+     */
+    public static boolean isRunningFromStandaloneJar() {
+        return !PhetServiceManager.isJavaWebStart() && !PhetUtilities.isPhetInstallation();
+    }
+    
+    /**
+     * Is this sim running from a web site using Java Web Start?
+     * @return
+     */
+    public static boolean isRunningFromWebsite() {
+        return PhetServiceManager.isJavaWebStart() && !PhetUtilities.isPhetInstallation(); // PhET installer uses Web Start!
     }
 }
