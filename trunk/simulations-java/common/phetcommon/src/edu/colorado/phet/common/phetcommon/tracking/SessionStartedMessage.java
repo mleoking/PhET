@@ -8,6 +8,14 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
+/**
+ * Tracking message sent when the simulation starts, indicating the start of the session.
+ * This message sends lots of general information about the simulation and the user's 
+ * runtime environment.
+ *
+ * @author Sam Reid
+ * @author Chris Malley
+ */
 public class SessionStartedMessage extends TrackingMessage {
     public SessionStartedMessage( PhetApplicationConfig config ) {
         super( new SessionID( config ), "session-started" );

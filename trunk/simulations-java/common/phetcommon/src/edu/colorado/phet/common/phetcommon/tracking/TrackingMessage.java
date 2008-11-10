@@ -3,6 +3,14 @@ package edu.colorado.phet.common.phetcommon.tracking;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * TrackingMessage is a tracking message sent by a simulation.
+ * A message consists of fields, which are name/value pairs.
+ * This is the base class for all messages, and populates fields common to all messages.
+ * 
+ * @author Sam Reid
+ * @author Chris Malley
+ */
 public class TrackingMessage {
     private ArrayList fields = new ArrayList();
 

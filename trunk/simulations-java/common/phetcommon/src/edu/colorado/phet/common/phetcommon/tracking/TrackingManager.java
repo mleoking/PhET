@@ -8,6 +8,11 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.preferences.DefaultTrackingPreferences;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 
+/**
+ * Posts tracking messages to a web service.
+ * 
+ * @author Sam Reid
+ */
 public class TrackingManager {
     private PhetApplicationConfig config;
 
