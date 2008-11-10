@@ -636,7 +636,7 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
             
         default:
             System.err.println("Error: Invalid state specified.");
-            // Treat is as a solid.
+            // Treat it as a solid.
         	m_phaseStateChanger.setPhase(PhaseStateChanger.PHASE_SOLID);
             break;
         }
@@ -1126,7 +1126,7 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
 	            notifyParticleAdded( atom );
             }
         }
-
+        
         // Initialize the particle positions into a solid form.
         m_phaseStateChanger.setPhase( PhaseStateChanger.PHASE_SOLID );
         

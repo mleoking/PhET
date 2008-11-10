@@ -5,6 +5,7 @@ package edu.colorado.phet.statesofmatter.model.engine;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.MoleculeForceAndMotionDataSet;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel2;
 
@@ -39,6 +40,7 @@ public class WaterVerletAlgorithm extends AbstractVerletAlgorithm {
 
 	public WaterVerletAlgorithm( MultipleParticleModel2 model ){
 		super( model );
+		
 	}
 	
     //----------------------------------------------------------------------------
@@ -198,7 +200,7 @@ public class WaterVerletAlgorithm extends AbstractVerletAlgorithm {
                 double dx = moleculeCenterOfMassPositions[i].getX() - moleculeCenterOfMassPositions[j].getX();
                 double dy = moleculeCenterOfMassPositions[i].getY() - moleculeCenterOfMassPositions[j].getY();
                 double distanceSquared = dx * dx + dy * dy;
-                
+
                 if (distanceSquared < PARTICLE_INTERACTION_DISTANCE_THRESH_SQRD){
                     // Calculate the Lennard-Jones interaction forces.
                 	
@@ -242,7 +244,7 @@ public class WaterVerletAlgorithm extends AbstractVerletAlgorithm {
 
                 if (distanceSquared < PARTICLE_INTERACTION_DISTANCE_THRESH_SQRD){
                     // Calculate coulomb-like interactions between atoms on
-                    // different water molecules.
+                    // individual water molecules.
                     for (int ii = 0; ii < 3; ii++){
                         for (int jj = 0; jj < 3; jj++){
                             if (((3 * i + ii + 1) % 6 == 0) ||  ((3 * j + jj + 1) % 6 == 0)){
@@ -276,7 +278,7 @@ public class WaterVerletAlgorithm extends AbstractVerletAlgorithm {
             }
         }
         
-        // Update center of mass velocities and angles and calculate kinetic
+        // Update the velocities and rotation rates and calculate kinetic
         // energy.
         double centersOfMassKineticEnergy = 0;
         double rotationalKineticEnergy = 0;
@@ -302,10 +304,6 @@ public class WaterVerletAlgorithm extends AbstractVerletAlgorithm {
         
         // Record the calculated temperature.
         m_temperature = (centersOfMassKineticEnergy + rotationalKineticEnergy) / numberOfMolecules / 1.5;
-        
-        // Replace the new forces with the old ones.
-        for (int i = 0; i < numberOfMolecules; i++){
-            moleculeForces[i].setComponents( nextMoleculeForces[i].getX(), nextMoleculeForces[i].getY() );
-        }
+        System.out.println("Calculated temperature = " + m_temperature);
 	}
 }

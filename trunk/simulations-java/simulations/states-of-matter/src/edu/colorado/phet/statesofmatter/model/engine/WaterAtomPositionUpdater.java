@@ -24,11 +24,23 @@ public class WaterAtomPositionUpdater implements AtomPositionUpdater {
 	//----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
+	double [] structureX;
+	double [] structureY;
 	
 	//----------------------------------------------------------------------------
     // Constructor(s)
     //----------------------------------------------------------------------------
 
+	public WaterAtomPositionUpdater() {
+		// Get the relational data necessary for doing the positional updates.
+		structureX = WaterMoleculeStructure.getInstance().getStructureArrayX();
+		structureY = WaterMoleculeStructure.getInstance().getStructureArrayY();
+	}
+	
+	//----------------------------------------------------------------------------
+    // Public Methods
+    //----------------------------------------------------------------------------
+	
 	public void updateAtomPositions( MoleculeForceAndMotionDataSet moleculeDataSet ) {
 		
 		// Make sure this is not being used on an inappropriate data set.
@@ -56,12 +68,10 @@ public class WaterAtomPositionUpdater implements AtomPositionUpdater {
             cosineTheta = Math.cos( moleculeRotationAngles[i] );
             sineTheta = Math.sin( moleculeRotationAngles[i] );
             for (int j = 0; j < 3; j++){
-                xPos = moleculeCenterOfMassPositions[i].getX() + cosineTheta * 
-                        StatesOfMatterConstants.H2O_MOLECULE_STRUCTURE_X[j] - 
-                        sineTheta * StatesOfMatterConstants.H2O_MOLECULE_STRUCTURE_Y[j];
-                yPos = moleculeCenterOfMassPositions[i].getY() + sineTheta * 
-                StatesOfMatterConstants.H2O_MOLECULE_STRUCTURE_X[j] + 
-                        cosineTheta * StatesOfMatterConstants.H2O_MOLECULE_STRUCTURE_Y[j];
+                xPos = moleculeCenterOfMassPositions[i].getX() + (cosineTheta * structureX[j]) 
+                    - (sineTheta * structureY[j]);
+                yPos = moleculeCenterOfMassPositions[i].getY() + (sineTheta * structureX[j])
+                    + (cosineTheta * structureY[j]);
                 atomPositions[i * 3 + j].setLocation( xPos, yPos );
             }
         }

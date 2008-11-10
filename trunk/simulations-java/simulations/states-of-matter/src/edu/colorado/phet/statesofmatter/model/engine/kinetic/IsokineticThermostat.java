@@ -71,32 +71,37 @@ public class IsokineticThermostat implements Thermostat {
 
 	public void adjustTemperature() {
 		
-		// Calculate the kinetic energy of the system.
-        double centersOfMassKineticEnergy = 0;
-        double rotationalKineticEnergy = 0;
+		// Calculate the internal temperature of the system from the kinetic energy.
+		double measuredTemperature = 0;
+		int numberOfMolecules = m_moleculeDataSet.getNumberOfMolecules();
         if ( m_moleculeDataSet.getAtomsPerMolecule() > 1){
         	// Include rotational inertia in the calculation.
-            for (int i = 0; i < m_moleculeDataSet.getNumberOfMolecules(); i++){
+            double centersOfMassKineticEnergy = 0;
+            double rotationalKineticEnergy = 0;
+            for (int i = 0; i < numberOfMolecules; i++){
                 
                 centersOfMassKineticEnergy += 0.5 * m_moleculeDataSet.getMoleculeMass() * 
                    (Math.pow( m_moleculeVelocities[i].getX(), 2 ) + Math.pow( m_moleculeVelocities[i].getY(), 2 ));
                 rotationalKineticEnergy += 0.5 * m_moleculeDataSet.getMoleculeRotationalInertia() * 
                     Math.pow(m_moleculeRotationRates[i], 2);
             }
+            measuredTemperature = (centersOfMassKineticEnergy + rotationalKineticEnergy) / numberOfMolecules / 1.5;
         }
         else{
+            double centersOfMassKineticEnergy = 0;
             for (int i = 0; i < m_moleculeDataSet.getNumberOfMolecules(); i++){
 	        	// For single-atom molecules, exclude rotational inertia from the calculation.
-	            centersOfMassKineticEnergy += 0.5 * m_moleculeDataSet.getMoleculeMass() * 
+            	centersOfMassKineticEnergy += 0.5 * m_moleculeDataSet.getMoleculeMass() * 
 	                 (Math.pow( m_moleculeVelocities[i].getX(), 2 ) + Math.pow( m_moleculeVelocities[i].getY(), 2 ));
             }
+            measuredTemperature = centersOfMassKineticEnergy / numberOfMolecules;
         }
         
         // Adjust the temperature.
-        adjustTemperature(centersOfMassKineticEnergy + rotationalKineticEnergy);
+        adjustTemperature( measuredTemperature ); 
 	}
 
-	public void adjustTemperature( double kineticEnergy ) {
+	public void adjustTemperature( double measuredTemperature ) {
 		
 		// Calculate the scaling factor that will be used to adjust the
 		// temperature.
@@ -105,8 +110,7 @@ public class IsokineticThermostat implements Thermostat {
             temperatureScaleFactor = 0;
         }
         else{
-            temperatureScaleFactor = Math.sqrt( m_targetTemperature * m_moleculeDataSet.getNumberOfMolecules() /
-            		kineticEnergy );
+            temperatureScaleFactor = Math.sqrt( m_targetTemperature / measuredTemperature );
         }
         
         // Adjust the temperature by scaling the velocity of each molecule

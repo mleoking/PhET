@@ -1773,6 +1773,7 @@ public class MultipleParticleModel1 extends AbstractMultipleParticleModel {
                 // Isokinetic thermostat
                 
                 double temperatureScaleFactor;
+                
                 if (m_temperatureSetPoint <= m_minModelTemperature){
                     temperatureScaleFactor = 0.5;
                 }
