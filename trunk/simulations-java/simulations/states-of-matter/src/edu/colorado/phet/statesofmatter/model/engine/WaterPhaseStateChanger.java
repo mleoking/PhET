@@ -108,7 +108,7 @@ public class WaterPhaseStateChanger extends AbstractPhaseStateChanger {
         // Establish the starting position, which will be the lower left corner
         // of the "cube".  The molecules will all be rotated so that they are
         // lying down.
-        double crystalWidth = moleculesPerLayer + (moleculesPerLayer - 1) * MIN_INITIAL_DIAMETER_DISTANCE;
+        double crystalWidth = (moleculesPerLayer - 1) * MIN_INITIAL_DIAMETER_DISTANCE;
         
         double startingPosX = (m_model.getNormalizedContainerWidth() / 2) - (crystalWidth / 2);
         double startingPosY = MIN_INITIAL_DIAMETER_DISTANCE;
