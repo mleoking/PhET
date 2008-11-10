@@ -60,18 +60,7 @@ public class TrackingMessage {
         fields.add( field );
     }
 
-    public String toPHP() {
-        String php = "";
-        for ( int i = 0; i < getFieldCount(); i++ ) {
-            if ( i > 0 ) {
-                php += "&";
-            }
-            php += getField( i ).toPHP();
-        }
-        return php;
-    }
-
-    private TrackingMessageField getField( int i ) {
+    public TrackingMessageField getField( int i ) {
         return (TrackingMessageField) fields.get( i );
     }
 
@@ -85,7 +74,7 @@ public class TrackingMessage {
             if ( i > 0 ) {
                 text += "\n";
             }
-            text += getField( i ).toHumanReadable();
+            text += getField( i ).getName() + "=" + getField(i).getValue();
         }
         return text;
     }

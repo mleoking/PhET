@@ -9,17 +9,20 @@ import edu.colorado.phet.common.phetcommon.preferences.DefaultTrackingPreference
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 
 /**
- * Posts tracking messages to a web service.
+ * Manages the delivery of tracking messages.
  * 
  * @author Sam Reid
  */
 public class TrackingManager {
-    private PhetApplicationConfig config;
-
+    
+    private static final Object MONITOR = new Object();
+    
     public static TrackingManager instance;
-    private Vector messageQueue = new Vector();
-    private TrackingThread trackingThread = new TrackingThread();
-    private static final Object monitor = new Object();
+    
+    private final PhetApplicationConfig config;
+    private final Vector messageQueue = new Vector();
+    private final TrackingThread trackingThread = new TrackingThread();
+    private final ITrackingService trackingService = new PHPTrackingService();
 
     public TrackingManager( PhetApplicationConfig config ) {
         this.config = config;
@@ -71,8 +74,8 @@ public class TrackingManager {
     private void postMessageImpl( final TrackingMessage trackingMessage ) {
         if ( isTrackingEnabled() ) {
             messageQueue.add( trackingMessage );
-            synchronized( monitor ) {
-                monitor.notifyAll();
+            synchronized( MONITOR ) {
+                MONITOR.notifyAll();
             }
         }
     }
@@ -87,9 +90,9 @@ public class TrackingManager {
         public void run() {
             while ( true ) {
                 postAllMessages();
-                synchronized( monitor ) {
+                synchronized( MONITOR ) {
                     try {
-                        monitor.wait();
+                        MONITOR.wait();
                     }
                     catch( InterruptedException e ) {
                         e.printStackTrace();
@@ -103,7 +106,7 @@ public class TrackingManager {
         try {
             while ( messageQueue.size() > 0 ) {
                 TrackingMessage m = (TrackingMessage) messageQueue.get( 0 );
-                new Tracker().postMessage( m );
+                trackingService.postMessage( m );
                 messageQueue.remove( m ); // remove message from queue after it has been sent, so that messageQueue won't be considered empty prematurely
             }
         }
