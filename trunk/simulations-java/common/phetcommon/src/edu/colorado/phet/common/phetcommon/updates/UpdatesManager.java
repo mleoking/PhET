@@ -15,13 +15,13 @@ import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.AutomaticUpdateDialog;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 
-public class UpdateApplicationManager {
+public class UpdatesManager {
     
     private final PhetApplicationConfig config;
     private final IVersionSkipper versionSkipper;
     private final IUpdateTimer updateTimer;
 
-    public UpdateApplicationManager( PhetApplicationConfig config ) {
+    public UpdatesManager( PhetApplicationConfig config ) {
         this.config = config;
         versionSkipper = new DefaultVersionSkipper( config.getProjectName(), config.getFlavor() );
         updateTimer = new DefaultUpdateTimer( config.getProjectName(), config.getFlavor() );
