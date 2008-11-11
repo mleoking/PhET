@@ -18,6 +18,8 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
  */
 public class DefaultVersionChecker implements IVersionChecker {
     
+    public DefaultVersionChecker() {}
+    
     public PhetVersion getVersion( String project ) throws IOException {
         String read = readURL( HTMLUtils.getProjectPropertiesURL( project ) );
         Properties properties = new Properties();

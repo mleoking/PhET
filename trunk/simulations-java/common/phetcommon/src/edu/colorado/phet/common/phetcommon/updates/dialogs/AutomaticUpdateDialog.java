@@ -29,21 +29,19 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
     private static final String ADVANCED_LINK = PhetCommonResources.getString( "Common.updates.advanced" );
 
     private final Frame owner;
-    private final ISimInfo simInfo;
     private final ITrackingInfo trackingInfo;
     private final IManualUpdateChecker manualUpdateChecker;
     private final IUpdateTimer updateTimer;
     private final IVersionSkipper versionSkipper;
     
-    public AutomaticUpdateDialog( Frame owner, ISimInfo simInfo, ITrackingInfo trackingInfo, PhetVersion newVersion ) {
+    public AutomaticUpdateDialog( Frame owner, ISimInfo simInfo, ITrackingInfo trackingInfo, PhetVersion newVersion, IUpdateTimer updateTimer, IVersionSkipper versionSkipper ) {
         super( owner, TITLE, simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getName(), simInfo.getVersion(), newVersion,simInfo.getLocaleString() );
         
         this.owner = owner;
-        this.simInfo = simInfo;
         this.trackingInfo = trackingInfo;
         this.manualUpdateChecker = new DefaultManualUpdateChecker( owner, simInfo );
-        this.updateTimer = new DefaultUpdateTimer();
-        this.versionSkipper = new DefaultVersionSkipper();
+        this.updateTimer = updateTimer;
+        this.versionSkipper = versionSkipper;
     }
     
     protected JPanel createButtonPanel( final String project, final String sim, final String simName, final PhetVersion currentVersion, final PhetVersion newVersion, String locale ) {
@@ -55,7 +53,7 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
         JButton askMeLater = new JButton( ASK_ME_LATER_BUTTON );
         askMeLater.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                updateTimer.setTimerStartTime( project, sim, System.currentTimeMillis() );
+                updateTimer.setStartTime( System.currentTimeMillis() );
                 dispose();
                 TrackingManager.postActionPerformedMessage( TrackingMessage.ASK_ME_LATER_PRESSED );
             }
@@ -65,7 +63,7 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
         JButton skipThisVersion = new JButton( SKIP_UPDATE_BUTTON );
         skipThisVersion.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                versionSkipper.setSkippedVersion( simInfo.getProjectName(), simInfo.getFlavor(), newVersion );
+                versionSkipper.setSkippedVersion( newVersion.getRevisionAsInt() );
                 dispose();
                 TrackingManager.postActionPerformedMessage( TrackingMessage.SKIP_UPDATE_PRESSED );
             }

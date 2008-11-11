@@ -121,8 +121,8 @@ public class PhetPreferences {
      * Sets the most recent version that the user asked to skip.
      * This is specific to a simulation.
      */
-    public void setSkipUpdate( String project, String sim, PhetVersion version ) {
-        setStringProperty( getSkipUpdateKey( project, sim ), String.valueOf( version.getRevisionAsInt() ) );
+    public void setSkipUpdate( String project, String sim, int skipRevision ) {
+        setStringProperty( getSkipUpdateKey( project, sim ), String.valueOf( skipRevision ) );
     }
 
     /**
