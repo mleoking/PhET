@@ -1,12 +1,9 @@
 package edu.colorado.phet.common.phetcommon.tracking;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Vector;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.preferences.DefaultTrackingPreferences;
-import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
+import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 
 /**
  * Manages the delivery of tracking messages.
@@ -17,33 +14,32 @@ public class TrackingManager {
     
     private static final Object MONITOR = new Object();
     
+    /* singleton */
     public static TrackingManager instance;
     
-    private final PhetApplicationConfig config;
+    private final ISimInfo simInfo;
     private final Vector messageQueue = new Vector();
     private final TrackingThread trackingThread = new TrackingThread();
     private final ITrackingService trackingService = new PHPTrackingService();
 
-    public TrackingManager( PhetApplicationConfig config ) {
-        this.config = config;
+    /* singleton */
+    private TrackingManager( ISimInfo simInfo ) {
+        this.simInfo = simInfo;
         trackingThread.start();
     }
 
-    public static void initInstance( PhetApplicationConfig config ) {
+    public static TrackingManager initInstance( ISimInfo simInfo ) {
         if ( instance != null ) {
             throw new RuntimeException( "TrackingManager already initialized" );
         }
-        instance = new TrackingManager( config );
+        instance = new TrackingManager( simInfo );
+        return instance;
     }
 
-    public static void postMessage( TrackingMessage trackingMessage ) {
-        // check for tracking enabled before message construction
-        // because construction may cause java.security.AccessControlException under web start.
-        if ( isTrackingEnabled() ) {
-            instance.postMessageImpl( trackingMessage );
-        }
+    public static TrackingManager getInstance() {
+        return instance;
     }
-
+    
     /**
      * Blocks until all queued messages have been sent, up to a maximum of maxWaitTime milliseconds.
      */
@@ -114,23 +110,22 @@ public class TrackingManager {
             e.printStackTrace();
         }
     }
-
+    
     public static boolean isTrackingEnabled() {
-        return instance!=null&&instance.isTrackingCommandLineOptionSet() && instance.isTrackingAllowed();
+        return instance != null && instance.simInfo.isTrackingEnabled();
     }
 
-    private boolean isTrackingAllowed() {
-        //todo: perhaps we should use PhetPreferences.isTrackingEnabled(String,String)
-        return new DefaultTrackingPreferences().isEnabled();
+    public static void postMessage( TrackingMessage trackingMessage ) {
+        // check for tracking enabled before message construction
+        // because construction may cause java.security.AccessControlException under web start.
+        if ( isTrackingEnabled() ) {
+            instance.postMessageImpl( trackingMessage );
+        }
     }
-
-    public boolean isTrackingCommandLineOptionSet() {
-        return Arrays.asList( config.getCommandLineArgs() ).contains( "-tracking" ) && !PhetServiceManager.isJavaWebStart();
-    }
-
+    
     public static void postActionPerformedMessage( String actionName ) {
         if ( isTrackingEnabled() ) {
-            postMessage( new ActionPerformedMessage( new SessionID( instance.config ), actionName ) );
+            postMessage( new ActionPerformedMessage( new SessionID( instance.simInfo ), actionName ) );
         }
     }
 
@@ -142,13 +137,13 @@ public class TrackingManager {
 
     public static void postStateChangedMessage( String name, Object oldValue, Object newValue ) {
         if ( isTrackingEnabled() ) {
-            postMessage( new StateChangedMessage( new SessionID( instance.config ), name, oldValue.toString(), newValue.toString() ) );
+            postMessage( new StateChangedMessage( new SessionID( instance.simInfo ), name, oldValue.toString(), newValue.toString() ) );
         }
     }
 
     public static void postSessionEndedMessage() {
         if ( isTrackingEnabled() ) {
-            postMessage( new SessionEndedMessage( new SessionID( instance.config ) ) );
+            postMessage( new SessionEndedMessage( new SessionID( instance.simInfo ) ) );
         }
     }
 }
