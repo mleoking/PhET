@@ -37,7 +37,7 @@ public class SolidLiquidGasModule extends PiccoloModule {
                 new ConstantDtClock(SolidLiquidGasDefaults.CLOCK_FRAME_DELAY, SolidLiquidGasDefaults.CLOCK_DT));
 
         // Model
-        m_model = new MultipleParticleModel2( getClock() );
+        m_model = new MultipleParticleModel1( getClock() );
 
         // Canvas
         m_canvas = new SolidLiquidGasCanvas( m_model );
