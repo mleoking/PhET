@@ -12,7 +12,13 @@ import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 
-
+/**
+ * 
+ * The dialog that used to notify the user that an update is available,
+ * when the user has manually requested an update check.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class ManualUpdateDialog extends AbstractUpdateDialog {
     
     private static final String TITLE = PhetCommonResources.getString( "Common.updates.updateAvailable" );

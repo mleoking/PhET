@@ -10,6 +10,11 @@ import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.updates.SimUpdater;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 
+/**
+ * The update button that appears in dialogs.
+ * Pressing this button requests an update.
+ * What happens depends on the runtime situation of the simulation.
+ */
 public class UpdateButton extends JButton {
     public UpdateButton( final String project, final String sim, final String locale ) {
         super( PhetCommonResources.getString( "Common.updates.updateNow" ) );
