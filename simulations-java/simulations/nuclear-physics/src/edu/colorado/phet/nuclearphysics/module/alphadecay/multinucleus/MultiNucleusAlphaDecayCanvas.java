@@ -317,7 +317,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     		}
     		_mapNucleiToNodes.remove( modelElement );
     	}
-    	else if (modelElement instanceof AlphaParticleModelNode){
+    	else if (modelElement instanceof AlphaParticle){
     		AlphaParticleModelNode alphaNode = (AlphaParticleModelNode)_mapAlphaParticlesToNodes.get(modelElement);
     		if (alphaNode == null){
     			System.err.println("Error: Could not find node for removed alpha particle.");
