@@ -60,6 +60,7 @@ class TrackingHandler {
 		str += "screen-y = '" + escape(String(System.capabilities.screenResolutionY)) + "' ";
 		str += "user-timezone-offset = '" + escape(String((new Date()).getTimezoneOffset())) + "' ";
 		str += "flash-domain = '" + escape((new LocalConnection()).domain()) + "' ";
+		str += "timestamp = '" + escape(String((new Date()).valueOf())) + "' ";
 		
 		str += "></tracking>";
 		sendXML(new XML(str));
@@ -73,6 +74,7 @@ class TrackingHandler {
 		var str : String = "<tracking ";
 		str += "type = 'session-ended' ";
 		str += "session-id = '" + escape(sessionId) + "' ";
+		str += "timestamp = '" + escape(String((new Date()).valueOf())) + "' ";
 		
 		str += "></tracking>";
 		sendXML(new XML(str));
@@ -90,6 +92,6 @@ class TrackingHandler {
 				_level0.debug("TrackingHandler: message error!\n");
 			}
 		}
-		xml.sendAndLoad("http://phet.colorado.edu/tracking/flash-tests/tracker.php", reply);
+		xml.sendAndLoad("http://phet.colorado.edu/jolson/deploy/tracking/tracker.php", reply);
 	}
 }
