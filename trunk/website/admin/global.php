@@ -39,7 +39,6 @@ if (get_magic_quotes_gpc()) {
     }
 
     if (!debug_is_on()) {
-        // Not sure why E_ERROR is on, it was like this when I got here, not touching it for now
         error_reporting(0);
         ini_set('display_errors', 0);
         assert_options(ASSERT_ACTIVE, 0);
