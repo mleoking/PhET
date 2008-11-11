@@ -30,7 +30,7 @@ public class TrackingManager {
 
     public static TrackingManager initInstance( ISimInfo simInfo ) {
         if ( instance != null ) {
-            throw new RuntimeException( "TrackingManager already initialized" );
+            throw new RuntimeException( "TrackingManager instance is already initialized" );
         }
         instance = new TrackingManager( simInfo );
         return instance;
