@@ -43,7 +43,8 @@ public class PhetApplicationConfig implements ITrackingInfo, ISimInfo {
     // immutable
     private final String[] commandLineArgs;
     private final String flavor;
-    private PhetResources resourceLoader;
+    private final PhetResources resourceLoader;
+    private final SessionCounter sessionCounter;
 
     // mutable
     private FrameSetup frameSetup;
@@ -77,6 +78,7 @@ public class PhetApplicationConfig implements ITrackingInfo, ISimInfo {
         this.resourceLoader = new PhetResources( project );
         this.frameSetup = DEFAULT_FRAME_SETUP;
         this.phetLookAndFeel = new PhetLookAndFeel();
+        this.sessionCounter = SessionCounter.initInstance( project, flavor );
     }
 
     //----------------------------------------------------------------------------
@@ -113,6 +115,18 @@ public class PhetApplicationConfig implements ITrackingInfo, ISimInfo {
 
     public String getProjectName() {
         return resourceLoader.getProjectName();
+    }
+    
+    /**
+     * Gets the number of times that the simulation has been run,
+     * including the current invocation.
+     * This will be null if the sim is running in an environment 
+     * where access to the local filesystem is denied.
+     * 
+     * @return Integer, possibly null
+     */
+    public Integer getSessionCount() {
+        return sessionCounter.getCount();
     }
 
     //----------------------------------------------------------------------------

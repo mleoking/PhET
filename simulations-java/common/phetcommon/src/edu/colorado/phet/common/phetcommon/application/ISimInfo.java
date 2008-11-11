@@ -15,4 +15,5 @@ public interface ISimInfo {
     boolean isDev();
     long getSimStartTimeMillis();
     String getLocaleString();
+    Integer getSessionCount();
 }

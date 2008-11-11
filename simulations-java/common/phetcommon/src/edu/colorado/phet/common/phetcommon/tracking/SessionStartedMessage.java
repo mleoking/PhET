@@ -35,6 +35,7 @@ public class SessionStartedMessage extends TrackingMessage {
                 new TrackingMessageField( "locale-country", PhetResources.readLocale().getCountry() ),
                 new TrackingMessageField( "dev", config.isDev() + "" ),
                 new TrackingMessageField( "phet-installation", Boolean.toString( PhetUtilities.isPhetInstallation() ) ),
+                new TrackingMessageField( "session-count", toString( config.getSessionCount() ) ),
 
                 //Then general to specific information about machine config
                 new TrackingMessageField.SystemProperty( "os.name" ),
@@ -60,5 +61,9 @@ public class SessionStartedMessage extends TrackingMessage {
     private void initTimeZone() {
         //for some reason, user.timezone only appears if the next line is used (otherwise user.timezone is empty or null)
         new Date().toString();
+    }
+    
+    private String toString( Integer i ) {
+        return ( i == null ) ? "null" : i.toString();
     }
 }
