@@ -16,6 +16,9 @@ import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 import edu.colorado.phet.common.phetcommon.updates.IManualUpdateChecker;
 
+/**
+ * Panel for displaying preferences for the updates feature.
+ */
 public class UpdatesPreferencesPanel extends JPanel {
     
     private static final String UPDATES_ENABLED = PhetCommonResources.getString( "Common.updates.automaticallyCheck" );

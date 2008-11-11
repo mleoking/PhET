@@ -14,6 +14,9 @@ import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPane;
 
+/**
+ * Panel for displaying preferences for the tracking feature.
+ */
 public class TrackingPreferencesPanel extends JPanel {
 
     private static final String ONE_LINER_PATTERN = PhetCommonResources.getString( "Common.tracking.oneLiner" );
