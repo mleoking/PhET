@@ -8,6 +8,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 
 import javax.swing.BorderFactory;
@@ -26,6 +28,8 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
+import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusAlphaDecayModel;
 import edu.colorado.phet.nuclearphysics.view.AlphaParticleNode;
 import edu.colorado.phet.nuclearphysics.view.LabeledNucleusNode;
 import edu.colorado.phet.nuclearphysics.view.NeutronNode;
@@ -53,15 +57,30 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
     // Instance Data
     //------------------------------------------------------------------------
     
-    private JRadioButton m_poloniumRadioButton;
-    private JRadioButton m_customNucleusRadioButton;
+    AlphaDecayNucleusTypeControl _alphaDecayModel;
+    private JRadioButton _poloniumRadioButton;
+    private JRadioButton _customNucleusRadioButton;
 
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
     
-    public AlphaDecayNucleusSelectionPanel() {
+    public AlphaDecayNucleusSelectionPanel(AlphaDecayNucleusTypeControl alphaDecayModel) {
         
+    	_alphaDecayModel = alphaDecayModel;
+    	
+    	// Register for notifications of nucleus type changes.
+    	alphaDecayModel.addListener(new AlphaDecayAdapter(){
+    		public void nucleusTypeChanged() {
+    			if (_alphaDecayModel.getNucleusType() == AlphaDecayNucleusTypeControl.NUCLEUS_TYPE_CUSTOM){
+    				_customNucleusRadioButton.setSelected(true);
+    			}
+    			else{
+    				_poloniumRadioButton.setSelected(true);
+    			}
+    		}
+    	});
+    	
         // Add the border around the legend.
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
         TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
@@ -78,14 +97,27 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
         GridBagConstraints constraints = new GridBagConstraints();
 
         // Create the radio buttons.
-        m_poloniumRadioButton = new JRadioButton();
-        m_customNucleusRadioButton = new JRadioButton();
+        _poloniumRadioButton = new JRadioButton();
+        _customNucleusRadioButton = new JRadioButton();
+        
+        // Register for button presses.
+        _poloniumRadioButton.addActionListener( new ActionListener(){
+            public void actionPerformed(ActionEvent event){
+            	_alphaDecayModel.setNucleusType(MultiNucleusAlphaDecayModel.NUCLEUS_TYPE_POLONIUM);
+            }
+        });
+        _customNucleusRadioButton.addActionListener( new ActionListener(){
+            public void actionPerformed(ActionEvent event){
+            	_alphaDecayModel.setNucleusType(MultiNucleusAlphaDecayModel.NUCLEUS_TYPE_CUSTOM);
+            }
+        });
+
         
         // Group the radio buttons together logically and set initial state.
         ButtonGroup buttonGroup = new ButtonGroup();
-        buttonGroup.add( m_poloniumRadioButton );
-        buttonGroup.add( m_customNucleusRadioButton );
-        m_poloniumRadioButton.setSelected( true );
+        buttonGroup.add( _poloniumRadioButton );
+        buttonGroup.add( _customNucleusRadioButton );
+        _poloniumRadioButton.setSelected( true );
         
         //--------------------------------------------------------------------
         // Add the various components to the panel.
@@ -97,7 +129,7 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
         constraints.gridx = 0;
         constraints.gridy = 0;
         constraints.ipadx = 25;
-        add( m_poloniumRadioButton, constraints );
+        add( _poloniumRadioButton, constraints );
         constraints.ipadx = 0; // Remove padding.
         
         // Create and add the Polonium image.
@@ -153,7 +185,7 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
         constraints.anchor = GridBagConstraints.WEST;
         constraints.gridx = 0;
         constraints.gridy = 4;
-        add( m_customNucleusRadioButton, constraints  );
+        add( _customNucleusRadioButton, constraints  );
         
         // Create and add the icon for the non-decayed custom nucleus.
         PNode labeledCustomNucleus = new LabeledNucleusNode("Polonium Nucleus Small.png", "",
@@ -196,6 +228,24 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
         constraints.gridx = 2;
         constraints.gridy = 6;
         add( decayedCustomNucleusLabel, constraints );
+    }
+    
+    /**
+     * Update the state of the buttons based on the values in the model.  This
+     * is generally used when something other than this panel has caused a
+     * change in the model.
+     */
+    public void updateButtonState(){
+    	if (_alphaDecayModel.getNucleusType() == AlphaDecayNucleusTypeControl.NUCLEUS_TYPE_POLONIUM){
+    		_poloniumRadioButton.setSelected(true);
+    	}
+    	else if (_alphaDecayModel.getNucleusType() == AlphaDecayNucleusTypeControl.NUCLEUS_TYPE_CUSTOM){
+    		_customNucleusRadioButton.setSelected(true);
+    	}
+    	else{
+    		System.err.println("Error: Unrecognized nucleus type.");
+    		
+    	}
     }
     
     private ImageIcon createArrowIcon( Color color ) {

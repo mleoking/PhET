@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.nuclearphysics.model.AlphaDecayListener;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsClock;
@@ -35,6 +36,7 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
     private AlphaParticle _tunneledAlpha;
     private ConstantDtClock _clock;
     private ArrayList _listeners = new ArrayList();
+    private int _nucleusID;
     
     //------------------------------------------------------------------------
     // Constructor
@@ -118,8 +120,11 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
 	}
 
 	public void setNucleusType(int nucleusId) {
-		// TODO Auto-generated method stub
-		
+		_nucleusID = nucleusId;
+	}
+	
+	public int getNucleusType(){
+		return _nucleusID;
 	}
 	
     //------------------------------------------------------------------------
@@ -132,13 +137,13 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
      * 
      * @param listener
      */
-    public void addListener(Listener listener)
+    public void addListener(AlphaDecayListener listener)
     {
         assert !_listeners.contains( listener );
         
         _listeners.add( listener );
     }
-
+    
     //------------------------------------------------------------------------
     // Private Methods
     //------------------------------------------------------------------------
@@ -148,31 +153,5 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
             // We have a particle that has tunneled and needs to be moved.
             _tunneledAlpha.moveOut();
         }
-    }
-    
-    //------------------------------------------------------------------------
-    // Inner interfaces
-    //------------------------------------------------------------------------
-    
-    /**
-     * This listener interface allows listeners to get notified when an alpha
-     * particle is added (i.e. come in to existence by separating from the
-     * nucleus) or is removed (i.e. recombines with the nucleus).
-     */
-    public static interface Listener {
-        /**
-         * This informs the listener that an alpha particle has been added
-         * to the model.
-         * 
-         * @param alphaParticle - Reference to the newly added particle.
-         */
-        public void particleAdded(AlphaParticle alphaParticle);
-        
-        /**
-         * This is invoked when a particle is removed from the model.
-         * 
-         * @param alphaParticle - Reference to the particle that was removed.
-         */
-        public void particleRemoved(AlphaParticle alphaParticle);
     }
 }

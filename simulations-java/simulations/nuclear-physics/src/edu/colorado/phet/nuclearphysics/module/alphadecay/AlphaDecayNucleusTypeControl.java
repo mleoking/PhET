@@ -1,5 +1,7 @@
 package edu.colorado.phet.nuclearphysics.module.alphadecay;
 
+import edu.colorado.phet.nuclearphysics.model.AlphaDecayListener;
+
 /**
  * This interface is used, generally by a control panel, to set the type of
  * atomic nucleus being used by the model portion of a simulation.  It also
@@ -23,10 +25,23 @@ public interface AlphaDecayNucleusTypeControl {
 	public void setNucleusType( int nucleusId );
 
 	/**
+	 * Get the type of nucleus.
+	 * 
+	 * @return A value representing the current nucleus type. 
+	 */
+	public int getNucleusType();
+
+	/**
 	 * Get a boolean value indicating whether the alpha particle energy graph
 	 * is being shown.
 	 * 
 	 * @return - true if the graph is being shown, false if not.
 	 */
 	public boolean getEnergyChartShowing();
+	
+	/**
+	 * Register to be informed of changes to the nucleus type (as well as
+	 * other nucleus events).
+	 */
+	public void addListener(AlphaDecayListener listener);
 }

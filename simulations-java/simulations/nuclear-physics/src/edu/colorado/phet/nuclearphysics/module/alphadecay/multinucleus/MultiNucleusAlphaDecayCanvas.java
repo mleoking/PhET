@@ -21,8 +21,10 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
+import edu.colorado.phet.nuclearphysics.model.DecayControl;
 import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.model.Polonium211Nucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.singlenucleus.SingleNucleusAlphaDecayModel;
@@ -89,7 +91,6 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     private Rectangle2D _nucleusPlacementAreaRect = new Rectangle2D.Double();
     private Rectangle2D _paddedBucketRect = new Rectangle2D.Double();
     private Rectangle2D _paddedResetButtonRect = new Rectangle2D.Double();
-    private Rectangle2D _paddedAddButtonRect = new Rectangle2D.Double();
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -113,7 +114,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
         setBackground( NuclearPhysicsConstants.CANVAS_BACKGROUND );
         
         // Register with the model for notifications of nuclei coming and going.
-        _model.addListener( new MultiNucleusAlphaDecayModel.Listener(){
+        _model.addListener( new AlphaDecayAdapter(){
             public void modelElementAdded(Object modelElement){
             	handleModelElementAdded(modelElement);
             };
@@ -248,26 +249,26 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
 
 	private void handleModelElementAdded(Object modelElement) {
 
-    	if (modelElement instanceof Polonium211Nucleus){
-    		// A new polonium nucleus has been added to the model.  Create a
+    	if (modelElement instanceof AtomicNucleus){
+    		// A new nucleus has been added to the model.  Create a
     		// node for it and add it to the nucleus-to-node map.
-    		GrabbableNucleusImageNode poloniumNucleusNode = 
-    			new GrabbableNucleusImageNode((Polonium211Nucleus)modelElement);
+    		GrabbableNucleusImageNode atomicNucleusNode = 
+    			new GrabbableNucleusImageNode((AtomicNucleus)modelElement);
     		
     		// Map this node and nucleus together.
-    		_mapNucleiToNodes.put(modelElement, poloniumNucleusNode);
+    		_mapNucleiToNodes.put(modelElement, atomicNucleusNode);
     		
     		// If the node's position indicates that it is in the bucket then
     		// add it to the bucket node.
     		if (isNucleusPosInBucketRectangle((AtomicNucleus)modelElement)){
-    			_bucketNode.addNucleus(poloniumNucleusNode);
+    			_bucketNode.addNucleus(atomicNucleusNode);
     		}
     		
             // Map the nucleus to the node so that we can find it it later.
-            _mapAlphaParticlesToNodes.put( modelElement, poloniumNucleusNode );
+            _mapAlphaParticlesToNodes.put( modelElement, atomicNucleusNode );
             
             // Register for notifications from this node.
-            poloniumNucleusNode.addListener(_grabbableNodeListener);
+            atomicNucleusNode.addListener(_grabbableNodeListener);
     	}
     	else if ( modelElement instanceof AlphaParticle ){
     		// An alpha particle has been added to the model, probably as a
@@ -277,6 +278,9 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     		
     		// Map this alpha particle to its node.
     		_mapAlphaParticlesToNodes.put(modelElement, alphaParticleNode);
+    	}
+    	else {
+    		System.err.println("WARNING: Unrecognized model element added, unable to create node for canvas.");
     	}
 	}
 
@@ -289,7 +293,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
 	 */
     private void handleModelElementRemoved(Object modelElement) {
     	
-    	if (modelElement instanceof Polonium211Nucleus){
+    	if (modelElement instanceof AtomicNucleus){
     		AtomicNucleusNode nucleusNode = (AtomicNucleusNode)_mapNucleiToNodes.get(modelElement);
     		if (nucleusNode == null){
     			System.err.println("Error: Could not find node for removed model element.");
@@ -322,10 +326,12 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
         Iterator iterator = entries.iterator();
         while (iterator.hasNext()) {
             Map.Entry entry = (Map.Entry)iterator.next();
-            Polonium211Nucleus nucleus = (Polonium211Nucleus)entry.getKey();
+            AtomicNucleus nucleus = (AtomicNucleus)entry.getKey();
             nucleus.reset();
             if (!_bucketNode.isNodeInBucket((AtomicNucleusNode)_mapNucleiToNodes.get(nucleus))){
-                nucleus.activate();
+            	if (nucleus instanceof DecayControl){
+            		((DecayControl) nucleus).activateDecay();
+            	}
             }
         }
     }
@@ -385,9 +391,9 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
 
     	// JPB TBD - Need to handle case where nucleus is added back to bucket.
     	AtomicNucleus nucleus = releasedNode.getNucleusRef();
-    	if (nucleus instanceof Polonium211Nucleus){
+    	if (nucleus instanceof DecayControl){
     		// Cause this node to start moving towards fissioning.
-    		((Polonium211Nucleus)nucleus).activate();
+    		((DecayControl)nucleus).activateDecay();
     	}
     }
     
@@ -481,8 +487,8 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     			
     			// Activate the nucleus so that it will decay.
     			AtomicNucleus nucleus = nucleusNode.getNucleusRef();
-    			if (nucleus instanceof Polonium211Nucleus){
-    				((Polonium211Nucleus)nucleus).activate();
+    			if (nucleus instanceof DecayControl){
+    				((DecayControl)nucleus).activateDecay();
     			}
     		}
     	}

@@ -6,51 +6,52 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
-import javax.swing.JFrame;
-
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
-import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
-import edu.colorado.phet.nuclearphysics.view.AtomicNucleusNode;
-import edu.colorado.phet.nuclearphysics.view.LabeledNucleusNode;
 
 /**
- * This class represents a non-composite Polonium 211 nucleus.  In other words,
- * this nucleus does not create or keep track of any constituent nucleons.
+ * This class represents a non-composite nucleus that has an adjustable half
+ * life.  There is obviously no such thing in nature, so the atomic weight of
+ * the atom is chosen arbitrarily and other portions of the simulation must
+ * "play along".
  *
  * @author John Blanco
  */
-public class Polonium211Nucleus extends AtomicNucleus implements DecayControl {
+public class AdjustableHalfLifeNucleus extends AtomicNucleus implements DecayControl {
     
     //------------------------------------------------------------------------
     // Class Data
     //------------------------------------------------------------------------
 
-    // Number of neutrons and protons in the nucleus upon construction.
-    public static final int ORIGINAL_NUM_PROTONS = 84;
-    public static final int ORIGINAL_NUM_NEUTRONS = 127;
+    // Number of neutrons and protons in the nucleus upon construction.  The
+    // values below are for Bismuth 208.
+    public static final int ORIGINAL_NUM_PROTONS = 83;
+    public static final int ORIGINAL_NUM_NEUTRONS = 125;
     
     // Random number generator used for calculating decay time based on half life.
     private static final Random RAND = new Random();
     
+    // Random number generator used for calculating decay time based on half life.
+    private static final double DEFAULT_HALF_LIFE = 1.5;  // In seconds.
+
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
 
-    // Time at which fission will occur.
-    private double _decayTime = 0;
-
+    private double _decayTime = 0;    // Time at which fission will occur.
+    private double _halfLife = 0;     // Half life, from which decay time is probabilistically calculated.
+    
     //------------------------------------------------------------------------
     // Constructor(s)
     //------------------------------------------------------------------------
     
-    public Polonium211Nucleus(NuclearPhysicsClock clock, Point2D position){
+    public AdjustableHalfLifeNucleus(NuclearPhysicsClock clock, Point2D position){
 
         super(clock, position, ORIGINAL_NUM_PROTONS, ORIGINAL_NUM_NEUTRONS);
+        
+        _halfLife = DEFAULT_HALF_LIFE;
     }
     
-    public Polonium211Nucleus(NuclearPhysicsClock clock){
+    public AdjustableHalfLifeNucleus(NuclearPhysicsClock clock){
 
         this(clock, new Point2D.Double(0, 0));
     }
@@ -61,6 +62,14 @@ public class Polonium211Nucleus extends AtomicNucleus implements DecayControl {
     
     public double getDecayTime(){
         return _decayTime;
+    }
+    
+    public double getHalfLife(){
+        return _halfLife;
+    }
+    
+    public void setHalfLife(double halfLife){
+        _halfLife = halfLife;
     }
     
     //------------------------------------------------------------------------
@@ -85,6 +94,9 @@ public class Polonium211Nucleus extends AtomicNucleus implements DecayControl {
             // Notify all listeners of the change to our atomic weight.
             notifyAtomicWeightChanged(null);
         }
+
+        // Notify all listeners of the potential position change.
+        notifyPositionChanged();
     }
     
     /**
@@ -95,13 +107,14 @@ public class Polonium211Nucleus extends AtomicNucleus implements DecayControl {
     	
     	// Only allow activation if the nucleus hasn't already decayed.
     	if (_numNeutrons == ORIGINAL_NUM_NEUTRONS){
-    		_decayTime = _clock.getSimulationTime() + calcPolonium211DecayTime();
+    		_decayTime = _clock.getSimulationTime() + calcDecayTime();
     	}
     }
     
     //------------------------------------------------------------------------
     // Private and Protected Methods
     //------------------------------------------------------------------------
+    
     /**
      * This method lets this model element know that the clock has ticked.  In
      * response we check if it is time to decay.
@@ -130,37 +143,23 @@ public class Polonium211Nucleus extends AtomicNucleus implements DecayControl {
     
     /**
      * This method generates a value indicating the number of milliseconds for
-     * a Polonium 211 nucleus to decay.  This calculation is based on the 
-     * exponential decay formula and uses the decay constant for Polonium 211.
+     * a nucleus decay based on the half life.  This calculation is based on the 
+     * exponential decay formula.
      * 
-     * @return
+     * @return - a time value in milliseconds
      */
-    private double calcPolonium211DecayTime(){
+    private double calcDecayTime(){
+    	
+    	if (_halfLife == 0){
+    		_decayTime = 0;
+    	}
         double randomValue = RAND.nextDouble();
         if (randomValue > 0.999){
             // Limit the maximum time for decay so that the user isn't waiting
             // around forever.
             randomValue = 0.999;
         }
-        double tunnelOutMilliseconds = (-(Math.log( 1 - randomValue ) / 1.343)) * 1000;
-        return tunnelOutMilliseconds;
-    }
-    
-    /**
-     * This main function is used to provide stand-alone testing of the class.
-     * 
-     * @param args - Unused.
-     */
-    public static void main(String [] args){
-        Polonium211Nucleus nucleus = new Polonium211Nucleus(new NuclearPhysicsClock(24, 10));
-        AtomicNucleusNode nucleusNode = new AtomicNucleusNode(nucleus);
-        nucleus.setPosition(400, 300);
-        
-        JFrame frame = new JFrame();
-        PhetPCanvas canvas = new PhetPCanvas();
-        frame.setContentPane( canvas );
-        canvas.addWorldChild( nucleusNode );
-        frame.setSize( 800, 600 );
-        frame.setVisible( true );
+        double decayMilliseconds = (-(Math.log( 1 - randomValue ) / 1.343)) * 1000;
+        return decayMilliseconds;
     }
 }
