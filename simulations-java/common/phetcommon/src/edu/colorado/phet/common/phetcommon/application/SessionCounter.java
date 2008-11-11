@@ -23,7 +23,7 @@ import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
  */
 public class SessionCounter {
     
-    private static final String SESSION_COUNTS_FILENAME = PhetCommonConstants.PERSISTENCE_DIRNAME + System.getProperty( "file.separator" ) + "session-counts.properties";
+    private static final String SESSION_COUNTS_FILENAME = "session-counts.properties";
     private static final String SESSION_COUNTS_HEADER = "DO NOT EDIT! - counts how many times simulations have been run";
     
     /* singleton */
@@ -125,13 +125,23 @@ public class SessionCounter {
         return newCount;
     }
     
+    /*
+     * Gets the name of the session count file.
+     * Do this in a method instead of as a static constant because getting property user.home
+     * may cause an AccessControlException if run via JNLP without security permissions.
+     */
+    private static String getSessionCountFilename() {
+        String separator =  System.getProperty( "file.separator" );
+        return System.getProperty( "user.home" ) + separator + PhetCommonConstants.PERSISTENCE_DIRNAME + separator + SESSION_COUNTS_FILENAME;
+    }
+    
     private static String getSessionCountKey( String project, String flavor ) {
         return project + "." + flavor;
     }
     
     private static Properties readSessionCounts() throws IOException {
         Properties p = new Properties();
-        File file = new File( SESSION_COUNTS_FILENAME );
+        File file = new File( getSessionCountFilename() );
         if ( file.exists() ) {
             p.load( new FileInputStream( file ) );
         }
@@ -139,7 +149,7 @@ public class SessionCounter {
     }
     
     private static void writeSessionCounts( Properties p ) throws FileNotFoundException, IOException {
-        OutputStream out = new FileOutputStream( SESSION_COUNTS_FILENAME );
+        OutputStream out = new FileOutputStream( getSessionCountFilename() );
         p.store( out, SESSION_COUNTS_HEADER );
     }
 }

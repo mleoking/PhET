@@ -15,11 +15,12 @@ import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 
 public class PhetPreferences {
 
+    private static final String SEPARATOR = System.getProperty( "file.separator" );
     private static File PREFERENCES_FILE;//should be final, but we also need to handle the case in which we don't have access to this file or know its directory
 
     static {
         try {
-            PREFERENCES_FILE = new File( PhetCommonConstants.PERSISTENCE_DIRNAME + System.getProperty( "file.separator" ) + "preferences.properties" );
+            PREFERENCES_FILE = new File( System.getProperty( "user.home" ) + SEPARATOR + PhetCommonConstants.PERSISTENCE_DIRNAME + SEPARATOR + "preferences.properties" );
         }
         catch( AccessControlException accessControlException ) {
             PREFERENCES_FILE = null;
