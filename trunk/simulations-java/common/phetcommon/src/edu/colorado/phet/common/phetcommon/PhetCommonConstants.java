@@ -7,6 +7,6 @@ public class PhetCommonConstants {
     public static final String PHET_HOME_URL = "http://phet.colorado.edu";
     public static final String PHET_EMAIL = "phethelp@colorado.edu";
     
-    public static final String PERSISTENCE_DIRNAME = System.getProperty( "user.home" ) + System.getProperty( "file.separator" ) + ".phet";
+    public static final String PERSISTENCE_DIRNAME = ".phet";
 
 }
