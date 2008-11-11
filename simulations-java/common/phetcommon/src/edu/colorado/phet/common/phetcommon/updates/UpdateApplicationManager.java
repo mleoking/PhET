@@ -43,8 +43,8 @@ public class UpdateApplicationManager {
     private void autoCheckForUpdates( final Frame frame, final ISimInfo simInfo, final ITrackingInfo trackingInfo ) {
         System.out.println( "UpdateApplicationManager.autoCheckForUpdate" );//XXX
         TrackingManager.postActionPerformedMessage( TrackingMessage.AUTO_CHECK_FOR_UPDATES );
-        final UpdateNotifier updateManager = new UpdateNotifier( config.getProjectName(), config.getVersion() );
-        updateManager.addListener( new UpdateNotifier.UpdateAdapter() {
+        final UpdateNotifier updateNotifier = new UpdateNotifier( config.getProjectName(), config.getVersion() );
+        updateNotifier.addListener( new UpdateNotifier.UpdateAdapter() {
 
             public void updateAvailable( PhetVersion currentVersion, final PhetVersion remoteVersion ) {
                 System.out.println( "UpdateApplicationManager.updateAvailable" );//XXX
@@ -62,7 +62,7 @@ public class UpdateApplicationManager {
         //do check in new thread
         Thread t = new Thread( new Runnable() {
             public void run() {
-                updateManager.checkForUpdates();
+                updateNotifier.checkForUpdates();
             }
         } );
         t.start();

@@ -40,7 +40,7 @@ public class DefaultManualUpdateChecker implements IManualUpdateChecker {
     }
 
     public void checkForUpdates() {
-        UpdateNotifier updateManager = new UpdateNotifier( projectName, currentVersion );
+        UpdateNotifier updateNotifier = new UpdateNotifier( projectName, currentVersion );
         UpdateNotifier.UpdateListener listener = new UpdateNotifier.UpdateAdapter() {
 
             public void updateAvailable( PhetVersion currentVersion, PhetVersion remoteVersion ) {
@@ -58,8 +58,8 @@ public class DefaultManualUpdateChecker implements IManualUpdateChecker {
                 dialog.setVisible( true );
             }
         };
-        updateManager.addListener( listener );
-        updateManager.checkForUpdates();
-        updateManager.removeListener( listener );
+        updateNotifier.addListener( listener );
+        updateNotifier.checkForUpdates();
+        updateNotifier.removeListener( listener );
     }
 }
