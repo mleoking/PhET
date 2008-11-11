@@ -5,7 +5,6 @@ import java.io.IOException;
 
 import javax.swing.JDialog;
 
-import edu.colorado.phet.common.phetcommon.preferences.IManualUpdateChecker;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
@@ -13,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.updates.dialogs.ManualUpdateDialog;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.NoUpdateDialog;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.UpdateErrorDialog;
 
-public class DefaultManualCheckForUpdates implements IManualUpdateChecker {
+public class DefaultManualUpdateChecker implements IManualUpdateChecker {
     private String sim;
     private PhetVersion currentVersion;
     private String humanReadableSimName;
@@ -21,7 +20,7 @@ public class DefaultManualCheckForUpdates implements IManualUpdateChecker {
     private Frame frame;
     private String projectName;
 
-    public DefaultManualCheckForUpdates( Frame frame, String projectName, String sim, PhetVersion currentVersion, String humanReadableSimName,String locale ) {
+    public DefaultManualUpdateChecker( Frame frame, String projectName, String sim, PhetVersion currentVersion, String humanReadableSimName,String locale ) {
         this.frame = frame;
         this.projectName = projectName;
         this.sim = sim;

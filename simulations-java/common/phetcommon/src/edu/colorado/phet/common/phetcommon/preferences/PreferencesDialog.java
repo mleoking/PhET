@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 import edu.colorado.phet.common.phetcommon.updates.ApplicationConfigManualCheckForUpdates;
+import edu.colorado.phet.common.phetcommon.updates.IManualUpdateChecker;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 

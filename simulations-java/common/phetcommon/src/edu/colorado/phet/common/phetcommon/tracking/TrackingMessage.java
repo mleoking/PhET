@@ -12,7 +12,6 @@ import java.util.Arrays;
  * @author Chris Malley
  */
 public class TrackingMessage {
-    private ArrayList fields = new ArrayList();
 
     //versioning the tracking system will allow us to analyze data across version changes
     //for example, we may stop tracking certain things in a newer version of the tracker
@@ -45,6 +44,7 @@ public class TrackingMessage {
     public static final String PHET_FRAME_CLOSING = "phet-frame-closing";
     public static final String FILE_EXIT_SELECTED = "file-exit-selected";
 
+    private final ArrayList fields = new ArrayList();
 
     public TrackingMessage( SessionID sessionID, String messageType ) {
         addField( new TrackingMessageField( "session-id", sessionID.toString() ) );
