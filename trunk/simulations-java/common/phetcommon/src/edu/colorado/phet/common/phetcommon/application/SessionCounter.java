@@ -45,7 +45,7 @@ public class SessionCounter {
      */
     public static SessionCounter initInstance( String project, String flavor ) {
         if ( instance != null ) {
-            new RuntimeException( "SessionCounter is already initialized" );
+            throw new RuntimeException( "SessionCounter is already initialized" );
         }
         else {
             instance = new SessionCounter( project, flavor );
