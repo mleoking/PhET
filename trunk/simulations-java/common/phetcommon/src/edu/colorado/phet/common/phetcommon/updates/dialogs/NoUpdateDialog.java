@@ -16,7 +16,10 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPane;
 
-
+/**
+ * Dialog uses to inform the user that no update is available.
+ * This is used in situations where the user has manually requested an update check.
+ */
 public class NoUpdateDialog extends JDialog {
     
     private static final String TITLE = PhetCommonResources.getString( "Common.updates.updateToDate");

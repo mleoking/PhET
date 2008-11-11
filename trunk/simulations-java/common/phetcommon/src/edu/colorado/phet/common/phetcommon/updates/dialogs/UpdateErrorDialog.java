@@ -19,7 +19,10 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPane;
 
-
+/**
+ * Error dialog, with a summary and "Details" button to get more info.
+ * The "Details" button opens a Details dialog.
+ */
 public class UpdateErrorDialog extends JDialog {
     
     private static final String TITLE = PhetCommonResources.getString( "Common.updates.error.title" );
