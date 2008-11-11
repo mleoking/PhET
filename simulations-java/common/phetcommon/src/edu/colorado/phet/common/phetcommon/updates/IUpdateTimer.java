@@ -7,9 +7,15 @@ public interface IUpdateTimer {
     
     /**
      * Sets the time at which the user requested to defer update checks.
-     * @param project
-     * @param name
      * @param time
      */
-    void setTimerStartTime( String project, String name, long time );
+    public void setStartTime( long time );
+    
+    public long getStartTime();
+    
+    public void setDuration( long duration );
+    
+    public long getDuration();
+    
+    public boolean isDurationExceeded();
 }

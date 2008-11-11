@@ -7,6 +7,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.tracking.SessionStartedMessage;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
+import edu.colorado.phet.common.phetcommon.updates.UpdateApplicationManager;
 
 /**
  * This launcher solves the following problems:

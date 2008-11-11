@@ -1,26 +1,30 @@
-package edu.colorado.phet.common.phetcommon.application;
+package edu.colorado.phet.common.phetcommon.updates;
 
-import java.io.IOException;
+import java.awt.Frame;
 import java.util.Arrays;
-import java.awt.*;
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 
+import edu.colorado.phet.common.phetcommon.application.ISimInfo;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.preferences.DefaultUpdatePreferences;
-import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.preferences.ITrackingInfo;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
-import edu.colorado.phet.common.phetcommon.updates.UpdateManager;
-import edu.colorado.phet.common.phetcommon.updates.dialogs.AutomaticUpdateDialog;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
-import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
+import edu.colorado.phet.common.phetcommon.updates.dialogs.AutomaticUpdateDialog;
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 
 public class UpdateApplicationManager {
-    private PhetApplicationConfig config;
+    
+    private final PhetApplicationConfig config;
+    private final IVersionSkipper versionSkipper;
+    private final IUpdateTimer updateTimer;
 
     public UpdateApplicationManager( PhetApplicationConfig config ) {
         this.config = config;
+        versionSkipper = new DefaultVersionSkipper( config.getProjectName(), config.getFlavor() );
+        updateTimer = new DefaultUpdateTimer( config.getProjectName(), config.getFlavor() );
     }
 
     private boolean isUpdatesAllowed() {
@@ -31,35 +35,24 @@ public class UpdateApplicationManager {
     }
 
     public void applicationStarted( Frame frame,ISimInfo simInfo,ITrackingInfo trackingInfo) {
-        if ( isUpdatesEnabled() && isUpdatesAllowed() && hasEnoughTimePassedSinceAskMeLater() ) {
+        if ( isUpdatesEnabled() && isUpdatesAllowed() && updateTimer.isDurationExceeded() ) {
             autoCheckForUpdates( frame, simInfo, trackingInfo );
         }
     }
 
-    private boolean hasEnoughTimePassedSinceAskMeLater() {
-        long lastTimeUserPressedAskMeLaterForAnySim = PhetPreferences.getInstance().getAskMeLater( config.getProjectName(), config.getFlavor() );
-        long currentTime = System.currentTimeMillis();
-        long elapsedTime = currentTime - lastTimeUserPressedAskMeLaterForAnySim;
-        int millisecondsDelayBeforeAskingAgain = 1000 * 60 * 60 * 24;
-//        System.out.println( "elapsedTime/1000.0 = " + elapsedTime / 1000.0+" sec" );
-        return elapsedTime > millisecondsDelayBeforeAskingAgain || lastTimeUserPressedAskMeLaterForAnySim == 0;
-    }
-
     private void autoCheckForUpdates( final Frame frame, final ISimInfo simInfo, final ITrackingInfo trackingInfo ) {
+        System.out.println( "UpdateApplicationManager.autoCheckForUpdate" );//XXX
         TrackingManager.postActionPerformedMessage( TrackingMessage.AUTO_CHECK_FOR_UPDATES );
         final UpdateManager updateManager = new UpdateManager( config.getProjectName(), config.getVersion() );
         updateManager.addListener( new UpdateManager.UpdateAdapter() {
 
             public void updateAvailable( PhetVersion currentVersion, final PhetVersion remoteVersion ) {
-                int remoteVersionSVN = remoteVersion.getRevisionAsInt();
-                int requestedSkipSVN = PhetPreferences.getInstance().getSkipUpdate( config.getProjectName(), config.getFlavor() );
-//                System.out.println( "remoteVersionSVN = " + remoteVersionSVN + ", requestedSkipSVN=" + requestedSkipSVN );
-                if ( remoteVersionSVN > requestedSkipSVN )
-                //show UI in swing thread after new thread has found a new version
-                {
+                System.out.println( "UpdateApplicationManager.updateAvailable" );//XXX
+                if ( !versionSkipper.isSkipped( remoteVersion.getRevisionAsInt() ) ) {
+                    //show UI in swing thread after new thread has found a new version
                     SwingUtilities.invokeLater( new Runnable() {
                         public void run() {
-                            new AutomaticUpdateDialog( frame, simInfo, trackingInfo, remoteVersion ).setVisible( true );
+                            new AutomaticUpdateDialog( frame, simInfo, trackingInfo, remoteVersion, updateTimer, versionSkipper ).setVisible( true );
                         }
                     } );
                 }
@@ -76,7 +69,7 @@ public class UpdateApplicationManager {
     }
 
     public boolean isUpdatesEnabled() {
-        return Arrays.asList( config.getCommandLineArgs() ).contains( "-updates" ) && !PhetServiceManager.isJavaWebStart();
+        return Arrays.asList( config.getCommandLineArgs() ).contains( "-updates" ) && !PhetUtilities.isRunningFromWebsite();
     }
 
 }

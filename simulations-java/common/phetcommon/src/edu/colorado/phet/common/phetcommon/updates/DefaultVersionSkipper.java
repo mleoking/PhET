@@ -1,14 +1,29 @@
 package edu.colorado.phet.common.phetcommon.updates;
 
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
-import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 
 /**
  * DefaultVersionSkipper skips a version by recording the 
  * skipped version number in the user's preferences.
  */
 public class DefaultVersionSkipper implements IVersionSkipper {
-    public void setSkippedVersion( String projectName, String flavor, PhetVersion skipVersion ) {
-        PhetPreferences.getInstance().setSkipUpdate( projectName, flavor, skipVersion );
+    
+    private final String project, sim;
+    
+    public DefaultVersionSkipper( String project, String sim ) {
+        this.project = project;
+        this.sim = sim;
+    }
+    
+    public void setSkippedVersion( int skipVersion ) {
+        PhetPreferences.getInstance().setSkipUpdate( project, sim, skipVersion );
+    }
+    
+    public int getSkippedVersion() {
+        return PhetPreferences.getInstance().getSkipUpdate( project, sim );
+    }
+    
+    public boolean isSkipped( int version ) {
+        return version <= getSkippedVersion();
     }
 }
