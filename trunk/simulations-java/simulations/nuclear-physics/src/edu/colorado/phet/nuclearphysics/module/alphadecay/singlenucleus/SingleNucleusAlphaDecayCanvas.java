@@ -19,6 +19,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.CompositeAtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.Neutron;
@@ -137,40 +138,9 @@ public class SingleNucleusAlphaDecayCanvas extends PhetPCanvas {
         _nucleusNode = new AtomicNucleusNode(atomicNucleus);
         labelLayer.addChild( _nucleusNode );
 
-        // Register with the model for notifications of alpha particles coming
-        // and going.
-        // TODO: jblanco - This may be obsolete, since the canvas now (as of March 19
-        // 2008) gets the nucleus and registers with the sub-particles thereof
-        // instead of watching the particles come and go directly from the
-        // model.  Remove this if it is not needed within, say, a week.
-        singleNucleusAlphaDecayModel.addListener( new SingleNucleusAlphaDecayModel.Listener(  ){
-            
-            /**
-             * A new particle has been added in the model, so we need to
-             * display it on the canvas.
-             */
-            public void particleAdded(AlphaParticle alphaParticle){
-                
-                AlphaParticleModelNode alphaParticleNode = new AlphaParticleModelNode(alphaParticle);
-                
-                // Add the particle to the world.
-                addWorldChild( 0, alphaParticleNode );
-                
-                // Map the particle to the node so that we can remove it later.
-                _mapAlphaParticlesToNodes.put( alphaParticle, alphaParticleNode );
-            }
-            
-            /**
-             * A particle has been removed from the model, so we need to
-             * remove its representation from the canvas (i.e. view).
-             */
-            public void particleRemoved(AlphaParticle alphaParticle){
-                AlphaParticleModelNode alphaParticleNode = 
-                    (AlphaParticleModelNode)_mapAlphaParticlesToNodes.get( alphaParticle );
-                assert alphaParticleNode != null;
-                removeWorldChild( alphaParticleNode );
-                _mapAlphaParticlesToNodes.remove( alphaParticleNode );
-            }
+        // Register with the model for notifications of important events.
+        singleNucleusAlphaDecayModel.addListener( new AlphaDecayAdapter() {
+        	// TODO: JPB TBD - Need to figure out exactly what should be here.
         });
         
         // Set the background color.

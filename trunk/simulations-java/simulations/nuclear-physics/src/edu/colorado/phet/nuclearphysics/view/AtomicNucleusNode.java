@@ -242,12 +242,33 @@ public class AtomicNucleusNode extends PNode {
             
             break;
             
+        case 83:
+            // Bismuth, which is used as the pre-decay "custom" nucleus.
+            if (numNeutrons == 125){
+                // Undecayed Bismuth.
+                isotopeNumber = "";
+                chemSymbol = NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL;
+                labelColor = NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR;
+            }
+            
+            break;
+            
         case 82:
             // Lead
             if (numNeutrons == 125){
                 isotopeNumber = NuclearPhysicsStrings.LEAD_207_ISOTOPE_NUMBER;
                 chemSymbol = NuclearPhysicsStrings.LEAD_207_CHEMICAL_SYMBOL;
                 labelColor = NuclearPhysicsConstants.LEAD_LABEL_COLOR;
+            }
+            
+            break;
+            
+        case 81:
+            // Thallium, which is used as the post-decay "custom" nucleus.
+            if (numNeutrons == 123){
+                isotopeNumber = "";
+                chemSymbol = NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL;
+                labelColor = NuclearPhysicsConstants.DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR;
             }
             
             break;

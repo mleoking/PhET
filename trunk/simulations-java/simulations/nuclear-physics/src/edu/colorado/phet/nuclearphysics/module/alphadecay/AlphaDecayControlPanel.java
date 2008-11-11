@@ -3,6 +3,10 @@
 package edu.colorado.phet.nuclearphysics.module.alphadecay;
 
 import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
@@ -33,11 +37,10 @@ public class AlphaDecayControlPanel extends ControlPanel {
      * 
      * @param piccoloModule
      * @param parentFrame parent frame, for creating dialogs
-     * @param alphaDecayModel TODO
+     * @param alphaDecayModel 
      */
     public AlphaDecayControlPanel( PiccoloModule piccoloModule, Frame parentFrame, 
     		AlphaDecayNucleusTypeControl alphaDecayModel ) {
-        super();
         
         // Set the control panel's minimum width.
         int minimumWidth = NuclearPhysicsResources.getInt( "int.minControlPanelWidth", 215 );
@@ -45,7 +48,7 @@ public class AlphaDecayControlPanel extends ControlPanel {
         
         // Create sub-panels
         _legendPanel = new AlphaDecayLegendPanel();
-        _selectionPanel = new AlphaDecayNucleusSelectionPanel();
+        _selectionPanel = new AlphaDecayNucleusSelectionPanel( alphaDecayModel );
         
         // Add the legend panel.
         addControlFullWidth( _legendPanel );
@@ -56,7 +59,6 @@ public class AlphaDecayControlPanel extends ControlPanel {
         // Add the Reset All button.
         addVerticalSpace( 10 );
         addResetAllButton( piccoloModule );
-
     }
     
     //----------------------------------------------------------------------------
