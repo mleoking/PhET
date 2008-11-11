@@ -12,9 +12,9 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
+import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
-import edu.colorado.phet.common.phetcommon.updates.OpenWebPageToNewVersion;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
@@ -65,7 +65,7 @@ public abstract class AbstractUpdateDialog extends JDialog {
 
             public void mousePressed( MouseEvent e ) {
                 TrackingManager.postActionPerformedMessage( TrackingMessage.UPDATES_TRY_IT_PRESSED );
-                OpenWebPageToNewVersion.openWebPageToNewVersion( project, sim );
+                PhetServiceManager.showSimPage( project, sim );
             }
         } );
         tryItLink.setForeground( Color.blue );

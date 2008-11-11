@@ -17,6 +17,7 @@ import java.net.URL;
 import javax.jnlp.*;
 
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
 /**
  * Provides the functionality of ServiceManager for both JNLP and local runtimes.
@@ -66,6 +67,16 @@ public class PhetServiceManager {
      */
     public static void showPhetPage() {
         showWebPage( PhetCommonConstants.PHET_HOME_URL );
+    }
+    
+    /**
+     * Opens a browser to show a sim's web page.
+     * 
+     * @param project
+     * @param sim
+     */
+    public static void showSimPage( String project, String sim ) {
+        showWebPage( HTMLUtils.getSimURL( project, sim, "&" ) );
     }
     
     public static void showWebPage( String url ) {
