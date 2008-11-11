@@ -40,21 +40,21 @@ public class DefaultManualUpdateChecker implements IManualUpdateChecker {
     }
 
     public void checkForUpdates() {
-        UpdateManager updateManager = new UpdateManager( projectName, currentVersion );
-        UpdateManager.UpdateListener listener = new UpdateManager.UpdateAdapter() {
+        UpdateNotifier updateManager = new UpdateNotifier( projectName, currentVersion );
+        UpdateNotifier.UpdateListener listener = new UpdateNotifier.UpdateAdapter() {
 
             public void updateAvailable( PhetVersion currentVersion, PhetVersion remoteVersion ) {
                 JDialog dialog = new ManualUpdateDialog( frame, projectName, sim, humanReadableSimName, currentVersion, remoteVersion ,locale);
                 dialog.setVisible( true );
             }
 
-            public void exceptionInUpdateCheck( final IOException e ) {
-                JDialog dialog = new UpdateErrorDialog( frame, e );
+            public void noUpdateAvailable( PhetVersion currentVersion ) {
+                JDialog dialog = new NoUpdateDialog( frame, currentVersion.formatForTitleBar(), humanReadableSimName );
                 dialog.setVisible( true );
             }
 
-            public void noUpdateAvailable( PhetVersion currentVersion, PhetVersion remoteVersion ) {
-                JDialog dialog = new NoUpdateDialog( frame, currentVersion.formatForTitleBar(), humanReadableSimName );
+            public void exceptionInUpdateCheck( final IOException e ) {
+                JDialog dialog = new UpdateErrorDialog( frame, e );
                 dialog.setVisible( true );
             }
         };
