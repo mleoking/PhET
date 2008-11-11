@@ -57,7 +57,7 @@ public class SimUpdater {
 
     private void startBootstrap( File bootstrapUpdater, File src, File dst ) throws IOException {
         String[] cmd = new String[]{getJavaPath(), "-jar", bootstrapUpdater.getAbsolutePath(), src.getAbsolutePath(), dst.getAbsolutePath()};//todo support for locales
-        println( "Starting updater with command: \n" + Arrays.toString( cmd ) );
+        println( "Starting updater with command: \n" + Arrays.asList( cmd ).toString() );
         Process p = Runtime.getRuntime().exec( cmd );
         //todo: read output from process in case helpful debug information is there in case of problem
     }
