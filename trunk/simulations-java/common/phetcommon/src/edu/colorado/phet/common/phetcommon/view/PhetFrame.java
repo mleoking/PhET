@@ -23,7 +23,7 @@ import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
-import edu.colorado.phet.common.phetcommon.updates.ApplicationConfigManualCheckForUpdates;
+import edu.colorado.phet.common.phetcommon.updates.DefaultManualUpdateChecker;
 import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
 import edu.colorado.phet.common.phetcommon.view.menu.PhetFileMenu;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -70,7 +70,7 @@ public class PhetFrame extends JFrame {
         } );
 
         JMenuBar menuBar = new JMenuBar();
-        this.helpMenu = new HelpMenu( application, new ApplicationConfigManualCheckForUpdates( this, application.getSimInfo() ) );
+        this.helpMenu = new HelpMenu( application, new DefaultManualUpdateChecker( this, application.getSimInfo() ) );
         defaultFileMenu = new PhetFileMenu( this, application.getSimInfo(), application.getTrackingInfo() );
         menuBar.add( defaultFileMenu );
         menuBar.add( helpMenu );

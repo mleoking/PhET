@@ -1,18 +1,23 @@
 package edu.colorado.phet.common.phetcommon.preferences;
 
-import java.awt.*;
+import java.awt.FlowLayout;
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
-import edu.colorado.phet.common.phetcommon.updates.ApplicationConfigManualCheckForUpdates;
+import edu.colorado.phet.common.phetcommon.updates.DefaultManualUpdateChecker;
 import edu.colorado.phet.common.phetcommon.updates.IManualUpdateChecker;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -119,7 +124,7 @@ public class PreferencesDialog extends JDialog {
     */
     public static void main( String[] args ) {
         final PhetApplicationConfig config = new PhetApplicationConfig( args, "balloons" );
-        PreferencesDialog preferencesDialog = new PreferencesDialog( null, config, new ApplicationConfigManualCheckForUpdates( null, config ), new DefaultUpdatePreferences(),
+        PreferencesDialog preferencesDialog = new PreferencesDialog( null, config, new DefaultManualUpdateChecker( null, config ), new DefaultUpdatePreferences(),
                                                                      new DefaultTrackingPreferences() );
         preferencesDialog.addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {

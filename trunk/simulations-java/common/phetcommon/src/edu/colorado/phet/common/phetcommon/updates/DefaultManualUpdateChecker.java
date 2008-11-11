@@ -5,9 +5,8 @@ import java.io.IOException;
 
 import javax.swing.JDialog;
 
+import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
-import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
-import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.ManualUpdateDialog;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.NoUpdateDialog;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.UpdateErrorDialog;
@@ -19,6 +18,10 @@ public class DefaultManualUpdateChecker implements IManualUpdateChecker {
     private String locale;
     private Frame frame;
     private String projectName;
+    
+    public DefaultManualUpdateChecker( Frame frame, ISimInfo simInfo ) {
+        this( frame, simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getVersion(), simInfo.getName(), simInfo.getLocaleString() );
+    }
 
     public DefaultManualUpdateChecker( Frame frame, String projectName, String sim, PhetVersion currentVersion, String humanReadableSimName,String locale ) {
         this.frame = frame;
