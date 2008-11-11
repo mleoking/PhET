@@ -148,7 +148,7 @@ public class SessionCounter {
         return p;
     }
     
-    private static void writeSessionCounts( Properties p ) throws FileNotFoundException, IOException {
+    private static void writeSessionCounts( Properties p ) throws IOException {
         OutputStream out = new FileOutputStream( getSessionCountFilename() );
         p.store( out, SESSION_COUNTS_HEADER );
     }
