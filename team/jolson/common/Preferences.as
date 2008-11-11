@@ -26,16 +26,16 @@ class Preferences {
 		_level0.preferences = this;
 		
 		// load shared object
-		sharedObject = SharedObject.getLocal("phetPrefs");
+		sharedObject = SharedObject.getLocal("phetPrefs", "/");
 		
 		/////////////////////////////////////////
 		// TEMPORARY FOR DEVELOPMENT PURPOSES
 		/////////////////////////////////////////
 		// if they don't have the newest field, reset their shared object!
-		if(!sharedObject.data.hasOwnProperty("userId")) {
-			debug("Preferences: DEVELOPMENT: resetting shared object, new information to be stored\n");
-			reset();
-		}
+		//if(!sharedObject.data.userId) {
+			//debug("Preferences: DEVELOPMENT: resetting shared object, new information to be stored\n");
+			//reset();
+		//}
 		/////////////////////////////////////////
 		
 		// if it is the first time simulations have been run from

@@ -65,7 +65,7 @@ class UpdateHandler {
 			/////////////////////////////////////////////
 			// CHANGE ME
 			// needs to be changed to the path of the version script for each simulation
-			xml.load("http://phet.colorado.edu/tracking/flash-tests/version.php");
+			xml.load("http://phet.colorado.edu/jolson/deploy/sims/version.php?" + _level0.simName);
 		} else {
 			debug("UpdateHandler: not checking for updates (preferences)\n");
 		}
