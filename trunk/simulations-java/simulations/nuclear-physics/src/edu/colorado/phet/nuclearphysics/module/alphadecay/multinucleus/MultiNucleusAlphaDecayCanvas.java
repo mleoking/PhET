@@ -75,6 +75,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
+    
     private AlphaDecayTimeChart _alphaDecayTimeChart;
     private GradientButtonNode _resetButtonNode;
     private GradientButtonNode _addTenButtonNode;
@@ -85,6 +86,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     private HashMap _mapNucleiToNodes = new HashMap();
     private GrabbableNucleusImageNode.Listener _grabbableNodeListener;
     private Random _rand = new Random();
+    private AtomicNucleus.Listener _listenerAdapter;
     
     // The following rectangles are used to define the locations where
     // randomly placed nuclei can and cannot be put.
@@ -192,6 +194,9 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
         };
     }
     
+    /**
+     * Update the layout on the canvas.
+     */
 	public void update() {
 		
 		super.update();
@@ -298,11 +303,17 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     		if (nucleusNode == null){
     			System.err.println("Error: Could not find node for removed model element.");
     		}
-    		else if (_bucketNode.isNodeInBucket( nucleusNode )){
-    			_bucketNode.removeNucleus( nucleusNode );
-    		}
-    		else{
-    			removeWorldChild( nucleusNode );
+    		else {
+    			((AtomicNucleus)modelElement).removeListener(_listenerAdapter);
+    			
+    			if (_bucketNode.isNodeInBucket( nucleusNode )){
+    				// Remove the node from the bucket.
+        			_bucketNode.removeNucleus( nucleusNode );
+    			}
+        		else{
+        			// Remove the node from the canvas.
+        			removeWorldChild( nucleusNode );
+        		}
     		}
     		_mapNucleiToNodes.remove( modelElement );
     	}

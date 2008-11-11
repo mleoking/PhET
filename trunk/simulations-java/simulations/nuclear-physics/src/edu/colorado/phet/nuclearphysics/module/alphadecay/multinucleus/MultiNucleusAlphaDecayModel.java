@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus;
 
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
@@ -14,10 +13,8 @@ import edu.colorado.phet.nuclearphysics.model.AlphaDecayListener;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsClock;
-import edu.colorado.phet.nuclearphysics.model.Polonium211CompositeNucleus;
 import edu.colorado.phet.nuclearphysics.model.Polonium211Nucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.AlphaDecayNucleusTypeControl;
-import edu.colorado.phet.nuclearphysics.module.chainreaction.ChainReactionModel.Listener;
 
 /**
  * This class contains the Model portion of the Model-View-Controller 
@@ -53,6 +50,7 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
     private AtomicNucleus [] _atomicNuclei;
     private ArrayList _alphaParticles = new ArrayList();
     private int _nucleusType;
+    private AtomicNucleus.Adapter _nucleusListener;
     
     //------------------------------------------------------------------------
     // Constructor
@@ -80,6 +78,37 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
             	reset();
             }
         });
+        
+        // Create the object that will listen for nucleus events, such as decays.
+        _nucleusListener = new AtomicNucleus.Adapter(){
+            
+            public void atomicWeightChanged(AtomicNucleus nucleus, int numProtons, int numNeutrons, 
+                    ArrayList byProducts){
+                
+                if (byProducts != null){
+                    // There are some byproducts of this event that need to be
+                    // managed by this object.
+                    for (int i = 0; i < byProducts.size(); i++){
+                        Object byProduct = byProducts.get( i );
+                        if (byProduct instanceof AlphaParticle){
+                        	// An alpha particle was produced, so tell
+                        	// it to tunnel out of the nucleus, add it
+                        	// to the list, and let any listeners know
+                        	// about it.
+                        	((AlphaParticle)byProduct).tunnelOut(nucleus.getPositionReference(),
+                        			AtomicNucleus.DEFAULT_TUNNELING_REGION_RADIUS);
+                            _alphaParticles.add(byProduct);
+                            notifyModelElementAdded(byProduct);
+                        }
+                        else {
+                            // We should never get here, debug it if it does.
+                            System.err.println("Error: Unexpected byproduct of decay event.");
+                            assert false;
+                        }
+                    }
+                }
+            }
+        };
     }
     
     //------------------------------------------------------------------------
@@ -160,6 +189,7 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
 		// Remove any existing nuclei and let the listeners know of their demise.
 		for (int i = 0; i < _atomicNuclei.length; i++){
 			if (_atomicNuclei[i] != null){
+				_atomicNuclei[i].removeListener(_nucleusListener);
 				notifyModelElementRemoved( _atomicNuclei[i] );
 				_atomicNuclei[i] = null;
 			}
@@ -203,35 +233,7 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
 			// Register as a listener for the nucleus so we can handle the
 	        // particles thrown off by alpha decay.
 	        
-	        newNucleus.addListener( new AtomicNucleus.Adapter(){
-	            
-	            public void atomicWeightChanged(AtomicNucleus nucleus, int numProtons, int numNeutrons, 
-	                    ArrayList byProducts){
-	                
-	                if (byProducts != null){
-	                    // There are some byproducts of this event that need to be
-	                    // managed by this object.
-	                    for (int i = 0; i < byProducts.size(); i++){
-	                        Object byProduct = byProducts.get( i );
-	                        if (byProduct instanceof AlphaParticle){
-	                        	// An alpha particle was produced, so tell
-	                        	// it to tunnel out of the nucleus, add it
-	                        	// to the list, and let any listeners know
-	                        	// about it.
-	                        	((AlphaParticle)byProduct).tunnelOut(nucleus.getPositionReference(),
-	                        			AtomicNucleus.DEFAULT_TUNNELING_REGION_RADIUS);
-	                            _alphaParticles.add(byProduct);
-	                            notifyModelElementAdded(byProduct);
-	                        }
-	                        else {
-	                            // We should never get here, debug it if it does.
-	                            System.err.println("Error: Unexpected byproduct of decay event.");
-	                            assert false;
-	                        }
-	                    }
-	                }
-	            }
-	        });
+	        newNucleus.addListener( _nucleusListener );
 		}
 	}
 	
