@@ -11,8 +11,10 @@ import java.text.MessageFormat;
 import java.util.Properties;
 
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
-import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 
+/**
+ * PhET preferences, stored in a file in the user's home directory.
+ */
 public class PhetPreferences {
 
     private static final String SEPARATOR = System.getProperty( "file.separator" );
@@ -33,10 +35,12 @@ public class PhetPreferences {
     private static final String PATTERN_KEY_ASK_ME_LATER = "{0}.{1}.updates.ask-me-later-pressed.milliseconds";
     private static final String PATTERN_KEY_SKIP_UPDATE = "{0}.{1}.updates.skip.version"; // project.sim.updates.skip-version
 
+    /* singleton */
     private static PhetPreferences instance;
 
     private final Properties properties = new Properties();
 
+    /* singleton */
     private PhetPreferences() {
         if ( PREFERENCES_FILE == null ) {
             //can't read or write properties due to access control exception

@@ -22,6 +22,9 @@ import edu.colorado.phet.common.phetcommon.updates.IManualUpdateChecker;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
+/**
+ * Preferences dialog.
+ */
 public class PreferencesDialog extends JDialog {
 
     private static final String TITLE = PhetCommonResources.getString( "Common.preferences.title" );
