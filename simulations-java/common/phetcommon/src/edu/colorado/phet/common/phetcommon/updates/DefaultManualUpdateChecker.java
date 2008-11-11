@@ -11,7 +11,14 @@ import edu.colorado.phet.common.phetcommon.updates.dialogs.ManualUpdateDialog;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.NoUpdateDialog;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.UpdateErrorDialog;
 
+/**
+ * Handles manual requests for update checks.
+ * <p>
+ * If an update is found, an dialog is displayed that allows the user to perform the update.
+ * If no update is found, a dialog notifies the user.
+ */
 public class DefaultManualUpdateChecker implements IManualUpdateChecker {
+    
     private String sim;
     private PhetVersion currentVersion;
     private String humanReadableSimName;

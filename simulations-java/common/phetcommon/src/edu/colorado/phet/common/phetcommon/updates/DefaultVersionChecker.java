@@ -11,7 +11,13 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
+/**
+ * DefaultVersionChecker gets the most up-to-date version information from the PhET website.
+ * The version information lives in a properties file in the sim's directory on the website.
+ * For example, for faraday, the file is faraday.properties.
+ */
 public class DefaultVersionChecker implements IVersionChecker {
+    
     public PhetVersion getVersion( String project ) throws IOException {
         String read = readURL( HTMLUtils.getProjectPropertiesURL( project ) );
         Properties properties = new Properties();

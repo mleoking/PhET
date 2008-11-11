@@ -55,7 +55,7 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
         JButton askMeLater = new JButton( ASK_ME_LATER_BUTTON );
         askMeLater.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                updateTimer.setLastAskMeLaterTime( project, sim, System.currentTimeMillis() );
+                updateTimer.setTimerStartTime( project, sim, System.currentTimeMillis() );
                 dispose();
                 TrackingManager.postActionPerformedMessage( TrackingMessage.ASK_ME_LATER_PRESSED );
             }
@@ -65,7 +65,7 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
         JButton skipThisVersion = new JButton( SKIP_UPDATE_BUTTON );
         skipThisVersion.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                versionSkipper.skipThisVersion( simInfo.getProjectName(), simInfo.getFlavor(), newVersion );
+                versionSkipper.setSkippedVersion( simInfo.getProjectName(), simInfo.getFlavor(), newVersion );
                 dispose();
                 TrackingManager.postActionPerformedMessage( TrackingMessage.SKIP_UPDATE_PRESSED );
             }
