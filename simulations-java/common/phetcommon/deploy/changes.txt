@@ -1,3 +1,4 @@
+11-11-08: collapse ApplicationConfigManualCheckForUpdates into DefaultManualUpdateChecker, ISimInfo arg makes this subclass unnecessary
 11-11-08: use consistent naming in IManualUpdateChecker hierarchy, move interface to updates package
 11-11-08: move OpenWebPageToNewVersion into PhetServiceManager, which already handles opening browser to PhET website pages
 11-11-08: see #924, "Update Now" button needs to do something different for online sims

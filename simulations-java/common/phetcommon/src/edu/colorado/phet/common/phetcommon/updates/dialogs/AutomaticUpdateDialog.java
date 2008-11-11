@@ -41,7 +41,7 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
         this.owner = owner;
         this.simInfo = simInfo;
         this.trackingInfo = trackingInfo;
-        this.manualUpdateChecker = new ApplicationConfigManualCheckForUpdates( owner, simInfo );
+        this.manualUpdateChecker = new DefaultManualUpdateChecker( owner, simInfo );
         this.updateTimer = new DefaultUpdateTimer();
         this.versionSkipper = new DefaultVersionSkipper();
     }

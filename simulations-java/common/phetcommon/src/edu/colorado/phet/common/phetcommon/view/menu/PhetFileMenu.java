@@ -24,9 +24,9 @@ import edu.colorado.phet.common.phetcommon.preferences.PreferencesDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
-import edu.colorado.phet.common.phetcommon.updates.ApplicationConfigManualCheckForUpdates;
-import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.updates.DefaultManualUpdateChecker;
 import edu.colorado.phet.common.phetcommon.view.PhetExit;
+import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 
 /**
  * PhetFileMenu
@@ -45,7 +45,7 @@ public class PhetFileMenu extends JMenu {
             preferencesMenuItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     new PreferencesDialog( phetFrame, trackingInfo,
-                                           new ApplicationConfigManualCheckForUpdates( phetFrame, simInfo ),
+                                           new DefaultManualUpdateChecker( phetFrame, simInfo ),
                                            new DefaultUpdatePreferences(),
                                            new DefaultTrackingPreferences() ).setVisible( true );
                 }
