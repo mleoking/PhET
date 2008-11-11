@@ -11,6 +11,9 @@ import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.AutomaticUpdateDialog;
 
+/**
+ * Handles automatic checking for updates when the simulation starts. 
+ */
 public class UpdatesManager {
 
     /* singleton */
