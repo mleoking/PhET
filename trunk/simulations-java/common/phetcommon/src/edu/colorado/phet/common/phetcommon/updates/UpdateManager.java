@@ -40,43 +40,55 @@ public class UpdateManager {
 
     private void notifyExceptionInUpdateCheck( IOException e ) {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener) listeners.get( i ) ).exceptionInUpdateCheck( e );
+            ( (UpdateListener) listeners.get( i ) ).exceptionInUpdateCheck( e );
         }
     }
 
     private void notifyNoUpdateAvailable( PhetVersion currentVersion, PhetVersion remoteVersion ) {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener) listeners.get( i ) ).noNewVersionAvailable( currentVersion, remoteVersion );
+            ( (UpdateListener) listeners.get( i ) ).noUpdateAvailable( currentVersion, remoteVersion );
         }
     }
 
     private void notifyUpdateAvailable( PhetVersion currentVersion, PhetVersion remoteVersion ) {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener) listeners.get( i ) ).newVersionAvailable( currentVersion, remoteVersion );
+            ( (UpdateListener) listeners.get( i ) ).updateAvailable( currentVersion, remoteVersion );
         }
     }
 
     private void notifyDiscoveredRemoteVersion( PhetVersion remoteVersion ) {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener) listeners.get( i ) ).discoveredRemoteVersion( remoteVersion );
+            ( (UpdateListener) listeners.get( i ) ).discoveredRemoteVersion( remoteVersion );
         }
     }
 
-    public static interface Listener {
-        void discoveredRemoteVersion( PhetVersion remoteVersion );
+    public static interface UpdateListener {
+        
+        public void discoveredRemoteVersion( PhetVersion remoteVersion );
 
-        void newVersionAvailable( PhetVersion currentVersion, PhetVersion remoteVersion );
+        public void updateAvailable( PhetVersion currentVersion, PhetVersion remoteVersion );
 
-        void exceptionInUpdateCheck( IOException e );
+        public void exceptionInUpdateCheck( IOException e );
 
-        void noNewVersionAvailable( PhetVersion currentVersion, PhetVersion remoteVersion );
+        public void noUpdateAvailable( PhetVersion currentVersion, PhetVersion remoteVersion );
+    }
+    
+    public static class UpdateAdapter implements UpdateListener {
+        
+        public void discoveredRemoteVersion( PhetVersion remoteVersion ) {}
+
+        public void updateAvailable( PhetVersion currentVersion, PhetVersion remoteVersion ) {}
+
+        public void exceptionInUpdateCheck( IOException e ) {}
+
+        public void noUpdateAvailable( PhetVersion currentVersion, PhetVersion remoteVersion ) {}
     }
 
-    public void addListener( Listener listener ) {
+    public void addListener( UpdateListener listener ) {
         listeners.add( listener );
     }
 
-    public void removeListener( Listener listener ) {
+    public void removeListener( UpdateListener listener ) {
         listeners.remove( listener );
     }
 }

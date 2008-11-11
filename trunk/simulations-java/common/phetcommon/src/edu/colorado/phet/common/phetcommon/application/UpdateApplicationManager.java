@@ -48,11 +48,9 @@ public class UpdateApplicationManager {
     private void autoCheckForUpdates( final Frame frame, final ISimInfo simInfo, final ITrackingInfo trackingInfo ) {
         TrackingManager.postActionPerformedMessage( TrackingMessage.AUTO_CHECK_FOR_UPDATES );
         final UpdateManager updateManager = new UpdateManager( config.getProjectName(), config.getVersion() );
-        updateManager.addListener( new UpdateManager.Listener() {
-            public void discoveredRemoteVersion( PhetVersion remoteVersion ) {
-            }
+        updateManager.addListener( new UpdateManager.UpdateAdapter() {
 
-            public void newVersionAvailable( PhetVersion currentVersion, final PhetVersion remoteVersion ) {
+            public void updateAvailable( PhetVersion currentVersion, final PhetVersion remoteVersion ) {
                 int remoteVersionSVN = remoteVersion.getRevisionAsInt();
                 int requestedSkipSVN = PhetPreferences.getInstance().getSkipUpdate( config.getProjectName(), config.getFlavor() );
 //                System.out.println( "remoteVersionSVN = " + remoteVersionSVN + ", requestedSkipSVN=" + requestedSkipSVN );
@@ -65,12 +63,6 @@ public class UpdateApplicationManager {
                         }
                     } );
                 }
-            }
-
-            public void exceptionInUpdateCheck( IOException e ) {
-            }
-
-            public void noNewVersionAvailable( PhetVersion currentVersion, PhetVersion remoteVersion ) {
             }
         } );
 

@@ -34,11 +34,9 @@ public class DefaultManualUpdateChecker implements IManualUpdateChecker {
 
     public void checkForUpdates() {
         UpdateManager updateManager = new UpdateManager( projectName, currentVersion );
-        UpdateManager.Listener listener = new UpdateManager.Listener() {
-            public void discoveredRemoteVersion( PhetVersion remoteVersion ) {
-            }
+        UpdateManager.UpdateListener listener = new UpdateManager.UpdateAdapter() {
 
-            public void newVersionAvailable( PhetVersion currentVersion, PhetVersion remoteVersion ) {
+            public void updateAvailable( PhetVersion currentVersion, PhetVersion remoteVersion ) {
                 JDialog dialog = new ManualUpdateDialog( frame, projectName, sim, humanReadableSimName, currentVersion, remoteVersion ,locale);
                 dialog.setVisible( true );
             }
@@ -48,7 +46,7 @@ public class DefaultManualUpdateChecker implements IManualUpdateChecker {
                 dialog.setVisible( true );
             }
 
-            public void noNewVersionAvailable( PhetVersion currentVersion, PhetVersion remoteVersion ) {
+            public void noUpdateAvailable( PhetVersion currentVersion, PhetVersion remoteVersion ) {
                 JDialog dialog = new NoUpdateDialog( frame, currentVersion.formatForTitleBar(), humanReadableSimName );
                 dialog.setVisible( true );
             }
