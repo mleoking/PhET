@@ -57,12 +57,14 @@ Piccolo
 piccolo
 pickable
 picometer
+picometer
 pixelzoom
 polonium
 python
 Python
 radian
 refactor
+refactored
 rescale
 rescaled
 resettable
@@ -72,6 +74,7 @@ snowfall
 subpanels
 timescale
 toolbox
+triatomic
 Unfuddle
 Updaters
 upvalley
@@ -79,3 +82,4 @@ Uranium
 Verlet
 viewport
 yaw
+refactored
