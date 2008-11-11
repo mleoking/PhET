@@ -33,7 +33,7 @@ public class SessionCounter {
     
     /* singleton */
     private SessionCounter( String project, String flavor ) {
-        count = updateCount( project, flavor );
+        count = incrementCount( project, flavor );
     }
     
     /**
@@ -73,14 +73,14 @@ public class SessionCounter {
     }
     
     /*
-     * Updates the session count for the specified sim.
+     * Increments the session count for the specified sim.
      * Reads the existing count, increments by 1, and writes the count.
      * 
      * @param project
      * @param flavor
      * @return the updated count, null if the count could not be read/written
      */
-    private static Integer updateCount( String project, String flavor ) {
+    private static Integer incrementCount( String project, String flavor ) {
         Integer newCount = null;
         try {
             String key = getSessionCountKey( project, flavor );
