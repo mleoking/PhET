@@ -7,7 +7,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.tracking.SessionStartedMessage;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
-import edu.colorado.phet.common.phetcommon.updates.UpdateApplicationManager;
+import edu.colorado.phet.common.phetcommon.updates.UpdatesManager;
 
 /**
  * This launcher solves the following problems:
@@ -113,7 +113,7 @@ public class PhetApplicationLauncher {
                         if ( TrackingManager.isTrackingEnabled() ) {
                             TrackingManager.postMessage( new SessionStartedMessage( config ) );
                         }
-                        new UpdateApplicationManager( config ).applicationStarted( app.getPhetFrame(), app.getSimInfo(), app.getTrackingInfo() );//todo: due to threading, sometimes this event arrives at server first
+                        new UpdatesManager( config ).applicationStarted( app.getPhetFrame(), app.getSimInfo(), app.getTrackingInfo() );//todo: due to threading, sometimes this event arrives at server first
                     }
                     else {
                         new RuntimeException( "No applicationconstructor specified" ).printStackTrace();

@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.tracking.SessionStartedMessage;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
-import edu.colorado.phet.common.phetcommon.updates.UpdateApplicationManager;
+import edu.colorado.phet.common.phetcommon.updates.UpdatesManager;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
@@ -203,7 +203,7 @@ public class PhetApplicationConfig implements ITrackingInfo, ISimInfo {
     }
 
     public boolean isUpdatesEnabled() {
-        return new UpdateApplicationManager( this ).isUpdatesEnabled();
+        return new UpdatesManager( this ).isUpdatesEnabled();
     }
 
     public boolean isTrackingEnabled() {
