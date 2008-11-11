@@ -111,16 +111,6 @@
 	<!-- AntForm task definition -->
 	<taskdef name="antform" classname="com.sardak.antform.AntForm" classpath="${jar.antform}"/>
 
-	<!--
-	   TODO:
-	   Some parts of the build process rely on Maverick for ssh.
-	   But their license is restrictive; for example, we don't have source code access.
-	   So new parts of the build process use JSch from JCraft.
-	   In the future, we should probably switch to JSch exclusively.
-	-->
-	<taskdef name="maverick-ssh" classname="com.sshtools.ant.Ssh"
-             classpath="${build-tools}/maverick/lib/maverick-ant.jar"/>
-
 	<!-- =================================================================== -->
 	<!-- Secondary targets, intended to be called directly                   -->
 	<!-- =================================================================== -->
@@ -456,7 +446,7 @@
 			</then>
 		</if>
 	</target>
-	
+
 	<!-- prompts for SVN server login info -->
 	<target name="_prompt-for-svn-login">
 		<if>
@@ -510,17 +500,24 @@
 			</else>
 		</if>
 
-		<echo message="logging in to ${ssh-host} (deploy to dev=${deploy.to.dev}) with username: ${deploy.username}"/>
-		<maverick-ssh host="${ssh-host}" username="${deploy.username}" password="${deploy.password}" version="2">
-            <sftp action="mkdir" remotedir="${sim.deploy.dir.parent}"/>
-			<sftp action="mkdir" remotedir="${sim.deploy.dir}"/>
-			<sftp action="put" remotedir="${sim.deploy.dir}" verbose="true">
-				<fileset dir="simulations/${sim.name}/deploy" />
-			</sftp>
+		<echo message="logging in to ${ssh-host} (deploy to dev=${deploy.to.dev}) with username: ${deploy.username} to deploy to directory: ${sim.deploy.dir}"/>
 
-			<!-- Finally, modify the permissions so everyone can read & execute, and group & owner can write: -->
-			<exec cmd="chmod -R 775 ${sim.deploy.dir}" />
-		</maverick-ssh>
+        <!--need to create new directories-->
+        <sshexec host="${ssh-host}"
+            username="${deploy.username}"
+            password="${deploy.password}"
+            trust="true"
+            command="mkdir -p ${sim.deploy.dir}"/>
+
+        <!--Copy files to server-->
+        <scp sftp="true" todir="${deploy.username}:${deploy.password}@${ssh-host}:${sim.deploy.dir}" trust="true">
+            <fileset dir="simulations/${sim.name}/deploy"/>
+        </scp>
+        <!--todo: set permissions of new file?  That was never working properly in maverick.-->
+
+        <scp sftp="true" todir="${deploy.prod.username}:${deploy.prod.password}@${prod-server}:${prod-updater-dir}" trust="true">
+            <fileset file="${distjar}"/>
+        </scp>
 
         <!-- Set the browser args to "" if not specified or to specified value.-->
         <if>
@@ -663,7 +660,7 @@
 
 	<!-- fails if the working copy is not synchronized with the SVN repository -->
 	<target name="_fail-if-working-copy-is-not-synchronized" depends="_init">
-		
+
 		<!-- if sim.name is set, check only its dependencies. otherwise check the entire working copy -->
 		<if>
 			<isset property="sim.name"/>
