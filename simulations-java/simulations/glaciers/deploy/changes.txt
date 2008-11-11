@@ -1,3 +1,4 @@
+# 1.00.08 (?)
 10/16/08 - [726] flags and debris on glacier surface stop advancing when glacier is retreating
 10/15/08 - [849] workaround for sliver of blue sky that appears above snowfall ceiling (search for "Unfuddle 849" comment)
 10/15/08 - organize imports
@@ -8,8 +9,8 @@
 10/8/08 - use PhetApplicationConfig.launchSim
 10/8/08 - add project name constant
 10/8/08 - moved list of rejected features to Unfuddle 796
-10/2/08 - move default left edge of zoomed view to -3400, so that there is more space to right of default terminus
-******* 1.00.07 (24829)
+10/2/08 - move default left edge of zoomed view to -3400m, so that there is more space to right of default terminus
+# 1.00.07 (24829)
 9/29/08 - get rid of scale calls in BoreholeDrillNode, resize image files
 9/29/08 - [750] make borehole drill draggable by fire button
 9/29/08 - set hgap and vgap to zero for control panel FlowLayouts
@@ -28,9 +29,9 @@
 9/20/08 - add tools to birds-eye view
 9/16/08 - add help item for toolbox node in zoomed viewport
 9/16/08 - fix common Help so that help ballons can be attached to nodes on any PLayer
-******* 1.00.06 (24518)
+# 1.00.06 (24518)
 9/16/08 - add bubbles to sample help items to demonstrate improved legibility
-******* 1.00.05 (24516)
+# 1.00.05 (24516)
 9/16/08 - add a couple of sample help items, with no help bubble as requested by Wendy
 9/16/08 - set a fixed range for x-axis in "glacial budget vs elevation" chart
 9/16/08 - fix: resizing window so that zoomed viewport size is zero fails assertion in GlaciersPlayArea.updateZoomedViewportBounds (assertion unnecessary)
@@ -38,11 +39,11 @@
 9/16/08 - add ability to set minHeight of control panel via strings file, so that control panels in all modules will be same height
 9/16/08 - fix layout problems with main control panel (bogus calls to BorderLayout)
 9/16/08 - change "equilibrium" to "steady state" in MiscControlPanel so that terminology is consistent
-******* 1.00.04 (24458)
+# 1.00.04 (24458)
 9/15/08 - put default units on top in thermometer
 9/15/08 - refactor ClimateControlPanel for English/metric feature
 9/15/08 - switch climate controls between English & metric units
-******* 1.00.03 (24300)
+# 1.00.03 (24300)
 9/9/08 - completed: switch tools between English & metric units
 9/9/08 - add support for changing units on tools that user has already dragged out of the toolbox
 9/9/08 - add immutable support for units to tools (glacial budget meter, ice thickness tool, gps)
@@ -61,7 +62,7 @@
 9/9/08 - move all units conversions to UnitsConverter
 9/9/08 - add englishUnits arg to constructors for coordinates feature
 9/9/08 - simplify i18n for units, to accommodate switching between English and metric
-******* 1.00.02 (24258)
+# 1.00.02 (24258)
 9/8/08 - bugfix: snowfall gradient doesn't draw properly and crashes on Mac OS 10.4 (see Unfuddle #553)
 9/8/08 - update snowfall shape based on bounds of both birds-eye and zoomed viewports, so that sky doesn't above snow in zoomed view on large monitors
 9/8/08 - simplify shape of snowfall, don't use constructive area geometry
@@ -77,14 +78,14 @@
 > added "Glaciers Length vs Time" graph
 8/28/08 - make "glacier length vs time" graph a strip chart that keeps 1000 years worth of data
 8/28/08 - draw valley floor for x<0 using Java 2D, to clean up snow/valley interface
-******* 1.00.01 (23914)
+# 1.00.01 (23914)
 8/26/08 - tweak MountainsAndValleyNode alignment to match new background image
 8/26/08 - fix: valley is narrower near headwall in background image (new image file, still not exact, but close enough)
 8/21/08 - fix "glacier budget vs elevation" chart so that SHOW_NEGATIVE_ABLATION flag works properly
-******* 1.00.00 (23465)
+# 1.00.00 (23465)
 7/23/08 - update screenshot
 7/23/08 - add sim description (aka, abstract)
-******* 0.00.39 (23459)
+# 0.00.39 (23459)
 7/23/08 - fix: resetting the clock speed doesn't reset the clock speed slider
 7/23/08 - fix: path for ice surface below ELA is missing the point at the terminus when the terminus is close to the ELA
 7/23/08 - rename "ice surface ripple" to "ice ripple" throughout (I kept searching for the wrong class names)
@@ -98,15 +99,15 @@
 7/23/08 - move debug flags from GlaciersPlayArea to GlaciersConstants
 7/23/08 - make ripples slightly darker above ELA so that they're easier to see when snowfall is visible
 7/23/08 - increase default clock speed to 4fps
-******* 0.00.38 (23437)
+# 0.00.38 (23437)
 7/23/08 - add yaw to fake 3D perspective for ice, debris, ELA, ripples (see YAW_ROTATION, YAW_X_OFFSET)
 7/23/08 - rename PERSPECTIVE_HEIGHT to PITCH_Y_OFFSET
 7/23/08 - move PERSPECTIVE_HEIGHT constant from Valley to GlaciersConstants
-******* 0.00.37 (23428)
+# 0.00.37 (23428)
 7/23/08 - turn off "snap tools to headwall", so that tools behave the same on both sides of the headwall
 7/23/08 - add a flag to turn "snap tools to headwall" on and off
 7/23/08 - brute force workaround for valley elevation at x<0, linear interpolation between manually-created sample points
-******* 0.00.36 (23398)
+# 0.00.36 (23398)
 7/22/08 - hide icons for "coordinates" and "ice flow" check boxes in Intro tab
 7/22/08 - verify that all feature for July 25 milestone work properly when clock is paused
 7/22/08 - update SnowfallNode only when its visible
@@ -114,13 +115,13 @@
 7/22/08 - lower the elevation where white-out occurs at max snowfall
 7/22/08 - simulate snowfall using a rectangle that covers the valley, filled with a gradient paint, vary alpha based on snowfall (not clipped to atmosphere)
 7/22/08 - fix: Reset All feature was broken in version 0.00.32, button didn't do anything
-******* 0.00.35 (23376)
+# 0.00.35 (23376)
 7/22/08 - make drill, thickness tool, thermometer, and flag snap to x=0 when dropped at x<0
 7/22/08 - make glacial budget meter show "?" for x<0
-******* 0.00.34 (23372)
+# 0.00.34 (23372)
 7/22/08 - workaround: for all x<0, use Valley.getElevation(0) (until we have a model for x<0 that matches background images and works with tools)
 7/21/08 - fix: right arrow should have same maxX constraint as pan control
-******* 0.00.33 (23363)
+# 0.00.33 (23363)
 7/21/08 - size of mountains.png exceeds JVM heap space, chop down the image as much as possible
 7/21/08 - make default clock speed 2 years per sec (2 fps)
 7/21/08 - don't draw x coordinate axis for x < 0
@@ -134,7 +135,7 @@
 7/21/08 - add GlaciersConstants.Y_AXIS_SCALE_IN_IMAGE to specify amount of y axis distortion in background image
 7/21/08 - get new background image from Archie, add more to left of headwall, improve colors, add 3D cues, stretch y-axis of valley floor, reduce height of mountains to show more peaks
 7/21/08 - add snowfall node
-******* 0.00.32 (23355)
+# 0.00.32 (23355)
 7/21/08 - temporarily remove snowfall node
 7/21/08 - create ripples at random times, with random sizes and z offsets
 7/21/08 - set up model & view for ripples to support random ripple size and z offset
@@ -160,7 +161,7 @@
 7/17/08 - change timescale so that there is no difference between retreating and advancing (use retreating model for both)
 7/17/08 - change timescale max to 200 
 7/17/08 - fix incorrect assert in setSteadyState
-******* 0.00.31 (23129)
+# 0.00.31 (23129)
 7/12/08 - replace penguin with bear
 7/9/08 - rename "penguin" to "pan control" throughout, in anticipation of changing the penguin to something else
 7/9/08 - change "Sea-level temperature" to "Sea-level air temperature"
@@ -171,18 +172,18 @@
 6/18/08 - change loop in Glacier.updateIceThickness, iterate until thickness==0
 6/18/08 - remove Restart clock button, semantics don't make sense for this sim
 6/18/08 - verify that "glacial budget vs elevation" graph looks OK with new climate model
-******* 0.00.30 (22142)
+# 0.00.30 (22142)
 6/9/08 - fix debris that was getting stuck on below the valley floor
 6/9/08 - more changes to climate and glacier model from Archie
 6/9/08 - fix infinite loop in IceNode that occurred when glacier length was less than DX
-******* 0.00.29 (22088)
+# 0.00.29 (22088)
 6/6/08 - ensure that ice thickness algorithm is only used between headwall and terminus, otherwise it hangs the sim
 6/6/08 - compute a closer approximation of where the ELA intersects the ice surface
 6/6/08 - compute ice thickness on demand instead of trying to interpolate between pre-computed samples
 6/6/08 - when climate changes, compute several constants used in ice thickness model, reuse them elsewhere
 6/6/08 - compute terminus location more accurately
 6/6/08 - improve precision of ice visualization, drawing of the terminus and ELA contour where slightly off
-******* 0.00.28 (22031)
+# 0.00.28 (22031)
 6/5/08 - hide ELAValueNode
 6/5/08 - change layout of View control panel to reduce its height, making more room for zoomed view
 6/5/08 - bugfix: flags above the terminus can get created directly on the valley floor and then don't move
@@ -193,7 +194,7 @@
 6/5/08 - create TrashCanDelegate, handles specifics of trashing tools independent of the node that represents the trash
 6/5/08 - rename "Basic" tab to "Intro"
 6/4/08 - bugfix: if ELA gets above headwall, Glacier q_advance_limit causes quasi-ELA to evolve in wrong direction forever
-******* 0.00.27 (21967)
+# 0.00.27 (21967)
 6/3/08 - add empty modules for Advanced and Climate Experiments, so we see the tabs
 6/3/08 - revised ice thickness model to match model.txt
 6/3/08 - rewrite Glacier timescale code to look more like model.txt
@@ -206,7 +207,7 @@
 6/2/08 - add Valley.getMaxElevation convenience method
 6/2/08 - remove obsolete methods from anonymous ClimateChangeListeners
 6/2/08 - fix ablation model, new specification was wrong, need to always add offset
-******* 0.00.26 (21920)
+# 0.00.26 (21920)
 6/2/08 - implement new climate model
 6/2/08 - delete "snowfall reference elevation" property and control for climate
 5/30/08 - add snowfall check box & icon to View control panel (not hooked up)
@@ -222,7 +223,7 @@
 5/27/08 - add EndMoraine to model, prunes debris to prevent infinite accumulation in steady state
 5/27/08 - extend debris listener interface to include notification of when debris hits the valley floor
 5/27/08 - modify debris motion model so that x value is constrained to the glacier's terminus
-******* 0.00.25 (21723)
+# 0.00.25 (21723)
 5/23/08 - only constrain debris x value to terminus if previous x value was < terminus
 5/23/08 - don't bother to attempt generation of debris or ripples for zero-length glacier
 5/23/08 - improve "look" of ripples, patterned after ripples in design doc
@@ -234,7 +235,7 @@
 5/23/08 - change text in GlacierPictureDialog
 5/23/08 - fix layout of GlacierPictureDialog
 5/22/08 - new image file and text for "glacier picture" feature
-******* 0.00.24 (21673)
+# 0.00.24 (21673)
 5/21/08 - prepare TracerFlag and Debris for handling large dt, constrain maximum x to the terminus
 5/21/08 - implement clockTicked instead of simulationTimeChanged in all model code that cares about clock ticks
 5/21/08 - bugfix: debris is not generated after Reset All
@@ -246,7 +247,7 @@
 5/20/08 - add "glacier picture" checkbox to View control panel, add stub in controller
 5/20/08 - make ELAValueNode look a little better
 5/20/08 - fix title on Graphs control panel
-******* 0.00.23 (21544)
+# 0.00.23 (21544)
 5/19/08 - make borehole drill bigger
 5/19/08 - add license info for borehole drill image to images/LICENSE.txt
 5/19/08 - make flags fall over (at random orientation) when they reach the valley floor
@@ -260,7 +261,7 @@
 5/19/08 - delete rocks on valley floor when covered by an advancing glacier
 5/19/08 - first pass at adding debris, only appears in the cross-section
 5/19/08 - make tracer flags on the valley floor ignore clock ticks
-******* 0.00.22 (21499)
+# 0.00.22 (21499)
 5/19/08 - simplify borehole, prune any point that breaches the glacier's surface
 5/19/08 - organize imports
 5/19/08 - use alpha channel to visually represent filling in of borehole
@@ -282,7 +283,7 @@
 5/16/08 - second pass at ToolTipNode
 5/16/08 - first pass at ToolTipNode
 5/15/08 - parts of IceThicknessToolNode moves separately when dragged
-******* 0.00.21 (21438)
+# 0.00.21 (21438)
 5/14/08 - javadoc borehole-related work
 5/14/08 - delete borehole when it passes the terminus
 5/14/08 - create a borehole when drill button is pressed
@@ -305,15 +306,15 @@
 5/13/08 - do not call super.drag in drag handlers, it causes problems as noted in code comments
 5/12/08 - first pass at resizable ice thickness tool, a little clunky looking
 5/12/08 - delete unused images and assets
-******* 0.00.20 (21338)
+# 0.00.20 (21338)
 5/12/08 - move "max x" property out of glacier and into view; model has no such limit on x
 5/12/08 - move headwall property to valley model
 5/12/08 - change valley formula to better match the elevation left of the headwall in the image
 5/9/08 - organize imports
 5/9/08 - make ice thickness tool display "?" while it's being dragged
-******* 0.00.19 (21308)
+# 0.00.19 (21308)
 5/9/08 - add drop constraints for all other tools
-******* 0.00.18 (21304)
+# 0.00.18 (21304)
 5/9/08 - add drop constraints to tracer flag model, snap to legal position
 5/8/08 - call cleanup on all tools and tool nodes when they are trashed
 5/8/08 - reduce number of calls to Glacier.getSurfaceElevation in IceNode
@@ -321,7 +322,7 @@
 5/8/08 - remove ice thickness grid from public interface of Glacier model
 5/8/08 - switch to double precision for computing geometry of surface below ELA
 5/8/08 - make tools shrink to the center of the trash can
-******** 0.00.17 (21262)
+# 0.00.17 (21262)
 5/6/08 - first pass at making tools that are dropped in trash disappear by shrinking them
 5/6/08 - write test program demonstrating use of PActivity to shrink tools that are dropped in trash
 5/6/08 - change size of ice perspective to more closely match valley width in image
@@ -334,20 +335,20 @@
 5/1/08 - add icons for View check boxes (equilibrium line, ice flow, coordinates)
 5/1/08 - fix semantics of AbstractTool.isDragging, it was reversed
 5/1/08 - ensure that flags drop to valley floor when glaciers recedes
-******** 0.00.16 (21125)
+# 0.00.16 (21125)
 4/30/08 - constrain flag to surface of glacier, so that it doesn't stop on the surface due to velocity direction that follows valley
 4/30/08 - make tools know when they are being dragged
 4/30/08 - add motion model for tracer flags
 4/30/08 - explicitly set font styles & sizes for control panels
 4/28/08 - add PhetLookAndFeel to main
-******** 0.00.15 (20952)
+# 0.00.15 (20952)
 4/24/08 - organized imports
 4/24/08 - move tools and toolbox nodes to a new package
 4/24/08 - first pass at dragging tools to the trash (doesn't work on initial drag that creates the tool)
 4/24/08 - move origin indicator on thermometer to be vertically aligned with bottom of bulb
 4/22/08 - swap colors for ice surface and cross-section
 4/22/08 - draw equilibrium line across valley floor when terminus is above ela
-******** 0.00.14 (20849)
+# 0.00.14 (20849)
 4/22/08 - first pass at extruding the ice
 4/22/08 - define 2D perspective height in MountainsAndValleyNode, height between foreground and background of valley boundaries
 4/22/08 - make equilibrium line dynamically follow the contour of the glacier as it evolves
@@ -358,7 +359,7 @@
 4/21/08 - add elevation display to glacial budget meter
 4/21/08 - add ButtonEventHandler to piccolo-phet
 4/21/08 - add left and right arrows to zoom view, as a secondary viewport control
-******** 0.00.13 (20775)
+# 0.00.13 (20775)
 4/16/08 - reuse some objects in model & view of ice velocity to improve performance
 4/15/08 - delete ValleyNode, move path creation utility to model
 4/15/08 - reduce stroke width of coordinate axes
@@ -392,7 +393,7 @@
 3/24/08 - new mountains image, realign (slightly off)
 3/24/08 - add MountainsAndValleyNode to encapsulate image file
 3/18/08 - first pass at using image for mountains and valley, offset via trial & error
-******** 0.00.12 (20191)
+# 0.00.12 (20191)
 3/7/08 - set some temporary axis ranges for time-based charts
 3/7/08 - make headwall steeper
 3/7/08 - show ice flow vectors in zoomed view only
@@ -402,7 +403,7 @@
 3/6/08 - add all infrastructure and plumbing for ice velocities view
 3/6/08 - custom paints and strokes for series in "glacial budget vs. elevation" graph
 3/6/08 - change "v." to "vs." in all graph titles
-******** 0.00.11 (20154)
+# 0.00.11 (20154)
 3/5/08 - add horizontal (distance) coordinate axis, dynamically rebuilt as zoomed viewport changes
 3/5/08 - add public method ValleyNode.createValleyFloorPath, for use by DistanceAxisNode
 3/5/08 - add elevation axes on left and right edges of zoomed viewport
@@ -416,7 +417,7 @@
 3/5/08 - use fixed ranges for axes on graphs that involve elevation
 3/5/08 - temporary fix for condition in ice thickness model that results in negative glacier length
 3/5/08 - bugfix in GlacierNode, handle empty or null iceThickessSamples
-******** 0.00.10 (20106)
+# 0.00.10 (20106)
 3/3/08 - add Glacier.getLength
 3/3/08 - change climate control ranges and defaults
 3/3/08 - implement new ice thickness model (based on ELA interpolation)
@@ -433,12 +434,12 @@
 2/27/08 - update "ELA v. time" graph every time the clock ticks (for discussion)
 2/27/08 - add stubs for time-dependent graphs, until we figure out how we want these to work
 2/27/08 - add a visual indication of origin for each measuring tool
-******** 0.00.09 (20001)
+# 0.00.09 (20001)
 2/27/08 - rename SnowfallAndTemperatureControlPanel to ClimateControlPanel
 2/27/08 - "mass balance" control panel was dropped, delete panel and problematic model code
 2/27/08 - "age of ice" feature was dropped, delete checkbox in View control panel 
 2/27/08 - display a proxy for mountains, 1000 meters above valley floor
-******** 0.00.08 (19964)
+# 0.00.08 (19964)
 2/25/08 - disable "steady state" button when glacier is in the steady state
 2/25/08 - add time-dependence to glacier ice thickness model
 2/25/08 - resolve climate-change timescale issues in model, always use ELA of current climate
@@ -446,13 +447,13 @@
 2/25/08 - add additional 1D grids for handling temporal interpolation of ice thickness
 2/25/08 - clean up glaciers model of length and thickness, in preparation for adding time dependence
 2/25/08 - add accumulation and ablation curves to glacial budget chart (for discussion)
-******** 0.00.07 (19949)
+# 0.00.07 (19949)
 2/22/08 - add charts for "XXX v. elevation" graphs, where XXX=accumulation, ablation, glacial budget
 2/22/08 - wire up real "temperature v. elevation" graph
 2/22/08 - prototype "temperature v. elevation" graph
 2/21/08 - change graphs control panel to use checkboxes
 2/20/08 - set background color correctly for climate controls, make textfields appear to be editable
-******** 0.00.06 (19893)
+# 0.00.06 (19893)
 2/19/08 - disable ELA slider and wire it to the model, so we can see ELA range without domain mapping problems
 2/19/08 - rewrite EquilibriumLineNode to show a dashed horizontal line at ELA
 2/19/08 - move ELA model into Climate, delete EquilibriumLine class
@@ -469,11 +470,11 @@
 2/14/08 - provide separate controls from snowfall and snowfall reference elevation, in model and control panels
 2/14/08 - change mass balance climate control panel, based on Archies new spec (design still has problems)
 2/14/08 - fix glacial budget meter, it should use the meter's elevation, not the valley floor elevation
-******** 0.00.05 (19804)
+# 0.00.05 (19804)
 2/13/08 - fix Valley floor model so that elevation is never < 0
 2/13/08 - implement new climate model, as received from Archie on 2/11
 2/11/08 - change min range of snowfall control from "none" to "little"
-******** 0.00.04 (19749)
+# 0.00.04 (19749)
 2/11/08 - simplify GlacierListener interface
 2/11/08 - rewrite ice velocity model in terms of new strategy for computing ice thickness
 2/11/08 - optimize Glacier.getIceThickness
@@ -500,7 +501,7 @@
 1/31/08 - tweak equilibrium line model, allow equilibrium line to be at x < 0
 1/31/08 - place minX/maxX limitations on ValleyNode
 1/31/08 - remove minX/maxX from Valley model, it has no limitations
-******** 0.00.03 (19554)
+# 0.00.03 (19554)
 1/30/08 - wire up visibility control to equilibrium line node
 1/30/08 - add equilibrium line model and temporary view
 1/30/08 - update glacial budget meter when position, snowfall or temperature is changed
@@ -509,7 +510,7 @@
 1/28/08 - wire up custom "Reset All" button
 1/28/08 - wire up custom help button, make it work with Help menu item
 1/28/08 - disable standard module HelpPane (we are using our own reset button)
-******** 0.00.02 (19477)
+# 0.00.02 (19477)
 1/23/08 - make the zoomed viewport's vertical position follow the contour of the valley
 1/23/08 - extend Valley shape down to sea level
 1/23/08 - add Graphs control panel to "Basic" module, so that we can test graphs during development of basic model
@@ -521,7 +522,7 @@
 1/22/08 - pull SnowfallAndTemperatureControlPanel out of climate control panel
 1/22/08 - grab DoubleSpinner from bound-states, refine
 1/22/08 - moved controller responsibilities for "Basic" module to BasicController
-******** 0.00.01 (19431)
+# 0.00.01 (19431)
 1/16/08 - wire up basic climate controls (temperature and snowfall)
 1/16/08 - use one set of images for tools and their icons in the toolbox
 1/15/08 - add README file to deploy directory
