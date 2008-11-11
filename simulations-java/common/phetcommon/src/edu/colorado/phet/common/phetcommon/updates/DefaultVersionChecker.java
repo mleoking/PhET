@@ -50,7 +50,7 @@ public class DefaultVersionChecker implements IVersionChecker {
     }
 
     public static void main( String[] args ) throws IOException {
-        System.out.println( "UpdateManager.main" );
+        System.out.println( "DefaultVersionChecker.main" );
         PhetVersion phetVersionInfo = new DefaultVersionChecker().getVersion( "balloons" );
         System.out.println( "phetVersionInfo = " + phetVersionInfo );
     }

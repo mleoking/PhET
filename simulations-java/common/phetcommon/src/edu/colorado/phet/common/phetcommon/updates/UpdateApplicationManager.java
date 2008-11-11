@@ -43,8 +43,8 @@ public class UpdateApplicationManager {
     private void autoCheckForUpdates( final Frame frame, final ISimInfo simInfo, final ITrackingInfo trackingInfo ) {
         System.out.println( "UpdateApplicationManager.autoCheckForUpdate" );//XXX
         TrackingManager.postActionPerformedMessage( TrackingMessage.AUTO_CHECK_FOR_UPDATES );
-        final UpdateManager updateManager = new UpdateManager( config.getProjectName(), config.getVersion() );
-        updateManager.addListener( new UpdateManager.UpdateAdapter() {
+        final UpdateNotifier updateManager = new UpdateNotifier( config.getProjectName(), config.getVersion() );
+        updateManager.addListener( new UpdateNotifier.UpdateAdapter() {
 
             public void updateAvailable( PhetVersion currentVersion, final PhetVersion remoteVersion ) {
                 System.out.println( "UpdateApplicationManager.updateAvailable" );//XXX
