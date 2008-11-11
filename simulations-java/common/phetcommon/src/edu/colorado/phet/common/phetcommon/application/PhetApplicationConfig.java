@@ -5,11 +5,11 @@ package edu.colorado.phet.common.phetcommon.application;
 import java.util.Arrays;
 
 import edu.colorado.phet.common.phetcommon.preferences.ITrackingInfo;
+import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.tracking.SessionStartedMessage;
-import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
-import edu.colorado.phet.common.phetcommon.updates.UpdatesManager;
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
@@ -51,27 +51,27 @@ public class PhetApplicationConfig implements ITrackingInfo, ISimInfo {
     private FrameSetup frameSetup;
     private PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel(); // the look and feel to be initialized in launchSim
 
-    private long simStartTimeMillis = System.currentTimeMillis();//System time is recorded on startup to facilitate tracking of multiple messages from the same sim run
+    private final long simStartTimeMillis = System.currentTimeMillis();//System time is recorded on startup to facilitate tracking of multiple messages from the same sim run
     private long applicationLaunchFinishedAt;//this value is determined after launch is complete
-
-    //----------------------------------------------------------------------------
-    // Interfaces
-    //----------------------------------------------------------------------------
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
-    /*
-     * Constructor with smallest number of args for the case where project & flavor names are identical.
+    /**
+     * Constructor where project & flavor names are identical.
+     * @param commandLineArgs
+     * @param project
      */
-
     public PhetApplicationConfig( String[] commandLineArgs, String project ) {
         this( commandLineArgs, project, project );
     }
 
-    /*
-     * Constructor with smallest number of args for a flavor.
+    /**
+     * Constructor where project & flavor names are different.
+     * @param commandLineArgs
+     * @param project
+     * @param flavor
      */
     public PhetApplicationConfig( String[] commandLineArgs, String project, String flavor ) {
         this.commandLineArgs = commandLineArgs;
@@ -90,6 +90,10 @@ public class PhetApplicationConfig implements ITrackingInfo, ISimInfo {
         return commandLineArgs;
     }
 
+    public boolean hasCommandLineArg( String arg ) {
+        return Arrays.asList( commandLineArgs ).contains( arg );
+    }
+    
     public void setFrameSetup( FrameSetup frameSetup ) {
         this.frameSetup = frameSetup;
     }
@@ -122,7 +126,7 @@ public class PhetApplicationConfig implements ITrackingInfo, ISimInfo {
      * Gets the number of times that the simulation has been run,
      * including the current invocation.
      * This will be null if the sim is running in an environment 
-     * where access to the local filesystem is denied.
+     * where access to the local file system is denied.
      * 
      * @return Integer, possibly null
      */
@@ -182,10 +186,6 @@ public class PhetApplicationConfig implements ITrackingInfo, ISimInfo {
         return getApplicationLaunchFinishedAt() - getSimStartTimeMillis();
     }
 
-    //----------------------------------------------------------------------------
-    // Updates and Tracking stuff
-    //----------------------------------------------------------------------------
-
     public String getHumanReadableTrackingInformation() {
         return new SessionStartedMessage( this ).toHumanReadable();
     }
@@ -203,11 +203,11 @@ public class PhetApplicationConfig implements ITrackingInfo, ISimInfo {
     }
 
     public boolean isUpdatesEnabled() {
-        return new UpdatesManager( this ).isUpdatesEnabled();
+        return hasCommandLineArg( "-updates" ) && !PhetUtilities.isRunningFromWebsite() && PhetPreferences.getInstance().isUpdatesEnabled();
     }
 
     public boolean isTrackingEnabled() {
-        return new TrackingManager( this ).isTrackingCommandLineOptionSet();
+        return hasCommandLineArg( "-tracking" ) && !PhetUtilities.isRunningFromWebsite() && PhetPreferences.getInstance().isTrackingEnabled();
     }
 
     public void setApplicationLaunchFinishedAt( long applicationLaunchFinishedAt ) {

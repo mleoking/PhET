@@ -113,7 +113,7 @@ public class PhetApplicationLauncher {
                         if ( TrackingManager.isTrackingEnabled() ) {
                             TrackingManager.postMessage( new SessionStartedMessage( config ) );
                         }
-                        new UpdatesManager( config ).applicationStarted( app.getPhetFrame(), app.getSimInfo(), app.getTrackingInfo() );//todo: due to threading, sometimes this event arrives at server first
+                        UpdatesManager.initInstance( config ).applicationStarted( app.getPhetFrame(), app.getTrackingInfo() );//todo: due to threading, sometimes this event arrives at server first
                     }
                     else {
                         new RuntimeException( "No applicationconstructor specified" ).printStackTrace();
