@@ -85,6 +85,7 @@ public class HTMLUtils {
      * Gets the URL for a simulation's web page on the PhET site.
      * @param project
      * @param sim
+     * @param ampersand
      * @return
      */
     public static String getSimURL( String project, String sim,String ampersand ) {
@@ -93,14 +94,16 @@ public class HTMLUtils {
 
 
     /**
-     * Gets the URL for a simulation's web page on the PhET site.
+     * Gets the URL for a simulation's JAR file on the PhET site.
      *
      * @param project
      * @param sim
+     * @param ampersand
+     * @param languageCode
      * @return
      */
-    public static String getSimJarURL( String project, String sim, String ampersand, String locale ) {
-        return PhetCommonConstants.PHET_HOME_URL + "/simulations/sim-jar-redirect.php?project=" + project + ampersand + "sim=" + sim + ampersand+"locale="+locale;
+    public static String getSimJarURL( String project, String sim, String ampersand, String languageCode ) {
+        return PhetCommonConstants.PHET_HOME_URL + "/simulations/sim-jar-redirect.php?project=" + project + ampersand + "sim=" + sim + ampersand+"locale="+languageCode;
     }
     
     /**
