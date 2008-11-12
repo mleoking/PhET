@@ -109,8 +109,8 @@ public class ParticleContainerNode extends PhetPNode {
     // Constructor
     //----------------------------------------------------------------------------
     
-    public ParticleContainerNode(AbstractMultipleParticleModel model, ModelViewTransform mvt, boolean volumeControlEnabled, 
-    		boolean pressureGaugeEnabled) {
+    public ParticleContainerNode(AbstractMultipleParticleModel model, ModelViewTransform mvt, 
+    		boolean volumeControlEnabled, boolean pressureGaugeEnabled) {
         
         m_model = model;
         m_mvt = mvt;

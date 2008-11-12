@@ -77,7 +77,7 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
     public static final int     DEFAULT_MOLECULE = StatesOfMatterConstants.NEON;
     private static final double DISTANCE_BETWEEN_DIATOMIC_PAIRS = 0.8;  // In particle diameters.
     private static final double TIME_STEP = 0.020;  // Time per simulation clock tick, in seconds.
-    public static final double INITIAL_TEMPERATURE = 0.2;
+    public static final double INITIAL_TEMPERATURE = SOLID_TEMPERATURE;
     public static final double  MAX_TEMPERATURE = 50.0;
     public static final double  MIN_TEMPERATURE = 0.0001;
     private static final double PARTICLE_INTERACTION_DISTANCE_THRESH_SQRD = 6.25;
@@ -204,12 +204,15 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
             }
             
             public void simulationTimeReset( ClockEvent clockEvent ) {
-                resetAll();
+                reset();
             }
         });
-        
-        // Set the default particle type.
-        setMoleculeType( DEFAULT_MOLECULE );
+
+        // Set the initial container size so that when the view elements are
+        // created, they have something to work with.  Use a bogus value for
+        // the particle diameter to avoid infinities.
+        m_particleDiameter = 1;
+        resetContainerSize();
     }
 
     //----------------------------------------------------------------------------
@@ -356,6 +359,12 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
      */
     public void setMoleculeType(int moleculeID){
         
+    	// If this is already the molecule type, and a data set already
+    	// exists, then don't bother doing anything.
+    	if ((moleculeID == m_currentMolecule) && (m_moleculeDataSet != null)){
+    		return;
+    	}
+    	
         // Verify that this is a supported value.
         if ((moleculeID != StatesOfMatterConstants.DIATOMIC_OXYGEN) &&
             (moleculeID != StatesOfMatterConstants.NEON) &&
@@ -367,9 +376,14 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
             moleculeID = StatesOfMatterConstants.NEON;
         }
         
+        // Remove existing particles and reset the global model parameters.
+        removeAllParticles();
+        initializeModelParameters();
+        
+        // Set the new molecule type.
         m_currentMolecule = moleculeID;
         
-        // Set the model parameters that are dependent upon the model type.
+        // Set the model parameters that are dependent upon the molecule type.
         int atomsPerMolecule;
         switch (m_currentMolecule){
         case StatesOfMatterConstants.DIATOMIC_OXYGEN:
@@ -404,9 +418,14 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
         // Create the data set that will represent the motion and forces for the molecules.
         m_moleculeDataSet = new MoleculeForceAndMotionDataSet( atomsPerMolecule );
         
+        // Reset the container size.  This must be done after the diameter is
+        // initialized because the normalized size is dependent upon the
+        // particle diameter.
+        resetContainerSize();
+
         // Initiate a reset in order to get the particles into predetermined
         // locations and energy levels.
-        resetParticles();
+        initializeParticles();
         
         // Notify listeners that the molecule type has changed.
         notifyMoleculeTypeChanged();
@@ -547,71 +566,10 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
     // Other Public Methods
     //----------------------------------------------------------------------------
     
-    /**
-     * Reset the particles (be they atoms or molecules) by getting rid of all
-     * existing ones, creating the default number of the current type, and
-     * putting them in their initial positions.
-     */
-    private void resetParticles() {
-        
-        // Get rid of any existing particles from the model set.
-        for ( Iterator iter = m_particles.iterator(); iter.hasNext(); ) {
-            StatesOfMatterAtom particle = (StatesOfMatterAtom) iter.next();
-            // Tell the particle that it is being removed so that it can do
-            // any necessary cleanup.
-            particle.removedFromModel();
-        }
-        m_particles.clear();
-
-        // Initialize the system parameters.
-        m_lidBlownOff = false;
-        m_gravitationalAcceleration = INITIAL_GRAVITATIONAL_ACCEL;
-        m_heatingCoolingAmount = 0;
-        m_tempAdjustTickCounter = 0;
-        
-        // Set the initial size of the container.
-        m_particleContainerHeight = StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT;
-        m_targetContainerHeight = StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT;
-        m_normalizedContainerHeight = m_particleContainerHeight / m_particleDiameter;
-        m_normalizedContainerWidth = StatesOfMatterConstants.PARTICLE_CONTAINER_WIDTH / m_particleDiameter;
-        
-        // Initialize the particles.
-        switch (m_currentMolecule){
-        case StatesOfMatterConstants.DIATOMIC_OXYGEN:
-            initializeDiatomic(m_currentMolecule);
-            break;
-        case StatesOfMatterConstants.NEON:
-            initializeMonotomic(m_currentMolecule);
-            break;
-        case StatesOfMatterConstants.ARGON:
-            initializeMonotomic(m_currentMolecule);
-            break;
-        case StatesOfMatterConstants.WATER:
-            initializeTriatomic(m_currentMolecule);
-            break;
-        default:
-            System.err.println("ERROR: Unrecognized particle type, using default.");
-            break;
-        }
-        
-        calculateMinAllowableContainerHeight();
-
-        // Let any listeners know that things have changed.
-        notifyContainerSizeChanged();
-        notifyResetOccurred();
-    }
-    
-    public void resetAll(){
+    public void reset(){
+    	initializeModelParameters();
     	setMoleculeType( DEFAULT_MOLECULE );
-    }
-
-    /**
-     * Calculate the minimum allowable container height based on the current
-     * number of particles.
-     */
-    private void calculateMinAllowableContainerHeight() {
-        m_minAllowableContainerHeight = m_particleDiameter * m_particleDiameter * 
-            m_moleculeDataSet.getNumberOfMolecules() / StatesOfMatterConstants.PARTICLE_CONTAINER_WIDTH * 2;
+        notifyResetOccurred();
     }
     
     /**
@@ -770,6 +728,83 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
     //----------------------------------------------------------------------------
     // Private Methods
     //----------------------------------------------------------------------------
+    
+    private void removeAllParticles(){
+
+    	// Get rid of any existing particles from the model set.
+        for ( Iterator iter = m_particles.iterator(); iter.hasNext(); ) {
+            StatesOfMatterAtom particle = (StatesOfMatterAtom) iter.next();
+            // Tell the particle that it is being removed so that it can do
+            // any necessary cleanup.
+            particle.removedFromModel();
+        }
+        m_particles.clear();
+        
+        // Get rid of the normalized particles.
+        m_moleculeDataSet = null;
+    }
+
+    /**
+     * Calculate the minimum allowable container height based on the current
+     * number of particles.
+     */
+    private void calculateMinAllowableContainerHeight() {
+        m_minAllowableContainerHeight = m_particleDiameter * m_particleDiameter * 
+            m_moleculeDataSet.getNumberOfMolecules() / StatesOfMatterConstants.PARTICLE_CONTAINER_WIDTH * 2;
+    }
+    
+    /**
+     * Initialize the particles by calling the appropriate initialization
+     * routine, which will set their positions, velocities, etc.
+     */
+    private void initializeParticles() {
+        
+        // Initialize the particles.
+        switch (m_currentMolecule){
+        case StatesOfMatterConstants.DIATOMIC_OXYGEN:
+            initializeDiatomic(m_currentMolecule);
+            break;
+        case StatesOfMatterConstants.NEON:
+            initializeMonotomic(m_currentMolecule);
+            break;
+        case StatesOfMatterConstants.ARGON:
+            initializeMonotomic(m_currentMolecule);
+            break;
+        case StatesOfMatterConstants.WATER:
+            initializeTriatomic(m_currentMolecule);
+            break;
+        default:
+            System.err.println("ERROR: Unrecognized particle type, using default.");
+            break;
+        }
+        
+        calculateMinAllowableContainerHeight();
+    }
+
+	private void initializeModelParameters() {
+		// Initialize the system parameters.
+        m_lidBlownOff = false;
+        m_gravitationalAcceleration = INITIAL_GRAVITATIONAL_ACCEL;
+        m_heatingCoolingAmount = 0;
+        m_tempAdjustTickCounter = 0;
+        m_temperatureSetPoint = INITIAL_TEMPERATURE;
+	}
+
+	/**
+	 * Reset both the normalized and non-normalized sizes of the container.
+	 * Note that the particle diameter must be valid before this will work
+	 * properly.
+	 */
+	private void resetContainerSize() {
+		// Set the initial size of the container.
+        m_particleContainerHeight = StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT;
+        m_targetContainerHeight = StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT;
+        m_normalizedContainerHeight = m_particleContainerHeight / m_particleDiameter;
+        m_normalizedContainerWidth = StatesOfMatterConstants.PARTICLE_CONTAINER_WIDTH / m_particleDiameter;
+        
+        // Notify listeners.
+        notifyContainerSizeChanged();
+	}
     
     /**
      * @param clockEvent
