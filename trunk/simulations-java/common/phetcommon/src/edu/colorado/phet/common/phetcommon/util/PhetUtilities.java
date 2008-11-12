@@ -211,4 +211,8 @@ public class PhetUtilities {
     public static boolean isRunningFromWebsite() {
         return PhetServiceManager.isJavaWebStart() && !PhetUtilities.isPhetInstallation(); // PhET installer uses Web Start!
     }
+    
+    public static String getJavaPath() {
+        return System.getProperty( "java.home" ) + System.getProperty( "file.separator" ) + "bin" + System.getProperty( "file.separator" ) + "java";
+    }
 }

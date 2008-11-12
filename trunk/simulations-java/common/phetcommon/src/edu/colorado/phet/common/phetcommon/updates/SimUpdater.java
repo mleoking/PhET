@@ -5,8 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 
-import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
-import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
+import edu.colorado.phet.common.phetcommon.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.NetworkUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.util.logging.DebugLogger;
@@ -19,71 +18,100 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
  * @author Sam Reid
  */
 public class SimUpdater {
+    
+    // do not enabled debug output for public releases, the log file will grow indefinitely!
+    private static final boolean DEBUG_OUTPUT_ENABLED = true;
 
-    private String UPDATER_ADDRESS = "http://phet.colorado.edu/phet-dist/updater/updater.jar";
-
-    public void updateSim( String project, String sim, String locale ) {
-        TrackingManager.postActionPerformedMessage( TrackingMessage.UPDATE_NOW_PRESSED );
+    // where the updater lives on the PhET site
+    private static final String UPDATER_ADDRESS = "http://phet.colorado.edu/phet-dist/updater/updater.jar";
+    
+    /**
+     * Updates the sim that this is called from.
+     * The updater bootstrap and new sim JAR are downloaded.
+     * Then the bootstrap handles replacing the running JAR with the new JAR.
+     * 
+     * @param project
+     * @param sim
+     * @param languageCode
+     */
+    public void updateSim( String project, String sim, String languageCode ) {
         try {
             File updaterJAR = downloadUpdaterJAR();
             File simJAR = getSimJAR( sim );
-            File tempJARLocation = File.createTempFile( simJAR.getName(), "_.jar" );
-
-            //TODO: disable opening a webpage unless someone asks for this feature
-            //OpenWebPageToNewVersion.openWebPageToNewVersion( project, sim );
-
-            download( project, sim, locale, tempJARLocation );
-
-            startBootstrap( updaterJAR, tempJARLocation, simJAR );
-            System.exit( 0 );//presumably, jar must exit before it can be overwritten
+            File tempJAR = getTempJAR( simJAR );
+            downloadSimJAR( project, sim, languageCode, tempJAR );
+            startUpdaterBootstrap( updaterJAR, tempJAR, simJAR );
+            System.exit( 0 ); //presumably, jar must exit before it can be overwritten
         }
         catch( IOException e1 ) {
+            //TODO: alert the user
             e1.printStackTrace();
         }
     }
 
     /*
-    * Downloads the JAR for the specified simulation to the specified location.
-    */
-    private void download( String project, String flavor, String locale, File targetLocation ) throws FileNotFoundException {
-//        String localeSuffix = locale.equals( "en" ) ? "" : "_" + locale;
-//        println( "Downloading " + "http://phet.colorado.edu/sims/" + project + "/" + flavor + localeSuffix + ".jar" + " to " + targetLocation.getAbsolutePath() );
-//        DownloadUtils.download( "http://phet.colorado.edu/sims/" + project + "/" + flavor + localeSuffix + ".jar", targetLocation );
-//
-        String jarURL = HTMLUtils.getSimJarURL( project, flavor, "&", locale );
-        println( "Downloading " + jarURL );
+     * Downloads the JAR for the specified simulation to the specified location.
+     */
+    private void downloadSimJAR( String project, String flavor, String languageCode, File targetLocation ) throws FileNotFoundException {
+        String jarURL = HTMLUtils.getSimJarURL( project, flavor, "&", languageCode );
+        println( "Downloading sim JAR from " + jarURL );
         NetworkUtils.download( jarURL, targetLocation );
     }
 
-    private void startBootstrap( File bootstrapUpdater, File src, File dst ) throws IOException {
-        String[] cmd = new String[]{getJavaPath(), "-jar", bootstrapUpdater.getAbsolutePath(), src.getAbsolutePath(), dst.getAbsolutePath()};//todo support for locales
-        println( "Starting updater with command: \n" + Arrays.asList( cmd ).toString() );
-        Process p = Runtime.getRuntime().exec( cmd );
-        //todo: read output from process in case helpful debug information is there in case of problem
+    /*
+     * Runs the updater bootstrap in a separate JVM.
+     */
+    private void startUpdaterBootstrap( File updaterBootstrap, File src, File dst ) throws IOException {
+        String[] cmdArray = new String[] { PhetUtilities.getJavaPath(), "-jar", updaterBootstrap.getAbsolutePath(), src.getAbsolutePath(), dst.getAbsolutePath() };//TODO: support for language code
+        println( "Starting updater bootstrap with cmdArray=" + Arrays.asList( cmdArray ).toString() );
+        Process p = Runtime.getRuntime().exec( cmdArray );
+        //TODO: read output from process in case helpful debug information is there in case of problem
     }
 
+    /*
+     * Gets the running simulation's JAR file.
+     */
     private File getSimJAR( String sim ) throws IOException {
         File location = PhetUtilities.getCodeSource();
         if ( !location.getName().toLowerCase().endsWith( ".jar" ) ) {
-            location = File.createTempFile( "" + sim, ".jar" );
-            println( "Not running from a jar, downloading to: " + location );
+            // So that this works in IDEs, where we aren't running a JAR.
+            // In general, we only support running JAR files.
+            location = File.createTempFile( sim, ".jar" );
+            println( "Not running from a JAR, you are likely running from an IDE, update will be installed at " + location );
         }
+        println( "running sim JAR is " + location.getAbsolutePath() );
+        return location;
+    }
+    
+    /*
+     * Gets a temporary name for the sim JAR file to be downloaded.
+     */
+    private File getTempJAR( File simJAR ) throws IOException {
+        String basename = FileUtils.getBasename( simJAR );
+        File location = File.createTempFile( basename, ".jar" );
+        println( "temporary JAR is " + location.getAbsolutePath() );
         return location;
     }
 
+    /*
+     * Tries to download to updater.jar, so that we don't accumulate lots of JAR files in the temp directory.
+     * If that's not possible, download to a uniquely named file.
+     */
     private File downloadUpdaterJAR() throws IOException {
-        File updaterJAR = File.createTempFile( "updater", ".jar" );
+        File updaterJAR = new File( System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.separator" ) + "updater.jar" );
+        if ( updaterJAR.exists() && !updaterJAR.canWrite() ) {
+            updaterJAR = File.createTempFile( "updater", ".jar" );
+        }
+        println( "Downloading updater to " + updaterJAR.getAbsolutePath() );
         NetworkUtils.download( UPDATER_ADDRESS, updaterJAR );
-        println( "downloaded updater to: \n" + updaterJAR.getAbsolutePath() );
+        //TODO: make something delete the updater.jar when everything is done
         return updaterJAR;
     }
 
-    private String getJavaPath() {
-        return System.getProperty( "java.home" ) + System.getProperty( "file.separator" ) + "bin" + System.getProperty( "file.separator" ) + "java";
-    }
-
     private void println( String message ) {
-        DebugLogger.println( getClass().getName() + "> " + message );
+        if ( DEBUG_OUTPUT_ENABLED ) {
+            DebugLogger.println( getClass().getName() + "> " + message );
+        }
     }
 
 }
