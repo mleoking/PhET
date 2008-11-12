@@ -376,6 +376,10 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
             moleculeID = StatesOfMatterConstants.NEON;
         }
         
+        // Retain the current phase so that we can set the particles back to
+        // this phase once they have been created and initialized.
+        int phase = mapTemperatureToPhase();
+
         // Remove existing particles and reset the global model parameters.
         removeAllParticles();
         initializeModelParameters();
@@ -415,17 +419,17 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
         	atomsPerMolecule = 1;
         }
 
-        // Create the data set that will represent the motion and forces for the molecules.
-        m_moleculeDataSet = new MoleculeForceAndMotionDataSet( atomsPerMolecule );
-        
         // Reset the container size.  This must be done after the diameter is
         // initialized because the normalized size is dependent upon the
         // particle diameter.
         resetContainerSize();
-
+        
         // Initiate a reset in order to get the particles into predetermined
         // locations and energy levels.
         initializeParticles();
+        
+        // Set the desired phase of the particles.
+        setPhase(phase);
         
         // Notify listeners that the molecule type has changed.
         notifyMoleculeTypeChanged();
@@ -1427,5 +1431,26 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
     	}
     	
     	return particlesNearTop;
+    }
+    
+    /**
+     * Return a phase value based on the current temperature.
+     * @return
+     */
+    private int mapTemperatureToPhase(){
+    	
+    	int phase;
+    	if (m_temperatureSetPoint < SOLID_TEMPERATURE + ((LIQUID_TEMPERATURE - SOLID_TEMPERATURE) / 2)){
+    		phase = PHASE_SOLID;
+    	}
+    	else if (m_temperatureSetPoint < LIQUID_TEMPERATURE + ((GAS_TEMPERATURE - LIQUID_TEMPERATURE) / 2)){
+    		phase = PHASE_LIQUID;
+    		
+    	}
+    	else{
+    		phase = PHASE_GAS;
+    	}
+    	
+    	return phase;
     }
 }
