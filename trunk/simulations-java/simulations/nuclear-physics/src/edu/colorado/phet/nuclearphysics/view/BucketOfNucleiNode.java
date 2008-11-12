@@ -47,7 +47,6 @@ public class BucketOfNucleiNode extends PNode {
     private PNode _frontInteriorLayer;
     private PNode _frontOfBucketLayer;
     private HTMLNode _bucketLabel;
-    private GrabbableLabeledNucleusNode.Listener _grabbableNucleusListener;
     private AtomicNucleusNode [] _visibleNucleusNodes;
     private double _bucketHeight;
     private double _bucketWidth;
