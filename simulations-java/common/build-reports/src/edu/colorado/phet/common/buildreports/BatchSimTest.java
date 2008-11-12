@@ -40,11 +40,11 @@ public class BatchSimTest {
             System.out.println( "command = " + command );
 
 //            if ( count >= 55 ) {
-            if ( count >= 0) {
-                System.out.println( "count="+count );
+            if ( count >= 0 ) {
+                System.out.println( "count=" + count );
                 Process p = Runtime.getRuntime().exec( command );
-                new StreamGobbler( p.getErrorStream(), "err_"+phetProjectFlavor.getFlavorName()).start();
-                new StreamGobbler( p.getInputStream(), "out_"+phetProjectFlavor.getFlavorName()).start();
+                new OutputStreamRedirect( p.getErrorStream(), "err_" + phetProjectFlavor.getFlavorName() ).start();
+                new OutputStreamRedirect( p.getInputStream(), "out_" + phetProjectFlavor.getFlavorName() ).start();
                 int val = p.waitFor();
                 System.out.println( "Finished exec." );
             }
