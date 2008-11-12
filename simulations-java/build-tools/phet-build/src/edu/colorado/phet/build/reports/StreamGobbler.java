@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.testing;
+package edu.colorado.phet.build.reports;
 
 /** code copied from
  *  http://www.javaworld.com/javaworld/jw-12-2000/jw-1229-traps.html
