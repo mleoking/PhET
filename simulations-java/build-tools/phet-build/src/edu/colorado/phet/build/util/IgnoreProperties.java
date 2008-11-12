@@ -19,8 +19,8 @@ public class IgnoreProperties {
 
                 Process proc = Runtime.getRuntime().exec( command, null, deployDir );
 
-                new StreamGobbler( proc.getErrorStream(), "ERR" ).start();
-                new StreamGobbler( proc.getInputStream(), "OUT" ).start();
+                new OutputStreamRedirect( proc.getErrorStream(), "ERR" ).start();
+                new OutputStreamRedirect( proc.getInputStream(), "OUT" ).start();
 
                 // any error???
                 int exitVal = proc.waitFor();
