@@ -21,7 +21,8 @@ public class MonatomicPhaseStateChanger extends AbstractPhaseStateChanger {
     // Class Data
     //----------------------------------------------------------------------------
 	
-	private static final double MIN_INITIAL_INTER_PARTICLE_DISTANCE = 1.2;
+	private static final double MIN_INITIAL_INTER_PARTICLE_DISTANCE = 1.12;
+	
     private final MonatomicAtomPositionUpdater m_positionUpdater = 
 		new MonatomicAtomPositionUpdater();
 	
@@ -68,34 +69,43 @@ public class MonatomicPhaseStateChanger extends AbstractPhaseStateChanger {
 		// Set the temperature in the model.
 		m_model.setTemperature(MultipleParticleModel2.SOLID_TEMPERATURE);
     	
-		// Create the solid form, a.k.a a crystal.
+		// Create the solid form, a.k.a. a crystal.
 		
 		int numberOfAtoms = m_model.getMoleculeDataSetRef().getNumberOfAtoms();
 		Point2D [] moleculeCenterOfMassPositions = m_model.getMoleculeDataSetRef().getMoleculeCenterOfMassPositions();
 		Vector2D [] moleculeVelocities = m_model.getMoleculeDataSetRef().getMoleculeVelocities();
         Random rand = new Random();
         double temperatureSqrt = Math.sqrt( m_model.getTemperatureSetPoint() );
-        int particlesPerLayer = (int)Math.round( Math.sqrt( numberOfAtoms ) );
+        int atomsPerLayer = (int)Math.round( Math.sqrt( numberOfAtoms ) );
 
+        /*
         double startingPosX = (m_model.getNormalizedContainerWidth() / 2) - (double)(particlesPerLayer / 2) - 
                 ((particlesPerLayer / 2) * DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL);
         double startingPosY = 1.0 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL;
+        */
+        // Establish the starting position, which will be the lower left corner
+        // of the "cube".
+        double crystalWidth = (atomsPerLayer - 1) * MIN_INITIAL_INTER_PARTICLE_DISTANCE;
+        
+        double startingPosX = (m_model.getNormalizedContainerWidth() / 2) - (crystalWidth / 2);
+        double startingPosY = MIN_INITIAL_INTER_PARTICLE_DISTANCE;
+
         
         int particlesPlaced = 0;
         double xPos, yPos;
         for (int i = 0; particlesPlaced < numberOfAtoms; i++){ // One iteration per layer.
-            for (int j = 0; (j < particlesPerLayer) && (particlesPlaced < numberOfAtoms); j++){
-                xPos = startingPosX + j + (j * DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL);
+            for (int j = 0; (j < atomsPerLayer) && (particlesPlaced < numberOfAtoms); j++){
+                xPos = startingPosX + (j * MIN_INITIAL_INTER_PARTICLE_DISTANCE);
                 if (i % 2 != 0){
                     // Every other row is shifted a bit to create hexagonal pattern.
-                    xPos += (1 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL) / 2;
+                    xPos += MIN_INITIAL_INTER_PARTICLE_DISTANCE / 2;
                 }
-                yPos = startingPosY + (double)i * (1 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL)* 0.866;
-                moleculeCenterOfMassPositions[(i * particlesPerLayer) + j].setLocation( xPos, yPos );
+                yPos = startingPosY + (double)i * MIN_INITIAL_INTER_PARTICLE_DISTANCE * 0.866;
+                moleculeCenterOfMassPositions[(i * atomsPerLayer) + j].setLocation( xPos, yPos );
                 particlesPlaced++;
 
                 // Assign each particle an initial velocity.
-                moleculeVelocities[(i * particlesPerLayer) + j].setComponents( temperatureSqrt * rand.nextGaussian(), 
+                moleculeVelocities[(i * atomsPerLayer) + j].setComponents( temperatureSqrt * rand.nextGaussian(), 
                         temperatureSqrt * rand.nextGaussian() );
             }
         }
