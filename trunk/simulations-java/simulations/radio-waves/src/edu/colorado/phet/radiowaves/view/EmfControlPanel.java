@@ -15,6 +15,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.radiowaves.EmfConfig;
@@ -27,7 +28,7 @@ import edu.colorado.phet.radiowaves.command.StaticFieldIsEnabledCmd;
 import edu.colorado.phet.radiowaves.coreadditions.MessageFormatter;
 import edu.colorado.phet.radiowaves.model.EmfModel;
 
-public class EmfControlPanel extends JPanel {
+public class EmfControlPanel extends ControlPanel {
 
     private EmfModel model;
     private EmfModule module;
@@ -38,18 +39,18 @@ public class EmfControlPanel extends JPanel {
         createControls();
         //        this.setPreferredSize( new Dimension( 180, 580 ) );
 
-        this.addContainerListener( new ContainerAdapter() {
-
-            public void componentRemoved( ContainerEvent e ) {
-                EmfControlPanel.this.setPreferredSize( EmfControlPanel.this.getSize() );
-            }
-        } );
-        this.addComponentListener( new ComponentAdapter() {
-
-            public void componentResized( ComponentEvent e ) {
-                EmfControlPanel.this.setPreferredSize( EmfControlPanel.this.getSize() );
-            }
-        } );
+//        this.addContainerListener( new ContainerAdapter() {
+//
+//            public void componentRemoved( ContainerEvent e ) {
+//                EmfControlPanel.this.setPreferredSize( EmfControlPanel.this.getSize() );
+//            }
+//        } );
+//        this.addComponentListener( new ComponentAdapter() {
+//
+//            public void componentResized( ComponentEvent e ) {
+//                EmfControlPanel.this.setPreferredSize( EmfControlPanel.this.getSize() );
+//            }
+//        } );
     }
 
     private void createControls() {
