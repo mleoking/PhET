@@ -78,10 +78,8 @@ public class EmfControlPanel extends JPanel {
         private JRadioButton fullFieldRB = new JRadioButton( RadioWavesResources.getString( "EmfControlPanel.FullRadioButton" ) );
         private JRadioButton hideFieldRB = new JRadioButton( RadioWavesResources.getString( "EmfControlPanel.NoneRadioButton" ) );
         private ButtonGroup fieldDisplayRBGroup;
-        private JRadioButton singleVectorRowRB;
         private JRadioButton vectorWCurveRB;
         private JRadioButton curveRB;
-        private JRadioButton scalarRepRB;
 
         //        private JCheckBox curveVisibleCB;
 
@@ -112,22 +110,15 @@ public class EmfControlPanel extends JPanel {
             hideFieldRB.addActionListener( new FieldViewRBActionListener() );
             hideFieldRB.addActionListener( new FieldViewRBActionListener() );
             fullFieldRB.addActionListener( new FieldViewRBActionListener() );
-            singleVectorRowRB = new JRadioButton( RadioWavesResources.getString( "EmfControlPanel.SingleLineOfVectors" ) );
-            singleVectorRowRB.addActionListener( new FieldViewRBActionListener() );
             vectorWCurveRB = new JRadioButton( RadioWavesResources.getString( "EmfControlPanel.CurveVectorsRadioButton" ) );
             vectorWCurveRB.addActionListener( new FieldViewRBActionListener() );
             curveRB = new JRadioButton( RadioWavesResources.getString( "EmfControlPanel.CurveRadioButton" ) );
             curveRB.addActionListener( new FieldViewRBActionListener() );
 
-            scalarRepRB = new JRadioButton( RadioWavesResources.getString( "EmfControlPanel.ScalarRep" ) );
-            scalarRepRB.addActionListener( new FieldViewRBActionListener() );
-
             fieldDisplayRBGroup = new ButtonGroup();
             fieldDisplayRBGroup.add( curveRB );
             fieldDisplayRBGroup.add( vectorWCurveRB );
-            fieldDisplayRBGroup.add( singleVectorRowRB );
             fieldDisplayRBGroup.add( fullFieldRB );
-            fieldDisplayRBGroup.add( scalarRepRB );
             fieldDisplayRBGroup.add( hideFieldRB );
 
             // Set the default
@@ -139,9 +130,7 @@ public class EmfControlPanel extends JPanel {
             fieldRepPane.setBorder( BorderFactory.createTitledBorder( RadioWavesResources.getString( "EmfControlPanel.FieldDisplayBorder" ) ) );
             fieldRepPane.add( vectorWCurveRB, gbcB );
             fieldRepPane.add( curveRB, gbcB );
-            fieldRepPane.add( singleVectorRowRB, gbcB );
             fieldRepPane.add( fullFieldRB, gbcB );
-            fieldRepPane.add( scalarRepRB, gbcB );
             fieldRepPane.add( hideFieldRB, gbcB );
 
             //----------------------------------------------------------------
@@ -229,10 +218,8 @@ public class EmfControlPanel extends JPanel {
                 isEnabled = true;
             }
             hideFieldRB.setEnabled( isEnabled );
-            singleVectorRowRB.setEnabled( isEnabled );
             curveRB.setEnabled( isEnabled );
             vectorWCurveRB.setEnabled( isEnabled );
-            scalarRepRB.setEnabled( isEnabled );
 
 
             int display = EmfPanel.NO_FIELD;
@@ -240,10 +227,6 @@ public class EmfControlPanel extends JPanel {
             display = rb == fullFieldRB ? EmfPanel.FULL_FIELD : display;
             if ( fullFieldRB.isSelected() ) {
                 display = EmfPanel.FULL_FIELD;
-            }
-            if ( singleVectorRowRB.isSelected() ) {
-                display = EmfPanel.VECTORS_CENTERED_ON_X_AXIS;
-                module.setSingleVectorRowRepresentation( EmfConfig.SINGLE_VECTOR_ROW_CENTERED );
             }
             if ( hideFieldRB.isSelected() ) {
                 display = EmfPanel.NO_FIELD;
@@ -255,10 +238,6 @@ public class EmfControlPanel extends JPanel {
                 display = EmfPanel.CURVE_WITH_VECTORS;
                 module.setSingleVectorRowRepresentation( EmfConfig.SINGLE_VECTOR_ROW_PINNED );
             }
-            if ( scalarRepRB.isSelected() ) {
-                display = EmfPanel.NO_FIELD;
-            }
-            module.setScalarRepEnabled( scalarRepRB.isSelected() );
             module.setFieldDisplay( display );
         }
 
