@@ -188,11 +188,12 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
             }
         });
 
-        // Set the initial container size so that when the view elements are
-        // created, they have something to work with.  Use a bogus value for
-        // the particle diameter to avoid infinities.
+        // Do just enough initialization to allow the view and control
+        // portions of the simulation to be properly created.  The rest of the
+        // initialization will occur when the model is reset.
         m_particleDiameter = 1;
         resetContainerSize();
+        m_currentMolecule = DEFAULT_MOLECULE;
     }
 
     //----------------------------------------------------------------------------
