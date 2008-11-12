@@ -29,7 +29,6 @@ import edu.colorado.phet.radiowaves.command.DynamicFieldIsEnabledCmd;
 import edu.colorado.phet.radiowaves.command.SetMovementCmd;
 import edu.colorado.phet.radiowaves.common_1200.graphics.Graphic;
 import edu.colorado.phet.radiowaves.common_1200.graphics.HelpItem;
-import edu.colorado.phet.radiowaves.coreadditions.PhetControlPanel;
 import edu.colorado.phet.radiowaves.model.Antenna;
 import edu.colorado.phet.radiowaves.model.EmfModel;
 import edu.colorado.phet.radiowaves.model.EmfSensingElectron;
@@ -134,8 +133,7 @@ public class EmfModule extends PiccoloModule {
 
         // Set the control panel
         EmfControlPanel emfControlsPanel = new EmfControlPanel( model, this );
-        PhetControlPanel controlPanel = new PhetControlPanel( this, emfControlsPanel );
-        setControlPanel( controlPanel );
+        setControlPanel( emfControlsPanel );
 
         // Draw the animated "Wiggle me"
         createWiggleMeGraphic( origin, mvTx );
