@@ -1,3 +1,4 @@
+11/11/08 - #944, fix layout of EmfControlPanel
 11/11/08 - #944, delete PhetControlPanel that was adding an extra logo and help button (resulting in 2 of each)
 # 1.05.04 (26045)
 11/11/08 - #943, remove "Vector" and "Scalar" view options
