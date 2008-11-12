@@ -58,6 +58,8 @@ class TroubleshootingPage extends SitePage {
 
                     <li class="faq"><a href="#q10">I would like to translate PhET Simulations into another Language. Can this be easily done?</a></li>
 
+                    <li class="faq"><a href="#q11">I have downloaded and installed the off-line version of the PhET simulations, and I get a warning on every page. Why?</a></li>
+
                     <li class="faq"><a href="{$this->prefix}about/licensing.php">What are Licensing requirements?</a></li>
                 </ul>
             </div><br />
@@ -203,6 +205,13 @@ class TroubleshootingPage extends SitePage {
 
             <p>The PhET simulations have been written so that they are easily translated to languages other than English. Please <a href="{$this->prefix}contribute/index.php">click here</a> for more information.</p>
 
+            <h3 id="q11" >I have downloaded and installed the off-line version of the PhET simulations, and I get a warning on every page. Why?</h3>
+
+	    <p>The PhET installer creates a local copy of the current version of the PhET website on your computer.  When you access this locally installed copy, your computer will use your default browser, which for many people is Internet Explorer.  If the security settings are set to their default values, you may get an error that says <em>"To help protect your security, Internet Explorer has restricted this webpage from running scripts or ActiveX controls that could access your computer.  Click here for options..."</em> (or something similar).  This is a security feature of Internet Explorer version 6 and later, and is meant to warn users about running active content locally.  The PhET simulations present no danger to your computer, and running them locally is no different than running them from the web site.</p>
+
+	    <p>If you wish to disable this warning, you can do so by adjusting your security settings.  For IE versions 6 and 7, the way to do this is to go into Tools->Internet Options->Advanced, find the "Security" heading, and checking "Allow active content to run in files on My Computer".  Note that you will need to restart Internet Explorer to get this change to take effect.  You should only do this if feel confident that there is no other off-line content that you may run on your computer that could be malicious.</p>
+
+            <p>Alternatively, you could use a different browser (such as Firefox) that does not have this issue.</p>
 EOT;
     }
 
