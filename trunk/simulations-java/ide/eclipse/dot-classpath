@@ -17,7 +17,6 @@
 	<classpathentry kind="src" path="common/piccolo-phet/data"/>
 	<classpathentry kind="src" path="common/quantum/src"/>
 	<classpathentry kind="src" path="common/quantum/data"/>
-	<classpathentry kind="src" path="common/testing/src"/>
 	<classpathentry kind="src" path="common/timeseries/src"/>
 	<classpathentry kind="src" path="common/timeseries/data"/>
 	<classpathentry excluding="Changes.html|CodeMap.html|License.txt|Manifest.console|Manifest.interp|README.txt" kind="src" path="contrib/beanshell/src"/>
