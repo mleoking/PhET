@@ -401,10 +401,7 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
         
         // Initiate a reset in order to get the particles into predetermined
         // locations and energy levels.
-        initializeParticles();
-        
-        // Set the desired phase of the particles.
-        setPhase(phase);
+        initializeParticles(phase);
         
         // Notify listeners that the molecule type has changed.
         notifyMoleculeTypeChanged();
@@ -577,6 +574,8 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
         	m_phaseStateChanger.setPhase(PhaseStateChanger.PHASE_SOLID);
             break;
         }
+        
+        syncParticlePositions();
     }
     
     /**
@@ -733,21 +732,21 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
      * Initialize the particles by calling the appropriate initialization
      * routine, which will set their positions, velocities, etc.
      */
-    private void initializeParticles() {
+    private void initializeParticles(int phase) {
         
         // Initialize the particles.
         switch (m_currentMolecule){
         case StatesOfMatterConstants.DIATOMIC_OXYGEN:
-            initializeDiatomic(m_currentMolecule);
+            initializeDiatomic(m_currentMolecule, phase);
             break;
         case StatesOfMatterConstants.NEON:
-            initializeMonotomic(m_currentMolecule);
+            initializeMonotomic(m_currentMolecule, phase);
             break;
         case StatesOfMatterConstants.ARGON:
-            initializeMonotomic(m_currentMolecule);
+            initializeMonotomic(m_currentMolecule, phase);
             break;
         case StatesOfMatterConstants.WATER:
-            initializeTriatomic(m_currentMolecule);
+            initializeTriatomic(m_currentMolecule, phase);
             break;
         default:
             System.err.println("ERROR: Unrecognized particle type, using default.");
@@ -942,7 +941,7 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
      * 
      * @param moleculeID
      */
-    private void initializeMonotomic(int moleculeID){
+    private void initializeMonotomic(int moleculeID, int phase){
         
         // Verify that a valid molecule ID was provided.
         assert (moleculeID == StatesOfMatterConstants.NEON) || 
@@ -1008,9 +1007,8 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
             notifyParticleAdded( atom );
         }
 
-        // Initialize the particle positions into a solid form.
-        m_phaseStateChanger.setPhase( PhaseStateChanger.PHASE_SOLID );
-        syncParticlePositions();
+        // Initialize the particle positions according the to requested phase.
+        setPhase( phase );
     }
 
     /**
@@ -1019,7 +1017,7 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
      * 
      * @param moleculeID
      */
-    private void initializeDiatomic(int moleculeID){
+    private void initializeDiatomic(int moleculeID, int phase){
         
         // Verify that a valid molecule ID was provided.
         assert (moleculeID == StatesOfMatterConstants.DIATOMIC_OXYGEN);
@@ -1068,11 +1066,8 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
             notifyParticleAdded( atom );
         }
 
-        // Initialize the particle positions into a solid form.
-        m_phaseStateChanger.setPhase( PhaseStateChanger.PHASE_SOLID );
-        
-        // Synchronize the model set with the normalized data set.
-        syncParticlePositions();
+        // Initialize the particle positions according the to requested phase.
+        setPhase( phase );
     }
 
     /**
@@ -1081,7 +1076,7 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
      * 
      * @param moleculeID
      */
-    private void initializeTriatomic(int moleculeID){
+    private void initializeTriatomic(int moleculeID, int phase){
         
         // Verify that a valid molecule ID was provided.
         assert (moleculeID == StatesOfMatterConstants.WATER); // Only water is supported so far.
@@ -1143,11 +1138,8 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
             }
         }
         
-        // Initialize the particle positions into a solid form.
-        m_phaseStateChanger.setPhase( PhaseStateChanger.PHASE_SOLID );
-        
-        // Synchronize the model set with the normalized data set.
-        syncParticlePositions();
+        // Initialize the particle positions according the to requested phase.
+        setPhase( phase );
     }
     
     private void notifyResetOccurred(){
