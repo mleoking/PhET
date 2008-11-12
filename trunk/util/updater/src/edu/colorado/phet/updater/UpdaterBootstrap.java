@@ -68,6 +68,7 @@ public class UpdaterBootstrap {
         catch ( IOException e ) {
             e.printStackTrace();
             println( e.getMessage() );
+            //TODO: open an error dialog here?
             System.exit( 1 ); // indicate abnormal exit
         }
     }
