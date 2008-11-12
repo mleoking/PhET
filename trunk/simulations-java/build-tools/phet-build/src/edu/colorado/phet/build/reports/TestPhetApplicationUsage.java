@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.testing;
+package edu.colorado.phet.build.reports;
 
 import java.awt.*;
 import java.io.File;
