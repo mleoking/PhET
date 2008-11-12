@@ -1,15 +1,15 @@
-package edu.colorado.phet.common.buildreports;
+package edu.colorado.phet.build.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class OutputStreamRedirect extends Thread {
+public class StreamReaderThread extends Thread {
     private InputStream inputStream;
     private String sourceName;
 
-    public OutputStreamRedirect( InputStream inputStream, String sourceName ) {
+    public StreamReaderThread( InputStream inputStream, String sourceName ) {
         this.inputStream = inputStream;
         this.sourceName = sourceName;
     }

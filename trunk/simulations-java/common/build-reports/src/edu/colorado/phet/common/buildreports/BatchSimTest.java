@@ -43,8 +43,8 @@ public class BatchSimTest {
             if ( count >= 0 ) {
                 System.out.println( "count=" + count );
                 Process p = Runtime.getRuntime().exec( command );
-                new OutputStreamRedirect( p.getErrorStream(), "err_" + phetProjectFlavor.getFlavorName() ).start();
-                new OutputStreamRedirect( p.getInputStream(), "out_" + phetProjectFlavor.getFlavorName() ).start();
+                new StreamReaderThread( p.getErrorStream(), "err_" + phetProjectFlavor.getFlavorName() ).start();
+                new StreamReaderThread( p.getInputStream(), "out_" + phetProjectFlavor.getFlavorName() ).start();
                 int val = p.waitFor();
                 System.out.println( "Finished exec." );
             }
