@@ -30,8 +30,6 @@ import edu.colorado.phet.statesofmatter.model.engine.WaterPhaseStateChanger;
 import edu.colorado.phet.statesofmatter.model.engine.WaterVerletAlgorithm;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.AndersenThermostat;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.IsokineticThermostat;
-import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyAdjuster;
-import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyCapper;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.Thermostat;
 import edu.colorado.phet.statesofmatter.model.particle.ArgonAtom;
 import edu.colorado.phet.statesofmatter.model.particle.HydrogenAtom;
@@ -71,16 +69,11 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
 	public static final double LIQUID_TEMPERATURE = 0.42;
 	public static final double GAS_TEMPERATURE = 1.0;
 
-    // TODO: JPB TBD - These constants are here as a result of the first attempt
-    // to integrate Paul Beale's IDL implementation of the Verlet algorithm.
-    // Eventually some or all of them will be moved.
+    // Constants that control various aspects of the model behavior.
     public static final int     DEFAULT_MOLECULE = StatesOfMatterConstants.NEON;
-    private static final double DISTANCE_BETWEEN_DIATOMIC_PAIRS = 0.8;  // In particle diameters.
-    private static final double TIME_STEP = 0.020;  // Time per simulation clock tick, in seconds.
-    public static final double INITIAL_TEMPERATURE = SOLID_TEMPERATURE;
+    public static final double  INITIAL_TEMPERATURE = SOLID_TEMPERATURE;
     public static final double  MAX_TEMPERATURE = 50.0;
     public static final double  MIN_TEMPERATURE = 0.0001;
-    private static final double PARTICLE_INTERACTION_DISTANCE_THRESH_SQRD = 6.25;
     private static final double INITIAL_GRAVITATIONAL_ACCEL = 0.045;
     public static final double  MAX_GRAVITATIONAL_ACCEL = 0.4;
     private static final double MAX_TEMPERATURE_CHANGE_PER_ADJUSTMENT = 0.025;
@@ -88,7 +81,6 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
     private static final double MIN_INJECTED_MOLECULE_VELOCITY = 0.5;
     private static final double MAX_INJECTED_MOLECULE_VELOCITY = 2.0;
     private static final double MAX_INJECTED_MOLECULE_ANGLE = Math.PI * 0.8;
-    private static final double PRESSURE_DECAY_CALCULATION_WEIGHTING = 0.999;
     private static final int    VERLET_CALCULATIONS_PER_CLOCK_TICK = 8;
 
     // Constants used for setting the phase directly.
@@ -122,16 +114,6 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
     // edges of the container.
     private static final double PARTICLE_EDGE_PROXIMITRY_RANGE = 2.5;
 
-    // Constant used to limit how close the atoms are allowed to get to one
-    // another so that we don't end up getting crazy big forces.
-    private static final double MIN_DISTANCE_SQUARED = 0.7225;
-
-    // Parameters used for "hollywooding" of the water crystal.
-    private static final double WATER_FULLY_MELTED_TEMPERATURE = 0.3;
-    private static final double WATER_FULLY_MELTED_ELECTROSTATIC_FORCE = 1.0;
-    private static final double WATER_FULLY_FROZEN_TEMPERATURE = 0.22;
-    private static final double WATER_FULLY_FROZEN_ELECTROSTATIC_FORCE = 4.0;
-    
     // Values used for converting from model temperature to the temperature
     // for a given particle.
     public static final double TRIPLE_POINT_MODEL_TEMPERATURE = 0.4;    // Empirically determined.
@@ -162,7 +144,6 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
     private double m_targetContainerHeight;
     private double m_minAllowableContainerHeight;
     private final List m_particles = new ArrayList();
-    private double m_totalEnergy;
     private boolean m_lidBlownOff = false;
     private EngineFacade m_engineFacade;
     IClock m_clock;
@@ -173,7 +154,6 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
 
     private double  m_normalizedContainerWidth;
     private double  m_normalizedContainerHeight;
-    private double  m_potentialEnergy;
     private Random  m_rand = new Random();
     private double  m_temperatureSetPoint;
     private double  m_gravitationalAcceleration;
@@ -388,21 +368,17 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
         m_currentMolecule = moleculeID;
         
         // Set the model parameters that are dependent upon the molecule type.
-        int atomsPerMolecule;
         switch (m_currentMolecule){
         case StatesOfMatterConstants.DIATOMIC_OXYGEN:
             m_particleDiameter = OxygenAtom.RADIUS * 2;
-            atomsPerMolecule = 2;
             m_minModelTemperature = 0.5 * TRIPLE_POINT_MODEL_TEMPERATURE / O2_TRIPLE_POINT_IN_KELVIN;
             break;
         case StatesOfMatterConstants.NEON:
             m_particleDiameter = NeonAtom.RADIUS * 2;
-            atomsPerMolecule = 1;
             m_minModelTemperature = 0.5 * TRIPLE_POINT_MODEL_TEMPERATURE / NEON_TRIPLE_POINT_IN_KELVIN;
             break;
         case StatesOfMatterConstants.ARGON:
             m_particleDiameter = ArgonAtom.RADIUS * 2;
-            atomsPerMolecule = 1;
             m_minModelTemperature = 0.5 * TRIPLE_POINT_MODEL_TEMPERATURE / ARGON_TRIPLE_POINT_IN_KELVIN;
             break;
         case StatesOfMatterConstants.WATER:
@@ -411,12 +387,10 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
             // users can see the crystal structure better, and so that the
             // solid form will look larger (since water expands when frozen).
             m_particleDiameter = OxygenAtom.RADIUS * 2.9;
-            atomsPerMolecule = 3;
             m_minModelTemperature = 0.5 * TRIPLE_POINT_MODEL_TEMPERATURE / WATER_TRIPLE_POINT_IN_KELVIN;
             break;
         default:
         	assert false; // Should never happen, so it should be debugged if it does.
-        	atomsPerMolecule = 1;
         }
 
         // Reset the container size.  This must be done after the diameter is
@@ -655,9 +629,6 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
             if (m_moleculeDataSet.getAtomsPerMolecule() == 1){
                 
                 // Add particle to model set.
-            	// TODO: JPB TBD - Consider making this part of the process of syncing particles, i.e. if the
-            	// number of particles in the data set don't match those in the model set, just add or delete
-            	// the appropriate number to/from the model set.
                 StatesOfMatterAtom particle;
                 switch (m_currentMolecule){
                 case StatesOfMatterConstants.ARGON:
@@ -964,7 +935,6 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
     	// is run.  This is intentional.
     }
     
-    // TODO: JPB TBD - At end of refactoring effort, evaluate whether it makes more sense to have initializer classes.
     /**
      * Initialize the various model components to handle a simulation in which
      * all the molecules are single atoms.
@@ -1221,30 +1191,11 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
         }        
     }
 
-    private void conserveTotalEnergy() {
-        double curKE = m_engineFacade.measureKineticEnergy();
-        double curTotalEnergy = curKE + m_engineFacade.measurePotentialEnergy();
-
-        double energyDiff = curTotalEnergy - m_totalEnergy;
-
-        double targetKE = curKE - energyDiff;
-
-        if (targetKE > 0) {
-            new KineticEnergyAdjuster().adjust(m_particles, targetKE);
-        }
-    }
-
-    private void capKineticEnergy() {
-        new KineticEnergyCapper(m_particles).cap(StatesOfMatterConstants.PARTICLE_MAX_KE);
-    }
-    
     /**
      * Set the positions of the non-normalized particles based on the positions
      * of the normalized ones.
      */
     private void syncParticlePositions(){
-        // TODO: JPB TBD - This way of un-normalizing needs to be worked out,
-        // and setting it as done below is a temporary thing.
         double positionMultiplier = m_particleDiameter;
         Point2D [] atomPositions = m_moleculeDataSet.getAtomPositions();
         for (int i = 0; i < m_moleculeDataSet.getNumberOfAtoms(); i++){
