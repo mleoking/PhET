@@ -7,7 +7,7 @@
 
 
     <property name="src" location="src"/>
-    <property name="build" location="build"/>
+    <property name="build-output" location="build-output"/>
     <property name="dist" location="dist"/>
     <property name="distjar" location="${dist}/updater.jar"/>
 
@@ -20,14 +20,14 @@
     </target>
 
     <target name="compile" depends="init">
-        <mkdir dir="${build}"/>
-        <javac srcdir="${src}" destdir="${build}" source="1.4" target="1.4" debug="true"
+        <mkdir dir="${build-output}"/>
+        <javac srcdir="${src}" destdir="${build-output}" source="1.4" target="1.4" debug="true"
                debuglevel="lines, vars, source"/>
     </target>
 
     <target name="dist" depends="compile">
         <mkdir dir="${dist}"/>
-        <jar jarfile="${distjar}" basedir="${build}">
+        <jar jarfile="${distjar}" basedir="${build-output}">
             <manifest>
                 <attribute name="Main-Class" value="edu.colorado.phet.updater.UpdaterBootstrap"/>
             </manifest>
@@ -36,12 +36,12 @@
 
     <target name="clean">
         <mkdir dir="${dist}"/>
-        <mkdir dir="${build}"/>
+        <mkdir dir="${build-output}"/>
         <delete>
             <fileset dir="${dist}" includes="**/*"/>
         </delete>
         <delete>
-            <fileset dir="${build}" includes="**/*"/>
+            <fileset dir="${build-output}" includes="**/*"/>
         </delete>
     </target>
 
