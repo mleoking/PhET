@@ -27,6 +27,7 @@ public class BalloonsApplication extends PiccoloPhetApplication {
         public void initialize( JFrame frame ) {
             BalloonsFrame f = (BalloonsFrame) frame;
             frame.setSize( BalloonsSimulationPanel.PANEL_WIDTH, BalloonsSimulationPanel.PANEL_HEIGHT + f.getControlPanelHeight() + 10 );
+            frame.setResizable( false ); // #683
             SwingUtils.centerWindowOnScreen( frame );
         }
     }
