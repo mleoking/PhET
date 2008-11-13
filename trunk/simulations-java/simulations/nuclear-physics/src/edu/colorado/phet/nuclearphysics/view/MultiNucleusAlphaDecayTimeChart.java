@@ -14,6 +14,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -85,6 +86,11 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
 
     // Reference to the model containing the nuclei that are being plotted.
     MultiNucleusAlphaDecayModel _model;
+    
+    // Maps and lists for keeping track of nuclei and corresponding nodes.
+    private HashMap _mapNucleiToNodes = new HashMap();
+    private ArrayList _inactiveNuclei = new ArrayList();
+    private ArrayList _preDecayNuclei = new ArrayList();
 
     // References to the various components of the chart.
     private PPath _borderNode;
@@ -111,9 +117,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     double _usableHeight;
     double _graphOriginX;
     double _graphOriginY;
-
-    // Boolean that tracks whether decay has occurred.
-    boolean _decayHasOccurred = false;
 
     // Factor for converting milliseconds to pixels.
     double _msToPixelsFactor = 1; // Arbitrary init val, updated later.
@@ -149,7 +152,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
 
             public void simulationTimeReset( ClockEvent clockEvent ) {
                 _chartCleared = false;
-                resetTimeLine();
             }
         } );
         
@@ -408,21 +410,9 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
 	}
 
     /**
-     * Reset the time lines back to 0.
-     */
-    private void resetTimeLine() {
-
-        _decayHasOccurred = false;
-        update();
-    }
-
-    /**
      * Reset the chart.
      */
     public void reset() {
-
-        // Clear out the time line.
-        resetTimeLine();
 
         // Clear the flag that holds off updates after the chart is cleared.
         _chartCleared = false;
