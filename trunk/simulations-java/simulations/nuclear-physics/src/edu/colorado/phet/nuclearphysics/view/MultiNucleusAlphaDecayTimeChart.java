@@ -72,16 +72,8 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     private static final Font HALF_LIFE_FONT = new PhetFont( Font.BOLD, 16 );
 
     // Constants that control the location of the origin.
-    private static final double X_ORIGIN_PROPORTION = 0.10;
+    private static final double X_ORIGIN_PROPORTION = 0.30;
     private static final double Y_ORIGIN_PROPORTION = 0.65;
-
-    // Constants that control the marker character.
-    private static final String MARKER_CHAR = "*";
-    private static final Font MARKER_CHAR_FONT = new PhetFont( Font.BOLD, 22 );
-    private static final Color MARKER_COLOR = Color.RED;
-
-    // Max number of decays that we will keep track of.
-    private static final int MAX_DECAYS = 100;
 
     // Tweakable values that can be used to adjust the way the time lines
     // appear on the charts.
@@ -114,9 +106,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     private PText _yAxisLabel1;
     private PText _yAxisLabel2;
     private PText _halfLifeLabel;
-    private PText _markerInLegend;
-    private PText _markerLegendLabel;
-    private PNode _decayMarkerParentNode;
 
     // Parent node that will be non-pickable and will contain all of the
     // non-interactive portions of the chart.
@@ -138,12 +127,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
 
     // Boolean that tracks whether decay has occurred.
     boolean _decayHasOccurred = false;
-
-    // List of decay times for each trial and their markers.
-    double _decayTimes[] = new double[MAX_DECAYS];
-    int    _numDecays    = 0;
-    PText  _markers[]    = new PText[MAX_DECAYS];
-    int    _numMarkers   = 0;
 
     // Factor for converting milliseconds to pixels.
     double _msToPixelsFactor = 1; // Arbitrary init val, updated later.
@@ -194,8 +177,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
             public void atomicWeightChanged( AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
                     ArrayList byProducts ) {
                 if ( byProducts != null ) {
-                    // This is a decay event.
-                    setDecayOccurred();
                 }
             }
         } );
@@ -320,22 +301,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         _halfLifeLabel.setTextPaint( HALF_LIFE_TEXT_COLOR );
         _nonPickableChartNode.addChild( _halfLifeLabel );
 
-        // Create the legend for the decay time markers.
-        _markerInLegend = new PText( MARKER_CHAR );
-        _markerInLegend.setFont( MARKER_CHAR_FONT );
-        _markerInLegend.setTextPaint( MARKER_COLOR );
-
-        _nonPickableChartNode.addChild( _markerInLegend );
-        _markerLegendLabel = new PText( " = " + NuclearPhysicsStrings.DECAY_EVENT );
-        _markerLegendLabel.setFont( LABEL_FONT );
-        _nonPickableChartNode.addChild( _markerLegendLabel );
-
-        // Add the node that will be the parent node of the decay markers.
-        // This is done so that they end up under the button if the decay
-        // occurs when the line is there.
-        _decayMarkerParentNode = new PNode();
-        addChild(_decayMarkerParentNode);
-
         // Add the button for resetting the chart.
         _resetButtonNode = new PhetButtonNode( NuclearPhysicsStrings.DECAY_TIME_CLEAR_CHART );
         _resetButtonNode.setPickable( true );
@@ -423,10 +388,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         _yAxisLabel2.setOffset( yAxisUpperTickMarkLabel.getOffset().getX() - ( 2.0 * _yAxisLabel1.getFont().getSize() ), _graphOriginY );
         _yAxisLabel1.setOffset( _yAxisLabel2.getOffset().getX() - ( 1.1 * _yAxisLabel2.getFont().getSize() ), _graphOriginY );
 
-        // Position the marker legend.
-        _markerInLegend.setOffset( _usableWidth * 0.80, _graphOriginY + ( (PText) _xAxisTickMarkLabels.get( 0 ) ).getHeight() );
-        _markerLegendLabel.setOffset( _markerInLegend.getXOffset() + _markerInLegend.getFullBounds().getWidth(), _markerInLegend.getYOffset() );
-
         // Position the marker for the half life.
         _halfLifeMarkerLine.reset();
         _halfLifeMarkerLine.moveTo( (float) ( _graphOriginX + TIMELINE_START_OFFEST + ( HALF_LIFE * _msToPixelsFactor ) ), (float) _graphOriginY );
@@ -452,13 +413,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
             _preDecayTimeLine.lineTo( (float) _postDecayTimeLineOrigin.getX(), (float) _postDecayTimeLineOrigin.getY() );
             _postDecayTimeLine.moveTo( (float) _postDecayTimeLineOrigin.getX(), (float) _postDecayTimeLineOrigin.getY() );
             _postDecayTimeLine.lineTo( (float) ( _postDecayTimeLineOrigin.getX() + _postDecayTimeLineLength * _msToPixelsFactor ), (float) _postDecayTimeLineOrigin.getY() );
-        }
-
-        // Position the decay markers.
-        for ( int i = 0; i < _numMarkers; i++ ) {
-            double xPos = _graphOriginX + TIMELINE_START_OFFEST + ( _decayTimes[i] * _msToPixelsFactor ) - ( _markers[i].getWidth() / 2 );
-            double yPos = _preDecayTimeLineOrigin.getY();
-            _markers[i].setOffset( xPos, yPos );
         }
 
         // Position the reset button.  Align it to the left side of the decay time label.
@@ -516,8 +470,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     }
 
     /**
-     * Reset the time lines back to 0.  Note that this does NOT reset the 
-     * decay markers.
+     * Reset the time lines back to 0.
      */
     private void resetTimeLine() {
 
@@ -530,12 +483,9 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     }
 
     /**
-     * Reset the chart, which includes erasing all decay markers.
+     * Reset the chart.
      */
     public void reset() {
-
-        // Clear out the decay markers.
-        resetDecayMarkers();
 
         // Clear out the time line.
         resetTimeLine();
@@ -548,77 +498,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     }
 
     private void handleResetChartButtonPressed() {
-        resetDecayMarkers();
-        resetTimeLine();
-        _chartCleared = true;
-    }
-
-    /**
-     * Sets the indication that decay has occurred, which means it will draw a
-     * different line from here on.
-     */
-    private void setDecayOccurred() {
-
-        if ( !_chartCleared ) {
-
-            // Set our flag that tracks whether decay has occurred.
-            _decayHasOccurred = true;
-
-            if ( _clock.getSimulationTime() < TIME_SPAN ) {
-                // Get an accurate value for the decay time, i.e. more
-                // accurate than the resolution of the simulation clock.
-                double decayTime = _nucleus.getDecayTime();
-
-                // Add a marker and record the time when this decay occurred.
-                if ( _numDecays < MAX_DECAYS ) {
-                    addDecayMarker( decayTime );
-                    _decayTimes[_numDecays++] = decayTime;
-                }
-
-                // Start drawing the post-decay line.
-                _postDecayTimeLineOrigin = new Point2D.Double( _preDecayTimeLineOrigin.getX() + _preDecayTimeLineLength * _msToPixelsFactor + 1, _usableAreaOriginY + ( _usableHeight * POST_DECAY_TIME_LINE_POS_FRACTION ) );
-                _preDecayTimeLine.lineTo( (float) _postDecayTimeLineOrigin.getX(), (float) _postDecayTimeLineOrigin.getY() );
-                _postDecayTimeLineLength = 0;
-                _postDecayTimeLine.moveTo( (float) _postDecayTimeLineOrigin.getX(), (float) _postDecayTimeLineOrigin.getY() );
-            }
-        }
-    }
-
-    /**
-     * This method adds a marker to the chart to represent a decay event.
-     * 
-     * @param decayTime - Time at which to place the event.
-     */
-    private void addDecayMarker( double decayTime ) {
-
-        // Create the marker and set the font attributes.
-        PText marker = new PText( MARKER_CHAR );
-        marker.setFont( MARKER_CHAR_FONT );
-        marker.setTextPaint( MARKER_COLOR );
-
-        // Position the marker, accounting for the height and width of the
-        // text within it.
-        double xPos = _graphOriginX + TIMELINE_START_OFFEST + ( decayTime * _msToPixelsFactor ) - ( marker.getWidth() / 2 );
-        double yPos = _preDecayTimeLineOrigin.getY();//_usableAreaOriginY + _usableHeight * 0.70 - marker.getHeight() / 2;
-        marker.setOffset( xPos, yPos );
-
-        // Retain a reference to the marker so we can move it during updates.
-        _markers[_numMarkers++] = marker;
-
-        // Add this node as a child.
-        _decayMarkerParentNode.addChild( marker );
-    }
-
-    /**
-     * Remove the decay markers from the chart.
-     */
-    private void resetDecayMarkers() {
-        // Clear out the markers.
-        for ( int i = 0; i < _numDecays; i++ ) {
-            _decayMarkerParentNode.removeChild( _markers[i] );
-            _markers[i] = null;
-        }
-        _numDecays = 0;
-        _numMarkers = 0;
+    	// TODO: JPB TBD
     }
 }
