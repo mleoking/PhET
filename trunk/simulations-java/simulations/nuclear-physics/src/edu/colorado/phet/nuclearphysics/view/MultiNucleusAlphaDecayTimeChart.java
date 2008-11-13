@@ -20,7 +20,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
-import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.Polonium211CompositeNucleus;
@@ -45,7 +44,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     //------------------------------------------------------------------------
 
     // Total amount of time in milliseconds represented by this chart.
-    private static final double TIME_SPAN = 3100;
+    private static final double TIME_SPAN = 3200;
 
     // Constants for controlling the appearance of the chart.
     private static final Color BORDER_COLOR = Color.DARK_GRAY;
@@ -61,10 +60,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     private static final Font TICK_MARK_LABEL_FONT = new PhetFont( Font.PLAIN, 12 );
     private static final Color TICK_MARK_COLOR = AXES_LINE_COLOR;
     private static final Font LABEL_FONT = new PhetFont( Font.PLAIN, 14 );
-    private static final float TIME_LINE_STROKE_WIDTH = 2f;
-    private static final Stroke TIME_LINE_STROKE = new BasicStroke( TIME_LINE_STROKE_WIDTH );
-    private static final Color TIME_LINE_COLOR_PRE_DECAY = NuclearPhysicsConstants.POLONIUM_LABEL_COLOR;
-    private static final Color TIME_LINE_COLOR_POST_DECAY = NuclearPhysicsConstants.LEAD_LABEL_COLOR;
     private static final float HALF_LIFE_LINE_STROKE_WIDTH = 2.0f;
     private static final Stroke HALF_LIFE_LINE_STROKE = new BasicStroke( HALF_LIFE_LINE_STROKE_WIDTH, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 3.0f, 3.0f }, 0 );
     private static final Color HALF_LIFE_LINE_COLOR = new Color (0x990000);
@@ -93,8 +88,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
 
     // References to the various components of the chart.
     private PPath _borderNode;
-    private PPath _preDecayTimeLine;
-    private PPath _postDecayTimeLine;
     private PPath _halfLifeMarkerLine;
     private ArrowNode _xAxisOfGraph;
     private ArrowNode _yAxisOfGraph;
@@ -118,12 +111,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     double _usableHeight;
     double _graphOriginX;
     double _graphOriginY;
-
-    // Variables that control the origins and lengths of the time lines.
-    Point2D _preDecayTimeLineOrigin;
-    double  _preDecayTimeLineLength;  // In milliseconds
-    Point2D _postDecayTimeLineOrigin;
-    double  _postDecayTimeLineLength; // In milliseconds
 
     // Boolean that tracks whether decay has occurred.
     boolean _decayHasOccurred = false;
@@ -270,24 +257,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         _yAxisLabel2.rotate( 1.5 * Math.PI );
         _nonPickableChartNode.addChild( _yAxisLabel2 );
 
-        // Create the pre-decay time line.
-        _preDecayTimeLine = new PPath();
-        _preDecayTimeLine.setStroke( TIME_LINE_STROKE );
-        _preDecayTimeLine.setStrokePaint( TIME_LINE_COLOR_PRE_DECAY );
-        _preDecayTimeLine.setPaint( BACKGROUND_COLOR );
-        _nonPickableChartNode.addChild( _preDecayTimeLine );
-
-        // Create the post-decay time line.
-        _postDecayTimeLine = new PPath();
-        _postDecayTimeLine.setStroke( TIME_LINE_STROKE );
-        _postDecayTimeLine.setStrokePaint( TIME_LINE_COLOR_POST_DECAY );
-        _postDecayTimeLine.setPaint( BACKGROUND_COLOR );
-        _nonPickableChartNode.addChild( _postDecayTimeLine );
-
-        // Initialize the time line.
-        _preDecayTimeLineOrigin = new Point2D.Double();
-        _preDecayTimeLine.moveTo( 0, 0 );
-
         // Create the line that will illustrate where the half life is.
         _halfLifeMarkerLine = new PPath();
         _halfLifeMarkerLine.setStroke( HALF_LIFE_LINE_STROKE );
@@ -337,8 +306,9 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         _graphOriginX = _usableAreaOriginX + ( X_ORIGIN_PROPORTION * _usableWidth );
         _graphOriginY = _usableAreaOriginY + ( Y_ORIGIN_PROPORTION * _usableHeight );
 
-        // Update the multiplier used for converting from pixels to milliseconds.
-        _msToPixelsFactor = 0.85 * _usableWidth / TIME_SPAN;
+        // Update the multiplier used for converting from pixels to
+        // milliseconds.  Use the multiplier to tweak the span of the x axis.
+        _msToPixelsFactor = 0.65 * _usableWidth / TIME_SPAN;
 
         // Redraw the chart based on these recalculated values.
         update();
@@ -353,8 +323,12 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         _borderNode.setPathTo( new RoundRectangle2D.Double( _usableAreaOriginX, _usableAreaOriginY, _usableWidth, _usableHeight, 20, 20 ) );
 
         // Position the x and y axes.
-        _xAxisOfGraph.setTipAndTailLocations( new Point2D.Double( _graphOriginX + ( TIME_SPAN * _msToPixelsFactor ) + 10, _graphOriginY ), new Point2D.Double( _graphOriginX, _graphOriginY ) );
-        _yAxisOfGraph.setTipAndTailLocations( new Point2D.Double( _graphOriginX, _graphOriginY - _usableHeight * 0.5 ), new Point2D.Double( _graphOriginX, _graphOriginY ) );
+        _xAxisOfGraph.setTipAndTailLocations( 
+        		new Point2D.Double( _graphOriginX + ( TIME_SPAN * _msToPixelsFactor ) + 10, _graphOriginY ), 
+        		new Point2D.Double( _graphOriginX, _graphOriginY ) );
+        _yAxisOfGraph.setTipAndTailLocations( 
+        		new Point2D.Double( _graphOriginX, _graphOriginY - _usableHeight * 0.5 ), 
+        		new Point2D.Double( _graphOriginX, _graphOriginY ) );
 
         // Position the tick marks and their labels on the X axis.
         for ( int i = 0; i < _xAxisTickMarks.size(); i++ ) {
@@ -384,9 +358,12 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         yAxisUpperTickMarkLabel.setOffset( _graphOriginX - ( 1.15 * yAxisUpperTickMarkLabel.getWidth() ), yAxisUpperTickMark.getY() - ( 0.5 * yAxisUpperTickMarkLabel.getHeight() ) );
 
         // Position the labels for the axes.
-        _xAxisLabel.setOffset( _usableAreaOriginX + _usableWidth / 2 - ( _xAxisLabel.getWidth() / 2 ), _graphOriginY + ( (PText) _xAxisTickMarkLabels.get( 0 ) ).getHeight() );
-        _yAxisLabel2.setOffset( yAxisUpperTickMarkLabel.getOffset().getX() - ( 2.0 * _yAxisLabel1.getFont().getSize() ), _graphOriginY );
-        _yAxisLabel1.setOffset( _yAxisLabel2.getOffset().getX() - ( 1.1 * _yAxisLabel2.getFont().getSize() ), _graphOriginY );
+        _xAxisLabel.setOffset( _usableAreaOriginX + _usableWidth - (_xAxisLabel.getWidth() * 1.2),
+        		_graphOriginY + ( (PText) _xAxisTickMarkLabels.get( 0 ) ).getHeight() );
+        _yAxisLabel2.setOffset( yAxisUpperTickMarkLabel.getOffset().getX() - ( 2.0 * _yAxisLabel1.getFont().getSize() ),
+        		_graphOriginY );
+        _yAxisLabel1.setOffset( _yAxisLabel2.getOffset().getX() - ( 1.1 * _yAxisLabel2.getFont().getSize() ),
+        		_graphOriginY );
 
         // Position the marker for the half life.
         _halfLifeMarkerLine.reset();
@@ -397,27 +374,9 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         _halfLifeLabel.setOffset( _halfLifeMarkerLine.getX() - (_halfLifeLabel.getFullBoundsReference().width / 2),
                 _graphOriginY + ( 0.5 * _halfLifeLabel.getFullBoundsReference().height ) );
 
-        // Position the pre-decay time line.
-        _preDecayTimeLine.reset();
-        _preDecayTimeLineOrigin.setLocation( _graphOriginX + TIMELINE_START_OFFEST, _usableAreaOriginY + _usableHeight * 0.33 );
-        _preDecayTimeLine.moveTo( (float) _preDecayTimeLineOrigin.getX(), (float) _preDecayTimeLineOrigin.getY() );
-        if ( _preDecayTimeLineLength > 0 ) {
-            _preDecayTimeLine.lineTo( (float) ( _preDecayTimeLineOrigin.getX() + _preDecayTimeLineLength * _msToPixelsFactor ), (float) _preDecayTimeLineOrigin.getY() );
-        }
-
-        // If decay has already occurred, position the post-decay time line too.
-        if ( ( _decayHasOccurred ) && ( _preDecayTimeLineLength < TIME_SPAN ) ) {
-            _postDecayTimeLine.reset();
-
-            _postDecayTimeLineOrigin.setLocation( _preDecayTimeLineOrigin.getX() + _preDecayTimeLineLength * _msToPixelsFactor + 1, _usableAreaOriginY + ( _usableHeight * POST_DECAY_TIME_LINE_POS_FRACTION ) );
-            _preDecayTimeLine.lineTo( (float) _postDecayTimeLineOrigin.getX(), (float) _postDecayTimeLineOrigin.getY() );
-            _postDecayTimeLine.moveTo( (float) _postDecayTimeLineOrigin.getX(), (float) _postDecayTimeLineOrigin.getY() );
-            _postDecayTimeLine.lineTo( (float) ( _postDecayTimeLineOrigin.getX() + _postDecayTimeLineLength * _msToPixelsFactor ), (float) _postDecayTimeLineOrigin.getY() );
-        }
-
         // Position the reset button.  Align it to the left side of the decay time label.
-        double xPosButton = 0;
-        _resetButtonNode.setOffset( xPosButton, _usableAreaOriginY);
+        _resetButtonNode.setOffset( _usableAreaOriginX + 10, 
+        		_usableAreaOriginY + _usableHeight - _resetButtonNode.getFullBoundsReference().height - 10);
     }
 
     /**
@@ -438,35 +397,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
      */
     private void handleClockTick( ClockEvent clockEvent ) {
 
-        if ( !_chartCleared ) {
-
-            if ( !_decayHasOccurred ) {
-
-                // Extend the pre-decay time line, but not if we are
-                // heading off the chart.
-                if ( ( _preDecayTimeLineLength < TIME_SPAN ) && ( !_chartCleared ) ) {
-
-                    // Update the length of the time line.
-                    _preDecayTimeLineLength += clockEvent.getSimulationTimeChange();
-
-                    // Extend the line itself.
-                    _preDecayTimeLine.lineTo( (float) ( _preDecayTimeLineOrigin.getX() + _preDecayTimeLineLength * _msToPixelsFactor ), (float) _preDecayTimeLineOrigin.getY() );
-                }
-            }
-            else {
-
-                // Extend the post-decay time line, but not if we are
-                // heading off the chart.
-                if ( _postDecayTimeLineLength + _preDecayTimeLineLength < TIME_SPAN ) {
-
-                    // Update the length of the time line.
-                    _postDecayTimeLineLength += clockEvent.getSimulationTimeChange();
-
-                    // Extend the line itself.
-                    _postDecayTimeLine.lineTo( (float) ( _postDecayTimeLineOrigin.getX() + _postDecayTimeLineLength * _msToPixelsFactor ), (float) _postDecayTimeLineOrigin.getY() );
-                }
-            }
-        }
+    	// TODO: JPB TBD
     }
 
     /**
@@ -475,10 +406,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     private void resetTimeLine() {
 
         _decayHasOccurred = false;
-        _preDecayTimeLineLength = 0;
-        _preDecayTimeLine.reset();
-        _postDecayTimeLineLength = 0;
-        _postDecayTimeLine.reset();
         update();
     }
 
