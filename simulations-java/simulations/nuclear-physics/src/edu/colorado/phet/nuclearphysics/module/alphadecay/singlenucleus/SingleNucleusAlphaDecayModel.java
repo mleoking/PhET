@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.nuclearphysics.model.AlphaDecayListener;
+import edu.colorado.phet.nuclearphysics.model.AlphaDecayModelListener;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsClock;
@@ -137,7 +137,7 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
      * 
      * @param listener
      */
-    public void addListener(AlphaDecayListener listener)
+    public void addListener(AlphaDecayModelListener listener)
     {
         assert !_listeners.contains( listener );
         

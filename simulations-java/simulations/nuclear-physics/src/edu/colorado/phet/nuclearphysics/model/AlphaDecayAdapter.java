@@ -5,7 +5,7 @@ package edu.colorado.phet.nuclearphysics.model;
  * 
  * @author John Blanco
  */
-public class AlphaDecayAdapter implements AlphaDecayListener {
+public class AlphaDecayAdapter implements AlphaDecayModelListener {
     public void modelElementAdded(Object modelElement){}
     public void modelElementRemoved(Object modelElement){}
     public void nucleusTypeChanged(){}

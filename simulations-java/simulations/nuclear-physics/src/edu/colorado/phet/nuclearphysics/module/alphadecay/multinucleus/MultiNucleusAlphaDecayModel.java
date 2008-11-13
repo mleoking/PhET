@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeNucleus;
-import edu.colorado.phet.nuclearphysics.model.AlphaDecayListener;
+import edu.colorado.phet.nuclearphysics.model.AlphaDecayModelListener;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsClock;
@@ -152,7 +152,7 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
      * 
      * @param listener
      */
-    public void addListener(AlphaDecayListener listener)
+    public void addListener(AlphaDecayModelListener listener)
     {
         if ( !_listeners.contains( listener )){
             _listeners.add( listener );
@@ -244,7 +244,7 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
      */
     private void notifyModelElementRemoved(Object removedElement){
         for (int i = 0; i < _listeners.size(); i++){
-            ((AlphaDecayListener)_listeners.get(i)).modelElementRemoved( removedElement );
+            ((AlphaDecayModelListener)_listeners.get(i)).modelElementRemoved( removedElement );
         }
     }
     
@@ -254,7 +254,7 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
      */
     private void notifyModelElementAdded(Object addedElement){
         for (int i = 0; i < _listeners.size(); i++){
-            ((AlphaDecayListener)_listeners.get(i)).modelElementAdded( addedElement );
+            ((AlphaDecayModelListener)_listeners.get(i)).modelElementAdded( addedElement );
         }
     }
 
@@ -264,7 +264,7 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
      */
     private void notifyNucleusTypeChanged(){
         for (int i = 0; i < _listeners.size(); i++){
-            ((AlphaDecayListener)_listeners.get(i)).nucleusTypeChanged();
+            ((AlphaDecayModelListener)_listeners.get(i)).nucleusTypeChanged();
         }
     }
 }

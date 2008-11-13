@@ -2,9 +2,9 @@ package edu.colorado.phet.nuclearphysics.model;
 
 /**
  * This listener interface allows listeners to get notifications for various
- * events that could come from a model the is simulating alpha decay.
+ * events that could come from a model that is simulating alpha decay.
  */
-public interface AlphaDecayListener {
+public interface AlphaDecayModelListener {
 	
     /**
      * This informs the listener that some new element has been added
@@ -22,7 +22,8 @@ public interface AlphaDecayListener {
     public void modelElementRemoved(Object modelElement);
 
     /**
-     * This informs the listener that the nucleus type has changed.
+     * This informs the listener that the nucleus type that is being simulated
+     * has changed.
      * 
      * @param modelElement - Element that was removed from the model.
      */

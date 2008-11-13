@@ -1,6 +1,6 @@
 package edu.colorado.phet.nuclearphysics.module.alphadecay;
 
-import edu.colorado.phet.nuclearphysics.model.AlphaDecayListener;
+import edu.colorado.phet.nuclearphysics.model.AlphaDecayModelListener;
 
 /**
  * This interface is used, generally by a control panel, to set the type of
@@ -43,5 +43,5 @@ public interface AlphaDecayNucleusTypeControl {
 	 * Register to be informed of changes to the nucleus type (as well as
 	 * other nucleus events).
 	 */
-	public void addListener(AlphaDecayListener listener);
+	public void addListener(AlphaDecayModelListener listener);
 }
