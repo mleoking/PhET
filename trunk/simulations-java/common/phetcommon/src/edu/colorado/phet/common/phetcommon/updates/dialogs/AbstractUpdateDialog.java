@@ -84,6 +84,7 @@ public abstract class AbstractUpdateDialog extends JDialog {
         layout.addComponent( Box.createVerticalStrut( 5 ), row++, col );
         layout.addComponent( tryItLink, row++, col );
         if ( additionlMessageComponent != null ) {
+            layout.addComponent( Box.createVerticalStrut( 5 ), row++, col );
             layout.addComponent( additionlMessageComponent, row++, col );
         }
 
