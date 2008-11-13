@@ -24,7 +24,7 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
-import edu.colorado.phet.nuclearphysics.model.DecayControl;
+import edu.colorado.phet.nuclearphysics.model.AlphaDecayControl;
 import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.singlenucleus.SingleNucleusAlphaDecayModel;
 import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
@@ -334,8 +334,8 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
             AtomicNucleus nucleus = (AtomicNucleus)entry.getKey();
             nucleus.reset();
             if (!_bucketNode.isNodeInBucket((AtomicNucleusNode)_mapNucleiToNodes.get(nucleus))){
-            	if (nucleus instanceof DecayControl){
-            		((DecayControl) nucleus).activateDecay();
+            	if (nucleus instanceof AlphaDecayControl){
+            		((AlphaDecayControl) nucleus).activateDecay();
             	}
             }
         }
@@ -396,9 +396,9 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
 
     	// JPB TBD - Need to handle case where nucleus is added back to bucket.
     	AtomicNucleus nucleus = releasedNode.getNucleusRef();
-    	if (nucleus instanceof DecayControl){
+    	if (nucleus instanceof AlphaDecayControl){
     		// Cause this node to start moving towards fissioning.
-    		((DecayControl)nucleus).activateDecay();
+    		((AlphaDecayControl)nucleus).activateDecay();
     	}
     }
     
@@ -492,8 +492,8 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     			
     			// Activate the nucleus so that it will decay.
     			AtomicNucleus nucleus = nucleusNode.getNucleusRef();
-    			if (nucleus instanceof DecayControl){
-    				((DecayControl)nucleus).activateDecay();
+    			if (nucleus instanceof AlphaDecayControl){
+    				((AlphaDecayControl)nucleus).activateDecay();
     			}
     		}
     	}
