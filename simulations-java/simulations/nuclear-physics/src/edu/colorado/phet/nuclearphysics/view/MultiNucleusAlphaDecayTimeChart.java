@@ -15,6 +15,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -393,14 +394,22 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     }
 
     /**
-     * Move the appropriate time line forward on the chart and make other
-     * time-driven updates to the chart.
+     * Update the chart by moving the active nuclei or any other time-
+     * dependent visual representation.
      * 
      * @param clockEvent
      */
     private void handleClockTick( ClockEvent clockEvent ) {
-
-    	// TODO: JPB TBD
+    	
+    	// See if any of the inactive nuclei have become active.
+        for (Iterator it = _inactiveNuclei.iterator (); it.hasNext (); ) {
+            AlphaDecayControl nucleus = (AlphaDecayControl)it.next();
+            if (nucleus.isDecayActive()){
+            	// This nucleus is active - transfer it to the appropriate list.
+            	_preDecayNuclei.add(nucleus);
+            	it.remove();
+            }
+        }
     }
 
     private void handleModelElementAdded(Object modelElement) {
