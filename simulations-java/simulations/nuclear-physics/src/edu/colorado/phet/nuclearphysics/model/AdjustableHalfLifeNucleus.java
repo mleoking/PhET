@@ -16,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
  *
  * @author John Blanco
  */
-public class AdjustableHalfLifeNucleus extends AtomicNucleus implements DecayControl {
+public class AdjustableHalfLifeNucleus extends AtomicNucleus implements AlphaDecayControl {
     
     //------------------------------------------------------------------------
     // Class Data
@@ -108,6 +108,18 @@ public class AdjustableHalfLifeNucleus extends AtomicNucleus implements DecayCon
     	// Only allow activation if the nucleus hasn't already decayed.
     	if (_numNeutrons == ORIGINAL_NUM_NEUTRONS){
     		_decayTime = _clock.getSimulationTime() + calcDecayTime();
+    	}
+    }
+    
+    /**
+     * Return true if decay is currently active and false if not.
+     */
+    public boolean isDecayActive(){
+    	if (_numNeutrons == ORIGINAL_NUM_NEUTRONS && _decayTime != 0){
+    		return true;
+    	}
+    	else{
+    		return false;
     	}
     }
     

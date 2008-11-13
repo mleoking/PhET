@@ -21,7 +21,7 @@ import edu.colorado.phet.nuclearphysics.view.LabeledNucleusNode;
  *
  * @author John Blanco
  */
-public class Polonium211Nucleus extends AtomicNucleus implements DecayControl {
+public class Polonium211Nucleus extends AtomicNucleus implements AlphaDecayControl {
     
     //------------------------------------------------------------------------
     // Class Data
@@ -96,6 +96,18 @@ public class Polonium211Nucleus extends AtomicNucleus implements DecayControl {
     	// Only allow activation if the nucleus hasn't already decayed.
     	if (_numNeutrons == ORIGINAL_NUM_NEUTRONS){
     		_decayTime = _clock.getSimulationTime() + calcPolonium211DecayTime();
+    	}
+    }
+    
+    /**
+     * Return true if decay is currently active and false if not.
+     */
+    public boolean isDecayActive(){
+    	if (_numNeutrons == ORIGINAL_NUM_NEUTRONS && _decayTime != 0){
+    		return true;
+    	}
+    	else{
+    		return false;
     	}
     }
     
