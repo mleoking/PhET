@@ -21,8 +21,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
-import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
-import edu.colorado.phet.nuclearphysics.model.Polonium211CompositeNucleus;
+import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
+import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusAlphaDecayModel;
 import edu.colorado.phet.nuclearphysics.util.PhetButtonNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -83,8 +83,8 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     // Instance Data
     //------------------------------------------------------------------------
 
-    // Reference to the nucleus whose decay is being charted.
-    Polonium211CompositeNucleus _nucleus;
+    // Reference to the model containing the nuclei that are being plotted.
+    MultiNucleusAlphaDecayModel _model;
 
     // References to the various components of the chart.
     private PPath _borderNode;
@@ -131,10 +131,10 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     // Constructor
     //------------------------------------------------------------------------
 
-    public MultiNucleusAlphaDecayTimeChart( ConstantDtClock clock, Polonium211CompositeNucleus nucleus ) {
+    public MultiNucleusAlphaDecayTimeChart( MultiNucleusAlphaDecayModel model ) {
 
-        _clock = clock;
-        _nucleus = nucleus;
+        _clock = model.getClock();
+        _model = model;
 
         // Register as a clock listener.
         _clock.addClockListener( new ClockAdapter() {
@@ -152,21 +152,20 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
                 resetTimeLine();
             }
         } );
+        
+        // Listen to the model for notifications of model elements coming and
+        // going.
+        // Register with the model for notifications of nuclei and alpha
+        // particles coming and going.
+        _model.addListener( new AlphaDecayAdapter(){
+            public void modelElementAdded(Object modelElement){
+            	handleModelElementAdded(modelElement);
+            };
 
-        // Register as a listener for the nucleus so that we can be informed
-        // when it decays.
-        _nucleus.addListener( new AtomicNucleus.Listener() {
-
-            public void positionChanged() {
-            // Do nothing, since we don't care about this.
-            }
-
-            public void atomicWeightChanged( AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
-                    ArrayList byProducts ) {
-                if ( byProducts != null ) {
-                }
-            }
-        } );
+            public void modelElementRemoved(Object modelElement){
+            	handleModelElementRemoved(modelElement);
+            };
+        });
 
         // Set up the parent node that will contain the non-interactive
         // portions of the chart.
@@ -284,7 +283,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         } );
     }
 
-    //------------------------------------------------------------------------
+	//------------------------------------------------------------------------
     // Methods
     //------------------------------------------------------------------------
 
@@ -399,6 +398,14 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
 
     	// TODO: JPB TBD
     }
+
+    private void handleModelElementAdded(Object modelElement) {
+		// TODO Auto-generated method stub
+	}
+
+    private void handleModelElementRemoved(Object modelElement) {
+		// TODO Auto-generated method stub
+	}
 
     /**
      * Reset the time lines back to 0.
