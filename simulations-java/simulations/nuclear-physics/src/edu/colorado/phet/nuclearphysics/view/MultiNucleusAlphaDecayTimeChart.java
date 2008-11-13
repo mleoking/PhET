@@ -23,6 +23,8 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
+import edu.colorado.phet.nuclearphysics.model.AlphaDecayControl;
+import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusAlphaDecayModel;
 import edu.colorado.phet.nuclearphysics.util.PhetButtonNode;
 import edu.umd.cs.piccolo.PNode;
@@ -402,7 +404,17 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     }
 
     private void handleModelElementAdded(Object modelElement) {
-		// TODO Auto-generated method stub
+    	
+    	if (modelElement instanceof AtomicNucleus){
+    		// At least for now, it is expected that all nuclei added to this
+    		// chart are alpha decayers that are not moving towards decay yet.
+    		assert (modelElement instanceof AlphaDecayControl);
+    		assert (((AlphaDecayControl)modelElement).isDecayActive() == false);
+    		
+    		// Add the nuclei to the appropriate internal data structures.
+    		_mapNucleiToNodes.put(modelElement, null);
+    		_inactiveNuclei.add(modelElement);
+    	}
 	}
 
     private void handleModelElementRemoved(Object modelElement) {
