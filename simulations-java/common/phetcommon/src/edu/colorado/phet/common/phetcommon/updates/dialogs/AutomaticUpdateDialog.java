@@ -26,7 +26,7 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
     private static final String TITLE = PhetCommonResources.getString( "Common.updates.updateAvailable" );
     private static final String ASK_ME_LATER_BUTTON = PhetCommonResources.getString( "Common.updates.askMeLater" );
     private static final String SKIP_UPDATE_BUTTON = PhetCommonResources.getString( "Common.updates.skipThisUpdate" );
-    private static final String ADVANCED_LINK = PhetCommonResources.getString( "Common.updates.advanced" );
+    private static final String PREFEENCES_MESSAGE = PhetCommonResources.getString( "Common.updates.seePreferences" );
 
     private final Frame owner;
     private final ITrackingInfo trackingInfo;
@@ -80,19 +80,9 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
     }
     
     protected JComponent createAdditionalMessageComponent() {
-        // Advanced link, opens the Preferences dialog
-        String advancedHTML = "<html><font size=\"2\"><u>" + ADVANCED_LINK + "</u></font></html>";
-        JLabel advancedLink = new JLabel( advancedHTML );
-        advancedLink.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
-        advancedLink.addMouseListener( new MouseAdapter() {
-            public void mousePressed( MouseEvent e ) {
-                TrackingManager.postActionPerformedMessage( TrackingMessage.UPDATES_ADVANCED_PRESSED );
-                dispose();
-                new PreferencesDialog( owner, trackingInfo, manualUpdateChecker, new DefaultUpdatePreferences(), new DefaultTrackingPreferences() ).setVisible( true );
-            }
-        } );
-        advancedLink.setForeground( Color.blue );
-        return advancedLink;
+        // message about how to access the Preferences dialog
+        String preferencesHTML = "<html><font size=\"2\">" + PREFEENCES_MESSAGE + "</font></html>";
+        return new JLabel( preferencesHTML );
     }
 
 }
