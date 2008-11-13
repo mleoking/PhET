@@ -26,15 +26,12 @@ import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.DecayControl;
 import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsClock;
-import edu.colorado.phet.nuclearphysics.model.Polonium211Nucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.singlenucleus.SingleNucleusAlphaDecayModel;
-import edu.colorado.phet.nuclearphysics.view.AlphaDecayTimeChart;
 import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
 import edu.colorado.phet.nuclearphysics.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.view.BucketOfNucleiNode;
 import edu.colorado.phet.nuclearphysics.view.GrabbableNucleusImageNode;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PBounds;
+import edu.colorado.phet.nuclearphysics.view.MultiNucleusAlphaDecayTimeChart;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -76,7 +73,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private AlphaDecayTimeChart _alphaDecayTimeChart;
+    private MultiNucleusAlphaDecayTimeChart _decayTimeChart;
     private GradientButtonNode _resetButtonNode;
     private GradientButtonNode _addTenButtonNode;
     private MultiNucleusAlphaDecayModel _model;
@@ -141,9 +138,9 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
         // TODO: JPB TBD - Temp workaround in place to keep chart visible while new model is developed.
         // Clean up when model is ready.
         SingleNucleusAlphaDecayModel singleNucleusAlphaDecayModel = new SingleNucleusAlphaDecayModel(new NuclearPhysicsClock(24, 10));
-        _alphaDecayTimeChart = new AlphaDecayTimeChart(singleNucleusAlphaDecayModel.getClock(), 
+        _decayTimeChart = new MultiNucleusAlphaDecayTimeChart(singleNucleusAlphaDecayModel.getClock(), 
         		singleNucleusAlphaDecayModel.getAtomNucleus());
-        addScreenChild( _alphaDecayTimeChart );
+        addScreenChild( _decayTimeChart );
         
         // Create and add the node the represents the bucket from which nuclei
         // can be extracted and added to the play area.
@@ -202,11 +199,11 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
 		super.update();
 		
 		// Redraw the time chart.
-        _alphaDecayTimeChart.componentResized( new Rectangle2D.Double( 0, 0, getWidth(),
+        _decayTimeChart.componentResized( new Rectangle2D.Double( 0, 0, getWidth(),
                 getHeight() * TIME_CHART_FRACTION));
         
         // Position the time chart.
-        _alphaDecayTimeChart.setOffset( 0, 0 );
+        _decayTimeChart.setOffset( 0, 0 );
         
         // Position the reset button.
         _resetButtonNode.setOffset( (0.82 * getWidth()) - (_resetButtonNode.getFullBoundsReference().width / 2),
@@ -214,8 +211,8 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
         
         // Update the rectangle that defines the outer boundary where
         // randomly placed nuclei can be put.
-        Dimension2D chartSize = new PDimension(_alphaDecayTimeChart.getFullBoundsReference().width,
-        		_alphaDecayTimeChart.getFullBoundsReference().height);
+        Dimension2D chartSize = new PDimension(_decayTimeChart.getFullBoundsReference().width,
+        		_decayTimeChart.getFullBoundsReference().height);
         getPhetRootNode().screenToWorld(chartSize);
         
         Dimension2D worldSize = getWorldSize();
@@ -351,7 +348,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
      * Sets the view back to the original state when sim was first started.
      */
     public void reset(){
-        _alphaDecayTimeChart.reset();
+        _decayTimeChart.reset();
     }
     
     /**
