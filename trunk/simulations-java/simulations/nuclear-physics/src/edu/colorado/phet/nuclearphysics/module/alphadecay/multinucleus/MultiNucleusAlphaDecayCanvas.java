@@ -112,7 +112,8 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
         // Set the background color.
         setBackground( NuclearPhysicsConstants.CANVAS_BACKGROUND );
         
-        // Register with the model for notifications of nuclei coming and going.
+        // Register with the model for notifications of nuclei and alpha
+        // particles coming and going.
         _model.addListener( new AlphaDecayAdapter(){
             public void modelElementAdded(Object modelElement){
             	handleModelElementAdded(modelElement);
@@ -135,11 +136,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
         });
 
         // Add the chart that shows the decay time.
-        // TODO: JPB TBD - Temp workaround in place to keep chart visible while new model is developed.
-        // Clean up when model is ready.
-        SingleNucleusAlphaDecayModel singleNucleusAlphaDecayModel = new SingleNucleusAlphaDecayModel(new NuclearPhysicsClock(24, 10));
-        _decayTimeChart = new MultiNucleusAlphaDecayTimeChart(singleNucleusAlphaDecayModel.getClock(), 
-        		singleNucleusAlphaDecayModel.getAtomNucleus());
+        _decayTimeChart = new MultiNucleusAlphaDecayTimeChart(_model);
         addScreenChild( _decayTimeChart );
         
         // Create and add the node the represents the bucket from which nuclei
