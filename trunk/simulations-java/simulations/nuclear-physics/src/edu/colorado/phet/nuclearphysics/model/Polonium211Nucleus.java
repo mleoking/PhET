@@ -116,8 +116,20 @@ public class Polonium211Nucleus extends AtomicNucleus implements AlphaDecayContr
      * Returns a value indicating how long the nucleus has been active without
      * having decayed.
      */
-    public double getActivatedLifetime(){
+    public double getActivatedTime(){
     	return _activatedLifetime;
+    }
+    
+    /**
+     * Return a value indicating whether or not the nucleus has decayed.
+     */
+    public boolean hasDecayed(){
+    	if (_numProtons < ORIGINAL_NUM_PROTONS){
+    		return true;
+    	}
+    	else{
+    		return false;
+    	}
     }
     
     //------------------------------------------------------------------------
@@ -145,12 +157,12 @@ public class Polonium211Nucleus extends AtomicNucleus implements AlphaDecayContr
 	            // Send out the decay event to all listeners.
 	            notifyAtomicWeightChanged(byProducts);
 	            
+	            // Set the final value for the activation time.
+	            _activatedLifetime += clockEvent.getSimulationTimeChange();
+	            
 	            // Set the decay time to 0 to indicate that decay has occurred and
 	            // should not occur again.
 	            _decayTime = 0;
-	            
-	            // Set the final value for the activation time.
-	            _activatedLifetime = _decayTime;
 	        }
 	        else{
 	        	// Not decaying yet, so updated the activated lifetime.

@@ -129,8 +129,20 @@ public class AdjustableHalfLifeNucleus extends AtomicNucleus implements AlphaDec
      * Returns a value indicating how long the nucleus has been active without
      * having decayed.
      */
-    public double getActivatedLifetime(){
+    public double getActivatedTime(){
     	return _activatedLifetime;
+    }
+    
+    /**
+     * Return a value indicating whether or not the nucleus has decayed.
+     */
+    public boolean hasDecayed(){
+    	if (_numProtons < ORIGINAL_NUM_PROTONS){
+    		return true;
+    	}
+    	else{
+    		return false;
+    	}
     }
     
     //------------------------------------------------------------------------
@@ -145,21 +157,31 @@ public class AdjustableHalfLifeNucleus extends AtomicNucleus implements AlphaDec
     {
         super.handleClockTicked( clockEvent );
         
-        // See if alpha decay should occur.
-        if ((_decayTime != 0) && (clockEvent.getSimulationTime() >= _decayTime ))
-        {
-            // Cause alpha decay by generating an alpha particle and reducing our atomic weight.
-            ArrayList byProducts = new ArrayList();
-            byProducts.add( new AlphaParticle(_position.getX(), _position.getY()));
-            _numNeutrons -= 2;
-            _numProtons -= 2;
-
-            // Send out the decay event to all listeners.
-            notifyAtomicWeightChanged(byProducts);
-            
-            // Set the decay time to 0 to indicate that decay has occurred and
-            // should not occur again.
-            _decayTime = 0;
+        // See if this nucleus is active, i.e. moving towards decay.
+        if (_decayTime != 0){
+         
+        	// See if alpha decay should occur.
+	        if (clockEvent.getSimulationTime() >= _decayTime ) {
+	            // Cause alpha decay by generating an alpha particle and reducing our atomic weight.
+	            ArrayList byProducts = new ArrayList();
+	            byProducts.add( new AlphaParticle(_position.getX(), _position.getY()));
+	            _numNeutrons -= 2;
+	            _numProtons -= 2;
+	
+	            // Set the final value for the activation time.
+	            _activatedLifetime += clockEvent.getSimulationTimeChange();
+	            
+	            // Send out the decay event to all listeners.
+	            notifyAtomicWeightChanged(byProducts);
+	            
+	            // Set the decay time to 0 to indicate that decay has occurred and
+	            // should not occur again.
+	            _decayTime = 0;
+	        }
+	        else{
+	        	// Not decaying yet, so updated the activated lifetime.
+	        	_activatedLifetime += clockEvent.getSimulationTimeChange();
+	        }
         }
     }
     

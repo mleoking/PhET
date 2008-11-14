@@ -441,8 +441,9 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
             	positionNucleusOnChart(nucleus);
             }
             else{
-            	// The nucleus must have decayed.
-            	System.err.println("Nucleus decayed, but code doesn't exist to handle this yet!!!");
+            	// The nucleus must have decayed.  Position it, then remove it
+            	// from the list of active nuclei.
+            	positionNucleusOnChart(nucleus);
             	it.remove();
             }
         }
@@ -519,14 +520,23 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     private void positionNucleusOnChart(AlphaDecayControl nucleus){
     	
     	PNode nucleusNode = (PNode)_mapNucleiToNodes.get(nucleus);
+    	double xAxisPos, yAxisPos;
+    	
     	if (nucleusNode == null){
     		System.err.println("Error: Could not locate node for specified nucleus.");
     		assert false;  // This should never happen, and if it does it should be debugged.
     	}
     	
-    	double xAxisPos = _graphOriginX + (nucleus.getActivatedLifetime() + TIME_ZERO_OFFSET) * _msToPixelsFactor 
-    	        - _nucleusNodeRadius;
-    	double yAxisPos = _usableAreaOriginY + ( _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION ) 
+    	if (nucleus.hasDecayed()){
+    		// The nucleus has decayed, so position it on the lower line.
+        	yAxisPos = _usableAreaOriginY + ( _usableHeight * POST_DECAY_TIME_LINE_POS_FRACTION ) - _nucleusNodeRadius;
+    	}
+    	else{
+    		// The nucleus has not yet decayed, so position it on the upper line.
+        	yAxisPos = _usableAreaOriginY + ( _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION ) - _nucleusNodeRadius;
+    	}
+    	
+    	xAxisPos = _graphOriginX + (nucleus.getActivatedTime() + TIME_ZERO_OFFSET) * _msToPixelsFactor 
     	        - _nucleusNodeRadius;
     	nucleusNode.setOffset(xAxisPos, yAxisPos);
     }
