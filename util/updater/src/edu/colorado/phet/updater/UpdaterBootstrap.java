@@ -18,6 +18,12 @@ public class UpdaterBootstrap {
     public UpdaterBootstrap( File src, File dst ) {
         this.src = src;
         this.dst = dst;
+        File thisJar = FileUtils.getCodeSource();
+        // When running in IDEs (Eclipse, IDEA,...) we aren't running a JAR.
+        if ( FileUtils.hasSuffix( thisJar, "jar" ) ) {
+            System.out.println( "thisJar=" + thisJar.getAbsolutePath() );//XXX
+            thisJar.deleteOnExit();
+        }
     }
 
     private void replaceAndLaunch() throws IOException {
