@@ -22,8 +22,13 @@ public class SimUpdater {
     // do not enabled debug output for public releases, the log file will grow indefinitely!
     private static final boolean DEBUG_OUTPUT_ENABLED = true;
 
+    // updater basename
+    private static final String UPDATER_BASENAME = "phet-updater";
+    
+    private static final String UPDATER_JAR = UPDATER_BASENAME + ".jar";
+    
     // where the updater lives on the PhET site
-    private static final String UPDATER_ADDRESS = "http://phet.colorado.edu/phet-dist/updater/phet-updater.jar";
+    private static final String UPDATER_ADDRESS = "http://phet.colorado.edu/phet-dist/updater/" + UPDATER_JAR;
     
     /**
      * Updates the sim that this is called from.
@@ -98,9 +103,9 @@ public class SimUpdater {
      * If that's not possible, download to a uniquely named file.
      */
     private File downloadUpdaterJAR() throws IOException {
-        File updaterJAR = new File( System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.separator" ) + "updater.jar" );
+        File updaterJAR = new File( System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.separator" ) + UPDATER_JAR );
         if ( updaterJAR.exists() && !updaterJAR.canWrite() ) {
-            updaterJAR = File.createTempFile( "phet-updater", ".jar" );
+            updaterJAR = File.createTempFile( UPDATER_BASENAME, ".jar" );
         }
         println( "Downloading updater to " + updaterJAR.getAbsolutePath() );
         NetworkUtils.download( UPDATER_ADDRESS, updaterJAR );
