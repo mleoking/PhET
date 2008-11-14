@@ -24,6 +24,7 @@ import edu.colorado.phet.balloons.common.phys2d.Repaint;
 import edu.colorado.phet.balloons.common.phys2d.System2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.HelpPanel;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 
@@ -179,7 +180,7 @@ public class BalloonsSimulationPanel extends JPanel {
         buttonPanel.add( showNoCharges );
         buttonPanel.add( showDiff );
         buttonPanel.setBorder( createSmoothBorder( BalloonsResources.getString( "BalloonApplet.ChargeDisplay" ) ) );
-        JButton resetBtn = new JButton( BalloonsResources.getString( "BalloonApplet.Reset" ) );
+        JButton resetBtn = new JButton( PhetCommonResources.getString( PhetCommonResources.STRING_RESET_ALL ) );
         controlPanel.add( resetBtn );
         controlPanel.add( buttonPanel );
 
