@@ -29,11 +29,13 @@ public interface AlphaDecayControl {
 	
 	/**
 	 * Obtain a value indicating the amount of time that has occurred since
-	 * this nucleus was activated.  If the nucleus is not activated or has
-	 * decayed, zero is returned.
+	 * this nucleus was activated.  If the nucleus has already decayed, the
+	 * value returned should equal the amount of simulation time that it took
+	 * for it to decay.  If the nucleus has not been activated, the value
+	 * returned should be zero.
 	 * 
 	 * @return - time, in milliseconds of simulation time, since the nucleus
-	 * was activated.
+	 * was activated prior to decay.
 	 */
 	public double getActivatedLifetime();
 }
