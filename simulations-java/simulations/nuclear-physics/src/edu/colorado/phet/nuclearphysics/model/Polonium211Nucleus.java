@@ -38,8 +38,9 @@ public class Polonium211Nucleus extends AtomicNucleus implements AlphaDecayContr
     // Instance Data
     //------------------------------------------------------------------------
 
-    // Time at which fission will occur.
-    private double _decayTime = 0;
+
+    private double _decayTime = 0;      // Time at which fission will occur.
+    private double _activationTime = 0; // Time at which nucleus was activated.
 
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -96,6 +97,7 @@ public class Polonium211Nucleus extends AtomicNucleus implements AlphaDecayContr
     	// Only allow activation if the nucleus hasn't already decayed.
     	if (_numNeutrons == ORIGINAL_NUM_NEUTRONS){
     		_decayTime = _clock.getSimulationTime() + calcPolonium211DecayTime();
+    		_activationTime = _clock.getSimulationTime();
     	}
     }
     
@@ -108,6 +110,19 @@ public class Polonium211Nucleus extends AtomicNucleus implements AlphaDecayContr
     	}
     	else{
     		return false;
+    	}
+    }
+    
+    /**
+     * Returns a value indicating how long the nucleus has been active without
+     * having decayed.
+     */
+    public double getActivatedLifetime(){
+    	if (isDecayActive()){
+    		return _clock.getSimulationTime() - _activationTime;
+    	}
+    	else{
+    		return 0;
     	}
     }
     

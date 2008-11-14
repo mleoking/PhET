@@ -76,11 +76,11 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     private static final double X_ORIGIN_PROPORTION = 0.30;
     private static final double Y_ORIGIN_PROPORTION = 0.65;
 
-    // Tweakable values that can be used to adjust the way the time lines
-    // appear on the charts.
+    // Tweakable values that can be used to adjust where the nuclei appear on
+    // the chart.
     private static final double PRE_DECAY_TIME_LINE_POS_FRACTION = 0.33;
     private static final double POST_DECAY_TIME_LINE_POS_FRACTION = 0.55;
-    private static final double TIMELINE_START_OFFEST = TICK_MARK_LENGTH * 4;
+    private static final double TIME_ZERO_OFFSET = 100; // In milliseconds
 
     // Half life of the nucleus we are displaying.
     private static final double HALF_LIFE = 516; // In milliseconds.
@@ -125,11 +125,13 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     double _usableHeight;
     double _graphOriginX;
     double _graphOriginY;
+    double _nucleusNodeRadius;
 
     // Factor for converting milliseconds to pixels.
     double _msToPixelsFactor = 1; // Arbitrary init val, updated later.
 
-    // Clock that we listen to for moving the time line and performing resets.
+    // Clock that we listen to for moving the nuclei and performing resets.
+    // TODO: JPB TBD - Do we really listen to this for resets?  Update comment if not.
     ConstantDtClock _clock;
 
     // Flag for tracking if chart is cleared.
@@ -318,6 +320,10 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         // Update the multiplier used for converting from pixels to
         // milliseconds.  Use the multiplier to tweak the span of the x axis.
         _msToPixelsFactor = 0.65 * _usableWidth / TIME_SPAN;
+        
+        // Update the radius value used to position nucleus nodes so that they
+        // are centered at the desired location.
+        _nucleusNodeRadius = _usableHeight * NUCLEUS_SIZE_PROPORTION / 2;
 
         // Redraw the chart based on these recalculated values.
         update();
@@ -344,7 +350,8 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
 
             // Position the tick mark itself.
             PPath tickMark = (PPath) _xAxisTickMarks.get( i );
-            double tickMarkPosX = _graphOriginX + TIMELINE_START_OFFEST + ( i * 1000 * _msToPixelsFactor );
+            double tickMarkPosX = _graphOriginX + (TIME_ZERO_OFFSET * _msToPixelsFactor) 
+                    + ( i * 1000 * _msToPixelsFactor );
             tickMark.setPathTo( new Line2D.Double( tickMarkPosX, _graphOriginY, tickMarkPosX, _graphOriginY - TICK_MARK_LENGTH ) );
 
             // Position the label for the tick mark.
@@ -376,8 +383,10 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
 
         // Position the marker for the half life.
         _halfLifeMarkerLine.reset();
-        _halfLifeMarkerLine.moveTo( (float) ( _graphOriginX + TIMELINE_START_OFFEST + ( HALF_LIFE * _msToPixelsFactor ) ), (float) _graphOriginY );
-        _halfLifeMarkerLine.lineTo( (float) ( _graphOriginX + TIMELINE_START_OFFEST + ( HALF_LIFE * _msToPixelsFactor ) ), (float) ( _usableAreaOriginY + ( 0.1 * _usableHeight ) ) );
+        _halfLifeMarkerLine.moveTo( (float) ( _graphOriginX + (TIME_ZERO_OFFSET + HALF_LIFE) * _msToPixelsFactor ),
+        		(float) _graphOriginY );
+        _halfLifeMarkerLine.lineTo( (float) ( _graphOriginX + (TIME_ZERO_OFFSET + HALF_LIFE) * _msToPixelsFactor ),
+        		(float) ( _usableAreaOriginY + ( 0.1 * _usableHeight ) ) );
 
         // Position the label for the half life.
         _halfLifeLabel.setOffset( _halfLifeMarkerLine.getX() - (_halfLifeLabel.getFullBoundsReference().width / 2),
@@ -416,6 +425,21 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
             	it.remove();
             }
         }
+        
+        // Update the position of any active nuclei.
+        for (Iterator it = _preDecayNuclei.iterator (); it.hasNext (); ) {
+            AlphaDecayControl nucleus = (AlphaDecayControl)it.next();
+            if (nucleus.isDecayActive()){
+            	// This nucleus is active - transfer it to the appropriate list.
+            	positionNucleusOnChart(nucleus);
+            }
+            else{
+            	// The nucleus must have decayed.
+            	System.err.println("Nucleus decayed, but code doesn't exist to handle this yet!!!");
+            	it.remove();
+            }
+        }
+        
     }
 
     /**
@@ -449,8 +473,16 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     	
     	// Add the node to the chart.
     	nucleusNode.setScale(_usableHeight * NUCLEUS_SIZE_PROPORTION / nucleusNode.getFullBoundsReference().height);
-    	nucleusNode.setOffset(_graphOriginX, _usableAreaOriginY + ( _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION ));
     	addChild(nucleusNode);
+    	
+    	// Position the nucleus on the chart.
+    	if (nucleus instanceof AlphaDecayControl){
+        	positionNucleusOnChart((AlphaDecayControl)nucleus);
+    	}
+    	else{
+    		System.err.println("Error: Nucleus doesn't implement needed interface.");
+    		assert false;  // Shouldn't happen, debug it if it does.
+    	}
 	}
 
 	private void handleModelElementAdded(Object modelElement) {
@@ -470,6 +502,27 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     private void handleModelElementRemoved(Object modelElement) {
 		// TODO Auto-generated method stub
 	}
+    
+    /**
+     * Position the specified nucleus at the appropriate location on the
+     * chart based on how long it has been around without decaying.
+     * 
+     * @param nucleus
+     */
+    private void positionNucleusOnChart(AlphaDecayControl nucleus){
+    	
+    	PNode nucleusNode = (PNode)_mapNucleiToNodes.get(nucleus);
+    	if (nucleusNode == null){
+    		System.err.println("Error: Could not locate node for specified nucleus.");
+    		assert false;  // This should never happen, and if it does it should be debugged.
+    	}
+    	
+    	double xAxisPos = _graphOriginX + (nucleus.getActivatedLifetime() + TIME_ZERO_OFFSET) * _msToPixelsFactor 
+    	        - _nucleusNodeRadius;
+    	double yAxisPos = _usableAreaOriginY + ( _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION ) 
+    	        - _nucleusNodeRadius;
+    	nucleusNode.setOffset(xAxisPos, yAxisPos);
+    }
 
     /**
      * Reset the chart.
