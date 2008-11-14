@@ -8,7 +8,7 @@
     <property name="src-dir" location="src"/>
     <property name="build-output-dir" location="build-output"/>
     <property name="deploy-dir" location="deploy"/>
-    <property name="build-jar-name" location="${deploy-dir}/updater.jar"/>
+    <property name="build-jar-name" location="${deploy-dir}/phet-updater.jar"/>
 
     <property name="prod-server" value="tigercat.colorado.edu"/>
     <property name="prod-deploy-dir" value="/web/htdocs/phet/phet-dist/updater"/>
