@@ -17,6 +17,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -396,11 +398,18 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         _resetButtonNode.setOffset( _usableAreaOriginX + 10, 
         		_usableAreaOriginY + _usableHeight - _resetButtonNode.getFullBoundsReference().height - 10);
         
-        // Move the nuclei to the correct locations.
-        for (Iterator it = _preDecayNuclei.iterator (); it.hasNext (); ) {
-            AlphaDecayControl nucleus = (AlphaDecayControl)it.next();
-           	// This nucleus is active - transfer it to the appropriate list.
-           	positionNucleusOnChart(nucleus);
+        // Rescale the nucleus nodes and set their positions.
+        Set entries = _mapNucleiToNodes.entrySet();
+        Iterator iterator = entries.iterator();
+        while (iterator.hasNext()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            AlphaDecayControl nucleus = (AlphaDecayControl)entry.getKey();
+            PNode nucleusNode = (PNode)_mapNucleiToNodes.get(nucleus);
+            if (nucleusNode != null){
+            	nucleusNode.setScale(1);
+            	nucleusNode.setScale((_nucleusNodeRadius * 2) / nucleusNode.getFullBoundsReference().height);
+                positionNucleusOnChart(nucleus);
+            }
         }
     }
 
@@ -447,7 +456,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
             	it.remove();
             }
         }
-        
     }
 
     /**
@@ -480,7 +488,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     	_mapNucleiToNodes.put(nucleus, nucleusNode);
     	
     	// Add the node to the chart.
-    	nucleusNode.setScale(_usableHeight * NUCLEUS_SIZE_PROPORTION / nucleusNode.getFullBoundsReference().height);
+    	nucleusNode.setScale((_nucleusNodeRadius * 2) / nucleusNode.getFullBoundsReference().height);
     	addChild(nucleusNode);
     	
     	// Position the nucleus on the chart.
@@ -523,8 +531,10 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     	double xAxisPos, yAxisPos;
     	
     	if (nucleusNode == null){
-    		System.err.println("Error: Could not locate node for specified nucleus.");
-    		assert false;  // This should never happen, and if it does it should be debugged.
+    		// This nucleus does not have a node, probably because it has not
+    		// been activated.  That's okay - just ignore the positioning
+    		// request.
+    		return;
     	}
     	
     	if (nucleus.hasDecayed()){
