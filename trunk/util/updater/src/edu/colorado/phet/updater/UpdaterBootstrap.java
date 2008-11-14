@@ -68,9 +68,9 @@ public class UpdaterBootstrap {
      */
     public static void main( String[] args ) {
 
-        JFrame jFrame = new JFrame( "" );
-        jFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        jFrame.setVisible( true );
+//        JFrame jFrame = new JFrame( "" );
+//        jFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+//        jFrame.setVisible( true );
         String src = args[0];
         String dst = args[1];
         println( "starting updater, src=" + src + ", target=" + dst );
