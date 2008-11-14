@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.phetcommon.util.testing;
+package edu.colorado.phet.common.phetcommon.tests.utils;
 
 import junit.framework.TestCase;
 
