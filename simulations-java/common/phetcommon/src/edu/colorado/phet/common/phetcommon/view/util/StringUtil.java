@@ -1,6 +1,9 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.common.phetcommon.view.util;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 public class StringUtil {
     private StringUtil() {
     }
@@ -42,5 +45,19 @@ public class StringUtil {
 
 
         return s.charAt( 0 );
+    }
+    
+    /**
+     * Converts an exception's stack trace to a string.
+     * Useful for displaying strings in error dialogs.
+     * 
+     * @param e
+     * @return String
+     */
+    public static String stackTraceToString( Exception e ) {
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter( sw );
+        e.printStackTrace( pw );
+        return sw.toString();
     }
 }
