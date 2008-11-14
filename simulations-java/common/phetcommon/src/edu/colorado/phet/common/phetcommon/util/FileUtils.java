@@ -35,12 +35,16 @@ public class FileUtils {
     /**
      * Determines if a file has a specified suffix.
      * The suffix is case insensitive.
+     * You can specify either "xyz" or ".xyz" and this will do the right thing.
      * 
      * @param file
      * @param suffix
      * @return
      */
     public static boolean hasSuffix( File file, String suffix ) {
+        if ( !suffix.startsWith( "." ) ) {
+            suffix = "." + suffix;
+        }
         return file.getName().toLowerCase().endsWith( suffix );
     }
     
