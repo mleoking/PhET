@@ -12,6 +12,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.security.InvalidParameterException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +23,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayControl;
@@ -82,6 +84,9 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
 
     // Half life of the nucleus we are displaying.
     private static final double HALF_LIFE = 516; // In milliseconds.
+    
+    // Constants that control the way the nuclei look.
+    private static final double NUCLEUS_SIZE_PROPORTION = 0.2;  // Fraction of the overall height of the chart.
 
     //------------------------------------------------------------------------
     // Instance Data
@@ -407,12 +412,48 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
             if (nucleus.isDecayActive()){
             	// This nucleus is active - transfer it to the appropriate list.
             	_preDecayNuclei.add(nucleus);
+            	createNodeForNucleus((AtomicNucleus)nucleus);
             	it.remove();
             }
         }
     }
 
-    private void handleModelElementAdded(Object modelElement) {
+    /**
+     * Create a labeled node for the specified nucleus and put it on the chart
+     * at the appropriate location.
+     */
+    private void createNodeForNucleus(AtomicNucleus nucleus) {
+    	
+    	LabeledNucleusNode nucleusNode;
+    	
+    	if (nucleus.getNumProtons() == 84){
+    		// Create a labeled nucleus representing Polonium.
+    		nucleusNode = new LabeledNucleusNode("Polonium Nucleus Small.png",
+                    NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER, 
+                    NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL, 
+                    NuclearPhysicsConstants.POLONIUM_LABEL_COLOR );
+    	}
+    	else if (nucleus.getNumProtons() == 83){
+    		// Create a labeled nucleus representing the "custom" nucleus.
+    		nucleusNode = new LabeledNucleusNode("Polonium Nucleus Small.png", "",
+                    NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
+                    NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR );
+    	}
+    	else{
+    		assert false;  // This is not a nucleus type that we know how to handle.
+    		throw new InvalidParameterException("Unrecognized nucleus type.");
+    	}
+    	
+    	// Add the new node to the map.
+    	_mapNucleiToNodes.put(nucleus, nucleusNode);
+    	
+    	// Add the node to the chart.
+    	nucleusNode.setScale(_usableHeight * NUCLEUS_SIZE_PROPORTION / nucleusNode.getFullBoundsReference().height);
+    	nucleusNode.setOffset(_graphOriginX, _usableAreaOriginY + ( _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION ));
+    	addChild(nucleusNode);
+	}
+
+	private void handleModelElementAdded(Object modelElement) {
     	
     	if (modelElement instanceof AtomicNucleus){
     		// At least for now, it is expected that all nuclei added to this

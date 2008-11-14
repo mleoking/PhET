@@ -6,7 +6,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,19 +22,14 @@ import javax.swing.JRadioButton;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusAlphaDecayModel;
-import edu.colorado.phet.nuclearphysics.view.AlphaParticleNode;
 import edu.colorado.phet.nuclearphysics.view.LabeledNucleusNode;
-import edu.colorado.phet.nuclearphysics.view.NeutronNode;
-import edu.colorado.phet.nuclearphysics.view.ProtonNode;
 import edu.umd.cs.piccolo.PNode;
-
 
 /**
  * This class displays a panel that allows the user to select between
@@ -48,10 +42,6 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
     //------------------------------------------------------------------------
     // Class Data
     //------------------------------------------------------------------------
-    
-    // Amount to scale up the particle nodes to make them look reasonable.
-    private static final double PARTICLE_SCALE_FACTOR = 8;
-    private static final Font LABEL_FONT = NuclearPhysicsConstants.CONTROL_PANEL_CONTROL_FONT;
     
     //------------------------------------------------------------------------
     // Instance Data
@@ -122,7 +112,6 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
         //--------------------------------------------------------------------
         // Add the various components to the panel.
         //--------------------------------------------------------------------
-        
         
         // Add the Polonium radio button.
         constraints.anchor = GridBagConstraints.EAST;
