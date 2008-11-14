@@ -1,0 +1,2 @@
+11-14-08: #949, make updater.jar delete itself when done
+11-14-08: create this change log
