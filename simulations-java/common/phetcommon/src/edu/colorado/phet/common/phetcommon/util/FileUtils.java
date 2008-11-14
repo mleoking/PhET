@@ -9,7 +9,7 @@ import java.net.URL;
  * FileUtils is a collection of file utilities.
  */
 public class FileUtils {
-
+    
     private FileUtils() {}
     
     /**
