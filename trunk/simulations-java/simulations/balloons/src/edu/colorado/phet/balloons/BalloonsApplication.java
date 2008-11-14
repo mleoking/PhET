@@ -101,12 +101,20 @@ public class BalloonsApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) {
+
+
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, "balloons" );
         appConfig.getLookAndFeel().setBackgroundColor( new Color( 200, 240, 200 ) );
 
         new PhetApplicationLauncher().launchSim( appConfig, new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 return new BalloonsApplication( config );
+            }
+        } );
+
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                new TestFrameSize().start();
             }
         } );
     }
