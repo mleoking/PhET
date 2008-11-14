@@ -450,8 +450,11 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
             	positionNucleusOnChart(nucleus);
             }
             else{
-            	// The nucleus must have decayed.  Position it, then remove it
-            	// from the list of active nuclei.
+            	// The nucleus must have decayed.  Replace its node with a new
+            	// representation, position the new node, then remove the
+            	// nucleus from the list of active nuclei.
+            	removeNodeForNucleus((AtomicNucleus)nucleus);
+            	createNodeForNucleus((AtomicNucleus)nucleus);
             	positionNucleusOnChart(nucleus);
             	it.remove();
             }
@@ -465,21 +468,42 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     private void createNodeForNucleus(AtomicNucleus nucleus) {
     	
     	LabeledNucleusNode nucleusNode;
-    	
-    	if (nucleus.getNumProtons() == 84){
+
+    	switch (nucleus.getNumProtons()){
+    	case 84:
     		// Create a labeled nucleus representing Polonium.
     		nucleusNode = new LabeledNucleusNode("Polonium Nucleus Small.png",
                     NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER, 
                     NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL, 
                     NuclearPhysicsConstants.POLONIUM_LABEL_COLOR );
-    	}
-    	else if (nucleus.getNumProtons() == 83){
-    		// Create a labeled nucleus representing the "custom" nucleus.
-    		nucleusNode = new LabeledNucleusNode("Polonium Nucleus Small.png", "",
+    		break;
+    		
+    	case 83:
+    		// This nucleus is bismuth, which we use as the pre-decay custom
+    		// nucleus.
+    		nucleusNode = new LabeledNucleusNode("Polonium Nucleus Small.png", 
+    				"", // No isotope number.
                     NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
                     NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR );
-    	}
-    	else{
+    		break;
+    		
+    	case 82:
+    		// Create a labeled nucleus representing Lead.
+    		nucleusNode = new LabeledNucleusNode("Lead Nucleus Small.png",
+                    NuclearPhysicsStrings.LEAD_207_ISOTOPE_NUMBER, 
+                    NuclearPhysicsStrings.LEAD_207_CHEMICAL_SYMBOL, 
+                    NuclearPhysicsConstants.LEAD_LABEL_COLOR );
+    		break;
+    		
+    	case 81:
+    		// This is thallium, which we use as the post-decay custom nucleus.
+    		nucleusNode = new LabeledNucleusNode("Lead Nucleus Small.png",
+    				"", // No isotope number.
+                    NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
+                    NuclearPhysicsConstants.DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR );
+    		break;
+    		
+    	default:
     		assert false;  // This is not a nucleus type that we know how to handle.
     		throw new InvalidParameterException("Unrecognized nucleus type.");
     	}
@@ -500,6 +524,26 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     		assert false;  // Shouldn't happen, debug it if it does.
     	}
 	}
+    
+    /**
+     * Remove the node associated with the given nucleus from the chart and
+     * the internal data structures.
+     * 
+     * @param nucleus
+     */
+    private void removeNodeForNucleus(AtomicNucleus nucleus){
+    	
+    	PNode nucleusNode = (PNode)_mapNucleiToNodes.get(nucleus);
+    	
+    	if (nucleusNode == null){
+    		// Not sure if this case is valid or not.  For now, print a warning.
+    		System.err.println("Warning: Attempt to remove non-existent node.");
+    		return;
+    	}
+    	
+    	removeChild(nucleusNode);
+    	_mapNucleiToNodes.put(nucleus, null);
+    }
 
 	private void handleModelElementAdded(Object modelElement) {
     	
