@@ -21,11 +21,20 @@ public interface AlphaDecayControl {
 	 * 'Active', in this context, means that the nucleus is moving towards
 	 * decay and at some point in the future, decay will occur (unless it is
 	 * stopped by some other command).  Once a nucleus has decayed, this
-	 * call should return 'false'.
+	 * call returns 'false'.
 	 * 
 	 * @return - true if heading towards decay, false if not.
 	 */
 	public boolean isDecayActive();
+	
+	/**
+	 * Obtain a value indicating whether or not the nucleus has decayed.  Note
+	 * that if the nucleus decayed and then was reset, this will return false
+	 * until the decay recurs.
+	 * 
+	 * @return - true if nucleus has decayed, false if not.
+	 */
+	public boolean hasDecayed();
 	
 	/**
 	 * Obtain a value indicating the amount of time that has occurred since
@@ -37,5 +46,5 @@ public interface AlphaDecayControl {
 	 * @return - time, in milliseconds of simulation time, since the nucleus
 	 * was activated prior to decay.
 	 */
-	public double getActivatedLifetime();
+	public double getActivatedTime();
 }
