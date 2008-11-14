@@ -23,7 +23,7 @@ public class SimUpdater {
     private static final boolean DEBUG_OUTPUT_ENABLED = true;
 
     // where the updater lives on the PhET site
-    private static final String UPDATER_ADDRESS = "http://phet.colorado.edu/phet-dist/updater/updater.jar";
+    private static final String UPDATER_ADDRESS = "http://phet.colorado.edu/phet-dist/updater/phet-updater.jar";
     
     /**
      * Updates the sim that this is called from.
@@ -100,7 +100,7 @@ public class SimUpdater {
     private File downloadUpdaterJAR() throws IOException {
         File updaterJAR = new File( System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.separator" ) + "updater.jar" );
         if ( updaterJAR.exists() && !updaterJAR.canWrite() ) {
-            updaterJAR = File.createTempFile( "updater", ".jar" );
+            updaterJAR = File.createTempFile( "phet-updater", ".jar" );
         }
         println( "Downloading updater to " + updaterJAR.getAbsolutePath() );
         NetworkUtils.download( UPDATER_ADDRESS, updaterJAR );
