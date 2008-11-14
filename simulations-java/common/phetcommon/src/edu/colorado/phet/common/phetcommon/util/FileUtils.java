@@ -1,6 +1,9 @@
 package edu.colorado.phet.common.phetcommon.util;
 
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 /**
  * FileUtils is a collection of file utilities.
@@ -27,5 +30,34 @@ public class FileUtils {
             basename = fullname.substring( 0, index );
         }
         return basename;
+    }
+    
+    /**
+     * Determines if a file has a specified suffix.
+     * The suffix is case insensitive.
+     * 
+     * @param file
+     * @param suffix
+     * @return
+     */
+    public static boolean hasSuffix( File file, String suffix ) {
+        return file.getName().toLowerCase().endsWith( suffix );
+    }
+    
+    //TODO: consolidate with copy from flash-launcher and updater
+    /**
+     * Gets the JAR file that this class was launched from.
+     */
+    public static File getCodeSource() {
+        URL url = FileUtils.class.getProtectionDomain().getCodeSource().getLocation();
+        try {
+            URI uri = new URI( url.toString() );
+            return new File( uri.getPath() );
+        }
+        catch( URISyntaxException e ) {
+            System.out.println( e.getMessage() );
+            e.printStackTrace();
+            throw new RuntimeException( e );
+        }
     }
 }
