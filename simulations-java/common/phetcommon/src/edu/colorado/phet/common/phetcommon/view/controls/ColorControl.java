@@ -12,8 +12,8 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 import javax.swing.event.MouseInputAdapter;
 
+import edu.colorado.phet.common.phetcommon.dialogs.ColorChooserFactory;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
 
 /**
  * ColorControl is a control for setting a color.

@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.JTabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.dialogs.PhetAboutDialog;
 import edu.colorado.phet.common.phetcommon.preferences.ITrackingInfo;
 
 /**

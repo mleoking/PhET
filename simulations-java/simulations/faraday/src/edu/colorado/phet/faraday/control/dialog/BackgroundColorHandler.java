@@ -9,7 +9,7 @@ import javax.swing.JDialog;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
+import edu.colorado.phet.common.phetcommon.dialogs.ColorChooserFactory;
 import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.module.ICompassGridModule;
 
