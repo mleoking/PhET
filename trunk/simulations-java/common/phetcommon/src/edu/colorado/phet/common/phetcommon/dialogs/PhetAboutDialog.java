@@ -1,6 +1,6 @@
 /* Copyright 2006-2008, University of Colorado */
 
-package edu.colorado.phet.common.phetcommon.application;
+package edu.colorado.phet.common.phetcommon.dialogs;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,6 +13,8 @@ import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
+import edu.colorado.phet.common.phetcommon.application.ISimInfo;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;

@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.common.phetcommon.view.util;
+package edu.colorado.phet.common.phetcommon.dialogs;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -19,6 +19,8 @@ import javax.swing.*;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 
 /**

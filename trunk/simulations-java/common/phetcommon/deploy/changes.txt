@@ -1,4 +1,5 @@
-11-11-09: #957, check write permissions before attempting to perform update
+11-14-08: move dialogs that aren't part of a specific feature to new phetcommon.dialogs package
+11-14-08: #957, check write permissions before attempting to perform update
 11-11-08: cleanup UpdateManager.Listener hierarchy, rename interface, rename methods to be consistent with terminology used elsewhere, add adapter
 11-11-08: collapse ApplicationConfigManualCheckForUpdates into DefaultManualUpdateChecker, ISimInfo arg makes this subclass unnecessary
 11-11-08: use consistent naming in IManualUpdateChecker hierarchy, move interface to updates package
