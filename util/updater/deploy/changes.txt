@@ -1,2 +1,3 @@
+11-14-08: fix build.xml, the clean target was deleting this change log
 11-14-08: #949, make updater.jar delete itself when done
 11-14-08: create this change log
