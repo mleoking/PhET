@@ -112,10 +112,10 @@ public class BalloonsApplication extends PiccoloPhetApplication {
             }
         } );
 
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                new TestFrameSize().start();
-            }
-        } );
+//        SwingUtilities.invokeLater( new Runnable() {
+//            public void run() {
+//                new TestFrameSize().start();
+//            }
+//        } );
     }
 }
