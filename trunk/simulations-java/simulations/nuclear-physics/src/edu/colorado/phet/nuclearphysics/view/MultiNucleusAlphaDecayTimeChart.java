@@ -20,11 +20,13 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import edu.colorado.phet.common.motion.graphs.ReadoutTitleNode.OutlinePText;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
+import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
@@ -32,6 +34,8 @@ import edu.colorado.phet.nuclearphysics.model.AlphaDecayControl;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusAlphaDecayModel;
 import edu.colorado.phet.nuclearphysics.util.PhetButtonNode;
+import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
+import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -55,24 +59,25 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     private static final double TIME_SPAN = 3200;
 
     // Constants for controlling the appearance of the chart.
-    private static final Color BORDER_COLOR = Color.DARK_GRAY;
-    private static final float BORDER_STROKE_WIDTH = 6f;
+    private static final Color  BORDER_COLOR = Color.DARK_GRAY;
+    private static final float  BORDER_STROKE_WIDTH = 6f;
     private static final Stroke BORDER_STROKE = new BasicStroke( BORDER_STROKE_WIDTH );
-    private static final Color   BACKGROUND_COLOR = new Color( 246, 242, 175 );
-    private static final float AXES_LINE_WIDTH = 0.5f;
+    private static final Color  BACKGROUND_COLOR = new Color( 246, 242, 175 );
+    private static final float  AXES_LINE_WIDTH = 0.5f;
     private static final Stroke AXES_STROKE = new BasicStroke( AXES_LINE_WIDTH );
-    private static final Color AXES_LINE_COLOR = Color.BLACK;
+    private static final Color  AXES_LINE_COLOR = Color.BLACK;
     private static final double TICK_MARK_LENGTH = 3;
-    private static final float TICK_MARK_WIDTH = 2;
+    private static final float  TICK_MARK_WIDTH = 2;
     private static final Stroke TICK_MARK_STROKE = new BasicStroke( TICK_MARK_WIDTH );
-    private static final Font TICK_MARK_LABEL_FONT = new PhetFont( Font.PLAIN, 12 );
-    private static final Color TICK_MARK_COLOR = AXES_LINE_COLOR;
-    private static final Font LABEL_FONT = new PhetFont( Font.PLAIN, 14 );
-    private static final float HALF_LIFE_LINE_STROKE_WIDTH = 2.0f;
+    private static final Font   TICK_MARK_LABEL_FONT = new PhetFont( Font.PLAIN, 12 );
+    private static final Color  TICK_MARK_COLOR = AXES_LINE_COLOR;
+    private static final Font   SMALL_LABEL_FONT = new PhetFont( Font.PLAIN, 14 );
+    private static final Font   LARGE_LABEL_FONT = new PhetFont( Font.BOLD, 20 );
+    private static final float  HALF_LIFE_LINE_STROKE_WIDTH = 2.0f;
     private static final Stroke HALF_LIFE_LINE_STROKE = new BasicStroke( HALF_LIFE_LINE_STROKE_WIDTH, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 3.0f, 3.0f }, 0 );
-    private static final Color HALF_LIFE_LINE_COLOR = new Color (0x990000);
-    private static final Color HALF_LIFE_TEXT_COLOR = HALF_LIFE_LINE_COLOR;
-    private static final Font HALF_LIFE_FONT = new PhetFont( Font.BOLD, 16 );
+    private static final Color  HALF_LIFE_LINE_COLOR = new Color (0x990000);
+    private static final Color  HALF_LIFE_TEXT_COLOR = HALF_LIFE_LINE_COLOR;
+    private static final Font   HALF_LIFE_FONT = new PhetFont( Font.BOLD, 16 );
 
     // Constants that control the location of the origin.
     private static final double X_ORIGIN_PROPORTION = 0.20;
@@ -115,9 +120,9 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     private PText _yAxisLabel1;
     private PText _yAxisLabel2;
     private PText _halfLifeLabel;
-    private PText _numUndecayedNucleiLabel;
+    private ShadowPText _numUndecayedNucleiLabel;
     private PText _numUndecayedNucleiText;
-    private PText _numDecayedNucleiLabel;
+    private ShadowPText _numDecayedNucleiLabel;
     private PText _numDecayedNucleiText;
 
     // Parent node that will be non-pickable and will contain all of the
@@ -183,7 +188,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
             };
             
             public void nucleusTypeChanged(){
-            	// TODO: JPB TBD - handle this.
+            	updateNucleusGraphLabels();
             };
         });
 
@@ -265,30 +270,31 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
 
         // Add the text for the X & Y axes.
         _xAxisLabel = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_X_AXIS_LABEL + " (" + NuclearPhysicsStrings.DECAY_TIME_UNITS + ")" );
-        _xAxisLabel.setFont( LABEL_FONT );
+        _xAxisLabel.setFont( SMALL_LABEL_FONT );
         _nonPickableChartNode.addChild( _xAxisLabel );
         _yAxisLabel1 = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_Y_AXIS_LABEL1 );
-        _yAxisLabel1.setFont( LABEL_FONT );
+        _yAxisLabel1.setFont( SMALL_LABEL_FONT );
         _yAxisLabel1.rotate( 1.5 * Math.PI );
         _nonPickableChartNode.addChild( _yAxisLabel1 );
         _yAxisLabel2 = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_Y_AXIS_LABEL2 );
-        _yAxisLabel2.setFont( LABEL_FONT );
+        _yAxisLabel2.setFont( SMALL_LABEL_FONT );
         _yAxisLabel2.rotate( 1.5 * Math.PI );
         _nonPickableChartNode.addChild( _yAxisLabel2 );
         
         // Add the text for labeling the pre- and post-decay quantities of the
         // nuclei.
-        _numUndecayedNucleiLabel = new PText("#Xx");
-        _numUndecayedNucleiLabel.setFont(LABEL_FONT);
+        _numUndecayedNucleiLabel = new ShadowPText("#Xx");
+        _numUndecayedNucleiLabel.setFont(LARGE_LABEL_FONT);
+        _numUndecayedNucleiLabel.setTextPaint(Color.YELLOW);
         _nonPickableChartNode.addChild(_numUndecayedNucleiLabel);
         _numUndecayedNucleiText = new PText("0");
-        _numUndecayedNucleiText.setFont(LABEL_FONT);
+        _numUndecayedNucleiText.setFont(LARGE_LABEL_FONT);
         _nonPickableChartNode.addChild(_numUndecayedNucleiText);
-        _numDecayedNucleiLabel = new PText("#Xx");
-        _numDecayedNucleiLabel.setFont(LABEL_FONT);
+        _numDecayedNucleiLabel = new ShadowPText("#Xx");
+        _numDecayedNucleiLabel.setFont(LARGE_LABEL_FONT);
         _nonPickableChartNode.addChild(_numDecayedNucleiLabel);
         _numDecayedNucleiText = new PText("0");
-        _numDecayedNucleiText.setFont(LABEL_FONT);
+        _numDecayedNucleiText.setFont(LARGE_LABEL_FONT);
         _nonPickableChartNode.addChild(_numDecayedNucleiText);
 
         // Create the line that will illustrate where the half life is.
@@ -316,6 +322,8 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
                 handleResetChartButtonPressed();
             }
         } );
+        
+        updateNucleusGraphLabels();
     }
 
 	//------------------------------------------------------------------------
@@ -556,6 +564,25 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     		assert false;  // Shouldn't happen, debug it if it does.
     	}
 	}
+    
+    private void updateNucleusGraphLabels(){
+    	if (_model.getNucleusType() == MultiNucleusAlphaDecayModel.NUCLEUS_TYPE_POLONIUM){
+    		_numUndecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL);
+    		_numUndecayedNucleiLabel.setTextPaint(NuclearPhysicsConstants.POLONIUM_LABEL_COLOR);
+    		_numUndecayedNucleiLabel.setShadowColor(Color.BLACK);
+    		_numDecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.LEAD_207_CHEMICAL_SYMBOL);
+    		_numDecayedNucleiLabel.setTextPaint(NuclearPhysicsConstants.LEAD_LABEL_COLOR);
+    		_numDecayedNucleiLabel.setShadowColor(Color.WHITE);
+    	}
+    	else {
+    		_numUndecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL);
+    		_numUndecayedNucleiLabel.setTextPaint(NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR);
+    		_numUndecayedNucleiLabel.setShadowColor(Color.BLACK);
+    		_numDecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL);
+    		_numDecayedNucleiLabel.setTextPaint(NuclearPhysicsConstants.DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR);
+    		_numDecayedNucleiLabel.setShadowColor(Color.WHITE);
+    	}
+    }
     
     /**
      * Remove the node associated with the given nucleus from the chart and
