@@ -392,9 +392,16 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         _halfLifeLabel.setOffset( _halfLifeMarkerLine.getX() - (_halfLifeLabel.getFullBoundsReference().width / 2),
                 _graphOriginY + ( 0.5 * _halfLifeLabel.getFullBoundsReference().height ) );
 
-        // Position the reset button.  Align it to the left side of the decay time label.
+        // Position the reset button.
         _resetButtonNode.setOffset( _usableAreaOriginX + 10, 
         		_usableAreaOriginY + _usableHeight - _resetButtonNode.getFullBoundsReference().height - 10);
+        
+        // Move the nuclei to the correct locations.
+        for (Iterator it = _preDecayNuclei.iterator (); it.hasNext (); ) {
+            AlphaDecayControl nucleus = (AlphaDecayControl)it.next();
+           	// This nucleus is active - transfer it to the appropriate list.
+           	positionNucleusOnChart(nucleus);
+        }
     }
 
     /**
@@ -430,7 +437,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         for (Iterator it = _preDecayNuclei.iterator (); it.hasNext (); ) {
             AlphaDecayControl nucleus = (AlphaDecayControl)it.next();
             if (nucleus.isDecayActive()){
-            	// This nucleus is active - transfer it to the appropriate list.
+            	// This nucleus is active, so position it on the chart.
             	positionNucleusOnChart(nucleus);
             }
             else{
