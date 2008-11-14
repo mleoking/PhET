@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
-import javax.swing.*;
-
 /**
  * Copies and launches specified JAR, see SimUpdater.
  */
@@ -23,7 +21,7 @@ public class UpdaterBootstrap {
         File thisJar = FileUtils.getCodeSource();
         // When running in IDEs (Eclipse, IDEA,...) we aren't running a JAR.
         if ( FileUtils.hasSuffix( thisJar, "jar" ) ) {
-            System.out.println( "thisJar=" + thisJar.getAbsolutePath() );//XXX
+            // this doesn't work (but causes no problems) on Windows, can't delete an open file.
             thisJar.deleteOnExit();
         }
     }
@@ -68,9 +66,6 @@ public class UpdaterBootstrap {
      */
     public static void main( String[] args ) {
 
-//        JFrame jFrame = new JFrame( "" );
-//        jFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-//        jFrame.setVisible( true );
         String src = args[0];
         String dst = args[1];
         println( "starting updater, src=" + src + ", target=" + dst );
