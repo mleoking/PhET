@@ -35,12 +35,8 @@
     <target name="clean">
         <mkdir dir="${deploy-dir}"/>
         <mkdir dir="${build-output-dir}"/>
-        <delete>
-            <fileset dir="${deploy-dir}" includes="**/*"/>
-        </delete>
-        <delete>
-            <fileset dir="${build-output-dir}" includes="**/*"/>
-        </delete>
+    	<delete file="${dir-deploy}/${build-jar-name}"/>
+    	<delete dir="${build-output-dir}"/>
     </target>
 
     <target name="deploy-to-prod" depends="build-jar">
