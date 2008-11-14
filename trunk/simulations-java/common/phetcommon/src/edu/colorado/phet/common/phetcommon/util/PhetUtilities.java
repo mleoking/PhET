@@ -164,7 +164,7 @@ public class PhetUtilities {
     * Gets the JAR file that this class was launched from.
     */
     public static File getCodeSource() {
-        URL url = UpdateButton.class.getProtectionDomain().getCodeSource().getLocation();
+        URL url = PhetUtilities.class.getProtectionDomain().getCodeSource().getLocation();
         try {
             URI uri = new URI( url.toString() );
             return new File( uri.getPath() );
