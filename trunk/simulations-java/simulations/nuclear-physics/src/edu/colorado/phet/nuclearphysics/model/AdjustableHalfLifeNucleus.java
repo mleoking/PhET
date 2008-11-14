@@ -38,7 +38,7 @@ public class AdjustableHalfLifeNucleus extends AtomicNucleus implements AlphaDec
     //------------------------------------------------------------------------
 
     private double _decayTime = 0;       // Time at which fission will occur.
-    private double _activationTime = 0;  // Time at this nucleus was activated.
+    private double _activatedLifetime = 0; // Amount of time that nucleus has been or was active prior to decay.
     private double _halfLife = 0;        // Half life, from which decay time is probabilistically calculated.
     
     //------------------------------------------------------------------------
@@ -86,6 +86,7 @@ public class AdjustableHalfLifeNucleus extends AtomicNucleus implements AlphaDec
         // Reset the decay time to 0, indicating that it shouldn't occur
         // until something changes.
         _decayTime = 0;
+        _activatedLifetime = 0;
 
         if ((_numNeutrons != ORIGINAL_NUM_NEUTRONS) || (_numProtons != ORIGINAL_NUM_PROTONS)){
             // Decay has occurred.
@@ -109,7 +110,6 @@ public class AdjustableHalfLifeNucleus extends AtomicNucleus implements AlphaDec
     	// Only allow activation if the nucleus hasn't already decayed.
     	if (_numNeutrons == ORIGINAL_NUM_NEUTRONS){
     		_decayTime = _clock.getSimulationTime() + calcDecayTime();
-    		_activationTime = _clock.getSimulationTime();
     	}
     }
     
@@ -130,12 +130,7 @@ public class AdjustableHalfLifeNucleus extends AtomicNucleus implements AlphaDec
      * having decayed.
      */
     public double getActivatedLifetime(){
-    	if (isDecayActive()){
-    		return _clock.getSimulationTime() - _activationTime;
-    	}
-    	else{
-    		return 0;
-    	}
+    	return _activatedLifetime;
     }
     
     //------------------------------------------------------------------------

@@ -38,9 +38,8 @@ public class Polonium211Nucleus extends AtomicNucleus implements AlphaDecayContr
     // Instance Data
     //------------------------------------------------------------------------
 
-
-    private double _decayTime = 0;      // Time at which fission will occur.
-    private double _activationTime = 0; // Time at which nucleus was activated.
+    private double _decayTime = 0;         // Time at which fission will occur.
+    private double _activatedLifetime = 0; // Amount of time that nucleus has been or was active prior to decay.
 
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -77,6 +76,7 @@ public class Polonium211Nucleus extends AtomicNucleus implements AlphaDecayContr
         // Reset the decay time to 0, indicating that it shouldn't occur
         // until something changes.
         _decayTime = 0;
+        _activatedLifetime = 0;
 
         if ((_numNeutrons != ORIGINAL_NUM_NEUTRONS) || (_numProtons != ORIGINAL_NUM_PROTONS)){
             // Decay has occurred.
@@ -97,7 +97,6 @@ public class Polonium211Nucleus extends AtomicNucleus implements AlphaDecayContr
     	// Only allow activation if the nucleus hasn't already decayed.
     	if (_numNeutrons == ORIGINAL_NUM_NEUTRONS){
     		_decayTime = _clock.getSimulationTime() + calcPolonium211DecayTime();
-    		_activationTime = _clock.getSimulationTime();
     	}
     }
     
@@ -118,12 +117,7 @@ public class Polonium211Nucleus extends AtomicNucleus implements AlphaDecayContr
      * having decayed.
      */
     public double getActivatedLifetime(){
-    	if (isDecayActive()){
-    		return _clock.getSimulationTime() - _activationTime;
-    	}
-    	else{
-    		return 0;
-    	}
+    	return _activatedLifetime;
     }
     
     //------------------------------------------------------------------------
@@ -137,21 +131,31 @@ public class Polonium211Nucleus extends AtomicNucleus implements AlphaDecayContr
     {
         super.handleClockTicked( clockEvent );
         
-        // See if alpha decay should occur.
-        if ((_decayTime != 0) && (clockEvent.getSimulationTime() >= _decayTime ))
-        {
-            // Cause alpha decay by generating an alpha particle and reducing our atomic weight.
-            ArrayList byProducts = new ArrayList();
-            byProducts.add( new AlphaParticle(_position.getX(), _position.getY()));
-            _numNeutrons -= 2;
-            _numProtons -= 2;
-
-            // Send out the decay event to all listeners.
-            notifyAtomicWeightChanged(byProducts);
-            
-            // Set the decay time to 0 to indicate that decay has occurred and
-            // should not occur again.
-            _decayTime = 0;
+        // See if this nucleus is active, i.e. moving towards decay.
+        if (_decayTime != 0){
+         
+        	// See if alpha decay should occur.
+	        if (clockEvent.getSimulationTime() >= _decayTime ) {
+	            // Cause alpha decay by generating an alpha particle and reducing our atomic weight.
+	            ArrayList byProducts = new ArrayList();
+	            byProducts.add( new AlphaParticle(_position.getX(), _position.getY()));
+	            _numNeutrons -= 2;
+	            _numProtons -= 2;
+	
+	            // Send out the decay event to all listeners.
+	            notifyAtomicWeightChanged(byProducts);
+	            
+	            // Set the decay time to 0 to indicate that decay has occurred and
+	            // should not occur again.
+	            _decayTime = 0;
+	            
+	            // Set the final value for the activation time.
+	            _activatedLifetime = _decayTime;
+	        }
+	        else{
+	        	// Not decaying yet, so updated the activated lifetime.
+	        	_activatedLifetime += clockEvent.getSimulationTimeChange();
+	        }
         }
     }
     
