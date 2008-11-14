@@ -1,3 +1,4 @@
+11-14-08: add StringUtil.stackTraceToString
 11-14-08: move contents of package phetcommon.util.testing into phetcommon.tests.util
 11-14-08: move dialogs that aren't part of a specific feature to new phetcommon.dialogs package
 11-14-08: #957, check write permissions before attempting to perform update
