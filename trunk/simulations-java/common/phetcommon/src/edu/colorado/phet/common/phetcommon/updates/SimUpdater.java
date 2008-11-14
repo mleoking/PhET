@@ -72,8 +72,8 @@ public class SimUpdater {
      * Gets the running simulation's JAR file.
      */
     private File getSimJAR( String sim ) throws IOException {
-        File location = PhetUtilities.getCodeSource();
-        if ( !location.getName().toLowerCase().endsWith( ".jar" ) ) {
+        File location = FileUtils.getCodeSource();
+        if ( !FileUtils.hasSuffix( location, ".jar" ) ) {
             // So that this works in IDEs, where we aren't running a JAR.
             // In general, we only support running JAR files.
             location = File.createTempFile( sim, ".jar" );

@@ -160,22 +160,6 @@ public class PhetUtilities {
         return rval;
     }
 
-    /*//todo consolidate with copy from FlashLauncher
-    * Gets the JAR file that this class was launched from.
-    */
-    public static File getCodeSource() {
-        URL url = PhetUtilities.class.getProtectionDomain().getCodeSource().getLocation();
-        try {
-            URI uri = new URI( url.toString() );
-            return new File( uri.getPath() );
-        }
-        catch( URISyntaxException e ) {
-            System.out.println( e.getMessage() );
-            e.printStackTrace();
-            throw new RuntimeException( e );
-        }
-    }
-    
     /**
      * Was this sim run as part of a PhET installation, created using the PhET installer?
      * If it was, then a file named .phet-installer will live in the JAR's parent directory.
@@ -184,7 +168,7 @@ public class PhetUtilities {
      */
     public static boolean isPhetInstallation() {
         boolean isPhetInstallation = false;
-        File codeSource = getCodeSource();
+        File codeSource = FileUtils.getCodeSource();
         File parent = codeSource.getParentFile();
         if ( parent != null ) {
             File grandparent = parent.getParentFile();
