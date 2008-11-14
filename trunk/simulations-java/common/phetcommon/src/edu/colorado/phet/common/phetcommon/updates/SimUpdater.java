@@ -3,8 +3,12 @@ package edu.colorado.phet.common.phetcommon.updates;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.Arrays;
 
+import javax.swing.JOptionPane;
+
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.NetworkUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
@@ -30,6 +34,12 @@ public class SimUpdater {
     // where the updater lives on the PhET site
     private static final String UPDATER_ADDRESS = "http://phet.colorado.edu/phet-dist/updater/" + UPDATER_JAR;
     
+    private final File tmpDir;
+    
+    public SimUpdater() {
+        tmpDir = new File( System.getProperty( "java.io.tmpdir" ) );
+    }
+    
     /**
      * Updates the sim that this is called from.
      * The updater bootstrap and new sim JAR are downloaded.
@@ -40,17 +50,28 @@ public class SimUpdater {
      * @param languageCode
      */
     public void updateSim( String project, String sim, String languageCode ) {
-        try {
-            File updaterJAR = downloadUpdaterJAR();
-            File simJAR = getSimJAR( sim );
-            File tempJAR = getTempJAR( simJAR );
-            downloadSimJAR( project, sim, languageCode, tempJAR );
-            startUpdaterBootstrap( updaterJAR, tempJAR, simJAR );
-            System.exit( 0 ); //presumably, jar must exit before it can be overwritten
+        
+        if ( !tmpDir.canWrite() ) {
+            handleErrorWritePermissions( tmpDir );
         }
-        catch( IOException e1 ) {
-            //TODO: alert the user
-            e1.printStackTrace();
+        else {
+            try {
+                File simJAR = getSimJAR( sim );
+                if ( !simJAR.canWrite() ) {
+                    handleErrorWritePermissions( simJAR );
+                }
+                else {
+                    File tempJAR = getTempJAR( simJAR );
+                    File updaterJAR = downloadUpdaterJAR();
+                    downloadSimJAR( project, sim, languageCode, tempJAR );
+                    startUpdaterBootstrap( updaterJAR, tempJAR, simJAR );
+                    System.exit( 0 ); //presumably, jar must exit before it can be overwritten
+                }
+            }
+            catch ( IOException e1 ) {
+                //TODO: alert the user
+                e1.printStackTrace();
+            }
         }
     }
 
@@ -103,7 +124,7 @@ public class SimUpdater {
      * If that's not possible, download to a uniquely named file.
      */
     private File downloadUpdaterJAR() throws IOException {
-        File updaterJAR = new File( System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.separator" ) + UPDATER_JAR );
+        File updaterJAR = new File( tmpDir.getAbsolutePath() + System.getProperty( "file.separator" ) + UPDATER_JAR );
         if ( updaterJAR.exists() && !updaterJAR.canWrite() ) {
             updaterJAR = File.createTempFile( UPDATER_BASENAME, ".jar" );
         }
@@ -118,5 +139,10 @@ public class SimUpdater {
             DebugLogger.println( getClass().getName() + "> " + message );
         }
     }
-
+    
+    private static void handleErrorWritePermissions( File file ) {
+        Object[] args = { file.getAbsolutePath() };
+        String message = MessageFormat.format( PhetCommonResources.getString( "Common.updates.errorWritePermissions" ), args );
+        JOptionPane.showMessageDialog( null, message );
+    }
 }
