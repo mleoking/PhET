@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
+import javax.swing.*;
+
 /**
  * Copies and launches specified JAR, see SimUpdater.
  */
@@ -65,6 +67,10 @@ public class UpdaterBootstrap {
      * java -jar updater.jar C:/temp/alpha-decay0123.jar C:/user/phet/alpha-decay.jar
      */
     public static void main( String[] args ) {
+
+        JFrame jFrame = new JFrame( "" );
+        jFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        jFrame.setVisible( true );
         String src = args[0];
         String dst = args[1];
         println( "starting updater, src=" + src + ", target=" + dst );
