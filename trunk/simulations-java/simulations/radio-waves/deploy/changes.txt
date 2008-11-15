@@ -1,3 +1,4 @@
+11/15/08 - #959, fix background color of control panel
 # 1.05.05 (26049)
 11/11/08 - #944, fix layout of EmfControlPanel
 11/11/08 - #944, delete PhetControlPanel that was adding an extra logo and help button (resulting in 2 of each)
