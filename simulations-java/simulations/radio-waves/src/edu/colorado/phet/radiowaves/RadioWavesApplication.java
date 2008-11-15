@@ -5,15 +5,16 @@
 
 package edu.colorado.phet.radiowaves;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 
+import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.radiowaves.view.WaveMediumGraphic;
@@ -50,6 +51,7 @@ public class RadioWavesApplication extends PhetApplication {
             }
         };
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, RadioWavesConstants.PROJECT_NAME );
+        appConfig.getLookAndFeel().setBackgroundColor( new Color( 255, 255, 220 ) ); // Unfuddle #959
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 
