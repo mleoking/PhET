@@ -5,6 +5,7 @@ package edu.colorado.phet.nuclearphysics.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,6 +20,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+
+import javax.swing.ImageIcon;
 
 import edu.colorado.phet.common.motion.graphs.ReadoutTitleNode.OutlinePText;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -39,6 +42,7 @@ import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 
@@ -125,6 +129,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     private PText _numUndecayedNucleiText;
     private ShadowPText _numDecayedNucleiLabel;
     private PText _numDecayedNucleiText;
+    private PNode _arrowNode;
     private PText _dummyText;
 
     // Parent node that will be non-pickable and will contain all of the
@@ -304,6 +309,11 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         _dummyText = new PText("000");
         _dummyText.setFont(LARGE_LABEL_FONT);
 
+        // Add the little arrow that signifies decay from one nucleus type to another.
+        _arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(0, 8), 5, 10, 3 );
+        _arrowNode.setPaint( Color.BLACK );
+        _nonPickableChartNode.addChild(_arrowNode);
+
         // Create the line that will illustrate where the half life is.
         _halfLifeMarkerLine = new PPath();
         _halfLifeMarkerLine.setStroke( HALF_LIFE_LINE_STROKE );
@@ -422,19 +432,15 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         _yAxisLabel1.setOffset( _yAxisLabel2.getOffset().getX() - ( 1.1 * _yAxisLabel2.getFont().getSize() ),
         		(_graphOriginY - ((_graphOriginY - yAxisTop.getY()) / 2)) + (_yAxisLabel1.getFullBounds().height / 2) );
         
-        // Position the labels for the number of different nuclei.
-        double labelHeight = _dummyText.getFullBoundsReference().height;
-        double numberTextWidth = _dummyText.getFullBoundsReference().width;
-        _numUndecayedNucleiText.setOffset(_yAxisLabel1.getFullBoundsReference().x - numberTextWidth * 1.1, 
-        		preDecayPosY - labelHeight / 2);
-        _numDecayedNucleiText.setOffset(_yAxisLabel1.getFullBoundsReference().x - numberTextWidth * 1.1,
-        		postDecayPosY - labelHeight / 2);
-        _numUndecayedNucleiLabel.setOffset(
-        		_numUndecayedNucleiText.getFullBoundsReference().x - _numUndecayedNucleiLabel.getFullBoundsReference().width * 1.2,
-        		preDecayPosY - labelHeight / 2);
+        // Position the labels for the quantities of the various nuclei.
+        _numUndecayedNucleiLabel.setOffset( 
+        		_yAxisLabel1.getFullBoundsReference().x - _dummyText.getFullBoundsReference().width * 1.1 - _numUndecayedNucleiLabel.getFullBoundsReference().width,
+        		preDecayPosY - (_dummyText.getFullBoundsReference().height * 0.6));
         _numDecayedNucleiLabel.setOffset(
-        		_numDecayedNucleiText.getFullBoundsReference().x - _numDecayedNucleiLabel.getFullBoundsReference().width * 1.2,
-        		postDecayPosY - labelHeight / 2);
+        		_yAxisLabel1.getFullBoundsReference().x - _dummyText.getFullBoundsReference().width * 1.1 - _numDecayedNucleiLabel.getFullBoundsReference().width,
+        		postDecayPosY - (_dummyText.getFullBoundsReference().height * 0.4));
+
+        updateNucleiNumberText();
 
         // Position the marker for the half life.
         _halfLifeMarkerLine.reset();
@@ -604,8 +610,31 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
      * Update the labels that indicate the number of undecayed and decayed nuclei.
      */
     private void updateNucleiNumberText(){
+    	
+    	// Update the values.
     	_numUndecayedNucleiText.setText(Integer.toString(_preDecayNuclei.size()));
     	_numDecayedNucleiText.setText(Integer.toString(_postDecayNuclei.size()));
+    	
+    	// Update the positions so that they remain centered in their area.
+		double preDecayPosY = _usableAreaOriginY + ( _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION );
+        double postDecayPosY = _usableAreaOriginY + ( _usableHeight * POST_DECAY_TIME_LINE_POS_FRACTION );
+        double labelHeight = _dummyText.getFullBoundsReference().height;
+        double numberTextWidth = _dummyText.getFullBoundsReference().width;
+        double labelMiddleX = _yAxisLabel1.getFullBoundsReference().x - (numberTextWidth * 0.6);
+        PBounds undecayedTextBounds = _numUndecayedNucleiText.getFullBoundsReference();
+        PBounds decayedTextBounds = _numDecayedNucleiText.getFullBoundsReference();
+        
+        _numUndecayedNucleiText.setOffset(labelMiddleX - undecayedTextBounds.width / 2, 
+        		preDecayPosY - (labelHeight * 0.6));
+        _numDecayedNucleiText.setOffset(labelMiddleX - decayedTextBounds.width / 2,
+        		postDecayPosY - (labelHeight * 0.4));
+
+        _arrowNode.setOffset( 
+        		_numUndecayedNucleiText.getFullBoundsReference().x + _numUndecayedNucleiText.getFullBoundsReference().width / 2,
+        		decayedTextBounds.y - ((decayedTextBounds.y - undecayedTextBounds.getMaxY()) / 2));
+        _arrowNode.setOffset( 
+        		_numUndecayedNucleiText.getFullBoundsReference().x + _numUndecayedNucleiText.getFullBoundsReference().width / 2,
+        		undecayedTextBounds.getMaxY());
     }
     
     /**
