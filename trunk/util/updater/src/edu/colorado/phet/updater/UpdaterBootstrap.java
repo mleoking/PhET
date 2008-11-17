@@ -28,30 +28,44 @@ public class UpdaterBootstrap {
 
     private void replaceAndLaunch() throws IOException {
         //may need to wait explicitly, since the original JAR presumably must be exited before it can be overwritten
-        waitUntilSimIsWritable();
+        waitUntilSimIsWritable(new Action(){
+            public void perform() throws IOException {
+                replace();
+            }
+        });
         replace();
         launch();
         println( "finished launch" );
     }
 
-    private boolean waitUntilSimIsWritable() {
+    private static interface Action {
+        void perform() throws IOException;
+    }
+
+    //returns an exception if this fails after timeout
+    private IOException waitUntilSimIsWritable(Action a) {
+        IOException failureResult=null;
         for ( int i = 0; i < 100; i++ ) {//10 seconds of retries
-            if ( dst.canWrite() ) {
-                return true;
+            try {
+                a.perform(); //dst.canWrite() doesn't check for file lock on Vista, docs suggest it may not check anywhere.
+                return null;
             }
-            else {
+            catch( IOException e ) {
+                e.printStackTrace();
+                failureResult=e;
+
                 if ( i % 10 == 0 ) {
                     println( "Not writable at iteration: " + i + "." );//message every second
                 }
                 try {
                     Thread.sleep( 100 );
                 }
-                catch( InterruptedException e ) {
-                    e.printStackTrace();
+                catch( InterruptedException ex ) {
+                    ex.printStackTrace();
                 }
             }
         }
-        return false;
+        return failureResult;
     }
 
     private void replace() throws IOException {
