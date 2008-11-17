@@ -28,7 +28,21 @@ public class UpdaterBootstrap {
 
     private void replaceAndLaunch() throws IOException {
         //TODO: updater may need to wait explicitly, since the original JAR presumably must be exited before it can be overwritten
-        replace();
+        //Todo: don't use exceptions for control logic
+        for (int i=0;i<100;i++){//10 seconds of retries
+            try{
+                replace();
+                break;
+            }catch (IOException e){
+                println( "Exception on replace() iteration: "+i+": "+e );
+                try {
+                    Thread.sleep(100);
+                }
+                catch( InterruptedException e1 ) {
+                    e1.printStackTrace();
+                }
+            }
+        }
         launch();
         println( "finished launch" );
     }
