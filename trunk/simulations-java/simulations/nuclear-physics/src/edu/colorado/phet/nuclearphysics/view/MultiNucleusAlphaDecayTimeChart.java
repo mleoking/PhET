@@ -502,11 +502,12 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
             }
         }
         
-        // Update the position of any active nuclei.
-        for (Iterator it = _preDecayNuclei.iterator (); it.hasNext (); ) {
+        // Update the position of any active nuclei and check if any have
+        // decayed.
+        for (Iterator it = _preDecayNuclei.iterator(); it.hasNext (); ) {
             AlphaDecayControl nucleus = (AlphaDecayControl)it.next();
             if (nucleus.isDecayActive()){
-            	// This nucleus is active, so position it on the chart.
+            	// This nucleus is currently active, so position it on the chart.
             	positionNucleusOnChart(nucleus);
             }
             else{
@@ -521,6 +522,22 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
             	updateNucleiNumberText();
             }
         }
+        
+        // Check if any nuclei have been reset.
+        for (Iterator it = _postDecayNuclei.iterator(); it.hasNext (); ) {
+            AlphaDecayControl nucleus = (AlphaDecayControl)it.next();
+            if (nucleus.isDecayActive()){
+            	// This nucleus has been reset, so move it back to the active
+            	// list.
+            	removeNodeForNucleus((AtomicNucleus)nucleus);
+            	createNodeForNucleus((AtomicNucleus)nucleus);
+            	positionNucleusOnChart(nucleus);
+            	it.remove();
+            	_preDecayNuclei.add(nucleus);
+            	updateNucleiNumberText();
+            }
+        }
+
     }
 
     /**
@@ -666,13 +683,28 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     		assert (((AlphaDecayControl)modelElement).isDecayActive() == false);
     		
     		// Add the nuclei to the appropriate internal data structures.
+    		// No node is added until this nucleus becomes active.
     		_mapNucleiToNodes.put(modelElement, null);
     		_inactiveNuclei.add(modelElement);
     	}
 	}
 
     private void handleModelElementRemoved(Object modelElement) {
-		// TODO Auto-generated method stub
+    	
+    	if (modelElement instanceof AtomicNucleus){
+    		LabeledNucleusNode nucleusNode = (LabeledNucleusNode)_mapNucleiToNodes.get(modelElement);
+    		if (nucleusNode != null){
+    			removeNodeForNucleus((AtomicNucleus) modelElement);
+    			_preDecayNuclei.remove(modelElement);
+    			_postDecayNuclei.remove(modelElement);
+    		}
+    		if (_mapNucleiToNodes.containsKey(modelElement)){
+    			_mapNucleiToNodes.remove(modelElement);
+    		}
+    		else{
+    			System.err.println("Error: Unable to locate nucleus in map.");
+    		}
+    	}
 	}
     
     /**
