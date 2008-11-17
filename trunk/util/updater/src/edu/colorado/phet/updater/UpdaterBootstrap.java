@@ -11,68 +11,55 @@ public class UpdaterBootstrap {
 
     // do not enabled debug output for public releases, the log file will grow indefinitely!
     private static final boolean DEBUG_OUTPUT_ENABLED = true;
-
+    
+    // retry for copy from src to dst
+    private static final int NUMBER_OF_RETRIES = 100;
+    private static final int TIME_BETWEEN_RETRIES = 100; // ms
+    
     private final File src;
     private final File dst;
 
     public UpdaterBootstrap( File src, File dst ) {
         this.src = src;
         this.dst = dst;
-        File thisJar = FileUtils.getCodeSource();
-        // When running in IDEs (Eclipse, IDEA,...) we aren't running a JAR.
-        if ( FileUtils.hasSuffix( thisJar, "jar" ) ) {
-            // this doesn't work (but causes no problems) on Windows, can't delete an open file.
-            thisJar.deleteOnExit();
-        }
     }
 
     private void replaceAndLaunch() throws IOException {
-        //may need to wait explicitly, since the original JAR presumably must be exited before it can be overwritten
-        IOException e = waitUntilSimIsWritable( new Action() {
-            public void perform() throws IOException {
-                replace();
-            }
-        }, 100, 100 );//10 seconds of retries
-        if ( e != null ) {
-            throw e;
-        }
+        copy();
         launch();
+        cleanup();
         println( "finished launch" );
     }
 
-    private static interface Action {
-        void perform() throws IOException;
-    }
-
-    //returns the last thrown exception if this fails after timeout
-    private IOException waitUntilSimIsWritable( Action a, int numTries, int waitTime ) {
+    /*
+     * Tries to copy src to dst until it succeeds or we reach some max number of attempts.
+     * This is necessary because the original JAR (dst) may not yet be released by
+     * the sim that started this bootstrapper.
+     */
+    private void copy() throws IOException {
         IOException failureResult = null;
-        for ( int i = 0; i < numTries; i++ ) {
+        for ( int i = 0; i < NUMBER_OF_RETRIES; i++ ) {
             try {
-                a.perform(); //dst.canWrite() doesn't check for file lock on Vista, docs suggest it may not check anywhere.
-                return null; //on success, return no Exception
+                FileUtils.copyTo( src, dst );
+                break;
             }
             catch( IOException e ) {
-                e.printStackTrace();
+                System.err.println( e.getMessage() );
                 failureResult = e;
-
                 if ( i % 10 == 0 ) {
-                    println( "Not writable at iteration: " + i + "." );
+                    println( "copy failed at iteration: " + i );//message every second
                 }
                 try {
-                    Thread.sleep( waitTime );
+                    Thread.sleep( TIME_BETWEEN_RETRIES );
                 }
                 catch( InterruptedException ex ) {
                     ex.printStackTrace();
                 }
             }
         }
-        return failureResult;
-    }
-
-    private void replace() throws IOException {
-        FileUtils.copyTo( src, dst );
-        src.deleteOnExit();
+        if ( failureResult != null ) {
+            throw failureResult;
+        }
     }
 
     /*
@@ -84,6 +71,18 @@ public class UpdaterBootstrap {
         println( "restarting sim with cmdArray=" + Arrays.asList( cmdArray ) );
         Process p = Runtime.getRuntime().exec( cmdArray );
         //TODO: display output from this process in case any errors occur
+    }
+    
+    private void cleanup() throws IOException {
+        
+        // delete the downloaded sim JAR file
+        src.deleteOnExit();
+        
+        // delete the bootstrap JAR
+        File thisJar = FileUtils.getCodeSource();
+        if ( FileUtils.hasSuffix( thisJar, "jar" ) ) { // When running in IDEs (Eclipse, IDEA,...) we aren't running a JAR.
+            thisJar.deleteOnExit(); // this doesn't work (but causes no problems) on Windows, can't delete an open file.
+        }
     }
 
     public static String getJavaPath() {
