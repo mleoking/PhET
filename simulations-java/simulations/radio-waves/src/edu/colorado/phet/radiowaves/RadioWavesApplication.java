@@ -17,19 +17,20 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.radiowaves.view.WaveMediumGraphic;
 
 public class RadioWavesApplication extends PhetApplication {
 
     public static double s_speedOfLight = 6;
-    
+
     public RadioWavesApplication( PhetApplicationConfig config ) {
         super( config );
-        
+
         ConstantDtClock clock = new ConstantDtClock( 40, 0.5 );
         final EmfModule antennaModule = new EmfModule( clock );
         addModule( antennaModule );
-        
+
         // Add an options menu
         JMenu optionsMenu = new JMenu( "Options" ); //XXX i18n
         final JCheckBoxMenuItem fadeScalarRepCB = new JCheckBoxMenuItem( "Fade scalar representation" ); //XXX i18n
@@ -52,6 +53,7 @@ public class RadioWavesApplication extends PhetApplication {
         };
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, RadioWavesConstants.PROJECT_NAME );
         appConfig.getLookAndFeel().setBackgroundColor( new Color( 255, 255, 220 ) ); // Unfuddle #959
+        appConfig.getLookAndFeel().setFont( new PhetFont(PhetFont.getDefaultFontSize(),true) ); //Unfuddle #960
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 
