@@ -129,7 +129,7 @@ public class BucketOfNucleiNode extends PNode {
 		// Add the radiation symbol to the bucket.
         // Load the graphic image for this device.
         _radiationSymbolNode = NuclearPhysicsResources.getImageNode("RadiationSymbolWithPerspective.png");
-        _radiationSymbolNode.scale( 0.25 * (_bucketHeight / _radiationSymbolNode.getWidth()));
+        _radiationSymbolNode.scale( 0.28 * (_bucketHeight / _radiationSymbolNode.getWidth()));
         _radiationSymbolNode.setOffset(_bucketWidth * 0.75, _bucketHeight * 0.4);
         addChild(_radiationSymbolNode);
         

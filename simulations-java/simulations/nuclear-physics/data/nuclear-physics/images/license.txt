@@ -15,3 +15,4 @@ neutron-gun.png
 Polonium Nucleus Small.png author=PhET 
 Smaller Daughter Nucleus.png author=PhET 
 Uranium Nucleus Small.png author=PhET 
+RadiationSymbolWithPerspective=PhET
