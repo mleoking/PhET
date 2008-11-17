@@ -66,7 +66,6 @@ public class UpdaterBootstrap {
      * Launches the simulation (as specified by a JAR file) with the specified language code.
      */
     private void launch() throws IOException {
-        //TODO: add support for language code when we have added support for non-English offline JARs
         String[] cmdArray = new String[]{getJavaPath(), "-jar", dst.getAbsolutePath()};
         println( "restarting sim with cmdArray=" + Arrays.asList( cmdArray ) );
         Process p = Runtime.getRuntime().exec( cmdArray );
