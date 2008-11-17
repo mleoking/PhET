@@ -17,21 +17,24 @@
         $language_code = $_GET['locale'];
     }
     else {
-        print 'Cannot retrieve sim, specified information is incorrect.  Need query term with "project", "sim", and "locale"'."\n";
+        $error = "Error: Missing required information in the query string.\n";
+        send_file_to_browser('error.txt', $error, null, "attachment");
         exit;
     }
 
     // Get the database info for the requested sim
     $simulation = sim_get_sim_by_dirname_flavorname($dirname, $flavorname);
     if (!$simulation) {
-        print "Cannot retrieve sim, no simulation exists with that project name and sim name\n";
+        $error = "Error: Simulation not found.\n";
+        send_file_to_browser('error.txt', $error, null, "attachment");
         exit;
     }
 
     // Get the filename and content
     $download_data = sim_get_run_offline($simulation, $language_code);
     if (!$download_data) {
-        print "Cannot retrieve sim, there has been an error retrieving the file\n";
+        $error = "Error: Simulation jar or locale not found.\n";
+        send_file_to_browser('error.txt', $error, null, "attachment");
         exit;
     }
 
