@@ -272,8 +272,8 @@ public class EmfControlPanel extends ControlPanel {
                 }
             } );
 
-            freqSlider.setPreferredSize( new Dimension( 120, 20 ) );
             freqSlider.setPaintTicks( true );
+            freqSlider.setPreferredSize( new Dimension( 120, (int) freqSlider.getPreferredSize().getHeight()) );
             freqSlider.addChangeListener( new ChangeListener() {
 
                 public void stateChanged( ChangeEvent e ) {
@@ -287,9 +287,8 @@ public class EmfControlPanel extends ControlPanel {
                 }
             } );
 
-
-            ampSlider.setPreferredSize( new Dimension( 120, 20 ) );
             ampSlider.setPaintTicks( true );
+            ampSlider.setPreferredSize( new Dimension( 120, (int) ampSlider.getPreferredSize().getHeight() ) );
             ampSlider.addChangeListener( new ChangeListener() {
 
                 public void stateChanged( ChangeEvent e ) {
