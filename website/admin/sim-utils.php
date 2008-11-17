@@ -631,6 +631,13 @@
         return db_get_row_by_id('simulation', 'sim_id', $sim_id);
     }
 
+    function sim_get_sim_by_dirname_flavorname($dirname, $flavorname) {
+        $condition = array();
+        $condition['sim_dirname'] = $dirname;
+        $condition['sim_flavorname'] = $flavorname;
+        return db_get_row_by_condition('simulation', $condition);
+    }
+
     function sim_update_sim($simulation) {
         return db_update_table('simulation', $simulation, 'sim_id', $simulation['sim_id']);
     }
