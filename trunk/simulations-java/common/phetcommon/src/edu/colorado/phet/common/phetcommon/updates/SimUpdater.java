@@ -88,7 +88,7 @@ public class SimUpdater {
      * Runs the updater bootstrap in a separate JVM.
      */
     private void startUpdaterBootstrap( File updaterBootstrap, File src, File dst ) throws IOException {
-        String[] cmdArray = new String[] { PhetUtilities.getJavaPath(), "-jar", updaterBootstrap.getAbsolutePath(), src.getAbsolutePath(), dst.getAbsolutePath() };//TODO: support for language code
+        String[] cmdArray = new String[] { PhetUtilities.getJavaPath(), "-jar", updaterBootstrap.getAbsolutePath(), src.getAbsolutePath(), dst.getAbsolutePath() };
         println( "Starting updater bootstrap with cmdArray=" + Arrays.asList( cmdArray ).toString() );
         Process p = Runtime.getRuntime().exec( cmdArray );
         //TODO: read output from process in case helpful debug information is there in case of problem
