@@ -28,12 +28,14 @@ public class UpdaterBootstrap {
 
     private void replaceAndLaunch() throws IOException {
         //may need to wait explicitly, since the original JAR presumably must be exited before it can be overwritten
-        waitUntilSimIsWritable(new Action(){
+        IOException e = waitUntilSimIsWritable( new Action() {
             public void perform() throws IOException {
                 replace();
             }
-        });
-        replace();
+        }, 100, 100 );//10 seconds of retries
+        if ( e != null ) {
+            throw e;
+        }
         launch();
         println( "finished launch" );
     }
@@ -42,23 +44,23 @@ public class UpdaterBootstrap {
         void perform() throws IOException;
     }
 
-    //returns an exception if this fails after timeout
-    private IOException waitUntilSimIsWritable(Action a) {
-        IOException failureResult=null;
-        for ( int i = 0; i < 100; i++ ) {//10 seconds of retries
+    //returns the last thrown exception if this fails after timeout
+    private IOException waitUntilSimIsWritable( Action a, int numTries, int waitTime ) {
+        IOException failureResult = null;
+        for ( int i = 0; i < numTries; i++ ) {
             try {
                 a.perform(); //dst.canWrite() doesn't check for file lock on Vista, docs suggest it may not check anywhere.
-                return null;
+                return null; //on success, return no Exception
             }
             catch( IOException e ) {
                 e.printStackTrace();
-                failureResult=e;
+                failureResult = e;
 
                 if ( i % 10 == 0 ) {
-                    println( "Not writable at iteration: " + i + "." );//message every second
+                    println( "Not writable at iteration: " + i + "." );
                 }
                 try {
-                    Thread.sleep( 100 );
+                    Thread.sleep( waitTime );
                 }
                 catch( InterruptedException ex ) {
                     ex.printStackTrace();
