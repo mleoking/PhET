@@ -8,10 +8,10 @@ import java.util.Arrays;
  * Copies and launches specified JAR, see SimUpdater.
  */
 public class UpdaterBootstrap {
-    
+
     // do not enabled debug output for public releases, the log file will grow indefinitely!
     private static final boolean DEBUG_OUTPUT_ENABLED = true;
-    
+
     private final File src;
     private final File dst;
 
@@ -27,24 +27,31 @@ public class UpdaterBootstrap {
     }
 
     private void replaceAndLaunch() throws IOException {
-        //TODO: updater may need to wait explicitly, since the original JAR presumably must be exited before it can be overwritten
-        //Todo: don't use exceptions for control logic
-        for (int i=0;i<100;i++){//10 seconds of retries
-            try{
-                replace();
-                break;
-            }catch (IOException e){
-                println( "Exception on replace() iteration: "+i+": "+e );
-                try {
-                    Thread.sleep(100);
+        //may need to wait explicitly, since the original JAR presumably must be exited before it can be overwritten
+        waitUntilSimIsWritable();
+        replace();
+        launch();
+        println( "finished launch" );
+    }
+
+    private boolean waitUntilSimIsWritable() {
+        for ( int i = 0; i < 100; i++ ) {//10 seconds of retries
+            if ( dst.canWrite() ) {
+                return true;
+            }
+            else {
+                if ( i % 10 == 0 ) {
+                    println( "Not writable at iteration: " + i + "." );//message every second
                 }
-                catch( InterruptedException e1 ) {
-                    e1.printStackTrace();
+                try {
+                    Thread.sleep( 100 );
+                }
+                catch( InterruptedException e ) {
+                    e.printStackTrace();
                 }
             }
         }
-        launch();
-        println( "finished launch" );
+        return false;
     }
 
     private void replace() throws IOException {
@@ -57,12 +64,12 @@ public class UpdaterBootstrap {
      */
     private void launch() throws IOException {
         //TODO: add support for language code when we have added support for non-English offline JARs
-        String[] cmdArray = new String[] { getJavaPath(), "-jar", dst.getAbsolutePath() };
+        String[] cmdArray = new String[]{getJavaPath(), "-jar", dst.getAbsolutePath()};
         println( "restarting sim with cmdArray=" + Arrays.asList( cmdArray ) );
         Process p = Runtime.getRuntime().exec( cmdArray );
         //TODO: display output from this process in case any errors occur
     }
-    
+
     public static String getJavaPath() {
         return System.getProperty( "java.home" ) + System.getProperty( "file.separator" ) + "bin" + System.getProperty( "file.separator" ) + "java";
     }
@@ -86,7 +93,7 @@ public class UpdaterBootstrap {
         try {
             new UpdaterBootstrap( new File( src ), new File( dst ) ).replaceAndLaunch();
         }
-        catch ( IOException e ) {
+        catch( IOException e ) {
             e.printStackTrace();
             println( e.getMessage() );
             //TODO: open an error dialog here?
