@@ -260,6 +260,18 @@ EOT;
 
                         $stumble_link = "http://www.stumbleupon.com/submit?url={$url}&amp;title={$title}";
 
+                        if ($this->is_installer_builder_rip()) {
+                            $download_button_slot = '&nbsp;';
+                        }
+                        else {
+                            $download_button_slot = <<<EOT
+                                <div class="rage_button_928365">
+                                    <a href="{$this->sim_run_offline_link}" title="Click here to download the simulation to your computer, to run when you do not have an Internet connection">Download</a>
+                                </div>
+
+EOT;
+                        }
+
                         print <<<EOT
                     </div>
                     <span class="promote" title="If you like this simulation, please consider sharing it with others by submitting it to Digg or StumbleUpon">
@@ -282,9 +294,7 @@ EOT;
                     <table>
                         <tr>
                             <td>
-                                <div class="rage_button_928365">
-                                    <a href="{$this->sim_run_offline_link}" title="Click here to download the simulation to your computer, to run when you do not have an Internet connection">Download</a>
-                                </div>
+                            {$download_button_slot}
                             </td>
 
                             <td>
