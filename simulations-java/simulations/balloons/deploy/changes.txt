@@ -1,3 +1,5 @@
+# 1.06.18
+Posted current version for testing tracking and updates
 # 1.06.17
 11-14-2008: publish dev version as candidate for production deploy
 #1.06.16
