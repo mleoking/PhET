@@ -14,7 +14,9 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * This class implements a user interface component that looks like a bucket
@@ -47,6 +49,7 @@ public class BucketOfNucleiNode extends PNode {
     private PNode _frontInteriorLayer;
     private PNode _frontOfBucketLayer;
     private HTMLNode _bucketLabel;
+    private PImage _radiationSymbolNode;
     private AtomicNucleusNode [] _visibleNucleusNodes;
     private double _bucketHeight;
     private double _bucketWidth;
@@ -122,6 +125,17 @@ public class BucketOfNucleiNode extends PNode {
 		_bucketLabel.setFont( new PhetFont(12));
 		_frontOfBucketLayer.addChild(_bucketLabel);
 		updateLabelText();
+		
+		// Add the radiation symbol to the bucket.
+        // Load the graphic image for this device.
+        _radiationSymbolNode = NuclearPhysicsResources.getImageNode("RadiationSymbolWithPerspective.png");
+        _radiationSymbolNode.scale( 0.25 * (_bucketHeight / _radiationSymbolNode.getWidth()));
+        _radiationSymbolNode.setOffset(_bucketWidth * 0.75, _bucketHeight * 0.4);
+        addChild(_radiationSymbolNode);
+        
+
+        
+
 		
 		// Draw the handle.
 		PhetPPath bucketHandle = new PhetPPath( new QuadCurve2D.Double(width/2, _ellipseVerticalSpan, width * 1.6, 
