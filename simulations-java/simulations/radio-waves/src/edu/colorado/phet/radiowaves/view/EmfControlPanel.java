@@ -273,6 +273,7 @@ public class EmfControlPanel extends ControlPanel {
             } );
 
             freqSlider.setPreferredSize( new Dimension( 120, 20 ) );
+            freqSlider.setPaintTicks( true );
             freqSlider.addChangeListener( new ChangeListener() {
 
                 public void stateChanged( ChangeEvent e ) {
@@ -288,6 +289,7 @@ public class EmfControlPanel extends ControlPanel {
 
 
             ampSlider.setPreferredSize( new Dimension( 120, 20 ) );
+            ampSlider.setPaintTicks( true );
             ampSlider.addChangeListener( new ChangeListener() {
 
                 public void stateChanged( ChangeEvent e ) {
