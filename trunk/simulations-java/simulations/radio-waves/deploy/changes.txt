@@ -1,3 +1,5 @@
+11/17/08 - #968, make slider knobs pointy
+11/17/08 - #960, fix color and style of fonts in control panel
 11/15/08 - #959, fix background color of control panel
 # 1.05.05 (26049)
 11/11/08 - #944, fix layout of EmfControlPanel
