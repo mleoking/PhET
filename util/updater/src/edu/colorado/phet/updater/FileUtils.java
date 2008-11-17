@@ -6,25 +6,18 @@ import java.net.URISyntaxException;
 import java.net.URL;
 
 public class FileUtils {
-    
+
     public static void copyTo( File source, File dest ) throws IOException {
-        copyAndClose( new FileInputStream( source ), new FileOutputStream( dest ), true );
+        copyAndClose( new FileInputStream( source ), new FileOutputStream( dest ) );
     }
-    
-    private static void copyAndClose( InputStream source, OutputStream dest, boolean buffered ) throws IOException {
-        copy( source, dest, buffered );
+
+    private static void copyAndClose( InputStream source, OutputStream dest ) throws IOException {
+        copy( source, dest );
         source.close();
         dest.close();
     }
 
-    private static void copy( InputStream source, OutputStream dest, boolean buffered ) throws IOException {
-        //todo: buffering is disabled until file truncation issue is resolved
-        buffered = false;
-        if ( buffered ) {
-            source = new BufferedInputStream( source );
-            dest = new BufferedOutputStream( dest );
-        }
-
+    private static void copy( InputStream source, OutputStream dest ) throws IOException {
         int bytesRead;
 
         byte[] buffer = new byte[1024];
@@ -39,7 +32,7 @@ public class FileUtils {
      * Determines if a file has a specified suffix.
      * The suffix is case insensitive.
      * You can specify either "xyz" or ".xyz" and this will do the right thing.
-     * 
+     *
      * @param file
      * @param suffix
      * @return
@@ -50,7 +43,7 @@ public class FileUtils {
         }
         return file.getName().toLowerCase().endsWith( suffix );
     }
-    
+
     // copied from phetcommon FileUtils
     /**
      * Gets the JAR file that this class was launched from.
