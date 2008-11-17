@@ -212,9 +212,9 @@ class TroubleshootingPage extends SitePage {
 	    <p>If you wish to disable this warning, you can do so by adjusting your browser's security settings.  For IE versions 6 and 7, the way to do this is to go into Tools->Internet Options->Advanced, find the "Security" heading, and check "Allow active content to run in files on My Computer".  Note that you will need to restart Internet Explorer to get this change to take effect.  You should only do this if feel confident that there is no other off-line content that you may run on your computer that could be malicious.</p>
 
             <p>Alternatively, you could use a different browser (such as Firefox) that does not have this issue.</p>
-</br>
-</br>
-</br>
+<br />
+<br />
+<br />
 EOT;
     }
 
