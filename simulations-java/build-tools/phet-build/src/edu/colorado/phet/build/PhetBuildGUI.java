@@ -11,16 +11,8 @@ import java.util.Locale;
 
 import javax.swing.*;
 
-import org.apache.tools.ant.taskdefs.Java;
-import org.apache.tools.ant.types.FileSet;
-import org.apache.tools.ant.types.Path;
-import org.rev6.scf.ScpFile;
-import org.rev6.scf.ScpUpload;
-import org.rev6.scf.SshConnection;
-import org.rev6.scf.SshException;
-
+import edu.colorado.phet.build.java.BuildScript;
 import edu.colorado.phet.build.java.PhetServer;
-import edu.colorado.phet.build.java.SVNStatusChecker;
 
 /**
  * Provides a front-end user interface for building and deploying phet's java simulations.
@@ -89,7 +81,7 @@ public class PhetBuildGUI {
         cleanButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {
-                    new PhetCleanCommand( getSelectedProject(), new MyAntTaskRunner() ).execute();
+                    getBuildScript().clean();
                 }
                 catch( Exception e1 ) {
                     e1.printStackTrace();
@@ -101,7 +93,7 @@ public class PhetBuildGUI {
         JButton buildButton = new JButton( "Build" );
         buildButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                build( getSelectedProject() );
+                getBuildScript().build();
             }
         } );
 
@@ -115,21 +107,28 @@ public class PhetBuildGUI {
         runButton = new JButton( "Run" );
         runButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                runSim();
+                getBuildScript().runSim();
             }
         } );
 
         JButton svnStatus = new JButton( "SVN Status" );
         svnStatus.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                checkSVNStatus( getSelectedProject() );
+                getBuildScript().isSVNInSync( );
             }
         } );
 
         JButton deployDev = new JButton( "Deploy Dev" );
         deployDev.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                deployDev( getSelectedProject() );
+                getBuildScript().deploy( PhetServer.DEVELOPMENT, getDevelopmentAuthentication() );
+            }
+        } );
+
+        JButton incrementVersionNumber = new JButton( "Increment Dev" );
+        incrementVersionNumber.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                getBuildScript().incrementVersionNumber();
             }
         } );
 
@@ -144,6 +143,7 @@ public class PhetBuildGUI {
         commandPanel.add( runButton, commandConstraints );
         commandPanel.add( buildJNLP, commandConstraints );
         commandPanel.add( svnStatus, commandConstraints );
+        commandPanel.add( incrementVersionNumber, commandConstraints );
 
         commandPanel.add( deployDev, commandConstraints );
         commandPanel.add( Box.createVerticalBox() );
@@ -155,48 +155,10 @@ public class PhetBuildGUI {
         frame.setContentPane( contentPane );
     }
 
-    private void checkSVNStatus( PhetProject selectedProject ) {
-        boolean upToDate = new SVNStatusChecker().isUpToDate( selectedProject );
-        System.out.println( "upToDate = " + upToDate );
+    private BuildScript getBuildScript() {
+        return new BuildScript( baseDir, getSelectedProject() );
     }
 
-    private void deployDev( PhetProject selectedProject ) {
-        deploy( selectedProject, PhetServer.DEVELOPMENT, getDevelopmentAuthentication() );
-    }
-
-    private void deploy( PhetProject selectedProject, PhetServer server, AuthenticationInfo authenticationInfo ) {
-
-        build( getSelectedProject() );
-
-//        String codebase=server.getCodebase(selectedProject);
-//        String codebase=server.getUrl()+"/"+selectedProject.getName()+
-
-//        String newVersion=""+3;
-//        int devVersion =buildJNLP( getSelectedProject(), server.getUrl() + "/" + selectedProject.getName() + "/" + newVersion );
-
-        SshConnection sshConnection = new SshConnection( "spot.colorado.edu", authenticationInfo.getUsername(), authenticationInfo.getPassword() );
-        try {
-            sshConnection.connect();
-            String remotePathDir = server.getPath();
-//            sshConnection.executeTask( new SshCommand( "mkdir " + remotePathDir ) );
-            File[] f = selectedProject.getDefaultDeployDir().listFiles();
-            //todo: should handle recursive for future use (if we ever want to support nested directories)
-            for ( int i = 0; i < f.length; i++ ) {
-                if ( f[i].getName().startsWith( "." ) ) {
-                    //ignore
-                }
-                else {
-                    sshConnection.executeTask( new ScpUpload( new ScpFile( f[i], remotePathDir + "/" + f[i].getName() ) ) );
-                }
-            }
-        }
-        catch( SshException e ) {
-            e.printStackTrace();
-        }
-        finally {
-            sshConnection.disconnect();
-        }
-    }
 
     private AuthenticationInfo getDevelopmentAuthentication() {
         AuthenticationInfo authenticationInfo = new AuthenticationInfo();
@@ -211,25 +173,11 @@ public class PhetBuildGUI {
 
             for ( int j = 0; j < flavorNames.length; j++ ) {
                 String flavorName = flavorNames[j];
-                buildJNLP( getSelectedProject(), locale, flavorName, codebase );
+                getBuildScript().buildJNLP( getSelectedProject(), locale, flavorName, codebase );
             }
         }
     }
 
-    private void buildJNLP( PhetProject selectedSimulation, Locale locale, String flavorName, String codebase ) {
-        System.out.println( "Building JNLP for locale=" + locale.getLanguage() + ", flavor=" + flavorName );
-        PhetBuildJnlpTask j = new PhetBuildJnlpTask();
-        j.setDeployUrl( codebase );
-        j.setProject( selectedSimulation.getName() );
-        j.setLocale( locale.getLanguage() );
-        j.setFlavor( flavorName );
-        org.apache.tools.ant.Project project = new org.apache.tools.ant.Project();
-        project.setBaseDir( baseDir );
-        project.init();
-        j.setProject( project );
-        j.execute();
-        System.out.println( "Finished Building JNLP" );
-    }
 
     private MyPhetProject[] convertToMyPhetProjecets( PhetProject[] a ) {
         MyPhetProject[] b = new MyPhetProject[a.length];
@@ -245,14 +193,6 @@ public class PhetBuildGUI {
         return b;
     }
 
-    private void build( PhetProject project ) {
-        try {
-            new PhetBuildCommand( project, new MyAntTaskRunner(), true, project.getDefaultDeployJar() ).execute();
-        }
-        catch( Exception e ) {
-            e.printStackTrace();
-        }
-    }
 
     private Project[] toProjects( PhetProject[] a ) {
         Project[] p = new Project[a.length];
@@ -301,39 +241,6 @@ public class PhetBuildGUI {
         return ( (Project) simList.getSelectedValue() ).p;
     }
 
-    private void runSim() {
-        String locale = "en";
-        String flavor = "balloons";
-        Java java = new Java();
-
-        PhetProject phetProject = getSelectedProject();
-        if ( phetProject != null ) {
-            java.setClassname( phetProject.getFlavor( "balloons" ).getMainclass() );
-            java.setFork( true );
-            String args = "";
-            String[] a = phetProject.getFlavor( flavor ).getArgs();
-            for ( int i = 0; i < a.length; i++ ) {
-                String s = a[i];
-                args += s + " ";
-            }
-            java.setArgs( args );
-
-            org.apache.tools.ant.Project project = new org.apache.tools.ant.Project();
-            project.init();
-
-            Path classpath = new Path( project );
-            FileSet set = new FileSet();
-            set.setFile( phetProject.getDefaultDeployJar() );
-            classpath.addFileset( set );
-            java.setClasspath( classpath );
-            if ( !locale.equals( "en" ) ) {
-                java.setJvmargs( "-Djavaws.phet.locale=" + locale );
-            }
-
-            new MyAntTaskRunner().runTask( java );
-//            runTask( java );
-        }
-    }
 
     private void start() {
         frame.setVisible( true );
@@ -373,7 +280,7 @@ public class PhetBuildGUI {
         }
     }
 
-    private class AuthenticationInfo {
+    public static class AuthenticationInfo {
 
         public String getUsername() {
             return null;
