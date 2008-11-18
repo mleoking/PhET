@@ -177,6 +177,6 @@ public class DefaultGunParticle extends GunParticle {
     }
 
     public static DefaultGunParticle createNeutron( AbstractGunNode gun ) {
-        return new DefaultGunParticle( gun, QWIResources.getString( "particles.neutrons" ), "quantum-wave-interference/images/neutron-thumb.gif", new ParticleUnits.NeutronUnits() );
+        return new DefaultGunParticle( gun, QWIResources.getString( "particles.neutrons" ), "quantum-wave-interference/images/neutron.png", new ParticleUnits.NeutronUnits() );
     }
 }
