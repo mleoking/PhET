@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -20,8 +21,10 @@ public class PhetBuildGUI {
     private Object blocker = new Object();
     private JList simList;
     private JButton runButton;
+    private File baseDir;
 
     public PhetBuildGUI( File baseDir ) {
+        this.baseDir = baseDir;
         this.frame = new JFrame( "PhET Build" );
         frame.addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
@@ -33,7 +36,11 @@ public class PhetBuildGUI {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         PhetProject[] a = PhetProject.getAllProjects( baseDir );
-        Project[] p = toProjects( a );
+        MyPhetProject[] b = convertToMyPhetProjecets( a );
+        for ( int i = 0; i < a.length; i++ ) {
+            b[i].setAntBaseDir( baseDir );
+        }
+        Project[] p = toProjects( b );
         simList = new JList( p );
         simList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
         simList.addListSelectionListener( new ListSelectionListener() {
@@ -66,7 +73,29 @@ public class PhetBuildGUI {
 //                refresh();
 //            }
 //        } );
-        runButton = new JButton( "Build & Run" );
+        JButton cleanButton = new JButton( "Clean" );
+        cleanButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                new JavaBuildCommand().clean( getSelectedSimulation() );
+            }
+        } );
+
+
+        JButton buildButton = new JButton( "Build" );
+        buildButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                buildProject();
+            }
+        } );
+
+        JButton buildJNLP = new JButton( "Build JNLP" );
+        buildJNLP.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                buildJNLP();
+            }
+        } );
+
+        runButton = new JButton( "Run" );
         runButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 run();
@@ -85,7 +114,10 @@ public class PhetBuildGUI {
 //        commandPanel.add( refresh, commandConstraints );
 //        commandPanel.add( showLocalizationFile, commandConstraints );
 
+        commandPanel.add( cleanButton, commandConstraints );
+        commandPanel.add( buildButton, commandConstraints );
         commandPanel.add( runButton, commandConstraints );
+        commandPanel.add( buildJNLP, commandConstraints );
         commandPanel.add( Box.createVerticalBox() );
 
         contentPane.add( commandPanel, gridBagConstraints );
@@ -93,6 +125,49 @@ public class PhetBuildGUI {
 
         frame.setSize( 500, 300 );
         frame.setContentPane( contentPane );
+    }
+
+    private void buildJNLP() {
+        System.out.println( "Building JNLP" );
+        PhetBuildJnlpTask j = new PhetBuildJnlpTask();
+        j.setProject( getSelectedSimulation().getName() );
+        org.apache.tools.ant.Project project = new org.apache.tools.ant.Project();
+        project.setBaseDir( baseDir );
+        project.init();
+        j.setProject( project );
+        j.execute();
+        System.out.println( "Finished Building JNLP" );
+    }
+
+    private MyPhetProject[] convertToMyPhetProjecets( PhetProject[] a ) {
+        MyPhetProject[] b = new MyPhetProject[a.length];
+        for ( int i = 0; i < a.length; i++ ) {
+            try {
+                b[i] = new MyPhetProject( a[i].getProjectDir() );
+                b[i].setAntBaseDir( baseDir );
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
+        }
+        return b;
+    }
+
+    private void buildProject() {
+        build( getSelectedSimulation() );
+    }
+
+    private void build( PhetProject phetProject ) {
+        JavaBuildCommand javaBuildCommand = new JavaBuildCommand();
+        javaBuildCommand.build( phetProject );
+
+//        PhetBuildCommand phetBuildCommand = new PhetBuildCommand( phetProject, new MyAntTaskRunner(), true, phetProject.getDefaultDeployJar() );
+//        try {
+//            phetBuildCommand.execute();
+//        }
+//        catch( Exception e ) {
+//            e.printStackTrace();
+//        }
     }
 
     private Project[] toProjects( PhetProject[] a ) {
@@ -119,15 +194,6 @@ public class PhetBuildGUI {
 
     }
 
-    public static void main( String[] args ) {
-        if ( args.length == 0 ) {
-            System.out.println( "Usage: args[0]=basedir" );
-        }
-        else {
-            new PhetBuildGUI( new File( args[0] ) ).start();
-        }
-    }
-
     private void run() {
         final JDialog dialog = new JDialog( frame, "Building Sim" );
         JLabel label = new JLabel( "Building " + getSelectedSimulation() + ", please wait..." );
@@ -149,7 +215,7 @@ public class PhetBuildGUI {
     }
 
     private PhetProject getSelectedSimulation() {
-        return (PhetProject) simList.getSelectedValue();
+        return ( (Project) simList.getSelectedValue() ).p;
     }
 
     private void doRun( final JDialog dialog ) {
@@ -194,4 +260,39 @@ public class PhetBuildGUI {
     private void start() {
         frame.setVisible( true );
     }
+
+    private class MyPhetProject extends PhetProject {
+        private File baseDir;
+
+        public MyPhetProject( File projectRoot ) throws IOException {
+            super( projectRoot );
+        }
+
+        public MyPhetProject( File parentDir, String name ) throws IOException {
+            super( parentDir, name );
+        }
+
+        public void setAntBaseDir( File baseDir ) {
+            this.baseDir = baseDir;
+        }
+
+        public File getAntBaseDir() {
+            return baseDir;
+        }
+
+        public PhetProject[] getDependencies() {
+            PhetProject[] a = super.getDependencies();
+            return convertToMyPhetProjecets( a );
+        }
+    }
+
+    public static void main( String[] args ) {
+        if ( args.length == 0 ) {
+            System.out.println( "Usage: args[0]=basedir" );
+        }
+        else {
+            new PhetBuildGUI( new File( args[0] ) ).start();
+        }
+    }
+
 }
