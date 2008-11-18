@@ -44,8 +44,12 @@ class IndividualSimulationPage extends SitePage {
         $this->sim_type_html   = $SIM_TYPE_TO_IMAGE_HTML[$this->sim_type];
         $this->sim_launch_url  = sim_get_launch_url($this->simulation);
         $this->sim_image_url   = sim_get_screenshot($this->simulation);
-        $this->sim_version     = sim_get_version($this->simulation);
-        if ($this->sim_version === false) {
+
+        $version = sim_get_version($this->simulation);
+        if (!empty($version['major']) && !empty($version['minor'])) {
+            $this->sim_version = $version['major'].'.'.$version['minor'];
+        }
+        else {
             $this->sim_version = "N/A";
         }
 
@@ -241,7 +245,7 @@ EOT;
                         <span class="version">
                             Version {$this->sim_version}
                         </span><br />
-                    -->
+                   -->
                         <span class="size">
                             {$sim_size} KB
                         </span>
