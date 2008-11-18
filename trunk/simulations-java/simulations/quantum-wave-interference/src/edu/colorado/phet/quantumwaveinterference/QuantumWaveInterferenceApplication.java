@@ -32,7 +32,6 @@ import edu.colorado.phet.quantumwaveinterference.view.QWIPanel;
  */
 
 public class QuantumWaveInterferenceApplication extends PiccoloPhetApplication {
-    //    public static String VERSION = "1.05";
     private IntensityModule intensityModule;
     private SingleParticleModule singleParticleModule;
     private MandelModule mandelModule;

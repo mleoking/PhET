@@ -13,10 +13,10 @@ import javax.swing.*;
 
 public class ImagePComboBox extends PComboBox {
 
-    public ImagePComboBox( final ImageComboBox.Item[] rampObjects ) {
-        super( ImageComboBox.toLabelArray( rampObjects ) );
+    public ImagePComboBox( final ImageComboBox.Item[] items ) {
+        super( ImageComboBox.toLabelArray( items ) );
         setRenderer( new ImageComboBox.ComboBoxRenderer() );
-        ImageIcon[] ii = ImageComboBox.toLabelArray( rampObjects );
+        ImageIcon[] ii = ImageComboBox.toLabelArray( items );
         int maxWidth = 0;
         for( int i = 0; i < ii.length; i++ ) {
             ImageIcon icon = ii[i];
