@@ -1,9 +1,11 @@
+# 1.06.00
+11/17/08 - post new version to PhET website
 # 1.05.07
-11/17/08 - #960, fix color of titled borders on Windows XP SP3
+11/17/08 - #960, fix color of titled borders on Windows XP SP3 (blue->black)
 11/17/08 - #958, on static field and electric field, the arrows constantly flip directions
 # 1.05.06
 11/17/08 - #968, make slider knobs pointy
-11/17/08 - #960, fix color and style of fonts in control panel
+11/17/08 - #960, fix color and style of fonts in control panel (all fonts bold by default)
 11/15/08 - #959, fix background color of control panel
 # 1.05.05 (26049)
 11/11/08 - #944, fix layout of EmfControlPanel
