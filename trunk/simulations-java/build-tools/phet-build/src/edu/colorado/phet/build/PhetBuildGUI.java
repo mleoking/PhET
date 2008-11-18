@@ -13,6 +13,10 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import org.apache.tools.ant.taskdefs.Java;
+import org.apache.tools.ant.types.FileSet;
+import org.apache.tools.ant.types.Path;
+
 /**
  * Provides a front-end user interface for building and deploying phet's java simulations.
  * This entry point has no ant dependencies.
@@ -23,6 +27,8 @@ public class PhetBuildGUI {
     private JList simList;
     private JButton runButton;
     private File baseDir;
+    private JList flavorList;
+    private JList localeList;
 
     public PhetBuildGUI( File baseDir ) {
         this.baseDir = baseDir;
@@ -51,15 +57,17 @@ public class PhetBuildGUI {
         } );
         JPanel contentPane = new JPanel();
 
-//        flavorList = new JList( new Object[]{} );
-//        localeList = new JList( new Object[]{} );
+        flavorList = new JList( new Object[]{} );
+        localeList = new JList( new Object[]{} );
+
         contentPane.setLayout( new GridBagLayout() );
         GridBagConstraints gridBagConstraints = new GridBagConstraints( GridBagConstraints.RELATIVE, 0, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.VERTICAL, new Insets( 2, 2, 2, 2 ), 0, 0 );
         JScrollPane simListPane = new JScrollPane( simList );
         simListPane.setBorder( BorderFactory.createTitledBorder( "Projects" ) );
-//        simListPane.setPreferredSize( new Dimension( 400,300) );
         contentPane.add( simListPane, gridBagConstraints );
-//        contentPane.add( new JScrollPane( flavorList ), gridBagConstraints );
+//        JScrollPane comp = new JScrollPane( flavorList );
+//        comp.setBorder( BorderFactory.createTitledBorder( "Simulations" ) );
+//        contentPane.add( comp, gridBagConstraints );
 
 //        JScrollPane localeScrollPane = new JScrollPane( localeList );
 //        localeScrollPane.setPreferredSize( new Dimension( 100, 50 ) );
@@ -77,7 +85,7 @@ public class PhetBuildGUI {
         JButton cleanButton = new JButton( "Clean" );
         cleanButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                new JavaBuildCommand().clean( getSelectedSimulation() );
+                new JavaBuildCommand().clean( getSelectedProject() );
             }
         } );
 
@@ -99,16 +107,10 @@ public class PhetBuildGUI {
         runButton = new JButton( "Run" );
         runButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                run();
+                doRun();
             }
         } );
         updateRunButtonEnabled();
-//        JButton showLocalizationFile = new JButton( "Show Localization File" );
-//        showLocalizationFile.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                showLocalizationFile();
-//            }
-//        } );
 
         GridBagConstraints commandConstraints = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
         commandPanel.setLayout( new GridBagLayout() );
@@ -124,19 +126,19 @@ public class PhetBuildGUI {
         contentPane.add( commandPanel, gridBagConstraints );
 
 
-        frame.setSize( 500, 300 );
+        frame.setSize( 800, 600);
         frame.setContentPane( contentPane );
     }
 
     private void buildJNLP() {
-        String[] flavorNames = getSelectedSimulation().getFlavorNames();
-        Locale[] locales = getSelectedSimulation().getLocales();
+        String[] flavorNames = getSelectedProject().getFlavorNames();
+        Locale[] locales = getSelectedProject().getLocales();
         for ( int i = 0; i < locales.length; i++ ) {
             Locale locale = locales[i];
 
             for ( int j = 0; j < flavorNames.length; j++ ) {
                 String flavorName = flavorNames[j];
-                buildJNLP( getSelectedSimulation(), locale, flavorName );
+                buildJNLP( getSelectedProject(), locale, flavorName );
             }
         }
     }
@@ -144,7 +146,7 @@ public class PhetBuildGUI {
     private void buildJNLP( PhetProject selectedSimulation, Locale locale, String flavorName ) {
         System.out.println( "Building JNLP for locale=" + locale.getLanguage() + ", flavor=" + flavorName );
         PhetBuildJnlpTask j = new PhetBuildJnlpTask();
-        j.setDeployUrl( "file:///" + selectedSimulation.getDefaultDeployJar().getParentFile().getAbsolutePath());//todo: generalize
+        j.setDeployUrl( "file:///" + selectedSimulation.getDefaultDeployJar().getParentFile().getAbsolutePath() );//todo: generalize
         j.setProject( selectedSimulation.getName() );
         j.setLocale( locale.getLanguage() );
         j.setFlavor( flavorName );
@@ -171,20 +173,11 @@ public class PhetBuildGUI {
     }
 
     private void buildProject() {
-        build( getSelectedSimulation() );
+        build( getSelectedProject() );
     }
 
     private void build( PhetProject phetProject ) {
-        JavaBuildCommand javaBuildCommand = new JavaBuildCommand();
-        javaBuildCommand.build( phetProject );
-
-//        PhetBuildCommand phetBuildCommand = new PhetBuildCommand( phetProject, new MyAntTaskRunner(), true, phetProject.getDefaultDeployJar() );
-//        try {
-//            phetBuildCommand.execute();
-//        }
-//        catch( Exception e ) {
-//            e.printStackTrace();
-//        }
+        new JavaBuildCommand().build( phetProject );
     }
 
     private Project[] toProjects( PhetProject[] a ) {
@@ -211,9 +204,9 @@ public class PhetBuildGUI {
 
     }
 
-    private void run() {
-        final JDialog dialog = new JDialog( frame, "Building Sim" );
-        JLabel label = new JLabel( "Building " + getSelectedSimulation() + ", please wait..." );
+    private void run( String msg, final Runnable r ) {
+        final JDialog dialog = new JDialog( frame, msg );
+        JLabel label = new JLabel( "Building " + getSelectedProject() + ", please wait..." );
         label.setOpaque( true );
         JPanel panel = new JPanel();
         panel.setBorder( BorderFactory.createEmptyBorder( 4, 4, 4, 4 ) );
@@ -223,55 +216,54 @@ public class PhetBuildGUI {
         dialog.setResizable( false );
         dialog.setLocation( frame.getX() + frame.getWidth() / 2 - dialog.getWidth() / 2, frame.getY() + frame.getHeight() / 2 - dialog.getHeight() / 2 );
         dialog.setVisible( true );
-        Thread thread = new Thread( new Runnable() {
+
+
+        Runnable r2 = new Runnable() {
             public void run() {
-                doRun( dialog );
+                r.run();
+                dialog.dispose();
             }
-        } );
+        };
+        Thread thread = new Thread( r2 );
         thread.start();
     }
 
-    private PhetProject getSelectedSimulation() {
+    private PhetProject getSelectedProject() {
         return ( (Project) simList.getSelectedValue() ).p;
     }
 
-    private void doRun( final JDialog dialog ) {
-        String sim = getSelectedSimulation().getName();
-//        String flavor = (String)flavorList.getSelectedValue();
+    private void doRun() {
         String locale = "en";
-        System.out.println( "Building sim: " + sim );
-//        PhetBuildTask phetBuildTask = new PhetBuildTask();
-//        phetBuildTask.setProject( sim );
-//        runTask( phetBuildTask );
-//        System.out.println( "Build complete" );
-//        Java java = new Java();
-//
-//        PhetProject phetProject = getSelectedProject();
-//        if ( phetProject != null ) {
-//            java.setClassname( phetProject.getFlavor( getSelectedSimulation().getFlavorName() ).getMainclass() );
-//            java.setFork( true );
-//            String args = "";
-//            String[] a = phetProject.getFlavor( getSelectedSimulation().getFlavorName() ).getArgs();
-//            for ( int i = 0; i < a.length; i++ ) {
-//                String s = a[i];
-//                args += s + " ";
-//            }
-//            java.setArgs( args );
-//            Path classpath = new Path( getProject() );
-//            FileSet set = new FileSet();
-//            set.setFile( phetProject.getDefaultDeployJar() );
-//            classpath.addFileset( set );
-//            java.setClasspath( classpath );
-//            if ( !locale.equals( "en" ) ) {
-//                java.setJvmargs( "-Djavaws.phet.locale=" + locale );
-//            }
-//            SwingUtilities.invokeLater( new Runnable() {
-//                public void run() {
-//                    dialog.dispose();
-//                }
-//            } );
+        String flavor = "balloons";
+        Java java = new Java();
+
+        PhetProject phetProject = getSelectedProject();
+        if ( phetProject != null ) {
+            java.setClassname( phetProject.getFlavor( "balloons" ).getMainclass() );
+            java.setFork( true );
+            String args = "";
+            String[] a = phetProject.getFlavor( flavor ).getArgs();
+            for ( int i = 0; i < a.length; i++ ) {
+                String s = a[i];
+                args += s + " ";
+            }
+            java.setArgs( args );
+
+            org.apache.tools.ant.Project project = new org.apache.tools.ant.Project();
+            project.init();
+
+            Path classpath = new Path( project );
+            FileSet set = new FileSet();
+            set.setFile( phetProject.getDefaultDeployJar() );
+            classpath.addFileset( set );
+            java.setClasspath( classpath );
+            if ( !locale.equals( "en" ) ) {
+                java.setJvmargs( "-Djavaws.phet.locale=" + locale );
+            }
+
+            new MyAntTaskRunner().runTask( java );
 //            runTask( java );
-//        }
+        }
     }
 
     private void start() {
