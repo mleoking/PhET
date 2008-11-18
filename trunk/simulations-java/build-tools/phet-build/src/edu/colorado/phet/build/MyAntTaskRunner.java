@@ -6,7 +6,7 @@ import org.apache.tools.ant.Task;
 public class MyAntTaskRunner implements AntTaskRunner {
     private Project p;
 
-    MyAntTaskRunner() {
+    public MyAntTaskRunner() {
         p = new Project();
         p.init();
     }

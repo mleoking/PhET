@@ -1,15 +1,13 @@
 package edu.colorado.phet.build;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
+import java.text.DecimalFormat;
 import java.util.*;
 
 import org.apache.tools.ant.BuildException;
 
-import edu.colorado.phet.build.util.LicenseInfo;
 import edu.colorado.phet.build.util.DataResource;
+import edu.colorado.phet.build.util.LicenseInfo;
 
 /**
  * Author: Sam Reid
@@ -480,18 +478,30 @@ public class PhetProject {
     //Can't reuse the property loading code from phetcommon since the build process currently is GPL only.
     //Sure you can, it just means that phetcommon will be GPL when compiled with build-tools
     public String getVersionString() {
-        return getVersionProperty( "major" ) + "." + getVersionProperty( "minor" ) + "." + getVersionProperty( "dev" );
+        return getMajorVersion() + "." + getMinorVersion() + "." + getDevVersion();
     }
 
-    public int getVersionProperty(String property) {
+    public int getMajorVersion() {
+        return getVersionProperty( "major" );
+    }
+
+    public int getMinorVersion() {
+        return getVersionProperty( "minor" );
+    }
+
+    public int getDevVersion() {
+        return getVersionProperty( "dev" );
+    }
+
+    public int getVersionProperty( String property ) {
         Properties prop = new Properties();
         try {
-            prop.load( new FileInputStream( new File( getProjectDir(), "data/" + getName() + "/" + getName() + ".properties" ) ) );
+            prop.load( new FileInputStream( getVersionFile() ) );
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
-        return Integer.parseInt( prop.getProperty( "version."+property ) );
+        return Integer.parseInt( prop.getProperty( "version." + property ) );
     }
 
     public static String[] getSimNames( File basedir ) {
@@ -620,5 +630,27 @@ public class PhetProject {
 
     private boolean isIgnoreDirectory( File file ) {
         return file.getName().startsWith( ".svn" ) || file.getName().startsWith( "localization" );
+    }
+
+    public void setVersionField( String versionField, int dev ) {
+        Properties prop = new Properties();
+        try {
+
+            prop.load( new FileInputStream( getVersionFile() ) );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        prop.setProperty( "version." + versionField, new DecimalFormat( "00" ).format( dev ) );
+        try {
+            prop.store( new FileOutputStream( getVersionFile() ), null );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+    }
+
+    private File getVersionFile() {
+        return new File( getProjectDir(), "data/" + getName() + "/" + getName() + ".properties" );
     }
 }
