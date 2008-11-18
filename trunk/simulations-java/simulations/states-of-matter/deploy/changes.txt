@@ -1,3 +1,4 @@
+>Did a major refactoring of the muliple-particle model, which underlies the first two tabs.  This was done to improve maintainability and performance.
 >Fixed a problem where reset or switching molecules would not turn the stove off if it had been set to be turned on via the arrow keys.
 >Fixed a problem where the pressure on the second tab was not getting set to zero when Reset All was pushed or when switching between molecules.
 >Fixed a problem where neon would not get set back to the solid form if it had been heated to a gas and then the Reset All button was pressed.
