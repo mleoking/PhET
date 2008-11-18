@@ -1,3 +1,6 @@
+11-17-2008: Balloons and Static Electricity (1.07) - use PhET common code framework
+11-17-2008: Radio Waves and Electromagnetic Fields (1.06) - minor bug fixes,
+use PhET common code framework
 11-5-2008: Forces in 1 Dimension (1.19) - Minor user interface improvements
 11-5-2008: Wave Interference (1.06) - Waves are now in phase after using a single pulse
 11-4-2008: Circuit Construction Kit (3.15) - Added help for right clicking
