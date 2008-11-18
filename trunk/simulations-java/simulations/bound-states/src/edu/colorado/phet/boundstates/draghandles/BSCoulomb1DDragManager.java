@@ -84,8 +84,9 @@ public class BSCoulomb1DDragManager extends BSAbstractDragManager implements Obs
                 BSAbstractMarker spacingMarkers = new BSCoulomb1DSpacingMarker( potential, chartNode );
                 addMarker( spacingMarkers );
                 
-                BSAbstractHandle spacingHandle = new BSCoulomb1DSpacingHandle( potential, potentialSpec, chartNode );
-                addHandle( spacingHandle );
+                _spacingHandle = new BSCoulomb1DSpacingHandle( potential, potentialSpec, chartNode );
+                addHandle( _spacingHandle );
+                updateSpacingHandle();
             }
         }
     }
@@ -95,7 +96,11 @@ public class BSCoulomb1DDragManager extends BSAbstractDragManager implements Obs
     //----------------------------------------------------------------------------
     
     public void update( Observable o, Object arg ) {
-        if ( _spacingHandle != null ) {
+        updateSpacingHandle();
+    }
+    
+    private void updateSpacingHandle() {
+        if ( _spacingHandle != null && _potential != null ) {
             _spacingHandle.setVisible( _potential.getNumberOfWells() > 1 );
         }
     }
