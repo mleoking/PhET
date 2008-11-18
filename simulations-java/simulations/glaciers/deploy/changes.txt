@@ -1,3 +1,4 @@
+11/17/08 - #851, flags can't be dragged from valley floor to ice surface while glacier is moving
 # 1.00.08 (25973)
 10/16/08 - [726] flags and debris on glacier surface stop advancing when glacier is retreating
 10/15/08 - [849] workaround for sliver of blue sky that appears above snowfall ceiling (search for "Unfuddle 849" comment)

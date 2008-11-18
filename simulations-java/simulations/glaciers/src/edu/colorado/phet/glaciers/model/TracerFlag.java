@@ -57,6 +57,10 @@ public class TracerFlag extends AbstractTool {
         super.cleanup();
     }
     
+    public void startDrag() {
+        _onValleyFloor = false;
+    }
+    
     //----------------------------------------------------------------------------
     // AbstractTool overrides
     //----------------------------------------------------------------------------
@@ -93,6 +97,8 @@ public class TracerFlag extends AbstractTool {
                 setPosition( x, valleyElevation + 1 );    
             }
         }
+        
+        System.out.println( "onValleyFloor=" + _onValleyFloor );//XXX
     }
     
     public void clockTicked( ClockEvent clockEvent ) {
