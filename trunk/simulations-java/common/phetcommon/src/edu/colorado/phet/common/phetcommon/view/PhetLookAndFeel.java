@@ -1,13 +1,5 @@
-/* Copyright 2004, University of Colorado */
+/* Copyright 2004-2008, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.common.phetcommon.view;
 
 import java.awt.*;
@@ -15,16 +7,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.plaf.InsetsUIResource;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
+
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
  * PhetLookAndFeel manages the Look and Feel for a PhetApplication.
@@ -86,7 +79,7 @@ public class PhetLookAndFeel {
     private Color buttonBackgroundColor;
     private Color textFieldBackgroundColor = Color.white;//necessary to get white textfields on webstart under 1.5?
     private Insets insets;
-
+    private Color titledBorderTitleColor;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -164,6 +157,14 @@ public class PhetLookAndFeel {
     public void setInsets( Insets insets ) {
         this.insets = insets;
     }
+    
+    public Color getTitledBorderTitleColor() {
+        return titledBorderTitleColor;
+    }
+    
+    public void setTitledBorderTitleColor( Color titledBorderTitleColor ) {
+        this.titledBorderTitleColor = titledBorderTitleColor;
+    }
 
     //----------------------------------------------------------------------------
     // UIDefaults modification
@@ -209,10 +210,9 @@ public class PhetLookAndFeel {
         ColorUIResource foregroundResource = null;
         ColorUIResource textFieldBackgroundResource = null;
         InsetsUIResource insetsResource = null;
-        //ColorUIResource buttonBackgroundResource = null;
+        ColorUIResource titledBorderTitleColorResource = null;
 
         // Construct UI resources
-
         if ( backgroundColor != null ) {
             backgroundResource = new ColorUIResource( backgroundColor );
         }
@@ -224,6 +224,9 @@ public class PhetLookAndFeel {
         }
         if ( insets != null ) {
             insetsResource = new InsetsUIResource( insets.top, insets.left, insets.bottom, insets.right );
+        }
+        if ( titledBorderTitleColor != null ) {
+            titledBorderTitleColorResource = new ColorUIResource( titledBorderTitleColor );
         }
 
         // Uniformly modify the resources for each of the types in the "types" list.
@@ -242,11 +245,13 @@ public class PhetLookAndFeel {
             if ( insetsResource != null ) {
                 list.add( type, "margin", insetsResource );
             }
+            if ( titledBorderTitleColorResource != null ) {
+                list.add( "TitledBorder", "titleColor", titledBorderTitleColorResource );
+            }
         }
 
         // These types require some special modifications.
         list.add( "TitledBorder", "font", new FontUIResource( titledBorderFont ) );
-        list.add( "TitledBorder", "titleColor", new ColorUIResource( Color.black ) );//see #958
         list.add( "OptionPane", "messageFont", new FontUIResource( font ) );
         list.add( "OptionPane", "buttonFont", new FontUIResource( font ) );
 
@@ -435,7 +440,7 @@ public class PhetLookAndFeel {
 
     /**
      * Debugging routine that prints the UIDefault database key/value pairs.
-     * The output is sorted lexographically by key.
+     * The output is sorted lexigraphically by key.
      */
     public static void printUIDefaults() {
 
