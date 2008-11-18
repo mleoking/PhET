@@ -1,3 +1,4 @@
+11/17/08 - #960, fix color of titled borders on Windows XP SP3
 11/17/08 - #958, on static field and electric field, the arrows constantly flip directions
 # 1.05.06
 11/17/08 - #968, make slider knobs pointy

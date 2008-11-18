@@ -54,6 +54,7 @@ public class RadioWavesApplication extends PhetApplication {
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, RadioWavesConstants.PROJECT_NAME );
         appConfig.getLookAndFeel().setBackgroundColor( new Color( 255, 255, 220 ) ); // Unfuddle #959
         appConfig.getLookAndFeel().setFont( new PhetFont(PhetFont.getDefaultFontSize(),true) ); //Unfuddle #960
+        appConfig.getLookAndFeel().setTitledBorderTitleColor( Color.BLACK ); // Unfuddle #960
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 
