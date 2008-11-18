@@ -23,30 +23,28 @@ public class VerticalDoubleSlit extends VerticalBarrier {
     }
 
     protected void update() {
-        int gridHeight = getGridHeight();
-        int slitSeparation = getSlitSeparation();
+        int gridH = getGridHeight();
+        int sep = getSlitSeparation();
         int slitSize = getSlitSize();
+
+        int midBarHeight = sep - slitSize;
+        if ( midBarHeight <= 0 ) {     //make sure there is always a barrier between the slits, see #884
+            midBarHeight = 1;
+        }
+
+        int topBarHeight = gridH/2-midBarHeight/2-slitSize;
+        int bottomBarHeight = gridH - topBarHeight - slitSize - midBarHeight - slitSize;//remaining
+
         int thickness = getThickness();
         int x = getX();
         double potential = getPotential();
 
-        int topSlitCenter = round( gridHeight / 2.0 - slitSeparation / 2.0 );
-        int bottomSlitCenter = round( gridHeight / 2.0 + slitSeparation / 2.0 );
-//        int midBarSize = round( gridHeight / 2.0 - slitSeparation / 2.0 - slitSize / 2.0 );
+        topBar = new Rectangle( x, 0, thickness, topBarHeight );
+        midBar = new Rectangle( x, topBarHeight + slitSize, thickness, midBarHeight );
+        bottomBar = new Rectangle( x, midBar.y + midBar.height + slitSize, thickness, bottomBarHeight );
 
-        topBar = new Rectangle( x, 0, thickness, round( topSlitCenter - slitSize / 2.0 ) );
-        midBar = new Rectangle( x, round( topSlitCenter + slitSize / 2.0 ), thickness, slitSeparation - slitSize );
-        if ( midBar.getHeight() < 1 ) { //make sure there is always a barrier between the slits, see #884 
-            midBar.setBounds( x, round( topSlitCenter + bottomSlitCenter ) / 2, thickness, 1 );
-        }
-
-        int bottomBarY = round( bottomSlitCenter + slitSize / 2.0 );
-        int remainingHeight = gridHeight - bottomBarY;
-        bottomBar = new Rectangle( x, bottomBarY, thickness, remainingHeight );
-
-        this.topSlit = new Rectangle( x, topBar.x + topBar.width, thickness, slitSize );
-//        int remainingHeight=gridHeight-midBar.x+midBar.width;
-        this.bottomSlit = new Rectangle( x, midBar.x + midBar.width, thickness, slitSize );
+        this.topSlit = new Rectangle( x, topBar.y + topBar.height, thickness, slitSize );//todo: fix slitSize
+        this.bottomSlit = new Rectangle( x, midBar.y + midBar.height, thickness, slitSize );
 
         CompositePotential compositePotential = new CompositePotential();
         if ( super.getInverse() ) {
