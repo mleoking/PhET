@@ -35,6 +35,7 @@ public class TracerFlagNode extends AbstractToolNode {
     //----------------------------------------------------------------------------
     
     protected void startDrag() {
+        _tracerFlag.startDrag();
         _tracerFlag.setOrientation( 0 );
     }
     
