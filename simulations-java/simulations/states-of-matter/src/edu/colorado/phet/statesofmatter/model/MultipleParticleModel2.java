@@ -724,8 +724,10 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
      * number of particles.
      */
     private void calculateMinAllowableContainerHeight() {
-        m_minAllowableContainerHeight = m_particleDiameter * m_particleDiameter * 
-            m_moleculeDataSet.getNumberOfMolecules() / StatesOfMatterConstants.PARTICLE_CONTAINER_WIDTH * 2;
+//        m_minAllowableContainerHeight = m_particleDiameter * m_particleDiameter * 
+//            m_moleculeDataSet.getNumberOfMolecules() / StatesOfMatterConstants.PARTICLE_CONTAINER_WIDTH * 2;
+    	m_minAllowableContainerHeight = (m_moleculeDataSet.getNumberOfMolecules() / m_normalizedContainerWidth) *
+    	        m_particleDiameter;
     }
     
     /**
