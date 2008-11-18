@@ -246,6 +246,7 @@ public class PhetLookAndFeel {
 
         // These types require some special modifications.
         list.add( "TitledBorder", "font", new FontUIResource( titledBorderFont ) );
+        list.add( "TitledBorder", "titleColor", new ColorUIResource( Color.black ) );//see #958
         list.add( "OptionPane", "messageFont", new FontUIResource( font ) );
         list.add( "OptionPane", "buttonFont", new FontUIResource( font ) );
 
@@ -301,7 +302,7 @@ public class PhetLookAndFeel {
         textValues.add( "OptionPane", "okButtonText", getCommonString( "Common.choice.ok" ) );
         return textValues;
     }
-    
+
     private PropertyList getColorChooserStrings() {
         PropertyList textValues = new PropertyList();
         textValues.add( "ColorChooser", "cancelText", getCommonString( "Common.choice.cancel" ) );
