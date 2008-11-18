@@ -1,3 +1,4 @@
+>Fixed a problem where the pressure on the second tab was not getting set to zero when Reset All was pushed or when switching between molecules.
 >Fixed a problem where neon would not get set back to the solid form if it had been heated to a gas and then the Reset All button was pressed.
 >Fixed a problem where a molecule that was injected in the container would appear briefly outside the container (at point 0,0) before being moved to the correct position.
 >Made the minimum allowable size smaller for multi-atom molecules so that they could be more easily crushed if desired.
