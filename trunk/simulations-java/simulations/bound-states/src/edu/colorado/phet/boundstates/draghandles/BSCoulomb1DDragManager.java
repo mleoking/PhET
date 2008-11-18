@@ -1,15 +1,9 @@
-/* Copyright 2006, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2006-2008, University of Colorado */
 
 package edu.colorado.phet.boundstates.draghandles;
+
+import java.util.Observable;
+import java.util.Observer;
 
 import edu.colorado.phet.boundstates.model.BSCoulomb1DPotential;
 import edu.colorado.phet.boundstates.module.BSAbstractModuleSpec;
@@ -23,7 +17,14 @@ import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSCoulomb1DDragManager extends BSAbstractDragManager {
+public class BSCoulomb1DDragManager extends BSAbstractDragManager implements Observer {
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    private BSCoulomb1DPotential _potential;
+    private BSAbstractHandle _spacingHandle;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -37,6 +38,8 @@ public class BSCoulomb1DDragManager extends BSAbstractDragManager {
      */
     public BSCoulomb1DDragManager( BSAbstractModuleSpec moduleSpec, BSCombinedChartNode chartNode ) {
         super( moduleSpec, chartNode );
+        _potential = null;
+        _spacingHandle = null;
     }
     
     //----------------------------------------------------------------------------
@@ -50,7 +53,21 @@ public class BSCoulomb1DDragManager extends BSAbstractDragManager {
      * @param potential
      */
     public void setPotential( BSCoulomb1DPotential potential ) {
+
+        // remove existing handles and markers
         removeAllHandlesAndMarkers();
+        _spacingHandle = null;
+        
+        // rewire observer
+        if ( _potential != null ) {
+            _potential.deleteObserver( this );
+        }
+        _potential = potential;
+        if ( _potential != null ) {
+            _potential.addObserver( this );
+        }
+        
+        // create new handles and markers
         if ( potential != null ) {
             
             BSAbstractModuleSpec moduleSpec = getModuleSpec();
@@ -70,6 +87,16 @@ public class BSCoulomb1DDragManager extends BSAbstractDragManager {
                 BSAbstractHandle spacingHandle = new BSCoulomb1DSpacingHandle( potential, potentialSpec, chartNode );
                 addHandle( spacingHandle );
             }
+        }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
+    
+    public void update( Observable o, Object arg ) {
+        if ( _spacingHandle != null ) {
+            _spacingHandle.setVisible( _potential.getNumberOfWells() > 1 );
         }
     }
 }
