@@ -1,4 +1,4 @@
->
+>Fixed a problem where a molecule that was injected in the container would appear briefly outside the container (at point 0,0) before being moved to the correct position.
 >Made the minimum allowable size smaller for multi-atom molecules so that they could be more easily crushed if desired.
 ******* 0.04.00 (2629) 
 >Cleaned up a lot of things in preparation for deployment to the "Under Construction" area of the web site.
