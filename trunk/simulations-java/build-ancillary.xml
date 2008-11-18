@@ -80,7 +80,7 @@
 	<property name="phet-list-depends-classname"    value="edu.colorado.phet.build.PhetListDependsTask"/>
 	<property name="phet-list-flavors-classname"    value="edu.colorado.phet.build.PhetListFlavorsTask"/>
 	<property name="phet-list-locales-classname"    value="edu.colorado.phet.build.PhetListLocalesTask"/>
-	<property name="phet-build-gui-classname"       value="edu.colorado.phet.build.PhetBuildGUI"/>
+	<property name="phet-build-gui-classname"       value="edu.colorado.phet.build.PhetBuildGUITask"/>
 	<property name="phet-build-all-sim-jar-classname" value="edu.colorado.phet.build.PhetBuildAllSimJarTask"/>
 	<property name="phet-file-exists-classname"       value="edu.colorado.phet.build.util.FileExistsCondition"/>
 	<property name="create-installer-build-file-classname"       value="edu.colorado.phet.build.installer.InstallerBuildfileCreatorTask"/>

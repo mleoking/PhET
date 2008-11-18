@@ -25,7 +25,7 @@ import org.apache.tools.ant.types.Path;
  * Author: Sam Reid
  * May 19, 2007, 1:39:19 AM
  */
-public class PhetBuildGUI extends AbstractPhetTask {
+public class PhetBuildGUITask extends AbstractPhetTask {
     private JFrame frame;
     private final Object blocker = new Object();
     private JList localeList;
