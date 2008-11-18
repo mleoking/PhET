@@ -1,3 +1,6 @@
+#
+Made slits equal size, see #884
+
 # 1.06 11-5-2008
 >Waves are now in phase after using a single pulse
 
