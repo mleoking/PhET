@@ -6,6 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import edu.colorado.phet.build.PhetProject;
 import edu.colorado.phet.build.PhetProjectFlavor;
+import edu.colorado.phet.common.phetcommon.util.StreamReaderThread;
 
 /**
  * Created by: Sam

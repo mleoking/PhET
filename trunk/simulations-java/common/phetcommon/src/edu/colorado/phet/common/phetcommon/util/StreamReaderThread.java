@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.buildreports;
+package edu.colorado.phet.common.phetcommon.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
