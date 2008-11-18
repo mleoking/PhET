@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -218,7 +219,7 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
             g2.setColor( color );
             g2.setStroke( hollowArrowStroke );
             for ( int i = 0; i < latticePts.length; i++ ) {
-                Vector2D f = latticePts[i].field.scale( fieldSense );
+                AbstractVector2D f = latticePts[i].field.getScaledInstance( fieldSense );//see #958
                 double l = f.getMagnitude();
 
                 if ( l > 3 ) {
