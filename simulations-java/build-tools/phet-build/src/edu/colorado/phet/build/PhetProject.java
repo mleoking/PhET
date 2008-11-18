@@ -478,7 +478,12 @@ public class PhetProject {
     }
 
     //Can't reuse the property loading code from phetcommon since the build process currently is GPL only.
+    //Sure you can, it just means that phetcommon will be GPL when compiled with build-tools
     public String getVersionString() {
+        return getVersionProperty( "major" ) + "." + getVersionProperty( "minor" ) + "." + getVersionProperty( "dev" );
+    }
+
+    public int getVersionProperty(String property) {
         Properties prop = new Properties();
         try {
             prop.load( new FileInputStream( new File( getProjectDir(), "data/" + getName() + "/" + getName() + ".properties" ) ) );
@@ -486,13 +491,8 @@ public class PhetProject {
         catch( IOException e ) {
             e.printStackTrace();
         }
-        return prop.getProperty( "version.major" ) + "." + prop.getProperty( "version.minor" ) + "." + prop.getProperty( "version.dev" );
+        return Integer.parseInt( prop.getProperty( "version."+property ) );
     }
-
-//        protected static String[] getSimNames(File baseDir) {
-//        return getSimNames( new File( baseDir, "simulations" ));
-
-    //    }
 
     public static String[] getSimNames( File basedir ) {
         File[] simulations = new File( basedir, "simulations" ).listFiles();
