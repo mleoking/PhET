@@ -4,6 +4,7 @@ package edu.colorado.phet.nuclearphysics.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Stroke;
@@ -22,6 +23,8 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.swing.ImageIcon;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.motion.graphs.ReadoutTitleNode.OutlinePText;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -39,11 +42,13 @@ import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucl
 import edu.colorado.phet.nuclearphysics.util.PhetButtonNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
+import edu.colorado.phet.statesofmatter.view.StoveControlSlider;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 
 /**
@@ -66,7 +71,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     private static final Color  BORDER_COLOR = Color.DARK_GRAY;
     private static final float  BORDER_STROKE_WIDTH = 6f;
     private static final Stroke BORDER_STROKE = new BasicStroke( BORDER_STROKE_WIDTH );
-    private static final Color  BACKGROUND_COLOR = new Color( 246, 242, 175 );
     private static final float  AXES_LINE_WIDTH = 0.5f;
     private static final Stroke AXES_STROKE = new BasicStroke( AXES_LINE_WIDTH );
     private static final Color  AXES_LINE_COLOR = Color.BLACK;
@@ -85,12 +89,12 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
 
     // Constants that control the location of the origin.
     private static final double X_ORIGIN_PROPORTION = 0.20;
-    private static final double Y_ORIGIN_PROPORTION = 0.67;
+    private static final double Y_ORIGIN_PROPORTION = 0.50;
 
     // Tweakable values that can be used to adjust where the nuclei appear on
     // the chart.
-    private static final double PRE_DECAY_TIME_LINE_POS_FRACTION = 0.30;
-    private static final double POST_DECAY_TIME_LINE_POS_FRACTION = 0.55;
+    private static final double PRE_DECAY_TIME_LINE_POS_FRACTION = 0.25;
+    private static final double POST_DECAY_TIME_LINE_POS_FRACTION = 0.45;
     private static final double TIME_ZERO_OFFSET = 100; // In milliseconds
 
     // Half life of the nucleus we are displaying.
@@ -157,6 +161,10 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
 
     // Button for resetting this chart.
     PhetButtonNode _resetButtonNode;
+    
+    // Slider for adjust half life.
+    HalfLifeControlSlider _halfLifeSlider;
+    PSwing _halfLifeSliderNode;
 
     //------------------------------------------------------------------------
     // Constructor
@@ -210,8 +218,20 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         _borderNode = new PPath();
         _borderNode.setStroke( BORDER_STROKE );
         _borderNode.setStrokePaint( BORDER_COLOR );
-        _borderNode.setPaint( BACKGROUND_COLOR );
+        _borderNode.setPaint( StatesOfMatterConstants.ALPHA_DECAY_CHART_COLOR );
         _nonPickableChartNode.addChild( _borderNode );
+
+        // Add the slider for controlling the half life of adjustable nuclei.
+        _halfLifeSlider = new HalfLifeControlSlider();
+        _halfLifeSlider.setOpaque( true ); // Mac slider is transparent by default
+        _halfLifeSlider.addChangeListener( new ChangeListener(){
+            public void stateChanged( ChangeEvent e ) {
+            	// TODO: JPB TBD - Implement handler for this.
+                System.out.println("Slider change message received.");
+            }
+        });
+        _halfLifeSliderNode = new PSwing(_halfLifeSlider);
+        addChild(_halfLifeSliderNode);
 
         // Create the x & y axes of the graph.  The initial position is arbitrary
         // and the actual positioning will be done by the update functions.
@@ -318,7 +338,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         _halfLifeMarkerLine = new PPath();
         _halfLifeMarkerLine.setStroke( HALF_LIFE_LINE_STROKE );
         _halfLifeMarkerLine.setStrokePaint( HALF_LIFE_LINE_COLOR );
-        _halfLifeMarkerLine.setPaint( BACKGROUND_COLOR );
+        _halfLifeMarkerLine.setPaint( StatesOfMatterConstants.ALPHA_DECAY_CHART_COLOR );
         _nonPickableChartNode.addChild( _halfLifeMarkerLine );
 
         // Create the label for the half life line.
@@ -326,7 +346,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         _halfLifeLabel.setFont( HALF_LIFE_FONT );
         _halfLifeLabel.setTextPaint( HALF_LIFE_TEXT_COLOR );
         _nonPickableChartNode.addChild( _halfLifeLabel );
-
+        
         // Add the button for resetting the chart.
         _resetButtonNode = new PhetButtonNode( NuclearPhysicsStrings.DECAY_TIME_CLEAR_CHART );
         _resetButtonNode.setPickable( true );
@@ -389,7 +409,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         _xAxisOfGraph.setTipAndTailLocations( 
         		new Point2D.Double( _graphOriginX + ( TIME_SPAN * _msToPixelsFactor ) + 10, _graphOriginY ), 
         		new Point2D.Double( _graphOriginX, _graphOriginY ) );
-        Point2D yAxisTop = new Point2D.Double(_graphOriginX, _graphOriginY - _usableHeight * 0.55);
+        Point2D yAxisTop = new Point2D.Double(_graphOriginX, _graphOriginY - _usableHeight * 0.40);
         _yAxisOfGraph.setTipAndTailLocations( yAxisTop, new Point2D.Double( _graphOriginX, _graphOriginY ) );
 
         // Position the tick marks and their labels on the X axis.
@@ -424,6 +444,19 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         PText yAxisUpperTickMarkLabel = (PText) _yAxisTickMarkLabels.get( 1 );
         yAxisUpperTickMarkLabel.setOffset( _graphOriginX - ( 1.15 * yAxisUpperTickMarkLabel.getWidth() ), yAxisUpperTickMark.getY() - ( 0.5 * yAxisUpperTickMarkLabel.getHeight() ) );
 
+        // Position the slider for adjusting the half life.
+        _halfLifeSlider.setPreferredSize(new Dimension((int)(TIME_SPAN * _msToPixelsFactor), 25));
+//        _halfLifeSliderNode.setOffset(_graphOriginX, 
+//        		((PNode)_xAxisTickMarkLabels.get(0)).getFullBoundsReference().x);
+        _halfLifeSliderNode.setOffset(_graphOriginX, _graphOriginY + ((PNode)_xAxisTickMarkLabels.get(0)).getHeight());
+
+        // Position the marker for the half life.
+        _halfLifeMarkerLine.reset();
+        _halfLifeMarkerLine.moveTo( (float) ( _graphOriginX + (TIME_ZERO_OFFSET + HALF_LIFE) * _msToPixelsFactor ),
+        		(float) _graphOriginY );
+        _halfLifeMarkerLine.lineTo( (float) ( _graphOriginX + (TIME_ZERO_OFFSET + HALF_LIFE) * _msToPixelsFactor ),
+        		(float) ( _usableAreaOriginY + ( 0.1 * _usableHeight ) ) );
+
         // Position the labels for the axes.
         _xAxisLabel.setOffset( _usableAreaOriginX + _usableWidth - (_xAxisLabel.getWidth() * 1.2),
         		_graphOriginY + ( (PText) _xAxisTickMarkLabels.get( 0 ) ).getHeight() );
@@ -441,14 +474,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         		postDecayPosY - (_dummyText.getFullBoundsReference().height * 0.4));
 
         updateNucleiNumberText();
-
-        // Position the marker for the half life.
-        _halfLifeMarkerLine.reset();
-        _halfLifeMarkerLine.moveTo( (float) ( _graphOriginX + (TIME_ZERO_OFFSET + HALF_LIFE) * _msToPixelsFactor ),
-        		(float) _graphOriginY );
-        _halfLifeMarkerLine.lineTo( (float) ( _graphOriginX + (TIME_ZERO_OFFSET + HALF_LIFE) * _msToPixelsFactor ),
-        		(float) ( _usableAreaOriginY + ( 0.1 * _usableHeight ) ) );
-
+        
         // Position the label for the half life.
         _halfLifeLabel.setOffset( _halfLifeMarkerLine.getX() - (_halfLifeLabel.getFullBoundsReference().width / 2),
                 _graphOriginY + ( 0.5 * _halfLifeLabel.getFullBoundsReference().height ) );
