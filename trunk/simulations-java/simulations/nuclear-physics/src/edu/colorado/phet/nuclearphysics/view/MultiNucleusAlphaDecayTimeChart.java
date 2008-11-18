@@ -40,9 +40,6 @@ import edu.colorado.phet.nuclearphysics.model.AlphaDecayControl;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusAlphaDecayModel;
 import edu.colorado.phet.nuclearphysics.util.PhetButtonNode;
-import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
-import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
-import edu.colorado.phet.statesofmatter.view.StoveControlSlider;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -218,7 +215,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         _borderNode = new PPath();
         _borderNode.setStroke( BORDER_STROKE );
         _borderNode.setStrokePaint( BORDER_COLOR );
-        _borderNode.setPaint( StatesOfMatterConstants.ALPHA_DECAY_CHART_COLOR );
+        _borderNode.setPaint( NuclearPhysicsConstants.ALPHA_DECAY_CHART_COLOR );
         _nonPickableChartNode.addChild( _borderNode );
 
         // Add the slider for controlling the half life of adjustable nuclei.
@@ -338,7 +335,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         _halfLifeMarkerLine = new PPath();
         _halfLifeMarkerLine.setStroke( HALF_LIFE_LINE_STROKE );
         _halfLifeMarkerLine.setStrokePaint( HALF_LIFE_LINE_COLOR );
-        _halfLifeMarkerLine.setPaint( StatesOfMatterConstants.ALPHA_DECAY_CHART_COLOR );
+        _halfLifeMarkerLine.setPaint( NuclearPhysicsConstants.ALPHA_DECAY_CHART_COLOR );
         _nonPickableChartNode.addChild( _halfLifeMarkerLine );
 
         // Create the label for the half life line.
@@ -446,8 +443,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
 
         // Position the slider for adjusting the half life.
         _halfLifeSlider.setPreferredSize(new Dimension((int)(TIME_SPAN * _msToPixelsFactor), 25));
-//        _halfLifeSliderNode.setOffset(_graphOriginX, 
-//        		((PNode)_xAxisTickMarkLabels.get(0)).getFullBoundsReference().x);
         _halfLifeSliderNode.setOffset(_graphOriginX, _graphOriginY + ((PNode)_xAxisTickMarkLabels.get(0)).getHeight());
 
         // Position the marker for the half life.

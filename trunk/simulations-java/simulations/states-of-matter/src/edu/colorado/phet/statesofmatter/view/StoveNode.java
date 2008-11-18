@@ -65,18 +65,6 @@ public class StoveNode extends PNode {
         addChild( backgroundNode );
         addChild(m_stoveImage);
 
-        /*
-        m_stoveControlPanel = new StoveControlPanel();
-        m_stoveControlPanel.addListener(new StoveControlPanel.Listener() {
-            public void valueChanged(double value) {
-                m_heat = value;
-                update();
-                if (m_model != null){
-                    m_model.setHeatingCoolingAmount( m_heat );
-                }
-            }
-        });
-        */
         m_stoveControlSlider = new StoveControlSlider();
         m_stoveControlSlider.setOpaque( true ); // Mac slider is transparent by default
         m_stoveControlSlider.addChangeListener( new ChangeListener(){

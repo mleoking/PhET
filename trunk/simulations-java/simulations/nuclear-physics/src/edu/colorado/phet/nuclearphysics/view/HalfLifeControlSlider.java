@@ -2,21 +2,9 @@
 
 package edu.colorado.phet.nuclearphysics.view;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.Hashtable;
-
-import javax.swing.JLabel;
 import javax.swing.JSlider;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.TitledBorder;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
-import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 
 /**
  * This class is the slider that is used to control the half life of the
@@ -48,7 +36,7 @@ public class HalfLifeControlSlider extends JSlider {
         });
         */
         
-        setBackground(StatesOfMatterConstants.ALPHA_DECAY_CHART_COLOR);
+        setBackground(NuclearPhysicsConstants.ALPHA_DECAY_CHART_COLOR);
     }
     
     public double getNormalizedValue(){

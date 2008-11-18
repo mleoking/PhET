@@ -107,6 +107,9 @@ public class NuclearPhysicsConstants {
     // Color for label used for the Uranium 239 nucleus.
     public static final Color URANIUM_239_LABEL_COLOR = Color.WHITE;
     
+    // Color of the chart background for the alpha decay application.
+	public static final Color  ALPHA_DECAY_CHART_COLOR = new Color( 246, 242, 175 );
+
     //----------------------------------------------------------------------------
     // Images
     //----------------------------------------------------------------------------

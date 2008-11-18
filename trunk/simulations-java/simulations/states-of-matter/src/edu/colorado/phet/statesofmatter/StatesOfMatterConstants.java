@@ -77,10 +77,7 @@ public class StatesOfMatterConstants {
     // Default color for module tabs
     public static final Color SELECTED_TAB_COLOR = new Color(0xffff99);
     
-    //XXX added this missing constant so things would compile, value is probably incorrect
-    public static final Color ALPHA_DECAY_CHART_COLOR = Color.WHITE;
-
-    //----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
     // Simulation Control
     //----------------------------------------------------------------------------
 
