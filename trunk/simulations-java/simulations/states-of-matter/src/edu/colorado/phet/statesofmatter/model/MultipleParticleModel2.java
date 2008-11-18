@@ -313,7 +313,12 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
      * @return
      */
     public double getModelPressure(){
-        return m_moleculeForceAndMotionCalculator.getPressure();
+    	if (m_moleculeForceAndMotionCalculator != null){
+            return m_moleculeForceAndMotionCalculator.getPressure();
+    	}
+    	else{
+    		return 0;
+    	}
     }
     
     public int getMoleculeType(){
@@ -747,6 +752,8 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
             break;
         }
         
+        notifyPressureChanged();  // This is needed in case we were switching from another molecule
+                                  // that was under pressure.
         calculateMinAllowableContainerHeight();
     }
 
