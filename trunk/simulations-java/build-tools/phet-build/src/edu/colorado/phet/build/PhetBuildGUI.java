@@ -87,7 +87,12 @@ public class PhetBuildGUI {
         JButton cleanButton = new JButton( "Clean" );
         cleanButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                new JavaBuildCommand().clean( getSelectedProject() );
+                try {
+                    new PhetCleanCommand( getSelectedProject(), new MyAntTaskRunner() ).execute();
+                }
+                catch( Exception e1 ) {
+                    e1.printStackTrace();
+                }
             }
         } );
 
@@ -216,8 +221,13 @@ public class PhetBuildGUI {
         build( getSelectedProject() );
     }
 
-    private void build( PhetProject phetProject ) {
-        new JavaBuildCommand().build( phetProject );
+    private void build( PhetProject project ) {
+        try {
+            new PhetBuildCommand( project, new MyAntTaskRunner(), true, project.getDefaultDeployJar() ).execute();
+        }
+        catch( Exception e ) {
+            e.printStackTrace();
+        }
     }
 
     private Project[] toProjects( PhetProject[] a ) {
