@@ -28,8 +28,6 @@ public class ParticleNode extends PNode {
     // Class Data
     //----------------------------------------------------------------------------
 
-    public static final ParticleNode TEST = new ParticleNode( StatesOfMatterAtom.TEST, new ModelViewTransform() );
-
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
