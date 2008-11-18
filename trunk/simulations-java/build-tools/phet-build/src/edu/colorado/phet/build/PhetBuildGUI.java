@@ -16,10 +16,7 @@ import javax.swing.event.ListSelectionListener;
 import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
-import org.rev6.scf.ScpFile;
-import org.rev6.scf.ScpUpload;
-import org.rev6.scf.SshConnection;
-import org.rev6.scf.SshException;
+import org.rev6.scf.*;
 
 /**
  * Provides a front-end user interface for building and deploying phet's java simulations.
@@ -146,14 +143,24 @@ public class PhetBuildGUI {
     }
 
     private void deployDev( PhetProject selectedProject ) {
-        buildProject();
-        buildJNLP();
-//        ScpTo.uploadFile( flavorJAR, user, host, DIR + flavorJAR.getName(), password );
+//        buildProject();
+//        buildJNLP();
+
         SshConnection sshConnection = new SshConnection( "spot.colorado.edu", "reids", "password" );
         try {
             sshConnection.connect();
-            ScpFile f = new ScpFile( new File( "C:\\Users\\Owner\\Desktop\\neutron.png" ) );
-            sshConnection.executeTask( new ScpUpload( f ) );
+            String remotePathDir = "/home1/reids/testdir/";
+            sshConnection.executeTask( new SshCommand( "mkdir " + remotePathDir ) );
+            File[] f = selectedProject.getDefaultDeployDir().listFiles();
+            //todo: should handle recursive for future use (if we ever want to support nested directories)
+            for ( int i = 0; i < f.length; i++ ) {
+                if ( f[i].getName().startsWith( "." ) ) {
+                    //ignore
+                }
+                else {
+                    sshConnection.executeTask( new ScpUpload( new ScpFile( f[i], remotePathDir + f[i].getName() ) ) );
+                }
+            }
         }
         catch( SshException e ) {
             e.printStackTrace();
