@@ -39,6 +39,22 @@ public class StoveNode extends PNode {
 
         m_model = model;
         
+        // Register for events from the model that will affect the stove.
+        if (m_model != null){
+            m_model.addListener(new AbstractMultipleParticleModel.Adapter(){
+            	public void resetOccurred(){
+            		m_stoveControlSlider.setValue(0);
+            	}
+            	public void moleculeTypeChanged(){
+            		m_stoveControlSlider.setValue(0);
+            	}
+            	public void containerExploded(){
+            		m_stoveControlSlider.setValue(0);
+            	}
+            });
+        }
+        
+        // Create the images that comprise the stove.
         m_fireImage = StatesOfMatterResources.getImageNode("flames.gif");
         m_fireImage.setOffset( 0, BURNER_Y_OFFSET );
         m_fireImage.setScale( INITIAL_STOVE_SCALING );
