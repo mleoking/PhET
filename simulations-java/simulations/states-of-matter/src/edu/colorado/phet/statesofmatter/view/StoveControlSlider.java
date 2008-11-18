@@ -63,7 +63,6 @@ public class StoveControlSlider extends JSlider {
         border.setTitleFont( new PhetFont(12) );
         setBorder(border);
         setBackground(CONTROL_COLOR);
-        setBackground(CONTROL_COLOR);
     }
     
     public double getNormalizedValue(){
