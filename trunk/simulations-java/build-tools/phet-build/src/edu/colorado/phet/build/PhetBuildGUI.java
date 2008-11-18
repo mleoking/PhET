@@ -10,13 +10,17 @@ import java.io.IOException;
 import java.util.Locale;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
-import org.rev6.scf.*;
+import org.rev6.scf.ScpFile;
+import org.rev6.scf.ScpUpload;
+import org.rev6.scf.SshConnection;
+import org.rev6.scf.SshException;
+
+import edu.colorado.phet.build.java.PhetServer;
+import edu.colorado.phet.build.java.SVNStatusChecker;
 
 /**
  * Provides a front-end user interface for building and deploying phet's java simulations.
@@ -30,6 +34,9 @@ public class PhetBuildGUI {
     private File baseDir;
     private JList flavorList;
     private JList localeList;
+
+    private String username;
+    private File password;
 
     public PhetBuildGUI( File baseDir ) {
         this.baseDir = baseDir;
@@ -52,11 +59,11 @@ public class PhetBuildGUI {
         simList = new JList( p );
         simList.setSelectedIndex( 0 );
         simList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-        simList.addListSelectionListener( new ListSelectionListener() {
-            public void valueChanged( ListSelectionEvent e ) {
-//                updateLists();
-            }
-        } );
+//        simList.addListSelectionListener( new ListSelectionListener() {
+//            public void valueChanged( ListSelectionEvent e ) {
+////                updateLists();
+//            }
+//        } );
         JPanel contentPane = new JPanel();
 
         flavorList = new JList( new Object[]{} );
@@ -78,12 +85,6 @@ public class PhetBuildGUI {
 //        contentPane.add( localeScrollPane, gridBagConstraints );
 
         JPanel commandPanel = new JPanel();
-//        JButton refresh = new JButton( "Refresh" );
-//        refresh.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                refresh();
-//            }
-//        } );
         JButton cleanButton = new JButton( "Clean" );
         cleanButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -100,14 +101,14 @@ public class PhetBuildGUI {
         JButton buildButton = new JButton( "Build" );
         buildButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                buildProject();
+                build( getSelectedProject() );
             }
         } );
 
-        JButton buildJNLP = new JButton( "Build JNLP" );
+        JButton buildJNLP = new JButton( "Build Local JNLP" );
         buildJNLP.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                buildJNLP();
+                buildJNLP( getSelectedProject(), "file:///" + getSelectedProject().getDefaultDeployJar().getParentFile().getAbsolutePath() );
             }
         } );
 
@@ -117,7 +118,13 @@ public class PhetBuildGUI {
                 runSim();
             }
         } );
-        updateRunButtonEnabled();
+
+        JButton svnStatus = new JButton( "SVN Status" );
+        svnStatus.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                checkSVNStatus( getSelectedProject() );
+            }
+        } );
 
         JButton deployDev = new JButton( "Deploy Dev" );
         deployDev.addActionListener( new ActionListener() {
@@ -136,6 +143,7 @@ public class PhetBuildGUI {
         commandPanel.add( buildButton, commandConstraints );
         commandPanel.add( runButton, commandConstraints );
         commandPanel.add( buildJNLP, commandConstraints );
+        commandPanel.add( svnStatus, commandConstraints );
 
         commandPanel.add( deployDev, commandConstraints );
         commandPanel.add( Box.createVerticalBox() );
@@ -147,15 +155,30 @@ public class PhetBuildGUI {
         frame.setContentPane( contentPane );
     }
 
-    private void deployDev( PhetProject selectedProject ) {
-//        buildProject();
-//        buildJNLP();
+    private void checkSVNStatus( PhetProject selectedProject ) {
+        boolean upToDate = new SVNStatusChecker().isUpToDate( selectedProject );
+        System.out.println( "upToDate = " + upToDate );
+    }
 
-        SshConnection sshConnection = new SshConnection( "spot.colorado.edu", "reids", "password" );
+    private void deployDev( PhetProject selectedProject ) {
+        deploy( selectedProject, PhetServer.DEVELOPMENT, getDevelopmentAuthentication() );
+    }
+
+    private void deploy( PhetProject selectedProject, PhetServer server, AuthenticationInfo authenticationInfo ) {
+
+        build( getSelectedProject() );
+
+//        String codebase=server.getCodebase(selectedProject);
+//        String codebase=server.getUrl()+"/"+selectedProject.getName()+
+
+//        String newVersion=""+3;
+//        int devVersion =buildJNLP( getSelectedProject(), server.getUrl() + "/" + selectedProject.getName() + "/" + newVersion );
+
+        SshConnection sshConnection = new SshConnection( "spot.colorado.edu", authenticationInfo.getUsername(), authenticationInfo.getPassword() );
         try {
             sshConnection.connect();
-            String remotePathDir = "/home1/reids/testdir/";
-            sshConnection.executeTask( new SshCommand( "mkdir " + remotePathDir ) );
+            String remotePathDir = server.getPath();
+//            sshConnection.executeTask( new SshCommand( "mkdir " + remotePathDir ) );
             File[] f = selectedProject.getDefaultDeployDir().listFiles();
             //todo: should handle recursive for future use (if we ever want to support nested directories)
             for ( int i = 0; i < f.length; i++ ) {
@@ -163,7 +186,7 @@ public class PhetBuildGUI {
                     //ignore
                 }
                 else {
-                    sshConnection.executeTask( new ScpUpload( new ScpFile( f[i], remotePathDir + f[i].getName() ) ) );
+                    sshConnection.executeTask( new ScpUpload( new ScpFile( f[i], remotePathDir + "/" + f[i].getName() ) ) );
                 }
             }
         }
@@ -175,23 +198,28 @@ public class PhetBuildGUI {
         }
     }
 
-    private void buildJNLP() {
-        String[] flavorNames = getSelectedProject().getFlavorNames();
+    private AuthenticationInfo getDevelopmentAuthentication() {
+        AuthenticationInfo authenticationInfo = new AuthenticationInfo();
+        return authenticationInfo;
+    }
+
+    private void buildJNLP( PhetProject selectedProject, String codebase ) {
+        String[] flavorNames = selectedProject.getFlavorNames();
         Locale[] locales = getSelectedProject().getLocales();
         for ( int i = 0; i < locales.length; i++ ) {
             Locale locale = locales[i];
 
             for ( int j = 0; j < flavorNames.length; j++ ) {
                 String flavorName = flavorNames[j];
-                buildJNLP( getSelectedProject(), locale, flavorName );
+                buildJNLP( getSelectedProject(), locale, flavorName, codebase );
             }
         }
     }
 
-    private void buildJNLP( PhetProject selectedSimulation, Locale locale, String flavorName ) {
+    private void buildJNLP( PhetProject selectedSimulation, Locale locale, String flavorName, String codebase ) {
         System.out.println( "Building JNLP for locale=" + locale.getLanguage() + ", flavor=" + flavorName );
         PhetBuildJnlpTask j = new PhetBuildJnlpTask();
-        j.setDeployUrl( "file:///" + selectedSimulation.getDefaultDeployJar().getParentFile().getAbsolutePath() );//todo: generalize
+        j.setDeployUrl( codebase );
         j.setProject( selectedSimulation.getName() );
         j.setLocale( locale.getLanguage() );
         j.setFlavor( flavorName );
@@ -215,10 +243,6 @@ public class PhetBuildGUI {
             }
         }
         return b;
-    }
-
-    private void buildProject() {
-        build( getSelectedProject() );
     }
 
     private void build( PhetProject project ) {
@@ -250,11 +274,7 @@ public class PhetBuildGUI {
         }
     }
 
-    private void updateRunButtonEnabled() {
-
-    }
-
-    private void run( String msg, final Runnable r ) {
+    private void runCommandWithWaitDialog( String msg, final Runnable r ) {
         final JDialog dialog = new JDialog( frame, msg );
         JLabel label = new JLabel( "Building " + getSelectedProject() + ", please wait..." );
         label.setOpaque( true );
@@ -266,7 +286,6 @@ public class PhetBuildGUI {
         dialog.setResizable( false );
         dialog.setLocation( frame.getX() + frame.getWidth() / 2 - dialog.getWidth() / 2, frame.getY() + frame.getHeight() / 2 - dialog.getHeight() / 2 );
         dialog.setVisible( true );
-
 
         Runnable r2 = new Runnable() {
             public void run() {
@@ -354,4 +373,14 @@ public class PhetBuildGUI {
         }
     }
 
+    private class AuthenticationInfo {
+
+        public String getUsername() {
+            return null;
+        }
+
+        public String getPassword() {
+            return null;
+        }
+    }
 }
