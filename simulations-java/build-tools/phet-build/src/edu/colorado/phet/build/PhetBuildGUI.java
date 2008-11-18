@@ -7,6 +7,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.Locale;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -128,9 +129,25 @@ public class PhetBuildGUI {
     }
 
     private void buildJNLP() {
-        System.out.println( "Building JNLP" );
+        String[] flavorNames = getSelectedSimulation().getFlavorNames();
+        Locale[] locales = getSelectedSimulation().getLocales();
+        for ( int i = 0; i < locales.length; i++ ) {
+            Locale locale = locales[i];
+
+            for ( int j = 0; j < flavorNames.length; j++ ) {
+                String flavorName = flavorNames[j];
+                buildJNLP( getSelectedSimulation(), locale, flavorName );
+            }
+        }
+    }
+
+    private void buildJNLP( PhetProject selectedSimulation, Locale locale, String flavorName ) {
+        System.out.println( "Building JNLP for locale=" + locale.getLanguage() + ", flavor=" + flavorName );
         PhetBuildJnlpTask j = new PhetBuildJnlpTask();
-        j.setProject( getSelectedSimulation().getName() );
+        j.setDeployUrl( "file:///" + selectedSimulation.getDefaultDeployJar().getParentFile().getAbsolutePath());//todo: generalize
+        j.setProject( selectedSimulation.getName() );
+        j.setLocale( locale.getLanguage() );
+        j.setFlavor( flavorName );
         org.apache.tools.ant.Project project = new org.apache.tools.ant.Project();
         project.setBaseDir( baseDir );
         project.init();
