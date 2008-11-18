@@ -95,6 +95,7 @@ public class BSSquareDragManager extends BSAbstractDragManager implements Observ
 
                 _separationHandle = new BSSquareSeparationHandle( potential, potentialSpec, chartNode );
                 addHandle( _separationHandle );
+                updateSeparationHandle();
             }
         }
     }
@@ -104,7 +105,11 @@ public class BSSquareDragManager extends BSAbstractDragManager implements Observ
     //----------------------------------------------------------------------------
     
     public void update( Observable o, Object arg ) {
-        if ( _separationHandle != null ) {
+        updateSeparationHandle();
+    }
+    
+    private void updateSeparationHandle() {
+        if ( _separationHandle != null && _potential != null ) {
             _separationHandle.setVisible( _potential.getNumberOfWells() > 1 );
         }
     }

@@ -1,3 +1,4 @@
+11/17/08 - #75, separation handles should not be visible when #wells=1
 10/8/08 - use PhetApplicationConfig.launchSim
 10/8/08 - moved list of rejected features to Unfuddle 793
 9/5/08 - remove uses of DialogUtils, use JOptionPane directly
