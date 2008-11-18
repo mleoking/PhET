@@ -154,6 +154,9 @@ public class Valley {
     /**
      * Gets the width at a position along the valley floor.
      * Width is largest upvalley, then tapers down to constant further downvalley.
+     * <p>
+     * This is NOT the width used to draw the valley floor or glacial ice; that 
+     * width has been simplified to be constant.
      * 
      * @param x position (meters)
      * @return width (meters)
