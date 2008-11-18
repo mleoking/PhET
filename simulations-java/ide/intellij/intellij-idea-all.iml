@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module relativePaths="true" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="Scala" name="Scala">
+      <configuration />
+    </facet>
+  </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../../../../../../reid/svn-working-copy/trunk/projects/phet" />
@@ -10,6 +15,8 @@
       <sourceFolder url="file://$MODULE_DIR$/../../build-tools/image4j/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../build-tools/patches/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../build-tools/phet-build/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../build-tools/securechannelfacade/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../common/build-reports/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../common/charts/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../common/collision/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../common/controls/src" isTestSource="false" />
@@ -107,6 +114,7 @@
       <sourceFolder url="file://$MODULE_DIR$/../../../util/updater/src" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/../../../website" />
+    <orderEntry type="library" name="scala-2.7.2.final" level="project" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
@@ -1240,6 +1248,15 @@
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/../../contrib/jmol-11.6/jars/commons-cli-1.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../../../../../../j2sdk1.4.2_17/lib/tools.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
