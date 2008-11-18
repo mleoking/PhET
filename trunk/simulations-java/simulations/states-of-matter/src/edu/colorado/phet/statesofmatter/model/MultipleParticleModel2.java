@@ -340,12 +340,6 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
      */
     public void setMoleculeType(int moleculeID){
         
-    	// If this is already the molecule type, and a data set already
-    	// exists, then don't bother doing anything.
-    	if ((moleculeID == m_currentMolecule) && (m_moleculeDataSet != null)){
-    		return;
-    	}
-    	
         // Verify that this is a supported value.
         if ((moleculeID != StatesOfMatterConstants.DIATOMIC_OXYGEN) &&
             (moleculeID != StatesOfMatterConstants.NEON) &&
