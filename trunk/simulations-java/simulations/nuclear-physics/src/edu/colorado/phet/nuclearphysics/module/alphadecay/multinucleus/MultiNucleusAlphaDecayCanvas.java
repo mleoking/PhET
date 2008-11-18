@@ -55,7 +55,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     private final double HEIGHT_TRANSLATION_FACTOR = 0.45; // 0 = all the way up, 1 = all the way down.
     
     // Constants that control where the charts are placed.
-    private final double TIME_CHART_FRACTION = 0.2;   // Fraction of canvas for time chart.
+    private final double TIME_CHART_FRACTION = 0.24;   // Fraction of canvas for time chart.
     
     // Base color for the buttons on the canvas.
     private final static Color CANVAS_BUTTON_COLOR = new Color(255, 100, 0);

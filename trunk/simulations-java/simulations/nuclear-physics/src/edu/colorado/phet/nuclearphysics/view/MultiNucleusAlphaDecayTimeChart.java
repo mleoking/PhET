@@ -90,15 +90,15 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
 
     // Tweakable values that can be used to adjust where the nuclei appear on
     // the chart.
-    private static final double PRE_DECAY_TIME_LINE_POS_FRACTION = 0.25;
-    private static final double POST_DECAY_TIME_LINE_POS_FRACTION = 0.45;
+    private static final double PRE_DECAY_TIME_LINE_POS_FRACTION = 0.15;
+    private static final double POST_DECAY_TIME_LINE_POS_FRACTION = 0.40;
     private static final double TIME_ZERO_OFFSET = 100; // In milliseconds
 
     // Half life of the nucleus we are displaying.
     private static final double HALF_LIFE = 516; // In milliseconds.
     
     // Constants that control the way the nuclei look.
-    private static final double NUCLEUS_SIZE_PROPORTION = 0.2;  // Fraction of the overall height of the chart.
+    private static final double NUCLEUS_SIZE_PROPORTION = 0.1;  // Fraction of the overall height of the chart.
 
     //------------------------------------------------------------------------
     // Instance Data
@@ -117,7 +117,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     private PPath _borderNode;
     private PPath _halfLifeMarkerLine;
     private ArrowNode _xAxisOfGraph;
-    private ArrowNode _yAxisOfGraph;
     private ArrayList _xAxisTickMarks;
     private ArrayList _xAxisTickMarkLabels;
     private ArrayList _yAxisTickMarks;
@@ -230,18 +229,13 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         _halfLifeSliderNode = new PSwing(_halfLifeSlider);
         addChild(_halfLifeSliderNode);
 
-        // Create the x & y axes of the graph.  The initial position is arbitrary
-        // and the actual positioning will be done by the update functions.
+        // Create the x axis of the graph.  The initial position is arbitrary
+        // and the actual positioning will be done by the update function(s).
         _xAxisOfGraph = new ArrowNode( new Point2D.Double( 10, 10 ), new Point2D.Double( 20, 20 ), 9, 7, 1 );
         _xAxisOfGraph.setStroke( AXES_STROKE );
         _xAxisOfGraph.setStrokePaint( AXES_LINE_COLOR );
         _xAxisOfGraph.setPaint( AXES_LINE_COLOR );
         _nonPickableChartNode.addChild( _xAxisOfGraph );
-        _yAxisOfGraph = new ArrowNode( new Point2D.Double(), new Point2D.Double(), 9, 7, 1 );
-        _yAxisOfGraph.setStroke( AXES_STROKE );
-        _yAxisOfGraph.setStrokePaint( AXES_LINE_COLOR );
-        _yAxisOfGraph.setPaint( AXES_LINE_COLOR );
-        _nonPickableChartNode.addChild( _yAxisOfGraph );
 
         // Add the tick marks and their labels to the X axis.
         int numTicksOnX = (int) Math.round( ( TIME_SPAN / 1000 ) + 1 );
@@ -406,8 +400,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         _xAxisOfGraph.setTipAndTailLocations( 
         		new Point2D.Double( _graphOriginX + ( TIME_SPAN * _msToPixelsFactor ) + 10, _graphOriginY ), 
         		new Point2D.Double( _graphOriginX, _graphOriginY ) );
-        Point2D yAxisTop = new Point2D.Double(_graphOriginX, _graphOriginY - _usableHeight * 0.40);
-        _yAxisOfGraph.setTipAndTailLocations( yAxisTop, new Point2D.Double( _graphOriginX, _graphOriginY ) );
 
         // Position the tick marks and their labels on the X axis.
         for ( int i = 0; i < _xAxisTickMarks.size(); i++ ) {
@@ -428,12 +420,12 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         double preDecayPosY = _usableAreaOriginY + ( _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION );
         double postDecayPosY = _usableAreaOriginY + ( _usableHeight * POST_DECAY_TIME_LINE_POS_FRACTION );
         PPath yAxisLowerTickMark = (PPath) _yAxisTickMarks.get( 0 );
-        yAxisLowerTickMark.setPathTo( new Line2D.Double( _graphOriginX, postDecayPosY, 
-        		_graphOriginX + TICK_MARK_LENGTH, postDecayPosY ));
+        yAxisLowerTickMark.setPathTo( new Line2D.Double( _graphOriginX - TICK_MARK_LENGTH, postDecayPosY, 
+        		_graphOriginX, postDecayPosY ));
 
         PPath yAxisUpperTickMark = (PPath) _yAxisTickMarks.get( 1 );
-        yAxisUpperTickMark.setPathTo( new Line2D.Double( _graphOriginX, preDecayPosY, 
-        		_graphOriginX + TICK_MARK_LENGTH, preDecayPosY ) );
+        yAxisUpperTickMark.setPathTo( new Line2D.Double( _graphOriginX - TICK_MARK_LENGTH, preDecayPosY, 
+        		_graphOriginX, preDecayPosY ) );
 
         PText yAxisLowerTickMarkLabel = (PText) _yAxisTickMarkLabels.get( 0 );
         yAxisLowerTickMarkLabel.setOffset( _graphOriginX - ( 1.15 * yAxisLowerTickMarkLabel.getWidth() ), yAxisLowerTickMark.getY() - ( 0.5 * yAxisLowerTickMarkLabel.getHeight() ) );
@@ -454,25 +446,27 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
 
         // Position the labels for the axes.
         _xAxisLabel.setOffset( _usableAreaOriginX + _usableWidth - (_xAxisLabel.getWidth() * 1.2),
-        		_graphOriginY + ( (PText) _xAxisTickMarkLabels.get( 0 ) ).getHeight() );
+        		_halfLifeSliderNode.getFullBoundsReference().getMaxY() );
+        double yAxisLabelCenter = yAxisUpperTickMark.getY() 
+                + ((yAxisLowerTickMark.getY() - yAxisUpperTickMark.getY()) / 2);
         _yAxisLabel2.setOffset( yAxisUpperTickMarkLabel.getOffset().getX() - ( 2.0 * _yAxisLabel1.getFont().getSize() ),
-        		(_graphOriginY - ((_graphOriginY - yAxisTop.getY()) / 2)) + (_yAxisLabel2.getFullBounds().height / 2) );
+        		yAxisLabelCenter + (_yAxisLabel2.getFullBounds().height / 2) );
         _yAxisLabel1.setOffset( _yAxisLabel2.getOffset().getX() - ( 1.1 * _yAxisLabel2.getFont().getSize() ),
-        		(_graphOriginY - ((_graphOriginY - yAxisTop.getY()) / 2)) + (_yAxisLabel1.getFullBounds().height / 2) );
+        		yAxisLabelCenter + (_yAxisLabel1.getFullBounds().height / 2) );
         
         // Position the labels for the quantities of the various nuclei.
         _numUndecayedNucleiLabel.setOffset( 
         		_yAxisLabel1.getFullBoundsReference().x - _dummyText.getFullBoundsReference().width * 1.1 - _numUndecayedNucleiLabel.getFullBoundsReference().width,
-        		preDecayPosY - (_dummyText.getFullBoundsReference().height * 0.6));
+        		preDecayPosY - (_dummyText.getFullBoundsReference().height * 0.5));
         _numDecayedNucleiLabel.setOffset(
         		_yAxisLabel1.getFullBoundsReference().x - _dummyText.getFullBoundsReference().width * 1.1 - _numDecayedNucleiLabel.getFullBoundsReference().width,
-        		postDecayPosY - (_dummyText.getFullBoundsReference().height * 0.4));
+        		postDecayPosY - (_dummyText.getFullBoundsReference().height * 0.5));
 
         updateNucleiNumberText();
         
         // Position the label for the half life.
         _halfLifeLabel.setOffset( _halfLifeMarkerLine.getX() - (_halfLifeLabel.getFullBoundsReference().width / 2),
-                _graphOriginY + ( 0.5 * _halfLifeLabel.getFullBoundsReference().height ) );
+        		_halfLifeSliderNode.getFullBoundsReference().getMaxY() );
 
         // Position the reset button.
         _resetButtonNode.setOffset( _usableAreaOriginX + 10, 
@@ -663,9 +657,9 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         PBounds decayedTextBounds = _numDecayedNucleiText.getFullBoundsReference();
         
         _numUndecayedNucleiText.setOffset(labelMiddleX - undecayedTextBounds.width / 2, 
-        		preDecayPosY - (labelHeight * 0.6));
+        		preDecayPosY - (labelHeight * 0.5));
         _numDecayedNucleiText.setOffset(labelMiddleX - decayedTextBounds.width / 2,
-        		postDecayPosY - (labelHeight * 0.4));
+        		postDecayPosY - (labelHeight * 0.5));
 
         _arrowNode.setOffset( 
         		_numUndecayedNucleiText.getFullBoundsReference().x + _numUndecayedNucleiText.getFullBoundsReference().width / 2,
