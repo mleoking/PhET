@@ -1,15 +1,9 @@
-/* Copyright 2006, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2006-2008, University of Colorado */
 
 package edu.colorado.phet.boundstates.draghandles;
+
+import java.util.Observable;
+import java.util.Observer;
 
 import edu.colorado.phet.boundstates.model.BSSquarePotential;
 import edu.colorado.phet.boundstates.module.BSAbstractModuleSpec;
@@ -23,7 +17,14 @@ import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSSquareDragManager extends BSAbstractDragManager {
+public class BSSquareDragManager extends BSAbstractDragManager implements Observer {
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    private BSSquarePotential _potential;
+    private BSAbstractHandle _separationHandle;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -37,6 +38,8 @@ public class BSSquareDragManager extends BSAbstractDragManager {
      */
     public BSSquareDragManager( BSAbstractModuleSpec moduleSpec, BSCombinedChartNode chartNode ) {
         super( moduleSpec, chartNode );
+        _potential = null;
+        _separationHandle = null;
     }
     
     //----------------------------------------------------------------------------
@@ -50,7 +53,21 @@ public class BSSquareDragManager extends BSAbstractDragManager {
      * @param potential
      */
     public void setPotential( BSSquarePotential potential ) {
-        removeAllHandlesAndMarkers();      
+        
+        // remove existing handles and markers
+        removeAllHandlesAndMarkers(); 
+        _separationHandle = null;
+        
+        // rewire observer
+        if ( _potential != null ) {
+            _potential.deleteObserver( this );
+        }
+        _potential = potential;
+        if ( _potential != null ) {
+            _potential.addObserver( this );
+        }
+        
+        // create new handles and markers
         if ( potential != null ) {
             
             BSAbstractModuleSpec moduleSpec = getModuleSpec();
@@ -76,9 +93,19 @@ public class BSSquareDragManager extends BSAbstractDragManager {
                 BSAbstractMarker separationMarkers = new BSSquareSeparationMarker( potential, chartNode );
                 addMarker( separationMarkers );
 
-                BSAbstractHandle separationHandle = new BSSquareSeparationHandle( potential, potentialSpec, chartNode );
-                addHandle( separationHandle );
+                _separationHandle = new BSSquareSeparationHandle( potential, potentialSpec, chartNode );
+                addHandle( _separationHandle );
             }
+        }
+    }
+
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
+    
+    public void update( Observable o, Object arg ) {
+        if ( _separationHandle != null ) {
+            _separationHandle.setVisible( _potential.getNumberOfWells() > 1 );
         }
     }
 }
