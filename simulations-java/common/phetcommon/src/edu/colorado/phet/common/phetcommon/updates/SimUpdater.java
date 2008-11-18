@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.NetworkUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+import edu.colorado.phet.common.phetcommon.util.StreamReaderThread;
 import edu.colorado.phet.common.phetcommon.util.logging.DebugLogger;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
@@ -91,7 +92,8 @@ public class SimUpdater {
         String[] cmdArray = new String[] { PhetUtilities.getJavaPath(), "-jar", updaterBootstrap.getAbsolutePath(), src.getAbsolutePath(), dst.getAbsolutePath() };
         println( "Starting updater bootstrap with cmdArray=" + Arrays.asList( cmdArray ).toString() );
         Process p = Runtime.getRuntime().exec( cmdArray );
-        //TODO: read output from process in case helpful debug information is there in case of problem
+        //it would be nice to read output from process in case helpful debug information is there in case of problem
+        //however, the simulation JAR must exit so that it can be overwritten
     }
 
     /*
