@@ -16,6 +16,10 @@ import javax.swing.event.ListSelectionListener;
 import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
+import org.rev6.scf.ScpFile;
+import org.rev6.scf.ScpUpload;
+import org.rev6.scf.SshConnection;
+import org.rev6.scf.SshException;
 
 /**
  * Provides a front-end user interface for building and deploying phet's java simulations.
@@ -49,6 +53,7 @@ public class PhetBuildGUI {
         }
         Project[] p = toProjects( b );
         simList = new JList( p );
+        simList.setSelectedIndex( 0 );
         simList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
         simList.addListSelectionListener( new ListSelectionListener() {
             public void valueChanged( ListSelectionEvent e ) {
@@ -107,10 +112,18 @@ public class PhetBuildGUI {
         runButton = new JButton( "Run" );
         runButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                doRun();
+                runSim();
             }
         } );
         updateRunButtonEnabled();
+
+        JButton deployDev = new JButton( "Deploy Dev" );
+        deployDev.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                deployDev( getSelectedProject() );
+            }
+        } );
+
 
         GridBagConstraints commandConstraints = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
         commandPanel.setLayout( new GridBagLayout() );
@@ -121,13 +134,33 @@ public class PhetBuildGUI {
         commandPanel.add( buildButton, commandConstraints );
         commandPanel.add( runButton, commandConstraints );
         commandPanel.add( buildJNLP, commandConstraints );
+
+        commandPanel.add( deployDev, commandConstraints );
         commandPanel.add( Box.createVerticalBox() );
 
         contentPane.add( commandPanel, gridBagConstraints );
 
 
-        frame.setSize( 800, 600);
+        frame.setSize( 800, 600 );
         frame.setContentPane( contentPane );
+    }
+
+    private void deployDev( PhetProject selectedProject ) {
+        buildProject();
+        buildJNLP();
+//        ScpTo.uploadFile( flavorJAR, user, host, DIR + flavorJAR.getName(), password );
+        SshConnection sshConnection = new SshConnection( "spot.colorado.edu", "reids", "password" );
+        try {
+            sshConnection.connect();
+            ScpFile f = new ScpFile( new File( "C:\\Users\\Owner\\Desktop\\neutron.png" ) );
+            sshConnection.executeTask( new ScpUpload( f ) );
+        }
+        catch( SshException e ) {
+            e.printStackTrace();
+        }
+        finally {
+            sshConnection.disconnect();
+        }
     }
 
     private void buildJNLP() {
@@ -232,7 +265,7 @@ public class PhetBuildGUI {
         return ( (Project) simList.getSelectedValue() ).p;
     }
 
-    private void doRun() {
+    private void runSim() {
         String locale = "en";
         String flavor = "balloons";
         Java java = new Java();
