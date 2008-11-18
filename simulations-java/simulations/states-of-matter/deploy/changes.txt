@@ -1,3 +1,4 @@
+>
 >Made the minimum allowable size smaller for multi-atom molecules so that they could be more easily crushed if desired.
 ******* 0.04.00 (2629) 
 >Cleaned up a lot of things in preparation for deployment to the "Under Construction" area of the web site.

@@ -620,12 +620,12 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
         		atomPositions[i] = new Point2D.Double();
         	}
 
-            // Position the atom positions.
-            m_atomPositionUpdater.updateAtomPositions(m_moleculeDataSet);
-
             // Add the newly created molecule to the data set.
         	m_moleculeDataSet.addMolecule(atomPositions, moleculeCenterOfMassPosition, moleculeVelocity, moleculeRotationRate);
         	
+            // Position the atoms that comprise the molecules.
+            m_atomPositionUpdater.updateAtomPositions(m_moleculeDataSet);
+
             if (m_moleculeDataSet.getAtomsPerMolecule() == 1){
                 
                 // Add particle to model set.
@@ -724,8 +724,6 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
      * number of particles.
      */
     private void calculateMinAllowableContainerHeight() {
-//        m_minAllowableContainerHeight = m_particleDiameter * m_particleDiameter * 
-//            m_moleculeDataSet.getNumberOfMolecules() / StatesOfMatterConstants.PARTICLE_CONTAINER_WIDTH * 2;
     	m_minAllowableContainerHeight = (m_moleculeDataSet.getNumberOfMolecules() / m_normalizedContainerWidth) *
     	        m_particleDiameter;
     }
