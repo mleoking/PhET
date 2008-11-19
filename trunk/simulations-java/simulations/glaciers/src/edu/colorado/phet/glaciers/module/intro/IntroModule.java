@@ -4,12 +4,14 @@ package edu.colorado.phet.glaciers.module.intro;
 
 import java.awt.Frame;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
 import edu.colorado.phet.glaciers.*;
 import edu.colorado.phet.glaciers.control.ClimateControlPanel;
 import edu.colorado.phet.glaciers.control.MiscControlPanel;
 import edu.colorado.phet.glaciers.control.ViewControlPanel;
+import edu.colorado.phet.glaciers.dialog.EvolutionStateDialog;
 import edu.colorado.phet.glaciers.model.Climate;
 import edu.colorado.phet.glaciers.model.Glacier;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
@@ -32,6 +34,7 @@ public class IntroModule extends GlaciersModule {
     private final GlaciersModel _model;
     private final GlaciersPlayArea _playArea;
     private final IntroControlPanel _controlPanel;
+    private EvolutionStateDialog _evolutionDialog; // debug
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -70,6 +73,11 @@ public class IntroModule extends GlaciersModule {
             toolboxHelp.pointAt( _playArea.getToolboxNode(), _playArea.getZoomedCanvas() );
         }
         
+        // Debug
+        if ( PhetApplication.instance().isDeveloperControlsEnabled() ) {
+            _evolutionDialog = new EvolutionStateDialog( PhetApplication.instance().getPhetFrame(), _model.getGlacier(), getName() );
+        }
+        
         // Set initial state
         reset();
     }
@@ -81,10 +89,16 @@ public class IntroModule extends GlaciersModule {
     public void activate() {
         super.activate();
         _controlPanel.activate();
+        if ( _evolutionDialog != null ) {
+            _evolutionDialog.setVisible( true );
+        }
     }
     
     public void deactivate() {
         _controlPanel.deactivate();
+        if ( _evolutionDialog != null ) {
+            _evolutionDialog.setVisible( false );
+        }
         super.deactivate();
     }
     
