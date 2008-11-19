@@ -660,4 +660,65 @@ public class PhetProject {
     public File getChangesFile() {
         return new File( getDefaultDeployDir(), "changes.txt" );
     }
+
+    public String getChangesText() {
+        File changesFile = getChangesFile();
+        if ( !changesFile.exists() ) {
+            return "";
+        }
+        try {
+            BufferedReader bufferedReader = new BufferedReader( new FileReader( changesFile ) );
+            StringBuffer s = new StringBuffer();
+            String line = bufferedReader.readLine();
+            while ( line != null ) {
+                s.append( line );
+                line = bufferedReader.readLine();
+                if ( line != null ) {
+                    s.append( "\n" );
+                }
+            }
+            return s.toString();
+        }
+        catch( FileNotFoundException e ) {
+            e.printStackTrace();
+            throw new RuntimeException( e );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+            throw new RuntimeException( e );
+        }
+    }
+
+    public void prependChangesText( String message ) {
+        String changes = message + "\n" + getChangesText();
+        try {
+            BufferedWriter bufferedWriter = new BufferedWriter( new FileWriter( getChangesFile() ) );
+            bufferedWriter.write( changes );
+            bufferedWriter.close();
+            notifyChangesTextChanged();
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+    }
+
+    private ArrayList listeners = new ArrayList();
+
+    public static interface Listener {
+        public void changesTextChanged();
+    }
+
+    public void notifyChangesTextChanged() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).changesTextChanged();
+        }
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void removeListener( Listener listener ) {
+        listeners.remove( listener );
+    }
 }
