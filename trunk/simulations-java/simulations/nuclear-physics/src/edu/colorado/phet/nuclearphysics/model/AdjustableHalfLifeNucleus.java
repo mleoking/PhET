@@ -83,7 +83,7 @@ public class AdjustableHalfLifeNucleus extends AtomicNucleus implements AlphaDec
     //------------------------------------------------------------------------
     
     /**
-     * Resets the nucleus to its original state, before any fission has
+     * Resets the nucleus to its original state, before any decay has
      * occurred.
      */
     public void reset(){
