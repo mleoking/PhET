@@ -15,8 +15,11 @@ import org.apache.tools.ant.types.Path;
 import org.rev6.scf.*;
 
 import edu.colorado.phet.build.*;
+import edu.colorado.phet.build.translate.ScpTo;
 import edu.colorado.phet.build.util.FileUtils;
 import edu.colorado.phet.build.util.ProcessOutputReader;
+
+import com.jcraft.jsch.JSchException;
 
 public class BuildScript {
     private PhetProject project;
@@ -130,19 +133,11 @@ public class BuildScript {
 
     private void sendSSH( PhetServer server, AuthenticationInfo authenticationInfo ) {
         SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword() );
+        String remotePathDir = server.getPath( project );
         try {
             sshConnection.connect();
-            String remotePathDir = server.getPath( project );
+
             sshConnection.executeTask( new SshCommand( "mkdir " + remotePathDir ) );//todo: would it be worthwhile to skip this task when possible?
-            File[] f = project.getDefaultDeployDir().listFiles(); //todo: should handle recursive for future use (if we ever want to support nested directories)
-            for ( int i = 0; i < f.length; i++ ) {
-                if ( f[i].getName().startsWith( "." ) ) {
-                    //ignore
-                }
-                else {
-                    sshConnection.executeTask( new ScpUpload( new ScpFile( f[i], remotePathDir + "/" + f[i].getName() ) ) );
-                }
-            }
         }
         catch( SshException e ) {
             e.printStackTrace();
@@ -150,6 +145,28 @@ public class BuildScript {
         finally {
             sshConnection.disconnect();
         }
+
+        //for some reason, the securechannelfacade fails with a "server didn't expect this file" error
+        //but our code works; therefore there is probably a problem with the handshaking in securechannelfacade
+        File[] f = project.getDefaultDeployDir().listFiles(); //todo: should handle recursive for future use (if we ever want to support nested directories)
+            for ( int i = 0; i < f.length; i++ ) {
+                if ( f[i].getName().startsWith( "." ) ) {
+                    //ignore
+                }
+                else {
+                    //server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword()
+                    try {
+                        ScpTo.uploadFile( f[i], authenticationInfo.getUsername(), server.getHost(), remotePathDir + "/" + f[i].getName(),authenticationInfo.getPassword() );
+                    }
+                    catch( JSchException e ) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    }
+                    catch( IOException e ) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    }
+//                    sshConnection.executeTask( new ScpUpload( new ScpFile( f[i],  ) ) );
+                }
+            }
     }
 
     private void setSVNVersion( int svnVersion ) {
@@ -184,6 +201,9 @@ public class BuildScript {
         //TODO: verify that SVN repository revision number now matches what we wrote to the project properties file
         ProcessOutputReader.ProcessExecResult a = ProcessOutputReader.exec( args );
         if ( a.getTerminatedNormally() ) {
+            System.out.println( "Finished committing new version file with message: " + message +" output/err=");
+            System.out.println( a.getOut() );
+            System.out.println( a.getErr() );
             System.out.println( "Finished committing new version file with message: " + message );
         }
         else {
