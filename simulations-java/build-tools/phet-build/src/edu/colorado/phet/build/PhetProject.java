@@ -654,7 +654,7 @@ public class PhetProject {
         }
     }
 
-    private File getVersionFile() {
+    public File getVersionFile() {
         return new File( getProjectDir(), "data/" + getName() + "/" + getName() + ".properties" );
     }
 }
