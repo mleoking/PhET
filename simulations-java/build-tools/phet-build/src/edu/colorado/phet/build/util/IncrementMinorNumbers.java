@@ -36,7 +36,6 @@ public class IncrementMinorNumbers {
             String minor = properties.getProperty( "version.minor" );
             String dev = properties.getProperty( "version.dev" );
             String revision = properties.getProperty( "version.revision" );
-//            String aboutcredits=properties.getProperty( )
             String newMinorNumber = String.valueOf( Integer.parseInt( minor ) + 1 );
             if ( newMinorNumber.length() == 1 ) {
                 newMinorNumber = "0" + newMinorNumber;
@@ -44,9 +43,6 @@ public class IncrementMinorNumbers {
             if ( major.equals( "0" ) ) {
                 major = "1";
             }
-//            properties.setProperty( "version.major", major );
-//            properties.setProperty( "version.minor", newMinorNumber );
-//            properties.setProperty( "version.dev", "00" );
             properties.setProperty( "version.revision", "17033" );
             properties.store( new FileOutputStream( propertyFile ), null );
         }

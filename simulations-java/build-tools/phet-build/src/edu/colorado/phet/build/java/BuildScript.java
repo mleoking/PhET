@@ -227,7 +227,6 @@ public class BuildScript {
             }
 
             new MyAntTaskRunner().runTask( java );
-//            runTask( java );
         }
     }
 

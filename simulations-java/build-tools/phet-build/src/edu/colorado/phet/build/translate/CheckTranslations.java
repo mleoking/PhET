@@ -100,13 +100,11 @@ public class CheckTranslations {
 
     public static Locale[] listTranslationsInJar( PhetProject p, File file ) throws IOException {
         ArrayList translations = new ArrayList();
-        //final File file = new File( jar );
         if ( file.exists() ) {
             JarFile jarFile = new JarFile( file );
             Enumeration e = jarFile.entries();
             while ( e.hasMoreElements() ) {
                 Object o = e.nextElement();
-//            System.out.println( "o = " + o );
                 final String prefix = p.getName() + "/localization/" + p.getName() + "-strings_";
                 if ( o.toString().startsWith( prefix ) ) {
                     String translation = o.toString().substring( prefix.length(), prefix.length() + 2 );

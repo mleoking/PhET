@@ -63,8 +63,5 @@ public class CheckNamingConventions {
         if ( !propertyFile.exists() ) {
             System.out.println( "File doesn't exist: " + propertyFile.getAbsolutePath() );
         }
-//        else {
-//            System.out.println( "File exists: " + propertyFile.getAbsolutePath() );
-//        }
     }
 }

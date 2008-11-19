@@ -70,10 +70,8 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
 
     private String getJNLPProperties() {//todo: locale support
         String properties = "";
-//        if ( locale != null && !locale.equals( "en" ) ) {
         //explicitly request english for the default JNLP file
         properties += "<property name=\"javaws.phet.locale\" value=\"" + ( locale == null ? "en" : locale ) + "\" />";
-//        }
         return properties;
     }
 

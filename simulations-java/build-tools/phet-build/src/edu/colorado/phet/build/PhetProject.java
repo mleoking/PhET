@@ -66,7 +66,6 @@ public class PhetProject {
     }
 
     public File getAntBaseDir() {
-//        return new File( "../../" );
         return new File( "." );
     }
 
@@ -327,7 +326,6 @@ public class PhetProject {
             if ( s.startsWith( prefix ) ) {
                 String lastPart = s.substring( prefix.length() );
                 int lastIndex = lastPart.indexOf( '.' );
-//                String flavorName = lastPart.substring( 0, lastIndex - 1 );
                 String flavorName = lastPart.substring( 0, lastIndex );
                 if ( !flavorNames.contains( flavorName ) ) {
                     flavorNames.add( flavorName );
@@ -456,7 +454,6 @@ public class PhetProject {
             String filename = child.getName();
             String prefix = getName() + "-strings_";
             String suffix = ".properties";
-//            System.out.println( "PhetProject.getLocales: filename = " + filename );
             if ( child.isFile() && filename.startsWith( prefix ) && filename.endsWith( suffix ) ) {
                 String languageCode = filename.substring( prefix.length(), filename.length() - suffix.length() );
                 locales.add( new Locale( languageCode ) );

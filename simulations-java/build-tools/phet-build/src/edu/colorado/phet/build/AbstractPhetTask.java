@@ -27,35 +27,4 @@ public class AbstractPhetTask extends Task implements AntTaskRunner {
         return getProject().getBaseDir();
     }
 
-//    private void setAllProjects( Object object ) {
-//        Method[] methods = object.getClass().getMethods();
-//
-//        for ( int i = 0; i < methods.length; i++ ) {
-//            Method m = methods[i];
-//            if ( m.getName().equals( "setProject" ) && m.getParameterTypes().length == 1 && m.getParameterTypes()[0] == Project.class ) {
-//                try {
-//                    System.out.println( "Setting project of " + object.toString() );
-//
-//                    m.invoke( object, new Object[]{ getProject() });
-//                }
-//                catch (IllegalAccessException e) {
-//                    e.printStackTrace();
-//                }
-//                catch (InvocationTargetException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//            else if ( m.getName().startsWith( "get" ) && m.getParameterTypes().length == 0 ) {
-//                try {
-//                    setAllProjects( m.invoke( object, new Object[]{} ) );
-//                }
-//                catch (IllegalAccessException e) {
-//                    e.printStackTrace();
-//                }
-//                catch (InvocationTargetException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//    }
 }
