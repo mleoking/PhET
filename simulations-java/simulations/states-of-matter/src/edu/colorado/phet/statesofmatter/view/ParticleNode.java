@@ -95,6 +95,24 @@ public class ParticleNode extends PNode {
     //----------------------------------------------------------------------------
     // Public Methods
     //----------------------------------------------------------------------------
+    
+    public boolean getGradientEnabled(){
+    	return m_useGradient;
+    }
+    
+    public void setGradientEnabled(boolean gradientEnabled){
+    	if (m_useGradient != gradientEnabled){
+    		
+        	m_useGradient = gradientEnabled;
+        	
+        	if (m_useGradient){
+        		m_sphere.setPaint( choosePaint(m_particle) );
+        	}
+        	else{
+        		m_sphere.setPaint( chooseColor(m_particle) );
+        	}
+    	}
+    }
 
     //----------------------------------------------------------------------------
     // Private Methods

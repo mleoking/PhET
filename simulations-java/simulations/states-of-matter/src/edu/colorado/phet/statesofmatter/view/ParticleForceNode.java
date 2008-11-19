@@ -48,8 +48,8 @@ public class ParticleForceNode extends ParticleNode {
     // Constructor(s)
     //-----------------------------------------------------------------------------
 
-    public ParticleForceNode( StatesOfMatterAtom particle, ModelViewTransform mvt ) {
-        super( particle, mvt, true );
+    public ParticleForceNode( StatesOfMatterAtom particle, ModelViewTransform mvt, boolean useGradient ) {
+        super( particle, mvt, useGradient );
         
         m_attractiveForce = 0;
         m_repulsiveForce = 0;
