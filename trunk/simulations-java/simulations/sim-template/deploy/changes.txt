@@ -1,3 +1,4 @@
+Test svn synchronization checker
 # 0.08.18 11-19-2008
 Testing 5th message.
 # 0.08.17 11-19-2008
