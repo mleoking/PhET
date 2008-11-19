@@ -13,7 +13,7 @@ import org.apache.tools.ant.taskdefs.ManifestException;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 
-import edu.colorado.phet.build.patterns.Command;
+import edu.colorado.phet.build.Command;
 import edu.colorado.phet.build.proguard.ProguardCommand;
 
 /**

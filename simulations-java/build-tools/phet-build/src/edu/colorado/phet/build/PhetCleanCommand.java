@@ -3,7 +3,7 @@ package edu.colorado.phet.build;
 
 import org.apache.tools.ant.taskdefs.Delete;
 
-import edu.colorado.phet.build.patterns.Command;
+import edu.colorado.phet.build.Command;
 
 public class PhetCleanCommand implements Command {
     private final PhetProject project;
