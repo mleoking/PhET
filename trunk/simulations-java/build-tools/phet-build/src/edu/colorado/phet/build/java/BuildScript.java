@@ -337,7 +337,9 @@ public class BuildScript {
                     break;
                 }
             }
-            output += "<li>" + token + "\n";
+            if ( !token.trim().startsWith( "#" ) ) {
+                output += "<li>" + token + "\n";
+            }
         }
         return output + "</ul>";
     }
