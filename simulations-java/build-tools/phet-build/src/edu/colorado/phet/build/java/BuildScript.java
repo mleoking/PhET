@@ -57,7 +57,7 @@ public class BuildScript {
         int svnNumber = getSVNVersion();
         System.out.println( "Current SVN: " + svnNumber );
         setSVNVersion( svnNumber + 1 );
-        addMessagesToChangeFile();
+        addMessagesToChangeFile(svnNumber+1);
 
         commitProject();//commits both changes to version and change file
 
@@ -78,13 +78,13 @@ public class BuildScript {
         System.out.println( "Finished deploy to: " + server.getHost() );
     }
 
-    private void addMessagesToChangeFile() {
+    private void addMessagesToChangeFile(int svn) {
         String message = JOptionPane.showInputDialog( "Enter a message to add to the change log\n(or Enter if change log is up to date)" );
         if ( message.trim().length() > 0 ) {
             prependChange( message );
         }
 
-        prependChange( "# " + project.getVersionString() + " " + new SimpleDateFormat( "MM-dd-yyyy" ).format( new Date() ) );
+        prependChange( "# " + project.getVersionString() + " ("+ svn+") "+ new SimpleDateFormat( "MM-dd-yyyy" ).format( new Date() ) );
     }
 
     private void prependChange( String message ) {
