@@ -28,7 +28,7 @@ public class PhetBuildGUI {
 
     public static void main( String[] args ) {
         if ( args.length == 0 ) {
-            System.out.println( "Usage: args[0]=basedir" );
+            System.out.println( "Usage: args[0]=basedir.  The basedir is your machine-specific absolute path to simulations-java.  Enclose in quotes if the path contains whitespace.  You may also need to set the current working directory to be the basedir for the launch (not sure)." );
         }
         else {
             File basedir = new File( args[0] );
