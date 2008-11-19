@@ -77,7 +77,7 @@ public class BuildScript {
         System.out.println( "codebase = " + codebase );
         buildJNLP( codebase );
 
-        createHeader();
+        createHeader( svnNumber );
 
         copyVersionFilesToDeploy();
         sendSSH( server, authenticationInfo );
@@ -92,7 +92,11 @@ public class BuildScript {
             prependChange( message );
         }
 
-        prependChange( "# " + project.getVersionString() + " (" + svn + ") " + new SimpleDateFormat( "MM-dd-yyyy" ).format( new Date() ) );
+        prependChange( "# " + getFullVersionStr( svn ) );
+    }
+
+    private String getFullVersionStr( int svn ) {
+        return project.getVersionString() + " (" + svn + ") " + new SimpleDateFormat( "MM-dd-yyyy" ).format( new Date() );
     }
 
     private void prependChange( String message ) {
@@ -302,30 +306,21 @@ public class BuildScript {
         }
     }
 
-    public void createHeader() {
+    public void createHeader( int svn ) {
         try {
-            FileUtils.filter( new File( baseDir, "build-tools/phet-build/templates/header-template.html" ), new File( project.getDefaultDeployDir(), "HEADER" ), createHeaderFilterMap(), "UTF-8" );
+            FileUtils.filter( new File( baseDir, "build-tools/phet-build/templates/header-template.html" ), new File( project.getDefaultDeployDir(), "HEADER" ), createHeaderFilterMap( svn ), "UTF-8" );
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
     }
 
-    private HashMap createHeaderFilterMap() {
+    private HashMap createHeaderFilterMap( int svn ) {
         HashMap map = new HashMap();
         map.put( "sim-name", project.getName() );
-        map.put( "version", project.getVersionString() );
+        map.put( "version", getFullVersionStr( svn ) );
         map.put( "jnlp-filename", project.getFlavorNames()[0] + ".jnlp" );
         map.put( "new-summary", getNewSummary() );
-//        map.put( "JNLP.NAME", getJNLPFileName() );
-//        map.put( "PROJECT.DESCRIPTION", StringEscapeUtils.escapeHtml( flavor.getDescription() ) );
-//        map.put( "PROJECT.JAR", phetProject.getJarFile().getName() );
-//        map.put( "PROJECT.SCREENSHOT", "http://phet.colorado.edu/Design/Assets/images/Phet-Kavli-logo.jpg" );//todo: map this to correct sim-specific (possibly online) URL
-//        map.put( "PROJECT.MAINCLASS", flavor.getMainclass() );
-//        map.put( "PROJECT.ARGS", toJNLPArgs( getArgs( flavor ) ) );
-//        map.put( "PROJECT.PROPERTIES", getJNLPProperties() );
-//        map.put( "PROJECT.DEPLOY.PATH", deployUrl );
-//        echo( "JNLP filter map:\n" + map );
         return map;
     }
 

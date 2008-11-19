@@ -119,7 +119,7 @@ public class ProjectListPanel extends JPanel {
         JButton createHeader = new JButton( "Create Header" );
         createHeader.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getBuildScript().createHeader();
+                getBuildScript().createHeader(-1);
             }
         } );
 

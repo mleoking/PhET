@@ -42,6 +42,10 @@ public class AddSVNIgnoreToDeployDirectories {
         out.newLine();
         out.write( "*.jnlp" ); // ignore all JNLP files
         out.newLine();
+        out.write( "*.properties" ); // ignore properties
+        out.newLine();
+        out.write( "HEADER" ); // ignore headers
+        out.newLine();
         out.close();
 
         // For each project directory, set the svn:ignore property for its deploy directory
