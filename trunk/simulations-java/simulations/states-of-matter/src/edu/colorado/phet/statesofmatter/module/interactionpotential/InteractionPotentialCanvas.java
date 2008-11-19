@@ -140,22 +140,11 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         // Create the listener for monitoring particle motion.
         m_atomListener = new StatesOfMatterAtom.Adapter(){
             public void positionChanged(){
-                updatePositionMarkerOnDiagram();
-                updateForceVectors();
-                
-                if ( ( getWorldSize().getWidth() > 0 ) &&
-                     ( m_model.getMovableParticleRef().getX() > (1 - WIDTH_TRANSLATION_FACTOR) * getWorldSize().getWidth())) {
-                    if ( !m_retrieveAtomButtonNode.isVisible() ) {
-                        // The particle is off the canvas and the button is not
-                        // yet shown, so show it.
-                        m_retrieveAtomButtonNode.setVisible( true );
-                    }
-                }
-                else if ( m_retrieveAtomButtonNode.isVisible() ) {
-                    // The particle is on the canvas but the button is visible
-                    // (which it shouldn't be), so hide it.
-                    m_retrieveAtomButtonNode.setVisible( false );
-                }
+            	handlePositionChanged();
+            }
+            
+            public void particleRadiusChanged(){
+            	handleParticleRadiusChanged();
             };
         };
         
@@ -293,7 +282,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     private void handleFixedParticleAdded(StatesOfMatterAtom particle){
         
         m_fixedParticle = particle;
-        m_fixedParticleNode = new ParticleForceNode(particle, m_mvt);
+        m_fixedParticleNode = new ParticleForceNode(particle, m_mvt, true);
         m_fixedParticleNode.setShowAttractiveForces( m_showAttractiveForces );
         m_fixedParticleNode.setShowRepulsiveForces( m_showRepulsiveForces );
         m_fixedParticleNode.setShowTotalForces( m_showTotalForces );
@@ -329,14 +318,17 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
     }
     
     private void handleMovableParticleAdded(StatesOfMatterAtom particle){
-        // Add an atom node for this guy.
-        m_movableParticle = particle;
-        m_movableParticleNode = new GrabbableParticleNode(m_model, particle, m_mvt, 0, Double.POSITIVE_INFINITY);
+
+    	// Add the atom node for this guy.
+
+    	m_movableParticle = particle;
+        m_movableParticleNode = new GrabbableParticleNode(m_model, particle, m_mvt, true, 0, 
+        		Double.POSITIVE_INFINITY);
         m_movableParticleNode.setShowAttractiveForces( m_showAttractiveForces );
         m_movableParticleNode.setShowRepulsiveForces( m_showRepulsiveForces );
         m_movableParticleNode.setShowTotalForces( m_showTotalForces );
         addWorldChild( m_movableParticleNode );
-        
+
         // Limit the particle's motion in the X direction so that it can
         // only slightly overlap with the fixed particle.
         m_movableParticleNode.setMinX( m_movableParticle.getRadius() * 1.9 );
@@ -362,7 +354,63 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         updatePositionMarkerOnDiagram();
         m_movableParticleNode = null;
     }
-    
+
+    /**
+     * Handle a notification of a change in the radius of a particle.
+     * IMPORTANT NOTE: This is part of a workaround for a problem with
+     * rendering the spherical nodes.  To make a long story short, there were
+     * problems with resizing the nodes if they were being drawn with a
+     * gradient, so this (and other) code was added to effectively turn off
+     * the gradient while the particle was being resized and turn it back
+     * on when it started moving again.
+     */
+	private void handleParticleRadiusChanged() {
+
+		// The particles are being resized, so disable the gradients if they
+		// are being used and if motion is paused.
+		if (m_model.getParticleMotionPaused()){
+		    if (m_fixedParticleNode.getGradientEnabled()){
+		    	m_fixedParticleNode.setGradientEnabled(false);
+			}
+		    if (m_movableParticleNode.getGradientEnabled()){
+		    	m_movableParticleNode.setGradientEnabled(false);
+		    }
+		}
+	}
+	
+	private void handlePositionChanged() {
+		
+		if (!m_model.getParticleMotionPaused()){
+			if (!m_fixedParticleNode.getGradientEnabled()){
+	    		// The movable particle is moving, so turn the gradient
+	    		// back on.
+	    		m_fixedParticleNode.setGradientEnabled(true);
+	    	}
+	    	if (!m_movableParticleNode.getGradientEnabled()){
+	    		// The movable particle is moving, so turn the gradient
+	    		// back on.
+	    		m_movableParticleNode.setGradientEnabled(true);
+	    	}
+		}
+    	
+        updatePositionMarkerOnDiagram();
+        updateForceVectors();
+        
+        if ( ( getWorldSize().getWidth() > 0 ) &&
+             ( m_model.getMovableParticleRef().getX() > (1 - WIDTH_TRANSLATION_FACTOR) * getWorldSize().getWidth())) {
+            if ( !m_retrieveAtomButtonNode.isVisible() ) {
+                // The particle is off the canvas and the button is not
+                // yet shown, so show it.
+                m_retrieveAtomButtonNode.setVisible( true );
+            }
+        }
+        else if ( m_retrieveAtomButtonNode.isVisible() ) {
+            // The particle is on the canvas but the button is visible
+            // (which it shouldn't be), so hide it.
+            m_retrieveAtomButtonNode.setVisible( false );
+        }
+	}
+	
     /**
      * Update the position marker on the Lennard-Jones potential diagram.
      * This will indicate the amount of potential being experienced between
