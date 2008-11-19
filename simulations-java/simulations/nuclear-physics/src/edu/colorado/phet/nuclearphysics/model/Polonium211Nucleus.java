@@ -10,10 +10,7 @@ import javax.swing.JFrame;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
-import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.view.AtomicNucleusNode;
-import edu.colorado.phet.nuclearphysics.view.LabeledNucleusNode;
 
 /**
  * This class represents a non-composite Polonium 211 nucleus.  In other words,
@@ -31,7 +28,7 @@ public class Polonium211Nucleus extends AtomicNucleus implements AlphaDecayContr
     public static final int ORIGINAL_NUM_PROTONS = 84;
     public static final int ORIGINAL_NUM_NEUTRONS = 127;
     
-    // Random number generator used for calculating decay time based on half life.
+    // Random number generator used for calculating decay time based on decay constant.
     private static final Random RAND = new Random();
     
     //------------------------------------------------------------------------
@@ -61,6 +58,10 @@ public class Polonium211Nucleus extends AtomicNucleus implements AlphaDecayContr
     
     public double getDecayTime(){
         return _decayTime;
+    }
+    
+    public double getHalfLife(){
+    	return 0.516;  // Half life of polonium 211 in seconds.
     }
     
     //------------------------------------------------------------------------
