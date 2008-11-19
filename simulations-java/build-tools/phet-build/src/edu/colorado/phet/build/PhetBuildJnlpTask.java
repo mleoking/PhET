@@ -33,7 +33,6 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
     }
 
     private String getJNLPFileName() {
-        System.out.println( "locale = " + locale );
         String localeSuffix = locale.equals( "en" ) ? "" : "_" + locale;
         return "" + flavorName + localeSuffix + ".jnlp";
     }
@@ -61,7 +60,7 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
         ArrayList args = new ArrayList( Arrays.asList( flavor.getArgs() ) );
 
         //optionally add a -dev parameter if this simulation is deployed to dev directory 
-        String property = getOwningTarget()!=null?getOwningTarget().getProject().getProperty( "deploy.to.dev" ):null;
+        String property = getOwningTarget() != null ? getOwningTarget().getProject().getProperty( "deploy.to.dev" ) : null;
         if ( property != null && property.equalsIgnoreCase( "true" ) ) {
             //todo: should use the constant for this arg from phetcommon
             args.add( "-dev" );
@@ -73,7 +72,7 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
         String properties = "";
 //        if ( locale != null && !locale.equals( "en" ) ) {
         //explicitly request english for the default JNLP file
-        properties += "<property name=\"javaws.phet.locale\" value=\"" + (locale==null?"en":locale) + "\" />";
+        properties += "<property name=\"javaws.phet.locale\" value=\"" + ( locale == null ? "en" : locale ) + "\" />";
 //        }
         return properties;
     }

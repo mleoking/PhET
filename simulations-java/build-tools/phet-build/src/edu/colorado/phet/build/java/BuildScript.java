@@ -121,14 +121,12 @@ public class BuildScript {
         }
         String[] args = new String[]{"svn", "status", "-u", readmeFile.getAbsolutePath()};
         ProcessOutputReader.ProcessExecResult output = ProcessOutputReader.exec( args );
-        System.out.println( "output = " + output );
         StringTokenizer st = new StringTokenizer( output.getOut(), "\n" );
         while ( st.hasMoreTokens() ) {
             String token = st.nextToken();
             String key = "Status against revision:";
             if ( token.toLowerCase().startsWith( key.toLowerCase() ) ) {
                 String suffix = token.substring( key.length() ).trim();
-                System.out.println( "suffix = " + suffix );
                 return Integer.parseInt( suffix );
             }
         }
