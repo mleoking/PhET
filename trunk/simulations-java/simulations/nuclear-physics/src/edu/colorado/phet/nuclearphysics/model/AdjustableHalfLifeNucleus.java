@@ -69,6 +69,11 @@ public class AdjustableHalfLifeNucleus extends AtomicNucleus implements AlphaDec
         return _halfLife;
     }
     
+    /**
+     * Set the half life for this nucleus.
+     * 
+     * @param halfLife - Half life in seconds.
+     */
     public void setHalfLife(double halfLife){
         _halfLife = halfLife;
     }

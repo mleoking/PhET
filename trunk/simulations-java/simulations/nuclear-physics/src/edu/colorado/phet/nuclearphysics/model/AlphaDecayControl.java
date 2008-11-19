@@ -47,4 +47,12 @@ public interface AlphaDecayControl {
 	 * was activated prior to decay.
 	 */
 	public double getActivatedTime();
+	
+	/**
+	 * Returns a value representing the half life for this nucleus.  Should
+	 * be the same for all instances of a given nucleus.
+	 * 
+	 * @return - Half life in seconds.
+	 */
+	public double getHalfLife();
 }

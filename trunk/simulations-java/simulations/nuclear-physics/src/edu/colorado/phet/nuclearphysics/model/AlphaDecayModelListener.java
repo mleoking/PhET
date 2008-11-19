@@ -28,4 +28,10 @@ public interface AlphaDecayModelListener {
      * @param modelElement - Element that was removed from the model.
      */
     public void nucleusTypeChanged();
+    
+    /**
+     * This informs the listener that the half life setting for the collection
+     * of homogeneous nuclei in the model has changed.
+     */
+    public void halfLifeChanged();
 }
