@@ -202,6 +202,10 @@ public class BuildScript {
             flavor = (String) prompt( "Choose flavor: ", project.getFlavorNames() );
         }
 
+        runSim( locale, flavor );
+    }
+
+    public void runSim( Locale locale, String flavor ) {
         Java java = new Java();
 
         if ( project != null ) {

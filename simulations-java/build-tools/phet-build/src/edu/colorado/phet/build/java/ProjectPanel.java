@@ -1,9 +1,14 @@
 package edu.colorado.phet.build.java;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
+import java.util.Locale;
 
 import javax.swing.*;
+
+import org.jfree.ui.tabbedui.VerticalLayout;
 
 import edu.colorado.phet.build.PhetProject;
 
@@ -14,32 +19,55 @@ public class ProjectPanel extends JPanel {
     private JTextArea changesTextArea;
     private JList flavorList;
     private JList localeList;
+    private JScrollPane changesScrollPane;
 
     public ProjectPanel( File basedir, PhetProject project ) {
         this.basedir = basedir;
         this.project = project;
-        setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
+        setLayout( new VerticalLayout() );
 
         titleLabel = new JLabel( project.getName() );
         add( titleLabel );
 
         changesTextArea = new JTextArea( 10, 30 );
-        changesTextArea.setPreferredSize( new Dimension( 400, 400 ) );
         changesTextArea.setEditable( false );
-        add( changesTextArea );
+        changesScrollPane = new JScrollPane( changesTextArea );
+        changesScrollPane.setPreferredSize( new Dimension( 600, 250 ) );
+        add( changesScrollPane );
 
         flavorList = new JList( project.getFlavorNames() );
-        flavorList.setPreferredSize( new Dimension( 200, 200 ) );
-        flavorList.setBorder( BorderFactory.createTitledBorder( "Simulations" ) );
-        add( flavorList );
+        JScrollPane flavorScrollPane = new JScrollPane( flavorList );
+        flavorScrollPane.setBorder( BorderFactory.createTitledBorder( "Simulations" ) );
+        flavorScrollPane.setPreferredSize( new Dimension( 300, 100 ) );
+        add( flavorScrollPane );
 
         localeList = new JList( project.getLocales() );
-        localeList.setBorder( BorderFactory.createTitledBorder( "Locales" ) );
-        localeList.setPreferredSize( new Dimension( 200, 200 ) );
-        localeList.setMinimumSize( new Dimension( 200, 200 ) );
-        add( localeList );
+        JScrollPane localeScroll = new JScrollPane( localeList );
+        localeScroll.setBorder( BorderFactory.createTitledBorder( "Locales" ) );
+        localeScroll.setPreferredSize( new Dimension( 300, 200 ) );
+        add( localeScroll );
 
+        JButton launch = new JButton( "Launch" );
+        launch.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                launch();
+            }
+        } );
+        add( launch );
         setProject( project );
+    }
+
+    private void launch() {
+        BuildScript buildScript = new BuildScript( basedir, project, null, null );
+        buildScript.runSim(getSelectedLocale(),getFlavor());
+    }
+
+    private String getFlavor() {
+        return (String) flavorList.getSelectedValue();
+    }
+
+    private Locale getSelectedLocale() {
+        return (Locale) localeList.getSelectedValue();
     }
 
     public void setProject( PhetProject project ) {
@@ -48,7 +76,15 @@ public class ProjectPanel extends JPanel {
         flavorList.setListData( project.getFlavorNames() );
         flavorList.setSelectedIndex( 0 );
         localeList.setListData( project.getLocales() );
+
         changesTextArea.setText( loadChangedText() );
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                changesTextArea.scrollRectToVisible( new Rectangle( 0, 0, 1, 1 ) );
+                localeList.scrollRectToVisible( new Rectangle( 0, 0, 1, 1 ) );
+                localeList.setSelectedValue( new Locale( "en" ), true );
+            }
+        } );
     }
 
     private String loadChangedText() {
@@ -58,13 +94,13 @@ public class ProjectPanel extends JPanel {
         }
         try {
             BufferedReader bufferedReader = new BufferedReader( new FileReader( changesFile ) );
-            String s = "";
+            StringBuffer s = new StringBuffer();
             String line = bufferedReader.readLine();
             while ( line != null ) {
-                s += line + "\n";
+                s.append( line ).append( "\n" );
                 line = bufferedReader.readLine();
             }
-            return s;
+            return s.toString();
         }
         catch( FileNotFoundException e ) {
             e.printStackTrace();
