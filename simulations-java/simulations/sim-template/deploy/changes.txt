@@ -1,3 +1,4 @@
+Test message for header.
 # 0.08.02 (26303) 11-19-2008
 test deploy process
 10/8/08 - use PhetApplicationConfig.launchSim
