@@ -50,7 +50,7 @@ public class PhetBuildGUI {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         PhetProject[] a = PhetProject.getAllProjects( baseDir );
-        MyPhetProject[] b = convertToMyPhetProjecets( a );
+        PhetProjectAdapter[] b = PhetProjectAdapter.convertToMyPhetProjecets( a, baseDir );
         for ( int i = 0; i < a.length; i++ ) {
             b[i].setAntBaseDir( baseDir );
         }
@@ -164,21 +164,6 @@ public class PhetBuildGUI {
         return localProperties.getProperty( s );
     }
 
-    private MyPhetProject[] convertToMyPhetProjecets( PhetProject[] a ) {
-        MyPhetProject[] b = new MyPhetProject[a.length];
-        for ( int i = 0; i < a.length; i++ ) {
-            try {
-                b[i] = new MyPhetProject( a[i].getProjectDir() );
-                b[i].setAntBaseDir( baseDir );
-            }
-            catch( IOException e ) {
-                e.printStackTrace();
-            }
-        }
-        return b;
-    }
-
-
     private ProjectListElement[] toListElements( PhetProject[] a ) {
         ProjectListElement[] p = new ProjectListElement[a.length];
         for ( int i = 0; i < p.length; i++ ) {
@@ -187,15 +172,19 @@ public class PhetBuildGUI {
         return p;
     }
 
-    static class ProjectListElement {
-        PhetProject p;
+    private static class ProjectListElement {
+        private PhetProject p;
 
-        ProjectListElement( PhetProject p ) {
+        private ProjectListElement( PhetProject p ) {
             this.p = p;
         }
 
         public String toString() {
             return p.getName();
+        }
+
+        public PhetProject getProject() {
+            return p;
         }
     }
 
@@ -223,37 +212,11 @@ public class PhetBuildGUI {
     }
 
     private PhetProject getSelectedProject() {
-        return ( (ProjectListElement) simList.getSelectedValue() ).p;
+        return ( (ProjectListElement) simList.getSelectedValue() ).getProject();
     }
-
 
     private void start() {
         frame.setVisible( true );
-    }
-
-    private class MyPhetProject extends PhetProject {
-        private File baseDir;
-
-        public MyPhetProject( File projectRoot ) throws IOException {
-            super( projectRoot );
-        }
-
-        public MyPhetProject( File parentDir, String name ) throws IOException {
-            super( parentDir, name );
-        }
-
-        public void setAntBaseDir( File baseDir ) {
-            this.baseDir = baseDir;
-        }
-
-        public File getAntBaseDir() {
-            return baseDir;
-        }
-
-        public PhetProject[] getDependencies() {
-            PhetProject[] a = super.getDependencies();
-            return convertToMyPhetProjecets( a );
-        }
     }
 
     public static void main( String[] args ) {
