@@ -23,11 +23,6 @@ public class PhetBuildGUI {
     private JList simList;
     private JButton runButton;
     private File baseDir;
-    private JList flavorList;
-    private JList localeList;
-
-    private String username;
-    private File password;
 
     public PhetBuildGUI( File baseDir ) {
         this.baseDir = baseDir;
@@ -50,30 +45,13 @@ public class PhetBuildGUI {
         simList = new JList( p );
         simList.setSelectedIndex( 0 );
         simList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-//        simList.addListSelectionListener( new ListSelectionListener() {
-//            public void valueChanged( ListSelectionEvent e ) {
-////                updateLists();
-//            }
-//        } );
         JPanel contentPane = new JPanel();
-
-        flavorList = new JList( new Object[]{} );
-        localeList = new JList( new Object[]{} );
 
         contentPane.setLayout( new GridBagLayout() );
         GridBagConstraints gridBagConstraints = new GridBagConstraints( GridBagConstraints.RELATIVE, 0, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.VERTICAL, new Insets( 2, 2, 2, 2 ), 0, 0 );
         JScrollPane simListPane = new JScrollPane( simList );
         simListPane.setBorder( BorderFactory.createTitledBorder( "Projects" ) );
         contentPane.add( simListPane, gridBagConstraints );
-//        JScrollPane comp = new JScrollPane( flavorList );
-//        comp.setBorder( BorderFactory.createTitledBorder( "Simulations" ) );
-//        contentPane.add( comp, gridBagConstraints );
-
-//        JScrollPane localeScrollPane = new JScrollPane( localeList );
-//        localeScrollPane.setPreferredSize( new Dimension( 100, 50 ) );
-//        localeScrollPane.setBorder( BorderFactory.createTitledBorder( "Languages" ) );
-////        gridBagConstraints.fill=GridBagConstraints.NONE;
-//        contentPane.add( localeScrollPane, gridBagConstraints );
 
         JPanel commandPanel = new JPanel();
         JButton cleanButton = new JButton( "Clean" );
@@ -168,8 +146,7 @@ public class PhetBuildGUI {
 
 
     private AuthenticationInfo getDevelopmentAuthentication() {
-        AuthenticationInfo authenticationInfo = new AuthenticationInfo();
-        return authenticationInfo;
+        return new AuthenticationInfo();
     }
 
     private MyPhetProject[] convertToMyPhetProjecets( PhetProject[] a ) {
