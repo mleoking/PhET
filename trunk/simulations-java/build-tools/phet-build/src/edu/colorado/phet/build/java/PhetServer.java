@@ -1,12 +1,14 @@
 package edu.colorado.phet.build.java;
 
-public class PhetServer {
-    public static PhetServer DEVELOPMENT = new PhetServer( "spot.colorado.edu",
-                                                           "/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet/dev",
-                                                           "http://www.colorado.edu/physics/phet/dev" );
-    public static PhetServer PRODUCTION = new PhetServer( "tigercat.colorado.edu",
-                                                          "/web/htdocs/phet/sims",
-                                                          "http://phet.colorado.edu/sims" );
+import edu.colorado.phet.build.PhetProject;
+
+public abstract class PhetServer {
+    public static PhetServer DEVELOPMENT = new PhetDevServer( "spot.colorado.edu",
+                                                              "/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet/dev",
+                                                              "http://www.colorado.edu/physics/phet/dev" );
+    public static PhetServer PRODUCTION = new PhetProdServer( "tigercat.colorado.edu",
+                                                              "/web/htdocs/phet",
+                                                              "http://phet.colorado.edu" );
 
     private String host;
     private String path;
@@ -26,7 +28,39 @@ public class PhetServer {
         return path;
     }
 
-    public String getUrl() {
+    public String getURL() {
         return url;
+    }
+
+    public abstract String getURL( PhetProject project );
+
+    public abstract String getPath( PhetProject project );
+
+    private static class PhetDevServer extends PhetServer {
+        public PhetDevServer( String host, String path, String url ) {
+            super( host, path, url );
+        }
+
+        public String getURL( PhetProject project ) {
+            return getURL() + "/" + project.getName() + "/" + project.getVersionString();
+        }
+
+        public String getPath( PhetProject project ) {
+            return getPath() + "/" + project.getName() + "/" + project.getVersionString();
+        }
+    }
+
+    private static class PhetProdServer extends PhetServer {
+        public PhetProdServer( String host, String path, String url ) {
+            super( host, path, url );
+        }
+
+        public String getURL( PhetProject project ) {
+            return getURL() + "/sims/" + project.getName();
+        }
+
+        public String getPath( PhetProject project ) {
+            return getPath() + "/sims/" + project.getName();
+        }
     }
 }

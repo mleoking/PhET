@@ -3,44 +3,14 @@ package edu.colorado.phet.build.java;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import edu.colorado.phet.build.util.ProcessOutputReader;
 import edu.colorado.phet.build.PhetProject;
+import edu.colorado.phet.build.util.ProcessOutputReader;
 
 public class SVNStatusChecker {
     public SVNStatusChecker() {
     }
 
     public boolean isUpToDate( PhetProject project ) {
-
-//        	<!-- fails if the working copy is not synchronized with the SVN repository -->
-//	<target name="_fail-if-working-copy-is-not-synchronized" depends="_init">
-//
-//		<!-- if sim.name is set, check only its dependencies. otherwise check the entire working copy -->
-//		<if>
-//			<isset property="sim.name"/>
-//			<then>
-//				<phet-list-depends project="${sim.name}" property="phet.dependslist" commandlineformat="true" />
-//			</then>
-//		    <else>
-//		    	<property name="phet.dependslist" value="."/>
-//			</else>
-//		</if>
-//
-//		<!-- check the working copy's status -->
-//		<exec executable="svn" outputproperty="svn.output" failonerror="true">
-//			<arg line="status ${phet.dependslist}" />
-//		</exec>
-//
-//		<!-- fail if svn returned anything -->
-//		<if>
-//			<not>
-//				<equals arg1="${svn.output}" arg2="" />
-//			</not>
-//			<then>
-//				<fail message="Your working copy is out of sync with the SVN repository: ${svn.output}" />
-//			</then>
-//		</if>
-//	</target>
         ArrayList args = new ArrayList();
         args.add( "svn" );
         args.add( "status" );
@@ -50,7 +20,7 @@ public class SVNStatusChecker {
         }
         try {
             String[] cmd = (String[]) args.toArray( new String[0] );
-            System.out.println( "execing: " + toString( cmd ) );
+            System.out.println( "exec'ing: " + toString( cmd ) );
             Process p = Runtime.getRuntime().exec( cmd );
             ProcessOutputReader pop = new ProcessOutputReader( p.getInputStream() );
             pop.start();
