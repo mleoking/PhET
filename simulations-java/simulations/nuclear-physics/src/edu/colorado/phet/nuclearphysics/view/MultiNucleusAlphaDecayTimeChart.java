@@ -196,7 +196,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
             };
             
             public void nucleusTypeChanged(){
-            	updateNucleusGraphLabels();
+            	update();
             };
         });
 
@@ -220,7 +220,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         _halfLifeSlider.addChangeListener( new ChangeListener(){
             public void stateChanged( ChangeEvent e ) {
             	// TODO: JPB TBD - Implement handler for this.
-                System.out.println("Slider change message received.");
+                System.out.println("Slider changed, value = " + _halfLifeSlider.getNormalizedValue());
             }
         });
         _halfLifeSliderNode = new PSwing(_halfLifeSlider);
@@ -389,7 +389,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
      * Redraw the chart based on the current state.
      */
     private void update() {
-
+    	
         // Set up the border for the chart.
         _borderNode.setPathTo( new RoundRectangle2D.Double( _usableAreaOriginX, _usableAreaOriginY, _usableWidth, _usableHeight, 20, 20 ) );
 
@@ -431,6 +431,12 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         yAxisUpperTickMarkLabel.setOffset( _graphOriginX - ( 1.15 * yAxisUpperTickMarkLabel.getWidth() ), yAxisUpperTickMark.getY() - ( 0.5 * yAxisUpperTickMarkLabel.getHeight() ) );
 
         // Position the slider for adjusting the half life.
+    	// Set up variables needed for doing the layout.
+    	boolean showSlider = false;
+    	if (_model.getNucleusType() == MultiNucleusAlphaDecayModel.NUCLEUS_TYPE_CUSTOM){
+    		showSlider = true;
+    	}
+        _halfLifeSliderNode.setVisible( showSlider );
         _halfLifeSlider.setPreferredSize(new Dimension((int)(TIME_SPAN * _msToPixelsFactor), 25));
         _halfLifeSliderNode.setOffset(_graphOriginX, _graphOriginY + ((PNode)_xAxisTickMarkLabels.get(0)).getHeight());
 
@@ -442,8 +448,14 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         		(float) ( _usableAreaOriginY + ( 0.1 * _usableHeight ) ) );
 
         // Position the labels for the axes.
-        _xAxisLabel.setOffset( _usableAreaOriginX + _usableWidth - (_xAxisLabel.getWidth() * 1.2),
-        		_halfLifeSliderNode.getFullBoundsReference().getMaxY() );
+        if (showSlider){
+	        _xAxisLabel.setOffset( _usableAreaOriginX + _usableWidth - (_xAxisLabel.getWidth() * 1.2),
+	        		_halfLifeSliderNode.getFullBoundsReference().getMaxY() );
+        }
+        else{
+	        _xAxisLabel.setOffset( _usableAreaOriginX + _usableWidth - (_xAxisLabel.getWidth() * 1.2),
+	        		_halfLifeSliderNode.getFullBoundsReference().y );
+        }
         double yAxisLabelCenter = yAxisUpperTickMark.getY() 
                 + ((yAxisLowerTickMark.getY() - yAxisUpperTickMark.getY()) / 2);
         _yAxisLabel2.setOffset( yAxisUpperTickMarkLabel.getOffset().getX() - ( 2.0 * _yAxisLabel1.getFont().getSize() ),
@@ -462,8 +474,14 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         updateNucleiNumberText();
         
         // Position the label for the half life.
-        _halfLifeLabel.setOffset( _halfLifeMarkerLine.getX() - (_halfLifeLabel.getFullBoundsReference().width / 2),
-        		_halfLifeSliderNode.getFullBoundsReference().getMaxY() );
+        if (showSlider){
+	        _halfLifeLabel.setOffset( _halfLifeMarkerLine.getX() - (_halfLifeLabel.getFullBoundsReference().width / 2),
+	        		_halfLifeSliderNode.getFullBoundsReference().getMaxY() );
+        }
+        else{
+	        _halfLifeLabel.setOffset( _halfLifeMarkerLine.getX() - (_halfLifeLabel.getFullBoundsReference().width / 2),
+	        		_halfLifeSliderNode.getFullBoundsReference().y );
+        }
 
         // Position the reset button.
         _resetButtonNode.setOffset( _usableAreaOriginX + 10, 
