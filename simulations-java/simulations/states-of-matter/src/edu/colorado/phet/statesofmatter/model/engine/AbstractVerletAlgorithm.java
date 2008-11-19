@@ -27,7 +27,7 @@ public abstract class AbstractVerletAlgorithm implements MoleculeForceAndMotionC
     protected static final double TIME_STEP_SQR_HALF = TIME_STEP * TIME_STEP * 0.5;
     protected static final double TIME_STEP_HALF = TIME_STEP / 2;
     protected static final double PARTICLE_INTERACTION_DISTANCE_THRESH_SQRD = 6.25;
-    protected static final double PRESSURE_CALC_WEIGHTING = 0.9995;
+    protected static final double PRESSURE_CALC_WEIGHTING = 0.999;
     private static final double WALL_DISTANCE_THRESHOLD = 1.122462048309373017;
     private static final double SAFE_INTER_MOLECULE_DISTANCE = 2.0;
     
