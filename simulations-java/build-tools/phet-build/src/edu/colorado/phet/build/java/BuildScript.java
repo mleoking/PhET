@@ -40,7 +40,7 @@ public class BuildScript {
 
     public void deploy( PhetServer server, PhetBuildGUI.AuthenticationInfo authenticationInfo ) {
         clean();
-//        build();//build before deploying new SVN number in case there are errors
+        build();//build before deploying new SVN number in case there are errors
 
         if ( !isSVNInSync() ) {
             System.out.println( "SVN is out of sync; halting" );
