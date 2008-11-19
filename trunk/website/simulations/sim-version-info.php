@@ -35,27 +35,22 @@
         exit;
     }
 
+
     // Get the version info
     $version = sim_get_version($simulation);
+    $version_string = '';
+    if ((!empty($version['major'])) && (!empty($version['minor'])) && (!empty($version['dev']))) {
+        $version_string = "{$version['major']}.{$version['minor']}.{$version['dev']}";
+    }
+
+    // Create the XML
     $xml = <<<EOT
 <?xml version="1.0"?>
-<sim-version-info project="{$dirname}" sim="{$flavorname}" version="{$version['major']}.{$version['minor']}.{$version['dev']}" revision="{$version['revision']}"/>
+<sim-version-info project="{$dirname}" sim="{$flavorname}" version="{$version_string}" revision="{$version['revision']}"/>
 
 EOT;
 
+    // Send the file
     send_file_to_browser('version.xml', $xml, 'text/xml', 'attachment');
-    exit;
-    // Get the filename and content
-    $download_data = sim_get_run_offline($simulation, $language_code);
-    if (!$download_data) {
-        $error = "Error: Simulation jar or locale not found.\n";
-        send_file_to_browser('error.txt', $error, null, "attachment");
-        exit;
-    }
-
-    // Send the file as an attachment
-    $filename = $download_data[0];
-    $contents = $download_data[1];
-    send_file_to_browser($filename, $contents, null, "attachment");
 
 ?>
