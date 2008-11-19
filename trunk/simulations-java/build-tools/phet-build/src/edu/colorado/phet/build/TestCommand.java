@@ -1,6 +1,6 @@
 package edu.colorado.phet.build;
 
-import edu.colorado.phet.build.patterns.Command;
+import edu.colorado.phet.build.Command;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.taskdefs.optional.junit.BatchTest;
 import org.apache.tools.ant.taskdefs.optional.junit.JUnitTask;

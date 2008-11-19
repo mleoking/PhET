@@ -1,4 +1,4 @@
-package edu.colorado.phet.build;
+package edu.colorado.phet.build.java;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,6 +15,7 @@ import javax.swing.*;
 import edu.colorado.phet.build.java.BuildScript;
 import edu.colorado.phet.build.java.PhetServer;
 import edu.colorado.phet.build.java.VersionIncrement;
+import edu.colorado.phet.build.PhetProject;
 
 /**
  * Provides a front-end user interface for building and deploying phet's java simulations.
@@ -56,7 +57,7 @@ public class PhetBuildGUI {
         for ( int i = 0; i < a.length; i++ ) {
             b[i].setAntBaseDir( baseDir );
         }
-        Project[] p = toProjects( b );
+        ProjectListElement[] p = toListElements( b );
         simList = new JList( p );
         simList.setSelectedIndex( 0 );
         simList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
@@ -113,14 +114,14 @@ public class PhetBuildGUI {
         JButton deployDev = new JButton( "Deploy Dev" );
         deployDev.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getBuildScript().deploy( PhetServer.DEVELOPMENT, getDevelopmentAuthentication( "dev" ) ,new VersionIncrement.UpdateDev() );
+                getBuildScript().deploy( PhetServer.DEVELOPMENT, getDevelopmentAuthentication( "dev" ), new VersionIncrement.UpdateDev() );
             }
         } );
 
         JButton deployProd = new JButton( "Deploy Prod" );
         deployProd.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getBuildScript().deploy( PhetServer.PRODUCTION, getDevelopmentAuthentication( "prod" ) ,new VersionIncrement.UpdateProd());
+                getBuildScript().deploy( PhetServer.PRODUCTION, getDevelopmentAuthentication( "prod" ), new VersionIncrement.UpdateProd() );
             }
         } );
 
@@ -191,18 +192,18 @@ public class PhetBuildGUI {
     }
 
 
-    private Project[] toProjects( PhetProject[] a ) {
-        Project[] p = new Project[a.length];
+    private ProjectListElement[] toListElements( PhetProject[] a ) {
+        ProjectListElement[] p = new ProjectListElement[a.length];
         for ( int i = 0; i < p.length; i++ ) {
-            p[i] = new Project( a[i] );
+            p[i] = new ProjectListElement( a[i] );
         }
         return p;
     }
 
-    static class Project {
+    static class ProjectListElement {
         PhetProject p;
 
-        Project( PhetProject p ) {
+        ProjectListElement( PhetProject p ) {
             this.p = p;
         }
 
@@ -235,7 +236,7 @@ public class PhetBuildGUI {
     }
 
     private PhetProject getSelectedProject() {
-        return ( (Project) simList.getSelectedValue() ).p;
+        return ( (ProjectListElement) simList.getSelectedValue() ).p;
     }
 
 

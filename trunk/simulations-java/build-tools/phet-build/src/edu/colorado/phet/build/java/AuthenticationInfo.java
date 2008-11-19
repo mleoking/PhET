@@ -1,4 +1,4 @@
-package edu.colorado.phet.build;
+package edu.colorado.phet.build.java;
 
 import javax.swing.*;
 

@@ -7,7 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
-import edu.colorado.phet.build.patterns.Command;
+import edu.colorado.phet.build.Command;
 
 /*
 
