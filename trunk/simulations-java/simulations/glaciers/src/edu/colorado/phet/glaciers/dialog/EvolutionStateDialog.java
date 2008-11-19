@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.glaciers.dialog;
 
+import java.awt.Dimension;
 import java.awt.Frame;
 
 import javax.swing.JDialog;
@@ -21,7 +22,7 @@ public class EvolutionStateDialog extends JDialog {
         setResizable( false );
         _panel = new EvolutionStatePanel( glacier );
         getContentPane().add( _panel );
-        pack();
+        setSize( new Dimension( 450, (int) _panel.getPreferredSize().getHeight() + 50 ) );
         SwingUtils.centerDialogInParent( this );
     }
     

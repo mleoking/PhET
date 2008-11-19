@@ -61,14 +61,14 @@ public class EvolutionStatePanel extends JPanel {
         _previousState = new EvolutionState();
         
         // display
-        _elaCurrent = new NumberDisplay( "0" );
-        _elaPrevious = new NumberDisplay( "0" );
+        _elaCurrent = new NumberDisplay( "0.00" );
+        _elaPrevious = new NumberDisplay( "0.00" );
         _timescaleCurrent = new NumberDisplay( "0.00" );
         _timescalePrevious = new NumberDisplay( "0.00" );
-        _qAdvanceLimitCurrent = new NumberDisplay( "0.00" );
-        _qAdvanceLimitPrevious = new NumberDisplay( "0.00" );
-        _deltaQelaCurrent = new NumberDisplay( "0.00" );
-        _deltaQelaPrevious = new NumberDisplay( "0.00" );
+        _qAdvanceLimitCurrent = new NumberDisplay( "0.0000" );
+        _qAdvanceLimitPrevious = new NumberDisplay( "0.0000" );
+        _deltaQelaCurrent = new NumberDisplay( "0.0000" );
+        _deltaQelaPrevious = new NumberDisplay( "0.0000" );
         _qelaCurrent = new NumberDisplay( "0.00" );
         _qelaPrevious = new NumberDisplay( "0.00" );
         _qelaxCurrent = new NumberDisplay( "0.00" );
@@ -174,7 +174,7 @@ public class EvolutionStatePanel extends JPanel {
         private final DecimalFormat format;
         
         public NumberDisplay( String formatPattern ) {
-            super( "                              " );
+            super();
             format = new DecimalFormat( formatPattern );
         }
 
@@ -191,7 +191,7 @@ public class EvolutionStatePanel extends JPanel {
         private final DecimalFormat format;
         
         public Point2DDisplay( String formatPattern ) {
-            super( "                                    " );
+            super();
             format = new DecimalFormat( formatPattern );
         }
         
