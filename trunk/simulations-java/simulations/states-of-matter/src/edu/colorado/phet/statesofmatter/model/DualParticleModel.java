@@ -300,6 +300,10 @@ public class DualParticleModel {
         m_movableParticle.setVx( 0 );
     }
 
+    public boolean getParticleMotionPaused(){
+        return m_particleMotionPaused;
+    }
+    
     //----------------------------------------------------------------------------
     // Private Methods
     //----------------------------------------------------------------------------

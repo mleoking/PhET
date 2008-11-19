@@ -91,6 +91,12 @@ public class InteractionPotentialNodeWithInteraction extends InteractionPotentia
         m_epsilonResizeHandle = new ResizeArrowNode(RESIZE_HANDLE_SIZE_PROPORTION * m_width, Math.PI/2);
         m_ljPotentialGraph.addChild( m_epsilonResizeHandle );
         m_epsilonResizeHandle.addInputEventListener(new PBasicInputEventHandler(){
+        	public void mousePressed(PInputEvent event) {
+        		m_model.setParticleMotionPaused(true);
+        	}
+        	public void mouseReleased(PInputEvent event) {
+        		m_model.setParticleMotionPaused(false);
+        	}
             public void mouseDragged(PInputEvent event) {
                 PNode draggedNode = event.getPickedNode();
                 PDimension d = event.getDeltaRelativeTo(draggedNode);
@@ -103,6 +109,12 @@ public class InteractionPotentialNodeWithInteraction extends InteractionPotentia
         m_sigmaResizeHandle = new ResizeArrowNode(RESIZE_HANDLE_SIZE_PROPORTION * m_width, 0);
         m_ljPotentialGraph.addChild( m_sigmaResizeHandle );
         m_sigmaResizeHandle.addInputEventListener(new PBasicInputEventHandler(){
+        	public void mousePressed(PInputEvent event) {
+        		m_model.setParticleMotionPaused(true);
+        	}
+        	public void mouseReleased(PInputEvent event) {
+        		m_model.setParticleMotionPaused(false);
+        	}
             public void mouseDragged(PInputEvent event) {
                 PNode draggedNode = event.getPickedNode();
                 PDimension d = event.getDeltaRelativeTo(draggedNode);

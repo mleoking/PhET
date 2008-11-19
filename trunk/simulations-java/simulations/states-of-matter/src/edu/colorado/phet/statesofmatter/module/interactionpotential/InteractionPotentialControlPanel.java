@@ -10,6 +10,8 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.util.Hashtable;
 
@@ -280,6 +282,14 @@ public class InteractionPotentialControlPanel extends ControlPanel {
                     m_model.setSigma( m_atomDiameterControl.getValue() );
                 }
             });
+            m_atomDiameterControl.getSlider().addMouseListener(new MouseAdapter() {
+                public void mousePressed(MouseEvent e) {
+                	m_model.setParticleMotionPaused(true);
+                }
+                public void mouseReleased(MouseEvent e) {
+                	m_model.setParticleMotionPaused(false);
+                }
+            });
             Hashtable diameterControlLabelTable = new Hashtable();
             m_leftLabel = new JLabel(StatesOfMatterStrings.ATOM_DIAMETER_SMALL);
             m_leftLabel.setFont( LABEL_FONT );
@@ -351,6 +361,14 @@ public class InteractionPotentialControlPanel extends ControlPanel {
                 public void stateChanged( ChangeEvent e ) {
                     // Set the interaction strength in the model.
                     m_model.setEpsilon( m_interactionStrengthControl.getValue() );
+                }
+            });
+            m_interactionStrengthControl.getSlider().addMouseListener(new MouseAdapter() {
+                public void mousePressed(MouseEvent e) {
+                	m_model.setParticleMotionPaused(true);
+                }
+                public void mouseReleased(MouseEvent e) {
+                	m_model.setParticleMotionPaused(false);
                 }
             });
             Hashtable diameterControlLabelTable = new Hashtable();
