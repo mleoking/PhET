@@ -2,6 +2,7 @@ package edu.colorado.phet.build.java;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import edu.colorado.phet.build.PhetProject;
 import edu.colorado.phet.build.util.ProcessOutputReader;
@@ -14,6 +15,7 @@ public class SVNStatusChecker {
         ArrayList args = new ArrayList();
         args.add( "svn" );
         args.add( "status" );
+        args.add( "-u" );//checks with server, without this flag check is only local
         PhetProject[] projects = project.getAllDependencies();
         for ( int i = 0; i < projects.length; i++ ) {
             args.add( projects[i].getProjectDir().getAbsolutePath() );
@@ -34,7 +36,18 @@ public class SVNStatusChecker {
             }
             String out = pop.getOutput();
             String err = poe.getOutput();
-            if ( out.length() == 0 && err.length() == 0 ) {
+            StringTokenizer t = new StringTokenizer( out, "\n" );
+            boolean ok = true;
+            while ( t.hasMoreTokens() ) {
+                String token = t.nextToken();
+                boolean acceptableToken = token.startsWith( "Status against revision:" );
+                int tokenLength = token.trim().length();
+                if ( tokenLength > 0 && !acceptableToken ) {
+                    ok = false;
+                    break;
+                }
+            }
+            if ( ok && err.trim().length() == 0 ) {
                 return true;
             }
             else {
