@@ -1,6 +1,7 @@
 # 1.09.00 (26293) 11-19-2008
+Sam's test of new build process
 # 1.08.00 (26282) 11-19-2008
-test4
+Sam's test of new build process
 # 1.07.00
 11-17-08: post new version to PhET website
 # 1.06.18
