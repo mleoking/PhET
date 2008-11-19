@@ -7,7 +7,7 @@ public abstract class PhetServer {
                                                               "/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet/dev",
                                                               "http://www.colorado.edu/physics/phet/dev" );
     public static PhetServer PRODUCTION = new PhetProdServer( "tigercat.colorado.edu",
-                                                              "/web/htdocs/phet",
+                                                              "/web/chroot/phet/usr/local/apache/htdocs",
                                                               "http://phet.colorado.edu" );
 
     private String host;
