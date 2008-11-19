@@ -42,7 +42,7 @@ public class BuildScript {
         return upToDate;
     }
 
-    public void deploy( PhetServer server, AuthenticationInfo authenticationInfo ) {
+    public void deploy( PhetServer server, AuthenticationInfo authenticationInfo, VersionIncrement versionIncrement ) {
         clean();
 
         if ( !isSVNInSync() ) {
@@ -50,14 +50,15 @@ public class BuildScript {
             return;
         }
 
-        incrementDevVersion();
+        versionIncrement.increment( project );
         int svnNumber = getSVNVersion();
         System.out.println( "Current SVN: " + svnNumber );
         setSVNVersion( svnNumber + 1 );
-        commitNewVersionFile();
+        commitNewVersionFile();//todo: check that new version number is correct
 
-        build();//would be nice to build before deploying new SVN number in case there are errors,
+        //would be nice to build before deploying new SVN number in case there are errors,
         //however, we need the correct version info in the JAR
+        build();
 
         String codebase = server.getURL( project );
         System.out.println( "codebase = " + codebase );
@@ -66,6 +67,8 @@ public class BuildScript {
         copyVersionFilesToDeploy();
         sendSSH( server, authenticationInfo );
         openBrowser( server.getURL( project ) );
+
+        System.out.println( "Finished deploy to: " + server.getHost() );
     }
 
     private void copyVersionFilesToDeploy() {
@@ -165,14 +168,6 @@ public class BuildScript {
         else {
             System.out.println( "Abnormal termination: " + a );
         }
-    }
-
-    private String prompt( String s ) {
-        return JOptionPane.showInputDialog( s );
-    }
-
-    public void incrementDevVersion() {
-        project.setVersionField( "dev", project.getDevVersion() + 1 );
     }
 
     public void buildJNLP( Locale locale, String flavorName, String codebase ) {

@@ -14,6 +14,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.build.java.BuildScript;
 import edu.colorado.phet.build.java.PhetServer;
+import edu.colorado.phet.build.java.VersionIncrement;
 
 /**
  * Provides a front-end user interface for building and deploying phet's java simulations.
@@ -112,14 +113,14 @@ public class PhetBuildGUI {
         JButton deployDev = new JButton( "Deploy Dev" );
         deployDev.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getBuildScript().deploy( PhetServer.DEVELOPMENT, getDevelopmentAuthentication( "dev" ) );
+                getBuildScript().deploy( PhetServer.DEVELOPMENT, getDevelopmentAuthentication( "dev" ) ,new VersionIncrement.UpdateDev() );
             }
         } );
 
         JButton deployProd = new JButton( "Deploy Prod" );
         deployProd.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getBuildScript().deploy( PhetServer.PRODUCTION, getDevelopmentAuthentication( "prod" ) );
+                getBuildScript().deploy( PhetServer.PRODUCTION, getDevelopmentAuthentication( "prod" ) ,new VersionIncrement.UpdateProd());
             }
         } );
 
