@@ -1,3 +1,5 @@
+# 0.10.00 (26280) 11-19-2008
+testing 2nd deploy to production server
 # 0.09.00 11-19-2008
 testing deploy to production server
 Test svn synchronization checker
