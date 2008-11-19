@@ -115,7 +115,7 @@ public class GlaciersConstants {
     // rotation angle used to fake yaw (rotation about the vertical axis)
     public static final double YAW_ROTATION = Math.toRadians( 30 ); // radians
     // x offset that corresponds to YAW_ROTATION, set via visual inspection
-    public static final double YAW_X_OFFSET = 500; // meters
+    public static final double YAW_X_OFFSET = 500; // meters TODO: compute as a function of YAW_ROTATION and PITCH_Y_OFFSET?
     
     //----------------------------------------------------------------------------
     // Colors
