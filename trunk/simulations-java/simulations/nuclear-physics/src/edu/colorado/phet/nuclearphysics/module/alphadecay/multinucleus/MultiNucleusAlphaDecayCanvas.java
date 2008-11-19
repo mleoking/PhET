@@ -29,6 +29,7 @@ import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.singlenucleus.SingleNucleusAlphaDecayModel;
 import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
 import edu.colorado.phet.nuclearphysics.view.AtomicNucleusNode;
+import edu.colorado.phet.nuclearphysics.view.AutoPressGradientButtonNode;
 import edu.colorado.phet.nuclearphysics.view.BucketOfNucleiNode;
 import edu.colorado.phet.nuclearphysics.view.GrabbableNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.view.MultiNucleusAlphaDecayTimeChart;
@@ -74,7 +75,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     
     private MultiNucleusAlphaDecayTimeChart _decayTimeChart;
-    private GradientButtonNode _resetButtonNode;
+    private AutoPressGradientButtonNode _resetButtonNode;
     private GradientButtonNode _addTenButtonNode;
     private MultiNucleusAlphaDecayModel _model;
 	private Rectangle2D _bucketRect;
@@ -125,7 +126,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
         });
         
         // Add the button for resetting the nuclei to the canvas.
-        _resetButtonNode = new GradientButtonNode(NuclearPhysicsStrings.RESET_ALL_NUCLEI, 22, CANVAS_BUTTON_COLOR);
+        _resetButtonNode = new AutoPressGradientButtonNode(NuclearPhysicsStrings.RESET_ALL_NUCLEI, 22, CANVAS_BUTTON_COLOR);
         addScreenChild(_resetButtonNode);
         
         // Register to receive button pushes.
