@@ -9,6 +9,9 @@ import flash.external.ExternalInterface;
 
 class TrackingHandler {
 	
+	// stores whether a message send has failed. if it has, don't send more!
+	public var messageError : Boolean;
+	
 	public var sessionId : String;
 	
 	// shorthand for debugging function
@@ -19,6 +22,8 @@ class TrackingHandler {
 	// constructor
 	public function TrackingHandler() {
 		debug("TrackingHandler initializing\n");
+		
+		messageError = false;
 		
 		// make this object accessible from _level0.trackingHandler
 		// should only be one copy of TrackingHandler (singleton-like)
@@ -35,6 +40,7 @@ class TrackingHandler {
 	public function sendSessionStart() : Void {
 		if(!_level0.preferences.allowTracking()) {
 			debug("TrackingHandler: cannot send session start message: tracking disabled\n");
+			return;
 		}
 		debug("TrackingHandler: sending session start message\n");
 		var str : String = "<tracking ";
@@ -67,8 +73,10 @@ class TrackingHandler {
 	}
 	
 	public function sendSessionEnd() : Void {
+		if(messageError) { return; }
 		if(!_level0.preferences.allowTracking()) {
 			debug("TrackingHandler: cannot send session end message: tracking disabled\n");
+			return;
 		}
 		debug("TrackingHandler: sending session end message\n");
 		var str : String = "<tracking ";
@@ -81,6 +89,7 @@ class TrackingHandler {
 	}
 	
 	public function sendXML(xml : XML) : Void {
+		if(messageError) { return; }
 		xml.contentType = "text/xml";
 		var reply : XML = new XML();
 		reply.ignoreWhite = true;
