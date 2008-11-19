@@ -10,7 +10,7 @@ public class SimPanel extends JPanel {
     private File basedir;
     private PhetProject selectedProject;
 
-    public SimPanel( File basedir ) {
+    public SimPanel( File basedir, PhetProject project ) {
         this.basedir = basedir;
     }
 

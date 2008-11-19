@@ -6,18 +6,24 @@ import javax.swing.*;
 
 public class PhetBuildGUIPanel extends JPanel {
     private SimPanel simPanel;
+    private ProjectListPanel projectPanel;
 
     public PhetBuildGUIPanel( File baseDir ) {
-        final ProjectPanel projectPanel = new ProjectPanel( baseDir );
+        projectPanel = new ProjectListPanel( baseDir );
         add( projectPanel );
 
-        simPanel = new SimPanel( baseDir );
+        simPanel = new SimPanel( baseDir,projectPanel.getSelectedProject() );
         add( simPanel );
 
-        projectPanel.addListener( new ProjectPanel.Listener() {
+        projectPanel.addListener( new ProjectListPanel.Listener() {
             public void notifyChanged() {
-                simPanel.setSelectedProject( projectPanel.getSelectedProject() );
+                updateSelection();
             }
         } );
+        updateSelection();
+    }
+
+    private void updateSelection() {
+        simPanel.setSelectedProject( projectPanel.getSelectedProject() );
     }
 }
