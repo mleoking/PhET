@@ -1,9 +1,11 @@
->Did a major refactoring of the muliple-particle model, which underlies the first two tabs.  This was done to improve maintainability and performance.
+>Adjusted the time constant for pressure calculations to make the pressure gauge change more rapidly.  This was done because the pressure was still showing a positive value when the molecules has been cooled to stillness.
+>Changed the behavior of the 2nd tab (Phase Changes) such that switching between chemicals places the molecules into the solid form.
 >Fixed a problem where reset or switching molecules would not turn the stove off if it had been set to be turned on via the arrow keys.
 >Fixed a problem where the pressure on the second tab was not getting set to zero when Reset All was pushed or when switching between molecules.
 >Fixed a problem where neon would not get set back to the solid form if it had been heated to a gas and then the Reset All button was pressed.
 >Fixed a problem where a molecule that was injected in the container would appear briefly outside the container (at point 0,0) before being moved to the correct position.
 >Made the minimum allowable size smaller for multi-atom molecules so that they could be more easily crushed if desired.
+11/2008 - Did a major refactoring of the muliple-particle model, which underlies the first two tabs.  This was done to improve maintainability and performance.
 ******* 0.04.00 (2629) 
 >Cleaned up a lot of things in preparation for deployment to the "Under Construction" area of the web site.
 10/14/2008 - Changed the composite thermometer node to have the digital readout on top rather than on the side in order to make room for more things on the top of the container.
