@@ -23,6 +23,9 @@ class FlashCommon {
 	// handles sending tracking messages to the server
 	public var trackingHandler : TrackingHandler;
 	
+	/////////////////////////
+	public var aboutButton : AboutButton;
+	
 	// initializes debug function at _level0.debug()
 	public function initDebug() : Void {
 		if(debugging) {
@@ -44,6 +47,8 @@ class FlashCommon {
 	public function FlashCommon() {
 		initDebug();
 		
+		System.security.allowDomain("phet.colorado.edu");
+		
 		debug("Debugging information:\n");
 		debug("FlashCommon initializing\n");
 		
@@ -63,5 +68,8 @@ class FlashCommon {
 		// load tracking handler
 		// must have preferences loaded first before loading TrackingHandler.
 		trackingHandler = new TrackingHandler();
+		
+		// load tracking button (defaults to the upper left)
+		aboutButton = new AboutButton();
 	}
 }

@@ -79,6 +79,13 @@ class Preferences {
 		return sharedObject.data.checkForUpdates;
 	}
 	
+	// allow other code to set the tracking and updates values
+	public function setTracking(updates : Boolean, tracking : Boolean) : Void {
+		sharedObject.data.allowTracking = tracking;
+		sharedObject.data.checkForUpdates = updates;
+		save();
+	}
+	
 	// return the user's ID that is saved in the preferences:
 	public function userId() : String {
 		return sharedObject.data.userId;
