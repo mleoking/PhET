@@ -1,3 +1,4 @@
+>Made container explode at a given pressure rather than waiting until the simulation algorithm couldn't keep up.
 >Adjusted the time constant for pressure calculations to make the pressure gauge change more rapidly.  This was done because the pressure was still showing a positive value when the molecules has been cooled to stillness.
 >Changed the behavior of the 2nd tab (Phase Changes) such that switching between chemicals places the molecules into the solid form.
 >Fixed a problem where reset or switching molecules would not turn the stove off if it had been set to be turned on via the arrow keys.
