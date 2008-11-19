@@ -570,9 +570,9 @@ public class Glacier extends ClockAdapter {
                 // values below here are set explicitly in this method
                 _evolutionState.ela = ela;
                 _evolutionState.timescale = timescale;
-                _evolutionState.qela = _qela;
-                _evolutionState.deltaQela = delta;
                 _evolutionState.qAdvanceLimit = q_advance_limit;
+                _evolutionState.deltaQela = delta;
+                _evolutionState.qela = _qela;
                 // values below here are set by updateIceThickness, called from this method
                 _evolutionState.qelax = _qelax;
                 _evolutionState.glacierLength = _glacierLength;
@@ -653,9 +653,9 @@ public class Glacier extends ClockAdapter {
         
         public double ela;
         public double timescale;
-        public double qela;
-        public double deltaQela;
         public double qAdvanceLimit;
+        public double deltaQela;
+        public double qela;
         public double qelax;
         public double glacierLength;
         public Point2D terminus = new Point2D.Double();
@@ -665,9 +665,9 @@ public class Glacier extends ClockAdapter {
         public void setState( EvolutionState es ) {
             ela = es.ela;
             timescale = es.timescale;
-            qela = es.qela;
-            deltaQela = es.deltaQela;
             qAdvanceLimit = es.qAdvanceLimit;
+            deltaQela = es.deltaQela;
+            qela = es.qela;
             qelax = es.qelax;
             glacierLength = es.glacierLength;
             terminus.setLocation( es.terminus );

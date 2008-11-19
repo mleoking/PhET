@@ -26,6 +26,7 @@ public class EvolutionStateDialog extends JDialog {
     }
     
     public void dispose() {
+        System.out.println( "EvolutionStateDialog.dispose" );//XXX
         _panel.cleanup();
         super.dispose();
     }
