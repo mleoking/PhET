@@ -14,9 +14,9 @@ import edu.colorado.phet.build.PhetProject;
  * Utility to take many translations from a single directory and move them into the IDE workspace.
  */
 public class ImportTranslations {
-    
+
     private static final boolean DO_SVN_ADD = true;
-    
+
     private final File basedir;
 
     public ImportTranslations( File basedir ) {
@@ -28,18 +28,18 @@ public class ImportTranslations {
     }
 
     public void importTranslations( File dir ) throws IOException {
-        ArrayList simNames=new ArrayList( );
+        ArrayList simNames = new ArrayList();
         File[] files = dir.listFiles();
         for ( int i = 0; i < files.length; i++ ) {
             importTranslation( files[i] );
-            simNames.add(getSimName( files[i] ));
+            simNames.add( getSimName( files[i] ) );
         }
-        String s="";
+        String s = "";
         for ( int i = 0; i < simNames.size(); i++ ) {
             String s1 = (String) simNames.get( i );
-            s+=s1+" ";
+            s += s1 + " ";
         }
-        System.out.println( "added simulations: "+s );
+        System.out.println( "added simulations: " + s );
     }
 
     private void importTranslation( File file ) throws IOException {
@@ -70,10 +70,10 @@ public class ImportTranslations {
                     }
                 }
             }
-            catch ( FileNotFoundException e ) {
+            catch( FileNotFoundException e ) {
                 System.out.println( "skipping: " + file.getAbsolutePath() );
             }
-            catch ( InterruptedException ie ) {
+            catch( InterruptedException ie ) {
                 ie.printStackTrace();
             }
         }

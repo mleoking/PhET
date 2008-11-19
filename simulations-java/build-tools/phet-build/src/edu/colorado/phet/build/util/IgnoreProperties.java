@@ -10,7 +10,7 @@ public class IgnoreProperties {
         for ( int i = 0; i < files.length; i++ ) {
             File simDir = files[i];
             File deployDir = new File( simDir, "deploy" );
-            if ( deployDir.exists()) {
+            if ( deployDir.exists() ) {
                 String command = "svn propset svn:ignore -F C:\\workingcopy\\phet\\svn\\trunk\\simulations-java\\ignore.txt .";
 
                 System.out.println( deployDir + "> " + command );

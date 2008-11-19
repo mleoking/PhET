@@ -8,8 +8,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import edu.colorado.phet.build.AntTaskRunner;
-import edu.colorado.phet.build.FileUtils;
 import edu.colorado.phet.build.Command;
+import edu.colorado.phet.build.FileUtils;
 
 /**
  * This command runs the ProGuard task given the ProGuard configuration and an

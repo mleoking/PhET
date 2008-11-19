@@ -12,9 +12,6 @@ import java.util.Properties;
 
 import javax.swing.*;
 
-import edu.colorado.phet.build.java.BuildScript;
-import edu.colorado.phet.build.java.PhetServer;
-import edu.colorado.phet.build.java.VersionIncrement;
 import edu.colorado.phet.build.PhetProject;
 
 /**

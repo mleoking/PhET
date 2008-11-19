@@ -1,6 +1,9 @@
 package edu.colorado.phet.build.translate;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Properties;
@@ -12,7 +15,7 @@ import edu.colorado.phet.build.PhetProject;
 
 /**
  * Under development and untested.
- *
+ * <p/>
  * Utility to determine the discrepancy between a set of deployed localizations (files and keys) and local (repository) localizations.
  */
 public class TranslationDiscrepancy {

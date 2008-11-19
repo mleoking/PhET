@@ -7,11 +7,6 @@ import java.util.HashMap;
 
 import org.apache.tools.ant.BuildException;
 
-import edu.colorado.phet.build.AbstractPhetBuildTask;
-import edu.colorado.phet.build.FileUtils;
-import edu.colorado.phet.build.PhetProject;
-import edu.colorado.phet.build.PhetProjectFlavor;
-
 public class InstallerBuildfileCreatorTask extends AbstractPhetBuildTask {
     private String flavor;
     private File inputFile;

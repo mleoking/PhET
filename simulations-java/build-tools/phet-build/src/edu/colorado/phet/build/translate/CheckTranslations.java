@@ -122,8 +122,6 @@ public class CheckTranslations {
     }
 
 
-    
-
     public static void clearTempDir() {
         System.out.print( "Cleaning temp dir..." );
         FileUtils.delete( TRANSLATIONS_TEMP_DIR, false );

@@ -122,12 +122,12 @@ public class AddTranslation {
 
                     /**
                      * Quick question:
-//                    FileUtils.download( "http://phet.colorado.edu/new/admin/cache-clear.php?cache-all", new File( getTempProjectDir( phetProject ), "cache-clear-all.php" ) );
+                     //                    FileUtils.download( "http://phet.colorado.edu/new/admin/cache-clear.php?cache-all", new File( getTempProjectDir( phetProject ), "cache-clear-all.php" ) );
 
-                    todo: Does the 2nd "cache-clear-all.php" need to change?
+                     todo: Does the 2nd "cache-clear-all.php" need to change?
 
-                    Dano's version:
-                    FileUtils.download( "http://phet.colorado.edu/new/admin/cache-clear.php?cache-all", new File( getTempProjectDir( phetProject ), "cache-clear.php?cache-all" ) );
+                     Dano's version:
+                     FileUtils.download( "http://phet.colorado.edu/new/admin/cache-clear.php?cache-all", new File( getTempProjectDir( phetProject ), "cache-clear.php?cache-all" ) );
 
                      */
 
@@ -135,14 +135,14 @@ public class AddTranslation {
                     System.out.println( "Deployed: " + phetProject.getName() + " in language " + language + ", please test it to make sure it works correctly." );
                     System.out.println( "Finished deploy" );
                 }
-                catch ( FileNotFoundException e ) {
+                catch( FileNotFoundException e ) {
                     e.printStackTrace();
                     success = false;
                 }
             }
 
         }
-        catch ( Exception e ) {
+        catch( Exception e ) {
             e.printStackTrace();
             success = false;
         }
@@ -160,21 +160,21 @@ public class AddTranslation {
                 FileUtils.download( url, localFile );
             }
             catch( FileNotFoundException e ) {//not all sims have a flavor name equal to project name
-                JOptionPane.showMessageDialog( null,"Could not find path: "+url+", need to resolve this, need to redeploy sim." );
+                JOptionPane.showMessageDialog( null, "Could not find path: " + url + ", need to resolve this, need to redeploy sim." );
             }
             String desiredMainClass = getMainClass( localFile );
 
             File newJNLPFile = new File( project.getDefaultDeployDir(), "" + project.getName() + "_" + language + ".jnlp" );
-            if (!newJNLPFile.exists()){//not all sims have a flavor name equal to project name
-                newJNLPFile=new File( project.getDefaultDeployDir(), "" + project.getFlavors()[i].getFlavorName() + "_" + language + ".jnlp" );
+            if ( !newJNLPFile.exists() ) {//not all sims have a flavor name equal to project name
+                newJNLPFile = new File( project.getDefaultDeployDir(), "" + project.getFlavors()[i].getFlavorName() + "_" + language + ".jnlp" );
             }
             String repositoryMainClass = getMainClass( newJNLPFile );
             if ( !repositoryMainClass.equals( desiredMainClass ) ) {
                 System.out.println( "Mismatch of main classes for project: " + project.getName() );
                 String JNLP = FileUtils.loadFileAsString( newJNLPFile, "utf-16" );
-                JNLP=FileUtils.replaceAll( JNLP,repositoryMainClass, desiredMainClass );
+                JNLP = FileUtils.replaceAll( JNLP, repositoryMainClass, desiredMainClass );
                 FileUtils.writeString( newJNLPFile, JNLP, "utf-16" );
-                System.out.println( "Wrote new JNLP file with tigercat main-class: " + desiredMainClass + " instead of repository main class: " + repositoryMainClass+": "+newJNLPFile.getAbsolutePath());
+                System.out.println( "Wrote new JNLP file with tigercat main-class: " + desiredMainClass + " instead of repository main class: " + repositoryMainClass + ": " + newJNLPFile.getAbsolutePath() );
             }
             //make sure main class is correct
         }

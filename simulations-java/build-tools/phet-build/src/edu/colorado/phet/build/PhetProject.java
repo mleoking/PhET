@@ -86,12 +86,13 @@ public class PhetProject {
     }
 
     /**
-     *        return "" instead of null if no data directory specified
+     * return "" instead of null if no data directory specified
+     *
      * @return
      */
     public String getData() {
         String s = properties.getProperty( "project.depends.data" );
-        return s==null?"":s;
+        return s == null ? "" : s;
     }
 
     public String[] getKeepMains() {
@@ -475,11 +476,11 @@ public class PhetProject {
     //Can't reuse the property loading code from phetcommon since the build process currently is GPL only.
     //Sure you can, it just means that phetcommon will be GPL when compiled with build-tools
     public String getVersionString() {
-        return getMajorVersion() + "." + format(getMinorVersion()) + "." + format(getDevVersion());
+        return getMajorVersion() + "." + format( getMinorVersion() ) + "." + format( getDevVersion() );
     }
 
-    private String format( int version) {
-        return new DecimalFormat("00").format( version );
+    private String format( int version ) {
+        return new DecimalFormat( "00" ).format( version );
     }
 
     public int getMajorVersion() {
