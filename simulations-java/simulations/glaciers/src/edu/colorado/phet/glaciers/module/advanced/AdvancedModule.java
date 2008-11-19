@@ -76,7 +76,7 @@ public class AdvancedModule extends GlaciersModule {
         
         // Debug
         if ( PhetApplication.instance().isDeveloperControlsEnabled() ) {
-            _evolutionDialog = new EvolutionStateDialog( PhetApplication.instance().getPhetFrame(), _model.getGlacier() );
+            _evolutionDialog = new EvolutionStateDialog( PhetApplication.instance().getPhetFrame(), _model.getGlacier(), getName() );
         }
         
         // Set initial state
