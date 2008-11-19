@@ -12,13 +12,13 @@ import javax.swing.event.ListSelectionEvent;
 
 import edu.colorado.phet.build.PhetProject;
 
-public class ProjectPanel extends JPanel {
+public class ProjectListPanel extends JPanel {
     private File baseDir;
     private JList projectList;
     private JButton runButton;
     private LocalProperties localProperties;
 
-    public ProjectPanel( File baseDir ) {
+    public ProjectListPanel( File baseDir ) {
         this.baseDir = baseDir;
         this.localProperties = new LocalProperties( baseDir );
 
