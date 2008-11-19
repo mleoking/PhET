@@ -7,7 +7,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
-import java.util.Locale;
 
 import javax.swing.*;
 
@@ -100,7 +99,7 @@ public class PhetBuildGUI {
         JButton buildJNLP = new JButton( "Build Local JNLP" );
         buildJNLP.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                buildJNLP( getSelectedProject(), "file:///" + getSelectedProject().getDefaultDeployJar().getParentFile().getAbsolutePath() );
+                getBuildScript().buildJNLP( "file:///" + getSelectedProject().getDefaultDeployJar().getParentFile().getAbsolutePath() );
             }
         } );
 
@@ -114,7 +113,7 @@ public class PhetBuildGUI {
         JButton svnStatus = new JButton( "SVN Status" );
         svnStatus.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getBuildScript().isSVNInSync( );
+                getBuildScript().isSVNInSync();
             }
         } );
 
@@ -128,7 +127,14 @@ public class PhetBuildGUI {
         JButton incrementVersionNumber = new JButton( "Increment Dev" );
         incrementVersionNumber.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getBuildScript().incrementVersionNumber();
+                getBuildScript().incrementDevVersion();
+            }
+        } );
+
+        JButton getSVN = new JButton( "Get SVN version" );
+        getSVN.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                System.out.println( "getBuildScript().getSVNVersion() = " + getBuildScript().getSVNVersion() );
             }
         } );
 
@@ -144,6 +150,7 @@ public class PhetBuildGUI {
         commandPanel.add( buildJNLP, commandConstraints );
         commandPanel.add( svnStatus, commandConstraints );
         commandPanel.add( incrementVersionNumber, commandConstraints );
+        commandPanel.add( getSVN, commandConstraints );
 
         commandPanel.add( deployDev, commandConstraints );
         commandPanel.add( Box.createVerticalBox() );
@@ -164,20 +171,6 @@ public class PhetBuildGUI {
         AuthenticationInfo authenticationInfo = new AuthenticationInfo();
         return authenticationInfo;
     }
-
-    private void buildJNLP( PhetProject selectedProject, String codebase ) {
-        String[] flavorNames = selectedProject.getFlavorNames();
-        Locale[] locales = getSelectedProject().getLocales();
-        for ( int i = 0; i < locales.length; i++ ) {
-            Locale locale = locales[i];
-
-            for ( int j = 0; j < flavorNames.length; j++ ) {
-                String flavorName = flavorNames[j];
-                getBuildScript().buildJNLP( getSelectedProject(), locale, flavorName, codebase );
-            }
-        }
-    }
-
 
     private MyPhetProject[] convertToMyPhetProjecets( PhetProject[] a ) {
         MyPhetProject[] b = new MyPhetProject[a.length];
@@ -283,11 +276,11 @@ public class PhetBuildGUI {
     public static class AuthenticationInfo {
 
         public String getUsername() {
-            return null;
+            return JOptionPane.showInputDialog( "login username" );
         }
 
         public String getPassword() {
-            return null;
+            return JOptionPane.showInputDialog( "login password" );
         }
     }
 }

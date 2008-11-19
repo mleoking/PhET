@@ -478,7 +478,11 @@ public class PhetProject {
     //Can't reuse the property loading code from phetcommon since the build process currently is GPL only.
     //Sure you can, it just means that phetcommon will be GPL when compiled with build-tools
     public String getVersionString() {
-        return getMajorVersion() + "." + getMinorVersion() + "." + getDevVersion();
+        return getMajorVersion() + "." + format(getMinorVersion()) + "." + format(getDevVersion());
+    }
+
+    private String format( int version) {
+        return new DecimalFormat("00").format( version );
     }
 
     public int getMajorVersion() {
