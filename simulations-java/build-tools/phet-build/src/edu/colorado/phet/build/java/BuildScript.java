@@ -2,6 +2,8 @@ package edu.colorado.phet.build.java;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
@@ -55,7 +57,11 @@ public class BuildScript {
         int svnNumber = getSVNVersion();
         System.out.println( "Current SVN: " + svnNumber );
         setSVNVersion( svnNumber + 1 );
-        commitNewVersionFile();//todo: check that new version number is correct
+        addMessagesToChangeFile();
+
+        commitProject();//commits both changes to version and change file
+
+        //todo: check that new version number is correct
 
         //would be nice to build before deploying new SVN number in case there are errors,
         //however, we need the correct version info in the JAR
@@ -70,6 +76,19 @@ public class BuildScript {
         openBrowser( server.getURL( project ) );
 
         System.out.println( "Finished deploy to: " + server.getHost() );
+    }
+
+    private void addMessagesToChangeFile() {
+        String message = JOptionPane.showInputDialog( "Enter a message to add to the change log\n(or Enter if change log is up to date)" );
+        if ( message.trim().length() > 0 ) {
+            prependChange( message );
+        }
+
+        prependChange( "# " + project.getVersionString() + " " + new SimpleDateFormat( "MM-dd-yyyy" ).format( new Date() ) );
+    }
+
+    private void prependChange( String message ) {
+        project.prependChangesText( message );
     }
 
     private void copyVersionFilesToDeploy() {
@@ -156,11 +175,12 @@ public class BuildScript {
         throw new RuntimeException( "No svn version information found: " + output );
     }
 
-    private void commitNewVersionFile() {
+    private void commitProject() {
         String svnusername = svnAuth.getUsername();
         String svnpassword = svnAuth.getPassword();
         String message = project.getName() + ": deployed version " + project.getVersionString();
-        String[] args = new String[]{"svn", "commit", "--username", svnusername, "--password", svnpassword, "--message", message, project.getProjectDir().getAbsolutePath()};
+        String path = project.getProjectDir().getAbsolutePath();
+        String[] args = new String[]{"svn", "commit", "--username", svnusername, "--password", svnpassword, "--message", message, path};
         //TODO: verify that SVN repository revision number now matches what we wrote to the project properties file
         ProcessOutputReader.ProcessExecResult a = ProcessOutputReader.exec( args );
         if ( a.getTerminatedNormally() ) {

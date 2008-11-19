@@ -7,8 +7,8 @@ import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import edu.colorado.phet.build.PhetProject;
 
@@ -106,6 +106,15 @@ public class ProjectListPanel extends JPanel {
                 System.out.println( "getBuildScript().getSVNVersion() = " + getBuildScript().getSVNVersion() );
             }
         } );
+        JButton addMessage = new JButton( "Add Message" );
+        addMessage.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                String m = JOptionPane.showInputDialog( "Enter a message" );
+                if ( m.trim().length() > 0 ) {
+                    getSelectedProject().prependChangesText( m );
+                }
+            }
+        } );
 
         commandPanel.add( cleanButton );
         commandPanel.add( buildButton );
@@ -113,6 +122,7 @@ public class ProjectListPanel extends JPanel {
         commandPanel.add( buildJNLP );
         commandPanel.add( svnStatus );
         commandPanel.add( getSVN );
+        commandPanel.add( addMessage );
 
         commandPanel.add( Box.createVerticalStrut( 50 ) );
         commandPanel.add( deployDev );

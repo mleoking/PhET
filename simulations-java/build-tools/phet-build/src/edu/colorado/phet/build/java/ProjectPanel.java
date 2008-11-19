@@ -3,7 +3,7 @@ package edu.colorado.phet.build.java;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
+import java.io.File;
 import java.util.Locale;
 
 import javax.swing.*;
@@ -20,6 +20,11 @@ public class ProjectPanel extends JPanel {
     private JList flavorList;
     private JList localeList;
     private JScrollPane changesScrollPane;
+    private PhetProject.Listener listener = new PhetProject.Listener() {
+        public void changesTextChanged() {
+            updateChangesText();
+        }
+    };
 
     public ProjectPanel( File basedir, PhetProject project ) {
         this.basedir = basedir;
@@ -59,7 +64,7 @@ public class ProjectPanel extends JPanel {
 
     private void launch() {
         BuildScript buildScript = new BuildScript( basedir, project, null, null );
-        buildScript.runSim(getSelectedLocale(),getFlavor());
+        buildScript.runSim( getSelectedLocale(), getFlavor() );
     }
 
     private String getFlavor() {
@@ -71,13 +76,15 @@ public class ProjectPanel extends JPanel {
     }
 
     public void setProject( PhetProject project ) {
+        this.project.removeListener( listener );
         this.project = project;
+        this.project.addListener( listener );
         titleLabel.setText( project.getName() + " (" + project.getVersionString() + ")" );
         flavorList.setListData( project.getFlavorNames() );
         flavorList.setSelectedIndex( 0 );
         localeList.setListData( project.getLocales() );
 
-        changesTextArea.setText( loadChangedText() );
+        updateChangesText();
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 changesTextArea.scrollRectToVisible( new Rectangle( 0, 0, 1, 1 ) );
@@ -87,28 +94,8 @@ public class ProjectPanel extends JPanel {
         } );
     }
 
-    private String loadChangedText() {
-        File changesFile = project.getChangesFile();
-        if ( !changesFile.exists() ) {
-            return "";
-        }
-        try {
-            BufferedReader bufferedReader = new BufferedReader( new FileReader( changesFile ) );
-            StringBuffer s = new StringBuffer();
-            String line = bufferedReader.readLine();
-            while ( line != null ) {
-                s.append( line ).append( "\n" );
-                line = bufferedReader.readLine();
-            }
-            return s.toString();
-        }
-        catch( FileNotFoundException e ) {
-            e.printStackTrace();
-            throw new RuntimeException( e );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-            throw new RuntimeException( e );
-        }
+    private void updateChangesText() {
+        changesTextArea.setText( project.getChangesText() );
     }
+
 }
