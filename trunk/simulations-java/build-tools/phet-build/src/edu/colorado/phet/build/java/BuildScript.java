@@ -59,8 +59,21 @@ public class BuildScript {
         System.out.println( "codebase = " + codebase );
         buildJNLP( codebase );
 
+        copyVersionFilesToDeploy();
         sendSSH( server, authenticationInfo );
         openBrowser( server.getURL( project ) );
+    }
+
+    private void copyVersionFilesToDeploy() {
+        File versionFile = project.getVersionFile();
+        try {
+            File dest = new File( project.getDefaultDeployDir(), versionFile.getName() );
+            FileUtils.copyTo( versionFile, dest );
+            System.out.println( "Copied version file to " + dest.getAbsolutePath() );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
     }
 
     private void openBrowser( String deployPath ) {
