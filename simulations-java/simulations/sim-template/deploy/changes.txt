@@ -1,2 +1,5 @@
+#11-18-2008
+Testing new deploy process for next several versions
+
 10/8/08 - use PhetApplicationConfig.launchSim
 10/8/08 - changes log file created
