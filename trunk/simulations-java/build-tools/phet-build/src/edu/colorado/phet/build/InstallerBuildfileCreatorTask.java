@@ -1,5 +1,5 @@
 /* Copyright 2007, University of Colorado */
-package edu.colorado.phet.build.installer;
+package edu.colorado.phet.build;
 
 import java.io.File;
 import java.io.IOException;

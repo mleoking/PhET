@@ -83,7 +83,7 @@
 	<property name="phet-build-gui-classname"       value="edu.colorado.phet.build.PhetBuildGUITask"/>
 	<property name="phet-build-all-sim-jar-classname" value="edu.colorado.phet.build.PhetBuildAllSimJarTask"/>
 	<property name="phet-file-exists-classname"       value="edu.colorado.phet.build.util.FileExistsCondition"/>
-	<property name="create-installer-build-file-classname"       value="edu.colorado.phet.build.installer.InstallerBuildfileCreatorTask"/>
+	<property name="create-installer-build-file-classname"       value="edu.colorado.phet.build.InstallerBuildfileCreatorTask"/>
 	<property name="check-translations-classname"          value="edu.colorado.phet.build.translate.CheckTranslationsTask" />
     <property name="deploy-latest-classname"          value="edu.colorado.phet.build.DeployLatest" />
 
