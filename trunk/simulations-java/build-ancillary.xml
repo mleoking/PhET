@@ -234,7 +234,7 @@
 	<target name="_compile-phet-build">
 		<mkdir dir="${phetbuild-classes-dir}"/>
 
-		<javac srcdir="${phetbuild-src}" destdir="${phetbuild-classes-dir}" classpath="${proguard.jar}:${apache.commons.lang.jar};${jsch.jar}" debug="true"
+		<javac srcdir="${phetbuild-src}:${dir.build-tools}/securechannelfacade/src/main/java" destdir="${phetbuild-classes-dir}" classpath="${proguard.jar}:${apache.commons.lang.jar};${jsch.jar}" debug="true"
                debuglevel="lines,source">
 			<src path="${phetbuild-src}" />
 			<src path="${imageio-src}" />
