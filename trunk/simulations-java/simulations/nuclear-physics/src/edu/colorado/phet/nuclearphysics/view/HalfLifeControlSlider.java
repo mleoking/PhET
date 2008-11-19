@@ -15,7 +15,7 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
  */
 public class HalfLifeControlSlider extends JSlider {
 	
-    private static final int MAX_SLIDER_VALULE = 1;
+    private static final int MAX_SLIDER_VALULE = 1000;
     private static final int MIN_SLIDER_VALULE = 0;
 
     public HalfLifeControlSlider() {
