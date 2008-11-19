@@ -6,7 +6,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Properties;
 
 import javax.swing.*;
 
@@ -23,8 +25,20 @@ public class PhetBuildGUI {
     private JList simList;
     private JButton runButton;
     private File baseDir;
+    private Properties localProperties;
 
     public PhetBuildGUI( File baseDir ) {
+        File localPropertiesFile = new File( baseDir, "build-local.properties" );
+        localProperties = new Properties();
+        if ( localPropertiesFile.exists() ) {
+            try {
+                localProperties.load( new FileInputStream( localPropertiesFile ) );
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
+        }
+
         this.baseDir = baseDir;
         this.frame = new JFrame( "PhET Build" );
         frame.addWindowListener( new WindowAdapter() {
@@ -98,7 +112,14 @@ public class PhetBuildGUI {
         JButton deployDev = new JButton( "Deploy Dev" );
         deployDev.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getBuildScript().deploy( PhetServer.DEVELOPMENT, getDevelopmentAuthentication() );
+                getBuildScript().deploy( PhetServer.DEVELOPMENT, getDevelopmentAuthentication( "dev" ) );
+            }
+        } );
+
+        JButton deployProd = new JButton( "Deploy Prod" );
+        deployProd.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                getBuildScript().deploy( PhetServer.PRODUCTION, getDevelopmentAuthentication( "prod" ) );
             }
         } );
 
@@ -130,7 +151,9 @@ public class PhetBuildGUI {
         commandPanel.add( incrementVersionNumber, commandConstraints );
         commandPanel.add( getSVN, commandConstraints );
 
+        commandPanel.add( Box.createVerticalStrut( 50 ) );
         commandPanel.add( deployDev, commandConstraints );
+        commandPanel.add( deployProd, commandConstraints );
         commandPanel.add( Box.createVerticalBox() );
 
         contentPane.add( commandPanel, gridBagConstraints );
@@ -141,12 +164,15 @@ public class PhetBuildGUI {
     }
 
     private BuildScript getBuildScript() {
-        return new BuildScript( baseDir, getSelectedProject() );
+        return new BuildScript( baseDir, getSelectedProject(), new AuthenticationInfo( getLocalProperty( "svn.username" ), getLocalProperty( "svn.password" ) ), getLocalProperty( "browser" ) );
     }
 
+    private AuthenticationInfo getDevelopmentAuthentication( String serverType ) {
+        return new AuthenticationInfo( getLocalProperty( "deploy." + serverType + ".username" ), getLocalProperty( "deploy." + serverType + ".password" ) );
+    }
 
-    private AuthenticationInfo getDevelopmentAuthentication() {
-        return new AuthenticationInfo();
+    private String getLocalProperty( String s ) {
+        return localProperties.getProperty( s );
     }
 
     private MyPhetProject[] convertToMyPhetProjecets( PhetProject[] a ) {
@@ -246,18 +272,8 @@ public class PhetBuildGUI {
             System.out.println( "Usage: args[0]=basedir" );
         }
         else {
-            new PhetBuildGUI( new File( args[0] ) ).start();
-        }
-    }
-
-    public static class AuthenticationInfo {
-
-        public String getUsername() {
-            return JOptionPane.showInputDialog( "login username" );
-        }
-
-        public String getPassword() {
-            return JOptionPane.showInputDialog( "login password" );
+            File basedir = new File( args[0] );
+            new PhetBuildGUI( basedir ).start();
         }
     }
 }
