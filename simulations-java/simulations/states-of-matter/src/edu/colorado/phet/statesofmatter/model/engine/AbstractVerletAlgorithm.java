@@ -275,7 +275,7 @@ public abstract class AbstractVerletAlgorithm implements MoleculeForceAndMotionC
 		
 		if ((m_pressure > EXPLOSION_PRESSURE) && !m_model.getContainerExploded()){
 			// The pressure has reached the point where the container should
-			// explode, to blow 'er up.
+			// explode, so blow 'er up.
             m_model.setContainerExploded();
 		}
 	}
