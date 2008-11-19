@@ -11,6 +11,7 @@ import java.util.StringTokenizer;
 import javax.swing.*;
 
 import org.apache.tools.ant.taskdefs.Java;
+import org.apache.tools.ant.taskdefs.Jar;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 import org.rev6.scf.SshCommand;
@@ -239,10 +240,53 @@ public class BuildScript {
     public void build() {
         try {
             new PhetBuildCommand( project, new MyAntTaskRunner(), true, project.getDefaultDeployJar() ).execute();
+            buildAllFlavorJars();
         }
         catch( Exception e ) {
             e.printStackTrace();
         }
+
+    }
+
+    private void buildAllFlavorJars() throws IOException {
+//        	<!-- TODO: PLEASE DOCUMENT ME -->
+//	<target name="_build-jar-for-flavor">
+//		<copy file="simulations/${sim.name}/deploy/${sim.name}_all.jar"
+//              tofile="simulations/${sim.name}/deploy/${sim.flavor}.jar"/>
+//		<mkdir dir="${ant-output}/projects/${sim.name}/launchable-jars/"/>
+//		<echo message="main.flavor=${sim.flavor}"
+//		              file="${ant-output}/projects/${sim.name}/launchable-jars/main-flavor.properties"/>
+//		<jar destfile="simulations/${sim.name}/deploy/${sim.flavor}.jar"
+//             basedir="${ant-output}/projects/${sim.name}/launchable-jars/" update="true"/>
+//	</target>
+//
+//	<!-- TODO: PLEASE DOCUMENT ME -->
+//	<target name="_build-all-flavor-jars-for-sim" depends="_init">
+//		<!--ToDo: handle flavor/sim name clash better than this.-->
+//		<var name="jar-all-file" value="simulations/${sim.name}/deploy/${sim.name}_all.jar"/>
+//		<copy file="simulations/${sim.name}/deploy/${sim.name}.jar" tofile="${jar-all-file}"/>
+//		<phet-list-flavors property="sim.flavors" project="${sim.name}"/>
+//		<foreach list="${sim.flavors}" target="_build-jar-for-flavor" param="sim.flavor" inheritall="true"/>
+//		<!--remove [sim.name]_all.jar files from build process-->
+//		<delete file="${jar-all-file}"/>
+//	</target>
+
+
+        //todo: implement the code below to have similar behavior to the ant script above
+//        File workspace = new File( project.getAntOutputDir(), "launchable-jars" );
+//        workspace.mkdirs();
+//        File allJar = new File( workspace, project.getName() + "_all.jar" );
+//        FileUtils.copyTo( project.getJarFile(), allJar );
+//        String[] flavors = project.getFlavorNames();
+//        for ( int i = 0; i < flavors.length; i++ ) {
+//            String flavor = flavors[i];
+//            FileUtils.copyTo( allJar, project.getDefaultDeployFlavorJar( flavor ) );
+//            Jar jar=new Jar();
+//            jar.setDestFile( project.getDefaultDeployFlavorJar( flavor ) );
+//            echo( "main.flavor=" + flavor, );
+//        }
+//        boolean del = allJar.delete();
+
     }
 
     public void runSim() {
