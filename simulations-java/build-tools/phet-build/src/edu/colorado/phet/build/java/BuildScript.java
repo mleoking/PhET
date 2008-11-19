@@ -195,12 +195,10 @@ public class BuildScript {
 
     public void runSim() {
         Locale locale = (Locale) prompt( "Choose locale: ", project.getLocales() );
-//        String locale = "en";
         String flavor = project.getFlavorNames()[0];
         if ( project.getFlavorNames().length > 1 ) {
             flavor = (String) prompt( "Choose flavor: ", project.getFlavorNames() );
         }
-
 
         Java java = new Java();
 
