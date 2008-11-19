@@ -147,7 +147,8 @@ public class BuildScript {
         }
 
         //for some reason, the securechannelfacade fails with a "server didn't expect this file" error
-        //but our code works; therefore there is probably a problem with the handshaking in securechannelfacade
+        //the failure is on tigercat, but scf works properly on spot
+        //but our code works on both; therefore there is probably a problem with the handshaking in securechannelfacade
         File[] f = project.getDefaultDeployDir().listFiles(); //todo: should handle recursive for future use (if we ever want to support nested directories)
             for ( int i = 0; i < f.length; i++ ) {
                 if ( f[i].getName().startsWith( "." ) ) {
