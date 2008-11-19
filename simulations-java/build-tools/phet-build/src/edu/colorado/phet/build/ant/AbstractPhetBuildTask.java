@@ -1,9 +1,12 @@
 /* Copyright 2007, University of Colorado */
-package edu.colorado.phet.build;
+package edu.colorado.phet.build.ant;
 
 import java.io.File;
 
 import org.apache.tools.ant.BuildException;
+
+import edu.colorado.phet.build.PhetProject;
+import edu.colorado.phet.build.util.PhetBuildUtils;
 
 public abstract class AbstractPhetBuildTask extends AbstractPhetTask {
     private volatile String projectName;

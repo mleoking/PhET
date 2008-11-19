@@ -15,6 +15,7 @@ import org.apache.tools.ant.types.Path;
 
 import edu.colorado.phet.build.proguard.PhetProguardConfigBuilder;
 import edu.colorado.phet.build.proguard.ProguardCommand;
+import edu.colorado.phet.build.util.PhetBuildUtils;
 
 /**
  * This command builds a PhET project, together with any dependencies.

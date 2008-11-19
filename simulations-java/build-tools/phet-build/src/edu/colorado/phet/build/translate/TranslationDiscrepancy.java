@@ -10,8 +10,8 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import edu.colorado.phet.build.util.FileUtils;
 import edu.colorado.phet.build.PhetProject;
+import edu.colorado.phet.build.util.FileUtils;
 
 /**
  * Under development and untested.

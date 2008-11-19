@@ -1,4 +1,7 @@
-package edu.colorado.phet.build;
+package edu.colorado.phet.build.ant;
+
+import edu.colorado.phet.build.PhetProject;
+import edu.colorado.phet.build.util.PhetBuildUtils;
 
 /**
  * Constructs an iterable list of simulations for use in ant-contrib.

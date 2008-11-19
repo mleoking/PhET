@@ -1,8 +1,11 @@
-package edu.colorado.phet.build;
+package edu.colorado.phet.build.ant;
 
 import java.io.File;
 
 import org.apache.tools.ant.Task;
+
+import edu.colorado.phet.build.AntTaskRunner;
+import edu.colorado.phet.build.util.PhetBuildUtils;
 
 /**
  * Author: Sam Reid

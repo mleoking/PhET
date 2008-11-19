@@ -13,8 +13,8 @@ import org.apache.tools.ant.types.Path;
 import org.rev6.scf.*;
 
 import edu.colorado.phet.build.*;
-import edu.colorado.phet.build.util.ProcessOutputReader;
 import edu.colorado.phet.build.util.FileUtils;
+import edu.colorado.phet.build.util.ProcessOutputReader;
 
 public class BuildScript {
     private PhetProject project;

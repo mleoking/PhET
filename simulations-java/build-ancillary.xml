@@ -71,21 +71,21 @@
 	<property name="phet.src.distribution"  value="${basedir}/deploy/phet-src.zip"/>
 
 	<!-- PhET task implementations -->
-	<property name="phetbuild-classname"            value="edu.colorado.phet.build.PhetBuildTask"/>
+	<property name="phetbuild-classname"            value="edu.colorado.phet.build.ant.PhetBuildTask"/>
 	<property name="phetbuild-classpath"            value="${phetbuild-classes-dir};${proguard.jar};${apache.commons.lang.jar};${jsch.jar}"/>
-	<property name="phetdisplaystats-classname"     value="edu.colorado.phet.build.PhetDisplayStatsTask"/>
-	<property name="phetclean-classname"            value="edu.colorado.phet.build.PhetCleanTask"/>
+	<property name="phetdisplaystats-classname"     value="edu.colorado.phet.build.ant.PhetDisplayStatsTask"/>
+	<property name="phetclean-classname"            value="edu.colorado.phet.build.ant.PhetCleanTask"/>
 	<property name="phetjnlp-classname"             value="edu.colorado.phet.build.PhetBuildJnlpTask"/>
-	<property name="phet-list-sims-classname"       value="edu.colorado.phet.build.PhetListSimTask"/>
-	<property name="phet-list-depends-classname"    value="edu.colorado.phet.build.PhetListDependsTask"/>
-	<property name="phet-list-flavors-classname"    value="edu.colorado.phet.build.PhetListFlavorsTask"/>
-	<property name="phet-list-locales-classname"    value="edu.colorado.phet.build.PhetListLocalesTask"/>
-	<property name="phet-build-gui-classname"       value="edu.colorado.phet.build.PhetBuildGUITask"/>
-	<property name="phet-build-all-sim-jar-classname" value="edu.colorado.phet.build.PhetBuildAllSimJarTask"/>
+	<property name="phet-list-sims-classname"       value="edu.colorado.phet.build.ant.PhetListSimTask"/>
+	<property name="phet-list-depends-classname"    value="edu.colorado.phet.build.ant.PhetListDependsTask"/>
+	<property name="phet-list-flavors-classname"    value="edu.colorado.phet.build.ant.PhetListFlavorsTask"/>
+	<property name="phet-list-locales-classname"    value="edu.colorado.phet.build.ant.PhetListLocalesTask"/>
+	<property name="phet-build-gui-classname"       value="edu.colorado.phet.build.ant.PhetBuildGUITask"/>
+	<property name="phet-build-all-sim-jar-classname" value="edu.colorado.phet.build.ant.PhetBuildAllSimJarTask"/>
 	<property name="phet-file-exists-classname"       value="edu.colorado.phet.build.util.FileExistsCondition"/>
-	<property name="create-installer-build-file-classname"       value="edu.colorado.phet.build.InstallerBuildfileCreatorTask"/>
+	<property name="create-installer-build-file-classname"       value="edu.colorado.phet.build.ant.InstallerBuildfileCreatorTask"/>
 	<property name="check-translations-classname"          value="edu.colorado.phet.build.translate.CheckTranslationsTask" />
-    <property name="deploy-latest-classname"          value="edu.colorado.phet.build.DeployLatest" />
+    <property name="deploy-latest-classname"          value="edu.colorado.phet.build.ant.DeployLatest" />
 
     <property name="imageio-classname"              value="net.sf.image4j.util.ImageIOTask"/>
 

@@ -1,4 +1,4 @@
-package edu.colorado.phet.build;
+package edu.colorado.phet.build.ant;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,6 +6,7 @@ import java.util.Date;
 
 import org.apache.tools.ant.BuildException;
 
+import edu.colorado.phet.build.PhetProject;
 import edu.colorado.phet.build.translate.ScpTo;
 import edu.colorado.phet.build.util.FileUtils;
 

@@ -1,4 +1,4 @@
-package edu.colorado.phet.build;
+package edu.colorado.phet.build.ant;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -20,6 +20,9 @@ import org.apache.tools.ant.Task;
 import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
+
+import edu.colorado.phet.build.PhetProject;
+import edu.colorado.phet.build.util.PhetBuildUtils;
 
 /**
  * Author: Sam Reid

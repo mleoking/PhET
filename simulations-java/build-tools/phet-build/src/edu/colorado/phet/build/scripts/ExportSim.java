@@ -3,8 +3,8 @@ package edu.colorado.phet.build.scripts;
 import java.io.File;
 import java.io.IOException;
 
-import edu.colorado.phet.build.util.FileUtils;
 import edu.colorado.phet.build.PhetProject;
+import edu.colorado.phet.build.util.FileUtils;
 
 /**
  * This utility is responsible for exporting a sim and all its dependencies to an external directory.
