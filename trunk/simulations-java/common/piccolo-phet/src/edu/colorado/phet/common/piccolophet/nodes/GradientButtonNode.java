@@ -45,7 +45,7 @@ public class GradientButtonNode extends PhetPNode {
     
     // Constant that controls where the shadow shows up and how far the button
     // translates when pushed.
-    private static final int SHADOW_OFFSET = 3;
+    protected static final int SHADOW_OFFSET = 3;
     
     // Defaults for values that might not be specified at construction.
     private static final Color DEFAULT_COLOR = Color.GRAY;
@@ -63,6 +63,7 @@ public class GradientButtonNode extends PhetPNode {
     private ArrayList _actionListeners;
     private Color _buttonColor;
     private PNode _icon;
+    private PPath _button;
 
     //------------------------------------------------------------------------
     // Constructors
@@ -105,9 +106,9 @@ public class GradientButtonNode extends PhetPNode {
                 getIconHeight() * VERTICAL_PADDING_FACTOR,
                 BUTTON_CORNER_ROUNDEDNESS, BUTTON_CORNER_ROUNDEDNESS);
 
-        final PPath button = new PPath(buttonShape);
-        button.setPaint( mouseNotOverGradient );
-        button.addInputEventListener( new CursorHandler() ); // Does the finger pointer cursor thing.
+        _button = new PPath(buttonShape);
+        _button.setPaint( mouseNotOverGradient );
+        _button.addInputEventListener( new CursorHandler() ); // Does the finger pointer cursor thing.
 
         // Create the shadow node.
         PNode buttonShadow = new PPath(buttonShape);
@@ -119,26 +120,26 @@ public class GradientButtonNode extends PhetPNode {
         // Add the children to the node in the appropriate order so that they
         // appear as desired.
         addChild( buttonShadow );
-        addChild( button );
-        button.addChild( _icon ); // icon is a child of the button so we don't have to move it separately
+        addChild( _button );
+        _button.addChild( _icon ); // icon is a child of the button so we don't have to move it separately
 
         // Register a handler to watch for button state changes.
         ButtonEventHandler handler = new ButtonEventHandler();
-        button.addInputEventListener( handler );
+        _button.addInputEventListener( handler );
         handler.addButtonEventListener( new ButtonEventListener() {
             private boolean focus = false; // true if the button has focus
             public void setFocus( boolean focus ) {
                 this.focus = focus;
-                button.setPaint( focus ? mouseOverGradient : mouseNotOverGradient);
+                _button.setPaint( focus ? mouseOverGradient : mouseNotOverGradient);
             }
             public void setArmed( boolean armed ) {
                 if ( armed ) {
-                    button.setPaint( armedGradient );
-                    button.setOffset( SHADOW_OFFSET, SHADOW_OFFSET );
+                    _button.setPaint( armedGradient );
+                    _button.setOffset( SHADOW_OFFSET, SHADOW_OFFSET );
                 }
                 else {
-                    button.setPaint( focus ? mouseOverGradient : mouseNotOverGradient );
-                    button.setOffset( 0, 0 );
+                    _button.setPaint( focus ? mouseOverGradient : mouseNotOverGradient );
+                    _button.setOffset( 0, 0 );
                 }
             }
             public void fire() {
@@ -167,7 +168,7 @@ public class GradientButtonNode extends PhetPNode {
         return _icon.getFullBounds().getHeight();
     }
 
-    private Paint getArmedGradient() {
+    protected Paint getArmedGradient() {
         return useGradient() ?
                new GradientPaint( (float) getIconWidth() / 2, 0f, _buttonColor,
                                   (float) getIconWidth() * 0.5f, (float) getIconHeight(),
@@ -179,11 +180,11 @@ public class GradientButtonNode extends PhetPNode {
     // See Unfuddle Ticket #553
     // https://phet.unfuddle.com/projects/9404/tickets/by_number/553
     // Button Gradient Paint is disabled on Mac until this problem is resolved
-    private boolean useGradient() {
+    protected boolean useGradient() {
         return !PhetUtilities.isMacintosh();
     }
 
-    private Paint getMouseOverGradient() {
+    protected Paint getMouseOverGradient() {
         return useGradient()?new GradientPaint((float) getIconWidth() / 2, 0f,
                 getBrighterColor(getBrighterColor( _buttonColor )),
                 (float) getIconWidth() * 0.5f, (float) getIconHeight(),
@@ -191,14 +192,18 @@ public class GradientButtonNode extends PhetPNode {
                :(Paint) getBrighterColor( _buttonColor );
     }
 
-    private Paint getMouseNotOverGradient() {
+    protected Paint getMouseNotOverGradient() {
         return useGradient()?new GradientPaint((float) getIconWidth() / 2, 0f,
                 getBrighterColor( _buttonColor ),
                 (float) getIconWidth() * 0.5f, (float) getIconHeight(),
                 _buttonColor)
                :(Paint)_buttonColor;
     }
-
+    
+    protected PPath getButton(){
+    	return _button;
+    }
+    
     /**
      * Constructor for creating a default gradient button with only the label
      * specified.
