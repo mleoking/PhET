@@ -399,7 +399,11 @@
         return $translations;
     }
 
-    // Returns an array with the sim version, or empty string if it cannot be determined
+    // Returns an array with the sim version, keys 
+    // will be empty if the information is not available
+    //
+    // TEMP: Flash versioning is inaccurate, return blank version
+    //
     // Array form: 
     //     'major' => value
     //     'minor' => value
@@ -417,6 +421,11 @@
         $version = array();
         foreach ($revision_tags as $tag) {
             $version[$tag] = '';
+        }
+
+        // TEMP: Flash versioning is inaccurate, return blank version
+        if ($simulation['sim_type'] == SIM_TYPE_FLASH) {
+            return $version;
         }
 
         $handle = @fopen($properties_filename, "r");
