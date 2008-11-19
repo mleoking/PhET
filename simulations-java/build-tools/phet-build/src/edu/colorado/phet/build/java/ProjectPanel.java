@@ -4,8 +4,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
 
 import edu.colorado.phet.build.PhetProject;
 
@@ -28,6 +31,11 @@ public class ProjectPanel extends JPanel {
         projectList = new JList( p );
         projectList.setSelectedIndex( 0 );
         projectList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+        projectList.addListSelectionListener( new ListSelectionListener() {
+            public void valueChanged( ListSelectionEvent e ) {
+                notifyListeners();
+            }
+        } );
 
         setLayout( new GridBagLayout() );
         GridBagConstraints gridBagConstraints = new GridBagConstraints( GridBagConstraints.RELATIVE, 0, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.VERTICAL, new Insets( 2, 2, 2, 2 ), 0, 0 );
@@ -36,6 +44,7 @@ public class ProjectPanel extends JPanel {
         add( simListPane, gridBagConstraints );
 
         JPanel commandPanel = new JPanel();
+        commandPanel.setLayout( new BoxLayout( commandPanel, BoxLayout.Y_AXIS ) );
         JButton cleanButton = new JButton( "Clean" );
         cleanButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -98,20 +107,16 @@ public class ProjectPanel extends JPanel {
             }
         } );
 
-
-        GridBagConstraints commandConstraints = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
-        commandPanel.setLayout( new GridBagLayout() );
-
-        commandPanel.add( cleanButton, commandConstraints );
-        commandPanel.add( buildButton, commandConstraints );
-        commandPanel.add( runButton, commandConstraints );
-        commandPanel.add( buildJNLP, commandConstraints );
-        commandPanel.add( svnStatus, commandConstraints );
-        commandPanel.add( getSVN, commandConstraints );
+        commandPanel.add( cleanButton );
+        commandPanel.add( buildButton );
+        commandPanel.add( runButton );
+        commandPanel.add( buildJNLP );
+        commandPanel.add( svnStatus );
+        commandPanel.add( getSVN );
 
         commandPanel.add( Box.createVerticalStrut( 50 ) );
-        commandPanel.add( deployDev, commandConstraints );
-        commandPanel.add( deployProd, commandConstraints );
+        commandPanel.add( deployDev );
+        commandPanel.add( deployProd );
         commandPanel.add( Box.createVerticalBox() );
 
         add( commandPanel, gridBagConstraints );
@@ -129,7 +134,7 @@ public class ProjectPanel extends JPanel {
         return localProperties.getProperty( s );
     }
 
-    private PhetProject getSelectedProject() {
+    public PhetProject getSelectedProject() {
         return ( (ProjectListElement) projectList.getSelectedValue() ).getProject();
     }
 
@@ -155,5 +160,25 @@ public class ProjectPanel extends JPanel {
         public PhetProject getProject() {
             return p;
         }
+    }
+
+    private ArrayList listeners = new ArrayList();
+
+    public static interface Listener {
+        public void notifyChanged();
+    }
+
+    public void notifyListeners() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).notifyChanged();
+        }
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void removeListener( Listener listener ) {
+        listeners.remove( listener );
     }
 }
