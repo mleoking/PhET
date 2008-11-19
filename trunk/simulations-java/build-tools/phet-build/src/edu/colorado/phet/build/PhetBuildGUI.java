@@ -124,12 +124,12 @@ public class PhetBuildGUI {
             }
         } );
 
-        JButton incrementVersionNumber = new JButton( "Increment Dev" );
-        incrementVersionNumber.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                getBuildScript().incrementDevVersion();
-            }
-        } );
+//        JButton incrementVersionNumber = new JButton( "Increment Dev" );
+//        incrementVersionNumber.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                getBuildScript().
+//            }
+//        } );
 
         JButton getSVN = new JButton( "Get SVN version" );
         getSVN.addActionListener( new ActionListener() {
@@ -149,7 +149,7 @@ public class PhetBuildGUI {
         commandPanel.add( runButton, commandConstraints );
         commandPanel.add( buildJNLP, commandConstraints );
         commandPanel.add( svnStatus, commandConstraints );
-        commandPanel.add( incrementVersionNumber, commandConstraints );
+//        commandPanel.add( incrementVersionNumber, commandConstraints );
         commandPanel.add( getSVN, commandConstraints );
 
         commandPanel.add( Box.createVerticalStrut( 50 ) );
