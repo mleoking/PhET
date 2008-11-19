@@ -41,6 +41,10 @@ public abstract class AbstractVerletAlgorithm implements MoleculeForceAndMotionC
     // a "hollywooding" thing.
     protected static final double TEMPERATURE_BELOW_WHICH_GRAVITY_INCREASES = 0.10;
     protected static final double LOW_TEMPERATURE_GRAVITY_INCREASE_RATE = 50;
+    
+    // Pressure at which explosion of the container will occur.
+    private static final double EXPLOSION_PRESSURE = 1.05;  // Currently set so that container blows roughly
+                                                            // when the pressure gauge hits its max value.
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -146,7 +150,8 @@ public abstract class AbstractVerletAlgorithm implements MoleculeForceAndMotionC
             if (yPos < minDistance){
                 if ((yPos < 0) && (!m_model.getContainerExploded())){
                     // The particles are energetic enough to end up outside
-                    // the container, so consider it to be exploded.
+                    // the container, so consider it to be exploded (if it
+                	// isn't already).
                     m_model.setContainerExploded();
                 }
                 yPos = minDistance;
@@ -267,5 +272,11 @@ public abstract class AbstractVerletAlgorithm implements MoleculeForceAndMotionC
 		m_pressure = (1 - PRESSURE_CALC_WEIGHTING) * (pressureZoneWallForce / 
 	  		(m_model.getNormalizedContainerWidth() + m_model.getNormalizedContainerHeight())) + 
 	  		PRESSURE_CALC_WEIGHTING * m_pressure;
+		
+		if ((m_pressure > EXPLOSION_PRESSURE) && !m_model.getContainerExploded()){
+			// The pressure has reached the point where the container should
+			// explode, to blow 'er up.
+            m_model.setContainerExploded();
+		}
 	}
 }
