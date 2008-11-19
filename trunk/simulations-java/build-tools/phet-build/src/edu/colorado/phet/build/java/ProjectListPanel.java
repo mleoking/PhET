@@ -116,6 +116,13 @@ public class ProjectListPanel extends JPanel {
             }
         } );
 
+        JButton createHeader = new JButton( "Create Header" );
+        createHeader.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                getBuildScript().createHeader();
+            }
+        } );
+
         commandPanel.add( cleanButton );
         commandPanel.add( buildButton );
         commandPanel.add( runButton );
@@ -123,6 +130,7 @@ public class ProjectListPanel extends JPanel {
         commandPanel.add( svnStatus );
         commandPanel.add( getSVN );
         commandPanel.add( addMessage );
+        commandPanel.add( createHeader );
 
         commandPanel.add( Box.createVerticalStrut( 50 ) );
         commandPanel.add( deployDev );

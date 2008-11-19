@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
@@ -12,7 +13,9 @@ import javax.swing.*;
 import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
-import org.rev6.scf.*;
+import org.rev6.scf.SshCommand;
+import org.rev6.scf.SshConnection;
+import org.rev6.scf.SshException;
 
 import edu.colorado.phet.build.*;
 import edu.colorado.phet.build.translate.ScpTo;
@@ -60,7 +63,7 @@ public class BuildScript {
         int svnNumber = getSVNVersion();
         System.out.println( "Current SVN: " + svnNumber );
         setSVNVersion( svnNumber + 1 );
-        addMessagesToChangeFile(svnNumber+1);
+        addMessagesToChangeFile( svnNumber + 1 );
 
         commitProject();//commits both changes to version and change file
 
@@ -74,6 +77,8 @@ public class BuildScript {
         System.out.println( "codebase = " + codebase );
         buildJNLP( codebase );
 
+        createHeader();
+
         copyVersionFilesToDeploy();
         sendSSH( server, authenticationInfo );
         openBrowser( server.getURL( project ) );
@@ -81,13 +86,13 @@ public class BuildScript {
         System.out.println( "Finished deploy to: " + server.getHost() );
     }
 
-    private void addMessagesToChangeFile(int svn) {
+    private void addMessagesToChangeFile( int svn ) {
         String message = JOptionPane.showInputDialog( "Enter a message to add to the change log\n(or Enter if change log is up to date)" );
         if ( message.trim().length() > 0 ) {
             prependChange( message );
         }
 
-        prependChange( "# " + project.getVersionString() + " ("+ svn+") "+ new SimpleDateFormat( "MM-dd-yyyy" ).format( new Date() ) );
+        prependChange( "# " + project.getVersionString() + " (" + svn + ") " + new SimpleDateFormat( "MM-dd-yyyy" ).format( new Date() ) );
     }
 
     private void prependChange( String message ) {
@@ -150,24 +155,24 @@ public class BuildScript {
         //the failure is on tigercat, but scf works properly on spot
         //but our code works on both; therefore there is probably a problem with the handshaking in securechannelfacade
         File[] f = project.getDefaultDeployDir().listFiles(); //todo: should handle recursive for future use (if we ever want to support nested directories)
-            for ( int i = 0; i < f.length; i++ ) {
-                if ( f[i].getName().startsWith( "." ) ) {
-                    //ignore
-                }
-                else {
-                    //server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword()
-                    try {
-                        ScpTo.uploadFile( f[i], authenticationInfo.getUsername(), server.getHost(), remotePathDir + "/" + f[i].getName(),authenticationInfo.getPassword() );
-                    }
-                    catch( JSchException e ) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                    }
-                    catch( IOException e ) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                    }
-//                    sshConnection.executeTask( new ScpUpload( new ScpFile( f[i],  ) ) );
-                }
+        for ( int i = 0; i < f.length; i++ ) {
+            if ( f[i].getName().startsWith( "." ) ) {
+                //ignore
             }
+            else {
+                //server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword()
+                try {
+                    ScpTo.uploadFile( f[i], authenticationInfo.getUsername(), server.getHost(), remotePathDir + "/" + f[i].getName(), authenticationInfo.getPassword() );
+                }
+                catch( JSchException e ) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+                catch( IOException e ) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+//                    sshConnection.executeTask( new ScpUpload( new ScpFile( f[i],  ) ) );
+            }
+        }
     }
 
     private void setSVNVersion( int svnVersion ) {
@@ -202,7 +207,7 @@ public class BuildScript {
         //TODO: verify that SVN repository revision number now matches what we wrote to the project properties file
         ProcessOutputReader.ProcessExecResult a = ProcessOutputReader.exec( args );
         if ( a.getTerminatedNormally() ) {
-            System.out.println( "Finished committing new version file with message: " + message +" output/err=");
+            System.out.println( "Finished committing new version file with message: " + message + " output/err=" );
             System.out.println( a.getOut() );
             System.out.println( a.getErr() );
             System.out.println( "Finished committing new version file with message: " + message );
@@ -295,5 +300,50 @@ public class BuildScript {
         else {
             return s;
         }
+    }
+
+    public void createHeader() {
+        try {
+            FileUtils.filter( new File( baseDir, "build-tools/phet-build/templates/header-template.html" ), new File( project.getDefaultDeployDir(), "HEADER" ), createHeaderFilterMap(), "UTF-8" );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+    }
+
+    private HashMap createHeaderFilterMap() {
+        HashMap map = new HashMap();
+        map.put( "sim-name", project.getName() );
+        map.put( "version", project.getVersionString() );
+        map.put( "jnlp-filename", project.getFlavorNames()[0] + ".jnlp" );
+        map.put( "new-summary", getNewSummary() );
+//        map.put( "JNLP.NAME", getJNLPFileName() );
+//        map.put( "PROJECT.DESCRIPTION", StringEscapeUtils.escapeHtml( flavor.getDescription() ) );
+//        map.put( "PROJECT.JAR", phetProject.getJarFile().getName() );
+//        map.put( "PROJECT.SCREENSHOT", "http://phet.colorado.edu/Design/Assets/images/Phet-Kavli-logo.jpg" );//todo: map this to correct sim-specific (possibly online) URL
+//        map.put( "PROJECT.MAINCLASS", flavor.getMainclass() );
+//        map.put( "PROJECT.ARGS", toJNLPArgs( getArgs( flavor ) ) );
+//        map.put( "PROJECT.PROPERTIES", getJNLPProperties() );
+//        map.put( "PROJECT.DEPLOY.PATH", deployUrl );
+//        echo( "JNLP filter map:\n" + map );
+        return map;
+    }
+
+    private String getNewSummary() {
+        String output = "<ul>\n";
+        String changes = project.getChangesText();
+        StringTokenizer st = new StringTokenizer( changes, "\n" );
+        int poundCount = 0;
+        while ( st.hasMoreTokens() ) {
+            String token = st.nextToken();
+            if ( token.trim().startsWith( "#" ) ) {
+                poundCount++;
+                if ( poundCount >= 2 ) {
+                    break;
+                }
+            }
+            output += "<li>" + token + "\n";
+        }
+        return output + "</ul>";
     }
 }
