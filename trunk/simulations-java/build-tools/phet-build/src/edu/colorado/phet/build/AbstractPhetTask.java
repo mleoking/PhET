@@ -1,8 +1,8 @@
 package edu.colorado.phet.build;
 
-import org.apache.tools.ant.Task;
-
 import java.io.File;
+
+import org.apache.tools.ant.Task;
 
 /**
  * Author: Sam Reid

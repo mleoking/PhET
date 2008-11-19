@@ -3,7 +3,6 @@ package edu.colorado.phet.build;
 
 import java.io.*;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -225,7 +224,7 @@ public class FileUtils {
         }
     }
 
-    public static void zip(File[]filenames,File dest){
+    public static void zip( File[] filenames, File dest ) {
         // These are the files to include in the ZIP file
 
         // Create a buffer for reading the files
@@ -233,19 +232,19 @@ public class FileUtils {
 
         try {
             // Create the ZIP file
-            ZipOutputStream out = new ZipOutputStream(new FileOutputStream(dest));
+            ZipOutputStream out = new ZipOutputStream( new FileOutputStream( dest ) );
 
             // Compress the files
-            for (int i=0; i<filenames.length; i++) {
-                FileInputStream in = new FileInputStream(filenames[i]);
+            for ( int i = 0; i < filenames.length; i++ ) {
+                FileInputStream in = new FileInputStream( filenames[i] );
 
                 // Add ZIP entry to output stream.
-                out.putNextEntry(new ZipEntry(filenames[i].getName()));//flattens packages
+                out.putNextEntry( new ZipEntry( filenames[i].getName() ) );//flattens packages
 
                 // Transfer bytes from the file to the ZIP file
                 int len;
-                while ((len = in.read(buf)) > 0) {
-                    out.write(buf, 0, len);
+                while ( ( len = in.read( buf ) ) > 0 ) {
+                    out.write( buf, 0, len );
                 }
 
                 // Complete the entry
@@ -255,8 +254,9 @@ public class FileUtils {
 
             // Complete the ZIP file
             out.close();
-        } catch (IOException e) {
-            e.printStackTrace(  );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
         }
 
     }
@@ -284,7 +284,7 @@ public class FileUtils {
     public static void addPrefix( File file, String prefix ) throws IOException {
         writeString( file, prefix + loadFileAsString( file ) );
     }
-    
+
     public static void download( String urlAddress, File file ) throws FileNotFoundException {
         file.getParentFile().mkdirs();
         try {

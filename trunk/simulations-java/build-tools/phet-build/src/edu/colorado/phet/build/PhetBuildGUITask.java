@@ -156,7 +156,7 @@ public class PhetBuildGUITask extends AbstractPhetTask {
         }
 
         public int compareTo( Object o ) {
-            return toString().compareTo( ((Simulation)o).toString() );
+            return toString().compareTo( ( (Simulation) o ).toString() );
         }
     }
 

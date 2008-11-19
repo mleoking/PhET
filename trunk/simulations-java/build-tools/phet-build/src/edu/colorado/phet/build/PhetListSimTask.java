@@ -1,7 +1,5 @@
 package edu.colorado.phet.build;
 
-import java.util.ArrayList;
-
 import org.apache.tools.ant.BuildException;
 
 /**

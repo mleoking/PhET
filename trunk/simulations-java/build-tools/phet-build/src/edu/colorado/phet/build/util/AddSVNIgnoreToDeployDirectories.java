@@ -17,15 +17,15 @@ import edu.colorado.phet.build.PhetProject;
  * See "svn help propset" for details.
  */
 public class AddSVNIgnoreToDeployDirectories {
-    
+
     public static void main( String[] args ) throws IOException {
-        
+
         // basedir must be on the command line (typically the full pathname of simulations-java)
         if ( args.length != 1 ) {
             System.out.println( "usage: AddSVNIgnoreToDeployDirectories basedir" );
             System.exit( 1 );
         }
-        
+
         // Verify that the basedir exists
         File baseDir = new File( args[0] );
         if ( !baseDir.exists() || !baseDir.isDirectory() ) {
@@ -33,17 +33,17 @@ public class AddSVNIgnoreToDeployDirectories {
         }
 
         // Create a temporary file 
-        File propFile = File.createTempFile( "deploy-svn-ignore.", ".tmp");
+        File propFile = File.createTempFile( "deploy-svn-ignore.", ".tmp" );
         propFile.deleteOnExit();
-        
+
         // Write the svn:ignore property value to the temporary file
-        BufferedWriter out = new BufferedWriter(new FileWriter( propFile ) );
+        BufferedWriter out = new BufferedWriter( new FileWriter( propFile ) );
         out.write( "*.jar" ); // ignore all JAR files
         out.newLine();
         out.write( "*.jnlp" ); // ignore all JNLP files
         out.newLine();
         out.close();
-        
+
         // For each project directory, set the svn:ignore property for its deploy directory
         String propFilename = propFile.getAbsolutePath();
         PhetProject[] projects = PhetProject.getAllProjects( baseDir );
