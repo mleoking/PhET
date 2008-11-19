@@ -5,14 +5,16 @@ import java.io.File;
 import javax.swing.*;
 
 public class PhetBuildGUIPanel extends JPanel {
-    private SimPanel simPanel;
+    private ProjectPanel simPanel;
     private ProjectListPanel projectPanel;
 
     public PhetBuildGUIPanel( File baseDir ) {
+        setLayout( new BoxLayout( this, BoxLayout.X_AXIS ) );
+
         projectPanel = new ProjectListPanel( baseDir );
         add( projectPanel );
 
-        simPanel = new SimPanel( baseDir,projectPanel.getSelectedProject() );
+        simPanel = new ProjectPanel( baseDir, projectPanel.getSelectedProject() );
         add( simPanel );
 
         projectPanel.addListener( new ProjectListPanel.Listener() {
@@ -24,6 +26,6 @@ public class PhetBuildGUIPanel extends JPanel {
     }
 
     private void updateSelection() {
-        simPanel.setSelectedProject( projectPanel.getSelectedProject() );
+        simPanel.setProject( projectPanel.getSelectedProject() );
     }
 }

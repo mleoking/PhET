@@ -656,4 +656,8 @@ public class PhetProject {
     public File getVersionFile() {
         return new File( getProjectDir(), "data/" + getName() + "/" + getName() + ".properties" );
     }
+
+    public File getChangesFile() {
+        return new File( getDefaultDeployDir(), "changes.txt" );
+    }
 }
