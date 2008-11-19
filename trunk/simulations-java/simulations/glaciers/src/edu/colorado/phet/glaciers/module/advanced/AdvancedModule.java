@@ -4,6 +4,7 @@ package edu.colorado.phet.glaciers.module.advanced;
 
 import java.awt.Frame;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
 import edu.colorado.phet.glaciers.*;
@@ -11,6 +12,7 @@ import edu.colorado.phet.glaciers.control.ClimateControlPanel;
 import edu.colorado.phet.glaciers.control.GraphsControlPanel;
 import edu.colorado.phet.glaciers.control.MiscControlPanel;
 import edu.colorado.phet.glaciers.control.ViewControlPanel;
+import edu.colorado.phet.glaciers.dialog.EvolutionStateDialog;
 import edu.colorado.phet.glaciers.model.Climate;
 import edu.colorado.phet.glaciers.model.Glacier;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
@@ -33,6 +35,7 @@ public class AdvancedModule extends GlaciersModule {
     private final GlaciersModel _model;
     private final GlaciersPlayArea _playArea;
     private final AdvancedControlPanel _controlPanel;
+    private EvolutionStateDialog _evolutionDialog; // debug
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -71,6 +74,11 @@ public class AdvancedModule extends GlaciersModule {
             toolboxHelp.pointAt( _playArea.getToolboxNode(), _playArea.getZoomedCanvas() );
         }
         
+        // Debug
+        if ( PhetApplication.instance().isDeveloperControlsEnabled() ) {
+            _evolutionDialog = new EvolutionStateDialog( PhetApplication.instance().getPhetFrame(), _model.getGlacier() );
+        }
+        
         // Set initial state
         reset();
     }
@@ -82,10 +90,16 @@ public class AdvancedModule extends GlaciersModule {
     public void activate() {
         super.activate();
         _controlPanel.activate();
+        if ( _evolutionDialog != null ) {
+            _evolutionDialog.setVisible( true );
+        }
     }
     
     public void deactivate() {
         _controlPanel.deactivate();
+        if ( _evolutionDialog != null ) {
+            _evolutionDialog.setVisible( false );
+        }
         super.deactivate();
     }
     

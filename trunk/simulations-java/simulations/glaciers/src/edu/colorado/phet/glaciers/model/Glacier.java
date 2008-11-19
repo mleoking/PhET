@@ -68,6 +68,8 @@ public class Glacier extends ClockAdapter {
     private final Point2D _terminus; /// point at the terminus (downvalley end)
     private Point2D _surfaceAtELA; // point where the ELA intersects the ice surface, null if ELA is below the terminus or above the headwall
     
+    private static final EvolutionState _evolutionState = new EvolutionState(); // for debugging purposes
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -518,6 +520,10 @@ public class Glacier extends ClockAdapter {
     //  Timescale model
     //----------------------------------------------------------------------------
     
+    public EvolutionState getEvolutionState() {
+        return _evolutionState;
+    }
+    
     /*
      * When the clock ticks, evolve the model.
      */
@@ -534,8 +540,9 @@ public class Glacier extends ClockAdapter {
             double delta = ( ela - _qela ) * ( 1 - Math.exp( -dt / timescale  ) );
             
             // limit the delta for an advancing glacier
+            double q_advance_limit = 0;
             if ( ela < _qela ) {
-                final double q_advance_limit = ( ( -0.06 * _qela ) + 300 ) * ELAX_TERMINUS / ELAX_M0;
+                q_advance_limit = ( ( -0.06 * _qela ) + 300 ) * ELAX_TERMINUS / ELAX_M0;
                 delta = Math.max( delta, dt * q_advance_limit );
             }
             
@@ -556,6 +563,20 @@ public class Glacier extends ClockAdapter {
             else {
                 // not in steady state, update the ice thickness
                 updateIceThickness();
+            }
+            
+            // update the state data structure, for debugging
+            {
+                // values below here are set explicitly in this method
+                _evolutionState.ela = ela;
+                _evolutionState.timescale = timescale;
+                _evolutionState.qela = _qela;
+                _evolutionState.deltaQela = delta;
+                _evolutionState.qAdvanceLimit = q_advance_limit;
+                // values below here are set by updateIceThickness, called from this method
+                _evolutionState.qelax = _qelax;
+                _evolutionState.glacierLength = _glacierLength;
+                _evolutionState.terminus.setLocation( _terminus );
             }
             
             assert( _qela <= maxElevation );
@@ -620,6 +641,36 @@ public class Glacier extends ClockAdapter {
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
             ( ( GlacierListener ) i.next() ).steadyStateChanged();
+        }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+    
+    // current values of variables used to evolve the glacier
+    public static class EvolutionState {
+        
+        public double ela;
+        public double timescale;
+        public double qela;
+        public double deltaQela;
+        public double qAdvanceLimit;
+        public double qelax;
+        public double glacierLength;
+        public Point2D terminus = new Point2D.Double();
+        
+        public EvolutionState() {}
+        
+        public void setState( EvolutionState es ) {
+            ela = es.ela;
+            timescale = es.timescale;
+            qela = es.qela;
+            deltaQela = es.deltaQela;
+            qAdvanceLimit = es.qAdvanceLimit;
+            qelax = es.qelax;
+            glacierLength = es.glacierLength;
+            terminus.setLocation( es.terminus );
         }
     }
 }
