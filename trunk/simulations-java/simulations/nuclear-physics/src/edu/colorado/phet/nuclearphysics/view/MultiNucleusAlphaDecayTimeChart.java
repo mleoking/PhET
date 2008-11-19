@@ -90,6 +90,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     private static final double PRE_DECAY_TIME_LINE_POS_FRACTION = 0.15;
     private static final double POST_DECAY_TIME_LINE_POS_FRACTION = 0.40;
     private static final double TIME_ZERO_OFFSET = 100; // In milliseconds
+    private static final int FALL_COUNT = 5; // Number of clock ticks for nucleus to fall from upper to lower line.
 
     // Half life of the nucleus we are displaying.
     private static final double HALF_LIFE = 516; // In milliseconds.
@@ -109,6 +110,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     private ArrayList _inactiveNuclei = new ArrayList();
     private ArrayList _preDecayNuclei = new ArrayList();
     private ArrayList _postDecayNuclei = new ArrayList();
+    private HashMap _mapNucleiToFallCount = new HashMap();
 
     // References to the various components of the chart.
     private PPath _borderNode;
@@ -546,14 +548,15 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
             	// nucleus from the list of active nuclei.
             	removeNodeForNucleus((AtomicNucleus)nucleus);
             	createNodeForNucleus((AtomicNucleus)nucleus);
-            	positionNucleusOnChart(nucleus);
             	it.remove();
             	_postDecayNuclei.add(nucleus);
+            	_mapNucleiToFallCount.put(nucleus, new MyIntegerHolder(FALL_COUNT));
+            	positionNucleusOnChart(nucleus);
             	updateNucleiNumberText();
             }
         }
         
-        // Check if any nuclei have been reset.
+        // Check the decayed nuclei to see if anything needs to be done with them.
         for (Iterator it = _postDecayNuclei.iterator(); it.hasNext (); ) {
             AlphaDecayControl nucleus = (AlphaDecayControl)it.next();
             if (nucleus.isDecayActive()){
@@ -566,8 +569,21 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
             	_preDecayNuclei.add(nucleus);
             	updateNucleiNumberText();
             }
+            else if (_mapNucleiToFallCount.containsKey(nucleus)){
+            	// This nucleus is in the process of visually falling to the
+           	    // the lower line.
+            	MyIntegerHolder fallCounter = (MyIntegerHolder)_mapNucleiToFallCount.get(nucleus);
+            	fallCounter.decrement();
+            	if (fallCounter.getValue() == 0){
+            		// The node representing this nucleus is done falling, so
+            		// remove it from the map.
+            		_mapNucleiToFallCount.remove(nucleus);
+            	}
+            	else{
+            		positionNucleusOnChart(nucleus);
+            	}
+            }
         }
-
     }
 
     /**
@@ -755,13 +771,27 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     		return;
     	}
     	
-    	if (nucleus.hasDecayed()){
-    		// The nucleus has decayed, so position it on the lower line.
-        	yAxisPos = _usableAreaOriginY + ( _usableHeight * POST_DECAY_TIME_LINE_POS_FRACTION ) - _nucleusNodeRadius;
-    	}
-    	else{
+    	if (!nucleus.hasDecayed()){
     		// The nucleus has not yet decayed, so position it on the upper line.
         	yAxisPos = _usableAreaOriginY + ( _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION ) - _nucleusNodeRadius;
+    	}
+    	else{
+    		// The nucleus has decayed.  See if it is still falling.
+    		MyIntegerHolder fallCounter = (MyIntegerHolder)_mapNucleiToFallCount.get(nucleus);
+    		if (fallCounter != null){
+    			// The nucleus is falling.  Position it in the space between
+    			// the upper and lower lines.
+    			double interLineDistance = _usableHeight * 
+    			        (POST_DECAY_TIME_LINE_POS_FRACTION - PRE_DECAY_TIME_LINE_POS_FRACTION);
+            	yAxisPos = _usableAreaOriginY + ( _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION ) 
+            	        + (interLineDistance * (1 - (double)fallCounter.getValue() / (double)FALL_COUNT))
+            	        - _nucleusNodeRadius;
+    		}
+    		else{
+    			// The nucleus is not falling, so put it on the lower line.
+            	yAxisPos = _usableAreaOriginY + ( _usableHeight * POST_DECAY_TIME_LINE_POS_FRACTION ) 
+            	        - _nucleusNodeRadius;
+    		}
     	}
     	
     	xAxisPos = _graphOriginX + (nucleus.getActivatedTime() + TIME_ZERO_OFFSET) * _msToPixelsFactor 
@@ -783,5 +813,28 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
 
     private void handleResetChartButtonPressed() {
     	// TODO: JPB TBD
+    }
+    
+    // TODO: JPB TBD - Talk with Sam and Chris about this.  It seems stupid, but
+    // I'm not sure what else to do.
+    private class MyIntegerHolder {
+    	
+    	int m_value;
+    	
+    	public MyIntegerHolder(int initialValue) {
+			m_value = initialValue;
+		}
+    	
+    	public void setValue(int value){
+    		m_value = value;
+    	}
+    	
+    	private int getValue(){
+    		return m_value;
+    	}
+    	
+    	public void decrement(){
+    		m_value--;
+    	}
     }
 }
