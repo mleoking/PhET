@@ -48,9 +48,16 @@ class IndividualSimulationPage extends SitePage {
         $version = sim_get_version($this->simulation);
         if (!empty($version['major']) && !empty($version['minor'])) {
             $this->sim_version = $version['major'].'.'.$version['minor'];
+            $this->sim_version_html = <<<EOT
+                        <span class="version">
+                            Version {$this->sim_version}
+                        </span><br />
+
+EOT;
         }
         else {
-            $this->sim_version = "N/A";
+            $this->sim_version = '';
+            $this->sim_version_html = '';
         }
 
         // Temp change while PhET team decides how to handle ratings; for now just
@@ -241,11 +248,7 @@ EOT;
 
                 <div id="simtoolbar">
                     <div class="stats">
-                    <!--
-                        <span class="version">
-                            Version {$this->sim_version}
-                        </span><br />
-                   -->
+                        {$this->sim_version_html}
                         <span class="size">
                             {$sim_size} KB
                         </span>
