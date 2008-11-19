@@ -17,11 +17,15 @@ import edu.colorado.phet.build.util.ProcessOutputReader;
 
 public class BuildScript {
     private PhetProject project;
+    private AuthenticationInfo svnAuth;
+    private String browser;
     private File baseDir;
 
-    public BuildScript( File baseDir, PhetProject project ) {
+    public BuildScript( File baseDir, PhetProject project, AuthenticationInfo svnAuth, String browser ) {
         this.baseDir = baseDir;
         this.project = project;
+        this.svnAuth = svnAuth;
+        this.browser = browser;
     }
 
     public void clean() {
@@ -38,7 +42,7 @@ public class BuildScript {
         return upToDate;
     }
 
-    public void deploy( PhetServer server, PhetBuildGUI.AuthenticationInfo authenticationInfo ) {
+    public void deploy( PhetServer server, AuthenticationInfo authenticationInfo ) {
         clean();
 
         if ( !isSVNInSync() ) {
@@ -77,11 +81,13 @@ public class BuildScript {
     }
 
     private void openBrowser( String deployPath ) {
-        try {
-            Runtime.getRuntime().exec( new String[]{"C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe", deployPath} );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
+        if ( browser != null ) {
+            try {
+                Runtime.getRuntime().exec( new String[]{browser, deployPath} );
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -99,7 +105,7 @@ public class BuildScript {
     }
 
 
-    private void sendSSH( PhetServer server, PhetBuildGUI.AuthenticationInfo authenticationInfo ) {
+    private void sendSSH( PhetServer server, AuthenticationInfo authenticationInfo ) {
         SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword() );
         try {
             sshConnection.connect();
@@ -147,8 +153,8 @@ public class BuildScript {
     }
 
     private void commitNewVersionFile() {
-        String svnusername = prompt( "SVN username" );
-        String svnpassword = prompt( "SVN password" );
+        String svnusername = svnAuth.getUsername();
+        String svnpassword = svnAuth.getPassword();
         String message = project.getName() + ": deployed version " + project.getVersionString();
         String[] args = new String[]{"svn", "commit", "--username", svnusername, "--password", svnpassword, "--message", message, project.getProjectDir().getAbsolutePath()};
         //TODO: verify that SVN repository revision number now matches what we wrote to the project properties file
