@@ -31,7 +31,6 @@ public class ScpTo {
 
             // username and password will be given via UserInfo interface.
             UserInfo ui = new MyUserInfo( password );
-//            UserInfo ui = new ScpToORIG.MyUserInfo( );
             session.setUserInfo( ui );
             session.connect();
 
@@ -92,7 +91,6 @@ public class ScpTo {
             out.flush();
             if ( checkAck( in ) != 0 ) {
                 System.out.println( "ack failed... continuing" );
-//                System.exit( 0 );
             }
             out.close();
 

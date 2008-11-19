@@ -13,8 +13,6 @@ public class MyAntTaskRunner implements AntTaskRunner {
 
     public void runTask( Task childTask ) {
         childTask.setProject( getProject() );
-//            childTask.setLocation( getLocation() );
-//            childTask.setOwningTarget( getOwningTarget() );
         childTask.init();
         childTask.execute();
     }

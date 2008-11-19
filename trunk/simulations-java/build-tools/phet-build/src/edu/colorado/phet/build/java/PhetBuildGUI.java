@@ -125,13 +125,6 @@ public class PhetBuildGUI {
             }
         } );
 
-//        JButton incrementVersionNumber = new JButton( "Increment Dev" );
-//        incrementVersionNumber.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                getBuildScript().
-//            }
-//        } );
-
         JButton getSVN = new JButton( "Get SVN version" );
         getSVN.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -142,15 +135,12 @@ public class PhetBuildGUI {
 
         GridBagConstraints commandConstraints = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
         commandPanel.setLayout( new GridBagLayout() );
-//        commandPanel.add( refresh, commandConstraints );
-//        commandPanel.add( showLocalizationFile, commandConstraints );
 
         commandPanel.add( cleanButton, commandConstraints );
         commandPanel.add( buildButton, commandConstraints );
         commandPanel.add( runButton, commandConstraints );
         commandPanel.add( buildJNLP, commandConstraints );
         commandPanel.add( svnStatus, commandConstraints );
-//        commandPanel.add( incrementVersionNumber, commandConstraints );
         commandPanel.add( getSVN, commandConstraints );
 
         commandPanel.add( Box.createVerticalStrut( 50 ) );

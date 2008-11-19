@@ -19,7 +19,6 @@ public class CheckTitleAndDescriptionXML {
             File simDir = simRoot.listFiles()[i];
             String name = simDir.getName();
             File localizationDir = new File( simDir, "data/" + name + "/localization" );
-//            System.out.println( "propertyFile = " + localizationDir + ", exists=" + localizationDir.exists() );
             if ( localizationDir.exists() ) {
                 checkTitleAndDescriptionXML( name, localizationDir );
             }
@@ -51,9 +50,6 @@ public class CheckTitleAndDescriptionXML {
                         System.out.println( "File=" + localizationFile.getName() + ", key = " + key + ", \nvalue=" + value + ", \nescape=" + escapedValue );
                         System.out.println( "" );
                     }
-//                    if( value.toLowerCase().indexOf( "&" ) >= 0 ) {
-//                        System.out.println( "name = " + key + ", value=" + value );
-//                    }
                 }
             }
         }

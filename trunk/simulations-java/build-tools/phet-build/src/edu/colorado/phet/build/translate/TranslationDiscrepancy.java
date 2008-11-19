@@ -71,7 +71,6 @@ public class TranslationDiscrepancy {
     private boolean synchronizeStrings( File jarFile, File resolveJAR, final boolean addNewOnly ) throws IOException {
         boolean changed = false;
         File tempUnzipDir = new File( CheckTranslations.TRANSLATIONS_TEMP_DIR, flavor + "-dir" );
-//        System.out.println( "tempUnzipDir.getAbsolutePath() = " + tempUnzipDir.getAbsolutePath() );
         tempUnzipDir.mkdirs();
 
         final Pattern excludePattern = Pattern.compile( quote( phetProject.getName() ) + "[\\\\/]localization[\\\\/]" + quote( phetProject.getName() ) + ".*\\.properties" );
@@ -112,7 +111,6 @@ public class TranslationDiscrepancy {
 
     private HashSet getMissingKeySet( File oldPropertiesFile, File newPropertiesFile ) throws IOException {
         if ( !oldPropertiesFile.exists() || !newPropertiesFile.exists() ) {
-//            System.out.println( "Cannot compare properties files, one does not exist: old=" + oldPropertiesFile.getAbsolutePath() + ", new=" + newPropertiesFile.getAbsolutePath() );
             return new HashSet();
         }
         Properties oldProperties = new Properties();
@@ -130,7 +128,6 @@ public class TranslationDiscrepancy {
     private File downloadJAR() throws IOException {
         String deployUrl = phetProject.getDeployedFlavorJarURL( flavor );
 
-//        File jarFile = File.createTempFile( flavor, ".jar" );
         File jarFile = new File( CheckTranslations.TRANSLATIONS_TEMP_DIR, flavor + ".jar" );
 
         FileUtils.download( deployUrl, jarFile );

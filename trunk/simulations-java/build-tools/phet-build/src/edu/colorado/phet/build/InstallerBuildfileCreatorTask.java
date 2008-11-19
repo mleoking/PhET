@@ -55,19 +55,13 @@ public class InstallerBuildfileCreatorTask extends AbstractPhetBuildTask {
         map.put( "FLAVORDIR", alphaNumeric( flavor ) );
         map.put( "FLAVOR", projectFlavor.getTitle() );
         map.put( "DESCRIPTION", projectFlavor.getDescription() );
-//        map.put( "JAR", format( phetProject.getJarFile().getAbsolutePath()) );
         map.put( "JAR", format( phetProject.getDefaultDeployJar().getAbsolutePath() ) );
         map.put( "JAR_FILENAME", phetProject.getJarFile().getName() );//JAR_FILENAME may contain dashes & spaces, unlike ${FLAVORDIR}.jar.  We may wish to rewwrite this to copy JAR_FILENAME to ${FLAVORDIR}.jar.
         map.put( "CLASSNAME", projectFlavor.getMainclass() );
         map.put( "ARGUMENTS", getArgs( projectFlavor ) );
-//        map.put("WINDOWS_ICON_PATH",${ant-output}/projects/${sim.name}/${sim.flavor}.ico)
         map.put( "WINDOWS_ICON_PATH", format( new File( getProject().getProperty( "ant-output" ) + "/projects/" + phetProject.getName() + "/" + flavor + ".ico" ).getAbsolutePath() ) );
-//        System.out.println( "getProject().getBaseDir() = " + getProject().getBaseDir() );
-//        System.out.println( "getProject().getBaseDir().getAbsolutePath() = " + getProject().getBaseDir().getAbsolutePath() );
         map.put( "INSTALLER-DATA-DIR", format( getProject().getBaseDir().getAbsolutePath() ) + "/build-tools/phet-build/installer-data/" );
         map.put( "OUTFILE", format( new File( phetProject.getDefaultDeployDir(), flavor + ".exe" ).getAbsolutePath() ) );
-        //map.put( "PROJECT.PROPERTIES", getJNLPProperties() );
-        //map.put( "PROJECT.DEPLOY.PATH", deployUrl );
         return map;
     }
 

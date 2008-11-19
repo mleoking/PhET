@@ -40,7 +40,6 @@ public class ConvertJNLPLanguageEN {
                     File simFile = simFiles[j];
                     System.out.println( "simFile.getAbsolutePath() = " + simFile.getAbsolutePath() );
                     String text = FileUtils.loadFileAsString( simFile, "utf-16" );
-//                    System.out.println( "text = " + text );
                     final String matchString = "    <resources>\n" +
                                                "\n" +
                                                "        <j2se version=\"1.4+\"/>\n";

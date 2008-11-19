@@ -50,8 +50,6 @@ public class PhetBuildTask extends AbstractPhetBuildTask {
         p.setUserProperty( "ant.file", buildFile.getAbsolutePath() );
         p.init();
         ProjectHelper.configureProject( p, buildFile );
-//        System.setProperty( "name.sim","hydrogen-atom");
-//        System.setProperty( "sim_url","http://www.colorado.edu/physics/phet/dev/temp/test/hydrogen-atom/0.00.01");
         p.executeTarget( "build-jnlp" );
     }
 }

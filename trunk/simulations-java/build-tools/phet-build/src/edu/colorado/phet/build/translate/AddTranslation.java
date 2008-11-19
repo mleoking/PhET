@@ -132,8 +132,6 @@ public class AddTranslation {
                      */
 
                     FileUtils.download( "http://phet.colorado.edu/admin/cache-clear.php?cache=all", new File( getTempProjectDir( phetProject ), "cache-clear-all.php" ) );
-//                    FileUtils.download( "http://phet.colorado.edu/admin/cache-clear.php?cache=sims", new File( getTempProjectDir( phetProject ), "cache-clear-all.php" ) );
-//                    FileUtils.download( "http://phet.colorado.edu/new/admin/cache-clear-all.php", new File( getTempProjectDir( phetProject ), "cache-clear-all.php" ) );
                     System.out.println( "Deployed: " + phetProject.getName() + " in language " + language + ", please test it to make sure it works correctly." );
                     System.out.println( "Finished deploy" );
                 }
@@ -163,7 +161,6 @@ public class AddTranslation {
             }
             catch( FileNotFoundException e ) {//not all sims have a flavor name equal to project name
                 JOptionPane.showMessageDialog( null,"Could not find path: "+url+", need to resolve this, need to redeploy sim." );
-//                FileUtils.download( "http://phet.colorado.edu/sims/" + project.getName() + "/" + project.getName() + ".jnlp", localFile );
             }
             String desiredMainClass = getMainClass( localFile );
 
@@ -279,7 +276,6 @@ public class AddTranslation {
     }
 
     private String getRemoteDirectory( PhetProject phetProject ) {
-//        return "/home/tigercat/phet/reids/";
         return "/web/htdocs/phet/sims/" + phetProject.getName() + "/";
     }
 

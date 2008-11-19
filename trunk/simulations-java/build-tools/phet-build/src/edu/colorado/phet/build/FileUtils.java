@@ -105,8 +105,6 @@ public class FileUtils {
             String key = (String) iterator.next();
             String value = (String) map.get( key );
 
-            //echo( "key = " + key + ", value=" + value );
-
             file = replaceAll( file, "@" + key + "@", value );
         }
         return file;
@@ -212,9 +210,6 @@ public class FileUtils {
         else {
             String path = file.getAbsolutePath().substring( rootDir.getAbsolutePath().length() );
             path = path.replace( '\\', '/' );
-//            if ( !path.startsWith( "/" ) ) {
-//                path = "/" + path;
-//            }
             while ( path.startsWith( "/" ) ) {
                 path = path.substring( 1 );
             }
@@ -222,7 +217,6 @@ public class FileUtils {
             zipOutputStream.putNextEntry( zipEntry );
 
             FileInputStream inputStream = new FileInputStream( file );
-//            System.out.println( "file.getAbsolutePath() = " + file.getAbsolutePath() + ", path=" + path );
             copy( inputStream, zipOutputStream, false );
             inputStream.close();
 
@@ -233,14 +227,12 @@ public class FileUtils {
 
     public static void zip(File[]filenames,File dest){
         // These are the files to include in the ZIP file
-//        String[] filenames = new String[]{"filename1", "filename2"};
 
         // Create a buffer for reading the files
         byte[] buf = new byte[1024];
 
         try {
             // Create the ZIP file
-//            String outFilename = "outfile.zip";
             ZipOutputStream out = new ZipOutputStream(new FileOutputStream(dest));
 
             // Compress the files
@@ -270,15 +262,12 @@ public class FileUtils {
     }
 
     public static void jar( File dir, File dest ) throws IOException {
-//        System.out.println( "FileUtils.zip: dir=" + dir.getAbsolutePath() + ", dest=" + dest.getAbsolutePath() );
-//        JarOutputStream jarOutputStream = new JarOutputStream( new BufferedOutputStream( new FileOutputStream( dest ) ) ,new Manifest( new FileInputStream( new File( dir,"META-INF/MANIFEST.MF") ) ) );
         JarOutputStream jarOutputStream = new JarOutputStream( new FileOutputStream( dest ), new Manifest( new FileInputStream( new File( dir, "META-INF/MANIFEST.MF" ) ) ) );
         jarSingleFile( dir, dir, jarOutputStream );
         jarOutputStream.close();
     }
 
     public static void main( String[] args ) throws IOException {
-//        jar( new File( "C:\\Users\\Sam\\AppData\\Local\\Temp\\cck-ac47025" ), new File( "C:\\Users\\Sam\\AppData\\Local\\Temp\\cck-ac47025-rezip4.jar" ) );
         testUnzip();
     }
 

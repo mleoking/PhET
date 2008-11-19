@@ -27,7 +27,6 @@ public class DisplayCommonTranslationStatistics {
             if ( child.isDirectory() && !child.getName().startsWith( "." ) ) {
                 String name = child.getName();
                 File p = new File( common, name + "/data/"+name+"/localization/" + name + "-strings.properties" );
-//                System.out.println( "p.getAbsolutePath() = " + p.getAbsolutePath() );
                 Properties prop = new Properties();
                 if ( p.exists() ) {
                     prop.load( new FileInputStream( p ) );

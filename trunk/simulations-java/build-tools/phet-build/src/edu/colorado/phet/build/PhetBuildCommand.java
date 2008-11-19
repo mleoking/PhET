@@ -73,13 +73,13 @@ public class PhetBuildCommand implements Command {
         javac.setDestdir( project.getClassesDirectory() );
         javac.setClasspath( new Path( antTaskRunner.getProject(), toString( classpath ) ) );
         //http://nileshbansal.blogspot.com/2006/08/java-exception-unknown-source.html
-//                        debug="on" debuglevel="lines,vars,source"
+        //                        debug="on" debuglevel="lines,vars,source"
+
         //results for Energy Skate Park output 4-24-2007
-//          no debug: 1.02 MB
-//          lines, vars, source: 1.15 MB
-//          lines: 1.07 MB
-//        javac.setDebugLevel( "lines,vars,source" );
-//        javac.setDebugLevel( "lines" );
+        //          no debug: 1.02 MB
+        //          lines, vars, source: 1.15 MB
+        //          lines: 1.07 MB
+
         //"lines,source" appears to be necessary to get line number debug info
         javac.setDebugLevel( "lines,source" );
         javac.setDebug( true );

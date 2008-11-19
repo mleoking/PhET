@@ -18,16 +18,6 @@ public class PhetListSimTask extends PhetAllSimTask implements PropertyTask {
 
     private String[] subsample( String[] simNames ) {
         return simNames;
-//
-//        ArrayList a=new ArrayList( );
-//        for ( int i = 0; i < simNames.length; i++ ) {
-//            String simName = simNames[i];
-//            if (simName.compareToIgnoreCase( "nuclear-physics-2" )>=0){
-//                a.add(simName);
-//            }
-//        }
-//        simNames= (String[]) a.toArray( new String[0] );
-//        return simNames;
     }
 
     public void buildList( String[] simNames ) {

@@ -30,7 +30,6 @@ public class PhetProguardConfigBuilder {
         builder.setProguardTemplate( new File( project.getAntBaseDir(), PROGUARD_TEMPLATE ) );
         builder.setInputJars( prepend( project.getAllJarFiles(), project.getJarFile() ) );
         builder.setProguardOutputFile( new File( project.getAntOutputDir(), project.getName() + ".pro" ) );
-//        builder.setMainClasses( project.getAllMainClasses() );
         builder.setMainClasses( getAllMainClasses( project ) );
     }
 
