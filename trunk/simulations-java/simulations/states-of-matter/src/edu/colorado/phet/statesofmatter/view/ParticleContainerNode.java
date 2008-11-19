@@ -83,7 +83,7 @@ public class ParticleContainerNode extends PhetPNode {
     private static final double PRESSURE_METER_X_OFFSET_PROPORTION = 0.80;
     
     // Maximum value expected for pressure, in atmospheres.
-    private final double MAX_PRESSURE = 100;
+    private final double MAX_PRESSURE = 200;
 
     //----------------------------------------------------------------------------
     // Instance Data
