@@ -7,6 +7,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
+import edu.colorado.phet.build.util.FileUtils;
+
 /*
 
 Format of a Mac OS X Application Bundle

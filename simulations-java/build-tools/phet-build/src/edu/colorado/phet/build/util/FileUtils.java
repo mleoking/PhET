@@ -1,5 +1,5 @@
 /* Copyright 2007, University of Colorado */
-package edu.colorado.phet.build;
+package edu.colorado.phet.build.util;
 
 import java.io.*;
 import java.net.URL;

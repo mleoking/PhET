@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.jar.JarFile;
 
-import edu.colorado.phet.build.FileUtils;
+import edu.colorado.phet.build.util.FileUtils;
 import edu.colorado.phet.build.PhetProject;
 
 /**

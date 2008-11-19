@@ -14,6 +14,7 @@ import org.rev6.scf.*;
 
 import edu.colorado.phet.build.*;
 import edu.colorado.phet.build.util.ProcessOutputReader;
+import edu.colorado.phet.build.util.FileUtils;
 
 public class BuildScript {
     private PhetProject project;

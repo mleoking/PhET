@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-import edu.colorado.phet.build.FileUtils;
+import edu.colorado.phet.build.util.FileUtils;
 import edu.colorado.phet.build.PhetBuildJnlpTask;
 import edu.colorado.phet.build.PhetProject;
 import edu.colorado.phet.build.PhetProjectFlavor;
