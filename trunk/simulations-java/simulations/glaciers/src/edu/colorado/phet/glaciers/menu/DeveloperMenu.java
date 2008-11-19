@@ -2,19 +2,19 @@
 
 package edu.colorado.phet.glaciers.menu;
 
-import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.*;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JDialog;
+import javax.swing.JMenu;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.dialog.DeveloperControlsDialog;
-import edu.colorado.phet.glaciers.test.TestViewport;
 
 /**
  * DeveloperMenu is the "Developer" menu that appears in the menu bar.
@@ -46,17 +46,6 @@ public class DeveloperMenu extends JMenu {
         _developerControlsItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 handleDeveloperControls();
-            }
-        } );
-        
-        JMenuItem viewportDemo = new JMenuItem( "Viewport demo..." );
-        add( viewportDemo );
-        viewportDemo.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                JFrame frame = new TestViewport.TestFrame();
-                frame.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
-                frame.setSize( new Dimension( 640, 480 ) );
-                frame.setVisible( true );
             }
         } );
     }
