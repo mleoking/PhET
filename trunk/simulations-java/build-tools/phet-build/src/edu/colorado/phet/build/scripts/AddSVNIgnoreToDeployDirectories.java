@@ -1,6 +1,6 @@
 /* Copyright 2008, University of Colorado */
 
-package edu.colorado.phet.build.util;
+package edu.colorado.phet.build.scripts;
 
 import java.io.BufferedWriter;
 import java.io.File;

@@ -7,6 +7,7 @@ import java.util.Date;
 import org.apache.tools.ant.BuildException;
 
 import edu.colorado.phet.build.translate.ScpTo;
+import edu.colorado.phet.build.util.FileUtils;
 
 import com.jcraft.jsch.JSchException;
 

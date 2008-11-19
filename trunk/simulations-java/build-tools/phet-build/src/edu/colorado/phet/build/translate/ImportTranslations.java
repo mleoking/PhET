@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import edu.colorado.phet.build.FileUtils;
+import edu.colorado.phet.build.util.FileUtils;
 import edu.colorado.phet.build.PhetProject;
 
 /**

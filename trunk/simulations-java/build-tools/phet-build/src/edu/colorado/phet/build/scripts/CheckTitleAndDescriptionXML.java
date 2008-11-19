@@ -1,4 +1,4 @@
-package edu.colorado.phet.build.util;
+package edu.colorado.phet.build.scripts;
 
 import java.io.File;
 import java.io.FileInputStream;

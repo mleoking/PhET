@@ -1,4 +1,4 @@
-package edu.colorado.phet.build.util;
+package edu.colorado.phet.build.scripts;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -6,7 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import edu.colorado.phet.build.FileUtils;
+import edu.colorado.phet.build.util.FileUtils;
 
 /**
  * Author: Sam Reid
