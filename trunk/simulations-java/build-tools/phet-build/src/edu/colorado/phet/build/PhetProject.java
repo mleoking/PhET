@@ -8,6 +8,7 @@ import org.apache.tools.ant.BuildException;
 
 import edu.colorado.phet.build.util.DataResource;
 import edu.colorado.phet.build.util.LicenseInfo;
+import edu.colorado.phet.build.util.PhetBuildUtils;
 
 /**
  * Author: Sam Reid

@@ -1,11 +1,13 @@
 /* Copyright 2007, University of Colorado */
-package edu.colorado.phet.build;
+package edu.colorado.phet.build.util;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
 import org.apache.tools.ant.taskdefs.Echo;
+
+import edu.colorado.phet.build.AntTaskRunner;
 
 public class PhetBuildUtils {
     private PhetBuildUtils() {

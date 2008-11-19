@@ -1,10 +1,14 @@
-package edu.colorado.phet.build;
+package edu.colorado.phet.build.ant;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
 import org.apache.tools.ant.BuildException;
+
+import edu.colorado.phet.build.PhetProject;
+import edu.colorado.phet.build.PhetProjectFlavor;
+import edu.colorado.phet.build.util.PhetBuildUtils;
 
 public class PhetDisplayStatsTask extends PhetAllSimTask {
     public final void execute() throws BuildException {

@@ -1,9 +1,12 @@
-package edu.colorado.phet.build;
+package edu.colorado.phet.build.ant;
 
 import java.io.File;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Echo;
+
+import edu.colorado.phet.build.PhetProject;
+import edu.colorado.phet.build.PhetProjectFlavor;
 
 /**
  * Author: Sam Reid

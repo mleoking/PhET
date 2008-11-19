@@ -9,6 +9,8 @@ import org.apache.tools.ant.types.Assertions;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 
+import edu.colorado.phet.build.util.PhetBuildUtils;
+
 public class TestCommand implements Command {
     private final PhetProject project;
     private final AntTaskRunner taskRunner;

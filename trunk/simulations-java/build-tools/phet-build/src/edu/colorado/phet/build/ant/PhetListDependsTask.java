@@ -1,7 +1,10 @@
-package edu.colorado.phet.build;
+package edu.colorado.phet.build.ant;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.colorado.phet.build.PhetProject;
+import edu.colorado.phet.build.util.PhetBuildUtils;
 
 /**
  * Constructs an iterable list of dependencies for use in ant-contrib.

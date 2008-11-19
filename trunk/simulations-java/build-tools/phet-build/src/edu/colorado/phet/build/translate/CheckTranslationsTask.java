@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.apache.tools.ant.BuildException;
 
-import edu.colorado.phet.build.AbstractPhetTask;
+import edu.colorado.phet.build.ant.AbstractPhetTask;
 
 public class CheckTranslationsTask extends AbstractPhetTask {
     private boolean verbose;

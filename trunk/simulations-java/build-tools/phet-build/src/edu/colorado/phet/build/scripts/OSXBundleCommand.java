@@ -1,5 +1,5 @@
 /* Copyright 2007, University of Colorado */
-package edu.colorado.phet.build;
+package edu.colorado.phet.build.scripts;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
+import edu.colorado.phet.build.Command;
 import edu.colorado.phet.build.util.FileUtils;
 
 /*

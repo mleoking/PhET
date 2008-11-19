@@ -1,9 +1,13 @@
-package edu.colorado.phet.build;
+package edu.colorado.phet.build.ant;
 
 import java.io.File;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.ProjectHelper;
+
+import edu.colorado.phet.build.PhetBuildCommand;
+import edu.colorado.phet.build.PhetProject;
+import edu.colorado.phet.build.TestCommand;
 
 /**
  * This class is responsible for building a phet project given the project
