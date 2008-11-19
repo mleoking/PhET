@@ -8,8 +8,6 @@ import java.util.Locale;
 
 import javax.swing.*;
 
-import org.jfree.ui.tabbedui.VerticalLayout;
-
 import edu.colorado.phet.build.PhetProject;
 
 public class ProjectPanel extends JPanel {
