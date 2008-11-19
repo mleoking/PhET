@@ -40,7 +40,6 @@ public class BuildScript {
 
     public void deploy( PhetServer server, PhetBuildGUI.AuthenticationInfo authenticationInfo ) {
         clean();
-        build();//build before deploying new SVN number in case there are errors
 
         if ( !isSVNInSync() ) {
             System.out.println( "SVN is out of sync; halting" );
@@ -52,6 +51,9 @@ public class BuildScript {
         System.out.println( "Current SVN: " + svnNumber );
         setSVNVersion( svnNumber + 1 );
         commitNewVersionFile();
+
+        build();//would be nice to build before deploying new SVN number in case there are errors,
+        //however, we need the correct version info in the JAR
 
         String codebase = server.getURL( project );
         System.out.println( "codebase = " + codebase );
