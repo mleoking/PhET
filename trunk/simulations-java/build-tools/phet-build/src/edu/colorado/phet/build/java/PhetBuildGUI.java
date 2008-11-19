@@ -30,10 +30,11 @@ public class PhetBuildGUI {
             }
         } );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.setContentPane( new ProjectPanel( baseDir ) );
+
+        PhetBuildGUIPanel panel = new PhetBuildGUIPanel( baseDir );
+        frame.setContentPane( panel );
 
         frame.setSize( 800, 600 );
-//        frame.setContentPane( contentPane );
     }
 
 
