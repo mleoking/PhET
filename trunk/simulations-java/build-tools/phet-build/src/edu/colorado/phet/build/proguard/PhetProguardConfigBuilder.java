@@ -1,5 +1,5 @@
 /* Copyright 2007, University of Colorado */
-package edu.colorado.phet.build;
+package edu.colorado.phet.build.proguard;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -7,6 +7,8 @@ import java.util.Arrays;
 
 import edu.colorado.phet.build.proguard.ProguardConfig;
 import edu.colorado.phet.build.proguard.ProguardConfigBuilder;
+import edu.colorado.phet.build.PhetProject;
+import edu.colorado.phet.build.PhetBuildCommand;
 
 /**
  * Builds a Proguard config for a Phet project.
