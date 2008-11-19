@@ -194,12 +194,18 @@ public class BuildScript {
     }
 
     public void runSim() {
-        String locale = "en";
-        String flavor = "balloons";
+        Locale locale = (Locale) prompt( "Choose locale: ", project.getLocales() );
+//        String locale = "en";
+        String flavor = project.getFlavorNames()[0];
+        if ( project.getFlavorNames().length > 1 ) {
+            flavor = (String) prompt( "Choose flavor: ", project.getFlavorNames() );
+        }
+
+
         Java java = new Java();
 
         if ( project != null ) {
-            java.setClassname( project.getFlavor( "balloons" ).getMainclass() );
+            java.setClassname( project.getFlavor( flavor ).getMainclass() );
             java.setFork( true );
             String args = "";
             String[] a = project.getFlavor( flavor ).getArgs();
@@ -217,7 +223,7 @@ public class BuildScript {
             set.setFile( this.project.getDefaultDeployJar() );
             classpath.addFileset( set );
             java.setClasspath( classpath );
-            if ( !locale.equals( "en" ) ) {
+            if ( !locale.getLanguage().equals( "en" ) ) {
                 java.setJvmargs( "-Djavaws.phet.locale=" + locale );
             }
 
@@ -226,4 +232,24 @@ public class BuildScript {
         }
     }
 
+    private Object prompt( String msg, Object[] locales ) {
+
+        Object[] possibilities = locales;
+        Object s = JOptionPane.showInputDialog(
+                null,
+                msg,
+                msg,
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                possibilities,
+                possibilities[0] );
+
+        if ( s == null ) {
+            System.out.println( "Canceled" );
+            return null;
+        }
+        else {
+            return s;
+        }
+    }
 }
