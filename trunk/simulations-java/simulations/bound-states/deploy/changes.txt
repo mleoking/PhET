@@ -1,5 +1,6 @@
 # 1.04.01 (?)
-11/20/08 - #988, dialogs not centered in parent
+11/20/08 - #988, dialogs should remember where they were last positioned
+11/20/08 - #988, dialogs not centered in parent when opened for the first time
 11/20/08 - #76, pressing "Configure Potential" button with wells=1 opens an empty dialog
 11/17/08 - #75, separation handles should not be visible when #wells=1
 10/8/08 - use PhetApplicationConfig.launchSim

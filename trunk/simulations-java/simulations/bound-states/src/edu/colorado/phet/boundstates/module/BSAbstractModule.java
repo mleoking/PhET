@@ -3,6 +3,7 @@
 package edu.colorado.phet.boundstates.module;
 
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -1116,6 +1117,9 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             resetClock();
         }
     }
+    
+    private Point _configDialogLocation;
+    private Point _superpositionStateDialogLocation;
 
     /**
      * Opens a "Configure Potential" dialog for the currently-selected potential.
@@ -1124,14 +1128,17 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         if ( _configureDialog == null ) {
             _configureDialog = BSConfigureDialogFactory.createDialog( getFrame(), _model.getPotential(), _moduleSpec );
             _configureDialog.addWindowListener( new WindowAdapter() {
-                public void windowClosing( WindowEvent event ) {
-                    _configureDialog = null;
-                }
                 public void windowClosed( WindowEvent event ) {
+                    _configDialogLocation = _configureDialog.getLocation();
                     _configureDialog = null;
                 }
             } );
-            SwingUtils.centerDialogInParent( _configureDialog );
+            if ( _configDialogLocation == null ) {
+                SwingUtils.centerDialogInParent( _configureDialog );
+            }
+            else {
+                _configureDialog.setLocation( _configDialogLocation );
+            }
             _configureDialog.setVisible( true );
         }
     }
@@ -1143,14 +1150,17 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         if ( _superpositionStateDialog == null ) {
             _superpositionStateDialog = new BSSuperpositionStateDialog( getFrame(), _model, _colorScheme );
             _superpositionStateDialog.addWindowListener( new WindowAdapter() {
-                public void windowClosing( WindowEvent event ) {
-                    _superpositionStateDialog = null;
-                }
                 public void windowClosed( WindowEvent event ) {
+                    _superpositionStateDialogLocation = _superpositionStateDialog.getLocation();
                     _superpositionStateDialog = null;
                 }
             } );
-            SwingUtils.centerDialogInParent( _superpositionStateDialog );
+            if ( _superpositionStateDialogLocation == null ) {
+                SwingUtils.centerDialogInParent( _superpositionStateDialog );
+            }
+            else {
+                _superpositionStateDialog.setLocation( _superpositionStateDialogLocation );
+            }
             _superpositionStateDialog.setVisible( true );
         }
     }
