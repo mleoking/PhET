@@ -2,7 +2,7 @@
 <!-- This file is named HEADER so that it will appear at the top of a browser's directory listing. -->
 <p>
 <big><big><b>
-faraday 2.01.01
+faraday 2.01.02
 </b></big></big>
 <p>
 <b>Click to run English versions:</b>
@@ -16,12 +16,7 @@ faraday 2.01.01
 <b>What's new:</b>
 <p>
 <ul>
-<li>fix compass so that it updates properly when clock is paused
+<li>fix #744, voltmeter needle exhibits big jumps in Transformer panel
 </ul>
 <p>
-<b>Known problems:</b>
-<p>
-<ul>
-<li>none
-</ul>
 </html>
