@@ -419,7 +419,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
              * between inside and outside are not abrupt. See Unfuddle #248.
              */ 
             double Bx = _sampleVector.getX();
-            if ( Bx == magnetStrength ) {
+            if ( Math.abs( Bx ) == magnetStrength ) {
                 Bx *= _fudgeFactor;
             }
             
