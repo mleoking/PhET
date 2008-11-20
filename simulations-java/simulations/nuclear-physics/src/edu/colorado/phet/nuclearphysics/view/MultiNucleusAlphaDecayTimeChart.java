@@ -115,6 +115,8 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     // References to the various components of the chart.
     private PPath _borderNode;
     private PPath _halfLifeMarkerLine;
+    private ResizeArrowNode _halfLifeHandleNode;
+    private PText _halfLifeLabel;
     private ArrowNode _xAxisOfGraph;
     private ArrayList _xAxisTickMarks;
     private ArrayList _xAxisTickMarkLabels;
@@ -123,7 +125,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     private PText _xAxisLabel;
     private PText _yAxisLabel1;
     private PText _yAxisLabel2;
-    private PText _halfLifeLabel;
     private ShadowPText _numUndecayedNucleiLabel;
     private PText _numUndecayedNucleiText;
     private ShadowPText _numDecayedNucleiLabel;
@@ -157,7 +158,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     // Button for resetting this chart.
     PhetButtonNode _resetButtonNode;
     
-    // Slider for adjust half life.
+    // Slider for adjusting half life.
     HalfLifeControlSlider _halfLifeSlider;
     PSwing _halfLifeSliderNode;
 
@@ -186,8 +187,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
             }
         } );
         
-        // Listen to the model for notifications of model elements coming and
-        // going.
+        // Listen to the model for notifications of relevant events.
         _model.addListener( new AlphaDecayAdapter(){
             public void modelElementAdded(Object modelElement){
             	handleModelElementAdded(modelElement);
@@ -198,8 +198,13 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
             };
             
             public void nucleusTypeChanged(){
+            	_halfLifeSlider.setNormalizedValue(_model.getHalfLife() * 1000 / TIME_SPAN);
             	update();
             };
+            
+            public void halfLifeChanged(){
+            	positionHalfLifeMarker();
+            }
         });
 
         // Set up the parent node that will contain the non-interactive
@@ -221,8 +226,9 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         _halfLifeSlider.setOpaque( true ); // Mac slider is transparent by default
         _halfLifeSlider.addChangeListener( new ChangeListener(){
             public void stateChanged( ChangeEvent e ) {
-            	// TODO: JPB TBD - Implement handler for this.
-                System.out.println("Slider changed, value = " + _halfLifeSlider.getNormalizedValue());
+            	_model.setHalfLife(_halfLifeSlider.getNormalizedValue() * TIME_SPAN / 1000);
+            	if (!_halfLifeSlider.getValueIsAdjusting()){
+            	}
             }
         });
         _halfLifeSliderNode = new PSwing(_halfLifeSlider);
@@ -330,6 +336,10 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         _halfLifeMarkerLine.setStrokePaint( HALF_LIFE_LINE_COLOR );
         _halfLifeMarkerLine.setPaint( NuclearPhysicsConstants.ALPHA_DECAY_CHART_COLOR );
         _nonPickableChartNode.addChild( _halfLifeMarkerLine );
+        
+        // Create the handle that will allow the user to control the half life.
+        _halfLifeHandleNode = new ResizeArrowNode(25, 0);
+        addChild( _halfLifeHandleNode );
 
         // Create the label for the half life line.
         _halfLifeLabel = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_HALF_LIFE);
@@ -433,21 +443,20 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         yAxisUpperTickMarkLabel.setOffset( _graphOriginX - ( 1.15 * yAxisUpperTickMarkLabel.getWidth() ), yAxisUpperTickMark.getY() - ( 0.5 * yAxisUpperTickMarkLabel.getHeight() ) );
 
         // Position the slider for adjusting the half life.
-    	// Set up variables needed for doing the layout.
     	boolean showSlider = false;
     	if (_model.getNucleusType() == MultiNucleusAlphaDecayModel.NUCLEUS_TYPE_CUSTOM){
     		showSlider = true;
     	}
         _halfLifeSliderNode.setVisible( showSlider );
         _halfLifeSlider.setPreferredSize(new Dimension((int)(TIME_SPAN * _msToPixelsFactor), 25));
-        _halfLifeSliderNode.setOffset(_graphOriginX, _graphOriginY + ((PNode)_xAxisTickMarkLabels.get(0)).getHeight());
-
-        // Position the marker for the half life.
-        _halfLifeMarkerLine.reset();
-        _halfLifeMarkerLine.moveTo( (float) ( _graphOriginX + (TIME_ZERO_OFFSET + HALF_LIFE) * _msToPixelsFactor ),
-        		(float) _graphOriginY );
-        _halfLifeMarkerLine.lineTo( (float) ( _graphOriginX + (TIME_ZERO_OFFSET + HALF_LIFE) * _msToPixelsFactor ),
-        		(float) ( _usableAreaOriginY + ( 0.1 * _usableHeight ) ) );
+        _halfLifeSliderNode.setOffset(_graphOriginX + (TIME_ZERO_OFFSET * _msToPixelsFactor) - 7, 
+        		_graphOriginY + ((PNode)_xAxisTickMarkLabels.get(0)).getHeight()); // Note: There is a 'tweak factor'
+                                                                                   // in the X coordinate for lining
+                                                                                   // up the slider and the half life
+                                                                                   // line.
+        
+        // Position the half life marker.
+        positionHalfLifeMarker();
 
         // Position the labels for the axes.
         if (showSlider){
@@ -752,6 +761,25 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     		}
     	}
 	}
+    
+    private void positionHalfLifeMarker(){
+        // Position the marker for the half life.
+    	double halfLife = _model.getHalfLife() * 1000;  // Get half life and convert to ms.
+        _halfLifeMarkerLine.reset();
+        _halfLifeMarkerLine.moveTo( (float) ( _graphOriginX + (TIME_ZERO_OFFSET + halfLife) * _msToPixelsFactor ),
+        		(float) _graphOriginY );
+        _halfLifeMarkerLine.lineTo( (float) ( _graphOriginX + (TIME_ZERO_OFFSET + halfLife) * _msToPixelsFactor ),
+        		(float) ( _usableAreaOriginY + ( 0.1 * _usableHeight ) ) );
+        
+        // If it is a custom nucleus, position and show the handle.
+        if (_model.getNucleusType() == MultiNucleusAlphaDecayModel.NUCLEUS_TYPE_CUSTOM){
+        	_halfLifeHandleNode.setVisible(true);
+        	_halfLifeHandleNode.setOffset( _halfLifeMarkerLine.getX(), _halfLifeMarkerLine.getY() + _halfLifeMarkerLine.getHeight() / 2 );
+        }
+        else{
+        	_halfLifeHandleNode.setVisible(false);
+        }
+    }
     
     /**
      * Position the specified nucleus at the appropriate location on the
