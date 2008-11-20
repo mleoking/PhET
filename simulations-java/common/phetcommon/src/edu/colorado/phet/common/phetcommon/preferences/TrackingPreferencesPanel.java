@@ -23,26 +23,30 @@ public class TrackingPreferencesPanel extends JPanel {
     private static final String TRACKING_ENABLED = PhetCommonResources.getString( "Common.tracking.sendToPhET" );
     private static final String DETAILS = PhetCommonResources.getString( "Common.tracking.detailsButton" );
     
-    private ITrackingInfo trackingInfo;
-
-    private JCheckBox trackingEnabledCheckBox;
+    private final JCheckBox trackingEnabledCheckBox;
     
     public TrackingPreferencesPanel( ITrackingInfo trackingInfo, boolean trackingEnabled ) {
-        this.trackingInfo = trackingInfo;
         
+        // feature description
+        JComponent oneLiner = createOneLiner();
+        
+        // enable
+        trackingEnabledCheckBox = new JCheckBox( TRACKING_ENABLED, trackingEnabled );
+        
+        // details
+        DetailsButton detailsButton = new DetailsButton( trackingInfo );
+
+        // layout
         setLayout( new GridBagLayout() );
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.gridy = GridBagConstraints.RELATIVE;
         constraints.gridx = 0;
         constraints.gridwidth = 1;
-        
-        trackingEnabledCheckBox = new JCheckBox( TRACKING_ENABLED, trackingEnabled );
-
-        add( createOneLiner(), constraints );
+        add( oneLiner, constraints );
         add( Box.createRigidArea( new Dimension( 5, 10 ) ), constraints );
         add( trackingEnabledCheckBox, constraints );
         add( Box.createRigidArea( new Dimension( 5, 10 ) ), constraints );
-        add( new DetailsButton(), constraints );
+        add( detailsButton, constraints );
     }
     
     public boolean isTrackingEnabled() {
@@ -50,7 +54,7 @@ public class TrackingPreferencesPanel extends JPanel {
     }
 
     /* One-line description of tracking */
-    private JComponent createOneLiner() {
+    private static JComponent createOneLiner() {
         Object[] args = { HTMLUtils.getPhetHomeHref( PhetCommonConstants.PHET_NAME ) };
         String s = MessageFormat.format( ONE_LINER_PATTERN, args );
         String html = HTMLUtils.createStyledHTMLFromFragment( s );
@@ -59,8 +63,12 @@ public class TrackingPreferencesPanel extends JPanel {
         return pane;
     }
 
-    private class DetailsButton extends JButton {
-        private DetailsButton() {
+    /*
+     * Details button opens a dialog that allows the user to view 
+     * the tracking info that is sent to PhET.
+     */
+    private static class DetailsButton extends JButton {
+        private DetailsButton( final ITrackingInfo trackingInfo ) {
             super( DETAILS );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
