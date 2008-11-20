@@ -31,7 +31,7 @@ public class AdjustableHalfLifeNucleus extends AtomicNucleus implements AlphaDec
     private static final Random RAND = new Random();
     
     // Random number generator used for calculating decay time based on half life.
-    private static final double DEFAULT_HALF_LIFE = 1.5;  // In seconds.
+    private static final double DEFAULT_HALF_LIFE = 516;  // In milliseconds.
 
     //------------------------------------------------------------------------
     // Instance Data
@@ -39,7 +39,7 @@ public class AdjustableHalfLifeNucleus extends AtomicNucleus implements AlphaDec
 
     private double _decayTime = 0;       // Time at which fission will occur.
     private double _activatedLifetime = 0; // Amount of time that nucleus has been or was active prior to decay.
-    private double _halfLife = 0;        // Half life, from which decay time is probabilistically calculated.
+    private double _halfLife = 0;        // Half life in ms, from which decay time is probabilistically calculated.
     
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -66,7 +66,7 @@ public class AdjustableHalfLifeNucleus extends AtomicNucleus implements AlphaDec
     }
     
     public double getHalfLife(){
-        return _halfLife;
+        return _halfLife / 1000;
     }
     
     /**
@@ -75,7 +75,7 @@ public class AdjustableHalfLifeNucleus extends AtomicNucleus implements AlphaDec
      * @param halfLife - Half life in seconds.
      */
     public void setHalfLife(double halfLife){
-        _halfLife = halfLife;
+        _halfLife = halfLife * 1000;
     }
     
     //------------------------------------------------------------------------
@@ -200,15 +200,16 @@ public class AdjustableHalfLifeNucleus extends AtomicNucleus implements AlphaDec
     private double calcDecayTime(){
     	
     	if (_halfLife == 0){
-    		_decayTime = 0;
+    		return 0;
     	}
+    	
+    	double decayConstant = 0.693/(_halfLife / 1000);
         double randomValue = RAND.nextDouble();
         if (randomValue > 0.999){
             // Limit the maximum time for decay so that the user isn't waiting
             // around forever.
             randomValue = 0.999;
         }
-        double decayMilliseconds = (-(Math.log( 1 - randomValue ) / 1.343)) * 1000;
-        return decayMilliseconds;
+        return (-(Math.log( 1 - randomValue ) / decayConstant)) * 1000;
     }
 }

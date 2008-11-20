@@ -42,4 +42,14 @@ public class HalfLifeControlSlider extends JSlider {
     public double getNormalizedValue(){
     	return ((double)getValue() / (double)MAX_SLIDER_VALULE);
     }
+    
+    public void setNormalizedValue(double normalizedValue){
+    	if (normalizedValue > 1){
+    		normalizedValue = 1;
+    	}
+    	else if (normalizedValue < 0){
+    		normalizedValue = 0;
+    	}
+    	setValue((int)(normalizedValue * (double)MAX_SLIDER_VALULE));
+    }
 }
