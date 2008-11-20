@@ -106,9 +106,11 @@ public class ParticleNode extends PNode {
         	m_useGradient = gradientEnabled;
         	
         	if (m_useGradient){
+        		m_sphere.setConvertToImage(true);
         		m_sphere.setPaint( choosePaint(m_particle) );
         	}
         	else{
+        		m_sphere.setConvertToImage(false);
         		m_sphere.setPaint( chooseColor(m_particle) );
         	}
     	}
