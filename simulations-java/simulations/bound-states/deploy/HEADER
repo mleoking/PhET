@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-bound-states 1.04.00
+bound-states 1.04.01
 </b></big></big>
 <p>
 Click to run English versions:
@@ -14,12 +14,7 @@ Click to run English versions:
 <b>What's new:</b>
 <p>
 <ul>
-<li>same as 1.03.03, published to PhET website
+<li>#76, pressing "Configure Potential" button with wells=1 opens an empty dialog
+<li>#75, separation handles should not be visible when #wells=1
 </ul>
-<p>
-<b>Known problems:</b>
-<ul>
-<li>none
-</ul>
-<p>
 </html>
