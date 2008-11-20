@@ -23,8 +23,8 @@ public class SphericalNode extends PhetPNode {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private PPath _pathNode;
-    private PImage _imageNode;
+    private final PPath _pathNode;
+    private final PImage _imageNode;
     private boolean _convertToImage;
     
     //----------------------------------------------------------------------------
@@ -50,8 +50,9 @@ public class SphericalNode extends PhetPNode {
         _pathNode.setStroke( stroke );
         _pathNode.setStrokePaint( strokePaint );
         
+        _imageNode = new PImage();
+        
         if ( convertToImage ) {
-            _imageNode = new PImage();
              addChild( _imageNode );
         }
         else {
@@ -90,7 +91,7 @@ public class SphericalNode extends PhetPNode {
     }
 
     public void setDiameter( double diameter ) {
-        Shape shape = new Ellipse2D.Double( -diameter / 2, -diameter / 2, diameter, diameter );
+        Shape shape = new Ellipse2D.Double( -diameter / 2, -diameter / 2, diameter, diameter ); // origin at center
         _pathNode.setPathTo( shape );
         update();
     }
@@ -108,6 +109,25 @@ public class SphericalNode extends PhetPNode {
     public void setStrokePaint( Paint paint ) {
         _pathNode.setStrokePaint( paint );
         update();
+    }
+    
+    public void setConvertToImage( boolean convertToImage ) {
+        if ( convertToImage != _convertToImage ) {
+            _convertToImage = convertToImage;
+            if ( convertToImage ) {
+                addChild( _imageNode );
+                removeChild( _pathNode );
+            }
+            else {
+                addChild( _pathNode );
+                removeChild( _imageNode );
+            }
+            update();
+        }
+    }
+    
+    public boolean isConvertToImage() {
+        return _convertToImage;
     }
     
     //----------------------------------------------------------------------------
