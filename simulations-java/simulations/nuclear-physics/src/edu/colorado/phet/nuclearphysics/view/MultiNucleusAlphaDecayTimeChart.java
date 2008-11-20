@@ -38,9 +38,12 @@ import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusAlphaDecayModel;
 import edu.colorado.phet.nuclearphysics.util.PhetButtonNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -340,6 +343,26 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         // Create the handle that will allow the user to control the half life.
         _halfLifeHandleNode = new ResizeArrowNode(25, 0);
         addChild( _halfLifeHandleNode );
+        _halfLifeHandleNode.addInputEventListener(new PBasicInputEventHandler(){
+        	public void mousePressed(PInputEvent event) {
+        		// TODO: JPB TBD - This needs to be implemented, and should be similar to what I've commented out.
+//        		m_model.setParticleMotionPaused(true);
+        	}
+        	public void mouseReleased(PInputEvent event) {
+        		// TODO: JPB TBD - This needs to be implemented, and should be similar to what I've commented out.
+//        		m_model.setParticleMotionPaused(false);
+        	}
+            public void mouseDragged(PInputEvent event) {
+                PNode draggedNode = event.getPickedNode();
+                PDimension d = event.getDeltaRelativeTo(draggedNode);
+                draggedNode.localToParent(d);
+                System.out.println(d.getWidth());
+                _model.setHalfLife(_model.getHalfLife() + (d.width / _msToPixelsFactor) / 1000);
+//                double scaleFactor = MAX_INTER_ATOM_DISTANCE / getGraphWidth();
+//                m_model.setSigma( m_model.getSigma() + d.getWidth() * scaleFactor );
+            }
+        });
+
 
         // Create the label for the half life line.
         _halfLifeLabel = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_HALF_LIFE);
