@@ -30,7 +30,7 @@ public class TrackingDetailsDialog extends JDialog {
     private static final String ABOUT_PATTERN = PhetCommonResources.getString( "Common.tracking.about" );
     
     public TrackingDetailsDialog( Dialog owner, ITrackingInfo trackingInfo ) {
-        super( owner, TITLE, true /* modal */ );
+        super( owner );
         init( trackingInfo );
     }
 
@@ -40,6 +40,8 @@ public class TrackingDetailsDialog extends JDialog {
     }
 
     private void init( ITrackingInfo trackingInfo ) {
+        setTitle( TITLE );
+        setModal( true );
         setResizable( false );
         
         GridBagConstraints constraints = new GridBagConstraints();
