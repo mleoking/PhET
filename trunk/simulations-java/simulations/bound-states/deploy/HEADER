@@ -16,5 +16,6 @@ Click to run English versions:
 <ul>
 <li>#76, pressing "Configure Potential" button with wells=1 opens an empty dialog
 <li>#75, separation handles should not be visible when #wells=1
+<li>#988, dialogs should be initially centered, then opened in previous location
 </ul>
 </html>
