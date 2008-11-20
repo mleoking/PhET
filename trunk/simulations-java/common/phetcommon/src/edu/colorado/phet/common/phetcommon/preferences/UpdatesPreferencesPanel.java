@@ -24,19 +24,14 @@ public class UpdatesPreferencesPanel extends JPanel {
     private static final String UPDATES_ENABLED = PhetCommonResources.getString( "Common.updates.automaticallyCheck" );
     private static final String CHECK_FOR_UPDATES = PhetCommonResources.getString( "Common.HelpMenu.CheckForUpdates" );
     
-    final JCheckBox updatesEnabledCheckBox;
+    private final JCheckBox updatesEnabledCheckBox;
     
     public UpdatesPreferencesPanel( final IManualUpdateChecker iCheckForUpdates, boolean updatesEnabled ) {
-        setLayout( new GridBagLayout() );
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.gridy = GridBagConstraints.RELATIVE;
-        constraints.gridx = 0;
-        constraints.gridwidth = 1;
 
+        // enable
         updatesEnabledCheckBox = new JCheckBox( UPDATES_ENABLED, updatesEnabled );
-        add( Box.createRigidArea( new Dimension( 50, 20 ) ), constraints );
-        add( updatesEnabledCheckBox, constraints );
-        add( Box.createRigidArea( new Dimension( 50, 10 ) ), constraints );
+        
+        // check
         JButton checkForUpdatesButton = new JButton( CHECK_FOR_UPDATES );
         checkForUpdatesButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -44,6 +39,16 @@ public class UpdatesPreferencesPanel extends JPanel {
                 iCheckForUpdates.checkForUpdates();
             }
         } );
+        
+        // layout
+        setLayout( new GridBagLayout() );
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridy = GridBagConstraints.RELATIVE;
+        constraints.gridx = 0;
+        constraints.gridwidth = 1;
+        add( Box.createRigidArea( new Dimension( 50, 20 ) ), constraints );
+        add( updatesEnabledCheckBox, constraints );
+        add( Box.createRigidArea( new Dimension( 50, 10 ) ), constraints );
         add( checkForUpdatesButton, constraints );
     }
     
