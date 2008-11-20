@@ -112,7 +112,7 @@ public class UpdaterBootstrap {
         String[] cmdArray = new String[]{getJavaPath(), "-jar", dst.getAbsolutePath()};
         println( "launching sim with cmdArray=" + Arrays.asList( cmdArray ) );
         Process p = Runtime.getRuntime().exec( cmdArray );
-        //TODO: display output from this process in case any errors occur
+        // It's not worth reading output from the above process because we really can't do anything with it.
         println( "launch finished" );
     }
     
