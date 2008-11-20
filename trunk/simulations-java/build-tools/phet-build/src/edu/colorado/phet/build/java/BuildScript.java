@@ -241,6 +241,7 @@ public class BuildScript {
         try {
             new PhetBuildCommand( project, new MyAntTaskRunner(), true, project.getDefaultDeployJar() ).execute();
             buildAllFlavorJars();
+            System.out.println( "**** Finished BuildScript.build" );
         }
         catch( Exception e ) {
             e.printStackTrace();
