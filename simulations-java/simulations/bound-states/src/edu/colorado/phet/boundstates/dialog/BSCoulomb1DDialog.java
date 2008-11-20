@@ -14,6 +14,7 @@ package edu.colorado.phet.boundstates.dialog;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.event.ChangeEvent;
@@ -43,6 +44,7 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog {
     private LinearValueControl _offsetControl;
     private LinearValueControl _spacingControl;
     private JSeparator _spacingSeparator;
+    private JLabel _nothingToConfigureLabel;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -53,6 +55,7 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog {
      */
     public BSCoulomb1DDialog( Frame parent, BSCoulomb1DPotential potential, BSAbstractModuleSpec moduleSpec ) {
         super( parent, BSResources.getString( "BSCoulomb1DDialog.title" ), potential );
+        System.out.println( "BSCoulomb1DDialog" );
         JPanel inputPanel = createInputPanel( moduleSpec );
         createUI( inputPanel );
         updateControls();
@@ -113,6 +116,9 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog {
             } );
         };
         
+        // "Nothing to configure" label
+        _nothingToConfigureLabel = new JLabel( BSResources.getString( "label.nothingToConfigure" ) );
+        
         // Layout
         JPanel inputPanel = new JPanel();
         {
@@ -122,16 +128,17 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog {
             int row = 0;
             int col = 0;
             if ( _offsetControl != null ) {
-                layout.addComponent( _offsetControl, row, col );
-                row++;
+                layout.addComponent( _offsetControl, row++, col );
             }
             if ( _offsetControl != null && _spacingControl != null ) {
                 _spacingSeparator = new JSeparator();
-                layout.addFilledComponent( _spacingSeparator, row, col, GridBagConstraints.HORIZONTAL );
-                row++;
+                layout.addFilledComponent( _spacingSeparator, row++, col, GridBagConstraints.HORIZONTAL );
             }
             if ( _spacingControl != null ) {
-                layout.addComponent( _spacingControl, row, col );
+                layout.addComponent( _spacingControl, row++, col );
+            }
+            if ( _nothingToConfigureLabel != null ) {
+                layout.addComponent( _nothingToConfigureLabel, row++, col );
             }
             row++;
         }
@@ -158,6 +165,8 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog {
                 _spacingSeparator.setVisible( _spacingControl.isVisible() );
             }
         }
+        
+        _nothingToConfigureLabel.setVisible( _offsetControl == null && (_spacingControl == null || !_spacingControl.isVisible() ) );
 
         pack();
     }
