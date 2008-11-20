@@ -29,21 +29,18 @@ public class TrackingDetailsDialog extends JDialog {
     private static final String OK_BUTTON = PhetCommonResources.getString( "Common.choice.ok" );
     private static final String ABOUT_PATTERN = PhetCommonResources.getString( "Common.tracking.about" );
     
-    private ITrackingInfo iTrackingInfo;
-
-    public TrackingDetailsDialog( Dialog owner, ITrackingInfo iTrackingInfo ) {
+    public TrackingDetailsDialog( Dialog owner, ITrackingInfo trackingInfo ) {
         super( owner, TITLE, true /* modal */ );
-        init( iTrackingInfo );
+        init( trackingInfo );
     }
 
-    public TrackingDetailsDialog( Frame owner, ITrackingInfo iTrackingInfo ) {
+    public TrackingDetailsDialog( Frame owner, ITrackingInfo trackingInfo ) {
         super( owner );
-        init( iTrackingInfo );
+        init( trackingInfo );
     }
 
-    private void init( ITrackingInfo tracker ) {
+    private void init( ITrackingInfo trackingInfo ) {
         setResizable( false );
-        this.iTrackingInfo = tracker;
         
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.gridy = GridBagConstraints.RELATIVE;
@@ -52,8 +49,8 @@ public class TrackingDetailsDialog extends JDialog {
         JPanel panel = new JPanel( new GridBagLayout() );
         panel.setBorder( BorderFactory.createEmptyBorder( 8, 2, 8, 2 ) );
         panel.add( createLogo(), constraints );
-        panel.add( createDescriptionPanel(), constraints );
-        panel.add( createReport(), constraints );
+        panel.add( createDescription(), constraints );
+        panel.add( createReport( trackingInfo ), constraints );
         panel.add( createButtonPanel(), constraints );
         getContentPane().add( panel );
         
@@ -61,8 +58,7 @@ public class TrackingDetailsDialog extends JDialog {
         SwingUtils.centerDialogInParent( this );
     }
 
-    private JComponent createLogo() {
-
+    private static JComponent createLogo() {
         BufferedImage image = PhetCommonResources.getInstance().getImage( PhetLookAndFeel.PHET_LOGO_120x50 );
         JLabel logoLabel = new JLabel( new ImageIcon( image ) );
         logoLabel.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
@@ -72,12 +68,11 @@ public class TrackingDetailsDialog extends JDialog {
                 PhetServiceManager.showPhetPage();
             }
         } );
-        
         return logoLabel;
         
     }
     
-    private JComponent createDescriptionPanel() {
+    private static JComponent createDescription() {
         // fill in the PhET URL in the About HTML fragment, then add CSS and <html> tags
         Object[] args = { HTMLUtils.getPhetHomeHref( PhetCommonConstants.PHET_NAME ), HTMLUtils.getPhetHomeHref() };
         String fragment = MessageFormat.format( ABOUT_PATTERN, args );
@@ -88,10 +83,10 @@ public class TrackingDetailsDialog extends JDialog {
     }
     
     //TODO report should be in a JScrollPane to handle future reports that may be longer
-    private JComponent createReport() {
+    private static JComponent createReport( ITrackingInfo trackingInfo ) {
         final JTextArea jt = new JTextArea( "" );
-        if ( iTrackingInfo.getHumanReadableTrackingInformation() != null ) {
-            jt.setText( iTrackingInfo.getHumanReadableTrackingInformation() );
+        if ( trackingInfo.getHumanReadableTrackingInformation() != null ) {
+            jt.setText( trackingInfo.getHumanReadableTrackingInformation() );
         }
         jt.setBorder( BorderFactory.createTitledBorder( REPORT_LABEL ) );
         jt.setEditable( false );
