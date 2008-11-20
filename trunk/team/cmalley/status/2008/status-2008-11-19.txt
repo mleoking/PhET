@@ -1,0 +1,65 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: November 13-19, 2008 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  common code:
+  - more work on tracking & updates (#925, 950, 957, 945, 949, 980, 981)
+  
+  faraday:
+  - fixed #744, voltmeter jumpy in Transformer tab with AC current supply
+  - published 2.01.02
+  - reviewed #721, need more details from Kathy (not finished)
+  
+  glaciers:
+  - meet with Archie to discuss #766
+  - #851, flags disappear when dragged from valley floor while glacier is missing
+  - #727, added developer dialog to facilitate inspection of the glacier evolution model (not finished)
+  - publish 1.00.09
+  - #836, new model.txt file from Archie
+  
+  balloons:
+  - #956, Reset All
+  - publish 1.07 to tigercat
+  
+  radio-waves:
+  - #958, 959, 960
+  - publish 1.06 to tigercat
+  
+  bound-states:
+  - #75, hide separation drag handles when #wells < 2
+    
+  build-process:
+  - review and discuss new GUI-based build interface with Sam
+  
+  flash:
+  - provided feedback on About and Preferences features
+  
+  misc:
+  - status meeting
+  - discuss dev server options
+  - #966, problem with Russian translation
+  - tried to use Flash 7, failed
+  - tried to find out about Flash licenses
+  
+WHAT'S NEXT:
+ 
+  - complete Java work on tracking & updates features (see Unfuddle)
+  - work on other high-priority common code tickets (see Unfuddle), 
+  - provide time estimate for #107 (translation credits)
+  - finish glaciers 2.00 (see Unfuddle high-priority tickets)
+  - start on density sim and 3D prototyping
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+  November 24-28
+  January 9-12
+  
+  
+--
