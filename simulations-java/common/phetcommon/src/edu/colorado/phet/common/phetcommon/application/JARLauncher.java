@@ -314,7 +314,7 @@ public class JARLauncher extends JFrame implements IProguardKeepClass {
             Properties optionsProperties = new Properties();
             try {
                 optionsProperties.load( optionsURL.openStream() );
-                String locale = optionsProperties.getProperty( "locale" );
+                String locale = optionsProperties.getProperty( "locale" ).trim();
                 System.out.println( "Overriding locale: " + locale );
                 System.setProperty( PhetResources.PROPERTY_JAVAWS_PHET_LOCALE, locale );
             }
