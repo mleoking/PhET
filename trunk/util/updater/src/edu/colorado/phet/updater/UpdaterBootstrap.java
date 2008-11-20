@@ -2,10 +2,13 @@ package edu.colorado.phet.updater;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.Arrays;
 
+import javax.swing.JOptionPane;
+
 /**
- * Copies and launches specified JAR, see SimUpdater.
+ * Replaces and restarts specified JAR, see SimUpdater.
  */
 public class UpdaterBootstrap {
 
@@ -16,6 +19,28 @@ public class UpdaterBootstrap {
     private static final int NUMBER_OF_RETRIES = 100;
     private static final int TIME_BETWEEN_RETRIES = 100; // ms
     
+    //TODO: localize
+    private static final String COPY_FAILED_MESSAGE = 
+        "<html>" +
+        "Failed to update your simulation.<br>" +
+        "<br>" +
+        "Could not copy {0} <br>" + 
+        "to {1}.<br>" + 
+        "Check your file permissions and try again.<br>" +
+        "<br>" +
+        "If this problem persists, contact phethelp@colorado.edu.<br>" +
+        "</html>";
+    
+    //TODO: localize
+    private static final String LAUNCH_ERROR_MESSAGE = 
+        "<html>" +
+        "Your simulation was updated, but it could not be restarted.<br>" +
+        "Restart the simulation by running <br>" + 
+        "{0}.<br>" +
+        "<br>" +
+        "If this problem persists, contact phethelp@colorado.edu.<br>" +
+        "</html>";
+    
     private final File src;
     private final File dst;
 
@@ -25,10 +50,26 @@ public class UpdaterBootstrap {
     }
 
     private void replaceAndLaunch() throws IOException {
-        copy();
-        launch();
+        
+        try {
+            copy();
+        }
+        catch ( IOException e ) {
+            showErrorDialog( getCopyErrorMessage() );
+            throw e;
+        }
+
+        try {
+            launch();
+        }
+        catch ( IOException e ) {
+            showErrorDialog( getLaunchErrorMessage() );
+            throw e;
+        }
+        
+        // if we get to here, the sim has been updated and restarted,
+        // and there's no need to bother the user with problems encountered during cleanup.
         cleanup();
-        println( "finished launch" );
     }
 
     /*
@@ -37,17 +78,18 @@ public class UpdaterBootstrap {
      * the sim that started this bootstrapper.
      */
     private void copy() throws IOException {
+        println( "copying " + src.getAbsolutePath() + " to " + dst.getAbsolutePath() );
         IOException failureResult = null;
         for ( int i = 0; i < NUMBER_OF_RETRIES; i++ ) {
             try {
-                FileUtils.copyTo( src, dst );
+                UpdaterUtils.copyTo( src, dst );
                 break;
             }
             catch( IOException e ) {
                 System.err.println( e.getMessage() );
                 failureResult = e;
                 if ( i % 10 == 0 ) {
-                    println( "copy failed at iteration: " + i );//message every second
+                    println( "copy failed at iteration: " + i );
                 }
                 try {
                     Thread.sleep( TIME_BETWEEN_RETRIES );
@@ -60,6 +102,7 @@ public class UpdaterBootstrap {
         if ( failureResult != null ) {
             throw failureResult;
         }
+        println( "copy finished" );
     }
 
     /*
@@ -67,19 +110,22 @@ public class UpdaterBootstrap {
      */
     private void launch() throws IOException {
         String[] cmdArray = new String[]{getJavaPath(), "-jar", dst.getAbsolutePath()};
-        println( "restarting sim with cmdArray=" + Arrays.asList( cmdArray ) );
+        println( "launching sim with cmdArray=" + Arrays.asList( cmdArray ) );
         Process p = Runtime.getRuntime().exec( cmdArray );
         //TODO: display output from this process in case any errors occur
+        println( "launch finished" );
     }
     
     private void cleanup() throws IOException {
+        
+        println( "cleaning up" );
         
         // delete the downloaded sim JAR file
         src.deleteOnExit();
         
         // delete the bootstrap JAR
-        File thisJar = FileUtils.getCodeSource();
-        if ( FileUtils.hasSuffix( thisJar, "jar" ) ) { // When running in IDEs (Eclipse, IDEA,...) we aren't running a JAR.
+        File thisJar = UpdaterUtils.getCodeSource();
+        if ( UpdaterUtils.hasSuffix( thisJar, "jar" ) ) { // When running in IDEs (Eclipse, IDEA,...) we aren't running a JAR.
             thisJar.deleteOnExit(); // this doesn't work (but causes no problems) on Windows, can't delete an open file.
         }
     }
@@ -94,6 +140,20 @@ public class UpdaterBootstrap {
         }
     }
 
+    private String getCopyErrorMessage() {
+        Object[] args = { src.getAbsoluteFile(), dst.getAbsoluteFile() };
+        return MessageFormat.format( COPY_FAILED_MESSAGE, args );
+    }
+    
+    private String getLaunchErrorMessage() {
+        Object[] args = { src.getAbsoluteFile() };
+        return MessageFormat.format( LAUNCH_ERROR_MESSAGE, args );
+    }
+    
+    private static void showErrorDialog( String message ) {
+        JOptionPane.showMessageDialog( null, message, "Error", JOptionPane.ERROR_MESSAGE );
+    }
+    
     /*
      * This main is invoked by the Updater in UpdateButton or equivalent.
      * Arguments must be as in this example:
@@ -109,8 +169,7 @@ public class UpdaterBootstrap {
         }
         catch( IOException e ) {
             e.printStackTrace();
-            println( e.getMessage() );
-            //TODO: open an error dialog here?
+            println( UpdaterUtils.stackTraceToString( e ) );
             System.exit( 1 ); // indicate abnormal exit
         }
     }
