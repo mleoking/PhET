@@ -37,6 +37,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.help.DefaultWiggleMe;
@@ -1130,7 +1131,8 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
                     _configureDialog = null;
                 }
             } );
-            _configureDialog.show();
+            SwingUtils.centerDialogInParent( _configureDialog );
+            _configureDialog.setVisible( true );
         }
     }
 
@@ -1148,7 +1150,8 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
                     _superpositionStateDialog = null;
                 }
             } );
-            _superpositionStateDialog.show();
+            SwingUtils.centerDialogInParent( _superpositionStateDialog );
+            _superpositionStateDialog.setVisible( true );
         }
     }
 
