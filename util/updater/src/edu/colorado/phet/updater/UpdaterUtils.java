@@ -5,7 +5,13 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-public class FileUtils {
+/**
+ * A collection of utility methods.  
+ * Many of these were copied from phetcommon so that we don't have dependencies on phetcommon.
+ */
+public class UpdaterUtils {
+    
+    private UpdaterUtils() {}
 
     public static void copyTo( File source, File dest ) throws IOException {
         copyAndClose( new FileInputStream( source ), new FileOutputStream( dest ) );
@@ -19,9 +25,7 @@ public class FileUtils {
 
     private static void copy( InputStream source, OutputStream dest ) throws IOException {
         int bytesRead;
-
         byte[] buffer = new byte[1024];
-
         while ( ( bytesRead = source.read( buffer ) ) >= 0 ) {
             dest.write( buffer, 0, bytesRead );
         }
@@ -49,7 +53,7 @@ public class FileUtils {
      * Gets the JAR file that this class was launched from.
      */
     public static File getCodeSource() {
-        URL url = FileUtils.class.getProtectionDomain().getCodeSource().getLocation();
+        URL url = UpdaterUtils.class.getProtectionDomain().getCodeSource().getLocation();
         try {
             URI uri = new URI( url.toString() );
             return new File( uri.getPath() );
@@ -59,5 +63,20 @@ public class FileUtils {
             e.printStackTrace();
             throw new RuntimeException( e );
         }
+    }
+    
+    // copied from phetcommon StringUtil
+    /**
+     * Converts an exception's stack trace to a string.
+     * Useful for displaying strings in error dialogs.
+     * 
+     * @param e
+     * @return String
+     */
+    public static String stackTraceToString( Exception e ) {
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter( sw );
+        e.printStackTrace( pw );
+        return sw.toString();
     }
 }
