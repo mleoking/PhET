@@ -75,6 +75,7 @@ public class PreferencesDialog extends JDialog {
         buttonPanel.add( okButton );
         buttonPanel.add( cancelButton );
 
+        // layout
         JPanel panel = new JPanel();
         EasyGridBagLayout layout = new EasyGridBagLayout( panel );
         panel.setLayout( layout );
