@@ -1,3 +1,5 @@
+# 0.10.00 (26391) 11-20-2008
+Testing that deploy to prod also deploys to dev.
 # 0.09.00 (26381) 11-20-2008
 Testing deployment to tigercat.
 # 0.08.13 (26379) 11-20-2008
