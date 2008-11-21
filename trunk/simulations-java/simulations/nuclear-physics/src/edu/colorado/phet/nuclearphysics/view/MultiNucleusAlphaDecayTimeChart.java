@@ -476,7 +476,8 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         _yAxisLabel1.setOffset( _yAxisLabel2.getOffset().getX() - ( 1.1 * _yAxisLabel2.getFont().getSize() ),
         		yAxisLabelCenter + (_yAxisLabel1.getFullBounds().height / 2) );
         
-        // Position the labels for the quantities of the various nuclei.
+        // Update and position the labels for the quantities of the various nuclei.
+        updateNucleusGraphLabels();
         _numUndecayedNucleiLabel.setOffset( 
         		_yAxisLabel1.getFullBoundsReference().x - _dummyText.getFullBoundsReference().width * 1.1 - _numUndecayedNucleiLabel.getFullBoundsReference().width,
         		preDecayPosY - (_dummyText.getFullBoundsReference().height * 0.5));
@@ -484,6 +485,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         		_yAxisLabel1.getFullBoundsReference().x - _dummyText.getFullBoundsReference().width * 1.1 - _numDecayedNucleiLabel.getFullBoundsReference().width,
         		postDecayPosY - (_dummyText.getFullBoundsReference().height * 0.5));
 
+        // Update the numbers for the various nuclei.
         updateNucleiNumberText();
         
         // Position the label for the half life.
