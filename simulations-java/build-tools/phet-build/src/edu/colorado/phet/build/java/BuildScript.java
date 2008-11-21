@@ -11,7 +11,6 @@ import java.util.StringTokenizer;
 import javax.swing.*;
 
 import org.apache.tools.ant.taskdefs.Java;
-import org.apache.tools.ant.taskdefs.Jar;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 import org.rev6.scf.SshCommand;
@@ -52,7 +51,21 @@ public class BuildScript {
         return upToDate;
     }
 
+    static interface PreDeployTask {
+        boolean preDeploy();
+    }
+
+    static class NullTask implements PreDeployTask {
+        public boolean preDeploy() {
+            return true;
+        }
+    }
+
     public void deploy( PhetServer server, AuthenticationInfo authenticationInfo, VersionIncrement versionIncrement ) {
+        deploy( new NullTask(), server, authenticationInfo, versionIncrement );
+    }
+
+    public void deploy( PreDeployTask preDeployTask, PhetServer server, AuthenticationInfo authenticationInfo, VersionIncrement versionIncrement ) {
         clean();
 
         if ( !isSVNInSync() ) {
@@ -80,7 +93,13 @@ public class BuildScript {
 
         createHeader( svnNumber );
 
-        copyVersionFilesToDeploy();
+        copyVersionFilesToDeployDir();
+
+        boolean ok = preDeployTask.preDeploy();
+        if ( !ok ) {
+            System.out.println( "Pre deploy task failed" );
+            return;
+        }
         sendSSH( server, authenticationInfo );
         openBrowser( server.getURL( project ) );
 
@@ -104,7 +123,7 @@ public class BuildScript {
         project.prependChangesText( message );
     }
 
-    private void copyVersionFilesToDeploy() {
+    private void copyVersionFilesToDeployDir() {
         File versionFile = project.getVersionFile();
         try {
             File dest = new File( project.getDefaultDeployDir(), versionFile.getName() );
@@ -387,5 +406,19 @@ public class BuildScript {
             }
         }
         return output + "</ul>";
+    }
+
+    public void deployDev( AuthenticationInfo devAuth ) {
+        deploy( PhetServer.DEVELOPMENT, devAuth, new VersionIncrement.UpdateDev() );
+    }
+
+    public void deployProd( final AuthenticationInfo devAuth, AuthenticationInfo prodAuth ) {
+        deploy( new PreDeployTask() {
+            public boolean preDeploy() {
+                sendSSH( PhetServer.DEVELOPMENT, devAuth );
+                openBrowser( PhetServer.DEVELOPMENT.getURL( project ) );
+                return true;
+            }
+        }, PhetServer.PRODUCTION, prodAuth, new VersionIncrement.UpdateProd() );
     }
 }

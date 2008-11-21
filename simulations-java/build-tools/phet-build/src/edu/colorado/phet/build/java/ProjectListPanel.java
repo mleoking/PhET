@@ -89,14 +89,14 @@ public class ProjectListPanel extends JPanel {
         JButton deployDev = new JButton( "Deploy Dev" );
         deployDev.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getBuildScript().deploy( PhetServer.DEVELOPMENT, getDevelopmentAuthentication( "dev" ), new VersionIncrement.UpdateDev() );
+                getBuildScript().deployDev(getDevelopmentAuthentication( "dev" ));
             }
         } );
 
         JButton deployProd = new JButton( "Deploy Prod" );
         deployProd.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getBuildScript().deploy( PhetServer.PRODUCTION, getDevelopmentAuthentication( "prod" ), new VersionIncrement.UpdateProd() );
+                getBuildScript().deployProd(getDevelopmentAuthentication( "dev" ),getDevelopmentAuthentication( "prod" ));
             }
         } );
 
