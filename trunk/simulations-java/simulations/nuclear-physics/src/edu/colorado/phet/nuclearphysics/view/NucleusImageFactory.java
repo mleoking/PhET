@@ -10,10 +10,10 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * This singleton class generates a nucleus image from the constituent proton
- * and neutron node based on the size of the nucleus.  Since it would be too
+ * and neutron nodes based on the size of the nucleus.  Since it would be too
  * computationally intensive to do this every time a new nucleus is needed,
- * images are cached and returned after once several have been created for a
- * given atomic weight.
+ * images are cached and returned once several have been created for a given
+ * atomic weight.
  * 
  * This is being done instead of using static images for the following reasons:
  * 
@@ -31,7 +31,7 @@ public class NucleusImageFactory {
     // Class Data
     //------------------------------------------------------------------------
 
-    private static final int IMAGES_TO_CACHE = 4;
+    public static final int IMAGES_TO_CACHE = 4;
     private static final double DEEFAULT_PIXELS_PER_FM = 20;
 
     private static NucleusImageFactory _instance = null;
@@ -59,17 +59,17 @@ public class NucleusImageFactory {
         // was found to create pauses in the simulation.
         for ( int i = 0; i < IMAGES_TO_CACHE; i++ ) {
             // U235
-            generateNucleusImage( 92, 143, DEEFAULT_PIXELS_PER_FM );
+            getNucleusImage( 92, 143, DEEFAULT_PIXELS_PER_FM );
             // U236
-            generateNucleusImage( 92, 144, DEEFAULT_PIXELS_PER_FM );
+            getNucleusImage( 92, 144, DEEFAULT_PIXELS_PER_FM );
             // U238
-            generateNucleusImage( 92, 146, DEEFAULT_PIXELS_PER_FM );
+            getNucleusImage( 92, 146, DEEFAULT_PIXELS_PER_FM );
             // U239
-            generateNucleusImage( 92, 147, DEEFAULT_PIXELS_PER_FM );
+            getNucleusImage( 92, 147, DEEFAULT_PIXELS_PER_FM );
             // K92
-            generateNucleusImage( 36, 56, DEEFAULT_PIXELS_PER_FM );
+            getNucleusImage( 36, 56, DEEFAULT_PIXELS_PER_FM );
             // Br141
-            generateNucleusImage( 56, 85, DEEFAULT_PIXELS_PER_FM );
+            getNucleusImage( 56, 85, DEEFAULT_PIXELS_PER_FM );
         }
     }
 
@@ -97,7 +97,7 @@ public class NucleusImageFactory {
      * @param pixelsPerFm - The desired pixels per femtometer of the supplied image.
      * @return
      */
-    public PImage generateNucleusImage( int numProtons, int numNeutrons, double pixelsPerFm ) {
+    public PImage getNucleusImage( int numProtons, int numNeutrons, double pixelsPerFm ) {
 
         Image nucleusImage;
 
@@ -107,8 +107,36 @@ public class NucleusImageFactory {
         if ( nucleusImage != null ) {
             return new PImage( nucleusImage );
         }
+        else{
+        	return generateNucleusImage(numProtons, numNeutrons, pixelsPerFm);
+        }
+    }
+    
+    /**
+     * Generate images and cache them for the specified nucleus.  This is
+     * generally done to save time later if the images might be needed quickly
+     * at some point in the future.
+     * 
+     * @param numProtons - number of protons in the nucleus.
+     * @param numNeutrons - Number of neutrons in the nucleus.
+     * @param pixelsPerFm - Pixels per femtometer
+     */
+    public void preGenerateNucleusImages( int numProtons, int numNeutrons, double pixelsPerFm ){
+    	int numCachedImages = getNumCachedImages(numProtons + numNeutrons);
+    	if (numCachedImages < IMAGES_TO_CACHE){
+    		// The cache isn't full for this atomic weight, so fill it.
+    		for (int i = 0; i < IMAGES_TO_CACHE - numCachedImages; i++){
+    			generateNucleusImage(numProtons, numNeutrons, pixelsPerFm);
+    		}
+    	}
+    }
 
-        // Start creating a new image.
+    /**
+     * Generate a new nucleus image.
+     */
+    private PImage generateNucleusImage( int numProtons, int numNeutrons, double pixelsPerFm ){
+
+        Image nucleusImage;
         PNode nucleus = new PNode();
 
         // Decide on the proportion of free protons and neutrons versus those
@@ -217,7 +245,7 @@ public class NucleusImageFactory {
     private Image getCachedImage( int atomicWeight ) {
 
         if ( atomicWeight > MAX_ATOMIC_WEIGHT ) {
-            System.err.println( "Warning: Requested image larger than max atomic weight allowed." );
+            System.err.println( "Warning: Requested image has atomic weight that is too large." );
             return null;
         }
 
@@ -236,7 +264,30 @@ public class NucleusImageFactory {
         // We have the needed number of cached images, so return one.
         return (Image) imageList.get( _rand.nextInt( IMAGES_TO_CACHE ) );
     }
+    
+    /**
+     * Get a number representing the number of cached images for the specified
+     * atomic weight.
+     */
+    private int getNumCachedImages( int atomicWeight ){
 
+    	if ( atomicWeight > MAX_ATOMIC_WEIGHT ) {
+            return 0;
+        }
+
+        ArrayList imageList = imageMap[atomicWeight];
+
+        if ( imageList == null ) {
+            // No cached images exist for this atomic weight.
+            return 0;
+        }
+
+        return imageList.size();
+    }
+
+    /**
+     * Add a new image to the image cache.
+     */
     private void addCachedImage( int atomicWeight, Image newImage ) {
 
         if ( atomicWeight > MAX_ATOMIC_WEIGHT ) {

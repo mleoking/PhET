@@ -15,7 +15,7 @@ public class AtomicNucleusImageNode extends AtomicNucleusNode {
         super(atomicNucleus);
         
         // Create a graphical image that will represent this nucleus in the view.
-        _displayImage = NucleusImageFactory.getInstance().generateNucleusImage( atomicNucleus.getNumNeutrons(), 
+        _displayImage = NucleusImageFactory.getInstance().getNucleusImage( atomicNucleus.getNumNeutrons(), 
                 atomicNucleus.getNumProtons(), 25 );
         
         // Scale the image to the appropriate size.  Note that this is tweaked
@@ -34,7 +34,7 @@ public class AtomicNucleusImageNode extends AtomicNucleusNode {
         // Generate a new image for this node, since the weight has changed.
         removeChild( _displayImage );
 
-        _displayImage = NucleusImageFactory.getInstance().generateNucleusImage( atomicNucleus.getNumProtons(), 
+        _displayImage = NucleusImageFactory.getInstance().getNucleusImage( atomicNucleus.getNumProtons(), 
                 atomicNucleus.getNumNeutrons(), 20 );
         _displayImage.scale( (atomicNucleus.getDiameter()/1.2)/((_displayImage.getWidth() + _displayImage.getHeight()) / 2));
         addChild(0, _displayImage);

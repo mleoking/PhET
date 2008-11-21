@@ -21,6 +21,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeNucleus;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
@@ -28,12 +29,15 @@ import edu.colorado.phet.nuclearphysics.model.AlphaDecayControl;
 import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.singlenucleus.SingleNucleusAlphaDecayModel;
 import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
+import edu.colorado.phet.nuclearphysics.view.AtomicNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.view.AutoPressGradientButtonNode;
 import edu.colorado.phet.nuclearphysics.view.BucketOfNucleiNode;
 import edu.colorado.phet.nuclearphysics.view.GrabbableNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.view.MultiNucleusAlphaDecayTimeChart;
+import edu.colorado.phet.nuclearphysics.view.NucleusImageFactory;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -196,6 +200,12 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
             	handleNodeReleased(node);
             };
         };
+        
+        // Pre-generate the images for the custom nuclei, because otherwise
+        // the first time the user tries to switch to the custom nuclei it
+        // takes too long.
+        NucleusImageFactory.getInstance().preGenerateNucleusImages(AdjustableHalfLifeNucleus.ORIGINAL_NUM_PROTONS,
+        		AdjustableHalfLifeNucleus.ORIGINAL_NUM_NEUTRONS, 25 );
     }
     
     /**
