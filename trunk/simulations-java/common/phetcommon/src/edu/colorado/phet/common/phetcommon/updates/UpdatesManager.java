@@ -58,7 +58,7 @@ public class UpdatesManager {
                     //show UI in swing thread after new thread has found a new version
                     SwingUtilities.invokeLater( new Runnable() {
                         public void run() {
-                            new AutomaticUpdateDialog( frame, simInfo, trackingInfo, remoteVersion, updateTimer, versionSkipper ).setVisible( true );
+                            new AutomaticUpdateDialog( frame, simInfo, remoteVersion, updateTimer, versionSkipper ).setVisible( true );
                         }
                     } );
                 }

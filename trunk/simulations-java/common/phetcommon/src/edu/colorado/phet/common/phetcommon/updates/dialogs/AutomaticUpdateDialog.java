@@ -1,22 +1,18 @@
 package edu.colorado.phet.common.phetcommon.updates.dialogs;
 
-import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
-import edu.colorado.phet.common.phetcommon.preferences.*;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
-import edu.colorado.phet.common.phetcommon.updates.*;
+import edu.colorado.phet.common.phetcommon.updates.IUpdateTimer;
+import edu.colorado.phet.common.phetcommon.updates.IVersionSkipper;
 
 /**
  * The dialog that used to automatically notify the user that an update is available.
@@ -28,18 +24,11 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
     private static final String SKIP_UPDATE_BUTTON = PhetCommonResources.getString( "Common.updates.skipThisUpdate" );
     private static final String PREFEENCES_MESSAGE = PhetCommonResources.getString( "Common.updates.seePreferences" );
 
-    private final Frame owner;
-    private final ITrackingInfo trackingInfo;
-    private final IManualUpdateChecker manualUpdateChecker;
     private final IUpdateTimer updateTimer;
     private final IVersionSkipper versionSkipper;
     
-    public AutomaticUpdateDialog( Frame owner, ISimInfo simInfo, ITrackingInfo trackingInfo, PhetVersion newVersion, IUpdateTimer updateTimer, IVersionSkipper versionSkipper ) {
-        super( owner, TITLE, simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getName(), simInfo.getVersion(), newVersion,simInfo.getLocaleString() );
-        
-        this.owner = owner;
-        this.trackingInfo = trackingInfo;
-        this.manualUpdateChecker = new DefaultManualUpdateChecker( owner, simInfo );
+    public AutomaticUpdateDialog( Frame owner, ISimInfo simInfo, PhetVersion newVersion, IUpdateTimer updateTimer, IVersionSkipper versionSkipper ) {
+        super( owner, TITLE, simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getName(), simInfo.getVersion(), newVersion, simInfo.getLocaleString() );
         this.updateTimer = updateTimer;
         this.versionSkipper = versionSkipper;
     }
