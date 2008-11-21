@@ -31,6 +31,7 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayControl;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
+import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusAlphaDecayCanvas;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusAlphaDecayModel;
 import edu.colorado.phet.nuclearphysics.util.PhetButtonNode;
 import edu.umd.cs.piccolo.PNode;
@@ -100,6 +101,10 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     // Reference to the model containing the nuclei that are being plotted.
     MultiNucleusAlphaDecayModel _model;
     
+    // Reference to the canvas on which this chart resides.  Needed for
+    // certain interactions.
+    MultiNucleusAlphaDecayCanvas _canvas;
+    
     // Maps and lists for keeping track of nuclei and corresponding nodes.
     private HashMap _mapNucleiToNodes = new HashMap();
     private ArrayList _inactiveNuclei = new ArrayList();
@@ -157,10 +162,11 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     // Constructor
     //------------------------------------------------------------------------
 
-    public MultiNucleusAlphaDecayTimeChart( MultiNucleusAlphaDecayModel model ) {
+    public MultiNucleusAlphaDecayTimeChart( MultiNucleusAlphaDecayModel model, MultiNucleusAlphaDecayCanvas canvas ) {
 
         _clock = model.getClock();
         _model = model;
+        _canvas = canvas;
 
         // Register as a clock listener.
         _clock.addClockListener( new ClockAdapter() {
@@ -318,13 +324,18 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         _halfLifeHandleNode = new ResizeArrowNode(25, 0);
         addChild( _halfLifeHandleNode );
         _halfLifeHandleNode.addInputEventListener(new PBasicInputEventHandler(){
+        	boolean halfLifeChanged;
         	public void mousePressed(PInputEvent event) {
+        		halfLifeChanged = false;
         		// TODO: JPB TBD - This needs to be implemented, and should be similar to what I've commented out.
 //        		m_model.setParticleMotionPaused(true);
         	}
         	public void mouseReleased(PInputEvent event) {
         		// TODO: JPB TBD - This needs to be implemented, and should be similar to what I've commented out.
 //        		m_model.setParticleMotionPaused(false);
+        		if (halfLifeChanged){
+        			_canvas.autoPressResetNucleiButton();
+        		}
         	}
             public void mouseDragged(PInputEvent event) {
                 PNode draggedNode = event.getPickedNode();
@@ -332,6 +343,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
                 draggedNode.localToParent(d);
                 System.out.println(d.getWidth());
                 _model.setHalfLife(_model.getHalfLife() + (d.width / _msToPixelsFactor) / 1000);
+        		halfLifeChanged = true;
 //                double scaleFactor = MAX_INTER_ATOM_DISTANCE / getGraphWidth();
 //                m_model.setSigma( m_model.getSigma() + d.getWidth() * scaleFactor );
             }

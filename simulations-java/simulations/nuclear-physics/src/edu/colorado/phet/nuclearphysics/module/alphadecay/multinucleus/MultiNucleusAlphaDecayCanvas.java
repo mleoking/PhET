@@ -137,7 +137,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
         });
 
         // Add the chart that shows the decay time.
-        _decayTimeChart = new MultiNucleusAlphaDecayTimeChart(_model);
+        _decayTimeChart = new MultiNucleusAlphaDecayTimeChart(_model, this);
         addScreenChild( _decayTimeChart );
         
         // Create and add the node the represents the bucket from which nuclei
@@ -245,6 +245,14 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
         height = _bucketRect.getHeight() + (MIN_NUCLEUS_TO_OBSTACLE_DISTANCE * 3); // Add a little extra to account for
                                                                                    // the button below the bucket.
         _paddedBucketRect.setRect(x, y, width, height);
+	}
+	
+	/**
+	 * Auto-press the reset button, i.e. make it look like someone or some
+	 * THING pressed the button.
+	 */
+	public void autoPressResetNucleiButton(){
+		_resetButtonNode.autoPress();
 	}
 
 	private void handleModelElementAdded(Object modelElement) {
