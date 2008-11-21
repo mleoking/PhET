@@ -59,6 +59,8 @@ public class UpdateProgressDialog extends JDialog implements DownloaderListener 
         // status message
         statusLabel = new MaxCharsLabel( STATUS_MAX_CHARS, STATUS_END_CHARS );
         statusLabel.setFont( new PhetFont( 10 ) );
+        
+        //TODO: needs a Cancel button
 
         // size the progress bar to be about the same size as the longer of the message or the longest status message
         String s = "";
