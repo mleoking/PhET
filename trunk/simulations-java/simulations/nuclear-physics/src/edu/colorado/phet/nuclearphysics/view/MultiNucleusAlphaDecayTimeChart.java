@@ -327,12 +327,10 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         	boolean halfLifeChanged;
         	public void mousePressed(PInputEvent event) {
         		halfLifeChanged = false;
-        		// TODO: JPB TBD - This needs to be implemented, and should be similar to what I've commented out.
-//        		m_model.setParticleMotionPaused(true);
+        		_model.setPaused(true);
         	}
         	public void mouseReleased(PInputEvent event) {
-        		// TODO: JPB TBD - This needs to be implemented, and should be similar to what I've commented out.
-//        		m_model.setParticleMotionPaused(false);
+        		_model.setPaused(false);
         		if (halfLifeChanged){
         			_canvas.autoPressResetNucleiButton();
         		}

@@ -3,10 +3,8 @@
 package edu.colorado.phet.nuclearphysics.model;
 
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 
 /**
  * This class represents a non-composite nucleus that has an adjustable half
@@ -16,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
  *
  * @author John Blanco
  */
-public class AdjustableHalfLifeNucleus extends AtomicNucleus implements AlphaDecayControl {
+public class AdjustableHalfLifeNucleus extends AbstractAlphaDecayNucleus {
     
     //------------------------------------------------------------------------
     // Class Data
@@ -37,14 +35,6 @@ public class AdjustableHalfLifeNucleus extends AtomicNucleus implements AlphaDec
     // Instance Data
     //------------------------------------------------------------------------
 
-    private double _decayTime = 0;       // Time at which fission will occur.
-    private double _activatedLifetime = 0; // Amount of time that nucleus has been or was active prior to decay.
-    private double _halfLife = 0;        // Half life in ms, from which decay time is probabilistically calculated.
-    
-    //------------------------------------------------------------------------
-    // Constructor(s)
-    //------------------------------------------------------------------------
-    
     public AdjustableHalfLifeNucleus(NuclearPhysicsClock clock, Point2D position){
 
         super(clock, position, ORIGINAL_NUM_PROTONS, ORIGINAL_NUM_NEUTRONS);
@@ -59,27 +49,6 @@ public class AdjustableHalfLifeNucleus extends AtomicNucleus implements AlphaDec
     
     //------------------------------------------------------------------------
     // Accessor Methods
-    //------------------------------------------------------------------------
-    
-    public double getDecayTime(){
-        return _decayTime;
-    }
-    
-    public double getHalfLife(){
-        return _halfLife / 1000;
-    }
-    
-    /**
-     * Set the half life for this nucleus.
-     * 
-     * @param halfLife - Half life in seconds.
-     */
-    public void setHalfLife(double halfLife){
-        _halfLife = halfLife * 1000;
-    }
-    
-    //------------------------------------------------------------------------
-    // Other Public Methods
     //------------------------------------------------------------------------
     
     /**
@@ -106,6 +75,10 @@ public class AdjustableHalfLifeNucleus extends AtomicNucleus implements AlphaDec
         notifyPositionChanged();
     }
     
+    //------------------------------------------------------------------------
+    // Public Methods
+    //------------------------------------------------------------------------
+    
     /**
      * Activate the nucleus, meaning that it will now decay after some amount
      * of time.
@@ -116,26 +89,6 @@ public class AdjustableHalfLifeNucleus extends AtomicNucleus implements AlphaDec
     	if (_numNeutrons == ORIGINAL_NUM_NEUTRONS){
     		_decayTime = _clock.getSimulationTime() + calcDecayTime();
     	}
-    }
-    
-    /**
-     * Return true if decay is currently active and false if not.
-     */
-    public boolean isDecayActive(){
-    	if (_numNeutrons == ORIGINAL_NUM_NEUTRONS && _decayTime != 0){
-    		return true;
-    	}
-    	else{
-    		return false;
-    	}
-    }
-    
-    /**
-     * Returns a value indicating how long the nucleus has been active without
-     * having decayed.
-     */
-    public double getActivatedTime(){
-    	return _activatedLifetime;
     }
     
     /**
@@ -153,42 +106,6 @@ public class AdjustableHalfLifeNucleus extends AtomicNucleus implements AlphaDec
     //------------------------------------------------------------------------
     // Private and Protected Methods
     //------------------------------------------------------------------------
-    
-    /**
-     * This method lets this model element know that the clock has ticked.  In
-     * response we check if it is time to decay.
-     */
-    protected void handleClockTicked(ClockEvent clockEvent)
-    {
-        super.handleClockTicked( clockEvent );
-        
-        // See if this nucleus is active, i.e. moving towards decay.
-        if (_decayTime != 0){
-         
-        	// See if alpha decay should occur.
-	        if (clockEvent.getSimulationTime() >= _decayTime ) {
-	            // Cause alpha decay by generating an alpha particle and reducing our atomic weight.
-	            ArrayList byProducts = new ArrayList();
-	            byProducts.add( new AlphaParticle(_position.getX(), _position.getY()));
-	            _numNeutrons -= 2;
-	            _numProtons -= 2;
-	
-	            // Set the final value for the activation time.
-	            _activatedLifetime += clockEvent.getSimulationTimeChange();
-	            
-	            // Send out the decay event to all listeners.
-	            notifyAtomicWeightChanged(byProducts);
-	            
-	            // Set the decay time to 0 to indicate that decay has occurred and
-	            // should not occur again.
-	            _decayTime = 0;
-	        }
-	        else{
-	        	// Not decaying yet, so updated the activated lifetime.
-	        	_activatedLifetime += clockEvent.getSimulationTimeChange();
-	        }
-        }
-    }
     
     /**
      * This method generates a value indicating the number of milliseconds for
