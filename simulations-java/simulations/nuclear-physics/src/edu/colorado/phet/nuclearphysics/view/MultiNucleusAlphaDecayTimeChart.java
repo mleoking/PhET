@@ -345,8 +345,9 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         	public void mouseReleased(PInputEvent event) {
         		_model.setPaused(false);
         		if (halfLifeChanged){
-        			_model.resetActiveAndDecayedNuclei();
-        			_canvas.autoPressResetNucleiButton();
+        			if (_model.resetActiveAndDecayedNuclei() != 0){
+            			_canvas.autoPressResetNucleiButton();
+        			}
         		}
         	}
             public void mouseDragged(PInputEvent event) {
