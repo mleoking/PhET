@@ -1,5 +1,7 @@
 accessor
 accessors
+arg
+args
 Blanco
 boltzmann
 borehole
@@ -9,6 +11,10 @@ com
 Dano
 diatomic
 ditto
+download
+downloaded
+downloading
+downloads
 downvalley
 draggable
 editable
@@ -71,6 +77,8 @@ resettable
 sim
 sims
 snowfall
+spec
+specs
 subpanels
 timescale
 toolbox
