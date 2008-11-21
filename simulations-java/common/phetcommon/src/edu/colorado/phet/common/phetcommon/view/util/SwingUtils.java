@@ -143,6 +143,20 @@ public class SwingUtils {
             dialog.setBounds( dialogBounds );
         }
     }
+    
+    /**
+     * If the dialog has a parent, center the dialog on the parent.
+     * Otherwise center it on the screen.
+     * @param dialog
+     */
+    public static void centerDialog( JDialog dialog ) {
+        if ( dialog.getParent() == null ) {
+            centerWindowOnScreen( dialog );
+        }
+        else {
+            centerDialogInParent( dialog );
+        }
+    }
 
     // This method returns the selected radio button in a button group
     // Taken from The Java Developer's Almanac, 1.4
