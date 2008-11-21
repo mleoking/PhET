@@ -4,7 +4,6 @@ package edu.colorado.phet.nuclearphysics.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Stroke;
 import java.awt.event.ActionEvent;
@@ -20,9 +19,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -45,7 +41,6 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 
 /**
@@ -95,9 +90,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     private static final double TIME_ZERO_OFFSET = 100; // In milliseconds
     private static final int FALL_COUNT = 5; // Number of clock ticks for nucleus to fall from upper to lower line.
 
-    // Half life of the nucleus we are displaying.
-    private static final double HALF_LIFE = 516; // In milliseconds.
-    
     // Constants that control the way the nuclei look.
     private static final double NUCLEUS_SIZE_PROPORTION = 0.1;  // Fraction of the overall height of the chart.
 
@@ -161,10 +153,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     // Button for resetting this chart.
     PhetButtonNode _resetButtonNode;
     
-    // Slider for adjusting half life.
-    HalfLifeControlSlider _halfLifeSlider;
-    PSwing _halfLifeSliderNode;
-
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
@@ -201,7 +189,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
             };
             
             public void nucleusTypeChanged(){
-            	_halfLifeSlider.setNormalizedValue(_model.getHalfLife() * 1000 / TIME_SPAN);
             	update();
             };
             
@@ -223,19 +210,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         _borderNode.setStrokePaint( BORDER_COLOR );
         _borderNode.setPaint( NuclearPhysicsConstants.ALPHA_DECAY_CHART_COLOR );
         _nonPickableChartNode.addChild( _borderNode );
-
-        // Add the slider for controlling the half life of adjustable nuclei.
-        _halfLifeSlider = new HalfLifeControlSlider();
-        _halfLifeSlider.setOpaque( true ); // Mac slider is transparent by default
-        _halfLifeSlider.addChangeListener( new ChangeListener(){
-            public void stateChanged( ChangeEvent e ) {
-            	_model.setHalfLife(_halfLifeSlider.getNormalizedValue() * TIME_SPAN / 1000);
-            	if (!_halfLifeSlider.getValueIsAdjusting()){
-            	}
-            }
-        });
-        _halfLifeSliderNode = new PSwing(_halfLifeSlider);
-        addChild(_halfLifeSliderNode);
 
         // Create the x axis of the graph.  The initial position is arbitrary
         // and the actual positioning will be done by the update function(s).
@@ -465,31 +439,12 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         PText yAxisUpperTickMarkLabel = (PText) _yAxisTickMarkLabels.get( 1 );
         yAxisUpperTickMarkLabel.setOffset( _graphOriginX - ( 1.15 * yAxisUpperTickMarkLabel.getWidth() ), yAxisUpperTickMark.getY() - ( 0.5 * yAxisUpperTickMarkLabel.getHeight() ) );
 
-        // Position the slider for adjusting the half life.
-    	boolean showSlider = false;
-    	if (_model.getNucleusType() == MultiNucleusAlphaDecayModel.NUCLEUS_TYPE_CUSTOM){
-    		showSlider = true;
-    	}
-        _halfLifeSliderNode.setVisible( showSlider );
-        _halfLifeSlider.setPreferredSize(new Dimension((int)(TIME_SPAN * _msToPixelsFactor), 25));
-        _halfLifeSliderNode.setOffset(_graphOriginX + (TIME_ZERO_OFFSET * _msToPixelsFactor) - 7, 
-        		_graphOriginY + ((PNode)_xAxisTickMarkLabels.get(0)).getHeight()); // Note: There is a 'tweak factor'
-                                                                                   // in the X coordinate for lining
-                                                                                   // up the slider and the half life
-                                                                                   // line.
-        
         // Position the half life marker.
         positionHalfLifeMarker();
 
         // Position the labels for the axes.
-        if (showSlider){
-	        _xAxisLabel.setOffset( _usableAreaOriginX + _usableWidth - (_xAxisLabel.getWidth() * 1.2),
-	        		_halfLifeSliderNode.getFullBoundsReference().getMaxY() );
-        }
-        else{
-	        _xAxisLabel.setOffset( _usableAreaOriginX + _usableWidth - (_xAxisLabel.getWidth() * 1.2),
-	        		_halfLifeSliderNode.getFullBoundsReference().y );
-        }
+        _xAxisLabel.setOffset( _usableAreaOriginX + _usableWidth - (_xAxisLabel.getWidth() * 1.2), 
+        		((PNode)_xAxisTickMarkLabels.get(0)).getFullBoundsReference().getMaxY() );
         double yAxisLabelCenter = yAxisUpperTickMark.getY() 
                 + ((yAxisLowerTickMark.getY() - yAxisUpperTickMark.getY()) / 2);
         _yAxisLabel2.setOffset( yAxisUpperTickMarkLabel.getOffset().getX() - ( 2.0 * _yAxisLabel1.getFont().getSize() ),
@@ -508,14 +463,8 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         updateNucleiNumberText();
         
         // Position the label for the half life.
-        if (showSlider){
-	        _halfLifeLabel.setOffset( _halfLifeMarkerLine.getX() - (_halfLifeLabel.getFullBoundsReference().width / 2),
-	        		_halfLifeSliderNode.getFullBoundsReference().getMaxY() );
-        }
-        else{
-	        _halfLifeLabel.setOffset( _halfLifeMarkerLine.getX() - (_halfLifeLabel.getFullBoundsReference().width / 2),
-	        		_halfLifeSliderNode.getFullBoundsReference().y );
-        }
+        _halfLifeLabel.setOffset( _halfLifeMarkerLine.getX() - (_halfLifeLabel.getFullBoundsReference().width / 2),
+        		((PNode)_xAxisTickMarkLabels.get(0)).getFullBoundsReference().getMaxY() );
 
         // Position the reset button.
         _resetButtonNode.setOffset( _usableAreaOriginX + 10, 
