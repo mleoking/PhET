@@ -555,7 +555,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
             	createNodeForNucleus((AtomicNucleus)nucleus);
             	it.remove();
             	_postDecayNuclei.add(nucleus);
-            	_mapNucleiToFallCount.put(nucleus, new MyIntegerHolder(FALL_COUNT));
+            	_mapNucleiToFallCount.put(nucleus, new SimpleCounter(FALL_COUNT));
             	positionNucleusOnChart(nucleus);
             	updateNucleiNumberText();
             }
@@ -577,15 +577,13 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
             else if (_mapNucleiToFallCount.containsKey(nucleus)){
             	// This nucleus is in the process of visually falling to the
            	    // the lower line.
-            	MyIntegerHolder fallCounter = (MyIntegerHolder)_mapNucleiToFallCount.get(nucleus);
+            	SimpleCounter fallCounter = (SimpleCounter)_mapNucleiToFallCount.get(nucleus);
             	fallCounter.decrement();
+            	positionNucleusOnChart(nucleus);
             	if (fallCounter.getValue() == 0){
             		// The node representing this nucleus is done falling, so
             		// remove it from the map.
             		_mapNucleiToFallCount.remove(nucleus);
-            	}
-            	else{
-            		positionNucleusOnChart(nucleus);
             	}
             }
         }
@@ -786,7 +784,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     private void positionNucleusOnChart(AlphaDecayControl nucleus){
     	
     	PNode nucleusNode = (PNode)_mapNucleiToNodes.get(nucleus);
-    	double xAxisPos, yAxisPos;
+    	double xPos, yPos;
     	
     	if (nucleusNode == null){
     		// This nucleus does not have a node, probably because it has not
@@ -797,30 +795,30 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     	
     	if (!nucleus.hasDecayed()){
     		// The nucleus has not yet decayed, so position it on the upper line.
-        	yAxisPos = _usableAreaOriginY + ( _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION ) - _nucleusNodeRadius;
+        	yPos = _usableAreaOriginY + ( _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION ) - _nucleusNodeRadius;
     	}
     	else{
     		// The nucleus has decayed.  See if it is still falling.
-    		MyIntegerHolder fallCounter = (MyIntegerHolder)_mapNucleiToFallCount.get(nucleus);
+    		SimpleCounter fallCounter = (SimpleCounter)_mapNucleiToFallCount.get(nucleus);
     		if (fallCounter != null){
     			// The nucleus is falling.  Position it in the space between
     			// the upper and lower lines.
     			double interLineDistance = _usableHeight * 
     			        (POST_DECAY_TIME_LINE_POS_FRACTION - PRE_DECAY_TIME_LINE_POS_FRACTION);
-            	yAxisPos = _usableAreaOriginY + ( _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION ) 
+            	yPos = _usableAreaOriginY + ( _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION ) 
             	        + (interLineDistance * (1 - (double)fallCounter.getValue() / (double)FALL_COUNT))
             	        - _nucleusNodeRadius;
     		}
     		else{
-    			// The nucleus is not falling, so put it on the lower line.
-            	yAxisPos = _usableAreaOriginY + ( _usableHeight * POST_DECAY_TIME_LINE_POS_FRACTION ) 
+    			// The nucleus has completely fallen, so put it on the lower line.
+            	yPos = _usableAreaOriginY + ( _usableHeight * POST_DECAY_TIME_LINE_POS_FRACTION ) 
             	        - _nucleusNodeRadius;
     		}
     	}
     	
-    	xAxisPos = _graphOriginX + (nucleus.getActivatedTime() + TIME_ZERO_OFFSET) * _msToPixelsFactor 
+    	xPos = _graphOriginX + (nucleus.getActivatedTime() + TIME_ZERO_OFFSET) * _msToPixelsFactor 
     	        - _nucleusNodeRadius;
-    	nucleusNode.setOffset(xAxisPos, yAxisPos);
+    	nucleusNode.setOffset(xPos, yPos);
     }
 
     /**
@@ -841,11 +839,11 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     
     // TODO: JPB TBD - Talk with Sam and Chris about this.  It seems stupid, but
     // I'm not sure what else to do.
-    private class MyIntegerHolder {
+    private class SimpleCounter {
     	
     	int m_value;
     	
-    	public MyIntegerHolder(int initialValue) {
+    	public SimpleCounter(int initialValue) {
 			m_value = initialValue;
 		}
     	
