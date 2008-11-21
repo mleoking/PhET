@@ -1,3 +1,4 @@
+11-21-08: add SwingUtils.setPreferredWidth, setPreferredHeight
 11-21-08: add SwingUtils.centerDialog
 11-21-08: #926, add Downloader util class
 11-14-08: add StringUtil.stackTraceToString

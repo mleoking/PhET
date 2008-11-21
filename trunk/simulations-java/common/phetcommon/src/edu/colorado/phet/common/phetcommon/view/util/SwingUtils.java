@@ -149,8 +149,9 @@ public class SwingUtils {
      * Otherwise center it on the screen.
      * @param dialog
      */
-    public static void centerDialog( JDialog dialog ) {
-        if ( dialog.getParent() == null ) {
+    public static void centerDialog( JDialog dialog, Component owner ) {
+        // note: can't rely on dialog.getParent, it will always return non-null!
+        if ( owner == null ) {
             centerWindowOnScreen( dialog );
         }
         else {
@@ -362,5 +363,25 @@ public class SwingUtils {
                 }
             }
         }
+    }
+    
+    /**
+     * Sets a components preferred width, without changing its preferred height.
+     * 
+     * @param component
+     * @param width
+     */
+    public static void setPreferredWidth( Component component, int width ) {
+        component.setPreferredSize( new Dimension( width, (int) component.getPreferredSize().getHeight() ) );
+    }
+    
+    /**
+     * Sets a components preferred height, without changing its preferred width.
+     * 
+     * @param component
+     * @param height
+     */
+    public static void setPreferredHeight( Component component, int height ) {
+        component.setPreferredSize( new Dimension( (int) component.getPreferredSize().getWidth(), height ) );
     }
 }
