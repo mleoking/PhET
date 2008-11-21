@@ -18,7 +18,7 @@ import edu.colorado.phet.nuclearphysics.view.AtomicNucleusNode;
  *
  * @author John Blanco
  */
-public class Polonium211Nucleus extends AtomicNucleus implements AlphaDecayControl {
+public class Polonium211Nucleus extends AbstractAlphaDecayNucleus {
     
     //------------------------------------------------------------------------
     // Class Data
@@ -28,15 +28,15 @@ public class Polonium211Nucleus extends AtomicNucleus implements AlphaDecayContr
     public static final int ORIGINAL_NUM_PROTONS = 84;
     public static final int ORIGINAL_NUM_NEUTRONS = 127;
     
+    // Half life for Polonium 211.
+    public static double HALF_LIFE = 0.516; // In seconds.
+    
     // Random number generator used for calculating decay time based on decay constant.
     private static final Random RAND = new Random();
     
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
-
-    private double _decayTime = 0;         // Time at which fission will occur.
-    private double _activatedLifetime = 0; // Amount of time that nucleus has been or was active prior to decay.
 
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -56,12 +56,8 @@ public class Polonium211Nucleus extends AtomicNucleus implements AlphaDecayContr
     // Accessor Methods
     //------------------------------------------------------------------------
     
-    public double getDecayTime(){
-        return _decayTime;
-    }
-    
     public double getHalfLife(){
-    	return 0.516;  // Half life of polonium 211 in seconds.
+    	return HALF_LIFE;
     }
     
     //------------------------------------------------------------------------
@@ -102,26 +98,6 @@ public class Polonium211Nucleus extends AtomicNucleus implements AlphaDecayContr
     }
     
     /**
-     * Return true if decay is currently active and false if not.
-     */
-    public boolean isDecayActive(){
-    	if (_numNeutrons == ORIGINAL_NUM_NEUTRONS && _decayTime != 0){
-    		return true;
-    	}
-    	else{
-    		return false;
-    	}
-    }
-    
-    /**
-     * Returns a value indicating how long the nucleus has been active without
-     * having decayed.
-     */
-    public double getActivatedTime(){
-    	return _activatedLifetime;
-    }
-    
-    /**
      * Return a value indicating whether or not the nucleus has decayed.
      */
     public boolean hasDecayed(){
@@ -136,42 +112,7 @@ public class Polonium211Nucleus extends AtomicNucleus implements AlphaDecayContr
     //------------------------------------------------------------------------
     // Private and Protected Methods
     //------------------------------------------------------------------------
-    /**
-     * This method lets this model element know that the clock has ticked.  In
-     * response we check if it is time to decay.
-     */
-    protected void handleClockTicked(ClockEvent clockEvent)
-    {
-        super.handleClockTicked( clockEvent );
-        
-        // See if this nucleus is active, i.e. moving towards decay.
-        if (_decayTime != 0){
-         
-        	// See if alpha decay should occur.
-	        if (clockEvent.getSimulationTime() >= _decayTime ) {
-	            // Cause alpha decay by generating an alpha particle and reducing our atomic weight.
-	            ArrayList byProducts = new ArrayList();
-	            byProducts.add( new AlphaParticle(_position.getX(), _position.getY()));
-	            _numNeutrons -= 2;
-	            _numProtons -= 2;
-	
-	            // Send out the decay event to all listeners.
-	            notifyAtomicWeightChanged(byProducts);
-	            
-	            // Set the final value for the activation time.
-	            _activatedLifetime += clockEvent.getSimulationTimeChange();
-	            
-	            // Set the decay time to 0 to indicate that decay has occurred and
-	            // should not occur again.
-	            _decayTime = 0;
-	        }
-	        else{
-	        	// Not decaying yet, so updated the activated lifetime.
-	        	_activatedLifetime += clockEvent.getSimulationTimeChange();
-	        }
-        }
-    }
-    
+
     /**
      * This method generates a value indicating the number of milliseconds for
      * a Polonium 211 nucleus to decay.  This calculation is based on the 

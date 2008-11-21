@@ -37,6 +37,20 @@ public interface AlphaDecayControl {
 	public boolean hasDecayed();
 	
 	/**
+	 * Set or clear the paused state, which will prevent the nucleus from
+	 * getting any closer to decaying.
+	 * 
+	 * @param paused
+	 */
+	public void setPaused(boolean paused);
+	
+	/**
+	 * Get the setting of the paused state.
+	 * @return
+	 */
+	public boolean getPaused();
+	
+	/**
 	 * Obtain a value indicating the amount of time that has occurred since
 	 * this nucleus was activated.  If the nucleus has already decayed, the
 	 * value returned should equal the amount of simulation time that it took
