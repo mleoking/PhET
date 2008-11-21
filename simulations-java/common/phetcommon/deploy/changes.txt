@@ -1,3 +1,4 @@
+11-21-08: add UpdateProgressDialog
 11-21-08: add MaxCharsLabel, a specialized JLabel that displays a max number of chars
 11-21-08: add SwingUtils.setPreferredWidth, setPreferredHeight
 11-21-08: add SwingUtils.centerDialog
