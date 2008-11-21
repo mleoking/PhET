@@ -59,6 +59,9 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
 
     // Total amount of time in milliseconds represented by this chart.
     private static final double TIME_SPAN = 3200;
+    
+    // Minimum allowable half life.
+    private static final double MIN_HALF_LIFE = 10; // In milliseconds.
 
     // Constants for controlling the appearance of the chart.
     private static final Color  BORDER_COLOR = Color.DARK_GRAY;
@@ -135,6 +138,9 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     // Parent node that will be non-pickable and will contain all of the
     // non-interactive portions of the chart.
     private PComposite _nonPickableChartNode;
+    
+    // Parent node that will have interactive portions of graph.
+    private PNode _pickableChartNode;
 
     // Variables used for positioning nodes within the graph.
     double _usableAreaOriginX;
@@ -209,6 +215,13 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         _nonPickableChartNode.setPickable( false );
         _nonPickableChartNode.setChildrenPickable( false );
         addChild( _nonPickableChartNode );
+
+        // Set up the parent node that will contain the interactive portions
+        // of the chart.
+        _pickableChartNode = new PNode();
+        _pickableChartNode.setPickable( true );
+        _pickableChartNode.setChildrenPickable( true );
+        addChild( _pickableChartNode );
 
         // Create the border for this chart.
         _borderNode = new PPath();
@@ -322,7 +335,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         
         // Create the handle that will allow the user to control the half life.
         _halfLifeHandleNode = new ResizeArrowNode(25, 0);
-        addChild( _halfLifeHandleNode );
+        _pickableChartNode.addChild( _halfLifeHandleNode );
         _halfLifeHandleNode.addInputEventListener(new PBasicInputEventHandler(){
         	boolean halfLifeChanged;
         	public void mousePressed(PInputEvent event) {
@@ -339,11 +352,11 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
                 PNode draggedNode = event.getPickedNode();
                 PDimension d = event.getDeltaRelativeTo(draggedNode);
                 draggedNode.localToParent(d);
-                System.out.println(d.getWidth());
-                _model.setHalfLife(_model.getHalfLife() + (d.width / _msToPixelsFactor) / 1000);
-        		halfLifeChanged = true;
-//                double scaleFactor = MAX_INTER_ATOM_DISTANCE / getGraphWidth();
-//                m_model.setSigma( m_model.getSigma() + d.getWidth() * scaleFactor );
+                double newHalfLife = _model.getHalfLife() + (d.width / _msToPixelsFactor) / 1000;
+                if (newHalfLife >= (MIN_HALF_LIFE / 1000) && newHalfLife <= ((TIME_SPAN * 0.95) / 1000)){
+	                _model.setHalfLife(newHalfLife);
+	        		halfLifeChanged = true;
+                }
             }
         });
 
@@ -357,7 +370,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         // Add the button for resetting the chart.
         _resetButtonNode = new PhetButtonNode( NuclearPhysicsStrings.DECAY_TIME_CLEAR_CHART );
         _resetButtonNode.setPickable( true );
-        addChild( _resetButtonNode );
+        _pickableChartNode.addChild( _resetButtonNode );
 
         // Register to receive button pushes.
         _resetButtonNode.addActionListener( new ActionListener() {
@@ -629,7 +642,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     	
     	// Add the node to the chart.
     	nucleusNode.setScale((_nucleusNodeRadius * 2) / nucleusNode.getFullBoundsReference().height);
-    	addChild(nucleusNode);
+    	_nonPickableChartNode.addChild(nucleusNode);
     	
     	// Position the nucleus on the chart.
     	if (nucleus instanceof AlphaDecayControl){
@@ -707,7 +720,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     		return;
     	}
     	
-    	removeChild(nucleusNode);
+    	_nonPickableChartNode.removeChild(nucleusNode);
     	_mapNucleiToNodes.put(nucleus, null);
     }
 
