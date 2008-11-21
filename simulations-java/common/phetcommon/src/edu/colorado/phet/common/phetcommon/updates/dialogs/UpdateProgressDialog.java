@@ -107,8 +107,8 @@ public class UpdateProgressDialog extends JDialog implements DownloaderListener 
     //----------------------------------------------------------------------------
 
     public static void main( String[] args ) {
-        //TODO: this test is incomplete, needs to include instance of Downloader
-        UpdateProgressDialog dialog = new UpdateProgressDialog( null, "updating a couple of PhET sims" );
+        //TODO: this test is incomplete, needs to include instance of Downloader and proper threading
+        UpdateProgressDialog dialog = new UpdateProgressDialog( null, "updating \"Glaciers\" 4.00" );
         dialog.addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
                 System.exit( 0 );
