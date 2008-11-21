@@ -211,6 +211,19 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
     		_atomicNuclei[i].setPaused(paused);
     	}
     }
+    
+    /**
+     * Reset all nuclei that are either active (meaning that they could decay
+     * at any time) or decayed.
+     */
+    public void resetActiveAndDecayedNuclei(){
+    	for (int i = 0; i < _atomicNuclei.length; i++){
+    		if (_atomicNuclei[i].isDecayActive() || _atomicNuclei[i].hasDecayed()){
+    			_atomicNuclei[i].reset();
+    			_atomicNuclei[i].activateDecay();
+    		}
+    	}
+    }
 
     //------------------------------------------------------------------------
     // Private Methods
