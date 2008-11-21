@@ -488,10 +488,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         // Update the numbers for the various nuclei.
         updateNucleiNumberText();
         
-        // Position the label for the half life.
-        _halfLifeLabel.setOffset( _halfLifeMarkerLine.getX() - (_halfLifeLabel.getFullBoundsReference().width / 2),
-        		((PNode)_xAxisTickMarkLabels.get(0)).getFullBoundsReference().getMaxY() );
-
         // Position the reset button.
         _resetButtonNode.setOffset( _usableAreaOriginX + 10, 
         		_usableAreaOriginY + _usableHeight - _resetButtonNode.getFullBoundsReference().height - 5);
@@ -774,6 +770,16 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         }
         else{
         	_halfLifeHandleNode.setVisible(false);
+        }
+        
+        // Position the textual label for the half life.
+        _halfLifeLabel.setOffset( _halfLifeMarkerLine.getX() - (_halfLifeLabel.getFullBoundsReference().width / 2),
+        		((PNode)_xAxisTickMarkLabels.get(0)).getFullBoundsReference().getMaxY() );
+        if (_xAxisLabel.getFullBoundsReference().intersects(_halfLifeLabel.getFullBoundsReference())){
+        	_xAxisLabel.setVisible(false);
+        }
+        else{
+        	_xAxisLabel.setVisible(true);
         }
     }
     
