@@ -85,12 +85,12 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
 
     // Constants that control the location of the origin.
     private static final double X_ORIGIN_PROPORTION = 0.20;
-    private static final double Y_ORIGIN_PROPORTION = 0.50;
+    private static final double Y_ORIGIN_PROPORTION = 0.65;
 
     // Tweakable values that can be used to adjust where the nuclei appear on
     // the chart.
-    private static final double PRE_DECAY_TIME_LINE_POS_FRACTION = 0.15;
-    private static final double POST_DECAY_TIME_LINE_POS_FRACTION = 0.40;
+    private static final double PRE_DECAY_TIME_LINE_POS_FRACTION = 0.20;
+    private static final double POST_DECAY_TIME_LINE_POS_FRACTION = 0.50;
     private static final double TIME_ZERO_OFFSET = 100; // In milliseconds
     private static final int FALL_COUNT = 5; // Number of clock ticks for nucleus to fall from upper to lower line.
 
@@ -363,7 +363,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
 
 
         // Create the label for the half life line.
-        _halfLifeLabel = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_HALF_LIFE);
+        _halfLifeLabel = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_HALF_LIFE );
         _halfLifeLabel.setFont( HALF_LIFE_FONT );
         _halfLifeLabel.setTextPaint( HALF_LIFE_TEXT_COLOR );
         _nonPickableChartNode.addChild( _halfLifeLabel );
