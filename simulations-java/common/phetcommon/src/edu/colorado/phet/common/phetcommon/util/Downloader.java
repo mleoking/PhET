@@ -231,7 +231,7 @@ public class Downloader {
     /**
      * Interface implemented by all listeners who are interested in download progress.
      */
-    public interface DownloadListener {
+    public interface DownloaderListener {
         
         /**
          * Indicates the progress made on satisfying a specific download request.
@@ -266,7 +266,7 @@ public class Downloader {
     /*
      * Adapter, provides a no-op implementation.
      */
-    public static class DownloadAdapter implements DownloadListener {
+    public static class DownloaderAdapter implements DownloaderListener {
         public void progress( String sourceURL, File destinationFile, double percentOfSource, double percentOfTotal ) {}
         public void completed( String sourceURL, File destinationFile ) {}
         public void error( String sourceURL, File destinationFile, String message, Exception e ) {}
@@ -275,7 +275,7 @@ public class Downloader {
     /*
      * Debug implementation, prints method calls and args to System.out.
      */
-    public static class DebugDownloadListener implements DownloadListener {
+    public static class DebugDownloaderListener implements DownloaderListener {
         public void progress( String sourceURL, File destinationFile, double percentOfSource, double percentOfTotal ) {
             System.out.println( "DebugDownloadListener.process sourceURL=" + sourceURL + " destinationFile=" + destinationFile.getAbsolutePath() + 
                     " percentOfSource=" + percentOfSource + " percentOfTotal=" + percentOfTotal );
@@ -289,32 +289,32 @@ public class Downloader {
         }
     }
     
-    public void addDownloadListener( DownloadListener listener ) {
+    public void addDownloadListener( DownloaderListener listener ) {
         listeners.add( listener );
     }
     
-    public void removeDownloadListener( DownloadListener listener ) {
+    public void removeDownloadListener( DownloaderListener listener ) {
         listeners.remove( listener );
     }
     
     private void notifyProgress( String sourceURL, File destinationFile,  double percentOfSource, double percentOfTotal ) {
         Iterator i = listeners.iterator();
         while ( i.hasNext() ) {
-            ( (DownloadListener) i.next() ).progress( sourceURL, destinationFile, percentOfSource, percentOfTotal );
+            ( (DownloaderListener) i.next() ).progress( sourceURL, destinationFile, percentOfSource, percentOfTotal );
         }
     }
     
     private void notifyCompleted( String sourceURL, File destinationFile ) {
         Iterator i = listeners.iterator();
         while ( i.hasNext() ) {
-            ( (DownloadListener) i.next() ).completed( sourceURL, destinationFile );
+            ( (DownloaderListener) i.next() ).completed( sourceURL, destinationFile );
         }
     }
     
     private void notifyError( String sourceURL, File destinationFile, String message, Exception e ) {
         Iterator i = listeners.iterator();
         while ( i.hasNext() ) {
-            ( (DownloadListener) i.next() ).error( sourceURL, destinationFile, message, e );
+            ( (DownloaderListener) i.next() ).error( sourceURL, destinationFile, message, e );
         }
     }
     
@@ -328,7 +328,7 @@ public class Downloader {
         try {
             downloader.add( HTMLUtils.getSimJarURL( "glaciers", "glaciers", "&", "en" ), tmpDirName + "glaciers.jar" );
             downloader.add( HTMLUtils.getSimJarURL( "ph-scale", "ph-scale", "&", "en" ), tmpDirName + "ph-scale.jar" );
-            downloader.addDownloadListener( new DebugDownloadListener() );
+            downloader.addDownloadListener( new DebugDownloaderListener() );
             System.out.println( "total content length = " + downloader.getTotalContentLength() );
             downloader.download();
             System.out.print( "downloaded content length = " + downloader.getDownloadedContentLength() );
