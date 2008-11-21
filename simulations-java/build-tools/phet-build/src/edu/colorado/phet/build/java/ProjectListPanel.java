@@ -89,14 +89,20 @@ public class ProjectListPanel extends JPanel {
         JButton deployDev = new JButton( "Deploy Dev" );
         deployDev.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getBuildScript().deployDev(getDevelopmentAuthentication( "dev" ));
+                getBuildScript().deployDev( getDevelopmentAuthentication( "dev" ) );
             }
         } );
 
-        JButton deployProd = new JButton( "Deploy Prod" );
+        final JButton deployProd = new JButton( "Deploy Prod" );
         deployProd.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getBuildScript().deployProd(getDevelopmentAuthentication( "dev" ),getDevelopmentAuthentication( "prod" ));
+                int option = JOptionPane.showConfirmDialog( deployProd, "Are you sure you are ready to deploy " + getSelectedProject().getName() + " to " + PhetServer.PRODUCTION.getHost() + "?" );
+                if ( option == JOptionPane.YES_OPTION ) {
+                    getBuildScript().deployProd( getDevelopmentAuthentication( "dev" ), getDevelopmentAuthentication( "prod" ) );
+                }
+                else {
+                    System.out.println( "Cancelled" );
+                }
             }
         } );
 
@@ -119,7 +125,7 @@ public class ProjectListPanel extends JPanel {
         JButton createHeader = new JButton( "Create Header" );
         createHeader.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getBuildScript().createHeader(-1);
+                getBuildScript().createHeader( -1 );
             }
         } );
 
