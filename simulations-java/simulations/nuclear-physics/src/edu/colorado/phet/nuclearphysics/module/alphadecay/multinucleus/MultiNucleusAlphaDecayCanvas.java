@@ -33,6 +33,7 @@ import edu.colorado.phet.nuclearphysics.view.AutoPressGradientButtonNode;
 import edu.colorado.phet.nuclearphysics.view.BucketOfNucleiNode;
 import edu.colorado.phet.nuclearphysics.view.GrabbableNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.view.MultiNucleusAlphaDecayTimeChart;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -85,6 +86,8 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     private GrabbableNucleusImageNode.Listener _grabbableNodeListener;
     private Random _rand = new Random();
     private AtomicNucleus.Listener _listenerAdapter;
+    private PNode _nucleiLayer;
+    private PNode _chartLayer;
     
     // The following rectangles are used to define the locations where
     // randomly placed nuclei can and cannot be put.
@@ -125,9 +128,15 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
             };
         });
         
+        // Add the nodes that will be used to control what is drawn over whom.
+        _nucleiLayer = new PNode();
+        addWorldChild(_nucleiLayer);
+        _chartLayer = new PNode();
+        addScreenChild(_chartLayer);
+        
         // Add the button for resetting the nuclei to the canvas.
         _resetButtonNode = new AutoPressGradientButtonNode(NuclearPhysicsStrings.RESET_ALL_NUCLEI, 22, CANVAS_BUTTON_COLOR);
-        addScreenChild(_resetButtonNode);
+        _chartLayer.addChild(_resetButtonNode);
         
         // Register to receive button pushes.
         _resetButtonNode.addActionListener( new ActionListener(){
@@ -138,13 +147,13 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
 
         // Add the chart that shows the decay time.
         _decayTimeChart = new MultiNucleusAlphaDecayTimeChart(_model, this);
-        addScreenChild( _decayTimeChart );
+        _chartLayer.addChild( _decayTimeChart );
         
         // Create and add the node the represents the bucket from which nuclei
         // can be extracted and added to the play area.
         _bucketRect = _model.getBucketRectRef();
         _bucketNode = new BucketOfNucleiNode( _bucketRect.getWidth(), _bucketRect.getHeight() );
-        addWorldChild(_bucketNode);
+        _nucleiLayer.addChild(_bucketNode);
         _bucketNode.setOffset( _bucketRect.getX(), _bucketRect.getY() );
         
         // Add the button that allows the user to add multiple nuclei at once.
@@ -155,7 +164,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
         _addTenButtonNode.scale(addTenButtonScale);
         _addTenButtonNode.setOffset(_bucketRect.getCenterX() - _addTenButtonNode.getFullBoundsReference().width / 2, 
         		_bucketRect.getMaxY());
-        addWorldChild(_addTenButtonNode);
+        _nucleiLayer.addChild(_addTenButtonNode);
 
         // Register to receive button pushes.
         _addTenButtonNode.addActionListener( new ActionListener(){
@@ -282,7 +291,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     		// An alpha particle has been added to the model, probably as a
     		// result of a decay event.  Add a node for it.
     		AlphaParticleModelNode alphaParticleNode = new AlphaParticleModelNode((AlphaParticle)modelElement);
-    		addWorldChild(alphaParticleNode);
+    		_nucleiLayer.addChild(alphaParticleNode);
     		
     		// Map this alpha particle to its node.
     		_mapAlphaParticlesToNodes.put(modelElement, alphaParticleNode);
@@ -392,7 +401,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
 				position.getY() + _bucketRect.getY());
 		
 		// Add this nucleus node as a child.
-		addWorldChild(node);
+		_nucleiLayer.addChild(node);
 	}
 
     /**
