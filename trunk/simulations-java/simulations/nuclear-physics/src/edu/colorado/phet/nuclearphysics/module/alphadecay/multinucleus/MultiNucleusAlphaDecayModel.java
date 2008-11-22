@@ -2,8 +2,11 @@
 
 package edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus;
 
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -33,6 +36,7 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
 	
 	private static final int MAX_NUCLEI = 99;  // Maximum number of nuclei that model will simulate.
 	private static final int DEFAULT_NUCLEUS_TYPE = AlphaDecayNucleusTypeControl.NUCLEUS_TYPE_POLONIUM;
+	private static final double MAX_JITTER_LENGTH = 1; // In femtometers.
 	
 	// Size and position of the bucket of nuclei which the user uses to add
 	// nuclei to the simulation.
@@ -53,6 +57,8 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
     private ArrayList _alphaParticles = new ArrayList();
     private int _nucleusType;
     private AtomicNucleus.Adapter _nucleusListener;
+    private final Random _rand = new Random();
+    private Point2D [] _jitterOffsets;
     
     //------------------------------------------------------------------------
     // Constructor
@@ -62,6 +68,7 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
     {
         _clock = clock;
         _atomicNuclei = new AbstractAlphaDecayNucleus[MAX_NUCLEI];
+        _jitterOffsets = new Point2D[MAX_NUCLEI];
         _nucleusType = NUCLEUS_TYPE_POLONIUM;
 
         // Register as a listener to the clock.
@@ -241,7 +248,27 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
     		// TODO: JPB TBD - Remove from the model any alphas that are far enough out to be off the canvas.
     	}
     	
-    	// TODO: JPB TBD - Will eventually implement a vibration of the nodes here (I think).
+    	// Cause the active nuclei to "jitter"
+    	for (int i = 0; i < _atomicNuclei.length; i++){
+    		if (_atomicNuclei[i].isDecayActive() && !_atomicNuclei[i].isPaused()){
+    			// This nucleus is active, so it should be jittered.
+    			Point2D jitterOffset = _jitterOffsets[i];
+    			Point2D currentLocation = _atomicNuclei[i].getPositionReference();
+    			if (jitterOffset.getX() == 0 && jitterOffset.getY() == 0){
+    				// Move this nucleus away from its center location.
+    				generateJitterOffset( jitterOffset );
+    				_atomicNuclei[i].setPosition( currentLocation.getX() + jitterOffset.getX(),
+    						currentLocation.getY() + jitterOffset.getY());
+    			}
+    			else{
+    				// Move back to original location.
+    				_atomicNuclei[i].setPosition( currentLocation.getX() - jitterOffset.getX(),
+    						currentLocation.getY() - jitterOffset.getY());
+    				_jitterOffsets[i].setLocation(0, 0);
+    			}
+    		}
+    		
+    	}
     }
     
 	private void reset() {
@@ -300,6 +327,7 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
 			_atomicNuclei[i] = newNucleus;
 			newNucleus.setPosition(inBucketPosX, inBucketPosY);
 			notifyModelElementAdded(newNucleus);
+			_jitterOffsets[i] = new Point2D.Double();
 	        
 			// Register as a listener for the nucleus so we can handle the
 	        // particles thrown off by alpha decay.
@@ -347,5 +375,20 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
         for (int i = 0; i < _listeners.size(); i++){
             ((AlphaDecayModelListener)_listeners.get(i)).halfLifeChanged();
         }
+    }
+    
+    /**
+     * Generate a random 2-dimensional offset for use in "jittering" a point
+     * according to a Guassian distribution and a predefined length.
+     * 
+     * @param point
+     */
+    private void generateJitterOffset(Point2D point){
+    	double length = _rand.nextGaussian() * (MAX_JITTER_LENGTH / 2);
+    	if (length > MAX_JITTER_LENGTH){
+    		length = MAX_JITTER_LENGTH;
+    	}
+    	double angle = _rand.nextDouble() * Math.PI * 2;
+    	point.setLocation(Math.cos(angle) * length, Math.sin(angle) * length);
     }
 }
