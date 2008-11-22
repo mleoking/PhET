@@ -48,7 +48,7 @@ public interface AlphaDecayControl {
 	 * Get the setting of the paused state.
 	 * @return
 	 */
-	public boolean getPaused();
+	public boolean isPaused();
 	
 	/**
 	 * Obtain a value indicating the amount of time that has occurred since

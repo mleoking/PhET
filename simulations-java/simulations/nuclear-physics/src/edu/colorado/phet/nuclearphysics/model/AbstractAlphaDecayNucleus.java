@@ -42,7 +42,7 @@ public abstract class AbstractAlphaDecayNucleus extends AtomicNucleus implements
 	    _halfLife = halfLife * 1000;
 	}
 
-	public boolean getPaused() {
+	public boolean isPaused() {
 		return _paused;
 	}
 

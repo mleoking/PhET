@@ -43,11 +43,9 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-
 /**
  * This class displays a "strip chart" of the decay time for multiple nuclei,
- * and also allows the user to adjust the half life when it is possible to do
- * so.
+ * and also allows the user to adjust the half life for some types of nuclei.
  *
  * @author John Blanco
  */
