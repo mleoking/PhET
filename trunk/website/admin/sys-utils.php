@@ -486,4 +486,28 @@
         return $return;
     }
 
+    /**
+     * Create a temporary directory and return the path
+     * Has the form: <root_dir>/<base_name>_<rand>_<timestamp>
+     *
+     * @param string $base_name base name of the directory
+     * @return string to directory, or false if failure
+     */
+    function create_temp_dir($base_name = 'phet_') {
+        $num_tries = 10;
+        for ($i = 0; $i < $num_tries; ++$i) {
+            $temp_dir_name = sys_get_temp_dir()."{$base_name}_".rand().'_'.time().'/';
+            $dir_made = mkdir($temp_dir_name);
+            if ($dir_made) {
+                break;
+            }
+        }
+
+        if ($dir_made === false) {
+            return false;
+        }
+        else {
+            return $temp_dir_name;
+        }
+    }
 ?>
