@@ -31,7 +31,12 @@ public class ManualUpdateDialog extends AbstractUpdateDialog {
     protected JPanel createButtonPanel( final String project, final String sim, final String simName, final PhetVersion currentVersion, final PhetVersion newVersion,String locale ) {
         
         // update button
-        JButton updateButton = new UpdateButton( project, sim,locale );
+        JButton updateButton = new UpdateButton( project, sim, locale, simName, newVersion );
+        updateButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                dispose();
+            }
+        } );
         
         // cancel button
         JButton cancelButton = new JButton( CANCEL_BUTTON );
