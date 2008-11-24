@@ -273,7 +273,9 @@ public class DownloadThread extends Thread {
             outputStream.close();
             
             // notify that we're done with this download
-            notifyCompleted( spec.sourceURL, spec.destinationFile );
+            if ( !canceled ) {
+                notifyCompleted( spec.sourceURL, spec.destinationFile );
+            }
         }
         catch( IOException e ) {
             e.printStackTrace();
