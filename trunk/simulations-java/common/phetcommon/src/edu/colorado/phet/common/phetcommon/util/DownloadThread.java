@@ -24,15 +24,17 @@ public class DownloadThread extends Thread {
     //----------------------------------------------------------------------------
     
     /*
-     * Encapsulates the info about one download.
+     * Encapsulates the info about one download request.
      */
-    private static class DownloadSpec {
+    private static class DownloadRequest {
         
+        private final String requestName;
         private final String sourceURL;
         private final File destinationFile;
         private final int expectedContentLength; // actual content length may differ
         
-        public DownloadSpec( String sourceURL, File destinationFile, int expectedContentLength ) {
+        public DownloadRequest( String requestName, String sourceURL, File destinationFile, int expectedContentLength ) {
+            this.requestName = requestName;
             this.sourceURL = sourceURL;
             this.destinationFile = destinationFile;
             this.expectedContentLength = expectedContentLength;
@@ -43,7 +45,7 @@ public class DownloadThread extends Thread {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final ArrayList downloadSpecs; // array of DownloadSpec
+    private final ArrayList requests; // array of DownloadRequest
     private final ArrayList listeners; // array of DownloadListener
     
     private int totalContentLength; // bytes
@@ -55,7 +57,7 @@ public class DownloadThread extends Thread {
     //----------------------------------------------------------------------------
     
     public DownloadThread() {
-        downloadSpecs = new ArrayList();
+        requests = new ArrayList();
         listeners = new ArrayList();
         totalContentLength = 0;
         downloadedContentLength = 0;
@@ -65,24 +67,26 @@ public class DownloadThread extends Thread {
     /**
      * Constructor that adds one download request.
      * 
+     * @param requestName
      * @param sourceURL
      * @param destinationFileName
      * @throws IOException
      */
-    public DownloadThread( String sourceURL, String destinationFileName ) throws IOException {
-        this( sourceURL, new File( destinationFileName) );
+    public DownloadThread( String requestName, String sourceURL, String destinationFileName ) throws IOException {
+        this( requestName, sourceURL, new File( destinationFileName) );
     }
     
     /**
      * Constructor that adds one download request.
      * 
+     * @param requestName
      * @param sourceURL
      * @param destinationFileName
      * @throws IOException
      */
-    public DownloadThread( String sourceURL, File destinationFile ) throws IOException {
+    public DownloadThread( String requestName, String sourceURL, File destinationFile ) throws IOException {
         this();
-        addDownload( sourceURL, destinationFile );
+        addRequest( requestName, sourceURL, destinationFile );
     }
    
     //----------------------------------------------------------------------------
@@ -134,16 +138,17 @@ public class DownloadThread extends Thread {
      * Adds a download request. 
      * No downloads are performed until start is called.
      * 
+     * @param requestName
      * @param sourceURL
      * @param destinationFileName
      * @throws IOException
      * @throws IllegalStateException
      */
-    public void addRequest( String sourceURL, String destinationFileName ) throws IOException {
-        addDownload( sourceURL, new File( destinationFileName ) );
+    public void addRequest( String requestName, String sourceURL, String destinationFileName ) throws IOException {
+        addRequest( requestName, sourceURL, new File( destinationFileName ) );
     }
 
-    public void addDownload( String sourceURL, File destinationFile ) throws IOException {
+    public void addRequest( String requestName, String sourceURL, File destinationFile ) throws IOException {
         
         if ( isAlive() ) {
             throw new IllegalStateException( "cannot add downloads while thread is alive" );
@@ -167,16 +172,18 @@ public class DownloadThread extends Thread {
         totalContentLength += expectedContentLength;
         
         // create the download spec
-        DownloadSpec spec = new DownloadSpec( sourceURL, destinationFile, expectedContentLength );
-        downloadSpecs.add( spec );
+        DownloadRequest request = new DownloadRequest( requestName, sourceURL, destinationFile, expectedContentLength );
+        requests.add( request );
         
-        notifyRequestAdded( sourceURL, destinationFile );
+        notifyRequestAdded( request );
     }
     
     
     /**
      * Cancels a batch download if one is in progress.
-     * If no download is in progress, does nothing.
+     * If no download is in progress, this does nothing.
+     * It is the client's responsibility to remove any files 
+     * that many have been downloaded prior to canceling.
      */
     public void cancel() {
         canceled = true;
@@ -189,7 +196,7 @@ public class DownloadThread extends Thread {
         if ( isAlive() ) {
             throw new IllegalStateException( "cannot clear the batch while thread is alive" );
         }
-        downloadSpecs.clear();
+        requests.clear();
         totalContentLength = 0;
     }
     
@@ -209,11 +216,11 @@ public class DownloadThread extends Thread {
         canceled = false;
         
         // perform the downloads
-        ArrayList copySpecs = new ArrayList( downloadSpecs ); // use a copy to avoid ConcurrentModificationException
-        Iterator i = copySpecs.iterator();
+        ArrayList requestsCopy = new ArrayList( requests ); // use a copy to avoid ConcurrentModificationException
+        Iterator i = requestsCopy.iterator();
         while ( i.hasNext() && !canceled) {
             try {
-                download( (DownloadSpec) i.next() );
+                download( (DownloadRequest) i.next() );
             }
             catch ( IOException e ) {
                 notifyFailed();
@@ -232,19 +239,19 @@ public class DownloadThread extends Thread {
     /*
      * Performs one download request.
      */
-    private void download( DownloadSpec spec ) throws IOException {
+    private void download( DownloadRequest request ) throws IOException {
         
         try {
             // create the output file
-            spec.destinationFile.getParentFile().mkdirs();
-            OutputStream outputStream = new BufferedOutputStream( new FileOutputStream( spec.destinationFile ) );
+            request.destinationFile.getParentFile().mkdirs();
+            OutputStream outputStream = new BufferedOutputStream( new FileOutputStream( request.destinationFile ) );
             
             // create the input connection
-            URLConnection urlConnection = new URL( spec.sourceURL ).openConnection();
+            URLConnection urlConnection = new URL( request.sourceURL ).openConnection();
             
             // adjust the content length if necessary
             final int contentLength = urlConnection.getContentLength();
-            totalContentLength += ( contentLength - spec.expectedContentLength );
+            totalContentLength += ( contentLength - request.expectedContentLength );
             
             // read from the input connection, write to the output file, notify of progress
             int subtotalBytesRead = 0;
@@ -260,7 +267,7 @@ public class DownloadThread extends Thread {
                     downloadedContentLength += bytesRead; // record bytes read
                     final double percentOfSource = subtotalBytesRead / (double)contentLength;
                     final double percentOfTotal = downloadedContentLength / (double)totalContentLength;
-                    notifyProgress( spec.sourceURL, spec.destinationFile, percentOfSource, percentOfTotal );
+                    notifyProgress( request, percentOfSource, percentOfTotal );
                     yield(); // allows other threads to execute
                 }
                 else {
@@ -274,12 +281,12 @@ public class DownloadThread extends Thread {
             
             // notify that we're done with this download
             if ( !canceled ) {
-                notifyCompleted( spec.sourceURL, spec.destinationFile );
+                notifyCompleted( request );
             }
         }
         catch( IOException e ) {
             e.printStackTrace();
-            notifyError( spec.sourceURL, spec.destinationFile, e.getMessage(), e );
+            notifyError( request, e.getMessage(), e );
             throw e;
         }
     }
@@ -326,7 +333,7 @@ public class DownloadThread extends Thread {
          * @param sourceURL
          * @param destinationFile
          */
-        public void requestAdded( String sourceURL, File destinationFile );
+        public void requestAdded( String requestName, String sourceURL, File destinationFile );
         
         /**
          * Indicates the progress made on one request in the batch.
@@ -336,7 +343,7 @@ public class DownloadThread extends Thread {
          * @param percentOfSource percent of sourceURL that has been downloaded so far
          * @param percentOfTotal percent of all download requests that have been downloaded so far
          */
-        public void progress( String sourceURL, File destinationFile, double percentOfSource, double percentOfTotal );
+        public void progress( String requestName, String sourceURL, File destinationFile, double percentOfSource, double percentOfTotal );
         
         /**
          * Indicates that one request in the batch has been successfully completed.
@@ -344,7 +351,7 @@ public class DownloadThread extends Thread {
          * @param sourceURL
          * @param destinationFile
          */
-        public void completed( String sourceURL, File destinationFile );
+        public void completed( String requestName, String sourceURL, File destinationFile );
         
         /**
          * Indicates that an error was encountered for some request in the batch.
@@ -355,7 +362,7 @@ public class DownloadThread extends Thread {
          * @param message
          * @param e
          */
-        public void error( String sourceURL, File destinationFile, String message, Exception e );
+        public void error( String requestName, String sourceURL, File destinationFile, String message, Exception e );
     }
 
     /*
@@ -365,10 +372,10 @@ public class DownloadThread extends Thread {
         public void succeeded() {}
         public void failed() {}
         public void canceled() {}
-        public void requestAdded( String sourceURL, File destinationFile ) {}
-        public void progress( String sourceURL, File destinationFile, double percentOfSource, double percentOfTotal ) {}
-        public void completed( String sourceURL, File destinationFile ) {}
-        public void error( String sourceURL, File destinationFile, String message, Exception e ) {}
+        public void requestAdded( String requestName, String sourceURL, File destinationFile ) {}
+        public void progress( String requestName, String sourceURL, File destinationFile, double percentOfSource, double percentOfTotal ) {}
+        public void completed( String requestName, String sourceURL, File destinationFile ) {}
+        public void error( String requestName, String sourceURL, File destinationFile, String message, Exception e ) {}
     }
     
     /*
@@ -384,18 +391,22 @@ public class DownloadThread extends Thread {
         public void canceled() {
             System.out.println( "DebugDownloadThreadListener.canceled" );
         }
-        public void requestAdded( String sourceURL, File destinationFile ) {
-            System.out.println( "DebugDownloadThreadListener.requestAdded sourceURL=" + sourceURL + " destinationFile=" + destinationFile.getAbsolutePath() );
+        public void requestAdded( String requestName, String sourceURL, File destinationFile ) {
+            System.out.println( "DebugDownloadThreadListener.requestAdded " +
+                     " requestName=" + requestName + " sourceURL=" + sourceURL + " destinationFile=" + destinationFile.getAbsolutePath() );
         }
-        public void progress( String sourceURL, File destinationFile, double percentOfSource, double percentOfTotal ) {
-            System.out.println( "DebugDownloadThreadListener.process sourceURL=" + sourceURL + " destinationFile=" + destinationFile.getAbsolutePath() + 
+        public void progress( String requestName, String sourceURL, File destinationFile, double percentOfSource, double percentOfTotal ) {
+            System.out.println( "DebugDownloadThreadListener.process " + 
+                    " requestName=" + requestName + " sourceURL=" + sourceURL + " destinationFile=" + destinationFile.getAbsolutePath() + 
                     " percentOfSource=" + percentOfSource + " percentOfTotal=" + percentOfTotal );
         }
-        public void completed( String sourceURL, File destinationFile ) {
-            System.out.println( "DebugDownloadThreadListener.completed sourceURL=" + sourceURL + " destinationFile=" + destinationFile.getAbsolutePath() );
+        public void completed( String requestName, String sourceURL, File destinationFile ) {
+            System.out.println( "DebugDownloadThreadListener.completed " + 
+                    " requestName=" + requestName + " sourceURL=" + sourceURL + " destinationFile=" + destinationFile.getAbsolutePath() );
         }
-        public void error( String sourceURL, File destinationFile, String message, Exception e ) {
-            System.out.println( "DebugDownloadThreadListener.error sourceURL=" + sourceURL + " destinationFile=" + destinationFile.getAbsolutePath() + 
+        public void error( String requestName, String sourceURL, File destinationFile, String message, Exception e ) {
+            System.out.println( "DebugDownloadThreadListener.error + + " +
+                    " requestName=" + requestName + " sourceURL=" + sourceURL + " destinationFile=" + destinationFile.getAbsolutePath() + 
                     " message=" + message + " exception=" + e );
         }
     }
@@ -428,35 +439,35 @@ public class DownloadThread extends Thread {
         }
     }
     
-    private void notifyRequestAdded( String sourceURL, File destinationFile ) {
+    private void notifyRequestAdded( DownloadRequest request ) {
         ArrayList listeners = getListeners();
         Iterator i = listeners.iterator();
         while ( i.hasNext() ) {
-            ( (DownloadThreadListener) i.next() ).requestAdded( sourceURL, destinationFile );
+            ( (DownloadThreadListener) i.next() ).requestAdded( request.requestName, request.sourceURL, request.destinationFile );
         }
     }
     
-    private void notifyProgress( String sourceURL, File destinationFile,  double percentOfSource, double percentOfTotal ) {
+    private void notifyProgress( DownloadRequest request,  double percentOfSource, double percentOfTotal ) {
         ArrayList listeners = getListeners();
         Iterator i = listeners.iterator();
         while ( i.hasNext() ) {
-            ( (DownloadThreadListener) i.next() ).progress( sourceURL, destinationFile, percentOfSource, percentOfTotal );
+            ( (DownloadThreadListener) i.next() ).progress( request.requestName, request.sourceURL, request.destinationFile, percentOfSource, percentOfTotal );
         }
     }
     
-    private void notifyCompleted( String sourceURL, File destinationFile ) {
+    private void notifyCompleted( DownloadRequest request ) {
         ArrayList listeners = getListeners();
         Iterator i = listeners.iterator();
         while ( i.hasNext() ) {
-            ( (DownloadThreadListener) i.next() ).completed( sourceURL, destinationFile );
+            ( (DownloadThreadListener) i.next() ).completed( request.requestName, request.sourceURL, request.destinationFile );
         }
     }
     
-    private void notifyError( String sourceURL, File destinationFile, String message, Exception e ) {
+    private void notifyError( DownloadRequest request, String message, Exception e ) {
         ArrayList listeners = getListeners();
         Iterator i = listeners.iterator();
         while ( i.hasNext() ) {
-            ( (DownloadThreadListener) i.next() ).error( sourceURL, destinationFile, message, e );
+            ( (DownloadThreadListener) i.next() ).error( request.requestName, request.sourceURL, request.destinationFile, message, e );
         }
     }
     
@@ -478,8 +489,8 @@ public class DownloadThread extends Thread {
         
         // add download requests
         String tmpDirName = System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.separator" );
-        downloadThread.addRequest( HTMLUtils.getSimJarURL( "glaciers", "glaciers", "&", "en" ), tmpDirName + "glaciers.jar" );
-        downloadThread.addRequest( HTMLUtils.getSimJarURL( "ph-scale", "ph-scale", "&", "en" ), tmpDirName + "ph-scale.jar" );
+        downloadThread.addRequest( "downloading glaciers.jar", HTMLUtils.getSimJarURL( "glaciers", "glaciers", "&", "en" ), tmpDirName + "glaciers.jar" );
+        downloadThread.addRequest( "downloading ph-scale.jar", HTMLUtils.getSimJarURL( "ph-scale", "ph-scale", "&", "en" ), tmpDirName + "ph-scale.jar" );
 
         // do the download
         System.out.println( "total content length = " + downloadThread.getTotalContentLength() );
