@@ -1,6 +1,7 @@
 ﻿// AboutButton.as
 
-
+import org.aswing.*;
+import org.aswing.util.*;
 
 class AboutButton {
 	
@@ -12,6 +13,22 @@ class AboutButton {
 	public function AboutButton() {
 		debug("AboutButton initializing\n");
 		
+		// somehow this line allows us to create these windows/buttons from
+		// code that isn't part of a MovieClip.
+		ASWingUtils.getRootMovieClip();
+		
+		var window:JWindow = new JWindow(_level0);
+		var button:JButton = new JButton("About PhET...");
+		button.setSize(button.getPreferredSize());
+		window.getContentPane().setLayout(new EmptyLayout());
+		window.getContentPane().append(button);
+		window.setBounds(0, 0, button.getPreferredSize().width, button.getPreferredSize().height);
+		window.show();
+		
+		button.addEventListener(JButton.ON_PRESS, Delegate.create(this, buttonClicked));
+		
+		
+		/*
 		var offset : Number = 3;
 		
 		var aboutButton : MovieClip = _level0.createEmptyMovieClip("aboutButton", _level0.getNextHighestDepth());
@@ -47,5 +64,10 @@ class AboutButton {
 		aboutButton._y = 0;
 		aboutTextField._x = offset;
 		aboutTextField._y = offset;
+		*/
+	}
+	
+	public function buttonClicked(src : JButton) {
+		debug("Clicked\n");
 	}
 }
