@@ -35,17 +35,16 @@ public class DownloadProgressDialog extends JDialog {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final String DOWNLOADING = PhetCommonResources.getString( "Common.DownloadProgressDialog.downloading" );
-    
+    private static final int MIN_PANEL_WIDTH = 400;
     private static final int STATUS_MAX_CHARS = 50;
-    private static final int STATUS_END_CHARS = 35;  // ellipsis will be this many chars from end of status message
+    private static final int STATUS_END_CHARS = STATUS_MAX_CHARS / 2;  // ellipsis will be this many chars from end of status message
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final DownloadThread downloader;
-    private final DownloadThreadListener downloaderListener;
+    private final DownloadThread downloadThread;
+    private final DownloadThreadListener downloadThreadListener;
     private final JProgressBar progressBar;
     private final MaxCharsLabel statusLabel;
     
@@ -56,11 +55,11 @@ public class DownloadProgressDialog extends JDialog {
     public DownloadProgressDialog( Frame owner, String title, String message, DownloadThread downloader ) {
         super( owner, title );
         setModal( true );
-//        setResizable( false );
+        setResizable( false );
         
-        this.downloader = downloader;
-        this.downloaderListener = new ThisDownloadListener();
-        this.downloader.addListener( downloaderListener );
+        this.downloadThread = downloader;
+        this.downloadThreadListener = new ThisDownloadThreadListener();
+        this.downloadThread.addListener( downloadThreadListener );
         
         // message
         JLabel messageLabel = new JLabel( message );
@@ -87,27 +86,21 @@ public class DownloadProgressDialog extends JDialog {
             }
         } );
 
-        // size the progress bar to be about the same size as the longer of the message or the longest status message
-        String s = "";
-        for ( int i = 0; i < STATUS_MAX_CHARS; i++ ) {
-            s += 'M'; // font is probably proportional, so use one of the widest chars 
-        }
-        statusLabel.setText( s );
-        int progressBarWidth = (int)Math.max( messageLabel.getPreferredSize().getWidth(), statusLabel.getPreferredSize().getWidth() ) + 20 /* fudge factor */;
-        SwingUtils.setPreferredWidth( progressBar, progressBarWidth );
-        statusLabel.setText( "" );
-        
         // layout
         JPanel panel = new JPanel();
+        panel.setBorder( BorderFactory.createEmptyBorder( 10, 10, 10, 10  ) );
         EasyGridBagLayout layout = new EasyGridBagLayout( panel );
+        layout.setMinimumWidth( 0, MIN_PANEL_WIDTH );
         panel.setLayout( layout );
-        layout.setInsets( new Insets( 10, 10, 10, 10 ) );
         int row = 0;
         int column = 0;
+        layout.setInsets( new Insets( 10, 5, 10, 5 ) ); // top, left, bottom, right
         layout.addComponent( messageLabel, row++, column );
-        layout.addComponent( progressBar, row++, column );
+        layout.setInsets( new Insets( 5, 5, 5, 5 ) ); // top, left, bottom, right
+        layout.addFilledComponent( progressBar, row++, column, GridBagConstraints.HORIZONTAL );
         layout.addComponent( statusLabel, row++, column );
         layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
+        layout.setInsets( new Insets( 5, 5, 10, 5 ) ); // top, left, bottom, right
         layout.addAnchoredComponent( cancelButton, row, column, GridBagConstraints.CENTER );
         
         getContentPane().add( panel );
@@ -116,7 +109,7 @@ public class DownloadProgressDialog extends JDialog {
     }
     
     private void doCancel() {
-        downloader.cancel();
+        downloadThread.cancel();
     }
     
     //----------------------------------------------------------------------------
@@ -124,7 +117,7 @@ public class DownloadProgressDialog extends JDialog {
     //----------------------------------------------------------------------------
     
     public void dispose() {
-        downloader.removeListeners( downloaderListener );
+        downloadThread.removeListeners( downloadThreadListener );
         super.dispose();
     }
     
@@ -132,7 +125,7 @@ public class DownloadProgressDialog extends JDialog {
     // DownloaderListener implementation
     //----------------------------------------------------------------------------
     
-    private class ThisDownloadListener implements DownloadThreadListener {
+    private class ThisDownloadThreadListener implements DownloadThreadListener {
         
         public void succeeded() {
             dispose();
@@ -146,21 +139,22 @@ public class DownloadProgressDialog extends JDialog {
             dispose();
         }
         
-        public void requestAdded( String sourceURL, File destinationFile ) {
+        public void requestAdded( String requestName, String sourceURL, File destinationFile ) {
             // don't care about request additions
         }
         
-        public void progress( String sourceURL, File destinationFile, double percentOfSource, double percentOfTotal ) {
-            statusLabel.setText( DOWNLOADING + " " + sourceURL );
+        public void progress( String requestName, String sourceURL, File destinationFile, double percentOfSource, double percentOfTotal ) {
+            statusLabel.setText( requestName );
             progressBar.setValue( (int) ( percentOfTotal * ( progressBar.getMaximum() - progressBar.getMinimum() ) ) );
         }
 
-        public void completed( String sourceURL, File destinationFile ) {
+        public void completed( String requestName, String sourceURL, File destinationFile ) {
             // do nothing
         }
 
-        public void error( String sourceURL, File destinationFile, String message, Exception e ) {
-            JOptionPane.showMessageDialog( DownloadProgressDialog.this, message, "Update Error", JOptionPane.ERROR_MESSAGE ); //TODO: notify the user about this error
+        public void error( String requestName, String sourceURL, File destinationFile, String message, Exception e ) {
+            //TODO: use an error dialog that allows the user to access the stack trace
+            JOptionPane.showMessageDialog( DownloadProgressDialog.this, message, "Update Error", JOptionPane.ERROR_MESSAGE );
             dispose();
         }
     }
@@ -179,11 +173,11 @@ public class DownloadProgressDialog extends JDialog {
         
         // add download requests
         String tmpDirName = System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.separator" );
-        downloadThread.addRequest( HTMLUtils.getSimJarURL( "glaciers", "glaciers", "&", "en" ), tmpDirName + "glaciers.jar" );
-        downloadThread.addRequest( HTMLUtils.getSimJarURL( "ph-scale", "ph-scale", "&", "en" ), tmpDirName + "ph-scale.jar" );
+        downloadThread.addRequest( "downloading glaciers.jar", HTMLUtils.getSimJarURL( "glaciers", "glaciers", "&", "en" ), tmpDirName + "glaciers.jar" );
+        downloadThread.addRequest( "downloading ph-scale.jar", HTMLUtils.getSimJarURL( "ph-scale", "ph-scale", "&", "en" ), tmpDirName + "ph-scale.jar" );
 
         // progress dialog
-        DownloadProgressDialog dialog = new DownloadProgressDialog( null, "Download Progress", "updating \"Glaciers\" 4.00", downloadThread );
+        DownloadProgressDialog dialog = new DownloadProgressDialog( null, "Download Progress", "Downloading simulation JAR files", downloadThread );
         dialog.addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
                 System.exit( 0 );
