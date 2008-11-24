@@ -4,6 +4,11 @@
 //
 // Author: Jonathan Olson
 
+import org.aswing.EmptyLayout;
+import org.aswing.JButton;
+import org.aswing.JWindow;
+import org.aswing.JFrame;
+import org.aswing.*;
 
 // should be instance of FlashCommon at _level0.common
 class FlashCommon {
