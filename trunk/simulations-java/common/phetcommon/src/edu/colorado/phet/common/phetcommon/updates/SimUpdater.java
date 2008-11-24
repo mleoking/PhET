@@ -1,7 +1,5 @@
 package edu.colorado.phet.common.phetcommon.updates;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -15,7 +13,6 @@ import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.util.DownloadThread;
 import edu.colorado.phet.common.phetcommon.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
-import edu.colorado.phet.common.phetcommon.util.DownloadThread.DownloadThreadAdapter;
 import edu.colorado.phet.common.phetcommon.util.logging.DebugLogger;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
