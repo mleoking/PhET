@@ -51,6 +51,7 @@ public class DownloadThread extends Thread {
     private int totalContentLength; // bytes
     private int downloadedContentLength; // bytes
     private boolean canceled;
+    private boolean succeeded;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -62,6 +63,7 @@ public class DownloadThread extends Thread {
         totalContentLength = 0;
         downloadedContentLength = 0;
         canceled = false;
+        succeeded = false;
     }
 
     /**
@@ -190,6 +192,14 @@ public class DownloadThread extends Thread {
     }
     
     /**
+     * Did the entire batch of download requests succeed?
+     * @return
+     */
+    public boolean getSucceeded() {
+        return succeeded;
+    }
+    
+    /**
      * Clears the batch.
      */
     public void clear() {
@@ -232,6 +242,7 @@ public class DownloadThread extends Thread {
             notifyCanceled();
         }
         else {
+            succeeded = true;
             notifySucceeded();
         }
     }
