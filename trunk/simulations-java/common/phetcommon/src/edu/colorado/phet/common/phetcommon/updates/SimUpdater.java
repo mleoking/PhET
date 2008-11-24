@@ -12,7 +12,6 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.NetworkUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
-import edu.colorado.phet.common.phetcommon.util.StreamReaderThread;
 import edu.colorado.phet.common.phetcommon.util.logging.DebugLogger;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
