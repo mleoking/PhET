@@ -37,6 +37,7 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
 	private static final int MAX_NUCLEI = 99;  // Maximum number of nuclei that model will simulate.
 	private static final int DEFAULT_NUCLEUS_TYPE = AlphaDecayNucleusTypeControl.NUCLEUS_TYPE_POLONIUM;
 	private static final double MAX_JITTER_LENGTH = 1; // In femtometers.
+	private static final int CLOCKS_PER_JITTER = 2; // Number of clock ticks for a single jitter movement.
 	
 	// Size and position of the bucket of nuclei which the user uses to add
 	// nuclei to the simulation.
@@ -59,6 +60,7 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
     private AtomicNucleus.Adapter _nucleusListener;
     private final Random _rand = new Random();
     private Point2D [] _jitterOffsets;
+    private int _jitterOffsetCount = 0;
     
     //------------------------------------------------------------------------
     // Constructor
@@ -248,8 +250,9 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
     		// TODO: JPB TBD - Remove from the model any alphas that are far enough out to be off the canvas.
     	}
     	
-    	// Cause the active nuclei to "jitter"
-    	for (int i = 0; i < _atomicNuclei.length; i++){
+    	// Cause the active nuclei to "jitter".  For efficiency, not every
+    	// active nucleus is moved every time.
+    	for (int i = _jitterOffsetCount; i < _atomicNuclei.length; i = i + CLOCKS_PER_JITTER){
     		if (_atomicNuclei[i].isDecayActive() && !_atomicNuclei[i].isPaused()){
     			// This nucleus is active, so it should be jittered.
     			Point2D jitterOffset = _jitterOffsets[i];
@@ -267,8 +270,8 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
     				_jitterOffsets[i].setLocation(0, 0);
     			}
     		}
-    		
     	}
+    	_jitterOffsetCount = (_jitterOffsetCount + 1) % CLOCKS_PER_JITTER;
     }
     
 	private void reset() {
