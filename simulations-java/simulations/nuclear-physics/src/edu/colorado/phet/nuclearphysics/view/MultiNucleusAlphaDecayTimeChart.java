@@ -28,6 +28,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.model.AbstractAlphaDecayNucleus;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayControl;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
@@ -90,10 +91,15 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     private static final double PRE_DECAY_TIME_LINE_POS_FRACTION = 0.20;
     private static final double POST_DECAY_TIME_LINE_POS_FRACTION = 0.50;
     private static final double TIME_ZERO_OFFSET = 100; // In milliseconds
-    private static final int FALL_COUNT = 5; // Number of clock ticks for nucleus to fall from upper to lower line.
+    private static final int INITIAL_FALL_COUNT = 5; // Number of clock ticks for nucleus to fall from upper to lower line.
 
     // Constants that control the way the nuclei look.
     private static final double NUCLEUS_SIZE_PROPORTION = 0.1;  // Fraction of the overall height of the chart.
+    
+    // Constants that control where the nuclei fall to when they decay in
+    // order to create a histogram sort of look to the decay pattern.
+    private static final int NUM_HISTOGRAM_BUCKETS = 20;
+    private static final double HISTOGRAM_OVERLAP_PROPORTION = 0.1;
 
     //------------------------------------------------------------------------
     // Instance Data
@@ -108,10 +114,13 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     
     // Maps and lists for keeping track of nuclei and corresponding nodes.
     private HashMap _mapNucleiToNodes = new HashMap();
-    private ArrayList _inactiveNuclei = new ArrayList();
+    private HashMap _mapNucleiToNucleiData = new HashMap();
     private ArrayList _preDecayNuclei = new ArrayList();
     private ArrayList _postDecayNuclei = new ArrayList();
     private HashMap _mapNucleiToFallCount = new HashMap();
+    
+    // Data structure for the histogram-ish placement of decayed nuclei.
+    private int [] _decaysPerHistogramBucket = new int[NUM_HISTOGRAM_BUCKETS];
 
     // References to the various components of the chart.
     private PPath _borderNode;
@@ -180,7 +189,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
              * increment in time.
              */
             public void clockTicked( ClockEvent clockEvent ) {
-                handleClockTick( clockEvent );
+                handleClockTicked( clockEvent );
             }
 
             public void simulationTimeReset( ClockEvent clockEvent ) {
@@ -492,16 +501,15 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         		_usableAreaOriginY + _usableHeight - _resetButtonNode.getFullBoundsReference().height - 5);
         
         // Rescale the nucleus nodes and set their positions.
-        Set entries = _mapNucleiToNodes.entrySet();
+        Set entries = _mapNucleiToNucleiData.entrySet();
         Iterator iterator = entries.iterator();
         while (iterator.hasNext()) {
             Map.Entry entry = (Map.Entry)iterator.next();
-            AlphaDecayControl nucleus = (AlphaDecayControl)entry.getKey();
-            PNode nucleusNode = (PNode)_mapNucleiToNodes.get(nucleus);
-            if (nucleusNode != null){
-            	nucleusNode.setScale(1);
-            	nucleusNode.setScale((_nucleusNodeRadius * 2) / nucleusNode.getFullBoundsReference().height);
-                positionNucleusOnChart(nucleus);
+            AtomicNucleus nucleus = (AtomicNucleus)entry.getKey();
+            NucleusData nucleusData = (NucleusData)_mapNucleiToNucleiData.get(nucleus);
+            if (nucleusData != null){
+            	nucleusData.updateNucleusNodeScale();
+            	nucleusData.updateNucleusNodePosition();
             }
         }
     }
@@ -522,8 +530,22 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
      * 
      * @param clockEvent
      */
-    private void handleClockTick( ClockEvent clockEvent ) {
-    	
+    private void handleClockTicked( ClockEvent clockEvent ) {
+
+    	// Update the internal and visual state for each nucleus based on the
+    	// state of the nuclei within the model.
+        Set entries = _mapNucleiToNucleiData.entrySet();
+        Iterator iterator = entries.iterator();
+        while (iterator.hasNext()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            AtomicNucleus nucleus = (AtomicNucleus)entry.getKey();
+            NucleusData nucleusData = (NucleusData)_mapNucleiToNucleiData.get(nucleus);
+            if (nucleusData != null){
+            	nucleusData.updateNucleusDataState();
+            }
+        }
+
+    	/*
     	// See if any of the inactive nuclei have become active.
         for (Iterator it = _inactiveNuclei.iterator (); it.hasNext (); ) {
             AlphaDecayControl nucleus = (AlphaDecayControl)it.next();
@@ -552,7 +574,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
             	createNodeForNucleus((AtomicNucleus)nucleus);
             	it.remove();
             	_postDecayNuclei.add(nucleus);
-            	_mapNucleiToFallCount.put(nucleus, new SimpleCounter(FALL_COUNT));
+            	_mapNucleiToFallCount.put(nucleus, new SimpleCounter(INITIAL_FALL_COUNT));
             	positionNucleusOnChart(nucleus);
             	updateNucleiNumberText();
             }
@@ -584,6 +606,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
             	}
             }
         }
+        */
     }
 
     /**
@@ -723,20 +746,36 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
 	private void handleModelElementAdded(Object modelElement) {
     	
     	if (modelElement instanceof AtomicNucleus){
+    		// Verify that this nucleus wasn't already added.
+    		assert !_mapNucleiToNucleiData.containsKey(modelElement);
+    		
     		// At least for now, it is expected that all nuclei added to this
     		// chart are alpha decayers that are not moving towards decay yet.
-    		assert (modelElement instanceof AlphaDecayControl);
-    		assert (((AlphaDecayControl)modelElement).isDecayActive() == false);
+    		assert (modelElement instanceof AbstractAlphaDecayNucleus);
+    		assert (((AbstractAlphaDecayNucleus)modelElement).isDecayActive() == false);
     		
-    		// Add the nuclei to the appropriate internal data structures.
-    		// No node is added until this nucleus becomes active.
-    		_mapNucleiToNodes.put(modelElement, null);
-    		_inactiveNuclei.add(modelElement);
+    		// Create a data set for this nucleus and add it to the internal
+    		// map.
+    		_mapNucleiToNucleiData.put(modelElement, new NucleusData((AbstractAlphaDecayNucleus)modelElement));
     	}
 	}
 
     private void handleModelElementRemoved(Object modelElement) {
     	
+    	if (modelElement instanceof AtomicNucleus){
+    		NucleusData nucleusData = (NucleusData)_mapNucleiToNucleiData.get(modelElement);
+    		if (nucleusData != null){
+    			// Remove this node from the chart.
+    			nucleusData.removeNodeFromChart();
+    			
+    			// Remove this node from the map.
+    			_mapNucleiToNucleiData.remove(modelElement);
+    		}
+    		else{
+    			System.err.println("Error: Unable to locate nucleus data in map.");
+    		}
+    	}
+    	/*
     	if (modelElement instanceof AtomicNucleus){
     		LabeledNucleusNode nucleusNode = (LabeledNucleusNode)_mapNucleiToNodes.get(modelElement);
     		if (nucleusNode != null){
@@ -751,6 +790,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     			System.err.println("Error: Unable to locate nucleus in map.");
     		}
     	}
+    	*/
 	}
     
     private void positionHalfLifeMarker(){
@@ -813,7 +853,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     			double interLineDistance = _usableHeight * 
     			        (POST_DECAY_TIME_LINE_POS_FRACTION - PRE_DECAY_TIME_LINE_POS_FRACTION);
             	yPos = _usableAreaOriginY + ( _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION ) 
-            	        + (interLineDistance * (1 - (double)fallCounter.getValue() / (double)FALL_COUNT))
+            	        + (interLineDistance * (1 - (double)fallCounter.getValue() / (double)INITIAL_FALL_COUNT))
             	        - _nucleusNodeRadius;
     		}
     		else{
@@ -864,6 +904,266 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     	
     	public void decrement(){
     		m_value--;
+    	}
+    }
+    
+    /**
+     * Map the given decay time to one of the buckets of the histogram.
+     * 
+     * @param decayTime - Decay time in milliseconds.
+     * @return
+     */
+    private int mapDecayTimeToHistogramBucket(double decayTime){
+    	
+    	if (decayTime > TIME_SPAN){
+    		// This decay is off the chart and doesn't go in a bucket.  Return
+    		// the largest integer in order to signal this to the caller.
+    		return Integer.MAX_VALUE;
+    	}
+    	
+    	return (int)Math.floor(decayTime / (TIME_SPAN / NUM_HISTOGRAM_BUCKETS));
+    }
+    
+    /**
+     * Calculate the "fall target", which is the vertical location on the
+     * chart where a nucleus should be positioned once it has decayed and it
+     * has completed the process of falling from the non-decayed position.
+     * 
+     * @param positionInHistogramBucket - The position within a histogram
+     * bucket that should be calculated.  For instance, if the caller wants
+     * the vertical position for the first node in this bucket, it should
+     * pass in a value of 0.
+     * @return - A normalized value between 0 and 1 indicating an amount
+     * below the pre-decay line.  A value of 1 would signify that the
+     * position is on the post-decay line, 0 would be on the pre-decay line.
+     */
+    private double calculateFallTarget( int positionInHistogramBucket ){
+    	double maxFallDistance = _usableHeight * (POST_DECAY_TIME_LINE_POS_FRACTION - PRE_DECAY_TIME_LINE_POS_FRACTION);
+    	double offsetFromPostDecayLine = 
+    		(_nucleusNodeRadius * 2) * ((double)positionInHistogramBucket * HISTOGRAM_OVERLAP_PROPORTION);
+    	return Math.max((maxFallDistance - offsetFromPostDecayLine) / maxFallDistance, 0);
+    }
+    
+    /**
+     * This class contains the data and functionality that is used to
+     * represent a nucleus on the chart.
+     */
+    private class NucleusData{
+    	
+    	private static final int STATE_INACTIVE = 1;
+    	private static final int STATE_PRE_DECAY = 2;
+    	private static final int STATE_POST_DECAY = 3;
+    	
+    	private AbstractAlphaDecayNucleus _nucleus;
+		private LabeledNucleusNode _nucleusNode;
+    	private int _fallCount;
+    	private double _fallTarget;
+    	private int _internalState;
+    	private int _decayBucket;
+    	
+    	public NucleusData(AbstractAlphaDecayNucleus nucleus){
+    		_nucleus = nucleus;
+    		_fallCount = 0;
+    		_fallTarget = 0;  // TODO: Probably needs to be something else.
+    		_internalState = STATE_INACTIVE;
+    		_decayBucket = Integer.MAX_VALUE;
+    	}
+    	
+    	/**
+    	 * Update the state of this nucleus data based on any changes detected
+    	 * in the state of the nucleus in the model.
+    	 */
+    	public void updateNucleusDataState(){
+    		
+    		switch ( _internalState ){
+    		
+    		case STATE_INACTIVE:
+
+    			if (_nucleus.isDecayActive()){
+    				
+    				// This nucleus has become active.
+        	    	_internalState = STATE_PRE_DECAY;
+        			
+        			// Create a node for it and add it to the chart.
+        			_nucleusNode = createNucleusNode();
+        			
+        	    	// Add the node to the chart.
+        	    	_nucleusNode.setScale((_nucleusNodeRadius * 2) / _nucleusNode.getFullBoundsReference().height);
+        	    	_nonPickableChartNode.addChild(_nucleusNode);
+        	    
+        	    	// Reset internal counter in preparation for decay.
+        	    	_fallCount = INITIAL_FALL_COUNT;
+
+        	    	// Position the newly added node.
+        	    	updateNucleusNodePosition();
+        		}
+    			break;
+    			
+    		case STATE_PRE_DECAY:
+    			
+    			if (_nucleus.hasDecayed()){
+    				
+    				// The nucleus has decayed since the last update.
+    				_internalState = STATE_POST_DECAY;
+
+    				// Calculate the final position where this nucleus should end
+        			// up based how many other nuclei have already decayed at
+        			// approximately this time.
+        			_decayBucket = mapDecayTimeToHistogramBucket(_nucleus.getActivatedTime());
+        			if (_decayBucket < _decaysPerHistogramBucket.length){
+        				_fallTarget = calculateFallTarget(_decaysPerHistogramBucket[_decayBucket]);
+        				_decaysPerHistogramBucket[_decayBucket]++;
+        			}
+        			else{
+        				_fallTarget = calculateFallTarget(0);
+        			}
+        			
+        			// Start counting down on the fall counter.
+        			_fallCount--;
+    			}
+
+    			updateNucleusNodePosition();
+    			
+    			break;
+    			
+    		case STATE_POST_DECAY:
+
+    			if (_nucleus.isDecayActive() && !_nucleus.hasDecayed()){
+    				// The nucleus has been reset.
+    				_internalState = STATE_PRE_DECAY;
+    				_fallCount = INITIAL_FALL_COUNT;
+    				_decaysPerHistogramBucket[_decayBucket]--;
+    				_decayBucket = Integer.MAX_VALUE;
+    			}
+    			else if (_fallCount > 0){
+    				// Nucleus is still falling.
+    				_fallCount--;
+    				updateNucleusNodePosition();
+    			}
+    			break;
+    			
+    		default:
+    			System.err.println("Unexpected nucleus data state.");
+    		    assert false;
+    			break;
+    		}
+    	}
+    	
+    	/**
+    	 * Remove this nucleus's node from the chart.  This is generally done
+    	 * just prior to getting rid of the nucleus data.
+    	 */
+    	public void removeNodeFromChart(){
+    		_nonPickableChartNode.removeChild(_nucleusNode);
+    	}
+    	
+    	/**
+    	 * Update the scale setting for the node.  This is generally done if
+    	 * and when the chart is resized.
+    	 */
+    	public void updateNucleusNodeScale(){
+
+    		if (_nucleusNode == null){
+        		// This nucleus does not have a node, probably because it has not
+        		// been activated.  That's okay - just ignore the positioning
+        		// request.
+        		return;
+        	}
+        	
+      		_nucleusNode.setScale(1);
+   	    	_nucleusNode.setScale((_nucleusNodeRadius * 2) / _nucleusNode.getFullBoundsReference().height);
+    	}
+    	
+    	/**
+    	 * Position this nucleus on the chart.
+    	 */
+    	public void updateNucleusNodePosition(){
+        	double xPos, yPos;
+        	
+        	if (_nucleusNode == null){
+        		// This nucleus does not have a node, probably because it has not
+        		// been activated.  That's okay - just ignore the positioning
+        		// request.
+        		return;
+        	}
+        	
+        	if (!_nucleus.hasDecayed()){
+        		// The nucleus has not yet decayed, so position it on the upper line.
+            	yPos = _usableAreaOriginY + ( _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION ) - _nucleusNodeRadius;
+        	}
+        	else{
+        		// The nucleus has decayed.  See if it is still falling.
+        		if (_fallCount != 0){
+        			// The nucleus is falling.  Position it in the space between
+        			// the upper and lower lines based on its fall target.
+        			double fallDistance = (_usableHeight * 
+        			        (POST_DECAY_TIME_LINE_POS_FRACTION - PRE_DECAY_TIME_LINE_POS_FRACTION)) * _fallTarget;
+                	yPos = _usableAreaOriginY + ( _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION ) 
+                	        + (fallDistance * (1 - (double)_fallCount / (double)INITIAL_FALL_COUNT))
+                	        - _nucleusNodeRadius;
+        		}
+        		else{
+        			// The nucleus has completely fallen, so put it at the fall target.
+                	yPos = _usableAreaOriginY + _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION +
+                	        _usableHeight * (POST_DECAY_TIME_LINE_POS_FRACTION - PRE_DECAY_TIME_LINE_POS_FRACTION)
+                	        * _fallTarget - _nucleusNodeRadius;
+        		}
+        	}
+        	
+        	xPos = _graphOriginX + (_nucleus.getActivatedTime() + TIME_ZERO_OFFSET) * _msToPixelsFactor 
+        	        - _nucleusNodeRadius;
+        	_nucleusNode.setOffset(xPos, yPos);
+    	}
+    	
+    	/**
+    	 * Create the appropriate visual representation for this nucleus.
+    	 * 
+    	 * @return - A PNode that depicts this nucleus.
+    	 */
+    	private LabeledNucleusNode createNucleusNode(){
+        	
+        	LabeledNucleusNode nucleusNode;
+
+        	switch (_nucleus.getNumProtons()){
+        	case 84:
+        		// Create a labeled nucleus representing Polonium.
+        		nucleusNode = new LabeledNucleusNode("Polonium Nucleus Small.png",
+                        NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER, 
+                        NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL, 
+                        NuclearPhysicsConstants.POLONIUM_LABEL_COLOR );
+        		break;
+        		
+        	case 83:
+        		// This nucleus is bismuth, which we use as the pre-decay custom
+        		// nucleus.
+        		nucleusNode = new LabeledNucleusNode("Polonium Nucleus Small.png", 
+        				"", // No isotope number.
+                        NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
+                        NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR );
+        		break;
+        		
+        	case 82:
+        		// Create a labeled nucleus representing Lead.
+        		nucleusNode = new LabeledNucleusNode("Lead Nucleus Small.png",
+                        NuclearPhysicsStrings.LEAD_207_ISOTOPE_NUMBER, 
+                        NuclearPhysicsStrings.LEAD_207_CHEMICAL_SYMBOL, 
+                        NuclearPhysicsConstants.LEAD_LABEL_COLOR );
+        		break;
+        		
+        	case 81:
+        		// This is thallium, which we use as the post-decay custom nucleus.
+        		nucleusNode = new LabeledNucleusNode("Lead Nucleus Small.png",
+        				"", // No isotope number.
+                        NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
+                        NuclearPhysicsConstants.DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR );
+        		break;
+        		
+        	default:
+        		assert false;  // This is not a nucleus type that we know how to handle.
+        		throw new InvalidParameterException("Unrecognized nucleus type.");
+        	}
+        	
+        	return nucleusNode;
     	}
     }
 }
