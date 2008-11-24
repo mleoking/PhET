@@ -69,5 +69,11 @@ class AboutButton {
 	
 	public function buttonClicked(src : JButton) {
 		debug("Clicked\n");
+		if(_level0.aboutDialog) {
+			debug("Showing dialog again\n");
+		} else {
+			debug("Creating Dialog\n");
+			_level0.aboutDialog = new AboutDialog();
+		}
 	}
 }
