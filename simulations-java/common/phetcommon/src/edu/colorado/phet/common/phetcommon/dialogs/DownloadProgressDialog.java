@@ -1,6 +1,6 @@
 /* Copyright 2008, University of Colorado */
 
-package edu.colorado.phet.common.phetcommon.updates.dialogs;
+package edu.colorado.phet.common.phetcommon.dialogs;
 
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
