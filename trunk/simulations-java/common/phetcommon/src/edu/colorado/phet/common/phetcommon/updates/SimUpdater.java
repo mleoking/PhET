@@ -84,6 +84,7 @@ public class SimUpdater {
     
     /*
      * Downloads files and displays a progress bar.
+     * The files downloaded are the updater bootstrap jar, and the sim's new jar.
      */
     private boolean downloadFiles( String updateSrc, File updaterDst, String simSrc, File simDst, String simName, PhetVersion newVersion ) throws IOException {
         
