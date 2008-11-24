@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
@@ -18,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
  * What happens depends on the runtime situation of the simulation.
  */
 public class UpdateButton extends JButton {
-    public UpdateButton( final String project, final String sim, final String locale ) {
+    public UpdateButton( final String project, final String sim, final String locale, final String simName, final PhetVersion newVersion ) {
         super( PhetCommonResources.getString( "Common.updates.updateNow" ) );
         TrackingManager.postActionPerformedMessage( TrackingMessage.UPDATE_NOW_PRESSED );
         addActionListener( new ActionListener() {
@@ -27,7 +28,7 @@ public class UpdateButton extends JButton {
                     PhetServiceManager.showSimPage( project, sim );
                 }
                 else {
-                    new SimUpdater().updateSim( project, sim, locale );
+                    new SimUpdater().updateSim( project, sim, locale, simName, newVersion );
                 }
             }
         } );

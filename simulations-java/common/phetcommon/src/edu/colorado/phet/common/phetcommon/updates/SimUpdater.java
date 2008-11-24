@@ -1,17 +1,21 @@
 package edu.colorado.phet.common.phetcommon.updates;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Arrays;
 
 import javax.swing.JOptionPane;
 
+import edu.colorado.phet.common.phetcommon.dialogs.DownloadProgressDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
+import edu.colorado.phet.common.phetcommon.util.DownloadThread;
 import edu.colorado.phet.common.phetcommon.util.FileUtils;
-import edu.colorado.phet.common.phetcommon.util.NetworkUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+import edu.colorado.phet.common.phetcommon.util.DownloadThread.DownloadThreadAdapter;
 import edu.colorado.phet.common.phetcommon.util.logging.DebugLogger;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
@@ -49,7 +53,7 @@ public class SimUpdater {
      * @param sim
      * @param languageCode
      */
-    public void updateSim( String project, String sim, String languageCode ) {
+    public void updateSim( String project, String sim, String languageCode, String simName, PhetVersion newVersion ) {
         
         if ( !tmpDir.canWrite() ) {
             handleErrorWritePermissions( tmpDir );
@@ -61,29 +65,45 @@ public class SimUpdater {
                     handleErrorWritePermissions( simJAR );
                 }
                 else {
-                    File tempJAR = getTempJAR( simJAR );
-                    File updaterJAR = downloadUpdaterJAR();
-                    downloadSimJAR( project, sim, languageCode, tempJAR );
-                    startUpdaterBootstrap( updaterJAR, tempJAR, simJAR );
-                    System.exit( 0 ); //presumably, jar must exit before it can be overwritten
+                    String simJarURL = HTMLUtils.getSimJarURL( project, sim, "&", languageCode );
+                    File tempSimJAR = getTempSimJAR( simJAR );
+                    File tempUpdaterJAR = getTempUpdaterJAR();
+                    boolean success = downloadFiles( UPDATER_ADDRESS, tempUpdaterJAR, simJarURL, tempSimJAR, simName, newVersion );
+                    if ( success ) {
+                        startUpdaterBootstrap( tempUpdaterJAR, tempSimJAR, simJAR );
+                        System.exit( 0 ); //presumably, jar must exit before it can be overwritten
+                    }
                 }
             }
-            catch ( IOException e1 ) {
+            catch ( IOException e ) {
                 //TODO: alert the user
-                e1.printStackTrace();
+                e.printStackTrace();
             }
         }
     }
-
+    
     /*
-     * Downloads the JAR for the specified simulation to the specified location.
+     * Downloads files and displays a progress bar.
      */
-    private void downloadSimJAR( String project, String flavor, String languageCode, File targetLocation ) throws FileNotFoundException {
-        String jarURL = HTMLUtils.getSimJarURL( project, flavor, "&", languageCode );
-        println( "Downloading sim JAR from " + jarURL );
-        NetworkUtils.download( jarURL, targetLocation );
+    private boolean downloadFiles( String updateSrc, File updaterDst, String simSrc, File simDst, String simName, PhetVersion newVersion ) throws IOException {
+        
+        // download requests
+        DownloadThread downloadThread = new DownloadThread();
+        downloadThread.addRequest( PhetCommonResources.getString( "Common.updates.downloadingBootstrap" ), updateSrc, updaterDst ); //TODO: localize
+        downloadThread.addRequest( PhetCommonResources.getString( "Common.updates.downloadingSimJar" ), simSrc, simDst ); //TODO: localize
+        
+        // progress dialog
+        String title = PhetCommonResources.getString( "Common.updates.progressDialogTitle" );
+        Object[] args = { simName, newVersion.formatMajorMinor() };
+        String message = MessageFormat.format( PhetCommonResources.getString( "Common.updates.progressDialogMessage" ), args );
+        DownloadProgressDialog dialog = new DownloadProgressDialog( null, title, message, downloadThread );
+        
+        // start the download
+        downloadThread.start();
+        dialog.setVisible( true );
+        return downloadThread.getSucceeded();
     }
-
+    
     /*
      * Runs the updater bootstrap in a separate JVM.
      */
@@ -111,9 +131,9 @@ public class SimUpdater {
     }
     
     /*
-     * Gets a temporary name for the sim JAR file to be downloaded.
+     * Gets a temporary file for downloading the sim's jar.
      */
-    private File getTempJAR( File simJAR ) throws IOException {
+    private File getTempSimJAR( File simJAR ) throws IOException {
         String basename = FileUtils.getBasename( simJAR );
         File location = File.createTempFile( basename, ".jar" );
         println( "temporary JAR is " + location.getAbsolutePath() );
@@ -121,17 +141,16 @@ public class SimUpdater {
     }
 
     /*
-     * Tries to download to updater.jar, so that we don't accumulate lots of JAR files in the temp directory.
+     * Gets a temporary file for downloading the updater bootstrap jar.
+     * Tries to use updater.jar, so that we don't accumulate lots of JAR files in the temp directory.
      * If that's not possible, download to a uniquely named file.
      */
-    private File downloadUpdaterJAR() throws IOException {
+    private File getTempUpdaterJAR() throws IOException {
         File updaterJAR = new File( tmpDir.getAbsolutePath() + System.getProperty( "file.separator" ) + UPDATER_JAR );
         if ( updaterJAR.exists() && !updaterJAR.canWrite() ) {
             updaterJAR = File.createTempFile( UPDATER_BASENAME, ".jar" );
         }
         println( "Downloading updater to " + updaterJAR.getAbsolutePath() );
-        NetworkUtils.download( UPDATER_ADDRESS, updaterJAR );
-        //TODO: make something delete the updater.jar when everything is done
         return updaterJAR;
     }
 
