@@ -252,7 +252,7 @@ public class DownloadThread extends Thread {
             byte[] data = new byte[2048];
             int bytesRead = 0;
             boolean done = false;
-            while ( !done ) {
+            while ( !done && !canceled ) {
                 bytesRead = inputStream.read( data );
                 if ( bytesRead != -1 ) {
                     outputStream.write( data, 0, bytesRead );
