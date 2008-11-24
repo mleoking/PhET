@@ -28,9 +28,9 @@ public class DownloadThread extends Thread {
      */
     private static class DownloadRequest {
         
-        private final String requestName;
-        private final String sourceURL;
-        private final File destinationFile;
+        private final String requestName; // name visible to the user
+        private final String sourceURL; // download from this URL
+        private final File destinationFile; // download to this File
         private final int expectedContentLength; // actual content length may differ
         
         public DownloadRequest( String requestName, String sourceURL, File destinationFile, int expectedContentLength ) {
