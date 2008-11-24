@@ -11,11 +11,13 @@ import java.util.Iterator;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
 /**
- * Handles a collection of download requests, provides notification of progress.
+ * Handles a batch of download requests.
+ * The downloads are performed in a separate thread.
+ * Notification of progress is provided via a listener interface.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class Downloader {
+public class DownloadThread extends Thread {
     
     //----------------------------------------------------------------------------
     // Data structures
@@ -46,16 +48,18 @@ public class Downloader {
     
     private int totalContentLength; // bytes
     private int downloadedContentLength; // bytes
+    private boolean canceled;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public Downloader() {
+    public DownloadThread() {
         downloadSpecs = new ArrayList();
         listeners = new ArrayList();
         totalContentLength = 0;
         downloadedContentLength = 0;
+        canceled = false;
     }
 
     /**
@@ -65,7 +69,7 @@ public class Downloader {
      * @param destinationFileName
      * @throws IOException
      */
-    public Downloader( String sourceURL, String destinationFileName ) throws IOException {
+    public DownloadThread( String sourceURL, String destinationFileName ) throws IOException {
         this( sourceURL, new File( destinationFileName) );
     }
     
@@ -76,9 +80,26 @@ public class Downloader {
      * @param destinationFileName
      * @throws IOException
      */
-    public Downloader( String sourceURL, File destinationFile ) throws IOException {
+    public DownloadThread( String sourceURL, File destinationFile ) throws IOException {
         this();
         addDownload( sourceURL, destinationFile );
+    }
+   
+    //----------------------------------------------------------------------------
+    // Runnable implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Performs a batch download.
+     * Do not call this method directly, call start().
+     */
+    public void run() {
+        try {
+            download();
+        }
+        catch ( IOException e ) {
+            e.printStackTrace();
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -86,15 +107,13 @@ public class Downloader {
     //----------------------------------------------------------------------------
     
     /**
-     * Gets the total content length of all pending download requests.
+     * Gets the total content length of requests in the batch.
      * <p>
      * This is the expected length at the time the requests were added.
+     * This values is adjusted as the batch is processed.
      * The actual length may be different if the source content changed
      * between the time that the request was added and download() was called.
      * So this value may differ from getDownloadedContentLength.
-     * <p>
-     * If you call this after download() successfully completes, or after
-     * calling clear(), you'll get zero.
      * 
      * @return bytes
      */
@@ -103,7 +122,7 @@ public class Downloader {
     }
     
     /**
-     * Gets the number of bytes downloaded the last time that download() was called.
+     * Gets the number of bytes actually downloaded so far.
      * 
      * @return bytes
      */
@@ -111,23 +130,24 @@ public class Downloader {
         return downloadedContentLength;
     }
     
-    //----------------------------------------------------------------------------
-    // Downloads
-    //----------------------------------------------------------------------------
-    
     /**
      * Adds a download request. 
-     * No downloads are performed until download is called.
+     * No downloads are performed until start is called.
      * 
      * @param sourceURL
      * @param destinationFileName
      * @throws IOException
+     * @throws IllegalStateException
      */
-    public void add( String sourceURL, String destinationFileName ) throws IOException {
+    public void addRequest( String sourceURL, String destinationFileName ) throws IOException {
         addDownload( sourceURL, new File( destinationFileName ) );
     }
 
     public void addDownload( String sourceURL, File destinationFile ) throws IOException {
+        
+        if ( isAlive() ) {
+            throw new IllegalStateException( "cannot add downloads while thread is alive" );
+        }
         
         /*
          * Get the expected content length. The advantages of doing this when the 
@@ -149,22 +169,64 @@ public class Downloader {
         // create the download spec
         DownloadSpec spec = new DownloadSpec( sourceURL, destinationFile, expectedContentLength );
         downloadSpecs.add( spec );
+        
+        notifyRequestAdded( sourceURL, destinationFile );
+    }
+    
+    
+    /**
+     * Cancels a batch download if one is in progress.
+     * If no download is in progress, does nothing.
+     */
+    public void cancel() {
+        canceled = true;
     }
     
     /**
+     * Clears the batch.
+     */
+    public void clear() {
+        if ( isAlive() ) {
+            throw new IllegalStateException( "cannot clear the batch while thread is alive" );
+        }
+        downloadSpecs.clear();
+        totalContentLength = 0;
+    }
+    
+    //----------------------------------------------------------------------------
+    // Downloading
+    //----------------------------------------------------------------------------
+    
+    /*
      * Performs all download requests.
-     * If this completes successfully, then all added requests are cleared.
-     * Stops when the first error is encountered.
+     * Stops when canceled, or when an error is encountered.
      * 
      * @throws IOException
      */
-    public void download() throws IOException {
+    private void download() throws IOException {
+        
         downloadedContentLength = 0;
-        Iterator i = downloadSpecs.iterator();
-        while ( i.hasNext() ) {
-            download( (DownloadSpec) i.next() );
+        canceled = false;
+        
+        // perform the downloads
+        ArrayList copySpecs = new ArrayList( downloadSpecs ); // use a copy to avoid ConcurrentModificationException
+        Iterator i = copySpecs.iterator();
+        while ( i.hasNext() && !canceled) {
+            try {
+                download( (DownloadSpec) i.next() );
+            }
+            catch ( IOException e ) {
+                notifyFailed();
+                throw e;
+            }
         }
-        clear();
+        
+        if ( canceled ) {
+            notifyCanceled();
+        }
+        else {
+            notifySucceeded();
+        }
     }
     
     /*
@@ -196,7 +258,10 @@ public class Downloader {
                     outputStream.write( data, 0, bytesRead );
                     subtotalBytesRead += bytesRead;
                     downloadedContentLength += bytesRead; // record bytes read
-                    notifyProgress( spec.sourceURL, spec.destinationFile, subtotalBytesRead / (double)contentLength, downloadedContentLength / (double)totalContentLength );
+                    final double percentOfSource = subtotalBytesRead / (double)contentLength;
+                    final double percentOfTotal = downloadedContentLength / (double)totalContentLength;
+                    notifyProgress( spec.sourceURL, spec.destinationFile, percentOfSource, percentOfTotal );
+                    yield(); // allows other threads to execute
                 }
                 else {
                     done = true;
@@ -211,30 +276,58 @@ public class Downloader {
             notifyCompleted( spec.sourceURL, spec.destinationFile );
         }
         catch( IOException e ) {
+            e.printStackTrace();
             notifyError( spec.sourceURL, spec.destinationFile, e.getMessage(), e );
             throw e;
         }
-    }
-    
-    /**
-     * Clears all download requests.
-     */
-    public void clear() {
-        downloadSpecs.clear();
-        totalContentLength = 0;
     }
     
     //----------------------------------------------------------------------------
     // Listeners
     //----------------------------------------------------------------------------
     
+    public void addListener( DownloadThreadListener listener ) {
+        listeners.add( listener );
+    }
+    
+    public void removeListeners( DownloadThreadListener listener ) {
+        listeners.remove( listener );
+    }
+    
+    public void removeAllListeners() {
+        listeners.clear();
+    }
+    
     /**
      * Interface implemented by all listeners who are interested in download progress.
      */
-    public interface DownloaderListener {
+    public interface DownloadThreadListener {
         
         /**
-         * Indicates the progress made on satisfying a specific download request.
+         * Indicates that the batch download succeeded.
+         */
+        public void succeeded();
+        
+        /**
+         * Indicates that the batch download failed.
+         */
+        public void failed();
+        
+        /**
+         * Indicates that the batch download was canceled.
+         */
+        public void canceled();
+        
+        /**
+         * Indicates that a download request has been added to the batch.
+         * 
+         * @param sourceURL
+         * @param destinationFile
+         */
+        public void requestAdded( String sourceURL, File destinationFile );
+        
+        /**
+         * Indicates the progress made on one request in the batch.
          * 
          * @param sourceURL
          * @param destinationFile
@@ -244,7 +337,7 @@ public class Downloader {
         public void progress( String sourceURL, File destinationFile, double percentOfSource, double percentOfTotal );
         
         /**
-         * Indicates that a specific download request has been successfully completed.
+         * Indicates that one request in the batch has been successfully completed.
          * 
          * @param sourceURL
          * @param destinationFile
@@ -252,7 +345,7 @@ public class Downloader {
         public void completed( String sourceURL, File destinationFile );
         
         /**
-         * Indicates that an error was encountered for a specific download request.
+         * Indicates that an error was encountered for some request in the batch.
          * Downloading stops when this notification is sent.
          * 
          * @param sourceURL
@@ -266,7 +359,11 @@ public class Downloader {
     /*
      * Adapter, provides a no-op implementation.
      */
-    public static class DownloaderAdapter implements DownloaderListener {
+    public static class DownloadThreadAdapter implements DownloadThreadListener {
+        public void succeeded() {}
+        public void failed() {}
+        public void canceled() {}
+        public void requestAdded( String sourceURL, File destinationFile ) {}
         public void progress( String sourceURL, File destinationFile, double percentOfSource, double percentOfTotal ) {}
         public void completed( String sourceURL, File destinationFile ) {}
         public void error( String sourceURL, File destinationFile, String message, Exception e ) {}
@@ -275,66 +372,117 @@ public class Downloader {
     /*
      * Debug implementation, prints method calls and args to System.out.
      */
-    public static class DebugDownloaderListener implements DownloaderListener {
+    public static class DebugDownloadThreadListener implements DownloadThreadListener {
+        public void succeeded() {
+            System.out.println( "DebugDownloadThreadListener.succeeded" );
+        }
+        public void failed() {
+            System.out.println( "DebugDownloadThreadListener.failed" );
+        }
+        public void canceled() {
+            System.out.println( "DebugDownloadThreadListener.canceled" );
+        }
+        public void requestAdded( String sourceURL, File destinationFile ) {
+            System.out.println( "DebugDownloadThreadListener.requestAdded sourceURL=" + sourceURL + " destinationFile=" + destinationFile.getAbsolutePath() );
+        }
         public void progress( String sourceURL, File destinationFile, double percentOfSource, double percentOfTotal ) {
-            System.out.println( "DebugDownloadListener.process sourceURL=" + sourceURL + " destinationFile=" + destinationFile.getAbsolutePath() + 
+            System.out.println( "DebugDownloadThreadListener.process sourceURL=" + sourceURL + " destinationFile=" + destinationFile.getAbsolutePath() + 
                     " percentOfSource=" + percentOfSource + " percentOfTotal=" + percentOfTotal );
         }
         public void completed( String sourceURL, File destinationFile ) {
-            System.out.println( "DebugDownloadListener.completed sourceURL=" + sourceURL + " destinationFile=" + destinationFile.getAbsolutePath() );
+            System.out.println( "DebugDownloadThreadListener.completed sourceURL=" + sourceURL + " destinationFile=" + destinationFile.getAbsolutePath() );
         }
         public void error( String sourceURL, File destinationFile, String message, Exception e ) {
-            System.out.println( "DebugDownloadListener.error sourceURL=" + sourceURL + " destinationFile=" + destinationFile.getAbsolutePath() + 
+            System.out.println( "DebugDownloadThreadListener.error sourceURL=" + sourceURL + " destinationFile=" + destinationFile.getAbsolutePath() + 
                     " message=" + message + " exception=" + e );
         }
     }
     
-    public void addDownloadListener( DownloaderListener listener ) {
-        listeners.add( listener );
+    //----------------------------------------------------------------------------
+    // Notification
+    //----------------------------------------------------------------------------
+    
+    private void notifySucceeded() {
+        ArrayList listeners = getListeners();
+        Iterator i = listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (DownloadThreadListener) i.next() ).succeeded();
+        }
     }
     
-    public void removeDownloadListener( DownloaderListener listener ) {
-        listeners.remove( listener );
+    private void notifyFailed() {
+        ArrayList listeners = getListeners();
+        Iterator i = listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (DownloadThreadListener) i.next() ).failed();
+        }
+    }
+    
+    private void notifyCanceled() {
+        ArrayList listeners = getListeners();
+        Iterator i = listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (DownloadThreadListener) i.next() ).canceled();
+        }
+    }
+    
+    private void notifyRequestAdded( String sourceURL, File destinationFile ) {
+        ArrayList listeners = getListeners();
+        Iterator i = listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (DownloadThreadListener) i.next() ).requestAdded( sourceURL, destinationFile );
+        }
     }
     
     private void notifyProgress( String sourceURL, File destinationFile,  double percentOfSource, double percentOfTotal ) {
+        ArrayList listeners = getListeners();
         Iterator i = listeners.iterator();
         while ( i.hasNext() ) {
-            ( (DownloaderListener) i.next() ).progress( sourceURL, destinationFile, percentOfSource, percentOfTotal );
+            ( (DownloadThreadListener) i.next() ).progress( sourceURL, destinationFile, percentOfSource, percentOfTotal );
         }
     }
     
     private void notifyCompleted( String sourceURL, File destinationFile ) {
+        ArrayList listeners = getListeners();
         Iterator i = listeners.iterator();
         while ( i.hasNext() ) {
-            ( (DownloaderListener) i.next() ).completed( sourceURL, destinationFile );
+            ( (DownloadThreadListener) i.next() ).completed( sourceURL, destinationFile );
         }
     }
     
     private void notifyError( String sourceURL, File destinationFile, String message, Exception e ) {
+        ArrayList listeners = getListeners();
         Iterator i = listeners.iterator();
         while ( i.hasNext() ) {
-            ( (DownloaderListener) i.next() ).error( sourceURL, destinationFile, message, e );
+            ( (DownloadThreadListener) i.next() ).error( sourceURL, destinationFile, message, e );
         }
+    }
+    
+    private ArrayList getListeners() {
+        return new ArrayList( listeners ); // return a copy to avoid ConcurrentModificationException
     }
     
     //----------------------------------------------------------------------------
     // Test
     //----------------------------------------------------------------------------
     
-    public static void main( String[] args ) {
+    public static void main( String[] args ) throws IOException, InterruptedException {
+        
+        // create download thread
+        DownloadThread downloadThread = new DownloadThread();
+        
+        // add a listener
+        downloadThread.addListener( new DebugDownloadThreadListener() );
+        
+        // add download requests
         String tmpDirName = System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.separator" );
-        Downloader downloader = new Downloader();
-        try {
-            downloader.add( HTMLUtils.getSimJarURL( "glaciers", "glaciers", "&", "en" ), tmpDirName + "glaciers.jar" );
-            downloader.add( HTMLUtils.getSimJarURL( "ph-scale", "ph-scale", "&", "en" ), tmpDirName + "ph-scale.jar" );
-            downloader.addDownloadListener( new DebugDownloaderListener() );
-            System.out.println( "total content length = " + downloader.getTotalContentLength() );
-            downloader.download();
-            System.out.print( "downloaded content length = " + downloader.getDownloadedContentLength() );
-        }
-        catch ( IOException e ) {
-            e.printStackTrace();
-        }
+        downloadThread.addRequest( HTMLUtils.getSimJarURL( "glaciers", "glaciers", "&", "en" ), tmpDirName + "glaciers.jar" );
+        downloadThread.addRequest( HTMLUtils.getSimJarURL( "ph-scale", "ph-scale", "&", "en" ), tmpDirName + "ph-scale.jar" );
+
+        // do the download
+        System.out.println( "total content length = " + downloadThread.getTotalContentLength() );
+        downloadThread.start();
+        downloadThread.join();
+        System.out.print( "downloaded content length = " + downloadThread.getDownloadedContentLength() );
     }
 }
