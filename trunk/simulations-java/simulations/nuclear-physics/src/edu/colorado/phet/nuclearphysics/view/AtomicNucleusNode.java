@@ -36,10 +36,11 @@ public class AtomicNucleusNode extends PNode {
     private static final Font ISOTOPE_NUMBER_FONT = new Font( NuclearPhysicsConstants.DEFAULT_FONT_NAME, Font.BOLD, 10 );
     private static final Font ISOTOPE_CHEM_SYMBOL_FONT = new Font( NuclearPhysicsConstants.DEFAULT_FONT_NAME, Font.BOLD, 16 );
     
-    // Factor by which the font should be scaled.  This allows us to use
+    // Factors by which the font should be scaled.  This allows us to use
     // standard font sizes and the use the Piccolo scaling capabilities,
     // which tends to look better than using non-standard sizes.
-    private static final double LABEL_SCALING_FACTOR = 0.30;
+    private static final double NORMAL_LABEL_SCALING_FACTOR = 0.30;
+    private static final double LARGE_LABEL_SCALING_FACTOR = 0.40;
     
     // Constants that control the nature of the explosion graphic.
     private static final int   EXPLOSION_COUNTER_RESET_VAL = 10;
@@ -120,22 +121,22 @@ public class AtomicNucleusNode extends PNode {
             
             _isotopeNumberShadow = new PText();
             _isotopeNumberShadow.setFont( ISOTOPE_NUMBER_FONT );
-            _isotopeNumberShadow.setScale( LABEL_SCALING_FACTOR );
+            _isotopeNumberShadow.setScale( NORMAL_LABEL_SCALING_FACTOR );
             addChild(_isotopeNumberShadow);
             
             _isotopeNumber = new PText();
             _isotopeNumber.setFont( ISOTOPE_NUMBER_FONT );
-            _isotopeNumber.setScale( LABEL_SCALING_FACTOR );
+            _isotopeNumber.setScale( NORMAL_LABEL_SCALING_FACTOR );
             addChild(_isotopeNumber);
             
             _isotopeChemSymbolShadow = new PText();
             _isotopeChemSymbolShadow.setFont( ISOTOPE_CHEM_SYMBOL_FONT );
-            _isotopeChemSymbolShadow.setScale( LABEL_SCALING_FACTOR );
+            _isotopeChemSymbolShadow.setScale( NORMAL_LABEL_SCALING_FACTOR );
             addChild(_isotopeChemSymbolShadow);
             
             _isotopeChemSymbol = new PText();
             _isotopeChemSymbol.setFont( ISOTOPE_CHEM_SYMBOL_FONT );
-            _isotopeChemSymbol.setScale( LABEL_SCALING_FACTOR );
+            _isotopeChemSymbol.setScale( NORMAL_LABEL_SCALING_FACTOR );
             addChild(_isotopeChemSymbol);
         }
         
@@ -304,6 +305,19 @@ public class AtomicNucleusNode extends PNode {
         _isotopeChemSymbolShadow.setText( chemSymbol );
         _isotopeNumber.setText( isotopeNumber );
         _isotopeNumberShadow.setText( isotopeNumber );
+        
+        if (isotopeNumber == ""){
+        	// Set the scale larger if there is no isotope number, since there
+        	// will be unused space in this case.
+        	_isotopeChemSymbol.setScale(LARGE_LABEL_SCALING_FACTOR);
+        	_isotopeChemSymbolShadow.setScale(LARGE_LABEL_SCALING_FACTOR);
+        }
+        else{
+        	_isotopeChemSymbol.setScale(NORMAL_LABEL_SCALING_FACTOR);
+        	_isotopeChemSymbolShadow.setScale(NORMAL_LABEL_SCALING_FACTOR);
+        	_isotopeNumber.setScale(NORMAL_LABEL_SCALING_FACTOR);
+        	_isotopeNumberShadow.setScale(NORMAL_LABEL_SCALING_FACTOR);
+        }
     }
     
     /**

@@ -30,7 +30,8 @@ public class LabeledNucleusNode extends PComposite {
     //------------------------------------------------------------------------
 
     private static final double IMAGE_SCALING_FACTOR = 0.20;
-    private static final double FONT_SCALING_FACTOR = IMAGE_SCALING_FACTOR * 9;
+    private static final double SMALLER_FONT_SCALING_FACTOR = IMAGE_SCALING_FACTOR * 9;
+    private static final double LARGER_FONT_SCALING_FACTOR = IMAGE_SCALING_FACTOR * 12;
 
     //------------------------------------------------------------------------
     // Instance Data
@@ -64,7 +65,14 @@ public class LabeledNucleusNode extends PComposite {
         ShadowHTMLNode label = new ShadowHTMLNode(labelText);
         label.setColor( labelColor );
         label.setShadowColor( labelColor == Color.BLACK ? Color.WHITE : Color.BLACK );
-        label.setScale(FONT_SCALING_FACTOR);
+        if (isotopeNumber == ""){
+        	// If there is no isotope number, a somewhat larger font can be
+        	// used for the chemical symbol.
+            label.setScale(LARGER_FONT_SCALING_FACTOR);
+        }
+        else{
+            label.setScale(SMALLER_FONT_SCALING_FACTOR);
+        }
         label.setShadowOffset( 0.5, 0.5 );
         if (nucleusImage.getWidth() < label.getWidth()){
             // Center the label over the nucleus.
