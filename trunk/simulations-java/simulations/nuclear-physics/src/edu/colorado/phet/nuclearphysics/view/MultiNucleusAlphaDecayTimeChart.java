@@ -829,7 +829,9 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     	 * just prior to getting rid of the nucleus data.
     	 */
     	public void removeNodeFromChart(){
-    		_nonPickableChartNode.removeChild(_nucleusNode);
+    		if (_nucleusNode != null){
+        		_nonPickableChartNode.removeChild(_nucleusNode);
+    		}
     		if (_decayBucket != Integer.MAX_VALUE){
     			_decaysPerHistogramBucket[_decayBucket]--;
     		}
