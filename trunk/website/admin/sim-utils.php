@@ -363,7 +363,7 @@
                     $language_to_translations[$sim_name] = array();
                 }
 
-                $language_to_translations[$sim_name][$language_name] = $data["url"];
+                $language_to_translations[$sim_name][$language_name] = $data["online_url"];
             }
         }
 
@@ -388,9 +388,10 @@
                 continue;
             }
 
-            $link = sim_get_launch_url($simulation, $code);
-            if ($link) {
-                $translations[$language_name] = array("code" => $code, "url" => $link);
+            $online_link = sim_get_launch_url($simulation, $code);
+            $offline_link = sim_get_run_offline_link($simulation, $code);
+            if ($online_link || $offline_link) {
+                $translations[$language_name] = array("code" => $code, "url" => $online_link, "online_url" => $online_link, "offline_url" => $offline_link);
             }
 
             flush();
@@ -888,7 +889,7 @@
      * 
      * @return arary(filename, conent), or false if not successful
      **/
-    function sim_get_run_offline($simulation, $language_code = null) {
+    function sim_get_run_offline($simulation, $language_code = false) {
 
         $verbose = debug_is_on();
 
@@ -897,7 +898,17 @@
 
         // If it is a Java sim, just send the jar
         if ($simulation['sim_type'] == SIM_TYPE_JAVA) {
-            $filename = PORTAL_ROOT."sims/{$dirname}/{$flavorname}.jar";
+            if ((!$language_code) || ($language_code == 'en')) {
+                $filename = PORTAL_ROOT."sims/{$dirname}/{$flavorname}.jar";
+            }
+            else {
+                $filename = PORTAL_ROOT."sims/{$dirname}/{$flavorname}_{$language_code}.jar";
+            }
+
+            if (!file_exists($filename)) {
+                return false;
+            }
+
             return array($filename, file_get_contents($filename));
         }
 
@@ -914,7 +925,7 @@
         // Internationalized sim, generate a jar file that will launch the localized swf
 
         // Get the language
-        if (is_null($language_code)) {
+        if (!$language_code) {
             $lang = "en";
         }
         else {
@@ -938,16 +949,8 @@
         // Prepares temporary files and directories
 
         // Create a temporary directory
-        $num_tries = 10;
-        for ($i = 0; $i < $num_tries; ++$i) {
-            $temp_dir_name = sys_get_temp_dir()."/phet_".rand()."/";
-            $dir_made = mkdir($temp_dir_name);
-            if ($dir_made) {
-                break;
-            }
-        }
-
-        if ($dir_made === false) {
+        $temp_dir_name = create_temp_dir();
+        if (!$temp_dir_name) {
             //print "ERROR: cannot create directory";
             exit;
         }
@@ -1156,8 +1159,58 @@
         return $link;
     }
 
-    function sim_get_run_offline_link($simulation) {
-        return SITE_ROOT.'admin/get-run-offline.php?sim_id='.$simulation['sim_id'];
+    /**
+     * Get the simulataion offline link of the specified language exists.  If no language is specified, English is assumed
+     * 
+     * @param array $simulation Simulation information
+     * @param string $language_code OPTIONAL Language to use, default is English
+     * @return mixed If successful, the link to download the offline sim, otherwise false
+     */
+    function sim_get_run_offline_link($simulation, $language_code = false) {
+        $dirname    = $simulation['sim_dirname'];
+        $flavorname = $simulation['sim_flavorname'];
+        $sim_type   = $simulation['sim_type'];
+
+        if ($sim_type == SIM_TYPE_FLASH) {
+            // Flash sims always have a language code, even if it is English
+            $code = 'en';
+            if ($language_code) {
+                $code = $language_code;
+            }
+
+            $flash_swf = PORTAL_ROOT."sims/{$dirname}/{$flavorname}.swf";
+            $flash_strings = PORTAL_ROOT."sims/{$dirname}/{$flavorname}-strings_{$code}.xml";
+            $flash_html = PORTAL_ROOT."sims/{$dirname}/{$flavorname}_{$code}.html";
+            if (file_exists($flash_swf) && file_exists($flash_strings) && file_exists($flash_html)) {
+                // The Flash sims and language combination exists, return the link to retrieve it
+                return SITE_ROOT."admin/get-run-offline.php?sim_id={$simulation['sim_id']}&amp;lang={$code}";
+            }
+            else {
+                // The Flash sims and language combination does NOT exist
+                return false;
+            }
+        }
+        else {
+            // Try local first
+            if ($language_code) {
+                $jar_file = PORTAL_ROOT."sims/{$dirname}/{$flavorname}_{$language_code}.jar";
+            }
+            else {
+                $jar_file = PORTAL_ROOT."sims/{$dirname}/{$flavorname}.jar";
+            }
+
+            if (file_exists($jar_file)) {
+                if ($language_code) {
+                    return SITE_ROOT."admin/get-run-offline.php?sim_id={$simulation['sim_id']}&amp;lang={$language_code}";
+                }
+                else {
+                    return SITE_ROOT."admin/get-run-offline.php?sim_id={$simulation['sim_id']}";
+                }
+            }
+            else {
+                return false;
+            }
+        }
     }
 
     function sim_get_select_sims_by_category_statement($cat_id) {
