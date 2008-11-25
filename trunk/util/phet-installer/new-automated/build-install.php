@@ -281,6 +281,13 @@
     }
 
     //--------------------------------------------------------------------------
+    // Function for creating the marker file that will be used by the tracking
+    // code to determine whether a simulation was run from full installation.
+    //--------------------------------------------------------------------------
+    function create_marker_file(){
+    }
+
+    //--------------------------------------------------------------------------
     // Print the usage information.
     //--------------------------------------------------------------------------
     function print_help() {
