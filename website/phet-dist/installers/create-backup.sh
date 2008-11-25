@@ -7,13 +7,17 @@
 # with the automated installer-builder process.
 #------------------------------------------------------------------------------
 
-# Initialize the constants that will be needed later.
+# Initialize the variables that will be needed later.
+if [ $# -gt 0 ]; then
+    ROOT_DIR=$1
+else
+    ROOT_DIR=`pwd`/
+fi
 BACKUP_DIR_STEM_NAME=backup
-BACKUP_DIR=$BACKUP_DIR_STEM_NAME-$(date +%Y-%m-%d)
-let NUM_BACKUPS_TO_KEEP=2
+BACKUP_DIR=$ROOT_DIR$BACKUP_DIR_STEM_NAME-$(date +%Y-%m-%d)
 
 echo ""
-echo "Creating backup of installers..."
+echo "Creating backup of installers in directory $ROOT_DIR"
 
 # See if the backup directory already exists and delete it if so.
 
@@ -36,8 +40,8 @@ fi
 # Copy the files into the backup directory.
 
 echo ""
-cp -v *installer* ./$BACKUP_DIR
-cp -v *CD* ./$BACKUP_DIR
+cp -v $ROOT_DIR*installer* $BACKUP_DIR
+cp -v $ROOT_DIR*CD* $BACKUP_DIR
 echo ""
 
 if [ "$?" -ne "0" ]; then
@@ -50,11 +54,11 @@ fi
 # that creates the list of excess backup directories.  Adjust this number
 # if you need to increase or reduce the number of backups maintained.
 
-EXCESS_BACKUP_DIRS=`ls -C1 -t -d backup* | awk 'NR>4'`
+EXCESS_BACKUP_DIRS=`ls $ROOT_DIR -C1 -t -d backup* | awk 'NR>4'`
 for DIR in $EXCESS_BACKUP_DIRS
 do
    echo Removing old backup directory $DIR
-   rm -rf $DIR
+   #rm -rf $DIR
    echo ""
 done
 
