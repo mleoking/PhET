@@ -202,6 +202,9 @@
 
         // Get the resources for the Flash sims.
         builder_download_flash_rsrcs();
+
+        // Add the marker file, needed for sim usage tracking.
+        create_marker_file();
     }
 
     //--------------------------------------------------------------------------
@@ -286,9 +289,10 @@
     // See unfuddle ticket #875 for more information.
     //--------------------------------------------------------------------------
     function create_marker_file(){
-        $local_file_name = ".phet_installer";
-	$contents = "DO NOT DELETE THIS FILE. This file is used by the PhET tracking feature to detect that these sims were installed using the PhET Installer."
-        file_put_contents_anywhere($local_file_name, $contents);
+        $base_file_name = ".phet_installer";
+        $marker_file_name = RIPPED_WEBSITE_TOP.PHET_SIMS_SUBDIR.$base_file_name;
+	$contents = "DO NOT DELETE THIS FILE. This file is used by the PhET tracking feature to detect that these sims were installed using the PhET Installer.";
+        file_put_contents_anywhere($marker_file_name, $contents);
     }
 
     //--------------------------------------------------------------------------
