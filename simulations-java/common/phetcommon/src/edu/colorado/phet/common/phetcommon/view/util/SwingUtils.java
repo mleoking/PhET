@@ -371,7 +371,7 @@ public class SwingUtils {
      * @param component
      * @param width
      */
-    public static void setPreferredWidth( Component component, int width ) {
+    public static void setPreferredWidth( JComponent component, int width ) {
         component.setPreferredSize( new Dimension( width, (int) component.getPreferredSize().getHeight() ) );
     }
     
@@ -381,7 +381,7 @@ public class SwingUtils {
      * @param component
      * @param height
      */
-    public static void setPreferredHeight( Component component, int height ) {
+    public static void setPreferredHeight( JComponent component, int height ) {
         component.setPreferredSize( new Dimension( (int) component.getPreferredSize().getWidth(), height ) );
     }
 }
