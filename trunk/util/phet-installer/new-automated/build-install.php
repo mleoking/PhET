@@ -9,6 +9,10 @@
     require_once("ia.php");
     require_once("xml-util.php");
 
+    //--------------------------------------------------------------------------
+    // Function for ripping the main site, meaning that it traverses each link
+    // and downloads the HTML files, images, etc that comprise the site.
+    //--------------------------------------------------------------------------
     function builder_rip_website() {
         flushing_echo("Ripping website with ".RIPPER_EXE." ".RIPPER_ARGS);
 
@@ -17,9 +21,11 @@
         flushing_echo($result);
     }
 
+    //--------------------------------------------------------------------------
     // This function is primarily used for testing, and rips a subset of the
     // web site instead of the whole thing.  To use it, swap out the call
     // to the full ripper function.  Just don't forget to swap it back.
+    //--------------------------------------------------------------------------
     function builder_rip_website_subset() {
         define("SUBSET_RIPPER_ARGS", '"'.PHET_WEBSITE_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.'"+*'.PHET_ROOT_URL.'sims*"'.' -E30 -v %q0 -%e0'); 
         flushing_echo("Ripping subset of website with ".RIPPER_EXE." ".SUBSET_RIPPER_ARGS);
@@ -29,9 +35,11 @@
         flushing_echo($result);
     }
 
+    //--------------------------------------------------------------------------
+    // Download needed Java resources that can't be obtained by ripping
+    // the main web site (because there are no direct links to them).
+    //--------------------------------------------------------------------------
     function builder_download_java_rsrcs() {
-        // Download needed Java resources that can't be obtained by ripping
-        // the main web site (because there are no direct links to them).
 
         flushing_echo("Downloading all Java simulation resources...");
 
@@ -101,9 +109,11 @@
         }
     }
 
+    //--------------------------------------------------------------------------
+    // Download the required flash resources that can't be obtained by ripping
+    // the main site (because there are no direct links to them).
+    //--------------------------------------------------------------------------
     function builder_download_flash_rsrcs() {
-        // Download needed flash resources that can't be obtained by ripping
-        // the main web site (because there are no direct links to them).
 
         flushing_echo("Downloading all Flash simulation resources...");
 
@@ -179,11 +189,13 @@
         }
     }
 
+    //--------------------------------------------------------------------------
+    // Ripping the web site obtains some of the files needed for running the
+    // sims, but not all of them, since some files are not directly referenced
+    // by the main web site.  This function obtains the other required
+    // resources.
+    //--------------------------------------------------------------------------
     function builder_download_sims() {
-        // Ripping the web site obtains some of the files needed for running
-        // the sims, but not all of them, since some files are not directly
-        // referenced by the main web site.  This function obtains the other
-        // required resources.
 
         // Get the resources for the Java sims.
         builder_download_java_rsrcs();
@@ -192,9 +204,11 @@
         builder_download_flash_rsrcs();
     }
 
+    //--------------------------------------------------------------------------
+    // Here we download all the '-installer' versions of webpages, which are
+    // not linked into the website and therefore not ripped.
+    //--------------------------------------------------------------------------
     function builder_download_installer_webpages() {
-        // Here we download all the '-installer' versions of webpages, which are
-        // not linked into the website and therefore not ripped.
         flushing_echo("SKIPPING: Not downloading installer versions of webpages...");
 	return;
 
@@ -217,9 +231,11 @@
         }
     }
 
+    //--------------------------------------------------------------------------
+    // This function performs a macro substitution in all HTML files. For
+    // example, $DATE$ is replaced by the current date.
+    //--------------------------------------------------------------------------
     function builder_perform_macro_substitutions() {
-        // This function performs a macro substitution in all HTML files. For
-        // example, $DATE$ is replaced by the current date.
         flushing_echo("Performing macro substitutions...");
 
         $macro_map = array();
@@ -235,6 +251,9 @@
         }
     }
 
+    //--------------------------------------------------------------------------
+    // Function for building installers for all of the supported platforms.
+    //--------------------------------------------------------------------------
     function builder_build_all() {
         flushing_echo("Building all installers for all configurations...");
 
@@ -255,10 +274,15 @@
         autorun_cleanup_files();
     }
 
+    //--------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
     function builder_deploy_all() {
         flushing_echo("Deploying all installers for all configurations...");
     }
 
+    //--------------------------------------------------------------------------
+    // Print the usage information.
+    //--------------------------------------------------------------------------
     function print_help() {
         flushing_echo("Usage: build-install [--full]\n".
                       "                     [--rip-website]\n".
@@ -271,6 +295,9 @@
 
     }
 
+    //--------------------------------------------------------------------------
+    // Function for analyzing the command line options.
+    //--------------------------------------------------------------------------
     function is_checked($attr) {
         if (is_cmd_line_option_enabled($attr)) {
             return true;
@@ -282,6 +309,9 @@
         return isset($_REQUEST[$attr]);
     }
 
+    //--------------------------------------------------------------------------
+    // Entry point for this PHP file.
+    //--------------------------------------------------------------------------
     function main() {
         if (is_cmd_line_option_enabled("help")) {
             print_help();
