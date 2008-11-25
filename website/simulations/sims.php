@@ -582,54 +582,60 @@ EOT;
         $translations = sim_get_translations($this->simulation);
 
         if (count($translations) > 0) {
-            if ($this->sim_type == SIM_TYPE_FLASH) {
-                // Do a fancy header for Flash sims, because there are 2 choices:
-                //     Run it now immediatley (by clicking on the language icon)
-                //     Download and run it later
-                // Java may someday have this ability (it only has the first)
+            // Only have a "Download" column if this is not for the installer
+            $download_column_html = '';
+            if (!$this->is_installer_builder_rip()) {
+                $download_column_html = '<td><strong>Download</strong></td>';
+            }
 
-                print <<<EOT
+            // The table header
+            print <<<EOT
             <table>
                 <thead>
                     <tr>
                         <td colspan="2" style="text-align: center;"><strong>Language</strong></td>
-                        <td><strong>Download</strong></td>
+                        {$download_column_html}
                     </tr>
                 </thead>
                 <tbody>
 
 EOT;
-            }
-            else {
-                // Java, no fancy header
-                print <<<EOT
-            <table>
-                <tbody>
-
-EOT;
-            }
 
             foreach ($translations as $language => $data) {
                 $language_code = $data["code"];
-                $launch_url = $data["url"];
+                $launch_url = $data["online_url"];
+                $offline_url = $data["offline_url"];
 
                 $language_icon_url = sim_get_language_icon_url_from_language_name($language);
 
                 // Flash sims should run in a new window
                 $onclick = "";
-                $flash_download_html = "";
                 if ($this->sim_type == SIM_TYPE_FLASH) {
                     $onclick = 'onclick="javascript:open_limited_window(\''.$launch_url.'\',\'simwindow\'); return false;"';
-
-                    // Here is the special download flash version option
-                    $flash_download_html = <<<EOT
-                <td>
-                    <a href="{$this->sim_run_offline_link}&amp;lang={$language_code}" title="Click here to download the {$language} version of {$formatted_sim_name}">Download {$language} version to run offline</a>
-                </td>
-
-EOT;
                 }
 
+                // Download/Offline link is provided if it exists and this is not the installer-builder
+                $offline_download_html = "";
+                if (!$this->is_installer_builder_rip()) {
+                    if ($offline_url) {
+                        $offline_download_html = <<<EOT
+                    <td>
+                        <a href="{$offline_url}" title="Click here to download the {$language} version of {$formatted_sim_name}">Download {$language} version to run offline</a>
+                    </td>
+
+EOT;
+                    }
+                    else {
+                        $offline_download_html = <<<EOT
+                    <td>
+                        <em>Not available yet</em>
+                    </td>
+
+EOT;
+                    }
+                }
+
+                // Write the row information
                 print <<<EOT
             <tr>
                 <td>
@@ -638,12 +644,13 @@ EOT;
                 <td>
                     <a href="{$launch_url}" {$onclick} title="Click here to launch the {$language} version of {$formatted_sim_name}">{$language}</a>
                 </td>
-                {$flash_download_html}
+                {$offline_download_html}
             </tr>
 
 EOT;
             }
 
+            // Close the table
             print <<<EOT
                 </tbody>
             </table>
