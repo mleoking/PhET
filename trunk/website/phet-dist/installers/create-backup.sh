@@ -41,5 +41,6 @@ EXCESS_BACKUP_DIRS=`ls -C1 -t -d backup* | awk 'NR>4'`
 for DIR in $EXCESS_BACKUP_DIRS
 do
    echo Removing old backup directory $DIR
+   rm -rf $DIR
 done
 
