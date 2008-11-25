@@ -283,8 +283,12 @@
     //--------------------------------------------------------------------------
     // Function for creating the marker file that will be used by the tracking
     // code to determine whether a simulation was run from full installation.
+    // See unfuddle ticket #875 for more information.
     //--------------------------------------------------------------------------
     function create_marker_file(){
+        $local_file_name = ".phet_installer";
+	$contents = "DO NOT DELETE THIS FILE. This file is used by the PhET tracking feature to detect that these sims were installed using the PhET Installer."
+        file_put_contents_anywhere($local_file_name, $contents);
     }
 
     //--------------------------------------------------------------------------
