@@ -18,7 +18,7 @@ class NewSimulationPage extends SitePage {
             connect_to_db();
         }
 
-        db_exec_query("INSERT INTO `simulation` (`sim_name`, `sim_keywords`) VALUES ('New Simulation', 'keyword1, keyword2, keyword3') ");
+        db_exec_query("INSERT INTO `simulation` (`sim_name`, `sim_keywords`) VALUES ('".DEFAULT_NEW_SIMULATION_NAME."', 'keyword1, keyword2, keyword3') ");
 
         $sim_id = mysql_insert_id($connection);
 

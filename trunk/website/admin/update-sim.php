@@ -106,13 +106,10 @@ class UpdateSimulationPage extends SitePage {
         }
 
         // Cleanup junk, if any:
-        db_exec_query('DELETE FROM `simulation` WHERE `sim_name`=\'New Simulation\' ');
+        db_exec_query('DELETE FROM `simulation` WHERE `sim_name`=\''.DEFAULT_NEW_SIMULATION_NAME.'\' ');
 
         // Clear the sim cache
         cache_clear_simulations();
-
-        // TODO: check for success!
-        $this->meta_refresh("edit-sim.php?sim_id=$sim_id", 2);
     }
 
     function render_content() {
@@ -121,10 +118,13 @@ class UpdateSimulationPage extends SitePage {
             return $result;
         }
 
+        $encoded_sim_name = web_encode_string($this->sim_name);
         print <<<EOT
             <h2>Update Successful</h2>
 
             <p>The simulation "{$this->sim_name}" was successfully updated.</p>
+
+            <p><a href="../simulations/sims.php?sim={$encoded_sim_name}">Go to the simulation page</a>
 
 EOT;
     }
