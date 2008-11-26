@@ -89,6 +89,7 @@ EOT;
 
                 if (isset($_REQUEST['auto_order'])) {
                     db_exec_query("UPDATE `simulation_listing` SET `simulation_listing_order`='$auto_order' WHERE `simulation_listing_id`='$simulation_listing_id' ");
+                    $simulation_listing_order = $auto_order;
                 }
 
                 print <<<EOT
