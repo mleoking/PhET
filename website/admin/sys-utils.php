@@ -212,7 +212,15 @@
             return filesize($name);
         }
         else {
-            return urlsize($name);
+            $size = urlsize($name);
+            if (is_array($size)) {
+                // Some redirects happened, take the last one hoping that it is what we seek
+                return array_pop($size);
+            }
+            else {
+                // Just use the int returned
+                return $size;
+            }
         }
     }
 
