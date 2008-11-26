@@ -483,9 +483,24 @@ EO_DISPLAY_SLIDESHOW_2;
     }
 
     function is_email($email) {
+        /* ---- From http://news.zdnet.com/2424-9595_22-208742.html ----
+
+        ...the Internet Corporation for Assigned Names and Numbers (ICANN),
+        a not-for-profit organization that oversees the naming scheme for
+        web sites, voted to accept a proposal that will allow companies to
+        purchase new top-level domain names ending in almost whatever suffix
+        they choose. ... The new naming process will begin in 2009. ...
+
+        Meaning that instead just the usual .net, .com, .org, etc, we'll
+        be could be seeing .name, .ford, etc.
+        */
+
         $p  = '/^[a-z0-9!#$%&*+-=?^_`{|}~]+(\.[a-z0-9!#$%&*+-=?^_`{|}~]+)*';
-        $p .= '@([-a-z0-9]+\.)+([a-z]{2,3}';
-        $p .= '|info|arpa|aero|coop|name|museum)$/ix';
+        $p .= '@([-a-z0-9]+\.)+([-a-z0-9]+)$/ix';
+        // Previous regex, for refercence
+        //$p  = '/^[a-z0-9!#$%&*+-=?^_`{|}~]+(\.[a-z0-9!#$%&*+-=?^_`{|}~]+)*';
+        //$p .= '@([-a-z0-9]+\.)+([a-z]{2,3}';
+        //$p .= '|info|arpa|aero|coop|name|museum)$/ix';
 
         return preg_match($p, $email) == 1;
     }
