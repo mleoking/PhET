@@ -73,6 +73,8 @@ if (get_magic_quotes_gpc()) {
     define("FLASH_MIN_VERSION", "8");
     define("FLASH_MIN_VERSION_FULL", "Macrmedia Flash 8");
 
+    define("DEFAULT_NEW_SIMULATION_NAME", "New Simulation");
+
     /**
      * This constant is used so that included scripts can reference the files 
      * they require using an absolute path, which seems to be required due to

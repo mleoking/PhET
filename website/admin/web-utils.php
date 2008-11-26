@@ -301,9 +301,22 @@
     }
 
     function print_captioned_editable_area($caption, $control_name, $contents, $rows = "20", $cols = "40") {
-        print("<p>$caption</p>\n<p>");
+        print("<p><strong>$caption</strong></p>\n<p>");
 
         print_editable_area($control_name, $contents, $rows, $cols);
+
+        print("</p>\n");
+    }
+
+    function print_editable_input($control_name, $contents) {
+        $formatted_contents = format_string_for_html($contents);
+        print("<input type=\"text\" name=\"$control_name\" value=\"$formatted_contents\" />\n");
+    }
+
+    function print_captioned_editable_input($caption, $control_name, $contents) {
+        print("<p><strong>$caption</strong></p>\n<p>");
+
+        print_editable_input($control_name, $contents);
 
         print("</p>\n");
     }
@@ -496,7 +509,7 @@ EO_DISPLAY_SLIDESHOW_2;
         */
 
         $p  = '/^[a-z0-9!#$%&*+-=?^_`{|}~]+(\.[a-z0-9!#$%&*+-=?^_`{|}~]+)*';
-        $p .= '@([-a-z0-9]+\.)+([-a-z0-9]+)$/ix';
+        $p .= '@([-a-z0-9]+\.)+([a-z]{2,})$/ix';
         // Previous regex, for refercence
         //$p  = '/^[a-z0-9!#$%&*+-=?^_`{|}~]+(\.[a-z0-9!#$%&*+-=?^_`{|}~]+)*';
         //$p .= '@([-a-z0-9]+\.)+([a-z]{2,3}';

@@ -835,6 +835,10 @@
             $i18n_flash_link = PORTAL_ROOT."sims/{$simulation['sim_dirname']}/{$simulation['sim_flavorname']}.swf";
             $size = url_or_file_size($i18n_flash_link);
         }
+        else {
+            // ERROR: Sim not specified
+            //$size = 0;
+        }
 
         $simulation = array(
             'sim_id'   => $sim_id,

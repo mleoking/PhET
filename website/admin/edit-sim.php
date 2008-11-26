@@ -19,7 +19,16 @@ class EditSimPage extends SitePage {
         $sql_result_cat = mysql_query($sql_cat, $connection);
         $row_cat        = mysql_num_rows($sql_result_cat);
 
-        $is_checked = ($row_cat >= 1 ? "checked=\"checked\"" : "");
+        $is_checked = ($row_cat >= 1 ? 'checked="checked"' : "");
+
+        // HACK: Make sure "All Sims" category is checked if this is a new simulation
+        $default_checked_for_new_sim = array('All Sims', 'New Sims', 'Show Static Preview on Homepage');
+        if (in_array($cat_name, $default_checked_for_new_sim)) {
+            $simulation = sim_get_sim_by_id($sim_id);
+            if ($simulation['sim_name'] == DEFAULT_NEW_SIMULATION_NAME) {
+                $is_checked = 'checked="checked"';
+            }
+        }
 
         $formatted_cat_name = format_string_for_html($cat_name);
         if ($cat_is_visible == '1') {
@@ -77,7 +86,7 @@ class EditSimPage extends SitePage {
     function print_teachers_guide($sim_id) {
         $teachers_guide = sim_get_teachers_guide_by_sim_id($sim_id);
         print "<p>\n";
-        print "Teachers Guide options:<br />";
+        print "<strong>Teachers Guide options:</strong><br />";
         if ($teachers_guide) {
             print "Current teacher's guide: <em><a href=\"{$this->prefix}admin/get-teachers-guide.php?teachers_guide_id={$teachers_guide["teachers_guide_id"]}\">{$teachers_guide["teachers_guide_filename"]}</a></em><br />\n";
         }
@@ -143,14 +152,14 @@ class EditSimPage extends SitePage {
 
 EOT;
 
-        print_captioned_editable_area("Specify the name of the simulation", "sim_name", $sim_name, "1");
+        print_captioned_editable_input("Specify the name of the simulation", "sim_name", $sim_name);
 
-        print_captioned_editable_area("Specify the <em>dir-name</em> of the simulation", "sim_dirname", $sim_dirname, "1");
+        print_captioned_editable_input("Specify the <em>SVN project name</em> of the simulation", "sim_dirname", $sim_dirname);
 
-        print_captioned_editable_area("Specify the <em>flavor-name</em> of the simulation", "sim_flavorname", $sim_flavorname,      "1");
+        print_captioned_editable_input("Specify the <em>sim-name/flavor-name</em> of the simulation", "sim_flavorname", $sim_flavorname);
 
         print <<<EOT
-    <div>Please select a rating for this simulation</div>
+    <div><p><strong>Please select a rating for this simulation</strong></p></div>
                 <p>
 
 EOT;
@@ -162,7 +171,7 @@ EOT;
 print <<<EOT
                 </p>
 
-    <div>Please select the type of the simulation</div>
+    <div><p><strong>Please select the type of the simulation</strong></p></div>
 
         <p>
 
@@ -173,31 +182,35 @@ EOT;
 
         print "</p>";
 
-        print "<div>";
+        print "<div><p><strong>Please check this box of the simulation is <em>NOT</em> Standalone</strong><br />";
 
         print_checkbox(
             "sim_crutch",
             "<img src=\"".SIM_CRUTCH_IMAGE."\" alt=\"\" />".
-            "Check here if the simulation is <strong>not</strong> standalone",
+            "<strong>Guidance Recommended</strong>: This simulation is very effective when used in conjunction with a lecture, homework or other teacher designed activity.",
             $sim_crutch
         );
 
-        print "</div>";
+        print "</p></div>";
 
         print_captioned_editable_area("Simulation Description", "sim_desc", $sim_desc, "10");
-        print_captioned_editable_area("Enter the keywords to associated with the simulation*",
-                                      "sim_keywords", $sim_keywords, "2");
-        print_captioned_editable_area("Enter the members of the design team*",               "sim_design_team",     $sim_design_team, "4");
-        print_captioned_editable_area("Enter the libraries used by the simulation*",         "sim_libraries",       $sim_libraries,   "4");
-        print_captioned_editable_area("Enter the 'thanks to' for the simulation*",           "sim_thanks_to",       $sim_thanks_to,   "4");
+        print_captioned_editable_area("Enter the keywords to associated with the simulation<a href=\"#asterisk-note\">*</a>",
+                                      "sim_keywords", $sim_keywords, "5");
+        print_captioned_editable_area("Enter the members of the design team<a href=\"#asterisk-note\">*</a>",               "sim_design_team",     $sim_design_team, "4");
+        print_captioned_editable_area("Enter any 3rd-party libraries used by the simulation<a href=\"#asterisk-note\">*</a>",         "sim_libraries",       $sim_libraries,   "4");
+        print_captioned_editable_area("Enter the 'thanks to' for the simulation<a href=\"#asterisk-note\">*</a>",           "sim_thanks_to",       $sim_thanks_to,   "4");
 
         $this->print_teachers_guide($sim_id);
 
-        print_captioned_editable_area("Enter the main topics*",                              "sim_main_topics",     $sim_main_topics, "4");
+        print_captioned_editable_area("Enter the main topics<a href=\"#asterisk-note\">*</a>",                              "sim_main_topics",     $sim_main_topics, "4");
 
-        print_captioned_editable_area("Enter the sample learning goals*",                    "sim_sample_goals",    $sim_sample_goals,"6");
+        print_captioned_editable_area("Enter the sample learning goals<a href=\"#asterisk-note\">*</a>",                    "sim_sample_goals",    $sim_sample_goals,"6");
 
-        print("<div>Please select the categories you would like the Simulation to appear under:</div>");
+        print <<<EOT
+            <div><p><a name="asterisk-note"></a><strong>*</strong><em>Separated by commas or asterisks. Asterisk separation has precedence over comma separation.</em></p></div>
+
+EOT;
+        print("<div><p><strong>Please select the categories you would like the Simulation to appear under:</strong></p></div>");
         print "<p>\n";
         $this->print_category_checkboxes();
 
@@ -210,7 +223,6 @@ EOT;
 
             </form>
 
-            <div>*Separated by commas or asterisks. Asterisk separation has precedence over comma separation.</div>
 EOT;
     }
 
