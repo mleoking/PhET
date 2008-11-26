@@ -48,6 +48,7 @@ class SponsorsPage extends SitePage {
                     <li class="simple"><strong>Bronze Level Contributors ($0 - $10k)</strong>
                         <ul>
                             <li>Dr. Andrew McNeil</li>
+                            <li>Bryan K. Long</li>
                         </ul>
                     </li>
                     </ul><br />
