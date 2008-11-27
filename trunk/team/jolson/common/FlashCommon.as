@@ -29,7 +29,7 @@ class FlashCommon {
 	public var trackingHandler : TrackingHandler;
 	
 	/////////////////////////
-	public var aboutButton : AboutButton;
+	public var commonButtons : CommonButtons;
 	
 	// initializes debug function at _level0.debug()
 	public function initDebug() : Void {
@@ -74,7 +74,7 @@ class FlashCommon {
 		// must have preferences loaded first before loading TrackingHandler.
 		trackingHandler = new TrackingHandler();
 		
-		// load tracking button (defaults to the upper left)
-		aboutButton = new AboutButton();
+		// load buttons (defaults to the upper left)
+		commonButtons = new CommonButtons();
 	}
 }
