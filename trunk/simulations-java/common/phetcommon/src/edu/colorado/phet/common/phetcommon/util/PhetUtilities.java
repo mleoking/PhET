@@ -12,9 +12,7 @@ package edu.colorado.phet.common.phetcommon.util;
 
 import java.util.ArrayList;
 import java.io.File;
-import java.net.URL;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.security.AccessControlException;
 
 import javax.swing.*;
 
@@ -24,7 +22,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
-import edu.colorado.phet.common.phetcommon.updates.dialogs.UpdateButton;
 
 /**
  * PhetModelUtilities
@@ -167,6 +164,11 @@ public class PhetUtilities {
      * @return true or false
      */
     public static boolean isPhetInstallation() {
+        //Sims run from phet installation should have permissions.
+        //If permissions are not available, it is not running from an installation
+        if (!hasPermissionsToGetCodeSource()){
+            return false;
+        }
         boolean isPhetInstallation = false;
         File codeSource = FileUtils.getCodeSource();
         File parent = codeSource.getParentFile();
@@ -179,7 +181,17 @@ public class PhetUtilities {
         }
         return isPhetInstallation;
     }
-    
+
+    private static boolean hasPermissionsToGetCodeSource() {
+        try {
+            FileUtils.getCodeSource();
+            return true;
+        }
+        catch( AccessControlException ace ) {
+            return false;
+        }
+    }
+
     /**
      * Is this sim running from a stand-alone JAR file on the user's local machine?
      * @return
