@@ -1,13 +1,5 @@
-/* Copyright 2003-2004, University of Colorado */
+/* Copyright 2003-2008, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.common.phetcommon.util;
 
 import java.util.ArrayList;
@@ -24,14 +16,14 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 
 /**
- * PhetModelUtilities
+ * PhetUtilities
  * <p/>
  * Static methods of general utility
  *
  * @author Ron LeMaster
- * @version $Revision$
  */
 public class PhetUtilities {
+    
     // Operating Systems
     public static final int OS_WINDOWS = 0;
     public static final int OS_MACINTOSH = 1;
@@ -164,25 +156,23 @@ public class PhetUtilities {
      * @return true or false
      */
     public static boolean isPhetInstallation() {
-        //Sims run from phet installation should have permissions.
-        //If permissions are not available, it is not running from an installation
-        if (!hasPermissionsToGetCodeSource()){
-            return false;
-        }
         boolean isPhetInstallation = false;
-        File codeSource = FileUtils.getCodeSource();
-        File parent = codeSource.getParentFile();
-        if ( parent != null ) {
-            File grandparent = parent.getParentFile();
-            if ( grandparent != null ) {
-                File specialFile = new File( grandparent.getAbsolutePath() + System.getProperty( "file.separator" ) + ".phet-installer" );
-                isPhetInstallation = specialFile.exists();
+        if ( hasPermissionsToGetCodeSource() ) {
+            File codeSource = FileUtils.getCodeSource();
+            File parent = codeSource.getParentFile();
+            if ( parent != null ) {
+                File grandparent = parent.getParentFile();
+                if ( grandparent != null ) {
+                    File specialFile = new File( grandparent.getAbsolutePath() + System.getProperty( "file.separator" ) + ".phet-installer" );
+                    isPhetInstallation = specialFile.exists();
+                }
             }
         }
         return isPhetInstallation;
     }
 
     private static boolean hasPermissionsToGetCodeSource() {
+        //TODO: bad style to write code that depends on exceptions, see AccessControlContext for a better solution 
         try {
             FileUtils.getCodeSource();
             return true;
