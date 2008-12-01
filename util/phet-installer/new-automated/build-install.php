@@ -278,12 +278,6 @@
     }
 
     //--------------------------------------------------------------------------
-    //--------------------------------------------------------------------------
-    function builder_deploy_all() {
-        flushing_echo("Deploying all installers for all configurations...");
-    }
-
-    //--------------------------------------------------------------------------
     // Function for creating the marker file that will be used by the tracking
     // code to determine whether a simulation was run from full installation.
     // See unfuddle ticket #875 for more information.
@@ -305,7 +299,6 @@
                       "                     [--download-installer-webpages]\n".
                       "                     [--perform-macro-substitutions]\n".
                       "                     [--build-all]\n".
-                      "                     [--deploy-all]\n".
                       "                     [--help]\n");
 
     }
@@ -347,9 +340,6 @@
 
                 if (is_checked('build-all'))
                     builder_build_all();
-
-                if (is_checked('deploy-all'))
-                    builder_deploy_all();
 
                 flushing_echo("All done!");
             }
