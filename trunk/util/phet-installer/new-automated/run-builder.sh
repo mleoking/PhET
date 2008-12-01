@@ -67,6 +67,16 @@ if [ "$?" -ne "0" ]; then
   exit 1
 fi
 
+echo "Creating a backup of the previous set of installers." | tee --append installer-builder-log.txt
+
+../phet-dist/installers/create-backup.sh ../phet-dist/installers/ | tee --append installer-builder-log.txt
+
+if [ "$?" -ne "0" ]; then
+  echo "Error creating backups" | tee --append installer-builder-log.txt
+  send_email_notification FAILURE
+  exit 1
+fi
+
 echo "Copying new installers to distribution directory" | tee --append installer-builder-log.txt
 
 cp ./temp/installer-output/*.* ../phet-dist/installers/ | tee --append installer-builder-log.txt
