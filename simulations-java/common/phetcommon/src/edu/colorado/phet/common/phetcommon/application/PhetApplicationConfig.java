@@ -134,6 +134,10 @@ public class PhetApplicationConfig implements ITrackingInfo, ISimInfo {
         return sessionCounter.getCount();
     }
 
+    public boolean isPreferencesEnabled() {
+        return isTrackingEnabled() || isUpdatesEnabled();
+    }
+
     //----------------------------------------------------------------------------
     // Standard properties
     //----------------------------------------------------------------------------
