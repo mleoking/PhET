@@ -42,6 +42,7 @@ public class PhetFileMenu extends JMenu {
 
         if ( simInfo.isPreferencesEnabled() ) {
             addPreferencesMenuItem( phetFrame, simInfo, trackingInfo );
+            addSeparator();
         }
 
         JMenuItem exitMI = new JMenuItem( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.Exit" ) );
@@ -67,6 +68,5 @@ public class PhetFileMenu extends JMenu {
         } );
         preferencesMenuItem.setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.PreferencesMnemonic" ).charAt( 0 ) );
         add( preferencesMenuItem );
-        addSeparator();
     }
 }
