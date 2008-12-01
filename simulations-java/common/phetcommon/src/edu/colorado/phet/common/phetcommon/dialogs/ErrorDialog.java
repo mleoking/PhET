@@ -38,7 +38,21 @@ public class ErrorDialog extends JDialog {
     
     public ErrorDialog( Frame owner, String title, String htmlMessage, final Exception exception ) {
         super( owner, title );
+        init( htmlMessage, exception );
+    }
+    
+    public ErrorDialog( JDialog owner, String title, String htmlMessage ) {
+        this( owner, title, htmlMessage, null /* exception */ );
+    }
+    
+    public ErrorDialog( JDialog owner, String title, String htmlMessage, final Exception exception ) {
+        super( owner, title );
+        init( htmlMessage, exception );
+    }
+    
+    private void init( String htmlMessage, final Exception exception ) {
         setResizable( false );
+        setModal( true );
 
         JComponent htmlPane = new InteractiveHTMLPane( htmlMessage );
         JPanel messagePanel = new JPanel();

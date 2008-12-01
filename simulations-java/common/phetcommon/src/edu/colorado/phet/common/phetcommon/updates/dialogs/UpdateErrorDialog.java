@@ -28,7 +28,6 @@ public class UpdateErrorDialog extends ErrorDialog {
 
     public UpdateErrorDialog( Frame owner, final Exception exception ) {
         super( owner, TITLE, getErrorMessageHTML(), exception );
-        setModal( true );
         SwingUtils.centerDialogInParent( this );
     }
     

@@ -153,8 +153,10 @@ public class DownloadProgressDialog extends JDialog {
         }
 
         public void error( String requestName, String sourceURL, File destinationFile, String message, Exception e ) {
-            //TODO: use an error dialog that allows the user to access the stack trace
-            JOptionPane.showMessageDialog( DownloadProgressDialog.this, message, "Update Error", JOptionPane.ERROR_MESSAGE );
+            String title = PhetCommonResources.getString( "Common.title.error" );
+            String htmlMessage = HTMLUtils.createStyledHTMLFromFragment( message );
+            ErrorDialog dialog = new ErrorDialog( DownloadProgressDialog.this, title, htmlMessage, e );
+            dialog.setVisible( true );
             dispose();
         }
     }
