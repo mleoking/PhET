@@ -5,11 +5,14 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Arrays;
 
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.dialogs.DownloadProgressDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
+import edu.colorado.phet.common.phetcommon.updates.dialogs.UpdateErrorDialog;
 import edu.colorado.phet.common.phetcommon.util.DownloadThread;
 import edu.colorado.phet.common.phetcommon.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
@@ -73,10 +76,19 @@ public class SimUpdater {
                 }
             }
             catch ( IOException e ) {
-                //TODO: alert the user
                 e.printStackTrace();
+                showException( e );
             }
         }
+    }
+    
+    /**
+     * Displays an update exception in a dialog.
+     * @param e
+     */
+    private void showException( Exception e ) {
+        JDialog dialog = new UpdateErrorDialog( PhetApplication.instance().getPhetFrame(), e );
+        dialog.setVisible( true );
     }
     
     /*
@@ -87,8 +99,8 @@ public class SimUpdater {
         
         // download requests
         DownloadThread downloadThread = new DownloadThread();
-        downloadThread.addRequest( PhetCommonResources.getString( "Common.updates.downloadingBootstrap" ), updateSrc, updaterDst ); //TODO: localize
-        downloadThread.addRequest( PhetCommonResources.getString( "Common.updates.downloadingSimJar" ), simSrc, simDst ); //TODO: localize
+        downloadThread.addRequest( PhetCommonResources.getString( "Common.updates.downloadingBootstrap" ), updateSrc, updaterDst );
+        downloadThread.addRequest( PhetCommonResources.getString( "Common.updates.downloadingSimJar" ), simSrc, simDst );
         
         // progress dialog
         String title = PhetCommonResources.getString( "Common.updates.progressDialogTitle" );
