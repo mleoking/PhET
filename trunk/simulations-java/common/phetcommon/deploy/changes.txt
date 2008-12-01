@@ -1,3 +1,4 @@
+12-01-08: #945, generalized error dialogs
 11-24-08: #926, integrated threaded downloading & progress bar into SimUpdater
 11-21-08: #926, add DownloadProgressDialog
 11-21-08: add MaxCharsLabel, a specialized JLabel that displays a max number of chars
