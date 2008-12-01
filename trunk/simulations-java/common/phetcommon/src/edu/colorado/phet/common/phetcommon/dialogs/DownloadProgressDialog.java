@@ -90,7 +90,7 @@ public class DownloadProgressDialog extends JDialog {
         JPanel panel = new JPanel();
         panel.setBorder( BorderFactory.createEmptyBorder( 10, 10, 10, 10  ) );
         EasyGridBagLayout layout = new EasyGridBagLayout( panel );
-        layout.setMinimumWidth( 0, MIN_PANEL_WIDTH );
+        layout.setMinimumWidth( 0, MIN_PANEL_WIDTH ); //TODO: shouldn't have to do this, but layout is messed up if we don't
         panel.setLayout( layout );
         int row = 0;
         int column = 0;
