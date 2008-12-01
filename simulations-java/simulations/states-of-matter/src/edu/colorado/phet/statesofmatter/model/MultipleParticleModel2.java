@@ -76,7 +76,7 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
     public static final double  MIN_TEMPERATURE = 0.0001;
     private static final double INITIAL_GRAVITATIONAL_ACCEL = 0.045;
     public static final double  MAX_GRAVITATIONAL_ACCEL = 0.4;
-    private static final double MAX_TEMPERATURE_CHANGE_PER_ADJUSTMENT = 0.050;
+    private static final double MAX_TEMPERATURE_CHANGE_PER_ADJUSTMENT = 0.025;
     private static final int    TICKS_PER_TEMP_ADJUSTEMENT = 10;
     private static final double MIN_INJECTED_MOLECULE_VELOCITY = 0.5;
     private static final double MAX_INJECTED_MOLECULE_VELOCITY = 2.0;
