@@ -16,4 +16,5 @@ public interface ISimInfo {
     long getSimStartTimeMillis();
     String getLocaleString();
     Integer getSessionCount();
+    boolean isPreferencesEnabled();
 }

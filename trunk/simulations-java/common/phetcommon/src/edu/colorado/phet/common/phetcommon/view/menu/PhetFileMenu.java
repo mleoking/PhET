@@ -40,19 +40,8 @@ public class PhetFileMenu extends JMenu {
         super( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.Title" ) );
         setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.TitleMnemonic" ).charAt( 0 ) );
 
-        if ( simInfo.isTrackingEnabled() || simInfo.isUpdatesEnabled() ) {
-            JMenuItem preferencesMenuItem = new JMenuItem( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.Preferences" ) );
-            preferencesMenuItem.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    new PreferencesDialog( phetFrame, trackingInfo,
-                                           new DefaultManualUpdateChecker( phetFrame, simInfo ),
-                                           new DefaultUpdatePreferences(),
-                                           new DefaultTrackingPreferences() ).setVisible( true );
-                }
-            } );
-            preferencesMenuItem.setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.PreferencesMnemonic" ).charAt( 0 ) );
-            add( preferencesMenuItem );
-            addSeparator();
+        if ( simInfo.isPreferencesEnabled() ) {
+            addPreferencesMenuItem( phetFrame, simInfo, trackingInfo );
         }
 
         JMenuItem exitMI = new JMenuItem( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.Exit" ) );
@@ -64,5 +53,20 @@ public class PhetFileMenu extends JMenu {
         } );
         exitMI.setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.ExitMnemonic" ).charAt( 0 ) );
         this.add( exitMI );
+    }
+
+    private void addPreferencesMenuItem( final PhetFrame phetFrame, final ISimInfo simInfo, final ITrackingInfo trackingInfo ) {
+        JMenuItem preferencesMenuItem = new JMenuItem( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.Preferences" ) );
+        preferencesMenuItem.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                new PreferencesDialog( phetFrame, trackingInfo,
+                                       new DefaultManualUpdateChecker( phetFrame, simInfo ),
+                                       new DefaultUpdatePreferences(),
+                                       new DefaultTrackingPreferences() ).setVisible( true );
+            }
+        } );
+        preferencesMenuItem.setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.PreferencesMnemonic" ).charAt( 0 ) );
+        add( preferencesMenuItem );
+        addSeparator();
     }
 }
