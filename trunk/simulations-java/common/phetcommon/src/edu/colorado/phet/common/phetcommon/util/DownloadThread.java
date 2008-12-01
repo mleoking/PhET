@@ -403,20 +403,20 @@ public class DownloadThread extends Thread {
             System.out.println( "DebugDownloadThreadListener.canceled" );
         }
         public void requestAdded( String requestName, String sourceURL, File destinationFile ) {
-            System.out.println( "DebugDownloadThreadListener.requestAdded " +
+            System.out.println( "DebugDownloadThreadListener.requestAdded" +
                      " requestName=" + requestName + " sourceURL=" + sourceURL + " destinationFile=" + destinationFile.getAbsolutePath() );
         }
         public void progress( String requestName, String sourceURL, File destinationFile, double percentOfSource, double percentOfTotal ) {
-            System.out.println( "DebugDownloadThreadListener.process " + 
+            System.out.println( "DebugDownloadThreadListener.process" + 
                     " requestName=" + requestName + " sourceURL=" + sourceURL + " destinationFile=" + destinationFile.getAbsolutePath() + 
                     " percentOfSource=" + percentOfSource + " percentOfTotal=" + percentOfTotal );
         }
         public void completed( String requestName, String sourceURL, File destinationFile ) {
-            System.out.println( "DebugDownloadThreadListener.completed " + 
+            System.out.println( "DebugDownloadThreadListener.completed" + 
                     " requestName=" + requestName + " sourceURL=" + sourceURL + " destinationFile=" + destinationFile.getAbsolutePath() );
         }
         public void error( String requestName, String sourceURL, File destinationFile, String message, Exception e ) {
-            System.out.println( "DebugDownloadThreadListener.error + + " +
+            System.out.println( "DebugDownloadThreadListener.error" +
                     " requestName=" + requestName + " sourceURL=" + sourceURL + " destinationFile=" + destinationFile.getAbsolutePath() + 
                     " message=" + message + " exception=" + e );
         }
