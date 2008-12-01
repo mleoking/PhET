@@ -62,7 +62,7 @@ public class PhetFileMenu extends JMenu {
                 new PreferencesDialog( phetFrame, trackingInfo,
                                        new DefaultManualUpdateChecker( phetFrame, simInfo ),
                                        new DefaultUpdatePreferences(),
-                                       new DefaultTrackingPreferences() ).setVisible( true );
+                                       new DefaultTrackingPreferences() ,simInfo.isTrackingEnabled(),simInfo.isUpdatesEnabled()).setVisible( true );
             }
         } );
         preferencesMenuItem.setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.PreferencesMnemonic" ).charAt( 0 ) );

@@ -1,17 +1,12 @@
 package edu.colorado.phet.common.phetcommon.preferences;
 
-import java.awt.FlowLayout;
-import java.awt.Frame;
-import java.awt.GridBagConstraints;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
@@ -38,7 +33,7 @@ public class PreferencesDialog extends JDialog {
     private final UpdatesPreferencesPanel updatesPreferencesPanel;
     private final TrackingPreferencesPanel trackingPreferencesPanel;
 
-    public PreferencesDialog( Frame owner, ITrackingInfo trackingInfo, IManualUpdateChecker iCheckForUpdates, IUpdatesPreferences updatePreferences, ITrackingPreferences trackingPreferences ) {
+    public PreferencesDialog( Frame owner, ITrackingInfo trackingInfo, IManualUpdateChecker iCheckForUpdates, IUpdatesPreferences updatePreferences, ITrackingPreferences trackingPreferences, boolean showTrackingUI, boolean showUpdatesUI ) {
         super( owner, TITLE );
         setResizable( false );
         setModal( false );
@@ -50,9 +45,13 @@ public class PreferencesDialog extends JDialog {
         JTabbedPane jTabbedPane = new JTabbedPane();
         userInputPanel.add( jTabbedPane );
         updatesPreferencesPanel = new UpdatesPreferencesPanel( iCheckForUpdates, updatePreferences.isEnabled() );
-        jTabbedPane.addTab( UPDATES_TAB, updatesPreferencesPanel );
         trackingPreferencesPanel = new TrackingPreferencesPanel( trackingInfo, trackingPreferences.isEnabled() );
-        jTabbedPane.addTab( TRACKING_TAB, trackingPreferencesPanel );
+        if ( showUpdatesUI ) {
+            jTabbedPane.addTab( UPDATES_TAB, updatesPreferencesPanel );
+        }
+        if ( showTrackingUI ) {
+            jTabbedPane.addTab( TRACKING_TAB, trackingPreferencesPanel );
+        }
 
         JButton okButton = new JButton( OK_BUTTON );
         okButton.addActionListener( new ActionListener() {
@@ -129,7 +128,7 @@ public class PreferencesDialog extends JDialog {
     public static void main( String[] args ) {
         final PhetApplicationConfig config = new PhetApplicationConfig( args, "balloons" );
         PreferencesDialog preferencesDialog = new PreferencesDialog( null, config, new DefaultManualUpdateChecker( null, config ), new DefaultUpdatePreferences(),
-                                                                     new DefaultTrackingPreferences() );
+                                                                     new DefaultTrackingPreferences(),true,true );
         preferencesDialog.addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
                 System.exit( 0 );
