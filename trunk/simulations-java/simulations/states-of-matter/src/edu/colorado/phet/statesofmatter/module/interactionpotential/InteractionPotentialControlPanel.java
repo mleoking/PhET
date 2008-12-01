@@ -110,9 +110,9 @@ public class InteractionPotentialControlPanel extends ControlPanel {
         
         // Add the panels we just created.
         addControlFullWidth( m_moleculeSelectionPanel );
-        addControlFullWidth( m_forceControlPanel );
         addControlFullWidth( m_atomDiameterControlPanel );
         addControlFullWidth( m_interactionStrengthControlPanel );
+        addControlFullWidth( m_forceControlPanel );
         
         // Add a reset button.
         addVerticalSpace( 10 );
