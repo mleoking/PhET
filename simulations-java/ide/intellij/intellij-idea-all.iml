@@ -98,6 +98,7 @@
     </content>
     <content url="file://$MODULE_DIR$/../../../team/reids">
       <sourceFolder url="file://$MODULE_DIR$/../../../team/reids/admin/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../team/reids/tracking/src" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/../../../util/phet-media-license">
       <sourceFolder url="file://$MODULE_DIR$/../../../util/phet-media-license/src" isTestSource="false" />
