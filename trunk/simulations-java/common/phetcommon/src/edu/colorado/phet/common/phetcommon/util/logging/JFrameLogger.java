@@ -1,9 +1,11 @@
 /* Copyright 2008, University of Colorado */
+
 package edu.colorado.phet.common.phetcommon.util.logging;
 
 import javax.swing.*;
 
 public class JFrameLogger implements ILogger {
+
     private JFrame frame;
     private JTextArea jTextArea;
 
@@ -14,13 +16,13 @@ public class JFrameLogger implements ILogger {
         frame.pack();
     }
 
-    public void log( String text ) {
-        jTextArea.append( text + "\n" );
+    public void log( String message ) {
+        jTextArea.append( message + "\n" );
         jTextArea.setCaretPosition( jTextArea.getText().length() );
     }
-    
-    public void logError( String text ) {
-        log( "ERROR: " + text );
+
+    public void logError( String message ) {
+        log( "ERROR: " + message );
     }
 
     public void setVisible( boolean visible ) {
