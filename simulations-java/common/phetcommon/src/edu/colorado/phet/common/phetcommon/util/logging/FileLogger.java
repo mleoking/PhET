@@ -1,3 +1,5 @@
+/* Copyright 2008, University of Colorado */
+
 package edu.colorado.phet.common.phetcommon.util.logging;
 
 import java.io.File;
@@ -9,9 +11,9 @@ import java.io.IOException;
  * Logs to a file.
  */
 public class FileLogger implements ILogger {
-    
+
     private FileWriter fileWriter;
-    
+
     public FileLogger( String logFileName, boolean append ) {
         this( new File( logFileName ), append );
     }
@@ -26,23 +28,23 @@ public class FileLogger implements ILogger {
         }
     }
 
-    public void log( String text ) {
+    public void log( String message ) {
         try {
-            fileWriter.write( text + "\n" );
+            fileWriter.write( message + "\n" );
             fileWriter.flush();
         }
         catch ( IOException e ) {
             e.printStackTrace();
         }
     }
-    
-    public void logError( String text ) {
-        log( "ERROR: " + text );
+
+    public void logError( String message ) {
+        log( "ERROR: " + message );
     }
-    
+
     public static void main( String[] args ) {
         String logFileName = System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.separator" ) + "log-test.txt";
-        ILogger logger = new FileLogger( logFileName, true /* append */ );
+        ILogger logger = new FileLogger( logFileName, true /* append */);
         logger.log( "good news" );
         logger.logError( "bad news" );
     }

@@ -2,6 +2,6 @@
 package edu.colorado.phet.common.phetcommon.util.logging;
 
 public interface ILogger {
-    void log( String text );
-    void logError( String text );
+    void log( String message );
+    void logError( String message );
 }
