@@ -7,15 +7,28 @@
 -->
 <project name="PhET Translation Utility" default="build-jar" basedir=".">
 
-	<!-- =================================================================== -->
-	<!-- Public properties                                                   -->
-	<!-- =================================================================== -->
-	
-	
+	<!--
+	   Properties that should be defined in build-local.properties:
+	   
+	   dev.username
+       dev.password
+       prod.username
+       prod.username
+    -->
+	<property file="build-local.properties"/>
+		
 	<!-- =================================================================== -->
 	<!-- Private properties                                                  -->
 	<!-- =================================================================== -->
 		
+	<!-- servers -->
+	<property name="dev.server"    value="spot.colorado.edu"/>
+	<property name="prod.server"   value="tigercat.colorado.edu"/>
+	
+	<!-- server paths -->
+	<property name="dev.deploy.rootdir" value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet/dev"/>
+    <property name="prod.deploy.dir" value="/web/htdocs/phet/phet-dist/translation-utility"/>
+	
 	<!-- directories where we create things -->
 	<property name="dir.output" location="${basedir}/build-output"/>
 	<property name="dir.output.classes" location="${dir.output}/classes"/>
@@ -117,5 +130,27 @@
 		<delete dir="${dir.output}"/>
 		<delete file="${dir.deploy}/${output.jar.name}"/>
 	</target>
+	
+	<!-- deploys to the development server -->
+	<target name="build-and-deploy-dev" depends="build-jar">
+		<loadproperties srcFile="data/translation-utility/translation-utility.properties"/>
+	    <property name="dev.deploy.dir" value="${dev.deploy.rootdir}/${version.major}.${version.minor}.${version.dev}"/>
+		<sshexec host="${dev.server}" username="${dev.username}" password="${dev.password}" trust="true" command="mkdir -p ${dev.deploy.dir}"/>
+        <scp sftp="true" todir="${dev.username}:${dev.password}@${dev.server}:${dev.deploy.dir}" trust="true">
+            <fileset dir="deploy"/>
+        	<fileset file="data/translation-utility/translation-utility.properties"/>
+        </scp>
+		<echo message="Deployed to ${dev.server}:${dev.deploy.dir}"/>
+	</target>
+		
+	<!-- deploys to both the production and development servers -->
+    <target name="build-and-deploy-prod" depends="build-and-deploy-dev">
+    	<sshexec host="${prod.server}" username="${dev.username}" password="${dev.password}" trust="true" command="mkdir -p ${prod.deploy.dir}"/>
+        <scp sftp="true" todir="${prod.username}:${prod.password}@${prod.server}:${prod.deploy.dir}" trust="true">
+            <fileset dir="deploy"/>
+        	<fileset file="data/translation-utility/translation-utility.properties"/>
+        </scp>
+    	<echo message="Deployed to ${prod.server}:${prod.deploy.dir}"/>
+    </target>
 
 </project>
