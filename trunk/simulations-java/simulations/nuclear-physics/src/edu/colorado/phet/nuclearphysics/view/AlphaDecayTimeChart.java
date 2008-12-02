@@ -22,8 +22,8 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.model.AlphaDecayCompositeNucleus;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
-import edu.colorado.phet.nuclearphysics.model.Polonium211CompositeNucleus;
 import edu.colorado.phet.nuclearphysics.util.PhetButtonNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -99,7 +99,7 @@ public class AlphaDecayTimeChart extends PNode {
     //------------------------------------------------------------------------
 
     // Reference to the nucleus whose decay is being charted.
-    Polonium211CompositeNucleus _nucleus;
+    AlphaDecayCompositeNucleus _nucleus;
 
     // References to the various components of the chart.
     private PPath _borderNode;
@@ -166,7 +166,7 @@ public class AlphaDecayTimeChart extends PNode {
     // Constructor
     //------------------------------------------------------------------------
 
-    public AlphaDecayTimeChart( ConstantDtClock clock, Polonium211CompositeNucleus nucleus ) {
+    public AlphaDecayTimeChart( ConstantDtClock clock, AlphaDecayCompositeNucleus nucleus ) {
 
         _clock = clock;
         _nucleus = nucleus;

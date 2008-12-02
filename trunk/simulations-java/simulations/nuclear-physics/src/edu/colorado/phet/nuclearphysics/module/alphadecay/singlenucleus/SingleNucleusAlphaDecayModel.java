@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
+import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeCompositeNucleus;
+import edu.colorado.phet.nuclearphysics.model.AlphaDecayCompositeNucleus;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayModelListener;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
@@ -32,11 +35,12 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
     // Instance data
     //------------------------------------------------------------------------
     
-    private Polonium211CompositeNucleus _atomicNucleus;
+    private AlphaDecayCompositeNucleus _atomicNucleus;
     private AlphaParticle _tunneledAlpha;
-    private ConstantDtClock _clock;
+    private NuclearPhysicsClock _clock;
     private ArrayList _listeners = new ArrayList();
     private int _nucleusID;
+    private AtomicNucleus.Adapter _atomicNucleusAdapter;
     
     //------------------------------------------------------------------------
     // Constructor
@@ -45,6 +49,7 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
     public SingleNucleusAlphaDecayModel(NuclearPhysicsClock clock)
     {
         _clock = clock;
+        _nucleusID = NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM;
 
         // Register as a listener to the clock.
         clock.addClockListener( new ClockAdapter(){
@@ -65,13 +70,8 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
             }
         });
 
-        // Create the nucleus that will demonstrate alpha decay.
-        _atomicNucleus = new Polonium211CompositeNucleus(clock, new Point2D.Double(0, 0));
-        
-        // Register as a listener for the nucleus so we can handle the
-        // particles thrown off by alpha decay.
-        
-        _atomicNucleus.addListener( new AtomicNucleus.Adapter(){
+        // Create the listener that will be registered for model events.
+        _atomicNucleusAdapter = new AtomicNucleus.Adapter(){
             
             public void atomicWeightChanged(AtomicNucleus nucleus, int numProtons, int numNeutrons, 
                     ArrayList byProducts){
@@ -92,9 +92,11 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
                     }
                 }
             }
-        });
+        };
+        
+        addOrReplaceNucleus(); 
     }
-    
+
     //------------------------------------------------------------------------
     // Accessor Methods
     //------------------------------------------------------------------------
@@ -105,7 +107,7 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
      * 
      * @return - Reference to the nucleus model element.
      */
-    public Polonium211CompositeNucleus getAtomNucleus()
+    public AlphaDecayCompositeNucleus getAtomNucleus()
     {
         return _atomicNucleus;
     }
@@ -121,6 +123,7 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
 
 	public void setNucleusType(int nucleusId) {
 		_nucleusID = nucleusId;
+		addOrReplaceNucleus();
 	}
 	
 	public int getNucleusType(){
@@ -141,7 +144,9 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
     {
         assert !_listeners.contains( listener );
         
-        _listeners.add( listener );
+        if (!_listeners.contains( listener )){
+            _listeners.add( listener );
+        }
     }
     
     //------------------------------------------------------------------------
@@ -154,4 +159,101 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
             _tunneledAlpha.moveOut();
         }
     }
+    
+    /**
+     * Add a new nucleus of the currently selected type.  If the selected type
+     * of nucleus already exists, this does nothing.  If the nucleus is not of
+     * the desired type, then replace it.
+     */
+	private void addOrReplaceNucleus() {
+
+		// First check if the requested nucleus already exists.
+		if (_atomicNucleus != null){
+			switch (_nucleusID){
+			case NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM:
+		        if (_atomicNucleus instanceof Polonium211CompositeNucleus){
+		        	// Nothing to do, since we already have the nucleus we need.
+		        	return;
+		        }
+		        break;
+				
+			case NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM:
+		        if (_atomicNucleus instanceof AdjustableHalfLifeCompositeNucleus){
+		        	// Nothing to do, since we already have the nucleus we need.
+		        	return;
+		        }
+		        break;
+			}
+
+		    // Remove listener from current nucleus.
+			_atomicNucleus.removeListener(_atomicNucleusAdapter);
+			
+			// Remove the nucleus itself and inform any listeners of its demise.
+			AlphaDecayCompositeNucleus tempNucleus = _atomicNucleus;
+			_atomicNucleus = null;
+			notifyModelElementRemoved(tempNucleus);
+		}
+		
+		// Create the nucleus that will demonstrate alpha decay.
+		switch (_nucleusID){
+		case NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM:
+	        _atomicNucleus = new Polonium211CompositeNucleus(_clock, new Point2D.Double(0, 0));
+	        break;
+			
+		case NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM:
+	        _atomicNucleus = new AdjustableHalfLifeCompositeNucleus(_clock, new Point2D.Double(0, 0));
+	        break;
+		}
+        
+        // Register as a listener for the nucleus so we can handle the
+        // particles thrown off by alpha decay.
+        _atomicNucleus.addListener( _atomicNucleusAdapter );
+        
+        // Inform any listeners of the changes.
+        notifyModelElementAdded(_atomicNucleus);
+        notifyNucleusTypeChanged();
+	}
+	
+    /**
+     * Notify listeners about the removal of an element from the model.
+     * 
+     * @param removedElement
+     */
+    private void notifyModelElementRemoved(Object removedElement){
+        for (int i = 0; i < _listeners.size(); i++){
+            ((AlphaDecayModelListener)_listeners.get(i)).modelElementRemoved( removedElement );
+        }
+    }
+    
+    /**
+     * Notify listeners about the addition of an element to the model.
+     * @param addedElement
+     */
+    private void notifyModelElementAdded(Object addedElement){
+        for (int i = 0; i < _listeners.size(); i++){
+            ((AlphaDecayModelListener)_listeners.get(i)).modelElementAdded( addedElement );
+        }
+    }
+
+    /**
+     * Notify listeners about the change of nucleus type.
+     * @param addedElement
+     */
+    private void notifyNucleusTypeChanged(){
+        for (int i = 0; i < _listeners.size(); i++){
+            ((AlphaDecayModelListener)_listeners.get(i)).nucleusTypeChanged();
+        }
+    }
+
+    /**
+     * Notify listeners about the change of nucleus type.
+     * @param addedElement
+     */
+    private void notifyHalfLifeChanged(){
+        for (int i = 0; i < _listeners.size(); i++){
+            ((AlphaDecayModelListener)_listeners.get(i)).halfLifeChanged();
+        }
+    }
+    
+
 }

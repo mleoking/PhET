@@ -6,36 +6,37 @@ import java.awt.geom.Point2D;
 
 
 /**
- * This class defines the behavior of the nucleus of Polonium 211, which
- * exhibits alpha decay behavior.
+ * This class defines the behavior of a composite nucleus that exhibits alpha
+ * decay and allows for adjustment of its half life.
  *
  * @author John Blanco
  */
-public class Polonium211CompositeNucleus extends AlphaDecayCompositeNucleus {
+public class AdjustableHalfLifeCompositeNucleus extends AlphaDecayCompositeNucleus {
     //------------------------------------------------------------------------
     // Class data
     //------------------------------------------------------------------------
     
-    // Number of neutrons and protons in the nucleus upon construction.  The
-    // values below are for Polonium-211.
-    public static final int ORIGINAL_NUM_PROTONS = 84;
-    public static final int ORIGINAL_NUM_NEUTRONS = 127;
+    // Number of neutrons and protons in the nucleus upon construction.  These
+    // values values are for bismuth 208, which is used as the "adjustable" or
+	// "custom" nucleus throughout the sim.
+    public static final int ORIGINAL_NUM_PROTONS = 83;
+    public static final int ORIGINAL_NUM_NEUTRONS = 125;
 
     // The "agitation factor" for the various types of nucleus.  The amount of
     // agitation controls how dynamic the nucleus looks on the canvas.  Values
     // must be in the range 0-9.
-    static final int POLONIUM_211_AGITATION_FACTOR = 5;
-    static final int LEAD_207_AGITATION_FACTOR = 1;
+    static final int PRE_DECAY_AGITATION_FACTOR = 5;
+    static final int POST_DECAY_AGITATION_FACTOR = 1;
 
     //------------------------------------------------------------------------
     // Instance data
     //------------------------------------------------------------------------
 
-    public Polonium211CompositeNucleus(NuclearPhysicsClock clock, Point2D position){
+    public AdjustableHalfLifeCompositeNucleus(NuclearPhysicsClock clock, Point2D position){
         super(clock, position, ORIGINAL_NUM_PROTONS, ORIGINAL_NUM_NEUTRONS);
         
         // Decide when alpha decay will occur.
-        _alphaDecayTime = calcPolonium211DecayTime();
+        _alphaDecayTime = calcDecayTime();
     }
     
     //------------------------------------------------------------------------
@@ -48,20 +49,14 @@ public class Polonium211CompositeNucleus extends AlphaDecayCompositeNucleus {
 	    
 	    switch (_numProtons){
 	    
-	    case 84:
-	        // Polonium.
-	        if (_numNeutrons == 127){
-	            // Polonium 211.
-	            _agitationFactor = POLONIUM_211_AGITATION_FACTOR;
-	        }
+	    case ORIGINAL_NUM_PROTONS:
+	        // Bismuth.
+	        _agitationFactor = PRE_DECAY_AGITATION_FACTOR;
 	        break;
 	        
-	    case 82:
-	        // Lead
-	        if (_numNeutrons == 125){
-	            // Lead 207
-	            _agitationFactor = LEAD_207_AGITATION_FACTOR;
-	        }
+	    case ORIGINAL_NUM_PROTONS - 2:
+	        // Thallium
+            _agitationFactor = POST_DECAY_AGITATION_FACTOR;
 	        break;
 	        
 	    default:
@@ -79,13 +74,14 @@ public class Polonium211CompositeNucleus extends AlphaDecayCompositeNucleus {
      * 
      * @return
      */
-    double calcPolonium211DecayTime(){
+    double calcDecayTime(){
         double randomValue = _rand.nextDouble();
         if (randomValue > 0.999){
             // Limit the maximum time for decay so that the user isn't waiting
             // around forever.
             randomValue = 0.999;
         }
+        // TODO: JPB TBD - Need to make the following work for adjustable half life.
         double tunnelOutMilliseconds = (-(Math.log( 1 - randomValue ) / 1.343)) * 1000;
         return tunnelOutMilliseconds;
     }

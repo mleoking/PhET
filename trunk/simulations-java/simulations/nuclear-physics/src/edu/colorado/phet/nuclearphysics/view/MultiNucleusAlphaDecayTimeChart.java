@@ -544,7 +544,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     }
     
     private void updateNucleusGraphLabels(){
-    	if (_model.getNucleusType() == MultiNucleusAlphaDecayModel.NUCLEUS_TYPE_POLONIUM){
+    	if (_model.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM){
     		_numUndecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL);
     		_numUndecayedNucleiLabel.setTextPaint(NuclearPhysicsConstants.POLONIUM_LABEL_COLOR);
     		_numUndecayedNucleiLabel.setShadowColor(Color.BLACK);
@@ -637,7 +637,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         		(float) ( _usableAreaOriginY + ( 0.1 * _usableHeight ) ) );
         
         // If it is a custom nucleus, position and show the handle.
-        if (_model.getNucleusType() == MultiNucleusAlphaDecayModel.NUCLEUS_TYPE_CUSTOM){
+        if (_model.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
         	_halfLifeHandleNode.setVisible(true);
         	_halfLifeHandleNode.setOffset( _halfLifeMarkerLine.getX(), _halfLifeMarkerLine.getY() + _halfLifeMarkerLine.getHeight() / 2 );
         }

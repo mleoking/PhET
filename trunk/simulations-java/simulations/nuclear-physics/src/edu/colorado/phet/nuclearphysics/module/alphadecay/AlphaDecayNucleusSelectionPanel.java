@@ -27,7 +27,6 @@ import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
-import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusAlphaDecayModel;
 import edu.colorado.phet.nuclearphysics.view.LabeledNucleusNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -62,7 +61,7 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
     	// Register for notifications of nucleus type changes.
     	alphaDecayModel.addListener(new AlphaDecayAdapter(){
     		public void nucleusTypeChanged() {
-    			if (_alphaDecayModel.getNucleusType() == AlphaDecayNucleusTypeControl.NUCLEUS_TYPE_CUSTOM){
+    			if (_alphaDecayModel.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
     				_customNucleusRadioButton.setSelected(true);
     			}
     			else{
@@ -93,12 +92,12 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
         // Register for button presses.
         _poloniumRadioButton.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent event){
-            	_alphaDecayModel.setNucleusType(MultiNucleusAlphaDecayModel.NUCLEUS_TYPE_POLONIUM);
+            	_alphaDecayModel.setNucleusType(NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM);
             }
         });
         _customNucleusRadioButton.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent event){
-            	_alphaDecayModel.setNucleusType(MultiNucleusAlphaDecayModel.NUCLEUS_TYPE_CUSTOM);
+            	_alphaDecayModel.setNucleusType(NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM);
             }
         });
 
@@ -225,10 +224,10 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
      * change in the model.
      */
     public void updateButtonState(){
-    	if (_alphaDecayModel.getNucleusType() == AlphaDecayNucleusTypeControl.NUCLEUS_TYPE_POLONIUM){
+    	if (_alphaDecayModel.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM){
     		_poloniumRadioButton.setSelected(true);
     	}
-    	else if (_alphaDecayModel.getNucleusType() == AlphaDecayNucleusTypeControl.NUCLEUS_TYPE_CUSTOM){
+    	else if (_alphaDecayModel.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
     		_customNucleusRadioButton.setSelected(true);
     	}
     	else{

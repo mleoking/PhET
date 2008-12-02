@@ -13,9 +13,6 @@ import edu.colorado.phet.nuclearphysics.model.AlphaDecayModelListener;
  */
 public interface AlphaDecayNucleusTypeControl {
 
-	public static final int NUCLEUS_TYPE_POLONIUM = 1;
-	public static final int NUCLEUS_TYPE_CUSTOM = 2;
-	
 	/**
 	 * Set the type of nucleus.
 	 * 
@@ -37,6 +34,7 @@ public interface AlphaDecayNucleusTypeControl {
 	 * 
 	 * @return - true if the graph is being shown, false if not.
 	 */
+	// TODO: JPB TBD - Is this really needed, or can it be removed?
 	public boolean getEnergyChartShowing();
 	
 	/**

@@ -22,7 +22,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
  */
 public class NuclearPhysicsConstants {
 
-    /* Not intended for instantiation. */
+	/* Not intended for instantiation. */
     private NuclearPhysicsConstants() {}
     
     //----------------------------------------------------------------------------
@@ -119,7 +119,7 @@ public class NuclearPhysicsConstants {
     //----------------------------------------------------------------------------
     
     //----------------------------------------------------------------------------
-    // Misc
+    // Misc Constants Shared within the Sim
     //----------------------------------------------------------------------------
     public static final double NUCLEON_DIAMETER        = 1.6; // In femtometers.
     public static final double ALPHA_PARTICLE_DIAMETER = 3.2; // In femtometers.
@@ -132,5 +132,7 @@ public class NuclearPhysicsConstants {
     public static final Paint NEUTRON_ROUND_GRADIENT = new RoundGradientPaint( -NUCLEON_DIAMETER/6, 
             -NUCLEON_DIAMETER/6, NEUTRON_HILITE_COLOR, new Point2D.Double( NUCLEON_DIAMETER/4, NUCLEON_DIAMETER/4 ),
             NEUTRON_COLOR );
+    public static final int NUCLEUS_ID_POLONIUM = 1;
+	public static final int NUCLEUS_ID_CUSTOM = 2;
 
 }
