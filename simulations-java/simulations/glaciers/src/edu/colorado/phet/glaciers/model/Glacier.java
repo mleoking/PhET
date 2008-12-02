@@ -535,6 +535,7 @@ public class Glacier extends ClockAdapter {
             final double ela = _climate.getELA();
             final double timescale = getTimescale();
             final double maxElevation = _valley.getMaxElevation();
+            final double previousLength = _glacierLength;
             
             // calculate the delta
             double delta = ( ela - _qela ) * ( 1 - Math.exp( -dt / timescale  ) );
@@ -576,6 +577,7 @@ public class Glacier extends ClockAdapter {
                 // values below here are set by updateIceThickness, called from this method
                 _evolutionState.qelax = _qelax;
                 _evolutionState.glacierLength = _glacierLength;
+                _evolutionState.deltaLength = _glacierLength - previousLength;
                 _evolutionState.terminus.setLocation( _terminus );
             }
             
@@ -658,6 +660,7 @@ public class Glacier extends ClockAdapter {
         public double qela;
         public double qelax;
         public double glacierLength;
+        public double deltaLength;
         public Point2D terminus = new Point2D.Double();
         
         public EvolutionState() {}
@@ -670,6 +673,7 @@ public class Glacier extends ClockAdapter {
             qela = es.qela;
             qelax = es.qelax;
             glacierLength = es.glacierLength;
+            deltaLength = es.deltaLength;
             terminus.setLocation( es.terminus );
         }
     }

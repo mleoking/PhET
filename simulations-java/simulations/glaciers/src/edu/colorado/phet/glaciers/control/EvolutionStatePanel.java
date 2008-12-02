@@ -36,6 +36,7 @@ public class EvolutionStatePanel extends JPanel {
     private final NumberDisplay _qelaCurrent, _qelaPrevious;
     private final NumberDisplay _qelaxCurrent, _qelaxPrevious;
     private final NumberDisplay _glacierLengthCurrent, _glacierLengthPrevious;
+    private final NumberDisplay _deltaLengthCurrent, _deltaLengthPrevious;
     private final Point2DDisplay _terminusCurrent, _terminusPrevious;
     
     public EvolutionStatePanel( Glacier glacier ) {
@@ -75,6 +76,8 @@ public class EvolutionStatePanel extends JPanel {
         _qelaxPrevious = new NumberDisplay( "0.00" );
         _glacierLengthCurrent = new NumberDisplay( "0.00" );
         _glacierLengthPrevious = new NumberDisplay( "0.00" );
+        _deltaLengthCurrent = new NumberDisplay( "0.00" );
+        _deltaLengthPrevious = new NumberDisplay( "0.00" );
         _terminusCurrent = new Point2DDisplay( "0" );
         _terminusPrevious = new Point2DDisplay( "0" );
         
@@ -133,6 +136,12 @@ public class EvolutionStatePanel extends JPanel {
         layout.addComponent( new JLabel( "m" ), row, col++ );
         row++;
         col = 0;
+        layout.addComponent( new JLabel( "delta length:" ), row, col++ );
+        layout.addComponent( _deltaLengthCurrent, row, col++ );
+        layout.addComponent( _deltaLengthPrevious, row, col++ );
+        layout.addComponent( new JLabel( "m" ), row, col++ );
+        row++;
+        col = 0;
         layout.addComponent( new JLabel( "termius:" ), row, col++ );
         layout.addComponent( _terminusCurrent, row, col++ );
         layout.addComponent( _terminusPrevious, row, col++ );
@@ -162,6 +171,8 @@ public class EvolutionStatePanel extends JPanel {
         _qelaxPrevious.setValue( _previousState.qelax );
         _glacierLengthCurrent.setValue( _currentState.glacierLength );
         _glacierLengthPrevious.setValue( _previousState.glacierLength );
+        _deltaLengthCurrent.setValue( _currentState.deltaLength );
+        _deltaLengthPrevious.setValue( _previousState.deltaLength );
         _terminusCurrent.setValue( _currentState.terminus );
         _terminusPrevious.setValue( _previousState.terminus );
     }
