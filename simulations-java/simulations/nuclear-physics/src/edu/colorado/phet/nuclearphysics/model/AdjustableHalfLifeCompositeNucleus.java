@@ -36,7 +36,7 @@ public class AdjustableHalfLifeCompositeNucleus extends AlphaDecayCompositeNucle
         super(clock, position, ORIGINAL_NUM_PROTONS, ORIGINAL_NUM_NEUTRONS);
         
         // Decide when alpha decay will occur.
-        _alphaDecayTime = calcDecayTime();
+        _alphaDecayTime = clock.getSimulationTime() + calcDecayTime();
     }
     
     //------------------------------------------------------------------------
