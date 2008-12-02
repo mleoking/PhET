@@ -11,12 +11,6 @@ Follow these steps to build & deploy:
    write release notes in deploy/HEADER,
    then check in translation-utility.properties, CHANGES.txt, and HEADER
 
-3. ant build-jar
-
-4. copy files to tigercat:
-
-   scp deploy/HEADER tigercat:/web/htdocs/phet/phet-dist/translation-utility/
-   scp deploy/translation-utility.jar tigercat:/web/htdocs/phet/phet-dist/translation-utility/
-   scp data/translation-utility/translation-utility.properties tigercat:/web/htdocs/phet/phet-dist/translation-utility/
+3. run build-and-deploy-dev or build-and-deploy-prod build target
 
 --
