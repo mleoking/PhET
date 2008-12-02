@@ -1,3 +1,4 @@
+# 1.00.10 (?)
 12/2/08 - #727, add deltaLength to debug display
 11/19/08 - #836, complete and revised model.txt received from Archie
 # 1.00.09 (26322)

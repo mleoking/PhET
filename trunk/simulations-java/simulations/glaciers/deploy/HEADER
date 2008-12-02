@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-glaciers 1.00.09
+glaciers 1.00.10
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,8 +12,7 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>#727, add a developer dialog that shows state of internal variables used in the glacier evolution model
-<li>fix for #851, flags can't be dragged from valley floor to ice surface while glacier is moving
+<li>#727, added "delta length" to debug display
 </ul>
 <p>
 <b>Not implemented:</b>
