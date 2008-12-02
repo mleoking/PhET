@@ -43,7 +43,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class SingleNucleusAlphaDecayCanvas extends PhetPCanvas {
     
     //----------------------------------------------------------------------------
-    // Class data
+    // Class Data
     //----------------------------------------------------------------------------
 
     // Canvas size in femto meters.  Assumes a 4:3 aspect ratio.
@@ -59,14 +59,17 @@ public class SingleNucleusAlphaDecayCanvas extends PhetPCanvas {
     private final double ENERGY_CHART_FRACTION = 0.3; // Fraction of canvas for energy chart.
     
     //----------------------------------------------------------------------------
-    // Instance data
+    // Instance Data
     //----------------------------------------------------------------------------
+    
     private SingleNucleusAlphaDecayModel _singleNucleusAlphaDecayModel;
     private AtomicNucleusNode _nucleusNode;
     private AlphaDecayEnergyChart _alphaDecayEnergyChart;
     private AlphaDecayTimeChart _alphaDecayTimeChart;
     private HashMap _mapAlphaParticlesToNodes = new HashMap();
     private GradientButtonNode _resetButtonNode;
+	private PNode _nucleusLayer;
+	private PNode _labelLayer;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -86,58 +89,27 @@ public class SingleNucleusAlphaDecayCanvas extends PhetPCanvas {
             }
         });
         
-        // Get the nucleus from the model and then get the constituents
-        // and create a visible node for each.
-        CompositeAtomicNucleus atomicNucleus = singleNucleusAlphaDecayModel.getAtomNucleus();
-        ArrayList nucleusConstituents = atomicNucleus.getConstituents();
+        // Register for events from the model.
+        _singleNucleusAlphaDecayModel.addListener(new AlphaDecayAdapter(){
+            public void modelElementAdded(Object modelElement){
+            	createNucleusNodes();
+            }
+            public void modelElementRemoved(Object modelElement){
+            	removeNucleusNodes();
+            }
+        });
         
-        // Create a parent node where we will display the nucleus.  This is
-        // being done so that a label can be placed over the top of it.
-        PNode nucleusLayer = new PNode();
-        nucleusLayer.setPickable( false );
-        nucleusLayer.setChildrenPickable( false );
-        nucleusLayer.setVisible( true );
-        addWorldChild(nucleusLayer);
+        // Create the layer where nodes that comprise the nucleus will be placed.
+        _nucleusLayer = new PNode();
+        _nucleusLayer.setPickable( false );
+        _nucleusLayer.setChildrenPickable( false );
+        _nucleusLayer.setVisible( true );
+        addWorldChild(_nucleusLayer);
+
+        // Create the layer where the nucleus label will be placed.
+        _labelLayer = new PNode();
+        addWorldChild(_labelLayer);
         
-        // Add a node for each particle that comprises the nucleus.
-        for (int i = 0; i < nucleusConstituents.size(); i++){
-            
-            Object constituent = nucleusConstituents.get( i );
-            
-            if (constituent instanceof AlphaParticle){
-                // Add a visible representation of the alpha particle to the canvas.
-                AlphaParticleModelNode alphaNode = new AlphaParticleModelNode((AlphaParticle)constituent);
-                alphaNode.setVisible( true );
-                nucleusLayer.addChild( alphaNode );
-            }
-            else if (constituent instanceof Neutron){
-                // Add a visible representation of the neutron to the canvas.
-                NeutronModelNode neutronNode = new NeutronModelNode((Neutron)constituent);
-                neutronNode.setVisible( true );
-                nucleusLayer.addChild( neutronNode );
-            }
-            else if (constituent instanceof Proton){
-                // Add a visible representation of the proton to the canvas.
-                ProtonModelNode protonNode = new ProtonModelNode((Proton)constituent);
-                protonNode.setVisible( true );
-                nucleusLayer.addChild( protonNode );
-            }
-            else {
-                // There is some unexpected object in the list of constituents
-                // of the nucleus.  This should never happen and should be
-                // debugged if it does.
-                assert false;
-            }
-        }
-
-        // Add the nucleus node itself to the canvas, which is actually only
-        // the label, since the individual nodes show the individual particles.
-        // This must be added last so that it can appear on top of the nucleus.
-        PNode labelLayer = new PNode();
-        addWorldChild(labelLayer);
-        _nucleusNode = new AtomicNucleusNode(atomicNucleus);
-        labelLayer.addChild( _nucleusNode );
-
         // Register with the model for notifications of important events.
         singleNucleusAlphaDecayModel.addListener( new AlphaDecayAdapter() {
         	// TODO: JPB TBD - Need to figure out exactly what should be here.
@@ -219,12 +191,79 @@ public class SingleNucleusAlphaDecayCanvas extends PhetPCanvas {
                         0.30 * getHeight() );
             }
         } );
+        
+        // Add the nucleus to the canvas.
+        createNucleusNodes();
     }
-    
+
+    //------------------------------------------------------------------------
+    // Public Methods
+    //------------------------------------------------------------------------
+
     /**
      * Sets the view back to the original state when sim was first started.
      */
     public void reset(){
         _alphaDecayTimeChart.reset();
     }
+    
+    //------------------------------------------------------------------------
+    // Private Methods
+    //------------------------------------------------------------------------
+
+    /**
+     * Create the nodes needed to represent the nucleus that is currently in
+     * the model.
+     */
+	private void createNucleusNodes() {
+		// Get the nucleus from the model and then get the constituents
+        // and create a visible node for each.
+        CompositeAtomicNucleus atomicNucleus = _singleNucleusAlphaDecayModel.getAtomNucleus();
+        ArrayList nucleusConstituents = atomicNucleus.getConstituents();
+        
+        // Add a node for each particle that comprises the nucleus.
+        for (int i = 0; i < nucleusConstituents.size(); i++){
+            
+            Object constituent = nucleusConstituents.get( i );
+            
+            if (constituent instanceof AlphaParticle){
+                // Add a visible representation of the alpha particle to the canvas.
+                AlphaParticleModelNode alphaNode = new AlphaParticleModelNode((AlphaParticle)constituent);
+                alphaNode.setVisible( true );
+                _nucleusLayer.addChild( alphaNode );
+            }
+            else if (constituent instanceof Neutron){
+                // Add a visible representation of the neutron to the canvas.
+                NeutronModelNode neutronNode = new NeutronModelNode((Neutron)constituent);
+                neutronNode.setVisible( true );
+                _nucleusLayer.addChild( neutronNode );
+            }
+            else if (constituent instanceof Proton){
+                // Add a visible representation of the proton to the canvas.
+                ProtonModelNode protonNode = new ProtonModelNode((Proton)constituent);
+                protonNode.setVisible( true );
+                _nucleusLayer.addChild( protonNode );
+            }
+            else {
+                // There is some unexpected object in the list of constituents
+                // of the nucleus.  This should never happen and should be
+                // debugged if it does.
+                assert false;
+            }
+        }
+
+        _nucleusNode = new AtomicNucleusNode(atomicNucleus);
+        _labelLayer.addChild( _nucleusNode );
+	}
+	
+    /**
+     * Remove and dispose of the nodes that are currently representing the nucleus.
+     */
+	private void removeNucleusNodes(){
+		
+		// TODO: JPB TBD - Not sure if this is sufficient or if it will cause memory leaks.
+		_nucleusLayer.removeAllChildren();
+		_labelLayer.removeAllChildren();
+		
+	}
 }
