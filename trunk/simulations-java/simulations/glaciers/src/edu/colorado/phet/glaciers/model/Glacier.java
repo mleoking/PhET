@@ -16,7 +16,7 @@ import edu.colorado.phet.glaciers.model.Climate.ClimateListener;
  * Glacier is the model of the glacier.
  * The model was developed by Archie Paulson.
  * The model is a not physical; it is a "Hollywood" model that approximates published data.
- * This implementation is based on the model written in Python that can be found in glaciers/python/.
+ * Documentation is in glaciers/doc/model.txt.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
