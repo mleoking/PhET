@@ -1,4 +1,4 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2007-2008, University of Colorado */
 
 package edu.colorado.phet.common.phetcommon.resources;
 
@@ -7,9 +7,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetAudioClip;
 import edu.colorado.phet.common.phetcommon.util.logging.ILogger;
 import edu.colorado.phet.common.phetcommon.util.logging.NullLogger;
+import edu.colorado.phet.common.phetcommon.view.util.PhetAudioClip;
 
 /**
  * PhetResources provides the facilities for accessing JAR resources.
@@ -39,6 +39,8 @@ public class PhetResources {
     // Class data
     //----------------------------------------------------------------------------
     
+    private static final ILogger LOGGER = new NullLogger(); // use NullLogger to turn off, ConsoleLogger to turn on
+    
     // Standard localized properties:
     private static final String PROPERTY_NAME = "name";
     private static final String PROPERTY_DESCRIPTION = "description";
@@ -55,10 +57,10 @@ public class PhetResources {
     private static final String LOCALIZATION_DIR = "localization";
     private static final String LOCALIZATION_FILE_SUFFIX = "-strings";
 
-    // Property used to set the locale from JNLP files.
+    // Property used to set the language from JNLP files.
     // For an untrusted application, system properties set in the JNLP file will 
     // only be set by Java Web Start if property name begins with "jnlp." or "javaws.".
-    public static final String PROPERTY_JAVAWS_PHET_LOCALE = "javaws.phet.locale";
+    public static final String PROPERTY_JAVAWS_PHET_LOCALE = "javaws.phet.locale"; //TODO rename this to javaws.phet.language, see #996
 
     private static final char PATH_SEPARATOR = '/';
 
@@ -75,12 +77,6 @@ public class PhetResources {
     private final IResourceLoader resourceLoader;
     private final String rootDirectoryName;
     private volatile PhetVersion version;
-
-    private static ILogger _logger=new NullLogger();//logger to help debug localization issues
-
-    public static void setLogger(ILogger logger){
-        _logger=logger;
-    }
 
     //----------------------------------------------------------------------------
     // Constructors & initializers
@@ -126,23 +122,19 @@ public class PhetResources {
     /*
     * Read the locale that was specified for the application.
     * The default locale is the value of the user.language System property, as read by Locale.getDefault.
-    * The javaws.phet.locale System property takes precedence, and can be set via the <property> tag in
-    * JNLP files.
+    * PROPERTY_JAVAWS_PHET_LANGUAGE takes precedence, and can be set via the <property> tag in JNLP files.
     *
     * @return Locale
     */
     public static Locale readLocale() {
         Locale locale = Locale.getDefault();
-        _logger.log( "Default locale was: "+locale );
-        //if no language is specified, default locale used by phet common should be english, not system default
-//        Locale locale = new Locale( "en" );
-        String javawsLocale = System.getProperty( PROPERTY_JAVAWS_PHET_LOCALE );
-
-        _logger.log( "Specified locale via "+PROPERTY_JAVAWS_PHET_LOCALE+": "+javawsLocale );
-        if ( javawsLocale != null ) {
-            locale = new Locale( javawsLocale );
+        LOGGER.log( "PhetResources.readLocale: default locale=" + locale.toString() );
+        String javawsPhetLanguage = System.getProperty( PROPERTY_JAVAWS_PHET_LOCALE );
+        if ( javawsPhetLanguage != null ) {
+            LOGGER.log( "PhetResources.readLocale: overriding locale via " + PROPERTY_JAVAWS_PHET_LOCALE + "=" + javawsPhetLanguage );
+            locale = new Locale( javawsPhetLanguage );
         }
-        _logger.log( "Returning locale: "+javawsLocale );
+        LOGGER.log( "PhetResources.readLocale: returning locale=" + locale.toString() );
         return locale;
     }
 
@@ -194,7 +186,7 @@ public class PhetResources {
     public PhetProperties getProjectProperties() {
         return projectProperties;
     }
-
+    
     //----------------------------------------------------------------------------
     // Resource accessors
     //----------------------------------------------------------------------------
