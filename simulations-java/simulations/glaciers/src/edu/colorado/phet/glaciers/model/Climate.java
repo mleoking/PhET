@@ -7,6 +7,7 @@ import java.util.Iterator;
 
 /**
  * Climate is the model of climate.
+ * Documentation is in glaciers/doc/model.txt.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

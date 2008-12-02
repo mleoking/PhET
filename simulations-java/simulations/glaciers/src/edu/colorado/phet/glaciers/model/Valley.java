@@ -10,6 +10,8 @@ import edu.colorado.phet.glaciers.view.ModelViewTransform;
 
 /**
  * Valley is the model of the valley where the glacier forms.
+ * Documentation is in glaciers/doc/model.txt.
+ * <p>
  * For the purposes of this simulation, the valley is a static entity 
  * that does not change over time.
  * <p>
