@@ -18,6 +18,10 @@ public class JFrameLogger implements ILogger {
         jTextArea.append( text + "\n" );
         jTextArea.setCaretPosition( jTextArea.getText().length() );
     }
+    
+    public void logError( String text ) {
+        log( "ERROR: " + text );
+    }
 
     public void setVisible( boolean visible ) {
         frame.setVisible( visible );
@@ -26,6 +30,7 @@ public class JFrameLogger implements ILogger {
     public static void main( String[] args ) {
         JFrameLogger logger = new JFrameLogger( "test log" );
         logger.setVisible( true );
-        logger.log( "testing" );
+        logger.log( "good news" );
+        logger.logError( "bad news" );
     }
 }

@@ -16,7 +16,6 @@ import edu.colorado.phet.common.phetcommon.updates.dialogs.UpdateErrorDialog;
 import edu.colorado.phet.common.phetcommon.util.DownloadThread;
 import edu.colorado.phet.common.phetcommon.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
-import edu.colorado.phet.common.phetcommon.util.logging.DebugLogger;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
 /**
@@ -166,7 +165,7 @@ public class SimUpdater {
 
     private void println( String message ) {
         if ( DEBUG_OUTPUT_ENABLED ) {
-            DebugLogger.println( getClass().getName() + "> " + message );
+            UpdateLogger.log( getClass().getName() + "> " + message );
         }
     }
     

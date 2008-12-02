@@ -2,6 +2,6 @@
 package edu.colorado.phet.common.phetcommon.util.logging;
 
 public class NullLogger implements ILogger{
-    public void log( String text ) {
-    }
+    public void log( String text ) {}
+    public void logError( String text ) {}
 }

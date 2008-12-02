@@ -3,4 +3,5 @@ package edu.colorado.phet.common.phetcommon.util.logging;
 
 public interface ILogger {
     void log( String text );
+    void logError( String text );
 }
