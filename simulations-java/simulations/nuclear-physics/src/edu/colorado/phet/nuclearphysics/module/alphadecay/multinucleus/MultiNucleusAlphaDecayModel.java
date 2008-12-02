@@ -11,6 +11,7 @@ import java.util.Random;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.model.AbstractAlphaDecayNucleus;
 import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeNucleus;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayControl;
@@ -35,7 +36,7 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
     //------------------------------------------------------------------------
 	
 	private static final int MAX_NUCLEI = 99;  // Maximum number of nuclei that model will simulate.
-	private static final int DEFAULT_NUCLEUS_TYPE = AlphaDecayNucleusTypeControl.NUCLEUS_TYPE_POLONIUM;
+	private static final int DEFAULT_NUCLEUS_TYPE = NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM;
 	private static final double MAX_JITTER_LENGTH = 1; // In femtometers.
 	private static final int CLOCKS_PER_JITTER = 2; // Number of clock ticks for a single jitter movement.
 	
@@ -71,7 +72,7 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
         _clock = clock;
         _atomicNuclei = new AbstractAlphaDecayNucleus[MAX_NUCLEI];
         _jitterOffsets = new Point2D[MAX_NUCLEI];
-        _nucleusType = NUCLEUS_TYPE_POLONIUM;
+        _nucleusType = NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM;
 
         // Register as a listener to the clock.
         clock.addClockListener( new ClockAdapter(){
@@ -161,7 +162,7 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
 	public void setHalfLife(double halfLife){
 		
 		// Verify that the current nucleus is custom.
-		if (_nucleusType != NUCLEUS_TYPE_CUSTOM){
+		if (_nucleusType != NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
 			System.err.println("Warning: Can only set nucleus type for custom nucleus, ignoring request.");
 			return;
 		}
@@ -312,7 +313,7 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
 	 */
 	private void addNuclei( int nucleusTypeID ){
 
-		assert nucleusTypeID == NUCLEUS_TYPE_POLONIUM || nucleusTypeID == NUCLEUS_TYPE_CUSTOM;
+		assert nucleusTypeID == NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM || nucleusTypeID == NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM;
 		_nucleusType = nucleusTypeID;
 		
 		// Create a new nucleus, positioning it in the bucket.
@@ -321,7 +322,7 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
 		AbstractAlphaDecayNucleus newNucleus;
 			
 		for (int i = 0; i < MAX_NUCLEI; i++){
-			if (_nucleusType == NUCLEUS_TYPE_POLONIUM){
+			if (_nucleusType == NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM){
 				newNucleus = new Polonium211Nucleus(_clock);
 			}
 			else{
