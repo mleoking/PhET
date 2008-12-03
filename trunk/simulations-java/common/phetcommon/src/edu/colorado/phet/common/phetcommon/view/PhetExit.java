@@ -24,7 +24,7 @@ public class PhetExit implements IProguardKeepClass {
     /**
      * Invoked when the Quit menu item is selected from the standard Mac OSX menubar.
      * This should not be called directly.  It is intended to be registered with a
-     * com.apple.eawt.ApplicationListener.  See OSXAdapter.
+     * com.apple.eawt.ApplicationListener.  See OSXAdapter and Unfuddle #920.
      * 
      * @return true
      */
