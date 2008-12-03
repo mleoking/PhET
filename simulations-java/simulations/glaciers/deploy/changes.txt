@@ -1,3 +1,5 @@
+# 1.00.11
+12/2/08 - #727, set q_advance_limit to constant -2, remove q_advance_limit from debug dialog
 # 1.00.10 (26488)
 12/2/08 - #727, add deltaLength to debug display
 11/19/08 - #836, complete and revised model.txt received from Archie
