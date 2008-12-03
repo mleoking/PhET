@@ -43,6 +43,7 @@ public class TrackingMessage {
     // messages related to ending a session
     public static final String PHET_FRAME_CLOSING = "phet-frame-closing";
     public static final String FILE_EXIT_SELECTED = "file-exit-selected";
+    public static final String MAC_OSX_QUIT_SELECTED = "mac-osx-quit";
 
     private final ArrayList fields = new ArrayList();
 
