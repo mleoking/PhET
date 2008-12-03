@@ -45,6 +45,7 @@ public class Glacier extends ClockAdapter {
     private static final double ELAX_C4 = 0.000281185;
     private static final double ELAX_TERMINUS = 0.6;
     private static final double MAX_THICKNESS_SCALE = 2.3;
+    private static final double Q_ADVANCE_LIMIT = -2;
     
     private static final double SURFACE_ELA_SEARCH_DX = 1; // meters
     private static final double SURFACE_ELA_EQUALITY_THRESHOLD = 1; // meters
@@ -541,10 +542,8 @@ public class Glacier extends ClockAdapter {
             double delta = ( ela - _qela ) * ( 1 - Math.exp( -dt / timescale  ) );
             
             // limit the delta for an advancing glacier
-            double q_advance_limit = 0;
             if ( ela < _qela ) {
-                q_advance_limit = ( ( -0.06 * _qela ) + 300 ) * ELAX_TERMINUS / ELAX_M0;
-                delta = Math.max( delta, dt * q_advance_limit );
+                delta = Math.max( delta, dt * Q_ADVANCE_LIMIT );
             }
             
             // move the quasi-ELA
@@ -571,7 +570,7 @@ public class Glacier extends ClockAdapter {
                 // values below here are set explicitly in this method
                 _evolutionState.ela = ela;
                 _evolutionState.timescale = timescale;
-                _evolutionState.qAdvanceLimit = q_advance_limit;
+                _evolutionState.qAdvanceLimit = Q_ADVANCE_LIMIT;
                 _evolutionState.deltaQela = delta;
                 _evolutionState.qela = _qela;
                 // values below here are set by updateIceThickness, called from this method

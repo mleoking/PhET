@@ -56,8 +56,6 @@ F. fix for supercold climate
       glacier (years)
     - dt, the time interval between calculations for
       time-dependence (years)
-    - q_advance_limit, a limit on the advance speed of the qela
-      (will be negative) (m/yr)
     - ela_tolerance, a minimum advance speed that indicates no
       further time evolution is necessary
 
@@ -75,6 +73,7 @@ F. fix for supercold climate
     - snow_transition_width     300
     - u_slide                   20  (meters/year)
     - u_deform                  20  (meters/year)
+    - q_advance_limit           -2 (meters/year, a limit on the advance speed of the qela)
     - elax_b0                   157076      
     - elax_m0                   -37.57      
     - elax_m2                   -3.12489    
@@ -236,7 +235,6 @@ E. time-evolution of glacier
     if ( (abs(qela-ela) > ela_tolerance) and (qela<=max_F) ):
         dqela = (ela-qela)*( 1. - exp(-dt/timescale) )
         if (ela<qela):
-            q_advance_limit = (-0.06*qela + 300) * elax_terminus / elax_m0
             dqela = max( dqela, dt*q_advance_limit )
         qela = qela + dqela
     if ( qela > max_F):
