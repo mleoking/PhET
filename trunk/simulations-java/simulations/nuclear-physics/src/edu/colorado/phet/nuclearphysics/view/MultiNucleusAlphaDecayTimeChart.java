@@ -97,8 +97,19 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     
     // Constants that control where the nuclei fall to when they decay in
     // order to create a histogram sort of look to the decay pattern.
-    private static final int NUM_HISTOGRAM_BUCKETS = 30;
+    private static final int NUM_HISTOGRAM_BUCKETS = 60;
     private static final double HISTOGRAM_OVERLAP_PROPORTION = 0.1;
+
+    // Offsets used when positioning atoms prior to decay so that they look
+    // like a bunch of atoms instead of just one.  The values are in terms
+    // of the proportion of the chart height.
+	private static final Point2D [] BUNCHING_OFFSETS = {new Point2D.Double(0, 0), 
+		new Point2D.Double(-0.02, -0.025), new Point2D.Double(0.025, -0.02), new Point2D.Double(0.015, 0.025), 
+		new Point2D.Double(-0.015, 0.015)};
+	
+	// Counter used when offsetting nucleus positions in order to make them
+	// look like a bunch.
+	private int _bunchingCounter = 0;
 
     //------------------------------------------------------------------------
     // Instance Data
@@ -725,6 +736,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     	private double _fallTarget;
     	private int _internalState;
     	private int _decayBucket;
+    	private Point2D _bunchingOffset;
     	
     	public NucleusData(AbstractAlphaDecayNucleus nucleus){
     		_nucleus = nucleus;
@@ -732,6 +744,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     		_fallTarget = 0;
     		_internalState = STATE_INACTIVE;
     		_decayBucket = Integer.MAX_VALUE;
+    		_bunchingOffset = BUNCHING_OFFSETS[0];
     	}
     	
     	/**
@@ -760,6 +773,11 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         	    
         	    	// Reset internal counter in preparation for decay.
         	    	_fallCount = INITIAL_FALL_COUNT;
+        	    	
+        	    	// Set the offset for this node so that the nodes don't
+        	    	// all just stack directly on top of each other.
+        	    	_bunchingOffset = BUNCHING_OFFSETS[_bunchingCounter];
+        	    	_bunchingCounter = (_bunchingCounter + 1) % BUNCHING_OFFSETS.length;
 
         	    	// Position the newly added node.
         	    	updateNucleusNodePosition();
@@ -869,7 +887,8 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         	
         	if (!_nucleus.hasDecayed()){
         		// The nucleus has not yet decayed, so position it on the upper line.
-            	yPos = _usableAreaOriginY + ( _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION ) - _nucleusNodeRadius;
+            	yPos = _usableAreaOriginY + ( _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION ) - _nucleusNodeRadius
+            	        + _bunchingOffset.getY() * _usableHeight;
         	}
         	else{
         		// The nucleus has decayed.  See if it is still falling.
@@ -891,7 +910,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         	}
         	
         	xPos = _graphOriginX + (_nucleus.getActivatedTime() + TIME_ZERO_OFFSET) * _msToPixelsFactor 
-        	        - _nucleusNodeRadius;
+        	        - _nucleusNodeRadius + (_bunchingOffset.getX() * _usableHeight);
         	_nucleusNode.setOffset(xPos, yPos);
     	}
     	
