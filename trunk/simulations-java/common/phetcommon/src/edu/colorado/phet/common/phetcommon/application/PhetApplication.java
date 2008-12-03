@@ -178,7 +178,7 @@ public class PhetApplication
             try {
                 // Generate and register the OSXAdapter, passing it a hash of all the methods we wish to
                 // use as delegates for various com.apple.eawt.ApplicationListener methods
-                OSXAdapter.setQuitHandler( PhetExit.class, PhetExit.class.getMethod( "quitMacOSX", (Class[]) null ) );
+                OSXAdapter.setQuitHandler( PhetExit.class, PhetExit.class.getMethod( "quitMacOSX", null ) );
             }
             catch ( Exception e ) {
                 System.err.println( "Error while loading the OSXAdapter:" );
