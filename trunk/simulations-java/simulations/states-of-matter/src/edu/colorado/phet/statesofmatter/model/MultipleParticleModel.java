@@ -55,7 +55,7 @@ import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
  *
  * @author John Blanco
  */
-public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
+public class MultipleParticleModel extends AbstractMultipleParticleModel {
     
 	//----------------------------------------------------------------------------
     // Class Data
@@ -170,7 +170,7 @@ public class MultipleParticleModel2 extends AbstractMultipleParticleModel {
     // Constructor
     //----------------------------------------------------------------------------
     
-    public MultipleParticleModel2(IClock clock) {
+    public MultipleParticleModel(IClock clock) {
         
         m_clock = clock;
         m_heightChangeCounter = 0;

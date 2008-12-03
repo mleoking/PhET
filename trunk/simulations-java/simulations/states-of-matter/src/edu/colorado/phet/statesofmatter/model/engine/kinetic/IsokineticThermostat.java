@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.statesofmatter.model.MoleculeForceAndMotionDataSet;
-import edu.colorado.phet.statesofmatter.model.MultipleParticleModel2;
+import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
 /**
  * This class implements a thermostat that adjusts the velocity of all
@@ -45,7 +45,7 @@ public class IsokineticThermostat implements Thermostat {
 	public IsokineticThermostat( MoleculeForceAndMotionDataSet moleculeDataSet, double minTemperature ){
 		
 		m_moleculeDataSet = moleculeDataSet;
-		m_targetTemperature = MultipleParticleModel2.INITIAL_TEMPERATURE;
+		m_targetTemperature = MultipleParticleModel.INITIAL_TEMPERATURE;
 		m_minModelTemperature = minTemperature;
 		
 		// Set up references to the various arrays within the data set so that

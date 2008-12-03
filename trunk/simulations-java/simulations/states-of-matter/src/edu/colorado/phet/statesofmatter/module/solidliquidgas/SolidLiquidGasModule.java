@@ -9,8 +9,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.defaults.SolidLiquidGasDefaults;
 import edu.colorado.phet.statesofmatter.model.AbstractMultipleParticleModel;
-import edu.colorado.phet.statesofmatter.model.MultipleParticleModel1;
-import edu.colorado.phet.statesofmatter.model.MultipleParticleModel2;
+import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
 /**
  * This class is where the model and view classes for the "Solid, Liquid, and
@@ -37,7 +36,7 @@ public class SolidLiquidGasModule extends PiccoloModule {
                 new ConstantDtClock(SolidLiquidGasDefaults.CLOCK_FRAME_DELAY, SolidLiquidGasDefaults.CLOCK_DT));
 
         // Model
-        m_model = new MultipleParticleModel2( getClock() );
+        m_model = new MultipleParticleModel( getClock() );
 
         // Canvas
         m_canvas = new SolidLiquidGasCanvas( m_model );

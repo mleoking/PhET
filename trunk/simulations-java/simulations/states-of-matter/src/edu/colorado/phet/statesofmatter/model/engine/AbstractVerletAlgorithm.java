@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.statesofmatter.model.MoleculeForceAndMotionDataSet;
-import edu.colorado.phet.statesofmatter.model.MultipleParticleModel2;
+import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
 /**
  * This is an abstract base class for classes that implement the Verlet
@@ -50,7 +50,7 @@ public abstract class AbstractVerletAlgorithm implements MoleculeForceAndMotionC
     // Instance Data
     //----------------------------------------------------------------------------
 
-    protected MultipleParticleModel2 m_model;
+    protected MultipleParticleModel m_model;
     protected double m_potentialEnergy;  // TODO: JPB TBD - Don't know if we need this, or how to use it, but it was
                                          // here when the wall force function was ported, so I'm keeping it for now.
     protected double m_pressure;
@@ -60,7 +60,7 @@ public abstract class AbstractVerletAlgorithm implements MoleculeForceAndMotionC
     // Constructor(s)
     //----------------------------------------------------------------------------
     
-    public AbstractVerletAlgorithm( MultipleParticleModel2 model ) {
+    public AbstractVerletAlgorithm( MultipleParticleModel model ) {
 
 		m_model = model;
 		m_potentialEnergy = 0;

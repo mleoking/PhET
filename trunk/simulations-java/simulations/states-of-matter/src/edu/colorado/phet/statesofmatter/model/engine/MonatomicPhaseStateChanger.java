@@ -7,7 +7,7 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.statesofmatter.model.MoleculeForceAndMotionDataSet;
-import edu.colorado.phet.statesofmatter.model.MultipleParticleModel2;
+import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
 /**
  * This class is used to change the phase state (i.e. solid, liquid, or gas)
@@ -30,7 +30,7 @@ public class MonatomicPhaseStateChanger extends AbstractPhaseStateChanger {
     // Constructor(s)
     //----------------------------------------------------------------------------
 
-	public MonatomicPhaseStateChanger( MultipleParticleModel2 model ) {
+	public MonatomicPhaseStateChanger( MultipleParticleModel model ) {
 		super(model);
 	}
 
@@ -67,7 +67,7 @@ public class MonatomicPhaseStateChanger extends AbstractPhaseStateChanger {
 	private void setPhaseSolid(){
 
 		// Set the temperature in the model.
-		m_model.setTemperature(MultipleParticleModel2.SOLID_TEMPERATURE);
+		m_model.setTemperature(MultipleParticleModel.SOLID_TEMPERATURE);
     	
 		// Create the solid form, a.k.a. a crystal.
 		
@@ -116,8 +116,8 @@ public class MonatomicPhaseStateChanger extends AbstractPhaseStateChanger {
 	 */
 	private void setPhaseLiquid(){
 
-		m_model.setTemperature( MultipleParticleModel2.LIQUID_TEMPERATURE );
-        double temperatureSqrt = Math.sqrt( MultipleParticleModel2.LIQUID_TEMPERATURE );
+		m_model.setTemperature( MultipleParticleModel.LIQUID_TEMPERATURE );
+        double temperatureSqrt = Math.sqrt( MultipleParticleModel.LIQUID_TEMPERATURE );
         
         // Set the initial velocity for each of the atoms based on the new
         // temperature.
@@ -185,8 +185,8 @@ public class MonatomicPhaseStateChanger extends AbstractPhaseStateChanger {
 	private void setPhaseGas(){
 
 		// Set the temperature for the new state.
-		m_model.setTemperature( MultipleParticleModel2.GAS_TEMPERATURE );
-        double temperatureSqrt = Math.sqrt( MultipleParticleModel2.GAS_TEMPERATURE );
+		m_model.setTemperature( MultipleParticleModel.GAS_TEMPERATURE );
+        double temperatureSqrt = Math.sqrt( MultipleParticleModel.GAS_TEMPERATURE );
         
 		int numberOfAtoms = m_model.getMoleculeDataSetRef().getNumberOfAtoms();
 		Point2D [] moleculeCenterOfMassPositions = m_model.getMoleculeDataSetRef().getMoleculeCenterOfMassPositions();

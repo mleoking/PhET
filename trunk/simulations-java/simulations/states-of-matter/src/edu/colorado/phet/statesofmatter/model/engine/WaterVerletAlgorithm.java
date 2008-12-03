@@ -7,7 +7,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.MoleculeForceAndMotionDataSet;
-import edu.colorado.phet.statesofmatter.model.MultipleParticleModel2;
+import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
 /**
  * Implementation of the Verlet algorithm for simulating molecular interaction
@@ -38,7 +38,7 @@ public class WaterVerletAlgorithm extends AbstractVerletAlgorithm {
     // Constructor
     //----------------------------------------------------------------------------
 
-	public WaterVerletAlgorithm( MultipleParticleModel2 model ){
+	public WaterVerletAlgorithm( MultipleParticleModel model ){
 		super( model );
 		
 	}

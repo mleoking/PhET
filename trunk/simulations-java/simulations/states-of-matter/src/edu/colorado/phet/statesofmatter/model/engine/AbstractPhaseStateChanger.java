@@ -5,7 +5,7 @@ package edu.colorado.phet.statesofmatter.model.engine;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.statesofmatter.model.MoleculeForceAndMotionDataSet;
-import edu.colorado.phet.statesofmatter.model.MultipleParticleModel2;
+import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
 /**
  * This is the base class for the objects that directly change the state of
@@ -28,13 +28,13 @@ public abstract class AbstractPhaseStateChanger implements PhaseStateChanger {
     // Instance Data
     //----------------------------------------------------------------------------
 	
-	protected MultipleParticleModel2 m_model;
+	protected MultipleParticleModel m_model;
 	
 	//----------------------------------------------------------------------------
     // Constructor(s)
     //----------------------------------------------------------------------------
 	
-	public AbstractPhaseStateChanger( MultipleParticleModel2 model ) {
+	public AbstractPhaseStateChanger( MultipleParticleModel model ) {
 		m_model = model;
 	}
 
