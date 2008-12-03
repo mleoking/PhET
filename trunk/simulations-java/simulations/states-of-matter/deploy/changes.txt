@@ -1,3 +1,7 @@
+>Made the controls on the side panel for adjusting the atom size and interaction strength only appear for the adjustable atom.
+>Made the resizing of the adjustable atom on the Interaction Potential tab work better.
+12/3/2008 - Removed many of the old classes that had been created when John De Goes started this sim long ago.
+******* 0.04.03
 >Made container explode at a given pressure rather than waiting until the simulation algorithm couldn't keep up.
 >Adjusted the time constant for pressure calculations to make the pressure gauge change more rapidly.  This was done because the pressure was still showing a positive value when the molecules has been cooled to stillness.
 >Changed the behavior of the 2nd tab (Phase Changes) such that switching between chemicals places the molecules into the solid form.
