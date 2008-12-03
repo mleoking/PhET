@@ -15,17 +15,19 @@ import edu.colorado.phet.licensing.media.FileUtils;
  * Aug 4, 2008 at 7:10:23 PM
  */
 public class DisplayDependenciesHTML {
-    private static File trunk = new File( "C:\\reid-not-backed-up\\phet\\svn\\trunk2" );
 
     public static void main( String[] args ) throws IOException {
         new DisplayDependenciesHTML().start();
     }
 
     private void start() throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter( new FileWriter( new File( "C:\\reid-not-backed-up\\phet\\svn\\trunk2\\util\\phet-media-license\\report.html" ) ) );
+        File file = new File( Config.TRUNK, "util\\phet-media-license\\report.html" );
+        file.getParentFile().mkdirs();
+        file.createNewFile();
+        BufferedWriter bufferedWriter = new BufferedWriter( new FileWriter( file ) );
 
 
-        File baseDir = new File( trunk, "simulations-java" );
+        File baseDir = new File( Config.TRUNK, "simulations-java" );
         String[] simNames = PhetProject.getSimNames( baseDir );
 
         ArrayList simHTMLs = new ArrayList();
@@ -95,19 +97,18 @@ public class DisplayDependenciesHTML {
     }
 
     private SimHTML visitSim( String simName ) throws IOException {
-        SimInfo issues = SimInfo.getSimInfo( trunk, simName ).getIssues();
+        SimInfo issues = SimInfo.getSimInfo( Config.TRUNK, simName ).getIssues();
 
         String header = issues.getHTMLHeader();
         String body = issues.getHTMLBody() + "<br><HR WIDTH=100% ALIGN=CENTER><br>";
         //todo: copy images
         for ( int i = 0; i < issues.getResources().length; i++ ) {
             AnnotatedFile x = issues.getResources()[i];
-            File target = new File( "C:\\reid-not-backed-up\\phet\\svn\\trunk2\\util\\phet-media-license\\", issues.getHTMLFileLocation( x ) );
+            File target = new File( Config.TRUNK.getAbsolutePath() + "\\util\\phet-media-license\\", issues.getHTMLFileLocation( x ) );
             target.getParentFile().mkdirs();
             if ( target.exists() && !FileUtils.contentEquals( target, x.getFile() ) ) {
                 System.out.println( "Target exists, and has different content: " + target.getAbsolutePath() );
                 System.out.println( "Skipping copy:" );
-//                FileUtils.copy( target, new File( "C:\\reid-not-backed-up\\phet\\svn\\trunk2\\util\\phet-media-license\\annotated-data\\", "Copy of " + target.getName() ) );
             }
             FileUtils.copy( x.getFile(), target );
         }

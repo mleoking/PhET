@@ -11,7 +11,6 @@ import edu.colorado.phet.build.PhetProject;
  * Aug 4, 2008 at 7:10:23 PM
  */
 public class DisplayDependencies {
-    private static File trunk = new File( "C:\\reid-not-backed-up\\phet\\svn\\trunk2" );
 
     public static void main( String[] args ) throws IOException {
         new DisplayDependencies().start();
@@ -20,7 +19,7 @@ public class DisplayDependencies {
     private void start() throws IOException {
         System.out.println( "PhET Java Software Dependencies\n" + new Date() + "\n" );
 
-        File baseDir = new File( trunk, "simulations-java" );
+        File baseDir = new File( Config.TRUNK, "simulations-java" );
         String[] simNames = PhetProject.getSimNames( baseDir );
         for ( int i = 0; i < simNames.length; i++ ) {
             visitSim( simNames[i] );
@@ -28,7 +27,7 @@ public class DisplayDependencies {
     }
 
     private void visitSim( String simName ) throws IOException {
-        SimInfo sim = SimInfo.getSimInfo( trunk, simName );
+        SimInfo sim = SimInfo.getSimInfo(Config.TRUNK, simName );
         System.out.println( sim.getIssues() );
     }
 }

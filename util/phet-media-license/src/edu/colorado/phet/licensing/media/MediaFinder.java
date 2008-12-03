@@ -6,19 +6,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import edu.colorado.phet.licensing.Config;
+
 /**
  * Author: Sam Reid
  * Jun 14, 2007, 8:35:26 PM
  */
 public class MediaFinder {
-    private static final String SVN_WORKING_COPY_ROOT = "C:\\reid-not-backed-up\\phet\\svn\\trunk2";
 
     public static File[] getDataDirectories() {
         ArrayList dataDirectories = new ArrayList();
 
         File[] roots = new File[]{
-                new File( SVN_WORKING_COPY_ROOT + "\\simulations-java\\simulations" ),
-                new File( SVN_WORKING_COPY_ROOT + "\\simulations-java\\common" ),
+                new File( Config.TRUNK + "\\simulations-java\\simulations" ),
+                new File( Config.TRUNK + "\\simulations-java\\common" ),
         };
         for ( int i = 0; i < roots.length; i++ ) {
             File root = roots[i];
