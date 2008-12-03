@@ -11,7 +11,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
-import edu.colorado.phet.statesofmatter.model.AbstractMultipleParticleModel;
+import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -33,15 +33,15 @@ public class StoveNode extends PNode {
     private PImage m_iceImage;
     private PImage m_stoveImage;
     private StoveControlSlider m_stoveControlSlider;
-    private AbstractMultipleParticleModel m_model;
+    private MultipleParticleModel m_model;
     
-    public StoveNode(AbstractMultipleParticleModel model, Paint backgroundPaint ) {
+    public StoveNode(MultipleParticleModel model, Paint backgroundPaint ) {
 
         m_model = model;
         
         // Register for events from the model that will affect the stove.
         if (m_model != null){
-            m_model.addListener(new AbstractMultipleParticleModel.Adapter(){
+            m_model.addListener(new MultipleParticleModel.Adapter(){
             	public void resetOccurred(){
             		m_stoveControlSlider.setValue(0);
             	}

@@ -7,7 +7,6 @@ import java.util.Iterator;
 import edu.colorado.phet.statesofmatter.model.engine.gravity.GravityForceCalculator;
 import edu.colorado.phet.statesofmatter.model.engine.lj.LennardJonesForce;
 import edu.colorado.phet.statesofmatter.model.engine.lj.LennardJonesForceCalculator;
-import edu.colorado.phet.statesofmatter.model.engine.lj.LennardJonesWallForceCalculator;
 
 public class EngineForceCalculator extends CompositeCalculator {
     public EngineForceCalculator(double g, LennardJonesForce ljf, Collection particles, Collection walls) {

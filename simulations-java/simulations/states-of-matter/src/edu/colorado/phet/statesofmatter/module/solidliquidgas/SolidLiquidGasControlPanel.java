@@ -27,7 +27,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
-import edu.colorado.phet.statesofmatter.model.AbstractMultipleParticleModel;
+import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
 /**
  * Control panel for the Solid, Liquid, and Gas module.
@@ -47,7 +47,7 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
     // Instance Data
     //----------------------------------------------------------------------------
     
-    AbstractMultipleParticleModel m_model;
+    MultipleParticleModel m_model;
     ChangeStateControlPanel m_stateSelectionPanel;
     MoleculeSelectionPanel m_moleculeSelectionPanel;
     
@@ -67,7 +67,7 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
         m_model = solidLiquidGasModule.getMultiParticleModel();
      
         // Register for model events that may affect us.
-        m_model.addListener( new AbstractMultipleParticleModel.Adapter(){
+        m_model.addListener( new MultipleParticleModel.Adapter(){
         	public void moleculeTypeChanged(){
         		m_moleculeSelectionPanel.setMolecule(m_model.getMoleculeType());
         	}
@@ -146,7 +146,7 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
             m_solidButton.setAlignmentX( Component.CENTER_ALIGNMENT );
             m_solidButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    m_model.setPhase( AbstractMultipleParticleModel.PHASE_SOLID );
+                    m_model.setPhase( MultipleParticleModel.PHASE_SOLID );
                 }
             } );
 
@@ -155,7 +155,7 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
             m_liquidButton.setAlignmentX( Component.CENTER_ALIGNMENT );
             m_liquidButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    m_model.setPhase( AbstractMultipleParticleModel.PHASE_LIQUID );
+                    m_model.setPhase( MultipleParticleModel.PHASE_LIQUID );
                 }
             } );
             
@@ -164,7 +164,7 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
             m_gasButton.setAlignmentX( Component.CENTER_ALIGNMENT );
             m_gasButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    m_model.setPhase( AbstractMultipleParticleModel.PHASE_GAS );
+                    m_model.setPhase( MultipleParticleModel.PHASE_GAS );
                 }
             } );
             

@@ -8,7 +8,6 @@ import java.awt.Font;
 import java.awt.Stroke;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 

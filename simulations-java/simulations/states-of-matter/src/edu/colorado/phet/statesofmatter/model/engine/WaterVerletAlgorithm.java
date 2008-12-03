@@ -5,7 +5,6 @@ package edu.colorado.phet.statesofmatter.model.engine;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.MoleculeForceAndMotionDataSet;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 

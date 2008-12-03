@@ -2,18 +2,21 @@
 
 package edu.colorado.phet.statesofmatter.view;
 
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.statesofmatter.model.AbstractMultipleParticleModel;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.GradientPaint;
+import java.awt.geom.CubicCurve2D;
+import java.awt.geom.Rectangle2D;
+
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
-
-import java.awt.*;
-import java.awt.geom.CubicCurve2D;
-import java.awt.geom.Rectangle2D;
 
 /**
  * This class represents creates a graphical display that is meant to look
@@ -58,7 +61,7 @@ public class BicyclePumpNode extends PNode {
     // Instance Data
     //------------------------------------------------------------------------
 
-    AbstractMultipleParticleModel m_model;
+    MultipleParticleModel m_model;
     PPath m_pumpHandle;
     double m_currentHandleOffset;
     double m_maxHandleOffset;
@@ -69,7 +72,7 @@ public class BicyclePumpNode extends PNode {
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
-    public BicyclePumpNode( double width, double height, AbstractMultipleParticleModel model ) {
+    public BicyclePumpNode( double width, double height, MultipleParticleModel model ) {
 
         // Initialize local variables.
         m_model = model;

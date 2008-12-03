@@ -55,7 +55,7 @@ import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
  *
  * @author John Blanco
  */
-public class MultipleParticleModel extends AbstractMultipleParticleModel {
+public class MultipleParticleModel{
     
 	//----------------------------------------------------------------------------
     // Class Data
@@ -1305,45 +1305,45 @@ public class MultipleParticleModel extends AbstractMultipleParticleModel {
     /* TODO: JPB TBD Commented out for abstract refactor thing 10/20/2008.  May want to add back
      * and get rid of base class, since it is primarily there for enabling testing.
      */
-//    public static interface Listener {
-//        
-//        /**
-//         * Inform listeners that the model has been reset.
-//         */
-//        public void resetOccurred();
-//        
-//        /**
-//         * Inform listeners that a new particle has been added to the model.
-//         */
-//        public void particleAdded(StatesOfMatterAtom particle);
-//        
-//        /**
-//         * Inform listeners that the temperature of the system has changed.
-//         */
-//        public void temperatureChanged();
-//        
-//        /**
-//         * Inform listeners that the pressure of the system has changed.
-//         */
-//        public void pressureChanged();
-//
-//        /**
-//         * Inform listeners that the size of the container has changed.
-//         */
-//        public void containerSizeChanged();
-//        
-//        /**
-//         * Inform listeners that the type of molecule being simulated has
-//         * changed.
-//         */
-//        public void moleculeTypeChanged();
-//
-//        /**
-//         * Inform listeners that the container has exploded.
-//         */
-//        public void containerExploded();
-//
-//    }
+    public static interface Listener {
+        
+        /**
+         * Inform listeners that the model has been reset.
+         */
+        public void resetOccurred();
+        
+        /**
+         * Inform listeners that a new particle has been added to the model.
+         */
+        public void particleAdded(StatesOfMatterAtom particle);
+        
+        /**
+         * Inform listeners that the temperature of the system has changed.
+         */
+        public void temperatureChanged();
+        
+        /**
+         * Inform listeners that the pressure of the system has changed.
+         */
+        public void pressureChanged();
+
+        /**
+         * Inform listeners that the size of the container has changed.
+         */
+        public void containerSizeChanged();
+        
+        /**
+         * Inform listeners that the type of molecule being simulated has
+         * changed.
+         */
+        public void moleculeTypeChanged();
+
+        /**
+         * Inform listeners that the container has exploded.
+         */
+        public void containerExploded();
+
+    }
     
     public static class Adapter implements Listener {
         public void resetOccurred(){}
