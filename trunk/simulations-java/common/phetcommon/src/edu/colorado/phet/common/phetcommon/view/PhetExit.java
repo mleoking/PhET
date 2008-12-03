@@ -2,8 +2,18 @@ package edu.colorado.phet.common.phetcommon.view;
 
 import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
-public class PhetExit {
+/**
+ * PhetExit encapsulates the various ways of exiting a sim.
+ * <p>
+ * The quitMacOSX method is invoked via reflection, so we use the marker
+ * interface IProguardKeepClass to prevent this class from being shrunk.
+ *
+ * @author Sam Reid
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
+public class PhetExit implements IProguardKeepClass {
     
     public static void exit() {
         TrackingManager.postSessionEndedMessage();
