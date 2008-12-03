@@ -20,6 +20,7 @@ public class AlphaParticleModelNode extends AlphaParticleNode {
     //------------------------------------------------------------------------
 
     private AlphaParticle _alphaParticle;
+    private AlphaParticle.Listener _alphaParticleListener;
     
     //------------------------------------------------------------------------
     // Constructor
@@ -28,14 +29,14 @@ public class AlphaParticleModelNode extends AlphaParticleNode {
     public AlphaParticleModelNode(AlphaParticle alphaParticle)
     {
         _alphaParticle = alphaParticle;
-        
-        alphaParticle.addListener(new AlphaParticle.Listener(){
+        _alphaParticleListener = new AlphaParticle.Listener(){
             public void positionChanged(AlphaParticle alpha)
             {
                 update();
             }
-            
-        });
+        };
+        
+        alphaParticle.addListener(_alphaParticleListener);
         
         // Call update at the end of construction to assure that the view is
         // synchronized with the model.
@@ -44,6 +45,19 @@ public class AlphaParticleModelNode extends AlphaParticleNode {
     
     //------------------------------------------------------------------------
     // Public Methods
+    //------------------------------------------------------------------------
+    
+    /**
+     * Remove all registrations for listeners so that we don't cause memory
+     * leaks when we want to get rid of this guy.
+     */
+    public void cleanup(){
+    	_alphaParticle.removeListener(_alphaParticleListener);
+    	_alphaParticle = null;
+    }
+    
+    //------------------------------------------------------------------------
+    // Private Methods
     //------------------------------------------------------------------------
     
     private void update(){

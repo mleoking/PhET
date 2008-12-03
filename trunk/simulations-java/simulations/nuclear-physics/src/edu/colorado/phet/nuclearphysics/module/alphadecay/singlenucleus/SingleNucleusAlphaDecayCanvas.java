@@ -13,22 +13,25 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collection;
+import java.util.Iterator;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
+import edu.colorado.phet.nuclearphysics.model.AlphaDecayCompositeNucleus;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.CompositeAtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.Neutron;
 import edu.colorado.phet.nuclearphysics.model.Proton;
-import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
 import edu.colorado.phet.nuclearphysics.view.AlphaDecayEnergyChart;
 import edu.colorado.phet.nuclearphysics.view.AlphaDecayTimeChart;
+import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
 import edu.colorado.phet.nuclearphysics.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.view.NeutronModelNode;
+import edu.colorado.phet.nuclearphysics.view.NucleonModelNode;
 import edu.colorado.phet.nuclearphysics.view.ProtonModelNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -66,7 +69,6 @@ public class SingleNucleusAlphaDecayCanvas extends PhetPCanvas {
     private AtomicNucleusNode _nucleusNode;
     private AlphaDecayEnergyChart _alphaDecayEnergyChart;
     private AlphaDecayTimeChart _alphaDecayTimeChart;
-    private HashMap _mapAlphaParticlesToNodes = new HashMap();
     private GradientButtonNode _resetButtonNode;
 	private PNode _nucleusLayer;
 	private PNode _labelLayer;
@@ -95,7 +97,10 @@ public class SingleNucleusAlphaDecayCanvas extends PhetPCanvas {
             	createNucleusNodes();
             }
             public void modelElementRemoved(Object modelElement){
-            	removeNucleusNodes();
+            	if (modelElement instanceof AlphaDecayCompositeNucleus){
+                	removeNucleusNodes();
+            	}
+            	// TODO: JPB TBD - Need to handle removal of alpha particle.
             }
         });
         
@@ -151,7 +156,7 @@ public class SingleNucleusAlphaDecayCanvas extends PhetPCanvas {
         // Register to receive button pushes.
         _resetButtonNode.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent event){
-                _singleNucleusAlphaDecayModel.getClock().resetSimulationTime();
+                _singleNucleusAlphaDecayModel.resetNucleus();
             }
         });
 
@@ -260,10 +265,32 @@ public class SingleNucleusAlphaDecayCanvas extends PhetPCanvas {
      * Remove and dispose of the nodes that are currently representing the nucleus.
      */
 	private void removeNucleusNodes(){
+
+		// Clean up the nodes that comprise the nucleus.
+		Collection nucleusLayerNodes = _nucleusLayer.getAllNodes();
+		Iterator itr = nucleusLayerNodes.iterator();
+		while( itr.hasNext() ){
+			Object node = itr.next();
+			if (node instanceof AlphaParticleModelNode){
+				((AlphaParticleModelNode)node).cleanup();
+			}
+			else if (node instanceof NucleonModelNode){
+				((NucleonModelNode)node).cleanup();
+			}
+		}
+		
+		// Clean up the nucleus node itself, which is just the label in this case.
+		Collection labelLayerNodes = _labelLayer.getAllNodes();
+		itr = labelLayerNodes.iterator();
+		while( itr.hasNext() ){
+			Object node = itr.next();
+			if (node instanceof AtomicNucleusNode){
+				((AtomicNucleusNode)node).cleanup();
+			}
+		}
 		
 		// TODO: JPB TBD - Not sure if this is sufficient or if it will cause memory leaks.
 		_nucleusLayer.removeAllChildren();
 		_labelLayer.removeAllChildren();
-		
 	}
 }

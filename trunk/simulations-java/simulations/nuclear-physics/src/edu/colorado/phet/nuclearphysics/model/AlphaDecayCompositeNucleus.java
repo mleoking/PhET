@@ -48,7 +48,7 @@ public abstract class AlphaDecayCompositeNucleus extends CompositeAtomicNucleus 
 	public void reset(AlphaParticle alpha) {
 	    
 	    // Reset the decay time.
-	    _alphaDecayTime = 0;
+	    _alphaDecayTime = calculateDecayTime();
 	    
 	    if (alpha != null){
 	        // Add the tunneled particle back to our list.
@@ -108,4 +108,5 @@ public abstract class AlphaDecayCompositeNucleus extends CompositeAtomicNucleus 
 	}
 
 	abstract protected void updateAgitationFactor();
+	abstract protected double calculateDecayTime();
 }
