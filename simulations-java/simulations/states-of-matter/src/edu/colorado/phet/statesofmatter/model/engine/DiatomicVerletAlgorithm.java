@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.statesofmatter.model.MoleculeForceAndMotionDataSet;
-import edu.colorado.phet.statesofmatter.model.MultipleParticleModel2;
+import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
 /**
  * Implementation of the Verlet algorithm for simulating molecular interaction
@@ -31,7 +31,7 @@ public class DiatomicVerletAlgorithm extends AbstractVerletAlgorithm {
     // Constructor
     //----------------------------------------------------------------------------
 
-	public DiatomicVerletAlgorithm( MultipleParticleModel2 model ){
+	public DiatomicVerletAlgorithm( MultipleParticleModel model ){
 		super( model );
 	}
 	

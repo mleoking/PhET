@@ -8,7 +8,7 @@ import java.util.Random;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.MoleculeForceAndMotionDataSet;
-import edu.colorado.phet.statesofmatter.model.MultipleParticleModel2;
+import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
 /**
  * This class is used to change the phase state (i.e. solid, liquid, or gas)
@@ -38,7 +38,7 @@ public class DiatomicPhaseStateChanger extends AbstractPhaseStateChanger {
     // Constructor(s)
     //----------------------------------------------------------------------------
 
-	public DiatomicPhaseStateChanger(MultipleParticleModel2 model) {
+	public DiatomicPhaseStateChanger(MultipleParticleModel model) {
 		super(model);
 		
 		// Make sure this is not being used on an inappropriate data set.
@@ -78,7 +78,7 @@ public class DiatomicPhaseStateChanger extends AbstractPhaseStateChanger {
 	private void setPhaseSolid(){
 
 		// Set the model temperature for this phase.
-        m_model.setTemperature( MultipleParticleModel2.SOLID_TEMPERATURE );
+        m_model.setTemperature( MultipleParticleModel.SOLID_TEMPERATURE );
         
         // Get references to the various elements of the data set.
         MoleculeForceAndMotionDataSet moleculeDataSet = m_model.getMoleculeDataSetRef();
@@ -131,7 +131,7 @@ public class DiatomicPhaseStateChanger extends AbstractPhaseStateChanger {
 	private void setPhaseLiquid(){
 
 		// Set the model temperature for this phase.
-		m_model.setTemperature( MultipleParticleModel2.LIQUID_TEMPERATURE );
+		m_model.setTemperature( MultipleParticleModel.LIQUID_TEMPERATURE );
 
         // Get references to the various elements of the data set.
         MoleculeForceAndMotionDataSet moleculeDataSet = m_model.getMoleculeDataSetRef();
@@ -211,7 +211,7 @@ public class DiatomicPhaseStateChanger extends AbstractPhaseStateChanger {
 	private void setPhaseGas(){
 
 		// Set the model temperature for this phase.
-		m_model.setTemperature( MultipleParticleModel2.GAS_TEMPERATURE );
+		m_model.setTemperature( MultipleParticleModel.GAS_TEMPERATURE );
 
         // Get references to the various elements of the data set.
         MoleculeForceAndMotionDataSet moleculeDataSet = m_model.getMoleculeDataSetRef();
