@@ -19,7 +19,6 @@ import edu.colorado.phet.statesofmatter.model.engine.AtomPositionUpdater;
 import edu.colorado.phet.statesofmatter.model.engine.DiatomicAtomPositionUpdater;
 import edu.colorado.phet.statesofmatter.model.engine.DiatomicPhaseStateChanger;
 import edu.colorado.phet.statesofmatter.model.engine.DiatomicVerletAlgorithm;
-import edu.colorado.phet.statesofmatter.model.engine.EngineFacade;
 import edu.colorado.phet.statesofmatter.model.engine.MoleculeForceAndMotionCalculator;
 import edu.colorado.phet.statesofmatter.model.engine.MonatomicAtomPositionUpdater;
 import edu.colorado.phet.statesofmatter.model.engine.MonatomicPhaseStateChanger;
@@ -145,7 +144,6 @@ public class MultipleParticleModel{
     private double m_minAllowableContainerHeight;
     private final List m_particles = new ArrayList();
     private boolean m_lidBlownOff = false;
-    private EngineFacade m_engineFacade;
     IClock m_clock;
     private ArrayList _listeners = new ArrayList();
     
@@ -224,18 +222,6 @@ public class MultipleParticleModel{
         return new Rectangle2D.Double(0, 0, StatesOfMatterConstants.PARTICLE_CONTAINER_WIDTH, m_particleContainerHeight);
     }
 
-    public synchronized double getKineticEnergy() {
-        return m_engineFacade.measureKineticEnergy();
-    }
-
-    public synchronized double getPotentialEnergy() {
-        return m_engineFacade.measurePotentialEnergy();
-    }
-
-    public synchronized double getTotalEnergy() {
-        return getKineticEnergy() + getPotentialEnergy();
-    }
-    
     public void setTemperature(double newTemperature){
         if (newTemperature > MAX_TEMPERATURE) {
             m_temperatureSetPoint = MAX_TEMPERATURE;
