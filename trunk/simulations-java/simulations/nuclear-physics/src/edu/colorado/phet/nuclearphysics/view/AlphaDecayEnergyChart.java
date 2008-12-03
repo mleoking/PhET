@@ -51,7 +51,7 @@ public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.L
     private static final Color   BACKGROUND_COLOR = new Color( 246, 242, 175 );
     private static final double  AXES_LINE_WIDTH = 0.5f;
     private static final Color   AXES_LINE_COLOR = Color.BLACK;
-    private static final double  ORIGIN_PROPORTION_X = 0.1d;
+    private static final double  ORIGIN_PROPORTION_X = 0.05d;
     private static final double  ORIGIN_PROPORTION_Y = 0.33d;
     private static final float   ENERGY_LINE_STROKE_WIDTH = 2f;
     private static final Stroke  ENERGY_LINE_STROKE = new BasicStroke( ENERGY_LINE_STROKE_WIDTH, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f );
@@ -64,7 +64,6 @@ public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.L
     private static final double  LEGEND_WIDTH = 190.0d;
     private static final double  LEGEND_HEIGHT = 80.0d;
     private static final double  ALPHA_PARTICLE_SCALE_FACTOR = 0.075;
-    private static final double  ALPHA_PARTICLE_DIAMETER = 22;
     private static final int     MAX_ALPHA_PARTICLES_DISPLAYED = 6;
     private static final double  ARROW_HEAD_HEIGHT = 10;
     private static final double  ARROW_HEAD_WIDTH = 8;
@@ -379,8 +378,7 @@ public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.L
         _yAxisLabel2.setOffset( _graphOriginX - (1.5 * _yAxisLabel2.getFont().getSize()), 
                 _graphOriginY + (0.5 * (yAxisTipPt.getY() - _graphOriginY + _yAxisLabel2.getWidth())));
 
-        _xAxisLabel.setOffset( xAxisTipPt.getX() - _xAxisLabel.getWidth() - ARROW_HEAD_HEIGHT - 10,
-                _graphOriginY + 5);
+        _xAxisLabel.setOffset( _graphOriginX + 5, _graphOriginY + 3);
 
         
         // Position the curve that represents the potential energy.
@@ -431,8 +429,8 @@ public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.L
         
         // Lay out the legend.
         
-        double legendOriginX = _usableAreaOriginX + _usableWidth - LEGEND_WIDTH - (2 * LEGEND_BORDER_STROKE_WIDTH);
-        double legendOriginY = _usableAreaOriginY + _usableHeight - LEGEND_HEIGHT - (2 * LEGEND_BORDER_STROKE_WIDTH);
+        double legendOriginX = _usableAreaOriginX + _usableWidth * 0.08;
+        double legendOriginY = _usableAreaOriginY + _usableHeight - LEGEND_HEIGHT - (4 * LEGEND_BORDER_STROKE_WIDTH);
         double legendUsableHeight = LEGEND_HEIGHT - (2 * LEGEND_BORDER_STROKE_WIDTH);
         _legend.setPathTo( new RoundRectangle2D.Double( 
                 legendOriginX,
