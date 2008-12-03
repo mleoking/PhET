@@ -9,8 +9,10 @@ import java.util.ArrayList;
  */
 public class ResourceAnnotationList {
     private ArrayList lines = new ArrayList();
+    private String description;
 
-    public ResourceAnnotationList() {
+    public ResourceAnnotationList( String description ) {
+        this.description = description;
     }
 
     public void addResourceAnnotation( ResourceAnnotation resourceAnnotation ) {
@@ -50,7 +52,7 @@ public class ResourceAnnotationList {
 
     public static ResourceAnnotationList read( File file ) {
         try {
-            ResourceAnnotationList list = new ResourceAnnotationList();
+            ResourceAnnotationList list = new ResourceAnnotationList( "File: " + file.getAbsolutePath() );
             BufferedReader bufferedReader = new BufferedReader( new FileReader( file ) );
             String line = bufferedReader.readLine();
             while ( line != null ) {
@@ -79,7 +81,7 @@ public class ResourceAnnotationList {
     }
 
     public static void main( String[] args ) {
-        File file = new File( "C:\\reid-not-backed-up\\phet\\svn\\trunk2\\util\\phet-media-license\\data\\license.txt" );
+        File file = new File( Config.TRUNK, "\\util\\phet-media-license\\data\\license.txt" );
         ResourceAnnotationList list = read( file );
         System.out.println( list.toText() );
     }
@@ -104,7 +106,11 @@ public class ResourceAnnotationList {
             }
         }
         if ( elements.size() == 0 ) {
-            throw new RuntimeException( "Element not found for name=" + name + ", resourceList=" + toText() );
+//            throw new RuntimeException( "Element not found for name=" + name + ", resourceList=" + toText() );
+            new RuntimeException( "Element not found for name=" + name +" in "+description).printStackTrace(  );
+            ResourceAnnotation annotation = new ResourceAnnotation( name );
+            annotation.setSource( "NOT_ANNOTATED" );
+            return annotation;
         }
         else if ( elements.size() > 1 ) {
             System.out.println( "Multiple elements found: " + elements );

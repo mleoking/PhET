@@ -22,7 +22,7 @@ public class DataProcessor {
             resourceAnnotationList = ResourceAnnotationList.read( licenseFile );
         }
         else {
-            resourceAnnotationList = new ResourceAnnotationList();
+            resourceAnnotationList = new ResourceAnnotationList( "Generated list");
             resourceAnnotationList.addTextLine( new ResourceAnnotationTextLine( "###################################" ) );
             resourceAnnotationList.addTextLine( new ResourceAnnotationTextLine( "# License info for " + phetProject.getName() ) );
             resourceAnnotationList.addTextLine( new ResourceAnnotationTextLine( "# Automatically generated on " + new Date() ) );
