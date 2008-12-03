@@ -29,6 +29,7 @@
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/JGV/source/server" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/JGV/source/web" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/Jama/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../contrib/apple/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/beanshell/asm/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/beanshell/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/idx3d/source" isTestSource="false" />
