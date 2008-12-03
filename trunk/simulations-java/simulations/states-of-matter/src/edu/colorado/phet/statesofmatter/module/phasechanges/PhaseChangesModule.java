@@ -8,7 +8,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.defaults.PhaseChangesDefaults;
-import edu.colorado.phet.statesofmatter.model.AbstractMultipleParticleModel;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
 
@@ -17,7 +16,7 @@ public class PhaseChangesModule extends PiccoloModule {
     // Instance Data
     //----------------------------------------------------------------------------
 
-    private AbstractMultipleParticleModel m_model;
+    private MultipleParticleModel m_model;
     private PhaseChangesCanvas  m_canvas;
 
     //----------------------------------------------------------------------------
@@ -51,7 +50,7 @@ public class PhaseChangesModule extends PiccoloModule {
     //----------------------------------------------------------------------------
     // Accessor Methods
     //----------------------------------------------------------------------------
-    public AbstractMultipleParticleModel getMultiParticleModel(){
+    public MultipleParticleModel getMultiParticleModel(){
         return m_model;
     }
     //----------------------------------------------------------------------------

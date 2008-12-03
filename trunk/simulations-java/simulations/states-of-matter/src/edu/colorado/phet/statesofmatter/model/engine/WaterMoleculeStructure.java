@@ -2,10 +2,6 @@
 
 package edu.colorado.phet.statesofmatter.model.engine;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-
-import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 
 /**

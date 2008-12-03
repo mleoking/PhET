@@ -23,7 +23,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValu
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
-import edu.colorado.phet.statesofmatter.model.AbstractMultipleParticleModel;
+import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
 /**
  * This class implements a simple slider with the appropriate labels for
@@ -37,9 +37,9 @@ public class GravityControlPanel extends JPanel {
     
     private LinearValueControl m_gravityControl;
     
-    private AbstractMultipleParticleModel m_model;
+    private MultipleParticleModel m_model;
     
-    public GravityControlPanel(AbstractMultipleParticleModel model){
+    public GravityControlPanel(MultipleParticleModel model){
     
         m_model = model;
         
@@ -57,7 +57,7 @@ public class GravityControlPanel extends JPanel {
         setBorder( titledBorder );
         
         // Add the gravity control slider.
-        m_gravityControl = new LinearValueControl( 0, AbstractMultipleParticleModel.MAX_GRAVITATIONAL_ACCEL, "", "0", "", 
+        m_gravityControl = new LinearValueControl( 0, MultipleParticleModel.MAX_GRAVITATIONAL_ACCEL, "", "0", "", 
                 new GravitySliderLayoutStrategy() );
         m_gravityControl.setValue( m_model.getGravitationalAcceleration() );
         m_gravityControl.setUpDownArrowDelta( 0.01 );
@@ -77,7 +77,7 @@ public class GravityControlPanel extends JPanel {
 
         // Register as a listener with the model so that we know when it gets
         // reset.
-        m_model.addListener( new AbstractMultipleParticleModel.Adapter(){
+        m_model.addListener( new MultipleParticleModel.Adapter(){
             public void resetOccurred(){
                 m_gravityControl.setValue(m_model.getGravitationalAcceleration());
             }
