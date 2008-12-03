@@ -21,9 +21,9 @@ import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 public class UpdateButton extends JButton {
     public UpdateButton( final String project, final String sim, final String locale, final String simName, final PhetVersion newVersion ) {
         super( PhetCommonResources.getString( "Common.updates.updateNow" ) );
-        TrackingManager.postActionPerformedMessage( TrackingMessage.UPDATE_NOW_PRESSED );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+                TrackingManager.postActionPerformedMessage( TrackingMessage.UPDATE_NOW_PRESSED );
                 if ( PhetUtilities.isRunningFromWebsite() ) {
                     PhetServiceManager.showSimPage( project, sim );
                 }
