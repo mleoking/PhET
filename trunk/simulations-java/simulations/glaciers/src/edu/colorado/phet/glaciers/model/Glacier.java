@@ -570,7 +570,6 @@ public class Glacier extends ClockAdapter {
                 // values below here are set explicitly in this method
                 _evolutionState.ela = ela;
                 _evolutionState.timescale = timescale;
-                _evolutionState.qAdvanceLimit = Q_ADVANCE_LIMIT;
                 _evolutionState.deltaQela = delta;
                 _evolutionState.qela = _qela;
                 // values below here are set by updateIceThickness, called from this method
@@ -654,7 +653,6 @@ public class Glacier extends ClockAdapter {
         
         public double ela;
         public double timescale;
-        public double qAdvanceLimit;
         public double deltaQela;
         public double qela;
         public double qelax;
@@ -667,7 +665,6 @@ public class Glacier extends ClockAdapter {
         public void setState( EvolutionState es ) {
             ela = es.ela;
             timescale = es.timescale;
-            qAdvanceLimit = es.qAdvanceLimit;
             deltaQela = es.deltaQela;
             qela = es.qela;
             qelax = es.qelax;

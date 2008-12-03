@@ -31,7 +31,6 @@ public class EvolutionStatePanel extends JPanel {
     // value displays
     private final NumberDisplay _elaCurrent, _elaPrevious;
     private final NumberDisplay _timescaleCurrent, _timescalePrevious;
-    private final NumberDisplay _qAdvanceLimitCurrent, _qAdvanceLimitPrevious;
     private final NumberDisplay _deltaQelaCurrent, _deltaQelaPrevious;
     private final NumberDisplay _qelaCurrent, _qelaPrevious;
     private final NumberDisplay _qelaxCurrent, _qelaxPrevious;
@@ -66,8 +65,6 @@ public class EvolutionStatePanel extends JPanel {
         _elaPrevious = new NumberDisplay( "0.00" );
         _timescaleCurrent = new NumberDisplay( "0.00" );
         _timescalePrevious = new NumberDisplay( "0.00" );
-        _qAdvanceLimitCurrent = new NumberDisplay( "0.0000" );
-        _qAdvanceLimitPrevious = new NumberDisplay( "0.0000" );
         _deltaQelaCurrent = new NumberDisplay( "0.0000" );
         _deltaQelaPrevious = new NumberDisplay( "0.0000" );
         _qelaCurrent = new NumberDisplay( "0.00" );
@@ -104,12 +101,6 @@ public class EvolutionStatePanel extends JPanel {
         layout.addComponent( _timescaleCurrent, row, col++ );
         layout.addComponent( _timescalePrevious, row, col++ );
         layout.addComponent( new JLabel( "yrs" ), row, col++ );
-        row++;
-        col = 0;
-        layout.addComponent( new JLabel( "q_advance_limit:" ), row, col++ );
-        layout.addComponent( _qAdvanceLimitCurrent, row, col++ );
-        layout.addComponent( _qAdvanceLimitPrevious, row, col++ );
-        layout.addComponent( new JLabel( "m/yr" ), row, col++ );
         row++;
         col = 0;
         layout.addComponent( new JLabel( "deltaQela:" ), row, col++ );
@@ -161,8 +152,6 @@ public class EvolutionStatePanel extends JPanel {
         _elaPrevious.setValue( _previousState.ela );
         _timescaleCurrent.setValue( _currentState.timescale );
         _timescalePrevious.setValue( _previousState.timescale );
-        _qAdvanceLimitCurrent.setValue( _currentState.qAdvanceLimit );
-        _qAdvanceLimitPrevious.setValue( _previousState.qAdvanceLimit );
         _deltaQelaCurrent.setValue( _currentState.deltaQela );
         _deltaQelaPrevious.setValue( _previousState.deltaQela );
         _qelaCurrent.setValue( _currentState.qela );
