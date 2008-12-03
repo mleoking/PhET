@@ -71,6 +71,13 @@ public class Polonium211CompositeNucleus extends AlphaDecayCompositeNucleus {
 	        assert(false);
 	    }        
 	}
+	
+	/**
+	 * Return a new value for the simulation time at which this nucleus should decay.
+	 */
+	protected double calculateDecayTime(){
+		return _clock.getSimulationTime() + calcPolonium211DecayTime();
+	}
 
     /**
      * This method generates a value indicating the number of milliseconds for
@@ -79,7 +86,7 @@ public class Polonium211CompositeNucleus extends AlphaDecayCompositeNucleus {
      * 
      * @return
      */
-    double calcPolonium211DecayTime(){
+    private double calcPolonium211DecayTime(){
         double randomValue = _rand.nextDouble();
         if (randomValue > 0.999){
             // Limit the maximum time for decay so that the user isn't waiting

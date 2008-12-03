@@ -20,6 +20,7 @@ public class ProtonModelNode extends ProtonNode implements NucleonModelNode{
     //------------------------------------------------------------------------
     
     private Nucleon _nucleon;
+    private Nucleon.Listener _protonListener;
     
     //------------------------------------------------------------------------
     // Constructor
@@ -28,14 +29,14 @@ public class ProtonModelNode extends ProtonNode implements NucleonModelNode{
     public ProtonModelNode(Nucleon nucleon)
     {
         _nucleon = nucleon;
-        
-        nucleon.addListener(new Nucleon.Listener(){
+        _protonListener = new Nucleon.Listener(){
             public void positionChanged()
             {
                 update();
             }
-            
-        });
+        };
+        
+        nucleon.addListener(_protonListener);
         
         setPickable( false );
         setChildrenPickable( false );
@@ -57,6 +58,18 @@ public class ProtonModelNode extends ProtonNode implements NucleonModelNode{
     // Other Public Methods
     //------------------------------------------------------------------------
     
+    /**
+     * Remove all registrations for listeners so that we don't cause memory
+     * leaks when we want to get rid of this guy.
+     */
+    public void cleanup(){
+    	_nucleon.removeListener(_protonListener);
+    	_nucleon = null;
+    }
+    
+    //------------------------------------------------------------------------
+    // Private Methods
+    //------------------------------------------------------------------------
     private void update(){
         setOffset( _nucleon.getPositionReference().getX() - NuclearPhysicsConstants.NUCLEON_DIAMETER/2,  
                 _nucleon.getPositionReference().getY() - NuclearPhysicsConstants.NUCLEON_DIAMETER/2);

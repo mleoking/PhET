@@ -30,6 +30,8 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
     //------------------------------------------------------------------------
     // Class data
     //------------------------------------------------------------------------
+	
+	public int DEFAULT_NUCLEUS_TYPE_ID = NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM;
     
     //------------------------------------------------------------------------
     // Instance data
@@ -49,7 +51,7 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
     public SingleNucleusAlphaDecayModel(NuclearPhysicsClock clock)
     {
         _clock = clock;
-        _nucleusID = NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM;
+        _nucleusID = DEFAULT_NUCLEUS_TYPE_ID;
 
         // Register as a listener to the clock.
         clock.addClockListener( new ClockAdapter(){
@@ -63,10 +65,13 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
             }
             
             public void simulationTimeReset(ClockEvent clockEvent){
-                // Reset the nucleus, including passing the alpha particle
-                // back to it.
-                _atomicNucleus.reset( _tunneledAlpha );
-                _tunneledAlpha = null;
+            	if (_nucleusID != DEFAULT_NUCLEUS_TYPE_ID){
+            		_nucleusID = DEFAULT_NUCLEUS_TYPE_ID;
+            		addOrReplaceNucleus();
+            	}
+            	else{
+            		resetNucleus();
+            	}
             }
         });
 
@@ -134,6 +139,18 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
     // Other Public Methods
     //------------------------------------------------------------------------
 
+	/**
+	 * Reset the currently active nucleus.
+	 */
+	public void resetNucleus(){
+        // Reset the nucleus, including passing the alpha particle back to it.
+        _atomicNucleus.reset( _tunneledAlpha );
+        if (_tunneledAlpha != null){
+        	notifyModelElementRemoved(_tunneledAlpha);
+        }
+        _tunneledAlpha = null;
+	}
+	
     /**
      * This method allows the caller to register for changes in the overall
      * model, as opposed to changes in the individual model elements.
@@ -189,8 +206,10 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
 			_atomicNucleus.removeListener(_atomicNucleusAdapter);
 			
 			// Remove the nucleus itself and inform any listeners of its demise.
+			_atomicNucleus.removedFromModel();
 			AlphaDecayCompositeNucleus tempNucleus = _atomicNucleus;
 			_atomicNucleus = null;
+			_tunneledAlpha = null;
 			notifyModelElementRemoved(tempNucleus);
 		}
 		

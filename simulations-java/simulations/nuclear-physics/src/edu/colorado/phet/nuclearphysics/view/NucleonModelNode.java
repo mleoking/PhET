@@ -11,4 +11,9 @@ public interface NucleonModelNode {
      * Get the nucleon that this node represents.
      */
     public Nucleon getNucleon();
+    
+    /**
+     * Cleanup memory references so that this node doesn't cause memory leaks.
+     */
+    public void cleanup();
 }

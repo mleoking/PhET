@@ -66,6 +66,13 @@ public class AdjustableHalfLifeCompositeNucleus extends AlphaDecayCompositeNucle
 	        assert(false);
 	    }        
 	}
+	
+	/**
+	 * Return a new value for the simulation time at which this nucleus should decay.
+	 */
+	protected double calculateDecayTime(){
+		return _clock.getSimulationTime() + calcDecayTime();
+	}
 
     /**
      * This method generates a value indicating the number of milliseconds for

@@ -199,6 +199,10 @@ public class Nucleon implements AtomicNucleusConstituent {
         _listeners.add( listener );
     }
     
+    public void removeListener(Listener listener){
+    	_listeners.remove(listener);
+    }
+    
     public static interface Listener {
         void positionChanged();
     }
