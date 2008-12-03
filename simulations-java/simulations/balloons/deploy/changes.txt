@@ -1,3 +1,5 @@
+# 1.07.01
+12-3-08: post version to test #920 (OSX quit handler)
 # 1.07.00
 11-17-08: post new version to PhET website
 # 1.06.18
