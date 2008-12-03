@@ -102,25 +102,29 @@ public class SimInfo {
         }
         return ( entry.getAuthor() != null && entry.getAuthor().equalsIgnoreCase( "phet" ) )
                ||
-               ( entry.getSource() != null && entry.getSource().toLowerCase().startsWith( "microsoft" ) )
-               ||
-               ( entry.getLicense() != null && entry.getLicense().equalsIgnoreCase( "PUBLIC DOMAIN" ) )
-               ||
-               ( entry.getSource() != null && entry.getSource().equalsIgnoreCase( "java" ) )
-               ||
-               ( entry.getSource() != null && entry.getSource().equalsIgnoreCase( "phet" ) )
-               ||
-               entry.getName().endsWith( ".xml" )
-               ||
-               entry.getName().endsWith( ".esp" )
-               ||
-               entry.getName().endsWith( ".html" )
-               ||
-               entry.getName().endsWith( ".properties" )
-               ||
-               ( entry.getLicense() != null && entry.getLicense().equalsIgnoreCase( "http://creativecommons.org" ) )
-               ||
-               ( entry.getLicense() != null && entry.getLicense().equalsIgnoreCase( "Creative Commons, royalty free, public domain" ) );
+//               ( entry.getSource() != null && entry.getSource().toLowerCase().startsWith( "microsoft" ) )
+//               ||
+
+( entry.getAuthor() != null && entry.getAuthor().equalsIgnoreCase( "cmalley" ) )
+||
+
+( entry.getLicense() != null && entry.getLicense().equalsIgnoreCase( "PUBLIC DOMAIN" ) )
+||
+( entry.getSource() != null && entry.getSource().equalsIgnoreCase( "java" ) )
+||
+( entry.getSource() != null && entry.getSource().equalsIgnoreCase( "phet" ) )
+||
+entry.getName().endsWith( ".xml" )
+||
+entry.getName().endsWith( ".esp" )
+||
+entry.getName().endsWith( ".html" )
+||
+entry.getName().endsWith( ".properties" )
+||
+( entry.getLicense() != null && entry.getLicense().equalsIgnoreCase( "http://creativecommons.org" ) )
+||
+( entry.getLicense() != null && entry.getLicense().equalsIgnoreCase( "Creative Commons, royalty free, public domain" ) );
 
     }
 

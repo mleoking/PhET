@@ -110,7 +110,10 @@ public class DisplayDependenciesHTML {
                 System.out.println( "Target exists, and has different content: " + target.getAbsolutePath() );
                 System.out.println( "Skipping copy:" );
             }
-            FileUtils.copy( x.getFile(), target );
+            else {
+                System.out.println( "Copying: " + x.getFile() + " to " + target.getAbsolutePath() );
+                FileUtils.copy( x.getFile(), target );
+            }
         }
 
         return new SimHTML( issues, header, body );
