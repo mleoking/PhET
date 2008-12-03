@@ -97,9 +97,16 @@ public class SimInfo {
 
 
     public static boolean hideEntry( ResourceAnnotation entry ) {
-        if ( entry.getName().startsWith( "bear" ) ) {
-            System.out.println( "bear" );
-        }
+        return getDefaultHideEntryRule( entry );
+//        return getMSReportHideEntry( entry );
+    }
+
+    private static boolean getMSReportHideEntry( ResourceAnnotation entry ) {
+        boolean MS = entry.getSource() != null && entry.getSource().toLowerCase().startsWith( "microsoft" );
+        return !MS;
+    }
+
+    public static boolean getDefaultHideEntryRule( ResourceAnnotation entry ) {
         return ( entry.getAuthor() != null && entry.getAuthor().equalsIgnoreCase( "phet" ) )
                ||
 //               ( entry.getSource() != null && entry.getSource().toLowerCase().startsWith( "microsoft" ) )
