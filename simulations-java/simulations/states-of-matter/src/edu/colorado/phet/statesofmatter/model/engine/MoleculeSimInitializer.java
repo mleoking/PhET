@@ -7,7 +7,7 @@ package edu.colorado.phet.statesofmatter.model.engine;
  * meaning that the various data that describes the locations, forces, and
  * motion of the simulation are all created and set to initial values.
  * 
- * @author John
+ * @author John Blanco
  *
  */
 public interface MoleculeSimInitializer {

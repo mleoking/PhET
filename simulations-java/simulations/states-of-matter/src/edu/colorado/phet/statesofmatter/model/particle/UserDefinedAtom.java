@@ -3,8 +3,8 @@
 package edu.colorado.phet.statesofmatter.model.particle;
 
 /**
- * The class represents an atom that the user can change some of the values
- * for.
+ * The class represents an atom where some of the parameters can be changed by
+ * the user.
  *
  * @author John Blanco
  */
