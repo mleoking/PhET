@@ -6,13 +6,16 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
-import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
-import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
-import edu.colorado.phet.common.phetcommon.view.JTabbedModulePane;
-import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import apple.dts.samplecode.osxadapter.OSXAdapter;
 import edu.colorado.phet.common.phetcommon.dialogs.PhetAboutDialog;
 import edu.colorado.phet.common.phetcommon.preferences.ITrackingInfo;
+import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
+import edu.colorado.phet.common.phetcommon.view.JTabbedModulePane;
+import edu.colorado.phet.common.phetcommon.view.PhetExit;
+import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 
 /**
  * The base class for PhET applications.
@@ -57,6 +60,8 @@ public class PhetApplication
 
         // Handle command line arguments
         parseArgs( phetApplicationConfig.getCommandLineArgs() );
+        
+        registerForMacOSXEvents();
 
         phetApplications.add( this );
     }
@@ -164,6 +169,24 @@ public class PhetApplication
         return phetFrame;
     }
 
+    /**
+     * Registers for events that are specific to Mac OS X.
+     * Does this in a way that is platform neutral.
+     */
+    private void registerForMacOSXEvents() {
+        if ( PhetUtilities.isMacintosh() ) {
+            try {
+                // Generate and register the OSXAdapter, passing it a hash of all the methods we wish to
+                // use as delegates for various com.apple.eawt.ApplicationListener methods
+                OSXAdapter.setQuitHandler( PhetExit.class, PhetExit.class.getMethod( "quitMacOSX", (Class[]) null ) );
+            }
+            catch ( Exception e ) {
+                System.err.println( "Error while loading the OSXAdapter:" );
+                e.printStackTrace();
+            }
+        }
+    }
+    
     //----------------------------------------------------------------
     // Module-related methods
     //----------------------------------------------------------------
@@ -351,7 +374,7 @@ public class PhetApplication
                     aboutDialog = null;
                 }
             } );
-            aboutDialog.show();
+            aboutDialog.setVisible( true );
         }
     }
 

@@ -1,3 +1,6 @@
+12-03-08: #920, add "mac-osx-quit" tracking message
+12-03-08: #920, implement quit handler for Mac OS X
+12-03-08: #920, add Apple contrib code (OSXAdapter)
 12-03-08: #1001, update-now-pressed is sent whenever update dialog is opened
 12-02-08: cleanup and generalize ILogger hierarchy
 12-01-08: #945, generalized error dialogs
