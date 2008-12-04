@@ -73,7 +73,8 @@ class LicenseDialog {
 		window.setHeight(window.getContentPane().getPreferredSize().height + 50);
 		window.setWidth(window.getContentPane().getPreferredSize().width + 50);
 		
-		window.setLocation(50, 50);
+		// center the window
+		window.setLocation((Stage.width - window.getWidth()) / 2, (Stage.height - window.getHeight()) / 2);
 		window.show();
 	}
 	

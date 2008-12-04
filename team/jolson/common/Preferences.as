@@ -83,6 +83,8 @@ class Preferences {
 	public function setTracking(updates : Boolean, tracking : Boolean) : Void {
 		sharedObject.data.allowTracking = tracking;
 		sharedObject.data.checkForUpdates = updates;
+		debug("setting tracking to " + tracking.toString() + "\n");
+		debug("setting updates to " + updates.toString() + "\n");
 		save();
 	}
 	
