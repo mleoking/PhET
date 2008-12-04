@@ -1,6 +1,6 @@
-﻿// LicenseDialog.as
+﻿// TrackingDetailsDialog.as
 //
-// Shows license information in a window
+// Shows the session-start tracking message, with other text
 //
 // Author: Jonathan Olson
 
@@ -8,15 +8,15 @@ import org.aswing.*;
 import org.aswing.util.*;
 import org.aswing.border.*;
 
-class LicenseDialog {
+class TrackingDetailsDialog {
 	
 	// shorthand for debugging function
 	public function debug(str : String) : Void {
 		_level0.debug(str);
 	}
 	
-	public function LicenseDialog() {
-		debug("LicenseDialog initializing\n");
+	public function TrackingDetailsDialog() {
+		debug("TrackingDetailsDialog initializing\n");
 		
 		// somehow this line allows us to create these windows/buttons from
 		// code that isn't part of a MovieClip.
@@ -26,7 +26,7 @@ class LicenseDialog {
 		var window : JFrame = new JFrame(_level0, "Licensing");
 		
 		// make it accessible from anywhere
-		_level0.licenseWindow = window;
+		_level0.trackingDetailsWindow = window;
 		
 		// set the background color to default
 		window.setBackground(_level0.common.backgroundColor);
@@ -36,6 +36,15 @@ class LicenseDialog {
 		
 		// get the string to display
 		var str : String = "";
+		str += "<a href='http://phet.colorado.edu'>PhET</a> is made possible by grants that require us to track ";
+		str += "anonymous usage statistics. No personal or private data is sent; you can see the full report sent to ";
+		str += "PhET below:\n\n";
+		
+		str += "Please visit the PhET website for more information: <a href='http://phet.colorado.edu'>http://phet.colorado.edu</a>\n\n";
+		
+		str += _level0.trackingHandler.sessionStartMessage();
+		
+		/*
 		str += "The PhET project provides a suite of interactive educational simulations.\n";
 		str += "Copyright \u00A9 2004-2008 University of Colorado. Some rights reserved.\n\n";
 		str += "PhET interactive simulations by <a href='http://phet.colorado.edu/'>The PhET Team, University of Colorado</a> ";
@@ -43,6 +52,7 @@ class LicenseDialog {
 		str += "The PhET source code is licensed under a <a href='http://creativecommons.org/licenses/GPL/2.0/'>Creative Commons GNU General Public License</a>.\n\n";
 		str += "For more information about licensing, <a href='http://phet.colorado.edu/about/licensing.php'>click here</a>. If you are interested ";
 		str += "in alternative license options, please contact PhET at <a href='mailto:phethelp@colorado.edu'>phethelp@colorado.edu</a>.\n";
+		*/
 		
 		// CSS will make links blue
 		var css : TextField.StyleSheet = new TextField.StyleSheet();
@@ -84,6 +94,6 @@ class LicenseDialog {
 	
 	public function okClicked(src : JButton) {
 		// make the window invisible
-		_level0.licenseWindow.setVisible(false);
+		_level0.trackingDetailsWindow.setVisible(false);
 	}
 }

@@ -1,7 +1,12 @@
 ﻿// AboutDialog.as
+//
+// Handles creating and displaying the about dialog
+//
+// Author: Jonathan Olson
 
 import org.aswing.*;
 import org.aswing.util.*;
+import org.aswing.border.*;
 
 class AboutDialog {
 	
@@ -22,18 +27,14 @@ class AboutDialog {
 		// make sure we can access it from anywhere
 		_level0.aboutWindow = window;
 		
-		// set the background to white
-		window.setBackground(ASColor(0xFFFFFF));
+		// set the background to default
+		window.setBackground(_level0.common.backgroundColor);
 		
+		// layout things vertically
+		window.getContentPane().setLayout(new SoftBoxLayout(SoftBoxLayout.Y_AXIS));
 		
-		var borderLayout : BorderLayout = new BorderLayout();
-		//borderLayout.setVgap(0);
-		//borderLayout.setStrategy(BorderLayout.STRATEGY_VERTICAL);
-		
-		window.getContentPane().setLayout(borderLayout);
-		
+		// construct the string of text to show
 		var str : String = "";
-		
 		str += "<b>Physics Education Technology project</b>\n";
 		str += "Copyright \u00A9 2004-2008 University of Colorado\n";
 		str += "Some rights reserved.\n";
@@ -48,10 +49,8 @@ class AboutDialog {
 		str += "Flash Version: " + System.capabilities.version + "\n";
 		str += "OS Version: " + System.capabilities.os + "\n";
 		
-		
-		
+		// create CSS to make links blue
 		var css : TextField.StyleSheet = new TextField.StyleSheet();
-		
 		css.parseCSS("a:link{color:#0000FF;font-weight:bold;}" +
 			"a:visited{color:#0000FF;font-weight:bold;}" +
 			"a:hover{color:#0000FF;text-decoration:underline;font-weight:bold;}" +
@@ -61,20 +60,29 @@ class AboutDialog {
 		textArea.setHtml(true);
 		textArea.setEditable(false);
 		textArea.setCSS(css);
+		textArea.setBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)));
+		textArea.setBackground(_level0.common.backgroundColor);
 		
-		window.getContentPane().append(textArea, BorderLayout.NORTH);
+		window.getContentPane().append(textArea);
 		
+		window.getContentPane().append(new JSpacer(5, 5));
+		
+		// panel to lay the buttons in
 		var panel : JPanel = new JPanel(new BoxLayout());
+		
+		// button that will open the license dialog
 		var licenseButton : JButton = new JButton("License...");
 		licenseButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, licenseClicked));
+		CommonButtons.padButtonAdd(licenseButton, panel);
+		
+		// button will close the about dialog
 		var okButton : JButton = new JButton("OK");
 		okButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, okClicked));
-		panel.append(licenseButton);
-		panel.append(okButton);
+		CommonButtons.padButtonAdd(okButton, panel);
 		
-		window.getContentPane().append(panel, BorderLayout.SOUTH);
+		window.getContentPane().append(panel);
 		
-		
+		// fit the window to its contents
 		window.setHeight(window.getContentPane().getPreferredSize().height + 50);
 		window.setWidth(window.getContentPane().getPreferredSize().width + 50);
 		
@@ -84,17 +92,19 @@ class AboutDialog {
 	}
 	
 	public function licenseClicked(src : JButton) {
-		debug("Clicked\n");
 		if(_level0.licenseWindow) {
+			// license window exists, just show it
 			debug("Showing dialog again\n");
 			_level0.licenseWindow.show();
 		} else {
+			// license window doesn't exist, we must create it
 			debug("Creating Dialog\n");
 			_level0.licenseDialog = new LicenseDialog();
 		}
 	}
 	
 	public function okClicked(src : JButton) {
+		// hide this window
 		_level0.aboutWindow.setVisible(false);
 	}
 }
