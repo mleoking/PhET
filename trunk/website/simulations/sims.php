@@ -683,7 +683,7 @@ EOT;
                         </td>
 
                         <td>
-                            Libraries
+                            Third-party Libraries
                         </td>
 
                         <td>
