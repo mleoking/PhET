@@ -16,3 +16,4 @@ Polonium Nucleus Small.png author=PhET
 Smaller Daughter Nucleus.png author=PhET 
 Uranium Nucleus Small.png author=PhET 
 RadiationSymbolWithPerspective=PhET
+reactor_core.gif source=http://www.mne.psu.edu/edwards/PROJECTS/PSBR/PSBR.HTM author=Penn State license=Used with permission, see A. Paulson or J. Blanco for details.
