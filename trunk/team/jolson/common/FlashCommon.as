@@ -13,6 +13,8 @@ import org.aswing.*;
 // should be instance of FlashCommon at _level0.common
 class FlashCommon {
 	
+	public var backgroundColor : ASColor;
+	
 	public var debugging : Boolean = true;
 	
 	// handles preferences the user selects, such as
@@ -51,6 +53,12 @@ class FlashCommon {
 	// constructor
 	public function FlashCommon() {
 		initDebug();
+		
+		// make it accessible from everywhere
+		_level0.common = this;
+		
+		// set the default background color
+		backgroundColor = ASColor.getASColor(230, 230, 230);
 		
 		System.security.allowDomain("phet.colorado.edu");
 		

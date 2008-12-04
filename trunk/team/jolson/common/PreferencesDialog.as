@@ -1,4 +1,11 @@
 ﻿// PreferencesDialog.as
+//
+// Shows a dialog which allows the user to change their
+// preferences that deal with updates and tracking
+// they can also manually check updates, and access
+// details about the tracking
+//
+// Author: Jonathan Olson
 
 import org.aswing.*;
 import org.aswing.util.*;
@@ -22,7 +29,6 @@ class PreferencesDialog {
 	public function PreferencesDialog() {
 		debug("PreferencesDialog initializing\n");
 		
-		//var backgroundColor : ASColor = new ASColor(0xBBBBBB);
 		
 		// make sure we can access this class from anywhere
 		_level0.preferencesDialog = this;
@@ -41,7 +47,11 @@ class PreferencesDialog {
 		// thus we don't have to reconstruct the window again, but just show it
 		_level0.preferencesWindow = window;
 		
-		//window.setBackground(backgroundColor);
+		// set the background to white
+		//window.setBackground(ASColor(0xFFFFFF));
+		
+		// set the background color to the common color
+		window.setBackground(_level0.common.backgroundColor);
 		
 		// SoftBoxLayout vertical, but allows different sized components
 		window.getContentPane().setLayout(new SoftBoxLayout(SoftBoxLayout.Y_AXIS));
@@ -69,7 +79,7 @@ class PreferencesDialog {
 		// update now button
 		var updatesButton = new JButton("Check for updates now");
 		updatesButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, updatesClicked));
-		CommonButtons.pad_button_add(updatesButton, updatesPanel);
+		CommonButtons.padButtonAdd(updatesButton, updatesPanel);
 		
 		updatesPanel.append(new JSpacer(5, 5));
 		
@@ -94,7 +104,8 @@ class PreferencesDialog {
 		textArea.setCSS(css);
 		textArea.setWordWrap(true);
 		textArea.setWidth(50);
-		textArea.setBackground(null); // give it the background color of its parent instead of the default
+		//textArea.setBackground(null); // give it the background color of its parent instead of the default
+		textArea.setBackground(_level0.common.backgroundColor);
 		
 		var textFormat : ASTextFormat = ASTextFormat.getDefaultASTextFormat();
 		textFormat.setAlign(ASTextFormat.CENTER);
@@ -118,7 +129,7 @@ class PreferencesDialog {
 		// button to show details about the tracking information
 		var detailsButton = new JButton("Details...");
 		detailsButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, detailsClicked));
-		CommonButtons.pad_button_add(detailsButton, trackingPanel);
+		CommonButtons.padButtonAdd(detailsButton, trackingPanel);
 		
 		trackingPanel.append(new JSpacer(5, 5));
 		
@@ -132,11 +143,11 @@ class PreferencesDialog {
 		
 		var okButton : JButton = new JButton("OK");
 		okButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, okClicked));
-		CommonButtons.pad_button_add(okButton, buttonPanel);
+		CommonButtons.padButtonAdd(okButton, buttonPanel);
 		
 		var cancelButton : JButton = new JButton("Cancel");
 		cancelButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, cancelClicked));
-		CommonButtons.pad_button_add(cancelButton, buttonPanel);
+		CommonButtons.padButtonAdd(cancelButton, buttonPanel);
 		
 		window.getContentPane().append(new JSpacer(5, 5));
 		
@@ -185,17 +196,13 @@ class PreferencesDialog {
 	}
 	
 	public function detailsClicked(src : JButton) : Void {
-		/* FILL IN WITH WINDOW INFORMATION
-		debug("Clicked\n");
-		if(_level0.licenseWindow) {
+		if(_level0.trackingDetailsWindow) {
 			debug("Showing dialog again\n");
-			_level0.licenseWindow.show();
+			_level0.trackingDetailsWindow.show();
 		} else {
 			debug("Creating Dialog\n");
-			_level0.licenseDialog = new LicenseDialog();
+			_level0.trackingDetailsDialog = new TrackingDetailsDialog();
 		}
-		*/
-		//_level0.preferencesWindow.setVisible(false);
 	}
 	
 	public function cancelClicked(src : JButton) : Void {
