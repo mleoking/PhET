@@ -15,7 +15,7 @@ class FlashCommon {
 	
 	public var backgroundColor : ASColor;
 	
-	public var debugging : Boolean = true;
+	public var debugging : Boolean = false;
 	
 	// handles preferences the user selects, such as
 	// enabling/disabling updates and tracking. also
@@ -42,6 +42,7 @@ class FlashCommon {
 		} else {
 			_level0.debug = function(str : String) : Void {
 			}
+			_level0.debugs._visible = false;
 		}
 	}
 	

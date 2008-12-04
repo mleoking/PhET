@@ -72,7 +72,7 @@ class UpdateHandler {
 						_level0.common.updateHandler.updatesNotAvailable();
 					}
 				} else {
-					_level0.common.updateHandler.updatesAvailable();
+					_level0.common.updateHandler.updatesAvailable(versionMajor, versionMinor, dev);
 				}
 			} else {
 				_level0.debug("UpdateHandler: network failure, cannot read version information\n");
@@ -93,10 +93,18 @@ class UpdateHandler {
 	}
 	
 	// called if a newer version is available online
-	public function updatesAvailable() : Void {
+	public function updatesAvailable(versionMajor : String, versionMinor : String, dev : String) : Void {
 		debug("UpdateHandler: Updates Available (dialog)!\n");
 		
-		// TODO: fill in with desired behavior.
+		if(_level0.updateAvailableWindow) {
+			// update window exists, just show it
+			debug("Showing dialog again\n");
+			_level0.updateAvailableWindow.show();
+		} else {
+			// update window doesn't exist, we must create it
+			debug("Creating Dialog\n");
+			_level0.updateAvailableDialog = new UpdateAvailableDialog(versionMajor, versionMinor, dev);
+		}
 	}
 	
 	public function updatesNotAvailable() : Void {

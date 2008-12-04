@@ -58,7 +58,6 @@ class LicenseDialog {
 		textArea.setWordWrap(true);
 		textArea.setWidth(300);
 		textArea.setBackground(_level0.common.backgroundColor);
-		
 		// add padding around the text
 		textArea.setBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)));
 		
