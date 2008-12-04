@@ -2,6 +2,7 @@
 
 import org.aswing.*;
 import org.aswing.util.*;
+import org.aswing.border.*;
 
 class CommonButtons {
 	
@@ -22,16 +23,22 @@ class CommonButtons {
 		
 		var aboutButton : JButton = new JButton("About...");
 		aboutButton.setSize(aboutButton.getPreferredSize());
-		window.getContentPane().setLayout(new EmptyLayout());
+		aboutButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, aboutButtonClicked));
+		
+		var preferencesButton : JButton = new JButton("Preferences");
+		preferencesButton.setSize(preferencesButton.getPreferredSize());
+		preferencesButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, preferencesButtonClicked));
+		
+		window.getContentPane().setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		window.getContentPane().append(aboutButton);
-		window.setBounds(0, 0, aboutButton.getPreferredSize().width, aboutButton.getPreferredSize().height);
+		window.getContentPane().append(preferencesButton);
+		window.setBounds(0, 0, window.getContentPane().getPreferredSize().width, window.getContentPane().getPreferredSize().height);
 		window.show();
 		
-		aboutButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, aboutButtonClicked));
+		
 	}
 	
 	public function aboutButtonClicked(src : JButton) {
-		debug("Clicked\n");
 		if(_level0.aboutWindow) {
 			debug("Showing dialog again\n");
 			_level0.aboutWindow.show();
@@ -39,5 +46,24 @@ class CommonButtons {
 			debug("Creating Dialog\n");
 			_level0.aboutDialog = new AboutDialog();
 		}
+	}
+	
+	public function preferencesButtonClicked(src : JButton) {
+		if(_level0.preferencesWindow) {
+			debug("Showing dialog again\n");
+			_level0.preferencesWindow.show();
+			_level0.preferencesDialog.reCheck();
+		} else {
+			debug("Creating Dialog\n");
+			_level0.preferencesDialog = new PreferencesDialog();
+		}
+		//_level0.preferencesWindow.setActive();
+	}
+	
+	public static function pad_button_add(button : JButton, container : Container) : Void {
+		var panel : JPanel = new JPanel(new CenterLayout());
+		button.setMargin(new Insets(0, 10, 0, 10));
+		panel.append(button);
+		container.append(panel);
 	}
 }

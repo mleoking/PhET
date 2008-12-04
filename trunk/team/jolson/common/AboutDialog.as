@@ -13,16 +13,18 @@ class AboutDialog {
 	public function AboutDialog() {
 		debug("AboutDialog initializing\n");
 		
+		// mysterious fix since "this" does not refer to a MovieClip or Component
 		ASWingUtils.getRootMovieClip();
 		
+		// create a window
 		var window : JFrame = new JFrame(_level0, "About " + _level0.simName);
 		
+		// make sure we can access it from anywhere
 		_level0.aboutWindow = window;
 		
+		// set the background to white
 		window.setBackground(ASColor(0xFFFFFF));
 		
-		// don't use boxlayout: seems to keep children the same size
-		//window.getContentPane().setLayout(new BoxLayout(BoxLayout.Y_AXIS));
 		
 		var borderLayout : BorderLayout = new BorderLayout();
 		//borderLayout.setVgap(0);
@@ -76,7 +78,8 @@ class AboutDialog {
 		window.setHeight(window.getContentPane().getPreferredSize().height + 50);
 		window.setWidth(window.getContentPane().getPreferredSize().width + 50);
 		
-		window.setLocation(50, 50);
+		// center the window
+		window.setLocation((Stage.width - window.getWidth()) / 2, (Stage.height - window.getHeight()) / 2);
 		window.show();
 	}
 	

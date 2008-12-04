@@ -103,6 +103,7 @@ class UpdateHandler {
 		debug("UpdateHandler: Updates Not Available (dialog)!\n");
 		
 		// TODO: fill in with desired behavior.
+		// only called if an update is manually checked for
 	}
 }
 
