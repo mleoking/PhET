@@ -1219,8 +1219,7 @@ h1.indi-sim {
     clear: right;
 }
 
-#people ul li.hewlett,#people ul li.nsf,#people ul li.kavli,#people ul li.cu,#people ul li.microsoft,#people ul li.ksu
-    {
+#people ul li.platinum,#people ul li.gold {
     font-size: 14px;
     position: relative;
     border-bottom: 1px solid #E3E3E3;
