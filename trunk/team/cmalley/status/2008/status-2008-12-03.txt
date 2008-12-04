@@ -1,0 +1,50 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: November 20 - December 3, 2008 (2 weeks, Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  common code:
+  - created a progress dialog for downloading update files (#926)
+  - created a general-purpose error dialog, with optional "Details" button to show stack trace (#945)
+  - misc work on tracking & updates features (#985,986,992,993,1001,920)
+  - created tickets related to how locale is handled in common code (#995,996)
+  - tested experimental version of CCK that was deployed with tracking enabled
+  - cleaned up logging classes
+  
+  glaciers:
+  - meet with Archie to investigate #727
+  - resolved #727, published 1.00.11 to for review
+  - opened #998, #999
+  
+  faraday:
+  - discussed #721 (transformer bug) with Kathy, need a revised model
+  
+  misc:
+  - reviewed Flash common code
+  - bound-states fixes (#76,988), published 1.04.01 for review
+  - automated 90% of deployment process for translation-utility (#249) 
+  - email discussion about 3D libraries
+  - reviewed design doc for motion suite
+  - verified misc tickets (#753,662)
+  - discussed certificates with John Blanco
+  
+WHAT'S NEXT:
+ 
+  - finish remaining glaciers work, publish 2.00 (see Unfuddle)
+  - meet with Kathy & Mike about faraday #721
+  - investigate 3D libraries
+  - density sim
+  - work on misc high-priority tickets (see Unfuddle) 
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+  January 9-12
+  March 13-16
+  
+--
