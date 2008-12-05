@@ -1,4 +1,5 @@
-To compile the build process, put tools.jar in this directory.  The tools.jar is not checked in due to licensing issues.
+To compile the build process, put tools.jar in this directory (trunk\simulations-java\build-tools\sun-tools)
+The tools.jar is not checked in due to licensing issues.
 
 This is only necessary for Windows developers.  Mac developers use classes.jar instead of tools.jar.
 
