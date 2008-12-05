@@ -1,1 +1,1 @@
-To compile the build process, put tools.jar in this directory.
+To compile the build process, put tools.jar in this directory.  The tools.jar is not checked in due to licensing issues.
