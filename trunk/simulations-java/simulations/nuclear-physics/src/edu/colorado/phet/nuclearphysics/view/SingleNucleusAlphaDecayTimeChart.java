@@ -15,6 +15,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.security.InvalidParameterException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -24,6 +25,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
+import edu.colorado.phet.nuclearphysics.model.AlphaDecayCompositeNucleus;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.singlenucleus.SingleNucleusAlphaDecayModel;
 import edu.colorado.phet.nuclearphysics.util.PhetButtonNode;
@@ -82,7 +84,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     private static final int INITIAL_FALL_COUNT = 5; // Number of clock ticks for nucleus to fall from upper to lower line.
 
     // Constants that control the way the nuclei look.
-    private static final double NUCLEUS_SIZE_PROPORTION = 0.1;  // Fraction of the overall height of the chart.
+    private static final double NUCLEUS_SIZE_PROPORTION = 0.15;  // Fraction of the overall height of the chart.
     
     //------------------------------------------------------------------------
     // Instance Data
@@ -92,8 +94,8 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     SingleNucleusAlphaDecayModel _model;
     
     // Variable for tracking information about the nuclei.
-    AtomicNucleus _currentNucleus;
-    AtomicNucleusNode _undecayedNucleusNode;
+    AlphaDecayCompositeNucleus _currentNucleus;
+    EnhancedLabeledNucleusNode _undecayedNucleusNode;
     ArrayList _decayedNucleusNodes = new ArrayList();
     
     // References to the various components of the chart.
@@ -414,7 +416,8 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
         		_usableAreaOriginY + _usableHeight - _resetButtonNode.getFullBoundsReference().height - 5);
         
         // Rescale the nucleus nodes and set their positions.
-        // TODO
+        updateNucleusNodesScale();
+        positionCurrentNucleus();
     }
 
     /**
@@ -435,20 +438,72 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
      */
     private void handleClockTicked( ClockEvent clockEvent ) {
 
-    	// Update the internal and visual state for each nucleus based on the
-    	// state of the nuclei within the model.
+    	if (_currentNucleus != null){
+    		if (!_currentNucleus.hasDecayed()){
+    			if (_undecayedNucleusNode == null){
+    				// This situation generally indicates that the nucleus was
+    				// reset, so create a new node for it.
+    				_undecayedNucleusNode = createNucleusNode(_currentNucleus);
+    				_nonPickableChartNode.addChild(_undecayedNucleusNode);
+    			}
+    			positionCurrentNucleus();
+    		}
+    		else{
+    			if (_undecayedNucleusNode != null){
+        			// The nucleus must have decayed since the last tick.
+    				// Create a node to represent the decayed nucleus and
+    				// add it to the list of decayed nuclei.
+        			EnhancedLabeledNucleusNode newlyDecayedNucleusNode = createNucleusNode(_currentNucleus);
+        			_nonPickableChartNode.addChild(newlyDecayedNucleusNode);
+        			newlyDecayedNucleusNode.setDecayTime(_currentNucleus.getElapsedPreDecayTime());
+        			newlyDecayedNucleusNode.startFalling();
+        			_decayedNucleusNodes.add(newlyDecayedNucleusNode);
+        			_nonPickableChartNode.removeChild(_undecayedNucleusNode);
+        			// TODO: check that this gets garbage collected and that no other
+        			// cleanup is needed.
+        			_undecayedNucleusNode = null;
+    			}
+    		}
+    	}
+    	
+    	// Check for any falling nodes and position them.
+    	Iterator it = _decayedNucleusNodes.iterator();
+    	while (it.hasNext()){
+    		EnhancedLabeledNucleusNode decayedNucleusNode = (EnhancedLabeledNucleusNode)it.next();
+    		if (decayedNucleusNode.isFalling()){
+    			decayedNucleusNode.decrementFallCount();
+    			positionDecayedNucleusNode(decayedNucleusNode);
+    		}
+    	}
     }
     
 	private void handleModelElementAdded(Object modelElement) {
     	
-    	if (modelElement instanceof AtomicNucleus){
+    	if (modelElement instanceof AlphaDecayCompositeNucleus){
+    		if (_currentNucleus != null){
+    			// Because of the overall design, we shouldn't get a notice of
+    			// an element being added without the previous nucleus having
+    			// been removed.
+    			System.err.println("Error: Got nucleusAdded event before existing nucleus removed.");
+    		}
+    		_currentNucleus = (AlphaDecayCompositeNucleus)modelElement;
+    		_undecayedNucleusNode = createNucleusNode(_currentNucleus);
+    		_nonPickableChartNode.addChild(_undecayedNucleusNode);
     	}
 	}
 
     private void handleModelElementRemoved(Object modelElement) {
     	
-    	if (modelElement instanceof AtomicNucleus){
-    		// TODO
+    	if (modelElement instanceof AlphaDecayCompositeNucleus){
+    		if (_currentNucleus == null){
+    			// This shouldn't be called when we don't have a nucleus, so
+    			// there is a problem in the code that should be debugged.
+    			System.err.println("Error: Got nucleusAdded event before existing nucleus removed.");
+    			return;
+    		}
+    		_currentNucleus = null;
+    		_nonPickableChartNode.removeChild(_undecayedNucleusNode);
+    		_undecayedNucleusNode = null;
     	}
 	}
     
@@ -471,6 +526,20 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
         	_xAxisLabel.setVisible(true);
         }
     }
+    
+	/**
+	 * Update the scale settings for the nucleus nodes.  This is generally
+	 * done if and when the chart is resized.
+	 */
+	private void updateNucleusNodesScale(){
+
+		if (_undecayedNucleusNode != null && _nucleusNodeRadius > 0){
+			_undecayedNucleusNode.setScale(1);
+			_undecayedNucleusNode.setScale((_nucleusNodeRadius * 2) / _undecayedNucleusNode.getFullBoundsReference().height);
+    	}
+		
+		// TODO: Needs to be done for the decayed nodes too.
+	}
     
     /**
      * Reset the chart.
@@ -534,7 +603,55 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     		throw new InvalidParameterException("Unrecognized nucleus type.");
     	}
     	
+    	if (_nucleusNodeRadius > 0){
+    		nucleusNode.setScale((_nucleusNodeRadius * 2) / nucleusNode.getFullBoundsReference().height);
+    	}
+    	
     	return nucleusNode;
+	}
+	
+	/**
+	 * Position the current nucleus on the time chart.
+	 */
+	private void positionCurrentNucleus(){
+		if (_currentNucleus == null || _currentNucleus.hasDecayed()){
+			// Nothing to do.
+			return;
+		}
+		
+    	double xPos = _graphOriginX + 
+    	    (_currentNucleus.getElapsedPreDecayTime() + TIME_ZERO_OFFSET) * _msToPixelsFactor - _nucleusNodeRadius;
+    	double yPos = _usableAreaOriginY + ( _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION ) - _nucleusNodeRadius;
+
+        _undecayedNucleusNode.setOffset(xPos, yPos);
+	}
+	
+	/**
+	 * Position a nucleus node that correspond to a nucleus that has decayed.
+	 */
+	private void positionDecayedNucleusNode(EnhancedLabeledNucleusNode nucleusNode){
+		
+		double xPos, yPos;
+		
+		// Set the X axis position based on the time at which decay occurred.
+    	xPos = _graphOriginX + (nucleusNode.getDecayTime() + TIME_ZERO_OFFSET) * _msToPixelsFactor 
+    	        - _nucleusNodeRadius;
+    	
+		if (nucleusNode.getFallCount() != 0){
+			// The nucleus is falling, indicating that the corresponding
+			// nucleus decayed recently.  Position it in the space between
+			// the upper and lower lines based on its fall counter.
+			double fallDistance = _usableHeight * (POST_DECAY_TIME_LINE_POS_FRACTION - PRE_DECAY_TIME_LINE_POS_FRACTION);
+        	yPos = _usableAreaOriginY + ( _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION ) 
+        	        + (fallDistance * (1 - (double)nucleusNode.getFallCount() / (double)INITIAL_FALL_COUNT))
+        	        - _nucleusNodeRadius;
+		}
+		else{
+			// The nucleus has completely fallen, so position it on the lower line.
+        	yPos = _usableAreaOriginY + _usableHeight * POST_DECAY_TIME_LINE_POS_FRACTION;
+		}
+		
+		nucleusNode.setOffset(xPos, yPos);
 	}
     
 	//------------------------------------------------------------------------
