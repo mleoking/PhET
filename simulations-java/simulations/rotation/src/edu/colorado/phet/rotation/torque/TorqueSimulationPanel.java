@@ -1,14 +1,11 @@
 package edu.colorado.phet.rotation.torque;
 
-import java.awt.geom.Point2D;
-
 import javax.swing.*;
 
 import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.view.AbstractRotationSimulationPanel;
 import edu.colorado.phet.rotation.view.RotationPlayAreaNode;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Author: Sam Reid

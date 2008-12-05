@@ -9,7 +9,6 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.colorado.phet.rotation.model.AngleUnitModel;
 import edu.colorado.phet.rotation.model.RotationPlatform;
-import edu.colorado.phet.rotation.view.RotationPlatformNode;
 import edu.colorado.phet.rotation.view.RotationPlayAreaNode;
 import edu.umd.cs.piccolo.PNode;
 

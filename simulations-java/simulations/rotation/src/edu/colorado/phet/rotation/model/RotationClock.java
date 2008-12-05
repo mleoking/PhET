@@ -1,12 +1,11 @@
 package edu.colorado.phet.rotation.model;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.rotation.MyRepaintManager;
-import edu.umd.cs.piccolox.pswing.PSwingRepaintManager;
-
-import java.util.ArrayList;
 
 /**
  * Author: Sam Reid

@@ -21,7 +21,7 @@ public class TorqueIntroModule extends Module {
     public TorqueIntroModule( JFrame parentFrame ) {
         super( RotationStrings.getString( "module.intro.torque" ), new RotationClock() );
         torqueModel = new TorqueModel( getConstantDtClock() );
-        TorqueIntroSimulationPanel panel = new TorqueIntroSimulationPanel( this,parentFrame );
+        TorqueIntroSimulationPanel panel = new TorqueIntroSimulationPanel( this, parentFrame );
         setSimulationPanel( panel );
         addRepaintOnActivateBehavior();
     }

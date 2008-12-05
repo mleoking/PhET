@@ -12,7 +12,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 
 /**
  * This class repaints its full bounds every clock tick, circumventing the RepaintManager.
- *
+ * <p/>
  * Created by: Sam
  * Dec 4, 2007 at 8:55:12 AM
  */

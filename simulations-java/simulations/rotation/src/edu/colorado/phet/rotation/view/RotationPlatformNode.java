@@ -1,7 +1,10 @@
 package edu.colorado.phet.rotation.view;
 
 import java.awt.*;
-import java.awt.geom.*;
+import java.awt.geom.Arc2D;
+import java.awt.geom.Area;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;

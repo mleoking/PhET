@@ -440,7 +440,7 @@ public class RotationBody {
         double r = getPosition().distance( rotationPlatform.getCenter() );
         boolean centered = rotationPlatform.getCenter().equals( getPosition() ) || r < 1E-6;
         Point2D newX = centered ? new Point2D.Double( rotationPlatform.getCenter().getX(), rotationPlatform.getCenter().getY() )
-                       : Vector2D.Double.parseAngleAndMagnitude( r, getAngleOverPlatform() ).getDestination( rotationPlatform.getCenter() );
+                                : Vector2D.Double.parseAngleAndMagnitude( r, getAngleOverPlatform() ).getDestination( rotationPlatform.getCenter() );
         Vector2D.Double centripetalVector = new Vector2D.Double( newX, rotationPlatform.getCenter() );
         AbstractVector2D newV = centered ? zero() : centripetalVector.getInstanceOfMagnitude( r * omega ).getNormalVector();
         AbstractVector2D newA = centered ? zero() : centripetalVector.getInstanceOfMagnitude( r * omega * omega );
@@ -550,10 +550,10 @@ public class RotationBody {
         if ( angle.getSampleCount() > 0 ) {
             angle.setPlaybackTime( time );
         }
-        if (angularVelocity.getSampleCount()>0){
+        if ( angularVelocity.getSampleCount() > 0 ) {
             angularVelocity.setPlaybackTime( time );
         }
-        if (angularAccel.getSampleCount()>0){
+        if ( angularAccel.getSampleCount() > 0 ) {
             angularAccel.setPlaybackTime( time );
         }
 
