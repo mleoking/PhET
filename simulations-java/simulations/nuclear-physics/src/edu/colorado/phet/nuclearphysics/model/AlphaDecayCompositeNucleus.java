@@ -20,7 +20,9 @@ public abstract class AlphaDecayCompositeNucleus extends CompositeAtomicNucleus 
     //------------------------------------------------------------------------
 
 	protected double _alphaDecayTime = 0;
-
+	private double _startTime;  // Simulation time at which this nucleus was created or last reset.
+	private boolean _hasDecayed = false;
+	
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
@@ -28,15 +30,37 @@ public abstract class AlphaDecayCompositeNucleus extends CompositeAtomicNucleus 
 	public AlphaDecayCompositeNucleus(NuclearPhysicsClock clock,
 			Point2D position, int numProtons, int numNeutrons) {
 		super(clock, position, numProtons, numNeutrons);
+		_startTime = clock.getSimulationTime();
 	}
 
 	public AlphaDecayCompositeNucleus(NuclearPhysicsClock clock,
 			Point2D position, ArrayList constituents) {
 		super(clock, position, constituents);
+		_startTime = clock.getSimulationTime();
 	}
 
 	public double getDecayTime() {
 	    return _alphaDecayTime;
+	}
+	
+	/**
+	 * Get a value that indicates how long this nucleus has existed without
+	 * having decayed, or the amount of time that it was around prior to
+	 * decay.
+	 * 
+	 * @return - pre-decay time of existence, in seconds.
+	 */
+	public double getElapsedPreDecayTime(){
+		if (hasDecayed()){
+			return _alphaDecayTime - _startTime;
+		}
+		else{
+			return _clock.getSimulationTime() - _startTime;
+		}
+	}
+	
+	public boolean hasDecayed(){
+		return _hasDecayed;
 	}
 
 	/**
@@ -49,6 +73,8 @@ public abstract class AlphaDecayCompositeNucleus extends CompositeAtomicNucleus 
 	    
 	    // Reset the decay time.
 	    _alphaDecayTime = calculateDecayTime();
+	    _hasDecayed = false;
+	    _startTime = _clock.getSimulationTime();
 	    
 	    if (alpha != null){
 	        // Add the tunneled particle back to our list.
@@ -109,4 +135,5 @@ public abstract class AlphaDecayCompositeNucleus extends CompositeAtomicNucleus 
 
 	abstract protected void updateAgitationFactor();
 	abstract protected double calculateDecayTime();
+	abstract protected double getHalfLife();
 }
