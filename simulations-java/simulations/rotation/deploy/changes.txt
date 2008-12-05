@@ -1,4 +1,4 @@
-#1.05.03 (12-5-2008)
+#1.05.04 (12-5-2008)
 Bugfix: Disk states doesn't revert during playback (see #1004)
 
 4-28-2008: picked up fixes for PhetDefaultFont
