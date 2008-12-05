@@ -16,8 +16,8 @@ import edu.colorado.phet.rotation.torque.TorqueModel;
 public class RotationPlatform extends MotionBody {
     private SerializablePoint2D center = new SerializablePoint2D( 0, 0 );
     private DefaultTemporalVariable radius = new DefaultTemporalVariable( DEFAULT_OUTER_RADIUS );
-    private double innerRadius = DEFAULT_INNER_RADIUS;
-    private double mass = getDefaultMass();//by default torque equals angular acceleration
+    private DefaultTemporalVariable innerRadius = new DefaultTemporalVariable( DEFAULT_INNER_RADIUS );
+    private DefaultTemporalVariable mass = new DefaultTemporalVariable( getDefaultMass() );//by default torque equals angular acceleration
 
     public RotationPlatform() {
         super( RotationModel.getTimeSeriesFactory() );
@@ -30,11 +30,16 @@ public class RotationPlatform extends MotionBody {
     public void setTime( double time ) {
         super.setTime( time );
         radius.setPlaybackTime( time );
+        innerRadius.setPlaybackTime( time );
+        mass.setPlaybackTime( time );
+
         notifyRadiusChanged();
+        notifyInnerRadiusChanged();
+        notifyMassChanged();
     }
 
     private double getDefaultMass() {
-        return 1.0 / ( ( innerRadius * innerRadius + radius.getValue() * radius.getValue() ) / 2.0 );
+        return 1.0 / ( ( innerRadius.getValue() * innerRadius.getValue() + radius.getValue() * radius.getValue() ) / 2.0 );
     }
 
     private transient ArrayList listeners = new ArrayList();
@@ -49,7 +54,7 @@ public class RotationPlatform extends MotionBody {
     public static final double MAX_MASS = getDefaultMassValue( DEFAULT_INNER_RADIUS, DEFAULT_OUTER_RADIUS ) * 2;
 
     public boolean containsPosition( Point2D loc ) {
-        return loc.distance( center ) <= radius.getValue() && loc.distance( center ) >= innerRadius;
+        return loc.distance( center ) <= radius.getValue() && loc.distance( center ) >= innerRadius.getValue();
     }
 
     public Point2D getCenter() {
@@ -101,10 +106,10 @@ public class RotationPlatform extends MotionBody {
     }
 
     public void setInnerRadius( final double innerRadius ) {
-        if ( this.innerRadius != innerRadius ) {
+        if ( this.innerRadius.getValue() != innerRadius ) {
             changeValueConserveMomentum( new Setter() {
                 public void setValue() {
-                    RotationPlatform.this.innerRadius = innerRadius;
+                    RotationPlatform.this.innerRadius.setValue( innerRadius );
                 }
             } );
             notifyInnerRadiusChanged();
@@ -128,11 +133,15 @@ public class RotationPlatform extends MotionBody {
     public void stepInTime( double time, double dt ) {
         super.stepInTime( time, dt );
         radius.addValue( radius.getValue(), time );
+        innerRadius.addValue( innerRadius.getValue(), time );
+        mass.addValue( mass.getValue(),time );
 //        System.out.println( "getAngularMomentum() = " + getAngularMomentum() + ", I=" + getMomentOfInertia() + ", omega=" + getVelocity() );
     }
 
     public void clear() {
         radius.clear();
+        innerRadius.clear();
+        mass.clear();
     }
 
     private void notifyInnerRadiusChanged() {
@@ -142,22 +151,22 @@ public class RotationPlatform extends MotionBody {
     }
 
     public double getInnerRadius() {
-        return innerRadius;
+        return innerRadius.getValue();
     }
 
     public double getMomentOfInertia() {
-        return 0.5 * mass * ( innerRadius * innerRadius + radius.getValue() * radius.getValue() );//http://en.wikipedia.org/wiki/List_of_moments_of_inertia
+        return 0.5 * mass.getValue() * ( innerRadius.getValue() * innerRadius.getValue() + radius.getValue() * radius.getValue() );//http://en.wikipedia.org/wiki/List_of_moments_of_inertia
     }
 
     public double getMass() {
-        return mass;
+        return mass.getValue();
     }
 
     public void setMass( final double mass ) {
-        if ( this.mass != mass ) {
+        if ( this.mass.getValue() != mass ) {
             changeValueConserveMomentum( new Setter() {
                 public void setValue() {
-                    RotationPlatform.this.mass = mass;
+                    RotationPlatform.this.mass.setValue(mass);
                 }
             } );
             notifyMassChanged();

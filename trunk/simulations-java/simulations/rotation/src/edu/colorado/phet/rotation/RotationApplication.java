@@ -18,7 +18,6 @@ import edu.colorado.phet.rotation.view.RotationLookAndFeel;
  * PhET's Rotation simulation.
  *
  * @author Sam Reid
- *         test comment
  */
 
 public class RotationApplication extends PiccoloPhetApplication {
