@@ -91,7 +91,9 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     SingleNucleusAlphaDecayModel _model;
     
     // Variable for tracking information about the nuclei.
-    // TODO
+    AtomicNucleus _currentNucleus;
+    AtomicNucleusNode _undecayedNucleusNode;
+    ArrayList _decayedNucleusNodes = new ArrayList();
     
     // References to the various components of the chart.
     private PPath _borderNode;
