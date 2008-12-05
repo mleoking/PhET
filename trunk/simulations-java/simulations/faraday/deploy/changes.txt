@@ -1,3 +1,4 @@
+# 2.01.03 (?) 12/04/08
 12/4/08 - fix #721, use "effective area" of coil when computing emf
 12/4/08 - add constants for developer controls, to make future adjustments easier
 12/4/08 - change name of "pickup fudge factor" to "pickup transition smoothing scale", add tooltip to dev control

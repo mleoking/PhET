@@ -2,7 +2,7 @@
 <!-- This file is named HEADER so that it will appear at the top of a browser's directory listing. -->
 <p>
 <big><big><b>
-faraday 2.01.02
+faraday 2.01.03
 </b></big></big>
 <p>
 <b>Click to run English versions:</b>
@@ -16,7 +16,8 @@ faraday 2.01.02
 <b>What's new:</b>
 <p>
 <ul>
-<li>fix #744, voltmeter needle exhibits big jumps in Transformer panel
+<li>fix #721 (transformer bug), use a rectangle as the "effective area" of the pickup coil when computing emf. 
+THIS VERSION HAS NOT BEEN CALIBRATED - THIS FIX REQUIRES RECALIBRATION OF ALL DEVELOPER CONTROLS RELATED TO SCALING!
 </ul>
 <p>
 </html>
