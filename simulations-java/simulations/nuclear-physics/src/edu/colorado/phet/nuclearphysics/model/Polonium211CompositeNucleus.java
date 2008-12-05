@@ -20,6 +20,9 @@ public class Polonium211CompositeNucleus extends AlphaDecayCompositeNucleus {
     // values below are for Polonium-211.
     public static final int ORIGINAL_NUM_PROTONS = 84;
     public static final int ORIGINAL_NUM_NEUTRONS = 127;
+    
+    // Half life for this nucleus.
+    public static double HALF_LIFE = 0.516; // In seconds.
 
     // The "agitation factor" for the various types of nucleus.  The amount of
     // agitation controls how dynamic the nucleus looks on the canvas.  Values
@@ -41,6 +44,10 @@ public class Polonium211CompositeNucleus extends AlphaDecayCompositeNucleus {
     //------------------------------------------------------------------------
     // Methods
     //------------------------------------------------------------------------
+    
+    public double getHalfLife(){
+    	return HALF_LIFE;
+    }
     
 	protected void updateAgitationFactor() {
 	    // Determine the amount of agitation that should be exhibited by this
@@ -93,7 +100,7 @@ public class Polonium211CompositeNucleus extends AlphaDecayCompositeNucleus {
             // around forever.
             randomValue = 0.999;
         }
-        double tunnelOutMilliseconds = (-(Math.log( 1 - randomValue ) / 1.343)) * 1000;
+        double tunnelOutMilliseconds = (-(Math.log( 1 - randomValue ) / (0.693 / HALF_LIFE))) * 1000;
         return tunnelOutMilliseconds;
     }
 }
