@@ -39,6 +39,7 @@ function log_message($log_file, $msg, $log_file_location = DEFAULT_LOG_FILE_LOCA
     if ($canWrite) {
         $bytes_written = fwrite($fp, $msg);
         if ($bytes_written != strlen($msg)) {
+            // Error: just close the file and ignore it
             flock($fp, LOCK_UN);
             fclose($fp);
             return false;
@@ -46,6 +47,7 @@ function log_message($log_file, $msg, $log_file_location = DEFAULT_LOG_FILE_LOCA
     } 
 
     // Done with the file
+    flock($fp, LOCK_UN);
     fclose($fp);
 
     return true;
