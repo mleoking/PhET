@@ -1,4 +1,4 @@
-# 2.01.03 (26574) 12/04/08
+# 2.01.03 (?) 12/04/08
 12/4/08 - add "EMF scale" dev control to make it easier to calibrate after #721
 12/4/08 - fix #721, use "effective area" of coil when computing emf
 12/4/08 - add constants for developer controls, to make future adjustments easier
