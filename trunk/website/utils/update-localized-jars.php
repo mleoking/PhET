@@ -18,19 +18,20 @@ include_once(SITE_ROOT."admin/sim-utils.php");
 error_reporting(E_ALL);
 
 // Set up some defines based on which machine we're using
-if (strpos($_SERVER['HOSTNAME'], 'tigercat') !== false) {
+if ((isset($_SERVER['HOSTNAME'])) && (strpos($_SERVER['HOSTNAME'], 'tigercat') !== false)) {
     define('JAR_EXECUTABLE', '/web/chroot/phet/usr/local/java/bin/jar');
     define('CLEAR_CACHE_URL', 'http://phet.colorado.edu/admin/cache-clear.php?cache=sims');
     // This join(...) thing sets up the dir in a non OS specific way
     define('DEFAULT_SIMS_DIR', DIRECTORY_SEPARATOR.join(DIRECTORY_SEPARATOR, array('web', 'htdocs', 'phet', 'sims')));
 }
-else if (strpos($_SERVER['HOSTNAME'], 'dhyana') !== false) {
+else {
     // Dano's local Mac dev environment
     define('JAR_EXECUTABLE', '/usr/bin/jar');
     define('CLEAR_CACHE_URL', 'http://localhost/PhET/website/admin/cache-clear.php?cache=sims');
     // This join(...) thing sets up the dir in a non OS specific way
-    define('DEFAULT_SIMS_DIR', join(DIRECTORY_SEPARATOR, array('~', 'Workspaces', 'PhET', 'website', 'utils')));
+    define('DEFAULT_SIMS_DIR', DIRECTORY_SEPARATOR.join(DIRECTORY_SEPARATOR, array('Users', 'danielmckagan', 'Workspaces', 'PhET', 'sims')));
 }
+/*
 else {
     // Substitute your own parameters here
     define('JAR_EXECUTABLE', 'jar');
@@ -38,6 +39,7 @@ else {
     // This join(...) thing sets up the dir in a non OS specific way
     define('DEFAULT_SIMS_DIR', join(DIRECTORY_SEPARATOR, array()));
 }
+*/
 
 // Create our own exception
 class LocalizeExceptioneption extends Exception {}

@@ -1,3 +1,4 @@
+#!/usr/local/php/bin/php
 <?php
 
 if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
