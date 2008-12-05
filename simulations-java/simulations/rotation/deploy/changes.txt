@@ -1,3 +1,6 @@
+#1.05.03 (12-5-2008)
+Bugfix: Disk states doesn't revert during playback (see #1004)
+
 4-28-2008: picked up fixes for PhetDefaultFont
 12-11-2007: Rotation - Fixed: 3. Why does the ruler say units.m?
 12-11-2007: Rotation - Fixed: On the first panel the units should be degrees rather than radians.
