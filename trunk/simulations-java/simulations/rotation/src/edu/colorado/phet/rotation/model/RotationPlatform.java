@@ -3,6 +3,7 @@ package edu.colorado.phet.rotation.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.motion.model.MotionBody;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
@@ -14,10 +15,9 @@ import edu.colorado.phet.rotation.torque.TorqueModel;
  */
 public class RotationPlatform extends MotionBody {
     private SerializablePoint2D center = new SerializablePoint2D( 0, 0 );
-    private double radius = DEFAULT_OUTER_RADIUS;
+    private DefaultTemporalVariable radius = new DefaultTemporalVariable( DEFAULT_OUTER_RADIUS );
     private double innerRadius = DEFAULT_INNER_RADIUS;
     private double mass = getDefaultMass();//by default torque equals angular acceleration
-
 
     public RotationPlatform() {
         super( RotationModel.getTimeSeriesFactory() );
@@ -27,9 +27,14 @@ public class RotationPlatform extends MotionBody {
         return 1.0 / ( ( innerRadius * innerRadius + radius * radius ) / 2.0 );
     }
 
+    public void setTime( double time ) {
+        super.setTime( time );
+        radius.setPlaybackTime( time );
+        notifyRadiusChanged();
+    }
 
     private double getDefaultMass() {
-        return 1.0 / ( ( innerRadius * innerRadius + radius * radius ) / 2.0 );
+        return 1.0 / ( ( innerRadius * innerRadius + radius.getValue() * radius.getValue() ) / 2.0 );
     }
 
     private transient ArrayList listeners = new ArrayList();
@@ -44,7 +49,7 @@ public class RotationPlatform extends MotionBody {
     public static final double MAX_MASS = getDefaultMassValue( DEFAULT_INNER_RADIUS, DEFAULT_OUTER_RADIUS ) * 2;
 
     public boolean containsPosition( Point2D loc ) {
-        return loc.distance( center ) <= radius && loc.distance( center ) >= innerRadius;
+        return loc.distance( center ) <= radius.getValue() && loc.distance( center ) >= innerRadius;
     }
 
     public Point2D getCenter() {
@@ -73,7 +78,7 @@ public class RotationPlatform extends MotionBody {
     }
 
     public double getRadius() {
-        return radius;
+        return radius.getValue();
     }
 
     public void setAngle( double angle ) {
@@ -81,10 +86,10 @@ public class RotationPlatform extends MotionBody {
     }
 
     public void setRadius( final double radius ) {
-        if ( this.radius != radius ) {
+        if ( this.radius.getValue() != radius ) {
             changeValueConserveMomentum( new Setter() {
                 public void setValue() {
-                    RotationPlatform.this.radius = radius;
+                    RotationPlatform.this.radius.setValue( radius );
                 }
             } );
             notifyRadiusChanged();
@@ -120,10 +125,15 @@ public class RotationPlatform extends MotionBody {
         return getMomentOfInertia() * getVelocity();
     }
 
-//    public void stepInTime( double time, double dt ) {
-//        super.stepInTime( time, dt );
+    public void stepInTime( double time, double dt ) {
+        super.stepInTime( time, dt );
+        radius.addValue( radius.getValue(), time );
 //        System.out.println( "getAngularMomentum() = " + getAngularMomentum() + ", I=" + getMomentOfInertia() + ", omega=" + getVelocity() );
-//    }
+    }
+
+    public void clear() {
+        radius.clear();
+    }
 
     private void notifyInnerRadiusChanged() {
         for ( int i = 0; i < listeners.size(); i++ ) {
@@ -136,7 +146,7 @@ public class RotationPlatform extends MotionBody {
     }
 
     public double getMomentOfInertia() {
-        return 0.5 * mass * ( innerRadius * innerRadius + radius * radius );//http://en.wikipedia.org/wiki/List_of_moments_of_inertia
+        return 0.5 * mass * ( innerRadius * innerRadius + radius.getValue() * radius.getValue() );//http://en.wikipedia.org/wiki/List_of_moments_of_inertia
     }
 
     public double getMass() {
