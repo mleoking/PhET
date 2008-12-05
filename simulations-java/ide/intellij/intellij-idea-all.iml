@@ -23,7 +23,6 @@
       <sourceFolder url="file://$MODULE_DIR$/../../common/phetgraphics/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../common/piccolo-phet/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../common/quantum/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../common/testing/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../common/timeseries/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/JGV/source/applet" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/JGV/source/server" isTestSource="false" />
@@ -33,9 +32,7 @@
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/beanshell/asm/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/beanshell/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/idx3d/source" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../contrib/j3d/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/jade/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../contrib/jmol-11.6/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/perlin-2004/render" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/piccolo2d/core/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/piccolo2d/core/src/test/java" isTestSource="false" />
@@ -62,7 +59,6 @@
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/ideal-gas/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/lasers/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/maze-game/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/microwaves/phetcommon/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/microwaves/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/motion-2d/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/moving-man/phetcommon/src" isTestSource="false" />
@@ -92,10 +88,6 @@
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/the-ramp/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/travoltage/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/wave-interference/src" isTestSource="false" />
-      <excludeFolder url="file://$MODULE_DIR$/../../contrib/jgl/jgl/Example" />
-      <excludeFolder url="file://$MODULE_DIR$/../../contrib/jgl/jgl/Example-app" />
-      <excludeFolder url="file://$MODULE_DIR$/../../contrib/jgl/jgl/Example-gle" />
-      <excludeFolder url="file://$MODULE_DIR$/../../contrib/jgl/jgl/Example-glut" />
     </content>
     <content url="file://$MODULE_DIR$/../../../team/reids">
       <sourceFolder url="file://$MODULE_DIR$/../../../team/reids/admin/src" isTestSource="false" />
@@ -469,15 +461,6 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../simulations/radio-waves/phetcommon/data" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="file://$MODULE_DIR$/../../simulations/balloons/data" />
         </CLASSES>
         <JAVADOC />
@@ -641,15 +624,6 @@
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/../../common/quantum/data" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/../../simulations/microwaves/phetcommon/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -866,15 +840,6 @@
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/../../build-tools/apache-ant/lib/ant-weblogic.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../build-tools/maverick/lib/log4j-java1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
