@@ -489,6 +489,9 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     // Inner Classes
     //------------------------------------------------------------------------
     
+    /**
+     * Class the represents the time display.
+     */
     private class TimeDisplayNode extends PNode{
     	
     	private final double TEXT_HEIGHT_PROPORTION = 0.8;
@@ -540,5 +543,50 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     		_unitsText.setOffset( width * 0.6, _timeText.getFullBoundsReference().getMaxY() 
     				- _unitsText.getFullBoundsReference().height * 1.1);
     	}
+    }
+
+    /**
+     * This class extends the LabeledNucleusNode such that it has a few pieces
+     * of information that will make it easier to manage on the chart.
+     */
+    private class EnhancedLabeledNucleusNode extends LabeledNucleusNode {
+
+    	private int _fallCount;     // Counter used for making nucleus node fall incrementally from upper
+    	                            // to lower position on the graph.
+    	private double _decayTime;  // Time at which the associated nucleus decayed.
+    	
+		public EnhancedLabeledNucleusNode(String imageName, String isotopeNumber, String chemicalSymbol,
+				Color labelColor) {
+			super(imageName, isotopeNumber, chemicalSymbol, labelColor);
+			
+			_fallCount = 0;
+			_decayTime = Double.POSITIVE_INFINITY;
+		}
+		
+		protected void startFalling(){
+			_fallCount = INITIAL_FALL_COUNT;
+		}
+
+		protected boolean isFalling(){
+			return _fallCount != 0;
+		}
+		
+		protected void decrementFallCount(){
+			if (_fallCount > 0){
+				_fallCount--;
+			}
+		}
+		
+		protected int getFallCount() {
+			return _fallCount;
+		}
+
+		protected double getDecayTime() {
+			return _decayTime;
+		}
+
+		protected void setDecayTime(double time) {
+			_decayTime = time;
+		}
     }
 }
