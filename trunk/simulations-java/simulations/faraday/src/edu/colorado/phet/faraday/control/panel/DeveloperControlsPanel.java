@@ -105,6 +105,24 @@ public class DeveloperControlsPanel extends FaradayPanel {
             } );
             layout.addComponent(  displayFluxCheckBox, row++, 0 );
         }
+        
+        if ( pickupCoilModel != null ) {
+            double min = FaradayConstants.EMF_SCALE_MIN;
+            double max = FaradayConstants.EMF_SCALE_MAX;
+            final LinearValueControl emfScaleControl = new LinearValueControl( min, max, "EMF scale:", "0.00", "" );
+            emfScaleControl.setValue( pickupCoilModel.getEmfScale() );
+            emfScaleControl.setTextFieldEditable( true );
+            emfScaleControl.setTextFieldColumns( 3 );
+            emfScaleControl.setUpDownArrowDelta( 0.01 );
+            emfScaleControl.setBorder( BorderFactory.createEtchedBorder() );
+            emfScaleControl.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    double value = emfScaleControl.getValue();
+                    pickupCoilModel.setEmfScale( value );
+                }
+            } );
+            layout.addFilledComponent( emfScaleControl, row++, 0, GridBagConstraints.HORIZONTAL );
+        }
 
         // Pickup coil fudge factor
         if ( pickupCoilModel != null ) {

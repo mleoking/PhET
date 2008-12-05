@@ -168,6 +168,9 @@ public class FaradayConstants {
     // Developer controls
     //----------------------------------------------------------------------------
     
+    public static final double EMF_SCALE_MIN = 0.01;
+    public static final double EMF_SCALE_MAX = 10;
+    
     private static final double DEFAULT_VIEW_SCALE_MIN = 1;
     private static final double DEFAULT_VIEW_SCALE_MAX = 200;
     

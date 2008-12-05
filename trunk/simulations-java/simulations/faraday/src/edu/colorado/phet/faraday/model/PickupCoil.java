@@ -41,7 +41,8 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
     private double _biggestEmf; // in volts
     private Point2D _samplePoints[]; // B-field sample points
     private SamplePointsStrategy _samplePointsStrategy;
-    private double _transitionSmoothingScale; // see setter
+    private double _transitionSmoothingScale;
+    private double _emfScale;
     
     // Reusable objects
     private AffineTransform _someTransform;
@@ -82,13 +83,14 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
         
         _samplePointsStrategy = samplePointsStrategy;
         _samplePoints = null;
-        _transitionSmoothingScale = 1.0; // no smoothing
         
         _averageBx = 0.0;
         _flux = 0.0;
         _deltaFlux = 0.0;
         _emf = 0.0;
         _biggestEmf = 0.0;
+        _transitionSmoothingScale = 1.0; // no smoothing
+        _emfScale = 1.0;
         
         // Reusable objects
         _someTransform = new AffineTransform();
@@ -211,7 +213,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
             throw new IllegalArgumentException( "scale must be > 0 and <= 1: " + scale );
         }
         _transitionSmoothingScale = scale;
-        // no need to update, wait for new clock tick
+        // no need to update, wait for next clock tick
     }
     
     /**
@@ -221,6 +223,18 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
      */
     public double getTransitionSmoothingScale() {
         return _transitionSmoothingScale;
+    }
+    
+    public void setEmfScale( double scale ) {
+        if ( scale <= 0 ) {
+            throw new IllegalArgumentException( "scale must be > 0: " + scale );
+        }
+        _emfScale = scale;
+        // no need to update, wait for next clock tick
+    }
+    
+    public double getEmfScale() {
+        return _emfScale;
     }
     
     //----------------------------------------------------------------------------
@@ -363,7 +377,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
         _averageBx = sumBx / _samplePoints.length;
         
         // Flux in one loop.
-        double A = getEffectiveLoopArea();
+        double A = getLoopArea();//getEffectiveLoopArea();
         double loopFlux = A * _averageBx; 
         
         // Flux in the coil.
@@ -374,7 +388,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
         _flux = flux;
         
         // Induced emf.
-        double emf = -( _deltaFlux / dt );
+        double emf = -( _deltaFlux / dt ) * _emfScale;
         
         // If the emf has changed, set the current in the coil and notify observers.
         if ( emf != _emf ) {
