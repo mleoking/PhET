@@ -210,7 +210,12 @@ EOT;
             <div><p><a name="asterisk-note"></a><strong>*</strong><em>Separated by commas or asterisks. Asterisk separation has precedence over comma separation.</em></p></div>
 
 EOT;
-        print("<div><p><strong>Please select the categories you would like the Simulation to appear under:</strong></p></div>");
+
+        print <<<EOT
+            <div><p><strong>Please select the categories you would like the Simulation to appear under:</strong><br />
+            <span class="p-indentation"><em>(<strong>Boldface</strong> indicates this is a hidden category)</em></span></p></div>
+
+EOT;
         print "<p>\n";
         $this->print_category_checkboxes();
 
