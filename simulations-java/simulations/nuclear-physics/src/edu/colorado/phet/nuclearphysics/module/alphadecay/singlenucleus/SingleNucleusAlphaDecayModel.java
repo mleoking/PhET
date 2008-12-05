@@ -65,12 +65,9 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
             }
             
             public void simulationTimeReset(ClockEvent clockEvent){
-            	if (_nucleusID != DEFAULT_NUCLEUS_TYPE_ID){
-            		setNucleusType(DEFAULT_NUCLEUS_TYPE_ID);
-            	}
-            	else{
-            		resetNucleus();
-            	}
+            	removeCurrentNucleus();
+            	_nucleusID = DEFAULT_NUCLEUS_TYPE_ID;
+            	addNewNucleus();
             }
         });
 
@@ -98,7 +95,8 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
             }
         };
         
-        addNewNucleus(); 
+        // No nucleus is added during construction - we count on being reset
+        // as a part of the overall init process for that.
     }
 
     //------------------------------------------------------------------------

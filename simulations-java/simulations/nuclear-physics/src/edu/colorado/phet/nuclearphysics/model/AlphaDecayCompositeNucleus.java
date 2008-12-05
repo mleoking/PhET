@@ -20,8 +20,9 @@ public abstract class AlphaDecayCompositeNucleus extends CompositeAtomicNucleus 
     //------------------------------------------------------------------------
 
 	protected double _alphaDecayTime = 0;
-	private double _startTime;  // Simulation time at which this nucleus was created or last reset.
-	private boolean _hasDecayed = false;
+	private double   _startTime;  // Simulation time at which this nucleus was created or last reset.
+	private double   _preDecayLifeTime;
+	private boolean  _hasDecayed = false;
 	
     //------------------------------------------------------------------------
     // Constructor
@@ -52,7 +53,7 @@ public abstract class AlphaDecayCompositeNucleus extends CompositeAtomicNucleus 
 	 */
 	public double getElapsedPreDecayTime(){
 		if (hasDecayed()){
-			return _alphaDecayTime - _startTime;
+			return _preDecayLifeTime;
 		}
 		else{
 			return _clock.getSimulationTime() - _startTime;
@@ -127,7 +128,11 @@ public abstract class AlphaDecayCompositeNucleus extends CompositeAtomicNucleus 
 	            }
 	        }
 	        
-	        // Set the decay time to 0 to indicate that no more tunneling out
+	    	// Mark that decay has happened.
+	    	_hasDecayed = true;
+	    	_preDecayLifeTime = _alphaDecayTime - _startTime;
+
+	    	// Set the decay time to 0 to indicate that no more tunneling out
 	        // should occur.
 	        _alphaDecayTime = 0;
 	    }

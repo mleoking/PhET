@@ -140,7 +140,10 @@ public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.L
         setPickable( false );
         _model = model;
         _canvas = canvas;
-        
+
+        /*
+         * TODO: The part below needs to be redone so that we can handle the
+         * coming and going of nuclei and alpha particles.
         // Register as a listener with the model so that we can see when decay occurs.
         _model.getAtomNucleus().addListener( new AtomicNucleus.Listener(){
             public void atomicWeightChanged(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
@@ -178,6 +181,7 @@ public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.L
                 ((AlphaParticle)nucleusConstituents.get( i )).addListener( this );
             }
         }
+         */
         
         // Create the border for this chart.
         

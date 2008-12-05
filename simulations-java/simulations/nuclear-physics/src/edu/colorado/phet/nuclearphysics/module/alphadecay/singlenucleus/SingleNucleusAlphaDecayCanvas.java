@@ -23,6 +23,7 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayCompositeNucleus;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
+import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.CompositeAtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.Neutron;
 import edu.colorado.phet.nuclearphysics.model.Proton;
@@ -60,6 +61,9 @@ public class SingleNucleusAlphaDecayCanvas extends PhetPCanvas {
     // Constants that control where the charts are placed.
     private final double TIME_CHART_FRACTION = 0.2;   // Fraction of canvas for time chart.
     private final double ENERGY_CHART_FRACTION = 0.3; // Fraction of canvas for energy chart.
+    
+    // Other constants that affect the appearance of the chart.
+    private final double DEFAULT_BREAKOUT_RADIUS = AtomicNucleus.DEFAULT_TUNNELING_REGION_RADIUS;
     
     //----------------------------------------------------------------------------
     // Instance Data
@@ -128,7 +132,7 @@ public class SingleNucleusAlphaDecayCanvas extends PhetPCanvas {
         addScreenChild( _alphaDecayEnergyChart );
         
         // Add the breakout radius to the canvas.
-        double radius = _singleNucleusAlphaDecayModel.getAtomNucleus().getTunnelingRegionRadius();
+        double radius = DEFAULT_BREAKOUT_RADIUS;
         PPath breakoutCircle = new PPath(new Ellipse2D.Double(-radius, -radius, 2*radius, 2*radius));
         breakoutCircle.setStroke( new BasicStroke(0.1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
                 new float[] {0.75f, 0.75f }, 0) );
@@ -195,9 +199,6 @@ public class SingleNucleusAlphaDecayCanvas extends PhetPCanvas {
                         0.30 * getHeight() );
             }
         } );
-        
-        // Add the nucleus to the canvas.
-        createNucleusNodes();
     }
 
     //------------------------------------------------------------------------
