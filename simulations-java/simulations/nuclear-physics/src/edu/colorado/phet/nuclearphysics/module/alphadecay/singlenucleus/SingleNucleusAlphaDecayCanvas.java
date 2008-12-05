@@ -27,12 +27,12 @@ import edu.colorado.phet.nuclearphysics.model.CompositeAtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.Neutron;
 import edu.colorado.phet.nuclearphysics.model.Proton;
 import edu.colorado.phet.nuclearphysics.view.AlphaDecayEnergyChart;
-import edu.colorado.phet.nuclearphysics.view.AlphaDecayTimeChart;
 import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
 import edu.colorado.phet.nuclearphysics.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.view.NeutronModelNode;
 import edu.colorado.phet.nuclearphysics.view.NucleonModelNode;
 import edu.colorado.phet.nuclearphysics.view.ProtonModelNode;
+import edu.colorado.phet.nuclearphysics.view.SingleNucleusAlphaDecayTimeChart;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -68,7 +68,7 @@ public class SingleNucleusAlphaDecayCanvas extends PhetPCanvas {
     private SingleNucleusAlphaDecayModel _singleNucleusAlphaDecayModel;
     private AtomicNucleusNode _nucleusNode;
     private AlphaDecayEnergyChart _alphaDecayEnergyChart;
-    private AlphaDecayTimeChart _alphaDecayTimeChart;
+    private SingleNucleusAlphaDecayTimeChart _alphaDecayTimeChart;
     private GradientButtonNode _resetButtonNode;
 	private PNode _nucleusLayer;
 	private PNode _labelLayer;
@@ -161,8 +161,7 @@ public class SingleNucleusAlphaDecayCanvas extends PhetPCanvas {
         });
 
         // Add the chart that shows the decay time.
-        _alphaDecayTimeChart = new AlphaDecayTimeChart(_singleNucleusAlphaDecayModel.getClock(), 
-                _singleNucleusAlphaDecayModel.getAtomNucleus());
+        _alphaDecayTimeChart = new SingleNucleusAlphaDecayTimeChart(_singleNucleusAlphaDecayModel);
         addScreenChild( _alphaDecayTimeChart );
 
         // Add a listener for when the canvas is resized.
