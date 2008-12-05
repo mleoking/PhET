@@ -23,7 +23,6 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
             return new HeuristicPrunedTimeSeries( RotationModel.MAX_TIME );
         }
     };
-//    public static final double MAX_TIME = 2.0;
 
     public RotationModel( ConstantDtClock clock ) {
         super( clock, new HeuristicPrunedTimeSeries.Factory( MAX_TIME ) );
@@ -34,16 +33,10 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
         beetle.setDisplayGraph( false );
         addRotationBody( beetle );
 
-        //add dummy bodies for memory profiling
-//        for (int i=0;i<100;i++){
-//            addRotationBody( new RotationBody( "ladybug.gif", true ) );
-//        }
-
         resetAll();
     }
 
     protected TimeSeriesModel createTimeSeriesModel( RecordableModel recordableModel, ConstantDtClock clock ) {
-//        return new RotationTimeSeriesModel( recordableModel, clock );
         return new MotionTimeSeriesModel( recordableModel, clock );
     }
 
