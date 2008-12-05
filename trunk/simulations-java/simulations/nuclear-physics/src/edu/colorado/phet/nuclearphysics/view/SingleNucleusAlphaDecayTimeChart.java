@@ -25,31 +25,27 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
-import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.AbstractAlphaDecayNucleus;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
-import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusAlphaDecayCanvas;
-import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusAlphaDecayModel;
+import edu.colorado.phet.nuclearphysics.module.alphadecay.singlenucleus.SingleNucleusAlphaDecayModel;
 import edu.colorado.phet.nuclearphysics.util.PhetButtonNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolo.util.PBounds;
-import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * This class displays a "strip chart" of the decay time for multiple nuclei,
- * and also allows the user to adjust the half life for some types of nuclei.
+ * This class displays a "strip chart" of the decay time for multiple
+ * iterations of a single nucleus.  It has a linear mode for decay times
+ * that are a few seconds or less and an exponential mode for longer decay
+ * times.
  *
  * @author John Blanco
  */
-public class MultiNucleusAlphaDecayTimeChart extends PNode {
+public class SingleNucleusAlphaDecayTimeChart extends PNode {
 
     //------------------------------------------------------------------------
     // Class Data
@@ -58,9 +54,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     // Total amount of time in milliseconds represented by this chart.
     private static final double TIME_SPAN = 3200;
     
-    // Minimum allowable half life.
-    private static final double MIN_HALF_LIFE = 10; // In milliseconds.
-
     // Constants for controlling the appearance of the chart.
     private static final Color  BORDER_COLOR = Color.DARK_GRAY;
     private static final float  BORDER_STROKE_WIDTH = 6f;
@@ -82,7 +75,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     private static final Font   HALF_LIFE_FONT = new PhetFont( Font.BOLD, 16 );
 
     // Constants that control the location of the origin.
-    private static final double X_ORIGIN_PROPORTION = 0.20;
+    private static final double X_ORIGIN_PROPORTION = 0.27;
     private static final double Y_ORIGIN_PROPORTION = 0.65;
 
     // Tweakable values that can be used to adjust where the nuclei appear on
@@ -116,11 +109,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     //------------------------------------------------------------------------
 
     // Reference to the model containing the nuclei that are being plotted.
-    MultiNucleusAlphaDecayModel _model;
-    
-    // Reference to the canvas on which this chart resides.  Needed for
-    // certain interactions.
-    MultiNucleusAlphaDecayCanvas _canvas;
+    SingleNucleusAlphaDecayModel _model;
     
     // Variable for tracking information about the nuclei.
     private HashMap _mapNucleiToNucleiData = new HashMap();
@@ -133,7 +122,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     // References to the various components of the chart.
     private PPath _borderNode;
     private PPath _halfLifeMarkerLine;
-    private ResizeArrowNode _halfLifeHandleNode;
     private PText _halfLifeLabel;
     private ArrowNode _xAxisOfGraph;
     private ArrayList _xAxisTickMarks;
@@ -143,12 +131,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     private PText _xAxisLabel;
     private PText _yAxisLabel1;
     private PText _yAxisLabel2;
-    private ShadowPText _numUndecayedNucleiLabel;
-    private PText _numUndecayedNucleiText;
-    private ShadowPText _numDecayedNucleiLabel;
-    private PText _numDecayedNucleiText;
-    private PNode _arrowNode;
-    private PText _dummyText;
+    private TimeDisplayNode _timeDisplayNode;
 
     // Parent node that will be non-pickable and will contain all of the
     // non-interactive portions of the chart.
@@ -183,11 +166,10 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     // Constructor
     //------------------------------------------------------------------------
 
-    public MultiNucleusAlphaDecayTimeChart( MultiNucleusAlphaDecayModel model, MultiNucleusAlphaDecayCanvas canvas ) {
+    public SingleNucleusAlphaDecayTimeChart( SingleNucleusAlphaDecayModel model ) {
 
         _clock = model.getClock();
         _model = model;
-        _canvas = canvas;
 
         // Register as a clock listener.
         _clock.addClockListener( new ClockAdapter() {
@@ -314,32 +296,11 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         _yAxisLabel2.setFont( SMALL_LABEL_FONT );
         _yAxisLabel2.rotate( 1.5 * Math.PI );
         _nonPickableChartNode.addChild( _yAxisLabel2 );
-        
-        // Add the text for labeling the pre- and post-decay quantities of the
-        // nuclei.
-        _numUndecayedNucleiLabel = new ShadowPText();
-        _numUndecayedNucleiLabel.setFont(LARGE_LABEL_FONT);
-        _numUndecayedNucleiLabel.setTextPaint(Color.YELLOW);
-        _nonPickableChartNode.addChild(_numUndecayedNucleiLabel);
-        _numUndecayedNucleiText = new PText("0");
-        _numUndecayedNucleiText.setFont(LARGE_LABEL_FONT);
-        _nonPickableChartNode.addChild(_numUndecayedNucleiText);
-        _numDecayedNucleiLabel = new ShadowPText();
-        _numDecayedNucleiLabel.setFont(LARGE_LABEL_FONT);
-        _nonPickableChartNode.addChild(_numDecayedNucleiLabel);
-        _numDecayedNucleiText = new PText("0");
-        _numDecayedNucleiText.setFont(LARGE_LABEL_FONT);
-        _nonPickableChartNode.addChild(_numDecayedNucleiText);
-        
-        // Create a dummy text value for consistent positioning of the real
-        // numerical values.
-        _dummyText = new PText("000");
-        _dummyText.setFont(LARGE_LABEL_FONT);
 
-        // Add the little arrow that signifies decay from one nucleus type to another.
-        _arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(0, 8), 5, 10, 3 );
-        _arrowNode.setPaint( Color.BLACK );
-        _nonPickableChartNode.addChild(_arrowNode);
+        // Add the display of the decay time.
+        _timeDisplayNode = new TimeDisplayNode();
+        _timeDisplayNode.setTime(0);
+        _nonPickableChartNode.addChild(_timeDisplayNode);
 
         // Create the line that will illustrate where the half life is.
         _halfLifeMarkerLine = new PPath();
@@ -347,36 +308,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         _halfLifeMarkerLine.setStrokePaint( HALF_LIFE_LINE_COLOR );
         _halfLifeMarkerLine.setPaint( NuclearPhysicsConstants.ALPHA_DECAY_CHART_COLOR );
         _nonPickableChartNode.addChild( _halfLifeMarkerLine );
-        
-        // Create the handle that will allow the user to control the half life.
-        _halfLifeHandleNode = new ResizeArrowNode(25, 0);
-        _pickableChartNode.addChild( _halfLifeHandleNode );
-        _halfLifeHandleNode.addInputEventListener(new PBasicInputEventHandler(){
-        	boolean halfLifeChanged;
-        	public void mousePressed(PInputEvent event) {
-        		halfLifeChanged = false;
-        		_model.setPaused(true);
-        	}
-        	public void mouseReleased(PInputEvent event) {
-        		_model.setPaused(false);
-        		if (halfLifeChanged){
-        			if (_model.resetActiveAndDecayedNuclei() != 0){
-            			_canvas.autoPressResetNucleiButton();
-        			}
-        		}
-        	}
-            public void mouseDragged(PInputEvent event) {
-                PNode draggedNode = event.getPickedNode();
-                PDimension d = event.getDeltaRelativeTo(draggedNode);
-                draggedNode.localToParent(d);
-                double newHalfLife = _model.getHalfLife() + (d.width / _msToPixelsFactor) / 1000;
-                if (newHalfLife >= (MIN_HALF_LIFE / 1000) && newHalfLife <= ((TIME_SPAN * 0.95) / 1000)){
-	                _model.setHalfLife(newHalfLife);
-	        		halfLifeChanged = true;
-                }
-            }
-        });
-
 
         // Create the label for the half life line.
         _halfLifeLabel = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_HALF_LIFE );
@@ -396,8 +327,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
                 handleResetChartButtonPressed();
             }
         } );
-        
-        updateNucleusGraphLabels();
     }
 
 	//------------------------------------------------------------------------
@@ -424,7 +353,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
 
         // Update the multiplier used for converting from pixels to
         // milliseconds.  Use the multiplier to tweak the span of the x axis.
-        _msToPixelsFactor = 0.75 * _usableWidth / TIME_SPAN;
+        _msToPixelsFactor = 0.70 * _usableWidth / TIME_SPAN;
         
         // Update the radius value used to position nucleus nodes so that they
         // are centered at the desired location.
@@ -492,17 +421,9 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         _yAxisLabel1.setOffset( _yAxisLabel2.getOffset().getX() - ( 1.1 * _yAxisLabel2.getFont().getSize() ),
         		yAxisLabelCenter + (_yAxisLabel1.getFullBounds().height / 2) );
         
-        // Update and position the labels for the quantities of the various nuclei.
-        updateNucleusGraphLabels();
-        _numUndecayedNucleiLabel.setOffset( 
-        		_yAxisLabel1.getFullBoundsReference().x - _dummyText.getFullBoundsReference().width * 1.1 - _numUndecayedNucleiLabel.getFullBoundsReference().width,
-        		preDecayPosY - (_dummyText.getFullBoundsReference().height * 0.5));
-        _numDecayedNucleiLabel.setOffset(
-        		_yAxisLabel1.getFullBoundsReference().x - _dummyText.getFullBoundsReference().width * 1.1 - _numDecayedNucleiLabel.getFullBoundsReference().width,
-        		postDecayPosY - (_dummyText.getFullBoundsReference().height * 0.5));
-
-        // Update the numbers for the various nuclei.
-        updateNucleiNumberText();
+        // Position the time display.
+        _timeDisplayNode.setSize(_usableWidth * 0.15, _usableHeight * 0.35);
+        _timeDisplayNode.setOffset( _usableAreaOriginX + _usableWidth * 0.03, _usableAreaOriginY + _usableHeight * 0.1);
         
         // Position the reset button.
         _resetButtonNode.setOffset( _usableAreaOriginX + 10, 
@@ -554,56 +475,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         }
     }
     
-    private void updateNucleusGraphLabels(){
-    	if (_model.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM){
-    		_numUndecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL);
-    		_numUndecayedNucleiLabel.setTextPaint(NuclearPhysicsConstants.POLONIUM_LABEL_COLOR);
-    		_numUndecayedNucleiLabel.setShadowColor(Color.BLACK);
-    		_numDecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.LEAD_207_CHEMICAL_SYMBOL);
-    		_numDecayedNucleiLabel.setTextPaint(NuclearPhysicsConstants.LEAD_LABEL_COLOR);
-    		_numDecayedNucleiLabel.setShadowColor(Color.WHITE);
-    	}
-    	else {
-    		_numUndecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL);
-    		_numUndecayedNucleiLabel.setTextPaint(NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR);
-    		_numUndecayedNucleiLabel.setShadowColor(Color.BLACK);
-    		_numDecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL);
-    		_numDecayedNucleiLabel.setTextPaint(NuclearPhysicsConstants.DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR);
-    		_numDecayedNucleiLabel.setShadowColor(Color.WHITE);
-    	}
-    }
-    
-    /**
-     * Update the labels that indicate the number of undecayed and decayed nuclei.
-     */
-    private void updateNucleiNumberText(){
-    	
-    	// Update the values.
-    	_numUndecayedNucleiText.setText(Integer.toString(_preDecayCount));
-    	_numDecayedNucleiText.setText(Integer.toString(_postDecayCount));
-    	
-    	// Update the positions so that they remain centered in their area.
-		double preDecayPosY = _usableAreaOriginY + ( _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION );
-        double postDecayPosY = _usableAreaOriginY + ( _usableHeight * POST_DECAY_TIME_LINE_POS_FRACTION );
-        double labelHeight = _dummyText.getFullBoundsReference().height;
-        double numberTextWidth = _dummyText.getFullBoundsReference().width;
-        double labelMiddleX = _yAxisLabel1.getFullBoundsReference().x - (numberTextWidth * 0.6);
-        PBounds undecayedTextBounds = _numUndecayedNucleiText.getFullBoundsReference();
-        PBounds decayedTextBounds = _numDecayedNucleiText.getFullBoundsReference();
-        
-        _numUndecayedNucleiText.setOffset(labelMiddleX - undecayedTextBounds.width / 2, 
-        		preDecayPosY - (labelHeight * 0.5));
-        _numDecayedNucleiText.setOffset(labelMiddleX - decayedTextBounds.width / 2,
-        		postDecayPosY - (labelHeight * 0.5));
-
-        _arrowNode.setOffset( 
-        		_numUndecayedNucleiText.getFullBoundsReference().x + _numUndecayedNucleiText.getFullBoundsReference().width / 2,
-        		decayedTextBounds.y - ((decayedTextBounds.y - undecayedTextBounds.getMaxY()) / 2));
-        _arrowNode.setOffset( 
-        		_numUndecayedNucleiText.getFullBoundsReference().x + _numUndecayedNucleiText.getFullBoundsReference().width / 2,
-        		undecayedTextBounds.getMaxY());
-    }
-    
 	private void handleModelElementAdded(Object modelElement) {
     	
     	if (modelElement instanceof AtomicNucleus){
@@ -646,15 +517,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         		(float) _graphOriginY );
         _halfLifeMarkerLine.lineTo( (float) ( _graphOriginX + (TIME_ZERO_OFFSET + halfLife) * _msToPixelsFactor ),
         		(float) ( _usableAreaOriginY + ( 0.1 * _usableHeight ) ) );
-        
-        // If it is a custom nucleus, position and show the handle.
-        if (_model.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
-        	_halfLifeHandleNode.setVisible(true);
-        	_halfLifeHandleNode.setOffset( _halfLifeMarkerLine.getX(), _halfLifeMarkerLine.getY() + _halfLifeMarkerLine.getHeight() / 2 );
-        }
-        else{
-        	_halfLifeHandleNode.setVisible(false);
-        }
         
         // Position the textual label for the half life.
         _halfLifeLabel.setOffset( _halfLifeMarkerLine.getX() - (_halfLifeLabel.getFullBoundsReference().width / 2),
@@ -762,7 +624,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     				// This nucleus has become active.
         	    	_internalState = STATE_PRE_DECAY;
         	    	_preDecayCount++;
-        	    	updateNucleiNumberText();
         			
         			// Create a node for it and add it to the chart.
         			_nucleusNode = createNucleusNode();
@@ -792,7 +653,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     				_internalState = STATE_POST_DECAY;
     				_preDecayCount--;
     				_postDecayCount++;
-        	    	updateNucleiNumberText();
 
     				// Calculate the final position where this nucleus should end
         			// up based how many other nuclei have already decayed at
@@ -826,7 +686,6 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     				_decayBucket = Integer.MAX_VALUE;
     				_postDecayCount--;
     				_preDecayCount++;
-        	    	updateNucleiNumberText();
     			}
     			else if (_fallCount > 0){
     				// Nucleus is still falling.
@@ -964,6 +823,56 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         	}
         	
         	return nucleusNode;
+    	}
+    }
+    
+	//------------------------------------------------------------------------
+    // Inner Classes
+    //------------------------------------------------------------------------
+    
+    private class TimeDisplayNode extends PNode{
+    	
+    	private final Color BACKGROUND_COLOR = new Color(255, 255, 255);
+        private final Font  TIME_FONT = new PhetFont( Font.BOLD, 26 );
+        private final Font  UNITS_FONT = new PhetFont( Font.PLAIN, 18 );
+    	private PPath _background;
+    	private RoundRectangle2D _backgroundShape;
+    	private PText _timeText;
+    	private PText _unitsText;
+        DecimalFormat timeFormatter = new DecimalFormat( "##0.0" );
+    	
+    	TimeDisplayNode(){
+    		_backgroundShape = new RoundRectangle2D.Double(0, 0, _usableWidth * 0.2, _usableHeight * 0.2, 4, 4);
+    		_background = new PPath(_backgroundShape);
+    		_background.setPaint(BACKGROUND_COLOR);
+    		addChild(_background);
+    		_timeText = new PText();
+    		_timeText.setFont(TIME_FONT);
+    		addChild(_timeText);
+    		_unitsText = new PText();
+    		_unitsText.setFont(UNITS_FONT);
+    		addChild(_unitsText);
+    	}
+    	
+    	public void setSize(double width, double height){
+    		_backgroundShape.setFrame( 0, 0, width, height );
+    		_background.setPathTo(_backgroundShape);
+    		update();
+    	}
+    	
+    	public void setTime(double seconds){
+            _timeText.setText( new String (timeFormatter.format(seconds)) );
+            // TODO: JPB TBD - Need to make this a resource, need to make it handle different scales.
+            _unitsText.setText("sec");
+            update();
+    	}
+    	
+    	private void update(){
+    		double width = _backgroundShape.getWidth();
+    		double height = _backgroundShape.getHeight();
+    		_timeText.setOffset( width * 0.2, height / 2 - _timeText.getFullBoundsReference().height / 2 );
+    		_unitsText.setOffset( width * 0.6, _timeText.getFullBoundsReference().getMaxY() 
+    				- _unitsText.getFullBoundsReference().height * 1.1);
     	}
     }
 }

@@ -166,6 +166,11 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
         }
     }
     
+    // TODO: JPB TBD - Make this real.
+    public double getHalfLife(){
+    	return 0;
+    }
+    
     //------------------------------------------------------------------------
     // Private Methods
     //------------------------------------------------------------------------
