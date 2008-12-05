@@ -140,5 +140,5 @@ public abstract class AlphaDecayCompositeNucleus extends CompositeAtomicNucleus 
 
 	abstract protected void updateAgitationFactor();
 	abstract protected double calculateDecayTime();
-	abstract protected double getHalfLife();
+	abstract public double getHalfLife();
 }

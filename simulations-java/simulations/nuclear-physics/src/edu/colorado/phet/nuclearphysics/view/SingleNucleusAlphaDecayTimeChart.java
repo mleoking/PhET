@@ -648,7 +648,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
 		}
 		else{
 			// The nucleus has completely fallen, so position it on the lower line.
-        	yPos = _usableAreaOriginY + _usableHeight * POST_DECAY_TIME_LINE_POS_FRACTION;
+        	yPos = _usableAreaOriginY + _usableHeight * POST_DECAY_TIME_LINE_POS_FRACTION - _nucleusNodeRadius;
 		}
 		
 		nucleusNode.setOffset(xPos, yPos);

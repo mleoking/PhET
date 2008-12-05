@@ -169,9 +169,16 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
         }
     }
     
-    // TODO: JPB TBD - Make this real.
+    /**
+     * Get the half life of the current nucleus.
+     */
     public double getHalfLife(){
-    	return 0;
+    	if (_atomicNucleus != null){
+    		return _atomicNucleus.getHalfLife();
+    	}
+    	else{
+        	return 0;
+    	}
     }
     
     //------------------------------------------------------------------------
