@@ -168,8 +168,8 @@ public class FaradayConstants {
     // Developer controls
     //----------------------------------------------------------------------------
     
-    private static final double DEFAULT_VIEW_SCALE_MIN = 0.01;
-    private static final double DEFAULT_VIEW_SCALE_MAX = 300;
+    private static final double DEFAULT_VIEW_SCALE_MIN = 1;
+    private static final double DEFAULT_VIEW_SCALE_MAX = 200;
     
     public static final double LIGHTBULB_GLASS_GLOW_SCALE_MIN = DEFAULT_VIEW_SCALE_MIN;
     public static final double LIGHTBULB_GLASS_GLOW_SCALE_MAX = DEFAULT_VIEW_SCALE_MAX;
@@ -186,8 +186,8 @@ public class FaradayConstants {
     public static final double ELECTROMAGNET_ELECTRONS_SPEED_SCALE_MIN = DEFAULT_VIEW_SCALE_MIN;
     public static final double ELECTROMAGNET_ELECTRONS_SPEED_SCALE_MAX = DEFAULT_VIEW_SCALE_MAX;
     
-    public static final double PICKUP_TRANSITION_SMOOTHING_SCALE_MIN = 0.1;
-    public static final double PICKUP_TRANSITION_SMOOTHING_SCALE_MAX = 1;
+    public static final double PICKUP_TRANSITION_SMOOTHING_SCALE_MIN = 0.1; // must be > 0
+    public static final double PICKUP_TRANSITION_SMOOTHING_SCALE_MAX = 1; // must be <= 1
     
     //----------------------------------------------------------------------------
     // Flags used to create special "study" versions of this sim
