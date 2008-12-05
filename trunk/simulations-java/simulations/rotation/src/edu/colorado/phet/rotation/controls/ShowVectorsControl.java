@@ -1,15 +1,13 @@
 package edu.colorado.phet.rotation.controls;
 
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.rotation.RotationStrings;
 import edu.colorado.phet.rotation.view.RotationColorScheme;
-import edu.colorado.phet.rotation.view.RotationLookAndFeel;
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 
 /**
  * User: Sam Reid
@@ -25,14 +23,14 @@ public class ShowVectorsControl extends VerticalLayoutPanel {
         this.vectorViewModel = vectorViewModel;
 
 //        gridBagConstraints = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
-        final JCheckBox velocityCheckBox = new JCheckBox( RotationStrings.getString( "show" )+" "+RotationStrings.getString( "variable.velocity" )+" "+RotationStrings.getString( "vector" ), vectorViewModel.isVelocityVisible() );
+        final JCheckBox velocityCheckBox = new JCheckBox( RotationStrings.getString( "show" ) + " " + RotationStrings.getString( "variable.velocity" ) + " " + RotationStrings.getString( "vector" ), vectorViewModel.isVelocityVisible() );
         velocityCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 vectorViewModel.setVelocityVisible( velocityCheckBox.isSelected() );
             }
         } );
 
-        final JCheckBox accelerationCheckBox = new JCheckBox( RotationStrings.getString( "show" )+" "+RotationStrings.getString( "variable.acceleration" )+" "+RotationStrings.getString( "vector" ), vectorViewModel.isAccelerationVisible() );
+        final JCheckBox accelerationCheckBox = new JCheckBox( RotationStrings.getString( "show" ) + " " + RotationStrings.getString( "variable.acceleration" ) + " " + RotationStrings.getString( "vector" ), vectorViewModel.isAccelerationVisible() );
         accelerationCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 vectorViewModel.setAccelerationVisible( accelerationCheckBox.isSelected() );
@@ -53,7 +51,7 @@ public class ShowVectorsControl extends VerticalLayoutPanel {
         accelerationCheckBox.setForeground( RotationColorScheme.ACCELERATION_COLOR );
 
 //        accelerationCheckBox.setFont( RotationLookAndFeel.getCheckBoxFont() );
-        
+
 
 //        add( showVectorLabel, gridBagConstraints );
         add( velocityCheckBox );

@@ -38,12 +38,12 @@ public class RotationIntroControlPanel extends VerticalLayoutPanel {
     }
 
     private LinearValueControl createAngleSlider( final RotationIntroModule introModule ) {
-        final LinearValueControl linearSlider = new LinearValueControl( radiansToDegrees( -Math.PI * 2 * 2 ), radiansToDegrees( Math.PI * 2 * 2 ), 0.0, RotationStrings.getString( "variable.angle" ), "0.00", RotationStrings.getString( "units.degrees" ) ){
+        final LinearValueControl linearSlider = new LinearValueControl( radiansToDegrees( -Math.PI * 2 * 2 ), radiansToDegrees( Math.PI * 2 * 2 ), 0.0, RotationStrings.getString( "variable.angle" ), "0.00", RotationStrings.getString( "units.degrees" ) ) {
             protected boolean isValueInRange( double value ) {
                 return true;
             }
         };
-        linearSlider.getTextField().setColumns( "1000.00".length());
+        linearSlider.getTextField().setColumns( "1000.00".length() );
         linearSlider.setSignifyOutOfBounds( false );
         final ChangeListener listener = new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -65,17 +65,17 @@ public class RotationIntroControlPanel extends VerticalLayoutPanel {
     }
 
     private LinearValueControl createVelocitySlider( final RotationIntroModule introModule ) {
-        final LinearValueControl linearSlider = new LinearValueControl( radiansToDegrees( AbstractRotationGraphSet.MIN_ANG_VEL), radiansToDegrees( AbstractRotationGraphSet.MAX_ANG_VEL), 0.0, RotationStrings.getString( "variable.angular.velocity" ), "0.00", RotationStrings.getString( "units.degrees")+"/"+ RotationStrings.getString( "units.s")){
+        final LinearValueControl linearSlider = new LinearValueControl( radiansToDegrees( AbstractRotationGraphSet.MIN_ANG_VEL ), radiansToDegrees( AbstractRotationGraphSet.MAX_ANG_VEL ), 0.0, RotationStrings.getString( "variable.angular.velocity" ), "0.00", RotationStrings.getString( "units.degrees" ) + "/" + RotationStrings.getString( "units.s" ) ) {
             protected boolean isValueInRange( double value ) {
                 return true;
             }
         };
-        linearSlider.getTextField().setColumns( "1000.00".length());
+        linearSlider.getTextField().setColumns( "1000.00".length() );
         linearSlider.setSignifyOutOfBounds( false );
         final ChangeListener listener = new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 introModule.getRotationModel().getRotationPlatform().setVelocityDriven();
-                introModule.getRotationModel().getRotationPlatform().setVelocity( degreesToRadians( linearSlider.getValue()));
+                introModule.getRotationModel().getRotationPlatform().setVelocity( degreesToRadians( linearSlider.getValue() ) );
             }
         };
         linearSlider.addChangeListener( listener );
@@ -84,7 +84,7 @@ public class RotationIntroControlPanel extends VerticalLayoutPanel {
             public void valueChanged() {
                 //set a value to the slider without sending notification, otherwise interpolated values for omega will cause problems
                 linearSlider.removeChangeListener( listener );
-                linearSlider.setValue( radiansToDegrees( introModule.getRotationModel().getRotationPlatform().getVelocityVariable().getValue()));
+                linearSlider.setValue( radiansToDegrees( introModule.getRotationModel().getRotationPlatform().getVelocityVariable().getValue() ) );
                 linearSlider.addChangeListener( listener );
             }
         } );

@@ -45,7 +45,7 @@ public class RotationLayout {
         double availWidth = Math.max( rotationControlPanelNode.getFullBounds().getWidth(), Toolkit.getDefaultToolkit().getScreenSize().width * minFraction );
         double availHeight = getHeight() - rotationControlPanelNode.getFullBounds().getHeight();
 
-        double platformMaxRadius = RotationPlatform.MAX_RADIUS*2;
+        double platformMaxRadius = RotationPlatform.MAX_RADIUS * 2;
         Dimension2D d = new PDimension( platformMaxRadius, platformMaxRadius );
         rotationPlayAreaNode.setScale( 1.0 );
         platformNode.getParent().localToGlobal( d );

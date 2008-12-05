@@ -98,7 +98,7 @@ public class AbstractTorqueGraphSet extends AbstractRotationGraphSet {
 
     public static class SeriesSelectionPanel extends VerticalLayoutPanel {
         public SeriesSelectionPanel( ControlGraphSeries[] series ) {
-            setBorder( BorderFactory.createTitledBorder( RotationStrings.getString( "series.selection.title" )) );
+            setBorder( BorderFactory.createTitledBorder( RotationStrings.getString( "series.selection.title" ) ) );
             for ( int i = 0; i < series.length; i++ ) {
                 add( new SeriesJCheckBox( series[i] ) );
             }

@@ -17,7 +17,7 @@ public class RotationSeriesSelectionPanel extends JPanel {
             final RotationGraph.SeriesPair seriesPair = graph.getSeriesPair( i );
 
 //            final ControlGraphSeries series = graph.getControlGraphSeries( i );
-            final JCheckBox jCheckBox = new JCheckBox( RotationStrings.getString( "controls.show" ) +" "+ seriesPair.getName(), seriesPair.isVisible() );
+            final JCheckBox jCheckBox = new JCheckBox( RotationStrings.getString( "controls.show" ) + " " + seriesPair.getName(), seriesPair.isVisible() );
             jCheckBox.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     seriesPair.setVisible( jCheckBox.isSelected() );

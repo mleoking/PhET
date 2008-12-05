@@ -44,6 +44,6 @@ public class AngleUnitModel {
     }
 
     public String toString() {
-        return super.toString()+" radians="+radians;
+        return super.toString() + " radians=" + radians;
     }
 }

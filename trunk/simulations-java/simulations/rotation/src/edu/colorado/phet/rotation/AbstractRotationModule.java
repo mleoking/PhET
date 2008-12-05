@@ -14,7 +14,6 @@ import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.colorado.phet.rotation.model.RotationClock;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.view.AbstractRotationSimulationPanel;
-import edu.colorado.phet.rotation.MyRepaintManager;
 
 /**
  * User: Sam Reid
@@ -122,8 +121,8 @@ public abstract class AbstractRotationModule extends PiccoloModule {
     }
 
     private boolean confirmReset() {
-        int val=JOptionPane.showConfirmDialog( rotationSimulationPanel, PhetCommonResources.getString( "ControlPanel.message.confirmResetAll" ));
-        return val==JOptionPane.OK_OPTION;
+        int val = JOptionPane.showConfirmDialog( rotationSimulationPanel, PhetCommonResources.getString( "ControlPanel.message.confirmResetAll" ) );
+        return val == JOptionPane.OK_OPTION;
     }
 
     public VectorViewModel getVectorViewModel() {

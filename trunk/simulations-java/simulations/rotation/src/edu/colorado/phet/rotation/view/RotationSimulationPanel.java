@@ -3,7 +3,6 @@ package edu.colorado.phet.rotation.view;
 import javax.swing.*;
 
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
-import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.rotation.AbstractRotationModule;
 import edu.colorado.phet.rotation.controls.RotationControlPanel;
 

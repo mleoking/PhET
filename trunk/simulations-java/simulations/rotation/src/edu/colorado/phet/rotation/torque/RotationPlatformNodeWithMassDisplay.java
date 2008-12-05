@@ -1,21 +1,12 @@
 package edu.colorado.phet.rotation.torque;
 
-import java.awt.*;
-import java.awt.geom.Arc2D;
-import java.awt.geom.AffineTransform;
-
-import edu.colorado.phet.common.phetcommon.math.Function;
-import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.rotation.model.RotationPlatform;
-import edu.colorado.phet.rotation.view.RotationPlatformNode;
-import edu.colorado.phet.rotation.view.RotationPlayAreaNode;
 import edu.colorado.phet.rotation.view.PlatformNode2;
 
 /**
  * Created by: Sam
  * Dec 3, 2007 at 11:52:49 PM
- */                         
+ */
 public class RotationPlatformNodeWithMassDisplay extends PlatformNode2 {
 //    private EdgeGraphic edgeGraphic;
 

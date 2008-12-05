@@ -12,7 +12,6 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.ClockProfiler;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.rotation.AbstractRotationModule;
-import edu.colorado.phet.rotation.RotationApplication;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PPaintContext;
@@ -104,7 +103,7 @@ public class RotationDevMenu extends JMenu {
                 }
             }
         } );
-        add(lowQualityRender);
+        add( lowQualityRender );
     }
 
     private PNode getCircleNode() {
