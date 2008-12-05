@@ -66,8 +66,7 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
             
             public void simulationTimeReset(ClockEvent clockEvent){
             	if (_nucleusID != DEFAULT_NUCLEUS_TYPE_ID){
-            		_nucleusID = DEFAULT_NUCLEUS_TYPE_ID;
-            		addOrReplaceNucleus();
+            		setNucleusType(DEFAULT_NUCLEUS_TYPE_ID);
             	}
             	else{
             		resetNucleus();
@@ -99,7 +98,7 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
             }
         };
         
-        addOrReplaceNucleus(); 
+        addNewNucleus(); 
     }
 
     //------------------------------------------------------------------------
@@ -126,9 +125,15 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
 		return true;
 	}
 
-	public void setNucleusType(int nucleusId) {
-		_nucleusID = nucleusId;
-		addOrReplaceNucleus();
+	public void setNucleusType(int nucleusID) {
+		if (nucleusID == _nucleusID){
+			// Current type is already set, so nothing needs to be done.
+			return;
+		}
+		removeCurrentNucleus();
+		_nucleusID = nucleusID;
+		notifyNucleusTypeChanged();
+		addNewNucleus();
 	}
 	
 	public int getNucleusType(){
@@ -182,43 +187,35 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
         }
     }
     
-    /**
-     * Add a new nucleus of the currently selected type.  If the selected type
-     * of nucleus already exists, this does nothing.  If the nucleus is not of
-     * the desired type, then replace it.
-     */
-	private void addOrReplaceNucleus() {
+    private void removeCurrentNucleus(){
 
-		// First check if the requested nucleus already exists.
-		if (_atomicNucleus != null){
-			switch (_nucleusID){
-			case NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM:
-		        if (_atomicNucleus instanceof Polonium211CompositeNucleus){
-		        	// Nothing to do, since we already have the nucleus we need.
-		        	return;
-		        }
-		        break;
-				
-			case NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM:
-		        if (_atomicNucleus instanceof AdjustableHalfLifeCompositeNucleus){
-		        	// Nothing to do, since we already have the nucleus we need.
-		        	return;
-		        }
-		        break;
-			}
-
-		    // Remove listener from current nucleus.
-			_atomicNucleus.removeListener(_atomicNucleusAdapter);
-			
-			// Remove the nucleus itself and inform any listeners of its demise.
-			_atomicNucleus.removedFromModel();
-			AlphaDecayCompositeNucleus tempNucleus = _atomicNucleus;
-			_atomicNucleus = null;
-			_tunneledAlpha = null;
-			notifyModelElementRemoved(tempNucleus);
-		}
+    	if (_atomicNucleus == null){
+    		// Nothing to do.
+    		return;
+    	}
+    	
+	    // Remove listener from current nucleus.
+		_atomicNucleus.removeListener(_atomicNucleusAdapter);
 		
-		// Create the nucleus that will demonstrate alpha decay.
+		// Remove the nucleus itself and inform any listeners of its demise.
+		_atomicNucleus.removedFromModel();
+		AlphaDecayCompositeNucleus tempNucleus = _atomicNucleus;
+		_atomicNucleus = null;
+		_tunneledAlpha = null;
+		notifyModelElementRemoved(tempNucleus);
+    }
+
+    /**
+     * Add a new nucleus of the currently configured type.  This should be
+     * called only when there isn't an existing nucleus.
+     */
+    private void addNewNucleus(){
+    	if (_atomicNucleus != null){
+    		// Since this model supports only one nucleus at a time, adding a
+    		// new nucleus means that any existing one must go away.
+    		System.err.println("Warning: Removing existing nucleus before adding new one.");
+    		removeCurrentNucleus();
+    	}
 		switch (_nucleusID){
 		case NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM:
 	        _atomicNucleus = new Polonium211CompositeNucleus(_clock, new Point2D.Double(0, 0));
@@ -235,9 +232,8 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
         
         // Inform any listeners of the changes.
         notifyModelElementAdded(_atomicNucleus);
-        notifyNucleusTypeChanged();
-	}
-	
+    }
+    
     /**
      * Notify listeners about the removal of an element from the model.
      * 
