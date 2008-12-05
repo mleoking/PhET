@@ -127,7 +127,7 @@ public class Polonium211Nucleus extends AbstractAlphaDecayNucleus {
             // around forever.
             randomValue = 0.999;
         }
-        double tunnelOutMilliseconds = (-(Math.log( 1 - randomValue ) / 1.343)) * 1000;
+        double tunnelOutMilliseconds = (-(Math.log( 1 - randomValue ) / (0.693 / HALF_LIFE))) * 1000;
         return tunnelOutMilliseconds;
     }
     
