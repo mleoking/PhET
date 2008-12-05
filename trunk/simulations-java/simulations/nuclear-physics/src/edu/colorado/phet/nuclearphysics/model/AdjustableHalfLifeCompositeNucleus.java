@@ -31,6 +31,9 @@ public class AdjustableHalfLifeCompositeNucleus extends AlphaDecayCompositeNucle
     //------------------------------------------------------------------------
     // Instance data
     //------------------------------------------------------------------------
+    //------------------------------------------------------------------------
+    // Constructor(s)
+    //------------------------------------------------------------------------
 
     public AdjustableHalfLifeCompositeNucleus(NuclearPhysicsClock clock, Point2D position){
         super(clock, position, ORIGINAL_NUM_PROTONS, ORIGINAL_NUM_NEUTRONS);
@@ -43,6 +46,10 @@ public class AdjustableHalfLifeCompositeNucleus extends AlphaDecayCompositeNucle
     // Methods
     //------------------------------------------------------------------------
     
+    public double getHalfLife(){
+    	// TODO
+    	return 0;
+    }
 	protected void updateAgitationFactor() {
 	    // Determine the amount of agitation that should be exhibited by this
 	    // particular nucleus based on its atomic weight.
