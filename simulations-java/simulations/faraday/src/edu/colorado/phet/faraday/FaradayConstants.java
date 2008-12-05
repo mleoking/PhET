@@ -132,7 +132,7 @@ public class FaradayConstants {
     public static final int MAX_PICKUP_LOOPS = 3;
     public static final int MIN_PICKUP_LOOPS = 1;
     private static final double MAX_PICKUP_LOOP_RADIUS = 150.0;
-    private static final double MIN_PICKUP_LOOP_RADIUS = 68.0;
+    public static final double MIN_PICKUP_LOOP_RADIUS = 68.0;
     public static final double MAX_PICKUP_LOOP_AREA = Math.PI * MAX_PICKUP_LOOP_RADIUS * MAX_PICKUP_LOOP_RADIUS;
     public static final double MIN_PICKUP_LOOP_AREA = Math.PI * MIN_PICKUP_LOOP_RADIUS * MIN_PICKUP_LOOP_RADIUS;
     public static final double DEFAULT_PICKUP_LOOP_AREA = MAX_PICKUP_LOOP_AREA / 2; 
@@ -163,6 +163,31 @@ public class FaradayConstants {
     public static final double GRID_BFIELD_THRESHOLD = 0.02; // Gauss
     /* Absolute current amplitude below this value is treated as zero. */
     public static final double CURRENT_AMPLITUDE_THRESHOLD = 0.001;
+    
+    //----------------------------------------------------------------------------
+    // Developer controls
+    //----------------------------------------------------------------------------
+    
+    private static final double DEFAULT_VIEW_SCALE_MIN = 0.01;
+    private static final double DEFAULT_VIEW_SCALE_MAX = 300;
+    
+    public static final double LIGHTBULB_GLASS_GLOW_SCALE_MIN = DEFAULT_VIEW_SCALE_MIN;
+    public static final double LIGHTBULB_GLASS_GLOW_SCALE_MAX = DEFAULT_VIEW_SCALE_MAX;
+    
+    public static final double LIGHTBULB_RAYS_SCALE_MIN = DEFAULT_VIEW_SCALE_MIN;
+    public static final double LIGHTBULB_RAYS_SCALE_MAX = DEFAULT_VIEW_SCALE_MAX;
+    
+    public static final double VOLTMETER_SCALE_MIN = DEFAULT_VIEW_SCALE_MIN;
+    public static final double VOLTMETER_SCALE_MAX = DEFAULT_VIEW_SCALE_MAX;
+    
+    public static final double PICKUP_ELECTRONS_SPEED_SCALE_MIN = DEFAULT_VIEW_SCALE_MIN;
+    public static final double PICKUP_ELECTRONS_SPEED_SCALE_MAX = DEFAULT_VIEW_SCALE_MAX;
+    
+    public static final double ELECTROMAGNET_ELECTRONS_SPEED_SCALE_MIN = DEFAULT_VIEW_SCALE_MIN;
+    public static final double ELECTROMAGNET_ELECTRONS_SPEED_SCALE_MAX = DEFAULT_VIEW_SCALE_MAX;
+    
+    public static final double PICKUP_TRANSITION_SMOOTHING_SCALE_MIN = 0.1;
+    public static final double PICKUP_TRANSITION_SMOOTHING_SCALE_MAX = 1;
     
     //----------------------------------------------------------------------------
     // Flags used to create special "study" versions of this sim

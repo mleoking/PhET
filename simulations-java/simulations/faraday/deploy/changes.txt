@@ -1,3 +1,6 @@
+12/4/08 - fix #721, use "effective area" of coil when computing emf
+12/4/08 - add constants for developer controls, to make future adjustments easier
+12/4/08 - change name of "pickup fudge factor" to "pickup transition smoothing scale", add tooltip to dev control
 # 2.01.02 (26353) 11/19/08
 11/19/08 - fix #744, voltmeter needle exhibits big jumps in Transformer panel
 11/5/08 - see #744, add display of "average Bx" to developer control in FluxDisplayGraphic

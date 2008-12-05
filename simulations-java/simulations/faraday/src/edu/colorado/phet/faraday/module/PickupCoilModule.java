@@ -58,7 +58,7 @@ public class PickupCoilModule extends FaradayModule {
     private static final double PICKUP_COIL_LOOP_AREA = FaradayConstants.DEFAULT_PICKUP_LOOP_AREA;
     private static final double PICKUP_COIL_DIRECTION = 0.0; // radians
     private static final double PICKUP_COIL_DISTANCE_EXPONENT = 3.0;
-    private static final double PICKUP_COIL_FUDGE_FACTOR = 0.77; // see PickupCoil.setFudgeFactor
+    private static final double PICKUP_COIL_TRANSITION_SMOOTHING_SCALE = 0.77; // see PickupCoil.setTransitionSmoothingScale
     private static final double LIGHTBULB_GLASS_MIN_ALPHA = 0.35;
     
     // Scaling
@@ -129,7 +129,7 @@ public class PickupCoilModule extends FaradayModule {
         _pickupCoilModel.setLoopArea( PICKUP_COIL_LOOP_AREA );
         _pickupCoilModel.setDirection( PICKUP_COIL_DIRECTION );
         _pickupCoilModel.setLocation( PICKUP_COIL_LOCATION );
-        _pickupCoilModel.setFudgeFactor( PICKUP_COIL_FUDGE_FACTOR );
+        _pickupCoilModel.setTransitionSmoothingScale( PICKUP_COIL_TRANSITION_SMOOTHING_SCALE );
         final double ySpacing = _barMagnetModel.getHeight() / 10;
         _pickupCoilModel.setSamplePointsStrategy( new VariableNumberOfSamplePointsStrategy( ySpacing ) );
         model.addModelElement( _pickupCoilModel );
