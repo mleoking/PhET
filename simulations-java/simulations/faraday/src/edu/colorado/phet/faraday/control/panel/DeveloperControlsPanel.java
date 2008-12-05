@@ -149,6 +149,8 @@ public class DeveloperControlsPanel extends FaradayPanel {
             double max = FaradayConstants.LIGHTBULB_GLASS_GLOW_SCALE_MAX;
             final LinearValueControl lightbulbGlassGlowScaleControl = new LinearValueControl( min, max, "Lightbulb glow scale:", "0.0", "" );
             lightbulbGlassGlowScaleControl.setValue( lightbulbGraphic.getGlassGlowScale() );
+            lightbulbGlassGlowScaleControl.setTextFieldEditable( true );
+            lightbulbGlassGlowScaleControl.setTextFieldColumns( 4 );
             lightbulbGlassGlowScaleControl.setUpDownArrowDelta( 0.1 );
             lightbulbGlassGlowScaleControl.setBorder( BorderFactory.createEtchedBorder() );
             lightbulbGlassGlowScaleControl.addChangeListener( new ChangeListener() {
@@ -167,7 +169,7 @@ public class DeveloperControlsPanel extends FaradayPanel {
             final LinearValueControl lightbulbControl = new LinearValueControl( min, max, "Light rays scale:", "0.0", "" );
             lightbulbControl.setValue( lightbulbModel.getScale() );
             lightbulbControl.setTextFieldEditable( true );
-            lightbulbControl.setTextFieldColumns( 3 );
+            lightbulbControl.setTextFieldColumns( 4 );
             lightbulbControl.setUpDownArrowDelta( 0.1 );
             lightbulbControl.setBorder( BorderFactory.createEtchedBorder() );
             lightbulbControl.addChangeListener( new ChangeListener() {
@@ -186,7 +188,7 @@ public class DeveloperControlsPanel extends FaradayPanel {
             final LinearValueControl voltmeterControl = new LinearValueControl( min, max, "Voltmeter scale:", "0.0", "" );
             voltmeterControl.setValue( voltmeterModel.getScale() );
             voltmeterControl.setTextFieldEditable( true );
-            voltmeterControl.setTextFieldColumns( 3 );
+            voltmeterControl.setTextFieldColumns( 4 );
             voltmeterControl.setUpDownArrowDelta( 0.1 );
             voltmeterControl.setBorder( BorderFactory.createEtchedBorder() );
             voltmeterControl.addChangeListener( new ChangeListener() {
@@ -205,7 +207,7 @@ public class DeveloperControlsPanel extends FaradayPanel {
             final LinearValueControl pickupElectronsControl = new LinearValueControl( min, max, "<html>Pickup<br>electrons scale:</html>", "0.0", "" );
             pickupElectronsControl.setValue( pickupCoilGraphic.getCoilGraphic().getElectronSpeedScale() );
             pickupElectronsControl.setTextFieldEditable( true );
-            pickupElectronsControl.setTextFieldColumns( 3 );
+            pickupElectronsControl.setTextFieldColumns( 4 );
             pickupElectronsControl.setUpDownArrowDelta( 0.1 );
             pickupElectronsControl.setBorder( BorderFactory.createEtchedBorder() );
             pickupElectronsControl.addChangeListener( new ChangeListener() {
@@ -224,7 +226,7 @@ public class DeveloperControlsPanel extends FaradayPanel {
             final LinearValueControl electromagnetElectronsControl = new LinearValueControl( min, max, "<html>Electromagnet<br>electrons scale:<html>", "0.0", "" );
             electromagnetElectronsControl.setValue( electromagnetGraphic.getCoilGraphic().getElectronSpeedScale() );
             electromagnetElectronsControl.setTextFieldEditable( true );
-            electromagnetElectronsControl.setTextFieldColumns( 3 );
+            electromagnetElectronsControl.setTextFieldColumns( 4 );
             electromagnetElectronsControl.setUpDownArrowDelta( 0.1 );
             electromagnetElectronsControl.setBorder( BorderFactory.createEtchedBorder() );
             electromagnetElectronsControl.addChangeListener( new ChangeListener() {
