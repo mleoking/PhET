@@ -12,6 +12,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.security.InvalidParameterException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -486,6 +487,55 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     private void handleResetChartButtonPressed() {
     	// TODO: JPB TBD
     }
+    
+	/**
+	 * Create the appropriate visual representation for a nucleus.
+	 */
+	private EnhancedLabeledNucleusNode createNucleusNode(AtomicNucleus nucleus){
+    	
+    	EnhancedLabeledNucleusNode nucleusNode;
+
+    	switch (nucleus.getNumProtons()){
+    	case 84:
+    		// Create a labeled nucleus representing Polonium.
+    		nucleusNode = new EnhancedLabeledNucleusNode("Polonium Nucleus Small.png",
+                    NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER, 
+                    NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL, 
+                    NuclearPhysicsConstants.POLONIUM_LABEL_COLOR );
+    		break;
+    		
+    	case 83:
+    		// This nucleus is bismuth, which we use as the pre-decay custom
+    		// nucleus.
+    		nucleusNode = new EnhancedLabeledNucleusNode("Polonium Nucleus Small.png", 
+    				"", // No isotope number.
+                    NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
+                    NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR );
+    		break;
+    		
+    	case 82:
+    		// Create a labeled nucleus representing Lead.
+    		nucleusNode = new EnhancedLabeledNucleusNode("Lead Nucleus Small.png",
+                    NuclearPhysicsStrings.LEAD_207_ISOTOPE_NUMBER, 
+                    NuclearPhysicsStrings.LEAD_207_CHEMICAL_SYMBOL, 
+                    NuclearPhysicsConstants.LEAD_LABEL_COLOR );
+    		break;
+    		
+    	case 81:
+    		// This is thallium, which we use as the post-decay custom nucleus.
+    		nucleusNode = new EnhancedLabeledNucleusNode("Lead Nucleus Small.png",
+    				"", // No isotope number.
+                    NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
+                    NuclearPhysicsConstants.DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR );
+    		break;
+    		
+    	default:
+    		assert false;  // This is not a nucleus type that we know how to handle.
+    		throw new InvalidParameterException("Unrecognized nucleus type.");
+    	}
+    	
+    	return nucleusNode;
+	}
     
 	//------------------------------------------------------------------------
     // Inner Classes
