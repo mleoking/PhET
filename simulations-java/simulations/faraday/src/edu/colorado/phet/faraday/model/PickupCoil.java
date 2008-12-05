@@ -377,7 +377,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
         _averageBx = sumBx / _samplePoints.length;
         
         // Flux in one loop.
-        double A = getLoopArea();//getEffectiveLoopArea();
+        double A = getEffectiveLoopArea();
         double loopFlux = A * _averageBx; 
         
         // Flux in the coil.
