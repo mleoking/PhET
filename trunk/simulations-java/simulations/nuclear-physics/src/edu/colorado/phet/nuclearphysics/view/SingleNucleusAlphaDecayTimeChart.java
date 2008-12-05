@@ -35,6 +35,7 @@ import edu.colorado.phet.nuclearphysics.util.PhetButtonNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
@@ -132,6 +133,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     private PText _yAxisLabel1;
     private PText _yAxisLabel2;
     private TimeDisplayNode _timeDisplayNode;
+    private PText _decayTimeLabel;
 
     // Parent node that will be non-pickable and will contain all of the
     // non-interactive portions of the chart.
@@ -301,6 +303,9 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
         _timeDisplayNode = new TimeDisplayNode();
         _timeDisplayNode.setTime(0);
         _nonPickableChartNode.addChild(_timeDisplayNode);
+        _decayTimeLabel = new PText( NuclearPhysicsStrings.DECAY_TIME_LABEL );
+        _decayTimeLabel.setFont( SMALL_LABEL_FONT );
+        _nonPickableChartNode.addChild( _decayTimeLabel );
 
         // Create the line that will illustrate where the half life is.
         _halfLifeMarkerLine = new PPath();
@@ -424,6 +429,9 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
         // Position the time display.
         _timeDisplayNode.setSize(_usableWidth * 0.15, _usableHeight * 0.35);
         _timeDisplayNode.setOffset( _usableAreaOriginX + _usableWidth * 0.03, _usableAreaOriginY + _usableHeight * 0.1);
+        PBounds _timeDisplayBounds = _timeDisplayNode.getFullBoundsReference();
+        _decayTimeLabel.setOffset(_timeDisplayBounds.getCenterX() - _decayTimeLabel.getFullBoundsReference().width / 2,
+        		_timeDisplayBounds.getMaxY());
         
         // Position the reset button.
         _resetButtonNode.setOffset( _usableAreaOriginX + 10, 
