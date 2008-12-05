@@ -554,7 +554,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     }
 
     private void handleResetChartButtonPressed() {
-    	// TODO: JPB TBD
+    	clearDecayedNuclei();
     }
     
 	/**
@@ -652,6 +652,15 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
 		}
 		
 		nucleusNode.setOffset(xPos, yPos);
+	}
+	
+	private void clearDecayedNuclei(){
+    	Iterator it = _decayedNucleusNodes.iterator();
+    	while (it.hasNext()){
+    		EnhancedLabeledNucleusNode decayedNucleusNode = (EnhancedLabeledNucleusNode)it.next();
+    		_nonPickableChartNode.removeChild(decayedNucleusNode);
+    	}
+    	_decayedNucleusNodes.clear();
 	}
     
 	//------------------------------------------------------------------------
