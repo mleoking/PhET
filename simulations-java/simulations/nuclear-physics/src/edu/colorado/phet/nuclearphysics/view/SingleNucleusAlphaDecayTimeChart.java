@@ -434,7 +434,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
         		_timeDisplayBounds.getMaxY());
         
         // Position the reset button.
-        _resetButtonNode.setOffset( _usableAreaOriginX + 10, 
+        _resetButtonNode.setOffset( _timeDisplayBounds.getCenterX() - _resetButtonNode.getFullBoundsReference().width / 2, 
         		_usableAreaOriginY + _usableHeight - _resetButtonNode.getFullBoundsReference().height - 5);
         
         // Rescale the nucleus nodes and set their positions.
@@ -840,9 +840,9 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     
     private class TimeDisplayNode extends PNode{
     	
+    	private final double TEXT_HEIGHT_PROPORTION = 0.8;
     	private final Color BACKGROUND_COLOR = new Color(255, 255, 255);
         private final Font  TIME_FONT = new PhetFont( Font.BOLD, 26 );
-        private final Font  UNITS_FONT = new PhetFont( Font.PLAIN, 18 );
     	private PPath _background;
     	private RoundRectangle2D _backgroundShape;
     	private PText _timeText;
@@ -850,7 +850,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
         DecimalFormat timeFormatter = new DecimalFormat( "##0.0" );
     	
     	TimeDisplayNode(){
-    		_backgroundShape = new RoundRectangle2D.Double(0, 0, _usableWidth * 0.2, _usableHeight * 0.2, 4, 4);
+    		_backgroundShape = new RoundRectangle2D.Double(0, 0, _usableWidth * 0.2, _usableHeight * 0.2, 8, 8);
     		_background = new PPath(_backgroundShape);
     		_background.setPaint(BACKGROUND_COLOR);
     		addChild(_background);
@@ -858,13 +858,20 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     		_timeText.setFont(TIME_FONT);
     		addChild(_timeText);
     		_unitsText = new PText();
-    		_unitsText.setFont(UNITS_FONT);
+    		_unitsText.setFont(TIME_FONT);
     		addChild(_unitsText);
     	}
     	
     	public void setSize(double width, double height){
     		_backgroundShape.setFrame( 0, 0, width, height );
     		_background.setPathTo(_backgroundShape);
+    		_timeText.setScale(1);
+    		double desiredTextHeight = height * TEXT_HEIGHT_PROPORTION;
+    		double currentTextHeight = _timeText.getFullBoundsReference().height;
+    		if (desiredTextHeight > 0 && currentTextHeight > 0){
+        		_timeText.setScale(desiredTextHeight / currentTextHeight);
+        		_unitsText.setScale(desiredTextHeight / currentTextHeight * 0.67);
+    		}
     		update();
     	}
     	
