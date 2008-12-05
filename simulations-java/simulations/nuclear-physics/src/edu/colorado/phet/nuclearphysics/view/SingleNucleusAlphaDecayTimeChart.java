@@ -418,6 +418,10 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
         // Rescale the nucleus nodes and set their positions.
         updateNucleusNodesScale();
         positionCurrentNucleus();
+    	Iterator it = _decayedNucleusNodes.iterator();
+    	while (it.hasNext()){
+    		positionDecayedNucleusNode((EnhancedLabeledNucleusNode)it.next());
+    	}
     }
 
     /**
@@ -533,12 +537,20 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
 	 */
 	private void updateNucleusNodesScale(){
 
-		if (_undecayedNucleusNode != null && _nucleusNodeRadius > 0){
-			_undecayedNucleusNode.setScale(1);
-			_undecayedNucleusNode.setScale((_nucleusNodeRadius * 2) / _undecayedNucleusNode.getFullBoundsReference().height);
+		if ( _nucleusNodeRadius > 0 ){
+			
+			if (_undecayedNucleusNode != null){
+				_undecayedNucleusNode.setScale(1);
+				_undecayedNucleusNode.setScale((_nucleusNodeRadius * 2) / _undecayedNucleusNode.getFullBoundsReference().height);
+			}
+			
+	    	Iterator it = _decayedNucleusNodes.iterator();
+	    	while (it.hasNext()){
+	    		PNode nucleusNode = (PNode)it.next();
+	    		nucleusNode.setScale(1);
+	    		nucleusNode.setScale((_nucleusNodeRadius * 2) / nucleusNode.getFullBoundsReference().height);
+	    	}
     	}
-		
-		// TODO: Needs to be done for the decayed nodes too.
 	}
     
     /**
