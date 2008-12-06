@@ -504,7 +504,7 @@
     function create_temp_dir($base_name = 'phet_') {
         $num_tries = 10;
         for ($i = 0; $i < $num_tries; ++$i) {
-            $temp_dir_name = sys_get_temp_dir()."{$base_name}_".rand().'_'.time().'/';
+            $temp_dir_name = rtrim(sys_get_temp_dir(), '\\/').DIRECTORY_SEPARATOR."{$base_name}_".rand().'_'.time().'/';
             $dir_made = mkdir($temp_dir_name);
             if ($dir_made) {
                 break;
