@@ -47,25 +47,25 @@ public class BuildScript {
     }
 
     public boolean isSVNInSync() {
-        boolean upToDate = new SVNStatusChecker().isUpToDate( project );
-        return upToDate;
+        return new SVNStatusChecker().isUpToDate( project );
     }
 
-    static interface PreDeployTask {
-        boolean preDeploy();
+    static interface Task {
+        boolean invoke();
     }
 
-    static class NullTask implements PreDeployTask {
-        public boolean preDeploy() {
+    static class NullTask implements Task {
+        public boolean invoke() {
             return true;
         }
     }
 
     public void deploy( PhetServer server, AuthenticationInfo authenticationInfo, VersionIncrement versionIncrement ) {
-        deploy( new NullTask(), server, authenticationInfo, versionIncrement );
+        deploy( new NullTask(), server, authenticationInfo, versionIncrement, new NullTask() );
     }
 
-    public void deploy( PreDeployTask preDeployTask, PhetServer server, AuthenticationInfo authenticationInfo, VersionIncrement versionIncrement ) {
+    public void deploy( Task preDeployTask, PhetServer server,
+                        AuthenticationInfo authenticationInfo, VersionIncrement versionIncrement, Task postDeployTask ) {
         clean();
 
         if ( !isSVNInSync() ) {
@@ -95,12 +95,15 @@ public class BuildScript {
 
         copyVersionFilesToDeployDir();
 
-        boolean ok = preDeployTask.preDeploy();
+        boolean ok = preDeployTask.invoke();
         if ( !ok ) {
             System.out.println( "Pre deploy task failed" );
             return;
         }
         sendSSH( server, authenticationInfo );
+
+        postDeployTask.invoke();
+
         openBrowser( server.getURL( project ) );
 
         System.out.println( "Finished deploy to: " + server.getHost() );
@@ -369,13 +372,39 @@ public class BuildScript {
         deploy( PhetServer.DEVELOPMENT, devAuth, new VersionIncrement.UpdateDev() );
     }
 
-    public void deployProd( final AuthenticationInfo devAuth, AuthenticationInfo prodAuth ) {
-        deploy( new PreDeployTask() {
-            public boolean preDeploy() {
+    public void deployProd( final AuthenticationInfo devAuth, final AuthenticationInfo prodAuth ) {
+        deploy( new Task() {
+            public boolean invoke() {
                 sendSSH( PhetServer.DEVELOPMENT, devAuth );
                 openBrowser( PhetServer.DEVELOPMENT.getURL( project ) );
                 return true;
             }
-        }, PhetServer.PRODUCTION, prodAuth, new VersionIncrement.UpdateProd() );
+        }, PhetServer.PRODUCTION, prodAuth, new VersionIncrement.UpdateProd(), new Task() {
+            public boolean invoke() {
+                System.out.println( "Invoking server side scripts to generate flavor and language JAR files" );
+                generateFlavorAndLanguageJARFiles( PhetServer.PRODUCTION, prodAuth );
+                return true;
+            }
+        } );
+    }
+
+    private void generateFlavorAndLanguageJARFiles( PhetServer server, AuthenticationInfo authenticationInfo ) {
+        SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword() );
+        try {
+            sshConnection.connect();
+            for ( int i = 0; i < project.getFlavorNames().length; i++ ) {
+                String command = "/web/htdocs/phet/cl_utils/update-localized-jars.php " + project.getName() + " " + project.getFlavorNames()[i];
+                System.out.println( "Running command: " + command );
+
+                //todo: make sure this takes place in the right directory, must be executed from /web/htdocs/phet/cl_utils/ 
+//                sshConnection.executeTask( new SshCommand( command ) );
+            }
+        }
+        catch( SshException e ) {
+            e.printStackTrace();
+        }
+        finally {
+            sshConnection.disconnect();
+        }
     }
 }
