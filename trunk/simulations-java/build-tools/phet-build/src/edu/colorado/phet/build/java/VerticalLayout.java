@@ -42,12 +42,7 @@
 
 package edu.colorado.phet.build.java;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Insets;
-import java.awt.LayoutManager;
-import java.awt.Rectangle;
+import java.awt.*;
 
 /**
  * A simple layout manager, which aligns all components in a vertical
@@ -67,7 +62,7 @@ public class VerticalLayout implements LayoutManager {
      * DefaultConstructor.
      */
     public VerticalLayout() {
-        this(true);
+        this( true );
     }
 
     /**
@@ -77,7 +72,7 @@ public class VerticalLayout implements LayoutManager {
      *
      * @param useParent defines, whether the parent's size is used.
      */
-    public VerticalLayout(final boolean useParent) {
+    public VerticalLayout( final boolean useParent ) {
         this.useSizeFromParent = useParent;
     }
 
@@ -88,7 +83,7 @@ public class VerticalLayout implements LayoutManager {
      * @param name the component name
      * @param comp the component to be added
      */
-    public void addLayoutComponent(final String name, final Component comp) {
+    public void addLayoutComponent( final String name, final Component comp ) {
         // ignored
     }
 
@@ -97,7 +92,7 @@ public class VerticalLayout implements LayoutManager {
      *
      * @param comp the component to be removed
      */
-    public void removeLayoutComponent(final Component comp) {
+    public void removeLayoutComponent( final Component comp ) {
         // ignored
     }
 
@@ -109,25 +104,25 @@ public class VerticalLayout implements LayoutManager {
      * @return the preferred layout size
      * @see #minimumLayoutSize
      */
-    public Dimension preferredLayoutSize(final Container parent) {
-        synchronized (parent.getTreeLock()) {
+    public Dimension preferredLayoutSize( final Container parent ) {
+        synchronized( parent.getTreeLock() ) {
             final Insets ins = parent.getInsets();
             final Component[] comps = parent.getComponents();
             int height = ins.top + ins.bottom;
             int width = ins.left + ins.right;
-            for (int i = 0; i < comps.length; i++) {
-                if (comps[i].isVisible() == false) {
+            for ( int i = 0; i < comps.length; i++ ) {
+                if ( comps[i].isVisible() == false ) {
                     continue;
                 }
                 final Dimension pref = comps[i].getPreferredSize();
                 height += pref.height;
-                if (pref.width > width) {
+                if ( pref.width > width ) {
                     width = pref.width;
                 }
             }
 
-            return new Dimension(width + ins.left + ins.right,
-                height + ins.top + ins.bottom);
+            return new Dimension( width + ins.left + ins.right,
+                                  height + ins.top + ins.bottom );
         }
     }
 
@@ -139,24 +134,24 @@ public class VerticalLayout implements LayoutManager {
      * @return the minimul layoutsize
      * @see #preferredLayoutSize
      */
-    public Dimension minimumLayoutSize(final Container parent) {
-        synchronized (parent.getTreeLock()) {
+    public Dimension minimumLayoutSize( final Container parent ) {
+        synchronized( parent.getTreeLock() ) {
             final Insets ins = parent.getInsets();
             final Component[] comps = parent.getComponents();
             int height = ins.top + ins.bottom;
             int width = ins.left + ins.right;
-            for (int i = 0; i < comps.length; i++) {
-                if (comps[i].isVisible() == false) {
+            for ( int i = 0; i < comps.length; i++ ) {
+                if ( comps[i].isVisible() == false ) {
                     continue;
                 }
                 final Dimension min = comps[i].getMinimumSize();
                 height += min.height;
-                if (min.width > width) {
+                if ( min.width > width ) {
                     width = min.width;
                 }
             }
-            return new Dimension(width + ins.left + ins.right,
-                height + ins.top + ins.bottom);
+            return new Dimension( width + ins.left + ins.right,
+                                  height + ins.top + ins.bottom );
         }
     }
 
@@ -175,29 +170,29 @@ public class VerticalLayout implements LayoutManager {
      *
      * @param parent the component which needs to be laid out
      */
-    public void layoutContainer(final Container parent) {
-        synchronized (parent.getTreeLock()) {
+    public void layoutContainer( final Container parent ) {
+        synchronized( parent.getTreeLock() ) {
             final Insets ins = parent.getInsets();
             final int insHorizontal = ins.left + ins.right;
 
             final int width;
-            if (isUseSizeFromParent()) {
+            if ( isUseSizeFromParent() ) {
                 final Rectangle bounds = parent.getBounds();
                 width = bounds.width - insHorizontal;
             }
             else {
-                width = preferredLayoutSize(parent).width - insHorizontal;
+                width = preferredLayoutSize( parent ).width - insHorizontal;
             }
             final Component[] comps = parent.getComponents();
 
             int y = ins.top;
-            for (int i = 0; i < comps.length; i++) {
+            for ( int i = 0; i < comps.length; i++ ) {
                 final Component c = comps[i];
-                if (c.isVisible() == false) {
+                if ( c.isVisible() == false ) {
                     continue;
                 }
                 final Dimension dim = c.getPreferredSize();
-                c.setBounds(ins.left, y, width, dim.height);
+                c.setBounds( ins.left, y, width, dim.height );
                 y += dim.height;
             }
         }
