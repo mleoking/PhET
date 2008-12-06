@@ -40,8 +40,14 @@ public abstract class AlphaDecayCompositeNucleus extends CompositeAtomicNucleus 
 		_startTime = clock.getSimulationTime();
 	}
 
+	/**
+	 * Get the current value for the simulation time at which decay will or
+	 * did occur.
+	 * 
+	 * @return - time of decay, in seconds.
+	 */
 	public double getDecayTime() {
-	    return _alphaDecayTime;
+	    return _alphaDecayTime / 1000;
 	}
 	
 	/**
@@ -53,10 +59,10 @@ public abstract class AlphaDecayCompositeNucleus extends CompositeAtomicNucleus 
 	 */
 	public double getElapsedPreDecayTime(){
 		if (hasDecayed()){
-			return _preDecayLifeTime;
+			return _preDecayLifeTime / 1000;
 		}
 		else{
-			return _clock.getSimulationTime() - _startTime;
+			return (_clock.getSimulationTime() - _startTime) / 1000;
 		}
 	}
 	
