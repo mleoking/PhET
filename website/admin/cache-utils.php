@@ -130,7 +130,9 @@
         }
 
         exec("rm -rf {$dir}");
-        return (!file_exists($dir));
+
+        // Assume success (for now)
+        return true;
     }
 
     function cache_clear_all() {
