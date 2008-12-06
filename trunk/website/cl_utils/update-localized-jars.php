@@ -58,6 +58,62 @@ function verbose_print($msg) {
 }
 
 /**
+ * Append text to a textfile in the specified JAR.  Does it this way:
+ * 1.  Extract the text file from the JAR (if it exists)
+ * 2.  Append the specified text to the file
+ * 3.  Update the jar
+ * 4.  Remove the text file
+ * 
+ * Note:  This is done in the current directory, do not run this command
+ * if there is already a text file in this dir with the same name that
+ * you don't want to overwrite.
+ *
+ * @param string $jar_name filename of the JAR to update
+ * @param string $file_name name if the text file within the JAR
+ * @param string $text the text to add (EOL is NOT added)
+ */
+function jar_append_to_textfile($jar_name, $file_name, $text) {
+    // Extract the options.properties from the JAR
+    verbose_print("   extracting original '{$file_name}' (if it exists)...\n");
+    $command = JAR_EXECUTABLE." xf {$jar_name} {$file_name}";
+    $ret = system($command, $ret_val);
+    if ($ret_val !== 0) {
+        throw new LocalizeExceptioneption("system command '{$command}' failed, return value '{$ret_val}, text '{$ret}'");
+    }
+
+    // Append the locale=language_code to the file
+    verbose_print("   appending text to '{$file_name}'...\n");
+    $fp = fopen($file_name, 'a');
+    if ($fp === false) {
+        throw new LocalizeExceptioneption("cannot create '{$file_name}'");
+    }
+
+    $ret = fwrite($fp, $text);
+    if ($ret === false) {
+        throw new LocalizeExceptioneption("write failed on '{$file_name}'");
+    }
+
+    $ret = fclose($fp);
+    if ($ret === false) {
+        throw new LocalizeExceptioneption("cannot close '{$file_name}'");
+    }
+
+    // Update the {$file_name} in the localized JAR file
+    verbose_print("   updating {$file_name} in the JAR file '{$jar_name}...'\n");
+    $command = JAR_EXECUTABLE." uf {$jar_name} -C . {$file_name}";
+    $ret = system($command, $ret_val);
+    if ($ret_val !== 0) {
+        throw new LocalizeExceptioneption("system command '{$command}' failed, return value '{$ret_val}, text '{$ret}'");
+    }
+
+    // Remove the file
+    $ret = unlink($file_name);
+    if (!$ret) {
+        throw new LocalizeExceptioneption("cannot unlink '{$file_name}'");
+    }
+}
+
+/**
  * Localize the jars in the "project name/dir name" for "flavor name/sim name"
  *
  * @param string $dir_name directory name the sim is in
@@ -137,38 +193,11 @@ function localize_jars($dir_name, $flavor_name, $sims_dir) {
                     throw new LocalizeExceptioneption("cannot copy '{$base_jar}' to '{$localized_jar}' in temp dir '{$tmp_dir}'");
                 }
 
-                // Extract the options.properties from the JAR
-                verbose_print("   extracting original 'options.properties' (if it exists)...\n");
-                $command = JAR_EXECUTABLE." xf {$base_jar} options.properties";
-                $ret = system($command, $ret_val);
-                if ($ret_val !== 0) {
-                    throw new LocalizeExceptioneption("system command '{$command}' failed in temp dir '{$tmp_dir}', return value '{$ret_val}, text '{$ret}'");
-                }
+                // Add a locale to the options.properties file
+                jar_append_to_textfile($localized_jar, 'options.properties', "locale={$regs[1]}\n");
 
-                // Append the locale=language_code to the file
-                verbose_print("   appending 'locale={$regs[1]}' to 'options.properties'...\n");
-                $fp = fopen('options.properties', 'a');
-                if ($fp === false) {
-                    throw new LocalizeExceptioneption("cannot create 'options.properties' in temp dir '{$tmp_dir}'");
-                }
-
-                $ret = fwrite($fp, "locale={$regs[1]}\n");
-                if ($ret === false) {
-                    throw new LocalizeExceptioneption("write failed on 'options.properties' in temp dir '{$tmp_dir}'");
-                }
-
-                $ret = fclose($fp);
-                if ($ret === false) {
-                    throw new LocalizeExceptioneption("cannot close 'options.properties' in temp dir '{$tmp_dir}'");
-                }
-
-                // Update the options.properties in the localized JAR file
-                verbose_print("   updating options.properties in the JAR file '{$localized_jar}...'\n");
-                $command = JAR_EXECUTABLE." uf {$base_jar} -C {$tmp_dir} options.properties";
-                $ret = system($command, $ret_val);
-                if ($ret_val !== 0) {
-                    throw new LocalizeExceptioneption("system command '{$command}' failed in temp dir '{$tmp_dir}', return value '{$ret_val}, text '{$ret}'");
-                }
+                // Add a sim flavor to the 'main-flavor.properties'
+                jar_append_to_textfile($localized_jar, 'main-flavor.properties', "main.flavor={$flavor_name}\n");
 
                 // Put the new localized JAR in the sim directory
                 verbose_print("   copying new jar file to simulation directory...\n");
@@ -179,13 +208,6 @@ function localize_jars($dir_name, $flavor_name, $sims_dir) {
 
                 //
                 // Clean up
-
-                // Remove the temp options.properties file
-                verbose_print("   cleaning up...\n");
-                $ret = unlink('options.properties');
-                if ($ret === false) {
-                    throw new LocalizeExceptioneption("cannot deleted modified options.properties in '$tmp_dir'");
-                }
 
                 // Remove the localized jar
                 $ret = unlink($localized_jar);
