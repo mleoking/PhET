@@ -87,7 +87,9 @@ function localize_jars($dir_name, $flavor_name, $sims_dir) {
         }
 
         // Make sure the base JAR exsits
-        $base_jar = $root_dir.DIRECTORY_SEPARATOR.$flavor_name.'.jar';
+        //Need to use dir-name_all.jar to avoid flavor-name dir-name collisions.
+        //Also, must use dir_name here instead of flavor-name, since that is the jar produced by the deploy process
+        $base_jar = $root_dir.DIRECTORY_SEPARATOR.$dir_name.'_all.jar';
         if (!file_exists($base_jar)) {
             throw new LocalizeExceptioneption("cannot find base JAR file '{$base_jar}'");
         }
