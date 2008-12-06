@@ -451,6 +451,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     				_nonPickableChartNode.addChild(_undecayedNucleusNode);
     			}
     			positionCurrentNucleus();
+    			_timeDisplayNode.setTime(_currentNucleus.getElapsedPreDecayTime());
     		}
     		else{
     			if (_undecayedNucleusNode != null){
@@ -631,8 +632,8 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
 			return;
 		}
 		
-    	double xPos = _graphOriginX + 
-    	    (_currentNucleus.getElapsedPreDecayTime() + TIME_ZERO_OFFSET) * _msToPixelsFactor - _nucleusNodeRadius;
+    	double xPos = _graphOriginX + ((_currentNucleus.getElapsedPreDecayTime() * 1000 + TIME_ZERO_OFFSET) 
+    	        * _msToPixelsFactor) - _nucleusNodeRadius;
     	double yPos = _usableAreaOriginY + ( _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION ) - _nucleusNodeRadius;
 
         _undecayedNucleusNode.setOffset(xPos, yPos);
@@ -646,7 +647,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
 		double xPos, yPos;
 		
 		// Set the X axis position based on the time at which decay occurred.
-    	xPos = _graphOriginX + (nucleusNode.getDecayTime() + TIME_ZERO_OFFSET) * _msToPixelsFactor 
+    	xPos = _graphOriginX + (nucleusNode.getDecayTime() * 1000 + TIME_ZERO_OFFSET) * _msToPixelsFactor 
     	        - _nucleusNodeRadius;
     	
 		if (nucleusNode.getFallCount() != 0){
