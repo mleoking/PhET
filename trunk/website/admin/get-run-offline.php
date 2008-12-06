@@ -24,7 +24,7 @@
     // Log this info
     $datefmt = "y/m/d h:i:s A";
     $log_string = join("\t", array(date($datefmt), time(), $simulation['sim_name'], $language_code, $_SERVER['REMOTE_ADDR']))."\n";
-    log_message('download-java-sim.log', $log_string);
+    log_message('download-sim.log', $log_string);
 
     // Get the filename and content
     $download_data = sim_get_run_offline($simulation, $language_code);
