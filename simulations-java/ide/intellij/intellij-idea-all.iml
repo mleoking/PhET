@@ -85,6 +85,7 @@
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/soluble-salts/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/sound/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/states-of-matter/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations/test-project/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/the-ramp/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/travoltage/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/wave-interference/src" isTestSource="false" />
@@ -1182,6 +1183,15 @@
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/../../build-tools/sun-tools/tools.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations/test-project/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
