@@ -1,0 +1,2 @@
+# 0.01.00 (26619) 12-06-2008
+Testing language and flavor jar generation.
