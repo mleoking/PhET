@@ -9,6 +9,7 @@ public class Sim2Application extends PiccoloPhetApplication {
     public Sim2Application( PhetApplicationConfig config ) {
         super( config );
         addModule( new TestModule( new PhetResources( Sim1Application.PROJECT_NAME ).getLocalizedString( "sim-2.module-name" ) ) );
+        addModule( new TestModule( "Another tab" ) );
     }
 
     public static void main( String[] args ) {
