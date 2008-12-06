@@ -11,7 +11,7 @@ public class Sim1Application extends PiccoloPhetApplication {
     public Sim1Application( PhetApplicationConfig config ) {
         super( config );
         addModule( new TestModule( new PhetResources( PROJECT_NAME ).getLocalizedString( "sim-2.module-name" ) ) );
-        addModule( new TestModule( new PhetResources( PROJECT_NAME ).getLocalizedString( "sim-2.module-name" ) ) );
+        addModule( new TestModule( "Another Tab" ) );
     }
 
     public static void main( String[] args ) {
