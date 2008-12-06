@@ -16,6 +16,13 @@ public class SimpleReport {
             String line = st.nextToken();
 
             report.addLine( line );
+
+            if ( line.indexOf( "3.16" ) >= 0 && line.indexOf( "circuit" ) >= 0 && line.indexOf( "started" ) >= 0 ) {
+                String sub = line.substring( 0, line.indexOf( "session-id" ) );
+                String user_timezone = getValue( line, "user_timezone" );
+                System.out.println( "CCK started at: " + sub + " in " + user_timezone +" by: "+getValue( line, "preferences-file-creation-time_milliseconds"));
+//                System.out.println( line );
+            }
         }
 
         report.report( "preferences-file-creation-time_milliseconds" );
@@ -26,6 +33,17 @@ public class SimpleReport {
         report.report( "os_name" );
         report.report( "java_version" );
 
+    }
+
+    public static String getValue( String line, String key ) {
+        StringTokenizer st = new StringTokenizer( line, "&" );
+        while ( st.hasMoreTokens() ) {
+            String a = st.nextToken();
+            if ( a.startsWith( key ) ) {
+                return a;
+            }
+        }
+        return null;
     }
 
     private void report( String s ) {
