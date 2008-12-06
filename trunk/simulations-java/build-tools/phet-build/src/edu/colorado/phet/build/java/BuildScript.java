@@ -393,11 +393,10 @@ public class BuildScript {
         try {
             sshConnection.connect();
             for ( int i = 0; i < project.getFlavorNames().length; i++ ) {
-                String command = "/web/htdocs/phet/cl_utils/update-localized-jars.php " + project.getName() + " " + project.getFlavorNames()[i];
-                System.out.println( "[todo]: Running command: " + command );
+                String command = "cd /web/htdocs/phet/cl_utils/ ; /web/htdocs/phet/cl_utils/update-localized-jars.php " + project.getName() + " " + project.getFlavorNames()[i];
+                System.out.println( "Running command: " + command );
 
-                //todo: make sure this takes place in the right directory, must be executed from /web/htdocs/phet/cl_utils/ 
-//                sshConnection.executeTask( new SshCommand( command ) );
+                sshConnection.executeTask( new SshCommand( command ) );
             }
         }
         catch( SshException e ) {
