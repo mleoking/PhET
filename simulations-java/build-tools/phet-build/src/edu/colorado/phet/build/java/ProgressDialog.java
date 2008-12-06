@@ -24,5 +24,5 @@ public class ProgressDialog {
 //        Thread thread = new Thread( r2 );
 //        thread.start();
 //    }
-    
+
 }
