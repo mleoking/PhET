@@ -6,7 +6,7 @@
 atomicModelPanel.png author=PhET 
 billiardBallButton.png author=PhET 
 bohrButton.png author=PhET 
-camera.png 
+camera.png author=PhET notes=photo of cmalley's camera
 closeButton.png 
 deBroglieButton.png author=PhET 
 gun.png 
