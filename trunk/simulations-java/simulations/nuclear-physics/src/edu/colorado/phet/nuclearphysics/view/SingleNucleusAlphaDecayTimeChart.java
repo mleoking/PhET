@@ -178,6 +178,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
             };
             
             public void nucleusTypeChanged(){
+            	clearDecayedNuclei();
             	update();
             };
             
@@ -507,8 +508,10 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     			return;
     		}
     		_currentNucleus = null;
-    		_nonPickableChartNode.removeChild(_undecayedNucleusNode);
-    		_undecayedNucleusNode = null;
+    		if (_undecayedNucleusNode != null){
+        		_nonPickableChartNode.removeChild(_undecayedNucleusNode);
+        		_undecayedNucleusNode = null;
+    		}
     	}
 	}
     
