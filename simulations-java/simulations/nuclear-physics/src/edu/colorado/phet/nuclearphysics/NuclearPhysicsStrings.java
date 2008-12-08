@@ -73,6 +73,9 @@ public class NuclearPhysicsStrings {
 
     public static final String RESET_NUCLEUS = NuclearPhysicsResources.getString( "SharedLabels.ResetNucleus" );
     
+    public static final String DECAY_ENERGY_PROFILE_X_AXIS_LABEL = NuclearPhysicsResources.getString( "DecayEnergyProfilePanel.XAxisLabel" );
+    public static final String DECAY_ENERGY_PROFILE_Y_AXIS_LABEL = NuclearPhysicsResources.getString( "DecayEnergyProfilePanel.YAxisLabel" );
+
     public static final String PERCENT_FISSIONED_LABEL = NuclearPhysicsResources.getString( "MultipleNucleusFissionControlPanel.FissionPercentLabel" );
     public static final String CONTAINMENT_VESSEL_CHECK_BOX = NuclearPhysicsResources.getString( "MultipleNucleusFissionControlPanel.ContainmentCheckBox" );
     public static final String MULTI_NUCLEUS_CONTROLS_BORDER = NuclearPhysicsResources.getString( "MultipleNucleusFissionControlPanel.ControlBorder" );

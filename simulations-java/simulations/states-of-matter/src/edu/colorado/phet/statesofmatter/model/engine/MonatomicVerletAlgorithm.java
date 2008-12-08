@@ -162,7 +162,7 @@ public class MonatomicVerletAlgorithm extends AbstractVerletAlgorithm {
                     nextMoleculeForces[j].subtract( force );
                     potentialEnergy += 4*r6inv*(r6inv-1) + 0.016316891136;
                 }
-            }
+            } 
         }
         
         // Calculate the new velocities based on the old ones and the forces

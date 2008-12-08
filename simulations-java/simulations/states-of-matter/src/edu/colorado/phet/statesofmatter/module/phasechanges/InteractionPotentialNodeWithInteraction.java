@@ -74,7 +74,7 @@ public class InteractionPotentialNodeWithInteraction extends InteractionPotentia
                 setLjPotentialParameters( model.getSigma(), model.getEpsilon() );
             }
             public void moleculeTypeChanged() {
-                updateInteractifyState();
+                updateInteractivityState();
                 drawPotentialCurve();
             }
         });
@@ -159,7 +159,7 @@ public class InteractionPotentialNodeWithInteraction extends InteractionPotentia
         });
         
         // Update interactivity state.
-        updateInteractifyState();
+        updateInteractivityState();
     }
 
     //-----------------------------------------------------------------------------
@@ -206,7 +206,7 @@ public class InteractionPotentialNodeWithInteraction extends InteractionPotentia
     // Private Methods
     //-----------------------------------------------------------------------------
 
-    private void updateInteractifyState() {
+    private void updateInteractivityState() {
         if (m_model.getMoleculeType() != StatesOfMatterConstants.USER_DEFINED_MOLECULE){
             m_interactionEnabled = false;
         }
