@@ -19,10 +19,10 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-import edu.colorado.phet.hydrogenatom.HAConstants;
-import edu.colorado.phet.hydrogenatom.HAResources;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -54,7 +54,7 @@ public class CloseButtonNode extends PhetPNode {
     public static class CloseButton extends JButton {
         public CloseButton() {
             super();
-            BufferedImage closeImage = HAResources.getImage( HAConstants.IMAGE_CLOSE_BUTTON );
+            BufferedImage closeImage = PhetCommonResources.getImage( "buttons/closeButton.png" );
             Icon closeIcon = new ImageIcon( closeImage );
             setIcon( closeIcon );
             setOpaque( false );
