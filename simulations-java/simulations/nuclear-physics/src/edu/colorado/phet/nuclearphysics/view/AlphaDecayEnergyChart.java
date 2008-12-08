@@ -61,8 +61,8 @@ public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.L
     private static final float   LEGEND_BORDER_STROKE_WIDTH = 2f;
     private static final Stroke  LEGEND_BORDER_STROKE = new BasicStroke( LEGEND_BORDER_STROKE_WIDTH );
     private static final Color   LEGEND_BACKGROUND_COLOR = BACKGROUND_COLOR;
-    private static final double  LEGEND_WIDTH = 190.0d;
-    private static final double  LEGEND_HEIGHT = 80.0d;
+    private static final double  LEGEND_WIDTH_PROPORTION = 0.27;
+    private static final double  LEGEND_HEIGHT_PROPORTION = 0.5;
     private static final double  ALPHA_PARTICLE_SCALE_FACTOR = 0.075;
     private static final int     MAX_ALPHA_PARTICLES_DISPLAYED = 6;
     private static final double  ARROW_HEAD_HEIGHT = 10;
@@ -106,12 +106,7 @@ public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.L
     private PText _yAxisLabel1;
     private PText _yAxisLabel2;
     private PText _xAxisLabel;
-    private PPath _legend;
-    private PText _legendTitle;
-    private PText _potentialEnergyLabel;
-    private PText _totalEnergyLabel;
-    private PLine _potentialEnergyLegendLine;
-    private PLine _totalEnergyLegendLine;
+    private GraphLegend _legend;
     private PImage _tunneledAlphaParticleImage;
     private PImage [] _alphaParticleImages = new PImage [MAX_ALPHA_PARTICLES_DISPLAYED];
     
@@ -250,38 +245,11 @@ public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.L
         _xAxisLabel = new PText( NuclearPhysicsStrings.POTENTIAL_PROFILE_X_AXIS_LABEL );
         _xAxisLabel.setFont( new PhetFont( Font.PLAIN, 14 ) );
         addChild( _xAxisLabel );
-        
+
         // Create the legend (i.e. key) node for the chart.
-        _legend = new PPath();
-        _legend.setStroke( LEGEND_BORDER_STROKE );
-        _legend.setStrokePaint( LEGEND_BORDER_COLOR );
-        _legend.setPaint( LEGEND_BACKGROUND_COLOR );
-        addChild( _legend );
-        
-        // Add the title to the legend.
-        _legendTitle = new PText( NuclearPhysicsStrings.POTENTIAL_PROFILE_LEGEND_TITLE );
-        _legendTitle.setFont( new PhetFont( Font.BOLD, 16 ) );
-        _legend.addChild( _legendTitle );
-        
-        // Add other text and graphics to the legend.
-        _potentialEnergyLegendLine = new PLine ();
-        _potentialEnergyLegendLine.setStrokePaint( POTENTIAL_ENERGY_LINE_COLOR );
-        _potentialEnergyLegendLine.setStroke( ENERGY_LINE_STROKE );
-        _legend.addChild( _potentialEnergyLegendLine );
-        
-        _potentialEnergyLabel = new PText( NuclearPhysicsStrings.POTENTIAL_PROFILE_POTENTIAL_ENERGY );
-        _potentialEnergyLabel.setFont( new PhetFont( Font.PLAIN, 14 ) );
-        _legend.addChild( _potentialEnergyLabel );
-        
-        _totalEnergyLegendLine = new PLine ();
-        _totalEnergyLegendLine.setStrokePaint( TOTAL_ENERGY_LINE_COLOR );
-        _totalEnergyLegendLine.setStroke( ENERGY_LINE_STROKE );
-        _legend.addChild( _totalEnergyLegendLine );
-        
-        _totalEnergyLabel = new PText( NuclearPhysicsStrings.POTENTIAL_PROFILE_TOTAL_ENERGY );
-        _totalEnergyLabel.setFont( new PhetFont( Font.PLAIN, 14 ) );
-        _legend.addChild( _totalEnergyLabel );
-        
+        _legend = new GraphLegend();
+        addChild(_legend);
+
         // Add the images that will depict alpha particles moving around
         // within the nucleus.
         for (int i = 0; i < MAX_ALPHA_PARTICLES_DISPLAYED; i++){
@@ -431,34 +399,14 @@ public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.L
         _totalEnergyLine.addPoint( 0, _usableAreaOriginX + 3*BORDER_STROKE_WIDTH, totalEnergyLineYPos );
         _totalEnergyLine.addPoint( 1, _usableAreaOriginX + _usableWidth - 3*BORDER_STROKE_WIDTH, totalEnergyLineYPos );
         
-        // Lay out the legend.
-        
-        double legendOriginX = _usableAreaOriginX + _usableWidth * 0.08;
-        double legendOriginY = _usableAreaOriginY + _usableHeight - LEGEND_HEIGHT - (4 * LEGEND_BORDER_STROKE_WIDTH);
-        double legendUsableHeight = LEGEND_HEIGHT - (2 * LEGEND_BORDER_STROKE_WIDTH);
-        _legend.setPathTo( new RoundRectangle2D.Double( 
-                legendOriginX,
-                legendOriginY,
-                LEGEND_WIDTH,
-                LEGEND_HEIGHT,
-                10,
-                10 ) );
-        
-        _legendTitle.setOffset(legendOriginX + 2 * LEGEND_BORDER_STROKE_WIDTH, 
-                legendOriginY + 2 * LEGEND_BORDER_STROKE_WIDTH);
-        
-        _totalEnergyLegendLine.removeAllPoints();        
-        _totalEnergyLegendLine.addPoint( 0, legendOriginX + 15, legendOriginY + legendUsableHeight * 0.55 );
-        _totalEnergyLegendLine.addPoint( 1, legendOriginX + 40, legendOriginY + legendUsableHeight * 0.55 );
-        
-        _totalEnergyLabel.setOffset(legendOriginX + 50, legendOriginY + legendUsableHeight * 0.4);
-        
-        _potentialEnergyLegendLine.removeAllPoints();        
-        _potentialEnergyLegendLine.addPoint( 0, legendOriginX + 15, legendOriginY + legendUsableHeight * 0.8 );
-        _potentialEnergyLegendLine.addPoint( 1, legendOriginX + 40, legendOriginY + legendUsableHeight * 0.8 );
-        
-        _potentialEnergyLabel.setOffset(legendOriginX + 50, legendOriginY + legendUsableHeight * 0.7);
-        
+        // Position the legend.
+        double legendHeight = Math.min(LEGEND_HEIGHT_PROPORTION * _usableHeight,
+        		_usableHeight - _graphOriginY - _xAxisLabel.getFullBounds().height - (4 * LEGEND_BORDER_STROKE_WIDTH));
+        double legendWidth = LEGEND_WIDTH_PROPORTION * _usableWidth;
+        _legend.updateSize(legendWidth, legendHeight);
+        _legend.setOffset(_usableAreaOriginX + _usableWidth * 0.06, 
+        		_usableAreaOriginY + _usableHeight - legendHeight - (4 * LEGEND_BORDER_STROKE_WIDTH));
+
         // Refresh the positions of the alpha particles.
         refreshAlphaImages();
     }
@@ -623,5 +571,85 @@ public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.L
         // clearly understood.  For now, we assume that the visible area of
         // the chart represents 100 units.
         return energy * (_usableHeight / 100.0);
+    }
+    
+    //------------------------------------------------------------------------
+    // Inner Classes
+    //------------------------------------------------------------------------
+    
+    private class GraphLegend extends PNode{
+
+    	private final double ENERGY_LINE_HORIZ_PROPORTION = 0.1;
+    	private final double TOTAL_ENERGY_VERT_PROPORTION = 0.5;
+    	private final double POTENTIAL_ENERGY_VERT_PROPORTION = 0.75;
+    	private final double ENERGY_LINE_LENGTH_PROPORTION = 0.15;
+    	private PPath _background;
+    	private PText _title;
+    	private PLine _potentialEnergyLine;
+    	private PText _potentialEnergyLabel;
+    	private PLine _totalEnergyLine;
+    	private PText _totalEnergyLabel;
+    	
+		public GraphLegend() {
+			
+			// Create the background and main shape.
+			_background = new PPath();
+			_background.setStroke( LEGEND_BORDER_STROKE );
+			_background.setStrokePaint( LEGEND_BORDER_COLOR );
+			_background.setPaint( LEGEND_BACKGROUND_COLOR );
+	        addChild( _background );
+	        
+	        // Add the title.
+	        _title = new PText( NuclearPhysicsStrings.POTENTIAL_PROFILE_LEGEND_TITLE );
+	        _title.setFont( new PhetFont( Font.BOLD, 14 ) );
+	        _background.addChild( _title );
+	        
+	        // Add other text and graphics to the legend.
+	        _potentialEnergyLine = new PLine ();
+	        _potentialEnergyLine.setStrokePaint( POTENTIAL_ENERGY_LINE_COLOR );
+	        _potentialEnergyLine.setStroke( ENERGY_LINE_STROKE );
+	        _background.addChild( _potentialEnergyLine );
+	        
+	        _potentialEnergyLabel = new PText( NuclearPhysicsStrings.POTENTIAL_PROFILE_POTENTIAL_ENERGY );
+	        _potentialEnergyLabel.setFont( new PhetFont( Font.PLAIN, 14 ) );
+	        _background.addChild( _potentialEnergyLabel );
+	        
+	        _totalEnergyLine = new PLine ();
+	        _totalEnergyLine.setStrokePaint( TOTAL_ENERGY_LINE_COLOR );
+	        _totalEnergyLine.setStroke( ENERGY_LINE_STROKE );
+	        _background.addChild( _totalEnergyLine );
+	        
+	        _totalEnergyLabel = new PText( NuclearPhysicsStrings.POTENTIAL_PROFILE_TOTAL_ENERGY );
+	        _totalEnergyLabel.setFont( new PhetFont( Font.PLAIN, 14 ) );
+	        _background.addChild( _totalEnergyLabel );
+		}
+		
+		/**
+		 * Lay out the graph based on its current proportions.
+		 */
+		public void updateSize(double width, double height){
+			
+			_background.setPathTo(new Rectangle2D.Double(0, 0, width, height));
+			
+			_title.setOffset(width / 2 - _title.getFullBoundsReference().width / 2, 2 * LEGEND_BORDER_STROKE_WIDTH);
+	        
+	        double energyLineOriginX = ENERGY_LINE_HORIZ_PROPORTION * width;
+	        double energyLineLength = ENERGY_LINE_LENGTH_PROPORTION * width;
+			_totalEnergyLine.removeAllPoints();        
+			_totalEnergyLine.addPoint( 0, energyLineOriginX, TOTAL_ENERGY_VERT_PROPORTION * height );
+			_totalEnergyLine.addPoint( 1, energyLineOriginX + energyLineLength, TOTAL_ENERGY_VERT_PROPORTION * height );
+	        
+	        _totalEnergyLabel.setOffset(_totalEnergyLine.getFullBounds().getMaxX() + 10, 
+	        		_totalEnergyLine.getFullBounds().getCenterY() - _totalEnergyLabel.getFullBounds().height/2);
+	        
+	        _potentialEnergyLine.removeAllPoints();        
+	        _potentialEnergyLine.addPoint( 0, energyLineOriginX,
+	        		POTENTIAL_ENERGY_VERT_PROPORTION * height );
+	        _potentialEnergyLine.addPoint( 1, energyLineOriginX + energyLineLength, 
+	        		POTENTIAL_ENERGY_VERT_PROPORTION * height );
+	        
+	        _potentialEnergyLabel.setOffset(_potentialEnergyLine.getFullBounds().getMaxX() + 10, 
+	        		_potentialEnergyLine.getFullBounds().getCenterY() - _potentialEnergyLabel.getFullBounds().height/2);
+		}
     }
 }
