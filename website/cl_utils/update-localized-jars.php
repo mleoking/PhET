@@ -81,7 +81,7 @@ function jar_append_to_textfile($jar_name, $file_name, $text) {
         throw new LocalizeExceptioneption("system command '{$command}' failed, return value '{$ret_val}, text '{$ret}'");
     }
 
-    // Append the locale=language_code to the file
+    // Append the text to the file
     verbose_print("   appending text to '{$file_name}'...\n");
     $fp = fopen($file_name, 'a');
     if ($fp === false) {
@@ -173,6 +173,7 @@ function localize_jars($dir_name, $flavor_name, $sims_dir) {
         // Look for files of the form 'flavor_name_XX.jnlp' where XX is the language code
         $jnlp_pattern = "{$flavor_name}_(..).jnlp$";
         $matches = 0;
+        $languages = array('en');
         foreach ($files as $file) {
             $regs = array();
             $match = ereg($jnlp_pattern, $file, $regs);
@@ -181,8 +182,24 @@ function localize_jars($dir_name, $flavor_name, $sims_dir) {
                 // A match has been found, process it
                 ++$matches;
 
+                // Add this to the languages to process
+                $languages[] = $regs[1];
+            }
+        }
+
+        if ($matches == 0) {
+            verbose_print("   No localized versions found\n");
+        }
+        else {
+            foreach ($languages as $lang_code) {
                 // Create the filename for the new jar
-                $localized_jar = "{$flavor_name}_{$regs[1]}.jar";
+                if ($lang_code == 'en') {
+                    // Special case for English, no language code for the JAR
+                    $localized_jar = "{$flavor_name}.jar";
+                }
+                else {
+                    $localized_jar = "{$flavor_name}_{$lang_code}.jar";
+                }
 
                 verbose_print("Processing ".basename($base_jar)." => {$localized_jar}...\n");
 
@@ -194,7 +211,7 @@ function localize_jars($dir_name, $flavor_name, $sims_dir) {
                 }
 
                 // Add a locale to the options.properties file
-                jar_append_to_textfile($localized_jar, 'options.properties', "locale={$regs[1]}\n");
+                jar_append_to_textfile($localized_jar, 'options.properties', "locale={$lang_code}\n");
 
                 // Add a sim flavor to the 'main-flavor.properties'
                 jar_append_to_textfile($localized_jar, 'main-flavor.properties', "main.flavor={$flavor_name}\n");
@@ -220,10 +237,6 @@ function localize_jars($dir_name, $flavor_name, $sims_dir) {
 
                 verbose_print("   Success!\n");
             }
-        }
-
-        if ($matches == 0) {
-            verbose_print("   No localized versions found\n");
         }
 
         verbose_print("   Removing old localized sims that have no JNLP equivalent\n");
@@ -309,7 +322,7 @@ if ((count($args) < 2) || (count($args) > 3)) {
         project_name    name of the project, ex: quantum-wave-interference
         sim_name        name of the simulation, ex: davisson-germer
         root_sims_dir   [optional] where the sims dir can be found,
-                            on tigercat, it defaults to {$sims_dir}
+                          default: {$sims_dir}
 
     Special Notes:
     1.  Giving a project_name and sim_name of 'all' will process every
