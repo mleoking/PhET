@@ -112,8 +112,9 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     private PText _xAxisLabel;
     private PText _yAxisLabel1;
     private PText _yAxisLabel2;
-    private TimeDisplayNode _timeDisplayNode;
+    private TimeDisplayNode _timeDisplay;
     private PText _decayTimeLabel;
+    private ExponentialTimeLineNode _exponentialTimeLine;
 
     // Parent node that will be non-pickable and will contain all of the
     // non-interactive portions of the chart.
@@ -296,12 +297,17 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
         _nonPickableChartNode.addChild( _yAxisLabel2 );
 
         // Add the display of the decay time.
-        _timeDisplayNode = new TimeDisplayNode();
-        _timeDisplayNode.setTime(0);
-        _nonPickableChartNode.addChild(_timeDisplayNode);
+        _timeDisplay = new TimeDisplayNode();
+        _timeDisplay.setTime(0);
+        _nonPickableChartNode.addChild(_timeDisplay);
         _decayTimeLabel = new PText( NuclearPhysicsStrings.DECAY_TIME_LABEL );
         _decayTimeLabel.setFont( SMALL_LABEL_FONT );
         _nonPickableChartNode.addChild( _decayTimeLabel );
+        
+        // Add the exponential time line, which is only displayed when the
+        // chart needs to depict exponential time.
+        _exponentialTimeLine = new ExponentialTimeLineNode();
+        _nonPickableChartNode.addChild(_exponentialTimeLine);
 
         // Create the line that will illustrate where the half life is.
         _halfLifeMarkerLine = new PPath();
@@ -378,9 +384,6 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
         _borderNode.setPathTo( new RoundRectangle2D.Double( _usableAreaOriginX, _usableAreaOriginY, _usableWidth, _usableHeight, 20, 20 ) );
 
         // Position the x and y axes.
-//        _xAxisOfGraph.setTipAndTailLocations( 
-//        		new Point2D.Double( _graphOriginX + ( TIME_SPAN * _msToPixelsFactor ) + 10, _graphOriginY ), 
-//        		new Point2D.Double( _graphOriginX, _graphOriginY ) );
         _xAxisOfGraph.setTipAndTailLocations( 
         		new Point2D.Double( _usableAreaOriginX + _usableWidth - 10, _graphOriginY ), 
         		new Point2D.Double( _graphOriginX, _graphOriginY ) );
@@ -442,10 +445,18 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
         _yAxisLabel1.setOffset( _yAxisLabel2.getOffset().getX() - ( 1.1 * _yAxisLabel2.getFont().getSize() ),
         		yAxisLabelCenter + (_yAxisLabel1.getFullBounds().height / 2) );
         
+        // Update the exponential time line, including whether or not it is
+        // visible.
+        _exponentialTimeLine.setVisible(_exponentialMode);
+        _exponentialTimeLine.setSize(_usableWidth - _graphOriginX - (TIME_ZERO_OFFSET * _msToPixelsFactor) - 5,
+        		_usableHeight * 0.3);
+        _exponentialTimeLine.setOffset(_graphOriginX + (TIME_ZERO_OFFSET * _msToPixelsFactor), 
+        		_graphOriginY - _exponentialTimeLine.getFullBounds().height * 1.2);
+        
         // Position the time display.
-        _timeDisplayNode.setSize(_usableWidth * 0.15, _usableHeight * 0.35);
-        _timeDisplayNode.setOffset( _usableAreaOriginX + _usableWidth * 0.03, _usableAreaOriginY + _usableHeight * 0.1);
-        PBounds _timeDisplayBounds = _timeDisplayNode.getFullBoundsReference();
+        _timeDisplay.setSize(_usableWidth * 0.15, _usableHeight * 0.35);
+        _timeDisplay.setOffset( _usableAreaOriginX + _usableWidth * 0.03, _usableAreaOriginY + _usableHeight * 0.1);
+        PBounds _timeDisplayBounds = _timeDisplay.getFullBoundsReference();
         _decayTimeLabel.setOffset(_timeDisplayBounds.getCenterX() - _decayTimeLabel.getFullBoundsReference().width / 2,
         		_timeDisplayBounds.getMaxY());
         
@@ -471,6 +482,19 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     public void componentResized( Rectangle2D rect ) {
         updateBounds( rect );
     }
+    
+    /**
+     * 
+     */
+    private void drawExponentialTimeLine(){
+    	
+    	double timeLineLengthInPixels = _usableWidth - _graphOriginX;
+    	
+    	// TODO: Totally temporary: Draw a rectangle and stick it on the graph.
+    	PPath tempRect = new PPath(new Rectangle2D.Double(0, 0, timeLineLengthInPixels, _usableHeight * 0.3));
+    	tempRect.setOffset(_graphOriginX, _graphOriginY - tempRect.getFullBounds().height * 1.5 );
+    	_nonPickableChartNode.addChild(tempRect);
+    }
 
     /**
      * Update the chart by moving the active nuclei or any other time-
@@ -489,7 +513,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     				_nonPickableChartNode.addChild(_undecayedNucleusNode);
     			}
     			positionCurrentNucleus();
-    			_timeDisplayNode.setTime(_currentNucleus.getElapsedPreDecayTime());
+    			_timeDisplay.setTime(_currentNucleus.getElapsedPreDecayTime());
     		}
     		else{
     			if (_undecayedNucleusNode != null){
@@ -819,5 +843,19 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
 		protected void setDecayTime(double time) {
 			_decayTime = time;
 		}
+    }
+    
+    private class ExponentialTimeLineNode extends PNode {
+    	
+    	private PPath _timeLineShape;
+    	
+    	public ExponentialTimeLineNode(){
+    		_timeLineShape = new PPath();
+    		addChild(_timeLineShape);
+    	}
+    	
+    	public void setSize(double width, double height){
+    		_timeLineShape.setPathToRectangle(0, 0, (float)width, (float)height);
+    	}
     }
 }
