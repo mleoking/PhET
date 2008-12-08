@@ -29,6 +29,7 @@ import edu.colorado.phet.nuclearphysics.model.AlphaDecayCompositeNucleus;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.singlenucleus.SingleNucleusAlphaDecayModel;
 import edu.colorado.phet.nuclearphysics.util.PhetButtonNode;
+import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -73,7 +74,8 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     private static final Font   HALF_LIFE_FONT = new PhetFont( Font.BOLD, 16 );
 
     // Constants that control the location of the origin.
-    private static final double X_ORIGIN_PROPORTION = 0.27;
+    private static final double X_ORIGIN_PROPORTION_NORMAL_MODE = 0.27;
+    private static final double X_ORIGIN_PROPORTION_EXPONENTIAL_MODE = 0.20;
     private static final double Y_ORIGIN_PROPORTION = 0.65;
 
     // Tweakable values that can be used to adjust where the nuclei appear on
@@ -93,7 +95,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     // Reference to the model containing the nuclei that are being plotted.
     SingleNucleusAlphaDecayModel _model;
     
-    // Variable for tracking information about the nuclei.
+    // Variables for tracking information about the nuclei.
     AlphaDecayCompositeNucleus _currentNucleus;
     EnhancedLabeledNucleusNode _undecayedNucleusNode;
     ArrayList _decayedNucleusNodes = new ArrayList();
@@ -136,12 +138,14 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     // TODO: JPB TBD - Do we really listen to this for resets?  Update comment if not.
     ConstantDtClock _clock;
 
-    // Flag for tracking if chart is cleared.
-    boolean _chartCleared = false;
-
     // Button for resetting this chart.
     PhetButtonNode _resetButtonNode;
     
+    // Miscellaneous other variables for controlling chart appearance and
+    // behavior.
+    boolean _chartCleared = false;
+    boolean _exponentialMode = false;
+
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
@@ -151,6 +155,13 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
         _clock = model.getClock();
         _model = model;
 
+        if (_model.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
+        	_exponentialMode = true;
+        }
+        else{
+        	_exponentialMode = false;
+        }
+        
         // Register as a clock listener.
         _clock.addClockListener( new ClockAdapter() {
 
@@ -179,6 +190,12 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
             
             public void nucleusTypeChanged(){
             	clearDecayedNuclei();
+            	if (_model.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
+            		_exponentialMode = true;
+            	}
+            	else{
+            		_exponentialMode = false;
+            	}
             	update();
             };
             
@@ -331,10 +348,6 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
         _usableWidth = rect.getWidth() - ( BORDER_STROKE_WIDTH * 2 );
         _usableHeight = rect.getHeight() - ( BORDER_STROKE_WIDTH * 2 );
 
-        // Decide where the origin is located.
-        _graphOriginX = _usableAreaOriginX + ( X_ORIGIN_PROPORTION * _usableWidth );
-        _graphOriginY = _usableAreaOriginY + ( Y_ORIGIN_PROPORTION * _usableHeight );
-
         // Update the multiplier used for converting from pixels to
         // milliseconds.  Use the multiplier to tweak the span of the x axis.
         _msToPixelsFactor = 0.70 * _usableWidth / TIME_SPAN;
@@ -352,6 +365,15 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
      */
     private void update() {
     	
+        // Decide where the origin is located.
+        if (_exponentialMode){
+            _graphOriginX = _usableAreaOriginX + ( X_ORIGIN_PROPORTION_EXPONENTIAL_MODE * _usableWidth );
+        }
+        else{
+            _graphOriginX = _usableAreaOriginX + ( X_ORIGIN_PROPORTION_NORMAL_MODE * _usableWidth );
+        }
+        _graphOriginY = _usableAreaOriginY + ( Y_ORIGIN_PROPORTION * _usableHeight );
+
         // Set up the border for the chart.
         _borderNode.setPathTo( new RoundRectangle2D.Double( _usableAreaOriginX, _usableAreaOriginY, _usableWidth, _usableHeight, 20, 20 ) );
 
@@ -375,6 +397,15 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
             tickMarkLabel.setOffset( tickMarkLabelPosX, _graphOriginY );
         }
 
+        // Set the visibility of the Y axis markers based on the chart mode.
+        // These will be positioned anyway later.
+       	for (int i = 0; i < _yAxisTickMarks.size(); i++){
+           	((PNode)_yAxisTickMarks.get(i)).setVisible(!_exponentialMode);
+           	((PNode)_yAxisTickMarkLabels.get(i)).setVisible(!_exponentialMode);
+       	}
+       	_yAxisLabel1.setVisible(!_exponentialMode);
+       	_yAxisLabel2.setVisible(!_exponentialMode);
+        
         // Position the tick marks and their labels on the Y axis.
         double preDecayPosY = _usableAreaOriginY + ( _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION );
         double postDecayPosY = _usableAreaOriginY + ( _usableHeight * POST_DECAY_TIME_LINE_POS_FRACTION );
