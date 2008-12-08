@@ -51,6 +51,9 @@
         "bo" => "Tibetan",
         "br" => "Breton",
         "bs" => "Bosnian",
+        // Temporary invalid language code to work around lack of locale support
+        // we should have "pt_BR" and "pt_PT" ("Portugese Brazil" and "Portugese Portugal" respectively)
+        "bp" => "Brazilian Portuguese",
         "ca" => "Catalan",
         "ce" => "Chechen",
         "ch" => "Chamorro",
@@ -288,7 +291,6 @@
         foreach ($LANGUAGE_CODE_TO_LANGUAGE_NAME as $code => $name) {
             if (strtolower($name) == strtolower($language_name)) {
                 $language_code = $code;
-
                 break;
             }
         }
@@ -297,8 +299,7 @@
             return false;
         }
 
-        $icon_name = strtolower($language_name).'-'.strtolower($language_code).'.png';
-
+        $icon_name = str_replace(' ', '_', strtolower($language_name)).'-'.strtolower($language_code).'.png';
         $icon_location = SITE_ROOT."images/languages/$icon_name";
 
         if ($is_vertical) {
