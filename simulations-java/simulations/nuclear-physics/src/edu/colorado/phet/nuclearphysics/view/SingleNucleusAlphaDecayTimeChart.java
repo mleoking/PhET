@@ -378,13 +378,16 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
         _borderNode.setPathTo( new RoundRectangle2D.Double( _usableAreaOriginX, _usableAreaOriginY, _usableWidth, _usableHeight, 20, 20 ) );
 
         // Position the x and y axes.
+//        _xAxisOfGraph.setTipAndTailLocations( 
+//        		new Point2D.Double( _graphOriginX + ( TIME_SPAN * _msToPixelsFactor ) + 10, _graphOriginY ), 
+//        		new Point2D.Double( _graphOriginX, _graphOriginY ) );
         _xAxisOfGraph.setTipAndTailLocations( 
-        		new Point2D.Double( _graphOriginX + ( TIME_SPAN * _msToPixelsFactor ) + 10, _graphOriginY ), 
+        		new Point2D.Double( _usableAreaOriginX + _usableWidth - 10, _graphOriginY ), 
         		new Point2D.Double( _graphOriginX, _graphOriginY ) );
 
         // Position the tick marks and their labels on the X axis.
         for ( int i = 0; i < _xAxisTickMarks.size(); i++ ) {
-
+        	
             // Position the tick mark itself.
             PPath tickMark = (PPath) _xAxisTickMarks.get( i );
             double tickMarkPosX = _graphOriginX + (TIME_ZERO_OFFSET * _msToPixelsFactor) 
@@ -395,10 +398,13 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
             PText tickMarkLabel = (PText) _xAxisTickMarkLabels.get( i );
             double tickMarkLabelPosX = tickMarkPosX - ( tickMarkLabel.getWidth() / 2 );
             tickMarkLabel.setOffset( tickMarkLabelPosX, _graphOriginY );
+            
+            // Set the visibility.
+            tickMark.setVisible(!_exponentialMode);
+            tickMarkLabel.setVisible(!_exponentialMode);
         }
 
-        // Set the visibility of the Y axis markers based on the chart mode.
-        // These will be positioned anyway later.
+        // Set the visibility of the axis markers based on the chart mode.
        	for (int i = 0; i < _yAxisTickMarks.size(); i++){
            	((PNode)_yAxisTickMarks.get(i)).setVisible(!_exponentialMode);
            	((PNode)_yAxisTickMarkLabels.get(i)).setVisible(!_exponentialMode);
