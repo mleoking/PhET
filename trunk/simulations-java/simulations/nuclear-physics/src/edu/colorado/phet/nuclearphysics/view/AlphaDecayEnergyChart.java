@@ -19,7 +19,6 @@ import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
-import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.singlenucleus.SingleNucleusAlphaDecayModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -103,8 +102,7 @@ public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.L
     private PPath _potentialEnergyLine;
     private DoubleArrowNode _xAxisOfGraph;
     private ArrowNode _yAxisOfGraph;
-    private PText _yAxisLabel1;
-    private PText _yAxisLabel2;
+    private PText _yAxisLabel;
     private PText _xAxisLabel;
     private GraphLegend _legend;
     private PImage _tunneledAlphaParticleImage;
@@ -228,21 +226,13 @@ public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.L
         
         // Add the text for the Y axis.
 
-         _yAxisLabel1 = new PText( NuclearPhysicsStrings.POTENTIAL_PROFILE_Y_AXIS_LABEL_1 );
-         _yAxisLabel1.setFont( new PhetFont( Font.PLAIN, 14 ) );
-         _yAxisLabel1.rotate( 1.5 * Math.PI );
-         // TODO: - This label was removed in May 2008 after some discussion that arose
-         // during a review meeting.  If no one has requested that it be added back by
-         // May 2009, we can remove it permanently from the code.
-         // addChild( _yAxisLabel1 );
-         
-         _yAxisLabel2 = new PText( NuclearPhysicsStrings.POTENTIAL_PROFILE_Y_AXIS_LABEL_2 );
-         _yAxisLabel2.setFont( new PhetFont( Font.PLAIN, 14 ) );
-         _yAxisLabel2.rotate( 1.5 * Math.PI );
-         addChild( _yAxisLabel2 );
+         _yAxisLabel = new PText( NuclearPhysicsStrings.POTENTIAL_PROFILE_Y_AXIS_LABEL_2 );
+         _yAxisLabel.setFont( new PhetFont( Font.PLAIN, 14 ) );
+         _yAxisLabel.rotate( 1.5 * Math.PI );
+         addChild( _yAxisLabel );
          
         // Add the text for the X axis.
-        _xAxisLabel = new PText( NuclearPhysicsStrings.POTENTIAL_PROFILE_X_AXIS_LABEL );
+        _xAxisLabel = new PText( NuclearPhysicsStrings.DECAY_ENERGY_PROFILE_X_AXIS_LABEL );
         _xAxisLabel.setFont( new PhetFont( Font.PLAIN, 14 ) );
         addChild( _xAxisLabel );
 
@@ -344,13 +334,10 @@ public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.L
         
         // Position the labels for the axes.
         
-        _yAxisLabel1.setOffset( _graphOriginX - (2.5 * _yAxisLabel1.getFont().getSize()), 
-                _graphOriginY + (0.5 * (yAxisTipPt.getY() - _graphOriginY + _yAxisLabel1.getWidth())));
+        _yAxisLabel.setOffset( _graphOriginX - (1.5 * _yAxisLabel.getFont().getSize()), 
+                _graphOriginY + (0.5 * (yAxisTipPt.getY() - _graphOriginY + _yAxisLabel.getWidth())));
 
-        _yAxisLabel2.setOffset( _graphOriginX - (1.5 * _yAxisLabel2.getFont().getSize()), 
-                _graphOriginY + (0.5 * (yAxisTipPt.getY() - _graphOriginY + _yAxisLabel2.getWidth())));
-
-        _xAxisLabel.setOffset( _graphOriginX + 5, _graphOriginY + 3);
+        _xAxisLabel.setOffset( _graphOriginX + 15, _graphOriginY + 3);
 
         
         // Position the curve that represents the potential energy.
