@@ -4,7 +4,7 @@
 ###################################
 
 closeButton.png author=cmalley 
-explanation.jpg notes=from mckagan 
+explanation.jpg source=Sam McKagan author=Sam McKagan license=all rights assigned to PhET, see Unfuddle 1011
 kaboom.png author=cmalley notes=created using AMR Graphics Explosion Action for Photoshop, http://www.amrgraphics.com/
 magnifyingGlass.png author=cmalley notes=created using Fireworks 
 molecule0_part1.png author=cmalley notes=created using Fireworks
