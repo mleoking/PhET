@@ -5,6 +5,7 @@ package edu.colorado.phet.nuclearphysics.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GradientPaint;
 import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,6 +23,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
@@ -29,7 +31,6 @@ import edu.colorado.phet.nuclearphysics.model.AlphaDecayCompositeNucleus;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.singlenucleus.SingleNucleusAlphaDecayModel;
 import edu.colorado.phet.nuclearphysics.util.PhetButtonNode;
-import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -72,6 +73,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     private static final Color  HALF_LIFE_LINE_COLOR = new Color (0x990000);
     private static final Color  HALF_LIFE_TEXT_COLOR = HALF_LIFE_LINE_COLOR;
     private static final Font   HALF_LIFE_FONT = new PhetFont( Font.BOLD, 16 );
+	private static final Color TIME_LINE_BASE_COLOR = Color.BLUE;
 
     // Constants that control the location of the origin.
     private static final double X_ORIGIN_PROPORTION_NORMAL_MODE = 0.27;
@@ -448,8 +450,8 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
         // Update the exponential time line, including whether or not it is
         // visible.
         _exponentialTimeLine.setVisible(_exponentialMode);
-        _exponentialTimeLine.setSize(_usableWidth - _graphOriginX - (TIME_ZERO_OFFSET * _msToPixelsFactor) - 5,
-        		_usableHeight * 0.3);
+        _exponentialTimeLine.setSize((int)(_usableWidth - _graphOriginX - (TIME_ZERO_OFFSET * _msToPixelsFactor) - 5),
+        		(int)(_usableHeight * 0.3));
         _exponentialTimeLine.setOffset(_graphOriginX + (TIME_ZERO_OFFSET * _msToPixelsFactor), 
         		_graphOriginY - _exponentialTimeLine.getFullBounds().height * 1.2);
         
@@ -845,17 +847,145 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
 		}
     }
     
+    /**
+     * This class represents the exponential time line on which time increases
+     * exponentially from left to right.
+     * 
+     * @author John Blanco
+     */
     private class ExponentialTimeLineNode extends PNode {
     	
-    	private PPath _timeLineShape;
-    	
+    	private static final double EXPONENTIAL_TIME_LINE_LENGTH = 3.2e16;  // Roughly a billion years in seconds. 
+    	private static final double LINE_HEIGHT_PROPORTION = 0.5; // Height of time line as a function of overall
+    	                                                          // height of the node.
+    	private static final boolean SHOW_OUTLINE = false; // TODO: Remove when fully debugged. 
+
+    	private PPath _outline;
+    	private double _conversionMultiplier;
+    	private int _width = 0;
+    	private int _height = 0;
+    	private ArrayList _timeLineSections = new ArrayList();
+//    	private double [] _timeLineSectionValues = {1e2, 1e4, 1e6, 1e8, 1e10, 1e12, 1e14, 1e16};  
+    	private double [] _timeLineSectionValues = {60        /* seconds in a minute */,
+    			                                    3600,     /* seconds in an hour */
+    			                                    86400,    /* seconds in a day */
+    			                                    31.6e6,   /* seconds in a year */
+    			                                    3.16e10,   /* seconds in a millenium */
+    			                                    3.16e13,   /* seconds in a million years */
+    			                                    EXPONENTIAL_TIME_LINE_LENGTH
+    			                                    };
+    	private ArrayList _sectionLabels = new ArrayList();
+
+    	/**
+    	 * Constructor.
+    	 */
     	public ExponentialTimeLineNode(){
-    		_timeLineShape = new PPath();
-    		addChild(_timeLineShape);
+    		_outline = new PPath();
+    		_outline.setStrokePaint(Color.RED);
+    		_outline.setVisible(SHOW_OUTLINE);
+    		addChild(_outline);
+    		
+    		// Create the sections that will comprise the time line.
+    		for (int i = 0; i < _timeLineSectionValues.length; i++){
+    			PhetPPath section = new PhetPPath();
+    			addChild(section);
+    			_timeLineSections.add(section);
+    		}
+    		
+    		// Create the labels for the sections.
+    		// TODO: Move these into resource file once finalized.
+    		PText label = new PText();
+    		label.setText("Seconds");
+    		label.setFont(SMALL_LABEL_FONT);
+    		_sectionLabels.add(label);
+			addChild(label);
+    		label = new PText();
+    		label.setText("Minutes");
+    		label.setFont(SMALL_LABEL_FONT);
+    		_sectionLabels.add(label);
+			addChild(label);
+    		label = new PText();
+    		label.setText("Hours");
+    		label.setFont(SMALL_LABEL_FONT);
+    		_sectionLabels.add(label);
+			addChild(label);
+    		label = new PText();
+    		label.setText("Days");
+    		label.setFont(SMALL_LABEL_FONT);
+    		_sectionLabels.add(label);
+			addChild(label);
+    		label = new PText();
+    		label.setText("Years");
+    		label.setFont(SMALL_LABEL_FONT);
+    		_sectionLabels.add(label);
+			addChild(label);
+    		label = new PText();
+    		label.setText("Million Yrs");
+    		label.setFont(SMALL_LABEL_FONT);
+    		_sectionLabels.add(label);
+			addChild(label);
+    		label = new PText();
+    		label.setText("Billion Yrs");
+    		label.setFont(SMALL_LABEL_FONT);
+    		_sectionLabels.add(label);
+			addChild(label);
     	}
     	
-    	public void setSize(double width, double height){
-    		_timeLineShape.setPathToRectangle(0, 0, (float)width, (float)height);
+    	public void setSize(int width, int height){
+    		_width = width;
+    		_height = height;
+    		if ((width < 0 || (height < 0))){
+    			// Non-usable values - ignore request.
+    			return;
+    		}
+    		
+    		// Set the conversion multiplier, which is used to map time values
+    		// to positions on the time line.
+    		_conversionMultiplier = (double)width/Math.log(EXPONENTIAL_TIME_LINE_LENGTH);
+    		
+    		// Figure out how labels should be scaled to fit in alloted space.
+    		// This only handles the vertical dimension.
+    		double desiredHeight = height * (1 - LINE_HEIGHT_PROPORTION);
+    		PText exampleLabel = (PText)_sectionLabels.get(0);
+    		exampleLabel.setScale(1);
+    		double labelScaleFactor = desiredHeight / exampleLabel.getHeight();
+    		
+    		// Set the shape for each section of the overall time line.
+    		_outline.setPathToRectangle(0, 0, (float)width, (float)height);
+    		for (int i = 0; i < _timeLineSections.size(); i++){
+    			PhetPPath section = (PhetPPath)_timeLineSections.get(i);
+    			float sectionXPos, sectionYPos, sectionWidth, sectionHeight;
+    			if (i == 0){
+    				sectionXPos = 0;
+    			}
+    			else{
+    				sectionXPos = (float)((PhetPPath)_timeLineSections.get(i - 1)).getFullBounds().getMaxX();
+    			}
+    			sectionYPos = (float)(height * (1 - LINE_HEIGHT_PROPORTION));
+    			sectionWidth = (float)(mapTimeToPixels(_timeLineSectionValues[i]) - sectionXPos);
+    			sectionHeight = (float)(_height * LINE_HEIGHT_PROPORTION);
+    			section.setPathToRectangle(sectionXPos, sectionYPos, sectionWidth, sectionHeight);
+    			section.setPaint(new GradientPaint(sectionXPos, sectionYPos, Color.WHITE, sectionXPos + sectionWidth,
+    					sectionYPos + sectionHeight, TIME_LINE_BASE_COLOR));
+    			
+    			// Position the label for this section.
+    			if (_sectionLabels.size() > i){
+    				PText label = (PText)_sectionLabels.get(i);
+    				label.setScale(1);
+    				label.setScale(labelScaleFactor);
+    				label.setOffset(sectionXPos + 4, section.getFullBounds().getMinY() - label.getFullBounds().height);
+    			}
+    		}
+    	}
+    
+    	/**
+    	 * Convert a time value into a position in pixels along the time line.
+    	 * 
+    	 * @param timeInSeconds - Time to convert to position.
+    	 * @return position in pixels along the time line.
+    	 */
+    	private int mapTimeToPixels(double timeInSeconds){
+    		return Math.min((int)Math.round(_conversionMultiplier * Math.log(timeInSeconds)), _width);
     	}
     }
 }

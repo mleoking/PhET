@@ -10,8 +10,8 @@ Larger Daughter Nucleus.png author=PhET
 Lead Nucleus Small.png author=PhET 
 Mesh Gradient Button Pushed.png author=PhET 
 Mesh Gradient Button Unpushed.png author=PhET 
-mushroom_cloud.jpg 
-neutron-gun.png 
+mushroom_cloud.jpg source=Unknown author=unknown
+neutron-gun.png source=Unknown author=unknown
 Polonium Nucleus Small.png author=PhET 
 Smaller Daughter Nucleus.png author=PhET 
 Uranium Nucleus Small.png author=PhET 
