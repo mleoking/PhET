@@ -11,10 +11,10 @@
     // Get the pertenant information
     if ((isset($_GET['project']) && (!empty($_GET['project']))) &&
         (isset($_GET['sim']) && (!empty($_GET['sim']))) &&
-        (isset($_GET['locale']) && (!empty($_GET['locale'])))) {
+        (isset($_GET['language']) && (!empty($_GET['language'])))) {
         $dirname = $_GET['project'];
         $flavorname = $_GET['sim'];
-        $language_code = $_GET['locale'];
+        $language_code = $_GET['language'];
     }
     else {
         $error = "Error: Missing required information in the query string.\n";
@@ -33,7 +33,7 @@
     // Get the filename and content
     $download_data = sim_get_run_offline($simulation, $language_code);
     if (!$download_data) {
-        $error = "Error: Simulation jar or locale not found.\n";
+        $error = "Error: Simulation jar or language not found.\n";
         send_file_to_browser('error.txt', $error, null, "attachment");
         exit;
     }
