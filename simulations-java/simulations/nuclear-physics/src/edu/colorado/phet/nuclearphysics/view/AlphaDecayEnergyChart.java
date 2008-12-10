@@ -18,9 +18,12 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResizeArrowNode;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.singlenucleus.SingleNucleusAlphaDecayModel;
+import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -151,6 +154,9 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
     private double _potentialEnergyMinimum;
     private double _energyWellBottom;
     
+    // Variable the tracks whether interactivity is enabled.
+    private boolean _interactivityEnabled = false;
+    
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
@@ -170,6 +176,19 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
         _potentialEnergyMinimum = INITIAL_MINIUMIM_POTENTIAL_ENERGY;
         _potentialEnergyPeak = INITIAL_PEAK_POTENTIAL_ENERGY;
         _energyWellBottom = PRE_DECAY_ENERGY_WELL_BOTTOM;
+        
+        // Register for significant events from the model.
+        _model.addListener(new AlphaDecayAdapter(){
+        	public void nucleusTypeChanged(){
+        		if (_model.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
+        			_interactivityEnabled = true;
+        		}
+        		else{
+        			_interactivityEnabled = false;
+        		}
+        		update();
+        	}
+        });
 
         /*
          * TODO: The part below needs to be redone so that we can handle the
@@ -530,6 +549,12 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
         _totalEnergyHandle.setScale(1);
         _totalEnergyHandle.setScale(desiredHandleHeight / _totalEnergyHandle.getFullBounds().height);
         _totalEnergyHandle.setOffset(_usableAreaOriginX + _usableWidth * 0.95, totalEnergyLineYPos);
+        
+        // Update the visibility state of the interactivity controls based on
+        // whether or not interactivity is currently enabled.
+        _totalEnergyHandle.setVisible(_interactivityEnabled);
+        _potentialEnergyPeakHandle.setVisible(_interactivityEnabled);
+        _potentialEnergyPeakRefLine.setVisible(_interactivityEnabled);
 	}
     
     /**
