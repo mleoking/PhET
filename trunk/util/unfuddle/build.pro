@@ -1,7 +1,7 @@
--injars 'C:\reid\phet\svn\trunk\util\unfuddle\dist\unfuddle-email.jar';contrib/ant/ant.jar;contrib/jaf/activation.jar;contrib/javamail/dsn.jar;contrib/javamail/imap.jar;contrib/javamail/mailapi.jar;contrib/javamail/pop3.jar;contrib/javamail/smtp.jar
--outjars 'C:\reid\phet\svn\trunk\util\unfuddle\dist\unfuddle-email-pro.jar'
+-injars dist/unfuddle-email.jar:contrib/ant/ant.jar:contrib/jaf/activation.jar:contrib/javamail/dsn.jar:contrib/javamail/imap.jar:contrib/javamail/mailapi.jar:contrib/javamail/pop3.jar:contrib/javamail/smtp.jar
+-outjars dist/unfuddle-email-pro.jar
 
--libraryjars 'C:\Program Files\Java\jre6\lib\rt.jar'
+-libraryjars '/usr/lib/jvm/java-6-sun-1.6.0.10/jre/lib/rt.jar'
 
 -dontshrink
 -dontoptimize
