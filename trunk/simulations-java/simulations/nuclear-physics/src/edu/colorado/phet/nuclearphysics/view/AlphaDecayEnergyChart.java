@@ -186,6 +186,9 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
         		}
         		else{
         			_interactivityEnabled = false;
+        			_potentialEnergyPeak = INITIAL_PEAK_POTENTIAL_ENERGY;
+        			_potentialEnergyMinimum = INITIAL_MINIUMIM_POTENTIAL_ENERGY;
+        			_totalEnergy = INITIAL_TOTAL_ENERGY;
         		}
         		update();
         	}
