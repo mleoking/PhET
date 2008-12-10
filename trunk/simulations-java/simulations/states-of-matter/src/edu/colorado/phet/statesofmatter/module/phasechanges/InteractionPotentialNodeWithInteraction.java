@@ -41,6 +41,8 @@ public class InteractionPotentialNodeWithInteraction extends InteractionPotentia
             BasicStroke.JOIN_MITER, 10, EPSILON_LINE_DASH_PATTERN, 0 );
     private static final Color EPSILON_LINE_COLOR = Color.RED; 
     private static final double SIGMA_HANDLE_OFFSET_PROPORTION = 0.08;   // Position of handle as function of node width.
+    private static final Color RESIZE_HANDLE_NORMAL_COLOR = new Color (51, 204, 51);
+    private static final Color RESIZE_HANDLE_HIGHLIGHTED_COLOR = new Color(153, 255, 0);
     
     //-----------------------------------------------------------------------------
     // Instance Data
@@ -88,7 +90,8 @@ public class InteractionPotentialNodeWithInteraction extends InteractionPotentia
         
         // Add the arrow nodes that will allow the user to control the
         // parameters of the LJ potential.
-        m_epsilonResizeHandle = new ResizeArrowNode(RESIZE_HANDLE_SIZE_PROPORTION * m_width, Math.PI/2);
+        m_epsilonResizeHandle = new ResizeArrowNode(RESIZE_HANDLE_SIZE_PROPORTION * m_width, Math.PI/2,
+        		RESIZE_HANDLE_NORMAL_COLOR, RESIZE_HANDLE_HIGHLIGHTED_COLOR);
         m_ljPotentialGraph.addChild( m_epsilonResizeHandle );
         m_epsilonResizeHandle.addInputEventListener(new PBasicInputEventHandler(){
         	public void mousePressed(PInputEvent event) {
@@ -106,7 +109,8 @@ public class InteractionPotentialNodeWithInteraction extends InteractionPotentia
             }
         });
         
-        m_sigmaResizeHandle = new ResizeArrowNode(RESIZE_HANDLE_SIZE_PROPORTION * m_width, 0);
+        m_sigmaResizeHandle = new ResizeArrowNode(RESIZE_HANDLE_SIZE_PROPORTION * m_width, 0,
+        		RESIZE_HANDLE_NORMAL_COLOR, RESIZE_HANDLE_HIGHLIGHTED_COLOR);
         m_ljPotentialGraph.addChild( m_sigmaResizeHandle );
         m_sigmaResizeHandle.addInputEventListener(new PBasicInputEventHandler(){
         	public void mousePressed(PInputEvent event) {
