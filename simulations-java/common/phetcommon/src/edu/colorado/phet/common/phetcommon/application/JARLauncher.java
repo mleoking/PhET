@@ -37,6 +37,8 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  * @version $Revision$
  */
 public class JARLauncher extends JFrame implements IProguardKeepClass {
+    
+    private static final String LOCALE_PROPERTIES_FILENAME = "options.properties"; //TODO: rename to locale.properties
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -284,8 +286,7 @@ public class JARLauncher extends JFrame implements IProguardKeepClass {
             throw new RuntimeException( "No flavors found." );
         }
 
-        handleLanguageForOfflineJARs();
-
+        setLocaleForOfflineJARs();
 
         URL mainURL = Thread.currentThread().getContextClassLoader().getResource( "main-flavor.properties" );
         if ( mainURL != null ) {
@@ -307,16 +308,21 @@ public class JARLauncher extends JFrame implements IProguardKeepClass {
         }
     }
 
-    //feasibility test for translated offline jars
-    private static void handleLanguageForOfflineJARs() {
-        URL optionsURL = Thread.currentThread().getContextClassLoader().getResource( "options.properties" );
+    private static void setLocaleForOfflineJARs() {
+        URL optionsURL = Thread.currentThread().getContextClassLoader().getResource( LOCALE_PROPERTIES_FILENAME );
         if ( optionsURL != null ) {
             Properties optionsProperties = new Properties();
             try {
                 optionsProperties.load( optionsURL.openStream() );
-                String locale = optionsProperties.getProperty( "locale" ).trim();
-                System.out.println( "JARLauncher: overriding locale: " + locale );
-                System.setProperty( PhetResources.PROPERTY_JAVAWS_PHET_LOCALE, locale );
+                String language = optionsProperties.getProperty( "locale" ); //TODO: changed this property to language
+                if ( language != null ) {
+                    language = language.trim();
+                    System.out.println( "JARLauncher: overriding language: " + language );
+                    System.setProperty( PhetResources.PROPERTY_JAVAWS_PHET_LOCALE, language );
+                }
+                else {
+                    System.err.println( "JARLauncher: " + LOCALE_PROPERTIES_FILENAME + " is missing required property language" );
+                }
             }
             catch( IOException e ) {
                 e.printStackTrace();

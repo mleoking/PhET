@@ -1,3 +1,4 @@
+12-10-08: #1030, JARLauncher makes bad assumptions about properties file
 12-10-08: #993 (reopened), disabling tracking or updates causes tabs to be hidden in Preferences dialog
 12-10-08: #1026, create $HOME/.phet if needed when incrementing session count
 12-10-08: #1027, create abstractions for $HOME/.phet and files in that dir
