@@ -25,6 +25,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
+import edu.colorado.phet.common.piccolophet.nodes.ResizeArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
@@ -349,7 +350,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         _nonPickableChartNode.addChild( _halfLifeMarkerLine );
         
         // Create the handle that will allow the user to control the half life.
-        _halfLifeHandleNode = new ResizeArrowNode(25, 0);
+        _halfLifeHandleNode = new ResizeArrowNode(25, 0, Color.GREEN, Color.YELLOW);
         _pickableChartNode.addChild( _halfLifeHandleNode );
         _halfLifeHandleNode.addInputEventListener(new PBasicInputEventHandler(){
         	boolean halfLifeChanged;
