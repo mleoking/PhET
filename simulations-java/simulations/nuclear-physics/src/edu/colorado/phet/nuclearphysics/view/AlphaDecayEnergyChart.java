@@ -25,12 +25,13 @@ import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.singlenucleus.SingleNucleusAlphaDecayModel;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolo.util.PPaintContext;
-import edu.umd.cs.piccolox.nodes.PComposite;
 import edu.umd.cs.piccolox.nodes.PLine;
 
 
@@ -295,11 +296,52 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
         _totalEnergyHandle.setChildrenPickable(true);
         _totalEnergyHandle.setStroke(CONTROL_HANDLE_STROKE);
         addChild(_totalEnergyHandle);
+        _totalEnergyHandle.addInputEventListener(new PBasicInputEventHandler(){
+        	public void mousePressed(PInputEvent event) {
+        		// TODO: Need to pause model here once the functionality is implemented.
+        	}
+        	public void mouseReleased(PInputEvent event) {
+        		// TODO: Need to reset and restart model once the functionality is implemented.
+        	}
+            public void mouseDragged(PInputEvent event) {
+                PNode draggedNode = event.getPickedNode();
+                PDimension d = event.getDeltaRelativeTo(draggedNode);
+                draggedNode.localToParent(d);
+                double newEnergyValue = 
+                	_totalEnergy + (d.height * _totalEnergyHandle.getScale() * Y_AXIS_UNITS / _usableHeight);
+                if ((newEnergyValue >= 0 && 
+                	(convertEnergyToPixels(newEnergyValue) > (_usableAreaOriginY + BORDER_STROKE_WIDTH)))){
+                	_totalEnergy = newEnergyValue;
+                	updateEnergyLines();
+                }
+            }
+        });
+
         _potentialEnergyPeakHandle = new ResizeArrowNode(10, Math.PI/2, Color.GREEN, Color.YELLOW);
         _potentialEnergyPeakHandle.setPickable(true);
         _potentialEnergyPeakHandle.setChildrenPickable(true);
         _potentialEnergyPeakHandle.setStroke(CONTROL_HANDLE_STROKE);
         addChild(_potentialEnergyPeakHandle);
+        _potentialEnergyPeakHandle.addInputEventListener(new PBasicInputEventHandler(){
+        	public void mousePressed(PInputEvent event) {
+        		// TODO: Need to pause model here once the functionality is implemented.
+        	}
+        	public void mouseReleased(PInputEvent event) {
+        		// TODO: Need to reset and restart model once the functionality is implemented.
+        	}
+            public void mouseDragged(PInputEvent event) {
+                PNode draggedNode = event.getPickedNode();
+                PDimension d = event.getDeltaRelativeTo(draggedNode);
+                draggedNode.localToParent(d);
+                double newEnergyValue = _potentialEnergyPeak 
+                	+ (d.height * _potentialEnergyPeakHandle.getScale() * Y_AXIS_UNITS / _usableHeight);
+                if ((newEnergyValue >= INITIAL_MINIUMIM_POTENTIAL_ENERGY) && 
+                	(convertEnergyToPixels(newEnergyValue) > (_usableAreaOriginY + BORDER_STROKE_WIDTH))){
+                	_potentialEnergyPeak = newEnergyValue;
+                	updateEnergyLines();
+                }
+            }
+        });
         
         // Add the text for the Y axis.
          _yAxisLabel = new PText( NuclearPhysicsStrings.POTENTIAL_PROFILE_Y_AXIS_LABEL_2 );
@@ -447,6 +489,25 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
     	else{
     		return 0;
     	}
+    }
+    
+    // TODO: I created this, then realized that I don't need it immediately,
+    // but I hate to just dump it in case I end up needing it later.  So
+    // keep it until I'm reasonably sure it isn't needed.
+    /**
+     * Convert a position on the chart (which might come from, say, a mouse
+     * click) into a value that corresponds to the energy level for that
+     * position.
+     */
+    private double convertPixelsToEnergy(double pixels){
+
+    	if (_usableHeight == 0){
+    		return 0;
+    	}
+
+    	double energyUnitsPerPixel = Y_AXIS_UNITS / _usableHeight;
+    	
+    	return (pixels - _usableHeight - _usableAreaOriginY) * energyUnitsPerPixel - Y_AXIS_ZERO_OFFSET; 
     }
     
     /**
