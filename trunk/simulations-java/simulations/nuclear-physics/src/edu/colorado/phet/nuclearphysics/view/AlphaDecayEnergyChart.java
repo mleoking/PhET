@@ -13,8 +13,6 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
-import com.sun.rsasign.c;
-
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
@@ -40,7 +38,7 @@ import edu.umd.cs.piccolox.nodes.PLine;
  *
  * @author John Blanco
  */
-public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.Listener {
+public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listener {
 
     //------------------------------------------------------------------------
     // Class Data
@@ -72,10 +70,11 @@ public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.L
     private static final double  ORIGIN_PROPORTION_X = 0.05d;
     private static final double  ORIGIN_PROPORTION_Y = 0.33d;
     private static final float   ENERGY_LINE_STROKE_WIDTH = 2f;
-    private static final Stroke  ENERGY_LINE_STROKE = new BasicStroke( ENERGY_LINE_STROKE_WIDTH, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f );
+    private static final Stroke  ENERGY_LINE_STROKE = new BasicStroke( ENERGY_LINE_STROKE_WIDTH, BasicStroke.CAP_ROUND,
+    		BasicStroke.JOIN_MITER, 1.0f );
     private static final Stroke  REFERENCE_LINE_STROKE = new BasicStroke( ENERGY_LINE_STROKE_WIDTH, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER,
     		1.0f, new float[] {9}, 11);
-    private static final Color   TOTAL_ENERGY_LINE_COLOR = Color.ORANGE;
+    private static final Color   TOTAL_ENERGY_LINE_COLOR = Color.RED;
     private static final Color   POTENTIAL_ENERGY_LINE_COLOR = Color.BLUE;
     private static final Color   LEGEND_BORDER_COLOR = Color.GRAY;
     private static final float   LEGEND_BORDER_STROKE_WIDTH = 2f;
@@ -87,7 +86,9 @@ public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.L
     private static final int     MAX_ALPHA_PARTICLES_DISPLAYED = 6;
     private static final double  ARROW_HEAD_HEIGHT = 10;
     private static final double  ARROW_HEAD_WIDTH = 8;
-    private static final double  CONTROL_HANDLE_LENGTH_PROPORTION = 0.05; // In proportion to overall graph height.
+    private static final double  CONTROL_HANDLE_HEIGHT_PROPORTION = 0.13; // In proportion to overall graph height.
+    private static final float   CONTROL_HANDLE_STROKE_WIDTH = 0.4f;
+    private static final Stroke  CONTROL_HANDLE_STROKE = new BasicStroke( CONTROL_HANDLE_STROKE_WIDTH );
     
     // Parameters that control the Y-axis positioning of various data on the
     // chart.  The Y-axis doesn't really have units, so these are essentially
@@ -161,7 +162,6 @@ public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.L
      */
     public AlphaDecayEnergyChart(SingleNucleusAlphaDecayModel model, PhetPCanvas canvas) {
         
-        setPickable( false );
         _model = model;
         _canvas = canvas;
         
@@ -271,11 +271,18 @@ public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.L
         // Add the handles that will allow the user to change the total
         // energy and potential energy peak.  These are initially arbitrarily
         // sized, then resized when the diagram is updated.
-        _totalEnergyHandle = new ResizeArrowNode(10, 0, Color.GREEN, Color.YELLOW);
-        _potentialEnergyPeakHandle = new ResizeArrowNode(10, 0, Color.GREEN, Color.YELLOW);
+        _totalEnergyHandle = new ResizeArrowNode(10, Math.PI/2, Color.GREEN, Color.YELLOW);
+        _totalEnergyHandle.setPickable(true);
+        _totalEnergyHandle.setChildrenPickable(true);
+        _totalEnergyHandle.setStroke(CONTROL_HANDLE_STROKE);
+        addChild(_totalEnergyHandle);
+        _potentialEnergyPeakHandle = new ResizeArrowNode(10, Math.PI/2, Color.GREEN, Color.YELLOW);
+        _potentialEnergyPeakHandle.setPickable(true);
+        _potentialEnergyPeakHandle.setChildrenPickable(true);
+        _potentialEnergyPeakHandle.setStroke(CONTROL_HANDLE_STROKE);
+        addChild(_potentialEnergyPeakHandle);
         
         // Add the text for the Y axis.
-
          _yAxisLabel = new PText( NuclearPhysicsStrings.POTENTIAL_PROFILE_Y_AXIS_LABEL_2 );
          _yAxisLabel.setFont( new PhetFont( Font.PLAIN, 14 ) );
          _yAxisLabel.rotate( 1.5 * Math.PI );
@@ -456,6 +463,15 @@ public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.L
         _potentialEnergyPeakRefLine.addPoint( 1, (float)(_usableAreaOriginX + _usableWidth * 0.95), 
         		(float)convertEnergyToPixels(_potentialEnergyPeak) );
         
+        // Position that handle that allows the user to control the potential
+        // energy peak.
+        double desiredHandleHeight = _usableHeight * CONTROL_HANDLE_HEIGHT_PROPORTION;
+        _potentialEnergyPeakHandle.setScale(1);
+        _potentialEnergyPeakHandle.setScale(desiredHandleHeight / _potentialEnergyPeakHandle.getFullBounds().height);
+        
+        _potentialEnergyPeakHandle.setOffset(_usableAreaOriginX + _usableWidth * 0.90, 
+        		(float)convertEnergyToPixels(_potentialEnergyPeak));
+        
 		/*
 		 * TODO: This was the original code, and is being kept here until I'm
 		 * sure I don't need it any more.
@@ -502,12 +518,18 @@ public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.L
         _totalEnergyLine.addPoint( 1, _usableAreaOriginX + _usableWidth - 3*BORDER_STROKE_WIDTH, totalEnergyLineYPos );
          */
 		
-        // Draw/position the total energy line.
+        // Position the total energy line.
         
         _totalEnergyLine.removeAllPoints();
         double totalEnergyLineYPos = convertEnergyToPixels(_totalEnergy);
         _totalEnergyLine.addPoint( 0, _usableAreaOriginX + 3*BORDER_STROKE_WIDTH, totalEnergyLineYPos );
         _totalEnergyLine.addPoint( 1, _usableAreaOriginX + _usableWidth - 3*BORDER_STROKE_WIDTH, totalEnergyLineYPos );
+        
+        // Scale and position the handle that the user can use to change
+        // the total energy.
+        _totalEnergyHandle.setScale(1);
+        _totalEnergyHandle.setScale(desiredHandleHeight / _totalEnergyHandle.getFullBounds().height);
+        _totalEnergyHandle.setOffset(_usableAreaOriginX + _usableWidth * 0.95, totalEnergyLineYPos);
 	}
     
     /**
