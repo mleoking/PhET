@@ -19,10 +19,9 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  */
 public class ResizeArrowNode extends PNode{
     
-    private static final Color NORMAL_FILL_COLOR = new Color(0x00cc66); 
-    private static final Color HIGHLIGHTED_FILL_COLOR = new Color(0x00ff66); 
-
     DoubleArrowNode m_adjusterArrow;
+    Color _normalFillColor;
+    Color _highlightedFillColor;
     
     /**
      * This constructor allows the user to specify the size and orientation
@@ -33,14 +32,17 @@ public class ResizeArrowNode extends PNode{
      * @param size - In terms of canvas coordinates. 
      * @param angle - In radians.  A value of 0 means a horizontal arrow.
      */
-    public ResizeArrowNode( double size, double angle ){
+    public ResizeArrowNode( double size, double angle, Color normalFillColor, Color highlightedFillColor ){
         
+    	_normalFillColor = normalFillColor;
+    	_highlightedFillColor = highlightedFillColor;
+    	
         // Create and add the child node that will represent the double-
         // headed arrow.
         m_adjusterArrow = new DoubleArrowNode(new Point2D.Double(-size/2, 0), new Point2D.Double(size/2, 0), size/4,
                 size/2, size/4);
         m_adjusterArrow.rotate( angle );
-        m_adjusterArrow.setPaint( NORMAL_FILL_COLOR );
+        m_adjusterArrow.setPaint( _normalFillColor );
         m_adjusterArrow.setPickable( true );
         addChild( m_adjusterArrow );
 
@@ -55,25 +57,25 @@ public class ResizeArrowNode extends PNode{
             private boolean m_mouseIsInside;
             public void mousePressed( PInputEvent event ) {
                 m_mouseIsPressed = true;
-                m_adjusterArrow.setPaint( HIGHLIGHTED_FILL_COLOR );
+                m_adjusterArrow.setPaint( _highlightedFillColor );
             }
 
             public void mouseReleased( PInputEvent event ) {
                 m_mouseIsPressed = false;
                 if ( !m_mouseIsInside ) {
-                    m_adjusterArrow.setPaint( NORMAL_FILL_COLOR );
+                    m_adjusterArrow.setPaint( _normalFillColor );
                 }
             }
 
             public void mouseEntered( PInputEvent event ) {
                 m_mouseIsInside = true;
-                m_adjusterArrow.setPaint( HIGHLIGHTED_FILL_COLOR );
+                m_adjusterArrow.setPaint( _highlightedFillColor );
             }
 
             public void mouseExited( PInputEvent event ) {
                 m_mouseIsInside = false;
                 if ( !m_mouseIsPressed ) {
-                    m_adjusterArrow.setPaint( NORMAL_FILL_COLOR );
+                    m_adjusterArrow.setPaint( _normalFillColor );
                 }
             }
         });
