@@ -66,6 +66,7 @@ public class SimUpdater {
                 }
                 else {
                     String simJarURL = HTMLUtils.getSimJarURL( project, sim, "&", locale );
+                    println( "requesting update via URL=" + simJarURL );
                     File tempSimJAR = getTempSimJAR( simJAR );
                     File tempUpdaterJAR = getTempUpdaterJAR();
                     boolean success = downloadFiles( UPDATER_ADDRESS, tempUpdaterJAR, simJarURL, tempSimJAR, simName, newVersion );
