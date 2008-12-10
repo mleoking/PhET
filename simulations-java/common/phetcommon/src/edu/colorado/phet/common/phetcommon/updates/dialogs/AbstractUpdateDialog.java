@@ -7,6 +7,7 @@ import java.awt.GridBagConstraints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.MessageFormat;
+import java.util.Locale;
 
 import javax.swing.*;
 
@@ -25,7 +26,7 @@ public abstract class AbstractUpdateDialog extends JDialog {
     
     private static final String TRY_IT_LINK = PhetCommonResources.getString( "Common.updates.tryIt" );
     
-    protected AbstractUpdateDialog( Frame owner, String title, final String project, final String sim, final String simName, final PhetVersion currentVersion, final PhetVersion newVersion, String locale) {
+    protected AbstractUpdateDialog( Frame owner, String title, final String project, final String sim, final String simName, final PhetVersion currentVersion, final PhetVersion newVersion, Locale locale) {
         super( owner, title );
         setResizable( false );
         setModal( true );
@@ -102,7 +103,7 @@ public abstract class AbstractUpdateDialog extends JDialog {
     /*
      * Subclasses provide their own actions via a button panel.
      */
-    protected abstract JPanel createButtonPanel( final String project, final String sim, final String simName, final PhetVersion currentVersion, final PhetVersion newVersion, String locale );
+    protected abstract JPanel createButtonPanel( final String project, final String sim, final String simName, final PhetVersion currentVersion, final PhetVersion newVersion, Locale locale );
     
     /*
      * Gets the message that compares the current version and new version.

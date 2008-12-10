@@ -7,6 +7,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Locale;
 
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
@@ -500,8 +501,8 @@ public class DownloadThread extends Thread {
         
         // add download requests
         String tmpDirName = System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.separator" );
-        downloadThread.addRequest( "downloading glaciers.jar", HTMLUtils.getSimJarURL( "glaciers", "glaciers", "&", "en" ), tmpDirName + "glaciers.jar" );
-        downloadThread.addRequest( "downloading ph-scale.jar", HTMLUtils.getSimJarURL( "ph-scale", "ph-scale", "&", "en" ), tmpDirName + "ph-scale.jar" );
+        downloadThread.addRequest( "downloading glaciers.jar", HTMLUtils.getSimJarURL( "glaciers", "glaciers", "&", new Locale( "en" ) ), tmpDirName + "glaciers.jar" );
+        downloadThread.addRequest( "downloading ph-scale.jar", HTMLUtils.getSimJarURL( "ph-scale", "ph-scale", "&", new Locale( "en" ) ), tmpDirName + "ph-scale.jar" );
 
         // do the download
         System.out.println( "total content length = " + downloadThread.getTotalContentLength() );

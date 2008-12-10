@@ -1,6 +1,7 @@
 package edu.colorado.phet.common.phetcommon.view.util;
 
 import java.awt.Font;
+import java.util.Locale;
 
 import javax.swing.JEditorPane;
 import javax.swing.JPanel;
@@ -99,11 +100,11 @@ public class HTMLUtils {
      * @param project
      * @param sim
      * @param ampersand
-     * @param languageCode
+     * @param locale
      * @return
      */
-    public static String getSimJarURL( String project, String sim, String ampersand, String languageCode ) {
-        return PhetCommonConstants.PHET_HOME_URL + "/simulations/sim-jar-redirect.php?project=" + project + ampersand + "sim=" + sim + ampersand+"locale="+languageCode;
+    public static String getSimJarURL( String project, String sim, String ampersand, Locale locale ) {
+        return PhetCommonConstants.PHET_HOME_URL + "/simulations/sim-jar-redirect.php?project=" + project + ampersand + "sim=" + sim + ampersand+"locale="+ locale.getLanguage();
     }
     
     /**

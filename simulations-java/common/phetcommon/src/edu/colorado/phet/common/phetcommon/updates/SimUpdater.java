@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.Locale;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -52,7 +53,7 @@ public class SimUpdater {
      * @param sim
      * @param languageCode
      */
-    public void updateSim( String project, String sim, String languageCode, String simName, PhetVersion newVersion ) {
+    public void updateSim( String project, String sim, Locale locale, String simName, PhetVersion newVersion ) {
         
         if ( !tmpDir.canWrite() ) {
             handleErrorWritePermissions( tmpDir );
@@ -64,7 +65,7 @@ public class SimUpdater {
                     handleErrorWritePermissions( simJAR );
                 }
                 else {
-                    String simJarURL = HTMLUtils.getSimJarURL( project, sim, "&", languageCode );
+                    String simJarURL = HTMLUtils.getSimJarURL( project, sim, "&", locale );
                     File tempSimJAR = getTempSimJAR( simJAR );
                     File tempUpdaterJAR = getTempUpdaterJAR();
                     boolean success = downloadFiles( UPDATER_ADDRESS, tempUpdaterJAR, simJarURL, tempSimJAR, simName, newVersion );

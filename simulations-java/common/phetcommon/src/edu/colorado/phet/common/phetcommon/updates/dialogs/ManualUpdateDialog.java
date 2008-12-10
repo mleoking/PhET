@@ -3,6 +3,7 @@ package edu.colorado.phet.common.phetcommon.updates.dialogs;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Locale;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -24,11 +25,11 @@ public class ManualUpdateDialog extends AbstractUpdateDialog {
     private static final String TITLE = PhetCommonResources.getString( "Common.updates.updateAvailable" );
     private static final String CANCEL_BUTTON = PhetCommonResources.getString( "Common.choice.cancel" );
     
-    public ManualUpdateDialog( Frame owner, final String project, final String sim, final String simName, final PhetVersion currentVersion, final PhetVersion newVersion,String locale ) {
-        super( owner, TITLE, project, sim, simName,currentVersion, newVersion,locale );
+    public ManualUpdateDialog( Frame owner, final String project, final String sim, final String simName, final PhetVersion currentVersion, final PhetVersion newVersion, Locale locale ) {
+        super( owner, TITLE, project, sim, simName,currentVersion, newVersion, locale );
     }
     
-    protected JPanel createButtonPanel( final String project, final String sim, final String simName, final PhetVersion currentVersion, final PhetVersion newVersion,String locale ) {
+    protected JPanel createButtonPanel( final String project, final String sim, final String simName, final PhetVersion currentVersion, final PhetVersion newVersion, Locale locale ) {
         
         // update button
         JButton updateButton = new UpdateButton( project, sim, locale, simName, newVersion );
