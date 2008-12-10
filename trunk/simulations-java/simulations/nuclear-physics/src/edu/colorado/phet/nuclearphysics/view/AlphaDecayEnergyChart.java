@@ -59,7 +59,8 @@ public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.L
 	private static final double INITIAL_TOTAL_ENERGY = 10;
 	private static final double INITIAL_MINIUMIM_POTENTIAL_ENERGY = 1; // Defines low point of the potential energy curve.
 	private static final double INITIAL_PEAK_POTENTIAL_ENERGY = 25;    // Defines peak of the potential energy curve.
-	private static final double INITIAL_ENERGY_WELL_BOTTOM = -40;      // Defines bottom of energy well.
+	private static final double PRE_DECAY_ENERGY_WELL_BOTTOM = -40;
+	private static final double POST_DECAY_ENERGY_WELL_BOTTOM = -55;
 
     // Constants for controlling the appearance of the chart.
     private static final Color   BORDER_COLOR = Color.DARK_GRAY;
@@ -72,6 +73,8 @@ public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.L
     private static final double  ORIGIN_PROPORTION_Y = 0.33d;
     private static final float   ENERGY_LINE_STROKE_WIDTH = 2f;
     private static final Stroke  ENERGY_LINE_STROKE = new BasicStroke( ENERGY_LINE_STROKE_WIDTH, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f );
+    private static final Stroke  REFERENCE_LINE_STROKE = new BasicStroke( ENERGY_LINE_STROKE_WIDTH, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER,
+    		1.0f, new float[] {9}, 11);
     private static final Color   TOTAL_ENERGY_LINE_COLOR = Color.ORANGE;
     private static final Color   POTENTIAL_ENERGY_LINE_COLOR = Color.BLUE;
     private static final Color   LEGEND_BORDER_COLOR = Color.GRAY;
@@ -128,6 +131,7 @@ public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.L
     private PImage [] _alphaParticleImages = new PImage [MAX_ALPHA_PARTICLES_DISPLAYED];
     private ResizeArrowNode _totalEnergyHandle;
     private ResizeArrowNode _potentialEnergyPeakHandle;
+    private PLine _potentialEnergyPeakRefLine;
     
     // Variables used for positioning nodes within the graph.
     private double _usableAreaOriginX;
@@ -165,7 +169,7 @@ public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.L
         _totalEnergy = INITIAL_TOTAL_ENERGY;
         _potentialEnergyMinimum = INITIAL_MINIUMIM_POTENTIAL_ENERGY;
         _potentialEnergyPeak = INITIAL_PEAK_POTENTIAL_ENERGY;
-        _energyWellBottom = INITIAL_ENERGY_WELL_BOTTOM;
+        _energyWellBottom = PRE_DECAY_ENERGY_WELL_BOTTOM;
 
         /*
          * TODO: The part below needs to be redone so that we can handle the
@@ -256,6 +260,13 @@ public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.L
         _potentialEnergyLine.setStrokePaint( POTENTIAL_ENERGY_LINE_COLOR );
         _potentialEnergyLine.setStroke( ENERGY_LINE_STROKE );
         addChild( _potentialEnergyLine);
+        
+        // Add the reference line that will allow the user to adjust the top
+        // of the potential energy peak.
+        _potentialEnergyPeakRefLine = new PLine();
+        _potentialEnergyPeakRefLine.setStrokePaint( POTENTIAL_ENERGY_LINE_COLOR );
+        _potentialEnergyPeakRefLine.setStroke(REFERENCE_LINE_STROKE);
+        addChild( _potentialEnergyPeakRefLine );
         
         // Add the handles that will allow the user to change the total
         // energy and potential energy peak.  These are initially arbitrarily
@@ -433,11 +444,18 @@ public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.L
                 (float)(convertEnergyToPixels(_energyWellBottom)));
         _potentialEnergyLine.lineTo( (float)(centerX + (_energyWellWidth / 2)), 
                 (float)(convertEnergyToPixels(_potentialEnergyPeak)));
-//        _potentialEnergyLine.lineTo( (float)(_usableAreaOriginX + _usableWidth - 3*BORDER_STROKE_WIDTH), 
-//                (float)(convertEnergyToPixels(_potentialEnergyMinimum)));
         _potentialEnergyLine.quadTo( (float)(centerX + (_energyWellWidth / 2)), (float)convertEnergyToPixels(0),
         		(float)(_usableAreaOriginX + _usableWidth - 3*BORDER_STROKE_WIDTH), 
                 (float)(convertEnergyToPixels(_potentialEnergyMinimum)));
+        
+        // Update the reference line that makes it clear to the user where the
+        // peak of the energy well is.
+        _potentialEnergyPeakRefLine.removeAllPoints();
+        _potentialEnergyPeakRefLine.addPoint( 0, (float)(centerX + (_energyWellWidth / 2)), 
+        		(float)convertEnergyToPixels(_potentialEnergyPeak) );
+        _potentialEnergyPeakRefLine.addPoint( 1, (float)(_usableAreaOriginX + _usableWidth * 0.95), 
+        		(float)convertEnergyToPixels(_potentialEnergyPeak) );
+        
 		/*
 		 * TODO: This was the original code, and is being kept here until I'm
 		 * sure I don't need it any more.
