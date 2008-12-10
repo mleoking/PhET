@@ -135,7 +135,7 @@ public class PhetApplicationConfig implements ITrackingInfo, ISimInfo {
     }
 
     public boolean isPreferencesEnabled() {
-        return isTrackingEnabled() || isUpdatesEnabled();
+        return isTrackingFeatureIncluded() || isUpdatesFeatureIncluded();
     }
 
     //----------------------------------------------------------------------------
@@ -205,13 +205,29 @@ public class PhetApplicationConfig implements ITrackingInfo, ISimInfo {
     public String getLocaleString() {
         return PhetResources.readLocale().getLanguage();
     }
-
-    public boolean isUpdatesEnabled() {
-        return hasCommandLineArg( "-updates" ) && !PhetUtilities.isRunningFromWebsite() && PhetPreferences.getInstance().isUpdatesEnabled();
+    
+    /**
+     * Should the updates feature be included at runtime?
+     * @return
+     */
+    public boolean isUpdatesFeatureIncluded() {
+        return hasCommandLineArg( "-updates" ) && !PhetUtilities.isRunningFromWebsite();
+    }
+    
+    /**
+     * Should the tracking feature be included at runtime?
+     * @return
+     */
+    public boolean isTrackingFeatureIncluded() {
+        return hasCommandLineArg( "-tracking" ) && !PhetUtilities.isRunningFromWebsite();
     }
 
+    public boolean isUpdatesEnabled() {
+        return isUpdatesFeatureIncluded() && PhetPreferences.getInstance().isUpdatesEnabled();
+    }
+    
     public boolean isTrackingEnabled() {
-        return hasCommandLineArg( "-tracking" ) && !PhetUtilities.isRunningFromWebsite() && PhetPreferences.getInstance().isTrackingEnabled();
+        return isTrackingFeatureIncluded() && PhetPreferences.getInstance().isTrackingEnabled();
     }
 
     public void setApplicationLaunchFinishedAt( long applicationLaunchFinishedAt ) {
