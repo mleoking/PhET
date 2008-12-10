@@ -6,8 +6,6 @@ import java.io.*;
 import java.security.AccessControlException;
 import java.util.Properties;
 
-import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
-
 /**
  * Counts the number of times that a simulation has been run.
  * Session counts are persistent, residing in .phet/session-counts.properties in the user's home directory.
@@ -22,9 +20,6 @@ import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class SessionCounter {
-    
-    private static final String SESSION_COUNTS_FILENAME = "session-counts.properties";
-    private static final String SESSION_COUNTS_HEADER = "DO NOT EDIT! - counts how many times simulations have been run";
     
     /* singleton */
     private static SessionCounter instance;
@@ -84,9 +79,11 @@ public class SessionCounter {
         Integer newCount = null;
         try {
             String key = getSessionCountKey( project, flavor );
+            
+            SessionCountsFile file = new SessionCountsFile();
 
             // read the previous count
-            Properties p = readSessionCounts();
+            Properties p = file.readCounts();
             String s = p.getProperty( key );
             Integer previousCount = null;
             if ( s == null ) {
@@ -107,15 +104,10 @@ public class SessionCounter {
 
             // write the new count
             p.setProperty( key, newCount.toString() );
-            writeSessionCounts( p );
+            file.writeCounts( p );
         }
-        catch ( AccessControlException e ) {
-            // we're running in a situation where we don't can't read or write to the local file system
-            System.err.println( "SessionCounter.updateCount, access to local filesystem denied" );//XXX
-            newCount = null;
-        }
-        catch ( FileNotFoundException e ) {
-            e.printStackTrace();
+        catch ( AccessControlException accessControlException ) {
+            System.out.println( "SessionCounter.incrementCount: access to local filesystem denied" );
             newCount = null;
         }
         catch ( IOException e ) {
@@ -125,31 +117,36 @@ public class SessionCounter {
         return newCount;
     }
     
-    /*
-     * Gets the name of the session count file.
-     * Do this in a method instead of as a static constant because getting property user.home
-     * may cause an AccessControlException if run via JNLP without security permissions.
-     */
-    private static String getSessionCountFilename() {
-        String separator =  System.getProperty( "file.separator" );
-        return System.getProperty( "user.home" ) + separator + PhetCommonConstants.PERSISTENCE_DIRNAME + separator + SESSION_COUNTS_FILENAME;
-    }
-    
     private static String getSessionCountKey( String project, String flavor ) {
         return project + "." + flavor;
     }
     
-    private static Properties readSessionCounts() throws IOException {
-        Properties p = new Properties();
-        File file = new File( getSessionCountFilename() );
-        if ( file.exists() ) {
-            p.load( new FileInputStream( file ) );
+    /**
+     * Session counts are stored in a file in the persistence directory.
+     */
+    private static class SessionCountsFile extends File {
+        
+        private static final String SESSION_COUNTS_HEADER = "DO NOT EDIT! - counts how many times simulations have been run";
+
+        /**
+         * @throws AccessControlException 
+         */
+        public SessionCountsFile() throws AccessControlException {
+            super( new PhetPersistenceDir(), "session-counts.properties" );
         }
-        return p;
-    }
-    
-    private static void writeSessionCounts( Properties p ) throws IOException {
-        OutputStream out = new FileOutputStream( getSessionCountFilename() );
-        p.store( out, SESSION_COUNTS_HEADER );
+
+        public Properties readCounts() throws IOException {
+            Properties p = new Properties();
+            if ( exists() ) {
+                p.load( new FileInputStream( this ) );
+            }
+            return p;
+        }
+        
+        public void writeCounts( Properties p ) throws IOException {
+            getParentFile().mkdirs();
+            OutputStream outStream = new FileOutputStream( this );
+            p.store( outStream, SESSION_COUNTS_HEADER );
+        }
     }
 }

@@ -11,21 +11,31 @@ import java.text.MessageFormat;
 import java.util.Properties;
 
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
+import edu.colorado.phet.common.phetcommon.application.PhetPersistenceDir;
 
 /**
  * PhET preferences, stored in a file in the user's home directory.
  */
 public class PhetPreferences {
 
-    private static final String SEPARATOR = System.getProperty( "file.separator" );
-    private static File PREFERENCES_FILE;//should be final, but we also need to handle the case in which we don't have access to this file or know its directory
-
+    // if we don't have access permissions, this file will be null 
+    private static File PREFERENCES_FILE;
     static {
         try {
-            PREFERENCES_FILE = new File( System.getProperty( "user.home" ) + SEPARATOR + PhetCommonConstants.PERSISTENCE_DIRNAME + SEPARATOR + "preferences.properties" );
+            PREFERENCES_FILE = new PhetPreferencesFile();
         }
         catch( AccessControlException accessControlException ) {
             PREFERENCES_FILE = null;
+            System.out.println( "PhetPreferences: access to local filesystem denied" );
+        }
+    }
+    
+    /**
+     * Preferences are stored in a file in the persistence directory.
+     */
+    private static class PhetPreferencesFile extends File {
+        public PhetPreferencesFile() throws AccessControlException {
+            super( new PhetPersistenceDir(), "preferences.properties" );
         }
     }
 
@@ -55,7 +65,7 @@ public class PhetPreferences {
             try {
                 properties.load( new FileInputStream( PREFERENCES_FILE ) );
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 e.printStackTrace();
             }
         }
