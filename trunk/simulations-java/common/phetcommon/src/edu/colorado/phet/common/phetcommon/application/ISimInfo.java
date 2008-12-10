@@ -1,5 +1,7 @@
 package edu.colorado.phet.common.phetcommon.application;
 
+import java.util.Locale;
+
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 
 public interface ISimInfo {
@@ -53,6 +55,12 @@ public interface ISimInfo {
     boolean isDev();
     
     long getSimStartTimeMillis();
-    String getLocaleString();
+    
+    /**
+     * Gets the locale that we're using to decide which string translations to load.
+     * @return
+     */
+    Locale getLocale();
+    
     Integer getSessionCount();
 }

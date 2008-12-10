@@ -2,6 +2,7 @@ package edu.colorado.phet.common.phetcommon.updates;
 
 import java.awt.Frame;
 import java.io.IOException;
+import java.util.Locale;
 
 import javax.swing.JDialog;
 
@@ -22,15 +23,15 @@ public class DefaultManualUpdateChecker implements IManualUpdateChecker {
     private String sim;
     private PhetVersion currentVersion;
     private String humanReadableSimName;
-    private String locale;
+    private Locale locale;
     private Frame frame;
     private String projectName;
     
     public DefaultManualUpdateChecker( Frame frame, ISimInfo simInfo ) {
-        this( frame, simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getVersion(), simInfo.getName(), simInfo.getLocaleString() );
+        this( frame, simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getVersion(), simInfo.getName(), simInfo.getLocale() );
     }
 
-    public DefaultManualUpdateChecker( Frame frame, String projectName, String sim, PhetVersion currentVersion, String humanReadableSimName,String locale ) {
+    public DefaultManualUpdateChecker( Frame frame, String projectName, String sim, PhetVersion currentVersion, String humanReadableSimName, Locale locale ) {
         this.frame = frame;
         this.projectName = projectName;
         this.sim = sim;
@@ -44,7 +45,7 @@ public class DefaultManualUpdateChecker implements IManualUpdateChecker {
         UpdateNotifier.UpdateListener listener = new UpdateNotifier.UpdateAdapter() {
 
             public void updateAvailable( PhetVersion currentVersion, PhetVersion remoteVersion ) {
-                JDialog dialog = new ManualUpdateDialog( frame, projectName, sim, humanReadableSimName, currentVersion, remoteVersion ,locale);
+                JDialog dialog = new ManualUpdateDialog( frame, projectName, sim, humanReadableSimName, currentVersion, remoteVersion, locale);
                 dialog.setVisible( true );
             }
 

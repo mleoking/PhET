@@ -11,6 +11,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.Locale;
 
 import javax.swing.*;
 
@@ -175,8 +176,8 @@ public class DownloadProgressDialog extends JDialog {
         
         // add download requests
         String tmpDirName = System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.separator" );
-        downloadThread.addRequest( "downloading glaciers.jar", HTMLUtils.getSimJarURL( "glaciers", "glaciers", "&", "en" ), tmpDirName + "glaciers.jar" );
-        downloadThread.addRequest( "downloading ph-scale.jar", HTMLUtils.getSimJarURL( "ph-scale", "ph-scale", "&", "en" ), tmpDirName + "ph-scale.jar" );
+        downloadThread.addRequest( "downloading glaciers.jar", HTMLUtils.getSimJarURL( "glaciers", "glaciers", "&", new Locale( "en" ) ), tmpDirName + "glaciers.jar" );
+        downloadThread.addRequest( "downloading ph-scale.jar", HTMLUtils.getSimJarURL( "ph-scale", "ph-scale", "&", new Locale( "en" ) ), tmpDirName + "ph-scale.jar" );
 
         // progress dialog
         DownloadProgressDialog dialog = new DownloadProgressDialog( null, "Download Progress", "Downloading simulation JAR files", downloadThread );

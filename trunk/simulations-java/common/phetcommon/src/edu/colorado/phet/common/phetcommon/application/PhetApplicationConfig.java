@@ -3,6 +3,7 @@
 package edu.colorado.phet.common.phetcommon.application;
 
 import java.util.Arrays;
+import java.util.Locale;
 
 import edu.colorado.phet.common.phetcommon.preferences.ITrackingInfo;
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
@@ -202,8 +203,8 @@ public class PhetApplicationConfig implements ITrackingInfo, ISimInfo {
         return simStartTimeMillis;
     }
 
-    public String getLocaleString() {
-        return PhetResources.readLocale().getLanguage();
+    public Locale getLocale() {
+        return PhetResources.readLocale();
     }
     
     /**
