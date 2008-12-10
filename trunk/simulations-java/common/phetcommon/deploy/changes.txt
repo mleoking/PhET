@@ -1,3 +1,4 @@
+12-10-08: #993 (reopened), disabling tracking or updates causes tabs to be hidden in Preferences dialog
 12-10-08: #1026, create $HOME/.phet if needed when incrementing session count
 12-10-08: #1027, create abstractions for $HOME/.phet and files in that dir
 12-03-08: #920, add "mac-osx-quit" tracking message
