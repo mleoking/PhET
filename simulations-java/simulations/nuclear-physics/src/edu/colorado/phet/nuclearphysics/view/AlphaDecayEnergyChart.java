@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
+import edu.colorado.phet.common.piccolophet.nodes.ResizeArrowNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.singlenucleus.SingleNucleusAlphaDecayModel;
@@ -66,6 +67,7 @@ public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.L
     private static final int     MAX_ALPHA_PARTICLES_DISPLAYED = 6;
     private static final double  ARROW_HEAD_HEIGHT = 10;
     private static final double  ARROW_HEAD_WIDTH = 8;
+    private static final double  CONTROL_HANDLE_LENGTH_PROPORTION = 0.05; // In proportion to overall graph height.
     
     // Parameters that control the Y-axis positioning of various data on the
     // chart.  The Y-axis doesn't really have units, so these are essentially
@@ -107,6 +109,8 @@ public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.L
     private GraphLegend _legend;
     private PImage _tunneledAlphaParticleImage;
     private PImage [] _alphaParticleImages = new PImage [MAX_ALPHA_PARTICLES_DISPLAYED];
+    private ResizeArrowNode _totalEnergyHandle;
+    private ResizeArrowNode _potentialEnergyPeakHandle;
     
     // Variables used for positioning nodes within the graph.
     private double _usableAreaOriginX;
@@ -223,6 +227,12 @@ public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.L
         _potentialEnergyLine.setStrokePaint( POTENTIAL_ENERGY_LINE_COLOR );
         _potentialEnergyLine.setStroke( ENERGY_LINE_STROKE );
         addChild( _potentialEnergyLine);
+        
+        // Add the handles that will allow the user to change the total
+        // energy and potential energy peak.  These are initially arbitrarily
+        // sized, then resized when the diagram is updated.
+        _totalEnergyHandle = new ResizeArrowNode(10, 0, Color.GREEN, Color.YELLOW);
+        _potentialEnergyPeakHandle = new ResizeArrowNode(10, 0, Color.GREEN, Color.YELLOW);
         
         // Add the text for the Y axis.
 
