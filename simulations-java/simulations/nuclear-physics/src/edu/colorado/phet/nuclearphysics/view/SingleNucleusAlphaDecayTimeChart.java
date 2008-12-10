@@ -486,19 +486,6 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     }
     
     /**
-     * 
-     */
-    private void drawExponentialTimeLine(){
-    	
-    	double timeLineLengthInPixels = _usableWidth - _graphOriginX;
-    	
-    	// TODO: Totally temporary: Draw a rectangle and stick it on the graph.
-    	PPath tempRect = new PPath(new Rectangle2D.Double(0, 0, timeLineLengthInPixels, _usableHeight * 0.3));
-    	tempRect.setOffset(_graphOriginX, _graphOriginY - tempRect.getFullBounds().height * 1.5 );
-    	_nonPickableChartNode.addChild(tempRect);
-    }
-
-    /**
      * Update the chart by moving the active nuclei or any other time-
      * dependent visual representation.
      * 
@@ -855,7 +842,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
      */
     private class ExponentialTimeLineNode extends PNode {
     	
-    	private static final double EXPONENTIAL_TIME_LINE_LENGTH = 3.2e16;  // Roughly a billion years in seconds. 
+    	private static final double EXPONENTIAL_TIME_LINE_LENGTH = 3.2e19;  // Roughly a trillion years in seconds. 
     	private static final double LINE_HEIGHT_PROPORTION = 0.5; // Height of time line as a function of overall
     	                                                          // height of the node.
     	private static final boolean SHOW_OUTLINE = false; // TODO: Remove when fully debugged. 
@@ -872,6 +859,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     			                                    31.6e6,   /* seconds in a year */
     			                                    3.16e10,   /* seconds in a millenium */
     			                                    3.16e13,   /* seconds in a million years */
+    			                                    3.16e16,   /* seconds in a billion years */
     			                                    EXPONENTIAL_TIME_LINE_LENGTH
     			                                    };
     	private ArrayList _sectionLabels = new ArrayList();
@@ -916,6 +904,11 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
 			addChild(label);
     		label = new PText();
     		label.setText("Years");
+    		label.setFont(SMALL_LABEL_FONT);
+    		_sectionLabels.add(label);
+			addChild(label);
+    		label = new PText();
+    		label.setText("Millenia");
     		label.setFont(SMALL_LABEL_FONT);
     		_sectionLabels.add(label);
 			addChild(label);
