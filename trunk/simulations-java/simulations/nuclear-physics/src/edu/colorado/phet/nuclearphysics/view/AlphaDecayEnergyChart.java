@@ -13,6 +13,8 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
+import com.sun.rsasign.c;
+
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
@@ -43,6 +45,21 @@ public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.L
     //------------------------------------------------------------------------
     // Class Data
     //------------------------------------------------------------------------
+	
+	// Constants for controlling the nature of the Y-axis of the chart.  These
+	// are quite important for understanding the overall nature of the chart's
+	// behavior.  The chart does not use real units of energy for the Y-axis
+	// because the shape of the graph is somewhat unrealistic.  So, since we
+	// need some sort of units to work with, we define an arbitrary number of
+	// them and an offset for where zero should be.
+	private static final double Y_AXIS_UNITS = 100;
+	private static final double Y_AXIS_ZERO_OFFSET = 65; // Sets origin of y-axis relative to bottom of chart.
+	
+	// Constants for setting the initial positions of the energy lines/curves.
+	private static final double INITIAL_TOTAL_ENERGY = 10;
+	private static final double INITIAL_MINIUMIM_POTENTIAL_ENERGY = 1; // Defines low point of the potential energy curve.
+	private static final double INITIAL_PEAK_POTENTIAL_ENERGY = 25;    // Defines peak of the potential energy curve.
+	private static final double INITIAL_ENERGY_WELL_BOTTOM = -40;      // Defines bottom of energy well.
 
     // Constants for controlling the appearance of the chart.
     private static final Color   BORDER_COLOR = Color.DARK_GRAY;
@@ -123,6 +140,12 @@ public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.L
     // Tracks whether the alpha decay of the nucleus has occurred.
     private boolean _decayOccurred = false;
     
+    // Values that define the positions of the energy lines/curves.
+    private double _totalEnergy;
+    private double _potentialEnergyPeak;
+    private double _potentialEnergyMinimum;
+    private double _energyWellBottom;
+    
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
@@ -137,6 +160,12 @@ public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.L
         setPickable( false );
         _model = model;
         _canvas = canvas;
+        
+        // Do local initialization.
+        _totalEnergy = INITIAL_TOTAL_ENERGY;
+        _potentialEnergyMinimum = INITIAL_MINIUMIM_POTENTIAL_ENERGY;
+        _potentialEnergyPeak = INITIAL_PEAK_POTENTIAL_ENERGY;
+        _energyWellBottom = INITIAL_ENERGY_WELL_BOTTOM;
 
         /*
          * TODO: The part below needs to be redone so that we can handle the
@@ -301,7 +330,7 @@ public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.L
         _usableWidth       = rect.getWidth() - ( BORDER_STROKE_WIDTH * 2 );
         _usableHeight      = rect.getHeight() - ( BORDER_STROKE_WIDTH * 2);
         _graphOriginX      = _usableWidth * ORIGIN_PROPORTION_X + _usableAreaOriginX;
-        _graphOriginY      = _usableHeight * ORIGIN_PROPORTION_Y + _usableAreaOriginY;
+        _graphOriginY      = convertEnergyToPixels(0);
         
         // Recalculate energy well width.
         // Get the diameter of the atomic nucleus so that it can be
@@ -350,9 +379,68 @@ public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.L
         _xAxisLabel.setOffset( _graphOriginX + 15, _graphOriginY + 3);
 
         
-        // Position the curve that represents the potential energy.
+        // Draw the potential and total energy lines.
+        updateEnergyLines();
+        
+        // Position the legend.
+        double legendHeight = Math.min(LEGEND_HEIGHT_PROPORTION * _usableHeight,
+        		_usableHeight - _graphOriginY - _xAxisLabel.getFullBounds().height - (4 * LEGEND_BORDER_STROKE_WIDTH));
+        double legendWidth = LEGEND_WIDTH_PROPORTION * _usableWidth;
+        _legend.updateSize(legendWidth, legendHeight);
+        _legend.setOffset(_usableAreaOriginX + _usableWidth * 0.06, 
+        		_usableAreaOriginY + _usableHeight - legendHeight - (4 * LEGEND_BORDER_STROKE_WIDTH));
 
-        _potentialEnergyLine.reset();
+        // Refresh the positions of the alpha particles.
+        refreshAlphaImages();
+    }
+
+    /**
+     * Convert an energy value to a position in pixels on the vertical axis of
+     * the chart.  Note that the variables that define the boundaries and size
+     * of the chart must be set for this to work.
+     * 
+     * @param energy
+     * @return
+     */
+    private double convertEnergyToPixels(double energy){
+    	double pixelsPerEnergyUnit = _usableHeight / Y_AXIS_UNITS; 
+    	if (pixelsPerEnergyUnit > 0){
+        	return _usableHeight - ((energy + Y_AXIS_ZERO_OFFSET) * pixelsPerEnergyUnit) + _usableAreaOriginY;
+    	}
+    	else{
+    		return 0;
+    	}
+    }
+    
+    /**
+     * Draw or reposition the straight line that represents the total energy
+     * and the curve that represents the potential energy.
+     */
+	private void updateEnergyLines() {
+		
+        double centerX = _usableAreaOriginX + (_usableWidth/2);
+
+        // Draw/update the potential energy line.
+		
+		_potentialEnergyLine.reset();
+        _potentialEnergyLine.moveTo( (float)_usableAreaOriginX + 3*BORDER_STROKE_WIDTH, 
+                (float)(convertEnergyToPixels(_potentialEnergyMinimum)));
+        _potentialEnergyLine.quadTo((float)(centerX - (_energyWellWidth / 2)), (float)convertEnergyToPixels(0),
+        		(float)(centerX - (_energyWellWidth / 2)), (float)(convertEnergyToPixels(_potentialEnergyPeak)));
+        _potentialEnergyLine.lineTo( (float)(centerX - (_energyWellWidth / 2)), 
+                (float)(convertEnergyToPixels(_energyWellBottom)));
+        _potentialEnergyLine.lineTo( (float)(centerX + (_energyWellWidth / 2)), 
+                (float)(convertEnergyToPixels(_energyWellBottom)));
+        _potentialEnergyLine.lineTo( (float)(centerX + (_energyWellWidth / 2)), 
+                (float)(convertEnergyToPixels(_potentialEnergyPeak)));
+//        _potentialEnergyLine.lineTo( (float)(_usableAreaOriginX + _usableWidth - 3*BORDER_STROKE_WIDTH), 
+//                (float)(convertEnergyToPixels(_potentialEnergyMinimum)));
+        _potentialEnergyLine.quadTo( (float)(centerX + (_energyWellWidth / 2)), (float)convertEnergyToPixels(0),
+        		(float)(_usableAreaOriginX + _usableWidth - 3*BORDER_STROKE_WIDTH), 
+                (float)(convertEnergyToPixels(_potentialEnergyMinimum)));
+		/*
+		 * TODO: This was the original code, and is being kept here until I'm
+		 * sure I don't need it any more.
         double centerX = _usableAreaOriginX + (_usableWidth/2);
         double multiplier = _usableHeight * POTENTIAL_ENERGY_CURVE_SCALE_FACTOR;
         double xScreenPos;
@@ -381,11 +469,10 @@ public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.L
             
             _potentialEnergyLine.lineTo( (float)xScreenPos, (float)(_graphOriginY - (multiplier * (1/(xScreenPos - centerX)))));
         }
+		 */
 
-        // Position the line that represents the total energy.  To do this, we
-        // need to get the tunneling region radius and convert it to screen
-        // coordinates and calculate the intersection with the potential
-        // energy line.
+        /*
+         * TODO: This was the original code, keep until not needed any more.
         double tunnelingRegionRadius = _model.getAtomNucleus().getTunnelingRegionRadius();
         PDimension tunnelingRegionDim = new PDimension(tunnelingRegionRadius, tunnelingRegionRadius);
         _canvas.getPhetRootNode().worldToScreen( tunnelingRegionDim );
@@ -395,18 +482,15 @@ public class AlphaDecayEnergyChart extends PComposite implements AlphaParticle.L
         _totalEnergyLine.removeAllPoints();
         _totalEnergyLine.addPoint( 0, _usableAreaOriginX + 3*BORDER_STROKE_WIDTH, totalEnergyLineYPos );
         _totalEnergyLine.addPoint( 1, _usableAreaOriginX + _usableWidth - 3*BORDER_STROKE_WIDTH, totalEnergyLineYPos );
+         */
+		
+        // Draw/position the total energy line.
         
-        // Position the legend.
-        double legendHeight = Math.min(LEGEND_HEIGHT_PROPORTION * _usableHeight,
-        		_usableHeight - _graphOriginY - _xAxisLabel.getFullBounds().height - (4 * LEGEND_BORDER_STROKE_WIDTH));
-        double legendWidth = LEGEND_WIDTH_PROPORTION * _usableWidth;
-        _legend.updateSize(legendWidth, legendHeight);
-        _legend.setOffset(_usableAreaOriginX + _usableWidth * 0.06, 
-        		_usableAreaOriginY + _usableHeight - legendHeight - (4 * LEGEND_BORDER_STROKE_WIDTH));
-
-        // Refresh the positions of the alpha particles.
-        refreshAlphaImages();
-    }
+        _totalEnergyLine.removeAllPoints();
+        double totalEnergyLineYPos = convertEnergyToPixels(_totalEnergy);
+        _totalEnergyLine.addPoint( 0, _usableAreaOriginX + 3*BORDER_STROKE_WIDTH, totalEnergyLineYPos );
+        _totalEnergyLine.addPoint( 1, _usableAreaOriginX + _usableWidth - 3*BORDER_STROKE_WIDTH, totalEnergyLineYPos );
+	}
     
     /**
      * Handle notification of a decay event from the nucleus.  If everything
