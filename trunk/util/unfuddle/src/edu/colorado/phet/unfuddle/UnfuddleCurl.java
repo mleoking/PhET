@@ -57,7 +57,8 @@ public class UnfuddleCurl {
 
     //fails for dump (timeout)
     public String readString( String readARG ) throws IOException, InterruptedException {
-        String curl = svnTrunk + "\\util\\unfuddle\\contrib\\curl\\curl.exe"; //TODO this is Windows specific, users should have curl in their path
+//        String curl = svnTrunk + "\\util\\unfuddle\\contrib\\curl\\curl.exe"; //TODO this is Windows specific, users should have curl in their path
+        String curl="curl";
         String cmdArg = accountID + "/" + readARG;
         String cmd = curl + " -k -i -u " + username + ":" + password + " -X GET -H \"Accept: application/xml\" https://phet.unfuddle.com/api/v1/projects/" + cmdArg;
         System.out.println( "cmd = " + cmd );
