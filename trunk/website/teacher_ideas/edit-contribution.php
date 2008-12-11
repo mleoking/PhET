@@ -220,6 +220,14 @@ EOT;
     }
 
     function render_content() {
+        // If this contribution is partial, add extra instructions
+        if (isset($_REQUEST['contribution_id'])) {
+            $partial_rows = db_get_rows_by_condition('temporary_partial_contribution_track', array('contribution_id' => $_REQUEST['contribution_id']));
+            if (is_array($partial_rows) && (count($partial_rows) > 0)) {
+                $this->set_login_header_message("<strong>You must <em>login</em> or <em>create an account</em> to finish submitting this contribution</strong>");
+            }
+        }
+
         $result = parent::render_content();
         if (!$result) {
             return BasePage::render_content();
