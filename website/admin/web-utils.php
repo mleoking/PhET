@@ -991,15 +991,49 @@ EOT;
         return $newstr;
     }
 
+    /*
+     * Check if the size of the POST is ok
+     * 
+     * @return bool false if the size is not OK, true in all other cases (including not finding the proper walues)
+     */
     function post_size_ok() {
         if (!isset($_SERVER['CONTENT_LENGTH'])) {
             return true;
         }
 
-        $POST_MAX_SIZE = ini_get('post_max_size');
-        $mul = substr($POST_MAX_SIZE, -1);
-        $mul = ($mul == 'M' ? 1048576 : ($mul == 'K' ? 1024 : ($mul == 'G' ? 1073741824 : 1)));
-        if ($_SERVER['CONTENT_LENGTH'] > $mul*(int)$POST_MAX_SIZE && $POST_MAX_SIZE) {
+        // Get the max size that a POST will allow
+        $post_max_size_raw = ini_get('post_max_size');
+        if (strlen($post_max_size_raw) == 0) {
+            return true;
+        }
+
+        // Convert the max size to bytes
+        $multiplier = 1;
+        switch (substr($post_max_size_raw, -1)) {
+            case 'G':
+            case 'g':
+                $multiplier = 1073741824;
+                break;
+            
+            case 'M':
+            case 'm':
+                $multiplier = 1048576;
+                break;
+
+            case 'K':
+            case 'k':
+                $multiplier = 1024;
+                break;
+
+            default:
+                $multiplier = 1;
+                break;
+        }
+
+        $post_max_size_bytes = $multiplier * (int) $post_max_size_raw;
+
+        // Check if the content length is too big
+        if ($_SERVER['CONTENT_LENGTH'] > $post_max_size_bytes) {
             return false;
         }
 
