@@ -299,11 +299,14 @@ EOT;
      *
      */
     function open_xhtml_head() {
-        if (!is_null($this->meta_refresh_location)) {
-            $meta_refresh = "<meta http-equiv=\"Refresh\" content=\"{$this->meta_refresh_timeout};url={$this->meta_refresh_location}\" />";
+        if (is_null($this->meta_refresh_location) ||
+            isset($GLOBALS["DEBUG_DISABLE_META_REFRESH"]) && ($GLOBALS["DEBUG_DISABLE_META_REFRESH"])) {
+            // No meta refresh specified or it is disabled
+            $meta_refresh = "";
         }
         else {
-            $meta_refresh = "";
+            // Add meta refresh statement to the browser
+            $meta_refresh = "<meta http-equiv=\"Refresh\" content=\"{$this->meta_refresh_timeout};url={$this->meta_refresh_location}\" />";
         }
 
         $formatted_title = format_string_for_html($this->full_title);
