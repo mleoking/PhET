@@ -63,6 +63,11 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
 	private static final double INITIAL_PEAK_POTENTIAL_ENERGY = 25;    // Defines peak of the potential energy curve.
 	private static final double PRE_DECAY_ENERGY_WELL_BOTTOM = -40;
 	private static final double POST_DECAY_ENERGY_WELL_BOTTOM = -55;
+	
+	
+	// TODO: Decide which of these constants go here and which go elsewhere.
+	private static final double MAX_TIME = 3.2e19;  // Trillion years
+	private static final double HALF_LIFE_CALC_CONSTANT = Math.log(MAX_TIME)/(Y_AXIS_UNITS - Y_AXIS_ZERO_OFFSET);
 
     // Constants for controlling the appearance of the chart.
     private static final Color   BORDER_COLOR = Color.DARK_GRAY;
@@ -316,6 +321,7 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
                 	(convertEnergyToPixels(newEnergyValue) > (_usableAreaOriginY + BORDER_STROKE_WIDTH)))){
                 	_totalEnergy = newEnergyValue;
                 	updateEnergyLines();
+                	calculateHalfLife();
                 }
             }
         });
@@ -342,6 +348,7 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
                 	(convertEnergyToPixels(newEnergyValue) > (_usableAreaOriginY + BORDER_STROKE_WIDTH))){
                 	_potentialEnergyPeak = newEnergyValue;
                 	updateEnergyLines();
+                	calculateHalfLife();
                 }
             }
         });
@@ -781,6 +788,30 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
         // clearly understood.  For now, we assume that the visible area of
         // the chart represents 100 units.
         return energy * (_usableHeight / 100.0);
+    }
+    
+    /**
+     * Calculate the half life of the nucleus described by the current values
+     * for total energy and peak potential energy.
+     */
+    private double calculateHalfLife(){
+    	
+    	double halfLife;
+    	
+    	if (_totalEnergy > _potentialEnergyPeak){
+    		// This nucleus will decay instantly.
+    		halfLife = 0;
+    	}
+    	else if (_totalEnergy < 0){
+    		// This nucleus will never decay.
+    		halfLife = Double.POSITIVE_INFINITY;
+    	}
+    	else {
+    		halfLife = Math.pow(10, (HALF_LIFE_CALC_CONSTANT * (_potentialEnergyPeak - _totalEnergy)));
+    	}
+    	
+    	System.out.println("Half life is: " + halfLife);
+    	return halfLife;
     }
     
     //------------------------------------------------------------------------
