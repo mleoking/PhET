@@ -39,6 +39,9 @@ class SitePage extends BasePage {
 
     private $navigation_bar;
 
+    // If specified, print an extra message above the login panel (if displayed)
+    private $login_header_message;
+
     function __construct($page_title,
                          $nav_selected_page,
                          $referrer,
@@ -110,6 +113,8 @@ class SitePage extends BasePage {
                 )
             );
 
+            // Start with a blank login header message
+            $this->login_header_message = '';
     }
 
     function is_installer_builder_rip() {
@@ -383,7 +388,7 @@ EOT;
         // Handle mismatch between the required and actual authentication level
         if ($this->authentication_level == AUTHLEVEL_NONE) {
             // Need to login
-            print_login_and_new_account_form("", "", $this->referrer);
+            print_login_and_new_account_form("", "", $this->referrer, $this->login_header_message);
             return FALSE;
         }
         else {
@@ -442,6 +447,9 @@ EOT;
         return $utility_panel_html;
     }
 
+    function set_login_header_message($msg) {
+        $this->login_header_message = $msg;
+    }
 }
 
 ?>
