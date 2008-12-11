@@ -14,7 +14,7 @@ class SimSubmitContributionPage extends SitePage {
         }
 
         // Check if the file is just too big
-        if (post_size_ok()) {
+        if (!post_size_ok()) {
             return;
         }
 
