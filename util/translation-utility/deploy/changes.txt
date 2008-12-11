@@ -1,3 +1,4 @@
+# 1.09.00 (26682)
 > add PhET-assigned language code for Chinese-Taiwan
 12/11/08 - #1035, assign a language code for Chinese-Taiwan (tc)
 12/3/08 - #249, add buildfile targets for deploying
