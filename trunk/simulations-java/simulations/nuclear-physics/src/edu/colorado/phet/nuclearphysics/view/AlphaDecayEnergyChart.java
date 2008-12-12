@@ -66,7 +66,6 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
 	private static final double PRE_DECAY_ENERGY_WELL_BOTTOM = -40;
 	private static final double POST_DECAY_ENERGY_WELL_BOTTOM = -55;
 	
-	
 	// TODO: Decide which of these constants go here and which go elsewhere.
 	private static final double MAX_TIME = 3.2e19;  // Trillion years
 	private static final double HALF_LIFE_CALC_CONSTANT = Math.log(MAX_TIME)/(Y_AXIS_UNITS - Y_AXIS_ZERO_OFFSET);
@@ -329,8 +328,8 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
                 draggedNode.localToParent(d);
                 double newEnergyValue = 
                 	_totalEnergy + (d.height * _totalEnergyHandle.getScale() * Y_AXIS_UNITS / _usableHeight);
-                if ((newEnergyValue >= 0 && 
-                	(convertEnergyToPixels(newEnergyValue) > (_usableAreaOriginY + BORDER_STROKE_WIDTH)))){
+                if ((newEnergyValue >= _energyWellBottom * 0.67) && 
+                	(convertEnergyToPixels(newEnergyValue) > (_usableAreaOriginY + BORDER_STROKE_WIDTH))){
                 	_totalEnergy = newEnergyValue;
                 	updateEnergyLines();
                 	_model.setHalfLife(calculateHalfLife());
