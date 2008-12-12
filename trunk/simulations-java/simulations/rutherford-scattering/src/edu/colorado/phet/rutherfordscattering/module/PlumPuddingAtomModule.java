@@ -7,7 +7,6 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.help.DefaultWiggleMe;
 import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
@@ -127,7 +126,7 @@ public class PlumPuddingAtomModule extends RSAbstractModule {
             _boxBeamGunParent.addChild( _gunNode );
             
             // Positioning
-            final double gunCenterOffset = 28;
+            final double gunCenterOffset = 20;
             final double boxWidth = _boxOfAtomsNode.getFullBounds().getWidth();
             final double gunWidth = _gunNode.getFullBounds().getWidth();
             if ( boxWidth > gunWidth ) {

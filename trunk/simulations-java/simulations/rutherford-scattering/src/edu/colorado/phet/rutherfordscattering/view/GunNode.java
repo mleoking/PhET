@@ -27,7 +27,7 @@ public class GunNode extends PhetPNode implements Observer {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final Point2D BUTTON_OFFSET = new Point2D.Double( 32, 82 );
+    private static final Point2D BUTTON_OFFSET = new Point2D.Double( 36, 75 );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -51,7 +51,7 @@ public class GunNode extends PhetPNode implements Observer {
         _gun = gun;
         
         // Nodes
-        PImage gunNode = new PImage( RSResources.getImage( "gun.png" ) );
+        PImage gunNode = new PImage( RSResources.getImage( "ray-gun.png" ) );
         _onButton = new PImage( RSResources.getImage( "gunOnButton.png" ) );
         _offButton = new PImage( RSResources.getImage(  "gunOffButton.png" ) );
         

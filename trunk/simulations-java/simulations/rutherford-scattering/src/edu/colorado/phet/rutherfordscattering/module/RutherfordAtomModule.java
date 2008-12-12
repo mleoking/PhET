@@ -132,7 +132,7 @@ public class RutherfordAtomModule extends RSAbstractModule {
             _boxBeamGunParent.addChild( _gunNode );
             
             // Positioning
-            final double gunCenterOffset = 28;
+            final double gunCenterOffset = 20;
             final double boxWidth = _boxOfAtomsNode.getFullBounds().getWidth();
             final double gunWidth = _gunNode.getFullBounds().getWidth();
             if ( boxWidth > gunWidth ) {
