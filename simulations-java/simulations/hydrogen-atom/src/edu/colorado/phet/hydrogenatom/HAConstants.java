@@ -132,7 +132,7 @@ public class HAConstants {
     public static final String IMAGE_BOHR_BUTTON = "bohrButton.png";
     public static final String IMAGE_CAMERA = "camera.png";
     public static final String IMAGE_DEBROGLIE_BUTTON = "deBroglieButton.png";
-    public static final String IMAGE_GUN = "gun.png";
+    public static final String IMAGE_GUN = "ray-gun.png";
     public static final String IMAGE_GUN_CONTROL_CABLE = "gunControlCable.png";
     public static final String IMAGE_GUN_ON_BUTTON = "gunOnButton.png";
     public static final String IMAGE_GUN_OFF_BUTTON = "gunOffButton.png";
