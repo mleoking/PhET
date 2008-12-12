@@ -989,12 +989,18 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     	 * @return position in pixels along the time line.
     	 */
     	public int mapTimeToPixels(double timeInSeconds){
+    		int pixels;
     		if (timeInSeconds < 0){
-    			return 0;
+    			pixels = 0;
+    		}
+    		else if (timeInSeconds == Double.POSITIVE_INFINITY){
+    			pixels = _width;
     		}
     		else{
-        		return Math.min((int)Math.round(_conversionMultiplier * Math.log(timeInSeconds + 1)), _width);
+    		    pixels = Math.min((int)Math.round(_conversionMultiplier * Math.log(timeInSeconds + 1)), _width);
     		}
+    		
+    		return pixels;
     	}
     }
 }
