@@ -22,7 +22,6 @@ import javax.swing.JButton;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
