@@ -3,6 +3,9 @@
 package edu.colorado.phet.nuclearphysics.model;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+
+import edu.colorado.phet.nuclearphysics.model.AtomicNucleus.Listener;
 
 
 /**
@@ -31,6 +34,9 @@ public class AdjustableHalfLifeCompositeNucleus extends AlphaDecayCompositeNucle
     //------------------------------------------------------------------------
     // Instance data
     //------------------------------------------------------------------------
+    
+    private double _halfLife = Polonium211CompositeNucleus.HALF_LIFE;  // Use Polonium half life as default.
+    
     //------------------------------------------------------------------------
     // Constructor(s)
     //------------------------------------------------------------------------
@@ -47,9 +53,15 @@ public class AdjustableHalfLifeCompositeNucleus extends AlphaDecayCompositeNucle
     //------------------------------------------------------------------------
     
     public double getHalfLife(){
-    	// TODO
-    	return 0;
+    	return _halfLife;
     }
+    
+    public void setHalfLife(double halfLife){
+    	if (halfLife != _halfLife){
+    		_halfLife = halfLife;
+    	}
+    }
+    
 	protected void updateAgitationFactor() {
 	    // Determine the amount of agitation that should be exhibited by this
 	    // particular nucleus based on its atomic weight.
@@ -83,20 +95,27 @@ public class AdjustableHalfLifeCompositeNucleus extends AlphaDecayCompositeNucle
 
     /**
      * This method generates a value indicating the number of milliseconds for
-     * a Polonium 211 nucleus to decay.  This calculation is based on the 
-     * exponential decay formula and uses the decay constant for Polonium 211.
+     * a nucleus decay based on the half life.  This calculation is based on the 
+     * exponential decay formula.
      * 
-     * @return
+     * @return - a time value in milliseconds
      */
-    double calcDecayTime(){
+    private double calcDecayTime(){
+    	
+    	if (_halfLife == 0){
+    		return 0;
+    	}
+    	if (_halfLife == Double.POSITIVE_INFINITY){
+    		return Double.POSITIVE_INFINITY;
+    	}
+    	
+    	double decayConstant = 0.693/(_halfLife / 1000);
         double randomValue = _rand.nextDouble();
         if (randomValue > 0.999){
             // Limit the maximum time for decay so that the user isn't waiting
             // around forever.
             randomValue = 0.999;
         }
-        // TODO: JPB TBD - Need to make the following work for adjustable half life.
-        double tunnelOutMilliseconds = (-(Math.log( 1 - randomValue ) / 1.343)) * 1000;
-        return tunnelOutMilliseconds;
+        return (-(Math.log( 1 - randomValue ) / decayConstant)) * 1000;
     }
 }

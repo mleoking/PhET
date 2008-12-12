@@ -565,14 +565,24 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     	}
 	}
     
+    /**
+     * Position the half life marker on the chart based on the values of the
+     * half life for the nucleus in the model.
+     */
     private void positionHalfLifeMarker(){
         // Position the marker for the half life.
-    	double halfLife = _model.getHalfLife() * 1000;  // Get half life and convert to ms.
+    	double halfLife = _model.getHalfLife();
+    	double halfLifeMarkerXPos = 0;
+    	if (_exponentialMode){
+    		halfLifeMarkerXPos = _exponentialTimeLine.mapTimeToPixels(halfLife) + _graphOriginX +
+    		     (TIME_ZERO_OFFSET * _msToPixelsFactor);
+    	}
+    	else{
+    		halfLifeMarkerXPos = _graphOriginX + (TIME_ZERO_OFFSET + (halfLife * 1000)) * _msToPixelsFactor;
+    	}
         _halfLifeMarkerLine.reset();
-        _halfLifeMarkerLine.moveTo( (float) ( _graphOriginX + (TIME_ZERO_OFFSET + halfLife) * _msToPixelsFactor ),
-        		(float) _graphOriginY );
-        _halfLifeMarkerLine.lineTo( (float) ( _graphOriginX + (TIME_ZERO_OFFSET + halfLife) * _msToPixelsFactor ),
-        		(float) ( _usableAreaOriginY + ( 0.1 * _usableHeight ) ) );
+        _halfLifeMarkerLine.moveTo( (float)halfLifeMarkerXPos, (float)_graphOriginY );
+        _halfLifeMarkerLine.lineTo( (float)halfLifeMarkerXPos, (float) ( _usableAreaOriginY + ( 0.1 * _usableHeight ) ) );
         
         // Position the textual label for the half life.
         _halfLifeLabel.setOffset( _halfLifeMarkerLine.getX() - (_halfLifeLabel.getFullBoundsReference().width / 2),
@@ -977,7 +987,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     	 * @param timeInSeconds - Time to convert to position.
     	 * @return position in pixels along the time line.
     	 */
-    	private int mapTimeToPixels(double timeInSeconds){
+    	public int mapTimeToPixels(double timeInSeconds){
     		return Math.min((int)Math.round(_conversionMultiplier * Math.log(timeInSeconds)), _width);
     	}
     }

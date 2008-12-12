@@ -321,7 +321,7 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
                 	(convertEnergyToPixels(newEnergyValue) > (_usableAreaOriginY + BORDER_STROKE_WIDTH)))){
                 	_totalEnergy = newEnergyValue;
                 	updateEnergyLines();
-                	calculateHalfLife();
+                	_model.setHalfLife(calculateHalfLife());
                 }
             }
         });
@@ -349,6 +349,7 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
                 	_potentialEnergyPeak = newEnergyValue;
                 	updateEnergyLines();
                 	calculateHalfLife();
+                	_model.setHalfLife(calculateHalfLife());
                 }
             }
         });
