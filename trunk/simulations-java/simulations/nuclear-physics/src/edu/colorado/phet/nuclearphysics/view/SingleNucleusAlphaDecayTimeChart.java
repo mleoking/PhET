@@ -545,6 +545,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     		_currentNucleus = (AlphaDecayCompositeNucleus)modelElement;
     		_undecayedNucleusNode = createNucleusNode(_currentNucleus);
     		_nonPickableChartNode.addChild(_undecayedNucleusNode);
+    		positionHalfLifeMarker();
     	}
 	}
 
@@ -988,7 +989,12 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     	 * @return position in pixels along the time line.
     	 */
     	public int mapTimeToPixels(double timeInSeconds){
-    		return Math.min((int)Math.round(_conversionMultiplier * Math.log(timeInSeconds)), _width);
+    		if (timeInSeconds < 0){
+    			return 0;
+    		}
+    		else{
+        		return Math.min((int)Math.round(_conversionMultiplier * Math.log(timeInSeconds + 1)), _width);
+    		}
     	}
     }
 }

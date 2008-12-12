@@ -131,8 +131,8 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
 		}
 		removeCurrentNucleus();
 		_nucleusID = nucleusID;
-		notifyNucleusTypeChanged();
 		addNewNucleus();
+		notifyNucleusTypeChanged();
 	}
 	
 	public int getNucleusType(){
