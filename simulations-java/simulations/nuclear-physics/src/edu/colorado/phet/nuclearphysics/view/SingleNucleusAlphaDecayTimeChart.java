@@ -83,7 +83,8 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     // Tweakable values that can be used to adjust where the nuclei appear on
     // the chart.
     private static final double PRE_DECAY_TIME_LINE_POS_FRACTION = 0.20;
-    private static final double POST_DECAY_TIME_LINE_POS_FRACTION = 0.50;
+    private static final double POST_DECAY_TIME_LINE_POS_FRACTION_NORMAL = 0.50;
+    private static final double POST_DECAY_TIME_LINE_POS_FRACTION_EXPONENTIAL = 0.40;
     private static final double TIME_ZERO_OFFSET = 100; // In milliseconds
     private static final int INITIAL_FALL_COUNT = 5; // Number of clock ticks for nucleus to fall from upper to lower line.
 
@@ -419,7 +420,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
         
         // Position the tick marks and their labels on the Y axis.
         double preDecayPosY = _usableAreaOriginY + ( _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION );
-        double postDecayPosY = _usableAreaOriginY + ( _usableHeight * POST_DECAY_TIME_LINE_POS_FRACTION );
+        double postDecayPosY = _usableAreaOriginY + ( _usableHeight * POST_DECAY_TIME_LINE_POS_FRACTION_NORMAL );
         PPath yAxisLowerTickMark = (PPath) _yAxisTickMarks.get( 0 );
         yAxisLowerTickMark.setPathTo( new Line2D.Double( _graphOriginX - TICK_MARK_LENGTH, postDecayPosY, 
         		_graphOriginX, postDecayPosY ));
@@ -453,7 +454,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
         _exponentialTimeLine.setSize((int)(_usableWidth - _graphOriginX - (TIME_ZERO_OFFSET * _msToPixelsFactor) - 5),
         		(int)(_usableHeight * 0.3));
         _exponentialTimeLine.setOffset(_graphOriginX + (TIME_ZERO_OFFSET * _msToPixelsFactor), 
-        		_graphOriginY - _exponentialTimeLine.getFullBounds().height * 1.2);
+        		_graphOriginY - _exponentialTimeLine.getFullBounds().height);
         
         // Position the time display.
         _timeDisplay.setSize(_usableWidth * 0.15, _usableHeight * 0.35);
@@ -494,6 +495,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     private void handleClockTicked( ClockEvent clockEvent ) {
 
     	if (_currentNucleus != null){
+    		// There is a nucleus that we are watching.  Make any updates.
     		if (!_currentNucleus.hasDecayed()){
     			if (_undecayedNucleusNode == null){
     				// This situation generally indicates that the nucleus was
@@ -696,9 +698,16 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
 			return;
 		}
 		
-    	double xPos = _graphOriginX + ((_currentNucleus.getElapsedPreDecayTime() * 1000 + TIME_ZERO_OFFSET) 
-    	        * _msToPixelsFactor) - _nucleusNodeRadius;
     	double yPos = _usableAreaOriginY + ( _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION ) - _nucleusNodeRadius;
+    	double xPos;
+    	if (_exponentialMode){
+    		xPos = _exponentialTimeLine.mapTimeToPixels(_currentNucleus.getElapsedPreDecayTime()) + _graphOriginX +
+		        (TIME_ZERO_OFFSET * _msToPixelsFactor) - _nucleusNodeRadius;
+    	}
+    	else{
+        	xPos = _graphOriginX + ((_currentNucleus.getElapsedPreDecayTime() * 1000 + TIME_ZERO_OFFSET) 
+        	        * _msToPixelsFactor) - _nucleusNodeRadius;
+    	}
 
         _undecayedNucleusNode.setOffset(xPos, yPos);
 	}
@@ -709,23 +718,31 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
 	private void positionDecayedNucleusNode(EnhancedLabeledNucleusNode nucleusNode){
 		
 		double xPos, yPos;
+		double postDecayHeight = _exponentialMode ? POST_DECAY_TIME_LINE_POS_FRACTION_EXPONENTIAL :
+			POST_DECAY_TIME_LINE_POS_FRACTION_NORMAL;
 		
 		// Set the X axis position based on the time at which decay occurred.
-    	xPos = _graphOriginX + (nucleusNode.getDecayTime() * 1000 + TIME_ZERO_OFFSET) * _msToPixelsFactor 
-    	        - _nucleusNodeRadius;
+    	if (_exponentialMode){
+    		xPos = _exponentialTimeLine.mapTimeToPixels(_currentNucleus.getElapsedPreDecayTime()) + _graphOriginX +
+		        (TIME_ZERO_OFFSET * _msToPixelsFactor);
+    	}
+    	else{
+        	xPos = _graphOriginX + ((_currentNucleus.getElapsedPreDecayTime() * 1000 + TIME_ZERO_OFFSET) 
+        	        * _msToPixelsFactor) - _nucleusNodeRadius;
+    	}
     	
 		if (nucleusNode.getFallCount() != 0){
 			// The nucleus is falling, indicating that the corresponding
 			// nucleus decayed recently.  Position it in the space between
 			// the upper and lower lines based on its fall counter.
-			double fallDistance = _usableHeight * (POST_DECAY_TIME_LINE_POS_FRACTION - PRE_DECAY_TIME_LINE_POS_FRACTION);
+			double fallDistance = _usableHeight * (postDecayHeight - PRE_DECAY_TIME_LINE_POS_FRACTION);
         	yPos = _usableAreaOriginY + ( _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION ) 
         	        + (fallDistance * (1 - (double)nucleusNode.getFallCount() / (double)INITIAL_FALL_COUNT))
         	        - _nucleusNodeRadius;
 		}
 		else{
 			// The nucleus has completely fallen, so position it on the lower line.
-        	yPos = _usableAreaOriginY + _usableHeight * POST_DECAY_TIME_LINE_POS_FRACTION - _nucleusNodeRadius;
+        	yPos = _usableAreaOriginY + _usableHeight * postDecayHeight - _nucleusNodeRadius;
 		}
 		
 		nucleusNode.setOffset(xPos, yPos);
@@ -863,7 +880,6 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     	private int _width = 0;
     	private int _height = 0;
     	private ArrayList _timeLineSections = new ArrayList();
-//    	private double [] _timeLineSectionValues = {1e2, 1e4, 1e6, 1e8, 1e10, 1e12, 1e14, 1e16};  
     	private double [] _timeLineSectionValues = {60        /* seconds in a minute */,
     			                                    3600,     /* seconds in an hour */
     			                                    86400,    /* seconds in a day */
@@ -936,26 +952,31 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     	}
     	
     	public void setSize(int width, int height){
-    		_width = width;
-    		_height = height;
     		if ((width < 0 || (height < 0))){
     			// Non-usable values - ignore request.
     			return;
     		}
+    		_width = width;
+    		_height = height;
+    		
+    		this.update();
+    	}
+    	
+    	private void update(){
     		
     		// Set the conversion multiplier, which is used to map time values
     		// to positions on the time line.
-    		_conversionMultiplier = (double)width/Math.log(EXPONENTIAL_TIME_LINE_LENGTH);
+    		_conversionMultiplier = (double)_width/Math.log(EXPONENTIAL_TIME_LINE_LENGTH);
     		
     		// Figure out how labels should be scaled to fit in alloted space.
     		// This only handles the vertical dimension.
-    		double desiredHeight = height * (1 - LINE_HEIGHT_PROPORTION);
+    		double desiredHeight = _height * (1 - LINE_HEIGHT_PROPORTION);
     		PText exampleLabel = (PText)_sectionLabels.get(0);
     		exampleLabel.setScale(1);
     		double labelScaleFactor = desiredHeight / exampleLabel.getHeight();
     		
     		// Set the shape for each section of the overall time line.
-    		_outline.setPathToRectangle(0, 0, (float)width, (float)height);
+    		_outline.setPathToRectangle(0, 0, (float)_width, (float)_height);
     		for (int i = 0; i < _timeLineSections.size(); i++){
     			PhetPPath section = (PhetPPath)_timeLineSections.get(i);
     			float sectionXPos, sectionYPos, sectionWidth, sectionHeight;
@@ -965,19 +986,20 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     			else{
     				sectionXPos = (float)((PhetPPath)_timeLineSections.get(i - 1)).getFullBounds().getMaxX();
     			}
-    			sectionYPos = (float)(height * (1 - LINE_HEIGHT_PROPORTION));
+    			sectionYPos = 0;
     			sectionWidth = (float)(mapTimeToPixels(_timeLineSectionValues[i]) - sectionXPos);
     			sectionHeight = (float)(_height * LINE_HEIGHT_PROPORTION);
-    			section.setPathToRectangle(sectionXPos, sectionYPos, sectionWidth, sectionHeight);
-    			section.setPaint(new GradientPaint(sectionXPos, sectionYPos, Color.WHITE, sectionXPos + sectionWidth,
-    					sectionYPos + sectionHeight, TIME_LINE_BASE_COLOR));
+    			section.setPathToRectangle(0, 0, sectionWidth, sectionHeight);
+    			section.setOffset(sectionXPos, 0);
+    			section.setPaint(new GradientPaint(0, 0, Color.WHITE, sectionWidth,
+    					sectionHeight, TIME_LINE_BASE_COLOR));
     			
     			// Position the label for this section.
     			if (_sectionLabels.size() > i){
     				PText label = (PText)_sectionLabels.get(i);
     				label.setScale(1);
     				label.setScale(labelScaleFactor);
-    				label.setOffset(sectionXPos + 4, section.getFullBounds().getMinY() - label.getFullBounds().height);
+    				label.setOffset(sectionXPos + 4, section.getFullBounds().getMaxY());
     			}
     		}
     	}

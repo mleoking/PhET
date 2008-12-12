@@ -86,6 +86,12 @@ public class AdjustableHalfLifeCompositeNucleus extends AlphaDecayCompositeNucle
 	    }        
 	}
 	
+	public double getElapsedPreDecayTime() {
+		// Take the linear value provided by the super class and convert it
+		// through an exponential function.
+		return Math.pow(10, super.getElapsedPreDecayTime()) - 1;
+	}
+
 	/**
 	 * Return a new value for the simulation time at which this nucleus should decay.
 	 */
