@@ -214,7 +214,7 @@ public class HAModule extends PiccoloModule {
             _boxBeamGunParent.addChild( _gunNode );
             
             // Positioning
-            final double gunCenterOffset = 28;
+            final double gunCenterOffset = 24;
             final double boxWidth = _boxOfHydrogenNode.getFullBounds().getWidth();
             final double gunWidth = _gunNode.getFullBounds().getWidth();
             if ( boxWidth > gunWidth ) {
@@ -225,7 +225,7 @@ public class HAModule extends PiccoloModule {
             else {
                 _boxOfHydrogenNode.setOffset( ( ( gunWidth - boxWidth ) / 2 ) - gunCenterOffset, 0 );
                 _beamNode.setOffset( _boxOfHydrogenNode.getFullBounds().getX() + ( boxWidth - _beamNode.getFullBounds().getWidth() ) / 2, _boxOfHydrogenNode.getFullBounds().getMaxY() );
-                _gunNode.setOffset( 0, _beamNode.getFullBounds().getMaxY() );
+                _gunNode.setOffset( -5, _beamNode.getFullBounds().getMaxY() );
             }
         }
 
