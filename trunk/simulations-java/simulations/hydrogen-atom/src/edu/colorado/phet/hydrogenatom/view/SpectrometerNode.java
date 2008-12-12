@@ -88,7 +88,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
 
     /* Close button appears in the upper right */
     private static final double CLOSE_BUTTON_X_MARGIN = 18;
-    private static final double CLOSE_BUTTON_Y_MARGIN = 3;
+    private static final double CLOSE_BUTTON_Y_MARGIN = -1.5;
     
     /* Button panel appear in bottom center */
     private static final double BUTTON_PANEL_Y_MARGIN = 5;
