@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
+import edu.colorado.phet.nuclearphysics.model.AbstractAlphaDecayNucleus;
 import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeCompositeNucleus;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayCompositeNucleus;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayModelListener;
@@ -180,6 +181,27 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
         	return 0;
     	}
     }
+    
+	/**
+	 * Set the half life for all nuclei in the model.
+	 * 
+	 * @param halfLife - Half life in seconds.
+	 */
+	public void setHalfLife(double halfLife){
+		
+		// Verify that the current nucleus is custom.
+		if (_nucleusID != NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
+			System.err.println("Warning: Can only set nucleus type for custom nucleus, ignoring request.");
+			return;
+		}
+		
+		// Set the new half life value.
+		AdjustableHalfLifeCompositeNucleus nucleus = (AdjustableHalfLifeCompositeNucleus)_atomicNucleus;
+		nucleus.setHalfLife(halfLife);
+		
+		// Inform any listeners of the change.
+		notifyHalfLifeChanged();
+	}
     
     //------------------------------------------------------------------------
     // Private Methods

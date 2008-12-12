@@ -39,7 +39,7 @@ public class NuclearPhysicsConstants {
     public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
     public static final String PROJECT_NAME = "nuclear-physics"; 
     public static final String FLAVOR_NAME_NUCLEAR_FISSION = "nuclear-fission"; 
-    public static final String FLAVOR_NAME_ALPHA_DECAY = "alpha-radiation"; 
+    public static final String FLAVOR_NAME_ALPHA_DECAY = "alpha-radiation";
     
     //----------------------------------------------------------------------------
     // Fonts
