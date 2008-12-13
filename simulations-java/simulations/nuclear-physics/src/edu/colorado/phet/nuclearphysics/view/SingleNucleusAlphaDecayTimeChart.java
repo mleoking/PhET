@@ -457,8 +457,8 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
         		_graphOriginY - _exponentialTimeLine.getFullBounds().height);
         
         // Position the time display.
-        _timeDisplay.setSize(_usableWidth * 0.15, _usableHeight * 0.35);
-        _timeDisplay.setOffset( _usableAreaOriginX + _usableWidth * 0.03, _usableAreaOriginY + _usableHeight * 0.1);
+        _timeDisplay.setSize(_usableWidth * 0.16, _usableHeight * 0.35);
+        _timeDisplay.setOffset( _usableAreaOriginX + _usableWidth * 0.025, _usableAreaOriginY + _usableHeight * 0.1);
         PBounds _timeDisplayBounds = _timeDisplay.getFullBoundsReference();
         _decayTimeLabel.setOffset(_timeDisplayBounds.getCenterX() - _decayTimeLabel.getFullBoundsReference().width / 2,
         		_timeDisplayBounds.getMaxY());
@@ -773,7 +773,9 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     	private RoundRectangle2D _backgroundShape;
     	private PText _timeText;
     	private PText _unitsText;
-        DecimalFormat timeFormatter = new DecimalFormat( "##0.0" );
+        DecimalFormat timeFormatterNoDecimals = new DecimalFormat( "##0" );
+        DecimalFormat timeFormatterOneDecimal = new DecimalFormat( "##0.0" );
+        DecimalFormat timeFormatterTwoDecimals = new DecimalFormat( "##0.00" );
     	
     	TimeDisplayNode(){
     		_backgroundShape = new RoundRectangle2D.Double(0, 0, _usableWidth * 0.2, _usableHeight * 0.2, 8, 8);
@@ -802,16 +804,61 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     	}
     	
     	public void setTime(double seconds){
-            _timeText.setText( new String (timeFormatter.format(seconds)) );
-            // TODO: JPB TBD - Need to make this a resource, need to make it handle different scales.
-            _unitsText.setText("sec");
+
+    		// TODO: Need to make the units into resources when all is approved.
+    		if (seconds < 60){
+    			// Seconds range.
+                _timeText.setText( new String (timeFormatterOneDecimal.format(seconds)) );
+                _unitsText.setText("sec");
+    		}
+    		else if (seconds < 3600){
+    			// Minutes range.
+                _timeText.setText( new String (timeFormatterOneDecimal.format(seconds / 60)) );
+                _unitsText.setText("min");
+    		}
+    		else if (seconds < 86400){
+    			// Hours range.
+                _timeText.setText( new String (timeFormatterOneDecimal.format(seconds / 3600)) );
+                _unitsText.setText("hrs");
+    		}
+    		else if (seconds < 31.6e6){
+    			// Days range.
+                _timeText.setText( new String (timeFormatterNoDecimals.format(seconds / 86400)) );
+                _unitsText.setText("days");
+    		}
+    		else if (seconds < 3.16e10){
+    			// Years range.
+                _timeText.setText( new String (timeFormatterNoDecimals.format(seconds / 31.6e6)) );
+                _unitsText.setText("yrs");
+    		}
+    		else if (seconds < 3.16e13){
+    			// Thousand years range (millenia).
+                _timeText.setText( new String (timeFormatterNoDecimals.format(seconds / 3.16e10)) );
+                _unitsText.setText("ty");
+    		}
+    		else if (seconds < 3.16e16){
+    			// Million years range.
+                _timeText.setText( new String (timeFormatterNoDecimals.format(seconds / 3.16e13)) );
+                _unitsText.setText("my");
+    		}
+    		else if (seconds < 3.16e19){
+    			// Billion years range.
+                _timeText.setText( new String (timeFormatterNoDecimals.format(seconds / 3.16e16)) );
+                _unitsText.setText("by");
+    		}
+    		else {
+    			_timeText.setText( "\u221e"); // Infinity.
+    			_unitsText.setText("");
+    		}
+    		
             update();
     	}
     	
     	private void update(){
     		double width = _backgroundShape.getWidth();
     		double height = _backgroundShape.getHeight();
-    		_timeText.setOffset( width * 0.2, height / 2 - _timeText.getFullBoundsReference().height / 2 );
+    		_timeText.setOffset( width *.55 - _timeText.getFullBoundsReference().width,
+    				height / 2 - _timeText.getFullBoundsReference().height / 2 );
     		_unitsText.setOffset( width * 0.6, _timeText.getFullBoundsReference().getMaxY() 
     				- _unitsText.getFullBoundsReference().height * 1.1);
     	}
