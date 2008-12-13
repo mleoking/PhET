@@ -38,7 +38,7 @@ public class Polonium211CompositeNucleus extends AlphaDecayCompositeNucleus {
         super(clock, position, ORIGINAL_NUM_PROTONS, ORIGINAL_NUM_NEUTRONS);
         
         // Decide when alpha decay will occur.
-        _alphaDecayTime = clock.getSimulationTime() + calcPolonium211DecayTime();
+        _timeUntilDecay = calcPolonium211DecayTime();
     }
     
     //------------------------------------------------------------------------

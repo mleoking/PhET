@@ -3,9 +3,6 @@
 package edu.colorado.phet.nuclearphysics.model;
 
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-
-import edu.colorado.phet.nuclearphysics.model.AtomicNucleus.Listener;
 
 
 /**
@@ -45,7 +42,7 @@ public class AdjustableHalfLifeCompositeNucleus extends AlphaDecayCompositeNucle
         super(clock, position, ORIGINAL_NUM_PROTONS, ORIGINAL_NUM_NEUTRONS);
         
         // Decide when alpha decay will occur.
-        _alphaDecayTime = clock.getSimulationTime() + calcDecayTime();
+        _timeUntilDecay = calcDecayTime();
     }
     
     //------------------------------------------------------------------------
@@ -87,9 +84,28 @@ public class AdjustableHalfLifeCompositeNucleus extends AlphaDecayCompositeNucle
 	}
 	
 	public double getElapsedPreDecayTime() {
-		// Take the linear value provided by the super class and convert it
-		// through an exponential function.
-		return Math.pow(10, super.getElapsedPreDecayTime()) - 1;
+		if (!hasDecayed()){
+			return getTimeOfExistence();
+		}
+		else{
+			return _preDecayLifeTime / 1000;
+		}
+	}
+	
+	/**
+	 * Get the length of time for which this nucleus has existed, meaning that
+	 * is has been moving towards decay.
+	 * 
+	 * @return - Time of existence in seconds.
+	 */
+	protected double getTimeOfExistence(){
+		double simTimeOfExistence = (_clock.getSimulationTime() - _startTime) / 1000;
+		
+		// Convert the linear simulation clock via an exponential function in
+		// order to figure out how long this nucleus has been in existence.
+		// Note that this is tweaked a bit to make the nucleus move along the
+		// time chart at a reasonable rate.
+		return Math.pow(10, simTimeOfExistence * 5) - 1;
 	}
 
 	/**

@@ -19,10 +19,10 @@ public abstract class AlphaDecayCompositeNucleus extends CompositeAtomicNucleus 
     // Instance data
     //------------------------------------------------------------------------
 
-	protected double _alphaDecayTime = 0;
-	private double   _startTime;  // Simulation time at which this nucleus was created or last reset.
-	private double   _preDecayLifeTime;
-	private boolean  _hasDecayed = false;
+	protected double   _timeUntilDecay = 0;
+	protected double   _startTime;  // Simulation time at which this nucleus was created or last reset.
+	protected double   _preDecayLifeTime;
+	private boolean    _hasDecayed = false;
 	
     //------------------------------------------------------------------------
     // Constructor
@@ -40,16 +40,6 @@ public abstract class AlphaDecayCompositeNucleus extends CompositeAtomicNucleus 
 		_startTime = clock.getSimulationTime();
 	}
 
-	/**
-	 * Get the current value for the simulation time at which decay will or
-	 * did occur.
-	 * 
-	 * @return - time of decay, in seconds.
-	 */
-	public double getDecayTime() {
-	    return _alphaDecayTime / 1000;
-	}
-	
 	/**
 	 * Get a value that indicates how long this nucleus has existed without
 	 * having decayed, or the amount of time that it was around prior to
@@ -79,7 +69,7 @@ public abstract class AlphaDecayCompositeNucleus extends CompositeAtomicNucleus 
 	public void reset(AlphaParticle alpha) {
 	    
 	    // Reset the decay time.
-	    _alphaDecayTime = calculateDecayTime();
+	    _timeUntilDecay = calculateDecayTime();
 	    _hasDecayed = false;
 	    _startTime = _clock.getSimulationTime();
 	    
@@ -108,7 +98,7 @@ public abstract class AlphaDecayCompositeNucleus extends CompositeAtomicNucleus 
 	    super.handleClockTicked( clockEvent );
 	    
 	    // See if alpha decay should occur.
-	    if ((_alphaDecayTime != 0) && (clockEvent.getSimulationTime() >= _alphaDecayTime ))
+	    if ((_timeUntilDecay != Double.POSITIVE_INFINITY) && (getTimeOfExistence() >= _timeUntilDecay / 1000))
 	    {
 	        // Pick an alpha particle to tunnel out and make it happen.
 	        for (int i = 0; i < _constituents.size(); i++)
@@ -136,12 +126,16 @@ public abstract class AlphaDecayCompositeNucleus extends CompositeAtomicNucleus 
 	        
 	    	// Mark that decay has happened.
 	    	_hasDecayed = true;
-	    	_preDecayLifeTime = _alphaDecayTime - _startTime;
+	    	_preDecayLifeTime = _timeUntilDecay;
 
-	    	// Set the decay time to 0 to indicate that no more tunneling out
+	    	// Set the decay time to infinity to indicate that no more tunneling out
 	        // should occur.
-	        _alphaDecayTime = 0;
+	        _timeUntilDecay = Double.POSITIVE_INFINITY;
 	    }
+	}
+	
+	protected double getTimeOfExistence(){
+		return _clock.getSimulationTime() - _startTime;
 	}
 
 	abstract protected void updateAgitationFactor();
