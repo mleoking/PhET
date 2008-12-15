@@ -36,7 +36,6 @@ public class TrackingMessage {
     public static final String UPDATE_NOW_PRESSED = "update-now-pressed";
     public static final String ASK_ME_LATER_PRESSED = "ask-me-later-update-pressed";
     public static final String SKIP_UPDATE_PRESSED = "skip-update-pressed";
-    public static final String UPDATES_ADVANCED_PRESSED = "updates-advanced-pressed";
     public static final String UPDATES_CANCEL_PRESSED = "updates-cancel-pressed";
     public static final String UPDATES_TRY_IT_PRESSED = "updates-try-it-pressed";
     
