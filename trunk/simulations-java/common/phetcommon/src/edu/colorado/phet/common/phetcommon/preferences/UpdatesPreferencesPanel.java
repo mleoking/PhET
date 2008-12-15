@@ -12,8 +12,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.tracking.ActionPerformedMessage;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
-import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 import edu.colorado.phet.common.phetcommon.updates.IManualUpdateChecker;
 
 /**
@@ -35,7 +35,7 @@ public class UpdatesPreferencesPanel extends JPanel {
         JButton checkForUpdatesButton = new JButton( CHECK_FOR_UPDATES );
         checkForUpdatesButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                TrackingManager.postActionPerformedMessage( TrackingMessage.CHECK_FOR_UPDATE_PRESSED );
+                TrackingManager.postActionPerformedMessage( ActionPerformedMessage.CHECK_FOR_UPDATE_PRESSED );
                 iCheckForUpdates.checkForUpdates();
             }
         } );

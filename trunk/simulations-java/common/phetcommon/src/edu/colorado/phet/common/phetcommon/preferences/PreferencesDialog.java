@@ -1,17 +1,23 @@
 package edu.colorado.phet.common.phetcommon.preferences;
 
-import java.awt.*;
+import java.awt.FlowLayout;
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.tracking.ActionPerformedMessage;
+import edu.colorado.phet.common.phetcommon.tracking.StateChangedMessage;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
-import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 import edu.colorado.phet.common.phetcommon.updates.DefaultManualUpdateChecker;
 import edu.colorado.phet.common.phetcommon.updates.IManualUpdateChecker;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -56,7 +62,7 @@ public class PreferencesDialog extends JDialog {
         JButton okButton = new JButton( OK_BUTTON );
         okButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                TrackingManager.postActionPerformedMessage( TrackingMessage.PREFERENCES_OK_PRESSED );
+                TrackingManager.postActionPerformedMessage( ActionPerformedMessage.PREFERENCES_OK_PRESSED );
                 savePreferences();
                 dispose();
             }
@@ -65,7 +71,7 @@ public class PreferencesDialog extends JDialog {
         JButton cancelButton = new JButton( CANCEL_BUTTON );
         cancelButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                TrackingManager.postActionPerformedMessage( TrackingMessage.PREFERENCES_CANCEL_PRESSED );
+                TrackingManager.postActionPerformedMessage( ActionPerformedMessage.PREFERENCES_CANCEL_PRESSED );
                 dispose();
             }
         } );
@@ -94,13 +100,13 @@ public class PreferencesDialog extends JDialog {
         boolean wasVisible = isVisible();
         super.dispose();
         //this is to simplify things in the report generation, since disposing the dialog doesn't call setVisible(false)
-        TrackingManager.postStateChangedMessage( TrackingMessage.PREFERENCES_DIALOG_VISIBLE, wasVisible, false );
+        TrackingManager.postStateChangedMessage( StateChangedMessage.PREFERENCES_DIALOG_VISIBLE, wasVisible, false );
     }
 
     public void setVisible( boolean b ) {
         boolean wasVisible = isVisible();
         super.setVisible( b );
-        TrackingManager.postStateChangedMessage( TrackingMessage.PREFERENCES_DIALOG_VISIBLE, wasVisible, b );
+        TrackingManager.postStateChangedMessage( StateChangedMessage.PREFERENCES_DIALOG_VISIBLE, wasVisible, b );
     }
 
     private void savePreferences() {
@@ -108,7 +114,7 @@ public class PreferencesDialog extends JDialog {
         if ( updatePreferences.isEnabled() != updatesPreferencesPanel.isUpdatesEnabled() ) {
             boolean wasEnabled = updatePreferences.isEnabled();
             updatePreferences.setEnabled( updatesPreferencesPanel.isUpdatesEnabled() );
-            TrackingManager.postStateChangedMessage( TrackingMessage.UPDATES_ENABLED, wasEnabled, updatePreferences.isEnabled() );
+            TrackingManager.postStateChangedMessage( StateChangedMessage.UPDATES_ENABLED, wasEnabled, updatePreferences.isEnabled() );
         }
 
         if ( trackingPreferences.isEnabled() != trackingPreferencesPanel.isTrackingEnabled() ) {
@@ -117,7 +123,7 @@ public class PreferencesDialog extends JDialog {
 
             //we should never see a tracking disabled message, since tracking should be disabled before we try to send that message.
             //can track number of people who disable tracking by checking whether their preferences dialog was opened and then we never hear from them again.
-            TrackingManager.postStateChangedMessage( TrackingMessage.TRACKING_ENABLED, wasEnabled, trackingPreferences.isEnabled() );
+            TrackingManager.postStateChangedMessage( StateChangedMessage.TRACKING_ENABLED, wasEnabled, trackingPreferences.isEnabled() );
         }
 
     }

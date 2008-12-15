@@ -9,8 +9,8 @@ import javax.swing.JButton;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
+import edu.colorado.phet.common.phetcommon.tracking.ActionPerformedMessage;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
-import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 import edu.colorado.phet.common.phetcommon.updates.SimUpdater;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 
@@ -24,7 +24,7 @@ public class UpdateButton extends JButton {
         super( PhetCommonResources.getString( "Common.updates.updateNow" ) );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                TrackingManager.postActionPerformedMessage( TrackingMessage.UPDATE_NOW_PRESSED );
+                TrackingManager.postActionPerformedMessage( ActionPerformedMessage.UPDATE_NOW_PRESSED );
                 if ( PhetUtilities.isRunningFromWebsite() ) {
                     PhetServiceManager.showSimPage( project, sim );
                 }

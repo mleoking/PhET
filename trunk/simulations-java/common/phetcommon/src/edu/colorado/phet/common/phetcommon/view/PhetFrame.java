@@ -21,8 +21,8 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
 import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.tracking.ActionPerformedMessage;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
-import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 import edu.colorado.phet.common.phetcommon.updates.DefaultManualUpdateChecker;
 import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
 import edu.colorado.phet.common.phetcommon.view.menu.PhetFileMenu;
@@ -52,7 +52,7 @@ public class PhetFrame extends JFrame {
 
         addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
-                TrackingManager.postActionPerformedMessage( TrackingMessage.PHET_FRAME_CLOSING );
+                TrackingManager.postActionPerformedMessage( ActionPerformedMessage.PHET_FRAME_CLOSING );
                 PhetExit.exit();
             }
         } );

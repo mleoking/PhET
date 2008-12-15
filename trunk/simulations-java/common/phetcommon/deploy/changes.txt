@@ -1,3 +1,4 @@
+12-15-08: #1040, reorganize and document constants for state-changed and action-performed messages
 12-15-08: #1032, validate JAR files downloaded by SimUpdater
 12-10-08: #1035, add preferred fonts for Chinese-Taiwan (tc), identical to Chinese (zh)
 12-10-08: #1030, JARLauncher makes bad assumptions about properties file
