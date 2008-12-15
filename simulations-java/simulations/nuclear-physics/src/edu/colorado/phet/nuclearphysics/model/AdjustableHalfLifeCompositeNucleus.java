@@ -88,24 +88,25 @@ public class AdjustableHalfLifeCompositeNucleus extends AlphaDecayCompositeNucle
 			return getTimeOfExistence();
 		}
 		else{
-			return _preDecayLifeTime / 1000;
+			return _preDecayLifeTime;
 		}
 	}
 	
 	/**
 	 * Get the length of time for which this nucleus has existed, meaning that
-	 * is has been moving towards decay.
+	 * is has been moving towards decay.  This version maps simulation time
+	 * to an exponential time.
 	 * 
-	 * @return - Time of existence in seconds.
+	 * @return - Time of existence in milliseconds.
 	 */
 	protected double getTimeOfExistence(){
-		double simTimeOfExistence = (_clock.getSimulationTime() - _startTime) / 1000;
+		double simTimeOfExistence = _clock.getSimulationTime() - _startTime;
 		
 		// Convert the linear simulation clock via an exponential function in
 		// order to figure out how long this nucleus has been in existence.
 		// Note that this is tweaked a bit to make the nucleus move along the
 		// time chart at a reasonable rate.
-		return Math.pow(10, simTimeOfExistence * 5) - 1;
+		return Math.pow(10, simTimeOfExistence * 0.05) - 1;
 	}
 
 	/**
@@ -117,7 +118,7 @@ public class AdjustableHalfLifeCompositeNucleus extends AlphaDecayCompositeNucle
 
     /**
      * This method generates a value indicating the number of milliseconds for
-     * a nucleus decay based on the half life.  This calculation is based on the 
+     * a nucleus decay based on the half life.  This calculation is based on the
      * exponential decay formula.
      * 
      * @return - a time value in milliseconds
@@ -131,13 +132,13 @@ public class AdjustableHalfLifeCompositeNucleus extends AlphaDecayCompositeNucle
     		return Double.POSITIVE_INFINITY;
     	}
     	
-    	double decayConstant = 0.693/(_halfLife / 1000);
+    	double decayConstant = 0.693/_halfLife;
         double randomValue = _rand.nextDouble();
         if (randomValue > 0.999){
             // Limit the maximum time for decay so that the user isn't waiting
             // around forever.
             randomValue = 0.999;
         }
-        return (-(Math.log( 1 - randomValue ) / decayConstant)) * 1000;
+        return -(Math.log( 1 - randomValue ) / decayConstant);
     }
 }

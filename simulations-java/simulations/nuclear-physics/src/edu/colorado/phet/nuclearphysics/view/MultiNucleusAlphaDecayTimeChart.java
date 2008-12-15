@@ -370,8 +370,8 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
                 PNode draggedNode = event.getPickedNode();
                 PDimension d = event.getDeltaRelativeTo(draggedNode);
                 draggedNode.localToParent(d);
-                double newHalfLife = _model.getHalfLife() + (d.width / _msToPixelsFactor) / 1000;
-                if (newHalfLife >= (MIN_HALF_LIFE / 1000) && newHalfLife <= ((TIME_SPAN * 0.95) / 1000)){
+                double newHalfLife = _model.getHalfLife() + (d.width / _msToPixelsFactor);
+                if (newHalfLife >= MIN_HALF_LIFE && newHalfLife <= (TIME_SPAN * 0.95)){
 	                _model.setHalfLife(newHalfLife);
 	        		halfLifeChanged = true;
                 }
@@ -641,7 +641,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     
     private void positionHalfLifeMarker(){
         // Position the marker for the half life.
-    	double halfLife = _model.getHalfLife() * 1000;  // Get half life and convert to ms.
+    	double halfLife = _model.getHalfLife();  // Get half life.
         _halfLifeMarkerLine.reset();
         _halfLifeMarkerLine.moveTo( (float) ( _graphOriginX + (TIME_ZERO_OFFSET + halfLife) * _msToPixelsFactor ),
         		(float) _graphOriginY );

@@ -504,7 +504,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     				_nonPickableChartNode.addChild(_undecayedNucleusNode);
     			}
     			positionCurrentNucleus();
-    			_timeDisplay.setTime(_currentNucleus.getElapsedPreDecayTime());
+    			_timeDisplay.setTime(_currentNucleus.getElapsedPreDecayTime() / 1000);
     		}
     		else{
     			if (_undecayedNucleusNode != null){
@@ -577,11 +577,11 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     	double halfLife = _model.getHalfLife();
     	double halfLifeMarkerXPos = 0;
     	if (_exponentialMode){
-    		halfLifeMarkerXPos = _exponentialTimeLine.mapTimeToPixels(halfLife) + _graphOriginX +
+    		halfLifeMarkerXPos = _exponentialTimeLine.mapTimeToPixels(halfLife / 1000) + _graphOriginX +
     		     (TIME_ZERO_OFFSET * _msToPixelsFactor);
     	}
     	else{
-    		halfLifeMarkerXPos = _graphOriginX + (TIME_ZERO_OFFSET + (halfLife * 1000)) * _msToPixelsFactor;
+    		halfLifeMarkerXPos = _graphOriginX + (TIME_ZERO_OFFSET + halfLife) * _msToPixelsFactor;
     	}
         _halfLifeMarkerLine.reset();
         _halfLifeMarkerLine.moveTo( (float)halfLifeMarkerXPos, (float)_graphOriginY );
@@ -701,11 +701,11 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     	double yPos = _usableAreaOriginY + ( _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION ) - _nucleusNodeRadius;
     	double xPos;
     	if (_exponentialMode){
-    		xPos = _exponentialTimeLine.mapTimeToPixels(_currentNucleus.getElapsedPreDecayTime()) + _graphOriginX +
+    		xPos = _exponentialTimeLine.mapTimeToPixels(_currentNucleus.getElapsedPreDecayTime() / 1000) + _graphOriginX +
 		        (TIME_ZERO_OFFSET * _msToPixelsFactor) - _nucleusNodeRadius;
     	}
     	else{
-        	xPos = _graphOriginX + ((_currentNucleus.getElapsedPreDecayTime() * 1000 + TIME_ZERO_OFFSET) 
+        	xPos = _graphOriginX + ((_currentNucleus.getElapsedPreDecayTime() + TIME_ZERO_OFFSET) 
         	        * _msToPixelsFactor) - _nucleusNodeRadius;
     	}
 
@@ -723,11 +723,11 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
 		
 		// Set the X axis position based on the time at which decay occurred.
     	if (_exponentialMode){
-    		xPos = _exponentialTimeLine.mapTimeToPixels(_currentNucleus.getElapsedPreDecayTime()) + _graphOriginX +
+    		xPos = _exponentialTimeLine.mapTimeToPixels(_currentNucleus.getElapsedPreDecayTime() / 1000) + _graphOriginX +
 		        (TIME_ZERO_OFFSET * _msToPixelsFactor);
     	}
     	else{
-        	xPos = _graphOriginX + ((_currentNucleus.getElapsedPreDecayTime() * 1000 + TIME_ZERO_OFFSET) 
+        	xPos = _graphOriginX + ((_currentNucleus.getElapsedPreDecayTime() + TIME_ZERO_OFFSET) 
         	        * _msToPixelsFactor) - _nucleusNodeRadius;
     	}
     	
@@ -923,7 +923,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     	private static final boolean SHOW_OUTLINE = false; // TODO: Remove when fully debugged. 
 
     	private PPath _outline;
-    	private double _conversionMultiplier;
+    	private double _timeToPositionMultiplier;
     	private int _width = 0;
     	private int _height = 0;
     	private ArrayList _timeLineSections = new ArrayList();
@@ -1013,7 +1013,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     		
     		// Set the conversion multiplier, which is used to map time values
     		// to positions on the time line.
-    		_conversionMultiplier = (double)_width/Math.log(EXPONENTIAL_TIME_LINE_LENGTH);
+    		_timeToPositionMultiplier = (double)_width/Math.log(EXPONENTIAL_TIME_LINE_LENGTH);
     		
     		// Figure out how labels should be scaled to fit in alloted space.
     		// This only handles the vertical dimension.
@@ -1021,19 +1021,20 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     		PText exampleLabel = (PText)_sectionLabels.get(0);
     		exampleLabel.setScale(1);
     		double labelScaleFactor = desiredHeight / exampleLabel.getHeight();
-    		
-    		// Set the shape for each section of the overall time line.
+
+    		// Set the overall shape, which may or may not be visible.
     		_outline.setPathToRectangle(0, 0, (float)_width, (float)_height);
+
+    		// Set the shape for each section of the overall time line.
     		for (int i = 0; i < _timeLineSections.size(); i++){
     			PhetPPath section = (PhetPPath)_timeLineSections.get(i);
-    			float sectionXPos, sectionYPos, sectionWidth, sectionHeight;
+    			float sectionXPos, sectionWidth, sectionHeight;
     			if (i == 0){
     				sectionXPos = 0;
     			}
     			else{
     				sectionXPos = (float)((PhetPPath)_timeLineSections.get(i - 1)).getFullBounds().getMaxX();
     			}
-    			sectionYPos = 0;
     			sectionWidth = (float)(mapTimeToPixels(_timeLineSectionValues[i]) - sectionXPos);
     			sectionHeight = (float)(_height * LINE_HEIGHT_PROPORTION);
     			section.setPathToRectangle(0, 0, sectionWidth, sectionHeight);
@@ -1066,7 +1067,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     			pixels = _width;
     		}
     		else{
-    		    pixels = Math.min((int)Math.round(_conversionMultiplier * Math.log(timeInSeconds + 1)), _width);
+    		    pixels = Math.min((int)Math.round(_timeToPositionMultiplier * Math.log(timeInSeconds + 1)), _width);
     		}
     		
     		return pixels;

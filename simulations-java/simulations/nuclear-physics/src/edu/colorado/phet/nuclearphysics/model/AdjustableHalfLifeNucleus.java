@@ -120,13 +120,13 @@ public class AdjustableHalfLifeNucleus extends AbstractAlphaDecayNucleus {
     		return 0;
     	}
     	
-    	double decayConstant = 0.693/(_halfLife / 1000);
+    	double decayConstant = 0.693/_halfLife;
         double randomValue = RAND.nextDouble();
         if (randomValue > 0.999){
             // Limit the maximum time for decay so that the user isn't waiting
             // around forever.
             randomValue = 0.999;
         }
-        return (-(Math.log( 1 - randomValue ) / decayConstant)) * 1000;
+        return (-(Math.log( 1 - randomValue ) / decayConstant));
     }
 }

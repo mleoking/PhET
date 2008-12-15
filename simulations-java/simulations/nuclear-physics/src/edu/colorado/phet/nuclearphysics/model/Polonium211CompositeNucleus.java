@@ -22,7 +22,7 @@ public class Polonium211CompositeNucleus extends AlphaDecayCompositeNucleus {
     public static final int ORIGINAL_NUM_NEUTRONS = 127;
     
     // Half life for this nucleus.
-    public static double HALF_LIFE = 0.516; // In seconds.
+    public static double HALF_LIFE = 516; // In milliseconds.
 
     // The "agitation factor" for the various types of nucleus.  The amount of
     // agitation controls how dynamic the nucleus looks on the canvas.  Values
@@ -83,7 +83,7 @@ public class Polonium211CompositeNucleus extends AlphaDecayCompositeNucleus {
 	 * Return a new value for the simulation time at which this nucleus should decay.
 	 */
 	protected double calculateDecayTime(){
-		return _clock.getSimulationTime() + calcPolonium211DecayTime();
+		return calcPolonium211DecayTime();
 	}
 
     /**
@@ -100,7 +100,9 @@ public class Polonium211CompositeNucleus extends AlphaDecayCompositeNucleus {
             // around forever.
             randomValue = 0.999;
         }
-        double tunnelOutMilliseconds = (-(Math.log( 1 - randomValue ) / (0.693 / HALF_LIFE))) * 1000;
+        double tunnelOutMilliseconds = (-(Math.log( 1 - randomValue ) / (0.693 / HALF_LIFE)));
+        System.out.println("Random value: " + randomValue);
+        System.out.println("Decay time: " + tunnelOutMilliseconds);
         return tunnelOutMilliseconds;
     }
 }

@@ -20,8 +20,8 @@ public abstract class AlphaDecayCompositeNucleus extends CompositeAtomicNucleus 
     //------------------------------------------------------------------------
 
 	protected double   _timeUntilDecay = 0;
-	protected double   _startTime;  // Simulation time at which this nucleus was created or last reset.
-	protected double   _preDecayLifeTime;
+	protected double   _startTime;         // Simulation time at which this nucleus was created or last reset.
+	protected double   _preDecayLifeTime;  // Milliseconds of existence prior to decay.
 	private boolean    _hasDecayed = false;
 	
     //------------------------------------------------------------------------
@@ -45,14 +45,14 @@ public abstract class AlphaDecayCompositeNucleus extends CompositeAtomicNucleus 
 	 * having decayed, or the amount of time that it was around prior to
 	 * decay.
 	 * 
-	 * @return - pre-decay time of existence, in seconds.
+	 * @return - pre-decay time of existence, in milliseconds.
 	 */
 	public double getElapsedPreDecayTime(){
 		if (hasDecayed()){
-			return _preDecayLifeTime / 1000;
+			return _preDecayLifeTime;
 		}
 		else{
-			return (_clock.getSimulationTime() - _startTime) / 1000;
+			return _clock.getSimulationTime() - _startTime;
 		}
 	}
 	
@@ -98,7 +98,7 @@ public abstract class AlphaDecayCompositeNucleus extends CompositeAtomicNucleus 
 	    super.handleClockTicked( clockEvent );
 	    
 	    // See if alpha decay should occur.
-	    if ((_timeUntilDecay != Double.POSITIVE_INFINITY) && (getTimeOfExistence() >= _timeUntilDecay / 1000))
+	    if ((_timeUntilDecay != Double.POSITIVE_INFINITY) && (getTimeOfExistence() >= _timeUntilDecay))
 	    {
 	        // Pick an alpha particle to tunnel out and make it happen.
 	        for (int i = 0; i < _constituents.size(); i++)
@@ -134,8 +134,13 @@ public abstract class AlphaDecayCompositeNucleus extends CompositeAtomicNucleus 
 	    }
 	}
 	
+	/**
+	 * Get the time for which this nucleus has existed.
+	 * 
+	 * @return - Existence time in milliseconds.
+	 */
 	protected double getTimeOfExistence(){
-		return _clock.getSimulationTime() - _startTime;
+		return (_clock.getSimulationTime() - _startTime);
 	}
 
 	abstract protected void updateAgitationFactor();

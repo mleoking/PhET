@@ -29,7 +29,7 @@ public class Polonium211Nucleus extends AbstractAlphaDecayNucleus {
     public static final int ORIGINAL_NUM_NEUTRONS = 127;
     
     // Half life for Polonium 211.
-    public static double HALF_LIFE = 0.516; // In seconds.
+    public static double HALF_LIFE = 516; // In milliseconds.
     
     // Random number generator used for calculating decay time based on decay constant.
     private static final Random RAND = new Random();
@@ -127,7 +127,7 @@ public class Polonium211Nucleus extends AbstractAlphaDecayNucleus {
             // around forever.
             randomValue = 0.999;
         }
-        double tunnelOutMilliseconds = (-(Math.log( 1 - randomValue ) / (0.693 / HALF_LIFE))) * 1000;
+        double tunnelOutMilliseconds = (-(Math.log( 1 - randomValue ) / (0.693 / HALF_LIFE)));
         return tunnelOutMilliseconds;
     }
     
