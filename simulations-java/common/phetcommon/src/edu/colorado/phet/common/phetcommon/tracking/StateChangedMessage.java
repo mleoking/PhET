@@ -10,8 +10,19 @@ package edu.colorado.phet.common.phetcommon.tracking;
  * we will define a String representation of the datatype.
  *
  * @author Sam Reid
+ * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class StateChangedMessage extends TrackingMessage {
+    
+    /* values for the constructor "name" arg */
+    
+    // Preference dialog is opened or closed
+    public static final String PREFERENCES_DIALOG_VISIBLE = "preferences-dialog-visible";
+    // updates enabled or disabled in the Updates tab of the Preferences dialog
+    public static final String UPDATES_ENABLED = "updates-enabled";
+    // tracking enabled or disabled in the Tracking tab of the Preferences dialog
+    public static final String TRACKING_ENABLED = "tracking-enabled";
+    
     public StateChangedMessage( SessionID sessionID, String name, String oldValue, String newValue ) {
         super( sessionID, "state-changed" );
         addField( new TrackingMessageField( "name", name ) );

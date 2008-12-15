@@ -22,8 +22,8 @@ import edu.colorado.phet.common.phetcommon.preferences.DefaultUpdatePreferences;
 import edu.colorado.phet.common.phetcommon.preferences.ITrackingInfo;
 import edu.colorado.phet.common.phetcommon.preferences.PreferencesDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.tracking.ActionPerformedMessage;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
-import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 import edu.colorado.phet.common.phetcommon.updates.DefaultManualUpdateChecker;
 import edu.colorado.phet.common.phetcommon.view.PhetExit;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
@@ -48,7 +48,7 @@ public class PhetFileMenu extends JMenu {
         JMenuItem exitMI = new JMenuItem( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.Exit" ) );
         exitMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                TrackingManager.postActionPerformedMessage( TrackingMessage.FILE_EXIT_SELECTED );
+                TrackingManager.postActionPerformedMessage( ActionPerformedMessage.FILE_EXIT_SELECTED );
                 PhetExit.exit();
             }
         } );

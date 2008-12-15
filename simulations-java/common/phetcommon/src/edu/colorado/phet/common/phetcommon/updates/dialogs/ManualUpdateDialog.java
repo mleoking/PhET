@@ -10,8 +10,8 @@ import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
+import edu.colorado.phet.common.phetcommon.tracking.ActionPerformedMessage;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
-import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 
 /**
  * 
@@ -43,7 +43,7 @@ public class ManualUpdateDialog extends AbstractUpdateDialog {
         JButton cancelButton = new JButton( CANCEL_BUTTON );
         cancelButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                TrackingManager.postActionPerformedMessage( TrackingMessage.UPDATES_CANCEL_PRESSED );
+                TrackingManager.postActionPerformedMessage( ActionPerformedMessage.UPDATES_CANCEL_PRESSED );
                 dispose();
             }
         } );

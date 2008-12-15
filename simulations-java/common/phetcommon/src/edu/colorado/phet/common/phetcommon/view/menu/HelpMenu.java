@@ -13,15 +13,18 @@ package edu.colorado.phet.common.phetcommon.view.menu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
 import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.tracking.ActionPerformedMessage;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
-import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 import edu.colorado.phet.common.phetcommon.updates.IManualUpdateChecker;
 
 /**
@@ -136,7 +139,7 @@ public class HelpMenu extends JMenu implements ModuleObserver {
             setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.CheckForUpdates" ).charAt( 0 ) );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    TrackingManager.postActionPerformedMessage( TrackingMessage.HELP_CHECK_FOR_UPDATE_SELETED );
+                    TrackingManager.postActionPerformedMessage( ActionPerformedMessage.HELP_CHECK_FOR_UPDATE_SELETED );
                     iManuallyCheckForUpdates.checkForUpdates();
                 }
             } );

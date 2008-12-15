@@ -10,8 +10,8 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
+import edu.colorado.phet.common.phetcommon.tracking.ActionPerformedMessage;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
-import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 import edu.colorado.phet.common.phetcommon.updates.IUpdateTimer;
 import edu.colorado.phet.common.phetcommon.updates.IVersionSkipper;
 
@@ -50,7 +50,7 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
             public void actionPerformed( ActionEvent e ) {
                 updateTimer.setStartTime( System.currentTimeMillis() );
                 dispose();
-                TrackingManager.postActionPerformedMessage( TrackingMessage.ASK_ME_LATER_PRESSED );
+                TrackingManager.postActionPerformedMessage( ActionPerformedMessage.ASK_ME_LATER_PRESSED );
             }
         } );
 
@@ -60,7 +60,7 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
             public void actionPerformed( ActionEvent e ) {
                 versionSkipper.setSkippedVersion( newVersion.getRevisionAsInt() );
                 dispose();
-                TrackingManager.postActionPerformedMessage( TrackingMessage.SKIP_UPDATE_PRESSED );
+                TrackingManager.postActionPerformedMessage( ActionPerformedMessage.SKIP_UPDATE_PRESSED );
             }
         } );
         

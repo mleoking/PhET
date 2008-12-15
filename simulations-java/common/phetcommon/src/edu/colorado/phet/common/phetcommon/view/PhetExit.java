@@ -1,7 +1,7 @@
 package edu.colorado.phet.common.phetcommon.view;
 
+import edu.colorado.phet.common.phetcommon.tracking.ActionPerformedMessage;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
-import edu.colorado.phet.common.phetcommon.tracking.TrackingMessage;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
 /**
@@ -29,7 +29,7 @@ public class PhetExit implements IProguardKeepClass {
      * @return true
      */
     public static boolean quitMacOSX() {
-        TrackingManager.postActionPerformedMessage( TrackingMessage.MAC_OSX_QUIT_SELECTED );
+        TrackingManager.postActionPerformedMessage( ActionPerformedMessage.MAC_OSX_QUIT_SELECTED );
         TrackingManager.postSessionEndedMessage();
         TrackingManager.waitFor( 1000 );
         return true;
