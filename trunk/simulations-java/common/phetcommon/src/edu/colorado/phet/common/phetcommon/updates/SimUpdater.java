@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.jar.JarFile;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -71,6 +72,11 @@ public class SimUpdater {
                     File tempUpdaterJAR = getTempUpdaterJAR();
                     boolean success = downloadFiles( UPDATER_ADDRESS, tempUpdaterJAR, simJarURL, tempSimJAR, simName, newVersion );
                     if ( success ) {
+                        
+                        // validate the downloaded JAR files
+                        validateJAR( tempUpdaterJAR );
+                        validateJAR( tempSimJAR );
+                        
                         startUpdaterBootstrap( tempUpdaterJAR, tempSimJAR, simJAR );
                         System.exit( 0 ); //presumably, jar must exit before it can be overwritten
                     }
@@ -112,6 +118,7 @@ public class SimUpdater {
         // start the download
         downloadThread.start();
         dialog.setVisible( true );
+        
         return downloadThread.getSucceeded();
     }
     
@@ -121,9 +128,9 @@ public class SimUpdater {
     private void startUpdaterBootstrap( File updaterBootstrap, File src, File dst ) throws IOException {
         String[] cmdArray = new String[] { PhetUtilities.getJavaPath(), "-jar", updaterBootstrap.getAbsolutePath(), src.getAbsolutePath(), dst.getAbsolutePath() };
         println( "Starting updater bootstrap with cmdArray=" + Arrays.asList( cmdArray ).toString() );
-        Process p = Runtime.getRuntime().exec( cmdArray );
-        //it would be nice to read output from process in case helpful debug information is there in case of problem
-        //however, the simulation JAR must exit so that it can be overwritten
+        Runtime.getRuntime().exec( cmdArray );
+        // It would be nice to read output from the Process returned by exec.
+        // However, the simulation JAR must exit so that it can be overwritten.
     }
 
     /*
@@ -146,9 +153,9 @@ public class SimUpdater {
      */
     private File getTempSimJAR( File simJAR ) throws IOException {
         String basename = FileUtils.getBasename( simJAR );
-        File location = File.createTempFile( basename, ".jar" );
-        println( "temporary JAR is " + location.getAbsolutePath() );
-        return location;
+        File file = File.createTempFile( basename, ".jar" );
+        println( "temporary JAR is " + file.getAbsolutePath() );
+        return file;
     }
 
     /*
@@ -163,6 +170,15 @@ public class SimUpdater {
         }
         println( "Downloading updater to " + updaterJAR.getAbsolutePath() );
         return updaterJAR;
+    }
+    
+    /*
+     * Verifies that a downloaded file is actually a JAR file.
+     * If an error was experienced on the server, the file will be a text file containing an error message.
+     * The format of the error message is not well-defined or suitable for displaying to the user.
+     */
+    private void validateJAR( File file ) throws IOException {
+        new JarFile( file ); // throws IOException if not a jar file
     }
 
     private void println( String message ) {
