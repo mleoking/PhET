@@ -157,7 +157,7 @@ public class MultiNucleusAlphaDecayModel implements AlphaDecayNucleusTypeControl
 	/**
 	 * Set the half life for all nuclei in the model.
 	 * 
-	 * @param halfLife - Half life in seconds.
+	 * @param halfLife - Half life in milliseconds.
 	 */
 	public void setHalfLife(double halfLife){
 		

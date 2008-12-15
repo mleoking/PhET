@@ -30,16 +30,16 @@ public abstract class AbstractAlphaDecayNucleus extends AtomicNucleus implements
 	}
 
 	public double getHalfLife() {
-	    return _halfLife / 1000;
+	    return _halfLife;
 	}
 
 	/**
 	 * Set the half life for this nucleus.
 	 * 
-	 * @param halfLife - Half life in seconds.
+	 * @param halfLife - Half life in milliseconds.
 	 */
 	public void setHalfLife(double halfLife) {
-	    _halfLife = halfLife * 1000;
+	    _halfLife = halfLife;
 	}
 
 	public boolean isPaused() {

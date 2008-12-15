@@ -66,7 +66,7 @@ public interface AlphaDecayControl {
 	 * Returns a value representing the half life for this nucleus.  Should
 	 * be the same for all instances of a given nucleus.
 	 * 
-	 * @return - Half life in seconds.
+	 * @return - Half life in milliseconds.
 	 */
 	public double getHalfLife();
 }
