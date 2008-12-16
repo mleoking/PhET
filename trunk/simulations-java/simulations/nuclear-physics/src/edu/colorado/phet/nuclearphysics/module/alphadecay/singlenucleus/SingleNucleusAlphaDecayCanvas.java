@@ -60,7 +60,7 @@ public class SingleNucleusAlphaDecayCanvas extends PhetPCanvas {
     
     // Constants that control where the charts are placed.
     private final double TIME_CHART_FRACTION = 0.2;   // Fraction of canvas for time chart.
-    private final double ENERGY_CHART_FRACTION = 0.3; // Fraction of canvas for energy chart.
+    private final double ENERGY_CHART_FRACTION = 0.35; // Fraction of canvas for energy chart.
     
     // Other constants that affect the appearance of the chart.
     private final double DEFAULT_BREAKOUT_RADIUS = AtomicNucleus.DEFAULT_TUNNELING_REGION_RADIUS;
