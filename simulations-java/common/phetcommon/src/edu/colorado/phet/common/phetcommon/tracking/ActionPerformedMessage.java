@@ -40,6 +40,8 @@ public class ActionPerformedMessage extends TrackingMessage {
     public static final String UPDATES_CANCEL_PRESSED = "updates_cancel_pressed";
     // "Try it before updating" link was selected in the Update dialog
     public static final String UPDATES_TRY_IT_PRESSED = "updates_try_it_pressed";
+    // close button in the window dressing of the auto update dialog was pressed
+    public static final String AUTO_UPDATE_DIALOG_CLOSE_BUTTON_PRESSED = "auto_update_dialog_close_button_pressed";
     // File->Exit was selected from the menu bar
     public static final String PHET_FRAME_CLOSING = "phet_frame_closing";
     // App->Quit was selected from the Mac Finder's menu bar 
