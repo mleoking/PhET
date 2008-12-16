@@ -3,6 +3,8 @@ package edu.colorado.phet.common.phetcommon.updates.dialogs;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Locale;
 
 import javax.swing.JButton;
@@ -27,6 +29,13 @@ public class ManualUpdateDialog extends AbstractUpdateDialog {
     
     public ManualUpdateDialog( Frame owner, final String project, final String sim, final String simName, final PhetVersion currentVersion, final PhetVersion newVersion, Locale locale ) {
         super( owner, TITLE, project, sim, simName,currentVersion, newVersion, locale );
+        
+        // Close button in window dressing acts like Cancel button
+        addWindowListener( new WindowAdapter() { 
+            public void windowClosing(WindowEvent e) {
+                TrackingManager.postActionPerformedMessage( ActionPerformedMessage.UPDATES_CANCEL_PRESSED );
+            }
+        } );
     }
     
     protected JPanel createButtonPanel( final String project, final String sim, final String simName, final PhetVersion currentVersion, final PhetVersion newVersion, Locale locale ) {

@@ -80,7 +80,7 @@ public class DownloadProgressDialog extends JDialog {
             }
         });
         
-        // Close button in window dress acts like Cancel button
+        // Close button in window dressing acts like Cancel button
         addWindowListener( new WindowAdapter() { 
             public void windowClosing(WindowEvent e) {
                 doCancel();
