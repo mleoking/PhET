@@ -29,8 +29,9 @@ public class SessionStartedMessage extends TrackingMessage {
         TrackingMessageField[] fields = new TrackingMessageField[]{
                 
                 // Common framework info
-                new TrackingMessageField( "sim_type", "java" ),
                 new TrackingMessageField( "user_first_seen_time", PhetPreferences.getInstance().getPreferencesFileCreatedAtMillis() + "" ),
+                new TrackingMessageField( "sim_started_at_time", config.getSimStartTimeMillis() + "" ),
+                new TrackingMessageField( "sim_startup_time", config.getElapsedStartupTime() + "" ),
                 
                 // Sim info
                 new TrackingMessageField( "project", config.getProjectName() ),
@@ -58,8 +59,6 @@ public class SessionStartedMessage extends TrackingMessage {
                 new TrackingMessageField.SystemProperty( "host_locale_language", "user.language" ),
                 new TrackingMessageField.SystemProperty( "host_locale_country", "user.country" ),
                 new TrackingMessageField.SystemProperty( "timezone", "user.timezone" ),
-                new TrackingMessageField( "session_start_time", config.getSimStartTimeMillis() + "" ),
-                new TrackingMessageField( "sim_startup_time", config.getElapsedStartupTime() + "" ),
                 new TrackingMessageField( "screen_width", Toolkit.getDefaultToolkit().getScreenSize().width + "" ),
                 new TrackingMessageField( "screen_height", Toolkit.getDefaultToolkit().getScreenSize().height + "" ),
         };
