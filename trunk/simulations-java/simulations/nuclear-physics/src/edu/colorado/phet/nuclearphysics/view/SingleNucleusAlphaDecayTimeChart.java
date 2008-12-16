@@ -459,7 +459,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
         
         // Position the time display.
         _timeDisplay.setSize(_usableWidth * 0.16, _usableHeight * 0.35);
-        _timeDisplay.setOffset( _usableAreaOriginX + _usableWidth * 0.025, _usableAreaOriginY + _usableHeight * 0.1);
+        _timeDisplay.setOffset( _usableAreaOriginX + _usableWidth * 0.015, _usableAreaOriginY + _usableHeight * 0.1);
         PBounds _timeDisplayBounds = _timeDisplay.getFullBoundsReference();
         _decayTimeLabel.setOffset(_timeDisplayBounds.getCenterX() - _decayTimeLabel.getFullBoundsReference().width / 2,
         		_timeDisplayBounds.getMaxY());
@@ -505,7 +505,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     				_nonPickableChartNode.addChild(_undecayedNucleusNode);
     			}
     			positionCurrentNucleus();
-    			_timeDisplay.setTime(_currentNucleus.getElapsedPreDecayTime() / 1000);
+    			_timeDisplay.setTime(_currentNucleus.getElapsedPreDecayTime());
     		}
     		else{
     			if (_undecayedNucleusNode != null){
@@ -578,7 +578,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     	double halfLife = _model.getHalfLife();
     	double halfLifeMarkerXPos = 0;
     	if (_exponentialMode){
-    		halfLifeMarkerXPos = _exponentialTimeLine.mapTimeToPixels(halfLife / 1000) + _graphOriginX +
+    		halfLifeMarkerXPos = _exponentialTimeLine.mapTimeToHorizPixels(halfLife) + _graphOriginX +
     		     (TIME_ZERO_OFFSET * _msToPixelsFactor);
     	}
     	else{
@@ -702,8 +702,8 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     	double yPos = _usableAreaOriginY + ( _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION ) - _nucleusNodeRadius;
     	double xPos;
     	if (_exponentialMode){
-    		xPos = _exponentialTimeLine.mapTimeToPixels(_currentNucleus.getElapsedPreDecayTime() / 1000) + _graphOriginX +
-		        (TIME_ZERO_OFFSET * _msToPixelsFactor) - _nucleusNodeRadius;
+    		xPos = _exponentialTimeLine.mapTimeToHorizPixels(_currentNucleus.getElapsedPreDecayTime()) + 
+    		       _graphOriginX + (TIME_ZERO_OFFSET * _msToPixelsFactor) - _nucleusNodeRadius;
     	}
     	else{
         	xPos = _graphOriginX + ((_currentNucleus.getElapsedPreDecayTime() + TIME_ZERO_OFFSET) 
@@ -724,8 +724,8 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
 		
 		// Set the X axis position based on the time at which decay occurred.
     	if (_exponentialMode){
-    		xPos = _exponentialTimeLine.mapTimeToPixels(_currentNucleus.getElapsedPreDecayTime() / 1000) + _graphOriginX +
-		        (TIME_ZERO_OFFSET * _msToPixelsFactor) - _nucleusNodeRadius;
+    		xPos = _exponentialTimeLine.mapTimeToHorizPixels(_currentNucleus.getElapsedPreDecayTime()) + 
+    		       _graphOriginX + (TIME_ZERO_OFFSET * _msToPixelsFactor) - _nucleusNodeRadius;
     	}
     	else{
         	xPos = _graphOriginX + ((_currentNucleus.getElapsedPreDecayTime() + TIME_ZERO_OFFSET) 
@@ -804,53 +804,52 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     		update();
     	}
     	
-    	public void setTime(double seconds){
+    	public void setTime(double milliseconds){
 
     		// TODO: Need to make the units into resources when all is approved.
-    		if (seconds < 60){
+    		if (milliseconds < 1000){
+    			// Milliseconds range.
+                _timeText.setText( new String (timeFormatterNoDecimals.format(milliseconds)) );
+                _unitsText.setText("ms");
+    		}
+    		else if (milliseconds < 60000){
     			// Seconds range.
-    			if (seconds < 10){
-    				// Use an extra digit so we can see millisconds better.
-                    _timeText.setText( new String (timeFormatterTwoDecimals.format(seconds)) );
-    			}
-    			else{
-                    _timeText.setText( new String (timeFormatterOneDecimal.format(seconds)) );
-    			}
+                _timeText.setText( new String (timeFormatterOneDecimal.format(milliseconds / 1000)) );
                 _unitsText.setText("sec");
     		}
-    		else if (seconds < 3600){
+    		else if (milliseconds < 3600000){
     			// Minutes range.
-                _timeText.setText( new String (timeFormatterOneDecimal.format(seconds / 60)) );
+                _timeText.setText( new String (timeFormatterOneDecimal.format(milliseconds / 60000)) );
                 _unitsText.setText("min");
     		}
-    		else if (seconds < 86400){
+    		else if (milliseconds < 86400000){
     			// Hours range.
-                _timeText.setText( new String (timeFormatterOneDecimal.format(seconds / 3600)) );
+                _timeText.setText( new String (timeFormatterOneDecimal.format(milliseconds / 3600000)) );
                 _unitsText.setText("hrs");
     		}
-    		else if (seconds < 31.6e6){
+    		else if (milliseconds < 31.6e9){
     			// Days range.
-                _timeText.setText( new String (timeFormatterNoDecimals.format(seconds / 86400)) );
+                _timeText.setText( new String (timeFormatterNoDecimals.format(milliseconds / 86400000)) );
                 _unitsText.setText("days");
     		}
-    		else if (seconds < 3.16e10){
+    		else if (milliseconds < 3.16e13){
     			// Years range.
-                _timeText.setText( new String (timeFormatterNoDecimals.format(seconds / 31.6e6)) );
+                _timeText.setText( new String (timeFormatterNoDecimals.format(milliseconds / 31.6e9)) );
                 _unitsText.setText("yrs");
     		}
-    		else if (seconds < 3.16e13){
+    		else if (milliseconds < 3.16e16){
     			// Thousand years range (millenia).
-                _timeText.setText( new String (timeFormatterNoDecimals.format(seconds / 3.16e10)) );
+                _timeText.setText( new String (timeFormatterNoDecimals.format(milliseconds / 3.16e13)) );
                 _unitsText.setText("ty");
     		}
-    		else if (seconds < 3.16e16){
+    		else if (milliseconds < 3.16e19){
     			// Million years range.
-                _timeText.setText( new String (timeFormatterNoDecimals.format(seconds / 3.16e13)) );
+                _timeText.setText( new String (timeFormatterNoDecimals.format(milliseconds / 3.16e16)) );
                 _unitsText.setText("my");
     		}
-    		else if (seconds < 3.16e19){
+    		else if (milliseconds < 3.16e22){
     			// Billion years range.
-                _timeText.setText( new String (timeFormatterNoDecimals.format(seconds / 3.16e16)) );
+                _timeText.setText( new String (timeFormatterNoDecimals.format(milliseconds / 3.16e19)) );
                 _unitsText.setText("by");
     		}
     		else {
@@ -924,7 +923,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
      */
     private class ExponentialTimeLineNode extends PNode {
     	
-    	private static final double EXPONENTIAL_TIME_LINE_LENGTH = 3.2e19;  // Roughly a trillion years in seconds. 
+    	private static final double EXPONENTIAL_TIME_LINE_LENGTH = 3.2e22;  // Roughly a trillion years in milliseconds. 
     	private static final double LINE_HEIGHT_PROPORTION = 0.5; // Height of time line as a function of overall
     	                                                          // height of the node.
     	private static final boolean SHOW_OUTLINE = false; // TODO: Remove when fully debugged. 
@@ -934,15 +933,17 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     	private int _width = 0;
     	private int _height = 0;
     	private ArrayList _timeLineSections = new ArrayList();
-    	private double [] _timeLineSectionValues = {60        /* seconds in a minute */,
-    			                                    3600,     /* seconds in an hour */
-    			                                    86400,    /* seconds in a day */
-    			                                    31.6e6,   /* seconds in a year */
-    			                                    3.16e10,   /* seconds in a millenium */
-    			                                    3.16e13,   /* seconds in a million years */
-    			                                    3.16e16,   /* seconds in a billion years */
-    			                                    EXPONENTIAL_TIME_LINE_LENGTH
-    			                                    };
+    	private double [] _timeLineSectionValues = { 
+    			                                       1000,      /* milliseconds in a second */
+    			                                       60000,     /* milliseconds in a minute */
+    			                                       3600000,   /* milliseconds in an hour */
+    			                                       86400000,  /* milliseconds in a day */
+    			                                       31.6e9,    /* milliseconds in a year */
+    			                                       3.16e13,   /* milliseconds in a millenium */
+    			                                       3.16e16,   /* milliseconds in a million years */
+    			                                       3.16e19,   /* milliseconds in a billion years */
+    			                                       EXPONENTIAL_TIME_LINE_LENGTH
+    			                                   };
     	private ArrayList _sectionLabels = new ArrayList();
 
     	/**
@@ -964,17 +965,22 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     		// Create the labels for the sections.
     		// TODO: Move these into resource file once finalized.
     		PText label = new PText();
-    		label.setText("Seconds");
+    		label.setText("ms");
     		label.setFont(SMALL_LABEL_FONT);
     		_sectionLabels.add(label);
 			addChild(label);
     		label = new PText();
-    		label.setText("Minutes");
+    		label.setText("Secs");
     		label.setFont(SMALL_LABEL_FONT);
     		_sectionLabels.add(label);
 			addChild(label);
     		label = new PText();
-    		label.setText("Hours");
+    		label.setText("Mins");
+    		label.setFont(SMALL_LABEL_FONT);
+    		_sectionLabels.add(label);
+			addChild(label);
+    		label = new PText();
+    		label.setText("Hrs");
     		label.setFont(SMALL_LABEL_FONT);
     		_sectionLabels.add(label);
 			addChild(label);
@@ -984,7 +990,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     		_sectionLabels.add(label);
 			addChild(label);
     		label = new PText();
-    		label.setText("Years");
+    		label.setText("Yrs");
     		label.setFont(SMALL_LABEL_FONT);
     		_sectionLabels.add(label);
 			addChild(label);
@@ -1042,7 +1048,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     			else{
     				sectionXPos = (float)((PhetPPath)_timeLineSections.get(i - 1)).getFullBounds().getMaxX();
     			}
-    			sectionWidth = (float)(mapTimeToPixels(_timeLineSectionValues[i]) - sectionXPos);
+    			sectionWidth = (float)(mapTimeToHorizPixels(_timeLineSectionValues[i]) - sectionXPos);
     			sectionHeight = (float)(_height * LINE_HEIGHT_PROPORTION);
     			section.setPathToRectangle(0, 0, sectionWidth, sectionHeight);
     			section.setOffset(sectionXPos, 0);
@@ -1062,19 +1068,19 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     	/**
     	 * Convert a time value into a position in pixels along the time line.
     	 * 
-    	 * @param timeInSeconds - Time to convert to position.
+    	 * @param time - Time, in milliseconds, to convert to position.
     	 * @return position in pixels along the time line.
     	 */
-    	public int mapTimeToPixels(double timeInSeconds){
+    	public int mapTimeToHorizPixels(double time){
     		int pixels;
-    		if (timeInSeconds < 0){
+    		if (time < 0){
     			pixels = 0;
     		}
-    		else if (timeInSeconds == Double.POSITIVE_INFINITY){
+    		else if (time == Double.POSITIVE_INFINITY){
     			pixels = _width;
     		}
     		else{
-    		    pixels = Math.min((int)Math.round(_timeToPositionMultiplier * Math.log(timeInSeconds + 1)), _width);
+    		    pixels = Math.min((int)Math.round(_timeToPositionMultiplier * Math.log(time + 1)), _width);
     		}
     		
     		return pixels;
