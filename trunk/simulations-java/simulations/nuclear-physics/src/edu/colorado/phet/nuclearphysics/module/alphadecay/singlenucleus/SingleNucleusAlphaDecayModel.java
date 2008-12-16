@@ -198,6 +198,7 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
 		// Set the new half life value.
 		AdjustableHalfLifeCompositeNucleus nucleus = (AdjustableHalfLifeCompositeNucleus)_atomicNucleus;
 		nucleus.setHalfLife(halfLife);
+		resetNucleus();
 		
 		// Inform any listeners of the change.
 		notifyHalfLifeChanged();

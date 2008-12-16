@@ -42,7 +42,7 @@ public class AdjustableHalfLifeCompositeNucleus extends AlphaDecayCompositeNucle
         super(clock, position, ORIGINAL_NUM_PROTONS, ORIGINAL_NUM_NEUTRONS);
         
         // Decide when alpha decay will occur.
-        _timeUntilDecay = calcDecayTime();
+        _timeUntilDecay = calculateDecayTime();
     }
     
     //------------------------------------------------------------------------
@@ -106,26 +106,14 @@ public class AdjustableHalfLifeCompositeNucleus extends AlphaDecayCompositeNucle
 		// order to figure out how long this nucleus has been in existence.
 		// Note that this is tweaked a bit to make the nucleus move along the
 		// time chart at a reasonable rate.
-		return Math.pow(10, simTimeOfExistence * 0.05) - 1;
+		return Math.pow(10, simTimeOfExistence * 0.01) - 1;
 	}
 
 	/**
-	 * Return a new value for the simulation time at which this nucleus should decay.
+	 * Return a new value for the time when this nucleus should decay.
 	 */
 	protected double calculateDecayTime(){
-		return _clock.getSimulationTime() + calcDecayTime();
-	}
-
-    /**
-     * This method generates a value indicating the number of milliseconds for
-     * a nucleus decay based on the half life.  This calculation is based on the
-     * exponential decay formula.
-     * 
-     * @return - a time value in milliseconds
-     */
-    private double calcDecayTime(){
-    	
-    	if (_halfLife == 0){
+		if (_halfLife == 0){
     		return 0;
     	}
     	if (_halfLife == Double.POSITIVE_INFINITY){
@@ -139,6 +127,8 @@ public class AdjustableHalfLifeCompositeNucleus extends AlphaDecayCompositeNucle
             // around forever.
             randomValue = 0.999;
         }
+        System.out.println("DBG: Halflife = " + _halfLife + ", Decay time = " + (-(Math.log( 1 - randomValue ) / decayConstant)));
+        System.out.println("Decay time is greater than half life?: " + ((-(Math.log( 1 - randomValue ) / decayConstant)) > _halfLife));
         return -(Math.log( 1 - randomValue ) / decayConstant);
-    }
+	}
 }
