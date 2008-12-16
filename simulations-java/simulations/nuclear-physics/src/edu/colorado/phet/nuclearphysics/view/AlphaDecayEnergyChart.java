@@ -63,8 +63,8 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
 	private static final double INITIAL_TOTAL_ENERGY = 10;
 	private static final double INITIAL_MINIUMIM_POTENTIAL_ENERGY = 1; // Defines low point of the potential energy curve.
 	private static final double INITIAL_PEAK_POTENTIAL_ENERGY = 20;    // Defines peak of the potential energy curve.
-	private static final double PRE_DECAY_ENERGY_WELL_BOTTOM = -40;
-	private static final double POST_DECAY_ENERGY_WELL_BOTTOM = -55;
+	private static final double PRE_DECAY_ENERGY_WELL_BOTTOM = -37;
+	private static final double POST_DECAY_ENERGY_WELL_BOTTOM = -50;
 	
 	// TODO: Decide which of these constants go here and which go elsewhere.
 	private static final double MAX_TIME = 3.2e19;  // Trillion years
@@ -698,6 +698,9 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
                     setAlphaImageOffset(_alphaParticleImages[index], untrackedParticle);
                 }
                 
+                // Update the bottom of the energy well.
+                _energyWellBottom = POST_DECAY_ENERGY_WELL_BOTTOM;
+                
                 // Redraw the graph to handle any changes.
                 update();
             }
@@ -729,6 +732,7 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
                     else{
                         // Must have been a reset of the nucleus.
                         _decayOccurred = false;
+                        _energyWellBottom = PRE_DECAY_ENERGY_WELL_BOTTOM;
                         update();
                     }
                 }
@@ -756,8 +760,9 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
             }
     	}
     	
-    	// Reset the decay flag.
+    	// Reset the decay flag and anything else that needs is.
     	_decayOccurred = false;
+    	_energyWellBottom = PRE_DECAY_ENERGY_WELL_BOTTOM;
     }
 
     private void handleModelElementRemoved(Object modelElement){
