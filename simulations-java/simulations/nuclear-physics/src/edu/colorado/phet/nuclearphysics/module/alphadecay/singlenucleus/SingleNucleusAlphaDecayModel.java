@@ -225,11 +225,14 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
 	    // Remove listener from current nucleus.
 		_atomicNucleus.removeListener(_atomicNucleusAdapter);
 		
+		// If decay had occurred and there is an alpha around as a result,
+		// remove it.
+		_tunneledAlpha = null;
+		
 		// Remove the nucleus itself and inform any listeners of its demise.
 		_atomicNucleus.removedFromModel();
 		AlphaDecayCompositeNucleus tempNucleus = _atomicNucleus;
 		_atomicNucleus = null;
-		_tunneledAlpha = null;
 		notifyModelElementRemoved(tempNucleus);
     }
 
