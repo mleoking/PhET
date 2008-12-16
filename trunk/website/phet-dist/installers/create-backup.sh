@@ -54,11 +54,12 @@ fi
 # that creates the list of excess backup directories.  Adjust this number
 # if you need to increase or reduce the number of backups maintained.
 
-EXCESS_BACKUP_DIRS=`ls $ROOT_DIR -C1 -t -d backup* | awk 'NR>4'`
+BACKUP_DIR_PATTERN=backup*
+EXCESS_BACKUP_DIRS=`ls -C1 -t -d $ROOT_DIR$BACKUP_DIR_PATTERN | awk 'NR>4'`
 for DIR in $EXCESS_BACKUP_DIRS
 do
    echo Removing old backup directory $DIR
-   #rm -rf $DIR
+   rm -rf $DIR
    echo ""
 done
 
