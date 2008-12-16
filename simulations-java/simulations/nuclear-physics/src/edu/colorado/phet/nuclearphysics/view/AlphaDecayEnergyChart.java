@@ -24,6 +24,7 @@ import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeCompositeNucleus
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
+import edu.colorado.phet.nuclearphysics.model.CompositeAtomicNucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.singlenucleus.SingleNucleusAlphaDecayModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -201,6 +202,15 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
         		}
         		update();
         	}
+        	
+            public void modelElementAdded(Object modelElement){
+            	System.out.println("Model element added: " + modelElement);
+            	handleModelElementAdded(modelElement);
+            }
+            public void modelElementRemoved(Object modelElement){
+            	System.out.println("Model element removed: " + modelElement);
+            	handleModelElementRemoved(modelElement);
+            }
         });
         
         // If the model currently has the custom nucleus, we need to set the
@@ -209,10 +219,8 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
         	updateCustomNucleusHalfLife();
         }
 
-        /*
-         * TODO: The part below needs to be redone so that we can handle the
-         * coming and going of nuclei and alpha particles.
         // Register as a listener with the model so that we can see when decay occurs.
+        /*
         _model.getAtomNucleus().addListener( new AtomicNucleus.Listener(){
             public void atomicWeightChanged(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
                     ArrayList byProducts ){
@@ -249,7 +257,7 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
                 ((AlphaParticle)nucleusConstituents.get( i )).addListener( this );
             }
         }
-         */
+        */
         
         // Create the border for this chart.
         
@@ -391,9 +399,11 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
         }
         
         // Add the image that depicts the tunneling alpha particle.
-        _tunneledAlphaParticleImage = new PImage((new AlphaParticleNode()).toImage());
+        PNode alphaParticleNode = new AlphaParticleNode();
+        // Scale up the particle size by an arbitrary amount to make it look good.
+        alphaParticleNode.scale( 7 );
+        _tunneledAlphaParticleImage = new PImage(alphaParticleNode.toImage());
         _tunneledAlphaParticleImage.setVisible( false );
-        _tunneledAlphaParticleImage.setScale( ALPHA_PARTICLE_SCALE_FACTOR );
         addChild( _tunneledAlphaParticleImage );
     }
 
@@ -672,6 +682,22 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
                 setAlphaImageOffset(_tunneledAlphaParticleImage, _tunneledAlpha);
                 _decayOccurred = true;
                 
+                if (_currentlyTrackedAlphas.contains(_tunneledAlpha)){
+                	// The particle that tunneled was one that we were already
+                	// watching, so find a new one to watch instead.
+                    int index = _currentlyTrackedAlphas.indexOf( _tunneledAlpha );
+                    AlphaParticle untrackedParticle = null;
+                    for (int i = 0; i < _alphaParticles.size(); i++){
+                    	untrackedParticle = (AlphaParticle) _alphaParticles.get(i);
+                    	if (!_currentlyTrackedAlphas.contains(untrackedParticle)){
+                    		// Track this particle instead of the tunneled one.
+                    		_currentlyTrackedAlphas.set(index, untrackedParticle);
+                    		break;
+                    	}
+                    }
+                    setAlphaImageOffset(_alphaParticleImages[index], untrackedParticle);
+                }
+                
                 // Redraw the graph to handle any changes.
                 update();
             }
@@ -680,6 +706,68 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
                 assert false;
             }
         }
+    }
+    
+    /**
+     * Handle the addition of a new element to the model by determining the
+     * type of element and adding the appropriate representation.
+     * 
+     * @param modelElement
+     */
+    private void handleModelElementAdded(Object modelElement){
+
+    	if (modelElement instanceof CompositeAtomicNucleus){
+    		// A nucleus has been added.
+    		
+        	// Register to listen for decay events.
+            _model.getAtomNucleus().addListener( new AtomicNucleus.Adapter(){
+                public void atomicWeightChanged(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
+                        ArrayList byProducts ){
+                    if (byProducts != null){
+                        handleDecayEvent(byProducts);
+                    }
+                    else{
+                        // Must have been a reset of the nucleus.
+                        _decayOccurred = false;
+                        update();
+                    }
+                }
+            });
+            
+            // Extract references to the alpha particles so that they can be
+            // shown moving around on the graph.
+            ArrayList nucleusConstituents = _model.getAtomNucleus().getConstituents();
+            for (int i = 0; i < nucleusConstituents.size(); i++){
+            	
+                // Monitor the alpha particles of this nucleus.
+                if (nucleusConstituents.get( i ) instanceof AlphaParticle){
+                    // Add this to our overall list of watched particles.
+                    _alphaParticles.add( nucleusConstituents.get( i ) );
+                    
+                    // If we don't have enough yet, add this to our list of
+                    // particles that we are tracking and possibly displaying.
+                    if (_currentlyTrackedAlphas.size() < MAX_ALPHA_PARTICLES_DISPLAYED){
+                        _currentlyTrackedAlphas.add( nucleusConstituents.get( i ) );
+                    }
+                    
+                    // Register as a listener to this particle.
+                    ((AlphaParticle)nucleusConstituents.get( i )).addListener( this );
+                }
+            }
+    	}
+    	
+    	// Reset the decay flag.
+    	_decayOccurred = false;
+    }
+
+    private void handleModelElementRemoved(Object modelElement){
+
+    	if (modelElement instanceof CompositeAtomicNucleus){
+    		// The nucleus was removed.  Clear all references to any of its
+    		// components.
+    		_alphaParticles.clear();
+    		_currentlyTrackedAlphas.clear();
+    	}
     }
 
     /**
@@ -775,7 +863,7 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
         // Calculate the Y axis position based on the particle's energy.
         double yPos;
         if ((!_decayOccurred) || (alpha == _tunneledAlpha)){
-            yPos = _graphOriginY - convertEnergyToScreenUnits( ALPHA_PARTICLE_PRE_DECAY_ENERGY );
+            yPos = _graphOriginY - convertEnergyToScreenUnits( _totalEnergy );
         }
         else{
             yPos = _graphOriginY - convertEnergyToScreenUnits( ALPHA_PARTICLE_POST_DECAY_ENERGY );
@@ -832,7 +920,6 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
     		halfLife = Math.pow(10, (HALF_LIFE_CALC_CONSTANT * (_potentialEnergyPeak - _totalEnergy)));
     	}
     	
-    	System.out.println("Half life is: " + halfLife);
     	return halfLife;
     }
     
