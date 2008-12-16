@@ -127,8 +127,6 @@ public class AdjustableHalfLifeCompositeNucleus extends AlphaDecayCompositeNucle
             // around forever.
             randomValue = 0.999;
         }
-        System.out.println("DBG: Halflife = " + _halfLife + ", Decay time = " + (-(Math.log( 1 - randomValue ) / decayConstant)));
-        System.out.println("Decay time is greater than half life?: " + ((-(Math.log( 1 - randomValue ) / decayConstant)) > _halfLife));
         return -(Math.log( 1 - randomValue ) / decayConstant);
 	}
 }
