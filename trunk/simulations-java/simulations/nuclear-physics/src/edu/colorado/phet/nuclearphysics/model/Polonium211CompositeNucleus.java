@@ -101,8 +101,6 @@ public class Polonium211CompositeNucleus extends AlphaDecayCompositeNucleus {
             randomValue = 0.999;
         }
         double tunnelOutMilliseconds = (-(Math.log( 1 - randomValue ) / (0.693 / HALF_LIFE)));
-        System.out.println("Random value: " + randomValue);
-        System.out.println("Decay time: " + tunnelOutMilliseconds);
         return tunnelOutMilliseconds;
     }
 }
