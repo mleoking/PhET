@@ -3,6 +3,8 @@ package edu.colorado.phet.common.phetcommon.updates.dialogs;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Locale;
 
 import javax.swing.*;
@@ -30,8 +32,15 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
     
     public AutomaticUpdateDialog( Frame owner, ISimInfo simInfo, PhetVersion newVersion, IUpdateTimer updateTimer, IVersionSkipper versionSkipper ) {
         super( owner, TITLE, simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getName(), simInfo.getVersion(), newVersion, simInfo.getLocale() );
+        
         this.updateTimer = updateTimer;
         this.versionSkipper = versionSkipper;
+        
+        addWindowListener( new WindowAdapter() { 
+            public void windowClosing(WindowEvent e) {
+                TrackingManager.postActionPerformedMessage( ActionPerformedMessage.AUTO_UPDATE_DIALOG_CLOSE_BUTTON_PRESSED );
+            }
+        } );
     }
     
     protected JPanel createButtonPanel( final String project, final String sim, final String simName, final PhetVersion currentVersion, final PhetVersion newVersion, Locale locale ) {
