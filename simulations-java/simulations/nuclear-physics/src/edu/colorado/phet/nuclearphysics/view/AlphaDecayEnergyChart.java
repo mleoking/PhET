@@ -56,7 +56,7 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
 	// need some sort of units to work with, we define an arbitrary number of
 	// them and an offset for where zero should be.
 	private static final double Y_AXIS_UNITS = 100;
-	private static final double Y_AXIS_ZERO_OFFSET = 65; // Sets origin of y-axis relative to bottom of chart.
+	private static final double Y_AXIS_ZERO_OFFSET = 55; // Sets origin of y-axis relative to bottom of chart.
 	
 	// Constants for setting the initial positions of the energy lines/curves.
 	private static final double INITIAL_TOTAL_ENERGY = 10;
