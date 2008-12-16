@@ -404,14 +404,7 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
      */
 	private void updateCustomNucleusHalfLife() {
 		if (_model.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
-        	AtomicNucleus currentNucleus = _model.getAtomNucleus();
-        	if (currentNucleus instanceof AdjustableHalfLifeCompositeNucleus){
-        		((AdjustableHalfLifeCompositeNucleus) currentNucleus).setHalfLife(calculateHalfLife());
-        	}
-        	else{
-        		// Should never get here, needs to be debugged if it does.
-        		System.err.println("Error: Unexpected type for nucleus object.");
-        	}
+			_model.setHalfLife(calculateHalfLife());
         }
 	}
 

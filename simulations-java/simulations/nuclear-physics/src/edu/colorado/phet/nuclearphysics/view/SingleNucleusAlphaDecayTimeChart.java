@@ -204,6 +204,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
             };
             
             public void halfLifeChanged(){
+            	clearDecayedNuclei();
             	positionHalfLifeMarker();
             }
         });
@@ -724,7 +725,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
 		// Set the X axis position based on the time at which decay occurred.
     	if (_exponentialMode){
     		xPos = _exponentialTimeLine.mapTimeToPixels(_currentNucleus.getElapsedPreDecayTime() / 1000) + _graphOriginX +
-		        (TIME_ZERO_OFFSET * _msToPixelsFactor);
+		        (TIME_ZERO_OFFSET * _msToPixelsFactor) - _nucleusNodeRadius;
     	}
     	else{
         	xPos = _graphOriginX + ((_currentNucleus.getElapsedPreDecayTime() + TIME_ZERO_OFFSET) 
@@ -808,7 +809,13 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     		// TODO: Need to make the units into resources when all is approved.
     		if (seconds < 60){
     			// Seconds range.
-                _timeText.setText( new String (timeFormatterOneDecimal.format(seconds)) );
+    			if (seconds < 10){
+    				// Use an extra digit so we can see millisconds better.
+                    _timeText.setText( new String (timeFormatterTwoDecimals.format(seconds)) );
+    			}
+    			else{
+                    _timeText.setText( new String (timeFormatterOneDecimal.format(seconds)) );
+    			}
                 _unitsText.setText("sec");
     		}
     		else if (seconds < 3600){

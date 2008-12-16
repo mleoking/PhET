@@ -80,7 +80,7 @@ public class Polonium211CompositeNucleus extends AlphaDecayCompositeNucleus {
 	}
 	
 	/**
-	 * Return a new value for the simulation time at which this nucleus should decay.
+	 * Return a new value for the time at which this nucleus should decay.
 	 */
 	protected double calculateDecayTime(){
 		return calcPolonium211DecayTime();
