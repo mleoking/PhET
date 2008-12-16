@@ -17,30 +17,6 @@ include_once(SITE_ROOT."admin/sim-utils.php");
 // Turn error reporting back on
 error_reporting(E_ALL);
 
-// Set up some defines based on which machine we're using
-if ((isset($_SERVER['HOSTNAME'])) && (strpos($_SERVER['HOSTNAME'], 'tigercat') !== false)) {
-    define('JAR_EXECUTABLE', '/web/chroot/phet/usr/local/java/bin/jar');
-    define('CLEAR_CACHE_URL', 'http://phet.colorado.edu/admin/cache-clear.php?cache=sims');
-    // This join(...) thing sets up the dir in a non OS specific way
-    define('DEFAULT_SIMS_DIR', DIRECTORY_SEPARATOR.join(DIRECTORY_SEPARATOR, array('web', 'htdocs', 'phet', 'sims')));
-}
-else {
-    // Dano's local Mac dev environment
-    define('JAR_EXECUTABLE', '/usr/bin/jar');
-    define('CLEAR_CACHE_URL', 'http://localhost/PhET/website/admin/cache-clear.php?cache=sims');
-    // This join(...) thing sets up the dir in a non OS specific way
-    define('DEFAULT_SIMS_DIR', DIRECTORY_SEPARATOR.join(DIRECTORY_SEPARATOR, array('Users', 'danielmckagan', 'Workspaces', 'PhET', 'sims')));
-}
-/*
-else {
-    // Substitute your own parameters here
-    define('JAR_EXECUTABLE', 'jar');
-    define('CLEAR_CACHE_URL', '');
-    // This join(...) thing sets up the dir in a non OS specific way
-    define('DEFAULT_SIMS_DIR', join(DIRECTORY_SEPARATOR, array()));
-}
-*/
-
 // Create our own exception
 class LocalizeExceptioneption extends Exception {}
 
@@ -251,7 +227,7 @@ function localize_jars($dir_name, $flavor_name, $sims_dir) {
     }
     catch (LocalizeExceptioneption $e) {
         fwrite(STDERR, "Error: ".$e->getMessage()."\n");
-        $exit_code = $e->getExitCode();
+        $exit_code = 4;
     }
 
     // Cleanup hope for and assume success
@@ -265,12 +241,10 @@ function localize_jars($dir_name, $flavor_name, $sims_dir) {
 
 
 //
-// Setup the default variables
+// Setup the variables that could be altered from the command line
 
-$sims_dir = DEFAULT_SIMS_DIR;
+$running_on_tigercat = true;
 $verbose = false;
-$sim_list = array();
-$exit_code = 0;
 
 
 //
@@ -285,6 +259,11 @@ while (isset($args[0]) && (substr($args[0], 0, 1) == '-')) {
         case '--verbose':
             $verbose = true;
             break;
+
+        case '-l':
+        case '--local':
+            $running_on_tigercat = false;
+            break;
     }
 
     $out = array_shift($args);
@@ -292,6 +271,27 @@ while (isset($args[0]) && (substr($args[0], 0, 1) == '-')) {
         break;
     }
 }
+
+// Set up some defines based on which machine we're using
+if ($running_on_tigercat) {
+    define('JAR_EXECUTABLE', '/web/chroot/phet/usr/local/java/bin/jar');
+    define('CLEAR_CACHE_URL', 'http://phet.colorado.edu/admin/cache-clear.php?cache=sims');
+    // This join(...) thing sets up the dir in a non OS specific way
+    define('DEFAULT_SIMS_DIR', DIRECTORY_SEPARATOR.join(DIRECTORY_SEPARATOR, array('web', 'htdocs', 'phet', 'sims')));
+}
+else {
+    // Dano's local Mac dev environment
+    define('JAR_EXECUTABLE', '/usr/bin/jar');
+    define('CLEAR_CACHE_URL', 'http://localhost/PhET/website/admin/cache-clear.php?cache=sims');
+    // This join(...) thing sets up the dir in a non OS specific way
+    define('DEFAULT_SIMS_DIR', DIRECTORY_SEPARATOR.join(DIRECTORY_SEPARATOR, array('Users', 'danielmckagan', 'Workspaces', 'PhET', 'sims')));
+}
+
+//
+// Set up default variables
+$sims_dir = DEFAULT_SIMS_DIR;
+$sim_list = array();
+$exit_code = 0;
 
 // Check to that we have enough arguments
 if ((count($args) < 2) || (count($args) > 3)) {
@@ -318,6 +318,7 @@ if ((count($args) < 2) || (count($args) > 3)) {
 
     Options:
         -v / --verbose  print extra information
+        -l / --local    run locally (not tigercat)
     Arguments:
         project_name    name of the project, ex: quantum-wave-interference
         sim_name        name of the simulation, ex: davisson-germer
