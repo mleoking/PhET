@@ -14,19 +14,23 @@ package edu.colorado.phet.common.phetcommon.tracking;
  */
 public class StateChangedMessage extends TrackingMessage {
     
+    // Versioning the messages allows us to manage data after changing message content.
+    // If the content of this message is changed, you'll need to increment the version number.
+    public static final String MESSAGE_VERSION = "1";
+    
     /* values for the constructor "name" arg */
     
     // Preference dialog is opened or closed
-    public static final String PREFERENCES_DIALOG_VISIBLE = "preferences-dialog-visible";
+    public static final String PREFERENCES_DIALOG_VISIBLE = "preferences_dialog_visible";
     // updates enabled or disabled in the Updates tab of the Preferences dialog
-    public static final String UPDATES_ENABLED = "updates-enabled";
+    public static final String UPDATES_ENABLED = "updates_enabled";
     // tracking enabled or disabled in the Tracking tab of the Preferences dialog
-    public static final String TRACKING_ENABLED = "tracking-enabled";
+    public static final String TRACKING_ENABLED = "tracking_enabled";
     
     public StateChangedMessage( SessionID sessionID, String name, String oldValue, String newValue ) {
-        super( sessionID, "state-changed" );
+        super( sessionID, "state_changed", MESSAGE_VERSION );
         addField( new TrackingMessageField( "name", name ) );
-        addField( new TrackingMessageField( "old-value", oldValue ) );
-        addField( new TrackingMessageField( "new-value", newValue ) );
+        addField( new TrackingMessageField( "old_value", oldValue ) );
+        addField( new TrackingMessageField( "new_value", newValue ) );
     }
 }

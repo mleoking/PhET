@@ -6,8 +6,9 @@ package edu.colorado.phet.common.phetcommon.tracking;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class TrackingMessageField {
-    private String name;
-    private String value;
+    
+    private final String name;
+    private final String value;
 
     public TrackingMessageField( String name, String value ) {
         this.name = name;
@@ -23,8 +24,8 @@ public class TrackingMessageField {
     }
 
     public static class SystemProperty extends TrackingMessageField {
-        public SystemProperty( String s ) {
-            super( s, System.getProperty( s ) );
+        public SystemProperty( String fieldName, String s ) {
+            super( fieldName, System.getProperty( s ) );
         }
     }
 }
