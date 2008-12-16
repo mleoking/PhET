@@ -1,3 +1,4 @@
+12-15-08: #1043, "update canceled" action is not consistently tracked
 12-15-08: #1042, delete tracker_version field from tracking messages, it is obsolete
 12-15-08: #1041, identify a tracking message format by 3 fields: message_type, message_version, sim_type
 12-15-08: #862, add tracking message fields to match database design spec
