@@ -293,12 +293,12 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
 
         _yAxisTickMarkLabels = new ArrayList( 2 );
 
-        PText yTickMarkLabel1 = new PText( NuclearPhysicsStrings.LEAD_207_ISOTOPE_NUMBER );
+        PText yTickMarkLabel1 = new PText();
         yTickMarkLabel1.setFont( TICK_MARK_LABEL_FONT );
         _yAxisTickMarkLabels.add( yTickMarkLabel1 );
         _nonPickableChartNode.addChild( yTickMarkLabel1 );
 
-        PText yTickMarkLabel2 = new PText( NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER );
+        PText yTickMarkLabel2 = new PText();
         yTickMarkLabel2.setFont( TICK_MARK_LABEL_FONT );
         _yAxisTickMarkLabels.add( yTickMarkLabel2 );
         _nonPickableChartNode.addChild( yTickMarkLabel2 );
@@ -463,6 +463,9 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
             tickMarkLabel.setOffset( tickMarkLabelPosX, _graphOriginY );
         }
 
+        // Update the text for the Y axis tick mark labels.
+        setYAxisTickMarkLabelText();
+        
         // Position the tick marks and their labels on the Y axis.
         double preDecayPosY = _usableAreaOriginY + ( _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION );
         double postDecayPosY = _usableAreaOriginY + ( _usableHeight * POST_DECAY_TIME_LINE_POS_FRACTION );
@@ -475,20 +478,21 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         		_graphOriginX, preDecayPosY ) );
 
         PText yAxisLowerTickMarkLabel = (PText) _yAxisTickMarkLabels.get( 0 );
-        yAxisLowerTickMarkLabel.setOffset( _graphOriginX - ( 1.15 * yAxisLowerTickMarkLabel.getWidth() ), yAxisLowerTickMark.getY() - ( 0.5 * yAxisLowerTickMarkLabel.getHeight() ) );
+        yAxisLowerTickMarkLabel.setOffset( _graphOriginX - yAxisLowerTickMark.getWidth() -
+        		( 1.15 * yAxisLowerTickMarkLabel.getWidth() ), 
+        		yAxisLowerTickMark.getY() - ( 0.5 * yAxisLowerTickMarkLabel.getHeight() ) );
 
         PText yAxisUpperTickMarkLabel = (PText) _yAxisTickMarkLabels.get( 1 );
-        yAxisUpperTickMarkLabel.setOffset( _graphOriginX - ( 1.15 * yAxisUpperTickMarkLabel.getWidth() ), yAxisUpperTickMark.getY() - ( 0.5 * yAxisUpperTickMarkLabel.getHeight() ) );
-
-        // Position the half life marker.
-        positionHalfLifeMarker();
+        yAxisUpperTickMarkLabel.setOffset( _graphOriginX - yAxisUpperTickMark.getWidth() -
+        		( 1.15 * yAxisUpperTickMarkLabel.getWidth() ),
+        		yAxisUpperTickMark.getY() - ( 0.5 * yAxisUpperTickMarkLabel.getHeight() ) );
 
         // Position the labels for the axes.
         _xAxisLabel.setOffset( _usableAreaOriginX + _usableWidth - (_xAxisLabel.getWidth() * 1.2), 
         		((PNode)_xAxisTickMarkLabels.get(0)).getFullBoundsReference().getMaxY() );
         double yAxisLabelCenter = yAxisUpperTickMark.getY() 
                 + ((yAxisLowerTickMark.getY() - yAxisUpperTickMark.getY()) / 2);
-        _yAxisLabel2.setOffset( yAxisUpperTickMarkLabel.getOffset().getX() - ( 2.0 * _yAxisLabel1.getFont().getSize() ),
+        _yAxisLabel2.setOffset( yAxisLowerTickMarkLabel.getOffset().getX() - ( 1.8 * _yAxisLabel1.getFont().getSize() ),
         		yAxisLabelCenter + (_yAxisLabel2.getFullBounds().height / 2) );
         _yAxisLabel1.setOffset( _yAxisLabel2.getOffset().getX() - ( 1.1 * _yAxisLabel2.getFont().getSize() ),
         		yAxisLabelCenter + (_yAxisLabel1.getFullBounds().height / 2) );
@@ -501,6 +505,9 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         _numDecayedNucleiLabel.setOffset(
         		_yAxisLabel1.getFullBoundsReference().x - _dummyText.getFullBoundsReference().width * 1.1 - _numDecayedNucleiLabel.getFullBoundsReference().width,
         		postDecayPosY - (_dummyText.getFullBoundsReference().height * 0.5));
+
+        // Position the half life marker.
+        positionHalfLifeMarker();
 
         // Update the numbers for the various nuclei.
         updateNucleiNumberText();
@@ -683,6 +690,33 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     private void handleResetChartButtonPressed() {
     	// TODO: JPB TBD
     }
+    
+	private void setYAxisTickMarkLabelText(){
+		
+		String upperLabel, lowerLabel;
+		
+		switch (_model.getNucleusType()){
+		case NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM:
+			upperLabel = NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL;
+			lowerLabel = NuclearPhysicsStrings.DECAYED_CUSTOM_NUCLEUS_CHEMICAL_SYMBOL;
+			break;
+			
+		case NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM:
+			upperLabel = NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER;
+			lowerLabel = NuclearPhysicsStrings.LEAD_207_ISOTOPE_NUMBER;
+			break;
+			
+		default:
+			upperLabel = "";
+			lowerLabel = "";
+			break;
+		}
+		
+		if (_yAxisTickMarkLabels.size() >= 2){
+    		((PText)_yAxisTickMarkLabels.get(0)).setText(lowerLabel);
+    		((PText)_yAxisTickMarkLabels.get(1)).setText(upperLabel);
+		}
+	}
     
     /**
      * Map the given decay time to one of the buckets of the histogram.
