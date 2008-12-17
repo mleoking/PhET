@@ -23,14 +23,11 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeNucleus;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
+import edu.colorado.phet.nuclearphysics.model.AlphaDecayControl;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
-import edu.colorado.phet.nuclearphysics.model.AlphaDecayControl;
-import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.model.Polonium211Nucleus;
-import edu.colorado.phet.nuclearphysics.module.alphadecay.singlenucleus.SingleNucleusAlphaDecayModel;
 import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
-import edu.colorado.phet.nuclearphysics.view.AtomicNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.view.AutoPressGradientButtonNode;
 import edu.colorado.phet.nuclearphysics.view.BucketOfNucleiNode;
@@ -38,7 +35,6 @@ import edu.colorado.phet.nuclearphysics.view.GrabbableNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.view.MultiNucleusAlphaDecayTimeChart;
 import edu.colorado.phet.nuclearphysics.view.NucleusImageFactory;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -75,6 +71,9 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     
     // Minimum distance between the center of a nucleus and a wall or other obstacle.
     private static final double MIN_NUCLEUS_TO_OBSTACLE_DISTANCE = 10;  // In femtometers.
+    
+    // Scaling factor for nucleus nodes that are in the bucket.
+    public static final double SCALING_FACTOR_FOR_NUCLEUS_NODES_IN_BUCKET = 0.5;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -140,7 +139,8 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
         addScreenChild(_chartLayer);
         
         // Add the button for resetting the nuclei to the canvas.
-        _resetButtonNode = new AutoPressGradientButtonNode(NuclearPhysicsStrings.RESET_ALL_NUCLEI, 22, CANVAS_BUTTON_COLOR);
+        _resetButtonNode = new AutoPressGradientButtonNode(NuclearPhysicsStrings.RESET_ALL_NUCLEI, 22, 
+        		CANVAS_BUTTON_COLOR);
         _chartLayer.addChild(_resetButtonNode);
         
         // Register to receive button pushes.
@@ -291,6 +291,14 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     		// If the node's position indicates that it is in the bucket then
     		// add it to the bucket node.
     		if (isNucleusPosInBucketRectangle((AtomicNucleus)modelElement)){
+    			// Scale the nucleus node down to make it appear smaller.  
+    			// This was requested by the educators in order to try to make
+    			// it clear to the users that the nuclei are somehow different
+    			// when the are in the bucket, which is why they don't decay.
+    			// It will be scaled back up when removed from the bucket.
+    			atomicNucleusNode.scale(SCALING_FACTOR_FOR_NUCLEUS_NODES_IN_BUCKET);
+    			
+    			// Put it in the bucket.
     			_bucketNode.addNucleus(atomicNucleusNode);
     		}
     		
@@ -407,14 +415,20 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     }
 
 	private void transferNodeFromBucketToCanvas( AtomicNucleusNode node ) {
+
+		// Add this nucleus node as a child.
+		_nucleiLayer.addChild(node);
+		
+		// Scale the nucleus back up to full size.
+		double scale = node.getScale();
+		node.scale(1/SCALING_FACTOR_FOR_NUCLEUS_NODES_IN_BUCKET);
+		
 		// Adjust the node's position to account for the fact that it was
 		// in the bucket.
 		Point2D position = node.getNucleusRef().getPositionReference();
-		node.getNucleusRef().setPosition(position.getX() + _bucketRect.getX(), 
-				position.getY() + _bucketRect.getY());
+		node.getNucleusRef().setPosition(_bucketRect.getX() + position.getX() * scale, 
+				_bucketRect.getY() + position.getY() * scale);
 		
-		// Add this nucleus node as a child.
-		_nucleiLayer.addChild(node);
 	}
 
     /**
