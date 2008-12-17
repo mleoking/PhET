@@ -181,6 +181,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
         private JRadioButton m_argonRadioButton;
         private JRadioButton m_oxygenRadioButton;
         private JRadioButton m_waterRadioButton;
+        private JRadioButton m_configurableRadioButton;
         
         MoleculeSelectionPanel(){
             
@@ -236,18 +237,30 @@ public class PhaseChangesControlPanel extends ControlPanel {
                     m_phaseDiagram.setDepictingWater( true );
                 }
             } );
+            m_configurableRadioButton = new JRadioButton( StatesOfMatterStrings.CONFIGURABLE_ATOM_SELECTION_LABEL );
+            m_configurableRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
+            m_configurableRadioButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    m_model.setMoleculeType( StatesOfMatterConstants.USER_DEFINED_MOLECULE );
+                    m_model.setPhase( MultipleParticleModel.PHASE_SOLID);
+//                    m_interactionPotentialDiagram.setMolecular( true );
+                    m_phaseDiagram.setDepictingWater( false );
+                }
+            } );
             
             ButtonGroup buttonGroup = new ButtonGroup();
             buttonGroup.add( m_neonRadioButton );
             buttonGroup.add( m_argonRadioButton );
             buttonGroup.add( m_oxygenRadioButton );
             buttonGroup.add( m_waterRadioButton );
+            buttonGroup.add( m_configurableRadioButton );
             m_neonRadioButton.setSelected( true );
             
             add( m_neonRadioButton );
             add( m_argonRadioButton );
             add( m_oxygenRadioButton );
             add( m_waterRadioButton );
+            add( m_configurableRadioButton );
         }
         
         public void setMolecule( int molecule ){

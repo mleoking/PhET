@@ -9,6 +9,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.statesofmatter.model.particle.ArgonAtom;
+import edu.colorado.phet.statesofmatter.model.particle.ConfigurableAttractionAtom;
 import edu.colorado.phet.statesofmatter.model.particle.HydrogenAtom;
 import edu.colorado.phet.statesofmatter.model.particle.HydrogenAtom2;
 import edu.colorado.phet.statesofmatter.model.particle.NeonAtom;
@@ -208,6 +209,9 @@ public class ParticleNode extends PNode {
             baseColor = new Color( 0xff4444 );
         }
         else if ( atom instanceof UserDefinedAtom ) {
+            baseColor = new Color( 0xCC66CC );
+        }
+        else if ( atom instanceof ConfigurableAttractionAtom ) {
             baseColor = new Color( 0xCC66CC );
         }
         else {
