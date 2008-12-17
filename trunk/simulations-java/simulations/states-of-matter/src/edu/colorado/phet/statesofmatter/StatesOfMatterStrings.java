@@ -32,6 +32,7 @@ public class StatesOfMatterStrings {
     public static final String ARGON_SELECTION_LABEL = StatesOfMatterResources.getString("SolidLiquidGasControl.Argon");
     public static final String WATER_SELECTION_LABEL = StatesOfMatterResources.getString("SolidLiquidGasControl.Water");
     public static final String ADJUSTABLE_ATTRACTION_SELECTION_LABEL = StatesOfMatterResources.getString("SolidLiquidGasControl.AdjustableAttraction");
+    public static final String CONFIGURABLE_ATOM_SELECTION_LABEL = StatesOfMatterResources.getString("SolidLiquidGasControl.ConfigurableAtom");
 
     public static final String FORCE_STATE_CHANGE = StatesOfMatterResources.getString("SolidLiquidGasControl.StateSelection");
     public static final String PHASE_STATE_SOLID = StatesOfMatterResources.getString("SolidLiquidGasControl.Solid");

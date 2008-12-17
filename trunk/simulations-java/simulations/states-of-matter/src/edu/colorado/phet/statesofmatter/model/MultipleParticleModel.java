@@ -31,6 +31,7 @@ import edu.colorado.phet.statesofmatter.model.engine.kinetic.AndersenThermostat;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.IsokineticThermostat;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.Thermostat;
 import edu.colorado.phet.statesofmatter.model.particle.ArgonAtom;
+import edu.colorado.phet.statesofmatter.model.particle.ConfigurableAttractionAtom;
 import edu.colorado.phet.statesofmatter.model.particle.HydrogenAtom;
 import edu.colorado.phet.statesofmatter.model.particle.HydrogenAtom2;
 import edu.colorado.phet.statesofmatter.model.particle.NeonAtom;
@@ -335,7 +336,8 @@ public class MultipleParticleModel{
         if ((moleculeID != StatesOfMatterConstants.DIATOMIC_OXYGEN) &&
             (moleculeID != StatesOfMatterConstants.NEON) &&
             (moleculeID != StatesOfMatterConstants.ARGON) &&
-            (moleculeID != StatesOfMatterConstants.WATER)){
+            (moleculeID != StatesOfMatterConstants.WATER) &&
+            (moleculeID != StatesOfMatterConstants.USER_DEFINED_MOLECULE)){
             
             System.err.println("ERROR: Unsupported molecule type.");
             assert false;
@@ -374,6 +376,11 @@ public class MultipleParticleModel{
             // solid form will look larger (since water expands when frozen).
             m_particleDiameter = OxygenAtom.RADIUS * 2.9;
             m_minModelTemperature = 0.5 * TRIPLE_POINT_MODEL_TEMPERATURE / WATER_TRIPLE_POINT_IN_KELVIN;
+            break;
+        case StatesOfMatterConstants.USER_DEFINED_MOLECULE:
+            m_particleDiameter = ConfigurableAttractionAtom.RADIUS * 2;
+            // TODO: Not sure what to use for min temperature.
+            m_minModelTemperature = 0.5 * TRIPLE_POINT_MODEL_TEMPERATURE / ARGON_TRIPLE_POINT_IN_KELVIN;
             break;
         default:
         	assert false; // Should never happen, so it should be debugged if it does.
@@ -471,6 +478,10 @@ public class MultipleParticleModel{
             sigma = StatesOfMatterConstants.SIGMA_FOR_WATER;
             break;
             
+        case StatesOfMatterConstants.USER_DEFINED_MOLECULE:
+            sigma = ConfigurableAttractionAtom.getSigma();
+            break;
+            
         default:
             System.err.println("Error: Unrecognized molecule type when setting sigma value.");
             sigma = 0;
@@ -509,6 +520,10 @@ public class MultipleParticleModel{
         
         case StatesOfMatterConstants.WATER:
             epsilon = StatesOfMatterConstants.EPSILON_FOR_WATER;
+            break;
+            
+        case StatesOfMatterConstants.USER_DEFINED_MOLECULE:
+            epsilon = ConfigurableAttractionAtom.getEpsilon();
             break;
             
         default:
@@ -622,6 +637,9 @@ public class MultipleParticleModel{
                 case StatesOfMatterConstants.NEON:
                     particle = new NeonAtom(0, 0);
                     break;
+                case StatesOfMatterConstants.USER_DEFINED_MOLECULE:
+                    particle = new ConfigurableAttractionAtom(0, 0);
+                    break;
                 default:
                     particle = new StatesOfMatterAtom(0, 0, m_particleDiameter/2, 10);
                     break;
@@ -728,6 +746,9 @@ public class MultipleParticleModel{
             initializeMonotomic(m_currentMolecule, phase);
             break;
         case StatesOfMatterConstants.ARGON:
+            initializeMonotomic(m_currentMolecule, phase);
+            break;
+        case StatesOfMatterConstants.USER_DEFINED_MOLECULE:
             initializeMonotomic(m_currentMolecule, phase);
             break;
         case StatesOfMatterConstants.WATER:
@@ -932,7 +953,8 @@ public class MultipleParticleModel{
         
         // Verify that a valid molecule ID was provided.
         assert (moleculeID == StatesOfMatterConstants.NEON) || 
-               (moleculeID == StatesOfMatterConstants.ARGON);
+               (moleculeID == StatesOfMatterConstants.ARGON) ||
+               (moleculeID == StatesOfMatterConstants.USER_DEFINED_MOLECULE);
         
         // Determine the number of atoms/molecules to create.  This will be a cube
         // (really a square, since it's 2D, but you get the idea) that takes
@@ -944,6 +966,9 @@ public class MultipleParticleModel{
         }
         else if (moleculeID == StatesOfMatterConstants.ARGON){
             particleDiameter = ArgonAtom.RADIUS * 2;
+        }
+        else if (moleculeID == StatesOfMatterConstants.USER_DEFINED_MOLECULE){
+            particleDiameter = ConfigurableAttractionAtom.RADIUS * 2;
         }
         else{
             // Force it to neon.
@@ -986,6 +1011,9 @@ public class MultipleParticleModel{
             }
             else if (moleculeID == StatesOfMatterConstants.ARGON){
                 atom = new ArgonAtom(0, 0);
+            }
+            else if (moleculeID == StatesOfMatterConstants.USER_DEFINED_MOLECULE){
+                atom = new ConfigurableAttractionAtom(0, 0);
             }
             else{
                 atom = new NeonAtom(0, 0);
@@ -1208,6 +1236,13 @@ public class MultipleParticleModel{
         	criticalPoint = ARGON_CRITICAL_POINT_IN_KELVIN;
             break;
 
+        case StatesOfMatterConstants.USER_DEFINED_MOLECULE:
+        	// TODO: Not sure what to use for these values.  Can/should they
+        	// be dynamically recalculated?
+        	triplePoint = ARGON_TRIPLE_POINT_IN_KELVIN;
+        	criticalPoint = ARGON_CRITICAL_POINT_IN_KELVIN;
+            break;
+
         case StatesOfMatterConstants.WATER:
         	triplePoint = WATER_TRIPLE_POINT_IN_KELVIN;
         	criticalPoint = WATER_CRITICAL_POINT_IN_KELVIN;
@@ -1265,6 +1300,12 @@ public class MultipleParticleModel{
             break;
             
         case StatesOfMatterConstants.ARGON:
+            pressureInAtmospheres = 125 * getModelPressure();
+            break;
+
+        case StatesOfMatterConstants.USER_DEFINED_MOLECULE:
+        	// TODO: Not sure what to do here, need to figure it out.
+        	// Using the value for Argon at the moment.
             pressureInAtmospheres = 125 * getModelPressure();
             break;
 
