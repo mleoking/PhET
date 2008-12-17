@@ -73,7 +73,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     private static final double MIN_NUCLEUS_TO_OBSTACLE_DISTANCE = 10;  // In femtometers.
     
     // Scaling factor for nucleus nodes that are in the bucket.
-    public static final double SCALING_FACTOR_FOR_NUCLEUS_NODES_IN_BUCKET = 0.5;
+    public static final double SCALING_FACTOR_FOR_NUCLEUS_NODES_IN_BUCKET = 0.6;
     
     //----------------------------------------------------------------------------
     // Instance data
