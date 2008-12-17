@@ -283,12 +283,6 @@ public class BucketOfNucleiNode extends PNode {
     // Private Methods
     //------------------------------------------------------------------------
     
-    private void notifyNucleusExtracted(PNode nucleusNode){
-        for (int i = 0; i < _listeners.size(); i++){
-            ((Listener)_listeners.get( i )).nucleusExtracted(nucleusNode);
-        }        
-    }
-
 	/**
 	 * Position one of the visible nuclei based on its position with the array
 	 * of all visible nuclei and add it as a child of the appropriate node.
@@ -304,7 +298,7 @@ public class BucketOfNucleiNode extends PNode {
 		if (nucleusIndex < _numVisibleNucleiInOuterLayers){
 			// This nucleus is in the back row.
 			_backInteriorLayer.addChild(nucleus);
-			xPos = PROTOTYPICAL_NUCLEUS_WIDTH + PROTOTYPICAL_NUCLEUS_WIDTH * nucleusIndex * 1.1;
+			xPos = PROTOTYPICAL_NUCLEUS_WIDTH * 1.3 + PROTOTYPICAL_NUCLEUS_WIDTH * nucleusIndex * 1.1;
 			yPos = _ellipseVerticalSpan * 0.25;
 		}
 		else if (nucleusIndex < _numVisibleNucleiInMiddleLayer + _numVisibleNucleiInOuterLayers){
@@ -317,7 +311,7 @@ public class BucketOfNucleiNode extends PNode {
 		else{
 			// This nucleus is in the front row.
 			_frontInteriorLayer.addChild(nucleus);
-			xPos = PROTOTYPICAL_NUCLEUS_WIDTH * 1.5 + 
+			xPos = PROTOTYPICAL_NUCLEUS_WIDTH * 1.7 + 
 			    PROTOTYPICAL_NUCLEUS_WIDTH * (nucleusIndex - _numVisibleNucleiInOuterLayers - _numVisibleNucleiInMiddleLayer) * 1.1;
 			yPos = _ellipseVerticalSpan * 0.85;
 		}
