@@ -203,11 +203,9 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
         	}
         	
             public void modelElementAdded(Object modelElement){
-            	System.out.println("Model element added: " + modelElement);
             	handleModelElementAdded(modelElement);
             }
             public void modelElementRemoved(Object modelElement){
-            	System.out.println("Model element removed: " + modelElement);
             	handleModelElementRemoved(modelElement);
             }
         });
