@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
+import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusAlphaDecayCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -36,7 +37,8 @@ public class BucketOfNucleiNode extends PNode {
 	public static final Color OUTER_COLOR_LIGHT = new Color (0xFF9933);
 	public static final Color INNER_COLOR_DARK = new Color (0xAA7700);
 	public static final Color INNER_COLOR_LIGHT = new Color (0xCC9933);
-	public static final double PROTOTYPICAL_NUCLEUS_WIDTH = 10;
+	public static final double PROTOTYPICAL_NUCLEUS_WIDTH = 
+		10 * MultiNucleusAlphaDecayCanvas.SCALING_FACTOR_FOR_NUCLEUS_NODES_IN_BUCKET;
 	
     //------------------------------------------------------------------------
     // Instance Data
@@ -297,30 +299,33 @@ public class BucketOfNucleiNode extends PNode {
 
 		double xPos, yPos;
 		
+		AtomicNucleusNode nucleus = _visibleNucleusNodes[nucleusIndex];
+		
 		if (nucleusIndex < _numVisibleNucleiInOuterLayers){
 			// This nucleus is in the back row.
-			_backInteriorLayer.addChild(_visibleNucleusNodes[nucleusIndex]);
+			_backInteriorLayer.addChild(nucleus);
 			xPos = PROTOTYPICAL_NUCLEUS_WIDTH + PROTOTYPICAL_NUCLEUS_WIDTH * nucleusIndex * 1.1;
 			yPos = _ellipseVerticalSpan * 0.25;
 		}
 		else if (nucleusIndex < _numVisibleNucleiInMiddleLayer + _numVisibleNucleiInOuterLayers){
 			// This nucleus is in the middle row.
-			_middleInteriorLayer.addChild(_visibleNucleusNodes[nucleusIndex]);
-			xPos = PROTOTYPICAL_NUCLEUS_WIDTH * 0.6 + 
+			_middleInteriorLayer.addChild(nucleus);
+			xPos = PROTOTYPICAL_NUCLEUS_WIDTH * 0.8 + 
 			    PROTOTYPICAL_NUCLEUS_WIDTH * (nucleusIndex - _numVisibleNucleiInOuterLayers);
-			yPos = _ellipseVerticalSpan * 0.65;
+			yPos = _ellipseVerticalSpan * 0.55;
 		}
 		else{
 			// This nucleus is in the front row.
-			_frontInteriorLayer.addChild(_visibleNucleusNodes[nucleusIndex]);
-			xPos = PROTOTYPICAL_NUCLEUS_WIDTH + 
+			_frontInteriorLayer.addChild(nucleus);
+			xPos = PROTOTYPICAL_NUCLEUS_WIDTH * 1.5 + 
 			    PROTOTYPICAL_NUCLEUS_WIDTH * (nucleusIndex - _numVisibleNucleiInOuterLayers - _numVisibleNucleiInMiddleLayer) * 1.1;
-			yPos = _ellipseVerticalSpan * 1.1;
+			yPos = _ellipseVerticalSpan * 0.85;
 		}
 		
 		// Position the nucleus within the model, which will then be sent as
 		// a position change event to the node.
-		_visibleNucleusNodes[nucleusIndex].getNucleusRef().setPosition(xPos, yPos);
+		double scale = nucleus.getScale();
+		nucleus.getNucleusRef().setPosition(xPos/scale, yPos/scale);
 	}
 	
 	/**
