@@ -20,7 +20,6 @@ import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResizeArrowNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
-import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeCompositeNucleus;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
@@ -324,10 +323,11 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
         addChild(_totalEnergyHandle);
         _totalEnergyHandle.addInputEventListener(new PBasicInputEventHandler(){
         	public void mousePressed(PInputEvent event) {
-        		// TODO: Need to pause model here once the functionality is implemented.
+        		_model.setPaused(true);
         	}
         	public void mouseReleased(PInputEvent event) {
-        		// TODO: Need to reset and restart model once the functionality is implemented.
+        		_model.setPaused(false);
+        		_model.resetNucleus();
         	}
             public void mouseDragged(PInputEvent event) {
                 PNode draggedNode = event.getPickedNode();
@@ -351,10 +351,11 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
         addChild(_potentialEnergyPeakHandle);
         _potentialEnergyPeakHandle.addInputEventListener(new PBasicInputEventHandler(){
         	public void mousePressed(PInputEvent event) {
-        		// TODO: Need to pause model here once the functionality is implemented.
+        		_model.setPaused(true);
         	}
         	public void mouseReleased(PInputEvent event) {
-        		// TODO: Need to reset and restart model once the functionality is implemented.
+        		_model.setPaused(false);
+        		_model.resetNucleus();
         	}
             public void mouseDragged(PInputEvent event) {
                 PNode draggedNode = event.getPickedNode();
