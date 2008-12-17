@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+import edu.colorado.phet.common.phetcommon.util.JavaVersion.JREVersion;
 
 /**
  * Tracking message sent when the simulation starts, indicating the start of the session.
@@ -54,7 +55,7 @@ public class SessionStartedMessage extends TrackingMessage {
                 new TrackingMessageField.SystemProperty( "os_version", "os.version" ),
                 new TrackingMessageField.SystemProperty( "os_arch", "os.arch" ),
                 new TrackingMessageField.SystemProperty( "java_webstart_version", "javawebstart.version" ),
-                new TrackingMessageField.SystemProperty( "java_version", "java.version" ),
+                new TrackingMessageField( "jre_version", new JREVersion().getVersion() ),
                 new TrackingMessageField.SystemProperty( "java_vendor", "java.vendor" ),
                 new TrackingMessageField.SystemProperty( "host_locale_language", "user.language" ),
                 new TrackingMessageField.SystemProperty( "host_locale_country", "user.country" ),
