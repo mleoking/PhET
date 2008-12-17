@@ -100,7 +100,13 @@ public class AdjustableHalfLifeCompositeNucleus extends AlphaDecayCompositeNucle
 	 * @return - Time of existence in milliseconds.
 	 */
 	protected double getTimeOfExistence(){
-		double simTimeOfExistence = _clock.getSimulationTime() - _startTime;
+		double simTimeOfExistence = 0;
+		if (_paused){
+			simTimeOfExistence = _pauseStartTime - _startTime;
+		}
+		else{
+			simTimeOfExistence = _clock.getSimulationTime() - _startTime;
+		}
 		
 		// Convert the linear simulation clock via an exponential function in
 		// order to figure out how long this nucleus has been in existence.
