@@ -1,0 +1,58 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: December 11-17, 2008 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  common code:
+  - validate JAR files downloaded by Updates feature (1032)
+  - pull together all Credits dialog change requests into one ticket (1048)
+  
+  tracking: (862)
+  - review and refine database design with Dano (862)
+  - investigate why we need to have unique field names across all tables
+  - discuss tracking with Kathy, provide complete list of messages
+  - revise Java messages to match database (1040)
+  - resolve issues with message versioning (1041, 1042, 1046)
+  - discuss logging of raw tracking data on the server (1047)
+  - parsing of Java version name into searchable fields (1050)
+  
+  acid-base-solutions:
+  - design meeting
+  - review and feedback on design document
+  
+  translation:
+  - meet with Sam and John to discuss i18n inconsistencies, document conclusions (1034)
+  - estimate the effort required to add country code support (1009)
+  - add "tc" language code for Chinese-Taiwan to translation-utity, publish 1.09 (1035)
+  - investigate Vietnamese font issue in faraday (761)
+  
+  misc:
+  - debug update-translation-jars.php with Sam Reid (1044)
+  - replace gun image in hydrogen-atom and rutherford-scattering (1020)
+  - verify changes to PhET installer (875)
+  - close misc tickets that are no longer relevant (96,160,...)
+  - planning for 3/31/09 release (1049)
+  
+WHAT'S NEXT:
+ 
+  - continue work on tracking feature (message format, database schema)
+  - calibrate faraday and publish a dev version for review
+  - finish remaining glaciers work, publish 2.00 (see Unfuddle)
+  - continue with design of acid-base-solutions sims
+  - participate in planning for 3/31/09 release
+  - work on misc Unfuddle tickets related to 3/31/09 release
+  - investigate 3D libraries
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+  December 24-29
+  January 9-12
+  March 13-16
+  
+--
