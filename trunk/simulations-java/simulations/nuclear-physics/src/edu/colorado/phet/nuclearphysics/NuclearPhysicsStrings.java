@@ -55,6 +55,7 @@ public class NuclearPhysicsStrings {
     public static final String CUSTOM_NUCLEUS_CHEMICAL_SYMBOL = NuclearPhysicsResources.getString( "AlphaDecayControlPanel.CustomNucleusSymbol" );
     public static final String CUSTOM_NUCLEUS_LEGEND_LABEL = NuclearPhysicsResources.getString( "AlphaDecayControlPanel.CustomNucleusLabel" );
     public static final String DECAYED_CUSTOM_NUCLEUS_LEGEND_LABEL = NuclearPhysicsResources.getString( "AlphaDecayControlPanel.DecayedCustomNucleusLabel" );
+    public static final String DECAYED_CUSTOM_NUCLEUS_CHEMICAL_SYMBOL = NuclearPhysicsResources.getString( "AlphaDecayControlPanel.DecayedCustomNucleusSymbol" );
 
     public static final String RESET_ALL_NUCLEI = NuclearPhysicsResources.getString( "MultipleNucleiAlphaDecay.ResetAllNuclei" );
     public static final String ADD_TEN = NuclearPhysicsResources.getString( "MultipleNucleiAlphaDecay.AddTen" );
