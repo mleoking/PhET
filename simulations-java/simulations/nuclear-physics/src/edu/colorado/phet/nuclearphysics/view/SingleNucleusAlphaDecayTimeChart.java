@@ -107,6 +107,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     private PPath _borderNode;
     private PPath _halfLifeMarkerLine;
     private PText _halfLifeLabel;
+    private PText _halfLifeInfinityText;
     private ArrowNode _xAxisOfGraph;
     private ArrayList _xAxisTickMarks;
     private ArrayList _xAxisTickMarkLabels;
@@ -326,6 +327,14 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
         _halfLifeLabel.setTextPaint( HALF_LIFE_TEXT_COLOR );
         _nonPickableChartNode.addChild( _halfLifeLabel );
         
+        // Create the "infinity indication" for the half life marker which is
+        // used to indicate when the half life becomes essentially infinite.
+        // TODO: Find out if infinity is universal or needs to be translated.
+        _halfLifeInfinityText = new PText( "\u221E" );
+        _halfLifeInfinityText.setFont( HALF_LIFE_FONT );
+        _halfLifeInfinityText.setTextPaint( HALF_LIFE_TEXT_COLOR );
+        _nonPickableChartNode.addChild( _halfLifeInfinityText );
+        
         // Add the button for resetting the chart.
         _resetButtonNode = new PhetButtonNode( NuclearPhysicsStrings.DECAY_TIME_CLEAR_CHART );
         _resetButtonNode.setPickable( true );
@@ -436,9 +445,6 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
         PText yAxisUpperTickMarkLabel = (PText) _yAxisTickMarkLabels.get( 1 );
         yAxisUpperTickMarkLabel.setOffset( _graphOriginX - ( 1.15 * yAxisUpperTickMarkLabel.getWidth() ), yAxisUpperTickMark.getY() - ( 0.5 * yAxisUpperTickMarkLabel.getHeight() ) );
 
-        // Position the half life marker.
-        positionHalfLifeMarker();
-
         // Position the labels for the axes.
         _xAxisLabel.setOffset( _usableAreaOriginX + _usableWidth - (_xAxisLabel.getWidth() * 1.2), 
         		((PNode)_xAxisTickMarkLabels.get(0)).getFullBoundsReference().getMaxY() );
@@ -457,6 +463,9 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
         _exponentialTimeLine.setOffset(_graphOriginX + (TIME_ZERO_OFFSET * _msToPixelsFactor), 
         		_graphOriginY - _exponentialTimeLine.getFullBounds().height);
         
+        // Position the half life marker.
+        positionHalfLifeMarker();
+
         // Position the time display.
         _timeDisplay.setSize(_usableWidth * 0.16, _usableHeight * 0.35);
         _timeDisplay.setOffset( _usableAreaOriginX + _usableWidth * 0.015, _usableAreaOriginY + _usableHeight * 0.1);
@@ -597,6 +606,24 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
         else{
         	_xAxisLabel.setVisible(true);
         }
+        
+        // Position the infinity marker, set its scale, and set its visibility.
+        _halfLifeInfinityText.setScale(1);
+        if (_halfLifeMarkerLine.getFullBoundsReference().height > 0 &&
+            _halfLifeInfinityText.getFullBoundsReference().height > 0){
+
+        	// Tweak the multiplier on the following line as needed.
+            double desiredHeight = _halfLifeMarkerLine.getFullBoundsReference().height * 0.7;
+            
+            _halfLifeInfinityText.setScale(desiredHeight / _halfLifeInfinityText.getFullBoundsReference().height);
+        }
+        
+        _halfLifeInfinityText.setOffset(
+        		_halfLifeMarkerLine.getX() - _halfLifeInfinityText.getFullBoundsReference().width,
+        		_halfLifeMarkerLine.getFullBoundsReference().getMinY() - 
+        		_halfLifeInfinityText.getFullBoundsReference().height * 0.4);
+        
+        _halfLifeInfinityText.setVisible(_model.getHalfLife() == Double.POSITIVE_INFINITY);
     }
     
 	/**
@@ -923,7 +950,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
      */
     private class ExponentialTimeLineNode extends PNode {
     	
-    	private static final double EXPONENTIAL_TIME_LINE_LENGTH = 3.2e22;  // Roughly a trillion years in milliseconds. 
+    	public  static final double EXPONENTIAL_TIME_LINE_LENGTH = 3.2e22;  // Roughly a trillion years in milliseconds. 
     	private static final double LINE_HEIGHT_PROPORTION = 0.5; // Height of time line as a function of overall
     	                                                          // height of the node.
     	private static final boolean SHOW_OUTLINE = false; // TODO: Remove when fully debugged. 
