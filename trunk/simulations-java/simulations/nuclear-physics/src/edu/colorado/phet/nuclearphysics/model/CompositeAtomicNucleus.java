@@ -43,8 +43,10 @@ public abstract class CompositeAtomicNucleus extends AtomicNucleus {
     
     // The number of alpha particles that will be part of the constituents
     // of this nucleus.
-    int _numAlphas = 0;
+    protected int _numAlphas = 0;
     
+    // Paused state variable.
+    protected boolean _paused = false;
     
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -137,6 +139,14 @@ public abstract class CompositeAtomicNucleus extends AtomicNucleus {
         return _constituents;
     }
 
+    public void setPaused(boolean paused){
+    	_paused = paused;
+    }
+    
+    public boolean getPaused(){
+    	return _paused;
+    }
+
     //------------------------------------------------------------------------
     // Private and Protected Methods
     //------------------------------------------------------------------------
@@ -151,41 +161,43 @@ public abstract class CompositeAtomicNucleus extends AtomicNucleus {
      */
     protected void handleClockTicked(ClockEvent clockEvent){
         
-        super.handleClockTicked(clockEvent);
+    	if (!_paused){
+            super.handleClockTicked(clockEvent);
 
-        if ((_xVelocity != 0) || (_yVelocity != 0)){
-            // Move the constituent particles by the velocity amount.
-            int numConstituents = _constituents.size();
-            AtomicNucleusConstituent constituent = null;
-            for (int i = 0; i < numConstituents; i++){
-                constituent = (AtomicNucleusConstituent)_constituents.get(i);
-                double newPosX = constituent.getPositionReference().x + _xVelocity; 
-                double newPosY = constituent.getPositionReference().y + _yVelocity;
-                constituent.setPosition( newPosX, newPosY );
+            if ((_xVelocity != 0) || (_yVelocity != 0)){
+                // Move the constituent particles by the velocity amount.
+                int numConstituents = _constituents.size();
+                AtomicNucleusConstituent constituent = null;
+                for (int i = 0; i < numConstituents; i++){
+                    constituent = (AtomicNucleusConstituent)_constituents.get(i);
+                    double newPosX = constituent.getPositionReference().x + _xVelocity; 
+                    double newPosY = constituent.getPositionReference().y + _yVelocity;
+                    constituent.setPosition( newPosX, newPosY );
+                }
             }
-        }
-        
-        // Move the constituent particles to create the visual effect of a
-        // very dynamic nucleus.  In order to allow different levels of
-        // agitation, we don't necessarily move all particles every time.
-        if (_agitationFactor > 0){
             
-            // Calculate the increment to be used for creating the agitation
-            // effect.
-            
-            int agitationIncrement = 20 - (2 * _agitationFactor);
-            assert agitationIncrement > 0;
-            
-            if (agitationIncrement <= 0){
-                agitationIncrement = 5;
-            }
+            // Move the constituent particles to create the visual effect of a
+            // very dynamic nucleus.  In order to allow different levels of
+            // agitation, we don't necessarily move all particles every time.
+            if (_agitationFactor > 0){
                 
-            for (int i = _agitationCount; i < _constituents.size(); i+=agitationIncrement)
-            {
-                AtomicNucleusConstituent constituent = (AtomicNucleusConstituent)_constituents.get( i );
-                constituent.tunnel( _position, 0, getDiameter()/2, _tunnelingRegionRadius );
+                // Calculate the increment to be used for creating the agitation
+                // effect.
+                
+                int agitationIncrement = 20 - (2 * _agitationFactor);
+                assert agitationIncrement > 0;
+                
+                if (agitationIncrement <= 0){
+                    agitationIncrement = 5;
+                }
+                    
+                for (int i = _agitationCount; i < _constituents.size(); i+=agitationIncrement)
+                {
+                    AtomicNucleusConstituent constituent = (AtomicNucleusConstituent)_constituents.get( i );
+                    constituent.tunnel( _position, 0, getDiameter()/2, _tunnelingRegionRadius );
+                }
+                _agitationCount = (_agitationCount + 1) % agitationIncrement;
             }
-            _agitationCount = (_agitationCount + 1) % agitationIncrement;
-        }
+    	}
     }
 }

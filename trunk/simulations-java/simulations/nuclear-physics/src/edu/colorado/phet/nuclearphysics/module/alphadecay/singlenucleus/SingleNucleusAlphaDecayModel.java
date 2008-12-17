@@ -155,6 +155,15 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
         _tunneledAlpha = null;
 	}
 	
+	/**
+	 * Pause or unpause the model.
+	 * 
+	 * @param paused
+	 */
+	public void setPaused(boolean paused){
+		_atomicNucleus.setPaused(paused);
+	}
+	
     /**
      * This method allows the caller to register for changes in the overall
      * model, as opposed to changes in the individual model elements.
