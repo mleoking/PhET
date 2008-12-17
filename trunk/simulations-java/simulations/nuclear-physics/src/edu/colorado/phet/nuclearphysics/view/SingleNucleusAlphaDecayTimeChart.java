@@ -495,8 +495,8 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
      */
     private void handleClockTicked( ClockEvent clockEvent ) {
 
-    	if (_currentNucleus != null){
-    		// There is a nucleus that we are watching.  Make any updates.
+    	if ((_currentNucleus != null) && (_currentNucleus.getPaused() == false)){
+    		// There is an active nucleus that we are watching.  Make any updates.
     		if (!_currentNucleus.hasDecayed()){
     			if (_undecayedNucleusNode == null){
     				// This situation generally indicates that the nucleus was
@@ -694,7 +694,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
 	 * Position the current nucleus on the time chart.
 	 */
 	private void positionCurrentNucleus(){
-		if (_currentNucleus == null || _currentNucleus.hasDecayed()){
+		if (_currentNucleus == null || _currentNucleus.hasDecayed() || _currentNucleus.getPaused()){
 			// Nothing to do.
 			return;
 		}
