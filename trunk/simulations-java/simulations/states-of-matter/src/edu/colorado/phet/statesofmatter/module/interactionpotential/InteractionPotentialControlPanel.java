@@ -245,6 +245,9 @@ public class InteractionPotentialControlPanel extends ControlPanel {
         }
     }
     
+    /**
+     * This class represents the control slider for the atom diameter.
+     */
     private class AtomDiameterControlPanel extends JPanel {
         
         private final Font LABEL_FONT = new PhetFont(14, false);
@@ -323,7 +326,10 @@ public class InteractionPotentialControlPanel extends ControlPanel {
             }
         }
     }
-    
+
+    /**
+     * This class represents the control slider for the interaction strength.
+     */
     private class InteractionStrengthControlPanel extends JPanel {
         
         private final Font LABEL_FONT = new PhetFont(14, false);
