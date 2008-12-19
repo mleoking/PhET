@@ -3,6 +3,7 @@ package edu.colorado.phet.build.java;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.Locale;
 
@@ -24,6 +25,7 @@ public class ProjectPanel extends JPanel {
         }
     };
     private LocalProperties localProperties;
+    private JButton deployProdButton;
 
     public ProjectPanel( File basedir, final PhetProject project ) {
         this.basedir = basedir;
@@ -53,32 +55,28 @@ public class ProjectPanel extends JPanel {
         JButton testButton = new JButton( "Test" );
         testButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getBuildScript().build();
-                getBuildScript().runSim( getSelectedLocale(), getSelectedFlavor() );
+                doTest();
             }
         } );
         controlPanel.add( testButton );
         JButton deployDevButton = new JButton( "Deploy Dev" );
         deployDevButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getBuildScript().deployDev( getDevelopmentAuthentication( "dev" ) );
+                doDev();
             }
         } );
         controlPanel.add( deployDevButton );
-        final JButton deployProdButton = new JButton( "Deploy Prod" );
+        deployProdButton = new JButton( "Deploy Prod" );
         deployProdButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                int option = JOptionPane.showConfirmDialog( deployProdButton, "Are you sure you are ready to deploy " + project.getName() + " to " + PhetServer.PRODUCTION.getHost() + "?" );
-                if ( option == JOptionPane.YES_OPTION ) {
-                    getBuildScript().deployProd( getDevelopmentAuthentication( "dev" ), getDevelopmentAuthentication( "prod" ) );
-                }
-                else {
-                    System.out.println( "Cancelled" );
-                }
+                doProd();
             }
         } );
         controlPanel.add( deployProdButton );
 
+        testButton.setMnemonic( 't' );
+        deployDevButton.setMnemonic( 'd' );
+        deployProdButton.setMnemonic( 'p' );
 
         //For testing
 //        JButton createHeader = new JButton( "Create Header" );
@@ -98,6 +96,25 @@ public class ProjectPanel extends JPanel {
         );
 
         setProject( project );
+    }
+
+    private void doProd() {
+        int option = JOptionPane.showConfirmDialog( deployProdButton, "Are you sure you are ready to deploy " + project.getName() + " to " + PhetServer.PRODUCTION.getHost() + "?" );
+        if ( option == JOptionPane.YES_OPTION ) {
+            getBuildScript().deployProd( getDevelopmentAuthentication( "dev" ), getDevelopmentAuthentication( "prod" ) );
+        }
+        else {
+            System.out.println( "Cancelled" );
+        }
+    }
+
+    private void doDev() {
+        getBuildScript().deployDev( getDevelopmentAuthentication( "dev" ) );
+    }
+
+    private void doTest() {
+        getBuildScript().build();
+        getBuildScript().runSim( getSelectedLocale(), getSelectedFlavor() );
     }
 
     private AuthenticationInfo getDevelopmentAuthentication( String serverType ) {
