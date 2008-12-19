@@ -56,7 +56,8 @@ public class MriApplication extends PiccoloPhetApplication {
         for( int i = 0; args != null && i < args.length; i++ ) {
             String arg = args[i];
             if( arg.startsWith( "-d" ) ) {
-                PhetUtilities.getPhetFrame().addMenu( new OptionMenu() );
+                //removed due to incompatibility with new startup sequence
+//                PhetUtilities.getPhetFrame().addMenu( new OptionMenu() );
             }
             if( arg.equals( "-singlemodule" ) ) {
                 modules = singleModule;
