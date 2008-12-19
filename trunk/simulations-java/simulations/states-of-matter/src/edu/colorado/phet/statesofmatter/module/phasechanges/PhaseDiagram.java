@@ -7,20 +7,27 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Paint;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.QuadCurve2D;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
+import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * This class displays a phase diagram suitable for inclusion on the control
@@ -87,6 +94,9 @@ public class PhaseDiagram extends PhetPCanvas {
     private static final Point2D DEFAULT_GAS_LABEL_LOCATION = new Point2D.Double(xOriginOffset + (xUsableRange * 0.6), 
             yOriginOffset - (yUsableRange * 0.15));
     
+    // Constants for size of the close button.
+    private static final double CLOSE_BUTTON_PROPORTION = 0.13;  // Button size as proportion of diagram height.
+    
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -114,6 +124,11 @@ public class PhaseDiagram extends PhetPCanvas {
     // Variable that defines the normalized position of the current phase
     // state marker.
     Point2D m_currentStateMarkerPos;
+    
+    // Variables for implementing a button that can be used to hide the diagram.
+    // Add the button that will allow the user to close (actually hide) the diagram.
+    JButton m_closeButton;
+    PSwing m_closePSwing;
     
     //----------------------------------------------------------------------------
     // Constructor(s)
@@ -230,6 +245,18 @@ public class PhaseDiagram extends PhetPCanvas {
         m_currentStateMarker.setPaint( CURRENT_STATE_MARKER_COLOR );
         m_currentStateMarker.setStrokePaint( CURRENT_STATE_MARKER_COLOR );
         addWorldChild( m_currentStateMarker );
+        
+        // Add the button that will allow the user to close (actually hide) the diagram.
+        m_closeButton = new JButton( new ImageIcon( 
+        		StatesOfMatterResources.getImage( StatesOfMatterConstants.RED_X ) ) );
+        m_closeButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+            	System.err.println("Close button pressed.");
+            }
+        } );
+        
+        m_closePSwing = new PSwing( m_closeButton );
+        addWorldChild(m_closePSwing);
 
         // Draw the initial phase diagram.
         drawPhaseDiagram();
@@ -326,6 +353,10 @@ public class PhaseDiagram extends PhetPCanvas {
         m_criticalPointLabel2.setOffset( DEFAULT_CRITICAL_POINT.getX() + 4, DEFAULT_CRITICAL_POINT.getY() );
         m_criticalPointLabel1.setOffset( m_criticalPointLabel2.getFullBoundsReference().x,
                 m_criticalPointLabel2.getFullBoundsReference().y - m_criticalPointLabel2.getFullBoundsReference().height * 0.8);
+        
+        // Position the close button.
+        m_closePSwing.setScale(HEIGHT * CLOSE_BUTTON_PROPORTION / m_closePSwing.getFullBoundsReference().height);
+        m_closePSwing.setOffset(WIDTH - m_closePSwing.getFullBoundsReference().width, 0);
     }
     
     /**

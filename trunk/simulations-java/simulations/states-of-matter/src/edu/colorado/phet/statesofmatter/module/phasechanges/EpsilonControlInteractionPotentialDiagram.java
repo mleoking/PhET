@@ -6,12 +6,20 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Stroke;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ResizeArrowNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
+import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.model.DualParticleModel;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
@@ -22,6 +30,7 @@ import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * This class extends the Interaction Potential diagram to allow the user to
@@ -44,6 +53,7 @@ public class EpsilonControlInteractionPotentialDiagram extends InteractionPotent
     private static final Color EPSILON_LINE_COLOR = Color.RED; 
     private static final Color RESIZE_HANDLE_NORMAL_COLOR = Color.GREEN;
     private static final Color RESIZE_HANDLE_HIGHLIGHTED_COLOR = Color.YELLOW;
+    private static final double CLOSE_BUTTON_PROPORTION = 0.13;  // Size of button as fraction of diagram height.
     
     //-----------------------------------------------------------------------------
     // Instance Data
@@ -53,6 +63,7 @@ public class EpsilonControlInteractionPotentialDiagram extends InteractionPotent
     private ResizeArrowNode m_epsilonResizeHandle;
     private PPath m_epsilonLine;
     private boolean m_interactionEnabled;
+    private JButton m_closeButton;
 
     //-----------------------------------------------------------------------------
     // Constructor(s)
@@ -110,6 +121,21 @@ public class EpsilonControlInteractionPotentialDiagram extends InteractionPotent
                 m_model.setEpsilon( m_model.getEpsilon() + d.getHeight() * scaleFactor );
             }
         });
+        
+        // Add the button that will allow the user to close (actually hide) the diagram.
+        m_closeButton = new JButton( new ImageIcon( 
+        		StatesOfMatterResources.getImage( StatesOfMatterConstants.RED_X ) ) );
+        m_closeButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+            	System.err.println("Close button pressed.");
+            }
+        } );
+        
+        PSwing closePSwing = new PSwing( m_closeButton );
+        closePSwing.setScale(getFullBoundsReference().height * CLOSE_BUTTON_PROPORTION / 
+        		closePSwing.getFullBoundsReference().height);
+        closePSwing.setOffset(super.getFullBoundsReference().width - closePSwing.getFullBoundsReference().width, 0);
+        addChild(closePSwing);
         
         // Update interactivity state.
         updateInteractivityState();

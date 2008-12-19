@@ -333,7 +333,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
                     updateControlVisibility();
                 }
             } );
-            m_configurableRadioButton = new JRadioButton( StatesOfMatterStrings.CONFIGURABLE_ATOM_SELECTION_LABEL );
+            m_configurableRadioButton = new JRadioButton( StatesOfMatterStrings.ADJUSTABLE_ATTRACTION_SELECTION_LABEL );
             m_configurableRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
             m_configurableRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
