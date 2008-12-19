@@ -15,6 +15,8 @@ import java.awt.event.MouseEvent;
 import java.util.Hashtable;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -79,6 +81,10 @@ public class PhaseChangesControlPanel extends ControlPanel {
     private EpsilonControlInteractionPotentialDiagram m_interactionPotentialDiagram;
     private InteractionStrengthControlPanel m_interactionStrengthControlPanel;
     
+    private JPanel m_preInteractionButtonSpacer;
+    private JPanel m_postInteractionButtonSpacer;
+    private JPanel m_prePhaseButtonSpacer;
+    private JPanel m_postPhaseButtonSpacer;
     private CloseRequestListener m_phaseDiagramCloseListener;
     private CloseRequestListener m_interactionPotentialDiagramCloseListener;
     
@@ -130,39 +136,11 @@ public class PhaseChangesControlPanel extends ControlPanel {
         
         // Add a little spacing.
         addVerticalSpace( 10 );
-        
-        // Add the button that allows the user to turn the phase diagram on/off.
-        m_phaseDiagramCtrlButton = new JButton();
-        m_phaseDiagramCtrlButton.setFont( BUTTON_LABEL_FONT );
-        m_phaseDiagramCtrlButton.setText( StatesOfMatterStrings.PHASE_DIAGRAM_BUTTON_LABEL );
-        addControlFullWidth( m_phaseDiagramCtrlButton );
-        m_phaseDiagramCtrlButton.addActionListener( new ActionListener(){
-            public void actionPerformed( ActionEvent e ) {
-                m_phaseDiagramVisible = true;
-                m_phaseDiagramPanel.setVisible( m_phaseDiagramVisible );
-                m_phaseDiagramCtrlButton.setVisible( !m_phaseDiagramVisible );
-            }
-        });
-        m_phaseDiagramCtrlButton.setVisible( !m_phaseDiagramVisible );
-        
-        // Add the phase diagram.
-        m_phaseDiagramPanel = new JPanel();
-        m_phaseDiagram = new PhaseDiagram();
-        m_phaseDiagramPanel.add( m_phaseDiagram );
-        addControlFullWidth( m_phaseDiagramPanel );
-        m_phaseDiagramPanel.setVisible( m_phaseDiagramVisible );
-        
-        // Create and register the handler for user requests to close the phase diagram.
-        m_phaseDiagramCloseListener = new CloseRequestListener(){
-        	public void closeRequestReceived(){
-        		// Note that we don't actually make it go away, we just make
-        		// it invisible.
-        		m_phaseDiagramVisible = false;
-        		m_phaseDiagramPanel.setVisible( m_phaseDiagramVisible );
-        		m_phaseDiagramCtrlButton.setVisible( !m_phaseDiagramVisible );
-        	}
-        };
-        m_phaseDiagram.addListener(m_phaseDiagramCloseListener);
+
+        // Add additional spacing before the interaction potential control button.
+        m_preInteractionButtonSpacer = createVerticalSpacerPanel(20);
+        addControlFullWidth(m_preInteractionButtonSpacer);
+        m_preInteractionButtonSpacer.setVisible(!m_interactionDiagramVisible);
         
         // Add the button that allows the user to turn the interaction diagram on/off.
         m_interactionDiagramCtrlButton = new JButton();
@@ -172,11 +150,15 @@ public class PhaseChangesControlPanel extends ControlPanel {
         m_interactionDiagramCtrlButton.addActionListener( new ActionListener(){
             public void actionPerformed( ActionEvent e ) {
                 m_interactionDiagramVisible = true;
-                m_interactionDiagramPanel.setVisible( m_interactionDiagramVisible );
-                m_interactionDiagramCtrlButton.setVisible( !m_interactionDiagramVisible );
+                updateVisibilityStates();
             }
         });
         m_interactionDiagramCtrlButton.setVisible( !m_interactionDiagramVisible );
+        
+        // Add additional spacing after the interaction potential diagram control button.
+        m_postInteractionButtonSpacer = createVerticalSpacerPanel(20);
+        addControlFullWidth(m_postInteractionButtonSpacer);
+        m_postInteractionButtonSpacer.setVisible(!m_interactionDiagramVisible);
         
         // Add the interaction potential diagram.
         m_interactionDiagramPanel = new JPanel();
@@ -198,11 +180,51 @@ public class PhaseChangesControlPanel extends ControlPanel {
         		// Note that we don't actually make it go away, we just make
         		// it invisible.
         		m_interactionDiagramVisible = false;
-        		m_interactionDiagramPanel.setVisible( m_interactionDiagramVisible );
-        		m_interactionDiagramCtrlButton.setVisible( !m_interactionDiagramVisible );
+                updateVisibilityStates();
         	}
         };
         m_interactionPotentialDiagram.addListener(m_interactionPotentialDiagramCloseListener);
+        
+        // Add additional spacing before the phase diagram control button.
+        m_prePhaseButtonSpacer = createVerticalSpacerPanel(20);
+        addControlFullWidth(m_prePhaseButtonSpacer);
+        m_prePhaseButtonSpacer.setVisible(!m_phaseDiagramVisible);
+        
+        // Add the button that allows the user to turn the phase diagram on/off.
+        m_phaseDiagramCtrlButton = new JButton();
+        m_phaseDiagramCtrlButton.setFont( BUTTON_LABEL_FONT );
+        m_phaseDiagramCtrlButton.setText( StatesOfMatterStrings.PHASE_DIAGRAM_BUTTON_LABEL );
+        addControlFullWidth( m_phaseDiagramCtrlButton );
+        m_phaseDiagramCtrlButton.addActionListener( new ActionListener(){
+            public void actionPerformed( ActionEvent e ) {
+                m_phaseDiagramVisible = true;
+                updateVisibilityStates();
+            }
+        });
+        m_phaseDiagramCtrlButton.setVisible( !m_phaseDiagramVisible );
+        
+        // Add additional spacing after the phase diagram control button.
+        m_postPhaseButtonSpacer = createVerticalSpacerPanel(20);
+        addControlFullWidth(m_postPhaseButtonSpacer);
+        m_postInteractionButtonSpacer.setVisible(!m_phaseDiagramVisible);
+        
+        // Add the phase diagram.
+        m_phaseDiagramPanel = new JPanel();
+        m_phaseDiagram = new PhaseDiagram();
+        m_phaseDiagramPanel.add( m_phaseDiagram );
+        addControlFullWidth( m_phaseDiagramPanel );
+        m_phaseDiagramPanel.setVisible( m_phaseDiagramVisible );
+        
+        // Create and register the handler for user requests to close the phase diagram.
+        m_phaseDiagramCloseListener = new CloseRequestListener(){
+        	public void closeRequestReceived(){
+        		// Note that we don't actually make it go away, we just make
+        		// it invisible.
+        		m_phaseDiagramVisible = false;
+                updateVisibilityStates();
+        	}
+        };
+        m_phaseDiagram.addListener(m_phaseDiagramCloseListener);
         
         // Add the Reset All button.
         addSeparator();
@@ -493,5 +515,31 @@ public class PhaseChangesControlPanel extends ControlPanel {
                 m_titledBorder.setTitleColor( Color.LIGHT_GRAY );
             }
         }
+    }
+    
+    private JPanel createVerticalSpacerPanel( int space ) {
+        if ( space <= 0 ) {
+        	throw new IllegalArgumentException("Can't have zero or negative space in spacer panel.");
+        }
+        
+        JPanel spacePanel = new JPanel();
+        spacePanel.setLayout( new BoxLayout( spacePanel, BoxLayout.Y_AXIS ) );
+        spacePanel.add( Box.createVerticalStrut( space ) );
+        return spacePanel;
+    }
+    
+    /**
+     * Update the visibility of the various diagrams and buttons based on
+     * the internal state.
+     */
+    private void updateVisibilityStates(){
+        m_interactionDiagramPanel.setVisible( m_interactionDiagramVisible );
+        m_interactionDiagramCtrlButton.setVisible( !m_interactionDiagramVisible );
+        m_preInteractionButtonSpacer.setVisible(!m_interactionDiagramVisible);
+        m_postInteractionButtonSpacer.setVisible(!m_interactionDiagramVisible);
+        m_phaseDiagramPanel.setVisible( m_phaseDiagramVisible );
+        m_phaseDiagramCtrlButton.setVisible( !m_phaseDiagramVisible );
+        m_prePhaseButtonSpacer.setVisible(!m_phaseDiagramVisible);
+        m_postPhaseButtonSpacer.setVisible(!m_phaseDiagramVisible);
     }
 }
