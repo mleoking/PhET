@@ -6,19 +6,31 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Hashtable;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractValueControl;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ILayoutStrategy;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
+import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
@@ -33,6 +45,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
     // Class Data
     //----------------------------------------------------------------------------
     private static final Font BUTTON_LABEL_FONT = new PhetFont(14);
+    private static final Color ENABLED_TITLE_COLOR = new Color ( 128, 128, 128 );
     private static final int INTERACTION_POTENTIAL_DIAGRAM_WIDTH = 200;
     private static final int INTERACTION_POTENTIAL_DIAGRAM_HEIGHT = (int)(INTERACTION_POTENTIAL_DIAGRAM_WIDTH * 0.8);
 
@@ -63,9 +76,10 @@ public class PhaseChangesControlPanel extends ControlPanel {
     private boolean m_interactionDiagramVisible;
     private JButton m_interactionDiagramCtrlButton;
     private InteractionPotentialDiagramNode m_interactionPotentialDiagram;
+    private InteractionStrengthControlPanel m_interactionStrengthControlPanel;
     
     //----------------------------------------------------------------------------
-    // Constructors
+    // Constructor(s)
     //----------------------------------------------------------------------------
     
     /**
@@ -105,6 +119,10 @@ public class PhaseChangesControlPanel extends ControlPanel {
         // Add the panel that allows the user to select molecule type.
         m_moleculeSelectionPanel = new MoleculeSelectionPanel();
         addControlFullWidth( m_moleculeSelectionPanel );
+        
+        // Create the panel for controlling the interaction strength.
+        m_interactionStrengthControlPanel = new InteractionStrengthControlPanel( m_model );
+        addControlFullWidth(m_interactionStrengthControlPanel);
         
         // Add a little spacing.
         addVerticalSpace( 10 );
@@ -160,116 +178,14 @@ public class PhaseChangesControlPanel extends ControlPanel {
         addSeparator();
         addVerticalSpace( 5 );
         addResetAllButton( phaseChangesModule );
+        
+        // Update the visibility of the controls based on current model state.
+        updateControlVisibility();
     }
     
     //----------------------------------------------------------------------------
-    // Inner Classes
+    // Private Methods
     //----------------------------------------------------------------------------
-    private class MoleculeSelectionPanel extends JPanel {
-        
-        private JRadioButton m_neonRadioButton;
-        private JRadioButton m_argonRadioButton;
-        private JRadioButton m_oxygenRadioButton;
-        private JRadioButton m_waterRadioButton;
-        private JRadioButton m_configurableRadioButton;
-        
-        MoleculeSelectionPanel(){
-            
-            setLayout( new GridLayout(0, 1) );
-            
-            BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
-            TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
-                    StatesOfMatterStrings.MOLECULE_TYPE_SELECT_LABEL,
-                    TitledBorder.LEFT,
-                    TitledBorder.TOP,
-                    new PhetFont( Font.BOLD, 14 ),
-                    Color.GRAY );
-            
-            setBorder( titledBorder );
-
-            m_oxygenRadioButton = new JRadioButton( StatesOfMatterStrings.OXYGEN_SELECTION_LABEL );
-            m_oxygenRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
-            m_oxygenRadioButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    m_model.setMoleculeType( StatesOfMatterConstants.DIATOMIC_OXYGEN );
-                    m_model.setPhase( MultipleParticleModel.PHASE_SOLID);
-                    m_interactionPotentialDiagram.setMolecular( true );
-                    m_phaseDiagram.setDepictingWater( false );
-                }
-            } );
-            m_neonRadioButton = new JRadioButton( StatesOfMatterStrings.NEON_SELECTION_LABEL );
-            m_neonRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
-            m_neonRadioButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    m_model.setMoleculeType( StatesOfMatterConstants.NEON );
-                    m_model.setPhase( MultipleParticleModel.PHASE_SOLID);
-                    m_interactionPotentialDiagram.setMolecular( false );
-                    m_phaseDiagram.setDepictingWater( false );
-                }
-            } );
-            m_argonRadioButton = new JRadioButton( StatesOfMatterStrings.ARGON_SELECTION_LABEL );
-            m_argonRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
-            m_argonRadioButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    m_model.setMoleculeType( StatesOfMatterConstants.ARGON );
-                    m_model.setPhase( MultipleParticleModel.PHASE_SOLID);
-                    m_interactionPotentialDiagram.setMolecular( false );
-                    m_phaseDiagram.setDepictingWater( false );
-                }
-            } );
-            m_waterRadioButton = new JRadioButton( StatesOfMatterStrings.WATER_SELECTION_LABEL );
-            m_waterRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
-            m_waterRadioButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    m_model.setMoleculeType( StatesOfMatterConstants.WATER );
-                    m_model.setPhase( MultipleParticleModel.PHASE_SOLID);
-                    m_interactionPotentialDiagram.setMolecular( true );
-                    m_phaseDiagram.setDepictingWater( true );
-                }
-            } );
-            m_configurableRadioButton = new JRadioButton( StatesOfMatterStrings.CONFIGURABLE_ATOM_SELECTION_LABEL );
-            m_configurableRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
-            m_configurableRadioButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    m_model.setMoleculeType( StatesOfMatterConstants.USER_DEFINED_MOLECULE );
-                    m_model.setPhase( MultipleParticleModel.PHASE_SOLID);
-                    m_interactionPotentialDiagram.setMolecular( true );
-                    m_phaseDiagram.setDepictingWater( false );
-                }
-            } );
-            
-            ButtonGroup buttonGroup = new ButtonGroup();
-            buttonGroup.add( m_neonRadioButton );
-            buttonGroup.add( m_argonRadioButton );
-            buttonGroup.add( m_oxygenRadioButton );
-            buttonGroup.add( m_waterRadioButton );
-            buttonGroup.add( m_configurableRadioButton );
-            m_neonRadioButton.setSelected( true );
-            
-            add( m_neonRadioButton );
-            add( m_argonRadioButton );
-            add( m_oxygenRadioButton );
-            add( m_waterRadioButton );
-            add( m_configurableRadioButton );
-        }
-        
-        public void setMolecule( int molecule ){
-        	switch (molecule){
-        	case StatesOfMatterConstants.ARGON:
-        		m_argonRadioButton.setSelected(true);
-        		break;
-        	case StatesOfMatterConstants.NEON:
-        		m_neonRadioButton.setSelected(true);
-        		break;
-        	case StatesOfMatterConstants.DIATOMIC_OXYGEN:
-        		m_oxygenRadioButton.setSelected(true);
-        		break;
-        	case StatesOfMatterConstants.WATER:
-        		m_waterRadioButton.setSelected(true);
-        		break;
-        	}
-        }
-    }
     
     private void updatePhaseDiagramButtonLabel(){
         if (m_phaseDiagramVisible){
@@ -341,5 +257,227 @@ public class PhaseChangesControlPanel extends ControlPanel {
                 PRESSURE_FACTOR * Math.pow(modelPressure, 2);    		
     	}
     	return Math.min(mappedPressure, 1);
+    }
+    
+    private void updateControlVisibility(){
+    	m_interactionStrengthControlPanel.setVisible(m_model.getMoleculeType() == StatesOfMatterConstants.USER_DEFINED_MOLECULE);
+    }
+    
+    //----------------------------------------------------------------------------
+    // Inner Classes
+    //----------------------------------------------------------------------------
+    private class MoleculeSelectionPanel extends JPanel {
+        
+        private JRadioButton m_neonRadioButton;
+        private JRadioButton m_argonRadioButton;
+        private JRadioButton m_oxygenRadioButton;
+        private JRadioButton m_waterRadioButton;
+        private JRadioButton m_configurableRadioButton;
+        
+        MoleculeSelectionPanel(){
+            
+            setLayout( new GridLayout(0, 1) );
+            
+            BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
+            TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
+                    StatesOfMatterStrings.MOLECULE_TYPE_SELECT_LABEL,
+                    TitledBorder.LEFT,
+                    TitledBorder.TOP,
+                    new PhetFont( Font.BOLD, 14 ),
+                    Color.GRAY );
+            
+            setBorder( titledBorder );
+
+            m_oxygenRadioButton = new JRadioButton( StatesOfMatterStrings.OXYGEN_SELECTION_LABEL );
+            m_oxygenRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
+            m_oxygenRadioButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    m_model.setMoleculeType( StatesOfMatterConstants.DIATOMIC_OXYGEN );
+                    m_model.setPhase( MultipleParticleModel.PHASE_SOLID);
+                    m_interactionPotentialDiagram.setMolecular( true );
+                    m_phaseDiagram.setDepictingWater( false );
+                    updateControlVisibility();
+                }
+            } );
+            m_neonRadioButton = new JRadioButton( StatesOfMatterStrings.NEON_SELECTION_LABEL );
+            m_neonRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
+            m_neonRadioButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    m_model.setMoleculeType( StatesOfMatterConstants.NEON );
+                    m_model.setPhase( MultipleParticleModel.PHASE_SOLID);
+                    m_interactionPotentialDiagram.setMolecular( false );
+                    m_phaseDiagram.setDepictingWater( false );
+                    updateControlVisibility();
+                }
+            } );
+            m_argonRadioButton = new JRadioButton( StatesOfMatterStrings.ARGON_SELECTION_LABEL );
+            m_argonRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
+            m_argonRadioButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    m_model.setMoleculeType( StatesOfMatterConstants.ARGON );
+                    m_model.setPhase( MultipleParticleModel.PHASE_SOLID);
+                    m_interactionPotentialDiagram.setMolecular( false );
+                    m_phaseDiagram.setDepictingWater( false );
+                    updateControlVisibility();
+                }
+            } );
+            m_waterRadioButton = new JRadioButton( StatesOfMatterStrings.WATER_SELECTION_LABEL );
+            m_waterRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
+            m_waterRadioButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    m_model.setMoleculeType( StatesOfMatterConstants.WATER );
+                    m_model.setPhase( MultipleParticleModel.PHASE_SOLID);
+                    m_interactionPotentialDiagram.setMolecular( true );
+                    m_phaseDiagram.setDepictingWater( true );
+                    updateControlVisibility();
+                }
+            } );
+            m_configurableRadioButton = new JRadioButton( StatesOfMatterStrings.CONFIGURABLE_ATOM_SELECTION_LABEL );
+            m_configurableRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
+            m_configurableRadioButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    m_model.setMoleculeType( StatesOfMatterConstants.USER_DEFINED_MOLECULE );
+                    m_model.setPhase( MultipleParticleModel.PHASE_SOLID);
+                    m_interactionPotentialDiagram.setMolecular( true );
+                    m_phaseDiagram.setDepictingWater( false );
+                    updateControlVisibility();
+                }
+            } );
+            
+            ButtonGroup buttonGroup = new ButtonGroup();
+            buttonGroup.add( m_neonRadioButton );
+            buttonGroup.add( m_argonRadioButton );
+            buttonGroup.add( m_oxygenRadioButton );
+            buttonGroup.add( m_waterRadioButton );
+            buttonGroup.add( m_configurableRadioButton );
+            m_neonRadioButton.setSelected( true );
+            
+            add( m_neonRadioButton );
+            add( m_argonRadioButton );
+            add( m_oxygenRadioButton );
+            add( m_waterRadioButton );
+            add( m_configurableRadioButton );
+        }
+        
+        public void setMolecule( int molecule ){
+        	switch (molecule){
+        	case StatesOfMatterConstants.ARGON:
+        		m_argonRadioButton.setSelected(true);
+        		break;
+        	case StatesOfMatterConstants.NEON:
+        		m_neonRadioButton.setSelected(true);
+        		break;
+        	case StatesOfMatterConstants.DIATOMIC_OXYGEN:
+        		m_oxygenRadioButton.setSelected(true);
+        		break;
+        	case StatesOfMatterConstants.WATER:
+        		m_waterRadioButton.setSelected(true);
+        		break;
+        	}
+        }
+    }
+    
+    /**
+     * Layout strategy for slider.
+     */
+    public class SliderLayoutStrategy implements ILayoutStrategy {
+
+        public SliderLayoutStrategy() {}
+        
+        public void doLayout( AbstractValueControl valueControl ) {
+
+            // Get the components that will be part of the layout
+            JComponent slider = valueControl.getSlider();
+
+            EasyGridBagLayout layout = new EasyGridBagLayout( valueControl );
+            valueControl.setLayout( layout );
+            layout.addFilledComponent( slider, 1, 0, GridBagConstraints.HORIZONTAL );
+        }
+    }
+    
+    /**
+     * This class represents the control slider for the interaction strength.
+     */
+    private class InteractionStrengthControlPanel extends JPanel {
+        
+        private final Font LABEL_FONT = new PhetFont(14, false);
+
+        private LinearValueControl m_interactionStrengthControl;
+        private MultipleParticleModel m_model;
+        private TitledBorder m_titledBorder;
+        private JLabel m_leftLabel;
+        private JLabel m_rightLabel;
+
+        public InteractionStrengthControlPanel(MultipleParticleModel model){
+
+
+            m_model = model;
+            
+            setLayout( new GridLayout(0, 1) );
+
+            // Create the border.
+            BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
+            m_titledBorder = BorderFactory.createTitledBorder( baseBorder,
+                    StatesOfMatterStrings.INTERACTION_STRENGTH_CONTROL_TITLE,
+                    TitledBorder.LEFT,
+                    TitledBorder.TOP,
+                    new PhetFont( Font.BOLD, 14 ),
+                    ENABLED_TITLE_COLOR );
+            
+            setBorder( m_titledBorder );
+            
+            // Add the control slider.
+            m_interactionStrengthControl = new LinearValueControl( 0, StatesOfMatterConstants.MAX_EPSILON, "", "0", 
+            		"", new SliderLayoutStrategy() );
+            m_interactionStrengthControl.setValue( m_model.getEpsilon() );
+            m_interactionStrengthControl.setUpDownArrowDelta( 0.01 );
+            m_interactionStrengthControl.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    // Set the interaction strength in the model.
+                    m_model.setEpsilon( m_interactionStrengthControl.getValue() );
+                }
+            });
+            m_interactionStrengthControl.getSlider().addMouseListener(new MouseAdapter() {
+                public void mousePressed(MouseEvent e) {
+                	// TODO: Add this back if needed, and when implemented.
+                	//m_model.setParticleMotionPaused(true);
+                }
+                public void mouseReleased(MouseEvent e) {
+                	// TODO: Add this back if needed, and when implemented.
+                	//m_model.setParticleMotionPaused(true);
+                }
+            });
+            Hashtable diameterControlLabelTable = new Hashtable();
+            m_leftLabel = new JLabel(StatesOfMatterStrings.INTERACTION_STRENGTH_WEAK);
+            m_leftLabel.setFont( LABEL_FONT );
+            diameterControlLabelTable.put( new Double( m_interactionStrengthControl.getMinimum() ), m_leftLabel );
+            m_rightLabel = new JLabel(StatesOfMatterStrings.INTERACTION_STRENGTH_STRONG);
+            m_rightLabel.setFont( LABEL_FONT );
+            diameterControlLabelTable.put( new Double( m_interactionStrengthControl.getMaximum() ), m_rightLabel );
+            m_interactionStrengthControl.setTickLabels( diameterControlLabelTable );
+
+            // Register as a listener with the model so that we know when the
+            // settings for potential are changed.
+            m_model.addListener( new MultipleParticleModel.Adapter(){
+                public void interactionPotentialChanged(){
+                    m_interactionStrengthControl.setValue( m_model.getEpsilon() );
+                }
+            });
+            
+            add(m_interactionStrengthControl);
+        }
+        
+        public void setEnabled( boolean enabled ){
+            super.setEnabled( enabled );
+            m_interactionStrengthControl.setEnabled( enabled );
+            m_leftLabel.setEnabled( enabled );
+            m_rightLabel.setEnabled( enabled );
+            if (enabled) {
+                m_titledBorder.setTitleColor( ENABLED_TITLE_COLOR );
+            }
+            else {
+                m_titledBorder.setTitleColor( Color.LIGHT_GRAY );
+            }
+        }
     }
 }
