@@ -81,13 +81,13 @@ public class ProjectPanel extends JPanel {
 
 
         //For testing
-        JButton createHeader = new JButton( "Create Header" );
-        createHeader.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                getBuildScript().createHeader( -1 );
-            }
-        } );
-        controlPanel.add( createHeader );
+//        JButton createHeader = new JButton( "Create Header" );
+//        createHeader.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                getBuildScript().createHeader( -1 );
+//            }
+//        } );
+//        controlPanel.add( createHeader );
 
         add(
                 verticalBox(
