@@ -1,3 +1,9 @@
+12/18/08 - #998, autoscale y-axis of the "Glacier Length vs Time" graph, set min autoscale range to 0-3km
+12/18/08 - modify variables in model.txt to match Java code (elax -> qelax, dqela -> delta_qela)
+12/18/08 - #999, attempt to smooth out bump in glacier length vs time curve, still problematic between elax_x2 and elax_x1
+12/18/08 - #1051, add model fix for glacier retreating too fast near headwall (q_retreat_limit)
+12/18/08 - modify variables in model.txt to match Java code (elax -> qelax, dqela -> delta_qela)
+12/18/08 - new model.txt to address #1051 and #999
 # 1.00.11 (26511)
 12/2/08 - #727, set q_advance_limit to constant -2, remove q_advance_limit from debug dialog
 # 1.00.10 (26488)

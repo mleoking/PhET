@@ -26,6 +26,9 @@ public class Glacier extends ClockAdapter {
     // Class data
     //----------------------------------------------------------------------------
     
+    // *_M* constants refer to slopes of data fit
+    // *_B* constants refer to y-axis intercept of data fit
+    
     private static final double DX = 80; // distance between x-axis sample points (meters)
     private static final double ELA_EQUALITY_THRESHOLD = 1; // ELAs are considered equal if they are at least this close (meters)
     private static final double U_SLIDE = 20; // downvalley ice speed (meters/year)
@@ -45,7 +48,10 @@ public class Glacier extends ClockAdapter {
     private static final double ELAX_C4 = 0.000281185;
     private static final double ELAX_TERMINUS = 0.6;
     private static final double MAX_THICKNESS_SCALE = 2.3;
-    private static final double Q_ADVANCE_LIMIT = -2;
+    private static final double Q_ADVANCE_LIMIT = -2; // meters/year, a limit on the advance speed of the qela
+    private static final double Q_RETREAT_LIMIT = 4; // meters/year, a limit on the retreat speed of the qela
+    private static final double ACCELERATION_M = ( ( ELAX_M0 / ELAX_M2 ) - 1 ) / ( ELAX_X2 - ELAX_X1 );
+    private static final double ACCELERATION_B = 1 - ( ACCELERATION_M * ELAX_X1 );
     
     private static final double SURFACE_ELA_SEARCH_DX = 1; // meters
     private static final double SURFACE_ELA_EQUALITY_THRESHOLD = 1; // meters
@@ -539,15 +545,26 @@ public class Glacier extends ClockAdapter {
             final double previousLength = _glacierLength;
             
             // calculate the delta
-            double delta = ( ela - _qela ) * ( 1 - Math.exp( -dt / timescale  ) );
+            double deltaQela = ( ela - _qela ) * ( 1 - Math.exp( -dt / timescale  ) );
             
-            // limit the delta for an advancing glacier
+            // limit the delta, depending on whether the glacier is advancing or retreating
             if ( ela < _qela ) {
-                delta = Math.max( delta, dt * Q_ADVANCE_LIMIT );
+                deltaQela = Math.max( deltaQela, dt * Q_ADVANCE_LIMIT );
+            }
+            else {
+                deltaQela = Math.min( deltaQela, dt * Q_RETREAT_LIMIT );
+            }
+            
+            // apply acceleration near the headwall if needed
+            if ( _qela > ELAX_X2 ) {
+                deltaQela = deltaQela * ELAX_M0 / ELAX_M2;
+            }
+            else if ( _qela > ELAX_X1 ) {
+                deltaQela = deltaQela * ( ( _qela * ACCELERATION_M ) + ACCELERATION_B );
             }
             
             // move the quasi-ELA
-            _qela += delta;
+            _qela += deltaQela;
             
             // make adjustments
             if ( _qela > maxElevation ) {
@@ -570,7 +587,7 @@ public class Glacier extends ClockAdapter {
                 // values below here are set explicitly in this method
                 _evolutionState.ela = ela;
                 _evolutionState.timescale = timescale;
-                _evolutionState.deltaQela = delta;
+                _evolutionState.deltaQela = deltaQela;
                 _evolutionState.qela = _qela;
                 // values below here are set by updateIceThickness, called from this method
                 _evolutionState.qelax = _qelax;
