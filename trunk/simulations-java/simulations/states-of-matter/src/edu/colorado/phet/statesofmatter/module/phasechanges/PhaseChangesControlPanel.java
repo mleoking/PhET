@@ -3,6 +3,7 @@
 package edu.colorado.phet.statesofmatter.module.phasechanges;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
@@ -19,6 +20,7 @@ import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
@@ -57,14 +59,10 @@ public class PhaseChangesControlPanel extends ControlPanel {
     private PhaseDiagram m_phaseDiagram;
     private MoleculeSelectionPanel m_moleculeSelectionPanel;
     
-    /*
-     * TODO: Remove these when it is determined that they are definitely
-     * no longer needed.  See more complete explanation further below.
     private JPanel m_interactionDiagramPanel;
     private boolean m_interactionDiagramVisible;
     private JButton m_interactionDiagramCtrlButton;
     private InteractionPotentialDiagramNode m_interactionPotentialDiagram;
-     */
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -81,11 +79,12 @@ public class PhaseChangesControlPanel extends ControlPanel {
         super();
         m_model = phaseChangesModule.getMultiParticleModel();
         m_phaseDiagramVisible = true;
+        m_interactionDiagramVisible = true;
         
         // Register with the model for events that affect the diagrams on this panel.
         m_model.addListener( new MultipleParticleModel.Adapter(){
             public void moleculeTypeChanged(){
-//                m_interactionPotentialDiagram.setLjPotentialParameters( m_model.getSigma(), m_model.getEpsilon() );
+                m_interactionPotentialDiagram.setLjPotentialParameters( m_model.getSigma(), m_model.getEpsilon() );
                 m_moleculeSelectionPanel.setMolecule(m_model.getMoleculeType());
             }
             public void temperatureChanged(){
@@ -130,14 +129,6 @@ public class PhaseChangesControlPanel extends ControlPanel {
         addControlFullWidth( m_phaseDiagramPanel );
         m_phaseDiagramPanel.setVisible( m_phaseDiagramVisible );
         
-        /*
-         * TODO: The diagram for showing interaction potential and the button
-         * that allows it to be turned on/off is being removed based on
-         * recommendations from Noah P, made after the first interviews were
-         * done.  It should be left here for at least a month and, if no one
-         * wants it back, this can be safely removed.  Note that removing it
-         * may involve removing some related classes too.
-         * --jblanco, 12/3/2008
         // Add the button that allows the user to turn the interaction diagram on/off.
         m_interactionDiagramCtrlButton = new JButton();
         m_interactionDiagramCtrlButton.setFont( BUTTON_LABEL_FONT );
@@ -164,7 +155,6 @@ public class PhaseChangesControlPanel extends ControlPanel {
         m_interactionDiagramPanel.add( interactionDiagramCanvas );
         addControlFullWidth( m_interactionDiagramPanel );
         m_interactionDiagramPanel.setVisible( m_interactionDiagramVisible );
-         */
         
         // Add the Reset All button.
         addSeparator();
@@ -203,7 +193,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
                 public void actionPerformed( ActionEvent e ) {
                     m_model.setMoleculeType( StatesOfMatterConstants.DIATOMIC_OXYGEN );
                     m_model.setPhase( MultipleParticleModel.PHASE_SOLID);
-//                    m_interactionPotentialDiagram.setMolecular( true );
+                    m_interactionPotentialDiagram.setMolecular( true );
                     m_phaseDiagram.setDepictingWater( false );
                 }
             } );
@@ -213,7 +203,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
                 public void actionPerformed( ActionEvent e ) {
                     m_model.setMoleculeType( StatesOfMatterConstants.NEON );
                     m_model.setPhase( MultipleParticleModel.PHASE_SOLID);
-//                    m_interactionPotentialDiagram.setMolecular( false );
+                    m_interactionPotentialDiagram.setMolecular( false );
                     m_phaseDiagram.setDepictingWater( false );
                 }
             } );
@@ -223,7 +213,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
                 public void actionPerformed( ActionEvent e ) {
                     m_model.setMoleculeType( StatesOfMatterConstants.ARGON );
                     m_model.setPhase( MultipleParticleModel.PHASE_SOLID);
-//                    m_interactionPotentialDiagram.setMolecular( false );
+                    m_interactionPotentialDiagram.setMolecular( false );
                     m_phaseDiagram.setDepictingWater( false );
                 }
             } );
@@ -233,7 +223,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
                 public void actionPerformed( ActionEvent e ) {
                     m_model.setMoleculeType( StatesOfMatterConstants.WATER );
                     m_model.setPhase( MultipleParticleModel.PHASE_SOLID);
-//                    m_interactionPotentialDiagram.setMolecular( true );
+                    m_interactionPotentialDiagram.setMolecular( true );
                     m_phaseDiagram.setDepictingWater( true );
                 }
             } );
@@ -243,7 +233,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
                 public void actionPerformed( ActionEvent e ) {
                     m_model.setMoleculeType( StatesOfMatterConstants.USER_DEFINED_MOLECULE );
                     m_model.setPhase( MultipleParticleModel.PHASE_SOLID);
-//                    m_interactionPotentialDiagram.setMolecular( true );
+                    m_interactionPotentialDiagram.setMolecular( true );
                     m_phaseDiagram.setDepictingWater( false );
                 }
             } );
@@ -290,10 +280,6 @@ public class PhaseChangesControlPanel extends ControlPanel {
         }
     }
     
-    /*
-     * TODO: Remove this when it is determined that they are definitely
-     * no longer needed.  See more complete explanation in another TODO
-     * comment further above.
     private void updateInteractionDiagramButtonLabel(){
         if (m_interactionDiagramVisible){
             m_interactionDiagramCtrlButton.setText( StatesOfMatterStrings.INTERACTION_POTENTIAL_BUTTON_LABEL + " <<" );
@@ -302,7 +288,6 @@ public class PhaseChangesControlPanel extends ControlPanel {
             m_interactionDiagramCtrlButton.setText( StatesOfMatterStrings.INTERACTION_POTENTIAL_BUTTON_LABEL + " >>" );
         }
     }
-    */
     
     /**
      * Update the position of the marker on the phase diagram based on the

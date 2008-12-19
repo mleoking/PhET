@@ -25,7 +25,8 @@ public class MonatomicVerletAlgorithm extends AbstractVerletAlgorithm {
     // Instance Data
     //----------------------------------------------------------------------------
 	
-	AtomPositionUpdater m_positionUpdater = new MonatomicAtomPositionUpdater();
+	private AtomPositionUpdater m_positionUpdater = new MonatomicAtomPositionUpdater();
+	private double m_epsilon = 1; // Controls the strength of particle interaction. 
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -45,6 +46,14 @@ public class MonatomicVerletAlgorithm extends AbstractVerletAlgorithm {
 
 	public double getTemperature() {
 		return m_temperature;
+	}
+	
+	public void setScaledEpsilon(double normalizedEpsilon){
+		m_epsilon = normalizedEpsilon;
+	}
+	
+	public double getScaledEpsilon(){
+		return m_epsilon;
 	}
 
 	/**
@@ -155,7 +164,7 @@ public class MonatomicVerletAlgorithm extends AbstractVerletAlgorithm {
                     }
                     double r2inv = 1 / distanceSqrd;
                     double r6inv = r2inv * r2inv * r2inv;
-                    double forceScaler = 48 * r2inv * r6inv * (r6inv - 0.5);
+                    double forceScaler = 48 * r2inv * r6inv * (r6inv - 0.5) * m_epsilon;
                     force.setX( dx * forceScaler );
                     force.setY( dy * forceScaler );
                     nextMoleculeForces[i].add( force );

@@ -279,4 +279,15 @@ public abstract class AbstractVerletAlgorithm implements MoleculeForceAndMotionC
             m_model.setContainerExploded();
 		}
 	}
+	
+	public void setScaledEpsilon(double scaledEpsilon){
+		// In the base class this just issues a warning and has no effect.
+		System.err.println("Warning: Setting epsilon is not implemented for this class, request ignored.");
+	}
+
+	public double getScaledEpsilon(){
+		// In the base class this just issues a warning and returns 0.
+		System.err.println("Warning: Getting scaled epsilon is not implemented for this class, returning zero.");
+		return 0;
+	}
 }

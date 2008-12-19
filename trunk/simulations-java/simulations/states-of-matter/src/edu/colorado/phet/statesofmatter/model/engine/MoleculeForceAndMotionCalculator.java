@@ -30,4 +30,20 @@ public interface MoleculeForceAndMotionCalculator {
 	 * @return - Internal system temperature.
 	 */
 	public double getTemperature();
+	
+	/**
+	 * Set the scaled value for Epsilon, which is the parameter that
+	 * defines the strength of particle interaction.
+	 * 
+	 * @param scaledEpsilon - A value for the interaction strength.  A
+	 * value of zero signifies no interaction, 1 is the default amount, and
+	 * 2 is as high as it can go.
+	 */
+	public void setScaledEpsilon(double scaledEpsilon);
+	
+	/**
+	 * Get the scaled value of the epsilon parameter, a.k.a. the interaction
+	 * strength.
+	 */
+	public double getScaledEpsilon();
 }

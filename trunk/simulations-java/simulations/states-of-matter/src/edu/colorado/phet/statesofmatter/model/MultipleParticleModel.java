@@ -160,7 +160,7 @@ public class MultipleParticleModel{
     private int     m_tempAdjustTickCounter;
     private int     m_currentMolecule;
     private double  m_particleDiameter;
-    private double m_pressure;
+    private double  m_pressure;
     private int     m_thermostatType;
     private int     m_heightChangeCounter;
     private double  m_minModelTemperature;
@@ -523,15 +523,34 @@ public class MultipleParticleModel{
             break;
             
         case StatesOfMatterConstants.USER_DEFINED_MOLECULE:
-            epsilon = ConfigurableAttractionAtom.getEpsilon();
+        	if (m_moleculeForceAndMotionCalculator != null){
+        		epsilon = m_moleculeForceAndMotionCalculator.getScaledEpsilon() * StatesOfMatterConstants.MAX_EPSILON / 2;
+        	}
+        	else{
+        		epsilon = ConfigurableAttractionAtom.getEpsilon();
+        	}
             break;
             
         default:
-            System.err.println("Error: Unrecognized molecule type when setting epsilon value.");
+            System.err.println("Error: Unrecognized molecule type when getting epsilon value.");
             epsilon = 0;
         }
         
         return epsilon;
+    }
+    
+    public void setEpsilon(double epsilon){
+    	if (m_currentMolecule == StatesOfMatterConstants.USER_DEFINED_MOLECULE){
+    		if (m_moleculeForceAndMotionCalculator != null){
+    			m_moleculeForceAndMotionCalculator.setScaledEpsilon(epsilon / 
+    					(StatesOfMatterConstants.MAX_EPSILON / 2));
+    		}
+    	}
+    	else{
+    		// Epsilon cannot be set unless the user-defined molecule is being
+    		// used, so print and error message and ignore the request.
+    		System.err.println("Error: Epsilon cannot be set when non-configurable molecule is in use.");
+    	}
     }
     
     public MoleculeForceAndMotionDataSet getMoleculeDataSetRef(){
