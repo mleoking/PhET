@@ -23,6 +23,7 @@ public class ProjectListPanel extends JPanel {
     private LocalProperties localProperties;
 
     public ProjectListPanel( File baseDir ) {
+        setMaximumSize( new Dimension( 200,10000) );
         this.baseDir = baseDir;
         this.localProperties = new LocalProperties( baseDir );
 

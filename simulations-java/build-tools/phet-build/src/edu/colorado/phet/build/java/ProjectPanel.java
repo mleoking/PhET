@@ -42,19 +42,24 @@ public class ProjectPanel extends JPanel {
         changesTextArea = new JTextArea( 10, 30 );
         changesTextArea.setEditable( false );
         changesScrollPane = new JScrollPane( changesTextArea );
-        changesScrollPane.setPreferredSize( new Dimension( 600, 250 ) );
+//        changesScrollPane.setPreferredSize( new Dimension( 600, 250 ) );
+//        changesScrollPane.setMinimumSize( new Dimension( 600, 250 ) );
 
 
         flavorList = new JList( project.getFlavorNames() );
         JScrollPane flavorScrollPane = new JScrollPane( flavorList );
         flavorScrollPane.setBorder( BorderFactory.createTitledBorder( "Simulations" ) );
-        flavorScrollPane.setPreferredSize( new Dimension( 200, 100 ) );
+        flavorScrollPane.setMinimumSize( new Dimension( 150, 0) );
+        flavorScrollPane.setMaximumSize( new Dimension( 150, 10000) );
+        flavorScrollPane.setPreferredSize( new Dimension( 150, 400) );
 
 
         localeList = new JList( project.getLocales() );
         JScrollPane localeScroll = new JScrollPane( localeList );
         localeScroll.setBorder( BorderFactory.createTitledBorder( "Locales" ) );
-        localeScroll.setPreferredSize( new Dimension( 200, 200 ) );
+        localeScroll.setMinimumSize( new Dimension( 150,0) );
+        localeScroll.setMaximumSize( new Dimension( 150,10000) );
+        localeScroll.setPreferredSize( new Dimension( 150,400) );
 
         JPanel controlPanel = new JPanel();
         JButton testButton = new JButton( "Test" );
@@ -91,14 +96,14 @@ public class ProjectPanel extends JPanel {
 //            }
 //        } );
 //        controlPanel.add( createHeader );
-
+        setLayout( new BorderLayout( ) );
         add(
                 Boxer.verticalBox(
                         Boxer.horizontalBox(
                                 Boxer.verticalBox( flavorScrollPane, localeScroll ),
                                 Boxer.verticalBox( titleLabel, changesScrollPane ) ),
                         controlPanel )
-        );
+        ,BorderLayout.CENTER);
 
         setProject( project );
     }
