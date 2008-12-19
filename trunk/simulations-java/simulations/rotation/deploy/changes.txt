@@ -1,3 +1,5 @@
+# 1.06.00 (26753) 12-19-2008
+Fixed bug that disk state graphics not updating in sync with the model.
 #1.05.04 (12-5-2008)
 Bugfix: Disk states doesn't revert during playback (see #1004)
 
