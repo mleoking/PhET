@@ -15,7 +15,7 @@ import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.model.DualParticleModel;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
-import edu.colorado.phet.statesofmatter.module.phasechanges.InteractionPotentialDiagramNode;
+import edu.colorado.phet.statesofmatter.module.InteractionPotentialDiagramNode;
 import edu.colorado.phet.statesofmatter.view.GrabbableParticleNode;
 import edu.colorado.phet.statesofmatter.view.ModelViewTransform;
 import edu.colorado.phet.statesofmatter.view.ParticleForceNode;

@@ -1,6 +1,6 @@
 /* Copyright 2008, University of Colorado */
 
-package edu.colorado.phet.statesofmatter.module.interactionpotential;
+package edu.colorado.phet.statesofmatter.module.phasechanges;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -28,7 +28,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author John Blanco
  */
-public class InteractiveInteractionPotentialDiagram extends InteractionPotentialDiagramNode {
+public class EpsilonControlInteractionPotentialDiagram extends InteractionPotentialDiagramNode {
 
     //-----------------------------------------------------------------------------
     // Class Data
@@ -66,7 +66,7 @@ public class InteractiveInteractionPotentialDiagram extends InteractionPotential
      * @param epsilon
      * @param wide    - True if the widescreen version of the graph is needed, false if not.
      */
-    public InteractiveInteractionPotentialDiagram(double sigma, double epsilon, boolean wide, 
+    public EpsilonControlInteractionPotentialDiagram(double sigma, double epsilon, boolean wide, 
             final DualParticleModel model) {
         
         super(sigma, epsilon, wide);
