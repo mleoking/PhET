@@ -1,6 +1,6 @@
 /* Copyright 2008, University of Colorado */
 
-package edu.colorado.phet.statesofmatter.module.phasechanges;
+package edu.colorado.phet.statesofmatter.module.interactionpotential;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -14,6 +14,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ResizeArrowNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.DualParticleModel;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
+import edu.colorado.phet.statesofmatter.module.phasechanges.InteractionPotentialDiagramNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
