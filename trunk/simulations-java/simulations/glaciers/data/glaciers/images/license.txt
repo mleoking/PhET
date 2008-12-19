@@ -18,7 +18,7 @@ snowflake.png source=http://commons.wikimedia.org/wiki/Image:Snowflake.svg autho
 
 thermometer.png source=PhET author=Archie Paulson
 
-Tonsina_Glacier.jpg source=http://www.earthscienceworld.org/images,id=iam8mh author=Bruce Molnia, Terra Photographics license=non-profit and commercial, see Unfuddle 1010
+Tonsina_Glacier.jpg source=http://www.earthscienceworld.org/images,id=iam8mh author=Bruce Molnia, Terra Photographics license=Used with permission, non-profit and commercial, see Unfuddle 1010
 
 tracerFlag.png source=PHET author=Archie Paulson
 
