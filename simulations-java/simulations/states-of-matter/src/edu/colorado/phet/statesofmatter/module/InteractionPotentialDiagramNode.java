@@ -1,6 +1,6 @@
 /* Copyright 2008, University of Colorado */
 
-package edu.colorado.phet.statesofmatter.module.phasechanges;
+package edu.colorado.phet.statesofmatter.module;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
