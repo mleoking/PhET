@@ -411,11 +411,19 @@ public class InteractionPotentialDiagramNode extends PNode {
         
         // Position the arrow that depicts epsilon along with its label.
       
-        try{
-            m_epsilonArrow.setTipAndTailLocations( m_graphMin, new Point2D.Double( m_graphMin.getX(), m_graphHeight / 2 ) );
+        Point2D epsilonArrowStartPt = new Point2D.Double( m_graphMin.getX(), m_graphHeight / 2 );
+        if (epsilonArrowStartPt.distance(m_graphMin) > m_epsilonArrow.getHeadHeight() * 2){
+        	m_epsilonArrow.setVisible(true);
+            try{
+                m_epsilonArrow.setTipAndTailLocations( m_graphMin, epsilonArrowStartPt );
+            }
+            catch(RuntimeException r){
+                System.err.println("Error: Caught exception while positioning epsilon arrow - " + r);
+            }
         }
-        catch(RuntimeException r){
-            System.err.println("Error: Caught exception while positioning epsilon arrow - " + r);
+        else{
+        	// Don't show the arrow if there isn't enough space.
+        	m_epsilonArrow.setVisible(false);
         }
         
         m_epsilonLabel.setOffset( m_graphMin.getX() + m_epsilonLabel.getFullBoundsReference().width * 0.5, 
