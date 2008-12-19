@@ -35,7 +35,7 @@ public abstract class AbstractGunNode extends PNode {
     private ImagePComboBox comboBox;
     private PNode onGunGraphic;
 
-    protected static final String GUN_RESOURCE = "quantum-wave-interference/images/raygun3-centerbarrel-2.gif";
+    protected static final String GUN_RESOURCE = "quantum-wave-interference/images/ray-gun.png";
     public static final int GUN_PARTICLE_OFFSET = 35;
 
     public AbstractGunNode( final QWIPanel QWIPanel ) {
