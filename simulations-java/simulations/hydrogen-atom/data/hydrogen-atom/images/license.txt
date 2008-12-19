@@ -6,15 +6,14 @@
 atomicModelPanel.png author=PhET 
 billiardBallButton.png author=PhET 
 bohrButton.png author=PhET 
-camera.png author=PhET notes=photo of cmalley's camera
-closeButton.png 
+camera.png author=PhET
 deBroglieButton.png author=PhET 
-gun.png 
+ray-gun.png author=PhET
 gunControlCable.png author=PhET 
 gunOffButton.png author=PhET 
 gunOnButton.png author=PhET 
 gunPanel.png author=PhET 
-kaboom.png author=PhET notes=chris 
+kaboom.png author=PhET 
 modePanel.png author=PhET 
 modeSwitchDown.png author=PhET 
 modeSwitchUp.png author=PhET 

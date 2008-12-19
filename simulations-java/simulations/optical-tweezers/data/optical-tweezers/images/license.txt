@@ -4,7 +4,7 @@
 ###################################
 
 beamIcon.png author=PhET 
-camera.png author=PhET notes=photo of cmalley's camera
+camera.png author=PhET
 histogramIcon.png author=PhET 
 laserButtonOff.png author=PhET 
 laserButtonOn.png author=PhET 
