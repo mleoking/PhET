@@ -109,8 +109,8 @@ public class SimInfo {
     public static boolean getDefaultHideEntryRule( ResourceAnnotation entry ) {
         return ( entry.getAuthor() != null && entry.getAuthor().equalsIgnoreCase( "phet" ) )
                ||
-//               ( entry.getSource() != null && entry.getSource().toLowerCase().startsWith( "microsoft" ) )
-//               ||
+               ( entry.getSource() != null && entry.getSource().toLowerCase().startsWith( "microsoft" ) )//microsoft clip art approved for usage, see Unfuddle #1059
+               ||
 
 ( entry.getAuthor() != null && entry.getAuthor().equalsIgnoreCase( "cmalley" ) )
 ||
