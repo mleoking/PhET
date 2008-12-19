@@ -137,12 +137,14 @@ public class PhaseChangesControlPanel extends ControlPanel {
         addControlFullWidth( m_phaseDiagramCtrlButton );
         m_phaseDiagramCtrlButton.addActionListener( new ActionListener(){
             public void actionPerformed( ActionEvent e ) {
-                m_phaseDiagramVisible = !m_phaseDiagramVisible;
+                m_phaseDiagramVisible = true;
                 m_phaseDiagramPanel.setVisible( m_phaseDiagramVisible );
+                m_phaseDiagramCtrlButton.setVisible( !m_phaseDiagramVisible );
                 updatePhaseDiagramButtonLabel();
             }
         });
         updatePhaseDiagramButtonLabel();
+        m_phaseDiagramCtrlButton.setVisible( !m_phaseDiagramVisible );
         
         // Add the phase diagram.
         m_phaseDiagramPanel = new JPanel();
@@ -156,7 +158,9 @@ public class PhaseChangesControlPanel extends ControlPanel {
         	public void closeRequestReceived(){
         		// Note that we don't actually make it go away, we just make
         		// it invisible.
-        		m_phaseDiagramPanel.setVisible(false);
+        		m_phaseDiagramVisible = false;
+        		m_phaseDiagramPanel.setVisible( m_phaseDiagramVisible );
+        		m_phaseDiagramCtrlButton.setVisible( !m_phaseDiagramVisible );
         	}
         };
         m_phaseDiagram.addListener(m_phaseDiagramCloseListener);
@@ -167,12 +171,14 @@ public class PhaseChangesControlPanel extends ControlPanel {
         addControlFullWidth( m_interactionDiagramCtrlButton );
         m_interactionDiagramCtrlButton.addActionListener( new ActionListener(){
             public void actionPerformed( ActionEvent e ) {
-                m_interactionDiagramVisible = !m_interactionDiagramVisible;
+                m_interactionDiagramVisible = true;
                 m_interactionDiagramPanel.setVisible( m_interactionDiagramVisible );
+                m_interactionDiagramCtrlButton.setVisible( !m_interactionDiagramVisible );
                 updateInteractionDiagramButtonLabel();
             }
         });
         updateInteractionDiagramButtonLabel();
+        m_interactionDiagramCtrlButton.setVisible( !m_interactionDiagramVisible );
         
         // Add the interaction potential diagram.
         m_interactionDiagramPanel = new JPanel();
@@ -193,7 +199,9 @@ public class PhaseChangesControlPanel extends ControlPanel {
         	public void closeRequestReceived(){
         		// Note that we don't actually make it go away, we just make
         		// it invisible.
-        		m_interactionDiagramPanel.setVisible(false);
+        		m_interactionDiagramVisible = false;
+        		m_interactionDiagramPanel.setVisible( m_interactionDiagramVisible );
+        		m_interactionDiagramCtrlButton.setVisible( !m_interactionDiagramVisible );
         	}
         };
         m_interactionPotentialDiagram.addListener(m_interactionPotentialDiagramCloseListener);
