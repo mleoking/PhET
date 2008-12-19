@@ -9,7 +9,6 @@ public class PhetBuildGUIPanel extends JPanel {
     private ProjectListPanel projectPanel;
 
     public PhetBuildGUIPanel( File baseDir ) {
-//        setLayout( new FlowLayout( ) );
         setLayout( new BoxLayout( this, BoxLayout.X_AXIS ) );
 
         projectPanel = new ProjectListPanel( baseDir );

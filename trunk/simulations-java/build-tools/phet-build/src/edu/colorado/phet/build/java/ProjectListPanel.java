@@ -4,7 +4,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Properties;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -22,18 +26,20 @@ public class ProjectListPanel extends JPanel {
         this.baseDir = baseDir;
         this.localProperties = new LocalProperties( baseDir );
 
-        PhetProject[] a = PhetProject.getAllProjects( baseDir );
-        PhetProjectAdapter[] b = PhetProjectAdapter.convertToMyPhetProjecets( a, baseDir );
-        for ( int i = 0; i < a.length; i++ ) {
-            b[i].setAntBaseDir( baseDir );
-        }
-        ProjectListElement[] p = toListElements( b );
+        ProjectListElement[] p = getProjectListElements();
         projectList = new JList( p );
-        projectList.setSelectedIndex( 0 );
+        if ( getDefaultProject() != null ) {
+            projectList.setSelectedValue( getDefaultProject(), true );
+        }
+        else {
+            projectList.setSelectedIndex( 0 );
+        }
+
         projectList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
         projectList.addListSelectionListener( new ListSelectionListener() {
             public void valueChanged( ListSelectionEvent e ) {
                 notifyListeners();
+                saveNewProjectSelection();
             }
         } );
 
@@ -146,6 +152,61 @@ public class ProjectListPanel extends JPanel {
 //        add( commandPanel, gridBagConstraints );
     }
 
+    private ProjectListElement[] getProjectListElements() {
+        PhetProject[] a = PhetProject.getAllProjects( baseDir );
+        PhetProjectAdapter[] b = PhetProjectAdapter.convertToMyPhetProjecets( a, baseDir );
+        for ( int i = 0; i < a.length; i++ ) {
+            b[i].setAntBaseDir( baseDir );
+        }
+        return toListElements( b );
+    }
+
+    private void saveNewProjectSelection() {
+        Properties properties = new Properties();
+        properties.setProperty( "project", getSelectedProject().getName() );
+        try {
+            properties.store( new FileOutputStream( getPhetBuildGUIPropertyFile() ), null );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+    }
+
+    private ProjectListElement getDefaultProject() {
+        File file = getPhetBuildGUIPropertyFile();
+        if ( file.exists() ) {
+            Properties p = new Properties();
+            try {
+                p.load( new FileInputStream( file ) );
+                if ( p.containsKey( "project" ) ) {
+                    String proj=p.getProperty( "project" );
+                    ProjectListElement[] ple=getProjectListElements();
+                    for ( int i=0;i<ple.length;i++) {
+                        ProjectListElement projectListElement =ple[i]; 
+                        if (projectListElement.getProject().getName().equals( proj )){
+                            return projectListElement;
+                        }
+                    }
+                    return null;
+                }
+                else {
+                    return null;
+                }
+            }
+            catch( IOException e ) {
+                return null;
+            }
+        }
+        else {
+            return null;
+        }
+    }
+
+    private File getPhetBuildGUIPropertyFile() {
+        File file = new File( baseDir, ".phet-build-gui.properties" );
+        return file;
+    }
+
     private BuildScript getBuildScript() {
         return new BuildScript( baseDir, getSelectedProject(), new AuthenticationInfo( getLocalProperty( "svn.username" ), getLocalProperty( "svn.password" ) ), getLocalProperty( "browser" ) );
     }
@@ -183,6 +244,19 @@ public class ProjectListPanel extends JPanel {
 
         public PhetProject getProject() {
             return p;
+        }
+
+        public boolean equals( Object obj ) {
+            if (obj instanceof ProjectListElement){
+                ProjectListElement p= (ProjectListElement) obj;
+                return p.p.getName().equals( this.p.getName() );
+            }else{
+                return false;
+            }
+        }
+
+        public int hashCode() {
+            return p.getName().hashCode();
         }
     }
 
