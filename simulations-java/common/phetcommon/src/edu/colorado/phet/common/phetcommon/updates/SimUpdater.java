@@ -83,7 +83,6 @@ public class SimUpdater {
                         startUpdaterBootstrap( tempUpdaterJAR, tempSimJAR, simJAR );
                         System.exit( 0 ); //presumably, jar must exit before it can be overwritten
                     }
-                    //todo: add error handling here for when error.txt is downloaded instead of requested JAR
                 }
             }
             catch ( IOException e ) {
