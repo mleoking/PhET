@@ -13,6 +13,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ResizeArrowNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.DualParticleModel;
+import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.colorado.phet.statesofmatter.module.InteractionPotentialDiagramNode;
 import edu.umd.cs.piccolo.PNode;
@@ -24,7 +25,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * This class extends the Interaction Potential diagram to allow the user to
- * change the curve through direct interaction with it.
+ * adjust the interaction strength parameter (i.e. epsilon).
  *
  * @author John Blanco
  */
@@ -34,23 +35,21 @@ public class EpsilonControlInteractionPotentialDiagram extends InteractionPotent
     // Class Data
     //-----------------------------------------------------------------------------
 
-    private static final double RESIZE_HANDLE_SIZE_PROPORTION = 0.05;    // Size of handles as function of node width.
+    private static final double RESIZE_HANDLE_SIZE_PROPORTION = 0.12;    // Size of handles as function of node width.
     private static final double EPSILON_HANDLE_OFFSET_PROPORTION = 0.08; // Position of handle as function of node width.
     private static final float EPSILON_LINE_WIDTH = 1f;
     private static final float[] EPSILON_LINE_DASH_PATTERN = { 5, 5 }; 
     private static Stroke EPSILON_LINE_STROKE = new BasicStroke( EPSILON_LINE_WIDTH, BasicStroke.CAP_BUTT, 
             BasicStroke.JOIN_MITER, 10, EPSILON_LINE_DASH_PATTERN, 0 );
     private static final Color EPSILON_LINE_COLOR = Color.RED; 
-    private static final double SIGMA_HANDLE_OFFSET_PROPORTION = 0.08;   // Position of handle as function of node width.
-    private static final Color RESIZE_HANDLE_NORMAL_COLOR = new Color (51, 204, 51);
-    private static final Color RESIZE_HANDLE_HIGHLIGHTED_COLOR = new Color(153, 255, 0);
+    private static final Color RESIZE_HANDLE_NORMAL_COLOR = Color.GREEN;
+    private static final Color RESIZE_HANDLE_HIGHLIGHTED_COLOR = Color.YELLOW;
     
     //-----------------------------------------------------------------------------
     // Instance Data
     //-----------------------------------------------------------------------------
 
-    private DualParticleModel m_model;
-    private ResizeArrowNode m_sigmaResizeHandle;
+    private MultipleParticleModel m_model;
     private ResizeArrowNode m_epsilonResizeHandle;
     private PPath m_epsilonLine;
     private boolean m_interactionEnabled;
@@ -67,14 +66,14 @@ public class EpsilonControlInteractionPotentialDiagram extends InteractionPotent
      * @param wide    - True if the widescreen version of the graph is needed, false if not.
      */
     public EpsilonControlInteractionPotentialDiagram(double sigma, double epsilon, boolean wide, 
-            final DualParticleModel model) {
+            final MultipleParticleModel model) {
         
         super(sigma, epsilon, wide);
         
         this.m_model = model;
-        model.addListener(new DualParticleModel.Adapter(){
-            public void interactionPotentialChanged() {
-                setLjPotentialParameters( model.getSigma(), model.getEpsilon() );
+        model.addListener(new MultipleParticleModel.Adapter(){
+            public void interactionStrengthChanged() {
+                setLjPotentialParameters( m_model.getSigma(), m_model.getEpsilon() );
             }
             public void moleculeTypeChanged() {
                 updateInteractivityState();
@@ -96,10 +95,12 @@ public class EpsilonControlInteractionPotentialDiagram extends InteractionPotent
         m_ljPotentialGraph.addChild( m_epsilonResizeHandle );
         m_epsilonResizeHandle.addInputEventListener(new PBasicInputEventHandler(){
         	public void mousePressed(PInputEvent event) {
-        		m_model.setParticleMotionPaused(true);
+            	// TODO: Add this back if needed, and when implemented.
+            	//m_model.setParticleMotionPaused(true);
         	}
         	public void mouseReleased(PInputEvent event) {
-        		m_model.setParticleMotionPaused(false);
+            	// TODO: Add this back if needed, and when implemented.
+            	//m_model.setParticleMotionPaused(false);
         	}
             public void mouseDragged(PInputEvent event) {
                 PNode draggedNode = event.getPickedNode();
@@ -107,59 +108,6 @@ public class EpsilonControlInteractionPotentialDiagram extends InteractionPotent
                 draggedNode.localToParent(d);
                 double scaleFactor = StatesOfMatterConstants.MAX_EPSILON / (getGraphHeight() / 2);
                 m_model.setEpsilon( m_model.getEpsilon() + d.getHeight() * scaleFactor );
-            }
-        });
-        
-        m_sigmaResizeHandle = new ResizeArrowNode(RESIZE_HANDLE_SIZE_PROPORTION * m_width, 0,
-        		RESIZE_HANDLE_NORMAL_COLOR, RESIZE_HANDLE_HIGHLIGHTED_COLOR);
-        m_ljPotentialGraph.addChild( m_sigmaResizeHandle );
-        m_sigmaResizeHandle.addInputEventListener(new PBasicInputEventHandler(){
-        	public void mousePressed(PInputEvent event) {
-        		m_model.setParticleMotionPaused(true);
-        	}
-        	public void mouseReleased(PInputEvent event) {
-        		m_model.setParticleMotionPaused(false);
-        	}
-            public void mouseDragged(PInputEvent event) {
-                PNode draggedNode = event.getPickedNode();
-                PDimension d = event.getDeltaRelativeTo(draggedNode);
-                draggedNode.localToParent(d);
-                double scaleFactor = MAX_INTER_ATOM_DISTANCE / getGraphWidth();
-                m_model.setSigma( m_model.getSigma() + d.getWidth() * scaleFactor );
-            }
-        });
-        
-        // Add the ability to grab and move the position marker.
-        // This node will need to be pickable so the user can grab it.
-        m_positionMarker.setPickable( true );
-        m_positionMarker.setChildrenPickable( true );
-        m_positionMarker.addInputEventListener( new CursorHandler(Cursor.HAND_CURSOR) );
-        
-        m_positionMarker.addInputEventListener( new PDragEventHandler(){
-            
-            public void startDrag( PInputEvent event) {
-                super.startDrag(event);
-                // Stop the particle from moving in the model.
-                m_model.setParticleMotionPaused( true );
-            }
-            
-            public void drag(PInputEvent event){
-                PNode draggedNode = event.getPickedNode();
-                PDimension d = event.getDeltaRelativeTo(draggedNode);
-                draggedNode.localToParent(d);
-
-                // Move the particle based on the amount of mouse movement.
-                StatesOfMatterAtom atom = m_model.getMovableParticleRef();
-                double scaleFactor = MAX_INTER_ATOM_DISTANCE / getGraphWidth();
-                double newPosX = Math.max( atom.getX() + (d.width * scaleFactor), atom.getRadius() * 1.8);
-                atom.setPosition( newPosX, atom.getY() );
-            }
-            
-            public void endDrag( PInputEvent event ){
-                super.endDrag(event);     
-                // Let the model move the particle again.  Note that this happens
-                // even if the motion was paused by some other means.
-                m_model.setParticleMotionPaused( false );
             }
         });
         
@@ -196,14 +144,6 @@ public class EpsilonControlInteractionPotentialDiagram extends InteractionPotent
             
             m_epsilonLine.setOffset( graphMin.getX(), graphMin.getY() );
             m_epsilonLine.setVisible( m_interactionEnabled );
-        }
-        if (m_sigmaResizeHandle != null){
-            Point2D zeroCrossingPoint = getZeroCrossingPoint();
-            m_sigmaResizeHandle.setOffset( zeroCrossingPoint.getX(), 
-                    (getGraphHeight() / 2) - SIGMA_HANDLE_OFFSET_PROPORTION * m_height );
-            m_sigmaResizeHandle.setVisible( m_interactionEnabled );
-            m_sigmaResizeHandle.setPickable( m_interactionEnabled );
-            m_sigmaResizeHandle.setChildrenPickable( m_interactionEnabled );
         }
     }
 

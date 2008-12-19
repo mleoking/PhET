@@ -76,7 +76,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
     private JPanel m_interactionDiagramPanel;
     private boolean m_interactionDiagramVisible;
     private JButton m_interactionDiagramCtrlButton;
-    private InteractionPotentialDiagramNode m_interactionPotentialDiagram;
+    private EpsilonControlInteractionPotentialDiagram m_interactionPotentialDiagram;
     private InteractionStrengthControlPanel m_interactionStrengthControlPanel;
     
     //----------------------------------------------------------------------------
@@ -168,8 +168,8 @@ public class PhaseChangesControlPanel extends ControlPanel {
                 INTERACTION_POTENTIAL_DIAGRAM_HEIGHT) );
         interactionDiagramCanvas.setBackground( StatesOfMatterConstants.CONTROL_PANEL_COLOR );
         interactionDiagramCanvas.setBorder( null );
-        m_interactionPotentialDiagram = new InteractionPotentialDiagramNode( m_model.getSigma(), m_model.getEpsilon(),
-                false );
+        m_interactionPotentialDiagram = new EpsilonControlInteractionPotentialDiagram( m_model.getSigma(), 
+        		m_model.getEpsilon(), false, m_model );
         interactionDiagramCanvas.addWorldChild( m_interactionPotentialDiagram );
         m_interactionDiagramPanel.add( interactionDiagramCanvas );
         addControlFullWidth( m_interactionDiagramPanel );
@@ -428,8 +428,8 @@ public class PhaseChangesControlPanel extends ControlPanel {
             setBorder( m_titledBorder );
             
             // Add the control slider.
-            m_interactionStrengthControl = new LinearValueControl( 0, StatesOfMatterConstants.MAX_EPSILON, "", "0", 
-            		"", new SliderLayoutStrategy() );
+            m_interactionStrengthControl = new LinearValueControl( StatesOfMatterConstants.MIN_EPSILON, 
+            		StatesOfMatterConstants.MAX_EPSILON, "", "0", "", new SliderLayoutStrategy() );
             m_interactionStrengthControl.setValue( m_model.getEpsilon() );
             m_interactionStrengthControl.setUpDownArrowDelta( 0.01 );
             m_interactionStrengthControl.addChangeListener( new ChangeListener() {
@@ -447,7 +447,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
                 }
                 public void mouseReleased(MouseEvent e) {
                 	// TODO: Add this back if needed, and when implemented.
-                	//m_model.setParticleMotionPaused(true);
+                	//m_model.setParticleMotionPaused(false);
                 }
             });
             Hashtable diameterControlLabelTable = new Hashtable();

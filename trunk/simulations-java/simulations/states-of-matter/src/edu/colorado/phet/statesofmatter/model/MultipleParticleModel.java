@@ -543,10 +543,14 @@ public class MultipleParticleModel{
     public void setEpsilon(double epsilon){
     	if (m_currentMolecule == StatesOfMatterConstants.USER_DEFINED_MOLECULE){
     		if (m_moleculeForceAndMotionCalculator != null){
-    			m_moleculeForceAndMotionCalculator.setScaledEpsilon(epsilon / 
-    					(StatesOfMatterConstants.MAX_EPSILON / 2));
+    			if ((epsilon <= StatesOfMatterConstants.MAX_EPSILON) && 
+    				(epsilon >= StatesOfMatterConstants.MIN_EPSILON)){
+    				
+        			m_moleculeForceAndMotionCalculator.setScaledEpsilon(epsilon / 
+        					(StatesOfMatterConstants.MAX_EPSILON / 2));
+            		notifyInteractionStrengthChanged();
+    			}
     		}
-    		notifyInteractionStrengthChanged();
     	}
     	else{
     		// Epsilon cannot be set unless the user-defined molecule is being
