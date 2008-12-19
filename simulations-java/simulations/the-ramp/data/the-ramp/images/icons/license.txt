@@ -7,8 +7,8 @@ glass-20-minus.gif source=java
 glass-20-plus.gif source=java
 mag-minus-10.gif 
 mag-minus-15.gif license=same as mag-minus-10.gif 
-mag-plus-10.gif 
-mag-plus-15.gif 
+mag-plus-10.gif license=same as mag-minus-10.gif
+mag-plus-15.gif license=same as mag-minus-10.gif 
 selected.gif author=PhET 
 TipOfTheDay24.gif source=java 
 unselected.gif author=PhET 
