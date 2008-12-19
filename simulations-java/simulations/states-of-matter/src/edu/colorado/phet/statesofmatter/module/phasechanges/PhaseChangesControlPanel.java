@@ -134,16 +134,15 @@ public class PhaseChangesControlPanel extends ControlPanel {
         // Add the button that allows the user to turn the phase diagram on/off.
         m_phaseDiagramCtrlButton = new JButton();
         m_phaseDiagramCtrlButton.setFont( BUTTON_LABEL_FONT );
+        m_phaseDiagramCtrlButton.setText( StatesOfMatterStrings.PHASE_DIAGRAM_BUTTON_LABEL );
         addControlFullWidth( m_phaseDiagramCtrlButton );
         m_phaseDiagramCtrlButton.addActionListener( new ActionListener(){
             public void actionPerformed( ActionEvent e ) {
                 m_phaseDiagramVisible = true;
                 m_phaseDiagramPanel.setVisible( m_phaseDiagramVisible );
                 m_phaseDiagramCtrlButton.setVisible( !m_phaseDiagramVisible );
-                updatePhaseDiagramButtonLabel();
             }
         });
-        updatePhaseDiagramButtonLabel();
         m_phaseDiagramCtrlButton.setVisible( !m_phaseDiagramVisible );
         
         // Add the phase diagram.
@@ -168,16 +167,15 @@ public class PhaseChangesControlPanel extends ControlPanel {
         // Add the button that allows the user to turn the interaction diagram on/off.
         m_interactionDiagramCtrlButton = new JButton();
         m_interactionDiagramCtrlButton.setFont( BUTTON_LABEL_FONT );
+        m_interactionDiagramCtrlButton.setText( StatesOfMatterStrings.INTERACTION_POTENTIAL_BUTTON_LABEL);
         addControlFullWidth( m_interactionDiagramCtrlButton );
         m_interactionDiagramCtrlButton.addActionListener( new ActionListener(){
             public void actionPerformed( ActionEvent e ) {
                 m_interactionDiagramVisible = true;
                 m_interactionDiagramPanel.setVisible( m_interactionDiagramVisible );
                 m_interactionDiagramCtrlButton.setVisible( !m_interactionDiagramVisible );
-                updateInteractionDiagramButtonLabel();
             }
         });
-        updateInteractionDiagramButtonLabel();
         m_interactionDiagramCtrlButton.setVisible( !m_interactionDiagramVisible );
         
         // Add the interaction potential diagram.
@@ -218,24 +216,6 @@ public class PhaseChangesControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
     // Private Methods
     //----------------------------------------------------------------------------
-    
-    private void updatePhaseDiagramButtonLabel(){
-        if (m_phaseDiagramVisible){
-            m_phaseDiagramCtrlButton.setText( StatesOfMatterStrings.PHASE_DIAGRAM_BUTTON_LABEL + " <<" );
-        }
-        else{
-            m_phaseDiagramCtrlButton.setText( StatesOfMatterStrings.PHASE_DIAGRAM_BUTTON_LABEL + " >>" );
-        }
-    }
-    
-    private void updateInteractionDiagramButtonLabel(){
-        if (m_interactionDiagramVisible){
-            m_interactionDiagramCtrlButton.setText( StatesOfMatterStrings.INTERACTION_POTENTIAL_BUTTON_LABEL + " <<" );
-        }
-        else{
-            m_interactionDiagramCtrlButton.setText( StatesOfMatterStrings.INTERACTION_POTENTIAL_BUTTON_LABEL + " >>" );
-        }
-    }
     
     /**
      * Update the position of the marker on the phase diagram based on the
