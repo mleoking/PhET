@@ -5,8 +5,8 @@
 
 1750-2.gif author=PhET 
 1750-background.gif author=PhET 
-earth-a.gif notes=email permission 
-earth.gif notes=email permission 
+earth-a.gif license=same as earth_0001.gif notes=email permission
+earth.gif license=same as earth_0001.gif notes=email permission 
 glass-pane-background.gif author=PhET 
 ice-age-2.gif author=PhET 
 iceage-2.gif author=PhET 

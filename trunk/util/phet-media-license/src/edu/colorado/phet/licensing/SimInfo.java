@@ -117,6 +117,8 @@ public class SimInfo {
                ||
                ( entry.getSource() != null && entry.getSource().toLowerCase().startsWith( "clker.com" ) )
                ||
+               ( entry.getLicense() != null && entry.getLicense().toLowerCase().startsWith( "same as ") )//collapse related issues
+               ||
                ( entry.getLicense() != null && entry.getLicense().equalsIgnoreCase( "PUBLIC DOMAIN" ) )
                ||
                ( entry.getLicense() != null && entry.getLicense().toLowerCase().startsWith( "Used with permission".toLowerCase( )) )

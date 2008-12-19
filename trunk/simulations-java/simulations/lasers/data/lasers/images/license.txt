@@ -18,21 +18,21 @@ annotated-laser-2.jpg author=PhET
 beam-control-lower.png author=PhET 
 beam-control-upper.png author=PhET 
 beam-control.png author=PhET 
-flames_0001.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images 
-flames_0002.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images 
-flames_0003.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images 
-flames_0004.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images 
-flames_0005.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images 
-flames_0006.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images 
-flames_0007.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images 
-flames_0008.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images 
-flames_0009.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images 
-flames_0010.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images 
-flames_0011.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images 
-flames_0012.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images 
-flames_0013.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images 
-flames_0014.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images 
-flames_0015.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images 
+flames_0001.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images
+flames_0002.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images license=same as flames_0001.gif
+flames_0003.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images license=same as flames_0001.gif
+flames_0004.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images license=same as flames_0001.gif
+flames_0005.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images license=same as flames_0001.gif
+flames_0006.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images license=same as flames_0001.gif
+flames_0007.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images license=same as flames_0001.gif
+flames_0008.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images license=same as flames_0001.gif
+flames_0009.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images license=same as flames_0001.gif
+flames_0010.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images license=same as flames_0001.gif
+flames_0011.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images license=same as flames_0001.gif
+flames_0012.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images license=same as flames_0001.gif
+flames_0013.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images license=same as flames_0001.gif
+flames_0014.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images license=same as flames_0001.gif
+flames_0015.gif source=http://www.bellsnwhistles.com/page28.html notes=Google Images license=same as flames_0001.gif
 flashlight.png author=PhET 
 G.png author=PhET 
 mirror.gif author=PhET
