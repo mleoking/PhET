@@ -23,49 +23,101 @@ public class ProjectPanel extends JPanel {
             updateChangesText();
         }
     };
+    private LocalProperties localProperties;
 
-    public ProjectPanel( File basedir, PhetProject project ) {
+    public ProjectPanel( File basedir, final PhetProject project ) {
         this.basedir = basedir;
         this.project = project;
-        setLayout( new VerticalLayout() );
-
+        this.localProperties = new LocalProperties( basedir );
         titleLabel = new JLabel( project.getName() );
-        add( titleLabel );
+
 
         changesTextArea = new JTextArea( 10, 30 );
         changesTextArea.setEditable( false );
         changesScrollPane = new JScrollPane( changesTextArea );
         changesScrollPane.setPreferredSize( new Dimension( 600, 250 ) );
-        add( changesScrollPane );
+
 
         flavorList = new JList( project.getFlavorNames() );
         JScrollPane flavorScrollPane = new JScrollPane( flavorList );
         flavorScrollPane.setBorder( BorderFactory.createTitledBorder( "Simulations" ) );
         flavorScrollPane.setPreferredSize( new Dimension( 300, 100 ) );
-        add( flavorScrollPane );
+
 
         localeList = new JList( project.getLocales() );
         JScrollPane localeScroll = new JScrollPane( localeList );
         localeScroll.setBorder( BorderFactory.createTitledBorder( "Locales" ) );
         localeScroll.setPreferredSize( new Dimension( 300, 200 ) );
-        add( localeScroll );
 
-        JButton launch = new JButton( "Launch" );
-        launch.addActionListener( new ActionListener() {
+        JPanel controlPanel = new JPanel();
+        JButton testButton = new JButton( "Test" );
+        testButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                launch();
+                getBuildScript().build();
+                getBuildScript().runSim(getSelectedLocale(), getSelectedFlavor() );
             }
         } );
-        add( launch );
+        controlPanel.add( testButton );
+        JButton deployDevButton = new JButton( "Deploy Dev" );
+        deployDevButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                getBuildScript().deployDev( getDevelopmentAuthentication( "dev" ) );
+            }
+        } );
+        controlPanel.add( deployDevButton );
+        final JButton deployProdButton = new JButton( "Deploy Prod" );
+        deployProdButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                int option = JOptionPane.showConfirmDialog( deployProdButton, "Are you sure you are ready to deploy " + project.getName() + " to " + PhetServer.PRODUCTION.getHost() + "?" );
+                if ( option == JOptionPane.YES_OPTION ) {
+                    getBuildScript().deployProd( getDevelopmentAuthentication( "dev" ), getDevelopmentAuthentication( "prod" ) );
+                }
+                else {
+                    System.out.println( "Cancelled" );
+                }
+            }
+        } );
+        controlPanel.add( deployProdButton );
+
+        add(
+                verticalBox(
+                        horizontalBox(
+                                verticalBox( flavorScrollPane, localeScroll ),
+                                verticalBox( titleLabel, changesScrollPane ) ),
+                        controlPanel )
+        );
+
         setProject( project );
     }
-
-    private void launch() {
-        BuildScript buildScript = new BuildScript( basedir, project, null, null );
-        buildScript.runSim( getSelectedLocale(), getFlavor() );
+    private AuthenticationInfo getDevelopmentAuthentication( String serverType ) {
+        return new AuthenticationInfo( getLocalProperty( "deploy." + serverType + ".username" ), getLocalProperty( "deploy." + serverType + ".password" ) );
     }
 
-    private String getFlavor() {
+    private BuildScript getBuildScript() {
+        return new BuildScript( basedir, project, new AuthenticationInfo( getLocalProperty( "svn.username" ), getLocalProperty( "svn.password" ) ), getLocalProperty( "browser" ) );
+    }
+
+    private String getLocalProperty( String s ) {
+        return localProperties.getProperty( s );
+    }
+
+    public JComponent horizontalBox( JComponent a, JComponent b ) {
+        return box( a, b, BoxLayout.X_AXIS );
+    }
+
+    public JComponent verticalBox( JComponent a, JComponent b ) {
+        return box( a, b, BoxLayout.Y_AXIS );
+    }
+
+    private JComponent box( JComponent a, JComponent b, int axis ) {
+        JPanel panel = new JPanel();
+        panel.setLayout( new BoxLayout( panel, axis ) );
+        panel.add( a );
+        panel.add( b );
+        return panel;
+    }
+
+    private String getSelectedFlavor() {
         return (String) flavorList.getSelectedValue();
     }
 

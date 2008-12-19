@@ -143,7 +143,7 @@ public class ProjectListPanel extends JPanel {
         commandPanel.add( deployProd );
         commandPanel.add( Box.createVerticalBox() );
 
-        add( commandPanel, gridBagConstraints );
+//        add( commandPanel, gridBagConstraints );
     }
 
     private BuildScript getBuildScript() {
