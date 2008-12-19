@@ -433,8 +433,10 @@ public class PhaseChangesControlPanel extends ControlPanel {
             m_interactionStrengthControl.setUpDownArrowDelta( 0.01 );
             m_interactionStrengthControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    // Set the interaction strength in the model.
-                    m_model.setEpsilon( m_interactionStrengthControl.getValue() );
+                    // Set the interaction strength in the model if the molecule is correct.
+                	if (m_model.getMoleculeType() == StatesOfMatterConstants.USER_DEFINED_MOLECULE){
+                        m_model.setEpsilon( m_interactionStrengthControl.getValue() );
+                	}
                 }
             });
             m_interactionStrengthControl.getSlider().addMouseListener(new MouseAdapter() {
