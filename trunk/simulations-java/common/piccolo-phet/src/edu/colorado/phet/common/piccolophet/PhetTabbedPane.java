@@ -514,6 +514,7 @@ public class PhetTabbedPane extends JPanel {
             updateTextNode();
             background.setStroke( getBorderStroke() );
             outlineNode.setVisible( selected );
+            outlineNode.setStroke( selected?new BasicStroke( 1.2f) :new BasicStroke( 1)  );
             updatePaint();
         }
 
@@ -544,15 +545,25 @@ public class PhetTabbedPane extends JPanel {
                 return new GradientPaint( 0, (float) background.getFullBounds().getY() - 2, selectedTabColor.brighter(), 0, (float) ( background.getFullBounds().getY() + 6 ), selectedTabColor );
             }
             else {
-                return new GradientPaint( 0, 0, new Color( 240, 240, 240 ), 0, 30, new Color( 200, 200, 200 ) );//grayed out
+                return new GradientPaint( 0, (float) background.getFullBounds().getY() - 2, brighter( selectedTabColor.brighter() ), 0, (float) ( background.getFullBounds().getY() + 6 ), brighter( selectedTabColor ) );
+//                return new GradientPaint( 0, 0, new Color( 240, 240, 240 ), 0, 30, new Color( 200, 200, 200 ) );//grayed out
             }
         }
 
+        private Color brighter( Color color ) {
+            return new Color( brighter( color.getRed() ), brighter( color.getGreen() ), brighter( color.getBlue() ) );
+        }
+
+        private int brighter( int value ) {
+            return Math.min( value + 27, 255 );
+        }
+
         protected Paint getTextPaint() {
-            return selected ? Color.black : Color.darkGray;
+            return selected ? Color.black : new Color(40, 40, 40);
         }
 
         public Font getTabFont() {
+//            return selected?tabFont : new Font( tabFont.getName(),Font.PLAIN, tabFont.getSize() );
             return tabFont;
         }
 
