@@ -15,7 +15,7 @@ barrier2.jpg
 blue-arrow.png author=PhET 
 bookstack3.gif 
 cabinet.gif source=microsoft notes= 	   	j0215727.wmf 
-cottage.gif 
+cottage.gif license=same as cottage.png 
 cottage.png 
 crate.gif source=microsoft notes=   	j0310276.wmf 
 crushedman.png author=PhET 

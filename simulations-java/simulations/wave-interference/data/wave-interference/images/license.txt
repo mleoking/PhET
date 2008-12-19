@@ -14,11 +14,11 @@ ruler-thumb.png source=microsoft notes=j0290924.wmf
 silverwire.png author=PhET 
 soundMax.png source=mac control panel author=PhET 
 soundMin.png source=mac control panel author=PhET 
-speaker-back.png notes=http://willem.engen.nl/art/blender/ 
+speaker-back.png notes=http://willem.engen.nl/art/blender/ license=same as speaker.gif
 speaker-cone.gif author=PhET 
-speaker-cone.png notes=http://willem.engen.nl/art/blender/ 
+speaker-cone.png notes=http://willem.engen.nl/art/blender/ license=same as speaker.gif
 speaker-frame.gif author=PhET 
-speaker-front.png notes=http://willem.engen.nl/art/blender/ 
+speaker-front.png notes=http://willem.engen.nl/art/blender/ license=same as speaker.gif
 speaker.gif notes=http://willem.engen.nl/art/blender/ 
 spotlight.png author=PhET notes=ron 
 spotlight_3d.png author=PhET 
