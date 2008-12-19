@@ -16,7 +16,7 @@ import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.model.DualParticleModel;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.colorado.phet.statesofmatter.module.phasechanges.InteractionPotentialDiagramNode;
-import edu.colorado.phet.statesofmatter.module.phasechanges.InteractionPotentialNodeWithInteraction;
+import edu.colorado.phet.statesofmatter.module.phasechanges.InteractiveInteractionPotentialDiagram;
 import edu.colorado.phet.statesofmatter.view.GrabbableParticleNode;
 import edu.colorado.phet.statesofmatter.view.ModelViewTransform;
 import edu.colorado.phet.statesofmatter.view.ParticleForceNode;
@@ -152,7 +152,7 @@ public class InteractionPotentialCanvas extends PhetPCanvas {
         // needs to be sized so that one picometer on the canvas is the same as
         // one picometer on the diagram.  Hence the somewhat tricky scaling
         // calculation.
-        m_diagram = new InteractionPotentialNodeWithInteraction(m_model.getSigma(),
+        m_diagram = new InteractiveInteractionPotentialDiagram(m_model.getSigma(),
                 m_model.getEpsilon(), true,m_model);
         double desiredWidth = m_diagram.getXAxisRange() + 
                 ((1 - m_diagram.getXAxisGraphProportion()) * m_diagram.getXAxisRange());

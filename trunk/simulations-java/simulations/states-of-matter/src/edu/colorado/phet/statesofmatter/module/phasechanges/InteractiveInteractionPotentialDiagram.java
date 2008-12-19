@@ -27,7 +27,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author John Blanco
  */
-public class InteractionPotentialNodeWithInteraction extends InteractionPotentialDiagramNode {
+public class InteractiveInteractionPotentialDiagram extends InteractionPotentialDiagramNode {
 
     //-----------------------------------------------------------------------------
     // Class Data
@@ -65,7 +65,7 @@ public class InteractionPotentialNodeWithInteraction extends InteractionPotentia
      * @param epsilon
      * @param wide    - True if the widescreen version of the graph is needed, false if not.
      */
-    public InteractionPotentialNodeWithInteraction(double sigma, double epsilon, boolean wide, 
+    public InteractiveInteractionPotentialDiagram(double sigma, double epsilon, boolean wide, 
             final DualParticleModel model) {
         
         super(sigma, epsilon, wide);
