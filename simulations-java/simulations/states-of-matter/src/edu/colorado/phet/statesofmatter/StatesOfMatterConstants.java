@@ -144,6 +144,7 @@ public class StatesOfMatterConstants {
     public static final String ICE_CUBE_IMAGE = "ice-cube.png";
     public static final String LIQUID_IMAGE = "liquid-in-cup.png";
     public static final String GAS_IMAGE = "gas.png";
+    public static final String RED_X = "x-20.png";
     
     //----------------------------------------------------------------------------
     // Cursors
