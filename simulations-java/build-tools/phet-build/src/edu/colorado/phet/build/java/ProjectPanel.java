@@ -48,13 +48,13 @@ public class ProjectPanel extends JPanel {
         flavorList = new JList( project.getFlavorNames() );
         JScrollPane flavorScrollPane = new JScrollPane( flavorList );
         flavorScrollPane.setBorder( BorderFactory.createTitledBorder( "Simulations" ) );
-        flavorScrollPane.setPreferredSize( new Dimension( 300, 100 ) );
+        flavorScrollPane.setPreferredSize( new Dimension( 200, 100 ) );
 
 
         localeList = new JList( project.getLocales() );
         JScrollPane localeScroll = new JScrollPane( localeList );
         localeScroll.setBorder( BorderFactory.createTitledBorder( "Locales" ) );
-        localeScroll.setPreferredSize( new Dimension( 300, 200 ) );
+        localeScroll.setPreferredSize( new Dimension( 200, 200 ) );
 
         JPanel controlPanel = new JPanel();
         JButton testButton = new JButton( "Test" );
@@ -93,10 +93,10 @@ public class ProjectPanel extends JPanel {
 //        controlPanel.add( createHeader );
 
         add(
-                verticalBox(
-                        horizontalBox(
-                                verticalBox( flavorScrollPane, localeScroll ),
-                                verticalBox( titleLabel, changesScrollPane ) ),
+                Boxer.verticalBox(
+                        Boxer.horizontalBox(
+                                Boxer.verticalBox( flavorScrollPane, localeScroll ),
+                                Boxer.verticalBox( titleLabel, changesScrollPane ) ),
                         controlPanel )
         );
 
@@ -134,21 +134,6 @@ public class ProjectPanel extends JPanel {
         return localProperties.getProperty( s );
     }
 
-    public JComponent horizontalBox( JComponent a, JComponent b ) {
-        return box( a, b, BoxLayout.X_AXIS );
-    }
-
-    public JComponent verticalBox( JComponent a, JComponent b ) {
-        return box( a, b, BoxLayout.Y_AXIS );
-    }
-
-    private JComponent box( JComponent a, JComponent b, int axis ) {
-        JPanel panel = new JPanel();
-        panel.setLayout( new BoxLayout( panel, axis ) );
-        panel.add( a );
-        panel.add( b );
-        return panel;
-    }
 
     private String getSelectedFlavor() {
         return (String) flavorList.getSelectedValue();

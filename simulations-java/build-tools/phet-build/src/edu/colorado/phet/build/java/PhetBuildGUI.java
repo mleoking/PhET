@@ -19,7 +19,7 @@ public class PhetBuildGUI {
         PhetBuildGUIPanel panel = new PhetBuildGUIPanel( baseDir );
         frame.setContentPane( panel );
 
-        frame.setSize( 1300, 400);
+        frame.setSize( 1200, 400);
     }
 
     private void start() {

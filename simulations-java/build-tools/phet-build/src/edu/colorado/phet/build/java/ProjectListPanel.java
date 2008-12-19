@@ -43,12 +43,14 @@ public class ProjectListPanel extends JPanel {
             }
         } );
 
-        setLayout( new GridBagLayout() );
-        GridBagConstraints gridBagConstraints = new GridBagConstraints( GridBagConstraints.RELATIVE, 0, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.VERTICAL, new Insets( 2, 2, 2, 2 ), 0, 0 );
+//        setLayout( new GridBagLayout() );
+//        GridBagConstraints gridBagConstraints = new GridBagConstraints( GridBagConstraints.RELATIVE, 0, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.VERTICAL, new Insets( 2, 2, 2, 2 ), 0, 0 );
         JScrollPane simListPane = new JScrollPane( projectList );
         projectList.ensureIndexIsVisible( projectList.getSelectedIndex() );
         simListPane.setBorder( BorderFactory.createTitledBorder( "Projects" ) );
-        add( simListPane, gridBagConstraints );
+//        add( simListPane, gridBagConstraints );
+        setLayout( new BorderLayout() );
+        add( simListPane,BorderLayout.CENTER);
 
         JPanel commandPanel = new JPanel();
         commandPanel.setLayout( new BoxLayout( commandPanel, BoxLayout.Y_AXIS ) );
@@ -150,7 +152,6 @@ public class ProjectListPanel extends JPanel {
         commandPanel.add( deployProd );
         commandPanel.add( Box.createVerticalBox() );
 
-//        add( commandPanel, gridBagConstraints );
     }
 
     private ProjectListElement[] getProjectListElements() {
