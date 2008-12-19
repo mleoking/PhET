@@ -27,11 +27,11 @@ public class MandelGunSet extends IntensityGunNode {
 
     public MandelGunSet( MandelSchrodingerPanel mandelSchrodingerPanel ) {
         super( mandelSchrodingerPanel );
-        leftGun = new MandelGun( "quantum-wave-interference/images/mandel-gun.gif", mandelSchrodingerPanel );
+        leftGun = new MandelGun( "quantum-wave-interference/images/mandel-gun-1.png", mandelSchrodingerPanel );
         leftGun.setControlsOffset( -leftGun.getGunControlPanelPSwing().getFullBounds().getWidth() + 50, 0 );
         leftGun.setControlBackgroundColor( BlueGunDetails.gunBackgroundColor );
         leftGun.translateOnGunControls( 0, 5 );
-        rightGun = new MandelGun( "quantum-wave-interference/images/gun2-ii.gif", mandelSchrodingerPanel );
+        rightGun = new MandelGun( "quantum-wave-interference/images/mandel-gun-2.png", mandelSchrodingerPanel );
         rightGun.setControlsOffset( rightGun.getGunImageGraphic().getFullBounds().getWidth(), 0 );
         rightGun.setControlBackgroundColor( PinkGunDetails.backgroundColor );
         rightGun.translateOnGunControls( 10, 5 );

@@ -16,7 +16,9 @@ electron-thumb.png author=PhET
 glassMinus.gif 
 glassPlus.gif 
 gun2-ii.gif 
-mandel-gun.gif source=microsoft notes=http://office.microsoft.com/en-us/clipart/results.aspx?lc=en-us&Scope=MC%2CMM%2CMP%2CMS&Query=ray+gun
+mandel-gun-1.gif author=noah p source=phet
+mandel-gun-2.gif author=noah p source=phet
+ray-gun.gif author=noah p source=phet
 neutron-thumb.gif author=PhET
 phet-logo-small.jpg author=PhET 
 photon-thumb.jpg author=PhET 
