@@ -16,6 +16,7 @@ import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.Range;
+import org.jfree.data.RangeType;
 import org.jfree.data.xy.XYDataItem;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -36,10 +37,10 @@ import edu.colorado.phet.glaciers.util.UnitsConverter;
  */
 public class GlacierLengthVersusTimeChart extends JDialog {
     
-    private static final Range LENGTH_RANGE_METRIC = new Range( 0, 80E3 ); // meters
-    private static final Range LENGTH_RANGE_ENGLISH = new Range( 
-            UnitsConverter.metersToFeet( LENGTH_RANGE_METRIC.getLowerBound() ), 
-            UnitsConverter.metersToFeet( LENGTH_RANGE_METRIC.getUpperBound() ) ); // feet
+    private static final Range MIN_LENGTH_RANGE_METRIC = new Range( 0, 3E3 ); // meters
+    private static final Range MIN_LENGTH_RANGE_ENGLISH = new Range( 
+            UnitsConverter.metersToFeet( MIN_LENGTH_RANGE_METRIC.getLowerBound() ), 
+            UnitsConverter.metersToFeet( MIN_LENGTH_RANGE_METRIC.getUpperBound() ) ); // feet
     
     private static final int MAX_NUMBER_OF_YEARS = 1000;
     
@@ -65,7 +66,7 @@ public class GlacierLengthVersusTimeChart extends JDialog {
                 _series.clear();
             }
             public void simulationTimeChanged( ClockEvent clockEvent ) {
-                update();
+                addSamplePoint();
             }
         };
         _clock.addClockListener( _clockListener );
@@ -97,12 +98,8 @@ public class GlacierLengthVersusTimeChart extends JDialog {
         // x-axis (time) range will be set dynamically
         
         _rangeAxis = (NumberAxis) plot.getRangeAxis();
-        if ( englishUnits ) {
-            _rangeAxis.setRange( LENGTH_RANGE_ENGLISH );
-        }
-        else {
-            _rangeAxis.setRange( LENGTH_RANGE_METRIC );
-        }
+        _rangeAxis.setAutoRange( true );
+        _rangeAxis.setRangeType( RangeType.POSITIVE );
         
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setMouseZoomable( false );
@@ -119,7 +116,8 @@ public class GlacierLengthVersusTimeChart extends JDialog {
             }
         });
         
-        update();
+        updateYAxis();
+        addSamplePoint();
     }
     
     private void cleanup() {
@@ -131,14 +129,7 @@ public class GlacierLengthVersusTimeChart extends JDialog {
             _englishUnits = englishUnits;
             
             // change labels and ranges
-            if ( englishUnits ) {
-                _rangeAxis.setLabel( GlaciersStrings.AXIS_GLACIER_LENGTH_ENGLISH );
-                _rangeAxis.setRange( LENGTH_RANGE_ENGLISH );
-            }
-            else {
-                _rangeAxis.setLabel( GlaciersStrings.AXIS_GLACIER_LENGTH_METRIC );
-                _rangeAxis.setRange( LENGTH_RANGE_METRIC );
-            }
+            updateYAxis();
             
             // convert existing data to new units
             int itemCount = _series.getItemCount();
@@ -154,7 +145,7 @@ public class GlacierLengthVersusTimeChart extends JDialog {
         }
     }
     
-    private void update() {
+    private void addSamplePoint() {
         final double t = _clock.getSimulationTime();
         double length = _glacier.getLength();
         if ( _englishUnits ) {
@@ -163,5 +154,16 @@ public class GlacierLengthVersusTimeChart extends JDialog {
         _series.add( t, length );
         double tMin = _series.getDataItem( 0 ).getX().doubleValue();
         _domainAxis.setRange( new Range( tMin, tMin + MAX_NUMBER_OF_YEARS ) );
+    }
+    
+    private void updateYAxis() {
+        if ( _englishUnits ) {
+            _rangeAxis.setLabel( GlaciersStrings.AXIS_GLACIER_LENGTH_ENGLISH );
+            _rangeAxis.setAutoRangeMinimumSize( MIN_LENGTH_RANGE_ENGLISH.getUpperBound() );
+        }
+        else {
+            _rangeAxis.setLabel( GlaciersStrings.AXIS_GLACIER_LENGTH_METRIC );
+            _rangeAxis.setAutoRangeMinimumSize( MIN_LENGTH_RANGE_METRIC.getUpperBound() );
+        }
     }
 }
