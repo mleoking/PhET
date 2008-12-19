@@ -3,7 +3,6 @@ package edu.colorado.phet.build.java;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.Locale;
 
@@ -22,8 +21,14 @@ public class ProjectPanel extends JPanel {
     private PhetProject.Listener listener = new PhetProject.Listener() {
         public void changesTextChanged() {
             updateChangesText();
+            updateTitleLabel();
         }
     };
+
+    private void updateTitleLabel() {
+        titleLabel.setText( project.getName() + " (" + project.getVersionString() + ")" );
+    }
+
     private LocalProperties localProperties;
     private JButton deployProdButton;
 
@@ -157,7 +162,7 @@ public class ProjectPanel extends JPanel {
         this.project.removeListener( listener );
         this.project = project;
         this.project.addListener( listener );
-        titleLabel.setText( project.getName() + " (" + project.getVersionString() + ")" );
+        updateTitleLabel();
         flavorList.setListData( project.getFlavorNames() );
         flavorList.setSelectedIndex( 0 );
         localeList.setListData( project.getLocales() );

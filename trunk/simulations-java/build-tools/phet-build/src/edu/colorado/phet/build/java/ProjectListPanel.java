@@ -46,6 +46,7 @@ public class ProjectListPanel extends JPanel {
         setLayout( new GridBagLayout() );
         GridBagConstraints gridBagConstraints = new GridBagConstraints( GridBagConstraints.RELATIVE, 0, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.VERTICAL, new Insets( 2, 2, 2, 2 ), 0, 0 );
         JScrollPane simListPane = new JScrollPane( projectList );
+        projectList.ensureIndexIsVisible( projectList.getSelectedIndex() );
         simListPane.setBorder( BorderFactory.createTitledBorder( "Projects" ) );
         add( simListPane, gridBagConstraints );
 
