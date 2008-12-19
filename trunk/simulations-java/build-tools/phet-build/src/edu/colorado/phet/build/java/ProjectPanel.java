@@ -54,7 +54,7 @@ public class ProjectPanel extends JPanel {
         testButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getBuildScript().build();
-                getBuildScript().runSim(getSelectedLocale(), getSelectedFlavor() );
+                getBuildScript().runSim( getSelectedLocale(), getSelectedFlavor() );
             }
         } );
         controlPanel.add( testButton );
@@ -79,6 +79,16 @@ public class ProjectPanel extends JPanel {
         } );
         controlPanel.add( deployProdButton );
 
+
+        //For testing
+        JButton createHeader = new JButton( "Create Header" );
+        createHeader.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                getBuildScript().createHeader( -1 );
+            }
+        } );
+        controlPanel.add( createHeader );
+
         add(
                 verticalBox(
                         horizontalBox(
@@ -89,6 +99,7 @@ public class ProjectPanel extends JPanel {
 
         setProject( project );
     }
+
     private AuthenticationInfo getDevelopmentAuthentication( String serverType ) {
         return new AuthenticationInfo( getLocalProperty( "deploy." + serverType + ".username" ), getLocalProperty( "deploy." + serverType + ".password" ) );
     }

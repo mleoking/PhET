@@ -345,11 +345,26 @@ public class BuildScript {
 
     private HashMap createHeaderFilterMap( int svn ) {
         HashMap map = new HashMap();
-        map.put( "sim-name", project.getName() );
+        map.put( "project-name", project.getName() );
         map.put( "version", getFullVersionStr( svn ) );
+        map.put( "sim-list", getSimListHTML( project ) );
         map.put( "jnlp-filename", project.getFlavorNames()[0] + ".jnlp" );
         map.put( "new-summary", getNewSummary() );
         return map;
+    }
+
+    private String getSimListHTML( PhetProject project ) {
+        //<li><a href="@jnlp-filename@">Launch @sim-name@</a></li>
+        String s = "";
+        for ( int i = 0; i < project.getFlavorNames().length; i++ ) {
+            String jnlpFilename = project.getFlavorNames()[i] + ".jnlp";
+            String simname = project.getFlavors()[i].getTitle();
+            s += "<li><a href=\"" + jnlpFilename + "\">Launch " + simname + "</a></li>";
+            if ( i < project.getFlavorNames().length-1 ) {
+                s += "\n";
+            }
+        }
+        return s;
     }
 
     private String getNewSummary() {
