@@ -397,6 +397,7 @@ public class MultipleParticleModel{
         
         // Notify listeners that the molecule type has changed.
         notifyMoleculeTypeChanged();
+        notifyInteractionStrengthChanged();
     }
     
     public int getThermostatType() {
@@ -545,6 +546,7 @@ public class MultipleParticleModel{
     			m_moleculeForceAndMotionCalculator.setScaledEpsilon(epsilon / 
     					(StatesOfMatterConstants.MAX_EPSILON / 2));
     		}
+    		notifyInteractionStrengthChanged();
     	}
     	else{
     		// Epsilon cannot be set unless the user-defined molecule is being
@@ -1218,6 +1220,12 @@ public class MultipleParticleModel{
         }        
     }
 
+    private void notifyInteractionStrengthChanged(){
+        for (int i = 0; i < _listeners.size(); i++){
+            ((Listener)_listeners.get( i )).interactionStrengthChanged();
+        }        
+    }
+
     /**
      * Set the positions of the non-normalized particles based on the positions
      * of the normalized ones.
@@ -1347,9 +1355,9 @@ public class MultipleParticleModel{
     //------------------------------------------------------------------------
     // Inner Interfaces and Classes
     //------------------------------------------------------------------------
-    
-    /* TODO: JPB TBD Commented out for abstract refactor thing 10/20/2008.  May want to add back
-     * and get rid of base class, since it is primarily there for enabling testing.
+
+    /**
+     * Listener interface for obtaining model events.
      */
     public static interface Listener {
         
@@ -1388,6 +1396,11 @@ public class MultipleParticleModel{
          * Inform listeners that the container has exploded.
          */
         public void containerExploded();
+        
+        /**
+         * Inform listeners that the interaction potential has changed.
+         */
+        public void interactionStrengthChanged();
 
     }
     
@@ -1399,6 +1412,7 @@ public class MultipleParticleModel{
         public void containerSizeChanged(){}
         public void moleculeTypeChanged(){}
         public void containerExploded(){}
+        public void interactionStrengthChanged(){}
     }
     
     /**

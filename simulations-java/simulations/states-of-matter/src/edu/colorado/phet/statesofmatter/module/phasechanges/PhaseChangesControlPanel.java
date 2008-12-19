@@ -459,7 +459,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
             // Register as a listener with the model so that we know when the
             // settings for potential are changed.
             m_model.addListener( new MultipleParticleModel.Adapter(){
-                public void interactionPotentialChanged(){
+                public void interactionStrengthChanged(){
                     m_interactionStrengthControl.setValue( m_model.getEpsilon() );
                 }
             });
