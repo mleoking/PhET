@@ -113,6 +113,10 @@ public class SimInfo {
                ||
                ( entry.getAuthor() != null && entry.getAuthor().equalsIgnoreCase( "cmalley" ) )
                ||
+               ( entry.getAuthor() != null && entry.getAuthor().equalsIgnoreCase( "Chris Malley" ) )
+               ||
+               ( entry.getSource() != null && entry.getSource().toLowerCase().startsWith( "clker.com" ) )
+               ||
                ( entry.getLicense() != null && entry.getLicense().equalsIgnoreCase( "PUBLIC DOMAIN" ) )
                ||
                ( entry.getLicense() != null && entry.getLicense().toLowerCase().startsWith( "Used with permission".toLowerCase( )) )
