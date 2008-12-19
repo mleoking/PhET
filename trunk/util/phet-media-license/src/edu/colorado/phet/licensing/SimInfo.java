@@ -115,7 +115,7 @@ public class SimInfo {
                ||
                ( entry.getLicense() != null && entry.getLicense().equalsIgnoreCase( "PUBLIC DOMAIN" ) )
                ||
-               ( entry.getLicense() != null && entry.getLicense().toLowerCase().startsWith( "Used with permission" ) )
+               ( entry.getLicense() != null && entry.getLicense().toLowerCase().startsWith( "Used with permission".toLowerCase( )) )
                ||
                ( entry.getSource() != null && entry.getSource().equalsIgnoreCase( "java" ) )
                ||
