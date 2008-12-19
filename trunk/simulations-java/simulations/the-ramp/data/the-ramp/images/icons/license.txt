@@ -3,10 +3,10 @@
 # Automatically generated on Fri Aug 08 00:08:03 MDT 2008
 ###################################
 
-glass-20-minus.gif 
-glass-20-plus.gif 
+glass-20-minus.gif source=java
+glass-20-plus.gif source=java
 mag-minus-10.gif 
-mag-minus-15.gif 
+mag-minus-15.gif license=same as mag-minus-10.gif 
 mag-plus-10.gif 
 mag-plus-15.gif 
 selected.gif author=PhET 

@@ -3,5 +3,5 @@
 # Automatically generated on Fri Aug 08 00:08:01 MDT 2008
 ###################################
 
-glass-20-minus.gif 
-glass-20-plus.gif 
+glass-20-minus.gif source=java
+glass-20-plus.gif source=java
