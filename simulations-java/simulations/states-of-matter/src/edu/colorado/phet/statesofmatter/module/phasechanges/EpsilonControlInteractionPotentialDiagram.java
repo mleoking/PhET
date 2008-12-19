@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,6 +24,7 @@ import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.model.DualParticleModel;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
+import edu.colorado.phet.statesofmatter.module.CloseRequestListener;
 import edu.colorado.phet.statesofmatter.module.InteractionPotentialDiagramNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -64,6 +66,7 @@ public class EpsilonControlInteractionPotentialDiagram extends InteractionPotent
     private PPath m_epsilonLine;
     private boolean m_interactionEnabled;
     private JButton m_closeButton;
+    private ArrayList _listeners = new ArrayList();
 
     //-----------------------------------------------------------------------------
     // Constructor(s)
@@ -127,7 +130,7 @@ public class EpsilonControlInteractionPotentialDiagram extends InteractionPotent
         		StatesOfMatterResources.getImage( StatesOfMatterConstants.RED_X ) ) );
         m_closeButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-            	System.err.println("Close button pressed.");
+            	notifyCloseRequestReceived();
             }
         } );
         
@@ -149,6 +152,13 @@ public class EpsilonControlInteractionPotentialDiagram extends InteractionPotent
     // Other Public/Protected Methods
     //-----------------------------------------------------------------------------
 
+    public void addListener(CloseRequestListener listener)
+    {
+        if ( !_listeners.contains( listener )){
+            _listeners.add( listener );
+        }
+    }
+    
     /**
      * This is an override of the method in the base class that draws the
      * curve on the graph, and this override draws the controls that allow
@@ -183,6 +193,15 @@ public class EpsilonControlInteractionPotentialDiagram extends InteractionPotent
         }
         else{
             m_interactionEnabled = true;
+        }
+    }
+    
+    /**
+     * Notify listeners about a request to close this diagram.
+     */
+    private void notifyCloseRequestReceived(){
+        for (int i = 0; i < _listeners.size(); i++){
+            ((CloseRequestListener)_listeners.get(i)).closeRequestReceived();
         }
     }
 }

@@ -37,7 +37,7 @@ import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
-import edu.colorado.phet.statesofmatter.module.InteractionPotentialDiagramNode;
+import edu.colorado.phet.statesofmatter.module.CloseRequestListener;
 
 
 public class PhaseChangesControlPanel extends ControlPanel {
@@ -78,6 +78,9 @@ public class PhaseChangesControlPanel extends ControlPanel {
     private JButton m_interactionDiagramCtrlButton;
     private EpsilonControlInteractionPotentialDiagram m_interactionPotentialDiagram;
     private InteractionStrengthControlPanel m_interactionStrengthControlPanel;
+    
+    private CloseRequestListener m_phaseDiagramCloseListener;
+    private CloseRequestListener m_interactionPotentialDiagramCloseListener;
     
     //----------------------------------------------------------------------------
     // Constructor(s)
@@ -148,6 +151,16 @@ public class PhaseChangesControlPanel extends ControlPanel {
         addControlFullWidth( m_phaseDiagramPanel );
         m_phaseDiagramPanel.setVisible( m_phaseDiagramVisible );
         
+        // Create and register the handler for user requests to close the phase diagram.
+        m_phaseDiagramCloseListener = new CloseRequestListener(){
+        	public void closeRequestReceived(){
+        		// Note that we don't actually make it go away, we just make
+        		// it invisible.
+        		m_phaseDiagramPanel.setVisible(false);
+        	}
+        };
+        m_phaseDiagram.addListener(m_phaseDiagramCloseListener);
+        
         // Add the button that allows the user to turn the interaction diagram on/off.
         m_interactionDiagramCtrlButton = new JButton();
         m_interactionDiagramCtrlButton.setFont( BUTTON_LABEL_FONT );
@@ -174,6 +187,16 @@ public class PhaseChangesControlPanel extends ControlPanel {
         m_interactionDiagramPanel.add( interactionDiagramCanvas );
         addControlFullWidth( m_interactionDiagramPanel );
         m_interactionDiagramPanel.setVisible( m_interactionDiagramVisible );
+        
+        // Create and register the handler for user requests to close the interaction potential diagram.
+        m_interactionPotentialDiagramCloseListener = new CloseRequestListener(){
+        	public void closeRequestReceived(){
+        		// Note that we don't actually make it go away, we just make
+        		// it invisible.
+        		m_interactionDiagramPanel.setVisible(false);
+        	}
+        };
+        m_interactionPotentialDiagram.addListener(m_interactionPotentialDiagramCloseListener);
         
         // Add the Reset All button.
         addSeparator();
