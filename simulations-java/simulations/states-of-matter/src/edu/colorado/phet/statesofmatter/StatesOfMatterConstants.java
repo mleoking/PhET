@@ -118,7 +118,7 @@ public class StatesOfMatterConstants {
     public static final double MAX_SIGMA = 500;      // In picometers.
     public static final double MIN_SIGMA = 75;       // In picometers.
     public static final double MAX_EPSILON = 220;    // Epsilon/k-Boltzmann is in Kelvin.
-    public static final double MIN_EPSILON = 30;     // Epsilon/k-Boltzmann is in Kelvin.
+    public static final double MIN_EPSILON = 20;     // Epsilon/k-Boltzmann is in Kelvin.
     
     // Constants used to describe the the spatial relationship between 
     public static final double THETA_HOH = 120*Math.PI/180;  // This is not quite the real value for a water
