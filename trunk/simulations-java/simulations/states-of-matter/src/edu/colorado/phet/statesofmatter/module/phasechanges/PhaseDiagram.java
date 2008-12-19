@@ -14,6 +14,7 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.QuadCurve2D;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -22,9 +23,11 @@ import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
+import edu.colorado.phet.nuclearphysics.model.AlphaDecayModelListener;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
+import edu.colorado.phet.statesofmatter.module.CloseRequestListener;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -129,6 +132,9 @@ public class PhaseDiagram extends PhetPCanvas {
     // Add the button that will allow the user to close (actually hide) the diagram.
     JButton m_closeButton;
     PSwing m_closePSwing;
+    
+    // Et cetera
+    private ArrayList _listeners = new ArrayList();
     
     //----------------------------------------------------------------------------
     // Constructor(s)
@@ -251,7 +257,7 @@ public class PhaseDiagram extends PhetPCanvas {
         		StatesOfMatterResources.getImage( StatesOfMatterConstants.RED_X ) ) );
         m_closeButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-            	System.err.println("Close button pressed.");
+            	notifyCloseRequestReceived();
             }
         } );
         
@@ -264,7 +270,14 @@ public class PhaseDiagram extends PhetPCanvas {
         // Set the initial position of the current phase state marker.
         setStateMarkerPos( 0, 0 );
     }
-
+    
+    public void addListener(CloseRequestListener listener)
+    {
+        if ( !_listeners.contains( listener )){
+            _listeners.add( listener );
+        }
+    }
+    
     private void drawPhaseDiagram(){
         
         // Place the triple point marker.
@@ -428,6 +441,15 @@ public class PhaseDiagram extends PhetPCanvas {
             Point2D top = new Point2D.Double(xOriginOffset + (0.8 * xUsableRange), yOriginOffset - (yUsableRange * 0.9));
             Point2D bottom = new Point2D.Double(xOriginOffset + (0.8 * xUsableRange), yOriginOffset - (yUsableRange * 0.1));
             return new GradientPaint(bottom, BACKGROUND_COLOR_FOR_GAS, top, BACKGROUND_COLOR_FOR_LIQUID);
+        }
+    }
+    
+    /**
+     * Notify listeners about a request to close this diagram.
+     */
+    private void notifyCloseRequestReceived(){
+        for (int i = 0; i < _listeners.size(); i++){
+            ((CloseRequestListener)_listeners.get(i)).closeRequestReceived();
         }
     }
 }
