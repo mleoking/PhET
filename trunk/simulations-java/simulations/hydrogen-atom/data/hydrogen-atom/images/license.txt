@@ -8,7 +8,7 @@ billiardBallButton.png author=PhET
 bohrButton.png author=PhET 
 camera.png author=PhET
 deBroglieButton.png author=PhET 
-ray-gun.png author=PhET
+ray-gun.png source=PhET author=Noah Podolefsky
 gunControlCable.png author=PhET 
 gunOffButton.png author=PhET 
 gunOnButton.png author=PhET 
