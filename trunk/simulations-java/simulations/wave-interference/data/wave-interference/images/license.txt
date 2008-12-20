@@ -6,7 +6,6 @@
 detector-thumb.gif author=PhET 
 faucet1.gif source=microsoft notes=j0356883.wmf 
 faucet2.gif source=microsoft notes=j0356883.wmf 
-laser.gif 
 particle-blue.gif author=PhET
 particle-pink.gif author=PhET 
 raindrop1.png author=PhET 
