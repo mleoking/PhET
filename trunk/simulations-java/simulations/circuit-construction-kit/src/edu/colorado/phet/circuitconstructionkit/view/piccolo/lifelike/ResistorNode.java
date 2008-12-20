@@ -68,18 +68,18 @@ public class ResistorNode extends ComponentImageNode {
             removeAllChildren();
             int resistance = (int) resistor.getResistance();//resistorGraphic.getBranch().getint) ((Resistor) w).getResistance();
             Color[] c = new ResistorColors().to3Colors( resistance );
-            int y = 3;
+            int y = 2;
             int width = 5;
-            int height = 19;
+            int height = 22;
 
-            PhetPPath path = new PhetPPath( new Rectangle( 15, y, width, height ), c[0] );
+            PhetPPath path = new PhetPPath( new Rectangle( 22, y, width, height ), c[0] );
             addChild( path );
 
-            addChild( new PhetPPath( new Rectangle( 25, y, width, height ), c[1] ) );
+            addChild( new PhetPPath( new Rectangle( 32, y, width, height ), c[1] ) );
 
-            addChild( new PhetPPath( new Rectangle( 35, y, width, height ), c[2] ) );
+            addChild( new PhetPPath( new Rectangle( 42, y, width, height ), c[2] ) );
             if ( c[3] != null ) {
-                addChild( new PhetPPath( new Rectangle( 55, y, width, height ), c[3] ) );
+                addChild( new PhetPPath( new Rectangle( 53, y, width, height ), c[3] ) );
             }
         }
     }

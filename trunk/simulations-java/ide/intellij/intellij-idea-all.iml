@@ -3,6 +3,7 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../../../../../../reid/svn-working-copy/trunk/projects/phet" />
+    <content url="file://$MODULE_DIR$/../../../assets" />
     <content url="file://$MODULE_DIR$/../../../simulations-flash">
       <sourceFolder url="file://$MODULE_DIR$/../../../simulations-flash/flash-launcher/src" isTestSource="false" />
     </content>
