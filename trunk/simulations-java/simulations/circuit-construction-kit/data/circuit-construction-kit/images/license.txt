@@ -20,7 +20,7 @@ knifeBoard.gif
 phet-cck-small.gif author=PhET 
 probeBlack.gif author=PhET 
 probeRed.gif author=PhET 
-resistor3.gif 
+resistor.png author=Noah P source=PhET 
 stopwatch-thumb.png 
 va-thumb.gif author=PhET 
 vm3.gif author=PhET 
