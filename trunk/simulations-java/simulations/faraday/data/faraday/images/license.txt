@@ -21,7 +21,7 @@ lightbulb-cap.png author=PhET
 lightbulb-glass.png author=PhET 
 lightbulb_icon.png author=PhET 
 lightbulb_icon_selected.png author=PhET 
-resistor.png 
+resistor.png author=Noah Podolefsky source=PhET
 sliderKnob.png author=PhET 
 sliderKnobHighlight.png author=PhET 
 turbinePivot.png author=PhET
