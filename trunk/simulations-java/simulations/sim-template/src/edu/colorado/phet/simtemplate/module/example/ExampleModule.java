@@ -36,7 +36,7 @@ public class ExampleModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public ExampleModule( Frame parentFrame ) {
-        super( SimTemplateStrings.TITLE_EXAMPLE_MODULE, ExampleDefaults.CLOCK );
+        super( SimTemplateStrings.TITLE_EXAMPLE_MODULE, new SimTemplateClock( ExampleDefaults.CLOCK_FRAME_RATE, ExampleDefaults.CLOCK_DT ) );
 
         // Model
         SimTemplateClock clock = (SimTemplateClock) getClock();
