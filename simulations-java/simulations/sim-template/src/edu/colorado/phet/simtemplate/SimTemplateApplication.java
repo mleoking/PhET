@@ -89,6 +89,10 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
 
         _exampleModule = new ExampleModule( parentFrame );
         addModule( _exampleModule );
+        
+        Module secondModule = new ExampleModule( parentFrame );
+        secondModule.setName( "Another Module" );
+        addModule( secondModule );
     }
 
     /*
@@ -152,6 +156,20 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
         Color color = Color.WHITE; 
         if ( _tabbedModulePane != null ) {
             color = _tabbedModulePane.getSelectedTabColor();
+        }
+        return color;
+    }
+    
+    public void setUnselectedTabColor( Color color ) {
+        if ( _tabbedModulePane != null ) {
+            _tabbedModulePane.setUnselectedTabColor( color );
+        }
+    }
+
+    public Color getUnselectedTabColor() {
+        Color color = Color.WHITE; 
+        if ( _tabbedModulePane != null ) {
+            color = _tabbedModulePane.getUnselectedTabColor();
         }
         return color;
     }

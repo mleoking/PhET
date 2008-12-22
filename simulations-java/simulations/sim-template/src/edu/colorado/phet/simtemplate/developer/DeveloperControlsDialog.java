@@ -74,6 +74,14 @@ public class DeveloperControlsDialog extends JDialog {
                 _app.setSelectedTabColor( selectedTabColorControl.getColor() );
             }
         } );
+        
+        Color unselectedTabColor = _app.getUnselectedTabColor();
+        final ColorControl unselectedTabColorControl = new ColorControl( parentFrame, "unselected module tab color: ", unselectedTabColor );
+        unselectedTabColorControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent event ) {
+                _app.setUnselectedTabColor( unselectedTabColorControl.getColor() );
+            }
+        } );
 
         // Layout
         JPanel panel = new JPanel();
@@ -85,6 +93,7 @@ public class DeveloperControlsDialog extends JDialog {
         int column = 0;
         layout.addComponent( controlPanelColorControl, row++, column );
         layout.addComponent( selectedTabColorControl, row++, column );
+        layout.addComponent( unselectedTabColorControl, row++, column );
 
         return panel;
     }
