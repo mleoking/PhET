@@ -491,6 +491,10 @@ public abstract class Module implements Resettable {
     // Misc.
     //----------------------------------------------------------------------------
 
+    public void setName( String name ) {
+        this.name = name;
+    }
+    
     /**
      * Get the name of the Module.
      *
