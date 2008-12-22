@@ -93,7 +93,7 @@ public class ChainReactionCanvas extends PhetPCanvas {
                 _chainReactionModel.getClock()));
         
         // Add the neutron source to the canvas.
-        _neutronSourceNode = new NeutronSourceNode(_chainReactionModel.getNeutronSource(), 55);
+        _neutronSourceNode = new NeutronSourceNode(_chainReactionModel.getNeutronSource(), 50);
         addWorldChild( _neutronSourceNode );
         
         // Add the node that will portray the atomic bomb explosion to the canvas.
