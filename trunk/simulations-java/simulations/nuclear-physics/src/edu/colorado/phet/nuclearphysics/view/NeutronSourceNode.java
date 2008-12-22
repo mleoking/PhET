@@ -9,15 +9,18 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.JFrame;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.NeutronSource;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * This class acts as the visual representation of a neutron source.
@@ -30,13 +33,15 @@ public class NeutronSourceNode extends PNode{
     // Class Data
     //------------------------------------------------------------------------
 
-    private final static Point2D BUTTON_OFFSET = new Point2D.Double(29, 10);
+    private final static double BUTTON_HORIZ_POS_PROPORTION = 0.21;
+    private final static double BUTTON_VERT_POS_PROPORTION = 0.08;
+    private final static double BUTTON_WIDTH_PROPORTION = 0.29;
     
     // This factor accounts for the fact that the tip of the gun graphic is
     // not exactly in the center or at the top or bottom of the gun.  It is
     // the ratio of the distance from the top of the graphic to the gun tip
     // relative to the overall height of the gun image.
-    private final static double GUN_TIP_FRACTION_Y = 0.27;
+    private final static double GUN_TIP_FRACTION_Y = 0.33;
     
     // These constants control the size of the invisible node that allows the
     // user to grab the tip of the gun and rotate it.  The values are in
@@ -52,6 +57,8 @@ public class NeutronSourceNode extends PNode{
     private PNode         _displayImage;
     private PNode         _fireButtonUp;
     private PNode         _fireButtonDown;
+    private PText         _fireButtonUpText;
+    private PText         _fireButtonDownText;
     private double        _relativeRotationPointX;
     private double        _relativeRotationPointY;
     private double        _absoluteRotationPointX;
@@ -89,24 +96,23 @@ public class NeutronSourceNode extends PNode{
         });
 
         // Load the graphic image for this device.
-        _displayImage = NuclearPhysicsResources.getImageNode("neutron-gun.png");
-        
-        // Scale the graphic and add it.
-        _displayImage.scale( graphicWidth/_displayImage.getWidth());
+        _displayImage = NuclearPhysicsResources.getImageNode("ray-gun.png");
         addChild(_displayImage);
         
         // Add the node that will be visible when the fire button is down,
         // i.e. pressed.
-        _fireButtonDown = NuclearPhysicsResources.getImageNode("fire-button-down.png");
+        _fireButtonDown = NuclearPhysicsResources.getImageNode("fire-button-pressed.png");
         _fireButtonDown.addInputEventListener( new CursorHandler() );
-        _displayImage.addChild( _fireButtonDown );
-        _fireButtonDown.setOffset( BUTTON_OFFSET );
+        addChild( _fireButtonDown );
+        _fireButtonDown.setOffset( _displayImage.getFullBoundsReference().width * BUTTON_HORIZ_POS_PROPORTION,
+        		_displayImage.getFullBoundsReference().width * BUTTON_VERT_POS_PROPORTION);
         
         // Add the node that will be visible when the fire button is not being
         // pressed.
-        _fireButtonUp = NuclearPhysicsResources.getImageNode("fire-button.png");
-        _displayImage.addChild( _fireButtonUp );
-        _fireButtonUp.setOffset( BUTTON_OFFSET );
+        _fireButtonUp = NuclearPhysicsResources.getImageNode("fire-button-unpressed.png");
+        addChild( _fireButtonUp );
+        _fireButtonUp.setOffset( _displayImage.getFullBoundsReference().width * BUTTON_HORIZ_POS_PROPORTION,
+        		_displayImage.getFullBoundsReference().width * BUTTON_VERT_POS_PROPORTION);
         _fireButtonUp.addInputEventListener( new CursorHandler() );
         _fireButtonUp.addInputEventListener( new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
@@ -117,6 +123,43 @@ public class NeutronSourceNode extends PNode{
                 _fireButtonUp.setVisible( true );
             }
         } );
+        
+        // Add the text to the buttons.
+        _fireButtonUpText = new PText(NuclearPhysicsStrings.FIRE_NEUTRON_GUN);
+        _fireButtonUpText.setFont(new PhetFont(PhetFont.BOLD));
+        _fireButtonUpText.setPickable(false);
+        _fireButtonDownText = new PText(NuclearPhysicsStrings.FIRE_NEUTRON_GUN);
+        _fireButtonDownText.setFont(new PhetFont(PhetFont.BOLD));
+        _fireButtonDownText.setPickable(false);
+        _fireButtonDownText.setTextPaint(Color.WHITE);
+        _fireButtonUp.addChild(_fireButtonUpText);
+        _fireButtonDown.addChild(_fireButtonDownText);
+        
+        // Scale the font to fit in both the vertical and horizontal dimensions.
+        double horizonalTextScale = (0.9 * _fireButtonUp.getFullBoundsReference().width) / 
+                _fireButtonUpText.getFullBoundsReference().width;
+        double verticalTextScale = (0.9 * _fireButtonUp.getFullBoundsReference().height) / 
+                _fireButtonUpText.getFullBoundsReference().height;
+        double textScale = Math.min(horizonalTextScale, verticalTextScale);
+        
+        _fireButtonUpText.setScale(textScale);
+        _fireButtonDownText.setScale(textScale);
+        
+        // Center the text in the buttons.
+        _fireButtonUpText.setOffset(_fireButtonUp.getFullBoundsReference().width / 2 - 
+        		_fireButtonUpText.getFullBoundsReference().width / 2,
+        		_fireButtonUp.getFullBoundsReference().height / 2 - 
+        		_fireButtonUpText.getFullBoundsReference().height / 2);
+        _fireButtonDownText.setOffset(_fireButtonDown.getFullBoundsReference().width / 2 - 
+        		_fireButtonDownText.getFullBoundsReference().width / 2,
+        		_fireButtonDown.getFullBoundsReference().height / 2 - 
+        		_fireButtonDownText.getFullBoundsReference().height / 2);
+        
+        // Scale the fire buttons (and their associated text).
+        double fireButtonScale = (getFullBoundsReference().width * BUTTON_WIDTH_PROPORTION /
+        		_fireButtonDown.getFullBoundsReference().width);
+        _fireButtonDown.setScale(fireButtonScale);
+        _fireButtonUp.setScale(fireButtonScale);
         
         // Add the invisible node that will allow the user to grab the front
         // of the gun and rotate it.
@@ -150,6 +193,9 @@ public class NeutronSourceNode extends PNode{
         });
         
         _displayImage.addChild(rotationGrabberNode);
+        
+        // Scale this node so that the result is of the requested size.
+        scale( graphicWidth/getFullBoundsReference().width );
         
         // Set up the relative rotation and translation variables.
         _relativeRotationPointX = getFullBounds().width / 2;

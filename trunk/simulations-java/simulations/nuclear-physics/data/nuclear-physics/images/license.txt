@@ -4,14 +4,14 @@
 ###################################
 
 Daughter Nuclei Small.png author=PhET 
-fire-button-down.png author=PhET 
-fire-button.png author=PhET 
+fire-button-pressed.png author=PhET 
+fire-button-unpressed.png author=PhET 
 Larger Daughter Nucleus.png author=PhET 
 Lead Nucleus Small.png author=PhET 
 Mesh Gradient Button Pushed.png author=PhET 
 Mesh Gradient Button Unpushed.png author=PhET 
 mushroom_cloud.jpg notes=Not sure of the origin of this image.
-neutron-gun.png source=Unknown author=unknown
+ray-gun.png author=PhET
 Polonium Nucleus Small.png author=PhET 
 Smaller Daughter Nucleus.png author=PhET 
 Uranium Nucleus Small.png author=PhET 
