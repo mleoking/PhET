@@ -1,4 +1,4 @@
-# 0.10.02 (?) 12-22-2008
+# 0.10.02 (26821) 12-22-2008
 12/22/08: #1058, add developer control and an extra module for testing tab colors
 12/22/08: move about.credits property to strings file
 # 0.10.01 (26536) 12-03-2008
