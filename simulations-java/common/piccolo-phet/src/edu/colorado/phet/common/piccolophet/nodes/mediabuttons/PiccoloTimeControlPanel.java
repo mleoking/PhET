@@ -91,6 +91,7 @@ public class PiccoloTimeControlPanel extends JPanel{
         BufferedImage restartImage = PhetCommonResources.getImage( PhetCommonResources.IMAGE_RESTART );
         ImageIcon restartIcon = new ImageIcon( restartImage );
         restartButton = new JButton( RESTART_LABEL, restartIcon );
+        restartButton.setOpaque( false );//fix for Mac until #840 is addressed
 
         // Time display, time value & units
         timeTextField = new JTextField();
