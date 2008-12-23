@@ -110,6 +110,13 @@ public class XMLObject {
     }
 
     public int getTextContentAsInt( String s ) {
-        return Integer.parseInt( getTextContent( s ) );
+        try{
+            return Integer.parseInt( getTextContent( s ) );
+        }catch (Exception d){
+            System.out.println("Error: Expected a non-zero length string.  This may");
+            System.out.println("have been caused by a category value of \'none\'");
+            d.printStackTrace();
+            return -1;
+        }
     }
 }
