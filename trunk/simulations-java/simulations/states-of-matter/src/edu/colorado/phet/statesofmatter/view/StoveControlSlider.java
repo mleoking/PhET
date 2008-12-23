@@ -27,28 +27,28 @@ import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 public class StoveControlSlider extends JSlider {
 	
     private static final int STOVE_SLIDER_HEIGHT = 85;
-    private static final int STOVE_SLIDER_WIDTH = 100;
-    private static final int MAX_SLIDER_VALULE = 50;
-    private static final int MIN_SLIDER_VALULE = -50;
+    private static final int STOVE_SLIDER_WIDTH = 125;
+    private static final int MAX_SLIDER_VALUE = 50;
+    private static final int MIN_SLIDER_VALUE = -50;
     private static final Color CONTROL_COLOR = new Color(240, 230, 255);
 
     public StoveControlSlider() {
     	
         setOrientation( JSlider.VERTICAL );
-        setMinimum( MIN_SLIDER_VALULE );
-        setMaximum( MAX_SLIDER_VALULE );
+        setMinimum( MIN_SLIDER_VALUE );
+        setMaximum( MAX_SLIDER_VALUE );
         setValue( 0 );
-        setMajorTickSpacing( (MAX_SLIDER_VALULE - MIN_SLIDER_VALULE) / 2 );
-        setMinorTickSpacing( (MAX_SLIDER_VALULE - MIN_SLIDER_VALULE) / 10 );
+        setMajorTickSpacing( (MAX_SLIDER_VALUE - MIN_SLIDER_VALUE) / 2 );
+        setMinorTickSpacing( (MAX_SLIDER_VALUE - MIN_SLIDER_VALUE) / 10 );
         setPaintTicks( true );
         setPaintLabels( true );
         setPreferredSize(new Dimension(STOVE_SLIDER_WIDTH, STOVE_SLIDER_HEIGHT));
         setFont( new PhetFont(11) );
 
         Hashtable labelTable = new Hashtable();
-        labelTable.put(new Integer(MAX_SLIDER_VALULE), new JLabel(StatesOfMatterStrings.STOVE_CONTROL_PANEL_ADD_LABEL));
+        labelTable.put(new Integer(MAX_SLIDER_VALUE), new JLabel(StatesOfMatterStrings.STOVE_CONTROL_PANEL_ADD_LABEL));
         labelTable.put(new Integer(0), new JLabel(StatesOfMatterStrings.STOVE_CONTROL_PANEL_ZERO_LABEL));
-        labelTable.put(new Integer(MIN_SLIDER_VALULE), new JLabel(StatesOfMatterStrings.STOVE_CONTROL_PANEL_REMOVE_LABEL));
+        labelTable.put(new Integer(MIN_SLIDER_VALUE), new JLabel(StatesOfMatterStrings.STOVE_CONTROL_PANEL_REMOVE_LABEL));
         setLabelTable(labelTable);
         
         addMouseListener(new MouseAdapter() {
@@ -66,6 +66,6 @@ public class StoveControlSlider extends JSlider {
     }
     
     public double getNormalizedValue(){
-    	return ((double)getValue() / (double)MAX_SLIDER_VALULE);
+    	return ((double)getValue() / (double)MAX_SLIDER_VALUE);
     }
 }
