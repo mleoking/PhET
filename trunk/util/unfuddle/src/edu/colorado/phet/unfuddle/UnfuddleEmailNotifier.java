@@ -66,7 +66,7 @@ public class UnfuddleEmailNotifier {
         contentPanel.add( jCheckBox );
 //        final ProcessRecentChanges recentChanges = new ProcessRecentChanges( args );
 
-        minutes = new JTextField( "10", 4 );
+        minutes = new JTextField( "4", 4 );
         minutes.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timer.setDelay( getTimerDelay() );
