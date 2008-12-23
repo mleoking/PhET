@@ -356,7 +356,8 @@ public class PhaseDiagram extends PhetPCanvas {
         m_criticalPointLabel.setOffset( DEFAULT_CRITICAL_POINT.getX() + 4, 
         		DEFAULT_CRITICAL_POINT.getY() - m_criticalPointLabel.getFullBoundsReference().height / 2);
         
-        // Position the close button.
+        // Scale and position the close button.
+        m_closePSwing.setScale(1);
         m_closePSwing.setScale(HEIGHT * CLOSE_BUTTON_PROPORTION / m_closePSwing.getFullBoundsReference().height);
         m_closePSwing.setOffset(WIDTH - m_closePSwing.getFullBoundsReference().width, 0);
     }
