@@ -23,6 +23,7 @@ import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
@@ -116,10 +117,8 @@ public class PhaseDiagram extends PhetPCanvas {
     private PText m_gasLabel;
     private PPath m_gasAreaBackground;
     private PPath m_superCriticalAreaBackground;
-    private PText m_triplePointLabel1;
-    private PText m_triplePointLabel2;
-    private PText m_criticalPointLabel1;
-    private PText m_criticalPointLabel2;
+    private HTMLNode m_triplePointLabel;
+    private HTMLNode m_criticalPointLabel;
     private PPath m_currentStateMarker;
     private Point2D m_topOfSolidLiquidLine;
     
@@ -192,18 +191,12 @@ public class PhaseDiagram extends PhetPCanvas {
         m_gasLabel = new PText(StatesOfMatterStrings.PHASE_DIAGRAM_GAS);
         m_gasLabel.setFont( LARGER_INNER_FONT );
         addWorldChild( m_gasLabel );
-        m_triplePointLabel1 = new PText(StatesOfMatterStrings.PHASE_DIAGRAM_TRIPLE);
-        m_triplePointLabel1.setFont( SMALLER_INNER_FONT );
-        addWorldChild( m_triplePointLabel1 );
-        m_triplePointLabel2 = new PText(StatesOfMatterStrings.PHASE_DIAGRAM_POINT);
-        m_triplePointLabel2.setFont( SMALLER_INNER_FONT );
-        addWorldChild( m_triplePointLabel2 );
-        m_criticalPointLabel1 = new PText(StatesOfMatterStrings.PHASE_DIAGRAM_CRITICAL);
-        m_criticalPointLabel1.setFont( SMALLER_INNER_FONT );
-        addWorldChild( m_criticalPointLabel1 );
-        m_criticalPointLabel2 = new PText(StatesOfMatterStrings.PHASE_DIAGRAM_POINT);
-        m_criticalPointLabel2.setFont( SMALLER_INNER_FONT );
-        addWorldChild( m_criticalPointLabel2 );
+        m_triplePointLabel = new HTMLNode(StatesOfMatterStrings.PHASE_DIAGRAM_TRIPLE_POINT);
+        m_triplePointLabel.setFont( SMALLER_INNER_FONT );
+        addWorldChild( m_triplePointLabel );
+        m_criticalPointLabel = new HTMLNode(StatesOfMatterStrings.PHASE_DIAGRAM_CRITICAL_POINT);
+        m_criticalPointLabel.setFont( SMALLER_INNER_FONT );
+        addWorldChild( m_criticalPointLabel );
         
         // Create and add the axes for the graph.
         
@@ -358,13 +351,10 @@ public class PhaseDiagram extends PhetPCanvas {
                 DEFAULT_LIQUID_LABEL_LOCATION.getY() - m_liquidLabel.getFullBoundsReference().height / 2);
         m_gasLabel.setOffset( DEFAULT_GAS_LABEL_LOCATION.getX() - m_gasLabel.getFullBoundsReference().width / 2,
                 DEFAULT_GAS_LABEL_LOCATION.getY() - m_gasLabel.getFullBoundsReference().height / 2);
-        m_triplePointLabel2.setOffset( DEFAULT_TRIPLE_POINT.getX() - m_triplePointLabel2.getFullBoundsReference().width * 1.2,
-                DEFAULT_TRIPLE_POINT.getY() - m_triplePointLabel2.getFullBoundsReference().height * 0.5 );
-        m_triplePointLabel1.setOffset( m_triplePointLabel2.getFullBoundsReference().x,
-                m_triplePointLabel2.getFullBoundsReference().y - m_triplePointLabel2.getFullBoundsReference().height * 0.8);
-        m_criticalPointLabel2.setOffset( DEFAULT_CRITICAL_POINT.getX() + 4, DEFAULT_CRITICAL_POINT.getY() );
-        m_criticalPointLabel1.setOffset( m_criticalPointLabel2.getFullBoundsReference().x,
-                m_criticalPointLabel2.getFullBoundsReference().y - m_criticalPointLabel2.getFullBoundsReference().height * 0.8);
+        m_triplePointLabel.setOffset( DEFAULT_TRIPLE_POINT.getX() - m_triplePointLabel.getFullBoundsReference().width * 1.2,
+        		DEFAULT_TRIPLE_POINT.getY() - m_triplePointLabel.getFullBoundsReference().height * 0.9);
+        m_criticalPointLabel.setOffset( DEFAULT_CRITICAL_POINT.getX() + 4, 
+        		DEFAULT_CRITICAL_POINT.getY() - m_criticalPointLabel.getFullBoundsReference().height / 2);
         
         // Position the close button.
         m_closePSwing.setScale(HEIGHT * CLOSE_BUTTON_PROPORTION / m_closePSwing.getFullBoundsReference().height);
