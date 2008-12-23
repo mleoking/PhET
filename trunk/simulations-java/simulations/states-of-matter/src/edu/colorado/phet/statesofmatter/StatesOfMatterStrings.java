@@ -45,9 +45,8 @@ public class StatesOfMatterStrings {
     public static final String PHASE_DIAGRAM_SOLID = StatesOfMatterResources.getString("PhaseChanges.PhaseDiagram.Solid");
     public static final String PHASE_DIAGRAM_LIQUID = StatesOfMatterResources.getString("PhaseChanges.PhaseDiagram.Liquid");
     public static final String PHASE_DIAGRAM_GAS = StatesOfMatterResources.getString("PhaseChanges.PhaseDiagram.Gas");
-    public static final String PHASE_DIAGRAM_TRIPLE = StatesOfMatterResources.getString("PhaseChanges.PhaseDiagram.Triple");
-    public static final String PHASE_DIAGRAM_CRITICAL = StatesOfMatterResources.getString("PhaseChanges.PhaseDiagram.Critical");
-    public static final String PHASE_DIAGRAM_POINT = StatesOfMatterResources.getString("PhaseChanges.PhaseDiagram.Point");
+    public static final String PHASE_DIAGRAM_TRIPLE_POINT = StatesOfMatterResources.getString("PhaseChanges.PhaseDiagram.TriplePoint");
+    public static final String PHASE_DIAGRAM_CRITICAL_POINT = StatesOfMatterResources.getString("PhaseChanges.PhaseDiagram.CriticalPoint");
     public static final String PHASE_DIAGRAM_BUTTON_LABEL = StatesOfMatterResources.getString("PhaseChanges.PhaseDiagram.ButtonLabel");
     
     public static final String INTERACTION_POTENTIAL_ATOM_SELECT_LABEL = StatesOfMatterResources.getString("InteractionPotential.Atoms");
