@@ -106,38 +106,131 @@ public class SimInfo {
         return !MS;
     }
 
+    public static class RuleSet {
+        private AbstractRule[] rule;
+
+        public RuleSet( AbstractRule[] rule ) {
+            this.rule = rule;
+        }
+
+        public boolean matches( ResourceAnnotation entry ) {
+            for ( int i = 0; i < rule.length; i++ ) {
+                AbstractRule abstractRule = rule[i];
+                if ( abstractRule.matches( entry ) ) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    public static abstract class AbstractRule {
+        private String pattern;
+
+        protected AbstractRule( String pattern ) {
+            this.pattern = pattern;
+        }
+
+        public abstract boolean matches( ResourceAnnotation entry );
+
+        protected String getPattern() {
+            return pattern;
+        }
+    }
+
+    public static class Author extends AbstractRule {
+        protected Author( String pattern ) {
+            super( pattern );
+        }
+
+        public boolean matches( ResourceAnnotation entry ) {
+            return entry.getAuthor() != null && entry.getAuthor().toLowerCase().startsWith( getPattern().toLowerCase( ));
+        }
+    }
+
+    public static class Source extends AbstractRule {
+        protected Source( String pattern ) {
+            super( pattern );
+        }
+
+        public boolean matches( ResourceAnnotation entry ) {
+            return entry.getSource() != null && entry.getSource().toLowerCase().startsWith( getPattern().toLowerCase( ));
+        }
+    }
+
+    public static class License extends AbstractRule {
+
+        protected License( String pattern ) {
+            super( pattern );
+        }
+
+        public boolean matches( ResourceAnnotation entry ) {
+            return entry.getLicense() != null && entry.getLicense().toLowerCase().startsWith( getPattern().toLowerCase(  ));
+        }
+    }
+
+    public static class Suffix extends AbstractRule {
+
+        protected Suffix( String pattern ) {
+            super( pattern );
+        }
+
+        public boolean matches( ResourceAnnotation entry ) {
+            return entry.getName().toLowerCase().endsWith( getPattern().toLowerCase( ));
+        }
+    }
+
     public static boolean getDefaultHideEntryRule( ResourceAnnotation entry ) {
-        return ( entry.getAuthor() != null && entry.getAuthor().equalsIgnoreCase( "phet" ) )
-               ||
-               ( entry.getSource() != null && entry.getSource().toLowerCase().startsWith( "microsoft" ) )//microsoft clip art approved for usage, see Unfuddle #1059
-               ||
-               ( entry.getAuthor() != null && entry.getAuthor().equalsIgnoreCase( "cmalley" ) )
-               ||
-               ( entry.getAuthor() != null && entry.getAuthor().equalsIgnoreCase( "Chris Malley" ) )
-               ||
-               ( entry.getSource() != null && entry.getSource().toLowerCase().startsWith( "clker.com" ) )
-               ||
-               ( entry.getLicense() != null && entry.getLicense().toLowerCase().startsWith( "same as ") )//collapse related issues
-               ||
-               ( entry.getLicense() != null && entry.getLicense().equalsIgnoreCase( "PUBLIC DOMAIN" ) )
-               ||
-               ( entry.getLicense() != null && entry.getLicense().toLowerCase().startsWith( "Used with permission".toLowerCase( )) )
-               ||
-               ( entry.getSource() != null && entry.getSource().equalsIgnoreCase( "java" ) )
-               ||
-               ( entry.getSource() != null && entry.getSource().equalsIgnoreCase( "phet" ) )
-               ||
-               entry.getName().endsWith( ".xml" )
-               ||
-               entry.getName().endsWith( ".esp" )
-               ||
-               entry.getName().endsWith( ".html" )
-               ||
-               entry.getName().endsWith( ".properties" )
-               ||
-               ( entry.getLicense() != null && entry.getLicense().equalsIgnoreCase( "http://creativecommons.org" ) )
-               ||
-               ( entry.getLicense() != null && entry.getLicense().equalsIgnoreCase( "Creative Commons, royalty free, public domain" ) );
+        RuleSet ruleSet = new RuleSet( new AbstractRule[]{
+                new Author( "phet" ),
+                new Author( "cmalley" ),
+                new Author( "Chris Malley" ),
+                new License( "same as" ),
+                new License( "PUBLIC DOMAIN" ),
+                new License( "Used with permission" ),
+                new License( "http://creativecommons.org" ),
+                new License( "Creative Commons, royalty free, public domain" ),
+                new Source( "microsoft" ),
+                new Source( "clker.com" ),
+                new Source( "java" ),
+                new Source( "phet" ),
+                new Suffix( ".xml" ),
+                new Suffix( ".esp" ),
+                new Suffix( ".html" ),
+                new Suffix( ".properties" )
+        } );
+        return ruleSet.matches( entry );
+//        return ( entry.getAuthor() != null && entry.getAuthor().equalsIgnoreCase( "phet" ) )
+//               ||
+//               ( entry.getSource() != null && entry.getSource().toLowerCase().startsWith( "microsoft" ) )//microsoft clip art approved for usage, see Unfuddle #1059
+//               ||
+//               ( entry.getAuthor() != null && entry.getAuthor().equalsIgnoreCase( "cmalley" ) )
+//               ||
+//               ( entry.getAuthor() != null && entry.getAuthor().equalsIgnoreCase( "Chris Malley" ) )
+//               ||
+//               ( entry.getSource() != null && entry.getSource().toLowerCase().startsWith( "clker.com" ) )
+//               ||
+//               ( entry.getLicense() != null && entry.getLicense().toLowerCase().startsWith( "same as ") )//collapse related issues
+//               ||
+//               ( entry.getLicense() != null && entry.getLicense().equalsIgnoreCase( "PUBLIC DOMAIN" ) )
+//               ||
+//               ( entry.getLicense() != null && entry.getLicense().toLowerCase().startsWith( "Used with permission".toLowerCase( )) )
+//               ||
+//               ( entry.getSource() != null && entry.getSource().equalsIgnoreCase( "java" ) )
+//               ||
+//               ( entry.getSource() != null && entry.getSource().equalsIgnoreCase( "phet" ) )
+//               ||
+//               entry.getName().endsWith( ".xml" )
+//               ||
+//               entry.getName().endsWith( ".esp" )
+//               ||
+//               entry.getName().endsWith( ".html" )
+//               ||
+//               entry.getName().endsWith( ".properties" )
+//               ||
+//               ( entry.getLicense() != null && entry.getLicense().equalsIgnoreCase( "http://creativecommons.org" ) )
+//               ||
+//               ( entry.getLicense() != null && entry.getLicense().equalsIgnoreCase( "Creative Commons, royalty free, public domain" ) );
 
     }
 
