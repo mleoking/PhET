@@ -146,7 +146,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
         m_interactionDiagramCtrlButton = new JButton();
         m_interactionDiagramCtrlButton.setFont( BUTTON_LABEL_FONT );
         m_interactionDiagramCtrlButton.setText( StatesOfMatterStrings.INTERACTION_POTENTIAL_BUTTON_LABEL);
-        addControlFullWidth( m_interactionDiagramCtrlButton );
+        addControl( m_interactionDiagramCtrlButton );
         m_interactionDiagramCtrlButton.addActionListener( new ActionListener(){
             public void actionPerformed( ActionEvent e ) {
                 m_interactionDiagramVisible = true;
@@ -194,7 +194,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
         m_phaseDiagramCtrlButton = new JButton();
         m_phaseDiagramCtrlButton.setFont( BUTTON_LABEL_FONT );
         m_phaseDiagramCtrlButton.setText( StatesOfMatterStrings.PHASE_DIAGRAM_BUTTON_LABEL );
-        addControlFullWidth( m_phaseDiagramCtrlButton );
+        addControl( m_phaseDiagramCtrlButton );
         m_phaseDiagramCtrlButton.addActionListener( new ActionListener(){
             public void actionPerformed( ActionEvent e ) {
                 m_phaseDiagramVisible = true;
