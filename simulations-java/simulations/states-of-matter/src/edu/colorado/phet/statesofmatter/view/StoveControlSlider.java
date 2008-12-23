@@ -16,6 +16,7 @@ import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
+import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * This class is the slider that is used to control the StoveNode, causing it
@@ -27,7 +28,8 @@ import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 public class StoveControlSlider extends JSlider {
 	
     private static final int STOVE_SLIDER_HEIGHT = 85;
-    private static final int STOVE_SLIDER_WIDTH = 125;
+    private static final int STOVE_SLIDER_MIN_WIDTH = 120;
+    private static final int STOVE_SLIDER_MAX_WIDTH = 200;
     private static final int MAX_SLIDER_VALUE = 50;
     private static final int MIN_SLIDER_VALUE = -50;
     private static final Color CONTROL_COLOR = new Color(240, 230, 255);
@@ -42,8 +44,15 @@ public class StoveControlSlider extends JSlider {
         setMinorTickSpacing( (MAX_SLIDER_VALUE - MIN_SLIDER_VALUE) / 10 );
         setPaintTicks( true );
         setPaintLabels( true );
-        setPreferredSize(new Dimension(STOVE_SLIDER_WIDTH, STOVE_SLIDER_HEIGHT));
         setFont( new PhetFont(11) );
+        
+        // Set the size of the stove based on the length of the labels.
+        PText tempLabel = new PText(StatesOfMatterStrings.STOVE_CONTROL_PANEL_TITLE);
+        tempLabel.setFont(new PhetFont(11));
+        int neededStoveWidth = (int)Math.round(tempLabel.getFullBoundsReference().width + 35);
+        neededStoveWidth = Math.max(STOVE_SLIDER_MIN_WIDTH, neededStoveWidth);
+        neededStoveWidth = Math.min(STOVE_SLIDER_MAX_WIDTH, neededStoveWidth);
+        setPreferredSize(new Dimension(neededStoveWidth, STOVE_SLIDER_HEIGHT));
 
         Hashtable labelTable = new Hashtable();
         labelTable.put(new Integer(MAX_SLIDER_VALUE), new JLabel(StatesOfMatterStrings.STOVE_CONTROL_PANEL_ADD_LABEL));
@@ -57,6 +66,7 @@ public class StoveControlSlider extends JSlider {
                 setValue(0);
             }
         });
+        
         
         TitledBorder border = new TitledBorder( new EtchedBorder( BevelBorder.RAISED, new Color(40, 20, 255), Color.black), 
         		StatesOfMatterStrings.STOVE_CONTROL_PANEL_TITLE );
