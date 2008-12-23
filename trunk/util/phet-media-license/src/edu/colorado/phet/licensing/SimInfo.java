@@ -185,12 +185,12 @@ public class SimInfo {
                 new Author( "phet" ),
                 new Author( "cmalley" ),
                 new Author( "Chris Malley" ),
-                new License( "same as" ),
+                new License( "same as" ),//ignore duplicates
                 new License( "PUBLIC DOMAIN" ),
                 new License( "Used with permission" ),
                 new License( "http://creativecommons.org" ),
                 new License( "Creative Commons, royalty free, public domain" ),
-                new Source( "microsoft" ),
+                new Source( "microsoft" ),//microsoft clip art approved for usage, see Unfuddle #1059
                 new Source( "clker.com" ),
                 new Source( "java" ),
                 new Source( "phet" ),
