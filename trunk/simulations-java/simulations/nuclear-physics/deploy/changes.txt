@@ -1,3 +1,3 @@
-
+> Incorporated a new version of the ray gun image and made the "Fire!" button on the ray gun translatable.
 ******* 3.02.01
 > Split into two simulations, one for Nuclear Fission and one for Alpha Decay
