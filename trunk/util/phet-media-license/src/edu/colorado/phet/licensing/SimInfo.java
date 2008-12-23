@@ -200,38 +200,6 @@ public class SimInfo {
                 new Suffix( ".properties" )
         } );
         return ruleSet.matches( entry );
-//        return ( entry.getAuthor() != null && entry.getAuthor().equalsIgnoreCase( "phet" ) )
-//               ||
-//               ( entry.getSource() != null && entry.getSource().toLowerCase().startsWith( "microsoft" ) )//microsoft clip art approved for usage, see Unfuddle #1059
-//               ||
-//               ( entry.getAuthor() != null && entry.getAuthor().equalsIgnoreCase( "cmalley" ) )
-//               ||
-//               ( entry.getAuthor() != null && entry.getAuthor().equalsIgnoreCase( "Chris Malley" ) )
-//               ||
-//               ( entry.getSource() != null && entry.getSource().toLowerCase().startsWith( "clker.com" ) )
-//               ||
-//               ( entry.getLicense() != null && entry.getLicense().toLowerCase().startsWith( "same as ") )//collapse related issues
-//               ||
-//               ( entry.getLicense() != null && entry.getLicense().equalsIgnoreCase( "PUBLIC DOMAIN" ) )
-//               ||
-//               ( entry.getLicense() != null && entry.getLicense().toLowerCase().startsWith( "Used with permission".toLowerCase( )) )
-//               ||
-//               ( entry.getSource() != null && entry.getSource().equalsIgnoreCase( "java" ) )
-//               ||
-//               ( entry.getSource() != null && entry.getSource().equalsIgnoreCase( "phet" ) )
-//               ||
-//               entry.getName().endsWith( ".xml" )
-//               ||
-//               entry.getName().endsWith( ".esp" )
-//               ||
-//               entry.getName().endsWith( ".html" )
-//               ||
-//               entry.getName().endsWith( ".properties" )
-//               ||
-//               ( entry.getLicense() != null && entry.getLicense().equalsIgnoreCase( "http://creativecommons.org" ) )
-//               ||
-//               ( entry.getLicense() != null && entry.getLicense().equalsIgnoreCase( "Creative Commons, royalty free, public domain" ) );
-
     }
 
     public static AnnotatedFile[] getIssues( AnnotatedFile[] resources ) {
