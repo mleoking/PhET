@@ -10,4 +10,5 @@ photoelectric-beam-control.png author=PhET
 sliderKnob.png author=PhET 
 sliderKnobHighlight.png author=PhET 
 zoomIn.gif author=PhET notes=chris 
-zoomOut.gif author=PhET notes=chris 
+zoomOut.gif author=PhET notes=chris
+flashlight.png author=PhET notes=Ron LeMaster
