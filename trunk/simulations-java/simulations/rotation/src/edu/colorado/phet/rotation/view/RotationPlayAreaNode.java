@@ -1,12 +1,8 @@
 package edu.colorado.phet.rotation.view;
 
 import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.awt.image.RescaleOp;
-import java.io.IOException;
 
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
-import edu.colorado.phet.rotation.RotationResources;
 import edu.colorado.phet.rotation.RotationStrings;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.colorado.phet.rotation.model.AngleUnitModel;
@@ -17,7 +13,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.event.PInputEventListener;
-import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * User: Sam Reid
@@ -106,46 +101,46 @@ public class RotationPlayAreaNode extends PNode {
 //        pauseNode.setVisible( rotationModel.getClock().isPaused() );
 //    }
 
-    private void addFlowerNodes( RotationModel rotationModel ) {
-        addChild( new FlowerNode( "flower1.gif", 0.5, -rotationModel.getRotationPlatform().getRadius(), rotationModel.getRotationPlatform().getRadius() * 0.8 ) );
-        addChild( new FlowerNode( "flower2.gif", 0.32, -rotationModel.getRotationPlatform().getRadius(), -rotationModel.getRotationPlatform().getRadius() * 0.8 ) );
-        addChild( new FlowerNode( "flower2.gif", 0.39, rotationModel.getRotationPlatform().getRadius() * 0.7, rotationModel.getRotationPlatform().getRadius() * 1.1 ) );
-    }
-
-    static class FlowerNode extends PNode {
-        public FlowerNode( String image, double scale, double x, double y ) {
-            try {
-                BufferedImage bufferedImage = RotationResources.loadBufferedImage( image );
-                bufferedImage = filterFlower( bufferedImage );
-                PImage flower1 = new PImage( bufferedImage );
-                final double flowerscale1 = SCALE * scale;
-                flower1.scale( flowerscale1 );
-                flower1.translate( -flower1.getFullBounds().getWidth() / flowerscale1 / 2, -flower1.getFullBounds().getHeight() / flowerscale1 / 2 );
-                flower1.translate( x / flowerscale1, y / flowerscale1 );
-                addChild( flower1 );
-            }
-            catch( IOException e ) {
-                e.printStackTrace();
-            }
-        }
-
-        private BufferedImage filterFlower( BufferedImage bufferedImage ) {
-            BufferedImage bim = new BufferedImage( bufferedImage.getWidth(), bufferedImage.getHeight(), BufferedImage.TYPE_INT_ARGB );
-            bim.createGraphics().drawRenderedImage( bufferedImage, new AffineTransform() );
-//                System.out.println( "bufferedImage.getType() = " + bufferedImage.getType() );
-
-            /* Create a rescale filter op that makes the image 50% opaque */
-//                float[] scales = {1f, 1f, 0.9f, 0.5f};
-            float colorscale = 1.75f;
-            float[] scales = {colorscale, colorscale, colorscale, 0.275f};
-            float[] offsets = new float[]{0.1f, 0.1f, 0.1f, 0.0f};
-            RescaleOp rop = new RescaleOp( scales, offsets, null );
-
+//    private void addFlowerNodes( RotationModel rotationModel ) {
+//        addChild( new FlowerNode( "flower1.gif", 0.5, -rotationModel.getRotationPlatform().getRadius(), rotationModel.getRotationPlatform().getRadius() * 0.8 ) );
+//        addChild( new FlowerNode( "flower2.gif", 0.32, -rotationModel.getRotationPlatform().getRadius(), -rotationModel.getRotationPlatform().getRadius() * 0.8 ) );
+//        addChild( new FlowerNode( "flower2.gif", 0.39, rotationModel.getRotationPlatform().getRadius() * 0.7, rotationModel.getRotationPlatform().getRadius() * 1.1 ) );
+//    }
+//
+//    static class FlowerNode extends PNode {
+//        public FlowerNode( String image, double scale, double x, double y ) {
+//            try {
+//                BufferedImage bufferedImage = RotationResources.loadBufferedImage( image );
+//                bufferedImage = filterFlower( bufferedImage );
 //                PImage flower1 = new PImage( bufferedImage );
-            BufferedImage c = rop.filter( bim, null );
-            return c;
-        }
-    }
+//                final double flowerscale1 = SCALE * scale;
+//                flower1.scale( flowerscale1 );
+//                flower1.translate( -flower1.getFullBounds().getWidth() / flowerscale1 / 2, -flower1.getFullBounds().getHeight() / flowerscale1 / 2 );
+//                flower1.translate( x / flowerscale1, y / flowerscale1 );
+//                addChild( flower1 );
+//            }
+//            catch( IOException e ) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+//        private BufferedImage filterFlower( BufferedImage bufferedImage ) {
+//            BufferedImage bim = new BufferedImage( bufferedImage.getWidth(), bufferedImage.getHeight(), BufferedImage.TYPE_INT_ARGB );
+//            bim.createGraphics().drawRenderedImage( bufferedImage, new AffineTransform() );
+////                System.out.println( "bufferedImage.getType() = " + bufferedImage.getType() );
+//
+//            /* Create a rescale filter op that makes the image 50% opaque */
+////                float[] scales = {1f, 1f, 0.9f, 0.5f};
+//            float colorscale = 1.75f;
+//            float[] scales = {colorscale, colorscale, colorscale, 0.275f};
+//            float[] offsets = new float[]{0.1f, 0.1f, 0.1f, 0.0f};
+//            RescaleOp rop = new RescaleOp( scales, offsets, null );
+//
+////                PImage flower1 = new PImage( bufferedImage );
+//            BufferedImage c = rop.filter( bim, null );
+//            return c;
+//        }
+//    }
 
     protected PNode createRotationPlatformNode( RotationPlatform rotationPlatform ) {
         return new RotationPlatformNodeWithHandle( rotationPlatform );

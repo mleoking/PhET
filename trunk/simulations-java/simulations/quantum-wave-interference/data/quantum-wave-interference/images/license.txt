@@ -20,7 +20,8 @@ mandel-gun-1.png author=noah p source=phet
 mandel-gun-2.png author=noah p source=phet
 ray-gun.png author=noah p source=phet
 neutron-thumb.gif author=PhET
-phet-logo-small.jpg author=PhET 
+neutron.png author=PhET notes=Ron LeMaster
+phet-logo-small.jpg author=PhET
 photon-thumb.jpg author=PhET 
 photon-thumb.png author=PhET 
 raygun3-centerbarrel-2.gif source=microsoft notes=  j0230574.wmf
