@@ -36,8 +36,8 @@ public interface MoleculeForceAndMotionCalculator {
 	 * defines the strength of particle interaction.
 	 * 
 	 * @param scaledEpsilon - A value for the interaction strength.  A
-	 * value of zero signifies no interaction, 1 is the default amount, and
-	 * 2 is as high as it can go.
+	 * value of zero signifies no interaction, 1 is the default amount, 2 is
+	 * twice the default amount, and so on.
 	 */
 	public void setScaledEpsilon(double scaledEpsilon);
 	

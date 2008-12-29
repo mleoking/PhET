@@ -48,8 +48,8 @@ public class MonatomicVerletAlgorithm extends AbstractVerletAlgorithm {
 		return m_temperature;
 	}
 	
-	public void setScaledEpsilon(double normalizedEpsilon){
-		m_epsilon = normalizedEpsilon;
+	public void setScaledEpsilon(double scaledEpsilon){
+		m_epsilon = scaledEpsilon;
 	}
 	
 	public double getScaledEpsilon(){
