@@ -33,9 +33,9 @@ public class NeutronSourceNode extends PNode{
     // Class Data
     //------------------------------------------------------------------------
 
-    private final static double BUTTON_HORIZ_POS_PROPORTION = 0.21;
-    private final static double BUTTON_VERT_POS_PROPORTION = 0.08;
-    private final static double BUTTON_WIDTH_PROPORTION = 0.29;
+    private final static double BUTTON_HORIZ_POS_PROPORTION = 0.29;
+    private final static double BUTTON_VERT_POS_PROPORTION = 0.055;
+    private final static double BUTTON_WIDTH_PROPORTION = 0.175;
     
     // This factor accounts for the fact that the tip of the gun graphic is
     // not exactly in the center or at the top or bottom of the gun.  It is
@@ -124,6 +124,10 @@ public class NeutronSourceNode extends PNode{
             }
         } );
         
+        /*
+         * TODO: JBP TBD - The following portion was commented out on Dec 29, 2008
+         * based on feedback from the educators.  This code should be removed
+         * permanently or reinstated when a decision is finalized.
         // Add the text to the buttons.
         _fireButtonUpText = new PText(NuclearPhysicsStrings.FIRE_NEUTRON_GUN);
         _fireButtonUpText.setFont(new PhetFont(PhetFont.BOLD));
@@ -154,6 +158,8 @@ public class NeutronSourceNode extends PNode{
         		_fireButtonDownText.getFullBoundsReference().width / 2,
         		_fireButtonDown.getFullBoundsReference().height / 2 - 
         		_fireButtonDownText.getFullBoundsReference().height / 2);
+        
+         */
         
         // Scale the fire buttons (and their associated text).
         double fireButtonScale = (getFullBoundsReference().width * BUTTON_WIDTH_PROPORTION /
