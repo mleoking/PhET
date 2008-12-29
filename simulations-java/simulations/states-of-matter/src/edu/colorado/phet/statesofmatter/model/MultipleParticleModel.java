@@ -127,6 +127,13 @@ public class MultipleParticleModel{
     private static final double WATER_TRIPLE_POINT_IN_KELVIN = 273;
     private static final double WATER_CRITICAL_POINT_IN_KELVIN = 647;
 
+    // The following values are used for temperature conversion for the
+    // adjustable molecule.  These are somewhat arbitrary, since in the real
+    // world the values would change if epsilon were changed.  They have been
+    // chosen to correspond to a value of epsilon that is roughly in the
+    // middle of the allowable range.
+    private static final double ADJUSTABLE_ATOM_TRIPLE_POINT_IN_KELVIN = 90;
+    private static final double ADJUSTABLE_ATOM_CRITICAL_POINT_IN_KELVIN = 160;
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -371,8 +378,7 @@ public class MultipleParticleModel{
             break;
         case StatesOfMatterConstants.USER_DEFINED_MOLECULE:
             m_particleDiameter = ConfigurableAttractionAtom.RADIUS * 2;
-            // TODO: Not sure what to use for min temperature.
-            m_minModelTemperature = 0.5 * TRIPLE_POINT_MODEL_TEMPERATURE / ARGON_TRIPLE_POINT_IN_KELVIN;
+            m_minModelTemperature = 0.5 * TRIPLE_POINT_MODEL_TEMPERATURE / ADJUSTABLE_ATOM_TRIPLE_POINT_IN_KELVIN;
             break;
         default:
         	assert false; // Should never happen, so it should be debugged if it does.
@@ -539,8 +545,13 @@ public class MultipleParticleModel{
     			if ((epsilon <= StatesOfMatterConstants.MAX_EPSILON) && 
     				(epsilon >= StatesOfMatterConstants.MIN_EPSILON)){
     				
-        			m_moleculeForceAndMotionCalculator.setScaledEpsilon(epsilon / 
-        					(StatesOfMatterConstants.MAX_EPSILON / 2));
+    				// The following conversion of the target value for epsilon
+    				// to a scaled value for the motion calculator object was
+    				// determined empirically such that the resulting behavior
+    				// roughly matched that of the existing monatomic molecules.
+    				double scaledEpsilon = epsilon / (StatesOfMatterConstants.MAX_EPSILON / 2);
+    				
+        			m_moleculeForceAndMotionCalculator.setScaledEpsilon( scaledEpsilon );
             		notifyInteractionStrengthChanged();
     			}
     		}
@@ -1261,10 +1272,8 @@ public class MultipleParticleModel{
             break;
 
         case StatesOfMatterConstants.USER_DEFINED_MOLECULE:
-        	// TODO: Not sure what to use for these values.  Can/should they
-        	// be dynamically recalculated?
-        	triplePoint = ARGON_TRIPLE_POINT_IN_KELVIN;
-        	criticalPoint = ARGON_CRITICAL_POINT_IN_KELVIN;
+        	triplePoint = ADJUSTABLE_ATOM_TRIPLE_POINT_IN_KELVIN;
+        	criticalPoint = ADJUSTABLE_ATOM_CRITICAL_POINT_IN_KELVIN;
             break;
 
         case StatesOfMatterConstants.WATER:
