@@ -251,7 +251,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
     	}
     	else{
     		m_phaseDiagram.setStateMarkerVisible(true);
-	        double modelTemperature = m_model.getModelTemperature();
+	        double modelTemperature = m_model.getTemperatureSetPoint();
 	        double modelPressure = m_model.getModelPressure();
 	        double mappedTemperature = mapModelTemperatureToPhaseDiagramTemperature(modelTemperature);
 	        double mappedPressure = mapModelTempAndPressureToPhaseDiagramPressure(modelPressure, modelTemperature);
