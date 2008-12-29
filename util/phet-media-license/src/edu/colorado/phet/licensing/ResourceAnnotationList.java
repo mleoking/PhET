@@ -107,7 +107,7 @@ public class ResourceAnnotationList {
         }
         if ( elements.size() == 0 ) {
 //            throw new RuntimeException( "Element not found for name=" + name + ", resourceList=" + toText() );
-            new RuntimeException( "Element not found for name=" + name +" in "+description).printStackTrace(  );
+//            new RuntimeException( "Element not found for name=" + name +" in "+description).printStackTrace(  );
             ResourceAnnotation annotation = new ResourceAnnotation( name );
             annotation.setSource( "NOT_ANNOTATED" );
             return annotation;

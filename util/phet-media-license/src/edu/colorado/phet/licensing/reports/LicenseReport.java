@@ -1,10 +1,13 @@
 package edu.colorado.phet.licensing.reports;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import edu.colorado.phet.build.PhetProject;
+import edu.colorado.phet.licensing.AnnotatedFile;
 import edu.colorado.phet.licensing.Config;
+import edu.colorado.phet.licensing.SimInfo;
 
 public class LicenseReport {
     public static void main( String[] args ) {
@@ -38,27 +41,66 @@ public class LicenseReport {
         //each jar dependency
         //each project dependency
 
+        //alternatively
+
+        //project itself (including source code and media)
+        //project dependencies (including common projects)
+        //contrib dependencies
+
         ArrayList issues = new ArrayList();
-        issues.addAll( Arrays.asList( getMediaLicenseIssues( project ) ) );
-        issues.addAll( Arrays.asList( getSourceCodeIssues( project ) ) );
-        issues.addAll( Arrays.asList( getLibraryIssues( project ) ) );
+        issues.addAll( Arrays.asList( getDataIssues( project ) ) );
+        issues.addAll( Arrays.asList( getSourceIssues( project ) ) );
         issues.addAll( Arrays.asList( getProjectDependencies( project ) ) );
-        return new LicenseIssue[0];
+        issues.addAll( Arrays.asList( getLibraryIssues( project ) ) );
+        return (LicenseIssue[]) issues.toArray( new LicenseIssue[issues.size()] );
     }
 
     private LicenseIssue[] getProjectDependencies( PhetProject project ) {
-        return new LicenseIssue[0];
+        PhetProject[] dep = project.getAllDependencies();
+        ArrayList issues = new ArrayList();
+        for ( int i = 0; i < dep.length; i++ ) {
+            PhetProject phetProject = dep[i];
+            if ( !phetProject.equals( project ) ) {
+                issues.addAll( Arrays.asList( getProjectDependencies( phetProject ) ) );
+            }
+        }
+        return (LicenseIssue[]) issues.toArray( new LicenseIssue[issues.size()] );
     }
 
     private LicenseIssue[] getLibraryIssues( PhetProject project ) {
         return new LicenseIssue[0];
     }
 
-    private LicenseIssue[] getSourceCodeIssues( PhetProject project ) {
+    private LicenseIssue[] getSourceIssues( PhetProject project ) {
         return new LicenseIssue[0];
     }
 
-    private LicenseIssue[] getMediaLicenseIssues( PhetProject project ) {
-        return new LicenseIssue[0];
+    private LicenseIssue[] getDataIssues( PhetProject project ) {
+        try {
+            SimInfo issues = SimInfo.getSimInfo( Config.TRUNK, project.getName() ).getIssues();
+            AnnotatedFile[] a = issues.getResources();
+            LicenseIssue[] out = new LicenseIssue[a.length];
+            for ( int i = 0; i < out.length; i++ ) {
+                out[i] = new DataFileLicenseIssue( a[i] );
+            }
+            return out;
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+            return new LicenseIssue[0];
+        }
+    }
+
+    private class DataFileLicenseIssue extends LicenseIssue {
+        private AnnotatedFile annotatedFile;
+
+        public DataFileLicenseIssue( AnnotatedFile annotatedFile ) {
+            super();
+            this.annotatedFile = annotatedFile;
+        }
+
+        public String toString() {
+            return annotatedFile.getResourceAnnotation().getName() + " " + annotatedFile.getResourceAnnotation().toText();
+        }
     }
 }
