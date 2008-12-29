@@ -1,4 +1,4 @@
-package edu.colorado.phet.licensing.media;
+package edu.colorado.phet.licensing.util;
 
 import java.io.*;
 import java.util.Arrays;
