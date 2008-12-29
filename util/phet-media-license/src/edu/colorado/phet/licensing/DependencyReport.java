@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import edu.colorado.phet.build.PhetProject;
-import edu.colorado.phet.licensing.media.FileUtils;
+import edu.colorado.phet.licensing.util.FileUtils;
 
 /**
  * Created by: Sam
