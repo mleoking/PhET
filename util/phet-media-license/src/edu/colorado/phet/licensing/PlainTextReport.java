@@ -10,10 +10,10 @@ import edu.colorado.phet.build.PhetProject;
  * Created by: Sam
  * Aug 4, 2008 at 7:10:23 PM
  */
-public class DisplayDependencies {
+public class PlainTextReport {
 
     public static void main( String[] args ) throws IOException {
-        new DisplayDependencies().start();
+        new PlainTextReport().start();
     }
 
     private void start() throws IOException {
