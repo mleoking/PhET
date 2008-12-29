@@ -1,3 +1,6 @@
+>Changed the way that "triple point" and "critical point" are labeled in the phase changes graph so that they would translate better.
+>Made the stove control get wider for longer string labels.  This was done to improve translation support.
+>Added an atom with adjustable interaction potential to the Phase Changes tab, modified the way the users shows and hides the graphs.
 >Made the controls on the side panel for adjusting the atom size and interaction strength only appear for the adjustable atom.
 >Made the resizing of the adjustable atom on the Interaction Potential tab work better.
 > Removed the Interaction Potential diagram from the 2nd tab (Phase Changes).
