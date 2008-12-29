@@ -246,14 +246,6 @@ public class MultipleParticleModel{
     }
 
     /**
-     * Returns the value of the internal model temperature, which is generally
-     * only meaningful to the model.
-     */
-    public double getModelTemperature(){
-        return m_temperatureSetPoint;
-    }
-    
-    /**
      * Get the current temperature set point in model units.
      * @return
      */
@@ -537,6 +529,7 @@ public class MultipleParticleModel{
             epsilon = 0;
         }
         
+        System.err.println("Epsilon = " + epsilon);
         return epsilon;
     }
     
