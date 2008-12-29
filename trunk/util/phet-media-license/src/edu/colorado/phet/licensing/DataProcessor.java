@@ -3,7 +3,6 @@ package edu.colorado.phet.licensing;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 
 import edu.colorado.phet.build.PhetProject;
 
@@ -18,17 +17,7 @@ public class DataProcessor {
         ArrayList list = new ArrayList();
         File licenseFile = new File( dir, "license.txt" );
         ResourceAnnotationList resourceAnnotationList;
-        if ( licenseFile.exists() ) {
-            resourceAnnotationList = ResourceAnnotationList.read( licenseFile );
-        }
-        else {
-            resourceAnnotationList = new ResourceAnnotationList( "Generated list");
-            resourceAnnotationList.addTextLine( new ResourceAnnotationTextLine( "###################################" ) );
-            resourceAnnotationList.addTextLine( new ResourceAnnotationTextLine( "# License info for " + phetProject.getName() ) );
-            resourceAnnotationList.addTextLine( new ResourceAnnotationTextLine( "# Automatically generated on " + new Date() ) );
-            resourceAnnotationList.addTextLine( new ResourceAnnotationTextLine( "###################################" ) );
-            resourceAnnotationList.addTextLine( new ResourceAnnotationTextLine( "" ) );
-        }
+        resourceAnnotationList = ResourceAnnotationList.read( licenseFile );
 
         File[] f = dir.listFiles();
         for ( int i = 0; i < f.length; i++ ) {
@@ -44,13 +33,6 @@ public class DataProcessor {
                     ResourceAnnotation fx = visitFile( phetProject, resourceAnnotationList, file );
                     list.add( new AnnotatedFile( file, fx ) );
                 }
-            }
-        }
-        if ( resourceAnnotationList.getAnnotationCount() > 0 ) {
-            if ( !licenseFile.exists() ) {
-                resourceAnnotationList.save( new File( dir, "license.txt" ) );
-                System.out.println( "Wrote " + licenseFile.getAbsolutePath() );
-                System.out.println( resourceAnnotationList.toText() );
             }
         }
         return (AnnotatedFile[]) list.toArray( new AnnotatedFile[list.size()] );
