@@ -101,7 +101,6 @@ public class DependencyReport {
 
         String header = issues.getHTMLHeader();
         String body = issues.getHTMLBody() + "<br><HR WIDTH=100% ALIGN=CENTER><br>";
-        //todo: copy images
         for ( int i = 0; i < issues.getResources().length; i++ ) {
             AnnotatedFile x = issues.getResources()[i];
             File target = new File( Config.TRUNK.getAbsolutePath() + "\\util\\phet-media-license\\", issues.getHTMLFileLocation( x ) );
