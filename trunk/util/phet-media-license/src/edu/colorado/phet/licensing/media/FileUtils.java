@@ -55,19 +55,4 @@ public class FileUtils {
         return true;
     }
 
-    public static void main( String[] args ) throws IOException {
-        File a = new File( "C:\\Users\\Sam\\Desktop\\sshot-14 - Copy.png" );
-        File b = new File( "C:\\Users\\Sam\\Desktop\\sshot-14.png" );
-        File c = new File( "C:\\Users\\Sam\\Desktop\\phet-src-15909(2)\\LICENSE.txt" );
-        test( a, b );
-        test( b, c );
-        test( b, a );
-        test( a, c );
-    }
-
-    private static void test( File a, File b ) throws IOException {
-        System.out.println( "comparing " + a.getAbsolutePath() + ", to " + b.getAbsolutePath() );
-        System.out.println( "compare( a,b ) = " + contentEquals( a, b ) );
-    }
-
 }
