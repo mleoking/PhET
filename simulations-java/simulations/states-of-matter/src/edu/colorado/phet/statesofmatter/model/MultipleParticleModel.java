@@ -130,10 +130,11 @@ public class MultipleParticleModel{
     // The following values are used for temperature conversion for the
     // adjustable molecule.  These are somewhat arbitrary, since in the real
     // world the values would change if epsilon were changed.  They have been
-    // chosen to correspond to a value of epsilon that is roughly in the
-    // middle of the allowable range.
-    private static final double ADJUSTABLE_ATOM_TRIPLE_POINT_IN_KELVIN = 90;
-    private static final double ADJUSTABLE_ATOM_CRITICAL_POINT_IN_KELVIN = 160;
+    // chosen to be in between the values of the other two monatomic
+    // substances (neon and argon at this point).
+    private static final double ADJUSTABLE_ATOM_TRIPLE_POINT_IN_KELVIN = 54;
+    private static final double ADJUSTABLE_ATOM_CRITICAL_POINT_IN_KELVIN = 97;
+    
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -523,7 +524,7 @@ public class MultipleParticleModel{
             
         case StatesOfMatterConstants.USER_DEFINED_MOLECULE:
         	if (m_moleculeForceAndMotionCalculator != null){
-        		epsilon = m_moleculeForceAndMotionCalculator.getScaledEpsilon() * StatesOfMatterConstants.MAX_EPSILON / 2;
+        		epsilon = convertScaledEpsilonToEpsilon( m_moleculeForceAndMotionCalculator.getScaledEpsilon() );
         	}
         	else{
         		epsilon = ConfigurableAttractionAtom.getEpsilon();
@@ -544,14 +545,8 @@ public class MultipleParticleModel{
     		if (m_moleculeForceAndMotionCalculator != null){
     			if ((epsilon <= StatesOfMatterConstants.MAX_EPSILON) && 
     				(epsilon >= StatesOfMatterConstants.MIN_EPSILON)){
-    				
-    				// The following conversion of the target value for epsilon
-    				// to a scaled value for the motion calculator object was
-    				// determined empirically such that the resulting behavior
-    				// roughly matched that of the existing monatomic molecules.
-    				double scaledEpsilon = epsilon / (StatesOfMatterConstants.MAX_EPSILON / 2);
-    				
-        			m_moleculeForceAndMotionCalculator.setScaledEpsilon( scaledEpsilon );
+
+        			m_moleculeForceAndMotionCalculator.setScaledEpsilon( convertEpsilonToScaledEpsilon(epsilon) );
             		notifyInteractionStrengthChanged();
     			}
     		}
@@ -1463,5 +1458,23 @@ public class MultipleParticleModel{
     	}
     	
     	return phase;
+    }
+    
+    static final double EPSILON_CONVERSION_DIVISOR = 95;
+    static final double EPSILON_CONVERSION_EXPONENTIAL = 2.0;
+    private double convertEpsilonToScaledEpsilon(double epsilon){
+		// The following conversion of the target value for epsilon
+		// to a scaled value for the motion calculator object was
+		// determined empirically such that the resulting behavior
+		// roughly matched that of the existing monatomic molecules.
+//		double scaledEpsilon = epsilon / (StatesOfMatterConstants.MAX_EPSILON / 2);
+		double scaledEpsilon = Math.pow(epsilon / EPSILON_CONVERSION_DIVISOR, EPSILON_CONVERSION_EXPONENTIAL);
+		return scaledEpsilon;
+    }
+    
+    private double convertScaledEpsilonToEpsilon(double scaledEpsilon){
+//    	double epsilon = scaledEpsilon * StatesOfMatterConstants.MAX_EPSILON / 2;
+    	double epsilon = Math.pow(scaledEpsilon, 1.0/EPSILON_CONVERSION_EXPONENTIAL) * EPSILON_CONVERSION_DIVISOR;
+    	return epsilon;
     }
 }
