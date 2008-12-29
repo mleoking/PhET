@@ -18,7 +18,7 @@ import edu.colorado.phet.nuclearphysics.module.nuclearreactor.NuclearReactorModu
 /**
  * NuclearFissionApplication is the main application class for this simulation.
  *
- * @author Chris Malley (cmalley@pixelzoom.com)
+ * @author John Blanco
  * 
  */
 public class NuclearFissionApplication extends AbstractNuclearPhysicsApplication {
