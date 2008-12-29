@@ -11,7 +11,6 @@ import edu.colorado.phet.build.PhetProject;
  * Aug 4, 2008 at 7:10:23 PM
  */
 public class DataProcessor {
-    private File trunk;
 
     public AnnotatedFile[] visitDirectory( PhetProject phetProject, File dir ) {
         ArrayList list = new ArrayList();
@@ -23,14 +22,14 @@ public class DataProcessor {
         for ( int i = 0; i < f.length; i++ ) {
             File file = f[i];
             if ( file.isDirectory() ) {
-                if ( !ignoreDirectory( phetProject, file ) ) {
+                if ( !ignoreDirectory( file ) ) {
                     AnnotatedFile[] fx = visitDirectory( phetProject, file );
                     list.addAll( Arrays.asList( fx ) );
                 }
             }
             else {
                 if ( !ignoreFile( phetProject, file ) ) {
-                    ResourceAnnotation fx = visitFile( phetProject, resourceAnnotationList, file );
+                    ResourceAnnotation fx = visitFile( resourceAnnotationList, file );
                     list.add( new AnnotatedFile( file, fx ) );
                 }
             }
@@ -38,7 +37,7 @@ public class DataProcessor {
         return (AnnotatedFile[]) list.toArray( new AnnotatedFile[list.size()] );
     }
 
-    protected ResourceAnnotation visitFile( PhetProject phetProject, ResourceAnnotationList resourceAnnotationList, File file ) {
+    protected ResourceAnnotation visitFile( ResourceAnnotationList resourceAnnotationList, File file ) {
         return resourceAnnotationList.getEntry( file.getName() );
     }
 
@@ -46,7 +45,7 @@ public class DataProcessor {
         return file.getName().equals( project.getName() + ".properties" ) || file.getName().equalsIgnoreCase( "license.txt" ) || file.getName().equalsIgnoreCase( "license-orig.txt" ) || file.getName().equalsIgnoreCase( "sun-license.txt" );
     }
 
-    private boolean ignoreDirectory( PhetProject project, File dir ) {
+    private boolean ignoreDirectory( File dir ) {
         return dir.getName().equalsIgnoreCase( ".svn" ) || dir.getName().equalsIgnoreCase( "localization" );
     }
 }
