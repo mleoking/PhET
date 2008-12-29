@@ -14,10 +14,10 @@ import edu.colorado.phet.licensing.media.FileUtils;
  * Created by: Sam
  * Aug 4, 2008 at 7:10:23 PM
  */
-public class DisplayDependenciesHTML {
+public class DependencyReport {
 
     public static void main( String[] args ) throws IOException {
-        new DisplayDependenciesHTML().start();
+        new DependencyReport().start();
     }
 
     private void start() throws IOException {
