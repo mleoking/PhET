@@ -221,6 +221,7 @@ public class DeveloperControlsDialog extends JDialog {
         private JRadioButton m_noThermostatRadioButton;
         private JRadioButton m_isokineticThermostatRadioButton;
         private JRadioButton m_andersenThermostatRadioButton;
+        private JRadioButton m_adaptiveThermostatRadioButton;
 
         ThermostatSelectionPanel(){
             
@@ -257,11 +258,19 @@ public class DeveloperControlsDialog extends JDialog {
                     m_model.setThermostatType( MultipleParticleModel.ISOKINETIC_THERMOSTAT );
                 }
             } );
+            m_adaptiveThermostatRadioButton = new JRadioButton( "Adaptive Thermostat" );
+            m_adaptiveThermostatRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
+            m_adaptiveThermostatRadioButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    m_model.setThermostatType( MultipleParticleModel.ADAPTIVE_THERMOSTAT );
+                }
+            } );
             
             ButtonGroup buttonGroup = new ButtonGroup();
             buttonGroup.add( m_noThermostatRadioButton );
             buttonGroup.add( m_isokineticThermostatRadioButton );
             buttonGroup.add( m_andersenThermostatRadioButton );
+            buttonGroup.add( m_adaptiveThermostatRadioButton );
             
             switch (m_model.getThermostatType()){
             case MultipleParticleModel.NO_THERMOSTAT:
@@ -273,6 +282,9 @@ public class DeveloperControlsDialog extends JDialog {
             case MultipleParticleModel.ISOKINETIC_THERMOSTAT:
                 m_isokineticThermostatRadioButton.setSelected( true );
                 break;
+            case MultipleParticleModel.ADAPTIVE_THERMOSTAT:
+                m_adaptiveThermostatRadioButton.setSelected( true );
+                break;
             default:
                 assert false;
                 break;
@@ -281,6 +293,7 @@ public class DeveloperControlsDialog extends JDialog {
             add( m_noThermostatRadioButton );
             add( m_isokineticThermostatRadioButton );
             add( m_andersenThermostatRadioButton );
+            add( m_adaptiveThermostatRadioButton );
         }
     }
     
