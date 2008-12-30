@@ -9,6 +9,7 @@ import java.util.Properties;
 
 /**
  * PrintSystemProperties prints the System properties (sorted) to System.out.
+ * The properties are alphabetically sorted by key.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
