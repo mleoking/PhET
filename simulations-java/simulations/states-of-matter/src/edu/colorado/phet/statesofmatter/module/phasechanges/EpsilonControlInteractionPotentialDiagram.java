@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -55,7 +56,7 @@ public class EpsilonControlInteractionPotentialDiagram extends InteractionPotent
     private static final Color EPSILON_LINE_COLOR = Color.RED; 
     private static final Color RESIZE_HANDLE_NORMAL_COLOR = Color.GREEN;
     private static final Color RESIZE_HANDLE_HIGHLIGHTED_COLOR = Color.YELLOW;
-    private static final double CLOSE_BUTTON_PROPORTION = 0.13;  // Size of button as fraction of diagram height.
+    private static final double CLOSE_BUTTON_PROPORTION = 0.12;  // Size of button as fraction of diagram height.
     
     //-----------------------------------------------------------------------------
     // Instance Data
@@ -126,8 +127,8 @@ public class EpsilonControlInteractionPotentialDiagram extends InteractionPotent
         });
         
         // Add the button that will allow the user to close (actually hide) the diagram.
-        m_closeButton = new JButton( new ImageIcon( 
-        		StatesOfMatterResources.getImage( StatesOfMatterConstants.RED_X ) ) );
+        m_closeButton = new JButton( 
+        		new ImageIcon( PhetCommonResources.getInstance().getImage(PhetCommonResources.IMAGE_CLOSE_BUTTON)));
         m_closeButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
             	notifyCloseRequestReceived();
