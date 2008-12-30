@@ -201,7 +201,7 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 _fissionEnergyChart.componentResized( getWidth(), getHeight() );
-                _resetButtonNode.setOffset( getWidth() * 0.80, getHeight() * 0.10);
+                _resetButtonNode.setOffset( getWidth() * 0.05, getHeight() * 0.07);
             }
         } );
     }
