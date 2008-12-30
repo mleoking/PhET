@@ -137,7 +137,7 @@ public class EpsilonControlInteractionPotentialDiagram extends InteractionPotent
         PSwing closePSwing = new PSwing( m_closeButton );
         closePSwing.setScale(getFullBoundsReference().height * CLOSE_BUTTON_PROPORTION / 
         		closePSwing.getFullBoundsReference().height);
-        closePSwing.setOffset(super.getFullBoundsReference().width - closePSwing.getFullBoundsReference().width, 0);
+        closePSwing.setOffset(m_width - closePSwing.getFullBoundsReference().width, 0);
         addChild(closePSwing);
         
         // Update interactivity state.

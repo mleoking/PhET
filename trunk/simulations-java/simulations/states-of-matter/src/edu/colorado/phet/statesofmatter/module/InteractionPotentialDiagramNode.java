@@ -51,14 +51,12 @@ public class InteractionPotentialDiagramNode extends PNode {
     private static final float POTENTIAL_ENERGY_LINE_WIDTH = 1.5f;
     private static final Stroke POTENTIAL_ENERGY_LINE_STROKE = new BasicStroke(POTENTIAL_ENERGY_LINE_WIDTH);
     private static final Color POTENTIAL_ENERGY_LINE_COLOR = Color.red;
-    private static final double TICK_MARK_LENGTH = 2;
-    private static final float TICK_MARK_WIDTH = 1;
-    private static final Stroke TICK_MARK_STROKE = new BasicStroke(TICK_MARK_WIDTH);
     private static final Color DEFAULT_BACKGROUND_COLOR = Color.WHITE;
     private static final Color POSITION_MARKER_COLOR = Color.CYAN;
     private static final double POSITION_MARKER_DIAMETER_PROPORTION = 0.03; // Size of pos marker wrt overall width.
     private static final float POSITION_MARKER_STROKE_WIDTH = 0.75f;
     private static final Stroke POSITION_MARKER_STROKE = new BasicStroke(POSITION_MARKER_STROKE_WIDTH);
+    private static final Color CENTER_AXIS_LINE_COLOR = Color.LIGHT_GRAY;
     
     // Constants that control the location and size of the graph.
     private static final double VERT_AXIS_SIZE_PROPORTION = 0.85;
@@ -146,6 +144,13 @@ public class InteractionPotentialDiagramNode extends PNode {
         m_ljPotentialGraph.setPaint( Color.WHITE );
         m_ljPotentialGraph.setStrokePaint( Color.WHITE );
         addChild( m_ljPotentialGraph );
+
+        // Create and add the center axis line for the graph.
+        PPath centerAxis = new PPath(new Line2D.Double(new Point2D.Double(0, 0),new Point2D.Double(m_graphWidth, 0)));
+        centerAxis.setStroke( AXIS_LINE_STROKE );
+        centerAxis.setStrokePaint( CENTER_AXIS_LINE_COLOR );
+        m_ljPotentialGraph.addChild( centerAxis );
+        centerAxis.setOffset( 0, m_graphHeight / 2 );
         
         // Add the potential energy line.
         m_potentialEnergyLine = new PPath();
@@ -174,7 +179,7 @@ public class InteractionPotentialDiagramNode extends PNode {
 
         // Add the position marker.
         m_markerLayer = new PNode();
-        m_markerLayer.setOffset( m_graphOffsetX, 0 );
+        m_markerLayer.setOffset( m_graphOffsetX, m_graphOffsetY );
         addChild( m_markerLayer );
         GeneralPath markerPath = new GeneralPath();
         double markerDiameter = POSITION_MARKER_DIAMETER_PROPORTION * m_graphWidth;
