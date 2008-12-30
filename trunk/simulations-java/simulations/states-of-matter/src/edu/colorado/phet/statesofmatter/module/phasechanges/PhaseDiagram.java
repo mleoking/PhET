@@ -215,7 +215,7 @@ public class PhaseDiagram extends PhetPCanvas {
         // Create and add the labels for the axes.
         PText horizontalAxisLabel = new PText(StatesOfMatterStrings.PHASE_DIAGRAM_X_AXIS_LABEL);
         horizontalAxisLabel.setFont( AXIS_LABEL_FONT );
-        horizontalAxisLabel.setOffset( WIDTH - (horizontalAxisLabel.getFullBoundsReference().width * 1.1), 
+        horizontalAxisLabel.setOffset( (WIDTH / 2) - (horizontalAxisLabel.getFullBoundsReference().width / 2), 
                 yOriginOffset + horizontalAxisLabel.getFullBoundsReference().height * 0.3);
         addWorldChild( horizontalAxisLabel );
         
