@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -234,8 +235,8 @@ public class PhaseDiagram extends PhetPCanvas {
         addWorldChild( m_currentStateMarker );
         
         // Add the button that will allow the user to close (actually hide) the diagram.
-        m_closeButton = new JButton( new ImageIcon( 
-        		StatesOfMatterResources.getImage( StatesOfMatterConstants.RED_X ) ) );
+        m_closeButton = new JButton( 
+        		new ImageIcon( PhetCommonResources.getInstance().getImage(PhetCommonResources.IMAGE_CLOSE_BUTTON)));
         m_closeButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
             	notifyCloseRequestReceived();
