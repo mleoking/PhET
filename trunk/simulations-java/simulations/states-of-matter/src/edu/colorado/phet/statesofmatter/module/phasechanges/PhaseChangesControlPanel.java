@@ -461,12 +461,11 @@ public class PhaseChangesControlPanel extends ControlPanel {
             setBorder( m_titledBorder );
             
             // Add the control slider.
-            m_interactionStrengthControl = new LinearValueControl( StatesOfMatterConstants.MIN_EPSILON, 
-            		StatesOfMatterConstants.MAX_EPSILON, "", "0", "", new SliderLayoutStrategy() );
-            m_interactionStrengthControl.setValue( m_model.getEpsilon() );
+            m_interactionStrengthControl = new LinearValueControl( MultipleParticleModel.MIN_ADJUSTABLE_EPSILON, 
+            		MultipleParticleModel.MAX_ADJUSTABLE_EPSILON, "", "0", "", new SliderLayoutStrategy() );
             m_interactionStrengthControl.setUpDownArrowDelta( 0.01 );
             m_interactionStrengthControl.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
+                public void stateChanged( ChangeEvent e ){
                     // Set the interaction strength in the model if the molecule is correct.
                 	if (m_model.getMoleculeType() == StatesOfMatterConstants.USER_DEFINED_MOLECULE){
                         m_model.setEpsilon( m_interactionStrengthControl.getValue() );
@@ -496,7 +495,10 @@ public class PhaseChangesControlPanel extends ControlPanel {
             // settings for potential are changed.
             m_model.addListener( new MultipleParticleModel.Adapter(){
                 public void interactionStrengthChanged(){
-                    m_interactionStrengthControl.setValue( m_model.getEpsilon() );
+                	double epsilon = m_model.getEpsilon();
+                	epsilon = Math.min(epsilon, MultipleParticleModel.MAX_ADJUSTABLE_EPSILON);
+                	epsilon = Math.max(epsilon, MultipleParticleModel.MIN_ADJUSTABLE_EPSILON);
+                    m_interactionStrengthControl.setValue( epsilon );
                 }
             });
             
