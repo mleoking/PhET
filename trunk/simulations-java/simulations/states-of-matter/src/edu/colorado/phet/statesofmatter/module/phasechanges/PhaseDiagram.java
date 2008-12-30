@@ -219,23 +219,12 @@ public class PhaseDiagram extends PhetPCanvas {
                 yOriginOffset + horizontalAxisLabel.getFullBoundsReference().height * 0.3);
         addWorldChild( horizontalAxisLabel );
         
-        PText horizontalOriginLabel = new PText(StatesOfMatterStrings.PHASE_DIAGRAM_X_ORIGIN_LABEL);
-        horizontalOriginLabel.setOffset( xOriginOffset - horizontalOriginLabel.getFullBoundsReference().width * 0.3, 
-                yOriginOffset + horizontalOriginLabel.getFullBoundsReference().height * 0.3);
-        addWorldChild( horizontalOriginLabel );
-        
         PText verticalAxisLabel = new PText(StatesOfMatterStrings.PHASE_DIAGRAM_Y_AXIS_LABEL);
         verticalAxisLabel.setFont( AXIS_LABEL_FONT );
         verticalAxisLabel.setOffset( xOriginOffset - (verticalAxisLabel.getFullBoundsReference().height * 1.1),
                 verticalAxisLabel.getFullBoundsReference().width * 1.6);
         verticalAxisLabel.rotate( 3 * Math.PI / 2 );
         addWorldChild( verticalAxisLabel );
-        
-        PText verticalAxisOriginLabel = new PText(StatesOfMatterStrings.PHASE_DIAGRAM_Y_ORIGIN_LABEL);
-        verticalAxisOriginLabel.setOffset( 
-                xOriginOffset - (verticalAxisOriginLabel.getFullBoundsReference().height * 1.1), yOriginOffset);
-        verticalAxisOriginLabel.rotate( 3 * Math.PI / 2 );
-        addWorldChild( verticalAxisOriginLabel );
         
         // Create and add the marker that shows the current phase state.
         m_currentStateMarker = new PPath(new Ellipse2D.Double(0, 0, CURRENT_STATE_MARKER_DIAMETER,
