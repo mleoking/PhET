@@ -13,6 +13,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
@@ -39,21 +40,21 @@ public class InteractionPotentialDiagramNode extends PNode {
     // Constants that control the appearance of the diagram.
     private static final double NARROW_VERSION_WIDTH = 200;
     private static final double WIDE_VERSION_WIDTH = 300;
-    private static final float AXIS_LINE_WIDTH = 1;
+    private static final float AXIS_LINE_WIDTH = 1f;
     private static final Stroke AXIS_LINE_STROKE = new BasicStroke(AXIS_LINE_WIDTH);
-    private static final Color AXIS_LINE_COLOR = Color.LIGHT_GRAY;
+    private static final Color AXIS_LINE_COLOR = Color.BLACK;
+    private static final double AXES_ARROW_HEAD_WIDTH = 5 * AXIS_LINE_WIDTH;
+    private static final double AXES_ARROW_HEAD_HEIGHT = 8 * AXIS_LINE_WIDTH;
     private static final double ARROW_LINE_WIDTH = 0.50;
     private static final double ARROW_HEAD_WIDTH = 8 * ARROW_LINE_WIDTH;
     private static final double ARROW_HEAD_HEIGHT = 10 * ARROW_LINE_WIDTH;
     private static final float POTENTIAL_ENERGY_LINE_WIDTH = 1.5f;
     private static final Stroke POTENTIAL_ENERGY_LINE_STROKE = new BasicStroke(POTENTIAL_ENERGY_LINE_WIDTH);
     private static final Color POTENTIAL_ENERGY_LINE_COLOR = Color.red;
-    private static final int NUM_HORIZ_TICK_MARKS = 0;
-    private static final int NUM_VERT_TICK_MARKS = 0;
     private static final double TICK_MARK_LENGTH = 2;
     private static final float TICK_MARK_WIDTH = 1;
     private static final Stroke TICK_MARK_STROKE = new BasicStroke(TICK_MARK_WIDTH);
-    private static final Color BACKGROUND_COLOR = Color.WHITE;
+    private static final Color DEFAULT_BACKGROUND_COLOR = Color.WHITE;
     private static final Color POSITION_MARKER_COLOR = Color.CYAN;
     private static final double POSITION_MARKER_DIAMETER_PROPORTION = 0.03; // Size of pos marker wrt overall width.
     private static final float POSITION_MARKER_STROKE_WIDTH = 0.75f;
@@ -80,6 +81,7 @@ public class InteractionPotentialDiagramNode extends PNode {
     private double m_graphOffsetY;
     private double m_graphWidth;
     private double m_graphHeight;
+    private PPath m_background;
     private PPath m_potentialEnergyLine;
     private DoubleArrowNode m_epsilonArrow;
     private PText m_epsilonLabel;
@@ -103,8 +105,8 @@ public class InteractionPotentialDiagramNode extends PNode {
 
     /**
      * Constructor.
-     * @param sigma TODO
-     * @param epsilon TODO
+     * @param sigma - Initial value of sigma, a.k.a. the atom diameter
+     * @param epsilon - Initial value of epsilon, a.k.a. the interaction strength
      * @param wide - True if the widescreen version of the graph is needed,
      * false if not.
      */
@@ -128,69 +130,22 @@ public class InteractionPotentialDiagramNode extends PNode {
             m_height = m_width * 0.8;
         }
         m_graphOffsetX = 0.10 * (double)m_width;
-        m_graphOffsetY = 0;
-        m_graphWidth = m_width - m_graphOffsetX;
-        m_graphHeight = m_height * VERT_AXIS_SIZE_PROPORTION;
+        m_graphOffsetY = AXES_ARROW_HEAD_HEIGHT;
+        m_graphWidth = m_width - m_graphOffsetX - AXES_ARROW_HEAD_HEIGHT;
+        m_graphHeight = m_height * VERT_AXIS_SIZE_PROPORTION - AXES_ARROW_HEAD_HEIGHT;
         m_verticalScalingFactor = m_graphHeight / 2 / (StatesOfMatterConstants.MAX_EPSILON * StatesOfMatterConstants.K_BOLTZMANN);
         
-        // Create a background that will sit behind everything.
-        PPath graphBackground = new PPath(new Rectangle2D.Double( 0, 0, m_width, m_height ));
-        graphBackground.setPaint( BACKGROUND_COLOR );
-        addChild( graphBackground );
+        // Create the background that will sit behind everything.
+        m_background = new PPath(new Rectangle2D.Double( 0, 0, m_width, m_height ));
+        m_background.setPaint( DEFAULT_BACKGROUND_COLOR );
+        addChild( m_background );
 
+        // Create and add the portion that depicts the Lennard-Jones potential curve.
         m_ljPotentialGraph = new PPath(new Rectangle2D.Double(0, 0, m_graphWidth, m_graphHeight));
-        m_ljPotentialGraph.setOffset( m_graphOffsetX, 0 );
+        m_ljPotentialGraph.setOffset( m_graphOffsetX, AXES_ARROW_HEAD_HEIGHT );
         m_ljPotentialGraph.setPaint( Color.WHITE );
+        m_ljPotentialGraph.setStrokePaint( Color.WHITE );
         addChild( m_ljPotentialGraph );
-        
-        // Create and add the axis line for the graph.
-        PPath horizontalAxis = new PPath(new Line2D.Double(new Point2D.Double(0, 0), 
-                new Point2D.Double(m_graphWidth, 0)));
-        horizontalAxis.setStroke( AXIS_LINE_STROKE );
-        horizontalAxis.setStrokePaint( AXIS_LINE_COLOR );
-        m_ljPotentialGraph.addChild( horizontalAxis );
-        horizontalAxis.setOffset( 0, m_graphHeight / 2 );
-        
-        // Create and add the tick marks for the graph.
-        double horizTickMarkSpacing = m_graphWidth / (NUM_HORIZ_TICK_MARKS + 1);
-        Line2D tickMarkShape = new Line2D.Double();
-        Point2D endpoint1 = new Point2D.Double();
-        Point2D endpoint2 = new Point2D.Double();
-        for (int i = 0; i < NUM_HORIZ_TICK_MARKS; i++){
-            // Top tick mark
-            endpoint1.setLocation( horizTickMarkSpacing * (i + 1), 0 );
-            endpoint2.setLocation( horizTickMarkSpacing * (i + 1), TICK_MARK_LENGTH );
-            tickMarkShape.setLine( endpoint1, endpoint2 );
-            PPath topTickMark = new PPath(tickMarkShape);
-            topTickMark.setStroke( TICK_MARK_STROKE );
-            m_ljPotentialGraph.addChild( topTickMark );
-
-            // Bottom tick mark
-            endpoint1.setLocation( horizTickMarkSpacing * (i + 1), m_graphHeight );
-            endpoint2.setLocation( horizTickMarkSpacing * (i + 1), m_graphHeight - TICK_MARK_LENGTH );
-            tickMarkShape.setLine( endpoint1, endpoint2 );
-            PPath bottomTickMark = new PPath(tickMarkShape);
-            bottomTickMark.setStroke( TICK_MARK_STROKE );
-            m_ljPotentialGraph.addChild( bottomTickMark );
-        }
-        double vertTickMarkSpacing = m_graphHeight / (NUM_VERT_TICK_MARKS + 1);
-        for (int i = 0; i < NUM_VERT_TICK_MARKS; i++){
-            // Left tick mark
-            endpoint1.setLocation( 0, vertTickMarkSpacing * (i + 1) );
-            endpoint2.setLocation( TICK_MARK_LENGTH, vertTickMarkSpacing * (i + 1) );
-            tickMarkShape.setLine( endpoint1, endpoint2 );
-            PPath leftTickMark = new PPath(tickMarkShape);
-            leftTickMark.setStroke( TICK_MARK_STROKE );
-            m_ljPotentialGraph.addChild( leftTickMark );
-
-            // Right tick mark
-            endpoint1.setLocation( m_graphWidth, vertTickMarkSpacing * (i + 1) );
-            endpoint2.setLocation( m_graphWidth - TICK_MARK_LENGTH, vertTickMarkSpacing * (i + 1) );
-            tickMarkShape.setLine( endpoint1, endpoint2 );
-            PPath rightTickMark = new PPath(tickMarkShape);
-            rightTickMark.setStroke( TICK_MARK_STROKE );
-            m_ljPotentialGraph.addChild( rightTickMark );
-        }
         
         // Add the potential energy line.
         m_potentialEnergyLine = new PPath();
@@ -234,10 +189,29 @@ public class InteractionPotentialDiagramNode extends PNode {
         m_positionMarker.setVisible( m_positionMarkerEnabled );
         m_markerLayer.addChild( m_positionMarker );
 
+        // Create and add the horizontal axis line for the graph.
+        ArrowNode horizontalAxis = new ArrowNode( new Point2D.Double(0, 0), 
+        		new Point2D.Double(m_graphWidth + AXES_ARROW_HEAD_HEIGHT, 0), AXES_ARROW_HEAD_HEIGHT,
+        		AXES_ARROW_HEAD_WIDTH, AXIS_LINE_WIDTH );
+        horizontalAxis.setStroke( AXIS_LINE_STROKE );
+        horizontalAxis.setPaint( AXIS_LINE_COLOR );
+        horizontalAxis.setStrokePaint( AXIS_LINE_COLOR );
+        addChild( horizontalAxis );
+        horizontalAxis.setOffset( m_graphOffsetX, m_graphHeight + AXES_ARROW_HEAD_HEIGHT );
+        
         m_horizontalAxisLabel = new PText(StatesOfMatterStrings.INTERACTION_POTENTIAL_GRAPH_X_AXIS_LABEL_ATOMS);
         m_horizontalAxisLabel.setFont( AXIS_LABEL_FONT );
         addChild( m_horizontalAxisLabel );
         setMolecular( false );
+        
+        // Create and add the vertical axis line for the graph.
+        ArrowNode verticalAxis = new ArrowNode( new Point2D.Double(0, m_graphHeight + AXES_ARROW_HEAD_HEIGHT),
+        		new Point2D.Double(0, 0), AXES_ARROW_HEAD_HEIGHT, AXES_ARROW_HEAD_WIDTH, AXIS_LINE_WIDTH );
+        verticalAxis.setStroke( AXIS_LINE_STROKE );
+        verticalAxis.setPaint( AXIS_LINE_COLOR );
+        verticalAxis.setStrokePaint( AXIS_LINE_COLOR );
+        addChild( verticalAxis );
+        verticalAxis.setOffset( m_graphOffsetX, 0 );
         
         PText verticalAxisLabel = new PText(StatesOfMatterStrings.INTERACTION_POTENTIAL_GRAPH_Y_AXIS_LABEL);
         verticalAxisLabel.setFont( AXIS_LABEL_FONT );
@@ -245,9 +219,6 @@ public class InteractionPotentialDiagramNode extends PNode {
                 (m_graphOffsetY + m_graphHeight) / 2 + (verticalAxisLabel.getFullBoundsReference().width / 2) );
         verticalAxisLabel.rotate( 3 * Math.PI / 2 );
         addChild( verticalAxisLabel );
-        
-        // Set the overall background color.
-        setPaint( Color.LIGHT_GRAY );
         
         // Draw the curve upon the graph.
         drawPotentialCurve();
@@ -362,6 +333,11 @@ public class InteractionPotentialDiagramNode extends PNode {
                 (m_horizontalAxisLabel.getFullBoundsReference().width / 2), 
                 m_graphOffsetY + m_graphHeight + (m_horizontalAxisLabel.getFullBoundsReference().height * 0.3));
 
+    }
+    
+    public void setBackgroundColor(Color newColor){
+    	m_background.setPaint(newColor);
+    	m_background.setStrokePaint(newColor);
     }
     
     /**
