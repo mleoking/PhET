@@ -102,8 +102,8 @@ public class EpsilonControlInteractionPotentialDiagram extends InteractionPotent
         m_epsilonLine.setStrokePaint( EPSILON_LINE_COLOR );
         m_ljPotentialGraph.addChild( m_epsilonLine );
         
-        // Add the arrow nodes that will allow the user to control the
-        // parameters of the LJ potential.
+        // Add the arrow node that will allow the user to control the value of
+        // the epsilon parameter.
         m_epsilonResizeHandle = new ResizeArrowNode(RESIZE_HANDLE_SIZE_PROPORTION * m_width, Math.PI/2,
         		RESIZE_HANDLE_NORMAL_COLOR, RESIZE_HANDLE_HIGHLIGHTED_COLOR);
         m_ljPotentialGraph.addChild( m_epsilonResizeHandle );
