@@ -169,6 +169,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
         interactionDiagramCanvas.setBorder( null );
         m_interactionPotentialDiagram = new EpsilonControlInteractionPotentialDiagram( m_model.getSigma(), 
         		m_model.getEpsilon(), false, m_model );
+        m_interactionPotentialDiagram.setBackgroundColor( StatesOfMatterConstants.CONTROL_PANEL_COLOR );
         interactionDiagramCanvas.addWorldChild( m_interactionPotentialDiagram );
         m_interactionDiagramPanel.add( interactionDiagramCanvas );
         addControlFullWidth( m_interactionDiagramPanel );
