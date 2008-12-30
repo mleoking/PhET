@@ -52,14 +52,14 @@ public class PhaseDiagram extends PhetPCanvas {
     private static final double AXES_LINE_WIDTH = 1;
     private static final double AXES_ARROW_HEAD_WIDTH = 5 * AXES_LINE_WIDTH;
     private static final double AXES_ARROW_HEAD_HEIGHT = 8 * AXES_LINE_WIDTH;
-    private static final double HORIZ_AXIS_SIZE_PROPORTION = 0.8;
-    private static final double VERT_AXIS_SIZE_PROPORTION = 0.80;
+    private static final double HORIZ_AXIS_SIZE_PROPORTION = 0.88;
+    private static final double VERT_AXIS_SIZE_PROPORTION = 0.85;
     
     // Constants that control the location of the origin for the graph.
-    private static final double xOriginOffset = 0.10 * (double)WIDTH;
-    private static final double yOriginOffset = 0.85 * (double)HEIGHT;
-    private static final double xUsableRange = WIDTH * HORIZ_AXIS_SIZE_PROPORTION - AXES_ARROW_HEAD_HEIGHT;
-    private static final double yUsableRange = HEIGHT * VERT_AXIS_SIZE_PROPORTION - AXES_ARROW_HEAD_HEIGHT;
+    private static final double X_ORIGIN_OFFSET = 0.10 * (double)WIDTH;
+    private static final double Y_ORIGIN_OFFSET = 0.85 * (double)HEIGHT;
+    private static final double X_USABLE_RANGE = WIDTH * HORIZ_AXIS_SIZE_PROPORTION - AXES_ARROW_HEAD_HEIGHT;
+    private static final double Y_USABLE_RANGE = HEIGHT * VERT_AXIS_SIZE_PROPORTION - AXES_ARROW_HEAD_HEIGHT;
     
     // Font for the labels used on the axes.
     private static final int AXIS_LABEL_FONT_SIZE = 14;
@@ -82,20 +82,20 @@ public class PhaseDiagram extends PhetPCanvas {
     // of the overall graph size and not as absolute values.
     private static final double POINT_MARKER_DIAMETER = 4;
     private static final double CURRENT_STATE_MARKER_DIAMETER = 7;
-    private static final Point2D DEFAULT_TOP_OF_SOLID_LIQUID_LINE = new Point2D.Double(xUsableRange * 0.40 + xOriginOffset, 
-            yOriginOffset - yUsableRange);
-    private static final Point2D TOP_OF_SOLID_LIQUID_LINE_FOR_WATER = new Point2D.Double(xUsableRange * 0.30 + xOriginOffset, 
-            yOriginOffset - yUsableRange);
-    private static final Point2D DEFAULT_TRIPLE_POINT = new Point2D.Double(xOriginOffset + (xUsableRange * 0.35), 
-            yOriginOffset - (yUsableRange * 0.2));
-    private static final Point2D DEFAULT_CRITICAL_POINT = new Point2D.Double(xOriginOffset + (xUsableRange * 0.8), 
-            yOriginOffset - (yUsableRange * 0.45));
-    private static final Point2D DEFAULT_SOLID_LABEL_LOCATION = new Point2D.Double(xOriginOffset + (xUsableRange * 0.2), 
-            yOriginOffset - (yUsableRange * 0.72));
-    private static final Point2D DEFAULT_LIQUID_LABEL_LOCATION = new Point2D.Double(xOriginOffset + (xUsableRange * 0.6), 
-            yOriginOffset - (yUsableRange * 0.60));
-    private static final Point2D DEFAULT_GAS_LABEL_LOCATION = new Point2D.Double(xOriginOffset + (xUsableRange * 0.6), 
-            yOriginOffset - (yUsableRange * 0.15));
+    private static final Point2D DEFAULT_TOP_OF_SOLID_LIQUID_LINE = 
+    	new Point2D.Double(X_USABLE_RANGE * 0.40 + X_ORIGIN_OFFSET, Y_ORIGIN_OFFSET - Y_USABLE_RANGE);
+    private static final Point2D TOP_OF_SOLID_LIQUID_LINE_FOR_WATER = 
+    	new Point2D.Double(X_USABLE_RANGE * 0.30 + X_ORIGIN_OFFSET, Y_ORIGIN_OFFSET - Y_USABLE_RANGE);
+    private static final Point2D DEFAULT_TRIPLE_POINT = new Point2D.Double(X_ORIGIN_OFFSET + (X_USABLE_RANGE * 0.35), 
+            Y_ORIGIN_OFFSET - (Y_USABLE_RANGE * 0.2));
+    private static final Point2D DEFAULT_CRITICAL_POINT = new Point2D.Double(X_ORIGIN_OFFSET + (X_USABLE_RANGE * 0.8), 
+            Y_ORIGIN_OFFSET - (Y_USABLE_RANGE * 0.45));
+    private static final Point2D DEFAULT_SOLID_LABEL_LOCATION = 
+    	new Point2D.Double(X_ORIGIN_OFFSET + (X_USABLE_RANGE * 0.2), Y_ORIGIN_OFFSET - (Y_USABLE_RANGE * 0.72));
+    private static final Point2D DEFAULT_LIQUID_LABEL_LOCATION = new Point2D.Double(X_ORIGIN_OFFSET + (X_USABLE_RANGE * 0.6), 
+            Y_ORIGIN_OFFSET - (Y_USABLE_RANGE * 0.60));
+    private static final Point2D DEFAULT_GAS_LABEL_LOCATION = new Point2D.Double(X_ORIGIN_OFFSET + (X_USABLE_RANGE * 0.6), 
+            Y_ORIGIN_OFFSET - (Y_USABLE_RANGE * 0.15));
     
     // Constants for size of the close button.
     private static final double CLOSE_BUTTON_PROPORTION = 0.13;  // Button size as proportion of diagram height.
@@ -200,14 +200,14 @@ public class PhaseDiagram extends PhetPCanvas {
         
         // Create and add the axes for the graph.
         
-        ArrowNode horizontalAxis = new ArrowNode( new Point2D.Double(xOriginOffset, yOriginOffset), 
-                new Point2D.Double(xOriginOffset + (HORIZ_AXIS_SIZE_PROPORTION * WIDTH), yOriginOffset), 
+        ArrowNode horizontalAxis = new ArrowNode( new Point2D.Double(X_ORIGIN_OFFSET, Y_ORIGIN_OFFSET), 
+                new Point2D.Double(X_ORIGIN_OFFSET + (HORIZ_AXIS_SIZE_PROPORTION * WIDTH), Y_ORIGIN_OFFSET), 
                 AXES_ARROW_HEAD_HEIGHT, AXES_ARROW_HEAD_WIDTH, AXES_LINE_WIDTH );
         horizontalAxis.setPaint( Color.BLACK );
         addWorldChild( horizontalAxis );
         
-        ArrowNode verticalAxis = new ArrowNode( new Point2D.Double(xOriginOffset, yOriginOffset), 
-                new Point2D.Double(xOriginOffset, yOriginOffset - VERT_AXIS_SIZE_PROPORTION * HEIGHT), 
+        ArrowNode verticalAxis = new ArrowNode( new Point2D.Double(X_ORIGIN_OFFSET, Y_ORIGIN_OFFSET), 
+                new Point2D.Double(X_ORIGIN_OFFSET, Y_ORIGIN_OFFSET - VERT_AXIS_SIZE_PROPORTION * HEIGHT), 
                 AXES_ARROW_HEAD_HEIGHT, AXES_ARROW_HEAD_WIDTH, AXES_LINE_WIDTH );
         verticalAxis.setPaint( Color.BLACK );
         addWorldChild( verticalAxis );
@@ -216,12 +216,12 @@ public class PhaseDiagram extends PhetPCanvas {
         PText horizontalAxisLabel = new PText(StatesOfMatterStrings.PHASE_DIAGRAM_X_AXIS_LABEL);
         horizontalAxisLabel.setFont( AXIS_LABEL_FONT );
         horizontalAxisLabel.setOffset( (WIDTH / 2) - (horizontalAxisLabel.getFullBoundsReference().width / 2), 
-                yOriginOffset + horizontalAxisLabel.getFullBoundsReference().height * 0.3);
+                Y_ORIGIN_OFFSET + horizontalAxisLabel.getFullBoundsReference().height * 0.3);
         addWorldChild( horizontalAxisLabel );
         
         PText verticalAxisLabel = new PText(StatesOfMatterStrings.PHASE_DIAGRAM_Y_AXIS_LABEL);
         verticalAxisLabel.setFont( AXIS_LABEL_FONT );
-        verticalAxisLabel.setOffset( xOriginOffset - (verticalAxisLabel.getFullBoundsReference().height * 1.1),
+        verticalAxisLabel.setOffset( X_ORIGIN_OFFSET - (verticalAxisLabel.getFullBoundsReference().height * 1.1),
                 verticalAxisLabel.getFullBoundsReference().width * 1.6);
         verticalAxisLabel.rotate( 3 * Math.PI / 2 );
         addWorldChild( verticalAxisLabel );
@@ -266,8 +266,8 @@ public class PhaseDiagram extends PhetPCanvas {
                 DEFAULT_TRIPLE_POINT.getY() - POINT_MARKER_DIAMETER / 2 );
         
         // Add the curve that separates the solid and gaseous regions.
-        QuadCurve2D solidGasCurve = new QuadCurve2D.Double(xOriginOffset, yOriginOffset, 
-                xOriginOffset + (xUsableRange * 0.2), yOriginOffset - (yUsableRange * 0.02), DEFAULT_TRIPLE_POINT.getX(),
+        QuadCurve2D solidGasCurve = new QuadCurve2D.Double(X_ORIGIN_OFFSET, Y_ORIGIN_OFFSET, 
+                X_ORIGIN_OFFSET + (X_USABLE_RANGE * 0.2), Y_ORIGIN_OFFSET - (Y_USABLE_RANGE * 0.02), DEFAULT_TRIPLE_POINT.getX(),
                 DEFAULT_TRIPLE_POINT.getY() );
         
         m_solidGasLine.setPathTo( solidGasCurve );
@@ -282,8 +282,8 @@ public class PhaseDiagram extends PhetPCanvas {
         GeneralPath solidBackground = new GeneralPath(solidGasCurve);
         solidBackground.lineTo( (float)m_topOfSolidLiquidLine.getX(), 
                 (float)m_topOfSolidLiquidLine.getY() );
-        solidBackground.lineTo( (float)xOriginOffset, (float)(yOriginOffset - yUsableRange) );
-        solidBackground.lineTo( (float)xOriginOffset, (float)yOriginOffset );
+        solidBackground.lineTo( (float)X_ORIGIN_OFFSET, (float)(Y_ORIGIN_OFFSET - Y_USABLE_RANGE) );
+        solidBackground.lineTo( (float)X_ORIGIN_OFFSET, (float)Y_ORIGIN_OFFSET );
         solidBackground.closePath();
         m_solidAreaBackground.setPathTo( solidBackground );
 
@@ -303,9 +303,9 @@ public class PhaseDiagram extends PhetPCanvas {
         // Update the shape of the background for the area that represents the
         // liquid phase.  It is expected that the solid shape overlays this one.
         GeneralPath liquidBackground = new GeneralPath( liquidGasCurve );
-        liquidBackground.lineTo( (float)(xOriginOffset + xUsableRange), (float)(yOriginOffset - yUsableRange));
+        liquidBackground.lineTo( (float)(X_ORIGIN_OFFSET + X_USABLE_RANGE), (float)(Y_ORIGIN_OFFSET - Y_USABLE_RANGE));
         liquidBackground.lineTo( (float)(m_topOfSolidLiquidLine.getX()),
-                (float)(yOriginOffset - yUsableRange));
+                (float)(Y_ORIGIN_OFFSET - Y_USABLE_RANGE));
         liquidBackground.lineTo( (float)(DEFAULT_TRIPLE_POINT.getX()), (float)(DEFAULT_TRIPLE_POINT.getY()) );
         liquidBackground.append( liquidGasCurve, true );
         liquidBackground.closePath();
@@ -314,11 +314,11 @@ public class PhaseDiagram extends PhetPCanvas {
         // Update the shape of the background for the area that represents the
         // liquid phase.  It is expected that the liquid shape overlays this one.
         GeneralPath gasBackground = new GeneralPath();
-        gasBackground.moveTo( (float)xOriginOffset, (float)yOriginOffset );
+        gasBackground.moveTo( (float)X_ORIGIN_OFFSET, (float)Y_ORIGIN_OFFSET );
         gasBackground.lineTo( (float)(DEFAULT_TRIPLE_POINT.getX()), (float)(DEFAULT_TRIPLE_POINT.getY()));
         gasBackground.lineTo( (float)(DEFAULT_CRITICAL_POINT.getX()), (float)(DEFAULT_CRITICAL_POINT.getY()));
-        gasBackground.lineTo( (float)(xOriginOffset + xUsableRange), (float)(yOriginOffset));
-        gasBackground.lineTo( (float)xOriginOffset, (float)yOriginOffset );
+        gasBackground.lineTo( (float)(X_ORIGIN_OFFSET + X_USABLE_RANGE), (float)(Y_ORIGIN_OFFSET));
+        gasBackground.lineTo( (float)X_ORIGIN_OFFSET, (float)Y_ORIGIN_OFFSET );
         gasBackground.closePath();
         m_gasAreaBackground.setPathTo( gasBackground );
 
@@ -326,8 +326,8 @@ public class PhaseDiagram extends PhetPCanvas {
         // liquid phase.  It is expected that the liquid shape overlays this one.
         GeneralPath superCriticalBackground = new GeneralPath();
         superCriticalBackground.moveTo( (float)(DEFAULT_CRITICAL_POINT.getX()), (float)(DEFAULT_CRITICAL_POINT.getY()));
-        superCriticalBackground.lineTo( (float)(xOriginOffset + xUsableRange), (float)(yOriginOffset));
-        superCriticalBackground.lineTo( (float)(xOriginOffset + xUsableRange), (float)(yOriginOffset - yUsableRange));
+        superCriticalBackground.lineTo( (float)(X_ORIGIN_OFFSET + X_USABLE_RANGE), (float)(Y_ORIGIN_OFFSET));
+        superCriticalBackground.lineTo( (float)(X_ORIGIN_OFFSET + X_USABLE_RANGE), (float)(Y_ORIGIN_OFFSET - Y_USABLE_RANGE));
         superCriticalBackground.lineTo( (float)(DEFAULT_CRITICAL_POINT.getX()), (float)(DEFAULT_CRITICAL_POINT.getY()));
         superCriticalBackground.closePath();
         m_superCriticalAreaBackground.setPathTo( superCriticalBackground );
@@ -366,8 +366,8 @@ public class PhaseDiagram extends PhetPCanvas {
                     ", pressure = " + normalizedPressure);
         }
         m_currentStateMarkerPos.setLocation( normalizedTemperature, normalizedPressure );
-        m_currentStateMarker.setOffset( normalizedTemperature * xUsableRange + xOriginOffset - (CURRENT_STATE_MARKER_DIAMETER / 2), 
-                -normalizedPressure * yUsableRange + yOriginOffset - (CURRENT_STATE_MARKER_DIAMETER / 2));
+        m_currentStateMarker.setOffset( normalizedTemperature * X_USABLE_RANGE + X_ORIGIN_OFFSET - (CURRENT_STATE_MARKER_DIAMETER / 2), 
+                -normalizedPressure * Y_USABLE_RANGE + Y_ORIGIN_OFFSET - (CURRENT_STATE_MARKER_DIAMETER / 2));
     }
     
     /**
@@ -417,8 +417,8 @@ public class PhaseDiagram extends PhetPCanvas {
           return(new Color(red, green, blue));
         }
         else{
-            Point2D top = new Point2D.Double(xOriginOffset + (0.8 * xUsableRange), yOriginOffset - (yUsableRange * 0.9));
-            Point2D bottom = new Point2D.Double(xOriginOffset + (0.8 * xUsableRange), yOriginOffset - (yUsableRange * 0.1));
+            Point2D top = new Point2D.Double(X_ORIGIN_OFFSET + (0.8 * X_USABLE_RANGE), Y_ORIGIN_OFFSET - (Y_USABLE_RANGE * 0.9));
+            Point2D bottom = new Point2D.Double(X_ORIGIN_OFFSET + (0.8 * X_USABLE_RANGE), Y_ORIGIN_OFFSET - (Y_USABLE_RANGE * 0.1));
             return new GradientPaint(bottom, BACKGROUND_COLOR_FOR_GAS, top, BACKGROUND_COLOR_FOR_LIQUID);
         }
     }
