@@ -1,0 +1,41 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: December 30 - January 7, 2008 (Tue-Thu)
+
+ACCOMPLISHMENTS:
+
+  glaciers:
+  
+  faraday:
+  
+  acid-base-solutions:
+  
+  optical-tweezers:
+  
+  common code:
+  
+  tracking:
+    
+  misc:
+  
+WHAT'S NEXT:
+ 
+  - continue work on tracking feature (message format, database schema)
+  - calibrate faraday and publish a dev version for review
+  - finish remaining glaciers work, publish 2.00 (see Unfuddle)
+  - continue with design of acid-base-solutions sims
+  - participate in planning for 3/31/09 release
+  - work on misc Unfuddle tickets related to 3/31/09 release
+  - investigate 3D libraries
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+  January 9-12
+  March 13-16
+  
+--
