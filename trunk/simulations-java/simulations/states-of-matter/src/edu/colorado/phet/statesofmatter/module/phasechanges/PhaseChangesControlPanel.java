@@ -40,6 +40,7 @@ import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.module.CloseRequestListener;
+import edu.umd.cs.piccolo.util.PDimension;
 
 
 public class PhaseChangesControlPanel extends ControlPanel {
@@ -154,6 +155,8 @@ public class PhaseChangesControlPanel extends ControlPanel {
             }
         });
         m_interactionDiagramCtrlButton.setVisible( !m_interactionDiagramVisible );
+        double buttonWidth = m_interactionDiagramCtrlButton.getPreferredSize().getWidth();
+        double buttonHeight = m_interactionDiagramCtrlButton.getPreferredSize().getHeight();
         
         // Add additional spacing after the interaction potential diagram control button.
         m_postInteractionButtonSpacer = createVerticalSpacerPanel(20);
@@ -203,6 +206,13 @@ public class PhaseChangesControlPanel extends ControlPanel {
             }
         });
         m_phaseDiagramCtrlButton.setVisible( !m_phaseDiagramVisible );
+        
+        // Set the two buttons to be the same size.
+        buttonWidth = Math.max( buttonWidth, m_phaseDiagramCtrlButton.getPreferredSize().getWidth());
+        buttonHeight = Math.max( buttonHeight, m_phaseDiagramCtrlButton.getPreferredSize().getHeight());
+        Dimension buttonSize = new Dimension((int)Math.round(buttonWidth), (int)Math.round(buttonHeight));
+        m_phaseDiagramCtrlButton.setPreferredSize(buttonSize);
+        m_interactionDiagramCtrlButton.setPreferredSize(buttonSize);
         
         // Add additional spacing after the phase diagram control button.
         m_postPhaseButtonSpacer = createVerticalSpacerPanel(20);
