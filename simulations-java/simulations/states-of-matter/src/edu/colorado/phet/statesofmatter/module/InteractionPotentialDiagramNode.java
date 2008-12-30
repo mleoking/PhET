@@ -5,6 +5,8 @@ package edu.colorado.phet.statesofmatter.module;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
@@ -21,6 +23,7 @@ import edu.colorado.phet.statesofmatter.model.LjPotentialCalculator;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
 /**
  * This class displays a phase diagram suitable for inclusion on the control
@@ -46,8 +49,8 @@ public class InteractionPotentialDiagramNode extends PNode {
     private static final double AXES_ARROW_HEAD_WIDTH = 5 * AXIS_LINE_WIDTH;
     private static final double AXES_ARROW_HEAD_HEIGHT = 8 * AXIS_LINE_WIDTH;
     private static final double ARROW_LINE_WIDTH = 0.50;
-    private static final double ARROW_HEAD_WIDTH = 8 * ARROW_LINE_WIDTH;
-    private static final double ARROW_HEAD_HEIGHT = 10 * ARROW_LINE_WIDTH;
+    private static final double PARAM_ARROW_HEAD_WIDTH = 8 * ARROW_LINE_WIDTH;
+    private static final double PARAM_ARROW_HEAD_HEIGHT = 8 * ARROW_LINE_WIDTH;
     private static final float POTENTIAL_ENERGY_LINE_WIDTH = 1.5f;
     private static final Stroke POTENTIAL_ENERGY_LINE_STROKE = new BasicStroke(POTENTIAL_ENERGY_LINE_WIDTH);
     private static final Color POTENTIAL_ENERGY_LINE_COLOR = Color.red;
@@ -152,15 +155,25 @@ public class InteractionPotentialDiagramNode extends PNode {
         m_ljPotentialGraph.addChild( centerAxis );
         centerAxis.setOffset( 0, m_graphHeight / 2 );
         
-        // Add the potential energy line.
-        m_potentialEnergyLine = new PPath();
+        // Create and add the potential energy line.
+        m_potentialEnergyLine = new PPath(){
+            // Override the rendering hints so that the segmented line can be
+            // drawn smoothly.
+            public void paint(PPaintContext paintContext){
+                Graphics2D g2 = paintContext.getGraphics();
+                RenderingHints oldHints = g2.getRenderingHints();
+                g2.setRenderingHint( RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE );
+                super.paint( paintContext );
+                g2.setRenderingHints( oldHints );
+            }
+        };
         m_potentialEnergyLine.setStroke( POTENTIAL_ENERGY_LINE_STROKE );
         m_potentialEnergyLine.setStrokePaint( POTENTIAL_ENERGY_LINE_COLOR );
         m_ljPotentialGraph.addChild( m_potentialEnergyLine );
         
         // Add the arrows and labels that will depict sigma and epsilon.
         m_epsilonArrow = new DoubleArrowNode( new Point2D.Double( 0, 0 ), 
-                new Point2D.Double( 0, m_graphHeight / 2 ), ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_LINE_WIDTH);
+                new Point2D.Double( 0, m_graphHeight / 2 ), PARAM_ARROW_HEAD_HEIGHT, PARAM_ARROW_HEAD_WIDTH, ARROW_LINE_WIDTH);
         m_epsilonArrow.setPaint( Color.BLACK );
         m_ljPotentialGraph.addChild( m_epsilonArrow );
         
@@ -173,7 +186,7 @@ public class InteractionPotentialDiagramNode extends PNode {
         m_ljPotentialGraph.addChild( m_sigmaLabel );
 
         m_sigmaArrow = new DoubleArrowNode(new Point2D.Double( 0, 0 ), new Point2D.Double( 0, 0 ), 
-                ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_LINE_WIDTH);
+                PARAM_ARROW_HEAD_HEIGHT, PARAM_ARROW_HEAD_WIDTH, ARROW_LINE_WIDTH);
         m_sigmaArrow.setPaint( Color.BLACK );
         m_ljPotentialGraph.addChild( m_sigmaArrow );
 
@@ -385,7 +398,7 @@ public class InteractionPotentialDiagramNode extends PNode {
             }
             else{
                 // Move to a good location from which to start graphing.
-                potentialEnergyLineShape.moveTo( i, 0);
+                potentialEnergyLineShape.moveTo( i + 1, 0);
             }
         }
         m_potentialEnergyLine.setPathTo( potentialEnergyLineShape );
