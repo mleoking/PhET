@@ -6,9 +6,11 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -19,6 +21,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -35,7 +38,7 @@ public class NeutronSourceNode extends PNode{
 
     private final static double BUTTON_HORIZ_POS_PROPORTION = 0.29;
     private final static double BUTTON_VERT_POS_PROPORTION = 0.055;
-    private final static double BUTTON_WIDTH_PROPORTION = 0.175;
+    private final static double BUTTON_WIDTH_PROPORTION = 0.275;
     
     // This factor accounts for the fact that the tip of the gun graphic is
     // not exactly in the center or at the top or bottom of the gun.  It is
@@ -96,20 +99,26 @@ public class NeutronSourceNode extends PNode{
         });
 
         // Load the graphic image for this device.
-        _displayImage = NuclearPhysicsResources.getImageNode("ray-gun.png");
+        BufferedImage bufferedImage = NuclearPhysicsResources.getImage( "ray-gun.png" );
+        _displayImage = new PImage( bufferedImage );
         addChild(_displayImage);
         
         // Add the node that will be visible when the fire button is down,
         // i.e. pressed.
-        _fireButtonDown = NuclearPhysicsResources.getImageNode("fire-button-pressed.png");
-        _fireButtonDown.addInputEventListener( new CursorHandler() );
+        bufferedImage = NuclearPhysicsResources.getImage( "fire-button-pressed.png" );
+        double fireButtonScale = (getFullBoundsReference().width * BUTTON_WIDTH_PROPORTION /
+        		(double)bufferedImage.getWidth());
+        bufferedImage = BufferedImageUtils.multiScale( bufferedImage, fireButtonScale );
+        _fireButtonDown = new PImage( bufferedImage );
         addChild( _fireButtonDown );
         _fireButtonDown.setOffset( _displayImage.getFullBoundsReference().width * BUTTON_HORIZ_POS_PROPORTION,
         		_displayImage.getFullBoundsReference().width * BUTTON_VERT_POS_PROPORTION);
         
         // Add the node that will be visible when the fire button is not being
         // pressed.
-        _fireButtonUp = NuclearPhysicsResources.getImageNode("fire-button-unpressed.png");
+        bufferedImage = NuclearPhysicsResources.getImage( "fire-button-unpressed.png" );
+        bufferedImage = BufferedImageUtils.multiScale( bufferedImage, fireButtonScale );
+        _fireButtonUp = new PImage( bufferedImage );
         addChild( _fireButtonUp );
         _fireButtonUp.setOffset( _displayImage.getFullBoundsReference().width * BUTTON_HORIZ_POS_PROPORTION,
         		_displayImage.getFullBoundsReference().width * BUTTON_VERT_POS_PROPORTION);
@@ -160,12 +169,6 @@ public class NeutronSourceNode extends PNode{
         		_fireButtonDownText.getFullBoundsReference().height / 2);
         
          */
-        
-        // Scale the fire buttons (and their associated text).
-        double fireButtonScale = (getFullBoundsReference().width * BUTTON_WIDTH_PROPORTION /
-        		_fireButtonDown.getFullBoundsReference().width);
-        _fireButtonDown.setScale(fireButtonScale);
-        _fireButtonUp.setScale(fireButtonScale);
         
         // Add the invisible node that will allow the user to grab the front
         // of the gun and rotate it.
