@@ -43,7 +43,7 @@ public class NuclearReactorCanvas extends PhetPCanvas{
     
     private NuclearReactorModel _nuclearReactorModel;
     private NuclearReactorNode  _nuclearReactorNode;
-    private GradientButtonNode _fireNeutronsButtonNode;
+    private GradientButtonNode _resetNucleiButtonNode;
     private GradientButtonNode _showReactorImageButtonNode;
     private Frame _parentFrame;
 
@@ -74,14 +74,14 @@ public class NuclearReactorCanvas extends PhetPCanvas{
         addWorldChild( _nuclearReactorNode );
         
         // Add the button for firing neutrons into the reactor.
-        _fireNeutronsButtonNode = new GradientButtonNode(NuclearPhysicsStrings.FIRE_NEUTRONS_BUTTON_LABEL, 16, 
+        _resetNucleiButtonNode = new GradientButtonNode(NuclearPhysicsStrings.FIRE_NEUTRONS_BUTTON_LABEL, 16, 
                 new Color(0xff9900));
-        addWorldChild( _fireNeutronsButtonNode );
-        _fireNeutronsButtonNode.setOffset( _nuclearReactorNode.getFullBounds().getCenterX() - 
-                _fireNeutronsButtonNode.getFullBounds().width / 2, _nuclearReactorNode.getFullBounds().getMinY() -
-                _fireNeutronsButtonNode.getFullBounds().height);
+        addWorldChild( _resetNucleiButtonNode );
+        _resetNucleiButtonNode.setOffset( _nuclearReactorNode.getFullBounds().getCenterX() - 
+                _resetNucleiButtonNode.getFullBounds().width / 2, _nuclearReactorNode.getFullBounds().getMinY() -
+                _resetNucleiButtonNode.getFullBounds().height);
         
-        _fireNeutronsButtonNode.addActionListener( new ActionListener() {
+        _resetNucleiButtonNode.addActionListener( new ActionListener() {
             public void actionPerformed(ActionEvent event){
                 _nuclearReactorModel.fireNeutrons();
             }
