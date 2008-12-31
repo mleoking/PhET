@@ -171,6 +171,7 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
         
         // Add the neutron source to the canvas.
         _neutronSourceNode = new NeutronSourceNode(fissionOneNucleusModel.getNeutronSource(), 26);
+        _neutronSourceNode.setRotationEnabled(false);
         addWorldChild( _neutronSourceNode );
         
         // Register as a listener with the neutron source so that we will know
