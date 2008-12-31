@@ -36,14 +36,12 @@ public class InteractiveInteractionPotentialDiagram extends InteractionPotential
 
     private static final double RESIZE_HANDLE_SIZE_PROPORTION = 0.05;    // Size of handles as function of node width.
     private static final double EPSILON_HANDLE_OFFSET_PROPORTION = 0.08; // Position of handle as function of node width.
-    private static final float EPSILON_LINE_WIDTH = 1f;
-    private static final float[] EPSILON_LINE_DASH_PATTERN = { 5, 5 }; 
-    private static Stroke EPSILON_LINE_STROKE = new BasicStroke( EPSILON_LINE_WIDTH, BasicStroke.CAP_BUTT, 
-            BasicStroke.JOIN_MITER, 10, EPSILON_LINE_DASH_PATTERN, 0 );
-    private static final Color EPSILON_LINE_COLOR = Color.RED; 
     private static final double SIGMA_HANDLE_OFFSET_PROPORTION = 0.08;   // Position of handle as function of node width.
     private static final Color RESIZE_HANDLE_NORMAL_COLOR = new Color (51, 204, 51);
     private static final Color RESIZE_HANDLE_HIGHLIGHTED_COLOR = new Color(153, 255, 0);
+    private static final float EPSILON_LINE_WIDTH = 1f;
+    private static Stroke EPSILON_LINE_STROKE = new BasicStroke( EPSILON_LINE_WIDTH );
+    private static final Color EPSILON_LINE_COLOR = RESIZE_HANDLE_NORMAL_COLOR;
     
     //-----------------------------------------------------------------------------
     // Instance Data
@@ -54,6 +52,7 @@ public class InteractiveInteractionPotentialDiagram extends InteractionPotential
     private ResizeArrowNode m_epsilonResizeHandle;
     private PPath m_epsilonLine;
     private boolean m_interactionEnabled;
+    private PBasicInputEventHandler m_epsilonChangeHandler;
 
     //-----------------------------------------------------------------------------
     // Constructor(s)
@@ -82,19 +81,9 @@ public class InteractiveInteractionPotentialDiagram extends InteractionPotential
             }
         });
         
-        // Add the line that will indicate the value of epsilon.
-        double epsilonLineLength = EPSILON_HANDLE_OFFSET_PROPORTION * m_width * 2.2;
-        m_epsilonLine = new PPath( new Line2D.Double( -epsilonLineLength / 2, 0, epsilonLineLength / 2, 0 ) );
-        m_epsilonLine.setStroke( EPSILON_LINE_STROKE );
-        m_epsilonLine.setStrokePaint( EPSILON_LINE_COLOR );
-        m_ljPotentialGraph.addChild( m_epsilonLine );
-        
-        // Add the arrow nodes that will allow the user to control the
-        // parameters of the LJ potential.
-        m_epsilonResizeHandle = new ResizeArrowNode(RESIZE_HANDLE_SIZE_PROPORTION * m_width, Math.PI/2,
-        		RESIZE_HANDLE_NORMAL_COLOR, RESIZE_HANDLE_HIGHLIGHTED_COLOR);
-        m_ljPotentialGraph.addChild( m_epsilonResizeHandle );
-        m_epsilonResizeHandle.addInputEventListener(new PBasicInputEventHandler(){
+        // Create the handler for events that indicate that the user is
+        // changing the value of epsilon.
+        m_epsilonChangeHandler = new PBasicInputEventHandler(){
         	public void mousePressed(PInputEvent event) {
         		m_model.setParticleMotionPaused(true);
         	}
@@ -108,7 +97,23 @@ public class InteractiveInteractionPotentialDiagram extends InteractionPotential
                 double scaleFactor = StatesOfMatterConstants.MAX_EPSILON / (getGraphHeight() / 2);
                 m_model.setEpsilon( m_model.getEpsilon() + d.getHeight() * scaleFactor );
             }
-        });
+        };
+        
+        // Add the line that will indicate the value of epsilon.
+        double epsilonLineLength = EPSILON_HANDLE_OFFSET_PROPORTION * m_width * 2.2;
+        m_epsilonLine = new PPath( new Line2D.Double( -epsilonLineLength / 2, 0, epsilonLineLength / 2, 0 ) );
+        m_epsilonLine.setStroke( EPSILON_LINE_STROKE );
+        m_epsilonLine.setStrokePaint( EPSILON_LINE_COLOR );
+        m_epsilonLine.addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
+        m_epsilonLine.addInputEventListener( m_epsilonChangeHandler );
+        m_ljPotentialGraph.addChild( m_epsilonLine );
+        
+        // Add the arrow nodes that will allow the user to control the
+        // parameters of the LJ potential.
+        m_epsilonResizeHandle = new ResizeArrowNode(RESIZE_HANDLE_SIZE_PROPORTION * m_width, Math.PI/2,
+        		RESIZE_HANDLE_NORMAL_COLOR, RESIZE_HANDLE_HIGHLIGHTED_COLOR);
+        m_ljPotentialGraph.addChild( m_epsilonResizeHandle );
+        m_epsilonResizeHandle.addInputEventListener( m_epsilonChangeHandler );
         
         m_sigmaResizeHandle = new ResizeArrowNode(RESIZE_HANDLE_SIZE_PROPORTION * m_width, 0,
         		RESIZE_HANDLE_NORMAL_COLOR, RESIZE_HANDLE_HIGHLIGHTED_COLOR);
