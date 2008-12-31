@@ -109,7 +109,7 @@ public class EpsilonControlInteractionPotentialDiagram extends InteractionPotent
         
         // Add the line that will indicate the value of epsilon.
         double epsilonLineLength = EPSILON_HANDLE_OFFSET_PROPORTION * m_width * 2.2;
-        m_epsilonLine = new PPath( new Line2D.Double( -epsilonLineLength / 2, 0, epsilonLineLength / 2, 0 ) );
+        m_epsilonLine = new PPath( new Line2D.Double( -epsilonLineLength / 3, 0, epsilonLineLength / 2, 0 ) );
         m_epsilonLine.setStroke( EPSILON_LINE_STROKE );
         m_epsilonLine.setStrokePaint( EPSILON_LINE_COLOR );
         m_epsilonLine.addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
@@ -176,8 +176,9 @@ public class EpsilonControlInteractionPotentialDiagram extends InteractionPotent
             m_epsilonResizeHandle.setPickable( m_interactionEnabled );
             m_epsilonResizeHandle.setChildrenPickable( m_interactionEnabled );
             
-            m_epsilonLine.setOffset( graphMin.getX(), graphMin.getY() );
+            m_epsilonLine.setOffset( graphMin.getX(), graphMin.getY() + EPSILON_LINE_WIDTH );
             m_epsilonLine.setVisible( m_interactionEnabled );
+            m_epsilonLine.setPickable( m_interactionEnabled );
         }
     }
 
