@@ -350,7 +350,7 @@ public class NuclearReactorNode extends PNode {
 	        } );
 	        
 	        // Create the label.
-	        PText label = new PText( NuclearPhysicsStrings.FIRE_NEUTRONS_BUTTON_LABEL );
+	        PText label = new PText( NuclearPhysicsStrings.FIRE_NEUTRONS );
 	        label.setFont( new PhetFont() );
 	        label.setScale( height * 0.9 / label.getFullBoundsReference().height );
 	        label.setOffset(_fireButtonUp.getFullBoundsReference().getMaxX() + EDGE_STROKE_SIZE,

@@ -85,8 +85,8 @@ public class NuclearPhysicsStrings {
     public static final String RESET_BUTTON_LABEL = NuclearPhysicsResources.getString( "MultipleNucleusFissionControlPanel.ResetButton" );
     public static final String EXPLOSION_LABEL = NuclearPhysicsResources.getString( "MultipleNucleusFissionControlPanel.ExplosionLabel" );
 
-    public static final String ENERGY_GRAPHS_CHECK_BOX = NuclearPhysicsResources.getString( "ControlledFissionControlPanel.EnergyGraphControl" );
-    public static final String FIRE_NEUTRONS_BUTTON_LABEL = NuclearPhysicsResources.getString( "ControlledFissionControlPanel.FireButton" );
+    public static final String FIRE_NEUTRONS = NuclearPhysicsResources.getString( "ControlledFissionControlPanel.FireButton" );
+    public static final String RESET_NUCLEI = NuclearPhysicsResources.getString( "ControlledFissionControlPanel.ResetNuclei" );
     public static final String CONTROL_ROD_ADJUSTER_LABEL = NuclearPhysicsResources.getString( "ControlledFissionControlPanel.ControlRodAdjuster" );
     public static final String ENERGY_GRAPH_LABEL = NuclearPhysicsResources.getString( "ControlledFissionControlPanel.EnergyGraphLabel" );
     public static final String ENERGY_GRAPH_UNITS = NuclearPhysicsResources.getString( "ControlledFissionControlPanel.EnergyGraphUnits" );
