@@ -177,14 +177,15 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
                 _nucleusParticlesLayerNode.addChild( neutronNode );
                 _particleToNodeMap.put( neutron, neutronNode );
             }
-            public void positionChanged(){
-                // Ignore this, since we don't really care about it.
-            }
         });
         
         // Add the button for resetting the nucleus to the canvas.
         _resetButtonNode = new GradientButtonNode(NuclearPhysicsStrings.RESET_NUCLEUS, 16, new Color(0xff9900));
-        addScreenChild(_resetButtonNode);
+        double desiredResetButtonWidth = _neutronSourceNode.getFullBoundsReference().width;
+        _resetButtonNode.setScale(desiredResetButtonWidth / _resetButtonNode.getFullBoundsReference().width);
+        _resetButtonNode.setOffset(_neutronSourceNode.getFullBoundsReference().x, 
+        		_neutronSourceNode.getFullBoundsReference().y - _resetButtonNode.getFullBoundsReference().height * 2);
+        addWorldChild(_resetButtonNode);
         
         // Register to receive button pushes.
         _resetButtonNode.addActionListener( new ActionListener(){
@@ -201,7 +202,6 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 _fissionEnergyChart.componentResized( getWidth(), getHeight() );
-                _resetButtonNode.setOffset( getWidth() * 0.05, getHeight() * 0.07);
             }
         } );
     }
