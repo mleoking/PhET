@@ -1,3 +1,4 @@
+>Modified the look and behavior of the graphs on the Phase Changes tab so that they would appear more consistent.
 >Changed the way that "triple point" and "critical point" are labeled in the phase changes graph so that they would translate better.
 >Made the stove control get wider for longer string labels.  This was done to improve translation support.
 >Added an atom with adjustable interaction potential to the Phase Changes tab, modified the way the users shows and hides the graphs.
