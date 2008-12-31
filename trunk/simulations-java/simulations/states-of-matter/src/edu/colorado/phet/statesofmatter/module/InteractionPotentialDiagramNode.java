@@ -421,7 +421,7 @@ public class InteractionPotentialDiagramNode extends PNode {
         }
         
         m_epsilonLabel.setOffset( m_graphMin.getX() + m_epsilonLabel.getFullBoundsReference().width * 0.5, 
-                ((m_graphMin.getY() - (m_graphHeight / 2)) / 2) - (m_epsilonLabel.getFullBoundsReference().height / 2) +
+                ((m_graphMin.getY() - (m_graphHeight / 2)) / 3) - (m_epsilonLabel.getFullBoundsReference().height / 2) +
                 m_graphHeight / 2 );
 
         // Position the arrow that depicts sigma along with its label.
