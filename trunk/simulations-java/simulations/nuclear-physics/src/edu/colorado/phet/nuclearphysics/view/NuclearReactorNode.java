@@ -4,13 +4,22 @@ package edu.colorado.phet.nuclearphysics.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Stroke;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.LiquidExpansionThermometerNode;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.Neutron;
 import edu.colorado.phet.nuclearphysics.model.Uranium235Nucleus;
@@ -18,7 +27,11 @@ import edu.colorado.phet.nuclearphysics.model.Uranium238Nucleus;
 import edu.colorado.phet.nuclearphysics.module.nuclearreactor.ControlRod;
 import edu.colorado.phet.nuclearphysics.module.nuclearreactor.NuclearReactorModel;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -42,7 +55,7 @@ public class NuclearReactorNode extends PNode {
     private static final double       MAX_TEMPERATURE = 75;  // Unitless value.
     
     // Constants that control the position and size of the thermometer.
-    private static final double       THERMOMETER_PROPORTION_FROM_LEFT_SIDE = 0.08;
+    private static final double       THERMOMETER_PROPORTION_FROM_LEFT_SIDE = 0.88;
     private static final double       THERMOMETER_PROPORTION_ABOVE = 0.18;
     private static final double       THERMOMETER_WIDTH_PROPORTION = 0.05;
     private static final double       THERMOMETER_HEIGHT_PROPORTION = 0.40;
@@ -98,10 +111,19 @@ public class NuclearReactorNode extends PNode {
                 setInternalReactorColor();
             }
         });
+        
+        Rectangle2D reactorRect = _nuclearReactorModel.getReactorRect();
+
+        // Create and add the control that will allow the user to fire the
+        // neutrons that will initiate the reaction.
+        FireNeutronsNode fireNeutronsNode = new FireNeutronsNode( reactorRect.getHeight() * 0.15 );
+        fireNeutronsNode.setOffset(
+        		reactorRect.getX() + reactorRect.getWidth() / 2 - fireNeutronsNode.getFullBoundsReference().width / 2,
+        		reactorRect.getY() - fireNeutronsNode.getFullBoundsReference().height * 0.90);
+        addChild(fireNeutronsNode);
 
         // Create the shapes and the node that will represent the outer wall
         // of the reactor.
-        Rectangle2D reactorRect = _nuclearReactorModel.getReactorRect();
         double reactorWallWidth = _nuclearReactorModel.getReactorWallWidth();
         Rectangle2D reactorWallShape = new Rectangle2D.Double(reactorRect.getX() + (reactorWallWidth / 2),
                 reactorRect.getY() + (reactorWallWidth / 2), reactorRect.getWidth() - reactorWallWidth,
@@ -278,5 +300,74 @@ public class NuclearReactorNode extends PNode {
     
     private void updateThermometerTemperature(){
         _thermometerNode.setLiquidHeight( MathUtil.clamp(0, _nuclearReactorModel.getTemperature() / MAX_TEMPERATURE, 1.0) );
+    }
+    
+    //------------------------------------------------------------------------
+    // Inner Classes
+    //------------------------------------------------------------------------
+    
+    private class FireNeutronsNode extends PNode {
+
+    	private final Color BACKGROUND_COLOR = COOL_REACTOR_CHAMBER_COLOR;
+    	private final float EDGE_STROKE_SIZE = 3;
+    	private final Stroke EDGE_STROKE = new BasicStroke(EDGE_STROKE_SIZE);
+
+    	private PNode _fireButtonUp;
+    	
+    	/**
+    	 * Constructor - Only the height is specified, and the width is
+    	 * calculated as a function of the length of the textual label.
+    	 * 
+    	 * @param height - desired height of the box.
+    	 */
+		public FireNeutronsNode( double height ) {
+
+	        // Create the node that will be visible when the fire button is down,
+	        // i.e. pressed.
+	        BufferedImage bufferedImage = NuclearPhysicsResources.getImage( "fire-button-pressed.png" );
+	        double fireButtonScale = (height * 0.85 / (double)bufferedImage.getWidth());
+	        bufferedImage = BufferedImageUtils.multiScale( bufferedImage, fireButtonScale );
+	        PNode _fireButtonDown = new PImage( bufferedImage );
+	        _fireButtonDown.setOffset( EDGE_STROKE_SIZE * 2, height / 2 - 
+	        		_fireButtonDown.getFullBoundsReference().height / 2 );
+	        
+	        // Create the node that will be visible when the fire button is not being
+	        // pressed.
+	        bufferedImage = NuclearPhysicsResources.getImage( "fire-button-unpressed.png" );
+	        bufferedImage = BufferedImageUtils.multiScale( bufferedImage, fireButtonScale );
+	        _fireButtonUp = new PImage( bufferedImage );
+	        _fireButtonUp.setOffset( EDGE_STROKE_SIZE * 2, height / 2 - 
+	        		_fireButtonUp.getFullBoundsReference().height / 2 );
+	        _fireButtonUp.addInputEventListener( new CursorHandler() );
+	        _fireButtonUp.addInputEventListener( new PBasicInputEventHandler() {
+	            public void mousePressed( PInputEvent event ) {
+	                _fireButtonUp.setVisible( false );
+	                _nuclearReactorModel.fireNeutrons();
+	            }
+	            public void mouseReleased( PInputEvent event ) {
+	                _fireButtonUp.setVisible( true );
+	            }
+	        } );
+	        
+	        // Create the label.
+	        PText label = new PText( NuclearPhysicsStrings.FIRE_NEUTRONS_BUTTON_LABEL );
+	        label.setFont( new PhetFont() );
+	        label.setScale( height * 0.9 / label.getFullBoundsReference().height );
+	        label.setOffset(_fireButtonUp.getFullBoundsReference().getMaxX() + EDGE_STROKE_SIZE,
+	        		height / 2 - label.getFullBoundsReference().height / 2);
+	        
+			// Create the main enclosure.
+	        double enclosureWidth = EDGE_STROKE_SIZE * 2 + _fireButtonUp.getFullBoundsReference().width +
+	        	EDGE_STROKE_SIZE + label.getFullBoundsReference().width + EDGE_STROKE_SIZE * 2;
+			PPath mainEnclosure = new PPath( new RoundRectangle2D.Double( 0, 0, enclosureWidth, height, 4, 4 ) );
+			mainEnclosure.setPaint(BACKGROUND_COLOR);
+			mainEnclosure.setStroke(EDGE_STROKE);
+			addChild(mainEnclosure);
+			
+			// Add the buttons and the label to the enclosure.
+	        mainEnclosure.addChild( _fireButtonDown );
+	        mainEnclosure.addChild( _fireButtonUp );
+	        mainEnclosure.addChild(label);
+		}
     }
 }
