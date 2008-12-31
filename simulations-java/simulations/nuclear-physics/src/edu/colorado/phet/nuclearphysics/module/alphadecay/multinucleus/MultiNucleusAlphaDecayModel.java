@@ -5,7 +5,6 @@ package edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;

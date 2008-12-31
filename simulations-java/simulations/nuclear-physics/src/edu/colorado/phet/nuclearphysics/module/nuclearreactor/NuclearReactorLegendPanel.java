@@ -16,7 +16,6 @@ import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
-import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.view.LabeledNucleusNode;
 import edu.colorado.phet.nuclearphysics.view.NeutronNode;
@@ -75,21 +74,6 @@ public class NuclearReactorLegendPanel extends JPanel {
         ImageIcon icon = new ImageIcon(u235Image);
         add(new JLabel(icon));
         add(new JLabel( NuclearPhysicsStrings.URANIUM_235_LEGEND_LABEL ) );
-    }
-    
-    /**
-     * This method adds simple legend items, i.e. those that only include an
-     * image and a label, to the legend.
-     * 
-     * @param imageName
-     * @param labelName
-     * @param width
-     */
-    private void addLegendItem( String imageName, String label, int width ) {
-        Image im = NuclearPhysicsResources.getImage( imageName );
-        ImageIcon icon = new ImageIcon(im.getScaledInstance( width, -1, Image.SCALE_SMOOTH ));
-        add(new JLabel(icon));
-        add(new JLabel( label ));
     }
     
     /**
