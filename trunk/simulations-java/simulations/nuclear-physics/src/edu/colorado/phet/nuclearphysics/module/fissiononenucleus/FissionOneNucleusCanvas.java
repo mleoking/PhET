@@ -80,20 +80,6 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
         // Register as a listener to the model.
         _fissionOneNucleusModel = fissionOneNucleusModel;
         _fissionOneNucleusModel.addListener( new FissionOneNucleusModel.Listener(){
-            public void daughterNucleusCreated(AtomicNucleus daughterNucleus){
-                // Create a new node for this nucleus.  Since it is a daughter,
-                // it is assumed that the constituent particles are already on
-                // the canvas, and are not added here.
-                _daughterNucleusNode = new AtomicNucleusNode(daughterNucleus);
-                _nucleusLabelsLayerNode.addChild(_daughterNucleusNode);
-            }
-            public void daughterNucleusRemoved(AtomicNucleus daughterNucleus){
-                // Remove the daughter from the canvas and from our records.
-                if (_nucleusLabelsLayerNode.removeChild( _daughterNucleusNode ) == null){
-                    System.err.println("Warning: Unable to locate and remove daughter nucleus.");
-                }
-                _daughterNucleusNode = null;
-            }
             public void nucleonRemoved(Nucleon nucleon){
                 // Remove the nucleon from the canvas and from our records.
                 PNode nucleonNode = (PNode)_particleToNodeMap.get( nucleon );
@@ -106,6 +92,25 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
                 else{
                     System.err.println("Error: Unable to locate particle in particle-to-node map.");                    
                 }
+            }
+        });
+        
+        // Register as a listener to the one nucleus that exists within the
+        // model so that we know when decay has occurred.
+        _fissionOneNucleusModel.getAtomicNucleus().addListener( new AtomicNucleus.Adapter(){
+        	
+            public void atomicWeightChanged(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
+                    ArrayList byProducts){
+            	if (byProducts != null){
+            		// This was a decay event, so make visible the button that
+            		// will allow the user to reset the nucleus.
+            		_resetButtonNode.setVisible(true);
+            	}
+            	else{
+            		// This must have been a reset event, so hide the button
+            		// that allows the user to reset the nucleus.
+            		_resetButtonNode.setVisible(false);
+            	}
             }
         });
         
@@ -186,6 +191,7 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
         _resetButtonNode.setOffset(_neutronSourceNode.getFullBoundsReference().x, 
         		_neutronSourceNode.getFullBoundsReference().y - _resetButtonNode.getFullBoundsReference().height * 2);
         addWorldChild(_resetButtonNode);
+        _resetButtonNode.setVisible(false);  // Initially invisible, becomes visible when nucleus decays.
         
         // Register to receive button pushes.
         _resetButtonNode.addActionListener( new ActionListener(){
