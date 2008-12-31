@@ -24,7 +24,6 @@ public class NuclearReactorControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
     
     private NuclearReactorLegendPanel      _legendPanel;
-    private NuclearReactorControlsSubPanel _controlSubPanel;
     private NuclearReactorEnergyGraphPanel _energyGraphPanel;
     
     //----------------------------------------------------------------------------
@@ -50,35 +49,8 @@ public class NuclearReactorControlPanel extends ControlPanel {
         // Add the legend panel.
         addControlFullWidth( _legendPanel );
 
-        // Add the sub panel with the interactive controls.
-        _controlSubPanel = new NuclearReactorControlsSubPanel(parentFrame, 
-                nuclearReactorModule.getNuclearReactorModel());
-        addControlFullWidth( _controlSubPanel );
-        
-        // Register as a listener with the control panel for param changes.
-        _controlSubPanel.addListener( new NuclearReactorControlsSubPanel.Listener(){
-            public void parameterChanged(){
-                _energyGraphPanel.setVisible( _controlSubPanel.getEnergyGraphCheckBoxState() );
-            }
-        });
-        
         // Add the energy graph.
         _energyGraphPanel = new NuclearReactorEnergyGraphPanel(nuclearReactorModule.getNuclearReactorModel());
-//        _energyGraphPanel.setPreferredSize( new Dimension(getWidth(), ENERGY_GRAPH_PANEL_HEIGHT ));
         addControlFullWidth( _energyGraphPanel );
-        _energyGraphPanel.setVisible( _controlSubPanel.getEnergyGraphCheckBoxState() );
     }
-    
-    //----------------------------------------------------------------------------
-    // Setters and getters
-    //----------------------------------------------------------------------------
-    
-    public void closeAllDialogs() {
-        //XXX close any dialogs created via the control panel
-    }
-    
-    //----------------------------------------------------------------------------
-    // Private Methods
-    //----------------------------------------------------------------------------
-    
 }
