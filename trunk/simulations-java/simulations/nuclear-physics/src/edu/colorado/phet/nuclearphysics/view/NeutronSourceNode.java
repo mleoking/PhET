@@ -69,6 +69,7 @@ public class NeutronSourceNode extends PNode{
     private double        _origWidth;
     private double        _origHeight;
     private double        _currentOrientation;  // Rotational angle in radians.
+    private PPath         _rotationGrabberNode;
     
     //------------------------------------------------------------------------
     // Constructor
@@ -172,16 +173,16 @@ public class NeutronSourceNode extends PNode{
         
         // Add the invisible node that will allow the user to grab the front
         // of the gun and rotate it.
-        PPath rotationGrabberNode = new PPath (new Rectangle2D.Double(0, 0, _displayImage.getWidth() * ROTATION_GRABBER_WIDTH_FRACTION, 
+        _rotationGrabberNode = new PPath (new Rectangle2D.Double(0, 0, _displayImage.getWidth() * ROTATION_GRABBER_WIDTH_FRACTION, 
                 _displayImage.getHeight() * ROTATION_GRABBER_HEIGHT_FRACTION));
-        rotationGrabberNode.setOffset( _displayImage.getWidth() - rotationGrabberNode.getWidth(), 
-                _displayImage.getHeight() * GUN_TIP_FRACTION_Y - (rotationGrabberNode.getHeight() / 2));
-        rotationGrabberNode.setPaint( new Color (0, 0, 0, 0)); // The forth param makes it 100% transparent and thus invisible.
-        rotationGrabberNode.setStroke( null );
-        rotationGrabberNode.addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
+        _rotationGrabberNode.setOffset( _displayImage.getWidth() - _rotationGrabberNode.getWidth(), 
+                _displayImage.getHeight() * GUN_TIP_FRACTION_Y - (_rotationGrabberNode.getHeight() / 2));
+        _rotationGrabberNode.setPaint( new Color (0, 0, 0, 0)); // The forth param makes it 100% transparent and thus invisible.
+        _rotationGrabberNode.setStroke( null );
+        _rotationGrabberNode.addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
         
         // Set ourself up to listen for and handle mouse dragging events.
-        rotationGrabberNode.addInputEventListener( new PDragEventHandler(){
+        _rotationGrabberNode.addInputEventListener( new PDragEventHandler(){
             
             double _previousMouseAngle;
             
@@ -201,7 +202,7 @@ public class NeutronSourceNode extends PNode{
             }
         });
         
-        _displayImage.addChild(rotationGrabberNode);
+        _displayImage.addChild(_rotationGrabberNode);
         
         // Scale this node so that the result is of the requested size.
         scale( graphicWidth/getFullBoundsReference().width );
@@ -227,6 +228,13 @@ public class NeutronSourceNode extends PNode{
     //------------------------------------------------------------------------
     // Methods
     //------------------------------------------------------------------------
+    
+    /**
+     * Enable or disable the ability to rotate the gun.
+     */
+    public void setRotationEnabled(boolean rotationEnabled){
+    	_rotationGrabberNode.setPickable(rotationEnabled);
+    }
 
     /**
      * Translate (i.e. move without rotating) the node so that the tip of the
