@@ -3,27 +3,16 @@ package edu.colorado.phet.nuclearphysics;
 
 
 import java.awt.Color;
-import java.awt.Frame;
-import java.lang.reflect.InvocationTargetException;
-
-import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication.TabbedPaneType;
-import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
-import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.nuclearphysics.developer.DeveloperMenu;
 import edu.colorado.phet.nuclearphysics.menu.OptionsMenu;
-import edu.colorado.phet.nuclearphysics.module.alphadecay.singlenucleus.SingleNucleusAlphaDecayModule;
-import edu.colorado.phet.nuclearphysics.module.chainreaction.ChainReactionModule;
-import edu.colorado.phet.nuclearphysics.module.fissiononenucleus.FissionOneNucleusModule;
-import edu.colorado.phet.nuclearphysics.module.nuclearreactor.NuclearReactorModule;
 
 public class AbstractNuclearPhysicsApplication extends PiccoloPhetApplication {
 

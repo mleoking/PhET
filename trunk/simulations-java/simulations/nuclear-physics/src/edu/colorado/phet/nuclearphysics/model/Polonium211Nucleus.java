@@ -3,12 +3,10 @@
 package edu.colorado.phet.nuclearphysics.model;
 
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.JFrame;
 
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics.view.AtomicNucleusNode;
 

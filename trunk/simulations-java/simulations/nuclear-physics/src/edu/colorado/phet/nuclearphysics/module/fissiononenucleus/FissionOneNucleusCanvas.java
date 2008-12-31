@@ -53,7 +53,6 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
     private PNode _nucleusLabelsLayerNode;
     private FissionOneNucleusModel _fissionOneNucleusModel;
     private AtomicNucleusNode _atomicNucleusNode;
-    private AtomicNucleusNode _daughterNucleusNode;
     private NeutronSourceNode _neutronSourceNode;
     private FissionEnergyChart _fissionEnergyChart;
     private Hashtable _particleToNodeMap;

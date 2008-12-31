@@ -4,7 +4,6 @@ package edu.colorado.phet.nuclearphysics.module.alphadecay.singlenucleus;
 
 import java.awt.Frame;
 
-import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.defaults.SingleNucleusAlphaDecayDefaults;

@@ -3,15 +3,10 @@
 package edu.colorado.phet.nuclearphysics.module.alphadecay;
 
 import java.awt.Frame;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
-import edu.colorado.phet.nuclearphysics.module.alphadecay.singlenucleus.SingleNucleusAlphaDecayModule;
 
 /**
  * This class represents the control panel that presents the legend and allows
