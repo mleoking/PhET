@@ -94,6 +94,7 @@ public class NuclearReactorModel {
     private double    _totalEnergyReleased;
     private double    _energyReleasedPerSecond;
     private Random _rand = new Random();
+    private boolean _reactionStarted;
     
     //------------------------------------------------------------------------
     // Constructor
@@ -135,6 +136,7 @@ public class NuclearReactorModel {
         _currentBin = 0;
         _totalEnergyReleased = 0;
         _energyReleasedPerSecond = 0;
+        _reactionStarted = false;
         
         // Create the reaction chambers (which are modeled as simple 
         // rectangles) and the control rods.
@@ -412,6 +414,9 @@ public class NuclearReactorModel {
             }
         }
         
+        // Reset the reaction started flag.
+        _reactionStarted = false;
+        
         // Let listeners know that things have been reset.
         notifyResetOccurred();
         notifyTemperatureChanged();
@@ -599,6 +604,15 @@ public class NuclearReactorModel {
     }
     
     /**
+     * Notify listeners that the reaction has been started.
+     */
+    private void notifyReactionStarted(){
+        for (int i = 0; i < _listeners.size(); i++){
+            ((Listener)_listeners.get(i)).reactionStarted();
+        }
+    }
+    
+    /**
      * Notify listeners that the energy output has changed.
      */
     private void notifyEnergyChanged(){
@@ -630,6 +644,14 @@ public class NuclearReactorModel {
         if (byProducts != null){
             // There are some byproducts of this event that need to be
             // managed by this object.
+        	
+        	if (!_reactionStarted){
+        		// Signal any listeners that the reaction has started.
+        		notifyReactionStarted();
+        		_reactionStarted = true;
+        	}
+        	
+        	// Handle the by products.
             for (int i = 0; i < byProducts.size(); i++){
                 Object byProduct = byProducts.get( i );
                 if ((byProduct instanceof Neutron) || (byProduct instanceof Proton)){
@@ -729,6 +751,13 @@ public class NuclearReactorModel {
          * changed.
          */
         public void temperatureChanged();
+        
+        /**
+         * This signals that the reactor has been started.  Note that this
+         * notification will not be sent until at least one nucleus has
+         * decayed.
+         */
+        public void reactionStarted();
     }
     
     /**
@@ -742,5 +771,6 @@ public class NuclearReactorModel {
         public void resetOccurred(){}
         public void energyChanged(){}
         public void temperatureChanged(){}
+        public void reactionStarted(){}
     }
 }
