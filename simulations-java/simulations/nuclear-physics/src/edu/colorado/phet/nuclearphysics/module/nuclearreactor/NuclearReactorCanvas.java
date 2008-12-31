@@ -69,17 +69,30 @@ public class NuclearReactorCanvas extends PhetPCanvas{
         // Set the background color.
         setBackground( NuclearPhysicsConstants.CANVAS_BACKGROUND );
         
+        // Register with the model so that we can receive notifications of the
+        // events that we care about.
+        _nuclearReactorModel.addListener( new NuclearReactorModel.Adapter(){
+            public void resetOccurred(){
+            	_resetNucleiButtonNode.setVisible(false);
+            }
+            public void reactionStarted(){
+            	_resetNucleiButtonNode.setVisible(true);
+            }
+        });
+        
         // Add the reactor node to the canvas.
         _nuclearReactorNode = new NuclearReactorNode(_nuclearReactorModel, this);
         addWorldChild( _nuclearReactorNode );
         
-        // Add the button for firing neutrons into the reactor.
+        // Add the button for resetting the reactor.  This won't be visible
+        // until the reaction has been started.
         _resetNucleiButtonNode = new GradientButtonNode(NuclearPhysicsStrings.RESET_NUCLEI, 16, 
                 new Color(0xff9900));
         addWorldChild( _resetNucleiButtonNode );
         _resetNucleiButtonNode.setOffset( _nuclearReactorNode.getFullBounds().getMinX(), 
         		_nuclearReactorNode.getFullBounds().getMinY() - _resetNucleiButtonNode.getFullBounds().height);
-        
+        _resetNucleiButtonNode.setVisible(false);
+
         _resetNucleiButtonNode.addActionListener( new ActionListener() {
             public void actionPerformed(ActionEvent event){
                 _nuclearReactorModel.reset();
