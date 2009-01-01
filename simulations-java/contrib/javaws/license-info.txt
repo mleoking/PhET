@@ -1,0 +1,1 @@
+javaws license=Sun Binary Code License notes=Java(TM) Web Start Developer Pack / jnlp.jar Version 1.2 Covered under the Sun Microsystems, Inc. Binary Code License Agreement. according to http://www.adventnet.com/products/webnms/help/installation_guide/packages_bundled/thirdparty.html.  What is MPL-1.1.html in this directory for? 
