@@ -1,2 +1,0 @@
-removed excess files from manifest directory to avoid:
-Exception in thread "main" java.lang.SecurityException: no manifiest section for signature file entry
