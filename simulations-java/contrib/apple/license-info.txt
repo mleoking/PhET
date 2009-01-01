@@ -1,1 +1,1 @@
-apple license=Apple license location=license.txt
+apple license=Custom Apple license licensefile=license.txt

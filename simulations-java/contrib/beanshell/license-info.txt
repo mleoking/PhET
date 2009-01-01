@@ -1,0 +1,1 @@
+beanshell license=Sun Public License + GPL/LGPL licensefile=src/License.txt
