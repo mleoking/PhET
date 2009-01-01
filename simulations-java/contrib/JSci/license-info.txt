@@ -1,0 +1,1 @@
+jsci license=LGPL licensefile=LICENSE
