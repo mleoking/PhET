@@ -1,1 +1,1 @@
-beanshell license=Sun Public License + GPL/LGPL licensefile=src/License.txt
+beanshell license=Sun Public License + GPL/LGPL licensefile=src/License.txt notes=still need to add annotations for beanshell/lib
