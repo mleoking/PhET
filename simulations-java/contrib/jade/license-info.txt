@@ -1,0 +1,1 @@
+jade license=LGPL licensefile=src/phet-jade-license.txt
