@@ -1,0 +1,1 @@
+junit license=common public license 1.0 licensefile=cpl-v10.html
