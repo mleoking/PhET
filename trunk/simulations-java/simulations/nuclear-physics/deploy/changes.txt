@@ -1,3 +1,8 @@
+> Made the reset buttons on the 1st and 3rd tabs be hidden until they are actually usable.  This should help users to see them and to understand what they do.
+> Changed the way in which the neutrons are injected into the nuclear reactor on the 3rd tab.  It is now initiated from a labeled button on the top of the reactor.
+> Made the graphs on the Nuclear Reactor tab always visible.
+> Replaced the "Fire!" button on the ray gun with a simple, unabled red button.
 > Incorporated a new version of the ray gun image and made the "Fire!" button on the ray gun translatable.
+# 3.04.11 12-31-2008
 ******* 3.02.01
 > Split into two simulations, one for Nuclear Fission and one for Alpha Decay
