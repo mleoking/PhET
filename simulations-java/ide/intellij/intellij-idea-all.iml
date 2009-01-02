@@ -25,16 +25,11 @@
       <sourceFolder url="file://$MODULE_DIR$/../../common/piccolo-phet/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../common/quantum/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../common/timeseries/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../contrib/JGV/source/applet" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../contrib/JGV/source/server" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../contrib/JGV/source/web" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/Jama/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/apple/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/beanshell/asm/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/beanshell/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../contrib/idx3d/source" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/jade/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../contrib/perlin-2004/render" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/piccolo2d/core/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/piccolo2d/core/src/test/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/piccolo2d/examples/src/main/java" isTestSource="false" />
