@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 
+import javax.swing.Timer;
+
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
@@ -15,6 +17,7 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.dialog.ReactorPictureDialog;
 import edu.colorado.phet.nuclearphysics.view.NuclearReactorNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -36,6 +39,10 @@ public class NuclearReactorCanvas extends PhetPCanvas{
     // Translation factors, used to set origin of canvas area.
     private final double WIDTH_TRANSLATION_FACTOR = 2.0;
     private final double HEIGHT_TRANSLATION_FACTOR = 2.5;
+    
+    // Timer for delaying the appearance of the reset button.
+	private static final int BUTTON_DELAY_TIME = 1000; // In milliseconds.
+    private static final Timer BUTTON_DELAY_TIMER = new Timer( BUTTON_DELAY_TIME, null );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -76,9 +83,19 @@ public class NuclearReactorCanvas extends PhetPCanvas{
             	_resetNucleiButtonNode.setVisible(false);
             }
             public void reactionStarted(){
-            	_resetNucleiButtonNode.setVisible(true);
+            	BUTTON_DELAY_TIMER.restart();
             }
         });
+
+        // Set up the button delay timer that will make the reset button
+        // appear some time after the decay has occurred.
+		BUTTON_DELAY_TIMER.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+            	// Show the button.
+            	_resetNucleiButtonNode.setVisible(true);
+            	BUTTON_DELAY_TIMER.stop();
+            }
+        } );
         
         // Add the reactor node to the canvas.
         _nuclearReactorNode = new NuclearReactorNode(_nuclearReactorModel, this);
