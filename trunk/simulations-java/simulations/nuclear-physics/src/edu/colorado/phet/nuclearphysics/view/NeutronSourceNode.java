@@ -4,13 +4,17 @@ package edu.colorado.phet.nuclearphysics.view;
 
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
+import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.model.NeutronSource;
@@ -48,6 +52,12 @@ public class NeutronSourceNode extends PNode{
     // fractions of the overall image size.
     private final static double ROTATION_GRABBER_WIDTH_FRACTION = 0.2;
     private final static double ROTATION_GRABBER_HEIGHT_FRACTION = 0.30;
+    
+    // Timer for making the button appear to be pushed for a minimum amount
+    // of time.
+    // Timer for delaying the appearance of the reset button.
+	private static final int BUTTON_PRESSED_TIME = 750; // In milliseconds.
+    private static final Timer BUTTON_PRESS_TIMER = new Timer( BUTTON_PRESSED_TIME, null );
     
     //------------------------------------------------------------------------
     // Instance Data
@@ -108,6 +118,7 @@ public class NeutronSourceNode extends PNode{
         		(double)bufferedImage.getWidth());
         bufferedImage = BufferedImageUtils.multiScale( bufferedImage, fireButtonScale );
         _fireButtonDown = new PImage( bufferedImage );
+        _fireButtonDown.setPickable(false);
         addChild( _fireButtonDown );
         _fireButtonDown.setOffset( _displayImage.getFullBoundsReference().width * BUTTON_HORIZ_POS_PROPORTION,
         		_displayImage.getFullBoundsReference().width * BUTTON_VERT_POS_PROPORTION);
@@ -117,6 +128,7 @@ public class NeutronSourceNode extends PNode{
         bufferedImage = NuclearPhysicsResources.getImage( "fire-button-unpressed.png" );
         bufferedImage = BufferedImageUtils.multiScale( bufferedImage, fireButtonScale );
         _fireButtonUp = new PImage( bufferedImage );
+        _fireButtonUp.setPickable(true);
         addChild( _fireButtonUp );
         _fireButtonUp.setOffset( _displayImage.getFullBoundsReference().width * BUTTON_HORIZ_POS_PROPORTION,
         		_displayImage.getFullBoundsReference().width * BUTTON_VERT_POS_PROPORTION);
@@ -124,10 +136,20 @@ public class NeutronSourceNode extends PNode{
         _fireButtonUp.addInputEventListener( new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
                 _fireButtonUp.setVisible( false );
+                _fireButtonUp.setPickable(false);
                 _neutronSource.generateNeutron();
+                BUTTON_PRESS_TIMER.restart();
             }
-            public void mouseReleased( PInputEvent event ) {
-                _fireButtonUp.setVisible( true );
+        } );
+
+        // Set up the timer that will cause the button to appear to be pressed
+        // for a minimum amount of time.
+		BUTTON_PRESS_TIMER.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+            	// Show the button.
+            	_fireButtonUp.setVisible(true);
+                _fireButtonUp.setPickable(true);
+            	BUTTON_PRESS_TIMER.stop();
             }
         } );
         
