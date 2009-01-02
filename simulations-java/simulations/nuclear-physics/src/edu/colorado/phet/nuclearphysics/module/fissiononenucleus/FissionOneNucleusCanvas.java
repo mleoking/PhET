@@ -11,6 +11,8 @@ import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import javax.swing.Timer;
+
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
@@ -45,6 +47,10 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
 
     // Constant that sets the scale of this sim, which is in femtometers.
     private final double SCALE = 0.8;
+    
+    // Timer for delaying the appearance of the reset button.
+	private static final int BUTTON_DELAY_TIME = 1000; // In milliseconds.
+    private static final Timer BUTTON_DELAY_TIMER = new Timer( BUTTON_DELAY_TIME, null );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -101,9 +107,9 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
             public void atomicWeightChanged(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
                     ArrayList byProducts){
             	if (byProducts != null){
-            		// This was a decay event, so make visible the button that
-            		// will allow the user to reset the nucleus.
-            		_resetButtonNode.setVisible(true);
+            		// This was a decay event, so start the timer that will
+            		// cause the button to be shown after some delay.
+            		BUTTON_DELAY_TIMER.restart();
             	}
             	else{
             		// This must have been a reset event, so hide the button
@@ -199,6 +205,16 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
                 _fissionOneNucleusModel.getClock().resetSimulationTime();
             }
         });
+        
+        // Set up the button delay timer that will make the reset button
+        // appear some time after the decay has occurred.
+		BUTTON_DELAY_TIMER.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+            	// Show the button.
+            	_resetButtonNode.setVisible(true);
+            	BUTTON_DELAY_TIMER.stop();
+            }
+        } );
 
         // Add to the canvas the chart that will depict the energy of the nucleus.
         _fissionEnergyChart = new FissionEnergyChart(_fissionOneNucleusModel, this);
