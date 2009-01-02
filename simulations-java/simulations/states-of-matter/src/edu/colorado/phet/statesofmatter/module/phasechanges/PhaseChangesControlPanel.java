@@ -121,6 +121,9 @@ public class PhaseChangesControlPanel extends ControlPanel {
             public void containerExploded(){
             	updatePhaseDiagram();
             }
+            public void resetOccurred(){
+            	updateControlVisibility();
+            }
         });
         
         // Set the control panel's minimum width.
