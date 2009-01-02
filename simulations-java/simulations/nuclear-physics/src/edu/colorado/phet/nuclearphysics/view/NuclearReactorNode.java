@@ -5,11 +5,15 @@ package edu.colorado.phet.nuclearphysics.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Stroke;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
@@ -59,6 +63,11 @@ public class NuclearReactorNode extends PNode {
     private static final double       THERMOMETER_PROPORTION_ABOVE = 0.18;
     private static final double       THERMOMETER_WIDTH_PROPORTION = 0.05;
     private static final double       THERMOMETER_HEIGHT_PROPORTION = 0.40;
+    
+    // Timer for making the reset button appear to be pushed for a minimum
+    // amount of time.
+	private static final int BUTTON_PRESSED_TIME = 400; // In milliseconds.
+    private static final Timer BUTTON_PRESS_TIMER = new Timer( BUTTON_PRESSED_TIME, null );
     
     //------------------------------------------------------------------------
     // Instance Data
@@ -342,10 +351,20 @@ public class NuclearReactorNode extends PNode {
 	        _fireButtonUp.addInputEventListener( new PBasicInputEventHandler() {
 	            public void mousePressed( PInputEvent event ) {
 	                _fireButtonUp.setVisible( false );
+	                _fireButtonUp.setPickable(false);
 	                _nuclearReactorModel.fireNeutrons();
+	                BUTTON_PRESS_TIMER.restart();
 	            }
-	            public void mouseReleased( PInputEvent event ) {
-	                _fireButtonUp.setVisible( true );
+	        } );
+	        
+	        // Set up the timer that will cause the button to appear to be pressed
+	        // for a minimum amount of time.
+			BUTTON_PRESS_TIMER.addActionListener( new ActionListener() {
+	            public void actionPerformed( ActionEvent e ) {
+	            	// Show the button.
+	            	_fireButtonUp.setVisible(true);
+	                _fireButtonUp.setPickable(true);
+	            	BUTTON_PRESS_TIMER.stop();
 	            }
 	        } );
 	        
