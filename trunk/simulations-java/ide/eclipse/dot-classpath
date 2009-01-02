@@ -137,14 +137,12 @@
 	<classpathentry kind="lib" path="contrib/jfreechart/lib/gnujaxp.jar"/>
 	<classpathentry kind="lib" path="contrib/jfreechart/lib/jcommon.jar"/>
 	<classpathentry kind="lib" path="contrib/jdom/jdom.jar"/>
-	<classpathentry kind="lib" path="contrib/jmock/jmock.jar"/>
 	<classpathentry kind="lib" path="contrib/javaws/jnlp.jar"/>
 	<classpathentry kind="lib" path="contrib/JSci/classes/jsci-core.jar"/>
 	<classpathentry kind="lib" path="contrib/junit/junit.jar"/>
 	<classpathentry kind="lib" path="contrib/nanoxml/nanoxml.jar"/>
 	<classpathentry kind="lib" path="contrib/jfreechart/lib/servlet.jar"/>
 	<classpathentry kind="lib" path="contrib/beanshell/lib/servlet.jar"/>
-	<classpathentry kind="lib" path="contrib/uispec4j/uispec4j.jar"/>
 	<classpathentry kind="lib" path="build-tools/jsch/jsch.jar"/>
 	<classpathentry kind="lib" path="contrib/piccolo-sax/piccolo-sax.jar"/>
 	<classpathentry kind="lib" path="contrib/svgsalamander/svgSalamander-tiny.jar"/>
