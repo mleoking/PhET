@@ -55,8 +55,7 @@ public class NeutronSourceNode extends PNode{
     
     // Timer for making the button appear to be pushed for a minimum amount
     // of time.
-    // Timer for delaying the appearance of the reset button.
-	private static final int BUTTON_PRESSED_TIME = 750; // In milliseconds.
+	private static final int BUTTON_PRESSED_TIME = 400; // In milliseconds.
     private static final Timer BUTTON_PRESS_TIMER = new Timer( BUTTON_PRESSED_TIME, null );
     
     //------------------------------------------------------------------------
