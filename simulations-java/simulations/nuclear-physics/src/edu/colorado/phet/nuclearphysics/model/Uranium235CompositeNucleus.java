@@ -27,7 +27,7 @@ public class Uranium235CompositeNucleus extends CompositeAtomicNucleus{
     // The "agitation factor" for the various types of nucleus.  The amount of
     // agitation controls how dynamic the nucleus looks on the canvas.  Values
     // must be in the range 0-9.
-    private static final int URANIUM_235_AGITATION_FACTOR = 5;
+    private static final int URANIUM_235_AGITATION_FACTOR = 4;
     private static final int URANIUM_236_AGITATION_FACTOR = 8;
     
     //------------------------------------------------------------------------
@@ -178,6 +178,13 @@ public class Uranium235CompositeNucleus extends CompositeAtomicNucleus{
                     break;
                 }
             }
+        }
+        
+        // Position all the nucleons near the new center of the nucleus.
+        for ( int i = 0; i < _constituents.size(); i++ )
+        {
+            AtomicNucleusConstituent constituent = (AtomicNucleusConstituent)_constituents.get( i );
+            constituent.tunnel( _position, 0, getDiameter()/2, _tunnelingRegionRadius );
         }
         
         // Update our agitation level.
