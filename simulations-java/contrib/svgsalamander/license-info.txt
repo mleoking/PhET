@@ -1,0 +1,1 @@
+svgsalamander license=LGPL licensefile=lgpl-3.0.txt
