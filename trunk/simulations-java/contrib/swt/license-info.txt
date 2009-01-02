@@ -1,0 +1,1 @@
+swt license=Common Public License licensefile=cpl-v10.html
