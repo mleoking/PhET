@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--geometric-optics-strings_nl.xml created Sat Dec 27 11:21:43 CET 2008 using: geometric-optics 1.00.00 (22386), translation-utility 1.09.00 (26682)-->
+<SimStrings>
+<string key="draggableScreen" value="versleep scherm"/>
+<string key="draggableLens" value="versleep lens"/>
+<string key="screen" value="scherm"/>
+<string key="draggableRuler" value="versleep voorwerp"/>
+<string key="showHelp" value="laat help zien"/>
+<string key="moveMe" value="beweeg me"/>
+<string key="showGuides" value="bekijk lensgrens"/>
+<string key="diameter" value="diameter"/>
+<string key="ruler" value="voorwerp"/>
+<string key="focalPoint" value="brandpunt"/>
+<string key="curvatureRadius" value="brandpunt"/>
+<string key="changeObject" value="verander voorwerp"/>
+<string key="principalRays" value="constructiestralen"/>
+<string key="marginalRays" value="weinig stralen"/>
+<string key="virtualImage" value="virtueel plaatje"/>
+<string key="noRays" value="geen stralen"/>
+<string key="secondSource" value="2e punt"/>
+<string key="hideHelp" value="verberg hulp"/>
+<string key="refractiveIndex" value="brekingsindex"/>
+<string key="manyRays" value="veel stralen"/>
+</SimStrings>
