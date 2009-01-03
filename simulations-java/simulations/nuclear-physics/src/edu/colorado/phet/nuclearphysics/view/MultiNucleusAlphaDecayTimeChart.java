@@ -633,7 +633,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     	
     	if (modelElement instanceof AtomicNucleus){
     		NucleusData nucleusData = (NucleusData)_mapNucleiToNucleiData.get(modelElement);
-    		if (nucleusData != null){
+    		if (nucleusData != null) {
     			// Remove this node from the chart.
     			nucleusData.removeNodeFromChart();
     			
@@ -799,11 +799,13 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         	    	_preDecayCount++;
         	    	updateNucleiNumberText();
         			
-        			// Create a node for it and add it to the chart.
-        			_nucleusNode = createNucleusNode();
+        	    	if (_nucleusNode == null){
+            			// Create a node for this nucleus.
+            			_nucleusNode = createNucleusNode();
+            	    	_nucleusNode.setScale((_nucleusNodeRadius * 2) / _nucleusNode.getFullBoundsReference().height);
+        	    	}
         			
         	    	// Add the node to the chart.
-        	    	_nucleusNode.setScale((_nucleusNodeRadius * 2) / _nucleusNode.getFullBoundsReference().height);
         	    	_nonPickableChartNode.addChild(_nucleusNode);
         	    
         	    	// Reset internal counter in preparation for decay.
@@ -844,9 +846,17 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         			// Start counting down on the fall counter.
         			_fallCount--;
     			}
-
-    			updateNucleusNodePosition();
+    			else if (!_nucleus.isDecayActive()){
+    				// The nucleus has been deactivated.
+        	    	_internalState = STATE_INACTIVE;
+        	    	_preDecayCount--;
+        	    	updateNucleiNumberText();
+        	    	removeNodeFromChart();
+    			}
     			
+    			// Update the position of this node.
+    			updateNucleusNodePosition();
+
     			break;
     			
     		case STATE_POST_DECAY:
@@ -863,6 +873,13 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     				_preDecayCount++;
         	    	updateNucleiNumberText();
     			}
+    			else if (!_nucleus.isDecayActive() && !_nucleus.hasDecayed()){
+    				// The nucleus has been deactivated.
+        	    	_internalState = STATE_INACTIVE;
+        	    	_postDecayCount--;
+        	    	updateNucleiNumberText();
+        	    	removeNodeFromChart();
+    			}
     			else if (_fallCount > 0){
     				// Nucleus is still falling.
     				_fallCount--;
@@ -878,11 +895,10 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     	}
     	
     	/**
-    	 * Remove this nucleus's node from the chart.  This is generally done
-    	 * just prior to getting rid of the nucleus data.
+    	 * Remove this nucleus's node from the chart.
     	 */
     	public void removeNodeFromChart(){
-    		if (_nucleusNode != null){
+    		if ((_nucleusNode != null) && (_nonPickableChartNode.isAncestorOf(_nucleusNode))){
         		_nonPickableChartNode.removeChild(_nucleusNode);
     		}
     		if (_decayBucket != Integer.MAX_VALUE){

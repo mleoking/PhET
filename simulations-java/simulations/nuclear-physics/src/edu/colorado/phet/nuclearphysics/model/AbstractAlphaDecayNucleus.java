@@ -41,6 +41,16 @@ public abstract class AbstractAlphaDecayNucleus extends AtomicNucleus implements
 	public void setHalfLife(double halfLife) {
 	    _halfLife = halfLife;
 	}
+	
+	public void reset(){
+        // Reset the decay time to 0, indicating that it shouldn't occur
+        // until something changes.
+        _decayTime = 0;
+        _activatedLifetime = 0;
+
+        // Make sure we are not paused.
+		_paused = false;
+	}
 
 	public boolean isPaused() {
 		return _paused;

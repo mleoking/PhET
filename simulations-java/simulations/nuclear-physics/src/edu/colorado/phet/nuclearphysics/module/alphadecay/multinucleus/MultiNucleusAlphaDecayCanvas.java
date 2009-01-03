@@ -21,6 +21,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.model.AbstractAlphaDecayNucleus;
 import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeNucleus;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayControl;
@@ -302,9 +303,6 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     			_bucketNode.addNucleus(atomicNucleusNode);
     		}
     		
-            // Map the nucleus to the node so that we can find it it later.
-            _mapAlphaParticlesToNodes.put( modelElement, atomicNucleusNode );
-            
             // Register for notifications from this node.
             atomicNucleusNode.addListener(_grabbableNodeListener);
     	}
@@ -398,22 +396,10 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     }
     
     /**
-     * Handle a notification that indicates that one of the nucleus nodes was
-     * grabbed by the user.
+     * Transfer a node from the bucket to the canvas.
      * 
-     * @param grabbedNode
+     * @param node
      */
-    private void handleNodeGrabbed(GrabbableNucleusImageNode grabbedNode){
-    	
-    	if ( _bucketNode.isNodeInBucket( grabbedNode ) ){
-    		// This node is currently in the bucket, so it should be removed
-    		// and subsequently transferred to the canvas.
-    		_bucketNode.removeNucleus(grabbedNode);
-    		
-    		transferNodeFromBucketToCanvas( grabbedNode );
-    	}
-    }
-
 	private void transferNodeFromBucketToCanvas( AtomicNucleusNode node ) {
 
 		// Add this nucleus node as a child.
@@ -430,6 +416,40 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
 				_bucketRect.getY() + position.getY() * scale);
 		
 	}
+	
+	/**
+	 * Transfer a node that was out on the canvas back into the bucket.
+	 * @param node
+	 */
+	private void transferNodeFromCanvasToBucket( AtomicNucleusNode node){
+		node.getNucleusRef().reset();
+		_nucleiLayer.removeChild(node);
+		node.scale(SCALING_FACTOR_FOR_NUCLEUS_NODES_IN_BUCKET);
+		_bucketNode.addNucleus(node);
+	}
+
+    /**
+     * Handle a notification that indicates that one of the nucleus nodes was
+     * grabbed by the user.
+     * 
+     * @param grabbedNode
+     */
+    private void handleNodeGrabbed(GrabbableNucleusImageNode grabbedNode){
+    	
+    	if ( _bucketNode.isNodeInBucket( grabbedNode ) ){
+    		// This node is currently in the bucket, so it should be removed
+    		// and subsequently transferred to the canvas.
+    		_bucketNode.removeNucleus(grabbedNode);
+    		
+    		transferNodeFromBucketToCanvas( grabbedNode );
+    	}
+    	else{
+    		// Pause this nucleus while it is being manipulated.
+    		if (grabbedNode.getNucleusRef() instanceof AbstractAlphaDecayNucleus){
+    			((AbstractAlphaDecayNucleus)grabbedNode.getNucleusRef()).setPaused(true);
+    		}
+    	}
+    }
 
     /**
      * Handle a notification that indicates that one of the nucleus nodes was
@@ -439,11 +459,24 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
      */
     private void handleNodeReleased(GrabbableNucleusImageNode releasedNode){
 
-    	// JPB TBD - Need to handle case where nucleus is added back to bucket.
-    	AtomicNucleus nucleus = releasedNode.getNucleusRef();
-    	if (nucleus instanceof AlphaDecayControl){
-    		// Cause this node to start moving towards fissioning.
-    		((AlphaDecayControl)nucleus).activateDecay();
+    	// Check if this node is being released over the bucket or out on the
+    	// open canvas.
+    	if (isNucleusPosInBucketRectangle(releasedNode.getNucleusRef())){
+    		transferNodeFromCanvasToBucket(releasedNode);
+    	}
+    	else{
+	    	AtomicNucleus nucleus = releasedNode.getNucleusRef();
+	    	if (nucleus instanceof AbstractAlphaDecayNucleus){
+	    		AbstractAlphaDecayNucleus alphaDecayNucleus = (AbstractAlphaDecayNucleus)nucleus;
+	    		if (alphaDecayNucleus.isPaused()){
+	    			// Unpause this nucleus so that it continues towards decay.
+	    			alphaDecayNucleus.setPaused(false);
+	    		}
+	    		else{
+		    		// Cause this node to start moving towards fissioning.
+		    		((AlphaDecayControl)nucleus).activateDecay();
+	    		}
+	    	}
     	}
     }
     
