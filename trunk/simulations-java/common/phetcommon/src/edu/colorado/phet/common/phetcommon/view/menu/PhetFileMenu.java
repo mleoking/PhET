@@ -1,13 +1,5 @@
-/* Copyright 2003-2004, University of Colorado */
+/* Copyright 2003-2009, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.common.phetcommon.view.menu;
 
 import java.awt.event.ActionEvent;
@@ -17,8 +9,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
-import edu.colorado.phet.common.phetcommon.preferences.DefaultTrackingPreferences;
-import edu.colorado.phet.common.phetcommon.preferences.DefaultUpdatePreferences;
+import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.preferences.PreferencesDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.tracking.ActionPerformedMessage;
@@ -32,7 +23,6 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
  * PhetFileMenu
  *
  * @author ?
- * @version $Revision$
  */
 public class PhetFileMenu extends JMenu {
 
@@ -62,8 +52,7 @@ public class PhetFileMenu extends JMenu {
             public void actionPerformed( ActionEvent e ) {
                 new PreferencesDialog( phetFrame, trackingInfo,
                                        new DefaultManualUpdateChecker( phetFrame, simInfo ),
-                                       new DefaultUpdatePreferences(),
-                                       new DefaultTrackingPreferences(),
+                                       PhetPreferences.getInstance(),
                                        simInfo.isTrackingFeatureIncluded(),
                                        simInfo.isUpdatesFeatureIncluded() ).setVisible( true );
             }
