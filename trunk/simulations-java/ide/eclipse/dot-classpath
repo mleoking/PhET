@@ -25,7 +25,6 @@
 	<classpathentry kind="src" path="contrib/beanshell/asm/src"/>
 	<classpathentry kind="src" path="contrib/jade/src"/>
 	<classpathentry kind="src" path="contrib/Jama/src"/>
-	<classpathentry kind="src" path="contrib/JGV/source/applet"/>
 	<classpathentry kind="src" path="contrib/piccolo2d/core/src/main/java"/>
 	<classpathentry kind="src" path="contrib/piccolo2d/core/src/test/java"/>
 	<classpathentry excluding="edu/umd/cs/piccolo/swtexamples/" kind="src" path="contrib/piccolo2d/examples/src/main/java"/>
