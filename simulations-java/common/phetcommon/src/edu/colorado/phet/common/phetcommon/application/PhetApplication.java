@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import apple.dts.samplecode.osxadapter.OSXAdapter;
 import edu.colorado.phet.common.phetcommon.dialogs.PhetAboutDialog;
-import edu.colorado.phet.common.phetcommon.preferences.ITrackingInfo;
+import edu.colorado.phet.common.phetcommon.tracking.ITrackingInfo;
 import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
