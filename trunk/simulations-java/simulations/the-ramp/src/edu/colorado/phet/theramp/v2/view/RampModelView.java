@@ -80,6 +80,8 @@ public class RampModelView extends PNode {
         };
         //with immutable model object and new scene graph constructed at each instance,
         //need to handle transfer of mouse handling state
+        //not sure this is possible without reinventing the wheel
+        //alternatively, we could try using a mutable scene graph to communicate with immutable model...
         pPath.addInputEventListener( listener );
         pPath.addInputEventListener( new CursorHandler() );
         return pPath;
