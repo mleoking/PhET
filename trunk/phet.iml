@@ -123,15 +123,6 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/simulations-java/contrib/jmock/jmock.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="jar://$MODULE_DIR$/simulations-java/contrib/jfreechart/lib/jfreechart.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -1008,15 +999,6 @@
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/simulations-java/contrib/piccolo-sax/piccolo-sax.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/simulations-java/contrib/itext/iText.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
