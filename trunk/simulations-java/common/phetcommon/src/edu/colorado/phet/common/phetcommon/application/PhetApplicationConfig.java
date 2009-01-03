@@ -5,10 +5,10 @@ package edu.colorado.phet.common.phetcommon.application;
 import java.util.Arrays;
 import java.util.Locale;
 
-import edu.colorado.phet.common.phetcommon.preferences.ITrackingInfo;
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
+import edu.colorado.phet.common.phetcommon.tracking.ITrackingInfo;
 import edu.colorado.phet.common.phetcommon.tracking.SessionStartedMessage;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
