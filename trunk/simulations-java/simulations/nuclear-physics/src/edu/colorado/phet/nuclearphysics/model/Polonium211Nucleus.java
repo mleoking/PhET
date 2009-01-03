@@ -67,12 +67,9 @@ public class Polonium211Nucleus extends AbstractAlphaDecayNucleus {
      * occurred.
      */
     public void reset(){
+    	
+    	super.reset();
         
-        // Reset the decay time to 0, indicating that it shouldn't occur
-        // until something changes.
-        _decayTime = 0;
-        _activatedLifetime = 0;
-
         if ((_numNeutrons != ORIGINAL_NUM_NEUTRONS) || (_numProtons != ORIGINAL_NUM_PROTONS)){
             // Decay has occurred.
             _numNeutrons = ORIGINAL_NUM_NEUTRONS;

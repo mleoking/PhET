@@ -57,13 +57,15 @@ public class AdjustableHalfLifeNucleus extends AbstractAlphaDecayNucleus {
      */
     public void reset(){
         
+    	super.reset();
+
         // Reset the decay time to 0, indicating that it shouldn't occur
         // until something changes.
         _decayTime = 0;
         _activatedLifetime = 0;
 
         if ((_numNeutrons != ORIGINAL_NUM_NEUTRONS) || (_numProtons != ORIGINAL_NUM_PROTONS)){
-            // Decay has occurred.
+            // Decay had occurred prior to reset.
             _numNeutrons = ORIGINAL_NUM_NEUTRONS;
             _numProtons = ORIGINAL_NUM_PROTONS;
             
