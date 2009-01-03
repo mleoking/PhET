@@ -35,24 +35,22 @@ public class PreferencesDialog extends JDialog {
     private static final String OK_BUTTON = PhetCommonResources.getString( "Common.choice.ok" );
     private static final String CANCEL_BUTTON = PhetCommonResources.getString( "Common.choice.cancel" );
 
-    private final IUpdatesPreferences updatePreferences;
-    private final ITrackingPreferences trackingPreferences;
+    private final PhetPreferences preferences;
     private final UpdatesPreferencesPanel updatesPreferencesPanel;
     private final TrackingPreferencesPanel trackingPreferencesPanel;
 
-    public PreferencesDialog( Frame owner, ITrackingInfo trackingInfo, IManualUpdateChecker iCheckForUpdates, IUpdatesPreferences updatePreferences, ITrackingPreferences trackingPreferences, boolean showTrackingUI, boolean showUpdatesUI ) {
+    public PreferencesDialog( Frame owner, ITrackingInfo trackingInfo, IManualUpdateChecker iCheckForUpdates, PhetPreferences preferences, boolean showTrackingUI, boolean showUpdatesUI ) {
         super( owner, TITLE );
         setResizable( false );
         setModal( false );
 
-        this.updatePreferences = updatePreferences;
-        this.trackingPreferences = trackingPreferences;
+        this.preferences = preferences;
 
         JPanel userInputPanel = new JPanel();
         JTabbedPane jTabbedPane = new JTabbedPane();
         userInputPanel.add( jTabbedPane );
-        updatesPreferencesPanel = new UpdatesPreferencesPanel( iCheckForUpdates, updatePreferences.isEnabled() );
-        trackingPreferencesPanel = new TrackingPreferencesPanel( trackingInfo, trackingPreferences.isEnabled() );
+        updatesPreferencesPanel = new UpdatesPreferencesPanel( iCheckForUpdates, preferences.isUpdatesEnabled() );
+        trackingPreferencesPanel = new TrackingPreferencesPanel( trackingInfo, preferences.isTrackingEnabled() );
         if ( showUpdatesUI ) {
             jTabbedPane.addTab( UPDATES_TAB, updatesPreferencesPanel );
         }
@@ -112,19 +110,21 @@ public class PreferencesDialog extends JDialog {
 
     private void savePreferences() {
 
-        if ( updatePreferences.isEnabled() != updatesPreferencesPanel.isUpdatesEnabled() ) {
-            boolean wasEnabled = updatePreferences.isEnabled();
-            updatePreferences.setEnabled( updatesPreferencesPanel.isUpdatesEnabled() );
-            TrackingManager.postStateChangedMessage( StateChangedMessage.UPDATES_ENABLED, wasEnabled, updatePreferences.isEnabled() );
+        if ( preferences.isUpdatesEnabled() != updatesPreferencesPanel.isUpdatesEnabled() ) {
+            boolean isEnabled = updatesPreferencesPanel.isUpdatesEnabled();
+            boolean wasEnabled = preferences.isUpdatesEnabled();
+            preferences.setUpdatesEnabled( isEnabled );
+            TrackingManager.postStateChangedMessage( StateChangedMessage.UPDATES_ENABLED, wasEnabled, isEnabled );
         }
 
-        if ( trackingPreferences.isEnabled() != trackingPreferencesPanel.isTrackingEnabled() ) {
-            boolean wasEnabled = trackingPreferences.isEnabled();
-            trackingPreferences.setEnabled( trackingPreferencesPanel.isTrackingEnabled() );
+        if ( preferences.isTrackingEnabled() != trackingPreferencesPanel.isTrackingEnabled() ) {
+            boolean isEnabled = trackingPreferencesPanel.isTrackingEnabled();
+            boolean wasEnabled = preferences.isTrackingEnabled();
+            preferences.setTrackingEnabled( isEnabled );
 
             //we should never see a tracking disabled message, since tracking should be disabled before we try to send that message.
             //can track number of people who disable tracking by checking whether their preferences dialog was opened and then we never hear from them again.
-            TrackingManager.postStateChangedMessage( StateChangedMessage.TRACKING_ENABLED, wasEnabled, trackingPreferences.isEnabled() );
+            TrackingManager.postStateChangedMessage( StateChangedMessage.TRACKING_ENABLED, wasEnabled, isEnabled );
         }
 
     }
@@ -134,8 +134,7 @@ public class PreferencesDialog extends JDialog {
     */
     public static void main( String[] args ) {
         final PhetApplicationConfig config = new PhetApplicationConfig( args, "balloons" );
-        PreferencesDialog preferencesDialog = new PreferencesDialog( null, config, new DefaultManualUpdateChecker( null, config ), new DefaultUpdatePreferences(),
-                                                                     new DefaultTrackingPreferences(),true,true );
+        PreferencesDialog preferencesDialog = new PreferencesDialog( null, config, new DefaultManualUpdateChecker( null, config ), PhetPreferences.getInstance(), true, true );
         preferencesDialog.addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
                 System.exit( 0 );
