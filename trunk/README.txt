@@ -37,3 +37,10 @@ website :
     Files related to the PhET website are under here.
 
 --
+
+DESCRIPTION OF FILES
+
+phet.iml:
+   IntelliJ Idea module file for working with PhET
+
+--
