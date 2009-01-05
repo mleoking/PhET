@@ -1,8 +1,6 @@
 package edu.colorado.phet.build.java;
 
-import javax.swing.BoxLayout;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class Boxer {
     public static JComponent horizontalBox( JComponent a, JComponent b ) {
