@@ -27,7 +27,7 @@
 
 ================================================================================  
 -->
-<project name="PhET primary buildfile" default="launch-sim" basedir=".">
+<project name="PhET primary buildfile" default="phet-build-gui" basedir=".">
 
     <!-- =================================================================== -->
 	<!-- Public properties                                                   -->
