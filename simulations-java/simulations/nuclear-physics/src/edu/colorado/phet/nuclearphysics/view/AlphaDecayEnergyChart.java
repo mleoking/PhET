@@ -943,16 +943,11 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
                 int type = pathIterator.currentSegment(coords);
                 switch(type) {
                     case PathIterator.SEG_LINETO:
-                    	System.out.println("coords[0]: " + coords[0]);
-                    	System.out.println("coords[1]: " + coords[1]);
-                    	System.out.println("===============");
                     	if (coords[1] <= threshold){
                     		// We have found the intersection point.
-                    		System.out.println("Found it! X coord = " + coords[0]);
                     		intersectionDistance = convertPixelsToDistance(_usableAreaOriginX + 
                     				(_usableWidth/2) - coords[0]);
                     		intersectionFound = true;
-                    		System.out.println("Intersection distance = " + intersectionDistance);
                     	}
                         break;
                     case PathIterator.SEG_MOVETO:  // fall through
