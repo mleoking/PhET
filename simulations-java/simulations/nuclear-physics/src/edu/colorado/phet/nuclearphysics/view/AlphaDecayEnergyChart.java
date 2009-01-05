@@ -8,6 +8,8 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
+import java.awt.geom.Dimension2D;
+import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
@@ -546,6 +548,19 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
     }
     
     /**
+     * Convert a number of pixels on the X-axis into the equivalent distance
+     * value with respect to the parent canvas.
+     * 
+     * @param pixels - Number of pixels to be converted
+     * @return A value indicating the equivalent distance in femtometers.
+     */
+    private double convertPixelsToDistance(double pixels){
+    	PDimension dim = new PDimension(pixels, pixels);
+        _canvas.getPhetRootNode().screenToWorld( dim );
+        return dim.width;
+    }
+    
+    /**
      * Draw or reposition the straight line that represents the total energy
      * and the curve that represents the potential energy.
      */
@@ -651,6 +666,12 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
         _totalEnergyHandle.setVisible(_interactivityEnabled);
         _potentialEnergyPeakHandle.setVisible(_interactivityEnabled);
         _potentialEnergyPeakRefLine.setVisible(_interactivityEnabled);
+        
+        // Update the tunneling region radius based on the energy line position.
+        AtomicNucleus nucleus = _model.getAtomNucleus();
+        if (nucleus != null){
+            nucleus.setTunnelingRegionRadius(findEnergyLineIntersectionDistance());
+        }
 	}
     
     /**
@@ -861,10 +882,10 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
         // Calculate the Y axis position based on the particle's energy.
         double yPos;
         if ((!_decayOccurred) || (alpha == _tunneledAlpha)){
-            yPos = _graphOriginY - convertEnergyToScreenUnits( _totalEnergy );
+            yPos = convertEnergyToPixels( _totalEnergy );
         }
         else{
-            yPos = _graphOriginY - convertEnergyToScreenUnits( ALPHA_PARTICLE_POST_DECAY_ENERGY );
+            yPos = convertEnergyToPixels( ALPHA_PARTICLE_POST_DECAY_ENERGY );
         }
         yPos -= image.getFullBounds().height / 2; // Center the image on the desired Y position.
         
@@ -881,21 +902,6 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
             xPos = _usableWidth / 2 + distanceDim.getWidth();                
         }
         image.setOffset( xPos, yPos );
-    }
-    
-    /**
-     * Convert an energy value, in MeV, into screen units.
-     * 
-     * @param energy
-     * @return
-     */
-    private double convertEnergyToScreenUnits( double energy ){
-        // TODO: jblanco 4/8/2008 - This function just does a simple scaling
-        // operation based on the size of the chart and not really on the MeV
-        // units.  This may be cleaned up when the Y axis values are more
-        // clearly understood.  For now, we assume that the visible area of
-        // the chart represents 100 units.
-        return energy * (_usableHeight / 100.0);
     }
     
     /**
@@ -999,5 +1005,53 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
 	        _potentialEnergyLabel.setOffset(_potentialEnergyLine.getFullBounds().getMaxX() + 10, 
 	        		_potentialEnergyLine.getFullBounds().getCenterY() - _potentialEnergyLabel.getFullBounds().height/2);
 		}
+    }
+    
+    /**
+     * Find the distance from the center of the chart where the total and
+     * potential energy lines intersect.
+     */
+    private double findEnergyLineIntersectionDistance(){
+
+    	double intersectionDistance = Double.POSITIVE_INFINITY;
+    	
+    	if (_totalEnergy <= 0){
+    		intersectionDistance = Double.POSITIVE_INFINITY;
+    	}
+    	else if (_totalEnergy > _potentialEnergyPeak){
+    		intersectionDistance = 0;
+    	}
+    	else{
+    		double threshold = convertEnergyToPixels(_totalEnergy);
+    		boolean intersectionFound = false;
+        	PathIterator pathIterator = _potentialEnergyLine.getPathReference().getPathIterator(null, 0.001);
+        	double[] coords = new double[2];
+        	while(!pathIterator.isDone() && !intersectionFound) {
+                int type = pathIterator.currentSegment(coords);
+                switch(type) {
+                    case PathIterator.SEG_LINETO:
+                    	System.out.println("coords[0]: " + coords[0]);
+                    	System.out.println("coords[1]: " + coords[1]);
+                    	System.out.println("===============");
+                    	if (coords[1] <= threshold){
+                    		// We have found the intersection point.
+                    		System.out.println("Found it! X coord = " + coords[0]);
+                    		intersectionDistance = convertPixelsToDistance(_usableAreaOriginX + 
+                    				(_usableWidth/2) - coords[0]);
+                    		intersectionFound = true;
+                    		System.out.println("Intersection distance = " + intersectionDistance);
+                    	}
+                        break;
+                    case PathIterator.SEG_MOVETO:  // fall through
+                    case PathIterator.SEG_CLOSE:
+                        break;
+                    default:
+                        System.out.println("unexpected type: " + type);
+                }
+                pathIterator.next();
+        	}
+    	}
+   	
+    	return intersectionDistance;
     }
 }
