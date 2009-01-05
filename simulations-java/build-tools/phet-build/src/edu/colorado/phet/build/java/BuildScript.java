@@ -29,6 +29,9 @@ public class BuildScript {
     private AuthenticationInfo svnAuth;
     private String browser;
     private File baseDir;
+    private static final boolean dryRun = false;
+    private static final boolean skipBuild = false;
+    private static final boolean skipSVNStatus = false;
 
     public BuildScript( File baseDir, PhetProject project, AuthenticationInfo svnAuth, String browser ) {
         this.baseDir = baseDir;
@@ -68,7 +71,7 @@ public class BuildScript {
                         AuthenticationInfo authenticationInfo, VersionIncrement versionIncrement, Task postDeployTask ) {
         clean();
 
-        if ( !isSVNInSync() ) {
+        if ( !skipSVNStatus && !isSVNInSync() ) {
             System.out.println( "SVN is out of sync; halting" );
             return;
         }
@@ -79,17 +82,17 @@ public class BuildScript {
         setSVNVersion( svnNumber + 1 );
         addMessagesToChangeFile( svnNumber + 1 );
 
-        commitProject();//commits both changes to version and change file
+        if ( !dryRun ) {
+            commitProject();//commits both changes to version and change file
+        }
 
         //todo: check that new version number is correct
 
         //would be nice to build before deploying new SVN number in case there are errors,
         //however, we need the correct version info in the JAR
-        build();
-
-        String codebase = server.getURL( project );
-        System.out.println( "codebase = " + codebase );
-        buildJNLP( codebase, server.isDevelopmentServer() );
+        if ( !skipBuild ) {
+            build();
+        }
 
         createHeader( svnNumber );
 
@@ -100,7 +103,13 @@ public class BuildScript {
             System.out.println( "Pre deploy task failed" );
             return;
         }
-        sendSSH( server, authenticationInfo );
+
+        String codebase = server.getURL( project );
+        buildJNLP( codebase, server.isDevelopmentServer() );
+
+        if ( !dryRun ) {
+            sendSSH( server, authenticationInfo );
+        }
 
         postDeployTask.invoke();
 
@@ -395,19 +404,29 @@ public class BuildScript {
     }
 
     public void deployProd( final AuthenticationInfo devAuth, final AuthenticationInfo prodAuth ) {
-        deploy( new Task() {
-            public boolean invoke() {
-                sendSSH( PhetServer.DEVELOPMENT, devAuth );
-                openBrowser( PhetServer.DEVELOPMENT.getURL( project ) );
-                return true;
-            }
-        }, PhetServer.PRODUCTION, prodAuth, new VersionIncrement.UpdateProd(), new Task() {
-            public boolean invoke() {
-                System.out.println( "Invoking server side scripts to generate flavor and language JAR files" );
-                generateFlavorAndLanguageJARFiles( PhetServer.PRODUCTION, prodAuth );
-                return true;
-            }
-        } );
+        deploy(
+                //send a copy to dev
+                new Task() {
+                    public boolean invoke() {
+                        //generate JNLP files for dev
+                        String codebase = PhetServer.DEVELOPMENT.getURL( project );
+                        buildJNLP( codebase, PhetServer.DEVELOPMENT.isDevelopmentServer() );
+
+                        if ( !dryRun ) {
+                            sendSSH( PhetServer.DEVELOPMENT, devAuth );
+                        }
+                        openBrowser( PhetServer.DEVELOPMENT.getURL( project ) );
+                        return true;
+                    }
+                }, PhetServer.PRODUCTION, prodAuth, new VersionIncrement.UpdateProd(), new Task() {
+                    public boolean invoke() {
+                        System.out.println( "Invoking server side scripts to generate flavor and language JAR files" );
+                        if ( !dryRun ) {
+                            generateFlavorAndLanguageJARFiles( PhetServer.PRODUCTION, prodAuth );
+                        }
+                        return true;
+                    }
+                } );
     }
 
     private void generateFlavorAndLanguageJARFiles( PhetServer server, AuthenticationInfo authenticationInfo ) {
