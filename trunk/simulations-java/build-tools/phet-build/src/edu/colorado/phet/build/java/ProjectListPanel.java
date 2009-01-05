@@ -23,7 +23,7 @@ public class ProjectListPanel extends JPanel {
     private LocalProperties localProperties;
 
     public ProjectListPanel( File baseDir ) {
-        setMaximumSize( new Dimension( 200,10000) );
+        setMaximumSize( new Dimension( 200, 10000 ) );
         this.baseDir = baseDir;
         this.localProperties = new LocalProperties( baseDir );
 
@@ -51,7 +51,7 @@ public class ProjectListPanel extends JPanel {
         simListPane.setBorder( BorderFactory.createTitledBorder( "Projects" ) );
 //        add( simListPane, gridBagConstraints );
         setLayout( new BorderLayout() );
-        add( simListPane,BorderLayout.CENTER);
+        add( simListPane, BorderLayout.CENTER );
 
         JPanel commandPanel = new JPanel();
         commandPanel.setLayout( new BoxLayout( commandPanel, BoxLayout.Y_AXIS ) );
@@ -78,7 +78,7 @@ public class ProjectListPanel extends JPanel {
         JButton buildJNLP = new JButton( "Build Local JNLP" );
         buildJNLP.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getBuildScript().buildJNLP( "file:///" + getSelectedProject().getDefaultDeployJar().getParentFile().getAbsolutePath() );
+                getBuildScript().buildJNLP( "file:///" + getSelectedProject().getDefaultDeployJar().getParentFile().getAbsolutePath(), true );
             }
         } );
 
@@ -182,11 +182,11 @@ public class ProjectListPanel extends JPanel {
             try {
                 p.load( new FileInputStream( file ) );
                 if ( p.containsKey( "project" ) ) {
-                    String proj=p.getProperty( "project" );
-                    ProjectListElement[] ple=getProjectListElements();
-                    for ( int i=0;i<ple.length;i++) {
-                        ProjectListElement projectListElement =ple[i]; 
-                        if (projectListElement.getProject().getName().equals( proj )){
+                    String proj = p.getProperty( "project" );
+                    ProjectListElement[] ple = getProjectListElements();
+                    for ( int i = 0; i < ple.length; i++ ) {
+                        ProjectListElement projectListElement = ple[i];
+                        if ( projectListElement.getProject().getName().equals( proj ) ) {
                             return projectListElement;
                         }
                     }
@@ -250,10 +250,11 @@ public class ProjectListPanel extends JPanel {
         }
 
         public boolean equals( Object obj ) {
-            if (obj instanceof ProjectListElement){
-                ProjectListElement p= (ProjectListElement) obj;
+            if ( obj instanceof ProjectListElement ) {
+                ProjectListElement p = (ProjectListElement) obj;
                 return p.p.getName().equals( this.p.getName() );
-            }else{
+            }
+            else {
                 return false;
             }
         }
