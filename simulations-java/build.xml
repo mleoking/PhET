@@ -30,67 +30,68 @@
 <project name="PhET primary buildfile" default="phet-build-gui" basedir=".">
 
     <!-- =================================================================== -->
-	<!-- Public properties                                                   -->
-	<!-- =================================================================== -->
+    <!-- Public properties                                                   -->
+    <!-- =================================================================== -->
 
-	<!-- Load user-specified properties from this file. -->
-	<!-- Do this first to allow overrides -->
-	<!-- See build.xml for documentation of specific properties. -->
-	<property file="build-local.properties"/>
+    <!-- Load user-specified properties from this file. -->
+    <!-- Do this first to allow overrides -->
+    <!-- See build.xml for documentation of specific properties. -->
+    <property file="build-local.properties"/>
 
-	<!-- =================================================================== -->
-	<!-- Private properties, do NOT change or override these                 -->
-	<!-- =================================================================== -->
+    <!-- =================================================================== -->
+    <!-- Private properties, do NOT change or override these                 -->
+    <!-- =================================================================== -->
 
-	<!-- structure of the PhET codebase.-->
-	<property name="dir.build-tools"                value="${basedir}/build-tools"/>
-	<property name="dir.contrib"                    value="${basedir}/contrib"/>
+    <!-- structure of the PhET codebase.-->
+    <property name="dir.build-tools" value="${basedir}/build-tools"/>
+    <property name="dir.contrib" value="${basedir}/contrib"/>
 
     <property name="dev.server.dir" value=""/>
     <property name="increment.versions" value="true"/>
 
-	<!-- structure of the codebase for PhET's custom Ant task -->
-	<property name="ant-output"             location="ant_output"/>
-	<property name="phetbuild-classes-dir"  location="${ant-output}/phetbuild/classes"/>
-	<property name="proguard.jar"           location="${dir.build-tools}/proguard/lib/proguard.jar"/>
-	<property name="jsch.jar"               location="${dir.build-tools}/jsch/jsch.jar"/>
-	<property name="apache.commons.lang.jar" location="${dir.build-tools}/commons-lang/commons-lang.jar"/>
-	<property name="phetbuild-src"          location="${dir.build-tools}/phet-build/src"/>
+    <!-- structure of the codebase for PhET's custom Ant task -->
+    <property name="ant-output" location="ant_output"/>
+    <property name="phetbuild-classes-dir" location="${ant-output}/phetbuild/classes"/>
+    <property name="proguard.jar" location="${dir.build-tools}/proguard/lib/proguard.jar"/>
+    <property name="jsch.jar" location="${dir.build-tools}/jsch/jsch.jar"/>
+    <property name="apache.commons.lang.jar" location="${dir.build-tools}/commons-lang/commons-lang.jar"/>
+    <property name="phetbuild-src" location="${dir.build-tools}/phet-build/src"/>
 
-	<!-- PhET task implementations -->
-	<property name="phetbuild-classpath"            value="${phetbuild-classes-dir};${proguard.jar};${apache.commons.lang.jar};${jsch.jar}"/>
-	<property name="phet-build-gui-classname"       value="edu.colorado.phet.build.java.PhetBuildGUITask"/>
+    <!-- PhET task implementations -->
+    <property name="phetbuild-classpath"
+              value="${phetbuild-classes-dir};${proguard.jar};${apache.commons.lang.jar};${jsch.jar}"/>
+    <property name="phet-build-gui-classname" value="edu.colorado.phet.build.java.PhetBuildGUITask"/>
 
     <!-- =================================================================== -->
-	<!-- Internal targets, do NOT call directly                              -->
-	<!-- =================================================================== -->
+    <!-- Internal targets, do NOT call directly                              -->
+    <!-- =================================================================== -->
 
-	<!-- TODO: PLEASE DOCUMENT ME -->
-	<target name="_clean-phet-build">
-		<delete dir="${phetbuild-classes-dir}"/>
-	</target>
+    <!-- Cleans the output directories for the build process itself. -->
+    <target name="_clean-phet-build">
+        <delete dir="${phetbuild-classes-dir}"/>
+    </target>
 
-	<!-- TODO: PLEASE DOCUMENT ME -->
-	<target name="_compile-phet-build">
-		<mkdir dir="${phetbuild-classes-dir}"/>
+    <!-- Compiles the source for the build process itself. -->
+    <target name="_compile-phet-build">
+        <mkdir dir="${phetbuild-classes-dir}"/>
 
-		<javac srcdir="${phetbuild-src}:${dir.build-tools}/securechannelfacade/src/main/java"
+        <javac srcdir="${phetbuild-src}:${dir.build-tools}/securechannelfacade/src/main/java"
                destdir="${phetbuild-classes-dir}"
                classpath="${proguard.jar}:${apache.commons.lang.jar};${jsch.jar}" debug="true"
                debuglevel="lines,source">
-			<src path="${phetbuild-src}" />
-		</javac>
-	</target>
+            <src path="${phetbuild-src}"/>
+        </javac>
+    </target>
 
-    <!-- TODO: PLEASE DOCUMENT ME -->
-    <target name="_build-phet-build" depends="_clean-phet-build, _compile-phet-build" />
+    <!-- Builds the Java source for the build process itself-->
+    <target name="_build-phet-build" depends="_clean-phet-build, _compile-phet-build"/>
 
-    	<!-- TODO: PLEASE DOCUMENT ME -->
-	<target name="_init" depends="_declare-phet-build-tasks"/>
+    <!-- Prepares this build script for execution -->
+    <target name="_init" depends="_declare-phet-build-tasks"/>
 
-	<!-- defines custom Ant tasks that must be compiled at build time -->
-	<target name="_declare-phet-build-tasks" depends="_build-phet-build">
-		<taskdef name="phet-build-gui"
+    <!-- defines custom Ant tasks that must be compiled at build time -->
+    <target name="_declare-phet-build-tasks" depends="_build-phet-build">
+        <taskdef name="phet-build-gui"
                  classname="${phet-build-gui-classname}"
                  classpath="${phetbuild-classpath}"/>
     </target>
