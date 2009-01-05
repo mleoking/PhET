@@ -1,3 +1,4 @@
+1-5-09: #1075, confirmation dialog for "Reset All" has unnecessary Cancel button
 1-4-09: #1069, developer dialog for setting tab properties
 1-4-09: #1069, add PhetTabbedPane.setSelectedTextColor, setUnselectedTextColor
 1-3-09: #1067, simplify class hierarchy for preferences file
