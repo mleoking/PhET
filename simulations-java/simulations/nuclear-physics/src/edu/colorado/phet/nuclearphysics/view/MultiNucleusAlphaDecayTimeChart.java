@@ -99,7 +99,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     // Constants that control where the nuclei fall to when they decay in
     // order to create a histogram sort of look to the decay pattern.
     private static final int NUM_HISTOGRAM_BUCKETS = 60;
-    private static final double HISTOGRAM_OVERLAP_PROPORTION = 0.1;
+    private static final double HISTOGRAM_OVERLAP_PROPORTION = 0.2;
 
     // Offsets used when positioning atoms prior to decay so that they look
     // like a bunch of atoms instead of just one.  The values are in terms
