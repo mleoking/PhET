@@ -12,7 +12,7 @@ public abstract class AbstractPhetBuildTask extends AbstractPhetTask {
 
     // The method executing the task
     public final void execute() throws BuildException {
-        echo( "Building " + projectName + "..." );
+        echo( "Executing " + getClass().getName()+" for "+projectName + "..." );
 
         try {
             File projectDir = PhetBuildUtils.resolveProject( getProject().getBaseDir(), projectName );
