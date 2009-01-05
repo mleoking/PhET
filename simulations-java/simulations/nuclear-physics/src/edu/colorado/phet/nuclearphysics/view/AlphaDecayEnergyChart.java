@@ -8,7 +8,6 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -210,46 +209,6 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
         	updateCustomNucleusHalfLife();
         }
 
-        // Register as a listener with the model so that we can see when decay occurs.
-        /*
-        _model.getAtomNucleus().addListener( new AtomicNucleus.Listener(){
-            public void atomicWeightChanged(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
-                    ArrayList byProducts ){
-                if (byProducts != null){
-                    handleDecayEvent(byProducts);
-                }
-                else{
-                    // Must have been a reset of the nucleus.
-                    _decayOccurred = false;
-                    update();
-                }
-            }
-            public void positionChanged(){
-                // Do nothing, since we don't care about this.
-            }
-        });
-        
-        // Register as a listener with the alpha particles so that we can
-        // monitor them and display some number of them moving around within
-        // the well.
-        ArrayList nucleusConstituents = _model.getAtomNucleus().getConstituents();
-        for (int i = 0; i < nucleusConstituents.size(); i++){
-            if (nucleusConstituents.get( i ) instanceof AlphaParticle){
-                // Add this to our overall list of watched particles.
-                _alphaParticles.add( nucleusConstituents.get( i ) );
-                
-                // If we don't have enough yet, add this to our list of
-                // particles that we are tracking and possibly displaying.
-                if (_currentlyTrackedAlphas.size() < MAX_ALPHA_PARTICLES_DISPLAYED){
-                    _currentlyTrackedAlphas.add( nucleusConstituents.get( i ) );
-                }
-                
-                // Register as a listener to this particle.
-                ((AlphaParticle)nucleusConstituents.get( i )).addListener( this );
-            }
-        }
-        */
-        
         // Create the border for this chart.
         
         _borderNode = new PPath();
@@ -602,52 +561,6 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
         _potentialEnergyPeakHandle.setOffset(_usableAreaOriginX + _usableWidth * 0.90, 
         		(float)convertEnergyToPixels(_potentialEnergyPeak));
         
-		/*
-		 * TODO: This was the original code, and is being kept here until I'm
-		 * sure I don't need it any more.
-        double centerX = _usableAreaOriginX + (_usableWidth/2);
-        double multiplier = _usableHeight * POTENTIAL_ENERGY_CURVE_SCALE_FACTOR;
-        double xScreenPos;
-        
-        _potentialEnergyLine.moveTo( (float)_usableAreaOriginX + 3*BORDER_STROKE_WIDTH, 
-                (float)(_graphOriginY - (multiplier * (1/(centerX - _usableAreaOriginX)))));
-        for (xScreenPos = _usableAreaOriginX + (3 * BORDER_STROKE_WIDTH);
-             xScreenPos < centerX - (_energyWellWidth / 2); ){
-
-            _potentialEnergyLine.lineTo( (float)xScreenPos, (float)(_graphOriginY - (multiplier * (1/(centerX - xScreenPos)))));
-            if (xScreenPos < (centerX - (_energyWellWidth / 2)-5)){
-                xScreenPos+=5;
-            }else{
-                // Use finer resolution as we get closer to the peak so that we don't miss it.
-                xScreenPos++;
-            }
-        }
-
-        double bottomOfEnergyWell = _decayOccurred ? POST_DECAY_WELL_ENERGY : PRE_DECAY_WELL_ENERGY;
-        _potentialEnergyLine.lineTo( (float)xScreenPos, (float)(_graphOriginY - convertEnergyToScreenUnits(bottomOfEnergyWell)));
-        xScreenPos += _energyWellWidth;
-        _potentialEnergyLine.lineTo( (float)xScreenPos, (float)(_graphOriginY - convertEnergyToScreenUnits(bottomOfEnergyWell)));
-
-        for (xScreenPos = xScreenPos + 1; 
-             xScreenPos < _usableAreaOriginX + _usableWidth - (3*BORDER_STROKE_WIDTH); xScreenPos+=5){
-            
-            _potentialEnergyLine.lineTo( (float)xScreenPos, (float)(_graphOriginY - (multiplier * (1/(xScreenPos - centerX)))));
-        }
-		 */
-
-        /*
-         * TODO: This was the original code, keep until not needed any more.
-        double tunnelingRegionRadius = _model.getAtomNucleus().getTunnelingRegionRadius();
-        PDimension tunnelingRegionDim = new PDimension(tunnelingRegionRadius, tunnelingRegionRadius);
-        _canvas.getPhetRootNode().worldToScreen( tunnelingRegionDim );
-        double tunnelingRegionRadiusScreen = tunnelingRegionDim.getWidth();
-        double totalEnergyLineYPos = _graphOriginY - (multiplier * (1 / tunnelingRegionRadiusScreen));
-
-        _totalEnergyLine.removeAllPoints();
-        _totalEnergyLine.addPoint( 0, _usableAreaOriginX + 3*BORDER_STROKE_WIDTH, totalEnergyLineYPos );
-        _totalEnergyLine.addPoint( 1, _usableAreaOriginX + _usableWidth - 3*BORDER_STROKE_WIDTH, totalEnergyLineYPos );
-         */
-		
         // Position the total energy line.
         
         _totalEnergyLine.removeAllPoints();
