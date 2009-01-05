@@ -5,7 +5,6 @@ import java.io.File;
 
 import org.apache.tools.ant.BuildException;
 
-import edu.colorado.phet.build.PhetProject;
 import edu.colorado.phet.build.util.PhetBuildUtils;
 
 public abstract class AbstractPhetBuildTask extends AbstractPhetTask {

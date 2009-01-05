@@ -9,7 +9,6 @@ import java.util.Locale;
 import javax.swing.*;
 
 import edu.colorado.phet.build.PhetProject;
-import edu.colorado.phet.build.java.PhetDisplayStatsTask;
 
 public class ProjectPanel extends JPanel {
     private File basedir;
@@ -95,7 +94,7 @@ public class ProjectPanel extends JPanel {
                 PhetDisplayStatsTask.showStats( basedir );
             }
         } );
-        controlPanel.add(Box.createRigidArea( new Dimension( 50,10) ));
+        controlPanel.add( Box.createRigidArea( new Dimension( 50, 10 ) ) );
         controlPanel.add( showStats );
 
         //For testing
