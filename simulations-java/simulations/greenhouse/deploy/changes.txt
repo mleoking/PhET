@@ -1,4 +1,5 @@
-1-4-2009: #982, Reset All button doesn't request confirmation
+1-5-2009: #1076, Reset All feature is broken
+1-5-2009: #982, Reset All button doesn't request confirmation
 # 2.04.02 (25777)
 11-3-2008: #562 is complete, publish dev version
 11-3-2008: #562, move all remaining common graphics files to edu.colorado.phet.greenhouse.common.graphics

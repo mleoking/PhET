@@ -1,15 +1,4 @@
-/**
- * Class: GreenhouseControlPanel
- * Package: edu.colorado.phet.greenhouse
- * Author: Another Guy
- * Date: Oct 10, 2003
- */
-/**
- * Class: GreenhouseControlPanel
- * Package: edu.colorado.phet.greenhouse
- * Author: Another Guy
- * Date: Oct 10, 2003
- */
+
 package edu.colorado.phet.greenhouse;
 
 import java.awt.*;
@@ -279,6 +268,10 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
 
         // todo: HACK!!! make the control panel listen to the module for this?
         thermometerCB.setSelected( true );
+        fahrenheitRB.setEnabled( thermometerCB.isSelected() );
+        celsiusRB.setEnabled( thermometerCB.isSelected() );
+        fahrenheitRB.setSelected( true );
+        updateTemperatureUnits();
     }
 
     public void reset() {
@@ -666,12 +659,16 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
 
     private class TemperatureUnitsSetter implements ActionListener {
         public void actionPerformed( ActionEvent e ) {
-            if ( fahrenheitRB.isSelected() ) {
-                GreenhouseConfig.TEMPERATURE_UNITS = GreenhouseConfig.FAHRENHEIT;
-            }
-            else if ( celsiusRB.isSelected() ) {
-                GreenhouseConfig.TEMPERATURE_UNITS = GreenhouseConfig.CELSIUS;
-            }
+            updateTemperatureUnits();
+        }
+    }
+    
+    private void updateTemperatureUnits() {
+        if ( fahrenheitRB.isSelected() ) {
+            GreenhouseConfig.TEMPERATURE_UNITS = GreenhouseConfig.FAHRENHEIT;
+        }
+        else if ( celsiusRB.isSelected() ) {
+            GreenhouseConfig.TEMPERATURE_UNITS = GreenhouseConfig.CELSIUS;
         }
     }
 }
