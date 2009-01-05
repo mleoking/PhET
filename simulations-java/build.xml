@@ -58,7 +58,6 @@
 	<property name="jsch.jar"               location="${dir.build-tools}/jsch/jsch.jar"/>
 	<property name="apache.commons.lang.jar" location="${dir.build-tools}/commons-lang/commons-lang.jar"/>
 	<property name="phetbuild-src"          location="${dir.build-tools}/phet-build/src"/>
-	<property name="imageio-src"            location="${dir.build-tools}/image4j/src" />
 
 	<property name="phet.version"           value=""/>
 	<property name="phet.src.distribution"  value="${basedir}/deploy/phet-src.zip"/>
@@ -85,7 +84,6 @@
                classpath="${proguard.jar}:${apache.commons.lang.jar};${jsch.jar}" debug="true"
                debuglevel="lines,source">
 			<src path="${phetbuild-src}" />
-			<src path="${imageio-src}" />
 		</javac>
 	</target>
 
