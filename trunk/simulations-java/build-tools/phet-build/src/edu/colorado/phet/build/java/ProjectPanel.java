@@ -9,7 +9,7 @@ import java.util.Locale;
 import javax.swing.*;
 
 import edu.colorado.phet.build.PhetProject;
-import edu.colorado.phet.build.ant.PhetDisplayStatsTask;
+import edu.colorado.phet.build.java.PhetDisplayStatsTask;
 
 public class ProjectPanel extends JPanel {
     private File basedir;

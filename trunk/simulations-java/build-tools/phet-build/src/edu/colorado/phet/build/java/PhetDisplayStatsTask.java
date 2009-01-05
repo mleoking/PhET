@@ -1,25 +1,14 @@
-package edu.colorado.phet.build.ant;
+package edu.colorado.phet.build.java;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-import org.apache.tools.ant.BuildException;
-
 import edu.colorado.phet.build.PhetProject;
 import edu.colorado.phet.build.PhetProjectFlavor;
 import edu.colorado.phet.build.util.PhetBuildUtils;
 
-public class PhetDisplayStatsTask extends PhetAllSimTask {
-    public final void execute() throws BuildException {
-        showStats( PhetProject.getSimNames( getBaseDir() ) );
-    }
-
-    public void showStats( String[] simNames ) {
-        File baseDir = getProject().getBaseDir();
-        showStats( simNames, baseDir );
-    }
-
+public class PhetDisplayStatsTask {
     public static void showStats( File baseDir ) {
         showStats( PhetProject.getSimNames( baseDir ), baseDir );
     }
