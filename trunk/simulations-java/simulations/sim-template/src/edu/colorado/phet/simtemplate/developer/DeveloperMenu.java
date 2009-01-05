@@ -21,11 +21,13 @@ import edu.colorado.phet.simtemplate.SimTemplateApplication;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DeveloperMenu extends JMenu implements ActionListener {
+public class DeveloperMenu extends JMenu {
 
     private SimTemplateApplication _app;
     private JCheckBoxMenuItem _developerControlsItem;
+    private JCheckBoxMenuItem _tabPropertiesItem;
     private JDialog _developerControlsDialog;
+    private JDialog _tabPropertiesDialog;
 
     public DeveloperMenu( SimTemplateApplication app ) {
         super( "Developer" );
@@ -34,31 +36,70 @@ public class DeveloperMenu extends JMenu implements ActionListener {
 
         _developerControlsItem = new JCheckBoxMenuItem( "Developer Controls..." );
         add( _developerControlsItem );
-        _developerControlsItem.addActionListener( this );
+        _developerControlsItem.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                handleDeveloperControls();
+            }
+        });
+        
+        _tabPropertiesItem = new JCheckBoxMenuItem( "Tab Properties..." );
+        add( _tabPropertiesItem );
+        _tabPropertiesItem.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                handleTabProperties();
+            }
+        });
     }
 
-    public void actionPerformed( ActionEvent event ) {
-        if ( event.getSource() == _developerControlsItem ) {
-            if ( _developerControlsItem.isSelected() ) {
-                Frame owner = PhetApplication.instance().getPhetFrame();
-                _developerControlsDialog = new DeveloperControlsDialog( owner, _app );
-                _developerControlsDialog.show();
-                _developerControlsDialog.addWindowListener( new WindowAdapter() {
-                    public void windowClosed( WindowEvent e ) {
-                        cleanup();
-                    }
-                    public void windowClosing( WindowEvent e ) {
-                        cleanup();
-                    }
-                    private void cleanup() {
-                        _developerControlsItem.setSelected( false );
-                        _developerControlsDialog = null;
-                    }
-                } );
-            }
-            else {
-                _developerControlsDialog.dispose();
-            }
+    private void handleDeveloperControls() {
+        if ( _developerControlsItem.isSelected() ) {
+            Frame owner = PhetApplication.instance().getPhetFrame();
+            _developerControlsDialog = new DeveloperControls( owner, _app );
+            _developerControlsDialog.setVisible( true );
+            _developerControlsDialog.addWindowListener( new WindowAdapter() {
+
+                public void windowClosed( WindowEvent e ) {
+                    cleanup();
+                }
+
+                public void windowClosing( WindowEvent e ) {
+                    cleanup();
+                }
+
+                private void cleanup() {
+                    _developerControlsItem.setSelected( false );
+                    _developerControlsDialog = null;
+                }
+            } );
+        }
+        else {
+            _developerControlsDialog.dispose();
+        }
+    }
+    
+    private void handleTabProperties() {
+        if ( _tabPropertiesItem.isSelected() ) {
+            Frame owner = PhetApplication.instance().getPhetFrame();
+            _tabPropertiesDialog = new TabPropertiesDialog( owner, _app.getTabbedPane() );
+            _tabPropertiesDialog.setVisible( true );
+            _tabPropertiesDialog.addWindowListener( new WindowAdapter() {
+
+                public void windowClosed( WindowEvent e ) {
+                    cleanup();
+                }
+
+                public void windowClosing( WindowEvent e ) {
+                    cleanup();
+                }
+
+                private void cleanup() {
+                    _tabPropertiesItem.setSelected( false );
+                    _tabPropertiesDialog = null;
+                }
+            } );
+        }
+        else {
+            _tabPropertiesDialog.dispose();
         }
     }
 }

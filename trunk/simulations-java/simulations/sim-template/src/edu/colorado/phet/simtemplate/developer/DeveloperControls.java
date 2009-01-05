@@ -25,7 +25,7 @@ import edu.colorado.phet.simtemplate.SimTemplateApplication;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DeveloperControlsDialog extends JDialog {
+public class DeveloperControls extends JDialog {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -37,7 +37,7 @@ public class DeveloperControlsDialog extends JDialog {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public DeveloperControlsDialog( Frame owner, SimTemplateApplication app ) {
+    public DeveloperControls( Frame owner, SimTemplateApplication app ) {
         super( owner, "Developer Controls" );
         setResizable( false );
         setModal( false );
@@ -66,22 +66,8 @@ public class DeveloperControlsDialog extends JDialog {
                 _app.setControlPanelBackground( controlPanelColorControl.getColor() );
             }
         } );
-
-        Color selectedTabColor = _app.getSelectedTabColor();
-        final ColorControl selectedTabColorControl = new ColorControl( parentFrame, "selected module tab color: ", selectedTabColor );
-        selectedTabColorControl.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent event ) {
-                _app.setSelectedTabColor( selectedTabColorControl.getColor() );
-            }
-        } );
         
-        Color unselectedTabColor = _app.getUnselectedTabColor();
-        final ColorControl unselectedTabColorControl = new ColorControl( parentFrame, "unselected module tab color: ", unselectedTabColor );
-        unselectedTabColorControl.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent event ) {
-                _app.setUnselectedTabColor( unselectedTabColorControl.getColor() );
-            }
-        } );
+        //XXX add more controls here, and in layout below
 
         // Layout
         JPanel panel = new JPanel();
@@ -92,8 +78,6 @@ public class DeveloperControlsDialog extends JDialog {
         int row = 0;
         int column = 0;
         layout.addComponent( controlPanelColorControl, row++, column );
-        layout.addComponent( selectedTabColorControl, row++, column );
-        layout.addComponent( unselectedTabColorControl, row++, column );
 
         return panel;
     }

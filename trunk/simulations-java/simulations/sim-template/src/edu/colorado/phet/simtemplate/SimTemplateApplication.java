@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.piccolophet.PhetTabbedPane;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.simtemplate.developer.DeveloperMenu;
@@ -25,7 +26,7 @@ import edu.colorado.phet.simtemplate.persistence.ExampleConfig;
 import edu.colorado.phet.simtemplate.persistence.SimTemplateConfig;
 
 /**
- * TemplateApplication is the main application for this simulation.
+ * SimTemplateApplication is the main application for this simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * 
@@ -146,34 +147,6 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
     // Setters & getters
     //----------------------------------------------------------------------------
 
-    public void setSelectedTabColor( Color color ) {
-        if ( _tabbedModulePane != null ) {
-            _tabbedModulePane.setSelectedTabColor( color );
-        }
-    }
-
-    public Color getSelectedTabColor() {
-        Color color = Color.WHITE; 
-        if ( _tabbedModulePane != null ) {
-            color = _tabbedModulePane.getSelectedTabColor();
-        }
-        return color;
-    }
-    
-    public void setUnselectedTabColor( Color color ) {
-        if ( _tabbedModulePane != null ) {
-            _tabbedModulePane.setUnselectedTabColor( color );
-        }
-    }
-
-    public Color getUnselectedTabColor() {
-        Color color = Color.WHITE; 
-        if ( _tabbedModulePane != null ) {
-            color = _tabbedModulePane.getUnselectedTabColor();
-        }
-        return color;
-    }
-
     public void setControlPanelBackground( Color color ) {
         Module[] modules = getModules();
         for ( int i = 0; i < modules.length; i++ ) {
@@ -187,6 +160,10 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
         return getModule( 0 ).getControlPanel().getBackground();
     }
 
+    public PhetTabbedPane getTabbedPane() {
+        return _tabbedModulePane;
+    }
+    
     //----------------------------------------------------------------------------
     // Persistence
     //----------------------------------------------------------------------------
