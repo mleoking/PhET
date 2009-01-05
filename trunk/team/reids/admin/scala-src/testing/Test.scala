@@ -19,8 +19,7 @@ import javax.swing.JLabel
 object MyTest {
   def main(args: Array[String]) = {
     println("started")
-    type ScalaModelElement = Double => Unit
-    class ScalaClockAdapter(element: Double => Unit) extends ClockAdapter {
+    class ScalaModelElement(element: Double => Unit) extends ClockAdapter {
       override def simulationTimeChanged(clockEvent: ClockEvent) = {
         element(clockEvent.getSimulationTimeChange);
       }
@@ -32,8 +31,8 @@ object MyTest {
       val ptext = new PText("hello")
       ptext.setOffset(300, 200)
       canvas addScreenChild ptext
-      getClock.addClockListener(new ScalaClockAdapter((dt: Double) => ptext.translate(3, 0)));
-      getClock.addClockListener(new ScalaClockAdapter((dt: Double) => ptext.rotateInPlace(3.14 / 64)));
+      getClock.addClockListener(new ScalaModelElement((dt: Double) => ptext.translate(1, 0)));
+      getClock.addClockListener(new ScalaModelElement((dt: Double) => ptext.translate(0, 2)));
     }
 
     val config = new PhetApplicationConfig(args, "moving-man")
