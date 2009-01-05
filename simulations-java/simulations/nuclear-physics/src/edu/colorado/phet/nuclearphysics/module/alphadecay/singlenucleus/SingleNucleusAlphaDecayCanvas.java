@@ -17,7 +17,6 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
@@ -30,6 +29,7 @@ import edu.colorado.phet.nuclearphysics.model.Proton;
 import edu.colorado.phet.nuclearphysics.view.AlphaDecayEnergyChart;
 import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
 import edu.colorado.phet.nuclearphysics.view.AtomicNucleusNode;
+import edu.colorado.phet.nuclearphysics.view.AutoPressGradientButtonNode;
 import edu.colorado.phet.nuclearphysics.view.NeutronModelNode;
 import edu.colorado.phet.nuclearphysics.view.NucleonModelNode;
 import edu.colorado.phet.nuclearphysics.view.ProtonModelNode;
@@ -73,7 +73,7 @@ public class SingleNucleusAlphaDecayCanvas extends PhetPCanvas {
     private AtomicNucleusNode _nucleusNode;
     private AlphaDecayEnergyChart _alphaDecayEnergyChart;
     private SingleNucleusAlphaDecayTimeChart _alphaDecayTimeChart;
-    private GradientButtonNode _resetButtonNode;
+    private AutoPressGradientButtonNode _resetButtonNode;
 	private PNode _nucleusLayer;
 	private PNode _labelLayer;
 
@@ -153,8 +153,9 @@ public class SingleNucleusAlphaDecayCanvas extends PhetPCanvas {
         rightBreakoutLine.setStrokePaint( new Color(0x990099) );
         addWorldChild(rightBreakoutLine);
         
-        // Add the button for resetting the nucleus to the canvas.
-        _resetButtonNode = new GradientButtonNode(NuclearPhysicsStrings.RESET_NUCLEUS, 22, new Color(0xff9900));
+        // Add to the canvas the button for resetting the nucleus.
+        _resetButtonNode = new AutoPressGradientButtonNode(NuclearPhysicsStrings.RESET_NUCLEUS, 22, 
+        		new Color(0xff9900));
         addScreenChild(_resetButtonNode);
         
         // Register to receive button pushes.
@@ -212,6 +213,14 @@ public class SingleNucleusAlphaDecayCanvas extends PhetPCanvas {
         _alphaDecayTimeChart.reset();
     }
     
+	/**
+	 * Auto-press the reset button, i.e. make it look like someone or some
+	 * THING pressed the button.
+	 */
+	public void autoPressResetButton(){
+		_resetButtonNode.autoPress();
+	}
+
     //------------------------------------------------------------------------
     // Private Methods
     //------------------------------------------------------------------------
