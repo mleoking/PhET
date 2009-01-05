@@ -14,10 +14,13 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.greenhouse.util.MessageFormatter;
 
 
-public class GlassPaneControlPanel extends JPanel {
+public class GlassPaneControlPanel extends JPanel implements Resettable {
 
     private static Color panelBackground = GreenhouseConfig.PANEL_BACKGROUND_COLOR;
     private GlassPaneModule module;
@@ -81,13 +84,7 @@ public class GlassPaneControlPanel extends JPanel {
         setDefaultConditions();
 
         // Reset button
-        JButton resetBtn = new JButton( GreenhouseResources.getString( "GreenhouseControlPanel.Reset" ) );
-        resetBtn.setForeground( Color.black );
-        resetBtn.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                reset();
-            }
-        } );
+        JButton resetBtn = new ResetAllButton( this, PhetApplication.getInstance().getPhetFrame() );
 
         //
         // Lay out the controls
@@ -139,7 +136,7 @@ public class GlassPaneControlPanel extends JPanel {
         module.setVisiblePhotonRatio( 1.0 );
     }
 
-    private void reset() {
+    public void reset() {
         module.reset();
         setDefaultConditions();
     }
