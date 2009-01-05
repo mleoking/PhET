@@ -50,26 +50,7 @@
 	<property name="phetbuild-classpath"            value="${phetbuild-classes-dir};${proguard.jar};${apache.commons.lang.jar};${jsch.jar}"/>
 	<property name="phet-build-gui-classname"       value="edu.colorado.phet.build.java.PhetBuildGUITask"/>
 
-	<!-- Support jars -->
-	<property name="jar.ant-contrib"    value="${dir.build-tools}/ant-contrib/ant-contrib.jar"/>
-	<property name="jar.antform"        value="${dir.build-tools}/antform/lib/antform.jar"/>
-	<property name="jar.junit"          value="${dir.contrib}/junit/junit.jar"/>
-
-	<!-- Subversion (SVN) configuration -->
-	<property name="svn.executable" value="svn" />
-
-	<!-- =================================================================== -->
-	<!-- Taskdefs                                                            -->
-	<!-- =================================================================== -->
-
-	<!-- Ant-Contrib tasks definition -->
-	<taskdef resource="net/sf/antcontrib/antcontrib.properties">
-		<classpath>
-			<pathelement location="${jar.ant-contrib}"/>
-		</classpath>
-	</taskdef>
-
-	<!-- =================================================================== -->
+    <!-- =================================================================== -->
 	<!-- Internal targets, do NOT call directly                              -->
 	<!-- =================================================================== -->
 
@@ -89,26 +70,8 @@
 		</javac>
 	</target>
 
-	<!--This task was rewritten to avoid recompilation of the phet-java ant task implementations.-->
-	<!---->
-
-
-	<!-- TODO: PLEASE DOCUMENT ME -->
+    <!-- TODO: PLEASE DOCUMENT ME -->
     <target name="_build-phet-build" depends="_clean-phet-build, _compile-phet-build" />
-
-    <!--This task was rewritten to avoid recompilation of the phet-java ant task implementations.-->
-	<!--<target name="_build-phet-build">-->
-		<!--<if>-->
-			<!--<not>-->
-				<!--<isset property="init.complete"/>-->
-			<!--</not>-->
-			<!--<then>-->
-				<!--<antcall target="_clean-phet-build"/>-->
-				<!--<antcall target="_compile-phet-build"/>-->
-				<!--<var name="init.complete" value="true"/>-->
-			<!--</then>-->
-		<!--</if>-->
-	<!--</target>-->
 
     	<!-- TODO: PLEASE DOCUMENT ME -->
 	<target name="_init" depends="_declare-phet-build-tasks"/>
