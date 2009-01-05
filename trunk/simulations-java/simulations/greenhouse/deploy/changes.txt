@@ -1,3 +1,4 @@
+1-5-2008: #891, RasterFormatException at startup
 1-5-2009: remove obsolete entries in string files
 1-5-2009: #1076, Reset All feature is broken
 1-5-2009: #982, Reset All button doesn't request confirmation

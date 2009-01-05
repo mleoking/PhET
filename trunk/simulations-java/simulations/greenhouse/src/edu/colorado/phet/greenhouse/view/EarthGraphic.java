@@ -100,10 +100,12 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
                 for ( Iterator iterator = scaledBackgroundImages.keySet().iterator(); iterator.hasNext(); ) {
                     BufferedImage origImage = (BufferedImage) iterator.next();
                     double scale = newBounds.getWidth() / origImage.getWidth();
-                    AffineTransform atx = AffineTransform.getScaleInstance( scale, scale );
-                    AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
-                    BufferedImage scaledImg = atxOp.filter( origImage, null );
-                    scaledBackgroundImages.put( origImage, scaledImg );
+                    if ( scale > 0 ) {
+                        AffineTransform atx = AffineTransform.getScaleInstance( scale, scale );
+                        AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
+                        BufferedImage scaledImg = atxOp.filter( origImage, null );
+                        scaledBackgroundImages.put( origImage, scaledImg );
+                    }
                 }
 
                 // Set the proper backdrop
