@@ -14,7 +14,6 @@ import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResizeArrowNode;
@@ -24,6 +23,7 @@ import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.CompositeAtomicNucleus;
+import edu.colorado.phet.nuclearphysics.module.alphadecay.singlenucleus.SingleNucleusAlphaDecayCanvas;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.singlenucleus.SingleNucleusAlphaDecayModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -77,7 +77,6 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
     private static final double  AXES_LINE_WIDTH = 0.5f;
     private static final Color   AXES_LINE_COLOR = Color.BLACK;
     private static final double  ORIGIN_PROPORTION_X = 0.05d;
-    private static final double  ORIGIN_PROPORTION_Y = 0.33d;
     private static final float   ENERGY_LINE_STROKE_WIDTH = 2f;
     private static final Stroke  ENERGY_LINE_STROKE = new BasicStroke( ENERGY_LINE_STROKE_WIDTH, BasicStroke.CAP_ROUND,
     		BasicStroke.JOIN_MITER, 1.0f );
@@ -91,7 +90,6 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
     private static final Color   LEGEND_BACKGROUND_COLOR = BACKGROUND_COLOR;
     private static final double  LEGEND_WIDTH_PROPORTION = 0.27;
     private static final double  LEGEND_HEIGHT_PROPORTION = 0.5;
-    private static final double  ALPHA_PARTICLE_SCALE_FACTOR = 0.075;
     private static final int     MAX_ALPHA_PARTICLES_DISPLAYED = 6;
     private static final double  ARROW_HEAD_HEIGHT = 10;
     private static final double  ARROW_HEAD_WIDTH = 8;
@@ -99,15 +97,9 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
     private static final float   CONTROL_HANDLE_STROKE_WIDTH = 0.4f;
     private static final Stroke  CONTROL_HANDLE_STROKE = new BasicStroke( CONTROL_HANDLE_STROKE_WIDTH );
     
-    // Parameters that control the Y-axis positioning of various data on the
-    // chart.  The Y-axis doesn't really have units, so these are essentially
-    // arbitrary ones that look the way we need them to on the chart.
-    private static final double TOTAL_ENERGY = 10.0;
-    private static final double ALPHA_PARTICLE_PRE_DECAY_ENERGY = TOTAL_ENERGY;
+    // Constant that controls Y-axis position of the alpha particles after
+    // the nucleus has decayed.  Value is arbitrary and chosen to look good.
     private static final double ALPHA_PARTICLE_POST_DECAY_ENERGY = -10.0;
-    private static final double PRE_DECAY_WELL_ENERGY = -40.0;
-    private static final double POST_DECAY_WELL_ENERGY = -55.0;
-    private static final double POTENTIAL_ENERGY_CURVE_SCALE_FACTOR = 11.0;
     
     //------------------------------------------------------------------------
     // Instance Data
@@ -118,7 +110,7 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
     private SingleNucleusAlphaDecayModel _model;
     
     // Reference to the canvas on which everything is being displayed.
-    private PhetPCanvas _canvas;
+    private SingleNucleusAlphaDecayCanvas _canvas;
     
     // Reference to the alpha particles that are monitored & displayed.
     private AlphaParticle _tunneledAlpha;
@@ -172,7 +164,7 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
      * chart.  Note that it does not lay them out - it counts on calls to
      * the updateBounds routine to do that.
      */
-    public AlphaDecayEnergyChart(SingleNucleusAlphaDecayModel model, PhetPCanvas canvas) {
+    public AlphaDecayEnergyChart(SingleNucleusAlphaDecayModel model, SingleNucleusAlphaDecayCanvas canvas) {
         
         _model = model;
         _canvas = canvas;
@@ -326,6 +318,7 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
         	public void mouseReleased(PInputEvent event) {
         		_model.setPaused(false);
         		_model.resetNucleus();
+        		_canvas.autoPressResetButton();
         	}
             public void mouseDragged(PInputEvent event) {
                 PNode draggedNode = event.getPickedNode();
@@ -354,6 +347,7 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
         	public void mouseReleased(PInputEvent event) {
         		_model.setPaused(false);
         		_model.resetNucleus();
+        		_canvas.autoPressResetButton();
         	}
             public void mouseDragged(PInputEvent event) {
                 PNode draggedNode = event.getPickedNode();
