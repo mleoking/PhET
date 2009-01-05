@@ -109,7 +109,13 @@ public class ProjectPanel extends JPanel {
     }
 
     private void doProd() {
-        int option = JOptionPane.showConfirmDialog( deployProdButton, "Are you sure you are ready to deploy " + project.getName() + " to " + PhetServer.PRODUCTION.getHost() + "?" );
+        String message = "<html>" + 
+            "Are you sure you want to deploy <font color=red>" + project.getName() + "</font> to " + "<br>" + 
+            PhetServer.PRODUCTION.getHost() + " and " + PhetServer.DEVELOPMENT.getHost() + "?" + "<br>" +
+            "<br>" +
+            "(And is your <font color=red>VPN</font> connection running?)" +
+            "</html>";
+        int option = JOptionPane.showConfirmDialog( deployProdButton, message, "Confirm", JOptionPane.YES_NO_OPTION );
         if ( option == JOptionPane.YES_OPTION ) {
             getBuildScript().deployProd( getDevelopmentAuthentication( "dev" ), getDevelopmentAuthentication( "prod" ) );
         }
