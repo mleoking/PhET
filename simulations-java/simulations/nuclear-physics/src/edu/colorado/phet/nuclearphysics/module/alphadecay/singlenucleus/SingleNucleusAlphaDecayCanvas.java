@@ -63,7 +63,7 @@ public class SingleNucleusAlphaDecayCanvas extends PhetPCanvas {
     private final double ENERGY_CHART_FRACTION = 0.35; // Fraction of canvas for energy chart.
     
     // Other constants that affect the appearance of the chart.
-    private final double DEFAULT_BREAKOUT_RADIUS = AtomicNucleus.DEFAULT_TUNNELING_REGION_RADIUS;
+    private final Color TUNNELING_MARKERS_COLOR = new Color(150, 0, 150);
     
     //----------------------------------------------------------------------------
     // Instance Data
@@ -76,6 +76,9 @@ public class SingleNucleusAlphaDecayCanvas extends PhetPCanvas {
     private AutoPressGradientButtonNode _resetButtonNode;
 	private PNode _nucleusLayer;
 	private PNode _labelLayer;
+	private PPath _tunnelingRegion;
+	private PPath _leftTunnelingLine;
+	private PPath _rightTunnelingLine;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -95,10 +98,18 @@ public class SingleNucleusAlphaDecayCanvas extends PhetPCanvas {
             }
         });
         
-        // Register for events from the model.
+        // Register for alpha decay events from the model.
         _singleNucleusAlphaDecayModel.addListener(new AlphaDecayAdapter(){
             public void modelElementAdded(Object modelElement){
             	createNucleusNodes();
+            	positionTunnelingMarkers();
+            	if (modelElement instanceof AtomicNucleus){
+                    ((AtomicNucleus)modelElement).addListener(new AtomicNucleus.Adapter(){
+                        public void tunnelingRadiusChanged(){
+                        	positionTunnelingMarkers();
+                        };
+                    });
+            	}
             }
             public void modelElementRemoved(Object modelElement){
             	if (modelElement instanceof AlphaDecayCompositeNucleus){
@@ -119,11 +130,6 @@ public class SingleNucleusAlphaDecayCanvas extends PhetPCanvas {
         _labelLayer = new PNode();
         addWorldChild(_labelLayer);
         
-        // Register with the model for notifications of important events.
-        singleNucleusAlphaDecayModel.addListener( new AlphaDecayAdapter() {
-        	// TODO: JPB TBD - Need to figure out exactly what should be here.
-        });
-        
         // Set the background color.
         setBackground( NuclearPhysicsConstants.CANVAS_BACKGROUND );
         
@@ -132,26 +138,23 @@ public class SingleNucleusAlphaDecayCanvas extends PhetPCanvas {
         addScreenChild( _alphaDecayEnergyChart );
         
         // Add the breakout radius to the canvas.
-        double radius = DEFAULT_BREAKOUT_RADIUS;
-        PPath breakoutCircle = new PPath(new Ellipse2D.Double(-radius, -radius, 2*radius, 2*radius));
-        breakoutCircle.setStroke( new BasicStroke(0.1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
+        _tunnelingRegion = new PPath();
+        _tunnelingRegion.setStroke( new BasicStroke(0.1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
                 new float[] {0.75f, 0.75f }, 0) );
-        breakoutCircle.setStrokePaint( new Color(0x990099) );
-        addWorldChild(breakoutCircle);
+        _tunnelingRegion.setStrokePaint( TUNNELING_MARKERS_COLOR );
+        addWorldChild(_tunnelingRegion);
         
-        // Add the lines that make it clear that the tunneling radius is at
-        // the point where the particle energy exceeds the potential energy.
-        PPath leftBreakoutLine = new PPath(new Line2D.Double(-radius, -CANVAS_HEIGHT, -radius, CANVAS_HEIGHT));
-        leftBreakoutLine.setStroke( new BasicStroke(0.1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
+        _leftTunnelingLine = new PPath(new Line2D.Double(0, 0, 0, CANVAS_HEIGHT * 0.35));
+        _leftTunnelingLine.setStroke( new BasicStroke(0.1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
                 new float[] {2, 2 }, 0) );
-        leftBreakoutLine.setStrokePaint( new Color(0x990099) );
-        addWorldChild(leftBreakoutLine);
+        _leftTunnelingLine.setStrokePaint( TUNNELING_MARKERS_COLOR );
+        addWorldChild(_leftTunnelingLine);
 
-        PPath rightBreakoutLine = new PPath(new Line2D.Double(radius, -CANVAS_HEIGHT, radius, CANVAS_HEIGHT));
-        rightBreakoutLine.setStroke( new BasicStroke(0.1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
+        _rightTunnelingLine = new PPath(new Line2D.Double(0, 0, 0, CANVAS_HEIGHT * 0.35));
+        _rightTunnelingLine.setStroke( new BasicStroke(0.1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
                 new float[] {2, 2 }, 0) );
-        rightBreakoutLine.setStrokePaint( new Color(0x990099) );
-        addWorldChild(rightBreakoutLine);
+        _rightTunnelingLine.setStrokePaint( TUNNELING_MARKERS_COLOR );
+        addWorldChild(_rightTunnelingLine);
         
         // Add to the canvas the button for resetting the nucleus.
         _resetButtonNode = new AutoPressGradientButtonNode(NuclearPhysicsStrings.RESET_NUCLEUS, 22, 
@@ -225,6 +228,21 @@ public class SingleNucleusAlphaDecayCanvas extends PhetPCanvas {
     // Private Methods
     //------------------------------------------------------------------------
 
+	/**
+	 * Position the set of markers that depict the tunneling radius for the
+	 * nucleus.
+	 */
+	private void positionTunnelingMarkers(){
+		AtomicNucleus nucleus = _singleNucleusAlphaDecayModel.getAtomNucleus();
+		if (nucleus != null){
+			double tunnelingRadius = nucleus.getTunnelingRegionRadius();
+			_leftTunnelingLine.setOffset(-tunnelingRadius, 0);
+			_rightTunnelingLine.setOffset(tunnelingRadius, 0);
+			_tunnelingRegion.setPathTo(new Ellipse2D.Double(0, 0, tunnelingRadius * 2, tunnelingRadius * 2));
+			_tunnelingRegion.setOffset(-tunnelingRadius, -tunnelingRadius);
+		}
+	}
+	
     /**
      * Create the nodes needed to represent the nucleus that is currently in
      * the model.
