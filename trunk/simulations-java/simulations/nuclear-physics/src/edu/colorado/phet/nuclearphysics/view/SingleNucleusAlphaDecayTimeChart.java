@@ -633,8 +633,14 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     	double halfLife = _model.getHalfLife();
     	double halfLifeMarkerXPos = 0;
     	if (_exponentialMode){
-    		halfLifeMarkerXPos = _exponentialTimeLine.mapTimeToHorizPixels(halfLife) + _graphOriginX +
-    		     (TIME_ZERO_OFFSET * _msToPixelsFactor);
+    		if (halfLife == Double.POSITIVE_INFINITY){
+    			halfLifeMarkerXPos = _xAxisOfGraph.getFullBoundsReference().getMaxX();
+    		}
+    		else{
+        		halfLifeMarkerXPos = _exponentialTimeLine.mapTimeToHorizPixels(halfLife) + _graphOriginX +
+   		           (TIME_ZERO_OFFSET * _msToPixelsFactor);
+        		halfLifeMarkerXPos = Math.min(halfLifeMarkerXPos, _xAxisOfGraph.getFullBoundsReference().getMaxX());
+    		}
     	}
     	else{
     		halfLifeMarkerXPos = _graphOriginX + (TIME_ZERO_OFFSET + halfLife) * _msToPixelsFactor;
@@ -1149,11 +1155,8 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     		if (time < 0){
     			pixels = 0;
     		}
-    		else if (time == Double.POSITIVE_INFINITY){
-    			pixels = _width;
-    		}
     		else{
-    		    pixels = Math.min((int)Math.round(_timeToPositionMultiplier * Math.log(time + 1)), _width);
+    		    pixels = (int)Math.round(_timeToPositionMultiplier * Math.log(time + 1));
     		}
     		
     		return pixels;
