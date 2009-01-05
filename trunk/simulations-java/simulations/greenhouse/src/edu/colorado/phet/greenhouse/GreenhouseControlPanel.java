@@ -22,13 +22,16 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.greenhouse.model.GreenhouseModel;
 import edu.colorado.phet.greenhouse.util.ModelViewTx1D;
 
 
-public class GreenhouseControlPanel extends JPanel {
+public class GreenhouseControlPanel extends JPanel implements Resettable {
 
     private static Color adjustableGGColor = Color.black;
     //    private static Color adjustableGGColor = Color.cyan;
@@ -196,12 +199,7 @@ public class GreenhouseControlPanel extends JPanel {
         atmosphereSelectionPane = new AtmosphereSelectionPane();
 
         // Reset button
-        JButton resetBtn = new JButton( GreenhouseResources.getString( "GreenhouseControlPanel.Reset" ) );
-        resetBtn.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                reset();
-            }
-        } );
+        JButton resetBtn = new ResetAllButton( this, PhetApplication.getInstance().getPhetFrame() );
 
         setDefaultConditions();
 
@@ -283,7 +281,7 @@ public class GreenhouseControlPanel extends JPanel {
         thermometerCB.setSelected( true );
     }
 
-    private void reset() {
+    public void reset() {
         module.reset();
         atmosphereSelectionPane.reset();
         setDefaultConditions();
