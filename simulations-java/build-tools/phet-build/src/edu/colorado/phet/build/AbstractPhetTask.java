@@ -1,4 +1,4 @@
-package edu.colorado.phet.build.ant;
+package edu.colorado.phet.build;
 
 import java.io.File;
 

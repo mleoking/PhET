@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
-import edu.colorado.phet.build.ant.AbstractPhetBuildTask;
+import edu.colorado.phet.build.AbstractPhetBuildTask;
 import edu.colorado.phet.build.util.FileUtils;
 //todo: needs better error handling for loading flavors
 //todo: test support for deploying with online url
