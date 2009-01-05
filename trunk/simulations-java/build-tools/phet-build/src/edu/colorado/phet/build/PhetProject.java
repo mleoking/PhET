@@ -48,8 +48,8 @@ public class PhetProject {
         return new File( getDefaultDeployDir(), getName() + ".jar" );
     }
 
-    public File getDefaultDeployFlavorJar( String flavor ) {
-        return new File( getDefaultDeployDir(), flavor + ".jar" );
+    public File getDefaultDeploySimulationJar( String simulation ) {
+        return new File( getDefaultDeployDir(), simulation + ".jar" );
     }
 
     public File getProjectDir() {
@@ -309,18 +309,18 @@ public class PhetProject {
         }
 
         mainClasses.addAll( Arrays.asList( getKeepMains() ) );
-        mainClasses.addAll( Arrays.asList( getAllFlavorMainClasses() ) );
+        mainClasses.addAll( Arrays.asList( getAllSimulationMainClasses() ) );
         return (String[]) mainClasses.toArray( new String[0] );
     }
 
     /**
-     * Returns the key values [flavorname], not the titles for all flavors declared in this project.
-     * If no flavors are declared, the simulation name is returned as the sole flavor.
+     * Returns the key values [simulation], not the titles for all simulations declared in this project.
+     * If no simulations are declared, the project name is returned as the sole simulation.
      *
      * @return
      */
-    public String[] getFlavorNames() {
-        ArrayList flavorNames = new ArrayList();
+    public String[] getSimulationNames() {
+        ArrayList simulationNames = new ArrayList();
         Enumeration e = properties.propertyNames();
         while ( e.hasMoreElements() ) {
             String s = (String) e.nextElement();
@@ -328,67 +328,67 @@ public class PhetProject {
             if ( s.startsWith( prefix ) ) {
                 String lastPart = s.substring( prefix.length() );
                 int lastIndex = lastPart.indexOf( '.' );
-                String flavorName = lastPart.substring( 0, lastIndex );
-                if ( !flavorNames.contains( flavorName ) ) {
-                    flavorNames.add( flavorName );
+                String simulationName = lastPart.substring( 0, lastIndex );
+                if ( !simulationNames.contains( simulationName ) ) {
+                    simulationNames.add( simulationName );
                 }
             }
         }
-        if ( flavorNames.size() == 0 ) {
-            flavorNames.add( getName() );
+        if ( simulationNames.size() == 0 ) {
+            simulationNames.add( getName() );
         }
 
-        return (String[]) flavorNames.toArray( new String[0] );
+        return (String[]) simulationNames.toArray( new String[0] );
     }
 
     /**
-     * Return an array of all declared flavors for this project.
+     * Return an array of all declared simulations for this project.
      *
      * @return
      */
-    public PhetProjectFlavor[] getFlavors() {//todo: separate locale-specific from locale dependent?
-        String[] flavorNames = getFlavorNames();
-        PhetProjectFlavor[] flavors = new PhetProjectFlavor[flavorNames.length];
-        for ( int i = 0; i < flavorNames.length; i++ ) {
-            flavors[i] = getFlavor( flavorNames[i] );
+    public Simulation[] getSimulations() {//todo: separate locale-specific from locale dependent?
+        String[] simulationNames = getSimulationNames();
+        Simulation[] simulations = new Simulation[simulationNames.length];
+        for ( int i = 0; i < simulationNames.length; i++ ) {
+            simulations[i] = getSimulation( simulationNames[i] );
         }
-        return flavors;
+        return simulations;
     }
 
-    private String[] getAllFlavorMainClasses() {
+    private String[] getAllSimulationMainClasses() {
         ArrayList mainClasses = new ArrayList();
-        PhetProjectFlavor[] flavors = getFlavors();//see todo: in getFlavors(String)
-        for ( int i = 0; i < flavors.length; i++ ) {
-            PhetProjectFlavor flavor = flavors[i];
-            if ( !mainClasses.contains( flavor.getMainclass() ) ) {
-                mainClasses.add( flavor.getMainclass() );
+        Simulation[] simulations = getSimulations();//see todo: in getSimulations(String)
+        for ( int i = 0; i < simulations.length; i++ ) {
+            Simulation simulation = simulations[i];
+            if ( !mainClasses.contains( simulation.getMainclass() ) ) {
+                mainClasses.add( simulation.getMainclass() );
             }
         }
         return (String[]) mainClasses.toArray( new String[0] );
     }
 
-    public PhetProjectFlavor getFlavor( String flavorName ) {
-        return getFlavor( flavorName, "en" );
+    public Simulation getSimulation( String simulationName ) {
+        return getSimulation( simulationName, "en" );
     }
 
     /**
-     * Load the flavor for associated with this project for the specified name and locale.
-     * todo: better error handling for missing attributes (for sims that don't support flavors yet)
+     * Load the simulation for associated with this project for the specified name and locale.
+     * todo: better error handling for missing attributes (for projects that don't support simulations yet)
      *
-     * @param flavorName
+     * @param simulationName
      * @return
      */
-    public PhetProjectFlavor getFlavor( String flavorName, String locale ) {
-        String mainclass = properties.getProperty( "project.flavor." + flavorName + ".mainclass" );
+    public Simulation getSimulation( String simulationName, String locale ) {
+        String mainclass = properties.getProperty( "project.flavor." + simulationName + ".mainclass" );
         if ( mainclass == null ) {
             mainclass = properties.getProperty( "project.mainclass" );
         }
         if ( mainclass == null ) {
-            throw new RuntimeException( "Mainclass was null for project=" + name + ", flavor=" + flavorName );
+            throw new RuntimeException( "Mainclass was null for project=" + name + ", simulation=" + simulationName );
         }
-        String argsString = properties.getProperty( "project.flavor." + flavorName + ".args" );
+        String argsString = properties.getProperty( "project.flavor." + simulationName + ".args" );
         String[] args = PhetBuildUtils.toStringArray( argsString == null ? "" : argsString, "," );
-        String screenshotPathname = properties.getProperty( "project.flavor." + flavorName + ".screenshot" );
+        String screenshotPathname = properties.getProperty( "project.flavor." + simulationName + ".screenshot" );
         File screenshot = new File( screenshotPathname == null ? "screenshot.gif" : screenshotPathname );
 
         //If we reuse PhetResources class, we should move Proguard usage out, so GPL doesn't virus over
@@ -399,44 +399,44 @@ public class PhetProject {
             String description = null;
             if ( localizationFile.exists() ) {
                 localizedProperties.load( new FileInputStream( localizationFile ) );//todo: handle locale (graceful support for missing strings in locale)
-                String titleKey = flavorName + ".name";
+                String titleKey = simulationName + ".name";
                 title = localizedProperties.getProperty( titleKey );
                 if ( title == null ) {
                     Properties englishProperties = new Properties();
                     englishProperties.load( new FileInputStream( getLocalizationFile( "en" ) ) );
                     title = englishProperties.getProperty( titleKey );
-                    System.out.println( "PhetProject.getFlavor: missing title for simulation: key=" + titleKey + ", locale=" + locale + ", using English" );
+                    System.out.println( "PhetProject.getSimulation: missing title for simulation: key=" + titleKey + ", locale=" + locale + ", using English" );
                     if ( title == null ) {
-                        title = flavorName;
+                        title = simulationName;
                     }
                 }
-                String descriptionKey = flavorName + ".description";
+                String descriptionKey = simulationName + ".description";
                 description = localizedProperties.getProperty( descriptionKey );
                 if ( description == null ) {
                     Properties englishProperties = new Properties();
                     englishProperties.load( new FileInputStream( getLocalizationFile( "en" ) ) );
                     description = englishProperties.getProperty( descriptionKey );
-                    System.out.println( "PhetProject.getFlavor: missing description for simulation: key=" + descriptionKey + ", locale=" + locale + ", using English" );
+                    System.out.println( "PhetProject.getSimulation: missing description for simulation: key=" + descriptionKey + ", locale=" + locale + ", using English" );
                     if ( description == null ) {
                         description = descriptionKey;
                     }
                 }
             }
             else {
-                System.out.println( "PhetProject.getFlavor: localization file doesn't exist: " + localizationFile.getAbsolutePath() );
+                System.out.println( "PhetProject.getSimulation: localization file doesn't exist: " + localizationFile.getAbsolutePath() );
                 title = properties.getProperty( "project.name" );
                 description = properties.getProperty( "project.description" );
                 if ( title == null ) {
-                    System.out.println( "PhetProject.getFlavor: project.name not found, using: " + name );
+                    System.out.println( "PhetProject.getSimulation: project.name not found, using: " + name );
                     title = name;
                 }
                 if ( description == null ) {
-                    System.out.println( "PhetProject.getFlavor: project.description not found, using empty string" );
+                    System.out.println( "PhetProject.getSimulation: project.description not found, using empty string" );
                     description = "";
                 }
             }
 
-            return new PhetProjectFlavor( flavorName, title, description, mainclass, args, screenshot );
+            return new Simulation( simulationName, title, description, mainclass, args, screenshot );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -550,8 +550,8 @@ public class PhetProject {
 
     }
 
-    public String getDeployedFlavorJarURL( String flavor ) {
-        return WEBROOT + getName() + "/" + flavor + ".jar";
+    public String getDeployedSimulationJarURL( String simulationName ) {
+        return WEBROOT + getName() + "/" + simulationName + ".jar";
     }
 
     public File getTranslationFile( Locale locale ) {

@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 import edu.colorado.phet.build.PhetProject;
-import edu.colorado.phet.build.PhetProjectFlavor;
+import edu.colorado.phet.build.Simulation;
 import edu.colorado.phet.common.phetcommon.util.StreamReaderThread;
 
 /**
@@ -32,20 +32,20 @@ public class BatchSimTest {
     }
 
     private void checkSim( PhetProject phetProject, Class mainClass ) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, IOException, InterruptedException {
-        PhetProjectFlavor[] f = phetProject.getFlavors();
+        Simulation[] f = phetProject.getSimulations();
         for ( int i = 0; i < f.length; i++ ) {
 
-            PhetProjectFlavor phetProjectFlavor = f[i];
+            Simulation phetProjectFlavor = f[i];
             String cp = System.getProperty( "java.class.path" );
-            String command = "C:\\j2sdk1.4.2_15\\bin\\java -Dsun.java2d.noddraw=true -classpath \"" + cp + "\" " + mainClass.getName() + " " + phetProject.getName() + " " + phetProjectFlavor.getFlavorName();
+            String command = "C:\\j2sdk1.4.2_15\\bin\\java -Dsun.java2d.noddraw=true -classpath \"" + cp + "\" " + mainClass.getName() + " " + phetProject.getName() + " " + phetProjectFlavor.getName();
             System.out.println( "command = " + command );
 
 //            if ( count >= 55 ) {
             if ( count >= 0 ) {
                 System.out.println( "count=" + count );
                 Process p = Runtime.getRuntime().exec( command );
-                new StreamReaderThread( p.getErrorStream(), "err_" + phetProjectFlavor.getFlavorName() ).start();
-                new StreamReaderThread( p.getInputStream(), "out_" + phetProjectFlavor.getFlavorName() ).start();
+                new StreamReaderThread( p.getErrorStream(), "err_" + phetProjectFlavor.getName() ).start();
+                new StreamReaderThread( p.getInputStream(), "out_" + phetProjectFlavor.getName() ).start();
                 int val = p.waitFor();
                 System.out.println( "Finished exec." );
             }

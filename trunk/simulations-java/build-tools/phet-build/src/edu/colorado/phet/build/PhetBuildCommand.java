@@ -119,18 +119,18 @@ public class PhetBuildCommand {
 
         Manifest.Attribute attribute = new Manifest.Attribute();
 
-        //need to use flavor launcher if there are multiple flavors or if any flavor contains args
-        //for now, let's just use FlavorLauncher for all usages.
+        //need to use simulation launcher if there are multiple simulation or if any simulation contains args
+        //for now, let's just use JarLauncher for all usages.
 
         attribute.setName( "Main-Class" );
         //todo: support a main-class chooser & launcher
         attribute.setValue( JAR_LAUNCHER );
 
-        File flavorsProp = createProjectPropertiesFile();
+        File propertiesFile = createProjectPropertiesFile();
 
-        FileSet flavorFileSet = new FileSet();
-        flavorFileSet.setFile( flavorsProp );
-        jar.addFileset( flavorFileSet );
+        FileSet simFileSet = new FileSet();
+        simFileSet.setFile( propertiesFile );
+        jar.addFileset( simFileSet );
 
         manifest.addConfiguredAttribute( attribute );
         jar.addConfiguredManifest( manifest );
@@ -146,16 +146,16 @@ public class PhetBuildCommand {
         // create the various properties
         Properties properties = new Properties();
         properties.setProperty( "project.name", project.getName() );
-        for ( int i = 0; i < project.getFlavors().length; i++ ) {
-            PhetProjectFlavor flavor = project.getFlavors()[i];
-            properties.setProperty( "project.flavor." + flavor.getFlavorName() + ".mainclass", flavor.getMainclass() );
-            properties.setProperty( "project.flavor." + flavor.getFlavorName() + ".title", flavor.getTitle() );
+        for ( int i = 0; i < project.getSimulations().length; i++ ) {
+            Simulation simulation = project.getSimulations()[i];
+            properties.setProperty( "project.flavor." + simulation.getName() + ".mainclass", simulation.getMainclass() );
+            properties.setProperty( "project.flavor." + simulation.getName() + ".title", simulation.getTitle() );
             String args = "";
-            String[] a = flavor.getArgs();
+            String[] a = simulation.getArgs();
             for ( int j = 0; j < a.length; j++ ) {
                 args += a[j] + " ";
             }
-            properties.setProperty( "project.flavor." + flavor.getFlavorName() + ".args", args.trim() );
+            properties.setProperty( "project.flavor." + simulation.getName() + ".args", args.trim() );
         }
 
         // write the properties to a file

@@ -22,13 +22,13 @@ public class TranslationDiscrepancy {
     private final Set extraLocal;
     private final Set extraRemote;
     private final PhetProject phetProject;
-    private final String flavor;
+    private final String simulation;
 
-    TranslationDiscrepancy( Set extraLocal, Set extraRemote, PhetProject phetProject, String flavor ) {
+    TranslationDiscrepancy( Set extraLocal, Set extraRemote, PhetProject phetProject, String simulation ) {
         this.extraLocal = extraLocal;
         this.extraRemote = extraRemote;
         this.phetProject = phetProject;
-        this.flavor = flavor;
+        this.simulation = simulation;
     }
 
     public Set getExtraLocal() {
@@ -43,8 +43,8 @@ public class TranslationDiscrepancy {
         return phetProject;
     }
 
-    public String getFlavor() {
-        return flavor;
+    public String getSimulation() {
+        return simulation;
     }
 
     public String toString() {
@@ -53,7 +53,7 @@ public class TranslationDiscrepancy {
 
     public void resolve( String username, boolean addNewOnly ) {
         try {
-            File resolveJAR = new File( CheckTranslations.TRANSLATIONS_TEMP_DIR, flavor + "_resolved" + System.currentTimeMillis() + ".jar" );
+            File resolveJAR = new File( CheckTranslations.TRANSLATIONS_TEMP_DIR, simulation + "_resolved" + System.currentTimeMillis() + ".jar" );
             resolve( resolveJAR, username, addNewOnly );
         }
         catch( IOException e ) {
@@ -67,13 +67,13 @@ public class TranslationDiscrepancy {
             boolean changed = synchronizeStrings( jarFile, resolveJAR, addNewOnly );
         }
         else {
-            System.out.println( "no resolution needed for: " + phetProject.getName() + ": " + flavor );
+            System.out.println( "no resolution needed for: " + phetProject.getName() + ": " + simulation );
         }
     }
 
     private boolean synchronizeStrings( File jarFile, File resolveJAR, final boolean addNewOnly ) throws IOException {
         boolean changed = false;
-        File tempUnzipDir = new File( CheckTranslations.TRANSLATIONS_TEMP_DIR, flavor + "-dir" );
+        File tempUnzipDir = new File( CheckTranslations.TRANSLATIONS_TEMP_DIR, simulation + "-dir" );
         tempUnzipDir.mkdirs();
 
         final Pattern excludePattern = Pattern.compile( quote( phetProject.getName() ) + "[\\\\/]localization[\\\\/]" + quote( phetProject.getName() ) + ".*\\.properties" );
@@ -108,7 +108,7 @@ public class TranslationDiscrepancy {
 
         }
         else {
-            System.out.println( "Project: " + phetProject.getName() + " flavor=" + flavor + ", locale=" + locale + ": New key set is missing some pre-existing keys= " + missingKeys );
+            System.out.println( "Project: " + phetProject.getName() + " simulation=" + simulation + ", locale=" + locale + ": New key set is missing some pre-existing keys= " + missingKeys );
         }
     }
 
@@ -129,9 +129,9 @@ public class TranslationDiscrepancy {
     }
 
     private File downloadJAR() throws IOException {
-        String deployUrl = phetProject.getDeployedFlavorJarURL( flavor );
+        String deployUrl = phetProject.getDeployedSimulationJarURL( simulation );
 
-        File jarFile = new File( CheckTranslations.TRANSLATIONS_TEMP_DIR, flavor + ".jar" );
+        File jarFile = new File( CheckTranslations.TRANSLATIONS_TEMP_DIR, simulation + ".jar" );
 
         FileUtils.download( deployUrl, jarFile );
         return jarFile;

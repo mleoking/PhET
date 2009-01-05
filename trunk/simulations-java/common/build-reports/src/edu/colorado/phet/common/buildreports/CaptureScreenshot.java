@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import edu.colorado.phet.build.PhetProject;
-import edu.colorado.phet.build.PhetProjectFlavor;
+import edu.colorado.phet.build.Simulation;
 import edu.colorado.phet.common.phetcommon.resources.DummyConstantStringTester;
 
 /**
@@ -27,7 +27,7 @@ public class CaptureScreenshot {
         final String sim = args[1];
 
         PhetProject phetProject = new PhetProject( new File( "C:\\reid\\phet\\svn\\trunk\\simulations-java\\simulations" ), project );
-        final PhetProjectFlavor flavor = phetProject.getFlavor( sim );
+        final Simulation flavor = phetProject.getSimulation( sim );
 
 //        DummyConstantStringTester.setTestScenario( new Locale( "ja" ), "\u30A8\u30CD\u30EB\u30AE\u30FC\u306E\u6642\u9593\u5909\u5316" );
         DummyConstantStringTester.setTestScenario( new Locale( "ar" ), "\u0627\u0646\u062A\u0632\u0639" );

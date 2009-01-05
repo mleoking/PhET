@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.*;
 
 import edu.colorado.phet.build.PhetProject;
-import edu.colorado.phet.build.PhetProjectFlavor;
+import edu.colorado.phet.build.Simulation;
 import edu.colorado.phet.build.util.PhetBuildUtils;
 
 public class PhetDisplayStatsTask {
@@ -14,7 +14,7 @@ public class PhetDisplayStatsTask {
     }
 
     public static void showStats( String[] simNames, File baseDir ) {
-        int flavorCount = 0;
+        int simCount = 0;
         int numStandardized = 0;
         HashMap languages = new HashMap();
         for ( int i = 0; i < simNames.length; i++ ) {
@@ -22,9 +22,9 @@ public class PhetDisplayStatsTask {
             try {
                 File projectParentDir = PhetBuildUtils.resolveProject( baseDir, simName );
                 PhetProject phetProject = new PhetProject( projectParentDir, simName );
-                System.out.println( phetProject.getName() + " (" + phetProject.getVersionString() + ") : " + Arrays.asList( phetProject.getFlavorNames() ) + " locales: " + Arrays.asList( phetProject.getLocales() ) + " non-clash-data=" + isNonClashData( phetProject ) + ", user-readable-names=" + Arrays.asList( getUserReadableFlavorNames( phetProject ) ) );
+                System.out.println( phetProject.getName() + " (" + phetProject.getVersionString() + ") : " + Arrays.asList( phetProject.getSimulationNames() ) + " locales: " + Arrays.asList( phetProject.getLocales() ) + " non-clash-data=" + isNonClashData( phetProject ) + ", user-readable-names=" + Arrays.asList( getUserReadableSimulationNames( phetProject ) ) );
                 numStandardized += isNonClashData( phetProject ) ? 1 : 0;
-                flavorCount += phetProject.getFlavorNames().length;
+                simCount += phetProject.getSimulationNames().length;
                 for ( int j = 0; j < phetProject.getLocales().length; j++ ) {
                     Locale locale = phetProject.getLocales()[j];
                     languages.put( locale, "" );
@@ -40,15 +40,15 @@ public class PhetDisplayStatsTask {
             Locale o = (Locale) locales.get( i );
             language.add( o.getDisplayLanguage() );
         }
-        System.out.println( "Number of Sims: " + simNames.length + ", number of declared flavors: " + flavorCount + ", number of locales used at least once: " + languages.size() + ", all locales=" + locales + ", languages=" + language + ", non-clash-data=" + numStandardized );
+        System.out.println( "Number of Sims: " + simNames.length + ", number of declared simulations: " + simCount + ", number of locales used at least once: " + languages.size() + ", all locales=" + locales + ", languages=" + language + ", non-clash-data=" + numStandardized );
     }
 
-    private static String[] getUserReadableFlavorNames( PhetProject phetProject ) {
+    private static String[] getUserReadableSimulationNames( PhetProject phetProject ) {
         ArrayList list = new ArrayList();
-        PhetProjectFlavor[] flavors = phetProject.getFlavors();
-        for ( int i = 0; i < flavors.length; i++ ) {
-            PhetProjectFlavor flavor = flavors[i];
-            list.add( flavor.getTitle() );
+        Simulation[] simulations = phetProject.getSimulations();
+        for ( int i = 0; i < simulations.length; i++ ) {
+            Simulation simulation = simulations[i];
+            list.add( simulation.getTitle() );
         }
         return (String[]) list.toArray( new String[0] );
     }

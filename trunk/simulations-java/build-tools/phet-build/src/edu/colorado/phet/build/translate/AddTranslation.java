@@ -8,7 +8,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.build.PhetBuildJnlpTask;
 import edu.colorado.phet.build.PhetProject;
-import edu.colorado.phet.build.PhetProjectFlavor;
+import edu.colorado.phet.build.Simulation;
 import edu.colorado.phet.build.util.FileUtils;
 
 import com.jcraft.jsch.JSchException;
@@ -78,26 +78,26 @@ public class AddTranslation {
                 throw new RuntimeException( "localization file doesn't exist for sim: " + phetProject.getName() + ", lang=" + language );
             }
 
-            // Get flavors once, reuse in each iteration
-            PhetProjectFlavor[] flavors = phetProject.getFlavors();
+            // Get simulations once, reuse in each iteration
+            Simulation[] simulations = phetProject.getSimulations();
 
             System.out.println( "Downloading all jars" );
-            //Download all flavor JAR files for this project
-            for ( int i = 0; i < flavors.length; i++ ) {
-                downloadJAR( phetProject, flavors[i].getFlavorName() );
+            //Download all simulation JAR files for this project
+            for ( int i = 0; i < simulations.length; i++ ) {
+                downloadJAR( phetProject, simulations[i].getName() );
             }
             downloadJAR( phetProject, phetProject.getName() );//also download the webstart JAR
             System.out.println( "Finished downloading all jars" );
 
             System.out.println( "Updating all jars." );
-            //Update all flavor JAR files
-            for ( int i = 0; i < flavors.length; i++ ) {
-                updateJAR( phetProject, flavors[i].getFlavorName(), language );
+            //Update all simulation JAR files
+            for ( int i = 0; i < simulations.length; i++ ) {
+                updateJAR( phetProject, simulations[i].getName(), language );
             }
             updateJAR( phetProject, phetProject.getName(), language );//also update the webstart JAR
             System.out.println( "Finished updating all jars" );
 
-            //create a JNLP file for each flavor
+            //create a JNLP file for each simulation
             System.out.println( "Building JNLP" );
             PhetBuildJnlpTask.buildJNLPForSimAndLanguage( phetProject, language );
             checkMainClasses( phetProject, language );
@@ -106,10 +106,10 @@ public class AddTranslation {
 
             if ( success && DEPLOY_ENABLED ) {//Can disable for local testing
                 System.out.println( "Starting deploy" );
-                //Deploy updated flavor JAR files
-                for ( int i = 0; i < flavors.length; i++ ) {
-                    deployJAR( phetProject, flavors[i].getFlavorName(), user, password );
-                    deployJNLPFile( phetProject, flavors[i], language, user, password );
+                //Deploy updated simulation JAR files
+                for ( int i = 0; i < simulations.length; i++ ) {
+                    deployJAR( phetProject, simulations[i].getName(), user, password );
+                    deployJNLPFile( phetProject, simulations[i], language, user, password );
                 }
                 deployJAR( phetProject, phetProject.getName(), user, password );//also deploy the updated webstart JAR
 
@@ -151,23 +151,23 @@ public class AddTranslation {
     }
 
     private void checkMainClasses( PhetProject project, String language ) throws IOException {
-        for ( int i = 0; i < project.getFlavorNames().length; i++ ) {
+        for ( int i = 0; i < project.getSimulationNames().length; i++ ) {
             //download JNLP from main site and use as template in case any changes in main-class
             final File localFile = new File( TRANSLATIONS_TEMP_DIR, "template-" + project.getName() + ".jnlp" );
             localFile.deleteOnExit();
-            String url = "http://phet.colorado.edu/sims/" + project.getName() + "/" + project.getFlavors()[i].getFlavorName() + ".jnlp";
+            String url = "http://phet.colorado.edu/sims/" + project.getName() + "/" + project.getSimulations()[i].getName() + ".jnlp";
             try {
                 FileUtils.download( url, localFile );
             }
-            catch( FileNotFoundException e ) {//not all sims have a flavor name equal to project name
+            catch( FileNotFoundException e ) {//not all sims have a simulation name equal to project name
                 JOptionPane.showMessageDialog( null, "Could not find path: " + url + ", need to resolve this, need to redeploy sim." );
             }
             String desiredMainClass = getMainClass( localFile );
 
             //See #1052
 //            File newJNLPFile = new File( project.getDefaultDeployDir(), "" + project.getName() + "_" + language + ".jnlp" );
-//            if ( !newJNLPFile.exists() ) {//not all sims have a flavor name equal to project name
-            File newJNLPFile = new File( project.getDefaultDeployDir(), "" + project.getFlavors()[i].getFlavorName() + "_" + language + ".jnlp" );
+//            if ( !newJNLPFile.exists() ) {//not all sims have a simulation name equal to project name
+            File newJNLPFile = new File( project.getDefaultDeployDir(), "" + project.getSimulations()[i].getName() + "_" + language + ".jnlp" );
 //            }
             String repositoryMainClass = getMainClass( newJNLPFile );
             if ( !repositoryMainClass.equals( desiredMainClass ) ) {
@@ -267,13 +267,13 @@ public class AddTranslation {
         ScpTo.uploadFile( getJARTempFile( phetProject, jarBaseName ), user, "tigercat.colorado.edu", filename, password );
     }
 
-    private void deployJNLPFile( PhetProject phetProject, PhetProjectFlavor phetProjectFlavor, String locale, String user, String password ) throws JSchException, IOException {
-        String filename = getRemoteDirectory( phetProject ) + phetProjectFlavor.getFlavorName() + "_" + locale + ".jnlp";
-        ScpTo.uploadFile( getJNLPFile( phetProject, phetProjectFlavor, locale ), user, "tigercat.colorado.edu", filename, password );
+    private void deployJNLPFile( PhetProject phetProject, Simulation simulation, String locale, String user, String password ) throws JSchException, IOException {
+        String filename = getRemoteDirectory( phetProject ) + simulation.getName() + "_" + locale + ".jnlp";
+        ScpTo.uploadFile( getJNLPFile( phetProject, simulation, locale ), user, "tigercat.colorado.edu", filename, password );
     }
 
-    private File getJNLPFile( PhetProject phetProject, PhetProjectFlavor phetProjectFlavor, String locale ) {
-        return new File( phetProject.getDefaultDeployDir(), phetProjectFlavor.getFlavorName() + "_" + locale + ".jnlp" );
+    private File getJNLPFile( PhetProject phetProject, Simulation simulation, String locale ) {
+        return new File( phetProject.getDefaultDeployDir(), simulation.getName() + "_" + locale + ".jnlp" );
     }
 
     private String getRemoteDirectory( PhetProject phetProject ) {
@@ -287,7 +287,7 @@ public class AddTranslation {
     }
 
     private void downloadJAR( PhetProject phetProject, String jarBaseName ) throws FileNotFoundException {
-        String url = phetProject.getDeployedFlavorJarURL( jarBaseName );
+        String url = phetProject.getDeployedSimulationJarURL( jarBaseName );
         final File fileName = getJARTempFile( phetProject, jarBaseName );
         System.out.println( "Starting download to: " + fileName.getAbsolutePath() );
         FileUtils.download( url, fileName );

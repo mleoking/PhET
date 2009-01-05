@@ -4,18 +4,18 @@ import java.io.File;
 import java.util.Arrays;
 
 /**
- * A localized flavor for a project
+ * A localized simulation for a project
  */
-public class PhetProjectFlavor {
-    private String flavorName;
+public class Simulation {
+    private String name;
     private String description;
     private String[] args;
     private String mainclass;
     private File screenshot;
     private String title;
 
-    public PhetProjectFlavor( String flavorName, String title, String description, String mainclass, String[] args, File screenshot ) {
-        this.flavorName = flavorName;
+    public Simulation( String name, String title, String description, String mainclass, String[] args, File screenshot ) {
+        this.name = name;
         this.description = description;
         this.args = args;
         this.mainclass = mainclass;
@@ -23,8 +23,8 @@ public class PhetProjectFlavor {
         this.title = title;
     }
 
-    public String getFlavorName() {
-        return flavorName;
+    public String getName() {
+        return name;
     }
 
     public String getDescription() {
@@ -53,7 +53,7 @@ public class PhetProjectFlavor {
 
     public String getJavaStyleName() {
         //delete hyphens and camel-case
-        String name = upperCaseFirst( getFlavorName() );
+        String name = upperCaseFirst( getName() );
         while ( name.indexOf( '-' ) >= 0 ) {
             int index = name.indexOf( '-' );
             name = name.substring( 0, index ) + upperCaseFirst( name.substring( index + 1 ) );

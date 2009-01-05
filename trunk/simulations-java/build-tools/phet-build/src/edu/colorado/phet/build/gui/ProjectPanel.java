@@ -15,7 +15,7 @@ public class ProjectPanel extends JPanel {
     private PhetProject project;
     private JLabel titleLabel;
     private JTextArea changesTextArea;
-    private JList flavorList;
+    private JList simulationList;
     private JList localeList;
     private JScrollPane changesScrollPane;
     private PhetProject.Listener listener = new PhetProject.Listener() {
@@ -46,12 +46,12 @@ public class ProjectPanel extends JPanel {
 //        changesScrollPane.setMinimumSize( new Dimension( 600, 250 ) );
 
 
-        flavorList = new JList( project.getFlavorNames() );
-        JScrollPane flavorScrollPane = new JScrollPane( flavorList );
-        flavorScrollPane.setBorder( BorderFactory.createTitledBorder( "Simulations" ) );
-        flavorScrollPane.setMinimumSize( new Dimension( 150, 0 ) );
-        flavorScrollPane.setMaximumSize( new Dimension( 150, 10000 ) );
-        flavorScrollPane.setPreferredSize( new Dimension( 150, 400 ) );
+        simulationList = new JList( project.getSimulationNames() );
+        JScrollPane simulationScrollPane = new JScrollPane( simulationList );
+        simulationScrollPane.setBorder( BorderFactory.createTitledBorder( "Simulations" ) );
+        simulationScrollPane.setMinimumSize( new Dimension( 150, 0 ) );
+        simulationScrollPane.setMaximumSize( new Dimension( 150, 10000 ) );
+        simulationScrollPane.setPreferredSize( new Dimension( 150, 400 ) );
 
 
         localeList = new JList( project.getLocales() );
@@ -109,7 +109,7 @@ public class ProjectPanel extends JPanel {
         add(
                 Boxer.verticalBox(
                         Boxer.horizontalBox(
-                                Boxer.verticalBox( flavorScrollPane, localeScroll ),
+                                Boxer.verticalBox( simulationScrollPane, localeScroll ),
                                 Boxer.verticalBox( titleLabel, changesScrollPane ) ),
                         controlPanel )
                 , BorderLayout.CENTER );
@@ -139,7 +139,7 @@ public class ProjectPanel extends JPanel {
 
     private void doTest() {
         getBuildScript().build();
-        getBuildScript().runSim( getSelectedLocale(), getSelectedFlavor() );
+        getBuildScript().runSim( getSelectedLocale(), getSelectedSimulation() );
     }
 
     private AuthenticationInfo getDevelopmentAuthentication( String serverType ) {
@@ -155,8 +155,8 @@ public class ProjectPanel extends JPanel {
     }
 
 
-    private String getSelectedFlavor() {
-        return (String) flavorList.getSelectedValue();
+    private String getSelectedSimulation() {
+        return (String) simulationList.getSelectedValue();
     }
 
     private Locale getSelectedLocale() {
@@ -168,8 +168,8 @@ public class ProjectPanel extends JPanel {
         this.project = project;
         this.project.addListener( listener );
         updateTitleLabel();
-        flavorList.setListData( project.getFlavorNames() );
-        flavorList.setSelectedIndex( 0 );
+        simulationList.setListData( project.getSimulationNames() );
+        simulationList.setSelectedIndex( 0 );
         localeList.setListData( project.getLocales() );
 
         updateChangesText();
