@@ -89,7 +89,7 @@ public class BuildScript {
 
         String codebase = server.getURL( project );
         System.out.println( "codebase = " + codebase );
-        buildJNLP( codebase );
+        buildJNLP( codebase, server.isDevelopmentServer() );
 
         createHeader( svnNumber );
 
@@ -149,7 +149,7 @@ public class BuildScript {
         }
     }
 
-    public void buildJNLP( String codebase ) {
+    public void buildJNLP( String codebase, boolean dev ) {
         String[] flavorNames = project.getFlavorNames();
         Locale[] locales = project.getLocales();
         for ( int i = 0; i < locales.length; i++ ) {
@@ -157,7 +157,7 @@ public class BuildScript {
 
             for ( int j = 0; j < flavorNames.length; j++ ) {
                 String flavorName = flavorNames[j];
-                buildJNLP( locale, flavorName, codebase );
+                buildJNLP( locale, flavorName, codebase, dev );
             }
         }
     }
@@ -244,9 +244,10 @@ public class BuildScript {
         }
     }
 
-    public void buildJNLP( Locale locale, String flavorName, String codebase ) {
+    public void buildJNLP( Locale locale, String flavorName, String codebase, boolean dev ) {
         System.out.println( "Building JNLP for locale=" + locale.getLanguage() + ", flavor=" + flavorName );
         PhetBuildJnlpTask j = new PhetBuildJnlpTask();
+        j.setDev( dev );
         j.setDeployUrl( codebase );
         j.setProject( project.getName() );
         j.setLocale( locale.getLanguage() );
@@ -310,7 +311,7 @@ public class BuildScript {
             }
 
             java.setArgs( "-dev" ); // program arg to run in developer mode
-            
+
             new MyAntTaskRunner().runTask( java );
         }
     }
@@ -362,7 +363,7 @@ public class BuildScript {
             String jnlpFilename = project.getFlavorNames()[i] + ".jnlp";
             String simname = project.getFlavors()[i].getTitle();
             s += "<li><a href=\"" + jnlpFilename + "\">Launch " + simname + "</a></li>";
-            if ( i < project.getFlavorNames().length-1 ) {
+            if ( i < project.getFlavorNames().length - 1 ) {
                 s += "\n";
             }
         }

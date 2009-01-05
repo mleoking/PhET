@@ -13,11 +13,13 @@ public abstract class PhetServer {
     private String host;
     private String path;
     private String url;
+    private boolean developmentServer;
 
-    public PhetServer( String host, String path, String url ) {
+    public PhetServer( String host, String path, String url, boolean developmentServer ) {
         this.host = host;
         this.path = path;
         this.url = url;
+        this.developmentServer = developmentServer;
     }
 
     public String getHost() {
@@ -36,9 +38,13 @@ public abstract class PhetServer {
 
     public abstract String getPath( PhetProject project );
 
+    public boolean isDevelopmentServer() {
+        return developmentServer;
+    }
+
     private static class PhetDevServer extends PhetServer {
         public PhetDevServer( String host, String path, String url ) {
-            super( host, path, url );
+            super( host, path, url, true );
         }
 
         public String getURL( PhetProject project ) {
@@ -52,7 +58,7 @@ public abstract class PhetServer {
 
     private static class PhetProdServer extends PhetServer {
         public PhetProdServer( String host, String path, String url ) {
-            super( host, path, url );
+            super( host, path, url, false );
         }
 
         public String getURL( PhetProject project ) {
