@@ -309,6 +309,8 @@ public class BuildScript {
                 java.setJvmargs( "-Djavaws.phet.locale=" + locale );
             }
 
+            java.setArgs( "-dev" ); // program arg to run in developer mode
+            
             new MyAntTaskRunner().runTask( java );
         }
     }
