@@ -1,3 +1,5 @@
+# 2.04.03 (26992) 01-05-2009
+publish dev version to test whether #415 is still an issue
 1-5-2008: #891, RasterFormatException at startup
 1-5-2009: remove obsolete entries in string files
 1-5-2009: #1076, Reset All feature is broken
