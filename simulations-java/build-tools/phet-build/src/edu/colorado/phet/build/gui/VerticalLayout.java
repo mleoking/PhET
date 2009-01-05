@@ -40,7 +40,7 @@
  *
  */
 
-package edu.colorado.phet.build.java;
+package edu.colorado.phet.build.gui;
 
 import java.awt.*;
 
