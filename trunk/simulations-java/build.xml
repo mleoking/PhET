@@ -3,30 +3,14 @@
 
   PhET primary buildfile
 
-  This Ant buildfile is specific to building PhET simulations, in particular 
+  This Ant buildfile is specific to building PhET simulations, in particular
   building JAR and JNLP files. To make this buildfile easier to read, only the 
   primary targets that support day-to-day operations are included herein.
-  
-  Secondary targets and supporting information can be found in build-ancillary.xml.
 
-  The most common targets are:
+  PhET's build process is implemented in Java.  This file is responsible for starting up the java-based
+  PhetBuildGUI, from which the user can test or deploy simulations.
 
-    * launch-sim: [default target]
-          starts a GUI that allows you to select a simulation and language, 
-          then builds and runs it.
-          
-    * build-jar:
-          builds the JAR file for the simulation specified by property "sim.name".
-          The JAR will appear in the sim's deploy directory.
-          
-    * build-and-deploy-dev: 
-          builds and deploys to the development server, updating dev and 
-          SVN revision numbers
-          
-    * build-and-deploy-prod: 
-          builds and deploys to the development and production server, 
-          updating minor, dev, and SVN revision numbers
-          
+  TODO: is the following still valid?
   You may configure the build process by specifying properties in file build-local.properties.
   The properties that may be safely specified are listed below.
 
@@ -47,8 +31,76 @@
 -->
 <project name="PhET primary buildfile" default="launch-sim" basedir=".">
 
-    <!-- imports ancillary build information required by these targets -->
-    <import file="build-ancillary.xml"/>
+    <!-- =================================================================== -->
+	<!-- Public properties                                                   -->
+	<!-- =================================================================== -->
+
+	<!-- Load user-specified properties from this file. -->
+	<!-- Do this first to allow overrides -->
+	<!-- See build.xml for documentation of specific properties. -->
+	<property file="build-local.properties"/>
+
+	<!-- =================================================================== -->
+	<!-- Private properties, do NOT change or override these                 -->
+	<!-- =================================================================== -->
+
+	<!-- structure of the PhET codebase.-->
+	<property name="dir.build-tools"                value="${basedir}/build-tools"/>
+	<property name="dir.contrib"                    value="${basedir}/contrib"/>
+
+    <property name="dev.server.dir" value=""/>
+    <property name="increment.versions" value="true"/>
+
+	<!-- structure of the codebase for PhET's custom Ant task -->
+	<property name="ant-output"             location="ant_output"/>
+	<property name="phetbuild-classes-dir"  location="${ant-output}/phetbuild/classes"/>
+	<property name="proguard.jar"           location="${dir.build-tools}/proguard/lib/proguard.jar"/>
+	<property name="jsch.jar"               location="${dir.build-tools}/jsch/jsch.jar"/>
+	<property name="apache.commons.lang.jar" location="${dir.build-tools}/commons-lang/commons-lang.jar"/>
+	<property name="phetbuild-src"          location="${dir.build-tools}/phet-build/src"/>
+	<property name="imageio-src"            location="${dir.build-tools}/image4j/src" />
+
+	<property name="phet.version"           value=""/>
+	<property name="phet.src.distribution"  value="${basedir}/deploy/phet-src.zip"/>
+
+	<!-- PhET task implementations -->
+	<property name="phetbuild-classpath"            value="${phetbuild-classes-dir};${proguard.jar};${apache.commons.lang.jar};${jsch.jar}"/>
+	<property name="phet-build-gui-classname"       value="edu.colorado.phet.build.java.PhetBuildGUITask"/>
+
+    <!-- =================================================================== -->
+	<!-- Internal targets, do NOT call directly                              -->
+	<!-- =================================================================== -->
+
+	<!-- TODO: PLEASE DOCUMENT ME -->
+	<target name="_clean-phet-build">
+		<delete dir="${phetbuild-classes-dir}"/>
+	</target>
+
+	<!-- TODO: PLEASE DOCUMENT ME -->
+	<target name="_compile-phet-build">
+		<mkdir dir="${phetbuild-classes-dir}"/>
+
+		<javac srcdir="${phetbuild-src}:${dir.build-tools}/securechannelfacade/src/main/java"
+               destdir="${phetbuild-classes-dir}"
+               classpath="${proguard.jar}:${apache.commons.lang.jar};${jsch.jar}" debug="true"
+               debuglevel="lines,source">
+			<src path="${phetbuild-src}" />
+			<src path="${imageio-src}" />
+		</javac>
+	</target>
+
+    <!-- TODO: PLEASE DOCUMENT ME -->
+    <target name="_build-phet-build" depends="_clean-phet-build, _compile-phet-build" />
+
+    	<!-- TODO: PLEASE DOCUMENT ME -->
+	<target name="_init" depends="_declare-phet-build-tasks"/>
+
+	<!-- defines custom Ant tasks that must be compiled at build time -->
+	<target name="_declare-phet-build-tasks" depends="_build-phet-build">
+		<taskdef name="phet-build-gui"
+                 classname="${phet-build-gui-classname}"
+                 classpath="${phetbuild-classpath}"/>
+    </target>
 
     <target name="phet-build-gui" depends="_init" description="Show the PhET Build GUI for testing and deploying sims">
         <phet-build-gui/>
