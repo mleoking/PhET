@@ -1,4 +1,4 @@
-package edu.colorado.phet.build.java;
+package edu.colorado.phet.build;
 
 import edu.colorado.phet.build.PhetProject;
 
