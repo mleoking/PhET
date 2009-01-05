@@ -6,7 +6,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
-import apple.dts.samplecode.osxadapter.OSXAdapter;
 import edu.colorado.phet.common.phetcommon.dialogs.PhetAboutDialog;
 import edu.colorado.phet.common.phetcommon.tracking.ITrackingInfo;
 import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
@@ -14,7 +13,6 @@ import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.JTabbedModulePane;
-import edu.colorado.phet.common.phetcommon.view.PhetExit;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 
 /**
@@ -82,14 +80,25 @@ public class PhetApplication
     public ISimInfo getSimInfo() {
         return phetApplicationConfig;
     }
-
+    
+    
     /**
      * Get the last created PhetApplication.
      *
      * @return last created PhetApplication.
      */
-    public static PhetApplication instance() {
+    public static PhetApplication getInstance() {
         return (PhetApplication) phetApplications.get( phetApplications.size() - 1 );
+    }
+
+    /**
+     * Get the last created PhetApplication.
+     *
+     * @return last created PhetApplication.
+     * @deprecated use getInstance
+     */
+    public static PhetApplication instance() {
+        return getInstance();
     }
 
     /**
