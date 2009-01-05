@@ -20,20 +20,12 @@ object MyTest {
   def main(args: Array[String]) = {
     println("started")
 
-    class MyApp(config: PhetApplicationConfig) extends PhetApplication(config) {
-      addModule(new MyModule)
-    }
-
-    class MyAppConstructor extends ApplicationConstructor {
-      override def getApplication(a: PhetApplicationConfig): MyApp = new MyApp(a)
-    }
-
     class Rotator(node: PNode) extends ClockAdapter {
       override def simulationTimeChanged(clockEvent: ClockEvent) = {
         node.rotateInPlace(3.14 / 64)
       }
     }
-    class MyModule extends Module("my module", new ConstantDtClock(30, 1)) {
+    class ScalaModule extends Module("my module", new ConstantDtClock(30, 1)) {
       val canvas = new PhetPCanvas
       setSimulationPanel(canvas)
 
@@ -45,10 +37,14 @@ object MyTest {
     }
 
     val config = new PhetApplicationConfig(args, "moving-man")
-    val application = new MyApp(config)
+    object ScalaApp extends PhetApplication(config) {
+      addModule(new ScalaModule)
+    }
+    object ScalaAppConstructor extends ApplicationConstructor {
+      override def getApplication(a: PhetApplicationConfig): PhetApplication = ScalaApp
+    }
 
-    val a = new MyAppConstructor()
-    new PhetApplicationLauncher().launchSim(config, a)
+    new PhetApplicationLauncher().launchSim(config, ScalaAppConstructor)
     println("finished")
   }
 }
