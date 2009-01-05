@@ -20,6 +20,7 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
     private volatile String flavorName;
     private volatile String deployUrl;
     private volatile String locale = "en";
+    private boolean dev = true;
 
     protected void executeImpl( PhetProject phetProject ) throws Exception {
         if ( flavorName == null ) {
@@ -64,9 +65,18 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
 
         //optionally add a -dev parameter if this simulation is deployed to dev directory 
         String property = getOwningTarget() != null ? getOwningTarget().getProject().getProperty( "deploy.to.dev" ) : null;
+
+        //todo: rewrite/remove this if clause
         if ( property != null && property.equalsIgnoreCase( "true" ) ) {
             //todo: should use the constant for this arg from phetcommon
             args.add( "-dev" );
+        }
+
+
+        if ( dev ) {
+            if ( !args.contains( "-dev" ) ) {
+                args.add( "-dev" );
+            }
         }
         return (String[]) args.toArray( new String[0] );
     }
@@ -115,4 +125,7 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
         }
     }
 
+    public void setDev( boolean dev ) {
+        this.dev = dev;
+    }
 }
