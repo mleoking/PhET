@@ -889,47 +889,47 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     		if (milliseconds < 1000){
     			// Milliseconds range.
                 _timeText.setText( new String (timeFormatterNoDecimals.format(milliseconds)) );
-                _unitsText.setText("ms");
+                _unitsText.setText(NuclearPhysicsStrings.UNITS_MILLISECONDS);
     		}
     		else if (milliseconds < 60000){
     			// Seconds range.
                 _timeText.setText( new String (timeFormatterOneDecimal.format(milliseconds / 1000)) );
-                _unitsText.setText("sec");
+                _unitsText.setText(NuclearPhysicsStrings.UNITS_SECONDS);
     		}
     		else if (milliseconds < 3600000){
     			// Minutes range.
                 _timeText.setText( new String (timeFormatterOneDecimal.format(milliseconds / 60000)) );
-                _unitsText.setText("min");
+                _unitsText.setText(NuclearPhysicsStrings.UNITS_MINUTES);
     		}
     		else if (milliseconds < 86400000){
     			// Hours range.
                 _timeText.setText( new String (timeFormatterOneDecimal.format(milliseconds / 3600000)) );
-                _unitsText.setText("hrs");
+                _unitsText.setText(NuclearPhysicsStrings.UNITS_HOURS);
     		}
     		else if (milliseconds < 31.6e9){
     			// Days range.
                 _timeText.setText( new String (timeFormatterNoDecimals.format(milliseconds / 86400000)) );
-                _unitsText.setText("days");
+                _unitsText.setText(NuclearPhysicsStrings.UNITS_DAYS);
     		}
     		else if (milliseconds < 3.16e13){
     			// Years range.
                 _timeText.setText( new String (timeFormatterNoDecimals.format(milliseconds / 31.6e9)) );
-                _unitsText.setText("yrs");
+                _unitsText.setText(NuclearPhysicsStrings.UNITS_YEARS);
     		}
     		else if (milliseconds < 3.16e16){
     			// Thousand years range (millenia).
                 _timeText.setText( new String (timeFormatterNoDecimals.format(milliseconds / 3.16e13)) );
-                _unitsText.setText("ty");
+                _unitsText.setText(NuclearPhysicsStrings.UNITS_MILLENIA);
     		}
     		else if (milliseconds < 3.16e19){
     			// Million years range.
                 _timeText.setText( new String (timeFormatterNoDecimals.format(milliseconds / 3.16e16)) );
-                _unitsText.setText("my");
+                _unitsText.setText(NuclearPhysicsStrings.UNITS_MILLION_YEARS);
     		}
     		else if (milliseconds < 3.16e22){
     			// Billion years range.
                 _timeText.setText( new String (timeFormatterNoDecimals.format(milliseconds / 3.16e19)) );
-                _unitsText.setText("by");
+                _unitsText.setText(NuclearPhysicsStrings.UNITS_BILLION_YEARS);
     		}
     		else {
     			_timeText.setText( "\u221e"); // Infinity.

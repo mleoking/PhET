@@ -109,4 +109,15 @@ public class NuclearPhysicsStrings {
     public static final String U235_LABEL= NuclearPhysicsResources.getString( "ChainReactionControlPanel.U235" );
     public static final String U238_LABEL= NuclearPhysicsResources.getString( "ChainReactionControlPanel.U238" );
     public static final String NUCLEI_LABEL= NuclearPhysicsResources.getString( "ChainReactionControlPanel.Nuclei" );
+
+    public static final String UNITS_MILLISECONDS= NuclearPhysicsResources.getString( "DecayTimeChart.Units.Milliseconds" );
+    public static final String UNITS_SECONDS= NuclearPhysicsResources.getString( "DecayTimeChart.Units.Seconds" );
+    public static final String UNITS_MINUTES= NuclearPhysicsResources.getString( "DecayTimeChart.Units.Minutes" );
+    public static final String UNITS_HOURS= NuclearPhysicsResources.getString( "DecayTimeChart.Units.Hours" );
+    public static final String UNITS_DAYS= NuclearPhysicsResources.getString( "DecayTimeChart.Units.Days" );
+    public static final String UNITS_YEARS= NuclearPhysicsResources.getString( "DecayTimeChart.Units.Years" );
+    public static final String UNITS_MILLENIA= NuclearPhysicsResources.getString( "DecayTimeChart.Units.Millenia" );
+    public static final String UNITS_MILLION_YEARS= NuclearPhysicsResources.getString( "DecayTimeChart.Units.MillionYears" );
+    public static final String UNITS_BILLION_YEARS= NuclearPhysicsResources.getString( "DecayTimeChart.Units.BillionYears" );
+    
 }
