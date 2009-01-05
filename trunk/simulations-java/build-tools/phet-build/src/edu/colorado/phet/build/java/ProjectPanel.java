@@ -9,6 +9,7 @@ import java.util.Locale;
 import javax.swing.*;
 
 import edu.colorado.phet.build.PhetProject;
+import edu.colorado.phet.build.ant.PhetDisplayStatsTask;
 
 public class ProjectPanel extends JPanel {
     private File basedir;
@@ -32,7 +33,7 @@ public class ProjectPanel extends JPanel {
     private LocalProperties localProperties;
     private JButton deployProdButton;
 
-    public ProjectPanel( File basedir, final PhetProject project ) {
+    public ProjectPanel( final File basedir, final PhetProject project ) {
         this.basedir = basedir;
         this.project = project;
         this.localProperties = new LocalProperties( basedir );
@@ -49,17 +50,17 @@ public class ProjectPanel extends JPanel {
         flavorList = new JList( project.getFlavorNames() );
         JScrollPane flavorScrollPane = new JScrollPane( flavorList );
         flavorScrollPane.setBorder( BorderFactory.createTitledBorder( "Simulations" ) );
-        flavorScrollPane.setMinimumSize( new Dimension( 150, 0) );
-        flavorScrollPane.setMaximumSize( new Dimension( 150, 10000) );
-        flavorScrollPane.setPreferredSize( new Dimension( 150, 400) );
+        flavorScrollPane.setMinimumSize( new Dimension( 150, 0 ) );
+        flavorScrollPane.setMaximumSize( new Dimension( 150, 10000 ) );
+        flavorScrollPane.setPreferredSize( new Dimension( 150, 400 ) );
 
 
         localeList = new JList( project.getLocales() );
         JScrollPane localeScroll = new JScrollPane( localeList );
         localeScroll.setBorder( BorderFactory.createTitledBorder( "Locales" ) );
-        localeScroll.setMinimumSize( new Dimension( 150,0) );
-        localeScroll.setMaximumSize( new Dimension( 150,10000) );
-        localeScroll.setPreferredSize( new Dimension( 150,400) );
+        localeScroll.setMinimumSize( new Dimension( 150, 0 ) );
+        localeScroll.setMaximumSize( new Dimension( 150, 10000 ) );
+        localeScroll.setPreferredSize( new Dimension( 150, 400 ) );
 
         JPanel controlPanel = new JPanel();
         JButton testButton = new JButton( "Test" );
@@ -88,6 +89,15 @@ public class ProjectPanel extends JPanel {
         deployDevButton.setMnemonic( 'd' );
         deployProdButton.setMnemonic( 'p' );
 
+        JButton showStats = new JButton( "Stats" );
+        showStats.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                PhetDisplayStatsTask.showStats( basedir );
+            }
+        } );
+        controlPanel.add(Box.createRigidArea( new Dimension( 50,10) ));
+        controlPanel.add( showStats );
+
         //For testing
 //        JButton createHeader = new JButton( "Create Header" );
 //        createHeader.addActionListener( new ActionListener() {
@@ -96,25 +106,25 @@ public class ProjectPanel extends JPanel {
 //            }
 //        } );
 //        controlPanel.add( createHeader );
-        setLayout( new BorderLayout( ) );
+        setLayout( new BorderLayout() );
         add(
                 Boxer.verticalBox(
                         Boxer.horizontalBox(
                                 Boxer.verticalBox( flavorScrollPane, localeScroll ),
                                 Boxer.verticalBox( titleLabel, changesScrollPane ) ),
                         controlPanel )
-        ,BorderLayout.CENTER);
+                , BorderLayout.CENTER );
 
         setProject( project );
     }
 
     private void doProd() {
-        String message = "<html>" + 
-            "Are you sure you want to deploy <font color=red>" + project.getName() + "</font> to " + "<br>" + 
-            PhetServer.PRODUCTION.getHost() + " and " + PhetServer.DEVELOPMENT.getHost() + "?" + "<br>" +
-            "<br>" +
-            "(And is your <font color=red>VPN</font> connection running?)" +
-            "</html>";
+        String message = "<html>" +
+                         "Are you sure you want to deploy <font color=red>" + project.getName() + "</font> to " + "<br>" +
+                         PhetServer.PRODUCTION.getHost() + " and " + PhetServer.DEVELOPMENT.getHost() + "?" + "<br>" +
+                         "<br>" +
+                         "(And is your <font color=red>VPN</font> connection running?)" +
+                         "</html>";
         int option = JOptionPane.showConfirmDialog( deployProdButton, message, "Confirm", JOptionPane.YES_NO_OPTION );
         if ( option == JOptionPane.YES_OPTION ) {
             getBuildScript().deployProd( getDevelopmentAuthentication( "dev" ), getDevelopmentAuthentication( "prod" ) );

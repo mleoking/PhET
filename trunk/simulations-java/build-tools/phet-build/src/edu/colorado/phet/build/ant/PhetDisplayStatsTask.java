@@ -20,7 +20,11 @@ public class PhetDisplayStatsTask extends PhetAllSimTask {
         showStats( simNames, baseDir );
     }
 
-    private void showStats( String[] simNames, File baseDir ) {
+    public static void showStats( File baseDir ) {
+        showStats( PhetProject.getSimNames( baseDir ), baseDir );
+    }
+
+    public static void showStats( String[] simNames, File baseDir ) {
         int flavorCount = 0;
         int numStandardized = 0;
         HashMap languages = new HashMap();
@@ -50,7 +54,7 @@ public class PhetDisplayStatsTask extends PhetAllSimTask {
         System.out.println( "Number of Sims: " + simNames.length + ", number of declared flavors: " + flavorCount + ", number of locales used at least once: " + languages.size() + ", all locales=" + locales + ", languages=" + language + ", non-clash-data=" + numStandardized );
     }
 
-    private String[] getUserReadableFlavorNames( PhetProject phetProject ) {
+    private static String[] getUserReadableFlavorNames( PhetProject phetProject ) {
         ArrayList list = new ArrayList();
         PhetProjectFlavor[] flavors = phetProject.getFlavors();
         for ( int i = 0; i < flavors.length; i++ ) {
@@ -60,7 +64,7 @@ public class PhetDisplayStatsTask extends PhetAllSimTask {
         return (String[]) list.toArray( new String[0] );
     }
 
-    private boolean containsExactly( File root, File[] files ) {
+    private static boolean containsExactly( File root, File[] files ) {
         List a = Arrays.asList( root.listFiles() );
         List b = Arrays.asList( files );
         Collections.sort( a );
@@ -71,7 +75,7 @@ public class PhetDisplayStatsTask extends PhetAllSimTask {
     /**
      * Quick check to make sure resources are inside data/[simname]/
      */
-    private boolean isNonClashData( PhetProject phetProject ) {
+    private static boolean isNonClashData( PhetProject phetProject ) {
         File dir = new File( phetProject.getProjectDir(), "data" );
 
         //standardized if contains "[simname]/" "[simname].properties" and optionally ".svn"
