@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.simtemplate.developer;
+package edu.colorado.phet.common.piccolophet;
 
 import java.awt.Color;
 import java.awt.Frame;
@@ -17,7 +17,6 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.common.piccolophet.PhetTabbedPane;
 
 /**
  * TabPropertiesDialog is a dialog that contains developer controls for 
@@ -26,10 +25,10 @@ import edu.colorado.phet.common.piccolophet.PhetTabbedPane;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TabPropertiesDialog extends JDialog {
+public class TabbedPanePropertiesDialog extends JDialog {
 
-    public TabPropertiesDialog( Frame owner, PhetTabbedPane tabbedPane ) {
-        super( owner, "Tab Properties" );
+    public TabbedPanePropertiesDialog( Frame owner, PhetTabbedPane tabbedPane ) {
+        super( owner, "Tabbed Pane properties" );
         setResizable( false );
         setModal( false );
         

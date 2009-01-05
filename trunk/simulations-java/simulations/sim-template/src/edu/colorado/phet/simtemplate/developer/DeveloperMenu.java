@@ -13,6 +13,7 @@ import javax.swing.JDialog;
 import javax.swing.JMenu;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.piccolophet.TabbedPanePropertiesDialog;
 import edu.colorado.phet.simtemplate.SimTemplateApplication;
 
 /**
@@ -42,7 +43,7 @@ public class DeveloperMenu extends JMenu {
             }
         });
         
-        _tabPropertiesItem = new JCheckBoxMenuItem( "Tab Properties..." );
+        _tabPropertiesItem = new JCheckBoxMenuItem( "Tabbed Pane properties..." );
         add( _tabPropertiesItem );
         _tabPropertiesItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
@@ -80,7 +81,7 @@ public class DeveloperMenu extends JMenu {
     private void handleTabProperties() {
         if ( _tabPropertiesItem.isSelected() ) {
             Frame owner = PhetApplication.instance().getPhetFrame();
-            _tabPropertiesDialog = new TabPropertiesDialog( owner, _app.getTabbedPane() );
+            _tabPropertiesDialog = new TabbedPanePropertiesDialog( owner, _app.getTabbedPane() );
             _tabPropertiesDialog.setVisible( true );
             _tabPropertiesDialog.addWindowListener( new WindowAdapter() {
 
