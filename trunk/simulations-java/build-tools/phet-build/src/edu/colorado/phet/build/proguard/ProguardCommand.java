@@ -8,7 +8,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import edu.colorado.phet.build.AntTaskRunner;
-import edu.colorado.phet.build.Command;
 import edu.colorado.phet.build.util.FileUtils;
 
 /**
@@ -28,7 +27,7 @@ import edu.colorado.phet.build.util.FileUtils;
  * <p/>
  * instead of sometimes relying on the caller to proguard.
  */
-public class ProguardCommand implements Command {
+public class ProguardCommand {
     private final ProguardConfig config;
     private final AntTaskRunner antTaskRunner;
 
