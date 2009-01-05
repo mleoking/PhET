@@ -1,4 +1,4 @@
-package edu.colorado.phet.build.java;
+package edu.colorado.phet.build;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +17,6 @@ import org.rev6.scf.SshCommand;
 import org.rev6.scf.SshConnection;
 import org.rev6.scf.SshException;
 
-import edu.colorado.phet.build.*;
 import edu.colorado.phet.build.translate.ScpTo;
 import edu.colorado.phet.build.util.FileUtils;
 import edu.colorado.phet.build.util.ProcessOutputReader;

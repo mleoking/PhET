@@ -14,7 +14,7 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import edu.colorado.phet.build.PhetProject;
+import edu.colorado.phet.build.*;
 
 public class ProjectListPanel extends JPanel {
     private File baseDir;
