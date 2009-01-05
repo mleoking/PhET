@@ -54,7 +54,7 @@
 
     <!-- PhET task implementations -->
     <property name="phetbuild-classpath" value="${phetbuild-classes-dir};${proguard.jar};${apache.commons.lang.jar};${jsch.jar}"/>
-    <property name="phet-build-gui-classname" value="edu.colorado.phet.build.java.PhetBuildGUITask"/>
+    <property name="phet-build-gui-classname" value="edu.colorado.phet.build.gui.PhetBuildGUITask"/>
 
     <!-- =================================================================== -->
     <!-- Internal targets, do NOT call directly                              -->

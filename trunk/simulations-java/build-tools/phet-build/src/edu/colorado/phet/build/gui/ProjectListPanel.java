@@ -1,4 +1,4 @@
-package edu.colorado.phet.build.java;
+package edu.colorado.phet.build.gui;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
