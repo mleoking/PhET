@@ -35,7 +35,6 @@
 
     <!-- Load user-specified properties from this file. -->
     <!-- Do this first to allow overrides -->
-    <!-- See build.xml for documentation of specific properties. -->
     <property file="build-local.properties"/>
 
     <!-- =================================================================== -->
@@ -44,10 +43,6 @@
 
     <!-- structure of the PhET codebase.-->
     <property name="dir.build-tools" value="${basedir}/build-tools"/>
-    <property name="dir.contrib" value="${basedir}/contrib"/>
-
-    <property name="dev.server.dir" value=""/>
-    <property name="increment.versions" value="true"/>
 
     <!-- structure of the codebase for PhET's custom Ant task -->
     <property name="ant-output" location="ant_output"/>
@@ -58,8 +53,7 @@
     <property name="phetbuild-src" location="${dir.build-tools}/phet-build/src"/>
 
     <!-- PhET task implementations -->
-    <property name="phetbuild-classpath"
-              value="${phetbuild-classes-dir};${proguard.jar};${apache.commons.lang.jar};${jsch.jar}"/>
+    <property name="phetbuild-classpath" value="${phetbuild-classes-dir};${proguard.jar};${apache.commons.lang.jar};${jsch.jar}"/>
     <property name="phet-build-gui-classname" value="edu.colorado.phet.build.java.PhetBuildGUITask"/>
 
     <!-- =================================================================== -->
@@ -96,6 +90,7 @@
                  classpath="${phetbuild-classpath}"/>
     </target>
 
+    <!--Default target, see description-->
     <target name="phet-build-gui" depends="_init" description="Show the PhET Build GUI for testing and deploying sims">
         <phet-build-gui/>
     </target>
