@@ -22,7 +22,7 @@ public class PhetBuildGUI {
         frame.setSize( 1200, 400);
     }
 
-    private void start() {
+    public void start() {
         frame.setVisible( true );
     }
 

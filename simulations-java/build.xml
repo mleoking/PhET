@@ -46,69 +46,12 @@
 ================================================================================  
 -->
 <project name="PhET primary buildfile" default="launch-sim" basedir=".">
-	
+
     <!-- imports ancillary build information required by these targets -->
     <import file="build-ancillary.xml"/>
 
-	<!-- starts a GUI that allows you to select a simulation and language, then builds and runs it. -->
-    <target name="launch-sim" depends="_init" description="Builds and Launches the specified sim">
+    <target name="phet-build-gui" depends="_init" description="Show the PhET Build GUI for testing and deploying sims">
         <phet-build-gui/>
     </target>
-	
-	<!-- builds the JAR file for the simulation specified by property "sim.name" -->
-	<target name="build-jar" depends="_build-jar"/>
-		
-	<!-- builds and deploys to the development server, updating dev and SVN revision numbers -->
-    <target name="build-and-deploy-dev"
-            depends="_init, _prompt-for-sim-name, clean-sim, _fail-if-working-copy-is-not-synchronized, _prompt-for-dev-login, _inc-sim-dev-version-number, _generate-svn-revision-number, _define-sim-version">
-        <antcall target="_build-and-deploy">
-            <param name="deploy.to.dev" value="true"/>
-            <param name="sim.server.url" value="${dev.server.url}"/>
-            <param name="sim.server.path" value="${dev.server.path}"/>
-            <param name="sim.deploy.dir.parent" value="${dev.server.path}/${sim.name}"/>
-            <param name="sim.deploy.dir" value="${dev.server.path}/${sim.name}/${sim.version}"/>
-            <param name="ssh-host" value="${dev.server.name}"/>
-        </antcall>
-    </target>
 
-	<!-- builds and deploys to the development and production server, updating minor, dev, and SVN revision numbers. -->
-    <target name="build-and-deploy-prod"
-            depends="_init, _prompt-for-sim-name, clean-sim, _fail-if-working-copy-is-not-synchronized, _prompt-for-dev-login, _prompt-for-prod-login, _reset-sim-dev-version-number, _inc-sim-minor-version-number, _build-and-deploy-only-prod">
-
-        <!--note: the implementation currently posts PROD then DEV, since deploy.to.dev is currently unsettable, and used for JNLP construction-->
-
-        <!-- Deploy development version -->
-        <antcall target="build-jnlp"> <!-- Rebuild JNLP since codebase is different-->
-            <param name="deploy.to.dev" value="true"/>
-        </antcall>
-        <antcall target="_deploy">
-            <param name="deploy.to.dev" value="true"/>
-            <param name="sim.server.url" value="${dev.server.url}"/>
-            <param name="sim.server.path" value="${dev.server.path}"/>
-            <param name="sim.deploy.dir.parent" value="${dev.server.path}/${sim.name}"/>
-            <param name="sim.deploy.dir" value="${dev.server.path}/${sim.name}/${sim.version}"/>
-            <param name="ssh-host" value="${dev.server.name}"/>
-        </antcall>
-    </target>
-	
-	<!-- builds and deploys to the production server, updating SVN revision number but nothing else -->
-    <target name="build-and-deploy-prod-no-change"
-            depends="_init, _prompt-for-sim-name, _fail-if-working-copy-is-not-synchronized, _prompt-for-prod-login, _build-and-deploy-only-prod"/>
-	
-    <!-- builds JAR and JNLP files for all PhET simulations -->
-    <target name="build-all" depends="_init,_clean-all,_list-sims,build-all-jars,build-all-jnlp"/>
-
-    <!-- builds a single JAR containing all PhET Java simulations.-->
-    <target name="build-all-sim-jar" depends="_init">
-        <phet-build-all-sim-jar/>
-    </target>
-	
-	<!-- cleans all deploy directories of JAR and JNLP files -->
-    <target name="clean-all" depends="_clean-all"/>
-
-	<!-- displays statistics for each project (name, flavors, languages, etc) -->
-	<target name="display-stats" depends="_init">
-		<phet-display-stats/>
-	</target>
-	
 </project>
