@@ -1,3 +1,5 @@
+# 0.12.01 (26983) 01-05-2009
+Testing deploy-dev
 # 0.12.00 (26978) 01-05-2009
 verifying #1070, deploy failed because I forgot to start VPN
 # 0.11.00 (26977) 01-05-2009
