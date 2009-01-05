@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import edu.colorado.phet.build.PhetProject;
-import edu.colorado.phet.build.PhetProjectFlavor;
+import edu.colorado.phet.build.Simulation;
 import edu.colorado.phet.build.util.FileUtils;
 
 /**
@@ -28,7 +28,7 @@ public class CheckNamingConventions {
         //check that data dir exists with correct name
         assertFileExists( project.getDataDirectory() );
 
-        PhetProjectFlavor[] f = project.getFlavors();
+        Simulation[] f = project.getSimulations();
         for ( int i = 0; i < f.length; i++ ) {
             String className = f[i].getMainclass();
             assertClassNameCorrect( project, f[i], className );
@@ -47,8 +47,8 @@ public class CheckNamingConventions {
         }
     }
 
-    private static void assertClassNameCorrect( PhetProject project, PhetProjectFlavor phetProjectFlavor, String className ) {
-        final String s = phetProjectFlavor.getJavaStyleName();
+    private static void assertClassNameCorrect( PhetProject project, Simulation simulation, String className ) {
+        final String s = simulation.getJavaStyleName();
 
         String correctClassName = "edu.colorado.phet." + project.getPackageName() + "." + s + "Application";
         if ( !className.equalsIgnoreCase( correctClassName ) ) {

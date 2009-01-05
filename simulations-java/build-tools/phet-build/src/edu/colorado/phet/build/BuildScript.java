@@ -158,14 +158,14 @@ public class BuildScript {
     }
 
     public void buildJNLP( String codebase, boolean dev ) {
-        String[] flavorNames = project.getFlavorNames();
+        String[] simulationNames = project.getSimulationNames();
         Locale[] locales = project.getLocales();
         for ( int i = 0; i < locales.length; i++ ) {
             Locale locale = locales[i];
 
-            for ( int j = 0; j < flavorNames.length; j++ ) {
-                String flavorName = flavorNames[j];
-                buildJNLP( locale, flavorName, codebase, dev );
+            for ( int j = 0; j < simulationNames.length; j++ ) {
+                String simulationName = simulationNames[j];
+                buildJNLP( locale, simulationName, codebase, dev );
             }
         }
     }
@@ -252,14 +252,14 @@ public class BuildScript {
         }
     }
 
-    public void buildJNLP( Locale locale, String flavorName, String codebase, boolean dev ) {
-        System.out.println( "Building JNLP for locale=" + locale.getLanguage() + ", flavor=" + flavorName );
+    public void buildJNLP( Locale locale, String simulationName, String codebase, boolean dev ) {
+        System.out.println( "Building JNLP for locale=" + locale.getLanguage() + ", simulation=" + simulationName );
         PhetBuildJnlpTask j = new PhetBuildJnlpTask();
         j.setDev( dev );
         j.setDeployUrl( codebase );
         j.setProject( project.getName() );
         j.setLocale( locale.getLanguage() );
-        j.setFlavor( flavorName );
+        j.setSimulation( simulationName );
         org.apache.tools.ant.Project project = new org.apache.tools.ant.Project();
         project.setBaseDir( baseDir );
         project.init();
@@ -284,22 +284,22 @@ public class BuildScript {
 
     public void runSim() {
         Locale locale = (Locale) prompt( "Choose locale: ", project.getLocales() );
-        String flavor = project.getFlavorNames()[0];
-        if ( project.getFlavorNames().length > 1 ) {
-            flavor = (String) prompt( "Choose flavor: ", project.getFlavorNames() );
+        String simulationName = project.getSimulationNames()[0];
+        if ( project.getSimulationNames().length > 1 ) {
+            simulationName = (String) prompt( "Choose simulation: ", project.getSimulationNames() );
         }
 
-        runSim( locale, flavor );
+        runSim( locale, simulationName );
     }
 
-    public void runSim( Locale locale, String flavor ) {
+    public void runSim( Locale locale, String simulationName ) {
         Java java = new Java();
 
         if ( project != null ) {
-            java.setClassname( project.getFlavor( flavor ).getMainclass() );
+            java.setClassname( project.getSimulation( simulationName ).getMainclass() );
             java.setFork( true );
             String args = "";
-            String[] a = project.getFlavor( flavor ).getArgs();
+            String[] a = project.getSimulation( simulationName ).getArgs();
             for ( int i = 0; i < a.length; i++ ) {
                 String s = a[i];
                 args += s + " ";
@@ -359,7 +359,7 @@ public class BuildScript {
         map.put( "project-name", project.getName() );
         map.put( "version", getFullVersionStr( svn ) );
         map.put( "sim-list", getSimListHTML( project ) );
-        map.put( "jnlp-filename", project.getFlavorNames()[0] + ".jnlp" );
+        map.put( "jnlp-filename", project.getSimulationNames()[0] + ".jnlp" );
         map.put( "new-summary", getNewSummary() );
         return map;
     }
@@ -367,11 +367,11 @@ public class BuildScript {
     private String getSimListHTML( PhetProject project ) {
         //<li><a href="@jnlp-filename@">Launch @sim-name@</a></li>
         String s = "";
-        for ( int i = 0; i < project.getFlavorNames().length; i++ ) {
-            String jnlpFilename = project.getFlavorNames()[i] + ".jnlp";
-            String simname = project.getFlavors()[i].getTitle();
+        for ( int i = 0; i < project.getSimulationNames().length; i++ ) {
+            String jnlpFilename = project.getSimulationNames()[i] + ".jnlp";
+            String simname = project.getSimulations()[i].getTitle();
             s += "<li><a href=\"" + jnlpFilename + "\">Launch " + simname + "</a></li>";
-            if ( i < project.getFlavorNames().length - 1 ) {
+            if ( i < project.getSimulationNames().length - 1 ) {
                 s += "\n";
             }
         }
@@ -419,21 +419,21 @@ public class BuildScript {
                     }
                 }, PhetServer.PRODUCTION, prodAuth, new VersionIncrement.UpdateProd(), new Task() {
                     public boolean invoke() {
-                        System.out.println( "Invoking server side scripts to generate flavor and language JAR files" );
+                        System.out.println( "Invoking server side scripts to generate simulation and language JAR files" );
                         if ( !dryRun ) {
-                            generateFlavorAndLanguageJARFiles( PhetServer.PRODUCTION, prodAuth );
+                            generateSimulationAndLanguageJARFiles( PhetServer.PRODUCTION, prodAuth );
                         }
                         return true;
                     }
                 } );
     }
 
-    private void generateFlavorAndLanguageJARFiles( PhetServer server, AuthenticationInfo authenticationInfo ) {
+    private void generateSimulationAndLanguageJARFiles( PhetServer server, AuthenticationInfo authenticationInfo ) {
         SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword() );
         try {
             sshConnection.connect();
-            for ( int i = 0; i < project.getFlavorNames().length; i++ ) {
-                String command = "cd /web/htdocs/phet/cl_utils/ ; /web/htdocs/phet/cl_utils/update-localized-jars.php " + project.getName() + " " + project.getFlavorNames()[i];
+            for ( int i = 0; i < project.getSimulationNames().length; i++ ) {
+                String command = "cd /web/htdocs/phet/cl_utils/ ; /web/htdocs/phet/cl_utils/update-localized-jars.php " + project.getName() + " " + project.getSimulationNames()[i];
                 System.out.println( "Running command: " + command );
 
                 sshConnection.executeTask( new SshCommand( command ) );

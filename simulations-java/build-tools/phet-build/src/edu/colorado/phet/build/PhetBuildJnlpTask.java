@@ -9,58 +9,58 @@ import java.util.HashMap;
 import org.apache.commons.lang.StringEscapeUtils;
 
 import edu.colorado.phet.build.util.FileUtils;
-//todo: needs better error handling for loading flavors
+//todo: needs better error handling for loading simulations
 //todo: test support for deploying with online url
 
 //todo: see other todos below
 public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
     private static final File JNLP_TEMPLATE = new File( "build-tools/phet-build/templates/webstart-template.jnlp" );
 
-    private volatile String flavorName;
+    private volatile String simulationName;
     private volatile String deployUrl;
     private volatile String locale = "en";
     private boolean dev = true;
 
     protected void executeImpl( PhetProject phetProject ) throws Exception {
-        if ( flavorName == null ) {
-            flavorName = phetProject.getFlavorNames()[0];
+        if ( simulationName == null ) {
+            simulationName = phetProject.getSimulationNames()[0];
         }
-        PhetProjectFlavor flavor = phetProject.getFlavor( flavorName, locale );
-        echo( "loaded flavor=" + flavor );
+        Simulation simulation = phetProject.getSimulation( simulationName, locale );
+        echo( "loaded simulation=" + simulation );
         if ( deployUrl == null ) {
             deployUrl = phetProject.getDefaultDeployDir().toURL().toString();
 
             echo( "Deploy url is null -- using " + deployUrl );
         }
-        FileUtils.filter( JNLP_TEMPLATE, getDestFile( phetProject ), createJNLPFilterMap( flavor, phetProject ), "UTF-16" );
+        FileUtils.filter( JNLP_TEMPLATE, getDestFile( phetProject ), createJNLPFilterMap( simulation, phetProject ), "UTF-16" );
     }
 
     private String getJNLPFileName() {
         String localeSuffix = locale.equals( "en" ) ? "" : "_" + locale;
-        return "" + flavorName + localeSuffix + ".jnlp";
+        return "" + simulationName + localeSuffix + ".jnlp";
     }
 
     private File getDestFile( PhetProject phetProject ) {
         return new File( phetProject.getDefaultDeployDir(), getJNLPFileName() );
     }
 
-    private HashMap createJNLPFilterMap( PhetProjectFlavor flavor, PhetProject phetProject ) {
+    private HashMap createJNLPFilterMap( Simulation simulation, PhetProject phetProject ) {
         HashMap map = new HashMap();
-        map.put( "PROJECT.NAME", StringEscapeUtils.escapeHtml( flavor.getTitle() ) );
+        map.put( "PROJECT.NAME", StringEscapeUtils.escapeHtml( simulation.getTitle() ) );
         map.put( "JNLP.NAME", getJNLPFileName() );
-        map.put( "PROJECT.DESCRIPTION", StringEscapeUtils.escapeHtml( flavor.getDescription() ) );
+        map.put( "PROJECT.DESCRIPTION", StringEscapeUtils.escapeHtml( simulation.getDescription() ) );
         map.put( "PROJECT.JAR", phetProject.getJarFile().getName() );
         map.put( "PROJECT.SCREENSHOT", "http://phet.colorado.edu/Design/Assets/images/Phet-Kavli-logo.jpg" );//todo: map this to correct sim-specific (possibly online) URL
-        map.put( "PROJECT.MAINCLASS", flavor.getMainclass() );
-        map.put( "PROJECT.ARGS", toJNLPArgs( getArgs( flavor ) ) );
+        map.put( "PROJECT.MAINCLASS", simulation.getMainclass() );
+        map.put( "PROJECT.ARGS", toJNLPArgs( getArgs( simulation ) ) );
         map.put( "PROJECT.PROPERTIES", getJNLPProperties() );
         map.put( "PROJECT.DEPLOY.PATH", deployUrl );
         echo( "JNLP filter map:\n" + map );
         return map;
     }
 
-    private String[] getArgs( PhetProjectFlavor flavor ) {
-        ArrayList args = new ArrayList( Arrays.asList( flavor.getArgs() ) );
+    private String[] getArgs( Simulation simulation ) {
+        ArrayList args = new ArrayList( Arrays.asList( simulation.getArgs() ) );
 
         //optionally add a -dev parameter if this simulation is deployed to dev directory 
         String property = getOwningTarget() != null ? getOwningTarget().getProject().getProperty( "deploy.to.dev" ) : null;
@@ -95,8 +95,8 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
         return string;
     }
 
-    public void setFlavor( String flavorName ) {
-        this.flavorName = flavorName;
+    public void setSimulation( String simulation ) {
+        this.simulationName = simulation;
     }
 
     /**
@@ -115,9 +115,9 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
     }
 
     public static void buildJNLPForSimAndLanguage( PhetProject project, String language ) throws Exception {
-        for ( int i = 0; i < project.getFlavorNames().length; i++ ) {
+        for ( int i = 0; i < project.getSimulationNames().length; i++ ) {
             PhetBuildJnlpTask phetBuildJnlpTask = new PhetBuildJnlpTask();
-            phetBuildJnlpTask.setFlavor( project.getFlavorNames()[i] );
+            phetBuildJnlpTask.setSimulation( project.getSimulationNames()[i] );
             phetBuildJnlpTask.setDeployUrl( "http://phet.colorado.edu/sims/" + project.getName() );
             phetBuildJnlpTask.setLocale( language );
             phetBuildJnlpTask.executeImpl( project );

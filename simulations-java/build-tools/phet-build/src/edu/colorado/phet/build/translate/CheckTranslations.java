@@ -35,33 +35,33 @@ public class CheckTranslations {
 
     public TranslationDiscrepancy[] checkTranslations( PhetProject phetProject ) throws IOException {
         ArrayList list = new ArrayList();
-        //check flavor jars
-        for ( int j = 0; j < phetProject.getFlavorNames().length; j++ ) {
-            list.add( checkJAR( phetProject, phetProject.getFlavorNames()[j] ) );
+        //check simulation jars
+        for ( int j = 0; j < phetProject.getSimulationNames().length; j++ ) {
+            list.add( checkJAR( phetProject, phetProject.getSimulationNames()[j] ) );
         }
         //check main jar (if we haven't already)
-        if ( !Arrays.asList( phetProject.getFlavorNames() ).contains( phetProject.getName() ) ) {
+        if ( !Arrays.asList( phetProject.getSimulationNames() ).contains( phetProject.getName() ) ) {
             list.add( checkJAR( phetProject, phetProject.getName() ) );
         }
         return (TranslationDiscrepancy[]) list.toArray( new TranslationDiscrepancy[list.size()] );
     }
 
-    private TranslationDiscrepancy checkJAR( PhetProject phetProject, String flavor ) throws IOException {
-        String webLocation = phetProject.getDeployedFlavorJarURL( flavor );
-        final File fileName = new File( LOCAL_ROOT_DIR, flavor + ".jar" );
+    private TranslationDiscrepancy checkJAR( PhetProject phetProject, String simulationName ) throws IOException {
+        String webLocation = phetProject.getDeployedSimulationJarURL( simulationName );
+        final File fileName = new File( LOCAL_ROOT_DIR, simulationName + ".jar" );
         try {
             FileUtils.download( webLocation, fileName );
-            return checkTranslations( phetProject, fileName, flavor );
+            return checkTranslations( phetProject, fileName, simulationName );
         }
         catch( FileNotFoundException fnfe ) {
             if ( verbose ) {
                 System.out.println( "File not found for: " + webLocation );
             }
-            return new TranslationDiscrepancy( new HashSet(), new HashSet(), phetProject, flavor );
+            return new TranslationDiscrepancy( new HashSet(), new HashSet(), phetProject, simulationName );
         }
     }
 
-    private TranslationDiscrepancy checkTranslations( PhetProject phetProject, File jar, String flavor ) throws IOException {
+    private TranslationDiscrepancy checkTranslations( PhetProject phetProject, File jar, String simulationName ) throws IOException {
         final Set local = new HashSet( Arrays.asList( phetProject.getLocales() ) );
         final Set remote = new HashSet( Arrays.asList( listTranslationsInJar( phetProject, jar ) ) );
 
@@ -71,10 +71,10 @@ public class CheckTranslations {
             System.out.println( "sim=" + phetProject.getName() + ", : same = " + same + " local=" + local + ", remote=" + remote );
         }
 
-        return getDiff( phetProject, local, remote, flavor );
+        return getDiff( phetProject, local, remote, simulationName );
     }
 
-    private TranslationDiscrepancy getDiff( PhetProject phetProject, Set local, Set remote, String flavor ) {
+    private TranslationDiscrepancy getDiff( PhetProject phetProject, Set local, Set remote, String simulationName ) {
         Set extraLocal = new HashSet( local );
         extraLocal.removeAll( remote );
 
@@ -83,7 +83,7 @@ public class CheckTranslations {
 
         boolean anyChange = extraLocal.size() > 0 || extraRemote.size() > 0;
         if ( anyChange ) {
-            System.out.print( phetProject.getName() + "[" + flavor + "]: " );
+            System.out.print( phetProject.getName() + "[" + simulationName + "]: " );
         }
         if ( extraRemote.size() > 0 ) {
             System.out.print( "need to be removed from remote jar: " + extraRemote + " " );
@@ -95,7 +95,7 @@ public class CheckTranslations {
         if ( anyChange ) {
             System.out.println( "" );
         }
-        return new TranslationDiscrepancy( extraLocal, extraRemote, phetProject, flavor );
+        return new TranslationDiscrepancy( extraLocal, extraRemote, phetProject, simulationName );
     }
 
     public static Locale[] listTranslationsInJar( PhetProject p, File file ) throws IOException {

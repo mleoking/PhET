@@ -8,7 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import edu.colorado.phet.build.PhetProject;
-import edu.colorado.phet.build.PhetProjectFlavor;
+import edu.colorado.phet.build.Simulation;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 
 /**
@@ -21,7 +21,7 @@ public class TestPhetApplicationUsage {
         final String sim = args[1];
 
         final PhetProject phetProject = new PhetProject( new File( "C:\\reid-not-backed-up\\phet\\svn\\trunk2\\simulations-java\\simulations" ), project );
-        final PhetProjectFlavor flavor = phetProject.getFlavor( sim );
+        final Simulation flavor = phetProject.getSimulation( sim );
 
         Class c = Class.forName( flavor.getMainclass() );
         Method m = c.getMethod( "main", new Class[]{new String[0].getClass()} );
@@ -33,7 +33,7 @@ public class TestPhetApplicationUsage {
                     Thread.sleep( 5000 );//todo: sleep until the main frame is available
                     PhetApplication app = PhetApplication.instance();
                     System.out.println( "count = " + app );
-                    log( "project=" + phetProject.getName() + ", sim=" + flavor.getFlavorName() + ", phetAppCount=" + app + "\n" );
+                    log( "project=" + phetProject.getName() + ", sim=" + flavor.getName() + ", phetAppCount=" + app + "\n" );
                 }
                 catch( InterruptedException e ) {
                     e.printStackTrace();
