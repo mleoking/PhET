@@ -55,7 +55,7 @@ public class DeveloperMenu extends JMenu {
     private void handleDeveloperControls() {
         if ( _developerControlsItem.isSelected() ) {
             Frame owner = PhetApplication.instance().getPhetFrame();
-            _developerControlsDialog = new DeveloperControls( owner, _app );
+            _developerControlsDialog = new DeveloperControlsDialog( owner, _app );
             _developerControlsDialog.setVisible( true );
             _developerControlsDialog.addWindowListener( new WindowAdapter() {
 

@@ -25,7 +25,7 @@ import edu.colorado.phet.simtemplate.SimTemplateApplication;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DeveloperControls extends JDialog {
+public class DeveloperControlsDialog extends JDialog {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -37,7 +37,7 @@ public class DeveloperControls extends JDialog {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public DeveloperControls( Frame owner, SimTemplateApplication app ) {
+    public DeveloperControlsDialog( Frame owner, SimTemplateApplication app ) {
         super( owner, "Developer Controls" );
         setResizable( false );
         setModal( false );
