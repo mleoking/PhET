@@ -156,7 +156,15 @@ public abstract class AtomicNucleus {
     }
     
     public void setTunnelingRegionRadius(double tunnelingRegionRadius){
-        _tunnelingRegionRadius = tunnelingRegionRadius;
+    	if (tunnelingRegionRadius != _tunnelingRegionRadius){
+    		if (tunnelingRegionRadius >= getDiameter()/2){
+    	        _tunnelingRegionRadius = tunnelingRegionRadius;
+    	        notifyTunnelingRadiusChanged();
+    		}
+    		else{
+    			System.err.println("Warning: Invalid value specified for tunneling radius.");
+    		}
+    	}
     }
     
     public double getTunnelingRegionRadius(){
@@ -265,6 +273,12 @@ public abstract class AtomicNucleus {
         }        
     }
     
+    protected void notifyTunnelingRadiusChanged(){
+        for (int i = 0; i < _listeners.size(); i++){
+            ((Listener)_listeners.get( i )).tunnelingRadiusChanged();
+        }        
+    }
+    
     //------------------------------------------------------------------------
     // Inner interfaces
     //------------------------------------------------------------------------
@@ -287,11 +301,17 @@ public abstract class AtomicNucleus {
          * null if no byproducts were produced.
          */
         void atomicWeightChanged(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, ArrayList byProducts);
+        
+        /**
+         * Inform listeners that the tunneling region radius had changed.
+         */
+        void tunnelingRadiusChanged();
     }
     
     public static class Adapter implements Listener {
         public void positionChanged(){}
         public void atomicWeightChanged(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
                 ArrayList byProducts){}
+        public void tunnelingRadiusChanged(){};
     }
 }
