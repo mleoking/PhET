@@ -7,7 +7,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
-import edu.colorado.phet.build.Command;
 import edu.colorado.phet.build.util.FileUtils;
 
 /*
@@ -28,7 +27,7 @@ Format of a Mac OS X Application Bundle
 
 
  */
-public class OSXBundleCommand implements Command {
+public class OSXBundleCommand {
     private static final String PATH_TO_INFO_PLIST_TEMPLATE = "/build-tools/phet-build/templates/mac-java-app-template.plist";
     private static final String APPLE_CREATOR_CODE = "APPL????";
 

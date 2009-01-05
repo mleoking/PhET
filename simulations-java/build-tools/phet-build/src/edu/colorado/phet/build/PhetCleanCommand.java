@@ -3,7 +3,7 @@ package edu.colorado.phet.build;
 
 import org.apache.tools.ant.taskdefs.Delete;
 
-public class PhetCleanCommand implements Command {
+public class PhetCleanCommand {
     private final PhetProject project;
     private final AntTaskRunner antTaskRunner;
 

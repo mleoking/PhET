@@ -20,7 +20,7 @@ import edu.colorado.phet.build.util.PhetBuildUtils;
 /**
  * This command builds a PhET project, together with any dependencies.
  */
-public class PhetBuildCommand implements Command {
+public class PhetBuildCommand {
     private final PhetProject project;
     private final AntTaskRunner antTaskRunner;
     private final boolean shrink;
