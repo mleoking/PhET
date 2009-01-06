@@ -1,9 +1,6 @@
 package edu.colorado.phet.licensing;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -28,7 +25,75 @@ public class DependencyReport {
     }
 
     private void generateContribReport() {
+        File contribDir = new File( Config.TRUNK, "simulations-java/contrib" );
 
+        File[] f = contribDir.listFiles( new FileFilter() {
+            public boolean accept( File pathname ) {
+                return !pathname.getName().startsWith( "." ) && pathname.isDirectory();
+            }
+        } );
+        String content = "";
+        for ( int i = 0; i < f.length; i++ ) {
+            File file = f[i];
+            content += getContribHTML( file ) + "\n";
+        }
+
+        String html = "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"\n" +
+                      "    \"http://www.w3.org/TR/html4/loose.dtd\">\n" +
+                      "<html>\n" +
+                      "<head>\n" +
+                      "  <title>" + "PhET Java Software Dependencies</title>\n" +
+                      "</head>\n" +
+                      "<body>\n" +
+                      "\n" +
+                      "PhET Java Software Dependencies<br>" + new Date() + "<br><br><br>" +
+                      content +
+                      "\n" +
+                      "</body>\n" +
+                      "</html>";
+
+        try {
+            BufferedWriter bufferedWriter = new BufferedWriter( new FileWriter( new File( Config.TRUNK, "util\\licensing\\deploy\\contrib-report.html" ) ) );
+            bufferedWriter.write( html );
+            bufferedWriter.close();
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+    }
+
+    private String getContribHTML( File dir ) {
+        File licenseInfoFile = new File( dir, "license-info.txt" );
+        try {
+            BufferedReader bufferedReader = new BufferedReader( new FileReader( licenseInfoFile ) );
+            String line = bufferedReader.readLine();
+            ResourceAnnotation a = ResourceAnnotation.parseElement( line );
+            String license = a.getLicense();
+            String licenseFileName = a.getLicensefile();
+
+            String notes = a.getNotes();
+            if ( notes == null || notes.trim().length() == 0 ) {
+                notes = "";
+            }
+            else {
+                notes = ", notes=" + notes;
+            }
+            String href = dir.getName() + ": <a href=\"" + "licenses/" + dir.getName() + "/" + licenseFileName + "\">" + license + "</a>" + notes + "<br>";
+
+            File licenseFile = new File( dir, licenseFileName );
+            File dest = new File( Config.TRUNK, "util\\licensing\\deploy\\licenses\\" + dir.getName() + "\\" + licenseFileName );
+            dest.getParentFile().mkdirs();
+            FileUtils.copy( licenseFile, dest );
+//            return file.getName()+": "+license+"<br>";
+            return href;
+        }
+        catch( FileNotFoundException e ) {
+            e.printStackTrace();
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private String getRuleSetFilename() {

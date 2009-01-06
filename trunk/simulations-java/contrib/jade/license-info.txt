@@ -1,1 +1,1 @@
-jade license=LGPL licensefile=src/phet-jade-license.txt
+jade license=LGPL permission licensefile=src/phet-jade-license.txt
