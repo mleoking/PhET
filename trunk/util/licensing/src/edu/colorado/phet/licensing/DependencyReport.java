@@ -21,7 +21,26 @@ public class DependencyReport {
     }
 
     private void start() throws IOException {
-        File file = new File( Config.TRUNK, "util\\licensing\\report.html" );
+        generateSimReport();
+        generateRuleSet();
+        generateIndex();
+        generateContribReport();
+    }
+
+    private void generateContribReport() {
+
+    }
+
+    private String getRuleSetFilename() {
+        return "PhetRuleSet.txt";
+    }
+
+    private void generateRuleSet() throws IOException {
+        FileUtils.copy( new File( Config.TRUNK, "util\\licensing\\src\\edu\\colorado\\phet\\licensing\\PhetRuleSet.java" ), new File( Config.TRUNK, "util\\licensing\\deploy\\" + getRuleSetFilename() ) );//make txt so as not to confuse browsers
+    }
+
+    private void generateSimReport() throws IOException {
+        File file = new File( Config.TRUNK, "util\\licensing\\deploy\\report.html" );
         file.getParentFile().mkdirs();
         file.createNewFile();
         BufferedWriter bufferedWriter = new BufferedWriter( new FileWriter( file ) );
@@ -72,6 +91,27 @@ public class DependencyReport {
         bufferedWriter.close();
     }
 
+    private void generateIndex() throws IOException {
+        String index = "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"\n" +
+                       "    \"http://www.w3.org/TR/html4/loose.dtd\">\n" +
+                       "<html>\n" +
+                       "<head>\n" +
+                       "  <title>" + "PhET Licensing Report</title>\n" +
+                       "</head>\n" +
+                       "<body>\n" +
+                       "\n" +
+                       "PhET Licensing Report<br>" + new Date() + "<br><br><br>" +
+                       "<a href=\"" + getRuleSetFilename() + "\">Rule Set</a><br>" +
+                       "<a href=\"report.html\">Sim Report</a><br>" +
+                       "<a href=\"contrib-report.html\">Contrib Report</a><br>" +
+                       "\n" +
+                       "</body>\n" +
+                       "</html>";
+        BufferedWriter bw = new BufferedWriter( new FileWriter( new File( Config.TRUNK, "util\\licensing\\deploy\\index.html" ) ) );
+        bw.write( index );
+        bw.close();
+    }
+
     private class SimHTML {
         private SimInfo issues;
         private String header;
@@ -103,7 +143,7 @@ public class DependencyReport {
         String body = issues.getHTMLBody() + "<br><HR WIDTH=100% ALIGN=CENTER><br>";
         for ( int i = 0; i < issues.getResources().length; i++ ) {
             AnnotatedFile x = issues.getResources()[i];
-            File target = new File( Config.TRUNK.getAbsolutePath() + "\\util\\licensing\\", issues.getHTMLFileLocation( x ) );
+            File target = new File( Config.TRUNK.getAbsolutePath() + "\\util\\licensing\\deploy\\", issues.getHTMLFileLocation( x ) );
             target.getParentFile().mkdirs();
             if ( target.exists() && !FileUtils.contentEquals( target, x.getFile() ) ) {
                 System.out.println( "Target exists, and has different content: " + target.getAbsolutePath() );
