@@ -21,7 +21,7 @@ public class DependencyReport {
     }
 
     private void start() throws IOException {
-        File file = new File( Config.TRUNK, "util\\phet-media-license\\report.html" );
+        File file = new File( Config.TRUNK, "util\\licensing\\report.html" );
         file.getParentFile().mkdirs();
         file.createNewFile();
         BufferedWriter bufferedWriter = new BufferedWriter( new FileWriter( file ) );
@@ -103,7 +103,7 @@ public class DependencyReport {
         String body = issues.getHTMLBody() + "<br><HR WIDTH=100% ALIGN=CENTER><br>";
         for ( int i = 0; i < issues.getResources().length; i++ ) {
             AnnotatedFile x = issues.getResources()[i];
-            File target = new File( Config.TRUNK.getAbsolutePath() + "\\util\\phet-media-license\\", issues.getHTMLFileLocation( x ) );
+            File target = new File( Config.TRUNK.getAbsolutePath() + "\\util\\licensing\\", issues.getHTMLFileLocation( x ) );
             target.getParentFile().mkdirs();
             if ( target.exists() && !FileUtils.contentEquals( target, x.getFile() ) ) {
                 System.out.println( "Target exists, and has different content: " + target.getAbsolutePath() );
