@@ -26,9 +26,9 @@ object RampApplication {
     }
   }
   class ScalaClock(delay: Int, dt: Double) extends ConstantDtClock(delay, dt) {
-    def addClockListener(exp: => Unit) {
+    def addClockListener(exp: Double => Unit) {
       super.addClockListener(new ClockAdapter() {
-        override def simulationTimeChanged(clockEvent: ClockEvent) = exp
+        override def simulationTimeChanged(clockEvent: ClockEvent) = exp(clockEvent.getSimulationTimeChange)
       })
     }
   }
@@ -46,13 +46,9 @@ object RampApplication {
       ptext.setOffset(300, 200)
       canvas addScreenChild ptext
       canvas setBackground new Color(200, 255, 240)
-      getClock.addClockListener(new ScalaModelElement((dt: Double) => ptext.translate(1, 0)))
-      getClock.addClockListener(new ScalaModelElement((dt: Double) => ptext.translate(0, 2)))
-      //      clock.addClockListener(println("hello"))
-      clock.addClockListener({
-        model.update(1.0)
-        //        println("model=" + model)
-      })
+      clock.addClockListener((dt: Double) => ptext.translate(1, 0))
+      clock.addClockListener((dt: Double) => ptext.translate(0, 2))
+      clock.addClockListener(model.update(_))
 
       canvas.addScreenChild(new RampObjectNode(model.getObject(0)))
     }
