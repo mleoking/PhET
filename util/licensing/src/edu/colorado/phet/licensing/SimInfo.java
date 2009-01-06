@@ -124,82 +124,8 @@ public class SimInfo {
         }
     }
 
-    public static abstract class AbstractRule {
-        private String pattern;
-
-        protected AbstractRule( String pattern ) {
-            this.pattern = pattern;
-        }
-
-        public abstract boolean matches( ResourceAnnotation entry );
-
-        protected String getPattern() {
-            return pattern;
-        }
-    }
-
-    public static class Author extends AbstractRule {
-        protected Author( String pattern ) {
-            super( pattern );
-        }
-
-        public boolean matches( ResourceAnnotation entry ) {
-            return entry.getAuthor() != null && entry.getAuthor().toLowerCase().startsWith( getPattern().toLowerCase( ));
-        }
-    }
-
-    public static class Source extends AbstractRule {
-        protected Source( String pattern ) {
-            super( pattern );
-        }
-
-        public boolean matches( ResourceAnnotation entry ) {
-            return entry.getSource() != null && entry.getSource().toLowerCase().startsWith( getPattern().toLowerCase( ));
-        }
-    }
-
-    public static class License extends AbstractRule {
-
-        protected License( String pattern ) {
-            super( pattern );
-        }
-
-        public boolean matches( ResourceAnnotation entry ) {
-            return entry.getLicense() != null && entry.getLicense().toLowerCase().startsWith( getPattern().toLowerCase(  ));
-        }
-    }
-
-    public static class Suffix extends AbstractRule {
-
-        protected Suffix( String pattern ) {
-            super( pattern );
-        }
-
-        public boolean matches( ResourceAnnotation entry ) {
-            return entry.getName().toLowerCase().endsWith( getPattern().toLowerCase( ));
-        }
-    }
-
     public static boolean getDefaultHideEntryRule( ResourceAnnotation entry ) {
-        RuleSet ruleSet = new RuleSet( new AbstractRule[]{
-                new Author( "phet" ),
-                new Author( "cmalley" ),
-                new Author( "Chris Malley" ),
-                new License( "same as" ),//ignore duplicates
-                new License( "PUBLIC DOMAIN" ),
-                new License( "Used with permission" ),
-                new License( "http://creativecommons.org" ),
-                new License( "Creative Commons, royalty free, public domain" ),
-                new Source( "microsoft" ),//microsoft clip art approved for usage, see Unfuddle #1059
-                new Source( "clker.com" ),
-                new Source( "java" ),
-                new Source( "phet" ),
-                new Suffix( ".xml" ),
-                new Suffix( ".esp" ),
-                new Suffix( ".html" ),
-                new Suffix( ".properties" )
-        } );
-        return ruleSet.matches( entry );
+        return new PhetRuleSet().matches(entry);
     }
 
     public static AnnotatedFile[] getIssues( AnnotatedFile[] resources ) {
