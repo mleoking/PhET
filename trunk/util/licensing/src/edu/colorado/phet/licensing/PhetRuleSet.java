@@ -14,7 +14,6 @@ public class PhetRuleSet extends SimInfo.RuleSet {
                 //copyright by PhET
                 new Author( "phet" ),
                 new Author( "cmalley" ),
-                new Author( "Chris Malley" ),
                 new Source( "phet" ),
 
                 //data files created by PhET
