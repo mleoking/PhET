@@ -71,7 +71,6 @@ public class ProtonModelNode extends ProtonNode implements NucleonModelNode{
     // Private Methods
     //------------------------------------------------------------------------
     private void update(){
-        setOffset( _nucleon.getPositionReference().getX() - NuclearPhysicsConstants.NUCLEON_DIAMETER/2,  
-                _nucleon.getPositionReference().getY() - NuclearPhysicsConstants.NUCLEON_DIAMETER/2);
+        setOffset( _nucleon.getPositionReference() );
     }
 }
