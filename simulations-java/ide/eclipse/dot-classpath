@@ -133,7 +133,6 @@
 	<classpathentry kind="lib" path="build-tools/apache-ant/lib/ant.jar"/>
 	<classpathentry kind="lib" path="contrib/commons-collections/commons-collections.jar"/>
 	<classpathentry kind="lib" path="build-tools/commons-lang/commons-lang.jar"/>
-	<classpathentry kind="lib" path="contrib/jfreechart/lib/gnujaxp.jar"/>
 	<classpathentry kind="lib" path="contrib/jfreechart/lib/jcommon.jar"/>
 	<classpathentry kind="lib" path="contrib/jdom/jdom.jar"/>
 	<classpathentry kind="lib" path="contrib/javaws/jnlp.jar"/>
