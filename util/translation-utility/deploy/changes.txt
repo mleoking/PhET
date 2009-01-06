@@ -1,3 +1,4 @@
+1/6/09 - #1081, update user-visible language names to match PhET website
 # 1.09.00 (26682)
 > add PhET-assigned language code for Chinese-Taiwan
 12/11/08 - #1035, assign a language code for Chinese-Taiwan (tc)
