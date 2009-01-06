@@ -32,7 +32,7 @@ public class PhetRuleSet extends SimInfo.RuleSet {
                 new License( "http://creativecommons.org" ),
                 new License( "Creative Commons, royalty free, public domain" ),
                 new Source( "microsoft" ),//microsoft clip art approved for usage, see Unfuddle #1059
-                new Source( "clker.com" ),//open source clip art site
+                new Source( "clker.com" ),//open source clip art site, see #1080
                 new Source( "java" )//see http://java.sun.com/developer/techDocs/hi/repository/
         } );
     }
