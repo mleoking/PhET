@@ -1,13 +1,22 @@
 <html>
 <p>
 <big><big><b>
-greenhouse 2.04.02
+greenhouse 2.04.03 (26991) 01-05-2009
 </b></big></big>
+<ul>
+<li><a href="greenhouse.jnlp">Launch The Greenhouse Effect</a></li>
+</ul>
 <p>
 <b>What's new:</b>
 <p>
 <ul>
-<li>published this version immediately after working on Unfuddle #562 (port to phetcommon trunk), so we can confirm whether 
-new bug reports were in this version, or the result of subsequent work
+<li>publish dev version to test whether #415 is still an issue
+<li>1-5-2008: #891, RasterFormatException at startup
+<li>1-5-2009: remove obsolete entries in string files
+<li>1-5-2009: #1076, Reset All feature is broken
+<li>1-5-2009: #982, Reset All button doesn't request confirmation
 </ul>
+<p>
+<p>
+<a href="changes.txt">Full change log</a>
 </html>
