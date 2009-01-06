@@ -148,11 +148,6 @@
 	<classpathentry kind="lib" path="contrib/jfreechart/lib/jfreechart.jar" sourcepath="contrib/jfreechart/jfreechart-src.zip"/>
 	<classpathentry kind="lib" path="build-tools/apache-ant/lib/ant-junit.jar"/>
 	<classpathentry kind="lib" path="build-tools/proguard/lib/proguard.jar" sourcepath="build-tools/proguard/proguard-src.zip"/>
-	<classpathentry kind="lib" path="build-tools/ant-contrib/ant-contrib.jar"/>
-	<classpathentry kind="lib" path="build-tools/ant-contrib/lib/bcel-5.1.jar"/>
-	<classpathentry kind="lib" path="build-tools/ant-contrib/lib/commons-httpclient-3.0.1.jar"/>
-	<classpathentry kind="lib" path="build-tools/ant-contrib/lib/commons-logging-1.0.4.jar"/>
-	<classpathentry kind="lib" path="build-tools/ant-contrib/lib/ivy-1.3.1.jar"/>
 	<classpathentry kind="lib" path="build-tools/apache-ant/lib/ant-antlr.jar"/>
 	<classpathentry kind="lib" path="build-tools/apache-ant/lib/ant-apache-bcel.jar"/>
 	<classpathentry kind="lib" path="build-tools/apache-ant/lib/ant-apache-bsf.jar"/>
