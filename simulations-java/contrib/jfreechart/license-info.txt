@@ -1,1 +1,1 @@
-jfreechart license=LGPL licensefile=license-LGPL.txt notes=still need to add annotations for lib/
+jfreechart license=LGPL licensefile=licence-LGPL.txt notes=lib/ not used by jfreechart-phet

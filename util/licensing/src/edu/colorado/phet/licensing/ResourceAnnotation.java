@@ -11,8 +11,9 @@ public class ResourceAnnotation implements ResourceAnnotationElement {
     private String license;
     private String notes;
     private String same;//if this resource is a copy of another, you can reference the original here
+    private String licensefile;
 
-    private static final String[] keys = new String[]{"source", "author", "license", "notes", "same"};
+    private static final String[] keys = new String[]{"source", "author", "license", "notes", "same", "licensefile"};
 
     public ResourceAnnotation( String name ) {
         this.name = name;
@@ -58,7 +59,15 @@ public class ResourceAnnotation implements ResourceAnnotationElement {
         this.notes = notes;
     }
 
-    public static ResourceAnnotationElement parseElement( String line ) {
+    public String getLicensefile() {
+        return licensefile;
+    }
+
+    public void setLicensefile( String licensefile ) {
+        this.licensefile = licensefile;
+    }
+
+    public static ResourceAnnotation parseElement( String line ) {
         ResourceAnnotation annotation = new ResourceAnnotation( parseNext( line ).trim() );
         String attributes = line.substring( annotation.name.length() ).trim();
 
@@ -67,6 +76,7 @@ public class ResourceAnnotation implements ResourceAnnotationElement {
         annotation.license = getAttribute( "license", attributes );
         annotation.notes = getAttribute( "notes", attributes );
         annotation.same = getAttribute( "same", attributes );
+        annotation.licensefile = getAttribute( "licensefile", attributes );
         return annotation;
     }
 
@@ -99,7 +109,7 @@ public class ResourceAnnotation implements ResourceAnnotationElement {
     }
 
     public String toText() {
-        return name + " " + getString( "source", source ) + getString( "author", author ) + getString( "license", license ) + getString( "notes", notes ) + getString( "same", same );
+        return name + " " + getString( "source", source ) + getString( "author", author ) + getString( "license", license ) + getString( "notes", notes ) + getString( "same", same ) + getString( "licensefile", licensefile );
     }
 
     private String getString( String key, String value ) {
