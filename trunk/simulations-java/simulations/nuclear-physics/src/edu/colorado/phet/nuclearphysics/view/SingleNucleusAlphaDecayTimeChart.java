@@ -178,7 +178,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
             }
 
             public void simulationTimeReset( ClockEvent clockEvent ) {
-                _chartCleared = false;
+                reset();
             }
         } );
         
@@ -703,10 +703,13 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     /**
      * Reset the chart.
      */
-    public void reset() {
+    private void reset() {
 
         // Clear the flag that holds off updates after the chart is cleared.
         _chartCleared = false;
+        
+        // Reset exponential mode.
+        _exponentialMode = false;
 
         // Redraw the chart.
         update();

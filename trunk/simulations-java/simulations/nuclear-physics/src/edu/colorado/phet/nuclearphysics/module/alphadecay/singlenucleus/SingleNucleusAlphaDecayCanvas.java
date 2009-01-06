@@ -212,13 +212,6 @@ public class SingleNucleusAlphaDecayCanvas extends PhetPCanvas {
     // Public Methods
     //------------------------------------------------------------------------
 
-    /**
-     * Sets the view back to the original state when sim was first started.
-     */
-    public void reset(){
-        _alphaDecayTimeChart.reset();
-    }
-    
 	/**
 	 * Auto-press the reset button, i.e. make it look like someone or some
 	 * THING pressed the button.
