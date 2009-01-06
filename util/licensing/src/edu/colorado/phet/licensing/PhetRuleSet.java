@@ -10,22 +10,30 @@ package edu.colorado.phet.licensing;
 public class PhetRuleSet extends SimInfo.RuleSet {
     public PhetRuleSet() {
         super( new AbstractRule[]{
+
+                //copyright by PhET
                 new Author( "phet" ),
                 new Author( "cmalley" ),
                 new Author( "Chris Malley" ),
-                new License( "same as" ),//ignore duplicates
+                new Source( "phet" ),
+
+                //data files created by PhET
+                new Suffix( ".xml" ),
+                new Suffix( ".esp" ),
+                new Suffix( ".html" ),
+                new Suffix( ".properties" ),
+
+                //suppress reporting duplicates
+                new License( "same as" ),
+
+                //compatible licenses
                 new License( "PUBLIC DOMAIN" ),
                 new License( "Used with permission" ),
                 new License( "http://creativecommons.org" ),
                 new License( "Creative Commons, royalty free, public domain" ),
                 new Source( "microsoft" ),//microsoft clip art approved for usage, see Unfuddle #1059
-                new Source( "clker.com" ),
-                new Source( "java" ),
-                new Source( "phet" ),
-                new Suffix( ".xml" ),
-                new Suffix( ".esp" ),
-                new Suffix( ".html" ),
-                new Suffix( ".properties" )
+                new Source( "clker.com" ),//open source clip art site
+                new Source( "java" )//see http://java.sun.com/developer/techDocs/hi/repository/
         } );
     }
 }
