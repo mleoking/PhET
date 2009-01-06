@@ -19,12 +19,7 @@ crate.gif source=microsoft notes=   	j0310276.wmf
 crushedman.png author=PhET 
 curly-label-200x50.gif author=PhET 
 curly-label.gif author=PhET 
-drop.gif 
-drop15.gif 
-Drop2.gif 
-drop3.gif 
-drop32-orig.gif 
-drop32.gif 
+drop3.gif
 firedog.gif 
 fridge.gif source=microsoft notes=HH01559_.wmf 
 light3.png 

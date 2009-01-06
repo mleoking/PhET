@@ -5,10 +5,6 @@
 
 glass-20-minus.gif source=java
 glass-20-plus.gif source=java
-mag-minus-10.gif 
-mag-minus-15.gif license=same as mag-minus-10.gif  
-mag-plus-10.gif license=same as mag-minus-10.gif
-mag-plus-15.gif license=same as mag-minus-10.gif 
 minus-tiny.gif author=PhET 
 plus-tiny.gif author=PhET 
 selected.gif author=PhET 
