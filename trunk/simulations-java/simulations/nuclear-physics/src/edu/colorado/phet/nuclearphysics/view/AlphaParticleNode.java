@@ -58,13 +58,13 @@ public class AlphaParticleNode extends PNode {
         SphericalNode neutron2 = new SphericalNode( diameter, NuclearPhysicsConstants.NEUTRON_ROUND_GRADIENT, false );
         
         PNode alphaParticle = new PNode();
-        proton1.setOffset( 0, diameter/2 );
+        proton1.setOffset( diameter / 4, -diameter / 4  );
         alphaParticle.addChild(proton1);
-        neutron1.setOffset( diameter/2, 0 );
+        neutron1.setOffset( -diameter / 3, -diameter / 3 );
         alphaParticle.addChild(neutron1);
-        neutron2.setOffset( diameter/2, diameter );
+        neutron2.setOffset( diameter / 3, diameter / 3 );
         alphaParticle.addChild(neutron2);
-        proton2.setOffset( diameter, diameter/2 );
+        proton2.setOffset( -diameter / 4, diameter / 4 );
         alphaParticle.addChild(proton2);
         
         return alphaParticle;
@@ -78,13 +78,13 @@ public class AlphaParticleNode extends PNode {
         SphericalNode neutron2 = new SphericalNode( diameter, NuclearPhysicsConstants.NEUTRON_ROUND_GRADIENT, false );
 
         PNode alphaParticle = new PNode();
-        proton1.setOffset( diameter / 1.5, diameter / 2  );
+        proton1.setOffset( 0, diameter/3 );
         alphaParticle.addChild(proton1);
-        neutron1.setOffset( 0, 0 );
+        neutron1.setOffset( diameter/2, 0 );
         alphaParticle.addChild(neutron1);
-        neutron2.setOffset( diameter / 1.5, diameter );
+        neutron2.setOffset( -diameter/2, 0 );
         alphaParticle.addChild(neutron2);
-        proton2.setOffset( 0, diameter / 1.5 );
+        proton2.setOffset( 0, -diameter/3 );
         alphaParticle.addChild(proton2);
         
         return alphaParticle;

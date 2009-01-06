@@ -17,6 +17,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayAdapter;
@@ -173,7 +174,7 @@ public class SingleNucleusAlphaDecayCanvas extends PhetPCanvas {
         // Add the chart that shows the decay time.
         _alphaDecayTimeChart = new SingleNucleusAlphaDecayTimeChart(_singleNucleusAlphaDecayModel);
         addScreenChild( _alphaDecayTimeChart );
-
+        
         // Add a listener for when the canvas is resized.
         addComponentListener( new ComponentAdapter() {
             

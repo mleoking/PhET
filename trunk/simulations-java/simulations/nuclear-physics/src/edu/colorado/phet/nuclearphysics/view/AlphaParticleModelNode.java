@@ -61,7 +61,6 @@ public class AlphaParticleModelNode extends AlphaParticleNode {
     //------------------------------------------------------------------------
     
     private void update(){
-        _displayNode.setOffset( _alphaParticle.getPosition().getX() - NuclearPhysicsConstants.ALPHA_PARTICLE_DIAMETER/2,  
-                _alphaParticle.getPosition().getY() - NuclearPhysicsConstants.ALPHA_PARTICLE_DIAMETER/2);
+        _displayNode.setOffset( _alphaParticle.getPosition() );
     }
 }

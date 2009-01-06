@@ -71,7 +71,6 @@ public class NeutronModelNode extends NeutronNode implements NucleonModelNode {
     //------------------------------------------------------------------------
     
     private void update(){
-        setOffset( _nucleon.getPositionReference().getX() - NuclearPhysicsConstants.NUCLEON_DIAMETER/2,  
-                _nucleon.getPositionReference().getY() - NuclearPhysicsConstants.NUCLEON_DIAMETER/2);
+        setOffset( _nucleon.getPositionReference() );
     }
 }
