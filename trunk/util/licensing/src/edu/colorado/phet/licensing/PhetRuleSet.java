@@ -12,9 +12,9 @@ public class PhetRuleSet extends SimInfo.RuleSet {
         super( new AbstractRule[]{
 
                 //copyright by PhET
-                new Author( "phet" ),
-                new Author( "cmalley" ),
                 new Source( "phet" ),
+                new Author( "phet" ),
+                new Author( "pixelzoom" ),
 
                 //data files created by PhET
                 new Suffix( ".xml" ),
