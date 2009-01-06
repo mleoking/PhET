@@ -18,7 +18,8 @@ public abstract class AtomicNucleus {
     
     // Radius at which the repulsive electrical force overwhelms the strong
     // force.
-    public static final double DEFAULT_TUNNELING_REGION_RADIUS = 15; 
+    public static final double DEFAULT_TUNNELING_REGION_RADIUS = 15;
+    public static final double MAX_TUNNELING_REGION_RADIUS = 200;
     
     //------------------------------------------------------------------------
     // Instance data
@@ -158,11 +159,12 @@ public abstract class AtomicNucleus {
     public void setTunnelingRegionRadius(double tunnelingRegionRadius){
     	if (tunnelingRegionRadius != _tunnelingRegionRadius){
     		if (tunnelingRegionRadius >= getDiameter()/2){
+    			tunnelingRegionRadius = Math.min(tunnelingRegionRadius, MAX_TUNNELING_REGION_RADIUS);
     	        _tunnelingRegionRadius = tunnelingRegionRadius;
     	        notifyTunnelingRadiusChanged();
     		}
     		else{
-    			System.err.println("Warning: Invalid value specified for tunneling radius.");
+    			// Ignore attempts to set invalid values.
     		}
     	}
     }
