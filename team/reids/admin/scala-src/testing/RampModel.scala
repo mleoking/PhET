@@ -31,7 +31,7 @@ class RampObject extends Observable[RampObject] {
   }
 
   override def toString = "position=" + position + ", v=" + v + ", a=" + a + ", mass=" + mass + ", staticCoefficient=" + staticFrictionCoefficient + ", kineticCoef=" + kineticFrictionCoefficient + ", interacting=" + interacting;
-  def getPosition()=position
+  def getPosition() = position
 }
 class RampTrack {
 }
@@ -43,10 +43,10 @@ class RampModel {
   objects += new RampObject
   def update(dt: Double): Unit = {
     //    println("model update")
-//    for (obj <- objects) {
-//      obj.translate(1, 0.5)
-//    }
-    objects.foreach(_.translate(1,0.5))
+    //    for (obj <- objects) {
+    //      obj.translate(1, 0.5)
+    //    }
+    objects.foreach(_.translate(1, 0.5))
   }
 
   def getObject(index: Int) = objects(index)
