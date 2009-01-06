@@ -13,8 +13,7 @@ ball-earth.png
 barrier.jpg 
 blue-arrow.png author=PhET 
 cabinet.gif source=microsoft notes= 	   	j0215727.wmf 
-cottage.gif license=same as cottage.png 
-cottage.png 
+cottage.gif source=clker.com
 crate.gif source=microsoft notes=   	j0310276.wmf 
 crushedman.png author=PhET 
 curly-label-200x50.gif author=PhET 

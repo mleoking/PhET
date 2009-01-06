@@ -13,7 +13,6 @@ ball-earth.png
 barrier2.jpg 
 bookstack3.gif 
 cabinet.gif source=microsoft notes= 	   	j0215727.wmf 
-cottage.gif 
 crate.gif source=microsoft notes=   	j0310276.wmf 
 crushedman.png author=PhET 
 curly-label-200x50.gif author=PhET 
