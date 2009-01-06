@@ -8,6 +8,7 @@
 earth-a.gif license=same as earth_0001.gif notes=email permission
 earth.gif license=same as earth_0001.gif notes=email permission 
 glass-pane-background.gif author=PhET 
+help-item-icon.gif notes=I think Ron LeMaster created this
 ice-age-2.gif author=PhET 
 iceage-2.gif author=PhET 
 iceage-3.gif author=PhET 
