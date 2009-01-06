@@ -13,8 +13,8 @@ clock3.png
 electron-thumb-orig.jpg author=PhET 
 electron-thumb.jpg author=PhET 
 electron-thumb.png author=PhET 
-glassMinus.gif 
-glassPlus.gif 
+glassMinus.gif source=microsoft clip art notes=BS00365_.wmf
+glassPlus.gif source=microsoft clip art notes=BS00365_.wmf 
 gun2-ii.gif 
 mandel-gun-1.png author=noah p source=phet
 mandel-gun-2.png author=noah p source=phet
@@ -27,8 +27,8 @@ photon-thumb.png author=PhET
 raygun3-centerbarrel-2.gif source=microsoft notes=  j0230574.wmf
 rot.jpg 
 ruler-thumb.jpg author=PhET 
-ruler3.png 
+ruler3.png source=microsoft clip art notes=j0290924.wmf 
 sources.txt 
-stopwatch.png 
+stopwatch.png source=microsoft clip art notes=j0404115.wmf
 wire.png author=PhET 
 x-14.jpg author=PhET 

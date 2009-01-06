@@ -4,7 +4,5 @@
 ###################################
 
 brake-pad.gif
-flower1.gif
-flower2.gif
-ladybug.gif
-valessiobrito_Bug_Buddy_Vec.png 
+ladybug.gif source=microsoft clip art notes=j0346925.wmf
+valessiobrito_Bug_Buddy_Vec.png source=clker.com notes=http://www.clker.com/clipart-11522.html
