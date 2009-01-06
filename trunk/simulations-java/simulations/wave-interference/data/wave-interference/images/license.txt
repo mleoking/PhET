@@ -21,7 +21,7 @@ speaker-front.png notes=http://willem.engen.nl/art/blender/ license=same as spea
 speaker.gif notes=http://willem.engen.nl/art/blender/ 
 spotlight.png author=PhET notes=ron 
 spotlight_3d.png author=PhET 
-stopwatch-thumb.png 
+stopwatch-thumb.png source=microsoft clip art notes=j0404115.wmf 
 wire.png author=PhET 
 wood.jpg 
 x-20.png author=PhET 
