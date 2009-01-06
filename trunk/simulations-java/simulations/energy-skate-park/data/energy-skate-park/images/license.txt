@@ -5,8 +5,8 @@
 
 ball.png author=PhET 
 blackhole_large_2.jpg 
-bugboard.gif
-bulldog.png
+bugboard.gif source=microsoft clip art notes=board from j0355709.wmf and bug from j0091003.wmf
+bulldog.png source=microsoft clip art notes=bulldog from AN00261_.wmf and skateboard from HH01336_.wmf 
 earth-background.jpg author=PhET 
 earth3.jpg author=PhET 
 house.png author=PhET 

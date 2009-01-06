@@ -7,7 +7,7 @@ arrow-down.png author=PhET
 arrow-right-png-50.png author=PhET 
 barrier.jpg 
 cabinet.gif source=microsoft notes=j0215727.wmf
-cottage.gif 
+cottage.gif source=clker.com
 crate.gif source=microsoft notes=j0310276.wmf 
 fridge.gif source=microsoft notes=HH01559_.wmf 
 ollie.gif author=PhET 
