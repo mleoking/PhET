@@ -236,10 +236,20 @@ public class SingleNucleusAlphaDecayCanvas extends PhetPCanvas {
 		AtomicNucleus nucleus = _singleNucleusAlphaDecayModel.getAtomNucleus();
 		if (nucleus != null){
 			double tunnelingRadius = nucleus.getTunnelingRegionRadius();
-			_leftTunnelingLine.setOffset(-tunnelingRadius, 0);
-			_rightTunnelingLine.setOffset(tunnelingRadius, 0);
-			_tunnelingRegion.setPathTo(new Ellipse2D.Double(0, 0, tunnelingRadius * 2, tunnelingRadius * 2));
-			_tunnelingRegion.setOffset(-tunnelingRadius, -tunnelingRadius);
+			if (tunnelingRadius < CANVAS_WIDTH){
+				_leftTunnelingLine.setOffset(-tunnelingRadius, 0);
+				_leftTunnelingLine.setVisible(true);
+				_rightTunnelingLine.setOffset(tunnelingRadius, 0);
+				_rightTunnelingLine.setVisible(true);
+				_tunnelingRegion.setPathTo(new Ellipse2D.Double(0, 0, tunnelingRadius * 2, tunnelingRadius * 2));
+				_tunnelingRegion.setOffset(-tunnelingRadius, -tunnelingRadius);
+				_tunnelingRegion.setVisible(true);
+			}
+			else{
+				_leftTunnelingLine.setVisible(false);
+				_rightTunnelingLine.setVisible(false);
+				_tunnelingRegion.setVisible(false);
+			}
 		}
 	}
 	
