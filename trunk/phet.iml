@@ -7,7 +7,6 @@
     <content url="file://$MODULE_DIR$/../../../../reid/svn-working-copy/trunk/projects/phet" />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/simulations-flash/flash-launcher/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/build-tools/image4j/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/build-tools/patches/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/build-tools/phet-build/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/build-tools/securechannelfacade/src/main/java" isTestSource="false" />
