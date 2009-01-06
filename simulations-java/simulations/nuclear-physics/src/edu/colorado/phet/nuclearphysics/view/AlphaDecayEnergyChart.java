@@ -56,19 +56,19 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
 	// because the shape of the graph is somewhat unrealistic.  So, since we
 	// need some sort of units to work with, we define an arbitrary number of
 	// them and an offset for where zero should be.
-	private static final double Y_AXIS_UNITS = 100;
+	private static final double NUM_Y_AXIS_UNITS = 100;
 	private static final double Y_AXIS_ZERO_OFFSET = 55; // Sets origin of y-axis relative to bottom of chart.
 	
 	// Constants for setting the initial positions of the energy lines/curves.
 	private static final double INITIAL_TOTAL_ENERGY = 10;
 	private static final double INITIAL_MINIUMIM_POTENTIAL_ENERGY = 1; // Defines low point of the potential energy curve.
-	private static final double INITIAL_PEAK_POTENTIAL_ENERGY = 20;    // Defines peak of the potential energy curve.
+	private static final double INITIAL_PEAK_POTENTIAL_ENERGY = 25;    // Defines peak of the potential energy curve.
 	private static final double PRE_DECAY_ENERGY_WELL_BOTTOM = -37;
 	private static final double POST_DECAY_ENERGY_WELL_BOTTOM = -50;
 	
 	// TODO: Decide which of these constants go here and which go elsewhere.
 	private static final double MAX_TIME = 3.2e19;  // Trillion years
-	private static final double HALF_LIFE_CALC_CONSTANT = Math.log(MAX_TIME)/(Y_AXIS_UNITS - Y_AXIS_ZERO_OFFSET);
+	private static final double HALF_LIFE_CALC_CONSTANT = Math.log(MAX_TIME)/(NUM_Y_AXIS_UNITS - Y_AXIS_ZERO_OFFSET);
 
     // Constants for controlling the appearance of the chart.
     private static final Color   BORDER_COLOR = Color.DARK_GRAY;
@@ -286,7 +286,7 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
                 PDimension d = event.getDeltaRelativeTo(draggedNode);
                 draggedNode.localToParent(d);
                 double newEnergyValue = 
-                	_totalEnergy + (d.height * _totalEnergyHandle.getScale() * Y_AXIS_UNITS / _usableHeight);
+                	_totalEnergy + (d.height * _totalEnergyHandle.getScale() * NUM_Y_AXIS_UNITS / _usableHeight);
                 if ((newEnergyValue >= _energyWellBottom * 0.67) && 
                 	(convertEnergyToPixels(newEnergyValue) > (_usableAreaOriginY + BORDER_STROKE_WIDTH))){
                 	_totalEnergy = newEnergyValue;
@@ -315,7 +315,7 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
                 PDimension d = event.getDeltaRelativeTo(draggedNode);
                 draggedNode.localToParent(d);
                 double newEnergyValue = _potentialEnergyPeak 
-                	+ (d.height * _potentialEnergyPeakHandle.getScale() * Y_AXIS_UNITS / _usableHeight);
+                	+ (d.height * _potentialEnergyPeakHandle.getScale() * NUM_Y_AXIS_UNITS / _usableHeight);
                 if ((newEnergyValue >= INITIAL_MINIUMIM_POTENTIAL_ENERGY) && 
                 	(convertEnergyToPixels(newEnergyValue) > (_usableAreaOriginY + BORDER_STROKE_WIDTH))){
                 	_potentialEnergyPeak = newEnergyValue;
@@ -478,7 +478,7 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
      * @return
      */
     private double convertEnergyToPixels(double energy){
-    	double pixelsPerEnergyUnit = _usableHeight / Y_AXIS_UNITS; 
+    	double pixelsPerEnergyUnit = _usableHeight / NUM_Y_AXIS_UNITS; 
     	if (pixelsPerEnergyUnit > 0){
         	return _usableHeight - ((energy + Y_AXIS_ZERO_OFFSET) * pixelsPerEnergyUnit) + _usableAreaOriginY;
     	}
@@ -501,7 +501,7 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
     		return 0;
     	}
 
-    	double energyUnitsPerPixel = Y_AXIS_UNITS / _usableHeight;
+    	double energyUnitsPerPixel = NUM_Y_AXIS_UNITS / _usableHeight;
     	
     	return (pixels - _usableHeight - _usableAreaOriginY) * energyUnitsPerPixel - Y_AXIS_ZERO_OFFSET; 
     }
@@ -834,7 +834,17 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
     		halfLife = Double.POSITIVE_INFINITY;
     	}
     	else {
-    		halfLife = Math.pow(10, (HALF_LIFE_CALC_CONSTANT * (_potentialEnergyPeak - _totalEnergy)));
+    		/* The equation that was originally created for this, and the one
+    		 * that arguably makes the most sense, is this one:
+    		 * 
+    		 * halfLife = Math.pow(10, (HALF_LIFE_CALC_CONSTANT * (_potentialEnergyPeak - _totalEnergy)));
+    		 * 
+    		 * But this was making the polonium graph too small, so a new one
+    		 * was created as shown below.  I am keeping the original here as a
+    		 * historical note and in case we ever need to go back to it.
+    		 */
+    		double normalizedDelta = (_potentialEnergyPeak - _totalEnergy) / (NUM_Y_AXIS_UNITS - Y_AXIS_ZERO_OFFSET);
+    		halfLife = Math.pow(10, 25 * normalizedDelta * normalizedDelta);
     	}
     	
     	return halfLife;
