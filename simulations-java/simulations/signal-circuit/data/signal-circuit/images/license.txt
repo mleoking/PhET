@@ -3,9 +3,9 @@
 # Automatically generated on Fri Aug 08 00:08:03 MDT 2008
 ###################################
 
-A.jpg 
+A.jpg license=same as B.jpg 
 B.jpg 
-ChandelierOff2.jpg 
+ChandelierOff2.jpg license=same as ChandelierOn2.jpg  
 ChandelierOn2.jpg 
 Electron3VX.GIF author=PhET 
 electron9.gif author=PhET 
