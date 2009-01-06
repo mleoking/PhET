@@ -689,7 +689,15 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
     	
     	// Reset the decay flag and anything else that needs is.
     	_decayOccurred = false;
-    	_energyWellBottom = PRE_DECAY_ENERGY_WELL_BOTTOM;
+        _totalEnergy = INITIAL_TOTAL_ENERGY;
+        _potentialEnergyMinimum = INITIAL_MINIUMIM_POTENTIAL_ENERGY;
+        _potentialEnergyPeak = INITIAL_PEAK_POTENTIAL_ENERGY;
+        _energyWellBottom = PRE_DECAY_ENERGY_WELL_BOTTOM;
+        
+        // If the graph is ready, update it with the new information.
+        if (_usableHeight != 0 && _usableWidth != 0){
+            update();
+        }
     }
 
     private void handleModelElementRemoved(Object modelElement){
