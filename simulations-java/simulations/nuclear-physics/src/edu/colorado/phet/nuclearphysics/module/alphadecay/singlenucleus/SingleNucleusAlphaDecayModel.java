@@ -66,8 +66,12 @@ public class SingleNucleusAlphaDecayModel implements AlphaDecayNucleusTypeContro
             
             public void simulationTimeReset(ClockEvent clockEvent){
             	removeCurrentNucleus();
+            	int oldNucleusID = _nucleusID;
             	_nucleusID = DEFAULT_NUCLEUS_TYPE_ID;
             	addNewNucleus();
+            	if (oldNucleusID != DEFAULT_NUCLEUS_TYPE_ID){
+            		notifyNucleusTypeChanged();
+            	}
             }
         });
 
