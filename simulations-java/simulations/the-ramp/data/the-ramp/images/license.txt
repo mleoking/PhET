@@ -10,7 +10,6 @@ arrow-down.png author=PhET
 arrow-right-png-50.png author=PhET 
 arrow-right.gif author=PhET 
 ball-earth.png 
-barrier.jpg 
 barrier2.jpg 
 bookstack3.gif 
 cabinet.gif source=microsoft notes= 	   	j0215727.wmf 
@@ -32,7 +31,6 @@ piano.png source=microsoft notes=j0155591.wmf
 skateboard.png source=microsoft notes=  j0277226.wmf  
 standing-man.png author=PhET 
 stop-20.png 
-stop.png 
 tape.gif author=PhET 
 tape.jpg author=PhET 
 tree.gif 
