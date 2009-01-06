@@ -31,10 +31,10 @@ object MyTest {
       setSimulationPanel(canvas)
 
       val ptext = new PText("hello")
-      ptext setFont new Font("Lucida Sans",Font.BOLD,30)
+      ptext setFont new Font("Lucida Sans", Font.BOLD, 30)
       ptext.setOffset(300, 200)
       canvas addScreenChild ptext
-      canvas setBackground new Color(200,255,240)
+      canvas setBackground new Color(200, 255, 240)
       getClock.addClockListener(new ScalaModelElement((dt: Double) => ptext.translate(1, 0)))
       getClock.addClockListener(new ScalaModelElement((dt: Double) => ptext.translate(0, 2)))
     }
