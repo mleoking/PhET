@@ -133,17 +133,19 @@ public class SingleNucleusAlphaDecayCanvas extends PhetPCanvas {
         // Set the background color.
         setBackground( NuclearPhysicsConstants.CANVAS_BACKGROUND );
         
-        // Add the chart that depicts the tunneling energy threshold.
-        _alphaDecayEnergyChart = new AlphaDecayEnergyChart(singleNucleusAlphaDecayModel, this);
-        addScreenChild( _alphaDecayEnergyChart );
-        
-        // Add the breakout radius to the canvas.
+        // Add the tunneling radius to the canvas.
         _tunnelingRegion = new PPath();
         _tunnelingRegion.setStroke( new BasicStroke(0.1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
                 new float[] {0.75f, 0.75f }, 0) );
         _tunnelingRegion.setStrokePaint( TUNNELING_MARKERS_COLOR );
-        addWorldChild(_tunnelingRegion);
+        addWorldChild(_tunnelingRegion); // Put on layer that will go behind the charts.
         
+        // Add the chart that depicts the tunneling energy threshold.
+        _alphaDecayEnergyChart = new AlphaDecayEnergyChart(singleNucleusAlphaDecayModel, this);
+        addScreenChild( _alphaDecayEnergyChart );
+
+        // Add the lines that visually connect that energy chart to the
+        // tunneling radius.
         _leftTunnelingLine = new PPath(new Line2D.Double(0, 0, 0, CANVAS_HEIGHT * 0.35));
         _leftTunnelingLine.setStroke( new BasicStroke(0.1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
                 new float[] {2, 2 }, 0) );
