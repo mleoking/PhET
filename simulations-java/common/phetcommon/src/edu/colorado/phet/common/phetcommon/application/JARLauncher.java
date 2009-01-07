@@ -38,13 +38,13 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  */
 public class JARLauncher extends JFrame implements IProguardKeepClass {
     
-    private static final String LOCALE_PROPERTIES_FILENAME = "options.properties"; //TODO: rename to locale.properties
+    private static final String LOCALE_PROPERTIES_FILENAME = "locale.properties";
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
-    private String[] _args;//todo: support main args
+    private String[] args; //TODO: support main args
     private SimulationInfo[] info;
     private SimulationInfo selectedSim;
 
@@ -60,7 +60,7 @@ public class JARLauncher extends JFrame implements IProguardKeepClass {
      */
     public JARLauncher( String[] args, SimulationInfo[] info ) {
         super();
-        _args = args;
+        this.args = args;
         this.info = info;
         createUI();
         setResizable( false );
@@ -286,6 +286,7 @@ public class JARLauncher extends JFrame implements IProguardKeepClass {
             throw new RuntimeException( "No flavors found." );
         }
 
+        setLocaleForOfflineJARsOLD();
         setLocaleForOfflineJARs();
 
         URL mainURL = Thread.currentThread().getContextClassLoader().getResource( "main-flavor.properties" );
@@ -308,20 +309,60 @@ public class JARLauncher extends JFrame implements IProguardKeepClass {
         }
     }
 
+    /**
+     * @deprecated included for backward compatibility, should be deleted after all sims are redeployed
+     */
+    private static void setLocaleForOfflineJARsOLD() {
+        final String filename = "options.properties"; // constant is included here so it goes away when this deprecated method is deleted
+        final String propertyName = "javaws.phet.locale"; // constant is included here so it goes away when this deprecated method is deleted
+        URL optionsURL = Thread.currentThread().getContextClassLoader().getResource( filename );
+        if ( optionsURL != null ) {
+            Properties optionsProperties = new Properties();
+            try {
+                optionsProperties.load( optionsURL.openStream() );
+                String locale = optionsProperties.getProperty( "locale" );
+                if ( locale != null ) {
+                    locale = locale.trim();
+                    System.out.println( "JARLauncher: setting " + propertyName + "=" + locale );
+                    System.setProperty( propertyName, locale );
+                }
+                else {
+                    System.err.println( "JARLauncher: " + filename + " is missing required property " + propertyName );
+                }
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    /*
+     * 
+     */
     private static void setLocaleForOfflineJARs() {
         URL optionsURL = Thread.currentThread().getContextClassLoader().getResource( LOCALE_PROPERTIES_FILENAME );
         if ( optionsURL != null ) {
             Properties optionsProperties = new Properties();
             try {
                 optionsProperties.load( optionsURL.openStream() );
-                String language = optionsProperties.getProperty( "locale" ); //TODO: changed this property to language
+                
+                // language (required)
+                String language = optionsProperties.getProperty( "language" );
                 if ( language != null ) {
                     language = language.trim();
-                    System.out.println( "JARLauncher: overriding language: " + language );
-                    System.setProperty( PhetResources.PROPERTY_JAVAWS_PHET_LOCALE, language );
+                    System.out.println( "JARLauncher: setting " + PhetResources.PROPERTY_JAVAWS_USER_LANGUAGE + "=" + language );
+                    System.setProperty( PhetResources.PROPERTY_JAVAWS_USER_LANGUAGE, language );
                 }
                 else {
-                    System.err.println( "JARLauncher: " + LOCALE_PROPERTIES_FILENAME + " is missing required property language" );
+                    System.err.println( "JARLauncher: " + LOCALE_PROPERTIES_FILENAME + " is missing required property " + PhetResources.PROPERTY_JAVAWS_USER_LANGUAGE );
+                }
+                
+                // country (optional)
+                String country = optionsProperties.getProperty( "country" );
+                if ( country != null ) {
+                    country = country.trim();
+                    System.out.println( "JARLauncher: setting " + PhetResources.PROPERTY_JAVAWS_USER_COUNTRY + "=" + country );
+                    System.setProperty( PhetResources.PROPERTY_JAVAWS_USER_COUNTRY, country );
                 }
             }
             catch( IOException e ) {

@@ -27,11 +27,6 @@ abstract class AbstractResourceLoader implements IResourceLoader {
     public boolean exists( String resource ) {
         ClassLoader cl = this.getClass().getClassLoader();
         URL url = cl.getResource( resource );
-
-        //if (url == null) {
-        //    new Exception("The resource " + resource + " could not be found").printStackTrace();
-        //}
-
         return url != null;
     }
 
@@ -49,6 +44,9 @@ abstract class AbstractResourceLoader implements IResourceLoader {
      * some/pkg/Resource.properties
      * /some/pkg/Resource
      * /some/pkg/Resource.properties
+     * <p>
+     * Unlike Java's ResourceBundle, this implementation requires an exact match on Locale
+     * in order to find the resource.
      * </pre>
      *
      * @param resourceName classpath resource name [may not be null]
@@ -58,8 +56,8 @@ abstract class AbstractResourceLoader implements IResourceLoader {
     public PhetProperties getProperties( String resourceName, final Locale locale ) {
         try {
             Properties properties = loadProperties( getFallbackPropertiesResourceName( resourceName ) );
-            Properties requestedLanguageProperties=loadProperties( getLocalizedPropertiesResourceName( resourceName, locale ) );
-            properties.putAll( requestedLanguageProperties );//overwrite fallback with requested language
+            Properties requestedLanguageProperties = loadProperties( getLocalizedPropertiesResourceName( resourceName, locale ) );
+            properties.putAll( requestedLanguageProperties ); //overwrite fallback with requested language
             return new PhetProperties( properties );
         }
         catch( IOException e ) {
@@ -79,7 +77,17 @@ abstract class AbstractResourceLoader implements IResourceLoader {
 
     private String getLocalizedPropertiesResourceName( String resourceName, Locale locale ) {
         String basename = stripPropertiesSuffix( resourceName );
-        return basename + "_" + locale.getLanguage() + PROPERTIES_SUFFIX;
+        String localizedName = null;
+        if ( locale.getCountry().equals( "" ) ) {
+            // eg, faraday-strings_zh.properties
+            localizedName = basename + "_" + locale.getLanguage() + PROPERTIES_SUFFIX;
+        }
+        else {
+            // eg, faraday-strings_zh_CN.properties
+            localizedName = basename + "_" + locale.getLanguage() + "_" + locale.getCountry() + PROPERTIES_SUFFIX;
+        }
+        System.out.println( "AbstractResourceLoader.getLocalizedPropertiesResourceName localizedName=" + localizedName );//XXX
+        return localizedName;
     }
     
     private String getFallbackPropertiesResourceName( String resourceName ) {
