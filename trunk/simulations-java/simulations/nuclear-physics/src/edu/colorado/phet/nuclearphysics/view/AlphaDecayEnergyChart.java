@@ -97,6 +97,7 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
     private static final double  CONTROL_HANDLE_HEIGHT_PROPORTION = 0.13; // In proportion to overall graph height.
     private static final float   CONTROL_HANDLE_STROKE_WIDTH = 0.4f;
     private static final Stroke  CONTROL_HANDLE_STROKE = new BasicStroke( CONTROL_HANDLE_STROKE_WIDTH );
+    private static final int     POTENTIAL_ENERGY_LINE_POINTINESS_FACTOR = 25;  // 0 = max pointiness, 100 least.
     
     // Constant that controls Y-axis position of the alpha particles after
     // the nucleus has decayed.  Value is arbitrary and chosen to look good.
@@ -532,15 +533,18 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
 		_potentialEnergyLine.reset();
         _potentialEnergyLine.moveTo( (float)_usableAreaOriginX + 3*BORDER_STROKE_WIDTH, 
                 (float)(convertEnergyToPixels(_potentialEnergyMinimum)));
-        _potentialEnergyLine.quadTo((float)(centerX - (_energyWellWidth / 2)), (float)convertEnergyToPixels(0),
-        		(float)(centerX - (_energyWellWidth / 2)), (float)(convertEnergyToPixels(_potentialEnergyPeak)));
+        _potentialEnergyLine.quadTo((float)(centerX - (_energyWellWidth / 2) - POTENTIAL_ENERGY_LINE_POINTINESS_FACTOR),
+        		(float)convertEnergyToPixels(0),
+        		(float)(centerX - (_energyWellWidth / 2)),
+        		(float)(convertEnergyToPixels(_potentialEnergyPeak)));
         _potentialEnergyLine.lineTo( (float)(centerX - (_energyWellWidth / 2)), 
                 (float)(convertEnergyToPixels(_energyWellBottom)));
         _potentialEnergyLine.lineTo( (float)(centerX + (_energyWellWidth / 2)), 
                 (float)(convertEnergyToPixels(_energyWellBottom)));
         _potentialEnergyLine.lineTo( (float)(centerX + (_energyWellWidth / 2)), 
                 (float)(convertEnergyToPixels(_potentialEnergyPeak)));
-        _potentialEnergyLine.quadTo( (float)(centerX + (_energyWellWidth / 2)), (float)convertEnergyToPixels(0),
+        _potentialEnergyLine.quadTo( (float)(centerX + (_energyWellWidth / 2)) + POTENTIAL_ENERGY_LINE_POINTINESS_FACTOR,
+        		(float)convertEnergyToPixels(0),
         		(float)(_usableAreaOriginX + _usableWidth - 3*BORDER_STROKE_WIDTH), 
                 (float)(convertEnergyToPixels(_potentialEnergyMinimum)));
         
