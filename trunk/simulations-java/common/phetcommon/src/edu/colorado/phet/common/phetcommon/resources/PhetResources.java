@@ -7,8 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
 
+import edu.colorado.phet.common.phetcommon.util.logging.ConsoleLogger;
 import edu.colorado.phet.common.phetcommon.util.logging.ILogger;
-import edu.colorado.phet.common.phetcommon.util.logging.NullLogger;
 import edu.colorado.phet.common.phetcommon.view.util.PhetAudioClip;
 
 /**
@@ -39,7 +39,7 @@ public class PhetResources {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final ILogger LOGGER = new NullLogger(); // use NullLogger to turn off, ConsoleLogger to turn on
+    private static final ILogger LOGGER = new ConsoleLogger(); // use NullLogger to turn off, ConsoleLogger to turn on
     
     // Standard localized properties:
     private static final String PROPERTY_NAME = "name";
@@ -56,11 +56,12 @@ public class PhetResources {
     private static final String IMAGES_DIR = "images";
     private static final String LOCALIZATION_DIR = "localization";
     private static final String LOCALIZATION_FILE_SUFFIX = "-strings";
-
-    // Property used to set the language from JNLP files.
+    
+    // Properties used to set the locale via JNLP files.
     // For an untrusted application, system properties set in the JNLP file will 
     // only be set by Java Web Start if property name begins with "jnlp." or "javaws.".
-    public static final String PROPERTY_JAVAWS_PHET_LOCALE = "javaws.phet.locale"; //TODO rename this to javaws.phet.language, see #996
+    public static final String PROPERTY_JAVAWS_USER_LANGUAGE = "javaws.user.language";
+    public static final String PROPERTY_JAVAWS_USER_COUNTRY = "javaws.user.country";
 
     private static final char PATH_SEPARATOR = '/';
 
@@ -122,19 +123,52 @@ public class PhetResources {
     /*
     * Read the locale that was specified for the application.
     * The default locale is the value of the user.language System property, as read by Locale.getDefault.
-    * PROPERTY_JAVAWS_PHET_LANGUAGE takes precedence, and can be set via the <property> tag in JNLP files.
+    * PhET-specific properties can be used to override the default.
     *
     * @return Locale
     */
     public static Locale readLocale() {
+        
         Locale locale = Locale.getDefault();
         LOGGER.log( "PhetResources.readLocale: default locale=" + locale.toString() );
-        String javawsPhetLanguage = System.getProperty( PROPERTY_JAVAWS_PHET_LOCALE );
-        if ( javawsPhetLanguage != null ) {
-            LOGGER.log( "PhetResources.readLocale: overriding locale via " + PROPERTY_JAVAWS_PHET_LOCALE + "=" + javawsPhetLanguage );
-            locale = new Locale( javawsPhetLanguage );
+        
+        // deprecated, included for backward compatibility
+        Locale javawsPhetLocale = readJavawsPhetLocale();
+        if ( javawsPhetLocale != null ) {
+            locale = javawsPhetLocale;
         }
+        
+        String language = System.getProperty( PROPERTY_JAVAWS_USER_LANGUAGE );
+        String country = System.getProperty( PROPERTY_JAVAWS_USER_COUNTRY ); // optional, may be null
+        if ( language != null ) {
+            if ( country != null ) {
+                LOGGER.log( "PhetResources.readLocale: overriding locale via " + PROPERTY_JAVAWS_USER_LANGUAGE + "=" + language + " " + PROPERTY_JAVAWS_USER_COUNTRY + "=" + country );
+                locale = new Locale( language, country );
+            }
+            else {
+                LOGGER.log( "PhetResources.readLocale: overriding locale via " + PROPERTY_JAVAWS_USER_LANGUAGE + "=" + language );
+                locale = new Locale( language );
+            }
+        }
+        else if ( country != null ) {
+            System.err.println( "PhetResources.locale: ignoring locale properties, they are in an illegal state, country specified without language" );
+        }
+        
         LOGGER.log( "PhetResources.readLocale: returning locale=" + locale.toString() );
+        return locale;
+    }
+    
+    /**
+     * @deprecated included for backward compatibility, should be deleted after all sims are redeployed
+     */
+    private static Locale readJavawsPhetLocale() {
+        Locale locale = null;
+        final String propertyName = "javaws.phet.locale"; // constant is included here so it goes away when this deprecated method is deleted
+        String language = System.getProperty( propertyName );
+        if ( language != null ) {
+            LOGGER.log( "PhetResources.readLocale: overriding locale via " + propertyName + "=" + language );
+            locale = new Locale( language );
+        }
         return locale;
     }
 
