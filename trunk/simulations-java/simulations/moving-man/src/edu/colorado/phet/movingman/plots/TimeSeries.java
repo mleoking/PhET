@@ -24,8 +24,8 @@ public class TimeSeries {
     }
 
     private void notifyAdded() {
-        for( int i = 0; i < observers.size(); i++ ) {
-            Observer observer = (Observer)observers.get( i );
+        for ( int i = 0; i < observers.size(); i++ ) {
+            Observer observer = (Observer) observers.get( i );
             observer.dataAdded( this );
         }
     }
@@ -45,8 +45,8 @@ public class TimeSeries {
     }
 
     private void notifyCleared() {
-        for( int i = 0; i < observers.size(); i++ ) {
-            Observer observer = (Observer)observers.get( i );
+        for ( int i = 0; i < observers.size(); i++ ) {
+            Observer observer = (Observer) observers.get( i );
             observer.cleared( this );
         }
     }
@@ -56,7 +56,7 @@ public class TimeSeries {
     }
 
     public TimePoint pointAt( int i ) {
-        return ( (TimePoint)pts.get( i ) );
+        return ( (TimePoint) pts.get( i ) );
     }
 
     public boolean indexInBounds( int index ) {
@@ -72,7 +72,7 @@ public class TimeSeries {
     }
 
     public double getLastTime() {
-        if( numPoints() == 0 ) {
+        if ( numPoints() == 0 ) {
             return 0;
         }
         else {
@@ -82,7 +82,7 @@ public class TimeSeries {
 
     public TimePoint getValueForTime( double time ) {
 //        timeToTimePointMap.
-        if( numPoints() == 0 ) {
+        if ( numPoints() == 0 ) {
             return new TimePoint( 0, 0 );
         }
         TimePoint[] n = getNeighborsForTime( time, 0, numPoints() - 1, 0 );
@@ -90,7 +90,7 @@ public class TimeSeries {
         TimePoint upperSample = n[1];
 
         boolean useAverage = false;
-        if( useAverage ) {
+        if ( useAverage ) {
             TimePoint average = TimePoint.average( new TimePoint[]{lowerBound, upperSample} );
             TimePoint fakeAverage = new TimePoint( average.getValue(), time );//fudge the time, pretend we were exact.
 //        System.out.println( "Requested time: " + time + ", lower=" + lowerBound + ", upper=" + upperSample + ", actualAvg=" + average + ", fakeAverage=" + fakeAverage );
@@ -101,7 +101,7 @@ public class TimeSeries {
         else {//use nearest neighbor.
             double lowerDist = Math.abs( lowerBound.getTime() - time );
             double upperDist = Math.abs( upperSample.getTime() - time );
-            if( lowerDist <= upperDist ) {
+            if ( lowerDist <= upperDist ) {
                 return new TimePoint( lowerBound.getValue(), time );
             }
             else {
@@ -139,16 +139,16 @@ public class TimeSeries {
 
     private TimePoint getLowerSample( double time, int min, int max, int depth ) {
 //        System.out.println( "LowerSample:recursive.depth=" + depth );
-        if( depth > 1000 ) {
+        if ( depth > 1000 ) {
             new RuntimeException( "Lower Sample recursed 1000 times." ).printStackTrace();
             return new TimePoint( 0, 0 );
         }
-        if( min == max || min == max - 1 ) {
+        if ( min == max || min == max - 1 ) {
             return pointAt( min );
         }
         int midIndex = ( max + min ) / 2;
         TimePoint mid = pointAt( midIndex );
-        if( mid.getTime() > time ) {
+        if ( mid.getTime() > time ) {
             return getLowerSample( time, min, midIndex, depth + 1 );
         }
         else {
@@ -159,16 +159,16 @@ public class TimeSeries {
     //
     private TimePoint getUpperSample( double time, int min, int max, int depth ) {
 //        System.out.println( "LowerSample:recursive.depth=" + depth );
-        if( depth > 1000 ) {
+        if ( depth > 1000 ) {
             new RuntimeException( "Lower Sample recursed 1000 times." ).printStackTrace();
             return new TimePoint( 0, 0 );
         }
-        if( min == max || min == max - 1 ) {
+        if ( min == max || min == max - 1 ) {
             return pointAt( max );
         }
         int midIndex = ( max + min ) / 2;
         TimePoint mid = pointAt( midIndex );
-        if( mid.getTime() > time ) {
+        if ( mid.getTime() > time ) {
             return getUpperSample( time, min, midIndex, depth + 1 );
         }
         else {
@@ -177,7 +177,7 @@ public class TimeSeries {
     }
 
     public TimePoint getLatestDerivative( double dummy ) {
-        if( size() > 2 ) {
+        if ( size() > 2 ) {
             double x1 = lastPointAt( 0 ).getValue();
             double x0 = lastPointAt( 2 ).getValue();
             double dx = x1 - x0;

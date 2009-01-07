@@ -1,6 +1,14 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman.view;
 
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.swing.event.MouseInputListener;
+
 import edu.colorado.phet.common_movingman.model.Command;
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common_movingman.view.util.BufferedImageUtils;
@@ -9,13 +17,6 @@ import edu.colorado.phet.common_movingman.view.util.RectangleUtils;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.common.LinearTransform1d;
 import edu.colorado.phet.movingman.model.Man;
-
-import javax.swing.event.MouseInputListener;
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -78,11 +79,11 @@ public class ManGraphic extends PhetGraphic implements MouseInputListener {
 //        System.out.println( "pc@" + hashCode() + ", transform= " + transform );
 //        System.out.println( "output = " + output );
         lastX = x;
-        this.x = (int)output;
+        this.x = (int) output;
 
-        if( lastX != x ) {
+        if ( lastX != x ) {
             double dx = getDx();
-            if( dx != 0 ) {
+            if ( dx != 0 ) {
                 setVelocity( dx );
             }
             doRepaint( origRectangle );
@@ -93,8 +94,8 @@ public class ManGraphic extends PhetGraphic implements MouseInputListener {
 
     private void doRepaint( Rectangle origRectangle ) {
         repaint( origRectangle, getRectangle() );
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.manGraphicChanged();
         }
     }
@@ -124,16 +125,16 @@ public class ManGraphic extends PhetGraphic implements MouseInputListener {
 //        System.out.println( "velocity = " + velocity );
         Rectangle rect = getRectangle();
         BufferedImage origImage = currentImage;
-        if( velocity == 0 && currentImage != this.standingMan ) {
+        if ( velocity == 0 && currentImage != this.standingMan ) {
             currentImage = this.standingMan;
         }
-        else if( velocity < 0 && currentImage != this.leftMan ) {
+        else if ( velocity < 0 && currentImage != this.leftMan ) {
             currentImage = this.leftMan;
         }
-        else if( velocity > 0 && currentImage != this.rightMan ) {
+        else if ( velocity > 0 && currentImage != this.rightMan ) {
             currentImage = this.rightMan;
         }
-        if( currentImage != origImage ) {
+        if ( currentImage != origImage ) {
             doRepaint( rect );
         }
     }
@@ -155,10 +156,10 @@ public class ManGraphic extends PhetGraphic implements MouseInputListener {
     }
 
     public Man.Direction getDirection() {
-        if( currentImage == leftMan ) {
+        if ( currentImage == leftMan ) {
             return Man.Direction.LEFT;
         }
-        else if( currentImage == rightMan ) {
+        else if ( currentImage == rightMan ) {
             return Man.Direction.RIGHT;
         }
         else {
@@ -205,7 +206,7 @@ public class ManGraphic extends PhetGraphic implements MouseInputListener {
     }
 
     public void mouseDragged( MouseEvent event ) {
-        if( ( !module.isRecordMode() ) || module.isPaused() || ( !module.isSmoothingSmooth() ) ) {
+        if ( ( !module.isRecordMode() ) || module.isPaused() || ( !module.isSmoothingSmooth() ) ) {
             module.setRecordMode();
             module.setSmoothingSmooth();
             module.setPaused( false );
@@ -233,8 +234,8 @@ public class ManGraphic extends PhetGraphic implements MouseInputListener {
     public void mouseReleased( MouseEvent event ) {
         m.setGrabbed( false );
         dragHandler = null;
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.mouseReleased();
         }
     }

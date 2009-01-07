@@ -1,6 +1,8 @@
 /*  */
 package edu.colorado.phet.movingman.plots;
 
+import java.awt.*;
+
 import edu.colorado.phet.chart_movingman.Range2D;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.model.MMTimer;
@@ -10,8 +12,6 @@ import edu.colorado.phet.movingman.plotdevice.PlotDevice;
 import edu.colorado.phet.movingman.plotdevice.PlotDeviceListenerAdapter;
 import edu.colorado.phet.movingman.plotdevice.PlotDeviceSeries;
 import edu.colorado.phet.movingman.view.MovingManApparatusPanel;
-
-import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -69,7 +69,7 @@ public class MMPlot extends PlotDevice {
         } );
         module.getMan().addListener( new Man.Adapter() {
             public void collided( Man man ) {
-                if( movingManApparatusPanel.getGraphic().getActiveUnit() == getChartSlider().getSliderGraphic() ) {
+                if ( movingManApparatusPanel.getGraphic().getActiveUnit() == getChartSlider().getSliderGraphic() ) {
                     movingManApparatusPanel.getGraphic().clearActiveUnit();
                 }
             }
@@ -80,10 +80,10 @@ public class MMPlot extends PlotDevice {
 
     private void handleCursorMoved( double time ) {
         double maxTime = module.getTimeModel().getRecordTimer().getTime();
-        if( time > maxTime ) {
+        if ( time > maxTime ) {
             time = maxTime;
         }
-        else if( time < 0 ) {
+        else if ( time < 0 ) {
             time = 0;
         }
         module.setReplayTime( time );
@@ -96,7 +96,7 @@ public class MMPlot extends PlotDevice {
     }
 
     public void setTextValue( double x ) {
-        for( int i = 0; i < numPlotDeviceData(); i++ ) {
+        for ( int i = 0; i < numPlotDeviceData(); i++ ) {
             PlotDeviceSeries series = plotDeviceSeriesAt( i );
             series.setReadoutValue( x );
         }

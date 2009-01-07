@@ -1,8 +1,8 @@
 package edu.colorado.phet.movingman;
 
+import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
@@ -29,15 +29,15 @@ public class MovingManApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) {
-        
+
         SimStrings.getInstance().addStrings( "moving-man/localization/moving-man-strings" );
-        
+
         ApplicationConstructor appConstructor = new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 return new MovingManApplication( config );
             }
         };
-        
+
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, "moving-man" );
         appConfig.setLookAndFeel( new MotionProjectLookAndFeel() );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );

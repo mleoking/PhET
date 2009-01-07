@@ -18,7 +18,8 @@ import edu.umd.cs.piccolo.nodes.PImage;
  */
 public class Force1DNode extends AbstractMovingManNode {
     private IForceNodeModel forceModel;
-    static interface IForceNodeModel{
+
+    static interface IForceNodeModel {
         void setAppliedForce( double appliedForce );
 
         ITemporalVariable getXVariable();
@@ -29,6 +30,7 @@ public class Force1DNode extends AbstractMovingManNode {
 
         double getPosition();
     }
+
     public Force1DNode( final IForceNodeModel forceModel ) throws IOException {
         this.forceModel = forceModel;
         final PImage manImage = super.getManImage();

@@ -1,8 +1,8 @@
 package edu.colorado.phet.movingman;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-
 import java.awt.*;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
  * User: Sam Reid
@@ -112,11 +112,11 @@ public class MMFontManager {
 
     static {
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-        if( d.width > 1024 ) {
+        if ( d.width > 1024 ) {
             fontSet = new Large();
 //            System.out.println( "MM: Chose font for width> 1280" );
         }
-        else if( d.width <= 800 ) {
+        else if ( d.width <= 800 ) {
             fontSet = new Small();
 //            System.out.println( "MM: Chose font for <=800" );
         }

@@ -1,10 +1,11 @@
 /*  */
 package edu.colorado.phet.movingman.plotdevice;
 
-import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import javax.swing.*;
 
 /**
  * User: Sam Reid
@@ -35,10 +36,10 @@ public class RepeatClicker extends MouseAdapter {
     }
 
     public void mouseReleased( MouseEvent e ) {
-        if( timer != null ) {
+        if ( timer != null ) {
             timer.stop();
             long time = System.currentTimeMillis();
-            if( time - pressTime < initDelay ) {
+            if ( time - pressTime < initDelay ) {
                 discrete.actionPerformed( null );
             }
         }

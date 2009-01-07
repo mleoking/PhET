@@ -1,10 +1,10 @@
 /*  */
 package edu.colorado.phet.movingman.motion;
 
+import java.awt.geom.Point2D;
+
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -53,18 +53,18 @@ public class ThresholdedPDragAdapter extends PBasicInputEventHandler {
     }
 
     public void mouseDragged( PInputEvent e ) {
-        if( System.currentTimeMillis() - lastDragTime >= thresholdMillis ) {//you waited too long, now have to start dragging again.
+        if ( System.currentTimeMillis() - lastDragTime >= thresholdMillis ) {//you waited too long, now have to start dragging again.
             resetDragging();
         }
-        if( lastPressLocation == null ) {
+        if ( lastPressLocation == null ) {
             lastPressLocation = e.getCanvasPosition();
         }
         double dx = Math.abs( lastPressLocation.getX() - e.getCanvasPosition().getX() );
         double dy = Math.abs( lastPressLocation.getY() - e.getCanvasPosition().getY() );
-        if( dx >= thresholdX && dy >= thresholdY ) {
+        if ( dx >= thresholdX && dy >= thresholdY ) {
             isDragging = true;
         }
-        if( isDragging ) {
+        if ( isDragging ) {
 //            System.out.println( "mouse dragged" + e );
             target.mouseDragged( e );
         }

@@ -1,5 +1,10 @@
 package edu.colorado.phet.movingman.plots;
 
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.ArrayList;
+
 import edu.colorado.phet.chart_movingman.Range2D;
 import edu.colorado.phet.chart_movingman.controllers.VerticalChartSlider;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
@@ -11,11 +16,6 @@ import edu.colorado.phet.movingman.plotdevice.PlotDeviceListenerAdapter;
 import edu.colorado.phet.movingman.plotdevice.PlotDeviceSeries;
 import edu.colorado.phet.movingman.view.GoPauseClearPanel;
 import edu.colorado.phet.movingman.view.MovingManApparatusPanel;
-
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -56,10 +56,10 @@ public class PlotSet {
 
         final SliderHandler positionHandler = new SliderHandler( module, positionValueChange ) {
             public void valueChanged( double value ) {
-                if( value < -10 ) {
+                if ( value < -10 ) {
                     value = -10;
                 }
-                if( value > 10 ) {
+                if ( value > 10 ) {
                     value = 10;
                 }
                 super.valueChanged( value );
@@ -102,19 +102,19 @@ public class PlotSet {
 
         module.getMan().addListener( new Man.Adapter() {
             public void positionChanged( double x ) {
-                if( module.isPaused() ) {
+                if ( module.isPaused() ) {
                     positionPlot.valueChanged( x );
                 }
             }
 
             public void velocityChanged( double velocity ) {
-                if( module.isPaused() ) {
+                if ( module.isPaused() ) {
                     velocityPlot.valueChanged( velocity );
                 }
             }
 
             public void accelerationChanged( double acceleration ) {
-                if( module.isPaused() ) {
+                if ( module.isPaused() ) {
                     accelerationPlot.valueChanged( acceleration );
                 }
             }
@@ -157,13 +157,13 @@ public class PlotSet {
     }
 
     public MMPlotSuite getPlotSuiteFor( GoPauseClearPanel goPauseClearPanel ) {
-        if( positionSuite.getGoPauseClearPanel() == goPauseClearPanel ) {
+        if ( positionSuite.getGoPauseClearPanel() == goPauseClearPanel ) {
             return positionSuite;
         }
-        else if( velSuite.getGoPauseClearPanel() == goPauseClearPanel ) {
+        else if ( velSuite.getGoPauseClearPanel() == goPauseClearPanel ) {
             return velSuite;
         }
-        else if( accSuite.getGoPauseClearPanel() == goPauseClearPanel ) {
+        else if ( accSuite.getGoPauseClearPanel() == goPauseClearPanel ) {
             return accSuite;
         }
         return null;
@@ -171,16 +171,16 @@ public class PlotSet {
 
     public MMPlotSuite[] getOtherPlots( MMPlotSuite ignore ) {
         ArrayList list = new ArrayList();
-        if( ignore != positionSuite ) {
+        if ( ignore != positionSuite ) {
             list.add( positionSuite );
         }
-        if( ignore != velSuite ) {
+        if ( ignore != velSuite ) {
             list.add( velSuite );
         }
-        if( ignore != accSuite ) {
+        if ( ignore != accSuite ) {
             list.add( accSuite );
         }
-        return (MMPlotSuite[])list.toArray( new MMPlotSuite[0] );
+        return (MMPlotSuite[]) list.toArray( new MMPlotSuite[0] );
     }
 
     public static interface Listener {
@@ -193,22 +193,22 @@ public class PlotSet {
     }
 
     void notifyAccelerationControlMode() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.setAccelerationControlMode();
         }
     }
 
     void notifyVelocityControlMode() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.setVelocityControlMode();
         }
     }
 
     void notifyPositionControlMode() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.setPositionControlMode();
         }
     }
@@ -244,7 +244,7 @@ public class PlotSet {
     }
 
     public void enterTextBoxValues() {
-        if( positionSuite.getTextBox().isChangedByUser() ) {
+        if ( positionSuite.getTextBox().isChangedByUser() ) {
             try {
                 String x = positionSuite.getTextBox().getText();
                 double xVal = Double.parseDouble( x );
@@ -255,7 +255,7 @@ public class PlotSet {
             }
             positionSuite.getTextBox().clearChangedByUser();
         }
-        if( velSuite.getTextBox().isChangedByUser() ) {
+        if ( velSuite.getTextBox().isChangedByUser() ) {
             try {
                 String v = velSuite.getTextBox().getText();
                 double vVal = Double.parseDouble( v );
@@ -266,7 +266,7 @@ public class PlotSet {
             }
             velSuite.getTextBox().clearChangedByUser();
         }
-        if( accSuite.getTextBox().isChangedByUser() ) {
+        if ( accSuite.getTextBox().isChangedByUser() ) {
             try {
                 String a = accSuite.getTextBox().getText();
                 double aVal = Double.parseDouble( a );
@@ -313,7 +313,7 @@ public class PlotSet {
         }
 
         public void keyReleased( KeyEvent e ) {
-            if( e.getKeyCode() == KeyEvent.VK_ENTER ) {
+            if ( e.getKeyCode() == KeyEvent.VK_ENTER ) {
                 String str = textBox.getText();
                 double value = Double.parseDouble( str );
                 manValueChange.setValue( module.getMan(), value );

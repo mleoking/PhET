@@ -1,10 +1,10 @@
 /*  */
 package edu.colorado.phet.movingman.model;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.common_movingman.model.ModelElement;
 import edu.colorado.phet.movingman.MovingManModule;
-
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -31,7 +31,7 @@ public class MovingManTimeModel {
     public MovingManTimeModel( MovingManModule module ) {
         mainModelElement = new ModelElement() {
             public void stepInTime( double dt ) {
-                if( !paused ) {
+                if ( !paused ) {
                     mode.stepInTime( dt * TIME_SCALE );
                 }
             }
@@ -82,16 +82,16 @@ public class MovingManTimeModel {
     }
 
     public void fireReset() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            TimeListener timeListener = (TimeListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            TimeListener timeListener = (TimeListener) listeners.get( i );
             timeListener.reset();
         }
     }
 
     private void firePause() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            TimeListener timeListener = (TimeListener)listeners.get( i );
-            if( mode == recordMode ) {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            TimeListener timeListener = (TimeListener) listeners.get( i );
+            if ( mode == recordMode ) {
                 timeListener.recordingPaused();
             }
             else {
@@ -101,15 +101,15 @@ public class MovingManTimeModel {
     }
 
     public void firePlaybackFinished() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            TimeListener timeListener = (TimeListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            TimeListener timeListener = (TimeListener) listeners.get( i );
             timeListener.playbackFinished();
         }
     }
 
     public void fireFinishedRecording() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            TimeListener timeListener = (TimeListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            TimeListener timeListener = (TimeListener) listeners.get( i );
             timeListener.recordingFinished();
         }
     }
@@ -119,23 +119,23 @@ public class MovingManTimeModel {
     }
 
     public void setPaused( boolean paused ) {
-        if( paused != this.paused ) {
+        if ( paused != this.paused ) {
             this.paused = paused;
-            if( paused ) {
+            if ( paused ) {
                 firePause();
             }
-            else if( isRecording() ) {
+            else if ( isRecording() ) {
                 fireRecordStarted();
             }
-            else if( isPlayback() ) {
+            else if ( isPlayback() ) {
                 firePlaybackStarted();
             }
         }
     }
 
     private void firePlaybackStarted() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            TimeListener timeListener = (TimeListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            TimeListener timeListener = (TimeListener) listeners.get( i );
             timeListener.playbackStarted();
         }
     }
@@ -145,8 +145,8 @@ public class MovingManTimeModel {
     }
 
     private void fireRecordStarted() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            TimeListener timeListener = (TimeListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            TimeListener timeListener = (TimeListener) listeners.get( i );
             timeListener.recordingStarted();
         }
     }
@@ -163,7 +163,7 @@ public class MovingManTimeModel {
     }
 
     public int getTimeIndex( double requestedTime ) {
-        return (int)( requestedTime / TIME_SCALE );
+        return (int) ( requestedTime / TIME_SCALE );
     }
 
     public boolean isRecordMode() {
@@ -181,7 +181,7 @@ public class MovingManTimeModel {
     public void setMode( Mode mode ) {
 
         boolean same = mode == this.mode;
-        if( !same ) {
+        if ( !same ) {
             this.mode = mode;
             this.mode.initialize();
 //            System.out.println( "Changed mode to: " + mode.getName() );
@@ -189,8 +189,8 @@ public class MovingManTimeModel {
     }
 
     private void fireRewind() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            TimeListener timeListener = (TimeListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            TimeListener timeListener = (TimeListener) listeners.get( i );
             timeListener.rewind();
         }
     }
@@ -214,7 +214,7 @@ public class MovingManTimeModel {
 
     public void setDynamicTime( boolean dynamicTime ) {
         this.dynamicTime = dynamicTime;
-        if( dynamicTime ) {
+        if ( dynamicTime ) {
             TIME_SCALE = 1.0;
         }
         else {

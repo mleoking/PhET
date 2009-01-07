@@ -36,21 +36,21 @@ public class RecordMode extends Mode {
     public void stepInTime( double dt ) {
         double recorderTime = module.getRecordingTimer().getTime();
         double maxTime = module.getMaxTime();
-        if( !module.isPaused() ) {
-            if( recorderTime >= maxTime ) {
+        if ( !module.isPaused() ) {
+            if ( recorderTime >= maxTime ) {
                 module.recordingFinished();
                 return;
             }
 
             double newTime = recorderTime + dt;// * timer.getTimerScale();
-            if( newTime > maxTime ) {
+            if ( newTime > maxTime ) {
                 dt = ( maxTime - recorderTime );// / timer.getTimerScale();
             }
             module.getRecordingTimer().stepInTime( dt, maxTime );//this could go over the max.
             module.getMan().stepInTime( dt );
             module.step( dt );
 
-            if( newTime >= maxTime ) {
+            if ( newTime >= maxTime ) {
                 module.recordingFinished();
                 return;
             }

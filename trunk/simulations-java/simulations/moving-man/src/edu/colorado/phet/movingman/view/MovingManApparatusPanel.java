@@ -1,6 +1,17 @@
 /*  */
 package edu.colorado.phet.movingman.view;
 
+import java.awt.*;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Arrays;
+
+import javax.swing.event.MouseInputAdapter;
+
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_movingman.math.ImmutableVector2D;
 import edu.colorado.phet.common_movingman.model.CompositeModelElement;
@@ -19,16 +30,6 @@ import edu.colorado.phet.movingman.common.WiggleMe;
 import edu.colorado.phet.movingman.model.TimeListenerAdapter;
 import edu.colorado.phet.movingman.plots.MMPlotSuite;
 import edu.colorado.phet.movingman.plots.PlotSet;
-
-import javax.swing.event.MouseInputAdapter;
-import java.awt.*;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.Arrays;
 
 /**
  * User: Sam Reid
@@ -99,7 +100,7 @@ public class MovingManApparatusPanel extends ApparatusPanel2 {
             public void manGraphicChanged() {
                 Point2D start = manGraphic.getRectangle().getLocation();
                 start = new Point2D.Double( start.getX() - wiggleMe.getWidth() - 20, start.getY() + manGraphic.getRectangle().getHeight() / 2 );
-                wiggleMe.setCenter( new Point( (int)start.getX(), (int)start.getY() ) );
+                wiggleMe.setCenter( new Point( (int) start.getX(), (int) start.getY() ) );
             }
 
             public void mouseReleased() {
@@ -195,20 +196,20 @@ public class MovingManApparatusPanel extends ApparatusPanel2 {
     }
 
     public void paint( Graphics g ) {
-        if( inited ) {
+        if ( inited ) {
             super.paint( g );
         }
     }
 
     public void paintImmediately( int x, int y, int w, int h ) {
-        if( inited ) {
+        if ( inited ) {
             super.paintImmediately( x, y, w, h );
         }
     }
 
     public Component add( Component comp ) {
         KeyListener[] kl = comp.getKeyListeners();
-        if( !Arrays.asList( kl ).contains( getKeySuite() ) ) {
+        if ( !Arrays.asList( kl ).contains( getKeySuite() ) ) {
             comp.addKeyListener( getKeySuite() );
         }
         return super.add( comp );
@@ -238,10 +239,10 @@ public class MovingManApparatusPanel extends ApparatusPanel2 {
     }
 
     public void setWiggleMeVisible( boolean b ) {
-        if( b == wiggleMe.isVisible() ) {
+        if ( b == wiggleMe.isVisible() ) {
             return;
         }
-        if( !b ) {
+        if ( !b ) {
             wiggleMe.setVisible( false );
             this.removeGraphic( wiggleMe );
             getModel().removeModelElement( wiggleMe );
@@ -264,7 +265,7 @@ public class MovingManApparatusPanel extends ApparatusPanel2 {
 
         bufferedWalkwayGraphic.setImage( pig.getImage() );
         bufferedWalkwayGraphic.setRegistrationPoint( -walkwayGraphic.getBounds().x, -walkwayGraphic.getBounds().y );
-        if( movingManLayout != null ) {
+        if ( movingManLayout != null ) {
             bufferedWalkwayGraphic.setLocation( 0, 0 );
         }
         repaint();
@@ -329,7 +330,7 @@ public class MovingManApparatusPanel extends ApparatusPanel2 {
         MMPlotSuite plotSuite = plotSet.getPlotSuiteFor( goPauseClearPanel );
 
         MMPlotSuite[] others = plotSet.getOtherPlots( plotSuite );
-        for( int i = 0; i < others.length; i++ ) {
+        for ( int i = 0; i < others.length; i++ ) {
             MMPlotSuite other = others[i];
             other.getTextBox().deselectAll();
         }

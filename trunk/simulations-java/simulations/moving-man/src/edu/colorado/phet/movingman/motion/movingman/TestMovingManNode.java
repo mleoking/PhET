@@ -5,7 +5,6 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;

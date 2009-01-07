@@ -72,14 +72,14 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
     }
 
     private double getAcceleration() {
-        if( Math.abs( a ) < 0.1 ) {
+        if ( Math.abs( a ) < 0.1 ) {
             return 0;
         }
         return a;
     }
 
     private double getVelocity() {
-        if( Math.abs( v ) < 0.1 ) {
+        if ( Math.abs( v ) < 0.1 ) {
             return 0;
         }
         return v;
@@ -124,7 +124,7 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
         public void update() {
             double force = forceComponent.getValue();
 //            System.out.println( "force: "+name+" = " + force );
-            if( force == 0 ) {
+            if ( force == 0 ) {
                 textGraphic.setVisible( false );
                 shapeGraphic.setVisible( false );
                 return;
@@ -150,7 +150,7 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
             double tgHeight = textGraphic.getHeight();
             double arrowHeight = forceArrowBody.getBounds().getHeight();
             double y = forceArrowBody.getBounds().getY() + arrowHeight / 2 - tgHeight / 2;
-            textGraphic.setLocation( forceArrowBody.getBounds().x, (int)y );
+            textGraphic.setLocation( forceArrowBody.getBounds().x, (int) y );
             this.lastArrow = forceArrow;
             setBoundsDirty();
             autorepaint();
@@ -160,7 +160,7 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
     }
 
     private double getLengthScale() {
-        if( manGraphic.getManTransform().getMinInput() < manGraphic.getManTransform().getMaxInput() ) {
+        if ( manGraphic.getManTransform().getMinInput() < manGraphic.getManTransform().getMaxInput() ) {
             return 10;
         }
         else {
@@ -175,14 +175,14 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
     }
 
     private void checkTextOverlap() {
-        if( accel.textGraphic.isVisible() && vel.textGraphic.isVisible() ) {
+        if ( accel.textGraphic.isVisible() && vel.textGraphic.isVisible() ) {
             Rectangle f = accel.textGraphic.getBounds();
             Rectangle a = vel.textGraphic.getBounds();
-            if( f.intersects( a ) ) {
+            if ( f.intersects( a ) ) {
                 Rectangle intersection = f.intersection( a );
                 int dx = intersection.width;
                 int d = dx / 2 + 5;
-                if( f.x < a.x ) {
+                if ( f.x < a.x ) {
                     accel.textGraphic.setLocation( f.x - d, accel.textGraphic.getY() );
                     vel.textGraphic.setLocation( a.x + d, vel.textGraphic.getY() );
                 }

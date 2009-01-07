@@ -1,12 +1,12 @@
 /*  */
 package edu.colorado.phet.movingman.plotdevice;
 
+import java.awt.*;
+
 import edu.colorado.phet.common_movingman.view.ApparatusPanel;
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetGraphicListener;
 import edu.colorado.phet.movingman.common.HelpItem2;
-
-import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -44,8 +44,8 @@ public class CursorHelpItem extends PlotDeviceListenerAdapter {
 
     public void cursorVisibilityChanged( boolean visible ) {
 //        System.out.println( "cursor bounds=" + plotDevice.getCursor().getBounds() );
-        if( visible ) {
-            if( !helpHasBeenShown ) {
+        if ( visible ) {
+            if ( !helpHasBeenShown ) {
                 showHelpItem();
                 helpHasBeenShown = true;
             }

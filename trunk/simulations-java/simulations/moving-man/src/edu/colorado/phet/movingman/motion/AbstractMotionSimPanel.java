@@ -17,7 +17,7 @@ public class AbstractMotionSimPanel extends BufferedPhetPCanvas {
     }
 
     protected MovingManGraph getXGraph( MovingManMotionModel forceModel ) {
-        return getGraph( forceModel, forceModel.getXSeries(), "variables.position.abbreviation" , "x", forceModel.getPositionDriven() );
+        return getGraph( forceModel, forceModel.getXSeries(), "variables.position.abbreviation", "x", forceModel.getPositionDriven() );
     }
 
     protected MovingManGraph getVGraph( MovingManMotionModel forceModel ) {

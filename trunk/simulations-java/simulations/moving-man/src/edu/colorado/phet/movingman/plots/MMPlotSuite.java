@@ -1,6 +1,13 @@
 /*  */
 package edu.colorado.phet.movingman.plots;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common_movingman.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common_movingman.view.phetgraphics.GraphicCriteria;
@@ -15,12 +22,6 @@ import edu.colorado.phet.movingman.plotdevice.PlotDeviceListenerAdapter;
 import edu.colorado.phet.movingman.view.GoPauseClearPanel;
 import edu.colorado.phet.movingman.view.MovingManApparatusPanel;
 import edu.colorado.phet.movingman.view.MovingManLayout;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -96,7 +97,7 @@ public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.Layo
                                               plot.dataSeriesAt( 0 ).getColor(), 1, 1, Color.black );
         addGraphic( titleGraphic );
 
-        if( MovingManConfig.isUseSliderHelpItemReminder() ) {
+        if ( MovingManConfig.isUseSliderHelpItemReminder() ) {
             SliderHelpItem sliderHelpItem = new SliderHelpItem( movingManApparatusPanel, goButtonGraphic, this );
             addGraphic( sliderHelpItem );
         }
@@ -124,7 +125,7 @@ public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.Layo
     }
 
     private void setPlaybackTime( double time ) {
-        if( plot.getNumDataSeries() > 0 ) {
+        if ( plot.getNumDataSeries() > 0 ) {
             TimePoint tp = plot.dataSeriesAt( 0 ).getRawData().getValueForTime( time );
             setTextBoxText( tp.getValue() );//todo factor into listener system.
             notifyValueChanged( tp.getValue() );
@@ -132,8 +133,8 @@ public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.Layo
     }
 
     private void notifyValueChanged( double value ) {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.valueChanged( value );
         }
     }
@@ -143,16 +144,16 @@ public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.Layo
     }
 
     private PhetGraphic search( PhetGraphic source, GraphicCriteria criteria ) {
-        if( criteria.isSatisfied( source ) ) {
+        if ( criteria.isSatisfied( source ) ) {
             return source;
         }
-        else if( source instanceof GraphicLayerSet ) {
-            GraphicLayerSet gls = (GraphicLayerSet)source;
+        else if ( source instanceof GraphicLayerSet ) {
+            GraphicLayerSet gls = (GraphicLayerSet) source;
             PhetGraphic[] children = gls.getGraphics();
-            for( int i = 0; i < children.length; i++ ) {
+            for ( int i = 0; i < children.length; i++ ) {
                 PhetGraphic child = children[i];
                 PhetGraphic result = search( child, criteria );
-                if( result != null ) {
+                if ( result != null ) {
                     return result;
                 }
             }
@@ -163,9 +164,9 @@ public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.Layo
     private PhetGraphic getGoButtonGraphic() {
         GraphicCriteria gc = new GraphicCriteria() {
             public boolean isSatisfied( PhetGraphic phetGraphic ) {
-                if( phetGraphic instanceof PhetJComponent ) {
-                    PhetJComponent pj = (PhetJComponent)phetGraphic;
-                    if( pj.getSourceComponent() == goPauseClearPanel.getGoPauseButton() ) {
+                if ( phetGraphic instanceof PhetJComponent ) {
+                    PhetJComponent pj = (PhetJComponent) phetGraphic;
+                    if ( pj.getSourceComponent() == goPauseClearPanel.getGoPauseButton() ) {
                         return true;
                     }
                 }
@@ -188,7 +189,7 @@ public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.Layo
     }
 
     public Rectangle getBorderRectangle() {
-        if( isPlotVisible() ) {
+        if ( isPlotVisible() ) {
             setBoundsDirty();
             Rectangle rect = textBoxGraphic.getBounds();
             rect = rect.union( plot.getVisibleBounds() );
@@ -226,7 +227,7 @@ public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.Layo
     }
 
     public void setPlotVisible( boolean plotVisible ) {
-        if( plotVisible != this.plotVisible ) {
+        if ( plotVisible != this.plotVisible ) {
             this.plotVisible = plotVisible;
             plot.setVisible( plotVisible );
             goPauseClearGraphic.setVisible( plotVisible );
@@ -235,8 +236,8 @@ public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.Layo
 
             maximizeButton.setVisible( !plotVisible );
 
-            for( int i = 0; i < listeners.size(); i++ ) {
-                Listener listener = (Listener)listeners.get( i );
+            for ( int i = 0; i < listeners.size(); i++ ) {
+                Listener listener = (Listener) listeners.get( i );
                 listener.plotVisibilityChanged();
             }
             fireVisibilityChanged();
@@ -256,12 +257,12 @@ public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.Layo
         textBoxGraphic.setLocation( 2, y + 20 );
         goPauseClearGraphic.setLocation( 10, textBoxGraphic.getHeight() + textBoxGraphic.getY() + 5 );
 
-        if( getComponent().getWidth() > 0 && height > 0 ) {
+        if ( getComponent().getWidth() > 0 && height > 0 ) {
             int plotInsetDX = 10;
             int offsetX = plot.getChartSlider().getWidth() * 2;
             int plotWidth = getComponent().getWidth() - textBoxGraphic.getWidth() - plotInsetDX * 2 - offsetX;
             plot.setChartSize( plotWidth, height );
-            plot.setLocation( (int)( textBoxGraphic.getBounds().getMaxX() + plotInsetDX + offsetX ), y );
+            plot.setLocation( (int) ( textBoxGraphic.getBounds().getMaxX() + plotInsetDX + offsetX ), y );
         }
         setBoundsDirty();
         autorepaint();

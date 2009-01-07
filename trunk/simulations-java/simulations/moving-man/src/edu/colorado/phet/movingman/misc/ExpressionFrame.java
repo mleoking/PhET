@@ -2,17 +2,19 @@ package edu.colorado.phet.movingman.misc;
 
 import bsh.EvalError;
 import bsh.Interpreter;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.MultiStateButton;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_movingman.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.model.Mode;
 import edu.colorado.phet.movingman.plots.TimePoint;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * User: Sam Reid
@@ -128,16 +130,16 @@ public class ExpressionFrame extends JDialog {
         public void stepInTime( double dt ) {
             double x = evaluate( module.getRecordingTimer().getTime(), expression, interpreter );
 
-            if( module.getRecordingTimer().getTime() >= module.getMaxTime() ) {
+            if ( module.getRecordingTimer().getTime() >= module.getMaxTime() ) {
                 timeFinished();
                 return;
             }
             x = Math.min( x, module.getMaxManPosition() );
             x = Math.max( x, -module.getMaxManPosition() );
-            if( x == module.getMaxManPosition() ) {
+            if ( x == module.getMaxManPosition() ) {
                 module.getMan().setVelocity( 0 );
             }
-            if( x == -module.getMaxManPosition() ) {
+            if ( x == -module.getMaxManPosition() ) {
                 module.getMan().setVelocity( 0 );
             }
 
@@ -146,19 +148,19 @@ public class ExpressionFrame extends JDialog {
             module.getPosition().addPoint( module.getMan().getPosition(), module.getRecordingTimer().getTime() );
             module.getPosition().updateSmoothedSeries();
             TimePoint dx = module.getPosition().getDerivative( dt );
-            if( dx != null ) {
+            if ( dx != null ) {
                 module.getVelocityData().addPoint( dx );
             }
 //            module.getPosition().updateDerivative( dt );
             module.getVelocityData().updateSmoothedSeries();
             TimePoint dv = module.getVelocityData().getDerivative( dt );
-            if( dv != null ) {
+            if ( dv != null ) {
                 module.getAcceleration().addPoint( dv );
             }
 //            module.getVelocityData().updateDerivative( dt );
 
             module.getAcceleration().updateSmoothedSeries();
-            if( module.getRecordingTimer().getTime() >= module.getMaxTime() ) {
+            if ( module.getRecordingTimer().getTime() >= module.getMaxTime() ) {
                 timeFinished();
                 return;
             }
@@ -187,7 +189,7 @@ public class ExpressionFrame extends JDialog {
         double x = 0;
         try {
             Object value = interpreter.eval( "t=" + timeString + "; y=" + equation );
-            x = ( (Number)value ).doubleValue();
+            x = ( (Number) value ).doubleValue();
         }
         catch( EvalError evalError ) {
             evalError.printStackTrace();

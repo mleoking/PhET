@@ -18,19 +18,19 @@ public class CircularBuffer {
     public void addPoint( double pt ) {
         data[endPtr] = pt;
         endPtr++;
-        if( endPtr >= data.length ) {
+        if ( endPtr >= data.length ) {
             endPtr = 0;
         }
-        if( startPtr == endPtr ) {
+        if ( startPtr == endPtr ) {
             startPtr++;
         }
-        if( startPtr >= data.length ) {
+        if ( startPtr >= data.length ) {
             startPtr = 0;
         }
     }
 
     public int numPoints() {
-        if( endPtr >= startPtr ) {
+        if ( endPtr >= startPtr ) {
             return endPtr - startPtr;
         }
         else {
@@ -46,10 +46,10 @@ public class CircularBuffer {
     public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append( "[" );
-        for( int i = startPtr; i != endPtr; i = ( i + 1 ) % data.length ) {
+        for ( int i = startPtr; i != endPtr; i = ( i + 1 ) % data.length ) {
             double v = data[i];
             sb.append( v );
-            if( ( i + 1 ) % data.length != endPtr ) {
+            if ( ( i + 1 ) % data.length != endPtr ) {
                 sb.append( ", " );
             }
         }
@@ -59,7 +59,7 @@ public class CircularBuffer {
 
     public static void main( String[] args ) {
         CircularBuffer cb = new CircularBuffer( 10 );
-        for( int i = 0; i < 20; i++ ) {
+        for ( int i = 0; i < 20; i++ ) {
             cb.addPoint( i );
             System.out.println( "cb = " + cb + ", num Points=" + cb.numPoints() + ", avg=" + cb.average() );
         }
@@ -68,7 +68,7 @@ public class CircularBuffer {
     public double average() {
         double sum = 0;
         int numPoints = numPoints();
-        for( int i = 0; i < numPoints; i++ ) {
+        for ( int i = 0; i < numPoints; i++ ) {
             sum += pointAt( i );
         }
         return sum / numPoints;

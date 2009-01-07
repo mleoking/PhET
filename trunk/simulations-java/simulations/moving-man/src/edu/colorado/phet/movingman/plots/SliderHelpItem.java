@@ -44,7 +44,7 @@ public class SliderHelpItem extends HelpItem2 {
 
         mmPlotSuite.getPlotDevice().addListener( new PlotDeviceListenerAdapter() {
             public void sliderDragged( double dragValue ) {
-                if( mmPlotSuite.isPaused() && !isAtEndOfTime() ) {
+                if ( mmPlotSuite.isPaused() && !isAtEndOfTime() ) {
                     showSliderHelp();
                 }
             }
@@ -64,7 +64,7 @@ public class SliderHelpItem extends HelpItem2 {
     }
 
     private void showSliderHelp() {
-        if( !shown ) {
+        if ( !shown ) {
             shown = true;
             setVisible( true );
         }

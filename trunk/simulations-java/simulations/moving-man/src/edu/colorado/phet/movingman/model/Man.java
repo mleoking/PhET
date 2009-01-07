@@ -89,16 +89,16 @@ public class Man {
 //        System.out.println( "acceleration = " + acceleration );
 //        new Exception("ACC").printStackTrace( );
         this.acceleration = acceleration;
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.accelerationChanged( acceleration );
         }
     }
 
     public void setVelocity( double velocity ) {
         this.velocity = velocity;
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.velocityChanged( velocity );
         }
     }
@@ -108,9 +108,9 @@ public class Man {
     }
 
     public void setGrabbed( boolean grabbed ) {
-        if( this.grabbed != grabbed ) {
+        if ( this.grabbed != grabbed ) {
             this.grabbed = grabbed;
-            if( !grabbed ) {
+            if ( !grabbed ) {
                 setVelocity( 0.0 );
                 setAcceleration( 0.0 );
             }
@@ -123,24 +123,24 @@ public class Man {
 
     public void setPosition( double x ) {
 
-        if( this.x == x ) {
+        if ( this.x == x ) {
             return;
         }
 //        System.out.println( "set position= " + x );
 //        new Exception( "X" ).printStackTrace();
-        if( boundaryConditionsClosed ) {
-            if( x <= minX ) {
+        if ( boundaryConditionsClosed ) {
+            if ( x <= minX ) {
                 x = minX;
                 notifyCollision();
             }
-            else if( x >= maxX ) {
+            else if ( x >= maxX ) {
                 x = maxX;
                 notifyCollision();
             }
         }
         this.x = x;
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.positionChanged( x );
         }
     }
@@ -152,20 +152,20 @@ public class Man {
     }
 
     public void stepInTime( double dt ) {
-        if( grabbed ) {
+        if ( grabbed ) {
             return;
         }
         double newVelocity = velocity + acceleration * dt;
         double newX = x + velocity * dt;
-        if( boundaryConditionsClosed ) {
-            if( newX > maxX || newX < minX ) {
+        if ( boundaryConditionsClosed ) {
+            if ( newX > maxX || newX < minX ) {
                 setVelocity( 0 );
                 setAcceleration( 0 );
-                if( newX > maxX ) {
+                if ( newX > maxX ) {
                     setPosition( maxX );
                     notifyCollision();
                 }
-                else if( newX < minX ) {
+                else if ( newX < minX ) {
                     setPosition( minX );
                     notifyCollision();
                 }
@@ -184,8 +184,8 @@ public class Man {
     }
 
     private void notifyCollision() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.collided( this );
         }
     }

@@ -11,16 +11,17 @@
 
 package edu.colorado.phet.movingman.common;
 
-import edu.colorado.phet.common_movingman.view.ApparatusPanel;
-import edu.colorado.phet.common_movingman.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common_movingman.view.phetgraphics.PhetImageGraphic;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.util.EventObject;
 
 import javax.swing.*;
 import javax.swing.event.EventListenerList;
 import javax.swing.event.MouseInputAdapter;
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.util.EventObject;
+
+import edu.colorado.phet.common_movingman.view.ApparatusPanel;
+import edu.colorado.phet.common_movingman.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common_movingman.view.phetgraphics.PhetImageGraphic;
 
 
 /**
@@ -43,7 +44,7 @@ public class ZoomControl extends GraphicLayerSet {
 
     private static final Point IN_LOCATION = new Point( 31, 13 );
     private static final Point OUT_LOCATION = new Point( 3, 13 );
-    
+
     public static final Cursor DEFAULT_CURSOR = Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR );
     public static final Cursor WAIT_CURSOR = Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR );
 
@@ -74,7 +75,7 @@ public class ZoomControl extends GraphicLayerSet {
         _orientation = orientation;
 
         PhetImageGraphic background;
-        if( orientation == HORIZONTAL ) {
+        if ( orientation == HORIZONTAL ) {
             background = new PhetImageGraphic( component, ZOOM_BACKGROUND_HORIZONTAL_IMAGE );
         }
         else {
@@ -228,9 +229,9 @@ public class ZoomControl extends GraphicLayerSet {
 
     public void removeAllZoomListeners() {
         Object[] listeners = _listenerList.getListenerList();
-        for( int i = 0; i < listeners.length; i += 2 ) {
-            if( listeners[i] == ZoomListener.class ) {
-                _listenerList.remove( ZoomListener.class, (ZoomListener)listeners[i + 1] );
+        for ( int i = 0; i < listeners.length; i += 2 ) {
+            if ( listeners[i] == ZoomListener.class ) {
+                _listenerList.remove( ZoomListener.class, (ZoomListener) listeners[i + 1] );
             }
         }
     }
@@ -238,9 +239,9 @@ public class ZoomControl extends GraphicLayerSet {
     private void fireZoomEvent( int zoomType ) {
         ZoomEvent event = new ZoomEvent( this, zoomType );
         Object[] listeners = _listenerList.getListenerList();
-        for( int i = 0; i < listeners.length; i += 2 ) {
-            if( listeners[i] == ZoomListener.class ) {
-                ( (ZoomListener)listeners[i + 1] ).zoomPerformed( event );
+        for ( int i = 0; i < listeners.length; i += 2 ) {
+            if ( listeners[i] == ZoomListener.class ) {
+                ( (ZoomListener) listeners[i + 1] ).zoomPerformed( event );
             }
         }
     }
@@ -254,14 +255,14 @@ public class ZoomControl extends GraphicLayerSet {
         }
 
         public void mousePressed( MouseEvent event ) {
-            if( _inButton.getBounds().contains( event.getPoint() ) ) {
-                if( !_inButtonPressed.isVisible() ) {
+            if ( _inButton.getBounds().contains( event.getPoint() ) ) {
+                if ( !_inButtonPressed.isVisible() ) {
                     _inButtonPressed.setVisible( true );
                     _inPressed = true;
                 }
             }
-            else if( _outButton.getBounds().contains( event.getPoint() ) ) {
-                if( !_outButtonPressed.isVisible() ) {
+            else if ( _outButton.getBounds().contains( event.getPoint() ) ) {
+                if ( !_outButtonPressed.isVisible() ) {
                     _outButtonPressed.setVisible( true );
                     _outPressed = true;
                 }
@@ -269,14 +270,14 @@ public class ZoomControl extends GraphicLayerSet {
         }
 
         public void mouseReleased( MouseEvent event ) {
-            if( _inPressed ) {
+            if ( _inPressed ) {
                 _inButtonPressed.setVisible( false );
                 _inPressed = false;
-                if( _inButtonPressed.getBounds().contains( event.getPoint() ) ) {
+                if ( _inButtonPressed.getBounds().contains( event.getPoint() ) ) {
                     // Set the wait cursor
                     getComponent().setCursor( WAIT_CURSOR );
                     // Handle the event
-                    if( _orientation == HORIZONTAL ) {
+                    if ( _orientation == HORIZONTAL ) {
                         fireZoomEvent( ZoomEvent.HORIZONTAL_ZOOM_IN );
                     }
                     else {
@@ -286,14 +287,14 @@ public class ZoomControl extends GraphicLayerSet {
                     getComponent().setCursor( DEFAULT_CURSOR );
                 }
             }
-            else if( _outPressed ) {
+            else if ( _outPressed ) {
                 _outButtonPressed.setVisible( false );
                 _outPressed = false;
-                if( _outButtonPressed.getBounds().contains( event.getPoint() ) ) {
+                if ( _outButtonPressed.getBounds().contains( event.getPoint() ) ) {
                     // Set the wait cursor
                     getComponent().setCursor( WAIT_CURSOR );
                     // Handle the event
-                    if( _orientation == HORIZONTAL ) {
+                    if ( _orientation == HORIZONTAL ) {
                         fireZoomEvent( ZoomEvent.HORIZONTAL_ZOOM_OUT );
                     }
                     else {

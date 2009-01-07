@@ -1,14 +1,13 @@
 /*  */
 package edu.colorado.phet.movingman;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.*;
 
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common_movingman.view.components.HorizontalLayoutPanel;
 
 /**
  * User: Sam Reid
@@ -16,9 +15,9 @@ import edu.colorado.phet.common_movingman.view.components.HorizontalLayoutPanel;
  * Time: 10:15:19 PM
  */
 
-public class ArrowPanel extends JPanel{
+public class ArrowPanel extends JPanel {
     public ArrowPanel( final IArrowPanelModule module ) {
-        super(new FlowLayout( ) );
+        super( new FlowLayout() );
         setBorder( BorderFactory.createTitledBorder( SimStrings.get( "controls.vectors" ) ) );
         final JCheckBox velocity = new JCheckBox( SimStrings.get( "variables.velocity" ) );
         velocity.addActionListener( new ActionListener() {

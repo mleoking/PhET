@@ -35,7 +35,7 @@ public class TimePoint {
     public static TimePoint average( TimePoint[] timePoints ) {
         double valSum = 0;
         double timeSum = 0;
-        for( int i = 0; i < timePoints.length; i++ ) {
+        for ( int i = 0; i < timePoints.length; i++ ) {
             TimePoint timePoint = timePoints[i];
             valSum += timePoint.value;
             timeSum += timePoint.time;
