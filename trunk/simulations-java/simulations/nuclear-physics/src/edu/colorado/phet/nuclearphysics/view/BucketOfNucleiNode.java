@@ -358,8 +358,7 @@ public class BucketOfNucleiNode extends PNode {
 		
 		// Position the nucleus within the model, which will then be sent as
 		// a position change event to the node.
-		double scale = nucleus.getScale();
-		nucleus.getNucleusRef().setPosition(xPos/scale, yPos/scale);
+		nucleus.getNucleusRef().setPosition(xPos, yPos);
 	}
 	
 	/**

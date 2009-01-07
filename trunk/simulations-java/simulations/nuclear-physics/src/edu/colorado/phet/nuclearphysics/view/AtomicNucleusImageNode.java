@@ -36,6 +36,7 @@ public class AtomicNucleusImageNode extends AtomicNucleusNode {
         _displayImage = NucleusImageFactory.getInstance().getNucleusImage( atomicNucleus.getNumProtons(), 
                 atomicNucleus.getNumNeutrons(), 20 );
         _displayImage.scale( (atomicNucleus.getDiameter()/1.2)/((_displayImage.getWidth() + _displayImage.getHeight()) / 2));
+        _displayImage.setOffset( -atomicNucleus.getDiameter() / 2, -atomicNucleus.getDiameter() / 2 );
         addChild(0, _displayImage);
     }
 }

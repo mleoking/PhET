@@ -151,9 +151,8 @@ public class AtomicNucleusNode extends PNode {
         // Make sure nothing is pickable so we don't get mouse events.
         setPickable( false );
         setChildrenPickable( false );
-        
-        // Call update at the end of construction to assure that the view is
-        // synchronized with the model.
+
+        updateLabelPositions();
         updatePosition();
     }
 
@@ -320,13 +319,18 @@ public class AtomicNucleusNode extends PNode {
     }
     
     /**
-     * This method updates the positions of the labels.  It is generally
-     * called when something has changed, like when the nucleus decays or
-     * when the sim window is resized.
+     * Updates the position of the node based on the position of the
+     * corresponding nucleus in the model.
      */
-    protected void updatePosition(){
-    	
+    private void updatePosition(){
     	setOffset(_atomicNucleus.getPositionReference());
+    }
+    
+    /**
+     * Update the position of the labels within the node.  This is generally
+     * called when something 
+     */
+    private void updateLabelPositions(){
     	
         // Optimization: Only check one of the label elements, and only do
         // the update if it exists.
@@ -340,7 +344,7 @@ public class AtomicNucleusNode extends PNode {
             double chemPosX = _isotopeNumber.getOffset().getX() + _isotopeNumber.getFullBounds().getWidth();
             double chemPosY = _isotopeNumber.getOffset().getY();
             _isotopeChemSymbol.setOffset( chemPosX, chemPosY );
-            _isotopeChemSymbolShadow.setOffset( chemPosX + SHADOW_OFFSET, chemPosY + SHADOW_OFFSET);            
+            _isotopeChemSymbolShadow.setOffset( chemPosX + SHADOW_OFFSET, chemPosY + SHADOW_OFFSET);
         }
     }
 
@@ -391,6 +395,6 @@ public class AtomicNucleusNode extends PNode {
         
         // Update the label to reflect the new element.
         setLabel(numProtons, numNeutrons);
-        updatePosition();
+        updateLabelPositions();
     }
 }
