@@ -147,7 +147,7 @@ class SitePage extends BasePage {
             }
         }
 
-        if ($ga_source == 0) {
+        if ((!isset($ga_source)) || ($ga_source == 0)) {
             print <<<EOT
     <script type="text/javascript">
         var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
