@@ -1,1 +1,0 @@
-apple license=Custom Apple license licensefile=license.txt

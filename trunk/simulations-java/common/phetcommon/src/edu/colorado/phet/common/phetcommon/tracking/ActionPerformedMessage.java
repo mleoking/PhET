@@ -44,8 +44,6 @@ public class ActionPerformedMessage extends TrackingMessage {
     public static final String AUTO_UPDATE_DIALOG_CLOSE_BUTTON_PRESSED = "auto_update_dialog_close_button_pressed";
     // File->Exit was selected from the menu bar
     public static final String PHET_FRAME_CLOSING = "phet_frame_closing";
-    // App->Quit was selected from the Mac Finder's menu bar 
-    public static final String MAC_OSX_QUIT_SELECTED = "mac_osx_quit";
     // close button was pressed in the main frame's window dressing
     public static final String FILE_EXIT_SELECTED = "file_exit_selected";
     
