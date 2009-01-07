@@ -10,7 +10,7 @@ Larger Daughter Nucleus.png author=PhET
 Lead Nucleus Small.png author=PhET 
 Mesh Gradient Button Pushed.png author=PhET 
 Mesh Gradient Button Unpushed.png author=PhET 
-mushroom_cloud.jpg notes=Not sure of the origin of this image.
+castle_romeo2.jpg source=wikimedia commons license=public domain notes=url was http://commons.wikimedia.org/wiki/File:Castle_romeo2.jpg, this was cleared by Kathy (the lawyer)
 ray-gun.png author=PhET
 Polonium Nucleus Small.png author=PhET 
 Smaller Daughter Nucleus.png author=PhET 

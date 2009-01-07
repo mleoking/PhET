@@ -15,6 +15,7 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.ContainmentVessel;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * This class represents a Piccolo PNode that can display a textual message
@@ -32,6 +33,7 @@ public class AtomicBombGraphicNode extends PhetPNode {
     
     private static final Font LABEL_FONT = new PhetFont(32, true, true);
     private static final Color LABEL_COLOR = Color.RED;
+    private static final double INITAL_WIDTH = 20;
     
     // Values for variable that tracks explosion state.
     private static final int STATE_IDLE      = 0;
@@ -87,6 +89,8 @@ public class AtomicBombGraphicNode extends PhetPNode {
         // Register as a listener to the containment vessel.
         containmentVessel.addListener( new ContainmentVessel.Adapter(){
             public void explosionOccurred(){
+            	_explosionGraphic.setScale(1);
+            	_explosionGraphic.setScale(INITAL_WIDTH / _explosionGraphic.getFullBoundsReference().width);
                 _explodingState = STATE_EXPLODING;
                 AtomicBombGraphicNode.this.setVisible( true );
             }
@@ -99,7 +103,7 @@ public class AtomicBombGraphicNode extends PhetPNode {
         setVisible( false );
         
         // Create the node with the graphic of the bomb.
-        _explosionGraphic = new PImage(NuclearPhysicsResources.getImage( "mushroom_cloud.jpg" ));
+        _explosionGraphic = new PImage(NuclearPhysicsResources.getImage( "castle_romeo2.jpg" ));
         addChild(_explosionGraphic);
         
         // Create the node with textual label but don't make it visible yet.
@@ -135,20 +139,25 @@ public class AtomicBombGraphicNode extends PhetPNode {
             setOffset( 0, 0 );
             
             _explosionGraphic.setScale( 1.0 );
-            _explosionGraphic.setBounds( 0, 0, _containerWidth, _containerHeight ); 
+            _explosionGraphic.setBounds( 0, 0, _containerWidth, _containerHeight );
             
-            _explosionLabel.setOffset( 10, 10 );
+            PBounds graphicBounds = _explosionGraphic.getFullBoundsReference();
+            
+            _explosionLabel.setOffset( graphicBounds.width / 2 - _explosionLabel.getFullBoundsReference().width / 2,
+            		graphicBounds.height * 0.1);
         }
         else{
+            PBounds graphicBounds = _explosionGraphic.getFullBoundsReference();
             
-            setOffset( (_containerWidth/ 2) - (getFullBoundsReference().width / 2),
-                    (_containerHeight / 2) - (getFullBoundsReference().height / 2) );
+            setOffset( (_containerWidth/ 2) - (graphicBounds.width / 2),
+                    (_containerHeight / 2) - (graphicBounds.height / 2) );
             
             _explosionGraphic.setOffset( 
-                    getFullBoundsReference().width/2 - _explosionGraphic.getFullBoundsReference().width/2,
-                    getFullBoundsReference().height/2 - _explosionGraphic.getFullBoundsReference().height/2 );
+            		graphicBounds.width/2 - _explosionGraphic.getFullBoundsReference().width/2,
+            		graphicBounds.height/2 - _explosionGraphic.getFullBoundsReference().height/2 );
             
-            _explosionLabel.setOffset( 10, 10 );
+            _explosionLabel.setOffset( graphicBounds.width / 2 - _explosionLabel.getFullBoundsReference().width / 2,
+            		graphicBounds.height * 0.1);
         }
     }
     
@@ -158,10 +167,12 @@ public class AtomicBombGraphicNode extends PhetPNode {
     
     private void handleClockTicked(ClockEvent ce){
         if (_explodingState == STATE_EXPLODING){
-            if (_explosionGraphic.getFullBounds().getHeight() < _containerHeight){
+            if ((_explosionGraphic.getFullBounds().getHeight() < _containerHeight) ||
+                (_explosionGraphic.getFullBounds().getWidth() < _containerWidth	)){
                 // Expand the explosion graphic.
-                _explosionGraphic.setScale( _explosionGraphic.getScale() + 0.20 );
+                _explosionGraphic.setScale( _explosionGraphic.getScale() + 0.05 );
                 updateLayout();
+                System.out.println("Scaling...");
             }
             else{
                 // We have finished the expansion.
