@@ -1,16 +1,16 @@
 /*  */
 package edu.colorado.phet.movingman.common;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common_movingman.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common_movingman.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common_movingman.view.phetgraphics.ShadowHTMLGraphic;
 import edu.colorado.phet.common_movingman.view.util.RectangleUtils;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid

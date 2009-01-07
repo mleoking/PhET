@@ -25,19 +25,19 @@ public class DataSuite {
 
     public void updateSmoothedSeries() {
         int numPtsToAvg = Math.min( numSmoothingPoints, timeSeries.size() );
-        if( numPtsToAvg == 0 ) {
+        if ( numPtsToAvg == 0 ) {
 //            System.out.println( "No points to average." );
             return;
         }
         double valSum = 0;
         double timeSum = 0;
-        for( int i = 0; i < numPtsToAvg; i++ ) {
+        for ( int i = 0; i < numPtsToAvg; i++ ) {
             valSum += timeSeries.lastPointAt( i ).getValue();
             timeSum += timeSeries.lastPointAt( i ).getTime();
         }
         double average = valSum / numPtsToAvg;
         double timeAverage = timeSum / numPtsToAvg;
-        if( Double.isNaN( average ) ) {
+        if ( Double.isNaN( average ) ) {
             average = 0;
             throw new RuntimeException( "NaN result for average." );
         }

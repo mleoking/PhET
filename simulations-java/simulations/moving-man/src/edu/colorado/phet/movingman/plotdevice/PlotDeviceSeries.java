@@ -1,6 +1,9 @@
 /*  */
 package edu.colorado.phet.movingman.plotdevice;
 
+import java.awt.*;
+import java.util.Random;
+
 import edu.colorado.phet.chart_movingman.BufferedLinePlot;
 import edu.colorado.phet.chart_movingman.DataSet;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
@@ -12,9 +15,6 @@ import edu.colorado.phet.common_movingman.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common_movingman.view.phetgraphics.ShadowHTMLGraphic;
 import edu.colorado.phet.movingman.plots.TimePoint;
 import edu.colorado.phet.movingman.plots.TimeSeries;
-
-import java.awt.*;
-import java.util.Random;
 
 /**
  * User: Sam Reid
@@ -133,7 +133,7 @@ public class PlotDeviceSeries extends CompositePhetGraphic {
 //                System.out.println( "r = " + r );
 //                System.out.println( "screenRect = " + screenRect );
 
-            if( r != null ) {
+            if ( r != null ) {
 //                    addRectangleGraphic( r, plotDevice );
 
                 plotDevice.getComponent().repaint( screenRect.x, screenRect.y, screenRect.width, screenRect.height );//todo which is faster?
@@ -181,14 +181,14 @@ public class PlotDeviceSeries extends CompositePhetGraphic {
         Color color = new Color( debuggingRandom.nextFloat(), debuggingRandom.nextFloat(), debuggingRandom.nextFloat() );
         PhetShapeGraphic phetShapeGraphic = new PhetShapeGraphic( plotDevice.getComponent(), screenRect, new BasicStroke( 1 ), color );
 
-        ApparatusPanel ap = (ApparatusPanel)plotDevice.getComponent();
+        ApparatusPanel ap = (ApparatusPanel) plotDevice.getComponent();
         ap.addGraphic( phetShapeGraphic, Double.POSITIVE_INFINITY );
     }
 
     public void chartChanged() {
         bufferedLinePlot.setBufferedChart( plotDevice.getBufferedChart() );
         bufferedLinePlot.clear();
-        for( int i = 0; i < storedData.size(); i++ ) {
+        for ( int i = 0; i < storedData.size(); i++ ) {
             bufferedLinePlot.lineTo( storedData.pointAt( i ) );
         }
     }

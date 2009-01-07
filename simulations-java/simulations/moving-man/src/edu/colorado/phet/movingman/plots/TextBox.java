@@ -1,12 +1,13 @@
 package edu.colorado.phet.movingman.plots;
 
+import java.awt.*;
+import java.awt.event.*;
+
+import javax.swing.*;
+
 import edu.colorado.phet.movingman.MMFontManager;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.model.TimeListener;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
 
 public class TextBox extends JPanel {
     static Font font = MMFontManager.getFontSet().getTextBoxFont();
@@ -23,7 +24,7 @@ public class TextBox extends JPanel {
         setLayout( new FlowLayout( FlowLayout.CENTER ) );
         textField.addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
-                if( isEnabled() ) {
+                if ( isEnabled() ) {
                     textField.selectAll();
                 }
             }
@@ -112,7 +113,7 @@ public class TextBox extends JPanel {
     }
 
     public void setText( String valueString ) {
-        if( !textField.getText().equals( valueString ) ) {
+        if ( !textField.getText().equals( valueString ) ) {
             textField.setText( valueString );
         }
 //        if( valueString.length() > textField.getColumns() ) {

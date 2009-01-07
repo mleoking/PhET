@@ -21,7 +21,7 @@ public class MovingManMotionModule extends AbstractMotionModule implements Arrow
     public static double MAX_DT = MovingManApplication.FRAME_DELAY_SEC * 2;
 
     public MovingManMotionModule( ConstantDtClock clock ) {
-        super( MovingManResources.getString( "moving-man.name"), clock );
+        super( MovingManResources.getString( "moving-man.name" ), clock );
         movingManMotionModel = new MovingManMotionModel( clock );
         movingManMotionModel.addListener( new MovingManMotionModel.Adapter() {
             public void crashedMin( double v ) {

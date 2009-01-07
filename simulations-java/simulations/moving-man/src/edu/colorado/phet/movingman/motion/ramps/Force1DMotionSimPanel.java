@@ -6,7 +6,6 @@ import edu.colorado.phet.common.motion.graphs.GraphSetModel;
 import edu.colorado.phet.common.motion.graphs.GraphSetNode;
 import edu.colorado.phet.common.motion.graphs.GraphSuite;
 import edu.colorado.phet.common.motion.graphs.MinimizableControlGraph;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.movingman.motion.AbstractMotionSimPanel;
 import edu.colorado.phet.movingman.motion.movingman.MovingManGraph;
 import edu.colorado.phet.movingman.motion.movingman.MovingManMotionModel;

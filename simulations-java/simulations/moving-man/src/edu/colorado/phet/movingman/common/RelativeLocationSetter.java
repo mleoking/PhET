@@ -1,10 +1,10 @@
 package edu.colorado.phet.movingman.common;
 
+import java.awt.*;
+
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetGraphicListener;
 import edu.colorado.phet.common_movingman.view.util.RectangleUtils;
-
-import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -203,7 +203,7 @@ public abstract class RelativeLocationSetter {
         } );
         target.addVisibilityObserver( new VisibilityObserver() {
             public void visibilityChanged() {
-                if( !target.isVisible() ) {                                       //todo this is a hack.
+                if ( !target.isVisible() ) {                                       //todo this is a hack.
                     tomove.setVisible( target.isVisible() );
                 }
             }

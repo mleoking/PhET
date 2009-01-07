@@ -17,7 +17,7 @@ public class Taylor2ndDerivativeO4 {
 //    }
 
     public TimePoint getLatestDerivative( TimeSeries timeSeries ) {
-        if( timeSeries.size() >= 5 ) {
+        if ( timeSeries.size() >= 5 ) {
             TimePoint pt0 = timeSeries.lastPointAt( 0 );
             TimePoint pt1 = timeSeries.lastPointAt( 1 );
             TimePoint pt2 = timeSeries.lastPointAt( 2 );

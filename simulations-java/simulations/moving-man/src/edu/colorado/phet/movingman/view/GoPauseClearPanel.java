@@ -1,18 +1,19 @@
 /*  */
 package edu.colorado.phet.movingman.view;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_movingman.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common_movingman.view.util.ImageLoader;
 import edu.colorado.phet.movingman.MMFontManager;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.model.TimeListenerAdapter;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -55,7 +56,7 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
         };
         goPauseButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                if( itsAGoButton ) {
+                if ( itsAGoButton ) {
                     goHandler.actionPerformed( e );
                 }
                 else {
@@ -96,13 +97,13 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
     }
 
     private void setButtons( boolean record, boolean pause, boolean reset ) {
-        if( pause && record ) {
+        if ( pause && record ) {
 
         }
-        else if( !pause && !record ) {
+        else if ( !pause && !record ) {
 
         }
-        if( pause ) {
+        if ( pause ) {
             goPauseButton.setText( SimStrings.get( "plot.pause" ) );
 //            goPauseButton.setText( "" );
             goPauseButton.setIcon( pauseIcon );

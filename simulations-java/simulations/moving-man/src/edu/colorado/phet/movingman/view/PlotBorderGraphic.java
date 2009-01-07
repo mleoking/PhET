@@ -1,13 +1,13 @@
 /*  */
 package edu.colorado.phet.movingman.view;
 
+import java.awt.*;
+
 import edu.colorado.phet.common_movingman.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetGraphicListener;
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.movingman.plots.MMPlotSuite;
-
-import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -55,7 +55,7 @@ public class PlotBorderGraphic extends CompositePhetGraphic {
     }
 
     public void setSelected( boolean selected ) {
-        if( selected ) {
+        if ( selected ) {
             borderGraphic.setBorderColor( Color.red );
         }
         else {

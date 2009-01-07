@@ -1,12 +1,12 @@
 /*  */
 package edu.colorado.phet.movingman.view;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
 import edu.colorado.phet.common_movingman.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common_movingman.view.util.ImageLoader;
-
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 /**
  * User: Sam Reid

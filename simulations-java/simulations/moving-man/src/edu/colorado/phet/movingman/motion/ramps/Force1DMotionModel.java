@@ -52,7 +52,7 @@ public class Force1DMotionModel extends MotionModel implements UpdateableObject,
 
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
-        object.stepInTime( dt,getTime() );
+        object.stepInTime( dt, getTime() );
 //        defaultUpdate( getForce1DVars() );
     }
 

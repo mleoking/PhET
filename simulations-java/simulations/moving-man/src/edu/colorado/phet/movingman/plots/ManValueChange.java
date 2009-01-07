@@ -26,7 +26,7 @@ public abstract class ManValueChange {
         }
 
         public void setValue( Man man, double value ) {
-            if( !module.isPaused() ) {
+            if ( !module.isPaused() ) {
                 man.setAcceleration( 0.0 );
                 man.setVelocity( 0.0 );
             }
@@ -42,7 +42,7 @@ public abstract class ManValueChange {
         }
 
         void setValue( Man man, double value ) {
-            if( !module.isPaused() ) {
+            if ( !module.isPaused() ) {
                 man.setAcceleration( 0.0 );
             }
             man.setVelocity( value );

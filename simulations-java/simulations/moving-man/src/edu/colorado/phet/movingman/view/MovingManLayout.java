@@ -1,11 +1,11 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman.view;
 
-import edu.colorado.phet.movingman.MMUtil;
-import edu.colorado.phet.movingman.common.LinearTransform1d;
-
 import java.awt.*;
 import java.util.ArrayList;
+
+import edu.colorado.phet.movingman.MMUtil;
+import edu.colorado.phet.movingman.common.LinearTransform1d;
 
 /**
  * User: Sam Reid
@@ -63,9 +63,9 @@ public class MovingManLayout {
 
         public int getConstantHeight() {
             int size = 0;
-            for( int i = 0; i < layoutItems.size(); i++ ) {
-                LayoutItem layoutItem = (LayoutItem)layoutItems.get( i );
-                if( layoutItem.isVariable() ) {
+            for ( int i = 0; i < layoutItems.size(); i++ ) {
+                LayoutItem layoutItem = (LayoutItem) layoutItems.get( i );
+                if ( layoutItem.isVariable() ) {
                 }
                 else {
                     size += layoutItem.getLayoutHeight();
@@ -83,14 +83,14 @@ public class MovingManLayout {
 
             int availableHeight = component.getHeight() - ch;
             int heightPerVariableItem = 0;
-            if( numVariableItems > 0 ) {
+            if ( numVariableItems > 0 ) {
                 heightPerVariableItem = availableHeight / numVariableItems;
             }
 
             int y = 0;
-            for( int i = 0; i < layoutItems.size(); i++ ) {
-                LayoutItem layoutItem = (LayoutItem)layoutItems.get( i );
-                if( layoutItem.isVariable() ) {
+            for ( int i = 0; i < layoutItems.size(); i++ ) {
+                LayoutItem layoutItem = (LayoutItem) layoutItems.get( i );
+                if ( layoutItem.isVariable() ) {
                     layoutItem.setVerticalParameters( y, heightPerVariableItem );
                     y += heightPerVariableItem;
                 }
@@ -103,9 +103,9 @@ public class MovingManLayout {
 
         private int numVariableItems() {
             int num = 0;
-            for( int i = 0; i < layoutItems.size(); i++ ) {
-                LayoutItem layoutItem = (LayoutItem)layoutItems.get( i );
-                if( layoutItem.isVariable() ) {
+            for ( int i = 0; i < layoutItems.size(); i++ ) {
+                LayoutItem layoutItem = (LayoutItem) layoutItems.get( i );
+                if ( layoutItem.isVariable() ) {
                     num++;
                 }
             }
@@ -157,7 +157,7 @@ public class MovingManLayout {
         movingManApparatusPanel.setManTransform( manGraphicTransform );
         movingManApparatusPanel.getManGraphic().setY( walkwayHeight - movingManApparatusPanel.getManGraphic().getHeight() );
         double outputRange = manGraphicTransform.getMaxOutput() - manGraphicTransform.getMinOutput();
-        movingManApparatusPanel.getWalkwayGraphic().setSize( (int)outputRange + 200, walkwayHeight );
+        movingManApparatusPanel.getWalkwayGraphic().setSize( (int) outputRange + 200, walkwayHeight );
         movingManApparatusPanel.repaintBackground();
     }
 

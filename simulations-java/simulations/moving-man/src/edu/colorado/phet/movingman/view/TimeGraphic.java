@@ -1,6 +1,10 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman.view;
 
+import java.awt.*;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.Rectangle2D;
+
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_movingman.view.ApparatusPanel;
@@ -9,10 +13,6 @@ import edu.colorado.phet.common_movingman.view.util.GraphicsState;
 import edu.colorado.phet.movingman.MMFontManager;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.model.MMTimer;
-
-import java.awt.*;
-import java.awt.font.FontRenderContext;
-import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -76,7 +76,7 @@ public class TimeGraphic extends PhetGraphic {
     }
 
     private void repaint( Rectangle r, Rectangle r2 ) {
-        if( r == null || r2 == null ) {
+        if ( r == null || r2 == null ) {
             return;
         }
         Rectangle union = r2.union( r );
@@ -86,7 +86,7 @@ public class TimeGraphic extends PhetGraphic {
     }
 
     public Rectangle getShape() {
-        if( frc == null ) {
+        if ( frc == null ) {
             return null;
         }
         else {
@@ -95,7 +95,7 @@ public class TimeGraphic extends PhetGraphic {
             out.height = Math.max( 50, out.height );//workaround for error getting string height for arabic text
             out.x = x;
             out.y = y - out.height;
-            return new Rectangle( (int)out.x, (int)out.y, (int)out.width, (int)out.height );
+            return new Rectangle( (int) out.x, (int) out.y, (int) out.width, (int) out.height );
         }
     }
 

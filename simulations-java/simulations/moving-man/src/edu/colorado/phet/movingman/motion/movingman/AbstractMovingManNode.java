@@ -140,8 +140,7 @@ public class AbstractMovingManNode extends PNode {
         double newSign = rightPositive ? +1 : -1;
         double oldSign = sign > 0 ? +1 : -1;
         if ( newSign != sign ) {
-            for ( double s = 1 * oldSign; newSign == -1 ? s >= -1 * oldSign : s <= -1 * oldSign; s -= 0.05 * oldSign )
-            {//new sign =-1 old sign=+1
+            for ( double s = 1 * oldSign; newSign == -1 ? s >= -1 * oldSign : s <= -1 * oldSign; s -= 0.05 * oldSign ) {//new sign =-1 old sign=+1
                 sign = s;
                 updateTransform();
                 for ( int i = 0; i < tickTextList.size(); i++ ) {

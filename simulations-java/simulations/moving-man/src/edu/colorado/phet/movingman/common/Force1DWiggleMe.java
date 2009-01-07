@@ -1,5 +1,9 @@
 package edu.colorado.phet.movingman.common;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common_movingman.math.AbstractVector2D;
 import edu.colorado.phet.common_movingman.math.Vector2D;
 import edu.colorado.phet.common_movingman.model.clock.AbstractClock;
@@ -10,10 +14,6 @@ import edu.colorado.phet.common_movingman.view.phetgraphics.CompositePhetGraphic
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common_movingman.view.phetgraphics.ShadowHTMLGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * Created by IntelliJ IDEA.
@@ -81,13 +81,13 @@ public class Force1DWiggleMe extends CompositePhetGraphic {
 
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
-        if( visible ) {
-            if( !clock.containsClockTickListener( tickListener ) ) {
+        if ( visible ) {
+            if ( !clock.containsClockTickListener( tickListener ) ) {
                 clock.addClockTickListener( tickListener );
             }
         }
         else {
-            while( clock.containsClockTickListener( tickListener ) ) {
+            while ( clock.containsClockTickListener( tickListener ) ) {
                 clock.removeClockTickListener( tickListener );
             }
         }
@@ -108,7 +108,7 @@ public class Force1DWiggleMe extends CompositePhetGraphic {
 
     private void tick() {
 //        System.out.println( "tick" );
-        if( isVisible() && getComponent().isShowing() ) {
+        if ( isVisible() && getComponent().isShowing() ) {
             double time = ( System.currentTimeMillis() - t0 ) / 1000.0;
             Point targetLoc = target.getLocation();
 
@@ -117,7 +117,7 @@ public class Force1DWiggleMe extends CompositePhetGraphic {
             AbstractVector2D norm = oscillationAxis.getInstanceOfMagnitude( distAlongAxis );
             Point2D dest = norm.getDestination( oscillationCenter );
 
-            setLocation( (int)dest.getX(), (int)dest.getY() );
+            setLocation( (int) dest.getX(), (int) dest.getY() );
         }
     }
 

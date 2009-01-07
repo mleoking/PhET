@@ -13,7 +13,7 @@ import edu.colorado.phet.movingman.plots.TimeSeries;
 public class CenteredDifferenceDerivative {
 
     public TimePoint getLatestDerivative( TimeSeries timeSeries ) {
-        if( timeSeries.size() > 2 ) {
+        if ( timeSeries.size() > 2 ) {
             double x1 = timeSeries.lastPointAt( 0 ).getValue();
             double x0 = timeSeries.lastPointAt( 2 ).getValue();
             double dx = x1 - x0;

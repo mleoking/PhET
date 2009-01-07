@@ -1,16 +1,14 @@
 /*  */
 package edu.colorado.phet.movingman.view;
 
+import java.awt.*;
+import java.awt.event.KeyEvent;
+
 import edu.colorado.phet.chart_movingman.controllers.ChartSlider;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_movingman.model.clock.AbstractClock;
 import edu.colorado.phet.movingman.MovingManModule;
-import edu.colorado.phet.movingman.plotdevice.PlotDeviceListener;
 import edu.colorado.phet.movingman.common.Force1DWiggleMe;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-
-import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 /**
  * User: Sam Reid
@@ -43,7 +41,7 @@ public class SliderWiggleMe extends Force1DWiggleMe implements MovingManModule.L
         movingManApparatusPanel.getPlotSet().getAccelerationPlot().getChartSlider().addListener( listener );
         module.addListener( new MovingManModule.Listener() {
             public void reset() {
-                if( !disposed ) {
+                if ( !disposed ) {
                     setVisible( true );
                 }
             }
@@ -60,7 +58,7 @@ public class SliderWiggleMe extends Force1DWiggleMe implements MovingManModule.L
     }
 
     public void reset() {
-        if( !disposed ) {
+        if ( !disposed ) {
             setVisible( true );
         }
     }

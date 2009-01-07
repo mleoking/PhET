@@ -1,5 +1,9 @@
 package edu.colorado.phet.movingman.common;
 
+import java.awt.*;
+import java.awt.geom.Area;
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common_movingman.math.AbstractVector2D;
 import edu.colorado.phet.common_movingman.model.ModelElement;
 import edu.colorado.phet.common_movingman.view.graphics.shapes.Arrow;
@@ -8,10 +12,6 @@ import edu.colorado.phet.common_movingman.view.phetgraphics.PhetShadowTextGraphi
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common_movingman.view.util.RectangleUtils;
 import edu.colorado.phet.movingman.MMFontManager;
-
-import java.awt.*;
-import java.awt.geom.Area;
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -46,16 +46,16 @@ public class WiggleMe extends CompositePhetGraphic implements ModelElement {
     }
 
     public void stepInTime( double dt ) {
-        if( !isVisible() ) {
+        if ( !isVisible() ) {
             return;
         }
         this.time += dt;
         double value = sine.valueAtTime( time );
         Point2D at = oscillationVector.getScaledInstance( value ).getDestination( startPt );
         current.setLocation( at );
-        if( textGraphic != null ) {
+        if ( textGraphic != null ) {
             Rectangle r1 = textGraphic.getBounds();
-            textGraphic.setLocation( (int)at.getX(), (int)at.getY() );
+            textGraphic.setLocation( (int) at.getX(), (int) at.getY() );
             Rectangle r2 = textGraphic.getBounds();
             r1 = RectangleUtils.expand( r1, 5, 5 );
             r2 = RectangleUtils.expand( r2, 5, 5 );
@@ -74,7 +74,7 @@ public class WiggleMe extends CompositePhetGraphic implements ModelElement {
     }
 
     public int getWidth() {
-        return (int)textGraphic.getBounds().getWidth();
+        return (int) textGraphic.getBounds().getWidth();
     }
 
     static class Sine {
@@ -89,7 +89,7 @@ public class WiggleMe extends CompositePhetGraphic implements ModelElement {
 
         public double valueAtTime( double time ) {
             double value = 0.0;
-            if( frequency != 0 ) {
+            if ( frequency != 0 ) {
                 value = Math.sin( frequency * time * Math.PI * 2 - phase ) * amplitude;
             }
             else {

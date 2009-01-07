@@ -25,7 +25,7 @@ public class MMTimer {
         double origTime = time;
         time += dt;
         time = Math.min( time, maxTime );
-        if( time != origTime ) {
+        if ( time != origTime ) {
             updateObservers();
         }
     }
@@ -35,8 +35,8 @@ public class MMTimer {
     }
 
     private void updateObservers() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.timeChanged();
         }
     }

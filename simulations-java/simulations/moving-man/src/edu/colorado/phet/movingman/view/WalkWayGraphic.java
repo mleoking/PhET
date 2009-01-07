@@ -1,5 +1,11 @@
 package edu.colorado.phet.movingman.view;
 
+import java.awt.*;
+import java.awt.geom.Line2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_movingman.math.Function;
@@ -12,12 +18,6 @@ import edu.colorado.phet.common_movingman.view.util.ImageLoader;
 import edu.colorado.phet.movingman.MMFontManager;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.common.LinearTransform1d;
-
-import java.awt.*;
-import java.awt.geom.Line2D;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * Created by IntelliJ IDEA.
@@ -84,9 +84,9 @@ public class WalkWayGraphic extends CompositePhetGraphic {
     private void setWalls() {
         removeWalls();
 
-        if( boundaryConditionsClosed ) {
+        if ( boundaryConditionsClosed ) {
             double sign = -1;
-            if( transform.getMinInput() < transform.getMaxInput() ) {
+            if ( transform.getMinInput() < transform.getMaxInput() ) {
                 sign = 1;
             }
 
@@ -123,7 +123,7 @@ public class WalkWayGraphic extends CompositePhetGraphic {
     }
 
     public int getViewCoordinate( double modelCoord ) {
-        return (int)transform.evaluate( modelCoord );
+        return (int) transform.evaluate( modelCoord );
     }
 
     public int getDistCeilToFloor() {
@@ -171,11 +171,11 @@ public class WalkWayGraphic extends CompositePhetGraphic {
             double modelRange = maxValue - minValue;
             double modelDX = modelRange / ( numTickMarks - 1 );
 
-            for( int i = 0; i < numTickMarks; i++ ) {
+            for ( int i = 0; i < numTickMarks; i++ ) {
 
                 double modelx = minValue + i * modelDX;
                 String str = format.format( modelx );
-                if( str.equals( "0" ) ) {
+                if ( str.equals( "0" ) ) {
                     str = "0 " + SimStrings.get( "units.meters" );
                 }
                 TickGraphic tickGraphic = new TickGraphic( component, modelx, transform, str );
@@ -185,22 +185,22 @@ public class WalkWayGraphic extends CompositePhetGraphic {
         }
 
         public void update() {
-            for( int i = 0; i < graphicList.size(); i++ ) {
-                TickGraphic tickGraphic = (TickGraphic)graphicList.get( i );
+            for ( int i = 0; i < graphicList.size(); i++ ) {
+                TickGraphic tickGraphic = (TickGraphic) graphicList.get( i );
                 tickGraphic.update();
             }
         }
 
         public void setY( int y ) {
-            for( int i = 0; i < graphicList.size(); i++ ) {
-                TickGraphic tickGraphic = (TickGraphic)graphicList.get( i );
+            for ( int i = 0; i < graphicList.size(); i++ ) {
+                TickGraphic tickGraphic = (TickGraphic) graphicList.get( i );
                 tickGraphic.setY( y );
             }
         }
 
         public void setTransform( LinearTransform1d transform ) {
-            for( int i = 0; i < graphicList.size(); i++ ) {
-                TickGraphic tickGraphic = (TickGraphic)graphicList.get( i );
+            for ( int i = 0; i < graphicList.size(); i++ ) {
+                TickGraphic tickGraphic = (TickGraphic) graphicList.get( i );
                 tickGraphic.setTransform( transform );
             }
         }
@@ -232,7 +232,7 @@ public class WalkWayGraphic extends CompositePhetGraphic {
         }
 
         public void update() {
-            int x = (int)transform.evaluate( modelx );
+            int x = (int) transform.evaluate( modelx );
             int dy = 5;
             Line2D.Double line = new Line2D.Double( x, y, x, y + dy );
             shapeGraphic.setShape( line );

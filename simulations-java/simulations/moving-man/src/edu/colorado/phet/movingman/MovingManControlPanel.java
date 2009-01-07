@@ -1,14 +1,15 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common_movingman.view.components.VerticalLayoutPanel;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common_movingman.view.components.VerticalLayoutPanel;
 
 /**
  * User: Sam Reid
@@ -44,7 +45,7 @@ public class MovingManControlPanel extends JPanel {
         new Thread( new Runnable() {
             public void run() {
                 try {
-                    while( module.getFrame() == null || !module.getFrame().isVisible() ) {
+                    while ( module.getFrame() == null || !module.getFrame().isVisible() ) {
                         Thread.sleep( 1000 );
                     }
                 }
@@ -64,7 +65,7 @@ public class MovingManControlPanel extends JPanel {
         invertAxes.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 boolean ok = module.confirmClear();
-                if( ok ) {
+                if ( ok ) {
                     module.setRightDirPositive( !invertAxes.isSelected() );
                 }
             }

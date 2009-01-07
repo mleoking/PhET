@@ -4,8 +4,6 @@ package edu.colorado.phet.movingman.model;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.common.JSAudioPlayer;
 
-import java.net.URL;
-
 /**
  * User: Sam Reid
  * Date: Apr 12, 2005
@@ -39,15 +37,15 @@ public class CollisionAudioEffects extends Man.Adapter {
 
     public void positionChanged( double x ) {
 
-        if( !man.isMaximum() && !man.isMinimum() ) {
+        if ( !man.isMaximum() && !man.isMinimum() ) {
             lastCollisionLocation = FREE;
         }
     }
 
     public void collided( Man man ) {
-        if( lastCollisionLocation.equals( FREE ) ) {
-            if( soundEnabled ) {
-                JSAudioPlayer.playNoBlock( Thread.currentThread().getContextClassLoader().getResource( "moving-man/audio/smash0.wav" ));
+        if ( lastCollisionLocation.equals( FREE ) ) {
+            if ( soundEnabled ) {
+                JSAudioPlayer.playNoBlock( Thread.currentThread().getContextClassLoader().getResource( "moving-man/audio/smash0.wav" ) );
                 lastCollisionLocation = man.isMaximum() ? RIGHT : LEFT;
             }
         }

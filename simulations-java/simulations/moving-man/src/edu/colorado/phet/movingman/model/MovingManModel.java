@@ -1,5 +1,12 @@
 package edu.colorado.phet.movingman.model;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_movingman.model.ModelElement;
 import edu.colorado.phet.common_movingman.model.clock.AbstractClock;
@@ -8,12 +15,6 @@ import edu.colorado.phet.common_movingman.view.util.SwingUtils;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.plots.TimePoint;
 import edu.colorado.phet.movingman.plots.TimeSeries;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * User: Sam Reid
@@ -103,7 +104,7 @@ public class MovingManModel {
             final JSpinner xs = new JSpinner( new SpinnerNumberModel( smoothPositionSize, 1, 20, 1 ) );
             xs.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    smoothPositionSize = ( (Number)xs.getValue() ).intValue();
+                    smoothPositionSize = ( (Number) xs.getValue() ).intValue();
                     positionDataSuite.setNumSmoothingPoints( smoothPositionSize );
                 }
             } );
@@ -114,7 +115,7 @@ public class MovingManModel {
             vs.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
 //                    velocityDataSuite.setNumSmoothingPoints( ( (Number)vs.getValue() ).intValue() );
-                    smoothVelocitySize = ( ( (Number)vs.getValue() ).intValue() );
+                    smoothVelocitySize = ( ( (Number) vs.getValue() ).intValue() );
                     velocityDataSuite.setNumSmoothingPoints( smoothVelocitySize );
                 }
             } );
@@ -122,7 +123,7 @@ public class MovingManModel {
             final JSpinner as = new JSpinner( new SpinnerNumberModel( smoothAccelerationSize, 1, 20, 1 ) );
             as.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    smoothAccelerationSize = ( (Number)as.getValue() ).intValue();
+                    smoothAccelerationSize = ( (Number) as.getValue() ).intValue();
                     accelerationDataSuite.setNumSmoothingPoints( smoothAccelerationSize );
                 }
             } );
@@ -185,8 +186,8 @@ public class MovingManModel {
 //        System.out.println( "constant = " + constant );
 //        TimePoint dx = positionDataSuite.getDerivative( dt );
         TimePoint dx = new CenteredDifferenceDerivative().getLatestDerivative( positionDataSuite.getSmoothedDataSeries() );
-        if( dx != null ) {
-            if( constant && useConstancyWindow ) {
+        if ( dx != null ) {
+            if ( constant && useConstancyWindow ) {
                 velocityDataSuite.addPoint( new TimePoint( 0, dx.getTime() ) );
             }
             else {
@@ -204,8 +205,8 @@ public class MovingManModel {
 
         TimePoint dv = new CenteredDifferenceDerivative().getLatestDerivative( velocityDataSuite.getSmoothedDataSeries() );
 //        TimePoint dv = new Taylor2ndDerivativeO4().getLatestDerivative( positionDataSuite.getSmoothedDataSeries() );
-        if( dv != null ) {
-            if( constant ) {
+        if ( dv != null ) {
+            if ( constant ) {
                 accelerationDataSuite.addPoint( new TimePoint( 0, dv.getTime() ) );
             }
             else {
@@ -219,8 +220,8 @@ public class MovingManModel {
 
         TimePoint val = smoothedDataSeries.lastPointAt( 0 );
         double v = val.getValue();
-        for( int i = 1; i < numPoints && i < smoothedDataSeries.numPoints(); i++ ) {
-            if( smoothedDataSeries.lastPointAt( i ).getValue() != v ) {
+        for ( int i = 1; i < numPoints && i < smoothedDataSeries.numPoints(); i++ ) {
+            if ( smoothedDataSeries.lastPointAt( i ).getValue() != v ) {
                 return false;
             }
         }
@@ -232,10 +233,10 @@ public class MovingManModel {
     }
 
     public double getVelocityDataSuite() {
-        if( velocityDataSuite == null ) {
+        if ( velocityDataSuite == null ) {
             return 0;
         }
-        if( velocityDataSuite.numSmoothedPoints() == 0 ) {
+        if ( velocityDataSuite.numSmoothedPoints() == 0 ) {
             return 0;
         }
         else {

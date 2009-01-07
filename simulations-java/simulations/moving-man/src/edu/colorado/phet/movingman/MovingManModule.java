@@ -1,6 +1,16 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman;
 
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.ArrayList;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_movingman.application.Module;
 import edu.colorado.phet.common_movingman.application.PhetApplication;
@@ -23,21 +33,12 @@ import edu.colorado.phet.movingman.view.ManGraphic;
 import edu.colorado.phet.movingman.view.MovingManApparatusPanel;
 import edu.colorado.phet.movingman.view.WalkWayGraphic;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.ArrayList;
-
 /**
  * User: Sam Reid
  * Date: Jun 30, 2003
  * Time: 12:19:49 AM
  */
-public class MovingManModule extends Module implements ArrowPanel.IArrowPanelModule{
+public class MovingManModule extends Module implements ArrowPanel.IArrowPanelModule {
     private PhetFrame frame;
 
     private MovingManModel movingManModel;
@@ -81,14 +82,14 @@ public class MovingManModule extends Module implements ArrowPanel.IArrowPanelMod
             CircularBuffer circularBuffer = new CircularBuffer( 20 );
 
             public void nominalValueChanged( double value ) {
-                if( value == 0 ) {
+                if ( value == 0 ) {
                     getMovingManApparatusPanel().getManGraphic().setVelocity( 0.0 );
                 }
             }
 
             public void sliderDragged( double dragValue ) {//todo this looks suspicious
                 double value = getVelocityPlot().getSliderValue();
-                if( value == 0 ) {
+                if ( value == 0 ) {
                     getMovingManApparatusPanel().getManGraphic().setVelocity( 0.0 );
                 }
             }
@@ -195,7 +196,7 @@ public class MovingManModule extends Module implements ArrowPanel.IArrowPanelMod
     }
 
     public void setRightDirPositive( boolean rightPos ) {
-        if( rightPos ) {//as usual
+        if ( rightPos ) {//as usual
             getManPositionTransform().setInput( -getMaxManPosition(), getMaxManPosition() );
         }
         else {
@@ -221,13 +222,13 @@ public class MovingManModule extends Module implements ArrowPanel.IArrowPanelMod
     }
 
     private void initMediaPanel() {
-        if( initMediaPanel ) {
+        if ( initMediaPanel ) {
             return;
         }
-        final JFrame parent = (JFrame)SwingUtilities.getWindowAncestor( getApparatusPanel() );
-        final JPanel jp = (JPanel)parent.getContentPane();
+        final JFrame parent = (JFrame) SwingUtilities.getWindowAncestor( getApparatusPanel() );
+        final JPanel jp = (JPanel) parent.getContentPane();
 
-        ContentPanel contentPanel = (ContentPanel)jp;
+        ContentPanel contentPanel = (ContentPanel) jp;
         final JPanel appPanel = new JPanel( new BorderLayout() );
         final JComponent playbackPanel = movingManControlPanel.getPlaybackPanel();
         appPanel.add( playbackPanel, BorderLayout.CENTER );
@@ -271,7 +272,7 @@ public class MovingManModule extends Module implements ArrowPanel.IArrowPanelMod
     public void relayout() {
         getMovingManApparatusPanel().relayout();
         Component c = getApparatusPanel();
-        if( c.getHeight() > 0 && c.getWidth() > 0 ) {
+        if ( c.getHeight() > 0 && c.getWidth() > 0 ) {
 //            getMovingManApparatusPanel().setTheSize( c.getWidth(), c.getHeight() );
             getApparatusPanel().repaint();
         }
@@ -304,7 +305,7 @@ public class MovingManModule extends Module implements ArrowPanel.IArrowPanelMod
 
     public void setReplayTime( double requestedTime ) {
 //        /**Find the position for the time.*/
-        if( requestedTime < 0 || requestedTime > getTimeModel().getRecordTimer().getTime() ) {
+        if ( requestedTime < 0 || requestedTime > getTimeModel().getRecordTimer().getTime() ) {
             return;
         }
         else {
@@ -342,10 +343,10 @@ public class MovingManModule extends Module implements ArrowPanel.IArrowPanelMod
 
 
     public void setSoundEnabled( boolean soundEnabled ) {
-        if( soundEnabled != this.soundEnabled ) {
+        if ( soundEnabled != this.soundEnabled ) {
             this.soundEnabled = soundEnabled;
-            for( int i = 0; i < listeners.size(); i++ ) {
-                Listener listener = (Listener)listeners.get( i );
+            for ( int i = 0; i < listeners.size(); i++ ) {
+                Listener listener = (Listener) listeners.get( i );
                 listener.soundOptionChanged( soundEnabled );
             }
         }
@@ -398,8 +399,8 @@ public class MovingManModule extends Module implements ArrowPanel.IArrowPanelMod
     }
 
     private void notifyReset() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.reset();
         }
     }
@@ -462,7 +463,7 @@ public class MovingManModule extends Module implements ArrowPanel.IArrowPanelMod
         jcbmi.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 boolean ok = module.confirmClear();
-                if( ok ) {
+                if ( ok ) {
                     module.setRightDirPositive( !jcbmi.isSelected() );
                 }
             }
@@ -500,7 +501,7 @@ public class MovingManModule extends Module implements ArrowPanel.IArrowPanelMod
 
     private void setDynamicTime( boolean dynamicTime ) {
         movingManModel.getTimeModel().setDynamicTime( dynamicTime );
-        if( dynamicTime ) {
+        if ( dynamicTime ) {
             getClock().setTickConverter( new AbstractClock.RealTime() );
         }
         else {
@@ -565,7 +566,7 @@ public class MovingManModule extends Module implements ArrowPanel.IArrowPanelMod
 
     public boolean confirmClear() {
         double recTime = getMovingManModel().getTimeModel().getRecordMode().getTimer().getTime();
-        if( recTime == 0.0 ) {
+        if ( recTime == 0.0 ) {
             return true;
         }
         setPaused( true );
@@ -573,7 +574,7 @@ public class MovingManModule extends Module implements ArrowPanel.IArrowPanelMod
                                                     SimStrings.get( "plot.confirm-clear" ),
                                                     SimStrings.get( "plot.confirm-reset" ),
                                                     JOptionPane.YES_NO_CANCEL_OPTION );
-        if( option == JOptionPane.OK_OPTION || option == JOptionPane.YES_OPTION ) {
+        if ( option == JOptionPane.OK_OPTION || option == JOptionPane.YES_OPTION ) {
             return true;
         }
         else {
@@ -587,7 +588,7 @@ public class MovingManModule extends Module implements ArrowPanel.IArrowPanelMod
         module.setPaused( true );
 
         boolean ok = confirmClear();
-        if( ok ) {
+        if ( ok ) {
             module.reset();
         }
         else {
