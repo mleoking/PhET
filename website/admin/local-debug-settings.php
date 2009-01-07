@@ -2,8 +2,6 @@
 
 // This file is for setting of whatever debug options you'd like.
 //
-// Needless to say, this file should NOT be checked into SVN.
-//
 // It is NOT recommended to make this file include any other file.
 //
 // Everything is in a function, so it is easy to turn everything
@@ -21,7 +19,7 @@ function setup_local_debug_settings() {
     // switch only if you know what you are doing
     $GLOBALS["DEBUG"] = true;
 
-    // If you want caching even if you are running locally
+    // True if you want caching even if you are running locally
     $GLOBALS["DEBUG_FORCE_LOCAL_CACHE"] = true;
 
     //
@@ -38,9 +36,21 @@ function setup_local_debug_settings() {
     //
     // All custom stuff should go here
 
+    // Override Google Analytics code?  Options are:
+    //    "GA_YES"    use GA JavaScript from Google
+    //    "GA_NO"     don't include GA JavaScript from anywhere
+    //    "GA_LOCAL"  use local version of GA JavaScript
+    //    unset will default to GA_YES
+    $GLOBALS["OVERRIDE_GOOGLE_ANALYTICS"] = "GA_NO";
+
+    // True will force offline behavior, how website will look when used in the installer
+    $GLOBALS["DEBUG_FORCE_OFFLINE_BEHAVIOR"] = false;
+
+    // True will turn OFF meta refresh (will have to explicitly click the link to take you to the next page)
+    $GLOBALS["DEBUG_DISABLE_META_REFRESH"] = true;
 }
 
 // Uncomment the below to set all the debug options
-//setup_local_debug_settings();
+setup_local_debug_settings();
 
 ?>
