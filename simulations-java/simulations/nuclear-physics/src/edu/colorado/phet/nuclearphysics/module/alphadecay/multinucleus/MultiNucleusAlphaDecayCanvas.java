@@ -404,17 +404,15 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
 
 		// Add this nucleus node as a child.
 		_nucleiLayer.addChild(node);
-		
-		// Scale the nucleus back up to full size.
-		double scale = node.getScale();
-		node.scale(1/SCALING_FACTOR_FOR_NUCLEUS_NODES_IN_BUCKET);
+
+		// Set the node back to full size.
+		node.setScale(1);
 		
 		// Adjust the node's position to account for the fact that it was
 		// in the bucket.
 		Point2D position = node.getNucleusRef().getPositionReference();
-		node.getNucleusRef().setPosition(_bucketRect.getX() + position.getX() * scale, 
-				_bucketRect.getY() + position.getY() * scale);
-		
+		node.getNucleusRef().setPosition(_bucketRect.getX() + position.getX(), 
+				_bucketRect.getY() + position.getY());
 	}
 	
 	/**
