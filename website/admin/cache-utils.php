@@ -294,8 +294,11 @@
         $page_contents = preg_replace('/[ \t]{2,}/', ' ',  $page_contents);
 
         if (debug_is_on()) {
+            /*
+             * Disable for now
             // Change the css file
             $page_contents = preg_replace('/main.css/', 'main-cached.css', $page_contents);
+            */
 
             // Add a timestamp
             $timestamp = date("F j, Y, g:i a");
