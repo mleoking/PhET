@@ -278,7 +278,7 @@
     function get_sorting_name($name) {
         $matches = array();
 
-        preg_match('/((the|a|an) +)?(.*)/i', $name, $matches);
+        preg_match('/ *((the|a|an) +)?(.*)/i', $name, $matches);
 
         return $matches[3];
     }
