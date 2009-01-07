@@ -21,7 +21,6 @@
 	<classpathentry kind="src" path="common/timeseries/src"/>
 	<classpathentry kind="src" path="common/timeseries/data"/>
 	<classpathentry excluding="Changes.html|CodeMap.html|License.txt|Manifest.console|Manifest.interp|README.txt" kind="src" path="contrib/beanshell/src"/>
-	<classpathentry kind="src" path="contrib/apple/src"/>
 	<classpathentry kind="src" path="contrib/beanshell/asm/src"/>
 	<classpathentry kind="src" path="contrib/jade/src"/>
 	<classpathentry kind="src" path="contrib/Jama/src"/>

@@ -59,8 +59,6 @@ public class PhetApplication
         // Handle command line arguments
         parseArgs( phetApplicationConfig.getCommandLineArgs() );
         
-        registerForMacOSXEvents();
-
         phetApplications.add( this );
     }
 
@@ -176,25 +174,6 @@ public class PhetApplication
      */
     public PhetFrame getPhetFrame() {
         return phetFrame;
-    }
-
-    /**
-     * Registers for events that are specific to Mac OS X.
-     * Does this in a way that is platform neutral.
-     */
-    private void registerForMacOSXEvents() {
-        if ( PhetUtilities.isMacintosh() ) {
-            try {
-                // Generate and register the OSXAdapter, passing it a hash of all the methods we wish to
-                // use as delegates for various com.apple.eawt.ApplicationListener methods
-//XXX this causes an AccessControlException when run from JWS, see #920
-//                OSXAdapter.setQuitHandler( PhetExit.class, PhetExit.class.getMethod( "quitMacOSX", null ) );
-            }
-            catch ( Exception e ) {
-                System.err.println( "Error while loading the OSXAdapter:" );
-                e.printStackTrace();
-            }
-        }
     }
     
     //----------------------------------------------------------------
