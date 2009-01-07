@@ -18,6 +18,7 @@ import java.awt.Color
 import java.awt.Font
 import javax.swing.JLabel
 import testing.RampObjectNode
+import testing.RampTrackNode
 
 object RampApplication {
   class ScalaModelElement(element: Double => Unit) extends ClockAdapter {
@@ -51,6 +52,7 @@ object RampApplication {
       clock.addClockListener(model.update(_))
 
       canvas.addScreenChild(new RampObjectNode(model.getObject(0)))
+      canvas.addScreenChild(new RampTrackNode(model.getTrack(0)))
     }
 
     new PhetApplicationLauncher().launchSim(
