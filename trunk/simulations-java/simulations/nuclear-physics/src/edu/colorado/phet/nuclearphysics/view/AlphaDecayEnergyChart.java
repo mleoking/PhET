@@ -660,6 +660,7 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
                         // Must have been a reset of the nucleus.
                         _decayOccurred = false;
                         _energyWellBottom = PRE_DECAY_ENERGY_WELL_BOTTOM;
+                        _tunneledAlphaParticleImage.setVisible(false);
                         update();
                     }
                 }
@@ -685,6 +686,9 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
                     ((AlphaParticle)nucleusConstituents.get( i )).addListener( this );
                 }
             }
+            
+            // Make sure the tunneled alpha particle is not currently visible.
+            _tunneledAlphaParticleImage.setVisible(false);
     	}
     	
     	// Reset the decay flag and anything else that needs is.
