@@ -36,7 +36,6 @@
 	<!-- directories that contain dependent source, libs, etc. -->
 	<property name="dir.contrib" location="${basedir}/../simulations-java/contrib"/>
 	<property name="dir.phetcommon" location="${basedir}/../simulations-java/common/phetcommon"/>
-	<property name="dir.contrib.apple" location="${basedir}/../simulations-java/contrib/apple"/>
 	<property name="dir.proguard" location="${basedir}/../simulations-java/build-tools/proguard"/>
 
 	<!-- files -->
@@ -76,7 +75,6 @@
 		<javac destdir="${dir.output.classes}" classpath="${jmock.jar};${jnlp.jar};${junit.jar}" source="1.4" target="1.4" debug="true" debuglevel="lines,source">
 			<src path="${basedir}/src"/>
 			<src path="${dir.phetcommon}/src"/>
-			<src path="${dir.contrib.apple}/src"/>
 		</javac>
 		
 		<!-- copy resources (localization files, images, etc) to output directory -->
