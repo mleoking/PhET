@@ -423,9 +423,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
 	 */
 	private void transferNodeFromCanvasToBucket( AtomicNucleusNode node){
 		node.getNucleusRef().reset();
-		_nucleiLayer.removeChild(node);
-		node.scale(SCALING_FACTOR_FOR_NUCLEUS_NODES_IN_BUCKET);
-		_bucketNode.addNucleus(node);
+		_bucketNode.addNucleusAnimated(node);
 	}
 
     /**

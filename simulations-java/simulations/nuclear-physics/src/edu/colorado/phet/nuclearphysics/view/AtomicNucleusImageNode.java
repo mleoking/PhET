@@ -21,9 +21,8 @@ public class AtomicNucleusImageNode extends AtomicNucleusNode {
         // Scale the image to the appropriate size.  Note that this is tweaked
         // a little bit in order to make it look better.
         _displayImage.scale( (atomicNucleus.getDiameter()/1.2)/((_displayImage.getWidth() + _displayImage.getHeight()) / 2));
+        _displayImage.setOffset( -atomicNucleus.getDiameter() / 2, -atomicNucleus.getDiameter() / 2 );
         addChild(0, _displayImage);
-        
-        update();
     }
     
     protected void handleAtomicWeightChanged(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
@@ -38,20 +37,5 @@ public class AtomicNucleusImageNode extends AtomicNucleusNode {
                 atomicNucleus.getNumNeutrons(), 20 );
         _displayImage.scale( (atomicNucleus.getDiameter()/1.2)/((_displayImage.getWidth() + _displayImage.getHeight()) / 2));
         addChild(0, _displayImage);
-        
-        update();
-    }
-    
-    /**
-     * Update this node's position on the canvas.
-     */
-    protected void update(){
-        
-        super.update();
-
-        if (_displayImage != null){
-            _displayImage.setOffset( _atomicNucleus.getPositionReference().getX() - _atomicNucleus.getDiameter()/2,  
-                    _atomicNucleus.getPositionReference().getY() - _atomicNucleus.getDiameter()/2);
-        }
     }
 }

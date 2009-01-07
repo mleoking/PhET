@@ -77,7 +77,7 @@ public class AtomicNucleusNode extends PNode {
     AtomicNucleus.Adapter _atomicNucleusAdapter = new AtomicNucleus.Adapter(){
         
         public void positionChanged(){
-            update();
+            updatePosition();
         }
         
         public void atomicWeightChanged(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
@@ -154,7 +154,7 @@ public class AtomicNucleusNode extends PNode {
         
         // Call update at the end of construction to assure that the view is
         // synchronized with the model.
-        update();
+        updatePosition();
     }
 
     //------------------------------------------------------------------------
@@ -324,16 +324,18 @@ public class AtomicNucleusNode extends PNode {
      * called when something has changed, like when the nucleus decays or
      * when the sim window is resized.
      */
-    protected void update(){
-
+    protected void updatePosition(){
+    	
+    	setOffset(_atomicNucleus.getPositionReference());
+    	
         // Optimization: Only check one of the label elements, and only do
         // the update if it exists.
         if (_isotopeChemSymbol != null){
             
-            double numPosX = _atomicNucleus.getPositionReference().getX() - _atomicNucleus.getDiameter()/2;
-            double numPosY = _atomicNucleus.getPositionReference().getY() - _atomicNucleus.getDiameter()/2;
-            _isotopeNumber.setOffset( numPosX, numPosY );            
-            _isotopeNumberShadow.setOffset( numPosX + SHADOW_OFFSET, numPosY + SHADOW_OFFSET);
+            double numPosX = _atomicNucleus.getDiameter()/2;
+            double numPosY = _atomicNucleus.getDiameter()/2;
+            _isotopeNumber.setOffset( -numPosX, -numPosY );            
+            _isotopeNumberShadow.setOffset( -numPosX + SHADOW_OFFSET, -numPosY + SHADOW_OFFSET);
             
             double chemPosX = _isotopeNumber.getOffset().getX() + _isotopeNumber.getFullBounds().getWidth();
             double chemPosY = _isotopeNumber.getOffset().getY();
@@ -389,6 +391,6 @@ public class AtomicNucleusNode extends PNode {
         
         // Update the label to reflect the new element.
         setLabel(numProtons, numNeutrons);
-        update();
+        updatePosition();
     }
 }

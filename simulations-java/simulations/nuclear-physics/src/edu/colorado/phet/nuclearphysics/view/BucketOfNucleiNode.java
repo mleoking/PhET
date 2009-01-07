@@ -6,10 +6,15 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Stroke;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
 import java.awt.geom.QuadCurve2D;
 import java.util.ArrayList;
+
+import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
@@ -59,6 +64,7 @@ public class BucketOfNucleiNode extends PNode {
     int _numVisibleNucleiInMiddleLayer;
     int _numVisibleNucleiInOuterLayers;
     PNode _nodeBeingDragged;
+    ArrayList _shrinkAnimationTimers;
 	
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -74,6 +80,7 @@ public class BucketOfNucleiNode extends PNode {
 		_bucketHeight = height;
 		_bucketWidth = width;
 		_ellipseVerticalSpan = height * 0.4; // Arbitrary sizing, can be changed to alter appearance.
+		_shrinkAnimationTimers = new ArrayList();
 		
 		// Create the gradient paints that will be used to paint the bucket.
 		GradientPaint outerPaint = new GradientPaint(0, (float)height/2, OUTER_COLOR_DARK, 
@@ -134,10 +141,6 @@ public class BucketOfNucleiNode extends PNode {
         _radiationSymbolNode.scale( 0.28 * (_bucketHeight / _radiationSymbolNode.getWidth()));
         _radiationSymbolNode.setOffset(_bucketWidth * 0.75, _bucketHeight * 0.4);
         addChild(_radiationSymbolNode);
-        
-
-        
-
 		
 		// Draw the handle.
 		PhetPPath bucketHandle = new PhetPPath( new QuadCurve2D.Double(width/2, _ellipseVerticalSpan, width * 1.6, 
@@ -164,20 +167,19 @@ public class BucketOfNucleiNode extends PNode {
 	public void addNucleus( AtomicNucleusNode nucleusNode ){
 		
 		// See if there are any slots open in the list of visible nuclei.
-		int i;
-		boolean nucleasNodeIsVisible = false;
-		for (i = 0; i < _visibleNucleusNodes.length; i++){
+		boolean openSpotFound = false;
+		for (int i = 0; i < _visibleNucleusNodes.length; i++){
 			if (_visibleNucleusNodes[i] == null){
 				// This spot is available, so add this nucleus.
 				nucleusNode.setVisible(true);
 				_visibleNucleusNodes[i] = nucleusNode;
 				addAndPositionVisibleNucleus(i);
-				nucleasNodeIsVisible = true;
+				openSpotFound = true;
 				break;
 			}
 		}
 		
-		if (!nucleasNodeIsVisible){
+		if (!openSpotFound){
 			// Move the node to be in the center of the bucket.
 			nucleusNode.getNucleusRef().setPosition(_bucketWidth / 2, _bucketHeight / 2);
 			
@@ -187,6 +189,18 @@ public class BucketOfNucleiNode extends PNode {
 			// And finally, make sure the node is invisible.
 			nucleusNode.setVisible(false);
 		}
+	}
+	
+	/**
+	 * Add a nucleus to this node in such a way that it appears to shrink.
+	 * 
+	 * @param nucleusNode - Nucleus node to be added to the bucket.
+	 */
+	public void addNucleusAnimated(AtomicNucleusNode nucleusNode){
+		
+		// Create a timer that will step through the animation and, when done,
+		// will add the node.
+		_shrinkAnimationTimers.add(new ShrinkAnimationTimer(nucleusNode));
 	}
 	
 	/**
@@ -202,7 +216,7 @@ public class BucketOfNucleiNode extends PNode {
 				_visibleNucleusNodes[i] = null;
 				// TODO: JPB TBD - I think it is not actually necessary to remove
 				// this node as a child of the interior nodes, since I believe
-				// Piccolo does the automatically.  So at some point, test and see
+				// Piccolo does this automatically.  So at some point, test and see
 				// if the following code can be removed.
 				if (_backInteriorLayer.isAncestorOf(nucleusNode) ){
 					_backInteriorLayer.removeChild(nucleusNode);
@@ -221,7 +235,33 @@ public class BucketOfNucleiNode extends PNode {
 			fillEmptyVisibleSlots();
 		}
 		else{
-			// Remove this node as a child of the main node.
+			// Nucleus was not visible.  See if it is one of the invisible children.
+			if (isAncestorOf(nucleusNode)){
+				removeChild(nucleusNode);
+			}
+			else{
+				// See if it is currently being animated.
+				boolean nodeFound = false;
+				for (int i = 0; i < _shrinkAnimationTimers.size(); i++){
+					ShrinkAnimationTimer shrinkTimer = (ShrinkAnimationTimer)_shrinkAnimationTimers.get(i);
+					if (shrinkTimer.getShrinkingNode() == nucleusNode){
+						// This is the nucleus node that we are looking for.
+						// Stop the timer and remove it from the list.
+						shrinkTimer.stop();
+						shrinkTimer.clearShrinkingNode();
+						_shrinkAnimationTimers.remove(shrinkTimer);
+						nodeFound = true;
+						break;
+					}
+				}
+				if (!nodeFound){
+					// The requested node was never found, which may mean
+					// that the caller is trying to remove a node that simply
+					// isn't in the bucket, but it could also indicate some
+					// problem exists in this object's implementation.
+					System.err.println("Warning: Unable to locate and remove node.");
+				}
+			}
 			if (removeChild( nucleusNode ) == null){
 				System.err.println("ERROR: Requested node is not in the bucket.");
 			}
@@ -354,7 +394,7 @@ public class BucketOfNucleiNode extends PNode {
 	}
 	
     //------------------------------------------------------------------------
-    // Inner interfaces
+    // Inner Classes and Interfaces
     //------------------------------------------------------------------------
     
     public static interface Listener {
@@ -365,5 +405,61 @@ public class BucketOfNucleiNode extends PNode {
          * @param _nucleusNode - nucleus that was moved into the play area.
          */
         public void nucleusExtracted(PNode nucleus);
+    }
+
+    /**
+     * Timer used to animate the shrinking of a nucleus when it is taken in
+     * to the bucket.
+     */
+    private class ShrinkAnimationTimer extends Timer {
+
+    	private static final int TIMER_DELAY = 30;          // Milliseconds between each animation step.
+    	
+    	private static final double SHRINKAGE_RATE = 0.80;   // Amount of size change per timer firing, smaller number
+    	                                                    // means faster shrinking.
+    	
+    	private static final int INITIAL_SHRINK_COUNT = 20; // Number of shrinking steps before disappearing.
+    	
+    	private AtomicNucleusNode _shrinkingNode;
+    	private int _shrinkCount;
+    	
+		public ShrinkAnimationTimer(AtomicNucleusNode node) {
+			super(TIMER_DELAY, null);
+			
+			_shrinkingNode = node;
+			_shrinkCount = INITIAL_SHRINK_COUNT;
+			
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    _shrinkCount--;
+                    if ( _shrinkCount <= 0 ) {
+                        stop();                              // Stop the timer.
+                        _shrinkingNode.setScale(1);
+                        _shrinkingNode.setScale(MultiNucleusAlphaDecayCanvas.SCALING_FACTOR_FOR_NUCLEUS_NODES_IN_BUCKET);
+                        addNucleus(_shrinkingNode);          // Add the node to the bucket.
+                        _shrinkingNode = null;               // Remove our reference to the node (for cleanup).
+                        
+                        // Remove ourself from the list of currently running animation timers.
+                        _shrinkAnimationTimers.remove(ShrinkAnimationTimer.this);
+                    }
+                    else{
+                    	// Shrink the node.
+                        _shrinkingNode.scale( SHRINKAGE_RATE );
+                    }
+                }
+            });
+            
+            // Start the timer running.
+            start();
+		}
+		
+		public AtomicNucleusNode getShrinkingNode(){
+			return _shrinkingNode;
+		}
+		
+		public void clearShrinkingNode(){
+			stop();  // Make sure that the time is stopped.
+			_shrinkingNode = null;
+		}
     }
 }
