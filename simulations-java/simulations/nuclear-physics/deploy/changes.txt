@@ -1,3 +1,6 @@
+> Fixed a number of bugs with Reset All on the 2nd tab.
+> Made the lines and cirlce that depict the tunneling radius on the 2nd tab change with the energy levels.
+# 3.04.11 12-31-2008
 > Made the reset buttons on the 1st and 3rd tabs be hidden until they are actually usable.  This should help users to see them and to understand what they do.
 > Changed the way in which the neutrons are injected into the nuclear reactor on the 3rd tab.  It is now initiated from a labeled button on the top of the reactor.
 > Made the graphs on the Nuclear Reactor tab always visible.
