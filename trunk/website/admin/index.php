@@ -43,8 +43,6 @@ class AdminControlPanelPage extends SitePage {
 
             <h3>Misc</h3>
             <ul>
-                <li><a href="compose-newsletter.php">Compose Newsletter</a></li>
-
                 <li><a href="view-statistics.php">View Statistics</a></li>
             </ul>
 

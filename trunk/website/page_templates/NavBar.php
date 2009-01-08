@@ -274,7 +274,6 @@ EOT;
                     'admin/manage-contributors.php' => 'Manage Contributors',
                     'admin/manage-comments.php'     => 'Manage Comments',
                     'admin/manage-db.php'           => 'Manage Database',
-                    'admin/compose-newsletter.php'  => 'Compose Newsletter',
                     'admin/view-statistics.php'     => 'View Statistics',
                     'admin/cache-clear.php?cache=sims'          => 'Clear the simulation cache',
                     'admin/cache-clear.php?cache=teacher_ideas' => 'Clear the activities cache',

@@ -54,16 +54,6 @@ EOT;
 
 EOT;
 
-/*
- * temporary disable newsletter option until I get final OK to permanantly remove it
-            if (!isset($contributor_receive_email) || $contributor_receive_email == 0) {
-                print <<<EOT
-                            <a href="teacher_ideas/subscribe-newsletter.php">Subscribe to PhET Newsletter</a> |
-
-EOT;
-            }
-*/
-
         // FIXME: Do not hardcode default dir
         $default_sim_category = sim_get_encoded_default_category();
 
