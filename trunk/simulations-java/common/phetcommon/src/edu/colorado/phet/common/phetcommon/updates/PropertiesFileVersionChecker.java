@@ -1,10 +1,7 @@
 package edu.colorado.phet.common.phetcommon.updates;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.Properties;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
@@ -16,11 +13,11 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
  * The version information lives in a properties file in the sim's directory on the website.
  * For example, for faraday, the file is faraday.properties.
  */
-public class DefaultVersionChecker implements IVersionChecker {
+public class PropertiesFileVersionChecker extends AbstractVersionChecker {
     
-    public DefaultVersionChecker() {}
-    
-    public PhetVersion getVersion( String project ) throws IOException {
+    public PropertiesFileVersionChecker() {}
+
+    public PhetVersion getVersion( String project,String sim ) throws IOException {
         String read = readURL( HTMLUtils.getProjectPropertiesURL( project ) );
         Properties properties = new Properties();
         properties.load( new ByteArrayInputStream( read.getBytes() ) );
@@ -33,25 +30,9 @@ public class DefaultVersionChecker implements IVersionChecker {
         return new PhetVersion( major, minor, dev, rev );
     }
 
-    private String readURL( String urlLocation ) throws IOException {
-        BufferedReader in = new BufferedReader( new InputStreamReader( new URL( urlLocation ).openStream() ) );
-
-        String inputLine;
-        String totalText = "";
-
-        while ( ( inputLine = in.readLine() ) != null ) {
-            if ( totalText.length() > 0 ) {
-                totalText += "\n";
-            }
-            totalText += inputLine;
-        }
-        in.close();
-        return totalText;
-    }
-
     public static void main( String[] args ) throws IOException {
         System.out.println( "DefaultVersionChecker.main" );
-        PhetVersion phetVersionInfo = new DefaultVersionChecker().getVersion( "balloons" );
+        PhetVersion phetVersionInfo = new PropertiesFileVersionChecker().getVersion( "balloons","balloons" );
         System.out.println( "phetVersionInfo = " + phetVersionInfo );
     }
 }

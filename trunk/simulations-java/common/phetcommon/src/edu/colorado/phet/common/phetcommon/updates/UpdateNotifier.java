@@ -11,18 +11,20 @@ import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 public class UpdateNotifier {
     
     private final String project;
+    private String simulation;
     private final PhetVersion currentVersion;
-    private final IVersionChecker versionChecker = new DefaultVersionChecker();
+    private final AbstractVersionChecker versionChecker = AbstractVersionChecker.getDefaultVersionCheckerImplementation();
     private final ArrayList listeners = new ArrayList();
 
-    public UpdateNotifier( String project, PhetVersion currentVersion ) {
+    public UpdateNotifier( String project, String simulation,PhetVersion currentVersion ) {
         this.project = project;
+        this.simulation = simulation;
         this.currentVersion = currentVersion;
     }
 
     public void checkForUpdates() {
         try {
-            PhetVersion latestVersion = versionChecker.getVersion( project );
+            PhetVersion latestVersion = versionChecker.getVersion( project,simulation );
             notifyDiscoveredRemoteVersion( latestVersion );
 
             if ( latestVersion.isGreaterThan( currentVersion ) ) {

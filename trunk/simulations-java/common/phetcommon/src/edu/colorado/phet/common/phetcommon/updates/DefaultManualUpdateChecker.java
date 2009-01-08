@@ -41,7 +41,7 @@ public class DefaultManualUpdateChecker implements IManualUpdateChecker {
     }
 
     public void checkForUpdates() {
-        UpdateNotifier updateNotifier = new UpdateNotifier( projectName, currentVersion );
+        UpdateNotifier updateNotifier = new UpdateNotifier( projectName, sim, currentVersion );
         UpdateNotifier.UpdateListener listener = new UpdateNotifier.UpdateAdapter() {
 
             public void updateAvailable( PhetVersion currentVersion, PhetVersion remoteVersion ) {

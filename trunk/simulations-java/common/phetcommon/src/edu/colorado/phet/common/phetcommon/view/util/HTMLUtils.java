@@ -143,6 +143,10 @@ public class HTMLUtils {
     public static String getProjectPropertiesURL( String project ) {
         return PhetCommonConstants.PHET_HOME_URL + "/sims/" + project + "/" + project + ".properties";
     }
+
+    public static String getSimVersionXML_PHPQueryURL( String project,String sim ) {
+        return PhetCommonConstants.PHET_HOME_URL + "/simulations/sim-version-info.php?project=" + project + "&sim="+sim;
+    }
     
     public static String createStyledHTMLFromFragment( String htmlFragment ) {
         return createStyledHTMLFromFragment( htmlFragment, DEFAULT_FONT, DEFAULT_CSS );
