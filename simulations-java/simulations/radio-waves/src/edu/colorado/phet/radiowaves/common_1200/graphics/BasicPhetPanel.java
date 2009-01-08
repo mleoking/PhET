@@ -74,57 +74,6 @@ public class BasicPhetPanel extends JPanel {
         repaint();
     }
 
-    public void setFullScreen( boolean fullScreen ) {
-        if( fullScreen && !isFullScreen() ) {
-            activateFullScreen();
-        }
-        else if( !fullScreen && isFullScreen() ) {
-            deactivateFullScreen();
-        }
-    }
-
-    private void deactivateFullScreen() {
-        if( east != null ) {
-            east.setVisible( true );
-        }
-        if( north != null ) {
-            north.setVisible( true );
-        }
-        if( south != null ) {
-            south.setVisible( true );
-        }
-        this.fullScreen = false;
-    }
-
-    private void activateFullScreen() {
-        if( east != null ) {
-            east.setVisible( false );
-        }
-        if( north != null ) {
-            north.setVisible( false );
-        }
-        if( south != null ) {
-            south.setVisible( false );
-        }
-
-        if( buttonDlg == null ) {
-            buttonDlg = new JDialog();
-            buttonDlg.setTitle( SimStrings.get( "Common.BasicPhetPanel.Title" ) );
-            buttonDlg.setDefaultCloseOperation( JDialog.DO_NOTHING_ON_CLOSE );
-            buttonDlg.getContentPane().setLayout( new FlowLayout( FlowLayout.CENTER ) );
-            Rectangle thisBounds = this.getBounds();
-            buttonDlg.pack();
-            buttonDlg.setLocation( (int)( this.getLocationOnScreen().getX() + thisBounds.getMaxX() - buttonDlg.getWidth() ),
-                                   (int)( this.getLocationOnScreen().getY() + thisBounds.getMaxY() - buttonDlg.getHeight() ) );
-        }
-        buttonDlg.setVisible( true );
-        this.fullScreen = true;
-    }
-
-    private boolean isFullScreen() {
-        return fullScreen;
-    }
-
     public void setApparatusPanel( ApparatusPanel apparatusPanel ) {
         //        getApparatusPanelContainer().remove( 0 );//TODO don't we need this line?
         getApparatusPanelContainer().add( apparatusPanel, 0 );
