@@ -56,7 +56,6 @@ public class PumpSpeciesSelectorPanel extends GraphicLayerSet {
 //        Border border = new TitledBorder( new EtchedBorder( BevelBorder.RAISED,
 //                                                            new Color( 40, 20, 255 ),
 //                                                            Color.black ),
-//                                          SimStrings.get( "IdealGasControlPanel.Pump_Gas" ) );
 //        basePanel.setBorder( border );
 
 //        BACKGROUND_COLOR = new Color( 240, 230, 255 );

@@ -30,8 +30,6 @@ public class GradientMagnetControlPanel extends JPanel {
     public GradientMagnetControlPanel( GradientElectromagnet horizontalMagnet, GradientElectromagnet verticalMagnet ) {
         super( new GridLayout( 2, 1 ) );
         setBorder( ControlBorderFactory.createPrimaryBorder( MriResources.getString( "ControlPanel.GradientMagnets" ) ) );
-//        setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(),
-//                                                     SimStrings.get( "ControlPanel.GradientMagnets" ) ) );
         GradientMagnetControl horizontalControl = new GradientMagnetControl( horizontalMagnet,
                                                                              MriResources.getString( "ControlPanel.Horizontal" ) );
         GradientMagnetControl verticalControl = new GradientMagnetControl( verticalMagnet,

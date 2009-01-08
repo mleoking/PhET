@@ -53,8 +53,6 @@ public class SingleAtomModule extends BaseLaserModule {
     private static final boolean SHOW_LEGEND = true;
 
     public SingleAtomModule( PhetFrame frame, IClock clock ) {
-//        super( SimStrings.getInstance().getString( "ModuleTitle.SingleAtomModule" ), clock , Photon.DEFAULT_SPEED*0.65 );
-//        super( SimStrings.getInstance().getString( "ModuleTitle.SingleAtomModule" ), clock, Photon.DEFAULT_SPEED * 0.5 );
         super( frame, LasersResources.getString( "ModuleTitle.SingleAtomModule" ), clock, Photon.DEFAULT_SPEED * LasersApplication.ONE_ATOM_MODULE_SPEED );
         init();
     }

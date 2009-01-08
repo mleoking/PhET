@@ -77,9 +77,6 @@ public class NmrModule extends AbstractMriModule {
 
     private void createWiggleMe() {
         Point2D radiowaveSourceLocation = ( (MriModel)getModel() ).getRadiowaveSource().getPosition();
-//        final WiggleMe wiggleMe = new WiggleMe( SimStrings.get( "Application.WiggleMe" ),
-//                                                (int)radiowaveSourceLocation.getX() - 100,
-//                                                (int)radiowaveSourceLocation.getY() );
         final MotionHelpBalloon wiggleMe = new MotionHelpBalloon( getPhetPCanvas(), MriResources.getString( "Application.WiggleMe" ) );
         wiggleMe.setOffset( 50, 100 );
         wiggleMe.setBalloonFillPaint( new Color( 255, 255, 100 ) );
