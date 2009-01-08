@@ -60,11 +60,10 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
 	private static final double Y_AXIS_ZERO_OFFSET = 55; // Sets origin of y-axis relative to bottom of chart.
 	
 	// Constants for setting the initial positions of the energy lines/curves.
-	private static final double INITIAL_TOTAL_ENERGY = 10;
+	private static final double INITIAL_TOTAL_ENERGY = 8;
 	private static final double INITIAL_MINIUMIM_POTENTIAL_ENERGY = 1; // Defines low point of the potential energy curve.
-	private static final double INITIAL_PEAK_POTENTIAL_ENERGY = 25;    // Defines peak of the potential energy curve.
+	private static final double INITIAL_PEAK_POTENTIAL_ENERGY = 14;    // Defines peak of the potential energy curve.
 	private static final double PRE_DECAY_ENERGY_WELL_BOTTOM = -37;
-	private static final double POST_DECAY_ENERGY_WELL_BOTTOM = -50;
 	
 	// TODO: Decide which of these constants go here and which go elsewhere.
 	private static final double MAX_TIME = 3.2e19;  // Trillion years
@@ -101,7 +100,7 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
     
     // Constant that controls Y-axis position of the alpha particles after
     // the nucleus has decayed.  Value is arbitrary and chosen to look good.
-    private static final double ALPHA_PARTICLE_POST_DECAY_ENERGY = -10.0;
+    private static final double ALPHA_PARTICLE_POST_DECAY_ENERGY = -7.0;
     
     //------------------------------------------------------------------------
     // Instance Data
@@ -629,8 +628,9 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
                     setAlphaImageOffset(_alphaParticleImages[index], untrackedParticle);
                 }
                 
-                // Update the bottom of the energy well.
-                _energyWellBottom = POST_DECAY_ENERGY_WELL_BOTTOM;
+                // Update the bottom of the energy well.  The bottom of the
+                // well must drop by the same amount as the alpha particles.
+                _energyWellBottom = _energyWellBottom - (_totalEnergy - ALPHA_PARTICLE_POST_DECAY_ENERGY);
                 
                 // Redraw the graph to handle any changes.
                 update();
@@ -859,8 +859,11 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
     		 * was created as shown below.  I am keeping the original here as a
     		 * historical note and in case we ever need to go back to it.
     		 */
+    		
+    		// Tweaked calculation that doesn't have a real physical meaning,
+    		// it just behaves the way we want it to.
     		double normalizedDelta = (_potentialEnergyPeak - _totalEnergy) / (NUM_Y_AXIS_UNITS - Y_AXIS_ZERO_OFFSET);
-    		halfLife = Math.pow(10, 25 * normalizedDelta * normalizedDelta);
+    		halfLife = Math.pow(10, 24 * normalizedDelta - 0.5);
     	}
     	
     	return halfLife;
