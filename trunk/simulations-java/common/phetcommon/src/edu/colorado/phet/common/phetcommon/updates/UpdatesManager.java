@@ -6,9 +6,7 @@ import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
-import edu.colorado.phet.common.phetcommon.tracking.ActionPerformedMessage;
 import edu.colorado.phet.common.phetcommon.tracking.ITrackingInfo;
-import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.AutomaticUpdateDialog;
 
 /**
@@ -49,7 +47,6 @@ public class UpdatesManager {
     }
 
     private void autoCheckForUpdates( final Frame frame,  final ITrackingInfo trackingInfo ) {
-        TrackingManager.postActionPerformedMessage( ActionPerformedMessage.AUTO_CHECK_FOR_UPDATES );
         final UpdateNotifier updateNotifier = new UpdateNotifier( simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getVersion() );
         updateNotifier.addListener( new UpdateNotifier.UpdateAdapter() {
 
