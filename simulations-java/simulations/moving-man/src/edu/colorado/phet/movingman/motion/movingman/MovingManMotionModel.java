@@ -1,6 +1,7 @@
 package edu.colorado.phet.movingman.motion.movingman;
 
 import bsh.Interpreter;
+import bsh.EvalError;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -9,7 +10,6 @@ import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.model.*;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.movingman.misc.ExpressionFrame;
 import edu.colorado.phet.movingman.motion.MovingManResources;
 
 /**
@@ -378,8 +378,29 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
         }
 
         public TimeData getNewX( IMotionBody motionBody, double dt, double time ) {
-            double x = ExpressionFrame.evaluate( time, text, interpreter );
+            double x = evaluate( time, text, interpreter );
             return new TimeData( x, time );
         }
+    }
+
+        public static double evaluate( double time, String expression, Interpreter interpreter ) {
+        String timeString = "(" + time + ")";
+
+//            String equation = expression.replaceAll( "t", timeString );
+        String equation = expression.replaceAll( "cos", "Math.cos" );
+        equation = equation.replaceAll( "sin", "Math.sin" );
+        equation = equation.replaceAll( "pi", "Math.PI" );
+        equation = equation.replaceAll( "log", "Math.log" );
+        equation = equation.replaceAll( "pow", "Math.pow" );
+
+        double x = 0;
+        try {
+            Object value = interpreter.eval( "t=" + timeString + "; y=" + equation );
+            x = ( (Number) value ).doubleValue();
+        }
+        catch( EvalError evalError ) {
+            evalError.printStackTrace();
+        }
+        return x;
     }
 }
