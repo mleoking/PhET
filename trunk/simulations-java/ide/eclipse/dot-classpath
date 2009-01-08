@@ -76,8 +76,6 @@
 	<classpathentry kind="src" path="simulations/motion-2d/data"/>
 	<classpathentry kind="src" path="simulations/moving-man/src"/>
 	<classpathentry kind="src" path="simulations/moving-man/data"/>
-	<classpathentry kind="src" path="simulations/moving-man/phetcommon/src"/>
-	<classpathentry kind="src" path="simulations/moving-man/phetcommon/data"/>
 	<classpathentry kind="src" path="simulations/mri/src"/>
 	<classpathentry kind="src" path="simulations/mri/data"/>
 	<classpathentry kind="src" path="simulations/mvc-example/src"/>
