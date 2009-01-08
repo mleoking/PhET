@@ -586,7 +586,7 @@ public class PhetTabbedPane extends JPanel {
      */
     private static class TabBase extends PNode {
         private final PhetPPath path; // use PhetPPath for Gradient workaround on Mac OS 10.4
-        private int tabBaseHeight = 6;
+        private int tabBaseHeight = 9;
         private Color color;
 
         public TabBase( Color color ) {
