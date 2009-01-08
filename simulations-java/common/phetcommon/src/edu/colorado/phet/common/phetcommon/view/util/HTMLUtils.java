@@ -144,6 +144,12 @@ public class HTMLUtils {
         return PhetCommonConstants.PHET_HOME_URL + "/sims/" + project + "/" + project + ".properties";
     }
 
+    /**
+     * Gets the URL of a PHP script that returns the sim version info in XML form, see Unfuddle #969 and #1063
+     * @param project
+     * @param sim
+     * @return
+     */
     public static String getSimVersionXML_PHPQueryURL( String project,String sim ) {
         return PhetCommonConstants.PHET_HOME_URL + "/simulations/sim-version-info.php?project=" + project + "&sim="+sim;
     }
