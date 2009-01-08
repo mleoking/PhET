@@ -1,3 +1,4 @@
+# 0.13.03 (27110) 01-08-2009
 1-8-09: #1058, add another module, so we can see what tab changes look like with multiple tabs
 # 0.13.02 (27107) 01-08-2009
 deploying a dev version so people can see changes to PhetTabbedPane (#1058)
