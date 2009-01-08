@@ -30,7 +30,7 @@ public class XMLVersionChecker extends AbstractVersionChecker {
         }
         catch( Exception e ) {
             //bundle this exception as IOException to use same error handling on the client side
-            throw new IOException("Failed to obtain version information from XML", e );
+            throw new IOException("Failed to obtain version information from XML" );
         }
     }
 
