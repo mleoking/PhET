@@ -50,7 +50,7 @@ public class UpdatesManager {
 
     private void autoCheckForUpdates( final Frame frame,  final ITrackingInfo trackingInfo ) {
         TrackingManager.postActionPerformedMessage( ActionPerformedMessage.AUTO_CHECK_FOR_UPDATES );
-        final UpdateNotifier updateNotifier = new UpdateNotifier( simInfo.getProjectName(), simInfo.getVersion() );
+        final UpdateNotifier updateNotifier = new UpdateNotifier( simInfo.getProjectName(), simInfo.getFlavor(), simInfo.getVersion() );
         updateNotifier.addListener( new UpdateNotifier.UpdateAdapter() {
 
             public void updateAvailable( PhetVersion currentVersion, final PhetVersion remoteVersion ) {
