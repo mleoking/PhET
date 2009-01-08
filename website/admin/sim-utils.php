@@ -413,9 +413,8 @@
     //     'revision' => value
     function sim_get_version($simulation) {
         $dirname     = $simulation['sim_dirname'];
-        $flavorname  = $simulation['sim_flavorname'];
 
-        $properties_filename = PORTAL_ROOT."sims/{$dirname}/{$flavorname}.properties";
+        $properties_filename = PORTAL_ROOT."sims/{$dirname}/{$dirname}.properties";
 
         $revision_tags = array('major', 'minor', 'dev', 'revision');
         $regex = 'version\.('.join('|', $revision_tags).') *= *([^ \n\r\t]+)';
