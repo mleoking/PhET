@@ -1,7 +1,8 @@
 /*  */
 package edu.colorado.phet.waveinterference.util;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+
 
 /**
  * User: Sam Reid
@@ -10,7 +11,9 @@ import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
  */
 
 public class WIStrings {
+    private static PhetResources phetResources = new PhetResources( "wave-interference" );
+
     public static String getString( String s ) {
-        return SimStrings.getInstance().getString( s );
+        return phetResources.getLocalizedString( s );
     }
 }

@@ -5,7 +5,6 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 /**
@@ -33,9 +32,6 @@ public class WaveInterferenceApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) {
-        
-        SimStrings.getInstance().init( args, "wave-interference/localization/wave-interference-strings" ); //TODO use PhetResources for strings
-        
         ApplicationConstructor appConstructor = new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 return new WaveInterferenceApplication( config );

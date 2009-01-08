@@ -20,7 +20,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 
 
 /**
@@ -190,7 +190,7 @@ public class FourierSoundPlayer implements Runnable {
                 }
                 catch( IOException ioe ) {
                     _soundEnabled = false; // cause the sound thread to exit
-                    String message = SimStrings.getInstance().getString( "sound.error.io" );
+                    String message = WIStrings.getString( "sound.error.io" );
                     notifySoundErrorListeners( ioe, message );
                 }
             }

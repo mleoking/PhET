@@ -29,7 +29,6 @@ public class MultiOscillatorControlPanel extends VerticalLayoutPanelWithDisable 
         this.multiOscillator = multiOscillator;
         this.units = units;
         setBorder( BorderFactory.createEtchedBorder() );
-//        String hello = MessageFormat.format( SimStrings.get( "hello.0" ), new Object[]{units} );
 //        oneDrip = new JRadioButton( WIStrings.getString( "one.0" ) + name, multiOscillator.isOneSource() );
         oneDrip = new JRadioButton( MessageFormat.format( WIStrings.getString( "controls.one" ), new Object[]{name} ), multiOscillator.isOneSource() );
         oneDrip.addActionListener( new ActionListener() {
