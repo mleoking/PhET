@@ -60,7 +60,7 @@ public class SimTemplateConstants {
     //----------------------------------------------------------------------------
     
     // Color of the "play area"
-    public static final Color CANVAS_BACKGROUND = Color.WHITE;
+    public static final Color CANVAS_BACKGROUND = Color.BLACK;
     
     // Color of labels placed directly on the play area
     public static final Color CANVAS_LABELS_COLOR = Color.BLACK;
@@ -69,7 +69,8 @@ public class SimTemplateConstants {
     public static final Color COLOR_TRANSPARENT = new Color( 0f, 0f, 0f, 0f );
     
     // Default color for module tabs
-    public static final Color SELECTED_TAB_COLOR = Color.ORANGE;
+    public static final Color SELECTED_TAB_COLOR = new Color( 153, 153, 255 ); // light blue
+    public static final Color UNSELECTED_TAB_COLOR = new Color( 98, 98, 249 ); // bright blue
     
     //----------------------------------------------------------------------------
     // Images
