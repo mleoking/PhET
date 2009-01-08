@@ -49,7 +49,6 @@ public class WaveChartGraphic extends PNode {
 //        jFreeChartNode.setBounds( 0, 0, 500, 200 );
         jFreeChartNode.setBounds( 0, 0, 500, 185 );
 
-//        String hello = MessageFormat.format( SimStrings.get( "hello.0" ), new Object[]{units} );
 //        setHorizontalLabel( WIStrings.getString( "position.0" ) + distanceUnits );
         setHorizontalLabel( MessageFormat.format( WIStrings.getString( "controls.position" ), new Object[]{distanceUnits} ) );
         setHorizontalRange( minX, maxX );
