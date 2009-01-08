@@ -49,7 +49,7 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
     private final double SCALE = 0.8;
     
     // Timer for delaying the appearance of the reset button.
-	private static final int BUTTON_DELAY_TIME = 1000; // In milliseconds.
+	private static final int BUTTON_DELAY_TIME = 1750; // In milliseconds.
     private static final Timer BUTTON_DELAY_TIMER = new Timer( BUTTON_DELAY_TIME, null );
     
     //----------------------------------------------------------------------------
