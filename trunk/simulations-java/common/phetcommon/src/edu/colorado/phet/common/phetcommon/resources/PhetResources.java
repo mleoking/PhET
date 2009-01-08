@@ -7,8 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
 
-import edu.colorado.phet.common.phetcommon.util.logging.ConsoleLogger;
 import edu.colorado.phet.common.phetcommon.util.logging.ILogger;
+import edu.colorado.phet.common.phetcommon.util.logging.NullLogger;
 import edu.colorado.phet.common.phetcommon.view.util.PhetAudioClip;
 
 /**
@@ -39,7 +39,7 @@ public class PhetResources {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final ILogger LOGGER = new ConsoleLogger(); // use NullLogger to turn off, ConsoleLogger to turn on
+    private static final ILogger LOGGER = new NullLogger(); // use NullLogger to turn off, ConsoleLogger to turn on
     
     // Standard localized properties:
     private static final String PROPERTY_NAME = "name";

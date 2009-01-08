@@ -86,7 +86,6 @@ abstract class AbstractResourceLoader implements IResourceLoader {
             // eg, faraday-strings_zh_CN.properties
             localizedName = basename + "_" + locale.getLanguage() + "_" + locale.getCountry() + PROPERTIES_SUFFIX;
         }
-        System.out.println( "AbstractResourceLoader.getLocalizedPropertiesResourceName localizedName=" + localizedName );//XXX
         return localizedName;
     }
     
