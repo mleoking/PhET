@@ -13,7 +13,6 @@ package edu.colorado.phet.quantumwaveinterference.persistence;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.quantumwaveinterference.QWIResources;
 
 import javax.jnlp.*;
@@ -66,7 +65,7 @@ public class PersistenceManager implements IProguardKeepClass {
             }
         }
         catch( Exception e ) {
-            showError( SimStrings.getInstance().getString( "Save.error.message" ), e );
+            showError( QWIResources.getString( "Save.error.message"),e);
         }
     }
 
@@ -83,30 +82,6 @@ public class PersistenceManager implements IProguardKeepClass {
         else {
             return loadLocal();
         }
-
-//        // Verify the object's type
-//        if( !( object instanceof QTConfig ) ) {
-//            showError( SimStrings.get( "Load.error.message" ), SimStrings.get( "Load.error.contents" ) );
-//            return;
-//        }
-
-//        // Configure the application
-//        QTConfig config = (QTConfig)object;
-//        JFrame frame = _app.getPhetFrame();
-//        frame.setCursor( QTConstants.WAIT_CURSOR );
-//        {
-//            // Global
-//            _app.load( config );
-//
-//            // Modules
-//            Module[] modules = _app.getModules();
-//            for( int i = 0; i < modules.length; i++ ) {
-//                if( modules[i] instanceof AbstractModule ) {
-//                    ( (AbstractModule)modules[i] ).load( config );
-//                }
-//            }
-//        }
-//        frame.setCursor( QTConstants.DEFAULT_CURSOR );
     }
 
     /*
@@ -149,7 +124,7 @@ public class PersistenceManager implements IProguardKeepClass {
             // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
                 if( errors == 0 ) {
-                    showError( SimStrings.getInstance().getString( "Save.error.encode" ), e );
+                    showError( QWIResources.getString( "Save.error.encode" ), e );
                     errors++;
                 }
             }
@@ -190,16 +165,13 @@ public class PersistenceManager implements IProguardKeepClass {
             // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
                 if( errors == 0 ) {
-                    showError( SimStrings.getInstance().getString( "Load.error.decode" ), e );
+                    showError( QWIResources.getString( "Load.error.decode" ), e );
                     errors++;
                 }
             }
         } );
         object = decoder.readObject();
         decoder.close();
-//        if( object == null ) {
-//            throw new Exception( SimStrings.get( "Load.error.contents" ) );
-//        }
 
         return object;
     }
@@ -220,7 +192,7 @@ public class PersistenceManager implements IProguardKeepClass {
             // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
                 if( errors == 0 ) {
-                    showError( SimStrings.getInstance().getString( "Save.error.encode" ), e );
+                    showError( QWIResources.getString( "Save.error.encode" ), e );
                     errors++;
                 }
             }
@@ -228,7 +200,7 @@ public class PersistenceManager implements IProguardKeepClass {
         encoder.writeObject( object );
         encoder.close();
         if( object == null ) {
-            throw new Exception( SimStrings.getInstance().getString( "XML encoding failed" ) );
+            throw new Exception( QWIResources.getString( "XML encoding failed" ) );
         }
 
         // Convert to a byte input stream.
@@ -279,7 +251,7 @@ public class PersistenceManager implements IProguardKeepClass {
             // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
                 if( errors == 0 ) {
-                    showError( SimStrings.getInstance().getString( "Load.error.decode" ), e );
+                    showError( QWIResources.getString( "Load.error.decode" ), e );
                     errors++;
                 }
             }
