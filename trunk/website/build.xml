@@ -10,13 +10,25 @@ build-related libraries from the simulations-java project.
 
     <!-- Deployment properties -->
     <property name="deploy.live_server.name" value="tigercat.colorado.edu" />
-    <property name="deploy.test_server.name" value="192.168.42.102" />
+    <property name="deploy.test_server.name" value="192.168.42.105" />
 
     <!-- Properties for deploy output-->
-    <property name="deploy.live_server.path" value="/web/htdocs/phet/new" />
-    <property name="deploy.live_server.url" value="http://phet.colorado.edu/new/" />
-    <property name="deploy.test_server.path" value="/var/www/phet/new" />
+    <property name="deploy.live_server.staging" value="/tmp/phet_website_deploy_staging" />
+    <property name="deploy.live_server.path" value="/web/chroot/phet/usr/local/apache/htdocs/" />
+    <property name="deploy.live_server.url" value="http://phet.colorado.edu/" />
+    <property name="deploy.test_server.staging" value="/tmp/phet_website_deploy_staging" />
+    <property name="deploy.test_server.path" value="/var/www/phet2" />
     <property name="deploy.test_server.url" value="http://${deploy.test_server.name}/new/" />
+
+    <!-- *** IF YOU DEPLOY ON A MAC WITH ECLIPSE:
+    Library antform doesn't work so you must hardcode your username and password.
+    Only do this on your local machine, don't check it in.
+    This file 'build.xml' is NOT deployed, so this info won't be propogated
+    -->
+    <!-- Uncommend this to hardcode your username and password
+    <property name="deploy.username" value="" />
+    <property name="deploy.password" value="" />
+    -->
 
     <!-- Build tools -->
     <property name="dir.build-tools" value="${basedir}/../simulations-java/build-tools/" />
@@ -65,52 +77,117 @@ build-related libraries from the simulations-java project.
     <target name="deploy to live server" description="This task deploys the live website." depends="_read-username-and-password">
         <maverick-ssh host="${deploy.live_server.name}" username="${deploy.username}" password="${deploy.password}" version="2">
             <!-- Make the remote directory: -->
-            <sftp action="mkdir" remotedir="${deploy.live_server.path}" verbose="true" />
+            <sftp action="mkdir" remotedir="${deploy.live_server.staging}" verbose="true" />
 
             <!-- Put all files to the remote directory: -->
-            <sftp action="put" remotedir="${deploy.live_server.path}" verbose="true">
+            <sftp action="put" remotedir="${deploy.live_server.staging}" verbose="true">
                 <fileset dir="${dir.website}">
-                    <!-- These are to hide the Eclipse files -->
+                    <!-- Don't copy Eclipse files -->
                     <exclude name=".cache/**" />
                     <exclude name=".metadata/**" />
                     <exclude name=".project" />
                     <exclude name=".settings/**" />
 
+                    <!-- Don't copy Mac specific files -->
+                    <exclude name=".DS_Store" />
+
+                    <!-- Don't copy SVN directories -->
                     <exclude name=".svn" />
+
+                    <!-- Don't copy anything cached -->
+                    <exclude name="webcache/**" />
                     <exclude name="**/cached-*/*" />
+
+                    <!-- Don't copy over the logs -->
+                    <exclude name="logs/*" />
+
+                    <!-- Don't copy over the database access info -->
                     <exclude name="admin/login-info.php" />
+
+                    <!-- Don't copy the debug settings -->
                     <exclude name="admin/local-debug-settings.php" />
+
+                    <!-- Don't copy this file -->
+                    <exclude name="build.xml" />
                 </fileset>
             </sftp>
 
-            <!-- Finally, modify the permissions so everyone can read & execute, and group & owner can write: -->
-            <exec cmd="chmod -R 775 ${deploy.live_server.path}" />
+            <!-- Set all directories so everyone can read & execute, and group & owner can also write: -->
+            <exec cmd="find ${deploy.live_server.staging} -type d -print0 | xargs -0 chmod 0775" />
+
+            <!-- Set all files so everyone can read, and group & owner can also write: -->
+            <exec cmd="find ${deploy.live_server.staging} -type f -print0 | xargs -0 chmod 0664" />
+
+            <!-- Set the command line directory so others can't read, and group & owner can read & write & execute -->
+            <exec cmd="chmod 0770 ${deploy.live_server.staging}/cl_utils" />
+            <exec cmd="find ${deploy.live_server.staging}/cl_utils/ \( -iname \*.php -o -iname \*.py \) -print0 | xargs -0 chmod 0770" />
+            <exec cmd="chmod 0770 ${deploy.live_server.staging}/cron" />
+            <exec cmd="find ${deploy.live_server.staging}/cron/ \( -iname \*.php -o -iname \*.py \) -print0 | xargs -0 chmod 0770" />
+
+            <!-- Copy the files from the staging area to the directories -->
+            <exec cmd="cp -rp ${deploy.live_server.staging}/* ${deploy.live_server.path}/" />
+
+            <!-- Finally, remove the staging area -->
+            <exec cmd="rm -r ${deploy.live_server.staging}" />
         </maverick-ssh>
     </target>
 
     <target name="deploy to test server" description="This task deploys the website to a test server." depends="_read-username-and-password">
         <maverick-ssh host="${deploy.test_server.name}" username="${deploy.username}" password="${deploy.password}" version="2">
             <!-- Make the remote directory: -->
-            <sftp action="mkdir" remotedir="${deploy.test_server.path}" verbose="true" />
+            <sftp action="mkdir" remotedir="${deploy.test_server.staging}" verbose="true" />
 
             <!-- Put all files to the remote directory: -->
-            <sftp action="put" remotedir="${deploy.test_server.path}" verbose="true">
+            <sftp action="put" remotedir="${deploy.test_server.staging}" verbose="true">
                 <fileset dir="${dir.website}">
-                    <!-- These are to hide the Eclipse files -->
+                    <!-- Don't copy Eclipse files -->
                     <exclude name=".cache/**" />
                     <exclude name=".metadata/**" />
                     <exclude name=".project" />
                     <exclude name=".settings/**" />
 
+                    <!-- Don't copy Mac specific files -->
+                    <exclude name=".DS_Store" />
+
+                    <!-- Don't copy SVN directories -->
                     <exclude name=".svn" />
+
+                    <!-- Don't copy anything cached -->
+                    <exclude name="webcache/**" />
                     <exclude name="**/cached-*/*" />
+
+                    <!-- Don't copy over the logs -->
+                    <exclude name="logs/*" />
+
+                    <!-- Don't copy over the database access info -->
                     <exclude name="admin/login-info.php" />
+
+                    <!-- Don't copy the debug settings -->
                     <exclude name="admin/local-debug-settings.php" />
+
+                    <!-- Don't copy this file -->
+                    <exclude name="build.xml" />
                 </fileset>
             </sftp>
 
-            <!-- Finally, modify the permissions so everyone can read & execute, and group & owner can write: -->
-            <exec cmd="chmod -R 775 ${deploy.test_server.path}" />
+            <!-- Set all directories so everyone can read & execute, and group & owner can also write: -->
+            <exec cmd="find ${deploy.test_server.staging} -type d -print0 | xargs -0 chmod 0775" />
+
+            <!-- Set all files so everyone can read, and group & owner can also write: -->
+            <exec cmd="find ${deploy.test_server.staging} -type f -print0 | xargs -0 chmod 0664" />
+
+            <!-- Set the command line directory so others can't read, and group & owner can read & write & execute -->
+            <exec cmd="chmod 0770 ${deploy.test_server.staging}/cl_utils" />
+            <exec cmd="find ${deploy.test_server.staging}/cl_utils/ \( -iname \*.php -o -iname \*.py \) -print0 | xargs -0 chmod 0770" />
+            <exec cmd="chmod 0770 ${deploy.test_server.staging}/cron" />
+            <exec cmd="find ${deploy.test_server.staging}/cron/ \( -iname \*.php -o -iname \*.py \) -print0 | xargs -0 chmod 0770" />
+
+            <!-- Copy the files from the staging area to the directories -->
+            <exec cmd="cp -rp ${deploy.test_server.staging}/* ${deploy.test_server.path}/" />
+
+            <!-- Finally, remove the staging area -->
+            <exec cmd="rm -r ${deploy.test_server.staging}" />
         </maverick-ssh>
     </target>
 </project>
+
