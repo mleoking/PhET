@@ -93,8 +93,12 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
         addModule( _exampleModule );
         
         Module secondModule = new ExampleModule( parentFrame );
-        secondModule.setName( "Another Module" );
+        secondModule.setName( "Another Example" );
         addModule( secondModule );
+        
+        Module thirdModule = new ExampleModule( parentFrame );
+        thirdModule.setName( "Yet Another Example" );
+        addModule( thirdModule );
     }
 
     /*
