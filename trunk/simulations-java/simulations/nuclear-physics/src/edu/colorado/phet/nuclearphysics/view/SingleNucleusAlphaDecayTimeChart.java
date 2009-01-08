@@ -21,8 +21,10 @@ import java.util.Iterator;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.util.ConstantPowerOfTenNumberFormat;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
@@ -849,105 +851,181 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
      */
     private class TimeDisplayNode extends PNode{
     	
-    	private final double TEXT_HEIGHT_PROPORTION = 0.8;
+    	private final double NORMAL_TEXT_HEIGHT_PROPORTION = 0.7;
+    	private final double EXPONENTIAL_TEXT_HEIGHT_PROPORTION = 0.85;
+    	private final int DISPLAY_MODE_NORMAL = 0;
+    	private final int DISPLAY_MODE_EXPONENTIAL = 1;
+    	private final int DISPLAY_MODE_INFINITY = 2;
     	private final Color BACKGROUND_COLOR = new Color(255, 255, 255);
         private final Font  TIME_FONT = new PhetFont( Font.BOLD, 26 );
+        private final double MILLISECONDS_PER_SECOND = 1000;
+        private final double MILLISECONDS_PER_MINUTE = 60000;
+        private final double MILLISECONDS_PER_HOUR = 3600000;
+        private final double MILLISECONDS_PER_DAY = 86400000;
+        private final double MILLISECONDS_PER_YEAR = 3.16e10;
+        private final double MILLISECONDS_PER_MILLENIUM = 3.16e13;
+        private final double MILLISECONDS_PER_MILLION_YEARS = 3.16e16;
+        private final double MILLISECONDS_PER_BILLION_YEARS = 3.16e19;
+        private final double MILLISECONDS_PER_TRILLION_YEARS = 3.16e22;
+        private final double MILLISECONDS_PER_QUADRILLION_YEARS = 3.16e25;
+
+        private double _readoutWidth;
+        private double _readoutHeight;
     	private PPath _background;
     	private RoundRectangle2D _backgroundShape;
-    	private PText _timeText;
-    	private PText _unitsText;
-        DecimalFormat timeFormatterNoDecimals = new DecimalFormat( "##0" );
-        DecimalFormat timeFormatterOneDecimal = new DecimalFormat( "##0.0" );
-        DecimalFormat timeFormatterTwoDecimals = new DecimalFormat( "##0.00" );
+    	private HTMLNode _timeText;
+    	private HTMLNode _unitsText;
+        private DecimalFormat _timeFormatterNoDecimals = new DecimalFormat( "##0" );
+        private DecimalFormat _timeFormatterOneDecimal = new DecimalFormat( "##0.0" );
+        private int _currentDisplayMode = DISPLAY_MODE_NORMAL; 
+        private ConstantPowerOfTenNumberFormat _thousandsFormatter = new ConstantPowerOfTenNumberFormat("0", 3);
+        private ConstantPowerOfTenNumberFormat _millionsFormatter = new ConstantPowerOfTenNumberFormat("0", 6);
+        private ConstantPowerOfTenNumberFormat _billionsFormatter = new ConstantPowerOfTenNumberFormat("0", 9);
+        private ConstantPowerOfTenNumberFormat _trillionsFormatter = new ConstantPowerOfTenNumberFormat("0", 12);
     	
     	TimeDisplayNode(){
-    		_backgroundShape = new RoundRectangle2D.Double(0, 0, _usableWidth * 0.2, _usableHeight * 0.2, 8, 8);
+    		_readoutWidth = _usableWidth * 0.22;
+    		_readoutHeight = _usableHeight * 0.2;
+    		_backgroundShape = new RoundRectangle2D.Double(0, 0, _readoutWidth, _readoutHeight * 0.2, 8, 8);
     		_background = new PPath(_backgroundShape);
     		_background.setPaint(BACKGROUND_COLOR);
     		addChild(_background);
-    		_timeText = new PText();
+    		_timeText = new HTMLNode();
     		_timeText.setFont(TIME_FONT);
     		addChild(_timeText);
-    		_unitsText = new PText();
+    		_unitsText = new HTMLNode();
     		_unitsText.setFont(TIME_FONT);
     		addChild(_unitsText);
     	}
     	
     	public void setSize(double width, double height){
-    		_backgroundShape.setFrame( 0, 0, width, height );
+    		_readoutWidth = width;
+    		_readoutHeight = height;
+    		_backgroundShape.setFrame( 0, 0, _readoutWidth, _readoutHeight );
     		_background.setPathTo(_backgroundShape);
+    		
+    		updateTextScaling();
+    		updateTimeDisplay();
+    	}
+    	
+    	private void updateTextScaling(){
+    		
     		_timeText.setScale(1);
-    		double desiredTextHeight = height * TEXT_HEIGHT_PROPORTION;
+    		_unitsText.setScale(1);
+    		
+    		double desiredTextHeight = 0;
+    		if (_currentDisplayMode == DISPLAY_MODE_NORMAL){
+        		desiredTextHeight = _readoutHeight * NORMAL_TEXT_HEIGHT_PROPORTION;
+    		}
+    		else if (_currentDisplayMode == DISPLAY_MODE_EXPONENTIAL){
+        		desiredTextHeight = _readoutHeight * EXPONENTIAL_TEXT_HEIGHT_PROPORTION;
+    		}
+    		else if (_currentDisplayMode == DISPLAY_MODE_INFINITY){
+    			desiredTextHeight = _readoutHeight;
+    		}
+    		
     		double currentTextHeight = _timeText.getFullBoundsReference().height;
     		if (desiredTextHeight > 0 && currentTextHeight > 0){
         		_timeText.setScale(desiredTextHeight / currentTextHeight);
         		_unitsText.setScale(desiredTextHeight / currentTextHeight * 0.67);
     		}
-    		update();
     	}
     	
     	public void setTime(double milliseconds){
 
-    		// TODO: Need to make the units into resources when all is approved.
-    		if (milliseconds < 1000){
+    		int displayMode;
+    		
+    		if (milliseconds < MILLISECONDS_PER_SECOND){
     			// Milliseconds range.
-                _timeText.setText( new String (timeFormatterNoDecimals.format(milliseconds)) );
-                _unitsText.setText(NuclearPhysicsStrings.UNITS_MILLISECONDS);
+                _timeText.setHTML( _timeFormatterNoDecimals.format(milliseconds) );
+                _unitsText.setHTML( NuclearPhysicsStrings.UNITS_MILLISECONDS );
+                displayMode = DISPLAY_MODE_NORMAL;    
     		}
-    		else if (milliseconds < 60000){
+    		else if (milliseconds < MILLISECONDS_PER_MINUTE){
     			// Seconds range.
-                _timeText.setText( new String (timeFormatterOneDecimal.format(milliseconds / 1000)) );
-                _unitsText.setText(NuclearPhysicsStrings.UNITS_SECONDS);
+                _timeText.setHTML( _timeFormatterOneDecimal.format(milliseconds / MILLISECONDS_PER_SECOND) );
+                _unitsText.setHTML( NuclearPhysicsStrings.UNITS_SECONDS );
+                displayMode = DISPLAY_MODE_NORMAL;    
     		}
-    		else if (milliseconds < 3600000){
+    		else if (milliseconds < MILLISECONDS_PER_HOUR){
     			// Minutes range.
-                _timeText.setText( new String (timeFormatterOneDecimal.format(milliseconds / 60000)) );
-                _unitsText.setText(NuclearPhysicsStrings.UNITS_MINUTES);
+                _timeText.setHTML( _timeFormatterOneDecimal.format(milliseconds / MILLISECONDS_PER_MINUTE) );
+                _unitsText.setHTML( NuclearPhysicsStrings.UNITS_MINUTES );
+                displayMode = DISPLAY_MODE_NORMAL;    
     		}
-    		else if (milliseconds < 86400000){
+    		else if (milliseconds < MILLISECONDS_PER_DAY){
     			// Hours range.
-                _timeText.setText( new String (timeFormatterOneDecimal.format(milliseconds / 3600000)) );
-                _unitsText.setText(NuclearPhysicsStrings.UNITS_HOURS);
+                _timeText.setHTML( _timeFormatterOneDecimal.format(milliseconds / MILLISECONDS_PER_HOUR) );
+                _unitsText.setHTML( NuclearPhysicsStrings.UNITS_HOURS );
+                displayMode = DISPLAY_MODE_NORMAL;    
     		}
-    		else if (milliseconds < 31.6e9){
+    		else if (milliseconds < MILLISECONDS_PER_YEAR){
     			// Days range.
-                _timeText.setText( new String (timeFormatterNoDecimals.format(milliseconds / 86400000)) );
-                _unitsText.setText(NuclearPhysicsStrings.UNITS_DAYS);
+                _timeText.setHTML( _timeFormatterNoDecimals.format(milliseconds / MILLISECONDS_PER_DAY) );
+                _unitsText.setHTML( NuclearPhysicsStrings.UNITS_DAYS );
+                displayMode = DISPLAY_MODE_NORMAL;    
     		}
-    		else if (milliseconds < 3.16e13){
+    		else if (milliseconds < MILLISECONDS_PER_MILLENIUM){
     			// Years range.
-                _timeText.setText( new String (timeFormatterNoDecimals.format(milliseconds / 31.6e9)) );
-                _unitsText.setText(NuclearPhysicsStrings.UNITS_YEARS);
+                _timeText.setHTML( _timeFormatterNoDecimals.format(milliseconds / MILLISECONDS_PER_YEAR) );
+                _unitsText.setHTML( NuclearPhysicsStrings.UNITS_YEARS );
+                displayMode = DISPLAY_MODE_NORMAL;    
     		}
-    		else if (milliseconds < 3.16e16){
+    		else if (milliseconds < MILLISECONDS_PER_MILLION_YEARS){
     			// Thousand years range (millenia).
-                _timeText.setText( new String (timeFormatterNoDecimals.format(milliseconds / 3.16e13)) );
-                _unitsText.setText(NuclearPhysicsStrings.UNITS_MILLENIA);
+                _timeText.setHTML( _thousandsFormatter.format(milliseconds / MILLISECONDS_PER_YEAR) );
+                _unitsText.setHTML( NuclearPhysicsStrings.UNITS_YEARS );
+                displayMode = DISPLAY_MODE_EXPONENTIAL;    
     		}
-    		else if (milliseconds < 3.16e19){
+    		else if (milliseconds < MILLISECONDS_PER_BILLION_YEARS){
     			// Million years range.
-                _timeText.setText( new String (timeFormatterNoDecimals.format(milliseconds / 3.16e16)) );
-                _unitsText.setText(NuclearPhysicsStrings.UNITS_MILLION_YEARS);
+                _timeText.setHTML( _millionsFormatter.format(milliseconds / MILLISECONDS_PER_YEAR) );
+                _unitsText.setHTML( NuclearPhysicsStrings.UNITS_YEARS );
+                displayMode = DISPLAY_MODE_EXPONENTIAL;    
     		}
-    		else if (milliseconds < 3.16e22){
+    		else if (milliseconds < MILLISECONDS_PER_TRILLION_YEARS){
     			// Billion years range.
-                _timeText.setText( new String (timeFormatterNoDecimals.format(milliseconds / 3.16e19)) );
-                _unitsText.setText(NuclearPhysicsStrings.UNITS_BILLION_YEARS);
+                _timeText.setHTML( _billionsFormatter.format(milliseconds / MILLISECONDS_PER_YEAR) );
+                _unitsText.setHTML( NuclearPhysicsStrings.UNITS_YEARS );
+                displayMode = DISPLAY_MODE_EXPONENTIAL;    
+    		}
+    		else if (milliseconds < MILLISECONDS_PER_QUADRILLION_YEARS){
+    			// Trillion years range.
+                _timeText.setHTML( _trillionsFormatter.format(milliseconds / MILLISECONDS_PER_YEAR) );
+                _unitsText.setHTML(NuclearPhysicsStrings.UNITS_YEARS);
+                displayMode = DISPLAY_MODE_EXPONENTIAL;    
     		}
     		else {
-    			_timeText.setText( "\u221e"); // Infinity.
-    			_unitsText.setText("");
+    			_timeText.setHTML( "\u221e"); // Infinity.
+    			_unitsText.setHTML("");
+                displayMode = DISPLAY_MODE_INFINITY;    
     		}
     		
-            update();
+    		if (displayMode != _currentDisplayMode){
+    			// The display mode has changed.
+    			_currentDisplayMode = displayMode;
+    			updateTextScaling();
+    		}
+    		
+            updateTimeDisplay();
     	}
     	
-    	private void update(){
+    	private void updateTimeDisplay(){
     		double width = _backgroundShape.getWidth();
     		double height = _backgroundShape.getHeight();
-    		_timeText.setOffset( width *.55 - _timeText.getFullBoundsReference().width,
-    				height / 2 - _timeText.getFullBoundsReference().height / 2 );
-    		_unitsText.setOffset( width * 0.6, _timeText.getFullBoundsReference().getMaxY() 
+    		if (_currentDisplayMode == DISPLAY_MODE_EXPONENTIAL){
+        		_timeText.setOffset( width *.70 - _timeText.getFullBoundsReference().width,
+        				height / 2 - _timeText.getFullBoundsReference().height / 2 );
+    		}
+    		else if (_currentDisplayMode == DISPLAY_MODE_NORMAL){
+        		_timeText.setOffset( width *.65 - _timeText.getFullBoundsReference().width,
+        				height / 2 - _timeText.getFullBoundsReference().height / 2 );
+    		}
+    		else if (_currentDisplayMode == DISPLAY_MODE_INFINITY){
+        		_timeText.setOffset( width / 2 - _timeText.getFullBoundsReference().width / 2,
+        				height / 2 - _timeText.getFullBoundsReference().height / 2 );
+    		}
+    		_unitsText.setOffset( width * 0.7, _timeText.getFullBoundsReference().getMaxY() 
     				- _unitsText.getFullBoundsReference().height * 1.1);
     	}
     }
