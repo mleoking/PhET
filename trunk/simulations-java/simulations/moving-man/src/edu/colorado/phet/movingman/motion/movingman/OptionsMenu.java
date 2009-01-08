@@ -5,8 +5,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
+import edu.colorado.phet.movingman.MovingManResources;
 
 /**
  * Created by: Sam
@@ -14,9 +14,9 @@ import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
  */
 public class OptionsMenu extends JMenu {
     public OptionsMenu( JFrame frame, final MovingManOptions module ) {
-        super( SimStrings.get( "controls.special-features" ) );
-        setMnemonic( SimStrings.get( "controls.special-features.mnemonic" ).charAt( 0 ) );
-        JMenuItem jep = new JMenuItem( SimStrings.get( "expressions.title" ) );
+        super( MovingManResources.getString( "controls.special-features" ) );
+        setMnemonic( MovingManResources.getString( "controls.special-features.mnemonic" ).charAt( 0 ) );
+        JMenuItem jep = new JMenuItem( MovingManResources.getString( "expressions.title" ) );
         add( jep );
         final MotionExpressionFrame mef = new MotionExpressionFrame( frame, module );
         jep.addActionListener( new ActionListener() {
@@ -25,7 +25,7 @@ public class OptionsMenu extends JMenu {
             }
         } );
 
-        final JCheckBoxMenuItem jcbmi = new JCheckBoxMenuItem( SimStrings.get( "controls.reverse-x-axis" ), false );
+        final JCheckBoxMenuItem jcbmi = new JCheckBoxMenuItem( MovingManResources.getString( "controls.reverse-x-axis" ), false );
         jcbmi.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setRightDirPositive( !jcbmi.isSelected() );
@@ -33,8 +33,8 @@ public class OptionsMenu extends JMenu {
         } );
         add( jcbmi );
         addSeparator();
-        JRadioButtonMenuItem closed = new JRadioButtonMenuItem( SimStrings.get( "options.walls" ), true );
-        JRadioButtonMenuItem open = new JRadioButtonMenuItem( SimStrings.get( "options.free-range" ), false );
+        JRadioButtonMenuItem closed = new JRadioButtonMenuItem( MovingManResources.getString( "options.walls" ), true );
+        JRadioButtonMenuItem open = new JRadioButtonMenuItem( MovingManResources.getString( "options.free-range" ), false );
         open.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setBoundaryOpen( true );

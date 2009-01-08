@@ -13,12 +13,11 @@ import edu.colorado.phet.common.motion.graphs.MinimizableControlGraph;
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
 import edu.colorado.phet.movingman.MMUtil;
+import edu.colorado.phet.movingman.MovingManResources;
 import edu.colorado.phet.movingman.motion.AbstractMotionSimPanel;
 import edu.colorado.phet.movingman.motion.MotionVectorNode;
-import edu.colorado.phet.movingman.motion.MovingManResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -118,9 +117,9 @@ public class MovingManMotionSimPanel extends AbstractMotionSimPanel {
             }
         } );
         graphSetNode = new GraphSetNode( new GraphSetModel( new GraphSuite( new MinimizableControlGraph[]{
-                new MinimizableControlGraph( SimStrings.get( "variables.position.abbreviation" ), xGraph ),
-                new MinimizableControlGraph( SimStrings.get( "variables.velocity.abbreviation" ), vGraph ),
-                new MinimizableControlGraph( SimStrings.get( "variables.acceleration.abbreviation" ), aGraph )
+                new MinimizableControlGraph( MovingManResources.getString( "variables.position.abbreviation" ), xGraph ),
+                new MinimizableControlGraph( MovingManResources.getString( "variables.velocity.abbreviation" ), vGraph ),
+                new MinimizableControlGraph( MovingManResources.getString( "variables.acceleration.abbreviation" ), aGraph )
         } ) ) );
 
         graphSetNode.setAlignedLayout();

@@ -7,8 +7,8 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.timeseries.ui.TimeSeriesControlPanel;
+import edu.colorado.phet.movingman.MovingManResources;
 
 /**
  * Created by: Sam
@@ -19,16 +19,16 @@ public class MotionExpressionFrame extends JDialog {
     private OptionsMenu.MovingManOptions module;
 
     public MotionExpressionFrame( JFrame frame, final OptionsMenu.MovingManOptions module ) {
-        super( frame, SimStrings.get( "expressions.title" ), false );
+        super( frame, MovingManResources.getString( "expressions.title" ), false );
         this.module = module;
         VerticalLayoutPanel contentPane = new VerticalLayoutPanel();
         contentPane.setAnchor( GridBagConstraints.CENTER );
-        contentPane.add( new JLabel( SimStrings.get( "expressions.description" ) ) );
+        contentPane.add( new JLabel( MovingManResources.getString( "expressions.description" ) ) );
 
         JPanel horizontalLayoutPanel = new JPanel( new FlowLayout() );
-        horizontalLayoutPanel.add( new JLabel( " " + SimStrings.get( "expressions.range" ) + " = " ) );
+        horizontalLayoutPanel.add( new JLabel( " " + MovingManResources.getString( "expressions.range" ) + " = " ) );
 
-        String testEquation = SimStrings.get( "expressions.example" );
+        String testEquation = MovingManResources.getString( "expressions.example" );
         expressionTextField = new JTextField( testEquation, 15 ) {
             protected void paintComponent( Graphics g ) {
                 Graphics2D g2 = (Graphics2D) g;

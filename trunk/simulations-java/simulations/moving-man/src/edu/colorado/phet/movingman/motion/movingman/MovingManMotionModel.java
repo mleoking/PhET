@@ -1,7 +1,7 @@
 package edu.colorado.phet.movingman.motion.movingman;
 
-import bsh.Interpreter;
 import bsh.EvalError;
+import bsh.Interpreter;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.model.*;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.movingman.motion.MovingManResources;
+import edu.colorado.phet.movingman.MovingManResources;
 
 /**
  * Created by: Sam
@@ -383,7 +383,7 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
         }
     }
 
-        public static double evaluate( double time, String expression, Interpreter interpreter ) {
+    public static double evaluate( double time, String expression, Interpreter interpreter ) {
         String timeString = "(" + time + ")";
 
 //            String equation = expression.replaceAll( "t", timeString );
