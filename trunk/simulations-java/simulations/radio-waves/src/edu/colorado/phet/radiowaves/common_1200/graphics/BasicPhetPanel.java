@@ -1,15 +1,9 @@
 /* Copyright University of Colorado, 2003 */
 package edu.colorado.phet.radiowaves.common_1200.graphics;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Rectangle;
+import java.awt.*;
 
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import javax.swing.*;
 
 /**
  * The content pane for the JFrame of a PhetApplication.
@@ -36,7 +30,7 @@ public class BasicPhetPanel extends JPanel {
     }
 
     public void setControlPanel( JComponent panel ) {
-        if( east != null ) {
+        if ( east != null ) {
             remove( east );
         }
         east = panel;
@@ -44,7 +38,7 @@ public class BasicPhetPanel extends JPanel {
     }
 
     public void setMonitorPanel( JComponent panel ) {
-        if( north != null ) {
+        if ( north != null ) {
             remove( north );
         }
         north = panel;
@@ -52,7 +46,7 @@ public class BasicPhetPanel extends JPanel {
     }
 
     public void setApparatusPanelContainer( JComponent panel ) {
-        if( center != null ) {
+        if ( center != null ) {
             remove( center );
         }
         center = panel;
@@ -60,7 +54,7 @@ public class BasicPhetPanel extends JPanel {
     }
 
     public void setAppControlPanel( JComponent panel ) {
-        if( south != null ) {
+        if ( south != null ) {
             remove( south );
         }
         south = panel;
@@ -68,7 +62,7 @@ public class BasicPhetPanel extends JPanel {
     }
 
     private void setPanel( JComponent component, String place ) {
-        if( component != null ) {
+        if ( component != null ) {
             add( component, place );
         }
         repaint();
