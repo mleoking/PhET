@@ -3,8 +3,6 @@ package edu.colorado.phet.common.phetcommon.updates.dialogs;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.Locale;
 
 import javax.swing.*;
@@ -12,8 +10,6 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
-import edu.colorado.phet.common.phetcommon.tracking.ActionPerformedMessage;
-import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
 import edu.colorado.phet.common.phetcommon.updates.IUpdateTimer;
 import edu.colorado.phet.common.phetcommon.updates.IVersionSkipper;
 
@@ -35,12 +31,6 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
         
         this.updateTimer = updateTimer;
         this.versionSkipper = versionSkipper;
-        
-        addWindowListener( new WindowAdapter() { 
-            public void windowClosing(WindowEvent e) {
-                TrackingManager.postActionPerformedMessage( ActionPerformedMessage.AUTO_UPDATE_DIALOG_CLOSE_BUTTON_PRESSED );
-            }
-        } );
     }
     
     protected JPanel createButtonPanel( final String project, final String sim, final String simName, final PhetVersion currentVersion, final PhetVersion newVersion, Locale locale ) {
@@ -59,7 +49,6 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
             public void actionPerformed( ActionEvent e ) {
                 updateTimer.setStartTime( System.currentTimeMillis() );
                 dispose();
-                TrackingManager.postActionPerformedMessage( ActionPerformedMessage.ASK_ME_LATER_PRESSED );
             }
         } );
 
@@ -69,7 +58,6 @@ public class AutomaticUpdateDialog extends AbstractUpdateDialog {
             public void actionPerformed( ActionEvent e ) {
                 versionSkipper.setSkippedVersion( newVersion.getRevisionAsInt() );
                 dispose();
-                TrackingManager.postActionPerformedMessage( ActionPerformedMessage.SKIP_UPDATE_PRESSED );
             }
         } );
         

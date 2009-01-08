@@ -122,28 +122,4 @@ public class TrackingManager {
             instance.postMessageImpl( trackingMessage );
         }
     }
-    
-    public static void postActionPerformedMessage( String actionName ) {
-        if ( isTrackingEnabled() ) {
-            postMessage( new ActionPerformedMessage( new SessionID( instance.simInfo ), actionName ) );
-        }
-    }
-
-    public static void postStateChangedMessage( String name, boolean oldValue, boolean newValue ) {
-        if ( isTrackingEnabled() ) {
-            postStateChangedMessage( name, Boolean.valueOf( oldValue ), Boolean.valueOf( newValue ) );
-        }
-    }
-
-    public static void postStateChangedMessage( String name, Object oldValue, Object newValue ) {
-        if ( isTrackingEnabled() ) {
-            postMessage( new StateChangedMessage( new SessionID( instance.simInfo ), name, oldValue.toString(), newValue.toString() ) );
-        }
-    }
-
-    public static void postSessionEndedMessage() {
-        if ( isTrackingEnabled() ) {
-            postMessage( new SessionEndedMessage( new SessionID( instance.simInfo ) ) );
-        }
-    }
 }

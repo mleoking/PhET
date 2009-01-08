@@ -15,10 +15,7 @@ import javax.swing.JTabbedPane;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.tracking.ActionPerformedMessage;
 import edu.colorado.phet.common.phetcommon.tracking.ITrackingInfo;
-import edu.colorado.phet.common.phetcommon.tracking.StateChangedMessage;
-import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
 import edu.colorado.phet.common.phetcommon.updates.DefaultManualUpdateChecker;
 import edu.colorado.phet.common.phetcommon.updates.IManualUpdateChecker;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -61,7 +58,6 @@ public class PreferencesDialog extends JDialog {
         JButton okButton = new JButton( OK_BUTTON );
         okButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                TrackingManager.postActionPerformedMessage( ActionPerformedMessage.PREFERENCES_OK_PRESSED );
                 savePreferences();
                 dispose();
             }
@@ -70,7 +66,6 @@ public class PreferencesDialog extends JDialog {
         JButton cancelButton = new JButton( CANCEL_BUTTON );
         cancelButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                TrackingManager.postActionPerformedMessage( ActionPerformedMessage.PREFERENCES_CANCEL_PRESSED );
                 dispose();
             }
         } );
@@ -98,14 +93,11 @@ public class PreferencesDialog extends JDialog {
     public void dispose() {
         boolean wasVisible = isVisible();
         super.dispose();
-        //this is to simplify things in the report generation, since disposing the dialog doesn't call setVisible(false)
-        TrackingManager.postStateChangedMessage( StateChangedMessage.PREFERENCES_DIALOG_VISIBLE, wasVisible, false );
     }
 
     public void setVisible( boolean b ) {
         boolean wasVisible = isVisible();
         super.setVisible( b );
-        TrackingManager.postStateChangedMessage( StateChangedMessage.PREFERENCES_DIALOG_VISIBLE, wasVisible, b );
     }
 
     private void savePreferences() {
@@ -114,17 +106,12 @@ public class PreferencesDialog extends JDialog {
             boolean isEnabled = updatesPreferencesPanel.isUpdatesEnabled();
             boolean wasEnabled = preferences.isUpdatesEnabled();
             preferences.setUpdatesEnabled( isEnabled );
-            TrackingManager.postStateChangedMessage( StateChangedMessage.UPDATES_ENABLED, wasEnabled, isEnabled );
         }
 
         if ( preferences.isTrackingEnabled() != trackingPreferencesPanel.isTrackingEnabled() ) {
             boolean isEnabled = trackingPreferencesPanel.isTrackingEnabled();
             boolean wasEnabled = preferences.isTrackingEnabled();
             preferences.setTrackingEnabled( isEnabled );
-
-            //we should never see a tracking disabled message, since tracking should be disabled before we try to send that message.
-            //can track number of people who disable tracking by checking whether their preferences dialog was opened and then we never hear from them again.
-            TrackingManager.postStateChangedMessage( StateChangedMessage.TRACKING_ENABLED, wasEnabled, isEnabled );
         }
 
     }

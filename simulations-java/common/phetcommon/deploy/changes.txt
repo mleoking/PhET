@@ -1,3 +1,4 @@
+1-8-09: #1085, delete obsolete tracking message types
 1-8-09: #1058, increase height of PhetTabbedPane.TabBase by 50%
 1-7-09: #1055, add support for locale country code to phetcommon
 1-6-09: #920, back out quit handler for Mac OS X and contrib/apple (OSXAdapter)

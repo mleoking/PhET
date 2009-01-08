@@ -23,8 +23,6 @@ import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
 import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.tracking.ActionPerformedMessage;
-import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
 import edu.colorado.phet.common.phetcommon.updates.IManualUpdateChecker;
 
 /**
@@ -139,7 +137,6 @@ public class HelpMenu extends JMenu implements ModuleObserver {
             setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.CheckForUpdates" ).charAt( 0 ) );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    TrackingManager.postActionPerformedMessage( ActionPerformedMessage.HELP_CHECK_FOR_UPDATE_SELETED );
                     iManuallyCheckForUpdates.checkForUpdates();
                 }
             } );

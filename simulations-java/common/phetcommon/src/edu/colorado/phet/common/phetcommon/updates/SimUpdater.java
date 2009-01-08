@@ -14,13 +14,10 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.dialogs.DownloadProgressDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
-import edu.colorado.phet.common.phetcommon.tracking.ActionPerformedMessage;
-import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
 import edu.colorado.phet.common.phetcommon.updates.dialogs.UpdateErrorDialog;
 import edu.colorado.phet.common.phetcommon.util.DownloadThread;
 import edu.colorado.phet.common.phetcommon.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
-import edu.colorado.phet.common.phetcommon.util.DownloadThread.DownloadThreadAdapter;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
 /**
@@ -111,11 +108,6 @@ public class SimUpdater {
         DownloadThread downloadThread = new DownloadThread();
         downloadThread.addRequest( PhetCommonResources.getString( "Common.updates.downloadingBootstrap" ), updateSrc, updaterDst );
         downloadThread.addRequest( PhetCommonResources.getString( "Common.updates.downloadingSimJar" ), simSrc, simDst );
-        downloadThread.addListener( new DownloadThreadAdapter() {
-            public void canceled() {
-                TrackingManager.postActionPerformedMessage( ActionPerformedMessage.UPDATES_CANCEL_PRESSED );
-            }
-        } );
         
         // progress dialog
         String title = PhetCommonResources.getString( "Common.updates.progressDialogTitle" );
