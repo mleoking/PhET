@@ -283,7 +283,7 @@
         return $matches[3];
     }
 
-    function sim_get_language_icon_url_from_language_name($language_name, $is_vertical = false) {
+    function sim_get_language_icon_url_from_language_name($language_name) {
         global $LANGUAGE_CODE_TO_LANGUAGE_NAME;
 
         $language_code = null;
@@ -301,44 +301,6 @@
 
         $icon_name = str_replace(' ', '_', strtolower($language_name)).'-'.strtolower($language_code).'.png';
         $icon_location = SITE_ROOT."images/languages/$icon_name";
-
-        if ($is_vertical) {
-            $vertical_icon_location = SITE_ROOT."images/languages/vertical-$icon_name";
-
-            if (!file_exists($vertical_icon_location)) {
-                $source = false;
-                if (file_exists($icon_location)) {
-                    $source = imagecreatefrompng($icon_location);
-                }
-
-                if (!$source) { /* See if it failed */
-                    $source  = imagecreatetruecolor(100, 30); /* Create a blank image */
-                    $bgc     = imagecolorallocate($source, 255, 255, 255);
-                    $tc      = imagecolorallocate($source, 0, 0, 0);
-                    imagefilledrectangle($source, 0, 0, 100, 30, $bgc);
-                    /* Output an errmsg */
-                    imagestring($source, 1, 5, 5, $language_name, $tc);
-                    //imagestring($source, 1, 5, 5, "Error loading $icon_location", $tc);
-
-                    // If the original didn't exist, write it out
-                    if (!file_exists($icon_location)) {
-                        imagepng($source, $icon_location, 9);
-                    }
-                }
-
-                // Rotate
-                if (function_exists("imagerotate")) {
-                    $rotate = imagerotate($source, 90, 0);
-                }
-                else {
-                    $rotate = $source;
-                }
-
-                imagepng($rotate, $vertical_icon_location, 9);
-            }
-
-            return $vertical_icon_location;
-        }
 
         return $icon_location;
     }
