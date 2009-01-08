@@ -126,11 +126,6 @@ public class TemperatureControlGraphic extends RegisterablePNode implements Temp
             }
         } );
 
-//        Border border = new TitledBorder( new EtchedBorder( BevelBorder.RAISED,
-//                                                            new Color( 40, 20, 255 ),
-//                                                            Color.black ),
-//                                          SimStrings.get( "Control.Heat_Control" ) );
-//        stovePanel.setBorder( border );
         stovePanel.setBorder( ControlBorderFactory.createPrimaryBorder( MRConfig.RESOURCES.getLocalizedString( "Control.Heat_Control" ) ) );
         Color background = MRConfig.SPATIAL_VIEW_BACKGROUND;
         stovePanel.setBackground( background );

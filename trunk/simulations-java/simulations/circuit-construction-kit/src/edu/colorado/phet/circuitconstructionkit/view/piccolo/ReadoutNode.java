@@ -138,7 +138,7 @@ public class ReadoutNode extends PhetPNode {
         cur = abs( cur );
         vol = abs( vol );
 
-        String text = res + " " + CCKResources.getString( "ReadoutGraphic.Ohms" );  //, " + cur + " " + SimStrings.get( "ReadoutGraphic.Amps" );
+        String text = res + " " + CCKResources.getString( "ReadoutGraphic.Ohms" );
         return new String[]{text};
     }
 
@@ -181,27 +181,6 @@ public class ReadoutNode extends PhetPNode {
     public String format( double amplitude ) {
         return abs( formatter.format( amplitude ) );
     }
-
-//    public static class BatteryReadoutNode extends ReadoutNode {
-//
-//        public BatteryReadoutNode( CCKPiccoloModule module, Branch branch, JComponent panel, boolean visible, DecimalFormat decimalFormatter ) {
-//            super( module, branch, panel, decimalFormatter );
-//        }
-//
-//        protected String[] getText() {
-//            boolean internal = module.isInternalResistanceOn();
-//            double volts = Math.abs( branch.getVoltageDrop() );
-//            String vol = formatter.format( volts );
-//            String str = "" + vol + " " + SimStrings.get( "ReadoutGraphic.Volts" );
-//            ArrayList text = new ArrayList();
-//            text.add( str );
-//            if( internal ) {
-//                String s2 = super.formatter.format( branch.getResistance() ) + " " + SimStrings.get( "ReadoutGraphic.Ohms" );
-//                text.add( s2 );
-//            }
-//            return (String[])text.toArray( new String[0] );
-//        }
-//    }
 
     public void update() {
         setVisible( branch.isEditing() );

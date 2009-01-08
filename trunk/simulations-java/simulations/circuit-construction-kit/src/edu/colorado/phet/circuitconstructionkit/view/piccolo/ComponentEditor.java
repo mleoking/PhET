@@ -150,7 +150,6 @@ public abstract class ComponentEditor extends JDialog {
             super( module, CCKResources.getString( "ComponentEditor.BatteryVoltageTitle" ), element, parent,
                    CCKResources.getString( "ComponentEditor.BatteryVoltageName" ),
                    CCKResources.getString( "ComponentEditor.BatteryVoltageUnits" ), 0, 100, element.getVoltageDrop(), circuit );
-//                   SimStrings.get( "ComponentEditor.BatteryVoltageUnits" ), 0, element.getVoltageDrop() > 100 ? 100000 : 100, element.getVoltageDrop(), circuit );
             if ( module.getParameters().hugeRangeOnBatteries() ) {
                 final JCheckBox hugeRange = new JCheckBox( CCKResources.getString( "ComponentEditor.MoreVoltsCheckBox" ), false );
                 hugeRange.addActionListener( new ActionListener() {

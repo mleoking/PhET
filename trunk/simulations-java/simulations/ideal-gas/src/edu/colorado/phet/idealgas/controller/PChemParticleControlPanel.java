@@ -46,8 +46,6 @@ public class PChemParticleControlPanel extends SpeciesSelectionPanel implements 
 
         setHeavySpeciesLabelText( labelA );
         setLightSpeciesLabelText( labelB );
-//        setHeavySpeciesLabelText(SimStrings.get( "AdvancedModule.Particle_Type_A" ) );
-//        setLightSpeciesLabelText( SimStrings.get( "AdvancedModule.Particle_Type_B" ) );
         setHeavySpeciesLabelColor( AdvancedModule.COLOR_A );
         setLightSpeciesLabelColor( AdvancedModule.COLOR_B );
         repaint();

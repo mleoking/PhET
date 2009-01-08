@@ -94,20 +94,6 @@ public class KspControl extends JPanel {
         gbc.gridx = 2;
         gbc.anchor = GridBagConstraints.WEST;
         add( oomSpinner, gbc );
-
-//        gbc.anchor = GridBagConstraints.CENTER;
-//        gbc.gridwidth = 2;
-//        gbc.gridy = 1;
-//        add( kspSlider, gbc );
-//
-//        gbc.gridwidth = 1;
-//        gbc.weightx = .5;
-//        gbc.gridy = 0;
-//        gbc.anchor = GridBagConstraints.EAST;
-//        add( new JLabel( SimStrings.get("ControlLabels.MaxKsp") + ": "), gbc);
-//        gbc.anchor = GridBagConstraints.WEST;
-//        gbc.gridx = 1;
-//        add( oomSpinner, gbc );
     }
 
     private void setKsp() {
