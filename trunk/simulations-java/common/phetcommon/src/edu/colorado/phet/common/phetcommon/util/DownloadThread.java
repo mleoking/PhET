@@ -84,7 +84,7 @@ public class DownloadThread extends Thread {
      * 
      * @param requestName
      * @param sourceURL
-     * @param destinationFileName
+     * @param destinationFile
      * @throws IOException
      */
     public DownloadThread( String requestName, String sourceURL, File destinationFile ) throws IOException {
