@@ -3,12 +3,11 @@ package edu.colorado.phet.movingman.motion.movingman;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.movingman.ArrowPanel;
 import edu.colorado.phet.movingman.MovingManApplication;
+import edu.colorado.phet.movingman.MovingManResources;
 import edu.colorado.phet.movingman.motion.AbstractMotionModule;
-import edu.colorado.phet.movingman.motion.MovingManResources;
 
 /**
  * Created by: Sam
@@ -61,8 +60,8 @@ public class MovingManMotionModule extends AbstractMotionModule implements Arrow
             return true;
         }
         int option = JOptionPane.showConfirmDialog( movingManMotionSimPanel,
-                                                    SimStrings.get( "plot.confirm-clear" ),
-                                                    SimStrings.get( "plot.confirm-reset" ),
+                                                    MovingManResources.getString( "plot.confirm-clear" ),
+                                                    MovingManResources.getString( "plot.confirm-reset" ),
                                                     JOptionPane.YES_NO_CANCEL_OPTION );
         return option == JOptionPane.OK_OPTION;
     }

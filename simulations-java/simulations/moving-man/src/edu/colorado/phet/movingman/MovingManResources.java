@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.motion;
+package edu.colorado.phet.movingman;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;

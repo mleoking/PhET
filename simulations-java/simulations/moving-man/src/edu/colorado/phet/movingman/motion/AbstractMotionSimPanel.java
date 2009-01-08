@@ -2,10 +2,10 @@ package edu.colorado.phet.movingman.motion;
 
 import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.movingman.motion.movingman.MovingManGraph;
 import edu.colorado.phet.movingman.motion.movingman.MovingManMotionModel;
+import edu.colorado.phet.movingman.MovingManResources;
 
 /**
  * Created by: Sam
@@ -29,7 +29,7 @@ public class AbstractMotionSimPanel extends BufferedPhetPCanvas {
     }
 
     private MovingManGraph getGraph( MovingManMotionModel forceModel, ControlGraphSeries series, String name, String shortCutName, UpdateStrategy strategy ) {
-        return new MovingManGraph( this, series, SimStrings.get( name ), shortCutName, -11, 11,
+        return new MovingManGraph( this, series, MovingManResources.getString( name ), shortCutName, -11, 11,
                                    forceModel, true, forceModel.getTimeSeriesModel(), strategy, MovingManMotionModel.MAX_T, forceModel );
     }
 

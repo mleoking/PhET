@@ -7,8 +7,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-
 /**
  * User: Sam Reid
  * Date: May 18, 2005
@@ -18,8 +16,8 @@ import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 public class ArrowPanel extends JPanel {
     public ArrowPanel( final IArrowPanelModule module ) {
         super( new FlowLayout() );
-        setBorder( BorderFactory.createTitledBorder( SimStrings.get( "controls.vectors" ) ) );
-        final JCheckBox velocity = new JCheckBox( SimStrings.get( "variables.velocity" ) );
+        setBorder( BorderFactory.createTitledBorder( MovingManResources.getString( "controls.vectors" ) ) );
+        final JCheckBox velocity = new JCheckBox( MovingManResources.getString( "variables.velocity" ) );
         velocity.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setShowVelocityVector( velocity.isSelected() );
@@ -27,7 +25,7 @@ public class ArrowPanel extends JPanel {
         } );
 
 
-        final JCheckBox acceleration = new JCheckBox( SimStrings.get( "variables.acceleration" ) );
+        final JCheckBox acceleration = new JCheckBox( MovingManResources.getString( "variables.acceleration" ) );
         acceleration.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setShowAccelerationVector( acceleration.isSelected() );
