@@ -1,13 +1,12 @@
 /* Copyright 2008, University of Colorado */
 
-package edu.colorado.phet.phscale.util;
+package edu.colorado.phet.common.phetcommon.util;
 
 import java.text.FieldPosition;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
 
-import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 
 
 /**
