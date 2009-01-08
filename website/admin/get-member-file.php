@@ -81,7 +81,7 @@ class DownloadPage extends SitePage {
         if ($this->authentication_level < AUTHLEVEL_USER) {
             print <<<EOT
                     <p>Before downloading this file, please tell us a bit about yourself. Providing this information will help PhET retain the support of its financial sponsors.</p>
-                    <p>Your email will not be shared with anyone. We'll use your email to send you up to four newsletters per year, which describe major updates to the simulations. You may unsubscribe at any time.</p>
+                    <p>Your email will not be shared with anyone.</p>
                     <p>Please login with your existing account information, or create a new account. If you do not wish to help PhET, you may skip the registration process and <a href="{$this->file}">download the file directly</a>.</p>
 
 EOT;

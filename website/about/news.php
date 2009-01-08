@@ -3,7 +3,6 @@
 if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
-include_once(SITE_ROOT."admin/newsletter-utils.php");
 
 class NewsPage extends SitePage {
 

@@ -3009,8 +3009,6 @@ EOT;
                             <td>
                                 <input type="hidden"   name="contributor_receive_email" value="0" />
                                 <input type="checkbox" name="contributor_receive_email" value="1" $contributor_receive_email_checked />
-                                <br/>
-                                The PhET newsletter is sent 4 times per year to announce major changes to the simulations. You may unsubscribe at any time.
                             </td>
                         </tr>
 
