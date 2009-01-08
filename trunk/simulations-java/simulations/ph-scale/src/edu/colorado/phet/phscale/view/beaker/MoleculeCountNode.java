@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Insets;
 import java.text.NumberFormat;
 
+import edu.colorado.phet.common.phetcommon.util.ConstantPowerOfTenNumberFormat;
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.FormattedNumberNode;
@@ -12,7 +13,6 @@ import edu.colorado.phet.common.piccolophet.nodes.RectangularBackgroundNode;
 import edu.colorado.phet.phscale.PHScaleConstants;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
-import edu.colorado.phet.phscale.util.ConstantPowerOfTenNumberFormat;
 import edu.colorado.phet.phscale.view.H2OMoleculeNode;
 import edu.colorado.phet.phscale.view.H3OMoleculeNode;
 import edu.colorado.phet.phscale.view.OHMoleculeNode;
