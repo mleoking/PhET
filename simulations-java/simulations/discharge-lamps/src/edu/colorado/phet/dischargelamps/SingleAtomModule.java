@@ -10,14 +10,14 @@
  */
 package edu.colorado.phet.dischargelamps;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic2;
 import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.common.quantum.model.Tube;
@@ -97,7 +97,7 @@ public class SingleAtomModule extends DischargeLampModule {
         // Add text that labels the ground state
         PhetTextGraphic2 groundStateTextGraphic = new PhetTextGraphic2( elmp.getElmp(),
                                                                         new PhetFont( 12, true ),
-                                                                        SimStrings.getInstance().getString( "Misc.groundState" ),
+                                                                        DischargeLampsResources.getString( "Misc.groundState" ),
                                                                         Color.black,
                                                                         110,
                                                                         270 );

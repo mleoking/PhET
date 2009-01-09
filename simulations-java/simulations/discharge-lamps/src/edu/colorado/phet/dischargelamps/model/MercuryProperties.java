@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.dischargelamps.model;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.dischargelamps.DischargeLampsResources;
 
 /**
  * MercuryProperties
@@ -59,6 +59,6 @@ public class MercuryProperties extends DischargeLampElementProperties {
      *
      */
     public MercuryProperties() {
-        super( SimStrings.getInstance().getString( "Element.mercury" ), energyLevels, teA );
+        super( DischargeLampsResources.getString( "Element.mercury" ), energyLevels, teA );
     }
 }

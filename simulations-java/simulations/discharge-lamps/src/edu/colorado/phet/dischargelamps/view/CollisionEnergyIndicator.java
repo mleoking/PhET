@@ -18,7 +18,6 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetMultiLineTextGraphic;
@@ -79,8 +78,8 @@ public class CollisionEnergyIndicator extends CompositePhetGraphic {
         // Create the text
         PhetMultiLineTextGraphic textGraphic = new PhetMultiLineTextGraphic( elmp,
                                                                              DischargeLampsConfig.DEFAULT_CONTROL_FONT,
-                                                                             new String[]{SimStrings.getInstance().getString( "Misc.energyAt" ),
-                                                                                     SimStrings.getInstance().getString( "Misc.collision" )},
+                                                                             new String[]{DischargeLampsResources.getString( "Misc.energyAt" ),
+                                                                                     DischargeLampsResources.getString( "Misc.collision" )},
                                                                              Color.black );
         textGraphic.setLocation( (int) electronGraphic.getBounds().getMaxX() + 5, -8 );
         addGraphic( textGraphic );

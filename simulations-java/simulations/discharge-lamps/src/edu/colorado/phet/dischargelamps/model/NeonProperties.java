@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.dischargelamps.model;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.dischargelamps.DischargeLampsResources;
 
 
 /**
@@ -70,7 +70,7 @@ public class NeonProperties extends DischargeLampElementProperties {
      *
      */
     public NeonProperties() {
-        super( SimStrings.getInstance().getString( "Element.neon" ), energyLevels, teA );
+        super( DischargeLampsResources.getString( "Element.neon" ), energyLevels, teA );
     }
 }
 

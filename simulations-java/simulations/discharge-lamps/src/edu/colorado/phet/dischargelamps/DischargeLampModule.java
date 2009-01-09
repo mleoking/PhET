@@ -26,7 +26,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
@@ -355,11 +354,11 @@ public class DischargeLampModule extends PhetGraphicsModule {
                                                              GridBagConstraints.WEST,
                                                              GridBagConstraints.NONE,
                                                              new Insets( -2, 40, -2, 0 ), 0, 0 );
-            optionsPanel.setBorder( new TitledBorder( SimStrings.getInstance().getString( "Controls.Options" ) ) );
+            optionsPanel.setBorder( new TitledBorder( DischargeLampsResources.getString( "Controls.Options" ) ) );
             JPanel cbPanel = new JPanel( new GridLayout( 2, 1 ) );
 
             // Add a button to show/hide the spectrometer
-            final JCheckBox spectrometerCB = new JCheckBox( SimStrings.getInstance().getString( "ControlPanel.SpectrometerButtonLabel" ) );
+            final JCheckBox spectrometerCB = new JCheckBox( DischargeLampsResources.getString( "ControlPanel.SpectrometerButtonLabel" ) );
             spectrometerCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     spectrometerGraphic.setVisible( spectrometerCB.isSelected() );
@@ -369,7 +368,7 @@ public class DischargeLampModule extends PhetGraphicsModule {
             } );
             spectrometerGraphic.setVisible( spectrometerCB.isSelected() );
 
-            squiggleCB = new JCheckBox( SimStrings.getInstance().getString( "Controls.Squiggles" ) );
+            squiggleCB = new JCheckBox( DischargeLampsResources.getString( "Controls.Squiggles" ) );
             squiggleCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     energyLevelsMonitorPanel.setSquigglesEnabled( squiggleCB.isSelected() );

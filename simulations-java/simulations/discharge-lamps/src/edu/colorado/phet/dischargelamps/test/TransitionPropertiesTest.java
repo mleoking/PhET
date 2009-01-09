@@ -9,13 +9,11 @@ package edu.colorado.phet.dischargelamps.test;/* Copyright 2003-2004, University
  * Date modified : $Date$
  */
 
-import junit.framework.TestCase;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import junit.framework.TestCase;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
 import edu.colorado.phet.dischargelamps.model.HydrogenProperties;
@@ -36,7 +34,6 @@ public class TransitionPropertiesTest {
         private DischargeLampAtom atom;
 
         protected void setUp() throws Exception {
-            SimStrings.setStrings( "discharge-lamps/localization/discharge-lamps-strings" );
             properties = new HydrogenProperties();
             model = new LaserModel( 1.0 );
             atom = new DischargeLampAtom( model, properties, properties.getEnergyEmissionStrategy() );

@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.dischargelamps.model;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.dischargelamps.DischargeLampsResources;
 
 /**
  * SodiumProperties
@@ -44,6 +44,6 @@ public class SodiumProperties extends DischargeLampElementProperties {
     };
 
     public SodiumProperties() {
-        super( SimStrings.getInstance().getString( "Element.sodium" ), energyLevels, teA );
+        super( DischargeLampsResources.getString( "Element.sodium" ), energyLevels, teA );
     }
 }
