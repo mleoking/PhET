@@ -1,3 +1,4 @@
+1-8-09: #1008, #1073, revised session message
 1-8-09: #1085, delete obsolete tracking message types
 1-8-09: #1058, increase height of PhetTabbedPane.TabBase by 50%
 1-7-09: #1055, add support for locale country code to phetcommon

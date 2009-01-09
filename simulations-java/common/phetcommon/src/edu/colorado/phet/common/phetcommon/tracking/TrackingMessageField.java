@@ -15,6 +15,14 @@ public class TrackingMessageField {
         this.value = value;
     }
     
+    public TrackingMessageField( String name, int value ) {
+        this( name, String.valueOf( value ) );
+    }
+    
+    public TrackingMessageField( String name, long value ) {
+        this( name, String.valueOf( value ) );
+    }
+    
     public String getName() {
         return name;
     }

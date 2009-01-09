@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.tracking.ITrackingInfo;
-import edu.colorado.phet.common.phetcommon.tracking.SessionStartedMessage;
+import edu.colorado.phet.common.phetcommon.tracking.SessionMessage;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
@@ -37,6 +37,7 @@ public class PhetApplicationConfig implements ITrackingInfo, ISimInfo {
     //----------------------------------------------------------------------------
 
     public static final FrameSetup DEFAULT_FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
+    public static final String DEFAULT_DISTRIBUTION_ID = "general";
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -126,17 +127,42 @@ public class PhetApplicationConfig implements ITrackingInfo, ISimInfo {
     /**
      * Gets the number of times that the simulation has been run,
      * including the current invocation.
-     * This will be null if the sim is running in an environment 
+     * This will be zero if the sim is running in an environment 
      * where access to the local file system is denied.
      * 
-     * @return Integer, possibly null
+     * @return int, possibly zero
      */
-    public Integer getSessionCount() {
+    public int getSessionCount() {
         return sessionCounter.getCount();
+    }
+    
+    /**
+     * Gets the total number of times that all simulations have been run,
+     * including the current invocation.
+     * This will be zero if the sim is running in an environment 
+     * where access to the local file system is denied.
+     * 
+     * @return int, possibly zero
+     */
+    public int getSessionCountTotal() {
+        return sessionCounter.getTotal();
     }
 
     public boolean isPreferencesEnabled() {
         return isTrackingFeatureIncluded() || isUpdatesFeatureIncluded();
+    }
+    
+    /**
+     * Returns the distribution identifier associated with the sim's JAR file.
+     * This is used to identify specific distributions of a sim, for example 
+     * as bundled with a textbook.
+     * 
+     * @return
+     */
+    
+    public String getDistributionId() {
+        //TODO read the distribution id from an optional file stored in the JAR.
+        return DEFAULT_DISTRIBUTION_ID;
     }
 
     //----------------------------------------------------------------------------
@@ -192,7 +218,7 @@ public class PhetApplicationConfig implements ITrackingInfo, ISimInfo {
     }
 
     public String getHumanReadableTrackingInformation() {
-        return new SessionStartedMessage( this ).toHumanReadable();
+        return new SessionMessage( this ).toHumanReadable();
     }
 
     public boolean isDev() {

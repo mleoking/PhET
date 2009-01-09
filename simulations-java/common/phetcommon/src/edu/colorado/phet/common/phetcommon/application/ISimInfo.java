@@ -62,5 +62,6 @@ public interface ISimInfo {
      */
     Locale getLocale();
     
-    Integer getSessionCount();
+    int getSessionCount();
+    int getSessionCountTotal();
 }

@@ -5,7 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.tracking.SessionStartedMessage;
+import edu.colorado.phet.common.phetcommon.tracking.SessionMessage;
 import edu.colorado.phet.common.phetcommon.tracking.TrackingManager;
 import edu.colorado.phet.common.phetcommon.updates.UpdatesManager;
 
@@ -111,7 +111,7 @@ public class PhetApplicationLauncher {
 
                         TrackingManager.initInstance( config );
                         if ( TrackingManager.isTrackingEnabled() ) {
-                            TrackingManager.postMessage( new SessionStartedMessage( config ) );
+                            TrackingManager.postMessage( new SessionMessage( config ) );
                         }
                         UpdatesManager.initInstance( config ).applicationStarted( app.getPhetFrame(), app.getTrackingInfo() );//todo: due to threading, sometimes this event arrives at server first
                     }
