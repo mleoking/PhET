@@ -82,8 +82,16 @@ public class ContainmentVessel {
     }
     
     public void setIsEnabled(boolean isEnabled){
-        _enabled = isEnabled;
-        notifiyEnableStateChanged();
+    	if (isEnabled != _enabled){
+            _enabled = isEnabled;
+            notifiyEnableStateChanged();
+            if (_enabled == true){
+            	// The vessel is being enabled.  Reset local data.
+                _cumulativeImpactAmount = 0;
+                setRadius( _originalRadius );
+                _exploded = false;
+            }
+    	}
     }
     
     public double getRadius(){

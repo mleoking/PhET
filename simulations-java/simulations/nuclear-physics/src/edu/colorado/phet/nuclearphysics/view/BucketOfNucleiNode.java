@@ -262,9 +262,6 @@ public class BucketOfNucleiNode extends PNode {
 					System.err.println("Warning: Unable to locate and remove node.");
 				}
 			}
-			if (removeChild( nucleusNode ) == null){
-				System.err.println("ERROR: Requested node is not in the bucket.");
-			}
 		}
 	}
 	
