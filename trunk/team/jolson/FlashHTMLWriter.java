@@ -122,7 +122,7 @@ public class FlashHTMLWriter {
 			}
 			
 			// relative pathnames
-			String locale = language + (country.equals("none") ? "" : country);
+			String locale = language + (country.equals("none") ? "" : "_" + country);
 			String xmlFile = simName + "-strings_" + locale + ".xml";
 			String htmlFile = simName + "_" + locale + ".html";
 			String propertiesFile = simName + ".properties";
