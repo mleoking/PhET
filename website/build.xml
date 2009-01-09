@@ -30,6 +30,7 @@ build-related libraries from the simulations-java project.
     <property name="deploy.password" value="" />
     -->
 
+
     <!-- Build tools -->
     <property name="dir.build-tools" value="${basedir}/../simulations-java/build-tools/" />
 
@@ -86,6 +87,7 @@ build-related libraries from the simulations-java project.
                     <exclude name=".cache/**" />
                     <exclude name=".metadata/**" />
                     <exclude name=".project" />
+                    <exclude name=".pydevproject" />
                     <exclude name=".settings/**" />
 
                     <!-- Don't copy Mac specific files -->
@@ -102,10 +104,10 @@ build-related libraries from the simulations-java project.
                     <exclude name="logs/*" />
 
                     <!-- Don't copy over the database access info -->
-                    <exclude name="admin/login-info.php" />
+                    <exclude name="include/login-info.php" />
 
                     <!-- Don't copy the debug settings -->
-                    <exclude name="admin/local-debug-settings.php" />
+                    <exclude name="include/local-debug-settings.php" />
 
                     <!-- Don't copy this file -->
                     <exclude name="build.xml" />
@@ -128,13 +130,13 @@ build-related libraries from the simulations-java project.
             <exec cmd="chmod 0771 ${deploy.live_server.staging}/include" />
 
             <!-- Copy the files from the staging area to the directories -->
-            <exec cmd="cp -rp ${deploy.live_server.staging}/* ${deploy.live_server.path}/" />
+            <exec cmd="cp --recursive --preserve=mode ${deploy.live_server.staging}/* ${deploy.live_server.path}/" />
 
             <!-- Clear the cache -->
-            <exec cmd="wget -nv --no-cache --output-document=/dev/null 'http://phet.colorado.edu/admin/cache-clear.php?cache=all'" />
+            <exec cmd="wget --no-verbose --no-cache --output-document=/dev/null '${deploy.live_server.url}admin/cache-clear.php?cache=all'" />
 
             <!-- Finally, remove the staging area -->
-            <exec cmd="rm -r ${deploy.live_server.staging}" />
+            <exec cmd="rm --recursive ${deploy.live_server.staging}" />
         </maverick-ssh>
     </target>
 
@@ -150,6 +152,7 @@ build-related libraries from the simulations-java project.
                     <exclude name=".cache/**" />
                     <exclude name=".metadata/**" />
                     <exclude name=".project" />
+                    <exclude name=".pydevproject" />
                     <exclude name=".settings/**" />
 
                     <!-- Don't copy Mac specific files -->
@@ -166,10 +169,10 @@ build-related libraries from the simulations-java project.
                     <exclude name="logs/*" />
 
                     <!-- Don't copy over the database access info -->
-                    <exclude name="admin/login-info.php" />
+                    <exclude name="include/login-info.php" />
 
                     <!-- Don't copy the debug settings -->
-                    <exclude name="admin/local-debug-settings.php" />
+                    <exclude name="include/local-debug-settings.php" />
 
                     <!-- Don't copy this file -->
                     <exclude name="build.xml" />
@@ -192,13 +195,13 @@ build-related libraries from the simulations-java project.
             <exec cmd="chmod 0771 ${deploy.test_server.staging}/include" />
 
             <!-- Copy the files from the staging area to the directories -->
-            <exec cmd="cp -rp ${deploy.test_server.staging}/* ${deploy.test_server.path}/" />
+            <exec cmd="cp --recursive --preserve=mode ${deploy.test_server.staging}/* ${deploy.test_server.path}/" />
 
             <!-- Clear the cache -->
-            <exec cmd="wget -nv --no-cache --output-document=/dev/null 'http://phet.colorado.edu/admin/cache-clear.php?cache=all'" />
+            <exec cmd="wget --no-verbose --no-cache --output-document=/dev/null '${deploy.test_server.url}admin/cache-clear.php?cache=all'" />
 
             <!-- Finally, remove the staging area -->
-            <exec cmd="rm -r ${deploy.test_server.staging}" />
+            <exec cmd="rm --recursive ${deploy.test_server.staging}" />
         </maverick-ssh>
     </target>
 </project>
