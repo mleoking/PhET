@@ -155,7 +155,7 @@ public class PhetUtilities {
      * 
      * @return true or false
      */
-    public static boolean isPhetInstallation() {
+    public static boolean isRunningFromPhetInstallation() {
         boolean isPhetInstallation = false;
         if ( hasPermissionsToGetCodeSource() ) {
             File codeSource = FileUtils.getCodeSource();
@@ -187,7 +187,7 @@ public class PhetUtilities {
      * @return
      */
     public static boolean isRunningFromStandaloneJar() {
-        return !PhetServiceManager.isJavaWebStart() && !PhetUtilities.isPhetInstallation();
+        return !PhetServiceManager.isJavaWebStart() && !PhetUtilities.isRunningFromPhetInstallation();
     }
     
     /**
@@ -195,7 +195,7 @@ public class PhetUtilities {
      * @return
      */
     public static boolean isRunningFromWebsite() {
-        return PhetServiceManager.isJavaWebStart() && !PhetUtilities.isPhetInstallation(); // PhET installer uses Web Start!
+        return PhetServiceManager.isJavaWebStart() && !PhetUtilities.isRunningFromPhetInstallation(); // PhET installer uses Web Start!
     }
     
     public static String getJavaPath() {

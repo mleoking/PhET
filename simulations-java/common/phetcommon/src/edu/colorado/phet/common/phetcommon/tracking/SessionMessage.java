@@ -42,7 +42,7 @@ public class SessionMessage extends TrackingMessage {
                 new TrackingMessageField( "sim_distribution_id", config.getDistributionId() ),
                 new TrackingMessageField( "sim_locale_language", PhetResources.readLocale().getLanguage() ),
                 new TrackingMessageField( "sim_locale_country", PhetResources.readLocale().getCountry() ),
-                new TrackingMessageField( "sim_usage_type", "" ), //TODO: which of the 4 scenarios described in #1073 was used to run the sim?
+                new TrackingMessageField( "sim_scenario", config.getRuntimeScenario() ),
                 new TrackingMessageField( "sim_dev", config.isDev() + "" ),
                 
                 // Host data
