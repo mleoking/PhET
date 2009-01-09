@@ -87,7 +87,7 @@ public class IdealGasModule extends PhetGraphicsModule {
     private CmLines cmLines;
 
     private PressureSlice pressureSlice;
-    private SimulationClock clock;
+    private IdealGasClock clock;
     private PressureSliceGraphic pressureSliceGraphic;
     private PhetGraphic rulerGraphic;
     private EnergyHistogramDialog histogramDlg;
@@ -121,7 +121,7 @@ public class IdealGasModule extends PhetGraphicsModule {
     /**
      * @param clock
      */
-    public IdealGasModule( SimulationClock clock ) {
+    public IdealGasModule( IdealGasClock clock ) {
         this( clock, IdealGasResources.getString( "ModuleTitle.IdealGas" ) );
         this.clock = clock;
     }
@@ -130,7 +130,7 @@ public class IdealGasModule extends PhetGraphicsModule {
      * @param clock
      * @param name
      */
-    public IdealGasModule( SimulationClock clock, String name ) {
+    public IdealGasModule( IdealGasClock clock, String name ) {
         this( clock, name, new IdealGasModel( clock.getDt() ) );
     }
 
@@ -138,7 +138,7 @@ public class IdealGasModule extends PhetGraphicsModule {
      * @param clock
      * @param name
      */
-    protected IdealGasModule( final SimulationClock clock, String name, final IdealGasModel model ) {
+    protected IdealGasModule( final IdealGasClock clock, String name, final IdealGasModel model ) {
         super( name, clock );
         this.clock = clock;
 
@@ -214,7 +214,7 @@ public class IdealGasModule extends PhetGraphicsModule {
      *
      * @param clock
      */
-    private void createGauges( SimulationClock clock ) {
+    private void createGauges( IdealGasClock clock ) {
         // Add the pressure gauge
         PressureSlice gaugeSlice = new PressureSlice( box, idealGasModel, clock );
         gaugeSlice.setTimeAveragingWindow( 2500 * ( clock.getDt() / clock.getDelay() ) );
@@ -239,7 +239,7 @@ public class IdealGasModule extends PhetGraphicsModule {
     /**
      * @param clock
      */
-    private void createBoxAndGraphic( SimulationClock clock ) {
+    private void createBoxAndGraphic( IdealGasClock clock ) {
         box = new PressureSensingBox( new Point2D.Double( xOrigin, yOrigin ),
                                       new Point2D.Double( xDiag, yDiag ), idealGasModel, clock );
         idealGasModel.addBox( box );

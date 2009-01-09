@@ -22,7 +22,7 @@ import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.collision.SphereSphereExpert;
 import edu.colorado.phet.idealgas.controller.DiffusionModule;
 import edu.colorado.phet.idealgas.controller.MovableWallsModule;
-import edu.colorado.phet.idealgas.model.SimulationClock;
+import edu.colorado.phet.idealgas.model.IdealGasClock;
 
 /**
  * OptionsMenu
@@ -35,7 +35,7 @@ public class OptionsMenu extends JMenu {
     private DiffusionModule diffusionModule;
     private MovableWallsModule movableWallModule;
 
-    public OptionsMenu( PhetApplication application, SimulationClock simulationClock ) {
+    public OptionsMenu( PhetApplication application, IdealGasClock simulationClock ) {
         super( "Options" );
         setMnemonic( 'O' );
         this.application = application;

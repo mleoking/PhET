@@ -68,7 +68,7 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
     /**
      * @param clock
      */
-    public MovableWallsModule( final SimulationClock clock ) {
+    public MovableWallsModule( final IdealGasClock clock ) {
         super( clock, "<html><center>Potential Energy<br>Surface</center></html>", new PChemModel( clock.getDt() ) );
 
         //----------------------------------------------------------------
