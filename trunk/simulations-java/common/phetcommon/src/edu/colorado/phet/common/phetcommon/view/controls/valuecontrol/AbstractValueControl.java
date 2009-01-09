@@ -177,6 +177,12 @@ public abstract class AbstractValueControl extends JPanel {
     public JLabel getValueLabel() {
         return _valueLabel;
     }
+    
+    public void setValueLabelIcon( Icon icon ) {
+        _valueLabel.setIcon( icon );;
+        _valueLabel.setVerticalTextPosition( JLabel.CENTER );
+        _valueLabel.setHorizontalTextPosition( JLabel.RIGHT );
+    }
 
     /**
      * Gets a reference to the units label.
