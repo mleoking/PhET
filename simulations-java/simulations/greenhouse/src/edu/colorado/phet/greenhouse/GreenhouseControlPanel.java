@@ -14,6 +14,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
+import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.greenhouse.model.GreenhouseModel;
@@ -465,28 +466,20 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
             ch4TF.setEditable( false );
             n2oTF.setEditable( false );
 
-            this.setLayout( new GridBagLayout() );
-            TitledBorder titledBorder = BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), GreenhouseResources.getString( "GreenhouseControlPanel.GreenhouseGasBorderLabel" ) );
-            Font font = this.getFont();
-            FontMetrics fontMetrics = getFontMetrics( font );
-            int width = fontMetrics.stringWidth( GreenhouseResources.getString( "GreenhouseControlPanel.GreenhouseGasBorderLabel" ) + "   " );
-            Dimension concentrationsPanelDim = new Dimension( width, 120 );
-            this.setPreferredSize( concentrationsPanelDim );
-
+            // titled border
+            String title = GreenhouseResources.getString( "GreenhouseControlPanel.GreenhouseGasBorderLabel" );
+            TitledBorder titledBorder = BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), title );
             titledBorder.setTitleColor( panelForeground );
-            this.setBorder( titledBorder );
-            GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
-                                                             GridBagConstraints.EAST,
-                                                             GridBagConstraints.NONE,
-                                                             new Insets( 0, 5, 0, 5 ), 0, 0 );
-            for ( int rowIdx = 0; rowIdx < concentrations.length; rowIdx++ ) {
-                gbc.gridy = rowIdx;
-                gbc.gridx = 0;
-                gbc.anchor = GridBagConstraints.EAST;
-                add( new JLabel( labels[rowIdx] ), gbc );
-                gbc.anchor = GridBagConstraints.WEST;
-                gbc.gridx = 1;
-                add( concentrations[rowIdx], gbc );
+            setBorder( titledBorder );
+            
+            // grid of labels and concentrations
+            EasyGridBagLayout layout = new EasyGridBagLayout( this );
+            layout.setFill( GridBagConstraints.HORIZONTAL );
+            setLayout( layout );
+            for ( int row = 0; row < concentrations.length; row++ ) {
+                int col = 0;
+                layout.addAnchoredComponent( new JLabel( labels[row] ), row, col++, GridBagConstraints.EAST );
+                layout.addAnchoredComponent( concentrations[row], row, col++, GridBagConstraints.WEST );
             }
         }
 
