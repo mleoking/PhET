@@ -4,7 +4,9 @@
 // Set the current directory to the script directory
 chdir(dirname(__FILE__));
 
+// SITE_ROOT must be defined FIRST
 if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
