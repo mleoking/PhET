@@ -28,7 +28,7 @@
 5/14/07 - get clock.png from phetcommon
 4/23/07 - delete SliderControl, not used
 4/6/07 - organize imports
-4/6/07 - set locale in Spanish JNLP file via javaws.phet.locale property
+4/6/07 - set locale in Spanish JNLP file
 4/6/07 - encapsulate loading of strings and images in HAResources
 4/6/07 - convert from SimStrings to PhetProjectConfig
 # 1.03.00 (14208)

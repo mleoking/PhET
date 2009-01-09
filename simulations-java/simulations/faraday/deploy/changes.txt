@@ -135,7 +135,7 @@
 6/15/07 - convert description properties to well-formed HTML
 4/24/07 - replace ControlPanelSlider with LinearValueControl from phetcommon
 4/7/07 - organize imports
-4/7/07 - set locale in Spanish JNLP file via javaws.phet.locale property
+4/7/07 - set locale in Spanish JNLP file
 4/7/07 - encapsulate loading of strings and images in FaradayResources
 4/7/07 - convert from SimStrings to PhetProjectConfig
 3/20/07 - move ColorChooserFactory to phetcommon
