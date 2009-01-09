@@ -1,13 +1,5 @@
-/* Copyright 2003-2004, University of Colorado */
+/* Copyright 2003-2008, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.idealgas.model;
 
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
@@ -21,11 +13,10 @@ import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class SimulationClock extends SwingClock {
+public class IdealGasClock extends SwingClock {
     private double dt;
-    private int delay;
 
-    public SimulationClock( int delay, double dt ) {
+    public IdealGasClock( int delay, double dt ) {
         super( delay, dt );
         this.dt = dt;
     }

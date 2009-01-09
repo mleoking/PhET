@@ -43,7 +43,7 @@ public class PressureSlice extends SimpleObservable implements ModelElement {
      * @param model
      * @param clock
      */
-    public PressureSlice( Box2D box, IdealGasModel model, SimulationClock clock ) {
+    public PressureSlice( Box2D box, IdealGasModel model, IdealGasClock clock ) {
         this.box = box;
         this.model = model;
         timeScale = clock.getDt() / clock.getDelay();

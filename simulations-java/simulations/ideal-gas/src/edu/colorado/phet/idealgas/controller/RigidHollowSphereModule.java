@@ -39,7 +39,7 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
      *
      * @param clock
      */
-    public RigidHollowSphereModule( SimulationClock clock ) {
+    public RigidHollowSphereModule( IdealGasClock clock ) {
         super( clock, IdealGasResources.getString( "ModuleTitle.RigidHollowSphere" ) );
         double xOrigin = 200;
         double yOrigin = 250;

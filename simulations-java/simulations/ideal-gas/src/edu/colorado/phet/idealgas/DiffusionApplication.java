@@ -12,14 +12,14 @@ import edu.colorado.phet.common.phetcommon.application.*;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.idealgas.controller.DiffusionModule;
-import edu.colorado.phet.idealgas.model.SimulationClock;
+import edu.colorado.phet.idealgas.model.IdealGasClock;
 
 public class DiffusionApplication extends PhetApplication {
 
     public DiffusionApplication( PhetApplicationConfig config) {
         super( config);
 
-        SimulationClock clock = new SimulationClock( IdealGasConfig.WAIT_TIME, IdealGasConfig.TIME_STEP );
+        IdealGasClock clock = new IdealGasClock( IdealGasConfig.WAIT_TIME, IdealGasConfig.TIME_STEP );
 
         setModules( new Module[]{new DiffusionModule( clock )} );
     }

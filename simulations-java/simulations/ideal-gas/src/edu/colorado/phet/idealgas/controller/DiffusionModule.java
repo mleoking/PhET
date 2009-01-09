@@ -42,7 +42,7 @@ public class DiffusionModule extends AdvancedModule {
     /**
      * @param clock
      */
-    public DiffusionModule( final SimulationClock clock ) {
+    public DiffusionModule( final IdealGasClock clock ) {
         super( clock, "Diffusion" );
 
         getIdealGasModel().addCollisionExpert( new SphereWallExpert( getIdealGasModel() ) );

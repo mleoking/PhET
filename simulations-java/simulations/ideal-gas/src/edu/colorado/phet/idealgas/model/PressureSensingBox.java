@@ -31,7 +31,7 @@ public class PressureSensingBox extends Box2D {
     /**
      * Constructor
      */
-    public PressureSensingBox( Point2D corner1, Point2D corner2, IdealGasModel model, SimulationClock clock ) {
+    public PressureSensingBox( Point2D corner1, Point2D corner2, IdealGasModel model, IdealGasClock clock ) {
         super( corner1, corner2, model );
 
         // Create the pressure slices used to record pressure

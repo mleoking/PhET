@@ -38,7 +38,7 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
     private Class gasSpecies = LightSpecies.class;
     private int defaultGravity = IdealGasConfig.MAX_GRAVITY / 2;
 
-    public HeliumBalloonModule( SimulationClock clock ) {
+    public HeliumBalloonModule( IdealGasClock clock ) {
         super( clock, IdealGasResources.getString( "ModuleTitle.HeliumBalloon" ) );
 
         // So we'll get events sent by parent classes

@@ -17,25 +17,25 @@ import edu.colorado.phet.idealgas.controller.HeliumBalloonModule;
 import edu.colorado.phet.idealgas.controller.HotAirBalloonModule;
 import edu.colorado.phet.idealgas.controller.IdealGasModule;
 import edu.colorado.phet.idealgas.controller.RigidHollowSphereModule;
-import edu.colorado.phet.idealgas.model.SimulationClock;
+import edu.colorado.phet.idealgas.model.IdealGasClock;
 import edu.colorado.phet.idealgas.view.WiggleMeGraphic;
 
 public class BalloonsAndBuoyancyApplication extends PhetApplication {
 
+    private static class BalloonsAndBuoyancyClock extends IdealGasClock {
+        public BalloonsAndBuoyancyClock() {
+            super( IdealGasConfig.WAIT_TIME, IdealGasConfig.TIME_STEP );
+        }
+    }
+    
     public BalloonsAndBuoyancyApplication( PhetApplicationConfig config ) {
         super( config );
 
-        SimulationClock clock = new SimulationClock( IdealGasConfig.WAIT_TIME, IdealGasConfig.TIME_STEP );
-
         // Create the modules
-        Module idealgasModule = new IdealGasModule( clock );
-        Module rigidSphereModule = new RigidHollowSphereModule( clock );
-        Module heliumBalloonModule = new HeliumBalloonModule( clock );
-        final HotAirBalloonModule hotAirBalloonModule = new HotAirBalloonModule( clock );
-//        Module idealgasModule = new IdealGasModule( getClock() );
-//        Module rigidSphereModule = new RigidHollowSphereModule( getClock() );
-//        Module heliumBalloonModule = new HeliumBalloonModule( getClock() );
-//        final HotAirBalloonModule hotAirBalloonModule = new HotAirBalloonModule( getClock() );
+        Module idealgasModule = new IdealGasModule( new BalloonsAndBuoyancyClock() );
+        Module rigidSphereModule = new RigidHollowSphereModule( new BalloonsAndBuoyancyClock() );
+        Module heliumBalloonModule = new HeliumBalloonModule( new BalloonsAndBuoyancyClock() );
+        final HotAirBalloonModule hotAirBalloonModule = new HotAirBalloonModule( new BalloonsAndBuoyancyClock() );
         Module[] modules = new Module[]{
                 hotAirBalloonModule,
                 rigidSphereModule,

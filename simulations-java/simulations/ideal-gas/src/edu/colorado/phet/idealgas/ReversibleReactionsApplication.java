@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.application.*;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.idealgas.controller.MovableWallsModule;
-import edu.colorado.phet.idealgas.model.SimulationClock;
+import edu.colorado.phet.idealgas.model.IdealGasClock;
 
 public class ReversibleReactionsApplication extends PhetApplication {
     private MovableWallsModule wallsModule;
@@ -23,7 +23,7 @@ public class ReversibleReactionsApplication extends PhetApplication {
     public ReversibleReactionsApplication( PhetApplicationConfig config ) {
         super( config );
 
-        SimulationClock clock = new SimulationClock( IdealGasConfig.WAIT_TIME, IdealGasConfig.TIME_STEP );
+        IdealGasClock clock = new IdealGasClock( IdealGasConfig.WAIT_TIME, IdealGasConfig.TIME_STEP );
 
         wallsModule = new MovableWallsModule( clock ) {
             protected void addHelp() {

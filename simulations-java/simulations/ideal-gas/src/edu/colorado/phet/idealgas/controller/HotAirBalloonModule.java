@@ -27,7 +27,7 @@ public class HotAirBalloonModule extends IdealGasModule {
     private double initY;
     private int defaultGravity = IdealGasConfig.MAX_GRAVITY / 4;
 
-    public HotAirBalloonModule( SimulationClock clock ) {
+    public HotAirBalloonModule( IdealGasClock clock ) {
         super( clock, IdealGasResources.getString( "ModuleTitle.HotAirBalloon" ) );
 
         // Add collision experts to the model

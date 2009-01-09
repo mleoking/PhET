@@ -37,7 +37,7 @@ import edu.colorado.phet.idealgas.model.LightSpecies;
 import edu.colorado.phet.idealgas.model.PChemModel;
 import edu.colorado.phet.idealgas.model.ParticleCounter;
 import edu.colorado.phet.idealgas.model.Pump;
-import edu.colorado.phet.idealgas.model.SimulationClock;
+import edu.colorado.phet.idealgas.model.IdealGasClock;
 import edu.colorado.phet.idealgas.view.Box2DGraphic;
 import edu.colorado.phet.idealgas.view.HeavySpeciesGraphic;
 import edu.colorado.phet.idealgas.view.LightSpeciesGraphic;
@@ -67,7 +67,7 @@ abstract public class AdvancedModule extends IdealGasModule {
      * @param clock
      * @param name
      */
-    public AdvancedModule( SimulationClock clock, String name ) {
+    public AdvancedModule( IdealGasClock clock, String name ) {
         super( clock, name );
         init();
     }
@@ -77,7 +77,7 @@ abstract public class AdvancedModule extends IdealGasModule {
      * @param s
      * @param model
      */
-    public AdvancedModule( SimulationClock clock, String s, PChemModel model ) {
+    public AdvancedModule( IdealGasClock clock, String s, PChemModel model ) {
         super( clock, s, model );
         init();
     }
