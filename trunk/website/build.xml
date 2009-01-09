@@ -118,14 +118,20 @@ build-related libraries from the simulations-java project.
             <!-- Set all files so everyone can read, and group & owner can also write: -->
             <exec cmd="find ${deploy.live_server.staging} -type f -print0 | xargs -0 chmod 0664" />
 
-            <!-- Set the command line directory so others can't read, and group & owner can read & write & execute -->
+            <!-- Set the command line & cron directories so others can't read, and group & owner can read & write & execute -->
             <exec cmd="chmod 0770 ${deploy.live_server.staging}/cl_utils" />
             <exec cmd="find ${deploy.live_server.staging}/cl_utils/ \( -iname \*.php -o -iname \*.py \) -print0 | xargs -0 chmod 0770" />
             <exec cmd="chmod 0770 ${deploy.live_server.staging}/cron" />
             <exec cmd="find ${deploy.live_server.staging}/cron/ \( -iname \*.php -o -iname \*.py \) -print0 | xargs -0 chmod 0770" />
 
+            <!-- Set the include directory so others can't read & can execute, and group & owner can read & write & execute -->
+            <exec cmd="chmod 0771 ${deploy.live_server.staging}/include" />
+
             <!-- Copy the files from the staging area to the directories -->
             <exec cmd="cp -rp ${deploy.live_server.staging}/* ${deploy.live_server.path}/" />
+
+            <!-- Clear the cache -->
+            <exec cmd="wget -nv --no-cache -O /dev/null 'http://phet.colorado.edu/admin/cache-clear.php?cache=all'" />
 
             <!-- Finally, remove the staging area -->
             <exec cmd="rm -r ${deploy.live_server.staging}" />
@@ -176,14 +182,20 @@ build-related libraries from the simulations-java project.
             <!-- Set all files so everyone can read, and group & owner can also write: -->
             <exec cmd="find ${deploy.test_server.staging} -type f -print0 | xargs -0 chmod 0664" />
 
-            <!-- Set the command line directory so others can't read, and group & owner can read & write & execute -->
+            <!-- Set the command line & cron directories so others can't read, and group & owner can read & write & execute -->
             <exec cmd="chmod 0770 ${deploy.test_server.staging}/cl_utils" />
             <exec cmd="find ${deploy.test_server.staging}/cl_utils/ \( -iname \*.php -o -iname \*.py \) -print0 | xargs -0 chmod 0770" />
             <exec cmd="chmod 0770 ${deploy.test_server.staging}/cron" />
             <exec cmd="find ${deploy.test_server.staging}/cron/ \( -iname \*.php -o -iname \*.py \) -print0 | xargs -0 chmod 0770" />
 
+            <!-- Set the include directory so others can't read & can execute, and group & owner can read & write & execute -->
+            <exec cmd="chmod 0771 ${deploy.test_server.staging}/include" />
+
             <!-- Copy the files from the staging area to the directories -->
             <exec cmd="cp -rp ${deploy.test_server.staging}/* ${deploy.test_server.path}/" />
+
+            <!-- Clear the cache -->
+            <exec cmd="wget -nv --no-cache -O /dev/null 'http://phet.colorado.edu/admin/cache-clear.php?cache=all'" />
 
             <!-- Finally, remove the staging area -->
             <exec cmd="rm -r ${deploy.test_server.staging}" />
