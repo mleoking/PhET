@@ -131,7 +131,7 @@ build-related libraries from the simulations-java project.
             <exec cmd="cp -rp ${deploy.live_server.staging}/* ${deploy.live_server.path}/" />
 
             <!-- Clear the cache -->
-            <exec cmd="wget -nv --no-cache -O /dev/null 'http://phet.colorado.edu/admin/cache-clear.php?cache=all'" />
+            <exec cmd="wget -nv --no-cache --output-document=/dev/null 'http://phet.colorado.edu/admin/cache-clear.php?cache=all'" />
 
             <!-- Finally, remove the staging area -->
             <exec cmd="rm -r ${deploy.live_server.staging}" />
@@ -195,7 +195,7 @@ build-related libraries from the simulations-java project.
             <exec cmd="cp -rp ${deploy.test_server.staging}/* ${deploy.test_server.path}/" />
 
             <!-- Clear the cache -->
-            <exec cmd="wget -nv --no-cache -O /dev/null 'http://phet.colorado.edu/admin/cache-clear.php?cache=all'" />
+            <exec cmd="wget -nv --no-cache --output-document=/dev/null 'http://phet.colorado.edu/admin/cache-clear.php?cache=all'" />
 
             <!-- Finally, remove the staging area -->
             <exec cmd="rm -r ${deploy.test_server.staging}" />
