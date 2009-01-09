@@ -10,9 +10,15 @@
 // If it wasn't in my path, it would be:
 // $ /usr/bin/php update-localized-jars.php
 
+// Set the current directory to the script directory
+chdir(dirname(__FILE__));
+
 if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
-include_once(SITE_ROOT."admin/global.php");
-include_once(SITE_ROOT."admin/sim-utils.php");
+
+// See global.php for an explaination of the next line
+require_once(dirname(dirname(__FILE__))."/include/global.php");
+
+require_once("include/sim-utils.php");
 
 // Turn error reporting back on
 error_reporting(E_ALL);

@@ -1,8 +1,13 @@
 <?php
 
+// In each web accessable script SITE_ROOT must be defined FIRST
 if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
-include_once(SITE_ROOT."admin/contrib-utils.php");
-include_once(SITE_ROOT."admin/db-utils.php");
+
+// See global.php for an explaination of the next line
+require_once(dirname(dirname(__FILE__))."/include/global.php");
+
+require_once("include/contrib-utils.php");
+require_once("include/db-utils.php");
 
 DEFINE("LOG_FILENAME", "delete_old_partial_contributions_log.txt");
 DEFINE("TOO_OLD_IN_SECS", 60 * 60 * 24);

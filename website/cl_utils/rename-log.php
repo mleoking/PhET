@@ -1,9 +1,14 @@
 #!/usr/local/php/bin/php
 <?php
 
+// Set the current directory to the script directory
+chdir(dirname(__FILE__));
+
 if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
-include_once(SITE_ROOT."admin/global.php");
-include_once(SITE_ROOT."admin/log-utils.php");
+// See global.php for an explaination of the next line
+require_once(dirname(dirname(__FILE__))."/include/global.php");
+
+require_once("include/log-utils.php");
 
 // Check to that we have enough arguments
 if (count($argv) != 3) {

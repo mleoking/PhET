@@ -1,11 +1,15 @@
 <?php
 
+    // In each web accessable script SITE_ROOT must be defined FIRST
     if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
-    include_once(SITE_ROOT."admin/global.php");
-    include_once(SITE_ROOT."admin/db.php");
-    include_once(SITE_ROOT."admin/sim-utils.php");
-    include_once(SITE_ROOT."admin/web-utils.php");
-    include_once(SITE_ROOT."admin/db-utils.php");
+
+    // See global.php for an explaination of the next line
+    require_once(dirname(dirname(__FILE__))."/include/global.php");
+
+    require_once("include/db.php");
+    require_once("include/sim-utils.php");
+    require_once("include/web-utils.php");
+    require_once("include/db-utils.php");
 
     function order_get_all_orders($table_name, $condition) {
         $rows = db_get_rows_by_condition($table_name, $condition, false, false);

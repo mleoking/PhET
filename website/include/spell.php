@@ -2,11 +2,14 @@
 
     // Utilities for spelling, mostly used in web-utils.php by the 'abbreviate' function
 
+    // In each web accessable script SITE_ROOT must be defined FIRST
     if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
-    include_once(SITE_ROOT."admin/global.php");
 
-    include_once(SITE_ROOT.'admin/spell/tree.php.bigarray');
-    include_once(SITE_ROOT.'admin/spell/SpellCheck.class.php');
+    // See global.php for an explaination of the next line
+    require_once(dirname(dirname(__FILE__))."/include/global.php");
+
+    require_once('include/spell/tree.php.bigarray');
+    require_once('include/spell/SpellCheck.class.php');
 
     $GLOBALS['tree'] = $tree;
 

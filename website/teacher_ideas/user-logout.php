@@ -1,8 +1,12 @@
 <?php
 
+    // In each web accessable script SITE_ROOT must be defined FIRST
     if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
-    include_once(SITE_ROOT."admin/global.php");
-    include_once(SITE_ROOT."admin/web-utils.php");
+
+    // See global.php for an explaination of the next line
+    require_once(dirname(dirname(__FILE__))."/include/global.php");
+
+    require_once("include/web-utils.php");
 
     session_start();
     cookie_var_clear("contributor_email");

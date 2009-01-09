@@ -2,12 +2,16 @@
 
     // Utils to support sims
 
+    // In each web accessable script SITE_ROOT must be defined FIRST
     if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
-    include_once(SITE_ROOT."admin/global.php");
-    include_once(SITE_ROOT."admin/db.php");
-    include_once(SITE_ROOT."admin/web-utils.php");
-    include_once(SITE_ROOT."admin/db-utils.php");
-    include_once(SITE_ROOT."admin/cache-utils.php");
+    
+    // See global.php for an explaination of the next line
+    require_once(dirname(dirname(__FILE__))."/include/global.php");
+
+    require_once("include/db.php");
+    require_once("include/web-utils.php");
+    require_once("include/db-utils.php");
+    require_once("include/cache-utils.php");
 
     define("SIM_THUMBNAIL_WIDTH", 130);
     define("SIM_THUMBNAIL_HEIGHT", 97);

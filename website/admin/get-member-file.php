@@ -3,12 +3,17 @@
 // Not sure why it isn't turn off by default
 error_reporting(0);
 
+// This must be defined before including global.php
 $GLOBALS['IE6_DOWNLOAD_WORKAROUND'] = true;
 
+// In each web accessable script SITE_ROOT must be defined FIRST
 if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
-include_once(SITE_ROOT."admin/global.php");
-include_once(SITE_ROOT."admin/web-utils.php");
-include_once(SITE_ROOT."page_templates/SitePage.php");
+
+// See global.php for an explaination of the next line
+require_once(dirname(dirname(__FILE__))."/include/global.php");
+
+require_once("include/web-utils.php");
+require_once("page_templates/SitePage.php");
 
 class DownloadPage extends SitePage {
     function __construct($nav_selected_page, $referrer, $page_title = "Download File") {

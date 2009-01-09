@@ -1,14 +1,18 @@
 <?php
 
+    // In each web accessable script SITE_ROOT must be defined FIRST
     if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
-    include_once(SITE_ROOT."admin/global.php");
-    include_once(SITE_ROOT."admin/db.php");
-    include_once(SITE_ROOT."admin/authentication.php");
-    include_once(SITE_ROOT."admin/db-utils.php");
-    include_once(SITE_ROOT."admin/web-utils.php");
-    include_once(SITE_ROOT."admin/sys-utils.php");
-    include_once(SITE_ROOT."admin/sim-utils.php");
-    include_once(SITE_ROOT."admin/nominate-utils.php");
+
+    // See global.php for an explaination of the next line
+    require_once(dirname(dirname(__FILE__))."/include/global.php");
+
+    require_once("include/db.php");
+    require_once("include/authentication.php");
+    require_once("include/db-utils.php");
+    require_once("include/web-utils.php");
+    require_once("include/sys-utils.php");
+    require_once("include/sim-utils.php");
+    require_once("include/nominate-utils.php");
 
     define("BROWSE_CACHE",                 'browse-pages');
     define('DEFAULT_CONTRIBUTOR_DESC',  'I am a teacher who uses PhET in my classes');

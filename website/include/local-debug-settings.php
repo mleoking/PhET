@@ -11,6 +11,13 @@
 
 function setup_local_debug_settings() {
     //
+    // Defines section
+    //
+    // Set defines that you want to take preceedance over
+    // standard defines
+    if (!defined("PORTAL_ROOT")) define("PORTAL_ROOT", "../".SITE_ROOT);
+
+    //
     // Globals section
     //
     // Turn on and off things that you may check in code
@@ -20,7 +27,7 @@ function setup_local_debug_settings() {
     $GLOBALS["DEBUG"] = true;
 
     // True if you want caching even if you are running locally
-    $GLOBALS["DEBUG_FORCE_LOCAL_CACHE"] = true;
+    $GLOBALS["DEBUG_FORCE_LOCAL_CACHE"] = false;
 
     //
     // Settings section
@@ -47,7 +54,7 @@ function setup_local_debug_settings() {
     $GLOBALS["DEBUG_FORCE_OFFLINE_BEHAVIOR"] = false;
 
     // True will turn OFF meta refresh (will have to explicitly click the link to take you to the next page)
-    $GLOBALS["DEBUG_DISABLE_META_REFRESH"] = true;
+    $GLOBALS["DEBUG_DISABLE_META_REFRESH"] = false;
 }
 
 // Uncomment the below to set all the debug options

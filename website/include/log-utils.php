@@ -1,7 +1,10 @@
 <?php
 
+// In each web accessable script SITE_ROOT must be defined FIRST
 if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
-include_once(SITE_ROOT."admin/global.php");
+
+// See global.php for an explaination of the next line
+require_once(dirname(dirname(__FILE__))."/include/global.php");
 
 define('DEFAULT_LOG_FILE_LOCATION', SITE_ROOT.'logs/');
 

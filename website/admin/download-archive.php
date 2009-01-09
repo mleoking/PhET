@@ -2,12 +2,16 @@
 
     // Called from view-contribution to get a zip archive of uploaded files.
 
+    // In each web accessable script SITE_ROOT must be defined FIRST
     if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
-    include_once(SITE_ROOT."admin/global.php");
-    include_once(SITE_ROOT."admin/sys-utils.php");
-    include_once(SITE_ROOT."admin/contrib-utils.php");
 
-    include_once(SITE_ROOT."admin/zip.lib.php");
+    // See global.php for an explaination of the next line
+    require_once(dirname(dirname(__FILE__))."/include/global.php");
+
+    require_once("include/sys-utils.php");
+    require_once("include/contrib-utils.php");
+
+    require_once("include/zip.lib.php");
 
     if (isset($_REQUEST['contribution_id'])) {
 
