@@ -178,6 +178,10 @@ public abstract class AbstractValueControl extends JPanel {
         return _valueLabel;
     }
     
+    /**
+     * Adds an icon to the left of the textual value label.
+     * @param icon
+     */
     public void setValueLabelIcon( Icon icon ) {
         _valueLabel.setIcon( icon );;
         _valueLabel.setVerticalTextPosition( JLabel.CENTER );
