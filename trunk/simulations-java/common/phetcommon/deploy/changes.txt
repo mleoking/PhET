@@ -1,3 +1,4 @@
+1-9-09: #588, delete SimStrings
 1-8-09: #1008, #1073, revised session message
 1-8-09: #1085, delete obsolete tracking message types
 1-8-09: #1058, increase height of PhetTabbedPane.TabBase by 50%
