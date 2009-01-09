@@ -1,8 +1,5 @@
 <?php
 
-//    $original_dir = getcwd();
-//    chdir("./admin");
-
     // In each web accessable script SITE_ROOT must be defined FIRST
     if (!defined("SITE_ROOT")) define("SITE_ROOT", "./");
 
@@ -14,8 +11,6 @@
     require_once("include/sim-utils.php");
     require_once("include/sys-utils.php");
     require_once("include/web-utils.php");
-
-//    chdir($original_dir);
 
     $thumbnails = sim_get_animated_previews();
 
