@@ -172,7 +172,6 @@ public class AtomicBombGraphicNode extends PhetPNode {
                 // Expand the explosion graphic.
                 _explosionGraphic.setScale( _explosionGraphic.getScale() + 0.05 );
                 updateLayout();
-                System.out.println("Scaling...");
             }
             else{
                 // We have finished the expansion.
