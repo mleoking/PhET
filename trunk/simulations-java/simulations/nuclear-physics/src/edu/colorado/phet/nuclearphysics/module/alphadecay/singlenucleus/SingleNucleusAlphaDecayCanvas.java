@@ -161,7 +161,7 @@ public class SingleNucleusAlphaDecayCanvas extends PhetPCanvas {
         
         // Add to the canvas the button for resetting the nucleus.
         _resetButtonNode = new AutoPressGradientButtonNode(NuclearPhysicsStrings.RESET_NUCLEUS, 22, 
-        		new Color(0xff9900));
+        		NuclearPhysicsConstants.CANVAS_RESET_BUTTON_COLOR);
         addScreenChild(_resetButtonNode);
         
         // Register to receive button pushes.

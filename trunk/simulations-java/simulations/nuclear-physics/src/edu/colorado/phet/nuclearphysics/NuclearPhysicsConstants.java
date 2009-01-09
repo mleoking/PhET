@@ -64,7 +64,7 @@ public class NuclearPhysicsConstants {
         new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3,3}, 0 );
 
     //----------------------------------------------------------------------------
-    // Paints
+    // Paints and Colors
     //----------------------------------------------------------------------------
     
     // Color of the "play area"
@@ -109,6 +109,9 @@ public class NuclearPhysicsConstants {
     
     // Color of the chart background for the alpha decay application.
 	public static final Color  ALPHA_DECAY_CHART_COLOR = new Color( 246, 242, 175 );
+	
+	// Color of the reset button that appears on many of the canvases.
+	public static final Color CANVAS_RESET_BUTTON_COLOR = new Color(0xff9900);
 
     //----------------------------------------------------------------------------
     // Images
