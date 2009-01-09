@@ -385,7 +385,6 @@ public class AtomicNucleusNode extends PNode {
         if ((newAtomicWeight < _currentAtomicWeight) && (newAtomicWeight != 0) && (byProducts != null)){
             // This was a decay event, so kick off the explosion graphic.
             _explosionCounter = EXPLOSION_COUNTER_RESET_VAL;
-            _explosion.setOffset( _atomicNucleus.getPositionReference() );
             _explosion.setVisible( true );
             _explosion.setPickable(false);
         }
