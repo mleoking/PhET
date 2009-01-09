@@ -161,8 +161,31 @@ public class PhetApplicationConfig implements ITrackingInfo, ISimInfo {
      */
     
     public String getDistributionId() {
-        //TODO read the distribution id from an optional file stored in the JAR.
+        //TODO #1086, read the distribution id from an optional file stored in the JAR.
         return DEFAULT_DISTRIBUTION_ID;
+    }
+    
+    /**
+     * Returns the string representation of the scenario used to run the sim.
+     * @return
+     */
+    public String getRuntimeScenario() {
+        //TODO: #1087, which scenario was used to run the sim?
+        //TODO: using string literals here is bad, should be replaced
+        String scenario = "unknown";
+        if ( PhetUtilities.isRunningFromStandaloneJar() ) {
+            scenario = "standalone-jar";
+        }
+        else if ( PhetUtilities.isRunningFromPhetInstallation() ) {
+            scenario = "phet-installation";
+        }
+        else if ( PhetUtilities.isRunningFromWebsite() ) {
+            //TODO: how to differentiate between phet website and other website? see #1087
+            scenario = "phet-website";
+        }
+        //TODO: scenario = "other-website"
+        //TODO: scenario = "developer"
+        return scenario;
     }
 
     //----------------------------------------------------------------------------
