@@ -5,6 +5,7 @@
 chdir(dirname(__FILE__));
 
 if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+
 // See global.php for an explaination of the next line
 require_once(dirname(dirname(__FILE__))."/include/global.php");
 
@@ -12,14 +13,16 @@ require_once("include/log-utils.php");
 
 // Check to that we have enough arguments
 if (count($argv) != 3) {
-    $default_log_dir = DEFAULT_LOG_FILE_LOCATION;
+    // Change the default log dir to an absolute path for
+    // better documentation
+    $default_log_dir = dirname(__FILE__).'/'.DEFAULT_LOG_FILE_LOCATION;
 
     print <<<EOT
     usage:
         {$argv[0]} original_log new_log [log_file_location]
 
     Rename a log file.  Grab all contents of the old log
-    file and prepend it no the new log file (if it has any
+    file and prepend it to the new log file (if it has any
     contents).
 
     Note: be sure to change the function(s) that are
@@ -28,7 +31,8 @@ if (count($argv) != 3) {
     Optionally you can specify the directory where the log
     file should be found.
 
-    By default, log files go here: {$default_log_dir}
+    By default, log files go here:
+        {$default_log_dir}
 
 EOT;
     exit(-1);
