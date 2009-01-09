@@ -1121,7 +1121,7 @@
         $flavorname = $simulation['sim_flavorname'];
 
         // Try local first
-        $link = PORTAL_ROOT."sims/{$dirname}/{$flavorname}-screenshot.gif";
+        $link = PORTAL_ROOT."sims/{$dirname}/{$flavorname}-animated-screenshot.gif";
         if (!file_exists($link)) {
             $link = "http://".PHET_DOMAIN_NAME."/sims/{$dirname}/{$flavorname}-animated-screenshot.gif";
         }
