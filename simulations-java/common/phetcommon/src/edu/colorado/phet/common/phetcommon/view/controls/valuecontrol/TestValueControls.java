@@ -8,6 +8,8 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+
 
 /**
  * Test harness for the AbstractValueControl hierarchy.
@@ -110,6 +112,9 @@ public class TestValueControls extends JFrame {
                     System.out.println( "potatoControl.stateChanged " + potatoControl.getValue() );
                 }
             } );
+            
+            Icon icon = new ImageIcon( PhetCommonResources.getImage( "buttons/closeButton.png" ) );
+            potatoControl.setValueLabelIcon( icon );
         }
 
         // One control that changes the range of another control
