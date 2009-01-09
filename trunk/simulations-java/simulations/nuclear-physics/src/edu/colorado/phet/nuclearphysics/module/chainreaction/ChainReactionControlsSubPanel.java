@@ -13,6 +13,8 @@ import java.text.DecimalFormat;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -25,7 +27,10 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.view.LabeledNucleusNode;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * This class defines a subpanel that goes on the main control panel for the
@@ -107,7 +112,8 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
         add( spacePanel );
         
         // Add the slider that controls the number of U-235 nuclei that appear.
-        _u235AmountControl = new LinearValueControl( 0, 100, NuclearPhysicsStrings.U235_LABEL, "###", NuclearPhysicsStrings.NUCLEI_LABEL );
+        _u235AmountControl = new LinearValueControl( 0, 100, NuclearPhysicsStrings.U235_LABEL, "###", 
+        		NuclearPhysicsStrings.NUCLEI_LABEL);
         _u235AmountControl.setUpDownArrowDelta( 1 );
         _u235AmountControl.setTextFieldEditable( true );
         _u235AmountControl.setFont( new PhetFont( Font.PLAIN, 14 ) );
@@ -122,7 +128,15 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
                     _model.setNumU235Nuclei( (int)Math.round(_u235AmountControl.getValue()) );
                 }
             }
-        });        
+        });
+        
+        PNode labeledU235Nucleus = new LabeledNucleusNode("Uranium Nucleus Small.png",
+                NuclearPhysicsStrings.URANIUM_235_ISOTOPE_NUMBER, 
+                NuclearPhysicsStrings.URANIUM_235_CHEMICAL_SYMBOL, 
+                NuclearPhysicsConstants.URANIUM_235_LABEL_COLOR );
+        Icon icon = new ImageIcon( labeledU235Nucleus.toImage(25, 25, null) );
+        _u235AmountControl.setValueLabelIcon( icon );
+        
         _u235AmountControl.getSlider().addMouseListener( new MouseListener() {
             public void mouseReleased(MouseEvent e) {
                 // Handle the event that is created when the user releases the
@@ -166,6 +180,14 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
                 }
             }
         } );
+
+        PNode labeledU238Nucleus = new LabeledNucleusNode("Uranium Nucleus Small.png",
+                NuclearPhysicsStrings.URANIUM_238_ISOTOPE_NUMBER, 
+                NuclearPhysicsStrings.URANIUM_238_CHEMICAL_SYMBOL, 
+                NuclearPhysicsConstants.URANIUM_238_LABEL_COLOR );
+        icon = new ImageIcon( labeledU238Nucleus.toImage(25, 25, null) );
+        _u238AmountControl.setValueLabelIcon( icon );
+        
         _u238AmountControl.getSlider().addMouseListener( new MouseListener() {
             public void mouseReleased(MouseEvent e) {
                 // Handle the event that is created when the user releases the
