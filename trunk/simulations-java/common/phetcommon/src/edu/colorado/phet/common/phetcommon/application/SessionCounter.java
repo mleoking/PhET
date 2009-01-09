@@ -4,7 +4,9 @@ package edu.colorado.phet.common.phetcommon.application;
 
 import java.io.*;
 import java.security.AccessControlException;
+import java.util.Iterator;
 import java.util.Properties;
+import java.util.Set;
 
 /**
  * Counts the number of times that a simulation has been run.
@@ -24,11 +26,13 @@ public class SessionCounter {
     /* singleton */
     private static SessionCounter instance;
     
-    private final Integer count;
+    private final int count; // number of sessions for the specified sim
+    private final int total; // number of sessions for all sims
     
     /* singleton */
     private SessionCounter( String project, String flavor ) {
         count = incrementCount( project, flavor );
+        total = countAllSims();
     }
     
     /**
@@ -59,12 +63,22 @@ public class SessionCounter {
     
     /**
      * Gets the number of times that a session has been started for this sim.
-     * Null if the runtime environment doesn't allow us to count.
+     * Zero if the runtime environment doesn't allow us to count.
      * 
      * @return
      */
-    public Integer getCount() {
+    public int getCount() {
         return count;
+    }
+   
+    /**
+     * Gets the total number of times that all sims have been started.
+     * Zero if the runtime environment doesn't allow us to count.
+     * 
+     * @return
+     */
+    public int getTotal() {
+        return total;
     }
     
     /*
@@ -73,10 +87,10 @@ public class SessionCounter {
      * 
      * @param project
      * @param flavor
-     * @return the updated count, null if the count could not be read/written
+     * @return the updated count, zero if the count could not be read/written
      */
-    private static Integer incrementCount( String project, String flavor ) {
-        Integer newCount = null;
+    private static int incrementCount( String project, String flavor ) {
+        int newCount = 0;
         try {
             String key = getSessionCountKey( project, flavor );
             
@@ -85,14 +99,10 @@ public class SessionCounter {
             // read the previous count
             Properties p = file.readCounts();
             String s = p.getProperty( key );
-            Integer previousCount = null;
-            if ( s == null ) {
-                // no entry in the file, sim has never been run
-                previousCount = new Integer( 0 );
-            }
-            else {
+            int previousCount = 0;
+            if ( s != null ) {
                 try {
-                    previousCount = new Integer( s );
+                    previousCount = Integer.valueOf( s ).intValue();
                 }
                 catch ( NumberFormatException e ) {
                     e.printStackTrace();
@@ -100,21 +110,50 @@ public class SessionCounter {
             }
 
             // increment
-            newCount = new Integer( previousCount.intValue() + 1 );
+            newCount = previousCount + 1;
 
             // write the new count
-            p.setProperty( key, newCount.toString() );
+            p.setProperty( key, String.valueOf( newCount ) );
             file.writeCounts( p );
         }
         catch ( AccessControlException accessControlException ) {
             System.out.println( "SessionCounter.incrementCount: access to local filesystem denied" );
-            newCount = null;
+            newCount = 0;
         }
         catch ( IOException e ) {
             e.printStackTrace();
-            newCount = null;
+            newCount = 0;
         }
         return newCount;
+    }
+    
+    private static int countAllSims() {
+        int total = 0;
+        try {
+            SessionCountsFile file = new SessionCountsFile();
+            Properties p = file.readCounts();
+            Set keySet = p.keySet();
+            Iterator i = keySet.iterator();
+            while ( i.hasNext() ) {
+                String value = p.getProperty( (String)i.next() );
+                try {
+                    Integer count = new Integer( value );
+                    total += count.intValue();
+                }
+                catch ( NumberFormatException e ) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        catch ( AccessControlException accessControlException ) {
+            System.out.println( "SessionCounter.countAllSims: access to local filesystem denied" );
+            total = 0;
+        }
+        catch ( IOException e ) {
+            e.printStackTrace();
+            total = 0;
+        }
+        return total;
     }
     
     private static String getSessionCountKey( String project, String flavor ) {
