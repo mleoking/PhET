@@ -76,7 +76,7 @@
 
     // CACHE_DIRNAME is used for the name under which all cached
     // files will be placed.
-    if (!defined("CACHE_DIRNAME")) define("CACHE_DIRNAME", "_webcache");
+    if (!defined("CACHE_DIRNAME")) define("CACHE_DIRNAME", "webcache");
 
     // Convenience defines for PhET related contact
     define("PHET_DOMAIN_NAME", "phet.colorado.edu");
