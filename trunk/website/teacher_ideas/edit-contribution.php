@@ -1,10 +1,14 @@
 <?php
 
+// In each web accessable script SITE_ROOT must be defined FIRST
 if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
-include_once(SITE_ROOT."admin/global.php");
-include_once(SITE_ROOT."teacher_ideas/referrer.php");
 
-include_once(SITE_ROOT."page_templates/SitePage.php");
+// See global.php for an explaination of the next line
+require_once(dirname(dirname(__FILE__))."/include/global.php");
+
+require_once("teacher_ideas/referrer.php");
+
+require_once("page_templates/SitePage.php");
 
 class EditContributionPage extends SitePage {
 
@@ -24,7 +28,9 @@ class EditContributionPage extends SitePage {
             }
         }
         else {
-            $contribution['contributor_id'] = $_REQUEST['contributor_id'];
+            if (isset($_REQUEST['contributor_id'])) {
+                $contribution['contributor_id'] = $_REQUEST['contributor_id'];
+            }
             if (isset($_REQUEST['new_contributor_id'])) {
                 $contribution['contributor_id'] = $_REQUEST['new_contributor_id'];
             }

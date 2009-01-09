@@ -12,7 +12,9 @@
     file will not successfully load.
 
     */
-    include_once("login-info.php");
+
+    // Only one requirement, sidestep the include_path melarchy
+    require_once("login-info.php");
 
     // connect to the server, select db
     function connect_to_db() {

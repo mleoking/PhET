@@ -7,8 +7,13 @@
     // behavior as I've been refactoring many of these pages, but it has been awkward and may have
     // affected the referring page tracker.  It does work, though.
 
-    if (!defined("SITE_ROOT")) define("SITE_ROOT", "../"); include_once(SITE_ROOT."admin/global.php");
-    include_once(SITE_ROOT."admin/web-utils.php");
+    // In each web accessable script SITE_ROOT must be defined FIRST
+    if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+
+    // See global.php for an explaination of the next line
+    require_once(dirname(dirname(__FILE__))."/include/global.php");
+
+    require_once("include/web-utils.php");
 
     /**
      * Return the referrer:

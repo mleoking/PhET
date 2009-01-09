@@ -2,11 +2,15 @@
 
     // This file is called from sims.php to run a sim "offline" (download from Internet and run locally)
 
+    // In each web accessable script SITE_ROOT must be defined FIRST
     if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
-    include_once(SITE_ROOT."admin/global.php");
-    include_once(SITE_ROOT."admin/sim-utils.php");
-    include_once(SITE_ROOT."admin/sys-utils.php");
-    include_once(SITE_ROOT."admin/web-utils.php");
+
+    // See global.php for an explaination of the next line
+    require_once(dirname(dirname(__FILE__))."/include/global.php");
+
+    require_once("include/sim-utils.php");
+    require_once("include/sys-utils.php");
+    require_once("include/web-utils.php");
 
     // Get the pertenant information
     if ((isset($_GET['project']) && (!empty($_GET['project']))) &&

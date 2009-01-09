@@ -1,8 +1,13 @@
 <?php
 
+// In each web accessable script SITE_ROOT must be defined FIRST
 if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
-include_once(SITE_ROOT."admin/global.php");
-include_once(SITE_ROOT."teacher_ideas/referrer.php");
+
+// See global.php for an explaination of the next line
+require_once(dirname(dirname(__FILE__))."/include/global.php");
+
+// TODO: why is this here?
+require_once("teacher_ideas/referrer.php");
 
 define("WEBSITE_BASE_TITLE", "PhET :: Physics Education Technology at CU Boulder");
 

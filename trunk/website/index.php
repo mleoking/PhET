@@ -1,7 +1,13 @@
 <?php
 
-define("SITE_ROOT", "./");
-include_once(SITE_ROOT."page_templates/SitePage.php");
+// In each web accessable script SITE_ROOT must be defined FIRST
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "./");
+
+// This file is in the root, don't need to change include_path,
+// see global.php for an explaination.
+if (!defined("INCLUDE_PATH_SET")) define("INCLUDE_PATH_SET", "true");
+
+require_once("page_templates/SitePage.php");
 
 class MainPage extends SitePage {
     function __construct($title, $nav, $referrer) {

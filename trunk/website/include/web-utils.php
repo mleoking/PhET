@@ -1,6 +1,12 @@
 <?php
 
-    include_once("sys-utils.php");
+    // In each web accessable script SITE_ROOT must be defined FIRST
+    if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+
+    // See global.php for an explaination of the next line
+    require_once(dirname(dirname(__FILE__))."/include/global.php");
+
+    require_once("include/sys-utils.php");
 
     function web_get_real_path($path) {
         return preg_replace('/[^\/]+\/\.\.\//i', '', $path);
@@ -632,7 +638,7 @@ EOT;
      * @param string    The phrase to abbreviate.
      */
     function abbreviate($string) {
-        include_once("spell.php");
+        include_once("include/spell.php");
 
         $words = preg_split('/([\s\-])/', $string, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
 

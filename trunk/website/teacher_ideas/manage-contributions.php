@@ -1,7 +1,12 @@
 <?php
 
-if (!defined("SITE_ROOT")) define("SITE_ROOT", "../"); include_once(SITE_ROOT."admin/global.php");
-include_once(SITE_ROOT."page_templates/SitePage.php");
+// In each web accessable script SITE_ROOT must be defined FIRST
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+
+// See global.php for an explaination of the next line
+require_once(dirname(dirname(__FILE__))."/include/global.php");
+
+require_once("page_templates/SitePage.php");
 
 class ManageContributionsPage extends SitePage {
     function print_contributions($contributions, $heading) {

@@ -1,15 +1,21 @@
 <?php
 
-    $original_dir = getcwd();
-    chdir("./admin");
+//    $original_dir = getcwd();
+//    chdir("./admin");
 
-    if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
-    include_once(SITE_ROOT."admin/global.php");
-    include_once(SITE_ROOT."admin/sim-utils.php");
-    include_once(SITE_ROOT."admin/sys-utils.php");
-    include_once(SITE_ROOT."admin/web-utils.php");
+    // In each web accessable script SITE_ROOT must be defined FIRST
+    if (!defined("SITE_ROOT")) define("SITE_ROOT", "./");
 
-    chdir($original_dir);
+    // This file is in the root, don't need to change include_path,
+    // see global.php for an explaination.
+    if (!defined("INCLUDE_PATH_SET")) define("INCLUDE_PATH_SET", "true");
+
+    require_once("include/global.php");
+    require_once("include/sim-utils.php");
+    require_once("include/sys-utils.php");
+    require_once("include/web-utils.php");
+
+//    chdir($original_dir);
 
     $thumbnails = sim_get_animated_previews();
 

@@ -1,11 +1,14 @@
 <?php
 
-    // Legacy: Not sure why error reporting isn't off by default
-    error_reporting(0);
+    // In each web accessable script SITE_ROOT must be defined FIRST
+    if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 
-    include_once("web-utils.php");
-    include_once("sys-utils.php");
-    include_once("contrib-utils.php");
+    // See global.php for an explaination of the next line
+    require_once(dirname(dirname(__FILE__))."/include/global.php");
+
+    require_once("include/web-utils.php");
+    require_once("include/sys-utils.php");
+    require_once("include/contrib-utils.php");
 
     if (isset($_REQUEST['contribution_file_id'])) {
         $contribution_file_id = $_REQUEST['contribution_file_id'];

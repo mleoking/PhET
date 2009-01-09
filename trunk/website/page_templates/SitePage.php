@@ -5,11 +5,15 @@
 // Since I'm working on something else, this will be mostly a stud until
 // I can separate some things out.
 
+// In each web accessable script SITE_ROOT must be defined FIRST
 if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
-include_once(SITE_ROOT."admin/global.php");
-include_once(SITE_ROOT."page_templates/BasePage.php");
-include_once(SITE_ROOT."page_templates/NavBar.php");
-include_once(SITE_ROOT."admin/authentication.php");
+
+// See global.php for an explaination of the next line
+require_once(dirname(dirname(__FILE__))."/include/global.php");
+
+require_once("page_templates/BasePage.php");
+require_once("page_templates/NavBar.php");
+require_once("include/authentication.php");
 
 // Required athentication levels to view the page
 // The numbers must increase so that they may be compared

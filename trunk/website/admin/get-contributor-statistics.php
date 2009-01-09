@@ -2,9 +2,15 @@
 
     // This is called from view-statistics.php to compile contributor statistics.
 
-    include_once("db.php");
-    include_once("db-utils.php");
-    include_once("contrib-utils.php");
+    // In each web accessable script SITE_ROOT must be defined FIRST
+    if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+
+    // See global.php for an explaination of the next line
+    require_once(dirname(dirname(__FILE__))."/include/global.php");
+
+    require_once("include/db.php");
+    require_once("include/db-utils.php");
+    require_once("include/contrib-utils.php");
 
     function cleanup($v) {
         $v = str_replace(',',  ' ', $v);
