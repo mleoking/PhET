@@ -42,7 +42,7 @@ class ViewContributionPage extends SitePage {
         $contribution_authors = $contribution["contribution_authors"];
         $contribution_keywords = $contribution["contribution_keywords"];
         $contribution_approved = $contribution["contribution_approved"];
-        $contribution_desc = $contribution["contribution_desc"];
+        $contribution_desc = nl2br(trim($contribution["contribution_desc"]));
         $contribution_duration = $contribution["contribution_duration"];
         $contribution_answers_included = $contribution["contribution_answers_included"];
         $contribution_contact_email = $contribution["contribution_contact_email"];
