@@ -380,6 +380,10 @@ public class ChainReactionModel {
                 });
                 notifyReativeNucleiNumberChanged();
             }
+            
+            // Reset any impacts that may have accumulated in the containment
+            // vessel during previous reactions.
+            _containmentVessel.resetImpactAccumulation();
         }
         else{
             // We need to remove some nuclei.  Take them from the back of the
