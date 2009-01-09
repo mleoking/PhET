@@ -191,7 +191,8 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
         });
         
         // Add the button for resetting the nucleus to the canvas.
-        _resetButtonNode = new GradientButtonNode(NuclearPhysicsStrings.RESET_NUCLEUS, 16, new Color(0xff9900));
+        _resetButtonNode = new GradientButtonNode(NuclearPhysicsStrings.RESET_NUCLEUS, 16, 
+        		NuclearPhysicsConstants.CANVAS_RESET_BUTTON_COLOR);
         double desiredResetButtonWidth = _neutronSourceNode.getFullBoundsReference().width;
         _resetButtonNode.setScale(desiredResetButtonWidth / _resetButtonNode.getFullBoundsReference().width);
         _resetButtonNode.setOffset(_neutronSourceNode.getFullBoundsReference().x, 

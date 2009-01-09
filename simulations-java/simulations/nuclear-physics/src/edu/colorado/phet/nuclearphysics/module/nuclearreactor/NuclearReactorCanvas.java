@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.nuclearphysics.module.nuclearreactor;
 
-import java.awt.Color;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,7 +16,6 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.dialog.ReactorPictureDialog;
 import edu.colorado.phet.nuclearphysics.view.NuclearReactorNode;
-import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -104,7 +102,7 @@ public class NuclearReactorCanvas extends PhetPCanvas{
         // Add the button for resetting the reactor.  This won't be visible
         // until the reaction has been started.
         _resetNucleiButtonNode = new GradientButtonNode(NuclearPhysicsStrings.RESET_NUCLEI, 16, 
-                new Color(0xff9900));
+        		NuclearPhysicsConstants.CANVAS_RESET_BUTTON_COLOR);
         addWorldChild( _resetNucleiButtonNode );
         _resetNucleiButtonNode.setOffset( _nuclearReactorNode.getFullBounds().getMinX(), 
         		_nuclearReactorNode.getFullBounds().getMinY() - _resetNucleiButtonNode.getFullBounds().height);
@@ -117,7 +115,8 @@ public class NuclearReactorCanvas extends PhetPCanvas{
         });
         
         // Add the button for showing the reactor photo.
-        _showReactorImageButtonNode = new GradientButtonNode(NuclearPhysicsStrings.SHOW_REACTOR_IMAGE, 16, new Color(0x88ff00));
+        _showReactorImageButtonNode = new GradientButtonNode(NuclearPhysicsStrings.SHOW_REACTOR_IMAGE, 16, 
+        		NuclearPhysicsConstants.CANVAS_RESET_BUTTON_COLOR);
         addWorldChild(_showReactorImageButtonNode);
         _showReactorImageButtonNode.setOffset( -(CANVAS_WIDTH/2), CANVAS_HEIGHT / 2 );
         
