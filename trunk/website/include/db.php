@@ -17,31 +17,33 @@
     require_once("login-info.php");
 
     // connect to the server, select db
-    function connect_to_db() {
+    function connect_to_db($hostname = DB_HOSTNAME,
+                           $dbname = DB_NAME,
+                           $user = DB_USERNAME,
+                           $password = DB_PASSWORD,
+                           $verbose = true) {
         global $connection;
 
-        assert('defined("DB_HOSTNAME")');
-        assert('defined("DB_NAME")');
-        assert('defined("DB_USERNAME")');
-        assert('defined("DB_PASSWORD")');
-
-        $connection = mysql_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD);
+        @$connection = mysql_connect($hostname, $user, $password);
 
         if (!$connection) {
-            print("Database error: Could not connect to database.");
+            if ($verbose) {
+                print("Database error: Could not connect to database.");
+            }
+            return false;
         }
-        if (!mysql_select_db(DB_NAME, $connection)) {
-            print("Database error: Could not select database.");
+
+        if (!mysql_select_db($dbname, $connection)) {
+            if ($verbose) {
+                print("Database error: Could not select database.");
+            }
+            return false;
         }
+
+        return true;
     }
 
-    /*
-     * Don't connect unless we need to
-    if (!isset($GLOBALS['connection'])) {
-        connect_to_db();
-    }
-    */
-
+    // Usused as of 1/5/09
     function showerror($errortext) {
         // Get the database connection, start it if if this is the first call
         global $connection;
@@ -50,17 +52,18 @@
         }
 
         $phet_help_email = PHET_HELP_EMAIL;
-        echo "<br>==========================";
-        echo "<p>We're very sorry, but there appears to have been an error. We would appreciate it if you would report this to us, so that we can fix the problem and serve you better. Please direct all correspondence to <a href='mailto:{$phet_help_email}'>{$phet_help_email}</a>.</p>";
-        echo $errortext;
-        echo "<p>Error#: ". mysql_errno($connection).", Error Description: ".mysql_error($connection).".</p>";
-        echo "==========================<br>";
+        print("<br>==========================");
+        print("<p>We're very sorry, but there appears to have been an error. We would appreciate it if you would report this to us, so that we can fix the problem and serve you better. Please direct all correspondence to <a href='mailto:{$phet_help_email}'>{$phet_help_email}</a>.</p>");
+        print($errortext);
+        print("<p>Error#: ". mysql_errno($connection).", Error Description: ".mysql_error($connection).".</p>");
+        print("==========================<br>");
         exit;
     }
 
+    // Usused as of 1/5/09
     function missingfield($showtext) {
-        echo "<p>".$showtext."</p>";
-        echo "<p><a href='javascript:history.back(1)'>Click here</a> or use your browser's back button to return to the form.</p>";
+        print("<p>".$showtext."</p>");
+        print("<p><a href='javascript:history.back(1)'>Click here</a> or use your browser's back button to return to the form.</p>");
 
         exit;
     }
