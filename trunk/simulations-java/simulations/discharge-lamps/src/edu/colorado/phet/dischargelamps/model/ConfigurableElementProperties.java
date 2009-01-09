@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.dischargelamps.model;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.quantum.model.AtomicState;
+import edu.colorado.phet.dischargelamps.DischargeLampsResources;
 import edu.colorado.phet.dischargelamps.quantum.AtomicStateFactory;
 
 /**
@@ -30,7 +30,7 @@ public class ConfigurableElementProperties extends DischargeLampElementPropertie
     private double meanStateLifetime = DischargeLampAtom.DEFAULT_STATE_LIFETIME;
 
     public ConfigurableElementProperties( int numEnergyLevels, DischargeLampModel model ) {
-        super( SimStrings.getInstance().getString( "Element.configurable" ), energyLevels,
+        super( DischargeLampsResources.getString( "Element.configurable" ), energyLevels,
                new ConfigurableAtomEnergyEmissionStrategy(),
                new EqualLikelihoodAbsorptionStrategy(),
                DischargeLampAtom.DEFAULT_STATE_LIFETIME );

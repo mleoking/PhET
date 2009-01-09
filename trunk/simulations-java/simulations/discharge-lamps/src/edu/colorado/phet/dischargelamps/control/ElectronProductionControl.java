@@ -21,8 +21,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.DischargeLampModule;
+import edu.colorado.phet.dischargelamps.DischargeLampsResources;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.dischargelamps.model.ElectronPulser;
 import edu.colorado.phet.dischargelamps.quantum.model.ElectronSource;
@@ -112,12 +112,12 @@ public class ElectronProductionControl extends JPanel {
 
     private JComponent createModeSelectorControl() {
         // Radio buttons to choose between single-shot and continuous modes
-        continuousModeRB = new JRadioButton( new AbstractAction( SimStrings.getInstance().getString( "Controls.Continuous" ) ) {
+        continuousModeRB = new JRadioButton( new AbstractAction( DischargeLampsResources.getString( "Controls.Continuous" ) ) {
             public void actionPerformed( ActionEvent e ) {
                 setProductionMode( ElectronProductionControl.CONTINUOUS );
             }
         } );
-        singleShotModeRB = new JRadioButton( new AbstractAction( SimStrings.getInstance().getString( "Controls.Single" ) ) {
+        singleShotModeRB = new JRadioButton( new AbstractAction( DischargeLampsResources.getString( "Controls.Single" ) ) {
             public void actionPerformed( ActionEvent e ) {
                 setProductionMode( ElectronProductionControl.SINGLE_SHOT );
             }
@@ -147,7 +147,7 @@ new Insets( 0, 0, 0, 0 ), 0, 0 );
     }
 
     private JComponent createFireElectronBtn() {
-        final JButton singleShotBtn = new JButton( SimStrings.getInstance().getString( "Controls.FireElectron" ) );
+        final JButton singleShotBtn = new JButton( DischargeLampsResources.getString( "Controls.FireElectron" ) );
         singleShotBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 model.addModelElement( new ElectronPulser( model, maxCurrent / 2 * currentDisplayFactor ) );
@@ -180,7 +180,7 @@ new Insets( 0, 0, 0, 0 ), 0, 0 );
                     model.setCurrent( value * maxCurrent / 100, currentDisplayFactor );
                 }
                 catch( NumberFormatException nfe ) {
-                    JOptionPane.showMessageDialog( PhetUtilities.getPhetFrame(), SimStrings.getInstance().getString( "Message.notPctFormat" ) );
+                    JOptionPane.showMessageDialog( PhetUtilities.getPhetFrame(), DischargeLampsResources.getString( "Message.notPctFormat" ) );
                 }
             }
         } );
@@ -230,7 +230,7 @@ new Insets( 0, 0, 0, 0 ), 0, 0 );
                 GridBagConstraints.NONE,
                 new Insets( 3, 0, 3, 0 ), 0, 0 );
 
-        JLabel title = new JLabel( SimStrings.getInstance().getString( "Controls.ElectronProduction" ) );
+        JLabel title = new JLabel( DischargeLampsResources.getString( "Controls.ElectronProduction" ) );
         Font defaultFont = title.getFont();
         Font newFont = new Font( defaultFont.getName(), Font.BOLD, defaultFont.getSize() );
         title.setFont( newFont );

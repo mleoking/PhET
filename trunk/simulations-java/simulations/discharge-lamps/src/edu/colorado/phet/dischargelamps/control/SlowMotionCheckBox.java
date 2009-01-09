@@ -12,12 +12,13 @@ package edu.colorado.phet.dischargelamps.control;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.*;
+import javax.swing.AbstractAction;
+import javax.swing.JCheckBox;
 
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
+import edu.colorado.phet.dischargelamps.DischargeLampsResources;
 
 /**
  * SlowMotionControl
@@ -28,7 +29,7 @@ import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 public class SlowMotionCheckBox extends JCheckBox {
 
     public SlowMotionCheckBox( final Clock clock ) {
-        super( new AbstractAction( SimStrings.getInstance().getString( "Controls.SlowMotion" ) ) {
+        super( new AbstractAction( DischargeLampsResources.getString( "Controls.SlowMotion" ) ) {
             public void actionPerformed( ActionEvent e ) {
                 JCheckBox cb = (JCheckBox) e.getSource();
                 if ( cb.isSelected() ) {

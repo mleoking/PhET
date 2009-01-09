@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.dischargelamps.model;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.dischargelamps.DischargeLampsResources;
 
 
 /**
@@ -51,7 +51,7 @@ public class HydrogenProperties extends DischargeLampElementProperties {
      *
      */
     public HydrogenProperties() {
-        super( SimStrings.getInstance().getString( "Element.hydrogen" ), energyLevels, teA );
+        super( DischargeLampsResources.getString( "Element.hydrogen" ), energyLevels, teA );
     }
 }
 

@@ -90,10 +90,6 @@ public class DischargeLampsApplication extends PiccoloPhetApplication {
 
         EnergyLevelGraphic.showLifetimeLabelText=false;//workaround for #832
 
-        //TODO get rid of SimStrings in this sim
-        SimStrings.getInstance().init( args, "discharge-lamps/localization/discharge-lamps-strings" );
-        SimStrings.getInstance().addStrings( "lasers/localization/lasers-strings" );
-        
         ApplicationConstructor appConstructor = new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 return new DischargeLampsApplication( config );
