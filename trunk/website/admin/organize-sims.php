@@ -55,9 +55,9 @@ class OrganizeSimulationsPage extends SitePage {
             <p>On this page, you may choose the order in which simulations appear for every category.
             Note that simulations appear in this order only in the thumbnail view.</p>
 
-            <p>If the simulations ordering is wonky (can be seen by several sims sharing the same
-            "order id" number, <a href="organize-sims.php?auto_order=1">clicking here</a> will reorder them as they appear
-            on the screen right now.  This should resolves most sorting problems.</p>
+            <p><strong>Sim <em>order id</em> wonky?  <a href="organize-sims.php?auto_order=1">Clicking here</a></strong>
+            will fix it.  "Wonky" is when several sims sharing the same
+            "order id" number, and using that link will number them according to the order you see here.</p>
 
             <p>You may also need to <a href="cache-clear.php?cache=all">clear the cache</a>.</p>
 
