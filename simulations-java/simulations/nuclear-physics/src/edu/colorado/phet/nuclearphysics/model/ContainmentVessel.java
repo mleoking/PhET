@@ -45,13 +45,13 @@ public class ContainmentVessel {
     private Rectangle2D _apertureRect;
     
     // List of listeners.
-    ArrayList _listeners;
+    private ArrayList _listeners;
     
     // Number of impacts that have occurred, used to decide whether to explode.
-    int _cumulativeImpactAmount;
+    private int _cumulativeImpactAmount;
     
     // State variable that tracks if explosion has occurred.
-    boolean _exploded;
+    private boolean _exploded;
     
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -87,7 +87,7 @@ public class ContainmentVessel {
             notifiyEnableStateChanged();
             if (_enabled == true){
             	// The vessel is being enabled.  Reset local data.
-                _cumulativeImpactAmount = 0;
+            	resetImpactAccumulation();
                 setRadius( _originalRadius );
                 _exploded = false;
             }
@@ -117,8 +117,15 @@ public class ContainmentVessel {
         setRadius( _originalRadius );
         setIsEnabled( false );
         _exploded = false;
-        _cumulativeImpactAmount = 0;
+        resetImpactAccumulation();
         notifiyResetOccurred();
+    }
+    
+    /**
+     * Reset just the accumulation of impacts.
+     */
+    public void resetImpactAccumulation(){
+    	_cumulativeImpactAmount = 0;
     }
     
     /**
