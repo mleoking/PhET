@@ -41,7 +41,11 @@ class UpdateAvailableDialog {
 		str += "A newer version (" + versionMajor + "." + versionMinor + "." + dev + ") is available.\n";
 		
 		str += "<a href='http://phet.colorado.edu/jolson/deploy/sims/" + _level0.simName + "/" + _level0.simName;
-		str += "_" + _level0.countryCode + ".html'>Try the new version before you update.</a>";
+		str += "_" + _level0.languageCode;
+		if(_level0.countryCode != "none") {
+			str += "_" + _level0.countryCode;
+		}
+		str += ".html'>Try the new version before you update.</a>";
 		
 		// create CSS to make links blue
 		var css : TextField.StyleSheet = new TextField.StyleSheet();
