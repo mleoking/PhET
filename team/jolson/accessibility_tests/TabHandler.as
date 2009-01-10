@@ -30,6 +30,9 @@ class TabHandler {
 	public function TabHandler() {
 		trace("Initializing TabHandler");
 		
+		// make this accessible by _level0.tabHandler
+		_level0.tabHandler = this;
+		
 		// disable default keyboard accessibility
 		_root.tabIndex = 1;
 		_root.tabEnabled = false;
@@ -94,6 +97,12 @@ class TabHandler {
 		entries[idx].keys[key] = callback;
 	}
 	
+	public function registerButton(obj : Object) : Void {
+		var idx : Number = findIndex(obj);
+		if(idx == -1) { return; }
+		entries[idx].buttonlike = true;
+	}
+	
 	// called when ANY key is pressed, anytime
 	public function onKeyDown() {
 		if(Key.getCode() == Key.TAB) {
@@ -107,11 +116,32 @@ class TabHandler {
 			if(f != undefined) {
 				f();
 			}
+			if(currentEntry().buttonlike && (Key.getCode() == Key.SPACE || Key.getCode() == Key.ENTER)) {
+				currentControl().onPress();
+			}
 		}
 	}
 	
 	// called when ANY key is released, anytime
 	public function onKeyUp() {
+		if(active && currentEntry().buttonlike && (Key.getCode() == Key.SPACE || Key.getCode() == Key.ENTER)) {
+			currentControl().onRelease();
+		}
+	}
+	
+	// draw the highlight on the movieclip with the specified bounds
+	public function drawHighlights(entry : TabEntry, high : MovieClip, bounds : Object) {
+		high.beginFill(0xFF0000);
+		high.endFill();
+		
+		high.lineStyle(2, 0x0000FF);
+		high.moveTo(bounds.xMin, bounds.yMin);
+		high.lineTo(bounds.xMax, bounds.yMin);
+		high.lineTo(bounds.xMax, bounds.yMax);
+		high.lineTo(bounds.xMin, bounds.yMax);
+		high.lineTo(bounds.xMin, bounds.yMin);
+		_root.debug.text += String(bounds.xMin) + ", " + String(bounds.yMin) + "\n";
+		_root.debug.text += String(bounds.xMax) + ", " + String(bounds.yMax) + "\n";
 	}
 	
 	// used to set an entry to be the one in focus
@@ -123,6 +153,7 @@ class TabHandler {
 		switch(entry.highlight) {
 			case HIGHLIGHT_GLOBAL:
 				lastHighlight = _root.createEmptyMovieClip("lastHighlight", _root.getNextHighestDepth());
+				_root.debug.text += "Type: " + typeof(entry.control) + "\n";
 				if(typeof(entry.control) == "movieclip") {
 					bounds = entry.control.getBounds(_root);
 				} else if(typeof(entry.control) == "object") {
@@ -139,31 +170,13 @@ class TabHandler {
 				}
 				
 				// makes it so that this clip is displayed
-				lastHighlight.beginFill(0xFF0000);
-				lastHighlight.endFill();
-				
-				lastHighlight.lineStyle(2, 0x0000FF);
-				lastHighlight.moveTo(bounds.xMin, bounds.yMin);
-				lastHighlight.lineTo(bounds.xMax, bounds.yMin);
-				lastHighlight.lineTo(bounds.xMax, bounds.yMax);
-				lastHighlight.lineTo(bounds.xMin, bounds.yMax);
-				lastHighlight.lineTo(bounds.xMin, bounds.yMin);
-				_root.debug.text += String(bounds.xMin) + ", " + String(bounds.yMin) + "\n";
-				_root.debug.text += String(bounds.xMax) + ", " + String(bounds.yMax) + "\n";
+				drawHighlights(entry, lastHighlight, bounds);
 				break;
 			case HIGHLIGHT_LOCAL:
 				lastHighlight = entry.control.createEmptyMovieClip("lastHighlight", entry.control.getNextHighestDepth());
 				bounds = entry.control.getBounds(entry.control);
-				lastHighlight.beginFill(0xFF0000);
-				lastHighlight.endFill();
-				lastHighlight.lineStyle(2, 0x0000FF);
-				lastHighlight.moveTo(bounds.xMin, bounds.yMin);
-				lastHighlight.lineTo(bounds.xMax, bounds.yMin);
-				lastHighlight.lineTo(bounds.xMax, bounds.yMax);
-				lastHighlight.lineTo(bounds.xMin, bounds.yMax);
-				lastHighlight.lineTo(bounds.xMin, bounds.yMin);
-				_root.debug.text += String(bounds.xMin) + ", " + String(bounds.yMin) + "\n";
-				_root.debug.text += String(bounds.xMax) + ", " + String(bounds.yMax) + "\n";
+				
+				drawHighlights(entry, lastHighlight, bounds);
 				break;
 		}
 	}
