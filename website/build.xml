@@ -14,7 +14,7 @@ build-related libraries from the simulations-java project.
 
     <!-- Properties for deploy output-->
     <property name="deploy.live_server.staging" value="/tmp/phet_website_deploy_staging" />
-    <property name="deploy.live_server.path" value="/web/chroot/phet/usr/local/apache/htdocs/" />
+    <property name="deploy.live_server.path" value="/web/chroot/phet/usr/local/apache/htdocs" />
     <property name="deploy.live_server.url" value="http://phet.colorado.edu/" />
     <property name="deploy.test_server.staging" value="/tmp/phet_website_deploy_staging" />
     <property name="deploy.test_server.path" value="/var/www/phet2" />
