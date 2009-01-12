@@ -53,7 +53,6 @@ public class SessionMessage extends TrackingMessage {
                 new TrackingMessageField( "host_java_version_major", jre.getMajorNumber() ),
                 new TrackingMessageField( "host_java_version_minor", jre.getMinorNumber() ),
                 new TrackingMessageField( "host_java_version_maintenance", jre.getMaintenanceNumber() ),
-                new TrackingMessageField( "host_java_version_update", jre.getUpdateNumber() ),
                 new TrackingMessageField.SystemProperty( "host_java_webstart_version", "javawebstart.version" ),
                 new TrackingMessageField.SystemProperty( "host_locale_language", "user.language" ),
                 new TrackingMessageField.SystemProperty( "host_locale_country", "user.country" ),
