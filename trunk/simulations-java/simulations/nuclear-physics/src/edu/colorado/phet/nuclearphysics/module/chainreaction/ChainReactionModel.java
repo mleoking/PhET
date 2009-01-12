@@ -226,14 +226,14 @@ public class ChainReactionModel {
      */
     public double getPercentageU235Fissioned(){
         
-        double totalU235Nuclei = 0;
+        double unfissionedU235Nuclei = 0;
         double fissionedU235Nuclei = 0;
         
         // First check the collection of active U235 nuclei.
         for ( Iterator iterator = _u235Nuclei.iterator(); iterator.hasNext(); ) {
             
             // Increment the total count.
-            totalU235Nuclei++;
+            unfissionedU235Nuclei++;
             
             Uranium235Nucleus nucleus = (Uranium235Nucleus) iterator.next();
             
@@ -249,23 +249,24 @@ public class ChainReactionModel {
             AtomicNucleus nucleus = (AtomicNucleus) iterator.next();
             
             if (nucleus instanceof Uranium235Nucleus){
-                // Increment the total count.
-                totalU235Nuclei++;
-                
                 if ( nucleus.getNumNeutrons() < Uranium235Nucleus.ORIGINAL_NUM_NEUTRONS ){
-                    // Fission has occurred, so increment the counter.
+                    // This is a fissioned U235, so increment the counter.
                     fissionedU235Nuclei++;
                 }
             }
         }
         
-        if (totalU235Nuclei == 0){
+        // Add in the "ghost nuclei", which are nuclei that were removed from
+        // the sim because they went out of visual range.
+        fissionedU235Nuclei += _ghostDaughterNuclei / 2;
+        
+        if (unfissionedU235Nuclei + fissionedU235Nuclei == 0){
             // There are no U235 nuclei present, so return 0 and thereby
             // avoid any divide-by-zero issues.
             return 0;
         }
         
-        return 100 * (fissionedU235Nuclei/totalU235Nuclei);
+        return 100 * (fissionedU235Nuclei/(unfissionedU235Nuclei + fissionedU235Nuclei));
     }
         
     //------------------------------------------------------------------------
@@ -300,46 +301,9 @@ public class ChainReactionModel {
      */
     public void reset(){
 
-        // Get rid of all the existing nuclei and free nucleons.
-        int i;
-        
-        for (i = 0; i < _freeNeutrons.size(); i++){
-            notifyModelElementRemoved( _freeNeutrons.get( i ) );
-        }
-        _freeNeutrons.clear();
-        
-        for (i = 0; i < _u235Nuclei.size(); i++){
-            notifyModelElementRemoved( _u235Nuclei.get( i ) );
-            ((AtomicNucleus)_u235Nuclei.get( i )).removedFromModel();
-        }
-        _u235Nuclei.clear();
-        
-        for (i = 0; i < _u238Nuclei.size(); i++){
-            notifyModelElementRemoved( _u238Nuclei.get( i ) );
-            ((AtomicNucleus)_u238Nuclei.get( i )).removedFromModel();
-        }
-        _u238Nuclei.clear();
-        
-        for (i = 0; i < _daughterNuclei.size(); i++){
-            notifyModelElementRemoved( _daughterNuclei.get( i ) );
-            ((AtomicNucleus)_daughterNuclei.get( i )).removedFromModel();
-        }
-        _daughterNuclei.clear();
-        
-        for (i = 0; i < _u239Nuclei.size(); i++){
-            notifyModelElementRemoved( _u239Nuclei.get( i ) );
-            ((AtomicNucleus)_u239Nuclei.get( i )).removedFromModel();
-        }
-        _u239Nuclei.clear();
-        
-        // Zero out the counter that keeps track of daughter nuclei that have
-        // been removed because they moved out of range of the model.
-        _ghostDaughterNuclei = 0;
-        
-        // Remove any contained elements.  These will have already been
-        // removed from the view.
-        _containedElements.clear();
-        
+    	// Remove the nuclei and free neutrons.
+    	removeAllParticles();
+    	
         // Reset the containment vessel.
         _containmentVessel.reset();
         
@@ -374,6 +338,10 @@ public class ChainReactionModel {
         }
         _daughterNuclei.clear();
     	_ghostDaughterNuclei = 0;
+    	
+    	// This has probably changed the percentage of fissioned U235, so send
+    	// a notification.
+    	notifyPercentFissionedChanged();
     	
     	// Get rid of any free neutrons that are flying around.
         for (int i = 0; i < _freeNeutrons.size(); i++){
@@ -605,6 +573,51 @@ public class ChainReactionModel {
     }
     
     /**
+     * Remove all nuclei and free neutrons from the model.
+     */
+    private void removeAllParticles(){
+
+    	int i;
+        
+        for (i = 0; i < _freeNeutrons.size(); i++){
+            notifyModelElementRemoved( _freeNeutrons.get( i ) );
+        }
+        _freeNeutrons.clear();
+        
+        for (i = 0; i < _u235Nuclei.size(); i++){
+            notifyModelElementRemoved( _u235Nuclei.get( i ) );
+            ((AtomicNucleus)_u235Nuclei.get( i )).removedFromModel();
+        }
+        _u235Nuclei.clear();
+        
+        for (i = 0; i < _u238Nuclei.size(); i++){
+            notifyModelElementRemoved( _u238Nuclei.get( i ) );
+            ((AtomicNucleus)_u238Nuclei.get( i )).removedFromModel();
+        }
+        _u238Nuclei.clear();
+        
+        for (i = 0; i < _daughterNuclei.size(); i++){
+            notifyModelElementRemoved( _daughterNuclei.get( i ) );
+            ((AtomicNucleus)_daughterNuclei.get( i )).removedFromModel();
+        }
+        _daughterNuclei.clear();
+        
+        for (i = 0; i < _u239Nuclei.size(); i++){
+            notifyModelElementRemoved( _u239Nuclei.get( i ) );
+            ((AtomicNucleus)_u239Nuclei.get( i )).removedFromModel();
+        }
+        _u239Nuclei.clear();
+        
+        // Zero out the counter that keeps track of daughter nuclei that have
+        // been removed because they moved out of range of the model.
+        _ghostDaughterNuclei = 0;
+        
+        // Remove any contained elements.  These will have already been
+        // removed from the view.
+        _containedElements.clear();
+    }
+    
+    /**
      * Search for a location that is not already occupied by another nucleus.
      * 
      * @return
@@ -732,10 +745,10 @@ public class ChainReactionModel {
     
     private void handleContainmentVesselStateChange(boolean isEnabled){
         if (isEnabled){
-            // The containment vessel was just enabled, so we need to remove
-            // any nuclei that are outside of it.
-            removeNucleiOutsideContainmentVessel( _u235Nuclei );
-            removeNucleiOutsideContainmentVessel( _u238Nuclei );
+            // The containment vessel was just enabled, so we need to get rid
+        	// of existing nuclei and set up the initial conditions.
+        	removeAllParticles();
+        	setNumU235Nuclei(1);
         }
     }
     
