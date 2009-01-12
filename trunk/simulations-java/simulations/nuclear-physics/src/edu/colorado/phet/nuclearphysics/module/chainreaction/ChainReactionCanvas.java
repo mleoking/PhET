@@ -57,7 +57,7 @@ public class ChainReactionCanvas extends PhetPCanvas {
     private NeutronSourceNode _neutronSourceNode;
     AtomicBombGraphicNode _atomicBombGraphicNode;
     private GradientButtonNode _resetNucleiButtonNode;
-	private static final int BUTTON_DELAY_TIME = 2500; // In milliseconds.
+	private static final int BUTTON_DELAY_TIME = 3000; // In milliseconds.
     private static final Timer BUTTON_DELAY_TIMER = new Timer( BUTTON_DELAY_TIME, null );
 
     //----------------------------------------------------------------------------
