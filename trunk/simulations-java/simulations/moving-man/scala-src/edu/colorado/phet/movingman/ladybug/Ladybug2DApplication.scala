@@ -34,7 +34,7 @@ object Ladybug2DApplication {
 
     val clock = new ScalaClock(30, 1)
     class ScalaModule extends Module("my module", clock) {
-//      val model = new testing.RampModel
+      val model = new LadybugModel
       val canvas = new PhetPCanvas
       setSimulationPanel(canvas)
 
@@ -43,16 +43,19 @@ object Ladybug2DApplication {
       ptext.setOffset(300, 200)
       canvas addScreenChild ptext
       canvas setBackground new Color(200, 255, 240)
-      clock.addClockListener((dt: Double) => ptext.translate(1, 0))
-      clock.addClockListener((dt: Double) => ptext.translate(0, 2))
-//      clock.addClockListener(model.update(_))
+      clock.addClockListener((dt: Double) => ptext.translate(1 * dt, 0))
+      clock.addClockListener((dt: Double) => ptext.translate(0, 2 * dt))
 
-//      canvas.addScreenChild(new RampObjectNode(model.getObject(0)))
-//      canvas.addScreenChild(new RampTrackNode(model.getTrack(0)))
+      clock.addClockListener(model.update(_))
+
+      canvas.addScreenChild(new LadybugNode(model.ladybug))
+
+      //      canvas.addScreenChild(new RampObjectNode(model.getObject(0)))
+      //      canvas.addScreenChild(new RampTrackNode(model.getTrack(0)))
     }
 
     new PhetApplicationLauncher().launchSim(
-      new PhetApplicationConfig(args, "moving-man","ladybug-2d"),
+      new PhetApplicationConfig(args, "moving-man", "ladybug-2d"),
       new ApplicationConstructor() {
         override def getApplication(a: PhetApplicationConfig): PhetApplication = new PhetApplication(a) {
           addModule(new ScalaModule)
