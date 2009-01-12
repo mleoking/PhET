@@ -139,6 +139,8 @@
 	<classpathentry kind="lib" path="contrib/jfreechart/lib/servlet.jar"/>
 	<classpathentry kind="lib" path="contrib/beanshell/lib/servlet.jar"/>
 	<classpathentry kind="lib" path="build-tools/jsch/jsch.jar"/>
+	<classpathentry kind="lib" path="build-tools/scala/scala-compiler.jar"/>
+	<classpathentry kind="lib" path="build-tools/scala/scala-library.jar"/>
 	<classpathentry kind="lib" path="contrib/piccolo-sax/piccolo-sax.jar"/>
 	<classpathentry kind="lib" path="contrib/jfreechart/lib/jfreechart.jar" sourcepath="contrib/jfreechart/jfreechart-src.zip"/>
 	<classpathentry kind="lib" path="build-tools/apache-ant/lib/ant-junit.jar"/>
