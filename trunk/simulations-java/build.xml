@@ -72,6 +72,7 @@
         <javac srcdir="${phetbuild-src}:${dir.build-tools}/securechannelfacade/src/main/java"
                destdir="${phetbuild-classes-dir}"
                classpath="${proguard.jar}:${apache.commons.lang.jar};${jsch.jar}" debug="true"
+               source="1.4"
                debuglevel="lines,source">
             <src path="${phetbuild-src}"/>
         </javac>
