@@ -21,7 +21,7 @@ public class ExportSim {
     private void exportSim( String simname, File dest, File simulationsJava ) throws IOException {
         PhetProject p = new PhetProject( new File( simulationsJava, "simulations" ), simname );
         System.out.println( "p = " + p );
-        File[] s = p.getAllSourceRoots();
+        File[] s = p.getAllJavaSourceRoots();
         for ( int i = 0; i < s.length; i++ ) {
             File file = s[i];
             System.out.println( "file = " + file );
