@@ -76,7 +76,7 @@ public class ChainReactionModel {
     private ArrayList _u235Nuclei = new ArrayList();
     private ArrayList _u238Nuclei = new ArrayList();
     private ArrayList _daughterNuclei = new ArrayList();
-    private ArrayList _inactiveNuclei = new ArrayList();
+    private ArrayList _u239Nuclei = new ArrayList();
     private ArrayList _freeNeutrons = new ArrayList();
     private ArrayList _containedElements = new ArrayList();
     private Random _rand = new Random();
@@ -213,11 +213,11 @@ public class ChainReactionModel {
     
     public ArrayList getNuclei(){
         ArrayList nucleiList = new ArrayList(_u235Nuclei.size() + _u238Nuclei.size() + _daughterNuclei.size() + 
-                _inactiveNuclei.size());
+                _u239Nuclei.size());
         nucleiList.addAll( _u235Nuclei );
         nucleiList.addAll( _u238Nuclei );
         nucleiList.addAll( _daughterNuclei );
-        nucleiList.addAll( _inactiveNuclei );
+        nucleiList.addAll( _u239Nuclei );
         return nucleiList;
     }
     
@@ -279,22 +279,7 @@ public class ChainReactionModel {
      * reaction has started.
      */
     public boolean getChangedNucleiExist(){
-    	boolean changedNucleiExist = false;
-    	if (_daughterNuclei.size() > 0){
-    		// This indicates that one or more U235 nucleus has decayed.
-    		changedNucleiExist = true;
-    	}
-    	else{
-    		// Check if any of the U238 has absorbed a neutron.
-    		for (int i=0; i < _u238Nuclei.size(); i++){
-    			Uranium238Nucleus u238Nucleus = (Uranium238Nucleus)_u238Nuclei.get(i);
-    			if (u238Nucleus.getNumNeutrons() > Uranium238Nucleus.ORIGINAL_NUM_NEUTRONS){
-    				changedNucleiExist = true;
-    				break;
-    			}
-    		}
-    	}
-    	return changedNucleiExist;
+    	return (_daughterNuclei.size() > 0) || (_u239Nuclei.size() > 0);
     }
     
     /**
@@ -341,11 +326,11 @@ public class ChainReactionModel {
         }
         _daughterNuclei.clear();
         
-        for (i = 0; i < _inactiveNuclei.size(); i++){
-            notifyModelElementRemoved( _inactiveNuclei.get( i ) );
-            ((AtomicNucleus)_inactiveNuclei.get( i )).removedFromModel();
+        for (i = 0; i < _u239Nuclei.size(); i++){
+            notifyModelElementRemoved( _u239Nuclei.get( i ) );
+            ((AtomicNucleus)_u239Nuclei.get( i )).removedFromModel();
         }
-        _inactiveNuclei.clear();
+        _u239Nuclei.clear();
         
         // Zero out the counter that keeps track of daughter nuclei that have
         // been removed because they moved out of range of the model.
@@ -396,6 +381,14 @@ public class ChainReactionModel {
         }
         _freeNeutrons.clear();
         
+        // Reset any U238 nuclei that have absorbed a neutron (and thus
+        // become U239).
+        for (int i = 0; i < _u239Nuclei.size(); i++){
+        	Uranium238Nucleus u239Nucleus = (Uranium238Nucleus)_u239Nuclei.get(i);
+        	u239Nucleus.reset();
+        	_u238Nuclei.add(u239Nucleus);
+        }
+        _u239Nuclei.clear();
     }
     
     /**
@@ -516,6 +509,21 @@ public class ChainReactionModel {
         
         return _u238Nuclei.size();
     }
+    
+    /**
+     * Remove all the U235 nuclei that have decayed, which includes their
+     * daughter nuclei.
+     */
+    public void removeDecayedU235Nuclei(){
+    	
+        for ( Iterator iterator = _daughterNuclei.iterator(); iterator.hasNext(); ) {
+            
+            AtomicNucleus nucleus = (AtomicNucleus) iterator.next();
+            iterator.remove();
+            notifyModelElementRemoved(nucleus);
+        }
+        _ghostDaughterNuclei = 0;
+    }
 
     //------------------------------------------------------------------------
     // Private Methods
@@ -620,8 +628,8 @@ public class ChainReactionModel {
                     pointAvailable = false;
                 }
             }
-            for (int j = 0; (j < _inactiveNuclei.size()) && (pointAvailable == true); j++){
-                if (position.distance( ((AtomicNucleus)_inactiveNuclei.get(j)).getPositionReference()) < INTER_NUCLEUS_PROXIMITRY_LIMIT){
+            for (int j = 0; (j < _u239Nuclei.size()) && (pointAvailable == true); j++){
+                if (position.distance( ((AtomicNucleus)_u239Nuclei.get(j)).getPositionReference()) < INTER_NUCLEUS_PROXIMITRY_LIMIT){
                     // This point is taken.
                     pointAvailable = false;
                 }
@@ -712,7 +720,7 @@ public class ChainReactionModel {
         removeContainedParticles();
     }
     
-    public void handleContainmentVesselStateChange(boolean isEnabled){
+    private void handleContainmentVesselStateChange(boolean isEnabled){
         if (isEnabled){
             // The containment vessel was just enabled, so we need to remove
             // any nuclei that are outside of it.
@@ -721,7 +729,7 @@ public class ChainReactionModel {
         }
     }
     
-    public void handleContainmentVesselRadiusChanged(double newRadius){
+    private void handleContainmentVesselRadiusChanged(double newRadius){
 
         // Remove any nuclei that might now be outside the containment vessel.
         removeNucleiOutsideContainmentVessel( _u235Nuclei );
@@ -918,7 +926,7 @@ public class ChainReactionModel {
             // absorb any more.
             if (nucleus.getNumNeutrons() == Uranium238Nucleus.ORIGINAL_NUM_NEUTRONS + 1){
                 _u238Nuclei.remove( nucleus );
-                _inactiveNuclei.add( nucleus );
+                _u239Nuclei.add( nucleus );
                 notifyReativeNucleiNumberChanged();
             }
         }

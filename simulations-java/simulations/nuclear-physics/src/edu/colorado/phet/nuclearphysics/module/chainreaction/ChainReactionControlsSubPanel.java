@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
@@ -125,8 +126,21 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
         _u235AmountControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 if (_ignoreStateChanges == false){
+                	// Set the new value for U235 nuclei.
                     _model.setNumU235Nuclei( (int)Math.round(_u235AmountControl.getValue()) );
                 }
+            }
+        });
+        _u235AmountControl.getSlider().addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                // Clear out any decayed U235 before the user starts to
+            	// manipulate the amount of U235 that is present.  This is
+            	// done to prevent the decay products from continuously
+            	// building up over multiple reactions, which can happen if
+            	// the user keeps adding new nuclei with this slider without
+            	// resetting the simulation.  If this is not done, resetting
+            	// the nuclei is problematic.
+                _model.removeDecayedU235Nuclei();
             }
         });
         

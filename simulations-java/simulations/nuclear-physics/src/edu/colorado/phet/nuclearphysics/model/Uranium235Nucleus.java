@@ -108,11 +108,6 @@ public class Uranium235Nucleus extends AtomicNucleus {
         // until something changes.
         _fissionTime = 0;
 
-        // Set acceleration, velocity, and position back to 0.
-        setPosition( new Point2D.Double(0, 0) );
-        setVelocity( 0, 0 );
-        setAcceleration( 0, 0 );
-        
         if ((_numNeutrons != ORIGINAL_NUM_NEUTRONS) || (_numProtons != ORIGINAL_NUM_PROTONS)){
             // Fission or absorption has occurred.
             _numNeutrons = ORIGINAL_NUM_NEUTRONS;
@@ -121,9 +116,6 @@ public class Uranium235Nucleus extends AtomicNucleus {
             // Notify all listeners of the change to our atomic weight.
             notifyAtomicWeightChanged(null);
         }
-
-        // Notify all listeners of the potential position change.
-        notifyPositionChanged();
     }
     
     //------------------------------------------------------------------------
