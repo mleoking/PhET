@@ -750,6 +750,11 @@ public class ChainReactionModel {
         	removeAllParticles();
         	setNumU235Nuclei(1);
         }
+        else{
+        	// Containment vessel was turned off, so contained particles
+        	// should go away.
+        	removeContainedParticles();
+        }
     }
     
     private void handleContainmentVesselRadiusChanged(double newRadius){
