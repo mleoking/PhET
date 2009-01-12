@@ -80,12 +80,23 @@ public class ChainReactionCanvas extends PhetPCanvas {
                 handleModelElementRemoved(modelElement);
             }
             public void reactiveNucleiNumberChanged(){
-            	if ( _chainReactionModel.getChangedNucleiExist() && 
-            		 !_resetNucleiButtonNode.isVisible()){
-            		
-            		// Start or restart the timer that will cause the "Reset
-            		// Nuclei" button to be shown.
-            		BUTTON_DELAY_TIMER.restart();
+            	if ( _chainReactionModel.getChangedNucleiExist() ){
+            		if (!_resetNucleiButtonNode.isVisible()){
+                		// Start or restart the timer that will cause the "Reset
+                		// Nuclei" button to be shown.
+                		BUTTON_DELAY_TIMER.restart();
+                		System.out.println("Starting timer because changed nuclei exist.");
+            		}
+            	}
+            	else{
+            		// If there are no changed nuclei, the button should be
+            		// invisible and the timer should be off.
+            		if (BUTTON_DELAY_TIMER.isRunning()){
+            			BUTTON_DELAY_TIMER.stop();
+                		System.out.println("Stopping timer because no changed nuclei exist.");
+            		}
+            		_resetNucleiButtonNode.setVisible(false);
+            		System.out.println("Whatever.");
             	}
             }
             public void resetOccurred(){

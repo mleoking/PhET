@@ -353,13 +353,15 @@ public class ChainReactionModel {
         // become U239).  We do it this way instead of removing the old ones
         // and adding back new ones (like we do for U235) so that they stay in
         // the same location.
-        for (int i = 0; i < _u239Nuclei.size(); i++){
-        	Uranium238Nucleus u239Nucleus = (Uranium238Nucleus)_u239Nuclei.get(i);
-        	u239Nucleus.reset();
-        	_u238Nuclei.add(u239Nucleus);
-        	notifyReativeNucleiNumberChanged();
+        if (_u239Nuclei.size() > 0){
+	        for (int i = 0; i < _u239Nuclei.size(); i++){
+	        	Uranium238Nucleus u239Nucleus = (Uranium238Nucleus)_u239Nuclei.get(i);
+	        	u239Nucleus.reset();
+	        	_u238Nuclei.add(u239Nucleus);
+	        }
+	        _u239Nuclei.clear();
+	        notifyReativeNucleiNumberChanged();
         }
-        _u239Nuclei.clear();
         
         // Clear out any debris that had been captured by the containment
         // vessel.
