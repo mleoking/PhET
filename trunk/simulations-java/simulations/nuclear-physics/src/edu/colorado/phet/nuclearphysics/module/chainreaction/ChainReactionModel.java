@@ -521,6 +521,9 @@ public class ChainReactionModel {
             AtomicNucleus nucleus = (AtomicNucleus) iterator.next();
             iterator.remove();
             notifyModelElementRemoved(nucleus);
+            if (_containedElements.contains(nucleus)){
+            	_containedElements.remove(nucleus);
+            }
         }
         _ghostDaughterNuclei = 0;
     }
