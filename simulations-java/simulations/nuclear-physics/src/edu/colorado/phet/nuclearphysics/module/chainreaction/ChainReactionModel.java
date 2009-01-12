@@ -280,7 +280,7 @@ public class ChainReactionModel {
      * reaction has started.
      */
     public boolean getChangedNucleiExist(){
-    	return (_daughterNuclei.size() > 0) || (_u239Nuclei.size() > 0);
+    	return (_daughterNuclei.size() > 0) || (_u239Nuclei.size() > 0) || _ghostDaughterNuclei > 0;
     }
     
     /**
@@ -332,12 +332,15 @@ public class ChainReactionModel {
     	
     	// Remove the daughter nuclei, since the original U235 nuclei that
     	// they came from have been reset.
-        for (int i = 0; i < _daughterNuclei.size(); i++){
-            notifyModelElementRemoved( _daughterNuclei.get( i ) );
-            ((AtomicNucleus)_daughterNuclei.get( i )).removedFromModel();
-        }
-        _daughterNuclei.clear();
-    	_ghostDaughterNuclei = 0;
+    	if (_daughterNuclei.size() > 0){
+            for (int i = 0; i < _daughterNuclei.size(); i++){
+                notifyModelElementRemoved( _daughterNuclei.get( i ) );
+                ((AtomicNucleus)_daughterNuclei.get( i )).removedFromModel();
+            }
+            _daughterNuclei.clear();
+        	_ghostDaughterNuclei = 0;
+        	notifyReativeNucleiNumberChanged();
+    	}
     	
     	// This has probably changed the percentage of fissioned U235, so send
     	// a notification.

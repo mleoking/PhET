@@ -85,7 +85,6 @@ public class ChainReactionCanvas extends PhetPCanvas {
                 		// Start or restart the timer that will cause the "Reset
                 		// Nuclei" button to be shown.
                 		BUTTON_DELAY_TIMER.restart();
-                		System.out.println("Starting timer because changed nuclei exist.");
             		}
             	}
             	else{
@@ -93,10 +92,8 @@ public class ChainReactionCanvas extends PhetPCanvas {
             		// invisible and the timer should be off.
             		if (BUTTON_DELAY_TIMER.isRunning()){
             			BUTTON_DELAY_TIMER.stop();
-                		System.out.println("Stopping timer because no changed nuclei exist.");
             		}
             		_resetNucleiButtonNode.setVisible(false);
-            		System.out.println("Whatever.");
             	}
             }
             public void resetOccurred(){
@@ -236,6 +233,15 @@ public class ChainReactionCanvas extends PhetPCanvas {
                 // Remove the nucleus node.
                 _nucleusLayer.removeChild( (PNode)nucleusNode );
                 _modelElementToNodeMap.remove( modelElement );
+
+                // If the Reset Nuclei button is currently showing, and if the
+                // removed nucleus is an undecayed nucleus, hide the button
+                // assuming that the user is removing nuclei intentionally.
+                if ( _resetNucleiButtonNode.isVisible() && 
+                	 ( modelElement instanceof Uranium235Nucleus ||
+                	   modelElement instanceof Uranium238Nucleus )){
+                	_resetNucleiButtonNode.setVisible(false);
+                }
             }
             else {
                 // This is not a composite model element, so just remove the
