@@ -82,6 +82,8 @@ public class ChainReactionModel {
     private Random _rand = new Random();
     private NeutronSource _neutronSource;
     private ContainmentVessel _containmentVessel;
+    private int _ghostDaughterNuclei = 0; // Daughter nuclei that have been removed from the model in order to save
+                                          // resources but haven't yet been reset.
     
     //------------------------------------------------------------------------
     // Constructor
@@ -271,6 +273,31 @@ public class ChainReactionModel {
     //------------------------------------------------------------------------
 
     /**
+     * Returns a boolean value that indicates whether any nuclei are present
+     * in the model that have been changed by the chain reaction.  This can
+     * essentially be used as an indicator of whether or not the chain
+     * reaction has started.
+     */
+    public boolean getChangedNucleiExist(){
+    	boolean changedNucleiExist = false;
+    	if (_daughterNuclei.size() > 0){
+    		// This indicates that one or more U235 nucleus has decayed.
+    		changedNucleiExist = true;
+    	}
+    	else{
+    		// Check if any of the U238 has absorbed a neutron.
+    		for (int i=0; i < _u238Nuclei.size(); i++){
+    			Uranium238Nucleus u238Nucleus = (Uranium238Nucleus)_u238Nuclei.get(i);
+    			if (u238Nucleus.getNumNeutrons() > Uranium238Nucleus.ORIGINAL_NUM_NEUTRONS){
+    				changedNucleiExist = true;
+    				break;
+    			}
+    		}
+    	}
+    	return changedNucleiExist;
+    }
+    
+    /**
      * This method allows the caller to register for changes in the overall
      * model, as opposed to changes in the individual model elements.
      * 
@@ -320,6 +347,10 @@ public class ChainReactionModel {
         }
         _inactiveNuclei.clear();
         
+        // Zero out the counter that keeps track of daughter nuclei that have
+        // been removed because they moved out of range of the model.
+        _ghostDaughterNuclei = 0;
+        
         // Remove any contained elements.  These will have already been
         // removed from the view.
         _containedElements.clear();
@@ -338,6 +369,33 @@ public class ChainReactionModel {
         // Let listeners know that things have changed.
         notifyPercentFissionedChanged();
         notifyResetOccurred();
+    }
+    
+    /**
+     * Reset the existing nuclei that have decayed.
+     */
+    public void resetNuclei(){
+    	
+    	// Reset the U235 nuclei that have decayed by determining how many
+    	// daughter nuclei exist and adding back half that many U235 nuclei.
+    	int numDecayedU235Nuclei = (_daughterNuclei.size() + _ghostDaughterNuclei) / 2;
+    	setNumU235Nuclei( getNumU235Nuclei() + numDecayedU235Nuclei );
+    	
+    	// Remove the daughter nuclei, since the original U235 nuclei that
+    	// they came from have been reset.
+        for (int i = 0; i < _daughterNuclei.size(); i++){
+            notifyModelElementRemoved( _daughterNuclei.get( i ) );
+            ((AtomicNucleus)_daughterNuclei.get( i )).removedFromModel();
+        }
+        _daughterNuclei.clear();
+    	_ghostDaughterNuclei = 0;
+    	
+    	// Get rid of any free neutrons that are flying around.
+        for (int i = 0; i < _freeNeutrons.size(); i++){
+            notifyModelElementRemoved( _freeNeutrons.get( i ) );
+        }
+        _freeNeutrons.clear();
+        
     }
     
     /**
@@ -643,6 +701,7 @@ public class ChainReactionModel {
                 _daughterNuclei.remove( i );
                 nucleus.removedFromModel();
                 notifyModelElementRemoved( nucleus );
+                _ghostDaughterNuclei++;
             }
         }
     }
@@ -716,9 +775,11 @@ public class ChainReactionModel {
                 if (!_u235Nuclei.remove( modelElement )){
                     _daughterNuclei.remove( modelElement );
                 }
+                _ghostDaughterNuclei++;
             }
             else if (modelElement instanceof DaughterNucleus){
                 _daughterNuclei.remove( modelElement );
+                _ghostDaughterNuclei++;
             }
             else{
                 // This shouldn't happen, debug it if it does.

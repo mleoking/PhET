@@ -75,6 +75,7 @@ public class NuclearPhysicsStrings {
     public static final String DECAY_TIME_CHART_HALF_LIFE = NuclearPhysicsResources.getString( "DecayTimeChart.HalfLife" );
 
     public static final String RESET_NUCLEUS = NuclearPhysicsResources.getString( "SharedLabels.ResetNucleus" );
+    public static final String RESET_NUCLEI = NuclearPhysicsResources.getString( "SharedLabels.ResetNuclei" );
     
     public static final String DECAY_ENERGY_PROFILE_X_AXIS_LABEL = NuclearPhysicsResources.getString( "DecayEnergyProfilePanel.XAxisLabel" );
     public static final String DECAY_ENERGY_PROFILE_Y_AXIS_LABEL = NuclearPhysicsResources.getString( "DecayEnergyProfilePanel.YAxisLabel" );
@@ -86,7 +87,6 @@ public class NuclearPhysicsStrings {
     public static final String EXPLOSION_LABEL = NuclearPhysicsResources.getString( "MultipleNucleusFissionControlPanel.ExplosionLabel" );
 
     public static final String FIRE_NEUTRONS = NuclearPhysicsResources.getString( "ControlledFissionControlPanel.FireButton" );
-    public static final String RESET_NUCLEI = NuclearPhysicsResources.getString( "ControlledFissionControlPanel.ResetNuclei" );
     public static final String CONTROL_ROD_ADJUSTER_LABEL = NuclearPhysicsResources.getString( "ControlledFissionControlPanel.ControlRodAdjuster" );
     public static final String ENERGY_GRAPH_LABEL = NuclearPhysicsResources.getString( "ControlledFissionControlPanel.EnergyGraphLabel" );
     public static final String ENERGY_GRAPH_UNITS = NuclearPhysicsResources.getString( "ControlledFissionControlPanel.EnergyGraphUnits" );
