@@ -382,11 +382,14 @@ public class ChainReactionModel {
         _freeNeutrons.clear();
         
         // Reset any U238 nuclei that have absorbed a neutron (and thus
-        // become U239).
+        // become U239).  We do it this way instead of removing the old ones
+        // and adding back new ones (like we do for U235) so that they stay in
+        // the same location.
         for (int i = 0; i < _u239Nuclei.size(); i++){
         	Uranium238Nucleus u239Nucleus = (Uranium238Nucleus)_u239Nuclei.get(i);
         	u239Nucleus.reset();
         	_u238Nuclei.add(u239Nucleus);
+        	notifyReativeNucleiNumberChanged();
         }
         _u239Nuclei.clear();
         
