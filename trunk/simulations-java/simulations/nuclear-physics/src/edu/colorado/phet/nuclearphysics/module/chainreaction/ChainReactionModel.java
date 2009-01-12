@@ -766,9 +766,10 @@ public class ChainReactionModel {
             if (nucleus.getPositionReference().distance( 0, 0 ) > 
                     _containmentVessel.getRadius() - CONTAINMENT_VESSEL_MARGIN){
                 // Remove this nucleus.
-                notifyModelElementRemoved( nucleus );
                 nucleus.removedFromModel();
                 nucleiList.remove( i );
+                notifyModelElementRemoved( nucleus );
+                notifyReativeNucleiNumberChanged();
             }
         }
     }
