@@ -1,6 +1,8 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.build;
 
+import scala.tools.ant.Scalac;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -57,11 +59,28 @@ public class PhetBuildCommand {
     }
 
     private void compile() {
+        compileJava();
+        if ( project.containsScalaSource() ) {
+            compileScala();
+        }
+    }
+
+    private void compileScala() {
+        Scalac scalac = new Scalac();
+        scalac.setClasspath( new Path( antTaskRunner.getProject(), toString( project.getAllScalaSourceRoots() ) + " : " + project.getClassesDirectory() + " : C:\\Users\\Owner\\Desktop\\scala-2.7.2.final-jvm4\\scala-2.7.2.final-jvm4\\scala-2.7.2.final-jvm4\\lib\\scala-library.jar" ) );
+        scalac.setSrcdir( new Path( antTaskRunner.getProject(), toString( project.getAllScalaSourceRoots() ) ) );
+        scalac.setTarget( "jvm-1.4" );//see Scalac.Target
+        scalac.setDestdir( project.getClassesDirectory() );
+        antTaskRunner.runTask( scalac );
+        System.out.println( "Finished scala build." );
+    }
+
+    private void compileJava() {
         if ( useJavaVersionChecker ) {
             compileJavaVersionChecker();
         }
 
-        File[] src = project.getAllSourceRoots();
+        File[] src = project.getAllJavaSourceRoots();
         File[] classpath = project.getAllJarFiles();
 
         PhetBuildUtils.antEcho( antTaskRunner, "Compiling " + project.getName() + ".", getClass() );
@@ -73,7 +92,7 @@ public class PhetBuildCommand {
         javac.setDestdir( project.getClassesDirectory() );
         javac.setClasspath( new Path( antTaskRunner.getProject(), toString( classpath ) ) );
 
-        //"lines,source" appears to be necessary to get line number debug info, for Energy Skate Park, this adds 50kb; adding source adds an additional 80kb
+        //"lines,source" appears to be necessary to get line number debug info
         javac.setDebugLevel( "lines,source" );
         javac.setDebug( true );
 

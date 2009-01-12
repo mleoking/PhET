@@ -81,6 +81,9 @@ public class PhetProject {
     public String getSource() {
         return properties.getProperty( "project.depends.source" );
     }
+    public String getScalaSource() {
+        return properties.getProperty( "project.depends.scala.source" );
+    }
 
     public String getLib() {
         return properties.getProperty( "project.depends.lib" );
@@ -118,6 +121,11 @@ public class PhetProject {
             }
         }
         return (File[]) all.toArray( new File[0] );
+    }
+
+
+    private File[] getScalaSourceRoots() {
+        return expandPath( getScalaSource() );
     }
 
     public File[] getSourceRoots() {
@@ -196,6 +204,9 @@ public class PhetProject {
     }
 
     private File[] expandPath( String lib ) {
+        if (lib==null||lib.trim().length()==0){
+            return new File[0];
+        }
         ArrayList files = new ArrayList();
         StringTokenizer stringTokenizer = new StringTokenizer( lib, ": " );
         while ( stringTokenizer.hasMoreTokens() ) {
@@ -230,7 +241,25 @@ public class PhetProject {
         throw new RuntimeException( "No path found for token=" + token + ", antBaseDir=" + getAntBaseDir().getAbsolutePath() + ", in project=" + this );
     }
 
-    public File[] getAllSourceRoots() {
+
+    //copied from getAllJavaSourceRoots, should use interface for different call
+    public File[] getAllScalaSourceRoots() {
+        PhetProject[] dependencies = getAllDependencies();
+        ArrayList srcDirs = new ArrayList();
+        for ( int i = 0; i < dependencies.length; i++ ) {
+            PhetProject dependency = dependencies[i];
+            File[] jf = dependency.getScalaSourceRoots();
+            for ( int j = 0; j < jf.length; j++ ) {
+                File file = jf[j];
+                if ( !srcDirs.contains( file ) ) {
+                    srcDirs.add( file );
+                }
+            }
+        }
+        return (File[]) srcDirs.toArray( new File[0] );
+    }
+
+    public File[] getAllJavaSourceRoots() {
         PhetProject[] dependencies = getAllDependencies();
         ArrayList srcDirs = new ArrayList();
         for ( int i = 0; i < dependencies.length; i++ ) {
@@ -703,6 +732,10 @@ public class PhetProject {
     }
 
     private ArrayList listeners = new ArrayList();
+
+    public boolean containsScalaSource() {
+        return getAllScalaSourceRoots().length>0;
+    }
 
     public static interface Listener {
         public void changesTextChanged();

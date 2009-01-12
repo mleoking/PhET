@@ -49,11 +49,13 @@
     <property name="phetbuild-classes-dir" location="${ant-output}/phetbuild/classes"/>
     <property name="proguard.jar" location="${dir.build-tools}/proguard/lib/proguard.jar"/>
     <property name="jsch.jar" location="${dir.build-tools}/jsch/jsch.jar"/>
+    <property name="scala-compiler.jar" location="${dir.build-tools}/scala/scala-compiler.jar"/>
+    <property name="scala-library.jar" location="${dir.build-tools}/scala/scala-library.jar"/>
     <property name="apache.commons.lang.jar" location="${dir.build-tools}/commons-lang/commons-lang.jar"/>
     <property name="phetbuild-src" location="${dir.build-tools}/phet-build/src"/>
 
     <!-- PhET task implementations -->
-    <property name="phetbuild-classpath" value="${phetbuild-classes-dir};${proguard.jar};${apache.commons.lang.jar};${jsch.jar}"/>
+    <property name="phetbuild-classpath" value="${phetbuild-classes-dir};${proguard.jar};${apache.commons.lang.jar};${jsch.jar};;${scala-compiler.jar};${scala-library.jar}"/>
     <property name="phet-build-gui-classname" value="edu.colorado.phet.build.gui.PhetBuildGUITask"/>
 
     <!-- =================================================================== -->
@@ -71,7 +73,7 @@
 
         <javac srcdir="${phetbuild-src}:${dir.build-tools}/securechannelfacade/src/main/java"
                destdir="${phetbuild-classes-dir}"
-               classpath="${proguard.jar}:${apache.commons.lang.jar};${jsch.jar}" debug="true"
+               classpath="${proguard.jar}:${apache.commons.lang.jar};${jsch.jar};${scala-compiler.jar};${scala-library.jar}" debug="true"
                source="1.4"
                debuglevel="lines,source">
             <src path="${phetbuild-src}"/>
