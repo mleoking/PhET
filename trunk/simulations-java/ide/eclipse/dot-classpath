@@ -28,6 +28,8 @@
 	<classpathentry kind="src" path="contrib/piccolo2d/core/src/test/java"/>
 	<classpathentry excluding="edu/umd/cs/piccolo/swtexamples/" kind="src" path="contrib/piccolo2d/examples/src/main/java"/>
 	<classpathentry excluding="edu/umd/cs/piccolox/swt/" kind="src" path="contrib/piccolo2d/extras/src/main/java"/>
+	<classpathentry kind="src" path="simulations/acid-base-solutions/src"/>
+	<classpathentry kind="src" path="simulations/acid-base-solutions/data"/>
 	<classpathentry kind="src" path="simulations/balloons/src"/>
 	<classpathentry kind="src" path="simulations/balloons/data"/>
 	<classpathentry kind="src" path="simulations/battery-voltage/src"/>

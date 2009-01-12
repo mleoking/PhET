@@ -1,0 +1,2 @@
+1/12/09 - set up basic framework, based on sim-template
+1/12/09 - changes log file created
