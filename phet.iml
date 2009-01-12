@@ -30,7 +30,6 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/timeseries/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/JSci" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/Jama/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/apple/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/beanshell/asm/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/beanshell/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/jade/src" isTestSource="false" />
@@ -62,6 +61,7 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/maze-game/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/microwaves/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/motion-2d/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/moving-man/scala-src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/moving-man/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/mri/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/mvc-example/src" isTestSource="false" />
@@ -99,7 +99,7 @@
       <sourceFolder url="file://$MODULE_DIR$/util/updater/src" isTestSource="false" />
     </content>
     <orderEntry type="library" name="scala-2.7.2.final" level="application" />
-    <orderEntry type="jdk" jdkName="1.6" jdkType="JavaSDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
       <library>
@@ -258,15 +258,6 @@
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/simulations-java/simulations/forces-1d/data" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/simulations-java/simulations/moving-man/phetcommon/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
