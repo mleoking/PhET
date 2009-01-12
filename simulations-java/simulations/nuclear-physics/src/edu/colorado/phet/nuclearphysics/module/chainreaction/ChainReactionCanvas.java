@@ -112,6 +112,10 @@ public class ChainReactionCanvas extends PhetPCanvas {
         _nucleusLayer = new PNode();
         addWorldChild( _nucleusLayer );
         
+        // Add a node that will depict the containment vessel.
+        addWorldChild(new ContainmentVesselNode(_chainReactionModel.getContainmentVessel(), this, 
+                _chainReactionModel.getClock()));
+        
         // Add the button that will allow the user to clear the nuclei from
         // the canvas.
         _resetNucleiButtonNode = new GradientButtonNode(NuclearPhysicsStrings.RESET_NUCLEI, 16,
@@ -138,10 +142,6 @@ public class ChainReactionCanvas extends PhetPCanvas {
             	BUTTON_DELAY_TIMER.stop();
             }
         } );
-        
-        // Add a node that will depict the containment vessel.
-        addWorldChild(new ContainmentVesselNode(_chainReactionModel.getContainmentVessel(), this, 
-                _chainReactionModel.getClock()));
         
         // Add the neutron source to the canvas.
         _neutronSourceNode = new NeutronSourceNode(_chainReactionModel.getNeutronSource(), 50);
