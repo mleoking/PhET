@@ -1,3 +1,4 @@
+1-12-2009: Glaciers (2.00) - many new features, minor bug fixes
 11-17-2008: Balloons and Static Electricity (1.07) - use PhET common code framework
 11-17-2008: Radio Waves and Electromagnetic Fields (1.06) - minor bug fixes,
 use PhET common code framework
