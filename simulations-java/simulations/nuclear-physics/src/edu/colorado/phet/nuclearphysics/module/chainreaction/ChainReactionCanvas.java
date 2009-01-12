@@ -19,6 +19,8 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.Neutron;
 import edu.colorado.phet.nuclearphysics.model.Uranium235CompositeNucleus;
+import edu.colorado.phet.nuclearphysics.model.Uranium235Nucleus;
+import edu.colorado.phet.nuclearphysics.model.Uranium238Nucleus;
 import edu.colorado.phet.nuclearphysics.view.AtomicBombGraphicNode;
 import edu.colorado.phet.nuclearphysics.view.AtomicNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.view.ContainmentVesselNode;
@@ -188,6 +190,16 @@ public class ChainReactionCanvas extends PhetPCanvas {
             PNode atomNode = new AtomicNucleusImageNode((AtomicNucleus)modelElement);
             _nucleusLayer.addChild( atomNode );
             _modelElementToNodeMap.put( modelElement, atomNode );
+            
+            // If the Reset Nuclei button is currently showing, and if the
+            // newly added nucleus is not a decay byproduct, hide the button,
+            // assuming that the user has chosen another means to restart the
+            // sim.
+            if ( _resetNucleiButtonNode.isVisible() && 
+            	 ( modelElement instanceof Uranium235Nucleus ||
+            	   modelElement instanceof Uranium238Nucleus )){
+            	_resetNucleiButtonNode.setVisible(false);
+            }
         }
         else if (modelElement instanceof Neutron){
             // Add a corresponding neutron node for this guy.
