@@ -67,7 +67,9 @@ public class PhetBuildCommand {
 
     private void compileScala() {
         Scalac scalac = new Scalac();
-        scalac.setClasspath( new Path( antTaskRunner.getProject(), toString( project.getAllScalaSourceRoots() ) + " : " + project.getClassesDirectory() + " : C:\\Users\\Owner\\Desktop\\scala-2.7.2.final-jvm4\\scala-2.7.2.final-jvm4\\scala-2.7.2.final-jvm4\\lib\\scala-library.jar" ) );
+        String s = new File( project.getProjectDir(), "../../contrib/scala/scala-library.jar" ).getAbsolutePath();
+        System.out.println( "s = " + s );
+        scalac.setClasspath( new Path( antTaskRunner.getProject(), toString( project.getAllScalaSourceRoots() ) + " : " + project.getClassesDirectory().getAbsolutePath() + " : " + s ) );
         scalac.setSrcdir( new Path( antTaskRunner.getProject(), toString( project.getAllScalaSourceRoots() ) ) );
         scalac.setTarget( "jvm-1.4" );//see Scalac.Target
         scalac.setDestdir( project.getClassesDirectory() );
