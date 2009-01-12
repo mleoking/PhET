@@ -2,14 +2,20 @@
 
 package edu.colorado.phet.nuclearphysics.module.chainreaction;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.swing.Timer;
+
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.Neutron;
 import edu.colorado.phet.nuclearphysics.model.Uranium235CompositeNucleus;
@@ -50,6 +56,9 @@ public class ChainReactionCanvas extends PhetPCanvas {
     private PNode _nucleusLayer;
     private NeutronSourceNode _neutronSourceNode;
     AtomicBombGraphicNode _atomicBombGraphicNode;
+    private GradientButtonNode _resetNucleiButtonNode;
+	private static final int BUTTON_DELAY_TIME = 2500; // In milliseconds.
+    private static final Timer BUTTON_DELAY_TIMER = new Timer( BUTTON_DELAY_TIME, null );
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -67,6 +76,21 @@ public class ChainReactionCanvas extends PhetPCanvas {
             }
             public void modelElementRemoved(Object modelElement){
                 handleModelElementRemoved(modelElement);
+            }
+            public void reactiveNucleiNumberChanged(){
+            	if ( _chainReactionModel.getChangedNucleiExist() && 
+            		 !_resetNucleiButtonNode.isVisible()){
+            		
+            		// Start or restart the timer that will cause the "Reset
+            		// Nuclei" button to be shown.
+            		BUTTON_DELAY_TIMER.restart();
+            	}
+            }
+            public void resetOccurred(){
+            	if (BUTTON_DELAY_TIMER.isRunning()){
+            		BUTTON_DELAY_TIMER.stop();
+            	}
+            	_resetNucleiButtonNode.setVisible(false);
             }
         });
         
@@ -87,6 +111,33 @@ public class ChainReactionCanvas extends PhetPCanvas {
         // will be added.
         _nucleusLayer = new PNode();
         addWorldChild( _nucleusLayer );
+        
+        // Add the button that will allow the user to clear the nuclei from
+        // the canvas.
+        _resetNucleiButtonNode = new GradientButtonNode(NuclearPhysicsStrings.RESET_NUCLEI, 16,
+        		NuclearPhysicsConstants.CANVAS_RESET_BUTTON_COLOR);
+        _resetNucleiButtonNode.setScale(0.40);
+        _resetNucleiButtonNode.setOffset(-100, -70); 
+        addWorldChild(_resetNucleiButtonNode);
+        _resetNucleiButtonNode.setVisible(false);  // Initially invisible, becomes visible when nucleus decays.
+        
+        // Register to receive button pushes.
+        _resetNucleiButtonNode.addActionListener( new ActionListener(){
+            public void actionPerformed(ActionEvent event){
+                _chainReactionModel.resetNuclei();
+                _resetNucleiButtonNode.setVisible(false);
+            }
+        });
+        
+        // Set up the button delay timer that will make the reset button
+        // appear some time after the decay has occurred.
+		BUTTON_DELAY_TIMER.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+            	// Show the button.
+            	_resetNucleiButtonNode.setVisible(true);
+            	BUTTON_DELAY_TIMER.stop();
+            }
+        } );
         
         // Add a node that will depict the containment vessel.
         addWorldChild(new ContainmentVesselNode(_chainReactionModel.getContainmentVessel(), this, 
