@@ -118,8 +118,8 @@ public class BuildScript {
     }
 
     private void addMessagesToChangeFile( int svn ) {
-        String message = JOptionPane.showInputDialog( "Enter a message to add to the change log\n(or Enter if change log is up to date)" );
-        if ( message.trim().length() > 0 ) {
+        String message = JOptionPane.showInputDialog( "Enter a message to add to the change log\n(or Cancel or Enter a blank line if change log is up to date)" );
+        if ( message != null && message.trim().length() > 0 ) {
             prependChange( message );
         }
 
