@@ -389,6 +389,10 @@ public class ChainReactionModel {
         	_u238Nuclei.add(u239Nucleus);
         }
         _u239Nuclei.clear();
+        
+        // Clear out any debris that had been captured by the containment
+        // vessel.
+        _containedElements.clear();
     }
     
     /**
