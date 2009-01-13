@@ -15,7 +15,7 @@ class FlashCommon {
 	
 	public var backgroundColor : ASColor;
 	
-	public var debugging : Boolean = false;
+	public var debugging : Boolean = true;
 	
 	// handles preferences the user selects, such as
 	// enabling/disabling updates and tracking. also
