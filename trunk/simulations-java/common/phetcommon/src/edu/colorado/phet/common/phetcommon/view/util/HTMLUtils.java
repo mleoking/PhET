@@ -187,14 +187,25 @@ public class HTMLUtils {
     }
     
     /**
-     * An editor pane that contains interactive HTML links.
+     * An HTML editor pane.
+     * This is the base class for other types of HTML editor panes.
+     * You need to add your own hyperlink behavior via addHyperlinkListener.
      */
-    public static class InteractiveHTMLPane extends JEditorPane {
-        public InteractiveHTMLPane( String html ) {
+    public static class HTMLEditorPane extends JEditorPane {
+        public HTMLEditorPane( String html ) {
             setEditorKit( new HTMLEditorKit() );
             setText( html );
             setEditable( false );
             setBackground( new JPanel().getBackground() );
+        }
+    }
+    
+    /**
+     * An HTML editor pane that opens a web browser for hyperlinks.
+     */
+    public static class InteractiveHTMLPane extends HTMLEditorPane {
+        public InteractiveHTMLPane( String html ) {
+            super( html );
             addHyperlinkListener( new HyperlinkListener() {
                 public void hyperlinkUpdate( HyperlinkEvent e ) {
                     if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED ) {

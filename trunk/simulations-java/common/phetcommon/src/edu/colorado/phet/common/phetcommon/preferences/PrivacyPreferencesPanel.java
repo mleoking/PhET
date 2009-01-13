@@ -5,15 +5,18 @@ import java.awt.Frame;
 import java.awt.Insets;
 import java.awt.Window;
 
-import javax.swing.*;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
-import javax.swing.text.html.HTMLEditorKit;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.tracking.ITrackingInfo;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.HTMLEditorPane;
 
 /**
  * Panel for displaying preferences related to privacy.
@@ -48,12 +51,13 @@ public class PrivacyPreferencesPanel extends JPanel {
         return trackingEnabledCheckBox.isSelected();
     }
 
-    private static class DescriptionPane extends JEditorPane {
+    /*
+     * This is an HTML editor pane interactive hyperlinks.
+     * But instead of opening a web browser, it opens a Swing dialog.
+     */
+    private static class DescriptionPane extends HTMLEditorPane {
         public DescriptionPane( String html, final ITrackingInfo trackingInfo ) {
-            setEditorKit( new HTMLEditorKit() );
-            setText( html );
-            setEditable( false );
-            setBackground( new JPanel().getBackground() );
+            super( html );
             addHyperlinkListener( new HyperlinkListener() {
                 public void hyperlinkUpdate( HyperlinkEvent e ) {
                     if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED ) {
