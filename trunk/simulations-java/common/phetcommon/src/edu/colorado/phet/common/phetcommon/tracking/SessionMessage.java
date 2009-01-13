@@ -55,7 +55,7 @@ public class SessionMessage extends TrackingMessage {
                 new TrackingMessageField.SystemProperty( "host_timezone", "user.timezone" ),
                 
                 // User data
-                new TrackingMessageField( "user_preference_file_creation_time", PhetPreferences.getInstance().getPreferencesFileCreatedAtMillis() ),
+                new TrackingMessageField( "user_preference_file_creation_time", PhetPreferences.getInstance().getPreferencesFileCreationTime() ),
                 new TrackingMessageField( "user_total_sessions", config.getSessionCountTotal() ),
                 
                 // Debug field for this that are split into multiple fields
