@@ -1,3 +1,5 @@
+# 1.20.09 (27226) 01-13-2009
+Added test simulation for ladybug-2d
 10-08-2008: use PhetApplicationConfig.launchSim
 
 1.20.08 (9-29-2008)
