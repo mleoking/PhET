@@ -1,3 +1,5 @@
+# 3.04.15 (27214) 01-13-2009
+> Added "Reset Nuclei" functionality to 2nd tab, fixed a number of bugs with containment vessel.
 > Fixed a number of bugs with Reset All on the 2nd tab.
 > Made the lines and cirlce that depict the tunneling radius on the 2nd tab change with the energy levels.
 # 3.04.11 12-31-2008
