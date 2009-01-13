@@ -43,7 +43,7 @@ public class PhetPreferences {
     private static final String KEY_UPDATES_ENABLED = "all-sims.updates.enabled";
     private static final String KEY_TRACKING_ENABLED = "all-sims.tracking.enabled";
     public static final String KEY_PREFERENCES_FILE_CREATION_TIME = "preferences-file-creation-time.milliseconds";
-    private static final String KEY_PRIVACY_AGREEMENT_VERSION = "privacy.agreement.version";
+    private static final String KEY_SOFTWARE_AGREEMENT_VERSION = "software.agreement.version";
     
     // property key patterns
     private static final String PATTERN_KEY_ASK_ME_LATER = "{0}.{1}.updates.ask-me-later-pressed.milliseconds";
@@ -166,16 +166,16 @@ public class PhetPreferences {
         return MessageFormat.format( PATTERN_KEY_SKIP_UPDATE, args );
     }
 
-    public void setPrivacyAgreementVersion( int version ) {
-        setIntProperty( KEY_PRIVACY_AGREEMENT_VERSION, version );
+    public void setSoftwareAgreementVersion( int version ) {
+        setIntProperty( KEY_SOFTWARE_AGREEMENT_VERSION, version );
     }
     
     /**
-     * Gets the privacy agreement version number that the user most recently accepted.
+     * Gets the software agreement version number that the user most recently accepted.
      * @return -1 if the user has no accepted any agreement
      */
-    public int getPrivacyAgreementVersion() {
-        return getIntProperty( KEY_PRIVACY_AGREEMENT_VERSION, -1 );
+    public int getSoftwareAgreementVersion() {
+        return getIntProperty( KEY_SOFTWARE_AGREEMENT_VERSION, -1 );
     }
     
     /**
