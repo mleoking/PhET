@@ -18,7 +18,7 @@ class LadybugNode(ladybug: Ladybug) extends PNode {
 
   ladybug.addListener(updateLadybug)
   updateLadybug(ladybug)
-  
+
   addChild(pimage)
   addChild(boundNode)
 
@@ -28,8 +28,6 @@ class LadybugNode(ladybug: Ladybug) extends PNode {
   })
 
   def updateLadybug(ladybug: Ladybug): Unit = {
-
-
     pimage.setTransform(new AffineTransform)
 
     val dx2 = new Vector2D(pimage.getImage.getWidth(null), pimage.getImage.getHeight(null))
@@ -42,8 +40,5 @@ class LadybugNode(ladybug: Ladybug) extends PNode {
     setOffset(0, 0)
     translate(-dx2.x / 2, -dx2.y / 2)
     boundNode.setOffset(ladybug.getPosition.x + dx2.x / 2, ladybug.getPosition.y + dx2.x / 2)
-    //    pimage.translate(ladybug.getPosition.x - pimage.getFullBounds.getWidth / 2, ladybug.getPosition.y - pimage.getFullBounds.getHeight / 2)
-
-
   }
 }
