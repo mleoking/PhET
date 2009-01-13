@@ -1,3 +1,4 @@
+1-13-09: put tracking details in a scrollpane
 1-13-09: #1073, change Privacy tab in Preferences dialog to correspond to specification
 1-13-09: #1073, rename "tracking" to "privacy" where visible in Preferences dialog
 1-9-09: #588, delete SimStrings

@@ -3,16 +3,12 @@ package edu.colorado.phet.common.phetcommon.preferences;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 
 import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.tracking.ITrackingInfo;
-import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
@@ -22,7 +18,7 @@ public class TrackingDetailsDialog extends JDialog {
     
     private static final String TITLE = PhetCommonResources.getString( "Common.tracking.details.title" );
     private static final String DESCRIPTION = PhetCommonResources.getString( "Common.tracking.details.description" );
-    private static final String OK_BUTTON = PhetCommonResources.getString( "Common.choice.ok" );
+    private static final String CLOSE_BUTTON = PhetCommonResources.getString( "Common.choice.close" );
     
     public TrackingDetailsDialog( Dialog owner, ITrackingInfo trackingInfo ) {
         super( owner );
@@ -35,21 +31,27 @@ public class TrackingDetailsDialog extends JDialog {
     }
 
     private void init( ITrackingInfo trackingInfo ) {
+        
         setTitle( TITLE );
         setModal( true );
-        setResizable( false );
+        setResizable( false ); //TODO layout doesn't adjust properly when resized 
         
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.gridy = GridBagConstraints.RELATIVE;
-        constraints.gridx = 0;
-        constraints.gridwidth = 1;
-        JPanel panel = new JPanel( new GridBagLayout() );
-        panel.setBorder( BorderFactory.createEmptyBorder( 8, 2, 8, 2 ) );
-        panel.add( createDescription(), constraints );
-        panel.add( createReport( trackingInfo ), constraints );
-        panel.add( createButtonPanel(), constraints );
-        getContentPane().add( panel );
+        JComponent description = createDescription();
+        JComponent report = createReport( trackingInfo );
+        JComponent buttonPanel = createButtonPanel();
         
+        JPanel panel = new JPanel();
+        
+        EasyGridBagLayout layout = new EasyGridBagLayout( panel );
+        layout.setInsets( new Insets( 5, 5, 5, 5 ) ); // top, left, bottom, right
+        panel.setLayout( layout );
+        int row = 0;
+        int column = 0;
+        layout.addComponent( description, row++, column );
+        layout.addComponent( report, row++, column );
+        layout.addFilledComponent( buttonPanel, row++, column, GridBagConstraints.HORIZONTAL );
+        
+        setContentPane( panel );
         pack();
         SwingUtils.centerDialogInParent( this );
     }
@@ -58,26 +60,33 @@ public class TrackingDetailsDialog extends JDialog {
         return new JLabel( DESCRIPTION );
     }
     
-    //TODO report should be in a JScrollPane to handle future reports that may be longer
     private static JComponent createReport( ITrackingInfo trackingInfo ) {
-        final JTextArea jt = new JTextArea( "" );
-        if ( trackingInfo.getHumanReadableTrackingInformation() != null ) {
-            jt.setText( trackingInfo.getHumanReadableTrackingInformation() );
+        
+        final JTextArea textArea = new JTextArea( "" );
+        final String text = trackingInfo.getHumanReadableTrackingInformation();
+        if ( text != null ) {
+            textArea.setText( text );
         }
-        jt.setBorder( BorderFactory.createLineBorder( Color.BLACK, 1 ) );
-        jt.setEditable( false );
-        return jt;
+        textArea.setEditable( false );
+        
+        JScrollPane scrollPane = new JScrollPane( textArea );
+        scrollPane.setPreferredSize( new Dimension( scrollPane.getPreferredSize().width + 30, 200 ) );
+        
+        // this ensures that the first line of text is at the top of the scrollpane
+        textArea.setCaretPosition( 0 );
+        
+        return scrollPane;
     }
     
     private JPanel createButtonPanel() {
         JPanel panel = new JPanel();
-        JButton okButton = new JButton( OK_BUTTON );
-        okButton.addActionListener( new ActionListener() {
+        JButton closeButton = new JButton( CLOSE_BUTTON );
+        closeButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 dispose();
             }
         });
-        panel.add( okButton );
+        panel.add( closeButton );
         return panel;
     }
 }
