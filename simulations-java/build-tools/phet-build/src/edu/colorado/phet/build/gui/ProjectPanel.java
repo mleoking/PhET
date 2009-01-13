@@ -138,6 +138,7 @@ public class ProjectPanel extends JPanel {
     }
 
     private void doTest() {
+        getBuildScript().clean();
         getBuildScript().build();
         getBuildScript().runSim( getSelectedLocale(), getSelectedSimulation() );
     }

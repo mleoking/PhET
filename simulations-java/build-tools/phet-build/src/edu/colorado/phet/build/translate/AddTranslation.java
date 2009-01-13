@@ -167,7 +167,7 @@ public class AddTranslation {
             //See #1052
 //            File newJNLPFile = new File( project.getDefaultDeployDir(), "" + project.getName() + "_" + language + ".jnlp" );
 //            if ( !newJNLPFile.exists() ) {//not all sims have a simulation name equal to project name
-            File newJNLPFile = new File( project.getDefaultDeployDir(), "" + project.getSimulations()[i].getName() + "_" + language + ".jnlp" );
+            File newJNLPFile = new File( project.getDeployDir(), "" + project.getSimulations()[i].getName() + "_" + language + ".jnlp" );
 //            }
             String repositoryMainClass = getMainClass( newJNLPFile );
             if ( !repositoryMainClass.equals( desiredMainClass ) ) {
@@ -273,7 +273,7 @@ public class AddTranslation {
     }
 
     private File getJNLPFile( PhetProject phetProject, Simulation simulation, String locale ) {
-        return new File( phetProject.getDefaultDeployDir(), simulation.getName() + "_" + locale + ".jnlp" );
+        return new File( phetProject.getDeployDir(), simulation.getName() + "_" + locale + ".jnlp" );
     }
 
     private String getRemoteDirectory( PhetProject phetProject ) {

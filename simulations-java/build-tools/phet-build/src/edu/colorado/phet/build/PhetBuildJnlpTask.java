@@ -28,7 +28,7 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
         Simulation simulation = phetProject.getSimulation( simulationName, locale );
         echo( "loaded simulation=" + simulation );
         if ( deployUrl == null ) {
-            deployUrl = phetProject.getDefaultDeployDir().toURL().toString();
+            deployUrl = phetProject.getDeployDir().toURL().toString();
 
             echo( "Deploy url is null -- using " + deployUrl );
         }
@@ -41,7 +41,7 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
     }
 
     private File getDestFile( PhetProject phetProject ) {
-        return new File( phetProject.getDefaultDeployDir(), getJNLPFileName() );
+        return new File( phetProject.getDeployDir(), getJNLPFileName() );
     }
 
     private HashMap createJNLPFilterMap( Simulation simulation, PhetProject phetProject ) {

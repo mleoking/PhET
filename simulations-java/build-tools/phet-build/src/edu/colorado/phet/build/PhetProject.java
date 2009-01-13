@@ -36,7 +36,7 @@ public class PhetProject {
         this.properties.load( new BufferedInputStream( new FileInputStream( propertyFile ) ) );
     }
 
-    public File getDefaultDeployDir() {
+    public File getDeployDir() {
         File file = new File( getProjectDir(), "deploy/" );
 
         file.mkdirs();
@@ -45,11 +45,11 @@ public class PhetProject {
     }
 
     public File getDefaultDeployJar() {
-        return new File( getDefaultDeployDir(), getName() + ".jar" );
+        return new File( getDeployDir(), getName() + ".jar" );
     }
 
     public File getDefaultDeploySimulationJar( String simulation ) {
-        return new File( getDefaultDeployDir(), simulation + ".jar" );
+        return new File( getDeployDir(), simulation + ".jar" );
     }
 
     public File getProjectDir() {
@@ -81,6 +81,7 @@ public class PhetProject {
     public String getSource() {
         return properties.getProperty( "project.depends.source" );
     }
+
     public String getScalaSource() {
         return properties.getProperty( "project.depends.scala.source" );
     }
@@ -204,7 +205,7 @@ public class PhetProject {
     }
 
     private File[] expandPath( String lib ) {
-        if (lib==null||lib.trim().length()==0){
+        if ( lib == null || lib.trim().length() == 0 ) {
             return new File[0];
         }
         ArrayList files = new ArrayList();
@@ -687,7 +688,7 @@ public class PhetProject {
     }
 
     public File getChangesFile() {
-        return new File( getDefaultDeployDir(), "changes.txt" );
+        return new File( getDeployDir(), "changes.txt" );
     }
 
     public String getChangesText() {
@@ -734,7 +735,11 @@ public class PhetProject {
     private ArrayList listeners = new ArrayList();
 
     public boolean containsScalaSource() {
-        return getAllScalaSourceRoots().length>0;
+        return getAllScalaSourceRoots().length > 0;
+    }
+
+    public File getDeployHeaderFile() {
+        return new File( getDeployDir(), "HEADER" );
     }
 
     public static interface Listener {

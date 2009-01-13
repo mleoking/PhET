@@ -137,7 +137,7 @@ public class BuildScript {
     private void copyVersionFilesToDeployDir() {
         File versionFile = project.getVersionFile();
         try {
-            File dest = new File( project.getDefaultDeployDir(), versionFile.getName() );
+            File dest = new File( project.getDeployDir(), versionFile.getName() );
             FileUtils.copyTo( versionFile, dest );
             System.out.println( "Copied version file to " + dest.getAbsolutePath() );
         }
@@ -189,7 +189,7 @@ public class BuildScript {
         //for some reason, the securechannelfacade fails with a "server didn't expect this file" error
         //the failure is on tigercat, but scf works properly on spot
         //but our code works on both; therefore there is probably a problem with the handshaking in securechannelfacade
-        File[] f = project.getDefaultDeployDir().listFiles(); //todo: should handle recursive for future use (if we ever want to support nested directories)
+        File[] f = project.getDeployDir().listFiles(); //todo: should handle recursive for future use (if we ever want to support nested directories)
         for ( int i = 0; i < f.length; i++ ) {
             if ( f[i].getName().startsWith( "." ) ) {
                 //ignore
@@ -271,7 +271,7 @@ public class BuildScript {
     public void build() {
         try {
             new PhetBuildCommand( project, new MyAntTaskRunner(), true, project.getDefaultDeployJar() ).execute();
-            FileUtils.copyTo( project.getDefaultDeployJar(), new File( project.getDefaultDeployDir(), "" + project.getName() + "_all.jar" ) );
+            FileUtils.copyTo( project.getDefaultDeployJar(), new File( project.getDeployDir(), "" + project.getName() + "_all.jar" ) );
 
             //todo: should clean up old jar
 //            FileUtils.delete( project.getDefaultDeployJar() );
@@ -347,7 +347,7 @@ public class BuildScript {
 
     public void createHeader( int svn ) {
         try {
-            FileUtils.filter( new File( baseDir, "build-tools/phet-build/templates/header-template.html" ), new File( project.getDefaultDeployDir(), "HEADER" ), createHeaderFilterMap( svn ), "UTF-8" );
+            FileUtils.filter( new File( baseDir, "build-tools/phet-build/templates/header-template.html" ), project.getDeployHeaderFile(), createHeaderFilterMap( svn ), "UTF-8" );
         }
         catch( IOException e ) {
             e.printStackTrace();
