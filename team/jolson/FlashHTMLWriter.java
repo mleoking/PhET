@@ -79,7 +79,7 @@ public class FlashHTMLWriter {
 		String html = "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">\n";
 		html += "<head>\n";
 		html += "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n";
-		html += "<title>" + simName + "_" + language + "</title>\n"; // NOTE: change title? usually not seen.
+		html += "<title>" + simName + "_" + language + (country.equals("none") ? "" : "_" + country) + "</title>\n"; // NOTE: change title? usually not seen.
 		
 		html += "</head>\n";
 		html += "<body bgcolor=\"" + bgcolor + "\">\n"; // we want to get the correct background color!
