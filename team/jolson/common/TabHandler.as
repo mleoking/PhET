@@ -32,9 +32,14 @@ class TabHandler {
 	public static var HIGHLIGHT_GLOBAL : String = "global"; // highlighting is done on a movieclip in _root
 	public static var HIGHLIGHT_LOCAL : String = "local"; // highlighting is done on a child movieclip (moves with the object)
 	
+	// shorthand for debugging function
+	public function debug(str : String) : Void {
+		_level0.debug(str);
+	}
+	
 	// constructor
 	public function TabHandler() {
-		trace("Initializing TabHandler");
+		debug("Initializing TabHandler");
 		
 		// make this accessible by _level0.tabHandler
 		_level0.tabHandler = this;

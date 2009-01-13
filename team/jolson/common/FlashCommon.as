@@ -33,6 +33,9 @@ class FlashCommon {
 	/////////////////////////
 	public var commonButtons : CommonButtons;
 	
+	// handles keyboard accessibility (tab traversal)
+	public var tabHandler : TabHandler;
+	
 	// initializes debug function at _level0.debug()
 	public function initDebug() : Void {
 		if(debugging) {
@@ -86,6 +89,9 @@ class FlashCommon {
 		
 		// load buttons (defaults to the upper left)
 		commonButtons = new CommonButtons();
+		
+		// initializes the TabHandler
+		tabHandler = new TabHandler();
 	}
 	
 	public function localeString() : String {
