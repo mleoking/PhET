@@ -27,10 +27,6 @@ public class SessionMessage extends TrackingMessage {
         JREVersion jre = new JREVersion();
         TrackingMessageField[] fields = new TrackingMessageField[]{
                 
-                // User data
-                new TrackingMessageField( "user_preference_file_creation_time", PhetPreferences.getInstance().getPreferencesFileCreatedAtMillis() ),
-                new TrackingMessageField( "user_total_sessions", config.getSessionCountTotal() ),
-                
                 // Sim data
                 new TrackingMessageField( "sim_project", config.getProjectName() ),
                 new TrackingMessageField( "sim_name", config.getFlavor() ),
@@ -57,6 +53,10 @@ public class SessionMessage extends TrackingMessage {
                 new TrackingMessageField.SystemProperty( "host_locale_language", "user.language" ),
                 new TrackingMessageField.SystemProperty( "host_locale_country", "user.country" ),
                 new TrackingMessageField.SystemProperty( "host_timezone", "user.timezone" ),
+                
+                // User data
+                new TrackingMessageField( "user_preference_file_creation_time", PhetPreferences.getInstance().getPreferencesFileCreatedAtMillis() ),
+                new TrackingMessageField( "user_total_sessions", config.getSessionCountTotal() ),
                 
                 // Debug field for this that are split into multiple fields
                 new TrackingMessageField( "debug_sim_version", config.getVersion().formatMajorMinorDevRevision() ),
