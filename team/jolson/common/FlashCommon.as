@@ -61,6 +61,7 @@ class FlashCommon {
 		// set the default background color
 		backgroundColor = ASColor.getASColor(230, 230, 230);
 		
+		// TODO: Possibly extend this to run from other domains?
 		System.security.allowDomain("phet.colorado.edu");
 		
 		debug("Debugging information:\n");
@@ -85,5 +86,13 @@ class FlashCommon {
 		
 		// load buttons (defaults to the upper left)
 		commonButtons = new CommonButtons();
+	}
+	
+	public function localeString() : String {
+		var str : String = _level0.languageCode;
+		if(_level0.countryCode != "none") {
+			str += "_" + _level0.countryCode;
+		}
+		return str;
 	}
 }
