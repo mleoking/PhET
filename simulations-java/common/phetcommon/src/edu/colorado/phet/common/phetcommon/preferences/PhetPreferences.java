@@ -39,9 +39,13 @@ public class PhetPreferences {
         }
     }
 
+    // property keys
     private static final String KEY_UPDATES_ENABLED = "all-sims.updates.enabled";
     private static final String KEY_TRACKING_ENABLED = "all-sims.tracking.enabled";
     public static final String KEY_PREFERENCES_FILE_CREATION_TIME = "preferences-file-creation-time.milliseconds";
+    private static final String KEY_PRIVACY_AGREEMENT_VERSION = "privacy.agreement.version";
+    
+    // property key patterns
     private static final String PATTERN_KEY_ASK_ME_LATER = "{0}.{1}.updates.ask-me-later-pressed.milliseconds";
     private static final String PATTERN_KEY_SKIP_UPDATE = "{0}.{1}.updates.skip.version"; // project.sim.updates.skip-version
 
@@ -162,12 +166,26 @@ public class PhetPreferences {
         return MessageFormat.format( PATTERN_KEY_SKIP_UPDATE, args );
     }
 
+    public void setPrivacyAgreementVersion( int version ) {
+        setIntProperty( KEY_PRIVACY_AGREEMENT_VERSION, version );
+    }
+    
+    /**
+     * Gets the privacy agreement version number that the user most recently accepted.
+     * @return -1 if the user has no accepted any agreement
+     */
+    public int getPrivacyAgreementVersion() {
+        return getIntProperty( KEY_PRIVACY_AGREEMENT_VERSION, -1 );
+    }
+    
     /**
      * Sets the time in milliseconds since Epoch that the preferences file was created.
      * We use this as an ad hoc means of anonymously identifying unique users.
      */
-    private void setPreferencesFileCreationTimeNow() {
-        setStringProperty( KEY_PREFERENCES_FILE_CREATION_TIME, String.valueOf( System.currentTimeMillis() ) );
+    private long setPreferencesFileCreationTimeNow() {
+        long now = System.currentTimeMillis();
+        setLongProperty( KEY_PREFERENCES_FILE_CREATION_TIME, now );
+        return now;
     }
 
     /**
@@ -175,18 +193,26 @@ public class PhetPreferences {
      * We use this as an ad hoc means of anonymously identifying unique users.
      * If the file doesn't exist, it is created as a side effect.
      */
-    public long getPreferencesFileCreatedAtMillis() {
-        if ( properties.getProperty( KEY_PREFERENCES_FILE_CREATION_TIME ) == null ) {
-            setPreferencesFileCreationTimeNow();
+    public long getPreferencesFileCreationTime() {
+        final long defaultValue = -1;
+        long value = getLongProperty( KEY_PREFERENCES_FILE_CREATION_TIME, defaultValue );
+        if ( value == defaultValue ) {
+            value = setPreferencesFileCreationTimeNow();
         }
-        long timeStamp = -1;
-        try {
-            timeStamp = Long.parseLong( properties.getProperty( KEY_PREFERENCES_FILE_CREATION_TIME ) );
-        }
-        catch( NumberFormatException e ) {
-            e.printStackTrace();
-        }
-        return timeStamp;
+        return value;
+    }
+    
+    /*
+     * All other property setters should be implemented in terms of this one,
+     * since this is the one that actually handles storage of the property.
+     */
+    private void setStringProperty( String key, String value ) {
+        properties.setProperty( key, value );
+        storePreferences();
+    }
+
+    private String getStringProperty( String key ) {
+        return properties.getProperty( key );
     }
 
     private void setBooleanProperty( String key, boolean b ) {
@@ -197,13 +223,34 @@ public class PhetPreferences {
         return Boolean.valueOf( getStringProperty( key ) ).booleanValue(); // any value other than "true" is false
     }
 
-    private void setStringProperty( String key, String value ) {
-        properties.setProperty( key, value );
-        storePreferences();
+    private void setLongProperty( String key, long value ) {
+        setStringProperty( key, String.valueOf( value ) );
     }
-
-    private String getStringProperty( String key ) {
-        return properties.getProperty( key );
+    
+    private long getLongProperty( String key, long defaultValue ) {
+        long value = defaultValue;
+        try {
+            value = Long.parseLong( properties.getProperty( key ) );
+        }
+        catch( NumberFormatException e ) {
+            e.printStackTrace();
+        }
+        return value;
+    }
+    
+    private void setIntProperty( String key, int value ) {
+        setStringProperty( key, String.valueOf( value ) );
+    }
+    
+    private int getIntProperty( String key, int defaultValue ) {
+        int value = defaultValue;
+        try {
+            value = Integer.parseInt( properties.getProperty( key ) );
+        }
+        catch( NumberFormatException e ) {
+            e.printStackTrace();
+        }
+        return value;
     }
 
     private void storePreferences() {
