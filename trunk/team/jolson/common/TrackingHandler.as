@@ -128,6 +128,7 @@ class TrackingHandler {
 			if(success) {
 				_level0.debug("TrackingHandler: message received:\n");
 				_level0.debug(reply.toString()+"\n");
+				_level0.preferences.resetSince();
 			} else {
 				_level0.debug("TrackingHandler: message error!\n");
 			}

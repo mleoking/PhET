@@ -44,6 +44,7 @@ class Preferences {
 		/////////////////////////////////////////
 		if(!sharedObject.data.dataVersion || sharedObject.data.dataVersion != CURRENT_PREF_VERSION) {
 			debug("Preferences: DEVELOPMENT: resetting shared object, new information to be stored\n");
+			reset();
 		}
 		/////////////////////////////////////////
 		
@@ -101,11 +102,6 @@ class Preferences {
 		save();
 	}
 	
-	// return the user's ID that is saved in the preferences:
-	public function userId() : String {
-		return sharedObject.data.userId;
-	}
-	
 	// resets (clears) any data stored on disk
 	// (also resets the data in the local copy)
 	public function reset() : Void {
@@ -146,6 +142,11 @@ class Preferences {
 		} else {
 			sharedObject.data[keySince] = 1;
 		}
+	}
+	
+	// resets the number of #'s since sent
+	public function resetSince() : Void {
+		sharedObject.data[_level0.simName + "_visitsSince"] = 0;
 	}
 	
 	// how many times the current simulation has ever been run (according to preferences)
