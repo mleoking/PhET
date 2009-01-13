@@ -8,6 +8,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.tracking.ITrackingInfo;
+import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 /**
  * Panel for displaying preferences related to privacy.
@@ -25,23 +26,21 @@ public class PrivacyPreferencesPanel extends JPanel {
         // feature description
         JComponent oneLiner = createDescription();
         
-        // enable
+        // enable check box
         trackingEnabledCheckBox = new JCheckBox( TRACKING_ENABLED, trackingEnabled );
         
-        // details
+        // details button
         DetailsButton detailsButton = new DetailsButton( trackingInfo );
 
         // layout
-        setLayout( new GridBagLayout() );
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.gridy = GridBagConstraints.RELATIVE;
-        constraints.gridx = 0;
-        constraints.gridwidth = 1;
-        add( oneLiner, constraints );
-        add( Box.createRigidArea( new Dimension( 5, 10 ) ), constraints );
-        add( trackingEnabledCheckBox, constraints );
-        add( Box.createRigidArea( new Dimension( 5, 10 ) ), constraints );
-        add( detailsButton, constraints );
+        EasyGridBagLayout layout = new EasyGridBagLayout( this );
+        this.setLayout( layout );
+        layout.setInsets( new Insets( 5, 5, 5, 5 ) );
+        int row = 0;
+        int column = 0;
+        layout.addAnchoredComponent( oneLiner, row++, column, GridBagConstraints.WEST);
+        layout.addAnchoredComponent( trackingEnabledCheckBox, row++, column, GridBagConstraints.WEST );
+        layout.addAnchoredComponent( detailsButton, row++, column, GridBagConstraints.EAST );
     }
     
     public boolean isTrackingEnabled() {
