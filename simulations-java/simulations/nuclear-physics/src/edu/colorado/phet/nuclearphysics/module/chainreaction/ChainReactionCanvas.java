@@ -49,6 +49,15 @@ public class ChainReactionCanvas extends PhetPCanvas {
     private final double WIDTH_TRANSLATION_FACTOR = 2.0;
     private final double HEIGHT_TRANSLATION_FACTOR = 2.0;
     
+    // Values for the state machine that tracks reaction state.
+    private final int REACTION_STATE_NO_REACTION_PRODUCTS_PRESENT = 0;
+    private final int REACTION_STATE_REACTION_OR_ADJUSTMENT_IN_PROGRESS = 1;
+    private final int REACTION_STATE_REACTION_COMPLETE = 2;
+    
+    // Timer used for hiding & showing the reset button.
+	private static final int BUTTON_DELAY_TIME = 1500; // In milliseconds.
+    private static final Timer BUTTON_DELAY_TIMER = new Timer( BUTTON_DELAY_TIME, null );
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -59,8 +68,7 @@ public class ChainReactionCanvas extends PhetPCanvas {
     private NeutronSourceNode _neutronSourceNode;
     AtomicBombGraphicNode _atomicBombGraphicNode;
     private GradientButtonNode _resetNucleiButtonNode;
-	private static final int BUTTON_DELAY_TIME = 1500; // In milliseconds.
-    private static final Timer BUTTON_DELAY_TIMER = new Timer( BUTTON_DELAY_TIME, null );
+    private int _reactionState = REACTION_STATE_NO_REACTION_PRODUCTS_PRESENT;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -80,27 +88,14 @@ public class ChainReactionCanvas extends PhetPCanvas {
                 handleModelElementRemoved(modelElement);
             }
             public void reactiveNucleiNumberChanged(){
-            	if ( _chainReactionModel.getChangedNucleiExist() ){
-            		if (!_resetNucleiButtonNode.isVisible()){
-                		// Start or restart the timer that will cause the "Reset
-                		// Nuclei" button to be shown.
-                		BUTTON_DELAY_TIMER.restart();
-            		}
-            	}
-            	else{
-            		// If there are no changed nuclei, the button should be
-            		// invisible and the timer should be off.
-            		if (BUTTON_DELAY_TIMER.isRunning()){
-            			BUTTON_DELAY_TIMER.stop();
-            		}
-            		_resetNucleiButtonNode.setVisible(false);
-            	}
+            	handleReactiveNucleiNumberChanged();
             }
             public void resetOccurred(){
             	if (BUTTON_DELAY_TIMER.isRunning()){
             		BUTTON_DELAY_TIMER.stop();
             	}
             	_resetNucleiButtonNode.setVisible(false);
+            	_reactionState = REACTION_STATE_NO_REACTION_PRODUCTS_PRESENT;
             }
         });
         
@@ -139,7 +134,6 @@ public class ChainReactionCanvas extends PhetPCanvas {
         _resetNucleiButtonNode.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent event){
                 _chainReactionModel.resetNuclei();
-                _resetNucleiButtonNode.setVisible(false);
             }
         });
         
@@ -147,9 +141,17 @@ public class ChainReactionCanvas extends PhetPCanvas {
         // appear some time after the decay has occurred.
 		BUTTON_DELAY_TIMER.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-            	// Show the button.
-            	_resetNucleiButtonNode.setVisible(true);
-            	BUTTON_DELAY_TIMER.stop();
+            	if(_reactionState == REACTION_STATE_REACTION_OR_ADJUSTMENT_IN_PROGRESS){
+                	// Show the button.
+                	_resetNucleiButtonNode.setVisible(true);
+                	BUTTON_DELAY_TIMER.stop();
+                	_reactionState = REACTION_STATE_REACTION_COMPLETE; 
+            	}
+            	else{
+            		// This is unexpected and should be debugged.
+            		System.err.println("Error: Unexpected timer expiration.");
+            		BUTTON_DELAY_TIMER.stop();
+            	}
             }
         } );
         
@@ -191,7 +193,7 @@ public class ChainReactionCanvas extends PhetPCanvas {
      * Handle the addition of a new model element by adding a corresponding
      * node to the canvas (i.e. the view).
      */
-    public void handleModelElementAdded(Object modelElement){
+    private void handleModelElementAdded(Object modelElement){
         
         if ((modelElement instanceof AtomicNucleus)){
             // Add an atom node for this guy.
@@ -224,7 +226,7 @@ public class ChainReactionCanvas extends PhetPCanvas {
      * Remove the node or nodes that corresponds with the given model element
      * from the canvas.
      */
-    public void handleModelElementRemoved(Object modelElement){
+    private void handleModelElementRemoved(Object modelElement){
         
         Object nucleusNode = _modelElementToNodeMap.get( modelElement );
         if ((nucleusNode != null) || (nucleusNode instanceof PNode)){
@@ -233,15 +235,6 @@ public class ChainReactionCanvas extends PhetPCanvas {
                 // Remove the nucleus node.
                 _nucleusLayer.removeChild( (PNode)nucleusNode );
                 _modelElementToNodeMap.remove( modelElement );
-
-                // If the Reset Nuclei button is currently showing, and if the
-                // removed nucleus is an undecayed nucleus, hide the button
-                // assuming that the user is removing nuclei intentionally.
-                if ( _resetNucleiButtonNode.isVisible() && 
-                	 ( modelElement instanceof Uranium235Nucleus ||
-                	   modelElement instanceof Uranium238Nucleus )){
-                	_resetNucleiButtonNode.setVisible(false);
-                }
             }
             else {
                 // This is not a composite model element, so just remove the
@@ -258,4 +251,70 @@ public class ChainReactionCanvas extends PhetPCanvas {
     private void updateAtomicBombGraphicLocation(){
         _atomicBombGraphicNode.setContainerSize(getWidth(), getHeight());
     }
+
+    /**
+     * Handle a notification that indicates that the number of reactive
+     * nuclei has changed.  This may cause changes in the visibility of the
+     * reset button, depending on the internal state.
+     */
+	private void handleReactiveNucleiNumberChanged() {
+		
+		switch (_reactionState){
+		case REACTION_STATE_NO_REACTION_PRODUCTS_PRESENT:
+			if (_chainReactionModel.getChangedNucleiExist()){
+				// A new reaction has started.  Move the the appropriate
+				// state and start the timer that will cause the reset button
+				// to be shown.
+				_reactionState = REACTION_STATE_REACTION_OR_ADJUSTMENT_IN_PROGRESS;
+				BUTTON_DELAY_TIMER.restart();
+			}
+			else{
+				// This means that the user is adjusting the number of nuclei
+				// before any reaction has been run, and can be ignored.
+			}
+			break;
+			
+		case REACTION_STATE_REACTION_OR_ADJUSTMENT_IN_PROGRESS:
+			if (_chainReactionModel.getChangedNucleiExist() == false){
+				// This indicates that a reset occurred.  Stop the timer, make
+				// sure the button is hidden, and go back to the initial
+				// state.
+				BUTTON_DELAY_TIMER.stop();
+				_resetNucleiButtonNode.setVisible(false);
+				_reactionState = REACTION_STATE_NO_REACTION_PRODUCTS_PRESENT;
+			}
+			else{
+				// This is an indication of either a decay event in the chain
+				// reaction or the addition of more nuclei by the user (via
+				// the control panel).  In either case, restart the timer so
+				// that the button doesn't appear mid way through the
+				// reaction.
+				BUTTON_DELAY_TIMER.restart();
+			}
+			break;
+			
+		case REACTION_STATE_REACTION_COMPLETE:
+			if (_chainReactionModel.getChangedNucleiExist() == false){
+				// This indicates that a reset occurred or that the user is
+				// adding new nuclei and thus causing some of the old nuclei
+				// to be removed.  Make sure the timer is stopped and that the
+				// button is hidden, and return to the original state.
+				BUTTON_DELAY_TIMER.stop();
+				_resetNucleiButtonNode.setVisible(false);
+				_reactionState = REACTION_STATE_NO_REACTION_PRODUCTS_PRESENT;
+			}
+			else{
+				// This is an indication of either a decay event in the chain
+				// reaction or the addition of more nuclei by the user (via
+				// the control panel) while decay products are still around.
+				// In either case, hide the button, restart the timer, and
+				// change to the appropriate state.
+				BUTTON_DELAY_TIMER.restart();
+				_resetNucleiButtonNode.setVisible(false);
+				_reactionState = REACTION_STATE_REACTION_OR_ADJUSTMENT_IN_PROGRESS;
+			}
+			
+			break;
+		}
+	}
 }

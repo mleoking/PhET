@@ -84,6 +84,7 @@ public class ChainReactionModel {
     private ContainmentVessel _containmentVessel;
     private int _ghostDaughterNuclei = 0; // Daughter nuclei that have been removed from the model in order to save
                                           // resources but haven't yet been reset.
+    private boolean _reactionInProgress = false;
     
     //------------------------------------------------------------------------
     // Constructor
@@ -338,6 +339,9 @@ public class ChainReactionModel {
                 ((AtomicNucleus)_daughterNuclei.get( i )).removedFromModel();
             }
             _daughterNuclei.clear();
+        	notifyReativeNucleiNumberChanged();
+    	}
+    	if (_ghostDaughterNuclei > 0){
         	_ghostDaughterNuclei = 0;
         	notifyReativeNucleiNumberChanged();
     	}
