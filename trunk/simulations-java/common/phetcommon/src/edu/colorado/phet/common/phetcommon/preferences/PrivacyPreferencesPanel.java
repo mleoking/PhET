@@ -60,9 +60,14 @@ public class PrivacyPreferencesPanel extends JPanel {
             super( html );
             addHyperlinkListener( new HyperlinkListener() {
                 public void hyperlinkUpdate( HyperlinkEvent e ) {
+                    /*
+                     * This assumes there's only one hyperlink in the description text,
+                     * and that hyperlink opens a dialog that shows tracking details.
+                     * If more links are added, you'll need to check the link in the event,
+                     * and do something specific based on which link it is.
+                     * But beware! Translators might change the href in the translated text.
+                     */
                     if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED ) {
-                        // This assumes there's only one hyperlink in the description text.
-                        // If more links are added, you'll need to check the link in the event.
                         Window window = SwingUtilities.getWindowAncestor( DescriptionPane.this );
                         if ( window instanceof Frame ) {
                             new TrackingDetailsDialog( (Frame) window, trackingInfo ).setVisible( true );
