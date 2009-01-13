@@ -9,6 +9,8 @@ class Vector2D(_x: Double, _y: Double) {
   def this() = this (0, 0)
 
   def +(that: Vector2D) = new Vector2D(that.x + x, that.y + y)
+
+  def getAngle = java.lang.Math.atan2(y, x)
 }
 
 object TestVector2D {

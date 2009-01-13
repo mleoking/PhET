@@ -45,6 +45,7 @@ object Ladybug2DApplication {
       canvas setBackground new Color(200, 255, 240)
       clock.addClockListener((dt: Double) => ptext.translate(1 * dt, 0))
       clock.addClockListener((dt: Double) => ptext.translate(0, 2 * dt))
+//      clock.addClockListener((dt: Double) => model.ladybug.rotate(java.lang.Math.PI / 32))
 
       clock.addClockListener(model.update(_))
 
