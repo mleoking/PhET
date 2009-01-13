@@ -12,17 +12,11 @@
 	$file = fopen($filename, 'a');
 	$str = date('y/m/d h:i:s A') . ":\n";
 	
-	$flashFields = array("type", "user-id", "session-id", "flash-version", "project", "sim", "sim-type", "sim-version", "sim-revision", "sim-locale", "dev", "os", "locale-default", "flash-audio", "flash-accessibility", "flash-manufacturer", "flash-playertype", "screen-x", "screen-y", "user-timezone-offset", "flash-domain", "timestamp");
+	$flashFields = array("message_type", "message_version", "user_preference_file_creation_time", "user_total_sessions", "sim_type", "sim_project", "sim_name", "sim_major_version", "sim_minor_version", "sim_dev_version", "sim_svn_revision", "sim_locale_language", "sim_locale_country", "sim_sessions_since", "sim_sessions_ever", "sim_usage_type", "sim_distribution_tag", "sim_dev", "host_os", "host_flash", "host_language", "host_time_offset", "host_flash_accessibility", "host_flash_domain");
 	
-	if($xml["type"] == "session-ended") {
-		$str .= "\t" . "type" . "=" . urldecode($xml["type"]) . "\n";
-		$str .= "\t" . "session-id" . "=" . urldecode($xml["session-id"]) . "\n";
-		$str .= "\t" . "timestamp" . "=" . urldecode($xml["timestamp"]) . "\n";
-	} else {
-		if($xml["sim-type"] == "flash") {
-			foreach($flashFields as &$field) {
-				$str .= "\t" . $field . "=" . urldecode($xml[$field]) . "\n";
-			}
+	if($xml["sim_type"] == "flash") {
+		foreach($flashFields as &$field) {
+			$str .= "\t" . $field . "=" . urldecode($xml[$field]) . "\n";
 		}
 	}
 	
