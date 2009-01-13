@@ -30,11 +30,13 @@ class CommonButtons {
 		
 		// creates the about button
 		var aboutButton : JButton = new JButton("About...");
+		_level0.aboutButton = aboutButton;
 		aboutButton.setSize(aboutButton.getPreferredSize());
 		aboutButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, aboutButtonClicked));
 		
 		// creates the preferences button
 		var preferencesButton : JButton = new JButton("Preferences");
+		_level0.preferencesButton = preferencesButton;
 		preferencesButton.setSize(preferencesButton.getPreferredSize());
 		preferencesButton.addEventListener(JButton.ON_PRESS, Delegate.create(this, preferencesButtonClicked));
 		

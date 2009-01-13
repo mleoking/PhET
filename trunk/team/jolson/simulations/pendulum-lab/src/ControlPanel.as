@@ -181,10 +181,12 @@
 				controllerRef.view_arr[1].pendulum.dtMax = 0;
 				controllerRef.view_arr[1].pendulum.dtMin = 1000;
 				controllerRef.view_arr[1].pendulum.dtAvg = 0;
+				/* TEMPORARILY removed for keyboard accessibility purposes - Jonathan Olson
 				_root.dt._visible = !_root.dt._visible;
 				_root.dtMax._visible = !_root.dtMax._visible;
 				_root.dtMin._visible = !_root.dtMin._visible;
 				_root.dtAvg._visible = !_root.dtAvg._visible;
+				*/
 			}//end if(pressedKeyCode == Key.SPACE)
 			if(pressedKeyCode == 80){
 				//trace("pause pushed");
