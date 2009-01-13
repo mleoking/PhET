@@ -52,7 +52,7 @@ public class AddSVNIgnoreToDeployDirectories {
         String propFilename = propFile.getAbsolutePath();
         PhetProject[] projects = PhetProject.getAllProjects( baseDir );
         for ( int i = 0; i < projects.length; i++ ) {
-            String svnCommand = "svn propset svn:ignore --file " + propFilename + " " + projects[i].getDefaultDeployDir().getAbsolutePath();
+            String svnCommand = "svn propset svn:ignore --file " + propFilename + " " + projects[i].getDeployDir().getAbsolutePath();
             System.out.println( svnCommand );
             Runtime.getRuntime().exec( svnCommand );
         }
