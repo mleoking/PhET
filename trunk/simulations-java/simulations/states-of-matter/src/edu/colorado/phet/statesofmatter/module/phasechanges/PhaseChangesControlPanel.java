@@ -40,7 +40,6 @@ import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.module.CloseRequestListener;
-import edu.umd.cs.piccolo.util.PDimension;
 
 
 public class PhaseChangesControlPanel extends ControlPanel {
@@ -269,6 +268,14 @@ public class PhaseChangesControlPanel extends ControlPanel {
 	        double modelPressure = m_model.getModelPressure();
 	        double mappedTemperature = mapModelTemperatureToPhaseDiagramTemperature(modelTemperature);
 	        double mappedPressure = mapModelTempAndPressureToPhaseDiagramPressure(modelPressure, modelTemperature);
+	    	if (m_model.getMoleculeType() == StatesOfMatterConstants.USER_DEFINED_MOLECULE){
+	    		// If the molecule is the user-defined molecule, it means that
+	    		// the epsilon is changeable, which means that the phase will be
+	    		// different for the same temperature.  We account for that here
+	    		// by adjusting the temperature based on the epsilon value.
+	    		mappedTemperature = mappedTemperature / (m_model.getEpsilon() / (StatesOfMatterConstants.MAX_EPSILON / 2));
+	    	}
+
 	        m_phaseDiagram.setStateMarkerPos( mappedTemperature, mappedPressure );
     	}
         
@@ -283,14 +290,6 @@ public class PhaseChangesControlPanel extends ControlPanel {
     	}
     	else{
             mappedTemperature = modelTemperature * SLOPE_IN_2ND_REGION + OFFSET_IN_2ND_REGION;    		
-    	}
-    	
-    	if (m_model.getMoleculeType() == StatesOfMatterConstants.USER_DEFINED_MOLECULE){
-    		// If the molecule is the user-defined molecule, it means that
-    		// the epsilon is changeable, which means that the phase will be
-    		// different for the same temperature.  We account for that here
-    		// by adjusting the temperature based on the epsilon value.
-    		mappedTemperature = mappedTemperature / (m_model.getEpsilon() / (StatesOfMatterConstants.MAX_EPSILON / 2));
     	}
     	
     	return Math.min(mappedTemperature, 1);
