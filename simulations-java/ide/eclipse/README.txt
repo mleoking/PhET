@@ -15,10 +15,10 @@ This sets the Java classpath, and associates source code with JAR files.
 This configures compiler settings for project simulations-java.
 
 (3) Import the PhET code format conventions.
-In Eclipse 3.3, got to Eclipse>Preferences>Java>Code Style>Formatter, then import phet-code-format.xml.
+In Eclipse 3.3, go to Eclipse>Preferences>Java>Code Style>Formatter, then import phet-code-format.xml.
 
 (4) Import the PhET code templates.
-In Eclipse 3.3, got to Eclipse>Preferences>Java>Code Style>Code Templates, then import phet-code-templates.xml.
+In Eclipse 3.3, go to Eclipse>Preferences>Java>Code Style>Code Templates, then import phet-code-templates.xml.
 
 (5) Select simulations-java in the Package Explorer view, then refresh by pressing F5 or choose File>Refresh.
 This tells Eclipse that files have been changed outside of Eclipse.
