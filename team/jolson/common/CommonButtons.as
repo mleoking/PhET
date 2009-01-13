@@ -23,6 +23,8 @@ class CommonButtons {
 		// code that isn't part of a MovieClip.
 		ASWingUtils.getRootMovieClip();
 		
+		FocusManager.disableTraversal();
+		
 		// create the window to hold the buttons
 		var window : JWindow = new JWindow(_level0);
 		
