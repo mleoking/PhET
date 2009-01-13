@@ -11,13 +11,15 @@ class LadybugModel {
     time += dt;
     history += (time, ladybug.getState)
 
-    ladybug.setAngle(estimateRotation)
+    if (estimateVelocity.magnitude > 1E-6)
+      ladybug.setAngle(estimateAngle)
   }
 
-  def estimateRotation: Double = {
+  def estimateAngle: Double = estimateVelocity.getAngle
+
+  def estimateVelocity: Vector2D= {
     val dtList = for (elm <- history) yield elm._1;
     val pos = for (elm <- history) yield elm._2.position
-    //    println(pos)
 
     val posX = for (p <- pos) yield p.x
     val posY = for (p <- pos) yield p.y
@@ -35,10 +37,9 @@ class LadybugModel {
 
       val derX = (x2 - x1) / (t2 - t1)
       val derY = (y2 - y1) / (t2 - t1)
-      val vel=new Vector2D(derX,derY)
-      vel.getAngle+java.lang.Math.PI/2
+      new Vector2D(derX, derY)
 
     } else
-      3
+      new Vector2D
   }
 }
