@@ -81,15 +81,6 @@ public class FlashHTMLWriter {
 		html += "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n";
 		html += "<title>" + simName + "_" + language + "</title>\n"; // NOTE: change title? usually not seen.
 		
-		// use JavaScript with ExternalInterface to detect window closing on those browsers
-		html += "<SCRIPT LANGUAGE=\"JavaScript\">\n";
-		html += "window.onbeforeunload = clean_up;\n";
-		html += "function clean_up() {\n";
-		html += "var sim = document[\"" + simName + "\"] || window[\"" + simName + "\"];\n";
-		html += "sim.beforeClose();\n";
-		html += "}\n";
-		html += "</SCRIPT>\n";
-		
 		html += "</head>\n";
 		html += "<body bgcolor=\"" + bgcolor + "\">\n"; // we want to get the correct background color!
 		html += "<object classid=\"clsid:d27cdb6e-ae6d-11cf-96b8-444553540000\" codebase=\"http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0\" width=\"100%\" height=\"100%\" id=\"" + simName + "\" align=\"middle\">\n";
