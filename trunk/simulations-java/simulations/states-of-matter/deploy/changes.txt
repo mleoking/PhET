@@ -1,3 +1,5 @@
+# 0.04.13 (27234) 01-13-2009
+> Revised the way that changing epsilon affects the phase indication on the phase diagram.
 # 0.04.12 (27231) 01-13-2009
 > Added the ability to change the phase indication on the phase diagram when the epsilon value is changed.
 >Modified the look and behavior of the graphs on the Phase Changes tab so that they would appear more consistent.
