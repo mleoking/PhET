@@ -285,6 +285,14 @@ public class PhaseChangesControlPanel extends ControlPanel {
             mappedTemperature = modelTemperature * SLOPE_IN_2ND_REGION + OFFSET_IN_2ND_REGION;    		
     	}
     	
+    	if (m_model.getMoleculeType() == StatesOfMatterConstants.USER_DEFINED_MOLECULE){
+    		// If the molecule is the user-defined molecule, it means that
+    		// the epsilon is changeable, which means that the phase will be
+    		// different for the same temperature.  We account for that here
+    		// by adjusting the temperature based on the epsilon value.
+    		mappedTemperature = mappedTemperature / (m_model.getEpsilon() / (StatesOfMatterConstants.MAX_EPSILON / 2));
+    	}
+    	
     	return Math.min(mappedTemperature, 1);
     }
     
@@ -513,6 +521,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
                 	epsilon = Math.min(epsilon, MultipleParticleModel.MAX_ADJUSTABLE_EPSILON);
                 	epsilon = Math.max(epsilon, MultipleParticleModel.MIN_ADJUSTABLE_EPSILON);
                     m_interactionStrengthControl.setValue( epsilon );
+                    updatePhaseDiagram();
                 }
             });
             
