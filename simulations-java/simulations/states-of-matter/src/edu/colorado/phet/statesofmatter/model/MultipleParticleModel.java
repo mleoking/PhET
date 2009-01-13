@@ -543,7 +543,6 @@ public class MultipleParticleModel{
             epsilon = 0;
         }
         
-        System.err.println("Epsilon = " + epsilon);
         return epsilon;
     }
     
@@ -1472,21 +1471,22 @@ public class MultipleParticleModel{
     
     static final double EPSILON_CONVERSION_DIVISOR = 95;
     static final double EPSILON_CONVERSION_EXPONENTIAL = 2.0;
+    /**
+     * Convert a value for epsilon that is in the real range of values into a
+     * scaled value that is suitable for use with the motion and force
+     * calculators.
+     */
     private double convertEpsilonToScaledEpsilon(double epsilon){
 		// The following conversion of the target value for epsilon
 		// to a scaled value for the motion calculator object was
 		// determined empirically such that the resulting behavior
 		// roughly matched that of the existing monatomic molecules.
 		double scaledEpsilon = epsilon / (StatesOfMatterConstants.MAX_EPSILON / 2);
-    	// TODO: Remove line below if and when it is decided that we don't need it.
-//		double scaledEpsilon = Math.pow(epsilon / EPSILON_CONVERSION_DIVISOR, EPSILON_CONVERSION_EXPONENTIAL);
 		return scaledEpsilon;
     }
     
     private double convertScaledEpsilonToEpsilon(double scaledEpsilon){
     	double epsilon = scaledEpsilon * StatesOfMatterConstants.MAX_EPSILON / 2;
-    	// TODO: Remove line below if and when it is decided that we don't need it.
-//    	double epsilon = Math.pow(scaledEpsilon, 1.0/EPSILON_CONVERSION_EXPONENTIAL) * EPSILON_CONVERSION_DIVISOR;
     	return epsilon;
     }
 }
