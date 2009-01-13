@@ -13,7 +13,7 @@ import java.net.*;
 import java.util.Scanner;
 
 public class FlashHTMLWriter {
-	public static void writeHTML(String simName, String language, String country, String xmlFile, String htmlFile, String propertiesFile) throws FileNotFoundException, UnsupportedEncodingException {
+	public static void writeHTML(String simName, String language, String country, String usageType, String distributionTag, String xmlFile, String htmlFile, String propertiesFile) throws FileNotFoundException, UnsupportedEncodingException {
 		/* Reads internationaliaztion data from an XML file, and generates the corresponding HTML file
 		 * that will pass the data into Flash through FlashVars parameters.
 		 *
@@ -71,6 +71,8 @@ public class FlashHTMLWriter {
 		flashVars += "&dev=" + dev;
 		flashVars += "&revision=" + revision;
 		flashVars += "&simName=" + simName;
+		flashVars += "&simUsageType=" + usageType;
+		flashVars += "&simDistributionTag=" + distributionTag;
 		
 		// prepare string of HTML file:
 		String swfName = simName + ".swf";
@@ -127,7 +129,7 @@ public class FlashHTMLWriter {
 			String htmlFile = simName + "_" + locale + ".html";
 			String propertiesFile = simName + ".properties";
 			
-			writeHTML(simName, language, country, xmlFile, htmlFile, propertiesFile);
+			writeHTML(simName, language, country, "phet-website", "none", xmlFile, htmlFile, propertiesFile);
 		} catch(FileNotFoundException e) {
 			System.out.println("File Not Found: " + e.toString());
 		} catch(UnsupportedEncodingException e) {
