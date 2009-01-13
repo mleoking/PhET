@@ -28,15 +28,15 @@ public class PreferencesDialog extends JDialog {
 
     private static final String TITLE = PhetCommonResources.getString( "Common.preferences.title" );
     private static final String UPDATES_TAB = PhetCommonResources.getString( "Common.preferences.updates" );
-    private static final String TRACKING_TAB = PhetCommonResources.getString( "Common.preferences.tracking" );
+    private static final String PRIVACY_TAB = PhetCommonResources.getString( "Common.preferences.privacy" );
     private static final String OK_BUTTON = PhetCommonResources.getString( "Common.choice.ok" );
     private static final String CANCEL_BUTTON = PhetCommonResources.getString( "Common.choice.cancel" );
 
     private final PhetPreferences preferences;
     private final UpdatesPreferencesPanel updatesPreferencesPanel;
-    private final TrackingPreferencesPanel trackingPreferencesPanel;
+    private final PrivacyPreferencesPanel privacyPreferencesPanel;
 
-    public PreferencesDialog( Frame owner, ITrackingInfo trackingInfo, IManualUpdateChecker iCheckForUpdates, PhetPreferences preferences, boolean showTrackingUI, boolean showUpdatesUI ) {
+    public PreferencesDialog( Frame owner, ITrackingInfo trackingInfo, IManualUpdateChecker iCheckForUpdates, PhetPreferences preferences, boolean showPrivacyUI, boolean showUpdatesUI ) {
         super( owner, TITLE );
         setResizable( false );
         setModal( false );
@@ -47,12 +47,12 @@ public class PreferencesDialog extends JDialog {
         JTabbedPane jTabbedPane = new JTabbedPane();
         userInputPanel.add( jTabbedPane );
         updatesPreferencesPanel = new UpdatesPreferencesPanel( iCheckForUpdates, preferences.isUpdatesEnabled() );
-        trackingPreferencesPanel = new TrackingPreferencesPanel( trackingInfo, preferences.isTrackingEnabled() );
+        privacyPreferencesPanel = new PrivacyPreferencesPanel( trackingInfo, preferences.isTrackingEnabled() );
         if ( showUpdatesUI ) {
             jTabbedPane.addTab( UPDATES_TAB, updatesPreferencesPanel );
         }
-        if ( showTrackingUI ) {
-            jTabbedPane.addTab( TRACKING_TAB, trackingPreferencesPanel );
+        if ( showPrivacyUI ) {
+            jTabbedPane.addTab( PRIVACY_TAB, privacyPreferencesPanel );
         }
 
         JButton okButton = new JButton( OK_BUTTON );
@@ -90,30 +90,9 @@ public class PreferencesDialog extends JDialog {
         }
     }
 
-    public void dispose() {
-        boolean wasVisible = isVisible();
-        super.dispose();
-    }
-
-    public void setVisible( boolean b ) {
-        boolean wasVisible = isVisible();
-        super.setVisible( b );
-    }
-
     private void savePreferences() {
-
-        if ( preferences.isUpdatesEnabled() != updatesPreferencesPanel.isUpdatesEnabled() ) {
-            boolean isEnabled = updatesPreferencesPanel.isUpdatesEnabled();
-            boolean wasEnabled = preferences.isUpdatesEnabled();
-            preferences.setUpdatesEnabled( isEnabled );
-        }
-
-        if ( preferences.isTrackingEnabled() != trackingPreferencesPanel.isTrackingEnabled() ) {
-            boolean isEnabled = trackingPreferencesPanel.isTrackingEnabled();
-            boolean wasEnabled = preferences.isTrackingEnabled();
-            preferences.setTrackingEnabled( isEnabled );
-        }
-
+        preferences.setUpdatesEnabled( updatesPreferencesPanel.isUpdatesEnabled() );
+        preferences.setTrackingEnabled( privacyPreferencesPanel.isTrackingEnabled() );
     }
 
     /*

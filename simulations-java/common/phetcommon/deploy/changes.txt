@@ -1,3 +1,5 @@
+1-13-09: #1073, change Privacy tab in Preferences dialog to correspond to specification
+1-13-09: #1073, rename "tracking" to "privacy" where visible in Preferences dialog
 1-9-09: #588, delete SimStrings
 1-8-09: #1008, #1073, revised session message
 1-8-09: #1085, delete obsolete tracking message types

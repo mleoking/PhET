@@ -3,31 +3,27 @@ package edu.colorado.phet.common.phetcommon.preferences;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.MessageFormat;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.tracking.ITrackingInfo;
-import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
-import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPane;
 
 /**
- * Panel for displaying preferences for the tracking feature.
+ * Panel for displaying preferences related to privacy.
  */
-public class TrackingPreferencesPanel extends JPanel {
+public class PrivacyPreferencesPanel extends JPanel {
 
-    private static final String ONE_LINER_PATTERN = PhetCommonResources.getString( "Common.tracking.oneLiner" );
-    private static final String TRACKING_ENABLED = PhetCommonResources.getString( "Common.tracking.sendToPhET" );
-    private static final String DETAILS = PhetCommonResources.getString( "Common.tracking.detailsButton" );
+    private static final String DESCRIPTION_STRING = PhetCommonResources.getString( "Common.tracking.description" );
+    private static final String TRACKING_ENABLED = PhetCommonResources.getString( "Common.tracking.enabled" );
+    private static final String DETAILS_BUTTON = PhetCommonResources.getString( "Common.tracking.details.button" );
     
     private final JCheckBox trackingEnabledCheckBox;
     
-    public TrackingPreferencesPanel( ITrackingInfo trackingInfo, boolean trackingEnabled ) {
+    public PrivacyPreferencesPanel( ITrackingInfo trackingInfo, boolean trackingEnabled ) {
         
         // feature description
-        JComponent oneLiner = createOneLiner();
+        JComponent oneLiner = createDescription();
         
         // enable
         trackingEnabledCheckBox = new JCheckBox( TRACKING_ENABLED, trackingEnabled );
@@ -53,13 +49,8 @@ public class TrackingPreferencesPanel extends JPanel {
     }
 
     /* One-line description of tracking */
-    private static JComponent createOneLiner() {
-        Object[] args = { HTMLUtils.getPhetHomeHref( PhetCommonConstants.PHET_NAME ) };
-        String s = MessageFormat.format( ONE_LINER_PATTERN, args );
-        String html = HTMLUtils.createStyledHTMLFromFragment( s );
-        InteractiveHTMLPane pane = new InteractiveHTMLPane( html );
-        pane.setMargin( new Insets( 10, 10, 10, 10 ) ); // top,left,bottom,right
-        return pane;
+    private static JComponent createDescription() {
+        return new JLabel( DESCRIPTION_STRING );
     }
 
     /*
@@ -68,7 +59,7 @@ public class TrackingPreferencesPanel extends JPanel {
      */
     private static class DetailsButton extends JButton {
         private DetailsButton( final ITrackingInfo trackingInfo ) {
-            super( DETAILS );
+            super( DETAILS_BUTTON );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     Window window = SwingUtilities.getWindowAncestor( DetailsButton.this );
