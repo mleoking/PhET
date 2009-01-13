@@ -35,17 +35,11 @@ object Ladybug2DApplication {
     val clock = new ScalaClock(30, 1)
     class ScalaModule extends Module("my module", clock) {
       val model = new LadybugModel
+      model.ladybug.translate(100,100)
       val canvas = new PhetPCanvas
       setSimulationPanel(canvas)
 
-      val ptext = new PText("hello")
-      ptext setFont new Font("Lucida Sans", Font.BOLD, 30)
-      ptext.setOffset(300, 200)
-      canvas addScreenChild ptext
       canvas setBackground new Color(200, 255, 240)
-      clock.addClockListener((dt: Double) => ptext.translate(1 * dt, 0))
-      clock.addClockListener((dt: Double) => ptext.translate(0, 2 * dt))
-//      clock.addClockListener((dt: Double) => model.ladybug.rotate(java.lang.Math.PI / 32))
 
       clock.addClockListener(model.update(_))
 
