@@ -29,8 +29,8 @@ public class PhetBuildCommand {
     private final File outputJar;
 
     //select whether you want to use the java version checker for launching JAR files
-    private static boolean useJavaVersionChecker = false;
-    private static String JAVA_SOURCE_VERSION = "1.4";//used for sims, not for bootstrap
+    private static boolean useJavaVersionChecker = true;
+    private static String JAVA_SOURCE_VERSION = "1.5";//used for sims, not for bootstrap
 
     public static final String JAR_LAUNCHER = useJavaVersionChecker ?
                                               "edu.colorado.phet.javaversionchecker.JavaVersionChecker" :
@@ -104,7 +104,7 @@ public class PhetBuildCommand {
     }
 
     private void compileJavaVersionChecker() {
-        PhetBuildUtils.antEcho( antTaskRunner, "Compiling " + project.getName() + ".", getClass() );
+        PhetBuildUtils.antEcho( antTaskRunner, "Compiling java version checker for " + project.getName() + ".", getClass() );
 
         Javac javac = new Javac();
         javac.setSource( "1.4" );
