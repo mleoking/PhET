@@ -268,14 +268,6 @@ public class PhaseChangesControlPanel extends ControlPanel {
 	        double modelPressure = m_model.getModelPressure();
 	        double mappedTemperature = mapModelTemperatureToPhaseDiagramTemperature(modelTemperature);
 	        double mappedPressure = mapModelTempAndPressureToPhaseDiagramPressure(modelPressure, modelTemperature);
-	    	if (m_model.getMoleculeType() == StatesOfMatterConstants.USER_DEFINED_MOLECULE){
-	    		// If the molecule is the user-defined molecule, it means that
-	    		// the epsilon is changeable, which means that the phase will be
-	    		// different for the same temperature.  We account for that here
-	    		// by adjusting the temperature based on the epsilon value.
-	    		mappedTemperature = mappedTemperature / (m_model.getEpsilon() / (StatesOfMatterConstants.MAX_EPSILON / 2));
-	    	}
-
 	        m_phaseDiagram.setStateMarkerPos( mappedTemperature, mappedPressure );
     	}
         
@@ -291,7 +283,15 @@ public class PhaseChangesControlPanel extends ControlPanel {
     	else{
             mappedTemperature = modelTemperature * SLOPE_IN_2ND_REGION + OFFSET_IN_2ND_REGION;    		
     	}
-    	
+
+    	if (m_model.getMoleculeType() == StatesOfMatterConstants.USER_DEFINED_MOLECULE){
+    		// If the molecule is the user-defined molecule, it means that
+    		// the epsilon is changeable, which means that the phase will be
+    		// different for the same temperature.  We account for that here
+    		// by adjusting the temperature based on the epsilon value.
+    		mappedTemperature = mappedTemperature / (m_model.getEpsilon() / (StatesOfMatterConstants.MAX_EPSILON / 2));
+    	}
+
     	return Math.min(mappedTemperature, 1);
     }
     
@@ -300,10 +300,18 @@ public class PhaseChangesControlPanel extends ControlPanel {
     private double mapModelTempAndPressureToPhaseDiagramPressure(double modelPressure, double modelTemperature){
     	double mappedTemperature = mapModelTemperatureToPhaseDiagramTemperature(modelTemperature);
     	double mappedPressure;
-    	if (modelTemperature < TRIPLE_POINT_TEMPERATURE_IN_MODEL){
+    	double adjustmentFactor = 1;
+    	
+    	// Set the adjustment factor based on whether the user-defined nucleus
+    	// is in use.
+    	if (m_model.getMoleculeType() == StatesOfMatterConstants.USER_DEFINED_MOLECULE){
+        	adjustmentFactor = StatesOfMatterConstants.MAX_EPSILON / (2 * m_model.getEpsilon());
+    	}
+    	
+    	if (modelTemperature * adjustmentFactor < TRIPLE_POINT_TEMPERATURE_IN_MODEL){
     		mappedPressure = 1.4 * (Math.pow(mappedTemperature, 2)) + PRESSURE_FACTOR * Math.pow(modelPressure, 2);
     	}
-    	else if (modelTemperature < CRITICAL_POINT_TEMPERATURE_IN_MODEL){
+    	else if (modelTemperature * adjustmentFactor < CRITICAL_POINT_TEMPERATURE_IN_MODEL){
             mappedPressure = 0.19 + 1.2 * (Math.pow(mappedTemperature - TRIPLE_POINT_TEMPERATURE_ON_DIAGRAM, 2)) + 
             	PRESSURE_FACTOR * Math.pow(modelPressure, 2);    		
     	}
