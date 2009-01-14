@@ -27,14 +27,18 @@ public class PrivacyPreferencesPanel extends JPanel {
     private static final String TRACKING_ENABLED = PhetCommonResources.getString( "Common.tracking.enabled" );
     
     private final JCheckBox trackingEnabledCheckBox;
+    private final JCheckBox alwaysShowSoftwareAgreementCheckBox;
     
-    public PrivacyPreferencesPanel( ITrackingInfo trackingInfo, boolean trackingEnabled ) {
+    public PrivacyPreferencesPanel( ITrackingInfo trackingInfo, boolean trackingEnabled, boolean alwaysShowSoftwareAgreement, boolean isDev ) {
         
         // feature description
         JComponent description = new DescriptionPane( trackingInfo );
         
         // enable check box
         trackingEnabledCheckBox = new JCheckBox( TRACKING_ENABLED, trackingEnabled );
+        
+        // developer control to always show the software agreement dialog, not localized
+        alwaysShowSoftwareAgreementCheckBox = new JCheckBox( "Always show Software Agreement (dev)", alwaysShowSoftwareAgreement );
         
         // layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
@@ -44,14 +48,21 @@ public class PrivacyPreferencesPanel extends JPanel {
         int column = 0;
         layout.addComponent( description, row++, column );
         layout.addComponent( trackingEnabledCheckBox, row++, column );
+        if ( isDev ) {
+            layout.addComponent( alwaysShowSoftwareAgreementCheckBox, row++, column ); 
+        }
     }
     
     public boolean isTrackingEnabled() {
         return trackingEnabledCheckBox.isSelected();
     }
+    
+    public boolean isAlwaysShowSoftwareAgreement() {
+        return alwaysShowSoftwareAgreementCheckBox.isSelected();
+    }
 
     /*
-     * This is an HTML editor pane interactive hyperlinks.
+     * This is an HTML editor pane with interactive hyperlinks.
      * But instead of opening a web browser, it opens a Swing dialog.
      */
     private static class DescriptionPane extends HTMLEditorPane {

@@ -36,8 +36,9 @@ public class SoftwareAgreementManager {
      * Ensures that the user has accepted the agreements that pertain to this software.
      */
     public static void validate( ITrackingInfo trackingInfo ) {
+        boolean alwaysAsk = PhetPreferences.getInstance().isAlwaysShowSoftwareAgreement();
         int acceptedVersion = PhetPreferences.getInstance().getSoftwareAgreementVersion();
-        if ( acceptedVersion < SOFTWARE_AGREEMENT_VERSION ) {
+        if ( alwaysAsk || acceptedVersion < SOFTWARE_AGREEMENT_VERSION ) {
             negotiate( trackingInfo );
         }
     }
