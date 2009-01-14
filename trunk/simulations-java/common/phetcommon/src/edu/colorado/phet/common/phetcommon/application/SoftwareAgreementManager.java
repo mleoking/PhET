@@ -143,26 +143,27 @@ public class SoftwareAgreementManager {
     private static class MessagePane extends HTMLEditorPane {
        
         private static final String MESSAGE_PATTERN = PhetCommonResources.getString( "Common.softwareAgreement.message" );
-        private static final String INFORMATION_LINK = "information";
-        private static final String AGREEMENTS_LINK = "agreements";
+        
+        // identifiers for hyperlink actions
+        private static final String LINK_SHOW_TRACKING_DETAILS = "showTrackingDetails";
+        private static final String LINK_SHOW_AGREEMENTS = "showAgreements";
         
         public MessagePane( final ITrackingInfo trackingInfo ) {
             super( "" );
             
-            // insert our own hyperlink descriptions into the message
-            Object[] args = { INFORMATION_LINK, AGREEMENTS_LINK };
+            // insert our own hyperlink descriptions into the message, so translators can't mess them up
+            Object[] args = { LINK_SHOW_TRACKING_DETAILS, LINK_SHOW_AGREEMENTS };
             String htmlFragment = MessageFormat.format( MESSAGE_PATTERN, args );
-            System.out.println( "htmlFragment" + htmlFragment );//XXX
             setText( HTMLUtils.createStyledHTMLFromFragment( htmlFragment ) );
             
             addHyperlinkListener( new HyperlinkListener() {
                 public void hyperlinkUpdate( HyperlinkEvent e ) {
                     if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED ) {
                         Window owner = SwingUtilities.getWindowAncestor( MessagePane.this );
-                        if ( e.getDescription().equals( INFORMATION_LINK ) ) {
+                        if ( e.getDescription().equals( LINK_SHOW_TRACKING_DETAILS ) ) {
                             showTrackingDetails( owner, trackingInfo );
                         }
-                        else if ( e.getDescription().equals( AGREEMENTS_LINK ) ) {
+                        else if ( e.getDescription().equals( LINK_SHOW_AGREEMENTS ) ) {
                             showAgreements( owner );
                         }
                         else {
