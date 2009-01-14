@@ -6,5 +6,5 @@ import java.awt.geom.Rectangle2D
 import java.awt.Rectangle
 
 class LadybugCanvas extends PhetPCanvas {
-  val transform: ModelViewTransform2D = new ModelViewTransform2D(new Rectangle2D.Double(-10, -10, 20, 20), new Rectangle(0, 0, 100, 100),false)
+  val transform: ModelViewTransform2D = new ModelViewTransform2D(new Rectangle2D.Double(-10, -10, 20, 20), new Rectangle(0, 0, 100, 100), false)
 }
