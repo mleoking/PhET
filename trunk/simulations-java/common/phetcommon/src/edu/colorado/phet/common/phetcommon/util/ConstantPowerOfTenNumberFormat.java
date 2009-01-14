@@ -16,7 +16,7 @@ import java.text.ParsePosition;
  */
 public class ConstantPowerOfTenNumberFormat extends NumberFormat {
     
-    private static final String PATTERN = "<html>{0} x 10<sup>{1}</sup></html>";
+    private static final String PATTERN = "<html>{0} x 10<sup style=\"font-size:80%\"> {1}</sup></html>";
     private static final DefaultDecimalFormat SIMPLE_FORMAT = new DefaultDecimalFormat( "0" );
     
     private final DefaultDecimalFormat _decimalFormat;
