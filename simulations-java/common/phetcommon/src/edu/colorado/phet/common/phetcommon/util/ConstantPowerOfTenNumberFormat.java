@@ -2,10 +2,18 @@
 
 package edu.colorado.phet.common.phetcommon.util;
 
+import java.awt.Insets;
 import java.text.FieldPosition;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 
 
@@ -120,17 +128,23 @@ public class ConstantPowerOfTenNumberFormat extends NumberFormat {
         NumberFormat f5 = new ConstantPowerOfTenNumberFormat( p4, 1 );
         NumberFormat f6 = new ConstantPowerOfTenNumberFormat( p4, 0 );
         
-        System.out.println( "pattern=" + p1 + " value=" + zero  + " formatted=" + f1.format( zero ) );
-        System.out.println( "pattern=" + p1 + " value=" + value + " formatted=" + f1.format( value ) );
-        System.out.println( "pattern=" + p2 + " value=" + zero  + " formatted=" + f2.format( zero ) );
-        System.out.println( "pattern=" + p2 + " value=" + value + " formatted=" + f2.format( value ) );
-        System.out.println( "pattern=" + p3 + " value=" + zero  + " formatted=" + f3.format( zero ) );
-        System.out.println( "pattern=" + p3 + " value=" + value + " formatted=" + f3.format( value ) );
-        System.out.println( "pattern=" + p4 + " value=" + zero  + " formatted=" + f4.format( zero ) );
-        System.out.println( "pattern=" + p4 + " value=" + value + " formatted=" + f4.format( value ) );
-        System.out.println( "pattern=" + p4 + " value=" + zero  + " formatted=" + f5.format( zero ) );
-        System.out.println( "pattern=" + p4 + " value=" + value + " formatted=" + f5.format( value ) );
-        System.out.println( "pattern=" + p4 + " value=" + zero  + " formatted=" + f6.format( zero ) );
-        System.out.println( "pattern=" + p4 + " value=" + value + " formatted=" + f6.format( value ) );
+        NumberFormat[] tests = { f1, f2, f3, f4, f5, f6 };
+        
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        JPanel panel = new JPanel();
+        EasyGridBagLayout layout = new EasyGridBagLayout( panel );
+        panel.setLayout( layout );
+        layout.setInsets( new Insets( 5, 10, 5, 10 ) );
+        for ( int row = 0; row < tests.length; row++ ) {
+            JLabel label = new JLabel( tests[row].format( value ) );
+            layout.addComponent( label, row, 0 );
+            System.out.println( "value=" + zero + " formatted=" + tests[row].format( zero ) );
+            System.out.println( "value=" + value + " formatted=" + tests[row].format( value ) );
+        }
+        frame.getContentPane().add( panel );
+        frame.pack();
+        SwingUtils.centerWindowOnScreen( frame );
+        frame.setVisible( true );
     }
 }
