@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<SimStrings>
+  <string key="About" value="About" />
+  <string key="Preferences" value="Preferences" />
+  <string key="Copyright" value="Copyright" />
+  <string key="SomeRightsReserved" value="Some rights reserved" />
+  <string key="Visit" value="Visit" />
+  <string key="Version" value="Version" />
+  <string key="FlashVersion" value="Flash Version" />
+  <string key="OSVersion" value="OS" />
+  <string key="License" value="License" />
+  <string key="OK" value="OK" />
+  <string key="Licensing" value="Licensing" />
+</SimStrings>
