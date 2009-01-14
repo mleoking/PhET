@@ -1,3 +1,5 @@
+# 0.04.14 (27257) 01-14-2009
+Made the phase indicator on the phase diagram follow the demarcation line when epsilon changes.
 # 0.04.13 (27234) 01-13-2009
 > Revised the way that changing epsilon affects the phase indication on the phase diagram.
 # 0.04.12 (27231) 01-13-2009
