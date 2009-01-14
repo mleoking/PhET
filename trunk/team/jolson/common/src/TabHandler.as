@@ -159,7 +159,7 @@ class TabHandler {
 	
 	// used to set an entry to be the one in focus
 	public function addFocus(entry : TabEntry) {
-		Selection.setFocus(entry.control);
+		//Selection.setFocus(entry.control);
 		var bounds : Object;
 		switch(entry.highlight) {
 			case HIGHLIGHT_NONE:
@@ -218,6 +218,7 @@ class TabHandler {
 				drawHighlights(entry, lastHighlight, bounds);
 				break;
 		}
+		Selection.setFocus(entry.control);
 	}
 	
 	// used to remove an entry from focus. done before a new entry is focused
