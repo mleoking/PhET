@@ -37,21 +37,15 @@ class LadybugNode(ladybug: Ladybug, transform: ModelViewTransform2D) extends PNo
   def updateLadybug(ladybug: Ladybug): Unit = {
 
     val modelPosition = ladybug.getPosition
-    val viewPosition = new Vector2D(transform.modelToView(modelPosition).x, transform.modelToView(modelPosition).y)
-    println("model position=" + modelPosition + ", viewPosition=" + viewPosition)
-
-
+    val viewPosition = transform.modelToView(modelPosition)
     pimage.setTransform(new AffineTransform)
+    val dx = new Vector2D(pimage.getImage.getWidth(null), pimage.getImage.getHeight(null))
 
-    val dx2 = new Vector2D(pimage.getImage.getWidth(null), pimage.getImage.getHeight(null))
-    val dx = new Vector2D
     pimage.translate(viewPosition.x - dx.x / 2, viewPosition.y - dx.y / 2)
     pimage.rotateAboutPoint(ladybug.getAngle,
-      pimage.getFullBounds.getCenter2D.getX - viewPosition.x - dx.x / 2,
-      pimage.getFullBounds.getCenter2D.getY - viewPosition.y - dx.y / 2)
+      pimage.getFullBounds.getCenter2D.getX - (viewPosition.x - dx.x / 2),
+      pimage.getFullBounds.getCenter2D.getY - (viewPosition.y - dx.y / 2))
 
-    setOffset(0, 0)
-    translate(-dx2.x / 2, -dx2.y / 2)
-    boundNode.setOffset(viewPosition.x + dx2.x / 2, viewPosition.y + dx2.x / 2)
+    boundNode.setOffset(viewPosition)
   }
 }
