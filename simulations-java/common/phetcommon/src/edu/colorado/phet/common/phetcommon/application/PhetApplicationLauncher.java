@@ -105,7 +105,7 @@ public class PhetApplicationLauncher {
                     if ( applicationConstructor != null ) {
                         
                         if ( config.isTrackingEnabled() ) {
-                            SoftwareAgreementManager.validate();
+                            SoftwareAgreementManager.validate( config );
                         }
 
                         showSplashWindow( config.getName() );
