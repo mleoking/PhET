@@ -32,23 +32,21 @@ public class PreferencesDialog extends JDialog {
     private static final String OK_BUTTON = PhetCommonResources.getString( "Common.choice.ok" );
     private static final String CANCEL_BUTTON = PhetCommonResources.getString( "Common.choice.cancel" );
 
-    private final PhetPreferences preferences;
     private final UpdatesPreferencesPanel updatesPreferencesPanel;
     private final PrivacyPreferencesPanel privacyPreferencesPanel;
 
     public PreferencesDialog( Frame owner, ITrackingInfo trackingInfo, IManualUpdateChecker iCheckForUpdates, 
             PhetPreferences preferences, boolean showPrivacyUI, boolean showUpdatesUI, boolean isDev ) {
+
         super( owner, TITLE );
         setResizable( false );
         setModal( false );
 
-        this.preferences = preferences;
-
         JPanel userInputPanel = new JPanel();
         JTabbedPane jTabbedPane = new JTabbedPane();
         userInputPanel.add( jTabbedPane );
-        updatesPreferencesPanel = new UpdatesPreferencesPanel( iCheckForUpdates, preferences.isUpdatesEnabled() );
-        privacyPreferencesPanel = new PrivacyPreferencesPanel( trackingInfo, preferences.isTrackingEnabled(), preferences.isAlwaysShowSoftwareAgreement(), isDev );
+        updatesPreferencesPanel = new UpdatesPreferencesPanel( iCheckForUpdates, preferences );
+        privacyPreferencesPanel = new PrivacyPreferencesPanel( trackingInfo, preferences, isDev );
         if ( showUpdatesUI ) {
             jTabbedPane.addTab( UPDATES_TAB, updatesPreferencesPanel );
         }
@@ -92,9 +90,8 @@ public class PreferencesDialog extends JDialog {
     }
 
     private void savePreferences() {
-        preferences.setUpdatesEnabled( updatesPreferencesPanel.isUpdatesEnabled() );
-        preferences.setTrackingEnabled( privacyPreferencesPanel.isTrackingEnabled() );
-        preferences.setAlwaysShowSoftwareAgreement( privacyPreferencesPanel.isAlwaysShowSoftwareAgreement() );
+        updatesPreferencesPanel.save();
+        privacyPreferencesPanel.save();
     }
 
     /*

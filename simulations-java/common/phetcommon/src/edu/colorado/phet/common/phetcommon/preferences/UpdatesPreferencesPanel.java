@@ -22,12 +22,15 @@ public class UpdatesPreferencesPanel extends JPanel {
     private static final String UPDATES_ENABLED = PhetCommonResources.getString( "Common.updates.automaticallyCheck" );
     private static final String CHECK_FOR_UPDATES = PhetCommonResources.getString( "Common.HelpMenu.CheckForUpdates" );
     
+    private final PhetPreferences preferences;
     private final JCheckBox updatesEnabledCheckBox;
     
-    public UpdatesPreferencesPanel( final IManualUpdateChecker iCheckForUpdates, boolean updatesEnabled ) {
+    public UpdatesPreferencesPanel( final IManualUpdateChecker iCheckForUpdates, PhetPreferences preferences ) {
 
+        this.preferences = preferences;
+        
         // enable
-        updatesEnabledCheckBox = new JCheckBox( UPDATES_ENABLED, updatesEnabled );
+        updatesEnabledCheckBox = new JCheckBox( UPDATES_ENABLED, preferences.isUpdatesEnabled() );
         
         // check
         JButton checkForUpdatesButton = new JButton( CHECK_FOR_UPDATES );
@@ -49,7 +52,10 @@ public class UpdatesPreferencesPanel extends JPanel {
         add( checkForUpdatesButton, constraints );
     }
     
-    public boolean isUpdatesEnabled() {
-        return updatesEnabledCheckBox.isSelected();
+    /**
+     * Saves the preference values in this panel.
+     */
+    public void save() {
+        preferences.setUpdatesEnabled( updatesEnabledCheckBox.isSelected() );
     }
 }
