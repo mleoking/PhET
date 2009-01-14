@@ -59,7 +59,7 @@ public class SoftwareAgreementManager {
         private static final String CANCEL_BUTTON = PhetCommonResources.getString( "Common.softwareAgreement.cancel" );
         
         public SoftwareAgreementDialog( ITrackingInfo trackingInfo ) {
-            super();
+            super(); //TODO: dialog must have an owner if you want the cursor to change over hyperlinks
             setTitle( TITLE );
             setModal( true );
             setResizable( false );
