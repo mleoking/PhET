@@ -1,5 +1,6 @@
 package edu.colorado.phet.movingman.ladybug
 
+import _root_.edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.piccolophet.util.PImageFactory
 import edu.colorado.phet.common.piccolophet.event.CursorHandler
@@ -25,6 +26,11 @@ class LadybugNode(ladybug: Ladybug, transform: ModelViewTransform2D) extends PNo
   addChild(pimage)
   addChild(boundNode)
   addChild(arrowSetNode)
+  transform.addTransformListener(new TransformListener() {
+    def transformChanged(mvt: ModelViewTransform2D) = {
+      updateLadybug(ladybug)
+    }
+  })
 
   addInputEventListener(new CursorHandler)
   addInputEventListener(new PBasicInputEventHandler() {
