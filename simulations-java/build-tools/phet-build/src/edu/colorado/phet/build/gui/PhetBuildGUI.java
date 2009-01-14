@@ -1,8 +1,12 @@
 package edu.colorado.phet.build.gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.*;
+
+import edu.colorado.phet.build.translate.ImportAndAddBatch;
 
 /**
  * Provides a front-end user interface for building and deploying phet's java simulations.
@@ -11,9 +15,35 @@ import javax.swing.*;
 public class PhetBuildGUI {
     private JFrame frame = new JFrame();
 
-    public PhetBuildGUI( File baseDir ) {
+    public PhetBuildGUI( final File baseDir ) {
 
         this.frame = new JFrame( "PhET Build" );
+        JMenuBar menuBar = new JMenuBar();
+        JMenu translationMenu = new JMenu( "Translations" );
+        JMenuItem deployItem = new JMenuItem( "Deploy" );
+        deployItem.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                try {
+                    ImportAndAddBatch.startImportAndAddBatch( baseDir.getAbsolutePath() );
+                }
+                catch( Exception e1 ) {
+                    e1.printStackTrace();
+                }
+            }
+        } );
+        translationMenu.add( deployItem );
+
+        JMenu c = new JMenu( "File" );
+        JMenuItem menuItem = new JMenuItem( "Exit" );
+        menuItem.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                System.exit( 0 );
+            }
+        } );
+        c.add( menuItem );
+        menuBar.add( c );
+        menuBar.add( translationMenu );
+        frame.setJMenuBar( menuBar );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         PhetBuildGUIPanel panel = new PhetBuildGUIPanel( baseDir );
