@@ -273,8 +273,6 @@ public class BuildScript {
             new PhetBuildCommand( project, new MyAntTaskRunner(), true, project.getDefaultDeployJar() ).execute();
             FileUtils.copyTo( project.getDefaultDeployJar(), new File( project.getDeployDir(), "" + project.getName() + "_all.jar" ) );
 
-            //todo: should clean up old jar
-//            FileUtils.delete( project.getDefaultDeployJar() );
             System.out.println( "**** Finished BuildScript.build" );
         }
         catch( Exception e ) {
