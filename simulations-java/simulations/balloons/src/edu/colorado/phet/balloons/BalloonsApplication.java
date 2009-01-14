@@ -2,6 +2,7 @@ package edu.colorado.phet.balloons;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -101,7 +102,15 @@ public class BalloonsApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) {
+        System.out.println( "Testing generics, boxing, unboxing, foreach" );
 
+        ArrayList<Double>list=new ArrayList<Double>( );
+        list.add(3.0);
+        list.add(4.0);
+        list.add(5.6);
+        for ( double aDouble : list ) {
+            System.out.print(  aDouble+", " );
+        }
 
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, "balloons" );
         appConfig.getLookAndFeel().setBackgroundColor( new Color( 200, 240, 200 ) );
