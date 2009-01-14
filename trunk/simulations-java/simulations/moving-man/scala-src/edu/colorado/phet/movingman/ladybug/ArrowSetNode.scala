@@ -14,8 +14,8 @@ class ArrowSetNode(ladybug: Ladybug, transform: ModelViewTransform2D) extends PN
   update(ladybug)
 
   def update(a: Ladybug) {
-    val viewPosition:Vector2D=transform.modelToView(a.getPosition)
-    val viewVelocity:Vector2D=transform.modelToViewDifferentialDouble(a.getVelocity)
-    arrowNode.setTipAndTailLocations(viewPosition + viewVelocity* 10, viewPosition)
+    val viewPosition: Vector2D = transform.modelToView(a.getPosition)
+    val viewVelocity: Vector2D = transform.modelToViewDifferentialDouble(a.getVelocity)
+    arrowNode.setTipAndTailLocations(viewPosition + viewVelocity * 10, viewPosition)
   }
 }
