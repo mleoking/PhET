@@ -62,10 +62,20 @@ public class FlashHTMLWriter {
 		// encode XML into UTF-8 form compatible for passing into Flash
 		String encodedXML = URLEncoder.encode(rawXML, "UTF-8");
 		
+		// do the same for the common strings
+		File commonInFile = new File(commonXmlFile);
+		Scanner commonScan = new Scanner(commonInFile);
+		commonScan.useDelimiter("\\Z");
+		String rawCommonXML = commonScan.next();
+		
+		// encode XML into UTF-8
+		String commonEncodedXML = URLEncoder.encode(rawCommonXML, "UTF-8");
+		
 		// prepare variables to be passed in
 		String flashVars = "languageCode=" + language;
 		flashVars += "&countryCode=" + country;
 		flashVars += "&internationalization=" + encodedXML;
+		flashVars += "&commonstrings=" + commonEncodedXML;
 		flashVars += "&versionMajor=" + versionMajor;
 		flashVars += "&versionMinor=" + versionMinor;
 		flashVars += "&dev=" + dev;
@@ -117,9 +127,9 @@ public class FlashHTMLWriter {
 			
 			// relative pathnames
 			String locale = language + (country.equals("none") ? "" : "_" + country);
-			String xmlFile = simName + "-strings_" + locale + ".xml";
-			String htmlFile = simName + "_" + locale + ".html";
-			String propertiesFile = simName + ".properties";
+			String xmlFile = "simulations/" + simName + "/data/localization/" + simName + "-strings_" + locale + ".xml";
+			String htmlFile = "simulations/" + simName + "/deploy/" + simName + "_" + locale + ".html";
+			String propertiesFile = "simulations/" + simName + "/data/" + simName + ".properties";
 			String commonXmlFile = "common/data/localization/common-strings_" + locale + ".xml";
 			
 			writeHTML(simName, language, country, "phet-website", "none", xmlFile, htmlFile, propertiesFile, commonXmlFile);
