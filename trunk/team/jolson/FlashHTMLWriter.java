@@ -75,7 +75,7 @@ public class FlashHTMLWriter {
 		String flashVars = "languageCode=" + language;
 		flashVars += "&countryCode=" + country;
 		flashVars += "&internationalization=" + encodedXML;
-		flashVars += "&commonstrings=" + commonEncodedXML;
+		flashVars += "&commonStrings=" + commonEncodedXML;
 		flashVars += "&versionMajor=" + versionMajor;
 		flashVars += "&versionMinor=" + versionMinor;
 		flashVars += "&dev=" + dev;
