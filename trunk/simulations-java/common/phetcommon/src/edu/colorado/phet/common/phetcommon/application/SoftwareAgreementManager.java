@@ -58,6 +58,8 @@ public class SoftwareAgreementManager {
         private static final String ACCEPT_BUTTON = PhetCommonResources.getString( "Common.softwareAgreement.accept" );
         private static final String CANCEL_BUTTON = PhetCommonResources.getString( "Common.softwareAgreement.cancel" );
         
+        private JButton acceptButton;
+        
         public SoftwareAgreementDialog( ITrackingInfo trackingInfo ) {
             super(); //TODO: dialog must have an owner if you want the cursor to change over hyperlinks
             setTitle( TITLE );
@@ -83,10 +85,14 @@ public class SoftwareAgreementManager {
                     cancel();
                 }
             } );
-
+            
             setContentPane( panel );
             pack();
             SwingUtils.centerWindowOnScreen( this );
+            
+            // make "Accept" the default button and give it focus, DO THIS LAST!
+            getRootPane().setDefaultButton( acceptButton );
+            acceptButton.requestFocusInWindow();
         }
 
         private JComponent createMessagePanel( ITrackingInfo trackingInfo ) {
@@ -99,7 +105,7 @@ public class SoftwareAgreementManager {
 
         private JComponent createButtonPanel() {
 
-            JButton acceptButton = new JButton( ACCEPT_BUTTON );
+            acceptButton = new JButton( ACCEPT_BUTTON );
             acceptButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     accept();
