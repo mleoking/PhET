@@ -17,6 +17,9 @@ class FlashCommon {
 	
 	public var debugging : Boolean = true;
 	
+	// handles internationalization for common strings
+	public var commonStrings : CommonStrings;
+	
 	// handles preferences the user selects, such as
 	// enabling/disabling updates and tracking. also
 	// stores how many times the particular sim has
@@ -75,6 +78,8 @@ class FlashCommon {
 		debug("." + _level0.versionMinor);
 		debug(" dev:" + _level0.dev);
 		debug(" rev:" + _level0.revision + "\n");
+		
+		commonStrings = new CommonStrings();
 		
 		// load preferences data
 		preferences = new Preferences();

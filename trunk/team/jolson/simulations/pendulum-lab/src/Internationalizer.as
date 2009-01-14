@@ -4,13 +4,13 @@ class Internationalizer{
 	private var simStrings:SimStrings;
 	private var view1:Object;
 	private var view2:Object;
-	private var countryCode:String;
+	private var languageCode:String;
 	
-	function Internationalizer(simStrings:SimStrings, view1:Object, view2:Object, countryCode:String){
+	function Internationalizer(simStrings:SimStrings, view1:Object, view2:Object, languageCode:String){
 		this.simStrings = simStrings;
 		this.view1 = view1;
 		this.view2 = view2;
-		this.countryCode = countryCode;
+		this.languageCode = languageCode;
 		//this.mainView = mainView;
 		//trace("simStrings.getBaseName(): "+this.simStrings.getLocale());
 		this.initialize();
@@ -78,7 +78,7 @@ class Internationalizer{
 		this.view1.angleUnit_str = this.simStrings.get("angleUnit");
 		this.view2.angleUnit_str = this.simStrings.get("angleUnit");
 		
-		if(countryCode == "en"){
+		if(languageCode == "en"){
 			//embed fonts so they can be greyed out
 			var myFormat = new TextFormat();
 			myFormat.font = "Arial";
