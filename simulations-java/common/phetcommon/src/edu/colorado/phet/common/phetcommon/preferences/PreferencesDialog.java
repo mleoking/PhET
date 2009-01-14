@@ -36,7 +36,8 @@ public class PreferencesDialog extends JDialog {
     private final UpdatesPreferencesPanel updatesPreferencesPanel;
     private final PrivacyPreferencesPanel privacyPreferencesPanel;
 
-    public PreferencesDialog( Frame owner, ITrackingInfo trackingInfo, IManualUpdateChecker iCheckForUpdates, PhetPreferences preferences, boolean showPrivacyUI, boolean showUpdatesUI ) {
+    public PreferencesDialog( Frame owner, ITrackingInfo trackingInfo, IManualUpdateChecker iCheckForUpdates, 
+            PhetPreferences preferences, boolean showPrivacyUI, boolean showUpdatesUI, boolean isDev ) {
         super( owner, TITLE );
         setResizable( false );
         setModal( false );
@@ -47,7 +48,7 @@ public class PreferencesDialog extends JDialog {
         JTabbedPane jTabbedPane = new JTabbedPane();
         userInputPanel.add( jTabbedPane );
         updatesPreferencesPanel = new UpdatesPreferencesPanel( iCheckForUpdates, preferences.isUpdatesEnabled() );
-        privacyPreferencesPanel = new PrivacyPreferencesPanel( trackingInfo, preferences.isTrackingEnabled() );
+        privacyPreferencesPanel = new PrivacyPreferencesPanel( trackingInfo, preferences.isTrackingEnabled(), preferences.isAlwaysShowSoftwareAgreement(), isDev );
         if ( showUpdatesUI ) {
             jTabbedPane.addTab( UPDATES_TAB, updatesPreferencesPanel );
         }
@@ -93,6 +94,7 @@ public class PreferencesDialog extends JDialog {
     private void savePreferences() {
         preferences.setUpdatesEnabled( updatesPreferencesPanel.isUpdatesEnabled() );
         preferences.setTrackingEnabled( privacyPreferencesPanel.isTrackingEnabled() );
+        preferences.setAlwaysShowSoftwareAgreement( privacyPreferencesPanel.isAlwaysShowSoftwareAgreement() );
     }
 
     /*
@@ -100,7 +102,7 @@ public class PreferencesDialog extends JDialog {
     */
     public static void main( String[] args ) {
         final PhetApplicationConfig config = new PhetApplicationConfig( args, "balloons" );
-        PreferencesDialog preferencesDialog = new PreferencesDialog( null, config, new DefaultManualUpdateChecker( null, config ), PhetPreferences.getInstance(), true, true );
+        PreferencesDialog preferencesDialog = new PreferencesDialog( null, config, new DefaultManualUpdateChecker( null, config ), PhetPreferences.getInstance(), true, true, true );
         preferencesDialog.addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
                 System.exit( 0 );

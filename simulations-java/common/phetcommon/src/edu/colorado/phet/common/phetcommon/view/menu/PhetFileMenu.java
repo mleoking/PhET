@@ -51,7 +51,8 @@ public class PhetFileMenu extends JMenu {
                                        new DefaultManualUpdateChecker( phetFrame, simInfo ),
                                        PhetPreferences.getInstance(),
                                        simInfo.isTrackingFeatureIncluded(),
-                                       simInfo.isUpdatesFeatureIncluded() ).setVisible( true );
+                                       simInfo.isUpdatesFeatureIncluded(),
+                                       simInfo.isDev() ).setVisible( true );
             }
         } );
         preferencesMenuItem.setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.PreferencesMnemonic" ).charAt( 0 ) );

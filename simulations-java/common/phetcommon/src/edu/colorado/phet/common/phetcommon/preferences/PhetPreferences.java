@@ -40,14 +40,17 @@ public class PhetPreferences {
     }
 
     // property keys
+    public static final String KEY_PREFERENCES_FILE_CREATION_TIME = "preferences-file-creation-time.milliseconds";
     private static final String KEY_UPDATES_ENABLED = "all-sims.updates.enabled";
     private static final String KEY_TRACKING_ENABLED = "all-sims.tracking.enabled";
-    public static final String KEY_PREFERENCES_FILE_CREATION_TIME = "preferences-file-creation-time.milliseconds";
-    private static final String KEY_SOFTWARE_AGREEMENT_VERSION = "software.agreement.version";
+    private static final String KEY_SOFTWARE_AGREEMENT_VERSION = "all-sims.software-agreement-version";
     
     // property key patterns
     private static final String PATTERN_KEY_ASK_ME_LATER = "{0}.{1}.updates.ask-me-later-pressed.milliseconds";
     private static final String PATTERN_KEY_SKIP_UPDATE = "{0}.{1}.updates.skip.version"; // project.sim.updates.skip-version
+    
+    // developer only
+    private static final String DEV_KEY_ALWAYS_SHOW_SOFTWARE_AGREEMENT = "dev.always-show-software-agreement";
 
     /* singleton */
     private static PhetPreferences instance;
@@ -186,6 +189,14 @@ public class PhetPreferences {
         long now = System.currentTimeMillis();
         setLongProperty( KEY_PREFERENCES_FILE_CREATION_TIME, now );
         return now;
+    }
+    
+    public boolean isAlwaysShowSoftwareAgreement() {
+        return getBooleanProperty( DEV_KEY_ALWAYS_SHOW_SOFTWARE_AGREEMENT );
+    }
+    
+    public void setAlwaysShowSoftwareAgreement( boolean b ) {
+        setBooleanProperty( DEV_KEY_ALWAYS_SHOW_SOFTWARE_AGREEMENT, b );
     }
 
     /**
