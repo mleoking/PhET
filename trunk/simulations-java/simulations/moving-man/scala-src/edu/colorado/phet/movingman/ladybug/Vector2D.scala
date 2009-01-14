@@ -10,6 +10,8 @@ class Vector2D(_x: Double, _y: Double) {
 
   def +(that: Vector2D) = new Vector2D(that.x + x, that.y + y)
 
+  def *(scale: Double) = new Vector2D(x*scale, y *scale)
+
   def getAngle = java.lang.Math.atan2(y, x)
 
   def magnitude = java.lang.Math.sqrt(x * x + y * y);

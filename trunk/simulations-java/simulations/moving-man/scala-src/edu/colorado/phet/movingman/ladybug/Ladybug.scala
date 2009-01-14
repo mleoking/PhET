@@ -26,6 +26,8 @@ class LadybugState(_position: Vector2D, _velocity: Vector2D, _acceleration: Vect
   def rotate(dtheta: Double): LadybugState = new LadybugState(position, velocity, acceleration, angle + dtheta)
 
   def setAngle(theta: Double): LadybugState = new LadybugState(position, velocity, acceleration, theta)
+
+  def setVelocity(v: Vector2D): LadybugState = new LadybugState(position, v, acceleration, angle)
 }
 
 class Ladybug extends Observable[Ladybug] {
@@ -43,6 +45,13 @@ class Ladybug extends Observable[Ladybug] {
   def getAngle: Double = state.angle
 
   def getState = state
+
+  def getVelocity = state.velocity
+
+  def setVelocity(velocity: Vector2D) = {
+    state = state.setVelocity(velocity)
+    notifyListeners(this)
+  }
 
   def setAngle(theta: Double) = {
     state = state.setAngle(theta)
