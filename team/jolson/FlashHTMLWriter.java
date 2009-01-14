@@ -13,7 +13,7 @@ import java.net.*;
 import java.util.Scanner;
 
 public class FlashHTMLWriter {
-	public static void writeHTML(String simName, String language, String country, String usageType, String distributionTag, String xmlFile, String htmlFile, String propertiesFile) throws FileNotFoundException, UnsupportedEncodingException {
+	public static void writeHTML(String simName, String language, String country, String usageType, String distributionTag, String xmlFile, String htmlFile, String propertiesFile, String commonXmlFile) throws FileNotFoundException, UnsupportedEncodingException {
 		/* Reads internationaliaztion data from an XML file, and generates the corresponding HTML file
 		 * that will pass the data into Flash through FlashVars parameters.
 		 *
@@ -114,13 +114,15 @@ public class FlashHTMLWriter {
 				country = args[2];
 			}
 			
+			
 			// relative pathnames
 			String locale = language + (country.equals("none") ? "" : "_" + country);
 			String xmlFile = simName + "-strings_" + locale + ".xml";
 			String htmlFile = simName + "_" + locale + ".html";
 			String propertiesFile = simName + ".properties";
+			String commonXmlFile = "common/data/localization/common-strings_" + locale + ".xml";
 			
-			writeHTML(simName, language, country, "phet-website", "none", xmlFile, htmlFile, propertiesFile);
+			writeHTML(simName, language, country, "phet-website", "none", xmlFile, htmlFile, propertiesFile, commonXmlFile);
 		} catch(FileNotFoundException e) {
 			System.out.println("File Not Found: " + e.toString());
 		} catch(UnsupportedEncodingException e) {
