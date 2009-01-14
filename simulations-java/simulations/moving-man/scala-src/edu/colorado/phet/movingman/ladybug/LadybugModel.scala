@@ -13,11 +13,13 @@ class LadybugModel {
 
     if (estimateVelocity.magnitude > 1E-6)
       ladybug.setAngle(estimateAngle)
+
+    ladybug.setVelocity(estimateVelocity)
   }
 
   def estimateAngle: Double = estimateVelocity.getAngle
 
-  def estimateVelocity: Vector2D= {
+  def estimateVelocity: Vector2D = {
     val dtList = for (elm <- history) yield elm._1;
     val pos = for (elm <- history) yield elm._2.position
 

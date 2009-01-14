@@ -11,6 +11,7 @@ import java.awt.geom.AffineTransform
 import umd.cs.piccolo.nodes.{PPath, PImage}
 
 class LadybugNode(ladybug: Ladybug) extends PNode {
+  val arrowSetNode = new ArrowSetNode(ladybug)
   val pimage = new PImage(MovingManResources.loadBufferedImage("ladybug/ladybug.png"))
   val boundNode = new PPath
   boundNode.setPaint(Color.blue)
@@ -21,6 +22,7 @@ class LadybugNode(ladybug: Ladybug) extends PNode {
 
   addChild(pimage)
   addChild(boundNode)
+  addChild(arrowSetNode)
 
   addInputEventListener(new CursorHandler)
   addInputEventListener(new PBasicInputEventHandler() {
