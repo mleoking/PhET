@@ -40,7 +40,7 @@ object Ladybug2DApplication {
 
       canvas setBackground new Color(200, 255, 240)
       clock.addClockListener(model.update(_))
-      canvas.addScreenChild(new LadybugNode(model.ladybug, canvas.transform))
+      canvas.addNode(new LadybugNode(model.ladybug, canvas.transform))
     }
 
     new PhetApplicationLauncher().launchSim(
