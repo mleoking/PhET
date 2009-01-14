@@ -1,3 +1,5 @@
+# 3.04.18 (27261) 01-14-2009
+> Revised the behavior of the reset button on the 2nd tab based on feedback from users.
 # 3.04.17 (27219) 01-13-2009
 New rev because previous deployment attempt failed (again)
 # 3.04.16 (27215) 01-13-2009
