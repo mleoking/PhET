@@ -229,11 +229,14 @@ public class PhetPreferences {
     
     private long getLongProperty( String key, long defaultValue ) {
         long value = defaultValue;
-        try {
-            value = Long.parseLong( properties.getProperty( key ) );
-        }
-        catch( NumberFormatException e ) {
-            e.printStackTrace();
+        String stringValue = properties.getProperty( key );
+        if ( stringValue != null ) {
+            try {
+                value = Long.parseLong( properties.getProperty( key ) );
+            }
+            catch ( NumberFormatException e ) {
+                e.printStackTrace();
+            }
         }
         return value;
     }
@@ -244,11 +247,14 @@ public class PhetPreferences {
     
     private int getIntProperty( String key, int defaultValue ) {
         int value = defaultValue;
-        try {
-            value = Integer.parseInt( properties.getProperty( key ) );
-        }
-        catch( NumberFormatException e ) {
-            e.printStackTrace();
+        String stringValue = properties.getProperty( key );
+        if ( stringValue != null ) {
+            try {
+                value = Integer.parseInt( properties.getProperty( key ) );
+            }
+            catch ( NumberFormatException e ) {
+                e.printStackTrace();
+            }
         }
         return value;
     }
