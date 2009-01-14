@@ -26,19 +26,22 @@ public class PrivacyPreferencesPanel extends JPanel {
 
     private static final String TRACKING_ENABLED = PhetCommonResources.getString( "Common.tracking.enabled" );
     
+    private final PhetPreferences preferences;
     private final JCheckBox trackingEnabledCheckBox;
     private final JCheckBox alwaysShowSoftwareAgreementCheckBox;
     
-    public PrivacyPreferencesPanel( ITrackingInfo trackingInfo, boolean trackingEnabled, boolean alwaysShowSoftwareAgreement, boolean isDev ) {
+    public PrivacyPreferencesPanel( ITrackingInfo trackingInfo, PhetPreferences preferences, boolean isDev ) {
+        
+        this.preferences = preferences;
         
         // feature description
         JComponent description = new DescriptionPane( trackingInfo );
         
         // enable check box
-        trackingEnabledCheckBox = new JCheckBox( TRACKING_ENABLED, trackingEnabled );
+        trackingEnabledCheckBox = new JCheckBox( TRACKING_ENABLED, preferences.isTrackingEnabled() );
         
         // developer control to always show the software agreement dialog, not localized
-        alwaysShowSoftwareAgreementCheckBox = new JCheckBox( "Always show Software Agreement (dev)", alwaysShowSoftwareAgreement );
+        alwaysShowSoftwareAgreementCheckBox = new JCheckBox( "Always show Software Agreement (dev)", preferences.isAlwaysShowSoftwareAgreement() );
         
         // layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
@@ -53,12 +56,12 @@ public class PrivacyPreferencesPanel extends JPanel {
         }
     }
     
-    public boolean isTrackingEnabled() {
-        return trackingEnabledCheckBox.isSelected();
-    }
-    
-    public boolean isAlwaysShowSoftwareAgreement() {
-        return alwaysShowSoftwareAgreementCheckBox.isSelected();
+    /**
+     * Saves the preference values in this panel.
+     */
+    public void save() {
+        preferences.setTrackingEnabled( trackingEnabledCheckBox.isSelected() );
+        preferences.setAlwaysShowSoftwareAgreement( alwaysShowSoftwareAgreementCheckBox.isSelected() );
     }
 
     /*
