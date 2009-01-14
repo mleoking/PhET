@@ -3,6 +3,7 @@ package edu.colorado.phet.javaversionchecker;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.StringTokenizer;
 
 import javax.swing.*;
 
@@ -28,6 +29,15 @@ public class JavaVersionChecker {
     }
 
     private static void showJavaVersionErrorDialog() {
-        JOptionPane.showMessageDialog( null, "PhET requires Java 1.5+.\nDetected version: " + System.getProperty( "java.version" ) + "\n\nPlease visit java.com to get the latest version of Java." );
+        String version = System.getProperty( "java.version" );
+        StringTokenizer st = new StringTokenizer( version, "." );
+        int major = Integer.parseInt( st.nextToken() );
+        int minor = Integer.parseInt( st.nextToken() );
+
+        String htmlFragment = "PhET requires Java 1.5 or higher.\n" +
+                              "You have Java " + major + "." + minor + ".\n" +
+                              "\n" +
+                              "Please visit www.java.com to get the latest version of Java.";
+        JOptionPane.showMessageDialog( null, htmlFragment );
     }
 }
