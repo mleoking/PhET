@@ -35,18 +35,12 @@ object Ladybug2DApplication {
     val clock = new ScalaClock(30, 1)
     class ScalaModule extends Module("my module", clock) {
       val model = new LadybugModel
-      model.ladybug.translate(100,100)
-      val canvas = new PhetPCanvas
+      val canvas = new LadybugCanvas
       setSimulationPanel(canvas)
 
       canvas setBackground new Color(200, 255, 240)
-
       clock.addClockListener(model.update(_))
-
-      canvas.addScreenChild(new LadybugNode(model.ladybug))
-
-      //      canvas.addScreenChild(new RampObjectNode(model.getObject(0)))
-      //      canvas.addScreenChild(new RampTrackNode(model.getTrack(0)))
+      canvas.addScreenChild(new LadybugNode(model.ladybug, canvas.transform))
     }
 
     new PhetApplicationLauncher().launchSim(
