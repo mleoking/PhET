@@ -10,13 +10,9 @@ import edu.umd.cs.piccolo.PNode
 import java.awt.Color
 import java.awt.geom.{AffineTransform, Point2D}
 import umd.cs.piccolo.nodes.{PPath, PImage}
-
+import LadybugUtil._ 
 
 class LadybugNode(ladybug: Ladybug, transform: ModelViewTransform2D) extends PNode {
-  implicit def vector2DToPoint(vector: Vector2D) = new Point2D.Double(vector.x, vector.y)
-
-  implicit def pointToVector2D(point: Point2D) = new Vector2D(point.getX, point.getY)
-
   val arrowSetNode = new ArrowSetNode(ladybug,transform)
   val pimage = new PImage(MovingManResources.loadBufferedImage("ladybug/ladybug.png"))
   val boundNode = new PPath
