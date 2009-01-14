@@ -852,7 +852,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     private class TimeDisplayNode extends PNode{
     	
     	private final double NORMAL_TEXT_HEIGHT_PROPORTION = 0.7;
-    	private final double EXPONENTIAL_TEXT_HEIGHT_PROPORTION = 0.85;
+    	private final double EXPONENTIAL_TEXT_HEIGHT_PROPORTION = 0.65;
     	private final int DISPLAY_MODE_NORMAL = 0;
     	private final int DISPLAY_MODE_EXPONENTIAL = 1;
     	private final int DISPLAY_MODE_INFINITY = 2;
