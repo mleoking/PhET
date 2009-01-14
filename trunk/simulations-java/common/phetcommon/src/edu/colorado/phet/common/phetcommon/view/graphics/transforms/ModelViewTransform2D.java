@@ -112,15 +112,6 @@ public class ModelViewTransform2D {
         listeners.transformChanged( this );
     }
 
-    public Rectangle getViewBounds() {
-        return toRectangle( viewBounds );
-    }
-
-    /* Double precision ! */
-    public Rectangle2D getViewBoundsDouble() {
-        return viewBounds;
-    }
-
     //----------------------------------------------------------------------------
     // Model-to-View methods  (integer precision)
     //----------------------------------------------------------------------------
@@ -267,11 +258,6 @@ public class ModelViewTransform2D {
     public AffineTransform getAffineTransform() {
         fixForwardTransform();
         return forwardTransform;
-    }
-
-    public AffineTransform getInverseTransform() {
-        fixBackTransform();
-        return backTransform;
     }
 
     public static AffineTransform createTX( Rectangle2D viewBounds, Rectangle2D modelBounds ) {
