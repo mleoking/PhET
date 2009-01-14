@@ -101,11 +101,15 @@ public class Arrow {
             double tempHeadHeight = headHeight;
             double tempHeadWidth = headWidth;
             double tempTailWidth = tailWidth;
-            if ( isHeadDynamic && length < headHeight / fractionalHeadHeight ) {
-                tempHeadHeight = length * fractionalHeadHeight;
-                if ( scaleTailToo ) {
-                    tempTailWidth = tailWidth * tempHeadHeight / headHeight;
-                    tempHeadWidth = headWidth * tempHeadHeight / headHeight;
+            if ( isHeadDynamic ) {
+                if ( length < headHeight / fractionalHeadHeight ) {
+                    tempHeadHeight = length * fractionalHeadHeight;
+                    if ( scaleTailToo ) {
+                        tempTailWidth = tailWidth * tempHeadHeight / headHeight;
+                        tempHeadWidth = headWidth * tempHeadHeight / headHeight;
+                    }
+                }else{
+                    //nothing needs to be done, since the headHeight is already large enough, and previously computed values will be correct. 
                 }
             }
             else if ( length < headHeight ) {
