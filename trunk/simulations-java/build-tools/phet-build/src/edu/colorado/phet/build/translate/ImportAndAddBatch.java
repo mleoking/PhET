@@ -24,12 +24,16 @@ public class ImportAndAddBatch {
             System.out.println( "usage: ImportAndAddBatch path-to-simulations-java-in-your-workspace" );
             System.exit( 1 );
         }
+        startImportAndAddBatch( args[0] );
+    }
+
+    public static void startImportAndAddBatch( String simulationsJava ) throws Exception {
         JOptionPane.showMessageDialog( null,
                                        "<html>Put the localization files that you wish to deploy in a directory.<br>" +
                                        "When you have finished this step, press OK to continue.<br>" +
                                        "You will be prompted for the directory name.</html>" );
         String dirname = AddTranslation.prompt( "Enter the name of the directory where your localization files are:" );
-        new ImportAndAddBatch( new File( args[0] ) ).importAndAddBatch( dirname );
+        new ImportAndAddBatch( new File( simulationsJava ) ).importAndAddBatch( dirname );
     }
 
     private void importAndAddBatch( String dir ) throws Exception {
