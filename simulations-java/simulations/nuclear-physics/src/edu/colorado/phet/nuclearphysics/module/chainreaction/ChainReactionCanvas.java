@@ -19,8 +19,6 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.Neutron;
 import edu.colorado.phet.nuclearphysics.model.Uranium235CompositeNucleus;
-import edu.colorado.phet.nuclearphysics.model.Uranium235Nucleus;
-import edu.colorado.phet.nuclearphysics.model.Uranium238Nucleus;
 import edu.colorado.phet.nuclearphysics.view.AtomicBombGraphicNode;
 import edu.colorado.phet.nuclearphysics.view.AtomicNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.view.ContainmentVesselNode;
@@ -200,16 +198,6 @@ public class ChainReactionCanvas extends PhetPCanvas {
             PNode atomNode = new AtomicNucleusImageNode((AtomicNucleus)modelElement);
             _nucleusLayer.addChild( atomNode );
             _modelElementToNodeMap.put( modelElement, atomNode );
-            
-            // If the Reset Nuclei button is currently showing, and if the
-            // newly added nucleus is not a decay byproduct, hide the button,
-            // assuming that the user has chosen another means to restart the
-            // sim.
-            if ( _resetNucleiButtonNode.isVisible() && 
-            	 ( modelElement instanceof Uranium235Nucleus ||
-            	   modelElement instanceof Uranium238Nucleus )){
-            	_resetNucleiButtonNode.setVisible(false);
-            }
         }
         else if (modelElement instanceof Neutron){
             // Add a corresponding neutron node for this guy.
@@ -303,16 +291,16 @@ public class ChainReactionCanvas extends PhetPCanvas {
 				_resetNucleiButtonNode.setVisible(false);
 				_reactionState = REACTION_STATE_NO_REACTION_PRODUCTS_PRESENT;
 			}
-			else{
-				// This is an indication of either a decay event in the chain
-				// reaction or the addition of more nuclei by the user (via
-				// the control panel) while decay products are still around.
-				// In either case, hide the button, restart the timer, and
-				// change to the appropriate state.
-				BUTTON_DELAY_TIMER.restart();
-				_resetNucleiButtonNode.setVisible(false);
-				_reactionState = REACTION_STATE_REACTION_OR_ADJUSTMENT_IN_PROGRESS;
-			}
+//			else{
+//				// This is an indication of either a decay event in the chain
+//				// reaction or the addition of more nuclei by the user (via
+//				// the control panel) while decay products are still around.
+//				// In either case, hide the button, restart the timer, and
+//				// change to the appropriate state.
+//				BUTTON_DELAY_TIMER.restart();
+//				_resetNucleiButtonNode.setVisible(false);
+//				_reactionState = REACTION_STATE_REACTION_OR_ADJUSTMENT_IN_PROGRESS;
+//			}
 			
 			break;
 		}

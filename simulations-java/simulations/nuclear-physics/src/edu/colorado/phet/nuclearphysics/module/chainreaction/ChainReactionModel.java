@@ -84,7 +84,6 @@ public class ChainReactionModel {
     private ContainmentVessel _containmentVessel;
     private int _ghostDaughterNuclei = 0; // Daughter nuclei that have been removed from the model in order to save
                                           // resources but haven't yet been reset.
-    private boolean _reactionInProgress = false;
     
     //------------------------------------------------------------------------
     // Constructor
@@ -500,16 +499,22 @@ public class ChainReactionModel {
      */
     public void removeDecayedU235Nuclei(){
     	
-        for ( Iterator iterator = _daughterNuclei.iterator(); iterator.hasNext(); ) {
-            
-            AtomicNucleus nucleus = (AtomicNucleus) iterator.next();
-            iterator.remove();
-            notifyModelElementRemoved(nucleus);
-            if (_containedElements.contains(nucleus)){
-            	_containedElements.remove(nucleus);
+    	if (_daughterNuclei.size() > 0){
+            for ( Iterator iterator = _daughterNuclei.iterator(); iterator.hasNext(); ) {
+                
+                AtomicNucleus nucleus = (AtomicNucleus) iterator.next();
+                iterator.remove();
+                notifyModelElementRemoved(nucleus);
+                if (_containedElements.contains(nucleus)){
+                	_containedElements.remove(nucleus);
+                }
             }
-        }
-        _ghostDaughterNuclei = 0;
+            notifyReativeNucleiNumberChanged();
+    	}
+    	if (_ghostDaughterNuclei > 0){
+            _ghostDaughterNuclei = 0;
+            notifyReativeNucleiNumberChanged();
+    	}
     }
 
     //------------------------------------------------------------------------
