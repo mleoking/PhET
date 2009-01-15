@@ -116,8 +116,6 @@ public class NuclearPhysicsStrings {
     public static final String UNITS_HOURS= NuclearPhysicsResources.getString( "DecayTimeChart.Units.Hours" );
     public static final String UNITS_DAYS= NuclearPhysicsResources.getString( "DecayTimeChart.Units.Days" );
     public static final String UNITS_YEARS= NuclearPhysicsResources.getString( "DecayTimeChart.Units.Years" );
-    public static final String UNITS_MILLENIA= NuclearPhysicsResources.getString( "DecayTimeChart.Units.Millenia" );
-    public static final String UNITS_MILLION_YEARS= NuclearPhysicsResources.getString( "DecayTimeChart.Units.MillionYears" );
-    public static final String UNITS_BILLION_YEARS= NuclearPhysicsResources.getString( "DecayTimeChart.Units.BillionYears" );
+    public static final String UNITS_YRS= NuclearPhysicsResources.getString( "DecayTimeChart.Units.Yrs" );
     
 }
