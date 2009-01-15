@@ -28,6 +28,7 @@
     require_once('update-include-path.php');
     @include_once("local-debug-settings.php");
     require_once("referring-page-tracker.php");
+    require_once("PhetException.php");
 
     function debug_is_on() {
         if (isset($GLOBALS["DEBUG"]) && $GLOBALS["DEBUG"]) {
