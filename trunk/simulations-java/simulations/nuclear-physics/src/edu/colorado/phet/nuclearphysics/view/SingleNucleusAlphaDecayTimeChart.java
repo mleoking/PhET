@@ -999,22 +999,22 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     		else if (milliseconds < MILLISECONDS_PER_MILLION_YEARS){
     			// Thousand years range (millenia).
                 _timeText.setHTML( _thousandsFormatter.format(milliseconds / MILLISECONDS_PER_YEAR) );
-                _unitsText.setHTML( NuclearPhysicsStrings.UNITS_YEARS );
+                _unitsText.setHTML( NuclearPhysicsStrings.UNITS_YRS );
     		}
     		else if (milliseconds < MILLISECONDS_PER_BILLION_YEARS){
     			// Million years range.
                 _timeText.setHTML( _millionsFormatter.format(milliseconds / MILLISECONDS_PER_YEAR) );
-                _unitsText.setHTML( NuclearPhysicsStrings.UNITS_YEARS );
+                _unitsText.setHTML( NuclearPhysicsStrings.UNITS_YRS );
     		}
     		else if (milliseconds < MILLISECONDS_PER_TRILLION_YEARS){
     			// Billion years range.
                 _timeText.setHTML( _billionsFormatter.format(milliseconds / MILLISECONDS_PER_YEAR) );
-                _unitsText.setHTML( NuclearPhysicsStrings.UNITS_YEARS );
+                _unitsText.setHTML( NuclearPhysicsStrings.UNITS_YRS );
     		}
     		else if (milliseconds < MILLISECONDS_PER_QUADRILLION_YEARS){
     			// Trillion years range.
                 _timeText.setHTML( _trillionsFormatter.format(milliseconds / MILLISECONDS_PER_YEAR) );
-                _unitsText.setHTML(NuclearPhysicsStrings.UNITS_YEARS);
+                _unitsText.setHTML(NuclearPhysicsStrings.UNITS_YRS);
     		}
     		else {
     			_timeText.setHTML( "\u221e"); // Infinity.
