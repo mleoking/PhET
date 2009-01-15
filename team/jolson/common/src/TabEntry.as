@@ -37,4 +37,23 @@ class TabEntry {
 		keys = new Object();
 		buttonlike = false;
 	}
+	
+	public function toString() : String {
+		var str : String = "";
+		str += "\tTabEntry\n";
+		str += "\t\t" + String(control) + "\n";
+		str += "\t\t" + (highlight == TabHandler.HIGHLIGHT_NONE ? "no highlight" : (highlight == TabHandler.HIGHLIGHT_GLOBAL ? "global highlight" : "local highlight")) + "\n";
+		str += "\t\t";
+		for(var i : String in keys) {
+			str += i + " ";
+		}
+		str += "\n";
+		/*
+		for(var i : String in control) {
+			str += "\t\t\t" + i + " : " + String(control[i]) + "\n";
+		}
+		*/
+		str += "\t\tbuttonlike: " + String(buttonlike) + "\n";
+		return str;
+	}
 }

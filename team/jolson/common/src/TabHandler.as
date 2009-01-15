@@ -60,7 +60,7 @@ class TabHandler {
 		dummyText = _root.createTextField("dummyTxt", _root.getNextHighestDepth(), 0, 0, 0, 0);
 		dummyText._visible = false;
 		dummyText.type = "input";
-		dummyText.tabIndex = 3;
+		dummyText.tabIndex = 3524534;
 		dummyText.tabEnabled = false;
 	}
 	
@@ -120,12 +120,19 @@ class TabHandler {
 	
 	// called when ANY key is pressed, anytime
 	public function onKeyDown() {
+		// hack to hopefully make AsWing work with this
+		if(_level0.aswing_focusFrontHolderMC) {
+			_level0.aswing_focusFrontHolderMC.removeMovieClip();
+		}
+		
 		if(Key.getCode() == Key.TAB) {
+			//debug("Old focus: " + Selection.getFocus() + "\n");
 			if(Key.isDown(Key.SHIFT)) {
 				previous();
 			} else {
 				next();
 			}
+			//debug("Current focus: " + Selection.getFocus() + "\n");
 		} else if(active) {
 			var f : Function = currentEntry().keys[Key.getCode()];
 			if(f != undefined) {
@@ -159,13 +166,20 @@ class TabHandler {
 	
 	// used to set an entry to be the one in focus
 	public function addFocus(entry : TabEntry) {
-		//Selection.setFocus(entry.control);
+		
+		
+		//debug("TabHandler: Adding focus to:\n" + entry.toString());
+		
+		Selection.setFocus(entry.control);
+		entry.control.addFocus();
+		
 		var bounds : Object;
 		switch(entry.highlight) {
 			case HIGHLIGHT_NONE:
 				// if no automatic highlighting is done, we need to notify the control
 				// to highlight itself in a custom manner
-				entry.control.addFocus();
+				
+				// MADE DEFAULT FOR ALL
 				break;
 			case HIGHLIGHT_GLOBAL:
 				// global, so we create a movieclip on _root, storing it in 'lastHighlight'
@@ -218,16 +232,17 @@ class TabHandler {
 				drawHighlights(entry, lastHighlight, bounds);
 				break;
 		}
-		Selection.setFocus(entry.control);
 	}
 	
 	// used to remove an entry from focus. done before a new entry is focused
 	public function removeFocus(entry : TabEntry) {
+		//debug("TabHandler: Removing focus from:\n" + entry.toString());
+		entry.control.removeFocus();
 		Selection.setFocus(dummyText);
 		if(entry.highlight != HIGHLIGHT_NONE) {
 			lastHighlight.removeMovieClip();
 		} else {
-			entry.control.removeFocus();
+			// made default for all
 		}
 	}
 	
