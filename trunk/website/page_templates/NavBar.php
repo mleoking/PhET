@@ -88,11 +88,11 @@ EOT;
 
     function print_subnavigation_element($prefix, $link, $desc) {
         if (is_array($desc)) {
-            $name = $desc[0];
+            $name = format_for_html($desc[0]);
             $extra_style = "style=\"padding-left: {$desc[1]}\"";
         }
         else {
-            $name = $desc;
+            $name = format_for_html($desc);
             $extra_style = "";
         }
 
