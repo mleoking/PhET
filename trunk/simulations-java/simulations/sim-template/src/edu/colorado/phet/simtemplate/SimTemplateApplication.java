@@ -22,6 +22,7 @@ import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.simtemplate.developer.DeveloperMenu;
 import edu.colorado.phet.simtemplate.menu.OptionsMenu;
 import edu.colorado.phet.simtemplate.module.example.ExampleModule;
+import edu.colorado.phet.simtemplate.module.intensive.ProcessorIntensiveModule;
 import edu.colorado.phet.simtemplate.persistence.ExampleConfig;
 import edu.colorado.phet.simtemplate.persistence.SimTemplateConfig;
 
@@ -43,6 +44,7 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
     private XMLPersistenceManager _persistenceManager;
 
     private static TabbedModulePanePiccolo _tabbedModulePane;
+    public static final boolean isProcessorIntensive=true;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -89,7 +91,7 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
         
         Frame parentFrame = getPhetFrame();
 
-        _exampleModule = new ExampleModule( parentFrame );
+        _exampleModule = isProcessorIntensive?new ProcessorIntensiveModule(parentFrame ):new ExampleModule( parentFrame );
         addModule( _exampleModule );
         
         Module secondModule = new ExampleModule( parentFrame );
