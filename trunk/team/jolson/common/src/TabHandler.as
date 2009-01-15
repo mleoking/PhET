@@ -39,7 +39,7 @@ class TabHandler {
 	
 	// constructor
 	public function TabHandler() {
-		debug("Initializing TabHandler");
+		debug("Initializing TabHandler\n");
 		
 		// make this accessible by _level0.tabHandler
 		_level0.tabHandler = this;
@@ -105,8 +105,12 @@ class TabHandler {
 	public function registerKey(obj : Object, key : Number, callback : Function) : Void {
 		//throw new Error("TabHandler.registerKey not implemented yet");
 		var idx : Number = findIndex(obj);
-		if(idx == -1) { return; }
+		if(idx == -1) {
+			debug("WARNING TabHandler: registerKey object is not found\n");
+			return;
+		}
 		entries[idx].keys[key] = callback;
+		debug("registering " + String(callback) + "\n");
 	}
 	
 	// make a specific object in the tab-order act like a button. this will
@@ -136,6 +140,7 @@ class TabHandler {
 		} else if(active) {
 			var f : Function = currentEntry().keys[Key.getCode()];
 			if(f != undefined) {
+				//debug("TabHandler: keypress!\n");
 				f();
 			}
 			if(currentEntry().buttonlike && (Key.getCode() == Key.SPACE || Key.getCode() == Key.ENTER)) {

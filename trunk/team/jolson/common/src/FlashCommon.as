@@ -83,6 +83,9 @@ class FlashCommon {
 		// load internationalization strings for common code
 		commonStrings = new CommonStrings();
 		
+		// initializes the TabHandler
+		tabHandler = new TabHandler();
+		
 		// load preferences data
 		preferences = new Preferences();
 		
@@ -96,9 +99,6 @@ class FlashCommon {
 		
 		// load buttons (defaults to the upper left)
 		commonButtons = new CommonButtons();
-		
-		// initializes the TabHandler
-		tabHandler = new TabHandler();
 	}
 	
 	public function localeString() : String {
