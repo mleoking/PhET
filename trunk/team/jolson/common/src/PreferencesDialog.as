@@ -85,8 +85,8 @@ class PreferencesDialog {
 		
 		// holds the tracking options
 		var trackingPanel = new JPanel(new SoftBoxLayout(SoftBoxLayout.Y_AXIS));
-		trackingPanel.setName("Tracking");
-		trackingPanel.setBorder(new TitledBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)), "Tracking"));
+		trackingPanel.setName("Privacy");
+		trackingPanel.setBorder(new TitledBorder(new EmptyBorder(null, new Insets(5, 5, 5, 5)), "Privacy"));
 		
 		// text area that displays the following string.
 		// NOTE: Text area required, otherwise HTML text will not work.

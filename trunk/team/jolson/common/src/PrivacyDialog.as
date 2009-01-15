@@ -28,13 +28,17 @@ class PrivacyDialog {
 		
 		// create the background
 		backgroundMC = _root.createEmptyMovieClip("backgroundMC", _root.getNextHighestDepth());
-		backgroundMC.beginFill(_level0.bgColor);
+		backgroundMC.beginFill(_level0.bgColor, 50);
 		// larger dimensions in case people resize afterwards
 		backgroundMC.moveTo(-5000, -5000);
 		backgroundMC.lineTo(5000, -5000);
 		backgroundMC.lineTo(5000, 5000);
 		backgroundMC.lineTo(-5000, 5000);
 		backgroundMC.endFill();
+		
+		// make it catch all mouse clicks, but not show the hand pointer
+		backgroundMC.useHandCursor = false;
+		backgroundMC.onRelease = function() { }
 		
 		// create a window
 		var window : JFrame = new JFrame(_level0, "Software & Privacy Agreements");
