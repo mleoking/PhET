@@ -1,4 +1,4 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2007-2009, University of Colorado */
 package edu.colorado.phet.common.phetcommon.application;
 
 import java.awt.*;
@@ -44,7 +44,6 @@ public class JARLauncher extends JFrame implements IProguardKeepClass {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private String[] args; //TODO: support main args
     private SimulationInfo[] info;
     private SimulationInfo selectedSim;
 
@@ -58,9 +57,8 @@ public class JARLauncher extends JFrame implements IProguardKeepClass {
      * @param args command line arguments
      * @param info
      */
-    public JARLauncher( String[] args, SimulationInfo[] info ) {
+    public JARLauncher( SimulationInfo[] info ) {
         super();
-        this.args = args;
         this.info = info;
         createUI();
         setResizable( false );
@@ -209,12 +207,13 @@ public class JARLauncher extends JFrame implements IProguardKeepClass {
     }
 
     static class SimulationInfo {
-        private String flavor;
-        private String title;
-        private String mainClass;
-        private String args;
+        
+        private final String flavor;
+        private final String title;
+        private final String mainClass;
+        private final String[] args;
 
-        public SimulationInfo( String flavor, String title, String mainClass, String args ) {
+        public SimulationInfo( String flavor, String title, String mainClass, String[] args ) {
             this.flavor = flavor;
             this.title = title;
             this.mainClass = mainClass;
@@ -229,26 +228,13 @@ public class JARLauncher extends JFrame implements IProguardKeepClass {
             return mainClass;
         }
 
-        public String getArgs() {
-            return args;
-        }
-
-        public String[] getArgArray() {
-            StringTokenizer stringTokenizer = new StringTokenizer( args );
-            ArrayList list = new ArrayList();
-            while ( stringTokenizer.hasMoreTokens() ) {
-                list.add( stringTokenizer.nextToken() );
-            }
-            return (String[]) list.toArray( new String[0] );
-        }
-
         public void launch() throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
             Class mainClass = Class.forName( getMainClass() );
             final Method main = mainClass.getMethod( "main", new Class[]{String[].class} );
             Thread thread = new Thread( new Runnable() {
                 public void run() {
                     try {
-                        main.invoke( null, new Object[]{getArgArray()} );
+                        main.invoke( null, new Object[]{ args } );
                     }
                     catch( IllegalAccessException e ) {
                         e.printStackTrace();
@@ -281,7 +267,7 @@ public class JARLauncher extends JFrame implements IProguardKeepClass {
             prop.load( new FileInputStream( file ) );
         }
 
-        SimulationInfo[] info = getSimInfo( prop );
+        SimulationInfo[] info = getSimInfo( prop, args );
         if ( info.length == 0 ) {
             throw new RuntimeException( "No flavors found." );
         }
@@ -303,7 +289,7 @@ public class JARLauncher extends JFrame implements IProguardKeepClass {
             info[0].launch();
         }
         else {
-            JARLauncher launcher = new JARLauncher( args, info );
+            JARLauncher launcher = new JARLauncher( info );
             SwingUtils.centerWindowOnScreen( launcher );
             launcher.setVisible( true );
         }
@@ -399,12 +385,12 @@ public class JARLauncher extends JFrame implements IProguardKeepClass {
         return (String[]) flavors.toArray( new String[0] );
     }
 
-    private static SimulationInfo[] getSimInfo( Properties prop ) {
+    private static SimulationInfo[] getSimInfo( Properties prop, String[] commandlineArgs ) {
         String[] flavors = listFlavors( prop );
         ArrayList fx = new ArrayList();
         for ( int i = 0; i < flavors.length; i++ ) {
             String flavor = flavors[i];
-            SimulationInfo f = getFlavor( prop, flavor );
+            SimulationInfo f = getFlavor( prop, flavor, commandlineArgs );
             fx.add( f );
         }
         Collections.sort( fx, new Comparator() {
@@ -417,11 +403,27 @@ public class JARLauncher extends JFrame implements IProguardKeepClass {
         return (SimulationInfo[]) fx.toArray( new SimulationInfo[0] );
     }
 
-    private static SimulationInfo getFlavor( Properties prop, String flavor ) {
+    private static SimulationInfo getFlavor( Properties prop, String flavor, String[] commandlineArgs ) {
         String mainClass = prop.getProperty( "project.flavor." + flavor + ".mainclass" );
         String title = getTitle( prop, flavor );
-        String args = prop.getProperty( "project.flavor." + flavor + ".args" );
+        String argsString = prop.getProperty( "project.flavor." + flavor + ".args" );
+        String[] args = combineArgs( argsString, commandlineArgs );
         return new SimulationInfo( flavor, title, mainClass, args );
+    }
+    
+    private static String[] combineArgs( String argsString, String[] commandlineArgs ) {
+        // break up argsString into a collection of Strings
+        StringTokenizer stringTokenizer = new StringTokenizer( argsString );
+        ArrayList list = new ArrayList();
+        while ( stringTokenizer.hasMoreTokens() ) {
+            list.add( stringTokenizer.nextToken() );
+        }
+        // add the commandline args to the collection (do this last)
+        for ( int i = 0; i < commandlineArgs.length; i++ ) {
+            list.add( commandlineArgs[i] );
+        }
+        // return an array
+        return (String[]) list.toArray( new String[0] );
     }
 
     private static String getTitle( Properties prop, String flavor ) {
