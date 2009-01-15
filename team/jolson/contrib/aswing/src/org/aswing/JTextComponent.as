@@ -665,8 +665,8 @@ class org.aswing.JTextComponent extends Component {
     }
     
     private function resumeTheSelection():Void{
-    	Selection.setFocus(getTextField());
-    	Selection.setSelection(lastBeginIndex, lastEndIndex);
+//    	Selection.setFocus(getTextField());
+//    	Selection.setSelection(lastBeginIndex, lastEndIndex);
     }
     	
     //cant override this method in sub class
