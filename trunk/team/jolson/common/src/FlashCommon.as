@@ -79,6 +79,7 @@ class FlashCommon {
 		debug(" dev:" + _level0.dev);
 		debug(" rev:" + _level0.revision + "\n");
 		
+		// load internationalization strings for common code
 		commonStrings = new CommonStrings();
 		
 		// load preferences data

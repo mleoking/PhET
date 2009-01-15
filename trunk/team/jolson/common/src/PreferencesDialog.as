@@ -90,7 +90,10 @@ class PreferencesDialog {
 		
 		// text area that displays the following string.
 		// NOTE: Text area required, otherwise HTML text will not work.
-		var str : String = "<a href='http://phet.colorado.edu'>PhET</a> is made possible by grants that require us to track anonymous usage statistics.";
+		// OLD var str : String = "<a href='http://phet.colorado.edu'>PhET</a> is made possible by grants that require us to track anonymous usage statistics.";
+		var str : String = "<a href='http://phet.colorado.edu'>PhET</a> is made freely available through grants which ";
+		str += "require us to collect a minimal amount of anonymous information to help document the amount of use ";
+		str += "of PhET sims and to better serve our users' update needs";
 		
 		// CSS so that the blue link will display properly
 		var css : TextField.StyleSheet = new TextField.StyleSheet();
@@ -116,7 +119,7 @@ class PreferencesDialog {
 		trackingPanel.append(new JSpacer(5, 5));
 		
 		// tracking check-box
-		trackingCheck = new JCheckBox("Send tracking information to PhET");
+		trackingCheck = new JCheckBox("Allow sending of information to PhET");
 		trackingCheck.addEventListener(JCheckBox.ON_CLICKED, Delegate.create(this, trackingToggle));
 		if(trackingState != _level0.preferences.allowTracking()) {
 			// if tracking is allowed, fill in the check box

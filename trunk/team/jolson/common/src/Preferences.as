@@ -14,6 +14,11 @@ class Preferences {
 	// aid for development purposes.
 	public static var CURRENT_PREF_VERSION : Number = 1.0;
 	
+	// current privacy agreement version
+	// this should be changed when a new agreement would need to be
+	// accepted by people who have accepted an old agreement
+	public static var CURRENT_PRIVACY_VERSION : Number = 1.0;
+	
 	// reference to the shared object used to store preferences
 	public var sharedObject : SharedObject;
 	
@@ -47,6 +52,9 @@ class Preferences {
 			reset();
 		}
 		/////////////////////////////////////////
+		// for resetting sharedobject data
+		Key.addListener(this);
+		/////////////////////////////////////////
 		
 		// if it is the first time simulations have been run from
 		// their domain, we need to fill in default values.
@@ -78,7 +86,21 @@ class Preferences {
 			debug("    pref: " + i + " = " + String(sharedObject.data[i]) + "\n");
 		}
 		
+		// if privacy is not up-to-snuff, present the user with a dialog
+		if(!isPrivacyOK()) {
+			_level0.privacyDialog = new PrivacyDialog();
+		}
+		
 		//reset();
+	}
+	
+	public function isPrivacyOK() : Boolean {
+		return CURRENT_PRIVACY_VERSION <= sharedObject.data.latestPrivacyAgreementVersion;
+	}
+	
+	public function agreeToPrivacy() : Void {
+		sharedObject.data.latestPrivacyAgreementVersion = CURRENT_PRIVACY_VERSION;
+		save();
 	}
 	
 	// allow other common code/simulation to check whether
@@ -164,6 +186,16 @@ class Preferences {
 	}
 	public function getUserTotalSessions() : Number {
 		return sharedObject.data.userTotalSessions;
+	}
+	
+	/////////////////////////////////////////
+	// for resetting preferences data
+	public function onKeyDown() : Void {
+		if(Key.getCode() == 119) {
+			// F8 was pressed
+			debug("Resetting shared data\n");
+			reset();
+		}
 	}
 }
 
