@@ -94,7 +94,7 @@ public class SimUpdater {
      * @param e
      */
     private void showException( Exception e ) {
-        JDialog dialog = new UpdateErrorDialog( PhetApplication.instance().getPhetFrame(), e );
+        JDialog dialog = new UpdateErrorDialog( PhetApplication.getInstance().getPhetFrame(), e );
         dialog.setVisible( true );
     }
     
