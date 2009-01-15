@@ -140,6 +140,19 @@ class PrivacyDialog {
 	public function cancelClicked(src : JButton) {
 		// hide this window
 		_level0.privacyWindow.setVisible(false);
+		
+		// attempt to close the window
+		getURL("javascript:window.close()");
+		
+		// if that doesn't work
+		getURL("about:blank", "_self");
+		
+		// and if that really doesn't work
+		getURL("http://phet.colorado.edu", "_self");
+		
+		debug("WARNING: Could not close simulation, user clicked cancel on privacy dialog!\n");
+		
+		//getURL("javascript:window.opener=self; window.close()");
 	}
 	
 	public function detailsClicked() : Void {
