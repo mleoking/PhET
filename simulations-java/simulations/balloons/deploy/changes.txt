@@ -1,3 +1,5 @@
+# 1.07.01 (27276) 01-14-2009
+version that demonstrates Software & Privacy Agreement dialog
 # 1.07.01
 12-3-08: post version to test #920 (OSX quit handler)
 # 1.07.00
