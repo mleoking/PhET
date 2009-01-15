@@ -43,12 +43,27 @@ public class SoftwareAgreementManager {
         }
     }
     
+
     /*
-     * Negotiates the agreement with the user.
-     */
+    * Negotiates the agreement with the user.
+    */
     private static void negotiate( ITrackingInfo trackingInfo ) {
-        new SoftwareAgreementDialog( trackingInfo ).setVisible( true );
+        final SoftwareAgreementDialog dialog = new SoftwareAgreementDialog( trackingInfo );
+        final Container contentPane = dialog.getContentPane();
+        Timer timer = new Timer( 60, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                    paintImmediate( (JComponent) contentPane );
+            }
+        } );
+        timer.start();
+        dialog.setVisible( true );
     }
+
+    private static void paintImmediate( JComponent component ) {
+        component.paintImmediately( 0, 0, component.getWidth(), component.getHeight() );
+    }
+
+    
     
     /*
      * Dialog that displays the software agreement and provides options to accept or decline.
