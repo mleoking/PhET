@@ -86,6 +86,9 @@ class FlashCommon {
 		// initializes the TabHandler
 		tabHandler = new TabHandler();
 		
+		// load the tracking handler, but do not send the session-start message!!!
+		trackingHandler = new TrackingHandler();
+		
 		// load preferences data
 		preferences = new Preferences();
 		
@@ -102,7 +105,8 @@ class FlashCommon {
 		
 		// load tracking handler
 		// must have preferences loaded first before loading TrackingHandler.
-		trackingHandler = new TrackingHandler();
+		// MOVED ABOVE trackingHandler = new TrackingHandler();
+		trackingHandler.sendSessionStart();
 		
 		// load buttons (defaults to the upper left)
 		commonButtons = new CommonButtons();

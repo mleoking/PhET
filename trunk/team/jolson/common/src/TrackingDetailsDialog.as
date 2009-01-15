@@ -36,14 +36,17 @@ class TrackingDetailsDialog {
 		
 		// get the string to display
 		var str : String = "";
+		str += "The information shown below will be sent to PhET when the simulation starts.\n\n";
+		/*
 		str += "<a href='http://phet.colorado.edu'>PhET</a> is made possible by grants that require us to track ";
 		str += "anonymous usage statistics. No personal or private data is sent; you can see the full report sent to ";
 		str += "PhET below:\n\n";
 		
 		str += "Please visit the PhET website for more information: <a href='http://phet.colorado.edu'>http://phet.colorado.edu</a>\n\n";
-		
+		*/
+		str += "<font size=\"12\">"
 		str += _level0.trackingHandler.sessionStartMessage();
-		
+		str += "</font>"
 		/*
 		str += "The PhET project provides a suite of interactive educational simulations.\n";
 		str += "Copyright \u00A9 2004-2008 University of Colorado. Some rights reserved.\n\n";
