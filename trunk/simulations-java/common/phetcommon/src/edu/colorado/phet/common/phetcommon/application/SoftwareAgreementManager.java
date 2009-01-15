@@ -49,18 +49,7 @@ public class SoftwareAgreementManager {
     */
     private static void negotiate( ITrackingInfo trackingInfo ) {
         final SoftwareAgreementDialog dialog = new SoftwareAgreementDialog( trackingInfo );
-        final Container contentPane = dialog.getContentPane();
-        Timer timer = new Timer( 60, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                    paintImmediate( (JComponent) contentPane );
-            }
-        } );
-        timer.start();
         dialog.setVisible( true );
-    }
-
-    private static void paintImmediate( JComponent component ) {
-        component.paintImmediately( 0, 0, component.getWidth(), component.getHeight() );
     }
 
     
@@ -68,7 +57,7 @@ public class SoftwareAgreementManager {
     /*
      * Dialog that displays the software agreement and provides options to accept or decline.
      */
-    private static class SoftwareAgreementDialog extends JDialog {
+    private static class SoftwareAgreementDialog extends GrayRectWorkaroundDialog {
 
         private static final String TITLE = PhetCommonResources.getString( "Common.softwareAgreement.title" );
         private static final String ACCEPT_BUTTON = PhetCommonResources.getString( "Common.softwareAgreement.accept" );
@@ -186,7 +175,7 @@ public class SoftwareAgreementManager {
                             showTrackingDetails( owner, trackingInfo );
                         }
                         else if ( e.getDescription().equals( LINK_SHOW_AGREEMENTS ) ) {
-                            showAgreements( owner );
+                            showAgreements( owner,trackingInfo );
                         }
                         else {
                             System.err.println( "SoftwareAgreementManager.MessagePane.hyperlinkUpdate: unsupported hyperlink, description=" + e.getDescription() );
@@ -205,9 +194,15 @@ public class SoftwareAgreementManager {
             }
         }
         
-        private static void showAgreements( Window owner ) {
+        private static void showAgreements( Window owner ,ITrackingInfo trackingInfo) {
             //TODO: read agreements, display in a dialog with a scrollpane and Close button
-            JOptionPane.showMessageDialog( owner, "agreements go here", "Software & Privacy Agreements", JOptionPane.PLAIN_MESSAGE );
+            if ( owner instanceof Frame ) {
+                new PrivacyAgreementDialog( (Frame) owner,trackingInfo ).setVisible( true );
+            }
+            else if ( owner instanceof Dialog ) {
+                new PrivacyAgreementDialog( (Dialog) owner,trackingInfo ).setVisible( true );
+            }
+
         }
     }
 
