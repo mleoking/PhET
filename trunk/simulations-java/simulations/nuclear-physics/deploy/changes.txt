@@ -1,3 +1,5 @@
+# 3.04.19 (27314) 01-15-2009
+> Added exponential time display, changed behavior of well drop.
 # 3.04.18 (27261) 01-14-2009
 > Revised the behavior of the reset button on the 2nd tab based on feedback from users.
 # 3.04.17 (27219) 01-13-2009
