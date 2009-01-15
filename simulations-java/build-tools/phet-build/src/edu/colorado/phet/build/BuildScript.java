@@ -1,6 +1,7 @@
 package edu.colorado.phet.build;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -90,7 +91,11 @@ public class BuildScript {
         //would be nice to build before deploying new SVN number in case there are errors,
         //however, we need the correct version info in the JAR
         if ( !skipBuild ) {
-            build();
+            boolean success = build();
+            if ( !success ) {
+                System.out.println( "Stopping due to build failure, see console." );
+                System.exit( 0 );
+            }
         }
 
         createHeader( svnNumber );
@@ -268,15 +273,22 @@ public class BuildScript {
         System.out.println( "Finished Building JNLP" );
     }
 
-    public void build() {
+    public boolean build() {
         try {
             new PhetBuildCommand( project, new MyAntTaskRunner(), true, project.getDefaultDeployJar() ).execute();
             FileUtils.copyTo( project.getDefaultDeployJar(), new File( project.getDeployDir(), "" + project.getName() + "_all.jar" ) );
 
             System.out.println( "**** Finished BuildScript.build" );
+            File[] f = project.getDeployDir().listFiles( new FileFilter() {
+                public boolean accept( File pathname ) {
+                    return pathname.getName().toLowerCase().endsWith( ".jar" );
+                }
+            } );
+            return f.length > 0;//success if there is at least one jar
         }
         catch( Exception e ) {
             e.printStackTrace();
+            return false;
         }
     }
 
