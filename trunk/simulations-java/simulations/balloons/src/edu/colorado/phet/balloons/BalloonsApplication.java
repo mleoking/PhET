@@ -102,9 +102,9 @@ public class BalloonsApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) {
-        System.out.println( "Testing generics, boxing, unboxing, foreach" );
 
         //XXX some Java 1.5 code, for testing the Java version checker
+//        System.out.println( "BalloonsApplication.man: using some Java 1.5 features" );
 //        ArrayList<Double>list=new ArrayList<Double>( );
 //        list.add(3.0);
 //        list.add(4.0);
