@@ -35,7 +35,7 @@ class AboutDialog {
 		
 		// construct the string of text to show
 		var str : String = "";
-		str += "<b>Physics Education Technology project</b>\n";
+		str += "<b>PhET</b>\n";
 		str += _level0.comStrings.get("Copyright") + " \u00A9 2004-2008 University of Colorado\n";
 		str += _level0.comStrings.get("SomeRightsReserved") + ".\n";
 		str += _level0.comStrings.get("Visit") + " <a href='http://phet.colorado.edu'>http://phet.colorado.edu</a>\n\n";

@@ -23,7 +23,7 @@ class TrackingDetailsDialog {
 		ASWingUtils.getRootMovieClip();
 		
 		// create a window
-		var window : JFrame = new JFrame(_level0, "Tracking Details");
+		var window : JFrame = new JFrame(_level0, "Privacy Details");
 		
 		// make it accessible from anywhere
 		_level0.trackingDetailsWindow = window;
