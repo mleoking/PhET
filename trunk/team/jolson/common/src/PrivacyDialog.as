@@ -10,6 +10,8 @@ import org.aswing.border.*;
 
 class PrivacyDialog {
 	
+	public var backgroundMC : MovieClip;
+	
 	// shorthand for debugging function
 	public function debug(str : String) : Void {
 		_level0.debug(str);
@@ -20,6 +22,16 @@ class PrivacyDialog {
 		
 		// mysterious fix since "this" does not refer to a MovieClip or Component
 		ASWingUtils.getRootMovieClip();
+		
+		// create the background
+		backgroundMC = _root.createEmptyMovieClip("backgroundMC", _root.getNextHighestDepth());
+		backgroundMC.beginFill(_level0.bgColor);
+		// larger dimensions in case people resize afterwards
+		backgroundMC.moveTo(-5000, -5000);
+		backgroundMC.lineTo(5000, -5000);
+		backgroundMC.lineTo(5000, 5000);
+		backgroundMC.lineTo(-5000, 5000);
+		backgroundMC.endFill();
 		
 		// create a window
 		var window : JFrame = new JFrame(_level0, "Software & Privacy Agreements");
@@ -108,11 +120,13 @@ class PrivacyDialog {
 		// set policy as accepted
 		_level0.preferences.agreeToPrivacy();
 		
-		// send initial tracking message
-		_level0.trackingHandler.sendSessionStart();
-		
 		// hide this window
 		_level0.privacyWindow.setVisible(false);
+		
+		backgroundMC.removeMovieClip();
+		
+		// continue with common code initialization
+		_level0.common.postAgreement();
 	}
 	
 	public function cancelClicked(src : JButton) {

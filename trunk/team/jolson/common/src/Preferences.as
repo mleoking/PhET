@@ -89,6 +89,9 @@ class Preferences {
 		// if privacy is not up-to-snuff, present the user with a dialog
 		if(!isPrivacyOK()) {
 			_level0.privacyDialog = new PrivacyDialog();
+		} else {
+			// do everything else once it has been verified
+			_level0.common.postAgreement();
 		}
 		
 		//reset();

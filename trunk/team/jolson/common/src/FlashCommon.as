@@ -89,6 +89,13 @@ class FlashCommon {
 		// load preferences data
 		preferences = new Preferences();
 		
+		
+	}
+	
+	// this should be called from preferences when it is verified the
+	// privacy agreement has been accepted
+	public function postAgreement() : Void {
+		
 		// load update handler
 		// must have preferences loaded first before loading updatehandler.
 		updateHandler = new UpdateHandler();
