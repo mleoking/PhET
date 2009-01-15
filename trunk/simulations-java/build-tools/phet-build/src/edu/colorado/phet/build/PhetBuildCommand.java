@@ -30,7 +30,7 @@ public class PhetBuildCommand {
 
     //select whether you want to use the java version checker for launching JAR files
     private static boolean useJavaVersionChecker = false;
-    private static String JAVA_SOURCE_VERSION = "1.5";//used for sims, not for bootstrap
+    private static String JAVA_SOURCE_VERSION = "1.4";//used for sims, not for bootstrap
 
     public static final String JAR_LAUNCHER = useJavaVersionChecker ?
                                               "edu.colorado.phet.javaversionchecker.JavaVersionChecker" :
