@@ -5,8 +5,6 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-import org.apache.tools.ant.taskdefs.Echo;
-
 import edu.colorado.phet.build.AntTaskRunner;
 
 public class PhetBuildUtils {
@@ -34,10 +32,7 @@ public class PhetBuildUtils {
      * @param taskName   Task name.
      */
     public static void antEcho( AntTaskRunner taskRunner, String message, String taskName ) {
-        Echo echo = new Echo();
-        echo.setTaskName( taskName );
-        echo.setMessage( message );
-        taskRunner.runTask( echo );
+        System.out.println( taskName + "> " + message );
     }
 
     public static void antEcho( AntTaskRunner taskRunner, String message, Class theClass ) {
