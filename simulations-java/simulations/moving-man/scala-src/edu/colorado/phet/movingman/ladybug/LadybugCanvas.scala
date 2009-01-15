@@ -9,14 +9,6 @@ import umd.cs.piccolo.PNode
 
 class LadybugCanvas extends PhetPCanvas(new Dimension(1024, 768)) {
     val transform: ModelViewTransform2D = new ModelViewTransform2D(new Rectangle2D.Double(-10, -10, 20, 20), new Rectangle(0, 0, 1024, 768), false)
-    addComponentListener(new ComponentAdapter() {
-        override def componentResized(e: ComponentEvent) = updateViewBounds
-
-        override def componentShown(e: ComponentEvent) = updateViewBounds
-    })
-    updateViewBounds
-    def updateViewBounds = if (getWidth * getHeight > 0) transform.setViewBounds(new Rectangle(0, 0, getWidth, getHeight))
-
     val worldNode = new PNode
     addWorldChild(worldNode)
     def addNode(node: PNode) = worldNode.addChild(node)
