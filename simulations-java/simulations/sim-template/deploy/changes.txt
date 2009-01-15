@@ -1,3 +1,5 @@
+# 0.13.07 (27326) 01-15-2009
+Testing processor intensive sim with privacy dialog.
 # 0.13.06 (27325) 01-15-2009
 Testing processor intensive sim with privacy dialog.
 # 0.13.05 (27217) 01-13-2009
