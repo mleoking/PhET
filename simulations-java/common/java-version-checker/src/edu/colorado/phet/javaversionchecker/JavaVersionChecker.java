@@ -22,7 +22,7 @@ import javax.swing.text.html.HTMLEditorKit;
 
 /**
  * This file checks on the Java version, if it is too low, then an dialog is shown, otherwise the application launches.
- * This file can only use code and be compiled in the lowest common demoninator API (currently Java 1.4) 
+ * This file can only use code and be compiled in the lowest common denominator API (currently Java 1.4) 
  */
 public class JavaVersionChecker {
     public static void main( String[] args ) throws IOException, InvocationTargetException, ClassNotFoundException, NoSuchMethodException, IllegalAccessException {
