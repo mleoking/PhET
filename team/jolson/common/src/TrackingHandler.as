@@ -30,9 +30,6 @@ class TrackingHandler {
 		// should only be one copy of TrackingHandler (singleton-like)
 		_level0.trackingHandler = this;
 		
-		// generate a new session id, which should be unique
-		sessionId = String(Math.floor(Math.random() * 1000000)) + String((new Date()).valueOf());
-		
 		// send the session start message.
 		// if tracking is disabled, the message will not be sent
 		sendSessionStart();
@@ -98,6 +95,10 @@ class TrackingHandler {
 	}
 	
 	public function sendSessionStart() : Void {
+		if(!_level0.preferences.isPrivacyOK()) {
+			debug("TrackingHandler: cannot send session start message: have not accepted agreement yet\n");
+			return;
+		}
 		if(!_level0.preferences.allowTracking()) {
 			debug("TrackingHandler: cannot send session start message: tracking disabled\n");
 			return;
