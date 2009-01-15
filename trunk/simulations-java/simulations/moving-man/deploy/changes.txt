@@ -1,3 +1,4 @@
+# 1.20.12 (27302) 01-14-2009
 # 1.20.11 (27301) 01-14-2009
 # 1.20.10 (27300) 01-14-2009
 > Improved coordinate frames, updated Java Version Checker
