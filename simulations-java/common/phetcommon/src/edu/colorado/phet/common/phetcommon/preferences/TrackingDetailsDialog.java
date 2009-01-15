@@ -10,57 +10,31 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.tracking.ITrackingInfo;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.phetcommon.application.GrayRectWorkaroundDialog;
 
 /**
  * Dialog that appears when you press the "Details" button in the Tracking preferences panel.
  */
-public class TrackingDetailsDialog extends JDialog {
+public class TrackingDetailsDialog extends AbstractPrivacyPopupDialog {
     
     private static final String TITLE = PhetCommonResources.getString( "Common.tracking.details.title" );
     private static final String DESCRIPTION = PhetCommonResources.getString( "Common.tracking.details.description" );
-    private static final String CLOSE_BUTTON = PhetCommonResources.getString( "Common.choice.close" );
-    
+
     public TrackingDetailsDialog( Dialog owner, ITrackingInfo trackingInfo ) {
-        super( owner );
+        super( TITLE,owner );
         init( trackingInfo );
     }
 
     public TrackingDetailsDialog( Frame owner, ITrackingInfo trackingInfo ) {
-        super( owner );
+        super( TITLE,owner );
         init( trackingInfo );
     }
 
-    private void init( ITrackingInfo trackingInfo ) {
-        
-        setTitle( TITLE );
-        setModal( true );
-        setResizable( false ); //TODO layout doesn't adjust properly when resized 
-        
-        JComponent description = createDescription();
-        JComponent report = createReport( trackingInfo );
-        JComponent buttonPanel = createButtonPanel();
-        
-        JPanel panel = new JPanel();
-        
-        EasyGridBagLayout layout = new EasyGridBagLayout( panel );
-        layout.setInsets( new Insets( 5, 5, 5, 5 ) ); // top, left, bottom, right
-        panel.setLayout( layout );
-        int row = 0;
-        int column = 0;
-        layout.addComponent( description, row++, column );
-        layout.addComponent( report, row++, column );
-        layout.addFilledComponent( buttonPanel, row++, column, GridBagConstraints.HORIZONTAL );
-        
-        setContentPane( panel );
-        pack();
-        SwingUtils.centerDialogInParent( this );
-    }
-
-    private static JComponent createDescription() {
+    protected JComponent createDescription() {
         return new JLabel( DESCRIPTION );
     }
     
-    private static JComponent createReport( ITrackingInfo trackingInfo ) {
+    protected JComponent createReport( ITrackingInfo trackingInfo ) {
         
         final JTextArea textArea = new JTextArea( "" );
         final String text = trackingInfo.getHumanReadableTrackingInformation();
@@ -77,16 +51,5 @@ public class TrackingDetailsDialog extends JDialog {
         
         return scrollPane;
     }
-    
-    private JPanel createButtonPanel() {
-        JPanel panel = new JPanel();
-        JButton closeButton = new JButton( CLOSE_BUTTON );
-        closeButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                dispose();
-            }
-        });
-        panel.add( closeButton );
-        return panel;
-    }
+
 }
