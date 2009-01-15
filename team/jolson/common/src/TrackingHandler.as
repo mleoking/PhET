@@ -32,7 +32,7 @@ class TrackingHandler {
 		
 		// send the session start message.
 		// if tracking is disabled, the message will not be sent
-		sendSessionStart();
+		// CURRENTLY CALLED FROM ELSEWHERE sendSessionStart();
 	}
 	
 	// get the exact string sent to the server. this will be used to show

@@ -51,6 +51,10 @@ class CommonButtons {
 		window.setBounds(0, 0, window.getContentPane().getPreferredSize().width, window.getContentPane().getPreferredSize().height);
 		window.show();
 		
+		_level0.tabHandler.insertControl(_level0.aboutButton.trigger_mc, 0);
+		_level0.tabHandler.registerButton(_level0.aboutButton.trigger_mc);
+		_level0.tabHandler.insertControl(_level0.preferencesButton.trigger_mc, 1);
+		_level0.tabHandler.registerButton(_level0.preferencesButton.trigger_mc);
 		
 	}
 	

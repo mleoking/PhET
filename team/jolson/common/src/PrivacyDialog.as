@@ -20,6 +20,9 @@ class PrivacyDialog {
 	public function PrivacyDialog() {
 		debug("PrivacyDialog initializing\n");
 		
+		// make this accessible by the asfunction callback in the text
+		_level0.privacyDialog = this;
+		
 		// mysterious fix since "this" does not refer to a MovieClip or Component
 		ASWingUtils.getRootMovieClip();
 		
@@ -50,11 +53,11 @@ class PrivacyDialog {
 		
 		// construct the string of text to show
 		var str : String = "";
-		str += "In all PhET simulations, we collect a minimal amount of information ";
+		str += "In all PhET simulations, we collect a minimal amount of <a href=\"asfunction:_level0.privacyDialog.detailsClicked,\">information</a> ";
 		str += "when the simulation starts. You can disable the sending of this ";
 		str += "information at any time via the Preferences button.\n\n";
 		str += "By clicking \"Agree and Continue\", you agree to PhET's licensing ";
-		str += "and privacy policies. (For details, click here).";
+		str += "and privacy policies. (For details, <a>click here</a>).";
 		/*
 		str += "<b>Physics Education Technology project</b>\n";
 		str += _level0.comStrings.get("Copyright") + " \u00A9 2004-2008 University of Colorado\n";
@@ -123,6 +126,7 @@ class PrivacyDialog {
 		// hide this window
 		_level0.privacyWindow.setVisible(false);
 		
+		backgroundMC.clear();
 		backgroundMC.removeMovieClip();
 		
 		// continue with common code initialization
@@ -132,6 +136,16 @@ class PrivacyDialog {
 	public function cancelClicked(src : JButton) {
 		// hide this window
 		_level0.privacyWindow.setVisible(false);
+	}
+	
+	public function detailsClicked() : Void {
+		if(_level0.trackingDetailsWindow) {
+			debug("Showing dialog again\n");
+			_level0.trackingDetailsWindow.show();
+		} else {
+			debug("Creating Dialog\n");
+			_level0.trackingDetailsDialog = new TrackingDetailsDialog();
+		}
 	}
 }
 
