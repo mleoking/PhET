@@ -59,6 +59,8 @@ public class FlashHTMLWriter {
 		scan.useDelimiter("\\Z");
 		String rawXML = scan.next();
 		
+		String bgint = String.valueOf(Integer.parseInt(bgcolor.substring(1), 16));
+		
 		// encode XML into UTF-8 form compatible for passing into Flash
 		String encodedXML = URLEncoder.encode(rawXML, "UTF-8");
 		
@@ -83,6 +85,7 @@ public class FlashHTMLWriter {
 		flashVars += "&simName=" + simName;
 		flashVars += "&simUsageType=" + usageType;
 		flashVars += "&simDistributionTag=" + distributionTag;
+		flashVars += "&bgColor=" + bgint;
 		
 		// prepare string of HTML file:
 		String swfName = simName + ".swf";

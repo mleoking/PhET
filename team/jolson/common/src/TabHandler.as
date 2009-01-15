@@ -110,7 +110,7 @@ class TabHandler {
 			return;
 		}
 		entries[idx].keys[key] = callback;
-		debug("registering " + String(callback) + "\n");
+		//debug("registering " + String(callback) + "\n");
 	}
 	
 	// make a specific object in the tab-order act like a button. this will
