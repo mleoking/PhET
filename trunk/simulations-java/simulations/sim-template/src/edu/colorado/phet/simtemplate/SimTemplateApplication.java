@@ -44,7 +44,6 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
     private XMLPersistenceManager _persistenceManager;
 
     private static TabbedModulePanePiccolo _tabbedModulePane;
-    public static final boolean isProcessorIntensive=true;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -91,7 +90,7 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
         
         Frame parentFrame = getPhetFrame();
 
-        _exampleModule = isProcessorIntensive?new ProcessorIntensiveModule(parentFrame ):new ExampleModule( parentFrame );
+        _exampleModule = getFirstModule(parentFrame);
         addModule( _exampleModule );
         
         Module secondModule = new ExampleModule( parentFrame );
@@ -101,6 +100,10 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
         Module thirdModule = new ExampleModule( parentFrame );
         thirdModule.setName( "Yet Another Example" );
         addModule( thirdModule );
+    }
+
+    protected ExampleModule getFirstModule(Frame parentFrame) {
+        return new ExampleModule( parentFrame );
     }
 
     /*
