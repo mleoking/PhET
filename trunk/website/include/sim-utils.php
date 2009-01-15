@@ -13,6 +13,11 @@
     require_once("include/db-utils.php");
     require_once("include/cache-utils.php");
 
+    // Where to find the sims
+    if (!defined("SIMS_ROOT")) {
+        define("SIMS_ROOT", PORTAL_ROOT.'sims/');
+    }
+
     define("SIM_THUMBNAIL_WIDTH", 130);
     define("SIM_THUMBNAIL_HEIGHT", 97);
 
@@ -380,7 +385,7 @@
     function sim_get_version($simulation) {
         $dirname     = $simulation['sim_dirname'];
 
-        $properties_filename = PORTAL_ROOT."sims/{$dirname}/{$dirname}.properties";
+        $properties_filename = SIMS_ROOT."{$dirname}/{$dirname}.properties";
 
         $revision_tags = array('major', 'minor', 'dev', 'revision');
         $regex = 'version\.('.join('|', $revision_tags).') *= *([^ \n\r\t]+)';
@@ -798,7 +803,7 @@
         else if ($ext == 'html') {
             // New style flash sim with i18n support, look for the SWF
             // TODO: push the filename generation into a function
-            $i18n_flash_link = PORTAL_ROOT."sims/{$simulation['sim_dirname']}/{$simulation['sim_flavorname']}.swf";
+            $i18n_flash_link = SIMS_ROOT."{$simulation['sim_dirname']}/{$simulation['sim_flavorname']}.swf";
             $size = url_or_file_size($i18n_flash_link);
         }
         else {
@@ -846,9 +851,8 @@
             return false;
         }
 
-        $sim_dir = PORTAL_ROOT."sims/";
-        $html_pattern = "{$sim_dir}{$dirname}/{$flavorname}_*.html";
-        $xml_pattern = "{$sim_dir}{$dirname}/{$flavorname}_*.html";
+        $html_pattern = SIMS_ROOT."{$dirname}/{$flavorname}_*.html";
+        $xml_pattern = SIMS_ROOT."{$dirname}/{$flavorname}_*.html";
 
         $files = glob($html_pattern);
         return count($files) > 0;
@@ -869,10 +873,10 @@
         // If it is a Java sim, just send the jar
         if ($simulation['sim_type'] == SIM_TYPE_JAVA) {
             if ((!$language_code) || ($language_code == 'en')) {
-                $filename = PORTAL_ROOT."sims/{$dirname}/{$flavorname}.jar";
+                $filename = SIMS_ROOT."{$dirname}/{$flavorname}.jar";
             }
             else {
-                $filename = PORTAL_ROOT."sims/{$dirname}/{$flavorname}_{$language_code}.jar";
+                $filename = SIMS_ROOT."{$dirname}/{$flavorname}_{$language_code}.jar";
             }
 
             if (!file_exists($filename)) {
@@ -887,7 +891,7 @@
 
         if (!sim_flash_is_internationalized($simulation)) {
             // Old style, just send the .swf along to the user
-            $filename = PORTAL_ROOT."sims/{$dirname}/{$flavorname}.swf";
+            $filename = SIMS_ROOT."{$dirname}/{$flavorname}.swf";
             return array($filename, file_get_contents($filename));
         }
 
@@ -903,7 +907,7 @@
         }
 
         // Setup our constants
-        $full_dirname = PORTAL_ROOT."sims/{$dirname}/";
+        $full_dirname = SIMS_ROOT."{$dirname}/";
         $jar_template_dir = PORTAL_ROOT."phet-dist/flash-launcher/";
         $output_jar_name = $flavorname."_".$lang.".jar";
 
@@ -1069,10 +1073,10 @@
         $sim_type   = $simulation['sim_type'];
 
         if ($sim_type == SIM_TYPE_FLASH) {
-            $oldstyle_link = PORTAL_ROOT."sims/{$dirname}/{$flavorname}.swf";
-            $flash_swf = PORTAL_ROOT."sims/{$dirname}/{$flavorname}.swf";
-            $flash_strings = PORTAL_ROOT."sims/{$dirname}/{$flavorname}-strings_{$language_code}.xml";
-            $flash_html = PORTAL_ROOT."sims/{$dirname}/{$flavorname}_{$language_code}.html";
+            $oldstyle_link = SIMS_ROOT."{$dirname}/{$flavorname}.swf";
+            $flash_swf = SIMS_ROOT."{$dirname}/{$flavorname}.swf";
+            $flash_strings = SIMS_ROOT."{$dirname}/{$flavorname}-strings_{$language_code}.xml";
+            $flash_html = SIMS_ROOT."{$dirname}/{$flavorname}_{$language_code}.html";
             if (file_exists($flash_swf) && file_exists($flash_strings) && file_exists($flash_html)) {
                 $link = $flash_html;
             }
@@ -1086,8 +1090,8 @@
         }
         else {
             // Try local first
-            $oldstyle_link = PORTAL_ROOT."sims/{$dirname}/{$flavorname}.jnlp";
-            $newstyle_link = PORTAL_ROOT."sims/{$dirname}/{$flavorname}_{$language_code}.jnlp";
+            $oldstyle_link = SIMS_ROOT."{$dirname}/{$flavorname}.jnlp";
+            $newstyle_link = SIMS_ROOT."{$dirname}/{$flavorname}_{$language_code}.jnlp";
             if (($language_code == "en") && (file_exists($oldstyle_link))) {
                 $link = $oldstyle_link;
             }
@@ -1108,7 +1112,7 @@
         $flavorname = $simulation['sim_flavorname'];
 
         // Try local first
-        $link = PORTAL_ROOT."sims/{$dirname}/{$flavorname}-screenshot.png";
+        $link = SIMS_ROOT."{$dirname}/{$flavorname}-screenshot.png";
         if (!file_exists($link)) {
             $link = "http://".PHET_DOMAIN_NAME."/sims/{$dirname}/{$flavorname}-screenshot.png";
         }
@@ -1121,7 +1125,7 @@
         $flavorname = $simulation['sim_flavorname'];
 
         // Try local first
-        $link = PORTAL_ROOT."sims/{$dirname}/{$flavorname}-animated-screenshot.gif";
+        $link = SIMS_ROOT."{$dirname}/{$flavorname}-animated-screenshot.gif";
         if (!file_exists($link)) {
             $link = "http://".PHET_DOMAIN_NAME."/sims/{$dirname}/{$flavorname}-animated-screenshot.gif";
         }
@@ -1148,9 +1152,9 @@
                 $code = $language_code;
             }
 
-            $flash_swf = PORTAL_ROOT."sims/{$dirname}/{$flavorname}.swf";
-            $flash_strings = PORTAL_ROOT."sims/{$dirname}/{$flavorname}-strings_{$code}.xml";
-            $flash_html = PORTAL_ROOT."sims/{$dirname}/{$flavorname}_{$code}.html";
+            $flash_swf = SIMS_ROOT."{$dirname}/{$flavorname}.swf";
+            $flash_strings = SIMS_ROOT."{$dirname}/{$flavorname}-strings_{$code}.xml";
+            $flash_html = SIMS_ROOT."{$dirname}/{$flavorname}_{$code}.html";
             if (file_exists($flash_swf) && file_exists($flash_strings) && file_exists($flash_html)) {
                 // The Flash sims and language combination exists, return the link to retrieve it
                 return SITE_ROOT."admin/get-run-offline.php?sim_id={$simulation['sim_id']}&amp;lang={$code}";
@@ -1163,10 +1167,10 @@
         else {
             // Try local first
             if ($language_code) {
-                $jar_file = PORTAL_ROOT."sims/{$dirname}/{$flavorname}_{$language_code}.jar";
+                $jar_file = SIMS_ROOT."{$dirname}/{$flavorname}_{$language_code}.jar";
             }
             else {
-                $jar_file = PORTAL_ROOT."sims/{$dirname}/{$flavorname}.jar";
+                $jar_file = SIMS_ROOT."{$dirname}/{$flavorname}.jar";
             }
 
             if (file_exists($jar_file)) {
