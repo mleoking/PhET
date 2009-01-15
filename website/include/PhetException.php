@@ -32,6 +32,8 @@
 
 class PhetException extends Exception {};
 
+class PhetLocaleException extends PhetException {}
+
 class PhetDBException extends PhetException {
     protected $query;
     protected $db_error_message;
