@@ -103,15 +103,17 @@ public class PhetApplicationLauncher {
 
                     config.getLookAndFeel().initLookAndFeel();
                     if ( applicationConstructor != null ) {
-                        
-                        if ( config.isTrackingEnabled() ) {
-                            SoftwareAgreementManager.validate( config );
-                        }
+
 
                         showSplashWindow( config.getName() );
                         PhetApplication app = applicationConstructor.getApplication( config );
                         app.startApplication();
                         disposeSplashWindow();
+
+                        if ( config.isTrackingEnabled() ) {
+                            SoftwareAgreementManager.validate( config );
+                        }
+
                         long applicationLaunchFinishedAt = System.currentTimeMillis();
                         config.setApplicationLaunchFinishedAt( applicationLaunchFinishedAt );
 
