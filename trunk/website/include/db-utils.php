@@ -29,27 +29,26 @@
     }
 
     /**
-     * Check the result of a mysql query.  die with a message if it is bad
+     * Convert the condition array to SQL, supporting LIKE (fuzzy)
      *
-     * @param unknown_type $result - result from a mysql_query
-     * @param unknown_type $statement - mySQL query that was executed
+     * Example:
+     *    given:
+     *        $condition = array('id' => 3, 'pig' => 'pink')
+     *    without fuzzy, yields:
+     *        `id`=3 AND `pig`='pink'
+     *    with fuzzy, yields:
+     *        `id` LIKE '%3%' AND `pig` LIKE '%pink%'
+     *
+     *
+     * @param array $condition Conditon arary of key-value pairs (see above)
+     * @param bool $fuzzy True if should use LIKE rather than equality
+     * @return string SQL query (see above)
      */
-    function db_verify_mysql_result($result, $statement) {
-        // Get the database connection, start it if if this is the first call
-        global $connection;
-        if (!isset($connection)) {
-            connect_to_db();
-        }
-
-        if (!$result && $statement !== "") {
-            $message  = 'Invalid query: ' . mysql_error($connection) . "<br/>";
-            $message .= 'Whole query: ' . $statement;
-
-            die($message);
-        }
-    }
-
     function db_convert_condition_array_to_sql($condition, $fuzzy = false) {
+        if (!is_array($condition)) {
+            return false;
+        }
+
         // Get the database connection, start it if if this is the first call
         global $connection;
         if (!isset($connection)) {
@@ -68,6 +67,7 @@
                 $query .= " AND ";
             }
 
+            $key = mysql_real_escape_string($key, $connection);
             $value = mysql_real_escape_string($value, $connection);
 
             if ($fuzzy) {
@@ -85,9 +85,10 @@
      * Execute the SQL query, verify and return the result
      *
      * @param string $statement - mySQL query
+     * @param bool $die - die instead of throwing an exception (old behavior)
      * @return unknown_type result of mysql_query
      */
-    function db_exec_query($statement) {
+    function db_exec_query($statement, $die = false) {
         // Get the database connection, start it if if this is the first call
         global $connection;
         if (!isset($connection)) {
@@ -97,13 +98,23 @@
         //print "<!-- MYSQLQUERY: $statement -->\n";
         $result = mysql_query($statement, $connection);
 
-        db_verify_mysql_result($result, $statement);
+        // Query failed, take action
+        if (!$result) {
+            if ($die) {
+                // This is the old behavior, except it output
+                // the query to the world to see
+                die("Bad MySQL query");
+            }
+            else {
+                throw new PhetDBException($statement);
+            }
+        }
 
         return $result;
     }
 
     function db_describe_table($table_name) {
-        $query = "describe $table_name";
+        $query = "DESCRIBE `$table_name`";
 
         $result = db_exec_query($query);
 
