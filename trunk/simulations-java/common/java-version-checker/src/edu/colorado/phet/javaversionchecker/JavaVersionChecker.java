@@ -11,13 +11,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.StringTokenizer;
 
-import javax.jnlp.BasicService;
-import javax.jnlp.ServiceManager;
-import javax.jnlp.UnavailableServiceException;
+
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.text.html.HTMLEditorKit;
+import javax.jnlp.BasicService;
+import javax.jnlp.ServiceManager;
 
 
 /**
@@ -68,7 +68,7 @@ public class JavaVersionChecker {
                     try {
                         getBasicService().showDocument( event.getURL() );
                     }
-                    catch( UnavailableServiceException e ) {
+                    catch( Exception e ) {
                         e.printStackTrace();
                     }
                 }
@@ -103,7 +103,7 @@ public class JavaVersionChecker {
         return System.getProperty( "javawebstart.version" ) != null;
     }
 
-    public static BasicService getBasicService() throws UnavailableServiceException {
+    public static BasicService getBasicService() throws Exception {
         if ( isJavaWebStart() ) {
             return (BasicService) ServiceManager.lookup( BasicService.class.getName() );
         }
