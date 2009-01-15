@@ -417,7 +417,7 @@ public class PhetProject {
             throw new RuntimeException( "Mainclass was null for project=" + name + ", simulation=" + simulationName );
         }
         String argsString = properties.getProperty( "project.flavor." + simulationName + ".args" );
-        String[] args = PhetBuildUtils.toStringArray( argsString == null ? "" : argsString, "," );
+        String[] args = PhetBuildUtils.toStringArray( argsString == null ? "" : argsString, " " );
         String screenshotPathname = properties.getProperty( "project.flavor." + simulationName + ".screenshot" );
         File screenshot = new File( screenshotPathname == null ? "screenshot.gif" : screenshotPathname );
 
