@@ -6,6 +6,7 @@
 	<classpathentry kind="src" path="common/controls/src"/>
 	<classpathentry kind="src" path="common/controls/data"/>
 	<classpathentry kind="src" path="common/collision/src"/>
+	<classpathentry kind="src" path="common/java-version-checker/src"/>
 	<classpathentry kind="src" path="common/jfreechart-phet/src"/>
 	<classpathentry kind="src" path="common/mechanics/src"/>
 	<classpathentry kind="src" path="common/motion/src"/>
