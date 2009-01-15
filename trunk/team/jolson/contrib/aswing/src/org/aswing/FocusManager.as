@@ -67,7 +67,7 @@ class org.aswing.FocusManager{
 	public static var ASWING_TAB_INDEX_END:Number   = 20000;
 	
 	private static var instance:FocusManager;
-	private static var traversalEnabled:Boolean = true;
+	private static var traversalEnabled:Boolean = false;
 	
 	private static var oldFocusOwner:Component;
 	private static var focusOwner:Component;
@@ -103,14 +103,17 @@ class org.aswing.FocusManager{
 			Mouse.addListener(mouseListener);
 		}
 		
+Key.removeListener(keyListener);
+Mouse.removeListener(mouseListener);
+		
 		focusFrontHolderMC = _root.createEmptyMovieClip("aswing_focusFrontHolderMC", DepthManager.getNextAvailableDepth(_root));
 		focusFrontHolderMC.onPress = function(){};
 		focusFrontHolderMC.tabEnabled = true;
-		focusFrontHolderMC.tabIndex = ASWING_TAB_INDEX_START;
+//		focusFrontHolderMC.tabIndex = ASWING_TAB_INDEX_START;
 		focusBackHolderMC = _root.createEmptyMovieClip("aswing_focusBackHolderMC", DepthManager.getNextAvailableDepth(_root));
 		focusBackHolderMC.onPress = function(){};
 		focusBackHolderMC.tabEnabled = true;
-		focusBackHolderMC.tabIndex = ASWING_TAB_INDEX_END;
+//		focusBackHolderMC.tabIndex = ASWING_TAB_INDEX_END;
 	}
 	
 	/**
@@ -118,18 +121,18 @@ class org.aswing.FocusManager{
 	 * @return the flash system tab navigating direction, 0 if it is not navigated by system tab.
 	 */
 	public function receiveFocus(obj:Object):Number{
-		lastFocusRecivedComponentObject.tabIndex = undefined;
+//		lastFocusRecivedComponentObject.tabIndex = undefined;
 		lastFocusRecivedComponentObject.tabEnabled = false;
 		obj.tabEnabled = true;
-		obj.tabIndex = ASWING_TAB_INDEX_START + Math.floor((ASWING_TAB_INDEX_END - ASWING_TAB_INDEX_START)/2);
+//		obj.tabIndex = ASWING_TAB_INDEX_START + Math.floor((ASWING_TAB_INDEX_END - ASWING_TAB_INDEX_START)/2);
 		if(justSystemTabDirection == 0){
 			if(eval(Selection.getFocus()) != obj){
-				Selection.setFocus(obj);
+//				Selection.setFocus(obj);
 			}
 		}else if(justSystemTabDirection < 0){
-			Selection.setFocus(focusBackHolderMC);
+//			Selection.setFocus(focusBackHolderMC);
 		}else{
-			Selection.setFocus(focusFrontHolderMC);
+//			Selection.setFocus(focusFrontHolderMC);
 		}
 		lastFocusRecivedComponentObject = obj;
 		var dir:Number = justSystemTabDirection;
