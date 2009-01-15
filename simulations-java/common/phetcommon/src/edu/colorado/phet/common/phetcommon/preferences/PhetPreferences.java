@@ -82,6 +82,7 @@ public class PhetPreferences {
         setPreferencesFileCreationTimeNow();
         setUpdatesEnabled( true );
         setTrackingEnabled( true );
+        setAlwaysShowSoftwareAgreement( false );
     }
 
     public static PhetPreferences getInstance() {
