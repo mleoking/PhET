@@ -13,7 +13,7 @@ public class UpdateNotifier {
     private final String project;
     private String simulation;
     private final PhetVersion currentVersion;
-    private final AbstractVersionChecker versionChecker = AbstractVersionChecker.getDefaultVersionCheckerImplementation();
+    private final SimVersionChecker versionChecker = new SimVersionChecker();
     private final ArrayList listeners = new ArrayList();
 
     public UpdateNotifier( String project, String simulation,PhetVersion currentVersion ) {
