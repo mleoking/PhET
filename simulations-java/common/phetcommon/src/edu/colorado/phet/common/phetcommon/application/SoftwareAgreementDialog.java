@@ -92,7 +92,42 @@ public class SoftwareAgreementDialog extends GrayRectWorkaroundDialog {
          * If it needs to be localized, then it will live in phetcommon strings file.
          * If not, then perhaps we'll put it in a text file.
          * We do know that the format will be HTML.
+         * For now, it's a literal so that translators don't have to see this mess in the strings file.
          */
-        return PhetCommonResources.getString( "Common.softwareAgreement.html" );
+        return "<html>" +
+        "<b>PhET Software Agreement</b><br> " +
+        "<br>" +
+        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
+        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
+        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
+        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
+        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
+        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
+        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
+        "<br>" +
+        "<br>" +
+        "<b>Disclaimers</b><br>" +
+        "<br>" +
+        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
+        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
+        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
+        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
+        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
+        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
+        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
+        "<br>" +
+        "<br>" +
+        "<b>PhET Privacy Agreement</b><br>" +
+        "<br>" +
+        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
+        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
+        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
+        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
+        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
+        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
+        "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah<br> " +
+        "<br>" +
+        "etc..." +
+        "</html>";
     }
 }
