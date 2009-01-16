@@ -18,14 +18,31 @@ object LadybugMotionModel {
       step
       val bounds = new Rectangle2D.Double(-10, -10, 20, 20)
       if (!bounds.contains(model.ladybug.getPosition)) {
-        model.ladybug.setAngle(model.ladybug.getAngle + PI+(random*0.8-0.4)*PI/2)
+        model.ladybug.setAngle(model.ladybug.getAngle + PI + (random * 0.8 - 0.4) * PI / 2)
         step
         step
       }
     }
   }
   val CIRCULAR = new MotionType("circular") {
-    def update(dt: Double, model: LadybugModel) = {}
+    def update(dt: Double, model: LadybugModel) = {
+      val distFromCenter = model.ladybug.getPosition.magnitude
+      val radius = 5.0
+      val distFromRing = abs(distFromCenter - radius)
+
+      val dx = radius - distFromCenter;
+      val speed = 0.3
+      if (distFromRing > speed + 1E-6) {
+        val velocity = new Vector2D(model.ladybug.getPosition.getAngle) * speed * (if (dx < 0) -1 else 1)
+        model.ladybug.translate(velocity)
+      } else {
+        //move in a circle
+        val angle = model.ladybug.getPosition.getAngle
+        val r = model.ladybug.getPosition.magnitude
+        val newAngle = angle + PI / 64 * 1.8;
+        model.ladybug.setPosition(new Vector2D(newAngle) * r)
+      }
+    }
   }
   val ELLIPSE = new MotionType("ellipse") {
     def update(dt: Double, model: LadybugModel) = {}
