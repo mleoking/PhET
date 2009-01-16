@@ -35,29 +35,26 @@ public class SoftwareAgreementManager {
     /**
      * Ensures that the user has accepted the agreements that pertain to this software.
      */
-    public static void validate( ITrackingInfo trackingInfo ) {
+    public static void validate( Frame owner, ITrackingInfo trackingInfo ) {
         boolean alwaysAsk = PhetPreferences.getInstance().isAlwaysShowSoftwareAgreement();
         int acceptedVersion = PhetPreferences.getInstance().getSoftwareAgreementVersion();
         if ( alwaysAsk || acceptedVersion < SOFTWARE_AGREEMENT_VERSION ) {
-            negotiate( trackingInfo );
+            negotiate( owner, trackingInfo );
         }
     }
-    
 
     /*
     * Negotiates the agreement with the user.
     */
-    private static void negotiate( ITrackingInfo trackingInfo ) {
-        final SoftwareAgreementDialog dialog = new SoftwareAgreementDialog( trackingInfo );
+    private static void negotiate( Frame owner, ITrackingInfo trackingInfo ) {
+        final AcceptanceDialog dialog = new AcceptanceDialog( owner, trackingInfo );
         dialog.setVisible( true );
     }
 
-    
-    
     /*
-     * Dialog that displays the software agreement and provides options to accept or decline.
+     * Dialog that provides options to accept or decline.
      */
-    private static class SoftwareAgreementDialog extends GrayRectWorkaroundDialog {
+    private static class AcceptanceDialog extends GrayRectWorkaroundDialog {
 
         private static final String TITLE = PhetCommonResources.getString( "Common.softwareAgreement.title" );
         private static final String ACCEPT_BUTTON = PhetCommonResources.getString( "Common.softwareAgreement.accept" );
@@ -65,8 +62,8 @@ public class SoftwareAgreementManager {
         
         private JButton acceptButton;
         
-        public SoftwareAgreementDialog( ITrackingInfo trackingInfo ) {
-            super(); //TODO: dialog must have an owner if you want the cursor to change over hyperlinks
+        public AcceptanceDialog( Frame owner, ITrackingInfo trackingInfo ) {
+            super( owner );
             setTitle( TITLE );
             setModal( true );
             setResizable( false );
@@ -157,13 +154,13 @@ public class SoftwareAgreementManager {
         
         // identifiers for hyperlink actions
         private static final String LINK_SHOW_TRACKING_DETAILS = "showTrackingDetails";
-        private static final String LINK_SHOW_AGREEMENTS = "showAgreements";
+        private static final String LINK_SHOW_SOFTWARE_AGREEMENT = "showSoftwareAgreements";
         
         public MessagePane( final ITrackingInfo trackingInfo ) {
             super( "" );
             
             // insert our own hyperlink descriptions into the message, so translators can't mess them up
-            Object[] args = { LINK_SHOW_TRACKING_DETAILS, LINK_SHOW_AGREEMENTS };
+            Object[] args = { LINK_SHOW_TRACKING_DETAILS, LINK_SHOW_SOFTWARE_AGREEMENT };
             String htmlFragment = MessageFormat.format( MESSAGE_PATTERN, args );
             setText( HTMLUtils.createStyledHTMLFromFragment( htmlFragment ) );
             
@@ -174,8 +171,8 @@ public class SoftwareAgreementManager {
                         if ( e.getDescription().equals( LINK_SHOW_TRACKING_DETAILS ) ) {
                             showTrackingDetails( owner, trackingInfo );
                         }
-                        else if ( e.getDescription().equals( LINK_SHOW_AGREEMENTS ) ) {
-                            showAgreements( owner,trackingInfo );
+                        else if ( e.getDescription().equals( LINK_SHOW_SOFTWARE_AGREEMENT ) ) {
+                            showSoftwareAgreement( owner,trackingInfo );
                         }
                         else {
                             System.err.println( "SoftwareAgreementManager.MessagePane.hyperlinkUpdate: unsupported hyperlink, description=" + e.getDescription() );
@@ -194,13 +191,13 @@ public class SoftwareAgreementManager {
             }
         }
         
-        private static void showAgreements( Window owner ,ITrackingInfo trackingInfo) {
+        private static void showSoftwareAgreement( Window owner ,ITrackingInfo trackingInfo) {
             //TODO: read agreements, display in a dialog with a scrollpane and Close button
             if ( owner instanceof Frame ) {
-                new PrivacyAgreementDialog( (Frame) owner,trackingInfo ).setVisible( true );
+                new SoftwareAgreementDialog( (Frame) owner,trackingInfo ).setVisible( true );
             }
             else if ( owner instanceof Dialog ) {
-                new PrivacyAgreementDialog( (Dialog) owner,trackingInfo ).setVisible( true );
+                new SoftwareAgreementDialog( (Dialog) owner,trackingInfo ).setVisible( true );
             }
 
         }
@@ -208,7 +205,7 @@ public class SoftwareAgreementManager {
 
     public static void main( String[] args ) {
         PhetApplicationConfig config = new PhetApplicationConfig( args, "balloons" );
-        new SoftwareAgreementDialog( config ).setVisible( true );
+        new AcceptanceDialog( null, config ).setVisible( true );
         System.out.println( "continuing" );
     }
 }
