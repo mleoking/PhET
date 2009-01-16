@@ -12,13 +12,11 @@ class VectorVisibilityModel extends ObservableS {
 
   def velocityVectorVisible_=(x: Boolean) = {
     velVis = x
-    println(velVis)
     notifyListeners
   }
 
   def accelerationVectorVisible_=(x: Boolean) = {
     accelVis = x
-    println(accelVis)
     notifyListeners
   }
 }
